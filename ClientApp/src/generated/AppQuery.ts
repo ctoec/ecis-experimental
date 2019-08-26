@@ -7,10 +7,10 @@
 // ====================================================
 
 export interface AppQuery_user {
-  __typename: "UserType";
-  firstName: string;
+	__typename: 'UserType';
+	firstName: string;
 }
 
 export interface AppQuery {
-  user: AppQuery_user | null;
+	user: AppQuery_user | null;
 }

@@ -31,7 +31,7 @@ it('shows current section as active', () => {
 
 it('shows root path as active on when exact match', () => {
 	const wrapper = mount(
-		<MemoryRouter initialEntries={["/another"]} >
+		<MemoryRouter initialEntries={['/another']}>
 			<Header {...headerProps} />
 		</MemoryRouter>
 	);

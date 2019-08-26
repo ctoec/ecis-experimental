@@ -19,8 +19,8 @@ const defaultColumns = [
 		name: 'Price',
 		cell: ({ row }) => <th scope="row">{row.price}</th>,
 		sort: row => row.price,
-	}
-]
+	},
+];
 
 storiesOf('Table', module)
 	.addDecorator(withKnobs)

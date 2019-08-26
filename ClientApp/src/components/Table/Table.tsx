@@ -18,7 +18,7 @@ export type TableProps<T> = {
 	defaultSortColumn?: number;
 	defaultSortOrder?: SortOrder;
 	onRowClick?: (row: T) => () => any;
-	fullWidth?: boolean
+	fullWidth?: boolean;
 };
 
 export type TableSort = {

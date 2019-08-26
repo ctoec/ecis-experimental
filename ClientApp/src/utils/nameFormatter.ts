@@ -3,7 +3,7 @@ interface Name {
 	middleName?: string | null;
 	lastName: string;
 	suffix?: string | null;
-};
+}
 
 export default function nameFormatter(name?: Name) {
 	if (!name) {
