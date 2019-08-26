@@ -1,4 +1,4 @@
-export default function dateFormatter(date?: string) {
+export default function dateFormatter(date?: string | null) {
 	if (!date) {
 		return '';
 	}

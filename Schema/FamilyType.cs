@@ -10,7 +10,7 @@ namespace ecis2.Schema
 		public FamilyType(IDataLoaderContextAccessor dataLoader, IFamilyDeterminationRepository determinations)
 		{
 			Field(f => f.Id);
-			Field<ListGraphType<FamilyDeterminationType>>(
+			Field<NonNullGraphType<ListGraphType<NonNullGraphType<FamilyDeterminationType>>>>(
 				"determinations",
 				resolve: context =>
 				{

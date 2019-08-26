@@ -17,7 +17,7 @@ const navItems: NavItemProps[] = [
 
 export default function App() {
 	const { loading, error, data } = useQuery(gql`
-		{
+		query AppQuery {
 			user(id: 1) {
 				firstName
 			}

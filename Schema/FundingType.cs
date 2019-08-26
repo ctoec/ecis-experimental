@@ -8,7 +8,7 @@ namespace ecis2.Schema
 		public FundingType()
 		{
 			Field(f => f.Id);
-			Field(f => f.Source, type: typeof(FundingSourceEnumType));
+			Field(f => f.Source, type: typeof(NonNullGraphType<FundingSourceEnumType>));
 			Field(f => f.Entry);
 			Field(f => f.Exit, nullable: true);
 		}

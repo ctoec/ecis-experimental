@@ -9,13 +9,13 @@ namespace ecis2.Schema
 	{
 		public ChildType(IDataLoaderContextAccessor dataLoader, IFamilyRepository families)
 		{
-			Field(c => c.Id, type: typeof(IdGraphType));
+			Field(c => c.Id, type: typeof(NonNullGraphType<IdGraphType>));
 			Field(c => c.FirstName);
 			Field(c => c.MiddleName, nullable: true);
 			Field(c => c.LastName);
 			Field(c => c.Suffix, nullable: true);
 			Field(c => c.Birthdate);
-			Field(c => c.Gender, type: typeof(GenderEnumType));
+			Field(c => c.Gender, type: typeof(NonNullGraphType<GenderEnumType>));
 			Field(c => c.AmericanIndianOrAlaskaNative, nullable: true);
 			Field(c => c.Asian, nullable: true);
 			Field(c => c.BlackOrAfricanAmerican, nullable: true);

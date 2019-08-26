@@ -13,7 +13,7 @@ namespace ecis2.Schema
 			Field(u => u.MiddleName, nullable: true);
 			Field(u => u.LastName);
 			Field(u => u.Suffix, nullable: true);
-			Field<ListGraphType<SiteType>>(
+			Field<NonNullGraphType<ListGraphType<NonNullGraphType<SiteType>>>>(
 				"sites",
 				resolve: context => sites.GetSitesByUserIdAsync(context.Source.Id)
 			);

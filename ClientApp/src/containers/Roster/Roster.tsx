@@ -4,12 +4,13 @@ import { gql } from 'apollo-boost';
 import pluralize from 'pluralize';
 import { Table, TableProps } from '../../components/Table/Table';
 import Button from '../../components/Button/Button';
+import { RosterQuery, RosterQuery_user_sites_enrollments } from '../../generated/RosterQuery';
 import nameFormatter from '../../utils/nameFormatter';
 import dateFormatter from '../../utils/dateFormatter';
 
 export default function Roster() {
-	const { loading, error, data } = useQuery(gql`
-		{
+	const { loading, error, data } = useQuery<RosterQuery>(gql`
+		query RosterQuery {
 			user(id: 1) {
 				sites {
 					id
@@ -41,14 +42,14 @@ export default function Roster() {
 		}
 	`);
 
-	if (loading || error || !data.user) {
+	if (loading || error || !data || !data.user) {
 		return <div className="Roster"></div>;
 	}
 
 	const site = data.user.sites[0];
 	const enrollments = site.enrollments;
 
-	const rosterTableProps: TableProps<any> = {
+	const rosterTableProps: TableProps<RosterQuery_user_sites_enrollments> = {
 		id: 'roster-table',
 		data: enrollments,
 		rowKey: row => row.id,

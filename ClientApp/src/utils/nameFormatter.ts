@@ -1,8 +1,8 @@
-type Name = {
+interface Name {
 	firstName: string;
-	middleName?: string;
+	middleName?: string | null;
 	lastName: string;
-	suffix?: string;
+	suffix?: string | null;
 };
 
 export default function nameFormatter(name?: Name) {

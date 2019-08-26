@@ -13,7 +13,7 @@ namespace ecis2.Schema
 			Field(e => e.Id);
 			Field(e => e.Entry);
 			Field(e => e.Exit, nullable: true);
-			Field<ChildType>(
+			Field<NonNullGraphType<ChildType>>(
 				"child",
 				resolve: context =>
 				{
@@ -24,7 +24,7 @@ namespace ecis2.Schema
 					return loader.LoadAsync(context.Source.ChildId);
 				}
 			);
-			Field<ListGraphType<FundingType>>(
+			Field<NonNullGraphType<ListGraphType<NonNullGraphType<FundingType>>>>(
 				"fundings",
 				resolve: context =>
 				{

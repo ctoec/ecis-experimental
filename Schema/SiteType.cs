@@ -11,7 +11,7 @@ namespace ecis2.Schema
 		{
 			Field(s => s.Id);
 			Field(s => s.Name);
-			Field<ListGraphType<EnrollmentType>>(
+			Field<NonNullGraphType<ListGraphType<NonNullGraphType<EnrollmentType>>>>(
 				"enrollments",
 				resolve: context =>
 				{
