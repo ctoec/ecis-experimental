@@ -1,0 +1,77 @@
+{
+	"name": "ecis2",
+	"version": "0.1.0",
+	"private": true,
+	"dependencies": {
+		"@apollo/react-hooks": "^3.0.1",
+		"@apollo/react-testing": "^3.0.1",
+		"@storybook/addon-actions": "^5.1.11",
+		"@storybook/addon-knobs": "^5.1.11",
+		"@storybook/addon-storyshots": "^5.1.11",
+		"@storybook/addons": "^5.1.11",
+		"@storybook/react": "^5.1.11",
+		"@types/jest": "^24.0.17",
+		"@types/node": "12.7.2",
+		"@types/pluralize": "^0.0.29",
+		"@types/react": "16.9.2",
+		"@types/react-dom": "16.8.5",
+		"@types/react-router-dom": "^4.3.4",
+		"@types/storybook__addon-knobs": "^5.0.3",
+		"@types/storybook__addon-storyshots": "^5.1.1",
+		"@types/storybook__react": "^4.0.2",
+		"apollo-boost": "^0.4.4",
+		"babel-plugin-macros": "^2.6.1",
+		"enzyme": "^3.10.0",
+		"enzyme-adapter-react-16": "^1.14.0",
+		"enzyme-to-json": "^3.4.0",
+		"graphql": "^14.5.3",
+		"husky": "^3.0.4",
+		"lint-staged": "^9.2.3",
+		"node-sass": "^4.12.0",
+		"pluralize": "^8.0.0",
+		"prettier": "^1.18.2",
+		"react": "^16.9.0",
+		"react-docgen-typescript-loader": "^3.1.1",
+		"react-dom": "^16.9.0",
+		"react-router-dom": "^5.0.1",
+		"react-scripts": "3.1.1",
+		"require-context.macro": "^1.1.1",
+		"storybook-react-router": "^1.0.5",
+		"typescript": "3.5.3",
+		"uswds": "^2.1.0"
+	},
+	"scripts": {
+		"start": "react-scripts start",
+		"build": "react-scripts build",
+		"test": "react-scripts test",
+		"eject": "react-scripts eject",
+		"storybook": "start-storybook -p 9009 -s public",
+		"build-storybook": "build-storybook -s public"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged"
+		}
+	},
+	"lint-staged": {
+		"src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+			"prettier --single-quote --write",
+			"git add"
+		]
+	},
+	"eslintConfig": {
+		"extends": "react-app"
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	}
+}

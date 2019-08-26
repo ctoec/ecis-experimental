@@ -1,0 +1,101 @@
+import React from 'react';
+import { useQuery } from '@apollo/react-hooks';
+import { gql } from 'apollo-boost';
+import pluralize from 'pluralize';
+import { Table, TableProps } from '../../components/Table/Table';
+import Button from '../../components/Button/Button';
+import nameFormatter from '../../utils/nameFormatter';
+import dateFormatter from '../../utils/dateFormatter';
+
+export default function Roster() {
+	const { loading, error, data } = useQuery(gql`
+		{
+			user(id: 1) {
+				sites {
+					id
+					name
+					enrollments {
+						id
+						entry
+						exit
+						child {
+							firstName
+							middleName
+							lastName
+							birthdate
+							suffix
+							family {
+								determinations {
+									determined
+								}
+							}
+						}
+						fundings {
+							entry
+							exit
+							source
+						}
+					}
+				}
+			}
+		}
+	`);
+
+	if (loading || error || !data.user) {
+		return <div className="Roster"></div>;
+	}
+
+	const site = data.user.sites[0];
+	const enrollments = site.enrollments;
+
+	const rosterTableProps: TableProps<any> = {
+		id: 'roster-table',
+		data: enrollments,
+		rowKey: row => row.id,
+		columns: [
+			{
+				name: 'Name',
+				cell: ({ row }) => <th scope="row">{nameFormatter(row.child)}</th>,
+				sort: row => nameFormatter(row.child),
+			},
+			{
+				name: 'Date of birth',
+				cell: ({ row }) => <td>{dateFormatter(row.child.birthdate)}</td>,
+				sort: row => row.child.birthdate,
+			},
+			{
+				name: 'Funding',
+				cell: ({ row }) => <td></td>,
+			},
+			{
+				name: 'Enrolled',
+				cell: ({ row }) => <td>{dateFormatter(row.entry)}</td>,
+				sort: row => row.entry,
+			},
+			{
+				name: 'Withdrawn',
+				cell: ({ row }) => <td>{dateFormatter(row.exit)}</td>,
+				sort: row => row.exit || '9999-12-31',
+			},
+		],
+		defaultSortColumn: 0,
+		defaultSortOrder: 'asc',
+	};
+
+	return (
+		<div className="Roster">
+			<section className="grid-container">
+				<h1>{site.name}</h1>
+				<div className="grid-row">
+					<div className="tablet:grid-col-fill">
+						<p className="usa-intro">{pluralize('kid', enrollments.length, true)} enrolled</p>
+					</div>
+					<div className="tablet:grid-col-auto">
+						<Button text="Enroll kids" onClick={() => {}} />
+					</div>
+				</div>
+				<Table {...rosterTableProps} fullWidth />
+			</section>
+		</div>
+	);
+}

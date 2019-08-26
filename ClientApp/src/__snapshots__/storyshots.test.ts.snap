@@ -1,0 +1,695 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Button Base 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <button
+    className="usa-button usa-button--base"
+    onClick={[Function]}
+  >
+    Click me
+  </button>
+</div>
+`;
+
+exports[`Storyshots Button Default 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <button
+    className="usa-button "
+    onClick={[Function]}
+  >
+    Click me
+  </button>
+</div>
+`;
+
+exports[`Storyshots Button Disabled 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <button
+    className="usa-button "
+    disabled={true}
+    onClick={[Function]}
+  >
+    Click me
+  </button>
+</div>
+`;
+
+exports[`Storyshots Button Secondary 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <button
+    className="usa-button usa-button--secondary"
+    onClick={[Function]}
+  >
+    Click me
+  </button>
+</div>
+`;
+
+exports[`Storyshots Header Logged in 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className=""
+  >
+    <div
+      className="usa-overlay"
+      onClick={[Function]}
+    />
+    <header
+      className="usa-header usa-header--extended"
+      role="banner"
+    >
+      <div
+        className="usa-navbar"
+      >
+        <div
+          className="usa-logo"
+          id="extended-logo"
+        >
+          <em
+            className="usa-logo__text"
+          >
+            <a
+              aria-label="Home"
+              href="/"
+              onClick={[Function]}
+              title="Home"
+            >
+              Hello world!
+            </a>
+          </em>
+        </div>
+        <button
+          className="usa-menu-btn"
+          onClick={[Function]}
+        >
+          Menu
+        </button>
+      </div>
+      <nav
+        className="usa-nav"
+        role="navigation"
+      >
+        <div
+          className="usa-nav__inner"
+        >
+          <button
+            className="usa-nav__close"
+            onClick={[Function]}
+          >
+            <img
+              alt="close"
+              src="close.svg"
+            />
+          </button>
+          <ul
+            className="usa-nav__primary usa-accordion"
+          >
+            <li
+              className="usa-nav__primary-item"
+            >
+              <a
+                className="usa-nav__link usa-current"
+                href="/"
+                onClick={[Function]}
+              >
+                <span>
+                  Active section
+                </span>
+              </a>
+            </li>
+            <li
+              className="usa-nav__primary-item"
+            >
+              <a
+                className="usa-nav__link"
+                href="/another"
+                onClick={[Function]}
+              >
+                <span>
+                  Another section
+                </span>
+              </a>
+            </li>
+            <li
+              className="usa-nav__primary-item"
+            >
+              <a
+                className="usa-nav__link"
+                href="/attention"
+                onClick={[Function]}
+              >
+                <span>
+                  Attention needed
+                  <span
+                    className="attention-needed"
+                  >
+                     •
+                    <span
+                      className="usa-sr-only"
+                    >
+                       (attention needed)
+                    </span>
+                  </span>
+                </span>
+              </a>
+            </li>
+          </ul>
+          <div
+            className="usa-nav__secondary"
+          >
+            <ul
+              className="usa-nav__secondary-links"
+            >
+              <li
+                className="usa-nav__secondary-item"
+              >
+                <a
+                  href="/secondary"
+                  onClick={[Function]}
+                >
+                  Secondary item
+                </a>
+              </li>
+              <li
+                className="usa-nav__secondary-item"
+              >
+                <a
+                  href="/secondary2"
+                  onClick={[Function]}
+                >
+                  Another secondary item
+                </a>
+              </li>
+              <li
+                className="usa-nav__secondary-item"
+              >
+                <a
+                  href="/logout"
+                  onClick={[Function]}
+                >
+                  Log out
+                </a>
+              </li>
+            </ul>
+            <div
+              className="oec-logged-in-user"
+            >
+              <span>
+                Hi, 
+                Chris
+                .
+              </span>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Header Logged out 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className=""
+  >
+    <div
+      className="usa-overlay"
+      onClick={[Function]}
+    />
+    <header
+      className="usa-header usa-header--extended"
+      role="banner"
+    >
+      <div
+        className="usa-navbar"
+      >
+        <div
+          className="usa-logo"
+          id="extended-logo"
+        >
+          <em
+            className="usa-logo__text"
+          >
+            <a
+              aria-label="Home"
+              href="/"
+              onClick={[Function]}
+              title="Home"
+            >
+              Hello world!
+            </a>
+          </em>
+        </div>
+        <button
+          className="usa-menu-btn"
+          onClick={[Function]}
+        >
+          Menu
+        </button>
+      </div>
+      <nav
+        className="usa-nav"
+        role="navigation"
+      >
+        <div
+          className="usa-nav__inner"
+        >
+          <button
+            className="usa-nav__close"
+            onClick={[Function]}
+          >
+            <img
+              alt="close"
+              src="close.svg"
+            />
+          </button>
+          <ul
+            className="usa-nav__primary usa-accordion"
+          >
+            <li
+              className="usa-nav__primary-item"
+            >
+              <a
+                className="usa-nav__link usa-current"
+                href="/"
+                onClick={[Function]}
+              >
+                <span>
+                  Active section
+                </span>
+              </a>
+            </li>
+            <li
+              className="usa-nav__primary-item"
+            >
+              <a
+                className="usa-nav__link"
+                href="/another"
+                onClick={[Function]}
+              >
+                <span>
+                  Another section
+                </span>
+              </a>
+            </li>
+            <li
+              className="usa-nav__primary-item"
+            >
+              <a
+                className="usa-nav__link"
+                href="/attention"
+                onClick={[Function]}
+              >
+                <span>
+                  Attention needed
+                  <span
+                    className="attention-needed"
+                  >
+                     •
+                    <span
+                      className="usa-sr-only"
+                    >
+                       (attention needed)
+                    </span>
+                  </span>
+                </span>
+              </a>
+            </li>
+          </ul>
+          <div
+            className="usa-nav__secondary"
+          >
+            <ul
+              className="usa-nav__secondary-links"
+            >
+              <li
+                className="usa-nav__secondary-item"
+              >
+                <a
+                  href="/secondary"
+                  onClick={[Function]}
+                >
+                  Secondary item
+                </a>
+              </li>
+              <li
+                className="usa-nav__secondary-item"
+              >
+                <a
+                  href="/secondary2"
+                  onClick={[Function]}
+                >
+                  Another secondary item
+                </a>
+              </li>
+            </ul>
+            <div
+              className="oec-logged-in-user"
+            >
+              <a
+                href="/login"
+                onClick={[Function]}
+              >
+                Log in
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Table Full width 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <table
+    className="oec-table oec-table--full-width"
+    id="my-table"
+  >
+    <thead>
+      <tr>
+        <th
+          scope="col"
+        >
+          <span
+            onClick={[Function]}
+          >
+            Name
+          </span>
+          <div
+            className="oec-table__sort-controls"
+          >
+            <input
+              checked={true}
+              id="my-table-col0-asc"
+              name="my-table-column-0-sort"
+              onChange={[Function]}
+              type="checkbox"
+              value="asc"
+            />
+            <label
+              className="oec-table__sort-controls__asc"
+              htmlFor="my-table-col0-asc"
+            >
+              <span>
+                Sort ascending
+              </span>
+            </label>
+            <input
+              checked={false}
+              id="my-table-col0-desc"
+              name="my-table-column-0-sort"
+              onChange={[Function]}
+              type="checkbox"
+              value="desc"
+            />
+            <label
+              className="oec-table__sort-controls__desc"
+              htmlFor="my-table-col0-desc"
+            >
+              <span>
+                Sort descending
+              </span>
+            </label>
+          </div>
+        </th>
+        <th
+          scope="col"
+        >
+          <span
+            onClick={[Function]}
+          >
+            Price
+          </span>
+          <div
+            className="oec-table__sort-controls"
+          >
+            <input
+              checked={false}
+              id="my-table-col1-asc"
+              name="my-table-column-1-sort"
+              onChange={[Function]}
+              type="checkbox"
+              value="asc"
+            />
+            <label
+              className="oec-table__sort-controls__asc"
+              htmlFor="my-table-col1-asc"
+            >
+              <span>
+                Sort ascending
+              </span>
+            </label>
+            <input
+              checked={false}
+              id="my-table-col1-desc"
+              name="my-table-column-1-sort"
+              onChange={[Function]}
+              type="checkbox"
+              value="desc"
+            />
+            <label
+              className="oec-table__sort-controls__desc"
+              htmlFor="my-table-col1-desc"
+            >
+              <span>
+                Sort descending
+              </span>
+            </label>
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th
+          scope="row"
+        >
+          Apple
+        </th>
+        <th
+          scope="row"
+        >
+          $0.75
+        </th>
+      </tr>
+      <tr>
+        <th
+          scope="row"
+        >
+          Avocado
+        </th>
+        <th
+          scope="row"
+        >
+          $1.80
+        </th>
+      </tr>
+      <tr>
+        <th
+          scope="row"
+        >
+          Pear
+        </th>
+        <th
+          scope="row"
+        >
+          $1.10
+        </th>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
+
+exports[`Storyshots Table Normal 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <table
+    className="oec-table undefined"
+    id="my-table"
+  >
+    <thead>
+      <tr>
+        <th
+          scope="col"
+        >
+          <span
+            onClick={[Function]}
+          >
+            Name
+          </span>
+          <div
+            className="oec-table__sort-controls"
+          >
+            <input
+              checked={true}
+              id="my-table-col0-asc"
+              name="my-table-column-0-sort"
+              onChange={[Function]}
+              type="checkbox"
+              value="asc"
+            />
+            <label
+              className="oec-table__sort-controls__asc"
+              htmlFor="my-table-col0-asc"
+            >
+              <span>
+                Sort ascending
+              </span>
+            </label>
+            <input
+              checked={false}
+              id="my-table-col0-desc"
+              name="my-table-column-0-sort"
+              onChange={[Function]}
+              type="checkbox"
+              value="desc"
+            />
+            <label
+              className="oec-table__sort-controls__desc"
+              htmlFor="my-table-col0-desc"
+            >
+              <span>
+                Sort descending
+              </span>
+            </label>
+          </div>
+        </th>
+        <th
+          scope="col"
+        >
+          <span
+            onClick={[Function]}
+          >
+            Price
+          </span>
+          <div
+            className="oec-table__sort-controls"
+          >
+            <input
+              checked={false}
+              id="my-table-col1-asc"
+              name="my-table-column-1-sort"
+              onChange={[Function]}
+              type="checkbox"
+              value="asc"
+            />
+            <label
+              className="oec-table__sort-controls__asc"
+              htmlFor="my-table-col1-asc"
+            >
+              <span>
+                Sort ascending
+              </span>
+            </label>
+            <input
+              checked={false}
+              id="my-table-col1-desc"
+              name="my-table-column-1-sort"
+              onChange={[Function]}
+              type="checkbox"
+              value="desc"
+            />
+            <label
+              className="oec-table__sort-controls__desc"
+              htmlFor="my-table-col1-desc"
+            >
+              <span>
+                Sort descending
+              </span>
+            </label>
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th
+          scope="row"
+        >
+          Apple
+        </th>
+        <th
+          scope="row"
+        >
+          $0.75
+        </th>
+      </tr>
+      <tr>
+        <th
+          scope="row"
+        >
+          Avocado
+        </th>
+        <th
+          scope="row"
+        >
+          $1.80
+        </th>
+      </tr>
+      <tr>
+        <th
+          scope="row"
+        >
+          Pear
+        </th>
+        <th
+          scope="row"
+        >
+          $1.10
+        </th>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
