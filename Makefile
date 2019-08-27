@@ -27,5 +27,8 @@ watch:
 storybook:
 	cd ClientApp && yarn storybook
 
+apollo-generate:
+	cd ClientApp && yarn apollo-generate
+
 prettier:
 	./ClientApp/node_modules/.bin/prettier --single-quote --write "ClientApp/src/**/*.{js,jsx,ts,tsx,json,css,scss}"

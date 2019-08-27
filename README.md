@@ -38,4 +38,5 @@ There is no step 3.
 | Run the backend tests and watch for changes | `make test-backend` | |
 | Apply new database migrations | `make db-migrate` | |
 | Reset the database | `make db-reset` | |
+| Update GraphQL types | `make apollo-generate` | |
 | Clean up without committing (frontend JS and CSS only) | `make prettier` | |
