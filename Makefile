@@ -1,20 +1,28 @@
 install:
 	dotnet restore && cd ClientApp && yarn install
 
-client-test:
+db-migrate:
+	dotnet ef database update
+
+db-drop:
+	dotnet ef database drop
+
+db-reset: | db-drop db-migrate
+
+test-client:
 	cd ClientApp && yarn test
 
-backend-test:
+test-backend:
 	dotnet watch test
 
-client-watch:
+watch-client:
 	cd ClientApp && yarn start
 
-backend-watch:
+watch-backend:
 	dotnet watch run
 
 watch:
-	${MAKE} -j4 client-watch backend-watch
+	${MAKE} -j2 client-watch backend-watch
 
 storybook:
 	cd ClientApp && yarn storybook
