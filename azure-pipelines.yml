@@ -22,5 +22,5 @@ steps:
   displayName: 'Script: yarn install'
 
 # perform test via yarn
-- script: cd ClientApp && yarn test
+- script: cd ClientApp && yarn test --exit
   displayName: 'Script: yarn test'
