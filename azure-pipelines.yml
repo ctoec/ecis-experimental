@@ -14,7 +14,7 @@ variables:
 
 steps:
 - script: dotnet restore
-  displayName: 'dotnet restore'
+  displayName: 'Script: dotnet restore'
 
 - script: cd ClientApp && yarn install
-  displayName: 'yarn install'
+  displayName: 'Script: yarn install'
