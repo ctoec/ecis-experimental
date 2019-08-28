@@ -13,8 +13,8 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-#- script: dotnet build --configuration $(buildConfiguration)
-#  displayName: 'dotnet build $(buildConfiguration)'
+- script: dotnet restore
+  displayName: 'dotnet restore'
 
-- script: dotnet restore && cd ClientApp && yarn install
-  displayName: 'dotnet build $(buildConfiguration)'
+- script: cd ClientApp && yarn install
+  displayName: 'yarn install'
