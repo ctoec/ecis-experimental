@@ -5,7 +5,7 @@
 #   notes:
 #     - package.json must include "test": "CI=true react-scripts test --env=jsdom",
 #        or yarn test will hang
-#         
+#          
 
 trigger:
 - master
