@@ -27,6 +27,9 @@ steps:
 - script: cd ClientApp && yarn test --ci
   displayName: 'Script: yarn test'
 
+- script: cd ClientApp && yarn run build
+  displayName: 'Script: yarn run build'
+
 - script: cd ClientApp && ls
   displayName: 'Script: ls'
 
