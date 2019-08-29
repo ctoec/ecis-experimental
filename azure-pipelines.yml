@@ -30,7 +30,7 @@ steps:
 - script: cd ClientApp && yarn run build
   displayName: 'Script: yarn run build'
 
-- script: cd ClientApp && ls
+- script: cd ClientApp && ls && cd build && ls
   displayName: 'Script: ls'
 
 # Compress files into .7z, .tar.gz, or .zip
