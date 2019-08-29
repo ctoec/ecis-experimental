@@ -23,7 +23,11 @@ steps:
 - script: cd ClientApp && yarn run build
   displayName: 'Script: yarn run build'
 
-- script: dotnet ef migrations script --output $(Build.ArtifactStagingDirectory)/SQL/db_schema.sql --context EcisContext  --idempotent
+# ISSUE: sqllite does not support --idempotent
+#- script: dotnet ef migrations script --output $(Build.ArtifactStagingDirectory)/SQL/db_schema.sql --context EcisContext  --idempotent
+#  displayName: 'Script: dotnet ef migrations script'
+
+- script: dotnet ef migrations script --output $(Build.ArtifactStagingDirectory)/SQL/db_schema.sql --context EcisContext
   displayName: 'Script: dotnet ef migrations script'
 - task: ArchiveFiles@2
   displayName: 'Archive Files'
