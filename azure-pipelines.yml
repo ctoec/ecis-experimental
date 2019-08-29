@@ -33,7 +33,7 @@ steps:
 # Compress files into .7z, .tar.gz, or .zip
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(Build.BinariesDirectory)' 
+    rootFolderOrFile: '$(Build.SourcesDirectory)/ClientApp' 
     includeRootFolder: false
     archiveType: 'zip'
     #tarCompression: 'gz' # Optional. Options: gz, bz2, xz, none
