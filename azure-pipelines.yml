@@ -34,3 +34,5 @@ steps:
      **/*
      !.git/**/*
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
+- task: PublishBuildArtifacts@1
+  displayName: Publish Artifacts
