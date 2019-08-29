@@ -26,8 +26,11 @@ steps:
 
 - script: cd ClientApp && yarn test --ci
   displayName: 'Script: yarn test'
+
+- script: cd ClientApp && ls
+  displayName: 'Script: ls'
 - task: CopyFiles@2
-  displayName: 'Copy Files: $(Build.ArtifactStagingDirectory)'
+  displayName: 'Copy Files: $(Build.ArtifactStagingDirectory)/ClientApp'
   inputs:
     SourceFolder: '$(Build.SourcesDirectory)/ClientApp'
     Contents: |
