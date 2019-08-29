@@ -17,10 +17,6 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-# restore dependencies and project specific tool via NuGet
-#- script: dotnet restore
-#  displayName: 'Script: dotnet restore'
-
 - script: cd ClientApp && yarn install
   displayName: 'Script: yarn install'
 
@@ -29,11 +25,6 @@ steps:
 
 - script: cd ClientApp && yarn run build
   displayName: 'Script: yarn run build'
-
-- script: cd ClientApp && ls && cd build && ls
-  displayName: 'Script: ls'
-
-# Compress files into .7z, .tar.gz, or .zip
 - task: ArchiveFiles@2
   displayName: 'Archive Files'
   inputs:
