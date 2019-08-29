@@ -13,9 +13,6 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-variables:
-  buildConfiguration: 'Release'
-
 steps:
 - script: cd ClientApp && yarn install
   displayName: 'Script: yarn install'
