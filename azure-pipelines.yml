@@ -38,7 +38,7 @@ steps:
     includeRootFolder: false
     archiveType: 'zip'
     #tarCompression: 'gz' # Optional. Options: gz, bz2, xz, none
-    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip' 
+    archiveFile: '$(Build.ArtifactStagingDirectory)/ReactApp.zip' 
     replaceExistingArchive: true 
 
 #- task: CopyFiles@2
@@ -51,3 +51,5 @@ steps:
 #    TargetFolder: '$(Build.ArtifactStagingDirectory)'
 - task: PublishBuildArtifacts@1
   displayName: Publish Artifacts
+  inputs:
+    pathToPublish: '$(Build.ArtifactStagingDirectory)/ReactApp.zip'
