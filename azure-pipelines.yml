@@ -29,13 +29,24 @@ steps:
 
 - script: cd ClientApp && ls
   displayName: 'Script: ls'
-- task: CopyFiles@2
-  displayName: 'Copy Files: $(Build.ArtifactStagingDirectory)/ClientApp'
+
+# Compress files into .7z, .tar.gz, or .zip
+- task: ArchiveFiles@2
   inputs:
-    SourceFolder: '$(Build.SourcesDirectory)/ClientApp'
-    Contents: |
-     **/*
-     !.git/**/*
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    rootFolderOrFile: '$(Build.BinariesDirectory)' 
+    includeRootFolder: false
+    archiveType: 'zip'
+    #tarCompression: 'gz' # Optional. Options: gz, bz2, xz, none
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip' 
+    replaceExistingArchive: true 
+
+#- task: CopyFiles@2
+#  displayName: 'Copy Files: $(Build.ArtifactStagingDirectory)/ClientApp'
+#  inputs:
+#    SourceFolder: '$(Build.SourcesDirectory)/ClientApp'
+#    Contents: |
+#     **/*
+#     !.git/**/*
+#    TargetFolder: '$(Build.ArtifactStagingDirectory)'
 - task: PublishBuildArtifacts@1
   displayName: Publish Artifacts
