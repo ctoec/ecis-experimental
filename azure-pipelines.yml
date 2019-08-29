@@ -1,6 +1,11 @@
 # 
 # dependency manager - yarn
-#    - see http://yarnpkg.com/en/docs/cli
+#   about:
+#     - http://yarnpkg.com/en/docs/cli
+#   notes:
+#     - package.json must include "test": "CI=true react-scripts test --env=jsdom",
+#        or yarn test will hang
+#         
 
 trigger:
 - master
@@ -13,13 +18,11 @@ variables:
 
 steps:
 # restore dependencies and project specific tool via NuGet
-- script: dotnet restore
-  displayName: 'Script: dotnet restore'
+#- script: dotnet restore
+#  displayName: 'Script: dotnet restore'
 
-# install project dependencies via yarn
 - script: cd ClientApp && yarn install
   displayName: 'Script: yarn install'
 
-# perform test via yarn
 - script: cd ClientApp && yarn test --ci
   displayName: 'Script: yarn test'
