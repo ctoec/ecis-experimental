@@ -31,7 +31,6 @@ steps:
     #tarCompression: 'gz' # Optional. Options: gz, bz2, xz, none
     archiveFile: '$(Build.ArtifactStagingDirectory)/ReactApp.zip' 
     replaceExistingArchive: true 
-
 - task: PublishBuildArtifacts@1
   displayName: Publish Artifacts
   inputs:
