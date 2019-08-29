@@ -32,6 +32,7 @@ steps:
 
 # Compress files into .7z, .tar.gz, or .zip
 - task: ArchiveFiles@2
+  displayName: 'Archive Files: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
   inputs:
     rootFolderOrFile: '$(Build.SourcesDirectory)/ClientApp' 
     includeRootFolder: false
