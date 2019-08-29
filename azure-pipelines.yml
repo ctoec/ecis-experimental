@@ -23,7 +23,9 @@ steps:
 - script: cd ClientApp && yarn run build
   displayName: 'Script: yarn run build'
 
-# ISSUE: sqllite does not support --idempotent
+#
+# ISSUE: provider Microsoft.EntityFrameworkCore.Sqlite does not support --idempotent
+#
 #- script: dotnet ef migrations script --output $(Build.ArtifactStagingDirectory)/SQL/db_schema.sql --context EcisContext  --idempotent
 #  displayName: 'Script: dotnet ef migrations script'
 
@@ -36,9 +38,10 @@ steps:
     includeRootFolder: false
     archiveType: 'zip'
     #tarCompression: 'gz' # Optional. Options: gz, bz2, xz, none
-    archiveFile: '$(Build.ArtifactStagingDirectory)/ReactApp.zip' 
+    archiveFile: '$(Build.ArtifactStagingDirectory)/react-spa.zip' 
     replaceExistingArchive: true 
 - task: PublishBuildArtifacts@1
   displayName: Publish Artifacts
   inputs:
-    pathToPublish: '$(Build.ArtifactStagingDirectory)/ReactApp.zip'
+    pathToPublish: '$(Build.ArtifactStagingDirectory)/react-spa.zip'
+    artifactName: react-spa
