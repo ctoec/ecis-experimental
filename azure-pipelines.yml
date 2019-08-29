@@ -26,11 +26,12 @@ steps:
 #
 # ISSUE: provider Microsoft.EntityFrameworkCore.Sqlite does not support --idempotent
 #
-#- script: dotnet ef migrations script --output $(Build.ArtifactStagingDirectory)/SQL/db_schema.sql --context EcisContext  --idempotent
+#- script: dotnet ef migrations script --output $(Build.ArtifactStagingDirectory)/react-spa-db.sql --context EcisContext  --idempotent
 #  displayName: 'Script: dotnet ef migrations script'
 
-- script: dotnet ef migrations script --output $(Build.ArtifactStagingDirectory)/SQL/db_schema.sql --context EcisContext
+- script: dotnet ef migrations script --output $(Build.ArtifactStagingDirectory)/react-spa-db.sql --context EcisContext
   displayName: 'Script: dotnet ef migrations script'
+  
 - task: ArchiveFiles@2
   displayName: 'Archive Files'
   inputs:
@@ -40,8 +41,15 @@ steps:
     #tarCompression: 'gz' # Optional. Options: gz, bz2, xz, none
     archiveFile: '$(Build.ArtifactStagingDirectory)/react-spa.zip' 
     replaceExistingArchive: true 
+
 - task: PublishBuildArtifacts@1
-  displayName: Publish Artifacts
+  displayName: 'Publish Artifacts: react-spa'
   inputs:
     pathToPublish: '$(Build.ArtifactStagingDirectory)/react-spa.zip'
     artifactName: react-spa
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifacts: react-spa-db'
+  inputs:
+    pathToPublish: '$(Build.ArtifactStagingDirectory)/react-spa-db.sql'
+    artifactName: react-spa-db
