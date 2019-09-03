@@ -22,7 +22,7 @@ watch-backend:
 	dotnet watch run
 
 watch:
-	${MAKE} -j2 client-watch backend-watch
+	${MAKE} -j2 watch-client watch-backend
 
 storybook:
 	cd ClientApp && yarn storybook
