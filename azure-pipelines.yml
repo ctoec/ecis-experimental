@@ -44,8 +44,7 @@ steps:
 - script: dotnet ef migrations script --output $(Build.ArtifactStagingDirectory)/react-spa-db.sql --context EcisContext
   displayName: 'Script: dotnet ef migrations script'
 
-#- script: cat $(Build.ArtifactStagingDirectory)/react-spa-db.sql
-- script: cat $(Build.SourcesDirectory)/dist/react-spa-db.sql
+- script: cat $(Build.ArtifactStagingDirectory)/react-spa-db.sql
   displayName: 'Script: cat react-spa-db.sql'
   
 - task: ArchiveFiles@2
