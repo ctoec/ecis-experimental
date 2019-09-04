@@ -41,8 +41,7 @@ steps:
 #- script: dotnet ef migrations script --output $(Build.ArtifactStagingDirectory)/react-spa-db.sql --context EcisContext  --idempotent
 #  displayName: 'Script: dotnet ef migrations script'
 
-#- script: dotnet ef migrations script --output $(Build.ArtifactStagingDirectory)/react-spa-db.sql --context EcisContext
-- script: dotnet ef migrations script --output $(Build.SourcesDirectory)/dist/react-spa-db.sql --context EcisContext
+- script: dotnet ef migrations script --output $(Build.ArtifactStagingDirectory)/react-spa-db.sql --context EcisContext
   displayName: 'Script: dotnet ef migrations script'
 
 #- script: cat $(Build.ArtifactStagingDirectory)/react-spa-db.sql
