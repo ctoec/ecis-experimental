@@ -32,8 +32,14 @@ steps:
 - script: dotnet ef database update
   displayName: 'Script: dotnet ef database update'
 
+- script: ls
+  displayName: 'Script: ls'
+
 - script: dotnet publish "./ecis2.csproj" --output "./dist" --configuration Release --no-restore
   displayName: 'Script: dotnet publish'
+
+- script: ls
+  displayName: 'Script: ls ./dist'
 
 #
 # ISSUE: provider Microsoft.EntityFrameworkCore.Sqlite does not support --idempotent
