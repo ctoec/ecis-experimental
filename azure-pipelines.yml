@@ -26,14 +26,14 @@ steps:
 #- script: cd ClientApp && yarn run build
 #  displayName: 'Script: yarn run build'
 
-script: dotnet restore
-displayName: 'Script: dotnet restore'
+- script: dotnet restore
+  displayName: 'Script: dotnet restore'
 
-script: dotnet ef database update
-displayName: 'Script: dotnet ef database update'
+- script: dotnet ef database update
+  displayName: 'Script: dotnet ef database update'
 
-script: dotnet publish "./ecis2.csproj" --output "./dist" --configuration Release --no-restore
-displayName: 'Script: dotnet publish'
+- script: dotnet publish "./ecis2.csproj" --output "./dist" --configuration Release --no-restore
+  displayName: 'Script: dotnet publish'
 
 #
 # ISSUE: provider Microsoft.EntityFrameworkCore.Sqlite does not support --idempotent
