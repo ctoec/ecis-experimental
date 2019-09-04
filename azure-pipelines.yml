@@ -38,7 +38,10 @@ steps:
 - script: dotnet publish "./ecis2.csproj" --output "./dist" --configuration Release --no-restore
   displayName: 'Script: dotnet publish'
 
-- script: ls
+- script: cp ./ecis2.db ./dist/ecis2.db
+  displayName: 'Script: package sqlite db'
+
+- script: ls ./dist
   displayName: 'Script: ls ./dist'
 
 #
