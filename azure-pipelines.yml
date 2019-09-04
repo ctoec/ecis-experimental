@@ -17,6 +17,9 @@ steps:
 - script: cd ClientApp && yarn install
   displayName: 'Script: yarn install'
 
+- script: dotnet ef database update
+  displayName: 'Script: dotnet ef database update'
+  
 - script: cd ClientApp && yarn test --ci
   displayName: 'Script: yarn test'
 
