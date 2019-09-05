@@ -18,6 +18,16 @@ steps:
 - script: dotnet ef database update
   displayName: 'Script: dotnet ef database update'
 
+- task: replacetokens@3
+  inputs:
+    targetFiles: '**/Help.tsx'
+    encoding: 'auto'
+    writeBOM: true
+    actionOnMissing: 'warn'
+    keepToken: false
+    tokenPrefix: '__'
+    tokenSuffix: '__'
+
 - script: dotnet publish "./ecis2.csproj" --output "./dist" --configuration Release --no-restore
   displayName: 'Script: dotnet publish'
 
