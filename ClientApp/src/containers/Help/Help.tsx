@@ -5,6 +5,7 @@ export default function Help() {
 		<div className="Help">
 			<section className="grid-container">
 				<h1>Help</h1>
+				<p>Build: __Build.BuildNumber__</p>
 			</section>
 		</div>
 	);
