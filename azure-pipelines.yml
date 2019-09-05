@@ -1,7 +1,5 @@
 # 
 # dependency manager - yarn
-#   about:
-#     - http://yarnpkg.com/en/docs/cli
 #   notes:
 #     - package.json must include "test": "CI=true react-scripts test --env=jsdom",
 #        or yarn test will hang
@@ -13,36 +11,21 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-steps:
-#- script: cd ClientApp && yarn install
-#  displayName: 'Script: yarn install'
-
-#- script: dotnet ef database update
-#  displayName: 'Script: dotnet ef database update'
-  
-#- script: cd ClientApp && yarn test --ci
-#  displayName: 'Script: yarn test'
-
-#- script: cd ClientApp && yarn run build
-#  displayName: 'Script: yarn run build'
-
+steps:  
 - script: dotnet restore
   displayName: 'Script: dotnet restore'
 
 - script: dotnet ef database update
   displayName: 'Script: dotnet ef database update'
 
-- script: ls
-  displayName: 'Script: ls'
-
 - script: dotnet publish "./ecis2.csproj" --output "./dist" --configuration Release --no-restore
   displayName: 'Script: dotnet publish'
 
+- script: cd ClientApp && yarn test --ci
+  displayName: 'Script: yarn test'
+
 - script: cp ./ecis2.db ./dist/ecis2.db
   displayName: 'Script: package sqlite db'
-
-- script: ls ./dist
-  displayName: 'Script: ls ./dist'
 
 #
 # ISSUE: provider Microsoft.EntityFrameworkCore.Sqlite does not support --idempotent
@@ -52,14 +35,10 @@ steps:
 
 - script: dotnet ef migrations script --output $(Build.ArtifactStagingDirectory)/react-spa-db.sql --context EcisContext
   displayName: 'Script: dotnet ef migrations script'
-
-- script: cat $(Build.ArtifactStagingDirectory)/react-spa-db.sql
-  displayName: 'Script: cat react-spa-db.sql'
   
 - task: ArchiveFiles@2
   displayName: 'Archive Files'
   inputs:
-    #rootFolderOrFile: '$(Build.SourcesDirectory)/ClientApp/build' 
     rootFolderOrFile: '$(Build.SourcesDirectory)/dist'
     includeRootFolder: false
     archiveType: 'zip'
