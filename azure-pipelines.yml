@@ -26,6 +26,7 @@ steps:
   displayName: 'Script: dotnet ef database update'
 
 - task: replacetokens@3
+  displayName: 'Replace Tokens: Help.tsx'
   inputs:
     targetFiles: '**/Help.tsx'
     encoding: 'auto'
@@ -42,6 +43,9 @@ steps:
   displayName: 'Script: yarn test'
 
 - task: SonarCloudAnalyze@1
+- task: SonarCloudPublish@1
+  inputs:
+    pollingTimeoutSec: '300'
 
 - script: cp ./ecis2.db ./dist/ecis2.db
   displayName: 'Script: package sqlite db'
