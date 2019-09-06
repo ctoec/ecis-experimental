@@ -12,6 +12,13 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:  
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'SonarCloudConnection'
+    organization: 'speedcm'
+    scannerMode: 'MSBuild'
+    projectKey: 'xExperiments'
+
 - script: dotnet restore
   displayName: 'Script: dotnet restore'
 
@@ -33,6 +40,8 @@ steps:
 
 - script: cd ClientApp && yarn test --ci
   displayName: 'Script: yarn test'
+
+- task: SonarCloudAnalyze@1
 
 - script: cp ./ecis2.db ./dist/ecis2.db
   displayName: 'Script: package sqlite db'
