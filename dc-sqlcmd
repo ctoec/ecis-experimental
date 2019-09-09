@@ -1,0 +1,1 @@
+docker-compose exec db /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P TestPassword1 $@
