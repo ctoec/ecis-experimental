@@ -1,8 +1,8 @@
-using ecis2.Models;
-using ecis2.Repositories;
+using Hedwig.Models;
+using Hedwig.Repositories;
 using GraphQL.Types;
 
-namespace ecis2.Schema
+namespace Hedwig.Schema
 {
 	public class UserType : ObjectGraphType<User>
 	{

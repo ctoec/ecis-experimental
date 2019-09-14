@@ -1,7 +1,7 @@
-using ecis2.Models;
+using Hedwig.Models;
 using GraphQL.Types;
 
-namespace ecis2.Schema
+namespace Hedwig.Schema
 {
 	public class FamilyDeterminationType : ObjectGraphType<FamilyDetermination>
 	{

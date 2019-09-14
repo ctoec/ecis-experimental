@@ -2,16 +2,16 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
-using ecis2.Models;
-using ecis2.Data;
+using Hedwig.Models;
+using Hedwig.Data;
 
-namespace ecis2.Repositories
+namespace Hedwig.Repositories
 {
 	public class EnrollmentRepository : IEnrollmentRepository
 	{
-		private readonly EcisContext _context;
+		private readonly HedwigContext _context;
 
-		public EnrollmentRepository(EcisContext context) => _context = context;
+		public EnrollmentRepository(HedwigContext context) => _context = context;
 
 		public async Task<ILookup<int, Enrollment>> GetEnrollmentsBySiteIdsAsync(IEnumerable<int> siteIds)
 		{

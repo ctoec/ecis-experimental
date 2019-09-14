@@ -5,16 +5,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using ecis2.Data;
-using ecis2.Repositories;
+using Hedwig.Data;
+using Hedwig.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using GraphQL;
 using GraphQL.Server;
 using GraphQL.Server.Ui.Playground;
-using ecis2.Schema;
+using Hedwig.Schema;
 
-namespace ecis2
+namespace Hedwig
 {
 	public class Startup
 	{
@@ -28,8 +28,8 @@ namespace ecis2
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddDbContext<EcisContext>(options =>
-				options.UseSqlite("Data Source=ecis2.db"));
+			services.AddDbContext<HedwigContext>(options =>
+				options.UseSqlite("Data Source=hedwig.db"));
 
 			services.AddScoped<IChildRepository, ChildRepository>();
 			services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();

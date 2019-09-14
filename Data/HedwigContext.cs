@@ -1,11 +1,11 @@
-using ecis2.Models;
+using Hedwig.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace ecis2.Data
+namespace Hedwig.Data
 {
-	public class EcisContext : DbContext
+	public class HedwigContext : DbContext
 	{
-		public EcisContext(DbContextOptions<EcisContext> options) : base(options)
+		public HedwigContext(DbContextOptions<HedwigContext> options) : base(options)
 		{
 		}
 

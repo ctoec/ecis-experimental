@@ -1,6 +1,6 @@
 using GraphQL;
 
-namespace ecis2.Schema
+namespace Hedwig.Schema
 {
 	public class AppSchema : GraphQL.Types.Schema
 	{

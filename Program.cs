@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
-using ecis2.Data;
+using Hedwig.Data;
 
-namespace ecis2
+namespace Hedwig
 {
 	public class Program
 	{
@@ -23,7 +23,7 @@ namespace ecis2
 				var services = scope.ServiceProvider;
 				try
 				{
-					var context = services.GetRequiredService<EcisContext>();
+					var context = services.GetRequiredService<HedwigContext>();
 					DbInitializer.Initialize(context);
 				}
 				catch (Exception ex)

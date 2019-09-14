@@ -3,17 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
-using ecis2.Models;
-using ecis2.Data;
+using Hedwig.Models;
+using Hedwig.Data;
 using System.Threading;
 
-namespace ecis2.Repositories
+namespace Hedwig.Repositories
 {
 	public class ChildRepository : IChildRepository
 	{
-		private readonly EcisContext _context;
+		private readonly HedwigContext _context;
 
-		public ChildRepository(EcisContext context) => _context = context;
+		public ChildRepository(HedwigContext context) => _context = context;
 
 		public async Task<IDictionary<Guid, Child>> GetChildrenByIdsAsync(IEnumerable<Guid> ids)
 		{

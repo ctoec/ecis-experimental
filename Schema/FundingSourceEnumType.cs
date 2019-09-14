@@ -1,4 +1,4 @@
-using ecis2.Models;
+using Hedwig.Models;
 using GraphQL.Types;
 
 public class FundingSourceEnumType : EnumerationGraphType<FundingSource>

@@ -1,7 +1,7 @@
-using ecis2.Repositories;
+using Hedwig.Repositories;
 using GraphQL.Types;
 
-namespace ecis2.Schema
+namespace Hedwig.Schema
 {
 	public class AppQuery : ObjectGraphType
 	{

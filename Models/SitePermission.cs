@@ -1,4 +1,4 @@
-namespace ecis2.Models
+namespace Hedwig.Models
 {
 	public class SitePermission
 	{

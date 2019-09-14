@@ -2,16 +2,16 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
-using ecis2.Models;
-using ecis2.Data;
+using Hedwig.Models;
+using Hedwig.Data;
 
-namespace ecis2.Repositories
+namespace Hedwig.Repositories
 {
 	public class SiteRepository : ISiteRepository
 	{
-		private readonly EcisContext _context;
+		private readonly HedwigContext _context;
 
-		public SiteRepository(EcisContext context) => _context = context;
+		public SiteRepository(HedwigContext context) => _context = context;
 
 		public async Task<IEnumerable<Site>> GetSitesByUserIdAsync(int userId)
 		{

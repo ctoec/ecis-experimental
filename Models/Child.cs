@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace ecis2.Models
+namespace Hedwig.Models
 {
 	public class Child
 	{

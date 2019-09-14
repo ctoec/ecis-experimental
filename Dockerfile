@@ -11,10 +11,10 @@ RUN dotnet restore
 COPY ./ ./
 RUN dotnet ef database update
 
-RUN dotnet publish "./ecis2.csproj" --output "./dist" --configuration Release --no-restore
+RUN dotnet publish "./hedwig.csproj" --output "./dist" --configuration Release --no-restore
 
 FROM microsoft/dotnet:2.2-aspnetcore-runtime
 WORKDIR /app
 COPY --from=builder /source/dist .
 EXPOSE 80
-ENTRYPOINT ["dotnet", "ecis2.dll"]
+ENTRYPOINT ["dotnet", "hedwig.dll"]

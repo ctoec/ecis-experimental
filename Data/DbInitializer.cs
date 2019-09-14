@@ -2,13 +2,13 @@ using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using ecis2.Models;
+using Hedwig.Models;
 
-namespace ecis2.Data
+namespace Hedwig.Data
 {
 	public static class DbInitializer
 	{
-		public static void Initialize(EcisContext context)
+		public static void Initialize(HedwigContext context)
 		{
 			context.Database.EnsureCreated();
 

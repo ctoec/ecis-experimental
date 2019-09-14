@@ -3,240 +3,240 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using ecis2.Data;
+using Hedwig.Data;
 
-namespace ecis2.Migrations
+namespace Hedwig.Migrations
 {
-    [DbContext(typeof(EcisContext))]
-    partial class EcisContextModelSnapshot : ModelSnapshot
-    {
-        protected override void BuildModel(ModelBuilder modelBuilder)
-        {
+	[DbContext(typeof(HedwigContext))]
+	partial class HedwigContextModelSnapshot : ModelSnapshot
+	{
+		protected override void BuildModel(ModelBuilder modelBuilder)
+		{
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
+			modelBuilder
+					.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
 
-            modelBuilder.Entity("ecis2.Models.Child", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+			modelBuilder.Entity("hedwig.Models.Child", b =>
+					{
+						b.Property<Guid>("Id")
+											.ValueGeneratedOnAdd();
 
-                    b.Property<bool?>("AmericanIndianOrAlaskaNative");
+						b.Property<bool?>("AmericanIndianOrAlaskaNative");
 
-                    b.Property<bool?>("Asian");
+						b.Property<bool?>("Asian");
 
-                    b.Property<DateTime>("Birthdate");
+						b.Property<DateTime>("Birthdate");
 
-                    b.Property<bool?>("BlackOrAfricanAmerican");
+						b.Property<bool?>("BlackOrAfricanAmerican");
 
-                    b.Property<int?>("FamilyId");
+						b.Property<int?>("FamilyId");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(35);
+						b.Property<string>("FirstName")
+											.IsRequired()
+											.HasMaxLength(35);
 
-                    b.Property<int>("Gender");
+						b.Property<int>("Gender");
 
-                    b.Property<bool?>("HispanicOrLatinxEthnicity");
+						b.Property<bool?>("HispanicOrLatinxEthnicity");
 
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(35);
+						b.Property<string>("LastName")
+											.IsRequired()
+											.HasMaxLength(35);
 
-                    b.Property<string>("MiddleName")
-                        .HasMaxLength(35);
+						b.Property<string>("MiddleName")
+											.HasMaxLength(35);
 
-                    b.Property<bool?>("NativeHawaiianOrPacificIslander");
+						b.Property<bool?>("NativeHawaiianOrPacificIslander");
 
-                    b.Property<string>("Suffix")
-                        .HasMaxLength(10);
+						b.Property<string>("Suffix")
+											.HasMaxLength(10);
 
-                    b.Property<bool?>("White");
+						b.Property<bool?>("White");
 
-                    b.HasKey("Id");
+						b.HasKey("Id");
 
-                    b.HasIndex("FamilyId");
+						b.HasIndex("FamilyId");
 
-                    b.ToTable("Child");
-                });
+						b.ToTable("Child");
+					});
 
-            modelBuilder.Entity("ecis2.Models.Enrollment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+			modelBuilder.Entity("hedwig.Models.Enrollment", b =>
+					{
+						b.Property<int>("Id")
+											.ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("ChildId");
+						b.Property<Guid>("ChildId");
 
-                    b.Property<DateTime>("Entry");
+						b.Property<DateTime>("Entry");
 
-                    b.Property<DateTime?>("Exit");
+						b.Property<DateTime?>("Exit");
 
-                    b.Property<int>("SiteId");
+						b.Property<int>("SiteId");
 
-                    b.HasKey("Id");
+						b.HasKey("Id");
 
-                    b.HasIndex("ChildId");
+						b.HasIndex("ChildId");
 
-                    b.HasIndex("SiteId");
+						b.HasIndex("SiteId");
 
-                    b.ToTable("Enrollment");
-                });
+						b.ToTable("Enrollment");
+					});
 
-            modelBuilder.Entity("ecis2.Models.Family", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+			modelBuilder.Entity("hedwig.Models.Family", b =>
+					{
+						b.Property<int>("Id")
+											.ValueGeneratedOnAdd();
 
-                    b.HasKey("Id");
+						b.HasKey("Id");
 
-                    b.ToTable("Family");
-                });
+						b.ToTable("Family");
+					});
 
-            modelBuilder.Entity("ecis2.Models.FamilyDetermination", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+			modelBuilder.Entity("hedwig.Models.FamilyDetermination", b =>
+					{
+						b.Property<int>("Id")
+											.ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("Determined");
+						b.Property<DateTime>("Determined");
 
-                    b.Property<int>("FamilyId");
+						b.Property<int>("FamilyId");
 
-                    b.Property<decimal>("Income");
+						b.Property<decimal>("Income");
 
-                    b.Property<int>("NumberOfPeople");
+						b.Property<int>("NumberOfPeople");
 
-                    b.HasKey("Id");
+						b.HasKey("Id");
 
-                    b.HasIndex("FamilyId");
+						b.HasIndex("FamilyId");
 
-                    b.ToTable("FamilyDetermination");
-                });
+						b.ToTable("FamilyDetermination");
+					});
 
-            modelBuilder.Entity("ecis2.Models.Funding", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+			modelBuilder.Entity("hedwig.Models.Funding", b =>
+					{
+						b.Property<int>("Id")
+											.ValueGeneratedOnAdd();
 
-                    b.Property<int>("EnrollmentId");
+						b.Property<int>("EnrollmentId");
 
-                    b.Property<DateTime>("Entry");
+						b.Property<DateTime>("Entry");
 
-                    b.Property<DateTime?>("Exit");
+						b.Property<DateTime?>("Exit");
 
-                    b.Property<int>("Source");
+						b.Property<int>("Source");
 
-                    b.HasKey("Id");
+						b.HasKey("Id");
 
-                    b.HasIndex("EnrollmentId");
+						b.HasIndex("EnrollmentId");
 
-                    b.ToTable("Funding");
-                });
+						b.ToTable("Funding");
+					});
 
-            modelBuilder.Entity("ecis2.Models.Site", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+			modelBuilder.Entity("hedwig.Models.Site", b =>
+					{
+						b.Property<int>("Id")
+											.ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100);
+						b.Property<string>("Name")
+											.IsRequired()
+											.HasMaxLength(100);
 
-                    b.HasKey("Id");
+						b.HasKey("Id");
 
-                    b.ToTable("Site");
-                });
+						b.ToTable("Site");
+					});
 
-            modelBuilder.Entity("ecis2.Models.SitePermission", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+			modelBuilder.Entity("hedwig.Models.SitePermission", b =>
+					{
+						b.Property<int>("Id")
+											.ValueGeneratedOnAdd();
 
-                    b.Property<int>("SiteId");
+						b.Property<int>("SiteId");
 
-                    b.Property<int>("UserId");
+						b.Property<int>("UserId");
 
-                    b.HasKey("Id");
+						b.HasKey("Id");
 
-                    b.HasIndex("SiteId");
+						b.HasIndex("SiteId");
 
-                    b.HasIndex("UserId");
+						b.HasIndex("UserId");
 
-                    b.ToTable("SitePermission");
-                });
+						b.ToTable("SitePermission");
+					});
 
-            modelBuilder.Entity("ecis2.Models.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+			modelBuilder.Entity("hedwig.Models.User", b =>
+					{
+						b.Property<int>("Id")
+											.ValueGeneratedOnAdd();
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(35);
+						b.Property<string>("FirstName")
+											.IsRequired()
+											.HasMaxLength(35);
 
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(35);
+						b.Property<string>("LastName")
+											.IsRequired()
+											.HasMaxLength(35);
 
-                    b.Property<string>("MiddleName")
-                        .HasMaxLength(35);
+						b.Property<string>("MiddleName")
+											.HasMaxLength(35);
 
-                    b.Property<string>("Suffix")
-                        .HasMaxLength(10);
+						b.Property<string>("Suffix")
+											.HasMaxLength(10);
 
-                    b.HasKey("Id");
+						b.HasKey("Id");
 
-                    b.ToTable("User");
-                });
+						b.ToTable("User");
+					});
 
-            modelBuilder.Entity("ecis2.Models.Child", b =>
-                {
-                    b.HasOne("ecis2.Models.Family", "Family")
-                        .WithMany("Children")
-                        .HasForeignKey("FamilyId");
-                });
+			modelBuilder.Entity("hedwig.Models.Child", b =>
+					{
+						b.HasOne("hedwig.Models.Family", "Family")
+											.WithMany("Children")
+											.HasForeignKey("FamilyId");
+					});
 
-            modelBuilder.Entity("ecis2.Models.Enrollment", b =>
-                {
-                    b.HasOne("ecis2.Models.Child", "Child")
-                        .WithMany("Enrollments")
-                        .HasForeignKey("ChildId")
-                        .OnDelete(DeleteBehavior.Cascade);
+			modelBuilder.Entity("hedwig.Models.Enrollment", b =>
+					{
+						b.HasOne("hedwig.Models.Child", "Child")
+											.WithMany("Enrollments")
+											.HasForeignKey("ChildId")
+											.OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ecis2.Models.Site", "Site")
-                        .WithMany("Enrollments")
-                        .HasForeignKey("SiteId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+						b.HasOne("hedwig.Models.Site", "Site")
+											.WithMany("Enrollments")
+											.HasForeignKey("SiteId")
+											.OnDelete(DeleteBehavior.Cascade);
+					});
 
-            modelBuilder.Entity("ecis2.Models.FamilyDetermination", b =>
-                {
-                    b.HasOne("ecis2.Models.Family", "Family")
-                        .WithMany("Determinations")
-                        .HasForeignKey("FamilyId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+			modelBuilder.Entity("hedwig.Models.FamilyDetermination", b =>
+					{
+						b.HasOne("hedwig.Models.Family", "Family")
+											.WithMany("Determinations")
+											.HasForeignKey("FamilyId")
+											.OnDelete(DeleteBehavior.Cascade);
+					});
 
-            modelBuilder.Entity("ecis2.Models.Funding", b =>
-                {
-                    b.HasOne("ecis2.Models.Enrollment", "Enrollment")
-                        .WithMany("Fundings")
-                        .HasForeignKey("EnrollmentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+			modelBuilder.Entity("hedwig.Models.Funding", b =>
+					{
+						b.HasOne("hedwig.Models.Enrollment", "Enrollment")
+											.WithMany("Fundings")
+											.HasForeignKey("EnrollmentId")
+											.OnDelete(DeleteBehavior.Cascade);
+					});
 
-            modelBuilder.Entity("ecis2.Models.SitePermission", b =>
-                {
-                    b.HasOne("ecis2.Models.Site", "Site")
-                        .WithMany()
-                        .HasForeignKey("SiteId")
-                        .OnDelete(DeleteBehavior.Cascade);
+			modelBuilder.Entity("hedwig.Models.SitePermission", b =>
+					{
+						b.HasOne("hedwig.Models.Site", "Site")
+											.WithMany()
+											.HasForeignKey("SiteId")
+											.OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ecis2.Models.User", "User")
-                        .WithMany("SitePermissions")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+						b.HasOne("hedwig.Models.User", "User")
+											.WithMany("SitePermissions")
+											.HasForeignKey("UserId")
+											.OnDelete(DeleteBehavior.Cascade);
+					});
 #pragma warning restore 612, 618
-        }
-    }
+		}
+	}
 }
