@@ -122,13 +122,21 @@ h1 {
 	width: 100%;
 }
 
+.oec-sortable .oec-table__column-title {
+	cursor: pointer;
+}
+
 .oec-table__sort-controls {
 	display: inline-block;
 	position: relative;
-	margin-left: units(0.5);
+	margin-left: units(1);
 
 	input {
 		display: none;
+	}
+
+	label {
+		cursor: pointer;
 	}
 
 	label span {

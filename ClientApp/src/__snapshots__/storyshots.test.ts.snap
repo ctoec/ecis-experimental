@@ -413,9 +413,11 @@ exports[`Storyshots Table Full width 1`] = `
     <thead>
       <tr>
         <th
+          className="oec-table__column-header oec-sortable"
           scope="col"
         >
           <span
+            className="oec-table__column-title"
             onClick={[Function]}
           >
             Name
@@ -458,9 +460,11 @@ exports[`Storyshots Table Full width 1`] = `
           </div>
         </th>
         <th
+          className="oec-table__column-header oec-sortable"
           scope="col"
         >
           <span
+            className="oec-table__column-title"
             onClick={[Function]}
           >
             Price
@@ -561,9 +565,11 @@ exports[`Storyshots Table Normal 1`] = `
     <thead>
       <tr>
         <th
+          className="oec-table__column-header oec-sortable"
           scope="col"
         >
           <span
+            className="oec-table__column-title"
             onClick={[Function]}
           >
             Name
@@ -606,9 +612,11 @@ exports[`Storyshots Table Normal 1`] = `
           </div>
         </th>
         <th
+          className="oec-table__column-header oec-sortable"
           scope="col"
         >
           <span
+            className="oec-table__column-title"
             onClick={[Function]}
           >
             Price

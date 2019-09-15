@@ -28,7 +28,7 @@ export class ColumnHeader extends React.Component<ColumnHeaderProps> {
 		const newOrder = event.target.value as SortOrder;
 
 		if (sorted && newOrder === sortOrder) {
-			return;
+			this.toggleSort();
 		} else {
 			setTableSort({ sortColumn: index, sortOrder: newOrder });
 		}
@@ -38,8 +38,10 @@ export class ColumnHeader extends React.Component<ColumnHeaderProps> {
 		const { tableId, name, sortable, sorted, sortOrder, index } = this.props;
 
 		return (
-			<th scope="col">
-				<span onClick={this.toggleSort}>{name}</span>
+			<th scope="col" className={'oec-table__column-header' + (sortable ? ' oec-sortable' : '')}>
+				<span className="oec-table__column-title" onClick={this.toggleSort}>
+					{name}
+				</span>
 				{sortable && (
 					<div className="oec-table__sort-controls">
 						<input
