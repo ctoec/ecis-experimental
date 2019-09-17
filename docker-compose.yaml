@@ -39,6 +39,7 @@ services:
     env_file: ./ClientApp/.env
     ports:
       - 3000:3000
+      - 9009:9009
     entrypoint:
       - sh
       - /home/node/app/entrypoint.sh

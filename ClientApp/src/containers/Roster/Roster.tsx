@@ -7,6 +7,7 @@ import { Table, TableProps } from '../../components/Table/Table';
 import { RosterQuery, RosterQuery_user_sites_enrollments } from '../../generated/RosterQuery';
 import nameFormatter from '../../utils/nameFormatter';
 import dateFormatter from '../../utils/dateFormatter';
+import Tag from '../../components/Tag/Tag';
 
 export default function Roster() {
 	const { loading, error, data } = useQuery<RosterQuery>(gql`
@@ -65,6 +66,17 @@ export default function Roster() {
 				cell: ({ row }) => <td>{dateFormatter(row.child.birthdate)}</td>,
 				sort: row => row.child.birthdate,
 			},
+			{
+				name: 'Funding',
+				cell: ({ row }) => (
+					<td>
+						{row.fundings.length
+							? <Tag text={`${row.fundings[0].source}`} />
+							: ''
+						}
+					</td>
+				)
+			}
 		],
 		defaultSortColumn: 0,
 		defaultSortOrder: 'asc',
