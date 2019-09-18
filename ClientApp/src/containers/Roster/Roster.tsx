@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { Link } from 'react-router-dom';
@@ -7,8 +7,10 @@ import { Table, TableProps } from '../../components/Table/Table';
 import { RosterQuery, RosterQuery_user_sites_enrollments } from '../../generated/RosterQuery';
 import nameFormatter from '../../utils/nameFormatter';
 import dateFormatter from '../../utils/dateFormatter';
+import Button from '../../components/Button/Button';
+import withPrintMode, { WithPrintModePropsType } from '../../contexts/PrintMode/PrintModeHOC';
 
-export default function Roster() {
+const Roster: React.FC<WithPrintModePropsType> = ({isPrintMode, togglePrintMode}) => {
 	const { loading, error, data } = useQuery<RosterQuery>(gql`
 		query RosterQuery {
 			user(id: 1) {
@@ -36,6 +38,12 @@ export default function Roster() {
 			}
 		}
 	`);
+
+	useLayoutEffect(() => {
+		if (isPrintMode) {
+			window.print();
+		}
+	});
 
 	if (loading || error || !data || !data.user) {
 		return <div className="Roster"></div>;
@@ -73,10 +81,29 @@ export default function Roster() {
 	return (
 		<div className="Roster">
 			<section className="grid-container">
+					<div className="print-cancel">
+						{isPrintMode && <Button
+							text="X"
+							onClick={togglePrintMode}
+							appearance='base'
+						/>}
+					</div>
 				<h1>{site.name}</h1>
 				<p className="usa-intro">{pluralize('kid', enrollments.length, true)} enrolled</p>
 				<Table {...rosterTableProps} fullWidth />
+				<div className="print-btn">
+					{!isPrintMode && <Button
+						text='Print'
+						onClick={() => {
+							togglePrintMode()
+							window.scrollTo(0, 0);
+						}}
+						appearance='outline'
+					/>}
+				</div>
 			</section>
 		</div>
 	);
 }
+
+export default withPrintMode(Roster);

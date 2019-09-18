@@ -1,0 +1,32 @@
+@mixin print {
+  Header {
+    @include u-display('none');
+  }
+
+  .print-cancel {
+    float: right;
+    position: relative;
+    top: 15px;
+  }
+
+  .usa-link {
+    &, &:visited, &:link {
+      @include u-text('no-underline');
+      @include u-text($theme-color-base-ink);
+    }
+  }  
+}
+
+@media print {
+  @include print;
+
+  @page { size:8.5in 11in; margin: 2cm }
+  
+  .print-cancel, .print-btn {
+    @include u-display('none');
+  }
+}
+
+.print {
+  @include print;
+}

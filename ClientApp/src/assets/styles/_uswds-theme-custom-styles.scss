@@ -20,6 +20,11 @@ i.e.
 ----------------------------------------
 */
 
+// *** Main Content ***
+main {
+	@include u-margin-bottom(2);
+}
+
 // *** Header ***
 
 .usa-header--extended {

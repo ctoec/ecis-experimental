@@ -6,15 +6,18 @@ import { BrowserRouter } from 'react-router-dom';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from '@apollo/react-hooks';
 import * as serviceWorker from './serviceWorker';
+import { PrintModeProvider } from './contexts/PrintMode/PrintModeHOC';
 
 const apollo = new ApolloClient({ uri: '/graphql' });
 
-const render = (Component: React.FC) => {
+const render = (Component: React.FC<{}>) => {
 	return ReactDOM.render(
 		<ApolloProvider client={apollo}>
-			<BrowserRouter>
-				<Component />
-			</BrowserRouter>
+			<PrintModeProvider value={false}>
+				<BrowserRouter>
+					<Component />
+				</BrowserRouter>
+			</PrintModeProvider>
 		</ApolloProvider>,
 		document.getElementById('root')
 	);

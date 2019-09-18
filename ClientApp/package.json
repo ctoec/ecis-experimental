@@ -39,6 +39,7 @@
 		"storybook-react-router": "^1.0.5",
 		"typescript": "3.5.3",
 		"uswds": "^2.1.0",
+		"utility-types": "3.7.0",
 		"yarn": "^1.17.3"
 	},
 	"scripts": {

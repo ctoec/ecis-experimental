@@ -1,6 +1,6 @@
 import React from 'react';
 
-type ButtonAppearance = 'default' | 'base' | 'secondary';
+type ButtonAppearance = 'default' | 'base' | 'secondary' | 'outline';
 
 type ButtonProps = {
 	text: String;

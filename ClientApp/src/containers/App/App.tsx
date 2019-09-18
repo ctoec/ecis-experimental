@@ -6,6 +6,7 @@ import Header from '../../components/Header/Header';
 import { NavItemProps } from '../../components/Header/NavItem';
 import MakeRouteWithSubRoutes from './MakeRouteWithSubRoutes';
 import routes from '../../routes';
+import withPrintMode, { WithPrintModePropsType } from '../../contexts/PrintMode/PrintModeHOC';
 
 const navItems: NavItemProps[] = [
 	{ type: 'primary', title: 'Roster', path: '/' },
@@ -15,7 +16,7 @@ const navItems: NavItemProps[] = [
 	{ type: 'secondary', title: 'Help', path: '/help' },
 ];
 
-export default function App() {
+const App: React.FC<WithPrintModePropsType> = ({isPrintMode}) => {
 	const { loading, error, data } = useQuery(gql`
 		query AppQuery {
 			user(id: 1) {
@@ -29,13 +30,13 @@ export default function App() {
 			<a className="usa-skipnav" href="#main-content">
 				Skip to main content
 			</a>
-			<Header
+			{!isPrintMode && <Header
 				title="Enrollment &amp; Funding"
 				navItems={navItems}
 				loginPath="/login"
 				logoutPath="/logout"
 				userFirstName={!loading && !error && data.user && data.user.firstName}
-			/>
+			/>}
 			<main id="main-content">
 				<Switch>
 					{routes.map((route, index) => (
@@ -46,3 +47,5 @@ export default function App() {
 		</div>
 	);
 }
+
+export default withPrintMode(App);
