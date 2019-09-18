@@ -18,10 +18,13 @@ namespace Hedwig.Repositories
 			var enrollments = await _context.Enrollments.Where(e => siteIds.Contains(e.SiteId)).ToListAsync();
 			return enrollments.ToLookup(x => x.SiteId);
 		}
+
+		public Task<Enrollment> GetEnrollmentByIdAsync(int id) => _context.Enrollments.SingleOrDefaultAsync(e => e.Id == id);
 	}
 
 	public interface IEnrollmentRepository
 	{
 		Task<ILookup<int, Enrollment>> GetEnrollmentsBySiteIdsAsync(IEnumerable<int> siteIds);
+		Task<Enrollment> GetEnrollmentByIdAsync(int id);
 	}
 }
