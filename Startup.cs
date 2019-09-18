@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using Hedwig.Data;
 using Hedwig.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -29,8 +30,20 @@ namespace Hedwig
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddDbContext<HedwigContext>(options =>
-				options.UseSqlite("Data Source=hedwig.db"));
-
+					options.UseSqlServer(Configuration.GetConnectionString("HEDWIG"))
+			);
+			services.AddCors(options =>
+			{
+				options.AddPolicy("AllowAll",
+					builder =>
+					{
+						builder
+						.AllowAnyHeader()
+						.AllowAnyMethod()
+						.AllowAnyOrigin();
+					}
+				);
+			});
 			services.AddScoped<IChildRepository, ChildRepository>();
 			services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
 			services.AddScoped<IFamilyDeterminationRepository, FamilyDeterminationRepository>();
@@ -63,13 +76,13 @@ namespace Hedwig
 				configuration.RootPath = "ClientApp/build";
 			});
 		}
-
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 		{
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
+				app.UseCors("AllowAll");
 			}
 			else
 			{
@@ -98,7 +111,8 @@ namespace Hedwig
 
 				if (env.IsDevelopment())
 				{
-					spa.UseProxyToSpaDevelopmentServer("http://localhost:3000");
+					string CLIENT_HOST = Environment.GetEnvironmentVariable("CLIENT_HOST") ?? "http://localhost:3000";
+					spa.UseProxyToSpaDevelopmentServer(CLIENT_HOST);
 				}
 			});
 		}

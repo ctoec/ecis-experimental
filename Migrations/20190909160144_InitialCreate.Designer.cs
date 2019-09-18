@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Hedwig.Data;
@@ -14,15 +15,14 @@ namespace Hedwig.Migrations
 	{
 		protected override void BuildTargetModel(ModelBuilder modelBuilder)
 		{
-#pragma warning disable 612, 618
 			modelBuilder
-					.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
+					.HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
+                    .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
 			modelBuilder.Entity("hedwig.Models.Child", b =>
 					{
 						b.Property<Guid>("Id")
 											.ValueGeneratedOnAdd();
-
 						b.Property<bool?>("AmericanIndianOrAlaskaNative");
 
 						b.Property<bool?>("Asian");
@@ -61,12 +61,10 @@ namespace Hedwig.Migrations
 
 						b.ToTable("Child");
 					});
-
 			modelBuilder.Entity("hedwig.Models.Enrollment", b =>
 					{
 						b.Property<int>("Id")
-											.ValueGeneratedOnAdd();
-
+                            				.ValueGeneratedOnAdd();
 						b.Property<Guid>("ChildId");
 
 						b.Property<DateTime>("Entry");
@@ -87,8 +85,7 @@ namespace Hedwig.Migrations
 			modelBuilder.Entity("hedwig.Models.Family", b =>
 					{
 						b.Property<int>("Id")
-											.ValueGeneratedOnAdd();
-
+                            				.ValueGeneratedOnAdd();
 						b.HasKey("Id");
 
 						b.ToTable("Family");
@@ -97,7 +94,7 @@ namespace Hedwig.Migrations
 			modelBuilder.Entity("hedwig.Models.FamilyDetermination", b =>
 					{
 						b.Property<int>("Id")
-											.ValueGeneratedOnAdd();
+                            				.ValueGeneratedOnAdd();
 
 						b.Property<DateTime>("Determined");
 
@@ -117,7 +114,7 @@ namespace Hedwig.Migrations
 			modelBuilder.Entity("hedwig.Models.Funding", b =>
 					{
 						b.Property<int>("Id")
-											.ValueGeneratedOnAdd();
+                            				.ValueGeneratedOnAdd();
 
 						b.Property<int>("EnrollmentId");
 
@@ -137,11 +134,11 @@ namespace Hedwig.Migrations
 			modelBuilder.Entity("hedwig.Models.Site", b =>
 					{
 						b.Property<int>("Id")
-											.ValueGeneratedOnAdd();
+                            				.ValueGeneratedOnAdd();
 
 						b.Property<string>("Name")
-											.IsRequired()
-											.HasMaxLength(100);
+                            				.IsRequired()
+                           					.HasMaxLength(100);
 
 						b.HasKey("Id");
 
@@ -151,7 +148,7 @@ namespace Hedwig.Migrations
 			modelBuilder.Entity("hedwig.Models.SitePermission", b =>
 					{
 						b.Property<int>("Id")
-											.ValueGeneratedOnAdd();
+                            				.ValueGeneratedOnAdd();
 
 						b.Property<int>("SiteId");
 
@@ -169,7 +166,7 @@ namespace Hedwig.Migrations
 			modelBuilder.Entity("hedwig.Models.User", b =>
 					{
 						b.Property<int>("Id")
-											.ValueGeneratedOnAdd();
+                            				.ValueGeneratedOnAdd();
 
 						b.Property<string>("FirstName")
 											.IsRequired()
@@ -238,7 +235,6 @@ namespace Hedwig.Migrations
 											.HasForeignKey("UserId")
 											.OnDelete(DeleteBehavior.Cascade);
 					});
-#pragma warning restore 612, 618
 		}
 	}
 }

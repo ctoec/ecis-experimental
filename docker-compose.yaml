@@ -1,0 +1,46 @@
+version: '3'
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      SA_PASSWORD: TestPassword1
+      ACCEPT_EULA: Y
+  backend:
+    container_name: backend
+    build:
+        context: ./
+        dockerfile: Dockerfile-dev
+    environment:
+      DB_TYPE: SqlServer
+      SQLCONNSTR_HEDWIG: Server=db;Database=master;User=sa;Password=TestPassword1
+      CLIENT_HOST: 'http://client:3000'
+      ASPNETCORE_ENVIRONMENT: Development
+    volumes:
+      - .:/app
+      # Uncomment these two volume statements if you are using a Windows Machine
+      # This probably means you won't be able to debug using VSC
+      # - /app/obj
+      # - /app/bin
+      # Remember to recomment them before committing
+    working_dir: /app
+    ports:
+      - 5001:5001
+      - 5000:5000
+    entrypoint:
+      - sh
+      - /app/entrypoint.sh
+    depends_on:
+      - db
+  client:
+    image: node:12
+    volumes:
+      - ./ClientApp:/home/node/app
+    working_dir: /home/node/app
+    env_file: ./ClientApp/.env
+    ports:
+      - 3000:3000
+    entrypoint:
+      - sh
+      - /home/node/app/entrypoint.sh
+    depends_on:
+      - backend
