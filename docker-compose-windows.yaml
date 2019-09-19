@@ -17,6 +17,10 @@ services:
       ASPNETCORE_ENVIRONMENT: Development
     volumes:
       - .:/app
+      # These two volume statements are necessary if you are using a Windows Machine
+      # This probably means you won't be able to debug using VSC
+      - /app/obj
+      - /app/bin
     working_dir: /app
     ports:
       - 5001:5001
@@ -27,14 +31,19 @@ services:
     depends_on:
       - db
   client:
-    image: node:12
+    build:
+      context: .
+      dockerfile: ./ClientApp/Dockerfile
     volumes:
-      - ./ClientApp:/home/node/app
+      - ./ClientApp:/home/node/mapped-app
+      - ./ClientApp/node_modules:/home/node/app/node_modules
     working_dir: /home/node/app
+    environment:
+      - DOCKER_ON_WINDOWS=true
     ports:
       - 3000:3000
     entrypoint:
       - sh
-      - /home/node/app/entrypoint.sh
+      - /home/node/mapped-app/entrypoint.sh
     depends_on:
       - backend

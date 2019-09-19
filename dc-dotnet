@@ -1,1 +1,5 @@
-docker-compose exec backend dotnet $@
+if [ "$DOCKER_ON_WINDOWS" ]; then
+  docker-compose -f docker-compose-windows.yaml exec backend dotnet $@
+else
+  docker-compose exec backend dotnet $@
+fi

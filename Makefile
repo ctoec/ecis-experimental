@@ -1,6 +1,9 @@
 install:
 	dotnet restore && cd ClientApp && yarn install
 
+dc-start:
+	./dc up -d --build
+
 db-migrate:
 	dotnet ef database update
 
@@ -21,7 +24,7 @@ test-client:
 	cd ClientApp && yarn test
 
 dc-test-client:
-	./dc-yarn test
+	./dc-client yarn test
 
 test-backend:
 	dotnet watch test
@@ -42,16 +45,16 @@ storybook:
 	cd ClientApp && yarn storybook
 
 dc-storybook:
-	./dc-yarn storybook
+	./dc-client yarn storybook
 
 apollo-generate:
 	cd ClientApp && yarn apollo-generate
 
 dc-apollo-generate:
-	./dc-yarn apollo-generate
+	./dc-client yarn apollo-generate
 
 prettier:
 	./ClientApp/node_modules/.bin/prettier --single-quote --write "ClientApp/src/**/*.{js,jsx,ts,tsx,json,css,scss}"
 
 dc-prettier:
-	docker-compose exec client ./node_modules/.bin/prettier --single-quote --write "/app/src/**/*.{js,jsx,ts,tsx,json,css,scss}
+	./dc-client ./node_modules/.bin/prettier --single-quote --write "/app/src/**/*.{js,jsx,ts,tsx,json,css,scss}
