@@ -1,10 +1,6 @@
 #
-# dependency manager - yarn
-#   notes:
-#     - package.json must include "test": "CI=true react-scripts test --env=jsdom",
-#        or yarn test will hang
+#  This is the driver file for Azure DevOps 2019 build pipeline
 #
-
 trigger:
   - master
 
@@ -12,19 +8,23 @@ pool:
   vmImage: "ubuntu-latest"
 
 steps:
+  #
+  # Setup sonarcloud authentication
+  # 
   - task: SonarCloudPrepare@1
     inputs:
       SonarCloud: "SonarCloudConnection"
       organization: "speedcm"
       scannerMode: "MSBuild"
       projectKey: "xExperiments"
-
+  #
+  # Download dependencies
+  # 
   - script: dotnet restore
     displayName: "Script: dotnet restore"
-
-  - script: dotnet ef database update
-    displayName: "Script: dotnet ef database update"
-
+  #
+  # Embed build id in help file
+  # 
   - task: replacetokens@3
     displayName: "Replace Tokens: Help.tsx"
     inputs:
@@ -35,30 +35,31 @@ steps:
       keepToken: false
       tokenPrefix: "__"
       tokenSuffix: "__"
-
+  #
+  # Create an optimized production build
+  # 
   - script: dotnet publish "./hedwig.csproj" --output "./dist" --configuration Release --no-restore
     displayName: "Script: dotnet publish"
-
+  #
+  # Perform unit test
+  #
   - script: cd ClientApp && yarn test --ci
     displayName: "Script: yarn test"
-
+  #
+  # Perform & publish static code analysis to sonarcloud
+  #
   - task: SonarCloudAnalyze@1
   - task: SonarCloudPublish@1
     inputs:
       pollingTimeoutSec: "300"
-
-  - script: cp ./hedwig.db ./dist/hedwig.db
-    displayName: "Script: package sqlite db"
-
   #
-  # ISSUE: provider Microsoft.EntityFrameworkCore.Sqlite does not support --idempotent
+  # Generate idempotent db migration script for mssql
   #
-  #- script: dotnet ef migrations script --output $(Build.ArtifactStagingDirectory)/react-spa-db.sql --context HedwigContext  --idempotent
-  #  displayName: 'Script: dotnet ef migrations script'
-
-  - script: dotnet ef migrations script --output $(Build.ArtifactStagingDirectory)/react-spa-db.sql --context HedwigContext
+  - script: export ConnectionStrings__HEDWIG=xxx && dotnet ef migrations script --idempotent --output $(Build.ArtifactStagingDirectory)/hedwig-db.sql --context HedwigContext
     displayName: "Script: dotnet ef migrations script"
-
+  #
+  # Zip app runtime release
+  #
   - task: ArchiveFiles@2
     displayName: "Archive Files"
     inputs:
@@ -66,17 +67,29 @@ steps:
       includeRootFolder: false
       archiveType: "zip"
       #tarCompression: 'gz' # Optional. Options: gz, bz2, xz, none
-      archiveFile: "$(Build.ArtifactStagingDirectory)/react-spa.zip"
+      archiveFile: "$(Build.ArtifactStagingDirectory)/hedwig-spa.zip"
       replaceExistingArchive: true
-
+  #
+  # Publish artifact to dropbox - hedwig-spa
+  #
   - task: PublishBuildArtifacts@1
-    displayName: "Publish Artifacts: react-spa"
+    displayName: "Publish Artifacts: hedwig-spa"
     inputs:
-      pathToPublish: "$(Build.ArtifactStagingDirectory)/react-spa.zip"
-      artifactName: react-spa
-
+      pathToPublish: "$(Build.ArtifactStagingDirectory)/hedwig-spa.zip"
+      artifactName: hedwig-spa
+  #
+  # Publish artifact to dropbox - hedwig-db
+  #
   - task: PublishBuildArtifacts@1
-    displayName: "Publish Artifacts: react-spa-db"
+    displayName: "Publish Artifacts: hedwig-db"
     inputs:
-      pathToPublish: "$(Build.ArtifactStagingDirectory)/react-spa-db.sql"
-      artifactName: react-spa-db
+      pathToPublish: "$(Build.ArtifactStagingDirectory)/hedwig-db.sql"
+      artifactName: hedwig-db
+
+#
+# Issues
+#
+#   a. dependency manager - yarn
+#     - package.json must include "test": "CI=true react-scripts test --env=jsdom",
+#        or yarn test will hang during CI build
+#
