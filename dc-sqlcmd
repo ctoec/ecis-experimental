@@ -1,1 +1,5 @@
-docker-compose exec db /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P TestPassword1 $@
+if [ "$DOCKER_ON_WINDOWS" ]; then
+  docker-compose -f docker-compose-windows.yaml exec db /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P TestPassword1 $@
+else
+  docker-compose exec db /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P TestPassword1 $@
+fi
