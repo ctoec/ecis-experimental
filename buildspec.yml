@@ -1,0 +1,56 @@
+#
+# This is the driver file for AWS CodeBuild 
+#
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 10
+  pre_build:
+    commands:
+      - echo Build started on `date`
+      - printenv
+  build:
+    commands:
+      #
+      # Download dependencies
+      # 
+      - dotnet restore
+      #
+      # Create an optimized production build
+      # 
+      - dotnet publish "./hedwig.csproj" --output "./dist" --configuration Release --no-restore
+      #
+      # Perform unit test
+      #
+      - cd ClientApp && yarn test --ci && cd ..
+      #
+      # Prepare site directory for Beanstalk packaging (do not create final wrapper zip)
+      # 
+      - mkdir ./site
+      - cd dist && zip -r ../site/site.zip . && cd ..
+      - cp ./aws-windows-deployment-manifest.json ./site/aws-windows-deployment-manifest.json
+      #
+      # Generate idempotent db migration script
+      #
+      - export ConnectionStrings__HEDWIG=null && dotnet ef migrations script --output ./site/hedwig-db.sql --context HedwigContext --idempotent
+      #
+  post_build:
+    commands:
+      - echo Build completed on `date`
+artifacts:
+  name: hedwig_spa 
+  base-directory: './site'
+  files:
+    - '**/*'
+#
+# Issues:
+#
+#   a. Dependency Manager - yarn
+#     - package.json must include "test": "CI=true react-scripts test --env=jsdom", or yarn test will hang during CI build
+#
+#   b. CodePipeLine overrides the CodeBuild packaging. Do not create a wrapper zip file. 
+#     - see https://stackoverflow.com/questions/53291534/how-to-deploy-a-dotnet-core-app-using-aws-codepipeline-to-elasticbeanstalk
+#
+
