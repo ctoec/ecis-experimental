@@ -16,7 +16,7 @@ steps:
       SonarCloud: "SonarCloudConnection"
       organization: "speedcm"
       scannerMode: "MSBuild"
-      projectKey: "xExperiments"
+      projectKey: "xhedwig"
   #
   # Download dependencies
   # 
