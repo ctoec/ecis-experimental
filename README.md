@@ -28,6 +28,9 @@ There is no step 3.
 
 ## Setup - Docker (compose)
 Right now, the docker-compose project allows for rapid development of the client and server side applications with sql-server backend. Will not at present work with VSCode for debugging -- that's to come (probably)!
+
+__NOTE:__ If you are developing on a Windows machine, you need to set the `DOCKER_ON_WINDOWS` environment variable. The rest of the commands will be the same if followed directly from the README. If you use `docker-compose` directly, you will need to specify the windows compose file. That is, you must use `docker-compose -f docker-compose-windows.yaml`.
+
 ### Step 1
 
 Install [Docker](https://docs.docker.com/install/) (and maybe docker-compose, but it comes included with Docker Desktop for Mac and Windows)
@@ -36,7 +39,7 @@ Install [Docker](https://docs.docker.com/install/) (and maybe docker-compose, bu
 
 Bring up the project
 ```sh
-$ docker-compose up -d
+$ make dc-start
 Creating network "ctoec-app-experiments_default" with the default driver
 Creating ctoec-app-experiments_db_1 ... done
 Creating ctoec-app-experiments_server_1 ... done
@@ -59,7 +62,7 @@ $ ./dc-dotnet [YOUR COMMANDS HERE]
 ```
 #### execute yarn commands in client container
 ```sh
-$ ./dc-yarn [YOUR COMMANDS HERE]
+$ ./dc-client yarn [YOUR COMMANDS HERE]
 ```
 #### execute [sqlcmd](https://docs.microsoft.com/en-us/sql/tools/sqlcmd-utility?view=sql-server-2017) commands in db container (connection params are included by default)
 ```sh
