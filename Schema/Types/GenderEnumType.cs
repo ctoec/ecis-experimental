@@ -1,10 +1,13 @@
 using Hedwig.Models;
 using GraphQL.Types;
 
-public class GenderEnumType : EnumerationGraphType<Gender>
+namespace Hedwig.Schema.Types
 {
-	public GenderEnumType()
+	public class GenderEnumType : EnumerationGraphType<Gender>
 	{
-		Name = "Gender";
+		public GenderEnumType()
+		{
+			Name = "Gender";
+		}
 	}
 }

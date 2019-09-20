@@ -1,7 +1,7 @@
 using Hedwig.Models;
 using GraphQL.Types;
 
-namespace Hedwig.Schema
+namespace Hedwig.Schema.Types
 {
 	public class FamilyDeterminationType : ObjectGraphType<FamilyDetermination>
 	{

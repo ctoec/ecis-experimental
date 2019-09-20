@@ -1,10 +1,13 @@
 using Hedwig.Models;
 using GraphQL.Types;
 
-public class FundingSourceEnumType : EnumerationGraphType<FundingSource>
+namespace Hedwig.Schema.Types
 {
-	public FundingSourceEnumType()
+	public class FundingSourceEnumType : EnumerationGraphType<FundingSource>
 	{
-		Name = "FundingSource";
+		public FundingSourceEnumType()
+		{
+			Name = "FundingSource";
+		}
 	}
 }
