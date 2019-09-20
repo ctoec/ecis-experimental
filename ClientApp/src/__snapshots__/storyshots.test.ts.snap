@@ -701,3 +701,19 @@ exports[`Storyshots Table Normal 1`] = `
   </table>
 </div>
 `;
+
+exports[`Storyshots Tag Default 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <span
+    className="usa-tag"
+  >
+    I AM A TAG
+  </span>
+</div>
+`;
