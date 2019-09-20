@@ -3,7 +3,7 @@ using Hedwig.Repositories;
 using GraphQL.DataLoader;
 using GraphQL.Types;
 
-namespace Hedwig.Schema
+namespace Hedwig.Schema.Types
 {
 	public class FamilyType : ObjectGraphType<Family>
 	{

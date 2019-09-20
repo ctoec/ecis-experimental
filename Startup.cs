@@ -10,6 +10,8 @@ using GraphQL;
 using GraphQL.Server;
 using GraphQL.Server.Ui.Playground;
 using Hedwig.Schema;
+using Hedwig.Schema.Types;
+using Hedwig.Schema.Queries;
 
 namespace Hedwig
 {

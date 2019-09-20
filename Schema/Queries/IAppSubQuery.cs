@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using GraphQL.Types;
 
-namespace Hedwig.Schema
+namespace Hedwig.Schema.Queries
 {
 	public interface IAppSubQuery
 	{

@@ -1,3 +1,4 @@
+using Hedwig.Schema.Queries;
 using GraphQL.Types;
 using System.Collections.Generic;
 
