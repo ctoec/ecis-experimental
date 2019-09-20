@@ -1,15 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using Hedwig.Data;
 using Hedwig.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using GraphQL;
 using GraphQL.Server;
 using GraphQL.Server.Ui.Playground;
@@ -60,15 +56,15 @@ namespace Hedwig
 			services.AddScoped<SiteType>();
 			services.AddScoped<UserType>();
 
+			services.AddScoped<IAppSubQuery, EnrollmentQuery>();
+			services.AddScoped<IAppSubQuery, UserQuery>();
+
 			services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
 			services.AddScoped<AppSchema>();
 
 			services.AddGraphQL(o => { o.ExposeExceptions = false; })
 				.AddGraphTypes(ServiceLifetime.Scoped)
 				.AddDataLoader();
-
-			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-				.AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
 			// In production, the React files will be served from this directory
 			services.AddSpaStaticFiles(configuration =>
@@ -97,13 +93,6 @@ namespace Hedwig
 
 			app.UseGraphQL<AppSchema>();
 			app.UseGraphQLPlayground(options: new GraphQLPlaygroundOptions());
-
-			app.UseMvc(routes =>
-			{
-				routes.MapRoute(
-					name: "default",
-					template: "{controller}/{action=Index}/{id?}");
-			});
 
 			app.UseSpa(spa =>
 			{

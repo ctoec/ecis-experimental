@@ -1,23 +1,20 @@
-using Hedwig.Repositories;
 using GraphQL.Types;
+using System.Collections.Generic;
 
 namespace Hedwig.Schema
 {
-	public class AppQuery : ObjectGraphType
+	public class AppQuery : ObjectGraphType<object>
 	{
-		public AppQuery(IUserRepository repository)
+		public AppQuery(IEnumerable<IAppSubQuery> appSubQueries)
 		{
-			Field<UserType>(
-				"user",
-				arguments: new QueryArguments(
-					new QueryArgument<IdGraphType> { Name = "id" }
-				),
-				resolve: context =>
+			foreach(var subquery in appSubQueries)
+			{
+				foreach(var field in subquery.Fields)
 				{
-					var id = context.GetArgument<int>("id");
-					return repository.GetUserByIdAsync(id);
+					AddField(field);
 				}
-			);
+			}
 		}
 	}
+
 }
