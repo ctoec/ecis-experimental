@@ -17,28 +17,29 @@ services:
       ASPNETCORE_ENVIRONMENT: Development
       DOTNET_USE_POLLING_FILE_WATCHER: 1
     volumes:
-      - ./src/Hedwig:/app
-      - ./entrypoint-backend.sh:/app/entrypoint.sh
-    working_dir: /app
+      - ./src/Hedwig:/app/src/Hedwig
+      - ./test/HedwigTests:/app/test/HedwigTests
+      - ./entrypoint-backend.sh:/entrypoint.sh
+    working_dir: /app/src/Hedwig
     ports:
       - 5001:5001
       - 5000:5000
     entrypoint:
       - sh
-      - /app/entrypoint.sh
+      - /entrypoint.sh
     depends_on:
       - db
   client:
     image: node:12
     volumes:
       - ./src/Hedwig/ClientApp:/home/node/app
-      - ./entrypoint-client.sh:/home/node/app/entrypoint.sh
+      - ./entrypoint-client.sh:/entrypoint.sh
     working_dir: /home/node/app
     ports:
       - 3000:3000
       - 9009:9009
     entrypoint:
       - sh
-      - /home/node/app/entrypoint.sh
+      - /entrypoint.sh
     depends_on:
       - backend
