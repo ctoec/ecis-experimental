@@ -8,8 +8,8 @@ services:
   backend:
     container_name: backend
     build:
-        context: ./
-        dockerfile: Dockerfile-dev
+        context: .
+        dockerfile: Dockerfile-backend
     environment:
       DB_TYPE: SqlServer
       SQLCONNSTR_HEDWIG: Server=db;Database=master;User=sa;Password=TestPassword1
@@ -17,7 +17,8 @@ services:
       ASPNETCORE_ENVIRONMENT: Development
       DOTNET_USE_POLLING_FILE_WATCHER: 1
     volumes:
-      - .:/app
+      - ./src/Hedwig:/app
+      - ./entrypoint-backend.sh:/app/entrypoint.sh
     working_dir: /app
     ports:
       - 5001:5001
@@ -30,7 +31,8 @@ services:
   client:
     image: node:12
     volumes:
-      - ./ClientApp:/home/node/app
+      - ./src/Hedwig/ClientApp:/home/node/app
+      - ./entrypoint-client.sh:/home/node/app/entrypoint.sh
     working_dir: /home/node/app
     ports:
       - 3000:3000
