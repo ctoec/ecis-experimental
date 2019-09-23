@@ -16,15 +16,15 @@ phases:
       #
       # Download dependencies
       # 
-      - dotnet restore
+      - cd src/Hedwig && dotnet restore
       #
       # Create an optimized production build
       # 
-      - dotnet publish "./hedwig.csproj" --output "./dist" --configuration Release --no-restore
+      - dotnet publish "./src/Hedwig/hedwig.csproj" --output "./dist" --configuration Release --no-restore
       #
       # Perform unit test
       #
-      - cd ClientApp && yarn test --ci && cd ..
+      - cd ./src/Hedwig/ClientApp && yarn test --ci && cd ../../..
       #
       # Prepare site directory for Beanstalk packaging (do not create final wrapper zip)
       # 
