@@ -2,6 +2,7 @@ using System;
 using System.Net.Http;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.AspNetCore.Hosting;
+using Hedwig;
 
 namespace HedwigTests
 {
