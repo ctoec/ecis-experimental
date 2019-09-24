@@ -16,7 +16,7 @@ phases:
       #
       # Download dependencies
       # 
-      - cd src/Hedwig && dotnet restore
+      - cd src/Hedwig && dotnet restore && cd ../..
       #
       # Create an optimized production build
       # 
