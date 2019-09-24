@@ -8,35 +8,40 @@ services:
   backend:
     container_name: backend
     build:
-        context: ./
-        dockerfile: Dockerfile-dev
+        context: .
+        dockerfile: Dockerfile-backend
     environment:
       DB_TYPE: SqlServer
       SQLCONNSTR_HEDWIG: Server=db;Database=master;User=sa;Password=TestPassword1
       CLIENT_HOST: 'http://client:3000'
       ASPNETCORE_ENVIRONMENT: Development
     volumes:
-      - .:/app
+      - ./src/Hedwig:/app/src/Hedwig
+      - ./test/HedwigTests:/app/src/HedwigTests
       # These two volume statements are necessary if you are using a Windows Machine
       # This probably means you won't be able to debug using VSC
-      - /app/obj
-      - /app/bin
-    working_dir: /app
+      - /app/src/Hedwig/obj
+      - /app/src/Hedwig/bin
+      - /app/test/HedwigTests/obj
+      - /app/test/HedwigTests/bin
+      - ./entrypoint-backend.sh:/entrypoint.sh
+    working_dir: /app/src/Hedwig
     ports:
       - 5001:5001
       - 5000:5000
     entrypoint:
       - sh
-      - /app/entrypoint.sh
+      - /entrypoint.sh
     depends_on:
       - db
   client:
     build:
       context: .
-      dockerfile: ./ClientApp/Dockerfile-dev
+      dockerfile: Dockerfile-client
     volumes:
-      - ./ClientApp:/home/node/mapped-app
-      - ./ClientApp/node_modules:/home/node/app/node_modules
+      - ./src/Hedwig/ClientApp:/home/node/mapped-app
+      - ./src/Hedwig/ClientApp/node_modules:/home/node/app/node_modules
+      - ./entrypoint-client.sh:/entrypoint.sh
     working_dir: /home/node/app
     environment:
       - DOCKER_ON_WINDOWS=true
@@ -44,6 +49,6 @@ services:
       - 3000:3000
     entrypoint:
       - sh
-      - /home/node/mapped-app/entrypoint.sh
+      - /entrypoint.sh
     depends_on:
       - backend

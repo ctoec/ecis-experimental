@@ -185,11 +185,11 @@ ClientBin/
 orleans.codegen.cs
 
 # Client
-/ClientApp/node_modules
-/ClientApp/.pnp
+node_modules
+.pnp
 .pnp.js
-/ClientApp/coverage
-/ClientApp/build
+coverage
+build
 .env.local
 .env.development.local
 .env.test.local

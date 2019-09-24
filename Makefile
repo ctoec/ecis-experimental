@@ -30,7 +30,7 @@ test-backend:
 	dotnet watch test
 
 dc-test-backend:
-	./dc-backend dotnet watch test
+	./dc-backend dotnet watch test /app/test/HedwigTests
 
 watch-client:
 	cd ClientApp && yarn start
