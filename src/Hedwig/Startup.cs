@@ -4,108 +4,70 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using Hedwig.Data;
-using Hedwig.Repositories;
 using Microsoft.EntityFrameworkCore;
-using GraphQL;
 using GraphQL.Server;
 using GraphQL.Server.Ui.Playground;
 using Hedwig.Schema;
-using Hedwig.Schema.Types;
-using Hedwig.Schema.Queries;
 
 namespace Hedwig
 {
-	public class Startup
-	{
-		public Startup(IConfiguration configuration)
-		{
-			Configuration = configuration;
-		}
+    public class Startup
+    {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
 
-		public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; }
 
-		// This method gets called by the runtime. Use this method to add services to the container.
-		public void ConfigureServices(IServiceCollection services)
-		{
-			services.AddDbContext<HedwigContext>(options =>
-					options.UseSqlServer(Configuration.GetConnectionString("HEDWIG"))
-			);
-			services.AddCors(options =>
-			{
-				options.AddPolicy("AllowAll",
-					builder =>
-					{
-						builder
-						.AllowAnyHeader()
-						.AllowAnyMethod()
-						.AllowAnyOrigin();
-					}
-				);
-			});
-			services.AddScoped<IChildRepository, ChildRepository>();
-			services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
-			services.AddScoped<IFamilyDeterminationRepository, FamilyDeterminationRepository>();
-			services.AddScoped<IFamilyRepository, FamilyRepository>();
-			services.AddScoped<IFundingRepository, FundingRepository>();
-			services.AddScoped<ISiteRepository, SiteRepository>();
-			services.AddScoped<IUserRepository, UserRepository>();
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public virtual void ConfigureServices(IServiceCollection services)
+        {
+            SetupDbServices(services);
+            services.ConfigureCors();
+            services.ConfigureSpa();
+            services.ConfigureRepositories();
+            services.ConfigureGraphQL();
+        }
+        protected virtual void SetupDbServices(IServiceCollection services)
+        {
+            services.AddDbContext<HedwigContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("HEDWIG"))
+            );
+        }
 
-			services.AddScoped<ChildType>();
-			services.AddScoped<EnrollmentType>();
-			services.AddScoped<FamilyDeterminationType>();
-			services.AddScoped<FamilyType>();
-			services.AddScoped<FundingType>();
-			services.AddScoped<SiteType>();
-			services.AddScoped<UserType>();
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseCors("AllowAll");
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+            }
 
-			services.AddScoped<IAppSubQuery, EnrollmentQuery>();
-			services.AddScoped<IAppSubQuery, UserQuery>();
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+            app.UseSpaStaticFiles();
 
-			services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
-			services.AddScoped<AppSchema>();
+            app.UseGraphQL<AppSchema>();
+            app.UseGraphQLPlayground(options: new GraphQLPlaygroundOptions());
 
-			services.AddGraphQL(o => { o.ExposeExceptions = false; })
-				.AddGraphTypes(ServiceLifetime.Scoped)
-				.AddDataLoader();
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "ClientApp";
 
-			// In production, the React files will be served from this directory
-			services.AddSpaStaticFiles(configuration =>
-			{
-				configuration.RootPath = "ClientApp/build";
-			});
-		}
-		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-		{
-			if (env.IsDevelopment())
-			{
-				app.UseDeveloperExceptionPage();
-				app.UseCors("AllowAll");
-			}
-			else
-			{
-				app.UseExceptionHandler("/Error");
-				// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-				app.UseHsts();
-			}
-
-			app.UseHttpsRedirection();
-			app.UseStaticFiles();
-			app.UseSpaStaticFiles();
-
-			app.UseGraphQL<AppSchema>();
-			app.UseGraphQLPlayground(options: new GraphQLPlaygroundOptions());
-
-			app.UseSpa(spa =>
-			{
-				spa.Options.SourcePath = "ClientApp";
-
-				if (env.IsDevelopment())
-				{
-					string CLIENT_HOST = Environment.GetEnvironmentVariable("CLIENT_HOST") ?? "http://localhost:3000";
-					spa.UseProxyToSpaDevelopmentServer(CLIENT_HOST);
-				}
-			});
-		}
-	}
+                if (env.IsDevelopment())
+                {
+                    string CLIENT_HOST = Environment.GetEnvironmentVariable("CLIENT_HOST") ?? "http://localhost:3000";
+                    spa.UseProxyToSpaDevelopmentServer(CLIENT_HOST);
+                }
+            });
+        }
+    }
 }
