@@ -20,7 +20,7 @@ phases:
       #
       # Create an optimized production build
       # 
-      - dotnet publish "./src/Hedwig/hedwig.csproj" --output "./dist" --configuration Release --no-restore
+      - dotnet publish "./src/Hedwig/hedwig.csproj" --output "../../dist" --configuration Release --no-restore
       #
       # Perform unit test
       #
