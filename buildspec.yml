@@ -34,7 +34,7 @@ phases:
       #
       # Generate idempotent db migration script
       #
-      - export ConnectionStrings__HEDWIG=null && dotnet ef migrations script --output ./site/hedwig-db.sql --context HedwigContext --idempotent
+      - cd src/Hedwig && export ConnectionStrings__HEDWIG=null && dotnet ef migrations script --output ../../site/hedwig-db.sql --context HedwigContext --idempotent
       #
   post_build:
     commands:
