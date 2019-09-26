@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Hedwig.Models
 {
@@ -8,6 +9,7 @@ namespace Hedwig.Models
 
 		public int NumberOfPeople { get; set; }
 
+		[Column(TypeName = "decimal(14,2)")]
 		public decimal Income { get; set; }
 
 		public DateTime Determined { get; set; }

@@ -15,6 +15,7 @@ services:
       SQLCONNSTR_HEDWIG: Server=db;Database=master;User=sa;Password=TestPassword1
       CLIENT_HOST: 'http://client:3000'
       ASPNETCORE_ENVIRONMENT: Development
+      DOTNET_USE_POLLING_FILE_WATCHER: 1
     volumes:
       - ./src/Hedwig:/app/src/Hedwig
       - ./test/HedwigTests:/app/src/HedwigTests
