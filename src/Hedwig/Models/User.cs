@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Hedwig.Models
 {
@@ -22,5 +23,8 @@ namespace Hedwig.Models
 		public string Suffix { get; set; }
 
 		public ICollection<SitePermission> SitePermissions { get; set; }
+
+		[NotMapped]
+		public ICollection<Site> Sites { get; set; }
 	}
 }

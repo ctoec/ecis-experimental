@@ -33,5 +33,19 @@ namespace HedwigTests.Helpers
 			context.SaveChanges();
 			return enrollment;
 		}
+
+		public static Enrollment CreateEnrollmentWithChildId(HedwigContext context, Guid childId)
+		{
+			var site = SiteHelper.CreateSite(context);
+			var enrollment = new Enrollment {
+				ChildId = childId,
+				SiteId = site.Id,
+				Entry = DateTime.Parse(ENTRY_STR)
+			};
+
+			context.Enrollments.Add(enrollment);
+			context.SaveChanges();
+			return enrollment;
+		}
 	}
 }

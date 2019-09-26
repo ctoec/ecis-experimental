@@ -62,8 +62,21 @@ steps:
   #
   # Perform backend tests
   #
-  - script: dotnet test test/HedwigTests
-    displayName: "Script: dotnet test"
+  - task: DockerCompose@0
+    displayName: "Docker compose run tests"
+    inputs:
+      dockerComposeFile: "docker-compose.test.yaml"
+      dockerComposeCommand: "up --abort-on-container-exit"
+
+  #
+  # Publish backend test results
+  #
+  - task: PublishTestResults@2
+    displayName: "Publish test results"
+    inputs:
+      testResultsFormat: "VSTest"
+      testResultsFiles: "**/*.trx"
+      failTaskOnFailedTests: true
 
   #
   # Perform client unit tests
@@ -80,7 +93,7 @@ steps:
   #
   # Generate idempotent db migration script for mssql
   #
-  - script: export ConnectionStrings__HEDWIG=xxx && dotnet ef migrations script --idempotent --output $(Build.ArtifactStagingDirectory)/hedwig-db.sql --context HedwigContext --project src/Hedwig
+  - script: export ConnectionStrings__HEDWIG=xxx && dotnet ef --verbose migrations script --idempotent --output $(Build.ArtifactStagingDirectory)/hedwig-db.sql --context HedwigContext --project src/Hedwig
     displayName: "Script: dotnet ef migrations script"
   #
   # Zip app runtime release

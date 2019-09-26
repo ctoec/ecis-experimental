@@ -6,7 +6,7 @@ using GraphQL.Types;
 
 namespace Hedwig.Schema.Types
 {
-	public class EnrollmentType : ObjectGraphType<Enrollment>
+	public class EnrollmentType : TemporalGraphType<Enrollment>
 	{
 		public EnrollmentType(IDataLoaderContextAccessor dataLoader, IChildRepository children, IFundingRepository fundings)
 		{
@@ -17,9 +17,11 @@ namespace Hedwig.Schema.Types
 				"child",
 				resolve: context =>
 				{
+					DateTime? asOf = GetAsOfGlobal(context);
+					String loaderCacheKey = $"GetChildByIdsAsync{asOf.ToString()}";
 					var loader = dataLoader.Context.GetOrAddBatchLoader<Guid, Child>(
-						"GetChildrenByIdsAsync",
-						children.GetChildrenByIdsAsync);
+						loaderCacheKey,
+						(ids) => children.GetChildrenByIdsAsync(ids, asOf));
 
 					return loader.LoadAsync(context.Source.ChildId);
 				}
@@ -28,9 +30,11 @@ namespace Hedwig.Schema.Types
 				"fundings",
 				resolve: context =>
 				{
+					DateTime? asOf = GetAsOfGlobal(context);
+					String loaderCacheKey = $"GetFundingsByEnrollmentIdsAsync{asOf.ToString()}";
 					var loader = dataLoader.Context.GetOrAddCollectionBatchLoader<int, Funding>(
-						"GetFundingsByEnrollmentIdsAsync",
-						fundings.GetFundingsByEnrollmentIdsAsync);
+						loaderCacheKey,
+						(ids) => fundings.GetFundingsByEnrollmentIdsAsync(ids, asOf));
 
 					return loader.LoadAsync(context.Source.Id);
 				}

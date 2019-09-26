@@ -8,6 +8,7 @@ namespace Hedwig.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateHistorySchema();
             migrationBuilder.CreateTable(
                 name: "Family",
                 columns: table => new
@@ -19,6 +20,7 @@ namespace Hedwig.Migrations
                 {
                     table.PrimaryKey("PK_Family", x => x.Id);
                 });
+            migrationBuilder.AddTemporalTableSupport(name: "Family");
 
             migrationBuilder.CreateTable(
                 name: "Site",
@@ -78,6 +80,7 @@ namespace Hedwig.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+            migrationBuilder.AddTemporalTableSupport(name: "Child");
 
             migrationBuilder.CreateTable(
                 name: "FamilyDetermination",
@@ -100,6 +103,7 @@ namespace Hedwig.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+            migrationBuilder.AddTemporalTableSupport(name: "FamilyDetermination");
 
             migrationBuilder.CreateTable(
                 name: "SitePermission",
@@ -154,6 +158,7 @@ namespace Hedwig.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+            migrationBuilder.AddTemporalTableSupport(name: "Enrollment");
 
             migrationBuilder.CreateTable(
                 name: "Funding",
@@ -176,6 +181,7 @@ namespace Hedwig.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+            migrationBuilder.AddTemporalTableSupport(name: "Funding");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Child_FamilyId",
@@ -215,28 +221,28 @@ namespace Hedwig.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
+            migrationBuilder.DropTemporalTable(
                 name: "FamilyDetermination");
 
-            migrationBuilder.DropTable(
+            migrationBuilder.DropTemporalTable(
                 name: "Funding");
 
             migrationBuilder.DropTable(
                 name: "SitePermission");
 
-            migrationBuilder.DropTable(
+            migrationBuilder.DropTemporalTable(
                 name: "Enrollment");
 
             migrationBuilder.DropTable(
                 name: "User");
 
-            migrationBuilder.DropTable(
+            migrationBuilder.DropTemporalTable(
                 name: "Child");
 
             migrationBuilder.DropTable(
                 name: "Site");
 
-            migrationBuilder.DropTable(
+            migrationBuilder.DropTemporalTable(
                 name: "Family");
         }
     }

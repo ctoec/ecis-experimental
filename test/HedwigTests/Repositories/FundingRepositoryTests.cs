@@ -6,6 +6,7 @@ using HedwigTests.Helpers;
 
 namespace HedwigTests.Repositories
 {
+    [Collection("SqlServer")]
     public class FundingRepositoryTests
     {
         [Fact]

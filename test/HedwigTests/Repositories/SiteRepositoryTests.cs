@@ -6,13 +6,14 @@ using HedwigTests.Helpers;
 
 namespace HedwigTests.Repositories
 {
+    [Collection("SqlServer")]
     public class SiteRepositoryTests
     {
         [Fact]
         public async Task Get_Sites_By_User_Id()
         {
             using (var context = new TestContextProvider().Context) {
-                // If site permissions exist with user Ids
+                // If site permissions exist with user Ids, and implicitly created site Ids
                 var user1 = UserHelper.CreateUser(context);
                 var sitePermissionUser1 = SitePermissionHelper.CreateSitePermissionWithUserId(context, user1.Id);
                 var user2 = UserHelper.CreateUser(context);
@@ -25,8 +26,8 @@ namespace HedwigTests.Repositories
 
                 // Then a list of sites for which that user has permission is returned
                 var siteIds = (from s in res
-                                select s.Id).OrderBy(id => id);
-                Assert.Equal(new int[]{ sitePermission1User2.Id, sitePermission2User2.Id }, siteIds);
+                                select s.Id).OrderBy(id => id).ToArray();
+                Assert.Equal(new int[]{ sitePermission1User2.SiteId, sitePermission2User2.SiteId }, siteIds);
             }
         }
     }
