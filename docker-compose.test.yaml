@@ -1,0 +1,20 @@
+version: '3'
+services:
+  test_db:
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      SA_PASSWORD: TestPassword1
+      ACCEPT_EULA: Y
+  test_backend:
+    image: mcr.microsoft.com/dotnet/core/sdk:2.2
+    environment:
+      SQLCONNSTR_HEDWIG: Server=test_db;Database=master;User=sa;Password=TestPassword1
+    volumes:
+      - ./src/Hedwig:/app/src/Hedwig
+      - ./test/HedwigTests:/app/test/HedwigTests
+    working_dir: /app/test/HedwigTests
+    entrypoint:
+      - dotnet
+      - test
+    depends_on:
+      - test_db

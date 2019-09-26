@@ -20,10 +20,14 @@ namespace Hedwig.Repositories
 			var dict = await _context.Children.Where(c => ids.Contains(c.Id)).ToDictionaryAsync(x => x.Id);
 			return dict as IDictionary<Guid, Child>;
 		}
+
+		public Task<Child> GetChildByIdAsOfAsync(Guid id, DateTime asOf) => _context.Children.ByIdAsOf(id, asOf);
+
 	}
 
 	public interface IChildRepository
 	{
 		Task<IDictionary<Guid, Child>> GetChildrenByIdsAsync(IEnumerable<Guid> ids);
+		Task<Child> GetChildByIdAsOfAsync(Guid id, DateTime asOf);
 	}
 }

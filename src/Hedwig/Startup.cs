@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using Hedwig.Data;
-using Microsoft.EntityFrameworkCore;
 using GraphQL.Server;
 using GraphQL.Server.Ui.Playground;
 using Hedwig.Schema;
@@ -21,23 +19,17 @@ namespace Hedwig
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public virtual void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
-            SetupDbServices(services);
+            services.ConfigureSqlServer(Configuration.GetConnectionString("HEDWIG"));
             services.ConfigureCors();
             services.ConfigureSpa();
             services.ConfigureRepositories();
             services.ConfigureGraphQL();
         }
-        protected virtual void SetupDbServices(IServiceCollection services)
-        {
-            services.AddDbContext<HedwigContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("HEDWIG"))
-            );
-        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {

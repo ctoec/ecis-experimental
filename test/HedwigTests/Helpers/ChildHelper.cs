@@ -24,14 +24,13 @@ namespace HedwigTests.Helpers
 
 			context.Children.Add(child);
 			context.SaveChanges();
-			return child;	
+			return child;
 		}
-
 		public static List<Child> CreateChildren(HedwigContext context, int numberOfChildren)
 		{
 			var children = Enumerable.Range(1, numberOfChildren)
 				.Select(i => CreateChild(context))
-				.ToList();		
+				.ToList();
 
 			return children;
 		}

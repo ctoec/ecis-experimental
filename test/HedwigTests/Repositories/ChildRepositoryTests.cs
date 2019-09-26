@@ -1,4 +1,6 @@
+using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 using Hedwig.Repositories;
@@ -6,6 +8,7 @@ using HedwigTests.Helpers;
 
 namespace HedwigTests.Repositories
 {
+	[Collection("SqlServer")]
 	public class ChildRepositoryTests
 	{
 		[Fact]
@@ -26,5 +29,22 @@ namespace HedwigTests.Repositories
 				Assert.Equal(ids.OrderBy(id => id), res.Keys.OrderBy(id => id));
 			}
 		}
+
+		[Fact]
+		public async Task Get_Child_By_Id_As_Of()
+		{
+			using (var context = new TestContextProvider().Context) {
+				var child = ChildHelper.CreateChild(context);
+				var asOf = Utilities.GetAsOfWithSleep();	
+
+				string updatedName = "UPDATED";
+				child.FirstName = updatedName;
+				context.SaveChanges();
+
+				var childRepo = new ChildRepository(context);
+				var res = await childRepo.GetChildByIdAsOfAsync(child.Id, asOf);
+				Assert.NotEqual(updatedName, res.FirstName);
+			}
+		}
 	}
-}	
+}

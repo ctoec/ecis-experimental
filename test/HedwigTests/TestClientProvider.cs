@@ -3,7 +3,9 @@ using System.Net.Http;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 using Hedwig.Data;
+using Hedwig;
 
 namespace HedwigTests
 {
@@ -14,9 +16,14 @@ namespace HedwigTests
 		public HttpClient Client { get; private set; }
 		public TestClientProvider(SeedFunc seedData = null)
 		{
+			var config = new ConfigurationBuilder()
+				.AddEnvironmentVariables()
+				.Build();
+				
 			_server = new TestServer(
 				new WebHostBuilder()
-					.UseStartup<TestStartup>()
+					.UseConfiguration(config)
+					.UseStartup<Startup>()
 			);
 			using (var scope = _server.Host.Services.CreateScope()) {
 				var context = scope.ServiceProvider.GetRequiredService<HedwigContext>();

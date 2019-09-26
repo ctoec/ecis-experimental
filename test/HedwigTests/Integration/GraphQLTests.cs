@@ -1,9 +1,12 @@
+using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Threading;
 using Xunit;
 using Hedwig.Data;
+using Hedwig.Models;
 using HedwigTests.Helpers;
 
 namespace HedwigTests.Integration
@@ -22,32 +25,88 @@ namespace HedwigTests.Integration
         [Fact]
         public async Task GraphQL_Query_User_By_Id()
         {
+			int? userId = null;
             void seedData(HedwigContext context) {
-                UserHelper.CreateUser(context);
+                var user = UserHelper.CreateUser(context);
+				userId = user.Id;
             }
             using (var client = new TestClientProvider(seedData).Client) {
-                HttpResponseMessage response = await client.GetAsync("/graphql?query={user(id:1){firstName}}");
-                response.EnsureSuccessStatusCode();
-                var content = await response.Content.ReadAsStringAsync();
-                JObject user = JsonConvert.DeserializeObject<JObject>(content);
-                Assert.Equal(UserHelper.FIRST_NAME, user["data"]["user"]["firstName"]);
+				var response = await client.GetGraphQLAsync(
+					$@"{{
+						user (id: {userId} ) {{
+							firstName
+						}}
+					}}"
+				);
+
+				response.EnsureSuccessStatusCode();
+				User user = await response.ParseGraphQLResponse<User>("user");
+				Assert.Equal(UserHelper.FIRST_NAME, user.FirstName);
             }
         }
 
         [Fact]
         public async Task GraphQL_Query_Enrollment_By_Id()
         {
+			int? enrollmentId = null;
             void seedData(HedwigContext context) {
-                EnrollmentHelper.CreateEnrollment(context);
+                var enrollment = EnrollmentHelper.CreateEnrollment(context);
+				enrollmentId = enrollment.Id;
             }
             using (var client = new TestClientProvider(seedData).Client) {
-                HttpResponseMessage  response = await client.GetAsync("/graphql?query={enrollment(id: 1){entry}}");
+                var  response = await client.GetGraphQLAsync(
+					$@"{{
+						enrollment(id: {enrollmentId}) {{
+							entry
+						}}
+					}}"
+				);
                 response.EnsureSuccessStatusCode();
-                var content = await response.Content.ReadAsStringAsync();
-                JObject enrollment = JsonConvert.DeserializeObject<JObject>(content);
-                Assert.Equal(EnrollmentHelper.ENTRY_STR, enrollment["data"]["enrollment"]["entry"]);
+				Enrollment enrollment = await response.ParseGraphQLResponse<Enrollment>("enrollment");
+                Assert.Equal(EnrollmentHelper.ENTRY_STR, enrollment.Entry.ToString("yyyy-MM-dd"));
             }
 
         }
+
+		[Fact]
+		public async Task GraphQL_Query_Child_By_Id_As_Of()
+		{
+			Guid? childId = null;
+			DateTime? asOf = null;
+			string updatedName = "UPDATED";
+			void seedData(HedwigContext context) {
+				var child = ChildHelper.CreateChild(context);
+				childId = child.Id;
+				asOf = Utilities.GetAsOfWithSleep();
+				child.FirstName = updatedName;
+				context.SaveChanges();
+			}
+
+			using (var client = new TestClientProvider(seedData).Client) {
+				HttpResponseMessage responseCurrent = await client.GetGraphQLAsync(
+					$@"{{
+						child(id: ""{childId.Value}"") {{
+							firstName
+						}}
+					}}"
+				);
+
+				responseCurrent.EnsureSuccessStatusCode();
+				Child childCurrent = await responseCurrent.ParseGraphQLResponse<Child>("child");
+				Assert.Equal(updatedName, childCurrent.FirstName);
+
+				HttpResponseMessage responseAsOf = await client.GetGraphQLAsync(
+					$@"{{
+						child(id: ""{childId.Value}"", asOf: ""{asOf.Value}"") {{
+							firstName
+						}}
+					}}"
+				);
+				
+				responseAsOf.EnsureSuccessStatusCode();
+				Child childAsOf = await responseAsOf.ParseGraphQLResponse<Child>("child");
+				Assert.Equal(ChildHelper.FIRST_NAME, childAsOf.FirstName);
+			}
+		}
     }
 }

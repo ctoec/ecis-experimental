@@ -8,6 +8,7 @@ namespace Hedwig.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateHistorySchema();
             migrationBuilder.CreateTable(
                 name: "Family",
                 columns: table => new
@@ -78,6 +79,7 @@ namespace Hedwig.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+            migrationBuilder.AddTemporalTableSupport("Child");
 
             migrationBuilder.CreateTable(
                 name: "FamilyDetermination",
