@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
@@ -13,9 +14,33 @@ namespace Hedwig.Repositories
 
 		public EnrollmentRepository(HedwigContext context) => _context = context;
 
-		public async Task<ILookup<int, Enrollment>> GetEnrollmentsBySiteIdsAsync(IEnumerable<int> siteIds)
+		/// <summary>
+		/// This method returns a queryable object to apply filtering to.
+		/// </summary>
+		public IQueryable<Enrollment> GetQuery()
 		{
-			var enrollments = await _context.Enrollments.Where(e => siteIds.Contains(e.SiteId)).ToListAsync();
+			return _context.Enrollments;
+		}
+
+		/// <summary>
+		/// This method filters a query for enrollments by start and end dates.
+		/// It returns a queryable object. 
+		/// </summary>
+		public IQueryable<Enrollment> FilterByDates(IQueryable<Enrollment> query, DateTime from, DateTime to)
+		{
+			return query.Where(e => (
+				(e.Exit != null && e.Entry <= to && e.Exit >= from)
+				||
+				(e.Exit == null && e.Entry >= from && e.Entry <= to)
+			));
+		}
+
+		/// <summary>
+		/// Complete query be returning enrollments with supplied site ids.
+		/// </summary>
+		public async Task<ILookup<int, Enrollment>> GetEnrollmentsBySiteIdsAsync(IQueryable<Enrollment> query, IEnumerable<int> siteIds)
+		{
+			var enrollments = await query.Where(e => siteIds.Contains(e.SiteId)).ToListAsync();
 			return enrollments.ToLookup(x => x.SiteId);
 		}
 
@@ -24,7 +49,9 @@ namespace Hedwig.Repositories
 
 	public interface IEnrollmentRepository
 	{
-		Task<ILookup<int, Enrollment>> GetEnrollmentsBySiteIdsAsync(IEnumerable<int> siteIds);
+		IQueryable<Enrollment> GetQuery();
+		IQueryable<Enrollment> FilterByDates(IQueryable<Enrollment> query, DateTime from, DateTime to);
+		Task<ILookup<int, Enrollment>> GetEnrollmentsBySiteIdsAsync(IQueryable<Enrollment> query, IEnumerable<int> siteIds);
 		Task<Enrollment> GetEnrollmentByIdAsync(int id);
 	}
 }
