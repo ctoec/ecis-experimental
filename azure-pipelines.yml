@@ -10,7 +10,7 @@ pool:
 steps:
   #
   # Setup sonarcloud authentication
-  # 
+  #
   - task: SonarCloudPrepare@1
     inputs:
       SonarCloud: "SonarCloudConnection"
@@ -19,7 +19,7 @@ steps:
       projectKey: "xhedwig"
   #
   # Download dependencies
-  # 
+  #
   - task: DotNetCoreCLI@2
     displayName: "Script: dotnet restore"
     inputs:
@@ -27,7 +27,7 @@ steps:
       projects: '**/*.csproj'
   #
   # Embed build id in help file
-  # 
+  #
   - task: replacetokens@3
     displayName: "Replace Tokens: Help.tsx"
     inputs:
@@ -40,11 +40,17 @@ steps:
       tokenSuffix: "__"
   #
   # Create an optimized production build
-  # 
+  #
   - script: dotnet publish "$(Build.SourcesDirectory)/src/Hedwig/hedwig.csproj" --output "$(Build.SourcesDirectory)/src/Hedwig/dist" --configuration Release --no-restore
     displayName: "Script: dotnet publish"
   #
-  # Perform unit test
+  # Perform backend tests
+  #
+  - script: dotnet test test/HedwigTests
+    displayName: "Script: dotnet test"
+
+  #
+  # Perform client unit tests
   #
   - script: cd src/Hedwig/ClientApp && yarn test --ci
     displayName: "Script: yarn test"

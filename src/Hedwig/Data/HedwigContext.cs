@@ -6,8 +6,7 @@ namespace Hedwig.Data
 	public class HedwigContext : DbContext
 	{
 		public HedwigContext(DbContextOptions<HedwigContext> options) : base(options)
-		{
-		}
+		{ }
 
 		public DbSet<Child> Children { get; set; }
 		public DbSet<Enrollment> Enrollments { get; set; }

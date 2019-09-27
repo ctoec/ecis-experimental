@@ -15,19 +15,23 @@ phases:
     commands:
       #
       # Download dependencies
-      # 
+      #
       - cd src/Hedwig && dotnet restore && cd ../..
       #
       # Create an optimized production build
-      # 
+      #
       - dotnet publish "./src/Hedwig/hedwig.csproj" --output "../../dist" --configuration Release --no-restore
       #
-      # Perform unit test
+      # Perform backend tests
+      #
+      - dotnet test ./test/HedwigTests
+      #
+      # Perform unit tests
       #
       - cd ./src/Hedwig/ClientApp && yarn test --ci && cd ../../..
       #
       # Prepare site directory for Beanstalk packaging (do not create final wrapper zip)
-      # 
+      #
       - mkdir ./site
       - cd dist && zip -r ../site/site.zip . && cd ..
       - cp ./aws-windows-deployment-manifest.json ./site/aws-windows-deployment-manifest.json
