@@ -52,8 +52,11 @@ steps:
   #
   # Perform backend tests
   #
-  - script: docker-compose -f docker-compose.test.yaml run --rm test_backend
-    displayName: "Script: run backend tests with docker-compose"
+  - task: DockerCompose@0
+    displayName: "Docker compose run tests"
+    inputs:
+      dockerComposeFile: "docker-compose.test.yaml"
+      dockerComposeCommand: "up --abort-on-container-exit"
 
   #
   # Publish backend test results
