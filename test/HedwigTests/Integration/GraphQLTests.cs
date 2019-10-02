@@ -11,6 +11,7 @@ using HedwigTests.Helpers;
 
 namespace HedwigTests.Integration
 {
+	[Collection("SqlServer")]
     public class GraphQLTests
     {
         [Fact]

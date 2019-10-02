@@ -12,9 +12,12 @@ services:
     volumes:
       - ./src/Hedwig:/app/src/Hedwig
       - ./test/HedwigTests:/app/test/HedwigTests
+      - ./TestResults:/app/test/HedwigTests/TestResults
     working_dir: /app/test/HedwigTests
     entrypoint:
       - dotnet
       - test
+      - --logger
+      - "trx;LogFileName=Hedwig.trx"
     depends_on:
       - test_db

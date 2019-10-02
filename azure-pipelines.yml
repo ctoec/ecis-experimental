@@ -48,11 +48,22 @@ steps:
   #
   - script: cp aws-windows-deployment-manifest.json $(Build.SourcesDirectory)/src/Hedwig/dist
     displayName: "Script: add beanstalk package file"
+
   #
   # Perform backend tests
   #
-  - script: dotnet test test/HedwigTests
-    displayName: "Script: dotnet test"
+  - script: docker-compose -f docker-compose.test.yaml run --rm test_backend
+    displayName: "Script: run backend tests with docker-compose"
+
+  #
+  # Publish backend test results
+  #
+  - task: PublishTestResults@2
+    displayName: "Publish test results"
+    inputs:
+      testResultsFormat: "VSTest"
+      testResultsFiles: "**/*.trx"
+      failTaskOnFailedTests: true
 
   #
   # Perform client unit tests
