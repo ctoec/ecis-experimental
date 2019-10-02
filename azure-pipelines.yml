@@ -80,7 +80,7 @@ steps:
   #
   # Generate idempotent db migration script for mssql
   #
-  - script: export ConnectionStrings__HEDWIG=xxx && dotnet ef migrations script --idempotent --output $(Build.ArtifactStagingDirectory)/hedwig-db.sql --context HedwigContext --project src/Hedwig
+  - script: export ConnectionStrings__HEDWIG=xxx && dotnet ef --verbose migrations script --idempotent --output $(Build.ArtifactStagingDirectory)/hedwig-db.sql --context HedwigContext --project src/Hedwig
     displayName: "Script: dotnet ef migrations script"
   #
   # Zip app runtime release
