@@ -21,6 +21,7 @@ namespace Hedwig.Repositories
 			return dict as IDictionary<Guid, Child>;
 		}
 
+		public Task<Child> GetChildByIdAsync(Guid id) => _context.Children.Where(c => c.Id == id).SingleOrDefaultAsync();
 		public Task<Child> GetChildByIdAsOfAsync(Guid id, DateTime asOf) => _context.Children.ByIdAsOf(id, asOf);
 
 	}
@@ -28,6 +29,7 @@ namespace Hedwig.Repositories
 	public interface IChildRepository
 	{
 		Task<IDictionary<Guid, Child>> GetChildrenByIdsAsync(IEnumerable<Guid> ids);
+		Task<Child> GetChildByIdAsync(Guid id);
 		Task<Child> GetChildByIdAsOfAsync(Guid id, DateTime asOf);
 	}
 }

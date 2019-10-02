@@ -18,8 +18,11 @@ namespace Hedwig.Schema.Queries
 				resolve: context => 
 				{
 					var id = context.GetArgument<Guid>("id");
-					var asOf = context.GetArgument<DateTime>("asOf", defaultValue: DateTime.Now.ToUniversalTime());
-					return repository.GetChildByIdAsOfAsync(id, asOf);
+					var asOf = context.GetArgument<DateTime?>("asOf");
+					if(asOf.HasValue) {
+						return repository.GetChildByIdAsOfAsync(id, asOf.Value);
+					}
+					return repository.GetChildByIdAsync(id);
 				}
 			);
 		}
