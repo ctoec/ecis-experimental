@@ -12,18 +12,14 @@ namespace Hedwig.Schema.Queries
 			Field<ChildType>(
 				"child",
 				arguments: new QueryArguments(
-					new QueryArgument<IdGraphType> { Name = "id" },
+					new QueryArgument<NonNullGraphType<IdGraphType>>{ Name = "id" },
 					new QueryArgument<DateGraphType>{ Name = "asOf" }
 				),
 				resolve: context => 
 				{
 					var id = context.GetArgument<Guid>("id");
-					var asOf = context.GetArgument<DateTime?>("asOf");
-					if(!asOf.HasValue) {
-						asOf = DateTime.Now.ToUniversalTime();
-					}
-
-					return repository.GetChildByIdAsOfAsync(id, asOf.Value);
+					var asOf = context.GetArgument<DateTime>("asOf", defaultValue: DateTime.Now.ToUniversalTime());
+					return repository.GetChildByIdAsOfAsync(id, asOf);
 				}
 			);
 		}

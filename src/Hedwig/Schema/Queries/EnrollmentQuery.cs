@@ -11,7 +11,7 @@ namespace Hedwig.Schema.Queries
             Field<EnrollmentType>(
                 "enrollment",
                 arguments: new QueryArguments(
-                    new QueryArgument<IdGraphType> { Name = "id" }
+                    new QueryArgument<NonNullGraphType<IdGraphType>> { Name = "id" }
                 ),
                 resolve: context =>
                 {
