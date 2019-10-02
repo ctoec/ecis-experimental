@@ -44,6 +44,11 @@ steps:
   - script: dotnet publish "$(Build.SourcesDirectory)/src/Hedwig/hedwig.csproj" --output "$(Build.SourcesDirectory)/src/Hedwig/dist" --configuration Release --no-restore
     displayName: "Script: dotnet publish"
   #
+  # Add beanstalk deployment manifest file to distribution
+  #
+  - script: cp aws-windows-deployment-manifest.json $(Build.SourcesDirectory)/src/Hedwig/dist
+    displayName: "Script: add beanstalk package file"
+  #
   # Perform backend tests
   #
   - script: dotnet test test/HedwigTests
