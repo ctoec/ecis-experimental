@@ -12,6 +12,8 @@ services:
     volumes:
       - ./src/Hedwig:/app/src/Hedwig
       - ./test/HedwigTests:/app/test/HedwigTests
+      - /app/src/Hedwig/obj
+      - /app/src/Hedwig/bin
       - ./TestResults:/app/test/HedwigTests/TestResults
     working_dir: /app/test/HedwigTests
     entrypoint:
