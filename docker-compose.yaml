@@ -21,6 +21,7 @@ services:
     working_dir: /app/src/Hedwig
     ports:
       - 5000:5000
+      - 5001:5001
     entrypoint:
       - sh
       - /entrypoint.sh
@@ -39,3 +40,18 @@ services:
       - /entrypoint.sh
     depends_on:
       - backend
+  openid:
+    build:
+        context: .
+        dockerfile: ./auth-dev/Dockerfile-auth-dev
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    volumes:
+      - ./auth-dev/OpenIDProvider:/app/auth-dev/OpenIDProvider
+      - ./auth-dev/entrypoint-auth-dev.sh:/entrypoint.sh
+    working_dir: /app/auth-dev/OpenIDProvider
+    ports:
+      - 5050:5050
+    entrypoint:
+      - sh
+      - /entrypoint.sh
