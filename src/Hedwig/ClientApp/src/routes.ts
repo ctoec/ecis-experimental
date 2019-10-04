@@ -3,6 +3,7 @@ import React from 'react';
 import Enroll from './containers/Enroll/Enroll';
 import Feedback from './containers/Feedback/Feedback';
 import Help from './containers/Help/Help';
+import Login from './containers/Login/Login';
 import PageNotFound from './containers/PageNotFound/PageNotFound';
 import Reports from './containers/Reports/Reports';
 import Roster from './containers/Roster/Roster';
@@ -12,6 +13,7 @@ export type RouteConfig = {
 	component: React.FC<any>;
 	exact?: boolean;
 	routes?: RouteConfig[];
+	props?: any
 };
 
 export const routes: RouteConfig[] = [
@@ -39,6 +41,10 @@ export const routes: RouteConfig[] = [
 	{
 		path: '/help',
 		component: Help,
+	},
+	{
+		path: '/login',
+		component: Login,
 	},
 	{
 		path: '/:unknown',
