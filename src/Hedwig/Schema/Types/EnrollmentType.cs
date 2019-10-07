@@ -11,8 +11,8 @@ namespace Hedwig.Schema.Types
 		public EnrollmentType(IDataLoaderContextAccessor dataLoader, IChildRepository children, IFundingRepository fundings)
 		{
 			Field(e => e.Id);
-			Field(e => e.Entry);
-			Field(e => e.Exit, nullable: true);
+			Field<DateTime>(e => e.Entry);
+			Field<DateTime?>(e => e.Exit, nullable: true);
 			Field<NonNullGraphType<ChildType>>(
 				"child",
 				resolve: context =>
