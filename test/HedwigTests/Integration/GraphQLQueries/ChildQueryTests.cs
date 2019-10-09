@@ -26,21 +26,7 @@ namespace HedwigTests.Integration.GraphQLQueries
             }
 
             using (var client = new TestClientProvider(seedData).Client) {
-                // When
-                var responseCurrent = await client.GetGraphQLAsync(
-                    $@"{{
-                        child(id: ""{childId.Value}"") {{
-                            firstName
-                        }}
-                    }}"
-                );
-
-                // Then
-                responseCurrent.EnsureSuccessStatusCode();
-                Child childCurrent = await responseCurrent.ParseGraphQLResponse<Child>();
-                Assert.Equal(updatedName, childCurrent.FirstName);
-
-                // When
+                // When child is queried with asOf timestamp
                 var responseAsOf = await client.GetGraphQLAsync(
                     $@"{{
                         child(id: ""{childId.Value}"", asOf: ""{asOf.Value}"") {{
@@ -49,10 +35,24 @@ namespace HedwigTests.Integration.GraphQLQueries
                     }}"
                 );
 
-                // Then
+                // Then the old version of the child  is returned
                 responseAsOf.EnsureSuccessStatusCode();
                 Child childAsOf = await responseAsOf.ParseGraphQLResponse<Child>();
                 Assert.Equal(ChildHelper.FIRST_NAME, childAsOf.FirstName);
+
+                // When child is queried
+                var responseCurrent = await client.GetGraphQLAsync(
+                    $@"{{
+                        child(id: ""{childId.Value}"") {{
+                            firstName
+                        }}
+                    }}"
+                );
+
+                // Then the current version of the child is returned
+                responseCurrent.EnsureSuccessStatusCode();
+                Child childCurrent = await responseCurrent.ParseGraphQLResponse<Child>();
+                Assert.Equal(updatedName, childCurrent.FirstName);
             }
         }
 
@@ -76,6 +76,24 @@ namespace HedwigTests.Integration.GraphQLQueries
             }
 
             using (var client = new TestClientProvider(seedData).Client) {
+                // When child is queried with asOf timestamp
+                var responseAsOf = await client.GetGraphQLAsync(
+                    $@"{{
+                        child(asOf: ""{asOf.Value}"", id: ""{childId}"") {{
+                            family {{
+                                id,
+                                caseNumber
+                            }}
+                        }}
+                    }}"
+                );
+
+                // Then then old version of the child is returned
+                responseAsOf.EnsureSuccessStatusCode();
+                Child childAsOf = await responseAsOf.ParseGraphQLResponse<Child>();
+                Assert.Equal(familyId, childAsOf.Family.Id);
+                Assert.False(childAsOf.Family.CaseNumber.HasValue);
+
                 // When child is queried
                 var responseCurrent = await client.GetGraphQLAsync(
                     $@"{{
@@ -93,24 +111,6 @@ namespace HedwigTests.Integration.GraphQLQueries
                 Child childCurrent = await responseCurrent.ParseGraphQLResponse<Child>();
                 Assert.Equal(familyId, childCurrent.Family.Id);
                 Assert.Equal(caseNumber, childCurrent.Family.CaseNumber);
-
-                // When child is queried with asOf timestamp
-                var responseAsOf = await client.GetGraphQLAsync(
-                    $@"{{
-                        child(asOf: ""{asOf.Value}"", id: ""{childId}"") {{
-                            family {{
-                                id,
-                                caseNumber
-                            }}
-                        }}
-                    }}"
-                );
-
-                // Then then old version of the child 
-                responseAsOf.EnsureSuccessStatusCode();
-                Child childAsOf = await responseAsOf.ParseGraphQLResponse<Child>();
-                Assert.Equal(familyId, childAsOf.Family.Id);
-                Assert.False(childAsOf.Family.CaseNumber.HasValue);
             }
         }
 
@@ -136,26 +136,6 @@ namespace HedwigTests.Integration.GraphQLQueries
             }
 
             using (var client = new TestClientProvider(seedData).Client) {
-                // When child is queried
-                var responseCurrent = await client.GetGraphQLAsync(
-                    $@"{{
-                        child(id: ""{childId.Value}"") {{
-                            family {{
-                                id,
-                                determinations {{
-                                    id
-                                }}
-                            }}
-                        }}
-                    }}"
-                );
-
-                // Then the current version of the child is returned
-                responseCurrent.EnsureSuccessStatusCode();
-                Child childCurrent = await responseCurrent.ParseGraphQLResponse<Child>();
-                Assert.Equal(familyId, childCurrent.Family.Id);
-                Assert.Single(childCurrent.Family.Determinations);
-
                 // When child is queried with asOf timestamp
                 var responseAsOf = await client.GetGraphQLAsync(
                     $@"{{
@@ -175,8 +155,27 @@ namespace HedwigTests.Integration.GraphQLQueries
                 Child childAsOf = await responseAsOf.ParseGraphQLResponse<Child>();
                 Assert.Equal(familyId, childAsOf.Family.Id);
                 Assert.Empty(childAsOf.Family.Determinations);
+
+                // When child is queried
+                var responseCurrent = await client.GetGraphQLAsync(
+                    $@"{{
+                        child(id: ""{childId.Value}"") {{
+                            family {{
+                                id,
+                                determinations {{
+                                    id
+                                }}
+                            }}
+                        }}
+                    }}"
+                );
+
+                // Then the current version of the child is returned
+                responseCurrent.EnsureSuccessStatusCode();
+                Child childCurrent = await responseCurrent.ParseGraphQLResponse<Child>();
+                Assert.Equal(familyId, childCurrent.Family.Id);
+                Assert.Single(childCurrent.Family.Determinations);
             }
         }
-
     }
 }

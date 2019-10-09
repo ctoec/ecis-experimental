@@ -23,10 +23,8 @@ namespace Hedwig.Schema.Types
 				{
 					var from = context.GetArgument<DateTime?>("from");
 					var to = context.GetArgument<DateTime?>("to");
-					if(!ValidateQueryArguments(from, to)) {
-						throw new ExecutionError("Both from and to must be supplied");
-					} 
-
+					ValidateDateRangeArguments(from, to);
+					 
 					DateTime? asOf = GetAsOfGlobal(context);
 					String loaderCacheKey = $"GetEnrollmentsBySiteIdsAsync{asOf.ToString()}{from.ToString()}{to.ToString()}";
 					var loader = dataLoader.Context.GetOrAddCollectionBatchLoader<int, Enrollment>(
@@ -36,11 +34,11 @@ namespace Hedwig.Schema.Types
 				}
 			);
 		}
-        private static Boolean ValidateQueryArguments(DateTime? from, DateTime? to)
+        private static void ValidateDateRangeArguments(DateTime? from, DateTime? to)
 		{
-			if(from.HasValue && to.HasValue) return true;
-			if(!from.HasValue && !to.HasValue) return true;
-			return false;	
+			if(from.HasValue != to.HasValue) {
+            	throw new ExecutionError("Both from and to must be supplied");
+			}	
 		}
 	}
 }

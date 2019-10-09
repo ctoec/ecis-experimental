@@ -21,9 +21,7 @@ namespace Hedwig.Schema.Types
 
 					var loader = dataLoader.Context.GetOrAddCollectionBatchLoader<int, FamilyDetermination>(
 						loaderCacheKey,
-						(ids) => {
-							return determinations.GetDeterminationsByFamilyIdsAsync(ids, asOf);
-						}
+						(ids) => determinations.GetDeterminationsByFamilyIdsAsync(ids, asOf)
 					);
 
 					return loader.LoadAsync(context.Source.Id);

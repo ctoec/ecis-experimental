@@ -4,7 +4,7 @@ using GraphQL.Types;
 
 namespace Hedwig.Schema.Types
 {
-	public class UserType : ObjectGraphType<User>
+	public class UserType : HedwigGraphType<User>
 	{
 		public UserType(ISiteRepository sites)
 		{

@@ -75,7 +75,7 @@ namespace Hedwig
             services.AddGraphQL(o => { o.ExposeExceptions = false; })
                 .AddGraphTypes(ServiceLifetime.Scoped)
                 .AddDataLoader()
-                .AddUserContextBuilder<UserContext>(UserContext.UserContextCreator);
+                .AddUserContextBuilder<RequestContext>(RequestContext.RequestContextCreator);
         }
     }
 }

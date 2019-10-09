@@ -3,20 +3,25 @@ using System;
 
 namespace Hedwig.Schema
 {
-    public class TemporalGraphType<T> : ObjectGraphType<T>
+    /// <summary>
+    /// A generic ObjectGraphType with helper functions to get and set temporal query param `asOf`
+    /// on the UserContext object
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class TemporalGraphType<T> : HedwigGraphType<T>
     {
-        public const String AS_OF_KEY = "asOf";
+        private const String AS_OF_KEY = "asOf";
         public static void SetAsOfGlobal(ResolveFieldContext<T> context, DateTime? asOf)
         {
-            var userContext = context.UserContext as UserContext;
-            userContext.GlobalArguments.Add(AS_OF_KEY, asOf);
+            var requestContext = GetRequestContext(context);
+            requestContext.GlobalArguments.Add(AS_OF_KEY, asOf);
         }
 
         public static DateTime? GetAsOfGlobal(ResolveFieldContext<T> context)
         {
-            var userContext = context.UserContext as UserContext;
-            return userContext.GlobalArguments.ContainsKey(AS_OF_KEY)
-                ? (DateTime?) userContext.GlobalArguments["asOf"]
+            var requestContext = GetRequestContext(context);
+            return requestContext.GlobalArguments.ContainsKey(AS_OF_KEY)
+                ? (DateTime?) requestContext.GlobalArguments["asOf"]
                 : null;
         }
     }

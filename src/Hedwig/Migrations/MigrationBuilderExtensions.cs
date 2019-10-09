@@ -30,12 +30,11 @@ namespace Hedwig.Migrations
             ");
         }
 
-        public static void DropTemporalTable(this MigrationBuilder migrationBuilder, string name)
+        public static void RemoveTemporalTableSupport(this MigrationBuilder migrationBuilder, string name)
         {
             migrationBuilder.Sql($@"
                 ALTER TABLE {name} SET ( SYSTEM_VERSIONING = OFF );
             ");
-            migrationBuilder.DropTable(name: name);
             migrationBuilder.DropTable(name: name, schema: HISTORY_TABLE_SCHEMA);
         }
     }

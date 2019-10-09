@@ -221,29 +221,45 @@ namespace Hedwig.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTemporalTable(
-                name: "FamilyDetermination");
-
-            migrationBuilder.DropTemporalTable(
-                name: "Funding");
-
+            migrationBuilder.RemoveTemporalTableSupport(
+                name: "FamilyDetermination"
+            );
             migrationBuilder.DropTable(
-                name: "SitePermission");
-
-            migrationBuilder.DropTemporalTable(
-                name: "Enrollment");
-
+                name: "FamilyDetermination"
+            );
+            migrationBuilder.RemoveTemporalTableSupport(
+                name: "Funding"
+            );
             migrationBuilder.DropTable(
-                name: "User");
-
-            migrationBuilder.DropTemporalTable(
-                name: "Child");
-
+                name: "Funding"
+            );
             migrationBuilder.DropTable(
-                name: "Site");
-
-            migrationBuilder.DropTemporalTable(
-                name: "Family");
+                name: "SitePermission"
+            );
+            migrationBuilder.RemoveTemporalTableSupport(
+                name: "Enrollment"
+            );
+            migrationBuilder.DropTable(
+                name: "Enrollment"
+            );
+            migrationBuilder.DropTable(
+                name: "User"
+            );
+             migrationBuilder.RemoveTemporalTableSupport(
+                name: "Child"
+            );
+            migrationBuilder.DropTable(
+                name: "Child"
+            );
+            migrationBuilder.DropTable(
+                name: "Site"
+            );
+            migrationBuilder.RemoveTemporalTableSupport(
+                name: "Family"
+            );
+            migrationBuilder.DropTable(
+                name: "Family"
+            );
         }
     }
 }

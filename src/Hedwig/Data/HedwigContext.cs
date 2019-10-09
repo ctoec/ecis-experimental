@@ -17,43 +17,6 @@ namespace Hedwig.Data
 		public DbSet<Site> Sites { get; set; }
 		public DbSet<SitePermission> SitePermissions { get; set; }
 		public DbSet<User> Users { get; set; }
-
-		public DbSet<T> GetDbSetForType<T>() where T : class
-		{
-			if(typeof(T) == typeof(Child)) {
-				return (DbSet<T>)(object)Children;
-			}
-
-			if(typeof(T) == typeof(Enrollment)) {
-				return (DbSet<T>)(object)Enrollments;
-			}
-
-			if(typeof(T) == typeof(Family)) {
-				return (DbSet<T>)(object)Families;
-			}
-
-			if(typeof(T) == typeof(FamilyDetermination)) {
-				return (DbSet<T>)(object)FamilyDeterminations;
-			}
-
-			if(typeof(T) == typeof(Funding)) {
-				return (DbSet<T>)(object)Fundings;
-			}
-
-			if(typeof(T) == typeof(Site)) {
-				return (DbSet<T>)(object)Sites;
-			}
-
-			if(typeof(T) == typeof(SitePermission)) {
-				return (DbSet<T>)(object)SitePermissions;
-			}
-		
-			if(typeof(T) == typeof(User)) {
-				return (DbSet<T>)(object)Users;
-			}
-
-			throw new Exception($"HedwigContext does not have DbSet<T> for T = {typeof(T).Name}");
-		}
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			modelBuilder.Entity<Child>().ToTable("Child");

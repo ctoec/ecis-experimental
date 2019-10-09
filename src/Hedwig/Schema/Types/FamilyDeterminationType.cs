@@ -3,7 +3,7 @@ using GraphQL.Types;
 
 namespace Hedwig.Schema.Types
 {
-	public class FamilyDeterminationType : ObjectGraphType<FamilyDetermination>
+	public class FamilyDeterminationType : HedwigGraphType<FamilyDetermination>
 	{
 		public FamilyDeterminationType()
 		{

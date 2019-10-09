@@ -3,7 +3,7 @@ using GraphQL.Types;
 
 namespace Hedwig.Schema.Types
 {
-	public class FundingType : ObjectGraphType<Funding>
+	public class FundingType : HedwigGraphType<Funding>
 	{
 		public FundingType()
 		{

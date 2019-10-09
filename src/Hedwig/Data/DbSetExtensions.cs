@@ -8,13 +8,22 @@ namespace Hedwig.Data
 {
     public static class DbSetExtensions
     {
-        public static DbContext GetDbContext<T>(this DbSet<T> dbSet) where T : class
+        /// <summary>
+        /// Retrieves the DbContext for an given dbSet
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        private static DbContext GetDbContext<T>(this DbSet<T> dbSet) where T : class
         {
             var infrastructure = dbSet as IInfrastructure<IServiceProvider>;
             return (infrastructure.GetService<ICurrentDbContext>() as ICurrentDbContext).Context;
 
         }
-        public static string GetTableName<T>(this DbSet<T> dbSet) where T : class
+
+        /// <summary>
+        /// Retrieves the table name associated with entity type of dbSet
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        private static string GetTableName<T>(this DbSet<T> dbSet) where T : class
         {
             var entityType = dbSet.GetDbContext()
                 .Model.GetEntityTypes()
@@ -26,6 +35,13 @@ namespace Hedwig.Data
             return entityType.GetAnnotation("Relational:TableName").Value.ToString();
         }
 
+        /// <summary>
+        /// Filters a temporal dataset based on a timestamp by adding `FOR SYSTEM_TIME AS OF {asOf}` to the query.
+        /// Returns an IQueryable to enable chaining of `.AsOf()` calls in Linq-style querying.
+        /// Does not check that dbSet supports temporal querying; will result in SQL errors if used to filter a
+        /// dataset without temporal support.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
         public static IQueryable<T> AsOf<T>(this DbSet<T> dbSet, DateTime asOf) where T : class
         {
             return dbSet

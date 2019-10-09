@@ -4,7 +4,7 @@ using GraphQL.Types;
 
 namespace Hedwig.Schema.Queries
 {
-	public class UserQuery : ObjectGraphType<object>, IAppSubQuery
+	public class UserQuery : HedwigGraphType<object>, IAppSubQuery
 	{
 		public UserQuery(IUserRepository repository)
 		{
