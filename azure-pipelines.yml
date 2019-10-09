@@ -19,10 +19,10 @@ steps:
   #
   - task: SonarCloudPrepare@1
     inputs:
-      SonarCloud: "SonarCloudConnection"
-      organization: "speedcm"
+      SonarCloud: "sonar-cloud-ctoec"
+      organization: "ctoec"
       scannerMode: "MSBuild"
-      projectKey: "xhedwig"
+      projectKey: "ecis-experimental"
   #
   # Download dependencies
   #
