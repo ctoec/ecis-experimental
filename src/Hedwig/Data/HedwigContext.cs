@@ -1,5 +1,6 @@
 using Hedwig.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace Hedwig.Data
 {
@@ -16,7 +17,6 @@ namespace Hedwig.Data
 		public DbSet<Site> Sites { get; set; }
 		public DbSet<SitePermission> SitePermissions { get; set; }
 		public DbSet<User> Users { get; set; }
-
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			modelBuilder.Entity<Child>().ToTable("Child");

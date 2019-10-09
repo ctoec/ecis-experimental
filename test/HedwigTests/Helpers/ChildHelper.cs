@@ -13,7 +13,7 @@ namespace HedwigTests.Helpers
 		public const string BIRTHDATE_STR = "2000-01-01";
 		public const Gender GENDER = Gender.Unknown;
 
-		public static Child CreateChild(HedwigContext context, string firstNameOverride = "")
+		public static Child CreateChild(HedwigContext context, string firstNameOverride = "", int familyIdOverride = 0)
 		{
 			var child = new Child {
 				FirstName = !string.IsNullOrWhiteSpace(firstNameOverride) ? firstNameOverride : FIRST_NAME,
@@ -22,16 +22,20 @@ namespace HedwigTests.Helpers
 				Gender = GENDER
 			};
 
+			if(familyIdOverride > 0) {
+				child.FamilyId = familyIdOverride;
+			}
+			
 			context.Children.Add(child);
 			context.SaveChanges();
-			return child;	
+			return child;
 		}
 
 		public static List<Child> CreateChildren(HedwigContext context, int numberOfChildren)
 		{
 			var children = Enumerable.Range(1, numberOfChildren)
 				.Select(i => CreateChild(context))
-				.ToList();		
+				.ToList();
 
 			return children;
 		}

@@ -1,4 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using Hedwig.Data;
 using Hedwig.Repositories;
 using Hedwig.Schema.Types;
 using Hedwig.Schema.Queries;
@@ -10,6 +12,12 @@ namespace Hedwig
 {
     public static class ServiceExtensions
     {
+        public static void ConfigureSqlServer(this IServiceCollection services, string connectionString)
+        {
+            services.AddDbContext<HedwigContext>(options =>
+                options.UseSqlServer(connectionString)
+            );
+        }
         public static void ConfigureCors(this IServiceCollection services)
         {
             services.AddCors(options =>
@@ -59,13 +67,15 @@ namespace Hedwig
             // Add Queries
             services.AddScoped<IAppSubQuery, EnrollmentQuery>();
             services.AddScoped<IAppSubQuery, UserQuery>();
+			services.AddScoped<IAppSubQuery, ChildQuery>();
 
             services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
             services.AddScoped<AppSchema>();
 
             services.AddGraphQL(o => { o.ExposeExceptions = false; })
                 .AddGraphTypes(ServiceLifetime.Scoped)
-                .AddDataLoader();
+                .AddDataLoader()
+                .AddUserContextBuilder<RequestContext>(RequestContext.RequestContextCreator);
         }
     }
 }

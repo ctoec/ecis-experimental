@@ -4,14 +4,14 @@ using GraphQL.Types;
 
 namespace Hedwig.Schema.Queries
 {
-	public class UserQuery : ObjectGraphType<object>, IAppSubQuery
+	public class UserQuery : HedwigGraphType<object>, IAppSubQuery
 	{
 		public UserQuery(IUserRepository repository)
 		{
 			Field<UserType>(
 				"user",
 				arguments: new QueryArguments(
-					new QueryArgument<IdGraphType> { Name = "id" }
+					new QueryArgument<NonNullGraphType<IdGraphType>> { Name = "id" }
 					),
 				resolve: context =>
 				{

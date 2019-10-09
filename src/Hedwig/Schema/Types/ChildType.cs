@@ -1,3 +1,4 @@
+using System;
 using Hedwig.Models;
 using Hedwig.Repositories;
 using GraphQL.DataLoader;
@@ -5,7 +6,7 @@ using GraphQL.Types;
 
 namespace Hedwig.Schema.Types
 {
-	public class ChildType : ObjectGraphType<Child>
+	public class ChildType : TemporalGraphType<Child>
 	{
 		public ChildType(IDataLoaderContextAccessor dataLoader, IFamilyRepository families)
 		{
@@ -29,10 +30,12 @@ namespace Hedwig.Schema.Types
 					if (!context.Source.FamilyId.HasValue) { return null; }
 
 					var familyId = context.Source.FamilyId.Value;
+	 				var asOf = GetAsOfGlobal(context);
+					String loaderCacheKey = $"GetFamiliesByIdsAsync{asOf.ToString()}";
 
 					var loader = dataLoader.Context.GetOrAddBatchLoader<int, Family>(
-						"GetFamiliesByIdsAsync",
-						families.GetFamiliesByIdsAsync);
+						loaderCacheKey,
+						(ids) => families.GetFamiliesByIdsAsync(ids, asOf));
 
 					return loader.LoadAsync(familyId);
 				}

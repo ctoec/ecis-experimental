@@ -9,6 +9,7 @@ using HedwigTests.Helpers;
 
 namespace HedwigTests.Repositories
 {
+	[Collection("SqlServer")]
 	public class EnrollmentRepositoryTests
 	{
 		[Fact]
@@ -41,7 +42,7 @@ namespace HedwigTests.Repositories
 
 			// When the repository is queried with a site Id
 			var enrollmentRepo = new EnrollmentRepository(context);
-			var res = await enrollmentRepo.GetEnrollmentsBySiteIdsAsync(enrollmentRepo.GetQuery(), new int[] { site2.Id });
+			var res = await enrollmentRepo.GetEnrollmentsBySiteIdsAsync(new int[] { site2.Id });
 		
 			// Then a list of enrollments with that site Id is returned
 			var enrollmentIds = (from e in res[site2.Id]
@@ -71,10 +72,8 @@ namespace HedwigTests.Repositories
 				// and a to date after 01-01-2019
 				DateTime to = new DateTime(2020, 1, 1, 0, 0, 0);
 				var enrollmentRepo = new EnrollmentRepository(context);
-				var query = enrollmentRepo.GetQuery();
-				query = enrollmentRepo.FilterByDates(query, from, to);
 				var res = await enrollmentRepo
-					.GetEnrollmentsBySiteIdsAsync(query, new int[] { site.Id });
+					.GetEnrollmentsBySiteIdsAsync(new int[] { site.Id }, from: from, to: to);
 				
 				// Then a list of enrollments with the specified enrollment is returned
 				var enrollmentIds = (
@@ -103,10 +102,8 @@ namespace HedwigTests.Repositories
 				// and a to date after 01-01-2019
 				DateTime to = new DateTime(2020, 1, 1, 0, 0, 0);
 				var enrollmentRepo = new EnrollmentRepository(context);
-				var query = enrollmentRepo.GetQuery();
-				query = enrollmentRepo.FilterByDates(query, from, to);
 				var res = await enrollmentRepo
-					.GetEnrollmentsBySiteIdsAsync(query, new int[] { site.Id });
+					.GetEnrollmentsBySiteIdsAsync(new int[] { site.Id }, from: from, to: to);
 				
 				// Then a list of enrollments without the specified enrollment is returned
 				var enrollmentIds = (
@@ -136,10 +133,8 @@ namespace HedwigTests.Repositories
 				// and a to date after 06-01-2019
 				DateTime to = new DateTime(2020, 1, 1, 0, 0, 0);
 				var enrollmentRepo = new EnrollmentRepository(context);
-				var query = enrollmentRepo.GetQuery();
-				query = enrollmentRepo.FilterByDates(query, from, to);
 				var res = await enrollmentRepo
-					.GetEnrollmentsBySiteIdsAsync(query, new int[] { site.Id });
+					.GetEnrollmentsBySiteIdsAsync(new int[] { site.Id }, from: from, to: to);
 				
 				// Then a list of enrollments with the specified enrollment is returned
 				var enrollmentIds = (
@@ -169,10 +164,8 @@ namespace HedwigTests.Repositories
 				// and a to date after 01-01-2020
 				DateTime to = new DateTime(2020, 3, 1, 0, 0, 0);
 				var enrollmentRepo = new EnrollmentRepository(context);
-				var query = enrollmentRepo.GetQuery();
-				query = enrollmentRepo.FilterByDates(query, from, to);
 				var res = await enrollmentRepo
-					.GetEnrollmentsBySiteIdsAsync(query, new int[] { site.Id });
+					.GetEnrollmentsBySiteIdsAsync(new int[] { site.Id }, from: from, to: to);
 				
 				// Then a list of enrollments without the specified enrollment is returned
 				var enrollmentIds = (
@@ -202,10 +195,8 @@ namespace HedwigTests.Repositories
 				// and a to date before 01-01-2019
 				DateTime to = new DateTime(2018, 3, 1, 0, 0, 0);
 				var enrollmentRepo = new EnrollmentRepository(context);
-				var query = enrollmentRepo.GetQuery();
-				query = enrollmentRepo.FilterByDates(query, from, to);
 				var res = await enrollmentRepo
-					.GetEnrollmentsBySiteIdsAsync(query, new int[] { site.Id });
+					.GetEnrollmentsBySiteIdsAsync(new int[] { site.Id }, from: from, to: to);
 				
 				// Then a list of enrollments without the specified enrollment is returned
 				var enrollmentIds = (
