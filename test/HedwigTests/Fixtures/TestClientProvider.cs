@@ -4,17 +4,15 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
-using Hedwig.Data;
-using Hedwig;
 
-namespace HedwigTests
+namespace HedwigTests.Fixtures
 {
-	public class TestClientProvider : IDisposable
+	public class TestApiProvider : IDisposable
 	{
-		public delegate void SeedFunc(HedwigContext context);
 		private TestServer _server;
+		public TestHedwigContext Context;
 		public HttpClient Client { get; private set; }
-		public TestClientProvider(SeedFunc seedData = null)
+		public TestApiProvider()
 		{
 			var config = new ConfigurationBuilder()
 				.AddEnvironmentVariables()
@@ -23,21 +21,17 @@ namespace HedwigTests
 			_server = new TestServer(
 				new WebHostBuilder()
 					.UseConfiguration(config)
-					.UseStartup<Startup>()
+					.UseStartup<TestStartup>()
 			);
-			using (var scope = _server.Host.Services.CreateScope()) {
-				var context = scope.ServiceProvider.GetRequiredService<HedwigContext>();
-				context.Database.EnsureCreated();
-				if(seedData != null) {
-					seedData(context);
-				}
-			}
+			var scope = _server.Host.Services.CreateScope();
+            Context = scope.ServiceProvider.GetRequiredService<TestHedwigContext>();
 			Client = _server.CreateClient();
 		}
 
 		public void Dispose()
 		{
 			_server?.Dispose();
+			Context?.Dispose();
 			Client?.Dispose();
 		}
 	}	

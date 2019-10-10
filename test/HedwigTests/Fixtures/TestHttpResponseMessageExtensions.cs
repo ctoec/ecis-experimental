@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using GraphQL.Common.Response;
 
-namespace HedwigTests
+namespace HedwigTests.Fixtures
 {
     public static class TestHttpResponseMessageExtensions
     {

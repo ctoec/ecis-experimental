@@ -5,31 +5,28 @@ using System.Threading.Tasks;
 using Hedwig.Data;
 using Hedwig.Models;
 using HedwigTests.Helpers;
+using HedwigTests.Fixtures;
 
 namespace HedwigTests.Integration.GraphQLQueries
 {
-    [Collection("SqlServer")]
     public class EnrollmentQueryTests
     {
         [Fact]
         public async Task Get_Enrollment_By_Id_As_Of()
         {
-            int? enrollmentId = null;
-            DateTime? asOf = null;
-            DateTime exit = DateTime.Now.AddDays(3).Date;
-            void seedData(HedwigContext context) {
-                var enrollment = EnrollmentHelper.CreateEnrollment(context);
-                enrollmentId = enrollment.Id;
-                asOf = Utilities.GetAsOfWithSleep();
+            using( var api = new TestApiProvider()) {
+                //Given 
+                var enrollment = EnrollmentHelper.CreateEnrollment(api.Context);
+                var asOf = Utilities.GetAsOfWithSleep();
 
+                var exit = DateTime.Now.AddDays(3).Date;
                 enrollment.Exit = exit;
-                context.SaveChanges();
-            }
+                api.Context.SaveChanges();
 
-            using( var client = new TestClientProvider(seedData).Client) {
-                var responseCurrent = await client.GetGraphQLAsync(
+                // When
+                var responseCurrent = await api.Client.GetGraphQLAsync(
                     $@"{{
-                        enrollment(id: ""{enrollmentId.Value}"") {{
+                        enrollment(id: ""{enrollment.Id}"") {{
                             exit
                         }}
                     }}"
@@ -40,9 +37,9 @@ namespace HedwigTests.Integration.GraphQLQueries
                 Assert.Equal(exit, enrollmentCurrent.Exit);
 
 
-                var responseAsOf = await client.GetGraphQLAsync(
+                var responseAsOf = await api.Client.GetGraphQLAsync(
                     $@"{{
-                        enrollment(asOf: ""{asOf.Value}"", id: ""{enrollmentId.Value}"") {{
+                        enrollment(asOf: ""{asOf}"", id: ""{enrollment.Id}"") {{
                             exit
                         }}
                     }}"
@@ -57,25 +54,19 @@ namespace HedwigTests.Integration.GraphQLQueries
         [Fact]
         public async Task Get_Enrollment_By_Id_As_Of_With_Child()
         {
-            int? enrollmentId = null;
-            Guid? childId = null;
-            DateTime? asOf = null;
-            String updatedName = "UPDATED";
-            void seedData(HedwigContext context) {
-                var child = ChildHelper.CreateChild(context);
-                childId = child.Id;
-                var enrollment = EnrollmentHelper.CreateEnrollmentWithChildId(context, childId.Value);
-                enrollmentId = enrollment.Id;
-                asOf = Utilities.GetAsOfWithSleep();
+            using( var api = new TestApiProvider()) {
+                // Given
+                var child = ChildHelper.CreateChild(api.Context);
+                var enrollment = EnrollmentHelper.CreateEnrollmentWithChildId(api.Context, child.Id);
+                var asOf = Utilities.GetAsOfWithSleep();
 
-                child.FirstName = updatedName;
-                context.SaveChanges();
-            }
+                var updatedName = "UPDATED";
+                child.FirstName =  updatedName;
+                api.Context.SaveChanges();
 
-            using( var client = new TestClientProvider(seedData).Client) {
-                var responseCurrent = await client.GetGraphQLAsync(
+                var responseCurrent = await api.Client.GetGraphQLAsync(
                     $@"{{
-                        enrollment(id: ""{enrollmentId.Value}"") {{
+                        enrollment(id: ""{enrollment.Id}"") {{
                             child {{
                                 firstName
                             }}
@@ -88,9 +79,9 @@ namespace HedwigTests.Integration.GraphQLQueries
                 Assert.Equal(updatedName, enrollmentCurrent.Child.FirstName);
 
 
-                var responseAsOf = await client.GetGraphQLAsync(
+                var responseAsOf = await api.Client.GetGraphQLAsync(
                     $@"{{
-                        enrollment(asOf: ""{asOf.Value}"", id: ""{enrollmentId.Value}"") {{
+                        enrollment(asOf: ""{asOf}"", id: ""{enrollment.Id}"") {{
                             child {{
                                 firstName
                             }}
@@ -107,25 +98,20 @@ namespace HedwigTests.Integration.GraphQLQueries
         [Fact]
         public async Task Get_Enrollment_By_Id_As_Of_With_Funding()
         {
-            int? enrollmentId = null;
-            int? fundingId = null;
-            DateTime? asOf = null;
-            DateTime fundingExit = DateTime.Now.AddDays(3).Date;
-            void seedData(HedwigContext context) {
-                var enrollment = EnrollmentHelper.CreateEnrollment(context);
-                enrollmentId = enrollment.Id;
-                var funding = FundingHelper.CreateFundingWithEnrollmentId(context, enrollmentId.Value);
-                fundingId = funding.Id;
-                asOf = Utilities.GetAsOfWithSleep();
+            using( var api = new TestApiProvider()) {
+                // Given
+                var enrollment = EnrollmentHelper.CreateEnrollment(api.Context);
+                var funding = FundingHelper.CreateFundingWithEnrollmentId(api.Context, enrollment.Id);
+                var asOf = Utilities.GetAsOfWithSleep();
 
-                funding.Exit = fundingExit;
-                context.SaveChanges();
-            }
+                var exit = DateTime.Now.AddDays(3).Date;
+                funding.Exit = exit;
+                api.Context.SaveChanges();
 
-            using( var client = new TestClientProvider(seedData).Client) {
-                var responseCurrent = await client.GetGraphQLAsync(
+                // When
+                var responseCurrent = await api.Client.GetGraphQLAsync(
                     $@"{{
-                        enrollment(id: ""{enrollmentId.Value}"") {{
+                        enrollment(id: ""{enrollment.Id}"") {{
                             fundings {{
                                 exit
                             }}
@@ -136,11 +122,11 @@ namespace HedwigTests.Integration.GraphQLQueries
                 responseCurrent.EnsureSuccessStatusCode();
                 Enrollment enrollmentCurrent = await responseCurrent.ParseGraphQLResponse<Enrollment>();
                 Assert.Single(enrollmentCurrent.Fundings);
-                Assert.Equal(fundingExit, enrollmentCurrent.Fundings.First().Exit);
+                Assert.Equal(exit, enrollmentCurrent.Fundings.First().Exit);
                 
-                var responseAsOf = await client.GetGraphQLAsync(
+                var responseAsOf = await api.Client.GetGraphQLAsync(
                     $@"{{
-                        enrollment(asOf: ""{asOf.Value}"", id: ""{enrollmentId.Value}"") {{
+                        enrollment(asOf: ""{asOf}"", id: ""{enrollment.Id}"") {{
                             fundings {{
                                 exit
                             }}
