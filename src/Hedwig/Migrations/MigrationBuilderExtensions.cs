@@ -10,7 +10,7 @@ namespace Hedwig.Migrations
             this MigrationBuilder migrationBuilder
         )
         {
-            migrationBuilder.Sql($"CREATE SCHEMA {HISTORY_TABLE_SCHEMA}");
+            migrationBuilder.Sql($"EXEC('CREATE SCHEMA {HISTORY_TABLE_SCHEMA};')");
 
         }
         //  See https://docs.microsoft.com/en-us/sql/relational-databases/tables/creating-a-system-versioned-temporal-table?view=sql-server-2017#adding-versioning-to-non-temporal-tables
