@@ -13,16 +13,5 @@ namespace HedwigTests.Integration
                 response.EnsureSuccessStatusCode();
             }
         }
-
-        public async Task UserContext_Does_Not_Persist()
-        {
-            using (var client = new TestClientProvider().Client) {
-                var response = await client.GetGraphQLAsync(
-                    $@"{{
-
-                    }}"
-                );
-            }
-        }
 	}
 }

@@ -48,7 +48,14 @@ Creating ctoec-app-experiments_client_1 ... done
 
 ### Step 3
 
-Set up for debugging with VS Code by copying `./launch.json` into `./.vscode/launch.json` 
+It is recommended to run VSCode with the `Remote` extension installed,
+and to use the `Existing Docker-Compose (Extend)` configuration to launch VSCode
+inside the backend container itself. Configuration for this lives in `.devcontainer`.
+With that approach, the default launch configurations created by VSCode will work for debugging.
+If you want to run VSCode locally against the project, you will not get Intellisense,
+or other C# language features from Omnisharp, but you can still debug using the 
+`launch.json` checked in to this repo. Set up for debugging the dockerized app
+with local VSCode by copying `./launch.json` into `./.vscode/launch.json`
 ```sh
 $ cp ./launch.json ./.vscode/launch.json
 ```
@@ -56,19 +63,20 @@ $ cp ./launch.json ./.vscode/launch.json
 ### Step 4
 
 Do stuff with your app ecosystem using docker-compose directly, or with helpful custom executables (which are also composed into some Make commands if that feels helpful)
-#### execute dotnet commands in backend container
+#### execute commands in backend container (for instance, `dotnet [...]`)
 ```sh
 $ ./dc-dotnet [YOUR COMMANDS HERE]
 ```
-#### execute yarn commands in client container
+#### execute commands in client container (for instance, `yarn [...]`)
 ```sh
-$ ./dc-client yarn [YOUR COMMANDS HERE]
+$ ./dc-client [YOUR COMMANDS HERE]
 ```
 #### execute [sqlcmd](https://docs.microsoft.com/en-us/sql/tools/sqlcmd-utility?view=sql-server-2017) commands in db container (connection params are included by default)
 ```sh
 $ ./dc-sqlcmd [YOUR COMMANDS HERE]
 ```
- 
+NOTE: Access an interactive sqlcmd interface by running `./dc-sqlcmd` with no commands
+
 ## Things you might want to do
 
 | Task | CLI - Local | CLI - Docker | URL |
