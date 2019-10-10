@@ -11,8 +11,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{C4E6C3CC-2
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HedwigTests", "test\HedwigTests\HedwigTests.csproj", "{C95B4495-BF38-49CA-81F9-6D51A694CAFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenIDProvider", "auth-dev\OpenIDProvider\OpenIDProvider.csproj", "{16B648C3-ED5F-4E24-BFF9-3CCBB90C8C6C}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,18 +45,6 @@ Global
 		{C95B4495-BF38-49CA-81F9-6D51A694CAFA}.Release|x64.Build.0 = Release|Any CPU
 		{C95B4495-BF38-49CA-81F9-6D51A694CAFA}.Release|x86.ActiveCfg = Release|Any CPU
 		{C95B4495-BF38-49CA-81F9-6D51A694CAFA}.Release|x86.Build.0 = Release|Any CPU
-		{16B648C3-ED5F-4E24-BFF9-3CCBB90C8C6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{16B648C3-ED5F-4E24-BFF9-3CCBB90C8C6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{16B648C3-ED5F-4E24-BFF9-3CCBB90C8C6C}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{16B648C3-ED5F-4E24-BFF9-3CCBB90C8C6C}.Debug|x64.Build.0 = Debug|Any CPU
-		{16B648C3-ED5F-4E24-BFF9-3CCBB90C8C6C}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{16B648C3-ED5F-4E24-BFF9-3CCBB90C8C6C}.Debug|x86.Build.0 = Debug|Any CPU
-		{16B648C3-ED5F-4E24-BFF9-3CCBB90C8C6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{16B648C3-ED5F-4E24-BFF9-3CCBB90C8C6C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{16B648C3-ED5F-4E24-BFF9-3CCBB90C8C6C}.Release|x64.ActiveCfg = Release|Any CPU
-		{16B648C3-ED5F-4E24-BFF9-3CCBB90C8C6C}.Release|x64.Build.0 = Release|Any CPU
-		{16B648C3-ED5F-4E24-BFF9-3CCBB90C8C6C}.Release|x86.ActiveCfg = Release|Any CPU
-		{16B648C3-ED5F-4E24-BFF9-3CCBB90C8C6C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,7 +52,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{B2868F77-A23A-467E-8225-53EF3C053EE1} = {922697FC-243A-498B-8C8E-3ACFED03BA84}
 		{C95B4495-BF38-49CA-81F9-6D51A694CAFA} = {C4E6C3CC-27EA-4C88-AE96-F34DCDE1B45B}
-		{16B648C3-ED5F-4E24-BFF9-3CCBB90C8C6C} = {922697FC-243A-498B-8C8E-3ACFED03BA84}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AEE7C470-9E33-4CF3-8A38-0141627145D5}
