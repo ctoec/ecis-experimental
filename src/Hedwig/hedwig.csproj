@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>netcoreapp2.2</TargetFramework>
-		<ProjectGuid>{b2868f77-a23a-467e-8225-53ef3c053ee1}</ProjectGuid>
+		<ProjectGuid>{87a917a7-a30d-42f1-8834-86474698d6e8}</ProjectGuid>
 		<TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
 		<TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
 		<IsPackable>false</IsPackable>
