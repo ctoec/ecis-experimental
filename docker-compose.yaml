@@ -15,8 +15,8 @@ services:
       CLIENT_HOST: 'http://client:3000'
       ASPNETCORE_ENVIRONMENT: Development
     volumes:
-      - ./src/Hedwig:/app/src/Hedwig
-      - ./test/HedwigTests:/app/test/HedwigTests
+      - ./src/Hedwig:/app/src/Hedwig:cached
+      - ./test/HedwigTests:/app/test/HedwigTests:cached
       - ./entrypoint-backend.sh:/entrypoint.sh
     working_dir: /app/src/Hedwig
     ports:
@@ -29,7 +29,7 @@ services:
   client:
     image: node:12
     volumes:
-      - ./src/Hedwig/ClientApp:/home/node/app
+      - ./src/Hedwig/ClientApp:/home/node/app:cached
       - ./entrypoint-client.sh:/entrypoint.sh
     working_dir: /home/node/app
     ports:
