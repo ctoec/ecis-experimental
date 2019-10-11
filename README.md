@@ -27,8 +27,6 @@ make install db-migrate
 There is no step 3.
 
 ## Setup - Docker (compose)
-Right now, the docker-compose project allows for rapid development of the client and server side applications with sql-server backend. Will not at present work with VSCode for debugging -- that's to come (probably)!
-
 __NOTE:__ If you are developing on a Windows machine, you need to set the `DOCKER_ON_WINDOWS` environment variable. The rest of the commands will be the same if followed directly from the README. If you use `docker-compose` directly, you will need to specify the windows compose file. That is, you must use `docker-compose -f docker-compose-windows.yaml`.
 
 ### Step 1
@@ -63,10 +61,20 @@ $ cp ./launch.json ./.vscode/launch.json
 ### Step 4
 
 Do stuff with your app ecosystem using docker-compose directly, or with helpful custom executables (which are also composed into some Make commands if that feels helpful)
-#### execute commands in backend container (for instance, `dotnet [...]`)
+#### execute commands in backend container in app directory (for instance, `dotnet [...]`)
 ```sh
-$ ./dc-dotnet [YOUR COMMANDS HERE]
+$ ./dc-backend [YOUR COMMANDS HERE]
 ```
+#### execute commends in backend container in test directory (for instance, `dotnet test`)
+```sh
+$ ./dc-test-backend [YOUR COMMANDS HERE]
+```
+NOTE: When running tests, you can supply flags in the form of environment variables to control test run configuration.
+Available flags are:
+- SQL_LOGGING: If this env var exists, the DbContext will be configured to log SQL to the console
+- HTTP_LOGGING: If this env var exists, the integration tests will log raw HTTP response content
+- RETAIN_OBJECTS: If this env var exists, the DbContext will _not_ automatically clean up all generated objects
+
 #### execute commands in client container (for instance, `yarn [...]`)
 ```sh
 $ ./dc-client [YOUR COMMANDS HERE]

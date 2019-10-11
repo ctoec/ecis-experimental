@@ -11,7 +11,7 @@ namespace HedwigTests.Fixtures
         public static async Task<T> ParseGraphQLResponse<T>(this HttpResponseMessage response)
         {
             var content = await response.Content.ReadAsStringAsync();
-            if(Environment.GetEnvironmentVariable("HTTP_LOGGING") != null) {
+            if(TestEnvironmentFlags.ShouldLogHTTP()) {
                 Console.WriteLine(content);
             }
             GraphQLResponse graphQLResponse = JsonConvert.DeserializeObject<GraphQLResponse>(content);

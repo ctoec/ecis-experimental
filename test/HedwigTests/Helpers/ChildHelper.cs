@@ -28,7 +28,7 @@ namespace HedwigTests.Helpers
 				FamilyId = family.Id
 			};
 
-			context.Children.Add(child);
+			context.Add<Child>(child);
 			context.SaveChanges();
 			return child;
 		}

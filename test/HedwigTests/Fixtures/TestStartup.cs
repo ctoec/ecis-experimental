@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Hedwig;
 
 namespace HedwigTests.Fixtures
@@ -12,6 +13,9 @@ namespace HedwigTests.Fixtures
         {
             base.ConfigureServices(services);
             services.ConfigureSqlServer(Configuration.GetConnectionString("HEDWIG"));
+            if(TestEnvironmentFlags.ShouldLogSQL()) {
+                services.AddLogging(configure => configure.AddConsole());
+            }
         }
     }
 }

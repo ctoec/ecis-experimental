@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 
+
 namespace HedwigTests.Fixtures
 {
     public class TestHedwigContext : HedwigContext
@@ -17,18 +18,23 @@ namespace HedwigTests.Fixtures
 
         public override int SaveChanges()   
         {
-            var newCreated = ChangeTracker.Entries()
-                .Where(e => e.State == EntityState.Added);
-            Created.AddRange(newCreated);
+            if(TestEnvironmentFlags.ShouldCleanupObjects()) {
+                var newCreated = ChangeTracker.Entries()
+                    .Where(e => e.State == EntityState.Added);
+                Created.AddRange(newCreated);
+            }
             return base.SaveChanges();
         }
 
         public override void Dispose()
         {
-            foreach (EntityEntry e in Created) {
-                Remove(e.Entity);
+            if (TestEnvironmentFlags.ShouldCleanupObjects()) {
+                foreach (EntityEntry e in Created) { 
+                    Remove(e.Entity);
+                }
+                base.SaveChanges();
             }
-            base.SaveChanges();
+            
             base.Dispose();
         }
     }

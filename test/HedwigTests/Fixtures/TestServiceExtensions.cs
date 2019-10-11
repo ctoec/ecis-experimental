@@ -9,6 +9,7 @@ namespace HedwigTests.Fixtures
         {
             services.AddDbContext<TestHedwigContext>(options =>
                 options.UseSqlServer(connectionString)
+        			.EnableSensitiveDataLogging()
             );
         }
     }
