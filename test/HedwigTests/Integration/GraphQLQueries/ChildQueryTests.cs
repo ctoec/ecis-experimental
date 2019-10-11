@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Hedwig.Data;
 using HedwigTests.Helpers;
 using Hedwig.Models;
+using HedwigTests.Fixtures;
 
 namespace HedwigTests.Integration.GraphQLQueries
 {
@@ -13,23 +14,19 @@ namespace HedwigTests.Integration.GraphQLQueries
         [Fact]
         public async Task Get_Child_By_Id_As_Of()
         {
-            // Given
-            Guid? childId = null;
-            DateTime? asOf = null;
-            string updatedName = "UPDATED";
-            void seedData(HedwigContext context) {
-                var child = ChildHelper.CreateChild(context);
-                childId = child.Id;
-                asOf = Utilities.GetAsOfWithSleep();
+            using (var api = new TestApiProvider()) {
+                //Given
+                var updatedName = "UPDATED";
+                var child = ChildHelper.CreateChild(api.Context);
+                var asOf = Utilities.GetAsOfWithSleep();
                 child.FirstName = updatedName;
-                context.SaveChanges();
-            }
+                api.Context.SaveChanges();
 
-            using (var client = new TestClientProvider(seedData).Client) {
+
                 // When child is queried with asOf timestamp
-                var responseAsOf = await client.GetGraphQLAsync(
+                var responseAsOf = await api.Client.GetGraphQLAsync(
                     $@"{{
-                        child(id: ""{childId.Value}"", asOf: ""{asOf.Value}"") {{
+                        child(id: ""{child.Id}"", asOf: ""{asOf}"") {{
                             firstName
                         }}
                     }}"
@@ -41,9 +38,9 @@ namespace HedwigTests.Integration.GraphQLQueries
                 Assert.Equal(ChildHelper.FIRST_NAME, childAsOf.FirstName);
 
                 // When child is queried
-                var responseCurrent = await client.GetGraphQLAsync(
+                var responseCurrent = await api.Client.GetGraphQLAsync(
                     $@"{{
-                        child(id: ""{childId.Value}"") {{
+                        child(id: ""{child.Id}"") {{
                             firstName
                         }}
                     }}"
@@ -59,27 +56,20 @@ namespace HedwigTests.Integration.GraphQLQueries
         [Fact]
         public async Task Get_Child_By_Id_As_Of_With_Family()
         {
-            // Given
-            Guid? childId = null;
-            int? familyId = null;
-            DateTime? asOf = null;
-            int caseNumber = 111111;
-            void seedData(HedwigContext context) {
-                var family = FamilyHelper.CreateFamily(context);
-                familyId = family.Id;
-                var child = ChildHelper.CreateChild(context, familyIdOverride: familyId.Value);
-                childId = child.Id;
-                asOf = Utilities.GetAsOfWithSleep();
+            using (var api = new TestApiProvider()) {
+                // Given
+                var family = FamilyHelper.CreateFamily(api.Context);
+                var child = ChildHelper.CreateChild(api.Context, familyIdOverride: family.Id);
+                var asOf = Utilities.GetAsOfWithSleep();
 
-                family.CaseNumber = caseNumber;
-                context.SaveChanges();
-            }
+                var caseNumber = 111111;
+                family.CaseNumber =  caseNumber;
+                api.Context.SaveChanges();
 
-            using (var client = new TestClientProvider(seedData).Client) {
                 // When child is queried with asOf timestamp
-                var responseAsOf = await client.GetGraphQLAsync(
+                var responseAsOf = await api.Client.GetGraphQLAsync(
                     $@"{{
-                        child(asOf: ""{asOf.Value}"", id: ""{childId}"") {{
+                        child(asOf: ""{asOf}"", id: ""{child.Id}"") {{
                             family {{
                                 id,
                                 caseNumber
@@ -91,13 +81,13 @@ namespace HedwigTests.Integration.GraphQLQueries
                 // Then then old version of the child is returned
                 responseAsOf.EnsureSuccessStatusCode();
                 Child childAsOf = await responseAsOf.ParseGraphQLResponse<Child>();
-                Assert.Equal(familyId, childAsOf.Family.Id);
+                Assert.Equal(family.Id, childAsOf.Family.Id);
                 Assert.False(childAsOf.Family.CaseNumber.HasValue);
 
                 // When child is queried
-                var responseCurrent = await client.GetGraphQLAsync(
+                var responseCurrent = await api.Client.GetGraphQLAsync(
                     $@"{{
-                        child(id: ""{childId.Value}"") {{
+                        child(id: ""{child.Id}"") {{
                             family {{
                                 id,
                                 caseNumber
@@ -109,7 +99,7 @@ namespace HedwigTests.Integration.GraphQLQueries
                 // Then the current version of the child is returned
                 responseCurrent.EnsureSuccessStatusCode();
                 Child childCurrent = await responseCurrent.ParseGraphQLResponse<Child>();
-                Assert.Equal(familyId, childCurrent.Family.Id);
+                Assert.Equal(family.Id, childCurrent.Family.Id);
                 Assert.Equal(caseNumber, childCurrent.Family.CaseNumber);
             }
         }
@@ -117,29 +107,20 @@ namespace HedwigTests.Integration.GraphQLQueries
         [Fact]
         public async Task Get_Child_By_Id_As_Of_With_Family_And_Determinations()
         {
-            // Given
-            Guid? childId = null;
-            int? familyId = null;
-            int? determinationId = null;
-            DateTime? asOf = null;
-            void seedData(HedwigContext context) {
-                var family = FamilyHelper.CreateFamily(context);
-                familyId = family.Id;
-                var child = ChildHelper.CreateChild(context, familyIdOverride: familyId.Value);
-                childId = child.Id;
-                asOf = Utilities.GetAsOfWithSleep();
+            using (var api = new TestApiProvider()) {
+                // Given
+                var family = FamilyHelper.CreateFamily(api.Context);
+                var child = ChildHelper.CreateChild(api.Context, familyIdOverride: family.Id);
+                var asOf = Utilities.GetAsOfWithSleep();
 
-                var determination = FamilyDeterminationHelper.CreateDeterminationWithFamilyId(context, familyId.Value);
-                determinationId = determination.Id;
+                var determination = FamilyDeterminationHelper.CreateDeterminationWithFamilyId(api.Context, family.Id);
                 family.Determinations = new FamilyDetermination[] { determination };
-                context.SaveChanges();
-            }
+                api.Context.SaveChanges();
 
-            using (var client = new TestClientProvider(seedData).Client) {
                 // When child is queried with asOf timestamp
-                var responseAsOf = await client.GetGraphQLAsync(
+                var responseAsOf = await api.Client.GetGraphQLAsync(
                     $@"{{
-                        child(asOf: ""{asOf.Value}"", id: ""{childId}"") {{
+                        child(asOf: ""{asOf}"", id: ""{child.Id}"") {{
                             family {{
                                 id,
                                 determinations {{
@@ -153,13 +134,13 @@ namespace HedwigTests.Integration.GraphQLQueries
                 // Then then old version of the child 
                 responseAsOf.EnsureSuccessStatusCode();
                 Child childAsOf = await responseAsOf.ParseGraphQLResponse<Child>();
-                Assert.Equal(familyId, childAsOf.Family.Id);
+                Assert.Equal(family.Id, childAsOf.Family.Id);
                 Assert.Empty(childAsOf.Family.Determinations);
 
                 // When child is queried
-                var responseCurrent = await client.GetGraphQLAsync(
+                var responseCurrent = await api.Client.GetGraphQLAsync(
                     $@"{{
-                        child(id: ""{childId.Value}"") {{
+                        child(id: ""{child.Id}"") {{
                             family {{
                                 id,
                                 determinations {{
@@ -173,7 +154,7 @@ namespace HedwigTests.Integration.GraphQLQueries
                 // Then the current version of the child is returned
                 responseCurrent.EnsureSuccessStatusCode();
                 Child childCurrent = await responseCurrent.ParseGraphQLResponse<Child>();
-                Assert.Equal(familyId, childCurrent.Family.Id);
+                Assert.Equal(family.Id, childCurrent.Family.Id);
                 Assert.Single(childCurrent.Family.Determinations);
             }
         }

@@ -1,13 +1,12 @@
 using System.Threading.Tasks;
 using System.Linq;
-using System;
 using Xunit;
 using Hedwig.Repositories;
 using HedwigTests.Helpers;
+using HedwigTests.Fixtures;
 
 namespace HedwigTests.Repositories
 {
-    [Collection("SqlServer")]
     public class FamilyRepositoryTests
     {
         [Fact]

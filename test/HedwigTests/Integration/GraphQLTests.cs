@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Xunit;
+using HedwigTests.Fixtures;
 
 namespace HedwigTests.Integration
 {
@@ -8,7 +9,7 @@ namespace HedwigTests.Integration
         [Fact]
         public async Task GraphQL_Exists()
         {
-			using (var client = new TestClientProvider().Client) {
+			using (var client = new TestApiProvider().Client) {
                 var response = await client.GetAsync("/graphql");
                 response.EnsureSuccessStatusCode();
             }

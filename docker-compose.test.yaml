@@ -5,6 +5,8 @@ services:
     environment:
       SA_PASSWORD: TestPassword1
       ACCEPT_EULA: Y
+    logging:
+      driver: "none"
   test_backend:
     image: mcr.microsoft.com/dotnet/core/sdk:2.2
     environment:
@@ -15,11 +17,10 @@ services:
       - /app/src/Hedwig/obj
       - /app/src/Hedwig/bin
       - ./TestResults:/app/test/HedwigTests/TestResults
-    working_dir: /app/test/HedwigTests
+      - ./entrypoint-test.sh:/entrypoint.sh
+    working_dir: /app
     entrypoint:
-      - dotnet
-      - test
-      - --logger
-      - "trx;LogFileName=Hedwig.trx"
+      - sh
+      - /entrypoint.sh
     depends_on:
       - test_db

@@ -2,7 +2,7 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace HedwigTests
+namespace HedwigTests.Fixtures
 {
     public static class TestHttpClientExtensions
     {

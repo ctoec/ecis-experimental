@@ -20,7 +20,7 @@ namespace Hedwig.Repositories
                 return _context.Set<T>().AsOf(asOf.Value);
             }
 
-            return _context.Set<T>();
+            return _context.Set<T>() as IQueryable<T>;
         }
     }
 }
