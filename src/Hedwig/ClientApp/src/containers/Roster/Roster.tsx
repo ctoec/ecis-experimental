@@ -10,34 +10,24 @@ import nameFormatter from '../../utils/nameFormatter';
 import dateFormatter from '../../utils/dateFormatter';
 import Tag from '../../components/Tag/Tag';
 import DatePicker from '../../components/DatePicker/DatePicker';
-import RadioGroup from '../../components/RadioGroup/RadioGroup';
 import Button from '../../components/Button/Button';
 
 export default function Roster() {
-	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
-	const today = moment().local();
-	const [currentDateRange, setDateRange] = useState({ startDate: today, endDate: today });
-	const [byRange, toggleByRange] = useState(false);
 
-	function handlePastEnrollmentsChange() {
-		toggleShowPastEnrollments(!showPastEnrollments);
-		setDateRange({ startDate: today, endDate: today });
-		toggleByRange(false);
-	}
+  const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
 
-	function handleDateRangeChange(newDateRange: any) {
-		setDateRange(newDateRange);
-	}
+  function handlePastEnrollmentsChange() {
+    toggleShowPastEnrollments(!showPastEnrollments);
+  }
 
-	function handleToggleByRange(newByRange: boolean) {
-		toggleByRange(newByRange);
-	}
-
-	const { loading, error, data } = useAuthQuery<RosterQuery>(
-		gql`
-			query RosterQuery($from: Date, $to: Date) {
-				me {
-					sites {
+  // TODO: change query based on date range
+	const { loading, error, data } = useAuthQuery<RosterQuery>(gql`
+		query RosterQuery {
+			me {
+				sites {
+					id
+					name
+					enrollments {
 						id
 						name
 						enrollments(from: $from, to: $to) {
@@ -110,65 +100,26 @@ export default function Roster() {
 		defaultSortOrder: 'asc',
 	};
 
-	let numKidsEnrolledText = `${pluralize('kid', enrollments.length, true)} enrolled.`;
-	const formattedStartDate = currentDateRange.startDate.format('MMMM D, YYYY');
-	const formattedEndDate = currentDateRange.endDate.format('MMMM D, YYYY');
-	if (showPastEnrollments && !byRange) {
-		numKidsEnrolledText = `${pluralize(
-			'kid',
-			enrollments.length,
-			true
-		)} were enrolled on ${formattedStartDate}.`;
-	} else if (showPastEnrollments && byRange) {
-		numKidsEnrolledText = `${pluralize(
-			'kid',
-			enrollments.length,
-			true
-		)} were enrolled between ${formattedStartDate} and ${formattedEndDate}.`;
-	}
-
+  // TODO: MAKE BUTTON NOT A CHILD OF PARAGRAPH
 	return (
 		<div className="Roster">
 			<section className="grid-container">
-				<h1 className="grid-col-auto">{site.name}</h1>
-				<p className="usa-intro display-flex flex-row flex-wrap flex-justify-start">
-					<span className="margin-right-2 flex-auto">{numKidsEnrolledText}</span>
-					<Button
-						text={showPastEnrollments ? 'Show only current enrollments' : 'Show past enrollments'}
-						appearance="unstyled"
-						onClick={handlePastEnrollmentsChange}
-					/>
-				</p>
-				{showPastEnrollments && (
-					<React.Fragment>
-						<RadioGroup
-							options={[
-								{
-									text: 'By date',
-									value: 'date',
-								},
-								{
-									text: 'By range',
-									value: 'range',
-								},
-							]}
-							onClick={(clickedValue: string) => handleToggleByRange(clickedValue === 'range')}
-							horizontal={true}
-							groupName={'dateSelectionType'}
-              legend="Select date or date range."
-              selected={byRange ? 'range' : 'date'}
-						/>
-						<DatePicker
-							byRange={byRange}
-							onSubmit={dateRange => handleDateRangeChange(dateRange)}
-							dateRange={currentDateRange}
-							onReset={newRange => {
-								handleToggleByRange(false);
-								handleDateRangeChange(newRange);
-							}}
-						/>
-					</React.Fragment>
-				)}
+        <h1 className="grid-col-auto">{site.name}</h1>
+        <p className="usa-intro display-flex flex-row flex-wrap flex-justify-start">
+          <span className="margin-right-2 flex-auto">
+            {pluralize('kid', enrollments.length, true)} enrolled.
+          </span>
+          <Button
+            text={"Show past enrollments"}
+            appearance="unstyled"
+            onClick={handlePastEnrollmentsChange}
+          />
+        </p>
+        {showPastEnrollments &&
+          <DatePicker
+            onSubmit={() => console.log('cat')}
+          />
+        }
 				<Table {...rosterTableProps} fullWidth />
 			</section>
 		</div>

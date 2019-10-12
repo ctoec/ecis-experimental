@@ -1,62 +1,28 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
+import { withKnobs, text } from '@storybook/addon-knobs';
+
 import RadioGroup from './RadioGroup';
 
+const defaultText = 'Click me';
 const onClick = action('onClick');
-const options = [
-	{
-		text: 'Option one',
-		value: 'one',
-	},
-	{
-		text: 'Option two',
-		value: 'two',
-	},
-];
 
 storiesOf('RadioGroup', module)
-	.add('Default', () => {
-		return (
-			<RadioGroup
-				options={options}
-				groupName="storybook-radio-group"
-				onClick={onClick}
-				legend="Storybook radio buttons"
-			/>
-		);
-	})
-	.add('Horizontal', () => {
-		return (
-			<RadioGroup
-				options={options}
-				groupName="storybook-radio-group-horizontal"
-				onClick={onClick}
-				legend="Storybook radio buttons"
-				horizontal={true}
-			/>
-		);
-	})
-	.add('Default selection', () => {
-		return (
-			<RadioGroup
-				options={options}
-				groupName="storybook-radio-group-default-selection"
-				onClick={onClick}
-        legend="Storybook radio buttons"
-        selected="one"
-			/>
-		);
-	})
-	.add('With error', () => {
-		return (
-			<RadioGroup
-				options={options}
-				groupName="storybook-radio-group-with-error"
-				onClick={onClick}
-        legend="Storybook radio buttons"
-        showError={true}
-        errorMessage="You  must select one or two."
-			/>
-		);
-	});
+  .addDecorator(withKnobs)
+  // .add('Default', () => {
+  //   const customText = text('Text', defaultText);
+  //   return <RadioGroup text={customText} onClick={onClick} />;
+  // })
+  // .add('Base', () => {
+  //   const customText = text('Text', defaultText);
+  //   return <RadioGroup text={customText} appearance="base" onClick={onClick} />;
+  // })
+  // .add('Secondary', () => {
+  //   const customText = text('Text', defaultText);
+  //   return <RadioGroup text={customText} appearance="secondary" onClick={onClick} />;
+  // })
+  // .add('Disabled', () => {
+  //   const customText = text('Text', defaultText);
+  //   return <RadioGroup text={customText} onClick={onClick} disabled />;
+  // });
