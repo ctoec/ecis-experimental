@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useAuthQuery from '../../hooks/useAuthQuery';
 import { gql } from 'apollo-boost';
 import { Link } from 'react-router-dom';
@@ -8,8 +8,18 @@ import { RosterQuery, RosterQuery_me_sites_enrollments } from '../../generated/R
 import nameFormatter from '../../utils/nameFormatter';
 import dateFormatter from '../../utils/dateFormatter';
 import Tag from '../../components/Tag/Tag';
+import DatePicker from '../../components/DatePicker/DatePicker';
+import Button from '../../components/Button/Button';
 
 export default function Roster() {
+
+  const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
+
+  function handlePastEnrollmentsChange() {
+    toggleShowPastEnrollments(!showPastEnrollments);
+  }
+
+  // TODO: change query based on date range
 	const { loading, error, data } = useAuthQuery<RosterQuery>(gql`
 		query RosterQuery {
 			me {
@@ -79,11 +89,26 @@ export default function Roster() {
 		defaultSortOrder: 'asc',
 	};
 
+  // TODO: MAKE BUTTON NOT A CHILD OF PARAGRAPH
 	return (
 		<div className="Roster">
 			<section className="grid-container">
-				<h1>{site.name}</h1>
-				<p className="usa-intro">{pluralize('kid', enrollments.length, true)} enrolled</p>
+        <h1 className="grid-col-auto">{site.name}</h1>
+        <p className="usa-intro display-flex flex-row flex-wrap flex-justify-start">
+          <span className="margin-right-2 flex-auto">
+            {pluralize('kid', enrollments.length, true)} enrolled.
+          </span>
+          <Button
+            text={"Show past enrollments"}
+            appearance="unstyled"
+            onClick={handlePastEnrollmentsChange}
+          />
+        </p>
+        {showPastEnrollments &&
+          <DatePicker
+            onSubmit={() => console.log('cat')}
+          />
+        }
 				<Table {...rosterTableProps} fullWidth />
 			</section>
 		</div>
