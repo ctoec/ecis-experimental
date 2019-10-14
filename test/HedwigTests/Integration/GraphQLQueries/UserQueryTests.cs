@@ -20,7 +20,7 @@ namespace HedwigTests.Integration.GraphQLQueries
 			{
 				// Given
 				var firstName = "FIRSTNAME";
-				var user = UserHelper.CreateUser(api.Context, firstNameOverride: firstName);
+				var user = UserHelper.CreateUser(api.Context, firstName: firstName);
 				var response = await api.Client.GetGraphQLAsync(
 					$@"{{
 						user (id: {user.Id} ) {{
@@ -43,7 +43,7 @@ namespace HedwigTests.Integration.GraphQLQueries
 				// Given
 				var user = UserHelper.CreateUser(api.Context);
 				var sitePermission = PermissionHelper.CreateSitePermission(api.Context, user: user);
-				var enrollment = EnrollmentHelper.CreateEnrollmentWithSiteId(api.Context, sitePermission.SiteId);
+				var enrollment = EnrollmentHelper.CreateEnrollment(api.Context, site: sitePermission.Site);
 				var entry = new DateTime(2019, 1, 1);
 				enrollment.Entry = entry;
 				api.Context.SaveChanges();
@@ -79,7 +79,7 @@ namespace HedwigTests.Integration.GraphQLQueries
 				// Given
 				var user = UserHelper.CreateUser(api.Context);
 				var sitePermission = PermissionHelper.CreateSitePermission(api.Context, user: user);
-				var enrollment = EnrollmentHelper.CreateEnrollmentWithSiteId(api.Context, sitePermission.SiteId);
+				var enrollment = EnrollmentHelper.CreateEnrollment(api.Context, site: sitePermission.Site);
 				var entry = new DateTime(2021, 1, 1);
 				enrollment.Entry = entry;
 
