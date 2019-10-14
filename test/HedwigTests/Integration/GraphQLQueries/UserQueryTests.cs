@@ -9,7 +9,6 @@ using HedwigTests.Fixtures;
 
 namespace HedwigTests.Integration.GraphQLQueries
 {
-	[Collection("SqlServer")]
 	public class UserQueryTests
 	{
 
