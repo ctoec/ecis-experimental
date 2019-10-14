@@ -157,23 +157,24 @@ namespace Hedwig.Migrations
                     b.ToTable("Organization");
                 });
 
-            modelBuilder.Entity("Hedwig.Models.OrganizationPermission", b =>
+            modelBuilder.Entity("Hedwig.Models.Permission", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("OrganizationId");
+                    b.Property<string>("Type")
+                        .IsRequired();
 
                     b.Property<int>("UserId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrganizationId");
-
                     b.HasIndex("UserId");
 
-                    b.ToTable("OrganizationPermissions");
+                    b.ToTable("Permissions");
+
+                    b.HasDiscriminator<string>("Type").HasValue("Permission");
                 });
 
             modelBuilder.Entity("Hedwig.Models.Site", b =>
@@ -193,25 +194,6 @@ namespace Hedwig.Migrations
                     b.HasIndex("OrganizationId");
 
                     b.ToTable("Site");
-                });
-
-            modelBuilder.Entity("Hedwig.Models.SitePermission", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("SiteId");
-
-                    b.Property<int>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SiteId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("SitePermissions");
                 });
 
             modelBuilder.Entity("Hedwig.Models.User", b =>
@@ -237,6 +219,28 @@ namespace Hedwig.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("User");
+                });
+
+            modelBuilder.Entity("Hedwig.Models.OrganizationPermission", b =>
+                {
+                    b.HasBaseType("Hedwig.Models.Permission");
+
+                    b.Property<int>("OrganizationId");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.HasDiscriminator().HasValue("Organization");
+                });
+
+            modelBuilder.Entity("Hedwig.Models.SitePermission", b =>
+                {
+                    b.HasBaseType("Hedwig.Models.Permission");
+
+                    b.Property<int>("SiteId");
+
+                    b.HasIndex("SiteId");
+
+                    b.HasDiscriminator().HasValue("Site");
                 });
 
             modelBuilder.Entity("Hedwig.Models.Child", b =>
@@ -275,15 +279,10 @@ namespace Hedwig.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Hedwig.Models.OrganizationPermission", b =>
+            modelBuilder.Entity("Hedwig.Models.Permission", b =>
                 {
-                    b.HasOne("Hedwig.Models.Organization", "Organization")
-                        .WithMany()
-                        .HasForeignKey("OrganizationId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("Hedwig.Models.User", "User")
-                        .WithMany()
+                        .WithMany("Permissions")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -295,16 +294,19 @@ namespace Hedwig.Migrations
                         .HasForeignKey("OrganizationId");
                 });
 
+            modelBuilder.Entity("Hedwig.Models.OrganizationPermission", b =>
+                {
+                    b.HasOne("Hedwig.Models.Organization", "Organization")
+                        .WithMany()
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Hedwig.Models.SitePermission", b =>
                 {
                     b.HasOne("Hedwig.Models.Site", "Site")
                         .WithMany()
                         .HasForeignKey("SiteId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Hedwig.Models.User", "User")
-                        .WithMany("SitePermissions")
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

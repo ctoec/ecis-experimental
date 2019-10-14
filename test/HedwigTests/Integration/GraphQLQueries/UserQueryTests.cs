@@ -42,7 +42,7 @@ namespace HedwigTests.Integration.GraphQLQueries
 			{
 				// Given
 				var user = UserHelper.CreateUser(api.Context);
-				var sitePermission = SitePermissionHelper.CreateSitePermission(api.Context, user: user);
+				var sitePermission = PermissionHelper.CreateSitePermission(api.Context, user: user);
 				var enrollment = EnrollmentHelper.CreateEnrollmentWithSiteId(api.Context, sitePermission.SiteId);
 				var entry = new DateTime(2019, 1, 1);
 				enrollment.Entry = entry;
@@ -78,7 +78,7 @@ namespace HedwigTests.Integration.GraphQLQueries
 			{
 				// Given
 				var user = UserHelper.CreateUser(api.Context);
-				var sitePermission = SitePermissionHelper.CreateSitePermission(api.Context, user: user);
+				var sitePermission = PermissionHelper.CreateSitePermission(api.Context, user: user);
 				var enrollment = EnrollmentHelper.CreateEnrollmentWithSiteId(api.Context, sitePermission.SiteId);
 				var entry = new DateTime(2021, 1, 1);
 				enrollment.Entry = entry;

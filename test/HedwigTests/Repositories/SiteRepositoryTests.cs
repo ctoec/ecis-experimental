@@ -16,11 +16,11 @@ namespace HedwigTests.Repositories
 			{
 				// If site permissions exist with user Ids, and implicitly created site Ids
 				var user = UserHelper.CreateUser(context);
-				var sitePermission1 = SitePermissionHelper.CreateSitePermission(context, user: user);
-				var sitePermission2 = SitePermissionHelper.CreateSitePermission(context, user: user);
+				var sitePermission1 = PermissionHelper.CreateSitePermission(context, user: user);
+				var sitePermission2 = PermissionHelper.CreateSitePermission(context, user: user);
 
 				var otherUser = UserHelper.CreateUser(context);
-				var otherSitePermission = SitePermissionHelper.CreateSitePermission(context, user: otherUser);
+				var otherSitePermission = PermissionHelper.CreateSitePermission(context, user: otherUser);
 
 				// When the site repository is queried with a user id
 				var siteRepo = new SiteRepository(context);
@@ -41,11 +41,11 @@ namespace HedwigTests.Repositories
 			{
 				// If organization permissions exist with user Ids, and implicitly created site Ids
 				var user = UserHelper.CreateUser(context);
-				var orgPermission1 = OrganizationPermissionHelper.CreateOrganizationPermission(context, user: user);
-				var orgPermission2 = OrganizationPermissionHelper.CreateOrganizationPermission(context, user: user);
+				var orgPermission1 = PermissionHelper.CreateOrganizationPermission(context, user: user);
+				var orgPermission2 = PermissionHelper.CreateOrganizationPermission(context, user: user);
 
 				var otherUser = UserHelper.CreateUser(context);
-				var otherOrganizationPermission = OrganizationPermissionHelper.CreateOrganizationPermission(context, user: otherUser);
+				var otherOrganizationPermission = PermissionHelper.CreateOrganizationPermission(context, user: otherUser);
 
 				// When the site repository is queried with a user id
 				var siteRepo = new SiteRepository(context);
@@ -66,8 +66,8 @@ namespace HedwigTests.Repositories
 			{
 				// If permissions exist with user Ids, and implicitly created site Ids
 				var user = UserHelper.CreateUser(context);
-				var orgPermission = OrganizationPermissionHelper.CreateOrganizationPermission(context, user: user);
-				var sitePermission = SitePermissionHelper.CreateSitePermission(context, user: user, site: orgPermission.Organization.Sites.ToArray()[0]);
+				var orgPermission = PermissionHelper.CreateOrganizationPermission(context, user: user);
+				var sitePermission = PermissionHelper.CreateSitePermission(context, user: user, site: orgPermission.Organization.Sites.ToArray()[0]);
 
 				// When the site repository is queried with a user id
 				var siteRepo = new SiteRepository(context);

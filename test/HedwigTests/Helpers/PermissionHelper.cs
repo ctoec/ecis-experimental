@@ -6,8 +6,27 @@ using Hedwig.Models;
 
 namespace HedwigTests.Helpers
 {
-	public class OrganizationPermissionHelper
+	public class PermissionHelper
 	{
+		public static SitePermission CreateSitePermission(
+			HedwigContext context,
+			User user = null,
+			Site site = null
+		)
+		{
+			user = user ?? UserHelper.CreateUser(context);
+			site = site ?? SiteHelper.CreateSite(context);
+
+			var sitePermission = new SitePermission
+			{
+				SiteId = site.Id,
+				UserId = user.Id
+			};
+			context.Permissions.Add(sitePermission);
+			context.SaveChanges();
+			return sitePermission;
+		}
+
 		public static OrganizationPermission CreateOrganizationPermission(
 			HedwigContext context,
 			User user = null,
@@ -22,7 +41,7 @@ namespace HedwigTests.Helpers
 				OrganizationId = org.Id,
 				UserId = user.Id
 			};
-			context.OrganizationPermissions.Add(orgPermission);
+			context.Permissions.Add(orgPermission);
 			context.SaveChanges();
 			return orgPermission;
 		}

@@ -50,14 +50,14 @@ namespace Hedwig.Data
 			}
 			context.SaveChanges();
 
-			var permissions = new OrganizationPermission[]
+			var permissions = new Permission[]
 			{
 				new OrganizationPermission { UserId = users[0].Id, OrganizationId = organizations[0].Id }
 			};
 
-			foreach (OrganizationPermission p in permissions)
+			foreach (Permission p in permissions)
 			{
-				context.OrganizationPermissions.Add(p);
+				context.Permissions.Add(p);
 			}
 			context.SaveChanges();
 
