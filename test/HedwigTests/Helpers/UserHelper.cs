@@ -8,12 +8,18 @@ namespace HedwigTests.Helpers
 		public const string FIRST_NAME = "Test";
 		public const string LAST_NAME = "User";
 
-		public static User CreateUser(HedwigContext context, string firstNameOverride = null)
+		public static User CreateUser(
+			HedwigContext context,
+			string firstName = "Test",
+			string lastName = "User"
+		)
 		{
-			var user = new User {
-				FirstName = firstNameOverride ?? FIRST_NAME,
-				LastName = LAST_NAME 
-				};
+			var user = new User
+			{
+				FirstName = firstName,
+				LastName = lastName
+			};
+
 			context.Users.Add(user);
 			context.SaveChanges();
 			return user;

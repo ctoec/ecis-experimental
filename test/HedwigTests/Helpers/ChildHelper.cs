@@ -8,24 +8,26 @@ namespace HedwigTests.Helpers
 {
 	public class ChildHelper
 	{
-		public const string FIRST_NAME = "Test";
-		public const string LAST_NAME = "Child";
-		public const string BIRTHDATE_STR = "2000-01-01";
-		public const Gender GENDER = Gender.Unknown;
-
-		public static Child CreateChild(HedwigContext context, string firstNameOverride = "", int familyIdOverride = 0)
+		public static Child CreateChild(
+			HedwigContext context,
+			string firstName = "Test",
+			string lastName = "Child",
+			string birthdate = "2000-01-01",
+			Gender gender = Gender.Unknown,
+			Family family = null
+		)
 		{
-			var child = new Child {
-				FirstName = !string.IsNullOrWhiteSpace(firstNameOverride) ? firstNameOverride : FIRST_NAME,
-				LastName = LAST_NAME,
-				Birthdate = DateTime.Parse(BIRTHDATE_STR),
-				Gender = GENDER
+			family = family ?? FamilyHelper.CreateFamily(context);
+
+			var child = new Child
+			{
+				FirstName = firstName,
+				LastName = lastName,
+				Birthdate = DateTime.Parse(birthdate),
+				Gender = gender,
+				FamilyId = family.Id
 			};
 
-			if(familyIdOverride > 0) {
-				child.FamilyId = familyIdOverride;
-			}
-			
 			context.Children.Add(child);
 			context.SaveChanges();
 			return child;
