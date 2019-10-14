@@ -3,14 +3,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Hedwig.Models
 {
-  public class Organization
-  {
-    public int Id { get; set; }
+	public class Organization
+	{
+		public int Id { get; set; }
 
-    [Required]
-    [StringLength(100)]
-    public string Name { get; set; }
+		[Required]
+		[StringLength(100)]
+		public string Name { get; set; }
 
-    public ICollection<Site> Sites { get; set; }
-  }
+		public ICollection<Site> Sites { get; set; }
+	}
 }
