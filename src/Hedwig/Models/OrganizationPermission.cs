@@ -1,13 +1,13 @@
 namespace Hedwig.Models
 {
-  public class SitePermission
+  public class OrganizationPermission
   {
     public int Id { get; set; }
 
     public int UserId { get; set; }
     public User User { get; set; }
 
-    public int SiteId { get; set; }
-    public Site Site { get; set; }
+    public int OrganizationId { get; set; }
+    public Organization Organization { get; set; }
   }
 }

@@ -9,46 +9,48 @@ using HedwigTests.Fixtures;
 
 namespace HedwigTests.Integration.GraphQLQueries
 {
-    [Collection("SqlServer")]
-    public class UserQueryTests
-    {
+  [Collection("SqlServer")]
+  public class UserQueryTests
+  {
 
     [Fact]
-        public async Task Get_User_By_Id()
-        {
-            using (var api = new TestApiProvider()) {
-                // Given
-                var firstName = "FIRSTNAME";
-                var user = UserHelper.CreateUser(api.Context, firstNameOverride: firstName);
-				var response = await api.Client.GetGraphQLAsync(
-					$@"{{
+    public async Task Get_User_By_Id()
+    {
+      using (var api = new TestApiProvider())
+      {
+        // Given
+        var firstName = "FIRSTNAME";
+        var user = UserHelper.CreateUser(api.Context, firstNameOverride: firstName);
+        var response = await api.Client.GetGraphQLAsync(
+          $@"{{
 						user (id: {user.Id} ) {{
 							firstName
 						}}
 					}}"
-				);
+        );
 
-				response.EnsureSuccessStatusCode();
-				User userRes = await response.ParseGraphQLResponse<User>();
-				Assert.Equal(firstName, userRes.FirstName);
-            }
-        }
+        response.EnsureSuccessStatusCode();
+        User userRes = await response.ParseGraphQLResponse<User>();
+        Assert.Equal(firstName, userRes.FirstName);
+      }
+    }
 
-		[Fact]
-		public async Task Get_Sites_With_Enrollments_Filtered_By_Dates_By_Id()
-		{
-            using (var api = new TestApiProvider()) {
-                // Given
-                var user = UserHelper.CreateUser(api.Context);
-                var sitePermission = SitePermissionHelper.CreateSitePermissionWithUserId(api.Context, user.Id);
-                var enrollment = EnrollmentHelper.CreateEnrollmentWithSiteId(api.Context, sitePermission.SiteId);
-                var entry = new DateTime(2019, 1, 1);
-                enrollment.Entry = entry;
-                api.Context.SaveChanges();
+    [Fact]
+    public async Task Get_Sites_With_Enrollments_Filtered_By_Dates_By_Id()
+    {
+      using (var api = new TestApiProvider())
+      {
+        // Given
+        var user = UserHelper.CreateUser(api.Context);
+        var sitePermission = SitePermissionHelper.CreateSitePermission(api.Context, user: user);
+        var enrollment = EnrollmentHelper.CreateEnrollmentWithSiteId(api.Context, sitePermission.SiteId);
+        var entry = new DateTime(2019, 1, 1);
+        enrollment.Entry = entry;
+        api.Context.SaveChanges();
 
 
-                // When
-				var response = await api.Client.GetGraphQLAsync(
+        // When
+        var response = await api.Client.GetGraphQLAsync(
                     $@"{{
                         user(id: ""{user.Id}"") {{
                             sites {{
@@ -59,29 +61,30 @@ namespace HedwigTests.Integration.GraphQLQueries
                         }}
                     }}"
                 );
-                
-                
-				response.EnsureSuccessStatusCode();
-                User userRes = await response.ParseGraphQLResponse<User>();
-                Assert.Single(userRes.Sites);
-                Assert.Single(userRes.Sites.First().Enrollments);
-				Assert.Equal(enrollment.Id, userRes.Sites.First().Enrollments.First().Id);
-			}
-		}
-
-		[Fact]
-		public async Task Get_Sites_With_Enrollments_Filtered_By_Dates_By_Id_No_Match()
-		{
-			using (var api = new TestApiProvider()) {
-                // Given
-                var user = UserHelper.CreateUser(api.Context);
-                var sitePermission = SitePermissionHelper.CreateSitePermissionWithUserId(api.Context, user.Id);
-                var enrollment = EnrollmentHelper.CreateEnrollmentWithSiteId(api.Context, sitePermission.SiteId);
-                var entry = new DateTime(2021, 1, 1);
-                enrollment.Entry = entry;
 
 
-				var response = await api.Client.GetGraphQLAsync(
+        response.EnsureSuccessStatusCode();
+        User userRes = await response.ParseGraphQLResponse<User>();
+        Assert.Single(userRes.Sites);
+        Assert.Single(userRes.Sites.First().Enrollments);
+        Assert.Equal(enrollment.Id, userRes.Sites.First().Enrollments.First().Id);
+      }
+    }
+
+    [Fact]
+    public async Task Get_Sites_With_Enrollments_Filtered_By_Dates_By_Id_No_Match()
+    {
+      using (var api = new TestApiProvider())
+      {
+        // Given
+        var user = UserHelper.CreateUser(api.Context);
+        var sitePermission = SitePermissionHelper.CreateSitePermission(api.Context, user: user);
+        var enrollment = EnrollmentHelper.CreateEnrollmentWithSiteId(api.Context, sitePermission.SiteId);
+        var entry = new DateTime(2021, 1, 1);
+        enrollment.Entry = entry;
+
+
+        var response = await api.Client.GetGraphQLAsync(
                     $@"{{
                         user(id: {user.Id}) {{
                             sites {{
@@ -92,11 +95,11 @@ namespace HedwigTests.Integration.GraphQLQueries
                         }}
                     }}"
                 );
-				response.EnsureSuccessStatusCode();
-                User userRes = await response.ParseGraphQLResponse<User>();
-                Assert.Single(userRes.Sites);
-                Assert.Empty(userRes.Sites.First().Enrollments);
-            }
-		}
+        response.EnsureSuccessStatusCode();
+        User userRes = await response.ParseGraphQLResponse<User>();
+        Assert.Single(userRes.Sites);
+        Assert.Empty(userRes.Sites.First().Enrollments);
+      }
     }
+  }
 }

@@ -7,28 +7,77 @@ using HedwigTests.Fixtures;
 
 namespace HedwigTests.Repositories
 {
-    public class SiteRepositoryTests
+  public class SiteRepositoryTests
+  {
+    [Fact]
+    public async Task Get_Sites_For_User_With_Site_Permission()
     {
-        [Fact]
-        public async Task Get_Sites_By_User_Id()
-        {
-            using (var context = new TestContextProvider().Context) {
-                // If site permissions exist with user Ids, and implicitly created site Ids
-                var user1 = UserHelper.CreateUser(context);
-                var sitePermissionUser1 = SitePermissionHelper.CreateSitePermissionWithUserId(context, user1.Id);
-                var user2 = UserHelper.CreateUser(context);
-                var sitePermission1User2 = SitePermissionHelper.CreateSitePermissionWithUserId(context, user2.Id);
-                var sitePermission2User2 = SitePermissionHelper.CreateSitePermissionWithUserId(context, user2.Id);
+      using (var context = new TestContextProvider().Context)
+      {
+        // If site permissions exist with user Ids, and implicitly created site Ids
+        var user = UserHelper.CreateUser(context);
+        var sitePermission1 = SitePermissionHelper.CreateSitePermission(context, user: user);
+        var sitePermission2 = SitePermissionHelper.CreateSitePermission(context, user: user);
 
-                // When the site repository is queried with a user id
-                var siteRepo = new SiteRepository(context);
-                var res = await siteRepo.GetSitesByUserIdAsync(user2.Id);
+        var otherUser = UserHelper.CreateUser(context);
+        var otherSitePermission = SitePermissionHelper.CreateSitePermission(context, user: otherUser);
 
-                // Then a list of sites for which that user has permission is returned
-                var siteIds = (from s in res
-                                select s.Id).OrderBy(id => id).ToArray();
-                Assert.Equal(new int[]{ sitePermission1User2.SiteId, sitePermission2User2.SiteId }, siteIds);
-            }
-        }
+        // When the site repository is queried with a user id
+        var siteRepo = new SiteRepository(context);
+        var result = await siteRepo.GetSitesByUserIdAsync(user.Id);
+
+        // Then a list of sites for which that user has permission is returned
+        var siteIds = (from s in result select s.Id).ToArray();
+        Assert.Contains(sitePermission1.SiteId, siteIds);
+        Assert.Contains(sitePermission2.SiteId, siteIds);
+        Assert.DoesNotContain(otherSitePermission.SiteId, siteIds);
+      }
     }
+
+    [Fact]
+    public async Task Get_Sites_For_User_With_Organization_Permission()
+    {
+      using (var context = new TestContextProvider().Context)
+      {
+        // If organization permissions exist with user Ids, and implicitly created site Ids
+        var user = UserHelper.CreateUser(context);
+        var orgPermission1 = OrganizationPermissionHelper.CreateOrganizationPermission(context, user: user);
+        var orgPermission2 = OrganizationPermissionHelper.CreateOrganizationPermission(context, user: user);
+
+        var otherUser = UserHelper.CreateUser(context);
+        var otherOrganizationPermission = OrganizationPermissionHelper.CreateOrganizationPermission(context, user: otherUser);
+
+        // When the site repository is queried with a user id
+        var siteRepo = new SiteRepository(context);
+        var result = await siteRepo.GetSitesByUserIdAsync(user.Id);
+
+        // Then a list of sites for which that user has permission is returned
+        var siteIds = (from s in result select s.Id).ToArray();
+        Assert.Contains(orgPermission1.Organization.Sites.ToArray()[0].Id, siteIds);
+        Assert.Contains(orgPermission2.Organization.Sites.ToArray()[0].Id, siteIds);
+        Assert.DoesNotContain(otherOrganizationPermission.Organization.Sites.ToArray()[0].Id, siteIds);
+      }
+    }
+
+    [Fact]
+    public async Task Get_Sites_For_User_With_Both_Site_And_Org_Permissions()
+    {
+      using (var context = new TestContextProvider().Context)
+      {
+        // If permissions exist with user Ids, and implicitly created site Ids
+        var user = UserHelper.CreateUser(context);
+        var orgPermission = OrganizationPermissionHelper.CreateOrganizationPermission(context, user: user);
+        var sitePermission = SitePermissionHelper.CreateSitePermission(context, user: user, site: orgPermission.Organization.Sites.ToArray()[0]);
+
+        // When the site repository is queried with a user id
+        var siteRepo = new SiteRepository(context);
+        var result = await siteRepo.GetSitesByUserIdAsync(user.Id);
+
+        // Then a unique list of sites for which that user has permission is returned
+        var siteIds = (from s in result select s.Id).ToArray();
+        Assert.Contains(sitePermission.SiteId, siteIds);
+        Assert.Single(siteIds);
+      }
+    }
+  }
 }
