@@ -15,8 +15,26 @@ namespace Hedwig.Repositories
 
 		public async Task<IEnumerable<Site>> GetSitesByUserIdAsync(int userId)
 		{
-			var permissions = await _context.SitePermissions.Include(p => p.Site).Where(p => userId == p.UserId).ToListAsync();
-			var sites = permissions.Select(s => s.Site);
+			var permissions = _context.Permissions.Where(p => userId == p.UserId);
+
+			// If a user has permission for an organization, they have permissions for all of its child sites
+			var organizationPermissions = permissions
+				.OfType<OrganizationPermission>()
+				.Include(p => p.Organization)
+					.ThenInclude(o => o.Sites)
+				.ToListAsync();
+
+			var sitePermissions = permissions
+				.OfType<SitePermission>()
+				.Include(p => p.Site)
+				.ToListAsync();
+
+			await Task.WhenAll(sitePermissions, organizationPermissions);
+
+			var sites = organizationPermissions.Result.SelectMany(p => p.Organization.Sites)
+				.Concat(sitePermissions.Result.Select(p => p.Site))
+				.Distinct();
+
 			return sites;
 		}
 	}

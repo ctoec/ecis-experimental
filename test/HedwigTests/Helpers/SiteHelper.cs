@@ -10,7 +10,7 @@ namespace HedwigTests.Helpers
 
 		public static Site CreateSite(HedwigContext context)
 		{
-			var site = new Site { Name = NAME };			
+			var site = new Site { Name = NAME };
 			context.Sites.Add(site);
 			context.SaveChanges();
 			return site;

@@ -17,9 +17,20 @@ namespace Hedwig.Data
 				return; // DB has already been seeded
 			}
 
+			var organizations = new Hedwig.Models.Organization[]
+			{
+				new Hedwig.Models.Organization { Name = "Children's Adventure Center" }
+			};
+
+			foreach (Hedwig.Models.Organization o in organizations)
+			{
+				context.Organizations.Add(o);
+			}
+			context.SaveChanges();
+
 			var sites = new Site[]
 			{
-				new Site { Name = "Children's Adventure Center" }
+				new Site { Name = "Children's Adventure Center", OrganizationId = organizations[0].Id }
 			};
 
 			foreach (Site s in sites)
@@ -39,14 +50,14 @@ namespace Hedwig.Data
 			}
 			context.SaveChanges();
 
-			var sitePermissions = new SitePermission[]
+			var permissions = new Permission[]
 			{
-				new SitePermission { UserId = users[0].Id, SiteId = sites[0].Id }
+				new OrganizationPermission { UserId = users[0].Id, OrganizationId = organizations[0].Id }
 			};
 
-			foreach (SitePermission s in sitePermissions)
+			foreach (Permission p in permissions)
 			{
-				context.SitePermissions.Add(s);
+				context.Permissions.Add(p);
 			}
 			context.SaveChanges();
 

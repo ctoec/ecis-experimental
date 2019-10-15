@@ -23,6 +23,9 @@ steps:
       organization: "ctoec"
       scannerMode: "MSBuild"
       projectKey: "ecis-experimental"
+      extraProperties: |
+        sonar.exclusions="**/Migrations/**"
+        sonar.coverage.exclusions="**/**"
   #
   # Download dependencies
   #
