@@ -110,12 +110,18 @@ h1 {
 	@extend .usa-table;
 	@extend .usa-table--borderless;
 
-	font-variant-numeric: tabular-nums;
-
 	th,
 	td {
 		border-color: color('base-lighter');
 	}
+}
+
+.oec-table__cell--tabular-nums {
+	font-variant-numeric: tabular-nums;
+}
+
+.oec-table__cell--gray {
+	color: color('base');
 }
 
 .oec-table--full-width {
