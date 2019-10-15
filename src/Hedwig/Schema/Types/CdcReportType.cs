@@ -17,7 +17,7 @@ namespace Hedwig.Schema.Types
 			Field(r => r.ReportingPeriod.PeriodStart);
 			Field(r => r.ReportingPeriod.PeriodEnd);
 			Field(r => r.ReportingPeriod.DueAt);
-			Field(r => r.SubmittedAt);
+			Field(r => r.SubmittedAt, nullable: true);
 			Field<NonNullGraphType<OrganizationType>>(
 				"organization",
 				resolve: context =>
