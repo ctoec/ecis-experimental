@@ -15,6 +15,8 @@ namespace Hedwig.Data
 		public DbSet<Funding> Fundings { get; set; }
 		public DbSet<Organization> Organizations { get; set; }
 		public DbSet<Permission> Permissions { get; set; }
+		public DbSet<Report> Reports { get; set; }
+		public DbSet<ReportingPeriod> ReportingPeriods { get; set; }
 		public DbSet<Site> Sites { get; set; }
 		public DbSet<SitePermission> SitePermissions { get; set; }
 		public DbSet<User> Users { get; set; }
@@ -26,10 +28,14 @@ namespace Hedwig.Data
 			modelBuilder.Entity<FamilyDetermination>().ToTable("FamilyDetermination");
 			modelBuilder.Entity<Funding>().ToTable("Funding");
 			modelBuilder.Entity<Organization>().ToTable("Organization");
-			modelBuilder.Entity<Permission>().ToTable("Permissions")
+			modelBuilder.Entity<Permission>().ToTable("Permission")
 				.HasDiscriminator<string>("Type")
 				.HasValue<OrganizationPermission>("Organization")
 				.HasValue<SitePermission>("Site");
+			modelBuilder.Entity<Report>().ToTable("Report")
+				.HasDiscriminator<FundingSource>("Type")
+				.HasValue<CdcReport>(FundingSource.CDC);
+			modelBuilder.Entity<ReportingPeriod>().ToTable("ReportingPeriod");
 			modelBuilder.Entity<Site>().ToTable("Site");
 			modelBuilder.Entity<User>().ToTable("User");
 		}

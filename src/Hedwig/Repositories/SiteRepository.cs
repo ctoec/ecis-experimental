@@ -13,6 +13,14 @@ namespace Hedwig.Repositories
 
 		public SiteRepository(HedwigContext context) => _context = context;
 
+		public async Task<ILookup<int, Site>> GetSitesByOrganizationIdsAsync(IEnumerable<int> organizationIds)
+		{
+			var sites = await _context.Sites
+				.Where(s => s.OrganizationId.HasValue && organizationIds.Contains(s.OrganizationId.Value))
+				.ToListAsync();
+			return sites.ToLookup(x => x.OrganizationId.Value);
+		}
+
 		public async Task<IEnumerable<Site>> GetSitesByUserIdAsync(int userId)
 		{
 			var permissions = _context.Permissions.Where(p => userId == p.UserId);
@@ -41,6 +49,7 @@ namespace Hedwig.Repositories
 
 	public interface ISiteRepository
 	{
+		Task<ILookup<int, Site>> GetSitesByOrganizationIdsAsync(IEnumerable<int> organizationIds);
 		Task<IEnumerable<Site>> GetSitesByUserIdAsync(int userId);
 	}
 }
