@@ -43,6 +43,7 @@ namespace OpenIDProvider
 	{
 	  return new List<ApiResource>
 			{
+				new ApiResource("hedwig_backend", "Hedwig API")
 			};
 	}
 
@@ -65,7 +66,8 @@ namespace OpenIDProvider
 					AllowedScopes =
 					{
 						IdentityServerConstants.StandardScopes.OpenId,
-						IdentityServerConstants.StandardScopes.Profile
+						IdentityServerConstants.StandardScopes.Profile,
+						"hedwig_backend"
 					}
 				}
 			};

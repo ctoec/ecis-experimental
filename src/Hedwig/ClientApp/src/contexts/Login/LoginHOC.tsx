@@ -176,6 +176,7 @@ const LoginProvider: React.FC<LoginProviderPropsType> = (
           // unset code, so we can do refresh token exchanges subsequently
           code = undefined;
           if (isFirstRequest) {
+            console.log(resp);
             setAccessToken(resp.accessToken);
           } else {
             // refresh token section
