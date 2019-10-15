@@ -236,6 +236,56 @@ namespace Hedwig.Data
 				context.Fundings.Add(f);
 			}
 			context.SaveChanges();
+
+			var reportingPeriods = new ReportingPeriod[] {
+				new ReportingPeriod {
+					Type = FundingSource.CDC,
+					Period = DateTime.Parse("2019-06-01"),
+					PeriodStart = DateTime.Parse("2019-06-03"),
+					PeriodEnd = DateTime.Parse("2019-06-30"),
+					DueAt = DateTime.Parse("2019-07-15")
+				},
+				new ReportingPeriod {
+					Type = FundingSource.CDC,
+					Period = DateTime.Parse("2019-07-01"),
+					PeriodStart = DateTime.Parse("2019-07-01"),
+					PeriodEnd = DateTime.Parse("2019-07-28"),
+					DueAt = DateTime.Parse("2019-08-15")
+				},
+				new ReportingPeriod {
+					Type = FundingSource.CDC,
+					Period = DateTime.Parse("2019-08-01"),
+					PeriodStart = DateTime.Parse("2019-07-29"),
+					PeriodEnd = DateTime.Parse("2019-09-01"),
+					DueAt = DateTime.Parse("2019-09-15")
+				},
+				new ReportingPeriod {
+					Type = FundingSource.CDC,
+					Period = DateTime.Parse("2019-09-01"),
+					PeriodStart = DateTime.Parse("2019-09-02"),
+					PeriodEnd = DateTime.Parse("2019-09-29"),
+					DueAt = DateTime.Parse("2019-10-15")
+				}
+			};
+
+			foreach (ReportingPeriod p in reportingPeriods)
+			{
+				context.ReportingPeriods.Add(p);
+			}
+			context.SaveChanges();
+
+			var reports = new Report[] {
+				new CdcReport { OrganizationId = organizations[0].Id, ReportingPeriodId = reportingPeriods[0].Id, SubmittedAt = DateTime.Parse("2019-07-10") },
+				new CdcReport { OrganizationId = organizations[0].Id, ReportingPeriodId = reportingPeriods[0].Id, SubmittedAt = DateTime.Parse("2019-08-13") },
+				new CdcReport { OrganizationId = organizations[0].Id, ReportingPeriodId = reportingPeriods[0].Id, SubmittedAt = DateTime.Parse("2019-09-09") },
+				new CdcReport { OrganizationId = organizations[0].Id, ReportingPeriodId = reportingPeriods[0].Id }
+			};
+
+			foreach (Report r in reports)
+			{
+				context.Reports.Add(r);
+			}
+			context.SaveChanges();
 		}
 	}
 }

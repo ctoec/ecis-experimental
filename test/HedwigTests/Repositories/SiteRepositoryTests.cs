@@ -79,5 +79,25 @@ namespace HedwigTests.Repositories
 				Assert.Single(siteIds);
 			}
 		}
+
+		[Fact]
+		public async Task Get_Sites_By_Organization_Ids()
+		{
+			using (var context = new TestContextProvider().Context)
+			{
+				// Given
+				var org = OrganizationHelper.CreateOrganization(context);
+				var otherOrg = OrganizationHelper.CreateOrganization(context);
+
+				// When the site repository is queried with a user id
+				var siteRepo = new SiteRepository(context);
+				var result = await siteRepo.GetSitesByOrganizationIdsAsync(new int[] { org.Id });
+
+				// Then the sites belonging to that organization are returned
+				Assert.Single(result[org.Id]);
+				Assert.Equal(result[org.Id].First().Id, org.Sites.First().Id);
+				Assert.Empty(result[otherOrg.Id]);
+			}
+		}
 	}
 }

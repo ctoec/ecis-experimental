@@ -1,6 +1,6 @@
 namespace Hedwig.Models
 {
-	public class Permission
+	public abstract class Permission
 	{
 		public int Id { get; set; }
 
