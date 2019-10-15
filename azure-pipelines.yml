@@ -53,6 +53,11 @@ steps:
   - script: dotnet publish "$(Build.SourcesDirectory)/src/Hedwig/hedwig.csproj" --output "$(Build.SourcesDirectory)/src/Hedwig/dist" --configuration Release --no-restore
     displayName: "Script: dotnet publish"
   #
+  # Generate idempotent db migration script for mssql
+  #
+  - script: export ConnectionStrings__HEDWIG=xxx && dotnet ef --verbose migrations script --idempotent --output $(Build.ArtifactStagingDirectory)/hedwig-db.sql --context HedwigContext --project src/Hedwig
+    displayName: "Script: dotnet ef migrations script"
+  #
   # Add beanstalk deployment manifest to distribution
   #
   - script: cp aws-windows-deployment-manifest.json $(Build.SourcesDirectory)/src/Hedwig/dist
@@ -87,17 +92,17 @@ steps:
   - script: cd src/Hedwig/ClientApp && yarn test --ci
     displayName: "Script: yarn test"
   #
+  # Install typescript for sonarcloud
+  #
+  - script: npm install typescript --loglevel verbose
+    displayName: "Script: npm install typescript"
+  #
   # Perform & publish static code analysis to sonarcloud
   #
   - task: SonarCloudAnalyze@1
   - task: SonarCloudPublish@1
     inputs:
       pollingTimeoutSec: "300"
-  #
-  # Generate idempotent db migration script for mssql
-  #
-  - script: export ConnectionStrings__HEDWIG=xxx && dotnet ef --verbose migrations script --idempotent --output $(Build.ArtifactStagingDirectory)/hedwig-db.sql --context HedwigContext --project src/Hedwig
-    displayName: "Script: dotnet ef migrations script"
   #
   # Zip app runtime release
   #
