@@ -276,9 +276,9 @@ namespace Hedwig.Data
 
 			var reports = new Report[] {
 				new CdcReport { OrganizationId = organizations[0].Id, ReportingPeriodId = reportingPeriods[0].Id, SubmittedAt = DateTime.Parse("2019-07-10") },
-				new CdcReport { OrganizationId = organizations[0].Id, ReportingPeriodId = reportingPeriods[0].Id, SubmittedAt = DateTime.Parse("2019-08-13") },
-				new CdcReport { OrganizationId = organizations[0].Id, ReportingPeriodId = reportingPeriods[0].Id, SubmittedAt = DateTime.Parse("2019-09-09") },
-				new CdcReport { OrganizationId = organizations[0].Id, ReportingPeriodId = reportingPeriods[0].Id }
+				new CdcReport { OrganizationId = organizations[0].Id, ReportingPeriodId = reportingPeriods[1].Id, SubmittedAt = DateTime.Parse("2019-08-13") },
+				new CdcReport { OrganizationId = organizations[0].Id, ReportingPeriodId = reportingPeriods[2].Id, SubmittedAt = DateTime.Parse("2019-09-09") },
+				new CdcReport { OrganizationId = organizations[0].Id, ReportingPeriodId = reportingPeriods[3].Id }
 			};
 
 			foreach (Report r in reports)
