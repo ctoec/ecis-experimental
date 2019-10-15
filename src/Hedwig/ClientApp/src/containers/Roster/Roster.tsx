@@ -63,20 +63,17 @@ export default function Roster() {
 			},
 			{
 				name: 'Date of birth',
-				cell: ({ row }) => <td>{dateFormatter(row.child.birthdate)}</td>,
+				cell: ({ row }) => (
+					<td className="oec-table__cell--tabular-nums">{dateFormatter(row.child.birthdate)}</td>
+				),
 				sort: row => row.child.birthdate,
 			},
 			{
 				name: 'Funding',
 				cell: ({ row }) => (
-					<td>
-						{row.fundings.length
-							? <Tag text={`${row.fundings[0].source}`} />
-							: ''
-						}
-					</td>
-				)
-			}
+					<td>{row.fundings.length ? <Tag text={`${row.fundings[0].source}`} /> : ''}</td>
+				),
+			},
 		],
 		defaultSortColumn: 0,
 		defaultSortOrder: 'asc',

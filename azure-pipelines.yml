@@ -24,8 +24,8 @@ steps:
       scannerMode: "MSBuild"
       projectKey: "ecis-experimental"
       extraProperties: |
-        sonar.exclusions="**/Migrations/**"
-        sonar.coverage.exclusions="**/**"
+        sonar.exclusions=**/Migrations/**,**/DbInitializer.cs
+        sonar.coverage.exclusions=**/**
   #
   # Download dependencies
   #
