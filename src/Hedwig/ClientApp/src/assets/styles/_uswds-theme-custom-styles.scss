@@ -180,6 +180,12 @@ h1 {
 	}
 }
 
+.oec-table-legend {
+	@extend .margin-top-3;
+	@extend .margin-bottom-neg-2;
+	font-size: size('ui', 3);
+}
+
 .oec-inline-icon::before {
 	width: 0.875em;
 	height: 0.875em;
@@ -191,6 +197,7 @@ h1 {
 	top: -0.1em;
 	left: 0.1em;
 	vertical-align: middle;
+	margin-right: 0.25em;
 }
 
 .oec-inline-icon--attentionNeeded::before {
