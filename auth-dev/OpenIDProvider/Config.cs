@@ -58,9 +58,9 @@ namespace OpenIDProvider
 					AllowedGrantTypes = GrantTypes.Code,
 					RequireClientSecret = false,
 
-					RedirectUris =           { "https://localhost:5000/login/callback" },
-					PostLogoutRedirectUris = { "https://localhost:5000" },
-					AllowedCorsOrigins =     { "https://localhost:5000" },
+					RedirectUris =           { "https://localhost:5001/login/callback" },
+					PostLogoutRedirectUris = { "https://localhost:5001" },
+					AllowedCorsOrigins =     { "https://localhost:5001" },
 
 					AllowedScopes =
 					{

@@ -6,6 +6,7 @@ import Header from '../../components/Header/Header';
 import { NavItemProps } from '../../components/Header/NavItem';
 import MakeRouteWithSubRoutes from './MakeRouteWithSubRoutes';
 import routes from '../../routes';
+import withLogin, { WithLoginPropsType } from '../../contexts/Login';
 
 const navItems: NavItemProps[] = [
 	{ type: 'primary', title: 'Roster', path: '/' },
@@ -15,8 +16,8 @@ const navItems: NavItemProps[] = [
 	{ type: 'secondary', title: 'Help', path: '/help' },
 ];
 
-export default function App() {
-	const { loading, error, data } = useQuery(gql`
+const App: React.FC<WithLoginPropsType> = ({accessToken}) => {
+	let { loading, error, data } = useQuery(gql`
 		query AppQuery {
 			user(id: 1) {
 				firstName
@@ -46,3 +47,5 @@ export default function App() {
 		</div>
 	);
 }
+
+export default withLogin(App);
