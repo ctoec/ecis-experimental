@@ -179,3 +179,20 @@ h1 {
 		border-top: none;
 	}
 }
+
+.oec-inline-icon::before {
+	width: 0.875em;
+	height: 0.875em;
+	content: '';
+	background-repeat: no-repeat;
+	background-size: 100% auto;
+	display: inline-block;
+	position: relative;
+	top: -0.1em;
+	left: 0.1em;
+	vertical-align: middle;
+}
+
+.oec-inline-icon--attentionNeeded::before {
+	background-image: url('../images/attentionNeeded.svg');
+}

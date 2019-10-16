@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { Link } from 'react-router-dom';
 import { Table, TableProps } from '../../components/Table/Table';
+import InlineIcon from '../../components/InlineIcon/InlineIcon';
 import { ReportsQuery, ReportsQuery_user_reports } from '../../generated/ReportsQuery';
 import monthFormatter from '../../utils/monthFormatter';
 import dateFormatter from '../../utils/dateFormatter';
@@ -46,6 +47,8 @@ export default function Reports() {
 						<Link to={`/reports/${row.id}`} className="usa-link">
 							{monthFormatter(row.period)}
 						</Link>
+						&nbsp;
+						{!row.submittedAt && <InlineIcon icon="attentionNeeded" />}
 					</th>
 				),
 				sort: row => row.period,

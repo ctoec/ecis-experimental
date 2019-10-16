@@ -6,23 +6,42 @@ import Header from '../../components/Header/Header';
 import { NavItemProps } from '../../components/Header/NavItem';
 import MakeRouteWithSubRoutes from './MakeRouteWithSubRoutes';
 import routes from '../../routes';
-
-const navItems: NavItemProps[] = [
-	{ type: 'primary', title: 'Roster', path: '/' },
-	{ type: 'primary', title: 'Enroll kids', path: '/enroll' },
-	{ type: 'primary', title: 'Reports', path: '/reports' },
-	{ type: 'secondary', title: 'Feedback', path: '/feedback' },
-	{ type: 'secondary', title: 'Help', path: '/help' },
-];
+import { AppQuery } from '../../generated/AppQuery';
 
 export default function App() {
-	const { loading, error, data } = useQuery(gql`
+	const { loading, error, data } = useQuery<AppQuery>(gql`
 		query AppQuery {
 			user(id: 1) {
 				firstName
+				reports {
+					... on CdcReportType {
+						id
+						submittedAt
+					}
+				}
 			}
 		}
 	`);
+
+	const reportsNeedAttention =
+		!loading &&
+		!error &&
+		data &&
+		data.user &&
+		data.user.reports.filter(report => !report.submittedAt).length > 0;
+
+	const navItems: NavItemProps[] = [
+		{ type: 'primary', title: 'Roster', path: '/' },
+		{ type: 'primary', title: 'Enroll kids', path: '/enroll' },
+		{
+			type: 'primary',
+			title: 'Reports',
+			path: '/reports',
+			attentionNeeded: !!reportsNeedAttention,
+		},
+		{ type: 'secondary', title: 'Feedback', path: '/feedback' },
+		{ type: 'secondary', title: 'Help', path: '/help' },
+	];
 
 	return (
 		<div className="App">
@@ -34,7 +53,7 @@ export default function App() {
 				navItems={navItems}
 				loginPath="/login"
 				logoutPath="/logout"
-				userFirstName={!loading && !error && data.user && data.user.firstName}
+				userFirstName={(!loading && !error && data && data.user && data.user.firstName) || ''}
 			/>
 			<main id="main-content">
 				<Switch>
