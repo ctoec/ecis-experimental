@@ -74,7 +74,7 @@ steps:
     displayName: "Docker compose run tests"
     inputs:
       dockerComposeFile: "docker-compose.test.yaml"
-      dockerComposeCommand: "up --abort-on-container-exit"
+      dockerComposeCommand: "up --exit-code-from test_backend"
 
   #
   # Publish backend test results
