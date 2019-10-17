@@ -9,7 +9,7 @@ import routes from '../../routes';
 import { AppQuery } from '../../generated/AppQuery';
 import withLogin, { WithLoginPropsType } from '../../contexts/Login';
 
-export default function App(): React.FC<WithLoginPropsType> = ({accessToken}) => {
+const App: React.FC<WithLoginPropsType> = ({ accessToken }) => {
 	const { loading, error, data } = useQuery<AppQuery>(gql`
 		query AppQuery {
 			user(id: 1) {
@@ -65,6 +65,6 @@ export default function App(): React.FC<WithLoginPropsType> = ({accessToken}) =>
 			</main>
 		</div>
 	);
-}
+};
 
 export default withLogin(App);
