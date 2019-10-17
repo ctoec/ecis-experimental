@@ -28,7 +28,11 @@ namespace OpenIDProvider
                 );
             });
             services.AddMvc(option => option.EnableEndpointRouting = false);
-            services.AddIdentityServer()
+            services.AddIdentityServer(options =>
+                    {
+                        // This is needed because we are accessing the server through its Docker DNS name
+                        options.IssuerUri = "https://openid:5050";
+                    })
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddInMemoryApiResources(Config.GetApis())
                 .AddInMemoryClients(Config.GetClients())

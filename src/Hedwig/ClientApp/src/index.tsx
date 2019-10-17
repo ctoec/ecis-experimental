@@ -19,7 +19,7 @@ const render = (Component: React.FC) => {
 					openIdConnectUrl="https://localhost:5050"
 					clientId="hedwig"
 					redirectUrl="https://localhost:5001/login/callback"
-					scope="openid profile"
+					scope="openid profile hedwig_backend"
 				>
 					<Component />
 				</LoginProvider>
