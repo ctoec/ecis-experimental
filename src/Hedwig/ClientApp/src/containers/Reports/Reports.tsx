@@ -2,7 +2,9 @@ import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { Link } from 'react-router-dom';
+import pluralize from 'pluralize';
 import { Table, TableProps } from '../../components/Table/Table';
+import InlineIcon from '../../components/InlineIcon/InlineIcon';
 import { ReportsQuery, ReportsQuery_user_reports } from '../../generated/ReportsQuery';
 import monthFormatter from '../../utils/monthFormatter';
 import dateFormatter from '../../utils/dateFormatter';
@@ -34,6 +36,8 @@ export default function Reports() {
 		return <div className="Reports"></div>;
 	}
 
+	const unsubmittedReportsCount = data.user.reports.filter(report => !report.submittedAt).length;
+
 	const reportsTableProps: TableProps<ReportsQuery_user_reports> = {
 		id: 'reports-table',
 		data: data.user.reports,
@@ -46,6 +50,8 @@ export default function Reports() {
 						<Link to={`/reports/${row.id}`} className="usa-link">
 							{monthFormatter(row.period)}
 						</Link>
+						&nbsp;
+						{!row.submittedAt && <InlineIcon icon="attentionNeeded" />}
 					</th>
 				),
 				sort: row => row.period,
@@ -80,6 +86,12 @@ export default function Reports() {
 		<div className="Reports">
 			<section className="grid-container">
 				<h1>Reports</h1>
+				{unsubmittedReportsCount > 0 && (
+					<div className="oec-table-legend">
+						<InlineIcon icon="attentionNeeded" /> <strong>{unsubmittedReportsCount}</strong>{' '}
+						{pluralize('report', unsubmittedReportsCount)} due
+					</div>
+				)}
 				<Table {...reportsTableProps} fullWidth />
 			</section>
 		</div>
