@@ -75,4 +75,3 @@ steps:
     inputs:
       pathToPublish: "$(Build.ArtifactStagingDirectory)/winged-keys-app.zip"
       artifactName: winged-keys-app
-
