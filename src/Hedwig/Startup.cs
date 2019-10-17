@@ -5,7 +5,10 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using GraphQL.Server;
 using GraphQL.Server.Ui.Playground;
+using GraphQL.Authorization;
+using GraphQL.Validation;
 using Hedwig.Schema;
+using Microsoft.IdentityModel.Logging;
 
 namespace Hedwig
 {
@@ -26,6 +29,7 @@ namespace Hedwig
             services.ConfigureSpa();
             services.ConfigureRepositories();
             services.ConfigureGraphQL();
+            services.ConfigureAuthentication();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -35,6 +39,8 @@ namespace Hedwig
             {
                 app.UseDeveloperExceptionPage();
                 app.UseCors("AllowAll");
+                // Prints the URLs of endpoints and values of JWT claims when there is a mismatch in validation
+                IdentityModelEventSource.ShowPII = true; 
             }
             else
             {
@@ -46,6 +52,8 @@ namespace Hedwig
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+            app.UseAuthentication();
 
             app.UseGraphQL<AppSchema>();
             app.UseGraphQLPlayground(options: new GraphQLPlaygroundOptions());

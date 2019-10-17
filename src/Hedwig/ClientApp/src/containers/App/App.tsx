@@ -7,8 +7,9 @@ import { NavItemProps } from '../../components/Header/NavItem';
 import MakeRouteWithSubRoutes from './MakeRouteWithSubRoutes';
 import routes from '../../routes';
 import { AppQuery } from '../../generated/AppQuery';
+import withLogin, { WithLoginPropsType } from '../../contexts/Login';
 
-export default function App() {
+export default function App(): React.FC<WithLoginPropsType> = ({accessToken}) => {
 	const { loading, error, data } = useQuery<AppQuery>(gql`
 		query AppQuery {
 			user(id: 1) {
@@ -65,3 +66,5 @@ export default function App() {
 		</div>
 	);
 }
+
+export default withLogin(App);

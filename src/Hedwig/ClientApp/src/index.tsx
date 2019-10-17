@@ -6,6 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from '@apollo/react-hooks';
 import * as serviceWorker from './serviceWorker';
+import { LoginProvider } from './contexts/Login';
 
 const apollo = new ApolloClient({ uri: '/graphql' });
 
@@ -13,7 +14,15 @@ const render = (Component: React.FC) => {
 	return ReactDOM.render(
 		<ApolloProvider client={apollo}>
 			<BrowserRouter>
-				<Component />
+				<LoginProvider
+					loginUriPrefix="/login"
+					openIdConnectUrl="https://localhost:5050"
+					clientId="hedwig"
+					redirectUrl="https://localhost:5001/login/callback"
+					scope="openid profile hedwig_backend"
+				>
+					<Component />
+				</LoginProvider>
 			</BrowserRouter>
 		</ApolloProvider>,
 		document.getElementById('root')
