@@ -11,7 +11,8 @@ namespace HedwigTests.Schema
         [Fact]
         public void Has_GlobalArguments_Dict()
         {
-            var userContext = new RequestContext();
+            var httpCtx = new Mock<HttpContext>();
+            var userContext= new RequestContext(httpCtx.Object.User);
             Assert.IsType<Dictionary<string, object>>(userContext.GlobalArguments);
         }
 

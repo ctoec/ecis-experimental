@@ -39,6 +39,7 @@ namespace Hedwig
             {
                 app.UseDeveloperExceptionPage();
                 app.UseCors("AllowAll");
+                // Prints the URLs of endpoints and values of JWT claims when there is a mismatch in validation
                 IdentityModelEventSource.ShowPII = true; 
             }
             else
