@@ -1,5 +1,5 @@
-import React from 'react';
-import { useQuery } from '@apollo/react-hooks';
+import React, { useEffect } from 'react';
+import useAuthQuery from '../../hooks/useAuthQuery';
 import { gql } from 'apollo-boost';
 import { Switch } from 'react-router-dom';
 import Header from '../../components/Header/Header';
@@ -10,9 +10,10 @@ import { AppQuery } from '../../generated/AppQuery';
 import withLogin, { WithLoginPropsType } from '../../contexts/Login';
 
 const App: React.FC<WithLoginPropsType> = ({ accessToken }) => {
-	const { loading, error, data } = useQuery<AppQuery>(gql`
+	let { loading, error, data, refetch } = useAuthQuery<AppQuery>(
+		gql`
 		query AppQuery {
-			user(id: 1) {
+			me {
 				firstName
 				reports {
 					... on CdcReportType {
@@ -24,12 +25,22 @@ const App: React.FC<WithLoginPropsType> = ({ accessToken }) => {
 		}
 	`);
 
+	// The <App> component is only loaded once
+	// so in order to update the props to <Header>
+	// we need to refetch the data on every change
+	// of accessToken. This is not needed in other
+	// components that will be remounted into the
+	// DOM on page navigation.
+	useEffect(() => {
+    refetch();
+  }, [accessToken, refetch]);
+
 	const reportsNeedAttention =
 		!loading &&
 		!error &&
 		data &&
-		data.user &&
-		data.user.reports.filter(report => !report.submittedAt).length > 0;
+		data.me &&
+		data.me.reports.filter(report => !report.submittedAt).length > 0;
 
 	const navItems: NavItemProps[] = [
 		{ type: 'primary', title: 'Roster', path: '/' },
@@ -54,7 +65,7 @@ const App: React.FC<WithLoginPropsType> = ({ accessToken }) => {
 				navItems={navItems}
 				loginPath="/login"
 				logoutPath="/logout"
-				userFirstName={(!loading && !error && data && data.user && data.user.firstName) || ''}
+				userFirstName={(!loading && !error && data && data.me && data.me.firstName) || ''}
 			/>
 			<main id="main-content">
 				<Switch>

@@ -1,18 +1,18 @@
 import React from 'react';
-import { useQuery } from '@apollo/react-hooks';
+import useAuthQuery from '../../hooks/useAuthQuery';
 import { gql } from 'apollo-boost';
 import { Link } from 'react-router-dom';
 import pluralize from 'pluralize';
 import { Table, TableProps } from '../../components/Table/Table';
-import { RosterQuery, RosterQuery_user_sites_enrollments } from '../../generated/RosterQuery';
+import { RosterQuery, RosterQuery_me_sites_enrollments } from '../../generated/RosterQuery';
 import nameFormatter from '../../utils/nameFormatter';
 import dateFormatter from '../../utils/dateFormatter';
 import Tag from '../../components/Tag/Tag';
 
 export default function Roster() {
-	const { loading, error, data } = useQuery<RosterQuery>(gql`
+	const { loading, error, data } = useAuthQuery<RosterQuery>(gql`
 		query RosterQuery {
-			user(id: 1) {
+			me {
 				sites {
 					id
 					name
@@ -38,14 +38,14 @@ export default function Roster() {
 		}
 	`);
 
-	if (loading || error || !data || !data.user) {
+	if (loading || error || !data || !data.me) {
 		return <div className="Roster"></div>;
 	}
 
-	const site = data.user.sites[0];
+	const site = data.me.sites[0];
 	const enrollments = site.enrollments;
 
-	const rosterTableProps: TableProps<RosterQuery_user_sites_enrollments> = {
+	const rosterTableProps: TableProps<RosterQuery_me_sites_enrollments> = {
 		id: 'roster-table',
 		data: enrollments,
 		rowKey: row => row.id,
