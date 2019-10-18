@@ -1,15 +1,17 @@
 import React from 'react';
-import { useQuery } from '@apollo/react-hooks';
+import useAuthQuery from '../../hooks/useAuthQuery';
 import { gql } from 'apollo-boost';
 import { Link } from 'react-router-dom';
+import pluralize from 'pluralize';
 import { Table, TableProps } from '../../components/Table/Table';
-import { ReportsQuery, ReportsQuery_user_reports } from '../../generated/ReportsQuery';
+import InlineIcon from '../../components/InlineIcon/InlineIcon';
+import { ReportsQuery, ReportsQuery_me_reports } from '../../generated/ReportsQuery';
 import monthFormatter from '../../utils/monthFormatter';
 import dateFormatter from '../../utils/dateFormatter';
 
 export const REPORTS_QUERY = gql`
 	query ReportsQuery {
-		user(id: 1) {
+		me {
 			reports {
 				... on CdcReportType {
 					id
@@ -28,15 +30,17 @@ export const REPORTS_QUERY = gql`
 `;
 
 export default function Reports() {
-	const { loading, error, data } = useQuery<ReportsQuery>(REPORTS_QUERY);
+	const { loading, error, data } = useAuthQuery<ReportsQuery>(REPORTS_QUERY);
 
-	if (loading || error || !data || !data.user) {
+	if (loading || error || !data || !data.me) {
 		return <div className="Reports"></div>;
 	}
 
-	const reportsTableProps: TableProps<ReportsQuery_user_reports> = {
+	const unsubmittedReportsCount = data.me.reports.filter(report => !report.submittedAt).length;
+
+	const reportsTableProps: TableProps<ReportsQuery_me_reports> = {
 		id: 'reports-table',
-		data: data.user.reports,
+		data: data.me.reports,
 		rowKey: row => row.id,
 		columns: [
 			{
@@ -46,6 +50,8 @@ export default function Reports() {
 						<Link to={`/reports/${row.id}`} className="usa-link">
 							{monthFormatter(row.period)}
 						</Link>
+						&nbsp;
+						{!row.submittedAt && <InlineIcon icon="attentionNeeded" />}
 					</th>
 				),
 				sort: row => row.period,
@@ -80,6 +86,12 @@ export default function Reports() {
 		<div className="Reports">
 			<section className="grid-container">
 				<h1>Reports</h1>
+				{unsubmittedReportsCount > 0 && (
+					<div className="oec-table-legend">
+						<InlineIcon icon="attentionNeeded" /> <strong>{unsubmittedReportsCount}</strong>{' '}
+						{pluralize('report', unsubmittedReportsCount)} due
+					</div>
+				)}
 				<Table {...reportsTableProps} fullWidth />
 			</section>
 		</div>
