@@ -1,4 +1,5 @@
 using GraphQL;
+using Hedwig.Schema.Mutations;
 
 namespace Hedwig.Schema
 {
@@ -8,6 +9,7 @@ namespace Hedwig.Schema
 			: base(resolver)
 		{
 			Query = resolver.Resolve<AppQuery>();
+			Mutation = resolver.Resolve<AppMutation>();
 		}
 	}
 }

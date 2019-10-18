@@ -6,7 +6,20 @@ namespace HedwigTests.Helpers
 {
 	public class ReportHelper
 	{
-		public static Report CreateCdcReport(
+		public static CdcReport CreateCdcReport(
+			HedwigContext context,
+			ReportingPeriod reportingPeriod = null,
+			Organization organization = null,
+			string submittedAt = null
+		)
+		{
+			var report = CreateCdcReportObject(context, reportingPeriod, organization, submittedAt);
+			context.Reports.Add(report);
+			context.SaveChanges();
+			return report;
+		}
+
+		public static CdcReport CreateCdcReportObject(
 			HedwigContext context,
 			ReportingPeriod reportingPeriod = null,
 			Organization organization = null,
@@ -23,9 +36,6 @@ namespace HedwigTests.Helpers
 			};
 
 			if (submittedAt != null) report.SubmittedAt = DateTime.Parse(submittedAt);
-
-			context.Reports.Add(report);
-			context.SaveChanges();
 			return report;
 		}
 	}

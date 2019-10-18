@@ -11,14 +11,16 @@ namespace HedwigTests.Fixtures
     public class TestHedwigContext : HedwigContext
     {
         List<EntityEntry> Created { get; set; }
-        public TestHedwigContext(DbContextOptions<HedwigContext> options) : base(options)
+        bool ShouldRetainObjects { get; set; }
+        public TestHedwigContext(DbContextOptions<HedwigContext> options, bool retainObjects = false) : base(options)
         {
             Created = new List<EntityEntry>();
+            ShouldRetainObjects = retainObjects;
         }
 
         public override int SaveChanges()   
         {
-            if(TestEnvironmentFlags.ShouldCleanupObjects()) {
+            if(!ShouldRetainObjects || !TestEnvironmentFlags.ShouldRetainObjects()) {
                 var newCreated = ChangeTracker.Entries()
                     .Where(e => e.State == EntityState.Added);
                 Created.AddRange(newCreated);
@@ -28,13 +30,12 @@ namespace HedwigTests.Fixtures
 
         public override void Dispose()
         {
-            if (TestEnvironmentFlags.ShouldCleanupObjects()) {
+            if (!ShouldRetainObjects || !TestEnvironmentFlags.ShouldRetainObjects()) {
                 foreach (EntityEntry e in Created) { 
                     Remove(e.Entity);
                 }
                 base.SaveChanges();
             }
-            
             base.Dispose();
         }
     }

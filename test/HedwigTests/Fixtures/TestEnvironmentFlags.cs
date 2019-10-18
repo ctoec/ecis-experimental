@@ -17,9 +17,9 @@ namespace HedwigTests.Fixtures
         {
             return Environment.GetEnvironmentVariable(HTTP_LOGGING) != null;
         }
-        public static Boolean ShouldCleanupObjects()
+        public static Boolean ShouldRetainObjects()
         {
-            return Environment.GetEnvironmentVariable(RETAIN_OBJECTS) == null;
+            return Environment.GetEnvironmentVariable(RETAIN_OBJECTS) != null;
         }
     }
 }

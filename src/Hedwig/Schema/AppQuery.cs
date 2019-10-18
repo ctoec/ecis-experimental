@@ -8,10 +8,8 @@ namespace Hedwig.Schema
 	{
 		public AppQuery(IEnumerable<IAppSubQuery> appSubQueries)
 		{
-			foreach(var subquery in appSubQueries)
-			{
-				foreach(var field in subquery.Fields)
-				{
+			foreach(var subquery in appSubQueries) {
+				foreach(var field in subquery.Fields) {
 					AddField(field);
 				}
 			}

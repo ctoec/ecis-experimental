@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using System.Linq;
 using Hedwig.Models;
 using Hedwig.Data;
-using System;
 
 namespace Hedwig.Repositories
 {
@@ -40,10 +39,24 @@ namespace Hedwig.Repositories
 
 			return reports;
 		}
+
+		public Task<Report> GetReportByIdAsync(int id) => _context.Reports
+			.Include(r => r.ReportingPeriod)
+			.FirstOrDefaultAsync(r => r.Id == id);
+
+		public Task<Report> UpdateReport(Report update)
+		{
+			_context.Update(update);
+			_context.SaveChanges();
+			return Task.FromResult(update);
+		} 
 	}
 
 	public interface IReportRepository
 	{
 		Task<IEnumerable<Report>> GetReportsByUserIdAsync(int userId);
+		Task<Report> GetReportByIdAsync(int id);
+
+		Task<Report> UpdateReport(Report update);
 	}
 }
