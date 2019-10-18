@@ -5,6 +5,7 @@
 	"dependencies": {
 		"@apollo/react-hooks": "^3.0.1",
 		"@apollo/react-testing": "^3.0.1",
+		"@openid/appauth": "^1.2.6",
 		"@storybook/addon-actions": "^5.1.11",
 		"@storybook/addon-knobs": "^5.1.11",
 		"@storybook/addon-storyshots": "^5.1.11",
@@ -15,7 +16,8 @@
 		"@types/pluralize": "^0.0.29",
 		"@types/react": "16.9.2",
 		"@types/react-dom": "16.8.5",
-		"@types/react-router-dom": "^4.3.4",
+		"@types/react-router": "^5.1.1",
+		"@types/react-router-dom": "^5.1.0",
 		"@types/storybook__addon-knobs": "^5.0.3",
 		"@types/storybook__addon-storyshots": "^5.1.1",
 		"@types/storybook__react": "^4.0.2",
@@ -33,12 +35,13 @@
 		"react": "^16.9.0",
 		"react-docgen-typescript-loader": "^3.1.1",
 		"react-dom": "^16.9.0",
-		"react-router-dom": "^5.0.1",
+		"react-router-dom": "^5.1.0",
 		"react-scripts": "3.1.2",
 		"require-context.macro": "^1.1.1",
 		"storybook-react-router": "^1.0.5",
 		"typescript": "3.6.3",
 		"uswds": "^2.1.0",
+		"utility-types": "^3.8.0",
 		"yarn": "^1.17.3"
 	},
 	"scripts": {
@@ -48,7 +51,7 @@
 		"eject": "react-scripts eject",
 		"storybook": "start-storybook -p 9009 -s public",
 		"build-storybook": "build-storybook -s public",
-		"apollo-generate": "NODE_TLS_REJECT_UNAUTHORIZED=0 apollo codegen:generate --excludes=node_modules/* --includes=**/*.tsx --endpoint https://localhost:5001/graphql --target typescript --tagName gql --outputFlat src/generated --passthroughCustomScalars --customScalarsPrefix OEC"
+		"apollo-generate": "NODE_TLS_REJECT_UNAUTHORIZED=0 npx apollo codegen:generate --excludes=node_modules/* --includes=**/*.tsx --endpoint https://backend:5001/graphql --target typescript --tagName gql --outputFlat src/generated --passthroughCustomScalars --customScalarsPrefix OEC"
 	},
 	"husky": {
 		"hooks": {

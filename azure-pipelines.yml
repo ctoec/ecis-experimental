@@ -74,7 +74,7 @@ steps:
     displayName: "Docker compose run tests"
     inputs:
       dockerComposeFile: "docker-compose.test.yaml"
-      dockerComposeCommand: "up --abort-on-container-exit"
+      dockerComposeCommand: "up --exit-code-from test_backend"
 
   #
   # Publish backend test results
@@ -139,3 +139,4 @@ steps:
 #     - package.json must include "test": "CI=true react-scripts test --env=jsdom",
 #        or yarn test will hang during CI build
 #
+

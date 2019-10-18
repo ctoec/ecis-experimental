@@ -5,8 +5,14 @@ using Hedwig.Repositories;
 using Hedwig.Schema.Types;
 using Hedwig.Schema.Queries;
 using Hedwig.Schema;
+using Hedwig.Security;
 using GraphQL;
 using GraphQL.Server;
+using GraphQL.Authorization;
+using GraphQL.Validation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Net.Http;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Hedwig
 {
@@ -78,6 +84,24 @@ namespace Hedwig
 				.AddGraphTypes(ServiceLifetime.Scoped)
 				.AddDataLoader()
 				.AddUserContextBuilder<RequestContext>(RequestContext.RequestContextCreator);
+		}
+
+		public static void ConfigureAuthentication(this IServiceCollection services)
+		{
+			JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+				.AddJwtBearer(options =>
+					{
+						options.Authority = "https://openid:5050";
+						options.Audience = "hedwig_backend";
+						options.BackchannelHttpHandler = new HttpClientHandler
+						{
+							ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+						};
+					});
+			services.AddSingleton<IAuthorizationEvaluator, AuthorizationEvaluator>();
+			services.AddTransient<IValidationRule, AuthorizationValidationRule>();
+			services.AddSingleton(s => Permissions.GetAuthorizationSettings());
 		}
 	}
 }

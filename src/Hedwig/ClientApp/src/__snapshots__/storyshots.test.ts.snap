@@ -1,5 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Storyshots Button Attention needed 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <span
+    className="oec-inline-icon oec-inline-icon--attentionNeeded"
+  >
+    <span
+      className="usa-sr-only"
+    >
+      (
+      attention needed
+      )
+    </span>
+  </span>
+</div>
+`;
+
 exports[`Storyshots Button Base 1`] = `
 <div
   style={
