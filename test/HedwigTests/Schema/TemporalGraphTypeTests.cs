@@ -4,6 +4,7 @@ using GraphQL.Types;
 using Hedwig.Schema;
 using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
 
 namespace HedwigTests.Schema
 {
@@ -13,7 +14,8 @@ namespace HedwigTests.Schema
         public void SetAsOfGlobal_Adds_AsOf_To_GlobalArguments()
         {
             var context = new ResolveFieldContext<object>();
-            var userContext= new RequestContext();
+            var httpCtx = new Mock<HttpContext>();
+            var userContext= new RequestContext(httpCtx.Object.User);
             var globalArguments = new Dictionary<string, object>();
             userContext.GlobalArguments = globalArguments;
             context.UserContext = userContext;
@@ -29,7 +31,8 @@ namespace HedwigTests.Schema
         public void GetAsOfGlobal_Gets_AsOf_From_GlobalArguments()
         {
             var context = new ResolveFieldContext<object>();
-            var userContext= new RequestContext();
+            var httpCtx = new Mock<HttpContext>();
+            var userContext= new RequestContext(httpCtx.Object.User);
             var globalArguments = new Dictionary<string, object>();
             DateTime asOf = DateTime.Now;
             userContext.GlobalArguments = globalArguments;
@@ -43,7 +46,8 @@ namespace HedwigTests.Schema
         public void GetAsOfGlobal_Gets_Null_If_AsOf_Not_Set()
         {
             var context = new ResolveFieldContext<object>();
-            var userContext = new RequestContext();
+            var httpCtx = new Mock<HttpContext>();
+            var userContext= new RequestContext(httpCtx.Object.User);
             userContext.GlobalArguments = new Dictionary<string, object>();
             context.UserContext = userContext;
 

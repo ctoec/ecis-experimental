@@ -6,11 +6,18 @@
 // GraphQL query operation: AppQuery
 // ====================================================
 
-export interface AppQuery_user {
+export interface AppQuery_me_reports {
+  __typename: "CdcReportType";
+  id: number;
+  submittedAt: OECDate | null;
+}
+
+export interface AppQuery_me {
   __typename: "UserType";
   firstName: string;
+  reports: AppQuery_me_reports[];
 }
 
 export interface AppQuery {
-  user: AppQuery_user | null;
+  me: AppQuery_me | null;
 }
