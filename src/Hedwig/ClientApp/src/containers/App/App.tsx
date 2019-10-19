@@ -1,29 +1,59 @@
-import React from 'react';
-import { useQuery } from '@apollo/react-hooks';
+import React, { useEffect } from 'react';
+import useAuthQuery from '../../hooks/useAuthQuery';
 import { gql } from 'apollo-boost';
 import { Switch } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import { NavItemProps } from '../../components/Header/NavItem';
 import MakeRouteWithSubRoutes from './MakeRouteWithSubRoutes';
 import routes from '../../routes';
+import { AppQuery } from '../../generated/AppQuery';
 import withLogin, { WithLoginPropsType } from '../../contexts/Login';
 
-const navItems: NavItemProps[] = [
-	{ type: 'primary', title: 'Roster', path: '/' },
-	{ type: 'primary', title: 'Enroll kids', path: '/enroll' },
-	{ type: 'primary', title: 'Reports', path: '/reports' },
-	{ type: 'secondary', title: 'Feedback', path: '/feedback' },
-	{ type: 'secondary', title: 'Help', path: '/help' },
-];
-
-const App: React.FC<WithLoginPropsType> = ({accessToken}) => {
-	let { loading, error, data } = useQuery(gql`
+const App: React.FC<WithLoginPropsType> = ({ accessToken }) => {
+	let { loading, error, data, refetch } = useAuthQuery<AppQuery>(
+		gql`
 		query AppQuery {
-			user(id: 1) {
+			me {
 				firstName
+				reports {
+					... on CdcReportType {
+						id
+						submittedAt
+					}
+				}
 			}
 		}
 	`);
+
+	// The <App> component is only loaded once
+	// so in order to update the props to <Header>
+	// we need to refetch the data on every change
+	// of accessToken. This is not needed in other
+	// components that will be remounted into the
+	// DOM on page navigation.
+	useEffect(() => {
+    refetch();
+  }, [accessToken, refetch]);
+
+	const reportsNeedAttention =
+		!loading &&
+		!error &&
+		data &&
+		data.me &&
+		data.me.reports.filter(report => !report.submittedAt).length > 0;
+
+	const navItems: NavItemProps[] = [
+		{ type: 'primary', title: 'Roster', path: '/' },
+		{ type: 'primary', title: 'Enroll kids', path: '/enroll' },
+		{
+			type: 'primary',
+			title: 'Reports',
+			path: '/reports',
+			attentionNeeded: !!reportsNeedAttention,
+		},
+		{ type: 'secondary', title: 'Feedback', path: '/feedback' },
+		{ type: 'secondary', title: 'Help', path: '/help' },
+	];
 
 	return (
 		<div className="App">
@@ -35,7 +65,7 @@ const App: React.FC<WithLoginPropsType> = ({accessToken}) => {
 				navItems={navItems}
 				loginPath="/login"
 				logoutPath="/logout"
-				userFirstName={!loading && !error && data.user && data.user.firstName}
+				userFirstName={(!loading && !error && data && data.me && data.me.firstName) || ''}
 			/>
 			<main id="main-content">
 				<Switch>
@@ -46,6 +76,6 @@ const App: React.FC<WithLoginPropsType> = ({accessToken}) => {
 			</main>
 		</div>
 	);
-}
+};
 
 export default withLogin(App);
