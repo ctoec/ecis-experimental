@@ -15,13 +15,13 @@ namespace HedwigTests.Fixtures
 			var services = new ServiceCollection()
 				.AddEntityFrameworkSqlServer();
 
-			if (Environment.GetEnvironmentVariable("SQL_LOGGING") != null) {
+			if (TestEnvironmentFlags.ShouldLogSQL()) {
 				services.AddLogging(configure => configure.AddConsole());
 			}
 			
 			var options = new DbContextOptionsBuilder<HedwigContext>()
 				.UseSqlServer(Environment.GetEnvironmentVariable("SQLCONNSTR_HEDWIG"))
-					.EnableSensitiveDataLogging()
+				.EnableSensitiveDataLogging()
 				.UseInternalServiceProvider(services.BuildServiceProvider())
 				.Options;
 			Context = new TestHedwigContext(options);

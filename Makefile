@@ -2,7 +2,7 @@ install:
 	dotnet restore && cd ClientApp && yarn install
 
 dc-start:
-	./dc up -d --build
+	./dc up -d --build client
 
 db-migrate:
 	dotnet ef database update
@@ -30,7 +30,7 @@ test-backend:
 	dotnet watch test
 
 dc-test-backend:
-	./dc-backend dotnet watch test /app/test/HedwigTests
+	./dc-test-backend dotnet test
 
 watch-client:
 	cd ClientApp && yarn start
