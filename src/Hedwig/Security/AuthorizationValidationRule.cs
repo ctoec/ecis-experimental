@@ -23,7 +23,7 @@
  */
  /*
   * Summary of Changes
-  * - Display only last error.
+  * - Add arguments parameter to CheckAuth.
   */
 
 using System.Linq;
@@ -32,6 +32,8 @@ using GraphQL.Language.AST;
 using GraphQL.Types;
 using GraphQL.Validation;
 using GraphQL.Authorization;
+
+using System;
 
 namespace Hedwig.Security
 {
@@ -82,9 +84,9 @@ namespace Hedwig.Security
                     if (fieldDef == null) return;
 
                     // check target field
-                    CheckAuth(fieldAst, fieldDef, userContext, context, operationType);
+                    CheckAuth(fieldAst, fieldDef, userContext, context, operationType, fieldAst.Arguments);
                     // check returned graph type
-                    CheckAuth(fieldAst, fieldDef.ResolvedType.GetNamedType(), userContext, context, operationType);
+                    CheckAuth(fieldAst, fieldDef.ResolvedType.GetNamedType(), userContext, context, operationType, fieldAst.Arguments);
                 });
             });
         }
@@ -94,17 +96,23 @@ namespace Hedwig.Security
             IProvideMetadata type,
             IProvideClaimsPrincipal userContext,
             ValidationContext context,
-            OperationType operationType)
+            OperationType operationType,
+            Arguments arguments = null)
         {
             if (type == null || !type.RequiresAuthorization()) return;
+            if (arguments == null)
+            {
+                arguments = new Arguments();
+            }
+
             var result = type
-                .Authorize(userContext?.User, context.UserContext, context.Inputs, _evaluator)
+                .Authorize(userContext?.User, context.UserContext, context.Inputs, _evaluator, arguments)
                 .GetAwaiter()
                 .GetResult();
 
             if (result.Succeeded) return;
 
-            var error = string.Join("\n", result.Errors.LastOrDefault());
+            var error = string.Join("\n", result.Errors);
 
             context.ReportError(new ValidationError(
                 context.OriginalQuery,

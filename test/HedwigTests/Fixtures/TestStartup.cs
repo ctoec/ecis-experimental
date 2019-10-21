@@ -16,6 +16,7 @@ namespace HedwigTests.Fixtures
             if(TestEnvironmentFlags.ShouldLogSQL()) {
                 services.AddLogging(configure => configure.AddConsole());
             }
+            services.ConfigureAuthentication();
         }
     }
 }

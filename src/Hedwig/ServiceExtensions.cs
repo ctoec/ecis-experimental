@@ -104,9 +104,18 @@ namespace Hedwig
 							ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
 						};
 					});
-			services.AddSingleton<Hedwig.Security.IAuthorizationEvaluator, Hedwig.Security.AuthorizationEvaluator>();
+		}
+
+		public static void ConfigureGraphQLAuthorization(this IServiceCollection services)
+		{
+			services.AddScoped<Hedwig.Security.IAuthorizationEvaluator, Hedwig.Security.AuthorizationEvaluator>();
 			services.AddTransient<IValidationRule, Hedwig.Security.AuthorizationValidationRule>();
-			services.AddSingleton(s => Permissions.GetAuthorizationSettings());
+			services.AddScoped<Permissions>();
+			services.AddScoped<DevelopmentRequirement>();
+			services.AddScoped(s => {
+				Permissions permissions = s.GetRequiredService<Permissions>();
+				return permissions.GetAuthorizationSettings();
+			});
 		}
 	}
 }

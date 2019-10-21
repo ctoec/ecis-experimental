@@ -1,6 +1,5 @@
-/**
- * Modified from https://github.com/graphql-dotnet/authorization/blob/8e7b3c70577c15ee45d16080eeba8273315b4e9c/src/GraphQL.Authorization/AuthenticatedUserRequirement.cs
- * This file is released in v3 of GraphQL.Authorization but we use v2.1.
+/*
+ * Modified from https://github.com/graphql-dotnet/authorization/blob/8e7b3c70577c15ee45d16080eeba8273315b4e9c/src/GraphQL.Authorization/AuthorizationPolicyBuilder.cs
  */
 /**
  * The MIT License (MIT)
@@ -22,23 +21,35 @@
  * AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+/*
+ * Summary of Changes
+ * - Remove unused methods.
+ */
 
-using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Hedwig.Security
 {
-    public class AuthenticatedUserRequirement : IAuthorizationRequirement
+    public class AuthorizationPolicyBuilder
     {
-        public Task Authorize(AuthorizationContext context)
-        {
-            if (!context.User.Identities.Any(x => x.IsAuthenticated))
-            {
-                context.ReportError("An authenticated user is required.");
-            }
+        private readonly List<IAuthorizationRequirement> _requirements;
 
-            return Task.CompletedTask;
+        public AuthorizationPolicyBuilder()
+        {
+            _requirements = new List<IAuthorizationRequirement>();
+        }
+
+        public AuthorizationPolicy Build()
+        {
+            var policy = new AuthorizationPolicy(_requirements);
+            return policy;
+        }
+
+        public AuthorizationPolicyBuilder AddRequirement(IAuthorizationRequirement requirement)
+        {
+            _requirements.Add(requirement);
+            return this;
         }
     }
 }

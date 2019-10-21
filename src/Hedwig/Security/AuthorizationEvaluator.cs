@@ -23,7 +23,8 @@
  */
 /*
  * Summary of Changes
- * - Add AuthorizationRules parameter to Evaluate.
+ * - Change type of rules parameter in Evaluate to AuthorizationRules.
+ * - Add Arguments parameter.
  * - Reimplement Evaluate using AuthorizationRuleResult.
  */
 
@@ -33,6 +34,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using GraphQL.Authorization;
+using GraphQL.Language.AST;
 
 namespace Hedwig.Security
 {
@@ -41,8 +43,9 @@ namespace Hedwig.Security
 		Task<AuthorizationResult> Evaluate(
 				ClaimsPrincipal principal,
 				object userContext,
-				Dictionary<string, object> arguments,
-				AuthorizationRules rules);
+				Dictionary<string, object> inputVariables,
+				AuthorizationRules rules,
+				Arguments arguments);
 	}
 	public class AuthorizationEvaluator : IAuthorizationEvaluator
 	{
@@ -56,12 +59,14 @@ namespace Hedwig.Security
 		public async Task<AuthorizationResult> Evaluate(
 			ClaimsPrincipal principal,
 			object userContext,
-			Dictionary<string, object> arguments,
-			AuthorizationRules _rules)
+			Dictionary<string, object> inputVariables,
+			AuthorizationRules _rules,
+			Arguments arguments)
 		{
-			var context = new AuthorizationContext();
+			var context = new Hedwig.Security.AuthorizationContext();
 			context.User = principal ?? new ClaimsPrincipal(new ClaimsIdentity());
 			context.UserContext = userContext;
+			context.InputVariables = inputVariables;
 			context.Arguments = arguments;
 			var rules = _rules as IEnumerable<AuthorizationRule>;
 			
@@ -93,6 +98,7 @@ namespace Hedwig.Security
 				}
 				else
 				{
+					var didError = false;
 					foreach (var requirement in authorizationPolicy.Requirements)
 					{
 						// Because we are allowing "DenyNot" and "AllowNot" rules
@@ -103,20 +109,22 @@ namespace Hedwig.Security
 						var startingCount = context.Errors.Count();
 						await requirement.Authorize(context);
 						var endingCount = context.Errors.Count();
-						var didError = startingCount != endingCount;
-						AuthorizationRuleResult result = action.Assess(didError);
-						if (result == AuthorizationRuleResult.Success)
-						{
-							return AuthorizationResult.Success();
-						}
-						else if (result == AuthorizationRuleResult.Failure)
-						{
-							return AuthorizationResult.Fail(context.Errors);
-						}
-						else // AuthorizationRuleResult.Continue
-						{
-							continue;
-						}
+						// Requirements are ANDed together, so we need to OR
+						// the didError boolean
+						didError = didError | (startingCount != endingCount);
+					}
+					AuthorizationRuleResult result = action.Assess(didError);
+					if (result == AuthorizationRuleResult.Success)
+					{
+						return AuthorizationResult.Success();
+					}
+					else if (result == AuthorizationRuleResult.Failure)
+					{
+						return AuthorizationResult.Fail(context.Errors);
+					}
+					else // AuthorizationRuleResult.Continue
+					{
+						continue;
 					}
 				}
 			}
