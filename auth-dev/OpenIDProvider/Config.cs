@@ -63,6 +63,8 @@ namespace OpenIDProvider
 					PostLogoutRedirectUris = { "https://localhost:5001" },
 					AllowedCorsOrigins =     { "https://localhost:5001" },
 
+					AccessTokenLifetime = 360000, // 100 hours
+
 					AllowedScopes =
 					{
 						IdentityServerConstants.StandardScopes.OpenId,
