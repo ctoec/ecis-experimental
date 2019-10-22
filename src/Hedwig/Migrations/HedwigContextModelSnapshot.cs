@@ -309,7 +309,7 @@ namespace Hedwig.Migrations
                 {
                     b.HasBaseType("Hedwig.Models.OrganizationReport");
 
-                    b.Property<bool?>("Accredited");
+                    b.Property<bool>("Accredited");
 
                     b.HasDiscriminator().HasValue(0);
                 });

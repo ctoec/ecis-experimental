@@ -8,13 +8,18 @@ namespace HedwigTests.Fixtures
 {
     public static class TestHttpResponseMessageExtensions
     {
-        public static async Task<T> ParseGraphQLResponse<T>(this HttpResponseMessage response, string fieldNameOverride = null)
+        public static async Task<GraphQLResponse> ParseGraphQLResponse(this HttpResponseMessage response)
         {
             var content = await response.Content.ReadAsStringAsync();
             if(TestEnvironmentFlags.ShouldLogHTTP()) {
                 Console.WriteLine(content);
             }
-            GraphQLResponse graphQLResponse = JsonConvert.DeserializeObject<GraphQLResponse>(content);
+
+            return JsonConvert.DeserializeObject<GraphQLResponse>(content);
+        }
+        public static async Task<T> GetObjectFromGraphQLResponse<T>(this HttpResponseMessage response, string fieldNameOverride = null)
+        {
+            var graphQLResponse = await response.ParseGraphQLResponse();
             if (graphQLResponse.Errors != null) {
                 throw new Exception($"GraphQL Error: {graphQLResponse.Errors[0].Message}");
             }

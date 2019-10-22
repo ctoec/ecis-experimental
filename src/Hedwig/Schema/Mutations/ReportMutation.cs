@@ -3,35 +3,34 @@ using GraphQL;
 using Hedwig.Repositories;
 using Hedwig.Schema.Types;
 using Hedwig.Models;
+using System.Collections.Generic;
+using System;
 
 namespace Hedwig.Schema.Mutations
 {
-    public class CdcReportInputType : InputObjectGraphType
-    {
-        public CdcReportInputType()
-        {
-            Name = "CdcReportInput";
-            Field<NonNullGraphType<IntGraphType>>("id");
-            Field<NonNullGraphType<IntGraphType>>("reportingPeriodId");
-            Field<NonNullGraphType<IntGraphType>>("organizationId");
-            Field<DateTimeGraphType>("submittedAt");
-            Field<NonNullGraphType<BooleanGraphType>>("accredited");
-        }
-    }
     public class ReportMutation : ObjectGraphType<Report>, IAppSubMutation
     {
         public ReportMutation(IReportRepository repository)
         {
-            Field<ReportType>(
-                "updatedCdcReport",
+            FieldAsync<ReportType>(
+                "submitCdcReport",
                 arguments: new QueryArguments(
-                    new QueryArgument<NonNullGraphType<CdcReportInputType>> { Name = "reportInput" }
+                    new QueryArgument<NonNullGraphType<IntGraphType>>{ Name = "id" },
+                    new QueryArgument<NonNullGraphType<BooleanGraphType>>{ Name = "accredited" }
                 ),
-                resolve: context =>
+                resolve: async context =>
                 {
-                    var reportInput = context.GetArgument<CdcReport>("reportInput");
-                    reportInput.SubmittedAt = System.DateTime.Now.ToUniversalTime();
-                    return repository.UpdateReport(reportInput);
+                    var id = context.GetArgument<int>("id");
+                    var report = (CdcReport) await repository.GetReportByIdAsync(id);
+                    if (report == null) {
+                        throw new ExecutionError(
+                            AppErrorMessages.NOT_FOUND("Report", id)
+                        );
+                    }
+
+                    report.SubmittedAt = DateTime.Now.ToUniversalTime();
+                    report.Accredited =context.GetArgument<bool>("accredited");
+                    return repository.UpdateReport(report);
                 }
             );
         }

@@ -29,7 +29,7 @@ namespace HedwigTests.Integration.GraphQLQueries
 
                 // Then
                 response.EnsureSuccessStatusCode();
-                CdcReport reportRes = await response.ParseGraphQLResponse<CdcReport>("report");
+                CdcReport reportRes = await response.GetObjectFromGraphQLResponse<CdcReport>("report");
                 Assert.Equal(report.Id, reportRes.Id);
             }
         }

@@ -1,10 +1,12 @@
 using System.Linq;
 using System.Threading.Tasks;
+using System;
 using Xunit;
 using Hedwig.Repositories;
 using Hedwig.Models;
 using HedwigTests.Helpers;
 using HedwigTests.Fixtures;
+using System.Collections.Generic;
 
 namespace HedwigTests.Repositories
 {
@@ -39,27 +41,21 @@ namespace HedwigTests.Repositories
 		}
 
 		[Fact]
-		public async Task Update_Report()
+		public void Update_Report()
 		{
-			// If a report exists in the DB
-			CdcReport report = null;
 			using (var context = new TestContextProvider(retainObjects: true).Context)
 			{
-				report = ReportHelper.CreateCdcReport(context);
-			}
-			using (var context = new TestContextProvider().Context) {
-				var update = ReportHelper.CreateCdcReportObject(
-					context,
-					report.ReportingPeriod,
-					report.Organization,
-					submittedAt: "2019-01-01 10:00:00"
-				);
-				// When the report repository updates the existing report with the report input
+				// If a report exists in the DB
+				var report = ReportHelper.CreateCdcReport(context);
+
+				// When the report is updated
+				var submittedAt = DateTime.Now.ToUniversalTime();
+				report.SubmittedAt = submittedAt;
 				var reportRepo = new ReportRepository(context);
-				var updated = await reportRepo.UpdateReport(update);
+				var updated = reportRepo.UpdateReport(report);
 
 				// Then the updated report is returned
-				Assert.Equal(update.SubmittedAt, updated.SubmittedAt);
+				Assert.Equal(submittedAt, updated.SubmittedAt);
 			}
 		}
 	}

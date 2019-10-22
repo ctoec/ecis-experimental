@@ -9,7 +9,9 @@ namespace hedwig.Migrations
             migrationBuilder.AddColumn<bool>(
                 name: "Accredited",
                 table: "Report",
-                nullable: true);
+                nullable: false,
+                defaultValue: false
+            );
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -34,7 +34,7 @@ namespace HedwigTests.Integration.GraphQLQueries
 				);
 
 				responseCurrent.EnsureSuccessStatusCode();
-				Enrollment enrollmentCurrent = await responseCurrent.ParseGraphQLResponse<Enrollment>();
+				Enrollment enrollmentCurrent = await responseCurrent.GetObjectFromGraphQLResponse<Enrollment>();
 				Assert.Equal(exit, enrollmentCurrent.Exit);
 
 
@@ -47,7 +47,7 @@ namespace HedwigTests.Integration.GraphQLQueries
 				);
 
 				responseAsOf.EnsureSuccessStatusCode();
-				Enrollment enrollmentAsOf = await responseAsOf.ParseGraphQLResponse<Enrollment>();
+				Enrollment enrollmentAsOf = await responseAsOf.GetObjectFromGraphQLResponse<Enrollment>();
 				Assert.False(enrollmentAsOf.Exit.HasValue);
 			}
 		}
@@ -78,7 +78,7 @@ namespace HedwigTests.Integration.GraphQLQueries
 				);
 
 				responseCurrent.EnsureSuccessStatusCode();
-				Enrollment enrollmentCurrent = await responseCurrent.ParseGraphQLResponse<Enrollment>();
+				Enrollment enrollmentCurrent = await responseCurrent.GetObjectFromGraphQLResponse<Enrollment>();
 				Assert.Equal(updatedName, enrollmentCurrent.Child.FirstName);
 
 
@@ -93,7 +93,7 @@ namespace HedwigTests.Integration.GraphQLQueries
 				);
 
 				responseAsOf.EnsureSuccessStatusCode();
-				Enrollment enrollmentAsOf = await responseAsOf.ParseGraphQLResponse<Enrollment>();
+				Enrollment enrollmentAsOf = await responseAsOf.GetObjectFromGraphQLResponse<Enrollment>();
 				Assert.Equal(originalName, enrollmentAsOf.Child.FirstName);
 			}
 		}
@@ -124,7 +124,7 @@ namespace HedwigTests.Integration.GraphQLQueries
 				);
 
 				responseCurrent.EnsureSuccessStatusCode();
-				Enrollment enrollmentCurrent = await responseCurrent.ParseGraphQLResponse<Enrollment>();
+				Enrollment enrollmentCurrent = await responseCurrent.GetObjectFromGraphQLResponse<Enrollment>();
 				Assert.Single(enrollmentCurrent.Fundings);
 				Assert.Equal(exit, enrollmentCurrent.Fundings.First().Exit);
 
@@ -139,7 +139,7 @@ namespace HedwigTests.Integration.GraphQLQueries
 				);
 
 				responseAsOf.EnsureSuccessStatusCode();
-				Enrollment enrollmentAsOf = await responseAsOf.ParseGraphQLResponse<Enrollment>();
+				Enrollment enrollmentAsOf = await responseAsOf.GetObjectFromGraphQLResponse<Enrollment>();
 				Assert.Single(enrollmentAsOf.Fundings);
 				Assert.False(enrollmentAsOf.Fundings.First().Exit.HasValue);
 			}

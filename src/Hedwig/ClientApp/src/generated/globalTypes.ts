@@ -10,14 +10,6 @@ export enum FundingSource {
   CDC = "CDC",
 }
 
-export interface CdcReportInput {
-  id: number;
-  reportingPeriodId: number;
-  organizationId: number;
-  submittedAt?: OECDateTime | null;
-  accredited: boolean;
-}
-
 //==============================================================
 // END Enums and Input Objects
 //==============================================================

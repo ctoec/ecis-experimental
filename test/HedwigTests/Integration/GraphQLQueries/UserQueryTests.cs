@@ -32,7 +32,7 @@ namespace HedwigTests.Integration.GraphQLQueries
 
 				// Then
 				response.EnsureSuccessStatusCode();
-				User userRes = await response.ParseGraphQLResponse<User>();
+				User userRes = await response.GetObjectFromGraphQLResponse<User>();
 				Assert.Equal(firstName, userRes.FirstName);
 			}
 		}
@@ -66,7 +66,7 @@ namespace HedwigTests.Integration.GraphQLQueries
 
 				// Then
 				response.EnsureSuccessStatusCode();
-				User userRes = await response.ParseGraphQLResponse<User>();
+				User userRes = await response.GetObjectFromGraphQLResponse<User>();
 				Assert.Single(userRes.Sites);
 				Assert.Single(userRes.Sites.First().Enrollments);
 				Assert.Equal(enrollment.Id, userRes.Sites.First().Enrollments.First().Id);
@@ -100,7 +100,7 @@ namespace HedwigTests.Integration.GraphQLQueries
 
 				// Then
 				response.EnsureSuccessStatusCode();
-				User userRes = await response.ParseGraphQLResponse<User>();
+				User userRes = await response.GetObjectFromGraphQLResponse<User>();
 				Assert.Single(userRes.Sites);
 				Assert.Empty(userRes.Sites.First().Enrollments);
 			}
