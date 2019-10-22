@@ -4,7 +4,9 @@ using Microsoft.Extensions.Options;
 using System.Text.Encodings.Web;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Security.Claims;
+using HedwigTests.Helpers;
 
 namespace HedwigTests.Fixtures
 {
@@ -20,8 +22,44 @@ namespace HedwigTests.Fixtures
 
     protected override Task<AuthenticateResult> HandleAuthenticateAsync()
     {
+      var noAuth = Request.Headers["no_auth"];
+      if (!(string.IsNullOrEmpty(noAuth)))
+      {
+        return Task.FromResult(AuthenticateResult.Fail("no auth"));
+      }
+
+      var sub = Request.Headers["claims_sub"];
+      var role = Request.Headers["role"];
+      ClaimsIdentity identity;
+      if (string.IsNullOrEmpty(sub) && string.IsNullOrEmpty(role))
+      {
+        identity = AuthorizationRequirementHelper.GetTestIdentity();
+      }
+      else if (string.IsNullOrEmpty(sub))
+      {
+        var claims = new Dictionary<string, string> {
+          { "role", role }
+        };
+        identity = AuthorizationRequirementHelper.CreateIdentity("test", claims);
+      }
+      else if (string.IsNullOrEmpty(role))
+      {
+        var claims = new Dictionary<string, string> {
+          { "sub", sub },
+        };
+        identity = AuthorizationRequirementHelper.CreateIdentity("test", claims);
+      }
+      else
+      {
+        var claims = new Dictionary<string, string> {
+          { "sub", sub },
+          { "role", role }
+        };
+        identity = AuthorizationRequirementHelper.CreateIdentity("test", claims);
+      }
+
       var authenticationTicket = new AuthenticationTicket(
-        new ClaimsPrincipal(Options.Identity),
+        new ClaimsPrincipal(identity),
         new AuthenticationProperties(),
         "Test Scheme"
       );
@@ -38,11 +76,5 @@ namespace HedwigTests.Fixtures
 
   public class TestAuthenticationOptions : AuthenticationSchemeOptions
   {
-    public virtual ClaimsIdentity Identity { get; } = new ClaimsIdentity(
-      new Claim[] {
-        new Claim("test_mode", "true")
-      },
-      "test"
-    );
   }
 }

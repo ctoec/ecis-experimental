@@ -93,7 +93,7 @@ namespace Hedwig.Security
 					else
 					{
 						// Final rule must succeed or fail
-						throw new Exception();
+						throw new Exception("Final rule must be Allow or Deny");
 					}
 				}
 				else
