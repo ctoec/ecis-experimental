@@ -2,52 +2,43 @@ import React from 'react';
 import moment, { Moment } from 'moment';
 import { DateRangePicker, SingleDatePicker } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
-import RadioGroup from '../RadioGroup/RadioGroup';
 import Button from '../Button/Button';
 
+type DateRangeShape = { startDate: Moment, endDate: Moment };
+
 type DatePickerProps = {
-  onSubmit: () => any;
+  onSubmit: (dateOrRange: any) => any;
+  onReset: (newRange: DateRangeShape) => any;
+  dateRange: DateRangeShape,
+  byRange: boolean,
 };
 
 type DatePickerState = {
-  byRange: boolean,
-  selectedDate: Moment,
-  selectedRange: { startDate: Moment, endDate: Moment },
+  selectedRange: DateRangeShape,
   datePickerFocused: 'startDate' | 'endDate' | null,
-};
-
-// TODO: move this to resetState, and call that in component will mount or something?
-const defaultState = {
-  byRange: false,
-  selectedDate: moment().local(),
-  selectedRange: { startDate: moment().local(), endDate: moment().local() },
-  datePickerFocused: null,
 };
 
 export class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
   constructor(props: DatePickerProps) {
     super(props);
-    this.state = defaultState;
+
+    const now = moment().local();
+    this.state = {
+      selectedRange: props.dateRange,
+      datePickerFocused: null,
+    };
+
     this.resetState = this.resetState.bind(this);
-    this.toggleDateRange = this.toggleDateRange.bind(this);
-    this.setDate = this.setDate.bind(this);
     this.setDateRange = this.setDateRange.bind(this);
   }
 
   resetState() {
-    this.setState(defaultState);
-  }
-
-  toggleDateRange(e: React.ChangeEvent<HTMLInputElement>) {
-    if (e.target.value === 'range') {
-      this.setState({ byRange: true })
-    } else {
-      this.setState({ byRange: false })
-    }
-  }
-
-  setDate(input: any) {
-    this.setState({ selectedDate: input });
+    const now = moment().local();
+    const newRange = { startDate: now, endDate: now };
+    this.setState({
+      selectedRange: newRange,
+      datePickerFocused: null,
+    }, this.props.onReset(newRange));
   }
 
   setDateRange(input: any) {
@@ -55,31 +46,13 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
   }
 
   render() {
-    const { onSubmit } = this.props;
-    const { byRange, selectedDate, selectedRange, datePickerFocused } = this.state;
+    const { onSubmit, dateRange, byRange } = this.props;
+    const { selectedRange, datePickerFocused } = this.state;
 
-    // TODO: fix ids of date picker elements-- bring into line with how ids are set for other components
     return (
       <form className="usa-form">
         <fieldset className="usa-fieldset">
-          <legend className="usa-sr-only">Choose a date or date range</legend>
-          <RadioGroup
-            options={[
-              {
-                text: 'By date',
-                value: 'date',
-                selected: !byRange,
-              },
-              {
-                text: 'By range',
-                value: 'range',
-                selected: byRange,
-              },
-            ]}
-            onClick={this.toggleDateRange}
-            horizontal={true}
-            groupName={'dateSelectionType'}
-          />
+          <legend className="usa-sr-only">{`Choose a date${byRange ? ' range' : ''}`}</legend>
           {byRange &&
             <DateRangePicker
               startDate={selectedRange.startDate}
@@ -95,15 +68,19 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
           {!byRange &&
             <SingleDatePicker
               id="date"
-              date={selectedDate}
+              date={selectedRange.startDate}
               focused={datePickerFocused === 'startDate'}
-              onDateChange={date => this.setDate(date)}
+              onDateChange={date => this.setDateRange({ startDate: date, endDate: date })}
               onFocusChange={({ focused }: any) => this.setState({ datePickerFocused: focused ? 'startDate' : null })}
               isOutsideRange={() => false}
             />
           }
           <div>
-            <Button text="Update" onClick={onSubmit} />
+            <Button
+              text="Update"
+              onClick={() => onSubmit(selectedRange)}
+              disabled={selectedRange.startDate === dateRange.startDate && selectedRange.endDate === dateRange.endDate}
+            />
             <Button text="Reset" onClick={this.resetState} />
           </div>
         </fieldset> 

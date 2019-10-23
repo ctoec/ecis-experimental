@@ -57,7 +57,7 @@ namespace Hedwig.Repositories
 				return query.Where(e => (
 					(e.Exit != null && e.Entry <= to && e.Exit >= from)
 					||
-					(e.Exit == null && e.Entry >= from && e.Entry <= to)
+					(e.Exit == null && e.Entry <= to)
 				));
 			}
 
