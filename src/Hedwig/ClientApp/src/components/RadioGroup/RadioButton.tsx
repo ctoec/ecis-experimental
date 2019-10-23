@@ -1,6 +1,5 @@
 import React from 'react';
-
-type RadioButtonAppearance = 'default' | 'base' | 'secondary';
+import { ClassNames } from '@emotion/core';
 
 type RadioButtonProps = {
   text: string;
@@ -8,22 +7,18 @@ type RadioButtonProps = {
   name: string,
   onClick: (value: any) => any;
   selected?: boolean,
-  appearance?: RadioButtonAppearance;
-  disabled?: boolean;
+  className?: string;
 };
 
-export default function RadioButton({ text, value, name, onClick, selected, appearance, disabled }: RadioButtonProps) {
+export default function RadioButton({ text, value, name, onClick, selected, className }: RadioButtonProps) {
   return (
-    <div className={`margin-right-2 usa-radio ${
-      appearance && appearance !== 'default' ? 'usa-button--' + appearance : ''
-        }`}>
+    <div className={`usa-radio ${className}`}>
       <input
         className="usa-radio__input"
         id={value}
         type="radio"
         name={name}
         value={value}
-        disabled={disabled}
         defaultChecked={selected}
         onClick={value => onClick(value)}
       />

@@ -10,23 +10,28 @@ interface RadioButton {
 type RadioGroupProps = {
   options: RadioButton[];
   groupName: string,
-  onClick: (value: any) => any;
-  disabled?: boolean;
+  onClick: (value: string) => any;
   horizontal?: boolean;
+  legend?: string;
 };
 
-export default function RadioGroup({ options, groupName, onClick, horizontal }: RadioGroupProps) {
+export default function RadioGroup({ options, groupName, onClick, horizontal, legend }: RadioGroupProps) {
   return (
-    <div role="group" aria-describedby="" className={`${horizontal ? 'grid-row' : ''}`}>
-      {options.map(option =>
-        <RadioButton
-          value={option.value}
-          text={option.text}
-          onClick={value => onClick(value)}
-          key={option.value}
-          name={groupName}
-          selected={option.selected}
-        />)}
-    </div>
+    <fieldset className="usa-fieldset">
+      {legend && <legend className="usa-sr-only">{legend}</legend>}
+      <div className={horizontal ? 'grid-row flex-align-start grid-gap' : ''}>
+        {options.map(option =>
+          <RadioButton
+            value={option.value}
+            text={option.text}
+            onClick={event => onClick(event.target.value)}
+            key={option.value}
+            name={groupName}
+            selected={option.selected}
+            className={horizontal ? 'grid-col flex-auto': ''}
+          />
+        )}
+      </div>
+    </fieldset>
   );
 }
