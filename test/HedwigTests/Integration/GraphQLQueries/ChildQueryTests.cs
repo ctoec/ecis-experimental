@@ -36,7 +36,7 @@ namespace HedwigTests.Integration.GraphQLQueries
 
 				// Then the old version of the child  is returned
 				responseAsOf.EnsureSuccessStatusCode();
-				Child childAsOf = await responseAsOf.ParseGraphQLResponse<Child>();
+				Child childAsOf = await responseAsOf.GetObjectFromGraphQLResponse<Child>();
 				Assert.Equal(originalName, childAsOf.FirstName);
 
 				// When child is queried
@@ -50,7 +50,7 @@ namespace HedwigTests.Integration.GraphQLQueries
 
 				// Then the current version of the child is returned
 				responseCurrent.EnsureSuccessStatusCode();
-				Child childCurrent = await responseCurrent.ParseGraphQLResponse<Child>();
+				Child childCurrent = await responseCurrent.GetObjectFromGraphQLResponse<Child>();
 				Assert.Equal(updatedName, childCurrent.FirstName);
 			}
 		}
@@ -83,7 +83,7 @@ namespace HedwigTests.Integration.GraphQLQueries
 
 				// Then then old version of the child is returned
 				responseAsOf.EnsureSuccessStatusCode();
-				Child childAsOf = await responseAsOf.ParseGraphQLResponse<Child>();
+				Child childAsOf = await responseAsOf.GetObjectFromGraphQLResponse<Child>();
 				Assert.Equal(family.Id, childAsOf.Family.Id);
 				Assert.False(childAsOf.Family.CaseNumber.HasValue);
 
@@ -101,7 +101,7 @@ namespace HedwigTests.Integration.GraphQLQueries
 
 				// Then the current version of the child is returned
 				responseCurrent.EnsureSuccessStatusCode();
-				Child childCurrent = await responseCurrent.ParseGraphQLResponse<Child>();
+				Child childCurrent = await responseCurrent.GetObjectFromGraphQLResponse<Child>();
 				Assert.Equal(family.Id, childCurrent.Family.Id);
 				Assert.Equal(caseNumber, childCurrent.Family.CaseNumber);
 			}
@@ -137,7 +137,7 @@ namespace HedwigTests.Integration.GraphQLQueries
 
 				// Then then old version of the child 
 				responseAsOf.EnsureSuccessStatusCode();
-				Child childAsOf = await responseAsOf.ParseGraphQLResponse<Child>();
+				Child childAsOf = await responseAsOf.GetObjectFromGraphQLResponse<Child>();
 				Assert.Equal(family.Id, childAsOf.Family.Id);
 				Assert.Empty(childAsOf.Family.Determinations);
 
@@ -157,7 +157,7 @@ namespace HedwigTests.Integration.GraphQLQueries
 
 				// Then the current version of the child is returned
 				responseCurrent.EnsureSuccessStatusCode();
-				Child childCurrent = await responseCurrent.ParseGraphQLResponse<Child>();
+				Child childCurrent = await responseCurrent.GetObjectFromGraphQLResponse<Child>();
 				Assert.Equal(family.Id, childCurrent.Family.Id);
 				Assert.Single(childCurrent.Family.Determinations);
 			}

@@ -10,7 +10,7 @@ namespace HedwigTests.Fixtures
 	{
 		public TestHedwigContext Context { get; private set; }
 
-		public TestContextProvider()
+		public TestContextProvider(bool retainObjects = false)
 		{
 			var services = new ServiceCollection()
 				.AddEntityFrameworkSqlServer();
@@ -24,7 +24,7 @@ namespace HedwigTests.Fixtures
 				.EnableSensitiveDataLogging()
 				.UseInternalServiceProvider(services.BuildServiceProvider())
 				.Options;
-			Context = new TestHedwigContext(options);
+			Context = new TestHedwigContext(options, retainObjects);
 		}
 		public void Dispose()
 		{

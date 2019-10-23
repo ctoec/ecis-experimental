@@ -4,6 +4,7 @@ using Hedwig.Data;
 using Hedwig.Repositories;
 using Hedwig.Schema.Types;
 using Hedwig.Schema.Queries;
+using Hedwig.Schema.Mutations;
 using Hedwig.Schema;
 using Hedwig.Security;
 using GraphQL;
@@ -76,6 +77,10 @@ namespace Hedwig
 			services.AddScoped<IAppSubQuery, EnrollmentQuery>();
 			services.AddScoped<IAppSubQuery, UserQuery>();
 			services.AddScoped<IAppSubQuery, ChildQuery>();
+			services.AddScoped<IAppSubQuery, ReportQuery>();
+
+			// Add Mutations
+			services.AddScoped<IAppSubMutation, ReportMutation>();
 
 			services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
 			services.AddScoped<AppSchema>();

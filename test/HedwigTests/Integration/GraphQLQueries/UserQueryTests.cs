@@ -20,6 +20,8 @@ namespace HedwigTests.Integration.GraphQLQueries
 				// Given
 				var firstName = "FIRSTNAME";
 				var user = UserHelper.CreateUser(api.Context, firstName: firstName);
+
+				// When
 				var response = await api.Client.GetGraphQLAsync(
 					$@"{{
 						user (id: {user.Id} ) {{
@@ -28,8 +30,9 @@ namespace HedwigTests.Integration.GraphQLQueries
 					}}"
 				);
 
+				// Then
 				response.EnsureSuccessStatusCode();
-				User userRes = await response.ParseGraphQLResponse<User>();
+				User userRes = await response.GetObjectFromGraphQLResponse<User>();
 				Assert.Equal(firstName, userRes.FirstName);
 			}
 		}
@@ -59,11 +62,11 @@ namespace HedwigTests.Integration.GraphQLQueries
                             }}
                         }}
                     }}"
-								);
+                );
 
-
+				// Then
 				response.EnsureSuccessStatusCode();
-				User userRes = await response.ParseGraphQLResponse<User>();
+				User userRes = await response.GetObjectFromGraphQLResponse<User>();
 				Assert.Single(userRes.Sites);
 				Assert.Single(userRes.Sites.First().Enrollments);
 				Assert.Equal(enrollment.Id, userRes.Sites.First().Enrollments.First().Id);
@@ -82,9 +85,9 @@ namespace HedwigTests.Integration.GraphQLQueries
 				var entry = new DateTime(2021, 1, 1);
 				enrollment.Entry = entry;
 
-
+				// When
 				var response = await api.Client.GetGraphQLAsync(
-										$@"{{
+                    $@"{{
                         user(id: {user.Id}) {{
                             sites {{
                                 enrollments (from: ""{entry.AddYears(-3)}"", to: ""{entry.AddYears(-1)}"") {{
@@ -93,9 +96,11 @@ namespace HedwigTests.Integration.GraphQLQueries
                             }}
                         }}
                     }}"
-								);
+                );
+
+				// Then
 				response.EnsureSuccessStatusCode();
-				User userRes = await response.ParseGraphQLResponse<User>();
+				User userRes = await response.GetObjectFromGraphQLResponse<User>();
 				Assert.Single(userRes.Sites);
 				Assert.Empty(userRes.Sites.First().Enrollments);
 			}
