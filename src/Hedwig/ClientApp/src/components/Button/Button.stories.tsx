@@ -22,6 +22,10 @@ storiesOf('Button', module)
 		const customText = text('Text', defaultText);
 		return <Button text={customText} appearance="secondary" onClick={onClick} />;
 	})
+	.add('Unstyled', () => {
+		const customText = text('Text', defaultText);
+		return <Button text={customText} appearance="unstyled" onClick={onClick} />;
+	})
 	.add('Disabled', () => {
 		const customText = text('Text', defaultText);
 		return <Button text={customText} onClick={onClick} disabled />;
