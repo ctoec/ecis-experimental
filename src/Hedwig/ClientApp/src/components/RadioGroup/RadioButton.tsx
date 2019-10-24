@@ -1,5 +1,4 @@
 import React from 'react';
-import { ClassNames } from '@emotion/core';
 
 type RadioButtonProps = {
 	text: string;
