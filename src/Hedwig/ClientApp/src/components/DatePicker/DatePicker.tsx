@@ -1,7 +1,6 @@
 import React from 'react';
 import moment, { Moment } from 'moment';
 import { DateRangePicker, SingleDatePicker } from 'react-dates';
-import 'react-dates/lib/css/_datepicker.css';
 
 export type DateRange = {
 	startDate: Moment | null;
@@ -83,6 +82,7 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
 						isOutsideRange={date => {
 							return this.isOutsidePossibleRange(date);
 						}}
+						initialVisibleMonth={() => moment().subtract(1, 'M')}
 					/>
 				)}
 				{!byRange && (
@@ -97,6 +97,7 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
 						isOutsideRange={date => {
 							return this.isOutsidePossibleRange(date);
 						}}
+						initialVisibleMonth={() => moment().subtract(1, 'M')}
 					/>
 				)}
 			</fieldset>
