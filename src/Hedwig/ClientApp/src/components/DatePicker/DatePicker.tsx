@@ -4,17 +4,20 @@ import { DateRangePicker, SingleDatePicker } from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
 import Button from '../Button/Button';
 
-type DateRangeShape = { startDate: Moment, endDate: Moment };
+interface DateRange {
+  startDate: Moment | null;
+  endDate: Moment | null;
+};
 
 type DatePickerProps = {
-  onSubmit: (dateOrRange: any) => any;
-  onReset: (newRange: DateRangeShape) => any;
-  dateRange: DateRangeShape,
+  onSubmit: (dateRange: DateRange) => any;
+  onReset: (newRange: DateRange) => any;
+  dateRange: DateRange,
   byRange: boolean,
 };
 
 type DatePickerState = {
-  selectedRange: DateRangeShape,
+  selectedRange: DateRange,
   datePickerFocused: 'startDate' | 'endDate' | null,
 };
 
@@ -22,7 +25,6 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
   constructor(props: DatePickerProps) {
     super(props);
 
-    const now = moment().local();
     this.state = {
       selectedRange: props.dateRange,
       datePickerFocused: null,
@@ -41,7 +43,7 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
     }, this.props.onReset(newRange));
   }
 
-  setDateRange(input: any) {
+  setDateRange(input: DateRange) {
     this.setState({ selectedRange: input });
   }
 
