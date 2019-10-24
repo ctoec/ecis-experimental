@@ -29,6 +29,8 @@ namespace Hedwig.Migrations
 
                     b.Property<bool?>("Asian");
 
+                    b.Property<string>("AuthoredBy");
+
                     b.Property<DateTime>("Birthdate");
 
                     b.Property<bool?>("BlackOrAfricanAmerican");
@@ -70,6 +72,8 @@ namespace Hedwig.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("AuthoredBy");
+
                     b.Property<Guid>("ChildId");
 
                     b.Property<DateTime>("Entry");
@@ -93,6 +97,8 @@ namespace Hedwig.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("AuthoredBy");
+
                     b.Property<int?>("CaseNumber");
 
                     b.HasKey("Id");
@@ -105,6 +111,8 @@ namespace Hedwig.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AuthoredBy");
 
                     b.Property<DateTime>("Determined");
 
@@ -127,6 +135,8 @@ namespace Hedwig.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AuthoredBy");
 
                     b.Property<int>("EnrollmentId");
 
@@ -298,6 +308,8 @@ namespace Hedwig.Migrations
             modelBuilder.Entity("Hedwig.Models.CdcReport", b =>
                 {
                     b.HasBaseType("Hedwig.Models.OrganizationReport");
+
+                    b.Property<bool>("Accredited");
 
                     b.HasDiscriminator().HasValue(0);
                 });

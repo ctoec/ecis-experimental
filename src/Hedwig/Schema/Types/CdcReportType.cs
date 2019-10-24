@@ -1,7 +1,5 @@
-using System;
 using Hedwig.Models;
 using Hedwig.Repositories;
-using GraphQL;
 using GraphQL.DataLoader;
 using GraphQL.Types;
 
@@ -18,6 +16,7 @@ namespace Hedwig.Schema.Types
 			Field(r => r.ReportingPeriod.PeriodEnd);
 			Field(r => r.ReportingPeriod.DueAt);
 			Field(r => r.SubmittedAt, nullable: true);
+			Field(r => r.Accredited);
 			Field<NonNullGraphType<OrganizationType>>(
 				"organization",
 				resolve: context =>

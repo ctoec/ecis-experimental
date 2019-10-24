@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Hedwig.Models
 {
-	public class Enrollment
+	public class Enrollment : TemporalEntity
 	{
 		public int Id { get; set; }
 

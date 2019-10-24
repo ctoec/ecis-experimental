@@ -1,12 +1,13 @@
 using System;
 using Hedwig.Models;
 using Hedwig.Repositories;
+using Hedwig.Security;
 using GraphQL.DataLoader;
 using GraphQL.Types;
 
 namespace Hedwig.Schema.Types
 {
-	public class ChildType : TemporalGraphType<Child>
+	public class ChildType : TemporalGraphType<Child>, IAuthorizedGraphType
 	{
 		public ChildType(IDataLoaderContextAccessor dataLoader, IFamilyRepository families)
 		{
@@ -40,6 +41,15 @@ namespace Hedwig.Schema.Types
 					return loader.LoadAsync(familyId);
 				}
 			);
+		}
+
+		public AuthorizationRules Permissions(AuthorizationRules rules)
+		{
+			rules.DenyNot("IsAuthenticatedUserPolicy");
+			rules.Allow("IsDeveloperInDevPolicy");
+			rules.Allow("IsTestModePolicy");
+			rules.Deny();
+			return rules;
 		}
 	}
 }

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Hedwig.Models
 {
-	public class Child
+	public class Child : TemporalEntity
 	{
 		public Guid Id { get; set; }
 

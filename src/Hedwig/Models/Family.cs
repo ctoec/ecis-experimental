@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Hedwig.Models
 {
-	public class Family
+	public class Family : TemporalEntity
 	{
 		public int Id { get; set; }
 		public int? CaseNumber { get; set; }

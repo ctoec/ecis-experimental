@@ -10,21 +10,21 @@ namespace HedwigTests.Fixtures
 	{
 		public TestHedwigContext Context { get; private set; }
 
-		public TestContextProvider()
+		public TestContextProvider(bool retainObjects = false)
 		{
 			var services = new ServiceCollection()
 				.AddEntityFrameworkSqlServer();
 
-			if (Environment.GetEnvironmentVariable("SQL_LOGGING") != null) {
+			if (TestEnvironmentFlags.ShouldLogSQL()) {
 				services.AddLogging(configure => configure.AddConsole());
 			}
 			
 			var options = new DbContextOptionsBuilder<HedwigContext>()
 				.UseSqlServer(Environment.GetEnvironmentVariable("SQLCONNSTR_HEDWIG"))
-					.EnableSensitiveDataLogging()
+				.EnableSensitiveDataLogging()
 				.UseInternalServiceProvider(services.BuildServiceProvider())
 				.Options;
-			Context = new TestHedwigContext(options);
+			Context = new TestHedwigContext(options, retainObjects);
 		}
 		public void Dispose()
 		{

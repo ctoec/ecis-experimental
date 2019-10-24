@@ -24,7 +24,9 @@ namespace OpenIDProvider
 					Claims = new []
 					{
 						new Claim("name", "Voldemort"),
-						new Claim("allowed_apps", "hedwig")
+						new Claim("allowed_apps", "hedwig"),
+						new Claim("role", "developer"),
+						new Claim("role", "oec-admin"),
 					}
 				}
 			};
@@ -39,11 +41,30 @@ namespace OpenIDProvider
 			};
 	}
 
+	// http://docs.identityserver.io/en/latest/topics/resources.html#defining-api-resources
 	public static IEnumerable<ApiResource> GetApis()
 	{
 	  return new List<ApiResource>
 			{
-				new ApiResource("hedwig_backend", "Hedwig API")
+				new ApiResource
+            {
+                Name = "hedwig_backend",
+
+                Description = "Hedwig API",
+
+                // include the following using claims in access token (in addition to subject id)
+                UserClaims = { "role" },
+
+								Scopes =
+                {
+                    new Scope()
+                    {
+                        Name = "hedwig_backend",
+                        DisplayName = "Full access to Hedwig API",
+                        UserClaims = new [] { "role", "allowed_apps" }
+                    }
+                }
+            }
 			};
 	}
 
@@ -62,6 +83,8 @@ namespace OpenIDProvider
 					RedirectUris =           { "https://localhost:5001/login/callback" },
 					PostLogoutRedirectUris = { "https://localhost:5001" },
 					AllowedCorsOrigins =     { "https://localhost:5001" },
+
+					AccessTokenLifetime = 360000, // 100 hours
 
 					AllowedScopes =
 					{

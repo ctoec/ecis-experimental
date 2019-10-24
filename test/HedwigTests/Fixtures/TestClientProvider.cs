@@ -24,7 +24,7 @@ namespace HedwigTests.Fixtures
 					.UseStartup<TestStartup>()
 			);
 			var scope = _server.Host.Services.CreateScope();
-            Context = scope.ServiceProvider.GetRequiredService<TestHedwigContext>();
+			Context = scope.ServiceProvider.GetRequiredService<TestHedwigContext>();
 			Client = _server.CreateClient();
 		}
 

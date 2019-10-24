@@ -1,9 +1,12 @@
 using System.Linq;
 using System.Threading.Tasks;
+using System;
 using Xunit;
 using Hedwig.Repositories;
+using Hedwig.Models;
 using HedwigTests.Helpers;
 using HedwigTests.Fixtures;
+using System.Collections.Generic;
 
 namespace HedwigTests.Repositories
 {
@@ -34,6 +37,25 @@ namespace HedwigTests.Repositories
 				Assert.Contains(report1.Id, reportIds);
 				Assert.Contains(report2.Id, reportIds);
 				Assert.DoesNotContain(otherReport.Id, reportIds);
+			}
+		}
+
+		[Fact]
+		public void Update_Report()
+		{
+			using (var context = new TestContextProvider(retainObjects: true).Context)
+			{
+				// If a report exists in the DB
+				var report = ReportHelper.CreateCdcReport(context);
+
+				// When the report is updated
+				var submittedAt = DateTime.Now.ToUniversalTime();
+				report.SubmittedAt = submittedAt;
+				var reportRepo = new ReportRepository(context);
+				var updated = reportRepo.UpdateReport(report);
+
+				// Then the updated report is returned
+				Assert.Equal(submittedAt, updated.SubmittedAt);
 			}
 		}
 	}
