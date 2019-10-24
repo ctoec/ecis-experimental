@@ -1,0 +1,79 @@
+#
+#  This is the driver file for Azure DevOps 2019 build pipeline
+#
+
+pool:
+  vmImage: "ubuntu-latest"
+
+steps:
+  - task: UseDotNet@2
+    displayName: 'Use .NET Core sdk'
+    inputs:
+      packageType: sdk
+      version: 3.0.100
+      installationPath: $(Agent.ToolsDirectory)/dotnet
+  #
+  # Setup sonarcloud authentication 
+  #
+#
+#  - task: SonarCloudPrepare@1
+#    inputs:
+#      SonarCloud: "sonar-cloud-ctoec"
+#      organization: "ctoec"
+#      scannerMode: "MSBuild"
+#      projectKey: "winged-keys"
+#      extraProperties: |
+#        sonar.exclusions=**/src/**
+#        sonar.coverage.exclusions=**/**
+  #
+  # Download dependencies
+  #
+  - task: DotNetCoreCLI@2
+    displayName: "Script: dotnet restore"
+    inputs:
+      command: restore
+      projects: "$(Build.SourcesDirectory)/auth-dev/OpenIDProvider/OpenIDProvider.csproj"
+  #
+  # Create an optimized production build
+  #
+  - script: dotnet publish "$(Build.SourcesDirectory)/auth-dev/OpenIDProvider/OpenIDProvider.csproj" --output "$(Build.SourcesDirectory)/auth-dev/OpenIDProvider/dist" --configuration Release --no-restore
+    displayName: "Script: dotnet publish"
+  #
+  # Add beanstalk deployment manifest to distribution
+  #
+  - script: cp aws-windows-deployment-manifest-is.json $(Build.SourcesDirectory)/auth-dev/OpenIDProvider/dist/aws-windows-deployment-manifest.json
+    displayName: "Script: add beanstalk deployment manifest to distribution"
+  #
+  # Install typescript for sonarcloud
+  #
+#  - script: npm install typescript --loglevel verbose
+#    displayName: "Script: npm install typescript"
+  #
+  # Perform & publish static code analysis to sonarcloud
+  #
+#  - task: SonarCloudAnalyze@1
+#  - task: SonarCloudPublish@1
+#    inputs:
+#      pollingTimeoutSec: "300"
+  #
+  # Zip app runtime release
+  #
+  - task: ArchiveFiles@2
+    displayName: "Archive Files"
+    inputs:
+      rootFolderOrFile: "$(Build.SourcesDirectory)/auth-dev/OpenIDProvider/dist"
+      includeRootFolder: false
+      archiveType: "zip"
+      #tarCompression: 'gz' # Optional. Options: gz, bz2, xz, none
+      archiveFile: "$(Build.ArtifactStagingDirectory)/winged-keys-app.zip"
+      replaceExistingArchive: true
+  #
+  # Publish artifact to dropbox - winged-keys-app
+  #
+  - task: PublishBuildArtifacts@1
+    displayName: "Publish Artifacts: winged-keys-app"
+    inputs:
+      pathToPublish: "$(Build.ArtifactStagingDirectory)/winged-keys-app.zip"
+      artifactName: winged-keys-app
+
+
