@@ -1,6 +1,5 @@
-/**
- * Modified from https://github.com/graphql-dotnet/authorization/blob/8e7b3c70577c15ee45d16080eeba8273315b4e9c/src/GraphQL.Authorization/AuthenticatedUserRequirement.cs
- * This file is released in v3 of GraphQL.Authorization but we use v2.1.
+/*
+ * Modified from https://github.com/graphql-dotnet/authorization/blob/8e7b3c70577c15ee45d16080eeba8273315b4e9c/src/GraphQL.Authorization/AuthorizationMetadataExtensions.cs
  */
 /**
  * The MIT License (MIT)
@@ -22,24 +21,39 @@
  * AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+ /*
+  * Summary of Changes
+  * - Different approach for retrieving permission rules.
+  */
 
-using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using GraphQL.Builders;
+using GraphQL.Types;
 using GraphQL.Authorization;
 
 namespace Hedwig.Security
 {
-    public class AuthenticatedUserRequirement : IAuthorizationRequirement
+    public static class AuthorizationMetadataExtensions
     {
-        public Task Authorize(AuthorizationContext context)
+        public static bool RequiresAuthorization(this IProvideMetadata type)
         {
-            if (!context.User.Identities.Any(x => x.IsAuthenticated))
-            {
-                context.ReportError("An authenticated user is required.");
-            }
-
-            return Task.CompletedTask;
+            return type is IAuthorizedGraphType;
+        }
+        
+        public static Task<AuthorizationResult> Authorize(
+            this IProvideMetadata type,
+            ClaimsPrincipal principal,
+            object userContext,
+            Dictionary<string, object> inputVariables,
+            IAuthorizationEvaluator evaluator)
+        {
+            var authorizedType = type as IAuthorizedGraphType;
+            var rules = new AuthorizationRules();
+            rules = authorizedType.Permissions(rules);
+            return evaluator.Evaluate(principal, userContext, inputVariables, rules);
         }
     }
 }
