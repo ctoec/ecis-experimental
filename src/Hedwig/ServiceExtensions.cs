@@ -1,12 +1,14 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Hedwig.Data;
+using Hedwig.Models;
 using Hedwig.Repositories;
 using Hedwig.Schema.Types;
 using Hedwig.Schema.Queries;
 using Hedwig.Schema.Mutations;
 using Hedwig.Schema;
 using Hedwig.Security;
+using Hedwig.Validations;
 using GraphQL;
 using GraphQL.Server;
 using GraphQL.Authorization;
@@ -17,96 +19,105 @@ using System.IdentityModel.Tokens.Jwt;
 
 namespace Hedwig
 {
-	public static class ServiceExtensions
-	{
-		public static void ConfigureSqlServer(this IServiceCollection services, string connectionString)
-		{
-			services.AddDbContext<HedwigContext>(options =>
-				options.UseSqlServer(connectionString)
-			);
-		}
-		public static void ConfigureCors(this IServiceCollection services)
-		{
-			services.AddCors(options =>
-			{
-				options.AddPolicy("AllowAll", builder =>
-				{
-					builder.AllowAnyHeader()
-						.AllowAnyMethod()
-						.AllowAnyOrigin();
-				});
-			});
-		}
+  public static class ServiceExtensions
+  {
+    public static void ConfigureSqlServer(this IServiceCollection services, string connectionString)
+    {
+      services.AddDbContext<HedwigContext>(options =>
+        options.UseSqlServer(connectionString)
+      );
+    }
+    public static void ConfigureCors(this IServiceCollection services)
+    {
+      services.AddCors(options =>
+      {
+        options.AddPolicy("AllowAll", builder =>
+        {
+          builder.AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowAnyOrigin();
+        });
+      });
+    }
 
-		public static void ConfigureSpa(this IServiceCollection services)
-		{
-			services.AddSpaStaticFiles(configuration =>
-			{
-				configuration.RootPath = "ClientApp/build";
-			});
-		}
+    public static void ConfigureSpa(this IServiceCollection services)
+    {
+      services.AddSpaStaticFiles(configuration =>
+      {
+        configuration.RootPath = "ClientApp/build";
+      });
+    }
 
-		public static void ConfigureRepositories(this IServiceCollection services)
-		{
-			services.AddScoped<IChildRepository, ChildRepository>();
-			services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
-			services.AddScoped<IFamilyDeterminationRepository, FamilyDeterminationRepository>();
-			services.AddScoped<IFamilyRepository, FamilyRepository>();
-			services.AddScoped<IFundingRepository, FundingRepository>();
-			services.AddScoped<IOrganizationRepository, OrganizationRepository>();
-			services.AddScoped<IReportRepository, ReportRepository>();
-			services.AddScoped<ISiteRepository, SiteRepository>();
-			services.AddScoped<IUserRepository, UserRepository>();
-		}
+    public static void ConfigureRepositories(this IServiceCollection services)
+    {
+      services.AddScoped<IChildRepository, ChildRepository>();
+      services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
+      services.AddScoped<IFamilyDeterminationRepository, FamilyDeterminationRepository>();
+      services.AddScoped<IFamilyRepository, FamilyRepository>();
+      services.AddScoped<IFundingRepository, FundingRepository>();
+      services.AddScoped<IOrganizationRepository, OrganizationRepository>();
+      services.AddScoped<IReportRepository, ReportRepository>();
+      services.AddScoped<ISiteRepository, SiteRepository>();
+      services.AddScoped<IUserRepository, UserRepository>();
+    }
 
-		public static void ConfigureGraphQL(this IServiceCollection services)
-		{
-			// Add Types
-			services.AddScoped<CdcReportType>();
-			services.AddScoped<ChildType>();
-			services.AddScoped<EnrollmentType>();
-			services.AddScoped<FamilyDeterminationType>();
-			services.AddScoped<FamilyType>();
-			services.AddScoped<FundingType>();
-			services.AddScoped<OrganizationType>();
-			services.AddScoped<ReportType>();
-			services.AddScoped<SiteType>();
-			services.AddScoped<UserType>();
+    public static void ConfigureDataValidations(this IServiceCollection services)
+    {
+      // Enrollment
+      services.AddScoped<IDataValidator<Enrollment>, DataValidator<Enrollment>>();
+      services.AddTransient<IDataValidationRule<Enrollment>, EnrollmentEntryCannotBeBeforeBirthdate>();
+      services.AddTransient<IDataValidationRule<Enrollment>, EnrollmentExitCannotBeBeforeEntry>();
+    }
 
-			// Add Queries
-			services.AddScoped<IAppSubQuery, EnrollmentQuery>();
-			services.AddScoped<IAppSubQuery, UserQuery>();
-			services.AddScoped<IAppSubQuery, ChildQuery>();
-			services.AddScoped<IAppSubQuery, ReportQuery>();
+    public static void ConfigureGraphQL(this IServiceCollection services)
+    {
+      // Add Types
+      services.AddScoped<CdcReportType>();
+      services.AddScoped<ChildType>();
+      services.AddScoped<DataValidationIssueType>();
+      services.AddScoped<EnrollmentType>();
+      services.AddScoped<FamilyDeterminationType>();
+      services.AddScoped<FamilyType>();
+      services.AddScoped<FundingType>();
+      services.AddScoped<OrganizationType>();
+      services.AddScoped<ReportType>();
+      services.AddScoped<SiteType>();
+      services.AddScoped<UserType>();
 
-			// Add Mutations
-			services.AddScoped<IAppSubMutation, ReportMutation>();
+      // Add Queries
+      services.AddScoped<IAppSubQuery, EnrollmentQuery>();
+      services.AddScoped<IAppSubQuery, UserQuery>();
+      services.AddScoped<IAppSubQuery, ChildQuery>();
+      services.AddScoped<IAppSubQuery, ReportQuery>();
 
-			services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
-			services.AddScoped<AppSchema>();
+      // Add Mutations
+      services.AddScoped<IAppSubMutation, ReportMutation>();
 
-			services.AddGraphQL(o => { o.ExposeExceptions = false; })
-				.AddGraphTypes(ServiceLifetime.Scoped)
-				.AddDataLoader()
-				.AddUserContextBuilder<RequestContext>(RequestContext.RequestContextCreator);
-		}
+      services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
+      services.AddScoped<AppSchema>();
 
-		public static void ConfigureAuthentication(this IServiceCollection services)
-		{
-			JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-				.AddJwtBearer(options =>
-					{
-						options.Authority = "https://openid:5050";
-						options.Audience = "hedwig_backend";
-						options.BackchannelHttpHandler = new HttpClientHandler
-						{
-							ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
-						};
-					});
-			services.AddSingleton<IAuthorizationEvaluator, AuthorizationEvaluator>();
-			services.AddTransient<IValidationRule, AuthorizationValidationRule>();
-			services.AddSingleton(s => Permissions.GetAuthorizationSettings());
-		}
-	}
+      services.AddGraphQL(o => { o.ExposeExceptions = false; })
+        .AddGraphTypes(ServiceLifetime.Scoped)
+        .AddDataLoader()
+        .AddUserContextBuilder<RequestContext>(RequestContext.RequestContextCreator);
+    }
+
+    public static void ConfigureAuthentication(this IServiceCollection services)
+    {
+      JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+      services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(options =>
+          {
+            options.Authority = "https://openid:5050";
+            options.Audience = "hedwig_backend";
+            options.BackchannelHttpHandler = new HttpClientHandler
+            {
+              ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+            };
+          });
+      services.AddSingleton<IAuthorizationEvaluator, AuthorizationEvaluator>();
+      services.AddTransient<IValidationRule, AuthorizationValidationRule>();
+      services.AddSingleton(s => Permissions.GetAuthorizationSettings());
+    }
+  }
 }
