@@ -33,6 +33,7 @@ using System.Threading.Tasks;
 using GraphQL.Builders;
 using GraphQL.Types;
 using GraphQL.Authorization;
+using GraphQL.Language.AST;
 
 namespace Hedwig.Security
 {
@@ -48,12 +49,13 @@ namespace Hedwig.Security
             ClaimsPrincipal principal,
             object userContext,
             Dictionary<string, object> inputVariables,
-            IAuthorizationEvaluator evaluator)
+            IAuthorizationEvaluator evaluator,
+            Arguments arguments)
         {
             var authorizedType = type as IAuthorizedGraphType;
             var rules = new AuthorizationRules();
             rules = authorizedType.Permissions(rules);
-            return evaluator.Evaluate(principal, userContext, inputVariables, rules);
+            return evaluator.Evaluate(principal, userContext, inputVariables, rules, arguments);
         }
     }
 }

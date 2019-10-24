@@ -30,6 +30,7 @@ namespace Hedwig
             services.ConfigureRepositories();
             services.ConfigureGraphQL();
             services.ConfigureAuthentication();
+            services.ConfigureGraphQLAuthorization();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
