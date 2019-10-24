@@ -1,30 +1,46 @@
 import React from 'react';
 import RadioButton from './RadioButton';
 
-interface RadioButton {
-	selected: boolean | undefined;
+type RadioButtonOptions = {
 	text: string;
 	value: string;
-}
+};
 
 type RadioGroupProps = {
-	options: RadioButton[];
+	options: RadioButtonOptions[];
 	groupName: string;
 	onClick: (value: string) => any;
+	legend: string;
+	selected?: string;
 	horizontal?: boolean;
-	legend?: string;
+	showError?: boolean;
+	errorMessage?: string;
 };
 
 export default function RadioGroup({
 	options,
 	groupName,
 	onClick,
+	selected,
 	horizontal,
 	legend,
+	showError,
+	errorMessage,
 }: RadioGroupProps) {
+	const [currentlySelected, setSelection] = useState(selected);
+
+	function setRadioButtonSelection(value: string | undefined) {
+		setSelection(value);
+	}
+
 	return (
-		<fieldset className="usa-fieldset">
-			{legend && <legend className="usa-sr-only">{legend}</legend>}
+		<fieldset className={`usa-fieldset${showError ? ' usa-form-group--error' : ''}`}>
+			<legend className="usa-sr-only">{legend}</legend>
+			{showError && errorMessage && (
+				<span className="usa-error-message" id="radio-group-error-message" role="alert">
+					{errorMessage}
+				</span>
+			)}
 			<div className={horizontal ? 'grid-row flex-align-start grid-gap' : ''}>
 				{options.map(option => (
 					<RadioButton

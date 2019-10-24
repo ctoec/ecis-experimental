@@ -38,4 +38,27 @@ storiesOf('RadioGroup', module)
 				horizontal={true}
 			/>
 		);
+	})
+	.add('Default selection', () => {
+		return (
+			<RadioGroup
+				options={options}
+				groupName="storybook-radio-group-default-selection"
+				onClick={onClick}
+				legend="Storybook radio buttons"
+				selected="one"
+			/>
+		);
+	})
+	.add('With error', () => {
+		return (
+			<RadioGroup
+				options={options}
+				groupName="storybook-radio-group-with-error"
+				onClick={onClick}
+				legend="Storybook radio buttons"
+				showError={true}
+				errorMessage="You  must select one or two."
+			/>
+		);
 	});

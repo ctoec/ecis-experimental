@@ -1,59 +1,46 @@
 import React, { useState } from 'react';
 import { DatePicker, DateRange } from '../../components/DatePicker/DatePicker';
-import RadioGroup from '../../components/RadioGroup/RadioGroup';
 import Button from '../../components/Button/Button';
+import moment from 'moment';
 
 type DateSelectionFormProps = {
-	onSubmit: (dateRange: DateRange) => any;
-}
+	onSubmit: (newDateRange: DateRange) => any;
+	onReset: () => any;
+	inputDateRange: DateRange;
+	byRange: boolean;
+};
 
-export default function DateSelectionForm({ onSubmit }: DateSelectionFormProps) {
+export default function DateSelectionForm({
+	onSubmit,
+	onReset,
+	inputDateRange,
+	byRange,
+}: DateSelectionFormProps) {
+	const [currentDateRange, setDateRange] = useState<DateRange>(inputDateRange);
 
-  const [byRange, toggleByRange] = useState(false);
-
-  function handleToggleByRange(newByRange: boolean) {
-    toggleByRange(newByRange);
-  }
-
-  return (
+	return (
 		<form className="usa-form">
-			<RadioGroup
-				options={[
-					{
-						text: 'By date',
-						value: 'date',
-						selected: !byRange,
-					},
-					{
-						text: 'By range',
-						value: 'range',
-						selected: byRange,
-					},
-				]}
-				onClick={(clickedValue: string) => handleToggleByRange(clickedValue === 'range')}
-				horizontal={true}
-				groupName={'dateSelectionType'}
-				legend="Select date or date range."
-			/>
 			<DatePicker
 				byRange={byRange}
-				onSubmit={dateRange => handleDateRangeChange(dateRange)}
+				onChange={newRange => setDateRange(newRange)}
 				dateRange={currentDateRange}
-				onReset={newRange => {
-					handleToggleByRange(false);
-					handleDateRangeChange(newRange);
-				}}
+				possibleRange={{ startDate: null, endDate: moment().local() }}
 			/>
 			<div>
 				<Button
 					text="Update"
-					onClick={() => onSubmit(selectedRange)}
+					onClick={() => onSubmit(currentDateRange)}
 					disabled={
-						selectedRange.startDate === dateRange.startDate &&
-						selectedRange.endDate === dateRange.endDate
+						currentDateRange.startDate === inputDateRange.startDate &&
+						currentDateRange.endDate === inputDateRange.endDate
 					}
 				/>
-				<Button text="Reset" onClick={this.resetState} />
+				<Button
+					text="Reset"
+					onClick={() => {
+						onReset();
+					}}
+				/>
 			</div>
 		</form>
 	);

@@ -2,32 +2,27 @@ import React, { useState } from 'react';
 import useAuthQuery from '../../hooks/useAuthQuery';
 import { gql } from 'apollo-boost';
 import { Link } from 'react-router-dom';
-import moment from 'moment';
-import { Table, TableProps } from '../../components/Table/Table';
 import { RosterQuery, RosterQuery_me_sites_enrollments } from '../../generated/RosterQuery';
 import nameFormatter from '../../utils/nameFormatter';
 import dateFormatter from '../../utils/dateFormatter';
 import enrollmentTextFormatter from '../../utils/enrollmentTextFormatter';
+import getDefaultDateRange from '../../utils/getDefaultDateRange';
+import { Table, TableProps } from '../../components/Table/Table';
 import Tag from '../../components/Tag/Tag';
 import { DateRange } from '../../components/DatePicker/DatePicker';
 import Button from '../../components/Button/Button';
+import RadioGroup from '../../components/RadioGroup/RadioGroup';
 import DateSelectionForm from './DateSelectionForm';
 
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
-	const today = moment().local();
-	const [currentDateRange, setDateRange] = useState<DateRange>({
-		startDate: today,
-		endDate: today,
-	});
+	const [dateRange, setDateRange] = useState<DateRange>(getDefaultDateRange());
+	const [byRange, toggleByRange] = useState(false);
 
 	function handlePastEnrollmentsChange() {
 		toggleShowPastEnrollments(!showPastEnrollments);
-		setDateRange({ startDate: today, endDate: today });
-	}
-
-	function handleDateRangeChange(newDateRange: DateRange) {
-		setDateRange(newDateRange);
+		toggleByRange(false);
+		setDateRange(getDefaultDateRange());
 	}
 
 	const { loading, error, data } = useAuthQuery<RosterQuery>(
@@ -60,8 +55,8 @@ export default function Roster() {
 		`,
 		{
 			variables: {
-				from: currentDateRange.startDate,
-				to: currentDateRange.endDate,
+				from: dateRange.startDate,
+				to: dateRange.endDate,
 			},
 		}
 	);
@@ -110,8 +105,7 @@ export default function Roster() {
 	const numKidsEnrolledText = enrollmentTextFormatter(
 		enrollments.length,
 		showPastEnrollments,
-		currentDateRange,
-		byRange
+		dateRange
 	);
 
 	return (
@@ -126,7 +120,36 @@ export default function Roster() {
 						onClick={handlePastEnrollmentsChange}
 					/>
 				</p>
-				{showPastEnrollments && <DateSelectionForm onSubmit={handleDateRangeChange} />}
+				{showPastEnrollments && (
+					<React.Fragment>
+						<RadioGroup
+							options={[
+								{
+									text: 'By date',
+									value: 'date',
+								},
+								{
+									text: 'By range',
+									value: 'range',
+								},
+							]}
+							onClick={(clickedValue: string) => toggleByRange(clickedValue === 'range')}
+							horizontal={true}
+							groupName={'dateSelectionType'}
+							legend="Select date or date range."
+							selected={byRange ? 'range' : 'date'}
+						/>
+						<DateSelectionForm
+							inputDateRange={dateRange}
+							byRange={byRange}
+							onReset={() => {
+								toggleByRange(false);
+								setDateRange(getDefaultDateRange());
+							}}
+							onSubmit={(newDateRange: DateRange) => setDateRange(newDateRange)}
+						/>
+					</React.Fragment>
+				)}
 				<Table {...rosterTableProps} fullWidth />
 			</section>
 		</div>
