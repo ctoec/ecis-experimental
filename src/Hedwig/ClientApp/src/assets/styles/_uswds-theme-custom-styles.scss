@@ -203,3 +203,30 @@ h1 {
 .oec-inline-icon--attentionNeeded::before {
 	background-image: url('../images/attentionNeeded.svg');
 }
+
+
+// *** DatePicker ***
+// https://github.com/airbnb/react-dates
+.DateInput_input__focused {
+  border-bottom: none;
+}
+
+.CalendarDay__selected, .CalendarDay__selected:active, .CalendarDay__selected:hover {
+  background: color('primary-dark');
+  border: 1px double color('primary-darker');
+}
+
+.CalendarDay__selected_span {
+  background: color('primary');
+  border: 1px double color('primary-darker');
+}
+
+.CalendarDay__hovered_span,
+.CalendarDay__hovered_span:hover,
+.CalendarDay__selected_span:active,
+.CalendarDay__selected_span:hover,
+.CalendarDay__hovered_span:active {
+  background: color('primary-light');
+  border: 1px double color('primary-darker');
+  color: #fff;
+}
