@@ -146,18 +146,17 @@ export default function Roster() {
 								{
 									text: 'By date',
 									value: 'date',
-									selected: !byRange,
 								},
 								{
 									text: 'By range',
 									value: 'range',
-									selected: byRange,
 								},
 							]}
 							onClick={(clickedValue: string) => handleToggleByRange(clickedValue === 'range')}
 							horizontal={true}
 							groupName={'dateSelectionType'}
-							legend="Select date or date range."
+              legend="Select date or date range."
+              selected={byRange ? 'range' : 'date'}
 						/>
 						<DatePicker
 							byRange={byRange}
