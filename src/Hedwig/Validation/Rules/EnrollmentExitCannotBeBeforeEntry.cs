@@ -7,11 +7,11 @@ namespace Hedwig.Validations
   {
     private const string _message = "Cannot be before the start date.";
 
-    public IEnumerable<DataValidationIssue> Validate(Enrollment enrollment)
+    public IEnumerable<DataValidationIssue> Validate(Enrollment obj)
     {
-      if (enrollment.Exit < enrollment.Entry)
+      if (obj.Exit < obj.Entry)
       {
-        return new DataValidationIssue[] { new DataValidationIssue(_message, nameof(enrollment.Exit)) };
+        return new DataValidationIssue[] { new DataValidationIssue(_message, nameof(obj.Exit)) };
       }
       return new DataValidationIssue[0];
     }

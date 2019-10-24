@@ -7,9 +7,9 @@ namespace Hedwig.Validations
 {
   public class DataValidator<T> : IDataValidator<T>
   {
-    private IEnumerable<IDataValidationRule<T>> _rules;
-    private ConcurrentDictionary<T, IEnumerable<DataValidationIssue>> _nonBlockingResults = new ConcurrentDictionary<T, IEnumerable<DataValidationIssue>>();
-    private ConcurrentDictionary<T, IEnumerable<DataValidationIssue>> _blockingResults = new ConcurrentDictionary<T, IEnumerable<DataValidationIssue>>();
+    private readonly IEnumerable<IDataValidationRule<T>> _rules;
+    private const ConcurrentDictionary<T, IEnumerable<DataValidationIssue>> _nonBlockingResults = new ConcurrentDictionary<T, IEnumerable<DataValidationIssue>>();
+    private const ConcurrentDictionary<T, IEnumerable<DataValidationIssue>> _blockingResults = new ConcurrentDictionary<T, IEnumerable<DataValidationIssue>>();
 
     public DataValidator(IEnumerable<IDataValidationRule<T>> rules) => _rules = rules;
 
