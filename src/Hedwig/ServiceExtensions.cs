@@ -98,7 +98,7 @@ namespace Hedwig
 			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 				.AddJwtBearer(options =>
 					{
-						options.Authority = "https://openid:5050";
+						options.Authority = "https://winged-keys:5050";
 						options.Audience = "hedwig_backend";
 						options.BackchannelHttpHandler = new HttpClientHandler
 						{
