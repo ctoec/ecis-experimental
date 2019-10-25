@@ -11,6 +11,7 @@ services:
     image: mcr.microsoft.com/dotnet/core/sdk:2.2
     environment:
       SQLCONNSTR_HEDWIG: Server=test_db;Database=master;User=sa;Password=TestPassword1
+      ASPNETCORE_ENVIRONMENT: Development
     volumes:
       - ./src/Hedwig:/app/src/Hedwig
       - ./test/HedwigTests:/app/test/HedwigTests
