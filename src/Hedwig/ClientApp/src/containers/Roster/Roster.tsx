@@ -105,7 +105,8 @@ export default function Roster() {
 	const numKidsEnrolledText = enrollmentTextFormatter(
 		enrollments.length,
 		showPastEnrollments,
-		dateRange
+    dateRange,
+    byRange
 	);
 
 	return (
@@ -121,7 +122,7 @@ export default function Roster() {
 					/>
 				</p>
 				{showPastEnrollments && (
-					<React.Fragment>
+					<div className="usa-fieldset">
 						<RadioGroup
 							options={[
 								{
@@ -148,7 +149,7 @@ export default function Roster() {
 							}}
 							onSubmit={(newDateRange: DateRange) => setDateRange(newDateRange)}
 						/>
-					</React.Fragment>
+					</div>
 				)}
 				<Table {...rosterTableProps} fullWidth />
 			</section>

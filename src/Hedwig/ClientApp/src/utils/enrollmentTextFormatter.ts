@@ -4,7 +4,8 @@ import { DateRange } from '../components/DatePicker/DatePicker';
 export default function enrollmentTextFormatter(
 	numKids: number,
 	showPastEnrollments: boolean,
-	currentDateRange: DateRange
+  currentDateRange: DateRange,
+  byRange: boolean
 ) {
 	const pluralizedNumKids = pluralize('kid', numKids, true);
 
@@ -15,7 +16,7 @@ export default function enrollmentTextFormatter(
 
 	if (!showPastEnrollments) {
 		return `${pluralizedNumKids} enrolled.`;
-	} else if (formattedStartDate !== formattedEndDate) {
+	} else if (byRange) {
 		return `${pluralizedNumKids} were enrolled between ${formattedStartDate} and ${formattedEndDate}.`;
 	}
 	return `${pluralizedNumKids} were enrolled on ${formattedStartDate}.`;
