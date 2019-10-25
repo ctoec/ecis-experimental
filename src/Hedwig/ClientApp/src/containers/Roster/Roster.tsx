@@ -14,6 +14,34 @@ import Button from '../../components/Button/Button';
 import RadioGroup from '../../components/RadioGroup/RadioGroup';
 import DateSelectionForm from './DateSelectionForm';
 
+export const ROSTER_QUERY = gql`
+  query RosterQuery($from: Date, $to: Date) {
+    me {
+      sites {
+        id
+        name
+        enrollments(from: $from, to: $to) {
+          id
+          entry
+          exit
+          child {
+            firstName
+            middleName
+            lastName
+            birthdate
+            suffix
+          }
+          fundings {
+            entry
+            exit
+            source
+          }
+        }
+      }
+    }
+  }
+`;
+
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
 	const [dateRange, setDateRange] = useState<DateRange>(getDefaultDateRange());
@@ -25,44 +53,15 @@ export default function Roster() {
 		setDateRange(getDefaultDateRange());
 	}
 
-	const { loading, error, data } = useAuthQuery<RosterQuery>(
-		gql`
-			query RosterQuery($from: Date, $to: Date) {
-				me {
-					sites {
-						id
-						name
-						enrollments(from: $from, to: $to) {
-							id
-							entry
-							exit
-							child {
-								firstName
-								middleName
-								lastName
-								birthdate
-								suffix
-							}
-							fundings {
-								entry
-								exit
-								source
-							}
-						}
-					}
-				}
-			}
-		`,
-		{
-			variables: {
-				from: dateRange.startDate,
-				to: dateRange.endDate,
-			},
-		}
-	);
+	const { loading, error, data } = useAuthQuery<RosterQuery>(ROSTER_QUERY, {
+		variables: {
+			from: dateRange.startDate && dateRange.startDate.format('YYYY-MM-DD'),
+			to: dateRange.endDate && dateRange.endDate.format('YYYY-MM-DD'),
+		},
+	});
 
 	if (loading || error || !data || !data.me) {
-		return <div className="Roster"></div>;
+    return <div className="Roster"></div>;
 	}
 
 	const site = data.me.sites[0];
