@@ -29,6 +29,12 @@ namespace Hedwig.Repositories
 			return GetBaseQuery<Enrollment>(asOf)
 				.SingleOrDefaultAsync(e => e.Id == id);
 		}
+
+		public Enrollment UpdateEnrollment(Enrollment enrollment)
+		{
+			_context.SaveChanges();
+			return enrollment;
+		}
 	}
 
 	public interface IEnrollmentRepository
@@ -40,6 +46,7 @@ namespace Hedwig.Repositories
 			DateTime? to = null
 		);
 		Task<Enrollment> GetEnrollmentByIdAsync(int id, DateTime? asOf = null);
+		Enrollment UpdateEnrollment(Enrollment enrollment);
 	}
 
 	public static class EnrollmentQueryExtensions
