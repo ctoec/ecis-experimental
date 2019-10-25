@@ -9,7 +9,6 @@ namespace Hedwig.Data
 	public class HedwigContext : DbContext
 	{
 		private readonly IHttpContextAccessor _httpContextAccessor;
-		private const string UNKNOWN_AUTHOR = "Unknown";
 		public HedwigContext(DbContextOptions<HedwigContext> options, IHttpContextAccessor httpContextAccessor) : base(options)
 		{
 			_httpContextAccessor = httpContextAccessor;
@@ -83,7 +82,7 @@ namespace Hedwig.Data
 		}
 
 		/// <summary>
-		/// Helper method to determine if a given entity type is a TemporalEntity
+		/// Determines if a given entity type is a TemporalEntity
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <returns>True if type T is subclass of TemporalEntity, else false.</returns>
@@ -93,8 +92,7 @@ namespace Hedwig.Data
 		}
 
 		/// <summary>
-		/// Helper method to add author name to AuthoredBy field on temporal entity. Right now, 
-		/// author name is a place holder; in the future it will pull from session information.
+		/// Adds author UserId to AuthorId field on temporal entity
 		/// </summary>
 		/// <param name="entity"></param>
 		protected void AddAuthorToTemporalEntity(TemporalEntity entity)
@@ -102,6 +100,11 @@ namespace Hedwig.Data
 			entity.AuthorId = GetCurrentUserId();
 		}
 
+		/// <summary>
+		/// Gets the current UserId from HttpContext.User as a parsed Int,
+		/// or null if no current int UserId could be retrieved
+		/// </summary>
+		/// <returns></returns>
 		protected int? GetCurrentUserId() {
 			if(_httpContextAccessor == null
 				|| _httpContextAccessor.HttpContext == null 
