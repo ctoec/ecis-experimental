@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System;
+using Microsoft.AspNetCore.Http;
 
 
 namespace HedwigTests.Fixtures
@@ -12,7 +12,8 @@ namespace HedwigTests.Fixtures
     {
         List<EntityEntry> Created { get; set; }
         bool ShouldRetainObjects { get; set; }
-        public TestHedwigContext(DbContextOptions<HedwigContext> options, bool retainObjects = false) : base(options)
+        public TestHedwigContext(DbContextOptions<HedwigContext> options, IHttpContextAccessor httpContextAccessor, bool retainObjects = false)
+            : base(options, httpContextAccessor)
         {
             Created = new List<EntityEntry>();
             ShouldRetainObjects = retainObjects;

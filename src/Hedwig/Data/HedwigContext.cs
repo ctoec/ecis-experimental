@@ -1,13 +1,19 @@
 using Hedwig.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.AspNetCore.Http;
+using System;
 
 namespace Hedwig.Data
 {
 	public class HedwigContext : DbContext
 	{
-		public HedwigContext(DbContextOptions<HedwigContext> options) : base(options)
-		{ }
+		private readonly IHttpContextAccessor _httpContextAccessor;
+		private const string UNKNOWN_AUTHOR = "Unknown";
+		public HedwigContext(DbContextOptions<HedwigContext> options, IHttpContextAccessor httpContextAccessor) : base(options)
+		{
+			_httpContextAccessor = httpContextAccessor;
+		}
 
 		public DbSet<Child> Children { get; set; }
 		public DbSet<Enrollment> Enrollments { get; set; }
@@ -91,9 +97,27 @@ namespace Hedwig.Data
 		/// author name is a place holder; in the future it will pull from session information.
 		/// </summary>
 		/// <param name="entity"></param>
-		protected virtual void AddAuthorToTemporalEntity(TemporalEntity entity)
+		protected void AddAuthorToTemporalEntity(TemporalEntity entity)
 		{
-			entity.AuthoredBy = "authorName"; // from session, injected via IHttpContextAccessor?
+			entity.AuthorId = GetCurrentUserId();
+		}
+
+		protected int? GetCurrentUserId() {
+			if(_httpContextAccessor == null
+				|| _httpContextAccessor.HttpContext == null 
+				|| _httpContextAccessor.HttpContext.User == null) {
+					return null;
+            }
+
+			var currentUserIdStr = _httpContextAccessor.HttpContext.User.FindFirst("sub")?.Value;
+			if(currentUserIdStr == null) return null;
+
+
+            int currentUserId;
+            var isInt = int.TryParse(currentUserIdStr, out currentUserId);
+			if(!isInt) return null;
+
+			return currentUserId;
 		}
 	}
 }
