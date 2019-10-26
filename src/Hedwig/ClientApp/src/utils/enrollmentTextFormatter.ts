@@ -17,7 +17,7 @@ export default function enrollmentTextFormatter(
 	if (!showPastEnrollments) {
 		return `${pluralizedNumKids} enrolled.`;
 	} else if (byRange) {
-		return `${pluralizedNumKids} were enrolled between ${formattedStartDate} and ${formattedEndDate}.`;
+		return `${pluralizedNumKids} ${numKids === 1 ? 'was' : 'were'} enrolled between ${formattedStartDate} and ${formattedEndDate}.`;
 	}
-	return `${pluralizedNumKids} were enrolled on ${formattedStartDate}.`;
+	return `${pluralizedNumKids} ${numKids === 1 ? 'was' : 'were'} enrolled on ${formattedStartDate}.`;
 }
