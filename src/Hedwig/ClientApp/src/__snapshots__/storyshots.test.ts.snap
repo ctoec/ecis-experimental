@@ -149,7 +149,7 @@ exports[`Storyshots DatePicker ByRange 1`] = `
               readOnly={false}
               required={false}
               type="text"
-              value="10/25/2019"
+              value="10/26/2019"
             />
             <p
               className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
@@ -191,7 +191,7 @@ exports[`Storyshots DatePicker ByRange 1`] = `
               readOnly={false}
               required={false}
               type="text"
-              value="10/25/2019"
+              value="10/26/2019"
             />
             <p
               className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
@@ -248,7 +248,7 @@ exports[`Storyshots DatePicker Default 1`] = `
               readOnly={false}
               required={false}
               type="text"
-              value="10/25/2019"
+              value="10/26/2019"
             />
             <p
               className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
@@ -617,7 +617,7 @@ exports[`Storyshots RadioGroup Default 1`] = `
       >
         <input
           className="usa-radio__input"
-          defaultChecked={false}
+          defaultChecked={true}
           id="one"
           name="storybook-radio-group"
           onClick={[Function]}
@@ -636,7 +636,7 @@ exports[`Storyshots RadioGroup Default 1`] = `
       >
         <input
           className="usa-radio__input"
-          defaultChecked={false}
+          defaultChecked={true}
           id="two"
           name="storybook-radio-group"
           onClick={[Function]}
@@ -698,7 +698,7 @@ exports[`Storyshots RadioGroup Default selection 1`] = `
       >
         <input
           className="usa-radio__input"
-          defaultChecked={false}
+          defaultChecked={true}
           id="two"
           name="storybook-radio-group-default-selection"
           onClick={[Function]}
@@ -741,9 +741,9 @@ exports[`Storyshots RadioGroup Horizontal 1`] = `
       >
         <input
           className="usa-radio__input"
-          defaultChecked={false}
+          defaultChecked={true}
           id="one"
-          name="storybook-radio-group-horizontal"
+          name="storybook-radio-group-2"
           onClick={[Function]}
           type="radio"
           value="one"
@@ -760,9 +760,9 @@ exports[`Storyshots RadioGroup Horizontal 1`] = `
       >
         <input
           className="usa-radio__input"
-          defaultChecked={false}
+          defaultChecked={true}
           id="two"
-          name="storybook-radio-group-horizontal"
+          name="storybook-radio-group-2"
           onClick={[Function]}
           type="radio"
           value="two"
@@ -810,7 +810,7 @@ exports[`Storyshots RadioGroup With error 1`] = `
       >
         <input
           className="usa-radio__input"
-          defaultChecked={false}
+          defaultChecked={true}
           id="one"
           name="storybook-radio-group-with-error"
           onClick={[Function]}
@@ -829,7 +829,7 @@ exports[`Storyshots RadioGroup With error 1`] = `
       >
         <input
           className="usa-radio__input"
-          defaultChecked={false}
+          defaultChecked={true}
           id="two"
           name="storybook-radio-group-with-error"
           onClick={[Function]}
