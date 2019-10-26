@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import RadioButton from './RadioButton';
 
 type RadioButtonOptions = {
@@ -46,10 +46,13 @@ export default function RadioGroup({
 					<RadioButton
 						value={option.value}
 						text={option.text}
-						onClick={event => onClick(event.target.value)}
+						onClick={event => {
+              setRadioButtonSelection(event.target.value);
+              onClick(event.target.value);
+            }}
 						key={option.value}
 						name={groupName}
-						selected={option.selected}
+						selected={selected === currentlySelected}
 						className={horizontal ? 'grid-col flex-auto' : ''}
 					/>
 				))}
