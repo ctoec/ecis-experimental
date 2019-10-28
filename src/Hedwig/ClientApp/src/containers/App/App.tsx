@@ -8,6 +8,7 @@ import MakeRouteWithSubRoutes from './MakeRouteWithSubRoutes';
 import routes from '../../routes';
 import { AppQuery } from '../../generated/AppQuery';
 import withLogin, { WithLoginPropsType } from '../../contexts/Login';
+import 'react-dates/initialize';
 
 const App: React.FC<WithLoginPropsType> = ({ accessToken }) => {
 	let { loading, error, data, refetch } = useAuthQuery<AppQuery>(

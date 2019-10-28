@@ -28,7 +28,7 @@ namespace Hedwig.Security
           policy.AddRequirement(new DeveloperUserRequirement())
             .AddRequirement(_developmentRequirement));
 
-        authSettings.AddPolicy("IsTestMode", policy =>
+        authSettings.AddPolicy("IsTestModePolicy", policy =>
           policy.AddRequirement(new TestModeRequirement())
             .AddRequirement(_developmentRequirement));
 

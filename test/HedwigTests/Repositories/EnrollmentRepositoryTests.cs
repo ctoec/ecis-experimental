@@ -86,7 +86,7 @@ namespace HedwigTests.Repositories
 		}
 
 		[Fact]
-		public async Task Get_Enrollments_By_Site_Id_Filtered_By_Date_Invalid_Start_No_Exit()
+		public async Task Get_Enrollments_By_Site_Id_Filtered_By_Date_Earlier_Start_No_Exit()
 		{
 			using (var context = new TestContextProvider().Context)
 			{
@@ -107,12 +107,12 @@ namespace HedwigTests.Repositories
 				var res = await enrollmentRepo
 					.GetEnrollmentsBySiteIdsAsync(new int[] { site.Id }, from: from, to: to);
 
-				// Then a list of enrollments without the specified enrollment is returned
+				// Then a list of enrollments with the specified enrollment is returned
 				var enrollmentIds = (
 					from e in res[site.Id]
 					select e.Id
 				).OrderBy(e => e);
-				Assert.Equal(new int[] { }, enrollmentIds);
+				Assert.Equal(new int[] { enrollment.Id }, enrollmentIds);
 			}
 		}
 
