@@ -48,20 +48,63 @@ const LoginProvider: React.FC<LoginProviderPropsType> = (
   // effects
   const history = useHistory();
   const location = useLocation();
-  const [firstLoad, setFirstLoad] = useState(true);
   const [accessToken, setAccessToken] = useState<string | null>(null);
-  const [persistentConfiguration, setPersistentConfiguration] = useState<AuthorizationServiceConfiguration>();
-  const [persistentTokenResponse, setPersistentTokenResponse] = useState<TokenResponse>();
+  const [configuration, setConfiguration] = useState<AuthorizationServiceConfiguration | undefined>();
+  const [tokenResponse, setTokenResponse] = useState<TokenResponse>();
 
   // state
-  let configuration: AuthorizationServiceConfiguration | undefined;
+  const isLogin = location.pathname === loginUriPrefix;
+  const isCallback = location.pathname === `${loginUriPrefix}/callback`;
 
   // auth flow 
   let notifier: AuthorizationNotifier;
-  let authorizationHandler: AuthorizationRequestHandler;
+  let authorizationHandler: AuthorizationRequestHandler | undefined = undefined;
   let tokenHandler: TokenRequestHandler;
-  let checkForAuthorizationResponseInterval: NodeJS.Timeout;
   initAuthFlow();
+
+  // Only fetch on inital mount
+  useEffect(() => {
+    /**
+     * Get service configuration from configured openId connect provider.
+     * This function should only need to be called once for the lifetime of the app
+     */
+    async function fetchServiceConfiguration(): Promise<void> {
+      const configuration = await AuthorizationServiceConfiguration.fetchFromIssuer(openIdConnectUrl, new FetchRequestor());
+      setConfiguration(configuration);
+    }
+    fetchServiceConfiguration();
+  }, [openIdConnectUrl]);
+
+  // Make an authorization request whenever:
+  // 1) the authorizationHandler is set,
+  // 2) the configuration is set or changes, and
+  // 3) it is the login screen (isLogin or isCallback)
+  useEffect(() => {
+    if (configuration && authorizationHandler) {
+      if (isLogin) {
+        /**
+         * Create and perform the initial authorization request,
+         * including IdentityServer permission acquisition.
+         */
+        let request = new AuthorizationRequest({
+          client_id: clientId,
+          redirect_uri: redirectUrl,
+          scope: scope,
+          response_type: responseType,
+          state: state,
+          extras: extras
+        });
+        authorizationHandler.performAuthorizationRequest(configuration, request);
+      } else if (isCallback) {
+        /**
+         * Completes authorization request if possible, executing the callback
+         * defined in setAuthorizationListener(). Here, this includes making the 
+         * initial code-based token request.
+         */
+        authorizationHandler.completeAuthorizationRequestIfPossible();
+      }
+    }
+  }, [configuration, isLogin, isCallback, authorizationHandler, clientId, redirectUrl, scope, responseType, state, extras]);
 
   /**
    *  Instantiates openId/appauth flow control components
@@ -97,57 +140,17 @@ const LoginProvider: React.FC<LoginProviderPropsType> = (
   }
 
   /**
-   * Get service configuration from configured openId connect provider.
-   * This function should only need to be called once for the lifetime of the app
-   */
-  async function fetchServiceConfiguration(): Promise<void> {
-    if (persistentConfiguration) {
-      return;
-    }
-    return AuthorizationServiceConfiguration.fetchFromIssuer(openIdConnectUrl, new FetchRequestor())
-      .then(resp => {
-        if(resp) {
-        configuration = resp;
-        setPersistentConfiguration(resp);
-        }
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }
-
-  /**
-   * Create and perform the initial authorization request.
-   * Redirects user to IdentityServer to grant permission,
-   * then returns to app to finish auth
-   */
-  function makeAuthorizationRequest() {
-    // create a request
-    let request = new AuthorizationRequest({
-      client_id: clientId,
-      redirect_uri: redirectUrl,
-      scope: scope,
-      response_type: responseType,
-      state: state,
-      extras: extras
-    });
-
-    if (configuration) {
-      authorizationHandler.performAuthorizationRequest(configuration, request);
-    }
-  }
-
-  /**
    * Create and perform authorization code-based token request.
-   * This type of token request is only required after initial auth request.
-   * Once a token is retrieve, the refresh token can be used to request subsquent
+   * This type of token request is only executed after the initial auth request,
+   * and is invoked as the authorization listener callback.
+   * Once a token is retrieved, the refresh token can be used to request subsquent
    * tokens (until the refresh token expires)
    */
   async function makeAuthorizationCodeTokenRequest(code: string, verifier: string | undefined) {
     if (!configuration) return;
 
     let extras:  StringMap | undefined = undefined;
-    if(verifier) {
+    if (verifier) {
       extras = { 'code_verifier': verifier };
     }
 
@@ -162,7 +165,7 @@ const LoginProvider: React.FC<LoginProviderPropsType> = (
     return tokenHandler.performTokenRequest(configuration, req)
       .then((resp) => {
         setAccessToken(resp.accessToken);
-        setPersistentTokenResponse(resp);
+        setTokenResponse(resp);
         history.push('/');
       });
   }
@@ -172,62 +175,24 @@ const LoginProvider: React.FC<LoginProviderPropsType> = (
    * Requires that initial code-based token request has already been performed.
    */
   async function makeRefreshTokenRequest() {
-    if (!persistentConfiguration) return;
-    if (!(persistentTokenResponse && persistentTokenResponse.refreshToken)) return;
+    if (!configuration) return;
+    if (!(tokenResponse && tokenResponse.refreshToken)) return;
     // isValid includes a defaut 10 min expiration buffer.
-    if (persistentTokenResponse.isValid()) return;
+    if (tokenResponse.isValid()) return;
 
     let req = new TokenRequest({
       client_id: clientId,
       redirect_uri: redirectUrl,
       grant_type: GRANT_TYPE_REFRESH_TOKEN,
       code: undefined,
-      refresh_token: persistentTokenResponse.refreshToken,
+      refresh_token: tokenResponse.refreshToken,
     });
-    tokenHandler.performTokenRequest(persistentConfiguration, req)
+    tokenHandler.performTokenRequest(configuration, req)
       .then((resp) => {
-        setPersistentTokenResponse(resp);
+        setTokenResponse(resp);
         setAccessToken(resp.accessToken); 
       })
   }
-
-  /**
-   * Initiates login process from app
-   */
-  const beginLogin = function() {
-    if (firstLoad) {
-      setFirstLoad(false);
-      fetchServiceConfiguration()
-        .then(() => makeAuthorizationRequest());
-      // the AppAuth library does not expose a promise for completion of the authorization request
-      // so poll with second intervals to check for the response to complete request
-      checkForAuthorizationResponseInterval = setInterval(authorizationHandler.completeAuthorizationRequestIfPossible, 1000);
-    }
-  }
-
-  /**
-   * Handles login completion upon redirect back to app from IdentityServer
-   */
-  const callbackLogin = function() {
-    if (firstLoad) {
-      setFirstLoad(false);
-      clearInterval(checkForAuthorizationResponseInterval);
-      fetchServiceConfiguration()
-        .then(() => authorizationHandler.completeAuthorizationRequestIfPossible())
-    }
-  }
-
-  /**
-   * Triggers login actions based on location
-   */
-  useEffect(() => {
-    // only process requests that have the loginUriPrefix
-    if (location.pathname === loginUriPrefix) {
-      beginLogin();
-    } else if (location.pathname === `${loginUriPrefix}/callback`) {
-      callbackLogin();
-    }
-  });
 
   /**
    * The wrapped LoginContext provider with instantiated values

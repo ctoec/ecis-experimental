@@ -15,7 +15,7 @@ export default <T>(query: DocumentNode, options: QueryHookOptions = {}): QueryRe
     ...options,
     context: {
       headers: {
-        authorization: accessToken ? `Bearer ${accessToken}` : ''
+        Authorization: accessToken ? `Bearer ${accessToken}` : ''
       }
     },
     fetchPolicy: 'cache-and-network'
