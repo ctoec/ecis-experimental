@@ -3,6 +3,7 @@ import useAuthQuery from '../../hooks/useAuthQuery';
 import { gql } from 'apollo-boost';
 import { Link } from 'react-router-dom';
 import pluralize from 'pluralize';
+import Button from '../../components/Button/Button';
 import { Table, TableProps } from '../../components/Table/Table';
 import { RosterQuery, RosterQuery_me_sites_enrollments } from '../../generated/RosterQuery';
 import nameFormatter from '../../utils/nameFormatter';
@@ -21,6 +22,7 @@ export default function Roster() {
 						entry
 						exit
 						child {
+							id
 							firstName
 							middleName
 							lastName
@@ -54,7 +56,7 @@ export default function Roster() {
 				name: 'Name',
 				cell: ({ row }) => (
 					<th scope="row">
-						<Link to={`/enrollments/${row.id}`} className="usa-link">
+						<Link to={`/roster/enrollments/${row.child.id}`} className="usa-link">
 							{nameFormatter(row.child)}
 						</Link>
 					</th>
@@ -83,7 +85,14 @@ export default function Roster() {
 		<div className="Roster">
 			<section className="grid-container">
 				<h1>{site.name}</h1>
-				<p className="usa-intro">{pluralize('kid', enrollments.length, true)} enrolled</p>
+				<div className="grid-row">
+					<div className="tablet:grid-col-fill">
+						<p className="usa-intro">{pluralize('child', enrollments.length, true)} enrolled</p>
+					</div>
+					<div className="tablet:grid-col-auto">
+						<Button text="Enroll child" href={`/roster/sites/${site.id}/enroll`} />
+					</div>
+				</div>
 				<Table {...rosterTableProps} fullWidth />
 			</section>
 		</div>

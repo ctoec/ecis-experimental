@@ -12,18 +12,19 @@ import withLogin, { WithLoginPropsType } from '../../contexts/Login';
 const App: React.FC<WithLoginPropsType> = ({ accessToken }) => {
 	let { loading, error, data, refetch } = useAuthQuery<AppQuery>(
 		gql`
-		query AppQuery {
-			me {
-				firstName
-				reports {
-					... on CdcReportType {
-						id
-						submittedAt
+			query AppQuery {
+				me {
+					firstName
+					reports {
+						... on CdcReportType {
+							id
+							submittedAt
+						}
 					}
 				}
 			}
-		}
-	`);
+		`
+	);
 
 	// The <App> component is only loaded once
 	// so in order to update the props to <Header>
@@ -32,8 +33,8 @@ const App: React.FC<WithLoginPropsType> = ({ accessToken }) => {
 	// components that will be remounted into the
 	// DOM on page navigation.
 	useEffect(() => {
-    refetch();
-  }, [accessToken, refetch]);
+		refetch();
+	}, [accessToken, refetch]);
 
 	const reportsNeedAttention =
 		!loading &&
@@ -43,8 +44,7 @@ const App: React.FC<WithLoginPropsType> = ({ accessToken }) => {
 		data.me.reports.filter(report => !report.submittedAt).length > 0;
 
 	const navItems: NavItemProps[] = [
-		{ type: 'primary', title: 'Roster', path: '/' },
-		{ type: 'primary', title: 'Enroll kids', path: '/enroll' },
+		{ type: 'primary', title: 'Roster', path: '/roster' },
 		{
 			type: 'primary',
 			title: 'Reports',
