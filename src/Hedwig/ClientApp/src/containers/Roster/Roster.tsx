@@ -1,67 +1,45 @@
-import React, { useState } from 'react';
+import React from 'react';
 import useAuthQuery from '../../hooks/useAuthQuery';
 import { gql } from 'apollo-boost';
 import { Link } from 'react-router-dom';
+import pluralize from 'pluralize';
+import { Table, TableProps } from '../../components/Table/Table';
 import { RosterQuery, RosterQuery_me_sites_enrollments } from '../../generated/RosterQuery';
 import nameFormatter from '../../utils/nameFormatter';
 import dateFormatter from '../../utils/dateFormatter';
-import enrollmentTextFormatter from '../../utils/enrollmentTextFormatter';
-import getDefaultDateRange from '../../utils/getDefaultDateRange';
-import { Table, TableProps } from '../../components/Table/Table';
 import Tag from '../../components/Tag/Tag';
-import { DateRange } from '../../components/DatePicker/DatePicker';
-import Button from '../../components/Button/Button';
-import RadioGroup from '../../components/RadioGroup/RadioGroup';
-import DateSelectionForm from './DateSelectionForm';
-
-export const ROSTER_QUERY = gql`
-  query RosterQuery($from: Date, $to: Date) {
-    me {
-      sites {
-        id
-        name
-        enrollments(from: $from, to: $to) {
-          id
-          entry
-          exit
-          child {
-            firstName
-            middleName
-            lastName
-            birthdate
-            suffix
-          }
-          fundings {
-            entry
-            exit
-            source
-          }
-        }
-      }
-    }
-  }
-`;
 
 export default function Roster() {
-	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
-	const [dateRange, setDateRange] = useState<DateRange>(getDefaultDateRange());
-	const [byRange, toggleByRange] = useState(false);
-
-	function handlePastEnrollmentsChange() {
-		toggleShowPastEnrollments(!showPastEnrollments);
-		toggleByRange(false);
-		setDateRange(getDefaultDateRange());
-	}
-
-	const { loading, error, data } = useAuthQuery<RosterQuery>(ROSTER_QUERY, {
-		variables: {
-			from: dateRange.startDate && dateRange.startDate.format('YYYY-MM-DD'),
-			to: dateRange.endDate && dateRange.endDate.format('YYYY-MM-DD'),
-		},
-	});
+	const { loading, error, data } = useAuthQuery<RosterQuery>(gql`
+		query RosterQuery {
+			me {
+				sites {
+					id
+					name
+					enrollments {
+						id
+						entry
+						exit
+						child {
+							firstName
+							middleName
+							lastName
+							birthdate
+							suffix
+						}
+						fundings {
+							entry
+							exit
+							source
+						}
+					}
+				}
+			}
+		}
+	`);
 
 	if (loading || error || !data || !data.me) {
-    return <div className="Roster"></div>;
+		return <div className="Roster"></div>;
 	}
 
 	const site = data.me.sites[0];
@@ -101,55 +79,11 @@ export default function Roster() {
 		defaultSortOrder: 'asc',
 	};
 
-	const numKidsEnrolledText = enrollmentTextFormatter(
-		enrollments.length,
-		showPastEnrollments,
-    dateRange,
-    byRange
-	);
-
 	return (
 		<div className="Roster">
 			<section className="grid-container">
-				<h1 className="grid-col-auto">{site.name}</h1>
-				<p className="usa-intro display-flex flex-row flex-wrap flex-justify-start">
-					<span className="margin-right-2 flex-auto">{numKidsEnrolledText}</span>
-					<Button
-						text={showPastEnrollments ? 'Show only current enrollments' : 'Show past enrollments'}
-						appearance="unstyled"
-						onClick={handlePastEnrollmentsChange}
-					/>
-				</p>
-				{showPastEnrollments && (
-					<div className="usa-fieldset">
-						<RadioGroup
-							options={[
-								{
-									text: 'By date',
-									value: 'date',
-								},
-								{
-									text: 'By range',
-									value: 'range',
-								},
-							]}
-							onClick={(clickedValue: string) => toggleByRange(clickedValue === 'range')}
-							horizontal={true}
-							groupName={'dateSelectionType'}
-							legend="Select date or date range."
-							selected={byRange ? 'range' : 'date'}
-						/>
-						<DateSelectionForm
-							inputDateRange={dateRange}
-							byRange={byRange}
-							onReset={() => {
-								toggleByRange(false);
-								setDateRange(getDefaultDateRange());
-							}}
-							onSubmit={(newDateRange: DateRange) => setDateRange(newDateRange)}
-						/>
-					</div>
-				)}
+				<h1>{site.name}</h1>
+				<p className="usa-intro">{pluralize('kid', enrollments.length, true)} enrolled</p>
 				<Table {...rosterTableProps} fullWidth />
 			</section>
 		</div>
