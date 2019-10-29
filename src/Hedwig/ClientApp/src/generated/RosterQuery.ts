@@ -48,8 +48,3 @@ export interface RosterQuery_me {
 export interface RosterQuery {
   me: RosterQuery_me | null;
 }
-
-export interface RosterQueryVariables {
-  from?: OECDate | null;
-  to?: OECDate | null;
-}

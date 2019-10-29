@@ -84,7 +84,6 @@ namespace HedwigTests.Integration.GraphQLQueries
 				var enrollment = EnrollmentHelper.CreateEnrollment(api.Context, site: sitePermission.Site);
 				var entry = new DateTime(2021, 1, 1);
 				enrollment.Entry = entry;
-				api.Context.SaveChanges();
 
 				// When
 				var response = await api.Client.GetGraphQLAsync(
