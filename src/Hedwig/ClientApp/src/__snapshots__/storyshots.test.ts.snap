@@ -149,7 +149,7 @@ exports[`Storyshots DatePicker ByRange 1`] = `
               readOnly={false}
               required={false}
               type="text"
-              value="10/26/2019"
+              value="10/29/2019"
             />
             <p
               className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
@@ -191,7 +191,7 @@ exports[`Storyshots DatePicker ByRange 1`] = `
               readOnly={false}
               required={false}
               type="text"
-              value="10/26/2019"
+              value="10/29/2019"
             />
             <p
               className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
@@ -248,7 +248,7 @@ exports[`Storyshots DatePicker Default 1`] = `
               readOnly={false}
               required={false}
               type="text"
-              value="10/26/2019"
+              value="10/29/2019"
             />
             <p
               className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"

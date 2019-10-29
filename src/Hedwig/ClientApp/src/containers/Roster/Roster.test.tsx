@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { mount } from 'enzyme';
 import { BrowserRouter } from 'react-router-dom';
+import { act } from 'react-dom/test-utils';
 import { MockedProvider } from '@apollo/react-testing';
 import 'react-dates/initialize';
 import Roster, { ROSTER_QUERY } from './Roster';
@@ -115,7 +116,9 @@ describe('Roster', () => {
 				</BrowserRouter>
 			</MockedProvider>
 		);
-		await waitForUpdate(wrapper);
+		await act(async () => {
+			await waitForUpdate(wrapper);
+		});
 		const introSpanText = wrapper.find('.usa-intro span').text();
 		expect(introSpanText).toBe('2 kids enrolled.');
 		wrapper.unmount();
@@ -129,22 +132,26 @@ describe('Roster', () => {
 				</BrowserRouter>
 			</MockedProvider>
 		);
-		await waitForUpdate(wrapper);
-		wrapper
-			.find('Button')
-			.props()
-			.onClick();
-		await waitForUpdate(wrapper);
+		await act(async () => {
+			await waitForUpdate(wrapper);
+			wrapper
+				.find('Button')
+				.props()
+				.onClick();
+			await waitForUpdate(wrapper);
+		});
 
 		const radioGroup = wrapper.find(RadioGroup);
-		radioGroup.props().onClick('range');
-		await waitForUpdate(wrapper);
-
-		wrapper
-			.find(DateSelectionForm)
-			.props()
-			.onSubmit({ startDate: moment('2018-01-01'), endDate: moment('2019-02-01') });
-		await waitForUpdate(wrapper);
+		
+		await act(async () => {
+			radioGroup.props().onClick('range');
+			await waitForUpdate(wrapper);
+			wrapper
+				.find(DateSelectionForm)
+				.props()
+				.onSubmit({ startDate: moment('2018-01-01'), endDate: moment('2019-02-01') });
+			await waitForUpdate(wrapper);
+		});
 
 		const introSpanText = wrapper.find('.usa-intro span').text();
 		expect(introSpanText).toBe('1 kid was enrolled between January 1, 2018 and February 1, 2019.');
