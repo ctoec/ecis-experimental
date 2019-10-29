@@ -81,6 +81,7 @@ namespace Hedwig
 
 			// Add Mutations
 			services.AddScoped<IAppSubMutation, ReportMutation>();
+			services.AddScoped<IAppSubMutation, EnrollmentMutation>();
 
 			services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
 			services.AddScoped<AppSchema>();
