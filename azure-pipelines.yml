@@ -64,7 +64,7 @@ steps:
   - script: cp installer/aws-windows-deployment-manifest.json $(Build.SourcesDirectory)/src/Hedwig/dist
     displayName: "Script: add installer manifest to distribution"
   - script: cp installer/iis/web.config $(Build.SourcesDirectory)/src/Hedwig/dist
-    displayName: "Script: add installer manifest to distribution"
+    displayName: "Script: add installer web.config to distribution"
   - script: cp -r installer $(Build.SourcesDirectory)/src/Hedwig/dist/installer
     displayName: "Script: add installer files to distribution"
 
