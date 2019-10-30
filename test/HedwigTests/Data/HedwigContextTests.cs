@@ -4,6 +4,7 @@ using Moq;
 using Moq.Protected;
 using Hedwig.Models;
 using Microsoft.EntityFrameworkCore;
+using HedwigTests.Fixtures;
 
 namespace HedwigTests.Data
 {
@@ -15,7 +16,8 @@ namespace HedwigTests.Data
             // If a HedwigContext instance exists
             var opts = new DbContextOptionsBuilder<HedwigContext>()
                 .UseInMemoryDatabase("db");
-            var contextMock = new Mock<HedwigContext>(opts.Options);
+            var httpContextAccessor = new TestHttpContextAccessorProvider().HttpContextAccessor;
+            var contextMock = new Mock<HedwigContext>(opts.Options, httpContextAccessor);
             var child = new Child();
             contextMock.CallBase = true;
             
@@ -23,9 +25,7 @@ namespace HedwigTests.Data
             contextMock.Object.Add(child);            
 
             // Then author is added to the entity
-            contextMock
-                .Protected()
-                .Verify("AddAuthorToTemporalEntity", Times.Once(), new object[]{child});
+            Assert.Equal(TestHttpContextAccessorProvider.USER_CONTEXT_SUB, child.AuthorId.Value);
         }
 
         [Fact]
@@ -34,7 +34,8 @@ namespace HedwigTests.Data
             // If a HedwigContext instance exists
             var opts = new DbContextOptionsBuilder<HedwigContext>()
                 .UseInMemoryDatabase("db");
-            var contextMock = new Mock<HedwigContext>(opts.Options);
+            var httpContextAccessor = new TestContextProvider().HttpContextAccessor;
+            var contextMock = new Mock<HedwigContext>(opts.Options, httpContextAccessor);
             var child = new Child();
             contextMock.Setup(c => c.Update(child)).CallBase();
             
@@ -42,9 +43,7 @@ namespace HedwigTests.Data
             contextMock.Object.Update(child);            
 
             // Then author is added to the entity
-            contextMock
-                .Protected()
-                .Verify("AddAuthorToTemporalEntity", Times.Once(), new object[]{child});
+            Assert.Equal(TestHttpContextAccessorProvider.USER_CONTEXT_SUB, child.AuthorId.Value);
         }
     }
 }

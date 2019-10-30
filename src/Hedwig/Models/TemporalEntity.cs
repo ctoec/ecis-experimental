@@ -3,6 +3,7 @@ namespace Hedwig.Models
 
     public abstract class TemporalEntity
     {
-        public string AuthoredBy { get; set; }
+        public int? AuthorId { get; set; }
+        public User Author { get; set; }
     }
 }
