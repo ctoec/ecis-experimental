@@ -39,7 +39,12 @@ namespace Hedwig
 				  logging.AddConfiguration(context.Configuration.GetSection("Logging"));
 				  logging.AddConsole();
 				  logging.AddDebug();
-				  logging.AddAWSProvider();
+
+				  if(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != EnvironmentName.Development)
+				  {
+  					logging.AddAWSProvider();
+				  }
+
 				})
 				.UseStartup<Startup>();
 	}
