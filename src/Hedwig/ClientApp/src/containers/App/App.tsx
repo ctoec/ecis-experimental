@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import useAuthQuery from '../../hooks/useAuthQuery';
+import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { Switch } from 'react-router-dom';
 import Header from '../../components/Header/Header';
@@ -9,22 +10,22 @@ import routes from '../../routes';
 import { AppQuery } from '../../generated/AppQuery';
 import withLogin, { WithLoginPropsType } from '../../contexts/Login';
 
-const App: React.FC<WithLoginPropsType> = ({ accessToken }) => {
-	let { loading, error, data, refetch } = useAuthQuery<AppQuery>(
-		gql`
-		query AppQuery {
-			me {
-				firstName
-				reports {
-					... on CdcReportType {
-						id
-						submittedAt
-					}
+export const APP_QUERY = gql`
+	query AppQuery {
+		me {
+			firstName
+			reports {
+				... on CdcReportType {
+					id
+					submittedAt
 				}
 			}
 		}
-	`);
+	}
+`;
 
+const App: React.FC<WithLoginPropsType> = ({accessToken}) => {
+	let { loading, error, data, refetch } = useAuthQuery<AppQuery>(APP_QUERY);
 	// The <App> component is only loaded once
 	// so in order to update the props to <Header>
 	// we need to refetch the data on every change
@@ -32,8 +33,8 @@ const App: React.FC<WithLoginPropsType> = ({ accessToken }) => {
 	// components that will be remounted into the
 	// DOM on page navigation.
 	useEffect(() => {
-    refetch();
-  }, [accessToken, refetch]);
+    	refetch();
+  	}, [accessToken, refetch]);
 
 	const reportsNeedAttention =
 		!loading &&
