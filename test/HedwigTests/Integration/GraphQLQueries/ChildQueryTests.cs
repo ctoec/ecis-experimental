@@ -65,8 +65,8 @@ namespace HedwigTests.Integration.GraphQLQueries
 				var child = ChildHelper.CreateChild(api.Context, family: family);
 				var asOf = Utilities.GetAsOfWithSleep();
 
-				var caseNumber = 111111;
-				family.CaseNumber = caseNumber;
+				var address = "my address";
+				family.AddressLine1 = address;
 				api.Context.SaveChanges();
 
 				// When child is queried with asOf timestamp
@@ -75,7 +75,7 @@ namespace HedwigTests.Integration.GraphQLQueries
                         child(asOf: ""{asOf}"", id: ""{child.Id}"") {{
                             family {{
                                 id,
-                                caseNumber
+                                addressLine1
                             }}
                         }}
                     }}"
@@ -85,7 +85,7 @@ namespace HedwigTests.Integration.GraphQLQueries
 				responseAsOf.EnsureSuccessStatusCode();
 				Child childAsOf = await responseAsOf.GetObjectFromGraphQLResponse<Child>();
 				Assert.Equal(family.Id, childAsOf.Family.Id);
-				Assert.False(childAsOf.Family.CaseNumber.HasValue);
+				Assert.Null(childAsOf.Family.AddressLine1);
 
 				// When child is queried
 				var responseCurrent = await api.Client.GetGraphQLAsync(
@@ -93,7 +93,7 @@ namespace HedwigTests.Integration.GraphQLQueries
                         child(id: ""{child.Id}"") {{
                             family {{
                                 id,
-                                caseNumber
+                                addressLine1
                             }}
                         }}
                     }}"
@@ -103,7 +103,7 @@ namespace HedwigTests.Integration.GraphQLQueries
 				responseCurrent.EnsureSuccessStatusCode();
 				Child childCurrent = await responseCurrent.GetObjectFromGraphQLResponse<Child>();
 				Assert.Equal(family.Id, childCurrent.Family.Id);
-				Assert.Equal(caseNumber, childCurrent.Family.CaseNumber);
+				Assert.Equal(address, childCurrent.Family.AddressLine1);
 			}
 		}
 

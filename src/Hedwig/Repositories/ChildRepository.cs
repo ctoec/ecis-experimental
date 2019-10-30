@@ -27,11 +27,21 @@ namespace Hedwig.Repositories
 				.Where(c => c.Id == id)
 				.SingleOrDefaultAsync();
 		}
+
+		public async Task<ILookup<int, Child>> GetChildrenByFamilyIdsAsync(IEnumerable<int> familyIds, DateTime? asOf = null)
+		{
+			var children = await GetBaseQuery<Child>(asOf)
+				.Where(c => c.FamilyId != null && familyIds.Contains((int) c.FamilyId))
+				.ToListAsync();
+
+			return children.ToLookup(c => (int) c.FamilyId);
+		}
 	}
 
 	public interface IChildRepository
 	{
 		Task<IDictionary<Guid, Child>> GetChildrenByIdsAsync(IEnumerable<Guid> ids, DateTime? asOf = null);
 		Task<Child> GetChildByIdAsync(Guid id, DateTime? asOf = null);
+		Task<ILookup<int, Child>> GetChildrenByFamilyIdsAsync(IEnumerable<int> familyIds, DateTime? asOf = null);
 	}
 }
