@@ -30,8 +30,8 @@ namespace HedwigTests.Fixtures
 
 		public void Dispose()
 		{
-			_server?.Dispose();
 			Context?.Dispose();
+			_server?.Dispose();
 			Client?.Dispose();
 		}
 	}	
