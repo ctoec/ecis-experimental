@@ -20,6 +20,12 @@ namespace Hedwig.Repositories
 			return dict as IDictionary<int, Family>;
 		}
 
+		public async Task<Family> GetFamilyByIdAsync(int id, DateTime? asOf = null)
+		{
+			return await GetBaseQuery<Family>(asOf)
+				.FirstOrDefaultAsync(f => f.Id == id);
+		}
+
 		public Family CreateFamily(
 			string addressLine1 = null,
 			string addressLine2 = null,
@@ -45,6 +51,7 @@ namespace Hedwig.Repositories
 	public interface IFamilyRepository
 	{
 		Task<IDictionary<int, Family>> GetFamiliesByIdsAsync(IEnumerable<int> ids, DateTime? asOf = null);
+		Task<Family> GetFamilyByIdAsync(int id, DateTime? asOf = null);
 		Family CreateFamily(
 			string addressLine1 = null,
 			string addressLine2 = null,
