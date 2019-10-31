@@ -40,7 +40,7 @@ export default function Roster() {
 		}
 	`);
 
-	if (loading || error || !data || !data.me) {
+	if (loading || error || !data || !data.me || data.me.sites.length === 0) {
 		return <div className="Roster"></div>;
 	}
 
