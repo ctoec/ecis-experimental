@@ -12,19 +12,20 @@ const apollo = new ApolloClient({ uri: '/graphql' });
 
 const render = (Component: React.FC) => {
 	return ReactDOM.render(
-		<ApolloProvider client={apollo}>
-			<BrowserRouter>
-				<LoginProvider
-					loginUriPrefix="/login"
-					openIdConnectUrl="https://localhost:5050"
-					clientId="hedwig"
-					redirectUrl="https://localhost:5001/login/callback"
-					scope="openid profile hedwig_backend"
-				>
+		<BrowserRouter>
+			<LoginProvider
+				loginUriPrefix="/login"
+				openIdConnectUrl="https://localhost:5050"
+				clientId="hedwig"
+				redirectUrl="https://localhost:5001/login/callback"
+				// NOTE: "offline_access" is required in scope string to retrieve refresh tokens
+				scope="openid profile hedwig_backend offline_access"
+			>
+				<ApolloProvider client={apollo}>
 					<Component />
-				</LoginProvider>
-			</BrowserRouter>
-		</ApolloProvider>,
+				</ApolloProvider>
+			</LoginProvider>
+		</BrowserRouter>,
 		document.getElementById('root')
 	);
 };

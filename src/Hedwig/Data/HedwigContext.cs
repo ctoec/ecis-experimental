@@ -1,13 +1,18 @@
 using Hedwig.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.AspNetCore.Http;
+using System;
 
 namespace Hedwig.Data
 {
 	public class HedwigContext : DbContext
 	{
-		public HedwigContext(DbContextOptions<HedwigContext> options) : base(options)
-		{ }
+		private readonly IHttpContextAccessor _httpContextAccessor;
+		public HedwigContext(DbContextOptions<HedwigContext> options, IHttpContextAccessor httpContextAccessor) : base(options)
+		{
+			_httpContextAccessor = httpContextAccessor;
+		}
 
 		public DbSet<Child> Children { get; set; }
 		public DbSet<Enrollment> Enrollments { get; set; }
@@ -77,7 +82,7 @@ namespace Hedwig.Data
 		}
 
 		/// <summary>
-		/// Helper method to determine if a given entity type is a TemporalEntity
+		/// Determines if a given entity type is a TemporalEntity
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <returns>True if type T is subclass of TemporalEntity, else false.</returns>
@@ -87,13 +92,35 @@ namespace Hedwig.Data
 		}
 
 		/// <summary>
-		/// Helper method to add author name to AuthoredBy field on temporal entity. Right now, 
-		/// author name is a place holder; in the future it will pull from session information.
+		/// Adds author UserId to AuthorId field on temporal entity
 		/// </summary>
 		/// <param name="entity"></param>
-		protected virtual void AddAuthorToTemporalEntity(TemporalEntity entity)
+		protected void AddAuthorToTemporalEntity(TemporalEntity entity)
 		{
-			entity.AuthoredBy = "authorName"; // from session, injected via IHttpContextAccessor?
+			entity.AuthorId = GetCurrentUserId();
+		}
+
+		/// <summary>
+		/// Gets the current UserId from HttpContext.User as a parsed Int,
+		/// or null if no current int UserId could be retrieved
+		/// </summary>
+		/// <returns></returns>
+		protected int? GetCurrentUserId() {
+			if(_httpContextAccessor == null
+				|| _httpContextAccessor.HttpContext == null 
+				|| _httpContextAccessor.HttpContext.User == null) {
+					return null;
+            }
+
+			var currentUserIdStr = _httpContextAccessor.HttpContext.User.FindFirst("sub")?.Value;
+			if(currentUserIdStr == null) return null;
+
+
+            int currentUserId;
+            var isInt = int.TryParse(currentUserIdStr, out currentUserId);
+			if(!isInt) return null;
+
+			return currentUserId;
 		}
 	}
 }

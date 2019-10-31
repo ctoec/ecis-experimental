@@ -91,7 +91,9 @@ namespace OpenIDProvider
 						IdentityServerConstants.StandardScopes.OpenId,
 						IdentityServerConstants.StandardScopes.Profile,
 						"hedwig_backend"
-					}
+					},
+
+					AllowOfflineAccess = true
 				}
 			};
 	}
