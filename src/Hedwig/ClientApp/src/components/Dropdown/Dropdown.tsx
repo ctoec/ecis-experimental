@@ -53,7 +53,9 @@ export default function Dropdown({
 			>
 				<option value={undefined}>{unselectedOptionText}</option>
 				{options.map(option => (
-					<option value={option.value}>{option.text}</option>
+					<option value={option.value} key={option.value}>
+						{option.text}
+					</option>
 				))}
 			</select>
 		</div>
