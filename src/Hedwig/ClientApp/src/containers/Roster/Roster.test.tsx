@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import { mount } from 'enzyme';
+import mockdate from 'mockdate';
 import { BrowserRouter } from 'react-router-dom';
 import { act } from 'react-dom/test-utils';
 import { MockedProvider } from '@apollo/react-testing';
@@ -8,6 +9,8 @@ import 'react-dates/initialize';
 import Roster, { ROSTER_QUERY } from './Roster';
 import DateSelectionForm from './DateSelectionForm';
 import RadioGroup from '../../components/RadioGroup/RadioGroup';
+
+const fakeDate = '2019-09-30';
 
 const earlierFakeEnrollment = {
 	child: {
@@ -47,12 +50,8 @@ const mocks = [
 		request: {
 			query: ROSTER_QUERY,
 			variables: {
-				from: moment()
-					.local()
-					.format('YYYY-MM-DD'),
-				to: moment()
-					.local()
-					.format('YYYY-MM-DD'),
+				from: fakeDate,
+				to: fakeDate,
 			},
 		},
 		result: {
@@ -94,6 +93,14 @@ const waitForUpdate = async (wrapper: any) => {
 	await new Promise(resolve => setTimeout(resolve, 10));
 	wrapper.update();
 };
+
+beforeAll(() => {
+	mockdate.set(fakeDate);
+});
+
+afterAll(() => {
+	mockdate.reset();
+});
 
 describe('Roster', () => {
 	it('matches snapshot', () => {
@@ -142,14 +149,17 @@ describe('Roster', () => {
 		});
 
 		const radioGroup = wrapper.find(RadioGroup);
-		
+
 		await act(async () => {
 			radioGroup.props().onClick('range');
 			await waitForUpdate(wrapper);
 			wrapper
 				.find(DateSelectionForm)
 				.props()
-				.onSubmit({ startDate: moment('2018-01-01'), endDate: moment('2019-02-01') });
+				.onSubmit({
+					startDate: moment('2018-01-01'),
+					endDate: moment('2019-02-01'),
+				});
 			await waitForUpdate(wrapper);
 		});
 
