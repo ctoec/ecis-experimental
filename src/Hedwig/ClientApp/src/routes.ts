@@ -2,10 +2,7 @@ import React from 'react';
 
 import EnrollmentNew from './containers/Enrollment/New/EnrollmentNew';
 import EnrollmentDetail from './containers/Enrollment/Detail/EnrollmentDetail';
-import {
-	default as EnrollmentEdit,
-	ENROLLMENT_EDIT_ROUTES,
-} from './containers/Enrollment/Edit/EnrollmentEdit';
+import EnrollmentEdit from './containers/Enrollment/Edit/EnrollmentEdit';
 import Feedback from './containers/Feedback/Feedback';
 import Help from './containers/Help/Help';
 import Login from './containers/Login/Login';
@@ -48,13 +45,12 @@ export const routes: RouteConfig[] = [
 		component: EnrollmentDetail,
 	},
 	{
-		path: '/roster/enrollments/:childId/new/:section',
+		path: '/roster/enrollments/:childId/new/:sectionId',
 		component: EnrollmentNew,
 	},
 	{
-		path: '/roster/enrollments/:childId/edit',
+		path: '/roster/enrollments/:childId/edit/:sectionId',
 		component: EnrollmentEdit,
-		routes: ENROLLMENT_EDIT_ROUTES,
 	},
 	{
 		path: '/reports',

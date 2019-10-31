@@ -6,7 +6,7 @@ type ButtonAppearance = 'default' | 'base' | 'secondary';
 type ButtonProps = {
 	text: string;
 	onClick?: () => any;
-	href: string;
+	href?: string;
 	appearance?: ButtonAppearance;
 	disabled?: boolean;
 };
