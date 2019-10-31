@@ -32,13 +32,13 @@ namespace HedwigTests.Repositories
         public async Task Get_Families_By_Ids_As_Of()
         {
             using(var context = new TestContextProvider().Context) {
-                // If a family exists without a case number
+                // If a family exists without an addressLine1
                 var families = FamilyHelper.CreateFamilies(context, 1);
                 var asOf = Utilities.GetAsOfWithSleep();
 
-                // And later case number is updated to caseNumber
-                int caseNumber = 123456;
-                families[0].CaseNumber = caseNumber;
+                // And later addressLine1 is updated to address
+                string address = "My address";
+                families[0].AddressLine1 = address;
                 context.SaveChanges();
 
                 // When the repository is queried for the family:
@@ -48,12 +48,12 @@ namespace HedwigTests.Repositories
                 // - Without an asOf timestamp
                 var resCurrent = await familyRepo.GetFamiliesByIdsAsync(ids);
                 // - Then the family including the updated caseNumber is returned
-                Assert.Equal(caseNumber, resCurrent.First().Value.CaseNumber);
+                Assert.Equal(address, resCurrent.First().Value.AddressLine1);
 
                 // - With an asOf timestamp that predates the update
                 var resAsOf = await familyRepo.GetFamiliesByIdsAsync(ids, asOf);
                 // - Then the family without the caseNumber is returned
-                Assert.False(resAsOf.First().Value.CaseNumber.HasValue);
+                Assert.Null(resAsOf.First().Value.AddressLine1);
             }
         }
     }
