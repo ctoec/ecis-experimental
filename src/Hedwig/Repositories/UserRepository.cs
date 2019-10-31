@@ -11,7 +11,7 @@ namespace Hedwig.Repositories
 
 		public UserRepository(HedwigContext context) => _context = context;
 
-		public Task<User> GetUserByIdAsync(int id) => _context.Users.SingleOrDefaultAsync(u => u.Id == id);
+		public async Task<User> GetUserByIdAsync(int id) => await _context.Users.SingleOrDefaultAsync(u => u.Id == id);
 	}
 
 	public interface IUserRepository

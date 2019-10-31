@@ -40,22 +40,14 @@ namespace Hedwig.Repositories
 			return reports;
 		}
 
-		public Task<Report> GetReportByIdAsync(int id) => _context.Reports
+		public async Task<Report> GetReportByIdAsync(int id) => await _context.Reports
 			.Include(r => r.ReportingPeriod)
 			.FirstOrDefaultAsync(r => r.Id == id);
-
-		public Report UpdateReport(Report report)
-		{
-			_context.Update(report);
-			_context.SaveChanges();
-			return report;
-		}
 	}
 
 	public interface IReportRepository
 	{
 		Task<IEnumerable<Report>> GetReportsByUserIdAsync(int userId);
 		Task<Report> GetReportByIdAsync(int id);
-		Report UpdateReport(Report report);
 	}
 }

@@ -39,24 +39,5 @@ namespace HedwigTests.Repositories
 				Assert.DoesNotContain(otherReport.Id, reportIds);
 			}
 		}
-
-		[Fact]
-		public void Update_Report()
-		{
-			using (var context = new TestContextProvider(retainObjects: true).Context)
-			{
-				// If a report exists in the DB
-				var report = ReportHelper.CreateCdcReport(context);
-
-				// When the report is updated
-				var submittedAt = DateTime.Now.ToUniversalTime();
-				report.SubmittedAt = submittedAt;
-				var reportRepo = new ReportRepository(context);
-				var updated = reportRepo.UpdateReport(report);
-
-				// Then the updated report is returned
-				Assert.Equal(submittedAt, updated.SubmittedAt);
-			}
-		}
 	}
 }
