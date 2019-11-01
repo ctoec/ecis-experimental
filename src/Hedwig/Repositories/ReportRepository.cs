@@ -46,6 +46,7 @@ namespace Hedwig.Repositories
 
 		public Report UpdateReport(Report report)
 		{
+			_context.Update(report);
 			_context.SaveChanges();
 			return report;
 		}

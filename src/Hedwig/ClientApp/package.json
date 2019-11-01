@@ -22,6 +22,7 @@
 		"@types/storybook__addon-storyshots": "^5.1.1",
 		"@types/storybook__react": "^4.0.2",
 		"apollo-boost": "^0.4.4",
+		"apollo-link-context": "^1.0.19",
 		"babel-plugin-macros": "^2.6.1",
 		"enzyme": "^3.10.0",
 		"enzyme-adapter-react-16": "^1.14.0",

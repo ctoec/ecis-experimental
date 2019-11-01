@@ -1167,3 +1167,163 @@ exports[`Storyshots Tag Default 1`] = `
   </span>
 </div>
 `;
+
+exports[`Storyshots TextInput Default 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group"
+  >
+    <label
+      className="usa-label"
+      htmlFor="Default-text-input"
+    >
+      Default text input
+    </label>
+    <input
+      className="usa-input"
+      id="Default-text-input"
+      name="Default-text-input"
+      onBlur={[Function]}
+      onChange={[Function]}
+      onFocus={[Function]}
+      type="text"
+    />
+  </div>
+</div>
+`;
+
+exports[`Storyshots TextInput Disabled 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group"
+  >
+    <label
+      className="usa-label"
+      htmlFor="Default-text-input"
+    >
+      Default text input
+    </label>
+    <input
+      className="usa-input"
+      disabled={true}
+      id="Default-text-input"
+      name="Default-text-input"
+      onBlur={[Function]}
+      onChange={[Function]}
+      onFocus={[Function]}
+      type="text"
+    />
+  </div>
+</div>
+`;
+
+exports[`Storyshots TextInput Error 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group usa-form-group--error"
+  >
+    <label
+      className="usa-label usa-label--error"
+      htmlFor="Default-text-input"
+    >
+      Default text input
+    </label>
+    <span
+      className="usa-error-message"
+      id="input-error-message"
+      role="alert"
+    >
+      Fix this error
+    </span>
+    <input
+      aria-describedby="input-error-message"
+      className="usa-input usa-input--error"
+      id="Default-text-input"
+      name="Default-text-input"
+      onBlur={[Function]}
+      onChange={[Function]}
+      onFocus={[Function]}
+      type="text"
+    />
+  </div>
+</div>
+`;
+
+exports[`Storyshots TextInput Success 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group"
+  >
+    <label
+      className="usa-label"
+      htmlFor="Default-text-input"
+    >
+      Default text input
+    </label>
+    <input
+      className="usa-input usa-input--success"
+      id="Default-text-input"
+      name="Default-text-input"
+      onBlur={[Function]}
+      onChange={[Function]}
+      onFocus={[Function]}
+      type="text"
+    />
+  </div>
+</div>
+`;
+
+exports[`Storyshots TextInput With default value 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group"
+  >
+    <label
+      className="usa-label"
+      htmlFor="Default-text-input"
+    >
+      Default text input
+    </label>
+    <input
+      className="usa-input"
+      defaultValue="default text"
+      id="Default-text-input"
+      name="Default-text-input"
+      onBlur={[Function]}
+      onChange={[Function]}
+      onFocus={[Function]}
+      type="text"
+    />
+  </div>
+</div>
+`;
