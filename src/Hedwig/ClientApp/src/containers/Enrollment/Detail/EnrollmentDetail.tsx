@@ -6,6 +6,7 @@ import ChildInfo from '../_sections/ChildInfo';
 import FamilyInfo from '../_sections/FamilyInfo';
 import FamilyIncome from '../_sections/FamilyIncome';
 import EnrollmentFunding from '../_sections/EnrollmentFunding';
+import { Link } from 'react-router-dom';
 import nameFormatter from '../../../utils/nameFormatter';
 
 type EnrollmentDetailParams = {
@@ -38,10 +39,17 @@ export default function EnrollmentDetail({
 			<section className="grid-container">
 				<h1>{nameFormatter(child)}</h1>
 				{sections.map(section => (
-					<div key={section.key}>
-						<h2>{section.name}</h2>
-						<section.Summary child={child} />
-					</div>
+					<section key={section.key} className="hedwig-enrollment-details-section">
+						<div className="hedwig-enrollment-details-section__content">
+							<h2>{section.name}</h2>
+							<section.Summary child={child} />
+						</div>
+						<div className="hedwig-enrollment-details-section__actions">
+							<Link to={`edit/${section.key}`}>
+								Edit<span className="usa-sr-only"> {section.name.toLowerCase()}</span>
+							</Link>
+						</div>
+					</section>
 				))}
 			</section>
 		</div>

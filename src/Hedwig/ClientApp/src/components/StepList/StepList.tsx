@@ -13,7 +13,7 @@ export type StepProps<T> = {
 	Form: React.FC<T>;
 };
 
-type StepListProps<T> = {
+export type StepListProps<T> = {
 	steps: StepProps<T>[];
 	props: T;
 	activeStep: string;

@@ -56,7 +56,7 @@ export default function Roster() {
 				name: 'Name',
 				cell: ({ row }) => (
 					<th scope="row">
-						<Link to={`/roster/enrollments/${row.child.id}`} className="usa-link">
+						<Link to={`/roster/enrollments/${row.child.id}/`} className="usa-link">
 							{nameFormatter(row.child)}
 						</Link>
 					</th>

@@ -82,7 +82,9 @@ export default function EnrollmentNew({
 		<div className="EnrollmentNew">
 			<section className="grid-container">
 				<h1>Enroll child</h1>
-				<StepList steps={steps} activeStep={sectionId} props={props} />
+				<div className="margin-top-2 margin-bottom-5">
+					<StepList steps={steps} activeStep={sectionId} props={props} />
+				</div>
 				{sectionId == 'review' && <Button href="../" text="Finish" />}
 			</section>
 		</div>

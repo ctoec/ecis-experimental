@@ -1,27 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Storyshots Button Attention needed 1`] = `
-<div
-  style={
-    Object {
-      "padding": "40px",
-    }
-  }
->
-  <span
-    className="oec-inline-icon oec-inline-icon--attentionNeeded"
-  >
-    <span
-      className="usa-sr-only"
-    >
-      (
-      attention needed
-      )
-    </span>
-  </span>
-</div>
-`;
-
 exports[`Storyshots Button Base 1`] = `
 <div
   style={
@@ -417,6 +395,170 @@ exports[`Storyshots Header Logged out 1`] = `
       </nav>
     </header>
   </div>
+</div>
+`;
+
+exports[`Storyshots InlineIcon Attention needed 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <span
+    className="oec-inline-icon oec-inline-icon--attentionNeeded"
+  >
+    <span
+      className="usa-sr-only"
+    >
+      (
+      attention needed
+      )
+    </span>
+  </span>
+</div>
+`;
+
+exports[`Storyshots InlineIcon Complete 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <span
+    className="oec-inline-icon oec-inline-icon--complete"
+  >
+    <span
+      className="usa-sr-only"
+    >
+      (
+      complete
+      )
+    </span>
+  </span>
+</div>
+`;
+
+exports[`Storyshots InlineIcon Incomplete 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <span
+    className="oec-inline-icon oec-inline-icon--incomplete"
+  >
+    <span
+      className="usa-sr-only"
+    >
+      (
+      incomplete
+      )
+    </span>
+  </span>
+</div>
+`;
+
+exports[`Storyshots StepList Default 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <ol
+    className="oec-step-list"
+  >
+    <li
+      className="oec-step-list__step oec-step-list__step--complete"
+    >
+      <div
+        className="oec-step-list__step__content"
+      >
+        <h2
+          className="oec-step-list__step__title"
+        >
+          One small step
+        </h2>
+        <div
+          className="oec-step-list__step__summary"
+        >
+          <p>
+            For a man.
+          </p>
+        </div>
+      </div>
+      <div
+        className="oec-step-list__step__actions"
+      >
+        <div
+          className="oec-step-list__step__status-text"
+        >
+          <span
+            className="oec-inline-icon oec-inline-icon--complete"
+          />
+          Complete
+        </div>
+        <a
+          href="/1"
+          onClick={[Function]}
+        >
+          Edit
+          <span
+            className="usa-sr-only"
+          >
+             
+            one small step
+          </span>
+        </a>
+      </div>
+    </li>
+    <li
+      className="oec-step-list__step oec-step-list__step--active"
+    >
+      <div
+        className="oec-step-list__step__content"
+      >
+        <h2
+          className="oec-step-list__step__title"
+        >
+          One giant leap
+        </h2>
+        <div
+          className="oec-step-list__step__form"
+        >
+          <p>
+            For mankind.
+          </p>
+        </div>
+      </div>
+      <div
+        className="oec-step-list__step__actions"
+      />
+    </li>
+    <li
+      className="oec-step-list__step oec-step-list__step--notStarted"
+    >
+      <div
+        className="oec-step-list__step__content"
+      >
+        <h2
+          className="oec-step-list__step__title"
+        >
+          To infinity and beyond
+        </h2>
+      </div>
+      <div
+        className="oec-step-list__step__actions"
+      />
+    </li>
+  </ol>
 </div>
 `;
 

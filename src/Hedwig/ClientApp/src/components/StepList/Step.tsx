@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import InlineIcon from '../InlineIcon/InlineIcon';
 
 export type ExternalStepStatus = 'incomplete' | 'complete' | 'attentionNeeded';
 
@@ -52,7 +53,10 @@ export default function Step<T>({
 			<div className="oec-step-list__step__actions">
 				{status !== 'notStarted' && status !== 'active' && (
 					<>
-						<div className="oec-step-list__step__status-text">{labelForStatus(status)}</div>
+						<div className="oec-step-list__step__status-text">
+							<InlineIcon icon={status} provideScreenReaderFallback={false} />
+							{labelForStatus(status)}
+						</div>
 						{editPath && (
 							<Link to={editPath}>
 								Edit<span className="usa-sr-only"> {name.toLowerCase()}</span>

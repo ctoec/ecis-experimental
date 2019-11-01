@@ -48,7 +48,7 @@ export default function EnrollmentEdit({
 	}
 
 	const afterSave = () => {
-		history.push(`/roster/enrollments/${childId}`);
+		history.push(`/roster/enrollments/${childId}/`);
 	};
 
 	return (
