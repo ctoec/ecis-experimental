@@ -38,10 +38,10 @@ export default function EnrollmentDetail({
 			<section className="grid-container">
 				<h1>{nameFormatter(child)}</h1>
 				{sections.map(section => (
-					<>
+					<div key={section.key}>
 						<h2>{section.name}</h2>
 						<section.Summary child={child} />
-					</>
+					</div>
 				))}
 			</section>
 		</div>

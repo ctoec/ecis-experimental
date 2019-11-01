@@ -4,7 +4,7 @@ import Button from '../../../components/Button/Button';
 import nameFormatter from '../../../utils/nameFormatter';
 
 const ChildInfo: Section = {
-	id: 'child-information',
+	key: 'child-information',
 	name: 'Child information',
 	status: () => 'complete',
 
@@ -27,7 +27,9 @@ const ChildInfo: Section = {
 
 		const save = () => {
 			// Mutate the data here.
-			afterSave();
+			if (afterSave) {
+				afterSave();
+			}
 		};
 
 		return (
@@ -39,6 +41,8 @@ const ChildInfo: Section = {
 					onChange={event => updateFirstName(event.target.value)}
 					value={firstName}
 				/>
+				<br />
+				<br />
 				<input
 					type="text"
 					name="middleName"
@@ -46,6 +50,8 @@ const ChildInfo: Section = {
 					onChange={event => updateMiddleName(event.target.value)}
 					value={middleName || ''}
 				/>
+				<br />
+				<br />
 				<input
 					type="text"
 					name="lastName"
@@ -53,6 +59,8 @@ const ChildInfo: Section = {
 					onChange={event => updateLastName(event.target.value)}
 					value={lastName}
 				/>
+				<br />
+				<br />
 
 				<Button text="Save" onClick={save} />
 			</div>

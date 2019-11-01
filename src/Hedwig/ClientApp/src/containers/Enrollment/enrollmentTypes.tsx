@@ -1,10 +1,16 @@
-export type SectionStatus = 'incomplete' | 'complete' | 'attentionNeeded';
 import { ChildQuery_child } from '../../generated/ChildQuery';
+import { StepStatus } from '../../components/StepList/StepList';
+
+export type SectionProps = {
+	child?: ChildQuery_child | null;
+	siteId?: string;
+	afterSave?: () => void;
+};
 
 export interface Section {
-	id: string;
+	key: string;
 	name: string;
-	status: (child: ChildQuery_child) => SectionStatus;
-	Summary: React.FC<{ child: ChildQuery_child }>;
-	Form: React.FC<{ child?: ChildQuery_child; siteId?: number; afterSave: () => void }>;
+	status: (props: SectionProps) => StepStatus;
+	Summary: React.FC<SectionProps>;
+	Form: React.FC<SectionProps>;
 }

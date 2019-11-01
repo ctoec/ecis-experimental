@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import useAuthQuery from '../../hooks/useAuthQuery';
-import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { Switch } from 'react-router-dom';
 import Header from '../../components/Header/Header';

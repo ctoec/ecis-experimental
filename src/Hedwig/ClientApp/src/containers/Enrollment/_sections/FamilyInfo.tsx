@@ -3,7 +3,7 @@ import { Section } from '../enrollmentTypes';
 import Button from '../../../components/Button/Button';
 
 const FamilyInfo: Section = {
-	id: 'family-information',
+	key: 'family-information',
 	name: 'Family information',
 	status: () => 'complete',
 
@@ -30,7 +30,9 @@ const FamilyInfo: Section = {
 
 		const save = () => {
 			// Mutate the data here.
-			afterSave();
+			if (afterSave) {
+				afterSave();
+			}
 		};
 
 		return (
@@ -42,6 +44,8 @@ const FamilyInfo: Section = {
 					onChange={event => updateCaseNumber(parseInt(event.target.value, 10))}
 					value={caseNumber || ''}
 				/>
+				<br />
+				<br />
 
 				<Button text="Save" onClick={save} />
 			</div>

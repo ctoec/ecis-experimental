@@ -3,7 +3,7 @@ import { Section } from '../enrollmentTypes';
 import Button from '../../../components/Button/Button';
 
 const EnrollmentFunding: Section = {
-	id: 'enrollment-funding',
+	key: 'enrollment-funding',
 	name: 'Enrollment and funding',
 	status: () => 'complete',
 
@@ -14,7 +14,9 @@ const EnrollmentFunding: Section = {
 	Form: ({ afterSave }) => {
 		const save = () => {
 			// Mutate the data here.
-			afterSave();
+			if (afterSave) {
+				afterSave();
+			}
 		};
 
 		return (

@@ -3,7 +3,7 @@ import { Section } from '../enrollmentTypes';
 import Button from '../../../components/Button/Button';
 
 const FamilyIncome: Section = {
-	id: 'family-income',
+	key: 'family-income',
 	name: 'Family income',
 	status: () => 'complete',
 
@@ -14,7 +14,9 @@ const FamilyIncome: Section = {
 	Form: ({ afterSave }) => {
 		const save = () => {
 			// Mutate the data here.
-			afterSave();
+			if (afterSave) {
+				afterSave();
+			}
 		};
 
 		return (
