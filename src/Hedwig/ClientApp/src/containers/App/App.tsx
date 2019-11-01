@@ -9,6 +9,7 @@ import MakeRouteWithSubRoutes from './MakeRouteWithSubRoutes';
 import routes from '../../routes';
 import { AppQuery } from '../../generated/AppQuery';
 import withLogin, { WithLoginPropsType } from '../../contexts/Login';
+import 'react-dates/initialize';
 
 export const APP_QUERY = gql`
 	query AppQuery {
