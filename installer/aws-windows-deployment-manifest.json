@@ -1,0 +1,20 @@
+{
+    "manifestVersion": 1,
+    "deployments": {
+        "aspNetCoreWeb": [
+        {
+            "name": "hedwig-spa",
+            "parameters": {
+                "appBundle": "site.zip",
+                "iisPath": "/",
+                "iisWebSite": "Default Web Site"
+            },
+            "scripts": {
+                "postInstall": {
+                    "file": "C:\\inetpub\\AspNetCoreWebApps\\hedwig-spa\\installer\\scripts\\postinstall.ps1"
+                }
+            }
+        }
+        ]
+    }
+}

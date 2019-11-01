@@ -35,6 +35,17 @@ Install [Docker](https://docs.docker.com/install/) (and maybe docker-compose, bu
 
 ### Step 2
 
+Create a (read-write) bind mount from the [`WingedKeys` repo](https://github.com/ctoec/winged-keys) to a top-level directory called `winged-keys`.
+
+```bash
+mkdir winged-keys
+sudo mount -o bind [absolute path to winged-keys] winged-keys
+```
+
+**Note:** You cannot create a symlink. Docker Compose does not (and will not) implement following symlinks.
+
+### Step 3
+
 Bring up the project
 ```sh
 $ make dc-start
@@ -44,7 +55,7 @@ Creating ctoec-app-experiments_server_1 ... done
 Creating ctoec-app-experiments_client_1 ... done
 ```
 
-### Step 3
+### Step 4
 
 It is recommended to run VSCode with the `Remote` extension installed,
 and to use the `Existing Docker-Compose (Extend)` configuration to launch VSCode

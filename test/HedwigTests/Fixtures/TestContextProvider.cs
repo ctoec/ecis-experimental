@@ -1,14 +1,18 @@
 using System;
+using System.Security.Principal;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
 using Hedwig.Data;
+using Moq;
 
 namespace HedwigTests.Fixtures
 {
 	public class TestContextProvider : IDisposable
 	{
 		public TestHedwigContext Context { get; private set; }
+		public IHttpContextAccessor HttpContextAccessor { get; private set; }
 
 		public TestContextProvider(bool retainObjects = false)
 		{
@@ -24,7 +28,9 @@ namespace HedwigTests.Fixtures
 				.EnableSensitiveDataLogging()
 				.UseInternalServiceProvider(services.BuildServiceProvider())
 				.Options;
-			Context = new TestHedwigContext(options, retainObjects);
+
+           	HttpContextAccessor = new TestHttpContextAccessorProvider().HttpContextAccessor;
+			Context = new TestHedwigContext(options, HttpContextAccessor, retainObjects);
 		}
 		public void Dispose()
 		{

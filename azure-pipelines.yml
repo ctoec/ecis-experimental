@@ -57,16 +57,17 @@ steps:
   #
   - script: export ConnectionStrings__HEDWIG=xxx && dotnet ef --verbose migrations script --idempotent --output $(Build.ArtifactStagingDirectory)/hedwig-db.sql --context HedwigContext --project src/Hedwig
     displayName: "Script: dotnet ef migrations script"
+
   #
-  # Add beanstalk deployment manifest to distribution
+  # Add installer files to distribution
   #
-  - script: cp aws-windows-deployment-manifest.json $(Build.SourcesDirectory)/src/Hedwig/dist
-    displayName: "Script: add beanstalk deployment manifest to distribution"
-  #
-  # Add deploy utility libs to distribution
-  #
-  - script: cp ./lib/ef.dll $(Build.SourcesDirectory)/src/Hedwig/dist
-    displayName: "Script: add utility libs to distribution"
+  - script: cp installer/aws-windows-deployment-manifest.json $(Build.SourcesDirectory)/src/Hedwig/dist
+    displayName: "Script: add installer manifest to distribution"
+  - script: cp installer/iis/web.config $(Build.SourcesDirectory)/src/Hedwig/dist
+    displayName: "Script: add installer web.config to distribution"
+  - script: cp -r installer $(Build.SourcesDirectory)/src/Hedwig/dist/installer
+    displayName: "Script: add installer files to distribution"
+
   #
   # Perform backend tests
   #

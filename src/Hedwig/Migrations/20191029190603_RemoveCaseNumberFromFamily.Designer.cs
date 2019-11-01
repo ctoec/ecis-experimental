@@ -5,14 +5,16 @@ using Hedwig.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Hedwig.Migrations
+namespace hedwig.Migrations
 {
     [DbContext(typeof(HedwigContext))]
-    partial class HedwigContextModelSnapshot : ModelSnapshot
+    [Migration("20191029190603_RemoveCaseNumberFromFamily")]
+    partial class RemoveCaseNumberFromFamily
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,7 +31,7 @@ namespace Hedwig.Migrations
 
                     b.Property<bool?>("Asian");
 
-                    b.Property<int?>("AuthorId");
+                    b.Property<string>("AuthoredBy");
 
                     b.Property<DateTime>("Birthdate");
 
@@ -61,8 +63,6 @@ namespace Hedwig.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorId");
-
                     b.HasIndex("FamilyId");
 
                     b.ToTable("Child");
@@ -74,7 +74,7 @@ namespace Hedwig.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AuthorId");
+                    b.Property<string>("AuthoredBy");
 
                     b.Property<Guid>("ChildId");
 
@@ -85,8 +85,6 @@ namespace Hedwig.Migrations
                     b.Property<int>("SiteId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AuthorId");
 
                     b.HasIndex("ChildId");
 
@@ -105,7 +103,7 @@ namespace Hedwig.Migrations
 
                     b.Property<string>("AddressLine2");
 
-                    b.Property<int?>("AuthorId");
+                    b.Property<string>("AuthoredBy");
 
                     b.Property<bool>("Homelessness");
 
@@ -117,8 +115,6 @@ namespace Hedwig.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorId");
-
                     b.ToTable("Family");
                 });
 
@@ -128,7 +124,7 @@ namespace Hedwig.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AuthorId");
+                    b.Property<string>("AuthoredBy");
 
                     b.Property<DateTime>("Determined");
 
@@ -141,8 +137,6 @@ namespace Hedwig.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorId");
-
                     b.HasIndex("FamilyId");
 
                     b.ToTable("FamilyDetermination");
@@ -154,7 +148,7 @@ namespace Hedwig.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AuthorId");
+                    b.Property<string>("AuthoredBy");
 
                     b.Property<int>("EnrollmentId");
 
@@ -165,8 +159,6 @@ namespace Hedwig.Migrations
                     b.Property<int>("Source");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AuthorId");
 
                     b.HasIndex("EnrollmentId");
 
@@ -336,10 +328,6 @@ namespace Hedwig.Migrations
 
             modelBuilder.Entity("Hedwig.Models.Child", b =>
                 {
-                    b.HasOne("Hedwig.Models.User", "Author")
-                        .WithMany()
-                        .HasForeignKey("AuthorId");
-
                     b.HasOne("Hedwig.Models.Family", "Family")
                         .WithMany("Children")
                         .HasForeignKey("FamilyId");
@@ -347,10 +335,6 @@ namespace Hedwig.Migrations
 
             modelBuilder.Entity("Hedwig.Models.Enrollment", b =>
                 {
-                    b.HasOne("Hedwig.Models.User", "Author")
-                        .WithMany()
-                        .HasForeignKey("AuthorId");
-
                     b.HasOne("Hedwig.Models.Child", "Child")
                         .WithMany("Enrollments")
                         .HasForeignKey("ChildId")
@@ -362,19 +346,8 @@ namespace Hedwig.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Hedwig.Models.Family", b =>
-                {
-                    b.HasOne("Hedwig.Models.User", "Author")
-                        .WithMany()
-                        .HasForeignKey("AuthorId");
-                });
-
             modelBuilder.Entity("Hedwig.Models.FamilyDetermination", b =>
                 {
-                    b.HasOne("Hedwig.Models.User", "Author")
-                        .WithMany()
-                        .HasForeignKey("AuthorId");
-
                     b.HasOne("Hedwig.Models.Family", "Family")
                         .WithMany("Determinations")
                         .HasForeignKey("FamilyId")
@@ -383,10 +356,6 @@ namespace Hedwig.Migrations
 
             modelBuilder.Entity("Hedwig.Models.Funding", b =>
                 {
-                    b.HasOne("Hedwig.Models.User", "Author")
-                        .WithMany()
-                        .HasForeignKey("AuthorId");
-
                     b.HasOne("Hedwig.Models.Enrollment", "Enrollment")
                         .WithMany("Fundings")
                         .HasForeignKey("EnrollmentId")

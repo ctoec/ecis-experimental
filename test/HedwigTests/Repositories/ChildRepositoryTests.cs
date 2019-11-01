@@ -4,6 +4,7 @@ using Xunit;
 using Hedwig.Repositories;
 using HedwigTests.Helpers;
 using HedwigTests.Fixtures;
+using Hedwig.Models;
 
 namespace HedwigTests.Repositories
 {
@@ -56,6 +57,37 @@ namespace HedwigTests.Repositories
 				var resAsOf = await childRepo.GetChildByIdAsync(child.Id, asOf);
 				// - Then the child with the original name is returned
 				Assert.Equal(originalName, resAsOf.FirstName);
+			}
+		}
+
+		[Fact]
+		public async Task Get_Children_By_Family_Id()
+		{
+			using (var context = new TestContextProvider().Context)
+			{
+				// If 5 children exist
+				var children = ChildHelper.CreateChildren(context, 5);
+				var families = FamilyHelper.CreateFamilies(context, 4);
+				for (int i = 0; i < 4; ++i)
+				{
+					children[i].Family = families[i];
+				}
+				children[4].Family = families[3];
+				context.SaveChanges();
+
+				// When the repository is queried for a subset of family Ids
+				var childRepo = new ChildRepository(context);
+				var ids = (from f in families.GetRange(1, 3) select f.Id).OrderBy(id => id).ToList();
+
+				var res = await childRepo.GetChildrenByFamilyIdsAsync(ids);
+
+				// Then only children with those family ideas are returned
+				Assert.Equal(new int?[] { children[1].FamilyId }, (from c in res[ids[0]] select c.FamilyId).ToArray());
+				Assert.Equal(new int?[] { children[2].FamilyId }, (from c in res[ids[1]] select c.FamilyId).ToArray());
+				Assert.Equal(new int?[] { children[3].FamilyId, children[4].FamilyId }, (from c in res[ids[2]] select c.FamilyId).ToArray());
+
+				// And no other site Ids are returned
+				Assert.False(res.Contains(families[0].Id));
 			}
 		}
 	}

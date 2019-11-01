@@ -10,7 +10,7 @@ namespace HedwigTests.Models
         [Fact]
         public void TemporalEntity_Has_AuthoredBy()
         {
-            Assert.NotNull(typeof(TemporalModel).GetProperty("AuthoredBy"));
+            Assert.NotNull(typeof(TemporalModel).GetProperty("AuthorId"));
         }
     }
 }
