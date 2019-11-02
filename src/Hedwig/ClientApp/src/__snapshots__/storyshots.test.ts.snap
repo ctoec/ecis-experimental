@@ -264,6 +264,179 @@ exports[`Storyshots DatePicker Default 1`] = `
 </div>
 `;
 
+exports[`Storyshots Dropdown Default 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group"
+  >
+    <label
+      className="usa-label"
+      htmlFor="Choose-one-of-these-things"
+    >
+      Choose one of these things
+    </label>
+    <select
+      className="usa-select"
+      id="Choose-one-of-these-things"
+      name="Choose-one-of-these-things"
+      onChange={[Function]}
+    >
+      <option>
+        Choose here
+      </option>
+      <option
+        value="one"
+      >
+        Thing One
+      </option>
+      <option
+        value="two"
+      >
+        Thing Two
+      </option>
+    </select>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Dropdown Disabled 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group"
+  >
+    <label
+      className="usa-label"
+      htmlFor="Choose-one-of-these-things"
+    >
+      Choose one of these things
+    </label>
+    <select
+      className="usa-select"
+      disabled={true}
+      id="Choose-one-of-these-things"
+      name="Choose-one-of-these-things"
+      onChange={[Function]}
+    >
+      <option>
+        Choose here
+      </option>
+      <option
+        value="one"
+      >
+        Thing One
+      </option>
+      <option
+        value="two"
+      >
+        Thing Two
+      </option>
+    </select>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Dropdown Error 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group usa-form-group--error"
+  >
+    <label
+      className="usa-label usa-label--error"
+      htmlFor="Choose-one-of-these-things"
+    >
+      Choose one of these things
+    </label>
+    <span
+      className="usa-error-message"
+      id="Choose-one-of-these-things-error-message"
+      role="alert"
+    >
+      There was an error.
+    </span>
+    <select
+      aria-describedby="Choose-one-of-these-things-error-message"
+      className="usa-select usa-input--error"
+      id="Choose-one-of-these-things"
+      name="Choose-one-of-these-things"
+      onChange={[Function]}
+    >
+      <option>
+        Choose here
+      </option>
+      <option
+        value="one"
+      >
+        Thing One
+      </option>
+      <option
+        value="two"
+      >
+        Thing Two
+      </option>
+    </select>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Dropdown Success 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group"
+  >
+    <label
+      className="usa-label"
+      htmlFor="Choose-one-of-these-things"
+    >
+      Choose one of these things
+    </label>
+    <select
+      className="usa-select usa-input--success"
+      id="Choose-one-of-these-things"
+      name="Choose-one-of-these-things"
+      onChange={[Function]}
+    >
+      <option>
+        Choose here
+      </option>
+      <option
+        value="one"
+      >
+        Thing One
+      </option>
+      <option
+        value="two"
+      >
+        Thing Two
+      </option>
+    </select>
+  </div>
+</div>
+`;
+
 exports[`Storyshots Header Logged in 1`] = `
 <div
   style={
