@@ -25,7 +25,8 @@ Relative image file path
 ----------------------------------------
 */
 
-$theme-image-path: '/node_modules/uswds/src/img';
+$theme-image-path: '../../../img';
+// $theme-image-path: '../../../../src/img';
 
 /*
 ----------------------------------------
