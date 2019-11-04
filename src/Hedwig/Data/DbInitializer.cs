@@ -226,7 +226,7 @@ namespace Hedwig.Data
 				new Funding
 				{
 					EnrollmentId = e.Id,
-					Entry = e.Entry,
+					Entry = (DateTime) e.Entry,
 					Source = FundingSource.CDC
 				}
 			).ToArray();
