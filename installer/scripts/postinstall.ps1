@@ -29,6 +29,7 @@ Copy-Item -force C:/inetpub/AspNetCoreWebApps/hedwig-spa/installer/lib/ef.dll C:
 #         See https://github.com/ctoec/ecis-experimental/wiki/Debug:-FAQs
 
 $Env:UserName > c:/cfn/installer-username.txt
+$Env:PSModulePath > c:/cfn/installer-module-path.txt
 $PSVersionTable > c:/cfn/installer-psversion.txt
 Import-Module ServerManager
 Install-WindowsFeature -name Telnet-Client -LogPath c:/cfn/installer-telnet.log
