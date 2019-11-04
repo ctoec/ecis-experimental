@@ -75,6 +75,8 @@ namespace Hedwig
 			services.AddScoped<SiteType>();
 			services.AddScoped<UserType>();
 			services.AddScoped<GenderEnumType>();
+			services.AddScoped<FundingSourceEnumType>();
+			services.AddScoped<FundingTimeEnumType>();
 
 			// Add Queries
 			services.AddScoped<IAppSubQuery, EnrollmentQuery>();
@@ -88,6 +90,7 @@ namespace Hedwig
 			services.AddScoped<IAppSubMutation, FamilyMutation>();
 			services.AddScoped<IAppSubMutation, FamilyDeterminationMutation>();
 			services.AddScoped<IAppSubMutation, ChildMutation>();
+			services.AddScoped<IAppSubMutation, FundingMutation>();
 
 			// Add Middlewares
 			services.AddScoped<IFieldsMiddleware, CommitMutationFieldsMiddleware>();

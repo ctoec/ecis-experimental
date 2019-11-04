@@ -27,7 +27,7 @@ make install db-migrate
 There is no step 3.
 
 ## Setup - Docker (compose)
-__NOTE:__ If you are developing on a Windows machine, you need to set the `DOCKER_ON_WINDOWS` environment variable. The rest of the commands will be the same if followed directly from the README. If you use `docker-compose` directly, you will need to specify the windows compose file. That is, you must use `docker-compose -f docker-compose-windows.yaml`.
+__NOTE:__ If you are developing on a Windows machine, you need to set the `DOCKER_ON_WINDOWS` environment variable. The rest of the commands will be the same if followed directly from the README. If you use `docker-compose` directly, you will need to specify the windows compose file. That is, you must use `docker-compose -f docker-compose.windows.yaml`.
 
 ### Step 1
 

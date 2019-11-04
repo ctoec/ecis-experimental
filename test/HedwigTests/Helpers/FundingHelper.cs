@@ -1,4 +1,3 @@
-using System;
 using Hedwig.Data;
 using Hedwig.Models;
 
@@ -9,6 +8,7 @@ namespace HedwigTests.Helpers
 		public static Funding CreateFunding(
 			HedwigContext context,
 			FundingSource source = FundingSource.CDC,
+			FundingTime time = FundingTime.Full,
 			Enrollment enrollment = null
 		)
 		{
@@ -17,7 +17,8 @@ namespace HedwigTests.Helpers
 			var funding = new Funding
 			{
 				EnrollmentId = enrollment.Id,
-				Source = source
+				Source = source,
+				Time = time
 			};
 
 			context.Fundings.Add(funding);
