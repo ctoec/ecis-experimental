@@ -52,8 +52,8 @@ export default function Dropdown({
 				aria-describedby={error ? errorMessageId : undefined}
 			>
 				<option value={undefined}>{unselectedOptionText}</option>
-				{options.map(option => (
-					<option value={option.value} key={option.value}>
+				{options.map((option, i) => (
+					<option value={option.value} key={`${option.value}-${i}`}>
 						{option.text}
 					</option>
 				))}
