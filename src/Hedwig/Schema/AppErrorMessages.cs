@@ -6,5 +6,8 @@ namespace Hedwig.Schema
         public static string NOT_FOUND(string type, int id) {
             return string.Format(NOT_FOUND_TMPL, type, id);
         }
+        public static string NOT_FOUND(string type, string id) {
+            return string.Format(NOT_FOUND_TMPL, type, id);
+        }
     }
 }

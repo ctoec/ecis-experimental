@@ -11,7 +11,7 @@ namespace HedwigTests.Helpers
 		public static Family CreateFamily(HedwigContext context)
 		{
 			var family = new Family();
-			context.Families.Add(family);
+			context.Add<Family>(family);
 			context.SaveChanges();
 			return family;
 		}
