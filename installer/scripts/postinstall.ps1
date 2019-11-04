@@ -1,7 +1,7 @@
 #
-# Touch token file for post deploy start (for debugging purposes only)
+# Touch token file for post installer start (for logging purposes only)
 #
-fc > c:/cfn/postinstall-start.txt
+fc > c:/cfn/installer-postinstall-start.txt
 
 #
 # Give IIS AppPool\DefaultAppPool full control on webapp root
@@ -14,11 +14,23 @@ Invoke-Expression -Command:"icacls C:/inetpub/AspNetCoreWebApps/hedwig-spa /gran
 Invoke-Expression -Command:"icacls C:/inetpub/AspNetCoreWebApps/hedwig-spa"
 
 #
-# Copy entity framework dll to web root
+# Copy entity framework dll (ef.dll) to web root
 #
+#   Notes: ef.dll is used for manual database deployments (if needed)
+#          See https://github.com/ctoec/ecis-experimental/wiki/OPS:-Manual-Database-Migration-&-Rollback
+#
+
 Copy-Item -force C:/inetpub/AspNetCoreWebApps/hedwig-spa/installer/lib/ef.dll C:/inetpub/AspNetCoreWebApps/hedwig-spa/ef.dll
 
 #
-# Touch token file for post deploy end (for debugging purposes only)
+# Install windows feature telnet client
 #
-fc > c:/cfn/postinstall-end.txt
+#  Notes: Telnet client is used to check for open ports 
+#         See https://github.com/ctoec/ecis-experimental/wiki/Debug:-FAQs
+
+Install-WindowsFeature -name Telnet-Client -LogPath c:/cfn/installer-telnet.log
+
+#
+# Touch token file for post installer end (for logging purposes only)
+#
+fc > c:/cfn/installer-postinstall-end.txt
