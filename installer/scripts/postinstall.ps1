@@ -28,6 +28,7 @@ Copy-Item -force C:/inetpub/AspNetCoreWebApps/hedwig-spa/installer/lib/ef.dll C:
 #  Notes: Telnet client is used to check for open ports 
 #         See https://github.com/ctoec/ecis-experimental/wiki/Debug:-FAQs
 
+Import-Module ServerManager
 Install-WindowsFeature -name Telnet-Client -LogPath c:/cfn/installer-telnet.log
 
 #
