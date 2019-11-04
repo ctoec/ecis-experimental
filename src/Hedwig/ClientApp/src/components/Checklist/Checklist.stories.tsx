@@ -18,7 +18,7 @@ const options = [
 ];
 
 const optionsSelected = options.map(option => Object.assign({}, option, { checked: true}));
-const boxDisabledAndSelected = options.map(option => Object.assign({}, option, { checked: true }));
+const boxDisabledAndSelected = optionsSelected.map(option => Object.assign({}, option, { disabled: true }));
 
 storiesOf('Checklist', module)
 	.add('Default', () => {

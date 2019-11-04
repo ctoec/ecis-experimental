@@ -108,6 +108,325 @@ exports[`Storyshots Button Unstyled 1`] = `
 </div>
 `;
 
+exports[`Storyshots Checklist Box disabled 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    className="usa-fieldset"
+  >
+    <legend
+      className="usa-sr-only"
+    >
+      Storybook check buttons
+    </legend>
+    <div
+      className=""
+    >
+      <div
+        className="usa-checkbox "
+      >
+        <input
+          className="usa-checkbox__input"
+          defaultChecked={true}
+          disabled={true}
+          id="one"
+          name="storybook-checklist-with-error"
+          onClick={[Function]}
+          type="checkbox"
+          value="one"
+        />
+        <label
+          className="usa-checkbox__label"
+          htmlFor="one"
+        >
+          Option one
+        </label>
+      </div>
+      <div
+        className="usa-checkbox "
+      >
+        <input
+          className="usa-checkbox__input"
+          defaultChecked={true}
+          disabled={true}
+          id="two"
+          name="storybook-checklist-with-error"
+          onClick={[Function]}
+          type="checkbox"
+          value="two"
+        />
+        <label
+          className="usa-checkbox__label"
+          htmlFor="two"
+        >
+          Option two
+        </label>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots Checklist Default 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    className="usa-fieldset"
+  >
+    <legend
+      className="usa-sr-only"
+    >
+      Storybook check buttons
+    </legend>
+    <div
+      className=""
+    >
+      <div
+        className="usa-checkbox "
+      >
+        <input
+          className="usa-checkbox__input"
+          defaultChecked={false}
+          id="one"
+          name="storybook-checklist"
+          onClick={[Function]}
+          type="checkbox"
+          value="one"
+        />
+        <label
+          className="usa-checkbox__label"
+          htmlFor="one"
+        >
+          Option one
+        </label>
+      </div>
+      <div
+        className="usa-checkbox "
+      >
+        <input
+          className="usa-checkbox__input"
+          defaultChecked={false}
+          id="two"
+          name="storybook-checklist"
+          onClick={[Function]}
+          type="checkbox"
+          value="two"
+        />
+        <label
+          className="usa-checkbox__label"
+          htmlFor="two"
+        >
+          Option two
+        </label>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots Checklist Default selection 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    className="usa-fieldset"
+  >
+    <legend
+      className="usa-sr-only"
+    >
+      Storybook check buttons
+    </legend>
+    <div
+      className=""
+    >
+      <div
+        className="usa-checkbox "
+      >
+        <input
+          className="usa-checkbox__input"
+          defaultChecked={true}
+          id="one"
+          name="storybook-checklist-default-selection"
+          onClick={[Function]}
+          type="checkbox"
+          value="one"
+        />
+        <label
+          className="usa-checkbox__label"
+          htmlFor="one"
+        >
+          Option one
+        </label>
+      </div>
+      <div
+        className="usa-checkbox "
+      >
+        <input
+          className="usa-checkbox__input"
+          defaultChecked={true}
+          id="two"
+          name="storybook-checklist-default-selection"
+          onClick={[Function]}
+          type="checkbox"
+          value="two"
+        />
+        <label
+          className="usa-checkbox__label"
+          htmlFor="two"
+        >
+          Option two
+        </label>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots Checklist Horizontal 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    className="usa-fieldset"
+  >
+    <legend
+      className="usa-sr-only"
+    >
+      Storybook check buttons
+    </legend>
+    <div
+      className="grid-row flex-align-start grid-gap"
+    >
+      <div
+        className="usa-checkbox grid-col flex-auto"
+      >
+        <input
+          className="usa-checkbox__input"
+          defaultChecked={false}
+          id="one"
+          name="storybook-checklist-2"
+          onClick={[Function]}
+          type="checkbox"
+          value="one"
+        />
+        <label
+          className="usa-checkbox__label"
+          htmlFor="one"
+        >
+          Option one
+        </label>
+      </div>
+      <div
+        className="usa-checkbox grid-col flex-auto"
+      >
+        <input
+          className="usa-checkbox__input"
+          defaultChecked={false}
+          id="two"
+          name="storybook-checklist-2"
+          onClick={[Function]}
+          type="checkbox"
+          value="two"
+        />
+        <label
+          className="usa-checkbox__label"
+          htmlFor="two"
+        >
+          Option two
+        </label>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots Checklist With error 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    className="usa-fieldset usa-form-group--error"
+  >
+    <legend
+      className="usa-sr-only"
+    >
+      Storybook check buttons
+    </legend>
+    <span
+      className="usa-error-message"
+      id="checklist-error-message"
+      role="alert"
+    >
+      You  must select one or two.
+    </span>
+    <div
+      className=""
+    >
+      <div
+        className="usa-checkbox "
+      >
+        <input
+          className="usa-checkbox__input"
+          defaultChecked={false}
+          id="one"
+          name="storybook-checklist-with-error"
+          onClick={[Function]}
+          type="checkbox"
+          value="one"
+        />
+        <label
+          className="usa-checkbox__label"
+          htmlFor="one"
+        >
+          Option one
+        </label>
+      </div>
+      <div
+        className="usa-checkbox "
+      >
+        <input
+          className="usa-checkbox__input"
+          defaultChecked={false}
+          id="two"
+          name="storybook-checklist-with-error"
+          onClick={[Function]}
+          type="checkbox"
+          value="two"
+        />
+        <label
+          className="usa-checkbox__label"
+          htmlFor="two"
+        >
+          Option two
+        </label>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
 exports[`Storyshots DatePicker ByRange 1`] = `
 <div
   style={
@@ -790,7 +1109,7 @@ exports[`Storyshots RadioGroup Default 1`] = `
       >
         <input
           className="usa-radio__input"
-          defaultChecked={true}
+          defaultChecked={false}
           id="one"
           name="storybook-radio-group"
           onClick={[Function]}
@@ -809,7 +1128,7 @@ exports[`Storyshots RadioGroup Default 1`] = `
       >
         <input
           className="usa-radio__input"
-          defaultChecked={true}
+          defaultChecked={false}
           id="two"
           name="storybook-radio-group"
           onClick={[Function]}
@@ -871,7 +1190,7 @@ exports[`Storyshots RadioGroup Default selection 1`] = `
       >
         <input
           className="usa-radio__input"
-          defaultChecked={true}
+          defaultChecked={false}
           id="two"
           name="storybook-radio-group-default-selection"
           onClick={[Function]}
@@ -914,7 +1233,7 @@ exports[`Storyshots RadioGroup Horizontal 1`] = `
       >
         <input
           className="usa-radio__input"
-          defaultChecked={true}
+          defaultChecked={false}
           id="one"
           name="storybook-radio-group-2"
           onClick={[Function]}
@@ -933,7 +1252,7 @@ exports[`Storyshots RadioGroup Horizontal 1`] = `
       >
         <input
           className="usa-radio__input"
-          defaultChecked={true}
+          defaultChecked={false}
           id="two"
           name="storybook-radio-group-2"
           onClick={[Function]}
@@ -983,7 +1302,7 @@ exports[`Storyshots RadioGroup With error 1`] = `
       >
         <input
           className="usa-radio__input"
-          defaultChecked={true}
+          defaultChecked={false}
           id="one"
           name="storybook-radio-group-with-error"
           onClick={[Function]}
@@ -1002,7 +1321,7 @@ exports[`Storyshots RadioGroup With error 1`] = `
       >
         <input
           className="usa-radio__input"
-          defaultChecked={true}
+          defaultChecked={false}
           id="two"
           name="storybook-radio-group-with-error"
           onClick={[Function]}
