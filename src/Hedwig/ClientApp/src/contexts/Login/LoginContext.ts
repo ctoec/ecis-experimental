@@ -1,13 +1,13 @@
 import React from 'react';
 
 export type LoginContextType = {
-  accessToken: string | null,
-  withFreshToken: () => (Promise<void>),
-}
+	accessToken: string | null;
+	withFreshToken: () => Promise<void>;
+};
 
 const LoginContext = React.createContext<LoginContextType>({
-  accessToken: null,
-  withFreshToken: async () => {}
+	accessToken: null,
+	withFreshToken: async () => {},
 });
 
 const { Provider, Consumer } = LoginContext;

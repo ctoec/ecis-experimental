@@ -5,19 +5,19 @@ import LoginContext from '../contexts/Login/LoginContext';
 import { QueryResult } from '@apollo/react-common';
 
 export default <T>(query: DocumentNode, options: QueryHookOptions = {}): QueryResult<T> => {
-  const { accessToken, withFreshToken } = useContext(LoginContext);
+	const { accessToken, withFreshToken } = useContext(LoginContext);
 
-  useEffect(() => {
-    withFreshToken();
-  });
-    
-  return useQuery<T>(query, {
-    ...options,
-    context: {
-      headers: {
-        Authorization: accessToken ? `Bearer ${accessToken}` : ''
-      }
-    },
-    fetchPolicy: 'cache-and-network'
-  });
-}
+	useEffect(() => {
+		withFreshToken();
+	});
+
+	return useQuery<T>(query, {
+		...options,
+		context: {
+			headers: {
+				Authorization: accessToken ? `Bearer ${accessToken}` : '',
+			},
+		},
+		fetchPolicy: 'cache-and-network',
+	});
+};

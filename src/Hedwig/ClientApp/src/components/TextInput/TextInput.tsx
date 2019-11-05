@@ -43,10 +43,10 @@ export default function TextInput({
 				type="text"
 				onFocus={() => setFocus(true)}
 				onBlur={() => setFocus(false)}
-        disabled={disabled}
-        onChange={onChange}
+				disabled={disabled}
+				onChange={onChange}
 				defaultValue={defaultValue}
-        aria-describedby={error ? 'input-error-message' : undefined}
+				aria-describedby={error ? 'input-error-message' : undefined}
 			/>
 		</div>
 	);

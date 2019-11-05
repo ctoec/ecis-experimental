@@ -17,12 +17,12 @@ type HeaderState = {
 	menuIsVisible: boolean;
 };
 
-const setActiveStateOfNavItem = function(item: NavItemProps, path: string) {
+const setActiveStateOfNavItem = function(item: NavItemProps, index: number, path: string) {
 	let active: boolean;
 
-	if (item.path === '/') {
-		// Require an exact match for root links, otherwise it will always be active
-		active = path === item.path;
+	if (index === 0 && path === '/') {
+		// By convention, the first section should be active when at the root path
+		active = true;
 	} else {
 		active = !!matchPath(path, { path: item.path });
 	}
@@ -67,7 +67,7 @@ class Header extends React.Component<HeaderProps & RouteComponentProps, HeaderSt
 
 		const primaryNavItems = navItems
 			.filter(item => item.type === 'primary')
-			.map(item => setActiveStateOfNavItem(item, location.pathname));
+			.map((item, index) => setActiveStateOfNavItem(item, index, location.pathname));
 
 		const secondaryNavItems = navItems.filter(item => item.type === 'secondary');
 

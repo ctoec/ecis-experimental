@@ -19,5 +19,12 @@ storiesOf('TextInput', module)
 		return <TextInput label="Default text input" onChange={onChange} success={true} />;
 	})
 	.add('Error', () => {
-		return <TextInput label="Default text input" onChange={onChange} error={true} errorMessage="Fix this error" />;
+		return (
+			<TextInput
+				label="Default text input"
+				onChange={onChange}
+				error={true}
+				errorMessage="Fix this error"
+			/>
+		);
 	});

@@ -47,9 +47,9 @@ export default function RadioGroup({
 						value={option.value}
 						text={option.text}
 						onClick={event => {
-              setRadioButtonSelection(event.target.value);
-              onClick(event.target.value);
-            }}
+							setRadioButtonSelection(event.target.value);
+							onClick(event.target.value);
+						}}
 						key={option.value}
 						name={groupName}
 						selected={option.value === currentlySelected}

@@ -5,7 +5,7 @@ interface Name {
 	suffix?: string | null;
 }
 
-export default function nameFormatter(name?: Name) {
+export default function nameFormatter(name?: Name | null) {
 	if (!name) {
 		return '';
 	}

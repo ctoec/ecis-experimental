@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import useAuthQuery from '../../hooks/useAuthQuery';
 import { gql } from 'apollo-boost';
 import { Link } from 'react-router-dom';
+import pluralize from 'pluralize';
 import { RosterQuery, RosterQuery_me_sites_enrollments } from '../../generated/RosterQuery';
 import nameFormatter from '../../utils/nameFormatter';
 import dateFormatter from '../../utils/dateFormatter';
@@ -15,31 +16,31 @@ import RadioGroup from '../../components/RadioGroup/RadioGroup';
 import DateSelectionForm from './DateSelectionForm';
 
 export const ROSTER_QUERY = gql`
-  query RosterQuery($from: Date, $to: Date) {
-    me {
-      sites {
-        id
-        name
-        enrollments(from: $from, to: $to) {
-          id
-          entry
-          exit
-          child {
-            firstName
-            middleName
-            lastName
-            birthdate
-            suffix
-          }
-          fundings {
-            entry
-            exit
-            source
-          }
-        }
-      }
-    }
-  }
+	query RosterQuery($from: Date, $to: Date) {
+		me {
+			sites {
+				id
+				name
+				enrollments(from: $from, to: $to) {
+					id
+					entry
+					exit
+					child {
+						firstName
+						middleName
+						lastName
+						birthdate
+						suffix
+					}
+					fundings {
+						entry
+						exit
+						source
+					}
+				}
+			}
+		}
+	}
 `;
 
 export default function Roster() {
@@ -61,7 +62,7 @@ export default function Roster() {
 	});
 
 	if (loading || error || !data || !data.me) {
-    return <div className="Roster"></div>;
+		return <div className="Roster"></div>;
 	}
 
 	const site = data.me.sites[0];
@@ -76,7 +77,7 @@ export default function Roster() {
 				name: 'Name',
 				cell: ({ row }) => (
 					<th scope="row">
-						<Link to={`/enrollments/${row.id}`} className="usa-link">
+						<Link to={`/roster/enrollments/${row.child.id}/`} className="usa-link">
 							{nameFormatter(row.child)}
 						</Link>
 					</th>
@@ -104,22 +105,31 @@ export default function Roster() {
 	const numKidsEnrolledText = enrollmentTextFormatter(
 		enrollments.length,
 		showPastEnrollments,
-    dateRange,
-    byRange
+		dateRange,
+		byRange
 	);
 
 	return (
 		<div className="Roster">
 			<section className="grid-container">
 				<h1 className="grid-col-auto">{site.name}</h1>
-				<p className="usa-intro display-flex flex-row flex-wrap flex-justify-start">
-					<span className="margin-right-2 flex-auto">{numKidsEnrolledText}</span>
-					<Button
-						text={showPastEnrollments ? 'Show only current enrollments' : 'Show past enrollments'}
-						appearance="unstyled"
-						onClick={handlePastEnrollmentsChange}
-					/>
-				</p>
+				<div className="grid-row">
+					<div className="tablet:grid-col-fill">
+						<p className="usa-intro display-flex flex-row flex-wrap flex-justify-start">
+							<span className="margin-right-2 flex-auto">{numKidsEnrolledText}</span>
+							<Button
+								text={
+									showPastEnrollments ? 'Show only current enrollments' : 'Show past enrollments'
+								}
+								appearance="unstyled"
+								onClick={handlePastEnrollmentsChange}
+							/>
+						</p>
+					</div>
+					<div className="tablet:grid-col-auto">
+						<Button text="Enroll child" href={`/roster/sites/${site.id}/enroll`} />
+					</div>
+				</div>
 				{showPastEnrollments && (
 					<div className="usa-fieldset">
 						<RadioGroup
