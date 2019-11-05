@@ -11,26 +11,26 @@ namespace Hedwig.Schema.Queries
 	{
 		public UserQuery(IUserRepository repository)
 		{
-			Field<UserType>(
+			FieldAsync<UserType>(
 				"user",
 				arguments: new QueryArguments(
 					new QueryArgument<NonNullGraphType<IdGraphType>> { Name = "id" }
 					),
-				resolve: context =>
+				resolve: async context =>
 				{
 					var id = context.GetArgument<int>("id");
-					return repository.GetUserByIdAsync(id);
+					return await repository.GetUserByIdAsync(id);
 				}
 			);
-			Field<UserType>(
+			FieldAsync<UserType>(
 				"me",
 				arguments: new QueryArguments(),
-				resolve: context =>
+				resolve: async context =>
 				{
 					var user = GetRequestContext(context).User;
 					var subClaim = user.FindFirst("sub");
 					var id = Int32.Parse(subClaim?.Value ?? "");
-					return repository.GetUserByIdAsync(id);
+					return await repository.GetUserByIdAsync(id);
 				}
 			);
 		}

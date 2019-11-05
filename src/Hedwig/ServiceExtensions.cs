@@ -7,8 +7,10 @@ using Hedwig.Schema.Queries;
 using Hedwig.Schema.Mutations;
 using Hedwig.Schema;
 using Hedwig.Security;
+using Hedwig.GraphQL;
 using GraphQL;
 using GraphQL.Server;
+using GraphQL.Server.Internal;
 using GraphQL.Authorization;
 using GraphQL.Validation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -82,14 +84,26 @@ namespace Hedwig
 			// Add Mutations
 			services.AddScoped<IAppSubMutation, ReportMutation>();
 			services.AddScoped<IAppSubMutation, EnrollmentMutation>();
+			services.AddScoped<IAppSubMutation, FamilyMutation>();
+			services.AddScoped<IAppSubMutation, FamilyDeterminationMutation>();
+
+			// Add Middlewares
+			services.AddScoped<IFieldsMiddleware, CommitMutationFieldsMiddleware>();
 
 			services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
 			services.AddScoped<AppSchema>();
 
-			services.AddGraphQL(o => { o.ExposeExceptions = false; })
+			services.AddGraphQL(o =>
+				{
+					o.ExposeExceptions = false;
+				})
 				.AddGraphTypes(ServiceLifetime.Scoped)
 				.AddDataLoader()
 				.AddUserContextBuilder<RequestContext>(RequestContext.RequestContextCreator);
+
+			// Add Executer
+			// NOTE: This must come after services.AddGraphQL
+			services.AddScoped(typeof(IGraphQLExecuter<>), typeof(HedwigExecutor<>));
 		}
 
 		public static void ConfigureAuthentication(this IServiceCollection services)
@@ -98,7 +112,7 @@ namespace Hedwig
 			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 				.AddJwtBearer(options =>
 					{
-						options.Authority = "https://openid:5050";
+						options.Authority = "https://winged-keys:5050";
 						options.Audience = "hedwig_backend";
 						options.BackchannelHttpHandler = new HttpClientHandler
 						{

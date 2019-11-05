@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import 'react-dates/lib/css/_datepicker.css';
 import './assets/styles/index.scss';
 import App from './containers/App/App';
 import { BrowserRouter } from 'react-router-dom';

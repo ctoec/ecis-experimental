@@ -25,15 +25,21 @@ namespace Hedwig.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool?>("AmericanIndianOrAlaskaNative");
+                    b.Property<bool>("AmericanIndianOrAlaskaNative");
 
-                    b.Property<bool?>("Asian");
+                    b.Property<bool>("Asian");
 
                     b.Property<int?>("AuthorId");
 
-                    b.Property<DateTime>("Birthdate");
+                    b.Property<string>("BirthCertificateId");
 
-                    b.Property<bool?>("BlackOrAfricanAmerican");
+                    b.Property<string>("BirthState");
+
+                    b.Property<string>("BirthTown");
+
+                    b.Property<DateTime?>("Birthdate");
+
+                    b.Property<bool>("BlackOrAfricanAmerican");
 
                     b.Property<int?>("FamilyId");
 
@@ -41,9 +47,11 @@ namespace Hedwig.Migrations
                         .IsRequired()
                         .HasMaxLength(35);
 
-                    b.Property<int>("Gender");
+                    b.Property<bool>("Foster");
 
-                    b.Property<bool?>("HispanicOrLatinxEthnicity");
+                    b.Property<int?>("Gender");
+
+                    b.Property<bool>("HispanicOrLatinxEthnicity");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -52,12 +60,14 @@ namespace Hedwig.Migrations
                     b.Property<string>("MiddleName")
                         .HasMaxLength(35);
 
-                    b.Property<bool?>("NativeHawaiianOrPacificIslander");
+                    b.Property<bool>("NativeHawaiianOrPacificIslander");
+
+                    b.Property<string>("Sasid");
 
                     b.Property<string>("Suffix")
                         .HasMaxLength(10);
 
-                    b.Property<bool?>("White");
+                    b.Property<bool>("White");
 
                     b.HasKey("Id");
 
@@ -74,11 +84,13 @@ namespace Hedwig.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("Age");
+
                     b.Property<int?>("AuthorId");
 
                     b.Property<Guid>("ChildId");
 
-                    b.Property<DateTime>("Entry");
+                    b.Property<DateTime?>("Entry");
 
                     b.Property<DateTime?>("Exit");
 
@@ -101,9 +113,19 @@ namespace Hedwig.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("AddressLine1");
+
+                    b.Property<string>("AddressLine2");
+
                     b.Property<int?>("AuthorId");
 
-                    b.Property<int?>("CaseNumber");
+                    b.Property<bool>("Homelessness");
+
+                    b.Property<string>("State");
+
+                    b.Property<string>("Town");
+
+                    b.Property<string>("Zip");
 
                     b.HasKey("Id");
 

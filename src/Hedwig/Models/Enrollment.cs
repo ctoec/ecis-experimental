@@ -13,7 +13,9 @@ namespace Hedwig.Models
 		public int SiteId { get; set; }
 		public Site Site { get; set; }
 
-		public DateTime Entry { get; set; }
+		public Age? Age { get; set; }
+
+		public DateTime? Entry { get; set; }
 
 		public DateTime? Exit { get; set; }
 

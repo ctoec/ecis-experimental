@@ -51,7 +51,7 @@ namespace Hedwig.Schema.Mutations
 						enrollment.Exit = exit;
 					}
 
-					return repository.UpdateEnrollment(enrollment);
+					return enrollment;
 				}
 			);
 		}

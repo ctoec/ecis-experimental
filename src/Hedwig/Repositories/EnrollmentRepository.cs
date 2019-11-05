@@ -25,15 +25,9 @@ namespace Hedwig.Repositories
 			return enrollments.ToLookup(x => x.SiteId);
 		}
 
-		public Task<Enrollment> GetEnrollmentByIdAsync(int id, DateTime? asOf = null) {
-			return GetBaseQuery<Enrollment>(asOf)
+		public async Task<Enrollment> GetEnrollmentByIdAsync(int id, DateTime? asOf = null) {
+			return await GetBaseQuery<Enrollment>(asOf)
 				.SingleOrDefaultAsync(e => e.Id == id);
-		}
-
-		public Enrollment UpdateEnrollment(Enrollment enrollment)
-		{
-			_context.SaveChanges();
-			return enrollment;
 		}
 	}
 
@@ -46,7 +40,6 @@ namespace Hedwig.Repositories
 			DateTime? to = null
 		);
 		Task<Enrollment> GetEnrollmentByIdAsync(int id, DateTime? asOf = null);
-		Enrollment UpdateEnrollment(Enrollment enrollment);
 	}
 
 	public static class EnrollmentQueryExtensions
@@ -57,7 +50,7 @@ namespace Hedwig.Repositories
 				return query.Where(e => (
 					(e.Exit != null && e.Entry <= to && e.Exit >= from)
 					||
-					(e.Exit == null && e.Entry >= from && e.Entry <= to)
+					(e.Exit == null && e.Entry <= to)
 				));
 			}
 

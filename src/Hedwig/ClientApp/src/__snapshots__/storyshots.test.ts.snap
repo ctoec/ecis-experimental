@@ -69,6 +69,352 @@ exports[`Storyshots Button Secondary 1`] = `
 </div>
 `;
 
+exports[`Storyshots Button Unstyled 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <button
+    className="usa-button usa-button--unstyled"
+    onClick={[Function]}
+  >
+    Click me
+  </button>
+</div>
+`;
+
+exports[`Storyshots DatePicker ByRange 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    className="usa-fieldset"
+  >
+    <legend
+      className="usa-sr-only"
+    >
+      Choose a date range
+    </legend>
+    <div
+      className="DateRangePicker DateRangePicker_1"
+    >
+      <div>
+        <div
+          className="DateRangePickerInput DateRangePickerInput_1 DateRangePickerInput__withBorder DateRangePickerInput__withBorder_2"
+        >
+          <div
+            className="DateInput DateInput_1"
+          >
+            <input
+              aria-describedby="DateInput__screen-reader-message-startDate"
+              aria-label="Start Date"
+              autoComplete="off"
+              className="DateInput_input DateInput_input_1"
+              disabled={false}
+              id="startDate"
+              name="startDate"
+              onChange={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              placeholder="Start Date"
+              readOnly={false}
+              required={false}
+              type="text"
+              value="10/30/2019"
+            />
+            <p
+              className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
+              id="DateInput__screen-reader-message-startDate"
+            >
+              Navigate forward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
+            </p>
+          </div>
+          <div
+            aria-hidden="true"
+            className="DateRangePickerInput_arrow DateRangePickerInput_arrow_1"
+            role="presentation"
+          >
+            <svg
+              className="DateRangePickerInput_arrow_svg DateRangePickerInput_arrow_svg_1"
+              focusable="false"
+              viewBox="0 0 1000 1000"
+            >
+              <path
+                d="M694 242l249 250c12 11 12 21 1 32L694 773c-5 5-10 7-16 7s-11-2-16-7c-11-11-11-21 0-32l210-210H68c-13 0-23-10-23-23s10-23 23-23h806L662 275c-21-22 11-54 32-33z"
+              />
+            </svg>
+          </div>
+          <div
+            className="DateInput DateInput_1"
+          >
+            <input
+              aria-describedby="DateInput__screen-reader-message-endDate"
+              aria-label="End Date"
+              autoComplete="off"
+              className="DateInput_input DateInput_input_1"
+              disabled={false}
+              id="endDate"
+              name="endDate"
+              onChange={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              placeholder="End Date"
+              readOnly={false}
+              required={false}
+              type="text"
+              value="10/30/2019"
+            />
+            <p
+              className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
+              id="DateInput__screen-reader-message-endDate"
+            >
+              Navigate backward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots DatePicker Default 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    className="usa-fieldset"
+  >
+    <legend
+      className="usa-sr-only"
+    >
+      Choose a date
+    </legend>
+    <div
+      className="SingleDatePicker SingleDatePicker_1"
+    >
+      <div>
+        <div
+          className="SingleDatePickerInput SingleDatePickerInput_1 SingleDatePickerInput__withBorder SingleDatePickerInput__withBorder_2"
+        >
+          <div
+            className="DateInput DateInput_1"
+          >
+            <input
+              aria-describedby="DateInput__screen-reader-message-date"
+              aria-label="Date"
+              autoComplete="off"
+              className="DateInput_input DateInput_input_1"
+              disabled={false}
+              id="date"
+              name="date"
+              onChange={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              placeholder="Date"
+              readOnly={false}
+              required={false}
+              type="text"
+              value="10/30/2019"
+            />
+            <p
+              className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
+              id="DateInput__screen-reader-message-date"
+            >
+              Navigate forward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots Dropdown Default 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group"
+  >
+    <label
+      className="usa-label"
+      htmlFor="Choose-one-of-these-things"
+    >
+      Choose one of these things
+    </label>
+    <select
+      className="usa-select"
+      id="Choose-one-of-these-things"
+      name="Choose-one-of-these-things"
+      onChange={[Function]}
+    >
+      <option>
+        Choose here
+      </option>
+      <option
+        value="one"
+      >
+        Thing One
+      </option>
+      <option
+        value="two"
+      >
+        Thing Two
+      </option>
+    </select>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Dropdown Disabled 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group"
+  >
+    <label
+      className="usa-label"
+      htmlFor="Choose-one-of-these-things"
+    >
+      Choose one of these things
+    </label>
+    <select
+      className="usa-select"
+      disabled={true}
+      id="Choose-one-of-these-things"
+      name="Choose-one-of-these-things"
+      onChange={[Function]}
+    >
+      <option>
+        Choose here
+      </option>
+      <option
+        value="one"
+      >
+        Thing One
+      </option>
+      <option
+        value="two"
+      >
+        Thing Two
+      </option>
+    </select>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Dropdown Error 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group usa-form-group--error"
+  >
+    <label
+      className="usa-label usa-label--error"
+      htmlFor="Choose-one-of-these-things"
+    >
+      Choose one of these things
+    </label>
+    <span
+      className="usa-error-message"
+      id="Choose-one-of-these-things-error-message"
+      role="alert"
+    >
+      There was an error.
+    </span>
+    <select
+      aria-describedby="Choose-one-of-these-things-error-message"
+      className="usa-select usa-input--error"
+      id="Choose-one-of-these-things"
+      name="Choose-one-of-these-things"
+      onChange={[Function]}
+    >
+      <option>
+        Choose here
+      </option>
+      <option
+        value="one"
+      >
+        Thing One
+      </option>
+      <option
+        value="two"
+      >
+        Thing Two
+      </option>
+    </select>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Dropdown Success 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group"
+  >
+    <label
+      className="usa-label"
+      htmlFor="Choose-one-of-these-things"
+    >
+      Choose one of these things
+    </label>
+    <select
+      className="usa-select usa-input--success"
+      id="Choose-one-of-these-things"
+      name="Choose-one-of-these-things"
+      onChange={[Function]}
+    >
+      <option>
+        Choose here
+      </option>
+      <option
+        value="one"
+      >
+        Thing One
+      </option>
+      <option
+        value="two"
+      >
+        Thing Two
+      </option>
+    </select>
+  </div>
+</div>
+`;
+
 exports[`Storyshots Header Logged in 1`] = `
 <div
   style={
@@ -461,6 +807,261 @@ exports[`Storyshots InlineIcon Incomplete 1`] = `
       )
     </span>
   </span>
+</div>
+`;
+
+exports[`Storyshots RadioGroup Default 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    className="usa-fieldset"
+  >
+    <legend
+      className="usa-sr-only"
+    >
+      Storybook radio buttons
+    </legend>
+    <div
+      className=""
+    >
+      <div
+        className="usa-radio "
+      >
+        <input
+          className="usa-radio__input"
+          defaultChecked={true}
+          id="one"
+          name="storybook-radio-group"
+          onClick={[Function]}
+          type="radio"
+          value="one"
+        />
+        <label
+          className="usa-radio__label"
+          htmlFor="one"
+        >
+          Option one
+        </label>
+      </div>
+      <div
+        className="usa-radio "
+      >
+        <input
+          className="usa-radio__input"
+          defaultChecked={true}
+          id="two"
+          name="storybook-radio-group"
+          onClick={[Function]}
+          type="radio"
+          value="two"
+        />
+        <label
+          className="usa-radio__label"
+          htmlFor="two"
+        >
+          Option two
+        </label>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots RadioGroup Default selection 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    className="usa-fieldset"
+  >
+    <legend
+      className="usa-sr-only"
+    >
+      Storybook radio buttons
+    </legend>
+    <div
+      className=""
+    >
+      <div
+        className="usa-radio "
+      >
+        <input
+          className="usa-radio__input"
+          defaultChecked={true}
+          id="one"
+          name="storybook-radio-group-default-selection"
+          onClick={[Function]}
+          type="radio"
+          value="one"
+        />
+        <label
+          className="usa-radio__label"
+          htmlFor="one"
+        >
+          Option one
+        </label>
+      </div>
+      <div
+        className="usa-radio "
+      >
+        <input
+          className="usa-radio__input"
+          defaultChecked={true}
+          id="two"
+          name="storybook-radio-group-default-selection"
+          onClick={[Function]}
+          type="radio"
+          value="two"
+        />
+        <label
+          className="usa-radio__label"
+          htmlFor="two"
+        >
+          Option two
+        </label>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots RadioGroup Horizontal 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    className="usa-fieldset"
+  >
+    <legend
+      className="usa-sr-only"
+    >
+      Storybook radio buttons
+    </legend>
+    <div
+      className="grid-row flex-align-start grid-gap"
+    >
+      <div
+        className="usa-radio grid-col flex-auto"
+      >
+        <input
+          className="usa-radio__input"
+          defaultChecked={true}
+          id="one"
+          name="storybook-radio-group-2"
+          onClick={[Function]}
+          type="radio"
+          value="one"
+        />
+        <label
+          className="usa-radio__label"
+          htmlFor="one"
+        >
+          Option one
+        </label>
+      </div>
+      <div
+        className="usa-radio grid-col flex-auto"
+      >
+        <input
+          className="usa-radio__input"
+          defaultChecked={true}
+          id="two"
+          name="storybook-radio-group-2"
+          onClick={[Function]}
+          type="radio"
+          value="two"
+        />
+        <label
+          className="usa-radio__label"
+          htmlFor="two"
+        >
+          Option two
+        </label>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots RadioGroup With error 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    className="usa-fieldset usa-form-group--error"
+  >
+    <legend
+      className="usa-sr-only"
+    >
+      Storybook radio buttons
+    </legend>
+    <span
+      className="usa-error-message"
+      id="radio-group-error-message"
+      role="alert"
+    >
+      You  must select one or two.
+    </span>
+    <div
+      className=""
+    >
+      <div
+        className="usa-radio "
+      >
+        <input
+          className="usa-radio__input"
+          defaultChecked={true}
+          id="one"
+          name="storybook-radio-group-with-error"
+          onClick={[Function]}
+          type="radio"
+          value="one"
+        />
+        <label
+          className="usa-radio__label"
+          htmlFor="one"
+        >
+          Option one
+        </label>
+      </div>
+      <div
+        className="usa-radio "
+      >
+        <input
+          className="usa-radio__input"
+          defaultChecked={true}
+          id="two"
+          name="storybook-radio-group-with-error"
+          onClick={[Function]}
+          type="radio"
+          value="two"
+        />
+        <label
+          className="usa-radio__label"
+          htmlFor="two"
+        >
+          Option two
+        </label>
+      </div>
+    </div>
+  </fieldset>
 </div>
 `;
 
@@ -879,5 +1480,165 @@ exports[`Storyshots Tag Default 1`] = `
   >
     I AM A TAG
   </span>
+</div>
+`;
+
+exports[`Storyshots TextInput Default 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group"
+  >
+    <label
+      className="usa-label"
+      htmlFor="Default-text-input"
+    >
+      Default text input
+    </label>
+    <input
+      className="usa-input"
+      id="Default-text-input"
+      name="Default-text-input"
+      onBlur={[Function]}
+      onChange={[Function]}
+      onFocus={[Function]}
+      type="text"
+    />
+  </div>
+</div>
+`;
+
+exports[`Storyshots TextInput Disabled 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group"
+  >
+    <label
+      className="usa-label"
+      htmlFor="Default-text-input"
+    >
+      Default text input
+    </label>
+    <input
+      className="usa-input"
+      disabled={true}
+      id="Default-text-input"
+      name="Default-text-input"
+      onBlur={[Function]}
+      onChange={[Function]}
+      onFocus={[Function]}
+      type="text"
+    />
+  </div>
+</div>
+`;
+
+exports[`Storyshots TextInput Error 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group usa-form-group--error"
+  >
+    <label
+      className="usa-label usa-label--error"
+      htmlFor="Default-text-input"
+    >
+      Default text input
+    </label>
+    <span
+      className="usa-error-message"
+      id="input-error-message"
+      role="alert"
+    >
+      Fix this error
+    </span>
+    <input
+      aria-describedby="input-error-message"
+      className="usa-input usa-input--error"
+      id="Default-text-input"
+      name="Default-text-input"
+      onBlur={[Function]}
+      onChange={[Function]}
+      onFocus={[Function]}
+      type="text"
+    />
+  </div>
+</div>
+`;
+
+exports[`Storyshots TextInput Success 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group"
+  >
+    <label
+      className="usa-label"
+      htmlFor="Default-text-input"
+    >
+      Default text input
+    </label>
+    <input
+      className="usa-input usa-input--success"
+      id="Default-text-input"
+      name="Default-text-input"
+      onBlur={[Function]}
+      onChange={[Function]}
+      onFocus={[Function]}
+      type="text"
+    />
+  </div>
+</div>
+`;
+
+exports[`Storyshots TextInput With default value 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group"
+  >
+    <label
+      className="usa-label"
+      htmlFor="Default-text-input"
+    >
+      Default text input
+    </label>
+    <input
+      className="usa-input"
+      defaultValue="default text"
+      id="Default-text-input"
+      name="Default-text-input"
+      onBlur={[Function]}
+      onChange={[Function]}
+      onFocus={[Function]}
+      type="text"
+    />
+  </div>
 </div>
 `;
