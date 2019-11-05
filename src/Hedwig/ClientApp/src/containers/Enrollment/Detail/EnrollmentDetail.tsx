@@ -17,6 +17,7 @@ type EnrollmentDetailParams = {
 	};
 };
 
+// const sections = [ChildInfo, FamilyInfo, FamilyIncome, EnrollmentFunding];
 const sections = [ChildInfo, FamilyIncome, EnrollmentFunding];
 
 export default function EnrollmentDetail({

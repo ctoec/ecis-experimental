@@ -22,7 +22,8 @@ type EnrollmentNewParams = {
 	};
 };
 
-const sections = [ChildInfo, FamilyInfo, FamilyIncome, EnrollmentFunding];
+// const sections = [ChildInfo, FamilyInfo, FamilyIncome, EnrollmentFunding];
+const sections = [ChildInfo, FamilyIncome, EnrollmentFunding];
 
 const mapSectionsToSteps = (sections: Section[]) => {
 	const steps: StepProps<SectionProps>[] = sections.map(section => {
