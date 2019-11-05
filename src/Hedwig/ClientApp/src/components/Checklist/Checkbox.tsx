@@ -6,8 +6,8 @@ type CheckboxProps = {
 	name: string;
 	onClick: (value: any) => any;
 	checked?: boolean;
-  className?: string;
-  disabled?: boolean;
+	className?: string;
+	disabled?: boolean;
 };
 
 export default function Checkbox({
@@ -16,8 +16,8 @@ export default function Checkbox({
 	name,
 	onClick,
 	checked,
-  className,
-  disabled,
+	className,
+	disabled,
 }: CheckboxProps) {
 	return (
 		<div className={`usa-checkbox ${className}`}>
@@ -28,8 +28,8 @@ export default function Checkbox({
 				name={name}
 				value={value}
 				defaultChecked={checked}
-        onClick={value => onClick(value)}
-        disabled={disabled}
+				onClick={value => onClick(value)}
+				disabled={disabled}
 			/>
 			<label className="usa-checkbox__label" htmlFor={value}>
 				{text}

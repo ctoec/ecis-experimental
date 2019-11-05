@@ -17,8 +17,10 @@ const options = [
 	},
 ];
 
-const optionsSelected = options.map(option => Object.assign({}, option, { checked: true}));
-const boxDisabledAndSelected = optionsSelected.map(option => Object.assign({}, option, { disabled: true }));
+const optionsSelected = options.map(option => Object.assign({}, option, { checked: true }));
+const boxDisabledAndSelected = optionsSelected.map(option =>
+	Object.assign({}, option, { disabled: true })
+);
 
 storiesOf('Checklist', module)
 	.add('Default', () => {
@@ -59,11 +61,10 @@ storiesOf('Checklist', module)
 				groupName="storybook-checklist-with-error"
 				onClick={onClick}
 				legend="Storybook check buttons"
-				showError={true}
-				errorMessage="You  must select one or two."
+				error="You  must select one or two."
 			/>
-    )
-  })
+		);
+	})
 	.add('Box disabled', () => {
 		return (
 			<Checklist
@@ -71,7 +72,6 @@ storiesOf('Checklist', module)
 				groupName="storybook-checklist-with-error"
 				onClick={onClick}
 				legend="Storybook check buttons"
-				errorMessage="You  must select one or two."
 			/>
 		);
 	});
