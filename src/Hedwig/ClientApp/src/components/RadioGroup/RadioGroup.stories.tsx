@@ -6,12 +6,10 @@ import RadioGroup from './RadioGroup';
 const onClick = action('onClick');
 const options = [
 	{
-		selected: true,
 		text: 'Option one',
 		value: 'one',
 	},
 	{
-		selected: false,
 		text: 'Option two',
 		value: 'two',
 	},
