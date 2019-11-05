@@ -1,5 +1,6 @@
 using System.Threading;
 using System;
+using System.Text;
 
 namespace HedwigTests.Helpers
 {

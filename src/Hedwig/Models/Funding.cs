@@ -10,9 +10,6 @@ namespace Hedwig.Models
 		public Enrollment Enrollment { get; set; }
 
 		public FundingSource Source { get; set; }
-
-		public DateTime Entry { get; set; }
-
-		public DateTime? Exit { get; set; }
+		public FundingTime Time { get; set; }
 	}
 }

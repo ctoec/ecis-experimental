@@ -4,6 +4,7 @@ using Xunit;
 using Hedwig.Repositories;
 using HedwigTests.Helpers;
 using HedwigTests.Fixtures;
+using Hedwig.Models;
 
 namespace HedwigTests.Repositories
 {
@@ -32,6 +33,50 @@ namespace HedwigTests.Repositories
 
 				// And no other enrollment Ids are returned
 				Assert.False(res.Contains(enrollment1.Id));
+			}
+		}
+
+		[Fact]
+		public async Task Get_Funding_By_Id()
+		{
+			using (var context = new TestContextProvider().Context) {
+				var funding = FundingHelper.CreateFunding(context);
+
+				var fundingRepo = new FundingRepository(context);
+				var res = await fundingRepo.GetFundingByIdAsync(funding.Id);
+
+				Assert.Equal(funding.Id, res.Id);
+			}
+		}
+
+		[Fact]
+		public void Create_Funding()
+		{
+			using (var context = new TestContextProvider().Context) {
+				var enrollment = EnrollmentHelper.CreateEnrollment(context);
+				var source = FundingSource.CDC;
+				var time = FundingTime.Full;
+
+				var fundingRepo = new FundingRepository(context);
+				var funding = fundingRepo.CreateFunding(enrollment.Id, source, time);
+
+				Assert.Equal(enrollment.Id, funding.EnrollmentId);
+				Assert.Equal(source, funding.Source);
+				Assert.Equal(time, funding.Time);
+			}
+		}
+
+		[Fact]
+		public void Update_Funding()
+		{
+			using (var context = new TestContextProvider().Context) {
+				var funding = FundingHelper.CreateFunding(context);
+				var time = FundingTime.Part;
+
+				var fundingRepo = new FundingRepository(context);
+				var res = fundingRepo.UpdateFunding(funding, time: time);
+
+				Assert.Equal(res.Time, time);
 			}
 		}
 	}
