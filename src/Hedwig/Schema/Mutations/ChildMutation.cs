@@ -48,7 +48,7 @@ namespace Hedwig.Schema.Mutations
 					var birthCertificateId = context.GetArgument<string>("birthCertificateId");
 					var birthTown = context.GetArgument<string>("birthTown");
 					var birthState = context.GetArgument<string>("birthState");
-					var gender = context.GetArgument<Gender?>("gender");
+					var gender = (Gender) (context.GetArgument<Gender?>("gender") ?? Gender.Unspecified);
 					var americanIndianOrAlaskaNative = context.GetArgument<bool?>("americanIndianOrAlaskaNative") ?? false;
 					var asian = context.GetArgument<bool?>("asian") ?? false;
 					var blackOrAfricanAmerican = context.GetArgument<bool?>("blackOrAfricanAmerican") ?? false;
@@ -102,7 +102,6 @@ namespace Hedwig.Schema.Mutations
 					new QueryArgument<StringGraphType>{ Name = "birthCertificateId" },
 					new QueryArgument<StringGraphType>{ Name = "birthTown" },
 					new QueryArgument<StringGraphType>{ Name = "birthState" },
-					// Not sure how to type this argument to allow for nulling the field
 					new QueryArgument<GenderEnumType>{ Name = "gender" },
 					new QueryArgument<BooleanGraphType>{ Name = "americanIndianOrAlaskaNative" },
 					new QueryArgument<BooleanGraphType>{ Name = "asian" },
@@ -181,9 +180,9 @@ namespace Hedwig.Schema.Mutations
 					{
 						child.BirthState = birthState;
 					}
-					if (gender != null)
+					if (gender is Gender _gender)
 					{
-						child.Gender = gender;
+						child.Gender = _gender;
 					}
 					if (americanIndianOrAlaskaNative is bool _americanIndianOrAlaskaNative)
 					{

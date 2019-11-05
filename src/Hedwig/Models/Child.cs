@@ -39,7 +39,7 @@ namespace Hedwig.Models
 		public bool White { get; set; } = false;
 		public bool HispanicOrLatinxEthnicity { get; set; } = false;
 
-		public Gender? Gender { get; set; }
+		public Gender Gender { get; set; } = Gender.Unspecified;
 
 		public bool Foster { get; set; } = false;
 

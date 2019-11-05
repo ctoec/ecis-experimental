@@ -58,7 +58,7 @@ namespace Hedwig.Repositories
 			bool nativeHawaiianOrPacificIslander = false,
 			bool white = false,
 			bool hispanicOrLatinxEthnicity = false,
-			Gender? gender = null,
+			Gender gender = Gender.Unspecified,
 			bool foster = false,
 			int? familyId = null)
 		{
@@ -107,7 +107,7 @@ namespace Hedwig.Repositories
 			bool nativeHawaiianOrPacificIslander = false,
 			bool white = false,
 			bool hispanicOrLatinxEthnicity = false,
-			Gender? gender = null,
+			Gender gender = Gender.Unspecified,
 			bool foster = false,
 			int? familyId = null);
 	}

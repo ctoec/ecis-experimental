@@ -153,7 +153,7 @@ namespace HedwigTests.Integration.GraphQLMutations
 				Assert.Null(child.BirthCertificateId);
 				Assert.Null(child.BirthTown);
 				Assert.Null(child.BirthState);
-				Assert.Null(child.Gender);
+				Assert.Equal(Gender.Unspecified, child.Gender);
 				Assert.False(child.AmericanIndianOrAlaskaNative);
 				Assert.False(child.Asian);
 				Assert.False(child.BlackOrAfricanAmerican);
