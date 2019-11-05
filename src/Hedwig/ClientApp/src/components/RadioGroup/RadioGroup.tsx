@@ -52,7 +52,7 @@ export default function RadioGroup({
             }}
 						key={option.value}
 						name={groupName}
-						selected={selected === currentlySelected}
+						selected={option.value === currentlySelected}
 						className={horizontal ? 'grid-col flex-auto' : ''}
 					/>
 				))}

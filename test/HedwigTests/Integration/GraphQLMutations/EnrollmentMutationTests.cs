@@ -11,21 +11,23 @@ namespace HedwigTests.Integration.GraphQLMutations
 	public class EnrollmentMutationTests
 	{
 		[Fact]
-		public async Task Update_Enrollment_With_Entry_And_Exit()
+		public async Task Update_Enrollmentt()
 		{
 			using (var api = new TestApiProvider()) {
 				// If
 				var enrollment = EnrollmentHelper.CreateEnrollment(api.Context, entry: "2000-1-1", exit: "2000-2-2");
 				var entry = new DateTime(2019, 10, 10, 0, 0, 0);
 				var exit = new DateTime(2020, 10, 10, 0, 0, 0);
+				var age = Age.School;
 
 				// When
 				var response = await api.Client.PostGraphQLAsync(
 					$@"mutation {{
-						updateEnrollment (id: {enrollment.Id}, entry: ""{entry.ToString()}"", exit: ""{exit.ToString()}"") {{
+						updateEnrollment (id: {enrollment.Id}, entry: ""{entry.ToString()}"", exit: ""{exit.ToString()}"", age: {age}) {{
 							id
 							entry
 							exit
+							age
 						}}
 					}}"
 				);
@@ -36,6 +38,7 @@ namespace HedwigTests.Integration.GraphQLMutations
 				Assert.Equal(enrollment.Id, updated.Id);
 				Assert.Equal(entry, updated.Entry);
 				Assert.Equal(exit, updated.Exit);
+				Assert.Equal(age, updated.Age);
 			}
 		}
 
