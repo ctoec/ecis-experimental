@@ -1,5 +1,5 @@
 import React, { useState, FormEvent } from 'react';
-import { useMutation } from '@apollo/react-hooks';
+import useAuthMutation from '../../hooks/useAuthMutation';
 import { gql } from 'apollo-boost';
 import { ReportQuery_report } from '../../generated/ReportQuery';
 import { ReportSubmitMutation } from '../../generated/ReportSubmitMutation';
@@ -19,7 +19,7 @@ export default function ReportSubmitForm(report: ReportQuery_report) {
 	const [accredited, setAccredited] = useState(report.accredited);
 	const [submittedAt, setSubmittedAt] = useState(report.submittedAt);
 
-	const [updateReport] = useMutation<ReportSubmitMutation>(REPORT_SUBMIT_MUTATION, {
+	const [updateReport] = useAuthMutation<ReportSubmitMutation>(REPORT_SUBMIT_MUTATION, {
 		onCompleted: data => {
 			setSubmittedAt(data && data.submitCdcReport ? data.submitCdcReport.submittedAt : null);
 		},
