@@ -17,7 +17,8 @@ namespace Hedwig.Schema.Mutations
 				arguments: new QueryArguments(
 					new QueryArgument<NonNullGraphType<IntGraphType>>{ Name = "id" },
 					new QueryArgument<DateGraphType>{ Name = "entry" },
-					new QueryArgument<StringGraphType>{ Name = "exit" }
+					new QueryArgument<StringGraphType>{ Name = "exit" },
+					new QueryArgument<AgeEnumType> {Name = "age" }
 				),
 				resolve: async context =>
 				{
@@ -30,8 +31,13 @@ namespace Hedwig.Schema.Mutations
 						);
 					}
 
+					var age = context.GetArgument<Age?>("age");
 					var entry = context.GetArgument<DateTime?>("entry");
 					var exitStr = context.GetArgument<String>("exit");
+
+					if(age != null) {
+						enrollment.Age = age;
+					}
 
 					if (entry != null)
 					{
@@ -51,7 +57,7 @@ namespace Hedwig.Schema.Mutations
 						enrollment.Exit = exit;
 					}
 
-					return repository.UpdateEnrollment(enrollment);
+					return enrollment;
 				}
 			);
 		}

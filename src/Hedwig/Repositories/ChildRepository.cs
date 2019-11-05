@@ -21,9 +21,9 @@ namespace Hedwig.Repositories
 			return dict as IDictionary<Guid, Child>;
 		}
 
-		public Task<Child> GetChildByIdAsync(Guid id, DateTime? asOf = null)
+		public async Task<Child> GetChildByIdAsync(Guid id, DateTime? asOf = null)
 		{
-			return GetBaseQuery<Child>(asOf)
+			return await GetBaseQuery<Child>(asOf)
 				.Where(c => c.Id == id)
 				.SingleOrDefaultAsync();
 		}
@@ -36,6 +36,12 @@ namespace Hedwig.Repositories
 
 			return children.ToLookup(c => (int) c.FamilyId);
 		}
+
+		public Child UpdateFamily(Child child, Family family)
+		{
+			child.Family = family;
+			return child;
+		}
 	}
 
 	public interface IChildRepository
@@ -43,5 +49,6 @@ namespace Hedwig.Repositories
 		Task<IDictionary<Guid, Child>> GetChildrenByIdsAsync(IEnumerable<Guid> ids, DateTime? asOf = null);
 		Task<Child> GetChildByIdAsync(Guid id, DateTime? asOf = null);
 		Task<ILookup<int, Child>> GetChildrenByFamilyIdsAsync(IEnumerable<int> familyIds, DateTime? asOf = null);
+		Child UpdateFamily(Child child, Family family);
 	}
 }

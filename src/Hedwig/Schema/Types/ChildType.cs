@@ -16,8 +16,8 @@ namespace Hedwig.Schema.Types
 			Field(c => c.MiddleName, nullable: true);
 			Field(c => c.LastName);
 			Field(c => c.Suffix, nullable: true);
-			Field(c => c.Birthdate);
-			Field(c => c.Gender, type: typeof(NonNullGraphType<GenderEnumType>));
+			Field(c => c.Birthdate, type: typeof(DateGraphType));
+			Field(c => c.Gender, type: typeof(GenderEnumType));
 			Field(c => c.AmericanIndianOrAlaskaNative, nullable: true);
 			Field(c => c.Asian, nullable: true);
 			Field(c => c.BlackOrAfricanAmerican, nullable: true);

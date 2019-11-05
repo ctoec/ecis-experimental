@@ -56,5 +56,18 @@ namespace HedwigTests.Repositories
                 Assert.Null(resAsOf.First().Value.AddressLine1);
             }
         }
+
+        [Fact]
+        public async Task Get_Family_By_Id()
+        {
+            using (var context = new TestContextProvider().Context) {
+                var family = FamilyHelper.CreateFamily(context);
+
+                var familyRepo = new FamilyRepository(context);
+                var res = await familyRepo.GetFamilyByIdAsync(family.Id);
+
+                Assert.Equal(family.Id, res.Id);
+            }
+        }
     }
 }

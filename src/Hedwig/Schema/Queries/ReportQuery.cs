@@ -8,15 +8,15 @@ namespace Hedwig.Schema.Queries
     {
         public ReportQuery(IReportRepository repository)
         {
-            Field<ReportType>(
+            FieldAsync<ReportType>(
                 "report",
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<IdGraphType>> { Name = "id" }
                 ),
-                resolve: context => 
+                resolve: async context => 
                 {
                     var id = context.GetArgument<int>("id");
-                    return repository.GetReportByIdAsync(id);
+                    return await repository.GetReportByIdAsync(id);
                 }
             );
         }

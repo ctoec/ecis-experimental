@@ -9,18 +9,18 @@ namespace Hedwig.Schema.Queries
 	{
 		public ChildQuery(IChildRepository repository)
 		{
-			Field<ChildType>(
+			FieldAsync<ChildType>(
 				"child",
 				arguments: new QueryArguments(
 					new QueryArgument<NonNullGraphType<IdGraphType>>{ Name = "id" },
 					new QueryArgument<DateGraphType>{ Name = "asOf" }
 				),
-				resolve: context => 
+				resolve: async context => 
 				{
 					var id = context.GetArgument<Guid>("id");
 					var asOf = context.GetArgument<DateTime?>("asOf");
 					SetAsOfGlobal(context, asOf);
-					return repository.GetChildByIdAsync(id, asOf);
+					return await repository.GetChildByIdAsync(id, asOf);
 				}
 			);
 		}

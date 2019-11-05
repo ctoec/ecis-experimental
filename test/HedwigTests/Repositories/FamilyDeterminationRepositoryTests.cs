@@ -4,6 +4,7 @@ using Xunit;
 using Hedwig.Repositories;
 using HedwigTests.Helpers;
 using HedwigTests.Fixtures;
+using System;
 
 namespace HedwigTests.Repositories
 {
@@ -32,6 +33,44 @@ namespace HedwigTests.Repositories
 
 				// And no other site Ids are returned
 				Assert.False(res.Contains(family1.Id));
+			}
+		}
+
+		[Fact]
+		public async Task Get_Determination_By_Id()
+		{
+			using (var context = new TestContextProvider().Context) {
+				var determination = FamilyDeterminationHelper.CreateDetermination(context);
+
+				var determinationRepo = new FamilyDeterminationRepository(context);
+				var res = await determinationRepo.GetDeterminationByIdAsync(determination.Id);
+
+				Assert.Equal(determination.Id, res.Id);
+			}
+		}
+
+		[Fact]
+		public void Create_Family_Determination()
+		{
+			using(var context = new TestContextProvider().Context)
+			{
+				var numberOfPeople = 4;
+				var income = 20000M;
+				var determined = DateTime.Now;
+				var family = FamilyHelper.CreateFamily(context);
+
+				var determinationRepo = new FamilyDeterminationRepository(context);
+				var determination = determinationRepo.CreateFamilyDetermination(
+					numberOfPeople,
+					income,
+					determined,
+					family.Id
+				);
+
+				Assert.Equal(numberOfPeople, determination.NumberOfPeople);
+				Assert.Equal(income, determination.Income);
+				Assert.Equal(determined, determination.Determined);
+				Assert.Equal(family.Id, determination.FamilyId);
 			}
 		}
 	}

@@ -5,14 +5,16 @@ using Hedwig.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Hedwig.Migrations
+namespace hedwig.Migrations
 {
     [DbContext(typeof(HedwigContext))]
-    partial class HedwigContextModelSnapshot : ModelSnapshot
+    [Migration("20191104162026_AddBirthLocationSasidFosterNullableBirthDateAndGenderRemoveNullableBoolFromChild")]
+    partial class AddBirthLocationSasidFosterNullableBirthDateAndGenderRemoveNullableBoolFromChild
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,13 +86,11 @@ namespace Hedwig.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("Age");
-
                     b.Property<int?>("AuthorId");
 
                     b.Property<Guid>("ChildId");
 
-                    b.Property<DateTime?>("Entry");
+                    b.Property<DateTime>("Entry");
 
                     b.Property<DateTime?>("Exit");
 
