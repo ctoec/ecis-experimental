@@ -3,6 +3,7 @@ using GraphQL.Types;
 using System;
 using GraphQL.DataLoader;
 using Hedwig.Repositories;
+using Hedwig.Security;
 
 namespace Hedwig.Schema.Types
 {
@@ -25,6 +26,14 @@ namespace Hedwig.Schema.Types
 					return loader.LoadAsync(context.Source.FamilyId);
 				}
 			);
+		}
+		public AuthorizationRules Permissions(AuthorizationRules rules)
+		{
+			rules.DenyNot("IsAuthenticatedUserPolicy");
+			rules.Allow("IsDeveloperInDevPolicy");
+			rules.Allow("IsTestModePolicy");
+			rules.Deny();
+			return rules;
 		}
 	}
 }
