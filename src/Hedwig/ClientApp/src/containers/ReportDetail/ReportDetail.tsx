@@ -1,11 +1,12 @@
 import React from 'react';
-import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { useParams } from 'react-router-dom';
 import { ReportQuery } from '../../generated/ReportQuery';
 import ReportSubmitForm from './ReportSubmitForm';
 import monthFormatter from '../../utils/monthFormatter';
 import dateFormatter from '../../utils/dateFormatter';
+import useAuthQuery from '../../hooks/useAuthQuery';
+
 
 export const REPORT_QUERY = gql`
 	query ReportQuery($id: ID!) {
@@ -29,7 +30,7 @@ export const REPORT_QUERY = gql`
 
 export default function ReportDetail() {
 	let { id } = useParams();
-	const { loading, error, data } = useQuery<ReportQuery>(REPORT_QUERY, {
+	const { loading, error, data } = useAuthQuery<ReportQuery>(REPORT_QUERY, {
 		variables: { id },
 	});
 

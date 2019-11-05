@@ -7,25 +7,24 @@
 // ====================================================
 
 export interface ChildQuery_child_family {
-	__typename: 'FamilyType';
-	id: number;
-	caseNumber: number | null;
+  __typename: "FamilyType";
+  id: number;
 }
 
 export interface ChildQuery_child {
-	__typename: 'ChildType';
-	id: string;
-	firstName: string;
-	middleName: string | null;
-	lastName: string;
-	suffix: string | null;
-	family: ChildQuery_child_family | null;
+  __typename: "ChildType";
+  id: string;
+  firstName: string;
+  middleName: string | null;
+  lastName: string;
+  suffix: string | null;
+  family: ChildQuery_child_family | null;
 }
 
 export interface ChildQuery {
-	child: ChildQuery_child | null;
+  child: ChildQuery_child | null;
 }
 
 export interface ChildQueryVariables {
-	id: string;
+  id: string;
 }

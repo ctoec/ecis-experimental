@@ -10,7 +10,6 @@ export const CHILD_QUERY = gql`
 			suffix
 			family {
 				id
-				caseNumber
 			}
 		}
 	}

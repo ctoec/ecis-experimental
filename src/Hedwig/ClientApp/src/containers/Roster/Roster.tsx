@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import useAuthQuery from '../../hooks/useAuthQuery';
 import { gql } from 'apollo-boost';
 import { Link } from 'react-router-dom';
-import pluralize from 'pluralize';
 import { RosterQuery, RosterQuery_me_sites_enrollments } from '../../generated/RosterQuery';
 import nameFormatter from '../../utils/nameFormatter';
 import dateFormatter from '../../utils/dateFormatter';
@@ -33,8 +32,6 @@ export const ROSTER_QUERY = gql`
 						suffix
 					}
 					fundings {
-						entry
-						exit
 						source
 					}
 				}
