@@ -14,6 +14,7 @@ namespace Hedwig.Schema.Types
 			Field(e => e.Id);
 			Field<DateTime?>(e => e.Entry, type: typeof(DateGraphType), nullable: true);
 			Field<DateTime?>(e => e.Exit, type: typeof(DateGraphType), nullable: true);
+			Field(e => e.Age, type: typeof(NonNullGraphType<AgeEnumType>));
 			Field<NonNullGraphType<ChildType>>(
 				"child",
 				resolve: context =>
