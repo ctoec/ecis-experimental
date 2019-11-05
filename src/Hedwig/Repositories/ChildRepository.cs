@@ -42,6 +42,48 @@ namespace Hedwig.Repositories
 			child.Family = family;
 			return child;
 		}
+
+		public Child CreateChild(
+			string firstName,
+			string lastName,
+			string middleName = null,
+			string suffix = null,
+			DateTime? birthdate = null,
+			string birthCertificateId = null,
+			string birthTown = null,
+			string birthState = null,
+			bool americanIndianOrAlaskaNative = false,
+			bool asian = false,
+			bool blackOrAfricanAmerican = false,
+			bool nativeHawaiianOrPacificIslander = false,
+			bool white = false,
+			bool hispanicOrLatinxEthnicity = false,
+			Gender? gender = null,
+			bool foster = false,
+			int? familyId = null)
+		{
+			var child = new Child {
+				FirstName = firstName,
+				MiddleName = middleName,
+				LastName = lastName,
+				Suffix = suffix,
+				Birthdate = birthdate,
+				BirthCertificateId = birthCertificateId,
+				BirthTown = birthTown,
+				BirthState = birthState,
+				AmericanIndianOrAlaskaNative = americanIndianOrAlaskaNative,
+				Asian = asian,
+				BlackOrAfricanAmerican = blackOrAfricanAmerican,
+				NativeHawaiianOrPacificIslander = nativeHawaiianOrPacificIslander,
+				White = white,
+				HispanicOrLatinxEthnicity = hispanicOrLatinxEthnicity,
+				Gender = gender,
+				Foster = foster
+			};
+
+			_context.Add<Child>(child);
+			return child;
+		}
 	}
 
 	public interface IChildRepository
@@ -50,5 +92,23 @@ namespace Hedwig.Repositories
 		Task<Child> GetChildByIdAsync(Guid id, DateTime? asOf = null);
 		Task<ILookup<int, Child>> GetChildrenByFamilyIdsAsync(IEnumerable<int> familyIds, DateTime? asOf = null);
 		Child UpdateFamily(Child child, Family family);
+		Child CreateChild(
+			string firstName,
+			string lastName,
+			string middleName = null,
+			string suffix = null,
+			DateTime? birthdate = null,
+			string birthCertificateId = null,
+			string birthTown = null,
+			string birthState = null,
+			bool americanIndianOrAlaskaNative = false,
+			bool asian = false,
+			bool blackOrAfricanAmerican = false,
+			bool nativeHawaiianOrPacificIslander = false,
+			bool white = false,
+			bool hispanicOrLatinxEthnicity = false,
+			Gender? gender = null,
+			bool foster = false,
+			int? familyId = null);
 	}
 }
