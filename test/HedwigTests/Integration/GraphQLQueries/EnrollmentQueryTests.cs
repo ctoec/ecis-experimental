@@ -105,20 +105,18 @@ namespace HedwigTests.Integration.GraphQLQueries
 			{
 				// Given
 				var enrollment = EnrollmentHelper.CreateEnrollment(api.Context);
-				var funding = FundingHelper.CreateFunding(api.Context, enrollment: enrollment);
 				var asOf = Utilities.GetAsOfWithSleep();
 
-				var exit = DateTime.Now.AddDays(3).Date;
-				funding.Exit = exit;
+				var funding = FundingHelper.CreateFunding(api.Context, enrollment: enrollment);
 				api.Context.SaveChanges();
 
 				// When
 				var responseCurrent = await api.Client.GetGraphQLAsync(
 						$@"{{
                         enrollment(id: ""{enrollment.Id}"") {{
-                            fundings {{
-                                exit
-                            }}
+							fundings {{
+								id
+							}}
                         }}
                     }}"
 				);
@@ -126,22 +124,20 @@ namespace HedwigTests.Integration.GraphQLQueries
 				responseCurrent.EnsureSuccessStatusCode();
 				Enrollment enrollmentCurrent = await responseCurrent.GetObjectFromGraphQLResponse<Enrollment>();
 				Assert.Single(enrollmentCurrent.Fundings);
-				Assert.Equal(exit, enrollmentCurrent.Fundings.First().Exit);
 
 				var responseAsOf = await api.Client.GetGraphQLAsync(
 						$@"{{
                         enrollment(asOf: ""{asOf}"", id: ""{enrollment.Id}"") {{
-                            fundings {{
-                                exit
-                            }}
+							fundings {{
+								id
+							}}
                         }}
                     }}"
 				);
 
 				responseAsOf.EnsureSuccessStatusCode();
 				Enrollment enrollmentAsOf = await responseAsOf.GetObjectFromGraphQLResponse<Enrollment>();
-				Assert.Single(enrollmentAsOf.Fundings);
-				Assert.False(enrollmentAsOf.Fundings.First().Exit.HasValue);
+				Assert.Empty(enrollmentAsOf.Fundings);
 			}
 		}
 	}
