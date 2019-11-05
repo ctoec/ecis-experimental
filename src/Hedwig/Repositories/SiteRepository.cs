@@ -45,11 +45,17 @@ namespace Hedwig.Repositories
 
 			return sites;
 		}
+
+		public async Task<Site> GetSiteByIdAsync(int id)
+		{
+			return await _context.Sites.SingleOrDefaultAsync(s => s.Id == id);
+		}
 	}
 
 	public interface ISiteRepository
 	{
 		Task<ILookup<int, Site>> GetSitesByOrganizationIdsAsync(IEnumerable<int> organizationIds);
 		Task<IEnumerable<Site>> GetSitesByUserIdAsync(int userId);
+		Task<Site> GetSiteByIdAsync(int id);
 	}
 }

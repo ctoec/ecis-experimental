@@ -23,7 +23,7 @@ namespace Hedwig.Schema.Mutations
 				resolve: async context =>
 				{
 					var id = context.GetArgument<int>("id");
-					var enrollment = (Enrollment) await repository.GetEnrollmentByIdAsync(id);
+					var enrollment = await repository.GetEnrollmentByIdAsync(id);
 					if (enrollment == null)
 					{
 						throw new ExecutionError(
@@ -50,7 +50,7 @@ namespace Hedwig.Schema.Mutations
 						try {
 							exit = ValueConverter.ConvertTo<DateTime>(exitStr);
 						}
-						catch (FormatException e)
+						catch (FormatException)
 						{
 							exit = null;
 						}

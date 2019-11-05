@@ -5,5 +5,6 @@ namespace Hedwig.Models
 		Male = 0,
 		Female = 1,
 		Unknown = 2,
+		Unspecified = 3
 	}
 }
