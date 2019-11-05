@@ -3,6 +3,8 @@ import useAuthMutation from '../../hooks/useAuthMutation';
 import { gql } from 'apollo-boost';
 import { ReportQuery_report } from '../../generated/ReportQuery';
 import { ReportSubmitMutation } from '../../generated/ReportSubmitMutation';
+import Alert from '../../components/Alert/Alert';
+import { AlertProps } from '../../components/Alert/Alert';
 
 export const REPORT_SUBMIT_MUTATION = gql`
 	mutation ReportSubmitMutation($id: Int!, $accredited: Boolean!) {
@@ -17,14 +19,17 @@ export const REPORT_SUBMIT_MUTATION = gql`
 
 export default function ReportSubmitForm(report: ReportQuery_report) {
 	const [accredited, setAccredited] = useState(report.accredited);
-	const [submittedAt, setSubmittedAt] = useState(report.submittedAt);
+  const [submittedAt, setSubmittedAt] = useState(report.submittedAt);
+  const [alert, setAlert] = useState<AlertProps | null>(null);
 
 	const [updateReport] = useAuthMutation<ReportSubmitMutation>(REPORT_SUBMIT_MUTATION, {
 		onCompleted: data => {
-			setSubmittedAt(data && data.submitCdcReport ? data.submitCdcReport.submittedAt : null);
+      setSubmittedAt(data && data.submitCdcReport ? data.submitCdcReport.submittedAt : null);
+      setAlert({ type: 'success', heading: 'Report submitted', text: 'You have successfully submitted this report.' });
 		},
 		onError: error => {
-			console.log(error);
+      console.log(error);
+      setAlert({ type: 'error', heading: 'Report not submitted', text: error.message })
 		},
 	});
 
@@ -35,6 +40,7 @@ export default function ReportSubmitForm(report: ReportQuery_report) {
 
 	return (
 		<form className="usa-form" onSubmit={onSubmit}>
+      {alert && <Alert {...alert} />}
 			{submittedAt && (
 				<p>
 					<b>Submitted At:</b> {submittedAt}{' '}
