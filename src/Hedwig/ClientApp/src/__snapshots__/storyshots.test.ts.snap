@@ -15,11 +15,11 @@ exports[`Storyshots Alert Error 1`] = `
     <div
       className="usa-alert__body"
     >
-      <h3
+      <h2
         className="usa-alert__heading"
       >
         Hark, an error!
-      </h3>
+      </h2>
       <p
         className="usa-alert__text"
       >
@@ -44,11 +44,11 @@ exports[`Storyshots Alert Info 1`] = `
     <div
       className="usa-alert__body"
     >
-      <h3
+      <h2
         className="usa-alert__heading"
       >
         Information
-      </h3>
+      </h2>
       <p
         className="usa-alert__text"
       >
@@ -73,11 +73,11 @@ exports[`Storyshots Alert Success 1`] = `
     <div
       className="usa-alert__body"
     >
-      <h3
+      <h2
         className="usa-alert__heading"
       >
         Success alert!
-      </h3>
+      </h2>
       <p
         className="usa-alert__text"
       >
@@ -102,11 +102,11 @@ exports[`Storyshots Alert Warning 1`] = `
     <div
       className="usa-alert__body"
     >
-      <h3
+      <h2
         className="usa-alert__heading"
       >
         Watch out!
-      </h3>
+      </h2>
       <p
         className="usa-alert__text"
       >
