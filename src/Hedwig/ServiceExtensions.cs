@@ -85,6 +85,7 @@ namespace Hedwig
 			services.AddScoped<IAppSubMutation, ReportMutation>();
 			services.AddScoped<IAppSubMutation, EnrollmentMutation>();
 			services.AddScoped<IAppSubMutation, FamilyMutation>();
+			services.AddScoped<IAppSubMutation, FamilyDeterminationMutation>();
 
 			// Add Middlewares
 			services.AddScoped<IFieldsMiddleware, CommitMutationFieldsMiddleware>();
