@@ -56,12 +56,16 @@ export default function EnrollmentNew({
 			throw new Error('EnrollmentNew called afterSave before successful save');
 		}
 
+		// Enrollments begin at /roster/sites/:siteId/enroll. We replace this URL in the
+		// browser history once we have an ID for the child.
 		if (!childId) {
 			history.replace(`/roster/enrollments/${data.child.id}/new/${sectionId}`);
 		}
 
 		const currentIndex = sections.findIndex(section => section.key === sectionId);
 
+		// If we're on the last section, we'll move to a final 'review' section where all
+		// steps are collapsed and we can 'Finish' the enrollment.
 		if (currentIndex === sections.length - 1) {
 			history.push(`/roster/enrollments/${data.child.id}/new/review`);
 		} else {

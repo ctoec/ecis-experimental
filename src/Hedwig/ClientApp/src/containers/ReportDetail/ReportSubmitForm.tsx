@@ -19,7 +19,6 @@ export default function ReportSubmitForm(report: ReportQuery_report) {
 	const [accredited, setAccredited] = useState(report.accredited);
 	const [submittedAt, setSubmittedAt] = useState(report.submittedAt);
 
-	console.log(REPORT_SUBMIT_MUTATION);
 	const [updateReport] = useMutation<ReportSubmitMutation>(REPORT_SUBMIT_MUTATION, {
 		onCompleted: data => {
 			setSubmittedAt(data && data.submitCdcReport ? data.submitCdcReport.submittedAt : null);
