@@ -2,55 +2,57 @@ import React from 'react';
 import { Section } from '../enrollmentTypes';
 import Button from '../../../components/Button/Button';
 
-const FamilyInfo: Section = {
-	key: 'family-information',
-	name: 'Family information',
-	status: () => 'complete',
+const FamilyInfo = {};
 
-	Summary: ({ child }) => {
-		if (!child || !child.family) {
-			return <div></div>;
-		}
+// const FamilyInfo: Section = {
+// 	key: 'family-information',
+// 	name: 'Family information',
+// 	status: () => 'complete',
 
-		return (
-			<div className="FamilyInfoSummary">
-				<p>Care 4 Kids case number: {child.family.caseNumber ? child.family.caseNumber : ''}</p>
-			</div>
-		);
-	},
+// 	Summary: ({ child }) => {
+// 		if (!child || !child.family) {
+// 			return <div></div>;
+// 		}
 
-	Form: ({ child, afterSave }) => {
-		if (!child) {
-			throw new Error('FamilyInfo rendered without a child');
-		}
+// 		return (
+// 			<div className="FamilyInfoSummary">
+// 				<p>Care 4 Kids case number: {child.family.caseNumber ? child.family.caseNumber : ''}</p>
+// 			</div>
+// 		);
+// 	},
 
-		const [caseNumber, updateCaseNumber] = React.useState(
-			child.family ? child.family.caseNumber : null
-		);
+// 	Form: ({ child, afterSave }) => {
+// 		if (!child) {
+// 			throw new Error('FamilyInfo rendered without a child');
+// 		}
 
-		const save = () => {
-			// Mutate the data here.
-			if (afterSave) {
-				afterSave();
-			}
-		};
+// 		const [caseNumber, updateCaseNumber] = React.useState(
+// 			child.family ? child.family.caseNumber : null
+// 		);
 
-		return (
-			<div className="FamilyInfoForm">
-				<input
-					type="text"
-					name="caseNumber"
-					placeholder="Care 4 Kids case number"
-					onChange={event => updateCaseNumber(parseInt(event.target.value, 10))}
-					value={caseNumber || ''}
-				/>
-				<br />
-				<br />
+// 		const save = () => {
+// 			// Mutate the data here.
+// 			if (afterSave) {
+// 				afterSave();
+// 			}
+// 		};
 
-				<Button text="Save" onClick={save} />
-			</div>
-		);
-	},
-};
+// 		return (
+// 			<div className="FamilyInfoForm">
+// 				<input
+// 					type="text"
+// 					name="caseNumber"
+// 					placeholder="Care 4 Kids case number"
+// 					onChange={event => updateCaseNumber(parseInt(event.target.value, 10))}
+// 					value={caseNumber || ''}
+// 				/>
+// 				<br />
+// 				<br />
+
+// 				<Button text="Save" onClick={save} />
+// 			</div>
+// 		);
+// 	},
+// };
 
 export default FamilyInfo;

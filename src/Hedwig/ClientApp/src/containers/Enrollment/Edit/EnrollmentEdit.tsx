@@ -5,7 +5,7 @@ import { History } from 'history';
 import { CHILD_QUERY } from '../enrollmentQueries';
 import { ChildQuery } from '../../../generated/ChildQuery';
 import ChildInfo from '../_sections/ChildInfo';
-import FamilyInfo from '../_sections/FamilyInfo';
+// import FamilyInfo from '../_sections/FamilyInfo';
 import FamilyIncome from '../_sections/FamilyIncome';
 import EnrollmentFunding from '../_sections/EnrollmentFunding';
 import PageNotFound from '../../PageNotFound/PageNotFound';
@@ -22,7 +22,7 @@ type EnrollmentEditParams = {
 
 const sections: { [key: string]: Section } = {
 	'child-information': ChildInfo,
-	'family-information': FamilyInfo,
+	// 'family-information': FamilyInfo,
 	'family-income': FamilyIncome,
 	'enrollment-funding': EnrollmentFunding,
 };
