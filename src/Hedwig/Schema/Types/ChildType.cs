@@ -16,14 +16,18 @@ namespace Hedwig.Schema.Types
 			Field(c => c.MiddleName, nullable: true);
 			Field(c => c.LastName);
 			Field(c => c.Suffix, nullable: true);
-			Field(c => c.Birthdate, type: typeof(DateGraphType));
-			Field(c => c.Gender, type: typeof(GenderEnumType));
-			Field(c => c.AmericanIndianOrAlaskaNative, nullable: true);
-			Field(c => c.Asian, nullable: true);
-			Field(c => c.BlackOrAfricanAmerican, nullable: true);
-			Field(c => c.NativeHawaiianOrPacificIslander, nullable: true);
-			Field(c => c.White, nullable: true);
-			Field(c => c.HispanicOrLatinxEthnicity, nullable: true);
+			Field(c => c.Birthdate, type: typeof(DateGraphType), nullable: true);
+			Field(c => c.BirthCertificateId, nullable: true);
+			Field(c => c.BirthTown, nullable: true);
+			Field(c => c.BirthState, nullable: true);
+			Field(c => c.Gender, type: typeof(GenderEnumType), nullable: true);
+			Field(c => c.AmericanIndianOrAlaskaNative);
+			Field(c => c.Asian);
+			Field(c => c.BlackOrAfricanAmerican);
+			Field(c => c.NativeHawaiianOrPacificIslander);
+			Field(c => c.White);
+			Field(c => c.HispanicOrLatinxEthnicity);
+			Field(c => c.Foster);
 			Field<FamilyType>(
 				"family",
 				resolve: context =>
