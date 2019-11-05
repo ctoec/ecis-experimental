@@ -2,7 +2,7 @@ install:
 	dotnet restore && cd ClientApp && yarn install
 
 dc-start:
-	./dc up -d --build client
+	./dc up -d --build 
 
 db-migrate:
 	dotnet ef database update

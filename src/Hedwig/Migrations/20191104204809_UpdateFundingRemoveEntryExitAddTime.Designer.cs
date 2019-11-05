@@ -5,14 +5,16 @@ using Hedwig.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Hedwig.Migrations
+namespace hedwig.Migrations
 {
     [DbContext(typeof(HedwigContext))]
-    partial class HedwigContextModelSnapshot : ModelSnapshot
+    [Migration("20191104204809_UpdateFundingRemoveEntryExitAddTime")]
+    partial class UpdateFundingRemoveEntryExitAddTime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,21 +27,15 @@ namespace Hedwig.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool>("AmericanIndianOrAlaskaNative");
+                    b.Property<bool?>("AmericanIndianOrAlaskaNative");
 
-                    b.Property<bool>("Asian");
+                    b.Property<bool?>("Asian");
 
                     b.Property<int?>("AuthorId");
 
-                    b.Property<string>("BirthCertificateId");
+                    b.Property<DateTime>("Birthdate");
 
-                    b.Property<string>("BirthState");
-
-                    b.Property<string>("BirthTown");
-
-                    b.Property<DateTime?>("Birthdate");
-
-                    b.Property<bool>("BlackOrAfricanAmerican");
+                    b.Property<bool?>("BlackOrAfricanAmerican");
 
                     b.Property<int?>("FamilyId");
 
@@ -47,11 +43,9 @@ namespace Hedwig.Migrations
                         .IsRequired()
                         .HasMaxLength(35);
 
-                    b.Property<bool>("Foster");
-
                     b.Property<int>("Gender");
 
-                    b.Property<bool>("HispanicOrLatinxEthnicity");
+                    b.Property<bool?>("HispanicOrLatinxEthnicity");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -60,14 +54,12 @@ namespace Hedwig.Migrations
                     b.Property<string>("MiddleName")
                         .HasMaxLength(35);
 
-                    b.Property<bool>("NativeHawaiianOrPacificIslander");
-
-                    b.Property<string>("Sasid");
+                    b.Property<bool?>("NativeHawaiianOrPacificIslander");
 
                     b.Property<string>("Suffix")
                         .HasMaxLength(10);
 
-                    b.Property<bool>("White");
+                    b.Property<bool?>("White");
 
                     b.HasKey("Id");
 
@@ -84,13 +76,11 @@ namespace Hedwig.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("Age");
-
                     b.Property<int?>("AuthorId");
 
                     b.Property<Guid>("ChildId");
 
-                    b.Property<DateTime?>("Entry");
+                    b.Property<DateTime>("Entry");
 
                     b.Property<DateTime?>("Exit");
 

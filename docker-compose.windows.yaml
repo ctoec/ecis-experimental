@@ -31,8 +31,6 @@ services:
     entrypoint:
       - sh
       - /entrypoint.sh
-    depends_on:
-      - db
   client:
     build:
       context: .
@@ -49,8 +47,6 @@ services:
     entrypoint:
       - sh
       - /entrypoint.sh
-    depends_on:
-      - backend
   openid:
     build:
       context: .
