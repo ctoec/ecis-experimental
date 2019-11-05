@@ -25,6 +25,7 @@ export const ROSTER_QUERY = gql`
 					entry
 					exit
 					child {
+            id
 						firstName
 						middleName
 						lastName
@@ -84,9 +85,9 @@ export default function Roster() {
 			{
 				name: 'Date of birth',
 				cell: ({ row }) => (
-					<td className="oec-table__cell--tabular-nums">{dateFormatter(row.child.birthdate)}</td>
+					<td className="oec-table__cell--tabular-nums">{row.child.birthdate && dateFormatter(row.child.birthdate)}</td>
 				),
-				sort: row => row.child.birthdate,
+				sort: row => row.child.birthdate || 0,
 			},
 			{
 				name: 'Funding',

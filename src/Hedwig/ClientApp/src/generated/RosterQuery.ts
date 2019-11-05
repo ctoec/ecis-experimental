@@ -10,6 +10,7 @@ import { FundingSource } from "./globalTypes";
 
 export interface RosterQuery_me_sites_enrollments_child {
   __typename: "ChildType";
+  id: string;
   firstName: string;
   middleName: string | null;
   lastName: string;

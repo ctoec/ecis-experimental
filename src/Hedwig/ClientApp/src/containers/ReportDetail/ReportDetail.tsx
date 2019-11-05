@@ -38,7 +38,6 @@ export default function ReportDetail() {
 		return <div className="Report"></div>;
 	}
 
-	console.log(data);
 	return (
 		<div className="Report">
 			<section className="grid-container">
