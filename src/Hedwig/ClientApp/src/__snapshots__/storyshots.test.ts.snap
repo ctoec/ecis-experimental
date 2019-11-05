@@ -1,5 +1,122 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Storyshots Alert Error 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-alert usa-alert--error"
+    role="alert"
+  >
+    <div
+      className="usa-alert__body"
+    >
+      <h2
+        className="usa-alert__heading"
+      >
+        Hark, an error!
+      </h2>
+      <p
+        className="usa-alert__text"
+      >
+        Something's not right.
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Alert Info 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-alert usa-alert--info"
+  >
+    <div
+      className="usa-alert__body"
+    >
+      <h2
+        className="usa-alert__heading"
+      >
+        Information
+      </h2>
+      <p
+        className="usa-alert__text"
+      >
+        Neutral text here.
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Alert Success 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-alert usa-alert--success"
+  >
+    <div
+      className="usa-alert__body"
+    >
+      <h2
+        className="usa-alert__heading"
+      >
+        Success alert!
+      </h2>
+      <p
+        className="usa-alert__text"
+      >
+        Good job, you.
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Alert Warning 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-alert usa-alert--warning"
+  >
+    <div
+      className="usa-alert__body"
+    >
+      <h2
+        className="usa-alert__heading"
+      >
+        Watch out!
+      </h2>
+      <p
+        className="usa-alert__text"
+      >
+        Is that what you meant to do?
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Storyshots Button Attention needed 1`] = `
 <div
   style={
