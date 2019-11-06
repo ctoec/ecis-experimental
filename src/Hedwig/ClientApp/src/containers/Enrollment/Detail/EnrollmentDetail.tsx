@@ -8,6 +8,7 @@ import FamilyIncome from '../_sections/FamilyIncome';
 import EnrollmentFunding from '../_sections/EnrollmentFunding';
 import { Link } from 'react-router-dom';
 import nameFormatter from '../../../utils/nameFormatter';
+import Alert from '../../../components/Alert/Alert';
 
 type EnrollmentDetailParams = {
 	match: {
@@ -38,6 +39,7 @@ export default function EnrollmentDetail({
 		<div className="EnrollmentDetail">
 			<section className="grid-container">
 				<h1>{nameFormatter(child)}</h1>
+                <Alert type="success" heading="Enrolled" text={nameFormatter(child) + ' has been enrolled.'}  />
 				{sections.map(section => (
 					<section key={section.key} className="hedwig-enrollment-details-section">
 						<div className="hedwig-enrollment-details-section__content">
