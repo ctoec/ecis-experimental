@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Hedwig.Models;
 using Hedwig.Repositories;
 using GraphQL;
@@ -24,21 +25,37 @@ namespace Hedwig.Schema.Types
 					var from = context.GetArgument<DateTime?>("from");
 					var to = context.GetArgument<DateTime?>("to");
 					ValidateDateRangeArguments(from, to);
-					 
+
 					DateTime? asOf = GetAsOfGlobal(context);
-					String loaderCacheKey = $"GetEnrollmentsBySiteIdsAsync{asOf.ToString()}{from.ToString()}{to.ToString()}";
-					var loader = dataLoader.Context.GetOrAddCollectionBatchLoader<int, Enrollment>(
-						loaderCacheKey,
-						(ids) => enrollments.GetEnrollmentsBySiteIdsAsync(ids, asOf, from, to));
+
+					IDataLoader<int, IEnumerable<Enrollment>> loader = null;
+					if (from.HasValue && to.HasValue)
+					{
+						String loaderCacheKey = $"GetEnrollmentsBySiteIdsAsync{asOf.ToString()}{from.ToString()}{to.ToString()}";
+						loader = dataLoader.Context.GetOrAddCollectionBatchLoader<int, Enrollment>(
+							loaderCacheKey,
+							(ids) => enrollments.GetEnrollmentsBySiteIdsAsync(ids, asOf, from, to)
+						);
+					}
+					else
+					{
+						String loaderCacheKey = $"GetEnrollmentsBySiteIdsWithIncompleteAsync{asOf.ToString()}{from.ToString()}{to.ToString()}";
+						loader = dataLoader.Context.GetOrAddCollectionBatchLoader<int, Enrollment>(
+							loaderCacheKey,
+							(ids) => enrollments.GetEnrollmentsBySiteIdsAsync(ids, asOf, from, to)
+						);
+					}
+
 					return loader.LoadAsync(context.Source.Id);
 				}
 			);
 		}
-        private static void ValidateDateRangeArguments(DateTime? from, DateTime? to)
+
+		private static void ValidateDateRangeArguments(DateTime? from, DateTime? to)
 		{
-			if(from.HasValue != to.HasValue) {
-            	throw new ExecutionError("Both from and to must be supplied");
-			}	
+			if (from.HasValue != to.HasValue) {
+				throw new ExecutionError("Both from and to must be supplied");
+			}
 		}
 	}
 }
