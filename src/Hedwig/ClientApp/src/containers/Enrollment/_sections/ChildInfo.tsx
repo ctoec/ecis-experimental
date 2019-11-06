@@ -271,7 +271,7 @@ const ChildInfo: Section = {
 				</div>
 
 				<h3>Race</h3>
-				<p>As identified by family</p>
+				<p className="oec-form-helper">As identified by family</p>
 				<Checklist
 					groupName="race"
 					legend="Race"
@@ -310,7 +310,7 @@ const ChildInfo: Section = {
 				/>
 
 				<h3>Ethnicity</h3>
-				<p>As identified by family</p>
+				<p className="oec-form-helper">As identified by family</p>
 				<RadioGroup
 					groupName="ethnicity"
 					legend="Ethnicity"
@@ -329,7 +329,7 @@ const ChildInfo: Section = {
 				/>
 
 				<h3>Gender</h3>
-				<p>As identified by family</p>
+				<p className="oec-form-helper">As identified by family</p>
 				<Dropdown
 					options={[
 						{
