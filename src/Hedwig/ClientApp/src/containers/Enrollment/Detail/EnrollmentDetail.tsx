@@ -3,7 +3,7 @@ import useAuthQuery from '../../../hooks/useAuthQuery';
 import { CHILD_QUERY } from '../enrollmentQueries';
 import { ChildQuery } from '../../../generated/ChildQuery';
 import ChildInfo from '../_sections/ChildInfo';
-import FamilyInfo from '../_sections/FamilyInfo';
+// import FamilyInfo from '../_sections/FamilyInfo';
 import FamilyIncome from '../_sections/FamilyIncome';
 import EnrollmentFunding from '../_sections/EnrollmentFunding';
 import { Link } from 'react-router-dom';
@@ -17,7 +17,8 @@ type EnrollmentDetailParams = {
 	};
 };
 
-const sections = [ChildInfo, FamilyInfo, FamilyIncome, EnrollmentFunding];
+// const sections = [ChildInfo, FamilyInfo, FamilyIncome, EnrollmentFunding];
+const sections = [ChildInfo, FamilyIncome, EnrollmentFunding];
 
 export default function EnrollmentDetail({
 	match: {

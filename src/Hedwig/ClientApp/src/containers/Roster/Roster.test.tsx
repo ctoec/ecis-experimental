@@ -14,6 +14,7 @@ const fakeDate = '2019-09-30';
 
 const earlierFakeEnrollment = {
 	child: {
+    id: 1,
 		firstName: 'James',
 		middleName: 'Sirius',
 		lastName: 'Potter',
@@ -27,6 +28,7 @@ const earlierFakeEnrollment = {
 };
 const laterFakeEnrollment = {
 	child: {
+    id: 2,
 		firstName: 'Lily',
 		middleName: 'Luna',
 		lastName: 'Potter',
