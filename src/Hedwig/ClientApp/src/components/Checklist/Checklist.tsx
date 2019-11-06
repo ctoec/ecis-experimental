@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Checkbox from './Checkbox';
 
 type CheckboxOptions = {
@@ -6,12 +6,12 @@ type CheckboxOptions = {
 	value: string;
 	checked: boolean;
 	disabled?: boolean;
+	onChange: (event: React.ChangeEvent<HTMLInputElement>) => any;
 };
 
 type ChecklistProps = {
 	options: CheckboxOptions[];
 	groupName: string;
-	onClick: (value: string) => any;
 	legend: string;
 	horizontal?: boolean;
 	error?: string;
@@ -20,7 +20,6 @@ type ChecklistProps = {
 export default function Checklist({
 	options,
 	groupName,
-	onClick,
 	horizontal,
 	legend,
 	error,
@@ -38,9 +37,7 @@ export default function Checklist({
 					<Checkbox
 						value={option.value}
 						text={option.text}
-						onClick={event => {
-							onClick(event.target.value);
-						}}
+						onChange={option.onChange}
 						key={option.value}
 						name={groupName}
 						checked={option.checked}

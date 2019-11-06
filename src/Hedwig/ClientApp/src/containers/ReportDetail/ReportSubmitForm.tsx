@@ -30,6 +30,7 @@ export default function ReportSubmitForm(report: ReportQuery_report) {
 				text: 'You have successfully submitted this report.',
 			});
 		},
+
 		onError: error => {
 			console.log(error);
 			setAlert({ type: 'error', heading: 'Report not submitted', text: error.message });

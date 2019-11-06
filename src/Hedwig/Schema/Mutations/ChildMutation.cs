@@ -20,11 +20,12 @@ namespace Hedwig.Schema.Mutations
 			FieldAsync<ChildType>(
 				"createChildWithSiteEnrollment",
 				arguments: new QueryArguments(
+				  new QueryArgument<StringGraphType>{ Name = "sasid" },
 					new QueryArgument<NonNullGraphType<StringGraphType>>{ Name = "firstName" },
 					new QueryArgument<StringGraphType>{ Name = "middleName" },
 					new QueryArgument<NonNullGraphType<StringGraphType>>{ Name = "lastName" },
 					new QueryArgument<StringGraphType>{ Name = "suffix" },
-					new QueryArgument<DateGraphType>{ Name = "birthdate" },
+					new QueryArgument<StringGraphType>{ Name = "birthdate" },
 					new QueryArgument<StringGraphType>{ Name = "birthCertificateId" },
 					new QueryArgument<StringGraphType>{ Name = "birthTown" },
 					new QueryArgument<StringGraphType>{ Name = "birthState" },
@@ -40,11 +41,12 @@ namespace Hedwig.Schema.Mutations
 				),
 				resolve: async context =>
 				{
+					var sasid = context.GetArgument<string>("sasid");
 					var firstName = context.GetArgument<string>("firstName");
 					var middleName = context.GetArgument<string>("middleName");
 					var lastName = context.GetArgument<string>("lastName");
 					var suffix = context.GetArgument<string>("suffix");
-					var birthdate = context.GetArgument<DateTime?>("birthdate");
+					var birthdateStr = context.GetArgument<string>("birthdate");
 					var birthCertificateId = context.GetArgument<string>("birthCertificateId");
 					var birthTown = context.GetArgument<string>("birthTown");
 					var birthState = context.GetArgument<string>("birthState");
@@ -66,7 +68,20 @@ namespace Hedwig.Schema.Mutations
 						);
 					}
 
+					DateTime? birthdate = null;
+
+					if (birthdateStr != null)
+					{
+						try {
+							birthdate = ValueConverter.ConvertTo<DateTime>(birthdateStr);
+						}
+						catch (FormatException)
+						{
+						}
+					}
+
 					var child = repository.CreateChild(
+					  sasid: sasid,
 						firstName: firstName,
 						middleName: middleName,
 						lastName: lastName,
@@ -84,7 +99,7 @@ namespace Hedwig.Schema.Mutations
 						gender: gender,
 						foster: foster
 					);
-					
+
 					enrollmentRepo.CreateEnrollment(child.Id, site.Id);
 
 					return child;
@@ -94,6 +109,7 @@ namespace Hedwig.Schema.Mutations
 				"updateChild",
 				arguments: new QueryArguments(
 					new QueryArgument<NonNullGraphType<StringGraphType>>{ Name = "id" },
+				  new QueryArgument<StringGraphType>{ Name = "sasid" },
 					new QueryArgument<StringGraphType>{ Name = "firstName" },
 					new QueryArgument<StringGraphType>{ Name = "middleName" },
 					new QueryArgument<StringGraphType>{ Name = "lastName" },
@@ -123,6 +139,7 @@ namespace Hedwig.Schema.Mutations
 						);
 					}
 
+					var sasid = context.GetArgument<string>("sasid");
 					var firstName = context.GetArgument<string>("firstName");
 					var middleName = context.GetArgument<string>("middleName");
 					var lastName = context.GetArgument<string>("lastName");
@@ -140,6 +157,10 @@ namespace Hedwig.Schema.Mutations
 					var hispanicOrLatinxEthnicity = context.GetArgument<bool?>("hispanicOrLatinxEthnicity");
 					var foster = context.GetArgument<bool?>("foster");
 
+					if (sasid != null)
+					{
+						child.Sasid = sasid;
+					}
 					if (firstName != null)
 					{
 						child.FirstName = firstName;

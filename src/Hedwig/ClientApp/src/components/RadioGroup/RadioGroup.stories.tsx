@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import RadioGroup from './RadioGroup';
 
-const onClick = action('onClick');
+const onChange = action('onChange');
 const options = [
 	{
 		text: 'Option one',
@@ -21,7 +21,7 @@ storiesOf('RadioGroup', module)
 			<RadioGroup
 				options={options}
 				groupName="storybook-radio-group"
-				onClick={onClick}
+				onChange={onChange}
 				legend="Storybook radio buttons"
 			/>
 		);
@@ -31,7 +31,7 @@ storiesOf('RadioGroup', module)
 			<RadioGroup
 				options={options}
 				groupName="storybook-radio-group-2"
-				onClick={onClick}
+				onChange={onChange}
 				legend="Storybook radio buttons"
 				horizontal={true}
 			/>
@@ -42,7 +42,7 @@ storiesOf('RadioGroup', module)
 			<RadioGroup
 				options={options}
 				groupName="storybook-radio-group-default-selection"
-				onClick={onClick}
+				onChange={onChange}
 				legend="Storybook radio buttons"
 				selected="one"
 			/>
@@ -53,10 +53,9 @@ storiesOf('RadioGroup', module)
 			<RadioGroup
 				options={options}
 				groupName="storybook-radio-group-with-error"
-				onClick={onClick}
+				onChange={onChange}
 				legend="Storybook radio buttons"
-				showError={true}
-				errorMessage="You  must select one or two."
+				error="You  must select one or two."
 			/>
 		);
 	});

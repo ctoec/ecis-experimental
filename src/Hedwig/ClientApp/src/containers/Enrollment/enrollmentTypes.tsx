@@ -4,7 +4,7 @@ import { StepStatus } from '../../components/StepList/StepList';
 export type SectionProps = {
 	child?: ChildQuery_child | null;
 	siteId?: string;
-	afterSave?: () => void;
+	afterSave?: (child: ChildQuery_child) => void;
 };
 
 export interface Section {

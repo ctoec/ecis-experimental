@@ -3,10 +3,7 @@ import { useMutation, MutationHookOptions } from '@apollo/react-hooks';
 import { DocumentNode } from 'graphql';
 import LoginContext from '../contexts/Login/LoginContext';
 
-export default <T>(
-	mutation: DocumentNode,
-	options: MutationHookOptions = {}
-) => {
+export default <T>(mutation: DocumentNode, options: MutationHookOptions = {}) => {
 	const { accessToken, withFreshToken } = useContext(LoginContext);
 
 	useEffect(() => {
@@ -20,6 +17,5 @@ export default <T>(
 				Authorization: accessToken ? `Bearer ${accessToken}` : '',
 			},
 		},
-		fetchPolicy: 'no-cache',
 	});
 };
