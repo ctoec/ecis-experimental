@@ -14,9 +14,9 @@ type LegendProps = {
 
 export default function Legend({ items }: LegendProps) {
 	return (
-		<div className="grid-row flex-wrap">
+		<div className="grid-row flex-wrap margin-top-2 margin-bottom-2 legend-container">
 			{items.map(item => (
-				<div className="grid-col-1 flex-1">
+				<div className="grid-col-1 flex-1" key={item.text.split(' ').join('-')}>
 					<svg height="16" width="20" className="legend-svg">
 						<rect
 							width="20px"

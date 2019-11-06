@@ -12,6 +12,7 @@ import Tag from '../../components/Tag/Tag';
 import { DateRange } from '../../components/DatePicker/DatePicker';
 import Button from '../../components/Button/Button';
 import RadioGroup from '../../components/RadioGroup/RadioGroup';
+import Legend from '../../components/Legend/Legend';
 import DateSelectionForm from './DateSelectionForm';
 import getColorForFundingSource from '../../utils/getColorForFundingType';
 
@@ -141,12 +142,31 @@ export default function Roster() {
 		showPastEnrollments,
 		dateRange,
 		byRange
-	);
+  );
+  
+  const legendItems = [
+		{
+			text: 'Child day care spaces',
+			symbolColor: 'teal',
+			number: 1,
+		},
+		{
+			text: 'School readiness spaces',
+			symbolColor: 'purple',
+			number: 1,
+		},
+		{
+			text: 'Receives Care 4 Kids',
+			symbolColor: 'green',
+			number: 1,
+		},
+	];
 
 	return (
 		<div className="Roster">
 			<section className="grid-container">
 				<h1 className="grid-col-auto">{site.name}</h1>
+        <Legend items={legendItems} />
 				<div className="grid-row">
 					<div className="tablet:grid-col-fill">
 						<p className="usa-intro display-flex flex-row flex-wrap flex-justify-start">

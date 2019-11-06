@@ -498,9 +498,14 @@ $future-step-color: color('base-dark') !default;
   width: fit-content;
 }
 
-// Legend SVG
+// Legend
 .legend-svg {
   -webkit-transform: translateY(2px);
   -ms-transform: translateY(2px);
   transform: translateY(2px);
+}
+
+.legend-container {
+  padding: 1.5rem;
+  border: 1px solid #dcdee0;
 }

@@ -3,14 +3,6 @@ import { storiesOf } from '@storybook/react';
 
 import Legend from './Legend';
 
-// type LegendItem = {
-// 	text: string;
-// 	textClass?: string;
-// 	symbol?: any; // svg or null-- default to box
-// 	symbolColor?: string;
-// 	number?: number;
-// };
-
 const legendItems = [
 	{
 		text: 'One fish',
