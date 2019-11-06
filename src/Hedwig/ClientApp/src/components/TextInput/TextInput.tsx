@@ -10,7 +10,6 @@ type TextInputProps = {
 	success?: boolean;
 	error?: string;
 	small?: boolean;
-	optional?: boolean;
 };
 
 export default function TextInput({
@@ -23,7 +22,6 @@ export default function TextInput({
 	success,
 	error,
 	small,
-	optional,
 }: TextInputProps) {
 	const inputId = id || label.split(' ').join('-');
 

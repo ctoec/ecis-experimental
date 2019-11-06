@@ -120,6 +120,17 @@ export default function Roster() {
 				),
 				sort: row => row.entry || '',
 			},
+			{
+				name: 'Enrolled',
+				cell: ({ row }) => (
+					<td className="oec-table__cell--tabular-nums">
+						{row.entry
+							? dateFormatter(row.entry) + '–' + (row.exit ? dateFormatter(row.exit) : '')
+							: ''}
+					</td>
+				),
+				sort: row => row.entry || '',
+			},
 		],
 		defaultSortColumn: 0,
 		defaultSortOrder: 'asc',

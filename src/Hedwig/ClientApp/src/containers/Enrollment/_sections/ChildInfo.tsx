@@ -198,7 +198,6 @@ const ChildInfo: Section = {
 							label="SASID"
 							defaultValue={sasid || ''}
 							onChange={event => updateSasid(event.target.value)}
-							optional={true}
 						/>
 					</div>
 					<div className="mobile-lg:grid-col-9">
@@ -215,7 +214,6 @@ const ChildInfo: Section = {
 							label="Middle"
 							defaultValue={middleName || ''}
 							onChange={event => updateMiddleName(event.target.value)}
-							optional={true}
 						/>
 					</div>
 					<div className="mobile-lg:grid-col-9">
@@ -232,7 +230,6 @@ const ChildInfo: Section = {
 							label="Suffix"
 							defaultValue={suffix || ''}
 							onChange={event => updateSuffix(event.target.value)}
-							optional={true}
 						/>
 					</div>
 				</div>
@@ -274,7 +271,7 @@ const ChildInfo: Section = {
 				</div>
 
 				<h3>Race</h3>
-				<p className="oec-form-helper">As identified by family</p>
+				<p>As identified by family</p>
 				<Checklist
 					groupName="race"
 					legend="Race"
@@ -313,7 +310,7 @@ const ChildInfo: Section = {
 				/>
 
 				<h3>Ethnicity</h3>
-				<p className="oec-form-helper">As identified by family</p>
+				<p>As identified by family</p>
 				<RadioGroup
 					groupName="ethnicity"
 					legend="Ethnicity"
@@ -332,7 +329,7 @@ const ChildInfo: Section = {
 				/>
 
 				<h3>Gender</h3>
-				<p className="oec-form-helper">As identified by family</p>
+				<p>As identified by family</p>
 				<Dropdown
 					options={[
 						{

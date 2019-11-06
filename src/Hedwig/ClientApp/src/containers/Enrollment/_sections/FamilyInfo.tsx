@@ -115,7 +115,6 @@ const FamilyInfo: Section = {
 							label="Address line 2"
 							defaultValue={addressLine2 || ''}
 							onChange={event => updateAddressLine2(event.target.value)}
-							optional={true}
 						/>
 					</div>
 					<div className="mobile-lg:grid-col-4">
@@ -144,35 +143,33 @@ const FamilyInfo: Section = {
 					</div>
 				</div>
 				<h3>Other</h3>
-				<div className="margin-top-3">
-					<Checklist
-						groupName="foster"
-						legend="Foster status"
-						options={[
-							{
-								text: 'Child lives with foster family',
-								value: 'foster',
-								checked: foster || false,
-								onChange: event => updateFoster(event.target.checked),
-							},
-						]}
-					/>
-					<Checklist
-						groupName="homelessness"
-						legend="Homeless status"
-						options={[
-							{
-								text: 'Family has experienced homelessness or housing insecurity',
-								value: 'homelessness',
-								checked: homelessness || false,
-								onChange: event => updateHomelessness(event.target.checked),
-							},
-						]}
-					/>
-				</div>
-				<p className="oec-form-helper">
-					Indicate if you are aware that the family has experienced housing insecurity, including
-					overcrowded housing, within the last year.
+				<Checklist
+					groupName="foster"
+					legend="Foster status"
+					options={[
+						{
+							text: 'Child lives with foster family',
+							value: 'foster',
+							checked: foster || false,
+							onChange: event => updateFoster(event.target.checked),
+						},
+					]}
+				/>
+				<Checklist
+					groupName="homelessness"
+					legend="Homeless status"
+					options={[
+						{
+							text: 'Family has experienced homelessness or housing insecurity',
+							value: 'homelessness',
+							checked: homelessness || false,
+							onChange: event => updateHomelessness(event.target.checked),
+						},
+					]}
+				/>
+				<p>
+					(Indicate if you are aware that the family has experienced homelessness or housing
+					insecurity, including overcrowded shared housing, within the last year.)
 				</p>
 				<Button text="Save" onClick={save} />
 			</div>
