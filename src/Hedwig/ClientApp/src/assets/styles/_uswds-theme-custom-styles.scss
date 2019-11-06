@@ -485,3 +485,12 @@ $future-step-color: color('base-dark') !default;
 	font-size: size('ui', 4);
 	font-style: italic;
 }
+
+.oec-action-list {
+	list-style-type: none;
+	padding-left: 0;
+
+	li {
+		@include u-margin-y(2);
+	}
+}
