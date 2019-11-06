@@ -7,9 +7,9 @@
 // ====================================================
 
 export interface DeterminationFragment {
-	__typename: 'FamilyDeterminationType';
-	id: number;
-	numberOfPeople: number;
-	income: OECDecimal;
-	determined: OECDate;
+  __typename: "FamilyDeterminationType";
+  id: number;
+  numberOfPeople: number;
+  income: OECDecimal;
+  determined: OECDate;
 }

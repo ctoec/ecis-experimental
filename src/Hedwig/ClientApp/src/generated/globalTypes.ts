@@ -7,25 +7,25 @@
 //==============================================================
 
 export enum Age {
-	INFANT = 'INFANT',
-	PRESCHOOL = 'PRESCHOOL',
-	SCHOOL = 'SCHOOL',
+  INFANT = "INFANT",
+  PRESCHOOL = "PRESCHOOL",
+  SCHOOL = "SCHOOL",
 }
 
 export enum FundingSource {
-	CDC = 'CDC',
+  CDC = "CDC",
 }
 
 export enum FundingTime {
-	FULL = 'FULL',
-	PART = 'PART',
+  FULL = "FULL",
+  PART = "PART",
 }
 
 export enum Gender {
-	FEMALE = 'FEMALE',
-	MALE = 'MALE',
-	UNKNOWN = 'UNKNOWN',
-	UNSPECIFIED = 'UNSPECIFIED',
+  FEMALE = "FEMALE",
+  MALE = "MALE",
+  UNKNOWN = "UNKNOWN",
+  UNSPECIFIED = "UNSPECIFIED",
 }
 
 //==============================================================

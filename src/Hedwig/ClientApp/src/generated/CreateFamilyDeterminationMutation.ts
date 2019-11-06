@@ -7,20 +7,20 @@
 // ====================================================
 
 export interface CreateFamilyDeterminationMutation_createFamilyDetermination {
-	__typename: 'FamilyDeterminationType';
-	id: number;
-	numberOfPeople: number;
-	income: OECDecimal;
-	determined: OECDate;
+  __typename: "FamilyDeterminationType";
+  id: number;
+  numberOfPeople: number;
+  income: OECDecimal;
+  determined: OECDate;
 }
 
 export interface CreateFamilyDeterminationMutation {
-	createFamilyDetermination: CreateFamilyDeterminationMutation_createFamilyDetermination | null;
+  createFamilyDetermination: CreateFamilyDeterminationMutation_createFamilyDetermination | null;
 }
 
 export interface CreateFamilyDeterminationMutationVariables {
-	familyId: number;
-	numberOfPeople: number;
-	income: OECDecimal;
-	determined: string;
+  familyId: number;
+  numberOfPeople: number;
+  income: OECDecimal;
+  determined: string;
 }

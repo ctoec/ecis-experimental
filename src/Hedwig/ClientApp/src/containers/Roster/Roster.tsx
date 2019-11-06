@@ -14,6 +14,7 @@ import Button from '../../components/Button/Button';
 import RadioGroup from '../../components/RadioGroup/RadioGroup';
 import DateSelectionForm from './DateSelectionForm';
 import getColorForFundingSource from '../../utils/getColorForFundingType';
+import { Age } from "../../generated/globalTypes";
 
 export const ROSTER_QUERY = gql`
 	query RosterQuery($from: Date, $to: Date) {
@@ -69,9 +70,9 @@ export default function Roster() {
 	const site = data.me.sites[0];
 	const enrollments = site.enrollments;
 
-	const rosterTableProps: TableProps<RosterQuery_me_sites_enrollments> = {
+	const defaultRosterTableProps: TableProps<RosterQuery_me_sites_enrollments> = {
 		id: 'roster-table',
-		data: enrollments,
+		data: [],
 		rowKey: row => row.id,
 		columns: [
 			{
@@ -112,6 +113,30 @@ export default function Roster() {
 		],
 		defaultSortColumn: 0,
 		defaultSortOrder: 'asc',
+	};
+
+	const infantRosterTableProps: TableProps<RosterQuery_me_sites_enrollments> = {
+		...defaultRosterTableProps,
+		id: "infant-roster-table",
+		data: enrollments.filter(enrollment => enrollment.age === Age.INFANT)
+	};
+
+	const preschoolRosterTableProps: TableProps<RosterQuery_me_sites_enrollments> = {
+		...defaultRosterTableProps,
+		id: "preschool-roster-table",
+		data: enrollments.filter(enrollment => enrollment.age === Age.PRESCHOOL)
+	};
+
+	const schoolRosterTableProps: TableProps<RosterQuery_me_sites_enrollments> = {
+		...defaultRosterTableProps,
+		id: "school-roster-table",
+		data: enrollments.filter(enrollment => enrollment.age === Age.SCHOOL)
+	};
+
+	const incompleteRosterTableProps: TableProps<RosterQuery_me_sites_enrollments> = {
+		...defaultRosterTableProps,
+		id: "incomplete-roster-table",
+		data: enrollments.filter(enrollment => !enrollment.age)
 	};
 
 	const numKidsEnrolledText = enrollmentTextFormatter(
@@ -172,7 +197,31 @@ export default function Roster() {
 						/>
 					</div>
 				)}
-				<Table {...rosterTableProps} fullWidth />
+
+				{!!infantRosterTableProps.data.length &&
+					<>
+						<h2>Infant/Toddler ({infantRosterTableProps.data.length} children)</h2>
+						<Table {...infantRosterTableProps} fullWidth />
+					</>
+				}
+				{!!preschoolRosterTableProps.data.length &&
+					<>
+						<h2>Preschool ({preschoolRosterTableProps.data.length} children)</h2>
+						<Table {...preschoolRosterTableProps} fullWidth />
+					</>
+				}
+				{!!schoolRosterTableProps.data.length &&
+					<>
+						<h2>School ({schoolRosterTableProps.data.length} children)</h2>
+						<Table {...schoolRosterTableProps} fullWidth />
+					</>
+				}
+				{!!incompleteRosterTableProps.data.length &&
+					<>
+						<h2>Incomplete ({incompleteRosterTableProps.data.length} children)</h2>
+						<Table {...incompleteRosterTableProps} fullWidth />
+					</>
+				}
 			</section>
 		</div>
 	);
