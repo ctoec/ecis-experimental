@@ -10,6 +10,7 @@ type TextInputProps = {
 	success?: boolean;
 	error?: string;
 	small?: boolean;
+	optional?: boolean;
 };
 
 export default function TextInput({
@@ -22,13 +23,14 @@ export default function TextInput({
 	success,
 	error,
 	small,
+	optional,
 }: TextInputProps) {
 	const inputId = id || label.split(' ').join('-');
 
 	return (
 		<div className={`usa-form-group${error ? ' usa-form-group--error' : ''}`}>
 			<label className={`usa-label${error ? ' usa-label--error' : ''}`} htmlFor={inputId}>
-				{label}
+				{label} {optional && "(Optional)"}
 			</label>
 			{error && (
 				<span className="usa-error-message" id="input-error-message" role="alert">
