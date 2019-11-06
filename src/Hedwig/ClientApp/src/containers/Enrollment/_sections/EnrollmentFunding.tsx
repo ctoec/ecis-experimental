@@ -97,53 +97,66 @@ const EnrollmentFunding: Section = {
 		};
 
 		return (
-			<div className="EnrollmentFundingForm usa-form">
-				<Dropdown
-					options={[
-						{
-							value: '' + currentEnrollment.site.id,
-							text: currentEnrollment.site.name,
-						},
-					]}
-					label="Site"
-					selected={siteId ? '' + siteId : undefined}
-					onChange={event => updateSiteId(parseInt(event.target.value, 10))}
-				/>
-				<label className="usa-label" htmlFor="date">
-					Start date
-				</label>
-				<DatePicker
-					onChange={range =>
-						updateEntry((range.startDate && range.startDate.format('YYYY-MM-DD')) || null)
-					}
-					dateRange={{ startDate: entry ? moment(entry) : null, endDate: null }}
-				/>
+			<div className="EnrollmentFundingForm">
+				<div className="usa-form">
+					<Dropdown
+						options={[
+							{
+								value: '' + currentEnrollment.site.id,
+								text: currentEnrollment.site.name,
+							},
+						]}
+						label="Site"
+						selected={siteId ? '' + siteId : undefined}
+						onChange={event => updateSiteId(parseInt(event.target.value, 10))}
+					/>
+					<label className="usa-label" htmlFor="date">
+						Start date
+					</label>
+					<DatePicker
+						onChange={range =>
+							updateEntry((range.startDate && range.startDate.format('YYYY-MM-DD')) || null)
+						}
+						dateRange={{ startDate: entry ? moment(entry) : null, endDate: null }}
+					/>
 
-				<h3>Age</h3>
-				<RadioGroup
-					groupName="age"
-					legend="Age"
-					options={[
-						{
-							text: 'Infant/Toddler',
-							value: Age.INFANT,
-						},
-						{
-							text: 'Preschool',
-							value: Age.PRESCHOOL,
-						},
-						{
-							text: 'School-age',
-							value: Age.SCHOOL,
-						},
-					]}
-					selected={'' + age}
-					onChange={event => updateAge(ageFromString(event.target.value))}
-				/>
+					<h3>Age</h3>
+					<RadioGroup
+						groupName="age"
+						legend="Age"
+						options={[
+							{
+								text: 'Infant/Toddler',
+								value: Age.INFANT,
+							},
+							{
+								text: 'Preschool',
+								value: Age.PRESCHOOL,
+							},
+							{
+								text: 'School-age',
+								value: Age.SCHOOL,
+							},
+						]}
+						selected={'' + age}
+						onChange={event => updateAge(ageFromString(event.target.value))}
+					/>
+				</div>
 
 				<h3>Funding</h3>
+				<ul className="oec-action-list">
+					<li>
+						<Button appearance="unstyled" text="Assign to a Child Day Care space" />
+						&nbsp; (1 available starting December 2019)
+					</li>
+					<li>
+						<Button appearance="unstyled" text="Add Care 4 Kids subsidy" />
+					</li>
+				</ul>
 
-				<Button text="Save" onClick={save} />
+				<div className="usa-form">
+					<Button text="Save" onClick={save} />
+				</div>
 			</div>
 		);
 	},
