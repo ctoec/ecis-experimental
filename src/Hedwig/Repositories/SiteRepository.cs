@@ -7,55 +7,64 @@ using Hedwig.Data;
 
 namespace Hedwig.Repositories
 {
-	public class SiteRepository : ISiteRepository
-	{
-		private readonly HedwigContext _context;
+    public class SiteRepository : ISiteRepository
+    {
+        private readonly HedwigContext _context;
 
-		public SiteRepository(HedwigContext context) => _context = context;
+        public SiteRepository(HedwigContext context) => _context = context;
 
-		public async Task<ILookup<int, Site>> GetSitesByOrganizationIdsAsync(IEnumerable<int> organizationIds)
-		{
-			var sites = await _context.Sites
-				.Where(s => s.OrganizationId.HasValue && organizationIds.Contains(s.OrganizationId.Value))
-				.ToListAsync();
-			return sites.ToLookup(x => x.OrganizationId.Value);
-		}
+        public async Task<ILookup<int, Site>> GetSitesByOrganizationIdsAsync(IEnumerable<int> organizationIds)
+        {
+            var sites = await _context.Sites
+                .Where(s => s.OrganizationId.HasValue && organizationIds.Contains(s.OrganizationId.Value))
+                .ToListAsync();
+            return sites.ToLookup(x => x.OrganizationId.Value);
+        }
 
-		public async Task<IEnumerable<Site>> GetSitesByUserIdAsync(int userId)
-		{
-			var permissions = _context.Permissions.Where(p => userId == p.UserId);
+        public async Task<IEnumerable<Site>> GetSitesByUserIdAsync(int userId)
+        {
+            var permissions = _context.Permissions.Where(p => userId == p.UserId);
 
-			// If a user has permission for an organization, they have permissions for all of its child sites
-			var organizationPermissions = permissions
-				.OfType<OrganizationPermission>()
-				.Include(p => p.Organization)
-					.ThenInclude(o => o.Sites)
-				.ToListAsync();
+            // If a user has permission for an organization, they have permissions for all of its child sites
+            var organizationPermissions = permissions
+                .OfType<OrganizationPermission>()
+                .Include(p => p.Organization)
+                    .ThenInclude(o => o.Sites)
+                .ToListAsync();
 
-			var sitePermissions = permissions
-				.OfType<SitePermission>()
-				.Include(p => p.Site)
-				.ToListAsync();
+            var sitePermissions = permissions
+                .OfType<SitePermission>()
+                .Include(p => p.Site)
+                .ToListAsync();
 
-			await Task.WhenAll(sitePermissions, organizationPermissions);
+            await Task.WhenAll(sitePermissions, organizationPermissions);
 
-			var sites = organizationPermissions.Result.SelectMany(p => p.Organization.Sites)
-				.Concat(sitePermissions.Result.Select(p => p.Site))
-				.Distinct();
+            var sites = organizationPermissions.Result.SelectMany(p => p.Organization.Sites)
+                .Concat(sitePermissions.Result.Select(p => p.Site))
+                .Distinct();
 
-			return sites;
-		}
+            return sites;
+        }
 
-		public async Task<Site> GetSiteByIdAsync(int id)
-		{
-			return await _context.Sites.SingleOrDefaultAsync(s => s.Id == id);
-		}
-	}
+        public async Task<Site> GetSiteByIdAsync(int id)
+        {
+            return await _context.Sites.SingleOrDefaultAsync(s => s.Id == id);
+        }
 
-	public interface ISiteRepository
-	{
-		Task<ILookup<int, Site>> GetSitesByOrganizationIdsAsync(IEnumerable<int> organizationIds);
-		Task<IEnumerable<Site>> GetSitesByUserIdAsync(int userId);
-		Task<Site> GetSiteByIdAsync(int id);
-	}
+        public async Task<IDictionary<int, Site>> GetSitesByIdsAsync(IEnumerable<int> ids)
+        {
+            var dict = await _context.Sites
+                .Where(s => ids.Contains(s.Id))
+                .ToDictionaryAsync(x => x.Id);
+            return dict as IDictionary<int, Site>;
+        }
+    }
+
+    public interface ISiteRepository
+    {
+        Task<ILookup<int, Site>> GetSitesByOrganizationIdsAsync(IEnumerable<int> organizationIds);
+        Task<IEnumerable<Site>> GetSitesByUserIdAsync(int userId);
+        Task<Site> GetSiteByIdAsync(int id);
+        Task<IDictionary<int, Site>> GetSitesByIdsAsync(IEnumerable<int> ids);
+    }
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useQuery } from '@apollo/react-hooks';
+import useAuthQuery from '../../hooks/useAuthQuery';
 import { gql } from 'apollo-boost';
 import { useParams } from 'react-router-dom';
 import { ReportQuery } from '../../generated/ReportQuery';
@@ -29,7 +29,7 @@ export const REPORT_QUERY = gql`
 
 export default function ReportDetail() {
 	let { id } = useParams();
-	const { loading, error, data } = useQuery<ReportQuery>(REPORT_QUERY, {
+	const { loading, error, data } = useAuthQuery<ReportQuery>(REPORT_QUERY, {
 		variables: { id },
 	});
 

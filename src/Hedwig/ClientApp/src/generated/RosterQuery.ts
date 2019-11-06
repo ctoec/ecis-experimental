@@ -2,7 +2,7 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { FundingSource } from './globalTypes';
+import { Age, FundingSource, FundingTime } from './globalTypes';
 
 // ====================================================
 // GraphQL query operation: RosterQuery
@@ -14,22 +14,22 @@ export interface RosterQuery_me_sites_enrollments_child {
 	firstName: string;
 	middleName: string | null;
 	lastName: string;
-	birthdate: OECDate;
+	birthdate: OECDate | null;
 	suffix: string | null;
 }
 
 export interface RosterQuery_me_sites_enrollments_fundings {
 	__typename: 'FundingType';
-	entry: OECDate;
-	exit: OECDate | null;
 	source: FundingSource;
+	time: FundingTime;
 }
 
 export interface RosterQuery_me_sites_enrollments {
 	__typename: 'EnrollmentType';
 	id: number;
-	entry: OECDate;
+	entry: OECDate | null;
 	exit: OECDate | null;
+	age: Age | null;
 	child: RosterQuery_me_sites_enrollments_child;
 	fundings: RosterQuery_me_sites_enrollments_fundings[];
 }

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import useAuthQuery from '../../hooks/useAuthQuery';
 import { gql } from 'apollo-boost';
 import { Link } from 'react-router-dom';
-import pluralize from 'pluralize';
 import { RosterQuery, RosterQuery_me_sites_enrollments } from '../../generated/RosterQuery';
 import nameFormatter from '../../utils/nameFormatter';
 import dateFormatter from '../../utils/dateFormatter';
@@ -25,7 +24,9 @@ export const ROSTER_QUERY = gql`
 					id
 					entry
 					exit
+					age
 					child {
+						id
 						firstName
 						middleName
 						lastName
@@ -33,9 +34,8 @@ export const ROSTER_QUERY = gql`
 						suffix
 					}
 					fundings {
-						entry
-						exit
 						source
+						time
 					}
 				}
 			}
@@ -46,11 +46,11 @@ export const ROSTER_QUERY = gql`
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
 	const [dateRange, setDateRange] = useState<DateRange>(getDefaultDateRange());
-	const [byRange, toggleByRange] = useState(false);
+	const [byRange, setByRange] = useState(false);
 
 	function handlePastEnrollmentsChange() {
 		toggleShowPastEnrollments(!showPastEnrollments);
-		toggleByRange(false);
+		setByRange(false);
 		setDateRange(getDefaultDateRange());
 	}
 
@@ -89,13 +89,24 @@ export default function Roster() {
 				cell: ({ row }) => (
 					<td className="oec-table__cell--tabular-nums">{dateFormatter(row.child.birthdate)}</td>
 				),
-				sort: row => row.child.birthdate,
+				sort: row => row.child.birthdate || '',
 			},
 			{
 				name: 'Funding',
 				cell: ({ row }) => (
 					<td>{row.fundings.length ? <Tag text={`${row.fundings[0].source}`} /> : ''}</td>
 				),
+			},
+			{
+				name: 'Enrolled',
+				cell: ({ row }) => (
+					<td className="oec-table__cell--tabular-nums">
+						{row.entry
+							? dateFormatter(row.entry) + '–' + (row.exit ? dateFormatter(row.exit) : '')
+							: ''}
+					</td>
+				),
+				sort: row => row.entry || '',
 			},
 		],
 		defaultSortColumn: 0,
@@ -143,7 +154,7 @@ export default function Roster() {
 									value: 'range',
 								},
 							]}
-							onClick={(clickedValue: string) => toggleByRange(clickedValue === 'range')}
+							onChange={event => setByRange(event.target.value === 'range')}
 							horizontal={true}
 							groupName={'dateSelectionType'}
 							legend="Select date or date range."
@@ -153,7 +164,7 @@ export default function Roster() {
 							inputDateRange={dateRange}
 							byRange={byRange}
 							onReset={() => {
-								toggleByRange(false);
+								setByRange(false);
 								setDateRange(getDefaultDateRange());
 							}}
 							onSubmit={(newDateRange: DateRange) => setDateRange(newDateRange)}

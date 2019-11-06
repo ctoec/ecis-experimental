@@ -1,5 +1,5 @@
 import React, { useState, FormEvent } from 'react';
-import { useMutation } from '@apollo/react-hooks';
+import useAuthMutation from '../../hooks/useAuthMutation';
 import { gql } from 'apollo-boost';
 import { ReportQuery_report } from '../../generated/ReportQuery';
 import { ReportSubmitMutation } from '../../generated/ReportSubmitMutation';
@@ -17,12 +17,8 @@ export const REPORT_SUBMIT_MUTATION = gql`
 
 export default function ReportSubmitForm(report: ReportQuery_report) {
 	const [accredited, setAccredited] = useState(report.accredited);
-	const [submittedAt, setSubmittedAt] = useState(report.submittedAt);
 
-	const [updateReport] = useMutation<ReportSubmitMutation>(REPORT_SUBMIT_MUTATION, {
-		onCompleted: data => {
-			setSubmittedAt(data && data.submitCdcReport ? data.submitCdcReport.submittedAt : null);
-		},
+	const [updateReport] = useAuthMutation<ReportSubmitMutation>(REPORT_SUBMIT_MUTATION, {
 		onError: error => {
 			console.log(error);
 		},
@@ -35,9 +31,9 @@ export default function ReportSubmitForm(report: ReportQuery_report) {
 
 	return (
 		<form className="usa-form" onSubmit={onSubmit}>
-			{submittedAt && (
+			{report.submittedAt && (
 				<p>
-					<b>Submitted At:</b> {submittedAt}{' '}
+					<b>Submitted At:</b> {report.submittedAt}{' '}
 				</p>
 			)}
 			<div className="usa-checkbox">
@@ -45,7 +41,7 @@ export default function ReportSubmitForm(report: ReportQuery_report) {
 					className="usa-checkbox__input"
 					id="accredited"
 					type="checkbox"
-					disabled={!!submittedAt}
+					disabled={!!report.submittedAt}
 					defaultChecked={accredited}
 					onChange={e => setAccredited(e.target.checked)}
 				/>
@@ -53,7 +49,7 @@ export default function ReportSubmitForm(report: ReportQuery_report) {
 					Accredited
 				</label>
 			</div>
-			{!submittedAt && <input className="usa-button" type="submit" value="Submit" />}
+			{!report.submittedAt && <input className="usa-button" type="submit" value="Submit" />}
 		</form>
 	);
 }

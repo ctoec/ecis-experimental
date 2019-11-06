@@ -3,17 +3,19 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import Checklist from './Checklist';
 
-const onClick = action('onClick');
+const onChange = action('onChange');
 const options = [
 	{
 		checked: false,
 		text: 'Option one',
 		value: 'one',
+		onChange: onChange,
 	},
 	{
 		checked: false,
 		text: 'Option two',
 		value: 'two',
+		onChange: onChange,
 	},
 ];
 
@@ -28,7 +30,6 @@ storiesOf('Checklist', module)
 			<Checklist
 				options={options}
 				groupName="storybook-checklist"
-				onClick={onClick}
 				legend="Storybook check buttons"
 			/>
 		);
@@ -38,7 +39,6 @@ storiesOf('Checklist', module)
 			<Checklist
 				options={options}
 				groupName="storybook-checklist-2"
-				onClick={onClick}
 				legend="Storybook check buttons"
 				horizontal={true}
 			/>
@@ -49,7 +49,6 @@ storiesOf('Checklist', module)
 			<Checklist
 				options={optionsSelected}
 				groupName="storybook-checklist-default-selection"
-				onClick={onClick}
 				legend="Storybook check buttons"
 			/>
 		);
@@ -59,7 +58,6 @@ storiesOf('Checklist', module)
 			<Checklist
 				options={options}
 				groupName="storybook-checklist-with-error"
-				onClick={onClick}
 				legend="Storybook check buttons"
 				error="You  must select one or two."
 			/>
@@ -70,7 +68,6 @@ storiesOf('Checklist', module)
 			<Checklist
 				options={boxDisabledAndSelected}
 				groupName="storybook-checklist-with-error"
-				onClick={onClick}
 				legend="Storybook check buttons"
 			/>
 		);

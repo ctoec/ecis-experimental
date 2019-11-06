@@ -44,6 +44,7 @@ namespace Hedwig.Repositories
 		}
 
 		public Child CreateChild(
+		  string sasid,
 			string firstName,
 			string lastName,
 			string middleName = null,
@@ -63,6 +64,7 @@ namespace Hedwig.Repositories
 			int? familyId = null)
 		{
 			var child = new Child {
+				Sasid = sasid,
 				FirstName = firstName,
 				MiddleName = middleName,
 				LastName = lastName,
@@ -93,6 +95,7 @@ namespace Hedwig.Repositories
 		Task<ILookup<int, Child>> GetChildrenByFamilyIdsAsync(IEnumerable<int> familyIds, DateTime? asOf = null);
 		Child UpdateFamily(Child child, Family family);
 		Child CreateChild(
+		  string sasid,
 			string firstName,
 			string lastName,
 			string middleName = null,

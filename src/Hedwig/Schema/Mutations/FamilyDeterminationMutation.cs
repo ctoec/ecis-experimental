@@ -17,9 +17,9 @@ namespace Hedwig.Schema.Mutations
                     new QueryArgument<NonNullGraphType<IntGraphType>> { Name = "familyId" },
                     new QueryArgument<NonNullGraphType<IntGraphType>> { Name = "numberOfPeople" },
                     new QueryArgument<NonNullGraphType<DecimalGraphType>> { Name = "income" },
-                    new QueryArgument<NonNullGraphType<DateGraphType>> { Name = "determined" }
+                    new QueryArgument<NonNullGraphType<StringGraphType>> { Name = "determined" }
                 ),
-                resolve: async context => 
+                resolve: async context =>
                 {
                     var familyId = context.GetArgument<int>("familyId");
                     var family = await families.GetFamilyByIdAsync(familyId);
@@ -31,15 +31,25 @@ namespace Hedwig.Schema.Mutations
 
                     var numberOfPeople = context.GetArgument<int>("numberOfPeople");
                     var income = context.GetArgument<decimal>("income");
-                    var determined = context.GetArgument<DateTime>("determined");
+                    var determinedStr = context.GetArgument<DateTime>("determined");
 
-                    var determination = familyDeterminations.CreateFamilyDetermination(
-                        numberOfPeople: numberOfPeople,
-                        income: income,
-                        determined: determined,
-                        familyId: family.Id
-                    );
-                    return determination;
+										try {
+											var determined = ValueConverter.ConvertTo<DateTime>(determinedStr);
+
+	                    var determination = familyDeterminations.CreateFamilyDetermination(
+	                        numberOfPeople: numberOfPeople,
+	                        income: income,
+	                        determined: determined,
+	                        familyId: family.Id
+	                    );
+	                    return determination;
+										}
+										catch (FormatException)
+										{
+                      throw new ExecutionError(
+                          AppErrorMessages.BAD_REQUEST("FamilyDetermination")
+                      );
+										}
                 }
             );
             FieldAsync<FamilyDeterminationType>(
@@ -48,9 +58,9 @@ namespace Hedwig.Schema.Mutations
                     new QueryArgument<NonNullGraphType<IntGraphType>> { Name = "id" },
                     new QueryArgument<IntGraphType> { Name = "numberOfPeople" },
                     new QueryArgument<DecimalGraphType> { Name = "income" },
-                    new QueryArgument<DateGraphType> { Name = "determined" }
+                    new QueryArgument<StringGraphType> { Name = "determined" }
                 ),
-                resolve: async context => 
+                resolve: async context =>
                 {
                     var id = context.GetArgument<int>("id");
                     var determination = await familyDeterminations.GetDeterminationByIdAsync(id);
@@ -62,14 +72,24 @@ namespace Hedwig.Schema.Mutations
 
                     var numberOfPeople = context.GetArgument<int?>("numberOfPeople");
                     var income = context.GetArgument<decimal?>("income");
-                    var determined = context.GetArgument<DateTime?>("determined");
+                    var determinedStr = context.GetArgument<String>("determined");
 
-                    return familyDeterminations.UpdateFamilyDetermination(
-                        determination,
-                        numberOfPeople: numberOfPeople,
-                        income: income,
-                        determined: determined
-                    );
+										try {
+											var determined = ValueConverter.ConvertTo<DateTime>(determinedStr);
+
+	                    return familyDeterminations.UpdateFamilyDetermination(
+	                        determination,
+	                        numberOfPeople: numberOfPeople,
+	                        income: income,
+	                        determined: determined
+	                    );
+										}
+										catch (FormatException)
+										{
+                      throw new ExecutionError(
+                          AppErrorMessages.BAD_REQUEST("FamilyDetermination")
+                      );
+										}
                 }
             );
         }

@@ -1,27 +1,28 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 type TextInputProps = {
 	label: string;
-	onChange: () => any;
+	onChange: (event: React.ChangeEvent<HTMLInputElement>) => any;
+	onBlur?: (event: React.FocusEvent<HTMLInputElement>) => any;
 	id?: string;
 	defaultValue?: string;
 	disabled?: boolean;
 	success?: boolean;
-	error?: boolean;
-	errorMessage?: string;
+	error?: string;
+	small?: boolean;
 };
 
 export default function TextInput({
 	label,
 	onChange,
+	onBlur,
 	id,
 	defaultValue,
 	disabled,
 	success,
 	error,
-	errorMessage,
+	small,
 }: TextInputProps) {
-	const [focused, setFocus] = useState(false);
 	const inputId = id || label.split(' ').join('-');
 
 	return (
@@ -29,22 +30,21 @@ export default function TextInput({
 			<label className={`usa-label${error ? ' usa-label--error' : ''}`} htmlFor={inputId}>
 				{label}
 			</label>
-			{error && errorMessage && (
+			{error && (
 				<span className="usa-error-message" id="input-error-message" role="alert">
-					{errorMessage}
+					{error}
 				</span>
 			)}
 			<input
-				className={`usa-input${focused ? ' usa-focus' : ''}${error ? ' usa-input--error' : ''}${
-					success ? ' usa-input--success' : ''
-				}`}
+				className={`usa-input${error ? ' usa-input--error' : ''}${
+					small ? ' usa-input--small' : ''
+				}${success ? ' usa-input--success' : ''}`}
 				id={inputId}
 				name={inputId}
 				type="text"
-				onFocus={() => setFocus(true)}
-				onBlur={() => setFocus(false)}
 				disabled={disabled}
 				onChange={onChange}
+				onBlur={onBlur}
 				defaultValue={defaultValue}
 				aria-describedby={error ? 'input-error-message' : undefined}
 			/>
