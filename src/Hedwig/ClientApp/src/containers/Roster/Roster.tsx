@@ -13,6 +13,7 @@ import { DateRange } from '../../components/DatePicker/DatePicker';
 import Button from '../../components/Button/Button';
 import RadioGroup from '../../components/RadioGroup/RadioGroup';
 import DateSelectionForm from './DateSelectionForm';
+import getColorForFundingSource from '../../utils/getColorForFundingType';
 
 export const ROSTER_QUERY = gql`
 	query RosterQuery($from: Date, $to: Date) {
@@ -94,7 +95,7 @@ export default function Roster() {
 			{
 				name: 'Funding',
 				cell: ({ row }) => (
-					<td>{row.fundings.length ? <Tag text={`${row.fundings[0].source}`} /> : ''}</td>
+					<td>{row.fundings.length ? <Tag text={`${row.fundings[0].source}`} color={getColorForFundingSource(row.fundings[0].source)}/> : ''}</td>
 				),
 			},
 			{
