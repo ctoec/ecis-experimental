@@ -370,6 +370,14 @@ $future-step-color: color('base-dark') !default;
 	}
 }
 
+.oec-step-list__step__summary {
+	font-size: size('ui', 3);
+
+	p {
+		@include u-margin-y('05');
+	}
+}
+
 .hedwig-enrollment-details-section {
 	@include u-padding-bottom(1);
 	border-bottom: units('1px') solid color('base-lighter');
