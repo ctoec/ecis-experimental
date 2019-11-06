@@ -12,6 +12,9 @@ storiesOf('TextInput', module)
 	.add('With default value', () => {
 		return <TextInput label="Default text input" onChange={onChange} defaultValue="default text" />;
 	})
+	.add('Optional', () => {
+		return <TextInput label="Default optional text input" onChange={onChange} optional={true} />;
+	})
 	.add('Disabled', () => {
 		return <TextInput label="Default text input" onChange={onChange} disabled />;
 	})

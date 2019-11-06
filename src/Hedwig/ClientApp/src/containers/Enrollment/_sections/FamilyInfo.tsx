@@ -115,6 +115,7 @@ const FamilyInfo: Section = {
 							label="Address line 2"
 							defaultValue={addressLine2 || ''}
 							onChange={event => updateAddressLine2(event.target.value)}
+							optional={true}
 						/>
 					</div>
 					<div className="mobile-lg:grid-col-4">
