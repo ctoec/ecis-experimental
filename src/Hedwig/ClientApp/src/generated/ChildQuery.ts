@@ -76,9 +76,9 @@ export interface ChildQuery_child {
 }
 
 export interface ChildQuery {
-  child: ChildQuery_child | null;
+	child: ChildQuery_child | null;
 }
 
 export interface ChildQueryVariables {
-  id: string;
+	id: string;
 }

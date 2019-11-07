@@ -35,22 +35,22 @@ export interface RosterQuery_me_sites_enrollments {
 }
 
 export interface RosterQuery_me_sites {
-  __typename: "SiteType";
-  id: number;
-  name: string;
-  enrollments: RosterQuery_me_sites_enrollments[];
+	__typename: 'SiteType';
+	id: number;
+	name: string;
+	enrollments: RosterQuery_me_sites_enrollments[];
 }
 
 export interface RosterQuery_me {
-  __typename: "UserType";
-  sites: RosterQuery_me_sites[];
+	__typename: 'UserType';
+	sites: RosterQuery_me_sites[];
 }
 
 export interface RosterQuery {
-  me: RosterQuery_me | null;
+	me: RosterQuery_me | null;
 }
 
 export interface RosterQueryVariables {
-  from?: OECDate | null;
-  to?: OECDate | null;
+	from?: OECDate | null;
+	to?: OECDate | null;
 }
