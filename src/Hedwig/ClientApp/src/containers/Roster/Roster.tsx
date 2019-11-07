@@ -97,7 +97,16 @@ export default function Roster() {
 			{
 				name: 'Funding',
 				cell: ({ row }) => (
-					<td>{row.fundings.length ? <Tag text={`${row.fundings[0].source}`} color={getColorForFundingSource(row.fundings[0].source)}/> : ''}</td>
+					<td>
+						{row.fundings.length ? (
+							<Tag
+								text={`${row.fundings[0].source}`}
+								color={getColorForFundingSource(row.fundings[0].source)}
+							/>
+						) : (
+							''
+						)}
+					</td>
 				),
 			},
 			{
