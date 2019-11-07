@@ -21,8 +21,8 @@ export default function Legend({ items }: LegendProps) {
 						<rect
 							width="20px"
 							height="16px"
-							rx="6px"
-							ry="6px"
+							rx="4px"
+							ry="4px"
 							style={{ fill: item.symbolColor || 'black' }}
 						/>
 					</svg>

@@ -492,7 +492,9 @@ $future-step-color: color('base-dark') !default;
 
 	li {
 		@include u-margin-y(2);
-	}
+  }
+}
+
 // Width fit content
 .width-fit-content {
   width: fit-content;
@@ -503,9 +505,4 @@ $future-step-color: color('base-dark') !default;
   -webkit-transform: translateY(2px);
   -ms-transform: translateY(2px);
   transform: translateY(2px);
-}
-
-.legend-container {
-  padding: 1.5rem;
-  border: 1px solid #dcdee0;
 }

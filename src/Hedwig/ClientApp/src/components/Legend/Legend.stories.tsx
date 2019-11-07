@@ -19,7 +19,7 @@ const legendItems = [
 	},
 	{
 		text: 'Blue fish',
-		symbolColor: 'red',
+		symbolColor: 'blue',
 		number: 4,
 	},
 ];
