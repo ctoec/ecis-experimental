@@ -21,7 +21,7 @@ storiesOf('Dropdown', module)
 			<Dropdown
 				options={options}
 				label="Choose one of these things"
-				unselectedOptionText="Choose here"
+				noSelectionText="Choose here"
 				onChange={onChange}
 			/>
 		);
@@ -31,7 +31,7 @@ storiesOf('Dropdown', module)
 			<Dropdown
 				options={options}
 				label="Choose one of these things"
-				unselectedOptionText="Choose here"
+				noSelectionText="Choose here"
 				onChange={onChange}
 				error={true}
 				errorMessage="There was an error."
@@ -43,7 +43,7 @@ storiesOf('Dropdown', module)
 			<Dropdown
 				options={options}
 				label="Choose one of these things"
-				unselectedOptionText="Choose here"
+				noSelectionText="Choose here"
 				onChange={onChange}
 				success={true}
 			/>
@@ -54,7 +54,7 @@ storiesOf('Dropdown', module)
 			<Dropdown
 				options={options}
 				label="Choose one of these things"
-				unselectedOptionText="Choose here"
+				noSelectionText="Choose here"
 				onChange={onChange}
 				disabled={true}
 			/>

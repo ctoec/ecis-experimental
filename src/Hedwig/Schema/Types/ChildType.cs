@@ -9,9 +9,10 @@ namespace Hedwig.Schema.Types
 {
 	public class ChildType : TemporalGraphType<Child>, IAuthorizedGraphType
 	{
-		public ChildType(IDataLoaderContextAccessor dataLoader, IFamilyRepository families)
+		public ChildType(IDataLoaderContextAccessor dataLoader, IFamilyRepository families, IEnrollmentRepository enrollments)
 		{
 			Field(c => c.Id, type: typeof(NonNullGraphType<IdGraphType>));
+			Field(c => c.Sasid, nullable: true);
 			Field(c => c.FirstName);
 			Field(c => c.MiddleName, nullable: true);
 			Field(c => c.LastName);
@@ -43,6 +44,19 @@ namespace Hedwig.Schema.Types
 						(ids) => families.GetFamiliesByIdsAsync(ids, asOf));
 
 					return loader.LoadAsync(familyId);
+				}
+			);
+			Field<NonNullGraphType<ListGraphType<NonNullGraphType<EnrollmentType>>>>(
+				"enrollments",
+				resolve: context =>
+				{
+	 				var asOf = GetAsOfGlobal(context);
+					String loaderCacheKey = $"GetEnrollmentsByChildIdsAsync{asOf.ToString()}";
+
+					var loader = dataLoader.Context.GetOrAddCollectionBatchLoader<Guid, Enrollment>(
+						loaderCacheKey,
+						(ids) => enrollments.GetEnrollmentsByChildIdsAsync(ids, asOf));
+					return loader.LoadAsync(context.Source.Id);
 				}
 			);
 		}

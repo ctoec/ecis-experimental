@@ -4,7 +4,7 @@ type CheckboxProps = {
 	text: string;
 	value: string;
 	name: string;
-	onClick: (value: any) => any;
+	onChange: (event: React.ChangeEvent<HTMLInputElement>) => any;
 	checked?: boolean;
 	className?: string;
 	disabled?: boolean;
@@ -14,7 +14,7 @@ export default function Checkbox({
 	text,
 	value,
 	name,
-	onClick,
+	onChange,
 	checked,
 	className,
 	disabled,
@@ -28,7 +28,7 @@ export default function Checkbox({
 				name={name}
 				value={value}
 				defaultChecked={checked}
-				onClick={value => onClick(value)}
+				onChange={onChange}
 				disabled={disabled}
 			/>
 			<label className="usa-checkbox__label" htmlFor={value}>

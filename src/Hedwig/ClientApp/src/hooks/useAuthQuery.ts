@@ -18,6 +18,5 @@ export default <T>(query: DocumentNode, options: QueryHookOptions = {}): QueryRe
 				Authorization: accessToken ? `Bearer ${accessToken}` : '',
 			},
 		},
-		fetchPolicy: 'cache-and-network',
 	});
 };

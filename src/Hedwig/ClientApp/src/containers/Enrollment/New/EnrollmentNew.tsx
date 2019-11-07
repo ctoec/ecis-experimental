@@ -4,7 +4,7 @@ import { History } from 'history';
 import { Section, SectionProps } from '../enrollmentTypes';
 import { default as StepList, StepProps } from '../../../components/StepList/StepList';
 import { CHILD_QUERY } from '../enrollmentQueries';
-import { ChildQuery } from '../../../generated/ChildQuery';
+import { ChildQuery, ChildQuery_child } from '../../../generated/ChildQuery';
 import ChildInfo from '../_sections/ChildInfo';
 import FamilyInfo from '../_sections/FamilyInfo';
 import FamilyIncome from '../_sections/FamilyIncome';
@@ -52,15 +52,11 @@ export default function EnrollmentNew({
 		return <div className="EnrollmentNew"></div>;
 	}
 
-	const afterSave = () => {
-		if (!data || !data.child) {
-			throw new Error('EnrollmentNew called afterSave before successful save');
-		}
-
+	const afterSave = (child: ChildQuery_child) => {
 		// Enrollments begin at /roster/sites/:siteId/enroll. We replace this URL in the
 		// browser history once we have an ID for the child.
 		if (!childId) {
-			history.replace(`/roster/enrollments/${data.child.id}/new/${sectionId}`);
+			history.replace(`/roster/enrollments/${child.id}/new/${sectionId}`);
 		}
 
 		const currentIndex = sections.findIndex(section => section.key === sectionId);
@@ -68,10 +64,10 @@ export default function EnrollmentNew({
 		// If we're on the last section, we'll move to a final 'review' section where all
 		// steps are collapsed and we can 'Finish' the enrollment.
 		if (currentIndex === sections.length - 1) {
-			history.push(`/roster/enrollments/${data.child.id}/new/review`);
+			history.push(`/roster/enrollments/${child.id}/new/review`);
 		} else {
 			const nextSectionId = sections[currentIndex + 1].key;
-			history.push(`/roster/enrollments/${data.child.id}/new/${nextSectionId}`);
+			history.push(`/roster/enrollments/${child.id}/new/${nextSectionId}`);
 		}
 	};
 
@@ -90,7 +86,7 @@ export default function EnrollmentNew({
 				<div className="margin-top-2 margin-bottom-5">
 					<StepList steps={steps} activeStep={sectionId} props={props} />
 				</div>
-				{sectionId == 'review' && <Button href="../" text="Finish" />}
+				{sectionId === 'review' && <Button href="../" text="Finish" />}
 			</section>
 		</div>
 	);

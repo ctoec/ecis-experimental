@@ -25,6 +25,16 @@ namespace Hedwig.Repositories
 			return enrollments.ToLookup(x => x.SiteId);
 		}
 
+		public async Task<ILookup<Guid, Enrollment>> GetEnrollmentsByChildIdsAsync(
+			IEnumerable<Guid> childIds,
+			DateTime? asOf = null)
+		{
+			var enrollments = await GetBaseQuery<Enrollment>(asOf)
+				.Where(e => childIds.Contains(e.ChildId))
+				.ToListAsync();
+			return enrollments.ToLookup(x => x.ChildId);
+		}
+
 		public async Task<Enrollment> GetEnrollmentByIdAsync(int id, DateTime? asOf = null) {
 			return await GetBaseQuery<Enrollment>(asOf)
 				.SingleOrDefaultAsync(e => e.Id == id);
@@ -57,6 +67,10 @@ namespace Hedwig.Repositories
 			DateTime? asOf = null,
 			DateTime? from = null,
 			DateTime? to = null
+		);
+		Task<ILookup<Guid, Enrollment>> GetEnrollmentsByChildIdsAsync(
+			IEnumerable<Guid> childIds,
+			DateTime? asOf = null
 		);
 		Task<Enrollment> GetEnrollmentByIdAsync(int id, DateTime? asOf = null);
 		Task<IDictionary<int, Enrollment>> GetEnrollmentsByIdsAsync(IEnumerable<int> ids, DateTime? asOf = null);

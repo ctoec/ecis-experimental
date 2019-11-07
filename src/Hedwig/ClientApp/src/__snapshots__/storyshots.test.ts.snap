@@ -231,7 +231,7 @@ exports[`Storyshots Checklist Box disabled 1`] = `
           disabled={true}
           id="one"
           name="storybook-checklist-with-error"
-          onClick={[Function]}
+          onChange={[Function]}
           type="checkbox"
           value="one"
         />
@@ -251,7 +251,7 @@ exports[`Storyshots Checklist Box disabled 1`] = `
           disabled={true}
           id="two"
           name="storybook-checklist-with-error"
-          onClick={[Function]}
+          onChange={[Function]}
           type="checkbox"
           value="two"
         />
@@ -294,7 +294,7 @@ exports[`Storyshots Checklist Default 1`] = `
           defaultChecked={false}
           id="one"
           name="storybook-checklist"
-          onClick={[Function]}
+          onChange={[Function]}
           type="checkbox"
           value="one"
         />
@@ -313,7 +313,7 @@ exports[`Storyshots Checklist Default 1`] = `
           defaultChecked={false}
           id="two"
           name="storybook-checklist"
-          onClick={[Function]}
+          onChange={[Function]}
           type="checkbox"
           value="two"
         />
@@ -356,7 +356,7 @@ exports[`Storyshots Checklist Default selection 1`] = `
           defaultChecked={true}
           id="one"
           name="storybook-checklist-default-selection"
-          onClick={[Function]}
+          onChange={[Function]}
           type="checkbox"
           value="one"
         />
@@ -375,7 +375,7 @@ exports[`Storyshots Checklist Default selection 1`] = `
           defaultChecked={true}
           id="two"
           name="storybook-checklist-default-selection"
-          onClick={[Function]}
+          onChange={[Function]}
           type="checkbox"
           value="two"
         />
@@ -418,7 +418,7 @@ exports[`Storyshots Checklist Horizontal 1`] = `
           defaultChecked={false}
           id="one"
           name="storybook-checklist-2"
-          onClick={[Function]}
+          onChange={[Function]}
           type="checkbox"
           value="one"
         />
@@ -437,7 +437,7 @@ exports[`Storyshots Checklist Horizontal 1`] = `
           defaultChecked={false}
           id="two"
           name="storybook-checklist-2"
-          onClick={[Function]}
+          onChange={[Function]}
           type="checkbox"
           value="two"
         />
@@ -487,7 +487,7 @@ exports[`Storyshots Checklist With error 1`] = `
           defaultChecked={false}
           id="one"
           name="storybook-checklist-with-error"
-          onClick={[Function]}
+          onChange={[Function]}
           type="checkbox"
           value="one"
         />
@@ -506,7 +506,7 @@ exports[`Storyshots Checklist With error 1`] = `
           defaultChecked={false}
           id="two"
           name="storybook-checklist-with-error"
-          onClick={[Function]}
+          onChange={[Function]}
           type="checkbox"
           value="two"
         />
@@ -1273,7 +1273,7 @@ exports[`Storyshots RadioGroup Default 1`] = `
           defaultChecked={false}
           id="one"
           name="storybook-radio-group"
-          onClick={[Function]}
+          onChange={[Function]}
           type="radio"
           value="one"
         />
@@ -1292,7 +1292,7 @@ exports[`Storyshots RadioGroup Default 1`] = `
           defaultChecked={false}
           id="two"
           name="storybook-radio-group"
-          onClick={[Function]}
+          onChange={[Function]}
           type="radio"
           value="two"
         />
@@ -1335,7 +1335,7 @@ exports[`Storyshots RadioGroup Default selection 1`] = `
           defaultChecked={true}
           id="one"
           name="storybook-radio-group-default-selection"
-          onClick={[Function]}
+          onChange={[Function]}
           type="radio"
           value="one"
         />
@@ -1354,7 +1354,7 @@ exports[`Storyshots RadioGroup Default selection 1`] = `
           defaultChecked={false}
           id="two"
           name="storybook-radio-group-default-selection"
-          onClick={[Function]}
+          onChange={[Function]}
           type="radio"
           value="two"
         />
@@ -1397,7 +1397,7 @@ exports[`Storyshots RadioGroup Horizontal 1`] = `
           defaultChecked={false}
           id="one"
           name="storybook-radio-group-2"
-          onClick={[Function]}
+          onChange={[Function]}
           type="radio"
           value="one"
         />
@@ -1416,7 +1416,7 @@ exports[`Storyshots RadioGroup Horizontal 1`] = `
           defaultChecked={false}
           id="two"
           name="storybook-radio-group-2"
-          onClick={[Function]}
+          onChange={[Function]}
           type="radio"
           value="two"
         />
@@ -1466,7 +1466,7 @@ exports[`Storyshots RadioGroup With error 1`] = `
           defaultChecked={false}
           id="one"
           name="storybook-radio-group-with-error"
-          onClick={[Function]}
+          onChange={[Function]}
           type="radio"
           value="one"
         />
@@ -1485,7 +1485,7 @@ exports[`Storyshots RadioGroup With error 1`] = `
           defaultChecked={false}
           id="two"
           name="storybook-radio-group-with-error"
-          onClick={[Function]}
+          onChange={[Function]}
           type="radio"
           value="two"
         />
@@ -1935,14 +1935,13 @@ exports[`Storyshots TextInput Default 1`] = `
       htmlFor="Default-text-input"
     >
       Default text input
+       
     </label>
     <input
       className="usa-input"
       id="Default-text-input"
       name="Default-text-input"
-      onBlur={[Function]}
       onChange={[Function]}
-      onFocus={[Function]}
       type="text"
     />
   </div>
@@ -1965,15 +1964,14 @@ exports[`Storyshots TextInput Disabled 1`] = `
       htmlFor="Default-text-input"
     >
       Default text input
+       
     </label>
     <input
       className="usa-input"
       disabled={true}
       id="Default-text-input"
       name="Default-text-input"
-      onBlur={[Function]}
       onChange={[Function]}
-      onFocus={[Function]}
       type="text"
     />
   </div>
@@ -1996,6 +1994,7 @@ exports[`Storyshots TextInput Error 1`] = `
       htmlFor="Default-text-input"
     >
       Default text input
+       
     </label>
     <span
       className="usa-error-message"
@@ -2009,9 +2008,37 @@ exports[`Storyshots TextInput Error 1`] = `
       className="usa-input usa-input--error"
       id="Default-text-input"
       name="Default-text-input"
-      onBlur={[Function]}
       onChange={[Function]}
-      onFocus={[Function]}
+      type="text"
+    />
+  </div>
+</div>
+`;
+
+exports[`Storyshots TextInput Optional 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group"
+  >
+    <label
+      className="usa-label"
+      htmlFor="Default-optional-text-input"
+    >
+      Default optional text input
+       
+      (Optional)
+    </label>
+    <input
+      className="usa-input"
+      id="Default-optional-text-input"
+      name="Default-optional-text-input"
+      onChange={[Function]}
       type="text"
     />
   </div>
@@ -2034,14 +2061,13 @@ exports[`Storyshots TextInput Success 1`] = `
       htmlFor="Default-text-input"
     >
       Default text input
+       
     </label>
     <input
       className="usa-input usa-input--success"
       id="Default-text-input"
       name="Default-text-input"
-      onBlur={[Function]}
       onChange={[Function]}
-      onFocus={[Function]}
       type="text"
     />
   </div>
@@ -2064,15 +2090,14 @@ exports[`Storyshots TextInput With default value 1`] = `
       htmlFor="Default-text-input"
     >
       Default text input
+       
     </label>
     <input
       className="usa-input"
       defaultValue="default text"
       id="Default-text-input"
       name="Default-text-input"
-      onBlur={[Function]}
       onChange={[Function]}
-      onFocus={[Function]}
       type="text"
     />
   </div>

@@ -10,7 +10,7 @@ export type DateRange = {
 type DatePickerProps = {
 	onChange: (newRange: DateRange) => any;
 	dateRange: DateRange;
-	byRange: boolean;
+	byRange?: boolean;
 	possibleRange?: DateRange;
 };
 

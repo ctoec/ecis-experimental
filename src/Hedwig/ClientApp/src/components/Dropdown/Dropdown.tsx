@@ -7,9 +7,10 @@ type DropdownOption = {
 
 type DropdownProps = {
 	options: DropdownOption[];
+	selected?: string;
 	label: string;
-	unselectedOptionText: string;
-	onChange: () => any;
+	noSelectionText?: string;
+	onChange: (event: React.ChangeEvent<HTMLSelectElement>) => any;
 	id?: string;
 	success?: boolean;
 	disabled?: boolean;
@@ -19,8 +20,9 @@ type DropdownProps = {
 
 export default function Dropdown({
 	options,
+	selected,
 	label,
-	unselectedOptionText,
+	noSelectionText,
 	onChange,
 	id,
 	success,
@@ -50,10 +52,11 @@ export default function Dropdown({
 				onChange={onChange}
 				disabled={disabled}
 				aria-describedby={error ? errorMessageId : undefined}
+				value={selected}
 			>
-				<option value={undefined}>{unselectedOptionText}</option>
-				{options.map((option, i) => (
-					<option value={option.value} key={`${option.value}-${i}`}>
+				{noSelectionText && <option value={undefined}>{noSelectionText}</option>}
+				{options.map(option => (
+					<option value={option.value} key={`${option.value}`}>
 						{option.text}
 					</option>
 				))}

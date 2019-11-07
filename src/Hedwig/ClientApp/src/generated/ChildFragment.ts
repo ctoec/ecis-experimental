@@ -5,33 +5,33 @@
 import { Gender, Age, FundingSource, FundingTime } from './globalTypes';
 
 // ====================================================
-// GraphQL query operation: ChildQuery
+// GraphQL fragment: ChildFragment
 // ====================================================
 
-export interface ChildQuery_child_enrollments_site {
+export interface ChildFragment_enrollments_site {
 	__typename: 'SiteType';
 	id: number;
 	name: string;
 }
 
-export interface ChildQuery_child_enrollments_fundings {
+export interface ChildFragment_enrollments_fundings {
 	__typename: 'FundingType';
 	id: number;
 	source: FundingSource;
 	time: FundingTime;
 }
 
-export interface ChildQuery_child_enrollments {
+export interface ChildFragment_enrollments {
 	__typename: 'EnrollmentType';
 	id: number;
 	entry: OECDate | null;
 	exit: OECDate | null;
 	age: Age | null;
-	site: ChildQuery_child_enrollments_site;
-	fundings: ChildQuery_child_enrollments_fundings[];
+	site: ChildFragment_enrollments_site;
+	fundings: ChildFragment_enrollments_fundings[];
 }
 
-export interface ChildQuery_child_family_determinations {
+export interface ChildFragment_family_determinations {
 	__typename: 'FamilyDeterminationType';
 	id: number;
 	numberOfPeople: number;
@@ -39,7 +39,7 @@ export interface ChildQuery_child_family_determinations {
 	determined: OECDate;
 }
 
-export interface ChildQuery_child_family {
+export interface ChildFragment_family {
 	__typename: 'FamilyType';
 	id: number;
 	addressLine1: string | null;
@@ -48,10 +48,10 @@ export interface ChildQuery_child_family {
 	state: string | null;
 	zip: string | null;
 	homelessness: boolean;
-	determinations: ChildQuery_child_family_determinations[];
+	determinations: ChildFragment_family_determinations[];
 }
 
-export interface ChildQuery_child {
+export interface ChildFragment {
 	__typename: 'ChildType';
 	id: string;
 	sasid: string | null;
@@ -71,14 +71,6 @@ export interface ChildQuery_child {
 	hispanicOrLatinxEthnicity: boolean;
 	gender: Gender | null;
 	foster: boolean;
-	enrollments: ChildQuery_child_enrollments[];
-	family: ChildQuery_child_family | null;
-}
-
-export interface ChildQuery {
-  child: ChildQuery_child | null;
-}
-
-export interface ChildQueryVariables {
-  id: string;
+	enrollments: ChildFragment_enrollments[];
+	family: ChildFragment_family | null;
 }

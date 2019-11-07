@@ -4,7 +4,7 @@ type RadioButtonProps = {
 	text: string;
 	value: string;
 	name: string;
-	onClick: (value: any) => any;
+	onChange: (event: React.ChangeEvent<HTMLInputElement>) => any;
 	selected?: boolean;
 	className?: string;
 };
@@ -13,7 +13,7 @@ export default function RadioButton({
 	text,
 	value,
 	name,
-	onClick,
+	onChange,
 	selected,
 	className,
 }: RadioButtonProps) {
@@ -26,7 +26,7 @@ export default function RadioButton({
 				name={name}
 				value={value}
 				defaultChecked={selected}
-				onClick={value => onClick(value)}
+				onChange={onChange}
 			/>
 			<label className="usa-radio__label" htmlFor={value}>
 				{text}

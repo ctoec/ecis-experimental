@@ -13,6 +13,7 @@ import { DateRange } from '../../components/DatePicker/DatePicker';
 import Button from '../../components/Button/Button';
 import RadioGroup from '../../components/RadioGroup/RadioGroup';
 import DateSelectionForm from './DateSelectionForm';
+import getColorForFundingSource from '../../utils/getColorForFundingType';
 
 export const ROSTER_QUERY = gql`
 	query RosterQuery($from: Date, $to: Date) {
@@ -24,8 +25,9 @@ export const ROSTER_QUERY = gql`
 					id
 					entry
 					exit
+					age
 					child {
-            id
+						id
 						firstName
 						middleName
 						lastName
@@ -34,6 +36,7 @@ export const ROSTER_QUERY = gql`
 					}
 					fundings {
 						source
+						time
 					}
 				}
 			}
@@ -44,11 +47,11 @@ export const ROSTER_QUERY = gql`
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
 	const [dateRange, setDateRange] = useState<DateRange>(getDefaultDateRange());
-	const [byRange, toggleByRange] = useState(false);
+	const [byRange, setByRange] = useState(false);
 
 	function handlePastEnrollmentsChange() {
 		toggleShowPastEnrollments(!showPastEnrollments);
-		toggleByRange(false);
+		setByRange(false);
 		setDateRange(getDefaultDateRange());
 	}
 
@@ -85,15 +88,37 @@ export default function Roster() {
 			{
 				name: 'Date of birth',
 				cell: ({ row }) => (
-					<td className="oec-table__cell--tabular-nums">{row.child.birthdate && dateFormatter(row.child.birthdate)}</td>
+					<td className="oec-table__cell--tabular-nums">
+						{row.child.birthdate && dateFormatter(row.child.birthdate)}
+					</td>
 				),
 				sort: row => row.child.birthdate || 0,
 			},
 			{
 				name: 'Funding',
 				cell: ({ row }) => (
-					<td>{row.fundings.length ? <Tag text={`${row.fundings[0].source}`} /> : ''}</td>
+					<td>
+						{row.fundings.length ? (
+							<Tag
+								text={`${row.fundings[0].source}`}
+								color={getColorForFundingSource(row.fundings[0].source)}
+							/>
+						) : (
+							''
+						)}
+					</td>
 				),
+			},
+			{
+				name: 'Enrolled',
+				cell: ({ row }) => (
+					<td className="oec-table__cell--tabular-nums">
+						{row.entry
+							? dateFormatter(row.entry) + '–' + (row.exit ? dateFormatter(row.exit) : '')
+							: ''}
+					</td>
+				),
+				sort: row => row.entry || '',
 			},
 		],
 		defaultSortColumn: 0,
@@ -141,7 +166,7 @@ export default function Roster() {
 									value: 'range',
 								},
 							]}
-							onClick={(clickedValue: string) => toggleByRange(clickedValue === 'range')}
+							onChange={event => setByRange(event.target.value === 'range')}
 							horizontal={true}
 							groupName={'dateSelectionType'}
 							legend="Select date or date range."
@@ -151,7 +176,7 @@ export default function Roster() {
 							inputDateRange={dateRange}
 							byRange={byRange}
 							onReset={() => {
-								toggleByRange(false);
+								setByRange(false);
 								setDateRange(getDefaultDateRange());
 							}}
 							onSubmit={(newDateRange: DateRange) => setDateRange(newDateRange)}

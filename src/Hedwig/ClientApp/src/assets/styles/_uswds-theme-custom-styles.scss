@@ -362,6 +362,14 @@ $future-step-color: color('base-dark') !default;
 	}
 }
 
+.oec-step-list__step__summary {
+	font-size: size('ui', 3);
+
+	p {
+		@include u-margin-y('05');
+	}
+}
+
 .hedwig-enrollment-details-section {
 	@include u-padding-bottom(1);
 	border-bottom: units('1px') solid color('base-lighter');
@@ -446,4 +454,35 @@ $future-step-color: color('base-dark') !default;
 	background-color: #c9c9c9;
 	color: white;
 	pointer-events: none;
+}
+
+.usa-form {
+	h3 {
+		@include u-margin-top(4);
+		margin-bottom: 0;
+	}
+
+	fieldset {
+		@include u-margin-top(1);
+	}
+
+	.usa-button {
+		@include u-margin-top(6);
+		@include u-margin-bottom(4);
+	}
+}
+
+.oec-form-helper {
+	margin-top: 0;
+	font-size: size('ui', 4);
+	font-style: italic;
+}
+
+.oec-action-list {
+	list-style-type: none;
+	padding-left: 0;
+
+	li {
+		@include u-margin-y(2);
+	}
 }

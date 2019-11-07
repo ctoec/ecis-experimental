@@ -16,7 +16,7 @@ namespace Hedwig.Schema.Mutations
 				"updateEnrollment",
 				arguments: new QueryArguments(
 					new QueryArgument<NonNullGraphType<IntGraphType>>{ Name = "id" },
-					new QueryArgument<DateGraphType>{ Name = "entry" },
+					new QueryArgument<StringGraphType>{ Name = "entry" },
 					new QueryArgument<StringGraphType>{ Name = "exit" },
 					new QueryArgument<AgeEnumType> {Name = "age" }
 				),
@@ -32,16 +32,24 @@ namespace Hedwig.Schema.Mutations
 					}
 
 					var age = context.GetArgument<Age?>("age");
-					var entry = context.GetArgument<DateTime?>("entry");
+					var entryStr = context.GetArgument<String>("entry");
 					var exitStr = context.GetArgument<String>("exit");
 
 					if(age != null) {
 						enrollment.Age = age;
 					}
 
-					if (entry != null)
+					if (entryStr != null)
 					{
-						enrollment.Entry = (DateTime) entry;
+						DateTime? entry;
+						try {
+							entry = ValueConverter.ConvertTo<DateTime>(entryStr);
+						}
+						catch (FormatException)
+						{
+							entry = null;
+						}
+						enrollment.Entry = entry;
 					}
 
 					if (exitStr != null)
