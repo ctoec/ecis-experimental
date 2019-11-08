@@ -7,6 +7,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{922697FC-243
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hedwig", "src\Hedwig\Hedwig.csproj", "{B2868F77-A23A-467E-8225-53EF3C053EE1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{922697FC-243A-498B-8C8E-3ACFED03BA84}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HedwigTests", "src\HedwigTests\HedwigTests.csproj", "{B2868F77-A23A-467E-8225-53EF3C053EE1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

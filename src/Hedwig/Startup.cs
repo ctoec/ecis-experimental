@@ -24,7 +24,7 @@ namespace Hedwig
             Configuration = configuration;
         }
 
-        public void ConfigureServices(IServiceCollection services)
+        public virtual void ConfigureServices(IServiceCollection services)
         {
             services.ConfigureSqlServer(Configuration.GetConnectionString("HEDWIG"));
             services.ConfigureCors();
