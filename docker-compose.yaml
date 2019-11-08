@@ -6,10 +6,9 @@ services:
       SA_PASSWORD: TestPassword1
       ACCEPT_EULA: Y
   backend:
-    container_name: backend
     build:
         context: .
-        dockerfile: Dockerfile-backend
+        dockerfile: Dockerfile
     environment:
       SQLCONNSTR_HEDWIG: Server=db;Database=master;User=sa;Password=TestPassword1
       CLIENT_HOST: 'http://client:3000'
@@ -33,22 +32,6 @@ services:
     working_dir: /home/node/app
     ports:
       - 9009:9009
-    entrypoint:
-      - sh
-      - /entrypoint.sh
-  winged-keys:
-    build:
-        context: .
-        dockerfile: ./winged-keys/Dockerfile
-    environment:
-      ASPNETCORE_ENVIRONMENT: Development
-    volumes:
-      - ./winged-keys/src/WingedKeys:/app/src/WingedKeys:cached
-      # - ./winged-keys/tests/WingedKeysTests:/app/tests/WingedKeysTests:cached
-      - ./winged-keys/entrypoint.sh:/entrypoint.sh
-    working_dir: /app/src/WingedKeys
-    ports:
-      - 5050:5050
     entrypoint:
       - sh
       - /entrypoint.sh

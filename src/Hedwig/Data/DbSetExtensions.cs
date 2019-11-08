@@ -45,13 +45,13 @@ namespace Hedwig.Data
         public static IQueryable<T> AsOf<T>(this DbSet<T> dbSet, DateTime asOf) where T : class
         {
             return dbSet
-				.AsNoTracking()
-				.FromSql($@"
+                .FromSqlRaw<T>($@"
                     SELECT * 
                     FROM {dbSet.GetTableName()}
                     FOR SYSTEM_TIME AS OF {{0}}",
               	    asOf
-                );
+                )
+                .AsNoTracking();
         }
     }
 }
