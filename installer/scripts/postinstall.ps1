@@ -29,6 +29,7 @@ Copy-Item -force C:/inetpub/AspNetCoreWebApps/hedwig-spa/installer/lib/ef.dll C:
 #         See https://github.com/ctoec/ecis-experimental/wiki/Debug:-FAQs
 
 $Env:UserName > c:/cfn/installer-username.txt
+[System.Security.Principal.WindowsIdentity]::GetCurrent().Name > c:/cfn/installer-username-2.txt
 $Env:PSModulePath > c:/cfn/installer-module-path.txt
 $PSVersionTable > c:/cfn/installer-psversion.txt
 ls c:/Windows/System32/WindowsPowerShell/v1.0/Modules > c:/cfn/installer-out.txt 2> c:/cfn/installer-err.txt
