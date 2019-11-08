@@ -36,11 +36,18 @@ steps:
   #
   # Download dependencies
   #
-  - task: DotNetCoreCLI@2
-    displayName: "Script: dotnet restore"
+  #- task: DotNetCoreCLI@2
+  #  displayName: "Script: dotnet restore"
+  #  inputs:
+  #    command: restore
+  #    projects: "$(Build.SourcesDirectory)/Hedwig.sln"
+
+  - task: NuGetToolInstaller@1
+
+  - task: NuGetCommand@2
     inputs:
-      command: restore
-      projects: "$(Build.SourcesDirectory)/Hedwig.sln"
+      restoreSolution: "$(Build.SourcesDirectory)/Hedwig.sln"
+    
   #
   # Embed build id in help file
   #
