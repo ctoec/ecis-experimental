@@ -144,9 +144,13 @@ export default function Roster() {
 		byRange
 	);
 
-	const legendItems = Object.values(fundingSourceDetails).map(detailItem => ({
-		text: detailItem.fullTitle,
-		symbolColor: detailItem.colorToken,
+	const legendItems = Object.keys(fundingSourceDetails).map(key => ({
+		text: fundingSourceDetails[key].fullTitle,
+		symbolColor: fundingSourceDetails[key].colorToken,
+    number: enrollments
+      // TODO: FIX THIS
+      .filter(row => row.fundings.filter(funding => funding.source === key).length > 0)
+			.length,
 	}));
 
 	return (

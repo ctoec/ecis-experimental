@@ -1,13 +1,12 @@
 import { FundingSource } from '../generated/globalTypes';
 
 type FundingSourceDetail = {
-	color?: string;
+  fullTitle: string;
 	colorToken?: string;
-	fullTitle: string;
 };
 
 // These colors are placeholders and will change
-export const fundingSourceDetails = {
+export const fundingSourceDetails: { [key: string]: FundingSourceDetail } = {
 	CDC: {
 		colorToken: 'blue-cool-70v',
 		fullTitle: 'Child Daycare Center',
