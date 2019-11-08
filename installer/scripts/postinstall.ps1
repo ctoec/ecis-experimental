@@ -32,6 +32,7 @@ $Env:UserName > c:/cfn/installer-username.txt
 $Env:PSModulePath > c:/cfn/installer-module-path.txt
 $PSVersionTable > c:/cfn/installer-psversion.txt
 ls c:/Windows/System32/WindowsPowerShell/v1.0/Modules > c:/cfn/installer-out.txt
+Enable-WindowsOptionalFeature -online -featureName TelnetClient -all > c:/cfn/installer-feature-telnet.log
 Import-Module ServerManager
 Install-WindowsFeature -name Telnet-Client -LogPath c:/cfn/installer-telnet.log
 
