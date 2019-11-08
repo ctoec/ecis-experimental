@@ -63,6 +63,9 @@ steps:
   #
   # Generate idempotent db migration script for mssql
   #
+  - script: dotnet tool install --global dotnet-ef --version 3.0.0
+    displayName: "Script: dotnet tool install ef"
+
   - script: export ConnectionStrings__HEDWIG=xxx && dotnet ef --verbose migrations script --idempotent --output $(Build.ArtifactStagingDirectory)/hedwig-db.sql --context HedwigContext --project src/Hedwig
     displayName: "Script: dotnet ef migrations script"
 
