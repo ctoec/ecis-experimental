@@ -12,7 +12,7 @@ steps:
     displayName: 'Use .NET Core sdk'
     inputs:
       packageType: sdk
-      version: 2.2.203
+      version: 3.0.x
       installationPath: $(Agent.ToolsDirectory)/dotnet
   #
   # Setup sonarcloud authentication
@@ -50,7 +50,7 @@ steps:
   #
   # Create an optimized production build
   #
-  - script: dotnet publish "$(Build.SourcesDirectory)/src/Hedwig/hedwig.csproj" --output "$(Build.SourcesDirectory)/src/Hedwig/dist" --configuration Release --no-restore
+  - script: dotnet publish "$(Build.SourcesDirectory)/src/Hedwig/Hedwig.csproj" --output "$(Build.SourcesDirectory)/src/Hedwig/dist" --configuration Release --no-restore
     displayName: "Script: dotnet publish"
   #
   # Generate idempotent db migration script for mssql
