@@ -40,7 +40,7 @@ steps:
     displayName: "Script: dotnet restore"
     inputs:
       command: restore
-      projects: "$(Build.SourcesDirectory)/Hedwig.sln"
+      projects: "$(Build.SourcesDirectory)/src/Hedwig/Hedwig.csproj"
     
   #
   # Embed build id in help file
