@@ -37,11 +37,17 @@ steps:
   # Download dependencies
   #
   - task: DotNetCoreCLI@2
-    displayName: "Script: dotnet restore"
+    displayName: "Script: dotnet restore - Hedwig"
     inputs:
       command: restore
       projects: "$(Build.SourcesDirectory)/src/Hedwig/Hedwig.csproj"
     
+  - task: DotNetCoreCLI@2
+    displayName: "Script: dotnet restore - HedwigTests"
+    inputs:
+      command: restore
+      projects: "$(Build.SourcesDirectory)/test/HedwigTests/HedwigTests.csproj"
+   
   #
   # Embed build id in help file
   #
