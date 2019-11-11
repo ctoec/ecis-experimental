@@ -45,7 +45,7 @@ namespace Hedwig
                         app.UseStaticFiles();
                         app.UseSpaStaticFiles();
 
-			//app.UseRouting();
+			app.UseRouting();
 
 			app.UseAuthorization();
 
