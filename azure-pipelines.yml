@@ -99,20 +99,12 @@ jobs:
       packageType: sdk
       version: 3.0.x
       installationPath: $(Agent.ToolsDirectory)/dotnet
-  - script: dotnet publish "$(Build.SourcesDirectory)/src/Hedwig/Hedwig.csproj" --output "$(Build.SourcesDirectory)/src/Hedwig/dist" --configuration Release
-    displayName: "Script: dotnet publish"
-  - script: cp $(Build.SourcesDirectory)/installer/aws-windows-deployment-manifest.json $(Build.SourcesDirectory)/src/Hedwig/dist
-    displayName: "Script: add installer manifest to distribution"
-  - script: cp $(Build.SourcesDirectory)/installer/iis/web.config $(Build.SourcesDirectory)/src/Hedwig/dist
-    displayName: "Script: add installer web.config to distribution"
-  - script: cp -r $(Build.SourcesDirectory)/installer $(Build.SourcesDirectory)/src/Hedwig/dist/installer
-    displayName: "Script: add installer files to distribution"
 
 #
-# Generate idempotent db migration script for mssql
+# Build, publish, and zip app runtime release
 #
-- job: install_ef
-  displayName: 'Install Entity Framework'
+- job: package_release
+  displayName: 'Build and Package Release'
   steps:
   - task: UseDotNet@2
     displayName: 'Use .NET Core sdk'
@@ -124,14 +116,14 @@ jobs:
     displayName: "Script: dotnet tool install ef"
   - script: export ConnectionStrings__HEDWIG=xxx && $(Agent.ToolsDirectory)/dotnet-ef --verbose migrations script --idempotent --output $(Build.ArtifactStagingDirectory)/hedwig-db.sql --context HedwigContext --project src/Hedwig
     displayName: "Script: dotnet-ef migrations script"
-
-#
-# Zip app runtime release
-#
-- job: package_release
-  displayName: 'Package Release'
-  dependsOn: [publish_hedwig, install_ef]
-  steps:
+  - script: dotnet publish "$(Build.SourcesDirectory)/src/Hedwig/Hedwig.csproj" --output "$(Build.SourcesDirectory)/src/Hedwig/dist" --configuration Release
+    displayName: "Script: dotnet publish"
+  - script: cp $(Build.SourcesDirectory)/installer/aws-windows-deployment-manifest.json $(Build.SourcesDirectory)/src/Hedwig/dist
+    displayName: "Script: add installer manifest to distribution"
+  - script: cp $(Build.SourcesDirectory)/installer/iis/web.config $(Build.SourcesDirectory)/src/Hedwig/dist
+    displayName: "Script: add installer web.config to distribution"
+  - script: cp -r $(Build.SourcesDirectory)/installer $(Build.SourcesDirectory)/src/Hedwig/dist/installer
+    displayName: "Script: add installer files to distribution"
   # Embed build id in help file
   - task: replacetokens@3
     displayName: "Replace Tokens: Help.tsx"
@@ -152,17 +144,13 @@ jobs:
       #tarCompression: 'gz' # Optional. Options: gz, bz2, xz, none
       archiveFile: "$(Build.ArtifactStagingDirectory)/hedwig-spa.zip"
       replaceExistingArchive: true
-  #
   # Publish artifact to dropbox - hedwig-spa
-  #
   - task: PublishBuildArtifacts@1
     displayName: "Publish Artifacts: hedwig-spa"
     inputs:
       pathToPublish: "$(Build.ArtifactStagingDirectory)/hedwig-spa.zip"
       artifactName: hedwig-spa
-  #
   # Publish artifact to dropbox - hedwig-db
-  #
   - task: PublishBuildArtifacts@1
     displayName: "Publish Artifacts: hedwig-db"
     inputs:
