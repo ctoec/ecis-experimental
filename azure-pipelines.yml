@@ -22,7 +22,7 @@ jobs:
       version: 3.0.x
       installationPath: $(Agent.ToolsDirectory)/dotnet
   - task: DotNetCoreCLI@2
-    displayName: "Script: dotnet restore - HedwigTests"
+    displayName: "Restore HedwigTests"
     inputs:
       command: restore
       projects: "$(Build.SourcesDirectory)/test/HedwigTests/HedwigTests.csproj"
@@ -51,16 +51,16 @@ jobs:
 # Sonarcloud
 #
 - job: run_sonarcloud
-  displayName: 'Run SonarCloud'
+  displayName: 'SonarCloud'
   steps:
   - task: UseDotNet@2
-    displayName: 'Use .NET Core sdk (for SonarCloud)'
+    displayName: 'Install .NET Core SDK (for SonarCloud)'
     inputs:
       packageType: sdk
       version: 2.2.203
       installationPath: $(Agent.ToolsDirectory)/dotnet
   - task: UseDotNet@2
-    displayName: 'Use .NET Core sdk'
+    displayName: 'Install .NET Core SDK'
     inputs:
       packageType: sdk
       version: 3.0.x
@@ -76,9 +76,9 @@ jobs:
         sonar.coverage.exclusions=**/**
   # Install typescript for sonarcloud 
   - script: cd $(Build.SourcesDirectory)/src/Hedwig/ClientApp && npm install typescript --loglevel verbose
-    displayName: "Script: npm install typescript"
+    displayName: "Install Typescript"
   - task: DotNetCoreCLI@2
-    displayName: "Script: dotnet build - Hedwig"
+    displayName: "Build Hedwig"
     inputs:
       command: build
       projects: "$(Build.SourcesDirectory)/src/Hedwig/Hedwig.csproj"
@@ -88,45 +88,32 @@ jobs:
       pollingTimeoutSec: "300"  
 
 #
-# Create an optimized production build
-#
-- job: publish_hedwig
-  displayName: 'Creating production build'
-  steps:
-  - task: UseDotNet@2
-    displayName: 'Use .NET Core sdk'
-    inputs:
-      packageType: sdk
-      version: 3.0.x
-      installationPath: $(Agent.ToolsDirectory)/dotnet
-
-#
 # Build, publish, and zip app runtime release
 #
 - job: package_release
   displayName: 'Build and Package Release'
   steps:
   - task: UseDotNet@2
-    displayName: 'Use .NET Core sdk'
+    displayName: 'Install .NET Core sdk'
     inputs:
       packageType: sdk
       version: 3.0.x
       installationPath: $(Agent.ToolsDirectory)/dotnet
   - script: dotnet tool install --tool-path $(Agent.ToolsDirectory) dotnet-ef --version 3.0.0
-    displayName: "Script: dotnet tool install ef"
+    displayName: "Install EntityFramework"
   - script: export ConnectionStrings__HEDWIG=xxx && $(Agent.ToolsDirectory)/dotnet-ef --verbose migrations script --idempotent --output $(Build.ArtifactStagingDirectory)/hedwig-db.sql --context HedwigContext --project src/Hedwig
-    displayName: "Script: dotnet-ef migrations script"
+    displayName: "Generate migration script"
   - script: dotnet publish "$(Build.SourcesDirectory)/src/Hedwig/Hedwig.csproj" --output "$(Build.SourcesDirectory)/src/Hedwig/dist" --configuration Release
-    displayName: "Script: dotnet publish"
+    displayName: "Publish Hedwig"
   - script: cp $(Build.SourcesDirectory)/installer/aws-windows-deployment-manifest.json $(Build.SourcesDirectory)/src/Hedwig/dist
-    displayName: "Script: add installer manifest to distribution"
+    displayName: "Add installer manifest to distribution"
   - script: cp $(Build.SourcesDirectory)/installer/iis/web.config $(Build.SourcesDirectory)/src/Hedwig/dist
-    displayName: "Script: add installer web.config to distribution"
+    displayName: "Add installer web.config to distribution"
   - script: cp -r $(Build.SourcesDirectory)/installer $(Build.SourcesDirectory)/src/Hedwig/dist/installer
-    displayName: "Script: add installer files to distribution"
+    displayName: "Add installer files to distribution"
   # Embed build id in help file
   - task: replacetokens@3
-    displayName: "Replace Tokens: Help.tsx"
+    displayName: "Replace tokens in Help.tsx"
     inputs:
       targetFiles: "**/Help.tsx"
       encoding: "auto"
@@ -136,7 +123,7 @@ jobs:
       tokenPrefix: "__"
       tokenSuffix: "__"
   - task: ArchiveFiles@2
-    displayName: "Archive Files"
+    displayName: "Archive files"
     inputs:
       rootFolderOrFile: "$(Build.SourcesDirectory)/src/Hedwig/dist"
       includeRootFolder: false
