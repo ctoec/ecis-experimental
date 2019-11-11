@@ -26,13 +26,13 @@ namespace Hedwig.Repositories
             var permissions = _context.Permissions.Where(p => userId == p.UserId);
 
             // If a user has permission for an organization, they have permissions for all of its child sites
-            var organizationPermissions = permissions
+            var organizationPermissions = await permissions
                 .OfType<OrganizationPermission>()
                 .Include(p => p.Organization)
                     .ThenInclude(o => o.Sites)
                 .ToListAsync();
 
-            var sitePermissions = permissions
+            var sitePermissions = await permissions
                 .OfType<SitePermission>()
                 .Include(p => p.Site)
                 .ToListAsync();
