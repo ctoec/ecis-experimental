@@ -29,35 +29,39 @@ namespace Hedwig
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
-			if (env.IsDevelopment())
-			{
-				app.UseDeveloperExceptionPage();
-			}
+			//if (env.IsDevelopment())
+			//{
+			//	app.UseDeveloperExceptionPage();
+			//}
 
-			if (!env.IsDevelopment())
-			{
-				app.UseSpaStaticFiles();
-			}
+			//if (env.IsDevelopment())
+			//{
+			//	app.UseSpaStaticFiles();
+			//}
 
 			app.UseHttpsRedirection();
 
-			app.UseRouting();
+                        // this is new
+                        app.UseStaticFiles();
+                        app.UseSpaStaticFiles();
+
+			//app.UseRouting();
 
 			app.UseAuthorization();
 
-			app.UseEndpoints(endpoints =>
-			{
-				endpoints.MapControllers();
-			});
+			//app.UseEndpoints(endpoints =>
+			//{
+			//	endpoints.MapControllers();
+			//});
 
 			app.UseSpa(spa =>
 			{
 				spa.Options.SourcePath = "ClientApp";
 
-				if (!env.IsDevelopment())
-				{
-					spa.UseProxyToSpaDevelopmentServer("http://client:3000");
-				}
+				//if (env.IsDevelopment())
+				//{
+				//	spa.UseProxyToSpaDevelopmentServer("http://client:3000");
+				//}
 			});
 		}
 	}
