@@ -8,6 +8,7 @@ trigger:
 pool:
   vmImage: "ubuntu-latest"
 
+jobs:
 - job: install_dotnet_v3
   displayName: 'Install Dotnet Core SDK 3.0'
   steps:
