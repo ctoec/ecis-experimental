@@ -31,7 +31,7 @@ namespace Hedwig
 		{
 			//if (env.IsDevelopment())
 			//{
-			//	app.UseDeveloperExceptionPage();
+				app.UseDeveloperExceptionPage();
 			//}
 
 			//if (env.IsDevelopment())
@@ -49,10 +49,10 @@ namespace Hedwig
 
 			app.UseAuthorization();
 
-			//app.UseEndpoints(endpoints =>
-			//{
-			//	endpoints.MapControllers();
-			//});
+			app.UseEndpoints(endpoints =>
+			{
+				endpoints.MapControllers();
+			});
 
 			app.UseSpa(spa =>
 			{
