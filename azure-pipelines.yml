@@ -49,8 +49,8 @@ jobs:
 #
 # Setup sonarcloud authentication
 #
-- job: sonarcloud
-  displayName: 'Run SonarCloud and Publish Results'
+- job: prepare_sonarcloud
+  displayName: 'Preapre SonarCloud'
   dependsOn: install_dotnet_v2
   steps:
   - task: SonarCloudPrepare@1
@@ -68,39 +68,13 @@ jobs:
   - script: cd src/Hedwig/ClientApp
   - script: npm install typescript --loglevel verbose
     displayName: "Script: npm install typescript"
-  #
-  # Perform & publish static code analysis to sonarcloud
-  #
-  - task: SonarCloudAnalyze@1
-  - task: SonarCloudPublish@1
-    inputs:
-      pollingTimeoutSec: "300"
-
-#
-# Generate idempotent db migration script for mssql
-#
-- job: install_ef
-  displayName: 'Install Entity Framework'
-  dependsOn: install_dotnet_v3
-  steps:
-  - script: dotnet tool install --global dotnet-ef --version 3.0.0
-    displayName: "Script: dotnet tool install ef"
-  - script: export PATH="${PATH}:/root/.dotnet/tools"
-    displayName: 'Export ef location onto path'
-
-- job: generate_ef_migration_script
-  displayName: 'Generate EF Migration Script'
-  dependsOn: install_ef
-  steps:
-  - script: export ConnectionStrings__HEDWIG=xxx && dotnet ef --verbose migrations script --idempotent --output $(Build.ArtifactStagingDirectory)/hedwig-db.sql --context HedwigContext --project src/Hedwig
-    displayName: "Script: dotnet ef migrations script"
 
 #
 # Download dependencies
 #
 - job: restore_hedwig
-  displayName: 'Restorig src/Hedwig.csproj'
-  dependsOn: install_ef
+  displayName: 'Restore src/Hedwig.csproj'
+  dependsOn: install_dotnet_v3
   steps:
   - task: DotNetCoreCLI@2
     displayName: "Script: dotnet restore - Hedwig"
@@ -109,8 +83,8 @@ jobs:
       projects: "$(Build.SourcesDirectory)/src/Hedwig/Hedwig.csproj"
 
 - job: restore_hedwig_tests
-  displayName: 'Restorig tests/HedwigTests.csproj'
-  dependsOn: install_ef
+  displayName: 'Restore tests/HedwigTests.csproj'
+  dependsOn: install_dotnet_v3
   steps:
   - task: DotNetCoreCLI@2
     displayName: "Script: dotnet restore - Hedwig"
@@ -148,6 +122,18 @@ jobs:
     displayName: "Script: yarn test"
 
 #
+# Perform & publish static code analysis to sonarcloud
+#
+- job: run_sonarcloud
+  displayName: 'Run SonarCloud and Publish Results'
+  dependsOn: restore_hedwig
+  steps:
+  - task: SonarCloudAnalyze@1
+  - task: SonarCloudPublish@1
+    inputs:
+      pollingTimeoutSec: "300"
+
+#
 # Create an optimized production build
 #
 - job: publish_hedwig
@@ -164,11 +150,25 @@ jobs:
     displayName: "Script: add installer files to distribution"
 
 #
+# Generate idempotent db migration script for mssql
+#
+- job: install_ef
+  displayName: 'Install Entity Framework'
+  dependsOn: install_dotnet_v3
+  steps:
+  - script: dotnet tool install --global dotnet-ef --version 3.0.0
+    displayName: "Script: dotnet tool install ef"
+  - script: export PATH="${PATH}:/root/.dotnet/tools"
+    displayName: 'Export ef location onto path'
+  - script: export ConnectionStrings__HEDWIG=xxx && dotnet ef --verbose migrations script --idempotent --output $(Build.ArtifactStagingDirectory)/hedwig-db.sql --context HedwigContext --project src/Hedwig
+    displayName: "Script: dotnet ef migrations script"
+
+#
 # Zip app runtime release
 #
 - job: package_release
   displayName: 'Package Release'
-  dependsOn: publish_hedwig
+  dependsOn: [publish_hedwig, install_ef]
   steps:
   - task: ArchiveFiles@2
     displayName: "Archive Files"
