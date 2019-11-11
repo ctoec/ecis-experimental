@@ -54,7 +54,7 @@ namespace Hedwig
 			{
 				spa.Options.SourcePath = "ClientApp";
 
-				if (env.IsDevelopment())
+				if (!env.IsDevelopment())
 				{
 					spa.UseProxyToSpaDevelopmentServer("http://client:3000");
 				}
