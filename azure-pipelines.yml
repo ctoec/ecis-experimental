@@ -30,45 +30,6 @@ jobs:
       installationPath: $(Agent.ToolsDirectory)/dotnet
 
 #
-# Setup sonarcloud authentication
-#
-- job: prepare_sonarcloud
-  displayName: 'Set up SonarCloud Authentication'
-  steps:
-  - task: SonarCloudPrepare@1
-    inputs:
-      SonarCloud: "sonar-cloud-ctoec"
-      organization: "ctoec"
-      scannerMode: "MSBuild"
-      projectKey: "ecis-experimental"
-      extraProperties: |
-        sonar.exclusions=**/Migrations/**,**/DbInitializer.cs
-        sonar.coverage.exclusions=**/**
-
-#
-# Download dependencies
-#
-- job: restore_hedwig
-  displayName: 'Restorig src/Hedwig.csproj'
-  dependsOn: install_dotnet_v3
-  steps:
-  - task: DotNetCoreCLI@2
-    displayName: "Script: dotnet restore - Hedwig"
-    inputs:
-      command: restore
-      projects: "$(Build.SourcesDirectory)/src/Hedwig/Hedwig.csproj"
-
-- job: restore_hedwig_tests
-  displayName: 'Restorig tests/HedwigTests.csproj'
-  dependsOn: install_dotnet_v3
-  steps:
-  - task: DotNetCoreCLI@2
-    displayName: "Script: dotnet restore - Hedwig"
-    inputs:
-      command: restore
-      projects: "$(Build.SourcesDirectory)/test/HedwigTests/HedwigTests.csproj"
-
-#
 # Embed build id in help file
 #
 - job: replace_tokens
@@ -86,14 +47,21 @@ jobs:
       tokenSuffix: "__"
 
 #
-# Create an optimized production build
+# Setup sonarcloud authentication
 #
-- job: publish_hedwig
-  displayName: 'Creating production build'
-  dependsOn: restore_hedwig
+- job: prepare_sonarcloud
+  displayName: 'Set up SonarCloud Authentication'
+  dependsOn: install_dotnet_v2
   steps:
-  - script: dotnet publish "$(Build.SourcesDirectory)/src/Hedwig/Hedwig.csproj" --output "$(Build.SourcesDirectory)/src/Hedwig/dist" --configuration Release --no-restore
-    displayName: "Script: dotnet publish"
+  - task: SonarCloudPrepare@1
+    inputs:
+      SonarCloud: "sonar-cloud-ctoec"
+      organization: "ctoec"
+      scannerMode: "MSBuild"
+      projectKey: "ecis-experimental"
+      extraProperties: |
+        sonar.exclusions=**/Migrations/**,**/DbInitializer.cs
+        sonar.coverage.exclusions=**/**
 
 #
 # Generate idempotent db migration script for mssql
@@ -113,10 +81,44 @@ jobs:
     displayName: "Script: dotnet ef migrations script"
 
 #
+# Download dependencies
+#
+- job: restore_hedwig
+  displayName: 'Restorig src/Hedwig.csproj'
+  dependsOn: install_ef
+  steps:
+  - task: DotNetCoreCLI@2
+    displayName: "Script: dotnet restore - Hedwig"
+    inputs:
+      command: restore
+      projects: "$(Build.SourcesDirectory)/src/Hedwig/Hedwig.csproj"
+
+- job: restore_hedwig_tests
+  displayName: 'Restorig tests/HedwigTests.csproj'
+  dependsOn: install_ef
+  steps:
+  - task: DotNetCoreCLI@2
+    displayName: "Script: dotnet restore - Hedwig"
+    inputs:
+      command: restore
+      projects: "$(Build.SourcesDirectory)/test/HedwigTests/HedwigTests.csproj"
+
+#
+# Create an optimized production build
+#
+- job: publish_hedwig
+  displayName: 'Creating production build'
+  dependsOn: restore_hedwig
+  steps:
+  - script: dotnet publish "$(Build.SourcesDirectory)/src/Hedwig/Hedwig.csproj" --output "$(Build.SourcesDirectory)/src/Hedwig/dist" --configuration Release --no-restore
+    displayName: "Script: dotnet publish"
+
+#
 # Add installer files to distribution
 #
 - job: copy_installer_files
   displayName: 'Copy Installer Files'
+  dependsOn: publish_hedwig
   steps:
   - script: cp installer/aws-windows-deployment-manifest.json $(Build.SourcesDirectory)/src/Hedwig/dist
     displayName: "Script: add installer manifest to distribution"
@@ -130,7 +132,7 @@ jobs:
 #
 - job: test_backend
   displayName: 'Backend Tests'
-  dependsOn: restore_hedwig
+  dependsOn: restore_hedwig_tests
   steps:
   - task: DockerCompose@0
     displayName: "Docker compose run tests"
@@ -149,6 +151,7 @@ jobs:
 #
 - job: test_client
   displayName: 'Frontend Tests'
+  dependsOn: restore_hedwig_tests
   steps:
   - script: cd src/Hedwig/ClientApp && yarn test --ci
     displayName: "Script: yarn test"
@@ -158,6 +161,7 @@ jobs:
 #
 - job: install_typescript
   displayName: 'Install Typescript'
+  dependsOn: restore_hedwig
   steps:
   - script: cd src/Hedwig/ClientApp
   - script: npm install typescript --loglevel verbose
@@ -168,6 +172,7 @@ jobs:
 #
 - job: run_sonarcloud
   displayName: 'Analyze with SonarCloud and Publish Results'
+  dependsOn: prepare_sonarcloud
   steps:
   - task: SonarCloudAnalyze@1
   - task: SonarCloudPublish@1
