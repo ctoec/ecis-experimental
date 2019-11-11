@@ -6,59 +6,59 @@ using Microsoft.Extensions.Hosting;
 
 namespace Hedwig
 {
-    public class Startup
-    {
-        public IConfiguration Configuration { get; }
+	public class Startup
+	{
+		public IConfiguration Configuration { get; }
 
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+		public Startup(IConfiguration configuration)
+		{
+			Configuration = configuration;
+		}
 
-        public virtual void ConfigureServices(IServiceCollection services)
-        {
-            services.ConfigureSqlServer(Configuration.GetConnectionString("HEDWIG"));
-            services.ConfigureCors();
-            services.ConfigureSpa();
-            services.ConfigureRepositories();
-            services.ConfigureAuthentication();
-            services.AddHttpContextAccessor();
+		public virtual void ConfigureServices(IServiceCollection services)
+		{
+			services.ConfigureSqlServer(Configuration.GetConnectionString("HEDWIG"));
+			services.ConfigureCors();
+			services.ConfigureSpa();
+			services.ConfigureRepositories();
+			services.ConfigureAuthentication();
+			services.AddHttpContextAccessor();
 
-            services.AddControllers();
-        }
+			services.AddControllers();
+		}
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+		{
+			if (env.IsDevelopment())
+			{
+				app.UseDeveloperExceptionPage();
+			}
 
-            if (!env.IsDevelopment())
-            {
-                app.UseSpaStaticFiles();
-            }
+			if (!env.IsDevelopment())
+			{
+				app.UseSpaStaticFiles();
+			}
 
-            app.UseHttpsRedirection();
+			app.UseHttpsRedirection();
 
-            app.UseRouting();
+			app.UseRouting();
 
-            app.UseAuthorization();
+			app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+			app.UseEndpoints(endpoints =>
+			{
+				endpoints.MapControllers();
+			});
 
-            app.UseSpa(spa =>
-            {
-                spa.Options.SourcePath = "ClientApp";
+			app.UseSpa(spa =>
+			{
+				spa.Options.SourcePath = "ClientApp";
 
-                if (env.IsDevelopment())
-                {
-                    spa.UseProxyToSpaDevelopmentServer("http://client:3000");
-                }
-            });
-        }
-    }
+				if (env.IsDevelopment())
+				{
+					spa.UseProxyToSpaDevelopmentServer("http://client:3000");
+				}
+			});
+		}
+	}
 }
