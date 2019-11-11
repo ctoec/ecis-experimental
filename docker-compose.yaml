@@ -35,3 +35,19 @@ services:
     entrypoint:
       - sh
       - /entrypoint.sh
+  winged-keys:
+    build:
+        context: .
+        dockerfile: ./winged-keys/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    volumes:
+      - ./winged-keys/src/WingedKeys:/app/src/WingedKeys:cached
+      # - ./winged-keys/tests/WingedKeysTests:/app/tests/WingedKeysTests:cached
+      - ./winged-keys/entrypoint.sh:/entrypoint.sh
+    working_dir: /app/src/WingedKeys
+    ports:
+      - 5050:5050
+    entrypoint:
+      - sh
+      - /entrypoint.sh
