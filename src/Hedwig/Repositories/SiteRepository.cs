@@ -37,8 +37,6 @@ namespace Hedwig.Repositories
                 .Include(p => p.Site)
                 .ToListAsync();
 
-            await Task.WhenAll(sitePermissions, organizationPermissions);
-
             var sites = organizationPermissions.Result.SelectMany(p => p.Organization.Sites)
                 .Concat(sitePermissions.Result.Select(p => p.Site))
                 .Distinct();
