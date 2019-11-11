@@ -45,7 +45,13 @@ jobs:
   displayName: 'Frontend Tests'
   steps:
   - script: cd $(Build.SourcesDirectory)/src/Hedwig/ClientApp && yarn install && yarn test --ci
-    displayName: "Script: yarn test"
+    displayName: "Install node_modules and Run Tests"
+  - task: PublishTestResults@2
+    displayName: "Publish test results"
+    inputs:
+      testResultsFormat: "VSTest"
+      testResultsFiles: "**/*.trx"
+      failTaskOnFailedTests: true
 
 #
 # Sonarcloud
@@ -105,6 +111,8 @@ jobs:
     displayName: "Generate migration script"
   - script: dotnet publish "$(Build.SourcesDirectory)/src/Hedwig/Hedwig.csproj" --output "$(Build.SourcesDirectory)/src/Hedwig/dist" --configuration Release
     displayName: "Publish Hedwig"
+  - script: cp $(Build.SourcesDirectory)/src/Hedwig/appsettings.json $(Build.SourcesDirectory)/src/Hedwig/dist
+    displayName: "Add appsettings.json to distribution"
   - script: cp $(Build.SourcesDirectory)/installer/aws-windows-deployment-manifest.json $(Build.SourcesDirectory)/src/Hedwig/dist
     displayName: "Add installer manifest to distribution"
   - script: cp $(Build.SourcesDirectory)/installer/iis/web.config $(Build.SourcesDirectory)/src/Hedwig/dist
