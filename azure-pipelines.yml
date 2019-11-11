@@ -116,9 +116,8 @@ jobs:
 #
 - job: publish_hedwig
   displayName: 'Creating production build'
-  dependsOn: restore_hedwig
   steps:
-  - script: dotnet publish "$(Build.SourcesDirectory)/src/Hedwig/Hedwig.csproj" --output "$(Build.SourcesDirectory)/src/Hedwig/dist" --configuration Release --no-restore
+  - script: dotnet publish "$(Build.SourcesDirectory)/src/Hedwig/Hedwig.csproj" --output "$(Build.SourcesDirectory)/src/Hedwig/dist" --configuration Release
     displayName: "Script: dotnet publish"
   - script: cp installer/aws-windows-deployment-manifest.json $(Build.SourcesDirectory)/src/Hedwig/dist
     displayName: "Script: add installer manifest to distribution"
