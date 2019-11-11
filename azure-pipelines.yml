@@ -29,6 +29,41 @@ jobs:
       version: 3.0.x
       installationPath: $(Agent.ToolsDirectory)/dotnet
 
+# Backend Tests
+- job: test_backend
+  displayName: 'Backend Tests'
+  dependsOn: install_dotnet_v3
+  steps:
+  - task: DotNetCoreCLI@2
+    displayName: "Script: dotnet restore - HedwigTests"
+    inputs:
+      command: restore
+      projects: "$(Build.SourcesDirectory)/test/HedwigTests/HedwigTests.csproj"
+  - task: DockerCompose@0
+    displayName: "Docker compose run tests"
+    inputs:
+      dockerComposeFile: "docker-compose.test.yaml"
+      dockerComposeCommand: "up --exit-code-from test_backend"
+  - task: PublishTestResults@2
+    displayName: "Publish test results"
+    inputs:
+      testResultsFormat: "VSTest"
+      testResultsFiles: "**/*.trx"
+      failTaskOnFailedTests: true
+
+# Frontend Tests
+- job: test_frontend
+  displayName: 'Frontend Tests'
+  dependsOn: install_dotnet_v3
+  steps:
+  - task: DotNetCoreCLI@2
+    displayName: "Script: dotnet restore - HedwigTests"
+    inputs:
+      command: restore
+      projects: "$(Build.SourcesDirectory)/test/HedwigTests/HedwigTests.csproj"
+  - script: cd src/Hedwig/ClientApp && yarn test --ci
+    displayName: "Script: yarn test"
+
 #
 # Embed build id in help file
 #
@@ -46,9 +81,7 @@ jobs:
       tokenPrefix: "__"
       tokenSuffix: "__"
 
-#
-# Setup sonarcloud authentication
-#
+# Sonarcloud
 - job: prepare_sonarcloud
   displayName: 'Preapre SonarCloud'
   dependsOn: install_dotnet_v2
@@ -68,70 +101,15 @@ jobs:
   - script: cd src/Hedwig/ClientApp
   - script: npm install typescript --loglevel verbose
     displayName: "Script: npm install typescript"
-
-#
-# Download dependencies
-#
-- job: restore_hedwig
-  displayName: 'Restore src/Hedwig.csproj'
-  dependsOn: install_dotnet_v3
-  steps:
   - task: DotNetCoreCLI@2
     displayName: "Script: dotnet restore - Hedwig"
     inputs:
       command: restore
       projects: "$(Build.SourcesDirectory)/src/Hedwig/Hedwig.csproj"
-
-- job: restore_hedwig_tests
-  displayName: 'Restore tests/HedwigTests.csproj'
-  dependsOn: install_dotnet_v3
-  steps:
-  - task: DotNetCoreCLI@2
-    displayName: "Script: dotnet restore - Hedwig"
-    inputs:
-      command: restore
-      projects: "$(Build.SourcesDirectory)/test/HedwigTests/HedwigTests.csproj"
-
-#
-# Perform backend tests and publish results
-#
-- job: test_backend
-  displayName: 'Backend Tests'
-  dependsOn: restore_hedwig_tests
-  steps:
-  - task: DockerCompose@0
-    displayName: "Docker compose run tests"
-    inputs:
-      dockerComposeFile: "docker-compose.test.yaml"
-      dockerComposeCommand: "up --exit-code-from test_backend"
-  - task: PublishTestResults@2
-    displayName: "Publish test results"
-    inputs:
-      testResultsFormat: "VSTest"
-      testResultsFiles: "**/*.trx"
-      failTaskOnFailedTests: true
-
-#
-# Perform client unit tests
-#
-- job: test_client
-  displayName: 'Frontend Tests'
-  dependsOn: restore_hedwig_tests
-  steps:
-  - script: cd src/Hedwig/ClientApp && yarn test --ci
-    displayName: "Script: yarn test"
-
-#
-# Perform & publish static code analysis to sonarcloud
-#
-- job: run_sonarcloud
-  displayName: 'Run SonarCloud and Publish Results'
-  dependsOn: restore_hedwig
-  steps:
   - task: SonarCloudAnalyze@1
   - task: SonarCloudPublish@1
     inputs:
-      pollingTimeoutSec: "300"
+      pollingTimeoutSec: "300"  
 
 #
 # Create an optimized production build
