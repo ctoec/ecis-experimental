@@ -8,17 +8,6 @@ trigger:
 pool:
   vmImage: "ubuntu-latest"
 
-jobs:
-- job: install_dotnet_v2
-  displayName: 'Install Dotnet Core SDK 2.2'
-  steps:
-  - task: UseDotNet@2
-    displayName: 'Use .NET Core sdk (for SonarCloud)'
-    inputs:
-      packageType: sdk
-      version: 2.2.203
-      installationPath: $(Agent.ToolsDirectory)/dotnet
-
 - job: install_dotnet_v3
   displayName: 'Install Dotnet Core SDK 3.0'
   steps:
@@ -29,7 +18,9 @@ jobs:
       version: 3.0.x
       installationPath: $(Agent.ToolsDirectory)/dotnet
 
+#
 # Backend Tests
+#
 - job: test_backend
   displayName: 'Backend Tests'
   dependsOn: install_dotnet_v3
@@ -51,41 +42,27 @@ jobs:
       testResultsFiles: "**/*.trx"
       failTaskOnFailedTests: true
 
+#
 # Frontend Tests
+#
 - job: test_frontend
   displayName: 'Frontend Tests'
-  dependsOn: install_dotnet_v3
   steps:
-  - task: DotNetCoreCLI@2
-    displayName: "Script: dotnet restore - HedwigTests"
-    inputs:
-      command: restore
-      projects: "$(Build.SourcesDirectory)/test/HedwigTests/HedwigTests.csproj"
   - script: cd $(Build.SourcesDirectory)/src/Hedwig/ClientApp && yarn install && yarn test --ci
     displayName: "Script: yarn test"
 
 #
-# Embed build id in help file
-#
-- job: replace_tokens
-  displayName: 'Replace Tokens: Help.tsx'
-  steps:
-  - task: replacetokens@3
-    displayName: "Replace Tokens: Help.tsx"
-    inputs:
-      targetFiles: "**/Help.tsx"
-      encoding: "auto"
-      writeBOM: true
-      actionOnMissing: "warn"
-      keepToken: false
-      tokenPrefix: "__"
-      tokenSuffix: "__"
-
 # Sonarcloud
-- job: prepare_sonarcloud
-  displayName: 'Prepare SonarCloud'
-  dependsOn: install_dotnet_v2
+#
+- job: run_sonarcloud
+  displayName: 'Run SonarCloud'
   steps:
+  - task: UseDotNet@2
+    displayName: 'Use .NET Core sdk (for SonarCloud)'
+    inputs:
+      packageType: sdk
+      version: 2.2.203
+      installationPath: $(Agent.ToolsDirectory)/dotnet
   - task: SonarCloudPrepare@1
     inputs:
       SonarCloud: "sonar-cloud-ctoec"
@@ -133,7 +110,7 @@ jobs:
   steps:
   - script: dotnet tool install --tool-path $(Agent.ToolsDirectory) dotnet-ef --version 3.0.0
     displayName: "Script: dotnet tool install ef"
-  - script: export ConnectionStrings__HEDWIG=xxx && dotnet-ef --verbose migrations script --idempotent --output $(Build.ArtifactStagingDirectory)/hedwig-db.sql --context HedwigContext --project src/Hedwig
+  - script: export ConnectionStrings__HEDWIG=xxx && $(Agent.ToolsDirectory)/dotnet-ef --verbose migrations script --idempotent --output $(Build.ArtifactStagingDirectory)/hedwig-db.sql --context HedwigContext --project src/Hedwig
     displayName: "Script: dotnet-ef migrations script"
 
 #
@@ -143,6 +120,17 @@ jobs:
   displayName: 'Package Release'
   dependsOn: [publish_hedwig, install_ef]
   steps:
+  # Embed build id in help file
+  - task: replacetokens@3
+    displayName: "Replace Tokens: Help.tsx"
+    inputs:
+      targetFiles: "**/Help.tsx"
+      encoding: "auto"
+      writeBOM: true
+      actionOnMissing: "warn"
+      keepToken: false
+      tokenPrefix: "__"
+      tokenSuffix: "__"
   - task: ArchiveFiles@2
     displayName: "Archive Files"
     inputs:
