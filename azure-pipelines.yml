@@ -133,10 +133,7 @@ jobs:
   steps:
   - script: dotnet tool install --tool-path $(Agent.ToolsDirectory) dotnet-ef --version 3.0.0
     displayName: "Script: dotnet tool install ef"
-  - script: export PATH="${PATH}:/${USER}/.dotnet/tools"
-    displayName: 'Export ef location onto path'
-  - script: echo $PATH
-  - script: export ConnectionStrings__HEDWIG=xxx && dotnet ef --verbose migrations script --idempotent --output $(Build.ArtifactStagingDirectory)/hedwig-db.sql --context HedwigContext --project src/Hedwig
+  - script: export ConnectionStrings__HEDWIG=xxx && dotnet-ef --verbose migrations script --idempotent --output $(Build.ArtifactStagingDirectory)/hedwig-db.sql --context HedwigContext --project src/Hedwig
     displayName: "Script: dotnet-ef migrations script"
 
 #
