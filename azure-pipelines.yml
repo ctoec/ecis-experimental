@@ -1,13 +1,17 @@
 #
 #  This is the driver file for Azure DevOps 2019 build pipeline
 #
+
 trigger:
   - master
 
 pool:
   vmImage: "ubuntu-latest"
 
-steps:
+jobs:
+- job: install_dotnet_v2
+  displayName: 'Install Dotnet Core SDK 2.2'
+  steps:
   - task: UseDotNet@2
     displayName: 'Use .NET Core sdk (for SonarCloud)'
     inputs:
@@ -15,15 +19,22 @@ steps:
       version: 2.2.203
       installationPath: $(Agent.ToolsDirectory)/dotnet
 
+- job: install_dotnet_v3
+  displayName: 'Install Dotnet Core SDK 3.0'
+  steps:
   - task: UseDotNet@2
     displayName: 'Use .NET Core sdk'
     inputs:
       packageType: sdk
       version: 3.0.x
       installationPath: $(Agent.ToolsDirectory)/dotnet
-  #
-  # Setup sonarcloud authentication
-  #
+
+#
+# Setup sonarcloud authentication
+#
+- job: prepare_sonarcloud
+  displayName: 'Set up SonarCloud Authentication'
+  steps:
   - task: SonarCloudPrepare@1
     inputs:
       SonarCloud: "sonar-cloud-ctoec"
@@ -33,24 +44,36 @@ steps:
       extraProperties: |
         sonar.exclusions=**/Migrations/**,**/DbInitializer.cs
         sonar.coverage.exclusions=**/**
-  #
-  # Download dependencies
-  #
+
+#
+# Download dependencies
+#
+- job: restore_hedwig
+  displayName: 'Restorig src/Hedwig.csproj'
+  dependsOn: install_dotnet_v3
+  steps:
   - task: DotNetCoreCLI@2
     displayName: "Script: dotnet restore - Hedwig"
     inputs:
       command: restore
       projects: "$(Build.SourcesDirectory)/src/Hedwig/Hedwig.csproj"
-    
+
+- job: restore_hedwig_tests
+  displayName: 'Restorig tests/HedwigTests.csproj'
+  dependsOn: install_dotnet_v3
+  steps:
   - task: DotNetCoreCLI@2
-    displayName: "Script: dotnet restore - HedwigTests"
+    displayName: "Script: dotnet restore - Hedwig"
     inputs:
       command: restore
       projects: "$(Build.SourcesDirectory)/test/HedwigTests/HedwigTests.csproj"
-   
-  #
-  # Embed build id in help file
-  #
+
+#
+# Embed build id in help file
+#
+- job: replace_tokens
+  displayName: 'Replace Tokens: Help.tsx'
+  steps:
   - task: replacetokens@3
     displayName: "Replace Tokens: Help.tsx"
     inputs:
@@ -61,23 +84,40 @@ steps:
       keepToken: false
       tokenPrefix: "__"
       tokenSuffix: "__"
-  #
-  # Create an optimized production build
-  #
+
+#
+# Create an optimized production build
+#
+- job: publish_hedwig
+  displayName: 'Creating production build'
+  dependsOn: restore_hedwig
+  steps:
   - script: dotnet publish "$(Build.SourcesDirectory)/src/Hedwig/Hedwig.csproj" --output "$(Build.SourcesDirectory)/src/Hedwig/dist" --configuration Release --no-restore
     displayName: "Script: dotnet publish"
-  #
-  # Generate idempotent db migration script for mssql
-  #
+
+#
+# Generate idempotent db migration script for mssql
+#
+- job: install_ef
+  displayName: 'Install Entity Framework'
+  dependsOn: install_dotnet_v3
+  steps:
   - script: dotnet tool install --global dotnet-ef --version 3.0.0
     displayName: "Script: dotnet tool install ef"
 
+- job: generate_ef_migration_script
+  displayName: 'Generate EF Migration Script'
+  dependsOn: install_ef
+  steps:
   - script: export ConnectionStrings__HEDWIG=xxx && dotnet ef --verbose migrations script --idempotent --output $(Build.ArtifactStagingDirectory)/hedwig-db.sql --context HedwigContext --project src/Hedwig
     displayName: "Script: dotnet ef migrations script"
 
-  #
-  # Add installer files to distribution
-  #
+#
+# Add installer files to distribution
+#
+- job: copy_installer_files
+  displayName: 'Copy Installer Files'
+  steps:
   - script: cp installer/aws-windows-deployment-manifest.json $(Build.SourcesDirectory)/src/Hedwig/dist
     displayName: "Script: add installer manifest to distribution"
   - script: cp installer/iis/web.config $(Build.SourcesDirectory)/src/Hedwig/dist
@@ -85,18 +125,18 @@ steps:
   - script: cp -r installer $(Build.SourcesDirectory)/src/Hedwig/dist/installer
     displayName: "Script: add installer files to distribution"
 
-  #
-  # Perform backend tests
-  #
+#
+# Perform backend tests and publish results
+#
+- job: test_backend
+  displayName: 'Backend Tests'
+  dependsOn: restore_hedwig
+  steps:
   - task: DockerCompose@0
     displayName: "Docker compose run tests"
     inputs:
       dockerComposeFile: "docker-compose.test.yaml"
       dockerComposeCommand: "up --exit-code-from test_backend"
-
-  #
-  # Publish backend test results
-  #
   - task: PublishTestResults@2
     displayName: "Publish test results"
     inputs:
@@ -104,26 +144,43 @@ steps:
       testResultsFiles: "**/*.trx"
       failTaskOnFailedTests: true
 
-  #
-  # Perform client unit tests
-  #
+#
+# Perform client unit tests
+#
+- job: test_client
+  displayName: 'Frontend Tests'
+  steps:
   - script: cd src/Hedwig/ClientApp && yarn test --ci
     displayName: "Script: yarn test"
-  #
-  # Install typescript for sonarcloud
-  #
+
+#
+# Install typescript for sonarcloud
+#
+- job: install_typescript
+  displayName: 'Install Typescript'
+  steps:
+  - script: cd src/Hedwig/ClientApp
   - script: npm install typescript --loglevel verbose
     displayName: "Script: npm install typescript"
-  #
-  # Perform & publish static code analysis to sonarcloud
-  #
+
+#
+# Perform & publish static code analysis to sonarcloud
+#
+- job: run_sonarcloud
+  displayName: 'Analyze with SonarCloud and Publish Results'
+  steps:
   - task: SonarCloudAnalyze@1
   - task: SonarCloudPublish@1
     inputs:
       pollingTimeoutSec: "300"
-  #
-  # Zip app runtime release
-  #
+
+#
+# Zip app runtime release
+#
+- job: package_release
+  displayName: 'Package Release'
+  dependsOn: publish_hedwig
+  steps:
   - task: ArchiveFiles@2
     displayName: "Archive Files"
     inputs:
@@ -157,6 +214,3 @@ steps:
 #     - package.json must include "test": "CI=true react-scripts test --env=jsdom",
 #        or yarn test will hang during CI build
 #
-
-
-
