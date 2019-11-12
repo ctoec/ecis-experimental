@@ -64,5 +64,10 @@ namespace Hedwig
 						};
 					});
 		}
+
+		public static void ConfigureControllers(this IServiceCollection services)
+		{
+			services.AddControllers();
+		}
 	}
 }

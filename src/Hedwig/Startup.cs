@@ -19,6 +19,7 @@ namespace Hedwig
 		{
 			services.ConfigureSqlServer(Configuration.GetConnectionString("HEDWIG"));
 			services.ConfigureCors();
+			services.ConfigureControllers();
 			services.ConfigureSpa();
 			services.ConfigureRepositories();
 			services.ConfigureAuthentication();
@@ -41,13 +42,11 @@ namespace Hedwig
 
 			app.UseHttpsRedirection();
 
-                        // this is new
-                        app.UseDefaultFiles();
-                        app.UseStaticFiles();
-                        //app.UseSpaStaticFiles();
-
 			app.UseRouting();
 
+			app.UseCors();
+
+			app.UseAuthentication();
 			app.UseAuthorization();
 
 			app.UseEndpoints(endpoints =>
