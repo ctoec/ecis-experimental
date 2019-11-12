@@ -59,6 +59,9 @@ namespace Hedwig
 			app.UseSpa(spa =>
 			{
 				spa.Options.SourcePath = "ClientApp";
+				// spa.Options.DefaultPageStaticFileOptions = new StaticFileOptions {
+				// 	RequestPath = "ClientApp/build",
+				// };
 
 				//if (env.IsDevelopment())
 				//{
