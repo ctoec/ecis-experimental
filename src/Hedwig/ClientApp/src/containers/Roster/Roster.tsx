@@ -147,10 +147,9 @@ export default function Roster() {
 	const legendItems = Object.keys(fundingSourceDetails).map(key => ({
 		text: fundingSourceDetails[key].fullTitle,
 		symbolColor: fundingSourceDetails[key].colorToken,
-    number: enrollments
-      // TODO: FIX THIS
-      .filter(row => row.fundings.filter(funding => funding.source === key).length > 0)
-			.length,
+		number: enrollments.filter(
+			row => row.fundings.filter(funding => funding.source === key).length > 0
+		).length,
 	}));
 
 	return (

@@ -19,21 +19,22 @@ export default function Legend({ items }: LegendProps) {
 				<div className="grid-col-1 flex-1" key={item.text.split(' ').join('-')}>
 					<svg height="16" width="20" className="legend-svg">
 						<rect
-							width="20px"
+							width="16px"
 							height="16px"
 							rx="4px"
-							ry="4px"
-							style={{ fill: item.symbolColor || 'black' }}
+              ry="4px"
+              className={`fill-${item.symbolColor}`}
 						/>
 					</svg>
-          <div className={`width-fit-content display-inline margin-left-1 margin-bottom-1 ${item.textClass || ''}`}>
-            {item.number && <span className="margin-right-1 text-bold">
-              {item.number}
-            </span>}
-            <span>
-              {item.text}
-            </span>
-          </div>
+					<div
+						className={`width-fit-content display-inline margin-left-1 margin-bottom-1 ${item.textClass ||
+							''}`}
+					>
+						{item.number !== undefined && (
+							<span className="margin-right-1 text-bold">{item.number}</span>
+						)}
+						<span>{item.text}</span>
+					</div>
 				</div>
 			))}
 		</div>
