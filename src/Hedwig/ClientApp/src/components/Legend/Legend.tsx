@@ -22,8 +22,8 @@ export default function Legend({ items }: LegendProps) {
 							width="16px"
 							height="16px"
 							rx="4px"
-              ry="4px"
-              className={`fill-${item.symbolColor}`}
+							ry="4px"
+							className={`fill-${item.symbolColor}`}
 						/>
 					</svg>
 					<div

@@ -42,7 +42,7 @@ const laterFakeEnrollment = {
 		{
 			entry: '2019-03-01',
 			exit: '2019-04-01',
-			source: 'Gringotts Goblins Grant for Gifted Girls',
+			source: 'CDC',
 			time: 'part',
 		},
 	],

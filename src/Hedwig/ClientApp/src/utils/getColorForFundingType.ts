@@ -12,11 +12,11 @@ export const fundingSourceDetails: { [key: string]: FundingSourceDetail } = {
 		fullTitle: 'Child Daycare Center',
 	},
 	SRS: {
-		colorToken: 'green-cool-30',
+		colorToken: 'violet-warm-30',
 		fullTitle: 'School Readiness',
 	},
 	C4K: {
-		colorToken: 'violet-warm-30',
+		colorToken: 'green-cool-30',
 		fullTitle: 'Care 4 Kids',
 	},
 };
