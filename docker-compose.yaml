@@ -6,10 +6,9 @@ services:
       SA_PASSWORD: TestPassword1
       ACCEPT_EULA: Y
   backend:
-    container_name: backend
     build:
         context: .
-        dockerfile: Dockerfile-backend
+        dockerfile: Dockerfile
     environment:
       SQLCONNSTR_HEDWIG: Server=db;Database=master;User=sa;Password=TestPassword1
       CLIENT_HOST: 'http://client:3000'
