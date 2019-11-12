@@ -49,6 +49,8 @@ namespace Hedwig
 			app.UseAuthentication();
 			app.UseAuthorization();
 
+			app.UseSpaStaticFiles();
+
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapControllers();
