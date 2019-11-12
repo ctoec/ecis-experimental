@@ -4,12 +4,54 @@ using System.Threading.Tasks;
 using System.Linq;
 using Hedwig.Data;
 using Hedwig.Models;
+using Hedwig.Security;
 using System.Security.Claims;
 
 namespace HedwigTests.Helpers
 {
 	public class AuthorizationRequirementHelper
 	{
+		public const string RequirementException = "Requirement exception";
+		private class AlwaysTrueRequirement : IAuthorizationRequirement
+		{
+			public Task Authorize(AuthorizationContext _)
+			{
+				return Task.CompletedTask;
+			}
+		}
+
+		private class AlwaysFalseRequirement : IAuthorizationRequirement
+		{
+			public Task Authorize(AuthorizationContext _)
+			{
+				_.ReportError("This always fails");
+				return Task.CompletedTask;
+			}
+		}
+
+		private class ThrowsExceptionRequirement : IAuthorizationRequirement
+		{
+			public Task Authorize(AuthorizationContext _)
+			{
+				throw new Exception(RequirementException);
+			}
+		}
+
+		public static IAuthorizationRequirement GetAlwaysTrueRequirement()
+		{
+			return new AlwaysTrueRequirement();
+		}
+
+		public static IAuthorizationRequirement GetAlwaysFalseRequirement()
+		{
+			return new AlwaysFalseRequirement();
+		}
+
+		public static IAuthorizationRequirement GetThrowsExceptionRequirement()
+		{
+			return new ThrowsExceptionRequirement();
+		}
+
 		public static ClaimsPrincipal CreatePrincipal(string authenticationType = null, IDictionary<string, string> claims = null)
 		{
 			var identity = CreateIdentity(authenticationType, claims);

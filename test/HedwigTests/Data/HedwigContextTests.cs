@@ -15,7 +15,7 @@ namespace HedwigTests.Data
         {
             // If a HedwigContext instance exists
             var opts = new DbContextOptionsBuilder<HedwigContext>()
-                .UseInMemoryDatabase<HedwigContext>("db");
+                .UseInMemoryDatabase("db");
             var httpContextAccessor = new TestHttpContextAccessorProvider().HttpContextAccessor;
             var contextMock = new Mock<HedwigContext>(opts.Options, httpContextAccessor);
             var child = new Child();
@@ -33,7 +33,7 @@ namespace HedwigTests.Data
         {
             // If a HedwigContext instance exists
             var opts = new DbContextOptionsBuilder<HedwigContext>()
-                .UseInMemoryDatabase<HedwigContext>("db");
+                .UseInMemoryDatabase("db");
             var httpContextAccessor = new TestContextProvider().HttpContextAccessor;
             var contextMock = new Mock<HedwigContext>(opts.Options, httpContextAccessor);
             var child = new Child();

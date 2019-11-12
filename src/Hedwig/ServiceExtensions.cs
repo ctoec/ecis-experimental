@@ -2,6 +2,17 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Hedwig.Data;
 using Hedwig.Repositories;
+using Hedwig.Schema.Types;
+using Hedwig.Schema.Queries;
+using Hedwig.Schema.Mutations;
+using Hedwig.Schema;
+using Hedwig.Security;
+using Hedwig.GraphQL;
+using GraphQL;
+using GraphQL.Server;
+using GraphQL.Server.Internal;
+using GraphQL.Authorization;
+using GraphQL.Validation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Net.Http;
 using System.IdentityModel.Tokens.Jwt;
@@ -50,6 +61,56 @@ namespace Hedwig
 			services.AddScoped<IUserRepository, UserRepository>();
 		}
 
+		public static void ConfigureGraphQL(this IServiceCollection services)
+		{
+			// Add Types
+			services.AddScoped<CdcReportType>();
+			services.AddScoped<ChildType>();
+			services.AddScoped<EnrollmentType>();
+			services.AddScoped<FamilyDeterminationType>();
+			services.AddScoped<FamilyType>();
+			services.AddScoped<FundingType>();
+			services.AddScoped<OrganizationType>();
+			services.AddScoped<ReportType>();
+			services.AddScoped<SiteType>();
+			services.AddScoped<UserType>();
+			services.AddScoped<GenderEnumType>();
+			services.AddScoped<FundingSourceEnumType>();
+			services.AddScoped<FundingTimeEnumType>();
+
+			// Add Queries
+			services.AddScoped<IAppSubQuery, EnrollmentQuery>();
+			services.AddScoped<IAppSubQuery, UserQuery>();
+			services.AddScoped<IAppSubQuery, ChildQuery>();
+			services.AddScoped<IAppSubQuery, ReportQuery>();
+
+			// Add Mutations
+			services.AddScoped<IAppSubMutation, ReportMutation>();
+			services.AddScoped<IAppSubMutation, EnrollmentMutation>();
+			services.AddScoped<IAppSubMutation, FamilyMutation>();
+			services.AddScoped<IAppSubMutation, FamilyDeterminationMutation>();
+			services.AddScoped<IAppSubMutation, ChildMutation>();
+			services.AddScoped<IAppSubMutation, FundingMutation>();
+
+			// Add Middlewares
+			services.AddScoped<IFieldsMiddleware, CommitMutationFieldsMiddleware>();
+
+			services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
+			services.AddScoped<AppSchema>();
+
+			services.AddGraphQL(o =>
+				{
+					o.ExposeExceptions = false;
+				})
+				.AddGraphTypes(ServiceLifetime.Scoped)
+				.AddDataLoader()
+				.AddUserContextBuilder<RequestContext>(RequestContext.RequestContextCreator);
+
+			// Add Executer
+			// NOTE: This must come after services.AddGraphQL
+			services.AddScoped(typeof(IGraphQLExecuter<>), typeof(HedwigExecutor<>));
+		}
+
 		public static void ConfigureAuthentication(this IServiceCollection services)
 		{
 			JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
@@ -65,9 +126,16 @@ namespace Hedwig
 					});
 		}
 
-		public static void ConfigureControllers(this IServiceCollection services)
+		public static void ConfigureGraphQLAuthorization(this IServiceCollection services)
 		{
-			services.AddControllers();
+			services.AddScoped<Hedwig.Security.IAuthorizationEvaluator, Hedwig.Security.AuthorizationEvaluator>();
+			services.AddTransient<IValidationRule, Hedwig.Security.AuthorizationValidationRule>();
+			services.AddScoped<Permissions>();
+			services.AddScoped<DevelopmentRequirement>();
+			services.AddScoped(s => {
+				Permissions permissions = s.GetRequiredService<Permissions>();
+				return permissions.GetAuthorizationSettings();
+			});
 		}
 	}
 }

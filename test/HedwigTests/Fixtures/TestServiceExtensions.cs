@@ -1,5 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using GraphQL.Authorization;
+using GraphQL.Validation;
+using Hedwig.Security;
 
 namespace HedwigTests.Fixtures
 {

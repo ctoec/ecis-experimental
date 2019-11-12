@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>netcoreapp2.2</TargetFramework>
+		<ProjectGuid>{87a917a7-a30d-42f1-8834-86474698d6e8}</ProjectGuid>
+		<TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+		<TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+		<IsPackable>false</IsPackable>
+		<SpaRoot>ClientApp\</SpaRoot>
+		<DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AWS.Logger.AspNetCore" Version="2.1.1" />
+		<PackageReference Include="GraphQL" Version="2.4.0" />
+		<PackageReference Include="GraphQL.Authorization" Version="2.1.29" />
+		<PackageReference Include="GraphQL.Server.Transports.AspNetCore" Version="3.4.0" />
+		<PackageReference Include="GraphQL.Server.Ui.Playground" Version="3.4.0" />
+		<PackageReference Include="Microsoft.AspNetCore.App">
+		  <PrivateAssets Condition="'%(PackageReference.Version)' == ''">all</PrivateAssets>
+		  <Publish Condition="'%(PackageReference.Version)' == ''">true</Publish>
+		</PackageReference>
+		<PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.6" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.6" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<!-- Don't publish the SPA source files, but do show them in the project files list -->
+		<Content Remove="$(SpaRoot)**" />
+		<None Remove="$(SpaRoot)**" />
+		<None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+	</ItemGroup>
+
+	<Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
+		<!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
+		<Exec WorkingDirectory="$(SpaRoot)" Command="yarn install" />
+		<Exec WorkingDirectory="$(SpaRoot)" Command="yarn build" />
+
+		<!-- Include the newly-built files in the publish output -->
+		<ItemGroup>
+			<DistFiles Include="$(SpaRoot)build\**" />
+			<ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+				<RelativePath>%(DistFiles.Identity)</RelativePath>
+				<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+			</ResolvedFileToPublish>
+		</ItemGroup>
+	</Target>
+
+</Project>

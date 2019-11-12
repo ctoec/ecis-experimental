@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Hedwig.Models;
 
 namespace Hedwig.Data
