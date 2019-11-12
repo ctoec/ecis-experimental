@@ -42,8 +42,9 @@ namespace Hedwig
 			app.UseHttpsRedirection();
 
                         // this is new
+                        app.UseDefaultFiles();
                         app.UseStaticFiles();
-                        app.UseSpaStaticFiles();
+                        //app.UseSpaStaticFiles();
 
 			app.UseRouting();
 
