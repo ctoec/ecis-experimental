@@ -1,8 +1,18 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+
+// GraphQL Support
+using GraphQL.Server;
+using GraphQL.Server.Ui.Playground;
+using GraphQL.Authorization;
+using GraphQL.Validation;
+using Hedwig.Schema;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+// End GraphQL Support
 
 namespace Hedwig
 {
@@ -25,7 +35,14 @@ namespace Hedwig
 			services.ConfigureAuthentication();
 			services.AddHttpContextAccessor();
 
-			services.AddControllers();
+			// GraphQL Support
+			services.Configure<KestrelServerOptions>(options =>
+			{
+					options.AllowSynchronousIO = true;
+			});
+			services.ConfigureGraphQL();
+			services.ConfigureGraphQLAuthorization();
+			// GraphQL Support
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -44,6 +61,11 @@ namespace Hedwig
 			app.UseAuthentication();
 			app.UseAuthorization();
 
+			// GraphQL Support
+			app.UseGraphQL<AppSchema>();
+			app.UseGraphQLPlayground(options: new GraphQLPlaygroundOptions());
+			// End GraphQL Support
+
 			if (!env.IsDevelopment())
 			{
 				app.UseSpaStaticFiles();
@@ -60,7 +82,8 @@ namespace Hedwig
 
 				if (env.IsDevelopment())
 				{
-					spa.UseProxyToSpaDevelopmentServer("http://client:3000");
+					string CLIENT_HOST = Environment.GetEnvironmentVariable("CLIENT_HOST") ?? "http://localhost:3000";
+					spa.UseProxyToSpaDevelopmentServer(CLIENT_HOST);
 				}
 			});
 		}

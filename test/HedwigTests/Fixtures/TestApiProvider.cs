@@ -17,12 +17,15 @@ namespace HedwigTests.Fixtures
 			var config = new ConfigurationBuilder()
 				.AddEnvironmentVariables()
 				.Build();
-				
-			_server = new TestServer(
-				new WebHostBuilder()
-					.UseConfiguration(config)
-					.UseStartup<TestStartup>()
-			);
+
+			var builder = new WebHostBuilder()
+				.UseConfiguration(config)
+				.UseStartup<TestStartup>();
+
+			_server = new TestServer(builder);
+			// GraphQL Support
+			_server.AllowSynchronousIO = true;
+			// End GraphQL Support
 			var scope = _server.Host.Services.CreateScope();
 			Context = scope.ServiceProvider.GetRequiredService<TestHedwigContext>();
 			Client = _server.CreateClient();
