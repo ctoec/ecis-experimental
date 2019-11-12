@@ -30,15 +30,10 @@ namespace Hedwig
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
-			//if (env.IsDevelopment())
-			//{
+			if (env.IsDevelopment())
+			{
 				app.UseDeveloperExceptionPage();
-			//}
-
-			//if (env.IsDevelopment())
-			//{
-			//	app.UseSpaStaticFiles();
-			//}
+			}
 
 			app.UseHttpsRedirection();
 
@@ -49,7 +44,10 @@ namespace Hedwig
 			app.UseAuthentication();
 			app.UseAuthorization();
 
-			app.UseSpaStaticFiles();
+			if (!env.IsDevelopment())
+			{
+				app.UseSpaStaticFiles();
+			}
 
 			app.UseEndpoints(endpoints =>
 			{
@@ -59,14 +57,11 @@ namespace Hedwig
 			app.UseSpa(spa =>
 			{
 				spa.Options.SourcePath = "ClientApp";
-				// spa.Options.DefaultPageStaticFileOptions = new StaticFileOptions {
-				// 	RequestPath = "ClientApp/build",
-				// };
 
-				//if (env.IsDevelopment())
-				//{
-				//	spa.UseProxyToSpaDevelopmentServer("http://client:3000");
-				//}
+				if (env.IsDevelopment())
+				{
+					spa.UseProxyToSpaDevelopmentServer("http://client:3000");
+				}
 			});
 		}
 	}
