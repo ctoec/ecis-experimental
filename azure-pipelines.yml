@@ -119,6 +119,18 @@ jobs:
       version: 3.0.x
       installationPath: $(Agent.ToolsDirectory)/dotnet
 
+  # Embed build id in help file
+  - task: replacetokens@3
+    displayName: "Replace tokens in Help.tsx"
+    inputs:
+      targetFiles: "**/Help.tsx"
+      encoding: "auto"
+      writeBOM: true
+      actionOnMissing: "warn"
+      keepToken: false
+      tokenPrefix: "__"
+      tokenSuffix: "__"
+
   - script: dotnet tool install --tool-path $(Agent.ToolsDirectory) dotnet-ef --version 3.0.0
     displayName: "Install EntityFramework"
 
@@ -136,18 +148,6 @@ jobs:
     displayName: "Add installer web.config to distribution"
   - script: cp -r $(Build.SourcesDirectory)/installer $(Build.SourcesDirectory)/src/Hedwig/dist/installer
     displayName: "Add installer files to distribution"
-
-  # Embed build id in help file
-  - task: replacetokens@3
-    displayName: "Replace tokens in Help.tsx"
-    inputs:
-      targetFiles: "**/Help.tsx"
-      encoding: "auto"
-      writeBOM: true
-      actionOnMissing: "warn"
-      keepToken: false
-      tokenPrefix: "__"
-      tokenSuffix: "__"
 
   - task: ArchiveFiles@2
     displayName: "Archive files"
