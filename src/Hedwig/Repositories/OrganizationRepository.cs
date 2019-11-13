@@ -21,10 +21,17 @@ namespace Hedwig.Repositories
 				.ToDictionaryAsync(x => x.Id);
 			return dict as IDictionary<int, Organization>;
 		}
+
+		public async Task<Organization> GetOrganizationByIdAsync(int id)
+		{
+			return await _context.Organizations
+				.SingleOrDefaultAsync(o => o.Id == id);
+		}
 	}
 
 	public interface IOrganizationRepository
 	{
 		Task<IDictionary<int, Organization>> GetOrganizationsByIdsAsync(IEnumerable<int> ids);
+		Task<Organization> GetOrganizationByIdAsync(int id);
 	}
 }
