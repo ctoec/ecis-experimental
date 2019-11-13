@@ -3,27 +3,37 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Hedwig.Repositories;
+using Hedwig.Models;
 
 namespace Hedwig.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class UsersController : ControllerBase
     {
-        // GET api/values
-        [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        private readonly IUserRepository _users;
+
+        public UsersController(IUserRepository users)
         {
-            return new string[] { "value1", "value2" };
+            _users = users;
         }
 
-        // GET api/values/5
+        // GET api/users/5
         [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        public async Task<ActionResult<User>> Get(int id)
+        {
+            return await _users.GetUserByIdAsync(id);
+        }
+
+        // GET api/users/current
+        [HttpGet("current")]
+        public ActionResult<string> GetCurrent()
         {
             return "value";
         }
 
+        // Examples:
         // POST api/values
         [HttpPost]
         public void Post([FromBody] string value)
