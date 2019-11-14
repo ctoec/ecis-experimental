@@ -172,4 +172,22 @@ jobs:
     inputs:
       pathToPublish: "$(Build.ArtifactStagingDirectory)/hedwig-db.sql"
       artifactName: hedwig-db
+#
+# Pull Request System
+#
+- job: pull_request_system
+  displayName: 'Pull Request System'
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
 
+  steps:
+  - task: UsePythonVersion@0
+    displayName: 'Tool: use python 3.x'
+
+  - script: 'python -m pip install awscli'
+    displayName: 'Command: install awscli via pip'
+
+  - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
+    displayName: 'Install: install terraform 0.12.3' 
+
+  - script: aws ec2 describe-instances
+    displayName: 'Command: list ec2 instances' 
