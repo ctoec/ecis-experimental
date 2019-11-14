@@ -177,7 +177,8 @@ jobs:
 #
 - job: pull_request_system
   displayName: 'Pull Request System'
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  condition: eq(variables['Build.Reason'], 'PullRequest')
+#  condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
 
   steps:
   - task: UsePythonVersion@0
