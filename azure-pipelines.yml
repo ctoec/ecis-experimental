@@ -188,7 +188,7 @@ jobs:
     displayName: 'Command: install awscli via pip'
 
   - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
-    displayName: 'Install: install terraform 0.12.3' 
+    displayName: 'Install: install terraform 0.12.13' 
 
   - script: chmod 770 $(Build.SourcesDirectory)/installer/tf/prsystem/tf-init.sh
     displayName: 'Command: setup tf script for execution'
