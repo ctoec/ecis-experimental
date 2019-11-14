@@ -201,5 +201,5 @@ jobs:
   - script: $(Build.SourcesDirectory)/installer/tf/prsystem/tf-init.sh
     displayName: 'Command: initialize terraform backend'
 
-  - script: $(Build.SourcesDirectory)/installer/tf/prsystem/tf-pr-system-setup.sh 101 master
+  - script: $(Build.SourcesDirectory)/installer/tf/prsystem/tf-pr-system-setup.sh 102 $(Build.SourceBranchName)
     displayName: 'Command: setup ubuntu system via terraform'
