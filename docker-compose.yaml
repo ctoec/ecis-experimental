@@ -33,6 +33,7 @@ services:
       - 6000:3000
     entrypoint:
       - json-server
+      - --watch
       - --routes
       - /routes.json
       - /db.json

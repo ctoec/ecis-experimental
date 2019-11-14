@@ -9,6 +9,7 @@ import routes from '../../routes';
 import { AppQuery } from '../../generated/AppQuery';
 import withLogin, { WithLoginPropsType } from '../../contexts/Login';
 import 'react-dates/initialize';
+import useOASClient from '../../hooks/useOASClient';
 
 export const APP_QUERY = gql`
 	query AppQuery {
@@ -25,6 +26,7 @@ export const APP_QUERY = gql`
 `;
 
 const App: React.FC<WithLoginPropsType> = ({ accessToken }) => {
+	useOASClient();
 	let { loading, error, data, refetch } = useAuthQuery<AppQuery>(APP_QUERY);
 	// The <App> component is only loaded once
 	// so in order to update the props to <Header>

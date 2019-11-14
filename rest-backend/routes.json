@@ -2,6 +2,7 @@
   "/organizations/1/sites/1": "/sites/1",
   "/organizations/1/sites/1/enrollments": "/enrollments",
   "/organizations/1/sites/1/enrollments/:id": "/enrollments/:id",
+  "/organizations/1/sites/1/enrollments\\?include*": "/enrollmentsHydrated",
   "/organizations/1/sites/1/enrollments/:id/fundings": "/enrollments/:id/fundings",
   "/organizations/1/sites/1/enrollments/:_/fundings/:id": "/fundings/:id",
   "/organizations/1/sites/1/children": "/children",
