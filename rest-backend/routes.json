@@ -1,0 +1,15 @@
+{
+  "/organizations/1/sites/1": "/sites/1",
+  "/organizations/1/sites/1/enrollments": "/enrollments",
+  "/organizations/1/sites/1/enrollments/:id": "/enrollments/:id",
+  "/organizations/1/sites/1/enrollments/:id/fundings": "/enrollments/:id/fundings",
+  "/organizations/1/sites/1/enrollments/:_/fundings/:id": "/fundings/:id",
+  "/organizations/1/sites/1/children": "/children",
+  "/organizations/1/sites/1/children/:id": "/children/:id",
+  "/organizations/1/sites/1/families": "/families",
+  "/organizations/1/sites/1/families/:id": "/families/:id",
+  "/organizations/1/sites/1/families/:id/determinations": "/families/:id/determinations",
+  "/organizations/1/sites/1/families/:_/determinations/:id": "/determinations/:id",
+  "/organizations/1/reports": "/reports",
+  "/organizations/1/reports/:id": "/reports/:id"
+}
