@@ -195,11 +195,17 @@ jobs:
   - script: chmod 770 $(Build.SourcesDirectory)/installer/tf/prsystem/tf-init.sh
     displayName: 'Command: setup tf script for execution'
 
+  - script: chmod 770 $(Build.SourcesDirectory)/installer/tf/prsystem/tf-pr-system-destroy.sh
+    displayName: 'Command: setup tf script for execution'
+
   - script: chmod 770 $(Build.SourcesDirectory)/installer/tf/prsystem/tf-pr-system-setup.sh
     displayName: 'Command: setup tf script for execution'
 
   - script: $(Build.SourcesDirectory)/installer/tf/prsystem/tf-init.sh
     displayName: 'Command: initialize terraform backend'
+
+  - script: $(Build.SourcesDirectory)/installer/tf/prsystem/tf-pr-system-destroy.sh $(System.PullRequest.PullRequestNumber) 
+    displayName: 'Command: destroy ubuntu system via terraform'
 
   - script: $(Build.SourcesDirectory)/installer/tf/prsystem/tf-pr-system-setup.sh $(System.PullRequest.PullRequestNumber) $(System.PullRequest.SourceBranch)
     displayName: 'Command: setup ubuntu system via terraform'
