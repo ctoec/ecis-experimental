@@ -45,14 +45,14 @@ then
   exit 9
 fi
 
-terraform plan -var="github_pr=$GITHUB_PR" -var="github_branch=$GITHUB_BRANCH" -var="aws_ec2_instance_type=$AWS_EC2_INSTANCE_TYPE" -var="aws_ec2_key_name=$AWS_EC2_KEY_NAME" -out=tfplan-$GITHUB_PR
+terraform plan -no-color -var="github_pr=$GITHUB_PR" -var="github_branch=$GITHUB_BRANCH" -var="aws_ec2_instance_type=$AWS_EC2_INSTANCE_TYPE" -var="aws_ec2_key_name=$AWS_EC2_KEY_NAME" -out=tfplan-$GITHUB_PR
 if [ $? -ne 0 ]
 then
   echo ERROR: failed to terraform plan - $GITHUB_PR $GITHUB_BRANCH
   exit 9
 fi
 
-terraform apply -input=false tfplan-$GITHUB_PR
+terraform apply -no-color -input=false tfplan-$GITHUB_PR
 if [ $? -ne 0 ]
 then
   echo ERROR: failed to terraform apply - $GITHUB_PR $GITHUB_BRANCH

@@ -32,10 +32,10 @@ IF %ERRORLEVEL% NEQ 0 GOTO :error
 terraform workspace show
 IF %ERRORLEVEL% NEQ 0 GOTO :error
 
-terraform plan -var="github_pr=%GITHUB_PR%" -var="github_branch=%GITHUB_BRANCH%" -var="aws_ec2_instance_type=%AWS_EC2_INSTANCE_TYPE%" -var="aws_ec2_key_name=%AWS_EC2_KEY_NAME%" -out=tfplan-%GITHUB_PR%
+terraform plan -no-color -var="github_pr=%GITHUB_PR%" -var="github_branch=%GITHUB_BRANCH%" -var="aws_ec2_instance_type=%AWS_EC2_INSTANCE_TYPE%" -var="aws_ec2_key_name=%AWS_EC2_KEY_NAME%" -out=tfplan-%GITHUB_PR%
 IF %ERRORLEVEL% NEQ 0 GOTO :error
 
-terraform apply -input=false tfplan-%GITHUB_PR%
+terraform apply -no-color -input=false tfplan-%GITHUB_PR%
 IF %ERRORLEVEL% NEQ 0 GOTO :error
 
 ECHO INFO: terraform system setup complete

@@ -14,7 +14,7 @@ IF %ERRORLEVEL% NEQ 0 GOTO :error
 terraform workspace show
 IF %ERRORLEVEL% NEQ 0 GOTO :error
 
-terraform destroy -auto-approve -var="github_pr=%GITHUB_PR%"
+terraform destroy -no-color -auto-approve -var="github_pr=%GITHUB_PR%"
 IF %ERRORLEVEL% NEQ 0 GOTO :error
 
 ECHO INFO: terraform system destroy complete

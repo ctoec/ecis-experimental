@@ -24,7 +24,7 @@ then
   exit 9
 fi
 
-terraform destroy -auto-approve -var="github_pr=$GITHUB_PR" 
+terraform destroy -no-color -auto-approve -var="github_pr=$GITHUB_PR" 
 if [ $? -ne 0 ]
 then
   echo ERROR: failed to terraform plan - $GITHUB_PR
