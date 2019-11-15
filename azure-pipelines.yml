@@ -34,8 +34,8 @@ jobs:
     inputs:
       dockerComposeFile: "docker-compose.test.yaml"
       dockerComposeCommand: "up --exit-code-from test_backend"
-	
-	- task: PublishTestResults@2
+
+  - task: PublishTestResults@2
     displayName: "Publish test results"
     inputs:
       testResultsFormat: "VSTest"
