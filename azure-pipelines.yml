@@ -34,6 +34,13 @@ jobs:
     inputs:
       dockerComposeFile: "docker-compose.test.yaml"
       dockerComposeCommand: "up --exit-code-from test_backend"
+	
+	- task: PublishTestResults@2
+    displayName: "Publish test results"
+    inputs:
+      testResultsFormat: "VSTest"
+      testResultsFiles: "**/*.trx"
+      failTaskOnFailedTests: true
 
 #
 # Frontend Tests
@@ -44,13 +51,6 @@ jobs:
   steps:
   - script: cd $(Build.SourcesDirectory)/src/Hedwig/ClientApp && yarn install && yarn test --ci
     displayName: "Install node_modules and Run Tests"
-
-  - task: PublishTestResults@2
-    displayName: "Publish test results"
-    inputs:
-      testResultsFormat: "VSTest"
-      testResultsFiles: "**/*.trx"
-      failTaskOnFailedTests: true
 
 #
 # Sonarcloud Analysis
