@@ -28,15 +28,15 @@ Copy-Item -force C:/inetpub/AspNetCoreWebApps/hedwig-spa/installer/lib/ef.dll C:
 #  Notes: Telnet client is used to check for open ports 
 #         See https://github.com/ctoec/ecis-experimental/wiki/Debug:-FAQs
 
-$Env:UserName > c:/cfn/installer-username.txt
-[System.Security.Principal.WindowsIdentity]::GetCurrent().Name > c:/cfn/installer-username-2.txt
-$Env:PSModulePath > c:/cfn/installer-module-path.txt
-Install-Module -Name ServerManager -Scope CurrentUser -LogPath c:/cfn/installer-servermanager.log
-$PSVersionTable > c:/cfn/installer-psversion.txt
-ls c:/Windows/System32/WindowsPowerShell/v1.0/Modules > c:/cfn/installer-out.txt 2> c:/cfn/installer-err.txt
-Enable-WindowsOptionalFeature -online -featureName TelnetClient -all > c:/cfn/installer-feature-telnet.log
-Import-Module ServerManager
-Install-WindowsFeature -name Telnet-Client -LogPath c:/cfn/installer-telnet.log
+$Env:UserName > c:/cfn/installer-username-x.txt
+[System.Security.Principal.WindowsIdentity]::GetCurrent().Name > c:/cfn/installer-username-x.txt
+$Env:PSModulePath > c:/cfn/installer-module-path-x.txt
+Install-Module -Name ServerManager -Scope CurrentUser -LogPath c:/cfn/installer-servermanager-x.log 
+$PSVersionTable > c:/cfn/installer-psversion-x.txt
+ls c:/Windows/System32/WindowsPowerShell/v1.0/Modules > c:/cfn/installer-out-x.txt 2> c:/cfn/installer-err-x.txt
+Enable-WindowsOptionalFeature -online -featureName TelnetClient -all > c:/cfn/installer-feature-telnet-x.log
+# Import-Module ServerManager
+# Install-WindowsFeature -name Telnet-Client -LogPath c:/cfn/installer-telnet.log
 
 #
 # Touch token file for post installer end (for logging purposes only)
