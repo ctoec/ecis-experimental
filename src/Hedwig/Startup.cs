@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Logging;
+using Microsoft.OpenApi.Models;
 
 // GraphQL Support
 using GraphQL.Server;
@@ -36,6 +37,10 @@ namespace Hedwig
 			var wingedKeysUri = Configuration.GetValue<string>("WingedKeysUri");
 			services.ConfigureAuthentication(wingedKeysUri);
 			services.ConfigureAuthorization();
+			services.AddSwaggerGen(c =>
+			{
+				c.SwaggerDoc("v1", new OpenApiInfo{ Title = "Hedwig API", Version = "v1" });
+			});
 			services.AddHttpContextAccessor();
 
 			// GraphQL Support
@@ -58,6 +63,7 @@ namespace Hedwig
 
 			app.UseHttpsRedirection();
 
+			app.UseSwagger();
 			app.UseRouting();
 
 			app.UseCors();
@@ -90,6 +96,7 @@ namespace Hedwig
 					spa.UseProxyToSpaDevelopmentServer(CLIENT_HOST);
 				}
 			});
+
 		}
 	}
 }
