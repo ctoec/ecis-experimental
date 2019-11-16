@@ -13,5 +13,10 @@ namespace Hedwig.Models
 		public string Zip { get; set; }
 		public bool Homelessness { get; set; }
 		public ICollection<FamilyDetermination> Determinations { get; set; }
+
+		// Optional FK to prevent cascade delete
+		// (multiple cascade delete FKs disallowed by SQLServer due to potential for cycles)
+		public int? OrganizationId { get; set; }
+		public Organization Organization { get; set; }
 	}
 }
