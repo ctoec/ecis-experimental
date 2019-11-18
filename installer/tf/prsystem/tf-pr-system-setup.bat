@@ -24,6 +24,15 @@ IF "%AWS_EC2_KEY_NAME%" == "" (
   SET AWS_EC2_KEY_NAME=keypair-mgmt-server
 )
 
+curl https://github.com/ctoec/ecis-experimental/pull/%GITHUB_PR% | findstr /c:"pull request environment"
+IF %ERRORLEVEL% EQU 0 (
+  ECHO 'INFO: detected GitHub pull request environment label'
+) ELSE (
+  ECHO 'WARN: GitHub Pull Request environment label not detected'
+  ECHO 'WARN: Pull Request enviornment not setup'
+  EXIT /B 0
+)
+
 terraform workspace new %GITHUB_PR% 2> nul
 
 terraform workspace select %GITHUB_PR%

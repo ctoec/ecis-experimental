@@ -29,6 +29,15 @@ fi
 
 cd "$(dirname "$(realpath "$0")")"
 
+if curl https://github.com/ctoec/ecis-experimental/pull/$GITHUB_PR | grep 'pull request environment'
+then
+  echo 'INFO: detected GitHub pull request environment label'
+else
+  echo 'WARN: GitHub Pull Request environment label not detected'
+  echo 'WARN: Pull Request enviornment not setup'
+  exit 0
+fi 
+
 terraform workspace new $GITHUB_PR 2> /dev/null 
 
 terraform workspace select $GITHUB_PR
