@@ -52,4 +52,3 @@ Before executing Terraform commands via the scripts, the script workspace must b
     * USAGE: tf-system-destroy.bat github-pr
   * Linux
     * USAGE: tf-system-destroy.sh github-pr
-
