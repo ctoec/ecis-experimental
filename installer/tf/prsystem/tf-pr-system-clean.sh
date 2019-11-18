@@ -7,6 +7,12 @@ for workspace in $s3_workspaces_output
 do
    if curl https://github.com/ctoec/ecis-experimental/pull/${workspace} | grep redirected 
    then
-      echo deleting system and workspace - $workspace
+      echo deleting terraform system - $workspace
+      ./tf-pr-system-destroy.sh ${workspace}
+
+      terraform workspace select default
+
+      echo deleting terraform workspace - $workspace
+      terraform workspace delete ${workspace}
    fi	  
 done
