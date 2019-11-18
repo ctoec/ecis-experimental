@@ -8,11 +8,10 @@ using Hedwig.Data;
 
 namespace Hedwig.Repositories
 {
-	public class OrganizationRepository : IOrganizationRepository
+	public class OrganizationRepository : HedwigRepository, IOrganizationRepository
 	{
-		private readonly HedwigContext _context;
 
-		public OrganizationRepository(HedwigContext context) => _context = context;
+		public OrganizationRepository(HedwigContext context) : base(context) {}
 
 		public async Task<IDictionary<int, Organization>> GetOrganizationsByIdsAsync(IEnumerable<int> ids)
 		{
