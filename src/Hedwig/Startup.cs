@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Logging;
 
 // GraphQL Support
 using GraphQL.Server;
@@ -32,7 +33,8 @@ namespace Hedwig
 			services.ConfigureControllers();
 			services.ConfigureSpa();
 			services.ConfigureRepositories();
-			services.ConfigureAuthentication();
+			var wingedKeysUri = Configuration.GetValue<string>("WingedKeysUri");
+			services.ConfigureAuthentication(wingedKeysUri);
 			services.ConfigureAuthorization();
 			services.AddHttpContextAccessor();
 
@@ -51,6 +53,7 @@ namespace Hedwig
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
+				IdentityModelEventSource.ShowPII = true;
 			}
 
 			app.UseHttpsRedirection();

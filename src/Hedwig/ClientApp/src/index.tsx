@@ -15,10 +15,9 @@ const render = (Component: React.FC) => {
 	return ReactDOM.render(
 		<BrowserRouter>
 			<LoginProvider
-				loginUriPrefix="/login"
-				openIdConnectUrl="https://localhost:5050"
+				loginEndpoint="/login"
 				clientId="hedwig"
-				redirectUrl="https://localhost:5001/login/callback"
+				redirectEndpoint="/login/callback"
 				// NOTE: "offline_access" is required in scope string to retrieve refresh tokens
 				scope="openid profile hedwig_backend offline_access"
 			>
