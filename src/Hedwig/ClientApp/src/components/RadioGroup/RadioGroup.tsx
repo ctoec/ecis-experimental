@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import RadioButton from './RadioButton';
 
 type RadioButtonOptions = {
@@ -9,36 +9,28 @@ type RadioButtonOptions = {
 type RadioGroupProps = {
 	options: RadioButtonOptions[];
 	groupName: string;
-	onClick: (value: string) => any;
+	onChange: (event: React.ChangeEvent<HTMLInputElement>) => any;
 	legend: string;
 	selected?: string;
 	horizontal?: boolean;
-	showError?: boolean;
-	errorMessage?: string;
+	error?: string;
 };
 
 export default function RadioGroup({
 	options,
 	groupName,
-	onClick,
+	onChange,
 	selected,
 	horizontal,
 	legend,
-	showError,
-	errorMessage,
+	error,
 }: RadioGroupProps) {
-	const [currentlySelected, setSelection] = useState(selected);
-
-	function setRadioButtonSelection(value: string | undefined) {
-		setSelection(value);
-	}
-
 	return (
-		<fieldset className={`usa-fieldset${showError ? ' usa-form-group--error' : ''}`}>
+		<fieldset className={`usa-fieldset${error ? ' usa-form-group--error' : ''}`}>
 			<legend className="usa-sr-only">{legend}</legend>
-			{showError && errorMessage && (
+			{error && (
 				<span className="usa-error-message" id="radio-group-error-message" role="alert">
-					{errorMessage}
+					{error}
 				</span>
 			)}
 			<div className={horizontal ? 'grid-row flex-align-start grid-gap' : ''}>
@@ -46,13 +38,10 @@ export default function RadioGroup({
 					<RadioButton
 						value={option.value}
 						text={option.text}
-						onClick={event => {
-              setRadioButtonSelection(event.target.value);
-              onClick(event.target.value);
-            }}
+						onChange={onChange}
 						key={option.value}
 						name={groupName}
-						selected={selected === currentlySelected}
+						selected={option.value === selected}
 						className={horizontal ? 'grid-col flex-auto' : ''}
 					/>
 				))}

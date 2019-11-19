@@ -13,43 +13,45 @@ import { DateRange } from '../../components/DatePicker/DatePicker';
 import Button from '../../components/Button/Button';
 import RadioGroup from '../../components/RadioGroup/RadioGroup';
 import DateSelectionForm from './DateSelectionForm';
+import getColorForFundingSource from '../../utils/getColorForFundingType';
 
 export const ROSTER_QUERY = gql`
-  query RosterQuery($from: Date, $to: Date) {
-    me {
-      sites {
-        id
-        name
-        enrollments(from: $from, to: $to) {
-          id
-          entry
-          exit
-          child {
-            firstName
-            middleName
-            lastName
-            birthdate
-            suffix
-          }
-          fundings {
-            entry
-            exit
-            source
-          }
-        }
-      }
-    }
-  }
+	query RosterQuery($from: Date, $to: Date) {
+		me {
+			sites {
+				id
+				name
+				enrollments(from: $from, to: $to) {
+					id
+					entry
+					exit
+					age
+					child {
+						id
+						firstName
+						middleName
+						lastName
+						birthdate
+						suffix
+					}
+					fundings {
+						source
+						time
+					}
+				}
+			}
+		}
+	}
 `;
 
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
 	const [dateRange, setDateRange] = useState<DateRange>(getDefaultDateRange());
-	const [byRange, toggleByRange] = useState(false);
+	const [byRange, setByRange] = useState(false);
 
 	function handlePastEnrollmentsChange() {
 		toggleShowPastEnrollments(!showPastEnrollments);
-		toggleByRange(false);
+		setByRange(false);
 		setDateRange(getDefaultDateRange());
 	}
 
@@ -61,7 +63,7 @@ export default function Roster() {
 	});
 
 	if (loading || error || !data || !data.me) {
-    return <div className="Roster"></div>;
+		return <div className="Roster"></div>;
 	}
 
 	const site = data.me.sites[0];
@@ -76,7 +78,7 @@ export default function Roster() {
 				name: 'Name',
 				cell: ({ row }) => (
 					<th scope="row">
-						<Link to={`/enrollments/${row.id}`} className="usa-link">
+						<Link to={`/roster/enrollments/${row.child.id}/`} className="usa-link">
 							{nameFormatter(row.child)}
 						</Link>
 					</th>
@@ -86,15 +88,37 @@ export default function Roster() {
 			{
 				name: 'Date of birth',
 				cell: ({ row }) => (
-					<td className="oec-table__cell--tabular-nums">{dateFormatter(row.child.birthdate)}</td>
+					<td className="oec-table__cell--tabular-nums">
+						{row.child.birthdate && dateFormatter(row.child.birthdate)}
+					</td>
 				),
-				sort: row => row.child.birthdate,
+				sort: row => row.child.birthdate || 0,
 			},
 			{
 				name: 'Funding',
 				cell: ({ row }) => (
-					<td>{row.fundings.length ? <Tag text={`${row.fundings[0].source}`} /> : ''}</td>
+					<td>
+						{row.fundings.length ? (
+							<Tag
+								text={`${row.fundings[0].source}`}
+								color={getColorForFundingSource(row.fundings[0].source)}
+							/>
+						) : (
+							''
+						)}
+					</td>
 				),
+			},
+			{
+				name: 'Enrolled',
+				cell: ({ row }) => (
+					<td className="oec-table__cell--tabular-nums">
+						{row.entry
+							? dateFormatter(row.entry) + '–' + (row.exit ? dateFormatter(row.exit) : '')
+							: ''}
+					</td>
+				),
+				sort: row => row.entry || '',
 			},
 		],
 		defaultSortColumn: 0,
@@ -104,22 +128,31 @@ export default function Roster() {
 	const numKidsEnrolledText = enrollmentTextFormatter(
 		enrollments.length,
 		showPastEnrollments,
-    dateRange,
-    byRange
+		dateRange,
+		byRange
 	);
 
 	return (
 		<div className="Roster">
 			<section className="grid-container">
 				<h1 className="grid-col-auto">{site.name}</h1>
-				<p className="usa-intro display-flex flex-row flex-wrap flex-justify-start">
-					<span className="margin-right-2 flex-auto">{numKidsEnrolledText}</span>
-					<Button
-						text={showPastEnrollments ? 'Show only current enrollments' : 'Show past enrollments'}
-						appearance="unstyled"
-						onClick={handlePastEnrollmentsChange}
-					/>
-				</p>
+				<div className="grid-row">
+					<div className="tablet:grid-col-fill">
+						<p className="usa-intro display-flex flex-row flex-wrap flex-justify-start">
+							<span className="margin-right-2 flex-auto">{numKidsEnrolledText}</span>
+							<Button
+								text={
+									showPastEnrollments ? 'Show only current enrollments' : 'Show past enrollments'
+								}
+								appearance="unstyled"
+								onClick={handlePastEnrollmentsChange}
+							/>
+						</p>
+					</div>
+					<div className="tablet:grid-col-auto">
+						<Button text="Enroll child" href={`/roster/sites/${site.id}/enroll`} />
+					</div>
+				</div>
 				{showPastEnrollments && (
 					<div className="usa-fieldset">
 						<RadioGroup
@@ -133,7 +166,7 @@ export default function Roster() {
 									value: 'range',
 								},
 							]}
-							onClick={(clickedValue: string) => toggleByRange(clickedValue === 'range')}
+							onChange={event => setByRange(event.target.value === 'range')}
 							horizontal={true}
 							groupName={'dateSelectionType'}
 							legend="Select date or date range."
@@ -143,7 +176,7 @@ export default function Roster() {
 							inputDateRange={dateRange}
 							byRange={byRange}
 							onReset={() => {
-								toggleByRange(false);
+								setByRange(false);
 								setDateRange(getDefaultDateRange());
 							}}
 							onSubmit={(newDateRange: DateRange) => setDateRange(newDateRange)}

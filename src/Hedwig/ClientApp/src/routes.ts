@@ -1,45 +1,65 @@
 import React from 'react';
 
-import Enroll from './containers/Enroll/Enroll';
+import EnrollmentNew from './containers/Enrollment/New/EnrollmentNew';
+import EnrollmentDetail from './containers/Enrollment/Detail/EnrollmentDetail';
+import EnrollmentEdit from './containers/Enrollment/Edit/EnrollmentEdit';
 import Feedback from './containers/Feedback/Feedback';
 import Help from './containers/Help/Help';
 import Login from './containers/Login/Login';
 import PageNotFound from './containers/PageNotFound/PageNotFound';
 import Reports from './containers/Reports/Reports';
 import Roster from './containers/Roster/Roster';
-import Report from './containers/Report/Report';
+import ReportDetail from './containers/ReportDetail/ReportDetail';
 
 export type RouteConfig = {
 	path: string;
 	component: React.FC<any>;
 	exact?: boolean;
 	routes?: RouteConfig[];
-	props?: any
+	props?: any;
 };
 
 export const routes: RouteConfig[] = [
 	{
 		path: '/',
-		component: Roster,
 		exact: true,
+		component: Roster,
 	},
 	{
 		path: '/roster',
+		exact: true,
 		component: Roster,
 	},
 	{
-		path: '/enroll',
-		component: Enroll,
+		path: '/roster/sites/:id',
+		exact: true,
+		component: Roster,
+	},
+	{
+		path: '/roster/sites/:siteId/enroll',
+		component: EnrollmentNew,
+	},
+	{
+		path: '/roster/enrollments/:childId',
+		exact: true,
+		component: EnrollmentDetail,
+	},
+	{
+		path: '/roster/enrollments/:childId/new/:sectionId',
+		component: EnrollmentNew,
+	},
+	{
+		path: '/roster/enrollments/:childId/edit/:sectionId',
+		component: EnrollmentEdit,
 	},
 	{
 		path: '/reports',
 		exact: true,
-		component: Reports
+		component: Reports,
 	},
 	{
 		path: '/reports/:id',
-		exact: false, 
-		component: Report,
+		component: ReportDetail,
 	},
 	{
 		path: '/feedback',

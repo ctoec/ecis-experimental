@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import useAuthQuery from '../../hooks/useAuthQuery';
-import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { Switch } from 'react-router-dom';
 import Header from '../../components/Header/Header';
@@ -25,7 +24,7 @@ export const APP_QUERY = gql`
 	}
 `;
 
-const App: React.FC<WithLoginPropsType> = ({accessToken}) => {
+const App: React.FC<WithLoginPropsType> = ({ accessToken }) => {
 	let { loading, error, data, refetch } = useAuthQuery<AppQuery>(APP_QUERY);
 	// The <App> component is only loaded once
 	// so in order to update the props to <Header>
@@ -34,8 +33,8 @@ const App: React.FC<WithLoginPropsType> = ({accessToken}) => {
 	// components that will be remounted into the
 	// DOM on page navigation.
 	useEffect(() => {
-    	refetch();
-  	}, [accessToken, refetch]);
+		refetch();
+	}, [accessToken, refetch]);
 
 	const reportsNeedAttention =
 		!loading &&
@@ -45,8 +44,7 @@ const App: React.FC<WithLoginPropsType> = ({accessToken}) => {
 		data.me.reports.filter(report => !report.submittedAt).length > 0;
 
 	const navItems: NavItemProps[] = [
-		{ type: 'primary', title: 'Roster', path: '/' },
-		{ type: 'primary', title: 'Enroll kids', path: '/enroll' },
+		{ type: 'primary', title: 'Roster', path: '/roster' },
 		{
 			type: 'primary',
 			title: 'Reports',

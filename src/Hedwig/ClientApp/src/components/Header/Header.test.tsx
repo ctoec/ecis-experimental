@@ -6,7 +6,7 @@ import { default as Header, HeaderProps } from './Header';
 const headerProps: HeaderProps = {
 	title: 'Header test',
 	navItems: [
-		{ type: 'primary', title: 'Active section', path: '/' },
+		{ type: 'primary', title: 'Active section', path: '/first' },
 		{ type: 'primary', title: 'Another section', path: '/another' },
 		{ type: 'primary', title: 'Attention needed', attentionNeeded: true, path: '/attention' },
 		{ type: 'secondary', title: 'Secondary item', path: '/secondary' },
@@ -16,7 +16,7 @@ const headerProps: HeaderProps = {
 	logoutPath: '/logout',
 };
 
-it('shows current section as active', () => {
+it('shows first section as active when at the root path', () => {
 	const wrapper = mount(
 		<MemoryRouter>
 			<Header {...headerProps} />
@@ -29,9 +29,9 @@ it('shows current section as active', () => {
 	expect(navLinks.at(1).hasClass('usa-current')).toBe(false);
 });
 
-it('shows root path as active on when exact match', () => {
+it('shows the path as active when matching', () => {
 	const wrapper = mount(
-		<MemoryRouter initialEntries={['/another']}>
+		<MemoryRouter initialEntries={['/another/nested/path']}>
 			<Header {...headerProps} />
 		</MemoryRouter>
 	);

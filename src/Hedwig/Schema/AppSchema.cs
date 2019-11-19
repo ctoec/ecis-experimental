@@ -1,15 +1,16 @@
-using GraphQL;
+using graphQL = GraphQL;
 using Hedwig.Schema.Mutations;
+using System;
 
 namespace Hedwig.Schema
 {
-	public class AppSchema : GraphQL.Types.Schema
+	public class AppSchema : graphQL::Types.Schema
 	{
-		public AppSchema(IDependencyResolver resolver)
+		public AppSchema(IServiceProvider resolver)
 			: base(resolver)
 		{
-			Query = resolver.Resolve<AppQuery>();
-			Mutation = resolver.Resolve<AppMutation>();
+			Query = (AppQuery) resolver.GetService(typeof(AppQuery));
+			Mutation = (AppMutation) resolver.GetService(typeof(AppMutation));
 		}
 	}
 }

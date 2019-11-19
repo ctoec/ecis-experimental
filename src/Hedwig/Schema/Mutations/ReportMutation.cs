@@ -29,8 +29,8 @@ namespace Hedwig.Schema.Mutations
                     }
 
                     report.SubmittedAt = DateTime.Now.ToUniversalTime();
-                    report.Accredited =context.GetArgument<bool>("accredited");
-                    return repository.UpdateReport(report);
+                    report.Accredited = context.GetArgument<bool>("accredited");
+                    return report;
                 }
             );
         }

@@ -12,12 +12,15 @@ storiesOf('TextInput', module)
 	.add('With default value', () => {
 		return <TextInput label="Default text input" onChange={onChange} defaultValue="default text" />;
 	})
+	.add('Optional', () => {
+		return <TextInput label="Default optional text input" onChange={onChange} optional={true} />;
+	})
 	.add('Disabled', () => {
-		return <TextInput label="Default text input" onChange={onChange} disabled={true} />;
+		return <TextInput label="Default text input" onChange={onChange} disabled />;
 	})
 	.add('Success', () => {
-		return <TextInput label="Default text input" onChange={onChange} success={true} />;
+		return <TextInput label="Default text input" onChange={onChange} success />;
 	})
 	.add('Error', () => {
-		return <TextInput label="Default text input" onChange={onChange} error={true} errorMessage="Fix this error" />;
+		return <TextInput label="Default text input" onChange={onChange} error="Fix this error" />;
 	});

@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Hedwig.Data
 {
@@ -45,13 +44,13 @@ namespace Hedwig.Data
         public static IQueryable<T> AsOf<T>(this DbSet<T> dbSet, DateTime asOf) where T : class
         {
             return dbSet
-				.AsNoTracking()
-				.FromSql($@"
+                .FromSqlRaw<T>($@"
                     SELECT * 
                     FROM {dbSet.GetTableName()}
                     FOR SYSTEM_TIME AS OF {{0}}",
               	    asOf
-                );
+                )
+                .AsNoTracking();
         }
     }
 }

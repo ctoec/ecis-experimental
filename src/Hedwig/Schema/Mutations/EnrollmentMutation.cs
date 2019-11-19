@@ -16,13 +16,14 @@ namespace Hedwig.Schema.Mutations
 				"updateEnrollment",
 				arguments: new QueryArguments(
 					new QueryArgument<NonNullGraphType<IntGraphType>>{ Name = "id" },
-					new QueryArgument<DateGraphType>{ Name = "entry" },
-					new QueryArgument<StringGraphType>{ Name = "exit" }
+					new QueryArgument<StringGraphType>{ Name = "entry" },
+					new QueryArgument<StringGraphType>{ Name = "exit" },
+					new QueryArgument<AgeEnumType> {Name = "age" }
 				),
 				resolve: async context =>
 				{
 					var id = context.GetArgument<int>("id");
-					var enrollment = (Enrollment) await repository.GetEnrollmentByIdAsync(id);
+					var enrollment = await repository.GetEnrollmentByIdAsync(id);
 					if (enrollment == null)
 					{
 						throw new ExecutionError(
@@ -30,12 +31,25 @@ namespace Hedwig.Schema.Mutations
 						);
 					}
 
-					var entry = context.GetArgument<DateTime?>("entry");
+					var age = context.GetArgument<Age?>("age");
+					var entryStr = context.GetArgument<String>("entry");
 					var exitStr = context.GetArgument<String>("exit");
 
-					if (entry != null)
+					if(age != null) {
+						enrollment.Age = age;
+					}
+
+					if (entryStr != null)
 					{
-						enrollment.Entry = (DateTime) entry;
+						DateTime? entry;
+						try {
+							entry = ValueConverter.ConvertTo<DateTime>(entryStr);
+						}
+						catch (FormatException)
+						{
+							entry = null;
+						}
+						enrollment.Entry = entry;
 					}
 
 					if (exitStr != null)
@@ -44,14 +58,14 @@ namespace Hedwig.Schema.Mutations
 						try {
 							exit = ValueConverter.ConvertTo<DateTime>(exitStr);
 						}
-						catch (FormatException e)
+						catch (FormatException)
 						{
 							exit = null;
 						}
 						enrollment.Exit = exit;
 					}
 
-					return repository.UpdateEnrollment(enrollment);
+					return enrollment;
 				}
 			);
 		}

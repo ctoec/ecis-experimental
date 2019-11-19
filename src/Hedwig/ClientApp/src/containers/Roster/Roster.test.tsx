@@ -14,6 +14,7 @@ const fakeDate = '2019-09-30';
 
 const earlierFakeEnrollment = {
 	child: {
+		id: 1,
 		firstName: 'James',
 		middleName: 'Sirius',
 		lastName: 'Potter',
@@ -24,9 +25,11 @@ const earlierFakeEnrollment = {
 	exit: null,
 	fundings: [],
 	id: 1,
+	age: 'preschool',
 };
 const laterFakeEnrollment = {
 	child: {
+		id: 2,
 		firstName: 'Lily',
 		middleName: 'Luna',
 		lastName: 'Potter',
@@ -40,9 +43,11 @@ const laterFakeEnrollment = {
 			entry: '2019-03-01',
 			exit: '2019-04-01',
 			source: 'Gringotts Goblins Grant for Gifted Girls',
+			time: 'part',
 		},
 	],
 	id: 2,
+	age: 'preschool',
 };
 
 const mocks = [
@@ -143,6 +148,7 @@ describe('Roster', () => {
 			await waitForUpdate(wrapper);
 			wrapper
 				.find('Button')
+				.first()
 				.props()
 				.onClick();
 			await waitForUpdate(wrapper);
@@ -151,7 +157,7 @@ describe('Roster', () => {
 		const radioGroup = wrapper.find(RadioGroup);
 
 		await act(async () => {
-			radioGroup.props().onClick('range');
+			radioGroup.props().onChange({ target: { value: 'range' } });
 			await waitForUpdate(wrapper);
 			wrapper
 				.find(DateSelectionForm)

@@ -1,75 +1,91 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
+using Microsoft.Extensions.Hosting;
+
+// GraphQL Support
 using GraphQL.Server;
 using GraphQL.Server.Ui.Playground;
 using GraphQL.Authorization;
 using GraphQL.Validation;
 using Hedwig.Schema;
-using Microsoft.IdentityModel.Logging;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+// End GraphQL Support
 
 namespace Hedwig
 {
-    public class Startup
-    {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+	public class Startup
+	{
+		public IConfiguration Configuration { get; }
 
-        public IConfiguration Configuration { get; }
+		public Startup(IConfiguration configuration)
+		{
+			Configuration = configuration;
+		}
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public virtual void ConfigureServices(IServiceCollection services)
-        {
-            services.ConfigureSqlServer(Configuration.GetConnectionString("HEDWIG"));
-            services.ConfigureCors();
-            services.ConfigureSpa();
-            services.ConfigureRepositories();
-            services.ConfigureGraphQL();
-            services.ConfigureAuthentication();
-            services.ConfigureGraphQLAuthorization();
-            services.AddHttpContextAccessor();
-        }
+		public virtual void ConfigureServices(IServiceCollection services)
+		{
+			services.ConfigureSqlServer(Configuration.GetConnectionString("HEDWIG"));
+			services.ConfigureCors();
+			services.ConfigureControllers();
+			services.ConfigureSpa();
+			services.ConfigureRepositories();
+			services.ConfigureAuthentication();
+			services.AddHttpContextAccessor();
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseCors("AllowAll");
-                // Prints the URLs of endpoints and values of JWT claims when there is a mismatch in validation
-                IdentityModelEventSource.ShowPII = true; 
-            }
-            else
-            {
-                app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
+			// GraphQL Support
+			services.Configure<KestrelServerOptions>(options =>
+			{
+					options.AllowSynchronousIO = true;
+			});
+			services.ConfigureGraphQL();
+			services.ConfigureGraphQLAuthorization();
+			// GraphQL Support
+		}
 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseSpaStaticFiles();
+		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+		{
+			if (env.IsDevelopment())
+			{
+				app.UseDeveloperExceptionPage();
+			}
 
-            app.UseAuthentication();
+			app.UseHttpsRedirection();
 
-            app.UseGraphQL<AppSchema>();
-            app.UseGraphQLPlayground(options: new GraphQLPlaygroundOptions());
+			app.UseRouting();
 
-            app.UseSpa(spa =>
-            {
-                spa.Options.SourcePath = "ClientApp";
+			app.UseCors();
 
-                if (env.IsDevelopment())
-                {
-                    string CLIENT_HOST = Environment.GetEnvironmentVariable("CLIENT_HOST") ?? "http://localhost:3000";
-                    spa.UseProxyToSpaDevelopmentServer(CLIENT_HOST);
-                }
-            });
-        }
-    }
+			app.UseAuthentication();
+			app.UseAuthorization();
+
+			// GraphQL Support
+			app.UseGraphQL<AppSchema>();
+			app.UseGraphQLPlayground(options: new GraphQLPlaygroundOptions());
+			// End GraphQL Support
+
+			if (!env.IsDevelopment())
+			{
+				app.UseSpaStaticFiles();
+			}
+
+			app.UseEndpoints(endpoints =>
+			{
+				endpoints.MapControllers();
+			});
+
+			app.UseSpa(spa =>
+			{
+				spa.Options.SourcePath = "ClientApp";
+
+				if (env.IsDevelopment())
+				{
+					string CLIENT_HOST = Environment.GetEnvironmentVariable("CLIENT_HOST") ?? "http://localhost:3000";
+					spa.UseProxyToSpaDevelopmentServer(CLIENT_HOST);
+				}
+			});
+		}
+	}
 }

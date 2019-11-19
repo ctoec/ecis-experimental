@@ -4,13 +4,17 @@ using System.Threading.Tasks;
 using System.Linq;
 using Hedwig.Data;
 using Hedwig.Models;
-using Hedwig.Security;
 using System.Security.Claims;
+
+// GraphQL Support
+using Hedwig.Security;
+// End GraphQL Support
 
 namespace HedwigTests.Helpers
 {
 	public class AuthorizationRequirementHelper
 	{
+		// GraphQL Support
 		public const string RequirementException = "Requirement exception";
 		private class AlwaysTrueRequirement : IAuthorizationRequirement
 		{
@@ -51,7 +55,7 @@ namespace HedwigTests.Helpers
 		{
 			return new ThrowsExceptionRequirement();
 		}
-
+		// End GraphQL Support
 		public static ClaimsPrincipal CreatePrincipal(string authenticationType = null, IDictionary<string, string> claims = null)
 		{
 			var identity = CreateIdentity(authenticationType, claims);

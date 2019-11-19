@@ -8,6 +8,8 @@ namespace Hedwig.Models
 	{
 		public Guid Id { get; set; }
 
+		public string Sasid { get; set; }
+
 		[Required]
 		[StringLength(35)]
 		public string FirstName { get; set; }
@@ -22,16 +24,24 @@ namespace Hedwig.Models
 		[StringLength(10)]
 		public string Suffix { get; set; }
 
-		public DateTime Birthdate { get; set; }
+		public DateTime? Birthdate { get; set; }
 
-		public Gender Gender { get; set; }
+		public string BirthTown { get; set; }
 
-		public bool? AmericanIndianOrAlaskaNative { get; set; }
-		public bool? Asian { get; set; }
-		public bool? BlackOrAfricanAmerican { get; set; }
-		public bool? NativeHawaiianOrPacificIslander { get; set; }
-		public bool? White { get; set; }
-		public bool? HispanicOrLatinxEthnicity { get; set; }
+		public string BirthState { get; set; }
+
+		public string BirthCertificateId { get; set; }
+
+		public bool AmericanIndianOrAlaskaNative { get; set; } = false;
+		public bool Asian { get; set; } = false;
+		public bool BlackOrAfricanAmerican { get; set; } = false;
+		public bool NativeHawaiianOrPacificIslander { get; set; } = false;
+		public bool White { get; set; } = false;
+		public bool HispanicOrLatinxEthnicity { get; set; } = false;
+
+		public Gender Gender { get; set; } = Gender.Unspecified;
+
+		public bool Foster { get; set; } = false;
 
 		public int? FamilyId { get; set; }
 		public Family Family { get; set; }

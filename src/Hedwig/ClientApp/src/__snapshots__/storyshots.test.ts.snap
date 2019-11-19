@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Storyshots Button Attention needed 1`] = `
+exports[`Storyshots Alert Error 1`] = `
 <div
   style={
     Object {
@@ -8,17 +8,112 @@ exports[`Storyshots Button Attention needed 1`] = `
     }
   }
 >
-  <span
-    className="oec-inline-icon oec-inline-icon--attentionNeeded"
+  <div
+    className="usa-alert usa-alert--error grid-row"
+    role="alert"
   >
-    <span
-      className="usa-sr-only"
+    <div
+      className="usa-alert__body grid-col flex-fill"
     >
-      (
-      attention needed
-      )
-    </span>
-  </span>
+      <h2
+        className="usa-alert__heading"
+      >
+        Hark, an error!
+      </h2>
+      <p
+        className="usa-alert__text"
+      >
+        Something's not right.
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Alert Info 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-alert usa-alert--info grid-row"
+  >
+    <div
+      className="usa-alert__body grid-col flex-fill"
+    >
+      <h2
+        className="usa-alert__heading"
+      >
+        Information
+      </h2>
+      <p
+        className="usa-alert__text"
+      >
+        Neutral text here.
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Alert Success 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-alert usa-alert--success grid-row"
+  >
+    <div
+      className="usa-alert__body grid-col flex-fill"
+    >
+      <h2
+        className="usa-alert__heading"
+      >
+        Success alert!
+      </h2>
+      <p
+        className="usa-alert__text"
+      >
+        Good job, you.
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Alert Warning 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-alert usa-alert--warning grid-row"
+  >
+    <div
+      className="usa-alert__body grid-col flex-fill"
+    >
+      <h2
+        className="usa-alert__heading"
+      >
+        Watch out!
+      </h2>
+      <p
+        className="usa-alert__text"
+      >
+        Is that what you meant to do?
+      </p>
+    </div>
+  </div>
 </div>
 `;
 
@@ -105,6 +200,325 @@ exports[`Storyshots Button Unstyled 1`] = `
   >
     Click me
   </button>
+</div>
+`;
+
+exports[`Storyshots Checklist Box disabled 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    className="usa-fieldset"
+  >
+    <legend
+      className="usa-sr-only"
+    >
+      Storybook check buttons
+    </legend>
+    <div
+      className=""
+    >
+      <div
+        className="usa-checkbox "
+      >
+        <input
+          className="usa-checkbox__input"
+          defaultChecked={true}
+          disabled={true}
+          id="one"
+          name="storybook-checklist-with-error"
+          onChange={[Function]}
+          type="checkbox"
+          value="one"
+        />
+        <label
+          className="usa-checkbox__label"
+          htmlFor="one"
+        >
+          Option one
+        </label>
+      </div>
+      <div
+        className="usa-checkbox "
+      >
+        <input
+          className="usa-checkbox__input"
+          defaultChecked={true}
+          disabled={true}
+          id="two"
+          name="storybook-checklist-with-error"
+          onChange={[Function]}
+          type="checkbox"
+          value="two"
+        />
+        <label
+          className="usa-checkbox__label"
+          htmlFor="two"
+        >
+          Option two
+        </label>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots Checklist Default 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    className="usa-fieldset"
+  >
+    <legend
+      className="usa-sr-only"
+    >
+      Storybook check buttons
+    </legend>
+    <div
+      className=""
+    >
+      <div
+        className="usa-checkbox "
+      >
+        <input
+          className="usa-checkbox__input"
+          defaultChecked={false}
+          id="one"
+          name="storybook-checklist"
+          onChange={[Function]}
+          type="checkbox"
+          value="one"
+        />
+        <label
+          className="usa-checkbox__label"
+          htmlFor="one"
+        >
+          Option one
+        </label>
+      </div>
+      <div
+        className="usa-checkbox "
+      >
+        <input
+          className="usa-checkbox__input"
+          defaultChecked={false}
+          id="two"
+          name="storybook-checklist"
+          onChange={[Function]}
+          type="checkbox"
+          value="two"
+        />
+        <label
+          className="usa-checkbox__label"
+          htmlFor="two"
+        >
+          Option two
+        </label>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots Checklist Default selection 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    className="usa-fieldset"
+  >
+    <legend
+      className="usa-sr-only"
+    >
+      Storybook check buttons
+    </legend>
+    <div
+      className=""
+    >
+      <div
+        className="usa-checkbox "
+      >
+        <input
+          className="usa-checkbox__input"
+          defaultChecked={true}
+          id="one"
+          name="storybook-checklist-default-selection"
+          onChange={[Function]}
+          type="checkbox"
+          value="one"
+        />
+        <label
+          className="usa-checkbox__label"
+          htmlFor="one"
+        >
+          Option one
+        </label>
+      </div>
+      <div
+        className="usa-checkbox "
+      >
+        <input
+          className="usa-checkbox__input"
+          defaultChecked={true}
+          id="two"
+          name="storybook-checklist-default-selection"
+          onChange={[Function]}
+          type="checkbox"
+          value="two"
+        />
+        <label
+          className="usa-checkbox__label"
+          htmlFor="two"
+        >
+          Option two
+        </label>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots Checklist Horizontal 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    className="usa-fieldset"
+  >
+    <legend
+      className="usa-sr-only"
+    >
+      Storybook check buttons
+    </legend>
+    <div
+      className="grid-row flex-align-start grid-gap"
+    >
+      <div
+        className="usa-checkbox grid-col flex-auto"
+      >
+        <input
+          className="usa-checkbox__input"
+          defaultChecked={false}
+          id="one"
+          name="storybook-checklist-2"
+          onChange={[Function]}
+          type="checkbox"
+          value="one"
+        />
+        <label
+          className="usa-checkbox__label"
+          htmlFor="one"
+        >
+          Option one
+        </label>
+      </div>
+      <div
+        className="usa-checkbox grid-col flex-auto"
+      >
+        <input
+          className="usa-checkbox__input"
+          defaultChecked={false}
+          id="two"
+          name="storybook-checklist-2"
+          onChange={[Function]}
+          type="checkbox"
+          value="two"
+        />
+        <label
+          className="usa-checkbox__label"
+          htmlFor="two"
+        >
+          Option two
+        </label>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots Checklist With error 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    className="usa-fieldset usa-form-group--error"
+  >
+    <legend
+      className="usa-sr-only"
+    >
+      Storybook check buttons
+    </legend>
+    <span
+      className="usa-error-message"
+      id="checklist-error-message"
+      role="alert"
+    >
+      You  must select one or two.
+    </span>
+    <div
+      className=""
+    >
+      <div
+        className="usa-checkbox "
+      >
+        <input
+          className="usa-checkbox__input"
+          defaultChecked={false}
+          id="one"
+          name="storybook-checklist-with-error"
+          onChange={[Function]}
+          type="checkbox"
+          value="one"
+        />
+        <label
+          className="usa-checkbox__label"
+          htmlFor="one"
+        >
+          Option one
+        </label>
+      </div>
+      <div
+        className="usa-checkbox "
+      >
+        <input
+          className="usa-checkbox__input"
+          defaultChecked={false}
+          id="two"
+          name="storybook-checklist-with-error"
+          onChange={[Function]}
+          type="checkbox"
+          value="two"
+        />
+        <label
+          className="usa-checkbox__label"
+          htmlFor="two"
+        >
+          Option two
+        </label>
+      </div>
+    </div>
+  </fieldset>
 </div>
 `;
 
@@ -261,6 +675,179 @@ exports[`Storyshots DatePicker Default 1`] = `
       </div>
     </div>
   </fieldset>
+</div>
+`;
+
+exports[`Storyshots Dropdown Default 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group"
+  >
+    <label
+      className="usa-label"
+      htmlFor="Choose-one-of-these-things"
+    >
+      Choose one of these things
+    </label>
+    <select
+      className="usa-select"
+      id="Choose-one-of-these-things"
+      name="Choose-one-of-these-things"
+      onChange={[Function]}
+    >
+      <option>
+        Choose here
+      </option>
+      <option
+        value="one"
+      >
+        Thing One
+      </option>
+      <option
+        value="two"
+      >
+        Thing Two
+      </option>
+    </select>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Dropdown Disabled 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group"
+  >
+    <label
+      className="usa-label"
+      htmlFor="Choose-one-of-these-things"
+    >
+      Choose one of these things
+    </label>
+    <select
+      className="usa-select"
+      disabled={true}
+      id="Choose-one-of-these-things"
+      name="Choose-one-of-these-things"
+      onChange={[Function]}
+    >
+      <option>
+        Choose here
+      </option>
+      <option
+        value="one"
+      >
+        Thing One
+      </option>
+      <option
+        value="two"
+      >
+        Thing Two
+      </option>
+    </select>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Dropdown Error 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group usa-form-group--error"
+  >
+    <label
+      className="usa-label usa-label--error"
+      htmlFor="Choose-one-of-these-things"
+    >
+      Choose one of these things
+    </label>
+    <span
+      className="usa-error-message"
+      id="Choose-one-of-these-things-error-message"
+      role="alert"
+    >
+      There was an error.
+    </span>
+    <select
+      aria-describedby="Choose-one-of-these-things-error-message"
+      className="usa-select usa-input--error"
+      id="Choose-one-of-these-things"
+      name="Choose-one-of-these-things"
+      onChange={[Function]}
+    >
+      <option>
+        Choose here
+      </option>
+      <option
+        value="one"
+      >
+        Thing One
+      </option>
+      <option
+        value="two"
+      >
+        Thing Two
+      </option>
+    </select>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Dropdown Success 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group"
+  >
+    <label
+      className="usa-label"
+      htmlFor="Choose-one-of-these-things"
+    >
+      Choose one of these things
+    </label>
+    <select
+      className="usa-select usa-input--success"
+      id="Choose-one-of-these-things"
+      name="Choose-one-of-these-things"
+      onChange={[Function]}
+    >
+      <option>
+        Choose here
+      </option>
+      <option
+        value="one"
+      >
+        Thing One
+      </option>
+      <option
+        value="two"
+      >
+        Thing Two
+      </option>
+    </select>
+  </div>
 </div>
 `;
 
@@ -593,6 +1180,72 @@ exports[`Storyshots Header Logged out 1`] = `
 </div>
 `;
 
+exports[`Storyshots InlineIcon Attention needed 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <span
+    className="oec-inline-icon oec-inline-icon--attentionNeeded"
+  >
+    <span
+      className="usa-sr-only"
+    >
+      (
+      attention needed
+      )
+    </span>
+  </span>
+</div>
+`;
+
+exports[`Storyshots InlineIcon Complete 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <span
+    className="oec-inline-icon oec-inline-icon--complete"
+  >
+    <span
+      className="usa-sr-only"
+    >
+      (
+      complete
+      )
+    </span>
+  </span>
+</div>
+`;
+
+exports[`Storyshots InlineIcon Incomplete 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <span
+    className="oec-inline-icon oec-inline-icon--incomplete"
+  >
+    <span
+      className="usa-sr-only"
+    >
+      (
+      incomplete
+      )
+    </span>
+  </span>
+</div>
+`;
+
 exports[`Storyshots RadioGroup Default 1`] = `
 <div
   style={
@@ -617,10 +1270,10 @@ exports[`Storyshots RadioGroup Default 1`] = `
       >
         <input
           className="usa-radio__input"
-          defaultChecked={true}
+          defaultChecked={false}
           id="one"
           name="storybook-radio-group"
-          onClick={[Function]}
+          onChange={[Function]}
           type="radio"
           value="one"
         />
@@ -636,10 +1289,10 @@ exports[`Storyshots RadioGroup Default 1`] = `
       >
         <input
           className="usa-radio__input"
-          defaultChecked={true}
+          defaultChecked={false}
           id="two"
           name="storybook-radio-group"
-          onClick={[Function]}
+          onChange={[Function]}
           type="radio"
           value="two"
         />
@@ -682,7 +1335,7 @@ exports[`Storyshots RadioGroup Default selection 1`] = `
           defaultChecked={true}
           id="one"
           name="storybook-radio-group-default-selection"
-          onClick={[Function]}
+          onChange={[Function]}
           type="radio"
           value="one"
         />
@@ -698,10 +1351,10 @@ exports[`Storyshots RadioGroup Default selection 1`] = `
       >
         <input
           className="usa-radio__input"
-          defaultChecked={true}
+          defaultChecked={false}
           id="two"
           name="storybook-radio-group-default-selection"
-          onClick={[Function]}
+          onChange={[Function]}
           type="radio"
           value="two"
         />
@@ -741,10 +1394,10 @@ exports[`Storyshots RadioGroup Horizontal 1`] = `
       >
         <input
           className="usa-radio__input"
-          defaultChecked={true}
+          defaultChecked={false}
           id="one"
           name="storybook-radio-group-2"
-          onClick={[Function]}
+          onChange={[Function]}
           type="radio"
           value="one"
         />
@@ -760,10 +1413,10 @@ exports[`Storyshots RadioGroup Horizontal 1`] = `
       >
         <input
           className="usa-radio__input"
-          defaultChecked={true}
+          defaultChecked={false}
           id="two"
           name="storybook-radio-group-2"
-          onClick={[Function]}
+          onChange={[Function]}
           type="radio"
           value="two"
         />
@@ -810,10 +1463,10 @@ exports[`Storyshots RadioGroup With error 1`] = `
       >
         <input
           className="usa-radio__input"
-          defaultChecked={true}
+          defaultChecked={false}
           id="one"
           name="storybook-radio-group-with-error"
-          onClick={[Function]}
+          onChange={[Function]}
           type="radio"
           value="one"
         />
@@ -829,10 +1482,10 @@ exports[`Storyshots RadioGroup With error 1`] = `
       >
         <input
           className="usa-radio__input"
-          defaultChecked={true}
+          defaultChecked={false}
           id="two"
           name="storybook-radio-group-with-error"
-          onClick={[Function]}
+          onChange={[Function]}
           type="radio"
           value="two"
         />
@@ -845,6 +1498,104 @@ exports[`Storyshots RadioGroup With error 1`] = `
       </div>
     </div>
   </fieldset>
+</div>
+`;
+
+exports[`Storyshots StepList Default 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <ol
+    className="oec-step-list"
+  >
+    <li
+      className="oec-step-list__step oec-step-list__step--complete"
+    >
+      <div
+        className="oec-step-list__step__content"
+      >
+        <h2
+          className="oec-step-list__step__title"
+        >
+          One small step
+        </h2>
+        <div
+          className="oec-step-list__step__summary"
+        >
+          <p>
+            For a man.
+          </p>
+        </div>
+      </div>
+      <div
+        className="oec-step-list__step__actions"
+      >
+        <div
+          className="oec-step-list__step__status-text"
+        >
+          <span
+            className="oec-inline-icon oec-inline-icon--complete"
+          />
+          Complete
+        </div>
+        <a
+          href="/1"
+          onClick={[Function]}
+        >
+          Edit
+          <span
+            className="usa-sr-only"
+          >
+             
+            one small step
+          </span>
+        </a>
+      </div>
+    </li>
+    <li
+      className="oec-step-list__step oec-step-list__step--active"
+    >
+      <div
+        className="oec-step-list__step__content"
+      >
+        <h2
+          className="oec-step-list__step__title"
+        >
+          One giant leap
+        </h2>
+        <div
+          className="oec-step-list__step__form"
+        >
+          <p>
+            For mankind.
+          </p>
+        </div>
+      </div>
+      <div
+        className="oec-step-list__step__actions"
+      />
+    </li>
+    <li
+      className="oec-step-list__step oec-step-list__step--notStarted"
+    >
+      <div
+        className="oec-step-list__step__content"
+      >
+        <h2
+          className="oec-step-list__step__title"
+        >
+          To infinity and beyond
+        </h2>
+      </div>
+      <div
+        className="oec-step-list__step__actions"
+      />
+    </li>
+  </ol>
 </div>
 `;
 
@@ -1184,14 +1935,13 @@ exports[`Storyshots TextInput Default 1`] = `
       htmlFor="Default-text-input"
     >
       Default text input
+       
     </label>
     <input
       className="usa-input"
       id="Default-text-input"
       name="Default-text-input"
-      onBlur={[Function]}
       onChange={[Function]}
-      onFocus={[Function]}
       type="text"
     />
   </div>
@@ -1214,15 +1964,14 @@ exports[`Storyshots TextInput Disabled 1`] = `
       htmlFor="Default-text-input"
     >
       Default text input
+       
     </label>
     <input
       className="usa-input"
       disabled={true}
       id="Default-text-input"
       name="Default-text-input"
-      onBlur={[Function]}
       onChange={[Function]}
-      onFocus={[Function]}
       type="text"
     />
   </div>
@@ -1245,6 +1994,7 @@ exports[`Storyshots TextInput Error 1`] = `
       htmlFor="Default-text-input"
     >
       Default text input
+       
     </label>
     <span
       className="usa-error-message"
@@ -1258,9 +2008,37 @@ exports[`Storyshots TextInput Error 1`] = `
       className="usa-input usa-input--error"
       id="Default-text-input"
       name="Default-text-input"
-      onBlur={[Function]}
       onChange={[Function]}
-      onFocus={[Function]}
+      type="text"
+    />
+  </div>
+</div>
+`;
+
+exports[`Storyshots TextInput Optional 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group"
+  >
+    <label
+      className="usa-label"
+      htmlFor="Default-optional-text-input"
+    >
+      Default optional text input
+       
+      (Optional)
+    </label>
+    <input
+      className="usa-input"
+      id="Default-optional-text-input"
+      name="Default-optional-text-input"
+      onChange={[Function]}
       type="text"
     />
   </div>
@@ -1283,14 +2061,13 @@ exports[`Storyshots TextInput Success 1`] = `
       htmlFor="Default-text-input"
     >
       Default text input
+       
     </label>
     <input
       className="usa-input usa-input--success"
       id="Default-text-input"
       name="Default-text-input"
-      onBlur={[Function]}
       onChange={[Function]}
-      onFocus={[Function]}
       type="text"
     />
   </div>
@@ -1313,15 +2090,14 @@ exports[`Storyshots TextInput With default value 1`] = `
       htmlFor="Default-text-input"
     >
       Default text input
+       
     </label>
     <input
       className="usa-input"
       defaultValue="default text"
       id="Default-text-input"
       name="Default-text-input"
-      onBlur={[Function]}
       onChange={[Function]}
-      onFocus={[Function]}
       type="text"
     />
   </div>

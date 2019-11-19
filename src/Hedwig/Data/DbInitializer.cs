@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Hedwig.Models;
 
 namespace Hedwig.Data
@@ -226,8 +225,8 @@ namespace Hedwig.Data
 				new Funding
 				{
 					EnrollmentId = e.Id,
-					Entry = e.Entry,
-					Source = FundingSource.CDC
+					Source = FundingSource.CDC,
+					Time = FundingTime.Full
 				}
 			).ToArray();
 
