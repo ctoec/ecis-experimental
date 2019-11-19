@@ -24,7 +24,7 @@ IF "%AWS_EC2_KEY_NAME%" == "" (
   SET AWS_EC2_KEY_NAME=keypair-mgmt-server
 )
 
-curl https://github.com/ctoec/ecis-experimental/pull/%GITHUB_PR% | findstr /c:"pull request environment"
+curl https://api.github.com/repos/ctoec/ecis-experimental/pulls/%GITHUB_PR% | findstr /c:"pull request environment"
 IF %ERRORLEVEL% EQU 0 (
   ECHO 'INFO: detected GitHub pull request environment label'
 ) ELSE (

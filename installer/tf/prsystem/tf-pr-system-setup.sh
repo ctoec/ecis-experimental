@@ -29,7 +29,7 @@ fi
 
 cd "$(dirname "$(realpath "$0")")"
 
-if curl https://github.com/ctoec/ecis-experimental/pull/$GITHUB_PR | grep 'pull request environment'
+if curl https://api.github.com/repos/ctoec/ecis-experimental/pulls/$GITHUB_PR | grep 'pull request environment'
 then
   echo 'INFO: detected GitHub pull request environment label'
 else
