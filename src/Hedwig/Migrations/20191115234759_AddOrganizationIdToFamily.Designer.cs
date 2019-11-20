@@ -5,14 +5,16 @@ using Hedwig.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Hedwig.Migrations
+namespace hedwig.Migrations
 {
     [DbContext(typeof(HedwigContext))]
-    partial class HedwigContextModelSnapshot : ModelSnapshot
+    [Migration("20191115234759_AddOrganizationIdToFamily")]
+    partial class AddOrganizationIdToFamily
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -79,9 +81,6 @@ namespace Hedwig.Migrations
                     b.Property<bool>("NativeHawaiianOrPacificIslander")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("OrganizationId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Sasid")
                         .HasColumnType("nvarchar(max)");
 
@@ -97,8 +96,6 @@ namespace Hedwig.Migrations
                     b.HasIndex("AuthorId");
 
                     b.HasIndex("FamilyId");
-
-                    b.HasIndex("OrganizationId");
 
                     b.ToTable("Child");
                 });
@@ -437,10 +434,6 @@ namespace Hedwig.Migrations
                     b.HasOne("Hedwig.Models.Family", "Family")
                         .WithMany("Children")
                         .HasForeignKey("FamilyId");
-
-                    b.HasOne("Hedwig.Models.Organization", "Organization")
-                        .WithMany()
-                        .HasForeignKey("OrganizationId");
                 });
 
             modelBuilder.Entity("Hedwig.Models.Enrollment", b =>
