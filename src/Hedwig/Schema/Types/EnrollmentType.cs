@@ -23,7 +23,7 @@ namespace Hedwig.Schema.Types
                     String loaderCacheKey = $"GetChildByIdsAsync{asOf.ToString()}";
                     var loader = dataLoader.Context.GetOrAddBatchLoader<Guid, Child>(
                         loaderCacheKey,
-                        (ids) => children.GetChildrenByIdsAsync(ids, asOf));
+                        (ids) => children.GetChildrenByIdsAsync_OLD(ids, asOf));
 
                     return loader.LoadAsync(context.Source.ChildId);
                 }

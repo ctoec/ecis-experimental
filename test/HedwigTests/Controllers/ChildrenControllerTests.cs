@@ -42,9 +42,9 @@ namespace HedwigTests.Controllers
         }
 
         [Theory]
-        [InlineData(false, 1, true, typeof(CreatedAtActionResult))]
         [InlineData(false, 0, true, typeof(CreatedAtActionResult))]
-        [InlineData(true, 1, false, typeof(BadRequestResult))]
+        [InlineData(true, 0, false, typeof(BadRequestResult))]
+        [InlineData(false, 1, false, typeof(BadRequestResult))]
         [InlineData(false, 2, false, typeof(BadRequestResult))]
         public async Task Post_AddsChild_IfValid(
             bool hasId,

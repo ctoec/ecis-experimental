@@ -52,8 +52,8 @@ namespace Hedwig.Controllers
             // Creating child with Id not allowed (new Guid() is default Guid value)
             if(child.Id != new Guid()) return BadRequest();
 
-            // Creating child with orgId != orgId for req not allowed (0 is default int Id value)
-            if(!(child.OrganizationId == 0 || child.OrganizationId == orgId)) return BadRequest();
+            // Creating child with orgId not allowed 
+            if(child.OrganizationId.HasValue && child.OrganizationId.Value != 0) return BadRequest();
             
             child.OrganizationId = orgId;
 

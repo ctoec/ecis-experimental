@@ -112,7 +112,7 @@ namespace HedwigTests.Repositories
 				var ids = from c in children.GetRange(1, 3)
 									select c.Id;
 
-				var res = await childRepo.GetChildrenByIdsAsync(ids);
+				var res = await childRepo.GetChildrenByIdsAsync_OLD(ids);
 
 				// Then children with those Ids are returned
 				Assert.Equal(ids.OrderBy(id => id), res.Keys.OrderBy(id => id));
@@ -138,12 +138,12 @@ namespace HedwigTests.Repositories
 				var childRepo = new ChildRepository(context);
 
 				// - Without an asOf timestamp
-				var resCurrent = await childRepo.GetChildByIdAsync(child.Id);
+				var resCurrent = await childRepo.GetChildByIdAsync_OLD(child.Id);
 				// - Then the child with the updated first name is returned
 				Assert.Equal(updatedName, resCurrent.FirstName);
 
 				// - With an asOf timestamp that predates the update
-				var resAsOf = await childRepo.GetChildByIdAsync(child.Id, asOf);
+				var resAsOf = await childRepo.GetChildByIdAsync_OLD(child.Id, asOf);
 				// - Then the child with the original name is returned
 				Assert.Equal(originalName, resAsOf.FirstName);
 			}

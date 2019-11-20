@@ -1,8 +1,10 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Xunit;
 using Hedwig.Repositories;
+using Hedwig.Models;
 using HedwigTests.Helpers;
 using HedwigTests.Fixtures;
 
@@ -10,6 +12,120 @@ namespace HedwigTests.Repositories
 {
 	public class EnrollmentRepositoryTests
 	{
+		[Fact]
+		public void UpdateEnrollment()
+		{
+			using (var context = new TestContextProvider().Context)
+			{
+				var enrollment = new Enrollment();
+
+				var enrollmentRepo = new EnrollmentRepository(context);
+				enrollmentRepo.UpdateEnrollment(enrollment);
+
+				Assert.Equal(EntityState.Modified, context.Entry(enrollment).State);
+			}
+		}
+		[Fact]
+		public void AddEnrollment()
+		{
+			using (var context = new TestContextProvider().Context)
+			{
+				var enrollment = new Enrollment();
+
+				var enrollmentRepo = new EnrollmentRepository(context);
+				enrollmentRepo.AddEnrollment(enrollment);
+
+				Assert.Equal(EntityState.Added, context.Entry(enrollment).State);
+			}
+		}
+
+        [Theory]
+		[InlineData(new string[]{}, false, false, false, false)]
+        [InlineData(new string[]{"fundings"}, true, false, false, false)]
+		[InlineData(new string[]{"child"}, false, true, false, false)]
+		[InlineData(new string[]{"family"}, false, false, false, false)]
+		[InlineData(new string[]{"determinations"}, false,  false, false, false)]
+        [InlineData(new string[]{"child", "family"}, false, true, true, false)]
+        [InlineData(new string[]{"child", "determinations"}, false, true, false, false)]
+        [InlineData(new string[]{"child", "family", "determinations"}, false, true, true, true)]
+        [InlineData(new string[]{"child", "family", "determinations", "fundings"}, true, true, true, true)]
+        [InlineData(new string[]{"family", "determinations"}, false, false, false, false)]
+        [InlineData(new string[]{"family", "determinations", "fundings"}, true, false, false, false)]
+ 
+		public async Task GetEnrollmentsForSite(
+			string[] include,
+			bool includeFundings,
+			bool includeChildren,
+			bool includeFamilies,
+			bool includeDeterminations
+		)
+		{
+			int[] ids;
+			int siteId;
+			using (var context = new TestContextProvider().Context)
+			{
+				var site = SiteHelper.CreateSite(context);
+				var enrollments = EnrollmentHelper.CreateEnrollments(context, 3, site: site);
+				ids = enrollments.Select(e => e.Id).ToArray();
+				siteId = site.Id;
+			}
+
+			using (var context = new TestContextProvider().Context)
+			{
+				var enrollmentRepo = new EnrollmentRepository(context);
+				var res = await enrollmentRepo.GetEnrollmentsForSiteAsync(siteId, include);
+
+				Assert.Equal(ids.OrderBy(id => id), res.Select(e => e.Id).OrderBy(id => id));
+				Assert.Equal(includeFundings, res.TrueForAll(e => e.Fundings != null));
+				Assert.Equal(includeChildren, res.TrueForAll(e => e.Child != null));
+				Assert.Equal(includeFamilies, res.TrueForAll(e => e.Child != null && e.Child.Family != null));
+				Assert.Equal(includeDeterminations, res.TrueForAll(e => e.Child != null && e.Child.Family != null && e.Child.Family.Determinations != null));
+			}
+		}
+
+		[Theory]
+		[InlineData(new string[]{}, false, false, false, false)]
+        [InlineData(new string[]{"fundings"}, true, false, false, false)]
+		[InlineData(new string[]{"child"}, false, true, false, false)]
+		[InlineData(new string[]{"family"}, false, false, false, false)]
+		[InlineData(new string[]{"determinations"}, false,  false, false, false)]
+        [InlineData(new string[]{"child", "family"}, false, true, true, false)]
+        [InlineData(new string[]{"child", "determinations"}, false, true, false, false)]
+        [InlineData(new string[]{"child", "family", "determinations"}, false, true, true, true)]
+        [InlineData(new string[]{"child", "family", "determinations", "fundings"}, true, true, true, true)]
+        [InlineData(new string[]{"family", "determinations"}, false, false, false, false)]
+        [InlineData(new string[]{"family", "determinations", "fundings"}, true, false, false, false)]
+		public async Task GetEnrollmentForSite(
+			string[] include,
+			bool includeFundings,
+			bool includeChild,
+			bool includeFamily,
+			bool includeDeterminations
+        )
+		{
+			int id;
+			int siteId;
+			using (var context = new TestContextProvider().Context)
+			{
+				var enrollment = EnrollmentHelper.CreateEnrollment(context);
+				id = enrollment.Id;
+				siteId = enrollment.SiteId;
+			}
+
+			using (var context = new TestContextProvider().Context)
+			{
+				var enrollmentRepo = new EnrollmentRepository(context);
+				var res = await enrollmentRepo.GetEnrollmentForSiteAsync(id, siteId, include);
+
+				Assert.Equal(id, res.Id);
+				Assert.Equal(includeFundings, res.Fundings != null);
+				Assert.Equal(includeChild, res.Child != null);
+				Assert.Equal(includeFamily, res.Child != null && res.Child.Family != null);
+				Assert.Equal(includeDeterminations, res.Child != null && res.Child.Family != null && res.Child.Family.Determinations != null);
+			}
+		}
+
+
 		[Fact]
 		public async Task Get_Enrollment_By_Id()
 		{

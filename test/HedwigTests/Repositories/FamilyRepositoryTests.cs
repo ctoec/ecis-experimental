@@ -14,28 +14,19 @@ namespace HedwigTests.Repositories
         [InlineData(false)]
         public async Task GetFamiliesByIds(bool includeDeterminations)
         {
-            int[] familyIds;
             using (var context = new TestContextProvider().Context)
             {
                 var families = FamilyHelper.CreateFamilies(context, 3);
-                families.ForEach( f => 
-                    FamilyDeterminationHelper.CreateDetermination(context, family: f)
-                );
-
-                familyIds = families.Select(f => f.Id).ToArray();
-            }
-            
-            using (var context = new TestContextProvider().Context) 
-            {
                 var familyRepo = new FamilyRepository(context);
+
                 var res = await familyRepo.GetFamiliesByIdsAsync(
-                    familyIds,
+                    from f in families select f.Id,
                     includeDeterminations
                 );
 
-                Assert.Equal(familyIds.OrderBy(id => id),
-                    res.Select(f => f.Id).ToArray().OrderBy(id => id));
-                Assert.Equal(includeDeterminations, 
+                Assert.Equal(families.OrderBy(f => f.Id),
+                    res.OrderBy(f => f.Id));
+                Assert.Equal(includeDeterminations,
                     res.TrueForAll(f => f.Determinations != null));
             }
         }
@@ -45,20 +36,14 @@ namespace HedwigTests.Repositories
         [InlineData(false)]
         public async Task GetFamilyById(bool includeDeterminations)
         {
-            int familyId;
             using (var context = new TestContextProvider().Context)
             {
                 var family = FamilyHelper.CreateFamily(context);
-                FamilyDeterminationHelper.CreateDetermination(context, family: family);
-                familyId = family.Id;
-            }
 
-            using (var context = new TestContextProvider().Context)
-            {
                 var familyRepo = new FamilyRepository(context);
-                var res = await familyRepo.GetFamilyByIdAsync(familyId, includeDeterminations);
+                var res = await familyRepo.GetFamilyByIdAsync(family.Id, includeDeterminations);
 
-                Assert.Equal(familyId, res.Id);
+                Assert.Equal(family, res);
                 Assert.Equal(includeDeterminations, res.Determinations != null);
             }
         }
