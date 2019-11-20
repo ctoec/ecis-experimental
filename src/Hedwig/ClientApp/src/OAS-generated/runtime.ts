@@ -13,7 +13,7 @@
  */
 
 
-export const BASE_PATH = "http://localhost:6000".replace(/\/+$/, "");
+export const BASE_PATH = "http://localhost:3000".replace(/\/+$/, "");
 
 const isBlob = (value: any) => typeof Blob !== 'undefined' && value instanceof Blob;
 

@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
-import useAuthQuery from '../../hooks/useAuthQuery';
-import { gql } from 'apollo-boost';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { RosterQuery, RosterQuery_me_sites_enrollments } from '../../generated/RosterQuery';
+import { RosterQuery_me_sites_enrollments } from '../../generated/RosterQuery';
 import nameFormatter from '../../utils/nameFormatter';
 import dateFormatter from '../../utils/dateFormatter';
 import enrollmentTextFormatter from '../../utils/enrollmentTextFormatter';
@@ -14,40 +12,22 @@ import Button from '../../components/Button/Button';
 import RadioGroup from '../../components/RadioGroup/RadioGroup';
 import DateSelectionForm from './DateSelectionForm';
 import getColorForFundingSource from '../../utils/getColorForFundingType';
-
-export const ROSTER_QUERY = gql`
-	query RosterQuery($from: Date, $to: Date) {
-		me {
-			sites {
-				id
-				name
-				enrollments(from: $from, to: $to) {
-					id
-					entry
-					exit
-					age
-					child {
-						id
-						firstName
-						middleName
-						lastName
-						birthdate
-						suffix
-					}
-					fundings {
-						source
-						time
-					}
-				}
-			}
-		}
-	}
-`;
+import useOASClient from '../../hooks/useOASClient';
 
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
 	const [dateRange, setDateRange] = useState<DateRange>(getDefaultDateRange());
 	const [byRange, setByRange] = useState(false);
+	const { data, runQuery } = useOASClient('organizationsOrganizationIdSitesSiteIdEnrollmentsGet', {
+		organizationId: 1,
+		siteId: 1,
+		dateRange,
+		include: true,
+	});
+
+	useEffect(() => {
+		runQuery();
+	}, [dateRange]);
 
 	function handlePastEnrollmentsChange() {
 		toggleShowPastEnrollments(!showPastEnrollments);
@@ -55,20 +35,13 @@ export default function Roster() {
 		setDateRange(getDefaultDateRange());
 	}
 
-	const { loading, error, data } = useAuthQuery<RosterQuery>(ROSTER_QUERY, {
-		variables: {
-			from: dateRange.startDate && dateRange.startDate.format('YYYY-MM-DD'),
-			to: dateRange.endDate && dateRange.endDate.format('YYYY-MM-DD'),
-		},
-	});
-
-	if (loading || error || !data || !data.me) {
+	if (!data) {
 		return <div className="Roster"></div>;
 	}
 
-	const site = data.me.sites[0];
-	const enrollments = site.enrollments;
+	const enrollments = data;
 
+  // TODO: tableprops that don't depend on generated code that we're getting rid of
 	const rosterTableProps: TableProps<RosterQuery_me_sites_enrollments> = {
 		id: 'roster-table',
 		data: enrollments,
@@ -132,10 +105,11 @@ export default function Roster() {
 		byRange
 	);
 
+  // TODO: how are we going to get the site?
 	return (
 		<div className="Roster">
 			<section className="grid-container">
-				<h1 className="grid-col-auto">{site.name}</h1>
+				{/* <h1 className="grid-col-auto">{site.name}</h1> */}
 				<div className="grid-row">
 					<div className="tablet:grid-col-fill">
 						<p className="usa-intro display-flex flex-row flex-wrap flex-justify-start">
@@ -150,7 +124,7 @@ export default function Roster() {
 						</p>
 					</div>
 					<div className="tablet:grid-col-auto">
-						<Button text="Enroll child" href={`/roster/sites/${site.id}/enroll`} />
+						{/* <Button text="Enroll child" href={`/roster/sites/${site.id}/enroll`} /> */}
 					</div>
 				</div>
 				{showPastEnrollments && (
