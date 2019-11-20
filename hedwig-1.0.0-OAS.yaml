@@ -17,22 +17,21 @@ paths:
                 $ref: '#/components/schemas/User'
         '401':
           description: Unauthorized
-  '/organizations/{organizationId}/sites/{siteId}/enrollments':
+  '/organizations/{organizationId}/sites/{siteId}':
     get:
-      summary: Return all enrollments at a site
+      summary: Return a site and its enrollments
       parameters:
         - $ref: '#/components/parameters/OrganizationId'
         - $ref: '#/components/parameters/SiteId'
         - $ref: '#/components/parameters/Include'
+        - $ref: '#/components/parameters/DateRange'
       responses:
         '200':
           description: 'OK'
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Enrollment'
+                $ref: '#/components/schemas/Site'
 components:
   responses:
     UnauthorizedError:
@@ -59,6 +58,16 @@ components:
       schema:
         type: integer
         minimum: 1
+    DateRange:
+      name: dateRange
+      in: query
+      schema:
+        type: object
+          properties:
+            startDate:
+              type: string
+            endDate:
+              type: string
   schemas:
     User:
       required: [id, firstName, lastName]

@@ -15,15 +15,15 @@
 
 import * as runtime from '../runtime';
 import {
-    Enrollment,
-    EnrollmentFromJSON,
-    EnrollmentToJSON,
+    Site,
+    SiteFromJSON,
+    SiteToJSON,
     User,
     UserFromJSON,
     UserToJSON,
 } from '../models';
 
-export interface OrganizationsOrganizationIdSitesSiteIdEnrollmentsGetRequest {
+export interface OrganizationsOrganizationIdSitesSiteIdGetRequest {
     organizationId: number;
     siteId: number;
     include?: Array<string>;
@@ -35,15 +35,15 @@ export interface OrganizationsOrganizationIdSitesSiteIdEnrollmentsGetRequest {
 export class DefaultApi extends runtime.BaseAPI {
 
     /**
-     * Return all enrollments at a site
+     * Return a site and its enrollments
      */
-    async organizationsOrganizationIdSitesSiteIdEnrollmentsGetRaw(requestParameters: OrganizationsOrganizationIdSitesSiteIdEnrollmentsGetRequest): Promise<runtime.ApiResponse<Array<Enrollment>>> {
+    async organizationsOrganizationIdSitesSiteIdGetRaw(requestParameters: OrganizationsOrganizationIdSitesSiteIdGetRequest): Promise<runtime.ApiResponse<Site>> {
         if (requestParameters.organizationId === null || requestParameters.organizationId === undefined) {
-            throw new runtime.RequiredError('organizationId','Required parameter requestParameters.organizationId was null or undefined when calling organizationsOrganizationIdSitesSiteIdEnrollmentsGet.');
+            throw new runtime.RequiredError('organizationId','Required parameter requestParameters.organizationId was null or undefined when calling organizationsOrganizationIdSitesSiteIdGet.');
         }
 
         if (requestParameters.siteId === null || requestParameters.siteId === undefined) {
-            throw new runtime.RequiredError('siteId','Required parameter requestParameters.siteId was null or undefined when calling organizationsOrganizationIdSitesSiteIdEnrollmentsGet.');
+            throw new runtime.RequiredError('siteId','Required parameter requestParameters.siteId was null or undefined when calling organizationsOrganizationIdSitesSiteIdGet.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -63,20 +63,20 @@ export class DefaultApi extends runtime.BaseAPI {
             }
         }
         const response = await this.request({
-            path: `/organizations/{organizationId}/sites/{siteId}/enrollments`.replace(`{${"organizationId"}}`, encodeURIComponent(String(requestParameters.organizationId))).replace(`{${"siteId"}}`, encodeURIComponent(String(requestParameters.siteId))),
+            path: `/organizations/{organizationId}/sites/{siteId}`.replace(`{${"organizationId"}}`, encodeURIComponent(String(requestParameters.organizationId))).replace(`{${"siteId"}}`, encodeURIComponent(String(requestParameters.siteId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(EnrollmentFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => SiteFromJSON(jsonValue));
     }
 
     /**
-     * Return all enrollments at a site
+     * Return a site and its enrollments
      */
-    async organizationsOrganizationIdSitesSiteIdEnrollmentsGet(requestParameters: OrganizationsOrganizationIdSitesSiteIdEnrollmentsGetRequest): Promise<Array<Enrollment>> {
-        const response = await this.organizationsOrganizationIdSitesSiteIdEnrollmentsGetRaw(requestParameters);
+    async organizationsOrganizationIdSitesSiteIdGet(requestParameters: OrganizationsOrganizationIdSitesSiteIdGetRequest): Promise<Site> {
+        const response = await this.organizationsOrganizationIdSitesSiteIdGetRaw(requestParameters);
         return await response.value();
     }
 
