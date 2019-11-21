@@ -142,6 +142,7 @@
       {
         "id": 1,
         "siteId": 1,
+        "entry": "2019-01-12",
         "child": {
           "id": "f93b1e4c-98ee-426e-12dd-08d7639ce3fc",
           "firstName": "Alan",
