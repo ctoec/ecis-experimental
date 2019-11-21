@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { RosterQuery_me_sites_enrollments } from '../../generated/RosterQuery';
 import nameFormatter from '../../utils/nameFormatter';
 import dateFormatter from '../../utils/dateFormatter';
 import enrollmentTextFormatter from '../../utils/enrollmentTextFormatter';
@@ -13,6 +12,19 @@ import RadioGroup from '../../components/RadioGroup/RadioGroup';
 import DateSelectionForm from './DateSelectionForm';
 import getColorForFundingSource from '../../utils/getColorForFundingType';
 import useOASClient from '../../hooks/useOASClient';
+import { Age } from '../../OAS-generated/models/Age';
+import { Child } from '../../OAS-generated/models/Child';
+import { Funding } from '../../OAS-generated/models/Funding';
+
+// Could just use Enrollment if we make age, child, and funding required
+type RosterTableProps = {
+	id: number;
+	entry: OECDate | null;
+	exit: OECDate | null;
+	age: Age | null;
+	child: Child;
+	fundings: Funding[];
+}
 
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
@@ -45,8 +57,7 @@ export default function Roster() {
 	const site = data;
 	const enrollments = site.enrollments;
 
-	// TODO: tableprops that don't depend on generated code that we're getting rid of
-	const rosterTableProps: TableProps<RosterQuery_me_sites_enrollments> = {
+	const rosterTableProps: TableProps<RosterTableProps> = {
 		id: 'roster-table',
 		data: enrollments,
 		rowKey: row => row.id,
