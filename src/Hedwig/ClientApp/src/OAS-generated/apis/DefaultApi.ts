@@ -27,6 +27,8 @@ export interface OrganizationsOrganizationIdSitesSiteIdGetRequest {
     organizationId: number;
     siteId: number;
     include?: Array<string>;
+    startDate?: string;
+    endDate?: string;
 }
 
 /**
@@ -35,7 +37,7 @@ export interface OrganizationsOrganizationIdSitesSiteIdGetRequest {
 export class DefaultApi extends runtime.BaseAPI {
 
     /**
-     * Return a site and its enrollments
+     * Return a site
      */
     async organizationsOrganizationIdSitesSiteIdGetRaw(requestParameters: OrganizationsOrganizationIdSitesSiteIdGetRequest): Promise<runtime.ApiResponse<Site>> {
         if (requestParameters.organizationId === null || requestParameters.organizationId === undefined) {
@@ -49,7 +51,15 @@ export class DefaultApi extends runtime.BaseAPI {
         const queryParameters: runtime.HTTPQuery = {};
 
         if (requestParameters.include) {
-            queryParameters['include[]'] = requestParameters.include;
+            queryParameters['include'] = requestParameters.include;
+        }
+
+        if (requestParameters.startDate !== undefined) {
+            queryParameters['startDate'] = requestParameters.startDate;
+        }
+
+        if (requestParameters.endDate !== undefined) {
+            queryParameters['endDate'] = requestParameters.endDate;
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -73,7 +83,7 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * Return a site and its enrollments
+     * Return a site
      */
     async organizationsOrganizationIdSitesSiteIdGet(requestParameters: OrganizationsOrganizationIdSitesSiteIdGetRequest): Promise<Site> {
         const response = await this.organizationsOrganizationIdSitesSiteIdGetRaw(requestParameters);

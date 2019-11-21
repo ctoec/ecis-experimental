@@ -19,12 +19,13 @@ paths:
           description: Unauthorized
   '/organizations/{organizationId}/sites/{siteId}':
     get:
-      summary: Return a site and its enrollments
+      summary: Return a site
       parameters:
         - $ref: '#/components/parameters/OrganizationId'
         - $ref: '#/components/parameters/SiteId'
         - $ref: '#/components/parameters/Include'
-        - $ref: '#/components/parameters/DateRange'
+        - $ref: '#/components/parameters/StartDate'
+        - $ref: '#/components/parameters/EndDate'
       responses:
         '200':
           description: 'OK'
@@ -38,7 +39,7 @@ components:
       description: Access token is missing or invalid
   parameters:
     Include:
-      name: include[]
+      name: include
       in: query
       schema:
         type: array
@@ -58,16 +59,16 @@ components:
       schema:
         type: integer
         minimum: 1
-    DateRange:
-      name: dateRange
+    StartDate:
+      name: startDate
       in: query
       schema:
-        type: object
-          properties:
-            startDate:
-              type: string
-            endDate:
-              type: string
+        type: string
+    EndDate:
+      name: endDate
+      in: query
+      schema:
+        type: string
   schemas:
     User:
       required: [id, firstName, lastName]
@@ -115,7 +116,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Enrollment'
-
     Enrollment:
       # includes fundings
       type: object
