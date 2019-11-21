@@ -14,7 +14,7 @@ namespace Hedwig.Controllers
     [Route("api/organizations/{orgId:int}/[controller]")]
     [ApiController]
     [Authorize(Policy = UserOrganizationAccessRequirement.NAME)]
-    public class ChildrenController : HedwigController
+    public class ChildrenController : ControllerBase
     {
         private readonly IChildRepository _children;
         private readonly IFamilyRepository _families;

@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
@@ -12,7 +13,43 @@ namespace Hedwig.Repositories
 
         public SiteRepository(HedwigContext context) : base(context) {}
 
-        public async Task<ILookup<int, Site>> GetSitesByOrganizationIdsAsync(IEnumerable<int> organizationIds)
+        public Task<List<Site>> GetSitesForOrganizationAsync(int organizationId)
+        {
+            return _context.Sites
+                .Where(s => s.OrganizationId.HasValue
+                    && s.OrganizationId.Value == organizationId)
+                .ToListAsync();
+        }
+        public Task<Site> GetSiteForOrganizationAsync(int id, int organizationId, string[] include = null)
+        {
+            var site = _context.Sites
+                .Where(s => s.Id == id
+                    && s.OrganizationId.HasValue && s.OrganizationId.Value == organizationId);
+
+            include = include ?? new string[]{};
+            // Chaining of multiple ThenIncludes is not supported, so to include both
+            // enrollment fundings and enrollment children requires separate calls to include enrollments
+            if(include.Contains(INCLUDE_ENROLLMENTS))
+            {
+                if(include.Contains(INCLUDE_FUNDINGS))
+                {
+                    site = site.Include(s => s.Enrollments).ThenInclude(e => e.Fundings);
+                }
+
+                if(include.Contains(INCLUDE_CHILD))
+                {
+                    site = site.Include(s => s.Enrollments).ThenInclude(e => e.Child);
+                }
+
+                if(!(include.Contains(INCLUDE_FUNDINGS) || include.Contains(INCLUDE_CHILD)))
+                {
+                    site = site.Include(s => s.Enrollments);
+                }
+            }
+            
+            return site.FirstOrDefaultAsync();
+        }
+        public async Task<ILookup<int, Site>> GetSitesByOrganizationIdsAsync_OLD(IEnumerable<int> organizationIds)
         {
             var sites = await _context.Sites
                 .Where(s => s.OrganizationId.HasValue && organizationIds.Contains(s.OrganizationId.Value))
@@ -59,7 +96,10 @@ namespace Hedwig.Repositories
 
     public interface ISiteRepository
     {
-        Task<ILookup<int, Site>> GetSitesByOrganizationIdsAsync(IEnumerable<int> organizationIds);
+
+        Task<List<Site>> GetSitesForOrganizationAsync(int organizationId);
+        Task<Site> GetSiteForOrganizationAsync(int id, int organizationId, string[] include = null);
+        Task<ILookup<int, Site>> GetSitesByOrganizationIdsAsync_OLD(IEnumerable<int> organizationIds);
         Task<IEnumerable<Site>> GetSitesByUserIdAsync(int userId);
         Task<Site> GetSiteByIdAsync(int id);
         Task<IDictionary<int, Site>> GetSitesByIdsAsync(IEnumerable<int> ids);

@@ -34,20 +34,20 @@ namespace Hedwig.Repositories
 
 
 			include = include ?? new string[]{};
-			if (include.Contains(HedwigController.INCLUDE_FUNDINGS))
+			if (include.Contains(INCLUDE_FUNDINGS))
 			{
 				enrollments = enrollments.Include(e => e.Fundings);
 			}
 
-			if (include.Contains(HedwigController.INCLUDE_CHILD))
+			if (include.Contains(INCLUDE_CHILD))
 			{
 				enrollments = enrollments.Include(e => e.Child);
 
-				if(include.Contains(HedwigController.INCLUDE_FAMILY))
+				if(include.Contains(INCLUDE_FAMILY))
 				{
 					enrollments = ((IIncludableQueryable<Enrollment, Child>) enrollments).ThenInclude(c => c.Family);
 
-					if(include.Contains(HedwigController.INCLUDE_DETERMINATIONS))
+					if(include.Contains(INCLUDE_DETERMINATIONS))
 					{
 						enrollments = ((IIncludableQueryable<Enrollment, Family>) enrollments).ThenInclude(f => f.Determinations);
 					}
@@ -65,20 +65,20 @@ namespace Hedwig.Repositories
 
 			include = include ?? new string[]{};
 
-			if(include.Contains(HedwigController.INCLUDE_FUNDINGS))
+			if(include.Contains(INCLUDE_FUNDINGS))
 			{
 				enrollment = enrollment.Include(e => e.Fundings);
 			}
 
-			if(include.Contains(HedwigController.INCLUDE_CHILD))
+			if(include.Contains(INCLUDE_CHILD))
 			{
 				enrollment = enrollment.Include(e => e.Child);
 
-				if(include.Contains(HedwigController.INCLUDE_FAMILY))
+				if(include.Contains(INCLUDE_FAMILY))
 				{
 					enrollment = ((IIncludableQueryable<Enrollment, Child>) enrollment).ThenInclude(c => c.Family);
 
-					if(include.Contains(HedwigController.INCLUDE_DETERMINATIONS))
+					if(include.Contains(INCLUDE_DETERMINATIONS))
 					{
 						enrollment = ((IIncludableQueryable<Enrollment, Family>) enrollment).ThenInclude(f => f.Determinations);
 					}
