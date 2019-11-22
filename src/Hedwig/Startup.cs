@@ -33,6 +33,7 @@ namespace Hedwig
 			services.ConfigureSpa();
 			services.ConfigureRepositories();
 			services.ConfigureAuthentication();
+			services.ConfigureAuthorization();
 			services.AddHttpContextAccessor();
 
 			// GraphQL Support

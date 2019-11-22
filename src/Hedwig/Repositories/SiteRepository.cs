@@ -7,11 +7,10 @@ using Hedwig.Data;
 
 namespace Hedwig.Repositories
 {
-    public class SiteRepository : ISiteRepository
+    public class SiteRepository : HedwigRepository, ISiteRepository
     {
-        private readonly HedwigContext _context;
 
-        public SiteRepository(HedwigContext context) => _context = context;
+        public SiteRepository(HedwigContext context) : base(context) {}
 
         public async Task<ILookup<int, Site>> GetSitesByOrganizationIdsAsync(IEnumerable<int> organizationIds)
         {

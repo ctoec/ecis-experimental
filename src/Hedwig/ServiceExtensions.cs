@@ -2,7 +2,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Hedwig.Data;
 using Hedwig.Repositories;
+using Hedwig.Security_NEW;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using System.Net.Http;
 using System.IdentityModel.Tokens.Jwt;
 
@@ -63,6 +65,7 @@ namespace Hedwig
 			services.AddScoped<IReportRepository, ReportRepository>();
 			services.AddScoped<ISiteRepository, SiteRepository>();
 			services.AddScoped<IUserRepository, UserRepository>();
+			services.AddScoped<IPermissionRepository, PermissionRepository>();
 		}
 
 		public static void ConfigureAuthentication(this IServiceCollection services)
@@ -78,6 +81,22 @@ namespace Hedwig
 							ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
 						};
 					});
+		}
+
+		public static void ConfigureAuthorization(this IServiceCollection services)
+		{
+			services.AddScoped<IAuthorizationHandler, RequirementsHandler>();
+			services.AddAuthorization(options => 
+			{
+				options.AddPolicy(
+					UserSiteAccessRequirement.NAME, 
+					policy => policy .AddRequirements(new UserSiteAccessRequirement())
+				);
+				options.AddPolicy(
+					UserOrganizationAccessRequirement.NAME,
+					policy => policy.AddRequirements(new UserOrganizationAccessRequirement())
+				);
+			});
 		}
 
 		public static void ConfigureControllers(this IServiceCollection services)
