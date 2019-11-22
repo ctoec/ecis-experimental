@@ -10,7 +10,7 @@ namespace Hedwig.Controllers
 {
     [ApiController]
     [Route("api/organization/{orgId:int}/sites/{siteId:int}/[controller]")]
-    public class EnrollmentsController : HedwigController
+    public class EnrollmentsController : ControllerBase
     {
         private readonly IEnrollmentRepository _enrollments;
         public EnrollmentsController(

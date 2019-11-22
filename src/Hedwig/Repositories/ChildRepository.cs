@@ -22,11 +22,11 @@ namespace Hedwig.Repositories
 
 
 			include = include ?? new string[]{};
-			if (include.Contains(HedwigController.INCLUDE_FAMILY))
+			if (include.Contains(INCLUDE_FAMILY))
 			{
 				children = children.Include(c => c.Family);
 
-				if(include.Contains(HedwigController.INCLUDE_DETERMINATIONS))
+				if(include.Contains(INCLUDE_DETERMINATIONS))
 				{
 					children = ((IIncludableQueryable<Child, Family>)children).ThenInclude(f => f.Determinations);
 				}
@@ -45,11 +45,11 @@ namespace Hedwig.Repositories
 					)
 				);
 			include = include ?? new string[]{};
-			if (include.Contains(HedwigController.INCLUDE_FAMILY))
+			if (include.Contains(INCLUDE_FAMILY))
 			{
 				child = child.Include(c => c.Family);
 
-				if(include.Contains(HedwigController.INCLUDE_DETERMINATIONS))
+				if(include.Contains(INCLUDE_DETERMINATIONS))
 				{
 					child = ((IIncludableQueryable<Child, Family>)child).ThenInclude(f => f.Determinations);
 				}
