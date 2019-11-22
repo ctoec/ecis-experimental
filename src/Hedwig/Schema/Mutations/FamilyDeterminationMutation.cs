@@ -22,7 +22,7 @@ namespace Hedwig.Schema.Mutations
                 resolve: async context =>
                 {
                     var familyId = context.GetArgument<int>("familyId");
-                    var family = await families.GetFamilyByIdAsync(familyId);
+                    var family = await families.GetFamilyByIdAsync_OLD(familyId);
                     if ( family == null) {
                         throw new ExecutionError(
                             AppErrorMessages.NOT_FOUND("Family", familyId)

@@ -1,3 +1,8 @@
+echo "installing dotnet ef utility..."
+until which dotnet-ef || dotnet tool install --global dotnet-ef --version 3.0.0; do
+    sleep 1
+done
+
 echo "waiting for database..."
 until dotnet ef -v database update; do
     sleep 1

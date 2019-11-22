@@ -6,10 +6,9 @@ services:
       SA_PASSWORD: TestPassword1
       ACCEPT_EULA: Y
   backend:
-    container_name: backend
     build:
         context: .
-        dockerfile: Dockerfile-backend
+        dockerfile: Dockerfile
     environment:
       SQLCONNSTR_HEDWIG: Server=db;Database=master;User=sa;Password=TestPassword1
       CLIENT_HOST: 'http://client:3000'
@@ -25,6 +24,19 @@ services:
     entrypoint:
       - sh
       - /entrypoint.sh
+  rest-backend:
+    image: clue/json-server
+    volumes:
+      - ./rest-backend/db.json:/db.json
+      - ./rest-backend/routes.json:/routes.json
+    ports:
+      - 3000:3000
+    entrypoint:
+      - json-server
+      - --watch
+      - --routes
+      - /routes.json
+      - /db.json
   client:
     image: node:12
     volumes:
@@ -36,11 +48,17 @@ services:
     entrypoint:
       - sh
       - /entrypoint.sh
+  winged-keys-db:
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      SA_PASSWORD: TestPassword1
+      ACCEPT_EULA: Y
   winged-keys:
     build:
         context: .
         dockerfile: ./winged-keys/Dockerfile
     environment:
+      SQLCONNSTR_WINGEDKEYS: Server=winged-keys-db;Database=master;User=sa;Password=TestPassword1
       ASPNETCORE_ENVIRONMENT: Development
     volumes:
       - ./winged-keys/src/WingedKeys:/app/src/WingedKeys:cached

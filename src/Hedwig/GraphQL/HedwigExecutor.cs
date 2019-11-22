@@ -32,7 +32,7 @@ namespace Hedwig.GraphQL
 			_middlewares = middlewares;
 		}
 
-		protected override ExecutionOptions GetOptions(string operationName, string query, Inputs variables, object context, CancellationToken cancellationToken)
+		protected override ExecutionOptions GetOptions(string operationName, string query, Inputs variables, IDictionary<string, object> context, CancellationToken cancellationToken)
 		{
 			var opts = base.GetOptions(operationName, query, variables, context, cancellationToken);
 			foreach (var middleware in _middlewares)

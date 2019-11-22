@@ -14,10 +14,12 @@ namespace HedwigTests.Helpers
 			string lastName = "Child",
 			string birthdate = "2000-01-01",
 			Gender gender = Gender.Unknown,
-			Family family = null
+			Family family = null,
+			Organization organization = null
 		)
 		{
 			family = family ?? FamilyHelper.CreateFamily(context);
+			organization = organization ?? OrganizationHelper.CreateOrganization(context);
 
 			var child = new Child
 			{
@@ -25,7 +27,8 @@ namespace HedwigTests.Helpers
 				LastName = lastName,
 				Birthdate = DateTime.Parse(birthdate),
 				Gender = gender,
-				FamilyId = family.Id
+				FamilyId = family.Id,
+				OrganizationId = organization.Id
 			};
 
 			context.Add<Child>(child);
@@ -33,10 +36,14 @@ namespace HedwigTests.Helpers
 			return child;
 		}
 
-		public static List<Child> CreateChildren(HedwigContext context, int numberOfChildren)
+		public static List<Child> CreateChildren(
+			HedwigContext context,
+			int numberOfChildren,
+			Organization organization = null
+		)
 		{
 			var children = Enumerable.Range(1, numberOfChildren)
-				.Select(i => CreateChild(context))
+				.Select(i => CreateChild(context, organization: organization))
 				.ToList();
 
 			return children;

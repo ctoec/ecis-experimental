@@ -1,11 +1,12 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using Hedwig.Models;
 using Hedwig.Data;
-using System.Threading;
+using Hedwig.Controllers;
 
 namespace Hedwig.Repositories
 {
@@ -13,7 +14,64 @@ namespace Hedwig.Repositories
 	{
 		public ChildRepository(HedwigContext context) : base(context) {}
 
-		public async Task<IDictionary<Guid, Child>> GetChildrenByIdsAsync(IEnumerable<Guid> ids, DateTime? asOf = null)
+		public Task<List<Child>> GetChildrenForOrganizationAsync(int organizationId, string[] include = null)
+		{
+			var children = _context.Children
+				.Where(c => c.OrganizationId.HasValue
+					&& c.OrganizationId.Value == organizationId);
+
+
+			include = include ?? new string[]{};
+			if (include.Contains(INCLUDE_FAMILY))
+			{
+				children = children.Include(c => c.Family);
+
+				if(include.Contains(INCLUDE_DETERMINATIONS))
+				{
+					children = ((IIncludableQueryable<Child, Family>)children).ThenInclude(f => f.Determinations);
+				}
+			}
+
+			return children.ToListAsync();
+		}
+
+		public Task<Child> GetChildForOrganizationAsync(Guid id, int organizationId, string[] include = null)
+		{
+			var child = _context.Children
+				.Where(c => c.Id == id
+					&& (
+						c.OrganizationId.HasValue
+						&& c.OrganizationId.Value == organizationId
+					)
+				);
+			include = include ?? new string[]{};
+			if (include.Contains(INCLUDE_FAMILY))
+			{
+				child = child.Include(c => c.Family);
+
+				if(include.Contains(INCLUDE_DETERMINATIONS))
+				{
+					child = ((IIncludableQueryable<Child, Family>)child).ThenInclude(f => f.Determinations);
+				}
+			}
+
+			return child.FirstOrDefaultAsync();
+		}
+		public void AddChild(Child child)
+		{
+			_context.Add(child);
+		}
+
+		public void UpdateChild(Child child)
+		{
+			_context.Entry(child).State = EntityState.Modified;
+		}
+
+		public Task<int> SaveChangesAsync()
+		{
+			return _context.SaveChangesAsync();
+		}
+		public async Task<IDictionary<Guid, Child>> GetChildrenByIdsAsync_OLD(IEnumerable<Guid> ids, DateTime? asOf = null)
 		{
 			var dict = await GetBaseQuery<Child>(asOf)
 				.Where(c => ids.Contains(c.Id))
@@ -21,13 +79,12 @@ namespace Hedwig.Repositories
 			return dict as IDictionary<Guid, Child>;
 		}
 
-		public async Task<Child> GetChildByIdAsync(Guid id, DateTime? asOf = null)
+		public async Task<Child> GetChildByIdAsync_OLD(Guid id, DateTime? asOf = null)
 		{
 			return await GetBaseQuery<Child>(asOf)
 				.Where(c => c.Id == id)
 				.SingleOrDefaultAsync();
 		}
-
 		public async Task<ILookup<int, Child>> GetChildrenByFamilyIdsAsync(IEnumerable<int> familyIds, DateTime? asOf = null)
 		{
 			var children = await GetBaseQuery<Child>(asOf)
@@ -90,8 +147,14 @@ namespace Hedwig.Repositories
 
 	public interface IChildRepository
 	{
-		Task<IDictionary<Guid, Child>> GetChildrenByIdsAsync(IEnumerable<Guid> ids, DateTime? asOf = null);
-		Task<Child> GetChildByIdAsync(Guid id, DateTime? asOf = null);
+		Task<List<Child>> GetChildrenForOrganizationAsync(int organizationId, string[] include = null);
+		Task<Child> GetChildForOrganizationAsync(Guid id, int organizationId, string[] include = null);
+		void AddChild(Child child);
+		void UpdateChild(Child child);
+		Task<int> SaveChangesAsync();
+
+		Task<IDictionary<Guid, Child>> GetChildrenByIdsAsync_OLD(IEnumerable<Guid> ids, DateTime? asOf = null);
+		Task<Child> GetChildByIdAsync_OLD(Guid id, DateTime? asOf = null);
 		Task<ILookup<int, Child>> GetChildrenByFamilyIdsAsync(IEnumerable<int> familyIds, DateTime? asOf = null);
 		Child UpdateFamily(Child child, Family family);
 		Child CreateChild(

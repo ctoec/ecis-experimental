@@ -2,6 +2,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Hedwig.Data;
 using Hedwig.Repositories;
+using Hedwig.Security_NEW;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using System.Net.Http;
+using System.IdentityModel.Tokens.Jwt;
+
+// GraphQL Support
 using Hedwig.Schema.Types;
 using Hedwig.Schema.Queries;
 using Hedwig.Schema.Mutations;
@@ -13,9 +20,8 @@ using GraphQL.Server;
 using GraphQL.Server.Internal;
 using GraphQL.Authorization;
 using GraphQL.Validation;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using System.Net.Http;
-using System.IdentityModel.Tokens.Jwt;
+using System;
+// End GraphQL Support
 
 namespace Hedwig
 {
@@ -59,8 +65,51 @@ namespace Hedwig
 			services.AddScoped<IReportRepository, ReportRepository>();
 			services.AddScoped<ISiteRepository, SiteRepository>();
 			services.AddScoped<IUserRepository, UserRepository>();
+			services.AddScoped<IPermissionRepository, PermissionRepository>();
 		}
 
+		public static void ConfigureAuthentication(this IServiceCollection services)
+		{
+			JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+				.AddJwtBearer(options =>
+					{
+						options.Authority = "https://winged-keys:5050";
+						options.Audience = "hedwig_backend";
+						options.BackchannelHttpHandler = new HttpClientHandler
+						{
+							ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+						};
+					});
+		}
+
+		public static void ConfigureAuthorization(this IServiceCollection services)
+		{
+			services.AddScoped<IAuthorizationHandler, RequirementsHandler>();
+			services.AddAuthorization(options => 
+			{
+				options.AddPolicy(
+					UserSiteAccessRequirement.NAME, 
+					policy => policy .AddRequirements(new UserSiteAccessRequirement())
+				);
+				options.AddPolicy(
+					UserOrganizationAccessRequirement.NAME,
+					policy => policy.AddRequirements(new UserOrganizationAccessRequirement())
+				);
+			});
+		}
+
+		public static void ConfigureControllers(this IServiceCollection services)
+		{
+			services
+			.AddControllers()
+			.AddNewtonsoftJson(options =>
+				{
+					options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+				});
+		}
+
+// GraphQL Support
 		public static void ConfigureGraphQL(this IServiceCollection services)
 		{
 			// Add Types
@@ -95,7 +144,7 @@ namespace Hedwig
 			// Add Middlewares
 			services.AddScoped<IFieldsMiddleware, CommitMutationFieldsMiddleware>();
 
-			services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
+			services.AddScoped<IDocumentExecuter, EfDocumentExecuter>();
 			services.AddScoped<AppSchema>();
 
 			services.AddGraphQL(o =>
@@ -111,21 +160,6 @@ namespace Hedwig
 			services.AddScoped(typeof(IGraphQLExecuter<>), typeof(HedwigExecutor<>));
 		}
 
-		public static void ConfigureAuthentication(this IServiceCollection services)
-		{
-			JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-				.AddJwtBearer(options =>
-					{
-						options.Authority = "https://winged-keys:5050";
-						options.Audience = "hedwig_backend";
-						options.BackchannelHttpHandler = new HttpClientHandler
-						{
-							ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
-						};
-					});
-		}
-
 		public static void ConfigureGraphQLAuthorization(this IServiceCollection services)
 		{
 			services.AddScoped<Hedwig.Security.IAuthorizationEvaluator, Hedwig.Security.AuthorizationEvaluator>();
@@ -137,5 +171,6 @@ namespace Hedwig
 				return permissions.GetAuthorizationSettings();
 			});
 		}
+	// End GraphQL Support
 	}
 }

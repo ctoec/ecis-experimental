@@ -131,7 +131,7 @@ namespace Hedwig.Schema.Mutations
 				{
 					var idStr = context.GetArgument<string>("id");
 					var id = Guid.Parse(idStr);
-					var child = await repository.GetChildByIdAsync(id);
+					var child = await repository.GetChildByIdAsync_OLD(id);
 					if (child == null)
 					{
 						throw new ExecutionError(

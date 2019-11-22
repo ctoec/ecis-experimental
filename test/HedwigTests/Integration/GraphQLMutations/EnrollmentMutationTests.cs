@@ -121,7 +121,6 @@ namespace HedwigTests.Integration.GraphQLMutations
 						}}
 					}}"
 				);
-
 				// Then
 				response.EnsureSuccessStatusCode();
 				Enrollment updated = await response.GetObjectFromGraphQLResponse<Enrollment>("updateEnrollment");

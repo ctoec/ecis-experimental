@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.Security.Claims;
 using GraphQL.Authorization;
+using System.Threading.Tasks;
 
 namespace Hedwig.Schema
 {
@@ -18,7 +19,7 @@ namespace Hedwig.Schema
     /// RequestContext is the concrete class this API implements to act as a UserContext, and RequestContextCreator
     /// is the creator function passed to the graphQL builder <see cref="ServiceExtensions.ConfigureGraphQL" />
     /// </summary>
-    public class RequestContext : IProvideClaimsPrincipal
+    public class RequestContext : Dictionary<string, object>, IProvideClaimsPrincipal
     {
         /// <summary>
         /// The creator function to pass to GraphQLBuilder.AddUserContextBuilder()
@@ -38,7 +39,7 @@ namespace Hedwig.Schema
             get { return _user; }
         }
 
-        public RequestContext(ClaimsPrincipal user)
+        public RequestContext(ClaimsPrincipal user = null)
         {
             GlobalArguments = new Dictionary<string, object>();
             _user = user;

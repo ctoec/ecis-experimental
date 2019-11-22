@@ -16,64 +16,89 @@ namespace Hedwig.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
+                .HasAnnotation("ProductVersion", "3.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Hedwig.Models.Child", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("AmericanIndianOrAlaskaNative");
+                    b.Property<bool>("AmericanIndianOrAlaskaNative")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("Asian");
+                    b.Property<bool>("Asian")
+                        .HasColumnType("bit");
 
-                    b.Property<int?>("AuthorId");
+                    b.Property<int?>("AuthorId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("BirthCertificateId");
+                    b.Property<string>("BirthCertificateId")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("BirthState");
+                    b.Property<string>("BirthState")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("BirthTown");
+                    b.Property<string>("BirthTown")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("Birthdate");
+                    b.Property<DateTime?>("Birthdate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<bool>("BlackOrAfricanAmerican");
+                    b.Property<bool>("BlackOrAfricanAmerican")
+                        .HasColumnType("bit");
 
-                    b.Property<int?>("FamilyId");
+                    b.Property<int?>("FamilyId")
+                        .HasColumnType("int");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
+                        .HasColumnType("nvarchar(35)")
                         .HasMaxLength(35);
 
-                    b.Property<bool>("Foster");
+                    b.Property<bool>("Foster")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("Gender");
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
 
-                    b.Property<bool>("HispanicOrLatinxEthnicity");
+                    b.Property<bool>("HispanicOrLatinxEthnicity")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()
+                        .HasColumnType("nvarchar(35)")
                         .HasMaxLength(35);
 
                     b.Property<string>("MiddleName")
+                        .HasColumnType("nvarchar(35)")
                         .HasMaxLength(35);
 
-                    b.Property<bool>("NativeHawaiianOrPacificIslander");
+                    b.Property<bool>("NativeHawaiianOrPacificIslander")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("Sasid");
+                    b.Property<int?>("OrganizationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Sasid")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Suffix")
+                        .HasColumnType("nvarchar(10)")
                         .HasMaxLength(10);
 
-                    b.Property<bool>("White");
+                    b.Property<bool>("White")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
 
                     b.HasIndex("FamilyId");
+
+                    b.HasIndex("OrganizationId");
 
                     b.ToTable("Child");
                 });
@@ -82,19 +107,26 @@ namespace Hedwig.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("Age");
+                    b.Property<int?>("Age")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("AuthorId");
+                    b.Property<int?>("AuthorId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("ChildId");
+                    b.Property<Guid>("ChildId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("Entry");
+                    b.Property<DateTime?>("Entry")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("Exit");
+                    b.Property<DateTime?>("Exit")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("SiteId");
+                    b.Property<int>("SiteId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -111,25 +143,38 @@ namespace Hedwig.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AddressLine1");
+                    b.Property<string>("AddressLine1")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("AddressLine2");
+                    b.Property<string>("AddressLine2")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("AuthorId");
+                    b.Property<int?>("AuthorId")
+                        .HasColumnType("int");
 
-                    b.Property<bool>("Homelessness");
+                    b.Property<bool>("Homelessness")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("State");
+                    b.Property<int?>("OrganizationId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Town");
+                    b.Property<string>("State")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Zip");
+                    b.Property<string>("Town")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Zip")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
+
+                    b.HasIndex("OrganizationId");
 
                     b.ToTable("Family");
                 });
@@ -138,18 +183,23 @@ namespace Hedwig.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AuthorId");
+                    b.Property<int?>("AuthorId")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("Determined");
+                    b.Property<DateTime>("Determined")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("FamilyId");
+                    b.Property<int>("FamilyId")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Income")
                         .HasColumnType("decimal(14,2)");
 
-                    b.Property<int>("NumberOfPeople");
+                    b.Property<int>("NumberOfPeople")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -164,15 +214,20 @@ namespace Hedwig.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AuthorId");
+                    b.Property<int?>("AuthorId")
+                        .HasColumnType("int");
 
-                    b.Property<int>("EnrollmentId");
+                    b.Property<int>("EnrollmentId")
+                        .HasColumnType("int");
 
-                    b.Property<int>("Source");
+                    b.Property<int>("Source")
+                        .HasColumnType("int");
 
-                    b.Property<int>("Time");
+                    b.Property<int>("Time")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -187,10 +242,12 @@ namespace Hedwig.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.HasKey("Id");
@@ -202,12 +259,15 @@ namespace Hedwig.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Type")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -222,13 +282,17 @@ namespace Hedwig.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ReportingPeriodId");
+                    b.Property<int>("ReportingPeriodId")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime?>("SubmittedAt");
+                    b.Property<DateTime?>("SubmittedAt")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("Type");
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -243,17 +307,23 @@ namespace Hedwig.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("DueAt");
+                    b.Property<DateTime>("DueAt")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("Period");
+                    b.Property<DateTime>("Period")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("PeriodEnd");
+                    b.Property<DateTime>("PeriodEnd")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("PeriodStart");
+                    b.Property<DateTime>("PeriodStart")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("Type");
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -264,13 +334,16 @@ namespace Hedwig.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
-                    b.Property<int?>("OrganizationId");
+                    b.Property<int?>("OrganizationId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -283,20 +356,25 @@ namespace Hedwig.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("FirstName")
                         .IsRequired()
+                        .HasColumnType("nvarchar(35)")
                         .HasMaxLength(35);
 
                     b.Property<string>("LastName")
                         .IsRequired()
+                        .HasColumnType("nvarchar(35)")
                         .HasMaxLength(35);
 
                     b.Property<string>("MiddleName")
+                        .HasColumnType("nvarchar(35)")
                         .HasMaxLength(35);
 
                     b.Property<string>("Suffix")
+                        .HasColumnType("nvarchar(10)")
                         .HasMaxLength(10);
 
                     b.HasKey("Id");
@@ -308,7 +386,8 @@ namespace Hedwig.Migrations
                 {
                     b.HasBaseType("Hedwig.Models.Permission");
 
-                    b.Property<int>("OrganizationId");
+                    b.Property<int>("OrganizationId")
+                        .HasColumnType("int");
 
                     b.HasIndex("OrganizationId");
 
@@ -319,7 +398,8 @@ namespace Hedwig.Migrations
                 {
                     b.HasBaseType("Hedwig.Models.Permission");
 
-                    b.Property<int>("SiteId");
+                    b.Property<int>("SiteId")
+                        .HasColumnType("int");
 
                     b.HasIndex("SiteId");
 
@@ -330,16 +410,20 @@ namespace Hedwig.Migrations
                 {
                     b.HasBaseType("Hedwig.Models.Report");
 
-                    b.Property<int>("OrganizationId");
+                    b.Property<int>("OrganizationId")
+                        .HasColumnType("int");
 
                     b.HasIndex("OrganizationId");
+
+                    b.HasDiscriminator();
                 });
 
             modelBuilder.Entity("Hedwig.Models.CdcReport", b =>
                 {
                     b.HasBaseType("Hedwig.Models.OrganizationReport");
 
-                    b.Property<bool>("Accredited");
+                    b.Property<bool>("Accredited")
+                        .HasColumnType("bit");
 
                     b.HasDiscriminator().HasValue(0);
                 });
@@ -353,6 +437,10 @@ namespace Hedwig.Migrations
                     b.HasOne("Hedwig.Models.Family", "Family")
                         .WithMany("Children")
                         .HasForeignKey("FamilyId");
+
+                    b.HasOne("Hedwig.Models.Organization", "Organization")
+                        .WithMany()
+                        .HasForeignKey("OrganizationId");
                 });
 
             modelBuilder.Entity("Hedwig.Models.Enrollment", b =>
@@ -364,12 +452,14 @@ namespace Hedwig.Migrations
                     b.HasOne("Hedwig.Models.Child", "Child")
                         .WithMany("Enrollments")
                         .HasForeignKey("ChildId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Hedwig.Models.Site", "Site")
                         .WithMany("Enrollments")
                         .HasForeignKey("SiteId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Hedwig.Models.Family", b =>
@@ -377,6 +467,10 @@ namespace Hedwig.Migrations
                     b.HasOne("Hedwig.Models.User", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorId");
+
+                    b.HasOne("Hedwig.Models.Organization", "organization")
+                        .WithMany()
+                        .HasForeignKey("OrganizationId");
                 });
 
             modelBuilder.Entity("Hedwig.Models.FamilyDetermination", b =>
@@ -388,7 +482,8 @@ namespace Hedwig.Migrations
                     b.HasOne("Hedwig.Models.Family", "Family")
                         .WithMany("Determinations")
                         .HasForeignKey("FamilyId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Hedwig.Models.Funding", b =>
@@ -400,7 +495,8 @@ namespace Hedwig.Migrations
                     b.HasOne("Hedwig.Models.Enrollment", "Enrollment")
                         .WithMany("Fundings")
                         .HasForeignKey("EnrollmentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Hedwig.Models.Permission", b =>
@@ -408,7 +504,8 @@ namespace Hedwig.Migrations
                     b.HasOne("Hedwig.Models.User", "User")
                         .WithMany("Permissions")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Hedwig.Models.Report", b =>
@@ -416,7 +513,8 @@ namespace Hedwig.Migrations
                     b.HasOne("Hedwig.Models.ReportingPeriod", "ReportingPeriod")
                         .WithMany()
                         .HasForeignKey("ReportingPeriodId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Hedwig.Models.Site", b =>
@@ -431,7 +529,8 @@ namespace Hedwig.Migrations
                     b.HasOne("Hedwig.Models.Organization", "Organization")
                         .WithMany()
                         .HasForeignKey("OrganizationId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Hedwig.Models.SitePermission", b =>
@@ -439,7 +538,8 @@ namespace Hedwig.Migrations
                     b.HasOne("Hedwig.Models.Site", "Site")
                         .WithMany()
                         .HasForeignKey("SiteId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Hedwig.Models.OrganizationReport", b =>
@@ -447,7 +547,8 @@ namespace Hedwig.Migrations
                     b.HasOne("Hedwig.Models.Organization", "Organization")
                         .WithMany("Reports")
                         .HasForeignKey("OrganizationId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

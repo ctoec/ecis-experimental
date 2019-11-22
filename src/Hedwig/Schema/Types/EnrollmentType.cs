@@ -23,7 +23,7 @@ namespace Hedwig.Schema.Types
                     String loaderCacheKey = $"GetChildByIdsAsync{asOf.ToString()}";
                     var loader = dataLoader.Context.GetOrAddBatchLoader<Guid, Child>(
                         loaderCacheKey,
-                        (ids) => children.GetChildrenByIdsAsync(ids, asOf));
+                        (ids) => children.GetChildrenByIdsAsync_OLD(ids, asOf));
 
                     return loader.LoadAsync(context.Source.ChildId);
                 }
@@ -39,17 +39,17 @@ namespace Hedwig.Schema.Types
                     return loader.LoadAsync(context.Source.SiteId);
                 }
             );
-            Field<NonNullGraphType<ListGraphType<NonNullGraphType<FundingType>>>>(
+            FieldAsync<NonNullGraphType<ListGraphType<NonNullGraphType<FundingType>>>>(
                 "fundings",
-                resolve: context =>
+                resolve: async context =>
                 {
                     DateTime? asOf = GetAsOfGlobal(context);
                     String loaderCacheKey = $"GetFundingsByEnrollmentIdsAsync{asOf.ToString()}";
                     var loader = dataLoader.Context.GetOrAddCollectionBatchLoader<int, Funding>(
                         loaderCacheKey,
-                        (ids) => fundings.GetFundingsByEnrollmentIdsAsync(ids, asOf));
+                        async (ids) => await fundings.GetFundingsByEnrollmentIdsAsync(ids, asOf));
 
-                    return loader.LoadAsync(context.Source.Id);
+                    return await loader.LoadAsync(context.Source.Id);
                 }
             );
         }
