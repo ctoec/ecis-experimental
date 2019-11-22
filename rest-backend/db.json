@@ -161,6 +161,7 @@
       {
         "id": 2,
         "siteId": 1,
+        "entry": "2019-10-12",
         "child": {
           "id": "93769dbf-b424-48d2-12de-08d7639ce3fc",
           "firstName": "David",

@@ -48,8 +48,8 @@ export default function Roster() {
 		toggleShowPastEnrollments(!showPastEnrollments);
 		setByRange(false);
 		setDateRange(getDefaultDateRange());
-	}
-
+  }
+  
 	if (!data) {
 		return <div className="Roster"></div>;
 	}

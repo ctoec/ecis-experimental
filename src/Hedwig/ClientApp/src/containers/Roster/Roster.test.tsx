@@ -4,129 +4,63 @@ import { mount } from 'enzyme';
 import mockdate from 'mockdate';
 import { BrowserRouter } from 'react-router-dom';
 import { act } from 'react-dom/test-utils';
-import { MockedProvider } from '@apollo/react-testing';
 import 'react-dates/initialize';
-import Roster, { ROSTER_QUERY } from './Roster';
+import Roster from './Roster';
 import DateSelectionForm from './DateSelectionForm';
 import RadioGroup from '../../components/RadioGroup/RadioGroup';
+// import fakeData from '../../../../../../rest-backend/db.json';
 
 const fakeDate = '2019-09-30';
-
-const earlierFakeEnrollment = {
-	child: {
-		id: 1,
-		firstName: 'James',
-		middleName: 'Sirius',
-		lastName: 'Potter',
-		birthdate: '2015-04-28',
-		suffix: null,
-	},
-	entry: '2019-01-01',
-	exit: null,
-	fundings: [],
-	id: 1,
-	age: 'preschool',
-};
-const laterFakeEnrollment = {
-	child: {
-		id: 2,
-		firstName: 'Lily',
-		middleName: 'Luna',
-		lastName: 'Potter',
-		birthdate: '2016-12-12',
-		suffix: null,
-	},
-	entry: '2019-03-03',
-	exit: null,
-	fundings: [
-		{
-			entry: '2019-03-01',
-			exit: '2019-04-01',
-			source: 'Gringotts Goblins Grant for Gifted Girls',
-			time: 'part',
-		},
-	],
-	id: 2,
-	age: 'preschool',
-};
-
-const mocks = [
-	{
-		request: {
-			query: ROSTER_QUERY,
-			variables: {
-				from: fakeDate,
-				to: fakeDate,
-			},
-		},
-		result: {
-			data: {
-				me: {
-					sites: [
-						{
-							id: 1,
-							name: 'Site 1',
-							enrollments: [earlierFakeEnrollment, laterFakeEnrollment],
-						},
-					],
-				},
-			},
-		},
-	},
-	{
-		request: {
-			query: ROSTER_QUERY,
-			variables: { from: '2018-01-01', to: '2019-02-01' },
-		},
-		result: {
-			data: {
-				me: {
-					sites: [
-						{
-							id: 1,
-							name: 'Site 1',
-							enrollments: [earlierFakeEnrollment],
-						},
-					],
-				},
-			},
-		},
-	},
-];
 
 const waitForUpdate = async (wrapper: any) => {
 	await new Promise(resolve => setTimeout(resolve, 10));
 	wrapper.update();
 };
 
+// TODO: get fake data from db.json instead
+// https://github.com/facebook/jest/issues/5579
+jest.mock('../../hooks/useOASClient', () => ({
+  __esModule: true,
+  default: () => {
+    const fakeData = { id: 1, organizationId: 1, enrollments: [] };
+    return {
+      data: fakeData,
+      runQuery: () => fakeData,
+    };
+  },
+}));
+
+import useOASClient from './../../hooks/useOASClient';
+
 beforeAll(() => {
-	mockdate.set(fakeDate);
+  mockdate.set(fakeDate);
 });
 
 afterAll(() => {
-	mockdate.reset();
+  mockdate.reset();
+  jest.resetModules();
 });
 
 describe('Roster', () => {
 	it('matches snapshot', () => {
 		const wrapper = mount(
-			<MockedProvider mocks={mocks}>
-				<BrowserRouter>
-					<Roster />
-				</BrowserRouter>
-			</MockedProvider>
+			<BrowserRouter>
+				<Roster />
+			</BrowserRouter>
 		);
+		// await act(async () => {
+		waitForUpdate(wrapper);
+		// });
+		console.log(wrapper.debug());
 		expect(wrapper).toMatchSnapshot();
 		wrapper.unmount();
 	});
 
 	it('renders intro text with the correct number of kids', async () => {
 		const wrapper = mount(
-			<MockedProvider mocks={mocks} addTypename={false}>
-				<BrowserRouter>
-					<Roster />
-				</BrowserRouter>
-			</MockedProvider>
+			<BrowserRouter>
+				<Roster />
+			</BrowserRouter>
 		);
 		await act(async () => {
 			await waitForUpdate(wrapper);
@@ -138,11 +72,9 @@ describe('Roster', () => {
 
 	it('updates the number of kids', async () => {
 		const wrapper = mount(
-			<MockedProvider mocks={mocks} addTypename={false}>
-				<BrowserRouter>
-					<Roster />
-				</BrowserRouter>
-			</MockedProvider>
+			<BrowserRouter>
+				<Roster />
+			</BrowserRouter>
 		);
 		await act(async () => {
 			await waitForUpdate(wrapper);
@@ -174,3 +106,9 @@ describe('Roster', () => {
 		wrapper.unmount();
 	});
 });
+
+jest.spyOn(global, 'fetch').mockImplementation(() =>
+	Promise.resolve({
+		json: () => Promise.resolve(fakeData.siteHydrated),
+	})
+);
