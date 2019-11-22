@@ -3,7 +3,7 @@
     { "id": 1 }
   ],
   "sites": [
-    { "id": 1 , "organizationId": 1}
+    { "id": 1 , "organizationId": 1 }
   ],
   "children": [
     {
@@ -132,6 +132,109 @@
       "id": 3,
       "siteId": 1,
       "childId": "f93b1e4c-98ee-426e-12dd-08d7639ce3fc"
+    }
+  ],
+  "siteHydrated": {
+    "id": 1,
+    "name": "Childcare Center",
+    "organizationId": 1,
+    "enrollments": [
+      {
+        "id": 1,
+        "siteId": 1,
+        "entry": "2019-01-12",
+        "child": {
+          "id": "f93b1e4c-98ee-426e-12dd-08d7639ce3fc",
+          "firstName": "Alan",
+          "middleName": null,
+          "lastName": "Rickman",
+          "birthdate": "2018-12-07"
+        },
+        "fundings": [
+          {
+            "id": 1,
+            "source": "CDC",
+            "time": "PART"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "siteId": 1,
+        "entry": "2019-10-12",
+        "child": {
+          "id": "93769dbf-b424-48d2-12de-08d7639ce3fc",
+          "firstName": "David",
+          "lastName": "Thewlis",
+          "birthdate": "2016-07-29"
+        },
+        "fundings": [
+          {
+            "id": 2,
+            "source": "CDC",
+            "time": "FULL"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "siteId": 1,
+        "child": {
+          "id": "2322ad0d-0808-409b-12df-08d7639ce3fc",
+          "firstName": "Helena",
+          "lastName": "Bonham Carter",
+          "birthdate": "2016-01-01"
+        },
+        "fundings": []
+      }
+    ]
+  },
+  "enrollmentsHydrated": [
+    {
+      "id": 1,
+      "siteId": 1,
+      "child": {
+        "id": "f93b1e4c-98ee-426e-12dd-08d7639ce3fc",
+        "firstName": "Alan",
+        "middleName": null,
+        "lastName": "Rickman",
+        "birthdate": "2018-12-07"
+      },
+      "fundings": [
+        {
+          "id": 1,
+          "source": "CDC",
+          "time": "PART"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "siteId": 1,
+      "child": {
+        "id": "93769dbf-b424-48d2-12de-08d7639ce3fc",
+        "firstName": "David",
+        "lastName": "Thewlis",
+        "birthdate": "2016-07-29"
+      },
+      "fundings": [
+        {
+          "id": 2,
+          "source": "CDC",
+          "time": "FULL"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "siteId": 1,
+      "child": {
+        "id": "2322ad0d-0808-409b-12df-08d7639ce3fc",
+        "firstName": "Helena",
+        "lastName": "Bonham Carter",
+        "birthdate": "2016-01-01"
+      },
+      "fundings": []
     }
   ],
   "fundings": [

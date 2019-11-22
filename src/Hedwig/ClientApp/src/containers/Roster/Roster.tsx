@@ -1,8 +1,5 @@
-import React, { useState } from 'react';
-import useAuthQuery from '../../hooks/useAuthQuery';
-import { gql } from 'apollo-boost';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { RosterQuery, RosterQuery_me_sites_enrollments } from '../../generated/RosterQuery';
 import nameFormatter from '../../utils/nameFormatter';
 import dateFormatter from '../../utils/dateFormatter';
 import enrollmentTextFormatter from '../../utils/enrollmentTextFormatter';
@@ -14,62 +11,53 @@ import Button from '../../components/Button/Button';
 import RadioGroup from '../../components/RadioGroup/RadioGroup';
 import DateSelectionForm from './DateSelectionForm';
 import getColorForFundingSource from '../../utils/getColorForFundingType';
+import useOASClient from '../../hooks/useOASClient';
+import { Age } from '../../OAS-generated/models/Age';
+import { Child } from '../../OAS-generated/models/Child';
+import { Funding } from '../../OAS-generated/models/Funding';
 
-export const ROSTER_QUERY = gql`
-	query RosterQuery($from: Date, $to: Date) {
-		me {
-			sites {
-				id
-				name
-				enrollments(from: $from, to: $to) {
-					id
-					entry
-					exit
-					age
-					child {
-						id
-						firstName
-						middleName
-						lastName
-						birthdate
-						suffix
-					}
-					fundings {
-						source
-						time
-					}
-				}
-			}
-		}
-	}
-`;
+// Could just use Enrollment if we make age, child, and funding required
+type RosterTableProps = {
+	id: number;
+	entry: OECDate | null;
+	exit: OECDate | null;
+	age: Age | null;
+	child: Child;
+	fundings: Funding[];
+}
 
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
 	const [dateRange, setDateRange] = useState<DateRange>(getDefaultDateRange());
-	const [byRange, setByRange] = useState(false);
+  const [byRange, setByRange] = useState(false);
+  // TODO: handle user context stuff-- use context hook passing in usercontext object
+	const { data, runQuery } = useOASClient('organizationsOrganizationIdSitesSiteIdGet', {
+    // TODO: get site from user context
+		organizationId: 1,
+		siteId: 1,
+		include: ['enrollments'],
+		startDate: dateRange && dateRange.startDate && dateRange.startDate.format('YYYY-MM-DD'),
+		endDate: dateRange && dateRange.endDate && dateRange.endDate.format('YYYY-MM-DD'),
+	});
+
+	useEffect(() => {
+		runQuery();
+	}, [dateRange]);
 
 	function handlePastEnrollmentsChange() {
 		toggleShowPastEnrollments(!showPastEnrollments);
 		setByRange(false);
 		setDateRange(getDefaultDateRange());
-	}
-
-	const { loading, error, data } = useAuthQuery<RosterQuery>(ROSTER_QUERY, {
-		variables: {
-			from: dateRange.startDate && dateRange.startDate.format('YYYY-MM-DD'),
-			to: dateRange.endDate && dateRange.endDate.format('YYYY-MM-DD'),
-		},
-	});
-
-	if (loading || error || !data || !data.me) {
+  }
+  
+	if (!data) {
 		return <div className="Roster"></div>;
 	}
 
-	const site = data.me.sites[0];
+	const site = data;
 	const enrollments = site.enrollments;
 
-	const rosterTableProps: TableProps<RosterQuery_me_sites_enrollments> = {
+	const rosterTableProps: TableProps<RosterTableProps> = {
 		id: 'roster-table',
 		data: enrollments,
 		rowKey: row => row.id,
