@@ -26,7 +26,6 @@ export const APP_QUERY = gql`
 `;
 
 const App: React.FC<WithLoginPropsType> = ({ accessToken }) => {
-	useOASClient();
 	let { loading, error, data, refetch } = useAuthQuery<AppQuery>(APP_QUERY);
 	// The <App> component is only loaded once
 	// so in order to update the props to <Header>

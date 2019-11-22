@@ -21,7 +21,7 @@ jest.mock('../../hooks/useOASClient', () => {
 	const moment = require('moment');
 	return {
 		__esModule: true,
-		default: (query: any, params: any) => {
+		default: (_: any, params: any) => {
 			const fakeEnrollments = [
 				{
 					child: {

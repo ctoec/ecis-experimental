@@ -3,9 +3,7 @@ import { DefaultApi, Configuration } from '../OAS-generated';
 import LoginContext from '../contexts/Login/LoginContext';
 
 export default function useOasClient (query?: string, params?: any) {
-  // Need user context for authorization
 	const [data, setData] = useState();
-
 	const { accessToken, withFreshToken } = useContext(LoginContext);
 	useEffect(() => {
 		withFreshToken();
@@ -23,8 +21,7 @@ export default function useOasClient (query?: string, params?: any) {
 
 	useEffect(() => {
     runQuery()
-    // Should we rerun the query when the access token changes or nah?
-	}, [accessToken]);
+	});
 
 	return {
     data,

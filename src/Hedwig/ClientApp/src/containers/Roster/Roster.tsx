@@ -29,7 +29,8 @@ type RosterTableProps = {
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
 	const [dateRange, setDateRange] = useState<DateRange>(getDefaultDateRange());
-	const [byRange, setByRange] = useState(false);
+  const [byRange, setByRange] = useState(false);
+  // TODO: handle user context stuff-- use context hook passing in usercontext object
 	const { data, runQuery } = useOASClient('organizationsOrganizationIdSitesSiteIdGet', {
     // TODO: get site from user context
 		organizationId: 1,
