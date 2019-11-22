@@ -82,7 +82,12 @@ namespace Hedwig
 
 		public static void ConfigureControllers(this IServiceCollection services)
 		{
-			services.AddControllers();
+			services
+			.AddControllers()
+			.AddNewtonsoftJson(options =>
+				{
+					options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+				});
 		}
 
 // GraphQL Support
