@@ -40,6 +40,11 @@ sudo -i -u ubuntu bash -c 'cd /home/ubuntu/ws && git clone  https://github.com/c
 sudo -i -u ubuntu bash -c 'cd /home/ubuntu/ws/ecis-experimental && git checkout ${github_branch}'
 
 #---------------------------------------
+# uppdate help page with branch id
+#---------------------------------------
+sudo -i -u ubuntu bash -c 'sed -i "s/Build: __Build.BuildNumber__/Branch: ${github_branch}/" /home/ubuntu/ws/ecis-experimental/src/Hedwig/ClientApp/src/containers/Help/Help.tsx'
+
+#---------------------------------------
 # setup git source - winged-keys
 #---------------------------------------
 sudo -i -u ubuntu bash -c 'cd /home/ubuntu/ws && git clone https://github.com/ctoec/winged-keys'
