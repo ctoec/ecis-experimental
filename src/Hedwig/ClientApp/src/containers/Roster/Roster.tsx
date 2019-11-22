@@ -31,8 +31,7 @@ export default function Roster() {
 	const [dateRange, setDateRange] = useState<DateRange>(getDefaultDateRange());
 	const [byRange, setByRange] = useState(false);
 	const { data, runQuery } = useOASClient('organizationsOrganizationIdSitesSiteIdGet', {
-		// TODO: Get org and site id from authenticated user?
-		// In graphql version we were just grabbing first of all sites per user
+    // TODO: get site from user context
 		organizationId: 1,
 		siteId: 1,
 		include: ['enrollments'],

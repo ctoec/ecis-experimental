@@ -3,18 +3,15 @@ import { DefaultApi, Configuration } from '../OAS-generated';
 import LoginContext from '../contexts/Login/LoginContext';
 
 export default function useOasClient (query?: string, params?: any) {
-	const [user, setUser] = useState();
+  // Need user context for authorization
 	const [data, setData] = useState();
 
 	const { accessToken, withFreshToken } = useContext(LoginContext);
 	useEffect(() => {
 		withFreshToken();
-	}, []);
+	});
 
   const api = accessToken ? new DefaultApi(new Configuration({ accessToken })) : null;
-  // TODO: NEED USER IN MOCKED DATA?
-  // const retrievedUser = await api.usersCurrentGet();
-  // setUser(retrievedUser);
 
   const runQuery = async () => {
     if (!query || !api) {
@@ -26,7 +23,8 @@ export default function useOasClient (query?: string, params?: any) {
 
 	useEffect(() => {
     runQuery()
-	}, [user]);
+    // Should we rerun the query when the access token changes or nah?
+	}, [accessToken]);
 
 	return {
     data,

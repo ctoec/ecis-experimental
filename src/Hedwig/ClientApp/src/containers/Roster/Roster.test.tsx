@@ -8,7 +8,6 @@ import 'react-dates/initialize';
 import Roster from './Roster';
 import DateSelectionForm from './DateSelectionForm';
 import RadioGroup from '../../components/RadioGroup/RadioGroup';
-// import fakeData from '../../../../../../rest-backend/db.json';
 
 const fakeDate = '2019-09-30';
 
@@ -17,28 +16,79 @@ const waitForUpdate = async (wrapper: any) => {
 	wrapper.update();
 };
 
-// TODO: get fake data from db.json instead
 // https://github.com/facebook/jest/issues/5579
-jest.mock('../../hooks/useOASClient', () => ({
-  __esModule: true,
-  default: () => {
-    const fakeData = { id: 1, organizationId: 1, enrollments: [] };
-    return {
-      data: fakeData,
-      runQuery: () => fakeData,
-    };
-  },
-}));
+jest.mock('../../hooks/useOASClient', () => {
+	const moment = require('moment');
+	return {
+		__esModule: true,
+		default: (query: any, params: any) => {
+			const fakeEnrollments = [
+				{
+					child: {
+						id: 1,
+						firstName: 'James',
+						middleName: 'Sirius',
+						lastName: 'Potter',
+						birthdate: '2015-04-28',
+						suffix: null,
+					},
+					entry: '2019-01-01',
+					exit: null,
+					fundings: [],
+					id: 1,
+					age: 'preschool',
+				},
+				{
+					child: {
+						id: 2,
+						firstName: 'Lily',
+						middleName: 'Luna',
+						lastName: 'Potter',
+						birthdate: '2016-12-12',
+						suffix: null,
+					},
+					entry: '2019-03-03',
+					exit: null,
+					fundings: [
+						{
+							entry: '2019-03-01',
+							exit: '2019-04-01',
+							source: 'CDC',
+							time: 'part',
+						},
+					],
+					id: 2,
+					age: 'preschool',
+				},
+			];
+			const fakeData = {
+				id: 1,
+				name: 'Childcare Center',
+				organizationId: 1,
+				enrollments: fakeEnrollments.filter(e => {
+					return (
+						(!e.entry ? true : moment(e.entry).isBefore(params.endDate)) &&
+						(!e.exit ? true : moment(e.exit).isAfter(moment(params.startDate)))
+					);
+				}),
+			};
+			return {
+				data: fakeData,
+				runQuery: () => fakeData,
+			};
+		},
+	};
+});
 
 import useOASClient from './../../hooks/useOASClient';
 
 beforeAll(() => {
-  mockdate.set(fakeDate);
+	mockdate.set(fakeDate);
 });
 
 afterAll(() => {
-  mockdate.reset();
-  jest.resetModules();
+	mockdate.reset();
+	jest.resetModules();
 });
 
 describe('Roster', () => {
@@ -48,10 +98,6 @@ describe('Roster', () => {
 				<Roster />
 			</BrowserRouter>
 		);
-		// await act(async () => {
-		waitForUpdate(wrapper);
-		// });
-		console.log(wrapper.debug());
 		expect(wrapper).toMatchSnapshot();
 		wrapper.unmount();
 	});
@@ -106,9 +152,3 @@ describe('Roster', () => {
 		wrapper.unmount();
 	});
 });
-
-jest.spyOn(global, 'fetch').mockImplementation(() =>
-	Promise.resolve({
-		json: () => Promise.resolve(fakeData.siteHydrated),
-	})
-);
