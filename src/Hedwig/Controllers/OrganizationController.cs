@@ -13,10 +13,17 @@ namespace Hedwig.Controllers
     public class OrganizationsController : ControllerBase
     {
         private readonly IOrganizationRepository _organizations;
+        private readonly ISiteRepository _sites;
+        private readonly IEnrollmentRepository _enrollments;
 
-        public OrganizationsController(IOrganizationRepository organizations)
+        public OrganizationsController(
+            IOrganizationRepository organizations,
+            ISiteRepository sites,
+            IEnrollmentRepository enrollments)
         {
             _organizations = organizations;
+            _sites = sites;
+            _enrollments = enrollments;
         }
 
         // GET api/organizations
@@ -28,9 +35,19 @@ namespace Hedwig.Controllers
 
         // GET api/organizations/5
         [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        public async Task<ActionResult<object>> Get(int id, [FromQuery(Name ="include[]")] string[] include)
         {
-            return "hello org";
+            var organization = await _organizations.GetOrganizationByIdAsync(id);
+
+            if (include.Contains("site"))
+            {
+                var sites = await _sites.GetSitesByOrganizationIdsAsync(new int[] { id });
+                if (include.Contains("enrollment"))
+                {
+                    await _enrollments.GetEnrollmentsBySiteIdsAsync(from site in sites select site.Key);
+                }
+            }
+            return organization;
         }
     }
 }

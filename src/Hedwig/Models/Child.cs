@@ -6,6 +6,10 @@ namespace Hedwig.Models
 {
 	public class Child : TemporalEntity
 	{
+		// Optional FK to prevent cascade delete
+		// (multiple case delete FKs disallowed by SQLServer due to potenital for cycles)
+		public int? OrganizationId { get; set; }
+		public Organization Organization { get; set; }
 		public Guid Id { get; set; }
 
 		public string Sasid { get; set; }

@@ -11,7 +11,8 @@ namespace Hedwig.Models
 		[StringLength(100)]
 		public string Name { get; set; }
 
-		// Optional FK to prevent cascade delete and associated cycle
+		// Optional FK to prevent cascade delete
+		// (multiple cascade delete FKs disallowed by SQLServer due to potential for cycles)
 		public int? OrganizationId { get; set; }
 		public Organization Organization { get; set; }
 

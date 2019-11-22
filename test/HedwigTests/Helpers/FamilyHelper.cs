@@ -8,8 +8,13 @@ namespace HedwigTests.Helpers
 {
 	public class FamilyHelper
 	{
-		public static Family CreateFamily(HedwigContext context)
+		public static Family CreateFamily(
+			HedwigContext context,
+			Organization organization = null
+		)
 		{
+			organization = organization ?? OrganizationHelper.CreateOrganization(context);
+			
 			var family = new Family();
 			context.Add<Family>(family);
 			context.SaveChanges();
