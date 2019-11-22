@@ -185,9 +185,6 @@ jobs:
     inputs:
       terraformVersion: 0.12.13
 
-  - script: chmod 770 $(Build.SourcesDirectory)/installer/tf/prsystem/tf-*.sh
-    displayName: 'Command: setup tf script for execution'
-
   - script: $(Build.SourcesDirectory)/installer/tf/prsystem/tf-init.sh
     displayName: 'Command: initialize terraform backend'
 
