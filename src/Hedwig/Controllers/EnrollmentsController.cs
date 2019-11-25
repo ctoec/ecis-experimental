@@ -9,7 +9,7 @@ using Hedwig.Repositories;
 namespace Hedwig.Controllers
 {
     [ApiController]
-    [Route("api/organization/{orgId:int}/sites/{siteId:int}/[controller]")]
+    [Route("api/organizations/{orgId:int}/sites/{siteId:int}/[controller]")]
     public class EnrollmentsController : ControllerBase
     {
         private readonly IEnrollmentRepository _enrollments;
