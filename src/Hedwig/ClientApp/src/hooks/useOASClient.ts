@@ -22,11 +22,10 @@ export default function useOASClient(query?: string, params?: any) {
 			// TODO: HANDLE ERRORS
 			console.log("These are not the error messages you're looking for: ", e);
 		}
-  };
-  
+	};
 
 	useEffect(() => {
-    runQuery();
+		runQuery();
 	}, [query, accessToken, JSON.stringify(params)]);
 
 	return data;

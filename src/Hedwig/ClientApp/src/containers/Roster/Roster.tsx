@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import nameFormatter from '../../utils/nameFormatter';
 import dateFormatter from '../../utils/dateFormatter';
@@ -12,6 +12,7 @@ import RadioGroup from '../../components/RadioGroup/RadioGroup';
 import Legend from '../../components/Legend/Legend';
 import DateSelectionForm from './DateSelectionForm';
 import getColorForFundingSource, { fundingSourceDetails } from '../../utils/getColorForFundingType';
+import queryParamDateFormatter from '../../utils/queryParamDateFormatter';
 import useOASClient from '../../hooks/useOASClient';
 import UserContext from '../../contexts/User/UserContext';
 import { Age } from '../../OAS-generated/models/Age';
@@ -36,10 +37,9 @@ export default function Roster() {
 		organizationId: (user && user.organizationId) || 0,
 		// TODO after pilot: don't just grab the first siteId
 		siteId: (user && user.siteIds && user.siteIds[0]) || 0,
-    include: ['enrollments'],
-    // TODO: extract this into a function
-		startDate: dateRange && dateRange.startDate && dateRange.startDate.format('YYYY-MM-DD'),
-		endDate: dateRange && dateRange.endDate && dateRange.endDate.format('YYYY-MM-DD'),
+		include: ['enrollments'],
+		startDate: dateRange && dateRange.startDate && queryParamDateFormatter(dateRange.startDate),
+		endDate: dateRange && dateRange.endDate && queryParamDateFormatter(dateRange.endDate),
 	});
 
 	function handlePastEnrollmentsChange() {

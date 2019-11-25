@@ -3,32 +3,29 @@ import useOASClient from '../../hooks/useOASClient';
 import { User } from '../../OAS-generated/models/User';
 
 export type UserContextType = {
-  user?: User;
+	user?: User;
 };
 
 const UserContext = React.createContext<UserContextType>({
-  user: undefined,
+	user: undefined,
 });
 
 const { Provider, Consumer } = UserContext;
 
-export type UserProviderPropsType = {
-};
+export type UserProviderPropsType = {};
 
-const UserProvider: React.FC<UserProviderPropsType> = ({
-  children,
-}) => {
-  const currentUser = useOASClient('usersCurrentGet');
-  return (
-    <Provider
-      value={{
-        user: currentUser,
-      }}
-    >
-      {children}
-    </Provider>
+const UserProvider: React.FC<UserProviderPropsType> = ({ children }) => {
+	const currentUser = useOASClient('usersCurrentGet');
+	return (
+		<Provider
+			value={{
+				user: currentUser,
+			}}
+		>
+			{children}
+		</Provider>
 	);
-}
+};
 
 export { UserProvider };
 export { Consumer as UserConsumer };
