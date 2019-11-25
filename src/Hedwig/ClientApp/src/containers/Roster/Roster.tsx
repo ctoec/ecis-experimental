@@ -25,32 +25,29 @@ type RosterTableProps = {
 	age: Age | null;
 	child: Child;
 	fundings: Funding[];
-}
+};
 
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
 	const [dateRange, setDateRange] = useState<DateRange>(getDefaultDateRange());
-  const [byRange, setByRange] = useState(false);
-  const { user } = useContext(UserContext);
-	const { data, runQuery } = useOASClient('organizationsOrganizationIdSitesSiteIdGet', {
-    organizationId: (user && user.organizationId) || 0,
-    // TODO after pilot: don't just grab the first siteId
+	const [byRange, setByRange] = useState(false);
+	const { user } = useContext(UserContext);
+	const data = useOASClient('organizationsOrganizationIdSitesSiteIdGet', {
+		organizationId: (user && user.organizationId) || 0,
+		// TODO after pilot: don't just grab the first siteId
 		siteId: (user && user.siteIds && user.siteIds[0]) || 0,
-		include: ['enrollments'],
+    include: ['enrollments'],
+    // TODO: extract this into a function
 		startDate: dateRange && dateRange.startDate && dateRange.startDate.format('YYYY-MM-DD'),
 		endDate: dateRange && dateRange.endDate && dateRange.endDate.format('YYYY-MM-DD'),
 	});
-
-	useEffect(() => {
-		runQuery();
-	}, [dateRange, user]);
 
 	function handlePastEnrollmentsChange() {
 		toggleShowPastEnrollments(!showPastEnrollments);
 		setByRange(false);
 		setDateRange(getDefaultDateRange());
-  }
-  
+	}
+
 	if (!data) {
 		return <div className="Roster"></div>;
 	}
@@ -136,7 +133,8 @@ export default function Roster() {
 		text: fundingSourceDetails[key].fullTitle,
 		symbolColor: fundingSourceDetails[key].colorToken,
 		number: enrollments.filter(
-			(row: RosterTableProps) => row.fundings.filter((funding: any) => funding.source === key).length > 0
+			(row: RosterTableProps) =>
+				row.fundings.filter((funding: any) => funding.source === key).length > 0
 		).length,
 	}));
 

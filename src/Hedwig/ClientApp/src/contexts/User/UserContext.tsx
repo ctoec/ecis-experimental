@@ -18,7 +18,7 @@ export type UserProviderPropsType = {
 const UserProvider: React.FC<UserProviderPropsType> = ({
   children,
 }) => {
-  const { data: currentUser } = useOASClient('usersCurrentGet');
+  const currentUser = useOASClient('usersCurrentGet');
   return (
     <Provider
       value={{

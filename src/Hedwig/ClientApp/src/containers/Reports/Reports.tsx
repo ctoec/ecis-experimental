@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import useAuthQuery from '../../hooks/useAuthQuery';
 import { gql } from 'apollo-boost';
 import { Link } from 'react-router-dom';
@@ -8,6 +8,7 @@ import InlineIcon from '../../components/InlineIcon/InlineIcon';
 import { ReportsQuery, ReportsQuery_me_reports } from '../../generated/ReportsQuery';
 import monthFormatter from '../../utils/monthFormatter';
 import dateFormatter from '../../utils/dateFormatter';
+import UserContext from '../../contexts/User/UserContext';
 
 export const REPORTS_QUERY = gql`
 	query ReportsQuery {
@@ -30,7 +31,7 @@ export const REPORTS_QUERY = gql`
 `;
 
 export default function Reports() {
-	const { loading, error, data } = useAuthQuery<ReportsQuery>(REPORTS_QUERY);
+  const { loading, error, data } = useAuthQuery<ReportsQuery>(REPORTS_QUERY);
 
 	if (loading || error || !data || !data.me) {
 		return <div className="Reports"></div>;
