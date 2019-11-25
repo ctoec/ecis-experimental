@@ -1246,6 +1246,137 @@ exports[`Storyshots InlineIcon Incomplete 1`] = `
 </div>
 `;
 
+exports[`Storyshots Legend Default 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="grid-row flex-wrap margin-top-2 margin-bottom-2 oec-legend"
+  >
+    <div
+      className="grid-col-1 flex-1"
+    >
+      <svg
+        className="legend-svg"
+        height="16"
+        width="20"
+      >
+        <rect
+          className="fill-undefined"
+          height="16px"
+          rx="4px"
+          ry="4px"
+          width="16px"
+        />
+      </svg>
+      <div
+        className="width-fit-content display-inline margin-left-1 margin-bottom-1 "
+      >
+        <span
+          className="margin-right-1 text-bold"
+        >
+          1
+        </span>
+        <span>
+          One fish
+        </span>
+      </div>
+    </div>
+    <div
+      className="grid-col-1 flex-1"
+    >
+      <svg
+        className="legend-svg"
+        height="16"
+        width="20"
+      >
+        <rect
+          className="fill-undefined"
+          height="16px"
+          rx="4px"
+          ry="4px"
+          width="16px"
+        />
+      </svg>
+      <div
+        className="width-fit-content display-inline margin-left-1 margin-bottom-1 "
+      >
+        <span
+          className="margin-right-1 text-bold"
+        >
+          2
+        </span>
+        <span>
+          Two fish
+        </span>
+      </div>
+    </div>
+    <div
+      className="grid-col-1 flex-1"
+    >
+      <svg
+        className="legend-svg"
+        height="16"
+        width="20"
+      >
+        <rect
+          className="fill-red"
+          height="16px"
+          rx="4px"
+          ry="4px"
+          width="16px"
+        />
+      </svg>
+      <div
+        className="width-fit-content display-inline margin-left-1 margin-bottom-1 "
+      >
+        <span
+          className="margin-right-1 text-bold"
+        >
+          2
+        </span>
+        <span>
+          Red fish
+        </span>
+      </div>
+    </div>
+    <div
+      className="grid-col-1 flex-1"
+    >
+      <svg
+        className="legend-svg"
+        height="16"
+        width="20"
+      >
+        <rect
+          className="fill-blue"
+          height="16px"
+          rx="4px"
+          ry="4px"
+          width="16px"
+        />
+      </svg>
+      <div
+        className="width-fit-content display-inline margin-left-1 margin-bottom-1 "
+      >
+        <span
+          className="margin-right-1 text-bold"
+        >
+          4
+        </span>
+        <span>
+          Blue fish
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Storyshots RadioGroup Default 1`] = `
 <div
   style={

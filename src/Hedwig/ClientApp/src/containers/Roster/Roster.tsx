@@ -9,8 +9,9 @@ import Tag from '../../components/Tag/Tag';
 import { DateRange } from '../../components/DatePicker/DatePicker';
 import Button from '../../components/Button/Button';
 import RadioGroup from '../../components/RadioGroup/RadioGroup';
+import Legend from '../../components/Legend/Legend';
 import DateSelectionForm from './DateSelectionForm';
-import getColorForFundingSource from '../../utils/getColorForFundingType';
+import getColorForFundingSource, { fundingSourceDetails } from '../../utils/getColorForFundingType';
 import useOASClient from '../../hooks/useOASClient';
 import { Age } from '../../OAS-generated/models/Age';
 import { Child } from '../../OAS-generated/models/Child';
@@ -108,6 +109,17 @@ export default function Roster() {
 				),
 				sort: row => row.entry || '',
 			},
+			{
+				name: 'Enrolled',
+				cell: ({ row }) => (
+					<td className="oec-table__cell--tabular-nums">
+						{row.entry
+							? dateFormatter(row.entry) + '–' + (row.exit ? dateFormatter(row.exit) : '')
+							: ''}
+					</td>
+				),
+				sort: row => row.entry || '',
+			},
 		],
 		defaultSortColumn: 0,
 		defaultSortOrder: 'asc',
@@ -120,10 +132,19 @@ export default function Roster() {
 		byRange
 	);
 
+	const legendItems = Object.keys(fundingSourceDetails).map(key => ({
+		text: fundingSourceDetails[key].fullTitle,
+		symbolColor: fundingSourceDetails[key].colorToken,
+		number: enrollments.filter(
+			(row: RosterTableProps) => row.fundings.filter((funding: any) => funding.source === key).length > 0
+		).length,
+	}));
+
 	return (
 		<div className="Roster">
 			<section className="grid-container">
 				<h1 className="grid-col-auto">{site.name}</h1>
+				<Legend items={legendItems} />
 				<div className="grid-row">
 					<div className="tablet:grid-col-fill">
 						<p className="usa-intro display-flex flex-row flex-wrap flex-justify-start">

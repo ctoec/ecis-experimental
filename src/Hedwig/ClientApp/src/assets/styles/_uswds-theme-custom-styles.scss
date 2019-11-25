@@ -370,6 +370,14 @@ $future-step-color: color('base-dark') !default;
 	}
 }
 
+.oec-step-list__step__summary {
+	font-size: size('ui', 3);
+
+	p {
+		@include u-margin-y('05');
+	}
+}
+
 .hedwig-enrollment-details-section {
 	@include u-padding-bottom(1);
 	border-bottom: units('1px') solid color('base-lighter');
@@ -485,4 +493,50 @@ $future-step-color: color('base-dark') !default;
 	li {
 		@include u-margin-y(2);
 	}
+}
+
+// *** Width fit content ***
+.width-fit-content {
+	width: fit-content;
+}
+
+// *** Legend ****
+.oec-legend {
+  border: .15rem solid #f0f0f0;
+  padding: 1rem;
+}
+
+.legend-svg {
+	-webkit-transform: translateY(2px);
+	-ms-transform: translateY(2px);
+	transform: translateY(2px);
+}
+
+// Override the white text for better contrast
+.usa-tag {
+  color: inherit;
+}
+
+// blue-30v svg rect fill and tag bg
+.fill-blue-30v {
+  fill: color('blue-30v');
+}
+.bg-blue-30v {
+  background-color: color('blue-30v');
+}
+
+// green-cool-30 svg rect fill and tag bg
+.fill-green-cool-30 {
+  fill: color('green-cool-30');
+}
+.bg-green-cool-30 {
+  background-color: color('green-cool-30');
+}
+
+// violet-warm-30 svg rect fill and tag bg
+.fill-violet-warm-30 {
+  fill: color('violet-warm-30');
+}
+.bg-violet-warm-30 {
+  background-color: color('violet-warm-30');
 }
