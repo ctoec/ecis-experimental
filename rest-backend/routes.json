@@ -1,4 +1,5 @@
 {
+  "/users/current": "/users/1",
   "/organizations/1/sites/1": "/sites/1",
   "/organizations/1/sites/1\\?include*": "/siteHydrated",
   "/organizations/1/sites/1/enrollments": "/enrollments",

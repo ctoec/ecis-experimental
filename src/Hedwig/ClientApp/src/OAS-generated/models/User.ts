@@ -62,6 +62,18 @@ export interface User {
      * @memberof User
      */
     reports?: Array<Report>;
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof User
+     */
+    siteIds?: Array<number>;
+    /**
+     * 
+     * @type {number}
+     * @memberof User
+     */
+    organizationId?: number;
 }
 
 export function UserFromJSON(json: any): User {
@@ -80,6 +92,8 @@ export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User
         'lastName': json['lastName'],
         'suffix': !exists(json, 'suffix') ? undefined : json['suffix'],
         'reports': !exists(json, 'reports') ? undefined : ((json['reports'] as Array<any>).map(ReportFromJSON)),
+        'siteIds': !exists(json, 'siteIds') ? undefined : json['siteIds'],
+        'organizationId': !exists(json, 'organizationId') ? undefined : json['organizationId'],
     };
 }
 
@@ -98,6 +112,8 @@ export function UserToJSON(value?: User | null): any {
         'lastName': value.lastName,
         'suffix': value.suffix,
         'reports': value.reports === undefined ? undefined : ((value.reports as Array<any>).map(ReportToJSON)),
+        'siteIds': value.siteIds,
+        'organizationId': value.organizationId,
     };
 }
 

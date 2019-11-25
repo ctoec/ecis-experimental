@@ -1,4 +1,11 @@
 {
+  "users": [
+    {
+      "id": 1,
+      "organizationId": 1,
+      "siteIds": [1, 2]
+    }
+  ],
   "organizations": [
     { "id": 1 }
   ],

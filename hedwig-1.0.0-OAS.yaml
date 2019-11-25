@@ -88,6 +88,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Report'
+        siteIds:
+          type: array
+          items:
+            type: integer
+        organizationId:
+          type: integer
     Organization:
       type: object
       required: [id, name]
