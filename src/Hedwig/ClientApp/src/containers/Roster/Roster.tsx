@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import nameFormatter from '../../utils/nameFormatter';
 import dateFormatter from '../../utils/dateFormatter';
@@ -12,12 +12,13 @@ import RadioGroup from '../../components/RadioGroup/RadioGroup';
 import Legend from '../../components/Legend/Legend';
 import DateSelectionForm from './DateSelectionForm';
 import getColorForFundingSource, { fundingSourceDetails } from '../../utils/getColorForFundingType';
+import queryParamDateFormatter from '../../utils/queryParamDateFormatter';
 import useOASClient from '../../hooks/useOASClient';
+import UserContext from '../../contexts/User/UserContext';
 import { Age } from '../../OAS-generated/models/Age';
 import { Child } from '../../OAS-generated/models/Child';
 import { Funding } from '../../OAS-generated/models/Funding';
 
-// Could just use Enrollment if we make age, child, and funding required
 type RosterTableProps = {
 	id: number;
 	entry: OECDate | null;
@@ -25,32 +26,28 @@ type RosterTableProps = {
 	age: Age | null;
 	child: Child;
 	fundings: Funding[];
-}
+};
 
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
 	const [dateRange, setDateRange] = useState<DateRange>(getDefaultDateRange());
-  const [byRange, setByRange] = useState(false);
-  // TODO: handle user context stuff-- use context hook passing in usercontext object
-	const { data, runQuery } = useOASClient('organizationsOrganizationIdSitesSiteIdGet', {
-    // TODO: get site from user context
-		organizationId: 1,
-		siteId: 1,
+	const [byRange, setByRange] = useState(false);
+	const { user } = useContext(UserContext);
+	const data = useOASClient('organizationsOrganizationIdSitesSiteIdGet', {
+		organizationId: (user && user.organizationId) || 0,
+		// TODO after pilot: don't just grab the first siteId
+		siteId: (user && user.siteIds && user.siteIds[0]) || 0,
 		include: ['enrollments'],
-		startDate: dateRange && dateRange.startDate && dateRange.startDate.format('YYYY-MM-DD'),
-		endDate: dateRange && dateRange.endDate && dateRange.endDate.format('YYYY-MM-DD'),
+		startDate: dateRange && dateRange.startDate && queryParamDateFormatter(dateRange.startDate),
+		endDate: dateRange && dateRange.endDate && queryParamDateFormatter(dateRange.endDate),
 	});
-
-	useEffect(() => {
-		runQuery();
-	}, [dateRange]);
 
 	function handlePastEnrollmentsChange() {
 		toggleShowPastEnrollments(!showPastEnrollments);
 		setByRange(false);
 		setDateRange(getDefaultDateRange());
-  }
-  
+	}
+
 	if (!data) {
 		return <div className="Roster"></div>;
 	}
@@ -136,7 +133,8 @@ export default function Roster() {
 		text: fundingSourceDetails[key].fullTitle,
 		symbolColor: fundingSourceDetails[key].colorToken,
 		number: enrollments.filter(
-			(row: RosterTableProps) => row.fundings.filter((funding: any) => funding.source === key).length > 0
+			(row: RosterTableProps) =>
+				row.fundings.filter((funding: any) => funding.source === key).length > 0
 		).length,
 	}));
 
