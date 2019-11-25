@@ -68,13 +68,13 @@ namespace Hedwig
 			services.AddScoped<IPermissionRepository, PermissionRepository>();
 		}
 
-		public static void ConfigureAuthentication(this IServiceCollection services)
+		public static void ConfigureAuthentication(this IServiceCollection services, string wingedKeysUri)
 		{
 			JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 				.AddJwtBearer(options =>
 					{
-						options.Authority = "https://winged-keys:5050";
+						options.Authority = wingedKeysUri;
 						options.Audience = "hedwig_backend";
 						options.BackchannelHttpHandler = new HttpClientHandler
 						{
