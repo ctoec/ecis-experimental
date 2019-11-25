@@ -72,10 +72,7 @@ jest.mock('../../hooks/useOASClient', () => {
 					);
 				}),
 			};
-			return {
-				data: fakeData,
-				runQuery: () => fakeData,
-			};
+			return fakeData;
 		},
 	};
 });
