@@ -22,9 +22,7 @@ export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
 	const [dateRange, setDateRange] = useState<DateRange>(getDefaultDateRange());
 	const [byRange, setByRange] = useState(false);
-  const userReturn = useContext(UserContext);
-  const { user } = userReturn;
-	console.log({user}, {userReturn});
+	const { user } = useContext(UserContext);
 	const data = useOASClient<any, Site>('apiOrganizationsOrgIdSitesIdGet', {
 		orgId:
 			(user &&

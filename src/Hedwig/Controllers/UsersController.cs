@@ -28,9 +28,11 @@ namespace Hedwig.Controllers
 
         // GET api/users/current
         [HttpGet("current")]
-        public ActionResult<string> GetCurrent()
+        public async Task<ActionResult<User>> GetCurrent()
         {
-            return "value";
+            var userIdStr = User.FindFirst("sub")?.Value;
+            // var userId = Int32.Parse(userIdStr);
+            return await _users.GetUserByIdAsync(1);
         }
 
         // Examples:

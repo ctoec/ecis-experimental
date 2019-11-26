@@ -16,10 +16,7 @@ export default function useOASClient<TQueryParams, TData>(query?: string, params
 					accessToken,
 				})
 		  )
-    : null;
-    
-
-    console.log({query}, {params})
+		: null;
 
 	const runQuery = async () => {
 		if (!query || !api) {
