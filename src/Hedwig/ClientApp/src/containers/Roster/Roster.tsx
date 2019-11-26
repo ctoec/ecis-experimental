@@ -34,9 +34,9 @@ export default function Roster() {
 	const [byRange, setByRange] = useState(false);
 	const { user } = useContext(UserContext);
 	const data = useOASClient('organizationsOrganizationIdSitesSiteIdGet', {
-		organizationId: (user && user.organizationId) || 0,
+		organizationId: (user && user.orgPermissions && user.orgPermissions[0] && user.orgPermissions[0].organizationId ) || 0,
 		// TODO after pilot: don't just grab the first siteId
-		siteId: (user && user.siteIds && user.siteIds[0]) || 0,
+		siteId: (user && user.sitePermissions && user.sitePermissions[0] && user.sitePermissions[0].siteId) || 0,
 		include: ['enrollments'],
 		startDate: dateRange && dateRange.startDate && queryParamDateFormatter(dateRange.startDate),
 		endDate: dateRange && dateRange.endDate && queryParamDateFormatter(dateRange.endDate),

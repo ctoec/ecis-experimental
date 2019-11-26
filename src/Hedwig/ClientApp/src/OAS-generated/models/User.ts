@@ -14,14 +14,18 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    Permission,
-    PermissionFromJSON,
-    PermissionFromJSONTyped,
-    PermissionToJSON,
+    OrganizationPermission,
+    OrganizationPermissionFromJSON,
+    OrganizationPermissionFromJSONTyped,
+    OrganizationPermissionToJSON,
     Site,
     SiteFromJSON,
     SiteFromJSONTyped,
     SiteToJSON,
+    SitePermission,
+    SitePermissionFromJSON,
+    SitePermissionFromJSONTyped,
+    SitePermissionToJSON,
 } from './';
 
 /**
@@ -62,10 +66,16 @@ export interface User {
     suffix?: string | null;
     /**
      * 
-     * @type {Array<Permission>}
+     * @type {Array<OrganizationPermission>}
      * @memberof User
      */
-    permissions?: Array<Permission> | null;
+    orgPermissions?: Array<OrganizationPermission> | null;
+    /**
+     * 
+     * @type {Array<SitePermission>}
+     * @memberof User
+     */
+    sitePermissions?: Array<SitePermission> | null;
     /**
      * 
      * @type {Array<Site>}
@@ -89,7 +99,8 @@ export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User
         'middleName': !exists(json, 'middleName') ? undefined : json['middleName'],
         'lastName': json['lastName'],
         'suffix': !exists(json, 'suffix') ? undefined : json['suffix'],
-        'permissions': !exists(json, 'permissions') ? undefined : (json['permissions'] === null ? null : (json['permissions'] as Array<any>).map(PermissionFromJSON)),
+        'orgPermissions': !exists(json, 'orgPermissions') ? undefined : (json['orgPermissions'] === null ? null : (json['orgPermissions'] as Array<any>).map(OrganizationPermissionFromJSON)),
+        'sitePermissions': !exists(json, 'sitePermissions') ? undefined : (json['sitePermissions'] === null ? null : (json['sitePermissions'] as Array<any>).map(SitePermissionFromJSON)),
         'sites': !exists(json, 'sites') ? undefined : (json['sites'] === null ? null : (json['sites'] as Array<any>).map(SiteFromJSON)),
     };
 }
@@ -108,7 +119,8 @@ export function UserToJSON(value?: User | null): any {
         'middleName': value.middleName,
         'lastName': value.lastName,
         'suffix': value.suffix,
-        'permissions': value.permissions === undefined ? undefined : (value.permissions === null ? null : (value.permissions as Array<any>).map(PermissionToJSON)),
+        'orgPermissions': value.orgPermissions === undefined ? undefined : (value.orgPermissions === null ? null : (value.orgPermissions as Array<any>).map(OrganizationPermissionToJSON)),
+        'sitePermissions': value.sitePermissions === undefined ? undefined : (value.sitePermissions === null ? null : (value.sitePermissions as Array<any>).map(SitePermissionToJSON)),
         'sites': value.sites === undefined ? undefined : (value.sites === null ? null : (value.sites as Array<any>).map(SiteToJSON)),
     };
 }

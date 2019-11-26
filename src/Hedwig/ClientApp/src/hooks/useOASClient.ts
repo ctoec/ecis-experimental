@@ -9,7 +9,10 @@ export default function useOASClient(query?: string, params?: any) {
 		withFreshToken();
 	});
 
-	const api = accessToken ? new DefaultApi(new Configuration({ accessToken })) : null;
+	const api = accessToken ? new DefaultApi(new Configuration({ 
+		basePath: "https://localhost:5001",
+		accessToken 
+	})) : null;
 
 	const runQuery = async () => {
 		if (!query || !api) {

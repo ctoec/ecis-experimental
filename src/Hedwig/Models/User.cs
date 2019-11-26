@@ -25,7 +25,8 @@ namespace Hedwig.Models
 		[StringLength(10)]
 		public string Suffix { get; set; }
 
-		public ICollection<Permission> Permissions { get; set; }
+		public ICollection<OrganizationPermission> OrgPermissions { get; set; }
+		public ICollection<SitePermission> SitePermissions { get; set; }
 
 		[NotMapped]
 		public ICollection<Site> Sites { get; set; }
