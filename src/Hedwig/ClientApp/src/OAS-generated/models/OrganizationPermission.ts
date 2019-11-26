@@ -14,6 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
+    Organization,
+    OrganizationFromJSON,
+    OrganizationFromJSONTyped,
+    OrganizationToJSON,
     User,
     UserFromJSON,
     UserFromJSONTyped,
@@ -23,46 +27,60 @@ import {
 /**
  * 
  * @export
- * @interface Permission
+ * @interface OrganizationPermission
  */
-export interface Permission {
+export interface OrganizationPermission {
     /**
      * 
      * @type {number}
-     * @memberof Permission
+     * @memberof OrganizationPermission
+     */
+    organizationId?: number;
+    /**
+     * 
+     * @type {Organization}
+     * @memberof OrganizationPermission
+     */
+    organization?: Organization;
+    /**
+     * 
+     * @type {number}
+     * @memberof OrganizationPermission
      */
     id?: number;
     /**
      * 
      * @type {number}
-     * @memberof Permission
+     * @memberof OrganizationPermission
      */
     userId?: number;
     /**
      * 
      * @type {User}
-     * @memberof Permission
+     * @memberof OrganizationPermission
      */
     user?: User;
 }
 
-export function PermissionFromJSON(json: any): Permission {
-    return PermissionFromJSONTyped(json, false);
+export function OrganizationPermissionFromJSON(json: any): OrganizationPermission {
+    return OrganizationPermissionFromJSONTyped(json, false);
 }
 
-export function PermissionFromJSONTyped(json: any, ignoreDiscriminator: boolean): Permission {
+export function OrganizationPermissionFromJSONTyped(json: any, ignoreDiscriminator: boolean): OrganizationPermission {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
+        'organizationId': !exists(json, 'organizationId') ? undefined : json['organizationId'],
+        'organization': !exists(json, 'organization') ? undefined : OrganizationFromJSON(json['organization']),
         'id': !exists(json, 'id') ? undefined : json['id'],
         'userId': !exists(json, 'userId') ? undefined : json['userId'],
         'user': !exists(json, 'user') ? undefined : UserFromJSON(json['user']),
     };
 }
 
-export function PermissionToJSON(value?: Permission | null): any {
+export function OrganizationPermissionToJSON(value?: OrganizationPermission | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -71,6 +89,8 @@ export function PermissionToJSON(value?: Permission | null): any {
     }
     return {
         
+        'organizationId': value.organizationId,
+        'organization': OrganizationToJSON(value.organization),
         'id': value.id,
         'userId': value.userId,
         'user': UserToJSON(value.user),

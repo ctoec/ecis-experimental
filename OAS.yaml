@@ -860,9 +860,40 @@
         "type": "integer",
         "format": "int32"
       },
-      "Permission": {
+      "OrganizationPermission": {
         "type": "object",
         "properties": {
+          "organizationId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "organization": {
+            "$ref": "#/components/schemas/Organization"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SitePermission": {
+        "type": "object",
+        "properties": {
+          "siteId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "site": {
+            "$ref": "#/components/schemas/Site"
+          },
           "id": {
             "type": "integer",
             "format": "int32"
@@ -912,10 +943,17 @@
             "type": "string",
             "nullable": true
           },
-          "permissions": {
+          "orgPermissions": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Permission"
+              "$ref": "#/components/schemas/OrganizationPermission"
+            },
+            "nullable": true
+          },
+          "sitePermissions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SitePermission"
             },
             "nullable": true
           },
