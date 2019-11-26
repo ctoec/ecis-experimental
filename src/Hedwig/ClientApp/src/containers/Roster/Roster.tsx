@@ -22,15 +22,18 @@ export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
 	const [dateRange, setDateRange] = useState<DateRange>(getDefaultDateRange());
 	const [byRange, setByRange] = useState(false);
-	const { user } = useContext(UserContext);
+  const { user } = useContext(UserContext);
+  console.log(user)
 	const data = useOASClient<any, Site>('apiOrganizationsOrgIdSitesIdGet', {
-		organizationId: (user && user.orgPermissions && user.orgPermissions[0] && user.orgPermissions[0].organizationId ) || 0,
+		orgId: (user && user.orgPermissions && user.orgPermissions[0] && user.orgPermissions[0].organizationId ) || 1,
 		// TODO after pilot: don't just grab the first siteId
-		siteId: (user && user.sitePermissions && user.sitePermissions[0] && user.sitePermissions[0].siteId) || 0,
-		include: ['enrollments'],
+		id: (user && user.sitePermissions && user.sitePermissions[0] && user.sitePermissions[0].siteId) || 1,
+		include: ['enrollments', 'child', 'fundings'],
 		startDate: dateRange && dateRange.startDate && queryParamDateFormatter(dateRange.startDate),
 		endDate: dateRange && dateRange.endDate && queryParamDateFormatter(dateRange.endDate),
-	});
+  });
+  
+  console.log(data)
 
 	function handlePastEnrollmentsChange() {
 		toggleShowPastEnrollments(!showPastEnrollments);
