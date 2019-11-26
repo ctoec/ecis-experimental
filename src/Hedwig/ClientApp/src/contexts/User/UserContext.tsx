@@ -15,7 +15,7 @@ const { Provider, Consumer } = UserContext;
 export type UserProviderPropsType = {};
 
 const UserProvider: React.FC<UserProviderPropsType> = ({ children }) => {
-	const currentUser = useOASClient<undefined, User>('usersCurrentGet');
+	const { data: currentUser } = useOASClient<undefined, User>('apiUsersCurrentGet');
 	return (
 		<Provider
 			value={{

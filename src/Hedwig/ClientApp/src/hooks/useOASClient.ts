@@ -2,7 +2,11 @@ import { useContext, useEffect, useState } from 'react';
 import { DefaultApi, Configuration } from '../OAS-generated';
 import LoginContext from '../contexts/Login/LoginContext';
 
-export default function useOASClient<TQueryParams, TData>(query?: string, params?: TQueryParams) {
+export default function useOASClient<TQueryParams, TData>(
+	query?: string,
+	params?: TQueryParams,
+	skip: boolean = false
+) {
 	const [data, setData] = useState<TData>();
 	const { accessToken, withFreshToken } = useContext(LoginContext);
 	useEffect(() => {
@@ -15,11 +19,10 @@ export default function useOASClient<TQueryParams, TData>(query?: string, params
 	})) : null;
 
 	const runQuery = async () => {
-		console.log("hiiii");
+		console.log("begin runQuery");
 		if (!query || !api) {
 			return;
 		}
-		console.log("foobar");
 		try {
 			const rval = await (api as any)[query](params);
 			setData(rval);
@@ -31,8 +34,11 @@ export default function useOASClient<TQueryParams, TData>(query?: string, params
 	};
 
 	useEffect(() => {
-		runQuery();
+		console.log(JSON.stringify(params));
+		if (!skip) {
+			runQuery();
+		}
 	}, [query, accessToken, JSON.stringify(params)]);
 
-	return data;
+	return { data };
 }

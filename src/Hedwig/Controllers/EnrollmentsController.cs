@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Hedwig.Models;
 using Hedwig.Repositories;
+using System;
 
 namespace Hedwig.Controllers
 {
@@ -50,6 +51,8 @@ namespace Hedwig.Controllers
             Enrollment enrollment
         )
         {
+            Console.WriteLine("testing");
+            Console.WriteLine(enrollment);
             // Creating enrollment with Id not allowed 
             if (enrollment.Id != 0) return BadRequest();
 

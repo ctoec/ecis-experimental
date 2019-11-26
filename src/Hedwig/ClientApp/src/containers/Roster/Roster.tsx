@@ -34,7 +34,7 @@ export default function Roster() {
 	const [dateRange, setDateRange] = useState<DateRange>(getDefaultDateRange());
 	const [byRange, setByRange] = useState(false);
 	const { user } = useContext(UserContext);
-	const data = useOASClient<ApiOrganizationsOrgIdSitesIdGetRequest, Site>('apiOrganizationsOrgIdSitesIdGet', {
+	const { data } = useOASClient<ApiOrganizationsOrgIdSitesIdGetRequest, Site>('apiOrganizationsOrgIdSitesIdGet', {
 		orgId: 1,
 		// TODO after pilot: don't just grab the first siteId
 		id: 1,

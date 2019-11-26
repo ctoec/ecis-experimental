@@ -31,7 +31,7 @@ export default function EnrollmentDetail({
 	},
 }: EnrollmentDetailParams) {
 	const { user } = useContext(UserContext);
-	const data = useOASClient<ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest, Enrollment>('apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet', {
+	const { data } = useOASClient<ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest, Enrollment>('apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet', {
 		id: enrollmentId ? enrollmentId : 0,
 		orgId: (user && user.orgPermissions && user.orgPermissions[0] && user.orgPermissions[0].organizationId) || 0,
 		siteId: (user && user.sitePermissions && user.sitePermissions[0] && user.sitePermissions[0].siteId) || 1,

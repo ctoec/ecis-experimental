@@ -40,6 +40,7 @@ namespace Hedwig
 			services.AddSwaggerGen(c =>
 			{
 				c.SwaggerDoc("v1", new OpenApiInfo{ Title = "Hedwig API", Version = "v1" });
+				c.DescribeAllEnumsAsStrings();
 			});
 			services.AddHttpContextAccessor();
 

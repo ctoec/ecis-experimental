@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import useAuthMutation from '../../../hooks/useAuthMutation';
 import { CREATE_CHILD_MUTATION, UPDATE_CHILD_MUTATION } from '../enrollmentQueries';
 import { CreateChildMutation } from '../../../generated/CreateChildMutation';
@@ -16,6 +16,10 @@ import nameFormatter from '../../../utils/nameFormatter';
 import dateFormatter from '../../../utils/dateFormatter';
 import mapEmptyStringsToNull from '../../../utils/mapEmptyStringsToNull';
 import moment from 'moment';
+import useOASClient from '../../../hooks/useOASClient';
+import { Child, ApiOrganizationsOrgIdChildrenPostRequest, ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest, Enrollment } from '../../../OAS-generated';
+import idx from 'idx';
+import UserContext from '../../../contexts/User/UserContext';
 
 const genderFromString = (str: string) => {
 	switch (str) {
@@ -109,18 +113,32 @@ const ChildInfo: Section = {
 		);
 	},
 
-	Form: ({ enrollment, siteId, afterSave }) => {
-		if (!enrollment && !siteId) {
+	Form: ({ enrollment: _enrollment, siteId, afterSave }) => {
+		if (!_enrollment && !siteId) {
 			throw new Error('ChildInfo rendered without a child or a siteId');
 		}
 
-		const [createChild] = useAuthMutation<CreateChildMutation>(CREATE_CHILD_MUTATION, {
-			onCompleted: ({ createChildWithSiteEnrollment }) => {
-				if (afterSave) {
-					afterSave(createChildWithSiteEnrollment);
-				}
+		const { user } = useContext(UserContext);
+		const [enrollment, setEnrollment] = useState<Enrollment | undefined>(_enrollment || undefined);
+
+		let [skip, setSkip] = useState<boolean>(true);
+		const { data: createChildData } = useOASClient<ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest, Child>(
+			'apiOrganizationsOrgIdSitesSiteIdEnrollmentsPost',
+			{
+				orgId: idx(user, _ => _.orgPermissions[0].organizationId) || 0,
+				siteId: idx(user, _ => _.sitePermissions[0].siteId) || 0,
+				enrollment: enrollment || undefined
 			},
-		});
+			skip
+		);
+
+		// const [createChild] = useAuthMutation<CreateChildMutation>(CREATE_CHILD_MUTATION, {
+		// 	onCompleted: ({ createChildWithSiteEnrollment }) => {
+		// 		if (afterSave) {
+		// 			afterSave(createChildWithSiteEnrollment);
+		// 		}
+		// 	},
+		// });
 
 		const [updateChild] = useAuthMutation<UpdateChildMutation>(UPDATE_CHILD_MUTATION, {
 			onCompleted: ({ updateChild }) => {
@@ -131,36 +149,36 @@ const ChildInfo: Section = {
 		});
 
 		const child = enrollment && enrollment.child;
-		const [sasid, updateSasid] = React.useState(child ? child.sasid : null);
+		const [sasid, updateSasid] = useState(child ? child.sasid : null);
 
-		const [firstName, updateFirstName] = React.useState(child ? child.firstName : null);
-		const [middleName, updateMiddleName] = React.useState(child ? child.middleName : null);
-		const [lastName, updateLastName] = React.useState(child ? child.lastName : null);
-		const [suffix, updateSuffix] = React.useState(child ? child.suffix : null);
+		const [firstName, updateFirstName] = useState(child ? child.firstName : null);
+		const [middleName, updateMiddleName] = useState(child ? child.middleName : null);
+		const [lastName, updateLastName] = useState(child ? child.lastName : null);
+		const [suffix, updateSuffix] = useState(child ? child.suffix : null);
 
-		const [birthdate, updateBirthdate] = React.useState(child ? child.birthdate : null);
-		const [birthCertificateId, updateBirthCertificateId] = React.useState(
+		const [birthdate, updateBirthdate] = useState(child ? child.birthdate : null);
+		const [birthCertificateId, updateBirthCertificateId] = useState(
 			child ? child.birthCertificateId : null
 		);
-		const [birthTown, updateBirthTown] = React.useState(child ? child.birthTown : null);
-		const [birthState, updateBirthState] = React.useState(child ? child.birthState : null);
+		const [birthTown, updateBirthTown] = useState(child ? child.birthTown : null);
+		const [birthState, updateBirthState] = useState(child ? child.birthState : null);
 
-		const [americanIndianOrAlaskaNative, updateAmericanIndianOrAlaskaNative] = React.useState(
+		const [americanIndianOrAlaskaNative, updateAmericanIndianOrAlaskaNative] = useState(
 			child ? child.americanIndianOrAlaskaNative : null
 		);
-		const [asian, updateAsian] = React.useState(child ? child.asian : null);
-		const [blackOrAfricanAmerican, updateBlackOrAfricanAmerican] = React.useState(
+		const [asian, updateAsian] = useState(child ? child.asian : null);
+		const [blackOrAfricanAmerican, updateBlackOrAfricanAmerican] = useState(
 			child ? child.blackOrAfricanAmerican : null
 		);
-		const [nativeHawaiianOrPacificIslander, updateNativeHawaiianOrPacificIslander] = React.useState(
+		const [nativeHawaiianOrPacificIslander, updateNativeHawaiianOrPacificIslander] = useState(
 			child ? child.nativeHawaiianOrPacificIslander : null
 		);
-		const [white, updateWhite] = React.useState(child ? child.white : null);
-		const [hispanicOrLatinxEthnicity, updateHispanicOrLatinxEthnicity] = React.useState(
+		const [white, updateWhite] = useState(child ? child.white : null);
+		const [hispanicOrLatinxEthnicity, updateHispanicOrLatinxEthnicity] = useState(
 			child ? child.hispanicOrLatinxEthnicity : null
 		);
 
-		const [gender, updateGender] = React.useState(child ? child.gender : null);
+		const [gender, updateGender] = useState(child ? child.gender : null);
 
 		const save = () => {
 			const args = mapEmptyStringsToNull({
@@ -185,7 +203,17 @@ const ChildInfo: Section = {
 			if (child) {
 				updateChild({ variables: { ...args, id: child.id } });
 			} else if (siteId) {
-				createChild({ variables: { ...args, siteId } });
+				setEnrollment({
+					...enrollment,
+					id: 0,
+					siteId: 0,
+					// child: {
+					// 	...args
+					// }
+				});
+				setSkip(false);
+				console.log("calling save?");
+				// createChild({ variables: { ...args, siteId } });
 			} else {
 				throw new Error('Something impossible happened');
 			}
