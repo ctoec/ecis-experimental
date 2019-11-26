@@ -15,26 +15,15 @@ import getColorForFundingSource, { fundingSourceDetails } from '../../utils/getC
 import queryParamDateFormatter from '../../utils/queryParamDateFormatter';
 import useOASClient from '../../hooks/useOASClient';
 import UserContext from '../../contexts/User/UserContext';
-import { Age } from '../../OAS-generated/models/Age';
-import { Child } from '../../OAS-generated/models/Child';
-import { Funding } from '../../OAS-generated/models/Funding';
+import { Enrollment } from '../../OAS-generated/models/Enrollment';
 import { Site } from '../../OAS-generated/models/Site';
-
-type RosterTableProps = {
-	id: number;
-	entry: OECDate | null;
-	exit: OECDate | null;
-	age: Age | null;
-	child: Child;
-	fundings: Funding[];
-};
 
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
 	const [dateRange, setDateRange] = useState<DateRange>(getDefaultDateRange());
 	const [byRange, setByRange] = useState(false);
 	const { user } = useContext(UserContext);
-	const data = useOASClient<any, Site>('organizationsOrganizationIdSitesSiteIdGet', {
+	const data = useOASClient<any, Site>('apiOrganizationsOrgIdSitesIdGet', {
 		organizationId: (user && user.orgPermissions && user.orgPermissions[0] && user.orgPermissions[0].organizationId ) || 0,
 		// TODO after pilot: don't just grab the first siteId
 		siteId: (user && user.sitePermissions && user.sitePermissions[0] && user.sitePermissions[0].siteId) || 0,
@@ -47,16 +36,17 @@ export default function Roster() {
 		toggleShowPastEnrollments(!showPastEnrollments);
 		setByRange(false);
 		setDateRange(getDefaultDateRange());
-	}
-
+  }
+  
 	if (!data) {
 		return <div className="Roster"></div>;
 	}
 
-	const site = data;
-	const enrollments = site.enrollments;
+  const site = data;
+  // TODO: FIX THIS
+	const enrollments = (site.enrollments || []).map(e => e as Required<Enrollment>);
 
-	const rosterTableProps: TableProps<RosterTableProps> = {
+	const rosterTableProps: TableProps<Required<Enrollment>> = {
 		id: 'roster-table',
 		data: enrollments,
 		rowKey: row => row.id,
@@ -85,7 +75,7 @@ export default function Roster() {
 				name: 'Funding',
 				cell: ({ row }) => (
 					<td>
-						{row.fundings.length ? (
+						{row.fundings && row.fundings.length ? (
 							<Tag
 								text={`${row.fundings[0].source}`}
 								color={row.fundings[0].source ? getColorForFundingSource(row.fundings[0].source) : 'gray-90'}
@@ -105,7 +95,7 @@ export default function Roster() {
 							: ''}
 					</td>
 				),
-				sort: row => row.entry || '',
+				sort: row => row.entry && row.entry.toString() || '',
 			},
 		],
 		defaultSortColumn: 0,
@@ -123,8 +113,8 @@ export default function Roster() {
 		text: fundingSourceDetails[key].fullTitle,
 		symbolColor: fundingSourceDetails[key].colorToken,
 		number: enrollments.filter(
-			(row: RosterTableProps) =>
-				row.fundings.filter((funding: any) => funding.source === key).length > 0
+			(row: Required<Enrollment>) =>
+				row.fundings && row.fundings.filter((funding: any) => funding.source === key).length > 0
 		).length,
 	}));
 

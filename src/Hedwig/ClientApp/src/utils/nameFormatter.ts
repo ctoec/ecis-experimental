@@ -1,3 +1,5 @@
+import { Child } from '../OAS-generated/models/Child';
+
 interface Name {
 	firstName: string;
 	middleName?: string | null;
@@ -5,7 +7,8 @@ interface Name {
 	suffix?: string | null;
 }
 
-export default function nameFormatter(name?: Name | null) {
+// TODO: FIX THIS
+export default function nameFormatter(name?: Child | null | Name) {
 	if (!name) {
 		return '';
 	}
