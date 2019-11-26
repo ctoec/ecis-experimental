@@ -22,31 +22,39 @@ export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
 	const [dateRange, setDateRange] = useState<DateRange>(getDefaultDateRange());
 	const [byRange, setByRange] = useState(false);
-  const { user } = useContext(UserContext);
-  console.log(user)
+  const userReturn = useContext(UserContext);
+  const { user } = userReturn;
+	console.log({user}, {userReturn});
 	const data = useOASClient<any, Site>('apiOrganizationsOrgIdSitesIdGet', {
-		orgId: (user && user.orgPermissions && user.orgPermissions[0] && user.orgPermissions[0].organizationId ) || 1,
+		orgId:
+			(user &&
+				user.orgPermissions &&
+				user.orgPermissions[0] &&
+				user.orgPermissions[0].organizationId) ||
+			1,
 		// TODO after pilot: don't just grab the first siteId
-		id: (user && user.sitePermissions && user.sitePermissions[0] && user.sitePermissions[0].siteId) || 1,
+		id:
+			(user && user.sitePermissions && user.sitePermissions[0] && user.sitePermissions[0].siteId) ||
+			1,
 		include: ['enrollments', 'child', 'fundings'],
 		startDate: dateRange && dateRange.startDate && queryParamDateFormatter(dateRange.startDate),
 		endDate: dateRange && dateRange.endDate && queryParamDateFormatter(dateRange.endDate),
-  });
-  
-  console.log(data)
+	});
+
+	console.log(data);
 
 	function handlePastEnrollmentsChange() {
 		toggleShowPastEnrollments(!showPastEnrollments);
 		setByRange(false);
 		setDateRange(getDefaultDateRange());
-  }
-  
+	}
+
 	if (!data) {
 		return <div className="Roster"></div>;
 	}
 
-  const site = data;
-  // TODO: FIX THIS
+	const site = data;
+	// TODO: FIX THIS
 	const enrollments = (site.enrollments || []).map(e => e as Required<Enrollment>);
 
 	const rosterTableProps: TableProps<Required<Enrollment>> = {
@@ -81,7 +89,11 @@ export default function Roster() {
 						{row.fundings && row.fundings.length ? (
 							<Tag
 								text={`${row.fundings[0].source}`}
-								color={row.fundings[0].source ? getColorForFundingSource(row.fundings[0].source) : 'gray-90'}
+								color={
+									row.fundings[0].source
+										? getColorForFundingSource(row.fundings[0].source)
+										: 'gray-90'
+								}
 							/>
 						) : (
 							''
@@ -98,7 +110,7 @@ export default function Roster() {
 							: ''}
 					</td>
 				),
-				sort: row => row.entry && row.entry.toString() || '',
+				sort: row => (row.entry && row.entry.toString()) || '',
 			},
 		],
 		defaultSortColumn: 0,

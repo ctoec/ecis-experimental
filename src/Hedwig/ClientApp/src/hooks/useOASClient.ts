@@ -9,10 +9,17 @@ export default function useOASClient<TQueryParams, TData>(query?: string, params
 		withFreshToken();
 	});
 
-	const api = accessToken ? new DefaultApi(new Configuration({
-		basePath: "https://localhost:5001",
-		accessToken
-	})) : null;
+	const api = accessToken
+		? new DefaultApi(
+				new Configuration({
+					basePath: 'https://localhost:5001',
+					accessToken,
+				})
+		  )
+    : null;
+    
+
+    console.log({query}, {params})
 
 	const runQuery = async () => {
 		if (!query || !api) {
