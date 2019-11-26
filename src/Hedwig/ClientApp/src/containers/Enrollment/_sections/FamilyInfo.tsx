@@ -15,7 +15,10 @@ const FamilyInfo: Section = {
 	name: 'Family information',
 	status: () => 'complete',
 
-	Summary: ({ child }) => {
+	Summary: ({ enrollment }) => {
+		if (!enrollment || ! enrollment.child) return <></>;
+
+		const child = enrollment.child;
 		return (
 			<div className="FamilyInfoSummary">
 				{child && child.family && child.family.town && child.family.state && (
@@ -27,11 +30,11 @@ const FamilyInfo: Section = {
 		);
 	},
 
-	Form: ({ child, afterSave }) => {
-		if (!child) {
+	Form: ({ enrollment, afterSave }) => {
+		if (!enrollment || !enrollment.child) {
 			throw new Error('FamilyInfo rendered without a child');
 		}
-
+		const child = enrollment.child;
 		const [createFamily] = useAuthMutation<CreateFamilyMutation>(CREATE_FAMILY_MUTATION, {
 			update: (cache, { data }) => {
 				const cachedData = cache.readQuery<ChildQuery>({
@@ -51,7 +54,7 @@ const FamilyInfo: Section = {
 			},
 			onCompleted: () => {
 				if (afterSave) {
-					afterSave(child);
+					afterSave(enrollment);
 				}
 			},
 		});
@@ -59,7 +62,7 @@ const FamilyInfo: Section = {
 		const [updateFamily] = useAuthMutation<UpdateFamilyMutation>(UPDATE_FAMILY_MUTATION, {
 			onCompleted: () => {
 				if (afterSave) {
-					afterSave(child);
+					afterSave(enrollment);
 				}
 			},
 		});

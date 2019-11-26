@@ -10,6 +10,7 @@ import Dropdown from '../../../components/Dropdown/Dropdown';
 import RadioGroup from '../../../components/RadioGroup/RadioGroup';
 import dateFormatter from '../../../utils/dateFormatter';
 import moment from 'moment';
+import idx from 'idx';
 
 const ageFromString = (str: string) => {
 	switch (str) {
@@ -42,29 +43,27 @@ const EnrollmentFunding: Section = {
 	name: 'Enrollment and funding',
 	status: () => 'complete',
 
-	Summary: ({ child }) => {
-		const currentEnrollment = child && child.enrollments.find(enrollment => !enrollment.exit);
-
+	Summary: ({ enrollment : currentEnrollment}) => {
+		if(!currentEnrollment) return <></>;
 		return (
 			<div className="EnrollmentFundingSummary">
 				{currentEnrollment && (
 					<>
-						<p>Site: {currentEnrollment.site.name}</p>
-						<p>
+						<p>Site: {idx(currentEnrollment, _ => _.site.name)} </p>
+						{/* <p>
 							Enrolled:{' '}
-							{dateFormatter(currentEnrollment.entry) +
+							{dateFormatter(idx(currentEnrollment, _ => _.entry)) +
 								'–' +
-								(currentEnrollment.exit ? dateFormatter(currentEnrollment.exit) : '')}
-						</p>
-						<p>Age: {prettyAge(currentEnrollment.age)}</p>
+								dateFormatter(idx(currentEnrollment, _ => _.exit))}
+						</p> */}
+						{/* <p>Age: {prettyAge(idx(currentEnrollment, _ => _.age) || null)}</p> */}
 					</>
 				)}
 			</div>
 		);
 	},
 
-	Form: ({ child, afterSave }) => {
-		const currentEnrollment = child && child.enrollments.find(enrollment => !enrollment.exit);
+	Form: ({ enrollment: currentEnrollment, afterSave }) => {
 
 		if (!currentEnrollment) {
 			throw new Error('EnrollmentFunding rendered without an enrollment');
@@ -74,16 +73,15 @@ const EnrollmentFunding: Section = {
 			UPDATE_ENROLLMENT_MUTATION,
 			{
 				onCompleted: () => {
-					if (child && afterSave) {
-						afterSave(child);
+					if (currentEnrollment && afterSave) {
+						afterSave(currentEnrollment);
 					}
 				},
 			}
 		);
 
-		const [siteId, updateSiteId] = React.useState(
-			currentEnrollment ? currentEnrollment.site.id : null
-		);
+		const [siteId, updateSiteId] = React.useState(idx(currentEnrollment, _ => _.siteId));
+
 		const [entry, updateEntry] = React.useState(currentEnrollment ? currentEnrollment.entry : null);
 		const [age, updateAge] = React.useState(currentEnrollment ? currentEnrollment.age : null);
 
@@ -102,8 +100,8 @@ const EnrollmentFunding: Section = {
 					<Dropdown
 						options={[
 							{
-								value: '' + currentEnrollment.site.id,
-								text: currentEnrollment.site.name,
+								value: '' + idx(currentEnrollment, _ => _.siteId),
+								text: '' + idx(currentEnrollment, _ => _.site.name),
 							},
 						]}
 						label="Site"
@@ -113,15 +111,15 @@ const EnrollmentFunding: Section = {
 					<label className="usa-label" htmlFor="date">
 						Start date
 					</label>
-					<DatePicker
+					{/* <DatePicker
 						onChange={range =>
 							updateEntry((range.startDate && range.startDate.format('YYYY-MM-DD')) || null)
 						}
 						dateRange={{ startDate: entry ? moment(entry) : null, endDate: null }}
-					/>
+					/> */}
 
 					<h3>Age</h3>
-					<RadioGroup
+					{/* <RadioGroup
 						groupName="age"
 						legend="Age"
 						options={[
@@ -140,7 +138,7 @@ const EnrollmentFunding: Section = {
 						]}
 						selected={'' + age}
 						onChange={event => updateAge(ageFromString(event.target.value))}
-					/>
+					/> */}
 				</div>
 
 				<h3>Funding</h3>

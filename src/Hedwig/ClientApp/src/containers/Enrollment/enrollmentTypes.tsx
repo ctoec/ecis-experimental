@@ -1,10 +1,10 @@
-import { ChildQuery_child } from '../../generated/ChildQuery';
 import { StepStatus } from '../../components/StepList/StepList';
+import { Enrollment } from '../../OAS-generated';
 
 export type SectionProps = {
-	child?: ChildQuery_child | null;
+	enrollment?: Enrollment | null;
 	siteId?: string;
-	afterSave?: (child: ChildQuery_child) => void;
+	afterSave?: (enrollment: Enrollment) => void;
 };
 
 export interface Section {

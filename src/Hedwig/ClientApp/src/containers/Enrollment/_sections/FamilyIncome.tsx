@@ -14,21 +14,23 @@ import TextInput from '../../../components/TextInput/TextInput';
 import DatePicker from '../../../components/DatePicker/DatePicker';
 import dateFormatter from '../../../utils/dateFormatter';
 import moment from 'moment';
+import idx from 'idx';
 
 const FamilyIncome: Section = {
 	key: 'family-income',
 	name: 'Family income',
 	status: () => 'complete',
 
-	Summary: ({ child }) => {
-		const determination = child && child.family && child.family.determinations[0];
+	Summary: ({ enrollment }) => {
+		if (!enrollment) return <></>;
+		const determination = idx(enrollment, _ => _.child.family.determinations[0])
 		return (
 			<div className="FamilyIncomeSummary">
 				{determination ? (
 					<>
 						<p>Household size: {determination.numberOfPeople}</p>
-						<p>Annual household income: ${determination.income.toFixed(2)}</p>
-						<p>Determined on: {dateFormatter(determination.determined)}</p>
+						<p>Annual household income: ${idx(determination, _ => _.income.toFixed(2))}</p>
+						{/* <p>Determined on: {dateFormatter(idx(determination, _ => _.determined))}</p> */}
 					</>
 				) : (
 					<p>No income determination on record.</p>
@@ -37,11 +39,12 @@ const FamilyIncome: Section = {
 		);
 	},
 
-	Form: ({ child, afterSave }) => {
-		if (!child || !child.family) {
+	Form: ({ enrollment, afterSave }) => {
+		if(!enrollment || ! enrollment.child || !enrollment.child.family) {
 			throw new Error('FamilyIncome rendered without a family');
 		}
 
+		var child = enrollment.child;
 		const [createFamilyDetermination] = useAuthMutation<CreateFamilyDeterminationMutation>(
 			CREATE_FAMILY_DETERMINATION_MUTATION,
 			{
@@ -63,7 +66,7 @@ const FamilyIncome: Section = {
 				},
 				onCompleted: () => {
 					if (afterSave) {
-						afterSave(child);
+						afterSave(enrollment);
 					}
 				},
 			}
@@ -74,14 +77,14 @@ const FamilyIncome: Section = {
 			{
 				onCompleted: () => {
 					if (afterSave) {
-						afterSave(child);
+						afterSave(enrollment);
 					}
 				},
 			}
 		);
 
-		const familyId = child.family.id;
-		const determination = child.family.determinations[0];
+		const familyId = idx(child, _ => _.family.id);
+		const determination = idx(child, _ => _.family.determinations[0]);
 
 		const [numberOfPeople, updateNumberOfPeople] = React.useState(
 			determination ? determination.numberOfPeople : null
@@ -106,7 +109,7 @@ const FamilyIncome: Section = {
 				}
 			} else {
 				if (afterSave) {
-					afterSave(child);
+					afterSave(enrollment);
 				}
 			}
 		};
@@ -139,12 +142,12 @@ const FamilyIncome: Section = {
 				<label className="usa-label" htmlFor="date">
 					Date determined
 				</label>
-				<DatePicker
+				{/* <DatePicker
 					onChange={range =>
 						updateDetermined((range.startDate && range.startDate.format('YYYY-MM-DD')) || null)
 					}
 					dateRange={{ startDate: determined ? moment(determined) : null, endDate: null }}
-				/>
+				/> */}
 				<Button text="Save" onClick={save} />
 			</div>
 		);

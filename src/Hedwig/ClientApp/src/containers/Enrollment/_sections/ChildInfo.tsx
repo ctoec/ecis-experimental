@@ -91,10 +91,11 @@ const ChildInfo: Section = {
 	name: 'Child information',
 	status: () => 'complete',
 
-	Summary: ({ child }) => {
+	Summary: ({ enrollment }) => {
+		var child = enrollment && enrollment.child;
 		return (
 			<div className="ChildInfoSummary">
-				{child && (
+				{child /* {child && (
 					<>
 						<p>Name: {nameFormatter(child)}</p>
 						<p>Birthdate: {dateFormatter(child.birthdate)}</p>
@@ -103,13 +104,13 @@ const ChildInfo: Section = {
 						<p>Ethnicity: {prettyEthnicity(child)}</p>
 						<p>Gender: {prettyGender(child)}</p>
 					</>
-				)}
+				)} */}
 			</div>
 		);
 	},
 
-	Form: ({ child, siteId, afterSave }) => {
-		if (!child && !siteId) {
+	Form: ({ enrollment, siteId, afterSave }) => {
+		if (!enrollment && !siteId) {
 			throw new Error('ChildInfo rendered without a child or a siteId');
 		}
 
@@ -129,6 +130,7 @@ const ChildInfo: Section = {
 			},
 		});
 
+		const child = enrollment && enrollment.child;
 		const [sasid, updateSasid] = React.useState(child ? child.sasid : null);
 
 		const [firstName, updateFirstName] = React.useState(child ? child.firstName : null);
@@ -238,12 +240,12 @@ const ChildInfo: Section = {
 				</div>
 
 				<h3>Date of birth</h3>
-				<DatePicker
+				{/* <DatePicker
 					onChange={range =>
 						updateBirthdate((range.startDate && range.startDate.format('YYYY-MM-DD')) || null)
 					}
 					dateRange={{ startDate: birthdate ? moment(birthdate) : null, endDate: null }}
-				/>
+				/> */}
 
 				<h3>Birth certificate</h3>
 				<div className="grid-row grid-gap">
@@ -333,7 +335,7 @@ const ChildInfo: Section = {
 
 				<h3>Gender</h3>
 				<p className="oec-form-helper">As identified by family</p>
-				<Dropdown
+				{/* <Dropdown
 					options={[
 						{
 							value: Gender.UNSPECIFIED,
@@ -355,7 +357,7 @@ const ChildInfo: Section = {
 					label="Gender"
 					selected={gender || Gender.UNSPECIFIED}
 					onChange={event => updateGender(genderFromString(event.target.value))}
-				/>
+				/> */}
 
 				<Button text="Save" onClick={save} />
 			</div>
