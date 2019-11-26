@@ -1,3 +1,6 @@
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
 namespace Hedwig.Models
 {
 	public class Funding : TemporalEntity
@@ -7,6 +10,7 @@ namespace Hedwig.Models
 		public int EnrollmentId { get; set; }
 		public Enrollment Enrollment { get; set; }
 
+		[JsonConverter(typeof(StringEnumConverter))]
 		public FundingSource Source { get; set; }
 		public FundingTime Time { get; set; }
 	}
