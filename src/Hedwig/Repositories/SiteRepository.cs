@@ -20,7 +20,7 @@ namespace Hedwig.Repositories
                     && s.OrganizationId.Value == organizationId)
                 .ToListAsync();
         }
-        public Task<Site> GetSiteForOrganizationAsync(int id, int organizationId, string[] include = null)
+        public Task<Site> GetSiteForOrganizationAsync(int id, int organizationId, string from = null, string to = null, string[] include = null)
         {
             var site = _context.Sites
                 .Where(s => s.Id == id

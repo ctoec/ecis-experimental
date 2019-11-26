@@ -42,10 +42,12 @@ namespace Hedwig.Controllers
         public async Task<ActionResult<Site>> Get(
             int id,
             int orgId,
-            [FromQuery(Name = "include[]")] string[] include
+            [FromQuery(Name = startDate)] string startDate,
+            [FromQuery(Name = endDate)] string endDate,
+						[FromQuery(Name = "include[]")] string[] include
         )
         {
-            return await _sites.GetSiteForOrganizationAsync(id, orgId, include);
+            return await _sites.GetSiteForOrganizationAsync(id, orgId, startDate, endDate, include);
         }
     }
 }

@@ -39,8 +39,6 @@ export default function Roster() {
 		endDate: dateRange && dateRange.endDate && queryParamDateFormatter(dateRange.endDate),
 	});
 
-	console.log(data);
-
 	function handlePastEnrollmentsChange() {
 		toggleShowPastEnrollments(!showPastEnrollments);
 		setByRange(false);
