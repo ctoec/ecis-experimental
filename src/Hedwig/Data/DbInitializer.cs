@@ -40,7 +40,11 @@ namespace Hedwig.Data
 
 			var users = new User[]
 			{
-				new User { FirstName = "Chris", LastName = "Given" }
+				new User {
+					FirstName = "Chris",
+					LastName = "Given",
+					WingedKeysId = Guid.Parse("2c0ec653-8829-4aa1-82ba-37c8832bbb88")
+				}
 			};
 
 			foreach (User u in users)

@@ -29,8 +29,8 @@ namespace Hedwig.Schema.Queries
 				{
 					var user = GetRequestContext(context).User;
 					var subClaim = user.FindFirst("sub");
-					var id = Int32.Parse(subClaim?.Value ?? "");
-					return await repository.GetUserByIdAsync(id);
+					var wingedKeysId = Guid.Parse(subClaim?.Value);
+					return await repository.GetUserByWingedKeysIdAsync(wingedKeysId);
 				}
 			);
 		}
