@@ -18,6 +18,7 @@ import UserContext from '../../contexts/User/UserContext';
 import { Age } from '../../OAS-generated/models/Age';
 import { Child } from '../../OAS-generated/models/Child';
 import { Funding } from '../../OAS-generated/models/Funding';
+import { Site } from '../../OAS-generated/models/Site';
 
 type RosterTableProps = {
 	id: number;
@@ -33,7 +34,7 @@ export default function Roster() {
 	const [dateRange, setDateRange] = useState<DateRange>(getDefaultDateRange());
 	const [byRange, setByRange] = useState(false);
 	const { user } = useContext(UserContext);
-	const data = useOASClient('organizationsOrganizationIdSitesSiteIdGet', {
+	const data = useOASClient<any, Site>('organizationsOrganizationIdSitesSiteIdGet', {
 		organizationId: (user && user.orgPermissions && user.orgPermissions[0] && user.orgPermissions[0].organizationId ) || 0,
 		// TODO after pilot: don't just grab the first siteId
 		siteId: (user && user.sitePermissions && user.sitePermissions[0] && user.sitePermissions[0].siteId) || 0,
@@ -78,7 +79,7 @@ export default function Roster() {
 						{row.child.birthdate && dateFormatter(row.child.birthdate)}
 					</td>
 				),
-				sort: row => row.child.birthdate || 0,
+				sort: row => (row.child.birthdate || new Date(0)).getTime(),
 			},
 			{
 				name: 'Funding',
@@ -87,24 +88,13 @@ export default function Roster() {
 						{row.fundings.length ? (
 							<Tag
 								text={`${row.fundings[0].source}`}
-								color={getColorForFundingSource(row.fundings[0].source)}
+								color={row.fundings[0].source ? getColorForFundingSource(row.fundings[0].source) : 'gray-90'}
 							/>
 						) : (
 							''
 						)}
 					</td>
 				),
-			},
-			{
-				name: 'Enrolled',
-				cell: ({ row }) => (
-					<td className="oec-table__cell--tabular-nums">
-						{row.entry
-							? dateFormatter(row.entry) + '–' + (row.exit ? dateFormatter(row.exit) : '')
-							: ''}
-					</td>
-				),
-				sort: row => row.entry || '',
 			},
 			{
 				name: 'Enrolled',

@@ -2,16 +2,16 @@ import { useContext, useEffect, useState } from 'react';
 import { DefaultApi, Configuration } from '../OAS-generated';
 import LoginContext from '../contexts/Login/LoginContext';
 
-export default function useOASClient(query?: string, params?: any) {
-	const [data, setData] = useState();
+export default function useOASClient<TQueryParams, TData>(query?: string, params?: TQueryParams) {
+	const [data, setData] = useState<TData>();
 	const { accessToken, withFreshToken } = useContext(LoginContext);
 	useEffect(() => {
 		withFreshToken();
 	});
 
-	const api = accessToken ? new DefaultApi(new Configuration({ 
+	const api = accessToken ? new DefaultApi(new Configuration({
 		basePath: "https://localhost:5001",
-		accessToken 
+		accessToken
 	})) : null;
 
 	const runQuery = async () => {
