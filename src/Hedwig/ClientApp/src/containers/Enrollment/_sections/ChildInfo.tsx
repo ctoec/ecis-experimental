@@ -15,12 +15,14 @@ import nameFormatter from '../../../utils/nameFormatter';
 import dateFormatter from '../../../utils/dateFormatter';
 import mapEmptyStringsToNull from '../../../utils/mapEmptyStringsToNull';
 import moment from 'moment';
-import useOASClient from '../../../hooks/useOASClient';
+import useApi from '../../../hooks/useApi';
 import { Child, 
 	ApiOrganizationsOrgIdChildrenPostRequest, 
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest, 
 	Enrollment,
-	Gender
+	Gender,
+	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
+	DefaultApi
 } from '../../../OAS-generated';
 import idx from 'idx';
 import UserContext from '../../../contexts/User/UserContext';
@@ -80,7 +82,7 @@ const ChildInfo: Section = {
 		var child = enrollment && enrollment.child;
 		return (
 			<div className="ChildInfoSummary">
-				{child /* {child && (
+				{"hi" /* {child && (
 					<>
 						<p>Name: {nameFormatter(child)}</p>
 						<p>Birthdate: {dateFormatter(child.birthdate)}</p>
@@ -94,38 +96,24 @@ const ChildInfo: Section = {
 		);
 	},
 
-	Form: ({ enrollment: _enrollment, siteId, afterSave }) => {
-		if (!_enrollment && !siteId) {
+	Form: ({ enrollment, siteId, mutate }) => {
+		if (!enrollment && !siteId) {
 			throw new Error('ChildInfo rendered without a child or a siteId');
+			// return <></>;
 		}
 
 		const { user } = useContext(UserContext);
-		const [enrollment, setEnrollment] = useState<Enrollment | undefined>(_enrollment || undefined);
-
-		let [skip, setSkip] = useState<boolean>(true);
-		const { data: createChildData } = useOASClient<ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest, Child>(
-			'apiOrganizationsOrgIdSitesSiteIdEnrollmentsPost',
-			{
-				orgId: idx(user, _ => _.orgPermissions[0].organizationId) || 1,
-				siteId: idx(user, _ => _.sitePermissions[0].siteId) || 1,
-				enrollment: enrollment || undefined
-			},
-			skip
-		);
-
-		// const [createChild] = useAuthMutation<CreateChildMutation>(CREATE_CHILD_MUTATION, {
-		// 	onCompleted: ({ createChildWithSiteEnrollment }) => {
-		// 		if (afterSave) {
-		// 			afterSave(createChildWithSiteEnrollment);
-		// 		}
-		// 	},
-		// });
+		const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest = {
+			orgId: idx(user, _ => _.orgPermissions[0].organizationId) || 1,
+			siteId: idx(user, _ => _.sitePermissions[0].siteId) || 1,
+			enrollment: enrollment || undefined
+		}
 
 		const [updateChild] = useAuthMutation<UpdateChildMutation>(UPDATE_CHILD_MUTATION, {
 			onCompleted: ({ updateChild }) => {
-				if (afterSave) {
-					afterSave(updateChild);
-				}
+				// if (afterSave) {
+				// 	afterSave(updateChild);
+				// }
 			},
 		});
 
@@ -184,15 +172,12 @@ const ChildInfo: Section = {
 			if (child) {
 				updateChild({ variables: { ...args, id: child.id } });
 			} else if (siteId) {
-				setEnrollment({
-					...enrollment,
+				params.enrollment = {
 					id: 0,
 					siteId: 0,
-					child: {
-						...args
-					}
-				});
-				setSkip(false);
+					child: {...args}
+				}
+				mutate((api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsPost(params), (_, result) => result);
 				console.log("calling save?");
 				// createChild({ variables: { ...args, siteId } });
 			} else {

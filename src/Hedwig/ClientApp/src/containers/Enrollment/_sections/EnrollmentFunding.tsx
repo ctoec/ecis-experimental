@@ -63,7 +63,7 @@ const EnrollmentFunding: Section = {
 		);
 	},
 
-	Form: ({ enrollment: currentEnrollment, afterSave }) => {
+	Form: ({ enrollment: currentEnrollment, mutate }) => {
 
 		if (!currentEnrollment) {
 			throw new Error('EnrollmentFunding rendered without an enrollment');
@@ -73,8 +73,8 @@ const EnrollmentFunding: Section = {
 			UPDATE_ENROLLMENT_MUTATION,
 			{
 				onCompleted: () => {
-					if (currentEnrollment && afterSave) {
-						afterSave(currentEnrollment);
+					if (currentEnrollment) {
+						// afterSave(currentEnrollment);
 					}
 				},
 			}

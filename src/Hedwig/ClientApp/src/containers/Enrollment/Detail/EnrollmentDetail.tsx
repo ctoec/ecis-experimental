@@ -54,7 +54,7 @@ export default function EnrollmentDetail({
 					<section key={section.key} className="hedwig-enrollment-details-section">
 						<div className="hedwig-enrollment-details-section__content">
 							<h2>{section.name}</h2>
-							<section.Summary enrollment={enrollment} />
+							{/* <section.Summary enrollment={enrollment} /> */}
 						</div>
 						<div className="hedwig-enrollment-details-section__actions">
 							<Link to={`edit/${section.key}`}>

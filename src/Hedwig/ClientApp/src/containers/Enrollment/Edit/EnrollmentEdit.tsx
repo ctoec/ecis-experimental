@@ -63,7 +63,7 @@ export default function EnrollmentEdit({
 		<div className="EnrollmentEdit">
 			<section className="grid-container">
 				<h1>Edit {section.name.toLowerCase()}</h1>
-				<section.Form enrollment={data} afterSave={afterSave} />
+				{/* <section.Form enrollment={data} afterSave={afterSave} /> */}
 			</section>
 		</div>
 	);

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import useAuthQuery from '../../../hooks/useAuthQuery';
 import { History } from 'history';
 import { Section, SectionProps } from '../enrollmentTypes';
@@ -10,7 +10,7 @@ import FamilyInfo from '../_sections/FamilyInfo';
 import FamilyIncome from '../_sections/FamilyIncome';
 import EnrollmentFunding from '../_sections/EnrollmentFunding';
 import Button from '../../../components/Button/Button';
-import useOASClient from '../../../hooks/useOASClient';
+import useApi from '../../../hooks/useApi';
 import UserContext from '../../../contexts/User/UserContext';
 import { Enrollment, ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest } from '../../../OAS-generated';
 
@@ -25,8 +25,8 @@ type EnrollmentNewParams = {
 	};
 };
 
-// const sections = [ChildInfo, FamilyInfo, FamilyIncome, EnrollmentFunding];
-const sections = [ChildInfo, FamilyIncome, EnrollmentFunding];
+const sections = [ChildInfo, FamilyInfo, FamilyIncome, EnrollmentFunding];
+// const sections = [ChildInfo, FamilyIncome, EnrollmentFunding];
 
 const mapSectionsToSteps = (sections: Section[]) => {
 	const steps: StepProps<SectionProps>[] = sections.map(section => {
@@ -42,29 +42,17 @@ export default function EnrollmentNew({
 		params: { siteId, enrollmentId, sectionId = ChildInfo.key },
 	},
 }: EnrollmentNewParams) {
-	const { user } = useContext(UserContext);
 	if (!siteId && !enrollmentId) {
-		throw new Error('EnrollmentNew rendered without siteId or childId parameters');
+		throw new Error('EnrollmentNew rendered without siteId or enrollmentId parameters');
 	}
 
-	// get child if have child
-	// const { loading, error, data } = useAuthQuery<ChildQuery>(CHILD_QUERY, {
-	// 	variables: { id: childId },
-	// 	skip: !childId,
-	// });
-	const { data } = useOASClient<ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest, Enrollment>('apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet', {
+	const { user } = useContext(UserContext);
+	const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest = {
 		id: enrollmentId ? enrollmentId : 0,
 		orgId: (user && user.orgPermissions && user.orgPermissions[0] && user.orgPermissions[0].organizationId) || 1,
 		siteId: (user && user.sitePermissions && user.sitePermissions[0] && user.sitePermissions[0].siteId) || 1,
-		include: ['child', 'family', 'determinations', 'fundings']
-	});
-
-
-	// if (!data) {
-	// 	return <div className="EnrollmentNew"></div>;
-	// }
-
-	const enrollment = data;
+		include: ['child', 'family', 'determinations', 'fundings'],
+	}
 
 	const afterSave = (enrollment: Enrollment) => {
 		// Enrollments begin at /roster/sites/:siteId/enroll. We replace this URL in the
@@ -85,12 +73,24 @@ export default function EnrollmentNew({
 		}
 	};
 
+	const [loading, error, enrollment, mutate ] = useApi<Enrollment>(
+		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
+		[enrollmentId],
+		undefined,
+		!enrollmentId,
+		afterSave
+	);
+
+	if (loading || error) {
+		return <div className="EnrollmentNew"></div>;
+	}
+
 	const steps = mapSectionsToSteps(sections);
 
 	const props: SectionProps = {
 		enrollment: enrollment,
+		mutate: mutate,
 		siteId,
-		afterSave,
 	};
 
 	return (

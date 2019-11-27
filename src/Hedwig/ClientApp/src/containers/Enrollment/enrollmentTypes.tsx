@@ -1,10 +1,11 @@
 import { StepStatus } from '../../components/StepList/StepList';
-import { Enrollment } from '../../OAS-generated';
+import { Enrollment, DefaultApi } from '../../OAS-generated';
+import { Mutate } from '../../hooks/useApi';
 
 export type SectionProps = {
 	enrollment?: Enrollment | null;
+	mutate: Mutate<Enrollment>;
 	siteId?: string;
-	afterSave?: (enrollment: Enrollment) => void;
 };
 
 export interface Section {

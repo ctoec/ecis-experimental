@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useAuthMutation from '../../../hooks/useAuthMutation';
 import { CREATE_FAMILY_MUTATION, UPDATE_FAMILY_MUTATION, CHILD_QUERY } from '../enrollmentQueries';
 import { CreateFamilyMutation } from '../../../generated/CreateFamilyMutation';
@@ -9,6 +9,9 @@ import Button from '../../../components/Button/Button';
 import TextInput from '../../../components/TextInput/TextInput';
 import Checklist from '../../../components/Checklist/Checklist';
 import mapEmptyStringsToNull from '../../../utils/mapEmptyStringsToNull';
+import useApi from '../../../hooks/useApi';
+import { Enrollment, Child, ApiOrganizationsOrgIdChildrenIdPutRequest } from '../../../OAS-generated';
+import idx from 'idx';
 
 const FamilyInfo: Section = {
 	key: 'family-information',
@@ -30,11 +33,27 @@ const FamilyInfo: Section = {
 		);
 	},
 
-	Form: ({ enrollment, afterSave }) => {
+	Form: ({ enrollment, mutate }) => {
+		console.log("info", enrollment);
 		if (!enrollment || !enrollment.child) {
 			throw new Error('FamilyInfo rendered without a child');
+			// return <></>;
 		}
+
 		const child = enrollment.child;
+		const [params, setParams] = useState<ApiOrganizationsOrgIdChildrenIdPutRequest>({
+			id: child.id || '',
+			orgId: idx(enrollment, _ => _.site.organizationId) || 0,
+			child: child
+		});
+		const [skip, setSkip] = useState<boolean>(true);
+		const [loading, error, _enrollment] = useApi<Child>(
+			(api) => api.apiOrganizationsOrgIdChildrenIdPut(params),
+			[params],
+			child,
+			skip
+		);
+		
 		const [createFamily] = useAuthMutation<CreateFamilyMutation>(CREATE_FAMILY_MUTATION, {
 			update: (cache, { data }) => {
 				const cachedData = cache.readQuery<ChildQuery>({
@@ -53,17 +72,17 @@ const FamilyInfo: Section = {
 				}
 			},
 			onCompleted: () => {
-				if (afterSave) {
-					afterSave(enrollment);
-				}
+				// if (afterSave) {
+				// 	afterSave(enrollment);
+				// }
 			},
 		});
 
 		const [updateFamily] = useAuthMutation<UpdateFamilyMutation>(UPDATE_FAMILY_MUTATION, {
 			onCompleted: () => {
-				if (afterSave) {
-					afterSave(enrollment);
-				}
+				// if (afterSave) {
+				// 	afterSave(enrollment);
+				// }
 			},
 		});
 

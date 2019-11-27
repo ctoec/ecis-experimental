@@ -39,9 +39,11 @@ const FamilyIncome: Section = {
 		);
 	},
 
-	Form: ({ enrollment, afterSave }) => {
+	Form: ({ enrollment, mutate }) => {
+		console.log("income", enrollment);
 		if(!enrollment || ! enrollment.child || !enrollment.child.family) {
 			throw new Error('FamilyIncome rendered without a family');
+			// return <></>;
 		}
 
 		var child = enrollment.child;
@@ -65,9 +67,9 @@ const FamilyIncome: Section = {
 					}
 				},
 				onCompleted: () => {
-					if (afterSave) {
-						afterSave(enrollment);
-					}
+					// if (afterSave) {
+					// 	afterSave(enrollment);
+					// }
 				},
 			}
 		);
@@ -76,9 +78,9 @@ const FamilyIncome: Section = {
 			UPDATE_FAMILY_DETERMINATION_MUTATION,
 			{
 				onCompleted: () => {
-					if (afterSave) {
-						afterSave(enrollment);
-					}
+					// if (afterSave) {
+					// 	afterSave(enrollment);
+					// }
 				},
 			}
 		);
@@ -108,9 +110,9 @@ const FamilyIncome: Section = {
 					createFamilyDetermination({ variables: { ...args, familyId } });
 				}
 			} else {
-				if (afterSave) {
-					afterSave(enrollment);
-				}
+				// if (afterSave) {
+				// 	afterSave(enrollment);
+				// }
 			}
 		};
 
