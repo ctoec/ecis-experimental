@@ -4,7 +4,6 @@ import { CREATE_CHILD_MUTATION, UPDATE_CHILD_MUTATION } from '../enrollmentQueri
 import { CreateChildMutation } from '../../../generated/CreateChildMutation';
 import { UpdateChildMutation } from '../../../generated/UpdateChildMutation';
 import { ChildQuery_child } from '../../../generated/ChildQuery';
-import { Gender } from '../../../generated/globalTypes';
 import { Section } from '../enrollmentTypes';
 import Button from '../../../components/Button/Button';
 import TextInput from '../../../components/TextInput/TextInput';
@@ -17,35 +16,17 @@ import dateFormatter from '../../../utils/dateFormatter';
 import mapEmptyStringsToNull from '../../../utils/mapEmptyStringsToNull';
 import moment from 'moment';
 import useOASClient from '../../../hooks/useOASClient';
-import { Child, ApiOrganizationsOrgIdChildrenPostRequest, ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest, Enrollment } from '../../../OAS-generated';
+import { Child, 
+	ApiOrganizationsOrgIdChildrenPostRequest, 
+	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest, 
+	Enrollment,
+	Gender
+} from '../../../OAS-generated';
 import idx from 'idx';
 import UserContext from '../../../contexts/User/UserContext';
+import argsWithValuesOnly from '../../../utils/argsWithValuesOnly';
 
-const genderFromString = (str: string) => {
-	switch (str) {
-		case Gender.FEMALE:
-			return Gender.FEMALE;
-		case Gender.MALE:
-			return Gender.MALE;
-		case Gender.UNKNOWN:
-			return Gender.UNKNOWN;
-		default:
-			return Gender.UNSPECIFIED;
-	}
-};
 
-const prettyGender = (child: ChildQuery_child) => {
-	switch (child.gender) {
-		case Gender.FEMALE:
-			return 'Female';
-		case Gender.MALE:
-			return 'Male';
-		case Gender.UNKNOWN:
-			return 'Unknown';
-		default:
-			return '';
-	}
-};
 
 const RACES = [
 	'americanIndianOrAlaskaNative',
@@ -125,8 +106,8 @@ const ChildInfo: Section = {
 		const { data: createChildData } = useOASClient<ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest, Child>(
 			'apiOrganizationsOrgIdSitesSiteIdEnrollmentsPost',
 			{
-				orgId: idx(user, _ => _.orgPermissions[0].organizationId) || 0,
-				siteId: idx(user, _ => _.sitePermissions[0].siteId) || 0,
+				orgId: idx(user, _ => _.orgPermissions[0].organizationId) || 1,
+				siteId: idx(user, _ => _.sitePermissions[0].siteId) || 1,
 				enrollment: enrollment || undefined
 			},
 			skip
@@ -164,24 +145,24 @@ const ChildInfo: Section = {
 		const [birthState, updateBirthState] = useState(child ? child.birthState : null);
 
 		const [americanIndianOrAlaskaNative, updateAmericanIndianOrAlaskaNative] = useState(
-			child ? child.americanIndianOrAlaskaNative : null
+			child ? child.americanIndianOrAlaskaNative : false
 		);
-		const [asian, updateAsian] = useState(child ? child.asian : null);
+		const [asian, updateAsian] = useState(child ? child.asian : false);
 		const [blackOrAfricanAmerican, updateBlackOrAfricanAmerican] = useState(
-			child ? child.blackOrAfricanAmerican : null
+			child ? child.blackOrAfricanAmerican : false
 		);
 		const [nativeHawaiianOrPacificIslander, updateNativeHawaiianOrPacificIslander] = useState(
-			child ? child.nativeHawaiianOrPacificIslander : null
+			child ? child.nativeHawaiianOrPacificIslander : false
 		);
-		const [white, updateWhite] = useState(child ? child.white : null);
+		const [white, updateWhite] = useState(child ? child.white : false);
 		const [hispanicOrLatinxEthnicity, updateHispanicOrLatinxEthnicity] = useState(
-			child ? child.hispanicOrLatinxEthnicity : null
+			child ? child.hispanicOrLatinxEthnicity : false
 		);
 
-		const [gender, updateGender] = useState(child ? child.gender : null);
+		const [gender, updateGender] = useState(child ? child.gender : Gender.Unspecified);
 
 		const save = () => {
-			const args = mapEmptyStringsToNull({
+			const args = argsWithValuesOnly({
 				sasid,
 				firstName,
 				middleName,
@@ -207,9 +188,9 @@ const ChildInfo: Section = {
 					...enrollment,
 					id: 0,
 					siteId: 0,
-					// child: {
-					// 	...args
-					// }
+					child: {
+						...args
+					}
 				});
 				setSkip(false);
 				console.log("calling save?");
