@@ -8,7 +8,13 @@ interface apiState<T> {
 	data?: T,
 }
 
-export default function useApi<T>(query: (api: HedwigApi) => Promise<T>, deps: DependencyList = [], defaultValue?: T): [boolean, (string | null), T?] {
+type apiResult<T> = [boolean, (string | null), T?];
+
+export default function useApi<T>(
+  query: (api: HedwigApi) => Promise<T>,
+  deps: DependencyList = [],
+  defaultValue?: T
+): apiResult<T> {
 	const [state, setState] = useState<apiState<T>>({
 		loading: true,
 		error: null,
@@ -29,16 +35,13 @@ export default function useApi<T>(query: (api: HedwigApi) => Promise<T>, deps: D
 		  )
 		: null;
 
-	const runQuery = () => {
+	useEffect(() => {
 		if (!api) { return; }
 
 		query(api)
 			.then((result) => setState({ loading: false, error: null, data: result }))
 			.catch((error) => setState({ ...state, loading: false, error: error.toString() }));
-	};
-
-	useEffect(() => {
-		runQuery();
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [...deps, accessToken]);
 
 	const { loading, error, data } = state;

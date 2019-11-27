@@ -16,7 +16,6 @@ import queryParamDateFormatter from '../../utils/queryParamDateFormatter';
 import useApi from '../../hooks/useApi';
 import UserContext from '../../contexts/User/UserContext';
 import { Enrollment } from '../../OAS-generated/models/Enrollment';
-import { Site } from '../../OAS-generated/models/Site';
 import idx from 'idx';
 
 export default function Roster() {

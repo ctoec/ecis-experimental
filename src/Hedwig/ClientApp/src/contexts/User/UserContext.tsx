@@ -15,7 +15,7 @@ const { Provider, Consumer } = UserContext;
 export type UserProviderPropsType = {};
 
 const UserProvider: React.FC<UserProviderPropsType> = ({ children }) => {
-  const [loading, error, user] = useApi((api) => api.apiUsersCurrentGet());
+  const [, , user] = useApi((api) => api.apiUsersCurrentGet());
 	return (
 		<Provider value={{ user }}>
 			{children}
