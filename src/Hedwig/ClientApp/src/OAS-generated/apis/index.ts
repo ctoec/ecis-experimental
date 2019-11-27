@@ -1,1 +1,1 @@
-export * from './DefaultApi';
+export * from './HedwigApi';

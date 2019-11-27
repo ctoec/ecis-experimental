@@ -18,10 +18,10 @@
  * @enum {string}
  */
 export enum Gender {
-    Male = 'Male',
-    Female = 'Female',
-    Unknown = 'Unknown',
-    Unspecified = 'Unspecified'
+    NUMBER_0 = 0,
+    NUMBER_1 = 1,
+    NUMBER_2 = 2,
+    NUMBER_3 = 3
 }
 
 export function GenderFromJSON(json: any): Gender {

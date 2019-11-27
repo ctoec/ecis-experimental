@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { DefaultApi, Configuration } from '../OAS-generated';
+import { HedwigApi, Configuration } from '../OAS-generated';
 import LoginContext from '../contexts/Login/LoginContext';
 
 export default function useOASClient<TQueryParams, TData>(query?: string, params?: TQueryParams) {
@@ -10,10 +10,10 @@ export default function useOASClient<TQueryParams, TData>(query?: string, params
 	});
 
 	const api = accessToken
-		? new DefaultApi(
+		? new HedwigApi(
 				new Configuration({
 					basePath: 'https://localhost:5001',
-					accessToken,
+					headers: { "Authorization": "Bearer " + accessToken },
 				})
 		  )
 		: null;

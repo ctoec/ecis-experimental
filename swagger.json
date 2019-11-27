@@ -7,6 +7,9 @@
   "paths": {
     "/api/organizations/{orgId}/Children": {
       "get": {
+        "tags": [
+          "Hedwig"
+        ],
         "parameters": [
           {
             "name": "orgId",
@@ -61,6 +64,9 @@
         }
       },
       "post": {
+        "tags": [
+          "Hedwig"
+        ],
         "parameters": [
           {
             "name": "orgId",
@@ -122,6 +128,9 @@
     },
     "/api/organizations/{orgId}/Children/{id}": {
       "get": {
+        "tags": [
+          "Hedwig"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -176,6 +185,9 @@
         }
       },
       "put": {
+        "tags": [
+          "Hedwig"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -246,6 +258,9 @@
     },
     "/api/organizations/{orgId}/sites/{siteId}/Enrollments": {
       "get": {
+        "tags": [
+          "Hedwig"
+        ],
         "parameters": [
           {
             "name": "orgId",
@@ -309,6 +324,9 @@
         }
       },
       "post": {
+        "tags": [
+          "Hedwig"
+        ],
         "parameters": [
           {
             "name": "orgId",
@@ -379,6 +397,9 @@
     },
     "/api/organizations/{orgId}/sites/{siteId}/Enrollments/{id}": {
       "get": {
+        "tags": [
+          "Hedwig"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -442,6 +463,9 @@
         }
       },
       "put": {
+        "tags": [
+          "Hedwig"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -521,6 +545,9 @@
     },
     "/api/Organizations": {
       "get": {
+        "tags": [
+          "Hedwig"
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -547,6 +574,9 @@
     },
     "/api/Organizations/{id}": {
       "get": {
+        "tags": [
+          "Hedwig"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -577,6 +607,9 @@
     },
     "/api/organizations/{orgId}/Sites": {
       "get": {
+        "tags": [
+          "Hedwig"
+        ],
         "parameters": [
           {
             "name": "orgId",
@@ -623,6 +656,9 @@
     },
     "/api/organizations/{orgId}/Sites/{id}": {
       "get": {
+        "tags": [
+          "Hedwig"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -679,6 +715,9 @@
     },
     "/api/Users/{id}": {
       "get": {
+        "tags": [
+          "Hedwig"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -714,6 +753,9 @@
         }
       },
       "put": {
+        "tags": [
+          "Hedwig"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -756,6 +798,9 @@
         }
       },
       "delete": {
+        "tags": [
+          "Hedwig"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -776,23 +821,26 @@
     },
     "/api/Users/current": {
       "get": {
+        "tags": [
+          "Hedwig"
+        ],
         "responses": {
           "200": {
             "description": "Success",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/User"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/User"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/User"
                 }
               }
             }
@@ -802,6 +850,9 @@
     },
     "/api/Users": {
       "post": {
+        "tags": [
+          "Hedwig"
+        ],
         "requestBody": {
           "content": {
             "application/json-patch+json": {
@@ -847,7 +898,8 @@
       },
       "FundingSource": {
         "enum": [
-          0
+          0,
+          1
         ],
         "type": "integer",
         "format": "int32"
@@ -1402,6 +1454,19 @@
         },
         "additionalProperties": false
       }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "apiKey",
+        "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+        "name": "Authorization",
+        "in": "header"
+      }
     }
-  }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
 }

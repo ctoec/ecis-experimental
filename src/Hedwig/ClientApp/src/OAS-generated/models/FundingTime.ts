@@ -18,8 +18,8 @@
  * @enum {string}
  */
 export enum FundingTime {
-    Full = 'Full',
-    Part = 'Part'
+    NUMBER_0 = 0,
+    NUMBER_1 = 1
 }
 
 export function FundingTimeFromJSON(json: any): FundingTime {

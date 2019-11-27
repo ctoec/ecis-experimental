@@ -17,6 +17,7 @@ import useOASClient from '../../hooks/useOASClient';
 import UserContext from '../../contexts/User/UserContext';
 import { Enrollment } from '../../OAS-generated/models/Enrollment';
 import { Site } from '../../OAS-generated/models/Site';
+import idx from 'idx';
 
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
@@ -24,16 +25,9 @@ export default function Roster() {
 	const [byRange, setByRange] = useState(false);
 	const { user } = useContext(UserContext);
 	const data = useOASClient<any, Site>('apiOrganizationsOrgIdSitesIdGet', {
-		orgId:
-			(user &&
-				user.orgPermissions &&
-				user.orgPermissions[0] &&
-				user.orgPermissions[0].organizationId) ||
-			1,
-		// TODO after pilot: don't just grab the first siteId
-		id:
-			(user && user.sitePermissions && user.sitePermissions[0] && user.sitePermissions[0].siteId) ||
-			1,
+		// TODO after pilot: don't just grab the first org and site
+		orgId: idx(user, _ => _.orgPermissions[0].organization.id) || 0,
+		id: idx(user, _ => _.orgPermissions[0].organization.sites[0].id) || 0,
 		include: ['enrollments', 'child', 'fundings'],
 		startDate: dateRange && dateRange.startDate && queryParamDateFormatter(dateRange.startDate),
 		endDate: dateRange && dateRange.endDate && queryParamDateFormatter(dateRange.endDate),

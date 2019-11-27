@@ -18,8 +18,8 @@
  * @enum {string}
  */
 export enum FundingSource {
-    CDC = 'CDC',
-    C4K = 'C4K'
+    NUMBER_0 = 0,
+    NUMBER_1 = 1
 }
 
 export function FundingSourceFromJSON(json: any): FundingSource {

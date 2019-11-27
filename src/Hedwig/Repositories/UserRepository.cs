@@ -8,9 +8,18 @@ namespace Hedwig.Repositories
 	public class UserRepository : HedwigRepository, IUserRepository
 	{
 
-		public UserRepository(HedwigContext context) : base(context) {}
+		public UserRepository(HedwigContext context) : base(context) { }
 
-		public async Task<User> GetUserByIdAsync(int id) => await _context.Users.SingleOrDefaultAsync(u => u.Id == id);
+		public async Task<User> GetUserByIdAsync(int id)
+		{
+			return await _context.Users
+				.Include(u => u.OrgPermissions)
+				.ThenInclude(op => op.Organization)
+					.ThenInclude(o => o.Sites)
+				.Include(u => u.SitePermissions)
+					.ThenInclude(sp => sp.Site)
+				.SingleOrDefaultAsync(u => u.Id == id);
+		}
 	}
 
 	public interface IUserRepository
