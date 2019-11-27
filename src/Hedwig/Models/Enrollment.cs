@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Hedwig.Models
 {
@@ -13,6 +15,7 @@ namespace Hedwig.Models
 		public int SiteId { get; set; }
 		public Site Site { get; set; }
 
+		[JsonConverter(typeof(StringEnumConverter))]
 		public Age? Age { get; set; }
 
 		public DateTime? Entry { get; set; }
