@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,11 +25,13 @@ namespace Hedwig.Controllers
         public async Task<ActionResult<List<Enrollment>>> Get(
             int orgId,
             int siteId,
+						[FromQuery(Name = "startDate")] DateTime from,
+						[FromQuery(Name = "endDate")] DateTime to,
             [FromQuery(Name="include")] string[] include
         )
         {
 
-            return await _enrollments.GetEnrollmentsForSiteAsync(siteId, include);
+            return await _enrollments.GetEnrollmentsForSiteAsync(siteId, from, to, include);
         }
 
         [HttpGet("{id}")]

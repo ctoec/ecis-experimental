@@ -35,8 +35,8 @@ export default function Roster() {
 			(user && user.sitePermissions && user.sitePermissions[0] && user.sitePermissions[0].siteId) ||
 			1,
 		include: ['enrollments', 'child', 'fundings'],
-		startDate: dateRange && dateRange.startDate && queryParamDateFormatter(dateRange.startDate),
-		endDate: dateRange && dateRange.endDate && queryParamDateFormatter(dateRange.endDate),
+		from: dateRange && dateRange.startDate && queryParamDateFormatter(dateRange.startDate),
+		to: dateRange && dateRange.endDate && queryParamDateFormatter(dateRange.endDate),
 	});
 
 	function handlePastEnrollmentsChange() {

@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace Hedwig.Repositories
                     && s.OrganizationId.Value == organizationId)
                 .ToListAsync();
         }
-        public Task<Site> GetSiteForOrganizationAsync(int id, int organizationId, string from = null, string to = null, string[] include = null)
+        public Task<Site> GetSiteForOrganizationAsync(int id, int organizationId, DateTime? from = null, DateTime? to = null, string[] include = null)
         {
             var site = _context.Sites
                 .Where(s => s.Id == id
@@ -98,7 +99,7 @@ namespace Hedwig.Repositories
     {
 
         Task<List<Site>> GetSitesForOrganizationAsync(int organizationId);
-        Task<Site> GetSiteForOrganizationAsync(int id, int organizationId, string[] include = null);
+        Task<Site> GetSiteForOrganizationAsync(int id, int organizationId, DateTime? from, DateTime? to, string[] include = null);
         Task<ILookup<int, Site>> GetSitesByOrganizationIdsAsync_OLD(IEnumerable<int> organizationIds);
         Task<IEnumerable<Site>> GetSitesByUserIdAsync(int userId);
         Task<Site> GetSiteByIdAsync(int id);
