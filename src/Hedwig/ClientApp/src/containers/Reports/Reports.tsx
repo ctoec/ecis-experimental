@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import useAuthQuery from '../../hooks/useAuthQuery';
 import { gql } from 'apollo-boost';
 import { Link } from 'react-router-dom';
@@ -8,7 +8,6 @@ import InlineIcon from '../../components/InlineIcon/InlineIcon';
 import { ReportsQuery, ReportsQuery_me_reports } from '../../generated/ReportsQuery';
 import monthFormatter from '../../utils/monthFormatter';
 import dateFormatter from '../../utils/dateFormatter';
-import UserContext from '../../contexts/User/UserContext';
 
 export const REPORTS_QUERY = gql`
 	query ReportsQuery {
