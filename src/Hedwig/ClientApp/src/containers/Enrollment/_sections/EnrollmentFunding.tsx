@@ -1,8 +1,4 @@
 import React from 'react';
-import useAuthMutation from '../../../hooks/useAuthMutation';
-import { UPDATE_ENROLLMENT_MUTATION } from '../enrollmentQueries';
-import { UpdateEnrollmentMutation } from '../../../generated/UpdateEnrollmentMutation';
-import { Age } from '../../../generated/globalTypes';
 import { Section } from '../enrollmentTypes';
 import Button from '../../../components/Button/Button';
 import DatePicker from '../../../components/DatePicker/DatePicker';
@@ -11,15 +7,16 @@ import RadioGroup from '../../../components/RadioGroup/RadioGroup';
 import dateFormatter from '../../../utils/dateFormatter';
 import moment from 'moment';
 import idx from 'idx';
+import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest, Age } from '../../../OAS-generated';
 
 const ageFromString = (str: string) => {
 	switch (str) {
-		case Age.INFANT:
-			return Age.INFANT;
-		case Age.PRESCHOOL:
-			return Age.PRESCHOOL;
-		case Age.SCHOOL:
-			return Age.SCHOOL;
+		case Age.Infant:
+			return Age.Infant;
+		case Age.Preschool:
+			return Age.Preschool;
+		case Age.School:
+			return Age.School;
 		default:
 			return null;
 	}
@@ -27,11 +24,11 @@ const ageFromString = (str: string) => {
 
 const prettyAge = (age: Age | null) => {
 	switch (age) {
-		case Age.INFANT:
+		case Age.Infant:
 			return 'Infant/Toddler';
-		case Age.PRESCHOOL:
+		case Age.Preschool:
 			return 'Preschool';
-		case Age.SCHOOL:
+		case Age.School:
 			return 'School-age';
 		default:
 			return '';
@@ -43,13 +40,13 @@ const EnrollmentFunding: Section = {
 	name: 'Enrollment and funding',
 	status: () => 'complete',
 
-	Summary: ({ enrollment : currentEnrollment}) => {
-		if(!currentEnrollment) return <></>;
+	Summary: ({ enrollment }) => {
+		if (!enrollment) return <></>;
 		return (
 			<div className="EnrollmentFundingSummary">
-				{currentEnrollment && (
+				{enrollment && (
 					<>
-						<p>Site: {idx(currentEnrollment, _ => _.site.name)} </p>
+						<p>Site: {idx(enrollment, _ => _.site.name)} </p>
 						{/* <p>
 							Enrolled:{' '}
 							{dateFormatter(idx(currentEnrollment, _ => _.entry)) +
@@ -63,35 +60,40 @@ const EnrollmentFunding: Section = {
 		);
 	},
 
-	Form: ({ enrollment: currentEnrollment, mutate }) => {
+	Form: ({ enrollment, mutate }) => {
 
-		if (!currentEnrollment) {
+		if (!enrollment) {
 			throw new Error('EnrollmentFunding rendered without an enrollment');
 		}
 
-		const [updateEnrollment] = useAuthMutation<UpdateEnrollmentMutation>(
-			UPDATE_ENROLLMENT_MUTATION,
-			{
-				onCompleted: () => {
-					if (currentEnrollment) {
-						// afterSave(currentEnrollment);
-					}
-				},
-			}
-		);
+		const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
+			id: enrollment.id || 0,
+			siteId: idx(enrollment, _ => _.siteId) || 0,
+			orgId: idx(enrollment, _ => _.site.organizationId) || 0,
+			enrollment: enrollment
+		}
 
-		const [siteId, updateSiteId] = React.useState(idx(currentEnrollment, _ => _.siteId));
+		const [siteId, updateSiteId] = React.useState(idx(enrollment, _ => _.siteId));
 
-		const [entry, updateEntry] = React.useState(currentEnrollment ? currentEnrollment.entry : null);
-		const [age, updateAge] = React.useState(currentEnrollment ? currentEnrollment.age : null);
+		const [entry, updateEntry] = React.useState(enrollment ? enrollment.entry : null);
+		const [age, updateAge] = React.useState(enrollment ? enrollment.age : null);
 
 		const save = () => {
 			const args = {
-				entry,
-				age,
+				entry: entry || undefined,
+				age: age || undefined
 			};
 
-			updateEnrollment({ variables: { ...args, id: currentEnrollment.id } });
+			if (enrollment) {
+				const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
+					...defaultParams,
+					enrollment: {
+						...enrollment,
+						...args
+					}
+				}
+				mutate((api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params), (_, result) => result);
+			}
 		};
 
 		return (
@@ -100,8 +102,8 @@ const EnrollmentFunding: Section = {
 					<Dropdown
 						options={[
 							{
-								value: '' + idx(currentEnrollment, _ => _.siteId),
-								text: '' + idx(currentEnrollment, _ => _.site.name),
+								value: '' + idx(enrollment, _ => _.siteId),
+								text: '' + idx(enrollment, _ => _.site.name),
 							},
 						]}
 						label="Site"
@@ -119,26 +121,26 @@ const EnrollmentFunding: Section = {
 					/> */}
 
 					<h3>Age</h3>
-					{/* <RadioGroup
+					<RadioGroup
 						groupName="age"
 						legend="Age"
 						options={[
 							{
 								text: 'Infant/Toddler',
-								value: Age.INFANT,
+								value: Age.Infant,
 							},
 							{
 								text: 'Preschool',
-								value: Age.PRESCHOOL,
+								value: Age.Preschool,
 							},
 							{
 								text: 'School-age',
-								value: Age.SCHOOL,
+								value: Age.School,
 							},
 						]}
 						selected={'' + age}
 						onChange={event => updateAge(ageFromString(event.target.value))}
-					/> */}
+					/>
 				</div>
 
 				<h3>Funding</h3>

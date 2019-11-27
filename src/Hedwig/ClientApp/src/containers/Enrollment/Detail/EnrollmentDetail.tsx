@@ -1,16 +1,13 @@
 import React, { useContext } from 'react';
-import useAuthQuery from '../../../hooks/useAuthQuery';
-import { CHILD_QUERY } from '../enrollmentQueries';
-import { ChildQuery } from '../../../generated/ChildQuery';
 import ChildInfo from '../_sections/ChildInfo';
-// import FamilyInfo from '../_sections/FamilyInfo';
+import FamilyInfo from '../_sections/FamilyInfo';
 import FamilyIncome from '../_sections/FamilyIncome';
 import EnrollmentFunding from '../_sections/EnrollmentFunding';
 import { Link } from 'react-router-dom';
 import nameFormatter from '../../../utils/nameFormatter';
-import useOASClient from '../../../hooks/useOASClient';
 import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest, Enrollment } from '../../../OAS-generated';
 import UserContext from '../../../contexts/User/UserContext';
+import useApi from '../../../hooks/useApi';
 
 type EnrollmentDetailParams = {
 	match: {
@@ -21,9 +18,7 @@ type EnrollmentDetailParams = {
 	};
 };
 
-
-// const sections = [ChildInfo, FamilyInfo, FamilyIncome, EnrollmentFunding];
-const sections = [ChildInfo, FamilyIncome, EnrollmentFunding];
+const sections = [ChildInfo, FamilyInfo, FamilyIncome, EnrollmentFunding];
 
 export default function EnrollmentDetail({
 	match: {
@@ -31,19 +26,23 @@ export default function EnrollmentDetail({
 	},
 }: EnrollmentDetailParams) {
 	const { user } = useContext(UserContext);
-	const { data } = useOASClient<ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest, Enrollment>('apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet', {
+	const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest = {
 		id: enrollmentId ? enrollmentId : 0,
-		orgId: (user && user.orgPermissions && user.orgPermissions[0] && user.orgPermissions[0].organizationId) || 0,
-		siteId: (user && user.sitePermissions && user.sitePermissions[0] && user.sitePermissions[0].siteId) || 1,
-		include: ['child', 'family', 'determinations', 'fundings']
-	});
+		orgId: (user && user.orgPermissions && user.orgPermissions[0] && user.orgPermissions[0].organizationId) || 1,
+		siteId: siteId ? parseInt(siteId) : 1,
+		include: ['child', 'family', 'determinations', 'fundings'],
+	}
+	const [loading, error, enrollment, mutate] = useApi<Enrollment>(
+		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
+		[enrollmentId],
+		undefined,
+		!enrollmentId
+	);
 
-
-	if (!data) {
+	if (!enrollment) {
 		return <div className="EnrollmentNew"></div>;
 	}
 
-	const enrollment = data;
 	const child = enrollment.child;
 
 	return (
@@ -54,7 +53,7 @@ export default function EnrollmentDetail({
 					<section key={section.key} className="hedwig-enrollment-details-section">
 						<div className="hedwig-enrollment-details-section__content">
 							<h2>{section.name}</h2>
-							{/* <section.Summary enrollment={enrollment} /> */}
+							<section.Summary enrollment={enrollment} mutate={mutate} />
 						</div>
 						<div className="hedwig-enrollment-details-section__actions">
 							<Link to={`edit/${section.key}`}>

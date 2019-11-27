@@ -10,7 +10,6 @@ import FamilyIncome from '../_sections/FamilyIncome';
 import EnrollmentFunding from '../_sections/EnrollmentFunding';
 import PageNotFound from '../../PageNotFound/PageNotFound';
 import UserContext from '../../../contexts/User/UserContext';
-import useOASClient from '../../../hooks/useOASClient';
 import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest, Enrollment } from '../../../OAS-generated';
 
 type EnrollmentEditParams = {
@@ -40,12 +39,13 @@ export default function EnrollmentEdit({
 	const section = sections[sectionId];
 	const { user } = useContext(UserContext);
 
-	const { data } = useOASClient<ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest, Enrollment>('apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet', {
-		id: enrollmentId ? enrollmentId : 0,
-		orgId: (user && user.orgPermissions && user.orgPermissions[0] && user.orgPermissions[0].organizationId) || 0,
-		siteId: (user && user.sitePermissions && user.sitePermissions[0] && user.sitePermissions[0].siteId) || 1,
-		include: ['child', 'family', 'determinations', 'fundings']
-	});
+	// const { data } = useOASClient<ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest, Enrollment>('apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet', {
+	// 	id: enrollmentId ? enrollmentId : 0,
+	// 	orgId: (user && user.orgPermissions && user.orgPermissions[0] && user.orgPermissions[0].organizationId) || 0,
+	// 	siteId: (user && user.sitePermissions && user.sitePermissions[0] && user.sitePermissions[0].siteId) || 1,
+	// 	include: ['child', 'family', 'determinations', 'fundings']
+	// });
+	const data = {};
 
 	if (!section) {
 		return <PageNotFound />;

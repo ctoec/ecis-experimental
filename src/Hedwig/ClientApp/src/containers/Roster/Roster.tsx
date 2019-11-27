@@ -13,7 +13,6 @@ import Legend from '../../components/Legend/Legend';
 import DateSelectionForm from './DateSelectionForm';
 import getColorForFundingSource, { fundingSourceDetails } from '../../utils/getColorForFundingType';
 import queryParamDateFormatter from '../../utils/queryParamDateFormatter';
-import useOASClient from '../../hooks/useOASClient';
 import UserContext from '../../contexts/User/UserContext';
 import { Age } from '../../OAS-generated/models/Age';
 import { Child } from '../../OAS-generated/models/Child';
@@ -34,12 +33,16 @@ export default function Roster() {
 	const [dateRange, setDateRange] = useState<DateRange>(getDefaultDateRange());
 	const [byRange, setByRange] = useState(false);
 	const { user } = useContext(UserContext);
-	const { data } = useOASClient<ApiOrganizationsOrgIdSitesIdGetRequest, Site>('apiOrganizationsOrgIdSitesIdGet', {
-		orgId: 1,
-		// TODO after pilot: don't just grab the first siteId
+	// const { data } = useOASClient<ApiOrganizationsOrgIdSitesIdGetRequest, Site>('apiOrganizationsOrgIdSitesIdGet', {
+	// 	orgId: 1,
+	// 	// TODO after pilot: don't just grab the first siteId
+	// 	id: 1,
+	// 	include: ['enrollments']
+	// });
+	const data = {
 		id: 1,
-		include: ['enrollments']
-	});
+		enrollments: {}
+	}
 
 	function handlePastEnrollmentsChange() {
 		toggleShowPastEnrollments(!showPastEnrollments);

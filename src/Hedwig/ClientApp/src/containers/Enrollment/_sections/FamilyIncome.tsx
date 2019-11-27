@@ -1,13 +1,4 @@
 import React from 'react';
-import useAuthMutation from '../../../hooks/useAuthMutation';
-import {
-	CREATE_FAMILY_DETERMINATION_MUTATION,
-	UPDATE_FAMILY_DETERMINATION_MUTATION,
-	CHILD_QUERY,
-} from '../enrollmentQueries';
-import { CreateFamilyDeterminationMutation } from '../../../generated/CreateFamilyDeterminationMutation';
-import { UpdateFamilyDeterminationMutation } from '../../../generated/UpdateFamilyDeterminationMutation';
-import { ChildQuery } from '../../../generated/ChildQuery';
 import { Section } from '../enrollmentTypes';
 import Button from '../../../components/Button/Button';
 import TextInput from '../../../components/TextInput/TextInput';
@@ -15,6 +6,7 @@ import DatePicker from '../../../components/DatePicker/DatePicker';
 import dateFormatter from '../../../utils/dateFormatter';
 import moment from 'moment';
 import idx from 'idx';
+import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest } from '../../../OAS-generated';
 
 const FamilyIncome: Section = {
 	key: 'family-income',
@@ -40,54 +32,19 @@ const FamilyIncome: Section = {
 	},
 
 	Form: ({ enrollment, mutate }) => {
-		console.log("income", enrollment);
 		if(!enrollment || ! enrollment.child || !enrollment.child.family) {
 			throw new Error('FamilyIncome rendered without a family');
-			// return <></>;
 		}
 
-		var child = enrollment.child;
-		const [createFamilyDetermination] = useAuthMutation<CreateFamilyDeterminationMutation>(
-			CREATE_FAMILY_DETERMINATION_MUTATION,
-			{
-				update: (cache, { data }) => {
-					const cachedData = cache.readQuery<ChildQuery>({
-						query: CHILD_QUERY,
-						variables: { id: child.id },
-					});
+		const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
+			id: enrollment.id || 0,
+			siteId: idx(enrollment, _ => _.siteId) || 0,
+			orgId: idx(enrollment, _ => _.site.organizationId) || 0,
+			enrollment: enrollment
+		}
 
-					if (cachedData && cachedData.child && cachedData.child.family) {
-						cachedData.child.family.determinations.push(data.createFamilyWithChild);
-
-						cache.writeQuery({
-							query: CHILD_QUERY,
-							data: cachedData,
-							variables: { id: child.id },
-						});
-					}
-				},
-				onCompleted: () => {
-					// if (afterSave) {
-					// 	afterSave(enrollment);
-					// }
-				},
-			}
-		);
-
-		const [updateFamilyDetermination] = useAuthMutation<UpdateFamilyDeterminationMutation>(
-			UPDATE_FAMILY_DETERMINATION_MUTATION,
-			{
-				onCompleted: () => {
-					// if (afterSave) {
-					// 	afterSave(enrollment);
-					// }
-				},
-			}
-		);
-
-		const familyId = idx(child, _ => _.family.id);
-		const determination = idx(child, _ => _.family.determinations[0]);
-
+		const child = enrollment.child;
+		const determination = idx(child, _ => _.family.determinations[0]) || undefined;
 		const [numberOfPeople, updateNumberOfPeople] = React.useState(
 			determination ? determination.numberOfPeople : null
 		);
@@ -99,20 +56,30 @@ const FamilyIncome: Section = {
 		const save = () => {
 			if (numberOfPeople || income || determined) {
 				const args = {
-					numberOfPeople,
-					income,
-					determined,
+					numberOfPeople: numberOfPeople || undefined,
+					income: income || undefined,
+					determined: determined || undefined,
 				};
 
-				if (determination) {
-					updateFamilyDetermination({ variables: { ...args, id: determination.id } });
-				} else {
-					createFamilyDetermination({ variables: { ...args, familyId } });
+				if (enrollment && child && child.family) {
+					const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
+						...defaultParams,
+						enrollment: {
+							...enrollment,
+							child: {
+								...child,
+								family: {
+									...child.family,
+									determinations: determination ? [{
+										...determination,
+										...args
+									}] : [{...args}]
+								}
+							}
+						}
+					};
+					mutate((api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params), (_, result) => result);
 				}
-			} else {
-				// if (afterSave) {
-				// 	afterSave(enrollment);
-				// }
 			}
 		};
 

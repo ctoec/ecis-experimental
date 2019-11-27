@@ -30,8 +30,8 @@ namespace Hedwig.Repositories
 		public Task<List<Enrollment>> GetEnrollmentsForSiteAsync(int siteId, string[] include = null)
 		{
 			var enrollments = _context.Enrollments
+				.Include(e => e.Site)
 				.Where(e => e.SiteId == siteId);
-
 
 			include = include ?? new string[]{};
 			if (include.Contains(INCLUDE_FUNDINGS))
@@ -60,6 +60,7 @@ namespace Hedwig.Repositories
 		public Task<Enrollment> GetEnrollmentForSiteAsync(int id, int siteId, string[] include)
 		{
 			var enrollment = _context.Enrollments
+				.Include(e => e.Site)
 				.Where(e => e.SiteId == siteId
 					&& e.Id == id);
 

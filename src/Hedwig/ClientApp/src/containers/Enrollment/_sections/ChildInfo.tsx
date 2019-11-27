@@ -1,9 +1,4 @@
 import React, { useContext, useState } from 'react';
-import useAuthMutation from '../../../hooks/useAuthMutation';
-import { CREATE_CHILD_MUTATION, UPDATE_CHILD_MUTATION } from '../enrollmentQueries';
-import { CreateChildMutation } from '../../../generated/CreateChildMutation';
-import { UpdateChildMutation } from '../../../generated/UpdateChildMutation';
-import { ChildQuery_child } from '../../../generated/ChildQuery';
 import { Section } from '../enrollmentTypes';
 import Button from '../../../components/Button/Button';
 import TextInput from '../../../components/TextInput/TextInput';
@@ -15,20 +10,41 @@ import nameFormatter from '../../../utils/nameFormatter';
 import dateFormatter from '../../../utils/dateFormatter';
 import mapEmptyStringsToNull from '../../../utils/mapEmptyStringsToNull';
 import moment from 'moment';
-import useApi from '../../../hooks/useApi';
 import { Child, 
-	ApiOrganizationsOrgIdChildrenPostRequest, 
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest, 
 	Enrollment,
 	Gender,
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
-	DefaultApi
 } from '../../../OAS-generated';
 import idx from 'idx';
 import UserContext from '../../../contexts/User/UserContext';
 import argsWithValuesOnly from '../../../utils/argsWithValuesOnly';
 
+const genderFromString = (str: string) => {
+	switch (str) {
+		case Gender.Female:
+			return Gender.Female;
+		case Gender.Male:
+			return Gender.Male;
+		case Gender.Unknown:
+			return Gender.Unknown;
+		default:
+			return Gender.Unspecified;
+	}
+};
 
+const prettyGender = (child: Child) => {
+	switch (child.gender) {
+		case Gender.Female:
+			return 'Female';
+		case Gender.Male:
+			return 'Male';
+		case Gender.Unknown:
+			return 'Unknown';
+		default:
+			return '';
+	}
+};
 
 const RACES = [
 	'americanIndianOrAlaskaNative',
@@ -53,8 +69,8 @@ const prettyRace = (race: string) => {
 	}
 };
 
-const prettyMultiRace = (child: any) => {
-	const selectedRaces = RACES.filter(race => child[race]);
+const prettyMultiRace = (child: Child) => {
+	const selectedRaces = RACES.filter(race => (child as any)[race]);
 
 	if (selectedRaces.length === 0) {
 		return '';
@@ -65,11 +81,11 @@ const prettyMultiRace = (child: any) => {
 	}
 };
 
-const prettyEthnicity = (child: ChildQuery_child) => {
+const prettyEthnicity = (child: Child) => {
 	return child.hispanicOrLatinxEthnicity ? 'Hispanic/Latinx' : 'Not Hispanic/Latinx';
 };
 
-const birthCertPresent = (child: ChildQuery_child) => {
+const birthCertPresent = (child: Child) => {
 	return child.birthCertificateId && child.birthState && child.birthTown ? 'Yes' : 'No';
 };
 
@@ -98,24 +114,21 @@ const ChildInfo: Section = {
 
 	Form: ({ enrollment, siteId, mutate }) => {
 		if (!enrollment && !siteId) {
-			throw new Error('ChildInfo rendered without a child or a siteId');
-			// return <></>;
+			throw new Error('ChildInfo rendered without an enrollment or a siteId');
 		}
 
 		const { user } = useContext(UserContext);
-		const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest = {
+		const defaultPostParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest = {
 			orgId: idx(user, _ => _.orgPermissions[0].organizationId) || 1,
 			siteId: idx(user, _ => _.sitePermissions[0].siteId) || 1,
 			enrollment: enrollment || undefined
 		}
-
-		const [updateChild] = useAuthMutation<UpdateChildMutation>(UPDATE_CHILD_MUTATION, {
-			onCompleted: ({ updateChild }) => {
-				// if (afterSave) {
-				// 	afterSave(updateChild);
-				// }
-			},
-		});
+		const defaultPutParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
+			id: idx(enrollment, _ => _.id) || 0,
+			orgId: idx(user, _ => _.orgPermissions[0].organizationId) || 1,
+			siteId: idx(user, _ => _.sitePermissions[0].siteId) || 1,
+			enrollment: enrollment || undefined
+		}
 
 		const child = enrollment && enrollment.child;
 		const [sasid, updateSasid] = useState(child ? child.sasid : null);
@@ -169,17 +182,24 @@ const ChildInfo: Section = {
 				gender,
 			});
 
-			if (child) {
-				updateChild({ variables: { ...args, id: child.id } });
-			} else if (siteId) {
-				params.enrollment = {
-					id: 0,
-					siteId: 0,
-					child: {...args}
+			if (enrollment) {
+				const putParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
+					...defaultPutParams,
+					enrollment: {
+						child: {...args}
+					}
 				}
-				mutate((api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsPost(params), (_, result) => result);
-				console.log("calling save?");
-				// createChild({ variables: { ...args, siteId } });
+				mutate((api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams), (_, result) => result);
+			} else if (siteId) {
+				const postParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest = {
+					...defaultPostParams,				
+					enrollment: {
+						id: 0,
+						siteId: 0,
+						child: {...args}
+					}
+				}
+				mutate((api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsPost(postParams), (_, result) => result);
 			} else {
 				throw new Error('Something impossible happened');
 			}
@@ -329,29 +349,29 @@ const ChildInfo: Section = {
 
 				<h3>Gender</h3>
 				<p className="oec-form-helper">As identified by family</p>
-				{/* <Dropdown
+				<Dropdown
 					options={[
 						{
-							value: Gender.UNSPECIFIED,
+							value: Gender.Unspecified,
 							text: '- Select -',
 						},
 						{
-							value: Gender.FEMALE,
+							value: Gender.Female,
 							text: 'Female',
 						},
 						{
-							value: Gender.MALE,
+							value: Gender.Male,
 							text: 'Male',
 						},
 						{
-							value: Gender.UNKNOWN,
+							value: Gender.Unknown,
 							text: 'Unknown',
 						},
 					]}
 					label="Gender"
-					selected={gender || Gender.UNSPECIFIED}
+					selected={gender || Gender.Unspecified}
 					onChange={event => updateGender(genderFromString(event.target.value))}
-				/> */}
+				/>
 
 				<Button text="Save" onClick={save} />
 			</div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import useOASClient from '../../hooks/useOASClient';
+import useApi from '../../hooks/useApi';
 import { User } from '../../OAS-generated/models/User';
 
 export type UserContextType = {
@@ -15,13 +15,9 @@ const { Provider, Consumer } = UserContext;
 export type UserProviderPropsType = {};
 
 const UserProvider: React.FC<UserProviderPropsType> = ({ children }) => {
-	const { data: currentUser } = useOASClient<undefined, User>('apiUsersCurrentGet');
+  const [, , user] = useApi((api) => api.apiUsersCurrentGet());
 	return (
-		<Provider
-			value={{
-				user: currentUser,
-			}}
-		>
+		<Provider value={{ user }}>
 			{children}
 		</Provider>
 	);

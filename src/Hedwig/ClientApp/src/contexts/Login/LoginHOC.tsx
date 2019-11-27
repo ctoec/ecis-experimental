@@ -42,7 +42,7 @@ const LoginProvider: React.FC<LoginProviderPropsType> = ({
 	scope,
 	responseType = AuthorizationRequest.RESPONSE_TYPE_CODE,
 	state = undefined,
-	extras = { prompt: 'consent', access_type: 'offline' },
+	extras = { prompt: undefined, access_type: 'offline' },
 	children,
 }) => {
 	// effects

@@ -1,5 +1,5 @@
 import { StepStatus } from '../../components/StepList/StepList';
-import { Enrollment, DefaultApi } from '../../OAS-generated';
+import { Enrollment } from '../../OAS-generated';
 import { Mutate } from '../../hooks/useApi';
 
 export type SectionProps = {

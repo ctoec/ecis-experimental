@@ -31,10 +31,10 @@ namespace Hedwig.Controllers
         [HttpGet("current")]
         public async Task<ActionResult<User>> GetCurrent()
         {
-            var userIdStr = User.FindFirst("sub")?.Value;
-            if (userIdStr == null) { return null; }
-            var userId = Int32.Parse(userIdStr);
-            return await _users.GetUserByIdAsync(userId);
+            var subClaim = User.FindFirst("sub")?.Value;
+            if (subClaim == null) { return null; }
+            var wingedKeysId = Guid.Parse(subClaim);
+            return await _users.GetUserByWingedKeysIdAsync(wingedKeysId);
         }
 
         // Examples:

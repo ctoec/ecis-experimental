@@ -1,10 +1,7 @@
 import React, { useContext, useState } from 'react';
-import useAuthQuery from '../../../hooks/useAuthQuery';
 import { History } from 'history';
 import { Section, SectionProps } from '../enrollmentTypes';
 import { default as StepList, StepProps } from '../../../components/StepList/StepList';
-import { CHILD_QUERY } from '../enrollmentQueries';
-import { ChildQuery, ChildQuery_child } from '../../../generated/ChildQuery';
 import ChildInfo from '../_sections/ChildInfo';
 import FamilyInfo from '../_sections/FamilyInfo';
 import FamilyIncome from '../_sections/FamilyIncome';
@@ -73,7 +70,7 @@ export default function EnrollmentNew({
 		}
 	};
 
-	const [loading, error, enrollment, mutate ] = useApi<Enrollment>(
+	const [loading, error, enrollment, mutate] = useApi<Enrollment>(
 		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
 		[enrollmentId],
 		undefined,

@@ -1,16 +1,10 @@
 import React, { useState } from 'react';
-import useAuthMutation from '../../../hooks/useAuthMutation';
-import { CREATE_FAMILY_MUTATION, UPDATE_FAMILY_MUTATION, CHILD_QUERY } from '../enrollmentQueries';
-import { CreateFamilyMutation } from '../../../generated/CreateFamilyMutation';
-import { UpdateFamilyMutation } from '../../../generated/UpdateFamilyMutation';
-import { ChildQuery } from '../../../generated/ChildQuery';
 import { Section } from '../enrollmentTypes';
 import Button from '../../../components/Button/Button';
 import TextInput from '../../../components/TextInput/TextInput';
 import Checklist from '../../../components/Checklist/Checklist';
 import mapEmptyStringsToNull from '../../../utils/mapEmptyStringsToNull';
-import useApi from '../../../hooks/useApi';
-import { Enrollment, Child, ApiOrganizationsOrgIdChildrenIdPutRequest } from '../../../OAS-generated';
+import { Enrollment, ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest } from '../../../OAS-generated';
 import idx from 'idx';
 
 const FamilyInfo: Section = {
@@ -41,66 +35,28 @@ const FamilyInfo: Section = {
 		}
 
 		const child = enrollment.child;
-		const [params, setParams] = useState<ApiOrganizationsOrgIdChildrenIdPutRequest>({
-			id: child.id || '',
+		const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
+			id: enrollment.id || 0,
 			orgId: idx(enrollment, _ => _.site.organizationId) || 0,
-			child: child
-		});
-		const [skip, setSkip] = useState<boolean>(true);
-		const [loading, error, _enrollment] = useApi<Child>(
-			(api) => api.apiOrganizationsOrgIdChildrenIdPut(params),
-			[params],
-			child,
-			skip
-		);
-		
-		const [createFamily] = useAuthMutation<CreateFamilyMutation>(CREATE_FAMILY_MUTATION, {
-			update: (cache, { data }) => {
-				const cachedData = cache.readQuery<ChildQuery>({
-					query: CHILD_QUERY,
-					variables: { id: child.id },
-				});
+			siteId: idx(enrollment, _ => _.siteId) || 0,
+			enrollment: enrollment
+		}
 
-				if (cachedData && cachedData.child) {
-					cachedData.child.family = data.createFamilyWithChild;
-
-					cache.writeQuery({
-						query: CHILD_QUERY,
-						data: cachedData,
-						variables: { id: child.id },
-					});
-				}
-			},
-			onCompleted: () => {
-				// if (afterSave) {
-				// 	afterSave(enrollment);
-				// }
-			},
-		});
-
-		const [updateFamily] = useAuthMutation<UpdateFamilyMutation>(UPDATE_FAMILY_MUTATION, {
-			onCompleted: () => {
-				// if (afterSave) {
-				// 	afterSave(enrollment);
-				// }
-			},
-		});
-
-		const [addressLine1, updateAddressLine1] = React.useState(
+		const [addressLine1, updateAddressLine1] = useState(
 			child.family ? child.family.addressLine1 : null
 		);
-		const [addressLine2, updateAddressLine2] = React.useState(
+		const [addressLine2, updateAddressLine2] = useState(
 			child.family ? child.family.addressLine2 : null
 		);
-		const [town, updateTown] = React.useState(child.family ? child.family.town : null);
-		const [state, updateState] = React.useState(child.family ? child.family.state : null);
-		const [zip, updateZip] = React.useState(child.family ? child.family.zip : null);
-		const [homelessness, updateHomelessness] = React.useState(
-			child.family ? child.family.homelessness : null
+		const [town, updateTown] = useState(child.family ? child.family.town : null);
+		const [state, updateState] = useState(child.family ? child.family.state : null);
+		const [zip, updateZip] = useState(child.family ? child.family.zip : null);
+		const [homelessness, updateHomelessness] = useState(
+			child.family ? child.family.homelessness : undefined
 		);
 
 		// TODO: On the child model, no mutation yet in place
-		const [foster, updateFoster] = React.useState(child.foster);
+		const [foster, updateFoster] = useState(child.foster);
 
 		const save = () => {
 			const args = mapEmptyStringsToNull({
@@ -112,12 +68,21 @@ const FamilyInfo: Section = {
 				homelessness,
 			});
 
-			if (child.family) {
-				updateFamily({ variables: { ...args, id: child.family.id } });
-			} else {
-				createFamily({ variables: { ...args, childId: child.id } });
+			if (enrollment.child && enrollment.id) {
+				const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
+					...defaultParams,
+					id: enrollment.id,
+					enrollment: {
+						...enrollment,
+						child: {
+							...child,
+							family: {...args}
+						}
+					}
+				}
+				mutate((api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params), (_, result) => result);
 			}
-		};
+		}
 
 		return (
 			<div className="FamilyInfoForm usa-form">

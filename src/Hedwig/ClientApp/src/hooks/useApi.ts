@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState, DependencyList } from 'react';
-import { DefaultApi, Configuration } from '../OAS-generated';
+import { Configuration, HedwigApi } from '../OAS-generated';
 import LoginContext from '../contexts/Login/LoginContext';
 
 export type Reducer<TData> = (data: TData, result: TData) => TData;
-export type Query<TData> = (api: DefaultApi) => Promise<TData>
+export type Query<TData> = (api: HedwigApi) => Promise<TData>
 export type Mutate<TData> = (
 	query: Query<TData>,
 	reducer: Reducer<TData | undefined>
@@ -24,7 +24,7 @@ type ApiResult<TData> = [
 ];
 
 export default function useApi<TData>(
-  query: (api: DefaultApi) => Promise<TData>,
+  query: (api: HedwigApi) => Promise<TData>,
   deps: DependencyList = [],
 	defaultValue?: TData,
 	skip: boolean = false,
@@ -44,7 +44,7 @@ export default function useApi<TData>(
 	});
 
 	const api = accessToken
-		? new DefaultApi(
+		? new HedwigApi(
 				new Configuration({
 					basePath: 'https://localhost:5001',
 					headers: { "Authorization": "Bearer " + accessToken },
@@ -73,7 +73,6 @@ export default function useApi<TData>(
 	  query,
 	  reducer = (data) => data,
 	) => {
-		debugger;
 		if (!api) {
 			setState({...state, loading: false});
 			return;
@@ -82,7 +81,6 @@ export default function useApi<TData>(
 		const promise = query(api);
 
 		promise.then((result) => {
-			debugger;
 			setState({ ...state, data: reducer(data, result)})
 			if (callback) {
 				callback(result);
