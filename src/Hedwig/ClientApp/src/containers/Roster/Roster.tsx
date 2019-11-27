@@ -13,7 +13,7 @@ import Legend from '../../components/Legend/Legend';
 import DateSelectionForm from './DateSelectionForm';
 import getColorForFundingSource, { fundingSourceDetails } from '../../utils/getColorForFundingType';
 import queryParamDateFormatter from '../../utils/queryParamDateFormatter';
-import useOASClient from '../../hooks/useOASClient';
+import useApi from '../../hooks/useApi';
 import UserContext from '../../contexts/User/UserContext';
 import { Enrollment } from '../../OAS-generated/models/Enrollment';
 import { Site } from '../../OAS-generated/models/Site';
@@ -24,16 +24,12 @@ export default function Roster() {
 	const [dateRange, setDateRange] = useState<DateRange>(getDefaultDateRange());
 	const [byRange, setByRange] = useState(false);
 	const { user } = useContext(UserContext);
-	const data = useOASClient<any, Site>('apiOrganizationsOrgIdSitesIdGet', {
+	const [loading, error, site] = useApi((api) => api.apiOrganizationsOrgIdSitesIdGet({
 		// TODO after pilot: don't just grab the first org and site
 		orgId: idx(user, _ => _.orgPermissions[0].organization.id) || 0,
 		id: idx(user, _ => _.orgPermissions[0].organization.sites[0].id) || 0,
 		include: ['enrollments', 'child', 'fundings'],
-		startDate: dateRange && dateRange.startDate && queryParamDateFormatter(dateRange.startDate),
-		endDate: dateRange && dateRange.endDate && queryParamDateFormatter(dateRange.endDate),
-	});
-
-	console.log(data);
+	}), [user]);
 
 	function handlePastEnrollmentsChange() {
 		toggleShowPastEnrollments(!showPastEnrollments);
@@ -41,11 +37,10 @@ export default function Roster() {
 		setDateRange(getDefaultDateRange());
 	}
 
-	if (!data) {
+	if (!site) {
 		return <div className="Roster"></div>;
 	}
 
-	const site = data;
 	// TODO: FIX THIS
 	const enrollments = (site.enrollments || []).map(e => e as Required<Enrollment>);
 
