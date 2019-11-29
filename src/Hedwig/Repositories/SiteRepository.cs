@@ -21,7 +21,7 @@ namespace Hedwig.Repositories
                     && s.OrganizationId.Value == organizationId)
                 .ToListAsync();
         }
-        public Task<Site> GetSiteForOrganizationAsync(int id, int organizationId, DateTime? from = null, DateTime? to = null, string[] include = null)
+        public Task<Site> GetSiteForOrganizationAsync(int id, int organizationId, string[] include = null)
         {
             var site = _context.Sites
                 .Where(s => s.Id == id
@@ -47,7 +47,6 @@ namespace Hedwig.Repositories
                     site = site.Include(s => s.Enrollments);
                 }
             }
-            
             return site.FirstOrDefaultAsync();
         }
         public async Task<ILookup<int, Site>> GetSitesByOrganizationIdsAsync_OLD(IEnumerable<int> organizationIds)
@@ -99,7 +98,7 @@ namespace Hedwig.Repositories
     {
 
         Task<List<Site>> GetSitesForOrganizationAsync(int organizationId);
-        Task<Site> GetSiteForOrganizationAsync(int id, int organizationId, DateTime? from, DateTime? to, string[] include = null);
+        Task<Site> GetSiteForOrganizationAsync(int id, int organizationId, string[] include = null);
         Task<ILookup<int, Site>> GetSitesByOrganizationIdsAsync_OLD(IEnumerable<int> organizationIds);
         Task<IEnumerable<Site>> GetSitesByUserIdAsync(int userId);
         Task<Site> GetSiteByIdAsync(int id);

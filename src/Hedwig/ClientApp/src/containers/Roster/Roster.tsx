@@ -44,8 +44,8 @@ export default function Roster() {
 
 	if (!site) {
 		return <div className="Roster"></div>;
-	}
-
+  }
+  
 	// TODO: FIX THIS
 	const enrollments = (site.enrollments || []).map(e => e as Required<Enrollment>);
 
