@@ -1,22 +1,21 @@
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
+import idx from 'idx';
 import nameFormatter from '../../utils/nameFormatter';
 import dateFormatter from '../../utils/dateFormatter';
 import enrollmentTextFormatter from '../../utils/enrollmentTextFormatter';
 import getDefaultDateRange from '../../utils/getDefaultDateRange';
+import getColorForFundingSource, { fundingSourceDetails } from '../../utils/getColorForFundingType';
 import { Table, TableProps } from '../../components/Table/Table';
 import Tag from '../../components/Tag/Tag';
 import { DateRange } from '../../components/DatePicker/DatePicker';
 import Button from '../../components/Button/Button';
 import RadioGroup from '../../components/RadioGroup/RadioGroup';
 import Legend from '../../components/Legend/Legend';
-import DateSelectionForm from './DateSelectionForm';
-import getColorForFundingSource, { fundingSourceDetails } from '../../utils/getColorForFundingType';
-import queryParamDateFormatter from '../../utils/queryParamDateFormatter';
 import useApi from '../../hooks/useApi';
 import UserContext from '../../contexts/User/UserContext';
 import { Enrollment } from '../../OAS-generated/models/Enrollment';
-import idx from 'idx';
+import DateSelectionForm from './DateSelectionForm';
 
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
@@ -29,12 +28,27 @@ export default function Roster() {
 				// TODO after pilot: don't just grab the first org and site
 				orgId: idx(user, _ => _.orgPermissions[0].organization.id) || 0,
 				id: idx(user, _ => _.orgPermissions[0].organization.sites[0].id) || 0,
-				include: ['enrollments', 'child', 'fundings'],
-				startDate: dateRange && dateRange.startDate && queryParamDateFormatter(dateRange.startDate) || undefined,
-				endDate: dateRange && dateRange.endDate && queryParamDateFormatter(dateRange.endDate) || undefined,
 			}),
-		[user, dateRange]
-	);
+		[user]
+  );
+  
+  	const [enrollmentsLoading, enrollmentsError, rawEnrollments] = useApi(
+			// TODO: after everything being nullable is solved, ditch raw enrollments and type mapping below
+			api =>
+				api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsGet({
+					// TODO after pilot: don't just grab the first org and site
+					orgId: idx(user, _ => _.orgPermissions[0].organization.id) || 0,
+					siteId: idx(user, _ => _.orgPermissions[0].organization.sites[0].id) || 0,
+					include: ['child', 'fundings'],
+					startDate:
+						(dateRange && dateRange.startDate && dateRange.startDate.toDate()) ||
+						undefined,
+					endDate:
+						(dateRange && dateRange.endDate && dateRange.endDate.toDate()) ||
+						undefined,
+				}),
+			[user, dateRange]
+		);
 
 	function handlePastEnrollmentsChange() {
 		toggleShowPastEnrollments(!showPastEnrollments);
@@ -46,8 +60,8 @@ export default function Roster() {
 		return <div className="Roster"></div>;
   }
   
-	// TODO: FIX THIS
-	const enrollments = (site.enrollments || []).map(e => e as Required<Enrollment>);
+	// TODO: FIX THIS-- ditch raw enrollments
+	const enrollments = (rawEnrollments || []).map(e => e as Required<Enrollment>);
 
 	const rosterTableProps: TableProps<Required<Enrollment>> = {
 		id: 'roster-table',
