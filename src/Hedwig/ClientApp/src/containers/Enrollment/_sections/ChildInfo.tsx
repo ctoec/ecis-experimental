@@ -8,7 +8,6 @@ import RadioGroup from '../../../components/RadioGroup/RadioGroup';
 import Dropdown from '../../../components/Dropdown/Dropdown';
 import nameFormatter from '../../../utils/nameFormatter';
 import dateFormatter from '../../../utils/dateFormatter';
-import mapEmptyStringsToNull from '../../../utils/mapEmptyStringsToNull';
 import moment from 'moment';
 import { Child, 
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest, 
@@ -18,7 +17,6 @@ import { Child,
 } from '../../../OAS-generated';
 import idx from 'idx';
 import UserContext from '../../../contexts/User/UserContext';
-import argsWithValuesOnly from '../../../utils/argsWithValuesOnly';
 
 const genderFromString = (str: string) => {
 	switch (str) {
@@ -163,7 +161,7 @@ const ChildInfo: Section = {
 		const [gender, updateGender] = useState(child ? child.gender : Gender.Unspecified);
 
 		const save = () => {
-			const args = argsWithValuesOnly({
+			const args = {
 				sasid,
 				firstName,
 				middleName,
@@ -180,7 +178,7 @@ const ChildInfo: Section = {
 				white,
 				hispanicOrLatinxEthnicity,
 				gender,
-			});
+			};
 
 			if (enrollment) {
 				const putParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
