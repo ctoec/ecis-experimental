@@ -418,7 +418,7 @@ export class HedwigApi extends runtime.BaseAPI {
         const queryParameters: runtime.HTTPQuery = {};
 
         if (requestParameters.include) {
-            queryParameters['include'] = requestParameters.include;
+            queryParameters['include[]'] = requestParameters.include;
         }
 
         if (requestParameters.startDate !== undefined) {
@@ -470,7 +470,7 @@ export class HedwigApi extends runtime.BaseAPI {
         const queryParameters: runtime.HTTPQuery = {};
 
         if (requestParameters.include) {
-            queryParameters['include'] = requestParameters.include;
+            queryParameters['include[]'] = requestParameters.include;
         }
 
         const headerParameters: runtime.HTTPHeaders = {};

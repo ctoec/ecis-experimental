@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Section } from '../enrollmentTypes';
 import Button from '../../../components/Button/Button';
 import DatePicker from '../../../components/DatePicker/DatePicker';
@@ -8,6 +8,8 @@ import dateFormatter from '../../../utils/dateFormatter';
 import moment from 'moment';
 import idx from 'idx';
 import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest, Age } from '../../../OAS-generated';
+import { userInfo } from 'os';
+import UserContext from '../../../contexts/User/UserContext';
 
 const ageFromString = (str: string) => {
 	switch (str) {
@@ -47,13 +49,13 @@ const EnrollmentFunding: Section = {
 				{enrollment && (
 					<>
 						<p>Site: {idx(enrollment, _ => _.site.name)} </p>
-						{/* <p>
+						<p>
 							Enrolled:{' '}
-							{dateFormatter(idx(currentEnrollment, _ => _.entry)) +
+							{dateFormatter(idx(enrollment, _ => _.entry)) +
 								'–' +
-								dateFormatter(idx(currentEnrollment, _ => _.exit))}
-						</p> */}
-						{/* <p>Age: {prettyAge(idx(currentEnrollment, _ => _.age) || null)}</p> */}
+								dateFormatter(idx(enrollment, _ => _.exit))}
+						</p>
+						<p>Age: {prettyAge(idx(enrollment, _ => _.age) || null)}</p>
 					</>
 				)}
 			</div>
@@ -96,16 +98,16 @@ const EnrollmentFunding: Section = {
 			}
 		};
 
+		const { user } = useContext(UserContext);
 		return (
 			<div className="EnrollmentFundingForm">
 				<div className="usa-form">
 					<Dropdown
-						options={[
-							{
-								value: '' + idx(enrollment, _ => _.siteId),
-								text: '' + idx(enrollment, _ => _.site.name),
-							},
-						]}
+						options={idx(user, _ => _.orgPermissions[0].organization.sites.map(s => ({
+							value: '' + s.id,
+							text: '' + s.name
+						})))
+						|| []}
 						label="Site"
 						selected={siteId ? '' + siteId : undefined}
 						onChange={event => updateSiteId(parseInt(event.target.value, 10))}
@@ -113,12 +115,12 @@ const EnrollmentFunding: Section = {
 					<label className="usa-label" htmlFor="date">
 						Start date
 					</label>
-					{/* <DatePicker
+					<DatePicker
 						onChange={range =>
-							updateEntry((range.startDate && range.startDate.format('YYYY-MM-DD')) || null)
+							updateEntry((range.startDate && range.startDate.toDate()) || null)
 						}
 						dateRange={{ startDate: entry ? moment(entry) : null, endDate: null }}
-					/> */}
+					/>
 
 					<h3>Age</h3>
 					<RadioGroup

@@ -28,9 +28,9 @@ namespace Hedwig.Controllers
         public async Task<ActionResult<List<Enrollment>>> Get(
             int orgId,
             int siteId,
-            [FromQuery(Name="include")] string[] include,
+            [FromQuery(Name="include[]")] string[] include,
             [FromQuery(Name="startDate")] DateTime? from = null,
-            [FromQuery(Name="include")] DateTime? to = null,
+            [FromQuery(Name="endDate")] DateTime? to = null
         )
         {
 
@@ -44,7 +44,7 @@ namespace Hedwig.Controllers
             int id,
             int orgId,
             int siteId,
-            [FromQuery(Name="include")] string [] include
+            [FromQuery(Name="include[]")] string [] include
         )
         {
 
@@ -63,9 +63,7 @@ namespace Hedwig.Controllers
             Enrollment enrollment
         )
         {
-            Console.WriteLine("testing");
-            Console.WriteLine(enrollment);
-            // Creating enrollment with Id not allowed 
+            // Creating enrollment with Id not allowed
             if (enrollment.Id != 0) return BadRequest();
 
             // Creating enrollment with siteId not allowed

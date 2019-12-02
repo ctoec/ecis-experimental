@@ -96,7 +96,7 @@ const ChildInfo: Section = {
 		var child = enrollment && enrollment.child;
 		return (
 			<div className="ChildInfoSummary">
-				{"hi" /* {child && (
+				{child && (
 					<>
 						<p>Name: {nameFormatter(child)}</p>
 						<p>Birthdate: {dateFormatter(child.birthdate)}</p>
@@ -105,7 +105,7 @@ const ChildInfo: Section = {
 						<p>Ethnicity: {prettyEthnicity(child)}</p>
 						<p>Gender: {prettyGender(child)}</p>
 					</>
-				)} */}
+				)}
 			</div>
 		);
 	},
@@ -252,12 +252,12 @@ const ChildInfo: Section = {
 				</div>
 
 				<h3>Date of birth</h3>
-				{/* <DatePicker
+				<DatePicker
 					onChange={range =>
-						updateBirthdate((range.startDate && range.startDate.format('YYYY-MM-DD')) || null)
+						updateBirthdate((range.startDate && range.startDate.toDate()) || null)
 					}
 					dateRange={{ startDate: birthdate ? moment(birthdate) : null, endDate: null }}
-				/> */}
+				/>
 
 				<h3>Birth certificate</h3>
 				<div className="grid-row grid-gap">

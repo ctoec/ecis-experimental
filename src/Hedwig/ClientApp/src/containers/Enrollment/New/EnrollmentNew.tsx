@@ -9,7 +9,10 @@ import EnrollmentFunding from '../_sections/EnrollmentFunding';
 import Button from '../../../components/Button/Button';
 import useApi from '../../../hooks/useApi';
 import UserContext from '../../../contexts/User/UserContext';
-import { Enrollment, ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest } from '../../../OAS-generated';
+import { 
+	Enrollment,
+	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest 
+} from '../../../OAS-generated';
 
 type EnrollmentNewParams = {
 	history: History;
@@ -23,7 +26,6 @@ type EnrollmentNewParams = {
 };
 
 const sections = [ChildInfo, FamilyInfo, FamilyIncome, EnrollmentFunding];
-// const sections = [ChildInfo, FamilyIncome, EnrollmentFunding];
 
 const mapSectionsToSteps = (sections: Section[]) => {
 	const steps: StepProps<SectionProps>[] = sections.map(section => {

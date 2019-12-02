@@ -22,7 +22,7 @@ const FamilyIncome: Section = {
 					<>
 						<p>Household size: {determination.numberOfPeople}</p>
 						<p>Annual household income: ${idx(determination, _ => _.income.toFixed(2))}</p>
-						{/* <p>Determined on: {dateFormatter(idx(determination, _ => _.determined))}</p> */}
+						<p>Determined on: {dateFormatter(idx(determination, _ => _.determined))}</p>
 					</>
 				) : (
 					<p>No income determination on record.</p>
@@ -54,7 +54,14 @@ const FamilyIncome: Section = {
 		);
 
 		const save = () => {
-			if (numberOfPeople || income || determined) {
+            // If determination is not added, allow user to proceed without creating one
+			if (!numberOfPeople && !income && !determined) {
+				mutate((api) => Promise.resolve(enrollment), (_, result) => result);
+				return;
+			}
+
+			// If determination is added, all fields must be present
+			if (numberOfPeople && income && determined) {
 				const args = {
 					numberOfPeople: numberOfPeople || undefined,
 					income: income || undefined,
@@ -111,12 +118,12 @@ const FamilyIncome: Section = {
 				<label className="usa-label" htmlFor="date">
 					Date determined
 				</label>
-				{/* <DatePicker
+				<DatePicker
 					onChange={range =>
-						updateDetermined((range.startDate && range.startDate.format('YYYY-MM-DD')) || null)
+						updateDetermined((range.startDate && range.startDate.toDate()) || null)
 					}
 					dateRange={{ startDate: determined ? moment(determined) : null, endDate: null }}
-				/> */}
+				/>
 				<Button text="Save" onClick={save} />
 			</div>
 		);
