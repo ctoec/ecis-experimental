@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Hedwig.Repositories;
 using Hedwig.Models;
+using System.Security.Claims;
 
 namespace Hedwig.Controllers
 {
@@ -28,9 +29,12 @@ namespace Hedwig.Controllers
 
         // GET api/users/current
         [HttpGet("current")]
-        public ActionResult<string> GetCurrent()
+        public async Task<ActionResult<User>> GetCurrent()
         {
-            return "value";
+            var subClaim = User.FindFirst("sub")?.Value;
+            if (subClaim == null) { return null; }
+            var wingedKeysId = Guid.Parse(subClaim);
+            return await _users.GetUserByWingedKeysIdAsync(wingedKeysId);
         }
 
         // Examples:

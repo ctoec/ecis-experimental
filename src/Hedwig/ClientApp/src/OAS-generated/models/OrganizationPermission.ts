@@ -14,73 +14,73 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    Enrollment,
-    EnrollmentFromJSON,
-    EnrollmentFromJSONTyped,
-    EnrollmentToJSON,
     Organization,
     OrganizationFromJSON,
     OrganizationFromJSONTyped,
     OrganizationToJSON,
+    User,
+    UserFromJSON,
+    UserFromJSONTyped,
+    UserToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface Site
+ * @interface OrganizationPermission
  */
-export interface Site {
+export interface OrganizationPermission {
     /**
      * 
      * @type {number}
-     * @memberof Site
+     * @memberof OrganizationPermission
      */
-    id?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Site
-     */
-    name: string | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof Site
-     */
-    organizationId?: number | null;
+    organizationId?: number;
     /**
      * 
      * @type {Organization}
-     * @memberof Site
+     * @memberof OrganizationPermission
      */
     organization?: Organization;
     /**
      * 
-     * @type {Array<Enrollment>}
-     * @memberof Site
+     * @type {number}
+     * @memberof OrganizationPermission
      */
-    enrollments?: Array<Enrollment> | null;
+    id?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof OrganizationPermission
+     */
+    userId?: number;
+    /**
+     * 
+     * @type {User}
+     * @memberof OrganizationPermission
+     */
+    user?: User;
 }
 
-export function SiteFromJSON(json: any): Site {
-    return SiteFromJSONTyped(json, false);
+export function OrganizationPermissionFromJSON(json: any): OrganizationPermission {
+    return OrganizationPermissionFromJSONTyped(json, false);
 }
 
-export function SiteFromJSONTyped(json: any, ignoreDiscriminator: boolean): Site {
+export function OrganizationPermissionFromJSONTyped(json: any, ignoreDiscriminator: boolean): OrganizationPermission {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'id': !exists(json, 'id') ? undefined : json['id'],
-        'name': json['name'],
         'organizationId': !exists(json, 'organizationId') ? undefined : json['organizationId'],
         'organization': !exists(json, 'organization') ? undefined : OrganizationFromJSON(json['organization']),
-        'enrollments': !exists(json, 'enrollments') ? undefined : (json['enrollments'] === null ? null : (json['enrollments'] as Array<any>).map(EnrollmentFromJSON)),
+        'id': !exists(json, 'id') ? undefined : json['id'],
+        'userId': !exists(json, 'userId') ? undefined : json['userId'],
+        'user': !exists(json, 'user') ? undefined : UserFromJSON(json['user']),
     };
 }
 
-export function SiteToJSON(value?: Site | null): any {
+export function OrganizationPermissionToJSON(value?: OrganizationPermission | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -89,11 +89,11 @@ export function SiteToJSON(value?: Site | null): any {
     }
     return {
         
-        'id': value.id,
-        'name': value.name,
         'organizationId': value.organizationId,
         'organization': OrganizationToJSON(value.organization),
-        'enrollments': value.enrollments === undefined ? undefined : (value.enrollments === null ? null : (value.enrollments as Array<any>).map(EnrollmentToJSON)),
+        'id': value.id,
+        'userId': value.userId,
+        'user': UserToJSON(value.user),
     };
 }
 

@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Hedwig.Models
 {
@@ -43,6 +45,7 @@ namespace Hedwig.Models
 		public bool White { get; set; } = false;
 		public bool HispanicOrLatinxEthnicity { get; set; } = false;
 
+		[JsonConverter(typeof(StringEnumConverter))]
 		public Gender Gender { get; set; } = Gender.Unspecified;
 
 		public bool Foster { get; set; } = false;

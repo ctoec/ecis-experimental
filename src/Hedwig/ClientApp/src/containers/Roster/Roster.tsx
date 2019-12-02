@@ -1,46 +1,54 @@
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
+import idx from 'idx';
 import nameFormatter from '../../utils/nameFormatter';
 import dateFormatter from '../../utils/dateFormatter';
 import enrollmentTextFormatter from '../../utils/enrollmentTextFormatter';
 import getDefaultDateRange from '../../utils/getDefaultDateRange';
+import getColorForFundingSource, { fundingSourceDetails } from '../../utils/getColorForFundingType';
 import { Table, TableProps } from '../../components/Table/Table';
 import Tag from '../../components/Tag/Tag';
 import { DateRange } from '../../components/DatePicker/DatePicker';
 import Button from '../../components/Button/Button';
 import RadioGroup from '../../components/RadioGroup/RadioGroup';
 import Legend from '../../components/Legend/Legend';
-import DateSelectionForm from './DateSelectionForm';
-import getColorForFundingSource, { fundingSourceDetails } from '../../utils/getColorForFundingType';
-import queryParamDateFormatter from '../../utils/queryParamDateFormatter';
-import useOASClient from '../../hooks/useOASClient';
+import useApi from '../../hooks/useApi';
 import UserContext from '../../contexts/User/UserContext';
-import { Age } from '../../OAS-generated/models/Age';
-import { Child } from '../../OAS-generated/models/Child';
-import { Funding } from '../../OAS-generated/models/Funding';
-
-type RosterTableProps = {
-	id: number;
-	entry: OECDate | null;
-	exit: OECDate | null;
-	age: Age | null;
-	child: Child;
-	fundings: Funding[];
-};
+import { Enrollment } from '../../OAS-generated/models/Enrollment';
+import DateSelectionForm from './DateSelectionForm';
 
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
 	const [dateRange, setDateRange] = useState<DateRange>(getDefaultDateRange());
 	const [byRange, setByRange] = useState(false);
 	const { user } = useContext(UserContext);
-	const data = useOASClient('organizationsOrganizationIdSitesSiteIdGet', {
-		organizationId: (user && user.organizationId) || 0,
-		// TODO after pilot: don't just grab the first siteId
-		siteId: (user && user.siteIds && user.siteIds[0]) || 0,
-		include: ['enrollments'],
-		startDate: dateRange && dateRange.startDate && queryParamDateFormatter(dateRange.startDate),
-		endDate: dateRange && dateRange.endDate && queryParamDateFormatter(dateRange.endDate),
-	});
+	const [loading, error, site] = useApi(
+		api =>
+			api.apiOrganizationsOrgIdSitesIdGet({
+				// TODO after pilot: don't just grab the first org and site
+				orgId: idx(user, _ => _.orgPermissions[0].organization.id) || 0,
+				id: idx(user, _ => _.orgPermissions[0].organization.sites[0].id) || 0,
+			}),
+		[user]
+  );
+  
+  	const [enrollmentsLoading, enrollmentsError, rawEnrollments] = useApi(
+			// TODO: after everything being nullable is solved, ditch raw enrollments and type mapping below
+			api =>
+				api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsGet({
+					// TODO after pilot: don't just grab the first org and site
+					orgId: idx(user, _ => _.orgPermissions[0].organization.id) || 0,
+					siteId: idx(user, _ => _.orgPermissions[0].organization.sites[0].id) || 0,
+					include: ['child', 'fundings'],
+					startDate:
+						(dateRange && dateRange.startDate && dateRange.startDate.toDate()) ||
+						undefined,
+					endDate:
+						(dateRange && dateRange.endDate && dateRange.endDate.toDate()) ||
+						undefined,
+				}),
+			[user, dateRange]
+		);
 
 	function handlePastEnrollmentsChange() {
 		toggleShowPastEnrollments(!showPastEnrollments);
@@ -48,14 +56,14 @@ export default function Roster() {
 		setDateRange(getDefaultDateRange());
 	}
 
-	if (!data) {
+	if (!site) {
 		return <div className="Roster"></div>;
-	}
+  }
+  
+	// TODO: FIX THIS-- ditch raw enrollments
+	const enrollments = (rawEnrollments || []).map(e => e as Required<Enrollment>);
 
-	const site = data;
-	const enrollments = site.enrollments;
-
-	const rosterTableProps: TableProps<RosterTableProps> = {
+	const rosterTableProps: TableProps<Required<Enrollment>> = {
 		id: 'roster-table',
 		data: enrollments,
 		rowKey: row => row.id,
@@ -78,16 +86,20 @@ export default function Roster() {
 						{row.child.birthdate && dateFormatter(row.child.birthdate)}
 					</td>
 				),
-				sort: row => row.child.birthdate || 0,
+				sort: row => (row.child.birthdate || new Date(0)).getTime(),
 			},
 			{
 				name: 'Funding',
 				cell: ({ row }) => (
 					<td>
-						{row.fundings.length ? (
+						{row.fundings && row.fundings.length ? (
 							<Tag
 								text={`${row.fundings[0].source}`}
-								color={getColorForFundingSource(row.fundings[0].source)}
+								color={
+									row.fundings[0].source
+										? getColorForFundingSource(row.fundings[0].source)
+										: 'gray-90'
+								}
 							/>
 						) : (
 							''
@@ -104,18 +116,7 @@ export default function Roster() {
 							: ''}
 					</td>
 				),
-				sort: row => row.entry || '',
-			},
-			{
-				name: 'Enrolled',
-				cell: ({ row }) => (
-					<td className="oec-table__cell--tabular-nums">
-						{row.entry
-							? dateFormatter(row.entry) + '–' + (row.exit ? dateFormatter(row.exit) : '')
-							: ''}
-					</td>
-				),
-				sort: row => row.entry || '',
+				sort: row => (row.entry && row.entry.toString()) || '',
 			},
 		],
 		defaultSortColumn: 0,
@@ -133,8 +134,8 @@ export default function Roster() {
 		text: fundingSourceDetails[key].fullTitle,
 		symbolColor: fundingSourceDetails[key].colorToken,
 		number: enrollments.filter(
-			(row: RosterTableProps) =>
-				row.fundings.filter((funding: any) => funding.source === key).length > 0
+			(row: Required<Enrollment>) =>
+				row.fundings && row.fundings.filter((funding: any) => funding.source === key).length > 0
 		).length,
 	}));
 

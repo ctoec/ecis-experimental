@@ -86,10 +86,10 @@ namespace Hedwig
 		public static void ConfigureAuthorization(this IServiceCollection services)
 		{
 			services.AddScoped<IAuthorizationHandler, RequirementsHandler>();
-			services.AddAuthorization(options => 
+			services.AddAuthorization(options =>
 			{
 				options.AddPolicy(
-					UserSiteAccessRequirement.NAME, 
+					UserSiteAccessRequirement.NAME,
 					policy => policy .AddRequirements(new UserSiteAccessRequirement())
 				);
 				options.AddPolicy(

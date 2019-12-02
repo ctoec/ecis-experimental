@@ -1,4 +1,4 @@
-import { FundingSource } from '../generated/globalTypes';
+import { FundingSource } from '../OAS-generated';
 
 type FundingSourceDetail = {
 	fullTitle: string;

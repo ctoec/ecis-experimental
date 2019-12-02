@@ -1,8 +1,10 @@
-export default function dateFormatter(date?: string | null) {
+import moment, { Moment } from 'moment';
+
+export default function dateFormatter(date?: string | null | Date | Moment) {
+  // TODO: USE MOMENT MAYBE?
 	if (!date) {
 		return '';
 	}
 
-	const [yyyy, mm, dd] = date.split('-');
-	return `${mm}/${dd}/${yyyy}`;
+  return moment(date).format('MM/DD/YYYY');
 }

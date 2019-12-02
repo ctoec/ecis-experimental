@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -25,6 +26,8 @@ namespace Hedwig.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult<List<Child>>> Get(
             int orgId,
             [FromQuery(Name="include[]")] string[] include
@@ -35,6 +38,8 @@ namespace Hedwig.Controllers
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Child>> Get(
             Guid id,
             int orgId,
@@ -43,10 +48,14 @@ namespace Hedwig.Controllers
         {
 
             var child = await _children.GetChildForOrganizationAsync(id, orgId, include);
+            if(child == null) return NotFound();
             return child;
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+ 
         public async Task<ActionResult<Child>> Post(int orgId, Child child)
         {
             // Creating child with Id not allowed (new Guid() is default Guid value)
@@ -68,6 +77,9 @@ namespace Hedwig.Controllers
         }
 
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Child>> Put(Guid id, int orgId, Child child)
         {
             if (child.Id != id) return BadRequest();

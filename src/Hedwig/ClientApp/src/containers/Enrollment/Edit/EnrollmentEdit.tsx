@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import useAuthQuery from '../../../hooks/useAuthQuery';
 import { Section } from '../enrollmentTypes';
 import { History } from 'history';
@@ -9,12 +9,14 @@ import ChildInfo from '../_sections/ChildInfo';
 import FamilyIncome from '../_sections/FamilyIncome';
 import EnrollmentFunding from '../_sections/EnrollmentFunding';
 import PageNotFound from '../../PageNotFound/PageNotFound';
+import UserContext from '../../../contexts/User/UserContext';
+import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest, Enrollment } from '../../../OAS-generated';
 
 type EnrollmentEditParams = {
 	history: History;
 	match: {
 		params: {
-			childId: string;
+			enrollmentId: number;
 			sectionId: string;
 		};
 	};
@@ -30,32 +32,38 @@ const sections: { [key: string]: Section } = {
 export default function EnrollmentEdit({
 	history,
 	match: {
-		params: { childId, sectionId },
+		params: { enrollmentId, sectionId },
 	},
 }: EnrollmentEditParams) {
-	const { loading, error, data } = useAuthQuery<ChildQuery>(CHILD_QUERY, {
-		variables: { id: childId },
-	});
 
 	const section = sections[sectionId];
+	const { user } = useContext(UserContext);
+
+	// const { data } = useOASClient<ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest, Enrollment>('apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet', {
+	// 	id: enrollmentId ? enrollmentId : 0,
+	// 	orgId: (user && user.orgPermissions && user.orgPermissions[0] && user.orgPermissions[0].organizationId) || 0,
+	// 	siteId: (user && user.sitePermissions && user.sitePermissions[0] && user.sitePermissions[0].siteId) || 1,
+	// 	include: ['child', 'family', 'determinations', 'fundings']
+	// });
+	const data = {};
 
 	if (!section) {
 		return <PageNotFound />;
 	}
 
-	if (loading || error || !data || !data.child) {
+	if (!data ) {
 		return <div className="EnrollmentEdit"></div>;
 	}
 
 	const afterSave = () => {
-		history.push(`/roster/enrollments/${childId}/`);
+		history.push(`/roster/enrollments/${enrollmentId}/`);
 	};
 
 	return (
 		<div className="EnrollmentEdit">
 			<section className="grid-container">
 				<h1>Edit {section.name.toLowerCase()}</h1>
-				<section.Form child={data.child} afterSave={afterSave} />
+				{/* <section.Form enrollment={data} afterSave={afterSave} /> */}
 			</section>
 		</div>
 	);

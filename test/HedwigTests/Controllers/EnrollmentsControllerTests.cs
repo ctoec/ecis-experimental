@@ -24,7 +24,7 @@ namespace HedwigTests.Controllers
             var include = new string[]{"foo"};
             await controller.Get(1, siteId, include);
 
-            _enrollments.Verify(e => e.GetEnrollmentsForSiteAsync(siteId, include), Times.Once());
+            _enrollments.Verify(e => e.GetEnrollmentsForSiteAsync(siteId, null, null, include), Times.Once());
         }
 
         [Fact]
