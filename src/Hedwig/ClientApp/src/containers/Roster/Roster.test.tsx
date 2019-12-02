@@ -6,10 +6,30 @@ import { BrowserRouter } from 'react-router-dom';
 import { act } from 'react-dom/test-utils';
 import 'react-dates/initialize';
 import Roster from './Roster';
+import UserContext from '../../contexts/User/UserContext';
 import DateSelectionForm from './DateSelectionForm';
 import RadioGroup from '../../components/RadioGroup/RadioGroup';
 
 const fakeDate = '2019-09-30';
+
+const user = {
+	id: 1,
+	firstName: 'Minerva',
+	lastName: 'McGonagall',
+	orgPermissions: [
+		{
+			organizationId: 1,
+			organization: {
+				id: 1,
+				name: "Children's Adventure Center",
+				sites: [{ id: 1, name: "Children's Adventure Center", organizationId: 1 }],
+			},
+			id: 1,
+			userId: 1,
+		},
+	],
+	sitePermissions: [],
+};
 
 const waitForUpdate = async (wrapper: any) => {
 	await new Promise(resolve => setTimeout(resolve, 10));
@@ -17,67 +37,81 @@ const waitForUpdate = async (wrapper: any) => {
 };
 
 // https://github.com/facebook/jest/issues/5579
-jest.mock('../../hooks/useOASClient', () => {
+jest.mock('../../hooks/useApi', () => {
 	const moment = require('moment');
 	return {
 		__esModule: true,
-		default: (_: any, params: any) => {
-			const fakeEnrollments = [
+		default: (callback: any, dependencies: any[]) => {
+			return callback(
 				{
-					child: {
-						id: 1,
-						firstName: 'James',
-						middleName: 'Sirius',
-						lastName: 'Potter',
-						birthdate: '2015-04-28',
-						suffix: null,
-					},
-					entry: '2019-01-01',
-					exit: null,
-					fundings: [],
-					id: 1,
-					age: 'preschool',
-				},
-				{
-					child: {
-						id: 2,
-						firstName: 'Lily',
-						middleName: 'Luna',
-						lastName: 'Potter',
-						birthdate: '2016-12-12',
-						suffix: null,
-					},
-					entry: '2019-03-03',
-					exit: null,
-					fundings: [
+					apiOrganizationsOrgIdSitesIdGet: (params: any) => [
+						false,
+						null,
 						{
-							entry: '2019-03-01',
-							exit: '2019-04-01',
-							source: 'CDC',
-							time: 'part',
+							id: 1,
+							name: "Children's Adventure Center",
+							organizationId: 1,
+							enrollments: undefined,
+							organization: undefined,
 						},
 					],
-					id: 2,
-					age: 'preschool',
+					apiOrganizationsOrgIdSitesSiteIdEnrollmentsGet: (params: any) => [
+						false,
+						null,
+						[
+							{
+								child: {
+									id: 1,
+									firstName: 'James',
+									middleName: 'Sirius',
+									lastName: 'Potter',
+									birthdate: '2015-04-28',
+									suffix: null,
+								},
+								entry: '2019-01-01',
+								exit: null,
+								fundings: [],
+								id: 1,
+								age: 'preschool',
+								siteId: 1,
+							},
+							{
+								child: {
+									id: 2,
+									firstName: 'Lily',
+									middleName: 'Luna',
+									lastName: 'Potter',
+									birthdate: '2016-12-12',
+									suffix: null,
+								},
+								entry: '2019-03-03',
+								exit: null,
+								fundings: [
+									{
+										entry: '2019-03-01',
+										exit: '2019-04-01',
+										source: 'CDC',
+										time: 'part',
+									},
+								],
+								id: 2,
+								age: 'preschool',
+							},
+						].filter(e => {
+							return (
+								(!e.entry ? true : moment(e.entry).isBefore(params.endDate)) &&
+								(!e.exit ? true : moment(e.exit).isAfter(moment(params.startDate)))
+							);
+						}),
+					],
 				},
-			];
-			const fakeData = {
-				id: 1,
-				name: 'Childcare Center',
-				organizationId: 1,
-				enrollments: fakeEnrollments.filter(e => {
-					return (
-						(!e.entry ? true : moment(e.entry).isBefore(params.endDate)) &&
-						(!e.exit ? true : moment(e.exit).isAfter(moment(params.startDate)))
-					);
-				}),
-			};
-			return fakeData;
+				[]
+			);
 		},
 	};
 });
 
-import useOASClient from './../../hooks/useOASClient';
+import useApi from '../../hooks/useApi';
 
 beforeAll(() => {
 	mockdate.set(fakeDate);
@@ -91,9 +125,11 @@ afterAll(() => {
 describe('Roster', () => {
 	it('matches snapshot', () => {
 		const wrapper = mount(
-			<BrowserRouter>
-				<Roster />
-			</BrowserRouter>
+			<UserContext.Provider value={{ user }}>
+				<BrowserRouter>
+					<Roster />
+				</BrowserRouter>
+			</UserContext.Provider>
 		);
 		expect(wrapper).toMatchSnapshot();
 		wrapper.unmount();
@@ -101,9 +137,11 @@ describe('Roster', () => {
 
 	it('renders intro text with the correct number of kids', async () => {
 		const wrapper = mount(
-			<BrowserRouter>
-				<Roster />
-			</BrowserRouter>
+			<UserContext.Provider value={{ user }}>
+				<BrowserRouter>
+					<Roster />
+				</BrowserRouter>
+			</UserContext.Provider>
 		);
 		await act(async () => {
 			await waitForUpdate(wrapper);
@@ -115,9 +153,11 @@ describe('Roster', () => {
 
 	it('updates the number of kids', async () => {
 		const wrapper = mount(
-			<BrowserRouter>
-				<Roster />
-			</BrowserRouter>
+			<UserContext.Provider value={{ user }}>
+				<BrowserRouter>
+					<Roster />
+				</BrowserRouter>
+			</UserContext.Provider>
 		);
 		await act(async () => {
 			await waitForUpdate(wrapper);
