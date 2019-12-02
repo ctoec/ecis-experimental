@@ -28,11 +28,13 @@ namespace Hedwig.Controllers
         public async Task<ActionResult<List<Enrollment>>> Get(
             int orgId,
             int siteId,
-            [FromQuery(Name="include")] string[] include
+            [FromQuery(Name="include")] string[] include,
+            [FromQuery(Name="startDate")] DateTime? from = null,
+            [FromQuery(Name="include")] DateTime? to = null,
         )
         {
 
-            return await _enrollments.GetEnrollmentsForSiteAsync(siteId, include);
+            return await _enrollments.GetEnrollmentsForSiteAsync(siteId, from, to, include);
         }
 
         [HttpGet("{id}")]

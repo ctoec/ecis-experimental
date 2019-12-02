@@ -12,13 +12,13 @@ namespace Hedwig.Repositories
 {
 	public class EnrollmentRepository : TemporalRepository, IEnrollmentRepository
 	{
-		public EnrollmentRepository(HedwigContext context) : base(context) {}
+		public EnrollmentRepository(HedwigContext context) : base(context) { }
 
 		public void UpdateEnrollment(Enrollment enrollment)
 		{
 			_context.Entry(enrollment).State = EntityState.Modified;
 		}
-		public void AddEnrollment(Enrollment enrollment) 
+		public void AddEnrollment(Enrollment enrollment)
 		{
 			_context.Add(enrollment);
 		}
@@ -27,13 +27,18 @@ namespace Hedwig.Repositories
 		{
 			return _context.SaveChangesAsync();
 		}
-		public Task<List<Enrollment>> GetEnrollmentsForSiteAsync(int siteId, string[] include = null)
+		public Task<List<Enrollment>> GetEnrollmentsForSiteAsync(
+      int siteId,
+			DateTime? from = null,
+			DateTime? to = null,
+      string[] include = null)
 		{
 			var enrollments = _context.Enrollments
-				.Include(e => e.Site)
+				.FilterByDates(from, to)
 				.Where(e => e.SiteId == siteId);
 
-			include = include ?? new string[]{};
+
+			include = include ?? new string[] { };
 			if (include.Contains(INCLUDE_FUNDINGS))
 			{
 				enrollments = enrollments.Include(e => e.Fundings);
@@ -43,13 +48,13 @@ namespace Hedwig.Repositories
 			{
 				enrollments = enrollments.Include(e => e.Child);
 
-				if(include.Contains(INCLUDE_FAMILY))
+				if (include.Contains(INCLUDE_FAMILY))
 				{
-					enrollments = ((IIncludableQueryable<Enrollment, Child>) enrollments).ThenInclude(c => c.Family);
+					enrollments = ((IIncludableQueryable<Enrollment, Child>)enrollments).ThenInclude(c => c.Family);
 
-					if(include.Contains(INCLUDE_DETERMINATIONS))
+					if (include.Contains(INCLUDE_DETERMINATIONS))
 					{
-						enrollments = ((IIncludableQueryable<Enrollment, Family>) enrollments).ThenInclude(f => f.Determinations);
+						enrollments = ((IIncludableQueryable<Enrollment, Family>)enrollments).ThenInclude(f => f.Determinations);
 					}
 				}
 			}
@@ -60,28 +65,27 @@ namespace Hedwig.Repositories
 		public Task<Enrollment> GetEnrollmentForSiteAsync(int id, int siteId, string[] include)
 		{
 			var enrollment = _context.Enrollments
-				.Include(e => e.Site)
 				.Where(e => e.SiteId == siteId
 					&& e.Id == id);
 
-			include = include ?? new string[]{};
+			include = include ?? new string[] { };
 
-			if(include.Contains(INCLUDE_FUNDINGS))
+			if (include.Contains(INCLUDE_FUNDINGS))
 			{
 				enrollment = enrollment.Include(e => e.Fundings);
 			}
 
-			if(include.Contains(INCLUDE_CHILD))
+			if (include.Contains(INCLUDE_CHILD))
 			{
 				enrollment = enrollment.Include(e => e.Child);
 
-				if(include.Contains(INCLUDE_FAMILY))
+				if (include.Contains(INCLUDE_FAMILY))
 				{
-					enrollment = ((IIncludableQueryable<Enrollment, Child>) enrollment).ThenInclude(c => c.Family);
+					enrollment = ((IIncludableQueryable<Enrollment, Child>)enrollment).ThenInclude(c => c.Family);
 
-					if(include.Contains(INCLUDE_DETERMINATIONS))
+					if (include.Contains(INCLUDE_DETERMINATIONS))
 					{
-						enrollment = ((IIncludableQueryable<Enrollment, Family>) enrollment).ThenInclude(f => f.Determinations);
+						enrollment = ((IIncludableQueryable<Enrollment, Family>)enrollment).ThenInclude(f => f.Determinations);
 					}
 				}
 			}
@@ -110,7 +114,8 @@ namespace Hedwig.Repositories
 			return enrollments.ToLookup(x => x.ChildId);
 		}
 
-		public async Task<Enrollment> GetEnrollmentByIdAsync(int id, DateTime? asOf = null) {
+		public async Task<Enrollment> GetEnrollmentByIdAsync(int id, DateTime? asOf = null)
+		{
 			return await GetBaseQuery<Enrollment>(asOf)
 				.SingleOrDefaultAsync(e => e.Id == id);
 		}
@@ -125,7 +130,8 @@ namespace Hedwig.Repositories
 
 		public Enrollment CreateEnrollment(Guid childId, int siteId)
 		{
-			var enrollment = new Enrollment {
+			var enrollment = new Enrollment
+			{
 				ChildId = childId,
 				SiteId = siteId
 			};
@@ -140,7 +146,7 @@ namespace Hedwig.Repositories
 		void UpdateEnrollment(Enrollment enrollment);
 		void AddEnrollment(Enrollment enrollment);
 		Task SaveChangesAsync();
-		Task<List<Enrollment>> GetEnrollmentsForSiteAsync(int siteId, string[] include = null);
+		Task<List<Enrollment>> GetEnrollmentsForSiteAsync(int siteId, DateTime? from = null, DateTime? to = null, string[] include = null);
 		Task<Enrollment> GetEnrollmentForSiteAsync(int id, int siteId, string[] include = null);
 		Task<ILookup<int, Enrollment>> GetEnrollmentsBySiteIdsAsync(
 			IEnumerable<int> siteIds,
@@ -162,7 +168,8 @@ namespace Hedwig.Repositories
 	{
 		public static IQueryable<Enrollment> FilterByDates(this IQueryable<Enrollment> query, DateTime? from, DateTime? to)
 		{
-			if (from.HasValue && to.HasValue){
+			if (from.HasValue && to.HasValue)
+			{
 				return query.Where(e => (
 					(e.Exit != null && e.Entry <= to && e.Exit >= from)
 					||

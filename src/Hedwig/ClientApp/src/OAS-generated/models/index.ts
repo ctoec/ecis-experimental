@@ -10,6 +10,7 @@ export * from './Gender';
 export * from './Organization';
 export * from './OrganizationPermission';
 export * from './OrganizationReport';
+export * from './ProblemDetails';
 export * from './ReportingPeriod';
 export * from './Site';
 export * from './SitePermission';

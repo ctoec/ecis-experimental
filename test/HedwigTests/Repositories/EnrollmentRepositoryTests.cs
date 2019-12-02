@@ -73,7 +73,7 @@ namespace HedwigTests.Repositories
 			using (var context = new TestContextProvider().Context)
 			{
 				var enrollmentRepo = new EnrollmentRepository(context);
-				var res = await enrollmentRepo.GetEnrollmentsForSiteAsync(siteId, include);
+				var res = await enrollmentRepo.GetEnrollmentsForSiteAsync(siteId, include: include);
 
 				Assert.Equal(ids.OrderBy(id => id), res.Select(e => e.Id).OrderBy(id => id));
 				Assert.Equal(includeFundings, res.TrueForAll(e => e.Fundings != null));
