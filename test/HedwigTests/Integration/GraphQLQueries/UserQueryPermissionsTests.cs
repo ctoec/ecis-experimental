@@ -124,8 +124,8 @@ namespace HedwigTests.Integration.GraphQLQueries
 			{
 				// If
 				var firstName = "FIRSTNAME";
-				var user = UserHelper.CreateUser(api.Context, firstName: firstName);
-				api.Client.DefaultRequestHeaders.Add("claims_sub", $"{user.Id}");
+				var user = UserHelper.CreateUser(api.Context, firstName: firstName, wingedKeysId: Guid.NewGuid());
+				api.Client.DefaultRequestHeaders.Add("claims_sub", $"{user.WingedKeysId}");
 
 				// When
 				var response = await api.Client.GetGraphQLAsync(

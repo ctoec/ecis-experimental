@@ -31,6 +31,7 @@ namespace Hedwig.Repositories
 					.ThenInclude(sp => sp.Site)
 			.SingleOrDefaultAsync(u => u.WingedKeysId == id);
 		}
+
 	}
 
 	public interface IUserRepository
