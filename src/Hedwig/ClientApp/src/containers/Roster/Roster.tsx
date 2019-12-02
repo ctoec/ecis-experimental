@@ -21,7 +21,14 @@ export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
 	const [dateRange, setDateRange] = useState<DateRange>(getDefaultDateRange());
 	const [byRange, setByRange] = useState(false);
+	function handlePastEnrollmentsChange() {
+		toggleShowPastEnrollments(!showPastEnrollments);
+		setByRange(false);
+		setDateRange(getDefaultDateRange());
+	}
+
 	const { user } = useContext(UserContext);
+
 	const [loading, error, site] = useApi(
 		api =>
 			api.apiOrganizationsOrgIdSitesIdGet({
@@ -30,36 +37,26 @@ export default function Roster() {
 				id: idx(user, _ => _.orgPermissions[0].organization.sites[0].id) || 0,
 			}),
 		[user]
-  );
-  
-  	const [enrollmentsLoading, enrollmentsError, rawEnrollments] = useApi(
-			// TODO: after everything being nullable is solved, ditch raw enrollments and type mapping below
-			api =>
-				api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsGet({
-					// TODO after pilot: don't just grab the first org and site
-					orgId: idx(user, _ => _.orgPermissions[0].organization.id) || 0,
-					siteId: idx(user, _ => _.orgPermissions[0].organization.sites[0].id) || 0,
-					include: ['child', 'fundings'],
-					startDate:
-						(dateRange && dateRange.startDate && dateRange.startDate.toDate()) ||
-						undefined,
-					endDate:
-						(dateRange && dateRange.endDate && dateRange.endDate.toDate()) ||
-						undefined,
-				}),
-			[user, dateRange]
-		);
+	);
 
-	function handlePastEnrollmentsChange() {
-		toggleShowPastEnrollments(!showPastEnrollments);
-		setByRange(false);
-		setDateRange(getDefaultDateRange());
+	const [enrollmentsLoading, enrollmentsError, rawEnrollments] = useApi(
+		// TODO: after everything being nullable is solved, ditch raw enrollments and type mapping below
+		api =>
+			api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsGet({
+				// TODO after pilot: don't just grab the first org and site
+				orgId: idx(user, _ => _.orgPermissions[0].organization.id) || 0,
+				siteId: idx(user, _ => _.orgPermissions[0].organization.sites[0].id) || 0,
+				include: ['child', 'fundings'],
+				startDate: (dateRange && dateRange.startDate && dateRange.startDate.toDate()) || undefined,
+				endDate: (dateRange && dateRange.endDate && dateRange.endDate.toDate()) || undefined,
+			}),
+		[dateRange]
+	);
+
+	if (!site || !rawEnrollments) {
+		return <div className="Roster"></div>;
 	}
 
-	if (!site) {
-		return <div className="Roster"></div>;
-  }
-  
 	// TODO: FIX THIS-- ditch raw enrollments
 	const enrollments = (rawEnrollments || []).map(e => e as Required<Enrollment>);
 
