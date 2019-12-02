@@ -24,6 +24,9 @@ import {
     ProblemDetails,
     ProblemDetailsFromJSON,
     ProblemDetailsToJSON,
+    Report,
+    ReportFromJSON,
+    ReportToJSON,
     Site,
     SiteFromJSON,
     SiteToJSON,
@@ -57,6 +60,10 @@ export interface ApiOrganizationsOrgIdChildrenIdPutRequest {
 export interface ApiOrganizationsOrgIdChildrenPostRequest {
     orgId: number;
     child?: Child;
+}
+
+export interface ApiOrganizationsOrgIdReportsGetRequest {
+    orgId: number;
 }
 
 export interface ApiOrganizationsOrgIdSitesGetRequest {
@@ -329,6 +336,38 @@ export class HedwigApi extends runtime.BaseAPI {
      */
     async apiOrganizationsOrgIdChildrenPost(requestParameters: ApiOrganizationsOrgIdChildrenPostRequest): Promise<Child> {
         const response = await this.apiOrganizationsOrgIdChildrenPostRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     */
+    async apiOrganizationsOrgIdReportsGetRaw(requestParameters: ApiOrganizationsOrgIdReportsGetRequest): Promise<runtime.ApiResponse<Array<Report>>> {
+        if (requestParameters.orgId === null || requestParameters.orgId === undefined) {
+            throw new runtime.RequiredError('orgId','Required parameter requestParameters.orgId was null or undefined when calling apiOrganizationsOrgIdReportsGet.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
+        const response = await this.request({
+            path: `/api/organizations/{orgId}/Reports`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters.orgId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ReportFromJSON));
+    }
+
+    /**
+     */
+    async apiOrganizationsOrgIdReportsGet(requestParameters: ApiOrganizationsOrgIdReportsGetRequest): Promise<Array<Report>> {
+        const response = await this.apiOrganizationsOrgIdReportsGetRaw(requestParameters);
         return await response.value();
     }
 
