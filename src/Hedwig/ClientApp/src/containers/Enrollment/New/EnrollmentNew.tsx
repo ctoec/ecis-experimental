@@ -13,6 +13,7 @@ import {
 	Enrollment,
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest 
 } from '../../../OAS-generated';
+import idx from 'idx';
 
 type EnrollmentNewParams = {
 	history: History;
@@ -48,8 +49,8 @@ export default function EnrollmentNew({
 	const { user } = useContext(UserContext);
 	const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest = {
 		id: enrollmentId ? enrollmentId : 0,
-		orgId: (user && user.orgPermissions && user.orgPermissions[0] && user.orgPermissions[0].organizationId) || 1,
-		siteId: (user && user.sitePermissions && user.sitePermissions[0] && user.sitePermissions[0].siteId) || 1,
+		orgId: idx(user, _ => _.orgPermissions[0].organizationId) || 0,
+		siteId: idx(user, _ => _.orgPermissions[0].organization.sites[0].id) || 0,
 		include: ['child', 'family', 'determinations', 'fundings'],
 	}
 

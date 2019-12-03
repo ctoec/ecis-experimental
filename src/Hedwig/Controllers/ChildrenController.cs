@@ -18,7 +18,6 @@ namespace Hedwig.Controllers
     public class ChildrenController : ControllerBase
     {
         private readonly IChildRepository _children;
-        private readonly IFamilyRepository _families;
 
         public ChildrenController(IChildRepository children)
         {
