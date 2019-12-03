@@ -542,23 +542,29 @@ $future-step-color: color('base-dark') !default;
 }
 
 // *** Arrow (used in directional link) ***
-
-.oec-arrow {
-  background: url(../images/arrowRight.svg);
-  background-repeat: no-repeat;
-  content: " ";
-  background-color: color('white');
-  background-size: units(2);
+.oec-inline-icon--right-arrow::before {
+  background-image: url(../images/arrowRight.svg);
 }
 
-.oec-arrow.left {
-  // background-position: right units(1.5) center;
-  padding-right: units(4);
+.oec-inline-icon--right-arrow.side-left {
+  padding-right: units(1);
 }
 
-.oec-arrow.right {
-  padding-left: units(4);
-  // background-position: left units(1.5) center;
+.oec-inline-icon--right-arrow.side-right {
+  padding-left: units(1);
 }
 
-// ADD DIRECTION ROTATION
+.oec-inline-icon--right-arrow.direction-down::before {
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+.oec-inline-icon--right-arrow.direction-left::before {
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+.oec-inline-icon--right-arrow.direction-up::before {
+  -webkit-transform: rotate(270deg);
+  transform: rotate(270deg);
+}

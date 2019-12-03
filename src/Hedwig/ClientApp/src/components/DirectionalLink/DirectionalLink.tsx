@@ -18,7 +18,11 @@ export default function DirectionalLink({
 	arrowSide = 'left',
 	ariaLabel,
 }: DirectionalLinkProps) {
-	const arrow = <span className={`oec-arrow ${direction} ${arrowSide}`}></span>;
+	const arrow = (
+		<span
+			className={`oec-inline-icon oec-inline-icon--right-arrow direction-${direction} side-${arrowSide}`}
+		></span>
+	);
 	return (
 		<Link to={to} aria-label={ariaLabel}>
 			{arrowSide === 'left' && arrow}
