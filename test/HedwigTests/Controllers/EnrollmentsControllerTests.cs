@@ -72,7 +72,7 @@ namespace HedwigTests.Controllers
 
 
         [Theory]
-        [InlineData(1, 1, 1, 1, false, true, typeof(NoContentResult))]
+        [InlineData(1, 1, 1, 1, false, true, typeof(OkObjectResult))]
         [InlineData(1, 2, 1, 1, false, false, typeof(BadRequestResult))]
         [InlineData(1, 1, 1, 2, false, false, typeof(BadRequestResult))]
         [InlineData(1, 1, 1, 1, true, true, typeof(NotFoundResult))]
@@ -86,7 +86,7 @@ namespace HedwigTests.Controllers
             Type resultType
         )
         {
-            var _enrollments = new Mock<IEnrollmentRepository>();
+        var _enrollments = new Mock<IEnrollmentRepository>();
             if(shouldNotFind) {
                 _enrollments.Setup(e => e.SaveChangesAsync())
                     .Throws(new DbUpdateConcurrencyException());
