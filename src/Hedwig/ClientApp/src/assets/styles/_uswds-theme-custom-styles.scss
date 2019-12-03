@@ -540,3 +540,25 @@ $future-step-color: color('base-dark') !default;
 .bg-violet-warm-30 {
   background-color: color('violet-warm-30');
 }
+
+// *** Arrow (used in directional link) ***
+
+.oec-arrow {
+  background: url(../images/arrowRight.svg);
+  background-repeat: no-repeat;
+  content: " ";
+  background-color: color('white');
+  background-size: units(2);
+}
+
+.oec-arrow.left {
+  // background-position: right units(1.5) center;
+  padding-right: units(4);
+}
+
+.oec-arrow.right {
+  padding-left: units(4);
+  // background-position: left units(1.5) center;
+}
+
+// ADD DIRECTION ROTATION
