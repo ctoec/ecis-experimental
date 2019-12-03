@@ -104,7 +104,7 @@ namespace Hedwig.Controllers
                 return NotFound();
             }
 
-            return enrollment;
+            return Ok(enrollment);
         }
     }
 }
