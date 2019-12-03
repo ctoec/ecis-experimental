@@ -87,6 +87,7 @@ namespace Hedwig
 			{
 				app.UseDeveloperExceptionPage();
 				IdentityModelEventSource.ShowPII = true;
+				app.UseCors();
 			}
 
 			app.UseHttpsRedirection();
@@ -94,7 +95,7 @@ namespace Hedwig
 			app.UseSwagger();
 			app.UseRouting();
 
-			app.UseCors();
+
 
 			app.UseAuthentication();
 			app.UseAuthorization();
