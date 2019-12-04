@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { ReactComponent as Arrow } from '../../assets/images/arrowRight.svg';
+// Have to have it inline or we can't inherit color
 
 type DirectionalLinkProps = {
 	direction: 'left' | 'right' | 'up' | 'down';
@@ -12,19 +14,19 @@ type DirectionalLinkProps = {
 };
 
 export default function DirectionalLink({
-	direction,
+	direction = 'right',
 	to,
 	text,
 	arrowSide = 'left',
 	ariaLabel,
 }: DirectionalLinkProps) {
 	const arrow = (
-		<span
-			className={`oec-inline-icon oec-inline-icon--right-arrow direction-${direction} side-${arrowSide}`}
-		></span>
+		<Arrow
+			className={`oec-directional-link__arrow oec-directional-link__arrow--direction-${direction} oec-directional-link__arrow--side-${arrowSide}`}
+		/>
 	);
 	return (
-		<Link to={to} aria-label={ariaLabel}>
+		<Link to={to} aria-label={ariaLabel} className="oec-directional-link">
 			{arrowSide === 'left' && arrow}
 			{text}
 			{arrowSide === 'right' && arrow}
