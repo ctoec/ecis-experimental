@@ -11,7 +11,13 @@ type ButtonProps = {
 	disabled?: boolean;
 };
 
-export default function Button({ text, onClick, href, appearance, disabled }: ButtonProps) {
+export default function Button({
+	text,
+	onClick,
+	href,
+	appearance,
+	disabled,
+}: ButtonProps) {
 	if (href) {
 		return (
 			<Link
@@ -34,6 +40,7 @@ export default function Button({ text, onClick, href, appearance, disabled }: Bu
 			}`}
 			disabled={disabled}
 			onClick={onClick}
+			type="button"
 		>
 			{text}
 		</button>
