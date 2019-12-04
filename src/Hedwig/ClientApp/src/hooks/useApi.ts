@@ -46,8 +46,8 @@ export default function useApi<TData>(
 	const api = accessToken
 		? new HedwigApi(
 				new Configuration({
-					basePath: 'https://localhost:5001',
-					headers: { "Authorization": "Bearer " + accessToken },
+					basePath: `https://${window.location.host}`,
+					apiKey: `Bearer ${accessToken}`,
 				})
 		  )
 		: null;
