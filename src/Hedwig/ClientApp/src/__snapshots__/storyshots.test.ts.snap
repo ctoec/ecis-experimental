@@ -678,6 +678,98 @@ exports[`Storyshots DatePicker Default 1`] = `
 </div>
 `;
 
+exports[`Storyshots DirectionalLink Back arrow 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <a
+    className="oec-directional-link"
+    href="/"
+    onClick={[Function]}
+  >
+    <svg
+      className="oec-directional-link__arrow oec-directional-link__arrow--direction-left oec-directional-link__arrow--side-left"
+    >
+      arrowRight.svg
+    </svg>
+    Look at the stuff you were looking at before
+  </a>
+</div>
+`;
+
+exports[`Storyshots DirectionalLink Down arrow 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <a
+    className="oec-directional-link"
+    href="/"
+    onClick={[Function]}
+  >
+    <svg
+      className="oec-directional-link__arrow oec-directional-link__arrow--direction-down oec-directional-link__arrow--side-left"
+    >
+      arrowRight.svg
+    </svg>
+    Check out our sweet footer
+  </a>
+</div>
+`;
+
+exports[`Storyshots DirectionalLink Forward arrow 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <a
+    className="oec-directional-link"
+    href="/"
+    onClick={[Function]}
+  >
+    See the next thing in this series
+    <svg
+      className="oec-directional-link__arrow oec-directional-link__arrow--direction-right oec-directional-link__arrow--side-right"
+    >
+      arrowRight.svg
+    </svg>
+  </a>
+</div>
+`;
+
+exports[`Storyshots DirectionalLink Up arrow 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <a
+    className="oec-directional-link"
+    href="/"
+    onClick={[Function]}
+  >
+    <svg
+      className="oec-directional-link__arrow oec-directional-link__arrow--direction-up oec-directional-link__arrow--side-left"
+    >
+      arrowRight.svg
+    </svg>
+    Look at stuff at the top of the page
+  </a>
+</div>
+`;
+
 exports[`Storyshots Dropdown Default 1`] = `
 <div
   style={
