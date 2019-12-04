@@ -9,7 +9,6 @@ type ButtonProps = {
 	href?: string;
 	appearance?: ButtonAppearance;
 	disabled?: boolean;
-	type?: 'button' | 'submit' | 'reset' | undefined;
 };
 
 export default function Button({
@@ -18,7 +17,6 @@ export default function Button({
 	href,
 	appearance,
 	disabled,
-	type = 'button',
 }: ButtonProps) {
 	if (href) {
 		return (
@@ -42,7 +40,7 @@ export default function Button({
 			}`}
 			disabled={disabled}
 			onClick={onClick}
-			type={type}
+			type="button"
 		>
 			{text}
 		</button>
