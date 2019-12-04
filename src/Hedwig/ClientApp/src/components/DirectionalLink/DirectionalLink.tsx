@@ -8,9 +8,6 @@ type DirectionalLinkProps = {
 	to: string;
 	text: string;
 	arrowSide?: 'left' | 'right';
-	ariaLabel?: string;
-	// We prob shouldn't use titles: https://a11yproject.com/posts/creating-valid-and-accessible-links/
-	// And we should generally write descriptive link text rather than using aria labels
 };
 
 export default function DirectionalLink({
@@ -18,7 +15,6 @@ export default function DirectionalLink({
 	to,
 	text,
 	arrowSide = 'left',
-	ariaLabel,
 }: DirectionalLinkProps) {
 	const arrow = (
 		<Arrow
@@ -26,7 +22,7 @@ export default function DirectionalLink({
 		/>
 	);
 	return (
-		<Link to={to} aria-label={ariaLabel} className="oec-directional-link">
+		<Link to={to} className="oec-directional-link">
 			{arrowSide === 'left' && arrow}
 			{text}
 			{arrowSide === 'right' && arrow}
