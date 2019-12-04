@@ -2138,7 +2138,7 @@ exports[`Storyshots Tag Default 1`] = `
   }
 >
   <span
-    className="usa-tag"
+    className="usa-tag undefined"
   >
     I AM A TAG
   </span>
