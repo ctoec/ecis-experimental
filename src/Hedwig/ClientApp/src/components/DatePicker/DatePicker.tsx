@@ -28,21 +28,8 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
 			datePickerFocused: null,
 		};
 
-		this.resetState = this.resetState.bind(this);
 		this.setDateRange = this.setDateRange.bind(this);
 		this.isOutsidePossibleRange = this.isOutsidePossibleRange.bind(this);
-	}
-
-	resetState() {
-		const now = moment().local();
-		const newRange = { startDate: now, endDate: now };
-		this.setState(
-			{
-				selectedRange: newRange,
-				datePickerFocused: null,
-			},
-			this.props.onChange(newRange)
-		);
 	}
 
 	setDateRange(input: DateRange) {
@@ -79,9 +66,7 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
 						focusedInput={datePickerFocused}
 						onDatesChange={dates => this.setDateRange(dates)}
 						onFocusChange={(focused: any) => this.setState({ datePickerFocused: focused })}
-						isOutsideRange={date => {
-							return this.isOutsidePossibleRange(date);
-						}}
+						isOutsideRange={date => this.isOutsidePossibleRange(date)}
 						initialVisibleMonth={() => moment().subtract(1, 'M')}
 					/>
 				)}
@@ -94,9 +79,7 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
 						onFocusChange={({ focused }: any) =>
 							this.setState({ datePickerFocused: focused ? 'startDate' : null })
 						}
-						isOutsideRange={date => {
-							return this.isOutsidePossibleRange(date);
-						}}
+						isOutsideRange={date => this.isOutsidePossibleRange(date)}
 						initialVisibleMonth={() => moment().subtract(1, 'M')}
 					/>
 				)}

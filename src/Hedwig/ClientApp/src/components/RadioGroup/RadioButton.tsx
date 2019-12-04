@@ -25,7 +25,7 @@ export default function RadioButton({
 				type="radio"
 				name={name}
 				value={value}
-				defaultChecked={selected}
+				checked={selected}
 				onChange={onChange}
 			/>
 			<label className="usa-radio__label" htmlFor={value}>
