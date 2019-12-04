@@ -512,37 +512,7 @@ $future-step-color: color('base-dark') !default;
 	transform: translateY(2px);
 }
 
-// Override the white text for better contrast
-.usa-tag {
-  color: inherit;
-}
-
-// blue-30v svg rect fill and tag bg
-.fill-blue-30v {
-  fill: color('blue-30v');
-}
-.bg-blue-30v {
-  background-color: color('blue-30v');
-}
-
-// green-cool-30 svg rect fill and tag bg
-.fill-green-cool-30 {
-  fill: color('green-cool-30');
-}
-.bg-green-cool-30 {
-  background-color: color('green-cool-30');
-}
-
-// violet-warm-30 svg rect fill and tag bg
-.fill-violet-warm-30 {
-  fill: color('violet-warm-30');
-}
-.bg-violet-warm-30 {
-  background-color: color('violet-warm-30');
-}
-
 // *** Directional link ***
-
 .oec-directional-link {
   padding: units(2) 0 0 0;
   display: block;
@@ -577,4 +547,39 @@ $future-step-color: color('base-dark') !default;
 .oec-directional-link__arrow--direction-up {
   -webkit-transform: rotate(270deg);
   transform: rotate(270deg);
+}
+
+// Background and fill colors
+
+// blue-30v svg rect fill and tag bg
+.fill-blue-30v {
+  fill: color('blue-30v');
+}
+.bg-blue-30v {
+  background-color: color('blue-30v');
+}
+
+// green-cool-30 svg rect fill and tag bg
+.fill-green-cool-30 {
+  fill: color('green-cool-30');
+}
+.bg-green-cool-30 {
+  background-color: color('green-cool-30');
+}
+
+// violet-warm-30 svg rect fill and tag bg
+.fill-violet-warm-30 {
+  fill: color('violet-warm-30');
+}
+.bg-violet-warm-30 {
+  background-color: color('violet-warm-30');
+}
+
+// gold-30v svg rect fill and tag bg
+.fill-gold-30v {
+  fill: color('gold-30v');
+}
+.bg-gold-30v {
+	background-color: color('gold-30v');
+	color: #000;
 }
