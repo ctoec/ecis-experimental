@@ -30,25 +30,21 @@ export default function Roster() {
 				id: idx(user, _ => _.orgPermissions[0].organization.sites[0].id) || 0,
 			}),
 		[user]
-  );
-  
-  	const [enrollmentsLoading, enrollmentsError, rawEnrollments] = useApi(
-			// TODO: after everything being nullable is solved, ditch raw enrollments and type mapping below
-			api =>
-				api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsGet({
-					// TODO after pilot: don't just grab the first org and site
-					orgId: idx(user, _ => _.orgPermissions[0].organization.id) || 0,
-					siteId: idx(user, _ => _.orgPermissions[0].organization.sites[0].id) || 0,
-					include: ['child', 'fundings'],
-					startDate:
-						(dateRange && dateRange.startDate && dateRange.startDate.toDate()) ||
-						undefined,
-					endDate:
-						(dateRange && dateRange.endDate && dateRange.endDate.toDate()) ||
-						undefined,
-				}),
-			[user, dateRange]
-		);
+	);
+
+	const [enrollmentsLoading, enrollmentsError, rawEnrollments] = useApi(
+		// TODO: after everything being nullable is solved, ditch raw enrollments and type mapping below
+		api =>
+			api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsGet({
+				// TODO after pilot: don't just grab the first org and site
+				orgId: idx(user, _ => _.orgPermissions[0].organization.id) || 0,
+				siteId: idx(user, _ => _.orgPermissions[0].organization.sites[0].id) || 0,
+				include: ['child', 'fundings'],
+				startDate: (dateRange && dateRange.startDate && dateRange.startDate.toDate()) || undefined,
+				endDate: (dateRange && dateRange.endDate && dateRange.endDate.toDate()) || undefined,
+			}),
+		[user, dateRange]
+	);
 
 	function handlePastEnrollmentsChange() {
 		toggleShowPastEnrollments(!showPastEnrollments);
@@ -58,10 +54,10 @@ export default function Roster() {
 
 	if (!site) {
 		return <div className="Roster"></div>;
-  }
-  
+	}
+
 	// TODO: FIX THIS-- ditch raw enrollments
-  const enrollments = (rawEnrollments || []).map(e => e as Required<Enrollment>);
+	const enrollments = (rawEnrollments || []).map(e => e as Required<Enrollment>);
 
 	const rosterTableProps: TableProps<Required<Enrollment>> = {
 		id: 'roster-table',
