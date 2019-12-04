@@ -973,10 +973,9 @@ exports[`Storyshots Header Logged in 1`] = `
             className="usa-logo__text"
           >
             <a
-              aria-label="Home"
+              aria-label="Hello world! home"
               href="/"
               onClick={[Function]}
-              title="Home"
             >
               Hello world!
             </a>
@@ -1142,10 +1141,9 @@ exports[`Storyshots Header Logged out 1`] = `
             className="usa-logo__text"
           >
             <a
-              aria-label="Home"
+              aria-label="Hello world! home"
               href="/"
               onClick={[Function]}
-              title="Home"
             >
               Hello world!
             </a>
