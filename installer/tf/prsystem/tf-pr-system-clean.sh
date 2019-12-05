@@ -14,5 +14,7 @@ do
 
       echo deleting terraform workspace - $workspace
       terraform workspace delete ${workspace}
+   else
+      echo skipping terraform system - $workspace
    fi	  
 done
