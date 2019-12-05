@@ -4,6 +4,8 @@ import { gql } from 'apollo-boost';
 import { ReportQuery_report } from '../../generated/ReportQuery';
 import { ReportSubmitMutation } from '../../generated/ReportSubmitMutation';
 import Alert, { AlertProps } from '../../components/Alert/Alert';
+import TextInput from '../../components/TextInput/TextInput';
+import Checkbox from '../../components/Checklist/Checkbox';
 
 export const REPORT_SUBMIT_MUTATION = gql`
 	mutation ReportSubmitMutation($id: Int!, $accredited: Boolean!) {
@@ -64,6 +66,33 @@ export default function ReportSubmitForm(report: ReportQuery_report) {
 						Accredited
 					</label>
 				</div>
+				<fieldset className="usa-fieldset">
+					<legend>
+						<h2 className="margin-bottom-0 margin-top-2">Other Revenue</h2>
+					</legend>
+					<TextInput
+						id="c4k-revenue"
+						label={
+							<React.Fragment>
+								<span className="text-bold">Care 4 Kids</span>
+							</React.Fragment>
+						}
+						onChange={() => {}}
+					/>
+					<div className="margin-top-2">
+						<Checkbox
+							text="Includes retroactive payment for past months"
+							value="retroactive"
+							name="retroactive"
+							onChange={() => {}}
+						/>
+					</div>
+					<TextInput
+						id="family-fee-srevenue"
+						label={<span className="text-bold">Family Fees</span>}
+						onChange={() => {}}
+					/>
+				</fieldset>
 				{!submittedAt && <input className="usa-button" type="submit" value="Submit" />}
 			</form>
 		</React.Fragment>
