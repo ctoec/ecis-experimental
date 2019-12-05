@@ -2,8 +2,7 @@
 sudo apt-get update
 
 #---------------------------------------
-# install docker
-#---------------------------------------
+# install docker #---------------------------------------
 sudo apt-get -y install docker.io
 sudo systemctl start docker
 sudo systemctl enable docker
@@ -47,18 +46,22 @@ sudo -i -u ubuntu bash -c 'sed -i "s/Build: __Build.BuildNumber__/Branch: ${gith
 #---------------------------------------
 # setup git source - winged-keys
 #---------------------------------------
-# sudo -i -u ubuntu bash -c 'cd /home/ubuntu/ws && git clone https://github.com/ctoec/winged-keys'
+sudo -i -u ubuntu bash -c 'cd /home/ubuntu/ws && git clone https://github.com/ctoec/winged-keys'
 
 #---------------------------------------
 # create a bind mount - winged-keys
 #---------------------------------------
-# sudo -u ubuntu bash -c 'cd /home/ubuntu/ws/ecis-experimental && mkdir winged-keys'
-# sudo mount -o bind /home/ubuntu/ws/winged-keys /home/ubuntu/ws/ecis-experimental/winged-keys
+sudo -u ubuntu bash -c 'cd /home/ubuntu/ws/ecis-experimental && mkdir winged-keys'
+sudo mount -o bind /home/ubuntu/ws/winged-keys /home/ubuntu/ws/ecis-experimental/winged-keys
 
 #---------------------------------------
 # set identify server - winged-keys
 #---------------------------------------
-sudo -i -u ubuntu bash -c 'sed -i "s|https://localhost:5050|https://stage.wingedkeys.ctoecskylight.com/|g" /home/ubuntu/ws/ecis-experimental/src/Hedwig/ClientApp/public/config.json'
+publicIP=$(curl https://checkip.amazonaws.com)
+currentHost=https://$publicIP:5001
+sudo -i -u ubuntu bash -c 'sed -i "s|https://localhost:5050|'"$currentHost"'/|g" /home/ubuntu/ws/ecis-experimental/src/Hedwig/ClientApp/public/config.json'
+sudo -i -u ubuntu bash -c 'sed -i "s|\(^\s*\"BaseUri\":\).*$|\1\"'"$currentHost"'\"|" /home/ubuntu/ws/winged-keys/src/WingedKeys/appsettings.Development.json'
+sudo -i -u ubuntu bash -c 'sed -i "s|\(^\s*\"ClientUris\":\).*$|\1\"'"$currentHost"'\"|" /home/ubuntu/ws/winged-keys/src/WingedKeys/appsettings.Development.json'
 
 #---------------------------------------
 # Startup docker
