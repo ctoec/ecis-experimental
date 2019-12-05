@@ -66,6 +66,5 @@ sudo -i -u ubuntu bash -c 'sed -i "s|\(^\s*\"ClientUris\":\).*$|\1\"'"$currentHo
 #---------------------------------------
 # Startup docker
 #---------------------------------------
-#sudo bash -c 'cd /home/ubuntu/ws/ecis-experimental && docker-compose up --build >> /var/www/html/index.html 2>&1'
-sudo bash -c 'cd /home/ubuntu/ws/ecis-experimental && docker-compose up db backend rest-backend client >> /var/www/html/index.html 2>&1'
+sudo bash -c 'cd /home/ubuntu/ws/ecis-experimental && docker-compose up --build >> /var/www/html/index.html 2>&1'
 
