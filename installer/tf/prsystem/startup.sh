@@ -60,3 +60,4 @@ sudo mount -o bind /home/ubuntu/ws/winged-keys /home/ubuntu/ws/ecis-experimental
 #---------------------------------------
 sudo bash -c 'cd /home/ubuntu/ws/ecis-experimental && docker-compose up --build >> /var/www/html/index.html 2>&1'
 
+
