@@ -5,6 +5,7 @@ export * from './Family';
 export * from './FamilyDetermination';
 export * from './Funding';
 export * from './FundingSource';
+export * from './FundingSpace';
 export * from './FundingTime';
 export * from './Gender';
 export * from './Organization';

@@ -53,7 +53,7 @@ export interface SitePermission {
      * @type {number}
      * @memberof SitePermission
      */
-    userId?: number;
+    userId?: number | null;
     /**
      * 
      * @type {User}

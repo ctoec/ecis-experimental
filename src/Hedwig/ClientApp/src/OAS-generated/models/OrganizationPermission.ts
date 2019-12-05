@@ -53,7 +53,7 @@ export interface OrganizationPermission {
      * @type {number}
      * @memberof OrganizationPermission
      */
-    userId?: number;
+    userId?: number | null;
     /**
      * 
      * @type {User}

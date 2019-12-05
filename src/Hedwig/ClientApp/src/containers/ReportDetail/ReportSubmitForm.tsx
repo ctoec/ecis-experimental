@@ -20,6 +20,9 @@ export const REPORT_SUBMIT_MUTATION = gql`
 
 export default function ReportSubmitForm(report: ReportQuery_report) {
 	const [accredited, setAccredited] = useState(report.accredited);
+	const [c4kRevenue, setC4kRevenue] = useState(report.c4KRevenue);
+	const [c4kRevenueIncludesRetroactive, setc4kRevenueIncludesRetroactive] = useState(report.c4kRevenueIncludesRetroactive);
+	const [familyFeeRevenue, setfamilyFeeRevenue] = useState(report.familyFeeRevenue);
 	const [submittedAt, setSubmittedAt] = useState(report.submittedAt);
 	const [alert, setAlert] = useState<AlertProps | null>(null);
 
@@ -79,22 +82,24 @@ export default function ReportSubmitForm(report: ReportQuery_report) {
 								<span className="text-bold">Care 4 Kids</span>
 							</React.Fragment>
 						}
-						onChange={() => {}}
+						defaultValue={c4kRevenue}
+						onChange={(e) => setC4kRevenue(e.target.value)}
 						disabled={!!submittedAt}
 					/>
 					<div className="margin-top-2">
 						<Checkbox
 							text="Includes retroactive payment for past months"
-							value="retroactive"
-							name="retroactive"
-							onChange={() => {}}
+							value="c4k-includes-retroactive"
+							name="c4k-includes-retroactive"
+							onChange={(e) => setc4kRevenueIncludesRetroactive(e.target.checked)}
 							disabled={!!submittedAt}
+							checked={c4kRevenueIncludesRetroactive}
 						/>
 					</div>
 					<TextInput
 						id="family-fee-srevenue"
 						label={<span className="text-bold">Family Fees</span>}
-						onChange={() => {}}
+						onChange={(e) => setfamilyFeeRevenue(e.target.value)}
 						disabled={!!submittedAt}
 					/>
 				</fieldset>

@@ -66,6 +66,12 @@ export interface ApiOrganizationsOrgIdReportsGetRequest {
     orgId: number;
 }
 
+export interface ApiOrganizationsOrgIdReportsIdGetRequest {
+    id: number;
+    orgId: number;
+    include?: Array<string>;
+}
+
 export interface ApiOrganizationsOrgIdSitesGetRequest {
     orgId: number;
 }
@@ -102,23 +108,6 @@ export interface ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest {
     orgId: number;
     siteId: number;
     enrollment?: Enrollment;
-}
-
-export interface ApiUsersIdDeleteRequest {
-    id: number;
-}
-
-export interface ApiUsersIdGetRequest {
-    id: number;
-}
-
-export interface ApiUsersIdPutRequest {
-    id: number;
-    body?: string;
-}
-
-export interface ApiUsersPostRequest {
-    body?: string;
 }
 
 /**
@@ -368,6 +357,46 @@ export class HedwigApi extends runtime.BaseAPI {
      */
     async apiOrganizationsOrgIdReportsGet(requestParameters: ApiOrganizationsOrgIdReportsGetRequest): Promise<Array<Report>> {
         const response = await this.apiOrganizationsOrgIdReportsGetRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     */
+    async apiOrganizationsOrgIdReportsIdGetRaw(requestParameters: ApiOrganizationsOrgIdReportsIdGetRequest): Promise<runtime.ApiResponse<Report>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling apiOrganizationsOrgIdReportsIdGet.');
+        }
+
+        if (requestParameters.orgId === null || requestParameters.orgId === undefined) {
+            throw new runtime.RequiredError('orgId','Required parameter requestParameters.orgId was null or undefined when calling apiOrganizationsOrgIdReportsIdGet.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        if (requestParameters.include) {
+            queryParameters['include[]'] = requestParameters.include;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
+        const response = await this.request({
+            path: `/api/organizations/{orgId}/Reports/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))).replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters.orgId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ReportFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async apiOrganizationsOrgIdReportsIdGet(requestParameters: ApiOrganizationsOrgIdReportsIdGetRequest): Promise<Report> {
+        const response = await this.apiOrganizationsOrgIdReportsIdGetRaw(requestParameters);
         return await response.value();
     }
 
@@ -643,133 +672,6 @@ export class HedwigApi extends runtime.BaseAPI {
     async apiUsersCurrentGet(): Promise<User> {
         const response = await this.apiUsersCurrentGetRaw();
         return await response.value();
-    }
-
-    /**
-     */
-    async apiUsersIdDeleteRaw(requestParameters: ApiUsersIdDeleteRequest): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling apiUsersIdDelete.');
-        }
-
-        const queryParameters: runtime.HTTPQuery = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
-        }
-
-        const response = await this.request({
-            path: `/api/Users/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
-            method: 'DELETE',
-            headers: headerParameters,
-            query: queryParameters,
-        });
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     */
-    async apiUsersIdDelete(requestParameters: ApiUsersIdDeleteRequest): Promise<void> {
-        await this.apiUsersIdDeleteRaw(requestParameters);
-    }
-
-    /**
-     */
-    async apiUsersIdGetRaw(requestParameters: ApiUsersIdGetRequest): Promise<runtime.ApiResponse<User>> {
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling apiUsersIdGet.');
-        }
-
-        const queryParameters: runtime.HTTPQuery = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
-        }
-
-        const response = await this.request({
-            path: `/api/Users/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        });
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => UserFromJSON(jsonValue));
-    }
-
-    /**
-     */
-    async apiUsersIdGet(requestParameters: ApiUsersIdGetRequest): Promise<User> {
-        const response = await this.apiUsersIdGetRaw(requestParameters);
-        return await response.value();
-    }
-
-    /**
-     */
-    async apiUsersIdPutRaw(requestParameters: ApiUsersIdPutRequest): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling apiUsersIdPut.');
-        }
-
-        const queryParameters: runtime.HTTPQuery = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json-patch+json';
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
-        }
-
-        const response = await this.request({
-            path: `/api/Users/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
-            method: 'PUT',
-            headers: headerParameters,
-            query: queryParameters,
-            body: requestParameters.body as any,
-        });
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     */
-    async apiUsersIdPut(requestParameters: ApiUsersIdPutRequest): Promise<void> {
-        await this.apiUsersIdPutRaw(requestParameters);
-    }
-
-    /**
-     */
-    async apiUsersPostRaw(requestParameters: ApiUsersPostRequest): Promise<runtime.ApiResponse<void>> {
-        const queryParameters: runtime.HTTPQuery = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json-patch+json';
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
-        }
-
-        const response = await this.request({
-            path: `/api/Users`,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: requestParameters.body as any,
-        });
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     */
-    async apiUsersPost(requestParameters: ApiUsersPostRequest): Promise<void> {
-        await this.apiUsersPostRaw(requestParameters);
     }
 
 }
