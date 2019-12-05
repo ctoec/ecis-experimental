@@ -9,7 +9,7 @@ IF "%GITHUB_PR%" == "" (
 )
 
 terraform workspace select %GITHUB_PR%
-IF %ERRORLEVEL% NEQ 0 GOTO :error
+IF %ERRORLEVEL% NEQ 0 GOTO :exit
 
 terraform workspace show
 IF %ERRORLEVEL% NEQ 0 GOTO :error
@@ -22,5 +22,6 @@ GOTO :eof
 
 :error
 ECHO ERROR: terraform error 
+:exit
 EXIT /B 1
 
