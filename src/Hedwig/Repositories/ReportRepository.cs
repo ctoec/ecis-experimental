@@ -57,18 +57,21 @@ namespace Hedwig.Repositories
     {
       var include_orgs = include.Contains(INCLUDE_ORGANIZATIONS);
       var include_sites = include.Contains(INCLUDE_SITES);
+      var include_enrollments = include.Contains(INCLUDE_ENROLLMENTS);
       var include_funding_spaces = include.Contains(INCLUDE_FUNDING_SPACES);
 
-      var report = _context.Reports
+      IQueryable<OrganizationReport> report = _context.Reports
         .OfType<OrganizationReport>()
-        .Where(r => r.Id == id && r.OrganizationId == orgId);
+        .AsNoTracking()
+        .Where(report => report.Id == id && report.OrganizationId == orgId)
+        .Include(report => report.ReportingPeriod);
 
       if (include_orgs)
       {
         report = report.Include(report => report.Organization);
       }
 
-      if (include_sites)
+      if (include_sites || include_enrollments)
       {
         report = report
           .Include(report => report.Organization)
@@ -82,7 +85,43 @@ namespace Hedwig.Repositories
           .ThenInclude(organization => organization.FundingSpaces);
       }
 
-      return await report.FirstOrDefaultAsync() as Report;
+      var reportResult = await report.FirstOrDefaultAsync();
+
+      if (include_enrollments)
+      {
+        var asOf = reportResult.SubmittedAt;
+
+        var sites = reportResult.Organization.Sites.ToList();
+
+        var siteIds = sites.Select(site => site.Id);
+
+        var enrollments = await (asOf.HasValue ? _context.Enrollments.AsOf(asOf.Value) : _context.Enrollments)
+          .AsNoTracking()
+          .Where(enrollment => siteIds.Contains(enrollment.SiteId))
+          .ToListAsync();
+
+        var enrollmentIds = enrollments.Select(enrollment => enrollment.Id);
+        var fundings = await (asOf.HasValue ? _context.Fundings.AsOf(asOf.Value) : _context.Fundings)
+          .AsNoTracking()
+          .Where(funding => enrollmentIds.Contains(funding.EnrollmentId))
+          .Where(funding => funding.Entry <= reportResult.ReportingPeriod.PeriodStart)
+          .Where(funding => funding.Exit == null || funding.Exit >= reportResult.ReportingPeriod.PeriodEnd)
+          .ToListAsync();
+
+        enrollments.ForEach(enrollment =>
+        {
+          enrollment.Fundings = fundings.Where(funding => funding.EnrollmentId == enrollment.Id).ToList();
+        });
+
+        enrollments = enrollments.Where(enrollment => enrollment.Fundings.Any(funding => funding.Source == reportResult.Type)).ToList();
+
+        sites.ForEach(site =>
+        {
+          site.Enrollments = enrollments.Where(enrollment => enrollment.SiteId == site.Id).ToList();
+        });
+      }
+
+      return reportResult;
     }
   }
 
