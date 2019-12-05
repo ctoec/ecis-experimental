@@ -140,14 +140,14 @@ namespace Hedwig.Repositories
       return enrollment;
     }
 
-    public async Task<List<Enrollment>> GetEnrollmentsForOrganizationReportAsync(int orgId, int reportId, string[] include = null)
+    public async Task<List<Enrollment>> GetEnrollmentsForOrganizationReportAsync(int orgId, int reportId)
     {
       var report = _context.Reports
         .OfType<OrganizationReport>()
         .Where(r => r.Id == reportId && r.OrganizationId == orgId);
 
-      var reportSubmittedAt = await report
-        .Select(report => report.SubmittedAt)
+      var reportResult = await report
+        .Include(report => report.ReportingPeriod)
         .FirstOrDefaultAsync();
 
       var siteIds = await report
@@ -155,15 +155,25 @@ namespace Hedwig.Repositories
         .Select(site => site.Id)
         .ToListAsync();
 
-      var enrollments = GetBaseQuery<Enrollment>(reportSubmittedAt)
-        .Where(enrollment => siteIds.Contains(enrollment.SiteId));
+      var enrollments = await GetBaseQuery<Enrollment>(reportResult.SubmittedAt)
+        .Where(enrollment => siteIds.Contains(enrollment.SiteId))
+        .ToListAsync();
 
-      if (include.Contains(INCLUDE_FUNDINGS))
+      var enrollmentIds = enrollments.Select(enrollment => enrollment.Id);
+      var fundings = await GetBaseQuery<Funding>(reportResult.SubmittedAt)
+        .Where(funding => enrollmentIds.Contains(funding.EnrollmentId))
+        .Where(funding => funding.Entry <= reportResult.ReportingPeriod.PeriodStart)
+        .Where(funding => funding.Exit == null || funding.Exit >= reportResult.ReportingPeriod.PeriodEnd)
+        .ToListAsync();
+
+      enrollments.ForEach(enrollment =>
       {
-        enrollments = enrollments.Include(enrollment => enrollment.Fundings);
-      }
+        enrollment.Fundings = fundings.Where(funding => funding.EnrollmentId == enrollment.Id).ToList();
+      });
 
-      return await enrollments.ToListAsync();
+      enrollments = enrollments.Where(enrollment => enrollment.Fundings.Any(funding => funding.Source == reportResult.Type)).ToList();
+
+      return enrollments;
     }
   }
 
@@ -174,7 +184,7 @@ namespace Hedwig.Repositories
     Task SaveChangesAsync();
     Task<List<Enrollment>> GetEnrollmentsForSiteAsync(int siteId, DateTime? from = null, DateTime? to = null, string[] include = null);
     Task<Enrollment> GetEnrollmentForSiteAsync(int id, int siteId, string[] include = null);
-    Task<List<Enrollment>> GetEnrollmentsForOrganizationReportAsync(int orgId, int reportId, string[] include = null);
+    Task<List<Enrollment>> GetEnrollmentsForOrganizationReportAsync(int orgId, int reportId);
     Task<ILookup<int, Enrollment>> GetEnrollmentsBySiteIdsAsync(
       IEnumerable<int> siteIds,
       DateTime? asOf = null,

@@ -364,7 +364,7 @@ namespace HedwigTests.Repositories
 
         // When the repository is queried
         var repo = new EnrollmentRepository(context);
-        var result = await repo.GetEnrollmentsForOrganizationReportAsync(organization.Id, report.Id, include);
+        var result = await repo.GetEnrollmentsForOrganizationReportAsync(organization.Id, report.Id);
 
         // It returns the Enrollment
         Assert.Single(result);

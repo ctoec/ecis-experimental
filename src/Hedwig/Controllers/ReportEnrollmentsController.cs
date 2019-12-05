@@ -27,11 +27,10 @@ namespace Hedwig.Controllers
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult<List<Enrollment>>> Get(
       int orgId,
-      int reportId,
-      [FromQuery(Name = "include[]")] string[] include
+      int reportId
     )
     {
-      return await _enrollments.GetEnrollmentsForOrganizationReportAsync(orgId, reportId, include);
+      return await _enrollments.GetEnrollmentsForOrganizationReportAsync(orgId, reportId);
     }
   }
 }

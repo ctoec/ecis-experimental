@@ -271,7 +271,8 @@ namespace Hedwig.Data
         {
           EnrollmentId = e.Id,
           Source = FundingSource.CDC,
-          Time = FundingTime.Full
+          Time = FundingTime.Full,
+          Entry = DateTime.Parse("2019-09-02")
         }
       ).ToArray();
 
