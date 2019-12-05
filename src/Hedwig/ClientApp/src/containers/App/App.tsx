@@ -14,6 +14,7 @@ import { ApiOrganizationsOrgIdReportsGetRequest } from '../../OAS-generated';
 import UserContext from '../../contexts/User/UserContext';
 import idx from 'idx';
 import { useState } from '@storybook/addons';
+import getIdForUser from '../../utils/getIdForUser';
 
 export const APP_QUERY = gql`
 	query AppQuery {
@@ -33,7 +34,7 @@ const App: React.FC<WithLoginPropsType> = ({ accessToken }) => {
 	const { user } = useContext(UserContext);
 	
 	const params: ApiOrganizationsOrgIdReportsGetRequest = {
-		orgId: idx(user, _ => _.orgPermissions[0].organization.sites[0].id) || 0
+		orgId: getIdForUser(user, "org")
 	}
 
 	const [loading, error, reports, mutate] = useApi(

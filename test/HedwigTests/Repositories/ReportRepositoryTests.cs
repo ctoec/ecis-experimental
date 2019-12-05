@@ -39,5 +39,20 @@ namespace HedwigTests.Repositories
 				Assert.DoesNotContain(otherReport.Id, reportIds);
 			}
 		}
+		[Fact]
+		public async Task GetReportsForOrganization()
+		{
+			using (var context = new TestContextProvider().Context)
+			{
+				var organization = OrganizationHelper.CreateOrganization(context);
+				var reports = ReportHelper.CreateCdcReports(context, 5, organization: organization);
+				ReportHelper.CreateCdcReport(context);
+
+				var reportRepo = new ReportRepository(context);
+				var result = await reportRepo.GetReportsForOrganization(organization.Id);
+
+				Assert.Equal(reports, result);
+			}
+		}
 	}
 }

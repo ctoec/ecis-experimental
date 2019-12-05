@@ -9,12 +9,13 @@ import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest, Enrollment } f
 import UserContext from '../../../contexts/User/UserContext';
 import useApi from '../../../hooks/useApi';
 import DirectionalLink from '../../../components/DirectionalLink/DirectionalLink';
+import idx from 'idx';
+import getIdForUser from '../../../utils/getIdForUser';
 
 
 type EnrollmentDetailParams = {
 	match: {
 		params: {
-			siteId?: string;
 			enrollmentId?: number;
 		};
 	};
@@ -24,14 +25,14 @@ const sections = [ChildInfo, FamilyInfo, FamilyIncome, EnrollmentFunding];
 
 export default function EnrollmentDetail({
 	match: {
-		params: { siteId, enrollmentId }
+		params: { enrollmentId }
 	},
 }: EnrollmentDetailParams) {
 	const { user } = useContext(UserContext);
 	const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest = {
 		id: enrollmentId ? enrollmentId : 0,
-		orgId: (user && user.orgPermissions && user.orgPermissions[0] && user.orgPermissions[0].organizationId) || 0,
-		siteId: siteId ? parseInt(siteId) : 0,
+		orgId: getIdForUser(user, "org"),
+		siteId: getIdForUser(user, "site"),
 		include: ['child', 'family', 'determinations', 'fundings'],
 	}
 	const [loading, error, enrollment, mutate] = useApi<Enrollment>(

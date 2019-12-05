@@ -16,33 +16,34 @@ import useApi from '../../hooks/useApi';
 import UserContext from '../../contexts/User/UserContext';
 import { Enrollment } from '../../OAS-generated/models/Enrollment';
 import DateSelectionForm from './DateSelectionForm';
+import getIdForUser from '../../utils/getIdForUser';
 
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
 	const [dateRange, setDateRange] = useState<DateRange>(getDefaultDateRange());
 	const [byRange, setByRange] = useState(false);
 	const { user } = useContext(UserContext);
+	const siteParams = {
+		id: getIdForUser(user, "site"),
+		orgId: getIdForUser(user, "org")
+	};
 	const [loading, error, site] = useApi(
 		api =>
-			api.apiOrganizationsOrgIdSitesIdGet({
-				// TODO after pilot: don't just grab the first org and site
-				orgId: idx(user, _ => _.orgPermissions[0].organization.id) || 0,
-				id: idx(user, _ => _.orgPermissions[0].organization.sites[0].id) || 0,
-			}),
+			api.apiOrganizationsOrgIdSitesIdGet(siteParams),
 		[user]
 	);
 
+	const enrollmentsParams = {
+		orgId: getIdForUser(user, "org"),
+		siteId: getIdForUser(user, "site"),
+		include: ['child', 'fundings'],
+		startDate:  (dateRange && dateRange.startDate && dateRange.startDate.toDate()) || undefined,
+		endDate: (dateRange && dateRange.endDate && dateRange.endDate.toDate()) || undefined,
+	}
 	const [enrollmentsLoading, enrollmentsError, rawEnrollments] = useApi(
 		// TODO: after everything being nullable is solved, ditch raw enrollments and type mapping below
 		api =>
-			api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsGet({
-				// TODO after pilot: don't just grab the first org and site
-				orgId: idx(user, _ => _.orgPermissions[0].organization.id) || 0,
-				siteId: idx(user, _ => _.orgPermissions[0].organization.sites[0].id) || 0,
-				include: ['child', 'fundings'],
-				startDate: (dateRange && dateRange.startDate && dateRange.startDate.toDate()) || undefined,
-				endDate: (dateRange && dateRange.endDate && dateRange.endDate.toDate()) || undefined,
-			}),
+			api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsGet(enrollmentsParams),
 		[user, dateRange]
 	);
 
