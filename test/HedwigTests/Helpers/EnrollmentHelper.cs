@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using System.Collections.Generic;
 using Hedwig.Data;
 using Hedwig.Models;
 
@@ -32,5 +34,19 @@ namespace HedwigTests.Helpers
 			context.SaveChanges();
 			return enrollment;
 		}		
+
+		public static List<Enrollment> CreateEnrollments(
+			HedwigContext context,
+			int numberOfEnrollments,
+			Child child = null,
+			Site site = null
+		)
+		{
+			var enrollments = Enumerable.Range(0, numberOfEnrollments)
+				.Select(i => CreateEnrollment(context, child: child, site: site))
+				.ToList();
+
+			return enrollments;
+		}
 	}
 }

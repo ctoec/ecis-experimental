@@ -377,6 +377,9 @@ namespace Hedwig.Migrations
                         .HasColumnType("nvarchar(10)")
                         .HasMaxLength(10);
 
+                    b.Property<Guid>("WingedKeysId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.ToTable("User");
@@ -468,7 +471,7 @@ namespace Hedwig.Migrations
                         .WithMany()
                         .HasForeignKey("AuthorId");
 
-                    b.HasOne("Hedwig.Models.Organization", "organization")
+                    b.HasOne("Hedwig.Models.Organization", "Organization")
                         .WithMany()
                         .HasForeignKey("OrganizationId");
                 });

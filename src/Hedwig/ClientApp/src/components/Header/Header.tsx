@@ -81,7 +81,7 @@ class Header extends React.Component<HeaderProps & RouteComponentProps, HeaderSt
 					<div className="usa-navbar">
 						<div className="usa-logo" id="extended-logo">
 							<em className="usa-logo__text">
-								<Link to="/" title="Home" aria-label="Home">
+								<Link to="/" aria-label={`${title} home`}>
 									{title}
 								</Link>
 							</em>

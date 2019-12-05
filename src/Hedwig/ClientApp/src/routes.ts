@@ -40,16 +40,16 @@ export const routes: RouteConfig[] = [
 		component: EnrollmentNew,
 	},
 	{
-		path: '/roster/enrollments/:childId',
+		path: '/roster/enrollments/:enrollmentId',
 		exact: true,
 		component: EnrollmentDetail,
 	},
 	{
-		path: '/roster/enrollments/:childId/new/:sectionId',
+		path: '/roster/enrollments/:enrollmentId/new/:sectionId',
 		component: EnrollmentNew,
 	},
 	{
-		path: '/roster/enrollments/:childId/edit/:sectionId',
+		path: '/roster/enrollments/:enrollmentId/edit/:sectionId',
 		component: EnrollmentEdit,
 	},
 	{

@@ -8,6 +8,7 @@ import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from '@apollo/react-hooks';
 import * as serviceWorker from './serviceWorker';
 import { LoginProvider } from './contexts/Login';
+import { UserProvider } from './contexts/User/UserContext';
 
 const apollo = new ApolloClient({ uri: '/graphql' });
 
@@ -15,16 +16,17 @@ const render = (Component: React.FC) => {
 	return ReactDOM.render(
 		<BrowserRouter>
 			<LoginProvider
-				loginUriPrefix="/login"
-				openIdConnectUrl="https://localhost:5050"
+				loginEndpoint="/login"
 				clientId="hedwig"
-				redirectUrl="https://localhost:5001/login/callback"
+				redirectEndpoint="/login/callback"
 				// NOTE: "offline_access" is required in scope string to retrieve refresh tokens
 				scope="openid profile hedwig_backend offline_access"
 			>
-				<ApolloProvider client={apollo}>
-					<Component />
-				</ApolloProvider>
+				<UserProvider>
+					<ApolloProvider client={apollo}>
+						<Component />
+					</ApolloProvider>
+				</UserProvider>
 			</LoginProvider>
 		</BrowserRouter>,
 		document.getElementById('root')

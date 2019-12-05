@@ -20,12 +20,14 @@ import {
 	QueryStringUtils,
 } from '@openid/appauth';
 import { LoginConsumer, LoginProvider as InternalLoginProvider } from './LoginContext';
+import { getConfig } from '../../config';
+import getCurrentHost from '../../utils/getCurrentHost';
 
 export type LoginProviderPropsType = {
-	loginUriPrefix: string;
-	openIdConnectUrl: string;
+	loginEndpoint: string;
+	defaultOpenIdConnectUrl?: string;
 	clientId: string;
-	redirectUrl: string;
+	redirectEndpoint: string;
 	scope: string;
 	responseType?: string;
 	state?: any;
@@ -33,14 +35,14 @@ export type LoginProviderPropsType = {
 };
 
 const LoginProvider: React.FC<LoginProviderPropsType> = ({
-	loginUriPrefix,
-	openIdConnectUrl,
+	loginEndpoint,
+	defaultOpenIdConnectUrl = null,
 	clientId,
-	redirectUrl,
+	redirectEndpoint,
 	scope,
 	responseType = AuthorizationRequest.RESPONSE_TYPE_CODE,
 	state = undefined,
-	extras = { prompt: 'consent', access_type: 'offline' },
+	extras = { prompt: undefined, access_type: 'offline' },
 	children,
 }) => {
 	// effects
@@ -51,16 +53,30 @@ const LoginProvider: React.FC<LoginProviderPropsType> = ({
 		AuthorizationServiceConfiguration | undefined
 	>();
 	const [tokenResponse, setTokenResponse] = useState<TokenResponse>();
+	const [openIdConnectUrl, setOpenIdConnectUrl] = useState();
+	const redirectUrl = `${getCurrentHost()}${redirectEndpoint}`;
 
 	// state
-	const isLogin = location.pathname === loginUriPrefix;
-	const isCallback = location.pathname === `${loginUriPrefix}/callback`;
+	const isLogin = location.pathname === loginEndpoint;
+	const isCallback = location.pathname === redirectEndpoint;
 
 	// auth flow
 	let notifier: AuthorizationNotifier;
 	let authorizationHandler: AuthorizationRequestHandler | undefined = undefined;
 	let tokenHandler: TokenRequestHandler;
 	initAuthFlow();
+
+	// Setup open id connect url
+	useEffect(() => {
+		(async () => {
+			if (defaultOpenIdConnectUrl != null) {
+				setOpenIdConnectUrl(defaultOpenIdConnectUrl);
+			} else {
+				const wingedKeysUri = await getConfig('WingedKeysUri');
+				setOpenIdConnectUrl(wingedKeysUri);
+			}
+		})();
+	});
 
 	// Only fetch on inital mount
 	useEffect(() => {
@@ -69,6 +85,9 @@ const LoginProvider: React.FC<LoginProviderPropsType> = ({
 		 * This function should only need to be called once for the lifetime of the app
 		 */
 		async function fetchServiceConfiguration(): Promise<void> {
+			if (!openIdConnectUrl) {
+				return;
+			}
 			const configuration = await AuthorizationServiceConfiguration.fetchFromIssuer(
 				openIdConnectUrl,
 				new FetchRequestor()

@@ -4,100 +4,114 @@ import { mount } from 'enzyme';
 import mockdate from 'mockdate';
 import { BrowserRouter } from 'react-router-dom';
 import { act } from 'react-dom/test-utils';
-import { MockedProvider } from '@apollo/react-testing';
 import 'react-dates/initialize';
-import Roster, { ROSTER_QUERY } from './Roster';
+import Roster from './Roster';
+import UserContext from '../../contexts/User/UserContext';
 import DateSelectionForm from './DateSelectionForm';
 import RadioGroup from '../../components/RadioGroup/RadioGroup';
 
 const fakeDate = '2019-09-30';
 
-const earlierFakeEnrollment = {
-	child: {
-		id: 1,
-		firstName: 'James',
-		middleName: 'Sirius',
-		lastName: 'Potter',
-		birthdate: '2015-04-28',
-		suffix: null,
-	},
-	entry: '2019-01-01',
-	exit: null,
-	fundings: [],
+const user = {
 	id: 1,
-	age: 'preschool',
-};
-const laterFakeEnrollment = {
-	child: {
-		id: 2,
-		firstName: 'Lily',
-		middleName: 'Luna',
-		lastName: 'Potter',
-		birthdate: '2016-12-12',
-		suffix: null,
-	},
-	entry: '2019-03-03',
-	exit: null,
-	fundings: [
+	firstName: 'Minerva',
+	lastName: 'McGonagall',
+	orgPermissions: [
 		{
-			entry: '2019-03-01',
-			exit: '2019-04-01',
-			source: 'Gringotts Goblins Grant for Gifted Girls',
-			time: 'part',
+			organizationId: 1,
+			organization: {
+				id: 1,
+				name: "Children's Adventure Center",
+				sites: [{ id: 1, name: "Children's Adventure Center", organizationId: 1 }],
+			},
+			id: 1,
+			userId: 1,
 		},
 	],
-	id: 2,
-	age: 'preschool',
+	sitePermissions: [],
 };
-
-const mocks = [
-	{
-		request: {
-			query: ROSTER_QUERY,
-			variables: {
-				from: fakeDate,
-				to: fakeDate,
-			},
-		},
-		result: {
-			data: {
-				me: {
-					sites: [
-						{
-							id: 1,
-							name: 'Site 1',
-							enrollments: [earlierFakeEnrollment, laterFakeEnrollment],
-						},
-					],
-				},
-			},
-		},
-	},
-	{
-		request: {
-			query: ROSTER_QUERY,
-			variables: { from: '2018-01-01', to: '2019-02-01' },
-		},
-		result: {
-			data: {
-				me: {
-					sites: [
-						{
-							id: 1,
-							name: 'Site 1',
-							enrollments: [earlierFakeEnrollment],
-						},
-					],
-				},
-			},
-		},
-	},
-];
 
 const waitForUpdate = async (wrapper: any) => {
 	await new Promise(resolve => setTimeout(resolve, 10));
 	wrapper.update();
 };
+
+// https://github.com/facebook/jest/issues/5579
+jest.mock('../../hooks/useApi', () => {
+	const moment = require('moment');
+	return {
+		__esModule: true,
+		default: (callback: any, dependencies: any[]) => {
+			return callback(
+				{
+					apiOrganizationsOrgIdSitesIdGet: (params: any) => [
+						false,
+						null,
+						{
+							id: 1,
+							name: "Children's Adventure Center",
+							organizationId: 1,
+							enrollments: undefined,
+							organization: undefined,
+						},
+					],
+					apiOrganizationsOrgIdSitesSiteIdEnrollmentsGet: (params: any) => [
+						false,
+						null,
+						[
+							{
+								child: {
+									id: 1,
+									firstName: 'James',
+									middleName: 'Sirius',
+									lastName: 'Potter',
+									birthdate: '2015-04-28',
+									suffix: null,
+								},
+								entry: '2019-01-01',
+								exit: null,
+								fundings: [],
+								id: 1,
+								age: 'preschool',
+								siteId: 1,
+							},
+							{
+								child: {
+									id: 2,
+									firstName: 'Lily',
+									middleName: 'Luna',
+									lastName: 'Potter',
+									birthdate: '2016-12-12',
+									suffix: null,
+								},
+								entry: '2019-03-03',
+								exit: null,
+								fundings: [
+									{
+										entry: '2019-03-01',
+										exit: '2019-04-01',
+										source: 'CDC',
+										time: 'part',
+									},
+								],
+								id: 2,
+								age: 'preschool',
+							},
+						].filter(e => {
+							return (
+								(!e.entry ? true : moment(e.entry).isBefore(params.endDate)) &&
+								(!e.exit ? true : moment(e.exit).isAfter(moment(params.startDate)))
+							);
+						}),
+					],
+				},
+				[]
+			);
+		},
+	};
+});
+
+import useApi from '../../hooks/useApi';
 
 beforeAll(() => {
 	mockdate.set(fakeDate);
@@ -105,16 +119,17 @@ beforeAll(() => {
 
 afterAll(() => {
 	mockdate.reset();
+	jest.resetModules();
 });
 
 describe('Roster', () => {
 	it('matches snapshot', () => {
 		const wrapper = mount(
-			<MockedProvider mocks={mocks}>
+			<UserContext.Provider value={{ user }}>
 				<BrowserRouter>
 					<Roster />
 				</BrowserRouter>
-			</MockedProvider>
+			</UserContext.Provider>
 		);
 		expect(wrapper).toMatchSnapshot();
 		wrapper.unmount();
@@ -122,11 +137,11 @@ describe('Roster', () => {
 
 	it('renders intro text with the correct number of kids', async () => {
 		const wrapper = mount(
-			<MockedProvider mocks={mocks} addTypename={false}>
+			<UserContext.Provider value={{ user }}>
 				<BrowserRouter>
 					<Roster />
 				</BrowserRouter>
-			</MockedProvider>
+			</UserContext.Provider>
 		);
 		await act(async () => {
 			await waitForUpdate(wrapper);
@@ -138,11 +153,11 @@ describe('Roster', () => {
 
 	it('updates the number of kids', async () => {
 		const wrapper = mount(
-			<MockedProvider mocks={mocks} addTypename={false}>
+			<UserContext.Provider value={{ user }}>
 				<BrowserRouter>
 					<Roster />
 				</BrowserRouter>
-			</MockedProvider>
+			</UserContext.Provider>
 		);
 		await act(async () => {
 			await waitForUpdate(wrapper);

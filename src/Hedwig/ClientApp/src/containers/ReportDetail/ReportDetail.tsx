@@ -6,6 +6,7 @@ import ReportSubmitForm from './ReportSubmitForm';
 import monthFormatter from '../../utils/monthFormatter';
 import dateFormatter from '../../utils/dateFormatter';
 import useAuthQuery from '../../hooks/useAuthQuery';
+import DirectionalLink from '../../components/DirectionalLink/DirectionalLink';
 
 
 export const REPORT_QUERY = gql`
@@ -41,6 +42,7 @@ export default function ReportDetail() {
 	return (
 		<div className="Report">
 			<section className="grid-container">
+        <DirectionalLink direction="left" to="/reports" text="Back to reports" />
 				<h1>
 					{monthFormatter(data.report.period)} {data.report.type} Report
 				</h1>

@@ -19,7 +19,7 @@ namespace Hedwig.Schema.Types
 				{
 					var loader = dataLoader.Context.GetOrAddCollectionBatchLoader<int, Site>(
 						"GetSitesByOrganizationIdsAsync",
-						(ids) => sites.GetSitesByOrganizationIdsAsync(ids));
+						(ids) => sites.GetSitesByOrganizationIdsAsync_OLD(ids));
 
 					return loader.LoadAsync(context.Source.Id);
 				}

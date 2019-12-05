@@ -36,10 +36,14 @@ namespace HedwigTests.Helpers
 			return child;
 		}
 
-		public static List<Child> CreateChildren(HedwigContext context, int numberOfChildren)
+		public static List<Child> CreateChildren(
+			HedwigContext context,
+			int numberOfChildren,
+			Organization organization = null
+		)
 		{
 			var children = Enumerable.Range(1, numberOfChildren)
-				.Select(i => CreateChild(context))
+				.Select(i => CreateChild(context, organization: organization))
 				.ToList();
 
 			return children;

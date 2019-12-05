@@ -1,8 +1,4 @@
-import React from 'react';
-import useAuthMutation from '../../../hooks/useAuthMutation';
-import { UPDATE_ENROLLMENT_MUTATION } from '../enrollmentQueries';
-import { UpdateEnrollmentMutation } from '../../../generated/UpdateEnrollmentMutation';
-import { Age } from '../../../generated/globalTypes';
+import React, { useContext } from 'react';
 import { Section } from '../enrollmentTypes';
 import Button from '../../../components/Button/Button';
 import DatePicker from '../../../components/DatePicker/DatePicker';
@@ -10,15 +6,19 @@ import Dropdown from '../../../components/Dropdown/Dropdown';
 import RadioGroup from '../../../components/RadioGroup/RadioGroup';
 import dateFormatter from '../../../utils/dateFormatter';
 import moment from 'moment';
+import idx from 'idx';
+import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest, Age } from '../../../OAS-generated';
+import { userInfo } from 'os';
+import UserContext from '../../../contexts/User/UserContext';
 
 const ageFromString = (str: string) => {
 	switch (str) {
-		case Age.INFANT:
-			return Age.INFANT;
-		case Age.PRESCHOOL:
-			return Age.PRESCHOOL;
-		case Age.SCHOOL:
-			return Age.SCHOOL;
+		case Age.Infant:
+			return Age.Infant;
+		case Age.Preschool:
+			return Age.Preschool;
+		case Age.School:
+			return Age.School;
 		default:
 			return null;
 	}
@@ -26,11 +26,11 @@ const ageFromString = (str: string) => {
 
 const prettyAge = (age: Age | null) => {
 	switch (age) {
-		case Age.INFANT:
+		case Age.Infant:
 			return 'Infant/Toddler';
-		case Age.PRESCHOOL:
+		case Age.Preschool:
 			return 'Preschool';
-		case Age.SCHOOL:
+		case Age.School:
 			return 'School-age';
 		default:
 			return '';
@@ -42,70 +42,72 @@ const EnrollmentFunding: Section = {
 	name: 'Enrollment and funding',
 	status: () => 'complete',
 
-	Summary: ({ child }) => {
-		const currentEnrollment = child && child.enrollments.find(enrollment => !enrollment.exit);
-
+	Summary: ({ enrollment }) => {
+		if (!enrollment) return <></>;
 		return (
 			<div className="EnrollmentFundingSummary">
-				{currentEnrollment && (
+				{enrollment && (
 					<>
-						<p>Site: {currentEnrollment.site.name}</p>
+						<p>Site: {idx(enrollment, _ => _.site.name)} </p>
 						<p>
 							Enrolled:{' '}
-							{dateFormatter(currentEnrollment.entry) +
+							{dateFormatter(idx(enrollment, _ => _.entry)) +
 								'–' +
-								(currentEnrollment.exit ? dateFormatter(currentEnrollment.exit) : '')}
+								dateFormatter(idx(enrollment, _ => _.exit))}
 						</p>
-						<p>Age: {prettyAge(currentEnrollment.age)}</p>
+						<p>Age: {prettyAge(idx(enrollment, _ => _.age) || null)}</p>
 					</>
 				)}
 			</div>
 		);
 	},
 
-	Form: ({ child, afterSave }) => {
-		const currentEnrollment = child && child.enrollments.find(enrollment => !enrollment.exit);
+	Form: ({ enrollment, mutate }) => {
 
-		if (!currentEnrollment) {
+		if (!enrollment) {
 			throw new Error('EnrollmentFunding rendered without an enrollment');
 		}
 
-		const [updateEnrollment] = useAuthMutation<UpdateEnrollmentMutation>(
-			UPDATE_ENROLLMENT_MUTATION,
-			{
-				onCompleted: () => {
-					if (child && afterSave) {
-						afterSave(child);
-					}
-				},
-			}
-		);
+		const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
+			id: enrollment.id || 0,
+			siteId: idx(enrollment, _ => _.siteId) || 0,
+			orgId: idx(enrollment, _ => _.site.organizationId) || 0,
+			enrollment: enrollment
+		}
 
-		const [siteId, updateSiteId] = React.useState(
-			currentEnrollment ? currentEnrollment.site.id : null
-		);
-		const [entry, updateEntry] = React.useState(currentEnrollment ? currentEnrollment.entry : null);
-		const [age, updateAge] = React.useState(currentEnrollment ? currentEnrollment.age : null);
+		const [siteId, updateSiteId] = React.useState(idx(enrollment, _ => _.siteId));
+
+		const [entry, updateEntry] = React.useState(enrollment ? enrollment.entry : null);
+		const [age, updateAge] = React.useState(enrollment ? enrollment.age : null);
 
 		const save = () => {
 			const args = {
-				entry,
-				age,
+				entry: entry || undefined,
+				age: age || undefined
 			};
 
-			updateEnrollment({ variables: { ...args, id: currentEnrollment.id } });
+			if (enrollment) {
+				const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
+					...defaultParams,
+					enrollment: {
+						...enrollment,
+						...args
+					}
+				}
+				mutate((api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params), (_, result) => result);
+			}
 		};
 
+		const { user } = useContext(UserContext);
 		return (
 			<div className="EnrollmentFundingForm">
 				<div className="usa-form">
 					<Dropdown
-						options={[
-							{
-								value: '' + currentEnrollment.site.id,
-								text: currentEnrollment.site.name,
-							},
-						]}
+						options={idx(user, _ => _.orgPermissions[0].organization.sites.map(s => ({
+							value: '' + s.id,
+							text: '' + s.name
+						})))
+						|| []}
 						label="Site"
 						selected={siteId ? '' + siteId : undefined}
 						onChange={event => updateSiteId(parseInt(event.target.value, 10))}
@@ -115,7 +117,7 @@ const EnrollmentFunding: Section = {
 					</label>
 					<DatePicker
 						onChange={range =>
-							updateEntry((range.startDate && range.startDate.format('YYYY-MM-DD')) || null)
+							updateEntry((range.startDate && range.startDate.toDate()) || null)
 						}
 						dateRange={{ startDate: entry ? moment(entry) : null, endDate: null }}
 					/>
@@ -127,15 +129,15 @@ const EnrollmentFunding: Section = {
 						options={[
 							{
 								text: 'Infant/Toddler',
-								value: Age.INFANT,
+								value: Age.Infant,
 							},
 							{
 								text: 'Preschool',
-								value: Age.PRESCHOOL,
+								value: Age.Preschool,
 							},
 							{
 								text: 'School-age',
-								value: Age.SCHOOL,
+								value: Age.School,
 							},
 						]}
 						selected={'' + age}

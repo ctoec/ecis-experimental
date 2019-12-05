@@ -41,7 +41,7 @@ namespace Hedwig.Controllers
 
             if (include.Contains("site"))
             {
-                var sites = await _sites.GetSitesByOrganizationIdsAsync(new int[] { id });
+                var sites = await _sites.GetSitesByOrganizationIdsAsync_OLD(new int[] { id });
                 if (include.Contains("enrollment"))
                 {
                     await _enrollments.GetEnrollmentsBySiteIdsAsync(from site in sites select site.Key);

@@ -1,5 +1,7 @@
 using System.Linq;
 using System.Threading.Tasks;
+using System;
+using Microsoft.EntityFrameworkCore;
 using Xunit;
 using Hedwig.Repositories;
 using HedwigTests.Helpers;
@@ -10,6 +12,93 @@ namespace HedwigTests.Repositories
 {
 	public class ChildRepositoryTests
 	{
+		[Theory]
+		[InlineData(new string[]{}, false, false)]
+		[InlineData(new string[]{"family"}, true, false)]
+		[InlineData(new string[]{"determinations"}, false, false)]
+		[InlineData(new string[]{"family", "determinations"}, true, true)]
+
+		public async Task GetChildrenForOrganization(
+			string[] include,
+			bool includeFamily,
+			bool includeDeterminations
+		)
+		{
+			Guid[] ids;
+			int organizationId;
+			using (var context = new TestContextProvider().Context)
+			{
+				var organization = OrganizationHelper.CreateOrganization(context);
+				var children = ChildHelper.CreateChildren(context, 3, organization: organization);
+				ids = children.Select(c => c.Id).ToArray();
+				organizationId = organization.Id;
+			}
+
+			using (var context = new TestContextProvider().Context)
+			{
+				var childRepo = new ChildRepository(context);
+				var res = await childRepo.GetChildrenForOrganizationAsync(organizationId, include);
+
+				Assert.Equal(ids.OrderBy(id => id), res.Select(c => c.Id).OrderBy(id => id));
+				Assert.Equal(includeFamily, res.TrueForAll(c => c.Family != null));
+				Assert.Equal(includeDeterminations, res.TrueForAll(c => c.Family != null && c.Family.Determinations != null));
+			}
+		}
+
+		[Theory]
+		[InlineData(new string[]{}, false, false)]
+		[InlineData(new string[]{"family"}, true, false)]
+		[InlineData(new string[]{"determinations"}, false, false)]
+		[InlineData(new string[]{"family", "determinations"}, true, true)]
+		public async Task GetChildForOrganization(
+			string[] include,
+			bool includeFamily,
+			bool includeDeterminations
+		)
+		{
+			Child child;
+			using (var context = new TestContextProvider().Context)
+			{
+				child = ChildHelper.CreateChild(context);
+			}
+			using (var context = new TestContextProvider().Context)
+			{	
+				var childRepo = new ChildRepository(context);
+				var res = await childRepo.GetChildForOrganizationAsync(child.Id, child.OrganizationId.Value, include);
+
+				Assert.Equal(child.Id, res.Id);
+				Assert.Equal(includeFamily, res.Family != null);
+				Assert.Equal(includeDeterminations, res.Family != null && res.Family.Determinations != null);
+			}
+		}
+
+		[Fact]
+		public void AddChild()
+		{
+			using (var context = new TestContextProvider().Context)
+			{
+				var child = new Child();
+
+				var childRepo = new ChildRepository(context);
+				childRepo.AddChild(child);
+
+				Assert.Equal(EntityState.Added, context.Entry(child).State);
+			}
+		}
+
+		[Fact]
+		public void UpdateChild()
+		{
+			using (var context = new TestContextProvider().Context)
+			{
+				var child = new Child();
+
+				var childRepo = new ChildRepository(context);
+				childRepo.UpdateChild(child);
+
+				Assert.Equal(EntityState.Modified, context.Entry(child).State);
+			}
+		}
 		[Fact]
 		public async Task Get_Children_By_Ids()
 		{
@@ -23,7 +112,7 @@ namespace HedwigTests.Repositories
 				var ids = from c in children.GetRange(1, 3)
 									select c.Id;
 
-				var res = await childRepo.GetChildrenByIdsAsync(ids);
+				var res = await childRepo.GetChildrenByIdsAsync_OLD(ids);
 
 				// Then children with those Ids are returned
 				Assert.Equal(ids.OrderBy(id => id), res.Keys.OrderBy(id => id));
@@ -49,12 +138,12 @@ namespace HedwigTests.Repositories
 				var childRepo = new ChildRepository(context);
 
 				// - Without an asOf timestamp
-				var resCurrent = await childRepo.GetChildByIdAsync(child.Id);
+				var resCurrent = await childRepo.GetChildByIdAsync_OLD(child.Id);
 				// - Then the child with the updated first name is returned
 				Assert.Equal(updatedName, resCurrent.FirstName);
 
 				// - With an asOf timestamp that predates the update
-				var resAsOf = await childRepo.GetChildByIdAsync(child.Id, asOf);
+				var resAsOf = await childRepo.GetChildByIdAsync_OLD(child.Id, asOf);
 				// - Then the child with the original name is returned
 				Assert.Equal(originalName, resAsOf.FirstName);
 			}

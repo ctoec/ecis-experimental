@@ -20,7 +20,7 @@ namespace Hedwig.Schema.Queries
 					var id = context.GetArgument<Guid>("id");
 					var asOf = context.GetArgument<DateTime?>("asOf");
 					SetAsOfGlobal(context, asOf);
-					return await repository.GetChildByIdAsync(id, asOf);
+					return await repository.GetChildByIdAsync_OLD(id, asOf);
 				}
 			);
 		}

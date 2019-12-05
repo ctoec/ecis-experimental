@@ -1,34 +1,28 @@
 import React from 'react';
-import useAuthMutation from '../../../hooks/useAuthMutation';
-import {
-	CREATE_FAMILY_DETERMINATION_MUTATION,
-	UPDATE_FAMILY_DETERMINATION_MUTATION,
-	CHILD_QUERY,
-} from '../enrollmentQueries';
-import { CreateFamilyDeterminationMutation } from '../../../generated/CreateFamilyDeterminationMutation';
-import { UpdateFamilyDeterminationMutation } from '../../../generated/UpdateFamilyDeterminationMutation';
-import { ChildQuery } from '../../../generated/ChildQuery';
 import { Section } from '../enrollmentTypes';
 import Button from '../../../components/Button/Button';
 import TextInput from '../../../components/TextInput/TextInput';
 import DatePicker from '../../../components/DatePicker/DatePicker';
 import dateFormatter from '../../../utils/dateFormatter';
 import moment from 'moment';
+import idx from 'idx';
+import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest } from '../../../OAS-generated';
 
 const FamilyIncome: Section = {
 	key: 'family-income',
 	name: 'Family income',
 	status: () => 'complete',
 
-	Summary: ({ child }) => {
-		const determination = child && child.family && child.family.determinations[0];
+	Summary: ({ enrollment }) => {
+		if (!enrollment) return <></>;
+		const determination = idx(enrollment, _ => _.child.family.determinations[0])
 		return (
 			<div className="FamilyIncomeSummary">
 				{determination ? (
 					<>
 						<p>Household size: {determination.numberOfPeople}</p>
-						<p>Annual household income: ${determination.income.toFixed(2)}</p>
-						<p>Determined on: {dateFormatter(determination.determined)}</p>
+						<p>Annual household income: ${idx(determination, _ => _.income.toFixed(2))}</p>
+						<p>Determined on: {dateFormatter(idx(determination, _ => _.determined))}</p>
 					</>
 				) : (
 					<p>No income determination on record.</p>
@@ -37,52 +31,20 @@ const FamilyIncome: Section = {
 		);
 	},
 
-	Form: ({ child, afterSave }) => {
-		if (!child || !child.family) {
+	Form: ({ enrollment, mutate }) => {
+		if(!enrollment || ! enrollment.child || !enrollment.child.family) {
 			throw new Error('FamilyIncome rendered without a family');
 		}
 
-		const [createFamilyDetermination] = useAuthMutation<CreateFamilyDeterminationMutation>(
-			CREATE_FAMILY_DETERMINATION_MUTATION,
-			{
-				update: (cache, { data }) => {
-					const cachedData = cache.readQuery<ChildQuery>({
-						query: CHILD_QUERY,
-						variables: { id: child.id },
-					});
+		const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
+			id: enrollment.id || 0,
+			siteId: idx(enrollment, _ => _.siteId) || 0,
+			orgId: idx(enrollment, _ => _.site.organizationId) || 0,
+			enrollment: enrollment
+		}
 
-					if (cachedData && cachedData.child && cachedData.child.family) {
-						cachedData.child.family.determinations.push(data.createFamilyWithChild);
-
-						cache.writeQuery({
-							query: CHILD_QUERY,
-							data: cachedData,
-							variables: { id: child.id },
-						});
-					}
-				},
-				onCompleted: () => {
-					if (afterSave) {
-						afterSave(child);
-					}
-				},
-			}
-		);
-
-		const [updateFamilyDetermination] = useAuthMutation<UpdateFamilyDeterminationMutation>(
-			UPDATE_FAMILY_DETERMINATION_MUTATION,
-			{
-				onCompleted: () => {
-					if (afterSave) {
-						afterSave(child);
-					}
-				},
-			}
-		);
-
-		const familyId = child.family.id;
-		const determination = child.family.determinations[0];
-
+		const child = enrollment.child;
+		const determination = idx(child, _ => _.family.determinations[0]) || undefined;
 		const [numberOfPeople, updateNumberOfPeople] = React.useState(
 			determination ? determination.numberOfPeople : null
 		);
@@ -92,21 +54,38 @@ const FamilyIncome: Section = {
 		);
 
 		const save = () => {
-			if (numberOfPeople || income || determined) {
+            // If determination is not added, allow user to proceed without creating one
+			if (!numberOfPeople && !income && !determined) {
+				mutate((api) => Promise.resolve(enrollment), (_, result) => result);
+				return;
+			}
+
+			// If determination is added, all fields must be present
+			if (numberOfPeople && income && determined) {
 				const args = {
-					numberOfPeople,
-					income,
-					determined,
+					numberOfPeople: numberOfPeople || undefined,
+					income: income || undefined,
+					determined: determined || undefined,
 				};
 
-				if (determination) {
-					updateFamilyDetermination({ variables: { ...args, id: determination.id } });
-				} else {
-					createFamilyDetermination({ variables: { ...args, familyId } });
-				}
-			} else {
-				if (afterSave) {
-					afterSave(child);
+				if (enrollment && child && child.family) {
+					const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
+						...defaultParams,
+						enrollment: {
+							...enrollment,
+							child: {
+								...child,
+								family: {
+									...child.family,
+									determinations: determination ? [{
+										...determination,
+										...args
+									}] : [{...args}]
+								}
+							}
+						}
+					};
+					mutate((api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params), (_, result) => result);
 				}
 			}
 		};
@@ -141,7 +120,7 @@ const FamilyIncome: Section = {
 				</label>
 				<DatePicker
 					onChange={range =>
-						updateDetermined((range.startDate && range.startDate.format('YYYY-MM-DD')) || null)
+						updateDetermined((range.startDate && range.startDate.toDate()) || null)
 					}
 					dateRange={{ startDate: determined ? moment(determined) : null, endDate: null }}
 				/>

@@ -1,3 +1,4 @@
+using System;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using Hedwig.Models;
@@ -5,17 +6,37 @@ using Hedwig.Data;
 
 namespace Hedwig.Repositories
 {
-	public class UserRepository : IUserRepository
+	public class UserRepository : HedwigRepository, IUserRepository
 	{
-		private readonly HedwigContext _context;
 
-		public UserRepository(HedwigContext context) => _context = context;
+		public UserRepository(HedwigContext context) : base(context) { }
 
-		public async Task<User> GetUserByIdAsync(int id) => await _context.Users.SingleOrDefaultAsync(u => u.Id == id);
+		public async Task<User> GetUserByIdAsync(int id)
+		{
+			return await _context.Users
+				.Include(u => u.OrgPermissions)
+					.ThenInclude(op => op.Organization)
+						.ThenInclude(o => o.Sites)
+				.Include(u => u.SitePermissions)
+					.ThenInclude(sp => sp.Site)
+				.SingleOrDefaultAsync(u => u.Id == id);
+		}
+		
+		public async Task<User> GetUserByWingedKeysIdAsync(Guid id) {
+			return await _context.Users
+			.Include(u => u.OrgPermissions)
+				.ThenInclude(op => op.Organization)
+					.ThenInclude(o => o.Sites)
+				.Include(u => u.SitePermissions)
+					.ThenInclude(sp => sp.Site)
+			.SingleOrDefaultAsync(u => u.WingedKeysId == id);
+		}
+
 	}
 
 	public interface IUserRepository
 	{
 		Task<User> GetUserByIdAsync(int id);
+		Task<User> GetUserByWingedKeysIdAsync(Guid id);
 	}
 }

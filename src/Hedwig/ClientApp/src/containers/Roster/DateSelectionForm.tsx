@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import moment from 'moment';
 import { DatePicker, DateRange } from '../../components/DatePicker/DatePicker';
 import Button from '../../components/Button/Button';
-import moment from 'moment';
+import dateFormatter from '../../utils/dateFormatter';
 
 type DateSelectionFormProps = {
 	onSubmit: (newDateRange: DateRange) => any;
@@ -31,15 +32,13 @@ export default function DateSelectionForm({
 					text="Update"
 					onClick={() => onSubmit(currentDateRange)}
 					disabled={
-						currentDateRange.startDate === inputDateRange.startDate &&
-						currentDateRange.endDate === inputDateRange.endDate
+						dateFormatter(currentDateRange.startDate) === dateFormatter(inputDateRange.startDate) &&
+						dateFormatter(currentDateRange.endDate) === dateFormatter(inputDateRange.endDate)
 					}
 				/>
 				<Button
 					text="Reset"
-					onClick={() => {
-						onReset();
-					}}
+					onClick={onReset}
 				/>
 			</div>
 		</form>

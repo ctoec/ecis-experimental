@@ -128,6 +128,7 @@ exports[`Storyshots Button Base 1`] = `
   <button
     className="usa-button usa-button--base"
     onClick={[Function]}
+    type="button"
   >
     Click me
   </button>
@@ -145,6 +146,7 @@ exports[`Storyshots Button Default 1`] = `
   <button
     className="usa-button "
     onClick={[Function]}
+    type="button"
   >
     Click me
   </button>
@@ -163,6 +165,7 @@ exports[`Storyshots Button Disabled 1`] = `
     className="usa-button "
     disabled={true}
     onClick={[Function]}
+    type="button"
   >
     Click me
   </button>
@@ -180,6 +183,7 @@ exports[`Storyshots Button Secondary 1`] = `
   <button
     className="usa-button usa-button--secondary"
     onClick={[Function]}
+    type="button"
   >
     Click me
   </button>
@@ -197,6 +201,7 @@ exports[`Storyshots Button Unstyled 1`] = `
   <button
     className="usa-button usa-button--unstyled"
     onClick={[Function]}
+    type="button"
   >
     Click me
   </button>
@@ -678,6 +683,98 @@ exports[`Storyshots DatePicker Default 1`] = `
 </div>
 `;
 
+exports[`Storyshots DirectionalLink Back arrow 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <a
+    className="oec-directional-link"
+    href="/"
+    onClick={[Function]}
+  >
+    <svg
+      className="oec-directional-link__arrow oec-directional-link__arrow--direction-left oec-directional-link__arrow--side-left"
+    >
+      arrowRight.svg
+    </svg>
+    Look at the stuff you were looking at before
+  </a>
+</div>
+`;
+
+exports[`Storyshots DirectionalLink Down arrow 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <a
+    className="oec-directional-link"
+    href="/"
+    onClick={[Function]}
+  >
+    <svg
+      className="oec-directional-link__arrow oec-directional-link__arrow--direction-down oec-directional-link__arrow--side-left"
+    >
+      arrowRight.svg
+    </svg>
+    Check out our sweet footer
+  </a>
+</div>
+`;
+
+exports[`Storyshots DirectionalLink Forward arrow 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <a
+    className="oec-directional-link"
+    href="/"
+    onClick={[Function]}
+  >
+    See the next thing in this series
+    <svg
+      className="oec-directional-link__arrow oec-directional-link__arrow--direction-right oec-directional-link__arrow--side-right"
+    >
+      arrowRight.svg
+    </svg>
+  </a>
+</div>
+`;
+
+exports[`Storyshots DirectionalLink Up arrow 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <a
+    className="oec-directional-link"
+    href="/"
+    onClick={[Function]}
+  >
+    <svg
+      className="oec-directional-link__arrow oec-directional-link__arrow--direction-up oec-directional-link__arrow--side-left"
+    >
+      arrowRight.svg
+    </svg>
+    Look at stuff at the top of the page
+  </a>
+</div>
+`;
+
 exports[`Storyshots Dropdown Default 1`] = `
 <div
   style={
@@ -881,10 +978,9 @@ exports[`Storyshots Header Logged in 1`] = `
             className="usa-logo__text"
           >
             <a
-              aria-label="Home"
+              aria-label="Hello world! home"
               href="/"
               onClick={[Function]}
-              title="Home"
             >
               Hello world!
             </a>
@@ -1050,10 +1146,9 @@ exports[`Storyshots Header Logged out 1`] = `
             className="usa-logo__text"
           >
             <a
-              aria-label="Home"
+              aria-label="Hello world! home"
               href="/"
               onClick={[Function]}
-              title="Home"
             >
               Hello world!
             </a>
@@ -1246,6 +1341,137 @@ exports[`Storyshots InlineIcon Incomplete 1`] = `
 </div>
 `;
 
+exports[`Storyshots Legend Default 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="grid-row flex-wrap margin-top-2 margin-bottom-2 oec-legend"
+  >
+    <div
+      className="grid-col-1 flex-1"
+    >
+      <svg
+        className="legend-svg"
+        height="16"
+        width="20"
+      >
+        <rect
+          className="fill-undefined"
+          height="16px"
+          rx="4px"
+          ry="4px"
+          width="16px"
+        />
+      </svg>
+      <div
+        className="width-fit-content display-inline margin-left-1 margin-bottom-1 "
+      >
+        <span
+          className="margin-right-1 text-bold"
+        >
+          1
+        </span>
+        <span>
+          One fish
+        </span>
+      </div>
+    </div>
+    <div
+      className="grid-col-1 flex-1"
+    >
+      <svg
+        className="legend-svg"
+        height="16"
+        width="20"
+      >
+        <rect
+          className="fill-undefined"
+          height="16px"
+          rx="4px"
+          ry="4px"
+          width="16px"
+        />
+      </svg>
+      <div
+        className="width-fit-content display-inline margin-left-1 margin-bottom-1 "
+      >
+        <span
+          className="margin-right-1 text-bold"
+        >
+          2
+        </span>
+        <span>
+          Two fish
+        </span>
+      </div>
+    </div>
+    <div
+      className="grid-col-1 flex-1"
+    >
+      <svg
+        className="legend-svg"
+        height="16"
+        width="20"
+      >
+        <rect
+          className="fill-red"
+          height="16px"
+          rx="4px"
+          ry="4px"
+          width="16px"
+        />
+      </svg>
+      <div
+        className="width-fit-content display-inline margin-left-1 margin-bottom-1 "
+      >
+        <span
+          className="margin-right-1 text-bold"
+        >
+          2
+        </span>
+        <span>
+          Red fish
+        </span>
+      </div>
+    </div>
+    <div
+      className="grid-col-1 flex-1"
+    >
+      <svg
+        className="legend-svg"
+        height="16"
+        width="20"
+      >
+        <rect
+          className="fill-blue"
+          height="16px"
+          rx="4px"
+          ry="4px"
+          width="16px"
+        />
+      </svg>
+      <div
+        className="width-fit-content display-inline margin-left-1 margin-bottom-1 "
+      >
+        <span
+          className="margin-right-1 text-bold"
+        >
+          4
+        </span>
+        <span>
+          Blue fish
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Storyshots RadioGroup Default 1`] = `
 <div
   style={
@@ -1269,8 +1495,8 @@ exports[`Storyshots RadioGroup Default 1`] = `
         className="usa-radio "
       >
         <input
+          checked={false}
           className="usa-radio__input"
-          defaultChecked={false}
           id="one"
           name="storybook-radio-group"
           onChange={[Function]}
@@ -1288,8 +1514,8 @@ exports[`Storyshots RadioGroup Default 1`] = `
         className="usa-radio "
       >
         <input
+          checked={false}
           className="usa-radio__input"
-          defaultChecked={false}
           id="two"
           name="storybook-radio-group"
           onChange={[Function]}
@@ -1331,8 +1557,8 @@ exports[`Storyshots RadioGroup Default selection 1`] = `
         className="usa-radio "
       >
         <input
+          checked={true}
           className="usa-radio__input"
-          defaultChecked={true}
           id="one"
           name="storybook-radio-group-default-selection"
           onChange={[Function]}
@@ -1350,8 +1576,8 @@ exports[`Storyshots RadioGroup Default selection 1`] = `
         className="usa-radio "
       >
         <input
+          checked={false}
           className="usa-radio__input"
-          defaultChecked={false}
           id="two"
           name="storybook-radio-group-default-selection"
           onChange={[Function]}
@@ -1393,8 +1619,8 @@ exports[`Storyshots RadioGroup Horizontal 1`] = `
         className="usa-radio grid-col flex-auto"
       >
         <input
+          checked={false}
           className="usa-radio__input"
-          defaultChecked={false}
           id="one"
           name="storybook-radio-group-2"
           onChange={[Function]}
@@ -1412,8 +1638,8 @@ exports[`Storyshots RadioGroup Horizontal 1`] = `
         className="usa-radio grid-col flex-auto"
       >
         <input
+          checked={false}
           className="usa-radio__input"
-          defaultChecked={false}
           id="two"
           name="storybook-radio-group-2"
           onChange={[Function]}
@@ -1462,8 +1688,8 @@ exports[`Storyshots RadioGroup With error 1`] = `
         className="usa-radio "
       >
         <input
+          checked={false}
           className="usa-radio__input"
-          defaultChecked={false}
           id="one"
           name="storybook-radio-group-with-error"
           onChange={[Function]}
@@ -1481,8 +1707,8 @@ exports[`Storyshots RadioGroup With error 1`] = `
         className="usa-radio "
       >
         <input
+          checked={false}
           className="usa-radio__input"
-          defaultChecked={false}
           id="two"
           name="storybook-radio-group-with-error"
           onChange={[Function]}

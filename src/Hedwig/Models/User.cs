@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,6 +8,8 @@ namespace Hedwig.Models
 	public class User
 	{
 		public int Id { get; set; }
+
+		public Guid WingedKeysId { get; set; }
 
 		[Required]
 		[StringLength(35)]
@@ -22,7 +25,8 @@ namespace Hedwig.Models
 		[StringLength(10)]
 		public string Suffix { get; set; }
 
-		public ICollection<Permission> Permissions { get; set; }
+		public ICollection<OrganizationPermission> OrgPermissions { get; set; }
+		public ICollection<SitePermission> SitePermissions { get; set; }
 
 		[NotMapped]
 		public ICollection<Site> Sites { get; set; }

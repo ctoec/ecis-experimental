@@ -32,7 +32,7 @@ namespace Hedwig.Schema.Mutations
 					var childStringId = context.GetArgument<string>("childId");
 					var childId = Guid.Parse(childStringId);
 
-					var child = await childRepo.GetChildByIdAsync(childId);
+					var child = await childRepo.GetChildByIdAsync_OLD(childId);
 					if (child == null)
 					{
 						throw new ExecutionError(
@@ -76,7 +76,7 @@ namespace Hedwig.Schema.Mutations
 				{
 					var id = context.GetArgument<int>("id");
 
-					var family = await repository.GetFamilyByIdAsync(id);
+					var family = await repository.GetFamilyByIdAsync_OLD(id);
 					if (family == null)
 					{
 						throw new ExecutionError(
