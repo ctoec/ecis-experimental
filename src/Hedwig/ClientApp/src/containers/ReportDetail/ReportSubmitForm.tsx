@@ -67,6 +67,8 @@ export default function ReportSubmitForm(report: ReportQuery_report) {
 					</label>
 				</div>
 				<fieldset className="usa-fieldset">
+					{/* TODO: USE SAME VALIDATION AS FAMILY INCOME */}
+					{/* TODO: WHAT NEEDS TO BE ADDED TO BACKEND? */}
 					<legend>
 						<h2 className="margin-bottom-0 margin-top-2">Other Revenue</h2>
 					</legend>
@@ -78,6 +80,7 @@ export default function ReportSubmitForm(report: ReportQuery_report) {
 							</React.Fragment>
 						}
 						onChange={() => {}}
+						disabled={!!submittedAt}
 					/>
 					<div className="margin-top-2">
 						<Checkbox
@@ -85,12 +88,14 @@ export default function ReportSubmitForm(report: ReportQuery_report) {
 							value="retroactive"
 							name="retroactive"
 							onChange={() => {}}
+							disabled={!!submittedAt}
 						/>
 					</div>
 					<TextInput
 						id="family-fee-srevenue"
 						label={<span className="text-bold">Family Fees</span>}
 						onChange={() => {}}
+						disabled={!!submittedAt}
 					/>
 				</fieldset>
 				{!submittedAt && <input className="usa-button" type="submit" value="Submit" />}
