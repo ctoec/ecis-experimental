@@ -57,29 +57,11 @@ namespace Hedwig.Repositories
     {
       var include_orgs = include.Contains(INCLUDE_ORGANIZATIONS);
       var include_sites = include.Contains(INCLUDE_SITES);
-      var include_enrolls = include.Contains(INCLUDE_ENROLLMENTS);
-      var include_fundings = include.Contains(INCLUDE_FUNDINGS);
       var include_funding_spaces = include.Contains(INCLUDE_FUNDING_SPACES);
 
       var report = _context.Reports
         .OfType<OrganizationReport>()
         .Where(r => r.Id == id && r.OrganizationId == orgId);
-
-      // If we are including a temporal table, check to see whether we need to retrieve historical data
-      if (include_enrolls || include_fundings)
-      {
-        DateTime? reportSubmittedAt = await report
-          .Select(report => report.SubmittedAt)
-          .FirstOrDefaultAsync();
-
-        if (reportSubmittedAt != null)
-        {
-          report = _context.Reports
-            .AsOf(reportSubmittedAt.Value)
-            .OfType<OrganizationReport>()
-            .Where(r => r.Id == id && r.OrganizationId == orgId);
-        }
-      }
 
       if (include_orgs)
       {
@@ -91,23 +73,6 @@ namespace Hedwig.Repositories
         report = report
           .Include(report => report.Organization)
           .ThenInclude(organization => organization.Sites);
-      }
-
-      if (include_enrolls)
-      {
-        report = report
-          .Include(report => report.Organization)
-          .ThenInclude(organization => organization.Sites)
-          .ThenInclude(site => site.Enrollments);
-      }
-
-      if (include_fundings)
-      {
-        report = report
-          .Include(report => report.Organization)
-          .ThenInclude(organization => organization.Sites)
-          .ThenInclude(site => site.Enrollments)
-          .ThenInclude(enrollment => enrollment.Fundings);
       }
 
       if (include_funding_spaces)

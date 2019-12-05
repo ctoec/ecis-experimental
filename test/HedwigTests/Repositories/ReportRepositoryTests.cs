@@ -39,18 +39,10 @@ namespace HedwigTests.Repositories
       }
     }
 
-    [Theory(Skip = "Turns out this approach to temporal tables doesn't work")]
-    [InlineData(false, new string[] { })]
-    [InlineData(false, new string[] { "organizations" })]
-    [InlineData(false, new string[] { "fundings", "funding_spaces" })]
-    // Tests that the query still runs even if no temporal tables are included
-    [InlineData(true, new string[] { "organizations", "sites", "funding_spaces" })]
-    [InlineData(true, new string[] { "enrollments" })]
-    [InlineData(true, new string[] { "fundings" })]
-    public async Task Get_Report_For_Organization(
-      bool submitted,
-      string[] include
-    )
+    [Theory]
+    [InlineData("organizations")]
+    [InlineData("organizations", "sites", "funding_spaces")]
+    public async Task Get_Report_For_Organization(params string[] include)
     {
       using (var context = new TestContextProvider().Context)
       {
@@ -58,17 +50,6 @@ namespace HedwigTests.Repositories
         var organization = OrganizationHelper.CreateOrganization(context);
         var report = ReportHelper.CreateCdcReport(context, organization: organization);
         var site = SiteHelper.CreateSite(context, organization: organization);
-        var enrollment = EnrollmentHelper.CreateEnrollment(context, site: site, age: Age.Preschool);
-        var funding = FundingHelper.CreateFunding(context, enrollment: enrollment, time: FundingTime.Full);
-
-        if (submitted)
-        {
-          report.SubmittedAt = DateTime.Now;
-          context.SaveChanges();
-          enrollment.Age = Age.School;
-          funding.Time = FundingTime.Part;
-          context.SaveChanges();
-        }
 
         // When the repository is queried
         var repo = new ReportRepository(context);
@@ -80,50 +61,18 @@ namespace HedwigTests.Repositories
         // When we include the Organization
         if (include.Contains("organizations"))
         {
-          // It is not null
-          Assert.True(result.Organization != null);
+          // It is loaded
+          Assert.True(context.Entry(result).Reference(report => report.Organization).IsLoaded);
         }
 
-        // When we include the Site
-        if (include.Contains("sites"))
-        {
-          // It is not null
-          Assert.True(result.Organization.Sites.FirstOrDefault() != null);
-        }
+        var sitesIsLoaded = context.Entry(result)
+          .Reference(report => report.Organization)
+          .TargetEntry
+          .Collection(organization => organization.Sites)
+          .IsLoaded;
 
-        Enrollment enrollmentResult;
-
-        // When we include the Enrollment
-        if (include.Contains("enrollments"))
-        {
-          enrollmentResult = result.Organization.Sites.FirstOrDefault().Enrollments.FirstOrDefault();
-          // It is not null
-          Assert.True(enrollmentResult != null);
-
-          // And if the report was submitted and then subsequently changed
-          if (submitted)
-          {
-            // It uses the Enrollment as of the time the report was submitted
-            Assert.Equal(Age.Preschool, enrollmentResult.Age);
-          }
-        }
-
-        Funding fundingResult;
-
-        // When we include the Funding
-        if (include.Contains("fundings"))
-        {
-          fundingResult = result.Organization.Sites.FirstOrDefault().Enrollments.FirstOrDefault().Fundings.FirstOrDefault();
-          // It is not null
-          Assert.True(fundingResult != null);
-
-          // And if the report was submitted and then subsequently changed
-          if (submitted)
-          {
-            // It uses the Funding as of the time the report was submitted
-            Assert.Equal(FundingTime.Full, fundingResult.Time);
-          }
-        }
+        // Site is loaded when we include it
+        Assert.Equal(include.Contains("sites"), sitesIsLoaded);
       }
     }
   }
