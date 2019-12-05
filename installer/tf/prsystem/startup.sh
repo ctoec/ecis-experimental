@@ -47,17 +47,17 @@ sudo -i -u ubuntu bash -c 'sed -i "s/Build: __Build.BuildNumber__/Branch: ${gith
 #---------------------------------------
 # setup git source - winged-keys
 #---------------------------------------
-sudo -i -u ubuntu bash -c 'cd /home/ubuntu/ws && git clone https://github.com/ctoec/winged-keys'
+#sudo -i -u ubuntu bash -c 'cd /home/ubuntu/ws && git clone https://github.com/ctoec/winged-keys'
 
 #---------------------------------------
 # Create a bind mount - winged-keys
 #---------------------------------------
-sudo -u ubuntu bash -c 'cd /home/ubuntu/ws/ecis-experimental && mkdir winged-keys'
-sudo mount -o bind /home/ubuntu/ws/winged-keys /home/ubuntu/ws/ecis-experimental/winged-keys
+#sudo -u ubuntu bash -c 'cd /home/ubuntu/ws/ecis-experimental && mkdir winged-keys'
+#sudo mount -o bind /home/ubuntu/ws/winged-keys /home/ubuntu/ws/ecis-experimental/winged-keys
 
 #---------------------------------------
 # Startup docker
 #---------------------------------------
-sudo bash -c 'cd /home/ubuntu/ws/ecis-experimental && docker-compose up --build >> /var/www/html/index.html 2>&1'
-
+#sudo bash -c 'cd /home/ubuntu/ws/ecis-experimental && docker-compose up --build >> /var/www/html/index.html 2>&1'
+sudo bash -c 'cd /home/ubuntu/ws/ecis-experimental && docker-compose up db backend rest-backend client >> /var/www/html/index.html 2>&1'
 
