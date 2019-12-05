@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState, DependencyList } from 'react';
 import { Configuration, HedwigApi } from '../OAS-generated';
 import LoginContext from '../contexts/Login/LoginContext';
+import getCurrentHost from '../utils/getCurrentHost';
 
 export type Reducer<TData> = (data: TData, result: TData) => TData;
 export type Query<TData> = (api: HedwigApi) => Promise<TData>
@@ -46,8 +47,8 @@ export default function useApi<TData>(
 	const api = accessToken
 		? new HedwigApi(
 				new Configuration({
-					basePath: 'https://localhost:5001',
-					headers: { "Authorization": "Bearer " + accessToken },
+					basePath: getCurrentHost(),
+					apiKey: `Bearer ${accessToken}`,
 				})
 		  )
 		: null;

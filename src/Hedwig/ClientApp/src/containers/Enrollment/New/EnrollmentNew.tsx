@@ -14,6 +14,7 @@ import {
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest 
 } from '../../../OAS-generated';
 import idx from 'idx';
+import getIdForUser from '../../../utils/getIdForUser';
 
 type EnrollmentNewParams = {
 	history: History;
@@ -46,14 +47,6 @@ export default function EnrollmentNew({
 		throw new Error('EnrollmentNew rendered without siteId or enrollmentId parameters');
 	}
 
-	const { user } = useContext(UserContext);
-	const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest = {
-		id: enrollmentId ? enrollmentId : 0,
-		orgId: idx(user, _ => _.orgPermissions[0].organizationId) || 0,
-		siteId: idx(user, _ => _.orgPermissions[0].organization.sites[0].id) || 0,
-		include: ['child', 'family', 'determinations', 'fundings'],
-	}
-
 	const afterSave = (enrollment: Enrollment) => {
 		// Enrollments begin at /roster/sites/:siteId/enroll. We replace this URL in the
 		// browser history once we have an ID for the child.
@@ -72,6 +65,14 @@ export default function EnrollmentNew({
 			history.push(`/roster/enrollments/${enrollment.id}/new/${nextSectionId}`);
 		}
 	};
+
+	const { user } = useContext(UserContext);
+	const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest = {
+		id: enrollmentId ? enrollmentId : 0,
+		orgId: getIdForUser(user, "org"),
+		siteId: getIdForUser(user, "site"),
+		include: ['child', 'family', 'determinations', 'fundings'],
+	}
 
 	const [loading, error, enrollment, mutate] = useApi<Enrollment>(
 		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),

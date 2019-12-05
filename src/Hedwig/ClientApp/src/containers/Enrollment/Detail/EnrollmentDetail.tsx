@@ -8,11 +8,14 @@ import nameFormatter from '../../../utils/nameFormatter';
 import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest, Enrollment } from '../../../OAS-generated';
 import UserContext from '../../../contexts/User/UserContext';
 import useApi from '../../../hooks/useApi';
+import DirectionalLink from '../../../components/DirectionalLink/DirectionalLink';
+import idx from 'idx';
+import getIdForUser from '../../../utils/getIdForUser';
+
 
 type EnrollmentDetailParams = {
 	match: {
 		params: {
-			siteId?: string;
 			enrollmentId?: number;
 		};
 	};
@@ -22,25 +25,25 @@ const sections = [ChildInfo, FamilyInfo, FamilyIncome, EnrollmentFunding];
 
 export default function EnrollmentDetail({
 	match: {
-		params: { siteId, enrollmentId }
+		params: { enrollmentId }
 	},
 }: EnrollmentDetailParams) {
 	const { user } = useContext(UserContext);
 	const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest = {
 		id: enrollmentId ? enrollmentId : 0,
-		orgId: (user && user.orgPermissions && user.orgPermissions[0] && user.orgPermissions[0].organizationId) || 1,
-		siteId: siteId ? parseInt(siteId) : 1,
+		orgId: getIdForUser(user, "org"),
+		siteId: getIdForUser(user, "site"),
 		include: ['child', 'family', 'determinations', 'fundings'],
 	}
 	const [loading, error, enrollment, mutate] = useApi<Enrollment>(
 		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
-		[enrollmentId],
+		[enrollmentId, user],
 		undefined,
 		!enrollmentId
 	);
 
 	if (!enrollment) {
-		return <div className="EnrollmentNew"></div>;
+		return <div className="EnrollmentDetail"></div>;
 	}
 
 	const child = enrollment.child;
@@ -48,7 +51,8 @@ export default function EnrollmentDetail({
 	return (
 		<div className="EnrollmentDetail">
 			<section className="grid-container">
-				{/* <h1>{nameFormatter(child)}</h1> */}
+				<DirectionalLink direction="left" to="/roster" text="Back to roster" />
+				<h1>{nameFormatter(child)}</h1>
 				{sections.map(section => (
 					<section key={section.key} className="hedwig-enrollment-details-section">
 						<div className="hedwig-enrollment-details-section__content">

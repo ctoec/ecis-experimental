@@ -6,7 +6,8 @@ import ReportSubmitForm from './ReportSubmitForm';
 import monthFormatter from '../../utils/monthFormatter';
 import dateFormatter from '../../utils/dateFormatter';
 import useAuthQuery from '../../hooks/useAuthQuery';
-
+import DirectionalLink from '../../components/DirectionalLink/DirectionalLink';
+import Tag from '../../components/Tag/Tag';
 
 export const REPORT_QUERY = gql`
 	query ReportQuery($id: ID!) {
@@ -41,8 +42,12 @@ export default function ReportDetail() {
 	return (
 		<div className="Report">
 			<section className="grid-container">
+				<DirectionalLink direction="left" to="/reports" text="Back to reports" />
 				<h1>
-					{monthFormatter(data.report.period)} {data.report.type} Report
+					{monthFormatter(data.report.period)} {data.report.type} Report{' '}
+					{!data.report.submittedAt && (
+						<Tag text="DRAFT" color="gold-30v" addClass="margin-left-1 text-middle" />
+					)}
 				</h1>
 				<p className="usa-intro">
 					{data.report.organization.name} | {dateFormatter(data.report.periodStart)} -{' '}

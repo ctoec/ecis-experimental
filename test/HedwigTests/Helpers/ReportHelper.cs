@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Hedwig.Data;
 using Hedwig.Models;
 
@@ -28,5 +30,18 @@ namespace HedwigTests.Helpers
       context.SaveChanges();
       return report;
     }
-  }
+
+		public static List<Report> CreateCdcReports(
+			HedwigContext context,
+			int numberOfReports,
+			Organization organization = null
+		)
+		{
+			var reports = Enumerable.Range(1, numberOfReports)
+				.Select(i => CreateCdcReport(context, organization: organization))
+				.ToList();
+
+			return reports;
+		}
+	}
 }
