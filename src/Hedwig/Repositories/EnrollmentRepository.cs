@@ -95,6 +95,11 @@ namespace Hedwig.Repositories
         enrollment = enrollment.Include(e => e.Fundings);
       }
 
+			if(include.Contains(INCLUDE_SITES))
+			{
+				enrollment = enrollment.Include(e => e.Site);
+			}
+
       if (include.Contains(INCLUDE_CHILD))
       {
         enrollment = enrollment.Include(e => e.Child);
