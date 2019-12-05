@@ -13,8 +13,8 @@ cd "$(dirname "$(realpath "$0")")"
 terraform workspace select $GITHUB_PR
 if [ $? -ne 0 ]
 then
-  echo ERROR: failed to select terraform workspace - $GITHUB_PR
-  exit 9
+  echo WARNING: terraform workspace does not exist - $GITHUB_PR
+  exit 0
 fi
 
 terraform workspace show
