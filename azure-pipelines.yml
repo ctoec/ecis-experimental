@@ -165,4 +165,35 @@ jobs:
     inputs:
       pathToPublish: "$(Build.ArtifactStagingDirectory)/hedwig-db.sql"
       artifactName: hedwig-db
+#
+# Pull Request System
+#
+- job: pull_request_system
+  displayName: 'Pull Request System'
+  condition: eq(variables['Build.Reason'], 'PullRequest')
+#  condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
+
+  steps:
+  - task: UsePythonVersion@0
+    displayName: 'Tool: use python 3.x'
+
+  - script: 'python -m pip install awscli'
+    displayName: 'Command: install awscli via pip'
+
+  - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
+    displayName: 'Install: install terraform 0.12.13' 
+    inputs:
+      terraformVersion: 0.12.13
+
+  - script: $(Build.SourcesDirectory)/installer/tf/prsystem/tf-init.sh
+    displayName: 'Command: initialize terraform backend'
+
+  - script: $(Build.SourcesDirectory)/installer/tf/prsystem/tf-pr-system-destroy.sh $(System.PullRequest.PullRequestNumber) 
+    displayName: 'Command: destroy ubuntu system via terraform'
+
+  - script: $(Build.SourcesDirectory)/installer/tf/prsystem/tf-pr-system-setup.sh $(System.PullRequest.PullRequestNumber) $(System.PullRequest.SourceBranch)
+    displayName: 'Command: setup ubuntu system via terraform'
+
+  - script: $(Build.SourcesDirectory)/installer/tf/prsystem/tf-pr-system-clean.sh
+    displayName: 'Command: clean ubuntu systems via terraform'
 
