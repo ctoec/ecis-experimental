@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { History } from 'history';
 import { Section, SectionProps } from '../enrollmentTypes';
 import { default as StepList, StepProps } from '../../../components/StepList/StepList';
@@ -13,7 +13,6 @@ import {
 	Enrollment,
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest 
 } from '../../../OAS-generated';
-import idx from 'idx';
 import getIdForUser from '../../../utils/getIdForUser';
 
 type EnrollmentNewParams = {
@@ -46,6 +45,20 @@ export default function EnrollmentNew({
 	if (!siteId && !enrollmentId) {
 		throw new Error('EnrollmentNew rendered without siteId or enrollmentId parameters');
 	}
+	const { user } = useContext(UserContext);
+	const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest = {
+		id: enrollmentId ? enrollmentId : 0,
+		orgId: getIdForUser(user, "org"),
+		siteId: getIdForUser(user, "site"),
+		include: ['child', 'family', 'determinations', 'fundings'],
+	}
+
+	const [loading, error, enrollment, mutate] = useApi<Enrollment>(
+		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
+		[enrollmentId],
+		undefined,
+		!enrollmentId
+	);
 
 	const afterSave = (enrollment: Enrollment) => {
 		// Enrollments begin at /roster/sites/:siteId/enroll. We replace this URL in the
@@ -66,21 +79,6 @@ export default function EnrollmentNew({
 		}
 	};
 
-	const { user } = useContext(UserContext);
-	const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest = {
-		id: enrollmentId ? enrollmentId : 0,
-		orgId: getIdForUser(user, "org"),
-		siteId: getIdForUser(user, "site"),
-		include: ['child', 'family', 'determinations', 'fundings'],
-	}
-
-	const [loading, error, enrollment, mutate] = useApi<Enrollment>(
-		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
-		[enrollmentId],
-		undefined,
-		!enrollmentId,
-		afterSave
-	);
 
 	if (loading || error) {
 		return <div className="EnrollmentNew"></div>;
@@ -91,6 +89,7 @@ export default function EnrollmentNew({
 	const props: SectionProps = {
 		enrollment: enrollment,
 		mutate: mutate,
+		callback: afterSave,
 		siteId,
 	};
 

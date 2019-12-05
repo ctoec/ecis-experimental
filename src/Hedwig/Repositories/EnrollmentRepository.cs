@@ -10,24 +10,44 @@ using Hedwig.Data;
 
 namespace Hedwig.Repositories
 {
-  public class EnrollmentRepository : TemporalRepository, IEnrollmentRepository
-  {
-    public EnrollmentRepository(HedwigContext context) : base(context) { }
+	public class EnrollmentRepository : TemporalRepository, IEnrollmentRepository
+	{
+		public EnrollmentRepository(HedwigContext context) : base(context) { }
 
-    public void UpdateEnrollment(Enrollment enrollment)
-    {
-      _context.Entry(enrollment).State = EntityState.Modified;
-    }
-    public void AddEnrollment(Enrollment enrollment)
-    {
-      _context.Add(enrollment);
-    }
+		public void UpdateEnrollment(Enrollment enrollment)
+		{
+			_context.Entry(enrollment).State = EntityState.Modified;
 
-    public Task SaveChangesAsync()
-    {
-      return _context.SaveChangesAsync();
-    }
-    public Task<List<Enrollment>> GetEnrollmentsForSiteAsync(
+			if(enrollment.Child != null) {
+				AddOrUpdateChildObject(enrollment.Child);
+
+				if(enrollment.Child.Family != null) {
+					AddOrUpdateChildObject(enrollment.Child.Family);
+
+					if(enrollment.Child.Family.Determinations != null) {
+						foreach (var d in enrollment.Child.Family.Determinations) {
+							AddOrUpdateChildObject(d);
+						}
+					}
+				}
+			}
+
+			if(enrollment.Fundings != null) {
+				foreach (var f in enrollment.Fundings) {
+					AddOrUpdateChildObject(f);
+				}
+			}
+		}
+		public void AddEnrollment(Enrollment enrollment)
+		{
+			_context.Add(enrollment);
+		}
+
+		public Task SaveChangesAsync()
+		{
+			return _context.SaveChangesAsync();
+		}
+		public Task<List<Enrollment>> GetEnrollmentsForSiteAsync(
       int siteId,
       DateTime? from = null,
       DateTime? to = null,

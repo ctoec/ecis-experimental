@@ -14,7 +14,7 @@ const FamilyIncome: Section = {
 	status: () => 'complete',
 
 	Summary: ({ enrollment }) => {
-		if (!enrollment) return <></>;
+		if (!enrollment || !enrollment.child || !enrollment.child.family) return <></>;
 		const determination = idx(enrollment, _ => _.child.family.determinations[0])
 		return (
 			<div className="FamilyIncomeSummary">
@@ -31,9 +31,15 @@ const FamilyIncome: Section = {
 		);
 	},
 
-	Form: ({ enrollment, mutate }) => {
+	Form: ({ enrollment, mutate, callback }) => {
 		if(!enrollment || ! enrollment.child || !enrollment.child.family) {
-			throw new Error('FamilyIncome rendered without a family');
+			throw new Error("family info required for family income, but can't render a link to family info here b/c that causes react hook out of order unhappiness");
+			// return (
+			// 	<div className="FamilyIncomeForm usa-form">
+			// 		Must add Family information before family income can be added!
+			// 		<Link to='edit/family-info'>Add family information</Link>
+			// 	</div>
+			// );
 		}
 
 		const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
@@ -54,10 +60,12 @@ const FamilyIncome: Section = {
 		);
 
 		const save = () => {
-            // If determination is not added, allow user to proceed without creating one
+      // If determination is not added, allow user to proceed without creating one
 			if (!numberOfPeople && !income && !determined) {
-				mutate((api) => Promise.resolve(enrollment), (_, result) => result);
-				return;
+				if(callback) {
+					callback(enrollment);
+					return;
+				}
 			}
 
 			// If determination is added, all fields must be present
@@ -85,7 +93,10 @@ const FamilyIncome: Section = {
 							}
 						}
 					};
-					mutate((api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params), (_, result) => result);
+					mutate((api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
+						.then((res) => {
+							if(callback && res) callback(res);
+						});
 				}
 			}
 		};

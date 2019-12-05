@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import idx from 'idx';
 import nameFormatter from '../../utils/nameFormatter';
 import dateFormatter from '../../utils/dateFormatter';
 import enrollmentTextFormatter from '../../utils/enrollmentTextFormatter';
@@ -22,12 +21,18 @@ export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
 	const [dateRange, setDateRange] = useState<DateRange>(getDefaultDateRange());
 	const [byRange, setByRange] = useState(false);
+	const handlePastEnrollmentsChange = () => {
+		toggleShowPastEnrollments(!showPastEnrollments);
+		setByRange(false);
+		setDateRange(getDefaultDateRange());
+	}
+
 	const { user } = useContext(UserContext);
 	const siteParams = {
 		id: getIdForUser(user, "site"),
 		orgId: getIdForUser(user, "org")
 	};
-	const [loading, error, site] = useApi(
+	const [sLoading, sError, site] = useApi(
 		api =>
 			api.apiOrganizationsOrgIdSitesIdGet(siteParams),
 		[user]
@@ -40,20 +45,15 @@ export default function Roster() {
 		startDate:  (dateRange && dateRange.startDate && dateRange.startDate.toDate()) || undefined,
 		endDate: (dateRange && dateRange.endDate && dateRange.endDate.toDate()) || undefined,
 	}
-	const [enrollmentsLoading, enrollmentsError, rawEnrollments] = useApi(
+	const [eLoading, eError, rawEnrollments] = useApi(
 		// TODO: after everything being nullable is solved, ditch raw enrollments and type mapping below
 		api =>
 			api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsGet(enrollmentsParams),
 		[user, dateRange]
 	);
 
-	function handlePastEnrollmentsChange() {
-		toggleShowPastEnrollments(!showPastEnrollments);
-		setByRange(false);
-		setDateRange(getDefaultDateRange());
-	}
-
-	if (!site) {
+	if (sLoading || sError || !site
+			|| eLoading || eError || !rawEnrollments) {
 		return <div className="Roster"></div>;
 	}
 
