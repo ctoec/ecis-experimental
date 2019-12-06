@@ -55,14 +55,9 @@ sudo -u ubuntu bash -c 'cd /home/ubuntu/ws/ecis-experimental && mkdir winged-key
 sudo mount -o bind /home/ubuntu/ws/winged-keys /home/ubuntu/ws/ecis-experimental/winged-keys
 
 #---------------------------------------
-# set identify server - winged-keys
+# set config and appsettings 
 #---------------------------------------
 publicIP=$(curl https://checkip.amazonaws.com)
-currentHost=https://$publicIP:5001
-#sudo -i -u ubuntu bash -c 'sed -i "s|https://localhost:5050|'"$currentHost"'/|g" /home/ubuntu/ws/ecis-experimental/src/Hedwig/ClientApp/public/config.json'
-#sudo -i -u ubuntu bash -c 'sed -i "s|\(^\s*\"BaseUri\":\).*$|\1\"'"$currentHost"'\",|" /home/ubuntu/ws/winged-keys/src/WingedKeys/appsettings.Development.json'
-#sudo -i -u ubuntu bash -c 'sed -i "s|\(^\s*\"ClientUris\":\).*$|\1\"'"$currentHost"'\",|" /home/ubuntu/ws/winged-keys/src/WingedKeys/appsettings.Development.json'
-
 sudo -i -u ubuntu bash -c 'sed -i "s|localhost|'"$publicIP"'|g" /home/ubuntu/ws/ecis-experimental/src/Hedwig/ClientApp/public/config.json'
 sudo -i -u ubuntu bash -c 'sed -i "s|localhost|'"$publicIP"'|g" /home/ubuntu/ws/winged-keys/src/WingedKeys/appsettings.Development.json'
 
