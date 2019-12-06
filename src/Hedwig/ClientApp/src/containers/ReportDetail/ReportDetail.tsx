@@ -28,23 +28,21 @@ export default function ReportDetail() {
 		return <div className="Report"></div>;
 	}
 
-	console.log(report)
 	return (
 		<div className="Report">
 			<section className="grid-container">
 				<DirectionalLink direction="left" to="/reports" text="Back to reports" />
 				<h1>
-					{/* TODO: WHY IS TYPE 0??? */}
 					{monthFormatter(idx(report, _ => _.reportingPeriod.period))} {report.type} Report{' '}
 					{!report.submittedAt && (
 						<Tag text="DRAFT" color="gold-30v" addClass="margin-left-1 text-middle" />
 					)}
 				</h1>
 				<p className="usa-intro">
-					{/* {report.organization.name} | {dateFormatter(idx(report, _ => _.reportingPeriod.periodStart))} -{' '} */}
+					{idx(report, _ => _.organization.name)} | {dateFormatter(idx(report, _ => _.reportingPeriod.periodStart))} -{' '}
 					{dateFormatter(idx(report, _ => _.reportingPeriod.periodEnd))}
 				</p>
-				{/* <ReportSubmitForm {...report} /> */}
+				<ReportSubmitForm {...report} />
 			</section>
 		</div>
 	);

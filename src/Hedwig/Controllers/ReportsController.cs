@@ -36,7 +36,7 @@ namespace Hedwig.Controllers
     [HttpGet("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<Report>> Get(
+    public async Task<ActionResult<CdcReport>> Get(
       int id,
       int orgId,
       [FromQuery(Name = "include[]")] string[] include

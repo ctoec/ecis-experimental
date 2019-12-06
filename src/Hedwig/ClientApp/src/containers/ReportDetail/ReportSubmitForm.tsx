@@ -1,24 +1,10 @@
 import React, { useState, FormEvent } from 'react';
-import useAuthMutation from '../../hooks/useAuthMutation';
-import { gql } from 'apollo-boost';
-import { ReportQuery_report } from '../../generated/ReportQuery';
-import { ReportSubmitMutation } from '../../generated/ReportSubmitMutation';
 import Alert, { AlertProps } from '../../components/Alert/Alert';
 import TextInput from '../../components/TextInput/TextInput';
 import Checkbox from '../../components/Checklist/Checkbox';
 
-export const REPORT_SUBMIT_MUTATION = gql`
-	mutation ReportSubmitMutation($id: Int!, $accredited: Boolean!) {
-		submitCdcReport(id: $id, accredited: $accredited) {
-			... on CdcReportType {
-				id
-				submittedAt
-			}
-		}
-	}
-`;
-
-export default function ReportSubmitForm(report: ReportQuery_report) {
+// TODO: ACTUAL TYPE
+export default function ReportSubmitForm(report: any) {
 	// const [accredited, setAccredited] = useState(report.accredited);
 	// const [c4kRevenue, setC4kRevenue] = useState(report.c4KRevenue);
 	// const [c4kRevenueIncludesRetroactive, setc4kRevenueIncludesRetroactive] = useState(report.c4kRevenueIncludesRetroactive);
