@@ -55,20 +55,21 @@ namespace Hedwig.Repositories
 
     public async Task<Report> GetReportForOrganizationAsync(int id, int orgId, string[] include = null)
     {
-      var include_orgs = include.Contains(INCLUDE_ORGANIZATIONS);
+			include = include ?? new string[] { };
+			var include_orgs = include.Contains(INCLUDE_ORGANIZATIONS);
       var include_sites = include.Contains(INCLUDE_SITES);
       var include_enrollments = include.Contains(INCLUDE_ENROLLMENTS);
       var include_funding_spaces = include.Contains(INCLUDE_FUNDING_SPACES);
 
       IQueryable<OrganizationReport> report = _context.Reports
-        .OfType<OrganizationReport>()
+				.OfType<OrganizationReport>()
         .AsNoTracking() // Disable tracking as these read-only queries should not be saved back to the DB
         .Where(report => report.Id == id && report.OrganizationId == orgId)
         .Include(report => report.ReportingPeriod);
 
+        report = report.Include(report => report.Organization);
       if (include_orgs)
       {
-        report = report.Include(report => report.Organization);
       }
 
       // As enrollments will be included manually, we need to specify that LINQ should include Sites

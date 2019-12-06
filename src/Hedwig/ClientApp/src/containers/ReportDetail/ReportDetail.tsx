@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import idx from 'idx';
 import { useParams } from 'react-router-dom';
 import ReportSubmitForm from './ReportSubmitForm';
 import monthFormatter from '../../utils/monthFormatter';
@@ -15,8 +16,8 @@ export default function ReportDetail() {
 	const { user } = useContext(UserContext);
 	const reportParams = {
 		id: parseInt(id || '0'),
-		orgId: getIdForUser(user, "org"),
-		include: ['reportingPeriods'],
+		orgId: getIdForUser(user, 'org'),
+		include: ['organizations', 'enrollments', 'sites'],
 	};
 	const [loading, error, report] = useApi(
 		api => api.apiOrganizationsOrgIdReportsIdGet(reportParams),
@@ -28,22 +29,22 @@ export default function ReportDetail() {
 	}
 
 	console.log(report)
-
 	return (
 		<div className="Report">
 			<section className="grid-container">
 				<DirectionalLink direction="left" to="/reports" text="Back to reports" />
 				<h1>
-					{monthFormatter(report.period)} {report.type} Report{' '}
+					{/* TODO: WHY IS TYPE 0??? */}
+					{monthFormatter(idx(report, _ => _.reportingPeriod.period))} {report.type} Report{' '}
 					{!report.submittedAt && (
 						<Tag text="DRAFT" color="gold-30v" addClass="margin-left-1 text-middle" />
 					)}
 				</h1>
 				<p className="usa-intro">
-					{report.organization.name} | {dateFormatter(report.periodStart)} -{' '}
-					{dateFormatter(report.periodEnd)}
+					{/* {report.organization.name} | {dateFormatter(idx(report, _ => _.reportingPeriod.periodStart))} -{' '} */}
+					{dateFormatter(idx(report, _ => _.reportingPeriod.periodEnd))}
 				</p>
-				<ReportSubmitForm {...report} />
+				{/* <ReportSubmitForm {...report} /> */}
 			</section>
 		</div>
 	);
