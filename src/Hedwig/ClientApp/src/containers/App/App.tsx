@@ -37,8 +37,8 @@ const App: React.FC<WithLoginPropsType> = ({ accessToken }) => {
 			path: '/reports',
 			attentionNeeded: !!reportsNeedAttention,
 		},
-		{ type: 'secondary', title: 'Feedback', path: '/feedback' },
-		{ type: 'secondary', title: 'Help', path: '/help' },
+		// { type: 'secondary', title: 'Feedback', path: '/feedback' },
+		// { type: 'secondary', title: 'Help', path: '/help' },
 	];
 
 	return (

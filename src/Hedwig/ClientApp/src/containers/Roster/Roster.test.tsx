@@ -135,7 +135,7 @@ describe('Roster', () => {
 		wrapper.unmount();
 	});
 
-	it('renders intro text with the correct number of kids', async () => {
+	it('renders intro text with the correct number of children', async () => {
 		const wrapper = mount(
 			<UserContext.Provider value={{ user }}>
 				<BrowserRouter>
@@ -147,11 +147,11 @@ describe('Roster', () => {
 			await waitForUpdate(wrapper);
 		});
 		const introSpanText = wrapper.find('.usa-intro span').text();
-		expect(introSpanText).toBe('2 kids enrolled.');
+		expect(introSpanText).toBe('2 children enrolled.');
 		wrapper.unmount();
 	});
 
-	it('updates the number of kids', async () => {
+	it('updates the number of children', async () => {
 		const wrapper = mount(
 			<UserContext.Provider value={{ user }}>
 				<BrowserRouter>
@@ -185,7 +185,7 @@ describe('Roster', () => {
 		});
 
 		const introSpanText = wrapper.find('.usa-intro span').text();
-		expect(introSpanText).toBe('1 kid was enrolled between January 1, 2018 and February 1, 2019.');
+		expect(introSpanText).toBe('1 child was enrolled between January 1, 2018 and February 1, 2019.');
 		wrapper.unmount();
 	});
 });

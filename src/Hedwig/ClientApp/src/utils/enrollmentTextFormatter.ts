@@ -7,7 +7,7 @@ export default function enrollmentTextFormatter(
 	currentDateRange: DateRange,
 	byRange: boolean
 ) {
-	const pluralizedNumKids = pluralize('kid', numKids, true);
+	const pluralizedNumKids = pluralize('child', numKids, true);
 
 	const formattedStartDate =
 		currentDateRange.startDate && currentDateRange.startDate.format('MMMM D, YYYY');

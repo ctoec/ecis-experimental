@@ -124,7 +124,7 @@ const EnrollmentFunding: Section = {
 						dateRange={{ startDate: entry ? moment(entry) : null, endDate: null }}
 					/>
 
-					<h3>Age</h3>
+					<h3>Age group</h3>
 					<RadioGroup
 						groupName="age"
 						legend="Age"
