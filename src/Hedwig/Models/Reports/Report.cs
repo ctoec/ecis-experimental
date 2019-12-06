@@ -10,8 +10,6 @@ namespace Hedwig.Models
 
 		public int ReportingPeriodId { get; set; }
 		public ReportingPeriod ReportingPeriod { get; set; }
-		public Organization Organization { get; set; }
-
 
 		public DateTime? SubmittedAt { get; set; }
 	}
