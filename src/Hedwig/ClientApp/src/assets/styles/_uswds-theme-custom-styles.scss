@@ -192,39 +192,29 @@ td.oec-table__cell--strong {
 	}
 }
 
-.oec-table-legend {
-	@extend .margin-top-3;
-	@extend .margin-bottom-neg-2;
-	font-size: size('ui', 3);
-}
+// InlineIcon
 
-.oec-inline-icon::before {
-	width: 0.875em;
-	height: 0.875em;
-	content: '';
-	background-repeat: no-repeat;
-	background-size: 100% auto;
+.oec-inline-icon svg {
+	height: 1em;
+	width: 1em;
+  vertical-align: middle;
 	display: inline-block;
 	position: relative;
 	top: -0.1em;
 	left: 0.1em;
-	vertical-align: middle;
 	margin-right: 0.25em;
 }
 
-.oec-inline-icon--attentionNeeded::before {
-	background-image: url('../images/attentionNeeded.svg');
+.oec-inline-icon--attentionNeeded path {
+	fill: #D83933;
 }
 
-.oec-inline-icon--complete::before {
-	background-image: url('../images/complete.svg');
-	top: 0;
+.oec-inline-icon--complete path {
+	fill: #12890E;
 }
 
-.oec-inline-icon--incomplete::before {
-	width: 1.3em;
-	margin-right: 0.05em;
-	background-image: url('../images/incomplete.svg');
+.oec-inline-icon--incomplete path {
+	fill: #FFBE2E;
 }
 
 // Derived from CMS Design System: https://github.com/CMSgov/design-system/blob/master/packages/core/src/components/StepList/StepList.scss
@@ -514,14 +504,16 @@ $future-step-color: color('base-dark') !default;
 
 // *** Legend ****
 .oec-legend {
-  border: .15rem solid #f0f0f0;
-  padding: 1rem;
+	font-size: 1.2rem;
 }
 
-.legend-svg {
-	-webkit-transform: translateY(2px);
-	-ms-transform: translateY(2px);
-	transform: translateY(2px);
+.oec-legend__symbol {
+	display: inline-block;
+	display: inline-block;
+	position: relative;
+	top: -0.1em;
+	left: 0.1em;
+	margin-right: 0.25em;
 }
 
 // *** Directional link ***
@@ -563,28 +555,20 @@ $future-step-color: color('base-dark') !default;
 
 // Background and fill colors
 
-// blue-30v svg rect fill and tag bg
-.fill-blue-30v {
-  fill: color('blue-30v');
+// blue-50v svg rect fill and tag bg
+.fill-blue-50v {
+  fill: color('blue-50v');
 }
-.bg-blue-30v {
-  background-color: color('blue-30v');
-}
-
-// green-cool-30 svg rect fill and tag bg
-.fill-green-cool-30 {
-  fill: color('green-cool-30');
-}
-.bg-green-cool-30 {
-  background-color: color('green-cool-30');
+.bg-blue-50v {
+  background-color: color('blue-50v');
 }
 
-// violet-warm-30 svg rect fill and tag bg
-.fill-violet-warm-30 {
-  fill: color('violet-warm-30');
+// violet-warm-60 svg rect fill and tag bg
+.fill-violet-warm-60 {
+  fill: color('violet-warm-60');
 }
-.bg-violet-warm-30 {
-  background-color: color('violet-warm-30');
+.bg-violet-warm-60 {
+  background-color: color('violet-warm-60');
 }
 
 // gold-20v svg rect fill and tag bg

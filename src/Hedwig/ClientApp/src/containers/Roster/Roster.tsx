@@ -10,7 +10,7 @@ import Tag from '../../components/Tag/Tag';
 import { DateRange } from '../../components/DatePicker/DatePicker';
 import Button from '../../components/Button/Button';
 import RadioGroup from '../../components/RadioGroup/RadioGroup';
-import Legend from '../../components/Legend/Legend';
+import Legend, { LegendItem } from '../../components/Legend/Legend';
 import useApi from '../../hooks/useApi';
 import UserContext from '../../contexts/User/UserContext';
 import { Enrollment } from '../../OAS-generated/models/Enrollment';
@@ -18,6 +18,7 @@ import DateSelectionForm from './DateSelectionForm';
 import getIdForUser from '../../utils/getIdForUser';
 import { Age } from '../../OAS-generated';
 import getFundingSpaceCapacity from '../../utils/getFundingSpaceCapacity';
+import InlineIcon from '../../components/InlineIcon/InlineIcon';
 
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
@@ -149,31 +150,20 @@ export default function Roster() {
 		byRange
 	);
 
-	const legendItems = Object.keys(fundingSourceDetails).map(source => {
-		const enrolledForSource = enrollments.filter(
-			e => e.fundings && e.fundings.filter(f => f.source === source).length > 0
-		);
-		const capacity = getFundingSpaceCapacity(site.organization, source);
-		const ratioSources = ['CDC'];
-		const ratio = ratioSources.includes(source) && capacity != undefined 
-			? { a: enrolledForSource.length, b: capacity }
-			: undefined;
+	const legendItems: LegendItem[] = Object.keys(fundingSourceDetails).map(key => ({
+		text: fundingSourceDetails[key].fullTitle,
+		symbol: <Tag text={key} color={fundingSourceDetails[key].colorToken} />,
+		number: enrollments.filter(
+			(row: Required<Enrollment>) =>
+				row.fundings && row.fundings.filter((funding: any) => funding.source === key).length > 0
+		).length,
+	}));
 
-		return {
-			text: ratio 
-				? `${fundingSourceDetails[source].fullTitle} spaces filled`
-				: `receiving ${fundingSourceDetails[source].fullTitle}`,
-			symbol: <Tag
-				key={source}
-				text={source}
-				color={fundingSourceDetails[source].colorToken}
-			/>,
-			ratio: ratio,
-			number: enrolledForSource.length
-		}
+	legendItems.push({
+		text: 'Missing information',
+		symbol: <InlineIcon icon="incomplete" />,
 	});
 
-	console.log(legendItems);
 	return (
 		<div className="Roster">
 			<section className="grid-container">
@@ -184,7 +174,7 @@ export default function Roster() {
 							<span className="margin-right-2 flex-auto">{numKidsEnrolledText}</span>
 							<Button
 								text={
-									showPastEnrollments ? 'Show only current enrollments' : 'Show past enrollments'
+									showPastEnrollments ? 'View only current enrollments' : 'View past enrollments'
 								}
 								appearance="unstyled"
 								onClick={handlePastEnrollmentsChange}
