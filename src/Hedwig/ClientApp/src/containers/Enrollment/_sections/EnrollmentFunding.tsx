@@ -8,7 +8,6 @@ import dateFormatter from '../../../utils/dateFormatter';
 import moment from 'moment';
 import idx from 'idx';
 import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest, Age } from '../../../OAS-generated';
-import { userInfo } from 'os';
 import UserContext from '../../../contexts/User/UserContext';
 
 const ageFromString = (str: string) => {
@@ -62,7 +61,7 @@ const EnrollmentFunding: Section = {
 		);
 	},
 
-	Form: ({ enrollment, mutate }) => {
+	Form: ({ enrollment, mutate, callback }) => {
 
 		if (!enrollment) {
 			throw new Error('EnrollmentFunding rendered without an enrollment');
@@ -94,7 +93,10 @@ const EnrollmentFunding: Section = {
 						...args
 					}
 				}
-				mutate((api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params), (_, result) => result);
+				mutate((api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
+					.then((res) => {
+						if(callback && res) callback(res);
+					});
 			}
 		};
 

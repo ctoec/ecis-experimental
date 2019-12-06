@@ -9,7 +9,6 @@ import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest, Enrollment } f
 import UserContext from '../../../contexts/User/UserContext';
 import useApi from '../../../hooks/useApi';
 import DirectionalLink from '../../../components/DirectionalLink/DirectionalLink';
-import idx from 'idx';
 import getIdForUser from '../../../utils/getIdForUser';
 
 
@@ -33,7 +32,7 @@ export default function EnrollmentDetail({
 		id: enrollmentId ? enrollmentId : 0,
 		orgId: getIdForUser(user, "org"),
 		siteId: getIdForUser(user, "site"),
-		include: ['child', 'family', 'determinations', 'fundings'],
+		include: ['child', 'family', 'determinations', 'fundings', 'sites']
 	}
 	const [loading, error, enrollment, mutate] = useApi<Enrollment>(
 		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
@@ -42,7 +41,7 @@ export default function EnrollmentDetail({
 		!enrollmentId
 	);
 
-	if (!enrollment) {
+	if (loading || error || !enrollment) {
 		return <div className="EnrollmentDetail"></div>;
 	}
 
