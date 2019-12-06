@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace hedwig.Migrations
 {
     [DbContext(typeof(HedwigContext))]
-    [Migration("20191025140131_BootstrapTestData")]
+    [Migration("999999999999999_BootstrapTestData")]
     partial class BootstrapTestData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
