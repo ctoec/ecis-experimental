@@ -223,6 +223,12 @@ namespace Hedwig.Migrations
                     b.Property<int>("EnrollmentId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("Entry")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("Exit")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("Source")
                         .HasColumnType("int");
 
@@ -236,6 +242,35 @@ namespace Hedwig.Migrations
                     b.HasIndex("EnrollmentId");
 
                     b.ToTable("Funding");
+                });
+
+            modelBuilder.Entity("Hedwig.Models.FundingSpace", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AgeGroup")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Capacity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrganizationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Source")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Time")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.ToTable("FundingSpace");
                 });
 
             modelBuilder.Entity("Hedwig.Models.Organization", b =>
@@ -266,12 +301,10 @@ namespace Hedwig.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Permission");
 
@@ -394,6 +427,8 @@ namespace Hedwig.Migrations
 
                     b.HasIndex("OrganizationId");
 
+                    b.HasIndex("UserId");
+
                     b.HasDiscriminator().HasValue("Organization");
                 });
 
@@ -405,6 +440,9 @@ namespace Hedwig.Migrations
                         .HasColumnType("int");
 
                     b.HasIndex("SiteId");
+
+                    b.HasIndex("UserId")
+                        .HasName("IX_Permission_UserId1");
 
                     b.HasDiscriminator().HasValue("Site");
                 });
@@ -502,11 +540,11 @@ namespace Hedwig.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Hedwig.Models.Permission", b =>
+            modelBuilder.Entity("Hedwig.Models.FundingSpace", b =>
                 {
-                    b.HasOne("Hedwig.Models.User", "User")
-                        .WithMany("Permissions")
-                        .HasForeignKey("UserId")
+                    b.HasOne("Hedwig.Models.Organization", "Organization")
+                        .WithMany("FundingSpaces")
+                        .HasForeignKey("OrganizationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -534,6 +572,10 @@ namespace Hedwig.Migrations
                         .HasForeignKey("OrganizationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Hedwig.Models.User", "User")
+                        .WithMany("OrgPermissions")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Hedwig.Models.SitePermission", b =>
@@ -543,6 +585,11 @@ namespace Hedwig.Migrations
                         .HasForeignKey("SiteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Hedwig.Models.User", "User")
+                        .WithMany("SitePermissions")
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("FK_Permission_User_UserId1");
                 });
 
             modelBuilder.Entity("Hedwig.Models.OrganizationReport", b =>
