@@ -8,42 +8,42 @@ using HedwigTests.Fixtures;
 
 namespace HedwigTests.Data
 {
-    public class HedwigContextTests
+  public class HedwigContextTests
+  {
+    [Fact(Skip = "Not working")]
+    public void Add_TemporalEntity_AddsAuthor()
     {
-        [Fact(Skip = "Need to create a user with the same Guid as USER_CONTEXT_SUB")]
-        public void Add_TemporalEntity_AddsAuthor()
-        {
-            // If a HedwigContext instance exists
-            var opts = new DbContextOptionsBuilder<HedwigContext>()
-                .UseInMemoryDatabase<HedwigContext>("db");
-            var httpContextAccessor = new TestHttpContextAccessorProvider().HttpContextAccessor;
-            var contextMock = new Mock<HedwigContext>(opts.Options, httpContextAccessor);
-            var child = new Child();
-            contextMock.CallBase = true;
-            
-            // When a temporal entity is added
-            contextMock.Object.Add(child);            
+      // If a HedwigContext instance exists
+      var opts = new DbContextOptionsBuilder<HedwigContext>()
+        .UseInMemoryDatabase<HedwigContext>("db");
+      var httpContextAccessor = new TestHttpContextAccessorProvider().HttpContextAccessor;
+      var contextMock = new Mock<HedwigContext>(opts.Options, httpContextAccessor);
+      var child = new Child();
+      contextMock.CallBase = true;
 
-            // Then author is added to the entity
-            // Assert.Equal(TestHttpContextAccessorProvider.USER_CONTEXT_SUB, child.AuthorId.Value);
-        }
+      // When a temporal entity is added
+      contextMock.Object.Add(child);
 
-        [Fact(Skip = "Need to create a user with the same Guid as USER_CONTEXT_SUB")]
-        public void Update_TemporalEntity_AddsAuthor()
-        {
-            // If a HedwigContext instance exists
-            var opts = new DbContextOptionsBuilder<HedwigContext>()
-                .UseInMemoryDatabase<HedwigContext>("db");
-            var httpContextAccessor = new TestContextProvider().HttpContextAccessor;
-            var contextMock = new Mock<HedwigContext>(opts.Options, httpContextAccessor);
-            var child = new Child();
-            contextMock.Setup(c => c.Update(child)).CallBase();
-            
-            // When a temporal entity is updated
-            contextMock.Object.Update(child);            
-
-            // Then author is added to the entity
-            // Assert.Equal(TestHttpContextAccessorProvider.USER_CONTEXT_SUB, child.AuthorId.Value);
-        }
+      // Then author is added to the entity
+      Assert.Equal(1, child.AuthorId.Value);
     }
+
+    [Fact(Skip = "Not working")]
+    public void Update_TemporalEntity_AddsAuthor()
+    {
+      // If a HedwigContext instance exists
+      var opts = new DbContextOptionsBuilder<HedwigContext>()
+        .UseInMemoryDatabase<HedwigContext>("db");
+      var httpContextAccessor = new TestContextProvider().HttpContextAccessor;
+      var contextMock = new Mock<HedwigContext>(opts.Options, httpContextAccessor);
+      var child = new Child();
+      contextMock.Setup(c => c.Update(child)).CallBase();
+
+      // When a temporal entity is updated
+      contextMock.Object.Update(child);
+
+      // Then author is added to the entity
+      Assert.Equal(1, child.AuthorId.Value);
+    }
+  }
 }

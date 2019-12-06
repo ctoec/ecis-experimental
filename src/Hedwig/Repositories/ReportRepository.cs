@@ -62,7 +62,7 @@ namespace Hedwig.Repositories
 
       IQueryable<OrganizationReport> report = _context.Reports
         .OfType<OrganizationReport>()
-        .AsNoTracking()
+        .AsNoTracking() // Disable tracking as these read-only queries should not be saved back to the DB
         .Where(report => report.Id == id && report.OrganizationId == orgId)
         .Include(report => report.ReportingPeriod);
 
@@ -71,6 +71,7 @@ namespace Hedwig.Repositories
         report = report.Include(report => report.Organization);
       }
 
+      // As enrollments will be included manually, we need to specify that LINQ should include Sites
       if (include_sites || include_enrollments)
       {
         report = report
@@ -95,6 +96,7 @@ namespace Hedwig.Repositories
 
         var siteIds = sites.Select(site => site.Id);
 
+        // Potential optimization to fetch only the enrollments that are funded during the reporting period
         var enrollments = await (asOf.HasValue ? _context.Enrollments.AsOf(asOf.Value) : _context.Enrollments)
           .AsNoTracking()
           .Where(enrollment => siteIds.Contains(enrollment.SiteId))
