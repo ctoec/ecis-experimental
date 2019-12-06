@@ -9,10 +9,10 @@ type FundingSourceDetail = {
 
 function ptOrFT(fundingTime: string | undefined) {
 	if (fundingTime === 'Full') {
-		return '-FT';
+		return '–FT';
 	}
 	if (fundingTime === 'Part') {
-		return '-PT';
+		return '–PT';
 	}
 	return '';
 }
@@ -24,10 +24,10 @@ export const fundingSourceDetails: { [key: string]: FundingSourceDetail } = {
 		fullTitle: 'Child Daycare Center',
 		textFormatter: funding => `CDC${ptOrFT(funding.time)}`,
 	},
-	SRS: {
+	SR: {
 		colorToken: 'violet-warm-30',
 		fullTitle: 'School Readiness',
-		textFormatter: funding => 'SRS'
+		textFormatter: funding => 'SR'
 	},
 	C4K: {
 		colorToken: 'green-cool-30',
