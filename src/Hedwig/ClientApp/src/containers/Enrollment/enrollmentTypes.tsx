@@ -5,6 +5,7 @@ import { Mutate } from '../../hooks/useApi';
 export type SectionProps = {
 	enrollment?: Enrollment | null;
 	mutate: Mutate<Enrollment>;
+	callback?: (e: Enrollment) => void;
 	siteId?: string;
 };
 

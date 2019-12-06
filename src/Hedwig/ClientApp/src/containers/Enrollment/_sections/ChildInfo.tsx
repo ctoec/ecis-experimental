@@ -11,7 +11,6 @@ import dateFormatter from '../../../utils/dateFormatter';
 import moment from 'moment';
 import { Child, 
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest, 
-	Enrollment,
 	Gender,
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
 } from '../../../OAS-generated';
@@ -110,7 +109,7 @@ const ChildInfo: Section = {
 		);
 	},
 
-	Form: ({ enrollment, siteId, mutate }) => {
+	Form: ({ enrollment, siteId, mutate, callback }) => {
 		if (!enrollment && !siteId) {
 			throw new Error('ChildInfo rendered without an enrollment or a siteId');
 		}
@@ -184,10 +183,17 @@ const ChildInfo: Section = {
 				const putParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
 					...defaultPutParams,
 					enrollment: {
-						child: {...args}
+						...enrollment,
+						child: {
+							...enrollment.child,
+							...args
+						}
 					}
 				}
-				mutate((api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams), (_, result) => result);
+				mutate((api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams))
+					.then((res) => {
+						if(callback && res) callback(res);
+					})
 			} else if (siteId) {
 				const postParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest = {
 					...defaultPostParams,				
@@ -197,7 +203,10 @@ const ChildInfo: Section = {
 						child: {...args}
 					}
 				}
-				mutate((api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsPost(postParams), (_, result) => result);
+				mutate((api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsPost(postParams))
+					.then((res) => {
+						if(callback && res) callback(res);
+					})
 			} else {
 				throw new Error('Something impossible happened');
 			}

@@ -1,16 +1,15 @@
 import React, { useContext } from 'react';
-import useAuthQuery from '../../../hooks/useAuthQuery';
 import { Section } from '../enrollmentTypes';
 import { History } from 'history';
-import { CHILD_QUERY } from '../enrollmentQueries';
-import { ChildQuery } from '../../../generated/ChildQuery';
 import ChildInfo from '../_sections/ChildInfo';
-// import FamilyInfo from '../_sections/FamilyInfo';
+import FamilyInfo from '../_sections/FamilyInfo';
 import FamilyIncome from '../_sections/FamilyIncome';
 import EnrollmentFunding from '../_sections/EnrollmentFunding';
 import PageNotFound from '../../PageNotFound/PageNotFound';
 import UserContext from '../../../contexts/User/UserContext';
-import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest, Enrollment } from '../../../OAS-generated';
+import { Enrollment, ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest } from '../../../OAS-generated';
+import getIdForUser from '../../../utils/getIdForUser';
+import useApi from '../../../hooks/useApi';
 
 type EnrollmentEditParams = {
 	history: History;
@@ -24,7 +23,7 @@ type EnrollmentEditParams = {
 
 const sections: { [key: string]: Section } = {
 	'child-information': ChildInfo,
-	// 'family-information': FamilyInfo,
+	'family-information': FamilyInfo,
 	'family-income': FamilyIncome,
 	'enrollment-funding': EnrollmentFunding,
 };
@@ -38,32 +37,33 @@ export default function EnrollmentEdit({
 
 	const section = sections[sectionId];
 	const { user } = useContext(UserContext);
-
-	// const { data } = useOASClient<ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest, Enrollment>('apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet', {
-	// 	id: enrollmentId ? enrollmentId : 0,
-	// 	orgId: (user && user.orgPermissions && user.orgPermissions[0] && user.orgPermissions[0].organizationId) || 0,
-	// 	siteId: (user && user.sitePermissions && user.sitePermissions[0] && user.sitePermissions[0].siteId) || 1,
-	// 	include: ['child', 'family', 'determinations', 'fundings']
-	// });
-	const data = {};
+	const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest = {
+		id: enrollmentId  ? enrollmentId : 0,
+		orgId: getIdForUser(user, "org"),
+		siteId: getIdForUser(user, "site"),
+		include: ['child', 'family', 'determinations', 'fundings']
+	}
+	const [loading, error, enrollment, mutate] = useApi(
+		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params)
+	);
 
 	if (!section) {
 		return <PageNotFound />;
 	}
 
-	if (!data ) {
+	if (loading || error || !enrollment ) {
 		return <div className="EnrollmentEdit"></div>;
 	}
 
-	const afterSave = () => {
-		history.push(`/roster/enrollments/${enrollmentId}/`);
+	const afterSave = (enrollment: Enrollment) => {
+		history.push(`/roster/enrollments/${enrollment.id}/`);
 	};
 
 	return (
 		<div className="EnrollmentEdit">
 			<section className="grid-container">
 				<h1>Edit {section.name.toLowerCase()}</h1>
-				{/* <section.Form enrollment={data} afterSave={afterSave} /> */}
+				<section.Form enrollment={enrollment} mutate={mutate} callback={afterSave} />
 			</section>
 		</div>
 	);
