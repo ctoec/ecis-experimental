@@ -7,8 +7,8 @@ export type Reducer<TData> = (data: TData, result: TData) => TData;
 export type Query<TData> = (api: HedwigApi) => Promise<TData>
 export type Mutate<TData> = (
 	query: Query<TData>,
-	reducer: Reducer<TData | undefined>
-) => void
+	reducer?: Reducer<TData | undefined>
+) => Promise<TData | undefined>
 
 interface ApiState<T> {
 	loading: boolean,
@@ -25,8 +25,8 @@ type ApiResult<TData> = [
 ];
 
 export default function useApi<TData>(
-  query: (api: HedwigApi) => Promise<TData>,
-  deps: DependencyList = [],
+  	query: (api: HedwigApi) => Promise<TData>,
+  	deps: DependencyList = [],
 	defaultValue?: TData,
 	skip: boolean = false,
 	callback?: (_: TData) => void
@@ -72,24 +72,18 @@ export default function useApi<TData>(
 
 	const mutate: Mutate<TData> = (
 	  query,
-	  reducer = (data) => data,
+	  reducer = (_, result) => result,
 	) => {
 		if (!api) {
 			setState({...state, loading: false});
-			return;
+			return Promise.reject("No api!");
 		}
 
-		const promise = query(api);
 
-		promise.then((result) => {
+		return query(api).then((result) => {
 			setState({ ...state, data: reducer(data, result)})
-			if (callback) {
-				callback(result);
-			}
-		})
-		.catch((error) => console.log(error));
-
-		return;
+			return result;
+		});
 	};
 
 	return [loading, error, data, mutate];

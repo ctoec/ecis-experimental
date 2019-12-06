@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Section } from '../enrollmentTypes';
 import Button from '../../../components/Button/Button';
 import TextInput from '../../../components/TextInput/TextInput';
 import Checklist from '../../../components/Checklist/Checklist';
-import mapEmptyStringsToNull from '../../../utils/mapEmptyStringsToNull';
-import { Enrollment, ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest } from '../../../OAS-generated';
 import idx from 'idx';
+import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest } from '../../../OAS-generated';
+import UserContext from '../../../contexts/User/UserContext';
+import getIdForUser from '../../../utils/getIdForUser';
 
 const FamilyInfo: Section = {
 	key: 'family-information',
@@ -15,30 +16,32 @@ const FamilyInfo: Section = {
 	Summary: ({ enrollment }) => {
 		if (!enrollment || ! enrollment.child) return <></>;
 
-		const child = enrollment.child;
+		const family = enrollment.child.family;
 		return (
 			<div className="FamilyInfoSummary">
-				{child && child.family && child.family.town && child.family.state && (
+				{family && family.town && family.state ? (
 					<p>
-						{child.family.town}, {child.family.state}
+						{family.town}, {family.state}
 					</p>
-				)}
+				) : (
+					<p>No family information on record.</p>
+				)
+				}
 			</div>
 		);
 	},
 
-	Form: ({ enrollment, mutate }) => {
-		console.log("info", enrollment);
+	Form: ({ enrollment, mutate, callback }) => {
 		if (!enrollment || !enrollment.child) {
 			throw new Error('FamilyInfo rendered without a child');
-			// return <></>;
 		}
 
 		const child = enrollment.child;
+		const { user } = useContext(UserContext);
 		const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
 			id: enrollment.id || 0,
-			orgId: idx(enrollment, _ => _.site.organizationId) || 0,
-			siteId: idx(enrollment, _ => _.siteId) || 0,
+			orgId: getIdForUser(user, "org"),
+			siteId: getIdForUser(user, "site"),
 			enrollment: enrollment
 		}
 
@@ -55,18 +58,17 @@ const FamilyInfo: Section = {
 			child.family ? child.family.homelessness : undefined
 		);
 
-		// TODO: On the child model, no mutation yet in place
-		const [foster, updateFoster] = useState(child.foster);
+		const [foster, updateFoster] = useState(child.foster ? child.foster : false);
 
 		const save = () => {
-			const args = mapEmptyStringsToNull({
+			const args = {
 				addressLine1,
 				addressLine2,
 				town,
 				state,
 				zip,
 				homelessness,
-			});
+			};
 
 			if (enrollment.child && enrollment.id) {
 				const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
@@ -76,11 +78,18 @@ const FamilyInfo: Section = {
 						...enrollment,
 						child: {
 							...child,
-							family: {...args}
+							foster,
+							family: {
+								...child.family,
+								...args
+							}
 						}
 					}
 				}
-				mutate((api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params), (_, result) => result);
+				mutate((api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
+					.then((res) => {
+						if(callback && res) callback(res);
+					})
 			}
 		}
 
@@ -139,7 +148,7 @@ const FamilyInfo: Section = {
 							{
 								text: 'Child lives with foster family',
 								value: 'foster',
-								checked: foster || false,
+								checked: foster,
 								onChange: event => updateFoster(event.target.checked),
 							},
 						]}
