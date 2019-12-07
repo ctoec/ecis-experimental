@@ -16,6 +16,8 @@ import UserContext from '../../contexts/User/UserContext';
 import { Enrollment } from '../../OAS-generated/models/Enrollment';
 import DateSelectionForm from './DateSelectionForm';
 import getIdForUser from '../../utils/getIdForUser';
+import { Age } from '../../OAS-generated';
+import getFundingSpaceCapacity from '../../utils/getFundingSpaceCapacity';
 
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
@@ -31,6 +33,7 @@ export default function Roster() {
 	const siteParams = {
 		id: getIdForUser(user, 'site'),
 		orgId: getIdForUser(user, 'org'),
+		include: ['organizations', 'funding_spaces']
 	};
 	const [sLoading, sError, site] = useApi(api => api.apiOrganizationsOrgIdSitesIdGet(siteParams), [
 		user,
@@ -43,22 +46,18 @@ export default function Roster() {
 		startDate: (dateRange && dateRange.startDate && dateRange.startDate.toDate()) || undefined,
 		endDate: (dateRange && dateRange.endDate && dateRange.endDate.toDate()) || undefined,
 	};
-	const [eLoading, eError, rawEnrollments] = useApi(
-		// TODO: after everything being nullable is solved, ditch raw enrollments and type mapping below
+	const [eLoading, eError, enrollments] = useApi(
 		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsGet(enrollmentsParams),
 		[user, dateRange]
 	);
 
-	if (sLoading || sError || !site || eLoading || eError || !rawEnrollments) {
+	if (sLoading || sError || !site || eLoading || eError || !enrollments) {
 		return <div className="Roster"></div>;
 	}
 
-	// TODO: FIX THIS-- ditch raw enrollments
-	const enrollments = (rawEnrollments || []).map(e => e as Required<Enrollment>);
-
-	const rosterTableProps: TableProps<Required<Enrollment>> = {
+	const defaultRosterTableProps: TableProps<Enrollment> = {
 		id: 'roster-table',
-		data: enrollments,
+		data: [],
 		rowKey: row => row.id,
 		columns: [
 			{
@@ -75,11 +74,13 @@ export default function Roster() {
 			{
 				name: 'Birthdate',
 				cell: ({ row }) => (
+					(row.child &&
 					<td className="oec-table__cell--tabular-nums">
 						{row.child.birthdate && dateFormatter(row.child.birthdate)}
-					</td>
+					</td>)
+					|| <></>
 				),
-				sort: row => (row.child.birthdate || new Date(0)).getTime(),
+				sort: row => ((row.child && row.child.birthdate) || new Date(0)).getTime(),
 			},
 			{
 				name: 'Funding',
@@ -117,6 +118,30 @@ export default function Roster() {
 		defaultSortOrder: 'asc',
 	};
 
+	const incompleteEnrollments = enrollments.filter(e => !e.age || !e.entry);
+	const completeEnrollments = enrollments.filter(e => !incompleteEnrollments.includes(e));
+
+	const infantRosterTableProps: TableProps<Enrollment> = {
+		...defaultRosterTableProps,
+		id: "infant-roster-table",
+		data: completeEnrollments.filter(e => e.age == Age.Infant)
+	};
+	const preschoolRosterTableProps: TableProps<Enrollment> = {
+		...defaultRosterTableProps,
+		id: "preschool-roster-table",
+		data: completeEnrollments.filter(e => e.age === Age.Preschool)
+	};
+	const schoolRosterTableProps: TableProps<Enrollment> = {
+		...defaultRosterTableProps,
+		id: "school-roster-table",
+		data: completeEnrollments.filter(e => e.age === Age.School)
+	};
+	const incompleteRosterTableProps: TableProps<Enrollment> = {
+		...defaultRosterTableProps,
+		id: "incomplete-roster-table",
+		data: incompleteEnrollments.filter(e => !e.age)
+	};
+
 	const numKidsEnrolledText = enrollmentTextFormatter(
 		enrollments.length,
 		showPastEnrollments,
@@ -124,15 +149,31 @@ export default function Roster() {
 		byRange
 	);
 
-	const legendItems = Object.keys(fundingSourceDetails).map(key => ({
-		text: fundingSourceDetails[key].fullTitle,
-		symbolColor: fundingSourceDetails[key].colorToken,
-		number: enrollments.filter(
-			(row: Required<Enrollment>) =>
-				row.fundings && row.fundings.filter((funding: any) => funding.source === key).length > 0
-		).length,
-	}));
+	const legendItems = Object.keys(fundingSourceDetails).map(source => {
+		const enrolledForSource = enrollments.filter(
+			e => e.fundings && e.fundings.filter(f => f.source === source).length > 0
+		);
+		const capacity = getFundingSpaceCapacity(site.organization, source);
+		const ratioSources = ['CDC'];
+		const ratio = ratioSources.includes(source) && capacity != undefined 
+			? { a: enrolledForSource.length, b: capacity }
+			: undefined;
 
+		return {
+			text: ratio 
+				? `${fundingSourceDetails[source].fullTitle} spaces filled`
+				: `receiving ${fundingSourceDetails[source].fullTitle}`,
+			symbol: <Tag
+				key={source}
+				text={source}
+				color={fundingSourceDetails[source].colorToken}
+			/>,
+			ratio: ratio,
+			number: enrolledForSource.length
+		}
+	});
+
+	console.log(legendItems);
 	return (
 		<div className="Roster">
 			<section className="grid-container">
@@ -185,7 +226,30 @@ export default function Roster() {
 					</div>
 				)}
 				<Legend items={legendItems} />
-				<Table {...rosterTableProps} fullWidth />
+				{!!infantRosterTableProps.data.length &&
+					<>
+					<h2>Infant/toddler ({infantRosterTableProps.data.length} children)</h2>
+					<Table {...infantRosterTableProps} fullWidth />
+					</>
+				}
+				{!!preschoolRosterTableProps.data.length &&
+					<>
+					<h2>Preschool ({preschoolRosterTableProps.data.length} children)</h2>
+					<Table {...preschoolRosterTableProps} fullWidth />
+					</>
+				}
+				{!!schoolRosterTableProps.data.length &&
+					<>
+					<h2>School age({schoolRosterTableProps.data.length} children)</h2>
+					<Table {...schoolRosterTableProps} fullWidth />
+					</>
+				}
+				{!!incompleteRosterTableProps.data.length &&
+					<>
+					<h2>Incomplete enrollments ({incompleteRosterTableProps.data.length} children)</h2>
+					<Table {...incompleteRosterTableProps} fullWidth />
+					</>
+				}
 			</section>
 		</div>
 	);
