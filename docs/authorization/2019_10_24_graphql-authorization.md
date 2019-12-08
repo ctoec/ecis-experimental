@@ -23,10 +23,12 @@ Control is returned to `AuthorizationValidationRule` where the request continues
 
 ## Status
 * Proposed
-* __Accepted__
+* Accepted
 * Rejected
-* Superceded
+* __Superceded__
 * Accepted (Partially superceded)
+
+Superceded by `2019_11_25_graphql-to-rest`
 
 ## Consequences
 * Upstream changes to `GraphQL.Authorization` must be manually added.
