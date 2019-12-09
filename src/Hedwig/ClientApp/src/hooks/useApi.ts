@@ -32,7 +32,7 @@ type ApiResult<TData> = [
 
 export default function useApi<TData>(
 	query: (api: HedwigApi) => Promise<TData>,
-	deps: DependencyList,
+	deps: DependencyList = [],
 	opts?: ApiParamOpts<TData>
 ): ApiResult<TData> {
 	const {
