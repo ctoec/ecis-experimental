@@ -13,18 +13,25 @@ exports[`Storyshots Alert Error 1`] = `
     role="alert"
   >
     <div
-      className="usa-alert__body grid-col flex-fill"
+      className="display-flex flex-fill"
     >
-      <h2
-        className="usa-alert__heading"
+      <div
+        className="usa-alert__body grid-col flex-fill"
       >
-        Hark, an error!
-      </h2>
-      <p
-        className="usa-alert__text"
-      >
-        Something's not right.
-      </p>
+        <h2
+          className="usa-alert__heading"
+        >
+          Hark, an error!
+        </h2>
+        <p
+          className="usa-alert__text"
+        >
+          Something's not right.
+        </p>
+      </div>
+      <div
+        className="usa-alert__body flex-auto display-flex flex-align-center"
+      />
     </div>
   </div>
 </div>
@@ -42,18 +49,25 @@ exports[`Storyshots Alert Info 1`] = `
     className="usa-alert usa-alert--info grid-row"
   >
     <div
-      className="usa-alert__body grid-col flex-fill"
+      className="display-flex flex-fill"
     >
-      <h2
-        className="usa-alert__heading"
+      <div
+        className="usa-alert__body grid-col flex-fill"
       >
-        Information
-      </h2>
-      <p
-        className="usa-alert__text"
-      >
-        Neutral text here.
-      </p>
+        <h2
+          className="usa-alert__heading"
+        >
+          Information
+        </h2>
+        <p
+          className="usa-alert__text"
+        >
+          Neutral text here.
+        </p>
+      </div>
+      <div
+        className="usa-alert__body flex-auto display-flex flex-align-center"
+      />
     </div>
   </div>
 </div>
@@ -71,18 +85,25 @@ exports[`Storyshots Alert Success 1`] = `
     className="usa-alert usa-alert--success grid-row"
   >
     <div
-      className="usa-alert__body grid-col flex-fill"
+      className="display-flex flex-fill"
     >
-      <h2
-        className="usa-alert__heading"
+      <div
+        className="usa-alert__body grid-col flex-fill"
       >
-        Success alert!
-      </h2>
-      <p
-        className="usa-alert__text"
-      >
-        Good job, you.
-      </p>
+        <h2
+          className="usa-alert__heading"
+        >
+          Success alert!
+        </h2>
+        <p
+          className="usa-alert__text"
+        >
+          Good job, you.
+        </p>
+      </div>
+      <div
+        className="usa-alert__body flex-auto display-flex flex-align-center"
+      />
     </div>
   </div>
 </div>
@@ -100,18 +121,25 @@ exports[`Storyshots Alert Warning 1`] = `
     className="usa-alert usa-alert--warning grid-row"
   >
     <div
-      className="usa-alert__body grid-col flex-fill"
+      className="display-flex flex-fill"
     >
-      <h2
-        className="usa-alert__heading"
+      <div
+        className="usa-alert__body grid-col flex-fill"
       >
-        Watch out!
-      </h2>
-      <p
-        className="usa-alert__text"
-      >
-        Is that what you meant to do?
-      </p>
+        <h2
+          className="usa-alert__heading"
+        >
+          Watch out!
+        </h2>
+        <p
+          className="usa-alert__text"
+        >
+          Is that what you meant to do?
+        </p>
+      </div>
+      <div
+        className="usa-alert__body flex-auto display-flex flex-align-center"
+      />
     </div>
   </div>
 </div>
