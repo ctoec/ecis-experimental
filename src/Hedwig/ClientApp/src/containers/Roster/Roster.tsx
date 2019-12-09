@@ -16,7 +16,7 @@ import UserContext from '../../contexts/User/UserContext';
 import { Enrollment } from '../../OAS-generated/models/Enrollment';
 import DateSelectionForm from './DateSelectionForm';
 import getIdForUser from '../../utils/getIdForUser';
-import { Age } from '../../OAS-generated';
+import { Age, FundingSource } from '../../OAS-generated';
 import getFundingSpaceCapacity from '../../utils/getFundingSpaceCapacity';
 import InlineIcon from '../../components/InlineIcon/InlineIcon';
 
@@ -150,14 +150,27 @@ export default function Roster() {
 		byRange
 	);
 
-	const legendItems: LegendItem[] = Object.keys(fundingSourceDetails).map(key => ({
-		text: fundingSourceDetails[key].fullTitle,
-		symbol: <Tag text={key} color={fundingSourceDetails[key].colorToken} />,
-		number: enrollments.filter(
-			(row: Required<Enrollment>) =>
-				row.fundings && row.fundings.filter((funding: any) => funding.source === key).length > 0
-		).length,
-	}));
+	const legendItems: LegendItem[] = Object.keys(fundingSourceDetails).map(source => {
+		const ratioLegendSources: string[] = [FundingSource.CDC];
+		const capacityForFunding = getFundingSpaceCapacity(site.organization, source);
+		const enrolledForFunding= enrollments.filter(
+			e => e.fundings && e.fundings.filter(f => f.source === source).length > 0
+		).length;
+
+		// If funding source enrollments should be displayed as a ratio,
+		// and capacity info for funding source exists,
+		// set ratio to enrollments/capacity. Otherwise: undefined
+		const enrolledOverCapacity = (ratioLegendSources.includes(source) && capacityForFunding)
+			? {a: enrolledForFunding, b: capacityForFunding }
+			: undefined
+
+		return {
+			text: fundingSourceDetails[source].fullTitle,
+			symbol: <Tag text={source} color={fundingSourceDetails[source].colorToken} />,
+			number: enrolledForFunding,
+			ratio: enrolledOverCapacity
+		}
+	});
 
 	legendItems.push({
 		text: 'Missing information',

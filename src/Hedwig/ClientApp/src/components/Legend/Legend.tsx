@@ -1,12 +1,17 @@
 import React from 'react';
 
+type Ratio = {
+	a: number,
+	b: number
+};
+
 export type LegendItem = {
 	text: string;
 	textClass?: string;
 	symbol?: JSX.Element;
 	symbolColor?: string;
 	number?: number;
-	ratio?: Ratio
+	ratio?: Ratio;
 };
 
 type LegendProps = {
@@ -33,14 +38,18 @@ export default function Legend({ items }: LegendProps) {
 					<div
 						className={`width-fit-content display-inline margin-left-1 margin-bottom-1 ${item.textClass || ''}`}
 					>
-						{item.number !== undefined && (
-							<span className="text-bold">{item.number} </span>
-						)}
+						{
+							item.ratio ? (
+								<span className="text-bold">{item.ratio.a}/{item.ratio.b} </span>
+							) :
+								item.number !== undefined ? (
+									<span className="text-bold">{item.number} </span>
+								) : undefined
+						}
 						<span>{item.text}</span>
 					</div>
 				</div>)
-			})
-		}
+			)}
 		</div>
 	);
 }
