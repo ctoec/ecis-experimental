@@ -11,7 +11,7 @@ function dollarFormatter(number: number) {
   return '$' + number.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-function calculateRate(accredited: boolean, titleI: boolean, region: Region, ageGroup: Age, time: FundingTime) {
+export function calculateRate(accredited: boolean, titleI: boolean, region: Region, ageGroup: Age, time: FundingTime) {
   const rate = CdcRates.find(rate =>
     rate.accredited === accredited &&
     rate.titleI === titleI &&
@@ -91,7 +91,7 @@ export default function UtilizationTable(report: CdcReport) {
     }));
   });
 
-  const grandRow = rows.reduce((total, row) => {
+  const totalRow = rows.reduce((total, row) => {
     return {
       ...total,
       count: total.count + row.count,
@@ -101,7 +101,7 @@ export default function UtilizationTable(report: CdcReport) {
     };
   }, { key: 'total', count: 0, capacity: 0, total: 0, balance: 0 });
 
-  rows.push(grandRow);
+  rows.push(totalRow);
 
   const tableProps: TableProps<UtilizationTableRow> = {
     id: 'utilization-table',
