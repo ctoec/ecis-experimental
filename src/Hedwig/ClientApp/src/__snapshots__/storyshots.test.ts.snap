@@ -1286,6 +1286,9 @@ exports[`Storyshots InlineIcon Attention needed 1`] = `
   <span
     className="oec-inline-icon oec-inline-icon--attentionNeeded"
   >
+    <svg>
+      error.svg
+    </svg>
     <span
       className="usa-sr-only"
     >
@@ -1308,6 +1311,9 @@ exports[`Storyshots InlineIcon Complete 1`] = `
   <span
     className="oec-inline-icon oec-inline-icon--complete"
   >
+    <svg>
+      success.svg
+    </svg>
     <span
       className="usa-sr-only"
     >
@@ -1330,6 +1336,9 @@ exports[`Storyshots InlineIcon Incomplete 1`] = `
   <span
     className="oec-inline-icon oec-inline-icon--incomplete"
   >
+    <svg>
+      error.svg
+    </svg>
     <span
       className="usa-sr-only"
     >
@@ -1350,118 +1359,130 @@ exports[`Storyshots Legend Default 1`] = `
   }
 >
   <div
-    className="grid-row flex-wrap margin-top-2 margin-bottom-2 oec-legend"
+    className="grid-row flex-wrap flex-justify margin-top-4 margin-bottom-6 grid-gap oec-legend"
   >
-    <div
-      className="grid-col-1 flex-1"
-    >
-      <svg
-        className="oec-legend__svg"
-        height="16"
-        width="20"
+    <div>
+      <div
+        className="oec-legend__symbol"
       >
-        <rect
-          className="fill-undefined"
-          height="16px"
-          rx="4px"
-          ry="4px"
-          width="16px"
-        />
-      </svg>
+        <svg
+          className="oec-legend__symbol__svg"
+          height="1em"
+          width="1em"
+        >
+          <rect
+            className="fill-undefined"
+            height="1em"
+            rx="0.25em"
+            ry="0.25em"
+            width="1em"
+          />
+        </svg>
+      </div>
       <div
         className="width-fit-content display-inline margin-left-1 margin-bottom-1 "
       >
         <span
-          className="margin-right-1 text-bold"
+          className="text-bold"
         >
           1
+           
         </span>
         <span>
           One fish
         </span>
       </div>
     </div>
-    <div
-      className="grid-col-1 flex-1"
-    >
-      <svg
-        className="oec-legend__svg"
-        height="16"
-        width="20"
+    <div>
+      <div
+        className="oec-legend__symbol"
       >
-        <rect
-          className="fill-undefined"
-          height="16px"
-          rx="4px"
-          ry="4px"
-          width="16px"
-        />
-      </svg>
+        <svg
+          className="oec-legend__symbol__svg"
+          height="1em"
+          width="1em"
+        >
+          <rect
+            className="fill-undefined"
+            height="1em"
+            rx="0.25em"
+            ry="0.25em"
+            width="1em"
+          />
+        </svg>
+      </div>
       <div
         className="width-fit-content display-inline margin-left-1 margin-bottom-1 "
       >
         <span
-          className="margin-right-1 text-bold"
+          className="text-bold"
         >
           2
+           
         </span>
         <span>
           Two fish
         </span>
       </div>
     </div>
-    <div
-      className="grid-col-1 flex-1"
-    >
-      <svg
-        className="oec-legend__svg"
-        height="16"
-        width="20"
+    <div>
+      <div
+        className="oec-legend__symbol"
       >
-        <rect
-          className="fill-red"
-          height="16px"
-          rx="4px"
-          ry="4px"
-          width="16px"
-        />
-      </svg>
+        <svg
+          className="oec-legend__symbol__svg"
+          height="1em"
+          width="1em"
+        >
+          <rect
+            className="fill-red"
+            height="1em"
+            rx="0.25em"
+            ry="0.25em"
+            width="1em"
+          />
+        </svg>
+      </div>
       <div
         className="width-fit-content display-inline margin-left-1 margin-bottom-1 "
       >
         <span
-          className="margin-right-1 text-bold"
+          className="text-bold"
         >
           2
+           
         </span>
         <span>
           Red fish
         </span>
       </div>
     </div>
-    <div
-      className="grid-col-1 flex-1"
-    >
-      <svg
-        className="oec-legend__svg"
-        height="16"
-        width="20"
+    <div>
+      <div
+        className="oec-legend__symbol"
       >
-        <rect
-          className="fill-blue"
-          height="16px"
-          rx="4px"
-          ry="4px"
-          width="16px"
-        />
-      </svg>
+        <svg
+          className="oec-legend__symbol__svg"
+          height="1em"
+          width="1em"
+        >
+          <rect
+            className="fill-blue"
+            height="1em"
+            rx="0.25em"
+            ry="0.25em"
+            width="1em"
+          />
+        </svg>
+      </div>
       <div
         className="width-fit-content display-inline margin-left-1 margin-bottom-1 "
       >
         <span
-          className="margin-right-1 text-bold"
+          className="text-bold"
         >
           4
+           
         </span>
         <span>
           Blue fish
@@ -1765,7 +1786,11 @@ exports[`Storyshots StepList Default 1`] = `
         >
           <span
             className="oec-inline-icon oec-inline-icon--complete"
-          />
+          >
+            <svg>
+              success.svg
+            </svg>
+          </span>
           Complete
         </div>
         <a

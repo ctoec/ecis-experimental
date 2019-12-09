@@ -244,7 +244,7 @@ export default function Roster() {
 				}
 				{!!schoolRosterTableProps.data.length &&
 					<>
-					<h2>School age({pluralize("child", schoolRosterTableProps.data.length, true)})</h2>
+					<h2>School age ({pluralize("child", schoolRosterTableProps.data.length, true)})</h2>
 					<Table {...schoolRosterTableProps} fullWidth />
 					</>
 				}
