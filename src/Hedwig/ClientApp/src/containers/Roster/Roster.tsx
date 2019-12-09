@@ -5,6 +5,9 @@ import dateFormatter from '../../utils/dateFormatter';
 import enrollmentTextFormatter from '../../utils/enrollmentTextFormatter';
 import getDefaultDateRange from '../../utils/getDefaultDateRange';
 import getColorForFundingSource, { fundingSourceDetails } from '../../utils/getColorForFundingType';
+import getFundingSpaceCapacity from '../../utils/getFundingSpaceCapacity';
+import getIdForUser from '../../utils/getIdForUser';
+import missingInformation from '../../utils/missingInformation';
 import { Table, TableProps } from '../../components/Table/Table';
 import Tag from '../../components/Tag/Tag';
 import { DateRange } from '../../components/DatePicker/DatePicker';
@@ -15,11 +18,10 @@ import useApi from '../../hooks/useApi';
 import UserContext from '../../contexts/User/UserContext';
 import { Enrollment } from '../../OAS-generated/models/Enrollment';
 import DateSelectionForm from './DateSelectionForm';
-import getIdForUser from '../../utils/getIdForUser';
 import { Age, FundingSource } from '../../OAS-generated';
-import getFundingSpaceCapacity from '../../utils/getFundingSpaceCapacity';
 import InlineIcon from '../../components/InlineIcon/InlineIcon';
 import pluralize from 'pluralize';
+import idx from 'idx';
 
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
@@ -35,7 +37,7 @@ export default function Roster() {
 	const siteParams = {
 		id: getIdForUser(user, 'site'),
 		orgId: getIdForUser(user, 'org'),
-		include: ['organizations', 'funding_spaces']
+		include: ['organizations', 'funding_spaces'],
 	};
 	const [sLoading, sError, site] = useApi(api => api.apiOrganizationsOrgIdSitesIdGet(siteParams), [
 		user,
@@ -68,20 +70,20 @@ export default function Roster() {
 					<th scope="row">
 						<Link to={`/roster/enrollments/${row.id}/`} className="usa-link">
 							{nameFormatter(row.child)}
+							{missingInformation(row) ? InlineIcon({ icon: 'incomplete' }) : ''}
 						</Link>
 					</th>
 				),
-				sort: row => nameFormatter(row.child),
+				sort: row => (row.child && row.child.lastName ? row.child.lastName : ''),
 			},
 			{
 				name: 'Birthdate',
-				cell: ({ row }) => (
-					(row.child &&
-					<td className="oec-table__cell--tabular-nums">
-						{row.child.birthdate && dateFormatter(row.child.birthdate)}
-					</td>)
-					|| <></>
-				),
+				cell: ({ row }) =>
+					(row.child && (
+						<td className="oec-table__cell--tabular-nums">
+							{row.child.birthdate && dateFormatter(row.child.birthdate)}
+						</td>
+					)) || <></>,
 				sort: row => ((row.child && row.child.birthdate) || new Date(0)).getTime(),
 			},
 			{
@@ -103,6 +105,7 @@ export default function Roster() {
 							: ''}
 					</td>
 				),
+				sort: row => idx(row, _ => _.fundings[0].source) || '',
 			},
 			{
 				name: 'Enrollment date',
@@ -125,23 +128,23 @@ export default function Roster() {
 
 	const infantRosterTableProps: TableProps<Enrollment> = {
 		...defaultRosterTableProps,
-		id: "infant-roster-table",
-		data: completeEnrollments.filter(e => e.age == Age.Infant)
+		id: 'infant-roster-table',
+		data: completeEnrollments.filter(e => e.age == Age.Infant),
 	};
 	const preschoolRosterTableProps: TableProps<Enrollment> = {
 		...defaultRosterTableProps,
-		id: "preschool-roster-table",
-		data: completeEnrollments.filter(e => e.age === Age.Preschool)
+		id: 'preschool-roster-table',
+		data: completeEnrollments.filter(e => e.age === Age.Preschool),
 	};
 	const schoolRosterTableProps: TableProps<Enrollment> = {
 		...defaultRosterTableProps,
-		id: "school-roster-table",
-		data: completeEnrollments.filter(e => e.age === Age.School)
+		id: 'school-roster-table',
+		data: completeEnrollments.filter(e => e.age === Age.School),
 	};
 	const incompleteRosterTableProps: TableProps<Enrollment> = {
 		...defaultRosterTableProps,
-		id: "incomplete-roster-table",
-		data: incompleteEnrollments.filter(e => !e.age)
+		id: 'incomplete-roster-table',
+		data: incompleteEnrollments.filter(e => !e.age),
 	};
 
 	const numKidsEnrolledText = enrollmentTextFormatter(
@@ -154,23 +157,24 @@ export default function Roster() {
 	const legendItems: LegendItem[] = Object.keys(fundingSourceDetails).map(source => {
 		const ratioLegendSources: string[] = [FundingSource.CDC];
 		const capacityForFunding = getFundingSpaceCapacity(site.organization, source);
-		const enrolledForFunding= enrollments.filter(
+		const enrolledForFunding = enrollments.filter(
 			e => e.fundings && e.fundings.filter(f => f.source === source).length > 0
 		).length;
 
 		// If funding source enrollments should be displayed as a ratio,
 		// and capacity info for funding source exists,
 		// set ratio to enrollments/capacity. Otherwise: undefined
-		const enrolledOverCapacity = (ratioLegendSources.includes(source) && capacityForFunding)
-			? {a: enrolledForFunding, b: capacityForFunding }
-			: undefined
+		const enrolledOverCapacity =
+			ratioLegendSources.includes(source) && capacityForFunding
+				? { a: enrolledForFunding, b: capacityForFunding }
+				: undefined;
 
 		return {
 			text: fundingSourceDetails[source].fullTitle,
 			symbol: <Tag text={source} color={fundingSourceDetails[source].colorToken} />,
 			number: enrolledForFunding,
-			ratio: enrolledOverCapacity
-		}
+			ratio: enrolledOverCapacity,
+		};
 	});
 
 	legendItems.push({
@@ -230,30 +234,33 @@ export default function Roster() {
 					</div>
 				)}
 				<Legend items={legendItems} />
-				{!!infantRosterTableProps.data.length &&
+				{!!infantRosterTableProps.data.length && (
 					<>
-				<h2>Infant/toddler ({pluralize("child", infantRosterTableProps.data.length, true)})</h2>
-					<Table {...infantRosterTableProps} fullWidth />
+						<h2>Infant/toddler ({pluralize('child', infantRosterTableProps.data.length, true)})</h2>
+						<Table {...infantRosterTableProps} fullWidth />
 					</>
-				}
-				{!!preschoolRosterTableProps.data.length &&
+				)}
+				{!!preschoolRosterTableProps.data.length && (
 					<>
-					<h2>Preschool ({pluralize("child", preschoolRosterTableProps.data.length, true)})</h2>
-					<Table {...preschoolRosterTableProps} fullWidth />
+						<h2>Preschool ({pluralize('child', preschoolRosterTableProps.data.length, true)})</h2>
+						<Table {...preschoolRosterTableProps} fullWidth />
 					</>
-				}
-				{!!schoolRosterTableProps.data.length &&
+				)}
+				{!!schoolRosterTableProps.data.length && (
 					<>
-					<h2>School age ({pluralize("child", schoolRosterTableProps.data.length, true)})</h2>
-					<Table {...schoolRosterTableProps} fullWidth />
+						<h2>School age ({pluralize('child', schoolRosterTableProps.data.length, true)})</h2>
+						<Table {...schoolRosterTableProps} fullWidth />
 					</>
-				}
-				{!!incompleteRosterTableProps.data.length &&
+				)}
+				{!!incompleteRosterTableProps.data.length && (
 					<>
-					<h2>Incomplete enrollments ({pluralize("child", incompleteRosterTableProps.data.length, true)})</h2>
-					<Table {...incompleteRosterTableProps} fullWidth />
+						<h2>
+							Incomplete enrollments (
+							{pluralize('child', incompleteRosterTableProps.data.length, true)})
+						</h2>
+						<Table {...incompleteRosterTableProps} fullWidth />
 					</>
-				}
+				)}
 			</section>
 		</div>
 	);
