@@ -2164,7 +2164,7 @@ exports[`Storyshots TextInput Default 1`] = `
        
     </label>
     <input
-      className="outline-05 usa-input"
+      className="usa-input"
       id="cat"
       name="cat"
       onChange={[Function]}
@@ -2193,7 +2193,7 @@ exports[`Storyshots TextInput Disabled 1`] = `
        
     </label>
     <input
-      className="outline-05 usa-input"
+      className="usa-input"
       disabled={true}
       id="cat"
       name="cat"
@@ -2231,7 +2231,7 @@ exports[`Storyshots TextInput Error 1`] = `
     </span>
     <input
       aria-describedby="input-error-message"
-      className="outline-05 usa-input usa-input--error"
+      className="usa-input usa-input--error"
       id="cat"
       name="cat"
       onChange={[Function]}
@@ -2261,7 +2261,7 @@ exports[`Storyshots TextInput Optional 1`] = `
       (Optional)
     </label>
     <input
-      className="outline-05 usa-input"
+      className="usa-input"
       id="cat"
       name="cat"
       onChange={[Function]}
@@ -2290,7 +2290,7 @@ exports[`Storyshots TextInput Success 1`] = `
        
     </label>
     <input
-      className="outline-05 usa-input usa-input--success"
+      className="usa-input usa-input--success"
       id="cat"
       name="cat"
       onChange={[Function]}
@@ -2319,7 +2319,7 @@ exports[`Storyshots TextInput With default value 1`] = `
        
     </label>
     <input
-      className="outline-05 usa-input"
+      className="usa-input"
       defaultValue="default text"
       id="cat"
       name="cat"
