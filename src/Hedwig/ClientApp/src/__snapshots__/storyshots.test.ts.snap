@@ -2158,15 +2158,15 @@ exports[`Storyshots TextInput Default 1`] = `
   >
     <label
       className="usa-label"
-      htmlFor="Default-text-input"
+      htmlFor="cat"
     >
       Default text input
        
     </label>
     <input
-      className="usa-input"
-      id="Default-text-input"
-      name="Default-text-input"
+      className="outline-05 usa-input"
+      id="cat"
+      name="cat"
       onChange={[Function]}
       type="text"
     />
@@ -2187,16 +2187,16 @@ exports[`Storyshots TextInput Disabled 1`] = `
   >
     <label
       className="usa-label"
-      htmlFor="Default-text-input"
+      htmlFor="cat"
     >
       Default text input
        
     </label>
     <input
-      className="usa-input"
+      className="outline-05 usa-input"
       disabled={true}
-      id="Default-text-input"
-      name="Default-text-input"
+      id="cat"
+      name="cat"
       onChange={[Function]}
       type="text"
     />
@@ -2217,7 +2217,7 @@ exports[`Storyshots TextInput Error 1`] = `
   >
     <label
       className="usa-label usa-label--error"
-      htmlFor="Default-text-input"
+      htmlFor="cat"
     >
       Default text input
        
@@ -2231,9 +2231,9 @@ exports[`Storyshots TextInput Error 1`] = `
     </span>
     <input
       aria-describedby="input-error-message"
-      className="usa-input usa-input--error"
-      id="Default-text-input"
-      name="Default-text-input"
+      className="outline-05 usa-input usa-input--error"
+      id="cat"
+      name="cat"
       onChange={[Function]}
       type="text"
     />
@@ -2254,16 +2254,16 @@ exports[`Storyshots TextInput Optional 1`] = `
   >
     <label
       className="usa-label"
-      htmlFor="Default-optional-text-input"
+      htmlFor="cat"
     >
       Default optional text input
        
       (Optional)
     </label>
     <input
-      className="usa-input"
-      id="Default-optional-text-input"
-      name="Default-optional-text-input"
+      className="outline-05 usa-input"
+      id="cat"
+      name="cat"
       onChange={[Function]}
       type="text"
     />
@@ -2284,15 +2284,15 @@ exports[`Storyshots TextInput Success 1`] = `
   >
     <label
       className="usa-label"
-      htmlFor="Default-text-input"
+      htmlFor="cat"
     >
       Default text input
        
     </label>
     <input
-      className="usa-input usa-input--success"
-      id="Default-text-input"
-      name="Default-text-input"
+      className="outline-05 usa-input usa-input--success"
+      id="cat"
+      name="cat"
       onChange={[Function]}
       type="text"
     />
@@ -2313,16 +2313,16 @@ exports[`Storyshots TextInput With default value 1`] = `
   >
     <label
       className="usa-label"
-      htmlFor="Default-text-input"
+      htmlFor="cat"
     >
       Default text input
        
     </label>
     <input
-      className="usa-input"
+      className="outline-05 usa-input"
       defaultValue="default text"
-      id="Default-text-input"
-      name="Default-text-input"
+      id="cat"
+      name="cat"
       onChange={[Function]}
       type="text"
     />

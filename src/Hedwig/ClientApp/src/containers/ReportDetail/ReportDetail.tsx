@@ -1,60 +1,52 @@
-import React from 'react';
-import { gql } from 'apollo-boost';
+import React, { useState, useContext } from 'react';
+import idx from 'idx';
 import { useParams } from 'react-router-dom';
-import { ReportQuery } from '../../generated/ReportQuery';
 import ReportSubmitForm from './ReportSubmitForm';
 import monthFormatter from '../../utils/monthFormatter';
 import dateFormatter from '../../utils/dateFormatter';
-import useAuthQuery from '../../hooks/useAuthQuery';
 import DirectionalLink from '../../components/DirectionalLink/DirectionalLink';
 import Tag from '../../components/Tag/Tag';
-
-export const REPORT_QUERY = gql`
-	query ReportQuery($id: ID!) {
-		report(id: $id) {
-			... on CdcReportType {
-				id
-				type
-				period
-				periodStart
-				periodEnd
-				submittedAt
-				accredited
-				organization {
-					id
-					name
-				}
-			}
-		}
-	}
-`;
+import UserContext from '../../contexts/User/UserContext';
+import getIdForUser from '../../utils/getIdForUser';
+import useApi from '../../hooks/useApi';
+import UtilizationTable from './UtilizationTable';
 
 export default function ReportDetail() {
-	let { id } = useParams();
-	const { loading, error, data } = useAuthQuery<ReportQuery>(REPORT_QUERY, {
-		variables: { id },
-	});
+  let { id } = useParams();
+  const { user } = useContext(UserContext);
+  const reportParams = {
+    id: parseInt(id || '0'),
+    orgId: getIdForUser(user, 'org'),
+    include: ['organizations', 'enrollments', 'sites', 'funding_spaces'],
+  };
+  const [loading, error, report] = useApi(
+    api => api.apiOrganizationsOrgIdReportsIdGet(reportParams),
+    [user]
+  );
 
-	if (loading || error || !data || !data.report) {
-		return <div className="Report"></div>;
-	}
+  console.log(report);
 
-	return (
-		<div className="Report">
-			<section className="grid-container">
-				<DirectionalLink direction="left" to="/reports" text="Back to reports" />
-				<h1>
-					{monthFormatter(data.report.period)} {data.report.type} Report{' '}
-					{!data.report.submittedAt && (
-						<Tag text="DRAFT" color="gold-30v" addClass="margin-left-1 text-middle" />
-					)}
-				</h1>
-				<p className="usa-intro">
-					{data.report.organization.name} | {dateFormatter(data.report.periodStart)} -{' '}
-					{dateFormatter(data.report.periodEnd)}
-				</p>
-				<ReportSubmitForm {...data.report} />
-			</section>
-		</div>
-	);
+  if (!report) {
+    return <div className="Report"></div>;
+  }
+
+  return (
+    <div className="Report">
+      <section className="grid-container">
+        <DirectionalLink direction="left" to="/reports" text="Back to reports" />
+        <h1>
+          {monthFormatter(idx(report, _ => _.reportingPeriod.period))} {report.type} Report{' '}
+          {!report.submittedAt && (
+            <Tag text="DRAFT" color="gold-20v" addClass="margin-left-1 text-middle" />
+          )}
+        </h1>
+        <p className="usa-intro">
+          {idx(report, _ => _.organization.name)} | {dateFormatter(idx(report, _ => _.reportingPeriod.periodStart))} -{' '}
+          {dateFormatter(idx(report, _ => _.reportingPeriod.periodEnd))}
+        </p>
+        <UtilizationTable {...report} />
+        <ReportSubmitForm {...report} />
+      </section>
+    </div>
+  );
 }
