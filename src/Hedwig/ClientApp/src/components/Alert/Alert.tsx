@@ -4,18 +4,22 @@ export type AlertProps = {
 	type: 'success' | 'warning' | 'error' | 'info';
 	heading: string;
 	text: string;
+	actionItem?: JSX.Element;
 };
 
-export default function Alert({ type, heading, text }: AlertProps) {
+export default function Alert({ type, heading, text, actionItem }: AlertProps) {
 	// If in the future we make this interactive, we should use the alertdialog role
 	return (
 		<div
 			className={`usa-alert usa-alert--${type} grid-row`}
 			role={type === 'error' ? 'alert' : undefined}
 		>
-			<div className="usa-alert__body grid-col flex-fill">
-				<h2 className="usa-alert__heading">{heading}</h2>
-				<p className="usa-alert__text">{text}</p>
+			<div className="display-flex flex-fill">
+				<div className="usa-alert__body grid-col flex-fill">
+					<h2 className="usa-alert__heading">{heading}</h2>
+					<p className="usa-alert__text">{text}</p>
+				</div>
+				<div className="usa-alert__body flex-auto display-flex flex-align-center">{actionItem}</div>
 			</div>
 		</div>
 	);
