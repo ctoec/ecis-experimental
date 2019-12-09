@@ -11,7 +11,7 @@ export type Mutate<TData> = (
 ) => Promise<TData | undefined>
 
 interface ApiParamOpts<T> {
-	defaulValue?: T,
+	defaultValue?: T,
 	skip?: boolean,
 	callback?: (_: T) => void
 }
