@@ -25,35 +25,31 @@ export default function Roster() {
 		toggleShowPastEnrollments(!showPastEnrollments);
 		setByRange(false);
 		setDateRange(getDefaultDateRange());
-	}
+	};
 
 	const { user } = useContext(UserContext);
 	const siteParams = {
-		id: getIdForUser(user, "site"),
-		orgId: getIdForUser(user, "org")
+		id: getIdForUser(user, 'site'),
+		orgId: getIdForUser(user, 'org'),
 	};
-	const [sLoading, sError, site] = useApi(
-		api =>
-			api.apiOrganizationsOrgIdSitesIdGet(siteParams),
-		[user]
-	);
+	const [sLoading, sError, site] = useApi(api => api.apiOrganizationsOrgIdSitesIdGet(siteParams), [
+		user,
+	]);
 
 	const enrollmentsParams = {
-		orgId: getIdForUser(user, "org"),
-		siteId: getIdForUser(user, "site"),
+		orgId: getIdForUser(user, 'org'),
+		siteId: getIdForUser(user, 'site'),
 		include: ['child', 'fundings'],
-		startDate:  (dateRange && dateRange.startDate && dateRange.startDate.toDate()) || undefined,
+		startDate: (dateRange && dateRange.startDate && dateRange.startDate.toDate()) || undefined,
 		endDate: (dateRange && dateRange.endDate && dateRange.endDate.toDate()) || undefined,
-	}
+	};
 	const [eLoading, eError, rawEnrollments] = useApi(
 		// TODO: after everything being nullable is solved, ditch raw enrollments and type mapping below
-		api =>
-			api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsGet(enrollmentsParams),
+		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsGet(enrollmentsParams),
 		[user, dateRange]
 	);
 
-	if (sLoading || sError || !site
-			|| eLoading || eError || !rawEnrollments) {
+	if (sLoading || sError || !site || eLoading || eError || !rawEnrollments) {
 		return <div className="Roster"></div>;
 	}
 
@@ -77,7 +73,7 @@ export default function Roster() {
 				sort: row => nameFormatter(row.child),
 			},
 			{
-				name: 'Date of birth',
+				name: 'Birthdate',
 				cell: ({ row }) => (
 					<td className="oec-table__cell--tabular-nums">
 						{row.child.birthdate && dateFormatter(row.child.birthdate)}
@@ -89,27 +85,28 @@ export default function Roster() {
 				name: 'Funding',
 				cell: ({ row }) => (
 					<td>
-						{row.fundings && row.fundings.length ? (
-							<Tag
-								text={`${row.fundings[0].source}`}
-								color={
-									row.fundings[0].source
-										? getColorForFundingSource(row.fundings[0].source)
-										: 'gray-90'
-								}
-							/>
-						) : (
-							''
-						)}
+						{row.fundings && row.fundings.length
+							? row.fundings.map(funding => (
+									<Tag
+										key={`${funding.source}-${funding.time}`}
+										text={
+											funding.source
+												? fundingSourceDetails[funding.source].textFormatter(funding)
+												: ''
+										}
+										color={funding.source ? getColorForFundingSource(funding.source) : 'gray-90'}
+									/>
+							  ))
+							: ''}
 					</td>
 				),
 			},
 			{
-				name: 'Enrolled',
+				name: 'Enrollment date',
 				cell: ({ row }) => (
 					<td className="oec-table__cell--tabular-nums">
 						{row.entry
-							? dateFormatter(row.entry) + '–' + (row.exit ? dateFormatter(row.exit) : '')
+							? dateFormatter(row.entry) + (row.exit ? `–${dateFormatter(row.exit)}` : '')
 							: ''}
 					</td>
 				),
@@ -140,7 +137,6 @@ export default function Roster() {
 		<div className="Roster">
 			<section className="grid-container">
 				<h1 className="grid-col-auto">{site.name}</h1>
-				<Legend items={legendItems} />
 				<div className="grid-row">
 					<div className="tablet:grid-col-fill">
 						<p className="usa-intro display-flex flex-row flex-wrap flex-justify-start">
@@ -188,6 +184,7 @@ export default function Roster() {
 						/>
 					</div>
 				)}
+				<Legend items={legendItems} />
 				<Table {...rosterTableProps} fullWidth />
 			</section>
 		</div>

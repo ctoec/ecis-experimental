@@ -135,39 +135,39 @@ describe('Roster', () => {
     wrapper.unmount();
   });
 
-  it('renders intro text with the correct number of kids', async () => {
-    const wrapper = mount(
-      <UserContext.Provider value={{ user }}>
-        <BrowserRouter>
-          <Roster />
-        </BrowserRouter>
-      </UserContext.Provider>
-    );
-    await act(async () => {
-      await waitForUpdate(wrapper);
-    });
-    const introSpanText = wrapper.find('.usa-intro span').text();
-    expect(introSpanText).toBe('2 kids enrolled.');
-    wrapper.unmount();
-  });
+	it('renders intro text with the correct number of children', async () => {
+		const wrapper = mount(
+			<UserContext.Provider value={{ user }}>
+				<BrowserRouter>
+					<Roster />
+				</BrowserRouter>
+			</UserContext.Provider>
+		);
+		await act(async () => {
+			await waitForUpdate(wrapper);
+		});
+		const introSpanText = wrapper.find('.usa-intro span').text();
+		expect(introSpanText).toBe('2 children enrolled.');
+		wrapper.unmount();
+	});
 
-  it('updates the number of kids', async () => {
-    const wrapper = mount(
-      <UserContext.Provider value={{ user }}>
-        <BrowserRouter>
-          <Roster />
-        </BrowserRouter>
-      </UserContext.Provider>
-    );
-    await act(async () => {
-      await waitForUpdate(wrapper);
-      wrapper
-        .find('Button')
-        .first()
-        .props()
-        .onClick();
-      await waitForUpdate(wrapper);
-    });
+	it('updates the number of children', async () => {
+		const wrapper = mount(
+			<UserContext.Provider value={{ user }}>
+				<BrowserRouter>
+					<Roster />
+				</BrowserRouter>
+			</UserContext.Provider>
+		);
+		await act(async () => {
+			await waitForUpdate(wrapper);
+			wrapper
+				.find('Button')
+				.first()
+				.props()
+				.onClick();
+			await waitForUpdate(wrapper);
+		});
 
     const radioGroup = wrapper.find(RadioGroup);
 
@@ -184,8 +184,8 @@ describe('Roster', () => {
       await waitForUpdate(wrapper);
     });
 
-    const introSpanText = wrapper.find('.usa-intro span').text();
-    expect(introSpanText).toBe('1 kid was enrolled between January 1, 2018 and February 1, 2019.');
-    wrapper.unmount();
-  });
+		const introSpanText = wrapper.find('.usa-intro span').text();
+		expect(introSpanText).toBe('1 child was enrolled between January 1, 2018 and February 1, 2019.');
+		wrapper.unmount();
+	});
 });

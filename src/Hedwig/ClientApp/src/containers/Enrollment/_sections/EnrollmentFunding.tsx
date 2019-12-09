@@ -92,41 +92,41 @@ const EnrollmentFunding: Section = {
           <label className="usa-label" htmlFor="date">
             Start date
 					</label>
-          <DatePicker
-            onChange={range =>
-              updateEntry((range.startDate && range.startDate.toDate()) || null)
-            }
-            dateRange={{ startDate: entry ? moment(entry) : null, endDate: null }}
-          />
+					<DatePicker
+						onChange={range =>
+							updateEntry((range.startDate && range.startDate.toDate()) || null)
+						}
+						dateRange={{ startDate: entry ? moment(entry) : null, endDate: null }}
+					/>
 
-          <h3>Age</h3>
-          <RadioGroup
-            groupName="age"
-            legend="Age"
-            options={[
-              {
-                text: 'Infant/Toddler',
-                value: Age.Infant,
-              },
-              {
-                text: 'Preschool',
-                value: Age.Preschool,
-              },
-              {
-                text: 'School-age',
-                value: Age.School,
-              },
-            ]}
-            selected={'' + age}
-            onChange={event => updateAge(ageFromString(event.target.value))}
-          />
-        </div>
+					<h3>Age group</h3>
+					<RadioGroup
+						groupName="age"
+						legend="Age"
+						options={[
+							{
+								text: 'Infant/Toddler',
+								value: Age.Infant,
+							},
+							{
+								text: 'Preschool',
+								value: Age.Preschool,
+							},
+							{
+								text: 'School-age',
+								value: Age.School,
+							},
+						]}
+						selected={'' + age}
+						onChange={event => updateAge(ageFromString(event.target.value))}
+					/>
+				</div>
 
-        <h3>Funding</h3>
-        <ul className="oec-action-list">
-          <li>
-            <Button appearance="unstyled" text="Assign to a Child Day Care space" />
-            &nbsp; (1 available starting December 2019)
+				<h3>Funding</h3>
+				<ul className="oec-action-list">
+					<li>
+						<Button appearance="unstyled" text="Assign to a Child Day Care space" />
+						&nbsp; (1 available starting December 2019)
 					</li>
           <li>
             <Button appearance="unstyled" text="Add Care 4 Kids subsidy" />
