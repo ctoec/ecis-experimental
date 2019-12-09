@@ -17,7 +17,7 @@ namespace HedwigTests.Controllers
             var controller = new ReportsController(_reports.Object);
 
             await controller.Get(orgId);
-            _reports.Verify(r => r.GetReportsForOrganization(orgId), Times.Once());
+            _reports.Verify(r => r.GetReportsForOrganizationAsync(orgId), Times.Once());
         }
 
     }

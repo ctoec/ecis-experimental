@@ -115,7 +115,7 @@ namespace HedwigTests.Repositories
         ReportHelper.CreateCdcReport(context);
 
         var reportRepo = new ReportRepository(context);
-        var result = await reportRepo.GetReportsForOrganization(organization.Id);
+        var result = await reportRepo.GetReportsForOrganizationAsync(organization.Id);
 
         Assert.Equal(reports, result);
       }

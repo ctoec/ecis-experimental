@@ -40,12 +40,13 @@ namespace Hedwig.Repositories
       return reports;
     }
 
-    public Task<List<Report>> GetReportsForOrganization(int orgId)
+    public Task<List<CdcReport>> GetReportsForOrganizationAsync(int orgId)
     {
       return _context.Reports
         .OfType<OrganizationReport>()
         .Where(r => r.OrganizationId == orgId)
-        .Select(r => r as Report)
+        .Include(report => report.ReportingPeriod)
+        .Select(r => r as CdcReport)
         .ToListAsync();
     }
 
@@ -131,7 +132,7 @@ namespace Hedwig.Repositories
   public interface IReportRepository
   {
     Task<IEnumerable<Report>> GetReportsByUserIdAsync(int userId);
-    Task<List<Report>> GetReportsForOrganization(int orgId);
+    Task<List<CdcReport>> GetReportsForOrganizationAsync(int orgId);
     Task<Report> GetReportByIdAsync(int id);
     Task<CdcReport> GetReportForOrganizationAsync(int id, int orgId, string[] include);
   }
