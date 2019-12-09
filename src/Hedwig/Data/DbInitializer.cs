@@ -118,48 +118,56 @@ namespace Hedwig.Data
         new Child { FirstName = "Alan", LastName = "Rickman",
           Birthdate = DateTime.Parse("2018-12-07"), Gender = Gender.Male,
           FamilyId = families[0].Id,
-          Organization = organizations[0]
+          Organization = organizations[0],
+          BirthCertificateId = "XXX-XXX-XXXX"
         },
         new Child { FirstName = "David", LastName = "Thewlis",
           Birthdate = DateTime.Parse("2016-07-29"), Gender = Gender.Male,
           FamilyId = families[1].Id,
-          Organization = organizations[0]
+          Organization = organizations[0],
+          BirthCertificateId = "XXX-XXX-XXXX"
 
         },
         new Child { FirstName = "Helena", LastName = "Bonham Carter",
           Birthdate = DateTime.Parse("2016-01-01"), Gender = Gender.Female,
           FamilyId = families[2].Id,
-          Organization = organizations[0]
+          Organization = organizations[0],
+          BirthCertificateId = "XXX-XXX-XXXX"
 
         },
         new Child { FirstName = "Maggie", LastName = "Smith",
           Birthdate = DateTime.Parse("2015-02-02"), Gender = Gender.Female,
           FamilyId = families[3].Id,
-          Organization = organizations[0]
+          Organization = organizations[0],
+          BirthCertificateId = "XXX-XXX-XXXX"
 
         },
         new Child { FirstName = "Michael", LastName = "Gambon",
           Birthdate = DateTime.Parse("2015-07-06"), Gender = Gender.Male,
           FamilyId = families[4].Id,
-          Organization = organizations[0]
+          Organization = organizations[0],
+          BirthCertificateId = "XXX-XXX-XXXX"
 
         },
         new Child { FirstName = "Richard", LastName = "Griffiths",
           Birthdate = DateTime.Parse("2018-07-02"), Gender = Gender.Male,
           FamilyId = families[5].Id,
-          Organization = organizations[0]
+          Organization = organizations[0],
+          BirthCertificateId = "XXX-XXX-XXXX"
 
         },
         new Child { FirstName = "Richard", LastName = "Harris",
           Birthdate = DateTime.Parse("2015-12-23"), Gender = Gender.Male,
           FamilyId = families[6].Id,
-          Organization = organizations[0]
+          Organization = organizations[0],
+          BirthCertificateId = "XXX-XXX-XXXX"
 
         },
         new Child { FirstName = "Warwick", LastName = "Davis",
           Birthdate = DateTime.Parse("2018-11-25"), Gender = Gender.Male,
           FamilyId = families[7].Id,
-          Organization = organizations[0]
+          Organization = organizations[0],
+          BirthCertificateId = "XXX-XXX-XXXX"
 
         },
         new Child { FirstName = "Emma", LastName = "Thompson",
@@ -172,13 +180,11 @@ namespace Hedwig.Data
           Birthdate = DateTime.Parse("2017-10-27"), Gender = Gender.Male,
           FamilyId = families[9].Id,
           Organization = organizations[0]
-
         },
         new Child { FirstName = "David", LastName = "Bradley",
           Birthdate = DateTime.Parse("2014-11-20"), Gender = Gender.Male,
           FamilyId = families[10].Id,
           Organization = organizations[0]
-
         },
         new Child { FirstName = "John", LastName = "Cleese",
           Birthdate = DateTime.Parse("2015-10-21"), Gender = Gender.Male,
@@ -190,19 +196,16 @@ namespace Hedwig.Data
           Birthdate = DateTime.Parse("2018-02-14"), Gender = Gender.Male,
           FamilyId = families[12].Id,
           Organization = organizations[0]
-
         },
         new Child { FirstName = "Kenneth", LastName = "Branagh",
           Birthdate = DateTime.Parse("2018-08-19"), Gender = Gender.Male,
           FamilyId = families[13].Id,
           Organization = organizations[0]
-
         },
         new Child { FirstName = "Miranda", LastName = "Richardson",
           Birthdate = DateTime.Parse("2018-11-09"), Gender = Gender.Female,
           FamilyId = families[14].Id,
           Organization = organizations[0]
-
         }
       };
 

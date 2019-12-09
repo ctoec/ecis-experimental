@@ -20,6 +20,7 @@ import { Age, FundingSource } from '../../OAS-generated';
 import getFundingSpaceCapacity from '../../utils/getFundingSpaceCapacity';
 import InlineIcon from '../../components/InlineIcon/InlineIcon';
 import pluralize from 'pluralize';
+import idx from 'idx';
 
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
@@ -57,6 +58,13 @@ export default function Roster() {
 		return <div className="Roster"></div>;
 	}
 
+	// Hack to fake missing information on enrollment entities
+	// for now: returns if child.birthCertificate not set 
+	const missingInformation = (enrollment: Enrollment) => {
+		return !!!(idx(enrollment, _ => _.child.birthCertificateId));
+	}
+
+
 	const defaultRosterTableProps: TableProps<Enrollment> = {
 		id: 'roster-table',
 		data: [],
@@ -68,10 +76,11 @@ export default function Roster() {
 					<th scope="row">
 						<Link to={`/roster/enrollments/${row.id}/`} className="usa-link">
 							{nameFormatter(row.child)}
+							{missingInformation(row) ? InlineIcon({icon: 'incomplete'}) : ''}
 						</Link>
 					</th>
 				),
-				sort: row => nameFormatter(row.child),
+				sort: row => row.child && row.child.lastName ? row.child.lastName : '',
 			},
 			{
 				name: 'Birthdate',
@@ -103,6 +112,7 @@ export default function Roster() {
 							: ''}
 					</td>
 				),
+				sort: row => idx(row, _ => _.fundings[0].source) || ''
 			},
 			{
 				name: 'Enrollment date',
