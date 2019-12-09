@@ -47,7 +47,7 @@ export interface Enrollment {
      * @type {number}
      * @memberof Enrollment
      */
-    id?: number;
+    id: number;
     /**
      * 
      * @type {string}
@@ -120,7 +120,7 @@ export function EnrollmentFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     }
     return {
         
-        'id': !exists(json, 'id') ? undefined : json['id'],
+        'id': json['id'],
         'childId': !exists(json, 'childId') ? undefined : json['childId'],
         'child': !exists(json, 'child') ? undefined : ChildFromJSON(json['child']),
         'siteId': !exists(json, 'siteId') ? undefined : json['siteId'],

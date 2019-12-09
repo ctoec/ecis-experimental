@@ -20,20 +20,20 @@ function ptOrFT(fundingTime: string | undefined) {
 // These colors are placeholders and will change
 export const fundingSourceDetails: { [key: string]: FundingSourceDetail } = {
 	CDC: {
-		colorToken: 'blue-30v',
-		fullTitle: 'Child Daycare Center',
+		colorToken: 'blue-50v',
+		fullTitle: 'Child Day Care spaces filled',
 		textFormatter: funding => `CDC${ptOrFT(funding.time)}`,
 	},
-	SR: {
-		colorToken: 'violet-warm-30',
-		fullTitle: 'School Readiness',
-		textFormatter: funding => 'SR'
-	},
 	C4K: {
-		colorToken: 'green-cool-30',
-		fullTitle: 'Care 4 Kids',
-		textFormatter: funding => 'C4K'
+		colorToken: 'violet-warm-60',
+		fullTitle: 'receiving Care 4 Kids',
+		textFormatter: funding => 'C4K',
 	},
+	// SRS: {
+	// 	colorToken: 'gray or something idk',
+	// 	fullTitle: 'School Readiness',
+	// 	textFormatter: funding => 'SRS'
+	// },
 };
 
 export default function getColorForFundingSource(source: FundingSource) {

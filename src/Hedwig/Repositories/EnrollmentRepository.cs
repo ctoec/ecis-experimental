@@ -199,6 +199,8 @@ namespace Hedwig.Repositories
           (e.Exit != null && e.Entry <= to && e.Exit >= from)
           ||
           (e.Exit == null && e.Entry <= to)
+          ||
+          (e.Entry == null)
         ));
       }
 

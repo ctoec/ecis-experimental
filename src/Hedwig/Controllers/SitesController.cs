@@ -14,21 +14,12 @@ namespace Hedwig.Controllers
     public class SitesController : ControllerBase
     {
         private readonly ISiteRepository _sites;
-        private readonly IEnrollmentRepository _enrollments;
-        private readonly IChildRepository _children;
-        private readonly IFamilyRepository _families;
 
         public SitesController(
-            ISiteRepository sites,
-            IEnrollmentRepository enrollments,
-            IChildRepository children,
-            IFamilyRepository families
+            ISiteRepository sites
         )
         {
             _sites = sites;
-            _enrollments = enrollments;
-            _children = children;
-            _families = families;
         }
 
         // GET api/organizations/5/sites

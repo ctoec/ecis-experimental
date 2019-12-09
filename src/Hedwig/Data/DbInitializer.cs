@@ -213,49 +213,91 @@ namespace Hedwig.Data
       context.SaveChanges();
 
       var enrollments = new Enrollment[] {
-        new Enrollment { ChildId = children[0].Id, SiteId = sites[0].Id,
+        new Enrollment { 
+          ChildId = children[0].Id, 
+          SiteId = sites[0].Id,
+          Entry = DateTime.Parse("2019-07-01"),
+          Age = Age.Infant,
+        },
+        new Enrollment {
+          ChildId = children[1].Id,
+          SiteId = sites[0].Id,
+          Entry = DateTime.Parse("2017-05-06"),
+          Age = Age.Preschool
+        },
+        new Enrollment {
+          ChildId = children[2].Id,
+          SiteId = sites[0].Id,
+          Entry = DateTime.Parse("2017-11-12"),
+          Age = Age.School
+        },
+        new Enrollment {
+          ChildId = children[3].Id,
+          SiteId = sites[0].Id,
+          Entry = DateTime.Parse("2016-09-26"),
+          Age = Age.Infant
+        },
+        new Enrollment {
+          ChildId = children[4].Id,
+          SiteId = sites[0].Id,
+          Entry = DateTime.Parse("2016-10-20"),
+          Age = Age.Preschool
+        },
+        new Enrollment {
+          ChildId = children[5].Id,
+          SiteId = sites[0].Id,
+          Entry = DateTime.Parse("2019-03-26"),
+          Age = Age.School
+        },
+        new Enrollment {
+          ChildId = children[6].Id,
+          SiteId = sites[0].Id,
+          Entry = DateTime.Parse("2017-01-14"),
+          Age = Age.Infant
+        },
+        new Enrollment {
+          ChildId = children[7].Id,
+          SiteId = sites[0].Id,
+          Entry = DateTime.Parse("2019-08-07"),
+          Age = Age.Preschool
+        },
+        new Enrollment {
+          ChildId = children[8].Id,
+          SiteId = sites[0].Id,
+          Entry = DateTime.Parse("2018-04-28"),
+          Age = Age.School
+        },
+        new Enrollment {
+          ChildId = children[9].Id,
+          SiteId = sites[0].Id,
+          Entry = DateTime.Parse("2018-04-23"),
+          Age = Age.Infant
+        },
+        new Enrollment {
+          ChildId = children[10].Id,
+          SiteId = sites[0].Id,
+          Entry = DateTime.Parse("2016-10-25"),
+          Age = Age.Preschool
+        },
+        new Enrollment {
+          ChildId = children[11].Id,
+          SiteId = sites[0].Id,
+          Entry = DateTime.Parse("2016-06-16"),
+          Age = Age.School
+        },
+        new Enrollment {
+          ChildId = children[12].Id,
+          SiteId = sites[0].Id,
           Entry = DateTime.Parse("2019-07-01")
         },
-        new Enrollment { ChildId = children[1].Id, SiteId = sites[0].Id,
-          Entry = DateTime.Parse("2017-05-06")
-        },
-        new Enrollment { ChildId = children[2].Id, SiteId = sites[0].Id,
-          Entry = DateTime.Parse("2017-11-12")
-        },
-        new Enrollment { ChildId = children[3].Id, SiteId = sites[0].Id,
-          Entry = DateTime.Parse("2016-09-26")
-        },
-        new Enrollment { ChildId = children[4].Id, SiteId = sites[0].Id,
-          Entry = DateTime.Parse("2016-10-20")
-        },
-        new Enrollment { ChildId = children[5].Id, SiteId = sites[0].Id,
-          Entry = DateTime.Parse("2019-03-26")
-        },
-        new Enrollment { ChildId = children[6].Id, SiteId = sites[0].Id,
-          Entry = DateTime.Parse("2017-01-14")
-        },
-        new Enrollment { ChildId = children[7].Id, SiteId = sites[0].Id,
-          Entry = DateTime.Parse("2019-08-07")
-        },
-        new Enrollment { ChildId = children[8].Id, SiteId = sites[0].Id,
-          Entry = DateTime.Parse("2018-04-28")
-        },
-        new Enrollment { ChildId = children[9].Id, SiteId = sites[0].Id,
-          Entry = DateTime.Parse("2018-04-23")
-        },
-        new Enrollment { ChildId = children[10].Id, SiteId = sites[0].Id,
-          Entry = DateTime.Parse("2016-10-25")
-        },
-        new Enrollment { ChildId = children[11].Id, SiteId = sites[0].Id,
-          Entry = DateTime.Parse("2016-06-16")
-        },
-        new Enrollment { ChildId = children[12].Id, SiteId = sites[0].Id,
-          Entry = DateTime.Parse("2019-07-01")
-        },
-        new Enrollment { ChildId = children[13].Id, SiteId = sites[0].Id,
+        new Enrollment {
+          ChildId = children[13].Id,
+          SiteId = sites[0].Id,
           Entry = DateTime.Parse("2019-05-08")
         },
-        new Enrollment { ChildId = children[14].Id, SiteId = sites[0].Id,
+        new Enrollment {
+          ChildId = children[14].Id,
+          SiteId = sites[0].Id,
           Entry = DateTime.Parse("2019-07-01")
         }
       };

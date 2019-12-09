@@ -2,11 +2,13 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System.ComponentModel.DataAnnotations;
 
 namespace Hedwig.Models
 {
 	public class Enrollment : TemporalEntity
 	{
+		[Required]
 		public int Id { get; set; }
 
 		public Guid ChildId { get; set; }

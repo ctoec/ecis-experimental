@@ -27,6 +27,15 @@ namespace Hedwig.Repositories
                     && s.OrganizationId.HasValue && s.OrganizationId.Value == organizationId);
 
             include = include ?? new string[]{};
+            if(include.Contains(INCLUDE_ORGANIZATIONS))
+            {
+                site = site.Include(s => s.Organization);
+
+                if(include.Contains(INCLUDE_FUNDING_SPACES)) 
+                {
+                    site = ((IIncludableQueryable<Site, Organization>)site).ThenInclude(o => o.FundingSpaces);
+                }
+            }
             // Chaining of multiple ThenIncludes is not supported, so to include both
             // enrollment fundings and enrollment children requires separate calls to include enrollments
             if(include.Contains(INCLUDE_ENROLLMENTS))

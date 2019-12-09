@@ -87,12 +87,6 @@ export default function Reports() {
 		<div className="Reports">
 			<section className="grid-container">
 				<h1>Reports</h1>
-				{unsubmittedReportsCount > 0 && (
-					<div className="oec-table-legend">
-						<InlineIcon icon="attentionNeeded" /> <strong>{unsubmittedReportsCount}</strong>{' '}
-						{pluralize('report', unsubmittedReportsCount)} due
-					</div>
-				)}
 				<Table {...reportsTableProps} fullWidth />
 			</section>
 		</div>
