@@ -916,6 +916,77 @@
             }
           }
         }
+      },
+      "put": {
+        "tags": [
+          "Hedwig"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "orgId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CdcReport"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CdcReport"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CdcReport"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CdcReport"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CdcReport"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CdcReport"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CdcReport"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/api/organizations/{orgId}/Sites": {
@@ -1081,6 +1152,12 @@
   },
   "components": {
     "schemas": {
+      "Region": {
+        "enum": [
+          "Default"
+        ],
+        "type": "string"
+      },
       "Age": {
         "enum": [
           "Infant",
@@ -1257,6 +1334,9 @@
         "additionalProperties": false
       },
       "Enrollment": {
+        "required": [
+          "id"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -1323,6 +1403,12 @@
             "minLength": 0,
             "type": "string",
             "nullable": true
+          },
+          "titleI": {
+            "type": "boolean"
+          },
+          "region": {
+            "$ref": "#/components/schemas/Region"
           },
           "organizationId": {
             "type": "integer",
@@ -1765,6 +1851,17 @@
         "properties": {
           "accredited": {
             "type": "boolean"
+          },
+          "c4KRevenue": {
+            "type": "number",
+            "format": "double"
+          },
+          "retroactiveC4KRevenue": {
+            "type": "boolean"
+          },
+          "familyFeesRevenue": {
+            "type": "number",
+            "format": "double"
           },
           "organizationId": {
             "type": "integer",

@@ -12,10 +12,12 @@ import useApi from '../../hooks/useApi';
 import UtilizationTable from './UtilizationTable';
 import missingInformation from '../../utils/missingInformation';
 import { Enrollment } from '../../OAS-generated/models/Enrollment';
-import Alert from '../../components/Alert/Alert';
 import Button from '../../components/Button/Button';
+import Alert, { AlertProps } from '../../components/Alert/Alert';
 
 export default function ReportDetail() {
+    const [alert, setAlert] = useState<AlertProps | null>(null);
+
 	let { id } = useParams();
 	const { user } = useContext(UserContext);
 	const reportParams = {
@@ -23,12 +25,12 @@ export default function ReportDetail() {
 		orgId: getIdForUser(user, 'org'),
 		include: ['organizations', 'enrollments', 'sites', 'funding_spaces'],
 	};
-	const [loading, error, report] = useApi(
+	const [loading, error, report, mutate] = useApi(
 		api => api.apiOrganizationsOrgIdReportsIdGet(reportParams),
 		[user]
 	);
 
-	if (!report) {
+	if (loading || error || !report) {
 		return <div className="Report"></div>;
 	}
 
@@ -41,6 +43,7 @@ export default function ReportDetail() {
 		<div className="Report">
 			<section className="grid-container">
 				<DirectionalLink direction="left" to="/reports" text="Back to reports" />
+                {alert && <Alert {...alert}/>}
 				{numEnrollmentsMissingInfo > 0 && (
 					<Alert
 						type="error"
@@ -61,7 +64,12 @@ export default function ReportDetail() {
 					{dateFormatter(idx(report, _ => _.reportingPeriod.periodEnd))}
 				</p>
 				<UtilizationTable {...report} />
-				<ReportSubmitForm {...report} />
+        <ReportSubmitForm
+          report={report}
+          mutate={mutate}
+          setAlert={setAlert}
+          canSubmit={numEnrollmentsMissingInfo === 0}
+        />
 			</section>
 		</div>
 	);

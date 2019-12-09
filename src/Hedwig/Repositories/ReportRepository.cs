@@ -13,6 +13,15 @@ namespace Hedwig.Repositories
   {
     public ReportRepository(HedwigContext context) : base(context) { }
 
+    public void UpdateReport(Report report) 
+    {
+      _context.Entry(report).State = EntityState.Modified;
+    }
+		public Task SaveChangesAsync()
+		{
+			return _context.SaveChangesAsync();
+		}
+	
     public async Task<IEnumerable<Report>> GetReportsByUserIdAsync(int userId)
     {
       var permissions = _context.Permissions.Where(p => userId == p.UserId);
@@ -130,6 +139,8 @@ namespace Hedwig.Repositories
 
   public interface IReportRepository
   {
+    void UpdateReport(Report report);
+    Task SaveChangesAsync();
     Task<IEnumerable<Report>> GetReportsByUserIdAsync(int userId);
     Task<List<Report>> GetReportsForOrganization(int orgId);
     Task<Report> GetReportByIdAsync(int id);

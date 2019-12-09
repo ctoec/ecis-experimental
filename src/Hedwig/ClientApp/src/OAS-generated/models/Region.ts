@@ -17,20 +17,19 @@
  * @export
  * @enum {string}
  */
-export enum FundingSource {
-    CDC = 'CDC',
-    C4K = 'C4K'
+export enum Region {
+    Default = 'Default'
 }
 
-export function FundingSourceFromJSON(json: any): FundingSource {
-    return FundingSourceFromJSONTyped(json, false);
+export function RegionFromJSON(json: any): Region {
+    return RegionFromJSONTyped(json, false);
 }
 
-export function FundingSourceFromJSONTyped(json: any, ignoreDiscriminator: boolean): FundingSource {
-    return json as FundingSource;
+export function RegionFromJSONTyped(json: any, ignoreDiscriminator: boolean): Region {
+    return json as Region;
 }
 
-export function FundingSourceToJSON(value?: FundingSource | null): any {
+export function RegionToJSON(value?: Region | null): any {
     return value as any;
 }
 
