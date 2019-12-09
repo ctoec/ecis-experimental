@@ -18,6 +18,10 @@ import {
     FundingSourceFromJSON,
     FundingSourceFromJSONTyped,
     FundingSourceToJSON,
+    Organization,
+    OrganizationFromJSON,
+    OrganizationFromJSONTyped,
+    OrganizationToJSON,
     ReportingPeriod,
     ReportingPeriodFromJSON,
     ReportingPeriodFromJSONTyped,
@@ -27,51 +31,72 @@ import {
 /**
  * 
  * @export
- * @interface Report
+ * @interface CdcReport
  */
-export interface Report {
+export interface CdcReport {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CdcReport
+     */
+    accredited: boolean;
     /**
      * 
      * @type {number}
-     * @memberof Report
+     * @memberof CdcReport
+     */
+    organizationId?: number;
+    /**
+     * 
+     * @type {Organization}
+     * @memberof CdcReport
+     */
+    organization?: Organization;
+    /**
+     * 
+     * @type {number}
+     * @memberof CdcReport
      */
     id?: number;
     /**
      * 
      * @type {FundingSource}
-     * @memberof Report
+     * @memberof CdcReport
      */
     type?: FundingSource;
     /**
      * 
      * @type {number}
-     * @memberof Report
+     * @memberof CdcReport
      */
     reportingPeriodId?: number;
     /**
      * 
      * @type {ReportingPeriod}
-     * @memberof Report
+     * @memberof CdcReport
      */
     reportingPeriod?: ReportingPeriod;
     /**
      * 
      * @type {Date}
-     * @memberof Report
+     * @memberof CdcReport
      */
     submittedAt?: Date | null;
 }
 
-export function ReportFromJSON(json: any): Report {
-    return ReportFromJSONTyped(json, false);
+export function CdcReportFromJSON(json: any): CdcReport {
+    return CdcReportFromJSONTyped(json, false);
 }
 
-export function ReportFromJSONTyped(json: any, ignoreDiscriminator: boolean): Report {
+export function CdcReportFromJSONTyped(json: any, ignoreDiscriminator: boolean): CdcReport {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
+        'accredited': json['accredited'],
+        'organizationId': !exists(json, 'organizationId') ? undefined : json['organizationId'],
+        'organization': !exists(json, 'organization') ? undefined : OrganizationFromJSON(json['organization']),
         'id': !exists(json, 'id') ? undefined : json['id'],
         'type': !exists(json, 'type') ? undefined : FundingSourceFromJSON(json['type']),
         'reportingPeriodId': !exists(json, 'reportingPeriodId') ? undefined : json['reportingPeriodId'],
@@ -80,7 +105,7 @@ export function ReportFromJSONTyped(json: any, ignoreDiscriminator: boolean): Re
     };
 }
 
-export function ReportToJSON(value?: Report | null): any {
+export function CdcReportToJSON(value?: CdcReport | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -89,6 +114,9 @@ export function ReportToJSON(value?: Report | null): any {
     }
     return {
         
+        'accredited': value.accredited,
+        'organizationId': value.organizationId,
+        'organization': OrganizationToJSON(value.organization),
         'id': value.id,
         'type': FundingSourceToJSON(value.type),
         'reportingPeriodId': value.reportingPeriodId,

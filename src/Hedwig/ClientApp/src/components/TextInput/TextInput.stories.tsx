@@ -7,20 +7,20 @@ const onChange = action('onChange');
 
 storiesOf('TextInput', module)
 	.add('Default', () => {
-		return <TextInput label="Default text input" onChange={onChange} />;
+		return <TextInput id="cat" label="Default text input" onChange={onChange} />;
 	})
 	.add('With default value', () => {
-		return <TextInput label="Default text input" onChange={onChange} defaultValue="default text" />;
+		return <TextInput id="cat" label="Default text input" onChange={onChange} defaultValue="default text" />;
 	})
 	.add('Optional', () => {
-		return <TextInput label="Default optional text input" onChange={onChange} optional={true} />;
+		return <TextInput id="cat" label="Default optional text input" onChange={onChange} optional={true} />;
 	})
 	.add('Disabled', () => {
-		return <TextInput label="Default text input" onChange={onChange} disabled />;
+		return <TextInput id="cat" label="Default text input" onChange={onChange} disabled />;
 	})
 	.add('Success', () => {
-		return <TextInput label="Default text input" onChange={onChange} success />;
+		return <TextInput id="cat" label="Default text input" onChange={onChange} success />;
 	})
 	.add('Error', () => {
-		return <TextInput label="Default text input" onChange={onChange} error="Fix this error" />;
+		return <TextInput id="cat" label="Default text input" onChange={onChange} error="Fix this error" />;
 	});

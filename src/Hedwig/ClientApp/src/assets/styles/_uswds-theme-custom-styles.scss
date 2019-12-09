@@ -120,6 +120,18 @@ h1 {
 	font-variant-numeric: tabular-nums;
 }
 
+.oec-table__cell--right-align {
+	text-align: right;
+}
+
+td.oec-table__cell--strong {
+	font-weight: 700;
+}
+
+.oec-table__cell--red {
+	color: color('secondary');
+}
+
 .oec-table__cell--gray {
 	color: color('base');
 }
@@ -573,6 +585,15 @@ $future-step-color: color('base-dark') !default;
 }
 .bg-violet-warm-30 {
   background-color: color('violet-warm-30');
+}
+
+// gold-20v svg rect fill and tag bg
+.fill-gold-20v {
+  fill: color('gold-20v');
+}
+.bg-gold-20v {
+	background-color: color('gold-20v');
+	color: #000;
 }
 
 // gold-30v svg rect fill and tag bg

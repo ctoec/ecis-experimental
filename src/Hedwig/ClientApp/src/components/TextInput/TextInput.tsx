@@ -1,10 +1,10 @@
 import React from 'react';
 
 type TextInputProps = {
-	label: string;
+	label: string | JSX.Element;
 	onChange: (event: React.ChangeEvent<HTMLInputElement>) => any;
 	onBlur?: (event: React.FocusEvent<HTMLInputElement>) => any;
-	id?: string;
+	id: string;
 	defaultValue?: string;
 	disabled?: boolean;
 	success?: boolean;
@@ -25,12 +25,10 @@ export default function TextInput({
 	small,
 	optional,
 }: TextInputProps) {
-	const inputId = id || label.split(' ').join('-');
-
 	return (
 		<div className={`usa-form-group${error ? ' usa-form-group--error' : ''}`}>
-			<label className={`usa-label${error ? ' usa-label--error' : ''}`} htmlFor={inputId}>
-				{label} {optional && "(Optional)"}
+			<label className={`usa-label${error ? ' usa-label--error' : ''}`} htmlFor={id}>
+				{label} {optional && '(Optional)'}
 			</label>
 			{error && (
 				<span className="usa-error-message" id="input-error-message" role="alert">
@@ -38,11 +36,11 @@ export default function TextInput({
 				</span>
 			)}
 			<input
-				className={`usa-input${error ? ' usa-input--error' : ''}${
+				className={`outline-05 usa-input${error ? ' usa-input--error' : ''}${
 					small ? ' usa-input--small' : ''
 				}${success ? ' usa-input--success' : ''}`}
-				id={inputId}
-				name={inputId}
+				id={id}
+				name={id}
 				type="text"
 				disabled={disabled}
 				onChange={onChange}
