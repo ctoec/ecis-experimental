@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Subtract } from 'utility-types';
 import { useHistory, useLocation } from 'react-router-dom';
 import {
 	AuthorizationNotifier,
@@ -19,66 +18,125 @@ import {
 	LocationLike,
 	QueryStringUtils,
 } from '@openid/appauth';
-import { LoginConsumer, LoginProvider as InternalLoginProvider } from './LoginContext';
 import { getConfig } from '../../config';
 import getCurrentHost from '../../utils/getCurrentHost';
 
-export type LoginProviderPropsType = {
-	loginEndpoint: string;
-	defaultOpenIdConnectUrl?: string;
+export type AuthenticationContextType = {
+	accessToken: string | null;
+	withFreshToken: () => Promise<void>;
+};
+
+export type AuthenticationProviderPropsType = {
 	clientId: string;
-	redirectEndpoint: string;
 	scope: string;
+	localStorageKey: string;
+	loginEndpoint?: string;
+	defaultOpenIdConnectUrl?: string;
+	redirectEndpoint?: string;
+	logoutEndpoint?: string,
 	responseType?: string;
 	state?: any;
 	extras?: any;
 };
 
-const LoginProvider: React.FC<LoginProviderPropsType> = ({
-	loginEndpoint,
+const AuthenticationContext = React.createContext<AuthenticationContextType>({
+	accessToken: null,
+	withFreshToken: async () => {},
+});
+
+const { Provider, Consumer } = AuthenticationContext;
+
+const AuthenticationProvider: React.FC<AuthenticationProviderPropsType> = ({
+	loginEndpoint = '/login',
 	defaultOpenIdConnectUrl = null,
 	clientId,
-	redirectEndpoint,
+	redirectEndpoint = '/login/callback',
+	logoutEndpoint = '/logout',
 	scope,
+	localStorageKey,
 	responseType = AuthorizationRequest.RESPONSE_TYPE_CODE,
 	state = undefined,
-	extras = { prompt: undefined, access_type: 'offline' },
+	extras = {},
 	children,
 }) => {
 	// effects
 	const history = useHistory();
 	const location = useLocation();
-	const [accessToken, setAccessToken] = useState<string | null>(null);
-	const [configuration, setConfiguration] = useState<
-		AuthorizationServiceConfiguration | undefined
-	>();
-	const [tokenResponse, setTokenResponse] = useState<TokenResponse>();
-	const [openIdConnectUrl, setOpenIdConnectUrl] = useState();
-	const redirectUrl = `${getCurrentHost()}${redirectEndpoint}`;
 
 	// state
+	const [accessToken, setAccessToken] = useState<string | null>(null);
+	const [openIdConnectUrl, setOpenIdConnectUrl] = useState();
+
+	// auth flow state
+	const [notifier] = useState<AuthorizationNotifier>(
+		new AuthorizationNotifier()
+	);
+	notifier.setAuthorizationListener((req, resp, _) => {
+		if (resp) {
+			let verifier: string | undefined;
+			if (req && req.internal) verifier = req.internal.code_verifier;
+			makeAuthorizationCodeTokenRequest(resp.code, verifier);
+		}
+	});
+	const [authorizationHandler] = useState<AuthorizationRequestHandler>(
+		new RedirectRequestHandler(
+			// Use the default storage backend (i.e. local storage)
+			undefined,
+			// Identity Server is returning the authorization_code in the query string
+			// not URL hash. AppAuth hardcodes the use of hash in other logic.
+			// However, it does expose the ability to use query strings with the default
+			// BasicQueryStringUtils. By overriding the parse method, we can always
+			// require query string parsing irrespective of the supplied argument.
+			new (class extends BasicQueryStringUtils implements QueryStringUtils {
+				parse(input: LocationLike, _?: boolean): StringMap {
+					return super.parse(input, false);
+				}
+			})()
+		)
+	);
+	authorizationHandler.setAuthorizationNotifier(notifier);
+	const [tokenHandler] = useState<TokenRequestHandler>(
+		new BaseTokenRequestHandler(new FetchRequestor())
+	);
+	const [configuration, setConfiguration] = useState<AuthorizationServiceConfiguration>();
+	const [tokenResponse, setTokenResponse] = useState<TokenResponse>();
+
+	// endpoint variables
 	const isLogin = location.pathname === loginEndpoint;
 	const isCallback = location.pathname === redirectEndpoint;
+	const isLogout = location.pathname === logoutEndpoint;
+	const redirectUrl = `${getCurrentHost()}${redirectEndpoint}`;
 
-	// auth flow
-	let notifier: AuthorizationNotifier;
-	let authorizationHandler: AuthorizationRequestHandler | undefined = undefined;
-	let tokenHandler: TokenRequestHandler;
-	initAuthFlow();
-
-	// Setup open id connect url
+	// Setup open id connect url on initial mount
 	useEffect(() => {
 		(async () => {
-			if (defaultOpenIdConnectUrl != null) {
+			if (!!defaultOpenIdConnectUrl) {
 				setOpenIdConnectUrl(defaultOpenIdConnectUrl);
-			} else {
+			} else if (!openIdConnectUrl) {
 				const wingedKeysUri = await getConfig('WingedKeysUri');
 				setOpenIdConnectUrl(wingedKeysUri);
 			}
 		})();
-	});
+	}, [defaultOpenIdConnectUrl, openIdConnectUrl]);
 
-	// Only fetch on inital mount
+	// Get accessToken from localstorage on initial mount
+	useEffect(() => {
+		const localStorageAccessToken = localStorage.getItem(localStorageKey);
+		// Update accessToken if it was present in local storage
+		if (!!localStorageAccessToken) {
+			setAccessToken(localStorageAccessToken);
+		}
+	}, [localStorageKey]);
+
+	// Update localstorage when accessToken changes
+	useEffect(() => {
+		const localStorageAccessToken = localStorage.getItem(localStorageKey);
+		if (accessToken && accessToken !== localStorageAccessToken) {
+			localStorage.setItem(localStorageKey, accessToken);
+		}
+	}, [accessToken, localStorageKey]);
+
+	// Only fetch on openIdConnectUrl change
 	useEffect(() => {
 		/**
 		 * Get service configuration from configured openId connect provider.
@@ -104,7 +162,7 @@ const LoginProvider: React.FC<LoginProviderPropsType> = ({
 	useEffect(() => {
 		if (configuration && authorizationHandler) {
 			if (isLogin) {
-				/**
+				/*
 				 * Create and perform the initial authorization request,
 				 * including IdentityServer permission acquisition.
 				 */
@@ -118,59 +176,36 @@ const LoginProvider: React.FC<LoginProviderPropsType> = ({
 				});
 				authorizationHandler.performAuthorizationRequest(configuration, request);
 			} else if (isCallback) {
-				/**
+				/*
 				 * Completes authorization request if possible, executing the callback
 				 * defined in setAuthorizationListener(). Here, this includes making the
 				 * initial code-based token request.
 				 */
 				authorizationHandler.completeAuthorizationRequestIfPossible();
+			} else if (isLogout) {
+				/*
+				 * Remove the access token, clear react state, and navigate to main page.
+				 */
+				localStorage.removeItem(localStorageKey);
+				setAccessToken(null);
+				history.push('/');
 			}
 		}
 	}, [
-		configuration,
-		isLogin,
-		isCallback,
-		authorizationHandler,
 		clientId,
-		redirectUrl,
 		scope,
+		localStorageKey,
+		configuration,
+		authorizationHandler,
 		responseType,
 		state,
 		extras,
+		history,
+		isLogin,
+		isCallback,
+		isLogout,
+		redirectUrl
 	]);
-
-	/**
-	 *  Instantiates openId/appauth flow control components
-	 */
-	function initAuthFlow() {
-		tokenHandler = new BaseTokenRequestHandler(new FetchRequestor());
-
-		// set notifier to deliver authorization responses
-		notifier = new AuthorizationNotifier();
-		// set a listener to listen for and handle authorization responses
-		notifier.setAuthorizationListener((req, resp, error) => {
-			if (resp) {
-				let verifier: string | undefined;
-				if (req && req.internal) verifier = req.internal.code_verifier;
-				makeAuthorizationCodeTokenRequest(resp.code, verifier);
-			}
-		});
-		authorizationHandler = new RedirectRequestHandler(
-			// Use the default storage backend (i.e. local storage)
-			undefined,
-			// Identity Server is returning the authorization_code in the query string
-			// not URL hash. AppAuth hardcodes the use of hash in other logic.
-			// However, it does expose the ability to use query strings with the default
-			// BasicQueryStringUtils. By overriding the parse method, we can always
-			// require query string parsing irrespective of the supplied argument.
-			new (class extends BasicQueryStringUtils implements QueryStringUtils {
-				parse(input: LocationLike, _?: boolean): StringMap {
-					return super.parse(input, false);
-				}
-			})()
-		);
-		authorizationHandler.setAuthorizationNotifier(notifier);
-	}
 
 	/**
 	 * Create and perform authorization code-based token request.
@@ -226,37 +261,20 @@ const LoginProvider: React.FC<LoginProviderPropsType> = ({
 	}
 
 	/**
-	 * The wrapped LoginContext provider with instantiated values
+	 * The wrapped AuthenticationContext provider with instantiated values
 	 */
 	return (
-		<InternalLoginProvider
+		<Provider
 			value={{
 				accessToken: accessToken,
 				withFreshToken: makeRefreshTokenRequest,
 			}}
 		>
 			{children}
-		</InternalLoginProvider>
+		</Provider>
 	);
 };
 
-export type WithLoginPropsType = {
-	accessToken: string;
-	withFreshToken: () => {};
-};
-
-/**
- *  Wrapper function to turn arbitrary component into login consumer
- * @param Component
- */
-const withLogin = <P extends WithLoginPropsType>(
-	Component: React.FC<P>
-): React.FC<Subtract<P, WithLoginPropsType>> => props => (
-	<LoginConsumer>
-		{({ accessToken }) => <Component {...(props as P)} accessToken={accessToken} />}
-	</LoginConsumer>
-);
-
-export default withLogin;
-
-export { LoginProvider };
+export { AuthenticationProvider };
+export { Consumer as LoginConsumer };
+export default AuthenticationContext;
