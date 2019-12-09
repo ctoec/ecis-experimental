@@ -42,8 +42,9 @@ export default function EnrollmentDetail({
 	const [loading, error, enrollment, mutate] = useApi<Enrollment>(
 		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
 		[enrollmentId, user],
-		undefined,
-		!enrollmentId
+		{
+			skip: !enrollmentId,
+		}
 	);
 
 	if (loading || error || !enrollment) {
