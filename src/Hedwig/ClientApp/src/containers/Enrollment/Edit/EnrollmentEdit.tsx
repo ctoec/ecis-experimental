@@ -44,7 +44,8 @@ export default function EnrollmentEdit({
 		include: ['child', 'family', 'determinations', 'fundings']
 	}
 	const [loading, error, enrollment, mutate] = useApi(
-		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params)
+		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
+		[user]
 	);
 
 	if (!section) {
