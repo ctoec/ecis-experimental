@@ -19,6 +19,7 @@ import getIdForUser from '../../utils/getIdForUser';
 import { Age, FundingSource } from '../../OAS-generated';
 import getFundingSpaceCapacity from '../../utils/getFundingSpaceCapacity';
 import InlineIcon from '../../components/InlineIcon/InlineIcon';
+import pluralize from 'pluralize';
 
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
@@ -231,25 +232,25 @@ export default function Roster() {
 				<Legend items={legendItems} />
 				{!!infantRosterTableProps.data.length &&
 					<>
-					<h2>Infant/toddler ({infantRosterTableProps.data.length} children)</h2>
+				<h2>Infant/toddler ({pluralize("child", infantRosterTableProps.data.length, true)})</h2>
 					<Table {...infantRosterTableProps} fullWidth />
 					</>
 				}
 				{!!preschoolRosterTableProps.data.length &&
 					<>
-					<h2>Preschool ({preschoolRosterTableProps.data.length} children)</h2>
+					<h2>Preschool ({pluralize("child", preschoolRosterTableProps.data.length, true)})</h2>
 					<Table {...preschoolRosterTableProps} fullWidth />
 					</>
 				}
 				{!!schoolRosterTableProps.data.length &&
 					<>
-					<h2>School age({schoolRosterTableProps.data.length} children)</h2>
+					<h2>School age({pluralize("child", schoolRosterTableProps.data.length, true)})</h2>
 					<Table {...schoolRosterTableProps} fullWidth />
 					</>
 				}
 				{!!incompleteRosterTableProps.data.length &&
 					<>
-					<h2>Incomplete enrollments ({incompleteRosterTableProps.data.length} children)</h2>
+					<h2>Incomplete enrollments ({pluralize("child", incompleteRosterTableProps.data.length, true)})</h2>
 					<Table {...incompleteRosterTableProps} fullWidth />
 					</>
 				}
