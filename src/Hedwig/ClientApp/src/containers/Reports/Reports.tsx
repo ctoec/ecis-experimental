@@ -7,7 +7,7 @@ import UserContext from '../../contexts/User/UserContext';
 import useApi from '../../hooks/useApi';
 import {
   ApiOrganizationsOrgIdReportsGetRequest,
-  Report,
+  CdcReport as Report,
   ApiOrganizationsIdGetRequest
 } from '../../generated';
 import getIdForUser from '../../utils/getIdForUser';
