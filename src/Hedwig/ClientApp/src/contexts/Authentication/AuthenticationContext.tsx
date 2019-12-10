@@ -46,6 +46,11 @@ const AuthenticationContext = React.createContext<AuthenticationContextType>({
 
 const { Provider, Consumer } = AuthenticationContext;
 
+/**
+ * Context Provider for OpenID Connect Login
+ * 
+ * @param props The props for configuring authentication.
+ */
 const AuthenticationProvider: React.FC<AuthenticationProviderPropsType> = ({
 	loginEndpoint = '/login',
 	defaultOpenIdConnectUrl = null,

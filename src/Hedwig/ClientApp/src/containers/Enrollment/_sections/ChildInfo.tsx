@@ -180,6 +180,7 @@ const ChildInfo: Section = {
       };
 
       if (enrollment) {
+        // If enrollment exists, put to save changes
         const putParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
           ...defaultPutParams,
           enrollment: {
@@ -195,6 +196,7 @@ const ChildInfo: Section = {
             if (callback && res) callback(res);
           })
       } else if (siteId) {
+        // If enrollment doesn't exist, post to create a new enrollment
         const postParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest = {
           ...defaultPostParams,
           enrollment: {

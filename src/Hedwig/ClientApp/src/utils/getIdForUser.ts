@@ -1,7 +1,16 @@
 import { User } from "../generated";
 import idx from "idx";
 
-export default function getIdForUser(user: User | undefined, idType: string): number {
+export type IdType = 'org' | 'site';
+
+/**
+ * Accepts a User and an IdType to extract information from a user
+ * about the site and org with which the user is associated.
+ * 
+ * @param user User object from which to extract information
+ * @param idType 'org' or 'site' id to extract
+ */
+export default function getIdForUser(user: User | undefined, idType: IdType): number {
     if(idType === 'org') {
         const orgId = idx(user, _ => _.orgPermissions[0].organizationId) || 0;
         return orgId;
