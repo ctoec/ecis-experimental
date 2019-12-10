@@ -141,7 +141,9 @@ td.oec-table__cell--strong {
 }
 
 .oec-sortable .oec-table__column-title {
-	cursor: pointer;
+	text-decoration: none;
+	color: inherit;
+	font-weight: inherit;
 }
 
 .oec-table__sort-controls {
@@ -149,19 +151,7 @@ td.oec-table__cell--strong {
 	position: relative;
 	margin-left: units(1);
 
-	input {
-		display: none;
-	}
-
-	label {
-		cursor: pointer;
-	}
-
-	label span {
-		@extend .usa-sr-only;
-	}
-
-	label::before {
+	span::before {
 		content: '';
 		display: block;
 		position: absolute;
@@ -175,7 +165,7 @@ td.oec-table__cell--strong {
 		border-right: 0.25em solid transparent;
 	}
 
-	input:checked + label::before {
+	span.active::before {
 		border-color: color('primary');
 		border-left-color: transparent;
 		border-right-color: transparent;

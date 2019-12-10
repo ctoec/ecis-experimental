@@ -8,7 +8,7 @@ type Column<T> = {
 	sort?: (row: T) => number | string;
 };
 
-export type SortOrder = 'asc' | 'desc';
+export type SortOrder = 'ascending' | 'descending';
 
 export type TableProps<T> = {
 	id: string;
@@ -19,6 +19,7 @@ export type TableProps<T> = {
 	defaultSortOrder?: SortOrder;
 	onRowClick?: (row: T) => () => any;
 	fullWidth?: boolean;
+	caption?: string;
 };
 
 export type TableSort = {
@@ -39,7 +40,7 @@ export class Table<T> extends React.Component<TableProps<T>, TableSort> {
 	};
 
 	render() {
-		const { id, data, rowKey, columns, onRowClick, fullWidth } = this.props;
+		const { id, data, rowKey, columns, onRowClick, fullWidth, caption } = this.props;
 		const { sortColumn, sortOrder } = this.state;
 
 		const cells = columns.map(column => column.cell);
@@ -57,7 +58,7 @@ export class Table<T> extends React.Component<TableProps<T>, TableSort> {
 					// prettier-ignore
 					if (aBy === bBy) {
 						return 0;
-					} else if ((aBy < bBy) === (sortOrder === 'asc')) {
+					} else if ((aBy < bBy) === (sortOrder === 'ascending')) {
 						return -1;
 					} else {
 						return 1;
@@ -68,11 +69,11 @@ export class Table<T> extends React.Component<TableProps<T>, TableSort> {
 
 		return (
 			<table id={id} className={`oec-table ${fullWidth && 'oec-table--full-width'}`}>
+				{caption && <caption>{caption}</caption>}
 				<thead>
 					<tr>
 						{columns.map((column, index) => (
 							<ColumnHeader
-								tableId={id}
 								name={column.name}
 								sortable={!!column.sort}
 								sorted={sortColumn === index}

@@ -15,13 +15,13 @@ import Button from '../../components/Button/Button';
 import RadioGroup from '../../components/RadioGroup/RadioGroup';
 import Legend, { LegendItem } from '../../components/Legend/Legend';
 import useApi from '../../hooks/useApi';
-import UserContext from '../../contexts/User/UserContext';
 import { Enrollment } from '../../OAS-generated/models/Enrollment';
 import DateSelectionForm from './DateSelectionForm';
 import { Age, FundingSource } from '../../OAS-generated';
 import InlineIcon from '../../components/InlineIcon/InlineIcon';
 import pluralize from 'pluralize';
 import idx from 'idx';
+import UserContext from '../../contexts/User/UserContext';
 
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
@@ -120,7 +120,7 @@ export default function Roster() {
 			},
 		],
 		defaultSortColumn: 0,
-		defaultSortOrder: 'asc',
+		defaultSortOrder: 'ascending',
 	};
 
 	const incompleteEnrollments = enrollments.filter(e => !e.age || !e.entry);
@@ -129,7 +129,7 @@ export default function Roster() {
 	const infantRosterTableProps: TableProps<Enrollment> = {
 		...defaultRosterTableProps,
 		id: 'infant-roster-table',
-		data: completeEnrollments.filter(e => e.age == Age.Infant),
+		data: completeEnrollments.filter(e => e.age === Age.Infant),
 	};
 	const preschoolRosterTableProps: TableProps<Enrollment> = {
 		...defaultRosterTableProps,

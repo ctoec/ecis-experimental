@@ -51,7 +51,7 @@ export default function Reports() {
             </Link>
           </th>
         ),
-        sort: row => row.reportingPeriod.period && row.reportingPeriod.period.getMonth() || -1,
+        sort: row => (row.reportingPeriod.period && row.reportingPeriod.period.getMonth()) || -1,
       },
       {
         name: 'Type',
@@ -65,7 +65,7 @@ export default function Reports() {
       },
     ],
     defaultSortColumn: 0,
-    defaultSortOrder: 'desc',
+    defaultSortOrder: 'descending',
   };
 
   const pendingTableProps: TableProps<Required<Report>> = {
