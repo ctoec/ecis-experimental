@@ -23,9 +23,7 @@ namespace HedwigTests.Fixtures
 				.UseStartup<TestStartup>();
 
 			_server = new TestServer(builder);
-			// GraphQL Support
-			_server.AllowSynchronousIO = true;
-			// End GraphQL Support
+
 			var scope = _server.Host.Services.CreateScope();
 			Context = scope.ServiceProvider.GetRequiredService<TestHedwigContext>();
 			Client = _server.CreateClient();
