@@ -34,6 +34,18 @@ namespace Hedwig.Data
 
       CreateOrganizationPermission(organizationId: organization.Id, userId: user.Id);
 
+      var reportingPeriods = new ReportingPeriod[] {
+        CreateReportingPeriod(period: "2019-08-01", start: "2019-07-29", end: "2019-09-01", due: "2019-09-15"),
+        CreateReportingPeriod(period: "2019-09-01", start: "2019-09-02", end: "2019-09-29", due: "2019-10-15"),
+        CreateReportingPeriod(period: "2019-10-01", start: "2019-09-30", end: "2019-10-29", due: "2019-11-15"),
+        CreateReportingPeriod(period: "2019-11-01", start: "2019-10-30", end: "2019-12-01", due: "2019-12-15")
+      };
+
+      CreateCdcReport(organizationId: organization.Id, reportingPeriodId: reportingPeriods[0].Id, submittedAt: "2019-09-09");
+      CreateCdcReport(organizationId: organization.Id, reportingPeriodId: reportingPeriods[1].Id, submittedAt: "2019-10-04");
+      CreateCdcReport(organizationId: organization.Id, reportingPeriodId: reportingPeriods[2].Id, submittedAt: "2019-11-12");
+      CreateCdcReport(organizationId: organization.Id, reportingPeriodId: reportingPeriods[3].Id);
+
       using (StreamReader reader = new StreamReader("Data/SeedChildren.csv"))
       {
         string line;
@@ -87,18 +99,6 @@ namespace Hedwig.Data
           }
         }
       }
-
-      var reportingPeriods = new ReportingPeriod[] {
-        CreateReportingPeriod(period: "2019-08-01", start: "2019-07-29", end: "2019-09-01", due: "2019-09-15"),
-        CreateReportingPeriod(period: "2019-09-01", start: "2019-09-02", end: "2019-09-29", due: "2019-10-15"),
-        CreateReportingPeriod(period: "2019-10-01", start: "2019-09-30", end: "2019-10-29", due: "2019-11-15"),
-        CreateReportingPeriod(period: "2019-11-01", start: "2019-10-30", end: "2019-12-01", due: "2019-12-15")
-      };
-
-      CreateCdcReport(organizationId: organization.Id, reportingPeriodId: reportingPeriods[0].Id, submittedAt: "2019-09-09");
-      CreateCdcReport(organizationId: organization.Id, reportingPeriodId: reportingPeriods[1].Id, submittedAt: "2019-10-04");
-      CreateCdcReport(organizationId: organization.Id, reportingPeriodId: reportingPeriods[2].Id, submittedAt: "2019-11-12");
-      CreateCdcReport(organizationId: organization.Id, reportingPeriodId: reportingPeriods[3].Id);
     }
 
     private void DeleteAllData()
