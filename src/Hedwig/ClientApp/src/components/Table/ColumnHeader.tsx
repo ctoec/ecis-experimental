@@ -2,7 +2,6 @@ import React from 'react';
 import { SortOrder, TableSort } from './Table';
 
 type ColumnHeaderProps = {
-	tableId: string;
 	name: string;
 	sortable: boolean;
 	sorted: boolean;
@@ -14,7 +13,7 @@ type ColumnHeaderProps = {
 export class ColumnHeader extends React.Component<ColumnHeaderProps> {
 	toggleSort = () => {
 		const { sortable, sorted, sortOrder, index, setTableSort } = this.props;
-		const newOrder: SortOrder = sorted && sortOrder === 'asc' ? 'desc' : 'asc';
+		const newOrder: SortOrder = sorted && sortOrder === 'ascending' ? 'descending' : 'ascending';
 
 		if (!sortable) {
 			return;
@@ -35,41 +34,40 @@ export class ColumnHeader extends React.Component<ColumnHeaderProps> {
 	};
 
 	render() {
-		const { tableId, name, sortable, sorted, sortOrder, index } = this.props;
+		const { name, sortable, sorted, sortOrder, index } = this.props;
 
 		return (
-			<th scope="col" className={'oec-table__column-header' + (sortable ? ' oec-sortable' : '')}>
-				<span className="oec-table__column-title" onClick={this.toggleSort}>
-					{name}
-				</span>
+			<th
+				scope="col"
+				className={'oec-table__column-header' + (sortable ? ' oec-sortable' : '')}
+				role="columnheader"
+				aria-sort={sortOrder || 'none'}
+			>
+				{!sortable && <span className="oec-table__column-title usa-button--unstyled">{name}</span>}
 				{sortable && (
-					<div className="oec-table__sort-controls">
-						<input
-							id={`${tableId}-col${index}-asc`}
-							name={`${tableId}-column-${index}-sort`}
-							value={`asc`}
-							type="checkbox"
-							checked={sorted && sortOrder === 'asc'}
-							onChange={this.handleSortChange}
-						/>
-						<label className="oec-table__sort-controls__asc" htmlFor={`${tableId}-col${index}-asc`}>
-							<span>Sort ascending</span>
-						</label>
-						<input
-							id={`${tableId}-col${index}-desc`}
-							name={`${tableId}-column-${index}-sort`}
-							value={`desc`}
-							type="checkbox"
-							checked={sorted && sortOrder === 'desc'}
-							onChange={this.handleSortChange}
-						/>
-						<label
-							className="oec-table__sort-controls__desc"
-							htmlFor={`${tableId}-col${index}-desc`}
-						>
-							<span>Sort descending</span>
-						</label>
-					</div>
+					<button
+						className="oec-table__column-title usa-button--unstyled width-full"
+						onClick={this.toggleSort}
+						aria-label={`Sort table by ${name} in ${
+							sorted && sortOrder === 'ascending' ? 'descending' : 'ascending'
+						} order`}
+					>
+						{name}
+						{sortable && (
+							<div className="oec-table__sort-controls">
+								<span
+									className={`oec-table__sort-controls__asc${
+										sorted && sortOrder === 'ascending' ? ' active' : ''
+									}`}
+								></span>
+								<span
+									className={`oec-table__sort-controls__desc${
+										sorted && sortOrder === 'descending' ? ' active' : ''
+									}`}
+								></span>
+							</div>
+						)}
+					</button>
 				)}
 			</th>
 		);
