@@ -4,14 +4,13 @@ import Header from '../../components/Header/Header';
 import { NavItemProps } from '../../components/Header/NavItem';
 import MakeRouteWithSubRoutes from './MakeRouteWithSubRoutes';
 import routes from '../../routes';
-import withLogin, { WithLoginPropsType } from '../../contexts/Login';
 import 'react-dates/initialize';
 import useApi from '../../hooks/useApi';
 import { ApiOrganizationsOrgIdReportsGetRequest } from '../../OAS-generated';
-import UserContext from '../../contexts/User/UserContext';
 import getIdForUser from '../../utils/getIdForUser';
+import UserContext from '../../contexts/User/UserContext';
 
-const App: React.FC<WithLoginPropsType> = ({ accessToken }) => {
+const App: React.FC = () => {
 	const { user } = useContext(UserContext);
 	
 	const params: ApiOrganizationsOrgIdReportsGetRequest = {
@@ -20,7 +19,7 @@ const App: React.FC<WithLoginPropsType> = ({ accessToken }) => {
 
 	const [loading, error, reports] = useApi(
 		api => api.apiOrganizationsOrgIdReportsGet(params),
-		[accessToken, user]
+		[user]
 	);
 
 	const reportsNeedAttention = 
@@ -64,4 +63,4 @@ const App: React.FC<WithLoginPropsType> = ({ accessToken }) => {
 	);
 };
 
-export default withLogin(App);
+export default App;

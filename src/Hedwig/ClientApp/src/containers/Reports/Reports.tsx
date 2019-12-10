@@ -55,7 +55,7 @@ export default function Reports() {
 						{!row.submittedAt && <InlineIcon icon="attentionNeeded" />}
 					</th>
 				),
-				sort: row => row.reportingPeriod.period && row.reportingPeriod.period.getMonth() || -1,
+				sort: row => (row.reportingPeriod.period && row.reportingPeriod.period.getMonth()) || -1,
 			},
 			{
 				name: 'Type',

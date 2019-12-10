@@ -74,6 +74,10 @@ export const routes: RouteConfig[] = [
 		component: Login,
 	},
 	{
+		path: '/logout',
+		component: Login,
+	},
+	{
 		path: '/:unknown',
 		component: PageNotFound,
 	},

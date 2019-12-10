@@ -1,7 +1,7 @@
-import { useContext, useEffect, useState, DependencyList } from 'react';
+import { useContext, useEffect, useState, DependencyList, useCallback } from 'react';
 import { Configuration, HedwigApi } from '../OAS-generated';
-import LoginContext from '../contexts/Login/LoginContext';
 import getCurrentHost from '../utils/getCurrentHost';
+import AuthenticationContext from '../contexts/Authentication/AuthenticationContext';
 
 export type Reducer<TData> = (data: TData, result: TData) => TData;
 export type Query<TData> = (api: HedwigApi) => Promise<TData>
@@ -46,6 +46,15 @@ export default function useApi<TData>(
 		...opts
 	}
 
+	// Get accessToken for authentication
+	const { accessToken, withFreshToken } = useContext(AuthenticationContext);
+
+	// Every render, check if token is expired and refetch as needed
+	useEffect(() => {
+		withFreshToken();
+	});
+
+	// Set initial state
 	const [state, setState] = useState<ApiState<TData>>({
 		loading: true,
 		error: null,
@@ -54,26 +63,48 @@ export default function useApi<TData>(
 	});
 	const { loading, error, data } = state;
 
-	const { accessToken, withFreshToken } = useContext(LoginContext);
-	useEffect(() => {
-		withFreshToken();
-	});
+	// Construct API with null default
+	const api = accessToken ? 
+		new HedwigApi(
+			new Configuration({
+				basePath: getCurrentHost(),
+				apiKey: `Bearer ${accessToken}`,
+			})
+		) : null;
 
-	const api = accessToken
-		? new HedwigApi(
-				new Configuration({
-					basePath: getCurrentHost(),
-					apiKey: `Bearer ${accessToken}`,
-				})
-		  )
-		: null;
+	// Create mutate function
+	const mutate = useCallback<Mutate<TData>>((
+	  query,
+	  reducer = (_, result) => result,
+	) => {
+		// If there is no API, throw error
+		if (!api) {
+			setState({ ...state, loading: false });
+			return Promise.reject("No api!");
+		}
 
+		// Invoke the supplied API method and update state with reducer
+		return query(api).then((result) => {
+			setState({ ...state, data: reducer(data, result) })
+			return result;
+		});
+	}, [api]);
+
+	// Rerun query whenever deps or accessToken changes
 	useEffect(() => {
-		if (!api || skip) {
-			setState({...state, loading: false});
+		// If there is no access token, set data to undefined, loading to false, and exit
+		if (!accessToken) {
+			setState({ ...state, loading: false, data: undefined });
 			return;
 		}
 
+		// If the API doesn't exist or skip is true, exit with loading false
+		if (!api || skip) {
+			setState({ ...state, loading: false });
+			return;
+		}
+
+		// Invoke the supplied API method, and update state
 		query(api)
 			.then((result) => {
 				setState({ ...state, loading: false, error: null, data: result });
@@ -84,22 +115,6 @@ export default function useApi<TData>(
 			.catch((error) => setState({ ...state, loading: false, error: error.toString() }));
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [...deps, accessToken]);
-
-	const mutate: Mutate<TData> = (
-	  query,
-	  reducer = (_, result) => result,
-	) => {
-		if (!api) {
-			setState({...state, loading: false});
-			return Promise.reject("No api!");
-		}
-
-
-		return query(api).then((result) => {
-			setState({ ...state, data: reducer(data, result)})
-			return result;
-		});
-	};
 
 	return [loading, error, data, mutate];
 }
