@@ -37,7 +37,6 @@ const EnrollmentFunding: Section = {
   },
 
   Form: ({ enrollment, mutate, callback }) => {
-    console.log("test");
     if (!enrollment) {
       throw new Error('EnrollmentFunding rendered without an enrollment');
     }

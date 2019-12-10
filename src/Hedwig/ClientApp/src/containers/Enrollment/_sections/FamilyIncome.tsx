@@ -32,7 +32,6 @@ const FamilyIncome: Section = {
 	},
 
 	Form: ({ enrollment, mutate, callback }) => {
-		console.log("family income", enrollment);
 		if(!enrollment || ! enrollment.child || !enrollment.child.family) {
 			throw new Error("family info required for family income, but can't render a link to family info here b/c that causes react hook out of order unhappiness");
 			// return (

@@ -7,8 +7,6 @@ import { BrowserRouter } from 'react-router-dom';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from '@apollo/react-hooks';
 import * as serviceWorker from './serviceWorker';
-// import { LoginProvider } from './contexts/Login/LoginContext';
-// import { UserProvider } from './contexts/User/UserContext';
 import { AuthenticationProvider } from './contexts/Authentication/AuthenticationContext';
 import { UserProvider } from './contexts/User/UserContext';
 
