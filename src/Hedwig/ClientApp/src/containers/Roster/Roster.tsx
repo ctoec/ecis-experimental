@@ -120,7 +120,7 @@ export default function Roster() {
 			},
 		],
 		defaultSortColumn: 0,
-		defaultSortOrder: 'asc',
+		defaultSortOrder: 'ascending',
 	};
 
 	const incompleteEnrollments = enrollments.filter(e => !e.age || !e.entry);

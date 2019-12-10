@@ -1893,98 +1893,52 @@ exports[`Storyshots Table Full width 1`] = `
     <thead>
       <tr>
         <th
+          aria-sort="ascending"
           className="oec-table__column-header oec-sortable"
+          role="columnheader"
           scope="col"
         >
-          <span
-            className="oec-table__column-title"
+          <button
+            aria-label="Sort table by Name in descending order"
+            className="oec-table__column-title usa-button--unstyled width-full"
             onClick={[Function]}
           >
             Name
-          </span>
-          <div
-            className="oec-table__sort-controls"
-          >
-            <input
-              checked={true}
-              id="my-table-col0-asc"
-              name="my-table-column-0-sort"
-              onChange={[Function]}
-              type="checkbox"
-              value="asc"
-            />
-            <label
-              className="oec-table__sort-controls__asc"
-              htmlFor="my-table-col0-asc"
+            <div
+              className="oec-table__sort-controls"
             >
-              <span>
-                Sort ascending
-              </span>
-            </label>
-            <input
-              checked={false}
-              id="my-table-col0-desc"
-              name="my-table-column-0-sort"
-              onChange={[Function]}
-              type="checkbox"
-              value="desc"
-            />
-            <label
-              className="oec-table__sort-controls__desc"
-              htmlFor="my-table-col0-desc"
-            >
-              <span>
-                Sort descending
-              </span>
-            </label>
-          </div>
+              <span
+                className="oec-table__sort-controls__asc active"
+              />
+              <span
+                className="oec-table__sort-controls__desc"
+              />
+            </div>
+          </button>
         </th>
         <th
+          aria-sort="ascending"
           className="oec-table__column-header oec-sortable"
+          role="columnheader"
           scope="col"
         >
-          <span
-            className="oec-table__column-title"
+          <button
+            aria-label="Sort table by Price in ascending order"
+            className="oec-table__column-title usa-button--unstyled width-full"
             onClick={[Function]}
           >
             Price
-          </span>
-          <div
-            className="oec-table__sort-controls"
-          >
-            <input
-              checked={false}
-              id="my-table-col1-asc"
-              name="my-table-column-1-sort"
-              onChange={[Function]}
-              type="checkbox"
-              value="asc"
-            />
-            <label
-              className="oec-table__sort-controls__asc"
-              htmlFor="my-table-col1-asc"
+            <div
+              className="oec-table__sort-controls"
             >
-              <span>
-                Sort ascending
-              </span>
-            </label>
-            <input
-              checked={false}
-              id="my-table-col1-desc"
-              name="my-table-column-1-sort"
-              onChange={[Function]}
-              type="checkbox"
-              value="desc"
-            />
-            <label
-              className="oec-table__sort-controls__desc"
-              htmlFor="my-table-col1-desc"
-            >
-              <span>
-                Sort descending
-              </span>
-            </label>
-          </div>
+              <span
+                className="oec-table__sort-controls__asc"
+              />
+              <span
+                className="oec-table__sort-controls__desc"
+              />
+            </div>
+          </button>
         </th>
       </tr>
     </thead>
@@ -2045,98 +1999,52 @@ exports[`Storyshots Table Normal 1`] = `
     <thead>
       <tr>
         <th
+          aria-sort="ascending"
           className="oec-table__column-header oec-sortable"
+          role="columnheader"
           scope="col"
         >
-          <span
-            className="oec-table__column-title"
+          <button
+            aria-label="Sort table by Name in descending order"
+            className="oec-table__column-title usa-button--unstyled width-full"
             onClick={[Function]}
           >
             Name
-          </span>
-          <div
-            className="oec-table__sort-controls"
-          >
-            <input
-              checked={true}
-              id="my-table-col0-asc"
-              name="my-table-column-0-sort"
-              onChange={[Function]}
-              type="checkbox"
-              value="asc"
-            />
-            <label
-              className="oec-table__sort-controls__asc"
-              htmlFor="my-table-col0-asc"
+            <div
+              className="oec-table__sort-controls"
             >
-              <span>
-                Sort ascending
-              </span>
-            </label>
-            <input
-              checked={false}
-              id="my-table-col0-desc"
-              name="my-table-column-0-sort"
-              onChange={[Function]}
-              type="checkbox"
-              value="desc"
-            />
-            <label
-              className="oec-table__sort-controls__desc"
-              htmlFor="my-table-col0-desc"
-            >
-              <span>
-                Sort descending
-              </span>
-            </label>
-          </div>
+              <span
+                className="oec-table__sort-controls__asc active"
+              />
+              <span
+                className="oec-table__sort-controls__desc"
+              />
+            </div>
+          </button>
         </th>
         <th
+          aria-sort="ascending"
           className="oec-table__column-header oec-sortable"
+          role="columnheader"
           scope="col"
         >
-          <span
-            className="oec-table__column-title"
+          <button
+            aria-label="Sort table by Price in ascending order"
+            className="oec-table__column-title usa-button--unstyled width-full"
             onClick={[Function]}
           >
             Price
-          </span>
-          <div
-            className="oec-table__sort-controls"
-          >
-            <input
-              checked={false}
-              id="my-table-col1-asc"
-              name="my-table-column-1-sort"
-              onChange={[Function]}
-              type="checkbox"
-              value="asc"
-            />
-            <label
-              className="oec-table__sort-controls__asc"
-              htmlFor="my-table-col1-asc"
+            <div
+              className="oec-table__sort-controls"
             >
-              <span>
-                Sort ascending
-              </span>
-            </label>
-            <input
-              checked={false}
-              id="my-table-col1-desc"
-              name="my-table-column-1-sort"
-              onChange={[Function]}
-              type="checkbox"
-              value="desc"
-            />
-            <label
-              className="oec-table__sort-controls__desc"
-              htmlFor="my-table-col1-desc"
-            >
-              <span>
-                Sort descending
-              </span>
-            </label>
-          </div>
+              <span
+                className="oec-table__sort-controls__asc"
+              />
+              <span
+                className="oec-table__sort-controls__desc"
+              />
+            </div>
+          </button>
         </th>
       </tr>
     </thead>

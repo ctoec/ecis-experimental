@@ -82,7 +82,7 @@ export default function Reports() {
 			},
 		],
 		defaultSortColumn: 0,
-		defaultSortOrder: 'desc',
+		defaultSortOrder: 'descending',
 	};
 
 	return (
