@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Hedwig.Repositories;
 using Hedwig.Models;
 
@@ -35,9 +36,16 @@ namespace Hedwig.Controllers
 
         // GET api/organizations/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<object>> Get(int id, [FromQuery(Name ="include[]")] string[] include)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Organization>> Get(int id, [FromQuery(Name ="include[]")] string[] include)
         {
             var organization = await _organizations.GetOrganizationByIdAsync(id);
+
+            if (organization == null)
+            {
+                return NotFound();
+            }
 
             if (include.Contains("site"))
             {

@@ -10,6 +10,12 @@ export type Mutate<TData> = (
 	reducer?: Reducer<TData | undefined>
 ) => Promise<TData | undefined>
 
+interface ApiParamOpts<T> {
+	defaultValue?: T,
+	skip?: boolean,
+	callback?: (_: T) => void
+}
+
 interface ApiState<T> {
 	loading: boolean,
 	error: string | null,
@@ -25,12 +31,21 @@ type ApiResult<TData> = [
 ];
 
 export default function useApi<TData>(
-  	query: (api: HedwigApi) => Promise<TData>,
-  	deps: DependencyList = [],
-	defaultValue?: TData,
-	skip: boolean = false,
-	callback?: (_: TData) => void
+	query: (api: HedwigApi) => Promise<TData>,
+	deps: DependencyList = [],
+	opts?: ApiParamOpts<TData>
 ): ApiResult<TData> {
+	const {
+		defaultValue,
+		skip,
+		callback
+	} = {
+		defaultValue: undefined,
+		skip: false,
+		callback: undefined,
+		...opts
+	}
+
 	const [state, setState] = useState<ApiState<TData>>({
 		loading: true,
 		error: null,

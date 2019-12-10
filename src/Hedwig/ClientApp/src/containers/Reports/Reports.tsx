@@ -1,47 +1,47 @@
 import React, { useContext } from 'react';
-import useAuthQuery from '../../hooks/useAuthQuery';
-import { gql } from 'apollo-boost';
 import { Link } from 'react-router-dom';
 import pluralize from 'pluralize';
 import { Table, TableProps } from '../../components/Table/Table';
 import InlineIcon from '../../components/InlineIcon/InlineIcon';
-import { ReportsQuery, ReportsQuery_me_reports } from '../../generated/ReportsQuery';
 import monthFormatter from '../../utils/monthFormatter';
 import dateFormatter from '../../utils/dateFormatter';
 import UserContext from '../../contexts/User/UserContext';
-
-export const REPORTS_QUERY = gql`
-	query ReportsQuery {
-		me {
-			reports {
-				... on CdcReportType {
-					id
-					type
-					period
-					dueAt
-					submittedAt
-					organization {
-						id
-						name
-					}
-				}
-			}
-		}
-	}
-`;
+import useApi from '../../hooks/useApi';
+import { 
+	ApiOrganizationsOrgIdReportsGetRequest,
+	Report,
+	ApiOrganizationsIdGetRequest
+} from '../../OAS-generated';
+import getIdForUser from '../../utils/getIdForUser';
 
 export default function Reports() {
-  const { loading, error, data } = useAuthQuery<ReportsQuery>(REPORTS_QUERY);
+	const { user } = useContext(UserContext);
+	const orgParams: ApiOrganizationsIdGetRequest = {
+		id: getIdForUser(user, 'org')
+	}
+	const [ orgLoading, orgError, organization] = useApi(
+		(api) => api.apiOrganizationsIdGet(orgParams),
+		[user]
+	)
+	const reportParams: ApiOrganizationsOrgIdReportsGetRequest = {
+		orgId: getIdForUser(user, 'org')
+	}
+	const [ loading, error, rawReports ] = useApi(
+		(api) => api.apiOrganizationsOrgIdReportsGet(reportParams),
+		[user]
+	);
 
-	if (loading || error || !data || !data.me) {
+	if (loading || error || !rawReports || orgLoading || orgError || !organization) {
 		return <div className="Reports"></div>;
 	}
 
-	const unsubmittedReportsCount = data.me.reports.filter(report => !report.submittedAt).length;
+	const reports = (rawReports || []).map(e => e as Required<Report>);
 
-	const reportsTableProps: TableProps<ReportsQuery_me_reports> = {
+	const unsubmittedReportsCount = reports.filter(report => !report.submittedAt).length;
+
+	const reportsTableProps: TableProps<Required<Report>> = {
 		id: 'reports-table',
-		data: data.me.reports,
+		data: reports,
 		rowKey: row => row.id,
 		columns: [
 			{
@@ -49,13 +49,13 @@ export default function Reports() {
 				cell: ({ row }) => (
 					<th scope="row">
 						<Link to={`/reports/${row.id}`} className="usa-link">
-							{monthFormatter(row.period)}
+							{monthFormatter(row.reportingPeriod.period)}
 						</Link>
 						&nbsp;
 						{!row.submittedAt && <InlineIcon icon="attentionNeeded" />}
 					</th>
 				),
-				sort: row => row.period,
+				sort: row => row.reportingPeriod.period && row.reportingPeriod.period.getMonth() || -1,
 			},
 			{
 				name: 'Type',
@@ -64,8 +64,8 @@ export default function Reports() {
 			},
 			{
 				name: 'Program/Site',
-				cell: ({ row }) => <td>{row.organization.name}</td>,
-				sort: row => row.organization.name,
+				cell: _ => <td>{organization.name}</td>,
+				sort: _ => organization.name || '',
 			},
 			{
 				name: 'Date submitted',
@@ -73,10 +73,12 @@ export default function Reports() {
 					return row.submittedAt ? (
 						<td className="oec-table__cell--tabular-nums">{dateFormatter(row.submittedAt)}</td>
 					) : (
-						<td className="oec-table__cell--gray">due {dateFormatter(row.dueAt)}</td>
+						<td className="oec-table__cell--gray">due {dateFormatter(row.reportingPeriod.dueAt)}</td>
 					);
 				},
-				sort: row => row.submittedAt || row.dueAt,
+				sort: row => (row.submittedAt && row.submittedAt.getTime())
+										|| (row.reportingPeriod.dueAt && row.reportingPeriod.dueAt.getTime())
+										|| 0,
 			},
 		],
 		defaultSortColumn: 0,
@@ -87,12 +89,6 @@ export default function Reports() {
 		<div className="Reports">
 			<section className="grid-container">
 				<h1>Reports</h1>
-				{unsubmittedReportsCount > 0 && (
-					<div className="oec-table-legend">
-						<InlineIcon icon="attentionNeeded" /> <strong>{unsubmittedReportsCount}</strong>{' '}
-						{pluralize('report', unsubmittedReportsCount)} due
-					</div>
-				)}
 				<Table {...reportsTableProps} fullWidth />
 			</section>
 		</div>

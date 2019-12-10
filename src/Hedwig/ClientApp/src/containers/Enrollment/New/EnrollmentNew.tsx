@@ -56,8 +56,9 @@ export default function EnrollmentNew({
 	const [loading, error, enrollment, mutate] = useApi<Enrollment>(
 		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
 		[enrollmentId],
-		undefined,
-		!enrollmentId
+		{
+			skip: !enrollmentId
+		}
 	);
 
 	const afterSave = (enrollment: Enrollment) => {
