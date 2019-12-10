@@ -9,6 +9,7 @@ import Checkbox from '../../components/Checklist/Checkbox';
 import { AppContext } from '../App/App';
 import currencyFormatter from '../../utils/currencyFormatter';
 import parseCurrencyFromString from '../../utils/parseCurrencyFromString';
+import getIdForUser from '../../utils/getIdForUser';
 
 export type ReportSubmitFormProps = {
   report: CdcReport,
@@ -28,7 +29,7 @@ export default function ReportSubmitForm({ report, mutate, setAlert, canSubmit }
 
   const params: ApiOrganizationsOrgIdReportsIdPutRequest = {
     id: report.id || 0,
-    orgId: idx(user, _ => _.orgPermissions[0].organizationId) || 0
+    orgId: getIdForUser(user, "org")
   };
 
   function updatedReport(): CdcReport {
