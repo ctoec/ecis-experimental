@@ -1893,13 +1893,13 @@ exports[`Storyshots Table Full width 1`] = `
     <thead>
       <tr>
         <th
-          aria-sort="asc"
+          aria-sort="ascending"
           className="oec-table__column-header oec-sortable"
           role="columnheader"
           scope="col"
         >
           <button
-            aria-label="Sort table by Name in ascending order"
+            aria-label="Sort table by Name in descending order"
             className="oec-table__column-title usa-button--unstyled width-full"
             onClick={[Function]}
           >
@@ -1908,7 +1908,7 @@ exports[`Storyshots Table Full width 1`] = `
               className="oec-table__sort-controls"
             >
               <span
-                className="oec-table__sort-controls__asc"
+                className="oec-table__sort-controls__asc active"
               />
               <span
                 className="oec-table__sort-controls__desc"
@@ -1917,7 +1917,7 @@ exports[`Storyshots Table Full width 1`] = `
           </button>
         </th>
         <th
-          aria-sort="asc"
+          aria-sort="ascending"
           className="oec-table__column-header oec-sortable"
           role="columnheader"
           scope="col"
@@ -1947,12 +1947,12 @@ exports[`Storyshots Table Full width 1`] = `
         <th
           scope="row"
         >
-          Pear
+          Apple
         </th>
         <th
           scope="row"
         >
-          $1.10
+          $0.75
         </th>
       </tr>
       <tr>
@@ -1971,12 +1971,12 @@ exports[`Storyshots Table Full width 1`] = `
         <th
           scope="row"
         >
-          Apple
+          Pear
         </th>
         <th
           scope="row"
         >
-          $0.75
+          $1.10
         </th>
       </tr>
     </tbody>
@@ -1999,13 +1999,13 @@ exports[`Storyshots Table Normal 1`] = `
     <thead>
       <tr>
         <th
-          aria-sort="asc"
+          aria-sort="ascending"
           className="oec-table__column-header oec-sortable"
           role="columnheader"
           scope="col"
         >
           <button
-            aria-label="Sort table by Name in ascending order"
+            aria-label="Sort table by Name in descending order"
             className="oec-table__column-title usa-button--unstyled width-full"
             onClick={[Function]}
           >
@@ -2014,7 +2014,7 @@ exports[`Storyshots Table Normal 1`] = `
               className="oec-table__sort-controls"
             >
               <span
-                className="oec-table__sort-controls__asc"
+                className="oec-table__sort-controls__asc active"
               />
               <span
                 className="oec-table__sort-controls__desc"
@@ -2023,7 +2023,7 @@ exports[`Storyshots Table Normal 1`] = `
           </button>
         </th>
         <th
-          aria-sort="asc"
+          aria-sort="ascending"
           className="oec-table__column-header oec-sortable"
           role="columnheader"
           scope="col"
@@ -2053,12 +2053,12 @@ exports[`Storyshots Table Normal 1`] = `
         <th
           scope="row"
         >
-          Pear
+          Apple
         </th>
         <th
           scope="row"
         >
-          $1.10
+          $0.75
         </th>
       </tr>
       <tr>
@@ -2077,12 +2077,12 @@ exports[`Storyshots Table Normal 1`] = `
         <th
           scope="row"
         >
-          Apple
+          Pear
         </th>
         <th
           scope="row"
         >
-          $0.75
+          $1.10
         </th>
       </tr>
     </tbody>

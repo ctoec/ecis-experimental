@@ -34,7 +34,7 @@ storiesOf('Table', module)
 				rowKey={row => row.id}
 				columns={customColumns}
 				defaultSortColumn={0}
-				defaultSortOrder="asc"
+				defaultSortOrder="ascending"
 			/>
 		);
 	})
@@ -48,7 +48,7 @@ storiesOf('Table', module)
 				rowKey={row => row.id}
 				columns={customColumns}
 				defaultSortColumn={0}
-				defaultSortOrder="asc"
+				defaultSortOrder="ascending"
 				fullWidth
 			/>
 		);
