@@ -11,7 +11,7 @@ import getIdForUser from '../../utils/getIdForUser';
 import useApi from '../../hooks/useApi';
 import UtilizationTable from './UtilizationTable';
 import missingInformation from '../../utils/missingInformation';
-import { Enrollment } from '../../OAS-generated/models/Enrollment';
+import { Enrollment } from '../../generated/models/Enrollment';
 import Button from '../../components/Button/Button';
 import Alert, { AlertProps } from '../../components/Alert/Alert';
 

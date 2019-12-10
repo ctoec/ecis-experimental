@@ -3,8 +3,6 @@
 	"version": "0.1.0",
 	"private": true,
 	"dependencies": {
-		"@apollo/react-hooks": "^3.0.1",
-		"@apollo/react-testing": "^3.0.1",
 		"@openid/appauth": "^1.2.6",
 		"@storybook/addon-actions": "^5.1.11",
 		"@storybook/addon-knobs": "^5.1.11",
@@ -21,13 +19,10 @@
 		"@types/react-router-dom": "^5.1.0",
 		"@types/storybook__addon-storyshots": "^5.1.1",
 		"@types/storybook__react": "^4.0.2",
-		"apollo-boost": "^0.4.4",
-		"apollo-link-context": "^1.0.19",
 		"babel-plugin-macros": "^2.6.1",
 		"enzyme": "^3.10.0",
 		"enzyme-adapter-react-16": "^1.14.0",
 		"enzyme-to-json": "^3.4.0",
-		"graphql": "^14.5.3",
 		"husky": "^3.0.4",
 		"idx": "^2.5.6",
 		"lint-staged": "^9.2.3",
@@ -54,8 +49,7 @@
 		"test": "CI=true react-scripts test --env=jsdom",
 		"eject": "react-scripts eject",
 		"storybook": "start-storybook -p 9009 -s public",
-		"build-storybook": "build-storybook -s public",
-		"apollo-generate": "NODE_TLS_REJECT_UNAUTHORIZED=0 npx apollo codegen:generate --excludes=node_modules/* --includes=**/*.tsx --endpoint https://backend:5001/graphql --target typescript --tagName gql --outputFlat src/generated --passthroughCustomScalars --customScalarsPrefix OEC"
+		"build-storybook": "build-storybook -s public"
 	},
 	"husky": {
 		"hooks": {

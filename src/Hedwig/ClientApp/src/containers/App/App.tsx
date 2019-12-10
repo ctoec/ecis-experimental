@@ -6,7 +6,7 @@ import MakeRouteWithSubRoutes from './MakeRouteWithSubRoutes';
 import routes from '../../routes';
 import 'react-dates/initialize';
 import useApi from '../../hooks/useApi';
-import { ApiOrganizationsOrgIdReportsGetRequest } from '../../OAS-generated';
+import { ApiOrganizationsOrgIdReportsGetRequest } from '../../generated';
 import getIdForUser from '../../utils/getIdForUser';
 import UserContext from '../../contexts/User/UserContext';
 

@@ -1,6 +1,6 @@
 import React, { useState, FormEvent, useContext, SetStateAction, Dispatch } from 'react';
 import Alert, { AlertProps } from '../../components/Alert/Alert';
-import { CdcReport, ApiOrganizationsOrgIdReportsIdPutRequest, CdcReportFromJSON } from '../../OAS-generated';
+import { CdcReport, ApiOrganizationsOrgIdReportsIdPutRequest, CdcReportFromJSON } from '../../generated';
 import { Mutate } from '../../hooks/useApi';
 import UserContext from '../../contexts/User/UserContext';
 import idx from 'idx';

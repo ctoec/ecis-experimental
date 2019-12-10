@@ -8,7 +8,7 @@ using System.Linq;
 using System;
 using Hedwig.Models;
 using Hedwig.Repositories;
-using Hedwig.Security_NEW;
+using Hedwig.Security;
 
 namespace Hedwig.Controllers
 {

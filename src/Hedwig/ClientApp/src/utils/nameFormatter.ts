@@ -1,4 +1,4 @@
-import { Child } from '../OAS-generated/models/Child';
+import { Child } from '../generated/models/Child';
 
 interface Name {
 	firstName: string;

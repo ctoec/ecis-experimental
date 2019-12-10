@@ -6,10 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- GraphQL Support -->
-    <PackageReference Include="GraphQL.Client" Version="1.0.3" />
-    <PackageReference Include="GraphQL.Common" Version="1.0.3" />
-    <!-- End GraphQL Support -->
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="3.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.0.0">

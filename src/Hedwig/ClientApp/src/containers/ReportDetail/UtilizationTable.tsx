@@ -1,6 +1,6 @@
 import React from 'react';
 import Table, { TableProps } from '../../components/Table/Table';
-import { CdcReport, Age, FundingTime } from '../../OAS-generated';
+import { CdcReport, Age, FundingTime } from '../../generated';
 import idx from 'idx';
 import moment from 'moment';
 import { Region, CdcRates } from './CdcRates';

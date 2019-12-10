@@ -1,4 +1,4 @@
-import { Age, FundingTime } from '../../OAS-generated';
+import { Age, FundingTime } from '../../generated';
 
 export enum Region {
   E = 'E',
