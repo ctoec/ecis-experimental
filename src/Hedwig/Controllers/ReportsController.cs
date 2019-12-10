@@ -25,11 +25,11 @@ namespace Hedwig.Controllers
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<ActionResult<List<Report>>> Get(
+    public async Task<ActionResult<List<CdcReport>>> Get(
       int orgId
     )
     {
-      return await _reports.GetReportsForOrganization(orgId);
+      return await _reports.GetReportsForOrganizationAsync(orgId);
     }
 
     // GET api/organizations/5/reports/1

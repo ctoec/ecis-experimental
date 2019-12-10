@@ -24,6 +24,9 @@ import {
     Enrollment,
     EnrollmentFromJSON,
     EnrollmentToJSON,
+    Organization,
+    OrganizationFromJSON,
+    OrganizationToJSON,
     ProblemDetails,
     ProblemDetailsFromJSON,
     ProblemDetailsToJSON,
@@ -154,7 +157,7 @@ export class HedwigApi extends runtime.BaseAPI {
 
     /**
      */
-    async apiOrganizationsIdGetRaw(requestParameters: ApiOrganizationsIdGetRequest): Promise<runtime.ApiResponse<void>> {
+    async apiOrganizationsIdGetRaw(requestParameters: ApiOrganizationsIdGetRequest): Promise<runtime.ApiResponse<Organization>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
             throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling apiOrganizationsIdGet.');
         }
@@ -178,13 +181,14 @@ export class HedwigApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => OrganizationFromJSON(jsonValue));
     }
 
     /**
      */
-    async apiOrganizationsIdGet(requestParameters: ApiOrganizationsIdGetRequest): Promise<void> {
-        await this.apiOrganizationsIdGetRaw(requestParameters);
+    async apiOrganizationsIdGet(requestParameters: ApiOrganizationsIdGetRequest): Promise<Organization> {
+        const response = await this.apiOrganizationsIdGetRaw(requestParameters);
+        return await response.value();
     }
 
     /**
