@@ -1,4 +1,4 @@
-import { User } from "../OAS-generated";
+import { User } from "../generated";
 import idx from "idx";
 
 export default function getIdForUser(user: User | undefined, idType: string): number {

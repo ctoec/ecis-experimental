@@ -12,7 +12,7 @@ import UserContext from '../../../contexts/User/UserContext';
 import { 
 	Enrollment,
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest 
-} from '../../../OAS-generated';
+} from '../../../generated';
 import getIdForUser from '../../../utils/getIdForUser';
 
 type EnrollmentNewParams = {

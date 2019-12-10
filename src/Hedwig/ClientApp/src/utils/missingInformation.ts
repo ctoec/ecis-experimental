@@ -1,5 +1,5 @@
 import idx from 'idx';
-import { Enrollment } from '../OAS-generated/models/Enrollment';
+import { Enrollment } from '../generated/models/Enrollment';
 
 // TODO
 // Hack to fake missing information on enrollment entities

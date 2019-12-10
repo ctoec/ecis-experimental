@@ -4,13 +4,9 @@ import 'react-dates/lib/css/_datepicker.css';
 import './assets/styles/index.scss';
 import App from './containers/App/App';
 import { BrowserRouter } from 'react-router-dom';
-import ApolloClient from 'apollo-boost';
-import { ApolloProvider } from '@apollo/react-hooks';
 import * as serviceWorker from './serviceWorker';
 import { AuthenticationProvider } from './contexts/Authentication/AuthenticationContext';
 import { UserProvider } from './contexts/User/UserContext';
-
-const apollo = new ApolloClient({ uri: '/graphql' });
 
 const render = (Component: React.FC) => {
 	return ReactDOM.render(
@@ -22,9 +18,7 @@ const render = (Component: React.FC) => {
 				scope="openid profile hedwig_backend offline_access"
 			>
 				<UserProvider>
-					<ApolloProvider client={apollo}>
-						<Component />
-					</ApolloProvider>
+					<Component />
 				</UserProvider>
 			</AuthenticationProvider>
 		</BrowserRouter>,

@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { Region } from './CdcRates';
-import { Age, FundingTime, CdcReport, FundingSource, Enrollment } from '../../OAS-generated';
+import { Age, FundingTime, CdcReport, FundingSource, Enrollment } from '../../generated';
 import UtilizationTable, { calculateRate } from './UtilizationTable';
 
 describe('calculateRate', () => {
@@ -51,6 +51,7 @@ const reportWithEnrollments = (enrollments: Enrollment[]) => {
 
 const defaultReport = reportWithEnrollments([
   {
+    id: 1,
     age: Age.Preschool,
     fundings: [{
       source: FundingSource.CDC,
@@ -68,6 +69,7 @@ describe('UtilizationTable', () => {
   it('includes a row for each type of enrollment and funding space', () => {
     const report = reportWithEnrollments([
       {
+        id: 1,
         age: Age.Infant,
         fundings: [{
           source: FundingSource.CDC,
@@ -75,6 +77,7 @@ describe('UtilizationTable', () => {
         }],
       },
       {
+        id: 2,
         age: Age.Infant,
         fundings: [{
           source: FundingSource.CDC,
@@ -91,6 +94,7 @@ describe('UtilizationTable', () => {
   it('does not include enrollments without an age', () => {
     const report = reportWithEnrollments([
       {
+        id: 1,
         age: undefined,
         fundings: [{
           source: FundingSource.CDC,

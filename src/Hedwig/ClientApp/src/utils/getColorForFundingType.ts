@@ -1,5 +1,5 @@
-import { Funding } from '../OAS-generated/models/Funding';
-import { FundingSource } from '../OAS-generated';
+import { Funding } from '../generated/models/Funding';
+import { FundingSource } from '../generated';
 
 type FundingSourceDetail = {
 	fullTitle: string;

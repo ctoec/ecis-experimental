@@ -8,7 +8,7 @@ import nameFormatter from '../../../utils/nameFormatter';
 import {
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest,
 	Enrollment,
-} from '../../../OAS-generated';
+} from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
 import useApi from '../../../hooks/useApi';
 import DirectionalLink from '../../../components/DirectionalLink/DirectionalLink';

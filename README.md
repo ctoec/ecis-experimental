@@ -100,7 +100,7 @@ NOTE: Access an interactive sqlcmd interface by running `./dc-sqlcmd` with no co
 
 | Task | CLI - Local | CLI - Docker | URL |
 | ---- | --- | --- | --- |
-| Run the app and watch for changes | `make watch` | N/A (app is running when containers are up) | [App](https://localhost:5001), [GraphQL Playground](https://localhost:5001/ui/playground) |
+| Run the app and watch for changes | `make watch` | N/A (app is running when containers are up) | [App](https://localhost:5001) |
 | Run client alone and watch for changes | `make watch-client` | N/A (client is running when 'client' container is up) | [Client](https://localhost:3000) |
 | Run backend alone and watch for changes | `make watch-backend` | N/A (backend is running when 'backend' container is up) | |
 | Run the [Storybook](https://storybook.js.org) | `make storybook` |`make dc-storybook` | [Storybook](http://localhost:9009) |
@@ -108,5 +108,4 @@ NOTE: Access an interactive sqlcmd interface by running `./dc-sqlcmd` with no co
 | Run the backend tests and watch for changes | `make test-backend` | `make dc-test-backend` | |
 | Apply new database migrations | `make db-migrate` | `make dc-db-migrate` | |
 | Reset the database | `make db-reset` | `make dc-db-reset` | |
-| Update GraphQL types | `make apollo-generate` | `make dc-apollo-generate` |  |
 | Clean up without committing (frontend JS and CSS only) | `make prettier` | `make dc-prettier` | |
