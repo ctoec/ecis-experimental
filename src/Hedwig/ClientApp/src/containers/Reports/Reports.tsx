@@ -1,8 +1,6 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import pluralize from 'pluralize';
 import { Table, TableProps } from '../../components/Table/Table';
-import InlineIcon from '../../components/InlineIcon/InlineIcon';
 import monthFormatter from '../../utils/monthFormatter';
 import dateFormatter from '../../utils/dateFormatter';
 import UserContext from '../../contexts/User/UserContext';

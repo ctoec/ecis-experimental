@@ -6,10 +6,7 @@ import moment from 'moment';
 import { Region, CdcRates } from './CdcRates';
 import { prettyAge } from '../../utils/ageGroupUtils';
 import { prettyFundingTime } from '../../utils/fundingTimeUtils';
-
-function dollarFormatter(number: number) {
-  return '$' + number.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
+import currencyFormatter from '../../utils/currencyFormatter';
 
 export function calculateRate(accredited: boolean, titleI: boolean, region: Region, ageGroup: Age, time: FundingTime) {
   const rate = CdcRates.find(rate =>
@@ -136,7 +133,7 @@ export default function UtilizationTable(report: CdcReport) {
         name: 'Weekly rate',
         cell: ({ row }) => (
           <td>
-            {row.key !== 'total' && dollarFormatter(row.rate || 0)}
+            {row.key !== 'total' && currencyFormatter(row.rate || 0)}
           </td>
         )
       },
@@ -144,7 +141,7 @@ export default function UtilizationTable(report: CdcReport) {
         name: `Total (${weeksInPeriod} weeks)`,
         cell: ({ row }) => (
           <td className={row.key === "total" ? "oec-table__cell--strong" : ""}>
-            {dollarFormatter(row.total)}
+            {currencyFormatter(row.total)}
           </td>
         )
       },
@@ -156,7 +153,7 @@ export default function UtilizationTable(report: CdcReport) {
             (row.balance < 0 ? "oec-table__cell--red" : "")
           }>
             {row.balance < 0 ? '(' : ''}
-            {dollarFormatter(Math.abs(row.balance))}
+            {currencyFormatter(Math.abs(row.balance))}
             {row.balance < 0 ? ')' : ''}
           </td>
         )

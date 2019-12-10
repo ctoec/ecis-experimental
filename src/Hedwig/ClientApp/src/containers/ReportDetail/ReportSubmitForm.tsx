@@ -7,6 +7,8 @@ import idx from 'idx';
 import TextInput from '../../components/TextInput/TextInput';
 import Checkbox from '../../components/Checklist/Checkbox';
 import { AppContext } from '../App/App';
+import currencyFormatter from '../../utils/currencyFormatter';
+import parseCurrencyFromString from '../../utils/parseCurrencyFromString';
 
 export type ReportSubmitFormProps = {
   report: CdcReport,
@@ -17,9 +19,9 @@ export type ReportSubmitFormProps = {
 
 export default function ReportSubmitForm({ report, mutate, setAlert, canSubmit }: ReportSubmitFormProps) {
   const [accredited, setAccredited] = useState(report.accredited);
-  const [c4KRevenue, setC4KRevenue] = useState(report.c4KRevenue);
+  const [c4KRevenue, setC4KRevenue] = useState(report.c4KRevenue || null);
   const [retroactiveC4KRevenue, setRetroactiveC4KRevenue] = useState(report.retroactiveC4KRevenue);
-  const [familyFeesRevenue, setFamilyFeesRevenue] = useState(report.familyFeesRevenue);
+  const [familyFeesRevenue, setFamilyFeesRevenue] = useState(report.familyFeesRevenue || null);
 
   const { user } = useContext(UserContext);
   const { invalidateCache: invalidateAppCache } = useContext(AppContext);
@@ -33,9 +35,9 @@ export default function ReportSubmitForm({ report, mutate, setAlert, canSubmit }
     return {
       ...report,
       accredited,
-      c4KRevenue,
+      c4KRevenue: c4KRevenue !== null ? c4KRevenue : undefined,
       retroactiveC4KRevenue,
-      familyFeesRevenue,
+      familyFeesRevenue: familyFeesRevenue !== null ? familyFeesRevenue : undefined,
     };
   }
 
@@ -89,8 +91,6 @@ export default function ReportSubmitForm({ report, mutate, setAlert, canSubmit }
 					</label>
         </div>
         <fieldset className="usa-fieldset">
-          {/* TODO: USE SAME VALIDATION AS FAMILY INCOME */}
-          {/* TODO: WHAT NEEDS TO BE ADDED TO BACKEND? */}
           <legend>
             <h2 className="margin-bottom-0 margin-top-2">Other Revenue</h2>
           </legend>
@@ -101,8 +101,9 @@ export default function ReportSubmitForm({ report, mutate, setAlert, canSubmit }
                 <span className="text-bold">Care 4 Kids</span>
               </React.Fragment>
             }
-            defaultValue={`${c4KRevenue}`}
-            onChange={(e) => setC4KRevenue(parseFloat(e.target.value))}
+            defaultValue={currencyFormatter(c4KRevenue)}
+            onChange={(e) => setC4KRevenue(parseCurrencyFromString(e.target.value))}
+            onBlur={event => (event.target.value = c4KRevenue ? currencyFormatter(c4KRevenue) : '')}
             disabled={!!report.submittedAt}
           />
           <div className="margin-top-2">
@@ -116,9 +117,11 @@ export default function ReportSubmitForm({ report, mutate, setAlert, canSubmit }
             />
           </div>
           <TextInput
-            id="family-fee-srevenue"
+            id="family-fees-revenue"
             label={<span className="text-bold">Family Fees</span>}
-            onChange={(e) => setFamilyFeesRevenue(parseFloat(e.target.value))}
+            defaultValue={currencyFormatter(familyFeesRevenue)}
+            onChange={(e) => setFamilyFeesRevenue(parseCurrencyFromString(e.target.value))}
+            onBlur={event => (event.target.value = familyFeesRevenue ? currencyFormatter(familyFeesRevenue) : '')}
             disabled={!!report.submittedAt}
           />
         </fieldset>
