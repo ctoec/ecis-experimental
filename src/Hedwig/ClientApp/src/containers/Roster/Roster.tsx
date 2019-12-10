@@ -4,7 +4,7 @@ import nameFormatter from '../../utils/nameFormatter';
 import dateFormatter from '../../utils/dateFormatter';
 import enrollmentTextFormatter from '../../utils/enrollmentTextFormatter';
 import getDefaultDateRange from '../../utils/getDefaultDateRange';
-import getColorForFundingSource, { fundingSourceDetails } from '../../utils/getColorForFundingType';
+import getColorForFundingSource, { fundingSourceDetails } from '../../utils/fundingTypeFormatters';
 import getFundingSpaceCapacity from '../../utils/getFundingSpaceCapacity';
 import getIdForUser from '../../utils/getIdForUser';
 import missingInformation from '../../utils/missingInformation';
@@ -96,7 +96,7 @@ export default function Roster() {
 										key={`${funding.source}-${funding.time}`}
 										text={
 											funding.source
-												? fundingSourceDetails[funding.source].textFormatter(funding)
+												? fundingSourceDetails[funding.source].tagFormatter(funding)
 												: ''
 										}
 										color={funding.source ? getColorForFundingSource(funding.source) : 'gray-90'}
@@ -155,25 +155,18 @@ export default function Roster() {
 	);
 
 	const legendItems: LegendItem[] = Object.keys(fundingSourceDetails).map(source => {
-		const ratioLegendSources: string[] = [FundingSource.CDC];
 		const capacityForFunding = getFundingSpaceCapacity(site.organization, source);
 		const enrolledForFunding = enrollments.filter(
 			e => e.fundings && e.fundings.filter(f => f.source === source).length > 0
 		).length;
 
-		// If funding source enrollments should be displayed as a ratio,
-		// and capacity info for funding source exists,
-		// set ratio to enrollments/capacity. Otherwise: undefined
-		const enrolledOverCapacity =
-			ratioLegendSources.includes(source) && capacityForFunding
-				? { a: enrolledForFunding, b: capacityForFunding }
-				: undefined;
-
 		return {
-			text: fundingSourceDetails[source].fullTitle,
+			text: fundingSourceDetails[source].legendTextFormatter(
+				fundingSourceDetails[source].fullTitle,
+				enrolledForFunding,
+				capacityForFunding
+			),
 			symbol: <Tag text={source} color={fundingSourceDetails[source].colorToken} />,
-			number: enrolledForFunding,
-			ratio: enrolledOverCapacity,
 		};
 	});
 
