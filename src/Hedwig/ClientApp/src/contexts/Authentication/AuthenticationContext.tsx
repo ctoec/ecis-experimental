@@ -64,6 +64,7 @@ const AuthenticationProvider: React.FC<AuthenticationProviderPropsType> = ({
 	const location = useLocation();
 
 	// state
+	const [idToken, setIdToken] = useState<string>();
 	const [accessToken, setAccessToken] = useState<string | null>(null);
 	const [openIdConnectUrl, setOpenIdConnectUrl] = useState();
 
@@ -188,7 +189,15 @@ const AuthenticationProvider: React.FC<AuthenticationProviderPropsType> = ({
 				 */
 				localStorage.removeItem(localStorageKey);
 				setAccessToken(null);
-				history.push('/');
+				if (!configuration.endSessionEndpoint) {
+					throw new Error("no logout");
+				}
+				const endSessionQueryParams = {
+					id_token_hint: idToken,
+					post_logout_redirect_uri: getCurrentHost()
+				} as StringMap;
+				const logoutUrl = `${configuration.endSessionEndpoint}?${(new BasicQueryStringUtils()).stringify(endSessionQueryParams)}`;
+				window.location.href = logoutUrl;
 			}
 		}
 	}, [
@@ -231,6 +240,7 @@ const AuthenticationProvider: React.FC<AuthenticationProviderPropsType> = ({
 			extras: extras,
 		});
 		return tokenHandler.performTokenRequest(configuration, req).then(resp => {
+			setIdToken(resp.idToken);
 			setAccessToken(resp.accessToken);
 			setTokenResponse(resp);
 			history.push('/');
