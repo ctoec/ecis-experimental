@@ -30,9 +30,6 @@ import {
     ProblemDetails,
     ProblemDetailsFromJSON,
     ProblemDetailsToJSON,
-    Report,
-    ReportFromJSON,
-    ReportToJSON,
     Site,
     SiteFromJSON,
     SiteToJSON,
@@ -343,7 +340,7 @@ export class HedwigApi extends runtime.BaseAPI {
 
     /**
      */
-    async apiOrganizationsOrgIdReportsGetRaw(requestParameters: ApiOrganizationsOrgIdReportsGetRequest): Promise<runtime.ApiResponse<Array<Report>>> {
+    async apiOrganizationsOrgIdReportsGetRaw(requestParameters: ApiOrganizationsOrgIdReportsGetRequest): Promise<runtime.ApiResponse<Array<CdcReport>>> {
         if (requestParameters.orgId === null || requestParameters.orgId === undefined) {
             throw new runtime.RequiredError('orgId','Required parameter requestParameters.orgId was null or undefined when calling apiOrganizationsOrgIdReportsGet.');
         }
@@ -363,12 +360,12 @@ export class HedwigApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ReportFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(CdcReportFromJSON));
     }
 
     /**
      */
-    async apiOrganizationsOrgIdReportsGet(requestParameters: ApiOrganizationsOrgIdReportsGetRequest): Promise<Array<Report>> {
+    async apiOrganizationsOrgIdReportsGet(requestParameters: ApiOrganizationsOrgIdReportsGetRequest): Promise<Array<CdcReport>> {
         const response = await this.apiOrganizationsOrgIdReportsGetRaw(requestParameters);
         return await response.value();
     }

@@ -1,6 +1,6 @@
 import React from 'react';
 import useApi from '../../hooks/useApi';
-import { User } from '../../OAS-generated/models/User';
+import { User } from '../../generated/models/User';
 
 export type UserContextType = {
 	user?: User;

@@ -14,7 +14,7 @@ import {
   ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest,
   Gender,
   ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
-} from '../../../OAS-generated';
+} from '../../../generated';
 import idx from 'idx';
 import UserContext from '../../../contexts/User/UserContext';
 import getIdForUser from '../../../utils/getIdForUser';

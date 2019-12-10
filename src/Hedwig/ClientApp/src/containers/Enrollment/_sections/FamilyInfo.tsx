@@ -4,7 +4,7 @@ import Button from '../../../components/Button/Button';
 import TextInput from '../../../components/TextInput/TextInput';
 import Checklist from '../../../components/Checklist/Checklist';
 import idx from 'idx';
-import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest } from '../../../OAS-generated';
+import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
 import getIdForUser from '../../../utils/getIdForUser';
 

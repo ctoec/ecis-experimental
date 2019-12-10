@@ -52,3 +52,8 @@ prettier:
 
 dc-prettier:
 	./dc-client ./node_modules/.bin/prettier --single-quote --write "/app/src/**/*.{js,jsx,ts,tsx,json,css,scss}
+
+api-generate:
+	rm -rf ${PWD}/src/Hedwig/ClientApp/src/generated
+	curl -k https://localhost:5001/swagger/v1/swagger.json > swagger.json
+	docker run --rm -u $(shell id -u) -v ${PWD}:/local openapitools/openapi-generator-cli generate -i /local/swagger.json -g typescript-fetch -o /local/src/Hedwig/ClientApp/src/generated --additional-properties="typescriptThreePlus=true"

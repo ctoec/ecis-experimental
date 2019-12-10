@@ -7,7 +7,7 @@ import FamilyIncome from '../_sections/FamilyIncome';
 import EnrollmentFunding from '../_sections/EnrollmentFunding';
 import PageNotFound from '../../PageNotFound/PageNotFound';
 import UserContext from '../../../contexts/User/UserContext';
-import { Enrollment, ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest } from '../../../OAS-generated';
+import { Enrollment, ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest } from '../../../generated';
 import getIdForUser from '../../../utils/getIdForUser';
 import useApi from '../../../hooks/useApi';
 

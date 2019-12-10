@@ -1,4 +1,4 @@
-import { FundingTime } from "../OAS-generated";
+import { FundingTime } from "../generated";
 
 export function fundingTimeFromString(str: string) {
   switch (str) {

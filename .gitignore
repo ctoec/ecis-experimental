@@ -252,3 +252,6 @@ winged-keys
 
 # Github directory
 .keep
+
+# Swagger/OAS
+swagger.json

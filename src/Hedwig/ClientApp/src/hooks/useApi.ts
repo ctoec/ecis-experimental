@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState, DependencyList, useCallback } from 'react';
-import { Configuration, HedwigApi } from '../OAS-generated';
+import { Configuration, HedwigApi } from '../generated';
 import getCurrentHost from '../utils/getCurrentHost';
 import AuthenticationContext from '../contexts/Authentication/AuthenticationContext';
 

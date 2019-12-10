@@ -6,7 +6,7 @@ import DatePicker from '../../../components/DatePicker/DatePicker';
 import dateFormatter from '../../../utils/dateFormatter';
 import moment from 'moment';
 import idx from 'idx';
-import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest } from '../../../OAS-generated';
+import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest } from '../../../generated';
 import parseCurrencyFromString from '../../../utils/parseCurrencyFromString';
 import currencyFormatter from '../../../utils/currencyFormatter';
 

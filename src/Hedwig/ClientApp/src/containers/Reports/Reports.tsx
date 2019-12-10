@@ -9,7 +9,7 @@ import {
   ApiOrganizationsOrgIdReportsGetRequest,
   Report,
   ApiOrganizationsIdGetRequest
-} from '../../OAS-generated';
+} from '../../generated';
 import getIdForUser from '../../utils/getIdForUser';
 import idx from 'idx';
 
