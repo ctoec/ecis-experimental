@@ -22,6 +22,10 @@ import {
     OrganizationFromJSON,
     OrganizationFromJSONTyped,
     OrganizationToJSON,
+    Region,
+    RegionFromJSON,
+    RegionFromJSONTyped,
+    RegionToJSON,
 } from './';
 
 /**
@@ -42,6 +46,18 @@ export interface Site {
      * @memberof Site
      */
     name: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof Site
+     */
+    titleI?: boolean;
+    /**
+     * 
+     * @type {Region}
+     * @memberof Site
+     */
+    region?: Region;
     /**
      * 
      * @type {number}
@@ -74,6 +90,8 @@ export function SiteFromJSONTyped(json: any, ignoreDiscriminator: boolean): Site
         
         'id': !exists(json, 'id') ? undefined : json['id'],
         'name': json['name'],
+        'titleI': !exists(json, 'titleI') ? undefined : json['titleI'],
+        'region': !exists(json, 'region') ? undefined : RegionFromJSON(json['region']),
         'organizationId': !exists(json, 'organizationId') ? undefined : json['organizationId'],
         'organization': !exists(json, 'organization') ? undefined : OrganizationFromJSON(json['organization']),
         'enrollments': !exists(json, 'enrollments') ? undefined : (json['enrollments'] === null ? null : (json['enrollments'] as Array<any>).map(EnrollmentFromJSON)),
@@ -91,6 +109,8 @@ export function SiteToJSON(value?: Site | null): any {
         
         'id': value.id,
         'name': value.name,
+        'titleI': value.titleI,
+        'region': RegionToJSON(value.region),
         'organizationId': value.organizationId,
         'organization': OrganizationToJSON(value.organization),
         'enrollments': value.enrollments === undefined ? undefined : (value.enrollments === null ? null : (value.enrollments as Array<any>).map(EnrollmentToJSON)),

@@ -78,6 +78,12 @@ export interface ApiOrganizationsOrgIdReportsIdGetRequest {
     include?: Array<string>;
 }
 
+export interface ApiOrganizationsOrgIdReportsIdPutRequest {
+    id: number;
+    orgId: number;
+    cdcReport?: CdcReport;
+}
+
 export interface ApiOrganizationsOrgIdSitesGetRequest {
     orgId: number;
 }
@@ -404,6 +410,45 @@ export class HedwigApi extends runtime.BaseAPI {
      */
     async apiOrganizationsOrgIdReportsIdGet(requestParameters: ApiOrganizationsOrgIdReportsIdGetRequest): Promise<CdcReport> {
         const response = await this.apiOrganizationsOrgIdReportsIdGetRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     */
+    async apiOrganizationsOrgIdReportsIdPutRaw(requestParameters: ApiOrganizationsOrgIdReportsIdPutRequest): Promise<runtime.ApiResponse<CdcReport>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling apiOrganizationsOrgIdReportsIdPut.');
+        }
+
+        if (requestParameters.orgId === null || requestParameters.orgId === undefined) {
+            throw new runtime.RequiredError('orgId','Required parameter requestParameters.orgId was null or undefined when calling apiOrganizationsOrgIdReportsIdPut.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json-patch+json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
+        const response = await this.request({
+            path: `/api/organizations/{orgId}/Reports/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))).replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters.orgId))),
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+            body: CdcReportToJSON(requestParameters.cdcReport),
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => CdcReportFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async apiOrganizationsOrgIdReportsIdPut(requestParameters: ApiOrganizationsOrgIdReportsIdPutRequest): Promise<CdcReport> {
+        const response = await this.apiOrganizationsOrgIdReportsIdPutRaw(requestParameters);
         return await response.value();
     }
 

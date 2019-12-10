@@ -45,6 +45,24 @@ export interface CdcReport {
      * @type {number}
      * @memberof CdcReport
      */
+    c4KRevenue?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CdcReport
+     */
+    retroactiveC4KRevenue?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof CdcReport
+     */
+    familyFeesRevenue?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CdcReport
+     */
     organizationId?: number;
     /**
      * 
@@ -95,6 +113,9 @@ export function CdcReportFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     return {
         
         'accredited': json['accredited'],
+        'c4KRevenue': !exists(json, 'c4KRevenue') ? undefined : json['c4KRevenue'],
+        'retroactiveC4KRevenue': !exists(json, 'retroactiveC4KRevenue') ? undefined : json['retroactiveC4KRevenue'],
+        'familyFeesRevenue': !exists(json, 'familyFeesRevenue') ? undefined : json['familyFeesRevenue'],
         'organizationId': !exists(json, 'organizationId') ? undefined : json['organizationId'],
         'organization': !exists(json, 'organization') ? undefined : OrganizationFromJSON(json['organization']),
         'id': !exists(json, 'id') ? undefined : json['id'],
@@ -115,6 +136,9 @@ export function CdcReportToJSON(value?: CdcReport | null): any {
     return {
         
         'accredited': value.accredited,
+        'c4KRevenue': value.c4KRevenue,
+        'retroactiveC4KRevenue': value.retroactiveC4KRevenue,
+        'familyFeesRevenue': value.familyFeesRevenue,
         'organizationId': value.organizationId,
         'organization': OrganizationToJSON(value.organization),
         'id': value.id,

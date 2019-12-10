@@ -12,57 +12,65 @@ import useApi from '../../hooks/useApi';
 import UtilizationTable from './UtilizationTable';
 import missingInformation from '../../utils/missingInformation';
 import { Enrollment } from '../../OAS-generated/models/Enrollment';
-import Alert from '../../components/Alert/Alert';
 import Button from '../../components/Button/Button';
+import Alert, { AlertProps } from '../../components/Alert/Alert';
 
 export default function ReportDetail() {
-	let { id } = useParams();
-	const { user } = useContext(UserContext);
-	const reportParams = {
-		id: parseInt(id || '0'),
-		orgId: getIdForUser(user, 'org'),
-		include: ['organizations', 'enrollments', 'sites', 'funding_spaces'],
-	};
-	const [loading, error, report] = useApi(
-		api => api.apiOrganizationsOrgIdReportsIdGet(reportParams),
-		[user]
-	);
+  const [alert, setAlert] = useState<AlertProps | null>(null);
 
-	if (!report) {
-		return <div className="Report"></div>;
-	}
+  let { id } = useParams();
+  const { user } = useContext(UserContext);
+  const reportParams = {
+    id: parseInt(id || '0'),
+    orgId: getIdForUser(user, 'org'),
+    include: ['organizations', 'enrollments', 'sites', 'funding_spaces', 'child'],
+  };
+  const [loading, error, report, mutate] = useApi(
+    api => api.apiOrganizationsOrgIdReportsIdGet(reportParams),
+    [user]
+  );
 
-	const reportEnrollments = idx(report, _ => _.organization.sites[0].enrollments);
-	let numEnrollmentsMissingInfo = reportEnrollments
-		? reportEnrollments.filter(enrollment => missingInformation(enrollment as Enrollment)).length
-		: 0;
+  if (loading || error || !report) {
+    return <div className="Report"></div>;
+  }
 
-	return (
-		<div className="Report">
-			<section className="grid-container">
-				<DirectionalLink direction="left" to="/reports" text="Back to reports" />
-				{numEnrollmentsMissingInfo > 0 && (
-					<Alert
-						type="error"
-						heading="Update roster"
-						text={`There are ${numEnrollmentsMissingInfo} enrollments missing information required to submit this CDC report.`}
-						actionItem={<Button text="Update roster" href="/roster" />}
-					/>
-				)}
-				<h1>
-					{monthFormatter(idx(report, _ => _.reportingPeriod.period))} {report.type} Report{' '}
-					{!report.submittedAt && (
-						<Tag text="DRAFT" color="gold-20v" addClass="margin-left-1 text-middle" />
-					)}
-				</h1>
-				<p className="usa-intro">
-					{idx(report, _ => _.organization.name)} |{' '}
-					{dateFormatter(idx(report, _ => _.reportingPeriod.periodStart))} -{' '}
-					{dateFormatter(idx(report, _ => _.reportingPeriod.periodEnd))}
-				</p>
-				<UtilizationTable {...report} />
-				<ReportSubmitForm {...report} />
-			</section>
-		</div>
-	);
+  const reportEnrollments = idx(report, _ => _.organization.sites[0].enrollments);
+  let numEnrollmentsMissingInfo = reportEnrollments
+    ? reportEnrollments.filter(enrollment => missingInformation(enrollment as Enrollment)).length
+    : 0;
+
+  return (
+    <div className="Report">
+      <section className="grid-container">
+        <DirectionalLink direction="left" to="/reports" text="Back to reports" />
+        {alert && <Alert {...alert} />}
+        {numEnrollmentsMissingInfo > 0 && (
+          <Alert
+            type="error"
+            heading="Update roster"
+            text={`There are ${numEnrollmentsMissingInfo} enrollments missing information required to submit this CDC report.`}
+            actionItem={<Button text="Update roster" href="/roster" />}
+          />
+        )}
+        <h1>
+          {monthFormatter(idx(report, _ => _.reportingPeriod.period))} {report.type} Report{' '}
+          {!report.submittedAt && (
+            <Tag text="DRAFT" color="gold-20v" addClass="margin-left-1 text-middle" />
+          )}
+        </h1>
+        <p className="usa-intro">
+          {idx(report, _ => _.organization.name)} |{' '}
+          {dateFormatter(idx(report, _ => _.reportingPeriod.periodStart))} -{' '}
+          {dateFormatter(idx(report, _ => _.reportingPeriod.periodEnd))}
+        </p>
+        <UtilizationTable {...report} />
+        <ReportSubmitForm
+          report={report}
+          mutate={mutate}
+          setAlert={setAlert}
+          canSubmit={numEnrollmentsMissingInfo === 0}
+        />
+      </section>
+    </div>
+  );
 }

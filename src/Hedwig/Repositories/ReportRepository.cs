@@ -13,6 +13,15 @@ namespace Hedwig.Repositories
   {
     public ReportRepository(HedwigContext context) : base(context) { }
 
+    public void UpdateReport(Report report)
+    {
+      _context.Entry(report).State = EntityState.Modified;
+    }
+    public Task SaveChangesAsync()
+    {
+      return _context.SaveChangesAsync();
+    }
+
     public async Task<IEnumerable<Report>> GetReportsByUserIdAsync(int userId)
     {
       var permissions = _context.Permissions.Where(p => userId == p.UserId);
@@ -56,14 +65,15 @@ namespace Hedwig.Repositories
 
     public async Task<CdcReport> GetReportForOrganizationAsync(int id, int orgId, string[] include = null)
     {
-			include = include ?? new string[] { };
-			var include_orgs = include.Contains(INCLUDE_ORGANIZATIONS);
+      include = include ?? new string[] { };
+      var include_orgs = include.Contains(INCLUDE_ORGANIZATIONS);
       var include_sites = include.Contains(INCLUDE_SITES);
       var include_enrollments = include.Contains(INCLUDE_ENROLLMENTS);
+      var include_children = include.Contains(INCLUDE_CHILD);
       var include_funding_spaces = include.Contains(INCLUDE_FUNDING_SPACES);
 
       IQueryable<CdcReport> report = _context.Reports
-				.OfType<CdcReport>()
+        .OfType<CdcReport>()
         .AsNoTracking() // Disable tracking as these read-only queries should not be saved back to the DB
         .Where(report => report.Id == id && report.OrganizationId == orgId)
         .Include(report => report.ReportingPeriod);
@@ -73,8 +83,8 @@ namespace Hedwig.Repositories
         report = report.Include(report => report.Organization);
       }
 
-      // As enrollments will be included manually, we need to specify that LINQ should include Sites
-      if (include_sites || include_enrollments)
+      // As enrollments and children will be included manually, we need to specify that LINQ should include Sites
+      if (include_sites || include_enrollments || include_children)
       {
         report = report
           .Include(report => report.Organization)
@@ -90,7 +100,7 @@ namespace Hedwig.Repositories
 
       var reportResult = await report.FirstOrDefaultAsync();
 
-      if (include_enrollments)
+      if (include_enrollments || include_children)
       {
         var asOf = reportResult.SubmittedAt;
 
@@ -119,6 +129,20 @@ namespace Hedwig.Repositories
 
         enrollments = enrollments.Where(enrollment => enrollment.Fundings.Any(funding => funding.Source == reportResult.Type)).ToList();
 
+        if (include_children)
+        {
+          var childIds = enrollments.Select(enrollment => enrollment.ChildId);
+          var children = await (asOf.HasValue ? _context.Children.AsOf(asOf.Value) : _context.Children)
+            .AsNoTracking()
+            .Where(child => childIds.Contains(child.Id))
+            .ToDictionaryAsync(child => child.Id);
+
+          enrollments.ForEach(enrollment =>
+          {
+            enrollment.Child = children[enrollment.ChildId];
+          });
+        }
+
         sites.ForEach(site =>
         {
           site.Enrollments = enrollments.Where(enrollment => enrollment.SiteId == site.Id).ToList();
@@ -131,6 +155,8 @@ namespace Hedwig.Repositories
 
   public interface IReportRepository
   {
+    void UpdateReport(Report report);
+    Task SaveChangesAsync();
     Task<IEnumerable<Report>> GetReportsByUserIdAsync(int userId);
     Task<List<CdcReport>> GetReportsForOrganizationAsync(int orgId);
     Task<Report> GetReportByIdAsync(int id);

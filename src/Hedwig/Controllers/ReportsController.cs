@@ -46,5 +46,30 @@ namespace Hedwig.Controllers
       if (report == null) return NotFound();
       return report;
     }
+
+    [HttpPut("{id:int}")]
+    public async Task<ActionResult<CdcReport>> Put(
+      int id,
+      int orgId,
+      CdcReport report
+    )
+    {
+      if (report.Id != id) return BadRequest();
+      if (report.OrganizationId != orgId) return BadRequest();
+
+      try {
+        // TODO what are the update rules for this field?
+        // and should we put this somewhere besides the controller?
+        if(report.SubmittedAt == null) report.SubmittedAt = DateTime.UtcNow;
+        _reports.UpdateReport(report);
+        await _reports.SaveChangesAsync();
+      }
+      catch (DbUpdateConcurrencyException)
+      {
+        return NotFound();
+      }
+
+      return Ok(report);
+    }
   }
 }

@@ -13,6 +13,7 @@ export * from './Organization';
 export * from './OrganizationPermission';
 export * from './OrganizationReport';
 export * from './ProblemDetails';
+export * from './Region';
 export * from './Report';
 export * from './ReportingPeriod';
 export * from './Site';
