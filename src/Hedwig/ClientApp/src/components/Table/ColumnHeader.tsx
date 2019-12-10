@@ -35,7 +35,6 @@ export class ColumnHeader extends React.Component<ColumnHeaderProps> {
 
 	render() {
 		const { name, sortable, sorted, sortOrder, index } = this.props;
-
 		return (
 			<th
 				scope="col"
@@ -43,7 +42,7 @@ export class ColumnHeader extends React.Component<ColumnHeaderProps> {
 				role="columnheader"
 				aria-sort={sortOrder || 'none'}
 			>
-				{!sortable && <span className="oec-table__column-title usa-button--unstyled">{name}</span>}
+				{!sortable && <span className="oec-table__column-title">{name}</span>}
 				{sortable && (
 					<button
 						className="oec-table__column-title usa-button--unstyled width-full"
@@ -53,20 +52,18 @@ export class ColumnHeader extends React.Component<ColumnHeaderProps> {
 						} order`}
 					>
 						{name}
-						{sortable && (
-							<div className="oec-table__sort-controls">
-								<span
-									className={`oec-table__sort-controls__asc${
-										sorted && sortOrder === 'ascending' ? ' active' : ''
-									}`}
-								></span>
-								<span
-									className={`oec-table__sort-controls__desc${
-										sorted && sortOrder === 'descending' ? ' active' : ''
-									}`}
-								></span>
-							</div>
-						)}
+						<div className="oec-table__sort-controls">
+							<span
+								className={`oec-table__sort-controls__asc${
+									sorted && sortOrder === 'ascending' ? ' active' : ''
+								}`}
+							></span>
+							<span
+								className={`oec-table__sort-controls__desc${
+									sorted && sortOrder === 'descending' ? ' active' : ''
+								}`}
+							></span>
+						</div>
 					</button>
 				)}
 			</th>
