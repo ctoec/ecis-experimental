@@ -27,12 +27,20 @@ type EnrollmentDetailParams = {
 
 const sections = [ChildInfo, FamilyInfo, FamilyIncome, EnrollmentFunding];
 
+/**
+ * React component for displaying enrollment summary information.
+ * Hands off to section summary component.
+ * 
+ * @param props Props with location
+ */
 export default function EnrollmentDetail({
 	match: {
 		params: { enrollmentId },
 	},
 }: EnrollmentDetailParams) {
 	const { user } = useContext(UserContext);
+
+	// Get enrollment by id
 	const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest = {
 		id: enrollmentId ? enrollmentId : 0,
 		orgId: getIdForUser(user, 'org'),

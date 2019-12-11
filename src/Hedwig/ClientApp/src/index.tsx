@@ -16,6 +16,10 @@ const render = (Component: React.FC) => {
 				localStorageKey="hedwig-key"
 				// NOTE: "offline_access" is required in scope string to retrieve refresh tokens
 				scope="openid profile hedwig_backend offline_access"
+				extras={{
+					// NOTE: Required for refresh tokens
+					access_type: "offline"
+				}}
 			>
 				<UserProvider>
 					<Component />
