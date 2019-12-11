@@ -5,5 +5,5 @@ export default function currencyFormatter(number?: number | null) {
     return '';
   }
 
-  return '$' + number.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return '$' + number!.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
