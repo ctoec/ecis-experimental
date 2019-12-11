@@ -10,6 +10,7 @@ import { AppContext } from '../App/App';
 import currencyFormatter from '../../utils/currencyFormatter';
 import parseCurrencyFromString from '../../utils/parseCurrencyFromString';
 import getIdForUser from '../../utils/getIdForUser';
+import UtilizationTable from './UtilizationTable';
 
 export type ReportSubmitFormProps = {
   report: CdcReport,
@@ -72,25 +73,26 @@ export default function ReportSubmitForm({ report, mutate, setAlert, canSubmit }
 
   return (
     <React.Fragment>
-      <form className="usa-form" onSubmit={onSubmit}>
-        {report.submittedAt && (
-          <p>
-            <b>Submitted At:</b> {report.submittedAt.toLocaleDateString()}{' '}
-          </p>
-        )}
-        <div className="usa-checkbox">
-          <input
-            className="usa-checkbox__input"
-            id="accredited"
-            type="checkbox"
-            disabled={!!report.submittedAt}
-            defaultChecked={accredited}
-            onChange={e => setAccredited(e.target.checked)}
-          />
-          <label className="usa-checkbox__label" htmlFor="accredited">
-            Accredited
-					</label>
-        </div>
+    {report.submittedAt && (
+      <p>
+        <b>Submitted At:</b> {report.submittedAt.toLocaleDateString()}{' '}
+      </p>
+    )}
+    <div className="usa-checkbox margin-bottom-5">
+      <input
+        className="usa-checkbox__input"
+        id="accredited"
+        type="checkbox"
+        disabled={!!report.submittedAt}
+        defaultChecked={accredited}
+        onChange={e => setAccredited(e.target.checked)}
+      />
+      <label className="usa-checkbox__label" htmlFor="accredited">
+        Accredited
+			</label>
+    </div>
+    <UtilizationTable {...{...report, accredited}} />
+    <form className="usa-form" onSubmit={onSubmit}>
         <fieldset className="usa-fieldset">
           <legend>
             <h2 className="margin-bottom-0 margin-top-2">Other Revenue</h2>
@@ -104,7 +106,7 @@ export default function ReportSubmitForm({ report, mutate, setAlert, canSubmit }
             }
             defaultValue={currencyFormatter(c4KRevenue)}
             onChange={(e) => setC4KRevenue(parseCurrencyFromString(e.target.value))}
-            onBlur={event => (event.target.value = c4KRevenue ? currencyFormatter(c4KRevenue) : '')}
+            onBlur={event => (event.target.value = c4KRevenue !== null ? currencyFormatter(c4KRevenue) : '')}
             disabled={!!report.submittedAt}
           />
           <div className="margin-top-2">
@@ -122,7 +124,7 @@ export default function ReportSubmitForm({ report, mutate, setAlert, canSubmit }
             label={<span className="text-bold">Family Fees</span>}
             defaultValue={currencyFormatter(familyFeesRevenue)}
             onChange={(e) => setFamilyFeesRevenue(parseCurrencyFromString(e.target.value))}
-            onBlur={event => (event.target.value = familyFeesRevenue ? currencyFormatter(familyFeesRevenue) : '')}
+            onBlur={event => (event.target.value = familyFeesRevenue !== null ? currencyFormatter(familyFeesRevenue) : '')}
             disabled={!!report.submittedAt}
           />
         </fieldset>

@@ -9,7 +9,6 @@ import Tag from '../../components/Tag/Tag';
 import UserContext from '../../contexts/User/UserContext';
 import getIdForUser from '../../utils/getIdForUser';
 import useApi from '../../hooks/useApi';
-import UtilizationTable from './UtilizationTable';
 import missingInformation from '../../utils/missingInformation';
 import { Enrollment } from '../../generated/models/Enrollment';
 import Button from '../../components/Button/Button';
@@ -63,7 +62,6 @@ export default function ReportDetail() {
           {dateFormatter(idx(report, _ => _.reportingPeriod.periodStart))} -{' '}
           {dateFormatter(idx(report, _ => _.reportingPeriod.periodEnd))}
         </p>
-        <UtilizationTable {...report} />
         <ReportSubmitForm
           report={report}
           mutate={mutate}

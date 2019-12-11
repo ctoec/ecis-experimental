@@ -1,5 +1,5 @@
 export default function currencyFormatter(number?: number | null) {
-  if (!number) {
+  if (!number && number !== 0) {
     return '';
   }
 

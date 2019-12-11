@@ -123,7 +123,7 @@ const FamilyIncome: Section = {
           onChange={event => {
             updateIncome(parseCurrencyFromString(event.target.value));
           }}
-          onBlur={event => (event.target.value = income ? currencyFormatter(income) : '')}
+          onBlur={event => (event.target.value = !income && income !== 0 ? '' : currencyFormatter(income))}
         />
         <label className="usa-label" htmlFor="date">
           Date determined
