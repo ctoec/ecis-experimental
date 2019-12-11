@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using System.Net.Http;
 using System.IdentityModel.Tokens.Jwt;
+using Hedwig.Validations;
+using Hedwig.Validations.Rules;
+using Hedwig.Models;
 
 namespace Hedwig
 {
@@ -92,6 +95,13 @@ namespace Hedwig
 				{
 					options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 				});
+		}
+
+		public static void ConfigureValidation(this IServiceCollection services)
+		{
+			services.AddScoped<IValidationRule<FamilyDetermination>, DeterminedWithinSixMonths>();
+			services.AddScoped<IValidationRule<Family>, DeterminationIsValid>();
+			services.AddScoped<IValidator, Validator>();
 		}
 	}
 }

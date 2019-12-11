@@ -29,6 +29,7 @@ namespace Hedwig
       var wingedKeysUri = Configuration.GetValue<string>("WingedKeysUri");
       services.ConfigureAuthentication(wingedKeysUri);
       services.ConfigureAuthorization();
+      services.ConfigureValidation();
       services.AddSwaggerGen(c =>
       {
         c.SwaggerDoc("v1", new OpenApiInfo { Title = "Hedwig API", Version = "v1" });

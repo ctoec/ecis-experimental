@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using Hedwig.Validations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Hedwig.Models
 {
-	public class Family : TemporalEntity
+	public class Family : TemporalEntity, IValidateable
 	{
 		public int Id { get; set; }
 		public ICollection<Child> Children { get; set; }
@@ -18,5 +20,8 @@ namespace Hedwig.Models
 		// (multiple cascade delete FKs disallowed by SQLServer due to potential for cycles)
 		public int? OrganizationId { get; set; }
 		public Organization Organization { get; set; }
+
+		[NotMapped]
+		public List<ValidationError> ValidationErrors { get; set; }
 	}
 }
