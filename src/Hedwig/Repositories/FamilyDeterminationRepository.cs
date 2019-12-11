@@ -12,11 +12,11 @@ namespace Hedwig.Repositories
 	{
 		public FamilyDeterminationRepository(HedwigContext context) : base(context) {}
 
-		public Task<List<FamilyDetermination>> GetDeterminationsByFamilyIdAsync(int familyId)
+		public List<FamilyDetermination> GetDeterminationsByFamilyId(int familyId)
 		{
 			return _context.FamilyDeterminations
 				.Where(fd => fd.FamilyId == familyId)
-				.ToListAsync();
+				.ToList();
 		}
 		public async Task<ILookup<int, FamilyDetermination>> GetDeterminationsByFamilyIdsAsync(IEnumerable<int> familyIds, DateTime? asOf = null)
 		{
@@ -75,7 +75,7 @@ namespace Hedwig.Repositories
 
 	public interface IFamilyDeterminationRepository
 	{
-		Task<List<FamilyDetermination>> GetDeterminationsByFamilyIdAsync(int familyId);
+		List<FamilyDetermination> GetDeterminationsByFamilyId(int familyId);
 		Task<ILookup<int, FamilyDetermination>> GetDeterminationsByFamilyIdsAsync(IEnumerable<int> familyIds, DateTime? asOf = null);
 		Task<FamilyDetermination> GetDeterminationByIdAsync(int id, DateTime? asOf = null);
 		FamilyDetermination CreateFamilyDetermination(
