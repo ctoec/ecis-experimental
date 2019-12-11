@@ -20,8 +20,7 @@ namespace Hedwig.Validations.Rules
     {
       if(family.Determinations == null)
       {
-        // TODO: make Execute return Task<ValidationError> everywhere to allow for this
-        //await _determinations.GetDeterminationsByFamilyIdAsync(family.Id);
+        _determinations.GetDeterminationsByFamilyId(family.Id);
       }
 
       if(family.Determinations.Count == 0) return null;
