@@ -1,5 +1,7 @@
+import notNullOrUndefined from './notNullOrUndefined';
+
 export default function currencyFormatter(number?: number | null) {
-  if (!number && number !== 0) {
+  if (!notNullOrUndefined(number)) {
     return '';
   }
 
