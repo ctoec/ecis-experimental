@@ -47,7 +47,7 @@ export interface Family {
      * @type {number}
      * @memberof Family
      */
-    id?: number;
+    id: number;
     /**
      * 
      * @type {Array<Child>}
@@ -101,7 +101,7 @@ export interface Family {
      * @type {number}
      * @memberof Family
      */
-    organizationId?: number | null;
+    organizationId?: number;
     /**
      * 
      * @type {Organization}
@@ -138,7 +138,7 @@ export function FamilyFromJSONTyped(json: any, ignoreDiscriminator: boolean): Fa
     }
     return {
         
-        'id': !exists(json, 'id') ? undefined : json['id'],
+        'id': json['id'],
         'children': !exists(json, 'children') ? undefined : (json['children'] === null ? null : (json['children'] as Array<any>).map(ChildFromJSON)),
         'addressLine1': !exists(json, 'addressLine1') ? undefined : json['addressLine1'],
         'addressLine2': !exists(json, 'addressLine2') ? undefined : json['addressLine2'],
