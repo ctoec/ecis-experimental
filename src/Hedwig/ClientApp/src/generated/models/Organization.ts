@@ -45,7 +45,7 @@ export interface Organization {
      * @type {string}
      * @memberof Organization
      */
-    name: string | null;
+    name: string;
     /**
      * 
      * @type {Array<Site>}

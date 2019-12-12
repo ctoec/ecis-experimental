@@ -45,7 +45,7 @@ export interface Site {
      * @type {string}
      * @memberof Site
      */
-    name: string | null;
+    name: string;
     /**
      * 
      * @type {boolean}

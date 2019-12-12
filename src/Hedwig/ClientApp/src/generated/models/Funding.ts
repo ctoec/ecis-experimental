@@ -67,7 +67,7 @@ export interface Funding {
      * @type {Date}
      * @memberof Funding
      */
-    exit?: Date | null;
+    exit?: Date;
     /**
      * 
      * @type {FundingSource}
@@ -108,7 +108,7 @@ export function FundingFromJSONTyped(json: any, ignoreDiscriminator: boolean): F
         'enrollmentId': !exists(json, 'enrollmentId') ? undefined : json['enrollmentId'],
         'enrollment': !exists(json, 'enrollment') ? undefined : EnrollmentFromJSON(json['enrollment']),
         'entry': !exists(json, 'entry') ? undefined : (new Date(json['entry'])),
-        'exit': !exists(json, 'exit') ? undefined : (json['exit'] === null ? null : new Date(json['exit'])),
+        'exit': !exists(json, 'exit') ? undefined : (new Date(json['exit'])),
         'source': !exists(json, 'source') ? undefined : FundingSourceFromJSON(json['source']),
         'time': !exists(json, 'time') ? undefined : FundingTimeFromJSON(json['time']),
         'authorId': !exists(json, 'authorId') ? undefined : json['authorId'],
@@ -129,7 +129,7 @@ export function FundingToJSON(value?: Funding | null): any {
         'enrollmentId': value.enrollmentId,
         'enrollment': EnrollmentToJSON(value.enrollment),
         'entry': value.entry === undefined ? undefined : (value.entry.toISOString()),
-        'exit': value.exit === undefined ? undefined : (value.exit === null ? null : value.exit.toISOString()),
+        'exit': value.exit === undefined ? undefined : (value.exit.toISOString()),
         'source': FundingSourceToJSON(value.source),
         'time': FundingTimeToJSON(value.time),
         'authorId': value.authorId,
