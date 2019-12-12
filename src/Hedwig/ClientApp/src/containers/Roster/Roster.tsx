@@ -1,16 +1,8 @@
 import React, { useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
-import nameFormatter from '../../utils/nameFormatter';
-import pluralize from 'pluralize';
-import idx from 'idx';
-import dateFormatter from '../../utils/dateFormatter';
 import enrollmentTextFormatter from '../../utils/enrollmentTextFormatter';
 import getDefaultDateRange from '../../utils/getDefaultDateRange';
-import getColorForFundingSource, { fundingSourceDetails } from '../../utils/getColorForFundingType';
 import getFundingSpaceCapacity, { getFundingMapFromOrg } from '../../utils/getFundingSpaceCapacity';
 import getIdForUser from '../../utils/getIdForUser';
-import missingInformation from '../../utils/missingInformation';
-import { Table, TableProps } from '../../components/Table/Table';
 import Tag from '../../components/Tag/Tag';
 import { DateRange } from '../../components/DatePicker/DatePicker';
 import Button from '../../components/Button/Button';
@@ -18,10 +10,11 @@ import RadioGroup from '../../components/RadioGroup/RadioGroup';
 import Legend, { LegendItem } from '../../components/Legend/Legend';
 import useApi from '../../hooks/useApi';
 import DateSelectionForm from './DateSelectionForm';
-import { Age, FundingSource, Enrollment, FundingSpace } from '../../generated';
+import { Age, FundingSource, FundingSpace } from '../../generated';
 import InlineIcon from '../../components/InlineIcon/InlineIcon';
 import UserContext from '../../contexts/User/UserContext';
-import AgeGroupSection from './AgeGroupSection';
+import AgeGroupSection, { SpecificTableProps } from './AgeGroupSection';
+import { fundingSourceDetails } from '../../utils/getColorForFundingType';
 
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
@@ -59,90 +52,23 @@ export default function Roster() {
 		return <div className="Roster"></div>;
 	}
 
-	const defaultRosterTableProps: TableProps<Enrollment> = {
-		id: 'roster-table',
-		data: [],
-		rowKey: row => row.id,
-		columns: [
-			{
-				name: 'Name',
-				cell: ({ row }) => (
-					<th scope="row">
-						<Link to={`/roster/enrollments/${row.id}/`} className="usa-link">
-							{nameFormatter(row.child)}
-							{missingInformation(row) ? InlineIcon({ icon: 'incomplete' }) : ''}
-						</Link>
-					</th>
-				),
-				sort: row => (row.child && row.child.lastName ? row.child.lastName : ''),
-			},
-			{
-				name: 'Birthdate',
-				cell: ({ row }) =>
-					(row.child && (
-						<td className="oec-table__cell--tabular-nums">
-							{row.child.birthdate && dateFormatter(row.child.birthdate)}
-						</td>
-					)) || <></>,
-				sort: row => ((row.child && row.child.birthdate) || new Date(0)).getTime(),
-			},
-			{
-				name: 'Funding',
-				cell: ({ row }) => (
-					<td>
-						{row.fundings && row.fundings.length
-							? row.fundings.map(funding => (
-									<Tag
-										key={`${funding.source}-${funding.time}`}
-										text={
-											funding.source
-												? fundingSourceDetails[funding.source].textFormatter(funding)
-												: ''
-										}
-										color={funding.source ? getColorForFundingSource(funding.source) : 'gray-90'}
-									/>
-							  ))
-							: ''}
-					</td>
-				),
-				sort: row => idx(row, _ => _.fundings[0].source) || '',
-			},
-			{
-				name: 'Enrollment date',
-				cell: ({ row }) => (
-					<td className="oec-table__cell--tabular-nums">
-						{row.entry
-							? dateFormatter(row.entry) + (row.exit ? `–${dateFormatter(row.exit)}` : '')
-							: ''}
-					</td>
-				),
-				sort: row => (row.entry && row.entry.toString()) || '',
-			},
-		],
-		defaultSortColumn: 0,
-		defaultSortOrder: 'ascending',
-	};
-
 	const incompleteEnrollments = enrollments.filter(e => !e.age || !e.entry);
-	const incompleteRosterTableProps: TableProps<Enrollment> = {
-		...defaultRosterTableProps,
+	const incompleteTableProps: SpecificTableProps = {
 		id: 'incomplete-roster-table',
 		data: incompleteEnrollments.filter(e => !e.age),
 	};
 
 	const completeEnrollments = enrollments.filter(e => !incompleteEnrollments.includes(e));
+	
 	const nestedFunding = getFundingMapFromOrg(site.organization, 'ageGroup', 'time');
-
 	const detailsByAgeGroup = {} as {
 		[ageGrouop: string]: {
-			tableProps: TableProps<Enrollment>;
+			tableProps: SpecificTableProps;
 			fundingCapacities: { [time: string]: FundingSpace[] };
 		};
 	};
-
 	Object.values(Age).forEach(ageGroup => {
 		const tableProps = {
-			...defaultRosterTableProps,
 			id: `${ageGroup}-roster-table`,
 			data: completeEnrollments.filter(e => e.age === ageGroup),
 		};
@@ -240,7 +166,10 @@ export default function Roster() {
 				<AgeGroupSection ageGroupTitle={`Infant/toddler`} {...detailsByAgeGroup[Age.Infant]} />
 				<AgeGroupSection ageGroupTitle={`Preschool`} {...detailsByAgeGroup[Age.Preschool]} />
 				<AgeGroupSection ageGroupTitle={`Preschool`} {...detailsByAgeGroup[Age.School]} />
-				<AgeGroupSection ageGroupTitle={`Incomplete enrollments`} tableProps={incompleteRosterTableProps} />
+				<AgeGroupSection
+					ageGroupTitle={`Incomplete enrollments`}
+					tableProps={incompleteTableProps}
+				/>
 			</section>
 		</div>
 	);
