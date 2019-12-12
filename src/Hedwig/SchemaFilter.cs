@@ -1,38 +1,42 @@
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Microsoft.OpenApi.Models;
 using System.Linq;
-public sealed class SchemaFilter : ISchemaFilter
-{
-  public void Apply(OpenApiSchema model, SchemaFilterContext context)
-  {
-    var type = context.ApiModel.Type;
 
-    if(model.Properties == null || model.Properties.Count == 0)
+namespace Hedwig
+{
+  public sealed class SchemaFilter : ISchemaFilter
+  {
+    public void Apply(OpenApiSchema model, SchemaFilterContext context)
     {
-      return;
+      var type = context.ApiModel.Type;
+
+      if(model.Properties == null || model.Properties.Count == 0)
+      {
+        return;
+      }
+
+      MakeStringTypePropertiesNonNullable(model);  
     }
 
-    MakeStringTypePropertiesNonNullable(model);  
-  }
-
-  /// <summary>
-  /// All string-type properties on API models should be non-nullable.
-  /// NOTE - applies to multiple openAPI format types, which are represented as strings,
-  /// including:
-  ///   - string
-  ///   - uuid
-  ///   - date-time
-  ///   - 
-  /// </summary>
-  /// <param name="model"></param>  
-  private void MakeStringTypePropertiesNonNullable(OpenApiSchema model)
-  {
-    var types = new string[]{"string"};
-    foreach (var property in model.Properties)
+    /// <summary>
+    /// All string-type properties on API models should be non-nullable.
+    /// NOTE - applies to multiple openAPI format types, which are represented as strings,
+    /// including:
+    ///   - string
+    ///   - uuid
+    ///   - date-time
+    ///   - 
+    /// </summary>
+    /// <param name="model"></param>  
+    private void MakeStringTypePropertiesNonNullable(OpenApiSchema model)
     {
-      if (types.Contains(property.Value.Type))
+      var types = new string[]{"string"};
+      foreach (var property in model.Properties)
       {
-        property.Value.Nullable = false;
+        if (types.Contains(property.Value.Type))
+        {
+          property.Value.Nullable = false;
+        }
       }
     }
   }
