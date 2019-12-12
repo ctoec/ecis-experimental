@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Hedwig.Validations
 {
   public sealed class ValidationError
@@ -8,7 +10,9 @@ namespace Hedwig.Validations
       Field = field;
       Message = message;
     }
+    [Required]
     public readonly string Field;
+    [Required]
     public readonly string Message;
   }
 }
