@@ -1,6 +1,6 @@
 {
-	"short_name": "Enrollment",
-	"name": "OEC Enrollment & Funding",
+	"short_name": "Reporter",
+	"name": "ECE Reporter",
 	"icons": [
 		{
 			"src": "favicon.ico",

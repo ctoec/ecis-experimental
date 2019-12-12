@@ -57,7 +57,7 @@ const App: React.FC = () => {
           Skip to main content
         </a>
         <Header
-          title="Enrollment &amp; Funding"
+          title="ECE Reporter"
           navItems={navItems}
           loginPath="/login"
           logoutPath="/logout"
