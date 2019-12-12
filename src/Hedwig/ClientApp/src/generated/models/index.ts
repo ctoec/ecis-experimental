@@ -18,3 +18,4 @@ export * from './ReportingPeriod';
 export * from './Site';
 export * from './SitePermission';
 export * from './User';
+export * from './ValidationError';

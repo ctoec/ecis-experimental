@@ -30,6 +30,10 @@ import {
     UserFromJSON,
     UserFromJSONTyped,
     UserToJSON,
+    ValidationError,
+    ValidationErrorFromJSON,
+    ValidationErrorFromJSONTyped,
+    ValidationErrorToJSON,
 } from './';
 
 /**
@@ -106,6 +110,12 @@ export interface Family {
     organization?: Organization;
     /**
      * 
+     * @type {Array<ValidationError>}
+     * @memberof Family
+     */
+    validationErrors?: Array<ValidationError> | null;
+    /**
+     * 
      * @type {number}
      * @memberof Family
      */
@@ -139,6 +149,7 @@ export function FamilyFromJSONTyped(json: any, ignoreDiscriminator: boolean): Fa
         'determinations': !exists(json, 'determinations') ? undefined : (json['determinations'] === null ? null : (json['determinations'] as Array<any>).map(FamilyDeterminationFromJSON)),
         'organizationId': !exists(json, 'organizationId') ? undefined : json['organizationId'],
         'organization': !exists(json, 'organization') ? undefined : OrganizationFromJSON(json['organization']),
+        'validationErrors': !exists(json, 'validationErrors') ? undefined : (json['validationErrors'] === null ? null : (json['validationErrors'] as Array<any>).map(ValidationErrorFromJSON)),
         'authorId': !exists(json, 'authorId') ? undefined : json['authorId'],
         'author': !exists(json, 'author') ? undefined : UserFromJSON(json['author']),
     };
@@ -164,6 +175,7 @@ export function FamilyToJSON(value?: Family | null): any {
         'determinations': value.determinations === undefined ? undefined : (value.determinations === null ? null : (value.determinations as Array<any>).map(FamilyDeterminationToJSON)),
         'organizationId': value.organizationId,
         'organization': OrganizationToJSON(value.organization),
+        'validationErrors': value.validationErrors === undefined ? undefined : (value.validationErrors === null ? null : (value.validationErrors as Array<any>).map(ValidationErrorToJSON)),
         'authorId': value.authorId,
         'author': UserToJSON(value.author),
     };

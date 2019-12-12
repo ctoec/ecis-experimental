@@ -1,10 +1,13 @@
 using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System.ComponentModel.DataAnnotations.Schema;
+using Hedwig.Validations;
+using System.Collections.Generic;
 
 namespace Hedwig.Models
 {
-  public class Funding : TemporalEntity
+  public class Funding : TemporalEntity, IValidateable
   {
     public int Id { get; set; }
 
@@ -19,5 +22,8 @@ namespace Hedwig.Models
 
     [JsonConverter(typeof(StringEnumConverter))]
     public FundingTime Time { get; set; }
+
+    [NotMapped]
+    public List<ValidationError> ValidationErrors { get; set; }
   }
 }
