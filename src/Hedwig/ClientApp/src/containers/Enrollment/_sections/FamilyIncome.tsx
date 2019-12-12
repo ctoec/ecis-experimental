@@ -91,7 +91,11 @@ const FamilyIncome: Section = {
                   determinations: determination ? [{
                     ...determination,
                     ...args
-                  }] : [{ ...args }]
+                  }] : [{ 
+                    id: 0,
+                    familyId: child.family.id,
+                    ...args 
+                  }]
                 }
               }
             }

@@ -18,6 +18,7 @@ import {
 import idx from 'idx';
 import UserContext from '../../../contexts/User/UserContext';
 import getIdForUser from '../../../utils/getIdForUser';
+import emptyGuid from '../../../utils/emptyGuid';
 
 const genderFromString = (str: string) => {
   switch (str) {
@@ -193,6 +194,7 @@ const ChildInfo: Section = {
           enrollment: {
             ...enrollment,
             child: {
+              id: enrollment.childId,
               ...enrollment.child,
               ...args
             }
@@ -209,7 +211,11 @@ const ChildInfo: Section = {
           enrollment: {
             id: 0,
             siteId: 0,
-            child: { ...args }
+            childId: emptyGuid(), 
+            child: {
+              id: emptyGuid(),
+              ...args
+            }
           }
         }
         mutate((api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsPost(postParams))

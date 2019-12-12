@@ -17,8 +17,7 @@ namespace Hedwig.Repositories
 		public Task<List<Child>> GetChildrenForOrganizationAsync(int organizationId, string[] include = null)
 		{
 			var children = _context.Children
-				.Where(c => c.OrganizationId.HasValue
-					&& c.OrganizationId.Value == organizationId);
+				.Where(c => c.OrganizationId == organizationId);
 
 
 			include = include ?? new string[]{};
@@ -38,11 +37,8 @@ namespace Hedwig.Repositories
 		public Task<Child> GetChildForOrganizationAsync(Guid id, int organizationId, string[] include = null)
 		{
 			var child = _context.Children
-				.Where(c => c.Id == id
-					&& (
-						c.OrganizationId.HasValue
-						&& c.OrganizationId.Value == organizationId
-					)
+				.Where(c => c.Id == id 
+					&& c.OrganizationId == organizationId
 				);
 			include = include ?? new string[]{};
 			if (include.Contains(INCLUDE_FAMILY))
@@ -88,7 +84,7 @@ namespace Hedwig.Repositories
 		public async Task<ILookup<int, Child>> GetChildrenByFamilyIdsAsync(IEnumerable<int> familyIds, DateTime? asOf = null)
 		{
 			var children = await GetBaseQuery<Child>(asOf)
-				.Where(c => c.FamilyId != null && familyIds.Contains((int) c.FamilyId))
+				.Where(c => familyIds.Contains((int) c.FamilyId))
 				.ToListAsync();
 
 			return children.ToLookup(c => (int) c.FamilyId);

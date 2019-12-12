@@ -64,7 +64,7 @@ namespace HedwigTests.Repositories
 			using (var context = new TestContextProvider().Context)
 			{	
 				var childRepo = new ChildRepository(context);
-				var res = await childRepo.GetChildForOrganizationAsync(child.Id, child.OrganizationId.Value, include);
+				var res = await childRepo.GetChildForOrganizationAsync(child.Id, child.OrganizationId, include);
 
 				Assert.Equal(child.Id, res.Id);
 				Assert.Equal(includeFamily, res.Family != null);

@@ -47,6 +47,9 @@ namespace Hedwig.Data
       modelBuilder.Entity<ReportingPeriod>().ToTable("ReportingPeriod");
       modelBuilder.Entity<Site>().ToTable("Site");
       modelBuilder.Entity<User>().ToTable("User");
+
+      // Set all fks onDelete to restrict to enable complex fk relationships
+      modelBuilder.SetAllFKsOnDelete(DeleteBehavior.Restrict);
     }
 
     /// <summary>
@@ -120,11 +123,23 @@ namespace Hedwig.Data
       }
 
       var subClaim = _httpContextAccessor.HttpContext.User.FindFirst("sub")?.Value;
-      if (subClaim == null) { return null; }
+      if (subClaim == null) 
+      { 
+        return null; 
+      }
+
       Guid wingedKeysId;
       var isGuid = Guid.TryParse(subClaim, out wingedKeysId);
-      if (!isGuid) { return null; }
-      return Users.Where(user => user.WingedKeysId == wingedKeysId).Select(user => user.Id).Cast<int?>().FirstOrDefault();
+      if (!isGuid) 
+      { 
+        return null; 
+      }
+
+      return Users
+        .Where(user => user.WingedKeysId == wingedKeysId)
+        .Select(user => user.Id)
+        .Cast<int?>()
+        .FirstOrDefault();
     }
   }
 }

@@ -71,11 +71,13 @@ namespace HedwigTests.Controllers
         }
 
         [Theory]
-        [InlineData(true, false, true, typeof(NoContentResult))]
-        [InlineData(false, false, false, typeof(BadRequestResult))]
-        [InlineData(true, true, true, typeof(NotFoundResult))]
+        [InlineData(true, true, false, true, typeof(NoContentResult))]
+        [InlineData(false, true, false, false, typeof(BadRequestResult))]
+        [InlineData(true, false, false, false, typeof(BadRequestResult))]
+        [InlineData(true, true, true, true, typeof(NotFoundResult))]
         public async Task Put_UpdatesChild_IfValid_AndExists(
             bool idsMatch,
+            bool orgIdsMatch,
             bool shouldNotFind,
             bool shouldUpdateChild,
             Type resultType
@@ -93,6 +95,7 @@ namespace HedwigTests.Controllers
 
             var pathId = Guid.NewGuid();
             var child = new Child();
+            if(orgIdsMatch) child.OrganizationId = organizationId;
             if(idsMatch) child.Id = pathId;
 
             var result = await controller.Put(pathId, organizationId, child);

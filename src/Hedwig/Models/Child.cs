@@ -10,10 +10,7 @@ namespace Hedwig.Models
 {
 	public class Child : TemporalEntity, IValidateable
 	{
-		// Optional FK to prevent cascade delete
-		// (multiple case delete FKs disallowed by SQLServer due to potenital for cycles)
-		public int? OrganizationId { get; set; }
-		public Organization Organization { get; set; }
+		[Required]
 		public Guid Id { get; set; }
 
 		public string Sasid { get; set; }
@@ -31,15 +28,10 @@ namespace Hedwig.Models
 
 		[StringLength(10)]
 		public string Suffix { get; set; }
-
 		public DateTime? Birthdate { get; set; }
-
 		public string BirthTown { get; set; }
-
 		public string BirthState { get; set; }
-
 		public string BirthCertificateId { get; set; }
-
 		public bool AmericanIndianOrAlaskaNative { get; set; } = false;
 		public bool Asian { get; set; } = false;
 		public bool BlackOrAfricanAmerican { get; set; } = false;
@@ -49,13 +41,12 @@ namespace Hedwig.Models
 
 		[JsonConverter(typeof(StringEnumConverter))]
 		public Gender Gender { get; set; } = Gender.Unspecified;
-
 		public bool Foster { get; set; } = false;
-
 		public int? FamilyId { get; set; }
 		public Family Family { get; set; }
-
 		public ICollection<Enrollment> Enrollments { get; set; }
+		public int OrganizationId { get; set; }
+		public Organization Organization { get; set; }
 
 		[NotMapped]	
 		public List<ValidationError> ValidationErrors { get; set; }

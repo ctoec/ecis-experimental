@@ -39,7 +39,7 @@ export interface FamilyDetermination {
      * @type {number}
      * @memberof FamilyDetermination
      */
-    id?: number;
+    id: number;
     /**
      * 
      * @type {number}
@@ -63,7 +63,7 @@ export interface FamilyDetermination {
      * @type {number}
      * @memberof FamilyDetermination
      */
-    familyId?: number;
+    familyId: number;
     /**
      * 
      * @type {Family}
@@ -100,11 +100,11 @@ export function FamilyDeterminationFromJSONTyped(json: any, ignoreDiscriminator:
     }
     return {
         
-        'id': !exists(json, 'id') ? undefined : json['id'],
+        'id': json['id'],
         'numberOfPeople': !exists(json, 'numberOfPeople') ? undefined : json['numberOfPeople'],
         'income': !exists(json, 'income') ? undefined : json['income'],
         'determined': !exists(json, 'determined') ? undefined : (new Date(json['determined'])),
-        'familyId': !exists(json, 'familyId') ? undefined : json['familyId'],
+        'familyId': json['familyId'],
         'family': !exists(json, 'family') ? undefined : FamilyFromJSON(json['family']),
         'validationErrors': !exists(json, 'validationErrors') ? undefined : (json['validationErrors'] === null ? null : (json['validationErrors'] as Array<any>).map(ValidationErrorFromJSON)),
         'authorId': !exists(json, 'authorId') ? undefined : json['authorId'],
