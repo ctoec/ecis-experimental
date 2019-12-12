@@ -10,10 +10,10 @@ import UserContext from '../../contexts/User/UserContext';
 import getIdForUser from '../../utils/getIdForUser';
 import useApi from '../../hooks/useApi';
 import UtilizationTable from './UtilizationTable';
-import missingInformation from '../../utils/missingInformation';
 import { Enrollment } from '../../generated/models/Enrollment';
 import Button from '../../components/Button/Button';
 import Alert, { AlertProps } from '../../components/Alert/Alert';
+import hasValidationErrors from '../../utils/hasValidationErrors';
 
 export default function ReportDetail() {
   const [alert, setAlert] = useState<AlertProps | null>(null);
@@ -35,23 +35,27 @@ export default function ReportDetail() {
   }
 
   const reportEnrollments = idx(report, _ => _.organization.sites[0].enrollments);
-  let numEnrollmentsMissingInfo = reportEnrollments
-    ? reportEnrollments.filter(enrollment => missingInformation(enrollment as Enrollment)).length
+  let numInvalidEnrollments = reportEnrollments
+    ? reportEnrollments.filter(enrollment => hasValidationErrors(enrollment as Enrollment)).length
     : 0;
+
+  const invalidEnrollments = numInvalidEnrollments > 0;
+  const invalidReport = hasValidationErrors(report); 
+  const canSubmit = !invalidEnrollments && !invalidReport;
+
+  const invalidEnrollmentsAlert = <Alert
+    type="error"
+    heading="Update roster"
+    text={`There are ${numInvalidEnrollments} enrollments that are missing information or include invalid information that are required to submit this CDC report.`}
+    actionItem={<Button text="Update roster" href="/roster" />}
+  />
 
   return (
     <div className="Report">
       <section className="grid-container">
         <DirectionalLink direction="left" to="/reports" text="Back to reports" />
         {alert && <Alert {...alert} />}
-        {numEnrollmentsMissingInfo > 0 && (
-          <Alert
-            type="error"
-            heading="Update roster"
-            text={`There are ${numEnrollmentsMissingInfo} enrollments missing information required to submit this CDC report.`}
-            actionItem={<Button text="Update roster" href="/roster" />}
-          />
-        )}
+        {invalidEnrollments && invalidEnrollmentsAlert}
         <h1>
           {monthFormatter(idx(report, _ => _.reportingPeriod.period))} {report.type} Report{' '}
           {!report.submittedAt && (
@@ -68,7 +72,7 @@ export default function ReportDetail() {
           report={report}
           mutate={mutate}
           setAlert={setAlert}
-          canSubmit={numEnrollmentsMissingInfo === 0}
+          canSubmit={canSubmit}
         />
       </section>
     </div>

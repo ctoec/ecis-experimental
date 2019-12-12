@@ -14,7 +14,7 @@ import useApi from '../../../hooks/useApi';
 import DirectionalLink from '../../../components/DirectionalLink/DirectionalLink';
 import Alert from '../../../components/Alert/Alert';
 import getIdForUser from '../../../utils/getIdForUser';
-import missingInformation from '../../../utils/missingInformation';
+import hasValidationErrors from '../../../utils/hasValidationErrors';
 import InlineIcon from '../../../components/InlineIcon/InlineIcon';
 
 type EnrollmentDetailParams = {
@@ -52,19 +52,19 @@ export default function EnrollmentDetail({
 	}
 
 	const child = enrollment.child;
-	const informationIsMissing = missingInformation(enrollment);
+	const invalidEnrollment = hasValidationErrors(enrollment);
 
 	return (
 		<div className="EnrollmentDetail">
 			<section className="grid-container">
 				<DirectionalLink direction="left" to="/roster" text="Back to roster" />
-				{informationIsMissing && (
+				{invalidEnrollment && (
 					<Alert
 						type="warning"
-						heading="Missing information"
+						heading="Invalid enrollment"
 						text={`${nameFormatter(
 							child
-						)} has been successfully enrolled, however, they are missing information required to submit the monthly CDC report. You will be reminded to update this information before you can submit the report.`}
+						)} has been successfully enrolled, however, they are missing information or include invalid information that is required to submit the monthly CDC report. You will be reminded to update this information before you can submit the report.`}
 					/>
 				)}
 				<h1>{nameFormatter(child)}</h1>
@@ -79,9 +79,9 @@ export default function EnrollmentDetail({
 								Edit<span className="usa-sr-only"> {section.name.toLowerCase()}</span>
 							</Link>
 							{/* TODO: when we figure out the missing information logic, remove hard coding of section */}
-							{section === ChildInfo && informationIsMissing && (
+							{invalidEnrollment && enrollment.validationErrors && enrollment.validationErrors.find(error =>  section.fields && section.fields.includes(error.field ? error.field : '')) && (
 								<span>
-									<InlineIcon icon="incomplete" /> Missing information
+									<InlineIcon icon="incomplete" /> Missing or invalid information
 								</span>
 							)}
 						</div>

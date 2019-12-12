@@ -70,11 +70,6 @@ export default function EnrollmentNew({
 
 		const currentIndex = sections.findIndex(section => section.key === sectionId);
 
-		// If there are validation errors, do not move to the next section
-		if (enrollment.validationErrors && enrollment.validationErrors.length > 0) {
-			return;
-		}
-
 		// If we're on the last section, we'll move to a final 'review' section where all
 		// steps are collapsed and we can 'Finish' the enrollment.
 		if (currentIndex === sections.length - 1) {

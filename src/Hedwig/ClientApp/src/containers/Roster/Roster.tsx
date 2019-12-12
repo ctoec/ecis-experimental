@@ -7,7 +7,6 @@ import getDefaultDateRange from '../../utils/getDefaultDateRange';
 import getColorForFundingSource, { fundingSourceDetails } from '../../utils/getColorForFundingType';
 import getFundingSpaceCapacity from '../../utils/getFundingSpaceCapacity';
 import getIdForUser from '../../utils/getIdForUser';
-import missingInformation from '../../utils/missingInformation';
 import { Table, TableProps } from '../../components/Table/Table';
 import Tag from '../../components/Tag/Tag';
 import { DateRange } from '../../components/DatePicker/DatePicker';
@@ -22,6 +21,7 @@ import InlineIcon from '../../components/InlineIcon/InlineIcon';
 import pluralize from 'pluralize';
 import idx from 'idx';
 import UserContext from '../../contexts/User/UserContext';
+import hasValidationErrors from '../../utils/hasValidationErrors';
 
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
@@ -70,7 +70,7 @@ export default function Roster() {
 					<th scope="row">
 						<Link to={`/roster/enrollments/${row.id}/`} className="usa-link">
 							{nameFormatter(row.child)}
-							{missingInformation(row) ? InlineIcon({ icon: 'incomplete' }) : ''}
+							{hasValidationErrors(row) ? InlineIcon({ icon: 'incomplete' }) : ''}
 						</Link>
 					</th>
 				),

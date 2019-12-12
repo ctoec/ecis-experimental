@@ -15,4 +15,5 @@ export interface Section {
 	status: (props: SectionProps) => StepStatus;
 	Summary: React.FC<SectionProps>;
 	Form: React.FC<SectionProps>;
+	fields?: string[];
 }

@@ -93,6 +93,12 @@ const ChildInfo: Section = {
   key: 'child-information',
   name: 'Child information',
   status: () => 'complete',
+  fields: [
+    'firstName',
+    'middleName',
+    'lastName',
+    'sasid'
+  ],
 
   Summary: ({ enrollment }) => {
     var child = enrollment && enrollment.child;
@@ -213,8 +219,6 @@ const ChildInfo: Section = {
       }
     };
 
-    const disabledSave = (enrollment && enrollment.validationErrors && enrollment.validationErrors.length > 0) || false;
-
     return (
       <div className="ChildInfoForm usa-form">
         <div className="grid-row grid-gap">
@@ -225,7 +229,7 @@ const ChildInfo: Section = {
               defaultValue={sasid || ''}
               onChange={event => updateSasid(event.target.value)}
               optional={true}
-              error={processValidationError("sasid", child ? child.validationErrors : null)}
+              error={processValidationError("sasid", child ? child.validationErrors : undefined)}
             />
           </div>
           <div className="mobile-lg:grid-col-9">
@@ -384,7 +388,7 @@ const ChildInfo: Section = {
           onChange={event => updateGender(genderFromString(event.target.value))}
         />
 
-        <Button disabled={disabledSave} text="Save" onClick={save} />
+        <Button text="Save" onClick={save} />
       </div>
     );
   },
