@@ -18,6 +18,7 @@ import {
 import idx from 'idx';
 import UserContext from '../../../contexts/User/UserContext';
 import getIdForUser from '../../../utils/getIdForUser';
+import processValidationError from '../../../utils/processValidationError';
 
 const genderFromString = (str: string) => {
   switch (str) {
@@ -212,6 +213,8 @@ const ChildInfo: Section = {
       }
     };
 
+    const disabledSave = (enrollment && enrollment.validationErrors && enrollment.validationErrors.length > 0) || false;
+
     return (
       <div className="ChildInfoForm usa-form">
         <div className="grid-row grid-gap">
@@ -222,6 +225,7 @@ const ChildInfo: Section = {
               defaultValue={sasid || ''}
               onChange={event => updateSasid(event.target.value)}
               optional={true}
+              error={processValidationError("sasid", child ? child.validationErrors : null)}
             />
           </div>
           <div className="mobile-lg:grid-col-9">
@@ -380,7 +384,7 @@ const ChildInfo: Section = {
           onChange={event => updateGender(genderFromString(event.target.value))}
         />
 
-        <Button text="Save" onClick={save} />
+        <Button disabled={disabledSave} text="Save" onClick={save} />
       </div>
     );
   },
