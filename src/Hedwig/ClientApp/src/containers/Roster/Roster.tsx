@@ -1,11 +1,13 @@
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import nameFormatter from '../../utils/nameFormatter';
+import pluralize from 'pluralize';
+import idx from 'idx';
 import dateFormatter from '../../utils/dateFormatter';
 import enrollmentTextFormatter from '../../utils/enrollmentTextFormatter';
 import getDefaultDateRange from '../../utils/getDefaultDateRange';
 import getColorForFundingSource, { fundingSourceDetails } from '../../utils/getColorForFundingType';
-import getFundingSpaceCapacity from '../../utils/getFundingSpaceCapacity';
+import getFundingSpaceCapacity, { getFundingMapFromOrg } from '../../utils/getFundingSpaceCapacity';
 import getIdForUser from '../../utils/getIdForUser';
 import missingInformation from '../../utils/missingInformation';
 import { Table, TableProps } from '../../components/Table/Table';
@@ -15,13 +17,11 @@ import Button from '../../components/Button/Button';
 import RadioGroup from '../../components/RadioGroup/RadioGroup';
 import Legend, { LegendItem } from '../../components/Legend/Legend';
 import useApi from '../../hooks/useApi';
-import { Enrollment } from '../../generated/models/Enrollment';
 import DateSelectionForm from './DateSelectionForm';
-import { Age, FundingSource } from '../../generated';
+import { Age, FundingSource, Enrollment, FundingSpace } from '../../generated';
 import InlineIcon from '../../components/InlineIcon/InlineIcon';
-import pluralize from 'pluralize';
-import idx from 'idx';
 import UserContext from '../../contexts/User/UserContext';
+import AgeGroupSection from './AgeGroupSection';
 
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
@@ -124,28 +124,32 @@ export default function Roster() {
 	};
 
 	const incompleteEnrollments = enrollments.filter(e => !e.age || !e.entry);
-	const completeEnrollments = enrollments.filter(e => !incompleteEnrollments.includes(e));
-
-	const infantRosterTableProps: TableProps<Enrollment> = {
-		...defaultRosterTableProps,
-		id: 'infant-roster-table',
-		data: completeEnrollments.filter(e => e.age === Age.Infant),
-	};
-	const preschoolRosterTableProps: TableProps<Enrollment> = {
-		...defaultRosterTableProps,
-		id: 'preschool-roster-table',
-		data: completeEnrollments.filter(e => e.age === Age.Preschool),
-	};
-	const schoolRosterTableProps: TableProps<Enrollment> = {
-		...defaultRosterTableProps,
-		id: 'school-roster-table',
-		data: completeEnrollments.filter(e => e.age === Age.School),
-	};
 	const incompleteRosterTableProps: TableProps<Enrollment> = {
 		...defaultRosterTableProps,
 		id: 'incomplete-roster-table',
 		data: incompleteEnrollments.filter(e => !e.age),
 	};
+
+	const completeEnrollments = enrollments.filter(e => !incompleteEnrollments.includes(e));
+	const nestedFunding = getFundingMapFromOrg(site.organization, 'ageGroup', 'time');
+
+
+	const detailsByAgeGroup = {} as {
+		[ageGrouop: string]: {
+			tableProps: TableProps<Enrollment>;
+			fundingCapacities: { [time: string]: FundingSpace[] };
+		};
+	};
+
+	Object.values(Age).forEach(ageGroup => {
+		const tableProps = {
+			...defaultRosterTableProps,
+			id: `${ageGroup}-roster-table`,
+			data: completeEnrollments.filter(e => e.age === ageGroup),
+		};
+		const fundingCapacities = Object.fromEntries(nestedFunding.get(ageGroup) || new Map());
+		detailsByAgeGroup[ageGroup] = { tableProps, fundingCapacities };
+	});
 
 	const numKidsEnrolledText = enrollmentTextFormatter(
 		enrollments.length,
@@ -156,7 +160,7 @@ export default function Roster() {
 
 	const legendItems: LegendItem[] = Object.keys(fundingSourceDetails).map(source => {
 		const ratioLegendSources: string[] = [FundingSource.CDC];
-		const capacityForFunding = getFundingSpaceCapacity(site.organization, source);
+		const capacityForFunding = getFundingSpaceCapacity(site.organization, { source });
 		const enrolledForFunding = enrollments.filter(
 			e => e.fundings && e.fundings.filter(f => f.source === source).length > 0
 		).length;
@@ -234,24 +238,9 @@ export default function Roster() {
 					</div>
 				)}
 				<Legend items={legendItems} />
-				{!!infantRosterTableProps.data.length && (
-					<>
-						<h2>Infant/toddler ({pluralize('child', infantRosterTableProps.data.length, true)})</h2>
-						<Table {...infantRosterTableProps} fullWidth />
-					</>
-				)}
-				{!!preschoolRosterTableProps.data.length && (
-					<>
-						<h2>Preschool ({pluralize('child', preschoolRosterTableProps.data.length, true)})</h2>
-						<Table {...preschoolRosterTableProps} fullWidth />
-					</>
-				)}
-				{!!schoolRosterTableProps.data.length && (
-					<>
-						<h2>School age ({pluralize('child', schoolRosterTableProps.data.length, true)})</h2>
-						<Table {...schoolRosterTableProps} fullWidth />
-					</>
-				)}
+				<AgeGroupSection ageGroupTitle={`Infant/toddler`} {...detailsByAgeGroup[Age.Infant]} />
+				<AgeGroupSection ageGroupTitle={`Preschool`} {...detailsByAgeGroup[Age.Preschool]} />
+				<AgeGroupSection ageGroupTitle={`Preschool`} {...detailsByAgeGroup[Age.School]} />
 				{!!incompleteRosterTableProps.data.length && (
 					<>
 						<h2>
