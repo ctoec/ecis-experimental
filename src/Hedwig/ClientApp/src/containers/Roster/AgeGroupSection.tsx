@@ -21,7 +21,7 @@ export default function AgeGroupSection({
 			{fundingCapacities && (
 				<ul>
 					{Object.keys(fundingCapacities).map(capacityTime => (
-						<li>
+						<li key={`${capacityTime}-${ageGroupTitle}`}>
 							<span className="text-bold">
 								{`${tableProps.data.length}/${
 									fundingCapacities[capacityTime][0].capacity
