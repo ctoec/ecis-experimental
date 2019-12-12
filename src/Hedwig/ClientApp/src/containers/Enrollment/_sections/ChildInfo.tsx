@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Section } from '../enrollmentTypes';
 import Button from '../../../components/Button/Button';
 import TextInput from '../../../components/TextInput/TextInput';
@@ -127,20 +127,21 @@ const ChildInfo: Section = {
       id: idx(enrollment, _ => _.id) || 0
     }
 
-    const child = enrollment && enrollment.child;
-    const [sasid, updateSasid] = useState(child ? child.sasid : null);
+    const child = enrollment && enrollment.child ? enrollment.child : undefined;
 
-    const [firstName, updateFirstName] = useState(child ? child.firstName : null);
-    const [middleName, updateMiddleName] = useState(child ? child.middleName : null);
-    const [lastName, updateLastName] = useState(child ? child.lastName : null);
-    const [suffix, updateSuffix] = useState(child ? child.suffix : null);
+    const [sasid, updateSasid] = useState(child ? child.sasid : undefined);
 
-    const [birthdate, updateBirthdate] = useState(child ? child.birthdate : null);
+    const [firstName, updateFirstName] = useState(child ? child.firstName : undefined);
+    const [middleName, updateMiddleName] = useState(child ? child.middleName : undefined);
+    const [lastName, updateLastName] = useState(child ? child.lastName : undefined);
+    const [suffix, updateSuffix] = useState(child ? child.suffix : undefined);
+
+    const [birthdate, updateBirthdate] = useState(child ? child.birthdate : undefined);
     const [birthCertificateId, updateBirthCertificateId] = useState(
-      child ? child.birthCertificateId : null
+      child ? child.birthCertificateId : undefined
     );
-    const [birthTown, updateBirthTown] = useState(child ? child.birthTown : null);
-    const [birthState, updateBirthState] = useState(child ? child.birthState : null);
+    const [birthTown, updateBirthTown] = useState(child ? child.birthTown : undefined);
+    const [birthState, updateBirthState] = useState(child ? child.birthState : undefined);
 
     const [americanIndianOrAlaskaNative, updateAmericanIndianOrAlaskaNative] = useState(
       child ? child.americanIndianOrAlaskaNative : false
@@ -159,27 +160,38 @@ const ChildInfo: Section = {
 
     const [gender, updateGender] = useState(child ? child.gender : Gender.Unspecified);
 
-    const save = () => {
-      const args = {
-        sasid,
-        firstName,
-        middleName,
-        lastName,
-        suffix,
-        birthdate,
-        birthCertificateId,
-        birthTown,
-        birthState,
-        americanIndianOrAlaskaNative,
-        asian,
-        blackOrAfricanAmerican,
-        nativeHawaiianOrPacificIslander,
-        white,
-        hispanicOrLatinxEthnicity,
-        gender,
-      };
+    const [validArgs, setValidArgs] = useState(child);
+    const args = {
+      sasid,
+      firstName,
+      middleName,
+      lastName,
+      suffix,
+      birthdate,
+      birthCertificateId,
+      birthTown,
+      birthState,
+      americanIndianOrAlaskaNative,
+      asian,
+      blackOrAfricanAmerican,
+      nativeHawaiianOrPacificIslander,
+      white,
+      hispanicOrLatinxEthnicity,
+      gender,
+    };
 
-      if (enrollment) {
+    useEffect(() => {
+      // Ideally I wish this could be a run-time type check
+      // (i.e. if we can cast args to child, then its valid, otherwise not valid),
+      // but internet searches are indicating ts standard is user-defined type predicates :(
+      if(args.firstName && args.lastName) {
+        setValidArgs(args as Child);
+      }
+    }, [args])
+
+
+    const save = () => {
+      if (enrollment && validArgs) {
         // If enrollment exists, put to save changes
         const putParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
           ...defaultPutParams,
@@ -187,7 +199,7 @@ const ChildInfo: Section = {
             ...enrollment,
             child: {
               ...enrollment.child,
-              ...args
+              ...validArgs
             }
           }
         }
@@ -202,7 +214,7 @@ const ChildInfo: Section = {
           enrollment: {
             id: 0,
             siteId: 0,
-            child: { ...args }
+            child: validArgs
           }
         }
         mutate((api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsPost(postParams))
@@ -265,7 +277,7 @@ const ChildInfo: Section = {
         <h3>Date of birth</h3>
         <DatePicker
           onChange={range =>
-            updateBirthdate((range.startDate && range.startDate.toDate()) || null)
+            updateBirthdate((range.startDate && range.startDate.toDate()) || undefined)
           }
           dateRange={{ startDate: birthdate ? moment(birthdate) : null, endDate: null }}
         />
@@ -382,7 +394,7 @@ const ChildInfo: Section = {
           onChange={event => updateGender(genderFromString(event.target.value))}
         />
 
-        <Button text="Save" onClick={save} />
+        <Button text="Save" onClick={save} disabled={!!!validArgs}/>
       </div>
     );
   },

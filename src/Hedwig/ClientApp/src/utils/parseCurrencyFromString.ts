@@ -3,5 +3,5 @@ export default function parseCurrencyFromString(string: string) {
   const parsedFloat = parseFloat(undecoratedString);
   const roundedFloat = Math.round(parsedFloat * 100) / 100;
 
-  return isNaN(roundedFloat) ? null : roundedFloat;
+  return isNaN(roundedFloat) ? undefined : roundedFloat;
 }

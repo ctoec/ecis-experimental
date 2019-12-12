@@ -1,4 +1,4 @@
-import { Organization, FundingSpace } from "../generated";
+import { Organization } from "../generated";
 
 export default function getFundingSpaceCapacity(organization: Organization|undefined, source?: string, age?: string): number | undefined {
   if(!organization) return;
