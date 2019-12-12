@@ -133,7 +133,6 @@ export default function Roster() {
 	const completeEnrollments = enrollments.filter(e => !incompleteEnrollments.includes(e));
 	const nestedFunding = getFundingMapFromOrg(site.organization, 'ageGroup', 'time');
 
-
 	const detailsByAgeGroup = {} as {
 		[ageGrouop: string]: {
 			tableProps: TableProps<Enrollment>;
@@ -241,15 +240,7 @@ export default function Roster() {
 				<AgeGroupSection ageGroupTitle={`Infant/toddler`} {...detailsByAgeGroup[Age.Infant]} />
 				<AgeGroupSection ageGroupTitle={`Preschool`} {...detailsByAgeGroup[Age.Preschool]} />
 				<AgeGroupSection ageGroupTitle={`Preschool`} {...detailsByAgeGroup[Age.School]} />
-				{!!incompleteRosterTableProps.data.length && (
-					<>
-						<h2>
-							Incomplete enrollments (
-							{pluralize('child', incompleteRosterTableProps.data.length, true)})
-						</h2>
-						<Table {...incompleteRosterTableProps} fullWidth />
-					</>
-				)}
+				<AgeGroupSection ageGroupTitle={`Incomplete enrollments`} tableProps={incompleteRosterTableProps} />
 			</section>
 		</div>
 	);
