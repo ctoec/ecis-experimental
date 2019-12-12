@@ -396,6 +396,12 @@ $future-step-color: color('base-dark') !default;
 	}
 }
 
+.hedwig-enrollment-details-section__content {
+	p {
+		@include u-margin-y(1);
+	}
+}
+
 // *** DatePicker ***
 // https://github.com/airbnb/react-dates
 .DateInput,
