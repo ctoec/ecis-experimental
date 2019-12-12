@@ -24,13 +24,13 @@ export interface ValidationError {
      * @type {string}
      * @memberof ValidationError
      */
-    readonly field?: string | null;
+    readonly field: string | null;
     /**
      * 
      * @type {string}
      * @memberof ValidationError
      */
-    readonly message?: string | null;
+    readonly message: string | null;
 }
 
 export function ValidationErrorFromJSON(json: any): ValidationError {
@@ -43,8 +43,8 @@ export function ValidationErrorFromJSONTyped(json: any, ignoreDiscriminator: boo
     }
     return {
         
-        'field': !exists(json, 'field') ? undefined : json['field'],
-        'message': !exists(json, 'message') ? undefined : json['message'],
+        'field': json['field'],
+        'message': json['message'],
     };
 }
 
