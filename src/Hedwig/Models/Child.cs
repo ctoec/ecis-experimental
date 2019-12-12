@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Hedwig.Validations;
 
 namespace Hedwig.Models
 {
-	public class Child : TemporalEntity
+	public class Child : TemporalEntity, IValidateable
 	{
 		// Optional FK to prevent cascade delete
 		// (multiple case delete FKs disallowed by SQLServer due to potenital for cycles)
@@ -54,5 +56,9 @@ namespace Hedwig.Models
 		public Family Family { get; set; }
 
 		public ICollection<Enrollment> Enrollments { get; set; }
+
+		[NotMapped]	
+		public List<ValidationError> ValidationErrors { get; set; }
+
 	}
 }

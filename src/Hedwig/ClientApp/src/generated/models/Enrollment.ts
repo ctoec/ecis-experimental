@@ -34,6 +34,10 @@ import {
     UserFromJSON,
     UserFromJSONTyped,
     UserToJSON,
+    ValidationError,
+    ValidationErrorFromJSON,
+    ValidationErrorFromJSONTyped,
+    ValidationErrorToJSON,
 } from './';
 
 /**
@@ -98,6 +102,12 @@ export interface Enrollment {
     fundings?: Array<Funding> | null;
     /**
      * 
+     * @type {Array<ValidationError>}
+     * @memberof Enrollment
+     */
+    validationErrors?: Array<ValidationError> | null;
+    /**
+     * 
      * @type {number}
      * @memberof Enrollment
      */
@@ -129,6 +139,7 @@ export function EnrollmentFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'entry': !exists(json, 'entry') ? undefined : (json['entry'] === null ? null : new Date(json['entry'])),
         'exit': !exists(json, 'exit') ? undefined : (json['exit'] === null ? null : new Date(json['exit'])),
         'fundings': !exists(json, 'fundings') ? undefined : (json['fundings'] === null ? null : (json['fundings'] as Array<any>).map(FundingFromJSON)),
+        'validationErrors': !exists(json, 'validationErrors') ? undefined : (json['validationErrors'] === null ? null : (json['validationErrors'] as Array<any>).map(ValidationErrorFromJSON)),
         'authorId': !exists(json, 'authorId') ? undefined : json['authorId'],
         'author': !exists(json, 'author') ? undefined : UserFromJSON(json['author']),
     };
@@ -152,6 +163,7 @@ export function EnrollmentToJSON(value?: Enrollment | null): any {
         'entry': value.entry === undefined ? undefined : (value.entry === null ? null : value.entry.toISOString()),
         'exit': value.exit === undefined ? undefined : (value.exit === null ? null : value.exit.toISOString()),
         'fundings': value.fundings === undefined ? undefined : (value.fundings === null ? null : (value.fundings as Array<any>).map(FundingToJSON)),
+        'validationErrors': value.validationErrors === undefined ? undefined : (value.validationErrors === null ? null : (value.validationErrors as Array<any>).map(ValidationErrorToJSON)),
         'authorId': value.authorId,
         'author': UserToJSON(value.author),
     };
