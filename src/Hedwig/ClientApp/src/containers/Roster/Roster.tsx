@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import enrollmentTextFormatter from '../../utils/enrollmentTextFormatter';
 import getDefaultDateRange from '../../utils/getDefaultDateRange';
-import getFundingSpaceCapacity, { getFundingMapFromOrg } from '../../utils/getFundingSpaceCapacity';
+import getFundingSpaceCapacity from '../../utils/getFundingSpaceCapacity';
 import getIdForUser from '../../utils/getIdForUser';
 import Tag from '../../components/Tag/Tag';
 import { DateRange } from '../../components/DatePicker/DatePicker';
@@ -10,11 +10,21 @@ import RadioGroup from '../../components/RadioGroup/RadioGroup';
 import Legend, { LegendItem } from '../../components/Legend/Legend';
 import useApi from '../../hooks/useApi';
 import DateSelectionForm from './DateSelectionForm';
-import { Age, FundingSource, FundingSpace } from '../../generated';
+import { Age, FundingSource, FundingTime } from '../../generated';
 import InlineIcon from '../../components/InlineIcon/InlineIcon';
 import UserContext from '../../contexts/User/UserContext';
 import AgeGroupSection, { SpecificTableProps } from './AgeGroupSection';
 import { fundingSourceDetails } from '../../utils/getColorForFundingType';
+
+type FundingCapacities = {
+	[time: string]: number | undefined;
+};
+type AgeGroupDetails = {
+	[ageGroup: string]: {
+		tableProps: SpecificTableProps;
+		fundingCapacities: FundingCapacities;
+	};
+};
 
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
@@ -59,21 +69,21 @@ export default function Roster() {
 	};
 
 	const completeEnrollments = enrollments.filter(e => !incompleteEnrollments.includes(e));
-	
-	const nestedFunding = getFundingMapFromOrg(site.organization, 'ageGroup', 'time');
-	const detailsByAgeGroup = {} as {
-		[ageGrouop: string]: {
-			tableProps: SpecificTableProps;
-			fundingCapacities: { [time: string]: FundingSpace[] };
-		};
-	};
+
+	const detailsByAgeGroup = {} as AgeGroupDetails;
 	Object.values(Age).forEach(ageGroup => {
 		const tableProps = {
 			id: `${ageGroup}-roster-table`,
 			data: completeEnrollments.filter(e => e.age === ageGroup),
 		};
-		const fundingCapacities = Object.fromEntries(nestedFunding.get(ageGroup) || new Map());
-		detailsByAgeGroup[ageGroup] = { tableProps, fundingCapacities };
+		const fundingCapacities = {} as FundingCapacities;
+		Object.values(FundingTime).forEach(time => {
+			fundingCapacities[time] = getFundingSpaceCapacity(site.organization, { ageGroup, time });
+		});
+		detailsByAgeGroup[ageGroup] = {
+			tableProps,
+			fundingCapacities,
+		};
 	});
 
 	const numKidsEnrolledText = enrollmentTextFormatter(

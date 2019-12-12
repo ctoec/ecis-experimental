@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { Table, TableProps } from '../../components/Table/Table';
 import Tag from '../../components/Tag/Tag';
 import InlineIcon from '../../components/InlineIcon/InlineIcon';
-import { Enrollment, FundingSpace } from '../../generated';
+import { Enrollment } from '../../generated';
 import nameFormatter from '../../utils/nameFormatter';
 import dateFormatter from '../../utils/dateFormatter';
 import getColorForFundingSource, { fundingSourceDetails } from '../../utils/getColorForFundingType';
@@ -16,7 +16,7 @@ export type SpecificTableProps = { id: string; data: Enrollment[] };
 type AgeGroupSectionProps = {
 	ageGroupTitle: string;
 	tableProps: SpecificTableProps;
-	fundingCapacities?: { [key: string]: FundingSpace[] };
+	fundingCapacities?: { [key: string]: number | undefined };
 };
 
 const defaultRosterTableProps: TableProps<Enrollment> = {
@@ -88,23 +88,23 @@ export default function AgeGroupSection({
 	tableProps,
 	fundingCapacities,
 }: AgeGroupSectionProps) {
-	if (!tableProps.data.length) return <></>;
-	const groupTableProps = Object.assign({}, defaultRosterTableProps, tableProps)
+	if (!tableProps.data.length) return null;
+	const groupTableProps = Object.assign({}, defaultRosterTableProps, tableProps);
 	return (
 		<>
 			<h2>{`${ageGroupTitle} (${pluralize('child', tableProps.data.length, true)})`}</h2>
 			{fundingCapacities && (
 				<ul>
-					{Object.keys(fundingCapacities).map(capacityTime => (
+					{Object.keys(fundingCapacities).map(capacityTime => fundingCapacities[capacityTime] ? (
 						<li key={`${capacityTime}-${ageGroupTitle}`}>
 							<span className="text-bold">
 								{`${tableProps.data.length}/${
-									fundingCapacities[capacityTime][0].capacity
+									fundingCapacities[capacityTime]
 								} ${capacityTime.toLowerCase()} time`}
 							</span>
 							<span>{` ${ageGroupTitle.toLowerCase()} spaces filled`}</span>
 						</li>
-					))}
+					) : null)}
 				</ul>
 			)}
 			<Table {...groupTableProps} fullWidth />

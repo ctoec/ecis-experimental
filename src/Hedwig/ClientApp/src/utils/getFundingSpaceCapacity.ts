@@ -1,9 +1,8 @@
 import { Organization } from '../generated';
-import { group } from 'd3-array';
 
 export default function getFundingSpaceCapacity(
 	organization: Organization | undefined,
-	opts: { source?: string; age?: string; time?: string }
+	opts: { source?: string; ageGroup?: string; time?: string }
 ): number | undefined {
 	if (!organization) return;
 	if (!organization.fundingSpaces) return;
@@ -14,8 +13,8 @@ export default function getFundingSpaceCapacity(
 		fundingSpaces = fundingSpaces.filter(fs => fs.source === opts.source);
 	}
 
-	if (opts.age) {
-		fundingSpaces = fundingSpaces.filter(fs => fs.ageGroup === opts.age);
+	if (opts.ageGroup) {
+		fundingSpaces = fundingSpaces.filter(fs => fs.ageGroup === opts.ageGroup);
 	}
 
 	if (opts.time) {
@@ -28,15 +27,4 @@ export default function getFundingSpaceCapacity(
 	});
 
 	return capacity;
-}
-
-export function getFundingMapFromOrg(
-	organization: Organization | undefined,
-	...keys: string[]
-): any {
-	if (!organization) return;
-	if (!organization.fundingSpaces) return;
-	const keyFuncs = keys.map(key => (d: any) => d[key]);
-	const mappedVals = group(organization.fundingSpaces, ...keyFuncs);
-	return mappedVals;
 }

@@ -20,7 +20,6 @@
 		"@types/storybook__addon-storyshots": "^5.1.1",
 		"@types/storybook__react": "^4.0.2",
 		"babel-plugin-macros": "^2.6.1",
-		"d3-array": "^2.4.0",
 		"enzyme": "^3.10.0",
 		"enzyme-adapter-react-16": "^1.14.0",
 		"enzyme-to-json": "^3.4.0",
