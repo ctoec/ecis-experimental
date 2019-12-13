@@ -81,7 +81,14 @@ const prettyMultiRace = (child: Child) => {
 };
 
 const prettyEthnicity = (child: Child) => {
-  return child.hispanicOrLatinxEthnicity ? 'Hispanic/Latinx' : 'Not Hispanic/Latinx';
+  const ethnicity = child.hispanicOrLatinxEthnicity;
+  let ethnicityStr;
+  if (ethnicity == null) {
+    ethnicityStr = '';
+  } else {
+    ethnicityStr = ethnicity ? 'Hispanic/Latinx' : 'Not Hispanic/Latinx';
+  }
+  return ethnicityStr;
 };
 
 const birthCertPresent = (child: Child) => {
@@ -154,7 +161,7 @@ const ChildInfo: Section = {
     );
     const [white, updateWhite] = useState(child ? child.white : false);
     const [hispanicOrLatinxEthnicity, updateHispanicOrLatinxEthnicity] = useState(
-      child ? child.hispanicOrLatinxEthnicity : false
+      child ? child.hispanicOrLatinxEthnicity : undefined
     );
 
     const [gender, updateGender] = useState(child ? child.gender : Gender.Unspecified);
@@ -352,8 +359,13 @@ const ChildInfo: Section = {
               value: 'yes',
             },
           ]}
-          selected={hispanicOrLatinxEthnicity ? 'yes' : 'no'}
-          onChange={event => updateHispanicOrLatinxEthnicity(event.target.value === 'yes')}
+          selected={
+            hispanicOrLatinxEthnicity === undefined /* TODO remove on nullable fix --> */ || hispanicOrLatinxEthnicity === null ? 
+            '' : 
+            hispanicOrLatinxEthnicity ? 'yes' : 'no'}
+          onChange={event => updateHispanicOrLatinxEthnicity(
+            event.target.value === '' ? undefined : event.target.value === 'yes'
+          )}
         />
 
         <h3>Gender</h3>
