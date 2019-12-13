@@ -52,7 +52,7 @@ const reportWithEnrollments = (enrollments: Enrollment[]) => {
 const defaultReport = reportWithEnrollments([
   {
     id: 1,
-    age: Age.Preschool,
+    ageGroup: Age.Preschool,
     fundings: [{
       source: FundingSource.CDC,
       time: FundingTime.Full,
@@ -70,7 +70,7 @@ describe('UtilizationTable', () => {
     const report = reportWithEnrollments([
       {
         id: 1,
-        age: Age.Infant,
+        ageGroup: Age.Infant,
         fundings: [{
           source: FundingSource.CDC,
           time: FundingTime.Full,
@@ -78,7 +78,7 @@ describe('UtilizationTable', () => {
       },
       {
         id: 2,
-        age: Age.Infant,
+        ageGroup: Age.Infant,
         fundings: [{
           source: FundingSource.CDC,
           time: FundingTime.Part,
@@ -95,7 +95,7 @@ describe('UtilizationTable', () => {
     const report = reportWithEnrollments([
       {
         id: 1,
-        age: undefined,
+        ageGroup: undefined,
         fundings: [{
           source: FundingSource.CDC,
           time: FundingTime.Full,
