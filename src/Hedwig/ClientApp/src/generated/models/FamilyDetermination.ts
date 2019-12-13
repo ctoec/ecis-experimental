@@ -22,6 +22,10 @@ import {
     UserFromJSON,
     UserFromJSONTyped,
     UserToJSON,
+    ValidationError,
+    ValidationErrorFromJSON,
+    ValidationErrorFromJSONTyped,
+    ValidationErrorToJSON,
 } from './';
 
 /**
@@ -68,6 +72,12 @@ export interface FamilyDetermination {
     family?: Family;
     /**
      * 
+     * @type {Array<ValidationError>}
+     * @memberof FamilyDetermination
+     */
+    validationErrors?: Array<ValidationError> | null;
+    /**
+     * 
      * @type {number}
      * @memberof FamilyDetermination
      */
@@ -96,6 +106,7 @@ export function FamilyDeterminationFromJSONTyped(json: any, ignoreDiscriminator:
         'determined': !exists(json, 'determined') ? undefined : (new Date(json['determined'])),
         'familyId': !exists(json, 'familyId') ? undefined : json['familyId'],
         'family': !exists(json, 'family') ? undefined : FamilyFromJSON(json['family']),
+        'validationErrors': !exists(json, 'validationErrors') ? undefined : (json['validationErrors'] === null ? null : (json['validationErrors'] as Array<any>).map(ValidationErrorFromJSON)),
         'authorId': !exists(json, 'authorId') ? undefined : json['authorId'],
         'author': !exists(json, 'author') ? undefined : UserFromJSON(json['author']),
     };
@@ -116,6 +127,7 @@ export function FamilyDeterminationToJSON(value?: FamilyDetermination | null): a
         'determined': value.determined === undefined ? undefined : (value.determined.toISOString()),
         'familyId': value.familyId,
         'family': FamilyToJSON(value.family),
+        'validationErrors': value.validationErrors === undefined ? undefined : (value.validationErrors === null ? null : (value.validationErrors as Array<any>).map(ValidationErrorToJSON)),
         'authorId': value.authorId,
         'author': UserToJSON(value.author),
     };

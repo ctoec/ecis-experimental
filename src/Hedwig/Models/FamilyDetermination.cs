@@ -1,9 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using Hedwig.Validations;
 
 namespace Hedwig.Models
 {
-	public class FamilyDetermination : TemporalEntity
+	public class FamilyDetermination : TemporalEntity, IValidateable
 	{
 		public int Id { get; set; }
 
@@ -16,5 +18,8 @@ namespace Hedwig.Models
 
 		public int FamilyId { get; set; }
 		public Family Family { get; set; }
+
+		[NotMapped]
+		public List<ValidationError> ValidationErrors { get; set; }
 	}
 }

@@ -1,10 +1,13 @@
 using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using Hedwig.Validations;
 
 namespace Hedwig.Models
 {
-  public abstract class Report
+  public abstract class Report : IValidateable
   {
     public int Id { get; set; }
 
@@ -15,5 +18,8 @@ namespace Hedwig.Models
     public ReportingPeriod ReportingPeriod { get; set; }
 
     public DateTime? SubmittedAt { get; set; }
+
+    [NotMapped]
+    public List<ValidationError> ValidationErrors { get; set; }
   }
 }

@@ -26,6 +26,10 @@ import {
     ReportingPeriodFromJSON,
     ReportingPeriodFromJSONTyped,
     ReportingPeriodToJSON,
+    ValidationError,
+    ValidationErrorFromJSON,
+    ValidationErrorFromJSONTyped,
+    ValidationErrorToJSON,
 } from './';
 
 /**
@@ -100,6 +104,12 @@ export interface CdcReport {
      * @memberof CdcReport
      */
     submittedAt?: Date | null;
+    /**
+     * 
+     * @type {Array<ValidationError>}
+     * @memberof CdcReport
+     */
+    validationErrors?: Array<ValidationError> | null;
 }
 
 export function CdcReportFromJSON(json: any): CdcReport {
@@ -123,6 +133,7 @@ export function CdcReportFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         'reportingPeriodId': !exists(json, 'reportingPeriodId') ? undefined : json['reportingPeriodId'],
         'reportingPeriod': !exists(json, 'reportingPeriod') ? undefined : ReportingPeriodFromJSON(json['reportingPeriod']),
         'submittedAt': !exists(json, 'submittedAt') ? undefined : (json['submittedAt'] === null ? null : new Date(json['submittedAt'])),
+        'validationErrors': !exists(json, 'validationErrors') ? undefined : (json['validationErrors'] === null ? null : (json['validationErrors'] as Array<any>).map(ValidationErrorFromJSON)),
     };
 }
 
@@ -146,6 +157,7 @@ export function CdcReportToJSON(value?: CdcReport | null): any {
         'reportingPeriodId': value.reportingPeriodId,
         'reportingPeriod': ReportingPeriodToJSON(value.reportingPeriod),
         'submittedAt': value.submittedAt === undefined ? undefined : (value.submittedAt === null ? null : value.submittedAt.toISOString()),
+        'validationErrors': value.validationErrors === undefined ? undefined : (value.validationErrors === null ? null : (value.validationErrors as Array<any>).map(ValidationErrorToJSON)),
     };
 }
 

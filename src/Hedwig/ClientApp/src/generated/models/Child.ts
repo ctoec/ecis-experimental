@@ -34,6 +34,10 @@ import {
     UserFromJSON,
     UserFromJSONTyped,
     UserToJSON,
+    ValidationError,
+    ValidationErrorFromJSON,
+    ValidationErrorFromJSONTyped,
+    ValidationErrorToJSON,
 } from './';
 
 /**
@@ -182,6 +186,12 @@ export interface Child {
     enrollments?: Array<Enrollment> | null;
     /**
      * 
+     * @type {Array<ValidationError>}
+     * @memberof Child
+     */
+    validationErrors?: Array<ValidationError> | null;
+    /**
+     * 
      * @type {number}
      * @memberof Child
      */
@@ -227,6 +237,7 @@ export function ChildFromJSONTyped(json: any, ignoreDiscriminator: boolean): Chi
         'familyId': !exists(json, 'familyId') ? undefined : json['familyId'],
         'family': !exists(json, 'family') ? undefined : FamilyFromJSON(json['family']),
         'enrollments': !exists(json, 'enrollments') ? undefined : (json['enrollments'] === null ? null : (json['enrollments'] as Array<any>).map(EnrollmentFromJSON)),
+        'validationErrors': !exists(json, 'validationErrors') ? undefined : (json['validationErrors'] === null ? null : (json['validationErrors'] as Array<any>).map(ValidationErrorFromJSON)),
         'authorId': !exists(json, 'authorId') ? undefined : json['authorId'],
         'author': !exists(json, 'author') ? undefined : UserFromJSON(json['author']),
     };
@@ -264,6 +275,7 @@ export function ChildToJSON(value?: Child | null): any {
         'familyId': value.familyId,
         'family': FamilyToJSON(value.family),
         'enrollments': value.enrollments === undefined ? undefined : (value.enrollments === null ? null : (value.enrollments as Array<any>).map(EnrollmentToJSON)),
+        'validationErrors': value.validationErrors === undefined ? undefined : (value.validationErrors === null ? null : (value.validationErrors as Array<any>).map(ValidationErrorToJSON)),
         'authorId': value.authorId,
         'author': UserToJSON(value.author),
     };
