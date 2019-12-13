@@ -14,6 +14,7 @@ import {
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest 
 } from '../../../generated';
 import getIdForUser from '../../../utils/getIdForUser';
+import { DeepNonUndefineable } from '../../../utils/types';
 
 type EnrollmentNewParams = {
 	history: History;
@@ -62,13 +63,14 @@ export default function EnrollmentNew({
 		siteId: getIdForUser(user, "site"),
 		include: ['child', 'family', 'determinations', 'fundings'],
 	}
-	const [loading, error, enrollment, mutate] = useApi<Enrollment>(
+	const [loading, error, _enrollment, mutate] = useApi<Enrollment>(
 		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
 		[enrollmentId],
 		{
 			skip: !enrollmentId
 		}
 	);
+	const enrollment = _enrollment as DeepNonUndefineable<Enrollment>;
 
 	/**
 	 * Accepts an enrollment and updates URL to appropriate section.

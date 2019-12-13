@@ -14,6 +14,7 @@ import {
   ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest,
   Gender,
   ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
+  Enrollment,
 } from '../../../generated';
 import idx from 'idx';
 import UserContext from '../../../contexts/User/UserContext';
@@ -46,7 +47,7 @@ const prettyGender = (child: Child) => {
   }
 };
 
-const RACES = [
+const RACES: (keyof Child)[] = [
   'americanIndianOrAlaskaNative',
   'asian',
   'blackOrAfricanAmerican',
@@ -54,7 +55,7 @@ const RACES = [
   'white',
 ];
 
-const prettyRace = (race: string) => {
+const prettyRace = (race: keyof Child) => {
   switch (race) {
     case 'americanIndianOrAlaskaNative':
       return 'American Indian or Alaska Native';
@@ -70,7 +71,7 @@ const prettyRace = (race: string) => {
 };
 
 const prettyMultiRace = (child: Child) => {
-  const selectedRaces = RACES.filter(race => (child as any)[race]);
+  const selectedRaces = RACES.filter(race => child[race]);
 
   if (selectedRaces.length === 0) {
     return '';
@@ -128,7 +129,7 @@ const ChildInfo: Section = {
     const defaultPostParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest = {
       orgId: getIdForUser(user, "org"),
       siteId: getIdForUser(user, "site"),
-      enrollment: enrollment || undefined
+      enrollment: enrollment as Enrollment
     }
     const defaultPutParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
       ...defaultPostParams,
@@ -214,6 +215,10 @@ const ChildInfo: Section = {
             childId: emptyGuid(), 
             child: {
               id: emptyGuid(),
+              familyId: 0,
+              family: {
+                id: 0,
+              },
               ...args
             }
           }

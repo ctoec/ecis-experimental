@@ -6,9 +6,10 @@ import MakeRouteWithSubRoutes from './MakeRouteWithSubRoutes';
 import routes from '../../routes';
 import 'react-dates/initialize';
 import useApi from '../../hooks/useApi';
-import { ApiOrganizationsOrgIdReportsGetRequest } from '../../generated';
+import { ApiOrganizationsOrgIdReportsGetRequest, CdcReport as Report } from '../../generated';
 import getIdForUser from '../../utils/getIdForUser';
 import UserContext from '../../contexts/User/UserContext';
+import { DeepNonUndefineable } from '../../utils/types';
 
 type AppContextType = { invalidateCache: () => void };
 export const AppContext = createContext<AppContextType>({ invalidateCache: () => { } });
@@ -37,7 +38,7 @@ const App: React.FC = () => {
     !loading &&
     !error &&
     reports &&
-    reports.filter(r => !r.submittedAt).length;
+    reports.filter<DeepNonUndefineable<Report>>((r => !r.submittedAt) as (_: DeepNonUndefineable<Report>) => _ is DeepNonUndefineable<Report>).length;
 
   const navItems: NavItemProps[] = [
     { type: 'primary', title: 'Roster', path: '/roster' },

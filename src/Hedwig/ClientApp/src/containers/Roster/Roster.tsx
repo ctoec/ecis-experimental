@@ -9,7 +9,7 @@ import getFundingSpaceCapacity from '../../utils/getFundingSpaceCapacity';
 import getIdForUser from '../../utils/getIdForUser';
 import missingInformation from '../../utils/missingInformation';
 import { Table, TableProps } from '../../components/Table/Table';
-import Tag from '../../components/Tag/Tag';
+import Tag, { TagProps } from '../../components/Tag/Tag';
 import { DateRange } from '../../components/DatePicker/DatePicker';
 import Button from '../../components/Button/Button';
 import RadioGroup from '../../components/RadioGroup/RadioGroup';
@@ -17,11 +17,12 @@ import Legend, { LegendItem } from '../../components/Legend/Legend';
 import useApi from '../../hooks/useApi';
 import { Enrollment } from '../../generated/models/Enrollment';
 import DateSelectionForm from './DateSelectionForm';
-import { Age, FundingSource } from '../../generated';
+import { Age, FundingSource, Funding } from '../../generated';
 import InlineIcon from '../../components/InlineIcon/InlineIcon';
 import pluralize from 'pluralize';
 import idx from 'idx';
 import UserContext from '../../contexts/User/UserContext';
+import { DeepNonUndefineable } from '../../utils/types';
 
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
@@ -59,7 +60,19 @@ export default function Roster() {
 		return <div className="Roster"></div>;
 	}
 
-	const defaultRosterTableProps: TableProps<Enrollment> = {
+	function generateFundingTag(funding: DeepNonUndefineable<Funding>): JSX.Element {
+		return <Tag
+			key={`${funding.source}-${funding.time}`}
+			text={
+				funding.source
+					? fundingSourceDetails[funding.source].textFormatter(funding)
+					: ''
+			}
+			color={funding.source ? getColorForFundingSource(funding.source) : 'gray-90'}
+		/>;
+	}
+
+	const defaultRosterTableProps: TableProps<DeepNonUndefineable<Enrollment>> = {
 		id: 'roster-table',
 		data: [],
 		rowKey: row => row.id,
@@ -88,23 +101,27 @@ export default function Roster() {
 			},
 			{
 				name: 'Funding',
-				cell: ({ row }) => (
-					<td>
-						{row.fundings && row.fundings.length
-							? row.fundings.map(funding => (
-									<Tag
-										key={`${funding.source}-${funding.time}`}
-										text={
-											funding.source
-												? fundingSourceDetails[funding.source].textFormatter(funding)
-												: ''
-										}
-										color={funding.source ? getColorForFundingSource(funding.source) : 'gray-90'}
-									/>
-							  ))
-							: ''}
-					</td>
-				),
+				cell: ({ row }) => {
+					const fundings = row.fundings && row.fundings.length
+						? row.fundings.map<React.ReactNode>(funding =>
+							''
+						// 	<Tag
+						// 	key={`${funding.source}-${funding.time}`}
+						// 	text={
+						// 		funding.source
+						// 			? fundingSourceDetails[funding.source].textFormatter(funding)
+						// 			: ''
+						// 	}
+						// 	color={funding.source ? getColorForFundingSource(funding.source) : 'gray-90'}
+						// />)
+						)
+						: '';
+					return (
+						<td>
+							{fundings}
+						</td>
+					);
+				},
 				sort: row => idx(row, _ => _.fundings[0].source) || '',
 			},
 			{
@@ -123,28 +140,52 @@ export default function Roster() {
 		defaultSortOrder: 'ascending',
 	};
 
-	const incompleteEnrollments = enrollments.filter(e => !e.age || !e.entry);
-	const completeEnrollments = enrollments.filter(e => !incompleteEnrollments.includes(e));
+	// Note: These explicit is(In)CompleteEnrollment functions is necessary due to Typescript limitations
+	function isIncompleteEnrollment(enrollment: DeepNonUndefineable<Enrollment>): enrollment is DeepNonUndefineable<Enrollment> {
+		return !enrollment.age || !enrollment.entry;
+	}
+	function isCompleteEnrollment(enrollment: DeepNonUndefineable<Enrollment>): enrollment is DeepNonUndefineable<Enrollment> {
+		return !isIncompleteEnrollment(enrollment);
+	}
+	// As is the type annotation on filter
+	const incompleteEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>(isIncompleteEnrollment);
+	const completeEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>(isCompleteEnrollment);
 
-	const infantRosterTableProps: TableProps<Enrollment> = {
+	function isInfant(enrollment: DeepNonUndefineable<Enrollment>): enrollment is DeepNonUndefineable<Enrollment> {
+		return enrollment.age === Age.Infant;
+	}
+
+	function isPreschool(enrollment: DeepNonUndefineable<Enrollment>): enrollment is DeepNonUndefineable<Enrollment> {
+		return enrollment.age === Age.Preschool;
+	}
+
+	function isSchool(enrollment: DeepNonUndefineable<Enrollment>): enrollment is DeepNonUndefineable<Enrollment> {
+		return enrollment.age === Age.School;
+	}
+
+	function isAgeIncomplete(enrollment: DeepNonUndefineable<Enrollment>): enrollment is DeepNonUndefineable<Enrollment> {
+		return !enrollment.age;
+	}
+
+	const infantRosterTableProps: TableProps<DeepNonUndefineable<Enrollment>> = {
 		...defaultRosterTableProps,
 		id: 'infant-roster-table',
-		data: completeEnrollments.filter(e => e.age === Age.Infant),
+		data: completeEnrollments.filter<DeepNonUndefineable<Enrollment>>(isInfant),
 	};
-	const preschoolRosterTableProps: TableProps<Enrollment> = {
+	const preschoolRosterTableProps: TableProps<DeepNonUndefineable<Enrollment>> = {
 		...defaultRosterTableProps,
 		id: 'preschool-roster-table',
-		data: completeEnrollments.filter(e => e.age === Age.Preschool),
+		data: completeEnrollments.filter<DeepNonUndefineable<Enrollment>>(isPreschool),
 	};
-	const schoolRosterTableProps: TableProps<Enrollment> = {
+	const schoolRosterTableProps: TableProps<DeepNonUndefineable<Enrollment>> = {
 		...defaultRosterTableProps,
 		id: 'school-roster-table',
-		data: completeEnrollments.filter(e => e.age === Age.School),
+		data: completeEnrollments.filter<DeepNonUndefineable<Enrollment>>(isSchool),
 	};
-	const incompleteRosterTableProps: TableProps<Enrollment> = {
+	const incompleteRosterTableProps: TableProps<DeepNonUndefineable<Enrollment>> = {
 		...defaultRosterTableProps,
 		id: 'incomplete-roster-table',
-		data: incompleteEnrollments.filter(e => !e.age),
+		data: incompleteEnrollments.filter<DeepNonUndefineable<Enrollment>>(isAgeIncomplete),
 	};
 
 	const numKidsEnrolledText = enrollmentTextFormatter(
@@ -157,9 +198,13 @@ export default function Roster() {
 	const legendItems: LegendItem[] = Object.keys(fundingSourceDetails).map(source => {
 		const ratioLegendSources: string[] = [FundingSource.CDC];
 		const capacityForFunding = getFundingSpaceCapacity(site.organization, source);
-		const enrolledForFunding = enrollments.filter(
-			e => e.fundings && e.fundings.filter(f => f.source === source).length > 0
-		).length;
+		function isEnrolledForFunding(enrollment: DeepNonUndefineable<Enrollment>): enrollment is DeepNonUndefineable<Enrollment> {
+			const matchesSource = (funding: DeepNonUndefineable<Funding>): funding is DeepNonUndefineable<Funding> => {
+				return funding.source === source;
+			}
+			return enrollment.fundings ? enrollment.fundings.filter<DeepNonUndefineable<Funding>>(matchesSource).length > 0 : false;
+		}
+		const enrolledForFunding = enrollments.filter<DeepNonUndefineable<Enrollment>>(isEnrolledForFunding).length;
 
 		// If funding source enrollments should be displayed as a ratio,
 		// and capacity info for funding source exists,
