@@ -55,11 +55,13 @@ const FamilyIncome: Section = {
     const child = enrollment.child;
     const determination = idx(child, _ => _.family.determinations[0]) || undefined;
     const [numberOfPeople, updateNumberOfPeople] = React.useState(
-      determination ? determination.numberOfPeople : null
+      determination ? determination.numberOfPeople : undefined
     );
-    const [income, updateIncome] = React.useState(determination ? determination.income : null);
+    const [income, updateIncome] = React.useState(
+      determination ? determination.income : undefined
+    );
     const [determined, updateDetermined] = React.useState(
-      determination ? determination.determined : null
+      determination ? determination.determined : undefined
     );
 
     const save = () => {
@@ -74,9 +76,9 @@ const FamilyIncome: Section = {
       // If determination is added, all fields must be present
       if (numberOfPeople && income && determined) {
         const args = {
-          numberOfPeople: numberOfPeople || undefined,
-          income: income || undefined,
-          determined: determined || undefined,
+          numberOfPeople: numberOfPeople,
+          income: income,
+          determined: determined,
         };
 
         if (enrollment && child && child.family) {
@@ -111,7 +113,7 @@ const FamilyIncome: Section = {
           label="Household size"
           defaultValue={numberOfPeople ? '' + numberOfPeople : ''}
           onChange={event => {
-            const value = parseInt(event.target.value.replace(/[^0-9.]/g, ''), 10) || null;
+            const value = parseInt(event.target.value.replace(/[^0-9.]/g, ''), 10) || undefined;
             updateNumberOfPeople(value);
           }}
           onBlur={event => (event.target.value = numberOfPeople ? '' + numberOfPeople : '')}
@@ -131,7 +133,7 @@ const FamilyIncome: Section = {
 				</label>
         <DatePicker
           onChange={range =>
-            updateDetermined((range.startDate && range.startDate.toDate()) || null)
+            updateDetermined((range.startDate && range.startDate.toDate()) || undefined)
           }
           dateRange={{ startDate: determined ? moment(determined) : null, endDate: null }}
         />

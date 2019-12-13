@@ -3,7 +3,6 @@ import { Section } from '../enrollmentTypes';
 import Button from '../../../components/Button/Button';
 import TextInput from '../../../components/TextInput/TextInput';
 import Checklist from '../../../components/Checklist/Checklist';
-import idx from 'idx';
 import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
 import getIdForUser from '../../../utils/getIdForUser';
@@ -46,14 +45,14 @@ const FamilyInfo: Section = {
 		}
 
 		const [addressLine1, updateAddressLine1] = useState(
-			child.family ? child.family.addressLine1 : null
+			child.family ? child.family.addressLine1 : undefined
 		);
 		const [addressLine2, updateAddressLine2] = useState(
-			child.family ? child.family.addressLine2 : null
+			child.family ? child.family.addressLine2 : undefined
 		);
-		const [town, updateTown] = useState(child.family ? child.family.town : null);
-		const [state, updateState] = useState(child.family ? child.family.state : null);
-		const [zip, updateZip] = useState(child.family ? child.family.zip : null);
+		const [town, updateTown] = useState(child.family ? child.family.town : undefined);
+		const [state, updateState] = useState(child.family ? child.family.state : undefined);
+		const [zip, updateZip] = useState(child.family ? child.family.zip : undefined);
 		const [homelessness, updateHomelessness] = useState(
 			child.family ? child.family.homelessness : undefined
 		);

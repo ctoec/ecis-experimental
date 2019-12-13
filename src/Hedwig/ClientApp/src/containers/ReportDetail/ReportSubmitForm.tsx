@@ -1,9 +1,8 @@
 import React, { useState, FormEvent, useContext, SetStateAction, Dispatch } from 'react';
-import Alert, { AlertProps } from '../../components/Alert/Alert';
-import { CdcReport, ApiOrganizationsOrgIdReportsIdPutRequest, CdcReportFromJSON } from '../../generated';
+import { AlertProps } from '../../components/Alert/Alert';
+import { CdcReport, ApiOrganizationsOrgIdReportsIdPutRequest } from '../../generated';
 import { Mutate } from '../../hooks/useApi';
 import UserContext from '../../contexts/User/UserContext';
-import idx from 'idx';
 import TextInput from '../../components/TextInput/TextInput';
 import Checkbox from '../../components/Checklist/Checkbox';
 import { AppContext } from '../App/App';
@@ -21,9 +20,9 @@ export type ReportSubmitFormProps = {
 
 export default function ReportSubmitForm({ report, mutate, setAlert, canSubmit }: ReportSubmitFormProps) {
   const [accredited, setAccredited] = useState(report.accredited);
-  const [c4KRevenue, setC4KRevenue] = useState(report.c4KRevenue || null);
+  const [c4KRevenue, setC4KRevenue] = useState(report.c4KRevenue);
   const [retroactiveC4KRevenue, setRetroactiveC4KRevenue] = useState(report.retroactiveC4KRevenue);
-  const [familyFeesRevenue, setFamilyFeesRevenue] = useState(report.familyFeesRevenue || null);
+  const [familyFeesRevenue, setFamilyFeesRevenue] = useState(report.familyFeesRevenue);
 
   const { user } = useContext(UserContext);
   const { invalidateCache: invalidateAppCache } = useContext(AppContext);

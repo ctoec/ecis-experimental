@@ -34,7 +34,7 @@ export class ColumnHeader extends React.Component<ColumnHeaderProps> {
 	};
 
 	render() {
-		const { name, sortable, sorted, sortOrder, index } = this.props;
+		const { name, sortable, sorted, sortOrder } = this.props;
 		return (
 			<th
 				scope="col"

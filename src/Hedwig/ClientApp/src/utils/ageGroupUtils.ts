@@ -9,7 +9,7 @@ export function ageFromString(str: string) {
     case Age.School:
       return Age.School;
     default:
-      return null;
+      return;
   }
 };
 
