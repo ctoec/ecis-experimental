@@ -5,18 +5,19 @@ import { Link } from 'react-router-dom';
 import { Table, TableProps } from '../../components/Table/Table';
 import Tag from '../../components/Tag/Tag';
 import InlineIcon from '../../components/InlineIcon/InlineIcon';
-import { Enrollment } from '../../generated';
+import { Enrollment, FundingSpace } from '../../generated';
 import nameFormatter from '../../utils/nameFormatter';
 import dateFormatter from '../../utils/dateFormatter';
 import getColorForFundingSource, { fundingSourceDetails } from '../../utils/getColorForFundingType';
 import missingInformation from '../../utils/missingInformation';
 
-export type SpecificTableProps = { id: string; data: Enrollment[] };
+export type AgeGroupTableProps = { id: string; data: Enrollment[] };
 
 type AgeGroupSectionProps = {
+	ageGroup: string;
 	ageGroupTitle: string;
-	tableProps: SpecificTableProps;
-	fundingCapacities?: { [key: string]: number | undefined };
+	enrollments: Enrollment[];
+	fundingSpaces?: FundingSpace[];
 };
 
 const defaultRosterTableProps: TableProps<Enrollment> = {
@@ -84,30 +85,35 @@ const defaultRosterTableProps: TableProps<Enrollment> = {
 };
 
 export default function AgeGroupSection({
+	ageGroup,
 	ageGroupTitle,
-	tableProps,
-	fundingCapacities,
+	enrollments,
+	fundingSpaces,
 }: AgeGroupSectionProps) {
-	if (!tableProps.data.length) return null;
-	const groupTableProps = Object.assign({}, defaultRosterTableProps, tableProps);
+	if (!enrollments.length) return null;
+	const tableProps = Object.assign({}, defaultRosterTableProps, {
+		id: `${ageGroup}-roster-table`,
+		data: enrollments,
+	});
+
 	return (
 		<>
 			<h2>{`${ageGroupTitle} (${pluralize('child', tableProps.data.length, true)})`}</h2>
-			{fundingCapacities && (
+			{fundingSpaces && (
 				<ul>
-					{Object.keys(fundingCapacities).map(capacityTime => fundingCapacities[capacityTime] ? (
-						<li key={`${capacityTime}-${ageGroupTitle}`}>
+					{fundingSpaces.map(space => (
+						<li key={`${space.time}-${ageGroupTitle}`}>
 							<span className="text-bold">
-								{`${tableProps.data.length}/${
-									fundingCapacities[capacityTime]
-								} ${capacityTime.toLowerCase()} time`}
+								{`${tableProps.data.length}/${space.capacity} ${(
+									space.time || ''
+								).toLowerCase()} time`}
 							</span>
 							<span>{` ${ageGroupTitle.toLowerCase()} spaces filled`}</span>
 						</li>
-					) : null)}
+					))}
 				</ul>
 			)}
-			<Table {...groupTableProps} fullWidth />
+			<Table {...tableProps} fullWidth />
 		</>
 	);
 }

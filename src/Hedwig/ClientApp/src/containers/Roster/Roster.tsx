@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import idx from 'idx';
 import enrollmentTextFormatter from '../../utils/enrollmentTextFormatter';
 import getDefaultDateRange from '../../utils/getDefaultDateRange';
 import getFundingSpaceCapacity from '../../utils/getFundingSpaceCapacity';
@@ -10,21 +11,12 @@ import RadioGroup from '../../components/RadioGroup/RadioGroup';
 import Legend, { LegendItem } from '../../components/Legend/Legend';
 import useApi from '../../hooks/useApi';
 import DateSelectionForm from './DateSelectionForm';
-import { Age, FundingSource, FundingTime } from '../../generated';
+import { Age, FundingSource, FundingSpace } from '../../generated';
 import InlineIcon from '../../components/InlineIcon/InlineIcon';
 import UserContext from '../../contexts/User/UserContext';
-import AgeGroupSection, { SpecificTableProps } from './AgeGroupSection';
+import AgeGroupSection from './AgeGroupSection';
 import { fundingSourceDetails } from '../../utils/getColorForFundingType';
-
-type FundingCapacities = {
-	[time: string]: number | undefined;
-};
-type AgeGroupDetails = {
-	[ageGroup: string]: {
-		tableProps: SpecificTableProps;
-		fundingCapacities: FundingCapacities;
-	};
-};
+import { getObjectsByAgeGroup } from '../../utils/ageGroupUtils';
 
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
@@ -63,28 +55,12 @@ export default function Roster() {
 	}
 
 	const incompleteEnrollments = enrollments.filter(e => !e.age || !e.entry);
-	const incompleteTableProps: SpecificTableProps = {
-		id: 'incomplete-roster-table',
-		data: incompleteEnrollments.filter(e => !e.age),
-	};
 
 	const completeEnrollments = enrollments.filter(e => !incompleteEnrollments.includes(e));
+	const completeEnrollmentsByAgeGroup = getObjectsByAgeGroup(completeEnrollments);
 
-	const detailsByAgeGroup = {} as AgeGroupDetails;
-	Object.values(Age).forEach(ageGroup => {
-		const tableProps = {
-			id: `${ageGroup}-roster-table`,
-			data: completeEnrollments.filter(e => e.age === ageGroup),
-		};
-		const fundingCapacities = {} as FundingCapacities;
-		Object.values(FundingTime).forEach(time => {
-			fundingCapacities[time] = getFundingSpaceCapacity(site.organization, { ageGroup, time });
-		});
-		detailsByAgeGroup[ageGroup] = {
-			tableProps,
-			fundingCapacities,
-		};
-	});
+	const fundingSpaces = idx(site, _ => _.organization.fundingSpaces) || [];
+	const fundingSpacesByAgeGroup = getObjectsByAgeGroup(fundingSpaces);
 
 	const numKidsEnrolledText = enrollmentTextFormatter(
 		enrollments.length,
@@ -173,12 +149,28 @@ export default function Roster() {
 					</div>
 				)}
 				<Legend items={legendItems} />
-				<AgeGroupSection ageGroupTitle={`Infant/toddler`} {...detailsByAgeGroup[Age.Infant]} />
-				<AgeGroupSection ageGroupTitle={`Preschool`} {...detailsByAgeGroup[Age.Preschool]} />
-				<AgeGroupSection ageGroupTitle={`Preschool`} {...detailsByAgeGroup[Age.School]} />
 				<AgeGroupSection
+					ageGroup={Age.Infant}
+					ageGroupTitle={`Infant/toddler`}
+					enrollments={completeEnrollmentsByAgeGroup[Age.Infant]}
+					fundingSpaces={fundingSpacesByAgeGroup[Age.Infant] as FundingSpace[]}
+				/>
+				<AgeGroupSection
+					ageGroup={Age.Preschool}
+					ageGroupTitle={`Preschool`}
+					enrollments={completeEnrollmentsByAgeGroup[Age.Preschool]}
+					fundingSpaces={fundingSpacesByAgeGroup[Age.Preschool] as FundingSpace[]}
+				/>
+				<AgeGroupSection
+					ageGroup={Age.School}
+					ageGroupTitle={`School age`}
+					enrollments={completeEnrollmentsByAgeGroup[Age.School]}
+					fundingSpaces={fundingSpacesByAgeGroup[Age.School] as FundingSpace[]}
+				/>
+				<AgeGroupSection
+					ageGroup="incomplete"
 					ageGroupTitle={`Incomplete enrollments`}
-					tableProps={incompleteTableProps}
+					enrollments={incompleteEnrollments.filter(e => !e.age)}
 				/>
 			</section>
 		</div>
