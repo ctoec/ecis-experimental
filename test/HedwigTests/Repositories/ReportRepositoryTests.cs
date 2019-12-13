@@ -72,7 +72,7 @@ namespace HedwigTests.Repositories
           var fundingResult = enrollmentResult.Fundings.FirstOrDefault();
 
           // A submitted report should return the data as of when it was submitted
-          Assert.Equal(submitted ? Age.Preschool : Age.School, enrollmentResult.Age);
+          Assert.Equal(submitted ? Age.Preschool : Age.School, enrollmentResult.AgeGroup);
           Assert.Equal(submitted ? FundingTime.Full : FundingTime.Part, fundingResult.Time);
         }
       }
