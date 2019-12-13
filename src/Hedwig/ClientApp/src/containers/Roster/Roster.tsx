@@ -185,7 +185,12 @@ export default function Roster() {
 	return (
 		<div className="Roster">
 			<section className="grid-container">
-				<h1 className="grid-col-auto">{site.name}</h1>
+				<div className="grid-row flex-first-baseline flex-space-between">
+					<h1 className="tablet:grid-col-auto">{site.name}</h1>
+					<div className="tablet:grid-col-auto">
+						<Button text="Enroll child" href={`/roster/sites/${site.id}/enroll`} />
+					</div>
+				</div>
 				<div className="grid-row">
 					<div className="tablet:grid-col-fill">
 						<p className="usa-intro display-flex flex-row flex-wrap flex-justify-start">
@@ -198,9 +203,6 @@ export default function Roster() {
 								onClick={handlePastEnrollmentsChange}
 							/>
 						</p>
-					</div>
-					<div className="tablet:grid-col-auto">
-						<Button text="Enroll child" href={`/roster/sites/${site.id}/enroll`} />
 					</div>
 				</div>
 				{showPastEnrollments && (

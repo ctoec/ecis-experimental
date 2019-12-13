@@ -104,6 +104,15 @@ h1 {
 	margin-top: 0;
 }
 
+// *** Alignment ***
+.flex-first-baseline {
+	align-items: first baseline;
+}
+
+.flex-space-between {
+	justify-content: space-between;
+}
+
 // *** Table ***
 
 .oec-table {
