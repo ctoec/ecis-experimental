@@ -91,7 +91,7 @@ export default function Reports() {
       {
         name: 'Date submitted',
         cell: ({ row }) => <td className="oec-table__cell--tabular-nums">{dateFormatter(row.submittedAt)}</td>,
-        sort: row => (row.submittedAt && row.submittedAt.getTime()) || 0,
+        sort: row => row.submittedAt && row.submittedAt.getTime() || 0,
       },
     ],
   };

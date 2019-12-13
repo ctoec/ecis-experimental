@@ -24,13 +24,13 @@ export interface ProblemDetails {
      * @type {string}
      * @memberof ProblemDetails
      */
-    type?: string;
+    type?: string | null;
     /**
      * 
      * @type {string}
      * @memberof ProblemDetails
      */
-    title?: string;
+    title?: string | null;
     /**
      * 
      * @type {number}
@@ -42,13 +42,13 @@ export interface ProblemDetails {
      * @type {string}
      * @memberof ProblemDetails
      */
-    detail?: string;
+    detail?: string | null;
     /**
      * 
      * @type {string}
      * @memberof ProblemDetails
      */
-    instance?: string;
+    instance?: string | null;
     /**
      * 
      * @type {{ [key: string]: object; }}

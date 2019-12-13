@@ -99,7 +99,7 @@ export interface CdcReport {
      * @type {Date}
      * @memberof CdcReport
      */
-    submittedAt?: Date;
+    submittedAt?: Date | null;
 }
 
 export function CdcReportFromJSON(json: any): CdcReport {
@@ -122,7 +122,7 @@ export function CdcReportFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         'type': !exists(json, 'type') ? undefined : FundingSourceFromJSON(json['type']),
         'reportingPeriodId': !exists(json, 'reportingPeriodId') ? undefined : json['reportingPeriodId'],
         'reportingPeriod': !exists(json, 'reportingPeriod') ? undefined : ReportingPeriodFromJSON(json['reportingPeriod']),
-        'submittedAt': !exists(json, 'submittedAt') ? undefined : (new Date(json['submittedAt'])),
+        'submittedAt': !exists(json, 'submittedAt') ? undefined : (json['submittedAt'] === null ? null : new Date(json['submittedAt'])),
     };
 }
 
@@ -145,7 +145,7 @@ export function CdcReportToJSON(value?: CdcReport | null): any {
         'type': FundingSourceToJSON(value.type),
         'reportingPeriodId': value.reportingPeriodId,
         'reportingPeriod': ReportingPeriodToJSON(value.reportingPeriod),
-        'submittedAt': value.submittedAt === undefined ? undefined : (value.submittedAt.toISOString()),
+        'submittedAt': value.submittedAt === undefined ? undefined : (value.submittedAt === null ? null : value.submittedAt.toISOString()),
     };
 }
 

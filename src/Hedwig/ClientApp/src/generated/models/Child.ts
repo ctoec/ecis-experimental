@@ -65,55 +65,55 @@ export interface Child {
      * @type {string}
      * @memberof Child
      */
-    sasid?: string;
+    sasid?: string | null;
     /**
      * 
      * @type {string}
      * @memberof Child
      */
-    firstName: string;
+    firstName: string | null;
     /**
      * 
      * @type {string}
      * @memberof Child
      */
-    middleName?: string;
+    middleName?: string | null;
     /**
      * 
      * @type {string}
      * @memberof Child
      */
-    lastName: string;
+    lastName: string | null;
     /**
      * 
      * @type {string}
      * @memberof Child
      */
-    suffix?: string;
+    suffix?: string | null;
     /**
      * 
      * @type {Date}
      * @memberof Child
      */
-    birthdate?: Date;
+    birthdate?: Date | null;
     /**
      * 
      * @type {string}
      * @memberof Child
      */
-    birthTown?: string;
+    birthTown?: string | null;
     /**
      * 
      * @type {string}
      * @memberof Child
      */
-    birthState?: string;
+    birthState?: string | null;
     /**
      * 
      * @type {string}
      * @memberof Child
      */
-    birthCertificateId?: string;
+    birthCertificateId?: string | null;
     /**
      * 
      * @type {boolean}
@@ -212,7 +212,7 @@ export function ChildFromJSONTyped(json: any, ignoreDiscriminator: boolean): Chi
         'middleName': !exists(json, 'middleName') ? undefined : json['middleName'],
         'lastName': json['lastName'],
         'suffix': !exists(json, 'suffix') ? undefined : json['suffix'],
-        'birthdate': !exists(json, 'birthdate') ? undefined : (new Date(json['birthdate'])),
+        'birthdate': !exists(json, 'birthdate') ? undefined : (json['birthdate'] === null ? null : new Date(json['birthdate'])),
         'birthTown': !exists(json, 'birthTown') ? undefined : json['birthTown'],
         'birthState': !exists(json, 'birthState') ? undefined : json['birthState'],
         'birthCertificateId': !exists(json, 'birthCertificateId') ? undefined : json['birthCertificateId'],
@@ -249,7 +249,7 @@ export function ChildToJSON(value?: Child | null): any {
         'middleName': value.middleName,
         'lastName': value.lastName,
         'suffix': value.suffix,
-        'birthdate': value.birthdate === undefined ? undefined : (value.birthdate.toISOString()),
+        'birthdate': value.birthdate === undefined ? undefined : (value.birthdate === null ? null : value.birthdate.toISOString()),
         'birthTown': value.birthTown,
         'birthState': value.birthState,
         'birthCertificateId': value.birthCertificateId,
