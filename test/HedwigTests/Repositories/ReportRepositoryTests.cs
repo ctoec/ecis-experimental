@@ -39,7 +39,7 @@ namespace HedwigTests.Repositories
           Thread.Sleep(1000);
         }
 
-        enrollment.Age = Age.School;
+        enrollment.AgeGroup = Age.School;
         funding.Time = FundingTime.Part;
         context.SaveChanges();
 

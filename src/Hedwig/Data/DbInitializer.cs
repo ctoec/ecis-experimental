@@ -284,7 +284,7 @@ namespace Hedwig.Data
         ChildId = childId,
         SiteId = siteId,
         Entry = DateTime.Parse(entry),
-        Age = ageGroup
+        AgeGroup = ageGroup
       };
       if (exit != null)
       {

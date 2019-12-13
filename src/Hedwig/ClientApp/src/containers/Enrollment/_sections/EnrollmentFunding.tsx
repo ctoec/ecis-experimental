@@ -29,7 +29,7 @@ const EnrollmentFunding: Section = {
                 '–' +
                 dateFormatter(idx(enrollment, _ => _.exit))}
             </p>
-            <p>Age: {prettyAge(idx(enrollment, _ => _.age) || null)}</p>
+            <p>Age: {prettyAge(idx(enrollment, _ => _.ageGroup) || null)}</p>
           </>
         )}
       </div>
@@ -51,7 +51,7 @@ const EnrollmentFunding: Section = {
     const [siteId, updateSiteId] = React.useState(idx(enrollment, _ => _.siteId));
 
     const [entry, updateEntry] = React.useState(enrollment ? enrollment.entry : null);
-    const [age, updateAge] = React.useState(enrollment ? enrollment.age : null);
+    const [age, updateAge] = React.useState(enrollment ? enrollment.ageGroup : null);
 
     const save = () => {
       const args = {

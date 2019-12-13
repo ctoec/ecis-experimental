@@ -54,14 +54,13 @@ export default function Roster() {
 		return <div className="Roster"></div>;
 	}
 
-	const incompleteEnrollments = enrollments.filter(e => !e.age || !e.entry);
+	const incompleteEnrollments = enrollments.filter(e => !e.ageGroup || !e.entry);
 
 	const completeEnrollments = enrollments.filter(e => !incompleteEnrollments.includes(e));
 	const completeEnrollmentsByAgeGroup = getObjectsByAgeGroup(completeEnrollments);
 
 	const fundingSpaces = idx(site, _ => _.organization.fundingSpaces) || [];
 	const fundingSpacesByAgeGroup = getObjectsByAgeGroup(fundingSpaces);
-	console.log(fundingSpaces, fundingSpacesByAgeGroup)
 
 	const numKidsEnrolledText = enrollmentTextFormatter(
 		enrollments.length,
@@ -171,7 +170,7 @@ export default function Roster() {
 				<AgeGroupSection
 					ageGroup="incomplete"
 					ageGroupTitle={`Incomplete enrollments`}
-					enrollments={incompleteEnrollments.filter(e => !e.age)}
+					enrollments={incompleteEnrollments.filter(e => !e.ageGroup)}
 				/>
 			</section>
 		</div>
