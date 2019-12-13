@@ -25,7 +25,7 @@ namespace HedwigTests.Helpers
 				ChildId = child.Id,
 				SiteId = site.Id,
 				Entry = DateTime.Parse(entry),
-				Age = ageGroup
+				AgeGroup = ageGroup
 			};
 
 			if (exit != null) enrollment.Exit = DateTime.Parse(exit);

@@ -26,7 +26,7 @@ namespace HedwigTests.Repositories
         var organization = OrganizationHelper.CreateOrganization(context);
         var report = ReportHelper.CreateCdcReport(context, organization: organization);
         var site = SiteHelper.CreateSite(context, organization: organization);
-        var enrollment = EnrollmentHelper.CreateEnrollment(context, site: site, age: Age.Preschool);
+        var enrollment = EnrollmentHelper.CreateEnrollment(context, site: site, ageGroup: Age.Preschool);
         var funding = FundingHelper.CreateFunding(context, enrollment: enrollment, time: FundingTime.Full);
 
         if (submitted)
