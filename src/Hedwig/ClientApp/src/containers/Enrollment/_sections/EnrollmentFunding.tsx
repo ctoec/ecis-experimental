@@ -50,13 +50,13 @@ const EnrollmentFunding: Section = {
 
     const [siteId, updateSiteId] = React.useState(idx(enrollment, _ => _.siteId));
 
-    const [entry, updateEntry] = React.useState(enrollment.entry);
-    const [age, updateAge] = React.useState(enrollment.age);
+    const [entry, updateEntry] = React.useState(enrollment ? enrollment.entry : null);
+    const [age, updateAge] = React.useState(enrollment ? enrollment.age : null);
 
     const save = () => {
       const args = {
-        entry: entry,
-        age: age
+        entry: entry || undefined,
+        age: age || undefined
       };
 
       if (enrollment) {
@@ -93,7 +93,7 @@ const EnrollmentFunding: Section = {
 					</label>
 					<DatePicker
 						onChange={range =>
-							updateEntry((range.startDate && range.startDate.toDate()) || undefined)
+							updateEntry((range.startDate && range.startDate.toDate()) || null)
 						}
 						dateRange={{ startDate: entry ? moment(entry) : null, endDate: null }}
 					/>

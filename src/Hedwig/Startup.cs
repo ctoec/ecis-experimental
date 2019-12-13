@@ -32,7 +32,6 @@ namespace Hedwig
       services.AddSwaggerGen(c =>
       {
         c.SwaggerDoc("v1", new OpenApiInfo { Title = "Hedwig API", Version = "v1" });
-        c.SchemaFilter<SchemaFilter>();
         c.DescribeAllEnumsAsStrings();
         c.TagActionsBy(api => new List<string> { "Hedwig" });
         c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme

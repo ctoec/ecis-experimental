@@ -55,31 +55,31 @@ export interface Family {
      * @type {string}
      * @memberof Family
      */
-    addressLine1?: string;
+    addressLine1?: string | null;
     /**
      * 
      * @type {string}
      * @memberof Family
      */
-    addressLine2?: string;
+    addressLine2?: string | null;
     /**
      * 
      * @type {string}
      * @memberof Family
      */
-    town?: string;
+    town?: string | null;
     /**
      * 
      * @type {string}
      * @memberof Family
      */
-    state?: string;
+    state?: string | null;
     /**
      * 
      * @type {string}
      * @memberof Family
      */
-    zip?: string;
+    zip?: string | null;
     /**
      * 
      * @type {boolean}

@@ -83,13 +83,13 @@ export interface Enrollment {
      * @type {Date}
      * @memberof Enrollment
      */
-    entry?: Date;
+    entry?: Date | null;
     /**
      * 
      * @type {Date}
      * @memberof Enrollment
      */
-    exit?: Date;
+    exit?: Date | null;
     /**
      * 
      * @type {Array<Funding>}
@@ -126,8 +126,8 @@ export function EnrollmentFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'siteId': !exists(json, 'siteId') ? undefined : json['siteId'],
         'site': !exists(json, 'site') ? undefined : SiteFromJSON(json['site']),
         'age': !exists(json, 'age') ? undefined : AgeFromJSON(json['age']),
-        'entry': !exists(json, 'entry') ? undefined : (new Date(json['entry'])),
-        'exit': !exists(json, 'exit') ? undefined : (new Date(json['exit'])),
+        'entry': !exists(json, 'entry') ? undefined : (json['entry'] === null ? null : new Date(json['entry'])),
+        'exit': !exists(json, 'exit') ? undefined : (json['exit'] === null ? null : new Date(json['exit'])),
         'fundings': !exists(json, 'fundings') ? undefined : (json['fundings'] === null ? null : (json['fundings'] as Array<any>).map(FundingFromJSON)),
         'authorId': !exists(json, 'authorId') ? undefined : json['authorId'],
         'author': !exists(json, 'author') ? undefined : UserFromJSON(json['author']),
@@ -149,8 +149,8 @@ export function EnrollmentToJSON(value?: Enrollment | null): any {
         'siteId': value.siteId,
         'site': SiteToJSON(value.site),
         'age': AgeToJSON(value.age),
-        'entry': value.entry === undefined ? undefined : (value.entry.toISOString()),
-        'exit': value.exit === undefined ? undefined : (value.exit.toISOString()),
+        'entry': value.entry === undefined ? undefined : (value.entry === null ? null : value.entry.toISOString()),
+        'exit': value.exit === undefined ? undefined : (value.exit === null ? null : value.exit.toISOString()),
         'fundings': value.fundings === undefined ? undefined : (value.fundings === null ? null : (value.fundings as Array<any>).map(FundingToJSON)),
         'authorId': value.authorId,
         'author': UserToJSON(value.author),

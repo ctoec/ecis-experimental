@@ -51,25 +51,25 @@ export interface User {
      * @type {string}
      * @memberof User
      */
-    firstName: string;
+    firstName: string | null;
     /**
      * 
      * @type {string}
      * @memberof User
      */
-    middleName?: string;
+    middleName?: string | null;
     /**
      * 
      * @type {string}
      * @memberof User
      */
-    lastName: string;
+    lastName: string | null;
     /**
      * 
      * @type {string}
      * @memberof User
      */
-    suffix?: string;
+    suffix?: string | null;
     /**
      * 
      * @type {Array<OrganizationPermission>}
