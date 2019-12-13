@@ -61,6 +61,7 @@ export default function Roster() {
 
 	const fundingSpaces = idx(site, _ => _.organization.fundingSpaces) || [];
 	const fundingSpacesByAgeGroup = getObjectsByAgeGroup(fundingSpaces);
+	console.log(fundingSpaces, fundingSpacesByAgeGroup)
 
 	const numKidsEnrolledText = enrollmentTextFormatter(
 		enrollments.length,

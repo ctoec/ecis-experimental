@@ -96,6 +96,7 @@ export default function AgeGroupSection({
 		data: enrollments,
 	});
 
+	console.log(fundingSpaces)
 	return (
 		<>
 			<h2>{`${ageGroupTitle} (${pluralize('child', tableProps.data.length, true)})`}</h2>
