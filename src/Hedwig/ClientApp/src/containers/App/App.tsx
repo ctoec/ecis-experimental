@@ -13,6 +13,9 @@ import UserContext from '../../contexts/User/UserContext';
 type AppContextType = { invalidateCache: () => void };
 export const AppContext = createContext<AppContextType>({ invalidateCache: () => { } });
 
+/**
+ * Main React component container for Hedwig application
+ */
 const App: React.FC = () => {
   const { user } = useContext(UserContext);
 
@@ -54,7 +57,7 @@ const App: React.FC = () => {
           Skip to main content
         </a>
         <Header
-          title="Enrollment &amp; Funding"
+          title="ECE Reporter"
           navItems={navItems}
           loginPath="/login"
           logoutPath="/logout"

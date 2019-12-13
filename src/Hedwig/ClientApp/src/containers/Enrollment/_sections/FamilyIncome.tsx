@@ -4,6 +4,7 @@ import Button from '../../../components/Button/Button';
 import TextInput from '../../../components/TextInput/TextInput';
 import DatePicker from '../../../components/DatePicker/DatePicker';
 import dateFormatter from '../../../utils/dateFormatter';
+import notNullOrUndefined from '../../../utils/notNullOrUndefined';
 import moment from 'moment';
 import idx from 'idx';
 import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest } from '../../../generated';
@@ -123,7 +124,7 @@ const FamilyIncome: Section = {
           onChange={event => {
             updateIncome(parseCurrencyFromString(event.target.value));
           }}
-          onBlur={event => (event.target.value = income ? currencyFormatter(income) : '')}
+          onBlur={event => (event.target.value = notNullOrUndefined(income) ? currencyFormatter(income) : '')}
         />
         <label className="usa-label" htmlFor="date">
           Date determined

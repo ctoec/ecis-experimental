@@ -14,6 +14,11 @@ const { Provider, Consumer } = UserContext;
 
 export type UserProviderPropsType = {};
 
+/**
+ * Context Provider for injecting User object into React hierarchy
+ *
+ * @param props Props with user
+ */
 const UserProvider: React.FC<UserProviderPropsType> = ({ children }) => {
 	const [, , user] = useApi((api) => api.apiUsersCurrentGet());
 	return (

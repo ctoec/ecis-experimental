@@ -28,15 +28,22 @@ const sections: { [key: string]: Section } = {
 	'enrollment-funding': EnrollmentFunding,
 };
 
+/**
+ * React component for editing an enrollment. Hands off to a section
+ * form component.
+ * 
+ * @param props Props with location. 
+ */
 export default function EnrollmentEdit({
 	history,
 	match: {
 		params: { enrollmentId, sectionId },
 	},
 }: EnrollmentEditParams) {
-
 	const section = sections[sectionId];
 	const { user } = useContext(UserContext);
+
+	// Get enrollment by id
 	const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest = {
 		id: enrollmentId  ? enrollmentId : 0,
 		orgId: getIdForUser(user, "org"),
@@ -56,6 +63,12 @@ export default function EnrollmentEdit({
 		return <div className="EnrollmentEdit"></div>;
 	}
 
+	/**
+	 * Accepts an enrollment and navigates back to the enrollment
+	 * summary page.
+	 * 
+	 * @param enrollment Enrollment that was just saved.
+	 */
 	const afterSave = (enrollment: Enrollment) => {
 		history.push(`/roster/enrollments/${enrollment.id}/`);
 	};
