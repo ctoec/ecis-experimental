@@ -101,7 +101,7 @@ export interface Family {
      * @type {number}
      * @memberof Family
      */
-    organizationId?: number;
+    organizationId: number;
     /**
      * 
      * @type {Organization}
@@ -147,7 +147,7 @@ export function FamilyFromJSONTyped(json: any, ignoreDiscriminator: boolean): Fa
         'zip': !exists(json, 'zip') ? undefined : json['zip'],
         'homelessness': !exists(json, 'homelessness') ? undefined : json['homelessness'],
         'determinations': !exists(json, 'determinations') ? undefined : (json['determinations'] === null ? null : (json['determinations'] as Array<any>).map(FamilyDeterminationFromJSON)),
-        'organizationId': !exists(json, 'organizationId') ? undefined : json['organizationId'],
+        'organizationId': json['organizationId'],
         'organization': !exists(json, 'organization') ? undefined : OrganizationFromJSON(json['organization']),
         'validationErrors': !exists(json, 'validationErrors') ? undefined : (json['validationErrors'] === null ? null : (json['validationErrors'] as Array<any>).map(ValidationErrorFromJSON)),
         'authorId': !exists(json, 'authorId') ? undefined : json['authorId'],

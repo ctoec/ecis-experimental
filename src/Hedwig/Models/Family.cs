@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using Hedwig.Validations;
+using Hedwig.Validations.Attributes;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
 namespace Hedwig.Models
 {
-	public class Family : TemporalEntity, IValidateable
+	public class Family : TemporalEntity, INonBlockingValidatableObject
 	{
 		
 		[Required]
@@ -19,6 +20,8 @@ namespace Hedwig.Models
 		public bool Homelessness { get; set; }
 		public ICollection<FamilyDetermination> Determinations { get; set; }
 
+		[Required]
+		[OrgIdFromPath]
 		public int OrganizationId { get; set; }
 		public Organization Organization { get; set; }
 

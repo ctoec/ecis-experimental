@@ -8,7 +8,7 @@ namespace Hedwig.Validations.Rules
       _validator = validator;
     }
 
-    protected void ValidateSubObject<T>(T subObject) where T : IValidateable
+    protected void ValidateSubObject<T>(T subObject) where T : INonBlockingValidatableObject
     {
       _validator.Validate(subObject);
     }

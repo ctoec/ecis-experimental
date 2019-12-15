@@ -177,7 +177,7 @@ export interface Child {
      * @type {number}
      * @memberof Child
      */
-    organizationId?: number;
+    organizationId: number;
     /**
      * 
      * @type {Organization}
@@ -235,7 +235,7 @@ export function ChildFromJSONTyped(json: any, ignoreDiscriminator: boolean): Chi
         'familyId': !exists(json, 'familyId') ? undefined : json['familyId'],
         'family': !exists(json, 'family') ? undefined : FamilyFromJSON(json['family']),
         'enrollments': !exists(json, 'enrollments') ? undefined : (json['enrollments'] === null ? null : (json['enrollments'] as Array<any>).map(EnrollmentFromJSON)),
-        'organizationId': !exists(json, 'organizationId') ? undefined : json['organizationId'],
+        'organizationId': json['organizationId'],
         'organization': !exists(json, 'organization') ? undefined : OrganizationFromJSON(json['organization']),
         'validationErrors': !exists(json, 'validationErrors') ? undefined : (json['validationErrors'] === null ? null : (json['validationErrors'] as Array<any>).map(ValidationErrorFromJSON)),
         'authorId': !exists(json, 'authorId') ? undefined : json['authorId'],

@@ -5,10 +5,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Hedwig.Validations;
+using Hedwig.Validations.Attributes;
+using Hedwig.Repositories;
+using Microsoft.AspNetCore.Http;
 
 namespace Hedwig.Models
 {
-	public class Child : TemporalEntity, IValidateable
+	public class Child : TemporalEntity, INonBlockingValidatableObject
 	{
 		[Required]
 		public Guid Id { get; set; }
@@ -45,11 +48,13 @@ namespace Hedwig.Models
 		public int? FamilyId { get; set; }
 		public Family Family { get; set; }
 		public ICollection<Enrollment> Enrollments { get; set; }
+
+		[Required]
+		[OrgIdFromPath]
 		public int OrganizationId { get; set; }
 		public Organization Organization { get; set; }
 
 		[NotMapped]	
 		public List<ValidationError> ValidationErrors { get; set; }
-
 	}
 }

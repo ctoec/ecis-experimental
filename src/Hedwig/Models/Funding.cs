@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Hedwig.Models
 {
-  public class Funding : TemporalEntity, IValidateable
+  public class Funding : TemporalEntity, INonBlockingValidatableObject
   {
     [Required]
     public int Id { get; set; }

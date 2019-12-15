@@ -196,6 +196,7 @@ const ChildInfo: Section = {
             ...enrollment,
             child: {
               id: enrollment.childId,
+              organizationId: getIdForUser(user, "org"),
               ...enrollment.child,
               ...args
             }
@@ -211,14 +212,11 @@ const ChildInfo: Section = {
           ...defaultPostParams,
           enrollment: {
             id: 0,
-            siteId: 0,
+            siteId: getIdForUser(user, "site"),
             childId: emptyGuid(), 
             child: {
               id: emptyGuid(),
-              familyId: 0,
-              family: {
-                id: 0,
-              },
+              organizationId: getIdForUser(user, "org"),
               ...args
             }
           }

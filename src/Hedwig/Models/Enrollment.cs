@@ -5,10 +5,11 @@ using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Hedwig.Validations;
+using Hedwig.Validations.Attributes;
 
 namespace Hedwig.Models
 {
-	public class Enrollment : TemporalEntity, IValidateable
+	public class Enrollment : TemporalEntity, INonBlockingValidatableObject
 	{
 		[Required]
 		public int Id { get; set; }
@@ -18,6 +19,7 @@ namespace Hedwig.Models
 		public Child Child { get; set; }
 
 		[Required]
+		[SiteIdFromPath]
 		public int SiteId { get; set; }
 		public Site Site { get; set; }
 

@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Hedwig.Models
 {
-  public abstract class Report : IValidateable
+  public abstract class Report : INonBlockingValidatableObject
   {
     [Required]
     public int Id { get; set; }

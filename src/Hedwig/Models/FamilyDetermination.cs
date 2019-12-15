@@ -6,7 +6,7 @@ using Hedwig.Validations;
 
 namespace Hedwig.Models
 {
-	public class FamilyDetermination : TemporalEntity, IValidateable
+	public class FamilyDetermination : TemporalEntity, INonBlockingValidatableObject
 	{
 		[Required]
 		public int Id { get; set; }
