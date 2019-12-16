@@ -52,7 +52,7 @@ export default function UtilizationTable(report: CdcReport) {
       const cdcFunding = enrollment.fundings.find(funding => funding.source === report.type);
       if (!cdcFunding) { return []; }
       return {
-        ageGroup: enrollment.age,
+        ageGroup: enrollment.ageGroup,
         time: cdcFunding.time,
       };
     });
