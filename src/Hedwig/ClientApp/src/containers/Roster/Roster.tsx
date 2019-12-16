@@ -81,7 +81,9 @@ export default function Roster() {
 		byRange
 	);
 
-	const legendItems: (LegendItem | undefined)[] = Object.keys(fundingSourceDetails).map(source => {
+	const legendItems: LegendItem[] = [];
+
+	Object.keys(fundingSourceDetails).forEach(source => {
 		function isEnrolledForFunding(
 			enrollment: DeepNonUndefineable<Enrollment>
 		): enrollment is DeepNonUndefineable<Enrollment> {
@@ -100,17 +102,17 @@ export default function Roster() {
 		).length;
 
 		if (enrolledForFunding === 0) {
-			return undefined;
+			return;
 		}
 
-		return {
+		legendItems.push({
 			text: fundingSourceDetails[source].legendTextFormatter(
 				fundingSourceDetails[source].fullTitle,
 				enrolledForFunding,
 				capacityForFunding
 			),
 			symbol: <Tag text={source} color={fundingSourceDetails[source].colorToken} />,
-		};
+		});
 	});
 
 	if (incompleteEnrollments.length) {
