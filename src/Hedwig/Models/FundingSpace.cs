@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System.ComponentModel.DataAnnotations;
 
 namespace Hedwig.Models
 {
@@ -7,8 +8,10 @@ namespace Hedwig.Models
   {
     public int Id { get; set; }
 
+    [Required]
     public int Capacity { get; set; }
 
+    [Required]
     public int OrganizationId { get; set; }
     public Organization Organization { get; set; }
 

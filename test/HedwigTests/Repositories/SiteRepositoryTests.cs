@@ -46,7 +46,7 @@ namespace HedwigTests.Repositories
 				var enrollment = EnrollmentHelper.CreateEnrollment(context);
 
 				id = enrollment.SiteId;
-				orgId = enrollment.Site.OrganizationId.Value;
+				orgId = enrollment.Site.OrganizationId;
 			}
 
 			using (var context = new TestContextProvider().Context)

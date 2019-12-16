@@ -34,6 +34,10 @@ import {
     UserFromJSON,
     UserFromJSONTyped,
     UserToJSON,
+    ValidationError,
+    ValidationErrorFromJSON,
+    ValidationErrorFromJSONTyped,
+    ValidationErrorToJSON,
 } from './';
 
 /**
@@ -44,22 +48,10 @@ import {
 export interface Child {
     /**
      * 
-     * @type {number}
-     * @memberof Child
-     */
-    organizationId?: number | null;
-    /**
-     * 
-     * @type {Organization}
-     * @memberof Child
-     */
-    organization?: Organization;
-    /**
-     * 
      * @type {string}
      * @memberof Child
      */
-    id?: string;
+    id: string;
     /**
      * 
      * @type {string}
@@ -149,7 +141,7 @@ export interface Child {
      * @type {boolean}
      * @memberof Child
      */
-    hispanicOrLatinxEthnicity?: boolean;
+    hispanicOrLatinxEthnicity?: boolean | null;
     /**
      * 
      * @type {Gender}
@@ -185,6 +177,24 @@ export interface Child {
      * @type {number}
      * @memberof Child
      */
+    organizationId: number;
+    /**
+     * 
+     * @type {Organization}
+     * @memberof Child
+     */
+    organization?: Organization;
+    /**
+     * 
+     * @type {Array<ValidationError>}
+     * @memberof Child
+     */
+    validationErrors?: Array<ValidationError> | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof Child
+     */
     authorId?: number | null;
     /**
      * 
@@ -204,9 +214,7 @@ export function ChildFromJSONTyped(json: any, ignoreDiscriminator: boolean): Chi
     }
     return {
         
-        'organizationId': !exists(json, 'organizationId') ? undefined : json['organizationId'],
-        'organization': !exists(json, 'organization') ? undefined : OrganizationFromJSON(json['organization']),
-        'id': !exists(json, 'id') ? undefined : json['id'],
+        'id': json['id'],
         'sasid': !exists(json, 'sasid') ? undefined : json['sasid'],
         'firstName': json['firstName'],
         'middleName': !exists(json, 'middleName') ? undefined : json['middleName'],
@@ -227,6 +235,9 @@ export function ChildFromJSONTyped(json: any, ignoreDiscriminator: boolean): Chi
         'familyId': !exists(json, 'familyId') ? undefined : json['familyId'],
         'family': !exists(json, 'family') ? undefined : FamilyFromJSON(json['family']),
         'enrollments': !exists(json, 'enrollments') ? undefined : (json['enrollments'] === null ? null : (json['enrollments'] as Array<any>).map(EnrollmentFromJSON)),
+        'organizationId': json['organizationId'],
+        'organization': !exists(json, 'organization') ? undefined : OrganizationFromJSON(json['organization']),
+        'validationErrors': !exists(json, 'validationErrors') ? undefined : (json['validationErrors'] === null ? null : (json['validationErrors'] as Array<any>).map(ValidationErrorFromJSON)),
         'authorId': !exists(json, 'authorId') ? undefined : json['authorId'],
         'author': !exists(json, 'author') ? undefined : UserFromJSON(json['author']),
     };
@@ -241,8 +252,6 @@ export function ChildToJSON(value?: Child | null): any {
     }
     return {
         
-        'organizationId': value.organizationId,
-        'organization': OrganizationToJSON(value.organization),
         'id': value.id,
         'sasid': value.sasid,
         'firstName': value.firstName,
@@ -264,6 +273,9 @@ export function ChildToJSON(value?: Child | null): any {
         'familyId': value.familyId,
         'family': FamilyToJSON(value.family),
         'enrollments': value.enrollments === undefined ? undefined : (value.enrollments === null ? null : (value.enrollments as Array<any>).map(EnrollmentToJSON)),
+        'organizationId': value.organizationId,
+        'organization': OrganizationToJSON(value.organization),
+        'validationErrors': value.validationErrors === undefined ? undefined : (value.validationErrors === null ? null : (value.validationErrors as Array<any>).map(ValidationErrorToJSON)),
         'authorId': value.authorId,
         'author': UserToJSON(value.author),
     };

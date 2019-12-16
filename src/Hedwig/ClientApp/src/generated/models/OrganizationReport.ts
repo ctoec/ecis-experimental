@@ -26,6 +26,10 @@ import {
     ReportingPeriodFromJSON,
     ReportingPeriodFromJSONTyped,
     ReportingPeriodToJSON,
+    ValidationError,
+    ValidationErrorFromJSON,
+    ValidationErrorFromJSONTyped,
+    ValidationErrorToJSON,
 } from './';
 
 /**
@@ -39,7 +43,7 @@ export interface OrganizationReport {
      * @type {number}
      * @memberof OrganizationReport
      */
-    organizationId?: number;
+    organizationId: number;
     /**
      * 
      * @type {Organization}
@@ -51,7 +55,7 @@ export interface OrganizationReport {
      * @type {number}
      * @memberof OrganizationReport
      */
-    id?: number;
+    id: number;
     /**
      * 
      * @type {FundingSource}
@@ -76,6 +80,12 @@ export interface OrganizationReport {
      * @memberof OrganizationReport
      */
     submittedAt?: Date | null;
+    /**
+     * 
+     * @type {Array<ValidationError>}
+     * @memberof OrganizationReport
+     */
+    validationErrors?: Array<ValidationError> | null;
 }
 
 export function OrganizationReportFromJSON(json: any): OrganizationReport {
@@ -88,13 +98,14 @@ export function OrganizationReportFromJSONTyped(json: any, ignoreDiscriminator: 
     }
     return {
         
-        'organizationId': !exists(json, 'organizationId') ? undefined : json['organizationId'],
+        'organizationId': json['organizationId'],
         'organization': !exists(json, 'organization') ? undefined : OrganizationFromJSON(json['organization']),
-        'id': !exists(json, 'id') ? undefined : json['id'],
+        'id': json['id'],
         'type': !exists(json, 'type') ? undefined : FundingSourceFromJSON(json['type']),
         'reportingPeriodId': !exists(json, 'reportingPeriodId') ? undefined : json['reportingPeriodId'],
         'reportingPeriod': !exists(json, 'reportingPeriod') ? undefined : ReportingPeriodFromJSON(json['reportingPeriod']),
         'submittedAt': !exists(json, 'submittedAt') ? undefined : (json['submittedAt'] === null ? null : new Date(json['submittedAt'])),
+        'validationErrors': !exists(json, 'validationErrors') ? undefined : (json['validationErrors'] === null ? null : (json['validationErrors'] as Array<any>).map(ValidationErrorFromJSON)),
     };
 }
 
@@ -114,6 +125,7 @@ export function OrganizationReportToJSON(value?: OrganizationReport | null): any
         'reportingPeriodId': value.reportingPeriodId,
         'reportingPeriod': ReportingPeriodToJSON(value.reportingPeriod),
         'submittedAt': value.submittedAt === undefined ? undefined : (value.submittedAt === null ? null : value.submittedAt.toISOString()),
+        'validationErrors': value.validationErrors === undefined ? undefined : (value.validationErrors === null ? null : (value.validationErrors as Array<any>).map(ValidationErrorToJSON)),
     };
 }
 

@@ -14,10 +14,12 @@ import {
   ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest,
   Gender,
   ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
+  Enrollment,
 } from '../../../generated';
 import idx from 'idx';
 import UserContext from '../../../contexts/User/UserContext';
 import getIdForUser from '../../../utils/getIdForUser';
+import emptyGuid from '../../../utils/emptyGuid';
 
 const genderFromString = (str: string) => {
   switch (str) {
@@ -45,7 +47,7 @@ const prettyGender = (child: Child) => {
   }
 };
 
-const RACES = [
+const RACES: (keyof Child)[] = [
   'americanIndianOrAlaskaNative',
   'asian',
   'blackOrAfricanAmerican',
@@ -53,7 +55,7 @@ const RACES = [
   'white',
 ];
 
-const prettyRace = (race: string) => {
+const prettyRace = (race: keyof Child) => {
   switch (race) {
     case 'americanIndianOrAlaskaNative':
       return 'American Indian or Alaska Native';
@@ -69,7 +71,7 @@ const prettyRace = (race: string) => {
 };
 
 const prettyMultiRace = (child: Child) => {
-  const selectedRaces = RACES.filter(race => (child as any)[race]);
+  const selectedRaces = RACES.filter(race => child[race]);
 
   if (selectedRaces.length === 0) {
     return '';
@@ -81,7 +83,14 @@ const prettyMultiRace = (child: Child) => {
 };
 
 const prettyEthnicity = (child: Child) => {
-  return child.hispanicOrLatinxEthnicity ? 'Hispanic/Latinx' : 'Not Hispanic/Latinx';
+  const ethnicity = child.hispanicOrLatinxEthnicity;
+  let ethnicityStr;
+  if (ethnicity == null) {
+    ethnicityStr = '';
+  } else {
+    ethnicityStr = ethnicity ? 'Hispanic/Latinx' : 'Not Hispanic/Latinx';
+  }
+  return ethnicityStr;
 };
 
 const birthCertPresent = (child: Child) => {
@@ -120,7 +129,7 @@ const ChildInfo: Section = {
     const defaultPostParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest = {
       orgId: getIdForUser(user, "org"),
       siteId: getIdForUser(user, "site"),
-      enrollment: enrollment || undefined
+      enrollment: enrollment as Enrollment
     }
     const defaultPutParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
       ...defaultPostParams,
@@ -154,7 +163,7 @@ const ChildInfo: Section = {
     );
     const [white, updateWhite] = useState(child ? child.white : false);
     const [hispanicOrLatinxEthnicity, updateHispanicOrLatinxEthnicity] = useState(
-      child ? child.hispanicOrLatinxEthnicity : false
+      child ? child.hispanicOrLatinxEthnicity : undefined
     );
 
     const [gender, updateGender] = useState(child ? child.gender : Gender.Unspecified);
@@ -186,6 +195,8 @@ const ChildInfo: Section = {
           enrollment: {
             ...enrollment,
             child: {
+              id: enrollment.childId,
+              organizationId: getIdForUser(user, "org"),
               ...enrollment.child,
               ...args
             }
@@ -201,8 +212,13 @@ const ChildInfo: Section = {
           ...defaultPostParams,
           enrollment: {
             id: 0,
-            siteId: 0,
-            child: { ...args }
+            siteId: getIdForUser(user, "site"),
+            childId: emptyGuid(), 
+            child: {
+              id: emptyGuid(),
+              organizationId: getIdForUser(user, "org"),
+              ...args
+            }
           }
         }
         mutate((api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsPost(postParams))
@@ -352,8 +368,13 @@ const ChildInfo: Section = {
               value: 'yes',
             },
           ]}
-          selected={hispanicOrLatinxEthnicity ? 'yes' : 'no'}
-          onChange={event => updateHispanicOrLatinxEthnicity(event.target.value === 'yes')}
+          selected={
+            hispanicOrLatinxEthnicity === undefined /* TODO remove on nullable fix --> */ || hispanicOrLatinxEthnicity === null ? 
+            '' : 
+            hispanicOrLatinxEthnicity ? 'yes' : 'no'}
+          onChange={event => updateHispanicOrLatinxEthnicity(
+            event.target.value === '' ? undefined : event.target.value === 'yes'
+          )}
         />
 
         <h3>Gender</h3>

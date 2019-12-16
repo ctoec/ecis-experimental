@@ -1,9 +1,15 @@
 using System.Collections.Generic;
+using Hedwig.Validations;
+using Hedwig.Validations.Attributes;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace Hedwig.Models
 {
-	public class Family : TemporalEntity
+	public class Family : TemporalEntity, INonBlockingValidatableObject
 	{
+		
+		[Required]
 		public int Id { get; set; }
 		public ICollection<Child> Children { get; set; }
 		public string AddressLine1 { get; set; }
@@ -14,9 +20,12 @@ namespace Hedwig.Models
 		public bool Homelessness { get; set; }
 		public ICollection<FamilyDetermination> Determinations { get; set; }
 
-		// Optional FK to prevent cascade delete
-		// (multiple cascade delete FKs disallowed by SQLServer due to potential for cycles)
-		public int? OrganizationId { get; set; }
+		[Required]
+		[OrgIdFromPath]
+		public int OrganizationId { get; set; }
 		public Organization Organization { get; set; }
+
+		[NotMapped]
+		public List<ValidationError> ValidationErrors { get; set; }
 	}
 }

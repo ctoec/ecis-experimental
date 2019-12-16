@@ -35,7 +35,7 @@ export interface OrganizationPermission {
      * @type {number}
      * @memberof OrganizationPermission
      */
-    organizationId?: number;
+    organizationId: number;
     /**
      * 
      * @type {Organization}
@@ -47,13 +47,13 @@ export interface OrganizationPermission {
      * @type {number}
      * @memberof OrganizationPermission
      */
-    id?: number;
+    id: number;
     /**
      * 
      * @type {number}
      * @memberof OrganizationPermission
      */
-    userId?: number | null;
+    userId: number;
     /**
      * 
      * @type {User}
@@ -72,10 +72,10 @@ export function OrganizationPermissionFromJSONTyped(json: any, ignoreDiscriminat
     }
     return {
         
-        'organizationId': !exists(json, 'organizationId') ? undefined : json['organizationId'],
+        'organizationId': json['organizationId'],
         'organization': !exists(json, 'organization') ? undefined : OrganizationFromJSON(json['organization']),
-        'id': !exists(json, 'id') ? undefined : json['id'],
-        'userId': !exists(json, 'userId') ? undefined : json['userId'],
+        'id': json['id'],
+        'userId': json['userId'],
         'user': !exists(json, 'user') ? undefined : UserFromJSON(json['user']),
     };
 }

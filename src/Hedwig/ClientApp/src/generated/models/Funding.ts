@@ -30,6 +30,10 @@ import {
     UserFromJSON,
     UserFromJSONTyped,
     UserToJSON,
+    ValidationError,
+    ValidationErrorFromJSON,
+    ValidationErrorFromJSONTyped,
+    ValidationErrorToJSON,
 } from './';
 
 /**
@@ -43,13 +47,13 @@ export interface Funding {
      * @type {number}
      * @memberof Funding
      */
-    id?: number;
+    id: number;
     /**
      * 
      * @type {number}
      * @memberof Funding
      */
-    enrollmentId?: number;
+    enrollmentId: number;
     /**
      * 
      * @type {Enrollment}
@@ -82,6 +86,12 @@ export interface Funding {
     time?: FundingTime;
     /**
      * 
+     * @type {Array<ValidationError>}
+     * @memberof Funding
+     */
+    validationErrors?: Array<ValidationError> | null;
+    /**
+     * 
      * @type {number}
      * @memberof Funding
      */
@@ -104,13 +114,14 @@ export function FundingFromJSONTyped(json: any, ignoreDiscriminator: boolean): F
     }
     return {
         
-        'id': !exists(json, 'id') ? undefined : json['id'],
-        'enrollmentId': !exists(json, 'enrollmentId') ? undefined : json['enrollmentId'],
+        'id': json['id'],
+        'enrollmentId': json['enrollmentId'],
         'enrollment': !exists(json, 'enrollment') ? undefined : EnrollmentFromJSON(json['enrollment']),
         'entry': !exists(json, 'entry') ? undefined : (new Date(json['entry'])),
         'exit': !exists(json, 'exit') ? undefined : (json['exit'] === null ? null : new Date(json['exit'])),
         'source': !exists(json, 'source') ? undefined : FundingSourceFromJSON(json['source']),
         'time': !exists(json, 'time') ? undefined : FundingTimeFromJSON(json['time']),
+        'validationErrors': !exists(json, 'validationErrors') ? undefined : (json['validationErrors'] === null ? null : (json['validationErrors'] as Array<any>).map(ValidationErrorFromJSON)),
         'authorId': !exists(json, 'authorId') ? undefined : json['authorId'],
         'author': !exists(json, 'author') ? undefined : UserFromJSON(json['author']),
     };
@@ -132,6 +143,7 @@ export function FundingToJSON(value?: Funding | null): any {
         'exit': value.exit === undefined ? undefined : (value.exit === null ? null : value.exit.toISOString()),
         'source': FundingSourceToJSON(value.source),
         'time': FundingTimeToJSON(value.time),
+        'validationErrors': value.validationErrors === undefined ? undefined : (value.validationErrors === null ? null : (value.validationErrors as Array<any>).map(ValidationErrorToJSON)),
         'authorId': value.authorId,
         'author': UserToJSON(value.author),
     };

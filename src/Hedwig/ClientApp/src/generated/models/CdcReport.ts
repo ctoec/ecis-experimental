@@ -26,6 +26,10 @@ import {
     ReportingPeriodFromJSON,
     ReportingPeriodFromJSONTyped,
     ReportingPeriodToJSON,
+    ValidationError,
+    ValidationErrorFromJSON,
+    ValidationErrorFromJSONTyped,
+    ValidationErrorToJSON,
 } from './';
 
 /**
@@ -63,7 +67,7 @@ export interface CdcReport {
      * @type {number}
      * @memberof CdcReport
      */
-    organizationId?: number;
+    organizationId: number;
     /**
      * 
      * @type {Organization}
@@ -75,7 +79,7 @@ export interface CdcReport {
      * @type {number}
      * @memberof CdcReport
      */
-    id?: number;
+    id: number;
     /**
      * 
      * @type {FundingSource}
@@ -100,6 +104,12 @@ export interface CdcReport {
      * @memberof CdcReport
      */
     submittedAt?: Date | null;
+    /**
+     * 
+     * @type {Array<ValidationError>}
+     * @memberof CdcReport
+     */
+    validationErrors?: Array<ValidationError> | null;
 }
 
 export function CdcReportFromJSON(json: any): CdcReport {
@@ -116,13 +126,14 @@ export function CdcReportFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         'c4KRevenue': !exists(json, 'c4KRevenue') ? undefined : json['c4KRevenue'],
         'retroactiveC4KRevenue': !exists(json, 'retroactiveC4KRevenue') ? undefined : json['retroactiveC4KRevenue'],
         'familyFeesRevenue': !exists(json, 'familyFeesRevenue') ? undefined : json['familyFeesRevenue'],
-        'organizationId': !exists(json, 'organizationId') ? undefined : json['organizationId'],
+        'organizationId': json['organizationId'],
         'organization': !exists(json, 'organization') ? undefined : OrganizationFromJSON(json['organization']),
-        'id': !exists(json, 'id') ? undefined : json['id'],
+        'id': json['id'],
         'type': !exists(json, 'type') ? undefined : FundingSourceFromJSON(json['type']),
         'reportingPeriodId': !exists(json, 'reportingPeriodId') ? undefined : json['reportingPeriodId'],
         'reportingPeriod': !exists(json, 'reportingPeriod') ? undefined : ReportingPeriodFromJSON(json['reportingPeriod']),
         'submittedAt': !exists(json, 'submittedAt') ? undefined : (json['submittedAt'] === null ? null : new Date(json['submittedAt'])),
+        'validationErrors': !exists(json, 'validationErrors') ? undefined : (json['validationErrors'] === null ? null : (json['validationErrors'] as Array<any>).map(ValidationErrorFromJSON)),
     };
 }
 
@@ -146,6 +157,7 @@ export function CdcReportToJSON(value?: CdcReport | null): any {
         'reportingPeriodId': value.reportingPeriodId,
         'reportingPeriod': ReportingPeriodToJSON(value.reportingPeriod),
         'submittedAt': value.submittedAt === undefined ? undefined : (value.submittedAt === null ? null : value.submittedAt.toISOString()),
+        'validationErrors': value.validationErrors === undefined ? undefined : (value.validationErrors === null ? null : (value.validationErrors as Array<any>).map(ValidationErrorToJSON)),
     };
 }
 

@@ -14,6 +14,7 @@ import {
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest 
 } from '../../../generated';
 import getIdForUser from '../../../utils/getIdForUser';
+import { DeepNonUndefineable } from '../../../utils/types';
 
 type EnrollmentNewParams = {
 	history: History;

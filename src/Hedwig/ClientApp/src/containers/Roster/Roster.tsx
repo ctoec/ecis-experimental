@@ -9,7 +9,7 @@ import getFundingSpaceCapacity from '../../utils/getFundingSpaceCapacity';
 import getIdForUser from '../../utils/getIdForUser';
 import missingInformation from '../../utils/missingInformation';
 import { Table, TableProps } from '../../components/Table/Table';
-import Tag from '../../components/Tag/Tag';
+import Tag, { TagProps } from '../../components/Tag/Tag';
 import { DateRange } from '../../components/DatePicker/DatePicker';
 import Button from '../../components/Button/Button';
 import RadioGroup from '../../components/RadioGroup/RadioGroup';
@@ -17,11 +17,12 @@ import Legend, { LegendItem } from '../../components/Legend/Legend';
 import useApi from '../../hooks/useApi';
 import { Enrollment } from '../../generated/models/Enrollment';
 import DateSelectionForm from './DateSelectionForm';
-import { Age, FundingSource } from '../../generated';
+import { Age, FundingSource, Funding } from '../../generated';
 import InlineIcon from '../../components/InlineIcon/InlineIcon';
 import pluralize from 'pluralize';
 import idx from 'idx';
 import UserContext from '../../contexts/User/UserContext';
+import { DeepNonUndefineable } from '../../utils/types';
 
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
@@ -39,7 +40,7 @@ export default function Roster() {
 		orgId: getIdForUser(user, 'org'),
 		include: ['organizations', 'funding_spaces'],
 	};
-	const [sLoading, sError, site] = useApi(api => api.apiOrganizationsOrgIdSitesIdGet(siteParams), [
+	const [siteLoading, siteError, site] = useApi(api => api.apiOrganizationsOrgIdSitesIdGet(siteParams), [
 		user,
 	]);
 
@@ -50,16 +51,16 @@ export default function Roster() {
 		startDate: (dateRange && dateRange.startDate && dateRange.startDate.toDate()) || undefined,
 		endDate: (dateRange && dateRange.endDate && dateRange.endDate.toDate()) || undefined,
 	};
-	const [eLoading, eError, enrollments] = useApi(
+	const [enrollmentLoading, enrollmentError, enrollments] = useApi(
 		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsGet(enrollmentsParams),
 		[user, dateRange]
 	);
 
-	if (sLoading || sError || !site || eLoading || eError || !enrollments) {
+	if (siteLoading || siteError || !site || enrollmentLoading || enrollmentError || !enrollments) {
 		return <div className="Roster"></div>;
 	}
 
-	const defaultRosterTableProps: TableProps<Enrollment> = {
+	const defaultRosterTableProps: TableProps<DeepNonUndefineable<Enrollment>> = {
 		id: 'roster-table',
 		data: [],
 		rowKey: row => row.id,
@@ -88,23 +89,25 @@ export default function Roster() {
 			},
 			{
 				name: 'Funding',
-				cell: ({ row }) => (
-					<td>
-						{row.fundings && row.fundings.length
-							? row.fundings.map(funding => (
-									<Tag
-										key={`${funding.source}-${funding.time}`}
-										text={
-											funding.source
-												? fundingSourceDetails[funding.source].tagFormatter(funding)
-												: ''
-										}
-										color={funding.source ? getColorForFundingSource(funding.source) : 'gray-90'}
-									/>
-							  ))
-							: ''}
-					</td>
-				),
+				cell: ({ row }) => {
+					const fundings = row.fundings && row.fundings.length
+						? row.fundings.map<React.ReactNode>(funding =>
+							<Tag
+								key={`${funding.source}-${funding.time}`}
+								text={
+									funding.source
+										? fundingSourceDetails[funding.source].textFormatter(funding)
+										: ''
+								}
+								color={funding.source ? getColorForFundingSource(funding.source) : 'gray-90'}
+							/>)
+						: '';
+					return (
+						<td>
+							{fundings}
+						</td>
+					);
+				},
 				sort: row => idx(row, _ => _.fundings[0].source) || '',
 			},
 			{
@@ -123,28 +126,48 @@ export default function Roster() {
 		defaultSortOrder: 'ascending',
 	};
 
-	const incompleteEnrollments = enrollments.filter(e => !e.age || !e.entry);
-	const completeEnrollments = enrollments.filter(e => !incompleteEnrollments.includes(e));
+	const incompleteEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>(
+		(e => !e.age || !e.entry) as (_: DeepNonUndefineable<Enrollment>) => _ is DeepNonUndefineable<Enrollment>
+	);
+	const completeEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>(
+		(e => !incompleteEnrollments.includes(e)) as (_: DeepNonUndefineable<Enrollment>) => _ is DeepNonUndefineable<Enrollment>
+	);
 
-	const infantRosterTableProps: TableProps<Enrollment> = {
+	function isInfant(enrollment: DeepNonUndefineable<Enrollment>): enrollment is DeepNonUndefineable<Enrollment> {
+		return enrollment.age === Age.Infant;
+	}
+
+	function isPreschool(enrollment: DeepNonUndefineable<Enrollment>): enrollment is DeepNonUndefineable<Enrollment> {
+		return enrollment.age === Age.Preschool;
+	}
+
+	function isSchool(enrollment: DeepNonUndefineable<Enrollment>): enrollment is DeepNonUndefineable<Enrollment> {
+		return enrollment.age === Age.School;
+	}
+
+	function isAgeIncomplete(enrollment: DeepNonUndefineable<Enrollment>): enrollment is DeepNonUndefineable<Enrollment> {
+		return !enrollment.age;
+	}
+
+	const infantRosterTableProps: TableProps<DeepNonUndefineable<Enrollment>> = {
 		...defaultRosterTableProps,
 		id: 'infant-roster-table',
-		data: completeEnrollments.filter(e => e.age === Age.Infant),
+		data: completeEnrollments.filter<DeepNonUndefineable<Enrollment>>(isInfant),
 	};
-	const preschoolRosterTableProps: TableProps<Enrollment> = {
+	const preschoolRosterTableProps: TableProps<DeepNonUndefineable<Enrollment>> = {
 		...defaultRosterTableProps,
 		id: 'preschool-roster-table',
-		data: completeEnrollments.filter(e => e.age === Age.Preschool),
+		data: completeEnrollments.filter<DeepNonUndefineable<Enrollment>>(isPreschool),
 	};
-	const schoolRosterTableProps: TableProps<Enrollment> = {
+	const schoolRosterTableProps: TableProps<DeepNonUndefineable<Enrollment>> = {
 		...defaultRosterTableProps,
 		id: 'school-roster-table',
-		data: completeEnrollments.filter(e => e.age === Age.School),
+		data: completeEnrollments.filter<DeepNonUndefineable<Enrollment>>(isSchool),
 	};
-	const incompleteRosterTableProps: TableProps<Enrollment> = {
+	const incompleteRosterTableProps: TableProps<DeepNonUndefineable<Enrollment>> = {
 		...defaultRosterTableProps,
 		id: 'incomplete-roster-table',
-		data: incompleteEnrollments.filter(e => !e.age),
+		data: incompleteEnrollments.filter<DeepNonUndefineable<Enrollment>>(isAgeIncomplete),
 	};
 
 	const numKidsEnrolledText = enrollmentTextFormatter(
@@ -156,9 +179,13 @@ export default function Roster() {
 
 	const legendItems: LegendItem[] = Object.keys(fundingSourceDetails).map(source => {
 		const capacityForFunding = getFundingSpaceCapacity(site.organization, source);
-		const enrolledForFunding = enrollments.filter(
-			e => e.fundings && e.fundings.filter(f => f.source === source).length > 0
-		).length;
+		function isEnrolledForFunding(enrollment: DeepNonUndefineable<Enrollment>): enrollment is DeepNonUndefineable<Enrollment> {
+			const matchesSource = (funding: DeepNonUndefineable<Funding>): funding is DeepNonUndefineable<Funding> => {
+				return funding.source === source;
+			}
+			return enrollment.fundings ? enrollment.fundings.filter<DeepNonUndefineable<Funding>>(matchesSource).length > 0 : false;
+		}
+		const enrolledForFunding = enrollments.filter<DeepNonUndefineable<Enrollment>>(isEnrolledForFunding).length;
 
 		return {
 			text: fundingSourceDetails[source].legendTextFormatter(
@@ -178,7 +205,12 @@ export default function Roster() {
 	return (
 		<div className="Roster">
 			<section className="grid-container">
-				<h1 className="grid-col-auto">{site.name}</h1>
+				<div className="grid-row flex-first-baseline flex-space-between">
+					<h1 className="tablet:grid-col-auto">{site.name}</h1>
+					<div className="tablet:grid-col-auto">
+						<Button text="Enroll child" href={`/roster/sites/${site.id}/enroll`} />
+					</div>
+				</div>
 				<div className="grid-row">
 					<div className="tablet:grid-col-fill">
 						<p className="usa-intro display-flex flex-row flex-wrap flex-justify-start">
@@ -191,9 +223,6 @@ export default function Roster() {
 								onClick={handlePastEnrollmentsChange}
 							/>
 						</p>
-					</div>
-					<div className="tablet:grid-col-auto">
-						<Button text="Enroll child" href={`/roster/sites/${site.id}/enroll`} />
 					</div>
 				</div>
 				{showPastEnrollments && (

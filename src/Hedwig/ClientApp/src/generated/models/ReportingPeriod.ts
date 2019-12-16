@@ -31,37 +31,37 @@ export interface ReportingPeriod {
      * @type {number}
      * @memberof ReportingPeriod
      */
-    id?: number;
+    id: number;
     /**
      * 
      * @type {FundingSource}
      * @memberof ReportingPeriod
      */
-    type?: FundingSource;
+    type: FundingSource;
     /**
      * 
      * @type {Date}
      * @memberof ReportingPeriod
      */
-    period?: Date;
+    period: Date;
     /**
      * 
      * @type {Date}
      * @memberof ReportingPeriod
      */
-    periodStart?: Date;
+    periodStart: Date;
     /**
      * 
      * @type {Date}
      * @memberof ReportingPeriod
      */
-    periodEnd?: Date;
+    periodEnd: Date;
     /**
      * 
      * @type {Date}
      * @memberof ReportingPeriod
      */
-    dueAt?: Date;
+    dueAt: Date;
 }
 
 export function ReportingPeriodFromJSON(json: any): ReportingPeriod {
@@ -74,12 +74,12 @@ export function ReportingPeriodFromJSONTyped(json: any, ignoreDiscriminator: boo
     }
     return {
         
-        'id': !exists(json, 'id') ? undefined : json['id'],
-        'type': !exists(json, 'type') ? undefined : FundingSourceFromJSON(json['type']),
-        'period': !exists(json, 'period') ? undefined : (new Date(json['period'])),
-        'periodStart': !exists(json, 'periodStart') ? undefined : (new Date(json['periodStart'])),
-        'periodEnd': !exists(json, 'periodEnd') ? undefined : (new Date(json['periodEnd'])),
-        'dueAt': !exists(json, 'dueAt') ? undefined : (new Date(json['dueAt'])),
+        'id': json['id'],
+        'type': FundingSourceFromJSON(json['type']),
+        'period': (new Date(json['period'])),
+        'periodStart': (new Date(json['periodStart'])),
+        'periodEnd': (new Date(json['periodEnd'])),
+        'dueAt': (new Date(json['dueAt'])),
     };
 }
 
@@ -94,10 +94,10 @@ export function ReportingPeriodToJSON(value?: ReportingPeriod | null): any {
         
         'id': value.id,
         'type': FundingSourceToJSON(value.type),
-        'period': value.period === undefined ? undefined : (value.period.toISOString()),
-        'periodStart': value.periodStart === undefined ? undefined : (value.periodStart.toISOString()),
-        'periodEnd': value.periodEnd === undefined ? undefined : (value.periodEnd.toISOString()),
-        'dueAt': value.dueAt === undefined ? undefined : (value.dueAt.toISOString()),
+        'period': (value.period.toISOString()),
+        'periodStart': (value.periodStart.toISOString()),
+        'periodEnd': (value.periodEnd.toISOString()),
+        'dueAt': (value.dueAt.toISOString()),
     };
 }
 

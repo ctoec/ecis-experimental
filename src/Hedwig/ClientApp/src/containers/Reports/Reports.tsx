@@ -12,6 +12,7 @@ import {
 } from '../../generated';
 import getIdForUser from '../../utils/getIdForUser';
 import idx from 'idx';
+import { DeepNonUndefineable } from '../../utils/types';
 
 export default function Reports() {
   const { user } = useContext(UserContext);
@@ -25,19 +26,20 @@ export default function Reports() {
   const reportParams: ApiOrganizationsOrgIdReportsGetRequest = {
     orgId: getIdForUser(user, 'org')
   }
-  const [loading, error, rawReports] = useApi(
+  const [loading, error, reports] = useApi(
     (api) => api.apiOrganizationsOrgIdReportsGet(reportParams),
     [user]
   );
 
-  if (loading || error || !rawReports || orgLoading || orgError || !organization) {
+  if (loading || error || !reports || orgLoading || orgError || !organization) {
     return <div className="Reports"></div>;
   }
 
-  const reports = (rawReports || []).map(e => e as Required<Report>);
-  const pendingReports = reports.filter(report => !report.submittedAt);
+  const pendingReports = reports.filter<DeepNonUndefineable<Report>>(
+    (r => r.submittedAt !== null) as (_: DeepNonUndefineable<Report>) => _ is DeepNonUndefineable<Report>
+  );
 
-  const defaultTableProps: TableProps<Required<Report>> = {
+  const defaultTableProps: TableProps<DeepNonUndefineable<Report>> = {
     id: 'reports-table',
     data: reports,
     rowKey: row => row.id,
@@ -68,7 +70,7 @@ export default function Reports() {
     defaultSortOrder: 'descending',
   };
 
-  const pendingTableProps: TableProps<Required<Report>> = {
+  const pendingTableProps: TableProps<DeepNonUndefineable<Report>> = {
     ...defaultTableProps,
     id: 'pending-reports-table',
     data: pendingReports,
@@ -82,10 +84,12 @@ export default function Reports() {
     ],
   };
 
-  const submittedTableProps: TableProps<Required<Report>> = {
+  const submittedTableProps: TableProps<DeepNonUndefineable<Report>> = {
     ...defaultTableProps,
     id: 'submitted-reports-table',
-    data: reports.filter(report => !!report.submittedAt),
+    data: reports.filter<DeepNonUndefineable<Report>>(
+      (r => !!r.submittedAt) as (_: DeepNonUndefineable<Report>) => _ is DeepNonUndefineable<Report>
+    ),
     columns: [
       ...defaultTableProps.columns,
       {

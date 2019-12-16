@@ -1,10 +1,14 @@
 using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Hedwig.Validations;
 
 namespace Hedwig.Models
 {
-	public class FamilyDetermination : TemporalEntity
+	public class FamilyDetermination : TemporalEntity, INonBlockingValidatableObject
 	{
+		[Required]
 		public int Id { get; set; }
 
 		public int NumberOfPeople { get; set; }
@@ -14,7 +18,11 @@ namespace Hedwig.Models
 
 		public DateTime Determined { get; set; }
 
+		[Required]
 		public int FamilyId { get; set; }
 		public Family Family { get; set; }
+
+		[NotMapped]
+		public List<ValidationError> ValidationErrors { get; set; }
 	}
 }
