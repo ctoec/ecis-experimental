@@ -40,7 +40,7 @@ export default function Roster() {
 		orgId: getIdForUser(user, 'org'),
 		include: ['organizations', 'funding_spaces'],
 	};
-	const [sLoading, sError, site] = useApi(api => api.apiOrganizationsOrgIdSitesIdGet(siteParams), [
+	const [siteLoading, siteError, site] = useApi(api => api.apiOrganizationsOrgIdSitesIdGet(siteParams), [
 		user,
 	]);
 
@@ -51,25 +51,13 @@ export default function Roster() {
 		startDate: (dateRange && dateRange.startDate && dateRange.startDate.toDate()) || undefined,
 		endDate: (dateRange && dateRange.endDate && dateRange.endDate.toDate()) || undefined,
 	};
-	const [eLoading, eError, enrollments] = useApi(
+	const [enrollmentLoading, enrollmentError, enrollments] = useApi(
 		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsGet(enrollmentsParams),
 		[user, dateRange]
 	);
 
-	if (sLoading || sError || !site || eLoading || eError || !enrollments) {
+	if (siteLoading || siteError || !site || enrollmentLoading || enrollmentError || !enrollments) {
 		return <div className="Roster"></div>;
-	}
-
-	function generateFundingTag(funding: DeepNonUndefineable<Funding>): JSX.Element {
-		return <Tag
-			key={`${funding.source}-${funding.time}`}
-			text={
-				funding.source
-					? fundingSourceDetails[funding.source].textFormatter(funding)
-					: ''
-			}
-			color={funding.source ? getColorForFundingSource(funding.source) : 'gray-90'}
-		/>;
 	}
 
 	const defaultRosterTableProps: TableProps<DeepNonUndefineable<Enrollment>> = {
@@ -104,17 +92,15 @@ export default function Roster() {
 				cell: ({ row }) => {
 					const fundings = row.fundings && row.fundings.length
 						? row.fundings.map<React.ReactNode>(funding =>
-							''
-						// 	<Tag
-						// 	key={`${funding.source}-${funding.time}`}
-						// 	text={
-						// 		funding.source
-						// 			? fundingSourceDetails[funding.source].textFormatter(funding)
-						// 			: ''
-						// 	}
-						// 	color={funding.source ? getColorForFundingSource(funding.source) : 'gray-90'}
-						// />)
-						)
+							<Tag
+								key={`${funding.source}-${funding.time}`}
+								text={
+									funding.source
+										? fundingSourceDetails[funding.source].textFormatter(funding)
+										: ''
+								}
+								color={funding.source ? getColorForFundingSource(funding.source) : 'gray-90'}
+							/>)
 						: '';
 					return (
 						<td>
@@ -140,16 +126,12 @@ export default function Roster() {
 		defaultSortOrder: 'ascending',
 	};
 
-	// Note: These explicit is(In)CompleteEnrollment functions is necessary due to Typescript limitations
-	function isIncompleteEnrollment(enrollment: DeepNonUndefineable<Enrollment>): enrollment is DeepNonUndefineable<Enrollment> {
-		return !enrollment.age || !enrollment.entry;
-	}
-	function isCompleteEnrollment(enrollment: DeepNonUndefineable<Enrollment>): enrollment is DeepNonUndefineable<Enrollment> {
-		return !isIncompleteEnrollment(enrollment);
-	}
-	// As is the type annotation on filter
-	const incompleteEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>(isIncompleteEnrollment);
-	const completeEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>(isCompleteEnrollment);
+	const incompleteEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>(
+		(e => !e.age || !e.entry) as (_: DeepNonUndefineable<Enrollment>) => _ is DeepNonUndefineable<Enrollment>
+	);
+	const completeEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>(
+		(e => !incompleteEnrollments.includes(e)) as (_: DeepNonUndefineable<Enrollment>) => _ is DeepNonUndefineable<Enrollment>
+	);
 
 	function isInfant(enrollment: DeepNonUndefineable<Enrollment>): enrollment is DeepNonUndefineable<Enrollment> {
 		return enrollment.age === Age.Infant;
