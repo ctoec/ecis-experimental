@@ -36,7 +36,9 @@ export default function ReportDetail() {
 
   const reportEnrollments = report.organization && report.organization.sites && report.organization.sites[0].enrollments;
   let numEnrollmentsMissingInfo = reportEnrollments
-    ? reportEnrollments.filter<DeepNonUndefineable<Enrollment>>((enrollment => missingInformation(enrollment)) as (_: DeepNonUndefineable<Enrollment>) => _ is DeepNonUndefineable<Enrollment>).length
+    ? reportEnrollments.filter<DeepNonUndefineable<Enrollment>>(
+        (enrollment => missingInformation(enrollment)) as (_: DeepNonUndefineable<Enrollment>) => _ is DeepNonUndefineable<Enrollment>
+      ).length
     : 0;
 
   return (

@@ -35,12 +35,9 @@ export default function Reports() {
     return <div className="Reports"></div>;
   }
 
-  // Note: This explicit reportIsSubmitted function is necessary due to Typescript limitations
-  function reportIsSubmitted(report: DeepNonUndefineable<Report>): report is DeepNonUndefineable<Report> {
-    return report.submittedAt !== null;
-  }
-  // As is the type annotation on filter
-  const pendingReports = reports.filter<DeepNonUndefineable<Report>>(reportIsSubmitted);
+  const pendingReports = reports.filter<DeepNonUndefineable<Report>>(
+    (r => r.submittedAt !== null) as (_: DeepNonUndefineable<Report>) => _ is DeepNonUndefineable<Report>
+  );
 
   const defaultTableProps: TableProps<DeepNonUndefineable<Report>> = {
     id: 'reports-table',
@@ -90,7 +87,9 @@ export default function Reports() {
   const submittedTableProps: TableProps<DeepNonUndefineable<Report>> = {
     ...defaultTableProps,
     id: 'submitted-reports-table',
-    data: [], //reports.filter(report => !!report.submittedAt),
+    data: reports.filter<DeepNonUndefineable<Report>>(
+      (r => !!r.submittedAt) as (_: DeepNonUndefineable<Report>) => _ is DeepNonUndefineable<Report>
+    ),
     columns: [
       ...defaultTableProps.columns,
       {

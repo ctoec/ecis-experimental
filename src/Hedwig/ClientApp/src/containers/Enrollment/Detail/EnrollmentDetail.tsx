@@ -48,14 +48,13 @@ export default function EnrollmentDetail({
 		siteId: getIdForUser(user, 'site'),
 		include: ['child', 'family', 'determinations', 'fundings', 'sites'],
 	};
-	const [loading, error, _enrollment, mutate] = useApi<Enrollment>(
+	const [loading, error, enrollment, mutate] = useApi<Enrollment>(
 		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
 		[enrollmentId, user],
 		{
 			skip: !enrollmentId,
 		}
 	);
-	const enrollment = _enrollment as DeepNonUndefineable<Enrollment>;
 
 	if (loading || error || !enrollment) {
 		return <div className="EnrollmentDetail"></div>;
