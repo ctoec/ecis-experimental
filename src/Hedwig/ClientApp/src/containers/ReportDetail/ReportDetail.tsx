@@ -34,7 +34,8 @@ export default function ReportDetail() {
     return <div className="Report"></div>;
   }
 
-  const reportEnrollments = report.organization && report.organization.sites && report.organization.sites[0].enrollments;
+  const reportEnrollments = idx(report, _ => _.organization.sites[0].enrollments) as DeepNonUndefineable<Enrollment[]>;
+
   let numEnrollmentsMissingInfo = reportEnrollments
     ? reportEnrollments.filter<DeepNonUndefineable<Enrollment>>(
         (enrollment => missingInformation(enrollment)) as (_: DeepNonUndefineable<Enrollment>) => _ is DeepNonUndefineable<Enrollment>
