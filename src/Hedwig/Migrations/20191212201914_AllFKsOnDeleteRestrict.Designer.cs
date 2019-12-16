@@ -5,14 +5,16 @@ using Hedwig.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Hedwig.Migrations
+namespace hedwig.Migrations
 {
     [DbContext(typeof(HedwigContext))]
-    partial class HedwigContextModelSnapshot : ModelSnapshot
+    [Migration("20191212201914_AllFKsOnDeleteRestrict")]
+    partial class AllFKsOnDeleteRestrict
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,7 +52,7 @@ namespace Hedwig.Migrations
                     b.Property<bool>("BlackOrAfricanAmerican")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("FamilyId")
+                    b.Property<int>("FamilyId")
                         .HasColumnType("int");
 
                     b.Property<string>("FirstName")
@@ -64,7 +66,7 @@ namespace Hedwig.Migrations
                     b.Property<int>("Gender")
                         .HasColumnType("int");
 
-                    b.Property<bool?>("HispanicOrLatinxEthnicity")
+                    b.Property<bool>("HispanicOrLatinxEthnicity")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastName")
@@ -158,7 +160,7 @@ namespace Hedwig.Migrations
                     b.Property<bool>("Homelessness")
                         .HasColumnType("bit");
 
-                    b.Property<int>("OrganizationId")
+                    b.Property<int?>("OrganizationId")
                         .HasColumnType("int");
 
                     b.Property<string>("State")
@@ -301,7 +303,7 @@ namespace Hedwig.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -375,7 +377,7 @@ namespace Hedwig.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
-                    b.Property<int>("OrganizationId")
+                    b.Property<int?>("OrganizationId")
                         .HasColumnType("int");
 
                     b.Property<int>("Region")
@@ -494,7 +496,8 @@ namespace Hedwig.Migrations
                     b.HasOne("Hedwig.Models.Family", "Family")
                         .WithMany("Children")
                         .HasForeignKey("FamilyId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("Hedwig.Models.Organization", "Organization")
                         .WithMany()
@@ -533,8 +536,7 @@ namespace Hedwig.Migrations
                     b.HasOne("Hedwig.Models.Organization", "Organization")
                         .WithMany()
                         .HasForeignKey("OrganizationId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Hedwig.Models.FamilyDetermination", b =>
@@ -588,8 +590,7 @@ namespace Hedwig.Migrations
                     b.HasOne("Hedwig.Models.Organization", "Organization")
                         .WithMany("Sites")
                         .HasForeignKey("OrganizationId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Hedwig.Models.OrganizationPermission", b =>
@@ -603,8 +604,7 @@ namespace Hedwig.Migrations
                     b.HasOne("Hedwig.Models.User", "User")
                         .WithMany("OrgPermissions")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Hedwig.Models.SitePermission", b =>
@@ -619,8 +619,7 @@ namespace Hedwig.Migrations
                         .WithMany("SitePermissions")
                         .HasForeignKey("UserId")
                         .HasConstraintName("FK_Permission_User_UserId1")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Hedwig.Models.OrganizationReport", b =>

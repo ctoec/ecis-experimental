@@ -80,6 +80,8 @@ const FamilyInfo: Section = {
 							...child,
 							foster,
 							family: {
+								id: child.familyId || 0,
+								organizationId: getIdForUser(user, "org"),
 								...child.family,
 								...args
 							}

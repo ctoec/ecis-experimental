@@ -61,7 +61,7 @@ namespace Hedwig.Controllers
             if(child.Id != new Guid()) return BadRequest();
 
             // Creating child with orgId not allowed 
-            if(child.OrganizationId.HasValue && child.OrganizationId.Value != 0) return BadRequest();
+            if(child.OrganizationId != 0) return BadRequest();
             
             child.OrganizationId = orgId;
 
@@ -82,7 +82,7 @@ namespace Hedwig.Controllers
         public async Task<ActionResult<Child>> Put(Guid id, int orgId, Child child)
         {
             if (child.Id != id) return BadRequest();
-            if (child.OrganizationId.HasValue && child.OrganizationId.Value != orgId) return BadRequest();
+            if (child.OrganizationId != orgId) return BadRequest();
 
 
             // TODO: validate that new orgId = existing orgId (may require DTO)

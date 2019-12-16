@@ -39,13 +39,13 @@ export interface User {
      * @type {number}
      * @memberof User
      */
-    id?: number;
+    id: number;
     /**
      * 
      * @type {string}
      * @memberof User
      */
-    wingedKeysId?: string;
+    wingedKeysId: string;
     /**
      * 
      * @type {string}
@@ -100,8 +100,8 @@ export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User
     }
     return {
         
-        'id': !exists(json, 'id') ? undefined : json['id'],
-        'wingedKeysId': !exists(json, 'wingedKeysId') ? undefined : json['wingedKeysId'],
+        'id': json['id'],
+        'wingedKeysId': json['wingedKeysId'],
         'firstName': json['firstName'],
         'middleName': !exists(json, 'middleName') ? undefined : json['middleName'],
         'lastName': json['lastName'],

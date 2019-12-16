@@ -43,12 +43,10 @@ namespace HedwigTests.Controllers
         }
 
         [Theory]
-        [InlineData(0, 0, true, typeof(CreatedAtActionResult))]
-        [InlineData(1, 0, false, typeof(BadRequestResult))]
-        [InlineData(0, 1, false, typeof(BadRequestResult))]
+        [InlineData(0, true, typeof(CreatedAtActionResult))]
+        [InlineData(1, false, typeof(BadRequestResult))]
         public async Task Post_AddsEnrollment_IfValid(
             int id,
-            int siteId,
             bool shouldAddEnrollment,
             Type resultType
         )
@@ -57,13 +55,9 @@ namespace HedwigTests.Controllers
 
             var controller = new EnrollmentsController(_enrollments.Object);
 
-            var enrollment = new Enrollment{
-                Id = id,
-                SiteId = siteId
-            };
+            var enrollment = new Enrollment{ Id = id };
 
-            var organizationId = 1;
-            var result = await controller.Post(organizationId, siteId, enrollment);
+            var result = await controller.Post(1, 1, enrollment);
             var times = shouldAddEnrollment ? Times.Once() : Times.Never();
             _enrollments.Verify(e => e.AddEnrollment(It.IsAny<Enrollment>()), times);
 
@@ -72,15 +66,12 @@ namespace HedwigTests.Controllers
 
 
         [Theory]
-        [InlineData(1, 1, 1, 1, false, true, typeof(OkObjectResult))]
-        [InlineData(1, 2, 1, 1, false, false, typeof(BadRequestResult))]
-        [InlineData(1, 1, 1, 2, false, false, typeof(BadRequestResult))]
-        [InlineData(1, 1, 1, 1, true, true, typeof(NotFoundResult))]
+        [InlineData(1, 1, false, true, typeof(OkObjectResult))]
+        [InlineData(1, 2, false, false, typeof(BadRequestResult))]
+        [InlineData(1, 1, true, true, typeof(NotFoundResult))]
         public async Task Put_UpdatesEnrollment_IfValid_AndExists(
             int pathId,
             int id,
-            int pathSiteId,
-            int siteId,
             bool shouldNotFind,
             bool shouldUpdateEnrollment,
             Type resultType
@@ -94,12 +85,9 @@ namespace HedwigTests.Controllers
 
             var controller = new EnrollmentsController(_enrollments.Object);
 
-            var enrollment = new Enrollment{
-                Id = id,
-                SiteId = siteId
-            };
+            var enrollment = new Enrollment{ Id = id };
 
-            var result = await controller.Put(pathId, 1, pathSiteId, enrollment);
+            var result = await controller.Put(pathId, 1, 1, enrollment);
             var times = shouldUpdateEnrollment ? Times.Once() : Times.Never();
             _enrollments.Verify(e => e.UpdateEnrollment(It.IsAny<Enrollment>()), times);
             Assert.IsType(resultType, result.Result);

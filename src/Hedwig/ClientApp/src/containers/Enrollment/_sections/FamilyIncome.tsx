@@ -67,8 +67,8 @@ const FamilyIncome: Section = {
       if (!numberOfPeople && !income && !determined) {
         if (callback) {
           callback(enrollment);
-          return;
         }
+        return;
       }
 
       // If determination is added, all fields must be present
@@ -91,7 +91,11 @@ const FamilyIncome: Section = {
                   determinations: determination ? [{
                     ...determination,
                     ...args
-                  }] : [{ ...args }]
+                  }] : [{ 
+                    id: 0,
+                    familyId: child.family.id,
+                    ...args 
+                  }]
                 }
               }
             }

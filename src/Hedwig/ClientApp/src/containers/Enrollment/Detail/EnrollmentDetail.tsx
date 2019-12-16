@@ -16,6 +16,7 @@ import Alert from '../../../components/Alert/Alert';
 import getIdForUser from '../../../utils/getIdForUser';
 import missingInformation from '../../../utils/missingInformation';
 import InlineIcon from '../../../components/InlineIcon/InlineIcon';
+import { DeepNonUndefineable } from '../../../utils/types';
 
 type EnrollmentDetailParams = {
 	match: {
@@ -47,13 +48,14 @@ export default function EnrollmentDetail({
 		siteId: getIdForUser(user, 'site'),
 		include: ['child', 'family', 'determinations', 'fundings', 'sites'],
 	};
-	const [loading, error, enrollment, mutate] = useApi<Enrollment>(
+	const [loading, error, _enrollment, mutate] = useApi<Enrollment>(
 		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
 		[enrollmentId, user],
 		{
 			skip: !enrollmentId,
 		}
 	);
+	const enrollment = _enrollment as DeepNonUndefineable<Enrollment>;
 
 	if (loading || error || !enrollment) {
 		return <div className="EnrollmentDetail"></div>;

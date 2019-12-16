@@ -5,14 +5,16 @@ using Hedwig.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Hedwig.Migrations
+namespace hedwig.Migrations
 {
     [DbContext(typeof(HedwigContext))]
-    partial class HedwigContextModelSnapshot : ModelSnapshot
+    [Migration("20191212205609_moreModelCleanUp")]
+    partial class moreModelCleanUp
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,7 +52,7 @@ namespace Hedwig.Migrations
                     b.Property<bool>("BlackOrAfricanAmerican")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("FamilyId")
+                    b.Property<int>("FamilyId")
                         .HasColumnType("int");
 
                     b.Property<string>("FirstName")
@@ -64,7 +66,7 @@ namespace Hedwig.Migrations
                     b.Property<int>("Gender")
                         .HasColumnType("int");
 
-                    b.Property<bool?>("HispanicOrLatinxEthnicity")
+                    b.Property<bool>("HispanicOrLatinxEthnicity")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastName")
@@ -494,7 +496,8 @@ namespace Hedwig.Migrations
                     b.HasOne("Hedwig.Models.Family", "Family")
                         .WithMany("Children")
                         .HasForeignKey("FamilyId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("Hedwig.Models.Organization", "Organization")
                         .WithMany()

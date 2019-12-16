@@ -8,7 +8,7 @@ using Hedwig.Validations.Rules;
 namespace HedwigTests.Validations
 {
 
-  public class Validateable : IValidateable
+  public class Validateable : INonBlockingValidatableObject
   {
     public List<ValidationError> ValidationErrors { get; set; }
   }

@@ -49,13 +49,13 @@ export interface FundingSpace {
      * @type {number}
      * @memberof FundingSpace
      */
-    capacity?: number;
+    capacity: number;
     /**
      * 
      * @type {number}
      * @memberof FundingSpace
      */
-    organizationId?: number;
+    organizationId: number;
     /**
      * 
      * @type {Organization}
@@ -93,8 +93,8 @@ export function FundingSpaceFromJSONTyped(json: any, ignoreDiscriminator: boolea
     return {
         
         'id': !exists(json, 'id') ? undefined : json['id'],
-        'capacity': !exists(json, 'capacity') ? undefined : json['capacity'],
-        'organizationId': !exists(json, 'organizationId') ? undefined : json['organizationId'],
+        'capacity': json['capacity'],
+        'organizationId': json['organizationId'],
         'organization': !exists(json, 'organization') ? undefined : OrganizationFromJSON(json['organization']),
         'source': !exists(json, 'source') ? undefined : FundingSourceFromJSON(json['source']),
         'time': !exists(json, 'time') ? undefined : FundingTimeFromJSON(json['time']),
