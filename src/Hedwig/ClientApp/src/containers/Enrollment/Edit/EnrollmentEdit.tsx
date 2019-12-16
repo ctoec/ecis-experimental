@@ -51,11 +51,10 @@ export default function EnrollmentEdit({
 		siteId: getIdForUser(user, "site"),
 		include: ['child', 'family', 'determinations', 'fundings']
 	}
-	const [loading, error, _enrollment, mutate] = useApi(
+	const [loading, error, enrollment, mutate] = useApi(
 		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
 		[user]
 	);
-	const enrollment = _enrollment as DeepNonUndefineable<Enrollment>;
 
 	if (!section) {
 		return <PageNotFound />;

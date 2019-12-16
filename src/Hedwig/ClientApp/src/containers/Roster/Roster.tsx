@@ -35,7 +35,7 @@ export default function Roster() {
 		orgId: getIdForUser(user, 'org'),
 		include: ['organizations', 'funding_spaces'],
 	};
-	const [sLoading, sError, site] = useApi(api => api.apiOrganizationsOrgIdSitesIdGet(siteParams), [
+	const [siteLoading, siteError, site] = useApi(api => api.apiOrganizationsOrgIdSitesIdGet(siteParams), [
 		user,
 	]);
 
@@ -46,15 +46,16 @@ export default function Roster() {
 		startDate: (dateRange && dateRange.startDate && dateRange.startDate.toDate()) || undefined,
 		endDate: (dateRange && dateRange.endDate && dateRange.endDate.toDate()) || undefined,
 	};
-	const [eLoading, eError, enrollments] = useApi(
+	const [enrollmentLoading, enrollmentError, enrollments] = useApi(
 		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsGet(enrollmentsParams),
 		[user, dateRange]
 	);
 
-	if (sLoading || sError || !site || eLoading || eError || !enrollments) {
+	if (siteLoading || siteError || !site || enrollmentLoading || enrollmentError || !enrollments) {
 		return <div className="Roster"></div>;
 	}
 
+<<<<<<< HEAD
 	// Note: These explicit is(In)CompleteEnrollment functions is necessary due to Typescript limitations
 	function isIncompleteEnrollment(
 		enrollment: DeepNonUndefineable<Enrollment>
@@ -73,6 +74,92 @@ export default function Roster() {
 	const completeEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>(
 		isCompleteEnrollment
 	);
+=======
+	const defaultRosterTableProps: TableProps<DeepNonUndefineable<Enrollment>> = {
+		id: 'roster-table',
+		data: [],
+		rowKey: row => row.id,
+		columns: [
+			{
+				name: 'Name',
+				cell: ({ row }) => (
+					<th scope="row">
+						<Link to={`/roster/enrollments/${row.id}/`} className="usa-link">
+							{nameFormatter(row.child)}
+							{missingInformation(row) ? InlineIcon({ icon: 'incomplete' }) : ''}
+						</Link>
+					</th>
+				),
+				sort: row => (row.child && row.child.lastName ? row.child.lastName : ''),
+			},
+			{
+				name: 'Birthdate',
+				cell: ({ row }) =>
+					(row.child && (
+						<td className="oec-table__cell--tabular-nums">
+							{row.child.birthdate && dateFormatter(row.child.birthdate)}
+						</td>
+					)) || <></>,
+				sort: row => ((row.child && row.child.birthdate) || new Date(0)).getTime(),
+			},
+			{
+				name: 'Funding',
+				cell: ({ row }) => {
+					const fundings = row.fundings && row.fundings.length
+						? row.fundings.map<React.ReactNode>(funding =>
+							<Tag
+								key={`${funding.source}-${funding.time}`}
+								text={
+									funding.source
+										? fundingSourceDetails[funding.source].textFormatter(funding)
+										: ''
+								}
+								color={funding.source ? getColorForFundingSource(funding.source) : 'gray-90'}
+							/>)
+						: '';
+					return (
+						<td>
+							{fundings}
+						</td>
+					);
+				},
+				sort: row => idx(row, _ => _.fundings[0].source) || '',
+			},
+			{
+				name: 'Enrollment date',
+				cell: ({ row }) => (
+					<td className="oec-table__cell--tabular-nums">
+						{row.entry
+							? dateFormatter(row.entry) + (row.exit ? `–${dateFormatter(row.exit)}` : '')
+							: ''}
+					</td>
+				),
+				sort: row => (row.entry && row.entry.toString()) || '',
+			},
+		],
+		defaultSortColumn: 0,
+		defaultSortOrder: 'ascending',
+	};
+
+	const incompleteEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>(
+		(e => !e.age || !e.entry) as (_: DeepNonUndefineable<Enrollment>) => _ is DeepNonUndefineable<Enrollment>
+	);
+	const completeEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>(
+		(e => !incompleteEnrollments.includes(e)) as (_: DeepNonUndefineable<Enrollment>) => _ is DeepNonUndefineable<Enrollment>
+	);
+
+	function isInfant(enrollment: DeepNonUndefineable<Enrollment>): enrollment is DeepNonUndefineable<Enrollment> {
+		return enrollment.age === Age.Infant;
+	}
+
+	function isPreschool(enrollment: DeepNonUndefineable<Enrollment>): enrollment is DeepNonUndefineable<Enrollment> {
+		return enrollment.age === Age.Preschool;
+	}
+
+	function isSchool(enrollment: DeepNonUndefineable<Enrollment>): enrollment is DeepNonUndefineable<Enrollment> {
+		return enrollment.age === Age.School;
+	}
+>>>>>>> master
 
 	const completeEnrollmentsByAgeGroup = getObjectsByAgeGroup(completeEnrollments);
 
