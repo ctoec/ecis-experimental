@@ -27,7 +27,7 @@ import {
   prettyEthnicity,
   birthCertPresent,
   childArgsAreValid
-} from '../../../utils/modelUtils';
+} from '../../../utils/models';
 
 
 
@@ -120,7 +120,7 @@ const ChildInfo: Section = {
       hispanicOrLatinxEthnicity,
       gender,
     };
-    const [validArgs, updateValidArgs] = useState<Child|undefined>();
+    const [validArgs, updateValidArgs] = useState<Child>();
 
     useEffect(() => {
       if(childArgsAreValid(args)) {
@@ -132,7 +132,7 @@ const ChildInfo: Section = {
 
     const save = () => {
       if(!validArgs) {
-        // apply styling to missing fields
+        // TODO: apply styling to missing fields
         return;
       }
       if (enrollment) {
