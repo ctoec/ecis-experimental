@@ -12,7 +12,7 @@ namespace HedwigTests.Helpers
 			HedwigContext context,
 			string entry = "2000-01-01",
 			string exit = null,
-			Age age = Age.Infant,
+			Age ageGroup = Age.InfantToddler,
 			Child child = null,
 			Site site = null
 		)
@@ -25,7 +25,7 @@ namespace HedwigTests.Helpers
 				ChildId = child.Id,
 				SiteId = site.Id,
 				Entry = DateTime.Parse(entry),
-				Age = age
+				AgeGroup = ageGroup
 			};
 
 			if (exit != null) enrollment.Exit = DateTime.Parse(exit);

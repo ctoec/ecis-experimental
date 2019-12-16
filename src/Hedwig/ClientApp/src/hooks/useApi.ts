@@ -2,6 +2,7 @@ import { useContext, useEffect, useState, DependencyList, useCallback } from 're
 import { Configuration, HedwigApi } from '../generated';
 import getCurrentHost from '../utils/getCurrentHost';
 import AuthenticationContext from '../contexts/Authentication/AuthenticationContext';
+import { DeepNonUndefineable } from '../utils/types';
 
 export type Reducer<TData> = (data: TData, result: TData) => TData;
 export type Query<TData> = (api: HedwigApi) => Promise<TData>
@@ -26,7 +27,7 @@ interface ApiState<T> {
 type ApiResult<TData> = [
 	boolean,
 	(string | null),
-	(TData | undefined),
+	DeepNonUndefineable<TData>,
 	Mutate<TData>
 ];
 
@@ -116,5 +117,5 @@ export default function useApi<TData>(
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [...deps, accessToken]);
 
-	return [loading, error, data, mutate];
+	return [loading, error, data as DeepNonUndefineable<TData>, mutate];
 }

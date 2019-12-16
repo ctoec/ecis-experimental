@@ -12,8 +12,9 @@ import RadioGroup from '../../components/RadioGroup/RadioGroup';
 
 const fakeDate = '2019-09-30';
 
-const user = {
+const user : User = {
   id: 1,
+  wingedKeysId: emptyGuid(),
   firstName: 'Minerva',
   lastName: 'McGonagall',
   orgPermissions: [
@@ -22,7 +23,7 @@ const user = {
       organization: {
         id: 1,
         name: "Children's Adventure Center",
-        sites: [{ id: 1, name: "Children's Adventure Center", organizationId: 1 }],
+        sites: [{ id: 1, name: "Children's Adventure Center", organizationId: 1, region: Region.East, titleI: false}],
       },
       id: 1,
       userId: 1,
@@ -112,6 +113,8 @@ jest.mock('../../hooks/useApi', () => {
 });
 
 import useApi from '../../hooks/useApi';
+import { User, Region } from '../../generated';
+import emptyGuid from '../../utils/emptyGuid';
 
 beforeAll(() => {
   mockdate.set(fakeDate);
@@ -163,7 +166,7 @@ describe('Roster', () => {
 			await waitForUpdate(wrapper);
 			wrapper
 				.find('Button')
-				.first()
+				.at(1)
 				.props()
 				.onClick();
 			await waitForUpdate(wrapper);

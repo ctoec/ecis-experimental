@@ -47,6 +47,9 @@ namespace Hedwig.Data
       modelBuilder.Entity<ReportingPeriod>().ToTable("ReportingPeriod");
       modelBuilder.Entity<Site>().ToTable("Site");
       modelBuilder.Entity<User>().ToTable("User");
+
+      // Set all fks onDelete to restrict to enable complex fk relationships
+      modelBuilder.SetAllFKsOnDelete(DeleteBehavior.Restrict);
     }
 
     /// <summary>
@@ -67,6 +70,7 @@ namespace Hedwig.Data
 
       return base.Add<TEntity>(entity);
     }
+
 
     /// <summary>
     /// Overrides the base `DbContext.Update()` functionality to add an author name to the AuthoredBy
@@ -97,12 +101,24 @@ namespace Hedwig.Data
     }
 
     /// <summary>
-    /// Adds author UserId to AuthorId field on temporal entity
+    /// Recursively adds author UserId to AuthorId field on temporal entities
     /// </summary>
-    /// <param name="entity"></param>
+    /// <param name="entity"></param>s
     protected void AddAuthorToTemporalEntity(TemporalEntity entity)
     {
       entity.AuthorId = GetCurrentUserId();
+      
+      // Recursively add AuthorId to any TemporalEntity sub-props
+      var props = entity.GetType().GetProperties();
+      foreach (var prop in props)
+      {
+        var subProp = prop.GetValue(entity);
+        if (typeof(TemporalEntity).IsAssignableFrom(prop.PropertyType)
+          && subProp != null)
+        {
+          AddAuthorToTemporalEntity(subProp as TemporalEntity);
+        }
+      }
     }
 
     /// <summary>
@@ -110,7 +126,7 @@ namespace Hedwig.Data
     /// or null if no UserId could be retrieved
     /// </summary>
     /// <returns></returns>
-    protected int? GetCurrentUserId()
+    protected virtual int? GetCurrentUserId()
     {
       if (_httpContextAccessor == null
         || _httpContextAccessor.HttpContext == null
@@ -120,11 +136,23 @@ namespace Hedwig.Data
       }
 
       var subClaim = _httpContextAccessor.HttpContext.User.FindFirst("sub")?.Value;
-      if (subClaim == null) { return null; }
+      if (subClaim == null) 
+      { 
+        return null; 
+      }
+
       Guid wingedKeysId;
       var isGuid = Guid.TryParse(subClaim, out wingedKeysId);
-      if (!isGuid) { return null; }
-      return Users.Where(user => user.WingedKeysId == wingedKeysId).Select(user => user.Id).Cast<int?>().FirstOrDefault();
+      if (!isGuid) 
+      { 
+        return null; 
+      }
+
+      return Users
+        .Where(user => user.WingedKeysId == wingedKeysId)
+        .Select(user => user.Id)
+        .Cast<int?>()
+        .FirstOrDefault();
     }
   }
 }

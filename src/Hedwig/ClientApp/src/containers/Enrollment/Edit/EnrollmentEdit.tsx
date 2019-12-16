@@ -10,6 +10,7 @@ import UserContext from '../../../contexts/User/UserContext';
 import { Enrollment, ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest } from '../../../generated';
 import getIdForUser from '../../../utils/getIdForUser';
 import useApi from '../../../hooks/useApi';
+import { DeepNonUndefineable } from '../../../utils/types';
 
 type EnrollmentEditParams = {
 	history: History;

@@ -10,6 +10,7 @@ import idx from 'idx';
 import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest, Age } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
 import { ageFromString, prettyAge } from '../../../utils/ageGroupUtils';
+import getIdForUser from '../../../utils/getIdForUser';
 
 const EnrollmentFunding: Section = {
   key: 'enrollment-funding',
@@ -29,7 +30,7 @@ const EnrollmentFunding: Section = {
                 '–' +
                 dateFormatter(idx(enrollment, _ => _.exit))}
             </p>
-            <p>Age: {prettyAge(idx(enrollment, _ => _.age) || null)}</p>
+            <p>Age: {prettyAge(idx(enrollment, _ => _.ageGroup) || null)}</p>
           </>
         )}
       </div>
@@ -41,22 +42,23 @@ const EnrollmentFunding: Section = {
       throw new Error('EnrollmentFunding rendered without an enrollment');
     }
 
+    const { user } = useContext(UserContext);
     const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
       id: enrollment.id || 0,
-      siteId: idx(enrollment, _ => _.siteId) || 0,
-      orgId: idx(enrollment, _ => _.site.organizationId) || 0,
+      orgId: getIdForUser(user, "org"),
+      siteId: getIdForUser(user, "site"),
       enrollment: enrollment
     }
 
     const [siteId, updateSiteId] = React.useState(idx(enrollment, _ => _.siteId));
 
-    const [entry, updateEntry] = React.useState(enrollment.entry);
-    const [age, updateAge] = React.useState(enrollment.age);
+    const [entry, updateEntry] = React.useState(enrollment ? enrollment.entry : null);
+    const [age, updateAge] = React.useState(enrollment ? enrollment.ageGroup : null);
 
     const save = () => {
       const args = {
-        entry: entry,
-        age: age
+        entry: entry || undefined,
+        age: age || undefined
       };
 
       if (enrollment) {
@@ -74,7 +76,6 @@ const EnrollmentFunding: Section = {
       }
     };
 
-    const { user } = useContext(UserContext);
     return (
       <div className="EnrollmentFundingForm">
         <div className="usa-form">
@@ -93,7 +94,7 @@ const EnrollmentFunding: Section = {
 					</label>
 					<DatePicker
 						onChange={range =>
-							updateEntry((range.startDate && range.startDate.toDate()) || undefined)
+							updateEntry((range.startDate && range.startDate.toDate()) || null)
 						}
 						dateRange={{ startDate: entry ? moment(entry) : null, endDate: null }}
 					/>
@@ -105,7 +106,7 @@ const EnrollmentFunding: Section = {
 						options={[
 							{
 								text: 'Infant/Toddler',
-								value: Age.Infant,
+                value: Age.InfantToddler,
 							},
 							{
 								text: 'Preschool',
@@ -113,7 +114,7 @@ const EnrollmentFunding: Section = {
 							},
 							{
 								text: 'School-age',
-								value: Age.School,
+								value: Age.SchoolAge,
 							},
 						]}
 						selected={'' + age}

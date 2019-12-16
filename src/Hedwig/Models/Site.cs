@@ -11,13 +11,14 @@ namespace Hedwig.Models
 		[StringLength(100)]
 		public string Name { get; set; }
 
+		[Required]		
 		public bool TitleI { get; set; } = false;
 
-		public Region Region { get; set; } = Region.Default;
+		[Required]
+		public Region Region { get; set; }
 
-		// Optional FK to prevent cascade delete
-		// (multiple cascade delete FKs disallowed by SQLServer due to potential for cycles)
-		public int? OrganizationId { get; set; }
+		[Required]
+		public int OrganizationId { get; set; }
 		public Organization Organization { get; set; }
 
 		public ICollection<Enrollment> Enrollments { get; set; }

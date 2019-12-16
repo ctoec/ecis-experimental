@@ -104,6 +104,15 @@ h1 {
 	margin-top: 0;
 }
 
+// *** Alignment ***
+.flex-first-baseline {
+	align-items: first baseline;
+}
+
+.flex-space-between {
+	justify-content: space-between;
+}
+
 // *** Table ***
 
 .oec-table {
@@ -396,6 +405,12 @@ $future-step-color: color('base-dark') !default;
 	}
 }
 
+.hedwig-enrollment-details-section__content {
+	p {
+		@include u-margin-y(1);
+	}
+}
+
 // *** DatePicker ***
 // https://github.com/airbnb/react-dates
 .DateInput,
@@ -508,13 +523,15 @@ $future-step-color: color('base-dark') !default;
 // *** Directional link ***
 .oec-directional-link {
   padding: units(2) 0 0 0;
-  display: block;
+	display: block;
+	@include u-text('primary');
+	@include u-text('bold');
 }
 
 .oec-directional-link__arrow {
   height: units(2);
   width: units(2);
-  vertical-align: middle;
+	vertical-align: middle;
 }
 
 .oec-directional-link__arrow--side-left {

@@ -16,6 +16,7 @@ import Alert from '../../../components/Alert/Alert';
 import getIdForUser from '../../../utils/getIdForUser';
 import missingInformation from '../../../utils/missingInformation';
 import InlineIcon from '../../../components/InlineIcon/InlineIcon';
+import { DeepNonUndefineable } from '../../../utils/types';
 
 type EnrollmentDetailParams = {
 	match: {

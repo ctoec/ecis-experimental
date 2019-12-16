@@ -1,27 +1,23 @@
 import React, { useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
-import nameFormatter from '../../utils/nameFormatter';
-import dateFormatter from '../../utils/dateFormatter';
+import idx from 'idx';
 import enrollmentTextFormatter from '../../utils/enrollmentTextFormatter';
 import getDefaultDateRange from '../../utils/getDefaultDateRange';
-import getColorForFundingSource, { fundingSourceDetails } from '../../utils/getColorForFundingType';
 import getFundingSpaceCapacity from '../../utils/getFundingSpaceCapacity';
 import getIdForUser from '../../utils/getIdForUser';
-import missingInformation from '../../utils/missingInformation';
-import { Table, TableProps } from '../../components/Table/Table';
 import Tag from '../../components/Tag/Tag';
 import { DateRange } from '../../components/DatePicker/DatePicker';
 import Button from '../../components/Button/Button';
 import RadioGroup from '../../components/RadioGroup/RadioGroup';
 import Legend, { LegendItem } from '../../components/Legend/Legend';
 import useApi from '../../hooks/useApi';
-import { Enrollment } from '../../generated/models/Enrollment';
 import DateSelectionForm from './DateSelectionForm';
-import { Age, FundingSource } from '../../generated';
+import { Age, Enrollment, FundingSource, FundingSpace, Funding } from '../../generated';
 import InlineIcon from '../../components/InlineIcon/InlineIcon';
-import pluralize from 'pluralize';
-import idx from 'idx';
 import UserContext from '../../contexts/User/UserContext';
+import AgeGroupSection from './AgeGroupSection';
+import { fundingSourceDetails } from '../../utils/getColorForFundingType';
+import { getObjectsByAgeGroup } from '../../utils/ageGroupUtils';
+import { DeepNonUndefineable } from '../../utils/types';
 
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
@@ -39,7 +35,7 @@ export default function Roster() {
 		orgId: getIdForUser(user, 'org'),
 		include: ['organizations', 'funding_spaces'],
 	};
-	const [sLoading, sError, site] = useApi(api => api.apiOrganizationsOrgIdSitesIdGet(siteParams), [
+	const [siteLoading, siteError, site] = useApi(api => api.apiOrganizationsOrgIdSitesIdGet(siteParams), [
 		user,
 	]);
 
@@ -50,102 +46,49 @@ export default function Roster() {
 		startDate: (dateRange && dateRange.startDate && dateRange.startDate.toDate()) || undefined,
 		endDate: (dateRange && dateRange.endDate && dateRange.endDate.toDate()) || undefined,
 	};
-	const [eLoading, eError, enrollments] = useApi(
+	const [enrollmentLoading, enrollmentError, enrollments] = useApi(
 		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsGet(enrollmentsParams),
 		[user, dateRange]
 	);
 
-	if (sLoading || sError || !site || eLoading || eError || !enrollments) {
+	if (siteLoading || siteError || !site || enrollmentLoading || enrollmentError || !enrollments) {
 		return <div className="Roster"></div>;
 	}
 
-	const defaultRosterTableProps: TableProps<Enrollment> = {
-		id: 'roster-table',
-		data: [],
-		rowKey: row => row.id,
-		columns: [
-			{
-				name: 'Name',
-				cell: ({ row }) => (
-					<th scope="row">
-						<Link to={`/roster/enrollments/${row.id}/`} className="usa-link">
-							{nameFormatter(row.child)}
-							{missingInformation(row) ? InlineIcon({ icon: 'incomplete' }) : ''}
-						</Link>
-					</th>
-				),
-				sort: row => (row.child && row.child.lastName ? row.child.lastName : ''),
-			},
-			{
-				name: 'Birthdate',
-				cell: ({ row }) =>
-					(row.child && (
-						<td className="oec-table__cell--tabular-nums">
-							{row.child.birthdate && dateFormatter(row.child.birthdate)}
-						</td>
-					)) || <></>,
-				sort: row => ((row.child && row.child.birthdate) || new Date(0)).getTime(),
-			},
-			{
-				name: 'Funding',
-				cell: ({ row }) => (
-					<td>
-						{row.fundings && row.fundings.length
-							? row.fundings.map(funding => (
-									<Tag
-										key={`${funding.source}-${funding.time}`}
-										text={
-											funding.source
-												? fundingSourceDetails[funding.source].textFormatter(funding)
-												: ''
-										}
-										color={funding.source ? getColorForFundingSource(funding.source) : 'gray-90'}
-									/>
-							  ))
-							: ''}
-					</td>
-				),
-				sort: row => idx(row, _ => _.fundings[0].source) || '',
-			},
-			{
-				name: 'Enrollment date',
-				cell: ({ row }) => (
-					<td className="oec-table__cell--tabular-nums">
-						{row.entry
-							? dateFormatter(row.entry) + (row.exit ? `–${dateFormatter(row.exit)}` : '')
-							: ''}
-					</td>
-				),
-				sort: row => (row.entry && row.entry.toString()) || '',
-			},
-		],
-		defaultSortColumn: 0,
-		defaultSortOrder: 'ascending',
-	};
+	// Note: These explicit is(In)CompleteEnrollment functions is necessary due to Typescript limitations
+	function isIncompleteEnrollment(
+		enrollment: DeepNonUndefineable<Enrollment>
+	): enrollment is DeepNonUndefineable<Enrollment> {
+		return !enrollment.ageGroup || !enrollment.entry;
+	}
+	function isCompleteEnrollment(
+		enrollment: DeepNonUndefineable<Enrollment>
+	): enrollment is DeepNonUndefineable<Enrollment> {
+		return !isIncompleteEnrollment(enrollment);
+	}
+	// As is the type annotation on filter
+	const incompleteEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>(
+		isIncompleteEnrollment
+	);
+	const completeEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>(
+		isCompleteEnrollment
+	);
 
-	const incompleteEnrollments = enrollments.filter(e => !e.age || !e.entry);
-	const completeEnrollments = enrollments.filter(e => !incompleteEnrollments.includes(e));
+	const completeEnrollmentsByAgeGroup = getObjectsByAgeGroup(completeEnrollments);
+	function isInfant(enrollment: DeepNonUndefineable<Enrollment>): enrollment is DeepNonUndefineable<Enrollment> {
+		return enrollment.ageGroup === Age.InfantToddler;
+	}
 
-	const infantRosterTableProps: TableProps<Enrollment> = {
-		...defaultRosterTableProps,
-		id: 'infant-roster-table',
-		data: completeEnrollments.filter(e => e.age === Age.Infant),
-	};
-	const preschoolRosterTableProps: TableProps<Enrollment> = {
-		...defaultRosterTableProps,
-		id: 'preschool-roster-table',
-		data: completeEnrollments.filter(e => e.age === Age.Preschool),
-	};
-	const schoolRosterTableProps: TableProps<Enrollment> = {
-		...defaultRosterTableProps,
-		id: 'school-roster-table',
-		data: completeEnrollments.filter(e => e.age === Age.School),
-	};
-	const incompleteRosterTableProps: TableProps<Enrollment> = {
-		...defaultRosterTableProps,
-		id: 'incomplete-roster-table',
-		data: incompleteEnrollments.filter(e => !e.age),
-	};
+	function isPreschool(enrollment: DeepNonUndefineable<Enrollment>): enrollment is DeepNonUndefineable<Enrollment> {
+		return enrollment.ageGroup === Age.Preschool;
+	}
+
+	function isSchool(enrollment: DeepNonUndefineable<Enrollment>): enrollment is DeepNonUndefineable<Enrollment> {
+		return enrollment.ageGroup === Age.SchoolAge;
+	}
+
+	const fundingSpaces = idx(site, _ => _.organization.fundingSpaces) || [];
+	const fundingSpacesByAgeGroup = getObjectsByAgeGroup(fundingSpaces);
 
 	const numKidsEnrolledText = enrollmentTextFormatter(
 		enrollments.length,
@@ -156,9 +99,21 @@ export default function Roster() {
 
 	const legendItems: LegendItem[] = Object.keys(fundingSourceDetails).map(source => {
 		const ratioLegendSources: string[] = [FundingSource.CDC];
-		const capacityForFunding = getFundingSpaceCapacity(site.organization, source);
-		const enrolledForFunding = enrollments.filter(
-			e => e.fundings && e.fundings.filter(f => f.source === source).length > 0
+		const capacityForFunding = getFundingSpaceCapacity(site.organization, { source });
+		function isEnrolledForFunding(
+			enrollment: DeepNonUndefineable<Enrollment>
+		): enrollment is DeepNonUndefineable<Enrollment> {
+			const matchesSource = (
+				funding: DeepNonUndefineable<Funding>
+			): funding is DeepNonUndefineable<Funding> => {
+				return funding.source === source;
+			};
+			return enrollment.fundings
+				? enrollment.fundings.filter<DeepNonUndefineable<Funding>>(matchesSource).length > 0
+				: false;
+		}
+		const enrolledForFunding = enrollments.filter<DeepNonUndefineable<Enrollment>>(
+			isEnrolledForFunding
 		).length;
 
 		// If funding source enrollments should be displayed as a ratio,
@@ -177,6 +132,12 @@ export default function Roster() {
 		};
 	});
 
+	function isAgeIncomplete(
+		enrollment: DeepNonUndefineable<Enrollment>
+	): enrollment is DeepNonUndefineable<Enrollment> {
+		return !enrollment.ageGroup;
+	}
+
 	legendItems.push({
 		text: 'Missing information',
 		symbol: <InlineIcon icon="incomplete" />,
@@ -185,7 +146,12 @@ export default function Roster() {
 	return (
 		<div className="Roster">
 			<section className="grid-container">
-				<h1 className="grid-col-auto">{site.name}</h1>
+				<div className="grid-row flex-first-baseline flex-space-between">
+					<h1 className="tablet:grid-col-auto">{site.name}</h1>
+					<div className="tablet:grid-col-auto">
+						<Button text="Enroll child" href={`/roster/sites/${site.id}/enroll`} />
+					</div>
+				</div>
 				<div className="grid-row">
 					<div className="tablet:grid-col-fill">
 						<p className="usa-intro display-flex flex-row flex-wrap flex-justify-start">
@@ -198,9 +164,6 @@ export default function Roster() {
 								onClick={handlePastEnrollmentsChange}
 							/>
 						</p>
-					</div>
-					<div className="tablet:grid-col-auto">
-						<Button text="Enroll child" href={`/roster/sites/${site.id}/enroll`} />
 					</div>
 				</div>
 				{showPastEnrollments && (
@@ -225,42 +188,36 @@ export default function Roster() {
 						<DateSelectionForm
 							inputDateRange={dateRange}
 							byRange={byRange}
-							onReset={() => {
-								setByRange(false);
-								setDateRange(getDefaultDateRange());
-							}}
 							onSubmit={(newDateRange: DateRange) => setDateRange(newDateRange)}
 						/>
 					</div>
 				)}
 				<Legend items={legendItems} />
-				{!!infantRosterTableProps.data.length && (
-					<>
-						<h2>Infant/toddler ({pluralize('child', infantRosterTableProps.data.length, true)})</h2>
-						<Table {...infantRosterTableProps} fullWidth />
-					</>
-				)}
-				{!!preschoolRosterTableProps.data.length && (
-					<>
-						<h2>Preschool ({pluralize('child', preschoolRosterTableProps.data.length, true)})</h2>
-						<Table {...preschoolRosterTableProps} fullWidth />
-					</>
-				)}
-				{!!schoolRosterTableProps.data.length && (
-					<>
-						<h2>School age ({pluralize('child', schoolRosterTableProps.data.length, true)})</h2>
-						<Table {...schoolRosterTableProps} fullWidth />
-					</>
-				)}
-				{!!incompleteRosterTableProps.data.length && (
-					<>
-						<h2>
-							Incomplete enrollments (
-							{pluralize('child', incompleteRosterTableProps.data.length, true)})
-						</h2>
-						<Table {...incompleteRosterTableProps} fullWidth />
-					</>
-				)}
+				<AgeGroupSection
+					ageGroup={Age.InfantToddler}
+					ageGroupTitle={`Infant/toddler`}
+					enrollments={completeEnrollmentsByAgeGroup[Age.InfantToddler]}
+					fundingSpaces={fundingSpacesByAgeGroup[Age.InfantToddler] as FundingSpace[]}
+				/>
+				<AgeGroupSection
+					ageGroup={Age.Preschool}
+					ageGroupTitle={`Preschool`}
+					enrollments={completeEnrollmentsByAgeGroup[Age.Preschool]}
+					fundingSpaces={fundingSpacesByAgeGroup[Age.Preschool] as FundingSpace[]}
+				/>
+				<AgeGroupSection
+					ageGroup={Age.SchoolAge}
+					ageGroupTitle={`School age`}
+					enrollments={completeEnrollmentsByAgeGroup[Age.SchoolAge]}
+					fundingSpaces={fundingSpacesByAgeGroup[Age.SchoolAge] as FundingSpace[]}
+				/>
+				<AgeGroupSection
+					ageGroup="incomplete"
+					ageGroupTitle={`Incomplete enrollments`}
+					enrollments={incompleteEnrollments.filter<DeepNonUndefineable<Enrollment>>(
+						isAgeIncomplete
+					)}
+				/>
 			</section>
 		</div>
 	);

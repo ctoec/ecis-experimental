@@ -14,79 +14,22 @@ import {
   ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest,
   Gender,
   ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
+  Enrollment,
 } from '../../../generated';
 import idx from 'idx';
 import UserContext from '../../../contexts/User/UserContext';
 import getIdForUser from '../../../utils/getIdForUser';
+import emptyGuid from '../../../utils/emptyGuid';
+import {
+  genderFromString,
+  prettyGender,
+  prettyMultiRace,
+  prettyEthnicity,
+  birthCertPresent,
+  childArgsAreValid
+} from '../../../utils/models';
 
-const genderFromString = (str: string) => {
-  switch (str) {
-    case Gender.Female:
-      return Gender.Female;
-    case Gender.Male:
-      return Gender.Male;
-    case Gender.Unknown:
-      return Gender.Unknown;
-    default:
-      return Gender.Unspecified;
-  }
-};
 
-const prettyGender = (child: Child) => {
-  switch (child.gender) {
-    case Gender.Female:
-      return 'Female';
-    case Gender.Male:
-      return 'Male';
-    case Gender.Unknown:
-      return 'Unknown';
-    default:
-      return '';
-  }
-};
-
-const RACES = [
-  'americanIndianOrAlaskaNative',
-  'asian',
-  'blackOrAfricanAmerican',
-  'nativeHawaiianOrPacificIslander',
-  'white',
-];
-
-const prettyRace = (race: string) => {
-  switch (race) {
-    case 'americanIndianOrAlaskaNative':
-      return 'American Indian or Alaska Native';
-    case 'asian':
-      return 'Asian';
-    case 'blackOrAfricanAmerican':
-      return 'Black or African American';
-    case 'nativeHawaiianOrPacificIslander':
-      return 'Native Hawaiian Or Pacific Islander';
-    case 'white':
-      return 'White';
-  }
-};
-
-const prettyMultiRace = (child: Child) => {
-  const selectedRaces = RACES.filter(race => (child as any)[race]);
-
-  if (selectedRaces.length === 0) {
-    return '';
-  } else if (selectedRaces.length === 1) {
-    return prettyRace(selectedRaces[0]);
-  } else {
-    return 'Multiple races';
-  }
-};
-
-const prettyEthnicity = (child: Child) => {
-  return child.hispanicOrLatinxEthnicity ? 'Hispanic/Latinx' : 'Not Hispanic/Latinx';
-};
-
-const birthCertPresent = (child: Child) => {
-  return child.birthCertificateId && child.birthState && child.birthTown ? 'Yes' : 'No';
-};
 
 const ChildInfo: Section = {
   key: 'child-information',
@@ -104,7 +47,7 @@ const ChildInfo: Section = {
             <p>Birth certificate: {birthCertPresent(child)}</p>
             <p>Race: {prettyMultiRace(child)}</p>
             <p>Ethnicity: {prettyEthnicity(child)}</p>
-            <p>Gender: {prettyGender(child)}</p>
+            <p>Gender: {prettyGender(child.gender)}</p>
           </>
         )}
       </div>
@@ -120,28 +63,27 @@ const ChildInfo: Section = {
     const defaultPostParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest = {
       orgId: getIdForUser(user, "org"),
       siteId: getIdForUser(user, "site"),
-      enrollment: enrollment || undefined
+      enrollment: enrollment as Enrollment
     }
     const defaultPutParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
       ...defaultPostParams,
       id: idx(enrollment, _ => _.id) || 0
     }
 
-    const child = enrollment && enrollment.child ? enrollment.child : undefined;
+    const child = enrollment && enrollment.child;
+    const [sasid, updateSasid] = useState(child ? child.sasid : null);
 
-    const [sasid, updateSasid] = useState(child ? child.sasid : undefined);
+    const [firstName, updateFirstName] = useState(child ? child.firstName : null);
+    const [middleName, updateMiddleName] = useState(child ? child.middleName : null);
+    const [lastName, updateLastName] = useState(child ? child.lastName : null);
+    const [suffix, updateSuffix] = useState(child ? child.suffix : null);
 
-    const [firstName, updateFirstName] = useState(child ? child.firstName : undefined);
-    const [middleName, updateMiddleName] = useState(child ? child.middleName : undefined);
-    const [lastName, updateLastName] = useState(child ? child.lastName : undefined);
-    const [suffix, updateSuffix] = useState(child ? child.suffix : undefined);
-
-    const [birthdate, updateBirthdate] = useState(child ? child.birthdate : undefined);
+    const [birthdate, updateBirthdate] = useState(child ? child.birthdate : null);
     const [birthCertificateId, updateBirthCertificateId] = useState(
-      child ? child.birthCertificateId : undefined
+      child ? child.birthCertificateId : null
     );
-    const [birthTown, updateBirthTown] = useState(child ? child.birthTown : undefined);
-    const [birthState, updateBirthState] = useState(child ? child.birthState : undefined);
+    const [birthTown, updateBirthTown] = useState(child ? child.birthTown : null);
+    const [birthState, updateBirthState] = useState(child ? child.birthState : null);
 
     const [americanIndianOrAlaskaNative, updateAmericanIndianOrAlaskaNative] = useState(
       child ? child.americanIndianOrAlaskaNative : false
@@ -155,12 +97,11 @@ const ChildInfo: Section = {
     );
     const [white, updateWhite] = useState(child ? child.white : false);
     const [hispanicOrLatinxEthnicity, updateHispanicOrLatinxEthnicity] = useState(
-      child ? child.hispanicOrLatinxEthnicity : false
+      child ? child.hispanicOrLatinxEthnicity : undefined
     );
 
     const [gender, updateGender] = useState(child ? child.gender : Gender.Unspecified);
 
-    const [validArgs, setValidArgs] = useState(child);
     const args = {
       sasid,
       firstName,
@@ -179,25 +120,30 @@ const ChildInfo: Section = {
       hispanicOrLatinxEthnicity,
       gender,
     };
+    const [validArgs, updateValidArgs] = useState<Child>();
 
     useEffect(() => {
-      // Ideally I wish this could be a run-time type check
-      // (i.e. if we can cast args to child, then its valid, otherwise not valid),
-      // but internet searches are indicating ts standard is user-defined type predicates :(
-      if(args.firstName && args.lastName) {
-        setValidArgs(args as Child);
+      if(childArgsAreValid(args)) {
+        updateValidArgs(args as Child);
+      } else {
+        updateValidArgs(undefined);
       }
-    }, [args])
-
+    }, [firstName, lastName, birthdate]);
 
     const save = () => {
-      if (enrollment && validArgs) {
+      if(!validArgs) {
+        // TODO: apply styling to missing fields
+        return;
+      }
+      if (enrollment) {
         // If enrollment exists, put to save changes
         const putParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
           ...defaultPutParams,
           enrollment: {
             ...enrollment,
             child: {
+              id: enrollment.childId,
+              organizationId: getIdForUser(user, "org"),
               ...enrollment.child,
               ...validArgs
             }
@@ -213,8 +159,13 @@ const ChildInfo: Section = {
           ...defaultPostParams,
           enrollment: {
             id: 0,
-            siteId: 0,
-            child: validArgs
+            siteId: getIdForUser(user, "site"),
+            childId: emptyGuid(), 
+            child: {
+              id: emptyGuid(),
+              organizationId: getIdForUser(user, "org"),
+              ...validArgs
+            }
           }
         }
         mutate((api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsPost(postParams))
@@ -277,7 +228,7 @@ const ChildInfo: Section = {
         <h3>Date of birth</h3>
         <DatePicker
           onChange={range =>
-            updateBirthdate((range.startDate && range.startDate.toDate()) || undefined)
+            updateBirthdate((range.startDate && range.startDate.toDate()) || null)
           }
           dateRange={{ startDate: birthdate ? moment(birthdate) : null, endDate: null }}
         />
@@ -364,8 +315,13 @@ const ChildInfo: Section = {
               value: 'yes',
             },
           ]}
-          selected={hispanicOrLatinxEthnicity ? 'yes' : 'no'}
-          onChange={event => updateHispanicOrLatinxEthnicity(event.target.value === 'yes')}
+          selected={
+            hispanicOrLatinxEthnicity === undefined /* TODO remove on nullable fix --> */ || hispanicOrLatinxEthnicity === null ? 
+            '' : 
+            hispanicOrLatinxEthnicity ? 'yes' : 'no'}
+          onChange={event => updateHispanicOrLatinxEthnicity(
+            event.target.value === '' ? undefined : event.target.value === 'yes'
+          )}
         />
 
         <h3>Gender</h3>
@@ -394,7 +350,7 @@ const ChildInfo: Section = {
           onChange={event => updateGender(genderFromString(event.target.value))}
         />
 
-        <Button text="Save" onClick={save} disabled={!!!validArgs}/>
+        <Button text="Save" onClick={save} disabled={!validArgs} />
       </div>
     );
   },

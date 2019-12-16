@@ -24,7 +24,7 @@ namespace Hedwig.Data
 
       var organization = CreateOrganization();
 
-      CreateFundingSpace(organizationId: organization.Id, ageGroup: Age.Infant, time: FundingTime.Full, capacity: 10);
+      CreateFundingSpace(organizationId: organization.Id, ageGroup: Age.InfantToddler, time: FundingTime.Full, capacity: 10);
       CreateFundingSpace(organizationId: organization.Id, ageGroup: Age.Preschool, time: FundingTime.Full, capacity: 20);
 
       var site = CreateSite(organizationId: organization.Id);
@@ -121,7 +121,7 @@ namespace Hedwig.Data
           siteId: site.Id,
           entry: entry,
           exit: exit,
-          ageGroup: DateTime.Parse(birthdate) > ageGroupCutoff ? Age.Infant : Age.Preschool
+          ageGroup: DateTime.Parse(birthdate) > ageGroupCutoff ? Age.InfantToddler : Age.Preschool
         );
 
         if (cdc)
@@ -182,9 +182,17 @@ namespace Hedwig.Data
       return space;
     }
 
-    private Site CreateSite(int organizationId, string name = "Children's Adventure Center")
+    private Site CreateSite(
+      int organizationId,
+      string name = "Children's Adventure Center",
+      Region region = Region.East
+    )
     {
-      var site = new Hedwig.Models.Site { OrganizationId = organizationId, Name = name };
+      var site = new Hedwig.Models.Site {
+        OrganizationId = organizationId,
+        Name = name,
+        Region = region
+      };
       _context.Sites.Add(site);
       _context.SaveChanges();
       return site;
@@ -235,7 +243,7 @@ namespace Hedwig.Data
 
     private Child CreateChild(
       int organizationId,
-      int? familyId = null,
+      int familyId = 0,
       string firstName = "John",
       string lastName = "Doe",
       string birthdate = "2016-06-01",
@@ -284,7 +292,7 @@ namespace Hedwig.Data
         ChildId = childId,
         SiteId = siteId,
         Entry = DateTime.Parse(entry),
-        Age = ageGroup
+        AgeGroup = ageGroup
       };
       if (exit != null)
       {

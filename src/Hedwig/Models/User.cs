@@ -7,8 +7,10 @@ namespace Hedwig.Models
 {
 	public class User
 	{
+		[Required]
 		public int Id { get; set; }
 
+		[Required]
 		public Guid WingedKeysId { get; set; }
 
 		[Required]

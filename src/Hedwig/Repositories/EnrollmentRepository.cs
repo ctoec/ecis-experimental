@@ -16,27 +16,7 @@ namespace Hedwig.Repositories
 
 		public void UpdateEnrollment(Enrollment enrollment)
 		{
-			_context.Entry(enrollment).State = EntityState.Modified;
-
-			if(enrollment.Child != null) {
-				AddOrUpdateChildObject(enrollment.Child);
-
-				if(enrollment.Child.Family != null) {
-					AddOrUpdateChildObject(enrollment.Child.Family);
-
-					if(enrollment.Child.Family.Determinations != null) {
-						foreach (var d in enrollment.Child.Family.Determinations) {
-							AddOrUpdateChildObject(d);
-						}
-					}
-				}
-			}
-
-			if(enrollment.Fundings != null) {
-				foreach (var f in enrollment.Fundings) {
-					AddOrUpdateChildObject(f);
-				}
-			}
+      _context.Update(enrollment);
 		}
 		public void AddEnrollment(Enrollment enrollment)
 		{

@@ -5,6 +5,7 @@ namespace Hedwig.Models
 {
 	public class Organization
 	{
+		[Required]
 		public int Id { get; set; }
 
 		[Required]
