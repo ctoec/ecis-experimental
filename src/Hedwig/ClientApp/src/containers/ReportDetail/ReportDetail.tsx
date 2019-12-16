@@ -9,7 +9,7 @@ import Tag from '../../components/Tag/Tag';
 import UserContext from '../../contexts/User/UserContext';
 import getIdForUser from '../../utils/getIdForUser';
 import useApi from '../../hooks/useApi';
-import missingInformation from '../../utils/missingInformation';
+import { isIncompleteEnrollment } from '../../utils/enrollmentCompletenessUtils';
 import { Enrollment } from '../../generated/models/Enrollment';
 import Button from '../../components/Button/Button';
 import Alert, { AlertProps } from '../../components/Alert/Alert';
@@ -38,7 +38,7 @@ export default function ReportDetail() {
 
   let numEnrollmentsMissingInfo = reportEnrollments
     ? reportEnrollments.filter<DeepNonUndefineable<Enrollment>>(
-        (enrollment => missingInformation(enrollment)) as (_: DeepNonUndefineable<Enrollment>) => _ is DeepNonUndefineable<Enrollment>
+        (enrollment => isIncompleteEnrollment(enrollment)) as (_: DeepNonUndefineable<Enrollment>) => _ is DeepNonUndefineable<Enrollment>
       ).length
     : 0;
 

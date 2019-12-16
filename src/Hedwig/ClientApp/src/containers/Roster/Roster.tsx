@@ -18,6 +18,11 @@ import UserContext from '../../contexts/User/UserContext';
 import AgeGroupSection from './AgeGroupSection';
 import { getObjectsByAgeGroup } from '../../utils/ageGroupUtils';
 import { DeepNonUndefineable } from '../../utils/types';
+import {
+	isIncompleteEnrollment,
+	isCompleteEnrollment,
+	isAgeIncomplete,
+} from '../../utils/enrollmentCompletenessUtils';
 
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
@@ -56,17 +61,6 @@ export default function Roster() {
 		return <div className="Roster"></div>;
 	}
 
-	// Note: These explicit is(In)CompleteEnrollment functions is necessary due to Typescript limitations
-	function isIncompleteEnrollment(
-		enrollment: DeepNonUndefineable<Enrollment>
-	): enrollment is DeepNonUndefineable<Enrollment> {
-		return !enrollment.ageGroup || !enrollment.entry;
-	}
-	function isCompleteEnrollment(
-		enrollment: DeepNonUndefineable<Enrollment>
-	): enrollment is DeepNonUndefineable<Enrollment> {
-		return !isIncompleteEnrollment(enrollment);
-	}
 	// As is the type annotation on filter
 	const incompleteEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>(
 		isIncompleteEnrollment
@@ -74,30 +68,8 @@ export default function Roster() {
 	const completeEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>(
 		isCompleteEnrollment
 	);
-	function isAgeIncomplete(
-		enrollment: DeepNonUndefineable<Enrollment>
-	): enrollment is DeepNonUndefineable<Enrollment> {
-		return !enrollment.ageGroup;
-	}
 
 	const completeEnrollmentsByAgeGroup = getObjectsByAgeGroup(completeEnrollments);
-	function isInfant(
-		enrollment: DeepNonUndefineable<Enrollment>
-	): enrollment is DeepNonUndefineable<Enrollment> {
-		return enrollment.ageGroup === Age.InfantToddler;
-	}
-
-	function isPreschool(
-		enrollment: DeepNonUndefineable<Enrollment>
-	): enrollment is DeepNonUndefineable<Enrollment> {
-		return enrollment.ageGroup === Age.Preschool;
-	}
-
-	function isSchool(
-		enrollment: DeepNonUndefineable<Enrollment>
-	): enrollment is DeepNonUndefineable<Enrollment> {
-		return enrollment.ageGroup === Age.SchoolAge;
-	}
 
 	const fundingSpaces = idx(site, _ => _.organization.fundingSpaces) || [];
 	const fundingSpacesByAgeGroup = getObjectsByAgeGroup(fundingSpaces);
@@ -122,7 +94,7 @@ export default function Roster() {
 				? enrollment.fundings.filter<DeepNonUndefineable<Funding>>(matchesSource).length > 0
 				: false;
 		}
-		const capacityForFunding = getFundingSpaceCapacity(site.organization, source);
+		const capacityForFunding = getFundingSpaceCapacity(site.organization, { source });
 		const enrolledForFunding = enrollments.filter<DeepNonUndefineable<Enrollment>>(
 			isEnrolledForFunding
 		).length;

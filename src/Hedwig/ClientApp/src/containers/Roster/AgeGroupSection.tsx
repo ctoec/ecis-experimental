@@ -8,8 +8,8 @@ import InlineIcon from '../../components/InlineIcon/InlineIcon';
 import { Enrollment, Funding, FundingSpace } from '../../generated';
 import nameFormatter from '../../utils/nameFormatter';
 import dateFormatter from '../../utils/dateFormatter';
-import getColorForFundingSource, { fundingSourceDetails } from '../../utils/getColorForFundingType';
-import missingInformation from '../../utils/missingInformation';
+import getColorForFundingSource, { fundingSourceDetails } from '../../utils/fundingTypeFormatters';
+import { isIncompleteEnrollment } from '../../utils/enrollmentCompletenessUtils';
 import { DeepNonUndefineable } from '../../utils/types';
 
 export type AgeGroupTableProps = { id: string; data: DeepNonUndefineable<Enrollment>[] };
@@ -25,7 +25,7 @@ function generateFundingTag(funding: DeepNonUndefineable<Funding>): JSX.Element 
 	return (
 		<Tag
 			key={`${funding.source}-${funding.time}`}
-			text={funding.source ? fundingSourceDetails[funding.source].textFormatter(funding) : ''}
+			text={funding.source ? fundingSourceDetails[funding.source].tagFormatter(funding) : ''}
 			color={funding.source ? getColorForFundingSource(funding.source) : 'gray-90'}
 		/>
 	);
@@ -42,7 +42,7 @@ const defaultRosterTableProps: TableProps<DeepNonUndefineable<Enrollment>> = {
 				<th scope="row">
 					<Link to={`/roster/enrollments/${row.id}/`} className="usa-link">
 						{nameFormatter(row.child)}
-						{missingInformation(row) ? InlineIcon({ icon: 'incomplete' }) : ''}
+						{isIncompleteEnrollment(row) ? InlineIcon({ icon: 'incomplete' }) : ''}
 					</Link>
 				</th>
 			),

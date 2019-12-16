@@ -14,7 +14,7 @@ import useApi from '../../../hooks/useApi';
 import DirectionalLink from '../../../components/DirectionalLink/DirectionalLink';
 import Alert from '../../../components/Alert/Alert';
 import getIdForUser from '../../../utils/getIdForUser';
-import missingInformation from '../../../utils/missingInformation';
+import { isIncompleteEnrollment } from '../../../utils/enrollmentCompletenessUtils';
 import InlineIcon from '../../../components/InlineIcon/InlineIcon';
 import { DeepNonUndefineable } from '../../../utils/types';
 
@@ -61,7 +61,7 @@ export default function EnrollmentDetail({
 	}
 
 	const child = enrollment.child;
-	const informationIsMissing = missingInformation(enrollment);
+	const informationIsMissing = isIncompleteEnrollment(enrollment);
 
 	return (
 		<div className="EnrollmentDetail">
