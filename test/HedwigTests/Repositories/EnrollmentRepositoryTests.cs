@@ -18,7 +18,7 @@ namespace HedwigTests.Repositories
     {
       using (var context = new TestContextProvider().Context)
       {
-        var enrollment = new Enrollment();
+        var enrollment = new Enrollment{Id = 1};
 
         var enrollmentRepo = new EnrollmentRepository(context);
         enrollmentRepo.UpdateEnrollment(enrollment);
@@ -54,12 +54,12 @@ namespace HedwigTests.Repositories
     [InlineData(new string[] { "family", "determinations", "fundings" }, true, false, false, false)]
 
     public async Task GetEnrollmentsForSite(
-  string[] include,
-  bool includeFundings,
-  bool includeChildren,
-  bool includeFamilies,
-  bool includeDeterminations
-)
+      string[] include,
+      bool includeFundings,
+      bool includeChildren,
+      bool includeFamilies,
+      bool includeDeterminations
+    )
     {
       int[] ids;
       int siteId;
