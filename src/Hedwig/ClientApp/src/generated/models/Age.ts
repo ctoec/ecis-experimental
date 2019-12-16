@@ -18,9 +18,9 @@
  * @enum {string}
  */
 export enum Age {
-    Infant = 'Infant',
+    InfantToddler = 'InfantToddler',
     Preschool = 'Preschool',
-    School = 'School'
+    SchoolAge = 'SchoolAge'
 }
 
 export function AgeFromJSON(json: any): Age {

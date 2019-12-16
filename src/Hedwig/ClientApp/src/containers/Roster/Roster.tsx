@@ -75,6 +75,17 @@ export default function Roster() {
 	);
 
 	const completeEnrollmentsByAgeGroup = getObjectsByAgeGroup(completeEnrollments);
+	function isInfant(enrollment: DeepNonUndefineable<Enrollment>): enrollment is DeepNonUndefineable<Enrollment> {
+		return enrollment.ageGroup === Age.InfantToddler;
+	}
+
+	function isPreschool(enrollment: DeepNonUndefineable<Enrollment>): enrollment is DeepNonUndefineable<Enrollment> {
+		return enrollment.ageGroup === Age.Preschool;
+	}
+
+	function isSchool(enrollment: DeepNonUndefineable<Enrollment>): enrollment is DeepNonUndefineable<Enrollment> {
+		return enrollment.ageGroup === Age.SchoolAge;
+	}
 
 	const fundingSpaces = idx(site, _ => _.organization.fundingSpaces) || [];
 	const fundingSpacesByAgeGroup = getObjectsByAgeGroup(fundingSpaces);
@@ -120,6 +131,7 @@ export default function Roster() {
 			ratio: enrolledOverCapacity,
 		};
 	});
+
 	function isAgeIncomplete(
 		enrollment: DeepNonUndefineable<Enrollment>
 	): enrollment is DeepNonUndefineable<Enrollment> {
@@ -182,10 +194,10 @@ export default function Roster() {
 				)}
 				<Legend items={legendItems} />
 				<AgeGroupSection
-					ageGroup={Age.Infant}
+					ageGroup={Age.InfantToddler}
 					ageGroupTitle={`Infant/toddler`}
-					enrollments={completeEnrollmentsByAgeGroup[Age.Infant]}
-					fundingSpaces={fundingSpacesByAgeGroup[Age.Infant] as FundingSpace[]}
+					enrollments={completeEnrollmentsByAgeGroup[Age.InfantToddler]}
+					fundingSpaces={fundingSpacesByAgeGroup[Age.InfantToddler] as FundingSpace[]}
 				/>
 				<AgeGroupSection
 					ageGroup={Age.Preschool}
@@ -194,10 +206,10 @@ export default function Roster() {
 					fundingSpaces={fundingSpacesByAgeGroup[Age.Preschool] as FundingSpace[]}
 				/>
 				<AgeGroupSection
-					ageGroup={Age.School}
+					ageGroup={Age.SchoolAge}
 					ageGroupTitle={`School age`}
-					enrollments={completeEnrollmentsByAgeGroup[Age.School]}
-					fundingSpaces={fundingSpacesByAgeGroup[Age.School] as FundingSpace[]}
+					enrollments={completeEnrollmentsByAgeGroup[Age.SchoolAge]}
+					fundingSpaces={fundingSpacesByAgeGroup[Age.SchoolAge] as FundingSpace[]}
 				/>
 				<AgeGroupSection
 					ageGroup="incomplete"
