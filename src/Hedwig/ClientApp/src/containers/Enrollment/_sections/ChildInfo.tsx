@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Section } from '../enrollmentTypes';
 import Button from '../../../components/Button/Button';
 import TextInput from '../../../components/TextInput/TextInput';
@@ -20,82 +20,16 @@ import idx from 'idx';
 import UserContext from '../../../contexts/User/UserContext';
 import getIdForUser from '../../../utils/getIdForUser';
 import emptyGuid from '../../../utils/emptyGuid';
+import {
+  genderFromString,
+  prettyGender,
+  prettyMultiRace,
+  prettyEthnicity,
+  birthCertPresent,
+  childArgsAreValid
+} from '../../../utils/models';
 
-const genderFromString = (str: string) => {
-  switch (str) {
-    case Gender.Female:
-      return Gender.Female;
-    case Gender.Male:
-      return Gender.Male;
-    case Gender.Unknown:
-      return Gender.Unknown;
-    default:
-      return Gender.Unspecified;
-  }
-};
 
-const prettyGender = (child: Child) => {
-  switch (child.gender) {
-    case Gender.Female:
-      return 'Female';
-    case Gender.Male:
-      return 'Male';
-    case Gender.Unknown:
-      return 'Unknown';
-    default:
-      return '';
-  }
-};
-
-const RACES: (keyof Child)[] = [
-  'americanIndianOrAlaskaNative',
-  'asian',
-  'blackOrAfricanAmerican',
-  'nativeHawaiianOrPacificIslander',
-  'white',
-];
-
-const prettyRace = (race: keyof Child) => {
-  switch (race) {
-    case 'americanIndianOrAlaskaNative':
-      return 'American Indian or Alaska Native';
-    case 'asian':
-      return 'Asian';
-    case 'blackOrAfricanAmerican':
-      return 'Black or African American';
-    case 'nativeHawaiianOrPacificIslander':
-      return 'Native Hawaiian Or Pacific Islander';
-    case 'white':
-      return 'White';
-  }
-};
-
-const prettyMultiRace = (child: Child) => {
-  const selectedRaces = RACES.filter(race => child[race]);
-
-  if (selectedRaces.length === 0) {
-    return '';
-  } else if (selectedRaces.length === 1) {
-    return prettyRace(selectedRaces[0]);
-  } else {
-    return 'Multiple races';
-  }
-};
-
-const prettyEthnicity = (child: Child) => {
-  const ethnicity = child.hispanicOrLatinxEthnicity;
-  let ethnicityStr;
-  if (ethnicity == null) {
-    ethnicityStr = '';
-  } else {
-    ethnicityStr = ethnicity ? 'Hispanic/Latinx' : 'Not Hispanic/Latinx';
-  }
-  return ethnicityStr;
-};
-
-const birthCertPresent = (child: Child) => {
-  return child.birthCertificateId && child.birthState && child.birthTown ? 'Yes' : 'No';
-};
 
 const ChildInfo: Section = {
   key: 'child-information',
@@ -113,7 +47,7 @@ const ChildInfo: Section = {
             <p>Birth certificate: {birthCertPresent(child)}</p>
             <p>Race: {prettyMultiRace(child)}</p>
             <p>Ethnicity: {prettyEthnicity(child)}</p>
-            <p>Gender: {prettyGender(child)}</p>
+            <p>Gender: {prettyGender(child.gender)}</p>
           </>
         )}
       </div>
@@ -168,26 +102,39 @@ const ChildInfo: Section = {
 
     const [gender, updateGender] = useState(child ? child.gender : Gender.Unspecified);
 
-    const save = () => {
-      const args = {
-        sasid,
-        firstName,
-        middleName,
-        lastName,
-        suffix,
-        birthdate,
-        birthCertificateId,
-        birthTown,
-        birthState,
-        americanIndianOrAlaskaNative,
-        asian,
-        blackOrAfricanAmerican,
-        nativeHawaiianOrPacificIslander,
-        white,
-        hispanicOrLatinxEthnicity,
-        gender,
-      };
+    const args = {
+      sasid,
+      firstName,
+      middleName,
+      lastName,
+      suffix,
+      birthdate,
+      birthCertificateId,
+      birthTown,
+      birthState,
+      americanIndianOrAlaskaNative,
+      asian,
+      blackOrAfricanAmerican,
+      nativeHawaiianOrPacificIslander,
+      white,
+      hispanicOrLatinxEthnicity,
+      gender,
+    };
+    const [validArgs, updateValidArgs] = useState<Child>();
 
+    useEffect(() => {
+      if(childArgsAreValid(args)) {
+        updateValidArgs(args as Child);
+      } else {
+        updateValidArgs(undefined);
+      }
+    }, [firstName, lastName, birthdate]);
+
+    const save = () => {
+      if(!validArgs) {
+        // TODO: apply styling to missing fields
+        return;
+      }
       if (enrollment) {
         // If enrollment exists, put to save changes
         const putParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
@@ -198,7 +145,7 @@ const ChildInfo: Section = {
               id: enrollment.childId,
               organizationId: getIdForUser(user, "org"),
               ...enrollment.child,
-              ...args
+              ...validArgs
             }
           }
         }
@@ -217,7 +164,7 @@ const ChildInfo: Section = {
             child: {
               id: emptyGuid(),
               organizationId: getIdForUser(user, "org"),
-              ...args
+              ...validArgs
             }
           }
         }
@@ -403,7 +350,7 @@ const ChildInfo: Section = {
           onChange={event => updateGender(genderFromString(event.target.value))}
         />
 
-        <Button text="Save" onClick={save} />
+        <Button text="Save" onClick={save} disabled={!validArgs} />
       </div>
     );
   },
