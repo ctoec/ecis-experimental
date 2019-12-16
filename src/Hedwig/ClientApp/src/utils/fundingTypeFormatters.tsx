@@ -36,7 +36,7 @@ export const fundingSourceDetails: { [key: string]: FundingSourceDetail } = {
 					<span className="text-bold">
 						{enrolledForFunding}/{capacityForFunding}
 					</span>
-					<span>{fullTitle} spaces filled</span>
+					<span> {fullTitle} spaces filled</span>
 				</React.Fragment>
 			);
 		},
@@ -49,7 +49,7 @@ export const fundingSourceDetails: { [key: string]: FundingSourceDetail } = {
 			return (
 				<React.Fragment>
 					<span className="text-bold">{enrolledForFunding}</span>
-					<span>receiving {fullTitle}</span>
+					<span> receiving {fullTitle}</span>
 				</React.Fragment>
 			);
 		},

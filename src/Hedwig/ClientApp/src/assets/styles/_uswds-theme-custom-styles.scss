@@ -517,11 +517,6 @@ $future-step-color: color('base-dark') !default;
 	position: relative;
 	height: 100%;
 	vertical-align: initial;
-	margin-right: 0.5em;
-}
-
-.oec-legend__symbol ~ * {
-	margin: unset;
 }
 
 // *** Directional link ***
