@@ -45,7 +45,7 @@ namespace Hedwig.Models
 		public bool BlackOrAfricanAmerican { get; set; } = false;
 		public bool NativeHawaiianOrPacificIslander { get; set; } = false;
 		public bool White { get; set; } = false;
-		public bool HispanicOrLatinxEthnicity { get; set; } = false;
+		public bool? HispanicOrLatinxEthnicity { get; set; }
 
 		[JsonConverter(typeof(StringEnumConverter))]
 		public Gender Gender { get; set; } = Gender.Unspecified;

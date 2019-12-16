@@ -153,7 +153,7 @@ export interface Child {
      * @type {boolean}
      * @memberof Child
      */
-    hispanicOrLatinxEthnicity?: boolean;
+    hispanicOrLatinxEthnicity?: boolean | null;
     /**
      * 
      * @type {Gender}
