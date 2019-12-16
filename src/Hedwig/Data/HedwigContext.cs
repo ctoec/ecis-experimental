@@ -126,7 +126,7 @@ namespace Hedwig.Data
     /// or null if no UserId could be retrieved
     /// </summary>
     /// <returns></returns>
-    protected int? GetCurrentUserId()
+    protected virtual int? GetCurrentUserId()
     {
       if (_httpContextAccessor == null
         || _httpContextAccessor.HttpContext == null
