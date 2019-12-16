@@ -2,8 +2,8 @@ namespace Hedwig.Models
 {
 	public enum Age
 	{
-		Infant= 0,
+		InfantToddler= 0,
 		Preschool = 1,
-		School= 2,
+		SchoolAge= 2,
 	}
 }

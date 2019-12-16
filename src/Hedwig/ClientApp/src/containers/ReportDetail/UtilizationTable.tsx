@@ -1,9 +1,9 @@
 import React from 'react';
 import Table, { TableProps } from '../../components/Table/Table';
-import { CdcReport, Age, FundingTime } from '../../generated';
+import { CdcReport, Age, FundingTime, Region } from '../../generated';
 import idx from 'idx';
 import moment from 'moment';
-import { Region, CdcRates } from './CdcRates';
+import { CdcRates } from './CdcRates';
 import { prettyAge } from '../../utils/ageGroupUtils';
 import { prettyFundingTime } from '../../utils/fundingTimeUtils';
 import currencyFormatter from '../../utils/currencyFormatter';
@@ -40,19 +40,18 @@ export default function UtilizationTable(report: CdcReport) {
   const fundingSpaces = idx(report, _ => _.organization.fundingSpaces) || [];
 
   const sites = idx(report, _ => _.organization.sites) || [];
-  const ageGroups = [Age.Infant, Age.Preschool, Age.School];
+  const ageGroups = [Age.InfantToddler, Age.Preschool, Age.SchoolAge];
   const fundingTimes = [FundingTime.Full, FundingTime.Part];
 
   const rows: UtilizationTableRow[] = sites.flatMap(site => {
-    // Need to add these fields to the API
-    const region = Region.NC;
-    const titleI = false;
+    const region = site.region;
+    const titleI = site.titleI;
 
     const enrollments = site.enrollments.flatMap(enrollment => {
       const cdcFunding = enrollment.fundings.find(funding => funding.source === report.type);
       if (!cdcFunding) { return []; }
       return {
-        ageGroup: enrollment.age,
+        ageGroup: enrollment.ageGroup,
         time: cdcFunding.time,
       };
     });
