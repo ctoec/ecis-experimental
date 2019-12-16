@@ -5,11 +5,11 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Hedwig.Validations
 {
-  public class Validator : IValidator
+  public class NonBlockingValidator : INonBlockingValidator
   {
     readonly IServiceProvider _serviceProvider;
 
-    public Validator(IServiceProvider serviceProvider)
+    public NonBlockingValidator(IServiceProvider serviceProvider)
     {
       _serviceProvider = serviceProvider;
     }
@@ -26,9 +26,18 @@ namespace Hedwig.Validations
 
       entity.ValidationErrors = errors;
     }
+
+    public void Validate<T>(IEnumerable<T> entities) where T: INonBlockingValidatableObject
+    {
+      foreach (var entity in entities)
+      {
+        Validate(entity);
+      }
+    }
   }
 
-  public interface IValidator {
+  public interface INonBlockingValidator {
     void Validate<T>(T entity) where T : INonBlockingValidatableObject;
+    void Validate<T>(IEnumerable<T> entities) where T: INonBlockingValidatableObject;
   }
 }

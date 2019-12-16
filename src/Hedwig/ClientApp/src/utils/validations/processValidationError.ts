@@ -1,6 +1,6 @@
-import { ValidationError } from "../generated";
+import { ValidationError } from "../../generated";
 
-export default function processValidationError(field: string, errors?: ValidationError[] | null) {
+export function processValidationError(field: string, errors?: ValidationError[] | null) {
 	if (!errors) {
 		return undefined;
 	}
