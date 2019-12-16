@@ -39,7 +39,7 @@ export interface Organization {
      * @type {number}
      * @memberof Organization
      */
-    id?: number;
+    id: number;
     /**
      * 
      * @type {string}
@@ -76,7 +76,7 @@ export function OrganizationFromJSONTyped(json: any, ignoreDiscriminator: boolea
     }
     return {
         
-        'id': !exists(json, 'id') ? undefined : json['id'],
+        'id': json['id'],
         'name': json['name'],
         'sites': !exists(json, 'sites') ? undefined : (json['sites'] === null ? null : (json['sites'] as Array<any>).map(SiteFromJSON)),
         'reports': !exists(json, 'reports') ? undefined : (json['reports'] === null ? null : (json['reports'] as Array<any>).map(OrganizationReportFromJSON)),

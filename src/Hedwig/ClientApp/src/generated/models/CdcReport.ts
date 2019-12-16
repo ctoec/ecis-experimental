@@ -67,7 +67,7 @@ export interface CdcReport {
      * @type {number}
      * @memberof CdcReport
      */
-    organizationId?: number;
+    organizationId: number;
     /**
      * 
      * @type {Organization}
@@ -79,7 +79,7 @@ export interface CdcReport {
      * @type {number}
      * @memberof CdcReport
      */
-    id?: number;
+    id: number;
     /**
      * 
      * @type {FundingSource}
@@ -126,9 +126,9 @@ export function CdcReportFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         'c4KRevenue': !exists(json, 'c4KRevenue') ? undefined : json['c4KRevenue'],
         'retroactiveC4KRevenue': !exists(json, 'retroactiveC4KRevenue') ? undefined : json['retroactiveC4KRevenue'],
         'familyFeesRevenue': !exists(json, 'familyFeesRevenue') ? undefined : json['familyFeesRevenue'],
-        'organizationId': !exists(json, 'organizationId') ? undefined : json['organizationId'],
+        'organizationId': json['organizationId'],
         'organization': !exists(json, 'organization') ? undefined : OrganizationFromJSON(json['organization']),
-        'id': !exists(json, 'id') ? undefined : json['id'],
+        'id': json['id'],
         'type': !exists(json, 'type') ? undefined : FundingSourceFromJSON(json['type']),
         'reportingPeriodId': !exists(json, 'reportingPeriodId') ? undefined : json['reportingPeriodId'],
         'reportingPeriod': !exists(json, 'reportingPeriod') ? undefined : ReportingPeriodFromJSON(json['reportingPeriod']),

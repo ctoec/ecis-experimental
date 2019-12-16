@@ -14,7 +14,7 @@ namespace Hedwig.Validations
       _serviceProvider = serviceProvider;
     }
 
-    public void Validate<T>(T entity) where T : IValidateable
+    public void Validate<T>(T entity) where T : INonBlockingValidatableObject
     {
       var rules = _serviceProvider.GetServices<IValidationRule<T>>();
       var errors = new List<ValidationError>();
@@ -29,6 +29,6 @@ namespace Hedwig.Validations
   }
 
   public interface IValidator {
-    void Validate<T>(T entity) where T : IValidateable;
+    void Validate<T>(T entity) where T : INonBlockingValidatableObject;
   }
 }

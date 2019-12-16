@@ -13,6 +13,7 @@ import missingInformation from '../../utils/missingInformation';
 import { Enrollment } from '../../generated/models/Enrollment';
 import Button from '../../components/Button/Button';
 import Alert, { AlertProps } from '../../components/Alert/Alert';
+import { DeepNonUndefineable } from '../../utils/types';
 
 export default function ReportDetail() {
   const [alert, setAlert] = useState<AlertProps | null>(null);
@@ -33,9 +34,9 @@ export default function ReportDetail() {
     return <div className="Report"></div>;
   }
 
-  const reportEnrollments = idx(report, _ => _.organization.sites[0].enrollments);
+  const reportEnrollments = report.organization && report.organization.sites && report.organization.sites[0].enrollments;
   let numEnrollmentsMissingInfo = reportEnrollments
-    ? reportEnrollments.filter(enrollment => missingInformation(enrollment as Enrollment)).length
+    ? reportEnrollments.filter<DeepNonUndefineable<Enrollment>>((enrollment => missingInformation(enrollment)) as (_: DeepNonUndefineable<Enrollment>) => _ is DeepNonUndefineable<Enrollment>).length
     : 0;
 
   return (

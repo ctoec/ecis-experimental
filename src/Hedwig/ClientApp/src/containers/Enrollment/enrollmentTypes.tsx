@@ -1,9 +1,10 @@
 import { StepStatus } from '../../components/StepList/StepList';
 import { Enrollment } from '../../generated';
 import { Mutate } from '../../hooks/useApi';
+import { DeepNonUndefineable } from '../../utils/types';
 
 export type SectionProps = {
-	enrollment?: Enrollment | null;
+	enrollment: DeepNonUndefineable<Enrollment> | null;
 	mutate: Mutate<Enrollment>;
 	callback?: (e: Enrollment) => void;
 	siteId?: string;

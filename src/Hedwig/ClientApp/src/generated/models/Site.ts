@@ -51,19 +51,19 @@ export interface Site {
      * @type {boolean}
      * @memberof Site
      */
-    titleI?: boolean;
+    titleI: boolean;
     /**
      * 
      * @type {Region}
      * @memberof Site
      */
-    region?: Region;
+    region: Region;
     /**
      * 
      * @type {number}
      * @memberof Site
      */
-    organizationId?: number | null;
+    organizationId: number;
     /**
      * 
      * @type {Organization}
@@ -90,9 +90,9 @@ export function SiteFromJSONTyped(json: any, ignoreDiscriminator: boolean): Site
         
         'id': !exists(json, 'id') ? undefined : json['id'],
         'name': json['name'],
-        'titleI': !exists(json, 'titleI') ? undefined : json['titleI'],
-        'region': !exists(json, 'region') ? undefined : RegionFromJSON(json['region']),
-        'organizationId': !exists(json, 'organizationId') ? undefined : json['organizationId'],
+        'titleI': json['titleI'],
+        'region': RegionFromJSON(json['region']),
+        'organizationId': json['organizationId'],
         'organization': !exists(json, 'organization') ? undefined : OrganizationFromJSON(json['organization']),
         'enrollments': !exists(json, 'enrollments') ? undefined : (json['enrollments'] === null ? null : (json['enrollments'] as Array<any>).map(EnrollmentFromJSON)),
     };

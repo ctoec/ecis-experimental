@@ -1,7 +1,7 @@
 namespace Hedwig.Validations.Rules
 {
   public interface IValidationRule<T> 
-    where T : IValidateable
+    where T : INonBlockingValidatableObject
   { 
     ValidationError Execute(T entity);
   }

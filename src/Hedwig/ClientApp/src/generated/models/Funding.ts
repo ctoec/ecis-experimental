@@ -47,13 +47,13 @@ export interface Funding {
      * @type {number}
      * @memberof Funding
      */
-    id?: number;
+    id: number;
     /**
      * 
      * @type {number}
      * @memberof Funding
      */
-    enrollmentId?: number;
+    enrollmentId: number;
     /**
      * 
      * @type {Enrollment}
@@ -114,8 +114,8 @@ export function FundingFromJSONTyped(json: any, ignoreDiscriminator: boolean): F
     }
     return {
         
-        'id': !exists(json, 'id') ? undefined : json['id'],
-        'enrollmentId': !exists(json, 'enrollmentId') ? undefined : json['enrollmentId'],
+        'id': json['id'],
+        'enrollmentId': json['enrollmentId'],
         'enrollment': !exists(json, 'enrollment') ? undefined : EnrollmentFromJSON(json['enrollment']),
         'entry': !exists(json, 'entry') ? undefined : (new Date(json['entry'])),
         'exit': !exists(json, 'exit') ? undefined : (json['exit'] === null ? null : new Date(json['exit'])),

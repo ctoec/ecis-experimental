@@ -4,11 +4,13 @@ using Newtonsoft.Json.Converters;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using Hedwig.Validations;
+using System.ComponentModel.DataAnnotations;
 
 namespace Hedwig.Models
 {
-  public abstract class Report : IValidateable
+  public abstract class Report : INonBlockingValidatableObject
   {
+    [Required]
     public int Id { get; set; }
 
     [JsonConverter(typeof(StringEnumConverter))]

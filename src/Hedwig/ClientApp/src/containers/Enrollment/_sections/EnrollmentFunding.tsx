@@ -10,6 +10,7 @@ import idx from 'idx';
 import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest, Age } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
 import { ageFromString, prettyAge } from '../../../utils/ageGroupUtils';
+import getIdForUser from '../../../utils/getIdForUser';
 
 const EnrollmentFunding: Section = {
   key: 'enrollment-funding',
@@ -41,10 +42,11 @@ const EnrollmentFunding: Section = {
       throw new Error('EnrollmentFunding rendered without an enrollment');
     }
 
+    const { user } = useContext(UserContext);
     const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
       id: enrollment.id || 0,
-      siteId: idx(enrollment, _ => _.siteId) || 0,
-      orgId: idx(enrollment, _ => _.site.organizationId) || 0,
+      orgId: getIdForUser(user, "org"),
+      siteId: getIdForUser(user, "site"),
       enrollment: enrollment
     }
 
@@ -74,7 +76,6 @@ const EnrollmentFunding: Section = {
       }
     };
 
-    const { user } = useContext(UserContext);
     return (
       <div className="EnrollmentFundingForm">
         <div className="usa-form">

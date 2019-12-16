@@ -5,22 +5,33 @@ import { Link } from 'react-router-dom';
 import { Table, TableProps } from '../../components/Table/Table';
 import Tag from '../../components/Tag/Tag';
 import InlineIcon from '../../components/InlineIcon/InlineIcon';
-import { Enrollment, FundingSpace } from '../../generated';
+import { Enrollment, Funding, FundingSpace } from '../../generated';
 import nameFormatter from '../../utils/nameFormatter';
 import dateFormatter from '../../utils/dateFormatter';
 import getColorForFundingSource, { fundingSourceDetails } from '../../utils/getColorForFundingType';
 import missingInformation from '../../utils/missingInformation';
+import { DeepNonUndefineable } from '../../utils/types';
 
-export type AgeGroupTableProps = { id: string; data: Enrollment[] };
+export type AgeGroupTableProps = { id: string; data: DeepNonUndefineable<Enrollment>[] };
 
 type AgeGroupSectionProps = {
 	ageGroup: string;
 	ageGroupTitle: string;
-	enrollments: Enrollment[];
+	enrollments: DeepNonUndefineable<Enrollment>[];
 	fundingSpaces?: FundingSpace[];
 };
 
-const defaultRosterTableProps: TableProps<Enrollment> = {
+function generateFundingTag(funding: DeepNonUndefineable<Funding>): JSX.Element {
+	return (
+		<Tag
+			key={`${funding.source}-${funding.time}`}
+			text={funding.source ? fundingSourceDetails[funding.source].textFormatter(funding) : ''}
+			color={funding.source ? getColorForFundingSource(funding.source) : 'gray-90'}
+		/>
+	);
+}
+
+const defaultRosterTableProps: TableProps<DeepNonUndefineable<Enrollment>> = {
 	id: 'roster-table',
 	data: [],
 	rowKey: row => row.id,
@@ -51,19 +62,10 @@ const defaultRosterTableProps: TableProps<Enrollment> = {
 			name: 'Funding',
 			cell: ({ row }) => (
 				<td>
-					{row.fundings && row.fundings.length
-						? row.fundings.map(funding => (
-								<Tag
-									key={`${funding.source}-${funding.time}`}
-									text={
-										funding.source
-											? fundingSourceDetails[funding.source].textFormatter(funding)
-											: ''
-									}
-									color={funding.source ? getColorForFundingSource(funding.source) : 'gray-90'}
-								/>
-						  ))
-						: ''}
+					{row.fundings &&
+						row.fundings.map<React.ReactNode>((funding: DeepNonUndefineable<Funding>) =>
+							generateFundingTag(funding)
+						)}
 				</td>
 			),
 			sort: row => idx(row, _ => _.fundings[0].source) || '',

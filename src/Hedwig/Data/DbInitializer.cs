@@ -235,7 +235,7 @@ namespace Hedwig.Data
 
     private Child CreateChild(
       int organizationId,
-      int? familyId = null,
+      int familyId = 0,
       string firstName = "John",
       string lastName = "Doe",
       string birthdate = "2016-06-01",

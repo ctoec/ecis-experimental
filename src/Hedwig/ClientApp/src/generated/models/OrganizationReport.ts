@@ -43,7 +43,7 @@ export interface OrganizationReport {
      * @type {number}
      * @memberof OrganizationReport
      */
-    organizationId?: number;
+    organizationId: number;
     /**
      * 
      * @type {Organization}
@@ -55,7 +55,7 @@ export interface OrganizationReport {
      * @type {number}
      * @memberof OrganizationReport
      */
-    id?: number;
+    id: number;
     /**
      * 
      * @type {FundingSource}
@@ -98,9 +98,9 @@ export function OrganizationReportFromJSONTyped(json: any, ignoreDiscriminator: 
     }
     return {
         
-        'organizationId': !exists(json, 'organizationId') ? undefined : json['organizationId'],
+        'organizationId': json['organizationId'],
         'organization': !exists(json, 'organization') ? undefined : OrganizationFromJSON(json['organization']),
-        'id': !exists(json, 'id') ? undefined : json['id'],
+        'id': json['id'],
         'type': !exists(json, 'type') ? undefined : FundingSourceFromJSON(json['type']),
         'reportingPeriodId': !exists(json, 'reportingPeriodId') ? undefined : json['reportingPeriodId'],
         'reportingPeriod': !exists(json, 'reportingPeriod') ? undefined : ReportingPeriodFromJSON(json['reportingPeriod']),

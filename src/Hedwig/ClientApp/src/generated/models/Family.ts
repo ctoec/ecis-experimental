@@ -47,7 +47,7 @@ export interface Family {
      * @type {number}
      * @memberof Family
      */
-    id?: number;
+    id: number;
     /**
      * 
      * @type {Array<Child>}
@@ -101,7 +101,7 @@ export interface Family {
      * @type {number}
      * @memberof Family
      */
-    organizationId?: number | null;
+    organizationId: number;
     /**
      * 
      * @type {Organization}
@@ -138,7 +138,7 @@ export function FamilyFromJSONTyped(json: any, ignoreDiscriminator: boolean): Fa
     }
     return {
         
-        'id': !exists(json, 'id') ? undefined : json['id'],
+        'id': json['id'],
         'children': !exists(json, 'children') ? undefined : (json['children'] === null ? null : (json['children'] as Array<any>).map(ChildFromJSON)),
         'addressLine1': !exists(json, 'addressLine1') ? undefined : json['addressLine1'],
         'addressLine2': !exists(json, 'addressLine2') ? undefined : json['addressLine2'],
@@ -147,7 +147,7 @@ export function FamilyFromJSONTyped(json: any, ignoreDiscriminator: boolean): Fa
         'zip': !exists(json, 'zip') ? undefined : json['zip'],
         'homelessness': !exists(json, 'homelessness') ? undefined : json['homelessness'],
         'determinations': !exists(json, 'determinations') ? undefined : (json['determinations'] === null ? null : (json['determinations'] as Array<any>).map(FamilyDeterminationFromJSON)),
-        'organizationId': !exists(json, 'organizationId') ? undefined : json['organizationId'],
+        'organizationId': json['organizationId'],
         'organization': !exists(json, 'organization') ? undefined : OrganizationFromJSON(json['organization']),
         'validationErrors': !exists(json, 'validationErrors') ? undefined : (json['validationErrors'] === null ? null : (json['validationErrors'] as Array<any>).map(ValidationErrorFromJSON)),
         'authorId': !exists(json, 'authorId') ? undefined : json['authorId'],

@@ -10,6 +10,7 @@ import UserContext from '../../../contexts/User/UserContext';
 import { Enrollment, ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest } from '../../../generated';
 import getIdForUser from '../../../utils/getIdForUser';
 import useApi from '../../../hooks/useApi';
+import { DeepNonUndefineable } from '../../../utils/types';
 
 type EnrollmentEditParams = {
 	history: History;
@@ -50,10 +51,11 @@ export default function EnrollmentEdit({
 		siteId: getIdForUser(user, "site"),
 		include: ['child', 'family', 'determinations', 'fundings']
 	}
-	const [loading, error, enrollment, mutate] = useApi(
+	const [loading, error, _enrollment, mutate] = useApi(
 		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
 		[user]
 	);
+	const enrollment = _enrollment as DeepNonUndefineable<Enrollment>;
 
 	if (!section) {
 		return <PageNotFound />;

@@ -163,7 +163,7 @@ describe('Roster', () => {
 			await waitForUpdate(wrapper);
 			wrapper
 				.find('Button')
-				.first()
+				.at(1)
 				.props()
 				.onClick();
 			await waitForUpdate(wrapper);

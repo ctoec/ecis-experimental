@@ -57,7 +57,7 @@ export interface Enrollment {
      * @type {string}
      * @memberof Enrollment
      */
-    childId?: string;
+    childId: string;
     /**
      * 
      * @type {Child}
@@ -69,7 +69,7 @@ export interface Enrollment {
      * @type {number}
      * @memberof Enrollment
      */
-    siteId?: number;
+    siteId: number;
     /**
      * 
      * @type {Site}
@@ -131,9 +131,9 @@ export function EnrollmentFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     return {
         
         'id': json['id'],
-        'childId': !exists(json, 'childId') ? undefined : json['childId'],
+        'childId': json['childId'],
         'child': !exists(json, 'child') ? undefined : ChildFromJSON(json['child']),
-        'siteId': !exists(json, 'siteId') ? undefined : json['siteId'],
+        'siteId': json['siteId'],
         'site': !exists(json, 'site') ? undefined : SiteFromJSON(json['site']),
         'ageGroup': !exists(json, 'ageGroup') ? undefined : AgeFromJSON(json['ageGroup']),
         'entry': !exists(json, 'entry') ? undefined : (json['entry'] === null ? null : new Date(json['entry'])),

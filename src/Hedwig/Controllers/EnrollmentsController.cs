@@ -66,11 +66,6 @@ namespace Hedwig.Controllers
             // Creating enrollment with Id not allowed
             if (enrollment.Id != 0) return BadRequest();
 
-            // Creating enrollment with siteId not allowed
-            if (enrollment.SiteId != 0) return BadRequest();
-
-            enrollment.SiteId = siteId;
-
             _enrollments.AddEnrollment(enrollment);
             await _enrollments.SaveChangesAsync();
 
@@ -93,7 +88,6 @@ namespace Hedwig.Controllers
         )
         {
             if (enrollment.Id != id) return BadRequest();
-            if (enrollment.SiteId != siteId) return BadRequest();
 
             try {
                 _enrollments.UpdateEnrollment(enrollment);

@@ -35,7 +35,7 @@ export interface SitePermission {
      * @type {number}
      * @memberof SitePermission
      */
-    siteId?: number;
+    siteId: number;
     /**
      * 
      * @type {Site}
@@ -47,13 +47,13 @@ export interface SitePermission {
      * @type {number}
      * @memberof SitePermission
      */
-    id?: number;
+    id: number;
     /**
      * 
      * @type {number}
      * @memberof SitePermission
      */
-    userId?: number | null;
+    userId: number;
     /**
      * 
      * @type {User}
@@ -72,10 +72,10 @@ export function SitePermissionFromJSONTyped(json: any, ignoreDiscriminator: bool
     }
     return {
         
-        'siteId': !exists(json, 'siteId') ? undefined : json['siteId'],
+        'siteId': json['siteId'],
         'site': !exists(json, 'site') ? undefined : SiteFromJSON(json['site']),
-        'id': !exists(json, 'id') ? undefined : json['id'],
-        'userId': !exists(json, 'userId') ? undefined : json['userId'],
+        'id': json['id'],
+        'userId': json['userId'],
         'user': !exists(json, 'user') ? undefined : UserFromJSON(json['user']),
     };
 }

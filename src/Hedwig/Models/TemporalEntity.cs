@@ -1,6 +1,7 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Hedwig.Models
 {
-
     public abstract class TemporalEntity
     {
         public int? AuthorId { get; set; }
