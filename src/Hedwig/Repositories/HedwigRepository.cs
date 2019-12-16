@@ -18,27 +18,5 @@ namespace Hedwig.Repositories
 		protected readonly HedwigContext _context;
 
 		public HedwigRepository(HedwigContext context) => _context = context;
-
-		protected void AddOrUpdateChildObject<T>(T entity)
-		{
-			var id = typeof(T).GetProperty("Id").GetValue(entity);
-
-			if(id is Guid guid)
-			{
-				if(guid == Guid.Empty) {
-					_context.Add(entity);
-				} else {
-					_context.Entry(entity).State = EntityState.Modified;
-				}
-			}
-			else if(id is int iid)
-			{
-				if (iid == 0) {
-					_context.Add(entity);
-				} else {
-					_context.Entry(entity).State = EntityState.Modified;
-				}
-			}
-		}
 	}
 }
