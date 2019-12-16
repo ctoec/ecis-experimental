@@ -106,7 +106,7 @@ const EnrollmentFunding: Section = {
 						options={[
 							{
 								text: 'Infant/Toddler',
-								value: Age.Infant,
+                value: Age.InfantToddler,
 							},
 							{
 								text: 'Preschool',
@@ -114,7 +114,7 @@ const EnrollmentFunding: Section = {
 							},
 							{
 								text: 'School-age',
-								value: Age.School,
+								value: Age.SchoolAge,
 							},
 						]}
 						selected={'' + age}

@@ -39,7 +39,7 @@ namespace HedwigTests.Repositories
           Thread.Sleep(1000);
         }
 
-        enrollment.AgeGroup = Age.School;
+        enrollment.AgeGroup = Age.SchoolAge;
         funding.Time = FundingTime.Part;
         context.SaveChanges();
 
@@ -72,7 +72,7 @@ namespace HedwigTests.Repositories
           var fundingResult = enrollmentResult.Fundings.FirstOrDefault();
 
           // A submitted report should return the data as of when it was submitted
-          Assert.Equal(submitted ? Age.Preschool : Age.School, enrollmentResult.AgeGroup);
+          Assert.Equal(submitted ? Age.Preschool : Age.SchoolAge, enrollmentResult.AgeGroup);
           Assert.Equal(submitted ? FundingTime.Full : FundingTime.Part, fundingResult.Time);
         }
       }

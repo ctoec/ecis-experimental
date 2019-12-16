@@ -18,7 +18,11 @@
  * @enum {string}
  */
 export enum Region {
-    Default = 'Default'
+    East = 'East',
+    NorthCentral = 'NorthCentral',
+    NorthWest = 'NorthWest',
+    SouthCentral = 'SouthCentral',
+    SouthWest = 'SouthWest'
 }
 
 export function RegionFromJSON(json: any): Region {

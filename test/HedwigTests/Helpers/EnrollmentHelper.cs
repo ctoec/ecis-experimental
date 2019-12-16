@@ -12,7 +12,7 @@ namespace HedwigTests.Helpers
 			HedwigContext context,
 			string entry = "2000-01-01",
 			string exit = null,
-			Age ageGroup = Age.Infant,
+			Age ageGroup = Age.InfantToddler,
 			Child child = null,
 			Site site = null
 		)

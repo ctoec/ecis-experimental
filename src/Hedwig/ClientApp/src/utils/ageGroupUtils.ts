@@ -2,12 +2,12 @@ import { Age } from '../generated';
 
 export function ageFromString(str: string) {
 	switch (str) {
-		case Age.Infant:
-			return Age.Infant;
+		case Age.InfantToddler:
+			return Age.InfantToddler;
 		case Age.Preschool:
 			return Age.Preschool;
-		case Age.School:
-			return Age.School;
+		case Age.SchoolAge:
+			return Age.SchoolAge;
 		default:
 			return null;
 	}
@@ -15,11 +15,11 @@ export function ageFromString(str: string) {
 
 export function prettyAge(age: Age | null | undefined) {
 	switch (age) {
-		case Age.Infant:
+		case Age.InfantToddler:
 			return 'Infant/Toddler';
 		case Age.Preschool:
 			return 'Preschool';
-		case Age.School:
+		case Age.SchoolAge:
 			return 'School-age';
 		default:
 			return '';

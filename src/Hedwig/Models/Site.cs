@@ -15,7 +15,7 @@ namespace Hedwig.Models
 		public bool TitleI { get; set; } = false;
 
 		[Required]
-		public Region Region { get; set; } = Region.Default;
+		public Region Region { get; set; }
 
 		[Required]
 		public int OrganizationId { get; set; }
