@@ -12,7 +12,7 @@ const FamilyInfo: Section = {
 	key: 'family-information',
 	name: 'Family information',
 	status: () => 'complete',
-	Objects: (enrollment: Enrollment) => [idx(enrollment, _ => _.child.family) || null],
+	ValidationObjects: (enrollment: Enrollment) => [idx(enrollment, _ => _.child.family) || null],
 
 	Summary: ({ enrollment }) => {
 		if (!enrollment || !enrollment.child) return <></>;

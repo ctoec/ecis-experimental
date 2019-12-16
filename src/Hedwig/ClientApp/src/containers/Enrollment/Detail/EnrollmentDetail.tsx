@@ -86,7 +86,7 @@ export default function EnrollmentDetail({
 							<Link to={`edit/${section.key}`}>
 								Edit<span className="usa-sr-only"> {section.name.toLowerCase()}</span>
 							</Link>
-							{sectionHasValidationErrors(section.Objects(enrollment)) && (
+							{sectionHasValidationErrors(section.ValidationObjects(enrollment)) && (
 								<span>
 									<InlineIcon icon="incomplete" /> Missing information
 								</span>

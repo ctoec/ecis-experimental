@@ -2,6 +2,7 @@ import { StepStatus } from '../../components/StepList/StepList';
 import { Enrollment } from '../../generated';
 import { Mutate } from '../../hooks/useApi';
 import { DeepNonUndefineable } from '../../utils/types';
+import { Validatable } from '../../utils/validations';
 
 export type SectionProps = {
 	enrollment: DeepNonUndefineable<Enrollment> | null;
@@ -16,5 +17,5 @@ export interface Section {
 	status: (props: SectionProps) => StepStatus;
 	Summary: React.FC<SectionProps>;
 	Form: React.FC<SectionProps>;
-	Objects: (enrollment: Enrollment) => any[];
+	ValidationObjects: (enrollment: DeepNonUndefineable<Enrollment>) => (Validatable | Validatable[] | null)[];
 }

@@ -11,12 +11,13 @@ import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest, Age, Enrollmen
 import UserContext from '../../../contexts/User/UserContext';
 import { ageFromString, prettyAge } from '../../../utils/ageGroupUtils';
 import getIdForUser from '../../../utils/getIdForUser';
+import { DeepNonUndefineable } from '../../../utils/types';
 
 const EnrollmentFunding: Section = {
   key: 'enrollment-funding',
   name: 'Enrollment and funding',
   status: () => 'complete',
-  Objects: (enrollment: Enrollment) => [enrollment, enrollment.fundings],
+  ValidationObjects: (enrollment: DeepNonUndefineable<Enrollment>) => [enrollment, enrollment.fundings],
 
   Summary: ({ enrollment }) => {
     if (!enrollment) return <></>;

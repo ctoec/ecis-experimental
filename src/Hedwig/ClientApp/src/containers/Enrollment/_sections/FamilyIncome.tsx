@@ -15,7 +15,7 @@ const FamilyIncome: Section = {
   key: 'family-income',
   name: 'Family income',
   status: () => 'complete',
-  Objects: (enrollment: Enrollment) => [idx(enrollment, _ => _.child.family.determinations[0]) || null],
+  ValidationObjects: (enrollment: Enrollment) => [idx(enrollment, _ => _.child.family.determinations[0]) || null],
 
   Summary: ({ enrollment }) => {
     if (!enrollment || !enrollment.child || !enrollment.child.family) return <></>;
