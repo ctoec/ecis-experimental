@@ -71,6 +71,7 @@ namespace Hedwig.Data
       return base.Add<TEntity>(entity);
     }
 
+
     /// <summary>
     /// Overrides the base `DbContext.Update()` functionality to add an author name to the AuthoredBy
     /// field on temporal entities.
@@ -100,12 +101,24 @@ namespace Hedwig.Data
     }
 
     /// <summary>
-    /// Adds author UserId to AuthorId field on temporal entity
+    /// Recursively adds author UserId to AuthorId field on temporal entities
     /// </summary>
-    /// <param name="entity"></param>
+    /// <param name="entity"></param>s
     protected void AddAuthorToTemporalEntity(TemporalEntity entity)
     {
       entity.AuthorId = GetCurrentUserId();
+      
+      // Recursively add AuthorId to any TemporalEntity sub-props
+      var props = entity.GetType().GetProperties();
+      foreach (var prop in props)
+      {
+        var subProp = prop.GetValue(entity);
+        if (typeof(TemporalEntity).IsAssignableFrom(prop.PropertyType)
+          && subProp != null)
+        {
+          AddAuthorToTemporalEntity(subProp as TemporalEntity);
+        }
+      }
     }
 
     /// <summary>
