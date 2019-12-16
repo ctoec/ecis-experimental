@@ -31,9 +31,6 @@ export const fundingSourceDetails: { [key: string]: FundingSourceDetail } = {
 		fullTitle: 'Child Day Care',
 		tagFormatter: funding => `CDC${ptOrFT(funding.time)}`,
 		legendTextFormatter: (fullTitle, enrolledForFunding, capacityForFunding) => {
-			if (!enrolledForFunding) {
-				return <></>;
-			}
 			return (
 				<React.Fragment>
 					<span className="text-bold">
@@ -49,9 +46,6 @@ export const fundingSourceDetails: { [key: string]: FundingSourceDetail } = {
 		fullTitle: 'Care 4 Kids',
 		tagFormatter: funding => 'C4K',
 		legendTextFormatter: (fullTitle, enrolledForFunding) => {
-			if (!enrolledForFunding) {
-				return <></>;
-			}
 			return (
 				<React.Fragment>
 					<span className="text-bold">{enrolledForFunding}</span>

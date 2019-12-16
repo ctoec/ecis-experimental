@@ -186,8 +186,7 @@ export default function Roster() {
 		byRange
 	);
 
-	const legendItems: LegendItem[] = Object.keys(fundingSourceDetails).map(source => {
-		const capacityForFunding = getFundingSpaceCapacity(site.organization, source);
+	const legendItems: (LegendItem | undefined)[] = Object.keys(fundingSourceDetails).map(source => {
 		function isEnrolledForFunding(
 			enrollment: DeepNonUndefineable<Enrollment>
 		): enrollment is DeepNonUndefineable<Enrollment> {
@@ -200,9 +199,14 @@ export default function Roster() {
 				? enrollment.fundings.filter<DeepNonUndefineable<Funding>>(matchesSource).length > 0
 				: false;
 		}
+		const capacityForFunding = getFundingSpaceCapacity(site.organization, source);
 		const enrolledForFunding = enrollments.filter<DeepNonUndefineable<Enrollment>>(
 			isEnrolledForFunding
 		).length;
+
+		if (enrolledForFunding === 0) {
+			return undefined;
+		}
 
 		return {
 			text: fundingSourceDetails[source].legendTextFormatter(
@@ -216,7 +220,12 @@ export default function Roster() {
 
 	if (missingInformation.length) {
 		legendItems.push({
-			text: <span>{missingInformation.length} missing information</span>,
+			text: (
+				<>
+					<span className="text-bold">{missingInformation.length}</span>
+					<span> missing information</span>
+				</>
+			),
 			symbol: <InlineIcon icon="incomplete" />,
 		});
 	}
