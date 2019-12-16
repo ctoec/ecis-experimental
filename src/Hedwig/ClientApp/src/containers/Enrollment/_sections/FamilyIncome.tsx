@@ -21,26 +21,37 @@ import FieldSet from '../../../components/FieldSet/FieldSet';
 const FamilyIncome: Section = {
   key: 'family-income',
   name: 'Family income determination',
-  status: ({ enrollment }) =>  sectionHasValidationErrors([idx(enrollment, _ => _.child.family.determinations) || null]) ? 'incomplete': 'complete',
-
+  status: ({ enrollment }) => {
+    if (idx(enrollment, _ => _.child.foster)) {
+      return 'exempt';
+    }
+    return sectionHasValidationErrors(
+      [idx(enrollment, _ => _.child.family.determinations) || null]) ?
+      'incomplete':
+      'complete'
+  },
 	Summary: ({ enrollment }) => {
 		if (!enrollment || !enrollment.child || !enrollment.child.family) return <></>;
-		const determination = idx(enrollment, _ => _.child.family.determinations[0])
+    const determination = idx(enrollment, _ => _.child.family.determinations[0]);
+    const isFoster = enrollment.child.foster;
+    let elementToReturn;
+
+    if (isFoster) {
+      elementToReturn = <p>Household Income: This information is not required for foster children.</p>;
+    } else if (!determination) {
+      elementToReturn = <p>No income determination on record.</p>;
+    } else if (determination.notDisclosed) {
+      elementToReturn = <p>Income determination not disclosed.</p>;
+    } else {
+      elementToReturn = <>
+        <p>Household size: {determination.numberOfPeople}</p>
+        <p>Annual household income: ${idx(determination, _ => _.income.toFixed(2))}</p>
+        <p>Determined on: {dateFormatter(idx(determination, _ => _.determinationDate))}</p>
+      </>;
+    }
 		return (
 			<div className="FamilyIncomeSummary">
-				{determination ?
-					determination.notDisclosed ? (
-						<p>Income not disclosed.</p>
-					) : (
-						<>
-							<p>Household size: {determination.numberOfPeople}</p>
-							<p>Annual household income: ${idx(determination, _ => _.income.toFixed(2))}</p>
-							<p>Determined on: {dateFormatter(idx(determination, _ => _.determinationDate))}</p>
-						</>
-					) : (
-						<p>No income determination on record.</p>
-					)
-				}
+				{elementToReturn}
 			</div>
 		);
 	},
@@ -105,33 +116,53 @@ const FamilyIncome: Section = {
 				return;
 			}
 
-      if (enrollment && child && child.family) {
-        const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
-          ...defaultParams,
-          enrollment: {
-            ...enrollment,
-            child: {
-              ...child,
-              family: {
-                ...child.family,
-                determinations: determination ? [{
-                  ...determination,
-                  ...validArgs
-                }] : [{ 
-                  id: 0,
-                  familyId: child.family.id,
-                  ...validArgs 
-                }]
+      // If determination is added, all fields must be present
+      // or notDisclosed must be true
+      if ((numberOfPeople && income && determination) || notDisclosed) {
+        const args = {
+          notDisclosed: notDisclosed,
+          numberOfPeople: notDisclosed ? undefined: (numberOfPeople || undefined),
+          income: notDisclosed ? undefined : (income || undefined),
+          determined: notDisclosed ? undefined : (determination || undefined),
+        };
+
+        if (enrollment && child && child.family) {
+          const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
+            ...defaultParams,
+            enrollment: {
+              ...enrollment,
+              child: {
+                ...child,
+                family: {
+                  ...child.family,
+                  determinations: determination ?
+                    [{
+                      ...determination,
+                      ...validArgs
+                    }] :
+                    [{
+                      id: 0,
+                      familyId: child.family.id,
+                      ...validArgs
+                    }]
+                }
               }
             }
           }
-        };
-        mutate((api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
-          .then((res) => {
-            if (callback && res) callback(res);
-          });
+					mutate((api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
+						.then((res) => {
+							if (callback && res) callback(res);
+						});
+					}
       }
     };
+
+    var isFoster = enrollment.child.foster;
+
+    if (isFoster) {
+      save();
+      return <></>;
+    }
 
     return (
    	  <div className="FamilyIncomeForm">
