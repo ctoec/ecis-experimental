@@ -1,6 +1,5 @@
 import React from 'react';
-import { Funding } from '../OAS-generated/models/Funding';
-import { FundingSource } from '../OAS-generated';
+import { Funding, FundingSource } from '../generated';
 
 export type LegendTextFormatter = (
 	fullTitle: string,
@@ -32,6 +31,9 @@ export const fundingSourceDetails: { [key: string]: FundingSourceDetail } = {
 		fullTitle: 'Child Day Care',
 		tagFormatter: funding => `CDC${ptOrFT(funding.time)}`,
 		legendTextFormatter: (fullTitle, enrolledForFunding, capacityForFunding) => {
+			if (!enrolledForFunding) {
+				return <></>;
+			}
 			return (
 				<React.Fragment>
 					<span className="text-bold">
@@ -46,18 +48,18 @@ export const fundingSourceDetails: { [key: string]: FundingSourceDetail } = {
 		colorToken: 'violet-warm-60',
 		fullTitle: 'Care 4 Kids',
 		tagFormatter: funding => 'C4K',
-		legendTextFormatter: (fullTitle, enrolledForFunding) => (
-			<React.Fragment>
-				<span className="text-bold">{enrolledForFunding}</span>
-				<span>receiving {fullTitle}</span>
-			</React.Fragment>
-		),
+		legendTextFormatter: (fullTitle, enrolledForFunding) => {
+			if (!enrolledForFunding) {
+				return <></>;
+			}
+			return (
+				<React.Fragment>
+					<span className="text-bold">{enrolledForFunding}</span>
+					<span>receiving {fullTitle}</span>
+				</React.Fragment>
+			);
+		},
 	},
-	// SRS: {
-	// 	colorToken: 'gray or something idk',
-	// 	fullTitle: 'School Readiness',
-	// 	tagFormatter: funding => 'SRS'
-	// },
 };
 
 export default function getColorForFundingSource(source: FundingSource) {

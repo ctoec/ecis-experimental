@@ -40,9 +40,10 @@ export default function Roster() {
 		orgId: getIdForUser(user, 'org'),
 		include: ['organizations', 'funding_spaces'],
 	};
-	const [siteLoading, siteError, site] = useApi(api => api.apiOrganizationsOrgIdSitesIdGet(siteParams), [
-		user,
-	]);
+	const [siteLoading, siteError, site] = useApi(
+		api => api.apiOrganizationsOrgIdSitesIdGet(siteParams),
+		[user]
+	);
 
 	const enrollmentsParams = {
 		orgId: getIdForUser(user, 'org'),
@@ -90,23 +91,21 @@ export default function Roster() {
 			{
 				name: 'Funding',
 				cell: ({ row }) => {
-					const fundings = row.fundings && row.fundings.length
-						? row.fundings.map<React.ReactNode>(funding =>
-							<Tag
-								key={`${funding.source}-${funding.time}`}
-								text={
-									funding.source
-										? fundingSourceDetails[funding.source].textFormatter(funding)
-										: ''
-								}
-								color={funding.source ? getColorForFundingSource(funding.source) : 'gray-90'}
-							/>)
-						: '';
-					return (
-						<td>
-							{fundings}
-						</td>
-					);
+					const fundings =
+						row.fundings && row.fundings.length
+							? row.fundings.map<React.ReactNode>(funding => (
+									<Tag
+										key={`${funding.source}-${funding.time}`}
+										text={
+											funding.source
+												? fundingSourceDetails[funding.source].tagFormatter(funding)
+												: ''
+										}
+										color={funding.source ? getColorForFundingSource(funding.source) : 'gray-90'}
+									/>
+							  ))
+							: '';
+					return <td>{fundings}</td>;
 				},
 				sort: row => idx(row, _ => _.fundings[0].source) || '',
 			},
@@ -126,26 +125,36 @@ export default function Roster() {
 		defaultSortOrder: 'ascending',
 	};
 
-	const incompleteEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>(
-		(e => !e.age || !e.entry) as (_: DeepNonUndefineable<Enrollment>) => _ is DeepNonUndefineable<Enrollment>
-	);
-	const completeEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>(
-		(e => !incompleteEnrollments.includes(e)) as (_: DeepNonUndefineable<Enrollment>) => _ is DeepNonUndefineable<Enrollment>
-	);
+	const incompleteEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>((e =>
+		!e.age || !e.entry) as (
+		_: DeepNonUndefineable<Enrollment>
+	) => _ is DeepNonUndefineable<Enrollment>);
+	const completeEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>((e =>
+		!incompleteEnrollments.includes(e)) as (
+		_: DeepNonUndefineable<Enrollment>
+	) => _ is DeepNonUndefineable<Enrollment>);
 
-	function isInfant(enrollment: DeepNonUndefineable<Enrollment>): enrollment is DeepNonUndefineable<Enrollment> {
+	function isInfant(
+		enrollment: DeepNonUndefineable<Enrollment>
+	): enrollment is DeepNonUndefineable<Enrollment> {
 		return enrollment.age === Age.Infant;
 	}
 
-	function isPreschool(enrollment: DeepNonUndefineable<Enrollment>): enrollment is DeepNonUndefineable<Enrollment> {
+	function isPreschool(
+		enrollment: DeepNonUndefineable<Enrollment>
+	): enrollment is DeepNonUndefineable<Enrollment> {
 		return enrollment.age === Age.Preschool;
 	}
 
-	function isSchool(enrollment: DeepNonUndefineable<Enrollment>): enrollment is DeepNonUndefineable<Enrollment> {
+	function isSchool(
+		enrollment: DeepNonUndefineable<Enrollment>
+	): enrollment is DeepNonUndefineable<Enrollment> {
 		return enrollment.age === Age.School;
 	}
 
-	function isAgeIncomplete(enrollment: DeepNonUndefineable<Enrollment>): enrollment is DeepNonUndefineable<Enrollment> {
+	function isAgeIncomplete(
+		enrollment: DeepNonUndefineable<Enrollment>
+	): enrollment is DeepNonUndefineable<Enrollment> {
 		return !enrollment.age;
 	}
 
@@ -179,13 +188,21 @@ export default function Roster() {
 
 	const legendItems: LegendItem[] = Object.keys(fundingSourceDetails).map(source => {
 		const capacityForFunding = getFundingSpaceCapacity(site.organization, source);
-		function isEnrolledForFunding(enrollment: DeepNonUndefineable<Enrollment>): enrollment is DeepNonUndefineable<Enrollment> {
-			const matchesSource = (funding: DeepNonUndefineable<Funding>): funding is DeepNonUndefineable<Funding> => {
+		function isEnrolledForFunding(
+			enrollment: DeepNonUndefineable<Enrollment>
+		): enrollment is DeepNonUndefineable<Enrollment> {
+			const matchesSource = (
+				funding: DeepNonUndefineable<Funding>
+			): funding is DeepNonUndefineable<Funding> => {
 				return funding.source === source;
-			}
-			return enrollment.fundings ? enrollment.fundings.filter<DeepNonUndefineable<Funding>>(matchesSource).length > 0 : false;
+			};
+			return enrollment.fundings
+				? enrollment.fundings.filter<DeepNonUndefineable<Funding>>(matchesSource).length > 0
+				: false;
 		}
-		const enrolledForFunding = enrollments.filter<DeepNonUndefineable<Enrollment>>(isEnrolledForFunding).length;
+		const enrolledForFunding = enrollments.filter<DeepNonUndefineable<Enrollment>>(
+			isEnrolledForFunding
+		).length;
 
 		return {
 			text: fundingSourceDetails[source].legendTextFormatter(
@@ -197,10 +214,12 @@ export default function Roster() {
 		};
 	});
 
-	legendItems.push({
-		text: 'Missing information',
-		symbol: <InlineIcon icon="incomplete" />,
-	});
+	if (missingInformation.length) {
+		legendItems.push({
+			text: <span>{missingInformation.length} missing information</span>,
+			symbol: <InlineIcon icon="incomplete" />,
+		});
+	}
 
 	return (
 		<div className="Roster">

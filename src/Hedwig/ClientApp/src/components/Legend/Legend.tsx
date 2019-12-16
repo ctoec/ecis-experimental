@@ -3,7 +3,7 @@ import React from 'react';
 
 export type LegendItem = {
 	text: string | JSX.Element;
-	symbol: JSX.Element | 'default';
+	symbol?: JSX.Element;
 	symbolClass?: string;
 	textClass?: string;
 };

@@ -6,21 +6,17 @@ import Legend from './Legend';
 const legendItems = [
 	{
 		text: 'One fish',
-		number: 1,
 	},
 	{
 		text: 'Two fish',
-		number: 2,
 	},
 	{
 		text: 'Red fish',
-		symbolColor: 'red',
-		number: 2,
+		symbolClass: 'text-red',
 	},
 	{
 		text: 'Blue fish',
-		symbolColor: 'blue',
-		number: 4,
+		symbolClass: 'text-blue',
 	},
 ];
 
