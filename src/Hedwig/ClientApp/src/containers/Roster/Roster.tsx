@@ -254,10 +254,6 @@ export default function Roster() {
 						<DateSelectionForm
 							inputDateRange={dateRange}
 							byRange={byRange}
-							onReset={() => {
-								setByRange(false);
-								setDateRange(getDefaultDateRange());
-							}}
 							onSubmit={(newDateRange: DateRange) => setDateRange(newDateRange)}
 						/>
 					</div>
