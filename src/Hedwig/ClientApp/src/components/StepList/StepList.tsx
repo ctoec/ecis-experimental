@@ -1,6 +1,5 @@
 import React from 'react';
 import { default as Step, ExternalStepStatus, InternalStepProps, InternalStepStatus } from './Step';
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 
 // The statuses 'active' and 'notStarted' can only be assigned by StepList itself
 export type StepStatus = ExternalStepStatus;
@@ -46,9 +45,7 @@ export default function StepList<T>({ steps, props, activeStep }: StepListProps<
 	return (
 		<ol className="oec-step-list">
 			{internalSteps.map(step => (
-				<ErrorBoundary>
-					<Step {...step} />
-				</ErrorBoundary>
+				<Step {...step} />
 			))}
 		</ol>
 	);
