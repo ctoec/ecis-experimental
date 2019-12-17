@@ -2,8 +2,8 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { BrowserRouter } from 'react-router-dom';
 import 'react-dates/initialize';
-import Reports from './Reports';
-import UserContext from '../../contexts/User/UserContext';
+import ReportsSummary from './ReportsSummary';
+import UserContext from '../../../contexts/User/UserContext';
 
 const user = {
   id: 1,
@@ -92,7 +92,7 @@ jest.mock('../../hooks/useApi', () => {
   };
 });
 
-import useApi from '../../hooks/useApi';
+import useApi from '../../../hooks/useApi';
 
 afterAll(() => {
   jest.resetModules();
@@ -103,7 +103,7 @@ describe('Roster', () => {
     const wrapper = mount(
       <UserContext.Provider value={{ user }}>
         <BrowserRouter>
-          <Reports />
+          <ReportsSummary />
         </BrowserRouter>
       </UserContext.Provider>
     );
