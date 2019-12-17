@@ -16,7 +16,6 @@ import Alert from '../../../components/Alert/Alert';
 import getIdForUser from '../../../utils/getIdForUser';
 import missingInformation from '../../../utils/missingInformation';
 import InlineIcon from '../../../components/InlineIcon/InlineIcon';
-import { DeepNonUndefineable } from '../../../utils/types';
 
 type EnrollmentDetailParams = {
 	match: {
@@ -31,7 +30,7 @@ const sections = [ChildInfo, FamilyInfo, FamilyIncome, EnrollmentFunding];
 /**
  * React component for displaying enrollment summary information.
  * Hands off to section summary component.
- * 
+ *
  * @param props Props with location
  */
 export default function EnrollmentDetail({
