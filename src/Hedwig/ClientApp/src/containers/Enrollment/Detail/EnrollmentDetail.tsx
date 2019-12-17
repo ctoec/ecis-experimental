@@ -16,7 +16,6 @@ import Alert from '../../../components/Alert/Alert';
 import getIdForUser from '../../../utils/getIdForUser';
 import missingInformation from '../../../utils/missingInformation';
 import InlineIcon from '../../../components/InlineIcon/InlineIcon';
-import ErrorBoundary from '../../../components/ErrorBoundary';
 
 type EnrollmentDetailParams = {
 	match: {
@@ -79,23 +78,21 @@ export default function EnrollmentDetail({
 				<h1>{nameFormatter(child)}</h1>
 				{sections.map(section => (
 					<section key={section.key} className="hedwig-enrollment-details-section">
-						<ErrorBoundary>
-							<div className="hedwig-enrollment-details-section__content">
-								<h2>{section.name}</h2>
-								<section.Summary enrollment={enrollment} mutate={mutate} />
-							</div>
-							<div className="hedwig-enrollment-details-section__actions">
-								<Link to={`edit/${section.key}`}>
-									Edit<span className="usa-sr-only"> {section.name.toLowerCase()}</span>
-								</Link>
-								{/* TODO: when we figure out the missing information logic, remove hard coding of section */}
-								{section === ChildInfo && informationIsMissing && (
-									<span>
-										<InlineIcon icon="incomplete" /> Missing information
-									</span>
-								)}
-							</div>
-						</ErrorBoundary>
+						<div className="hedwig-enrollment-details-section__content">
+							<h2>{section.name}</h2>
+							<section.Summary enrollment={enrollment} mutate={mutate} />
+						</div>
+						<div className="hedwig-enrollment-details-section__actions">
+							<Link to={`edit/${section.key}`}>
+								Edit<span className="usa-sr-only"> {section.name.toLowerCase()}</span>
+							</Link>
+							{/* TODO: when we figure out the missing information logic, remove hard coding of section */}
+							{section === ChildInfo && informationIsMissing && (
+								<span>
+									<InlineIcon icon="incomplete" /> Missing information
+								</span>
+							)}
+						</div>
 					</section>
 				))}
 			</section>
