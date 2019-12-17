@@ -55,37 +55,14 @@ export default function Roster() {
 		return <div className="Roster"></div>;
 	}
 
-	// Note: These explicit is(In)CompleteEnrollment functions is necessary due to Typescript limitations
-	function isIncompleteEnrollment(
-		enrollment: DeepNonUndefineable<Enrollment>
-	): enrollment is DeepNonUndefineable<Enrollment> {
-		return !enrollment.ageGroup || !enrollment.entry;
-	}
-	function isCompleteEnrollment(
-		enrollment: DeepNonUndefineable<Enrollment>
-	): enrollment is DeepNonUndefineable<Enrollment> {
-		return !isIncompleteEnrollment(enrollment);
-	}
-	// As is the type annotation on filter
 	const incompleteEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>(
-		isIncompleteEnrollment
+		(e => !e.ageGroup || !e.entry) as (_: DeepNonUndefineable<Enrollment>) => _ is DeepNonUndefineable<Enrollment>
 	);
 	const completeEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>(
-		isCompleteEnrollment
+		(e => !incompleteEnrollments.includes(e)) as (_: DeepNonUndefineable<Enrollment>) => _ is DeepNonUndefineable<Enrollment>
 	);
 
 	const completeEnrollmentsByAgeGroup = getObjectsByAgeGroup(completeEnrollments);
-	function isInfant(enrollment: DeepNonUndefineable<Enrollment>): enrollment is DeepNonUndefineable<Enrollment> {
-		return enrollment.ageGroup === Age.InfantToddler;
-	}
-
-	function isPreschool(enrollment: DeepNonUndefineable<Enrollment>): enrollment is DeepNonUndefineable<Enrollment> {
-		return enrollment.ageGroup === Age.Preschool;
-	}
-
-	function isSchool(enrollment: DeepNonUndefineable<Enrollment>): enrollment is DeepNonUndefineable<Enrollment> {
-		return enrollment.ageGroup === Age.SchoolAge;
-	}
 
 	const fundingSpaces = idx(site, _ => _.organization.fundingSpaces) || [];
 	const fundingSpacesByAgeGroup = getObjectsByAgeGroup(fundingSpaces);
@@ -100,20 +77,14 @@ export default function Roster() {
 	const legendItems: LegendItem[] = Object.keys(fundingSourceDetails).map(source => {
 		const ratioLegendSources: string[] = [FundingSource.CDC];
 		const capacityForFunding = getFundingSpaceCapacity(site.organization, { source });
-		function isEnrolledForFunding(
-			enrollment: DeepNonUndefineable<Enrollment>
-		): enrollment is DeepNonUndefineable<Enrollment> {
-			const matchesSource = (
-				funding: DeepNonUndefineable<Funding>
-			): funding is DeepNonUndefineable<Funding> => {
-				return funding.source === source;
-			};
-			return enrollment.fundings
-				? enrollment.fundings.filter<DeepNonUndefineable<Funding>>(matchesSource).length > 0
-				: false;
-		}
 		const enrolledForFunding = enrollments.filter<DeepNonUndefineable<Enrollment>>(
-			isEnrolledForFunding
+			(e =>
+				e.fundings ? 
+					e.fundings.filter<DeepNonUndefineable<Funding>>(
+						(f => f.source === source) as (_: DeepNonUndefineable<Funding>) => _ is DeepNonUndefineable<Funding>
+					).length > 0 :
+					false
+			) as (_: DeepNonUndefineable<Enrollment>) => _ is DeepNonUndefineable<Enrollment>
 		).length;
 
 		// If funding source enrollments should be displayed as a ratio,
