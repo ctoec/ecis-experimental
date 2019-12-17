@@ -14,7 +14,6 @@ import {
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest 
 } from '../../../generated';
 import getIdForUser from '../../../utils/getIdForUser';
-import { DeepNonUndefineable } from '../../../utils/types';
 
 type EnrollmentNewParams = {
 	history: History;
@@ -65,7 +64,7 @@ export default function EnrollmentNew({
 	}
 	const [loading, error, enrollment, mutate] = useApi<Enrollment>(
 		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
-		[enrollmentId],
+		[enrollmentId, user],
 		{
 			skip: !enrollmentId
 		}
@@ -96,7 +95,8 @@ export default function EnrollmentNew({
 	};
 
 
-	if (loading || error) {
+	if (loading || error || !user) {
+		// Need tadd user here so that a refresh after partial enrollment doesn't crash
 		return <div className="EnrollmentNew"></div>;
 	}
 
