@@ -120,32 +120,20 @@ namespace HedwigTests.Repositories
 		}
 
 		[Fact]
-		public async Task Get_Child_By_Id_As_Of()
+		public void Get_Child_By_Id()
 		{
 			using (var context = new TestContextProvider().Context)
 			{
 				// If a child exists
-				string originalName = "First";
-				var child = ChildHelper.CreateChild(context, firstName: originalName);
-				var asOf = Utilities.GetAsOfWithSleep();
-
-				// And later first name is updated updatedName 
-				string updatedName = "UPDATED";
-				child.FirstName = updatedName;
-				context.SaveChanges();
+				string name = "First";
+				var child = ChildHelper.CreateChild(context, name);
 
 				// When the repository is queried for the child:
 				var childRepo = new ChildRepository(context);
+				var res = childRepo.GetChildById(child.Id);
 
-				// - Without an asOf timestamp
-				var resCurrent = await childRepo.GetChildByIdAsync_OLD(child.Id);
-				// - Then the child with the updated first name is returned
-				Assert.Equal(updatedName, resCurrent.FirstName);
-
-				// - With an asOf timestamp that predates the update
-				var resAsOf = await childRepo.GetChildByIdAsync_OLD(child.Id, asOf);
-				// - Then the child with the original name is returned
-				Assert.Equal(originalName, resAsOf.FirstName);
+				// Then
+				Assert.Equal(name, res.FirstName);
 			}
 		}
 

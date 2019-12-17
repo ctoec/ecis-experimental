@@ -18,11 +18,7 @@ import UserContext from '../../contexts/User/UserContext';
 import AgeGroupSection from './AgeGroupSection';
 import { getObjectsByAgeGroup } from '../../utils/ageGroupUtils';
 import { DeepNonUndefineable } from '../../utils/types';
-import {
-	isIncompleteEnrollment,
-	isCompleteEnrollment,
-	isAgeIncomplete,
-} from '../../utils/enrollmentCompletenessUtils';
+import { isAgeIncomplete } from '../../utils/enrollmentCompletenessUtils';
 
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
@@ -61,13 +57,14 @@ export default function Roster() {
 		return <div className="Roster"></div>;
 	}
 
-	// As is the type annotation on filter
-	const incompleteEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>(
-		isIncompleteEnrollment
-	);
-	const completeEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>(
-		isCompleteEnrollment
-	);
+	const incompleteEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>((e =>
+		!e.ageGroup || !e.entry) as (
+		_: DeepNonUndefineable<Enrollment>
+	) => _ is DeepNonUndefineable<Enrollment>);
+	const completeEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>((e =>
+		!incompleteEnrollments.includes(e)) as (
+		_: DeepNonUndefineable<Enrollment>
+	) => _ is DeepNonUndefineable<Enrollment>);
 
 	const completeEnrollmentsByAgeGroup = getObjectsByAgeGroup(completeEnrollments);
 
@@ -84,22 +81,14 @@ export default function Roster() {
 	const legendItems: LegendItem[] = [];
 
 	Object.keys(fundingSourceDetails).forEach(source => {
-		function isEnrolledForFunding(
-			enrollment: DeepNonUndefineable<Enrollment>
-		): enrollment is DeepNonUndefineable<Enrollment> {
-			const matchesSource = (
-				funding: DeepNonUndefineable<Funding>
-			): funding is DeepNonUndefineable<Funding> => {
-				return funding.source === source;
-			};
-			return enrollment.fundings
-				? enrollment.fundings.filter<DeepNonUndefineable<Funding>>(matchesSource).length > 0
-				: false;
-		}
 		const capacityForFunding = getFundingSpaceCapacity(site.organization, { source });
-		const enrolledForFunding = enrollments.filter<DeepNonUndefineable<Enrollment>>(
-			isEnrolledForFunding
-		).length;
+		const enrolledForFunding = enrollments.filter<DeepNonUndefineable<Enrollment>>((e =>
+			e.fundings
+				? e.fundings.filter<DeepNonUndefineable<Funding>>((f => f.source === source) as (
+						_: DeepNonUndefineable<Funding>
+				  ) => _ is DeepNonUndefineable<Funding>).length > 0
+				: false) as (_: DeepNonUndefineable<Enrollment>) => _ is DeepNonUndefineable<Enrollment>)
+			.length;
 
 		if (enrolledForFunding === 0) {
 			return;

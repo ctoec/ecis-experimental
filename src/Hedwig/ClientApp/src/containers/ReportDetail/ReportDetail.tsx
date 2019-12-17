@@ -55,12 +55,21 @@ export default function ReportDetail() {
             actionItem={<Button text="Update roster" href="/roster" />}
           />
         )}
-        <h1>
-          {monthFormatter(idx(report, _ => _.reportingPeriod.period))} {report.type} Report{' '}
-          {!report.submittedAt && (
-            <Tag text="DRAFT" color="gold-20v" addClass="margin-left-1 text-middle" />
-          )}
-        </h1>
+        <div className="grid-row flex-first-baseline flex-space-between">
+          <h1 className="tablet:grid-col-auto">
+            {monthFormatter(idx(report, _ => _.reportingPeriod.period))} {report.type} Report{' '}
+            {!report.submittedAt && (
+              <Tag text="DRAFT" color="gold-20v" addClass="margin-left-1 text-middle" />
+            )}
+          </h1>
+          <div className="tablet:grid-col-auto print-btn">
+            <Button
+              text='Print'
+              onClick={window.print}
+              appearance='outline'
+            />
+          </div>
+        </div>
         <p className="usa-intro">
           {idx(report, _ => _.organization.name)} |{' '}
           {dateFormatter(idx(report, _ => _.reportingPeriod.periodStart))} -{' '}

@@ -14,9 +14,8 @@ import useApi from '../../../hooks/useApi';
 import DirectionalLink from '../../../components/DirectionalLink/DirectionalLink';
 import Alert from '../../../components/Alert/Alert';
 import getIdForUser from '../../../utils/getIdForUser';
-import { isIncompleteEnrollment } from '../../../utils/enrollmentCompletenessUtils';
 import InlineIcon from '../../../components/InlineIcon/InlineIcon';
-import { DeepNonUndefineable } from '../../../utils/types';
+import { hasValidationErrors, sectionHasValidationErrors  }from '../../../utils/validations';
 
 type EnrollmentDetailParams = {
 	match: {
@@ -31,7 +30,7 @@ const sections = [ChildInfo, FamilyInfo, FamilyIncome, EnrollmentFunding];
 /**
  * React component for displaying enrollment summary information.
  * Hands off to section summary component.
- * 
+ *
  * @param props Props with location
  */
 export default function EnrollmentDetail({
@@ -61,7 +60,7 @@ export default function EnrollmentDetail({
 	}
 
 	const child = enrollment.child;
-	const informationIsMissing = isIncompleteEnrollment(enrollment);
+	const informationIsMissing = hasValidationErrors(enrollment);
 
 	return (
 		<div className="EnrollmentDetail">
@@ -73,7 +72,7 @@ export default function EnrollmentDetail({
 						heading="Missing information"
 						text={`${nameFormatter(
 							child
-						)} has been successfully enrolled, however, they are missing information required to submit the monthly CDC report. You will be reminded to update this information before you can submit the report.`}
+						)} has been successfully enrolled, however, they are missing information or include invalid information that must be corrected to submit the monthly CDC report. You will be reminded to update this information before you can submit the report.`}
 					/>
 				)}
 				<h1>{nameFormatter(child)}</h1>
@@ -87,8 +86,7 @@ export default function EnrollmentDetail({
 							<Link to={`edit/${section.key}`}>
 								Edit<span className="usa-sr-only"> {section.name.toLowerCase()}</span>
 							</Link>
-							{/* TODO: when we figure out the missing information logic, remove hard coding of section */}
-							{section === ChildInfo && informationIsMissing && (
+							{sectionHasValidationErrors(section.ValidationObjects(enrollment)) && (
 								<span>
 									<InlineIcon icon="incomplete" /> Missing information
 								</span>

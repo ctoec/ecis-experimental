@@ -11,6 +11,8 @@ namespace Hedwig.Models
 		[Required]
 		public int Id { get; set; }
 
+		public bool NotDisclosed { get; set; } = false;
+
 		public int NumberOfPeople { get; set; }
 
 		[Column(TypeName = "decimal(14,2)")]

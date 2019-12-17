@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Hedwig.Controllers;
 using Hedwig.Repositories;
+using Hedwig.Validations;
 using Hedwig.Models;
 
 namespace HedwigTests.Controllers
@@ -16,9 +17,10 @@ namespace HedwigTests.Controllers
         [Fact]
         public async Task Get_IncludeEntities_GetsEnrollmentsForSite_WithEntities()
         {
+            var _validator = new Mock<INonBlockingValidator>();
             var _enrollments = new Mock<IEnrollmentRepository>();
 
-            var controller = new EnrollmentsController(_enrollments.Object);
+            var controller = new EnrollmentsController(_validator.Object, _enrollments.Object);
 
             var siteId = 1;
             var include = new string[]{"foo"};
@@ -30,9 +32,10 @@ namespace HedwigTests.Controllers
         [Fact]
         public async Task Get_Id_IncludeEntities_GetsEnrollmentsForSite_WithEntities()
         {
+            var _validator = new Mock<INonBlockingValidator>();
            var _enrollments = new Mock<IEnrollmentRepository>();
 
-           var controller = new EnrollmentsController(_enrollments.Object);
+           var controller = new EnrollmentsController(_validator.Object, _enrollments.Object);
 
            var id = 1;
            var siteId = 1;
@@ -51,9 +54,10 @@ namespace HedwigTests.Controllers
             Type resultType
         )
         {
+            var _validator = new Mock<INonBlockingValidator>();
             var _enrollments = new Mock<IEnrollmentRepository>();
 
-            var controller = new EnrollmentsController(_enrollments.Object);
+            var controller = new EnrollmentsController(_validator.Object, _enrollments.Object);
 
             var enrollment = new Enrollment{ Id = id };
 
@@ -77,13 +81,14 @@ namespace HedwigTests.Controllers
             Type resultType
         )
         {
-        var _enrollments = new Mock<IEnrollmentRepository>();
+            var _validator = new Mock<INonBlockingValidator>();
+            var _enrollments = new Mock<IEnrollmentRepository>();
             if(shouldNotFind) {
                 _enrollments.Setup(e => e.SaveChangesAsync())
                     .Throws(new DbUpdateConcurrencyException());
             }
 
-            var controller = new EnrollmentsController(_enrollments.Object);
+            var controller = new EnrollmentsController(_validator.Object, _enrollments.Object);
 
             var enrollment = new Enrollment{ Id = id };
 
