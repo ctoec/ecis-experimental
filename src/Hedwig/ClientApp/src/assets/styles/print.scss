@@ -1,27 +1,18 @@
 @media print {
   @page { size:8.5in 11in; margin: 2cm }
   
-  header {
+  // header, <Alert>, <Button type="submit">, <Link>, <DirectionalLink>, .print-btn
+  header, [role="alert"], input[type="submit"], .usa-link, .oec-directional-link, .print-btn{
     @include u-display('none');
+  }
+
+  body {
+    @include u-text($theme-color-base-ink);
   }
 
   // <Tag />
   .usa-tag {
     background-color: #ffffff;
     @include u-text($theme-color-base-ink);
-  }
-
-  // <Link />
-  .usa-link {
-    &, &:visited, &:link {
-      @include u-text('no-underline');
-      @include u-text($theme-color-base-ink);
-    }
-  }
-
-  .print-cancel {
-    float: right;
-    position: relative;
-    top: 15px;
   }
 }
