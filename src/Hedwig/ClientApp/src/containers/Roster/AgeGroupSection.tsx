@@ -8,7 +8,7 @@ import InlineIcon from '../../components/InlineIcon/InlineIcon';
 import { Enrollment, Funding, FundingSpace } from '../../generated';
 import nameFormatter from '../../utils/nameFormatter';
 import dateFormatter from '../../utils/dateFormatter';
-import getColorForFundingSource, { fundingSourceDetails } from '../../utils/getColorForFundingType';
+import getColorForFundingSource, { fundingSourceDetails } from '../../utils/fundingTypeFormatters';
 import { DeepNonUndefineable } from '../../utils/types';
 import { hasValidationErrors } from '../../utils/validations';
 
@@ -25,7 +25,7 @@ function generateFundingTag(funding: DeepNonUndefineable<Funding>): JSX.Element 
 	return (
 		<Tag
 			key={`${funding.source}-${funding.time}`}
-			text={funding.source ? fundingSourceDetails[funding.source].textFormatter(funding) : ''}
+			text={funding.source ? fundingSourceDetails[funding.source].tagFormatter(funding) : ''}
 			color={funding.source ? getColorForFundingSource(funding.source) : 'gray-90'}
 		/>
 	);

@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import idx from 'idx';
 import enrollmentTextFormatter from '../../utils/enrollmentTextFormatter';
 import getDefaultDateRange from '../../utils/getDefaultDateRange';
+import { fundingSourceDetails } from '../../utils/fundingTypeFormatters';
 import getFundingSpaceCapacity from '../../utils/getFundingSpaceCapacity';
 import getIdForUser from '../../utils/getIdForUser';
 import Tag from '../../components/Tag/Tag';
@@ -11,13 +12,13 @@ import RadioGroup from '../../components/RadioGroup/RadioGroup';
 import Legend, { LegendItem } from '../../components/Legend/Legend';
 import useApi from '../../hooks/useApi';
 import DateSelectionForm from './DateSelectionForm';
-import { Age, Enrollment, FundingSource, FundingSpace, Funding } from '../../generated';
+import { Age, Enrollment, FundingSpace, Funding } from '../../generated';
 import InlineIcon from '../../components/InlineIcon/InlineIcon';
 import UserContext from '../../contexts/User/UserContext';
 import AgeGroupSection from './AgeGroupSection';
-import { fundingSourceDetails } from '../../utils/getColorForFundingType';
 import { getObjectsByAgeGroup } from '../../utils/ageGroupUtils';
 import { DeepNonUndefineable } from '../../utils/types';
+import { isAgeIncomplete } from '../../utils/enrollmentCompletenessUtils';
 
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
@@ -35,9 +36,10 @@ export default function Roster() {
 		orgId: getIdForUser(user, 'org'),
 		include: ['organizations', 'funding_spaces'],
 	};
-	const [siteLoading, siteError, site] = useApi(api => api.apiOrganizationsOrgIdSitesIdGet(siteParams), [
-		user,
-	]);
+	const [siteLoading, siteError, site] = useApi(
+		api => api.apiOrganizationsOrgIdSitesIdGet(siteParams),
+		[user]
+	);
 
 	const enrollmentsParams = {
 		orgId: getIdForUser(user, 'org'),
@@ -55,12 +57,14 @@ export default function Roster() {
 		return <div className="Roster"></div>;
 	}
 
-	const incompleteEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>(
-		(e => !e.ageGroup || !e.entry) as (_: DeepNonUndefineable<Enrollment>) => _ is DeepNonUndefineable<Enrollment>
-	);
-	const completeEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>(
-		(e => !incompleteEnrollments.includes(e)) as (_: DeepNonUndefineable<Enrollment>) => _ is DeepNonUndefineable<Enrollment>
-	);
+	const incompleteEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>((e =>
+		!e.ageGroup || !e.entry) as (
+		_: DeepNonUndefineable<Enrollment>
+	) => _ is DeepNonUndefineable<Enrollment>);
+	const completeEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>((e =>
+		!incompleteEnrollments.includes(e)) as (
+		_: DeepNonUndefineable<Enrollment>
+	) => _ is DeepNonUndefineable<Enrollment>);
 
 	const completeEnrollmentsByAgeGroup = getObjectsByAgeGroup(completeEnrollments);
 
@@ -74,45 +78,43 @@ export default function Roster() {
 		byRange
 	);
 
-	const legendItems: LegendItem[] = Object.keys(fundingSourceDetails).map(source => {
-		const ratioLegendSources: string[] = [FundingSource.CDC];
+	const legendItems: LegendItem[] = [];
+
+	Object.keys(fundingSourceDetails).forEach(source => {
 		const capacityForFunding = getFundingSpaceCapacity(site.organization, { source });
-		const enrolledForFunding = enrollments.filter<DeepNonUndefineable<Enrollment>>(
-			(e =>
-				e.fundings ? 
-					e.fundings.filter<DeepNonUndefineable<Funding>>(
-						(f => f.source === source) as (_: DeepNonUndefineable<Funding>) => _ is DeepNonUndefineable<Funding>
-					).length > 0 :
-					false
-			) as (_: DeepNonUndefineable<Enrollment>) => _ is DeepNonUndefineable<Enrollment>
-		).length;
+		const enrolledForFunding = enrollments.filter<DeepNonUndefineable<Enrollment>>((e =>
+			e.fundings
+				? e.fundings.filter<DeepNonUndefineable<Funding>>((f => f.source === source) as (
+						_: DeepNonUndefineable<Funding>
+				  ) => _ is DeepNonUndefineable<Funding>).length > 0
+				: false) as (_: DeepNonUndefineable<Enrollment>) => _ is DeepNonUndefineable<Enrollment>)
+			.length;
 
-		// If funding source enrollments should be displayed as a ratio,
-		// and capacity info for funding source exists,
-		// set ratio to enrollments/capacity. Otherwise: undefined
-		const enrolledOverCapacity =
-			ratioLegendSources.includes(source) && capacityForFunding
-				? { a: enrolledForFunding, b: capacityForFunding }
-				: undefined;
+		if (enrolledForFunding === 0) {
+			return;
+		}
 
-		return {
-			text: fundingSourceDetails[source].fullTitle,
+		legendItems.push({
+			text: fundingSourceDetails[source].legendTextFormatter(
+				fundingSourceDetails[source].fullTitle,
+				enrolledForFunding,
+				capacityForFunding
+			),
 			symbol: <Tag text={source} color={fundingSourceDetails[source].colorToken} />,
-			number: enrolledForFunding,
-			ratio: enrolledOverCapacity,
-		};
+		});
 	});
 
-	function isAgeIncomplete(
-		enrollment: DeepNonUndefineable<Enrollment>
-	): enrollment is DeepNonUndefineable<Enrollment> {
-		return !enrollment.ageGroup;
+	if (incompleteEnrollments.length) {
+		legendItems.push({
+			text: (
+				<>
+					<span className="text-bold">{incompleteEnrollments.length}</span>
+					<span> missing information</span>
+				</>
+			),
+			symbol: <InlineIcon icon="incomplete" />,
+		});
 	}
-
-	legendItems.push({
-		text: 'Missing information',
-		symbol: <InlineIcon icon="incomplete" />,
-	});
 
 	return (
 		<div className="Roster">

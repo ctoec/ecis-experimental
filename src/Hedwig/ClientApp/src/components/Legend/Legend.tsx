@@ -1,55 +1,35 @@
 import React from 'react';
 
-type Ratio = {
-	a: number,
-	b: number
-};
-
 export type LegendItem = {
-	text: string;
-	textClass?: string;
+	text: string | JSX.Element;
 	symbol?: JSX.Element;
-	symbolColor?: string;
-	number?: number;
-	ratio?: Ratio;
+	symbolClass?: string;
+	textClass?: string;
 };
 
 type LegendProps = {
 	items: LegendItem[];
 };
 
+const defaultSymbol = (
+	<svg height="100%" width="100%" className="oec-legend__symbol__svg">
+		<rect width="100%" height="100%" fill="currentColor" />
+	</svg>
+);
+
 export default function Legend({ items }: LegendProps) {
 	return (
-		<div className="grid-row flex-wrap flex-justify margin-top-4 margin-bottom-6 grid-gap oec-legend">
-			{items.map(item => (
-				<div key={item.text.split(' ').join('-')}>
-					<div className="oec-legend__symbol">
-						{item.symbol}
-						{!item.symbol && <svg height="1em" width="1em" className="oec-legend__symbol__svg">
-							<rect
-								width="1em"
-								height="1em"
-								rx="0.25em"
-								ry="0.25em"
-								className={`fill-${item.symbolColor}`}
-								/>
-						</svg>}
+		<div className="grid-row flex-wrap margin-top-2 margin-bottom-6 grid-gap oec-legend">
+			{items.map((item, index) => (
+				<div key={index} className="margin-right-1">
+					<div className={`oec-legend__symbol ${item.symbolClass}`}>
+						{item.symbol || defaultSymbol}
 					</div>
-					<div
-						className={`width-fit-content display-inline margin-left-1 margin-bottom-1 ${item.textClass || ''}`}
-					>
-						{
-							item.ratio ? (
-								<span className="text-bold">{item.ratio.a}/{item.ratio.b} </span>
-							) :
-								item.number !== undefined ? (
-									<span className="text-bold">{item.number} </span>
-								) : undefined
-						}
-						<span>{item.text}</span>
+					<div className={`width-fit-content display-inline margin-left-1 ${item.textClass || ''}`}>
+						{item.text}
 					</div>
-				</div>)
-			)}
+				</div>
+			))}
 		</div>
 	);
 }
