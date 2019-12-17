@@ -128,7 +128,7 @@ const ChildInfo: Section = {
       } else {
         updateValidArgs(undefined);
       }
-    }, [firstName, lastName, birthdate]);
+    }, [JSON.stringify(args)]);
 
     const save = () => {
       if(!validArgs) {
