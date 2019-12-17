@@ -16,7 +16,7 @@ Invoke-Expression -Command:"icacls C:/inetpub/AspNetCoreWebApps/hedwig-spa"
 #
 # Set IIS http to https
 #
-##C:/inetpub/AspNetCoreWebApps/hedwig-spa/installer/scripts/iis-redirect-http-https.bat
+#C:/inetpub/AspNetCoreWebApps/hedwig-spa/installer/scripts/iis-redirect-http-https.bat
 
 #
 # Copy entity framework dll (ef.dll) to web root
