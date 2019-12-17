@@ -12,6 +12,7 @@ import UserContext from '../../../contexts/User/UserContext';
 import { ageFromString, prettyAge } from '../../../utils/ageGroupUtils';
 import getIdForUser from '../../../utils/getIdForUser';
 import { DeepNonUndefineable } from '../../../utils/types';
+import Alert from '../../../components/Alert/Alert';
 
 const EnrollmentFunding: Section = {
   key: 'enrollment-funding',
@@ -57,10 +58,25 @@ const EnrollmentFunding: Section = {
     const [entry, updateEntry] = React.useState(enrollment ? enrollment.entry : null);
     const [age, updateAge] = React.useState(enrollment ? enrollment.ageGroup : null);
 
+    const familyDeterminationNotDisclosed = (enrollment: Enrollment) : boolean => {
+      let determinations = idx(enrollment, _ => _.child.family.determinations)
+  
+      // If no determinations are present, not disclosed = false
+      // (because it is not explicitly true)
+      if (!determinations || determinations.length == 0) return false;
+      determinations = determinations.sort((a, b) => {
+        if (a.determined > b.determined) return 1;
+        if (a.determined < b.determined) return -1;
+        return 0;
+      });
+
+      return determinations[0].notDisclosed;
+    };
+    
     const save = () => {
       const args = {
-        entry: entry || undefined,
-        age: age || undefined
+        entry: entry,
+        age: age
       };
 
       if (enrollment) {
@@ -82,11 +98,13 @@ const EnrollmentFunding: Section = {
       <div className="EnrollmentFundingForm">
         <div className="usa-form">
           <Dropdown
-            options={idx(user, _ => _.orgPermissions[0].organization.sites.map(s => ({
-              value: '' + s.id,
-              text: '' + s.name
-            })))
-              || []}
+            options={
+              idx(user, _ => _.orgPermissions[0].organization.sites.map(s => ({
+                value: `${s.id}`,
+                text: s.name
+              })))
+              || []
+            }
             label="Site"
             selected={siteId ? '' + siteId : undefined}
             onChange={event => updateSiteId(parseInt(event.target.value, 10))}
@@ -122,19 +140,29 @@ const EnrollmentFunding: Section = {
 						selected={'' + age}
 						onChange={event => updateAge(ageFromString(event.target.value))}
 					/>
+          {!familyDeterminationNotDisclosed(enrollment) &&
+            <>
+            <h3>Funding</h3>
+ 				    <ul className="oec-action-list">
+ 				  	  <li>
+ 				  		  <Button appearance="unstyled" text="Assign to a Child Day Care space" />
+ 				  		  &nbsp; (1 available starting December 2019)
+ 				  	  </li>
+              <li>
+                <Button appearance="unstyled" text="Add Care 4 Kids subsidy" />
+              </li>
+            </ul>
+            </>
+          } 
 				</div>
 
-				<h3>Funding</h3>
-				<ul className="oec-action-list">
-					<li>
-						<Button appearance="unstyled" text="Assign to a Child Day Care space" />
-						&nbsp; (1 available starting December 2019)
-					</li>
-          <li>
-            <Button appearance="unstyled" text="Add Care 4 Kids subsidy" />
-          </li>
-        </ul>
-
+        {familyDeterminationNotDisclosed(enrollment) &&
+          <Alert 
+            type="info"
+            text="Funding options not available because family income was not provided. To change, edit the previous section."
+          />
+        }
+        
         <div className="usa-form">
           <Button text="Save" onClick={save} />
         </div>
