@@ -1,8 +1,8 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import { Age, FundingTime, CdcReport, FundingSource, Enrollment, Region } from '../../generated';
+import { Age, FundingTime, CdcReport, FundingSource, Enrollment, Region } from '../../../generated';
 import UtilizationTable, { calculateRate } from './UtilizationTable';
-import emptyGuid from '../../utils/emptyGuid';
+import emptyGuid from '../../../utils/emptyGuid';
 
 describe('calculateRate', () => {
   it('includes all possible rates', () => {

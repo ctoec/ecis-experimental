@@ -25,7 +25,7 @@ const user = {
 };
 
 // https://github.com/facebook/jest/issues/5579
-jest.mock('../../hooks/useApi', () => {
+jest.mock('../../../hooks/useApi', () => {
   const _moment = require('moment');
   const moment = (_: any) => {
     return {
