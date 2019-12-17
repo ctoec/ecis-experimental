@@ -8,7 +8,7 @@ import InlineIcon from '../../components/InlineIcon/InlineIcon';
 import { Enrollment, Funding, FundingSpace } from '../../generated';
 import nameFormatter from '../../utils/nameFormatter';
 import dateFormatter from '../../utils/dateFormatter';
-import getColorForFundingSource, { fundingSourceDetails } from '../../utils/getColorForFundingType';
+import getColorForFundingSource, { fundingSourceDetails } from '../../utils/fundingTypeFormatters';
 import { DeepNonUndefineable } from '../../utils/types';
 import { hasValidationErrors } from '../../utils/validations';
 
