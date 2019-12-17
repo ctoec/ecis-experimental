@@ -75,8 +75,8 @@ const EnrollmentFunding: Section = {
     
     const save = () => {
       const args = {
-        entry: entry || undefined,
-        age: age || undefined
+        entry: entry,
+        age: age
       };
 
       if (enrollment) {
@@ -98,11 +98,13 @@ const EnrollmentFunding: Section = {
       <div className="EnrollmentFundingForm">
         <div className="usa-form">
           <Dropdown
-            options={idx(user, _ => _.orgPermissions[0].organization.sites.map(s => ({
-              value: '' + s.id,
-              text: '' + s.name
-            })))
-              || []}
+            options={
+              idx(user, _ => _.orgPermissions[0].organization.sites.map(s => ({
+                value: `${s.id}`,
+                text: s.name
+              })))
+              || []
+            }
             label="Site"
             selected={siteId ? '' + siteId : undefined}
             onChange={event => updateSiteId(parseInt(event.target.value, 10))}
@@ -157,7 +159,7 @@ const EnrollmentFunding: Section = {
         {familyDeterminationNotDisclosed(enrollment) &&
           <Alert 
             type="info"
-            text="Funding options not available because family income was not provided. To change, edit the previous section"
+            text="Funding options not available because family income was not provided. To change, edit the previous section."
           />
         }
         

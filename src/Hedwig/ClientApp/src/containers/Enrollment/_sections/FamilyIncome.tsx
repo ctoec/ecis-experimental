@@ -172,7 +172,6 @@ const FamilyIncome: Section = {
 		  	{notDisclosed &&
 		  		<Alert
 		  			type="info"
-		  			heading="Please note"
 		  			text="Income information is required to enroll a child in a CDC funded space. You will not be able to assign this child to a funding space without this information."
 		  		/>
 		  	}
