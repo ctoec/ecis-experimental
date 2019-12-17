@@ -54,4 +54,5 @@ export function birthCertPresent(child: Child) {
 export function childArgsAreValid(args: any) {
   // required fields
   if (!args.firstName || !args.lastName) return false;
+  return true;
 }
