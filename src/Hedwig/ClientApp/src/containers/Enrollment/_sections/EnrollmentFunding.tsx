@@ -7,15 +7,17 @@ import RadioGroup from '../../../components/RadioGroup/RadioGroup';
 import dateFormatter from '../../../utils/dateFormatter';
 import moment from 'moment';
 import idx from 'idx';
-import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest, Age } from '../../../generated';
+import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest, Age, Enrollment } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
 import { ageFromString, prettyAge } from '../../../utils/ageGroupUtils';
 import getIdForUser from '../../../utils/getIdForUser';
+import { DeepNonUndefineable } from '../../../utils/types';
 
 const EnrollmentFunding: Section = {
   key: 'enrollment-funding',
   name: 'Enrollment and funding',
   status: () => 'complete',
+  ValidationObjects: (enrollment: DeepNonUndefineable<Enrollment>) => [enrollment, enrollment.fundings],
 
   Summary: ({ enrollment }) => {
     if (!enrollment) return <></>;

@@ -7,7 +7,7 @@ import dateFormatter from '../../../utils/dateFormatter';
 import notNullOrUndefined from '../../../utils/notNullOrUndefined';
 import moment from 'moment';
 import idx from 'idx';
-import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest } from '../../../generated';
+import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest, Enrollment } from '../../../generated';
 import parseCurrencyFromString from '../../../utils/parseCurrencyFromString';
 import currencyFormatter from '../../../utils/currencyFormatter';
 
@@ -15,6 +15,7 @@ const FamilyIncome: Section = {
   key: 'family-income',
   name: 'Family income',
   status: () => 'complete',
+  ValidationObjects: (enrollment: Enrollment) => [idx(enrollment, _ => _.child.family.determinations[0]) || null],
 
   Summary: ({ enrollment }) => {
     if (!enrollment || !enrollment.child || !enrollment.child.family) return <></>;

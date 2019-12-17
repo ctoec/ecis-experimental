@@ -3,7 +3,8 @@ import { Section } from '../enrollmentTypes';
 import Button from '../../../components/Button/Button';
 import TextInput from '../../../components/TextInput/TextInput';
 import Checklist from '../../../components/Checklist/Checklist';
-import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest } from '../../../generated';
+import idx from 'idx';
+import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest, Enrollment } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
 import getIdForUser from '../../../utils/getIdForUser';
 
@@ -11,6 +12,7 @@ const FamilyInfo: Section = {
 	key: 'family-information',
 	name: 'Family information',
 	status: () => 'complete',
+	ValidationObjects: (enrollment: Enrollment) => [idx(enrollment, _ => _.child.family) || null],
 
 	Summary: ({ enrollment }) => {
 		if (!enrollment || !enrollment.child) return <></>;

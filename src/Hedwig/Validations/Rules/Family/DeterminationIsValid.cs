@@ -8,7 +8,7 @@ namespace Hedwig.Validations.Rules
   {
     //TODO: can we get around having to define private base class constructor param?
     public DeterminationIsValid(
-      IValidator validator,
+      INonBlockingValidator validator,
       IFamilyDeterminationRepository determinations
     ) : base(validator)
     {

@@ -9,8 +9,8 @@ import { Enrollment, Funding, FundingSpace } from '../../generated';
 import nameFormatter from '../../utils/nameFormatter';
 import dateFormatter from '../../utils/dateFormatter';
 import getColorForFundingSource, { fundingSourceDetails } from '../../utils/getColorForFundingType';
-import missingInformation from '../../utils/missingInformation';
 import { DeepNonUndefineable } from '../../utils/types';
+import { hasValidationErrors } from '../../utils/validations';
 
 export type AgeGroupTableProps = { id: string; data: DeepNonUndefineable<Enrollment>[] };
 
@@ -42,7 +42,7 @@ const defaultRosterTableProps: TableProps<DeepNonUndefineable<Enrollment>> = {
 				<th scope="row">
 					<Link to={`/roster/enrollments/${row.id}/`} className="usa-link">
 						{nameFormatter(row.child)}
-						{missingInformation(row) ? InlineIcon({ icon: 'incomplete' }) : ''}
+						{hasValidationErrors(row) ? InlineIcon({ icon: 'incomplete' }) : ''}
 					</Link>
 				</th>
 			),
