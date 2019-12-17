@@ -2,13 +2,13 @@ import { Validatable, hasValidationErrors } from '.';
 
 export function sectionHasValidationErrors(sectionObjects: (Validatable | Validatable[] | null)[]) {
   let hasErrors = false;
-  sectionObjects.forEach(o => {
-    if (!o) return;
+  sectionObjects.forEach(sectionObject => {
+    if (!sectionObject) return;
 
-    if (Array.isArray(o)) {
-      hasErrors = o.some(hasValidationErrors) && !hasErrors;
+    if (Array.isArray(sectionObject)) {
+      hasErrors = sectionObject.some(hasValidationErrors) && !hasErrors;
     } else {
-      hasErrors = hasValidationErrors(o) && !hasErrors;
+      hasErrors = hasValidationErrors(sectionObject) && !hasErrors;
     }
   });
 
