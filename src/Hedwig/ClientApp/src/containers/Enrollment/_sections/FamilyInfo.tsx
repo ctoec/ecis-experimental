@@ -14,7 +14,7 @@ const FamilyInfo: Section = {
 	status: () => 'complete',
 
 	Summary: ({ enrollment }) => {
-		if (!enrollment || ! enrollment.child) return <></>;
+		if (!enrollment || !enrollment.child) return <></>;
 
 		const family = enrollment.child.family;
 		return (

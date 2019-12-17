@@ -123,6 +123,8 @@ const ChildInfo: Section = {
     const [validArgs, updateValidArgs] = useState<Child>();
 
     useEffect(() => {
+      console.log('effect used')
+      console.log(args)
       if(childArgsAreValid(args)) {
         updateValidArgs(args as Child);
       } else {
