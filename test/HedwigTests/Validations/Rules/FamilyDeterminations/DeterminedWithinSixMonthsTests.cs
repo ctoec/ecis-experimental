@@ -17,7 +17,7 @@ namespace HedwigTests.Validations.Rules
     {
       // if
       var determination = new FamilyDetermination {
-        Determined = DateTime.Now.AddMonths(monthDifference)
+        DeterminationDate = DateTime.Now.AddMonths(monthDifference)
       };
 
       // when

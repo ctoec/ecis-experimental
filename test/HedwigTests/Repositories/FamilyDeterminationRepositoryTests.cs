@@ -69,7 +69,7 @@ namespace HedwigTests.Repositories
 
 				Assert.Equal(numberOfPeople, determination.NumberOfPeople);
 				Assert.Equal(income, determination.Income);
-				Assert.Equal(determined, determination.Determined);
+				Assert.Equal(determined, determination.DeterminationDate);
 				Assert.Equal(family.Id, determination.FamilyId);
 			}
 		}
