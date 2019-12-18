@@ -2,23 +2,22 @@ import React, { useState, useContext } from 'react';
 import idx from 'idx';
 import { useParams } from 'react-router-dom';
 import ReportSubmitForm from './ReportSubmitForm';
-import monthFormatter from '../../utils/monthFormatter';
-import dateFormatter from '../../utils/dateFormatter';
-import DirectionalLink from '../../components/DirectionalLink/DirectionalLink';
-import Tag from '../../components/Tag/Tag';
-import UserContext from '../../contexts/User/UserContext';
-import getIdForUser from '../../utils/getIdForUser';
-import useApi from '../../hooks/useApi';
-import { isIncompleteEnrollment } from '../../utils/enrollmentCompletenessUtils';
-import { Enrollment } from '../../generated/models/Enrollment';
-import Button from '../../components/Button/Button';
-import Alert, { AlertProps } from '../../components/Alert/Alert';
-import { DeepNonUndefineable } from '../../utils/types';
+import monthFormatter from '../../../utils/monthFormatter';
+import dateFormatter from '../../../utils/dateFormatter';
+import DirectionalLink from '../../../components/DirectionalLink/DirectionalLink';
+import Tag from '../../../components/Tag/Tag';
+import UserContext from '../../../contexts/User/UserContext';
+import getIdForUser from '../../../utils/getIdForUser';
+import useApi from '../../../hooks/useApi';
+import { isIncompleteEnrollment } from '../../../utils/enrollmentCompletenessUtils';
+import { Enrollment } from '../../../generated/models/Enrollment';
+import Button from '../../../components/Button/Button';
+import Alert from '../../../components/Alert/Alert';
+import { DeepNonUndefineable } from '../../../utils/types';
+import AlertContext from '../../../contexts/Alert/AlertContext';
 
 export default function ReportDetail() {
-  const [alert, setAlert] = useState<AlertProps | null>(null);
-
-  let { id } = useParams();
+  const { id } = useParams();
   const { user } = useContext(UserContext);
   const reportParams = {
     id: parseInt(id || '0'),
@@ -29,6 +28,7 @@ export default function ReportDetail() {
     api => api.apiOrganizationsOrgIdReportsIdGet(reportParams),
     [user]
   );
+  const { alerts } = useContext(AlertContext);
 
   if (loading || error || !report) {
     return <div className="Report"></div>;
@@ -46,7 +46,12 @@ export default function ReportDetail() {
     <div className="Report">
       <section className="grid-container">
         <DirectionalLink direction="left" to="/reports" text="Back to reports" />
-        {alert && <Alert {...alert} />}
+        {alerts.map((alert, index) => (
+          <Alert
+            key={index}
+            {...alert}
+          ></Alert>
+        ))}
         {numEnrollmentsMissingInfo > 0 && (
           <Alert
             type="error"
@@ -78,7 +83,6 @@ export default function ReportDetail() {
         <ReportSubmitForm
           report={report}
           mutate={mutate}
-          setAlert={setAlert}
           canSubmit={numEnrollmentsMissingInfo === 0}
         />
       </section>

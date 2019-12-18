@@ -1,4 +1,4 @@
-import React, { useContext, useState, createContext } from 'react';
+import React, { useContext } from 'react';
 import { Switch } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import { NavItemProps } from '../../components/Header/NavItem';
@@ -9,31 +9,26 @@ import useApi from '../../hooks/useApi';
 import { ApiOrganizationsOrgIdReportsGetRequest, CdcReport as Report } from '../../generated';
 import getIdForUser from '../../utils/getIdForUser';
 import UserContext from '../../contexts/User/UserContext';
+import { useCacheInvalidator, AppProvider } from '../../contexts/App/AppContext';
 import { DeepNonUndefineable } from '../../utils/types';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
-
-type AppContextType = { invalidateCache: () => void };
-export const AppContext = createContext<AppContextType>({ invalidateCache: () => {} });
 
 /**
  * Main React component container for Hedwig application
  */
 const App: React.FC = () => {
 	const { user } = useContext(UserContext);
+	const cacheContext = useCacheInvalidator();
+	const { cacheInvalidator } = cacheContext;
 
 	const params: ApiOrganizationsOrgIdReportsGetRequest = {
 		orgId: getIdForUser(user, 'org'),
 	};
 
-	const [cacheInvalidator, setCacheInvalidator] = useState(0);
-	const appContext = {
-		invalidateCache: () => setCacheInvalidator(prev => prev + 1),
-	};
-
-	const [loading, error, reports] = useApi(api => api.apiOrganizationsOrgIdReportsGet(params), [
-		user,
-		cacheInvalidator,
-	]);
+	const [loading, error, reports] = useApi(
+		api => api.apiOrganizationsOrgIdReportsGet(params),
+		[user, cacheInvalidator]
+	);
 
 	const pendingReportsCount =
 		!loading &&
@@ -59,7 +54,7 @@ const App: React.FC = () => {
 
 	return (
 		<div className="App">
-			<AppContext.Provider value={appContext}>
+			<AppProvider value={cacheContext}>
 				<a className="usa-skipnav" href="#main-content">
 					Skip to main content
 				</a>
@@ -71,15 +66,15 @@ const App: React.FC = () => {
 					userFirstName={(user && user.firstName) || undefined}
 				/>
 				<main id="main-content">
-					<ErrorBoundary>
-						<Switch>
-							{routes.map((route, index) => (
-								<MakeRouteWithSubRoutes key={index} {...route} />
-							))}
-						</Switch>
-					</ErrorBoundary>
+				<ErrorBoundary>
+					<Switch>
+						{routes.map((route, index) => (
+							<MakeRouteWithSubRoutes key={index} {...route} />
+						))}
+					</Switch>
+				</ErrorBoundary>
 				</main>
-			</AppContext.Provider>
+			</AppProvider>
 		</div>
 	);
 };

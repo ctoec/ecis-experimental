@@ -10,7 +10,12 @@ namespace Hedwig.Validations.Attributes
     protected override ValidationResult IsValid(object value, ValidationContext validationContext)
     {
       var httpContext = validationContext.GetService(typeof(IHttpContextAccessor)) as HttpContextAccessor;
-      var pathSiteId = Int32.Parse((string)httpContext.HttpContext.GetRouteValue("siteId"));
+      var pathSiteIdStr = (string)httpContext.HttpContext.GetRouteValue("siteId");
+      if (pathSiteIdStr == null) {
+        return ValidationResult.Success;
+      }
+
+      var pathSiteId = Int32.Parse(pathSiteIdStr);
 
       var objectSiteId = (int)value;
 
