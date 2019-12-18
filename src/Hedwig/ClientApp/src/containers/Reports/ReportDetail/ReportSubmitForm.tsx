@@ -31,7 +31,6 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
   const { user } = useContext(UserContext);
   const { invalidateCache: invalidateAppCache } = useContext(AppContext);
   const { alerts, setAlerts } = useContext(AlertContext);
-  console.log("submit", alerts);
   const params: ApiOrganizationsOrgIdReportsIdPutRequest = {
     id: report.id || 0,
     orgId: getIdForUser(user, "org")
@@ -57,11 +56,12 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
     )
       .then(res => {
         if (res) {
-          const newAlerts = [{
+          const newAlert = {
             type: 'success',
             heading: 'Submitted',
             text: `The ${monthFormatter(report.reportingPeriod.period)} CDC Report has been shared with the Office of Early Childhood`
-          }] as AlertProps[];
+          } as AlertProps;
+          const newAlerts = [...alerts, newAlert];
           setAlerts(newAlerts);
           invalidateAppCache(); // Updates the count of unsubmitted reports in the nav bar
           history.push('/reports', newAlerts);

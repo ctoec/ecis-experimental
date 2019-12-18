@@ -8,11 +8,8 @@ import { AlertProps } from "../../components/Alert/Alert";
 
 export default function Reports() {
 	const { id } = useParams();
-	const { state } = useLocation<AlertProps[]>();
-	console.log(state);
-	const alertContext = useAlertContext(state);
-  const { alerts } = alertContext;
-	console.log("reports", alerts);
+	const { state: alerts } = useLocation<AlertProps[]>();
+	const alertContext = useAlertContext(alerts);
 	
 	let reportContainer;
 	if (!id) {
