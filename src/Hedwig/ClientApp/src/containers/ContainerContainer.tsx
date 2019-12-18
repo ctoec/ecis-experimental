@@ -1,4 +1,5 @@
 import React, { ReactElement, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import AlertContext from '../contexts/Alert/AlertContext';
 import Alert from '../components/Alert/Alert';
 import DirectionalLink from '../components/DirectionalLink/DirectionalLink';
@@ -15,6 +16,7 @@ export default function ContainerContainer({
 }: ContainerContainerPropsType) {
 	const { alerts } = useContext(AlertContext);
 	// if there are alerts, get rid of them on component will unmount?
+	// const history = useHistory();
 
 	return (
 		<ErrorBoundary>

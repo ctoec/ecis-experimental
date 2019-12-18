@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Switch } from 'react-router-dom';
+import { Switch, useLocation } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import { NavItemProps } from '../../components/Header/NavItem';
 import MakeRouteWithSubRoutes from './MakeRouteWithSubRoutes';
@@ -11,6 +11,7 @@ import getIdForUser from '../../utils/getIdForUser';
 import UserContext from '../../contexts/User/UserContext';
 import { useCacheInvalidator, AppProvider } from '../../contexts/App/AppContext';
 import { useAlertContext, AlertProvider } from '../../contexts/Alert/AlertContext';
+import { AlertProps } from '../../components/Alert/Alert';
 import { DeepNonUndefineable } from '../../utils/types';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
@@ -21,7 +22,10 @@ const App: React.FC = () => {
 	const { user } = useContext(UserContext);
 	const cacheContext = useCacheInvalidator();
 	const { cacheInvalidator } = cacheContext;
-	const alertContext = useAlertContext();
+	const usedLocation = useLocation<AlertProps[]>();
+	const { state: alerts } = usedLocation;
+	console.log(usedLocation)
+	const alertContext = useAlertContext(alerts);
 
 	const params: ApiOrganizationsOrgIdReportsGetRequest = {
 		orgId: getIdForUser(user, 'org'),
@@ -68,15 +72,15 @@ const App: React.FC = () => {
 					userFirstName={(user && user.firstName) || undefined}
 				/>
 				<main id="main-content">
-					<AlertProvider value={alertContext}>
-						<ErrorBoundary>
-							<Switch>
+					<ErrorBoundary>
+							<AlertProvider value={alertContext}>
+						<Switch>
 								{routes.map((route, index) => (
 									<MakeRouteWithSubRoutes key={index} {...route} />
 								))}
-							</Switch>
-						</ErrorBoundary>
-					</AlertProvider>
+						</Switch>
+							</AlertProvider>
+					</ErrorBoundary>
 				</main>
 			</AppProvider>
 		</div>
