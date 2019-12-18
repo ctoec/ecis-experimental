@@ -29,7 +29,6 @@ export default function ReportDetail() {
     [user]
   );
   const { alerts } = useContext(AlertContext);
-  console.log("detail", alerts);
 
   if (loading || error || !report) {
     return <div className="Report"></div>;

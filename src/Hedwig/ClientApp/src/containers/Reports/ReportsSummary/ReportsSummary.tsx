@@ -13,7 +13,7 @@ import {
 import getIdForUser from '../../../utils/getIdForUser';
 import idx from 'idx';
 import { DeepNonUndefineable } from '../../../utils/types';
-import Alert, { AlertProps } from '../../../components/Alert/Alert';
+import Alert from '../../../components/Alert/Alert';
 import AlertContext from '../../../contexts/Alert/AlertContext';
 
 export default function ReportsSummary() {
@@ -34,7 +34,6 @@ export default function ReportsSummary() {
   );
 
   const { alerts } = useContext(AlertContext);
-  console.log("summary", alerts);
 
   if (loading || error || !reports || orgLoading || orgError || !organization) {
     return <div className="Reports"></div>;

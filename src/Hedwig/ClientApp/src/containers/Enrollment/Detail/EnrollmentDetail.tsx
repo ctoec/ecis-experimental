@@ -12,10 +12,11 @@ import {
 import UserContext from '../../../contexts/User/UserContext';
 import useApi from '../../../hooks/useApi';
 import DirectionalLink from '../../../components/DirectionalLink/DirectionalLink';
-import Alert from '../../../components/Alert/Alert';
 import getIdForUser from '../../../utils/getIdForUser';
 import InlineIcon from '../../../components/InlineIcon/InlineIcon';
-import { hasValidationErrors, sectionHasValidationErrors  }from '../../../utils/validations';
+import { hasValidationErrors, sectionHasValidationErrors } from '../../../utils/validations';
+import ContainerContainer from '../../ContainerContainer';
+import AlertContext from '../../../contexts/Alert/AlertContext';
 
 type EnrollmentDetailParams = {
 	match: {
@@ -55,26 +56,32 @@ export default function EnrollmentDetail({
 		}
 	);
 
+	const { setAlerts, alerts } = useContext(AlertContext);
+
 	if (loading || error || !enrollment) {
 		return <div className="EnrollmentDetail"></div>;
 	}
 
 	const child = enrollment.child;
 	const informationIsMissing = hasValidationErrors(enrollment);
+	if (informationIsMissing) {
+		console.log(informationIsMissing)
+		setAlerts([
+			{
+				type: 'error',
+				heading: 'Missing information',
+				text: `${nameFormatter(
+					child
+				)} has been successfully enrolled. However, there is missing information required to submit the monthly CDC report that will need to be updated be fore you can submit the report.`,
+			},
+		]);
+	}
+
+	console.log(alerts)
 
 	return (
-		<div className="EnrollmentDetail">
+		<ContainerContainer>
 			<section className="grid-container">
-				<DirectionalLink direction="left" to="/roster" text="Back to roster" />
-				{informationIsMissing && (
-					<Alert
-						type="warning"
-						heading="Missing information"
-						text={`${nameFormatter(
-							child
-						)} has been successfully enrolled, however, they are missing information or include invalid information that must be corrected to submit the monthly CDC report. You will be reminded to update this information before you can submit the report.`}
-					/>
-				)}
 				<h1>{nameFormatter(child)}</h1>
 				{sections.map(section => (
 					<section key={section.key} className="hedwig-enrollment-details-section">
@@ -95,6 +102,6 @@ export default function EnrollmentDetail({
 					</section>
 				))}
 			</section>
-		</div>
+		</ContainerContainer>
 	);
 }
