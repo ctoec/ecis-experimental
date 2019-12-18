@@ -10,6 +10,7 @@ import { ApiOrganizationsOrgIdReportsGetRequest, CdcReport as Report } from '../
 import getIdForUser from '../../utils/getIdForUser';
 import UserContext from '../../contexts/User/UserContext';
 import { useCacheInvalidator, AppProvider } from '../../contexts/App/AppContext';
+import { useAlertContext, AlertProvider } from '../../contexts/Alert/AlertContext';
 import { DeepNonUndefineable } from '../../utils/types';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
@@ -20,15 +21,16 @@ const App: React.FC = () => {
 	const { user } = useContext(UserContext);
 	const cacheContext = useCacheInvalidator();
 	const { cacheInvalidator } = cacheContext;
+	const alertContext = useAlertContext();
 
 	const params: ApiOrganizationsOrgIdReportsGetRequest = {
 		orgId: getIdForUser(user, 'org'),
 	};
 
-	const [loading, error, reports] = useApi(
-		api => api.apiOrganizationsOrgIdReportsGet(params),
-		[user, cacheInvalidator]
-	);
+	const [loading, error, reports] = useApi(api => api.apiOrganizationsOrgIdReportsGet(params), [
+		user,
+		cacheInvalidator,
+	]);
 
 	const pendingReportsCount =
 		!loading &&
@@ -66,13 +68,15 @@ const App: React.FC = () => {
 					userFirstName={(user && user.firstName) || undefined}
 				/>
 				<main id="main-content">
-				<ErrorBoundary>
-					<Switch>
-						{routes.map((route, index) => (
-							<MakeRouteWithSubRoutes key={index} {...route} />
-						))}
-					</Switch>
-				</ErrorBoundary>
+					<AlertProvider value={alertContext}>
+						<ErrorBoundary>
+							<Switch>
+								{routes.map((route, index) => (
+									<MakeRouteWithSubRoutes key={index} {...route} />
+								))}
+							</Switch>
+						</ErrorBoundary>
+					</AlertProvider>
 				</main>
 			</AppProvider>
 		</div>

@@ -9,11 +9,15 @@ import EnrollmentFunding from '../_sections/EnrollmentFunding';
 import Button from '../../../components/Button/Button';
 import useApi from '../../../hooks/useApi';
 import UserContext from '../../../contexts/User/UserContext';
-import { 
+import {
 	Enrollment,
-	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest 
+	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest,
 } from '../../../generated';
 import getIdForUser from '../../../utils/getIdForUser';
+import ContainerContainer from '../../ContainerContainer';
+import { hasValidationErrors, sectionHasValidationErrors } from '../../../utils/validations';
+import AlertContext from '../../../contexts/Alert/AlertContext';
+import nameFormatter from '../../../utils/nameFormatter';
 
 type EnrollmentNewParams = {
 	history: History;
@@ -40,7 +44,7 @@ const mapSectionsToSteps = (sections: Section[]) => {
  * React component for entering a new enrollment. This component
  * hands off to a StepList component of sections, which are included
  * in `../_sections`.
- * 
+ *
  * @param props Props with location
  */
 export default function EnrollmentNew({
@@ -54,25 +58,26 @@ export default function EnrollmentNew({
 	}
 
 	const { user } = useContext(UserContext);
+	const { setAlerts } = useContext(AlertContext);
 
 	// Get enrollment by id
 	const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest = {
 		id: enrollmentId ? enrollmentId : 0,
-		orgId: getIdForUser(user, "org"),
-		siteId: getIdForUser(user, "site"),
+		orgId: getIdForUser(user, 'org'),
+		siteId: getIdForUser(user, 'site'),
 		include: ['child', 'family', 'determinations', 'fundings'],
-	}
+	};
 	const [loading, error, enrollment, mutate] = useApi<Enrollment>(
-		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
+		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
 		[enrollmentId, user],
 		{
-			skip: !enrollmentId
+			skip: !enrollmentId,
 		}
 	);
 
 	/**
 	 * Accepts an enrollment and updates URL to appropriate section.
-	 * 
+	 *
 	 * @param enrollment Enrollment that was just saved
 	 */
 	const afterSave = (enrollment: Enrollment) => {
@@ -94,9 +99,8 @@ export default function EnrollmentNew({
 		}
 	};
 
-
 	if (loading || error || !user) {
-		// Need tadd user here so that a refresh after partial enrollment doesn't crash
+		// Need to add user here so that a refresh after partial enrollment doesn't crash
 		return <div className="EnrollmentNew"></div>;
 	}
 
@@ -110,14 +114,36 @@ export default function EnrollmentNew({
 	};
 
 	return (
-		<div className="EnrollmentNew">
+		<ContainerContainer>
 			<section className="grid-container">
 				<h1>Enroll child</h1>
 				<div className="margin-top-2 margin-bottom-5">
 					<StepList steps={steps} activeStep={sectionId} props={props} />
 				</div>
-				{sectionId === 'review' && <Button href="../" text="Finish" />}
+				{sectionId === 'review' && (
+					<Button
+						href="../"
+						text="Finish"
+						onClick={() => {
+							// TODO: USE THE SECTION VALIDATION INSTEAD?
+							const informationIsMissing = hasValidationErrors(enrollment);
+							if (informationIsMissing) {
+								const inSiteName = enrollment.site ? ` in ${enrollment.site.name}` : '';
+								setAlerts([
+									{
+										type: 'success',
+										heading: 'Enrolled',
+										text: `${nameFormatter(
+											// TODO: FIX THIS
+											enrollment.child as any
+										)} has been successfully enrolled${inSiteName}. However, there is missing information you are required to enter before you can submit your monthly CDC report.`,
+									},
+								]);
+							}
+						}}
+					/>
+				)}
 			</section>
-		</div>
+		</ContainerContainer>
 	);
 }
