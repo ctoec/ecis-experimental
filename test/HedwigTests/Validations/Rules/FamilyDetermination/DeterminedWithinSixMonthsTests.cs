@@ -8,17 +8,21 @@ namespace HedwigTests.Validations.Rules
   public class DeterminedWithinSixMonthsTests
   {
     [Theory]
-    [InlineData(-5, false)]
-    [InlineData(-7, true)]
-    public void WithinSixMonths_Execute(
+    [InlineData(false, 0, false)]
+    [InlineData(true, -5, false)]
+    [InlineData(true, -7, true)]
+    public void Execute_ReturnsError_IfDeterminationDateExistsAndIsOlderThanSixMonths(
+      bool determinationDateExists,
       int monthDifference,
       bool doesError
     )
     {
       // if
-      var determination = new FamilyDetermination {
-        DeterminationDate = DateTime.Now.AddMonths(monthDifference)
-      };
+      var determination = new FamilyDetermination();
+      if(determinationDateExists)
+      {
+        determination.DeterminationDate = DateTime.Now.AddMonths(monthDifference);
+      }
 
       // when
       var rule = new DeterminedWithinSixMonths();

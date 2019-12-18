@@ -4,10 +4,10 @@ using System.Linq;
 
 namespace Hedwig.Validations.Rules
 {
-  public class DeterminationIsValid: SubObjectIsValid, IValidationRule<Family>
+  public class MostRecentDeterminationIsValid: SubObjectIsValid, IValidationRule<Family>
   {
     //TODO: can we get around having to define private base class constructor param?
-    public DeterminationIsValid(
+    public MostRecentDeterminationIsValid(
       INonBlockingValidator validator,
       IFamilyDeterminationRepository determinations
     ) : base(validator)
@@ -25,14 +25,17 @@ namespace Hedwig.Validations.Rules
 
       if(family.Determinations.Count == 0) return null;
 
-      var determination = family.Determinations.First();
+      var determination = family.Determinations
+        .OrderByDescending(d => d.DeterminationDate)
+        .First();
+
       ValidateSubObject(determination);
 
       if(determination.ValidationErrors.Count > 0)
       {
         return new ValidationError(
           field: determination.GetType().Name,
-          message: "Determination has validation errors"
+          message: "Most recent determination has validation errors"
         );
       }
 
