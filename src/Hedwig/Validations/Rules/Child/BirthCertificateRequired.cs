@@ -2,9 +2,9 @@ using Hedwig.Models;
 
 namespace Hedwig.Validations.Rules
 {
-  public class BirthCertificateIdIsRequired : Required<Child>
+  public class BirthCertificateIdRequired : FieldRequired<Child>
   {
-    public BirthCertificateIdIsRequired() : base("BirthCertificateId")
+    public BirthCertificateIdRequired() : base("BirthCertificateId")
     {}
   }  
 }

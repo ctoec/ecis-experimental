@@ -101,7 +101,7 @@ namespace Hedwig
 		{
 			services.AddScoped<IValidationRule<FamilyDetermination>, DeterminedWithinSixMonths>();
 			services.AddScoped<IValidationRule<Family>, DeterminationIsValid>();
-			services.AddScoped<IValidationRule<Child>, BirthCertificateIdIsRequired>();
+			services.AddScoped<IValidationRule<Child>, BirthCertificateIdRequired>();
 			services.AddScoped<IValidationRule<Enrollment>, ChildIsValid>();
 			services.AddScoped<INonBlockingValidator, NonBlockingValidator>();
 		}
