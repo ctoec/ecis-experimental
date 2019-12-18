@@ -1,12 +1,12 @@
 import React from 'react';
-import Table, { TableProps } from '../../components/Table/Table';
-import { CdcReport, Age, FundingTime, Region } from '../../generated';
+import Table, { TableProps } from '../../../components/Table/Table';
+import { CdcReport, Age, FundingTime, Region } from '../../../generated';
 import idx from 'idx';
 import moment from 'moment';
 import { CdcRates } from './CdcRates';
-import { prettyAge } from '../../utils/ageGroupUtils';
-import { prettyFundingTime } from '../../utils/fundingTimeUtils';
-import currencyFormatter from '../../utils/currencyFormatter';
+import { prettyAge } from '../../../utils/ageGroupUtils';
+import { prettyFundingTime } from '../../../utils/fundingTimeUtils';
+import currencyFormatter from '../../../utils/currencyFormatter';
 
 export function calculateRate(accredited: boolean, titleI: boolean, region: Region, ageGroup: Age, time: FundingTime) {
   const rate = CdcRates.find(rate =>

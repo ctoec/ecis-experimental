@@ -2,8 +2,8 @@ namespace Hedwig.Validations.Rules
 {
   public abstract class SubObjectIsValid
   {
-    readonly IValidator _validator; 
-    public SubObjectIsValid(IValidator validator)
+    readonly INonBlockingValidator _validator; 
+    public SubObjectIsValid(INonBlockingValidator validator)
     {
       _validator = validator;
     }

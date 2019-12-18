@@ -113,6 +113,11 @@ h1 {
 	justify-content: space-between;
 }
 
+// *** Grid ***
+.grid-container > .usa-alert:first-child {
+	margin-top: 1.67em;
+}
+
 // *** Table ***
 
 .oec-table {
@@ -515,9 +520,8 @@ $future-step-color: color('base-dark') !default;
 .oec-legend__symbol {
 	display: inline-block;
 	position: relative;
-	top: -0.1em;
-	left: 0.1em;
-	margin-right: 0.25em;
+	height: 100%;
+	vertical-align: initial;
 }
 
 // *** Directional link ***
@@ -559,36 +563,40 @@ $future-step-color: color('base-dark') !default;
   transform: rotate(270deg);
 }
 
-// Background and fill colors
+// Background and text colors-- text used for SVG where fill or stroke attr = currentColor
 
-// blue-50v svg rect fill and tag bg
-.fill-blue-50v {
-  fill: color('blue-50v');
+.text-undefined {
+	color: inherit;
+}
+
+// blue-50v text and tag bg
+.text-blue-50v {
+  color: color('blue-50v');
 }
 .bg-blue-50v {
   background-color: color('blue-50v');
 }
 
-// violet-warm-60 svg rect fill and tag bg
-.fill-violet-warm-60 {
-  fill: color('violet-warm-60');
+// violet-warm-60 text and tag bg
+.text-violet-warm-60 {
+  color: color('violet-warm-60');
 }
 .bg-violet-warm-60 {
   background-color: color('violet-warm-60');
 }
 
-// gold-20v svg rect fill and tag bg
-.fill-gold-20v {
-  fill: color('gold-20v');
+// gold-20v text and tag bg
+.text-gold-20v {
+  color: color('gold-20v');
 }
 .bg-gold-20v {
 	background-color: color('gold-20v');
 	color: #000;
 }
 
-// gold-30v svg rect fill and tag bg
-.fill-gold-30v {
-  fill: color('gold-30v');
+// gold-30v text and tag bg
+.text-gold-30v {
+  color: color('gold-30v');
 }
 .bg-gold-30v {
 	background-color: color('gold-30v');

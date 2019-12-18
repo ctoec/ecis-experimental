@@ -28,6 +28,7 @@ import {
   birthCertPresent,
   childArgsAreValid
 } from '../../../utils/models';
+import { DeepNonUndefineable } from '../../../utils/types';
 
 
 
@@ -35,6 +36,7 @@ const ChildInfo: Section = {
   key: 'child-information',
   name: 'Child information',
   status: () => 'complete',
+  ValidationObjects: (enrollment: DeepNonUndefineable<Enrollment>) => [enrollment.child],
 
   Summary: ({ enrollment }) => {
     var child = enrollment && enrollment.child;
@@ -128,7 +130,7 @@ const ChildInfo: Section = {
       } else {
         updateValidArgs(undefined);
       }
-    }, [firstName, lastName, birthdate]);
+    }, [JSON.stringify(args)]);
 
     const save = () => {
       if(!validArgs) {

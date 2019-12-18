@@ -1,4 +1,4 @@
-import { Age, FundingTime, Region } from '../../generated';
+import { Age, FundingTime, Region } from '../../../generated';
 
 export const CdcRates = [
   {

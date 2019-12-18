@@ -25,7 +25,7 @@ namespace HedwigTests.Validations
       var validateable = new Validateable();
 
       // when
-      var validator = new Validator(serviceProvider.Object);
+      var validator = new NonBlockingValidator(serviceProvider.Object);
       validator.Validate(validateable);
 
       // then
@@ -47,7 +47,7 @@ namespace HedwigTests.Validations
       var validateable = new Validateable();
 
       // when
-      var validator = new Validator(serviceProvider.Object);
+      var validator = new NonBlockingValidator(serviceProvider.Object);
       validator.Validate(validateable);
 
       // then
@@ -69,7 +69,7 @@ namespace HedwigTests.Validations
       var validateable = new Validateable();
 
       // when
-      var validator = new Validator(serviceProvider.Object);
+      var validator = new NonBlockingValidator(serviceProvider.Object);
       validator.Validate(validateable);
 
       // then
@@ -97,7 +97,7 @@ namespace HedwigTests.Validations
       var validateable = new Validateable();
 
       // when
-      var validator = new Validator(serviceProvider.Object);
+      var validator = new NonBlockingValidator(serviceProvider.Object);
       validator.Validate(validateable);
 
       // then

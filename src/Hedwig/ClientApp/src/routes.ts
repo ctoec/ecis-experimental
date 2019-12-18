@@ -9,7 +9,6 @@ import Login from './containers/Login/Login';
 import PageNotFound from './containers/PageNotFound/PageNotFound';
 import Reports from './containers/Reports/Reports';
 import Roster from './containers/Roster/Roster';
-import ReportDetail from './containers/ReportDetail/ReportDetail';
 
 export type RouteConfig = {
 	path: string;
@@ -59,7 +58,8 @@ export const routes: RouteConfig[] = [
 	},
 	{
 		path: '/reports/:id',
-		component: ReportDetail,
+		// exact: true,
+		component: Reports,
 	},
 	{
 		path: '/feedback',

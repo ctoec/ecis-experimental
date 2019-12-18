@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Hedwig.Models;
 using Hedwig.Repositories;
+using Hedwig.Validations;
 using System;
 
 namespace Hedwig.Controllers
@@ -14,11 +15,14 @@ namespace Hedwig.Controllers
     [Route("api/organizations/{orgId:int}/sites/{siteId:int}/[controller]")]
     public class EnrollmentsController : ControllerBase
     {
+        private readonly INonBlockingValidator _validator;
         private readonly IEnrollmentRepository _enrollments;
         public EnrollmentsController(
+            INonBlockingValidator validator,
             IEnrollmentRepository enrollments
         )
         {
+            _validator = validator;
             _enrollments = enrollments;
         }
 
@@ -34,7 +38,9 @@ namespace Hedwig.Controllers
         )
         {
 
-            return await _enrollments.GetEnrollmentsForSiteAsync(siteId, from, to, include);
+            var enrollments = await _enrollments.GetEnrollmentsForSiteAsync(siteId, from, to, include);
+            _validator.Validate(enrollments);
+            return enrollments;
         }
 
         [HttpGet("{id}")]
@@ -50,6 +56,8 @@ namespace Hedwig.Controllers
 
             var enrollment = await _enrollments.GetEnrollmentForSiteAsync(id, siteId, include);
             if(enrollment == null) return NotFound();
+
+            _validator.Validate(enrollment);
 
             return enrollment;
         }

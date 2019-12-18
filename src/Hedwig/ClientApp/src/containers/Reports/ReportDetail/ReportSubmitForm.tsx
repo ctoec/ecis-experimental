@@ -1,25 +1,28 @@
-import React, { useState, FormEvent, useContext, SetStateAction, Dispatch } from 'react';
-import Alert, { AlertProps } from '../../components/Alert/Alert';
-import { CdcReport, ApiOrganizationsOrgIdReportsIdPutRequest, CdcReportFromJSON } from '../../generated';
-import { Mutate } from '../../hooks/useApi';
-import UserContext from '../../contexts/User/UserContext';
-import idx from 'idx';
-import TextInput from '../../components/TextInput/TextInput';
-import Checkbox from '../../components/Checklist/Checkbox';
-import { AppContext } from '../App/App';
-import currencyFormatter from '../../utils/currencyFormatter';
-import parseCurrencyFromString from '../../utils/parseCurrencyFromString';
-import getIdForUser from '../../utils/getIdForUser';
+import React, { useState, FormEvent, useContext } from 'react';
+import { CdcReport, ApiOrganizationsOrgIdReportsIdPutRequest } from '../../../generated';
+import { Mutate } from '../../../hooks/useApi';
+import UserContext from '../../../contexts/User/UserContext';
+import TextInput from '../../../components/TextInput/TextInput';
+import Checkbox from '../../../components/Checklist/Checkbox';
+import AppContext from '../../../contexts/App/AppContext';
+import currencyFormatter from '../../../utils/currencyFormatter';
+import parseCurrencyFromString from '../../../utils/parseCurrencyFromString';
+import getIdForUser from '../../../utils/getIdForUser';
 import UtilizationTable from './UtilizationTable';
+import AlertContext, { useAlertContext } from '../../../contexts/Alert/AlertContext';
+import { useHistory } from 'react-router';
+import { AlertProps } from '../../../components/Alert/Alert';
+import monthFormatter from '../../../utils/monthFormatter';
+import { DeepNonUndefineable } from '../../../utils/types';
 
 export type ReportSubmitFormProps = {
-  report: CdcReport,
+  report: DeepNonUndefineable<CdcReport>,
   mutate: Mutate<CdcReport>,
-  setAlert: Dispatch<SetStateAction<AlertProps | null>>,
   canSubmit: boolean
 };
 
-export default function ReportSubmitForm({ report, mutate, setAlert, canSubmit }: ReportSubmitFormProps) {
+export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSubmitFormProps) {
+  const history = useHistory();
   const [accredited, setAccredited] = useState(report.accredited);
   const [c4KRevenue, setC4KRevenue] = useState(report.c4KRevenue || null);
   const [retroactiveC4KRevenue, setRetroactiveC4KRevenue] = useState(report.retroactiveC4KRevenue);
@@ -27,6 +30,7 @@ export default function ReportSubmitForm({ report, mutate, setAlert, canSubmit }
 
   const { user } = useContext(UserContext);
   const { invalidateCache: invalidateAppCache } = useContext(AppContext);
+  const { alerts, setAlerts } = useContext(AlertContext);
 
   const params: ApiOrganizationsOrgIdReportsIdPutRequest = {
     id: report.id || 0,
@@ -53,21 +57,24 @@ export default function ReportSubmitForm({ report, mutate, setAlert, canSubmit }
     )
       .then(res => {
         if (res) {
-          setAlert({
+          const newAlert = {
             type: 'success',
-            heading: 'Report submitted',
-            text: 'You have successfully submitted this report'
-          });
+            heading: 'Submitted',
+            text: `The ${monthFormatter(report.reportingPeriod.period)} CDC Report has been shared with the Office of Early Childhood`
+          } as AlertProps;
+          const newAlerts = [...alerts, newAlert];
+          setAlerts(newAlerts);
           invalidateAppCache(); // Updates the count of unsubmitted reports in the nav bar
+          history.push('/reports', newAlerts);
         }
       })
       .catch(err => {
         console.log(err);
-        setAlert({
+        setAlerts([{
           type: 'error',
           heading: 'Report not submitted',
           text: 'There was an error submitting this report'
-        })
+        }])
       })
   }
 

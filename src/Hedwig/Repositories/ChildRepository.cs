@@ -75,11 +75,10 @@ namespace Hedwig.Repositories
 			return dict as IDictionary<Guid, Child>;
 		}
 
-		public async Task<Child> GetChildByIdAsync_OLD(Guid id, DateTime? asOf = null)
+		public Child GetChildById(Guid id)
 		{
-			return await GetBaseQuery<Child>(asOf)
-				.Where(c => c.Id == id)
-				.SingleOrDefaultAsync();
+			return _context.Children
+				.Single(c => c.Id == id);
 		}
 		public async Task<ILookup<int, Child>> GetChildrenByFamilyIdsAsync(IEnumerable<int> familyIds, DateTime? asOf = null)
 		{
@@ -150,7 +149,7 @@ namespace Hedwig.Repositories
 		Task<int> SaveChangesAsync();
 
 		Task<IDictionary<Guid, Child>> GetChildrenByIdsAsync_OLD(IEnumerable<Guid> ids, DateTime? asOf = null);
-		Task<Child> GetChildByIdAsync_OLD(Guid id, DateTime? asOf = null);
+		Child GetChildById(Guid id);
 		Task<ILookup<int, Child>> GetChildrenByFamilyIdsAsync(IEnumerable<int> familyIds, DateTime? asOf = null);
 		Child UpdateFamily(Child child, Family family);
 		Child CreateChild(

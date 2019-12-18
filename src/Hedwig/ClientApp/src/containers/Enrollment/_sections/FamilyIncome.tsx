@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import { Section } from '../enrollmentTypes';
 import Button from '../../../components/Button/Button';
 import TextInput from '../../../components/TextInput/TextInput';
@@ -7,48 +7,53 @@ import dateFormatter from '../../../utils/dateFormatter';
 import notNullOrUndefined from '../../../utils/notNullOrUndefined';
 import moment from 'moment';
 import idx from 'idx';
-import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest } from '../../../generated';
+import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest, Enrollment } from '../../../generated';
+import Checklist from '../../../components/Checklist/Checklist';
+import Checkbox from '../../../components/Checklist/Checkbox';
+import Alert from '../../../components/Alert/Alert';
 import parseCurrencyFromString from '../../../utils/parseCurrencyFromString';
 import currencyFormatter from '../../../utils/currencyFormatter';
+import getIdForUser from '../../../utils/getIdForUser';
+import UserContext from '../../../contexts/User/UserContext';
 
 const FamilyIncome: Section = {
   key: 'family-income',
-  name: 'Family income',
+  name: 'Family income determination',
   status: () => 'complete',
+  ValidationObjects: (enrollment: Enrollment) => [idx(enrollment, _ => _.child.family.determinations[0]) || null],
 
-  Summary: ({ enrollment }) => {
-    if (!enrollment || !enrollment.child || !enrollment.child.family) return <></>;
-    const determination = idx(enrollment, _ => _.child.family.determinations[0])
-    return (
-      <div className="FamilyIncomeSummary">
-        {determination ? (
-          <>
-            <p>Household size: {determination.numberOfPeople}</p>
-            <p>Annual household income: {currencyFormatter(idx(determination, _ => _.income))}</p>
-            <p>Determined on: {dateFormatter(idx(determination, _ => _.determined))}</p>
-          </>
-        ) : (
-            <p>No income determination on record.</p>
-          )}
-      </div>
-    );
-  },
+	Summary: ({ enrollment }) => {
+		if (!enrollment || !enrollment.child || !enrollment.child.family) return <></>;
+		const determination = idx(enrollment, _ => _.child.family.determinations[0])
+		return (
+			<div className="FamilyIncomeSummary">
+				{determination ?
+					determination.notDisclosed ? (
+						<p>Income determination not disclosed.</p>
+					) : (
+						<>
+							<p>Household size: {determination.numberOfPeople}</p>
+							<p>Annual household income: ${idx(determination, _ => _.income.toFixed(2))}</p>
+							<p>Determined on: {dateFormatter(idx(determination, _ => _.determined))}</p>
+						</>
+					) : (
+						<p>No income determination on record.</p>
+					)
+				}
+			</div>
+		);
+	},
 
-  Form: ({ enrollment, mutate, callback }) => {
-    if (!enrollment || !enrollment.child || !enrollment.child.family) {
-      throw new Error("family info required for family income, but can't render a link to family info here b/c that causes react hook out of order unhappiness");
-      // return (
-      // 	<div className="FamilyIncomeForm usa-form">
-      // 		Must add Family information before family income can be added!
-      // 		<Link to='edit/family-info'>Add family information</Link>
-      // 	</div>
-      // );
-    }
+	Form: ({ enrollment, mutate, callback }) => {
+		if(!enrollment || ! enrollment.child || !enrollment.child.family) {
+			throw new Error("FamilyIncome rendered without enrollment.child.family");
+		}
 
+		const { user } = useContext(UserContext);
     const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
       id: enrollment.id || 0,
-      siteId: idx(enrollment, _ => _.siteId) || 0,
-      orgId: idx(enrollment, _ => _.site.organizationId) || 0,
+      siteId: getIdForUser(user, "site"),
+      orgId: getIdForUser(user, "org"),
       enrollment: enrollment
     }
 
@@ -61,10 +66,13 @@ const FamilyIncome: Section = {
     const [determined, updateDetermined] = React.useState(
       determination ? determination.determined : null
     );
+	  const [notDisclosed, updateNotDisclosed] = useState(
+      determination ? determination.notDisclosed : false
+    );
 
     const save = () => {
       // If determination is not added, allow user to proceed without creating one
-      if (!numberOfPeople && !income && !determined) {
+      if (!numberOfPeople && !income && !determined && !notDisclosed) {
         if (callback) {
           callback(enrollment);
         }
@@ -72,11 +80,13 @@ const FamilyIncome: Section = {
       }
 
       // If determination is added, all fields must be present
-      if (numberOfPeople && income && determined) {
+      // or notDisclosed must be true
+      if ((numberOfPeople && income && determined) || notDisclosed) {
         const args = {
-          numberOfPeople: numberOfPeople || undefined,
-          income: income || undefined,
-          determined: determined || undefined,
+          notDisclosed: notDisclosed,
+          numberOfPeople: notDisclosed ? undefined: (numberOfPeople || undefined),
+          income: notDisclosed ? undefined : (income || undefined),
+          determined: notDisclosed ? undefined : (determined || undefined),
         };
 
         if (enrollment && child && child.family) {
@@ -109,39 +119,68 @@ const FamilyIncome: Section = {
     };
 
     return (
-      <div className="FamilyIncomeForm usa-form">
-        <TextInput
-          id="numberOfPeople"
-          label="Household size"
-          defaultValue={numberOfPeople ? '' + numberOfPeople : ''}
-          onChange={event => {
-            const value = parseInt(event.target.value.replace(/[^0-9.]/g, ''), 10) || null;
-            updateNumberOfPeople(value);
-          }}
-          onBlur={event => (event.target.value = numberOfPeople ? '' + numberOfPeople : '')}
-          small
-        />
-        <TextInput
-          id="income"
-          label="Annual household income"
-          defaultValue={currencyFormatter(income)}
-          onChange={event => {
-            updateIncome(parseCurrencyFromString(event.target.value));
-          }}
-          onBlur={event => (event.target.value = notNullOrUndefined(income) ? currencyFormatter(income) : '')}
-        />
-        <label className="usa-label" htmlFor="date">
-          Date determined
-				</label>
-        <DatePicker
-          onChange={range =>
-            updateDetermined((range.startDate && range.startDate.toDate()) || null)
-          }
-          dateRange={{ startDate: determined ? moment(determined) : null, endDate: null }}
-        />
-        <Button text="Save" onClick={save} />
-      </div>
-    );
+   	  <div className="FamilyIncomeForm">
+		  	<div className="usa-form">
+		  		{!notDisclosed && (
+		  			<>
+		  			<TextInput
+		  				id="numberOfPeople"
+		  				label="Household size"
+		  				defaultValue={numberOfPeople ? '' + numberOfPeople : ''}
+		  				onChange={event => {
+		  					const value = parseInt(event.target.value.replace(/[^0-9.]/g, ''), 10) || null;
+		  					updateNumberOfPeople(value);
+		  				}}
+		  				onBlur={event => (event.target.value = numberOfPeople ? '' + numberOfPeople : '')}
+		  				small
+		  			/>
+		  			<TextInput
+		  				id="income"
+		  				label="Annual household income"
+		  				defaultValue={currencyFormatter(income)}
+		  				onChange={event => {
+              	updateIncome(parseCurrencyFromString(event.target.value));
+		  				}}
+              onBlur={event => (event.target.value = notNullOrUndefined(income) ? currencyFormatter(income) : '')}
+		  			/>
+		  			<label className="usa-label" htmlFor="date">
+		  				Date of income determination
+		  			</label>
+		  			<DatePicker
+		  				onChange={range =>
+		  					updateDetermined((range.startDate && range.startDate.toDate()) || null)
+		  				}
+		  				dateRange={{ startDate: determined ? moment(determined) : null, endDate: null }}
+		  			/>
+		  			</>
+		  		)}
+					<br/>
+		  		<Checklist
+						groupName="familyIncome"
+						legend=""
+						options={[
+							{
+								text: 'Family income not disclosed',
+								value: 'familyIncomeNotDisclosed',
+								checked: notDisclosed,
+								onChange: event => updateNotDisclosed(event.target.checked)
+							}
+						]}
+		  		/>
+		  	</div>
+
+		  	{notDisclosed &&
+		  		<Alert
+		  			type="info"
+		  			text="Income information is required to enroll a child in a CDC funded space. You will not be able to assign this child to a funding space without this information."
+		  		/>
+		  	}
+
+		  	<div className="usa-form">
+		  		<Button text="Save" onClick={save} />
+		  	</div>
+		  </div>
+	  );
   },
 };
 
