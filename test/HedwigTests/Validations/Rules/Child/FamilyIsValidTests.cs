@@ -21,7 +21,10 @@ namespace HedwigTests.Validations.Rules
     {
       // if
       var family = new Family();
-      var child = new Child { Family = family };
+      var child = new Child { 
+        FamilyId = 1,
+        Family = family 
+      };
 
       var familyRule = new Mock<IValidationRule<Family>>();
       var familyResult = familyIsValid ? null : new ValidationError("message", "field");

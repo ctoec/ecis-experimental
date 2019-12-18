@@ -5,9 +5,14 @@ namespace Hedwig.Validations.Rules
     readonly string _conditionalMessage;
     readonly string _field;
 
-    public ConditionalFieldRequired(string field)
+    public ConditionalFieldRequired(
+      string field,
+      string conditionalMessage
+    )
+
     {
       _field = field;
+      _conditionalMessage = conditionalMessage;
     }
 
     protected abstract bool CheckCondition(T entity);

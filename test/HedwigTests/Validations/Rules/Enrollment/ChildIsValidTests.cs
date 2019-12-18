@@ -21,7 +21,10 @@ namespace HedwigTests.Validations.Rules
     {
       // if
       var child = new Child();
-      var enrollment = new Enrollment { Child = child };
+      var enrollment = new Enrollment { 
+        ChildId = Guid.NewGuid(),
+        Child = child 
+      };
 
       var childRule = new Mock<IValidationRule<Child>>();
       var childResult = childIsValid ? null : new ValidationError("message", "field");
