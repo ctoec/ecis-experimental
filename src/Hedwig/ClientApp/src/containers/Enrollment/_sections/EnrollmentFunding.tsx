@@ -65,8 +65,8 @@ const EnrollmentFunding: Section = {
       // (because it is not explicitly true)
       if (!determinations || determinations.length == 0) return false;
       determinations = determinations.sort((a, b) => {
-        if (a.determined > b.determined) return 1;
-        if (a.determined < b.determined) return -1;
+        if (a.determinationDate > b.determinationDate) return 1;
+        if (a.determinationDate < b.determinationDate) return -1;
         return 0;
       });
 

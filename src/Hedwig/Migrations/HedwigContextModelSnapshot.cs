@@ -189,19 +189,19 @@ namespace Hedwig.Migrations
                     b.Property<int?>("AuthorId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Determined")
+                    b.Property<DateTime?>("DeterminationDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("FamilyId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Income")
+                    b.Property<decimal?>("Income")
                         .HasColumnType("decimal(14,2)");
 
                     b.Property<bool>("NotDisclosed")
                         .HasColumnType("bit");
 
-                    b.Property<int>("NumberOfPeople")
+                    b.Property<int?>("NumberOfPeople")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

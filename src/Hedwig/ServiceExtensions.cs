@@ -99,10 +99,35 @@ namespace Hedwig
 
 		public static void ConfigureValidation(this IServiceCollection services)
 		{
-			services.AddScoped<IValidationRule<FamilyDetermination>, DeterminedWithinSixMonths>();
-			services.AddScoped<IValidationRule<Family>, DeterminationIsValid>();
-			services.AddScoped<IValidationRule<Child>, BirthCertificateIdIsRequired>();
+			// Enrollment
 			services.AddScoped<IValidationRule<Enrollment>, ChildIsValid>();
+			services.AddScoped<IValidationRule<Enrollment>, AgeGroupRequired>();
+			services.AddScoped<IValidationRule<Enrollment>, EntryRequired>();
+
+			// Child
+			services.AddScoped<IValidationRule<Child>, FamilyIsValid>();
+			services.AddScoped<IValidationRule<Child>, FamilyIdRequired>();
+			services.AddScoped<IValidationRule<Child>, BirthCertificateIdRequired>();
+			services.AddScoped<IValidationRule<Child>, BirthdateRequired>();
+			services.AddScoped<IValidationRule<Child>, EthnicityRequired>();
+			services.AddScoped<IValidationRule<Child>, FirstNameRequired>();
+			services.AddScoped<IValidationRule<Child>, LastNameRequired>();
+			services.AddScoped<IValidationRule<Child>, RaceRequired>();
+
+			// Family
+			services.AddScoped<IValidationRule<Family>, MostRecentDeterminationIsValid>();
+			services.AddScoped<IValidationRule<Family>, AddressLine1Required>();
+			services.AddScoped<IValidationRule<Family>, StateRequired>();
+			services.AddScoped<IValidationRule<Family>, TownRequired>();
+			services.AddScoped<IValidationRule<Family>, ZipRequired>();
+
+			// Family Determination
+			services.AddScoped<IValidationRule<FamilyDetermination>, DeterminedWithinSixMonths>();
+			services.AddScoped<IValidationRule<FamilyDetermination>, IfDisclosedDeterminationDateRequired>();
+			services.AddScoped<IValidationRule<FamilyDetermination>, IfDisclosedIncomeRequired>();
+			services.AddScoped<IValidationRule<FamilyDetermination>, IfDisclosedNumberOfPeopleRequired>();
+
+			// Register Non-blocking validator
 			services.AddScoped<INonBlockingValidator, NonBlockingValidator>();
 		}
 	}

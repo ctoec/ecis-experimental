@@ -34,7 +34,7 @@ const FamilyIncome: Section = {
 						<>
 							<p>Household size: {determination.numberOfPeople}</p>
 							<p>Annual household income: ${idx(determination, _ => _.income.toFixed(2))}</p>
-							<p>Determined on: {dateFormatter(idx(determination, _ => _.determined))}</p>
+							<p>Determined on: {dateFormatter(idx(determination, _ => _.determinationDate))}</p>
 						</>
 					) : (
 						<p>No income determination on record.</p>
@@ -64,7 +64,7 @@ const FamilyIncome: Section = {
     );
     const [income, updateIncome] = React.useState(determination ? determination.income : null);
     const [determined, updateDetermined] = React.useState(
-      determination ? determination.determined : null
+      determination ? determination.determinationDate : null
     );
 	  const [notDisclosed, updateNotDisclosed] = useState(
       determination ? determination.notDisclosed : false

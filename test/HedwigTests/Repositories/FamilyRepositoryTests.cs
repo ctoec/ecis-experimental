@@ -31,20 +31,17 @@ namespace HedwigTests.Repositories
             }
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
-        public async Task GetFamilyById(bool includeDeterminations)
+        [Fact]
+        public void GetFamilyById()
         {
             using (var context = new TestContextProvider().Context)
             {
                 var family = FamilyHelper.CreateFamily(context);
 
                 var familyRepo = new FamilyRepository(context);
-                var res = await familyRepo.GetFamilyByIdAsync(family.Id, includeDeterminations);
+                var res = familyRepo.GetFamilyById(family.Id);
 
                 Assert.Equal(family, res);
-                Assert.Equal(includeDeterminations, res.Determinations != null);
             }
         }
 

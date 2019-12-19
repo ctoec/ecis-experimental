@@ -234,7 +234,7 @@ namespace Hedwig.Data
         FamilyId = familyId,
         NumberOfPeople = numberOfPeople,
         Income = income,
-        Determined = DateTime.Parse(determined)
+        DeterminationDate = DateTime.Parse(determined)
       };
       _context.FamilyDeterminations.Add(familyDetermination);
       _context.SaveChanges();
