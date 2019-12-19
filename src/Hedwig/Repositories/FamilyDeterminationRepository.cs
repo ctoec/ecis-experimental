@@ -43,7 +43,7 @@ namespace Hedwig.Repositories
 			var familyDetermination = new FamilyDetermination {
 				NumberOfPeople = numberOfPeople,
 				Income = income,
-				Determined = determined,
+				DeterminationDate = determined,
 				FamilyId = familyId
 			};
 			_context.Add(familyDetermination);
@@ -66,7 +66,7 @@ namespace Hedwig.Repositories
 			}
 
 			if(determined.HasValue) {
-				determination.Determined = determined.Value;
+				determination.DeterminationDate = determined.Value;
 			}
 
 			return determination;

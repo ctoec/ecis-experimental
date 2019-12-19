@@ -15,12 +15,12 @@ import parseCurrencyFromString from '../../../utils/parseCurrencyFromString';
 import currencyFormatter from '../../../utils/currencyFormatter';
 import getIdForUser from '../../../utils/getIdForUser';
 import UserContext from '../../../contexts/User/UserContext';
+import { sectionHasValidationErrors } from '../../../utils/validations';
 
 const FamilyIncome: Section = {
   key: 'family-income',
   name: 'Family income determination',
-  status: () => 'complete',
-  ValidationObjects: (enrollment: Enrollment) => [idx(enrollment, _ => _.child.family.determinations[0]) || null],
+  status: ({ enrollment }) =>  sectionHasValidationErrors([idx(enrollment, _ => _.child.family.determinations) || null]) ? 'incomplete': 'complete',
 
 	Summary: ({ enrollment }) => {
 		if (!enrollment || !enrollment.child || !enrollment.child.family) return <></>;
@@ -34,7 +34,7 @@ const FamilyIncome: Section = {
 						<>
 							<p>Household size: {determination.numberOfPeople}</p>
 							<p>Annual household income: ${idx(determination, _ => _.income.toFixed(2))}</p>
-							<p>Determined on: {dateFormatter(idx(determination, _ => _.determined))}</p>
+							<p>Determined on: {dateFormatter(idx(determination, _ => _.determinationDate))}</p>
 						</>
 					) : (
 						<p>No income determination on record.</p>
@@ -64,7 +64,7 @@ const FamilyIncome: Section = {
     );
     const [income, updateIncome] = React.useState(determination ? determination.income : null);
     const [determined, updateDetermined] = React.useState(
-      determination ? determination.determined : null
+      determination ? determination.determinationDate : null
     );
 	  const [notDisclosed, updateNotDisclosed] = useState(
       determination ? determination.notDisclosed : false

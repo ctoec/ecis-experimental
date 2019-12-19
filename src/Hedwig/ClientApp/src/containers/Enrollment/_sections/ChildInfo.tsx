@@ -28,15 +28,14 @@ import {
   birthCertPresent,
   childArgsAreValid
 } from '../../../utils/models';
-import { DeepNonUndefineable } from '../../../utils/types';
+import { sectionHasValidationErrors } from '../../../utils/validations';
 
 
 
 const ChildInfo: Section = {
   key: 'child-information',
   name: 'Child information',
-  status: () => 'complete',
-  ValidationObjects: (enrollment: DeepNonUndefineable<Enrollment>) => [enrollment.child],
+  status: ({ enrollment }) => enrollment && sectionHasValidationErrors([enrollment.child]) ? 'incomplete' : 'complete',
 
   Summary: ({ enrollment }) => {
     var child = enrollment && enrollment.child;

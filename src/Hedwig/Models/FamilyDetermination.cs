@@ -13,12 +13,12 @@ namespace Hedwig.Models
 
 		public bool NotDisclosed { get; set; } = false;
 
-		public int NumberOfPeople { get; set; }
+		public int? NumberOfPeople { get; set; }
 
 		[Column(TypeName = "decimal(14,2)")]
-		public decimal Income { get; set; }
+		public decimal? Income { get; set; }
 
-		public DateTime Determined { get; set; }
+		public DateTime? DeterminationDate { get; set; }
 
 		[Required]
 		public int FamilyId { get; set; }

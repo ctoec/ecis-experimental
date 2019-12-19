@@ -24,13 +24,19 @@ export interface ValidationError {
      * @type {string}
      * @memberof ValidationError
      */
-    readonly field: string | null;
+    readonly message: string | null;
     /**
      * 
      * @type {string}
      * @memberof ValidationError
      */
-    readonly message: string | null;
+    readonly field?: string | null;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof ValidationError
+     */
+    readonly fields?: Array<string> | null;
 }
 
 export function ValidationErrorFromJSON(json: any): ValidationError {
@@ -43,8 +49,9 @@ export function ValidationErrorFromJSONTyped(json: any, ignoreDiscriminator: boo
     }
     return {
         
-        'field': json['field'],
         'message': json['message'],
+        'field': !exists(json, 'field') ? undefined : json['field'],
+        'fields': !exists(json, 'fields') ? undefined : json['fields'],
     };
 }
 
