@@ -4,7 +4,7 @@ namespace Hedwig.Validations.Rules
 {
   public class ZipRequired : FieldRequired<Family>
   {
-    public ZipRequired() : base("Zip")
+    public ZipRequired() : base("Zip", "Zipcode")
     { }
   }
 }

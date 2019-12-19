@@ -5,7 +5,7 @@ namespace Hedwig.Validations.Rules
   public class IfDisclosedIncomeRequired : ConditionalFieldRequired<FamilyDetermination>
   {
     public IfDisclosedIncomeRequired()
-      : base("Income", "income is disclosed")
+      : base("income is disclosed", "Income", "Annual household income")
     { }
     protected override bool CheckCondition(FamilyDetermination entity)
     {

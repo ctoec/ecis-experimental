@@ -7,11 +7,6 @@ using Hedwig.Validations.Rules;
 
 namespace HedwigTests.Validations
 {
-
-  public class Validateable : INonBlockingValidatableObject
-  {
-    public List<ValidationError> ValidationErrors { get; set; }
-  }
   public class ValidatorTests
   {
     [Fact]
@@ -19,10 +14,10 @@ namespace HedwigTests.Validations
     {
       // if
       var serviceProvider = new Mock<IServiceProvider>();
-      serviceProvider.Setup(sp => sp.GetService(typeof(IEnumerable<IValidationRule<Validateable>>)))
-        .Returns(new List<IValidationRule<Validateable>>());
+      serviceProvider.Setup(sp => sp.GetService(typeof(IEnumerable<IValidationRule<TestValidatableEntity>>)))
+        .Returns(new List<IValidationRule<TestValidatableEntity>>());
 
-      var validateable = new Validateable();
+      var validateable = new TestValidatableEntity();
 
       // when
       var validator = new NonBlockingValidator(serviceProvider.Object);
@@ -36,15 +31,15 @@ namespace HedwigTests.Validations
     public void Validate_Rules_NoError()
     {
       // if
-      var rule = new Mock<IValidationRule<Validateable>>();
-      rule.Setup(r => r.Execute(It.IsAny<Validateable>()))
+      var rule = new Mock<IValidationRule<TestValidatableEntity>>();
+      rule.Setup(r => r.Execute(It.IsAny<TestValidatableEntity>()))
         .Returns<ValidationError>(null);
 
       var serviceProvider = new Mock<IServiceProvider>();
-      serviceProvider.Setup(sp => sp.GetService(typeof(IEnumerable<IValidationRule<Validateable>>)))
-        .Returns(new List<IValidationRule<Validateable>>{ rule.Object });
+      serviceProvider.Setup(sp => sp.GetService(typeof(IEnumerable<IValidationRule<TestValidatableEntity>>)))
+        .Returns(new List<IValidationRule<TestValidatableEntity>>{ rule.Object });
 
-      var validateable = new Validateable();
+      var validateable = new TestValidatableEntity();
 
       // when
       var validator = new NonBlockingValidator(serviceProvider.Object);
@@ -58,15 +53,15 @@ namespace HedwigTests.Validations
     public void Validate_Rules_OnlyError()
     {
       // if
-      var rule = new Mock<IValidationRule<Validateable>>();
-      rule.Setup(r => r.Execute(It.IsAny<Validateable>()))
+      var rule = new Mock<IValidationRule<TestValidatableEntity>>();
+      rule.Setup(r => r.Execute(It.IsAny<TestValidatableEntity>()))
         .Returns(new ValidationError(It.IsAny<string>(), It.IsAny<string>()));
 
       var serviceProvider = new Mock<IServiceProvider>();
-      serviceProvider.Setup(sp => sp.GetService(typeof(IEnumerable<IValidationRule<Validateable>>)))
-        .Returns(new List<IValidationRule<Validateable>>{ rule.Object });
+      serviceProvider.Setup(sp => sp.GetService(typeof(IEnumerable<IValidationRule<TestValidatableEntity>>)))
+        .Returns(new List<IValidationRule<TestValidatableEntity>>{ rule.Object });
 
-      var validateable = new Validateable();
+      var validateable = new TestValidatableEntity();
 
       // when
       var validator = new NonBlockingValidator(serviceProvider.Object);
@@ -79,22 +74,22 @@ namespace HedwigTests.Validations
     public void Validate_Rules_ErrorNoError()
     {
       // if 
-      var errorRule = new Mock<IValidationRule<Validateable>>();
-      errorRule.Setup(r => r.Execute(It.IsAny<Validateable>()))
+      var errorRule = new Mock<IValidationRule<TestValidatableEntity>>();
+      errorRule.Setup(r => r.Execute(It.IsAny<TestValidatableEntity>()))
         .Returns(new ValidationError(It.IsAny<string>(), It.IsAny<string>()));
 
-      var noErrorRule = new Mock<IValidationRule<Validateable>>();
-      noErrorRule.Setup(r => r.Execute(It.IsAny<Validateable>()))
+      var noErrorRule = new Mock<IValidationRule<TestValidatableEntity>>();
+      noErrorRule.Setup(r => r.Execute(It.IsAny<TestValidatableEntity>()))
         .Returns<ValidationError>(null);
 
 
       var serviceProvider = new Mock<IServiceProvider>();
-      serviceProvider.Setup(sp => sp.GetService(typeof(IEnumerable<IValidationRule<Validateable>>)))
-        .Returns(new List<IValidationRule<Validateable>>{ 
+      serviceProvider.Setup(sp => sp.GetService(typeof(IEnumerable<IValidationRule<TestValidatableEntity>>)))
+        .Returns(new List<IValidationRule<TestValidatableEntity>>{ 
           errorRule.Object, noErrorRule.Object 
          });
 
-      var validateable = new Validateable();
+      var validateable = new TestValidatableEntity();
 
       // when
       var validator = new NonBlockingValidator(serviceProvider.Object);
