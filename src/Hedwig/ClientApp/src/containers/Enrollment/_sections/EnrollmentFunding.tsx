@@ -13,12 +13,12 @@ import { ageFromString, prettyAge } from '../../../utils/ageGroupUtils';
 import getIdForUser from '../../../utils/getIdForUser';
 import { DeepNonUndefineable } from '../../../utils/types';
 import Alert from '../../../components/Alert/Alert';
+import { sectionHasValidationErrors } from '../../../utils/validations';
 
 const EnrollmentFunding: Section = {
   key: 'enrollment-funding',
   name: 'Enrollment and funding',
-  status: () => 'complete',
-  ValidationObjects: (enrollment: DeepNonUndefineable<Enrollment>) => [enrollment, enrollment.fundings],
+  status: ({ enrollment }) => enrollment && sectionHasValidationErrors([enrollment, enrollment.fundings]) ? 'incomplete' : 'complete',
 
   Summary: ({ enrollment }) => {
     if (!enrollment) return <></>;

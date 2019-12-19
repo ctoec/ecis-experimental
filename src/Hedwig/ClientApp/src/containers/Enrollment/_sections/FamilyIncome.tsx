@@ -15,12 +15,12 @@ import parseCurrencyFromString from '../../../utils/parseCurrencyFromString';
 import currencyFormatter from '../../../utils/currencyFormatter';
 import getIdForUser from '../../../utils/getIdForUser';
 import UserContext from '../../../contexts/User/UserContext';
+import { sectionHasValidationErrors } from '../../../utils/validations';
 
 const FamilyIncome: Section = {
   key: 'family-income',
   name: 'Family income determination',
-  status: () => 'complete',
-  ValidationObjects: (enrollment: Enrollment) => [idx(enrollment, _ => _.child.family.determinations[0]) || null],
+  status: ({ enrollment }) =>  sectionHasValidationErrors([idx(enrollment, _ => _.child.family.determinations) || null]) ? 'incomplete': 'complete',
 
 	Summary: ({ enrollment }) => {
 		if (!enrollment || !enrollment.child || !enrollment.child.family) return <></>;
