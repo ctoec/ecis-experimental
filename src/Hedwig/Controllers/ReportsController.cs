@@ -31,7 +31,8 @@ namespace Hedwig.Controllers
       int orgId
     )
     {
-      return await _reports.GetReportsForOrganizationAsync(orgId);
+      var reports = await _reports.GetReportsForOrganizationAsync(orgId);
+      return Ok(reports);
     }
 
     // GET api/organizations/5/reports/1
@@ -46,7 +47,7 @@ namespace Hedwig.Controllers
     {
       var report = await _reports.GetReportForOrganizationAsync(id, orgId, include);
       if (report == null) return NotFound();
-      return report;
+      return Ok(report);
     }
 
     [HttpPut("{id:int}")]
