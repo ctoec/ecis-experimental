@@ -1,5 +1,5 @@
 import { Enrollment } from '../generated/models/Enrollment';
-import { DeepNonUndefineable } from '../utils/types';
+import { DeepNonUndefineable } from './types';
 
 // Note: These explicit is(In)CompleteEnrollment functions is necessary due to Typescript limitations
 export function isIncompleteEnrollment(

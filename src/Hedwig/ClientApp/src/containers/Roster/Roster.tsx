@@ -17,7 +17,7 @@ import InlineIcon from '../../components/InlineIcon/InlineIcon';
 import UserContext from '../../contexts/User/UserContext';
 import AgeGroupSection from './AgeGroupSection';
 import { getObjectsByAgeGroup } from '../../utils/ageGroupUtils';
-import { DeepNonUndefineable } from '../../utils/types';
+import { DeepNonUndefineable, tsFilter } from '../../utils/types';
 import { isAgeIncomplete } from '../../utils/enrollmentCompletenessUtils';
 
 export default function Roster() {
@@ -57,14 +57,8 @@ export default function Roster() {
 		return <div className="Roster"></div>;
 	}
 
-	const incompleteEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>((e =>
-		!e.ageGroup || !e.entry) as (
-		_: DeepNonUndefineable<Enrollment>
-	) => _ is DeepNonUndefineable<Enrollment>);
-	const completeEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>((e =>
-		!incompleteEnrollments.includes(e)) as (
-		_: DeepNonUndefineable<Enrollment>
-	) => _ is DeepNonUndefineable<Enrollment>);
+	const incompleteEnrollments = tsFilter<Enrollment>(enrollments, e => !e.ageGroup || !e.entry);
+	const completeEnrollments = tsFilter<Enrollment>(enrollments, e => !incompleteEnrollments.includes(e));
 
 	const completeEnrollmentsByAgeGroup = getObjectsByAgeGroup(completeEnrollments);
 
@@ -82,13 +76,11 @@ export default function Roster() {
 
 	Object.keys(fundingSourceDetails).forEach(source => {
 		const capacityForFunding = getFundingSpaceCapacity(site.organization, { source });
-		const enrolledForFunding = enrollments.filter<DeepNonUndefineable<Enrollment>>((e =>
-			e.fundings
-				? e.fundings.filter<DeepNonUndefineable<Funding>>((f => f.source === source) as (
-						_: DeepNonUndefineable<Funding>
-				  ) => _ is DeepNonUndefineable<Funding>).length > 0
-				: false) as (_: DeepNonUndefineable<Enrollment>) => _ is DeepNonUndefineable<Enrollment>)
-			.length;
+		const enrolledForFunding = tsFilter<Enrollment>(enrollments, e => 
+			e.fundings 
+				? tsFilter<Funding>(e.fundings, f => f.source === source).length > 0
+				: false
+		).length;
 
 		if (enrolledForFunding === 0) {
 			return;
@@ -104,9 +96,7 @@ export default function Roster() {
 		});
 	});
 
-	const missingInformationEnrollmentsCount = (enrollments.filter<DeepNonUndefineable<Enrollment>>(
-		(e => e.validationErrors && e.validationErrors.length > 0) as (_ : DeepNonUndefineable<Enrollment>) => _ is DeepNonUndefineable<Enrollment>)
-	).length;
+	const missingInformationEnrollmentsCount = tsFilter<Enrollment>(enrollments, e => !!e.validationErrors && e.validationErrors.length >0).length;
 	if (missingInformationEnrollmentsCount > 0) {
 		legendItems.push({
 			text: (
