@@ -17,8 +17,7 @@ import InlineIcon from '../../components/InlineIcon/InlineIcon';
 import UserContext from '../../contexts/User/UserContext';
 import AgeGroupSection from './AgeGroupSection';
 import { getObjectsByAgeGroup } from '../../utils/ageGroupUtils';
-import { DeepNonUndefineable, tsFilter } from '../../utils/types';
-import { isAgeIncomplete } from '../../utils/enrollmentCompletenessUtils';
+import { tsFilter } from '../../utils/types';
 
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
@@ -180,9 +179,7 @@ export default function Roster() {
 				<AgeGroupSection
 					ageGroup="incomplete"
 					ageGroupTitle={`Incomplete enrollments`}
-					enrollments={incompleteEnrollments.filter<DeepNonUndefineable<Enrollment>>(
-						isAgeIncomplete
-					)}
+					enrollments={incompleteEnrollments}
 				/>
 			</section>
 		</div>
