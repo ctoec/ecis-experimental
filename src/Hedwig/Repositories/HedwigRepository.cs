@@ -1,4 +1,5 @@
 using Hedwig.Data;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -18,5 +19,15 @@ namespace Hedwig.Repositories
 		protected readonly HedwigContext _context;
 
 		public HedwigRepository(HedwigContext context) => _context = context;
+
+		public Task SaveChangesAsync()
+		{
+			return _context.SaveChangesAsync();
+		}
+	}
+
+	public interface IHedwigRepository
+	{
+		Task SaveChangesAsync();
 	}
 }
