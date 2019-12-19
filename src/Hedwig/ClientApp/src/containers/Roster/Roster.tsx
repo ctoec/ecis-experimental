@@ -104,11 +104,14 @@ export default function Roster() {
 		});
 	});
 
-	if (incompleteEnrollments.length) {
+	const missingInformationEnrollmentsCount = (enrollments.filter<DeepNonUndefineable<Enrollment>>(
+		(e => e.validationErrors && e.validationErrors.length > 0) as (_ : DeepNonUndefineable<Enrollment>) => _ is DeepNonUndefineable<Enrollment>)
+	).length;
+	if (missingInformationEnrollmentsCount > 0) {
 		legendItems.push({
 			text: (
 				<>
-					<span className="text-bold">{incompleteEnrollments.length}</span>
+					<span className="text-bold">{missingInformationEnrollmentsCount}</span>
 					<span> missing information</span>
 				</>
 			),
