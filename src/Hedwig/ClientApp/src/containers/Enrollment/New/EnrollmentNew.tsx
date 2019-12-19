@@ -65,7 +65,7 @@ export default function EnrollmentNew({
 		id: enrollmentId ? enrollmentId : 0,
 		orgId: getIdForUser(user, 'org'),
 		siteId: getIdForUser(user, 'site'),
-		include: ['child', 'family', 'determinations', 'fundings'],
+		include: ['child', 'family', 'determinations', 'fundings', 'sites'],
 	};
 	const [loading, error, enrollment, mutate] = useApi<Enrollment>(
 		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),

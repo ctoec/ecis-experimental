@@ -22,10 +22,10 @@ type AgeGroupSectionProps = {
 	fundingSpaces?: FundingSpace[];
 };
 
-function generateFundingTag(funding: DeepNonUndefineable<Funding>): JSX.Element {
+function generateFundingTag(funding: DeepNonUndefineable<Funding>, index: number): JSX.Element {
 	return (
 		<Tag
-			key={`${funding.source}-${funding.time}`}
+			key={`${funding.source}-${funding.time}-${index}`}
 			text={funding.source ? fundingSourceDetails[funding.source].tagFormatter(funding) : ''}
 			color={funding.source ? getColorForFundingSource(funding.source) : 'gray-90'}
 		/>
@@ -67,8 +67,8 @@ const defaultRosterTableProps: TableProps<DeepNonUndefineable<Enrollment>> = {
 			cell: ({ row }) => (
 				<td>
 					{row.fundings && row.fundings.length > 0 ?
-						row.fundings.map<React.ReactNode>((funding: DeepNonUndefineable<Funding>) =>
-							generateFundingTag(funding)
+						row.fundings.map<React.ReactNode>((funding: DeepNonUndefineable<Funding>, index: number) =>
+							generateFundingTag(funding, index)
 						) :
 						<span className="text-italic text-base">Private pay</span>
 					}

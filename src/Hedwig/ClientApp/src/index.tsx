@@ -7,6 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
 import { AuthenticationProvider } from './contexts/Authentication/AuthenticationContext';
 import { UserProvider } from './contexts/User/UserContext';
+import { ReportingPeriodProvider } from './contexts/ReportingPeriod/ReportingPeriodContext';
 
 const render = (Component: React.FC) => {
 	return ReactDOM.render(
@@ -22,7 +23,9 @@ const render = (Component: React.FC) => {
 				}}
 			>
 				<UserProvider>
-					<Component />
+					<ReportingPeriodProvider>
+						<Component />
+					</ReportingPeriodProvider>
 				</UserProvider>
 			</AuthenticationProvider>
 		</BrowserRouter>,

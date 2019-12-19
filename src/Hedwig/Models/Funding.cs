@@ -27,7 +27,6 @@ namespace Hedwig.Models
     public DateTime? CertificateStartDate { get; set; }
     public DateTime? CertificateEndDate { get; set; }
 
-
     // CDC funding fields
     [RequiredForFundingSource(FundingSource.CDC)]
     public int? FirstReportingPeriodId {get; set; }

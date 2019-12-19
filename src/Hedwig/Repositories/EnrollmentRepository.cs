@@ -16,8 +16,35 @@ namespace Hedwig.Repositories
 
 		public void UpdateEnrollment(Enrollment enrollment)
 		{
-      _context.Update(enrollment);
+			
+			var fundings = enrollment.Fundings;
+			if (fundings != null)
+			{
+				var currentFundings = _context.Fundings.AsNoTracking().Where(f => f.EnrollmentId == enrollment.Id).ToList();
+				foreach (var currentFunding in currentFundings)
+				{
+					if (!fundings.Any(f => f.Id == currentFunding.Id))
+					{
+						_context.Fundings.Remove(currentFunding);
+					}
+				}
+
+				foreach (var funding in fundings)
+				{
+					var dbFunding = _context.Fundings.AsNoTracking().SingleOrDefault(f => f.Id == funding.Id);
+					if (dbFunding != null)
+					{
+						_context.Update(funding);
+					}
+					else
+					{
+						_context.Fundings.Add(funding);
+					}
+				}
+				_context.Update(enrollment);
+			}
 		}
+
 		public void AddEnrollment(Enrollment enrollment)
 		{
 			_context.Add(enrollment);
@@ -35,6 +62,11 @@ namespace Hedwig.Repositories
 
 
       include = include ?? new string[] { };
+      if (include.Contains(INCLUDE_SITES))
+      {
+        enrollments = enrollments.Include(e => e.Site);
+      }
+
       if (include.Contains(INCLUDE_FUNDINGS))
       {
         enrollments = enrollments.Include(e => e.Fundings)

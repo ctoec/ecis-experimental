@@ -12,7 +12,6 @@ namespace Hedwig.Repositories
 	{
 
 		public FundingRepository(HedwigContext context) : base(context) {}
-
 	}
 
 	public interface IFundingRepository

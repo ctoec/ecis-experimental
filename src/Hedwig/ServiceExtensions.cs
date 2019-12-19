@@ -50,6 +50,7 @@ namespace Hedwig
 			services.AddScoped<IFamilyRepository, FamilyRepository>();
 			services.AddScoped<IFundingRepository, FundingRepository>();
 			services.AddScoped<IOrganizationRepository, OrganizationRepository>();
+			services.AddScoped<IReportingPeriodRepository, ReportingPeriodRepository>();
 			services.AddScoped<IReportRepository, ReportRepository>();
 			services.AddScoped<ISiteRepository, SiteRepository>();
 			services.AddScoped<IUserRepository, UserRepository>();
