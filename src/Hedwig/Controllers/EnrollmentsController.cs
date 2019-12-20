@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +8,13 @@ using System.Threading.Tasks;
 using Hedwig.Models;
 using Hedwig.Repositories;
 using Hedwig.Validations;
+using Hedwig.Security;
 using System;
 
 namespace Hedwig.Controllers
 {
     [ApiController]
+    [Authorize(Policy = UserSiteAccessRequirement.NAME)]
     [Route("api/organizations/{orgId:int}/sites/{siteId:int}/[controller]")]
     public class EnrollmentsController : ControllerBase
     {

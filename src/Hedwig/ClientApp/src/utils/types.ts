@@ -25,6 +25,11 @@ type DeepNonUndefineableObject<T extends object> =
 
 // Helper interface for handling arrays
 // Interface is required because defined types cannot use extend
+// class DeepNonUndefineableArray<T> extends Array<DeepNonUndefineable<T>> {
+// 	tsFilter<T>(filterFunc: (value: DeepNonUndefineable<T>) => boolean): DeepNonUndefineable<T>[] {
+// 		return this.filter<DeepNonUndefineable<T>>(filterFunc as ((_: DeepNonUndefineable<T>) => _ is DeepNonUndefineable<TemplateStringsArray>));
+// 	}
+// };
 interface DeepNonUndefineableArray<T> extends Array<DeepNonUndefineable<T>> {};
 
 // Helper type to make the return type of a funtion required
@@ -45,3 +50,8 @@ export type DeepNonUndefineable<T> =
 	T extends any[] ? DeepNonUndefineableArray<T[number]> :
 	T extends (...args: any[]) => any ? FunctionWithRequiredReturnType<T> :
 	T extends object ? DeepNonUndefineableObject<T> : NonUndefineable<T>;
+
+
+export function tsFilter<T>(arr: DeepNonUndefineable<T>[], filterFunc: (value: DeepNonUndefineable<T>) => boolean) {
+	return arr.filter<DeepNonUndefineable<T>>(filterFunc as ((_: DeepNonUndefineable<T>) => _ is DeepNonUndefineable<T>));
+}

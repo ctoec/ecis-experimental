@@ -34,7 +34,7 @@ namespace Hedwig.Security
             var orgIdParam = (string)routeData.Values["controller"] == "Organizations" ? "id" : "orgId";
             var orgIdStr = (string)routeData.Values[orgIdParam];
             if(userIdStr != null && orgIdStr != null) {
-                var userId = Int32.Parse(userIdStr);
+                var userId = Guid.Parse(userIdStr);
                 var orgId = Int32.Parse(orgIdStr);
                 return permissions.UserCanAccessOrganization(userId, orgId);
             }

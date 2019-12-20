@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 using System;
 using Hedwig.Models;
 using Hedwig.Repositories;
+using Hedwig.Security;
 
 namespace Hedwig.Controllers
 {
-  [Route("api/organizations/{orgId:int}/[controller]")]
   [ApiController]
+  [Authorize(Policy = UserOrganizationAccessRequirement.NAME)]
+  [Route("api/organizations/{orgId:int}/[controller]")]
   public class ReportsController : ControllerBase
   {
     private readonly IReportRepository _reports;
@@ -29,7 +31,8 @@ namespace Hedwig.Controllers
       int orgId
     )
     {
-      return await _reports.GetReportsForOrganizationAsync(orgId);
+      var reports = await _reports.GetReportsForOrganizationAsync(orgId);
+      return Ok(reports);
     }
 
     // GET api/organizations/5/reports/1
@@ -44,7 +47,7 @@ namespace Hedwig.Controllers
     {
       var report = await _reports.GetReportForOrganizationAsync(id, orgId, include);
       if (report == null) return NotFound();
-      return report;
+      return Ok(report);
     }
 
     [HttpPut("{id:int}")]

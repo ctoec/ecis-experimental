@@ -15,38 +15,9 @@ namespace Hedwig.Repositories
 
     public void UpdateReport(Report report)
     {
+      // Should this be _context.Update(report) as in EnrollmentRepository ?
+      // depends on if we include sub-objets on report that should _not_ be updated
       _context.Entry(report).State = EntityState.Modified;
-    }
-    public Task SaveChangesAsync()
-    {
-      return _context.SaveChangesAsync();
-    }
-
-    public async Task<IEnumerable<Report>> GetReportsByUserIdAsync(int userId)
-    {
-      var permissions = _context.Permissions.Where(p => userId == p.UserId);
-
-      var organizationPermissions = permissions
-        .OfType<OrganizationPermission>()
-        .Include(p => p.Organization)
-          .ThenInclude(o => o.Reports)
-            .ThenInclude(r => r.ReportingPeriod)
-        .ToListAsync();
-
-      // var sitePermissions = permissions
-      // 	.OfType<SitePermission>()
-      // 	.Include(p => p.Site)
-      // 		.ThenInclude(o => o.Reports)
-      //      .ThenInclude(r => r.ReportingPeriod)
-      // 	.ToListAsync();
-
-      await organizationPermissions;
-      // await Task.WhenAll(sitePermissions, organizationPermissions);
-
-      var reports = organizationPermissions.Result.SelectMany(p => p.Organization.Reports as IEnumerable<Report>);
-      // .Concat(sitePermissions.Result.SelectMany(p => p.Site.Reports));
-
-      return reports;
     }
 
     public Task<List<CdcReport>> GetReportsForOrganizationAsync(int orgId)
@@ -59,10 +30,6 @@ namespace Hedwig.Repositories
         .ToListAsync();
     }
 
-    public async Task<Report> GetReportByIdAsync(int id) => await _context.Reports
-      .Include(r => r.ReportingPeriod)
-      .FirstOrDefaultAsync(r => r.Id == id);
-
     public async Task<CdcReport> GetReportForOrganizationAsync(int id, int orgId, string[] include = null)
     {
       include = include ?? new string[] { };
@@ -72,40 +39,39 @@ namespace Hedwig.Repositories
       var include_children = include.Contains(INCLUDE_CHILD);
       var include_funding_spaces = include.Contains(INCLUDE_FUNDING_SPACES);
 
-      IQueryable<CdcReport> report = _context.Reports
+      IQueryable<CdcReport> reportQuery = _context.Reports
         .OfType<CdcReport>()
         .AsNoTracking() // Disable tracking as these read-only queries should not be saved back to the DB
         .Where(report => report.Id == id && report.OrganizationId == orgId)
         .Include(report => report.ReportingPeriod);
 
-      if (include_orgs)
+      if (include.Contains(INCLUDE_ORGANIZATIONS))
       {
-        report = report.Include(report => report.Organization);
+        reportQuery = reportQuery.Include(report => report.Organization);
       }
 
-      // As enrollments and children will be included manually, we need to specify that LINQ should include Sites
-      if (include_sites || include_enrollments || include_children)
+      // To enable later manual inclusion of enrollments/children, include sites now
+      if (include.Contains(INCLUDE_SITES) || include.Contains(INCLUDE_ENROLLMENTS) || include.Contains(INCLUDE_CHILD))
       {
-        report = report
+        reportQuery = reportQuery
           .Include(report => report.Organization)
           .ThenInclude(organization => organization.Sites);
       }
 
-      if (include_funding_spaces)
+      if (include.Contains(INCLUDE_FUNDING_SPACES))
       {
-        report = report
+        reportQuery = reportQuery
           .Include(report => report.Organization)
           .ThenInclude(organization => organization.FundingSpaces);
       }
 
-      var reportResult = await report.FirstOrDefaultAsync();
+      var reportResult = await reportQuery.FirstOrDefaultAsync();
 
-      if (include_enrollments || include_children)
+      // Optionally manually insert time-versioned enrollment records
+      if (include.Contains(INCLUDE_ENROLLMENTS) || include.Contains(INCLUDE_CHILD))
       {
         var asOf = reportResult.SubmittedAt;
-
         var sites = reportResult.Organization.Sites.ToList();
-
         var siteIds = sites.Select(site => site.Id);
 
         // Potential optimization to fetch only the enrollments that are funded during the reporting period
@@ -122,14 +88,17 @@ namespace Hedwig.Repositories
           .Where(funding => funding.Exit == null || funding.Exit >= reportResult.ReportingPeriod.PeriodEnd)
           .ToListAsync();
 
+        // Add fundings to enrollments
         enrollments.ForEach(enrollment =>
         {
           enrollment.Fundings = fundings.Where(funding => funding.EnrollmentId == enrollment.Id).ToList();
         });
 
+        // Filter for funded enrollments (only funded enrollments are included in report)
         enrollments = enrollments.Where(enrollment => enrollment.Fundings.Any(funding => funding.Source == reportResult.Type)).ToList();
 
-        if (include_children)
+        // Optionally manually insert time-versioned child records
+        if (include.Contains(INCLUDE_CHILD))
         {
           var childIds = enrollments.Select(enrollment => enrollment.ChildId);
           var children = await (asOf.HasValue ? _context.Children.AsOf(asOf.Value) : _context.Children)
@@ -137,12 +106,14 @@ namespace Hedwig.Repositories
             .Where(child => childIds.Contains(child.Id))
             .ToDictionaryAsync(child => child.Id);
 
+          // Add children to enrollments
           enrollments.ForEach(enrollment =>
           {
             enrollment.Child = children[enrollment.ChildId];
           });
         }
 
+        // Add enrollments to sites
         sites.ForEach(site =>
         {
           site.Enrollments = enrollments.Where(enrollment => enrollment.SiteId == site.Id).ToList();
@@ -153,13 +124,10 @@ namespace Hedwig.Repositories
     }
   }
 
-  public interface IReportRepository
+  public interface IReportRepository : IHedwigRepository
   {
     void UpdateReport(Report report);
-    Task SaveChangesAsync();
-    Task<IEnumerable<Report>> GetReportsByUserIdAsync(int userId);
     Task<List<CdcReport>> GetReportsForOrganizationAsync(int orgId);
-    Task<Report> GetReportByIdAsync(int id);
     Task<CdcReport> GetReportForOrganizationAsync(int id, int orgId, string[] include);
   }
 }

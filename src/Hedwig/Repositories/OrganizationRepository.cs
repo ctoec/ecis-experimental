@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using Hedwig.Models;
 using Hedwig.Data;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace Hedwig.Repositories
 {
@@ -12,25 +13,28 @@ namespace Hedwig.Repositories
 	{
 
 		public OrganizationRepository(HedwigContext context) : base(context) {}
-
-		public async Task<IDictionary<int, Organization>> GetOrganizationsByIdsAsync(IEnumerable<int> ids)
+		public Task<Organization> GetOrganizationByIdAsync(int id, string[] include = null)
 		{
-			var dict = await _context.Organizations
-				.Where(o => ids.Contains(o.Id))
-				.ToDictionaryAsync(x => x.Id);
-			return dict as IDictionary<int, Organization>;
-		}
+			var organization = _context.Organizations
+				.Where(o => o.Id == id);
 
-		public async Task<Organization> GetOrganizationByIdAsync(int id)
-		{
-			return await _context.Organizations
-				.SingleOrDefaultAsync(o => o.Id == id);
+			include = include ?? new string[]{};
+			if (include.Contains(INCLUDE_SITES))
+			{
+				organization = organization.Include(o => o.Sites);
+
+				if(include.Contains(INCLUDE_ENROLLMENTS))
+				{
+					organization = ((IIncludableQueryable<Organization, Site>)organization).ThenInclude(s => s.Enrollments);
+				}				
+			}
+
+			return organization.FirstOrDefaultAsync();
 		}
 	}
 
-	public interface IOrganizationRepository
+	public interface IOrganizationRepository : IHedwigRepository
 	{
-		Task<IDictionary<int, Organization>> GetOrganizationsByIdsAsync(IEnumerable<int> ids);
-		Task<Organization> GetOrganizationByIdAsync(int id);
+		Task<Organization> GetOrganizationByIdAsync(int id, string[] include = null);
 	}
 }

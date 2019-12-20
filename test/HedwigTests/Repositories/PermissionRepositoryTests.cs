@@ -3,6 +3,7 @@ using Hedwig.Repositories;
 using Hedwig.Models;
 using HedwigTests.Fixtures;
 using HedwigTests.Helpers;
+using System;
 
 namespace HedwigTests.Repositories
 {
@@ -19,7 +20,7 @@ namespace HedwigTests.Repositories
 
                 // When repository is queried for user access to site
                 var permissionRepo = new PermissionRepository(context);
-                var res = permissionRepo.UserCanAccessSite(user.Id, site.Id);
+                var res = permissionRepo.UserCanAccessSite(user.WingedKeysId, site.Id);
 
                 // Then result is true
                 Assert.True(res);
@@ -38,7 +39,7 @@ namespace HedwigTests.Repositories
 
                 // When repository is queried for user access to site
                 var permissionRepo = new PermissionRepository(context);
-                var res = permissionRepo.UserCanAccessSite(user.Id, site.Id);
+                var res = permissionRepo.UserCanAccessSite(user.WingedKeysId, site.Id);
 
                 // Then result is true
                 Assert.True(res);
@@ -56,7 +57,7 @@ namespace HedwigTests.Repositories
 
                 // When repository is queried for user access to some other site
                 var permissionRepo = new PermissionRepository(context);
-                var res = permissionRepo.UserCanAccessSite(user.Id, 0);
+                var res = permissionRepo.UserCanAccessSite(user.WingedKeysId, 0);
 
                 // Then result is false
                 Assert.False(res);

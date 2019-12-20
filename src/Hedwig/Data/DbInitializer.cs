@@ -214,9 +214,21 @@ namespace Hedwig.Data
       return permission;
     }
 
-    private Family CreateFamily(int organizationId)
+    private Family CreateFamily(
+      int organizationId,
+      string addressLine1 = "450 Columbus Blvd.",
+      string town = "Hartfor",
+      string state = "CT",
+      string zip = "06103"
+    )
     {
-      var family = new Family { OrganizationId = organizationId };
+      var family = new Family { 
+        OrganizationId = organizationId,
+        AddressLine1 = addressLine1,
+        Town = town,
+        State = state,
+        Zip = zip
+      };
       _context.Families.Add(family);
       _context.SaveChanges();
       return family;

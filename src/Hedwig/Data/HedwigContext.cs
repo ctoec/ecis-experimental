@@ -65,7 +65,8 @@ namespace Hedwig.Data
     {
       if (IsTemporalEntityType<TEntity>())
       {
-        AddAuthorToTemporalEntity(entity as TemporalEntity);
+        int? currentUserId = GetCurrentUserId();
+        AddAuthorToTemporalEntity(entity as TemporalEntity, currentUserId);
       }
 
       return base.Add<TEntity>(entity);
@@ -85,7 +86,8 @@ namespace Hedwig.Data
     {
       if (IsTemporalEntityType<TEntity>())
       {
-        AddAuthorToTemporalEntity(entity as TemporalEntity);
+        int? currentUserId = GetCurrentUserId();
+        AddAuthorToTemporalEntity(entity as TemporalEntity, currentUserId);
       }
       return base.Update<TEntity>(entity);
     }
@@ -104,9 +106,9 @@ namespace Hedwig.Data
     /// Recursively adds author UserId to AuthorId field on temporal entities
     /// </summary>
     /// <param name="entity"></param>s
-    protected void AddAuthorToTemporalEntity(TemporalEntity entity)
+    protected void AddAuthorToTemporalEntity(TemporalEntity entity, int? currentUserId)
     {
-      entity.AuthorId = GetCurrentUserId();
+      entity.AuthorId = currentUserId;
       
       // Recursively add AuthorId to any TemporalEntity sub-props
       var props = entity.GetType().GetProperties();
@@ -116,7 +118,7 @@ namespace Hedwig.Data
         if (typeof(TemporalEntity).IsAssignableFrom(prop.PropertyType)
           && subProp != null)
         {
-          AddAuthorToTemporalEntity(subProp as TemporalEntity);
+          AddAuthorToTemporalEntity(subProp as TemporalEntity, currentUserId);
         }
       }
     }

@@ -24,19 +24,6 @@ services:
     entrypoint:
       - sh
       - /entrypoint.sh
-  rest-backend:
-    image: clue/json-server
-    volumes:
-      - ./rest-backend/db.json:/db.json
-      - ./rest-backend/routes.json:/routes.json
-    ports:
-      - 3000:3000
-    entrypoint:
-      - json-server
-      - --watch
-      - --routes
-      - /routes.json
-      - /db.json
   client:
     image: node:12
     volumes:

@@ -20,7 +20,7 @@ namespace Hedwig.Validations.Rules
     {
       if(family.Determinations == null)
       {
-        _determinations.GetDeterminationsByFamilyId(family.Id);
+        family.Determinations = _determinations.GetDeterminationsByFamilyId(family.Id);
       }
 
       if(family.Determinations.Count == 0) return null;
