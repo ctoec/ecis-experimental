@@ -13,7 +13,7 @@ namespace HedwigTests.Controllers
     public class UsersControllerTests
     {
         [Fact]
-        public async Task Get_Current_GetsUserByWingedKeysId()
+        public async Task Get_Current_GetsUserByWingedKeysId_FromSecurityPrincipalSubClaim()
         {
             var _users = new Mock<IUserRepository>();
 

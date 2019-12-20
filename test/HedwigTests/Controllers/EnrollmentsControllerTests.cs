@@ -2,7 +2,6 @@ using Xunit;
 using Moq;
 using System;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Hedwig.Controllers;
@@ -30,9 +29,9 @@ namespace HedwigTests.Controllers
         }
 
         [Fact]
-        public async Task Get_Id_IncludeEntities_GetsEnrollmentsForSite_WithEntities()
+        public async Task Get_Id_IncludeEntities_GetsEnrollmentForSite_WithEntities()
         {
-            var _validator = new Mock<INonBlockingValidator>();
+           var _validator = new Mock<INonBlockingValidator>();
            var _enrollments = new Mock<IEnrollmentRepository>();
 
            var controller = new EnrollmentsController(_validator.Object, _enrollments.Object);
