@@ -118,8 +118,8 @@ namespace Hedwig.Repositories
         var fundings = await (asOf.HasValue ? _context.Fundings.AsOf(asOf.Value) : _context.Fundings)
           .AsNoTracking()
           .Where(funding => enrollmentIds.Contains(funding.EnrollmentId))
-          .Where(funding => funding.Entry <= reportResult.ReportingPeriod.PeriodStart)
-          .Where(funding => funding.Exit == null || funding.Exit >= reportResult.ReportingPeriod.PeriodEnd)
+          .Where(funding => funding.CertificateStartDate <= reportResult.ReportingPeriod.PeriodStart)
+          .Where(funding => funding.CertificateEndDate == null || funding.CertificateEndDate >= reportResult.ReportingPeriod.PeriodEnd)
           .ToListAsync();
 
         enrollments.ForEach(enrollment =>

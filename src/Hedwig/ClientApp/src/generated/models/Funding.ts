@@ -75,13 +75,13 @@ export interface Funding {
      * @type {Date}
      * @memberof Funding
      */
-    entry?: Date | null;
+    certificateStartDate?: Date | null;
     /**
      * 
      * @type {Date}
      * @memberof Funding
      */
-    exit?: Date | null;
+    certificateEndDate?: Date | null;
     /**
      * 
      * @type {number}
@@ -146,8 +146,8 @@ export function FundingFromJSONTyped(json: any, ignoreDiscriminator: boolean): F
         'enrollmentId': json['enrollmentId'],
         'enrollment': !exists(json, 'enrollment') ? undefined : EnrollmentFromJSON(json['enrollment']),
         'source': !exists(json, 'source') ? undefined : FundingSourceFromJSON(json['source']),
-        'entry': !exists(json, 'entry') ? undefined : (json['entry'] === null ? null : new Date(json['entry'])),
-        'exit': !exists(json, 'exit') ? undefined : (json['exit'] === null ? null : new Date(json['exit'])),
+        'certificateStartDate': !exists(json, 'certificateStartDate') ? undefined : (json['certificateStartDate'] === null ? null : new Date(json['certificateStartDate'])),
+        'certificateEndDate': !exists(json, 'certificateEndDate') ? undefined : (json['certificateEndDate'] === null ? null : new Date(json['certificateEndDate'])),
         'firstReportingPeriodId': !exists(json, 'firstReportingPeriodId') ? undefined : json['firstReportingPeriodId'],
         'firstReportingPeriod': !exists(json, 'firstReportingPeriod') ? undefined : ReportingPeriodFromJSON(json['firstReportingPeriod']),
         'lastReportingPeriodId': !exists(json, 'lastReportingPeriodId') ? undefined : json['lastReportingPeriodId'],
@@ -172,8 +172,8 @@ export function FundingToJSON(value?: Funding | null): any {
         'enrollmentId': value.enrollmentId,
         'enrollment': EnrollmentToJSON(value.enrollment),
         'source': FundingSourceToJSON(value.source),
-        'entry': value.entry === undefined ? undefined : (value.entry === null ? null : value.entry.toISOString()),
-        'exit': value.exit === undefined ? undefined : (value.exit === null ? null : value.exit.toISOString()),
+        'certificateStartDate': value.certificateStartDate === undefined ? undefined : (value.certificateStartDate === null ? null : value.certificateStartDate.toISOString()),
+        'certificateEndDate': value.certificateEndDate === undefined ? undefined : (value.certificateEndDate === null ? null : value.certificateEndDate.toISOString()),
         'firstReportingPeriodId': value.firstReportingPeriodId,
         'firstReportingPeriod': ReportingPeriodToJSON(value.firstReportingPeriod),
         'lastReportingPeriodId': value.lastReportingPeriodId,
