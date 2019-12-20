@@ -22,7 +22,6 @@ namespace Hedwig.Data
     {
       DeleteAllData();
 
-      // Main org 
       var organization = CreateOrganization();
 
       CreateFundingSpace(organizationId: organization.Id, ageGroup: Age.InfantToddler, time: FundingTime.Full, capacity: 10);
@@ -33,14 +32,6 @@ namespace Hedwig.Data
       var user = CreateUser(wingedKeysId: Guid.Parse("2c0ec653-8829-4aa1-82ba-37c8832bbb88"));
 
       CreateOrganizationPermission(organizationId: organization.Id, userId: user.Id);
-
-      // secondary organization
-      var organization2 = CreateOrganization("Hogwarts");
-      CreateFundingSpace(organizationId: organization2.Id, ageGroup: Age.InfantToddler, time: FundingTime.Full, capacity: 5);
-      CreateFundingSpace(organizationId: organization2.Id, ageGroup: Age.Preschool, time: FundingTime.Full, capacity: 10);
-      var site2 = CreateSite(organizationId: organization2.Id);
-      var user2 = CreateUser(wingedKeysId: Guid.NewGuid(), firstName: "Julia", lastName:"Hogan");
-      CreateOrganizationPermission(organizationId: organization2.Id, userId: user2.Id);
 
       var reportingPeriods = new ReportingPeriod[] {
         CreateReportingPeriod(period: "2019-08-01", start: "2019-07-29", end: "2019-09-01", due: "2019-09-15"),
@@ -147,6 +138,13 @@ namespace Hedwig.Data
         }
       });
 
+      // Additional organization for security testing
+      var honeyPotOrganization = CreateOrganization(name: "Honey Pot");
+      var honeyPotSite = CreateSite(organizationId: honeyPotOrganization.Id, name: "Honey Pot");
+      var honeyPotChild = CreateChild(firstName: "Pooh", lastName: "Bear");
+      var honeyPotEnrollment = CreateEnrollment(childId: honeyPotChild.Id, siteId: honeyPotSite.Id);
+      var honeyPotUser = CreateUser(wingedKeysId: Guid.NewGuid(), firstName: "Julia", lastName: "Hogan");
+      CreateOrganizationPermission(organizationId: honeyPotOrganization.Id, userId: honeyPotUser.Id);
     }
 
     private void DeleteAllData()
@@ -234,7 +232,7 @@ namespace Hedwig.Data
       string zip = "06103"
     )
     {
-      var family = new Family { 
+      var family = new Family {
         OrganizationId = organizationId,
         AddressLine1 = addressLine1,
         Town = town,
