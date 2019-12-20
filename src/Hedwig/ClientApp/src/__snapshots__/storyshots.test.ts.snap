@@ -2230,13 +2230,6 @@ exports[`Storyshots TextInput Error 1`] = `
       Default text input
        
     </label>
-    <span
-      className="usa-error-message"
-      id="input-error-message"
-      role="alert"
-    >
-      Fix this error
-    </span>
     <input
       aria-describedby="input-error-message"
       className="usa-input"

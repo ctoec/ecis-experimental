@@ -123,11 +123,12 @@ const ChildInfo: Section = {
       hispanicOrLatinxEthnicity,
       gender,
     };
-    const [validArgs, updateValidArgs] = useState<Child>();
+    const [validArgs, updateValidArgs] = useState();
+    const [attemptedSave, updateAttemptedSave] = useState(false);
 
     useEffect(() => {
       if(childArgsAreValid(args)) {
-        updateValidArgs(args as Child);
+        updateValidArgs(args);
       } else {
         updateValidArgs(undefined);
       }
@@ -135,7 +136,7 @@ const ChildInfo: Section = {
 
     const save = () => {
       if(!validArgs) {
-        // TODO: apply styling to missing fields
+        updateAttemptedSave(true);
         return;
       }
       if (enrollment) {
@@ -198,6 +199,9 @@ const ChildInfo: Section = {
               label="First"
               defaultValue={firstName || ''}
               onChange={event => updateFirstName(event.target.value)}
+              errorMessage="This information is required for enrollment"
+              errorType={(attemptedSave && !firstName) ? 'error' : undefined}
+              
             />
           </div>
           <div className="mobile-lg:grid-col-9">
@@ -215,6 +219,8 @@ const ChildInfo: Section = {
               label="Last"
               defaultValue={lastName || ''}
               onChange={event => updateLastName(event.target.value)}
+              errorMessage="This information is required for enrollment"
+              errorType={(attemptedSave && !lastName) ? 'error' : undefined}  
             />
           </div>
           <div className="mobile-lg:grid-col-3">
@@ -253,7 +259,7 @@ const ChildInfo: Section = {
               errorType={processValidationError('birthCertificateId', enrollment ? enrollment.child.validationErrors : null) ? 'warning' : undefined}
             />
           </div>
-          <div className="mobile-lg:grid-col-4">
+          <div className="mobile-lg:grid-col-4 inline-block">
             <TextInput
               id="birthState"
               label="State"
@@ -262,7 +268,7 @@ const ChildInfo: Section = {
               errorType={processValidationError('birthState', enrollment ? enrollment.child.validationErrors : null) ? 'warning' : undefined}
             />
           </div>
-          <div className="mobile-lg:grid-col-8">
+          <div className="mobile-lg:grid-col-8 inline-block">
             <TextInput
               id="birthTown"
               label="Town"
@@ -370,7 +376,7 @@ const ChildInfo: Section = {
           onChange={event => updateGender(genderFromString(event.target.value))}
         />
 
-        <Button text="Save" onClick={save} disabled={!validArgs} />
+        <Button text="Save" onClick={save} disabled={attemptedSave && !validArgs}/>
       </div>
     );
   },

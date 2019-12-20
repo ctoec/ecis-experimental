@@ -33,7 +33,7 @@ export default function TextInput({
       <label className={`usa-label${errorType ? ` usa-label--${errorType}` : ''}`} htmlFor={id}>
         {label} {optional && '(Optional)'}
       </label>
-      {errorMessage && (
+      {errorType && (
         <span className={`usa-error-message`} id="input-error-message" role="alert">
           {errorMessage} 
         </span>

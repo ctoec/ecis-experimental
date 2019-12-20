@@ -490,6 +490,9 @@ $future-step-color: color('base-dark') !default;
 		@include u-margin-top(6);
 		@include u-margin-bottom(4);
 	}
+	.inline-block {
+		display: inline-block;
+	}
 }
 
 .usa-form-group--warning {
@@ -508,17 +511,19 @@ $future-step-color: color('base-dark') !default;
 	border-color: color($theme-color-warning-dark);
 }
 
-.usa-fieldset--warning {
+.usa-fieldset--error {
 	border-left-width: 0.25rem;
 	border-left-style: solid;
+	border-left-color: color($theme-color-error-dark);
+}
+
+.usa-fieldset--warning {
+	@extend .usa-fieldset--error;
 	border-left-color: color($theme-color-warning-dark);
 }
 
 .usa-fieldset {
 	display: inline-block;
-	* {
-		display: inherit;
-	}
 }
 
 .oec-form-helper {
