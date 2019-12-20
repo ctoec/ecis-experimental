@@ -24,7 +24,7 @@ fi
 
 if [ -z  "$AWS_EC2_KEY_NAME" ]
 then
-  AWS_EC2_KEY_NAME=keypair-mgmt-server
+  AWS_EC2_KEY_NAME=keypair-devops-cicd
 fi
 
 cd "$(dirname "$(realpath "$0")")"

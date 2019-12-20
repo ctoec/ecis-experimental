@@ -21,7 +21,7 @@ IF "%AWS_EC2_INSTANCE_TYPE%" == "" (
 )
 
 IF "%AWS_EC2_KEY_NAME%" == "" (
-  SET AWS_EC2_KEY_NAME=keypair-mgmt-server
+  SET AWS_EC2_KEY_NAME=keypair-devops-cicd
 )
 
 curl https://api.github.com/repos/ctoec/ecis-experimental/pulls/%GITHUB_PR% | findstr /c:"pull request environment"
