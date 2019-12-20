@@ -12,26 +12,15 @@ type CheckboxOptions = {
 type ChecklistProps = {
 	options: CheckboxOptions[];
 	groupName: string;
-	legend: string;
 	horizontal?: boolean;
-	error?: string;
 };
 
 export default function Checklist({
 	options,
 	groupName,
 	horizontal,
-	legend,
-	error,
 }: ChecklistProps) {
 	return (
-		<fieldset className={`usa-fieldset${error ? ' usa-form-group--error' : ''}`}>
-			<legend className="usa-sr-only">{legend}</legend>
-			{error && (
-				<span className="usa-error-message" id="checklist-error-message" role="alert">
-					{error}
-				</span>
-			)}
 			<div className={horizontal ? 'grid-row flex-align-start grid-gap' : ''}>
 				{options.map(option => (
 					<Checkbox
@@ -46,6 +35,5 @@ export default function Checklist({
 					/>
 				))}
 			</div>
-		</fieldset>
 	);
 }

@@ -26,9 +26,11 @@ import {
   prettyMultiRace,
   prettyEthnicity,
   birthCertPresent,
-  childArgsAreValid
+  childArgsAreValid,
+  getSummaryLine
 } from '../../../utils/models';
-import { sectionHasValidationErrors } from '../../../utils/validations';
+import { sectionHasValidationErrors, processValidationError, hasValidationErrors } from '../../../utils/validations';
+import FieldSet from '../../../components/FieldSet/FieldSet';
 
 
 
@@ -43,12 +45,12 @@ const ChildInfo: Section = {
       <div className="ChildInfoSummary">
         {child && (
           <>
-            <p>Name: {nameFormatter(child)}</p>
-            <p>Birthdate: {dateFormatter(child.birthdate)}</p>
-            <p>Birth certificate: {birthCertPresent(child)}</p>
-            <p>Race: {prettyMultiRace(child)}</p>
-            <p>Ethnicity: {prettyEthnicity(child)}</p>
-            <p>Gender: {prettyGender(child.gender)}</p>
+            <p>Name: {getSummaryLine(nameFormatter(child))}</p>
+            <p>Birthdate: {getSummaryLine(dateFormatter(child.birthdate))}</p>
+            <p>Birth certificate: {getSummaryLine(birthCertPresent(child))}</p>
+            <p>Race: {getSummaryLine(prettyMultiRace(child))}</p>
+            <p>Ethnicity: {getSummaryLine(prettyEthnicity(child))}</p>
+            <p>Gender: {getSummaryLine(prettyGender(child.gender))}</p>
           </>
         )}
       </div>
@@ -98,7 +100,7 @@ const ChildInfo: Section = {
     );
     const [white, updateWhite] = useState(child ? child.white : false);
     const [hispanicOrLatinxEthnicity, updateHispanicOrLatinxEthnicity] = useState(
-      child ? child.hispanicOrLatinxEthnicity : undefined
+      child ? child.hispanicOrLatinxEthnicity : null
     );
 
     const [gender, updateGender] = useState(child ? child.gender : Gender.Unspecified);
@@ -235,13 +237,20 @@ const ChildInfo: Section = {
         />
 
         <h3>Birth certificate</h3>
-        <div className="grid-row grid-gap">
+        <FieldSet
+          warning={hasValidationErrors(enrollment ? enrollment.child : null, ['birthCertificateId', 'birthTown', 'birthState'])
+            ? 'This information is required for OEC reporting'
+            : undefined
+          }
+          legend="Birth certificate"
+        >
           <div className="mobile-lg:grid-col-12">
             <TextInput
               id="birthCertificateId"
               label="Birth certificate ID #"
               defaultValue={birthCertificateId || ''}
               onChange={event => updateBirthCertificateId(event.target.value)}
+              errorType={processValidationError('birthCertificateId', enrollment ? enrollment.child.validationErrors : null) ? 'warning' : undefined}
             />
           </div>
           <div className="mobile-lg:grid-col-4">
@@ -250,6 +259,7 @@ const ChildInfo: Section = {
               label="State"
               defaultValue={birthState || ''}
               onChange={event => updateBirthState(event.target.value)}
+              errorType={processValidationError('birthState', enrollment ? enrollment.child.validationErrors : null) ? 'warning' : undefined}
             />
           </div>
           <div className="mobile-lg:grid-col-8">
@@ -258,72 +268,87 @@ const ChildInfo: Section = {
               label="Town"
               defaultValue={birthTown || ''}
               onChange={event => updateBirthTown(event.target.value)}
+              errorType={processValidationError('birthTown', enrollment ? enrollment.child.validationErrors : null) ? 'warning' : undefined}
             />
           </div>
-        </div>
+        </FieldSet>
 
         <h3>Race</h3>
         <p className="oec-form-helper">As identified by family</p>
-        <Checklist
-          groupName="race"
+        <FieldSet
+          warning={hasValidationErrors(enrollment ? enrollment.child : null, ['americanIndianOrAlaskaNative', 'asian', 'blackOrAfricanAmerican', 'NativeHawaiianOrPacificIslander','white'])
+            ? 'This information is required for OEC reporting'
+            : undefined
+          } 
           legend="Race"
-          options={[
-            {
-              text: 'American Indian or Alaska Native',
-              value: 'americanIndianOrAlaskaNative',
-              checked: americanIndianOrAlaskaNative || false,
-              onChange: event => updateAmericanIndianOrAlaskaNative(event.target.checked),
-            },
-            {
-              text: 'Asian',
-              value: 'asian',
-              checked: asian || false,
-              onChange: event => updateAsian(event.target.checked),
-            },
-            {
-              text: 'Black or African American',
-              value: 'blackOrAfricanAmerican',
-              checked: blackOrAfricanAmerican || false,
-              onChange: event => updateBlackOrAfricanAmerican(event.target.checked),
-            },
-            {
-              text: 'Native Hawaiian or Pacific Islander',
-              value: 'nativeHawaiianOrPacificIslander',
-              checked: nativeHawaiianOrPacificIslander || false,
-              onChange: event => updateNativeHawaiianOrPacificIslander(event.target.checked),
-            },
-            {
-              text: 'White',
-              value: 'white',
-              checked: white || false,
-              onChange: event => updateWhite(event.target.checked),
-            },
-          ]}
-        />
-
+        >
+          <Checklist
+            groupName="race"
+            options={[
+              {
+                text: 'American Indian or Alaska Native',
+                value: 'americanIndianOrAlaskaNative',
+                checked: americanIndianOrAlaskaNative || false,
+                onChange: event => updateAmericanIndianOrAlaskaNative(event.target.checked),
+              },
+              {
+                text: 'Asian',
+                value: 'asian',
+                checked: asian || false,
+                onChange: event => updateAsian(event.target.checked),
+              },
+              {
+                text: 'Black or African American',
+                value: 'blackOrAfricanAmerican',
+                checked: blackOrAfricanAmerican || false,
+                onChange: event => updateBlackOrAfricanAmerican(event.target.checked),
+              },
+              {
+                text: 'Native Hawaiian or Pacific Islander',
+                value: 'nativeHawaiianOrPacificIslander',
+                checked: nativeHawaiianOrPacificIslander || false,
+                onChange: event => updateNativeHawaiianOrPacificIslander(event.target.checked),
+              },
+              {
+                text: 'White',
+                value: 'white',
+                checked: white || false,
+                onChange: event => updateWhite(event.target.checked),
+              },
+            ]}
+          />
+        </FieldSet>
+        
         <h3>Ethnicity</h3>
         <p className="oec-form-helper">As identified by family</p>
-        <RadioGroup
-          groupName="ethnicity"
+        <FieldSet
           legend="Ethnicity"
-          options={[
-            {
-              text: 'Not Hispanic or Latinx',
-              value: 'no',
-            },
-            {
-              text: 'Hispanic or Latinx',
-              value: 'yes',
-            },
-          ]}
-          selected={
-            hispanicOrLatinxEthnicity === undefined /* TODO remove on nullable fix --> */ || hispanicOrLatinxEthnicity === null ? 
-            '' : 
-            hispanicOrLatinxEthnicity ? 'yes' : 'no'}
-          onChange={event => updateHispanicOrLatinxEthnicity(
-            event.target.value === '' ? undefined : event.target.value === 'yes'
-          )}
-        />
+          warning={hasValidationErrors(enrollment ? enrollment.child : null, ['hispanicOrLatinxEthnicity'])
+            ? 'This information is required for OEC reporting'
+            : undefined
+          } 
+        >
+          <RadioGroup
+            groupName="ethnicity"
+            options={[
+              {
+                text: 'Not Hispanic or Latinx',
+                value: 'no',
+              },
+              {
+                text: 'Hispanic or Latinx',
+                value: 'yes',
+              },
+            ]}
+            selected={hispanicOrLatinxEthnicity === null
+              ? ''
+              : hispanicOrLatinxEthnicity ? 'yes' : 'no'
+            }
+            onChange={event => updateHispanicOrLatinxEthnicity(
+              event.target.value === '' ? null : event.target.value === 'yes'
+            )}
+          />
+        </FieldSet>
 
         <h3>Gender</h3>
         <p className="oec-form-helper">As identified by family</p>

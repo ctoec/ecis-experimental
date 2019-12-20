@@ -157,7 +157,6 @@ const FamilyIncome: Section = {
 					<br/>
 		  		<Checklist
 						groupName="familyIncome"
-						legend=""
 						options={[
 							{
 								text: 'Family income not disclosed',

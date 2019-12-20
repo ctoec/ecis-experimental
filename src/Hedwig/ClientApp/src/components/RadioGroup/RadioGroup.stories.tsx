@@ -22,7 +22,6 @@ storiesOf('RadioGroup', module)
 				options={options}
 				groupName="storybook-radio-group"
 				onChange={onChange}
-				legend="Storybook radio buttons"
 			/>
 		);
 	})
@@ -32,7 +31,6 @@ storiesOf('RadioGroup', module)
 				options={options}
 				groupName="storybook-radio-group-2"
 				onChange={onChange}
-				legend="Storybook radio buttons"
 				horizontal={true}
 			/>
 		);
@@ -43,19 +41,7 @@ storiesOf('RadioGroup', module)
 				options={options}
 				groupName="storybook-radio-group-default-selection"
 				onChange={onChange}
-				legend="Storybook radio buttons"
 				selected="one"
-			/>
-		);
-	})
-	.add('With error', () => {
-		return (
-			<RadioGroup
-				options={options}
-				groupName="storybook-radio-group-with-error"
-				onChange={onChange}
-				legend="Storybook radio buttons"
-				error="You  must select one or two."
 			/>
 		);
 	});

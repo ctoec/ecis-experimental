@@ -14,6 +14,7 @@ import getIdForUser from '../../../utils/getIdForUser';
 import { DeepNonUndefineable } from '../../../utils/types';
 import Alert from '../../../components/Alert/Alert';
 import { sectionHasValidationErrors } from '../../../utils/validations';
+import FieldSet from '../../../components/FieldSet/FieldSet';
 
 const EnrollmentFunding: Section = {
   key: 'enrollment-funding',
@@ -120,26 +121,30 @@ const EnrollmentFunding: Section = {
 					/>
 
 					<h3>Age group</h3>
-					<RadioGroup
-						groupName="age"
-						legend="Age"
-						options={[
-							{
-								text: 'Infant/Toddler',
-                value: Age.InfantToddler,
-							},
-							{
-								text: 'Preschool',
-								value: Age.Preschool,
-							},
-							{
-								text: 'School-age',
-								value: Age.SchoolAge,
-							},
-						]}
-						selected={'' + age}
-						onChange={event => updateAge(ageFromString(event.target.value))}
-					/>
+          <FieldSet
+            legend="Age"
+          >
+  					<RadioGroup
+  						groupName="age"
+  						options={[
+  							{
+  								text: 'Infant/Toddler',
+                  value: Age.InfantToddler,
+  							},
+  							{
+  								text: 'Preschool',
+  								value: Age.Preschool,
+  							},
+  							{
+  								text: 'School-age',
+  								value: Age.SchoolAge,
+  							},
+  						]}
+  						selected={'' + age}
+  						onChange={event => updateAge(ageFromString(event.target.value))}
+  					/>
+          </FieldSet>
+
           {!familyDeterminationNotDisclosed(enrollment) &&
             <>
             <h3>Funding</h3>

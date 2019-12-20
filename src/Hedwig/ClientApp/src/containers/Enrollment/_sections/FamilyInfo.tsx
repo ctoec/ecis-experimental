@@ -7,7 +7,9 @@ import idx from 'idx';
 import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest, Enrollment } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
 import getIdForUser from '../../../utils/getIdForUser';
-import { sectionHasValidationErrors } from '../../../utils/validations';
+import { sectionHasValidationErrors, hasValidationErrors, processValidationError } from '../../../utils/validations';
+import FieldSet from '../../../components/FieldSet/FieldSet';
+import { addressFormatter, homelessnessText, fosterText } from '../../../utils/models';
 
 const FamilyInfo: Section = {
 	key: 'family-information',
@@ -18,15 +20,21 @@ const FamilyInfo: Section = {
 		if (!enrollment || !enrollment.child) return <></>;
 
 		const family = enrollment.child.family;
+		const [address, missingInformation] = addressFormatter(family);
+		const foster = enrollment.child.foster;
+		const homelessness = family.homelessness;
 		return (
 			<div className="FamilyInfoSummary">
-				{family && family.town && family.state ? (
-					<p>
-						{family.town}, {family.state}
-					</p>
+				{family && (address || foster || homelessness) ? (
+					<>
+						<p>Address: {address} {missingInformation}</p>
+						{foster && <p>{fosterText()}</p>}
+						{homelessness && <p>{homelessnessText()}</p>}
+					</>
 				) : (
 					<p>No family information on record.</p>
 				)
+
 				}
 			</div>
 		);
@@ -96,16 +104,29 @@ const FamilyInfo: Section = {
 			}
 		}
 
+		console.log(enrollment);
 		return (
 			<div className="FamilyInfoForm usa-form">
 				<h3>Address</h3>
-				<div className="grid-row grid-gap">
+				<FieldSet
+					legend="Address"
+					warning={hasValidationErrors(idx(enrollment, _ => _.child.family))
+						? 'This information is required for OEC reporting'
+						: undefined
+					}
+				>
 					<div className="mobile-lg:grid-col-12">
 						<TextInput
 							id="addressLine1"
 							label="Address line 1"
 							defaultValue={addressLine1 || ''}
-							onChange={event => updateAddressLine1(event.target.value)}
+							onChange={event => updateAddressLine1(
+								event.target.value ? event.target.value : null
+							)}
+							errorType={processValidationError('addressLine1', idx(enrollment, _ => _.child.family.validationErrors))
+								? 'warning'
+								: undefined
+							}
 						/>
 					</div>
 					<div className="mobile-lg:grid-col-12">
@@ -113,7 +134,9 @@ const FamilyInfo: Section = {
 							id="addressLine2"
 							label="Address line 2"
 							defaultValue={addressLine2 || ''}
-							onChange={event => updateAddressLine2(event.target.value)}
+							onChange={event => updateAddressLine2(
+								event.target.value ? event.target.value : null
+							)}
 							optional={true}
 						/>
 					</div>
@@ -122,15 +145,27 @@ const FamilyInfo: Section = {
 							id="state"
 							label="State"
 							defaultValue={state || ''}
-							onChange={event => updateState(event.target.value)}
+							onChange={event => updateState(
+								event.target.value ? event.target.value : null
+							)}
+							errorType={processValidationError('state', idx(enrollment, _ => _.child.family.validationErrors))
+								? 'warning'
+								: undefined
+							}
 						/>
 					</div>
 					<div className="mobile-lg:grid-col-8">
 						<TextInput
 							id="town"
 							label="Town"
-							defaultValue={town || ''}
-							onChange={event => updateTown(event.target.value)}
+							defaultValue={town || '' }
+							onChange={event => updateTown(
+								event.target.value ? event.target.value : null
+							)}
+							errorType={processValidationError('town', idx(enrollment, _ => _.child.family.validationErrors))
+								? 'warning'
+								: undefined
+							}
 						/>
 					</div>
 					<div className="mobile-lg:grid-col-6">
@@ -138,18 +173,24 @@ const FamilyInfo: Section = {
 							id="zip"
 							label="ZIP Code"
 							defaultValue={zip || ''}
-							onChange={event => updateZip(event.target.value)}
+							onChange={event => updateZip(
+								event.target.value ? event.target.value : null
+							)}
+							errorType={processValidationError('zip', idx(enrollment, _ => _.child.family.validationErrors))
+								? 'warning'
+								: undefined
+							}
 						/>
 					</div>
-				</div>
+				</FieldSet>
+
 				<h3>Other</h3>
 				<div className="margin-top-3">
 					<Checklist
 						groupName="foster"
-						legend="Foster status"
 						options={[
 							{
-								text: 'Child lives with foster family',
+								text: fosterText(),
 								value: 'foster',
 								checked: foster,
 								onChange: event => updateFoster(event.target.checked),
@@ -158,10 +199,9 @@ const FamilyInfo: Section = {
 					/>
 					<Checklist
 						groupName="homelessness"
-						legend="Homeless status"
 						options={[
 							{
-								text: 'Family has experienced homelessness or housing insecurity',
+								text: homelessnessText(),
 								value: 'homelessness',
 								checked: homelessness || false,
 								onChange: event => updateHomelessness(event.target.checked),

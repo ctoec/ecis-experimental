@@ -6,7 +6,7 @@ export function sectionHasValidationErrors(sectionObjects: (Validatable | Valida
     if (!sectionObject) return;
 
     if (Array.isArray(sectionObject)) {
-      hasErrors = sectionObject.some(hasValidationErrors) && !hasErrors;
+      hasErrors = sectionObject.some(item => hasValidationErrors(item)) && !hasErrors;
     } else {
       hasErrors = hasValidationErrors(sectionObject) && !hasErrors;
     }

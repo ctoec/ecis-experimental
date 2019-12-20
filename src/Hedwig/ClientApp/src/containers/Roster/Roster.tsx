@@ -18,6 +18,7 @@ import UserContext from '../../contexts/User/UserContext';
 import AgeGroupSection from './AgeGroupSection';
 import { getObjectsByAgeGroup } from '../../utils/ageGroupUtils';
 import { tsFilter } from '../../utils/types';
+import FieldSet from '../../components/FieldSet/FieldSet';
 
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
@@ -132,30 +133,32 @@ export default function Roster() {
 					</div>
 				</div>
 				{showPastEnrollments && (
-					<div className="usa-fieldset">
-						<RadioGroup
-							options={[
-								{
-									text: 'By date',
-									value: 'date',
-								},
-								{
-									text: 'By range',
-									value: 'range',
-								},
-							]}
-							onChange={event => setByRange(event.target.value === 'range')}
-							horizontal={true}
-							groupName={'dateSelectionType'}
-							legend="Select date or date range."
-							selected={byRange ? 'range' : 'date'}
-						/>
-						<DateSelectionForm
-							inputDateRange={dateRange}
-							byRange={byRange}
-							onSubmit={(newDateRange: DateRange) => setDateRange(newDateRange)}
-						/>
-					</div>
+						<FieldSet
+							legend="Select date or date range"
+						>
+							<RadioGroup
+								options={[
+									{
+										text: 'By date',
+										value: 'date',
+									},
+									{
+										text: 'By range',
+										value: 'range',
+									},
+								]}
+								onChange={event => setByRange(event.target.value === 'range')}
+								horizontal={true}
+								groupName={'dateSelectionType'}
+								selected={byRange ? 'range' : 'date'}
+							/>
+
+							<DateSelectionForm
+								inputDateRange={dateRange}
+								byRange={byRange}
+								onSubmit={(newDateRange: DateRange) => setDateRange(newDateRange)}
+							/>
+						</FieldSet>
 				)}
 				<Legend items={legendItems} />
 				<AgeGroupSection
