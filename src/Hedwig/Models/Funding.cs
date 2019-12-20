@@ -24,9 +24,9 @@ namespace Hedwig.Models
 
     // C4K funding fields
     [RequiredForFundingSource(FundingSource.C4K)]
-    public DateTime? Entry { get; set; }
+    public DateTime? CertificateStartDate { get; set; }
     [RequiredForFundingSource(FundingSource.C4K)]
-    public DateTime? Exit { get; set; }
+    public DateTime? CertificateEndDate { get; set; }
 
 
     // CDC funding fields

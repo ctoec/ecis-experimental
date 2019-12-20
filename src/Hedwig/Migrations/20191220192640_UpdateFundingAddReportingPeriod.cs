@@ -7,6 +7,14 @@ namespace hedwig.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropColumn(
+                name: "Entry",
+                table: "Funding");
+
+            migrationBuilder.DropColumn(
+                name: "Exit",
+                table: "Funding");
+
             migrationBuilder.AlterColumn<int>(
                 name: "Time",
                 table: "Funding",
@@ -14,12 +22,15 @@ namespace hedwig.Migrations
                 oldClrType: typeof(int),
                 oldType: "int");
 
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "Entry",
+            migrationBuilder.AddColumn<DateTime>(
+                name: "CertificateEndDate",
                 table: "Funding",
-                nullable: true,
-                oldClrType: typeof(DateTime),
-                oldType: "datetime2");
+                nullable: true);
+
+            migrationBuilder.AddColumn<DateTime>(
+                name: "CertificateStartDate",
+                table: "Funding",
+                nullable: true);
 
             migrationBuilder.AddColumn<int>(
                 name: "FirstReportingPeriodId",
@@ -77,6 +88,14 @@ namespace hedwig.Migrations
                 table: "Funding");
 
             migrationBuilder.DropColumn(
+                name: "CertificateEndDate",
+                table: "Funding");
+
+            migrationBuilder.DropColumn(
+                name: "CertificateStartDate",
+                table: "Funding");
+
+            migrationBuilder.DropColumn(
                 name: "FirstReportingPeriodId",
                 table: "Funding");
 
@@ -92,13 +111,18 @@ namespace hedwig.Migrations
                 oldClrType: typeof(int),
                 oldNullable: true);
 
-            migrationBuilder.AlterColumn<DateTime>(
+            migrationBuilder.AddColumn<DateTime>(
                 name: "Entry",
                 table: "Funding",
                 type: "datetime2",
                 nullable: false,
-                oldClrType: typeof(DateTime),
-                oldNullable: true);
+                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
+
+            migrationBuilder.AddColumn<DateTime>(
+                name: "Exit",
+                table: "Funding",
+                type: "datetime2",
+                nullable: true);
         }
     }
 }

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace hedwig.Migrations
 {
     [DbContext(typeof(HedwigContext))]
-    [Migration("20191220182841_UpdateFundingAddReportingPeriod")]
+    [Migration("20191220192640_UpdateFundingAddReportingPeriod")]
     partial class UpdateFundingAddReportingPeriod
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -225,14 +225,14 @@ namespace hedwig.Migrations
                     b.Property<int?>("AuthorId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("CertificateEndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("CertificateStartDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("EnrollmentId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime?>("Entry")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("Exit")
-                        .HasColumnType("datetime2");
 
                     b.Property<int?>("FirstReportingPeriodId")
                         .HasColumnType("int");
