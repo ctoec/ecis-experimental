@@ -141,7 +141,7 @@ namespace Hedwig.Data
       // Additional organization for security testing
       var honeyPotOrganization = CreateOrganization(name: "Honey Pot");
       var honeyPotSite = CreateSite(organizationId: honeyPotOrganization.Id, name: "Honey Pot");
-      var honeyPotChild = CreateChild(firstName: "Pooh", lastName: "Bear");
+      var honeyPotChild = CreateChild(firstName: "Pooh", lastName: "Bear", organizationId: honeyPotOrganization.Id);
       var honeyPotEnrollment = CreateEnrollment(childId: honeyPotChild.Id, siteId: honeyPotSite.Id);
       var honeyPotUser = CreateUser(wingedKeysId: Guid.NewGuid(), firstName: "Julia", lastName: "Hogan");
       CreateOrganizationPermission(organizationId: honeyPotOrganization.Id, userId: honeyPotUser.Id);
