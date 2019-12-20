@@ -15,8 +15,6 @@ export default function ContainerContainer({
 	directionalLinkProps = { direction: 'left', to: '/roster', text: 'Back to roster' },
 }: ContainerContainerPropsType) {
 	const { alerts } = useContext(AlertContext);
-	// if there are alerts, get rid of them on component will unmount?
-	// const history = useHistory();
 
 	return (
 		<ErrorBoundary>

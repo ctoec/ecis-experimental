@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Switch, useLocation } from 'react-router-dom';
+import { Switch, useLocation, useHistory } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import { NavItemProps } from '../../components/Header/NavItem';
 import MakeRouteWithSubRoutes from './MakeRouteWithSubRoutes';
@@ -22,11 +22,8 @@ const App: React.FC = () => {
 	const { user } = useContext(UserContext);
 	const cacheContext = useCacheInvalidator();
 	const { cacheInvalidator } = cacheContext;
-	const usedLocation = useLocation<AlertProps[]>();
-	const { state: alerts } = usedLocation;
-	console.log(usedLocation)
+	const { state: alerts } = useLocation<AlertProps[]>();
 	const alertContext = useAlertContext(alerts);
-
 	const params: ApiOrganizationsOrgIdReportsGetRequest = {
 		orgId: getIdForUser(user, 'org'),
 	};
@@ -73,13 +70,13 @@ const App: React.FC = () => {
 				/>
 				<main id="main-content">
 					<ErrorBoundary>
-							<AlertProvider value={alertContext}>
-						<Switch>
+						<AlertProvider value={alertContext}>
+							<Switch>
 								{routes.map((route, index) => (
 									<MakeRouteWithSubRoutes key={index} {...route} />
 								))}
-						</Switch>
-							</AlertProvider>
+							</Switch>
+						</AlertProvider>
 					</ErrorBoundary>
 				</main>
 			</AppProvider>
