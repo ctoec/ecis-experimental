@@ -4,13 +4,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
+using Hedwig.Security;
 using Hedwig.Repositories;
 using Hedwig.Models;
 
 namespace Hedwig.Controllers
 {
-    [Route("api/organizations/{orgId:int}/[controller]")]
     [ApiController]
+    [Authorize(Policy = UserOrganizationAccessRequirement.NAME)]
+    [Route("api/organizations/{orgId:int}/[controller]")]
     public class SitesController : ControllerBase
     {
         private readonly ISiteRepository _sites;

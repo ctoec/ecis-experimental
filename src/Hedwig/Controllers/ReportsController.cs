@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 using System;
 using Hedwig.Models;
 using Hedwig.Repositories;
+using Hedwig.Security;
 
 namespace Hedwig.Controllers
 {
-  [Route("api/organizations/{orgId:int}/[controller]")]
   [ApiController]
+  [Authorize(Policy = UserOrganizationAccessRequirement.NAME)]
+  [Route("api/organizations/{orgId:int}/[controller]")]
   public class ReportsController : ControllerBase
   {
     private readonly IReportRepository _reports;

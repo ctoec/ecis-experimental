@@ -25,7 +25,7 @@ namespace HedwigTests.Security
 
                 // When requirement is evaluated with:
                 // - claim for that user
-                var claim = new Claim("sub", $"{user.Id}");
+                var claim = new Claim("sub", $"{user.WingedKeysId}");
                 var userClaim = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {claim}));
 
                 // - httpContext for request to 'Sites' controller for that site
@@ -58,7 +58,7 @@ namespace HedwigTests.Security
 
                 // When requirement is evaluated with:
                 // - claim for that user
-                var claim = new Claim("sub", $"{user.Id}");
+                var claim = new Claim("sub", $"{user.WingedKeysId}");
                 var userClaim = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {claim}));
 
                 // - httpContext for request to other controller nested under that site
@@ -90,7 +90,7 @@ namespace HedwigTests.Security
 
                 // When requirement is evaluated with:
                 // - claim for that user
-                var claim = new Claim("sub", $"{user.Id}");
+                var claim = new Claim("sub", $"{user.WingedKeysId}");
                 var userClaim = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {claim}));
 
                 // - httpContext for request to 'Sites' controller for any site
