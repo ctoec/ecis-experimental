@@ -30,6 +30,7 @@ storiesOf('Checklist', module)
 			<Checklist
 				options={options}
 				groupName="storybook-checklist"
+				legend="Checklist items"
 			/>
 		);
 	})
@@ -39,6 +40,7 @@ storiesOf('Checklist', module)
 				options={options}
 				groupName="storybook-checklist-2"
 				horizontal={true}
+				legend="Checklist items"
 			/>
 		);
 	})
@@ -47,6 +49,7 @@ storiesOf('Checklist', module)
 			<Checklist
 				options={optionsSelected}
 				groupName="storybook-checklist-default-selection"
+				legend="Checklist items"
 			/>
 		);
 	})
@@ -54,7 +57,18 @@ storiesOf('Checklist', module)
 		return (
 			<Checklist
 				options={boxDisabledAndSelected}
-				groupName="storybook-checklist-with-error"
+				groupName="storybook-checklist-disabled"
+				legend="Checklist items"
 			/>
 		);
-	});
+	})
+	.add('With warning', () => {
+		return (
+			<Checklist
+				options={options}
+				groupName="storybook-checklist-with-warning"
+				legend="Checklist items"
+				warning="WARNING: this section needs your attention!"
+			/>
+		)
+	})

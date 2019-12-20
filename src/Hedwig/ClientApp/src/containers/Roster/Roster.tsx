@@ -133,32 +133,31 @@ export default function Roster() {
 					</div>
 				</div>
 				{showPastEnrollments && (
-						<FieldSet
-							legend="Select date or date range"
-						>
-							<RadioGroup
-								options={[
-									{
-										text: 'By date',
-										value: 'date',
-									},
-									{
-										text: 'By range',
-										value: 'range',
-									},
-								]}
-								onChange={event => setByRange(event.target.value === 'range')}
-								horizontal={true}
-								groupName={'dateSelectionType'}
-								selected={byRange ? 'range' : 'date'}
-							/>
+					<>
+					<RadioGroup
+						legend="Select date or date range"
+						options={[
+							{
+								text: 'By date',
+								value: 'date',
+							},
+							{
+								text: 'By range',
+								value: 'range',
+							},
+						]}
+						onChange={event => setByRange(event.target.value === 'range')}
+						horizontal={true}
+						groupName={'dateSelectionType'}
+						selected={byRange ? 'range' : 'date'}
+					/>
 
-							<DateSelectionForm
-								inputDateRange={dateRange}
-								byRange={byRange}
-								onSubmit={(newDateRange: DateRange) => setDateRange(newDateRange)}
-							/>
-						</FieldSet>
+					<DateSelectionForm
+						inputDateRange={dateRange}
+						byRange={byRange}
+						onSubmit={(newDateRange: DateRange) => setDateRange(newDateRange)}
+					/>
+					</>
 				)}
 				<Legend items={legendItems} />
 				<AgeGroupSection

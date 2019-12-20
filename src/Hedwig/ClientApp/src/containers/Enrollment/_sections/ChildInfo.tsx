@@ -275,80 +275,74 @@ const ChildInfo: Section = {
 
         <h3>Race</h3>
         <p className="oec-form-helper">As identified by family</p>
-        <FieldSet
+        <Checklist
           warning={hasValidationErrors(enrollment ? enrollment.child : null, ['americanIndianOrAlaskaNative', 'asian', 'blackOrAfricanAmerican', 'NativeHawaiianOrPacificIslander','white'])
             ? 'This information is required for OEC reporting'
             : undefined
           } 
           legend="Race"
-        >
-          <Checklist
-            groupName="race"
-            options={[
-              {
-                text: 'American Indian or Alaska Native',
-                value: 'americanIndianOrAlaskaNative',
-                checked: americanIndianOrAlaskaNative || false,
-                onChange: event => updateAmericanIndianOrAlaskaNative(event.target.checked),
-              },
-              {
-                text: 'Asian',
-                value: 'asian',
-                checked: asian || false,
-                onChange: event => updateAsian(event.target.checked),
-              },
-              {
-                text: 'Black or African American',
-                value: 'blackOrAfricanAmerican',
-                checked: blackOrAfricanAmerican || false,
-                onChange: event => updateBlackOrAfricanAmerican(event.target.checked),
-              },
-              {
-                text: 'Native Hawaiian or Pacific Islander',
-                value: 'nativeHawaiianOrPacificIslander',
-                checked: nativeHawaiianOrPacificIslander || false,
-                onChange: event => updateNativeHawaiianOrPacificIslander(event.target.checked),
-              },
-              {
-                text: 'White',
-                value: 'white',
-                checked: white || false,
-                onChange: event => updateWhite(event.target.checked),
-              },
-            ]}
-          />
-        </FieldSet>
+          groupName="race"
+          options={[
+            {
+              text: 'American Indian or Alaska Native',
+              value: 'americanIndianOrAlaskaNative',
+              checked: americanIndianOrAlaskaNative || false,
+              onChange: event => updateAmericanIndianOrAlaskaNative(event.target.checked),
+            },
+            {
+              text: 'Asian',
+              value: 'asian',
+              checked: asian || false,
+              onChange: event => updateAsian(event.target.checked),
+            },
+            {
+              text: 'Black or African American',
+              value: 'blackOrAfricanAmerican',
+              checked: blackOrAfricanAmerican || false,
+              onChange: event => updateBlackOrAfricanAmerican(event.target.checked),
+            },
+            {
+              text: 'Native Hawaiian or Pacific Islander',
+              value: 'nativeHawaiianOrPacificIslander',
+              checked: nativeHawaiianOrPacificIslander || false,
+              onChange: event => updateNativeHawaiianOrPacificIslander(event.target.checked),
+            },
+            {
+              text: 'White',
+              value: 'white',
+              checked: white || false,
+              onChange: event => updateWhite(event.target.checked),
+            },
+          ]}
+        />
         
         <h3>Ethnicity</h3>
         <p className="oec-form-helper">As identified by family</p>
-        <FieldSet
-          legend="Ethnicity"
+        <RadioGroup
           warning={hasValidationErrors(enrollment ? enrollment.child : null, ['hispanicOrLatinxEthnicity'])
             ? 'This information is required for OEC reporting'
             : undefined
           } 
-        >
-          <RadioGroup
-            groupName="ethnicity"
-            options={[
-              {
-                text: 'Not Hispanic or Latinx',
-                value: 'no',
-              },
-              {
-                text: 'Hispanic or Latinx',
-                value: 'yes',
-              },
-            ]}
-            selected={hispanicOrLatinxEthnicity === null
-              ? ''
-              : hispanicOrLatinxEthnicity ? 'yes' : 'no'
-            }
-            onChange={event => updateHispanicOrLatinxEthnicity(
-              event.target.value === '' ? null : event.target.value === 'yes'
-            )}
-          />
-        </FieldSet>
+          legend="Ethnicity"
+          groupName="ethnicity"
+          options={[
+            {
+              text: 'Not Hispanic or Latinx',
+              value: 'no',
+            },
+            {
+              text: 'Hispanic or Latinx',
+              value: 'yes',
+            },
+          ]}
+          selected={hispanicOrLatinxEthnicity === null
+            ? ''
+            : hispanicOrLatinxEthnicity ? 'yes' : 'no'
+          }
+          onChange={event => updateHispanicOrLatinxEthnicity(
+            event.target.value === '' ? null : event.target.value === 'yes'
+          )}
+        />
 
         <h3>Gender</h3>
         <p className="oec-form-helper">As identified by family</p>

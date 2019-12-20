@@ -514,6 +514,13 @@ $future-step-color: color('base-dark') !default;
 	border-left-color: color($theme-color-warning-dark);
 }
 
+.usa-fieldset {
+	display: inline-block;
+	* {
+		display: inherit;
+	}
+}
+
 .oec-form-helper {
 	margin-top: 0;
 	font-size: size('ui', 4);

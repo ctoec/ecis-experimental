@@ -9,7 +9,7 @@ type FieldSetProps = {
 const FieldSet: React.FC<FieldSetProps> = (props) => {
   const { warning, children, legend } = props;
   return (
-    <div className={`grid-gap grid-row usa-fieldset ${warning ? `usa-fieldset--warning` : ''}`} >
+    <fieldset className={`grid-gap grid-row usa-fieldset ${warning ? `usa-fieldset--warning` : ''}`} >
       <legend className="usa-sr-only">{legend}</legend>
       {warning && (
         <span className="usa-warning-message" id="field-set-warning-message" role="alert">
@@ -17,7 +17,7 @@ const FieldSet: React.FC<FieldSetProps> = (props) => {
         </span>
       )}
       {children}
-    </div>
+    </fieldset>
   )
 }
 export default FieldSet;

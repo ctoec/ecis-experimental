@@ -121,29 +121,26 @@ const EnrollmentFunding: Section = {
 					/>
 
 					<h3>Age group</h3>
-          <FieldSet
+  				<RadioGroup
             legend="Age"
-          >
-  					<RadioGroup
-  						groupName="age"
-  						options={[
-  							{
-  								text: 'Infant/Toddler',
-                  value: Age.InfantToddler,
-  							},
-  							{
-  								text: 'Preschool',
-  								value: Age.Preschool,
-  							},
-  							{
-  								text: 'School-age',
-  								value: Age.SchoolAge,
-  							},
-  						]}
-  						selected={'' + age}
-  						onChange={event => updateAge(ageFromString(event.target.value))}
-  					/>
-          </FieldSet>
+  					groupName="age"
+  					options={[
+  						{
+  							text: 'Infant/Toddler',
+                 value: Age.InfantToddler,
+  						},
+  						{
+  							text: 'Preschool',
+  							value: Age.Preschool,
+  						},
+  						{
+  							text: 'School-age',
+  							value: Age.SchoolAge,
+  						},
+  					]}
+  					selected={'' + age}
+  					onChange={event => updateAge(ageFromString(event.target.value))}
+  				/>
 
           {!familyDeterminationNotDisclosed(enrollment) &&
             <>

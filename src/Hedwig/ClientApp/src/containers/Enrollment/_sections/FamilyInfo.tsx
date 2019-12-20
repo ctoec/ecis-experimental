@@ -187,6 +187,7 @@ const FamilyInfo: Section = {
 				<h3>Other</h3>
 				<div className="margin-top-3">
 					<Checklist
+						legend="Foster"
 						groupName="foster"
 						options={[
 							{
@@ -198,6 +199,7 @@ const FamilyInfo: Section = {
 						]}
 					/>
 					<Checklist
+						legend="Homelessness"
 						groupName="homelessness"
 						options={[
 							{

@@ -22,6 +22,7 @@ storiesOf('RadioGroup', module)
 				options={options}
 				groupName="storybook-radio-group"
 				onChange={onChange}
+				legend="Radiogroup items"
 			/>
 		);
 	})
@@ -32,6 +33,7 @@ storiesOf('RadioGroup', module)
 				groupName="storybook-radio-group-2"
 				onChange={onChange}
 				horizontal={true}
+				legend="Radiogroup items"
 			/>
 		);
 	})
@@ -42,6 +44,19 @@ storiesOf('RadioGroup', module)
 				groupName="storybook-radio-group-default-selection"
 				onChange={onChange}
 				selected="one"
+				legend="Radiogroup items"
 			/>
 		);
+	})
+	.add('With warning', () => {
+		return (
+			<RadioGroup
+				options={options}
+				groupName="storybook-radio-group-with-warning"
+				onChange={onChange}
+				selected="one"
+				legend="Radiogroup items"
+				warning="WARNING: This section needs your attention!"
+			/>
+		)
 	});
