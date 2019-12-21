@@ -25,7 +25,6 @@ namespace Hedwig.Models
     // C4K funding fields
     [RequiredForFundingSource(FundingSource.C4K)]
     public DateTime? CertificateStartDate { get; set; }
-    [RequiredForFundingSource(FundingSource.C4K)]
     public DateTime? CertificateEndDate { get; set; }
 
 
@@ -33,7 +32,6 @@ namespace Hedwig.Models
     [RequiredForFundingSource(FundingSource.CDC)]
     public int? FirstReportingPeriodId {get; set; }
     public ReportingPeriod FirstReportingPeriod { get; set; }
-    [RequiredForFundingSource(FundingSource.CDC)]
     public int? LastReportingPeriodId { get; set; }
     public ReportingPeriod LastReportingPeriod { get; set; }
     [RequiredForFundingSource(FundingSource.CDC)]

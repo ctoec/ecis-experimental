@@ -135,9 +135,11 @@ namespace Hedwig.Data
 
         if (cdc)
         {
+          Console.WriteLine($"mod {enrollment.Id % 4}");
           CreateFunding(
             enrollmentId: enrollment.Id,
             source: FundingSource.CDC,
+            firstReportingPeriodId: reportingPeriods[(enrollment.Id % 3) + 1].Id,
             entry: entry,
             exit: exit != null ? "2019-09-01" : null,
             time: FundingTime.Full
@@ -328,6 +330,8 @@ namespace Hedwig.Data
     private Funding CreateFunding(
       int enrollmentId,
       FundingSource source,
+      int firstReportingPeriodId,
+      int? lastReportingPeriodId = null,
       string entry = "2019-08-05",
       string exit = null,
       FundingTime time = FundingTime.Full
@@ -337,6 +341,8 @@ namespace Hedwig.Data
       {
         EnrollmentId = enrollmentId,
         Source = source,
+        FirstReportingPeriodId = firstReportingPeriodId,
+        LastReportingPeriodId = lastReportingPeriodId,
         CertificateStartDate = DateTime.Parse(entry),
         Time = time
       };
