@@ -29,7 +29,11 @@ import {
   childArgsAreValid,
   getSummaryLine
 } from '../../../utils/models';
-import { sectionHasValidationErrors, processValidationError, hasValidationErrors } from '../../../utils/validations';
+import {
+  sectionHasValidationErrors,
+  hasValidationErrors,
+  warningForFieldSet,
+  warningForField } from '../../../utils/validations';
 import FieldSet from '../../../components/FieldSet/FieldSet';
 
 
@@ -199,9 +203,10 @@ const ChildInfo: Section = {
               label="First"
               defaultValue={firstName || ''}
               onChange={event => updateFirstName(event.target.value)}
-              errorMessage="This information is required for enrollment"
-              errorType={(attemptedSave && !firstName) ? 'error' : undefined}
-              
+              error={(attemptedSave && !firstName) 
+                ? {type: 'error', message: 'This information is required for enrollment' }
+                : undefined
+              }
             />
           </div>
           <div className="mobile-lg:grid-col-9">
@@ -219,8 +224,10 @@ const ChildInfo: Section = {
               label="Last"
               defaultValue={lastName || ''}
               onChange={event => updateLastName(event.target.value)}
-              errorMessage="This information is required for enrollment"
-              errorType={(attemptedSave && !lastName) ? 'error' : undefined}  
+              error={(attemptedSave && !lastName)
+                ? { type: 'error', message: 'This information is required for enrollment'}
+                : undefined
+              }
             />
           </div>
           <div className="mobile-lg:grid-col-3">
@@ -244,11 +251,13 @@ const ChildInfo: Section = {
 
         <h3>Birth certificate</h3>
         <FieldSet
-          warning={hasValidationErrors(enrollment ? enrollment.child : null, ['birthCertificateId', 'birthTown', 'birthState'])
-            ? 'This information is required for OEC reporting'
-            : undefined
-          }
+          error={warningForFieldSet(
+            ['birthCertificateId', 'birthState', 'birthTown'],
+            enrollment ? enrollment.child : null,
+            'This information is required for OEC reporting'
+          )}
           legend="Birth certificate"
+          inlineBlock={true}
         >
           <div className="mobile-lg:grid-col-12">
             <TextInput
@@ -256,7 +265,11 @@ const ChildInfo: Section = {
               label="Birth certificate ID #"
               defaultValue={birthCertificateId || ''}
               onChange={event => updateBirthCertificateId(event.target.value)}
-              errorType={processValidationError('birthCertificateId', enrollment ? enrollment.child.validationErrors : null) ? 'warning' : undefined}
+              error={warningForField(
+                'birthCertificateId',
+                enrollment ? enrollment.child : null,
+                ''
+              )}
             />
           </div>
           <div className="mobile-lg:grid-col-4 inline-block">
@@ -265,7 +278,11 @@ const ChildInfo: Section = {
               label="State"
               defaultValue={birthState || ''}
               onChange={event => updateBirthState(event.target.value)}
-              errorType={processValidationError('birthState', enrollment ? enrollment.child.validationErrors : null) ? 'warning' : undefined}
+              error={warningForField(
+                'birthState',
+                enrollment ? enrollment.child : null,
+                ''
+              )}
             />
           </div>
           <div className="mobile-lg:grid-col-8 inline-block">
@@ -274,7 +291,11 @@ const ChildInfo: Section = {
               label="Town"
               defaultValue={birthTown || ''}
               onChange={event => updateBirthTown(event.target.value)}
-              errorType={processValidationError('birthTown', enrollment ? enrollment.child.validationErrors : null) ? 'warning' : undefined}
+              error={warningForField(
+                'birthTown',
+                enrollment ? enrollment.child : null,
+                ''
+              )}
             />
           </div>
         </FieldSet>
@@ -282,10 +303,11 @@ const ChildInfo: Section = {
         <h3>Race</h3>
         <p className="oec-form-helper">As identified by family</p>
         <Checklist
-          warning={hasValidationErrors(enrollment ? enrollment.child : null, ['americanIndianOrAlaskaNative', 'asian', 'blackOrAfricanAmerican', 'NativeHawaiianOrPacificIslander','white'])
-            ? 'This information is required for OEC reporting'
-            : undefined
-          } 
+          error={warningForFieldSet(
+            ['americanIndianOrAlaskaNative', 'asian', 'blackOrAfricanAmerican', 'NativeHawaiianOrPacificIslander','white'],
+            enrollment ? enrollment.child : null,
+            'This information is required for OEC reporting'
+          )}
           legend="Race"
           groupName="race"
           options={[
@@ -325,10 +347,11 @@ const ChildInfo: Section = {
         <h3>Ethnicity</h3>
         <p className="oec-form-helper">As identified by family</p>
         <RadioGroup
-          warning={hasValidationErrors(enrollment ? enrollment.child : null, ['hispanicOrLatinxEthnicity'])
-            ? 'This information is required for OEC reporting'
-            : undefined
-          } 
+          error={warningForFieldSet(
+            ['hispanicOrLatinxEthnicity'],
+            enrollment ? enrollment.child : null,
+            'This information is required for OEC reporting'
+          )}
           legend="Ethnicity"
           groupName="ethnicity"
           options={[

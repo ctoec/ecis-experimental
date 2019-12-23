@@ -1,6 +1,6 @@
 import React from 'react';
 import Checkbox from './Checkbox';
-import FieldSet from '../FieldSet/FieldSet';
+import FieldSet, { FormError } from '../FieldSet/FieldSet';
 
 type CheckboxOptions = {
 	text: string;
@@ -15,7 +15,7 @@ type ChecklistProps = {
 	groupName: string;
 	horizontal?: boolean;
 	legend: string;
-	warning?: string;
+	error?: FormError;
 };
 
 export default function Checklist({
@@ -23,12 +23,12 @@ export default function Checklist({
 	groupName,
 	horizontal,
 	legend,
-	warning
+	error
 }: ChecklistProps) {
 	return (
 		<FieldSet
 			legend={legend}
-			warning={warning}
+			error={error}
 		>
 			<div className={horizontal ? 'grid-row flex-align-start grid-gap' : ''}>
 				{options.map(option => (

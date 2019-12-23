@@ -13,7 +13,3 @@ export function determinationArgsAreValid(args: any) {
 
   return false;
 }
-
-export function proceedWithoutCreatingDetermination(args: any) {
-  return !args.notDisclosed && !args.numberOfPeople && !args.income && !args.determinationDate;
-}

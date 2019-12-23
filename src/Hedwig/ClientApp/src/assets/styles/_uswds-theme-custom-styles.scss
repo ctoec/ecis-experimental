@@ -515,15 +515,21 @@ $future-step-color: color('base-dark') !default;
 	border-left-width: 0.25rem;
 	border-left-style: solid;
 	border-left-color: color($theme-color-error-dark);
+
+	.usa-form-group--error {
+		margin-left: auto;
+		border-left: none;
+	}
 }
 
 .usa-fieldset--warning {
 	@extend .usa-fieldset--error;
 	border-left-color: color($theme-color-warning-dark);
-}
 
-.usa-fieldset {
-	display: inline-block;
+	.usa-form-group--warning {
+		margin-left: auto;
+		border-left: none;
+	}
 }
 
 .oec-form-helper {
