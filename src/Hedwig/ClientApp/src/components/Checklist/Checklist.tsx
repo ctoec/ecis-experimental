@@ -1,5 +1,6 @@
 import React from 'react';
 import Checkbox from './Checkbox';
+import FieldSet from '../FieldSet/FieldSet';
 
 type CheckboxOptions = {
 	text: string;
@@ -12,9 +13,9 @@ type CheckboxOptions = {
 type ChecklistProps = {
 	options: CheckboxOptions[];
 	groupName: string;
-	legend: string;
 	horizontal?: boolean;
-	error?: string;
+	legend: string;
+	warning?: string;
 };
 
 export default function Checklist({
@@ -22,16 +23,13 @@ export default function Checklist({
 	groupName,
 	horizontal,
 	legend,
-	error,
+	warning
 }: ChecklistProps) {
 	return (
-		<fieldset className={`usa-fieldset${error ? ' usa-form-group--error' : ''}`}>
-			<legend className="usa-sr-only">{legend}</legend>
-			{error && (
-				<span className="usa-error-message" id="checklist-error-message" role="alert">
-					{error}
-				</span>
-			)}
+		<FieldSet
+			legend={legend}
+			warning={warning}
+		>
 			<div className={horizontal ? 'grid-row flex-align-start grid-gap' : ''}>
 				{options.map(option => (
 					<Checkbox
@@ -46,6 +44,6 @@ export default function Checklist({
 					/>
 				))}
 			</div>
-		</fieldset>
+		</FieldSet>
 	);
 }

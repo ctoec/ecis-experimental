@@ -1,4 +1,5 @@
 import React from 'react';
+import InlineIcon from '../InlineIcon/InlineIcon';
 
 type TextInputProps = {
   label: string | JSX.Element;
@@ -8,7 +9,8 @@ type TextInputProps = {
   defaultValue?: string;
   disabled?: boolean;
   success?: boolean;
-  error?: string;
+  errorMessage?: string;
+  errorType?: 'error' | 'warning';
   small?: boolean;
   optional?: boolean;
 };
@@ -21,22 +23,23 @@ export default function TextInput({
   defaultValue,
   disabled,
   success,
-  error,
+  errorMessage,
+  errorType,
   small,
   optional,
 }: TextInputProps) {
   return (
-    <div className={`usa-form-group${error ? ' usa-form-group--error' : ''}`}>
-      <label className={`usa-label${error ? ' usa-label--error' : ''}`} htmlFor={id}>
+    <div className={`usa-form-group${errorType === 'error' ? ` usa-form-group--error` : ''}`}>
+      <label className={`usa-label${errorType ? ` usa-label--${errorType}` : ''}`} htmlFor={id}>
         {label} {optional && '(Optional)'}
       </label>
-      {error && (
-        <span className="usa-error-message" id="input-error-message" role="alert">
-          {error}
+      {errorMessage && (
+        <span className={`usa-error-message`} id="input-error-message" role="alert">
+          {errorMessage} 
         </span>
       )}
       <input
-        className={`usa-input${error ? ' usa-input--error' : ''}${
+        className={`usa-input${errorType ? ` usa-input--${errorType}` : ''}${
           small ? ' usa-input--small' : ''
           }${success ? ' usa-input--success' : ''}`}
         id={id}
@@ -46,7 +49,7 @@ export default function TextInput({
         onChange={onChange}
         onBlur={onBlur}
         defaultValue={defaultValue}
-        aria-describedby={error ? 'input-error-message' : undefined}
+        aria-describedby={errorMessage ? 'input-error-message' : undefined}
       />
     </div>
   );

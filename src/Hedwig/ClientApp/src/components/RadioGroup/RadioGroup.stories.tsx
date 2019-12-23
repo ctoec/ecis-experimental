@@ -22,7 +22,7 @@ storiesOf('RadioGroup', module)
 				options={options}
 				groupName="storybook-radio-group"
 				onChange={onChange}
-				legend="Storybook radio buttons"
+				legend="Radiogroup items"
 			/>
 		);
 	})
@@ -32,8 +32,8 @@ storiesOf('RadioGroup', module)
 				options={options}
 				groupName="storybook-radio-group-2"
 				onChange={onChange}
-				legend="Storybook radio buttons"
 				horizontal={true}
+				legend="Radiogroup items"
 			/>
 		);
 	})
@@ -43,19 +43,20 @@ storiesOf('RadioGroup', module)
 				options={options}
 				groupName="storybook-radio-group-default-selection"
 				onChange={onChange}
-				legend="Storybook radio buttons"
 				selected="one"
+				legend="Radiogroup items"
 			/>
 		);
 	})
-	.add('With error', () => {
+	.add('With warning', () => {
 		return (
 			<RadioGroup
 				options={options}
-				groupName="storybook-radio-group-with-error"
+				groupName="storybook-radio-group-with-warning"
 				onChange={onChange}
-				legend="Storybook radio buttons"
-				error="You  must select one or two."
+				selected="one"
+				legend="Radiogroup items"
+				warning="WARNING: This section needs your attention!"
 			/>
-		);
+		)
 	});

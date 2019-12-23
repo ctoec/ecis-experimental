@@ -1,5 +1,7 @@
 import React from 'react';
 import RadioButton from './RadioButton';
+import FieldSet from '../FieldSet/FieldSet';
+import Legend from '../Legend/Legend';
 
 type RadioButtonOptions = {
 	text: string;
@@ -10,10 +12,10 @@ type RadioGroupProps = {
 	options: RadioButtonOptions[];
 	groupName: string;
 	onChange: (event: React.ChangeEvent<HTMLInputElement>) => any;
-	legend: string;
 	selected?: string;
 	horizontal?: boolean;
-	error?: string;
+	legend: string;
+	warning?: string;
 };
 
 export default function RadioGroup({
@@ -23,16 +25,13 @@ export default function RadioGroup({
 	selected,
 	horizontal,
 	legend,
-	error,
+	warning
 }: RadioGroupProps) {
 	return (
-		<fieldset className={`usa-fieldset${error ? ' usa-form-group--error' : ''}`}>
-			<legend className="usa-sr-only">{legend}</legend>
-			{error && (
-				<span className="usa-error-message" id="radio-group-error-message" role="alert">
-					{error}
-				</span>
-			)}
+		<FieldSet
+			legend={legend}
+			warning={warning}
+		>
 			<div className={horizontal ? 'grid-row flex-align-start grid-gap' : ''}>
 				{options.map(option => (
 					<RadioButton
@@ -46,6 +45,7 @@ export default function RadioGroup({
 					/>
 				))}
 			</div>
-		</fieldset>
+		</FieldSet>
+
 	);
 }

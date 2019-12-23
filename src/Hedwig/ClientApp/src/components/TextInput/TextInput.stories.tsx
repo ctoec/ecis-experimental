@@ -22,5 +22,5 @@ storiesOf('TextInput', module)
 		return <TextInput id="cat" label="Default text input" onChange={onChange} success />;
 	})
 	.add('Error', () => {
-		return <TextInput id="cat" label="Default text input" onChange={onChange} error="Fix this error" />;
+		return <TextInput id="cat" label="Default text input" onChange={onChange} errorMessage="Fix this error" />;
 	});

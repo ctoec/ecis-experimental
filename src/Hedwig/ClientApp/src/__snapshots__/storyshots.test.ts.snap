@@ -245,12 +245,12 @@ exports[`Storyshots Checklist Box disabled 1`] = `
   }
 >
   <fieldset
-    className="usa-fieldset"
+    className="grid-gap grid-row usa-fieldset "
   >
     <legend
       className="usa-sr-only"
     >
-      Storybook check buttons
+      Checklist items
     </legend>
     <div
       className=""
@@ -263,7 +263,7 @@ exports[`Storyshots Checklist Box disabled 1`] = `
           defaultChecked={true}
           disabled={true}
           id="one"
-          name="storybook-checklist-with-error"
+          name="storybook-checklist-disabled"
           onChange={[Function]}
           type="checkbox"
           value="one"
@@ -283,7 +283,7 @@ exports[`Storyshots Checklist Box disabled 1`] = `
           defaultChecked={true}
           disabled={true}
           id="two"
-          name="storybook-checklist-with-error"
+          name="storybook-checklist-disabled"
           onChange={[Function]}
           type="checkbox"
           value="two"
@@ -309,12 +309,12 @@ exports[`Storyshots Checklist Default 1`] = `
   }
 >
   <fieldset
-    className="usa-fieldset"
+    className="grid-gap grid-row usa-fieldset "
   >
     <legend
       className="usa-sr-only"
     >
-      Storybook check buttons
+      Checklist items
     </legend>
     <div
       className=""
@@ -371,12 +371,12 @@ exports[`Storyshots Checklist Default selection 1`] = `
   }
 >
   <fieldset
-    className="usa-fieldset"
+    className="grid-gap grid-row usa-fieldset "
   >
     <legend
       className="usa-sr-only"
     >
-      Storybook check buttons
+      Checklist items
     </legend>
     <div
       className=""
@@ -433,12 +433,12 @@ exports[`Storyshots Checklist Horizontal 1`] = `
   }
 >
   <fieldset
-    className="usa-fieldset"
+    className="grid-gap grid-row usa-fieldset "
   >
     <legend
       className="usa-sr-only"
     >
-      Storybook check buttons
+      Checklist items
     </legend>
     <div
       className="grid-row flex-align-start grid-gap"
@@ -486,7 +486,7 @@ exports[`Storyshots Checklist Horizontal 1`] = `
 </div>
 `;
 
-exports[`Storyshots Checklist With error 1`] = `
+exports[`Storyshots Checklist With warning 1`] = `
 <div
   style={
     Object {
@@ -495,19 +495,34 @@ exports[`Storyshots Checklist With error 1`] = `
   }
 >
   <fieldset
-    className="usa-fieldset usa-form-group--error"
+    className="grid-gap grid-row usa-fieldset usa-fieldset--warning"
   >
     <legend
       className="usa-sr-only"
     >
-      Storybook check buttons
+      Checklist items
     </legend>
     <span
-      className="usa-error-message"
-      id="checklist-error-message"
+      className="usa-warning-message"
+      id="field-set-warning-message"
       role="alert"
     >
-      You  must select one or two.
+      <span
+        className="oec-inline-icon oec-inline-icon--incomplete"
+      >
+        <svg>
+          error.svg
+        </svg>
+        <span
+          className="usa-sr-only"
+        >
+          (
+          incomplete
+          )
+        </span>
+      </span>
+       
+      WARNING: this section needs your attention!
     </span>
     <div
       className=""
@@ -519,7 +534,7 @@ exports[`Storyshots Checklist With error 1`] = `
           className="usa-checkbox__input"
           defaultChecked={false}
           id="one"
-          name="storybook-checklist-with-error"
+          name="storybook-checklist-with-warning"
           onChange={[Function]}
           type="checkbox"
           value="one"
@@ -538,7 +553,7 @@ exports[`Storyshots Checklist With error 1`] = `
           className="usa-checkbox__input"
           defaultChecked={false}
           id="two"
-          name="storybook-checklist-with-error"
+          name="storybook-checklist-with-warning"
           onChange={[Function]}
           type="checkbox"
           value="two"
@@ -973,6 +988,55 @@ exports[`Storyshots Dropdown Success 1`] = `
       </option>
     </select>
   </div>
+</div>
+`;
+
+exports[`Storyshots FieldSet Default 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    className="grid-gap grid-row usa-fieldset "
+  >
+    <legend
+      className="usa-sr-only"
+    >
+      field set
+    </legend>
+    <p>
+      I'm inside a field set!
+    </p>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots FieldSet With Warning 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    className="grid-gap grid-row usa-fieldset "
+  >
+    <legend
+      className="usa-sr-only"
+    >
+      warning field set
+    </legend>
+    <p>
+       Oh no! 
+    </p>
+    <p>
+       We have warnings! 
+    </p>
+  </fieldset>
 </div>
 `;
 
@@ -1498,12 +1562,12 @@ exports[`Storyshots RadioGroup Default 1`] = `
   }
 >
   <fieldset
-    className="usa-fieldset"
+    className="grid-gap grid-row usa-fieldset "
   >
     <legend
       className="usa-sr-only"
     >
-      Storybook radio buttons
+      Radiogroup items
     </legend>
     <div
       className=""
@@ -1560,12 +1624,12 @@ exports[`Storyshots RadioGroup Default selection 1`] = `
   }
 >
   <fieldset
-    className="usa-fieldset"
+    className="grid-gap grid-row usa-fieldset "
   >
     <legend
       className="usa-sr-only"
     >
-      Storybook radio buttons
+      Radiogroup items
     </legend>
     <div
       className=""
@@ -1622,12 +1686,12 @@ exports[`Storyshots RadioGroup Horizontal 1`] = `
   }
 >
   <fieldset
-    className="usa-fieldset"
+    className="grid-gap grid-row usa-fieldset "
   >
     <legend
       className="usa-sr-only"
     >
-      Storybook radio buttons
+      Radiogroup items
     </legend>
     <div
       className="grid-row flex-align-start grid-gap"
@@ -1675,7 +1739,7 @@ exports[`Storyshots RadioGroup Horizontal 1`] = `
 </div>
 `;
 
-exports[`Storyshots RadioGroup With error 1`] = `
+exports[`Storyshots RadioGroup With warning 1`] = `
 <div
   style={
     Object {
@@ -1684,19 +1748,34 @@ exports[`Storyshots RadioGroup With error 1`] = `
   }
 >
   <fieldset
-    className="usa-fieldset usa-form-group--error"
+    className="grid-gap grid-row usa-fieldset usa-fieldset--warning"
   >
     <legend
       className="usa-sr-only"
     >
-      Storybook radio buttons
+      Radiogroup items
     </legend>
     <span
-      className="usa-error-message"
-      id="radio-group-error-message"
+      className="usa-warning-message"
+      id="field-set-warning-message"
       role="alert"
     >
-      You  must select one or two.
+      <span
+        className="oec-inline-icon oec-inline-icon--incomplete"
+      >
+        <svg>
+          error.svg
+        </svg>
+        <span
+          className="usa-sr-only"
+        >
+          (
+          incomplete
+          )
+        </span>
+      </span>
+       
+      WARNING: This section needs your attention!
     </span>
     <div
       className=""
@@ -1705,10 +1784,10 @@ exports[`Storyshots RadioGroup With error 1`] = `
         className="usa-radio "
       >
         <input
-          checked={false}
+          checked={true}
           className="usa-radio__input"
           id="one"
-          name="storybook-radio-group-with-error"
+          name="storybook-radio-group-with-warning"
           onChange={[Function]}
           type="radio"
           value="one"
@@ -1727,7 +1806,7 @@ exports[`Storyshots RadioGroup With error 1`] = `
           checked={false}
           className="usa-radio__input"
           id="two"
-          name="storybook-radio-group-with-error"
+          name="storybook-radio-group-with-warning"
           onChange={[Function]}
           type="radio"
           value="two"
@@ -2142,10 +2221,10 @@ exports[`Storyshots TextInput Error 1`] = `
   }
 >
   <div
-    className="usa-form-group usa-form-group--error"
+    className="usa-form-group"
   >
     <label
-      className="usa-label usa-label--error"
+      className="usa-label"
       htmlFor="cat"
     >
       Default text input
@@ -2160,7 +2239,7 @@ exports[`Storyshots TextInput Error 1`] = `
     </span>
     <input
       aria-describedby="input-error-message"
-      className="usa-input usa-input--error"
+      className="usa-input"
       id="cat"
       name="cat"
       onChange={[Function]}

@@ -1,4 +1,5 @@
 import { Child } from '../../generated';
+import InlineIcon from '../../components/InlineIcon/InlineIcon';
 
 const RACES: (keyof Child)[] = [
   'americanIndianOrAlaskaNative',
@@ -47,8 +48,14 @@ export function prettyEthnicity(child: Child) {
 }
 
 export function birthCertPresent(child: Child) {
-  return child.birthCertificateId && child.birthState && child.birthTown ? 'Yes' : 'No';
+  return child.birthCertificateId && child.birthState && child.birthTown ? 'Yes' : null;
 };
+
+export function getSummaryLine(val: any) {
+  if(val) return val;
+
+  return InlineIcon({ icon: 'incomplete' });
+}
 
 // TODO: validate birthdate
 export function childArgsAreValid(args: any) {
