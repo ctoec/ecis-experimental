@@ -35,7 +35,7 @@ namespace Hedwig.Security
             var siteIdStr = (string)routeData.Values[siteIdParam];
             
             if(userIdStr != null && siteIdStr != null) {
-                var userId = Int32.Parse(userIdStr);
+                var userId = Guid.Parse(userIdStr);
                 var siteId = Int32.Parse(siteIdStr);
                 return permissions.UserCanAccessSite(userId, siteId);
             }

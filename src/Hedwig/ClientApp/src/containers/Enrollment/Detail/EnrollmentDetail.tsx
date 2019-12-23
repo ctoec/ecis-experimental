@@ -13,8 +13,9 @@ import UserContext from '../../../contexts/User/UserContext';
 import useApi from '../../../hooks/useApi';
 import getIdForUser from '../../../utils/getIdForUser';
 import InlineIcon from '../../../components/InlineIcon/InlineIcon';
-import { sectionHasValidationErrors } from '../../../utils/validations';
 import ContainerContainer from '../../ContainerContainer';
+import { hasValidationErrors, sectionHasValidationErrors  }from '../../../utils/validations';
+import { SectionProps } from '../enrollmentTypes';
 
 type EnrollmentDetailParams = {
 	match: {
@@ -64,24 +65,29 @@ export default function EnrollmentDetail({
 		<ContainerContainer>
 			<section className="grid-container">
 				<h1>{nameFormatter(child)}</h1>
-				{sections.map(section => (
-					<section key={section.key} className="hedwig-enrollment-details-section">
-						<div className="hedwig-enrollment-details-section__content">
-							<h2>{section.name}</h2>
-							<section.Summary enrollment={enrollment} mutate={mutate} />
-						</div>
-						<div className="hedwig-enrollment-details-section__actions">
-							<Link to={`edit/${section.key}`}>
+				{sections.map(section => {
+					var props: SectionProps = { enrollment, mutate };
+					
+					return (
+						<section key={section.key} className="hedwig-enrollment-details-section">
+							<div className="hedwig-enrollment-details-section__content">
+								<h2>{section.name}</h2>
+								<section.Summary {...props} />
+							</div>
+							<div className="hedwig-enrollment-details-section__actions">
+								<Link to={`edit/${section.key}`}>
 								Edit<span className="usa-sr-only"> {section.name.toLowerCase()}</span>
-							</Link>
-							{sectionHasValidationErrors(section.ValidationObjects(enrollment)) && (
-								<span>
-									<InlineIcon icon="incomplete" /> Missing information
-								</span>
-							)}
-						</div>
-					</section>
-				))}
+								</Link>
+								{section.status(props) == 'incomplete' && (
+									<span>
+										<InlineIcon icon="incomplete" /> Missing information
+									</span>
+								)} 
+							</div>
+						</section>
+					);
+				}
+			)}
 			</section>
 		</ContainerContainer>
 	);

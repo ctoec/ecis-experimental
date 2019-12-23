@@ -492,6 +492,35 @@ $future-step-color: color('base-dark') !default;
 	}
 }
 
+.usa-form-group--warning {
+	@extend .usa-form-group--error;
+	border-left-color: color($theme-color-warning-dark);
+}
+
+.usa-warning-message {
+	@extend .usa-error-message;
+	color: color($theme-color-base);
+
+}
+
+.usa-input--warning {
+	@extend .usa-input--error;
+	border-color: color($theme-color-warning-dark);
+}
+
+.usa-fieldset--warning {
+	border-left-width: 0.25rem;
+	border-left-style: solid;
+	border-left-color: color($theme-color-warning-dark);
+}
+
+.usa-fieldset {
+	display: inline-block;
+	* {
+		display: inherit;
+	}
+}
+
 .oec-form-helper {
 	margin-top: 0;
 	font-size: size('ui', 4);
@@ -506,6 +535,7 @@ $future-step-color: color('base-dark') !default;
 		@include u-margin-y(2);
 	}
 }
+
 
 // *** Width fit content ***
 .width-fit-content {

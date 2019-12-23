@@ -10,7 +10,7 @@ using Hedwig.Data;
 
 namespace Hedwig.Repositories
 {
-	public class EnrollmentRepository : TemporalRepository, IEnrollmentRepository
+	public class EnrollmentRepository : HedwigRepository, IEnrollmentRepository
 	{
 		public EnrollmentRepository(HedwigContext context) : base(context) { }
 
@@ -23,10 +23,6 @@ namespace Hedwig.Repositories
 			_context.Add(enrollment);
 		}
 
-		public Task SaveChangesAsync()
-		{
-			return _context.SaveChangesAsync();
-		}
 		public Task<List<Enrollment>> GetEnrollmentsForSiteAsync(
       int siteId,
       DateTime? from = null,
@@ -96,77 +92,14 @@ namespace Hedwig.Repositories
       }
       return enrollment.FirstOrDefaultAsync();
     }
-    public async Task<ILookup<int, Enrollment>> GetEnrollmentsBySiteIdsAsync(
-      IEnumerable<int> siteIds,
-      DateTime? asOf = null,
-      DateTime? from = null,
-      DateTime? to = null)
-    {
-      var enrollments = await GetBaseQuery<Enrollment>(asOf)
-        .FilterByDates(from, to)
-        .Where(e => siteIds.Contains(e.SiteId))
-        .ToListAsync();
-      return enrollments.ToLookup(x => x.SiteId);
-    }
-
-    public async Task<ILookup<Guid, Enrollment>> GetEnrollmentsByChildIdsAsync(
-      IEnumerable<Guid> childIds,
-      DateTime? asOf = null)
-    {
-      var enrollments = await GetBaseQuery<Enrollment>(asOf)
-        .Where(e => childIds.Contains(e.ChildId))
-        .ToListAsync();
-      return enrollments.ToLookup(x => x.ChildId);
-    }
-
-    public async Task<Enrollment> GetEnrollmentByIdAsync(int id, DateTime? asOf = null)
-    {
-      return await GetBaseQuery<Enrollment>(asOf)
-        .SingleOrDefaultAsync(e => e.Id == id);
-    }
-
-    public async Task<IDictionary<int, Enrollment>> GetEnrollmentsByIdsAsync(IEnumerable<int> ids, DateTime? asOf = null)
-    {
-      var dict = await GetBaseQuery<Enrollment>(asOf)
-        .Where(e => ids.Contains(e.Id))
-        .ToDictionaryAsync(x => x.Id);
-      return dict as IDictionary<int, Enrollment>;
-    }
-
-    public Enrollment CreateEnrollment(Guid childId, int siteId)
-    {
-      var enrollment = new Enrollment
-      {
-        ChildId = childId,
-        SiteId = siteId
-      };
-
-      _context.Add<Enrollment>(enrollment);
-      return enrollment;
-    }
   }
 
-  public interface IEnrollmentRepository
+  public interface IEnrollmentRepository : IHedwigRepository 
   {
     void UpdateEnrollment(Enrollment enrollment);
     void AddEnrollment(Enrollment enrollment);
-    Task SaveChangesAsync();
     Task<List<Enrollment>> GetEnrollmentsForSiteAsync(int siteId, DateTime? from = null, DateTime? to = null, string[] include = null);
     Task<Enrollment> GetEnrollmentForSiteAsync(int id, int siteId, string[] include = null);
-    Task<ILookup<int, Enrollment>> GetEnrollmentsBySiteIdsAsync(
-      IEnumerable<int> siteIds,
-      DateTime? asOf = null,
-      DateTime? from = null,
-      DateTime? to = null
-    );
-    Task<ILookup<Guid, Enrollment>> GetEnrollmentsByChildIdsAsync(
-      IEnumerable<Guid> childIds,
-      DateTime? asOf = null
-    );
-
-    Task<Enrollment> GetEnrollmentByIdAsync(int id, DateTime? asOf = null);
-    Task<IDictionary<int, Enrollment>> GetEnrollmentsByIdsAsync(IEnumerable<int> ids, DateTime? asOf = null);
-    Enrollment CreateEnrollment(Guid childId, int siteId);
   }
 
   public static class EnrollmentQueryExtensions

@@ -126,15 +126,25 @@ namespace Hedwig.Data
 
         if (cdc)
         {
+          Console.WriteLine($"mod {enrollment.Id % 4}");
           CreateFunding(
             enrollmentId: enrollment.Id,
             source: FundingSource.CDC,
+            firstReportingPeriodId: reportingPeriods[(enrollment.Id % 3) + 1].Id,
             entry: entry,
             exit: exit != null ? "2019-09-01" : null,
             time: FundingTime.Full
           );
         }
       });
+
+      // Additional organization for security testing
+      var honeyPotOrganization = CreateOrganization(name: "Honey Pot");
+      var honeyPotSite = CreateSite(organizationId: honeyPotOrganization.Id, name: "Honey Pot");
+      var honeyPotChild = CreateChild(firstName: "Pooh", lastName: "Bear", organizationId: honeyPotOrganization.Id);
+      var honeyPotEnrollment = CreateEnrollment(childId: honeyPotChild.Id, siteId: honeyPotSite.Id);
+      var honeyPotUser = CreateUser(wingedKeysId: Guid.NewGuid(), firstName: "Julia", lastName: "Hogan");
+      CreateOrganizationPermission(organizationId: honeyPotOrganization.Id, userId: honeyPotUser.Id);
     }
 
     private void DeleteAllData()
@@ -214,9 +224,21 @@ namespace Hedwig.Data
       return permission;
     }
 
-    private Family CreateFamily(int organizationId)
+    private Family CreateFamily(
+      int organizationId,
+      string addressLine1 = "450 Columbus Blvd.",
+      string town = "Hartfor",
+      string state = "CT",
+      string zip = "06103"
+    )
     {
-      var family = new Family { OrganizationId = organizationId };
+      var family = new Family {
+        OrganizationId = organizationId,
+        AddressLine1 = addressLine1,
+        Town = town,
+        State = state,
+        Zip = zip
+      };
       _context.Families.Add(family);
       _context.SaveChanges();
       return family;
@@ -234,7 +256,7 @@ namespace Hedwig.Data
         FamilyId = familyId,
         NumberOfPeople = numberOfPeople,
         Income = income,
-        Determined = DateTime.Parse(determined)
+        DeterminationDate = DateTime.Parse(determined)
       };
       _context.FamilyDeterminations.Add(familyDetermination);
       _context.SaveChanges();
@@ -306,6 +328,8 @@ namespace Hedwig.Data
     private Funding CreateFunding(
       int enrollmentId,
       FundingSource source,
+      int firstReportingPeriodId,
+      int? lastReportingPeriodId = null,
       string entry = "2019-08-05",
       string exit = null,
       FundingTime time = FundingTime.Full
@@ -315,13 +339,15 @@ namespace Hedwig.Data
       {
         EnrollmentId = enrollmentId,
         Source = source,
-        Entry = DateTime.Parse(entry),
+        FirstReportingPeriodId = firstReportingPeriodId,
+        LastReportingPeriodId = lastReportingPeriodId,
+        CertificateStartDate = DateTime.Parse(entry),
         Time = time
       };
 
       if (exit != null)
       {
-        funding.Exit = DateTime.Parse(exit);
+        funding.CertificateEndDate = DateTime.Parse(exit);
       }
 
       _context.Fundings.Add(funding);

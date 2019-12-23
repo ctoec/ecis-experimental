@@ -22,10 +22,10 @@ namespace HedwigTests.Helpers
 				EnrollmentId = enrollment.Id,
 				Source = source,
 				Time = time,
-        Entry = DateTime.Parse(entry)
+        CertificateStartDate = DateTime.Parse(entry)
 			};
 
-			if (exit != null) funding.Exit = DateTime.Parse(exit);
+			if (exit != null) funding.CertificateEndDate = DateTime.Parse(exit);
 
 			context.Fundings.Add(funding);
 			context.SaveChanges();

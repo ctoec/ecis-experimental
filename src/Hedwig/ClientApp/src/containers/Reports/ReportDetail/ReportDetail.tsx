@@ -9,11 +9,10 @@ import Tag from '../../../components/Tag/Tag';
 import UserContext from '../../../contexts/User/UserContext';
 import getIdForUser from '../../../utils/getIdForUser';
 import useApi from '../../../hooks/useApi';
-import { isIncompleteEnrollment } from '../../../utils/enrollmentCompletenessUtils';
 import { Enrollment } from '../../../generated/models/Enrollment';
 import Button from '../../../components/Button/Button';
 import Alert from '../../../components/Alert/Alert';
-import { DeepNonUndefineable } from '../../../utils/types';
+import { DeepNonUndefineable, tsFilter } from '../../../utils/types';
 import AlertContext from '../../../contexts/Alert/AlertContext';
 
 export default function ReportDetail() {
@@ -37,11 +36,10 @@ export default function ReportDetail() {
   const reportEnrollments = idx(report, _ => _.organization.sites[0].enrollments) as DeepNonUndefineable<Enrollment[]>;
 
   let numEnrollmentsMissingInfo = reportEnrollments
-    ? reportEnrollments.filter<DeepNonUndefineable<Enrollment>>(
-        (enrollment => isIncompleteEnrollment(enrollment)) as (_: DeepNonUndefineable<Enrollment>) => _ is DeepNonUndefineable<Enrollment>
-      ).length
+    ? tsFilter<Enrollment>(reportEnrollments, e => !!e.validationErrors && e.validationErrors.length > 0).length
     : 0;
-
+    
+    
   return (
     <div className="Report">
       <section className="grid-container">

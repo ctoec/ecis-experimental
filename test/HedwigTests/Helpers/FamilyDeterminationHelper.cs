@@ -20,7 +20,7 @@ namespace HedwigTests.Helpers
 			{
 				NumberOfPeople = numberOfPeople,
 				Income = income,
-				Determined = DateTime.Parse(determined),
+				DeterminationDate = DateTime.Parse(determined),
 				FamilyId = family.Id
 			};
 

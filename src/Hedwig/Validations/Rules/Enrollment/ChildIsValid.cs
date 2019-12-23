@@ -29,7 +29,7 @@ namespace Hedwig.Validations.Rules
         if(enrollment.Child.ValidationErrors.Count > 0)
         {
           return new ValidationError(
-            field: "child",
+            field: "Child",
             message: "Child has validation errors"
           );
         }

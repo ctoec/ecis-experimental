@@ -5,7 +5,7 @@ variable "aws_ec2_instance_type" {
 
 variable "aws_ec2_key_name" {
   type = "string"
-  default = "keypair-mgmt-server"
+  default = "keypair-devops-cicd"
 }
 
 variable "aws_region" {
@@ -46,3 +46,4 @@ variable "project_name" {
   type = "string"
   default = "hedwig"
 }
+

@@ -30,7 +30,7 @@ storiesOf('Checklist', module)
 			<Checklist
 				options={options}
 				groupName="storybook-checklist"
-				legend="Storybook check buttons"
+				legend="Checklist items"
 			/>
 		);
 	})
@@ -39,8 +39,8 @@ storiesOf('Checklist', module)
 			<Checklist
 				options={options}
 				groupName="storybook-checklist-2"
-				legend="Storybook check buttons"
 				horizontal={true}
+				legend="Checklist items"
 			/>
 		);
 	})
@@ -49,17 +49,7 @@ storiesOf('Checklist', module)
 			<Checklist
 				options={optionsSelected}
 				groupName="storybook-checklist-default-selection"
-				legend="Storybook check buttons"
-			/>
-		);
-	})
-	.add('With error', () => {
-		return (
-			<Checklist
-				options={options}
-				groupName="storybook-checklist-with-error"
-				legend="Storybook check buttons"
-				error="You  must select one or two."
+				legend="Checklist items"
 			/>
 		);
 	})
@@ -67,8 +57,18 @@ storiesOf('Checklist', module)
 		return (
 			<Checklist
 				options={boxDisabledAndSelected}
-				groupName="storybook-checklist-with-error"
-				legend="Storybook check buttons"
+				groupName="storybook-checklist-disabled"
+				legend="Checklist items"
 			/>
 		);
-	});
+	})
+	.add('With warning', () => {
+		return (
+			<Checklist
+				options={options}
+				groupName="storybook-checklist-with-warning"
+				legend="Checklist items"
+				warning="WARNING: this section needs your attention!"
+			/>
+		)
+	})

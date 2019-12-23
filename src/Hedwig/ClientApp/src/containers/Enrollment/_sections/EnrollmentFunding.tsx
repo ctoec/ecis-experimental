@@ -13,12 +13,13 @@ import { ageFromString, prettyAge } from '../../../utils/ageGroupUtils';
 import getIdForUser from '../../../utils/getIdForUser';
 import { DeepNonUndefineable } from '../../../utils/types';
 import Alert from '../../../components/Alert/Alert';
+import { sectionHasValidationErrors } from '../../../utils/validations';
+import FieldSet from '../../../components/FieldSet/FieldSet';
 
 const EnrollmentFunding: Section = {
   key: 'enrollment-funding',
   name: 'Enrollment and funding',
-  status: () => 'complete',
-  ValidationObjects: (enrollment: DeepNonUndefineable<Enrollment>) => [enrollment, enrollment.fundings],
+  status: ({ enrollment }) => enrollment && sectionHasValidationErrors([enrollment, enrollment.fundings]) ? 'incomplete' : 'complete',
 
   Summary: ({ enrollment }) => {
     if (!enrollment) return <></>;
@@ -65,8 +66,8 @@ const EnrollmentFunding: Section = {
       // (because it is not explicitly true)
       if (!determinations || determinations.length == 0) return false;
       determinations = determinations.sort((a, b) => {
-        if (a.determined > b.determined) return 1;
-        if (a.determined < b.determined) return -1;
+        if (a.determinationDate > b.determinationDate) return 1;
+        if (a.determinationDate < b.determinationDate) return -1;
         return 0;
       });
 
@@ -120,26 +121,27 @@ const EnrollmentFunding: Section = {
 					/>
 
 					<h3>Age group</h3>
-					<RadioGroup
-						groupName="age"
-						legend="Age"
-						options={[
-							{
-								text: 'Infant/Toddler',
-                value: Age.InfantToddler,
-							},
-							{
-								text: 'Preschool',
-								value: Age.Preschool,
-							},
-							{
-								text: 'School-age',
-								value: Age.SchoolAge,
-							},
-						]}
-						selected={'' + age}
-						onChange={event => updateAge(ageFromString(event.target.value))}
-					/>
+  				<RadioGroup
+            legend="Age"
+  					groupName="age"
+  					options={[
+  						{
+  							text: 'Infant/Toddler',
+                 value: Age.InfantToddler,
+  						},
+  						{
+  							text: 'Preschool',
+  							value: Age.Preschool,
+  						},
+  						{
+  							text: 'School-age',
+  							value: Age.SchoolAge,
+  						},
+  					]}
+  					selected={'' + age}
+  					onChange={event => updateAge(ageFromString(event.target.value))}
+  				/>
+
           {!familyDeterminationNotDisclosed(enrollment) &&
             <>
             <h3>Funding</h3>
