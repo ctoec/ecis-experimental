@@ -30,7 +30,8 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 
   const { user } = useContext(UserContext);
   const { invalidateCache: invalidateAppCache } = useContext(AppContext);
-  const { alerts, setAlerts } = useContext(AlertContext);
+  const { getAlerts, setAlerts } = useContext(AlertContext);
+  const alerts = getAlerts();
   const params: ApiOrganizationsOrgIdReportsIdPutRequest = {
     id: report.id || 0,
     orgId: getIdForUser(user, "org")

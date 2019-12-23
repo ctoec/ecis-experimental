@@ -1,18 +1,16 @@
 import { createContext, useState, Dispatch, SetStateAction } from 'react';
-import { Switch, useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import { AlertProps } from '../../components/Alert/Alert';
 
 export type AlertContextType = {
-	alerts: AlertProps[];
+	getAlerts: () => AlertProps[],
 	// setAlerts: Dispatch<SetStateAction<AlertProps[]>>,
-	setAlerts: (alerts: AlertProps[]) => void;
-	pathState: any;
+	setAlerts: (newAlerts: AlertProps[]) => void,
 };
 
 const AlertContext = createContext<AlertContextType>({
-	alerts: [],
+	getAlerts: () => [],
 	setAlerts: _ => {},
-	pathState: undefined,
 });
 
 const { Provider, Consumer } = AlertContext;
@@ -21,34 +19,41 @@ export { Provider as AlertProvider };
 export { Consumer as AlertConsumer };
 export default AlertContext;
 
-let alertsSetPath = '';
-let alertsCounter = 0;
-// TODO FIX TYPES HERE
-const onHistoryListenChange = (location: any) => {
-	if (location.pathname !== alertsSetPath) {
-		// Need this here because it runs more than once
-		alertsCounter += 1;
-		console.log(alertsSetPath, alertsCounter)
-	}
-};
-
 export const useAlertContext = (initial?: AlertProps[]): AlertContextType => {
-	// TODO: IN SET ALERTS, SET ALERTS PATH?
 	const [alerts, internalSetAlerts] = useState<AlertProps[]>(initial ? initial : []);
+	const [alertsSetAtPath, setalertsSetAtPath] = useState();
+	const [alertsDisplayedAtPath, setalertsDisplayedAtPath] = useState();
 
 	const location = useLocation();
-	const history = useHistory();
-	history.listen(location => {
-		onHistoryListenChange(location);
-	});
 
 	const setAlerts = (newAlerts: AlertProps[]) => {
-		alertsSetPath = location.pathname;
+		if (newAlerts.length === 0) {
+			setalertsDisplayedAtPath(undefined);
+		}
+		setalertsSetAtPath(location.pathname);
 		internalSetAlerts(newAlerts);
-	};
+	}
+
+	const getAlerts = (): AlertProps[] => {
+		// TODO: right now the alerts stick around on that same page if you navigate back to it-- do we want that behavior or should we do a history listen to get rid of it?
+		if (alerts.length && (location.pathname !== alertsSetAtPath)) {
+			// If there are alerts and we are at a different path than where we set the alerts
+			if (!alertsDisplayedAtPath) {
+				// If there is not already a displayed at path set one
+				setalertsDisplayedAtPath(location.pathname);
+				return alerts;
+			}
+			if (alertsDisplayedAtPath !== location.pathname) {
+				// If we are no longer where the alerts were set or displayed, clear the alerts
+				setAlerts([]);
+				return [];
+			}
+		}
+		return alerts;
+	}
+
 	return {
-		alerts,
+		getAlerts,
 		setAlerts,
-		pathState: { alertsSetPath, alertsCounter },
 	};
 };

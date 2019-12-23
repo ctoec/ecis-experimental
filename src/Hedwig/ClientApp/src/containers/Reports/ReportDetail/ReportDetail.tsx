@@ -27,7 +27,8 @@ export default function ReportDetail() {
     api => api.apiOrganizationsOrgIdReportsIdGet(reportParams),
     [user]
   );
-  const { alerts } = useContext(AlertContext);
+  	const { getAlerts } = useContext(AlertContext);
+		const alerts = getAlerts();
 
   if (loading || error || !report) {
     return <div className="Report"></div>;

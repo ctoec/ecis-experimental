@@ -22,8 +22,8 @@ const App: React.FC = () => {
 	const { user } = useContext(UserContext);
 	const cacheContext = useCacheInvalidator();
 	const { cacheInvalidator } = cacheContext;
-	const { state: alerts } = useLocation<AlertProps[]>();
-	const alertContext = useAlertContext(alerts);
+	const alertContext = useAlertContext();
+
 	const params: ApiOrganizationsOrgIdReportsGetRequest = {
 		orgId: getIdForUser(user, 'org'),
 	};

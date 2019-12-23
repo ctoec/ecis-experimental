@@ -14,7 +14,8 @@ export default function ContainerContainer({
 	children,
 	directionalLinkProps = { direction: 'left', to: '/roster', text: 'Back to roster' },
 }: ContainerContainerPropsType) {
-	const { alerts } = useContext(AlertContext);
+	const { getAlerts } = useContext(AlertContext);
+	const alerts = getAlerts();
 
 	return (
 		<ErrorBoundary>

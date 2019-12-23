@@ -33,7 +33,8 @@ export default function ReportsSummary() {
     [user]
   );
 
-  const { alerts } = useContext(AlertContext);
+  	const { getAlerts } = useContext(AlertContext);
+		const alerts = getAlerts();
 
   if (loading || error || !reports || orgLoading || orgError || !organization) {
     return <div className="Reports"></div>;
