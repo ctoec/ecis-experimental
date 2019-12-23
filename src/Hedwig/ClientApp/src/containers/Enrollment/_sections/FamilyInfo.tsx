@@ -115,7 +115,7 @@ const FamilyInfo: Section = {
 						idx(enrollment, _ => _.child.family) || null,
 						'This information is required for OEC reporting',
 					)}
-					inlineBlock={true}
+					display="inline-block"
 				>
 					<div className="mobile-lg:grid-col-12">
 						<TextInput
@@ -143,7 +143,7 @@ const FamilyInfo: Section = {
 							optional={true}
 						/>
 					</div>
-					<div className="mobile-lg:grid-col-4 inline-block">
+					<div className="mobile-lg:grid-col-4 display-inline-block">
 						<TextInput
 							id="state"
 							label="State"
@@ -158,7 +158,7 @@ const FamilyInfo: Section = {
 							)}
 						/>
 					</div>
-					<div className="mobile-lg:grid-col-8 inline-block">
+					<div className="mobile-lg:grid-col-8 display-inline-block">
 						<TextInput
 							id="town"
 							label="Town"

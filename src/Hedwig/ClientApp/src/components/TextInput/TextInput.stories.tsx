@@ -33,11 +33,12 @@ storiesOf('TextInput', module)
 				<FieldSet
 					legend="Text inputs"
 					error={warning}
+					display="inline-block"
 				>
-					<div className="mobile-lg:grid-col-4 inline-block">
+					<div className="mobile-lg:grid-col-4 display-inline-block">
 						<TextInput id="cat" label="Short" onChange={onChange} error={warning} />
 					</div>
-					<div className="mobile-lg:grid-col-8 inline-block">
+					<div className="mobile-lg:grid-col-8 display-inline-block">
 						<TextInput id="cat" label="Long" onChange={onChange} error={warning} />
 					</div>
 				</FieldSet>
@@ -53,12 +54,12 @@ storiesOf('TextInput', module)
 				<FieldSet
 					legend="Text inputs"
 					error={error}
-					inlineBlock={true}
+					display="inline-block"
 				>
-					<div className="mobile-lg:grid-col-4 inline-block">
+					<div className="mobile-lg:grid-col-4 display-inline-block">
 						<TextInput id="cat" label="Short" onChange={onChange} error={error} />
 					</div>
-					<div className="mobile-lg:grid-col-8 inline-block">
+					<div className="mobile-lg:grid-col-8 display-inline-block">
 						<TextInput id="cat" label="Long" onChange={onChange} error={error} />
 					</div>
 				</FieldSet>

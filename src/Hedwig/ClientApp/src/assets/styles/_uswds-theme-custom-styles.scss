@@ -490,9 +490,6 @@ $future-step-color: color('base-dark') !default;
 		@include u-margin-top(6);
 		@include u-margin-bottom(4);
 	}
-	.inline-block {
-		display: inline-block;
-	}
 }
 
 .usa-form-group--warning {

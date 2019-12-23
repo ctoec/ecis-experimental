@@ -257,7 +257,7 @@ const ChildInfo: Section = {
             'This information is required for OEC reporting'
           )}
           legend="Birth certificate"
-          inlineBlock={true}
+          display="inline-block"
         >
           <div className="mobile-lg:grid-col-12">
             <TextInput
@@ -272,7 +272,7 @@ const ChildInfo: Section = {
               )}
             />
           </div>
-          <div className="mobile-lg:grid-col-4 inline-block">
+          <div className="mobile-lg:grid-col-4 display-inline-block">
             <TextInput
               id="birthState"
               label="State"
@@ -285,7 +285,7 @@ const ChildInfo: Section = {
               )}
             />
           </div>
-          <div className="mobile-lg:grid-col-8 inline-block">
+          <div className="mobile-lg:grid-col-8 display-inline-block">
             <TextInput
               id="birthTown"
               label="Town"
