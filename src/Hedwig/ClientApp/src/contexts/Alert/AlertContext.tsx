@@ -36,6 +36,7 @@ export const useAlertContext = (initial?: AlertProps[]): AlertContextType => {
 
 	const getAlerts = (): AlertProps[] => {
 		// TODO: right now the alerts stick around on that same page if you navigate back to it-- do we want that behavior or should we do a history listen to get rid of it?
+		// Also-- will this work better at a lower scope now? Or do we prefer shared alert context?
 		if (alerts.length && (location.pathname !== alertsSetAtPath)) {
 			// If there are alerts and we are at a different path than where we set the alerts
 			if (!alertsDisplayedAtPath) {
