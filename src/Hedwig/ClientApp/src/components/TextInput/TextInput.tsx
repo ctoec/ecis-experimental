@@ -1,5 +1,4 @@
 import React from 'react';
-import InlineIcon from '../InlineIcon/InlineIcon';
 
 type TextInputProps = {
   label: string | JSX.Element;

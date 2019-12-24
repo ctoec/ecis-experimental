@@ -1,11 +1,10 @@
-import { createContext, useState, Dispatch, SetStateAction } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { createContext, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { AlertProps } from '../../components/Alert/Alert';
 
 export type AlertContextType = {
-	getAlerts: () => AlertProps[],
-	// setAlerts: Dispatch<SetStateAction<AlertProps[]>>,
-	setAlerts: (newAlerts: AlertProps[]) => void,
+	getAlerts: () => AlertProps[];
+	setAlerts: (newAlerts: AlertProps[]) => void;
 };
 
 const AlertContext = createContext<AlertContextType>({
@@ -32,12 +31,12 @@ export const useAlertContext = (initial?: AlertProps[]): AlertContextType => {
 		}
 		setalertsSetAtPath(location.pathname);
 		internalSetAlerts(newAlerts);
-	}
+	};
 
 	const getAlerts = (): AlertProps[] => {
 		// TODO: right now the alerts stick around on that same page if you navigate back to it-- do we want that behavior or should we do a history listen to get rid of it?
 		// Also-- will this work better at a lower scope now? Or do we prefer shared alert context?
-		if (alerts.length && (location.pathname !== alertsSetAtPath)) {
+		if (alerts.length && location.pathname !== alertsSetAtPath) {
 			// If there are alerts and we are at a different path than where we set the alerts
 			if (!alertsDisplayedAtPath) {
 				// If there is not already a displayed at path set one
@@ -51,7 +50,7 @@ export const useAlertContext = (initial?: AlertProps[]): AlertContextType => {
 			}
 		}
 		return alerts;
-	}
+	};
 
 	return {
 		getAlerts,

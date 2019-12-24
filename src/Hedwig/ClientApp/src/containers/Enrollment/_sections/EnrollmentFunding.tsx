@@ -11,10 +11,8 @@ import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest, Age, Enrollmen
 import UserContext from '../../../contexts/User/UserContext';
 import { ageFromString, prettyAge } from '../../../utils/ageGroupUtils';
 import getIdForUser from '../../../utils/getIdForUser';
-import { DeepNonUndefineable } from '../../../utils/types';
 import Alert from '../../../components/Alert/Alert';
 import { sectionHasValidationErrors } from '../../../utils/validations';
-import FieldSet from '../../../components/FieldSet/FieldSet';
 
 const EnrollmentFunding: Section = {
   key: 'enrollment-funding',

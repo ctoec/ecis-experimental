@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Switch, useLocation, useHistory } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import { NavItemProps } from '../../components/Header/NavItem';
 import MakeRouteWithSubRoutes from './MakeRouteWithSubRoutes';
@@ -11,7 +11,6 @@ import getIdForUser from '../../utils/getIdForUser';
 import UserContext from '../../contexts/User/UserContext';
 import { useCacheInvalidator, AppProvider } from '../../contexts/App/AppContext';
 import { useAlertContext, AlertProvider } from '../../contexts/Alert/AlertContext';
-import { AlertProps } from '../../components/Alert/Alert';
 import { DeepNonUndefineable } from '../../utils/types';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 

@@ -13,8 +13,8 @@ import {
 } from '../../../generated';
 import getIdForUser from '../../../utils/getIdForUser';
 import useApi from '../../../hooks/useApi';
-import ContainerContainer from '../../ContainerContainer';
-import { hasValidationErrors, sectionHasValidationErrors } from '../../../utils/validations';
+import ContainerContainer from '../../CommonContainer';
+import { hasValidationErrors } from '../../../utils/validations';
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import nameFormatter from '../../../utils/nameFormatter';
 
@@ -79,18 +79,17 @@ export default function EnrollmentEdit({
 	 */
 	const afterSave = (enrollment: Enrollment) => {
 		// TODO: SHOULD THIS BE HERE? IF SO MAKE UTIL FROM SHARED FUNCTIONALITY BETWEEN THIS AND ENROLLMENT NEW
-		// TODO: USE THE SECTION VALIDATION INSTEAD?
 		const informationIsMissing = hasValidationErrors(enrollment);
 		if (informationIsMissing) {
 			const inSiteName = enrollment.site ? ` in ${enrollment.site.name}` : '';
+			const alertText = `${enrollment.child ? nameFormatter(
+				enrollment.child
+			) : ''}'s enrollment${inSiteName} has been updated. However, there is missing information you are required to enter before you can submit your monthly CDC report.`;
 			setAlerts([
 				{
 					type: 'success',
 					heading: 'Enrolled',
-					text: `${nameFormatter(
-						// TODO: FIX THIS
-						enrollment.child as any
-					)}'s enrollment${inSiteName} has been updated. However, there is missing information you are required to enter before you can submit your monthly CDC report.`,
+					text: alertText,
 				},
 			]);
 		}

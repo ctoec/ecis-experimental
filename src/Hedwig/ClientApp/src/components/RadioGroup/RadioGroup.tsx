@@ -1,7 +1,6 @@
 import React from 'react';
 import RadioButton from './RadioButton';
 import FieldSet from '../FieldSet/FieldSet';
-import Legend from '../Legend/Legend';
 
 type RadioButtonOptions = {
 	text: string;

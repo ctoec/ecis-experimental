@@ -14,8 +14,8 @@ import {
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest,
 } from '../../../generated';
 import getIdForUser from '../../../utils/getIdForUser';
-import ContainerContainer from '../../ContainerContainer';
-import { hasValidationErrors, sectionHasValidationErrors } from '../../../utils/validations';
+import ContainerContainer from '../../CommonContainer';
+import { hasValidationErrors } from '../../../utils/validations';
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import nameFormatter from '../../../utils/nameFormatter';
 
@@ -135,8 +135,7 @@ export default function EnrollmentNew({
 										type: 'success',
 										heading: 'Enrolled',
 										text: `${nameFormatter(
-											// TODO: FIX THIS
-											enrollment.child as any
+											enrollment.child
 										)} has been successfully enrolled${inSiteName}. However, there is missing information you are required to enter before you can submit your monthly CDC report.`,
 									},
 								]);

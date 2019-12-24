@@ -9,7 +9,7 @@ import currencyFormatter from '../../../utils/currencyFormatter';
 import parseCurrencyFromString from '../../../utils/parseCurrencyFromString';
 import getIdForUser from '../../../utils/getIdForUser';
 import UtilizationTable from './UtilizationTable';
-import AlertContext, { useAlertContext } from '../../../contexts/Alert/AlertContext';
+import AlertContext from '../../../contexts/Alert/AlertContext';
 import { useHistory } from 'react-router';
 import { AlertProps } from '../../../components/Alert/Alert';
 import monthFormatter from '../../../utils/monthFormatter';

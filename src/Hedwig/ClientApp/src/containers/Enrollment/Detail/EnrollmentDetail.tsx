@@ -13,8 +13,7 @@ import UserContext from '../../../contexts/User/UserContext';
 import useApi from '../../../hooks/useApi';
 import getIdForUser from '../../../utils/getIdForUser';
 import InlineIcon from '../../../components/InlineIcon/InlineIcon';
-import ContainerContainer from '../../ContainerContainer';
-import { hasValidationErrors, sectionHasValidationErrors  }from '../../../utils/validations';
+import ContainerContainer from '../../CommonContainer';
 import { SectionProps } from '../enrollmentTypes';
 
 type EnrollmentDetailParams = {
