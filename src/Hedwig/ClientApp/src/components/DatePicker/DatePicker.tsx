@@ -53,7 +53,7 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
 	render() {
 		const { byRange } = this.props;
 		const { selectedRange, datePickerFocused } = this.state;
-
+		// use fieldset component
 		return (
 			<fieldset className="usa-fieldset">
 				<legend className="usa-sr-only">{`Choose a date${byRange ? ' range' : ''}`}</legend>
