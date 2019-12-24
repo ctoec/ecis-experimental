@@ -125,8 +125,7 @@ export default function EnrollmentNew({
 						href="../"
 						text="Finish"
 						onClick={() => {
-							// TODO: USE THE SECTION VALIDATION INSTEAD?
-							// SEE ALSO EDIT
+							// TODO: COMBINE THIS FUNCTIONALITY WITH EDIT IN A UTIL IF IT'S THE SAME
 							const informationIsMissing = hasValidationErrors(enrollment);
 							if (informationIsMissing) {
 								const inSiteName = enrollment.site ? ` in ${enrollment.site.name}` : '';

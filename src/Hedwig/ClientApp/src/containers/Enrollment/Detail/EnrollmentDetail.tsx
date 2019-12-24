@@ -77,7 +77,7 @@ export default function EnrollmentDetail({
 								<Link to={`edit/${section.key}`}>
 								Edit<span className="usa-sr-only"> {section.name.toLowerCase()}</span>
 								</Link>
-								{section.status(props) == 'incomplete' && (
+								{section.status(props) === 'incomplete' && (
 									<span>
 										<InlineIcon icon="incomplete" /> Missing information
 									</span>

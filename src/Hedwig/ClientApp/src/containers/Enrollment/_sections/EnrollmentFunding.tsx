@@ -62,7 +62,7 @@ const EnrollmentFunding: Section = {
   
       // If no determinations are present, not disclosed = false
       // (because it is not explicitly true)
-      if (!determinations || determinations.length == 0) return false;
+      if (!determinations || determinations.length === 0) return false;
       determinations = determinations.sort((a, b) => {
         if (a.determinationDate > b.determinationDate) return 1;
         if (a.determinationDate < b.determinationDate) return -1;
