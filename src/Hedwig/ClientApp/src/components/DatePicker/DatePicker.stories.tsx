@@ -7,21 +7,23 @@ import moment from 'moment';
 
 const onChange = action('onChange');
 const dateRange = { startDate: moment('2019-10-30'), endDate: moment('2019-10-30') };
-const legend = 'Choose a date'
+const legend = 'Choose a date';
 
 storiesOf('DatePicker', module)
 	.add('Default', () => {
+		return <DatePicker legend={legend} onChange={onChange} dateRange={dateRange} byRange={false} />;
+	})
+	.add('ByRange', () => {
+		return <DatePicker legend={legend} onChange={onChange} dateRange={dateRange} byRange={true} />;
+	})
+	.add('With error', () => {
 		return (
 			<DatePicker
 				legend={legend}
 				onChange={onChange}
 				dateRange={dateRange}
-				byRange={false}
+				byRange={true}
+				error={{ type: 'error', message: 'Pick a better date' }}
 			/>
-		);
-	})
-	.add('ByRange', () => {
-		return (
-			<DatePicker legend={legend} onChange={onChange} dateRange={dateRange} byRange={true} />
 		);
 	});
