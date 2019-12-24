@@ -245,7 +245,7 @@ exports[`Storyshots Checklist Box disabled 1`] = `
   }
 >
   <fieldset
-    className="grid-gap grid-row usa-fieldset
+    className="grid-gap grid-row usa-fieldset 
       
       
     "
@@ -312,7 +312,7 @@ exports[`Storyshots Checklist Default 1`] = `
   }
 >
   <fieldset
-    className="grid-gap grid-row usa-fieldset
+    className="grid-gap grid-row usa-fieldset 
       
       
     "
@@ -377,7 +377,7 @@ exports[`Storyshots Checklist Default selection 1`] = `
   }
 >
   <fieldset
-    className="grid-gap grid-row usa-fieldset
+    className="grid-gap grid-row usa-fieldset 
       
       
     "
@@ -442,7 +442,7 @@ exports[`Storyshots Checklist Horizontal 1`] = `
   }
 >
   <fieldset
-    className="grid-gap grid-row usa-fieldset
+    className="grid-gap grid-row usa-fieldset 
       
       
     "
@@ -507,8 +507,8 @@ exports[`Storyshots Checklist With error 1`] = `
   }
 >
   <fieldset
-    className="grid-gap grid-row usa-fieldset
-      usa-fieldset--error
+    className="grid-gap grid-row usa-fieldset 
+       usa-fieldset--error
       
     "
   >
@@ -581,8 +581,8 @@ exports[`Storyshots Checklist With warning 1`] = `
   }
 >
   <fieldset
-    className="grid-gap grid-row usa-fieldset
-      usa-fieldset--warning
+    className="grid-gap grid-row usa-fieldset 
+       usa-fieldset--warning
       
     "
   >
@@ -594,7 +594,7 @@ exports[`Storyshots Checklist With warning 1`] = `
     <span
       className="usa-warning-message"
       id="field-set-error-message"
-      role="alert"
+      role="status"
     >
       <span
         className="oec-inline-icon oec-inline-icon--incomplete"
@@ -1089,7 +1089,7 @@ exports[`Storyshots FieldSet Default 1`] = `
   }
 >
   <fieldset
-    className="grid-gap grid-row usa-fieldset
+    className="grid-gap grid-row usa-fieldset 
       
       
     "
@@ -1115,8 +1115,8 @@ exports[`Storyshots FieldSet With error 1`] = `
   }
 >
   <fieldset
-    className="grid-gap grid-row usa-fieldset
-      usa-fieldset--error
+    className="grid-gap grid-row usa-fieldset 
+       usa-fieldset--error
       
     "
   >
@@ -1156,8 +1156,8 @@ exports[`Storyshots FieldSet With warning 1`] = `
   }
 >
   <fieldset
-    className="grid-gap grid-row usa-fieldset
-      usa-fieldset--warning
+    className="grid-gap grid-row usa-fieldset 
+       usa-fieldset--warning
       
     "
   >
@@ -1169,7 +1169,7 @@ exports[`Storyshots FieldSet With warning 1`] = `
     <span
       className="usa-warning-message"
       id="field-set-error-message"
-      role="alert"
+      role="status"
     >
       <span
         className="oec-inline-icon oec-inline-icon--incomplete"
@@ -1723,7 +1723,7 @@ exports[`Storyshots RadioGroup Default 1`] = `
   }
 >
   <fieldset
-    className="grid-gap grid-row usa-fieldset
+    className="grid-gap grid-row usa-fieldset 
       
       
     "
@@ -1788,7 +1788,7 @@ exports[`Storyshots RadioGroup Default selection 1`] = `
   }
 >
   <fieldset
-    className="grid-gap grid-row usa-fieldset
+    className="grid-gap grid-row usa-fieldset 
       
       
     "
@@ -1853,7 +1853,7 @@ exports[`Storyshots RadioGroup Horizontal 1`] = `
   }
 >
   <fieldset
-    className="grid-gap grid-row usa-fieldset
+    className="grid-gap grid-row usa-fieldset 
       
       
     "
@@ -1918,8 +1918,8 @@ exports[`Storyshots RadioGroup With error 1`] = `
   }
 >
   <fieldset
-    className="grid-gap grid-row usa-fieldset
-      usa-fieldset--error
+    className="grid-gap grid-row usa-fieldset 
+       usa-fieldset--error
       
     "
   >
@@ -1992,8 +1992,8 @@ exports[`Storyshots RadioGroup With warning 1`] = `
   }
 >
   <fieldset
-    className="grid-gap grid-row usa-fieldset
-      usa-fieldset--warning
+    className="grid-gap grid-row usa-fieldset 
+       usa-fieldset--warning
       
     "
   >
@@ -2005,7 +2005,7 @@ exports[`Storyshots RadioGroup With warning 1`] = `
     <span
       className="usa-warning-message"
       id="field-set-error-message"
-      role="alert"
+      role="status"
     >
       <span
         className="oec-inline-icon oec-inline-icon--incomplete"
@@ -2508,9 +2508,9 @@ exports[`Storyshots TextInput Error inside error Fieldset 1`] = `
     className="usa-form"
   >
     <fieldset
-      className="grid-gap grid-row usa-fieldset
-      usa-fieldset--error
-      inline-block
+      className="grid-gap grid-row usa-fieldset 
+       usa-fieldset--error
+       display-inline-block
     "
     >
       <legend
@@ -2528,7 +2528,7 @@ exports[`Storyshots TextInput Error inside error Fieldset 1`] = `
         Error!
       </span>
       <div
-        className="mobile-lg:grid-col-4 inline-block"
+        className="mobile-lg:grid-col-4 display-inline-block"
       >
         <div
           className="usa-form-group usa-form-group--error"
@@ -2558,7 +2558,7 @@ exports[`Storyshots TextInput Error inside error Fieldset 1`] = `
         </div>
       </div>
       <div
-        className="mobile-lg:grid-col-8 inline-block"
+        className="mobile-lg:grid-col-8 display-inline-block"
       >
         <div
           className="usa-form-group usa-form-group--error"
@@ -2700,9 +2700,9 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
     className="usa-form"
   >
     <fieldset
-      className="grid-gap grid-row usa-fieldset
-      usa-fieldset--warning
-      
+      className="grid-gap grid-row usa-fieldset 
+       usa-fieldset--warning
+       display-inline-block
     "
     >
       <legend
@@ -2713,7 +2713,7 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
       <span
         className="usa-warning-message"
         id="field-set-error-message"
-        role="alert"
+        role="status"
       >
         <span
           className="oec-inline-icon oec-inline-icon--incomplete"
@@ -2733,7 +2733,7 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
         Warning!
       </span>
       <div
-        className="mobile-lg:grid-col-4 inline-block"
+        className="mobile-lg:grid-col-4 display-inline-block"
       >
         <div
           className="usa-form-group usa-form-group--warning"
@@ -2763,7 +2763,7 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
         </div>
       </div>
       <div
-        className="mobile-lg:grid-col-8 inline-block"
+        className="mobile-lg:grid-col-8 display-inline-block"
       >
         <div
           className="usa-form-group usa-form-group--warning"
