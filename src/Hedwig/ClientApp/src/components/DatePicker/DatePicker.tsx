@@ -55,6 +55,8 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 	// Also: accept people entering a date like 6/22/89
 	// Override js defaults if necessary to assume 2000s rather than 1900s!
 
+	// Make it so that user can optionally make calendar not show for things like birthdate?  But keep format for consistency's sake?
+
 	// Date range input fields have aria label by default
 	return (
 		<FieldSet legend={legend} error={error}>
