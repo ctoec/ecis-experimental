@@ -11,10 +11,8 @@ import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest, Age, Enrollmen
 import UserContext from '../../../contexts/User/UserContext';
 import { ageFromString, prettyAge } from '../../../utils/ageGroupUtils';
 import getIdForUser from '../../../utils/getIdForUser';
-import { DeepNonUndefineable } from '../../../utils/types';
 import Alert from '../../../components/Alert/Alert';
 import { sectionHasValidationErrors } from '../../../utils/validations';
-import FieldSet from '../../../components/FieldSet/FieldSet';
 
 const EnrollmentFunding: Section = {
   key: 'enrollment-funding',
@@ -117,7 +115,8 @@ const EnrollmentFunding: Section = {
 						onChange={range =>
 							updateEntry((range.startDate && range.startDate.toDate()) || null)
 						}
-						dateRange={{ startDate: entry ? moment(entry) : null, endDate: null }}
+            dateRange={{ startDate: entry ? moment(entry) : null, endDate: null }}
+            legend="Enter the start date of the enrollment"
 					/>
 
 					<h3>Age group</h3>

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import moment, { Moment } from 'moment';
 import { DateRangePicker, SingleDatePicker } from 'react-dates';
+import FieldSet, { FormError } from '../FieldSet/FieldSet';
 
 export type DateRange = {
 	startDate: Moment | null;
@@ -10,37 +11,33 @@ export type DateRange = {
 type DatePickerProps = {
 	onChange: (newRange: DateRange) => any;
 	dateRange: DateRange;
+	legend: string;
 	byRange?: boolean;
 	possibleRange?: DateRange;
+	error?: FormError;
 };
 
-type DatePickerState = {
-	selectedRange: DateRange;
-	datePickerFocused: 'startDate' | 'endDate' | null;
-};
+export const DatePicker: React.FC<DatePickerProps> = ({
+	dateRange,
+	onChange,
+	legend,
+	byRange,
+	possibleRange,
+	error,
+}) => {
+	const [selectedRange, setSelectedRange] = useState(dateRange);
+	const [datePickerFocused, setDatePickerFocused] = useState();
 
-export class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
-	constructor(props: DatePickerProps) {
-		super(props);
-
-		this.state = {
-			selectedRange: props.dateRange,
-			datePickerFocused: null,
-		};
-
-		this.setDateRange = this.setDateRange.bind(this);
-		this.isOutsidePossibleRange = this.isOutsidePossibleRange.bind(this);
+	function setDateRange(input: DateRange) {
+		setSelectedRange(input);
+		onChange(input);
 	}
 
-	setDateRange(input: DateRange) {
-		this.setState({ selectedRange: input }, this.props.onChange(input));
-	}
-
-	isOutsidePossibleRange(candidateDate: Moment) {
-		if (!this.props.possibleRange) {
+	function isOutsidePossibleRange(candidateDate: Moment) {
+		if (!possibleRange) {
 			return false;
 		}
-		const { startDate, endDate } = this.props.possibleRange;
+		const { startDate, endDate } = possibleRange;
 		if (startDate && candidateDate.isBefore(startDate)) {
 			return true;
 		}
@@ -50,42 +47,43 @@ export class DatePicker extends React.Component<DatePickerProps, DatePickerState
 		return false;
 	}
 
-	render() {
-		const { byRange } = this.props;
-		const { selectedRange, datePickerFocused } = this.state;
-		// use fieldset component
-		return (
-			<fieldset className="usa-fieldset">
-				<legend className="usa-sr-only">{`Choose a date${byRange ? ' range' : ''}`}</legend>
-				{byRange && (
-					<DateRangePicker
-						startDate={selectedRange.startDate}
-						startDateId="startDate"
-						endDate={selectedRange.endDate}
-						endDateId="endDate"
-						focusedInput={datePickerFocused}
-						onDatesChange={dates => this.setDateRange(dates)}
-						onFocusChange={(focused: any) => this.setState({ datePickerFocused: focused })}
-						isOutsideRange={date => this.isOutsidePossibleRange(date)}
-						initialVisibleMonth={() => moment().subtract(1, 'M')}
-					/>
-				)}
-				{!byRange && (
-					<SingleDatePicker
-						id="date"
-						date={selectedRange.startDate}
-						focused={datePickerFocused === 'startDate'}
-						onDateChange={date => this.setDateRange({ startDate: date, endDate: date })}
-						onFocusChange={({ focused }: any) =>
-							this.setState({ datePickerFocused: focused ? 'startDate' : null })
-						}
-						isOutsideRange={date => this.isOutsidePossibleRange(date)}
-						initialVisibleMonth={() => moment().subtract(1, 'M')}
-					/>
-				)}
-			</fieldset>
-		);
-	}
-}
+	// Make date picker take id value so people can add a label nearby?-- see enrollment use cases
+	// Just add a label here instead of using fieldset?
+	// Is this an appropriate use of fieldset?
+	// "Many assistive technologies will use the <legend> element as if it is a part of the label of each widget inside the corresponding <fieldset> element. For example, some screen readers such as Jaws or NVDA will speak the legend's content before speaking the label of each widget."
+
+	// Also: accept people entering a date like 6/22/89
+	// Override js defaults if necessary to assume 2000s rather than 1900s!
+
+	// Date range input fields have aria label by default
+	return (
+		<FieldSet legend={legend} error={error}>
+			{byRange && (
+				<DateRangePicker
+					startDate={selectedRange.startDate}
+					startDateId="startDate"
+					endDate={selectedRange.endDate}
+					endDateId="endDate"
+					focusedInput={datePickerFocused}
+					onDatesChange={dates => setDateRange(dates)}
+					onFocusChange={(focused: string | null) => setDatePickerFocused(focused)}
+					isOutsideRange={date => isOutsidePossibleRange(date)}
+					initialVisibleMonth={() => moment().subtract(1, 'M')}
+				/>
+			)}
+			{!byRange && (
+				<SingleDatePicker
+					id="date"
+					date={selectedRange.startDate}
+					focused={datePickerFocused === 'startDate'}
+					onDateChange={date => setDateRange({ startDate: date, endDate: date })}
+					onFocusChange={({ focused }: any) => setDatePickerFocused(focused ? 'startDate' : null)}
+					isOutsideRange={date => isOutsidePossibleRange(date)}
+					initialVisibleMonth={() => moment().subtract(1, 'M')}
+				/>
+			)}
+		</FieldSet>
+	);
+};
 
 export default DatePicker;

@@ -247,6 +247,7 @@ const ChildInfo: Section = {
             updateBirthdate((range.startDate && range.startDate.toDate()) || null)
           }
           dateRange={{ startDate: birthdate ? moment(birthdate) : null, endDate: null }}
+          legend="Enter the child's birth date"
         />
 
         <h3>Birth certificate</h3>
