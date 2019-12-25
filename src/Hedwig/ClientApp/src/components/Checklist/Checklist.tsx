@@ -29,6 +29,7 @@ export default function Checklist({
 		<FieldSet
 			legend={legend}
 			error={error}
+			id={groupName}
 		>
 			<div className={horizontal ? 'grid-row flex-align-start grid-gap' : ''}>
 				{options.map(option => (

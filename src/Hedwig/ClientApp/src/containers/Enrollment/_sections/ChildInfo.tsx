@@ -248,6 +248,7 @@ const ChildInfo: Section = {
           }
           dateRange={{ startDate: birthdate ? moment(birthdate) : null, endDate: null }}
           legend="Enter the child's birth date"
+          id="birthdate-picker"
         />
 
         <h3>Birth certificate</h3>
@@ -259,6 +260,7 @@ const ChildInfo: Section = {
           )}
           legend="Birth certificate"
           display="inline-block"
+          id="birth-certificate-fields"
         >
           <div className="mobile-lg:grid-col-12">
             <TextInput

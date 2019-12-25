@@ -12,6 +12,7 @@ type DatePickerProps = {
 	onChange: (newRange: DateRange) => any;
 	dateRange: DateRange;
 	legend: string;
+	id: string;
 	byRange?: boolean;
 	possibleRange?: DateRange;
 	error?: FormError;
@@ -21,6 +22,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 	dateRange,
 	onChange,
 	legend,
+	id,
 	byRange,
 	possibleRange,
 	error,
@@ -59,7 +61,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 
 	// Date range input fields have aria label by default
 	return (
-		<FieldSet legend={legend} error={error}>
+		<FieldSet legend={legend} error={error} id={id}>
 			{byRange && (
 				<DateRangePicker
 					startDate={selectedRange.startDate}

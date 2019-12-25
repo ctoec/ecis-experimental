@@ -104,11 +104,11 @@ const FamilyInfo: Section = {
 			}
 		}
 
-		console.log(enrollment);
 		return (
 			<div className="FamilyInfoForm usa-form">
 				<h3>Address</h3>
 				<FieldSet
+					id="family-address"
 					legend="Address"
 					error={warningForFieldSet(
 						['addressLine1', 'state', 'town', 'zip'],

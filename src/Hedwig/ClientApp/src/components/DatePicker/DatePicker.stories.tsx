@@ -11,15 +11,32 @@ const legend = 'Choose a date';
 
 storiesOf('DatePicker', module)
 	.add('Default', () => {
-		return <DatePicker legend={legend} onChange={onChange} dateRange={dateRange} byRange={false} />;
+		return (
+			<DatePicker
+				legend={legend}
+				onChange={onChange}
+				dateRange={dateRange}
+				byRange={false}
+				id="default-datepicker"
+			/>
+		);
 	})
 	.add('ByRange', () => {
-		return <DatePicker legend={legend} onChange={onChange} dateRange={dateRange} byRange={true} />;
+		return (
+			<DatePicker
+				legend={legend}
+				onChange={onChange}
+				dateRange={dateRange}
+				byRange={true}
+				id="byrange-datepicker"
+			/>
+		);
 	})
 	.add('With error', () => {
 		return (
 			<DatePicker
 				legend={legend}
+				id="error-datepicker"
 				onChange={onChange}
 				dateRange={dateRange}
 				byRange={true}

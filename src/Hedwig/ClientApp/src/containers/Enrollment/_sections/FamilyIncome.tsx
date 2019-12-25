@@ -139,6 +139,7 @@ const FamilyIncome: Section = {
 		  		{!notDisclosed && (
 		  			<>
 						<FieldSet
+							id="family-income"
 							legend="Family income determination"
 							error={errorForFieldSet(
 								[numberOfPeople, income, determinationDate],
@@ -178,9 +179,12 @@ const FamilyIncome: Section = {
 									)}
 			  				/>
 			  				<label className="usa-label" htmlFor="date">
+									{/* TODO: THE NON UNIQUE HTML FOR ID MAKES THIS LABEL MEANINGLESS TO SCREEN READERS */}
 			  					Date of income determination
 			  				</label>
 			  				<DatePicker
+									legend="Income determination date"
+									id="income-determination-date"
 			  					onChange={range =>
 			  						updateDeterminationDate((range.startDate && range.startDate.toDate()) || null)
 			  					}

@@ -117,6 +117,7 @@ const EnrollmentFunding: Section = {
 						}
             dateRange={{ startDate: entry ? moment(entry) : null, endDate: null }}
             legend="Enter the start date of the enrollment"
+            id="enrollment-start-date"
 					/>
 
 					<h3>Age group</h3>

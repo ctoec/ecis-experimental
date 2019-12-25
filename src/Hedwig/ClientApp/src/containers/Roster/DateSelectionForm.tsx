@@ -17,6 +17,8 @@ export default function DateSelectionForm({
 
 	return (
 		<DatePicker
+			id="enrollment-roster-datepicker"
+			legend="Show enrollments by date"
 			byRange={byRange}
 			onChange={newRange => {
 				setDateRange(newRange);
