@@ -227,7 +227,7 @@ namespace Hedwig.Data
     private Family CreateFamily(
       int organizationId,
       string addressLine1 = "450 Columbus Blvd.",
-      string town = "Hartfor",
+      string town = "Hartford",
       string state = "CT",
       string zip = "06103"
     )

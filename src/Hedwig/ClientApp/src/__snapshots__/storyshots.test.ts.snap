@@ -249,9 +249,11 @@ exports[`Storyshots Checklist Box disabled 1`] = `
       
       
     "
+    id="storybook-checklist-disabled"
   >
     <legend
       className="usa-sr-only"
+      id="fieldset-legend-storybook-checklist-disabled"
     >
       Checklist items
     </legend>
@@ -316,9 +318,11 @@ exports[`Storyshots Checklist Default 1`] = `
       
       
     "
+    id="storybook-checklist"
   >
     <legend
       className="usa-sr-only"
+      id="fieldset-legend-storybook-checklist"
     >
       Checklist items
     </legend>
@@ -381,9 +385,11 @@ exports[`Storyshots Checklist Default selection 1`] = `
       
       
     "
+    id="storybook-checklist-default-selection"
   >
     <legend
       className="usa-sr-only"
+      id="fieldset-legend-storybook-checklist-default-selection"
     >
       Checklist items
     </legend>
@@ -446,9 +452,11 @@ exports[`Storyshots Checklist Horizontal 1`] = `
       
       
     "
+    id="storybook-checklist-2"
   >
     <legend
       className="usa-sr-only"
+      id="fieldset-legend-storybook-checklist-2"
     >
       Checklist items
     </legend>
@@ -511,9 +519,11 @@ exports[`Storyshots Checklist With error 1`] = `
        usa-fieldset--error
       
     "
+    id="storybook-checklist-with-error"
   >
     <legend
       className="usa-sr-only"
+      id="fieldset-legend-storybook-checklist-with-error"
     >
       Checklist items
     </legend>
@@ -585,9 +595,11 @@ exports[`Storyshots Checklist With warning 1`] = `
        usa-fieldset--warning
       
     "
+    id="storybook-checklist-with-warning"
   >
     <legend
       className="usa-sr-only"
+      id="fieldset-legend-storybook-checklist-with-warning"
     >
       Checklist items
     </legend>
@@ -668,12 +680,17 @@ exports[`Storyshots DatePicker ByRange 1`] = `
   }
 >
   <fieldset
-    className="usa-fieldset"
+    className="grid-gap grid-row usa-fieldset 
+      
+      
+    "
+    id="byrange-datepicker"
   >
     <legend
       className="usa-sr-only"
+      id="fieldset-legend-byrange-datepicker"
     >
-      Choose a date range
+      Choose a date
     </legend>
     <div
       className="DateRangePicker DateRangePicker_1"
@@ -767,10 +784,15 @@ exports[`Storyshots DatePicker Default 1`] = `
   }
 >
   <fieldset
-    className="usa-fieldset"
+    className="grid-gap grid-row usa-fieldset 
+      
+      
+    "
+    id="default-datepicker"
   >
     <legend
       className="usa-sr-only"
+      id="fieldset-legend-default-datepicker"
     >
       Choose a date
     </legend>
@@ -806,6 +828,119 @@ exports[`Storyshots DatePicker Default 1`] = `
               id="DateInput__screen-reader-message-date"
             >
               Navigate forward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots DatePicker With error 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    className="grid-gap grid-row usa-fieldset 
+       usa-fieldset--error
+      
+    "
+    id="error-datepicker"
+  >
+    <legend
+      className="usa-sr-only"
+      id="fieldset-legend-error-datepicker"
+    >
+      Choose a date
+    </legend>
+    <span
+      className="usa-error-message"
+      id="field-set-error-message"
+      role="alert"
+    >
+      
+       
+      Pick a better date
+    </span>
+    <div
+      className="DateRangePicker DateRangePicker_1"
+    >
+      <div>
+        <div
+          className="DateRangePickerInput DateRangePickerInput_1 DateRangePickerInput__withBorder DateRangePickerInput__withBorder_2"
+        >
+          <div
+            className="DateInput DateInput_1"
+          >
+            <input
+              aria-describedby="DateInput__screen-reader-message-startDate"
+              aria-label="Start Date"
+              autoComplete="off"
+              className="DateInput_input DateInput_input_1"
+              disabled={false}
+              id="startDate"
+              name="startDate"
+              onChange={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              placeholder="Start Date"
+              readOnly={false}
+              required={false}
+              type="text"
+              value="10/30/2019"
+            />
+            <p
+              className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
+              id="DateInput__screen-reader-message-startDate"
+            >
+              Navigate forward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
+            </p>
+          </div>
+          <div
+            aria-hidden="true"
+            className="DateRangePickerInput_arrow DateRangePickerInput_arrow_1"
+            role="presentation"
+          >
+            <svg
+              className="DateRangePickerInput_arrow_svg DateRangePickerInput_arrow_svg_1"
+              focusable="false"
+              viewBox="0 0 1000 1000"
+            >
+              <path
+                d="M694 242l249 250c12 11 12 21 1 32L694 773c-5 5-10 7-16 7s-11-2-16-7c-11-11-11-21 0-32l210-210H68c-13 0-23-10-23-23s10-23 23-23h806L662 275c-21-22 11-54 32-33z"
+              />
+            </svg>
+          </div>
+          <div
+            className="DateInput DateInput_1"
+          >
+            <input
+              aria-describedby="DateInput__screen-reader-message-endDate"
+              aria-label="End Date"
+              autoComplete="off"
+              className="DateInput_input DateInput_input_1"
+              disabled={false}
+              id="endDate"
+              name="endDate"
+              onChange={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              placeholder="End Date"
+              readOnly={false}
+              required={false}
+              type="text"
+              value="10/30/2019"
+            />
+            <p
+              className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
+              id="DateInput__screen-reader-message-endDate"
+            >
+              Navigate backward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
             </p>
           </div>
         </div>
@@ -1093,9 +1228,11 @@ exports[`Storyshots FieldSet Default 1`] = `
       
       
     "
+    id="default-fieldset"
   >
     <legend
       className="usa-sr-only"
+      id="fieldset-legend-default-fieldset"
     >
       field set
     </legend>
@@ -1119,9 +1256,11 @@ exports[`Storyshots FieldSet With error 1`] = `
        usa-fieldset--error
       
     "
+    id="error-fieldset"
   >
     <legend
       className="usa-sr-only"
+      id="fieldset-legend-error-fieldset"
     >
       Error field set
     </legend>
@@ -1160,9 +1299,11 @@ exports[`Storyshots FieldSet With warning 1`] = `
        usa-fieldset--warning
       
     "
+    id="warning-fieldset"
   >
     <legend
       className="usa-sr-only"
+      id="fieldset-legend-warning-fieldset"
     >
       Warning field set
     </legend>
@@ -1727,9 +1868,11 @@ exports[`Storyshots RadioGroup Default 1`] = `
       
       
     "
+    id="storybook-radio-group"
   >
     <legend
       className="usa-sr-only"
+      id="fieldset-legend-storybook-radio-group"
     >
       Radiogroup items
     </legend>
@@ -1792,9 +1935,11 @@ exports[`Storyshots RadioGroup Default selection 1`] = `
       
       
     "
+    id="storybook-radio-group-default-selection"
   >
     <legend
       className="usa-sr-only"
+      id="fieldset-legend-storybook-radio-group-default-selection"
     >
       Radiogroup items
     </legend>
@@ -1857,9 +2002,11 @@ exports[`Storyshots RadioGroup Horizontal 1`] = `
       
       
     "
+    id="storybook-radio-group-2"
   >
     <legend
       className="usa-sr-only"
+      id="fieldset-legend-storybook-radio-group-2"
     >
       Radiogroup items
     </legend>
@@ -1922,9 +2069,11 @@ exports[`Storyshots RadioGroup With error 1`] = `
        usa-fieldset--error
       
     "
+    id="storybook-radio-group-with-warning"
   >
     <legend
       className="usa-sr-only"
+      id="fieldset-legend-storybook-radio-group-with-warning"
     >
       Radiogroup items
     </legend>
@@ -1996,9 +2145,11 @@ exports[`Storyshots RadioGroup With warning 1`] = `
        usa-fieldset--warning
       
     "
+    id="storybook-radio-group-with-warning"
   >
     <legend
       className="usa-sr-only"
+      id="fieldset-legend-storybook-radio-group-with-warning"
     >
       Radiogroup items
     </legend>
@@ -2413,15 +2564,15 @@ exports[`Storyshots TextInput Default 1`] = `
   >
     <label
       className="usa-label"
-      htmlFor="cat"
+      htmlFor="id"
     >
       Default text input
        
     </label>
     <input
       className="usa-input"
-      id="cat"
-      name="cat"
+      id="id"
+      name="id"
       onChange={[Function]}
       type="text"
     />
@@ -2442,7 +2593,7 @@ exports[`Storyshots TextInput Disabled 1`] = `
   >
     <label
       className="usa-label"
-      htmlFor="cat"
+      htmlFor="id3"
     >
       Default text input
        
@@ -2450,8 +2601,8 @@ exports[`Storyshots TextInput Disabled 1`] = `
     <input
       className="usa-input"
       disabled={true}
-      id="cat"
-      name="cat"
+      id="id3"
+      name="id3"
       onChange={[Function]}
       type="text"
     />
@@ -2472,23 +2623,23 @@ exports[`Storyshots TextInput Error 1`] = `
   >
     <label
       className="usa-label usa-label--error"
-      htmlFor="cat"
+      htmlFor="id8"
     >
       Default text input
        
     </label>
     <span
       className="usa-error-message"
-      id="input-error-message"
+      id="id8-input-error-message"
       role="alert"
     >
       Error!
     </span>
     <input
-      aria-describedby="input-error-message"
+      aria-describedby="id8-input-error-message"
       className="usa-input usa-input--error"
-      id="cat"
-      name="cat"
+      id="id8"
+      name="id8"
       onChange={[Function]}
       type="text"
     />
@@ -2512,9 +2663,11 @@ exports[`Storyshots TextInput Error inside error Fieldset 1`] = `
        usa-fieldset--error
        display-inline-block
     "
+      id="example-fieldset-error"
     >
       <legend
         className="usa-sr-only"
+        id="fieldset-legend-example-fieldset-error"
       >
         Text inputs
       </legend>
@@ -2535,23 +2688,23 @@ exports[`Storyshots TextInput Error inside error Fieldset 1`] = `
         >
           <label
             className="usa-label usa-label--error"
-            htmlFor="cat"
+            htmlFor="id9"
           >
             Short
              
           </label>
           <span
             className="usa-error-message"
-            id="input-error-message"
+            id="id9-input-error-message"
             role="alert"
           >
             Error!
           </span>
           <input
-            aria-describedby="input-error-message"
+            aria-describedby="id9-input-error-message"
             className="usa-input usa-input--error"
-            id="cat"
-            name="cat"
+            id="id9"
+            name="id9"
             onChange={[Function]}
             type="text"
           />
@@ -2565,23 +2718,23 @@ exports[`Storyshots TextInput Error inside error Fieldset 1`] = `
         >
           <label
             className="usa-label usa-label--error"
-            htmlFor="cat"
+            htmlFor="id10"
           >
             Long
              
           </label>
           <span
             className="usa-error-message"
-            id="input-error-message"
+            id="id10-input-error-message"
             role="alert"
           >
             Error!
           </span>
           <input
-            aria-describedby="input-error-message"
+            aria-describedby="id10-input-error-message"
             className="usa-input usa-input--error"
-            id="cat"
-            name="cat"
+            id="id10"
+            name="id10"
             onChange={[Function]}
             type="text"
           />
@@ -2605,7 +2758,7 @@ exports[`Storyshots TextInput Optional 1`] = `
   >
     <label
       className="usa-label"
-      htmlFor="cat"
+      htmlFor="id2"
     >
       Default optional text input
        
@@ -2613,8 +2766,8 @@ exports[`Storyshots TextInput Optional 1`] = `
     </label>
     <input
       className="usa-input"
-      id="cat"
-      name="cat"
+      id="id2"
+      name="id2"
       onChange={[Function]}
       type="text"
     />
@@ -2635,15 +2788,15 @@ exports[`Storyshots TextInput Success 1`] = `
   >
     <label
       className="usa-label"
-      htmlFor="cat"
+      htmlFor="id4"
     >
       Default text input
        
     </label>
     <input
       className="usa-input usa-input--success"
-      id="cat"
-      name="cat"
+      id="id4"
+      name="id4"
       onChange={[Function]}
       type="text"
     />
@@ -2664,23 +2817,23 @@ exports[`Storyshots TextInput Warning 1`] = `
   >
     <label
       className="usa-label usa-label--warning"
-      htmlFor="cat"
+      htmlFor="id5"
     >
       Default text input
        
     </label>
     <span
       className="usa-warning-message"
-      id="input-error-message"
+      id="id5-input-error-message"
       role="alert"
     >
       Warning!
     </span>
     <input
-      aria-describedby="input-error-message"
+      aria-describedby="id5-input-error-message"
       className="usa-input usa-input--warning"
-      id="cat"
-      name="cat"
+      id="id5"
+      name="id5"
       onChange={[Function]}
       type="text"
     />
@@ -2704,9 +2857,11 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
        usa-fieldset--warning
        display-inline-block
     "
+      id="example-fieldset-warning"
     >
       <legend
         className="usa-sr-only"
+        id="fieldset-legend-example-fieldset-warning"
       >
         Text inputs
       </legend>
@@ -2740,23 +2895,23 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
         >
           <label
             className="usa-label usa-label--warning"
-            htmlFor="cat"
+            htmlFor="id6"
           >
             Short
              
           </label>
           <span
             className="usa-warning-message"
-            id="input-error-message"
+            id="id6-input-error-message"
             role="alert"
           >
             Warning!
           </span>
           <input
-            aria-describedby="input-error-message"
+            aria-describedby="id6-input-error-message"
             className="usa-input usa-input--warning"
-            id="cat"
-            name="cat"
+            id="id6"
+            name="id6"
             onChange={[Function]}
             type="text"
           />
@@ -2770,23 +2925,23 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
         >
           <label
             className="usa-label usa-label--warning"
-            htmlFor="cat"
+            htmlFor="id7"
           >
             Long
              
           </label>
           <span
             className="usa-warning-message"
-            id="input-error-message"
+            id="id7-input-error-message"
             role="alert"
           >
             Warning!
           </span>
           <input
-            aria-describedby="input-error-message"
+            aria-describedby="id7-input-error-message"
             className="usa-input usa-input--warning"
-            id="cat"
-            name="cat"
+            id="id7"
+            name="id7"
             onChange={[Function]}
             type="text"
           />
@@ -2810,7 +2965,7 @@ exports[`Storyshots TextInput With default value 1`] = `
   >
     <label
       className="usa-label"
-      htmlFor="cat"
+      htmlFor="id1"
     >
       Default text input
        
@@ -2818,8 +2973,8 @@ exports[`Storyshots TextInput With default value 1`] = `
     <input
       className="usa-input"
       defaultValue="default text"
-      id="cat"
-      name="cat"
+      id="id1"
+      name="id1"
       onChange={[Function]}
       type="text"
     />
