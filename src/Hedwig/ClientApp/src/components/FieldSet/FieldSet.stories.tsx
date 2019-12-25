@@ -1,8 +1,10 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import Fieldset from './FieldSet';
+import Fieldset, { FormError } from './FieldSet';
 
+const warning: FormError = { type: 'warning', message: 'These fields need your attention!' };
+const error: FormError = { type: 'error', message: 'These fields will block your progress!' };
 storiesOf('FieldSet', module)
   .add('Default', () => {
     return <Fieldset
@@ -11,11 +13,27 @@ storiesOf('FieldSet', module)
       <p>I'm inside a field set!</p>
     </Fieldset>
   })
-  .add('With Warning', () => {
-    return <Fieldset
-      legend="warning field set"
-    >
-      <p> Oh no! </p>
-      <p> We have warnings! </p>
-    </Fieldset>
-  });
+  .add('With warning', () => {
+    return (
+      <Fieldset
+        legend="Warning field set"
+        error={warning}
+      >
+        <p> Oh no! </p>
+        <p> We have warnings! </p>
+        <p> Pay attention! </p>
+      </Fieldset>
+    )
+  })
+  .add('With error', () => {
+    return (
+      <Fieldset
+        legend="Error field set"
+        error={error}
+      >
+        <p> Uh oh! </p>
+        <p> Bad stuff happening here! </p>
+        <p> Fix it! </p>
+      </Fieldset> 
+    )
+  })

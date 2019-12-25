@@ -7,7 +7,7 @@ import idx from 'idx';
 import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest, Enrollment } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
 import getIdForUser from '../../../utils/getIdForUser';
-import { sectionHasValidationErrors, hasValidationErrors, processValidationError } from '../../../utils/validations';
+import { sectionHasValidationErrors, hasValidationErrors, processValidationError, warningForFieldSet, warningForField } from '../../../utils/validations';
 import FieldSet from '../../../components/FieldSet/FieldSet';
 import { addressFormatter, homelessnessText, fosterText } from '../../../utils/models';
 
@@ -110,10 +110,12 @@ const FamilyInfo: Section = {
 				<h3>Address</h3>
 				<FieldSet
 					legend="Address"
-					warning={hasValidationErrors(idx(enrollment, _ => _.child.family))
-						? 'This information is required for OEC reporting'
-						: undefined
-					}
+					error={warningForFieldSet(
+						['addressLine1', 'state', 'town', 'zip'],
+						idx(enrollment, _ => _.child.family) || null,
+						'This information is required for OEC reporting',
+					)}
+					display="inline-block"
 				>
 					<div className="mobile-lg:grid-col-12">
 						<TextInput
@@ -123,10 +125,11 @@ const FamilyInfo: Section = {
 							onChange={event => updateAddressLine1(
 								event.target.value ? event.target.value : null
 							)}
-							errorType={processValidationError('addressLine1', idx(enrollment, _ => _.child.family.validationErrors))
-								? 'warning'
-								: undefined
-							}
+							error={warningForField(
+								'addressLine1',
+								idx(enrollment, _ => _.child.family) || null,
+								''
+							)}
 						/>
 					</div>
 					<div className="mobile-lg:grid-col-12">
@@ -140,7 +143,7 @@ const FamilyInfo: Section = {
 							optional={true}
 						/>
 					</div>
-					<div className="mobile-lg:grid-col-4">
+					<div className="mobile-lg:grid-col-4 display-inline-block">
 						<TextInput
 							id="state"
 							label="State"
@@ -148,13 +151,14 @@ const FamilyInfo: Section = {
 							onChange={event => updateState(
 								event.target.value ? event.target.value : null
 							)}
-							errorType={processValidationError('state', idx(enrollment, _ => _.child.family.validationErrors))
-								? 'warning'
-								: undefined
-							}
+							error={warningForField(
+								'state',
+								idx(enrollment, _ => _.child.family) || null,
+								''
+							)}
 						/>
 					</div>
-					<div className="mobile-lg:grid-col-8">
+					<div className="mobile-lg:grid-col-8 display-inline-block">
 						<TextInput
 							id="town"
 							label="Town"
@@ -162,10 +166,11 @@ const FamilyInfo: Section = {
 							onChange={event => updateTown(
 								event.target.value ? event.target.value : null
 							)}
-							errorType={processValidationError('town', idx(enrollment, _ => _.child.family.validationErrors))
-								? 'warning'
-								: undefined
-							}
+							error={warningForField(
+								'town',
+								idx(enrollment, _ => _.child.family) || null,
+								''
+							)}
 						/>
 					</div>
 					<div className="mobile-lg:grid-col-6">
@@ -176,10 +181,11 @@ const FamilyInfo: Section = {
 							onChange={event => updateZip(
 								event.target.value ? event.target.value : null
 							)}
-							errorType={processValidationError('zip', idx(enrollment, _ => _.child.family.validationErrors))
-								? 'warning'
-								: undefined
-							}
+							error={warningForField(
+								'zip',
+								idx(enrollment, _ => _.child.family) || null,
+								''
+							)}
 						/>
 					</div>
 				</FieldSet>

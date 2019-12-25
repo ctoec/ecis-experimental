@@ -1,19 +1,33 @@
 import React from 'react';
 import InlineIcon from '../InlineIcon/InlineIcon';
+import { ValidationErrorFromJSONTyped } from '../../generated';
 
-type FieldSetProps = {
-  warning?: string;
-  legend: string
+export type FormError = {
+  message?: string;
+  type: 'warning' | 'error';
 };
 
-const FieldSet: React.FC<FieldSetProps> = (props) => {
-  const { warning, children, legend } = props;
+type FieldSetProps = {
+  error?: FormError;
+  legend: string;
+  display?: string;
+};
+
+const FieldSet: React.FC<FieldSetProps> = ({
+  error,
+  legend,
+  display,
+  children
+}) => {
   return (
-    <fieldset className={`grid-gap grid-row usa-fieldset ${warning ? `usa-fieldset--warning` : ''}`} >
+    <fieldset className={`grid-gap grid-row usa-fieldset 
+      ${error ? ` usa-fieldset--${error.type}` : ''}
+      ${display ? ` display-${display}`: ''}
+    `} >
       <legend className="usa-sr-only">{legend}</legend>
-      {warning && (
-        <span className="usa-warning-message" id="field-set-warning-message" role="alert">
-          <InlineIcon icon='incomplete' /> {warning}
+      {error && (
+        <span className={`usa-${error.type}-message`} id="field-set-error-message" role={error.type === "error" ? "alert" : "status"}>
+          {error.type === 'warning' ? <InlineIcon icon='incomplete' /> : ''} {error.message}
         </span>
       )}
       {children}

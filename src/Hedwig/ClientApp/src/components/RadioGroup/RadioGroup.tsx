@@ -1,6 +1,6 @@
 import React from 'react';
 import RadioButton from './RadioButton';
-import FieldSet from '../FieldSet/FieldSet';
+import FieldSet, { FormError } from '../FieldSet/FieldSet';
 import Legend from '../Legend/Legend';
 
 type RadioButtonOptions = {
@@ -15,7 +15,7 @@ type RadioGroupProps = {
 	selected?: string;
 	horizontal?: boolean;
 	legend: string;
-	warning?: string;
+	error?: FormError;
 };
 
 export default function RadioGroup({
@@ -25,12 +25,12 @@ export default function RadioGroup({
 	selected,
 	horizontal,
 	legend,
-	warning
+	error
 }: RadioGroupProps) {
 	return (
 		<FieldSet
 			legend={legend}
-			warning={warning}
+			error={error}
 		>
 			<div className={horizontal ? 'grid-row flex-align-start grid-gap' : ''}>
 				{options.map(option => (
