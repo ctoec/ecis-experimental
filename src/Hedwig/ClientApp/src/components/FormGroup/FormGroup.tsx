@@ -7,14 +7,14 @@ export type FormError = {
 	type: 'warning' | 'error';
 };
 
-type FieldSetProps = {
+type FormGroupProps = {
 	legend: string;
 	id: string;
 	error?: FormError;
 	display?: string;
 };
 
-const FieldSet: React.FC<FieldSetProps> = ({ legend, id, error, display, children }) => {
+const FormGroup: React.FC<FormGroupProps> = ({ legend, id, error, display, children }) => {
 	return (
 		<fieldset
 			className={`grid-gap grid-row usa-fieldset 
@@ -39,4 +39,4 @@ const FieldSet: React.FC<FieldSetProps> = ({ legend, id, error, display, childre
 		</fieldset>
 	);
 };
-export default FieldSet;
+export default FormGroup;

@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import Checklist from './Checklist';
-import { FormError } from '../FieldSet/FieldSet';
+import { FormError } from '../FormGroup/FormGroup';
 
 const onChange = action('onChange');
 const options = [

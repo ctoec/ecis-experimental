@@ -1,11 +1,11 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import Fieldset, { FormError } from './FieldSet';
+import Fieldset, { FormError } from './FormGroup';
 
 const warning: FormError = { type: 'warning', message: 'These fields need your attention!' };
 const error: FormError = { type: 'error', message: 'These fields will block your progress!' };
-storiesOf('FieldSet', module)
+storiesOf('FormGroup', module)
 	.add('Default', () => {
 		return (
 			<Fieldset legend="field set" id="default-fieldset">

@@ -1215,7 +1215,7 @@ exports[`Storyshots Dropdown Success 1`] = `
 </div>
 `;
 
-exports[`Storyshots FieldSet Default 1`] = `
+exports[`Storyshots FormGroup Default 1`] = `
 <div
   style={
     Object {
@@ -1243,7 +1243,7 @@ exports[`Storyshots FieldSet Default 1`] = `
 </div>
 `;
 
-exports[`Storyshots FieldSet With error 1`] = `
+exports[`Storyshots FormGroup With error 1`] = `
 <div
   style={
     Object {
@@ -1286,7 +1286,7 @@ exports[`Storyshots FieldSet With error 1`] = `
 </div>
 `;
 
-exports[`Storyshots FieldSet With warning 1`] = `
+exports[`Storyshots FormGroup With warning 1`] = `
 <div
   style={
     Object {

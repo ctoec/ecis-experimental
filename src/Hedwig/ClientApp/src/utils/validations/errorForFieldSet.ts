@@ -1,6 +1,6 @@
 import { hasValidationErrors } from "./hasValidationErrors";
 import { Validatable } from "./Validatable";
-import { FormError } from "../../components/FieldSet/FieldSet";
+import { FormError } from "../../components/FormGroup/FormGroup";
 
 export function warningForFieldSet<T extends Validatable>(
   fields: string[],

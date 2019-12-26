@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormError } from '../FieldSet/FieldSet';
+import { FormError } from '../FormGroup/FormGroup';
 
 type TextInputProps = {
   label: string | JSX.Element;
@@ -10,8 +10,6 @@ type TextInputProps = {
   disabled?: boolean;
   success?: boolean;
   error?: FormError;
-  errorMessage?: string;
-  errorType?: 'error' | 'warning';
   small?: boolean;
   optional?: boolean;
 };
@@ -25,8 +23,6 @@ export default function TextInput({
   disabled,
   success,
   error,
-  errorMessage,
-  errorType,
   small,
   optional,
 }: TextInputProps) {

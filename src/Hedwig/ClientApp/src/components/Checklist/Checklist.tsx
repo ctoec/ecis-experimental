@@ -1,6 +1,6 @@
 import React from 'react';
 import Checkbox from './Checkbox';
-import FieldSet, { FormError } from '../FieldSet/FieldSet';
+import FormGroup, { FormError } from '../FormGroup/FormGroup';
 
 type CheckboxOptions = {
 	text: string;
@@ -26,7 +26,7 @@ export default function Checklist({
 	error
 }: ChecklistProps) {
 	return (
-		<FieldSet
+		<FormGroup
 			legend={legend}
 			error={error}
 			id={groupName}
@@ -45,6 +45,6 @@ export default function Checklist({
 					/>
 				))}
 			</div>
-		</FieldSet>
+		</FormGroup>
 	);
 }

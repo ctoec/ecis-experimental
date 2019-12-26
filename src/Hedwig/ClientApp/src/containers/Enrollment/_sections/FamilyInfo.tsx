@@ -8,7 +8,7 @@ import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest } from '../../.
 import UserContext from '../../../contexts/User/UserContext';
 import getIdForUser from '../../../utils/getIdForUser';
 import { sectionHasValidationErrors, hasValidationErrors, processValidationError, warningForFieldSet, warningForField } from '../../../utils/validations';
-import FieldSet from '../../../components/FieldSet/FieldSet';
+import FormGroup from '../../../components/FormGroup/FormGroup';
 import { addressFormatter, homelessnessText, fosterText } from '../../../utils/models';
 
 const FamilyInfo: Section = {
@@ -107,7 +107,7 @@ const FamilyInfo: Section = {
 		return (
 			<div className="FamilyInfoForm usa-form">
 				<h3>Address</h3>
-				<FieldSet
+				<FormGroup
 					id="family-address"
 					legend="Address"
 					error={warningForFieldSet(
@@ -188,7 +188,7 @@ const FamilyInfo: Section = {
 							)}
 						/>
 					</div>
-				</FieldSet>
+				</FormGroup>
 
 				<h3>Other</h3>
 				<div className="margin-top-3">

@@ -1,7 +1,7 @@
 import { Validatable } from "./Validatable";
 import { hasValidationErrors } from "./hasValidationErrors";
 import { processValidationError } from "./processValidationError";
-import { FormError } from "../../components/FieldSet/FieldSet";
+import { FormError } from "../../components/FormGroup/FormGroup";
 
 export function warningForField<T extends Validatable>(
   field: string,

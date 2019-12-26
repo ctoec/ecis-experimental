@@ -16,7 +16,7 @@ import getIdForUser from '../../../utils/getIdForUser';
 import UserContext from '../../../contexts/User/UserContext';
 import { sectionHasValidationErrors, errorForField, warningForFieldSet, errorForFieldSet } from '../../../utils/validations';
 import { determinationArgsAreValid } from '../../../utils/models';
-import FieldSet from '../../../components/FieldSet/FieldSet';
+import FormGroup from '../../../components/FormGroup/FormGroup';
 
 const FamilyIncome: Section = {
   key: 'family-income',
@@ -138,7 +138,7 @@ const FamilyIncome: Section = {
 		  	<div className="usa-form">
 		  		{!notDisclosed && (
 		  			<>
-						<FieldSet
+						<FormGroup
 							id="family-income"
 							legend="Family income determination"
 							error={errorForFieldSet(
@@ -190,7 +190,7 @@ const FamilyIncome: Section = {
 			  					}
 			  					dateRange={{ startDate: determinationDate ? moment(determinationDate) : null, endDate: null }}
 			  				/>
-							</FieldSet>
+							</FormGroup>
 		  			</>
 		  		)}
 			  	<Checklist

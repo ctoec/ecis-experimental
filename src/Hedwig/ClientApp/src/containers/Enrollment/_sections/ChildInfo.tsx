@@ -33,7 +33,7 @@ import {
   hasValidationErrors,
   warningForFieldSet,
   warningForField } from '../../../utils/validations';
-import FieldSet from '../../../components/FieldSet/FieldSet';
+import FormGroup from '../../../components/FormGroup/FormGroup';
 
 
 
@@ -253,7 +253,7 @@ const ChildInfo: Section = {
         />
 
         <h3>Birth certificate</h3>
-        <FieldSet
+        <FormGroup
           error={warningForFieldSet(
             ['birthCertificateId', 'birthState', 'birthTown'],
             enrollment ? enrollment.child : null,
@@ -302,7 +302,7 @@ const ChildInfo: Section = {
               )}
             />
           </div>
-        </FieldSet>
+        </FormGroup>
 
         <h3>Race</h3>
         <p className="oec-form-helper">As identified by family</p>
