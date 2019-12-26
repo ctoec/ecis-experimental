@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Section } from '../enrollmentTypes';
 import Button from '../../../components/Button/Button';
 import TextInput from '../../../components/TextInput/TextInput';
@@ -7,14 +7,16 @@ import dateFormatter from '../../../utils/dateFormatter';
 import notNullOrUndefined from '../../../utils/notNullOrUndefined';
 import moment from 'moment';
 import idx from 'idx';
-import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest } from '../../../generated';
+import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest, Enrollment, FamilyDetermination } from '../../../generated';
 import Checklist from '../../../components/Checklist/Checklist';
 import Alert from '../../../components/Alert/Alert';
 import parseCurrencyFromString from '../../../utils/parseCurrencyFromString';
 import currencyFormatter from '../../../utils/currencyFormatter';
 import getIdForUser from '../../../utils/getIdForUser';
 import UserContext from '../../../contexts/User/UserContext';
-import { sectionHasValidationErrors } from '../../../utils/validations';
+import { sectionHasValidationErrors, errorForField, warningForFieldSet, errorForFieldSet } from '../../../utils/validations';
+import { determinationArgsAreValid } from '../../../utils/models';
+import FieldSet from '../../../components/FieldSet/FieldSet';
 
 const FamilyIncome: Section = {
   key: 'family-income',
@@ -28,7 +30,7 @@ const FamilyIncome: Section = {
 			<div className="FamilyIncomeSummary">
 				{determination ?
 					determination.notDisclosed ? (
-						<p>Income determination not disclosed.</p>
+						<p>Income not disclosed.</p>
 					) : (
 						<>
 							<p>Household size: {determination.numberOfPeople}</p>
@@ -62,58 +64,72 @@ const FamilyIncome: Section = {
       determination ? determination.numberOfPeople : null
     );
     const [income, updateIncome] = React.useState(determination ? determination.income : null);
-    const [determined, updateDetermined] = React.useState(
+    const [determinationDate, updateDeterminationDate] = React.useState(
       determination ? determination.determinationDate : null
     );
 	  const [notDisclosed, updateNotDisclosed] = useState(
       determination ? determination.notDisclosed : false
-    );
+		);
+		
+		const args = {
+			numberOfPeople,
+			income,
+			determinationDate,
+			notDisclosed
+		};
+		const [validArgs, updateValidArgs] = useState();
+		const [attemptedSave, updateAttemptedSave] = useState(false);
+
+		useEffect(() => {
+			if(determinationArgsAreValid(args)) {
+				updateValidArgs(args);
+			} else {
+				updateValidArgs(undefined);
+			}
+		}, [JSON.stringify(args)])
+
+		function proceedWithoutCreatingDetermination(args: any) {
+		  return !args.notDisclosed && !args.numberOfPeople && !args.income && !args.determinationDate;
+		}
 
     const save = () => {
-      // If determination is not added, allow user to proceed without creating one
-      if (!numberOfPeople && !income && !determined && !notDisclosed) {
+      if (proceedWithoutCreatingDetermination(args)) {
         if (callback) {
           callback(enrollment);
         }
         return;
-      }
+			}
+			
+			if(!validArgs) {
+				updateAttemptedSave(true);
+				return;
+			}
 
-      // If determination is added, all fields must be present
-      // or notDisclosed must be true
-      if ((numberOfPeople && income && determined) || notDisclosed) {
-        const args = {
-          notDisclosed: notDisclosed,
-          numberOfPeople: notDisclosed ? undefined: (numberOfPeople || undefined),
-          income: notDisclosed ? undefined : (income || undefined),
-          determined: notDisclosed ? undefined : (determined || undefined),
-        };
-
-        if (enrollment && child && child.family) {
-          const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
-            ...defaultParams,
-            enrollment: {
-              ...enrollment,
-              child: {
-                ...child,
-                family: {
-                  ...child.family,
-                  determinations: determination ? [{
-                    ...determination,
-                    ...args
-                  }] : [{ 
-                    id: 0,
-                    familyId: child.family.id,
-                    ...args 
-                  }]
-                }
+      if (enrollment && child && child.family) {
+        const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
+          ...defaultParams,
+          enrollment: {
+            ...enrollment,
+            child: {
+              ...child,
+              family: {
+                ...child.family,
+                determinations: determination ? [{
+                  ...determination,
+                  ...validArgs
+                }] : [{ 
+                  id: 0,
+                  familyId: child.family.id,
+                  ...validArgs 
+                }]
               }
             }
-          };
-          mutate((api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
-            .then((res) => {
-              if (callback && res) callback(res);
-            });
-        }
+          }
+        };
+        mutate((api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
+          .then((res) => {
+            if (callback && res) callback(res);
+          });
       }
     };
 
@@ -122,39 +138,58 @@ const FamilyIncome: Section = {
 		  	<div className="usa-form">
 		  		{!notDisclosed && (
 		  			<>
-		  			<TextInput
-		  				id="numberOfPeople"
-		  				label="Household size"
-		  				defaultValue={numberOfPeople ? '' + numberOfPeople : ''}
-		  				onChange={event => {
-		  					const value = parseInt(event.target.value.replace(/[^0-9.]/g, ''), 10) || null;
-		  					updateNumberOfPeople(value);
-		  				}}
-		  				onBlur={event => (event.target.value = numberOfPeople ? '' + numberOfPeople : '')}
-		  				small
-		  			/>
-		  			<TextInput
-		  				id="income"
-		  				label="Annual household income"
-		  				defaultValue={currencyFormatter(income)}
-		  				onChange={event => {
-              	updateIncome(parseCurrencyFromString(event.target.value));
-		  				}}
-              onBlur={event => (event.target.value = notNullOrUndefined(income) ? currencyFormatter(income) : '')}
-		  			/>
-		  			<label className="usa-label" htmlFor="date">
-		  				Date of income determination
-		  			</label>
-		  			<DatePicker
-		  				onChange={range =>
-		  					updateDetermined((range.startDate && range.startDate.toDate()) || null)
-		  				}
-		  				dateRange={{ startDate: determined ? moment(determined) : null, endDate: null }}
-		  			/>
+						<FieldSet
+							legend="Family income determination"
+							error={errorForFieldSet(
+								[numberOfPeople, income, determinationDate],
+								attemptedSave,
+								!notDisclosed,
+								'If income is disclosed, this information is required for enrollment'
+							)}
+							>
+			  				<TextInput
+			  					id="numberOfPeople"
+			  					label="Household size"
+			  					defaultValue={numberOfPeople ? '' + numberOfPeople : ''}
+			  					onChange={event => {
+			  						const value = parseInt(event.target.value.replace(/[^0-9.]/g, ''), 10) || null;
+			  						updateNumberOfPeople(value);
+			  					}}
+									onBlur={event => (event.target.value = numberOfPeople ? '' + numberOfPeople : '')}
+									error={errorForField(
+										numberOfPeople,
+										attemptedSave,
+										!notDisclosed,
+									)}
+			  					small
+			  				/>
+			  				<TextInput
+			  					id="income"
+			  					label="Annual household income"
+			  					defaultValue={currencyFormatter(income)}
+			  					onChange={event => {
+	      		       	updateIncome(parseCurrencyFromString(event.target.value));
+			  					}}
+									onBlur={event => (event.target.value = notNullOrUndefined(income) ? currencyFormatter(income) : '')}
+									error={errorForField(
+										income, 
+										attemptedSave,
+										!notDisclosed
+									)}
+			  				/>
+			  				<label className="usa-label" htmlFor="date">
+			  					Date of income determination
+			  				</label>
+			  				<DatePicker
+			  					onChange={range =>
+			  						updateDeterminationDate((range.startDate && range.startDate.toDate()) || null)
+			  					}
+			  					dateRange={{ startDate: determinationDate ? moment(determinationDate) : null, endDate: null }}
+			  				/>
+							</FieldSet>
 		  			</>
 		  		)}
-					<br/>
-		  		<Checklist
+			  	<Checklist
 						legend="Family income disclosure"
 						groupName="familyIncome"
 						options={[
@@ -165,7 +200,7 @@ const FamilyIncome: Section = {
 								onChange: event => updateNotDisclosed(event.target.checked)
 							}
 						]}
-		  		/>
+			  	/>
 		  	</div>
 
 		  	{notDisclosed &&
@@ -176,7 +211,7 @@ const FamilyIncome: Section = {
 		  	}
 
 		  	<div className="usa-form">
-		  		<Button text="Save" onClick={save} />
+		  		<Button text="Save" onClick={save} disabled={attemptedSave && !validArgs}/>
 		  	</div>
 		  </div>
 	  );

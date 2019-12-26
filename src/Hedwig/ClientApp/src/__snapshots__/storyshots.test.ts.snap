@@ -245,7 +245,10 @@ exports[`Storyshots Checklist Box disabled 1`] = `
   }
 >
   <fieldset
-    className="grid-gap grid-row usa-fieldset "
+    className="grid-gap grid-row usa-fieldset 
+      
+      
+    "
   >
     <legend
       className="usa-sr-only"
@@ -309,7 +312,10 @@ exports[`Storyshots Checklist Default 1`] = `
   }
 >
   <fieldset
-    className="grid-gap grid-row usa-fieldset "
+    className="grid-gap grid-row usa-fieldset 
+      
+      
+    "
   >
     <legend
       className="usa-sr-only"
@@ -371,7 +377,10 @@ exports[`Storyshots Checklist Default selection 1`] = `
   }
 >
   <fieldset
-    className="grid-gap grid-row usa-fieldset "
+    className="grid-gap grid-row usa-fieldset 
+      
+      
+    "
   >
     <legend
       className="usa-sr-only"
@@ -433,7 +442,10 @@ exports[`Storyshots Checklist Horizontal 1`] = `
   }
 >
   <fieldset
-    className="grid-gap grid-row usa-fieldset "
+    className="grid-gap grid-row usa-fieldset 
+      
+      
+    "
   >
     <legend
       className="usa-sr-only"
@@ -486,6 +498,80 @@ exports[`Storyshots Checklist Horizontal 1`] = `
 </div>
 `;
 
+exports[`Storyshots Checklist With error 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    className="grid-gap grid-row usa-fieldset 
+       usa-fieldset--error
+      
+    "
+  >
+    <legend
+      className="usa-sr-only"
+    >
+      Checklist items
+    </legend>
+    <span
+      className="usa-error-message"
+      id="field-set-error-message"
+      role="alert"
+    >
+      
+       
+      These fields will block your progress
+    </span>
+    <div
+      className=""
+    >
+      <div
+        className="usa-checkbox "
+      >
+        <input
+          className="usa-checkbox__input"
+          defaultChecked={false}
+          id="one"
+          name="storybook-checklist-with-error"
+          onChange={[Function]}
+          type="checkbox"
+          value="one"
+        />
+        <label
+          className="usa-checkbox__label"
+          htmlFor="one"
+        >
+          Option one
+        </label>
+      </div>
+      <div
+        className="usa-checkbox "
+      >
+        <input
+          className="usa-checkbox__input"
+          defaultChecked={false}
+          id="two"
+          name="storybook-checklist-with-error"
+          onChange={[Function]}
+          type="checkbox"
+          value="two"
+        />
+        <label
+          className="usa-checkbox__label"
+          htmlFor="two"
+        >
+          Option two
+        </label>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
 exports[`Storyshots Checklist With warning 1`] = `
 <div
   style={
@@ -495,7 +581,10 @@ exports[`Storyshots Checklist With warning 1`] = `
   }
 >
   <fieldset
-    className="grid-gap grid-row usa-fieldset usa-fieldset--warning"
+    className="grid-gap grid-row usa-fieldset 
+       usa-fieldset--warning
+      
+    "
   >
     <legend
       className="usa-sr-only"
@@ -504,8 +593,8 @@ exports[`Storyshots Checklist With warning 1`] = `
     </legend>
     <span
       className="usa-warning-message"
-      id="field-set-warning-message"
-      role="alert"
+      id="field-set-error-message"
+      role="status"
     >
       <span
         className="oec-inline-icon oec-inline-icon--incomplete"
@@ -522,7 +611,7 @@ exports[`Storyshots Checklist With warning 1`] = `
         </span>
       </span>
        
-      WARNING: this section needs your attention!
+      These fields need your attention
     </span>
     <div
       className=""
@@ -1000,7 +1089,10 @@ exports[`Storyshots FieldSet Default 1`] = `
   }
 >
   <fieldset
-    className="grid-gap grid-row usa-fieldset "
+    className="grid-gap grid-row usa-fieldset 
+      
+      
+    "
   >
     <legend
       className="usa-sr-only"
@@ -1014,7 +1106,7 @@ exports[`Storyshots FieldSet Default 1`] = `
 </div>
 `;
 
-exports[`Storyshots FieldSet With Warning 1`] = `
+exports[`Storyshots FieldSet With error 1`] = `
 <div
   style={
     Object {
@@ -1023,18 +1115,87 @@ exports[`Storyshots FieldSet With Warning 1`] = `
   }
 >
   <fieldset
-    className="grid-gap grid-row usa-fieldset "
+    className="grid-gap grid-row usa-fieldset 
+       usa-fieldset--error
+      
+    "
   >
     <legend
       className="usa-sr-only"
     >
-      warning field set
+      Error field set
     </legend>
+    <span
+      className="usa-error-message"
+      id="field-set-error-message"
+      role="alert"
+    >
+      
+       
+      These fields will block your progress!
+    </span>
+    <p>
+       Uh oh! 
+    </p>
+    <p>
+       Bad stuff happening here! 
+    </p>
+    <p>
+       Fix it! 
+    </p>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots FieldSet With warning 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    className="grid-gap grid-row usa-fieldset 
+       usa-fieldset--warning
+      
+    "
+  >
+    <legend
+      className="usa-sr-only"
+    >
+      Warning field set
+    </legend>
+    <span
+      className="usa-warning-message"
+      id="field-set-error-message"
+      role="status"
+    >
+      <span
+        className="oec-inline-icon oec-inline-icon--incomplete"
+      >
+        <svg>
+          error.svg
+        </svg>
+        <span
+          className="usa-sr-only"
+        >
+          (
+          incomplete
+          )
+        </span>
+      </span>
+       
+      These fields need your attention!
+    </span>
     <p>
        Oh no! 
     </p>
     <p>
        We have warnings! 
+    </p>
+    <p>
+       Pay attention! 
     </p>
   </fieldset>
 </div>
@@ -1562,7 +1723,10 @@ exports[`Storyshots RadioGroup Default 1`] = `
   }
 >
   <fieldset
-    className="grid-gap grid-row usa-fieldset "
+    className="grid-gap grid-row usa-fieldset 
+      
+      
+    "
   >
     <legend
       className="usa-sr-only"
@@ -1624,7 +1788,10 @@ exports[`Storyshots RadioGroup Default selection 1`] = `
   }
 >
   <fieldset
-    className="grid-gap grid-row usa-fieldset "
+    className="grid-gap grid-row usa-fieldset 
+      
+      
+    "
   >
     <legend
       className="usa-sr-only"
@@ -1686,7 +1853,10 @@ exports[`Storyshots RadioGroup Horizontal 1`] = `
   }
 >
   <fieldset
-    className="grid-gap grid-row usa-fieldset "
+    className="grid-gap grid-row usa-fieldset 
+      
+      
+    "
   >
     <legend
       className="usa-sr-only"
@@ -1739,6 +1909,80 @@ exports[`Storyshots RadioGroup Horizontal 1`] = `
 </div>
 `;
 
+exports[`Storyshots RadioGroup With error 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    className="grid-gap grid-row usa-fieldset 
+       usa-fieldset--error
+      
+    "
+  >
+    <legend
+      className="usa-sr-only"
+    >
+      Radiogroup items
+    </legend>
+    <span
+      className="usa-error-message"
+      id="field-set-error-message"
+      role="alert"
+    >
+      
+       
+      These fields will block your progress
+    </span>
+    <div
+      className=""
+    >
+      <div
+        className="usa-radio "
+      >
+        <input
+          checked={true}
+          className="usa-radio__input"
+          id="one"
+          name="storybook-radio-group-with-warning"
+          onChange={[Function]}
+          type="radio"
+          value="one"
+        />
+        <label
+          className="usa-radio__label"
+          htmlFor="one"
+        >
+          Option one
+        </label>
+      </div>
+      <div
+        className="usa-radio "
+      >
+        <input
+          checked={false}
+          className="usa-radio__input"
+          id="two"
+          name="storybook-radio-group-with-warning"
+          onChange={[Function]}
+          type="radio"
+          value="two"
+        />
+        <label
+          className="usa-radio__label"
+          htmlFor="two"
+        >
+          Option two
+        </label>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
 exports[`Storyshots RadioGroup With warning 1`] = `
 <div
   style={
@@ -1748,7 +1992,10 @@ exports[`Storyshots RadioGroup With warning 1`] = `
   }
 >
   <fieldset
-    className="grid-gap grid-row usa-fieldset usa-fieldset--warning"
+    className="grid-gap grid-row usa-fieldset 
+       usa-fieldset--warning
+      
+    "
   >
     <legend
       className="usa-sr-only"
@@ -1757,8 +2004,8 @@ exports[`Storyshots RadioGroup With warning 1`] = `
     </legend>
     <span
       className="usa-warning-message"
-      id="field-set-warning-message"
-      role="alert"
+      id="field-set-error-message"
+      role="status"
     >
       <span
         className="oec-inline-icon oec-inline-icon--incomplete"
@@ -1775,7 +2022,7 @@ exports[`Storyshots RadioGroup With warning 1`] = `
         </span>
       </span>
        
-      WARNING: This section needs your attention!
+      These fields need your attention
     </span>
     <div
       className=""
@@ -2221,10 +2468,10 @@ exports[`Storyshots TextInput Error 1`] = `
   }
 >
   <div
-    className="usa-form-group"
+    className="usa-form-group usa-form-group--error"
   >
     <label
-      className="usa-label"
+      className="usa-label usa-label--error"
       htmlFor="cat"
     >
       Default text input
@@ -2235,16 +2482,112 @@ exports[`Storyshots TextInput Error 1`] = `
       id="input-error-message"
       role="alert"
     >
-      Fix this error
+      Error!
     </span>
     <input
       aria-describedby="input-error-message"
-      className="usa-input"
+      className="usa-input usa-input--error"
       id="cat"
       name="cat"
       onChange={[Function]}
       type="text"
     />
+  </div>
+</div>
+`;
+
+exports[`Storyshots TextInput Error inside error Fieldset 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form"
+  >
+    <fieldset
+      className="grid-gap grid-row usa-fieldset 
+       usa-fieldset--error
+       display-inline-block
+    "
+    >
+      <legend
+        className="usa-sr-only"
+      >
+        Text inputs
+      </legend>
+      <span
+        className="usa-error-message"
+        id="field-set-error-message"
+        role="alert"
+      >
+        
+         
+        Error!
+      </span>
+      <div
+        className="mobile-lg:grid-col-4 display-inline-block"
+      >
+        <div
+          className="usa-form-group usa-form-group--error"
+        >
+          <label
+            className="usa-label usa-label--error"
+            htmlFor="cat"
+          >
+            Short
+             
+          </label>
+          <span
+            className="usa-error-message"
+            id="input-error-message"
+            role="alert"
+          >
+            Error!
+          </span>
+          <input
+            aria-describedby="input-error-message"
+            className="usa-input usa-input--error"
+            id="cat"
+            name="cat"
+            onChange={[Function]}
+            type="text"
+          />
+        </div>
+      </div>
+      <div
+        className="mobile-lg:grid-col-8 display-inline-block"
+      >
+        <div
+          className="usa-form-group usa-form-group--error"
+        >
+          <label
+            className="usa-label usa-label--error"
+            htmlFor="cat"
+          >
+            Long
+             
+          </label>
+          <span
+            className="usa-error-message"
+            id="input-error-message"
+            role="alert"
+          >
+            Error!
+          </span>
+          <input
+            aria-describedby="input-error-message"
+            className="usa-input usa-input--error"
+            id="cat"
+            name="cat"
+            onChange={[Function]}
+            type="text"
+          />
+        </div>
+      </div>
+    </fieldset>
   </div>
 </div>
 `;
@@ -2304,6 +2647,152 @@ exports[`Storyshots TextInput Success 1`] = `
       onChange={[Function]}
       type="text"
     />
+  </div>
+</div>
+`;
+
+exports[`Storyshots TextInput Warning 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group usa-form-group--warning"
+  >
+    <label
+      className="usa-label usa-label--warning"
+      htmlFor="cat"
+    >
+      Default text input
+       
+    </label>
+    <span
+      className="usa-warning-message"
+      id="input-error-message"
+      role="alert"
+    >
+      Warning!
+    </span>
+    <input
+      aria-describedby="input-error-message"
+      className="usa-input usa-input--warning"
+      id="cat"
+      name="cat"
+      onChange={[Function]}
+      type="text"
+    />
+  </div>
+</div>
+`;
+
+exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form"
+  >
+    <fieldset
+      className="grid-gap grid-row usa-fieldset 
+       usa-fieldset--warning
+       display-inline-block
+    "
+    >
+      <legend
+        className="usa-sr-only"
+      >
+        Text inputs
+      </legend>
+      <span
+        className="usa-warning-message"
+        id="field-set-error-message"
+        role="status"
+      >
+        <span
+          className="oec-inline-icon oec-inline-icon--incomplete"
+        >
+          <svg>
+            error.svg
+          </svg>
+          <span
+            className="usa-sr-only"
+          >
+            (
+            incomplete
+            )
+          </span>
+        </span>
+         
+        Warning!
+      </span>
+      <div
+        className="mobile-lg:grid-col-4 display-inline-block"
+      >
+        <div
+          className="usa-form-group usa-form-group--warning"
+        >
+          <label
+            className="usa-label usa-label--warning"
+            htmlFor="cat"
+          >
+            Short
+             
+          </label>
+          <span
+            className="usa-warning-message"
+            id="input-error-message"
+            role="alert"
+          >
+            Warning!
+          </span>
+          <input
+            aria-describedby="input-error-message"
+            className="usa-input usa-input--warning"
+            id="cat"
+            name="cat"
+            onChange={[Function]}
+            type="text"
+          />
+        </div>
+      </div>
+      <div
+        className="mobile-lg:grid-col-8 display-inline-block"
+      >
+        <div
+          className="usa-form-group usa-form-group--warning"
+        >
+          <label
+            className="usa-label usa-label--warning"
+            htmlFor="cat"
+          >
+            Long
+             
+          </label>
+          <span
+            className="usa-warning-message"
+            id="input-error-message"
+            role="alert"
+          >
+            Warning!
+          </span>
+          <input
+            aria-describedby="input-error-message"
+            className="usa-input usa-input--warning"
+            id="cat"
+            name="cat"
+            onChange={[Function]}
+            type="text"
+          />
+        </div>
+      </div>
+    </fieldset>
   </div>
 </div>
 `;

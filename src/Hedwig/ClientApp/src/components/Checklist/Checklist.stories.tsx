@@ -2,6 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import Checklist from './Checklist';
+import { FormError } from '../FieldSet/FieldSet';
 
 const onChange = action('onChange');
 const options = [
@@ -18,6 +19,8 @@ const options = [
 		onChange: onChange,
 	},
 ];
+const warning: FormError ={ type: 'warning', message: 'These fields need your attention' };
+const error: FormError ={ type: 'error', message: 'These fields will block your progress' };
 
 const optionsSelected = options.map(option => Object.assign({}, option, { checked: true }));
 const boxDisabledAndSelected = optionsSelected.map(option =>
@@ -68,7 +71,17 @@ storiesOf('Checklist', module)
 				options={options}
 				groupName="storybook-checklist-with-warning"
 				legend="Checklist items"
-				warning="WARNING: this section needs your attention!"
+				error={warning}
+			/>
+		)
+	})
+	.add('With error', () => {
+		return (
+			<Checklist
+				options={options}
+				groupName="storybook-checklist-with-error"
+				legend="Checklist items"
+				error={error}
 			/>
 		)
 	})

@@ -508,16 +508,24 @@ $future-step-color: color('base-dark') !default;
 	border-color: color($theme-color-warning-dark);
 }
 
-.usa-fieldset--warning {
+.usa-fieldset--error {
 	border-left-width: 0.25rem;
 	border-left-style: solid;
-	border-left-color: color($theme-color-warning-dark);
+	border-left-color: color($theme-color-error-dark);
+
+	.usa-form-group--error {
+		margin-left: auto;
+		border-left: none;
+	}
 }
 
-.usa-fieldset {
-	display: inline-block;
-	* {
-		display: inherit;
+.usa-fieldset--warning {
+	@extend .usa-fieldset--error;
+	border-left-color: color($theme-color-warning-dark);
+
+	.usa-form-group--warning {
+		margin-left: auto;
+		border-left: none;
 	}
 }
 
