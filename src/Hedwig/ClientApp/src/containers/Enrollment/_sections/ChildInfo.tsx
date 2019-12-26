@@ -10,7 +10,6 @@ import nameFormatter from '../../../utils/nameFormatter';
 import dateFormatter from '../../../utils/dateFormatter';
 import moment from 'moment';
 import {
-  Child,
   ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest,
   Gender,
   ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
@@ -140,6 +139,8 @@ const ChildInfo: Section = {
 
     const save = () => {
       if(!validArgs) {
+        // TODO: apply styling to missing fields
+        // TODO: SET ALERT HERE?
         updateAttemptedSave(true);
         return;
       }

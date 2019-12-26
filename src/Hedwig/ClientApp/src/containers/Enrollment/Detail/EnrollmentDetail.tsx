@@ -11,11 +11,9 @@ import {
 } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
 import useApi from '../../../hooks/useApi';
-import DirectionalLink from '../../../components/DirectionalLink/DirectionalLink';
-import Alert from '../../../components/Alert/Alert';
 import getIdForUser from '../../../utils/getIdForUser';
 import InlineIcon from '../../../components/InlineIcon/InlineIcon';
-import { hasValidationErrors, sectionHasValidationErrors  }from '../../../utils/validations';
+import CommonContainer from '../../CommonContainer';
 import { SectionProps } from '../enrollmentTypes';
 
 type EnrollmentDetailParams = {
@@ -61,21 +59,10 @@ export default function EnrollmentDetail({
 	}
 
 	const child = enrollment.child;
-	const informationIsMissing = hasValidationErrors(enrollment);
 
 	return (
-		<div className="EnrollmentDetail">
+		<CommonContainer>
 			<section className="grid-container">
-				<DirectionalLink direction="left" to="/roster" text="Back to roster" />
-				{informationIsMissing && (
-					<Alert
-						type="warning"
-						heading="Missing information"
-						text={`${nameFormatter(
-							child
-						)} has been successfully enrolled, however, they are missing information or include invalid information that must be corrected to submit the monthly CDC report. You will be reminded to update this information before you can submit the report.`}
-					/>
-				)}
 				<h1>{nameFormatter(child)}</h1>
 				{sections.map(section => {
 					var props: SectionProps = { enrollment, mutate };
@@ -90,7 +77,7 @@ export default function EnrollmentDetail({
 								<Link to={`edit/${section.key}`}>
 								Edit<span className="usa-sr-only"> {section.name.toLowerCase()}</span>
 								</Link>
-								{section.status(props) == 'incomplete' && (
+								{section.status(props) === 'incomplete' && (
 									<span>
 										<InlineIcon icon="incomplete" /> Missing information
 									</span>
@@ -101,6 +88,6 @@ export default function EnrollmentDetail({
 				}
 			)}
 			</section>
-		</div>
+		</CommonContainer>
 	);
 }

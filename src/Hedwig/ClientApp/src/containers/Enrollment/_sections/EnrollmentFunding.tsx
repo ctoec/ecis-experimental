@@ -11,10 +11,8 @@ import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest, Age, Enrollmen
 import UserContext from '../../../contexts/User/UserContext';
 import { ageFromString, prettyAge } from '../../../utils/ageGroupUtils';
 import getIdForUser from '../../../utils/getIdForUser';
-import { DeepNonUndefineable } from '../../../utils/types';
 import Alert from '../../../components/Alert/Alert';
 import { sectionHasValidationErrors } from '../../../utils/validations';
-import FieldSet from '../../../components/FieldSet/FieldSet';
 
 const EnrollmentFunding: Section = {
   key: 'enrollment-funding',
@@ -64,7 +62,7 @@ const EnrollmentFunding: Section = {
   
       // If no determinations are present, not disclosed = false
       // (because it is not explicitly true)
-      if (!determinations || determinations.length == 0) return false;
+      if (!determinations || determinations.length === 0) return false;
       determinations = determinations.sort((a, b) => {
         if (a.determinationDate > b.determinationDate) return 1;
         if (a.determinationDate < b.determinationDate) return -1;

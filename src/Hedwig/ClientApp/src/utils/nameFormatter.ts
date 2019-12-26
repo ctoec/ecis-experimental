@@ -1,14 +1,6 @@
 import { Child } from '../generated/models/Child';
 
-// TODO: FIX THIS
-interface Name {
-	firstName: string | null;
-	middleName: string | null;
-	lastName: string | null;
-	suffix: string | null;
-}
-
-export default function nameFormatter(name?: Name) {
+export default function nameFormatter(name?: Child) {
 	if (!name) {
 		return '';
 	}
