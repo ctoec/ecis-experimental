@@ -13,7 +13,7 @@ import {
 } from '../../../generated';
 import getIdForUser from '../../../utils/getIdForUser';
 import useApi from '../../../hooks/useApi';
-import ContainerContainer from '../../CommonContainer';
+import CommonContainer from '../../CommonContainer';
 import { hasValidationErrors } from '../../../utils/validations';
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import nameFormatter from '../../../utils/nameFormatter';
@@ -78,7 +78,6 @@ export default function EnrollmentEdit({
 	 * @param enrollment Enrollment that was just saved.
 	 */
 	const afterSave = (enrollment: Enrollment) => {
-		// TODO: SHOULD THIS BE HERE? IF SO MAKE UTIL FROM SHARED FUNCTIONALITY BETWEEN THIS AND ENROLLMENT NEW
 		const informationIsMissing = hasValidationErrors(enrollment);
 		if (informationIsMissing) {
 			const inSiteName = enrollment.site ? ` in ${enrollment.site.name}` : '';
@@ -97,11 +96,11 @@ export default function EnrollmentEdit({
 	};
 
 	return (
-		<ContainerContainer>
+		<CommonContainer>
 			<section className="grid-container">
 				<h1>Edit {section.name.toLowerCase()}</h1>
 				<section.Form enrollment={enrollment} mutate={mutate} callback={afterSave} />
 			</section>
-		</ContainerContainer>
+		</CommonContainer>
 	);
 }

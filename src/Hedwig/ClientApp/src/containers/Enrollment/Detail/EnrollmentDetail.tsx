@@ -13,7 +13,7 @@ import UserContext from '../../../contexts/User/UserContext';
 import useApi from '../../../hooks/useApi';
 import getIdForUser from '../../../utils/getIdForUser';
 import InlineIcon from '../../../components/InlineIcon/InlineIcon';
-import ContainerContainer from '../../CommonContainer';
+import CommonContainer from '../../CommonContainer';
 import { SectionProps } from '../enrollmentTypes';
 
 type EnrollmentDetailParams = {
@@ -61,7 +61,7 @@ export default function EnrollmentDetail({
 	const child = enrollment.child;
 
 	return (
-		<ContainerContainer>
+		<CommonContainer>
 			<section className="grid-container">
 				<h1>{nameFormatter(child)}</h1>
 				{sections.map(section => {
@@ -88,6 +88,6 @@ export default function EnrollmentDetail({
 				}
 			)}
 			</section>
-		</ContainerContainer>
+		</CommonContainer>
 	);
 }

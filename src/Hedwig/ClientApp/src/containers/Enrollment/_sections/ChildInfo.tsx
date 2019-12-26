@@ -139,12 +139,9 @@ const ChildInfo: Section = {
 
     const save = () => {
       if(!validArgs) {
-<<<<<<< HEAD
         // TODO: apply styling to missing fields
         // TODO: SET ALERT HERE?
-=======
         updateAttemptedSave(true);
->>>>>>> master
         return;
       }
       if (enrollment) {

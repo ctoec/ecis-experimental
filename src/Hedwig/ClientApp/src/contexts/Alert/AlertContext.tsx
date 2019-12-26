@@ -20,16 +20,16 @@ export default AlertContext;
 
 export const useAlertContext = (initial?: AlertProps[]): AlertContextType => {
 	const [alerts, internalSetAlerts] = useState<AlertProps[]>(initial ? initial : []);
-	const [alertsSetAtPath, setalertsSetAtPath] = useState();
-	const [alertsDisplayAtPath, setalertsDisplayAtPath] = useState();
+	const [alertsSetAtPath, setAlertsSetAtPath] = useState();
+	const [alertsDisplayAtPath, setAlertsDisplayAtPath] = useState();
 
 	const location = useLocation();
 
 	const setAlerts = (newAlerts: AlertProps[]) => {
 		if (newAlerts.length === 0) {
-			setalertsDisplayAtPath(null);
+			setAlertsDisplayAtPath(null);
 		}
-		setalertsSetAtPath(location.pathname);
+		setAlertsSetAtPath(location.pathname);
 		internalSetAlerts(newAlerts);
 	};
 
@@ -48,7 +48,7 @@ export const useAlertContext = (initial?: AlertProps[]): AlertContextType => {
 	const getAlerts = (): AlertProps[] => {
 		if (alerts.length && location.pathname !== alertsSetAtPath && !alertsDisplayAtPath) {
 			// If there are alerts, we are at a different path than where we set the alerts, and there is not already a displayed at path
-			setalertsDisplayAtPath(location.pathname);
+			setAlertsDisplayAtPath(location.pathname);
 		}
 		return alerts;
 	};

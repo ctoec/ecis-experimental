@@ -14,7 +14,7 @@ import {
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest,
 } from '../../../generated';
 import getIdForUser from '../../../utils/getIdForUser';
-import ContainerContainer from '../../CommonContainer';
+import CommonContainer from '../../CommonContainer';
 import { hasValidationErrors } from '../../../utils/validations';
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import nameFormatter from '../../../utils/nameFormatter';
@@ -114,7 +114,7 @@ export default function EnrollmentNew({
 	};
 
 	return (
-		<ContainerContainer>
+		<CommonContainer>
 			<section className="grid-container">
 				<h1>Enroll child</h1>
 				<div className="margin-top-2 margin-bottom-5">
@@ -125,7 +125,6 @@ export default function EnrollmentNew({
 						href="../"
 						text="Finish"
 						onClick={() => {
-							// TODO: COMBINE THIS FUNCTIONALITY WITH EDIT IN A UTIL IF IT'S THE SAME
 							const informationIsMissing = hasValidationErrors(enrollment);
 							if (informationIsMissing) {
 								const inSiteName = enrollment.site ? ` in ${enrollment.site.name}` : '';
@@ -143,6 +142,6 @@ export default function EnrollmentNew({
 					/>
 				)}
 			</section>
-		</ContainerContainer>
+		</CommonContainer>
 	);
 }
