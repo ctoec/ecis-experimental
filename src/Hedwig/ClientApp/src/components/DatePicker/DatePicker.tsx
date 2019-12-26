@@ -52,11 +52,9 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 	// TODO: Make date picker take id value so people can add a label nearby?-- see enrollment use cases
 	// OR just include label here?  Or make fieldset legend look like a label in some cases, like this one?
 
-	// TODO: Should we only use fieldset when it's a date range picker?
+	// TODO: only use fieldset when it's a date range picker
 
-	// TODO: Accept people entering a date like 6/22/89
-
-	// TODO: Override js defaults if necessary to assume 2000s rather than 1900s!
+	// TODO: Accept people entering a date like 6/22/89-- override js defaults if necessary to assume 2000s rather than 1900s!
 
 	// TODO: Make it so that user can optionally make calendar not show for things like birthdate?  But keep format for consistency's sake?
 

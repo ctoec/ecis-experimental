@@ -1,17 +1,17 @@
 import React, { useState, useContext } from 'react';
 import idx from 'idx';
+import moment from 'moment';
 import enrollmentTextFormatter from '../../utils/enrollmentTextFormatter';
 import getDefaultDateRange from '../../utils/getDefaultDateRange';
 import { fundingSourceDetails } from '../../utils/fundingTypeFormatters';
 import getFundingSpaceCapacity from '../../utils/getFundingSpaceCapacity';
 import getIdForUser from '../../utils/getIdForUser';
 import Tag from '../../components/Tag/Tag';
-import { DateRange } from '../../components/DatePicker/DatePicker';
+import DatePicker, { DateRange } from '../../components/DatePicker/DatePicker';
 import Button from '../../components/Button/Button';
 import RadioGroup from '../../components/RadioGroup/RadioGroup';
 import Legend, { LegendItem } from '../../components/Legend/Legend';
 import useApi from '../../hooks/useApi';
-import DateSelectionForm from './DateSelectionForm';
 import { Age, Enrollment, FundingSpace, Funding } from '../../generated';
 import InlineIcon from '../../components/InlineIcon/InlineIcon';
 import UserContext from '../../contexts/User/UserContext';
@@ -57,7 +57,10 @@ export default function Roster() {
 	}
 
 	const incompleteEnrollments = tsFilter<Enrollment>(enrollments, e => !e.ageGroup || !e.entry);
-	const completeEnrollments = tsFilter<Enrollment>(enrollments, e => !incompleteEnrollments.includes(e));
+	const completeEnrollments = tsFilter<Enrollment>(
+		enrollments,
+		e => !incompleteEnrollments.includes(e)
+	);
 
 	const completeEnrollmentsByAgeGroup = getObjectsByAgeGroup(completeEnrollments);
 
@@ -75,10 +78,8 @@ export default function Roster() {
 
 	Object.keys(fundingSourceDetails).forEach(source => {
 		const capacityForFunding = getFundingSpaceCapacity(site.organization, { source });
-		const enrolledForFunding = tsFilter<Enrollment>(enrollments, e => 
-			e.fundings 
-				? tsFilter<Funding>(e.fundings, f => f.source === source).length > 0
-				: false
+		const enrolledForFunding = tsFilter<Enrollment>(enrollments, e =>
+			e.fundings ? tsFilter<Funding>(e.fundings, f => f.source === source).length > 0 : false
 		).length;
 
 		if (enrolledForFunding === 0) {
@@ -95,7 +96,10 @@ export default function Roster() {
 		});
 	});
 
-	const missingInformationEnrollmentsCount = tsFilter<Enrollment>(enrollments, e => !!e.validationErrors && e.validationErrors.length >0).length;
+	const missingInformationEnrollmentsCount = tsFilter<Enrollment>(
+		enrollments,
+		e => !!e.validationErrors && e.validationErrors.length > 0
+	).length;
 	if (missingInformationEnrollmentsCount > 0) {
 		legendItems.push({
 			text: (
@@ -133,29 +137,31 @@ export default function Roster() {
 				</div>
 				{showPastEnrollments && (
 					<>
-					<RadioGroup
-						legend="Select date or date range"
-						options={[
-							{
-								text: 'By date',
-								value: 'date',
-							},
-							{
-								text: 'By range',
-								value: 'range',
-							},
-						]}
-						onChange={event => setByRange(event.target.value === 'range')}
-						horizontal={true}
-						groupName={'dateSelectionType'}
-						selected={byRange ? 'range' : 'date'}
-					/>
-
-					<DateSelectionForm
-						inputDateRange={dateRange}
-						byRange={byRange}
-						onSubmit={(newDateRange: DateRange) => setDateRange(newDateRange)}
-					/>
+						<RadioGroup
+							legend="Select date or date range"
+							options={[
+								{
+									text: 'By date',
+									value: 'date',
+								},
+								{
+									text: 'By range',
+									value: 'range',
+								},
+							]}
+							onChange={event => setByRange(event.target.value === 'range')}
+							horizontal={true}
+							groupName={'dateSelectionType'}
+							selected={byRange ? 'range' : 'date'}
+						/>
+						<DatePicker
+							id="enrollment-roster-datepicker"
+							legend="Show enrollments by date"
+							byRange={byRange}
+							onChange={(newDateRange: DateRange) => setDateRange(newDateRange)}
+							dateRange={dateRange}
+							possibleRange={{ startDate: null, endDate: moment().local() }}
+						/>
 					</>
 				)}
 				<Legend items={legendItems} />
