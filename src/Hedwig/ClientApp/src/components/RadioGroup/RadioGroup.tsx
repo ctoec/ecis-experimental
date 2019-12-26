@@ -1,6 +1,6 @@
 import React from 'react';
 import RadioButton from './RadioButton';
-import FormGroup, { FormError } from '../FormGroup/FormGroup';
+import FieldSet, { FormError } from '../FieldSet/FieldSet';
 import Legend from '../Legend/Legend';
 
 type RadioButtonOptions = {
@@ -28,7 +28,7 @@ export default function RadioGroup({
 	error
 }: RadioGroupProps) {
 	return (
-		<FormGroup
+		<FieldSet
 			legend={legend}
 			error={error}
 			id={groupName}
@@ -46,7 +46,7 @@ export default function RadioGroup({
 					/>
 				))}
 			</div>
-		</FormGroup>
+		</FieldSet>
 
 	);
 }

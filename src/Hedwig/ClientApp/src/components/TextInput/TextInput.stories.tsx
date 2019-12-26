@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import TextInput from './TextInput';
-import FormGroup, { FormError } from '../FormGroup/FormGroup';
+import FieldSet, { FormError } from '../FieldSet/FieldSet';
 
 const onChange = action('onChange');
 const warning: FormError = { type: 'warning', message: 'Warning!' };
@@ -30,7 +30,7 @@ storiesOf('TextInput', module)
 	.add('Warning inside warning Fieldset', () => {
 		return (
 			<div className="usa-form">
-				<FormGroup
+				<FieldSet
 					legend="Text inputs"
 					error={warning}
 					display="inline-block"
@@ -42,7 +42,7 @@ storiesOf('TextInput', module)
 					<div className="mobile-lg:grid-col-8 display-inline-block">
 						<TextInput id="id7" label="Long" onChange={onChange} error={warning} />
 					</div>
-				</FormGroup>
+				</FieldSet>
 			</div>
 		)
 	})
@@ -52,7 +52,7 @@ storiesOf('TextInput', module)
 	.add('Warning inside warning Fieldset', () => {
 		return (
 			<div className="usa-form">
-				<FormGroup
+				<FieldSet
 					legend="Text inputs"
 					error={warning}
 					display="inline-block"
@@ -64,7 +64,7 @@ storiesOf('TextInput', module)
 					<div className="mobile-lg:grid-col-8 display-inline-block">
 						<TextInput id="cat" label="Long" onChange={onChange} error={warning} />
 					</div>
-				</FormGroup>
+				</FieldSet>
 			</div>
 		)
 	})
@@ -74,7 +74,7 @@ storiesOf('TextInput', module)
 	.add('Error inside error Fieldset', () => {
 		return (
 			<div className="usa-form">
-				<FormGroup
+				<FieldSet
 					legend="Text inputs"
 					error={error}
 					display="inline-block"
@@ -86,7 +86,7 @@ storiesOf('TextInput', module)
 					<div className="mobile-lg:grid-col-8 display-inline-block">
 						<TextInput id="id10" label="Long" onChange={onChange} error={error} />
 					</div>
-				</FormGroup>
+				</FieldSet>
 			</div>
 		);
 	})
