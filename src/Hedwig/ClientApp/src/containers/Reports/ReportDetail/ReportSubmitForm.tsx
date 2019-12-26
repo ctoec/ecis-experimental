@@ -9,7 +9,7 @@ import currencyFormatter from '../../../utils/currencyFormatter';
 import parseCurrencyFromString from '../../../utils/parseCurrencyFromString';
 import getIdForUser from '../../../utils/getIdForUser';
 import UtilizationTable from './UtilizationTable';
-import AlertContext, { useAlertContext } from '../../../contexts/Alert/AlertContext';
+import AlertContext from '../../../contexts/Alert/AlertContext';
 import { useHistory } from 'react-router';
 import { AlertProps } from '../../../components/Alert/Alert';
 import monthFormatter from '../../../utils/monthFormatter';
@@ -30,8 +30,8 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 
   const { user } = useContext(UserContext);
   const { invalidateCache: invalidateAppCache } = useContext(AppContext);
-  const { alerts, setAlerts } = useContext(AlertContext);
-
+  const { getAlerts, setAlerts } = useContext(AlertContext);
+  const alerts = getAlerts();
   const params: ApiOrganizationsOrgIdReportsIdPutRequest = {
     id: report.id || 0,
     orgId: getIdForUser(user, "org")

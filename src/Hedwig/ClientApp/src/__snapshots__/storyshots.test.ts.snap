@@ -249,7 +249,10 @@ exports[`Storyshots Checklist Box disabled 1`] = `
       
       
     "
+<<<<<<< HEAD
     id="storybook-checklist-disabled"
+=======
+>>>>>>> master
   >
     <legend
       className="usa-sr-only"
@@ -318,7 +321,10 @@ exports[`Storyshots Checklist Default 1`] = `
       
       
     "
+<<<<<<< HEAD
     id="storybook-checklist"
+=======
+>>>>>>> master
   >
     <legend
       className="usa-sr-only"
@@ -385,7 +391,10 @@ exports[`Storyshots Checklist Default selection 1`] = `
       
       
     "
+<<<<<<< HEAD
     id="storybook-checklist-default-selection"
+=======
+>>>>>>> master
   >
     <legend
       className="usa-sr-only"
@@ -452,7 +461,10 @@ exports[`Storyshots Checklist Horizontal 1`] = `
       
       
     "
+<<<<<<< HEAD
     id="storybook-checklist-2"
+=======
+>>>>>>> master
   >
     <legend
       className="usa-sr-only"
@@ -519,11 +531,17 @@ exports[`Storyshots Checklist With error 1`] = `
        usa-fieldset--error
       
     "
+<<<<<<< HEAD
     id="storybook-checklist-with-error"
   >
     <legend
       className="usa-sr-only"
       id="fieldset-legend-storybook-checklist-with-error"
+=======
+  >
+    <legend
+      className="usa-sr-only"
+>>>>>>> master
     >
       Checklist items
     </legend>
@@ -595,7 +613,10 @@ exports[`Storyshots Checklist With warning 1`] = `
        usa-fieldset--warning
       
     "
+<<<<<<< HEAD
     id="storybook-checklist-with-warning"
+=======
+>>>>>>> master
   >
     <legend
       className="usa-sr-only"
@@ -1228,7 +1249,10 @@ exports[`Storyshots FieldSet Default 1`] = `
       
       
     "
+<<<<<<< HEAD
     id="default-fieldset"
+=======
+>>>>>>> master
   >
     <legend
       className="usa-sr-only"
@@ -1256,7 +1280,10 @@ exports[`Storyshots FieldSet With error 1`] = `
        usa-fieldset--error
       
     "
+<<<<<<< HEAD
     id="error-fieldset"
+=======
+>>>>>>> master
   >
     <legend
       className="usa-sr-only"
@@ -1299,11 +1326,17 @@ exports[`Storyshots FieldSet With warning 1`] = `
        usa-fieldset--warning
       
     "
+<<<<<<< HEAD
     id="warning-fieldset"
   >
     <legend
       className="usa-sr-only"
       id="fieldset-legend-warning-fieldset"
+=======
+  >
+    <legend
+      className="usa-sr-only"
+>>>>>>> master
     >
       Warning field set
     </legend>
@@ -1868,7 +1901,10 @@ exports[`Storyshots RadioGroup Default 1`] = `
       
       
     "
+<<<<<<< HEAD
     id="storybook-radio-group"
+=======
+>>>>>>> master
   >
     <legend
       className="usa-sr-only"
@@ -1935,7 +1971,10 @@ exports[`Storyshots RadioGroup Default selection 1`] = `
       
       
     "
+<<<<<<< HEAD
     id="storybook-radio-group-default-selection"
+=======
+>>>>>>> master
   >
     <legend
       className="usa-sr-only"
@@ -2002,7 +2041,10 @@ exports[`Storyshots RadioGroup Horizontal 1`] = `
       
       
     "
+<<<<<<< HEAD
     id="storybook-radio-group-2"
+=======
+>>>>>>> master
   >
     <legend
       className="usa-sr-only"
@@ -2069,11 +2111,17 @@ exports[`Storyshots RadioGroup With error 1`] = `
        usa-fieldset--error
       
     "
+<<<<<<< HEAD
     id="storybook-radio-group-with-warning"
   >
     <legend
       className="usa-sr-only"
       id="fieldset-legend-storybook-radio-group-with-warning"
+=======
+  >
+    <legend
+      className="usa-sr-only"
+>>>>>>> master
     >
       Radiogroup items
     </legend>
@@ -2145,7 +2193,10 @@ exports[`Storyshots RadioGroup With warning 1`] = `
        usa-fieldset--warning
       
     "
+<<<<<<< HEAD
     id="storybook-radio-group-with-warning"
+=======
+>>>>>>> master
   >
     <legend
       className="usa-sr-only"
@@ -2623,7 +2674,11 @@ exports[`Storyshots TextInput Error 1`] = `
   >
     <label
       className="usa-label usa-label--error"
+<<<<<<< HEAD
       htmlFor="id8"
+=======
+      htmlFor="cat"
+>>>>>>> master
     >
       Default text input
        
@@ -2636,10 +2691,17 @@ exports[`Storyshots TextInput Error 1`] = `
       Error!
     </span>
     <input
+<<<<<<< HEAD
       aria-describedby="id8-input-error-message"
       className="usa-input usa-input--error"
       id="id8"
       name="id8"
+=======
+      aria-describedby="input-error-message"
+      className="usa-input usa-input--error"
+      id="cat"
+      name="cat"
+>>>>>>> master
       onChange={[Function]}
       type="text"
     />
@@ -2663,11 +2725,17 @@ exports[`Storyshots TextInput Error inside error Fieldset 1`] = `
        usa-fieldset--error
        display-inline-block
     "
+<<<<<<< HEAD
       id="example-fieldset-error"
     >
       <legend
         className="usa-sr-only"
         id="fieldset-legend-example-fieldset-error"
+=======
+    >
+      <legend
+        className="usa-sr-only"
+>>>>>>> master
       >
         Text inputs
       </legend>
@@ -2688,23 +2756,38 @@ exports[`Storyshots TextInput Error inside error Fieldset 1`] = `
         >
           <label
             className="usa-label usa-label--error"
+<<<<<<< HEAD
             htmlFor="id9"
+=======
+            htmlFor="cat"
+>>>>>>> master
           >
             Short
              
           </label>
           <span
             className="usa-error-message"
+<<<<<<< HEAD
             id="id9-input-error-message"
+=======
+            id="input-error-message"
+>>>>>>> master
             role="alert"
           >
             Error!
           </span>
           <input
+<<<<<<< HEAD
             aria-describedby="id9-input-error-message"
             className="usa-input usa-input--error"
             id="id9"
             name="id9"
+=======
+            aria-describedby="input-error-message"
+            className="usa-input usa-input--error"
+            id="cat"
+            name="cat"
+>>>>>>> master
             onChange={[Function]}
             type="text"
           />
@@ -2718,23 +2801,38 @@ exports[`Storyshots TextInput Error inside error Fieldset 1`] = `
         >
           <label
             className="usa-label usa-label--error"
+<<<<<<< HEAD
             htmlFor="id10"
+=======
+            htmlFor="cat"
+>>>>>>> master
           >
             Long
              
           </label>
           <span
             className="usa-error-message"
+<<<<<<< HEAD
             id="id10-input-error-message"
+=======
+            id="input-error-message"
+>>>>>>> master
             role="alert"
           >
             Error!
           </span>
           <input
+<<<<<<< HEAD
             aria-describedby="id10-input-error-message"
             className="usa-input usa-input--error"
             id="id10"
             name="id10"
+=======
+            aria-describedby="input-error-message"
+            className="usa-input usa-input--error"
+            id="cat"
+            name="cat"
+>>>>>>> master
             onChange={[Function]}
             type="text"
           />
@@ -2841,6 +2939,46 @@ exports[`Storyshots TextInput Warning 1`] = `
 </div>
 `;
 
+<<<<<<< HEAD
+=======
+exports[`Storyshots TextInput Warning 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group usa-form-group--warning"
+  >
+    <label
+      className="usa-label usa-label--warning"
+      htmlFor="cat"
+    >
+      Default text input
+       
+    </label>
+    <span
+      className="usa-warning-message"
+      id="input-error-message"
+      role="alert"
+    >
+      Warning!
+    </span>
+    <input
+      aria-describedby="input-error-message"
+      className="usa-input usa-input--warning"
+      id="cat"
+      name="cat"
+      onChange={[Function]}
+      type="text"
+    />
+  </div>
+</div>
+`;
+
+>>>>>>> master
 exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
 <div
   style={
@@ -2857,11 +2995,17 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
        usa-fieldset--warning
        display-inline-block
     "
+<<<<<<< HEAD
       id="example-fieldset-warning"
     >
       <legend
         className="usa-sr-only"
         id="fieldset-legend-example-fieldset-warning"
+=======
+    >
+      <legend
+        className="usa-sr-only"
+>>>>>>> master
       >
         Text inputs
       </legend>
@@ -2895,23 +3039,38 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
         >
           <label
             className="usa-label usa-label--warning"
+<<<<<<< HEAD
             htmlFor="id6"
+=======
+            htmlFor="cat"
+>>>>>>> master
           >
             Short
              
           </label>
           <span
             className="usa-warning-message"
+<<<<<<< HEAD
             id="id6-input-error-message"
+=======
+            id="input-error-message"
+>>>>>>> master
             role="alert"
           >
             Warning!
           </span>
           <input
+<<<<<<< HEAD
             aria-describedby="id6-input-error-message"
             className="usa-input usa-input--warning"
             id="id6"
             name="id6"
+=======
+            aria-describedby="input-error-message"
+            className="usa-input usa-input--warning"
+            id="cat"
+            name="cat"
+>>>>>>> master
             onChange={[Function]}
             type="text"
           />
@@ -2925,23 +3084,38 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
         >
           <label
             className="usa-label usa-label--warning"
+<<<<<<< HEAD
             htmlFor="id7"
+=======
+            htmlFor="cat"
+>>>>>>> master
           >
             Long
              
           </label>
           <span
             className="usa-warning-message"
+<<<<<<< HEAD
             id="id7-input-error-message"
+=======
+            id="input-error-message"
+>>>>>>> master
             role="alert"
           >
             Warning!
           </span>
           <input
+<<<<<<< HEAD
             aria-describedby="id7-input-error-message"
             className="usa-input usa-input--warning"
             id="id7"
             name="id7"
+=======
+            aria-describedby="input-error-message"
+            className="usa-input usa-input--warning"
+            id="cat"
+            name="cat"
+>>>>>>> master
             onChange={[Function]}
             type="text"
           />

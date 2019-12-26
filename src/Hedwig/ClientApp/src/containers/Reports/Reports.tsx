@@ -2,7 +2,7 @@ import { useParams, useLocation } from "react-router";
 import React from "react";
 import ReportsSummary from './ReportsSummary/ReportsSummary';
 import ReportDetail from './ReportDetail/ReportDetail';
-import { useAlertContext, AlertProvider, AlertContextType } from "../../contexts/Alert/AlertContext";
+import { useAlertContext, AlertProvider } from "../../contexts/Alert/AlertContext";
 import { AlertProps } from "../../components/Alert/Alert";
 
 

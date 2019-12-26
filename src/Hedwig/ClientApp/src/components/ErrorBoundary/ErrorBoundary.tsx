@@ -26,6 +26,7 @@ class ErrorBoundary extends React.Component {
 		const { hasError } = this.state;
 		if (hasError) {
 			// You can render any custom fallback UI
+			// TODO: set alert context here instead? return nothing?
 			return <Alert text="Something went wrong" type="error" heading="Error" />;
 		}
 

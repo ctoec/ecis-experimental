@@ -18,7 +18,6 @@ import UserContext from '../../contexts/User/UserContext';
 import AgeGroupSection from './AgeGroupSection';
 import { getObjectsByAgeGroup } from '../../utils/ageGroupUtils';
 import { tsFilter } from '../../utils/types';
-import FieldSet from '../../components/FieldSet/FieldSet';
 
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);

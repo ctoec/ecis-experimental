@@ -18,6 +18,8 @@ export default function Button({
 	appearance,
 	disabled,
 }: ButtonProps) {
+	onClick = onClick || (() => {});
+	
 	if (href) {
 		return (
 			<Link
@@ -25,13 +27,13 @@ export default function Button({
 				className={`usa-button ${
 					appearance && appearance !== 'default' ? 'usa-button--' + appearance : ''
 				}`}
+				onClick={onClick}
 			>
 				{text}
 			</Link>
 		);
 	}
 
-	onClick = onClick || (() => {});
 
 	return (
 		<button
