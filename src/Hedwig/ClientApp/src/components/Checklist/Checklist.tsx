@@ -13,24 +13,24 @@ type CheckboxOptions = {
 
 type ChecklistProps = {
 	options: CheckboxOptions[];
-	groupName: string;
+	id: string;
 	horizontal?: boolean;
 	legend: string;
-	error?: FormStatusProps;
+	status?: FormStatusProps;
 };
 
 export default function Checklist({
 	options,
-	groupName,
+	id,
 	horizontal,
 	legend,
-	error
+	status
 }: ChecklistProps) {
 	return (
 		<FieldSet
 			legend={legend}
-			error={error}
-			id={groupName}
+			status={status}
+			id={id}
 		>
 			<div className={horizontal ? 'grid-row flex-align-start grid-gap' : ''}>
 				{options.map(option => (
@@ -39,7 +39,7 @@ export default function Checklist({
 						text={option.text}
 						onChange={option.onChange}
 						key={option.value}
-						name={groupName}
+						name={`${id}-${option.value}`}
 						checked={option.checked}
 						className={horizontal ? 'grid-col flex-auto' : ''}
 						disabled={option.disabled}

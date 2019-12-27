@@ -8,8 +8,7 @@ type TextInputProps = {
   id: string;
   defaultValue?: string;
   disabled?: boolean;
-  success?: boolean;
-  error?: FormStatusProps;
+  status?: FormStatusProps;
   small?: boolean;
   optional?: boolean;
 };
@@ -21,21 +20,20 @@ export default function TextInput({
   id,
   defaultValue,
   disabled,
-  success,
-  error,
+  status,
   small,
   optional,
 }: TextInputProps) {
   return (
-		<div className={`usa-form-group${error ? ` usa-form-group--${error.type}` : ''}`}>
-			<label className={`usa-label${error ? ` usa-label--${error.type}` : ''}`} htmlFor={id}>
+		<div className={`usa-form-group${status ? ` usa-form-group--${status.type}` : ''}`}>
+			<label className={`usa-label${status ? ` usa-label--${status.type}` : ''}`} htmlFor={id}>
 				{label} {optional && '(Optional)'}
 			</label>
-			{error && <FormStatus {...error} />}
+			{status && <FormStatus {...status} />}
 			<input
-				className={`usa-input${error ? ` usa-input--${error.type}` : ''}${
+				className={`usa-input${status ? ` usa-input--${status.type}` : ''}${
 					small ? ' usa-input--small' : ''
-				}${success ? ' usa-input--success' : ''}`}
+				}`}
 				id={id}
 				name={id}
 				type="text"
@@ -43,7 +41,7 @@ export default function TextInput({
 				onChange={onChange}
 				onBlur={onBlur}
 				defaultValue={defaultValue}
-				aria-describedby={error ? `${id}-input-error-message` : undefined}
+				aria-describedby={status ? status.id : undefined}
 			/>
 		</div>
 	);

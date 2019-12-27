@@ -19,8 +19,21 @@ const options = [
 		onChange: onChange,
 	},
 ];
-const warning: FormStatusProps ={ type: 'warning', message: 'These fields need your attention' };
-const error: FormStatusProps ={ type: 'error', message: 'These fields will block your progress' };
+const warning: FormStatusProps = {
+	type: 'warning',
+	message: 'These fields need your attention',
+	id: 'checklist-warning',
+};
+const error: FormStatusProps = {
+	type: 'error',
+	message: 'These fields will block your progress',
+	id: 'checklis-error',
+};
+const success: FormStatusProps = {
+	type: 'success',
+	message: 'These fields were validated woo',
+	id: 'checklist-success',
+};
 
 const optionsSelected = options.map(option => Object.assign({}, option, { checked: true }));
 const boxDisabledAndSelected = optionsSelected.map(option =>
@@ -29,19 +42,13 @@ const boxDisabledAndSelected = optionsSelected.map(option =>
 
 storiesOf('Checklist', module)
 	.add('Default', () => {
-		return (
-			<Checklist
-				options={options}
-				groupName="storybook-checklist"
-				legend="Checklist items"
-			/>
-		);
+		return <Checklist options={options} id="storybook-checklist" legend="Checklist items" />;
 	})
 	.add('Horizontal', () => {
 		return (
 			<Checklist
 				options={options}
-				groupName="storybook-checklist-2"
+				id="storybook-checklist-2"
 				horizontal={true}
 				legend="Checklist items"
 			/>
@@ -51,7 +58,7 @@ storiesOf('Checklist', module)
 		return (
 			<Checklist
 				options={optionsSelected}
-				groupName="storybook-checklist-default-selection"
+				id="storybook-checklist-default-selection"
 				legend="Checklist items"
 			/>
 		);
@@ -60,7 +67,7 @@ storiesOf('Checklist', module)
 		return (
 			<Checklist
 				options={boxDisabledAndSelected}
-				groupName="storybook-checklist-disabled"
+				id="storybook-checklist-disabled"
 				legend="Checklist items"
 			/>
 		);
@@ -69,19 +76,29 @@ storiesOf('Checklist', module)
 		return (
 			<Checklist
 				options={options}
-				groupName="storybook-checklist-with-warning"
+				id="storybook-checklist-with-warning"
 				legend="Checklist items"
-				error={warning}
+				status={warning}
 			/>
-		)
+		);
 	})
 	.add('With error', () => {
 		return (
 			<Checklist
 				options={options}
-				groupName="storybook-checklist-with-error"
+				id="storybook-checklist-with-error"
 				legend="Checklist items"
-				error={error}
+				status={error}
 			/>
-		)
+		);
 	})
+	.add('With success', () => {
+		return (
+			<Checklist
+				options={options}
+				id="storybook-checklist-with-success"
+				legend="Checklist items"
+				status={success}
+			/>
+		);
+	});

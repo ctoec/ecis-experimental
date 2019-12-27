@@ -15,8 +15,7 @@ type DatePickerProps = {
 	id: string;
 	label: string | JSX.Element;
 	disabled?: boolean;
-	success?: boolean;
-	error?: FormStatusProps;
+	status?: FormStatusProps;
 	optional?: boolean;
 	byRange?: boolean;
 	possibleRange?: DateRange;
@@ -28,8 +27,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 	id,
 	label,
 	disabled,
-	success,
-	error,
+	status,
 	optional,
 	byRange,
 	possibleRange,
@@ -63,7 +61,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 	const labelText = `${label}${optional ? ' (Optional)' : ''}`;
 	if (byRange) {
 		return (
-			<FieldSet legend={labelText} error={error} id={id} showLegend={true} success={success}>
+			<FieldSet legend={labelText} status={status} id={id} showLegend={true}>
 				<DateRangePicker
 					startDate={selectedRange.startDate}
 					startDateId={`${id}-start-date`}
@@ -81,18 +79,16 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 		);
 	}
 	return (
-		<div className={`usa-form-group ${error ? ` usa-form-group--${error.type}` : ''}`}>
+		<div className={`usa-form-group ${status ? ` usa-form-group--${status.type}` : ''}`}>
 			<label
-				className={`usa-label margin-top-0 ${error ? ` usa-label--${error.type}` : ''}`}
+				className={`usa-label margin-top-0 ${status ? ` usa-label--${status.type}` : ''}`}
 				htmlFor={`${id}-date`}
 			>
 				{labelText}
 			</label>
-			{error && <FormStatus {...error} />}
+			{status && <FormStatus {...status} />}
 			<span
-				className={`oec-date-input${error ? ` oec-date-input--${error.type}` : ''}${
-					success ? ' oec-date-input--success' : ''
-				}`}
+				className={`oec-date-input${status ? ` oec-date-input--${status.type}` : ''}`}
 			>
 				<SingleDatePicker
 					id={`${id}-date`}
@@ -104,6 +100,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 					initialVisibleMonth={() => moment().subtract(1, 'M')}
 					noBorder={true}
 					disabled={disabled}
+					aria-describedby={status ? status.id : undefined}
 				/>
 			</span>
 		</div>

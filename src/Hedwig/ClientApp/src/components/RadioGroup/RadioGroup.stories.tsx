@@ -15,8 +15,21 @@ const options = [
 		value: 'two',
 	},
 ];
-const warning: FormStatusProps = { type: 'warning', message: 'These fields need your attention' };
-const error: FormStatusProps = { type: 'error', message: 'These fields will block your progress' };
+const warning: FormStatusProps = {
+	type: 'warning',
+	message: 'These fields need your attention',
+	id: 'radio-group-warning',
+};
+const success: FormStatusProps = {
+	type: 'success',
+	message: 'This value was accepted',
+	id: 'radio-group-status',
+};
+const error: FormStatusProps = {
+	type: 'error',
+	message: 'These fields will block your progress',
+	id: 'radio-group-error',
+};
 
 storiesOf('RadioGroup', module)
 	.add('Default', () => {
@@ -59,9 +72,21 @@ storiesOf('RadioGroup', module)
 				onChange={onChange}
 				selected="one"
 				legend="Radiogroup items"
-				error={warning}
+				status={warning}
 			/>
-		)
+		);
+	})
+	.add('With success', () => {
+		return (
+			<RadioGroup
+				options={options}
+				groupName="storybook-radio-group-with-warning"
+				onChange={onChange}
+				selected="one"
+				legend="Radiogroup items"
+				status={success}
+			/>
+		);
 	})
 	.add('With error', () => {
 		return (
@@ -71,7 +96,7 @@ storiesOf('RadioGroup', module)
 				onChange={onChange}
 				selected="one"
 				legend="Radiogroup items"
-				error={error}
+				status={error}
 			/>
-		)
-	})
+		);
+	});

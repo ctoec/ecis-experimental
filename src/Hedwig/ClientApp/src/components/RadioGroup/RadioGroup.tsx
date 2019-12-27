@@ -15,7 +15,7 @@ type RadioGroupProps = {
 	selected?: string;
 	horizontal?: boolean;
 	legend: string;
-	error?: FormStatusProps;
+	status?: FormStatusProps;
 };
 
 export default function RadioGroup({
@@ -25,13 +25,14 @@ export default function RadioGroup({
 	selected,
 	horizontal,
 	legend,
-	error
+	status
 }: RadioGroupProps) {
 	return (
 		<FieldSet
 			legend={legend}
-			error={error}
+			status={status}
 			id={groupName}
+			aria-describedby={status ? status.id : undefined}
 		>
 			<div className={horizontal ? 'grid-row flex-align-start grid-gap' : ''}>
 				{options.map(option => (

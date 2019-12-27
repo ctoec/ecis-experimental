@@ -1,13 +1,29 @@
 import React from 'react';
+import moment from 'moment';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import 'react-dates/initialize';
 import DatePicker from './DatePicker';
-import moment from 'moment';
+import { FormStatusProps } from '../FormStatus/FormStatus';
 
 const onChange = action('onChange');
 const dateRange = { startDate: moment('2019-10-30'), endDate: moment('2019-10-30') };
 const label = 'Pick a date';
+const error: FormStatusProps = {
+	type: 'error',
+	message: 'Pick a better date',
+	id: 'datepicker-error',
+};
+const warning: FormStatusProps = {
+	type: 'warning',
+	message: 'Meh, fine',
+	id: 'datepicker-warning',
+};
+const success: FormStatusProps = {
+	type: 'success',
+	message: 'You did good',
+	id: 'datepicker-success',
+};
 
 storiesOf('DatePicker', module)
 	.add('Default', () => {
@@ -67,7 +83,7 @@ storiesOf('DatePicker', module)
 				id="error-datepicker"
 				onChange={onChange}
 				dateRange={dateRange}
-				success={true}
+				status={success}
 			/>
 		);
 	})
@@ -79,7 +95,7 @@ storiesOf('DatePicker', module)
 				onChange={onChange}
 				dateRange={dateRange}
 				byRange={true}
-				error={{ type: 'success', message: 'You did good' }}
+				status={success}
 			/>
 		);
 	})
@@ -90,7 +106,7 @@ storiesOf('DatePicker', module)
 				id="error-datepicker"
 				onChange={onChange}
 				dateRange={dateRange}
-				error={{ type: 'warning', message: 'Meh, fine' }}
+				status={warning}
 			/>
 		);
 	})
@@ -102,7 +118,7 @@ storiesOf('DatePicker', module)
 				onChange={onChange}
 				dateRange={dateRange}
 				byRange={true}
-				error={{ type: 'warning', message: 'Meh, fine' }}
+				status={warning}
 			/>
 		);
 	})
@@ -113,7 +129,7 @@ storiesOf('DatePicker', module)
 				id="error-datepicker"
 				onChange={onChange}
 				dateRange={dateRange}
-				error={{ type: 'error', message: 'Pick a better date' }}
+				status={error}
 			/>
 		);
 	})
@@ -125,7 +141,7 @@ storiesOf('DatePicker', module)
 				onChange={onChange}
 				dateRange={dateRange}
 				byRange={true}
-				error={{ type: 'error', message: 'Pick a better date' }}
+				status={error}
 			/>
 		);
 	});

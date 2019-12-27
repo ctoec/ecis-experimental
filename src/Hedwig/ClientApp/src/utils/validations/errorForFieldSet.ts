@@ -3,6 +3,7 @@ import { Validatable } from "./Validatable";
 import { FormStatusProps } from "../../components/FormStatus/FormStatus";
 
 export function warningForFieldSet<T extends Validatable>(
+  fieldSetId: string,
   fields: string[],
   entity: T | null,
   message: string,
@@ -10,12 +11,14 @@ export function warningForFieldSet<T extends Validatable>(
   if(hasValidationErrors(entity, fields)) {
     return {
       type: 'warning',
-      message: message
+      message: message,
+      id: `${fieldSetId}-warning`,
     };
   }
 }
 
 export function errorForFieldSet(
+  fieldSetId: string,
   fieldValues: any[],
   attemptedSave: boolean,
   additionCondition: boolean = true,
@@ -23,8 +26,9 @@ export function errorForFieldSet(
 ) : FormStatusProps | undefined {
   if(fieldValues.some(f => !f) && attemptedSave && additionCondition) {
     return {
-      type: 'error',
-      message
-    };
+			type: 'error',
+			message,
+			id: `${fieldSetId}-error`,
+		};
   }
 }

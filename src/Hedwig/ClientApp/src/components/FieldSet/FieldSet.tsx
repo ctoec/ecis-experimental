@@ -5,8 +5,7 @@ type FieldSetProps = {
 	legend: string;
 	id: string;
 	showLegend?: boolean;
-	error?: FormStatusProps;
-	success?: boolean;
+	status?: FormStatusProps;
 	display?: string;
 };
 
@@ -14,7 +13,7 @@ const FieldSet: React.FC<FieldSetProps> = ({
 	legend,
 	id,
 	showLegend,
-	error,
+	status,
 	display,
 	children,
 }) => {
@@ -24,20 +23,21 @@ const FieldSet: React.FC<FieldSetProps> = ({
 	return (
 		<fieldset
 			className={`grid-gap grid-row usa-fieldset 
-			${error ? ` usa-fieldset--${error.type}` : ''}
+			${status ? ` usa-fieldset--${status.type}` : ''}
       ${display ? ` display-${display}` : ''}
     `}
 			id={id}
+			aria-describedby={status ? status.id : undefined}
 		>
 			<legend
 				className={
-					showLegend ? `usa-label${error ? ` usa-label--${error.type}` : ''}` : 'usa-sr-only'
+					showLegend ? `usa-label${status ? ` usa-label--${status.type}` : ''}` : 'usa-sr-only'
 				}
 				id={`fieldset-legend-${id}`}
 			>
 				{legend}
 			</legend>
-			{error && <FormStatus {...error} />}
+			{status && <FormStatus {...status} />}
 			{children}
 		</fieldset>
 	);

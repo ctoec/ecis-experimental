@@ -3,16 +3,16 @@ import InlineIcon from '../InlineIcon/InlineIcon';
 
 export type FormStatusProps = {
 	type: 'warning' | 'error' | 'success';
+	id: string;
+	// Unique id should be used with aria-describedby: https://www.deque.com/blog/anatomy-of-accessible-forms-error-messages/
 	message?: string;
-	// TODO: add id so there can be aria-described by?
 };
 
-// TODO: how do we actually want to style success?
-export default ({ message, type }: FormStatusProps) => {
+export default ({ message, type, id }: FormStatusProps) => {
 	return (
 		<span
 			className={`usa-${type}-message`}
-			// id=""
+			id={id}
 			role={type === 'error' ? 'alert' : 'status'}
 		>
 			{type === 'warning' ? <InlineIcon icon="incomplete" /> : ''} {message}

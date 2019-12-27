@@ -6,8 +6,9 @@ import FieldSet from '../FieldSet/FieldSet';
 import { FormStatusProps } from '../FormStatus/FormStatus';
 
 const onChange = action('onChange');
-const warning: FormStatusProps = { type: 'warning', message: 'Warning!' };
-const error: FormStatusProps = { type: 'error', message: 'Error!' };
+const warning: FormStatusProps = { type: 'warning', message: 'Warning!', id: 'text-input-warning' };
+const error: FormStatusProps = { type: 'error', message: 'Error!', id: 'text-input-error' };
+const success: FormStatusProps = { type: 'success', message: 'Success!', id: 'text-input-success' };
 
 storiesOf('TextInput', module)
 	.add('Default', () => {
@@ -23,69 +24,69 @@ storiesOf('TextInput', module)
 		return <TextInput id="id3" label="Default text input" onChange={onChange} disabled />;
 	})
 	.add('Success', () => {
-		return <TextInput id="id4" label="Default text input" onChange={onChange} success />;
+		return <TextInput id="id4" label="Default text input" onChange={onChange} status={success} />;
 	})
 	.add('Warning', () => {
-		return <TextInput id="id5" label="Default text input" onChange={onChange} error={warning} />;
+		return <TextInput id="id5" label="Default text input" onChange={onChange} status={warning} />;
 	})
 	.add('Warning inside warning Fieldset', () => {
 		return (
 			<div className="usa-form">
 				<FieldSet
 					legend="Text inputs"
-					error={warning}
+					status={warning}
 					display="inline-block"
 					id="example-fieldset-warning"
 				>
 					<div className="mobile-lg:grid-col-4 display-inline-block">
-						<TextInput id="id6" label="Short" onChange={onChange} error={warning} />
+						<TextInput id="id6" label="Short" onChange={onChange} status={warning} />
 					</div>
 					<div className="mobile-lg:grid-col-8 display-inline-block">
-						<TextInput id="id7" label="Long" onChange={onChange} error={warning} />
+						<TextInput id="id7" label="Long" onChange={onChange} status={warning} />
 					</div>
 				</FieldSet>
 			</div>
 		)
 	})
 	.add('Warning', () => {
-		return <TextInput id="cat" label="Default text input" onChange={onChange} error={warning} />;
+		return <TextInput id="cat" label="Default text input" onChange={onChange} status={warning} />;
 	})
 	.add('Warning inside warning Fieldset', () => {
 		return (
 			<div className="usa-form">
 				<FieldSet
 					legend="Text inputs"
-					error={warning}
+					status={warning}
 					display="inline-block"
 					id="warning-fieldset"
 				>
 					<div className="mobile-lg:grid-col-4 display-inline-block">
-						<TextInput id="cat" label="Short" onChange={onChange} error={warning} />
+						<TextInput id="cat" label="Short" onChange={onChange} status={warning} />
 					</div>
 					<div className="mobile-lg:grid-col-8 display-inline-block">
-						<TextInput id="cat" label="Long" onChange={onChange} error={warning} />
+						<TextInput id="cat" label="Long" onChange={onChange} status={warning} />
 					</div>
 				</FieldSet>
 			</div>
 		)
 	})
 	.add('Error', () => {
-		return <TextInput id="id8" label="Default text input" onChange={onChange} error={error} />
+		return <TextInput id="id8" label="Default text input" onChange={onChange} status={error} />
 	})
 	.add('Error inside error Fieldset', () => {
 		return (
 			<div className="usa-form">
 				<FieldSet
 					legend="Text inputs"
-					error={error}
+					status={error}
 					display="inline-block"
 					id="example-fieldset-error"
 				>
 					<div className="mobile-lg:grid-col-4 display-inline-block">
-						<TextInput id="id9" label="Short" onChange={onChange} error={error} />
+						<TextInput id="id9" label="Short" onChange={onChange} status={error} />
 					</div>
 					<div className="mobile-lg:grid-col-8 display-inline-block">
-						<TextInput id="id10" label="Long" onChange={onChange} error={error} />
+						<TextInput id="id10" label="Long" onChange={onChange} status={error} />
 					</div>
 				</FieldSet>
 			</div>
