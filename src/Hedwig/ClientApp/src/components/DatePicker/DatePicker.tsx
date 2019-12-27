@@ -55,8 +55,8 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 	}
 
 	// TODO: Accept people entering a date like 6/22/89-- override js defaults if necessary to assume 2000s rather than 1900s!
-
 	// TODO: Make it so that user can optionally make calendar not show for things like birthdate?  But keep format for consistency's sake?
+	// TODO: revisit usage of this datepicker library at all-- can't add aria-describedby :/
 
 	const labelText = `${label}${optional ? ' (Optional)' : ''}`;
 	if (byRange) {
@@ -89,6 +89,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 			{status && <FormStatus {...status} />}
 			<span
 				className={`oec-date-input${status ? ` oec-date-input--${status.type}` : ''}`}
+				aria-describedby={status ? status.id : undefined}
 			>
 				<SingleDatePicker
 					id={`${id}-date`}
@@ -100,7 +101,6 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 					initialVisibleMonth={() => moment().subtract(1, 'M')}
 					noBorder={true}
 					disabled={disabled}
-					aria-describedby={status ? status.id : undefined}
 				/>
 			</span>
 		</div>
