@@ -246,7 +246,7 @@ exports[`Storyshots Checklist Box disabled 1`] = `
 >
   <fieldset
     className="grid-gap grid-row usa-fieldset 
-      
+			
       
     "
     id="storybook-checklist-disabled"
@@ -315,7 +315,7 @@ exports[`Storyshots Checklist Default 1`] = `
 >
   <fieldset
     className="grid-gap grid-row usa-fieldset 
-      
+			
       
     "
     id="storybook-checklist"
@@ -382,7 +382,7 @@ exports[`Storyshots Checklist Default selection 1`] = `
 >
   <fieldset
     className="grid-gap grid-row usa-fieldset 
-      
+			
       
     "
     id="storybook-checklist-default-selection"
@@ -449,7 +449,7 @@ exports[`Storyshots Checklist Horizontal 1`] = `
 >
   <fieldset
     className="grid-gap grid-row usa-fieldset 
-      
+			
       
     "
     id="storybook-checklist-2"
@@ -516,7 +516,7 @@ exports[`Storyshots Checklist With error 1`] = `
 >
   <fieldset
     className="grid-gap grid-row usa-fieldset 
-       usa-fieldset--error
+			 usa-fieldset--error
       
     "
     id="storybook-checklist-with-error"
@@ -529,7 +529,6 @@ exports[`Storyshots Checklist With error 1`] = `
     </legend>
     <span
       className="usa-error-message"
-      id="field-set-error-message"
       role="alert"
     >
       
@@ -592,7 +591,7 @@ exports[`Storyshots Checklist With warning 1`] = `
 >
   <fieldset
     className="grid-gap grid-row usa-fieldset 
-       usa-fieldset--warning
+			 usa-fieldset--warning
       
     "
     id="storybook-checklist-with-warning"
@@ -605,7 +604,6 @@ exports[`Storyshots Checklist With warning 1`] = `
     </legend>
     <span
       className="usa-warning-message"
-      id="field-set-error-message"
       role="status"
     >
       <span
@@ -671,7 +669,131 @@ exports[`Storyshots Checklist With warning 1`] = `
 </div>
 `;
 
-exports[`Storyshots DatePicker ByRange 1`] = `
+exports[`Storyshots DatePicker Default 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group "
+  >
+    <label
+      className="usa-label margin-top-0 "
+      htmlFor="default-datepicker-date"
+    >
+      Pick a date
+    </label>
+    <span
+      className="oec-date-input"
+    >
+      <div
+        className="SingleDatePicker SingleDatePicker_1"
+      >
+        <div>
+          <div
+            className="SingleDatePickerInput SingleDatePickerInput_1"
+          >
+            <div
+              className="DateInput DateInput_1"
+            >
+              <input
+                aria-describedby="DateInput__screen-reader-message-default-datepicker-date"
+                aria-label="Date"
+                autoComplete="off"
+                className="DateInput_input DateInput_input_1"
+                disabled={false}
+                id="default-datepicker-date"
+                name="default-datepicker-date"
+                onChange={[Function]}
+                onFocus={[Function]}
+                onKeyDown={[Function]}
+                placeholder="Date"
+                readOnly={false}
+                required={false}
+                type="text"
+                value="10/30/2019"
+              />
+              <p
+                className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
+                id="DateInput__screen-reader-message-default-datepicker-date"
+              >
+                Navigate forward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+`;
+
+exports[`Storyshots DatePicker Disabled 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group "
+  >
+    <label
+      className="usa-label margin-top-0 "
+      htmlFor="disabled-datepicker-date"
+    >
+      Pick a date
+    </label>
+    <span
+      className="oec-date-input"
+    >
+      <div
+        className="SingleDatePicker SingleDatePicker_1"
+      >
+        <div>
+          <div
+            className="SingleDatePickerInput SingleDatePickerInput_1 SingleDatePickerInput__disabled SingleDatePickerInput__disabled_2"
+          >
+            <div
+              className="DateInput DateInput_1 DateInput__disabled DateInput__disabled_2"
+            >
+              <input
+                aria-describedby="DateInput__screen-reader-message-disabled-datepicker-date"
+                aria-label="Date"
+                autoComplete="off"
+                className="DateInput_input DateInput_input_1 DateInput_input__disabled DateInput_input__disabled_2"
+                disabled={true}
+                id="disabled-datepicker-date"
+                name="disabled-datepicker-date"
+                onChange={[Function]}
+                onFocus={[Function]}
+                onKeyDown={[Function]}
+                placeholder="Date"
+                readOnly={false}
+                required={false}
+                type="text"
+                value="10/30/2019"
+              />
+              <p
+                className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
+                id="DateInput__screen-reader-message-disabled-datepicker-date"
+              >
+                Navigate forward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+`;
+
+exports[`Storyshots DatePicker Disabled with range 1`] = `
 <div
   style={
     Object {
@@ -681,35 +803,35 @@ exports[`Storyshots DatePicker ByRange 1`] = `
 >
   <fieldset
     className="grid-gap grid-row usa-fieldset 
-      
+			
       
     "
-    id="byrange-datepicker"
+    id="disabled-range-datepicker"
   >
     <legend
-      className="usa-sr-only"
-      id="fieldset-legend-byrange-datepicker"
+      className="usa-label"
+      id="fieldset-legend-disabled-range-datepicker"
     >
-      Choose a date
+      Pick a date
     </legend>
     <div
       className="DateRangePicker DateRangePicker_1"
     >
       <div>
         <div
-          className="DateRangePickerInput DateRangePickerInput_1 DateRangePickerInput__withBorder DateRangePickerInput__withBorder_2"
+          className="DateRangePickerInput DateRangePickerInput_1 DateRangePickerInput__disabled DateRangePickerInput__disabled_2"
         >
           <div
-            className="DateInput DateInput_1"
+            className="DateInput DateInput_1 DateInput__disabled DateInput__disabled_2"
           >
             <input
-              aria-describedby="DateInput__screen-reader-message-startDate"
+              aria-describedby="DateInput__screen-reader-message-disabled-range-datepicker-start-date"
               aria-label="Start Date"
               autoComplete="off"
-              className="DateInput_input DateInput_input_1"
-              disabled={false}
-              id="startDate"
-              name="startDate"
+              className="DateInput_input DateInput_input_1 DateInput_input__disabled DateInput_input__disabled_2"
+              disabled={true}
+              id="disabled-range-datepicker-start-date"
+              name="disabled-range-datepicker-start-date"
               onChange={[Function]}
               onFocus={[Function]}
               onKeyDown={[Function]}
@@ -721,7 +843,7 @@ exports[`Storyshots DatePicker ByRange 1`] = `
             />
             <p
               className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
-              id="DateInput__screen-reader-message-startDate"
+              id="DateInput__screen-reader-message-disabled-range-datepicker-start-date"
             >
               Navigate forward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
             </p>
@@ -742,16 +864,16 @@ exports[`Storyshots DatePicker ByRange 1`] = `
             </svg>
           </div>
           <div
-            className="DateInput DateInput_1"
+            className="DateInput DateInput_1 DateInput__disabled DateInput__disabled_2"
           >
             <input
-              aria-describedby="DateInput__screen-reader-message-endDate"
+              aria-describedby="DateInput__screen-reader-message-disabled-range-datepicker-end-date"
               aria-label="End Date"
               autoComplete="off"
-              className="DateInput_input DateInput_input_1"
-              disabled={false}
-              id="endDate"
-              name="endDate"
+              className="DateInput_input DateInput_input_1 DateInput_input__disabled DateInput_input__disabled_2"
+              disabled={true}
+              id="disabled-range-datepicker-end-date"
+              name="disabled-range-datepicker-end-date"
               onChange={[Function]}
               onFocus={[Function]}
               onKeyDown={[Function]}
@@ -763,7 +885,7 @@ exports[`Storyshots DatePicker ByRange 1`] = `
             />
             <p
               className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
-              id="DateInput__screen-reader-message-endDate"
+              id="DateInput__screen-reader-message-disabled-range-datepicker-end-date"
             >
               Navigate backward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
             </p>
@@ -775,7 +897,7 @@ exports[`Storyshots DatePicker ByRange 1`] = `
 </div>
 `;
 
-exports[`Storyshots DatePicker Default 1`] = `
+exports[`Storyshots DatePicker Error 1`] = `
 <div
   style={
     Object {
@@ -783,61 +905,69 @@ exports[`Storyshots DatePicker Default 1`] = `
     }
   }
 >
-  <fieldset
-    className="grid-gap grid-row usa-fieldset 
-      
-      
-    "
-    id="default-datepicker"
+  <div
+    className="usa-form-group  usa-form-group--error"
   >
-    <legend
-      className="usa-sr-only"
-      id="fieldset-legend-default-datepicker"
+    <label
+      className="usa-label margin-top-0  usa-label--error"
+      htmlFor="error-datepicker-date"
     >
-      Choose a date
-    </legend>
-    <div
-      className="SingleDatePicker SingleDatePicker_1"
+      Pick a date
+    </label>
+    <span
+      className="usa-error-message"
+      role="alert"
     >
-      <div>
-        <div
-          className="SingleDatePickerInput SingleDatePickerInput_1 SingleDatePickerInput__withBorder SingleDatePickerInput__withBorder_2"
-        >
+      
+       
+      Pick a better date
+    </span>
+    <span
+      className="oec-date-input oec-date-input--error"
+    >
+      <div
+        className="SingleDatePicker SingleDatePicker_1"
+      >
+        <div>
           <div
-            className="DateInput DateInput_1"
+            className="SingleDatePickerInput SingleDatePickerInput_1"
           >
-            <input
-              aria-describedby="DateInput__screen-reader-message-date"
-              aria-label="Date"
-              autoComplete="off"
-              className="DateInput_input DateInput_input_1"
-              disabled={false}
-              id="date"
-              name="date"
-              onChange={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              placeholder="Date"
-              readOnly={false}
-              required={false}
-              type="text"
-              value="10/30/2019"
-            />
-            <p
-              className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
-              id="DateInput__screen-reader-message-date"
+            <div
+              className="DateInput DateInput_1"
             >
-              Navigate forward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
-            </p>
+              <input
+                aria-describedby="DateInput__screen-reader-message-error-datepicker-date"
+                aria-label="Date"
+                autoComplete="off"
+                className="DateInput_input DateInput_input_1"
+                disabled={false}
+                id="error-datepicker-date"
+                name="error-datepicker-date"
+                onChange={[Function]}
+                onFocus={[Function]}
+                onKeyDown={[Function]}
+                placeholder="Date"
+                readOnly={false}
+                required={false}
+                type="text"
+                value="10/30/2019"
+              />
+              <p
+                className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
+                id="DateInput__screen-reader-message-error-datepicker-date"
+              >
+                Navigate forward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
+              </p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </fieldset>
+    </span>
+  </div>
 </div>
 `;
 
-exports[`Storyshots DatePicker With error 1`] = `
+exports[`Storyshots DatePicker Error with range 1`] = `
 <div
   style={
     Object {
@@ -847,20 +977,19 @@ exports[`Storyshots DatePicker With error 1`] = `
 >
   <fieldset
     className="grid-gap grid-row usa-fieldset 
-       usa-fieldset--error
+			 usa-fieldset--error
       
     "
     id="error-datepicker"
   >
     <legend
-      className="usa-sr-only"
+      className="usa-label usa-label--error"
       id="fieldset-legend-error-datepicker"
     >
-      Choose a date
+      Pick a date
     </legend>
     <span
       className="usa-error-message"
-      id="field-set-error-message"
       role="alert"
     >
       
@@ -872,19 +1001,19 @@ exports[`Storyshots DatePicker With error 1`] = `
     >
       <div>
         <div
-          className="DateRangePickerInput DateRangePickerInput_1 DateRangePickerInput__withBorder DateRangePickerInput__withBorder_2"
+          className="DateRangePickerInput DateRangePickerInput_1"
         >
           <div
             className="DateInput DateInput_1"
           >
             <input
-              aria-describedby="DateInput__screen-reader-message-startDate"
+              aria-describedby="DateInput__screen-reader-message-error-datepicker-start-date"
               aria-label="Start Date"
               autoComplete="off"
               className="DateInput_input DateInput_input_1"
               disabled={false}
-              id="startDate"
-              name="startDate"
+              id="error-datepicker-start-date"
+              name="error-datepicker-start-date"
               onChange={[Function]}
               onFocus={[Function]}
               onKeyDown={[Function]}
@@ -896,7 +1025,7 @@ exports[`Storyshots DatePicker With error 1`] = `
             />
             <p
               className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
-              id="DateInput__screen-reader-message-startDate"
+              id="DateInput__screen-reader-message-error-datepicker-start-date"
             >
               Navigate forward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
             </p>
@@ -920,13 +1049,13 @@ exports[`Storyshots DatePicker With error 1`] = `
             className="DateInput DateInput_1"
           >
             <input
-              aria-describedby="DateInput__screen-reader-message-endDate"
+              aria-describedby="DateInput__screen-reader-message-error-datepicker-end-date"
               aria-label="End Date"
               autoComplete="off"
               className="DateInput_input DateInput_input_1"
               disabled={false}
-              id="endDate"
-              name="endDate"
+              id="error-datepicker-end-date"
+              name="error-datepicker-end-date"
               onChange={[Function]}
               onFocus={[Function]}
               onKeyDown={[Function]}
@@ -938,7 +1067,555 @@ exports[`Storyshots DatePicker With error 1`] = `
             />
             <p
               className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
-              id="DateInput__screen-reader-message-endDate"
+              id="DateInput__screen-reader-message-error-datepicker-end-date"
+            >
+              Navigate backward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots DatePicker Optional 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group "
+  >
+    <label
+      className="usa-label margin-top-0 "
+      htmlFor="optional-datepicker-date"
+    >
+      Pick a date (Optional)
+    </label>
+    <span
+      className="oec-date-input"
+    >
+      <div
+        className="SingleDatePicker SingleDatePicker_1"
+      >
+        <div>
+          <div
+            className="SingleDatePickerInput SingleDatePickerInput_1"
+          >
+            <div
+              className="DateInput DateInput_1"
+            >
+              <input
+                aria-describedby="DateInput__screen-reader-message-optional-datepicker-date"
+                aria-label="Date"
+                autoComplete="off"
+                className="DateInput_input DateInput_input_1"
+                disabled={false}
+                id="optional-datepicker-date"
+                name="optional-datepicker-date"
+                onChange={[Function]}
+                onFocus={[Function]}
+                onKeyDown={[Function]}
+                placeholder="Date"
+                readOnly={false}
+                required={false}
+                type="text"
+                value="10/30/2019"
+              />
+              <p
+                className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
+                id="DateInput__screen-reader-message-optional-datepicker-date"
+              >
+                Navigate forward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+`;
+
+exports[`Storyshots DatePicker Range 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    className="grid-gap grid-row usa-fieldset 
+			
+      
+    "
+    id="byrange-datepicker"
+  >
+    <legend
+      className="usa-label"
+      id="fieldset-legend-byrange-datepicker"
+    >
+      Pick a date
+    </legend>
+    <div
+      className="DateRangePicker DateRangePicker_1"
+    >
+      <div>
+        <div
+          className="DateRangePickerInput DateRangePickerInput_1"
+        >
+          <div
+            className="DateInput DateInput_1"
+          >
+            <input
+              aria-describedby="DateInput__screen-reader-message-byrange-datepicker-start-date"
+              aria-label="Start Date"
+              autoComplete="off"
+              className="DateInput_input DateInput_input_1"
+              disabled={false}
+              id="byrange-datepicker-start-date"
+              name="byrange-datepicker-start-date"
+              onChange={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              placeholder="Start Date"
+              readOnly={false}
+              required={false}
+              type="text"
+              value="10/30/2019"
+            />
+            <p
+              className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
+              id="DateInput__screen-reader-message-byrange-datepicker-start-date"
+            >
+              Navigate forward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
+            </p>
+          </div>
+          <div
+            aria-hidden="true"
+            className="DateRangePickerInput_arrow DateRangePickerInput_arrow_1"
+            role="presentation"
+          >
+            <svg
+              className="DateRangePickerInput_arrow_svg DateRangePickerInput_arrow_svg_1"
+              focusable="false"
+              viewBox="0 0 1000 1000"
+            >
+              <path
+                d="M694 242l249 250c12 11 12 21 1 32L694 773c-5 5-10 7-16 7s-11-2-16-7c-11-11-11-21 0-32l210-210H68c-13 0-23-10-23-23s10-23 23-23h806L662 275c-21-22 11-54 32-33z"
+              />
+            </svg>
+          </div>
+          <div
+            className="DateInput DateInput_1"
+          >
+            <input
+              aria-describedby="DateInput__screen-reader-message-byrange-datepicker-end-date"
+              aria-label="End Date"
+              autoComplete="off"
+              className="DateInput_input DateInput_input_1"
+              disabled={false}
+              id="byrange-datepicker-end-date"
+              name="byrange-datepicker-end-date"
+              onChange={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              placeholder="End Date"
+              readOnly={false}
+              required={false}
+              type="text"
+              value="10/30/2019"
+            />
+            <p
+              className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
+              id="DateInput__screen-reader-message-byrange-datepicker-end-date"
+            >
+              Navigate backward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots DatePicker Success 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group "
+  >
+    <label
+      className="usa-label margin-top-0 "
+      htmlFor="error-datepicker-date"
+    >
+      Pick a date
+    </label>
+    <span
+      className="oec-date-input oec-date-input--success"
+    >
+      <div
+        className="SingleDatePicker SingleDatePicker_1"
+      >
+        <div>
+          <div
+            className="SingleDatePickerInput SingleDatePickerInput_1"
+          >
+            <div
+              className="DateInput DateInput_1"
+            >
+              <input
+                aria-describedby="DateInput__screen-reader-message-error-datepicker-date"
+                aria-label="Date"
+                autoComplete="off"
+                className="DateInput_input DateInput_input_1"
+                disabled={false}
+                id="error-datepicker-date"
+                name="error-datepicker-date"
+                onChange={[Function]}
+                onFocus={[Function]}
+                onKeyDown={[Function]}
+                placeholder="Date"
+                readOnly={false}
+                required={false}
+                type="text"
+                value="10/30/2019"
+              />
+              <p
+                className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
+                id="DateInput__screen-reader-message-error-datepicker-date"
+              >
+                Navigate forward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+`;
+
+exports[`Storyshots DatePicker Success with range 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    className="grid-gap grid-row usa-fieldset 
+			 usa-fieldset--success
+      
+    "
+    id="error-datepicker"
+  >
+    <legend
+      className="usa-label usa-label--success"
+      id="fieldset-legend-error-datepicker"
+    >
+      Pick a date
+    </legend>
+    <span
+      className="usa-success-message"
+      role="status"
+    >
+      
+       
+      You did good
+    </span>
+    <div
+      className="DateRangePicker DateRangePicker_1"
+    >
+      <div>
+        <div
+          className="DateRangePickerInput DateRangePickerInput_1"
+        >
+          <div
+            className="DateInput DateInput_1"
+          >
+            <input
+              aria-describedby="DateInput__screen-reader-message-error-datepicker-start-date"
+              aria-label="Start Date"
+              autoComplete="off"
+              className="DateInput_input DateInput_input_1"
+              disabled={false}
+              id="error-datepicker-start-date"
+              name="error-datepicker-start-date"
+              onChange={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              placeholder="Start Date"
+              readOnly={false}
+              required={false}
+              type="text"
+              value="10/30/2019"
+            />
+            <p
+              className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
+              id="DateInput__screen-reader-message-error-datepicker-start-date"
+            >
+              Navigate forward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
+            </p>
+          </div>
+          <div
+            aria-hidden="true"
+            className="DateRangePickerInput_arrow DateRangePickerInput_arrow_1"
+            role="presentation"
+          >
+            <svg
+              className="DateRangePickerInput_arrow_svg DateRangePickerInput_arrow_svg_1"
+              focusable="false"
+              viewBox="0 0 1000 1000"
+            >
+              <path
+                d="M694 242l249 250c12 11 12 21 1 32L694 773c-5 5-10 7-16 7s-11-2-16-7c-11-11-11-21 0-32l210-210H68c-13 0-23-10-23-23s10-23 23-23h806L662 275c-21-22 11-54 32-33z"
+              />
+            </svg>
+          </div>
+          <div
+            className="DateInput DateInput_1"
+          >
+            <input
+              aria-describedby="DateInput__screen-reader-message-error-datepicker-end-date"
+              aria-label="End Date"
+              autoComplete="off"
+              className="DateInput_input DateInput_input_1"
+              disabled={false}
+              id="error-datepicker-end-date"
+              name="error-datepicker-end-date"
+              onChange={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              placeholder="End Date"
+              readOnly={false}
+              required={false}
+              type="text"
+              value="10/30/2019"
+            />
+            <p
+              className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
+              id="DateInput__screen-reader-message-error-datepicker-end-date"
+            >
+              Navigate backward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots DatePicker Warning 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group  usa-form-group--warning"
+  >
+    <label
+      className="usa-label margin-top-0  usa-label--warning"
+      htmlFor="error-datepicker-date"
+    >
+      Pick a date
+    </label>
+    <span
+      className="usa-warning-message"
+      role="status"
+    >
+      <span
+        className="oec-inline-icon oec-inline-icon--incomplete"
+      >
+        <svg>
+          error.svg
+        </svg>
+        <span
+          className="usa-sr-only"
+        >
+          (
+          incomplete
+          )
+        </span>
+      </span>
+       
+      Meh, fine
+    </span>
+    <span
+      className="oec-date-input oec-date-input--warning"
+    >
+      <div
+        className="SingleDatePicker SingleDatePicker_1"
+      >
+        <div>
+          <div
+            className="SingleDatePickerInput SingleDatePickerInput_1"
+          >
+            <div
+              className="DateInput DateInput_1"
+            >
+              <input
+                aria-describedby="DateInput__screen-reader-message-error-datepicker-date"
+                aria-label="Date"
+                autoComplete="off"
+                className="DateInput_input DateInput_input_1"
+                disabled={false}
+                id="error-datepicker-date"
+                name="error-datepicker-date"
+                onChange={[Function]}
+                onFocus={[Function]}
+                onKeyDown={[Function]}
+                placeholder="Date"
+                readOnly={false}
+                required={false}
+                type="text"
+                value="10/30/2019"
+              />
+              <p
+                className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
+                id="DateInput__screen-reader-message-error-datepicker-date"
+              >
+                Navigate forward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+`;
+
+exports[`Storyshots DatePicker Warning with range 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    className="grid-gap grid-row usa-fieldset 
+			 usa-fieldset--warning
+      
+    "
+    id="error-datepicker"
+  >
+    <legend
+      className="usa-label usa-label--warning"
+      id="fieldset-legend-error-datepicker"
+    >
+      Pick a date
+    </legend>
+    <span
+      className="usa-warning-message"
+      role="status"
+    >
+      <span
+        className="oec-inline-icon oec-inline-icon--incomplete"
+      >
+        <svg>
+          error.svg
+        </svg>
+        <span
+          className="usa-sr-only"
+        >
+          (
+          incomplete
+          )
+        </span>
+      </span>
+       
+      Meh, fine
+    </span>
+    <div
+      className="DateRangePicker DateRangePicker_1"
+    >
+      <div>
+        <div
+          className="DateRangePickerInput DateRangePickerInput_1"
+        >
+          <div
+            className="DateInput DateInput_1"
+          >
+            <input
+              aria-describedby="DateInput__screen-reader-message-error-datepicker-start-date"
+              aria-label="Start Date"
+              autoComplete="off"
+              className="DateInput_input DateInput_input_1"
+              disabled={false}
+              id="error-datepicker-start-date"
+              name="error-datepicker-start-date"
+              onChange={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              placeholder="Start Date"
+              readOnly={false}
+              required={false}
+              type="text"
+              value="10/30/2019"
+            />
+            <p
+              className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
+              id="DateInput__screen-reader-message-error-datepicker-start-date"
+            >
+              Navigate forward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
+            </p>
+          </div>
+          <div
+            aria-hidden="true"
+            className="DateRangePickerInput_arrow DateRangePickerInput_arrow_1"
+            role="presentation"
+          >
+            <svg
+              className="DateRangePickerInput_arrow_svg DateRangePickerInput_arrow_svg_1"
+              focusable="false"
+              viewBox="0 0 1000 1000"
+            >
+              <path
+                d="M694 242l249 250c12 11 12 21 1 32L694 773c-5 5-10 7-16 7s-11-2-16-7c-11-11-11-21 0-32l210-210H68c-13 0-23-10-23-23s10-23 23-23h806L662 275c-21-22 11-54 32-33z"
+              />
+            </svg>
+          </div>
+          <div
+            className="DateInput DateInput_1"
+          >
+            <input
+              aria-describedby="DateInput__screen-reader-message-error-datepicker-end-date"
+              aria-label="End Date"
+              autoComplete="off"
+              className="DateInput_input DateInput_input_1"
+              disabled={false}
+              id="error-datepicker-end-date"
+              name="error-datepicker-end-date"
+              onChange={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              placeholder="End Date"
+              readOnly={false}
+              required={false}
+              type="text"
+              value="10/30/2019"
+            />
+            <p
+              className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
+              id="DateInput__screen-reader-message-error-datepicker-end-date"
             >
               Navigate backward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
             </p>
@@ -1225,7 +1902,7 @@ exports[`Storyshots FieldSet Default 1`] = `
 >
   <fieldset
     className="grid-gap grid-row usa-fieldset 
-      
+			
       
     "
     id="default-fieldset"
@@ -1235,6 +1912,34 @@ exports[`Storyshots FieldSet Default 1`] = `
       id="fieldset-legend-default-fieldset"
     >
       field set
+    </legend>
+    <p>
+      I'm inside a field set!
+    </p>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots FieldSet Show legend 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    className="grid-gap grid-row usa-fieldset 
+			
+      
+    "
+    id="show-legend-fieldset"
+  >
+    <legend
+      className="usa-label"
+      id="fieldset-legend-show-legend-fieldset"
+    >
+      Field set
     </legend>
     <p>
       I'm inside a field set!
@@ -1253,7 +1958,7 @@ exports[`Storyshots FieldSet With error 1`] = `
 >
   <fieldset
     className="grid-gap grid-row usa-fieldset 
-       usa-fieldset--error
+			 usa-fieldset--error
       
     "
     id="error-fieldset"
@@ -1266,7 +1971,6 @@ exports[`Storyshots FieldSet With error 1`] = `
     </legend>
     <span
       className="usa-error-message"
-      id="field-set-error-message"
       role="alert"
     >
       
@@ -1286,6 +1990,48 @@ exports[`Storyshots FieldSet With error 1`] = `
 </div>
 `;
 
+exports[`Storyshots FieldSet With success 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    className="grid-gap grid-row usa-fieldset 
+			 usa-fieldset--success
+      
+    "
+    id="success-fieldset"
+  >
+    <legend
+      className="usa-sr-only"
+      id="fieldset-legend-success-fieldset"
+    >
+      Success field set
+    </legend>
+    <span
+      className="usa-success-message"
+      role="status"
+    >
+      
+       
+      These fields are filled out and validated yay!
+    </span>
+    <p>
+       Wow! 
+    </p>
+    <p>
+       You're so smart! 
+    </p>
+    <p>
+       What great form input! 
+    </p>
+  </fieldset>
+</div>
+`;
+
 exports[`Storyshots FieldSet With warning 1`] = `
 <div
   style={
@@ -1296,7 +2042,7 @@ exports[`Storyshots FieldSet With warning 1`] = `
 >
   <fieldset
     className="grid-gap grid-row usa-fieldset 
-       usa-fieldset--warning
+			 usa-fieldset--warning
       
     "
     id="warning-fieldset"
@@ -1309,7 +2055,6 @@ exports[`Storyshots FieldSet With warning 1`] = `
     </legend>
     <span
       className="usa-warning-message"
-      id="field-set-error-message"
       role="status"
     >
       <span
@@ -1763,8 +2508,8 @@ exports[`Storyshots Legend Default 1`] = `
       >
         <svg
           className="oec-legend__symbol__svg"
-          height="100%"
-          width="100%"
+          height="1em"
+          width="1em"
         >
           <rect
             fill="currentColor"
@@ -1787,8 +2532,8 @@ exports[`Storyshots Legend Default 1`] = `
       >
         <svg
           className="oec-legend__symbol__svg"
-          height="100%"
-          width="100%"
+          height="1em"
+          width="1em"
         >
           <rect
             fill="currentColor"
@@ -1811,8 +2556,8 @@ exports[`Storyshots Legend Default 1`] = `
       >
         <svg
           className="oec-legend__symbol__svg"
-          height="100%"
-          width="100%"
+          height="1em"
+          width="1em"
         >
           <rect
             fill="currentColor"
@@ -1835,8 +2580,8 @@ exports[`Storyshots Legend Default 1`] = `
       >
         <svg
           className="oec-legend__symbol__svg"
-          height="100%"
-          width="100%"
+          height="1em"
+          width="1em"
         >
           <rect
             fill="currentColor"
@@ -1865,7 +2610,7 @@ exports[`Storyshots RadioGroup Default 1`] = `
 >
   <fieldset
     className="grid-gap grid-row usa-fieldset 
-      
+			
       
     "
     id="storybook-radio-group"
@@ -1932,7 +2677,7 @@ exports[`Storyshots RadioGroup Default selection 1`] = `
 >
   <fieldset
     className="grid-gap grid-row usa-fieldset 
-      
+			
       
     "
     id="storybook-radio-group-default-selection"
@@ -1999,7 +2744,7 @@ exports[`Storyshots RadioGroup Horizontal 1`] = `
 >
   <fieldset
     className="grid-gap grid-row usa-fieldset 
-      
+			
       
     "
     id="storybook-radio-group-2"
@@ -2066,7 +2811,7 @@ exports[`Storyshots RadioGroup With error 1`] = `
 >
   <fieldset
     className="grid-gap grid-row usa-fieldset 
-       usa-fieldset--error
+			 usa-fieldset--error
       
     "
     id="storybook-radio-group-with-warning"
@@ -2079,7 +2824,6 @@ exports[`Storyshots RadioGroup With error 1`] = `
     </legend>
     <span
       className="usa-error-message"
-      id="field-set-error-message"
       role="alert"
     >
       
@@ -2142,7 +2886,7 @@ exports[`Storyshots RadioGroup With warning 1`] = `
 >
   <fieldset
     className="grid-gap grid-row usa-fieldset 
-       usa-fieldset--warning
+			 usa-fieldset--warning
       
     "
     id="storybook-radio-group-with-warning"
@@ -2155,7 +2899,6 @@ exports[`Storyshots RadioGroup With warning 1`] = `
     </legend>
     <span
       className="usa-warning-message"
-      id="field-set-error-message"
       role="status"
     >
       <span
@@ -2630,9 +3373,10 @@ exports[`Storyshots TextInput Error 1`] = `
     </label>
     <span
       className="usa-error-message"
-      id="id8-input-error-message"
       role="alert"
     >
+      
+       
       Error!
     </span>
     <input
@@ -2660,7 +3404,7 @@ exports[`Storyshots TextInput Error inside error Fieldset 1`] = `
   >
     <fieldset
       className="grid-gap grid-row usa-fieldset 
-       usa-fieldset--error
+			 usa-fieldset--error
        display-inline-block
     "
       id="example-fieldset-error"
@@ -2673,7 +3417,6 @@ exports[`Storyshots TextInput Error inside error Fieldset 1`] = `
       </legend>
       <span
         className="usa-error-message"
-        id="field-set-error-message"
         role="alert"
       >
         
@@ -2695,9 +3438,10 @@ exports[`Storyshots TextInput Error inside error Fieldset 1`] = `
           </label>
           <span
             className="usa-error-message"
-            id="id9-input-error-message"
             role="alert"
           >
+            
+             
             Error!
           </span>
           <input
@@ -2725,9 +3469,10 @@ exports[`Storyshots TextInput Error inside error Fieldset 1`] = `
           </label>
           <span
             className="usa-error-message"
-            id="id10-input-error-message"
             role="alert"
           >
+            
+             
             Error!
           </span>
           <input
@@ -2824,9 +3569,23 @@ exports[`Storyshots TextInput Warning 1`] = `
     </label>
     <span
       className="usa-warning-message"
-      id="cat-input-error-message"
-      role="alert"
+      role="status"
     >
+      <span
+        className="oec-inline-icon oec-inline-icon--incomplete"
+      >
+        <svg>
+          error.svg
+        </svg>
+        <span
+          className="usa-sr-only"
+        >
+          (
+          incomplete
+          )
+        </span>
+      </span>
+       
       Warning!
     </span>
     <input
@@ -2854,7 +3613,7 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
   >
     <fieldset
       className="grid-gap grid-row usa-fieldset 
-       usa-fieldset--warning
+			 usa-fieldset--warning
        display-inline-block
     "
       id="warning-fieldset"
@@ -2867,7 +3626,6 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
       </legend>
       <span
         className="usa-warning-message"
-        id="field-set-error-message"
         role="status"
       >
         <span
@@ -2902,9 +3660,23 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
           </label>
           <span
             className="usa-warning-message"
-            id="cat-input-error-message"
-            role="alert"
+            role="status"
           >
+            <span
+              className="oec-inline-icon oec-inline-icon--incomplete"
+            >
+              <svg>
+                error.svg
+              </svg>
+              <span
+                className="usa-sr-only"
+              >
+                (
+                incomplete
+                )
+              </span>
+            </span>
+             
             Warning!
           </span>
           <input
@@ -2932,9 +3704,23 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
           </label>
           <span
             className="usa-warning-message"
-            id="cat-input-error-message"
-            role="alert"
+            role="status"
           >
+            <span
+              className="oec-inline-icon oec-inline-icon--incomplete"
+            >
+              <svg>
+                error.svg
+              </svg>
+              <span
+                className="usa-sr-only"
+              >
+                (
+                incomplete
+                )
+              </span>
+            </span>
+             
             Warning!
           </span>
           <input

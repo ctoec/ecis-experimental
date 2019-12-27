@@ -108,15 +108,12 @@ const EnrollmentFunding: Section = {
             selected={siteId ? '' + siteId : undefined}
             onChange={event => updateSiteId(parseInt(event.target.value, 10))}
           />
-          <label className="usa-label" htmlFor="date">
-            Start date
-					</label>
 					<DatePicker
 						onChange={range =>
 							updateEntry((range.startDate && range.startDate.toDate()) || null)
 						}
             dateRange={{ startDate: entry ? moment(entry) : null, endDate: null }}
-            label="Enrollment start date"
+            label="Start date"
             id="enrollment-start-date"
 					/>
 

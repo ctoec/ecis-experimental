@@ -7,6 +7,7 @@ export type FormStatusProps = {
 	// TODO: add id so there can be aria-described by?
 };
 
+// TODO: how do we actually want to style success?
 export default ({ message, type }: FormStatusProps) => {
 	return (
 		<span
