@@ -32,7 +32,7 @@ export default function Dropdown({
 			<label className={`usa-label${status ? ` usa-label--${status.type}` : ''}`} htmlFor={id}>
 				{label}
 			</label>
-			{status && <FormStatus {...status} />}
+			{status && status.message && <FormStatus {...status} />}
 			<select
 				className={`usa-select${status ? ` usa-input--${status.type}` : ''}`}
 				name={id}

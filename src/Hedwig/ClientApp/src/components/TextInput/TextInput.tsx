@@ -29,7 +29,7 @@ export default function TextInput({
 			<label className={`usa-label${status ? ` usa-label--${status.type}` : ''}`} htmlFor={id}>
 				{label} {optional && '(Optional)'}
 			</label>
-			{status && <FormStatus {...status} />}
+			{status && status.message && <FormStatus {...status} />}
 			<input
 				className={`usa-input${status ? ` usa-input--${status.type}` : ''}${
 					small ? ' usa-input--small' : ''
