@@ -268,7 +268,7 @@ exports[`Storyshots Checklist Box disabled 1`] = `
           defaultChecked={true}
           disabled={true}
           id="one"
-          name="storybook-checklist-disabled"
+          name="storybook-checklist-disabled-one"
           onChange={[Function]}
           type="checkbox"
           value="one"
@@ -288,7 +288,7 @@ exports[`Storyshots Checklist Box disabled 1`] = `
           defaultChecked={true}
           disabled={true}
           id="two"
-          name="storybook-checklist-disabled"
+          name="storybook-checklist-disabled-two"
           onChange={[Function]}
           type="checkbox"
           value="two"
@@ -336,7 +336,7 @@ exports[`Storyshots Checklist Default 1`] = `
           className="usa-checkbox__input"
           defaultChecked={false}
           id="one"
-          name="storybook-checklist"
+          name="storybook-checklist-one"
           onChange={[Function]}
           type="checkbox"
           value="one"
@@ -355,7 +355,7 @@ exports[`Storyshots Checklist Default 1`] = `
           className="usa-checkbox__input"
           defaultChecked={false}
           id="two"
-          name="storybook-checklist"
+          name="storybook-checklist-two"
           onChange={[Function]}
           type="checkbox"
           value="two"
@@ -403,7 +403,7 @@ exports[`Storyshots Checklist Default selection 1`] = `
           className="usa-checkbox__input"
           defaultChecked={true}
           id="one"
-          name="storybook-checklist-default-selection"
+          name="storybook-checklist-default-selection-one"
           onChange={[Function]}
           type="checkbox"
           value="one"
@@ -422,7 +422,7 @@ exports[`Storyshots Checklist Default selection 1`] = `
           className="usa-checkbox__input"
           defaultChecked={true}
           id="two"
-          name="storybook-checklist-default-selection"
+          name="storybook-checklist-default-selection-two"
           onChange={[Function]}
           type="checkbox"
           value="two"
@@ -470,7 +470,7 @@ exports[`Storyshots Checklist Horizontal 1`] = `
           className="usa-checkbox__input"
           defaultChecked={false}
           id="one"
-          name="storybook-checklist-2"
+          name="storybook-checklist-2-one"
           onChange={[Function]}
           type="checkbox"
           value="one"
@@ -489,7 +489,7 @@ exports[`Storyshots Checklist Horizontal 1`] = `
           className="usa-checkbox__input"
           defaultChecked={false}
           id="two"
-          name="storybook-checklist-2"
+          name="storybook-checklist-2-two"
           onChange={[Function]}
           type="checkbox"
           value="two"
@@ -515,6 +515,7 @@ exports[`Storyshots Checklist With error 1`] = `
   }
 >
   <fieldset
+    aria-describedby="checklis-error"
     className="grid-gap grid-row usa-fieldset 
 			 usa-fieldset--error
       
@@ -529,6 +530,7 @@ exports[`Storyshots Checklist With error 1`] = `
     </legend>
     <span
       className="usa-error-message"
+      id="checklis-error"
       role="alert"
     >
       
@@ -545,7 +547,7 @@ exports[`Storyshots Checklist With error 1`] = `
           className="usa-checkbox__input"
           defaultChecked={false}
           id="one"
-          name="storybook-checklist-with-error"
+          name="storybook-checklist-with-error-one"
           onChange={[Function]}
           type="checkbox"
           value="one"
@@ -564,7 +566,84 @@ exports[`Storyshots Checklist With error 1`] = `
           className="usa-checkbox__input"
           defaultChecked={false}
           id="two"
-          name="storybook-checklist-with-error"
+          name="storybook-checklist-with-error-two"
+          onChange={[Function]}
+          type="checkbox"
+          value="two"
+        />
+        <label
+          className="usa-checkbox__label"
+          htmlFor="two"
+        >
+          Option two
+        </label>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots Checklist With success 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    aria-describedby="checklist-success"
+    className="grid-gap grid-row usa-fieldset 
+			 usa-fieldset--success
+      
+    "
+    id="storybook-checklist-with-success"
+  >
+    <legend
+      className="usa-sr-only"
+      id="fieldset-legend-storybook-checklist-with-success"
+    >
+      Checklist items
+    </legend>
+    <span
+      className="usa-success-message"
+      id="checklist-success"
+      role="status"
+    >
+      
+       
+      These fields were validated woo
+    </span>
+    <div
+      className=""
+    >
+      <div
+        className="usa-checkbox "
+      >
+        <input
+          className="usa-checkbox__input"
+          defaultChecked={false}
+          id="one"
+          name="storybook-checklist-with-success-one"
+          onChange={[Function]}
+          type="checkbox"
+          value="one"
+        />
+        <label
+          className="usa-checkbox__label"
+          htmlFor="one"
+        >
+          Option one
+        </label>
+      </div>
+      <div
+        className="usa-checkbox "
+      >
+        <input
+          className="usa-checkbox__input"
+          defaultChecked={false}
+          id="two"
+          name="storybook-checklist-with-success-two"
           onChange={[Function]}
           type="checkbox"
           value="two"
@@ -590,6 +669,7 @@ exports[`Storyshots Checklist With warning 1`] = `
   }
 >
   <fieldset
+    aria-describedby="checklist-warning"
     className="grid-gap grid-row usa-fieldset 
 			 usa-fieldset--warning
       
@@ -604,6 +684,7 @@ exports[`Storyshots Checklist With warning 1`] = `
     </legend>
     <span
       className="usa-warning-message"
+      id="checklist-warning"
       role="status"
     >
       <span
@@ -633,7 +714,7 @@ exports[`Storyshots Checklist With warning 1`] = `
           className="usa-checkbox__input"
           defaultChecked={false}
           id="one"
-          name="storybook-checklist-with-warning"
+          name="storybook-checklist-with-warning-one"
           onChange={[Function]}
           type="checkbox"
           value="one"
@@ -652,7 +733,7 @@ exports[`Storyshots Checklist With warning 1`] = `
           className="usa-checkbox__input"
           defaultChecked={false}
           id="two"
-          name="storybook-checklist-with-warning"
+          name="storybook-checklist-with-warning-two"
           onChange={[Function]}
           type="checkbox"
           value="two"
@@ -916,6 +997,7 @@ exports[`Storyshots DatePicker Error 1`] = `
     </label>
     <span
       className="usa-error-message"
+      id="datepicker-error"
       role="alert"
     >
       
@@ -923,6 +1005,7 @@ exports[`Storyshots DatePicker Error 1`] = `
       Pick a better date
     </span>
     <span
+      aria-describedby="datepicker-error"
       className="oec-date-input oec-date-input--error"
     >
       <div
@@ -976,6 +1059,7 @@ exports[`Storyshots DatePicker Error with range 1`] = `
   }
 >
   <fieldset
+    aria-describedby="datepicker-error"
     className="grid-gap grid-row usa-fieldset 
 			 usa-fieldset--error
       
@@ -990,6 +1074,7 @@ exports[`Storyshots DatePicker Error with range 1`] = `
     </legend>
     <span
       className="usa-error-message"
+      id="datepicker-error"
       role="alert"
     >
       
@@ -1254,15 +1339,25 @@ exports[`Storyshots DatePicker Success 1`] = `
   }
 >
   <div
-    className="usa-form-group "
+    className="usa-form-group  usa-form-group--success"
   >
     <label
-      className="usa-label margin-top-0 "
+      className="usa-label margin-top-0  usa-label--success"
       htmlFor="error-datepicker-date"
     >
       Pick a date
     </label>
     <span
+      className="usa-success-message"
+      id="datepicker-success"
+      role="status"
+    >
+      
+       
+      You did good
+    </span>
+    <span
+      aria-describedby="datepicker-success"
       className="oec-date-input oec-date-input--success"
     >
       <div
@@ -1316,6 +1411,7 @@ exports[`Storyshots DatePicker Success with range 1`] = `
   }
 >
   <fieldset
+    aria-describedby="datepicker-success"
     className="grid-gap grid-row usa-fieldset 
 			 usa-fieldset--success
       
@@ -1330,6 +1426,7 @@ exports[`Storyshots DatePicker Success with range 1`] = `
     </legend>
     <span
       className="usa-success-message"
+      id="datepicker-success"
       role="status"
     >
       
@@ -1438,6 +1535,7 @@ exports[`Storyshots DatePicker Warning 1`] = `
     </label>
     <span
       className="usa-warning-message"
+      id="datepicker-warning"
       role="status"
     >
       <span
@@ -1458,6 +1556,7 @@ exports[`Storyshots DatePicker Warning 1`] = `
       Meh, fine
     </span>
     <span
+      aria-describedby="datepicker-warning"
       className="oec-date-input oec-date-input--warning"
     >
       <div
@@ -1511,6 +1610,7 @@ exports[`Storyshots DatePicker Warning with range 1`] = `
   }
 >
   <fieldset
+    aria-describedby="datepicker-warning"
     className="grid-gap grid-row usa-fieldset 
 			 usa-fieldset--warning
       
@@ -1525,6 +1625,7 @@ exports[`Storyshots DatePicker Warning with range 1`] = `
     </legend>
     <span
       className="usa-warning-message"
+      id="datepicker-warning"
       role="status"
     >
       <span
@@ -1732,14 +1833,14 @@ exports[`Storyshots Dropdown Default 1`] = `
   >
     <label
       className="usa-label"
-      htmlFor="Choose-one-of-these-things"
+      htmlFor="default-dropdown"
     >
       Choose one of these things
     </label>
     <select
       className="usa-select"
-      id="Choose-one-of-these-things"
-      name="Choose-one-of-these-things"
+      id="default-dropdown"
+      name="default-dropdown"
       onChange={[Function]}
     >
       <option>
@@ -1773,15 +1874,15 @@ exports[`Storyshots Dropdown Disabled 1`] = `
   >
     <label
       className="usa-label"
-      htmlFor="Choose-one-of-these-things"
+      htmlFor="disabled-dropdown"
     >
       Choose one of these things
     </label>
     <select
       className="usa-select"
       disabled={true}
-      id="Choose-one-of-these-things"
-      name="Choose-one-of-these-things"
+      id="disabled-dropdown"
+      name="disabled-dropdown"
       onChange={[Function]}
     >
       <option>
@@ -1815,22 +1916,24 @@ exports[`Storyshots Dropdown Error 1`] = `
   >
     <label
       className="usa-label usa-label--error"
-      htmlFor="Choose-one-of-these-things"
+      htmlFor="dropdown-with-error"
     >
       Choose one of these things
     </label>
     <span
       className="usa-error-message"
-      id="Choose-one-of-these-things-error-message"
+      id="dropdown-error"
       role="alert"
     >
-      There was an error.
+      
+       
+      Pick something else
     </span>
     <select
-      aria-describedby="Choose-one-of-these-things-error-message"
+      aria-describedby="dropdown-error"
       className="usa-select usa-input--error"
-      id="Choose-one-of-these-things"
-      name="Choose-one-of-these-things"
+      id="dropdown-with-error"
+      name="dropdown-with-error"
       onChange={[Function]}
     >
       <option>
@@ -1860,18 +1963,92 @@ exports[`Storyshots Dropdown Success 1`] = `
   }
 >
   <div
-    className="usa-form-group"
+    className="usa-form-group usa-form-group--success"
   >
     <label
-      className="usa-label"
-      htmlFor="Choose-one-of-these-things"
+      className="usa-label usa-label--success"
+      htmlFor="dropdown-with-success"
     >
       Choose one of these things
     </label>
+    <span
+      className="usa-success-message"
+      id="dropdown-success"
+      role="status"
+    >
+      
+       
+      You did good
+    </span>
     <select
+      aria-describedby="dropdown-success"
       className="usa-select usa-input--success"
-      id="Choose-one-of-these-things"
-      name="Choose-one-of-these-things"
+      id="dropdown-with-success"
+      name="dropdown-with-success"
+      onChange={[Function]}
+    >
+      <option>
+        Choose here
+      </option>
+      <option
+        value="one"
+      >
+        Thing One
+      </option>
+      <option
+        value="two"
+      >
+        Thing Two
+      </option>
+    </select>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Dropdown Warning 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group usa-form-group--warning"
+  >
+    <label
+      className="usa-label usa-label--warning"
+      htmlFor="dropdown-with-success"
+    >
+      Choose one of these things
+    </label>
+    <span
+      className="usa-warning-message"
+      id="dropdown-warning"
+      role="status"
+    >
+      <span
+        className="oec-inline-icon oec-inline-icon--incomplete"
+      >
+        <svg>
+          error.svg
+        </svg>
+        <span
+          className="usa-sr-only"
+        >
+          (
+          incomplete
+          )
+        </span>
+      </span>
+       
+      Choose wisely
+    </span>
+    <select
+      aria-describedby="dropdown-warning"
+      className="usa-select usa-input--warning"
+      id="dropdown-with-success"
+      name="dropdown-with-success"
       onChange={[Function]}
     >
       <option>
@@ -1957,6 +2134,7 @@ exports[`Storyshots FieldSet With error 1`] = `
   }
 >
   <fieldset
+    aria-describedby="fieldset-error"
     className="grid-gap grid-row usa-fieldset 
 			 usa-fieldset--error
       
@@ -1971,6 +2149,7 @@ exports[`Storyshots FieldSet With error 1`] = `
     </legend>
     <span
       className="usa-error-message"
+      id="fieldset-error"
       role="alert"
     >
       
@@ -1999,6 +2178,7 @@ exports[`Storyshots FieldSet With success 1`] = `
   }
 >
   <fieldset
+    aria-describedby="fieldset-success"
     className="grid-gap grid-row usa-fieldset 
 			 usa-fieldset--success
       
@@ -2013,6 +2193,7 @@ exports[`Storyshots FieldSet With success 1`] = `
     </legend>
     <span
       className="usa-success-message"
+      id="fieldset-success"
       role="status"
     >
       
@@ -2041,6 +2222,7 @@ exports[`Storyshots FieldSet With warning 1`] = `
   }
 >
   <fieldset
+    aria-describedby="fieldset-warning"
     className="grid-gap grid-row usa-fieldset 
 			 usa-fieldset--warning
       
@@ -2055,6 +2237,7 @@ exports[`Storyshots FieldSet With warning 1`] = `
     </legend>
     <span
       className="usa-warning-message"
+      id="fieldset-warning"
       role="status"
     >
       <span
@@ -2631,7 +2814,7 @@ exports[`Storyshots RadioGroup Default 1`] = `
           checked={false}
           className="usa-radio__input"
           id="one"
-          name="storybook-radio-group"
+          name="storybook-radio-group-group"
           onChange={[Function]}
           type="radio"
           value="one"
@@ -2650,7 +2833,7 @@ exports[`Storyshots RadioGroup Default 1`] = `
           checked={false}
           className="usa-radio__input"
           id="two"
-          name="storybook-radio-group"
+          name="storybook-radio-group-group"
           onChange={[Function]}
           type="radio"
           value="two"
@@ -2698,7 +2881,7 @@ exports[`Storyshots RadioGroup Default selection 1`] = `
           checked={true}
           className="usa-radio__input"
           id="one"
-          name="storybook-radio-group-default-selection"
+          name="storybook-radio-group-default-selection-group"
           onChange={[Function]}
           type="radio"
           value="one"
@@ -2717,7 +2900,7 @@ exports[`Storyshots RadioGroup Default selection 1`] = `
           checked={false}
           className="usa-radio__input"
           id="two"
-          name="storybook-radio-group-default-selection"
+          name="storybook-radio-group-default-selection-group"
           onChange={[Function]}
           type="radio"
           value="two"
@@ -2765,7 +2948,7 @@ exports[`Storyshots RadioGroup Horizontal 1`] = `
           checked={false}
           className="usa-radio__input"
           id="one"
-          name="storybook-radio-group-2"
+          name="storybook-radio-group-2-group"
           onChange={[Function]}
           type="radio"
           value="one"
@@ -2784,7 +2967,7 @@ exports[`Storyshots RadioGroup Horizontal 1`] = `
           checked={false}
           className="usa-radio__input"
           id="two"
-          name="storybook-radio-group-2"
+          name="storybook-radio-group-2-group"
           onChange={[Function]}
           type="radio"
           value="two"
@@ -2810,6 +2993,7 @@ exports[`Storyshots RadioGroup With error 1`] = `
   }
 >
   <fieldset
+    aria-describedby="radio-group-error"
     className="grid-gap grid-row usa-fieldset 
 			 usa-fieldset--error
       
@@ -2824,6 +3008,7 @@ exports[`Storyshots RadioGroup With error 1`] = `
     </legend>
     <span
       className="usa-error-message"
+      id="radio-group-error"
       role="alert"
     >
       
@@ -2840,7 +3025,7 @@ exports[`Storyshots RadioGroup With error 1`] = `
           checked={true}
           className="usa-radio__input"
           id="one"
-          name="storybook-radio-group-with-warning"
+          name="storybook-radio-group-with-warning-group"
           onChange={[Function]}
           type="radio"
           value="one"
@@ -2859,7 +3044,84 @@ exports[`Storyshots RadioGroup With error 1`] = `
           checked={false}
           className="usa-radio__input"
           id="two"
-          name="storybook-radio-group-with-warning"
+          name="storybook-radio-group-with-warning-group"
+          onChange={[Function]}
+          type="radio"
+          value="two"
+        />
+        <label
+          className="usa-radio__label"
+          htmlFor="two"
+        >
+          Option two
+        </label>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots RadioGroup With success 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    aria-describedby="radio-group-status"
+    className="grid-gap grid-row usa-fieldset 
+			 usa-fieldset--success
+      
+    "
+    id="storybook-radio-group-with-warning"
+  >
+    <legend
+      className="usa-sr-only"
+      id="fieldset-legend-storybook-radio-group-with-warning"
+    >
+      Radiogroup items
+    </legend>
+    <span
+      className="usa-success-message"
+      id="radio-group-status"
+      role="status"
+    >
+      
+       
+      This value was accepted
+    </span>
+    <div
+      className=""
+    >
+      <div
+        className="usa-radio "
+      >
+        <input
+          checked={true}
+          className="usa-radio__input"
+          id="one"
+          name="storybook-radio-group-with-warning-group"
+          onChange={[Function]}
+          type="radio"
+          value="one"
+        />
+        <label
+          className="usa-radio__label"
+          htmlFor="one"
+        >
+          Option one
+        </label>
+      </div>
+      <div
+        className="usa-radio "
+      >
+        <input
+          checked={false}
+          className="usa-radio__input"
+          id="two"
+          name="storybook-radio-group-with-warning-group"
           onChange={[Function]}
           type="radio"
           value="two"
@@ -2885,6 +3147,7 @@ exports[`Storyshots RadioGroup With warning 1`] = `
   }
 >
   <fieldset
+    aria-describedby="radio-group-warning"
     className="grid-gap grid-row usa-fieldset 
 			 usa-fieldset--warning
       
@@ -2899,6 +3162,7 @@ exports[`Storyshots RadioGroup With warning 1`] = `
     </legend>
     <span
       className="usa-warning-message"
+      id="radio-group-warning"
       role="status"
     >
       <span
@@ -2928,7 +3192,7 @@ exports[`Storyshots RadioGroup With warning 1`] = `
           checked={true}
           className="usa-radio__input"
           id="one"
-          name="storybook-radio-group-with-warning"
+          name="storybook-radio-group-with-warning-group"
           onChange={[Function]}
           type="radio"
           value="one"
@@ -2947,7 +3211,7 @@ exports[`Storyshots RadioGroup With warning 1`] = `
           checked={false}
           className="usa-radio__input"
           id="two"
-          name="storybook-radio-group-with-warning"
+          name="storybook-radio-group-with-warning-group"
           onChange={[Function]}
           type="radio"
           value="two"
@@ -3373,6 +3637,7 @@ exports[`Storyshots TextInput Error 1`] = `
     </label>
     <span
       className="usa-error-message"
+      id="text-input-error"
       role="alert"
     >
       
@@ -3380,7 +3645,7 @@ exports[`Storyshots TextInput Error 1`] = `
       Error!
     </span>
     <input
-      aria-describedby="id8-input-error-message"
+      aria-describedby="text-input-error"
       className="usa-input usa-input--error"
       id="id8"
       name="id8"
@@ -3403,6 +3668,7 @@ exports[`Storyshots TextInput Error inside error Fieldset 1`] = `
     className="usa-form"
   >
     <fieldset
+      aria-describedby="text-input-error"
       className="grid-gap grid-row usa-fieldset 
 			 usa-fieldset--error
        display-inline-block
@@ -3417,6 +3683,7 @@ exports[`Storyshots TextInput Error inside error Fieldset 1`] = `
       </legend>
       <span
         className="usa-error-message"
+        id="text-input-error"
         role="alert"
       >
         
@@ -3438,6 +3705,7 @@ exports[`Storyshots TextInput Error inside error Fieldset 1`] = `
           </label>
           <span
             className="usa-error-message"
+            id="text-input-error"
             role="alert"
           >
             
@@ -3445,7 +3713,7 @@ exports[`Storyshots TextInput Error inside error Fieldset 1`] = `
             Error!
           </span>
           <input
-            aria-describedby="id9-input-error-message"
+            aria-describedby="text-input-error"
             className="usa-input usa-input--error"
             id="id9"
             name="id9"
@@ -3469,6 +3737,7 @@ exports[`Storyshots TextInput Error inside error Fieldset 1`] = `
           </label>
           <span
             className="usa-error-message"
+            id="text-input-error"
             role="alert"
           >
             
@@ -3476,7 +3745,7 @@ exports[`Storyshots TextInput Error inside error Fieldset 1`] = `
             Error!
           </span>
           <input
-            aria-describedby="id10-input-error-message"
+            aria-describedby="text-input-error"
             className="usa-input usa-input--error"
             id="id10"
             name="id10"
@@ -3529,16 +3798,26 @@ exports[`Storyshots TextInput Success 1`] = `
   }
 >
   <div
-    className="usa-form-group"
+    className="usa-form-group usa-form-group--success"
   >
     <label
-      className="usa-label"
+      className="usa-label usa-label--success"
       htmlFor="id4"
     >
       Default text input
        
     </label>
+    <span
+      className="usa-success-message"
+      id="text-input-success"
+      role="status"
+    >
+      
+       
+      Success!
+    </span>
     <input
+      aria-describedby="text-input-success"
       className="usa-input usa-input--success"
       id="id4"
       name="id4"
@@ -3569,6 +3848,7 @@ exports[`Storyshots TextInput Warning 1`] = `
     </label>
     <span
       className="usa-warning-message"
+      id="text-input-warning"
       role="status"
     >
       <span
@@ -3589,7 +3869,7 @@ exports[`Storyshots TextInput Warning 1`] = `
       Warning!
     </span>
     <input
-      aria-describedby="cat-input-error-message"
+      aria-describedby="text-input-warning"
       className="usa-input usa-input--warning"
       id="cat"
       name="cat"
@@ -3612,6 +3892,7 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
     className="usa-form"
   >
     <fieldset
+      aria-describedby="text-input-warning"
       className="grid-gap grid-row usa-fieldset 
 			 usa-fieldset--warning
        display-inline-block
@@ -3626,6 +3907,7 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
       </legend>
       <span
         className="usa-warning-message"
+        id="text-input-warning"
         role="status"
       >
         <span
@@ -3660,6 +3942,7 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
           </label>
           <span
             className="usa-warning-message"
+            id="text-input-warning"
             role="status"
           >
             <span
@@ -3680,7 +3963,7 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
             Warning!
           </span>
           <input
-            aria-describedby="cat-input-error-message"
+            aria-describedby="text-input-warning"
             className="usa-input usa-input--warning"
             id="cat"
             name="cat"
@@ -3704,6 +3987,7 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
           </label>
           <span
             className="usa-warning-message"
+            id="text-input-warning"
             role="status"
           >
             <span
@@ -3724,7 +4008,7 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
             Warning!
           </span>
           <input
-            aria-describedby="cat-input-error-message"
+            aria-describedby="text-input-warning"
             className="usa-input usa-input--warning"
             id="cat"
             name="cat"
