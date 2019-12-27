@@ -36,7 +36,7 @@ storiesOf('RadioGroup', module)
 		return (
 			<RadioGroup
 				options={options}
-				groupName="storybook-radio-group"
+				id="storybook-radio-group"
 				onChange={onChange}
 				legend="Radiogroup items"
 			/>
@@ -46,7 +46,7 @@ storiesOf('RadioGroup', module)
 		return (
 			<RadioGroup
 				options={options}
-				groupName="storybook-radio-group-2"
+				id="storybook-radio-group-2"
 				onChange={onChange}
 				horizontal={true}
 				legend="Radiogroup items"
@@ -57,7 +57,7 @@ storiesOf('RadioGroup', module)
 		return (
 			<RadioGroup
 				options={options}
-				groupName="storybook-radio-group-default-selection"
+				id="storybook-radio-group-default-selection"
 				onChange={onChange}
 				selected="one"
 				legend="Radiogroup items"
@@ -68,7 +68,7 @@ storiesOf('RadioGroup', module)
 		return (
 			<RadioGroup
 				options={options}
-				groupName="storybook-radio-group-with-warning"
+				id="storybook-radio-group-with-warning"
 				onChange={onChange}
 				selected="one"
 				legend="Radiogroup items"
@@ -80,7 +80,7 @@ storiesOf('RadioGroup', module)
 		return (
 			<RadioGroup
 				options={options}
-				groupName="storybook-radio-group-with-warning"
+				id="storybook-radio-group-with-warning"
 				onChange={onChange}
 				selected="one"
 				legend="Radiogroup items"
@@ -92,7 +92,7 @@ storiesOf('RadioGroup', module)
 		return (
 			<RadioGroup
 				options={options}
-				groupName="storybook-radio-group-with-warning"
+				id="storybook-radio-group-with-warning"
 				onChange={onChange}
 				selected="one"
 				legend="Radiogroup items"

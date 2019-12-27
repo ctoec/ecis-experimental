@@ -110,7 +110,8 @@ const FamilyInfo: Section = {
 				<FieldSet
 					id="family-address"
 					legend="Address"
-					error={warningForFieldSet(
+					status={warningForFieldSet(
+						'family-address',
 						['addressLine1', 'state', 'town', 'zip'],
 						idx(enrollment, _ => _.child.family) || null,
 						'This information is required for OEC reporting',
@@ -125,7 +126,7 @@ const FamilyInfo: Section = {
 							onChange={event => updateAddressLine1(
 								event.target.value ? event.target.value : null
 							)}
-							error={warningForField(
+							status={warningForField(
 								'addressLine1',
 								idx(enrollment, _ => _.child.family) || null,
 								''
@@ -151,7 +152,7 @@ const FamilyInfo: Section = {
 							onChange={event => updateState(
 								event.target.value ? event.target.value : null
 							)}
-							error={warningForField(
+							status={warningForField(
 								'state',
 								idx(enrollment, _ => _.child.family) || null,
 								''
@@ -166,7 +167,7 @@ const FamilyInfo: Section = {
 							onChange={event => updateTown(
 								event.target.value ? event.target.value : null
 							)}
-							error={warningForField(
+							status={warningForField(
 								'town',
 								idx(enrollment, _ => _.child.family) || null,
 								''
@@ -181,7 +182,7 @@ const FamilyInfo: Section = {
 							onChange={event => updateZip(
 								event.target.value ? event.target.value : null
 							)}
-							error={warningForField(
+							status={warningForField(
 								'zip',
 								idx(enrollment, _ => _.child.family) || null,
 								''
@@ -194,7 +195,7 @@ const FamilyInfo: Section = {
 				<div className="margin-top-3">
 					<Checklist
 						legend="Foster"
-						groupName="foster"
+						id="foster"
 						options={[
 							{
 								text: fosterText(),
@@ -206,7 +207,7 @@ const FamilyInfo: Section = {
 					/>
 					<Checklist
 						legend="Homelessness"
-						groupName="homelessness"
+						id="homelessness"
 						options={[
 							{
 								text: homelessnessText(),

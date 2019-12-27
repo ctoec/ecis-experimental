@@ -151,7 +151,7 @@ export default function Roster() {
 							]}
 							onChange={event => setByRange(event.target.value === 'range')}
 							horizontal={true}
-							groupName={'dateSelectionType'}
+							id={'dateSelectionType'}
 							selected={byRange ? 'range' : 'date'}
 						/>
 						<DatePicker

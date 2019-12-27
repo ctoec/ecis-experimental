@@ -7,7 +7,7 @@ import dateFormatter from '../../../utils/dateFormatter';
 import notNullOrUndefined from '../../../utils/notNullOrUndefined';
 import moment from 'moment';
 import idx from 'idx';
-import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest, Enrollment, FamilyDetermination } from '../../../generated';
+import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest } from '../../../generated';
 import Checklist from '../../../components/Checklist/Checklist';
 import Alert from '../../../components/Alert/Alert';
 import parseCurrencyFromString from '../../../utils/parseCurrencyFromString';
@@ -134,91 +134,92 @@ const FamilyIncome: Section = {
     };
 
     return (
-   	  <div className="FamilyIncomeForm">
-		  	<div className="usa-form">
-		  		{!notDisclosed && (
-		  			<>
-						<FieldSet
-							id="family-income"
-							legend="Family income determination"
-							error={errorForFieldSet(
-								[numberOfPeople, income, determinationDate],
-								attemptedSave,
-								!notDisclosed,
-								'If income is disclosed, this information is required for enrollment'
-							)}
+			<div className="FamilyIncomeForm">
+				<div className="usa-form">
+					{!notDisclosed && (
+						<>
+							<FieldSet
+								id="family-income"
+								legend="Family income determination"
+								status={errorForFieldSet(
+									'family-income',
+									[numberOfPeople, income, determinationDate],
+									attemptedSave,
+									!notDisclosed,
+									'If income is disclosed, this information is required for enrollment'
+								)}
 							>
-			  				<TextInput
-			  					id="numberOfPeople"
-			  					label="Household size"
-			  					defaultValue={numberOfPeople ? '' + numberOfPeople : ''}
-			  					onChange={event => {
-			  						const value = parseInt(event.target.value.replace(/[^0-9.]/g, ''), 10) || null;
-			  						updateNumberOfPeople(value);
-			  					}}
+								<TextInput
+									id="numberOfPeople"
+									label="Household size"
+									defaultValue={numberOfPeople ? '' + numberOfPeople : ''}
+									onChange={event => {
+										const value = parseInt(event.target.value.replace(/[^0-9.]/g, ''), 10) || null;
+										updateNumberOfPeople(value);
+									}}
 									onBlur={event => (event.target.value = numberOfPeople ? '' + numberOfPeople : '')}
-									error={errorForField(
+									status={errorForField(
+										'numberOfPeople',
 										numberOfPeople,
-										attemptedSave,
-										!notDisclosed,
-									)}
-			  					small
-			  				/>
-			  				<TextInput
-			  					id="income"
-			  					label="Annual household income"
-			  					defaultValue={currencyFormatter(income)}
-			  					onChange={event => {
-	      		       	updateIncome(parseCurrencyFromString(event.target.value));
-			  					}}
-									onBlur={event => (event.target.value = notNullOrUndefined(income) ? currencyFormatter(income) : '')}
-									error={errorForField(
-										income, 
 										attemptedSave,
 										!notDisclosed
 									)}
-			  				/>
-			  				<label className="usa-label" htmlFor="date">
-									{/* TODO: THE NON UNIQUE HTML FOR ID MAKES THIS LABEL MEANINGLESS TO SCREEN READERS */}
-			  					Date of income determination
-			  				</label>
-			  				<DatePicker
-									label="Income determination date"
+									small
+								/>
+								<TextInput
+									id="income"
+									label="Annual household income"
+									defaultValue={currencyFormatter(income)}
+									onChange={event => {
+										updateIncome(parseCurrencyFromString(event.target.value));
+									}}
+									onBlur={event =>
+										(event.target.value = notNullOrUndefined(income)
+											? currencyFormatter(income)
+											: '')
+									}
+									status={errorForField('income', income, attemptedSave, !notDisclosed)}
+								/>
+								<DatePicker
+									label="Date of income determination"
 									id="income-determination-date"
-			  					onChange={range =>
-			  						updateDeterminationDate((range.startDate && range.startDate.toDate()) || null)
-			  					}
-			  					dateRange={{ startDate: determinationDate ? moment(determinationDate) : null, endDate: null }}
-			  				/>
+									onChange={range =>
+										updateDeterminationDate((range.startDate && range.startDate.toDate()) || null)
+									}
+									dateRange={{
+										startDate: determinationDate ? moment(determinationDate) : null,
+										endDate: null,
+									}}
+								/>
 							</FieldSet>
-		  			</>
-		  		)}
-			  	<Checklist
+						</>
+					)}
+					<Checklist
 						legend="Family income disclosure"
-						groupName="familyIncome"
+						id="familyIncome"
 						options={[
 							{
 								text: 'Family income not disclosed',
 								value: 'familyIncomeNotDisclosed',
 								checked: notDisclosed,
-								onChange: event => updateNotDisclosed(event.target.checked)
-							}
+								onChange: event => updateNotDisclosed(event.target.checked),
+							},
 						]}
-			  	/>
-		  	</div>
+					/>
+				</div>
 
-		  	{notDisclosed &&
-		  		<Alert
-		  			type="info"
-		  			text="Income information is required to enroll a child in a CDC funded space. You will not be able to assign this child to a funding space without this information."
-		  		/>
-		  	}
+				{notDisclosed && (
+					<Alert
+						type="info"
+						text="Income information is required to enroll a child in a CDC funded space. You will not be able to assign this child to a funding space without this information."
+					/>
+				)}
 
-		  	<div className="usa-form">
-		  		<Button text="Save" onClick={save} disabled={attemptedSave && !validArgs}/>
-		  	</div>
-		  </div>
-	  );
+				<div className="usa-form">
+					<Button text="Save" onClick={save} disabled={attemptedSave && !validArgs} />
+				</div>
+			</div>
+		);
   },
 };
 

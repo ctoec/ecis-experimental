@@ -10,7 +10,7 @@ type RadioButtonOptions = {
 
 type RadioGroupProps = {
 	options: RadioButtonOptions[];
-	groupName: string;
+	id: string;
 	onChange: (event: React.ChangeEvent<HTMLInputElement>) => any;
 	selected?: string;
 	horizontal?: boolean;
@@ -20,7 +20,7 @@ type RadioGroupProps = {
 
 export default function RadioGroup({
 	options,
-	groupName,
+	id,
 	onChange,
 	selected,
 	horizontal,
@@ -31,7 +31,7 @@ export default function RadioGroup({
 		<FieldSet
 			legend={legend}
 			status={status}
-			id={groupName}
+			id={id}
 			aria-describedby={status ? status.id : undefined}
 		>
 			<div className={horizontal ? 'grid-row flex-align-start grid-gap' : ''}>
@@ -41,7 +41,7 @@ export default function RadioGroup({
 						text={option.text}
 						onChange={onChange}
 						key={option.value}
-						name={groupName}
+						name={`${id}-group`}
 						selected={option.value === selected}
 						className={horizontal ? 'grid-col flex-auto' : ''}
 					/>
