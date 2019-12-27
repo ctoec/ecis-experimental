@@ -10,8 +10,6 @@ type TextInputProps = {
   disabled?: boolean;
   success?: boolean;
   error?: FormErrorProps;
-  errorMessage?: string;
-  errorType?: 'error' | 'warning';
   small?: boolean;
   optional?: boolean;
 };

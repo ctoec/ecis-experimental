@@ -12,16 +12,10 @@ const label = 'Pick a date';
 storiesOf('DatePicker', module)
 	.add('Default', () => {
 		return (
-			<DatePicker
-				label={label}
-				onChange={onChange}
-				dateRange={dateRange}
-				byRange={false}
-				id="default-datepicker"
-			/>
+			<DatePicker label={label} onChange={onChange} dateRange={dateRange} id="default-datepicker" />
 		);
 	})
-	.add('ByRange', () => {
+	.add('Range', () => {
 		return (
 			<DatePicker
 				label={label}
@@ -32,7 +26,98 @@ storiesOf('DatePicker', module)
 			/>
 		);
 	})
-	.add('With error', () => {
+	.add('Optional', () => {
+		return (
+			<DatePicker
+				label={label}
+				onChange={onChange}
+				dateRange={dateRange}
+				id="optional-datepicker"
+				optional={true}
+			/>
+		);
+	})
+	.add('Disabled', () => {
+		return (
+			<DatePicker
+				label={label}
+				onChange={onChange}
+				dateRange={dateRange}
+				id="disabled-datepicker"
+				disabled={true}
+			/>
+		);
+	})
+	.add('Disabled with range', () => {
+		return (
+			<DatePicker
+				label={label}
+				onChange={onChange}
+				dateRange={dateRange}
+				byRange={true}
+				id="disabled-range-datepicker"
+				disabled={true}
+			/>
+		);
+	})
+	.add('Success', () => {
+		return (
+			<DatePicker
+				label={label}
+				id="error-datepicker"
+				onChange={onChange}
+				dateRange={dateRange}
+				success={true}
+			/>
+		);
+	})
+	.add('Success with range', () => {
+		return (
+			<DatePicker
+				label={label}
+				id="error-datepicker"
+				onChange={onChange}
+				dateRange={dateRange}
+				byRange={true}
+				success={true}
+			/>
+		);
+	})
+	.add('Warning', () => {
+		return (
+			<DatePicker
+				label={label}
+				id="error-datepicker"
+				onChange={onChange}
+				dateRange={dateRange}
+				error={{ type: 'warning', message: 'Meh, fine' }}
+			/>
+		);
+	})
+	.add('Warning with range', () => {
+		return (
+			<DatePicker
+				label={label}
+				id="error-datepicker"
+				onChange={onChange}
+				dateRange={dateRange}
+				byRange={true}
+				error={{ type: 'warning', message: 'Meh, fine' }}
+			/>
+		);
+	})
+	.add('Error', () => {
+		return (
+			<DatePicker
+				label={label}
+				id="error-datepicker"
+				onChange={onChange}
+				dateRange={dateRange}
+				error={{ type: 'error', message: 'Pick a better date' }}
+			/>
+		);
+	})
+	.add('Error with range', () => {
 		return (
 			<DatePicker
 				label={label}

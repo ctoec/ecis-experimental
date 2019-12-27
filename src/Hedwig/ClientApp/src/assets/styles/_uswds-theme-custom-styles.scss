@@ -418,9 +418,26 @@ $future-step-color: color('base-dark') !default;
 
 // *** DatePicker ***
 // https://github.com/airbnb/react-dates
+.oec-date-input {
+	&.oec-date-input--error input{
+		@extend .usa-input--error;
+	}
+	&.oec-date-input--warning input{
+		@extend .usa-input--warning;
+	}
+	&.oec-date-input--success input{
+		@extend .usa-input--success;
+	}
+}
+
 .DateRangePickerInput input,
 .SingleDatePickerInput input {
 	@extend .usa-input;
+}
+
+.DateInput__disabled, .SingleDatePickerInput__disabled, .DateRangePickerInput__disabled {
+	background: unset;
+	background-color: unset;
 }
 
 .DateInput_input__focused {

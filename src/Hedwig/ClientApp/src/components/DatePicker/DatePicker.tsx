@@ -10,13 +10,16 @@ export type DateRange = {
 };
 
 type DatePickerProps = {
-	onChange: (newRange: DateRange) => any;
 	dateRange: DateRange;
+	onChange: (newRange: DateRange) => any;
 	id: string;
 	label: string | JSX.Element;
+	disabled?: boolean;
+	success?: boolean;
+	error?: FormErrorProps;
+	optional?: boolean;
 	byRange?: boolean;
 	possibleRange?: DateRange;
-	error?: FormErrorProps;
 };
 
 export const DatePicker: React.FC<DatePickerProps> = ({
@@ -24,9 +27,12 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 	onChange,
 	id,
 	label,
+	disabled,
+	success,
+	error,
+	optional,
 	byRange,
 	possibleRange,
-	error,
 }) => {
 	const [selectedRange, setSelectedRange] = useState(dateRange);
 	const [datePickerFocused, setDatePickerFocused] = useState();
@@ -50,28 +56,33 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 		return false;
 	}
 
-	// TODO include label here, make fieldset legend look like a label in some cases, like this one?
-	// Would it work to include a fieldset legend and a label?
-
 	// TODO: Accept people entering a date like 6/22/89-- override js defaults if necessary to assume 2000s rather than 1900s!
 
 	// TODO: Make it so that user can optionally make calendar not show for things like birthdate?  But keep format for consistency's sake?
 
+	const labelText = `${label}${optional ? ' (Optional)' : ''}`;
 	if (byRange) {
 		return (
-			<FieldSet legend={label} error={error} id={id} showLegend={true}>
-				<DateRangePicker
-					startDate={selectedRange.startDate}
-					startDateId={`${id}-start-date`}
-					endDate={selectedRange.endDate}
-					endDateId={`${id}-end-date`}
-					focusedInput={datePickerFocused}
-					onDatesChange={dates => setDateRange(dates)}
-					onFocusChange={(focused: string | null) => setDatePickerFocused(focused)}
-					isOutsideRange={date => isOutsidePossibleRange(date)}
-					initialVisibleMonth={() => moment().subtract(1, 'M')}
-					noBorder={true}
-				/>
+			<FieldSet legend={labelText} error={error} id={id} showLegend={true}>
+				<span
+					// className={`oec-date-input${error ? ` oec-date-input--${error.type}` : ''}${
+					// 	success ? ' oec-date-input--success' : ''
+					// }`}
+				>
+					<DateRangePicker
+						startDate={selectedRange.startDate}
+						startDateId={`${id}-start-date`}
+						endDate={selectedRange.endDate}
+						endDateId={`${id}-end-date`}
+						focusedInput={datePickerFocused}
+						onDatesChange={dates => setDateRange(dates)}
+						onFocusChange={(focused: string | null) => setDatePickerFocused(focused)}
+						isOutsideRange={date => isOutsidePossibleRange(date)}
+						initialVisibleMonth={() => moment().subtract(1, 'M')}
+						noBorder={true}
+						disabled={disabled}
+					/>
+				</span>
 			</FieldSet>
 		);
 	}
@@ -81,10 +92,14 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 				className={`usa-label margin-top-0 ${error ? ` usa-label--${error.type}` : ''}`}
 				htmlFor={`${id}-date`}
 			>
-				{label}
+				{labelText}
 			</label>
 			{error && <FormError {...error} />}
-			<span className={`date-input${error ? ` date-input--${error.type}` : ''} : ''`}>
+			<span
+				className={`oec-date-input${error ? ` oec-date-input--${error.type}` : ''}${
+					success ? ' oec-date-input--success' : ''
+				}`}
+			>
 				<SingleDatePicker
 					id={`${id}-date`}
 					date={selectedRange.startDate}
@@ -94,6 +109,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 					isOutsideRange={date => isOutsidePossibleRange(date)}
 					initialVisibleMonth={() => moment().subtract(1, 'M')}
 					noBorder={true}
+					disabled={disabled}
 				/>
 			</span>
 		</div>
