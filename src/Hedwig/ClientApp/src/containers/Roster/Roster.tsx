@@ -156,7 +156,7 @@ export default function Roster() {
 						/>
 						<DatePicker
 							id="enrollment-roster-datepicker"
-							legend="Show enrollments by date"
+							label="Date"
 							byRange={byRange}
 							onChange={(newDateRange: DateRange) => setDateRange(newDateRange)}
 							dateRange={dateRange}

@@ -183,7 +183,7 @@ const FamilyIncome: Section = {
 			  					Date of income determination
 			  				</label>
 			  				<DatePicker
-									legend="Income determination date"
+									label="Income determination date"
 									id="income-determination-date"
 			  					onChange={range =>
 			  						updateDeterminationDate((range.startDate && range.startDate.toDate()) || null)

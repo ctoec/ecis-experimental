@@ -2,11 +2,12 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import TextInput from './TextInput';
-import FieldSet, { FormError } from '../FieldSet/FieldSet';
+import FieldSet from '../FieldSet/FieldSet';
+import { FormErrorProps } from '../FormError/FormError';
 
 const onChange = action('onChange');
-const warning: FormError = { type: 'warning', message: 'Warning!' };
-const error: FormError = { type: 'error', message: 'Error!' };
+const warning: FormErrorProps = { type: 'warning', message: 'Warning!' };
+const error: FormErrorProps = { type: 'error', message: 'Error!' };
 
 storiesOf('TextInput', module)
 	.add('Default', () => {

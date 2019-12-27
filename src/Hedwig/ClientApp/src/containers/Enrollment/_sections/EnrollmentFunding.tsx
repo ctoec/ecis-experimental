@@ -116,7 +116,7 @@ const EnrollmentFunding: Section = {
 							updateEntry((range.startDate && range.startDate.toDate()) || null)
 						}
             dateRange={{ startDate: entry ? moment(entry) : null, endDate: null }}
-            legend="Enter the start date of the enrollment"
+            label="Enrollment start date"
             id="enrollment-start-date"
 					/>
 

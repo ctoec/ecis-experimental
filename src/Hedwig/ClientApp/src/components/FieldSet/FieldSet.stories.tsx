@@ -1,14 +1,21 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import Fieldset from './FieldSet';
+import { FormErrorProps } from '../FormError/FormError';
 
-import Fieldset, { FormError } from './FieldSet';
-
-const warning: FormError = { type: 'warning', message: 'These fields need your attention!' };
-const error: FormError = { type: 'error', message: 'These fields will block your progress!' };
+const warning: FormErrorProps = { type: 'warning', message: 'These fields need your attention!' };
+const error: FormErrorProps = { type: 'error', message: 'These fields will block your progress!' };
+storiesOf('FieldSet', module).add('Default', () => {
+	return (
+		<Fieldset legend="field set" id="default-fieldset">
+			<p>I'm inside a field set!</p>
+		</Fieldset>
+	);
+});
 storiesOf('FieldSet', module)
-	.add('Default', () => {
+	.add('Show legend', () => {
 		return (
-			<Fieldset legend="field set" id="default-fieldset">
+			<Fieldset legend="Field set" showLegend={true} id="show-legend-fieldset">
 				<p>I'm inside a field set!</p>
 			</Fieldset>
 		);

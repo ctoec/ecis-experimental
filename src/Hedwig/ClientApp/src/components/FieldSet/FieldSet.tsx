@@ -2,13 +2,22 @@ import React from 'react';
 import FormError, { FormErrorProps } from '../FormError/FormError';
 
 type FieldSetProps = {
-	legend: string;
+	legend: string | JSX.Element;
 	id: string;
+	showLegend?: boolean;
 	error?: FormErrorProps;
 	display?: string;
 };
 
-const FieldSet: React.FC<FieldSetProps> = ({ legend, id, error, display, children }) => {
+const FieldSet: React.FC<FieldSetProps> = ({
+	legend,
+	id,
+	showLegend,
+	error,
+	display,
+	children,
+}) => {
+	// TODO: throw warning if legend text is more than 20 chars?
 	return (
 		<fieldset
 			className={`grid-gap grid-row usa-fieldset 
@@ -17,7 +26,12 @@ const FieldSet: React.FC<FieldSetProps> = ({ legend, id, error, display, childre
     `}
 			id={id}
 		>
-			<legend className="usa-sr-only" id={`fieldset-legend-${id}`}>
+			<legend
+				className={
+					showLegend ? `usa-label${error ? ` usa-label--${error.type}` : ''}` : 'usa-sr-only'
+				}
+				id={`fieldset-legend-${id}`}
+			>
 				{legend}
 			</legend>
 			{error && <FormError {...error} />}

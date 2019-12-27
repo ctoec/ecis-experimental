@@ -418,19 +418,9 @@ $future-step-color: color('base-dark') !default;
 
 // *** DatePicker ***
 // https://github.com/airbnb/react-dates
-.DateInput,
-.DateInput_input {
-	font-size: inherit;
-	font-family: inherit;
-	font-weight: inherit;
-	color: inherit;
-	line-height: inherit;
-	border: unset;
-}
-
-.DateRangePickerInput,
-.SingleDatePickerInput {
-	border: 1px solid #5c5c5c;
+.DateRangePickerInput input,
+.SingleDatePickerInput input {
+	@extend .usa-input;
 }
 
 .DateInput_input__focused {

@@ -12,7 +12,6 @@ export type DateRange = {
 type DatePickerProps = {
 	onChange: (newRange: DateRange) => any;
 	dateRange: DateRange;
-	legend: string;
 	id: string;
 	label: string | JSX.Element;
 	byRange?: boolean;
@@ -23,7 +22,6 @@ type DatePickerProps = {
 export const DatePicker: React.FC<DatePickerProps> = ({
 	dateRange,
 	onChange,
-	legend,
 	id,
 	label,
 	byRange,
@@ -61,36 +59,43 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 
 	if (byRange) {
 		return (
-			<FieldSet legend={legend} error={error} id={id}>
+			<FieldSet legend={label} error={error} id={id} showLegend={true}>
 				<DateRangePicker
 					startDate={selectedRange.startDate}
-					startDateId="startDate"
+					startDateId={`${id}-start-date`}
 					endDate={selectedRange.endDate}
-					endDateId="endDate"
+					endDateId={`${id}-end-date`}
 					focusedInput={datePickerFocused}
 					onDatesChange={dates => setDateRange(dates)}
 					onFocusChange={(focused: string | null) => setDatePickerFocused(focused)}
 					isOutsideRange={date => isOutsidePossibleRange(date)}
 					initialVisibleMonth={() => moment().subtract(1, 'M')}
+					noBorder={true}
 				/>
 			</FieldSet>
 		);
 	}
 	return (
-		<div className={`usa-form-group${error ? ` usa-form-group--${error.type}` : ''}`}>
-			<label className={`usa-label${error ? ` usa-label--${error.type}` : ''}`} htmlFor={id}>
+		<div className={`usa-form-group ${error ? ` usa-form-group--${error.type}` : ''}`}>
+			<label
+				className={`usa-label margin-top-0 ${error ? ` usa-label--${error.type}` : ''}`}
+				htmlFor={`${id}-date`}
+			>
 				{label}
 			</label>
 			{error && <FormError {...error} />}
-			<SingleDatePicker
-				id="date"
-				date={selectedRange.startDate}
-				focused={datePickerFocused === 'startDate'}
-				onDateChange={date => setDateRange({ startDate: date, endDate: date })}
-				onFocusChange={({ focused }: any) => setDatePickerFocused(focused ? 'startDate' : null)}
-				isOutsideRange={date => isOutsidePossibleRange(date)}
-				initialVisibleMonth={() => moment().subtract(1, 'M')}
-			/>
+			<span className={`date-input${error ? ` date-input--${error.type}` : ''} : ''`}>
+				<SingleDatePicker
+					id={`${id}-date`}
+					date={selectedRange.startDate}
+					focused={datePickerFocused === 'startDate'}
+					onDateChange={date => setDateRange({ startDate: date, endDate: date })}
+					onFocusChange={({ focused }: any) => setDatePickerFocused(focused ? 'startDate' : null)}
+					isOutsideRange={date => isOutsidePossibleRange(date)}
+					initialVisibleMonth={() => moment().subtract(1, 'M')}
+					noBorder={true}
+				/>
+			</span>
 		</div>
 	);
 };

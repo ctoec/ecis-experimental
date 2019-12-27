@@ -1,7 +1,7 @@
 import React from 'react';
 import RadioButton from './RadioButton';
-import FieldSet, { FormError } from '../FieldSet/FieldSet';
-import Legend from '../Legend/Legend';
+import FieldSet from '../FieldSet/FieldSet';
+import { FormErrorProps } from '../FormError/FormError';
 
 type RadioButtonOptions = {
 	text: string;
@@ -15,7 +15,7 @@ type RadioGroupProps = {
 	selected?: string;
 	horizontal?: boolean;
 	legend: string;
-	error?: FormError;
+	error?: FormErrorProps;
 };
 
 export default function RadioGroup({

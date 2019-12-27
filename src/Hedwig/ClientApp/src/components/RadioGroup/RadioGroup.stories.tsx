@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import RadioGroup from './RadioGroup';
-import { FormError } from '../FieldSet/FieldSet';
+import { FormErrorProps } from '../FormError/FormError';
 
 const onChange = action('onChange');
 const options = [
@@ -15,8 +15,8 @@ const options = [
 		value: 'two',
 	},
 ];
-const warning: FormError = { type: 'warning', message: 'These fields need your attention' };
-const error: FormError = { type: 'error', message: 'These fields will block your progress' };
+const warning: FormErrorProps = { type: 'warning', message: 'These fields need your attention' };
+const error: FormErrorProps = { type: 'error', message: 'These fields will block your progress' };
 
 storiesOf('RadioGroup', module)
 	.add('Default', () => {
