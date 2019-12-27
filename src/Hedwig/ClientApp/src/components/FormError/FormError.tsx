@@ -2,7 +2,7 @@ import React from 'react';
 import InlineIcon from '../InlineIcon/InlineIcon';
 
 export type FormErrorProps = {
-	type: 'warning' | 'error';
+	type: 'warning' | 'error' | 'success';
 	message?: string;
 };
 

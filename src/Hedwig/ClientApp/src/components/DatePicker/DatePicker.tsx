@@ -63,26 +63,20 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 	const labelText = `${label}${optional ? ' (Optional)' : ''}`;
 	if (byRange) {
 		return (
-			<FieldSet legend={labelText} error={error} id={id} showLegend={true}>
-				<span
-					// className={`oec-date-input${error ? ` oec-date-input--${error.type}` : ''}${
-					// 	success ? ' oec-date-input--success' : ''
-					// }`}
-				>
-					<DateRangePicker
-						startDate={selectedRange.startDate}
-						startDateId={`${id}-start-date`}
-						endDate={selectedRange.endDate}
-						endDateId={`${id}-end-date`}
-						focusedInput={datePickerFocused}
-						onDatesChange={dates => setDateRange(dates)}
-						onFocusChange={(focused: string | null) => setDatePickerFocused(focused)}
-						isOutsideRange={date => isOutsidePossibleRange(date)}
-						initialVisibleMonth={() => moment().subtract(1, 'M')}
-						noBorder={true}
-						disabled={disabled}
-					/>
-				</span>
+			<FieldSet legend={labelText} error={error} id={id} showLegend={true} success={success}>
+				<DateRangePicker
+					startDate={selectedRange.startDate}
+					startDateId={`${id}-start-date`}
+					endDate={selectedRange.endDate}
+					endDateId={`${id}-end-date`}
+					focusedInput={datePickerFocused}
+					onDatesChange={dates => setDateRange(dates)}
+					onFocusChange={(focused: string | null) => setDatePickerFocused(focused)}
+					isOutsideRange={date => isOutsidePossibleRange(date)}
+					initialVisibleMonth={() => moment().subtract(1, 'M')}
+					noBorder={true}
+					disabled={disabled}
+				/>
 			</FieldSet>
 		);
 	}

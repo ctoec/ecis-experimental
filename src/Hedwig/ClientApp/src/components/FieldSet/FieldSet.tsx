@@ -6,6 +6,7 @@ type FieldSetProps = {
 	id: string;
 	showLegend?: boolean;
 	error?: FormErrorProps;
+	success?: boolean;
 	display?: string;
 };
 
@@ -21,7 +22,7 @@ const FieldSet: React.FC<FieldSetProps> = ({
 	return (
 		<fieldset
 			className={`grid-gap grid-row usa-fieldset 
-      ${error ? ` usa-fieldset--${error.type}` : ''}
+			${error ? ` usa-fieldset--${error.type}` : ''}
       ${display ? ` display-${display}` : ''}
     `}
 			id={id}

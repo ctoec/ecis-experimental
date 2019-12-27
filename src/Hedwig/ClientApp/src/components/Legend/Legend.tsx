@@ -12,7 +12,7 @@ type LegendProps = {
 };
 
 const defaultSymbol = (
-	<svg height="100%" width="100%" className="oec-legend__symbol__svg">
+	<svg height="1em" width="1em" className="oec-legend__symbol__svg">
 		<rect width="100%" height="100%" fill="currentColor" />
 	</svg>
 );

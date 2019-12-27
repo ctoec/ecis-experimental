@@ -536,6 +536,16 @@ $future-step-color: color('base-dark') !default;
 	}
 }
 
+.usa-fieldset--success {
+	@extend .usa-fieldset--error;
+	border-left-color: color($theme-color-success-dark);
+
+	.usa-form-group--success {
+		margin-left: auto;
+		border-left: none;
+	}
+}
+
 .oec-form-helper {
 	margin-top: 0;
 	font-size: size('ui', 4);
