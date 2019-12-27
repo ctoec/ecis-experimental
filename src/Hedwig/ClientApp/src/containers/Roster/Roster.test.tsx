@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 import { mount } from 'enzyme';
 import mockdate from 'mockdate';
 import { BrowserRouter } from 'react-router-dom';
@@ -7,7 +6,6 @@ import { act } from 'react-dom/test-utils';
 import 'react-dates/initialize';
 import Roster from './Roster';
 import UserContext from '../../contexts/User/UserContext';
-import DatePicker from '../../components/DatePicker/DatePicker';
 import RadioGroup from '../../components/RadioGroup/RadioGroup';
 
 const fakeDate = '2019-09-30';
