@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import moment, { Moment } from 'moment';
 import { DateRangePicker, SingleDatePicker } from 'react-dates';
 import FieldSet from '../FieldSet/FieldSet';
-import FormError, { FormErrorProps } from '../FormError/FormError';
+import FormStatus, { FormStatusProps } from '../FormStatus/FormStatus';
 
 export type DateRange = {
 	startDate: Moment | null;
@@ -16,7 +16,7 @@ type DatePickerProps = {
 	label: string | JSX.Element;
 	disabled?: boolean;
 	success?: boolean;
-	error?: FormErrorProps;
+	error?: FormStatusProps;
 	optional?: boolean;
 	byRange?: boolean;
 	possibleRange?: DateRange;
@@ -88,7 +88,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 			>
 				{labelText}
 			</label>
-			{error && <FormError {...error} />}
+			{error && <FormStatus {...error} />}
 			<span
 				className={`oec-date-input${error ? ` oec-date-input--${error.type}` : ''}${
 					success ? ' oec-date-input--success' : ''

@@ -1,13 +1,13 @@
 import { Validatable } from "./Validatable";
 import { hasValidationErrors } from "./hasValidationErrors";
 import { processValidationError } from "./processValidationError";
-import { FormErrorProps } from "../../components/FormError/FormError";
+import { FormStatusProps } from "../../components/FormStatus/FormStatus";
 
 export function warningForField<T extends Validatable>(
   field: string,
   entity: T | null,
   message?: string,
-) : FormErrorProps | undefined {
+) : FormStatusProps | undefined {
   if(entity && hasValidationErrors(entity, [field])) {
     return {
       type: 'warning',
@@ -21,7 +21,7 @@ export function errorForField(
   attemptedSave: boolean,
   additionalCondition: boolean = true,
   message?: string,
-) : FormErrorProps | undefined {
+) : FormStatusProps | undefined {
   if(!fieldValue && attemptedSave && additionalCondition) {
     return {
       type: 'error',

@@ -504,10 +504,9 @@ $future-step-color: color('base-dark') !default;
 	border-left-color: color($theme-color-warning-dark);
 }
 
-.usa-warning-message {
+.usa-warning-message, .usa-success-message {
 	@extend .usa-error-message;
 	color: color($theme-color-base);
-
 }
 
 .usa-input--warning {

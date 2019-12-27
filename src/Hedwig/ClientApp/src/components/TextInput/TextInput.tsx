@@ -1,5 +1,5 @@
 import React from 'react';
-import FormError, { FormErrorProps } from '../FormError/FormError';
+import FormStatus, { FormStatusProps } from '../FormStatus/FormStatus';
 
 type TextInputProps = {
   label: string | JSX.Element;
@@ -9,7 +9,7 @@ type TextInputProps = {
   defaultValue?: string;
   disabled?: boolean;
   success?: boolean;
-  error?: FormErrorProps;
+  error?: FormStatusProps;
   small?: boolean;
   optional?: boolean;
 };
@@ -31,7 +31,7 @@ export default function TextInput({
 			<label className={`usa-label${error ? ` usa-label--${error.type}` : ''}`} htmlFor={id}>
 				{label} {optional && '(Optional)'}
 			</label>
-			{error && <FormError {...error} />}
+			{error && <FormStatus {...error} />}
 			<input
 				className={`usa-input${error ? ` usa-input--${error.type}` : ''}${
 					small ? ' usa-input--small' : ''

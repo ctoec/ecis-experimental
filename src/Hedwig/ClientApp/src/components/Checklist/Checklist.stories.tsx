@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import Checklist from './Checklist';
-import { FormErrorProps } from '../FormError/FormError';
+import { FormStatusProps } from '../FormStatus/FormStatus';
 
 const onChange = action('onChange');
 const options = [
@@ -19,8 +19,8 @@ const options = [
 		onChange: onChange,
 	},
 ];
-const warning: FormErrorProps ={ type: 'warning', message: 'These fields need your attention' };
-const error: FormErrorProps ={ type: 'error', message: 'These fields will block your progress' };
+const warning: FormStatusProps ={ type: 'warning', message: 'These fields need your attention' };
+const error: FormStatusProps ={ type: 'error', message: 'These fields will block your progress' };
 
 const optionsSelected = options.map(option => Object.assign({}, option, { checked: true }));
 const boxDisabledAndSelected = optionsSelected.map(option =>

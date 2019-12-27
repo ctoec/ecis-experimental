@@ -3,11 +3,11 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import TextInput from './TextInput';
 import FieldSet from '../FieldSet/FieldSet';
-import { FormErrorProps } from '../FormError/FormError';
+import { FormStatusProps } from '../FormStatus/FormStatus';
 
 const onChange = action('onChange');
-const warning: FormErrorProps = { type: 'warning', message: 'Warning!' };
-const error: FormErrorProps = { type: 'error', message: 'Error!' };
+const warning: FormStatusProps = { type: 'warning', message: 'Warning!' };
+const error: FormStatusProps = { type: 'error', message: 'Error!' };
 
 storiesOf('TextInput', module)
 	.add('Default', () => {

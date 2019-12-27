@@ -79,7 +79,7 @@ storiesOf('DatePicker', module)
 				onChange={onChange}
 				dateRange={dateRange}
 				byRange={true}
-				error={{ type: 'success', message: 'Yay' }}
+				error={{ type: 'success', message: 'You did good' }}
 			/>
 		);
 	})

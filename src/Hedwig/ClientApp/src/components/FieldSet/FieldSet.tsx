@@ -1,11 +1,11 @@
 import React from 'react';
-import FormError, { FormErrorProps } from '../FormError/FormError';
+import FormStatus, { FormStatusProps } from '../FormStatus/FormStatus';
 
 type FieldSetProps = {
-	legend: string | JSX.Element;
+	legend: string;
 	id: string;
 	showLegend?: boolean;
-	error?: FormErrorProps;
+	error?: FormStatusProps;
 	success?: boolean;
 	display?: string;
 };
@@ -18,7 +18,9 @@ const FieldSet: React.FC<FieldSetProps> = ({
 	display,
 	children,
 }) => {
-	// TODO: throw warning if legend text is more than 20 chars?
+	if (legend.length > 25) {
+		console.warn('FieldSet legend is kind of long. This might be annoying for people using screen readers.')
+	}
 	return (
 		<fieldset
 			className={`grid-gap grid-row usa-fieldset 
@@ -35,7 +37,7 @@ const FieldSet: React.FC<FieldSetProps> = ({
 			>
 				{legend}
 			</legend>
-			{error && <FormError {...error} />}
+			{error && <FormStatus {...error} />}
 			{children}
 		</fieldset>
 	);

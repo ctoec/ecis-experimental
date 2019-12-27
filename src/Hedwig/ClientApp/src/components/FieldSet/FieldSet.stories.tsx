@@ -1,10 +1,12 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import Fieldset from './FieldSet';
-import { FormErrorProps } from '../FormError/FormError';
+import { FormStatusProps } from '../FormStatus/FormStatus';
 
-const warning: FormErrorProps = { type: 'warning', message: 'These fields need your attention!' };
-const error: FormErrorProps = { type: 'error', message: 'These fields will block your progress!' };
+const warning: FormStatusProps = { type: 'warning', message: 'These fields need your attention!' };
+const error: FormStatusProps = { type: 'error', message: 'These fields will block your progress!' };
+const success: FormStatusProps = { type: 'success', message: 'These fields are filled out and validated yay!' };
+
 storiesOf('FieldSet', module).add('Default', () => {
 	return (
 		<Fieldset legend="field set" id="default-fieldset">
@@ -35,6 +37,15 @@ storiesOf('FieldSet', module)
 				<p> Uh oh! </p>
 				<p> Bad stuff happening here! </p>
 				<p> Fix it! </p>
+			</Fieldset>
+		);
+	})
+	.add('With success', () => {
+		return (
+			<Fieldset legend="Success field set" id="success-fieldset" error={success}>
+				<p> Wow! </p>
+				<p> You're so smart! </p>
+				<p> What great form input! </p>
 			</Fieldset>
 		);
 	});
