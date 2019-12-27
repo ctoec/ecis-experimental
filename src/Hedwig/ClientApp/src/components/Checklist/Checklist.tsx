@@ -1,6 +1,7 @@
 import React from 'react';
 import Checkbox from './Checkbox';
-import FieldSet, { FormError } from '../FieldSet/FieldSet';
+import FieldSet from '../FieldSet/FieldSet';
+import { FormErrorProps } from '../FormError/FormError';
 
 type CheckboxOptions = {
 	text: string;
@@ -15,7 +16,7 @@ type ChecklistProps = {
 	groupName: string;
 	horizontal?: boolean;
 	legend: string;
-	error?: FormError;
+	error?: FormErrorProps;
 };
 
 export default function Checklist({

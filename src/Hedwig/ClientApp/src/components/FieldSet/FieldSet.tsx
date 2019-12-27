@@ -1,16 +1,10 @@
 import React from 'react';
-import InlineIcon from '../InlineIcon/InlineIcon';
-import { ValidationErrorFromJSONTyped } from '../../generated';
-
-export type FormError = {
-	message?: string;
-	type: 'warning' | 'error';
-};
+import FormError, { FormErrorProps } from '../FormError/FormError';
 
 type FieldSetProps = {
 	legend: string;
 	id: string;
-	error?: FormError;
+	error?: FormErrorProps;
 	display?: string;
 };
 
@@ -26,17 +20,10 @@ const FieldSet: React.FC<FieldSetProps> = ({ legend, id, error, display, childre
 			<legend className="usa-sr-only" id={`fieldset-legend-${id}`}>
 				{legend}
 			</legend>
-			{error && (
-				<span
-					className={`usa-${error.type}-message`}
-					id="field-set-error-message"
-					role={error.type === 'error' ? 'alert' : 'status'}
-				>
-					{error.type === 'warning' ? <InlineIcon icon="incomplete" /> : ''} {error.message}
-				</span>
-			)}
+			{error && <FormError {...error} />}
 			{children}
 		</fieldset>
 	);
 };
+
 export default FieldSet;

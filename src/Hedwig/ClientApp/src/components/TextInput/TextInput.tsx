@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormError } from '../FieldSet/FieldSet';
+import FormError, { FormErrorProps } from '../FormError/FormError';
 
 type TextInputProps = {
   label: string | JSX.Element;
@@ -9,7 +9,7 @@ type TextInputProps = {
   defaultValue?: string;
   disabled?: boolean;
   success?: boolean;
-  error?: FormError;
+  error?: FormErrorProps;
   errorMessage?: string;
   errorType?: 'error' | 'warning';
   small?: boolean;
@@ -25,8 +25,6 @@ export default function TextInput({
   disabled,
   success,
   error,
-  errorMessage,
-  errorType,
   small,
   optional,
 }: TextInputProps) {
@@ -35,11 +33,7 @@ export default function TextInput({
 			<label className={`usa-label${error ? ` usa-label--${error.type}` : ''}`} htmlFor={id}>
 				{label} {optional && '(Optional)'}
 			</label>
-			{error && (
-				<span className={`usa-${error.type}-message`} id={`${id}-input-error-message`} role="alert">
-					{error.message}
-				</span>
-			)}
+			{error && <FormError {...error} />}
 			<input
 				className={`usa-input${error ? ` usa-input--${error.type}` : ''}${
 					small ? ' usa-input--small' : ''
