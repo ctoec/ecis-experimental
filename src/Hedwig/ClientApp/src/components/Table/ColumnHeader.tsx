@@ -2,7 +2,7 @@ import React from 'react';
 import { SortOrder, TableSort } from './Table';
 
 type ColumnHeaderProps = {
-	name: string;
+	name: string | JSX.Element;
 	sortable: boolean;
 	sorted: boolean;
 	sortOrder?: SortOrder;
