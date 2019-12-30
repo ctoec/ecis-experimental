@@ -33,11 +33,11 @@ export default function TextInput({
   return (
     <div className={`usa-form-group${error ? ` usa-form-group--${error.type}` : ''}`}>
       <label className={`usa-label${error ? ` usa-label--${error.type}` : ''}`} htmlFor={id}>
-        {label} {optional && '(Optional)'}
+        {label} {optional && (<span className='usa-label__optional'>&nbsp;(optional)</span>)}
       </label>
       {error && (
         <span className={`usa-${error.type}-message`} id="input-error-message" role="alert">
-          {error.message} 
+          {error.message}
         </span>
       )}
       <input
