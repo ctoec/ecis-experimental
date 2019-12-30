@@ -78,20 +78,21 @@ export default function EnrollmentEdit({
 	 * @param enrollment Enrollment that was just saved.
 	 */
 	const afterSave = (enrollment: Enrollment) => {
+		const childName = nameFormatter(enrollment.child);
+		const inSiteName = enrollment.site ? ` in ${enrollment.site.name}` : '';
+		let successAlertText = `${childName}'s enrollment${inSiteName} has been updated.`;
 		const informationIsMissing = hasValidationErrors(enrollment);
 		if (informationIsMissing) {
-			const inSiteName = enrollment.site ? ` in ${enrollment.site.name}` : '';
-			const alertText = `${enrollment.child ? nameFormatter(
-				enrollment.child
-			) : ''}'s enrollment${inSiteName} has been updated. However, there is missing information you are required to enter before you can submit your monthly CDC report.`;
-			setAlerts([
-				{
-					type: 'success',
-					heading: 'Enrolled',
-					text: alertText,
-				},
-			]);
+			successAlertText +=
+				' However, there is missing information you are required to enter before you can submit your monthly CDC report.';
 		}
+		setAlerts([
+			{
+				type: 'success',
+				heading: 'Enrolled',
+				text: successAlertText,
+			},
+		]);
 		history.push(`/roster/enrollments/${enrollment.id}/`);
 	};
 
