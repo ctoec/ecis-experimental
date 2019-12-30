@@ -129,7 +129,7 @@ export default function UtilizationTable(report: CdcReport) {
         )
       },
       {
-        name: 'Weekly rate',
+        name: <>Reimbursement <br />rate (weekly)</>,
         cell: ({ row }) => (
           <td>
             {row.key !== 'total' && currencyFormatter(row.rate || 0)}
