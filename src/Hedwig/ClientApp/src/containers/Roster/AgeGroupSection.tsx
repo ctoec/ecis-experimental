@@ -11,6 +11,7 @@ import dateFormatter from '../../utils/dateFormatter';
 import getColorForFundingSource, { fundingSourceDetails } from '../../utils/fundingTypeFormatters';
 import { DeepNonUndefineable } from '../../utils/types';
 import { hasValidationErrors } from '../../utils/validations';
+import { tsFilter } from '../../utils/types';
 
 export type AgeGroupTableProps = { id: string; data: DeepNonUndefineable<Enrollment>[] };
 
@@ -98,21 +99,31 @@ export default function AgeGroupSection({
 		id: `${ageGroup}-roster-table`,
 		data: enrollments,
 	});
+
 	return (
 		<>
 			<h2>{`${ageGroupTitle} (${pluralize('child', tableProps.data.length, true)})`}</h2>
 			{fundingSpaces && (
 				<ul>
-					{fundingSpaces.map(space => (
-						<li key={`${space.time}-${ageGroupTitle}`}>
-							<span className="text-bold">
-								{`${tableProps.data.length}/${space.capacity} ${(
-									space.time || ''
-								).toLowerCase()} time`}
-							</span>
-							<span>{` ${ageGroupTitle.toLowerCase()} spaces filled`}</span>
-						</li>
-					))}
+					{fundingSpaces.map(space => {
+						const enrolledForFunding = tsFilter<Enrollment>(enrollments, e =>
+							e.fundings ? tsFilter<Funding>(
+								e.fundings, f => f.source === space.source && f.time == space.time
+							).length > 0 : false
+						).length;
+
+						return (
+							<li key={`${space.time}-${ageGroupTitle}`}>
+								<span className="text-bold">
+									{`${enrolledForFunding}/${space.capacity}`}
+								</span>
+								<span>
+									{` ${(space.time || '').toLowerCase()} time ${(space.source || '')} `}
+									spaces filled
+								</span>
+							</li>
+						)
+					})}
 				</ul>
 			)}
 			<Table {...tableProps} fullWidth />
