@@ -3776,7 +3776,11 @@ exports[`Storyshots TextInput Optional 1`] = `
     >
       Default optional text input
        
-      (Optional)
+      <span
+        className="usa-label__optional"
+      >
+         (optional)
+      </span>
     </label>
     <input
       className="usa-input"

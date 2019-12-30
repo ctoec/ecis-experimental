@@ -18,7 +18,7 @@ storiesOf('TextInput', module)
 		return <TextInput id="id1" label="Default text input" onChange={onChange} defaultValue="default text" />;
 	})
 	.add('Optional', () => {
-		return <TextInput id="id2" label="Default optional text input" onChange={onChange} optional={true} />;
+		return <TextInput id="id2" label="Default optional text input" onChange={onChange} optional />;
 	})
 	.add('Disabled', () => {
 		return <TextInput id="id3" label="Default text input" onChange={onChange} disabled />;

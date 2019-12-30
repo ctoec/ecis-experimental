@@ -194,7 +194,7 @@ const ChildInfo: Section = {
 							label="SASID"
 							defaultValue={sasid || ''}
 							onChange={event => updateSasid(event.target.value)}
-							optional={true}
+							optional
 						/>
 					</div>
 					<div className="mobile-lg:grid-col-9">
@@ -220,7 +220,7 @@ const ChildInfo: Section = {
 							label="Middle"
 							defaultValue={middleName || ''}
 							onChange={event => updateMiddleName(event.target.value)}
-							optional={true}
+							optional
 						/>
 					</div>
 					<div className="mobile-lg:grid-col-9">
@@ -246,7 +246,7 @@ const ChildInfo: Section = {
 							label="Suffix"
 							defaultValue={suffix || ''}
 							onChange={event => updateSuffix(event.target.value)}
-							optional={true}
+							optional
 						/>
 					</div>
 				</div>
