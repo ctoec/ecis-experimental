@@ -26,21 +26,19 @@ export const useAlertContext = (initial?: AlertProps[]): AlertContextType => {
 	const location = useLocation();
 
 	const setAlerts = (newAlerts: AlertProps[]) => {
-		if (newAlerts.length === 0) {
-			setAlertsDisplayAtPath(null);
+		if (newAlerts.length > 0) {
+			setAlertsSetAtPath(location.pathname);
+		} else {
+			setAlertsSetAtPath(null);
 		}
-		setAlertsSetAtPath(location.pathname);
+		setAlertsDisplayAtPath(null); // Should always be reset when new alerts?
 		internalSetAlerts(newAlerts);
 	};
 
 	const history = useHistory();
-	history.listen(() => {
+	history.listen(historyLocation => {
 		// Clear alerts when we navigate away from where they were set or displayed
-		if (
-			alerts.length &&
-			location.pathname !== alertsSetAtPath &&
-			location.pathname !== alertsDisplayAtPath
-		) {
+		if (alerts.length && alertsDisplayAtPath && historyLocation.pathname !== alertsDisplayAtPath) {
 			setAlerts([]);
 		}
 	});

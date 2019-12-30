@@ -125,19 +125,23 @@ export default function EnrollmentNew({
 						href="../"
 						text="Finish"
 						onClick={() => {
+							const childName = nameFormatter(enrollment.child);
+							const inSiteName = enrollment.site ? ` in ${enrollment.site.name}` : '';
+							let successAlertText = `${childName} has been successfully enrolled${inSiteName}.`;
+
 							const informationIsMissing = hasValidationErrors(enrollment);
 							if (informationIsMissing) {
-								const inSiteName = enrollment.site ? ` in ${enrollment.site.name}` : '';
-								setAlerts([
-									{
-										type: 'success',
-										heading: 'Enrolled',
-										text: `${nameFormatter(
-											enrollment.child
-										)} has been successfully enrolled${inSiteName}. However, there is missing information you are required to enter before you can submit your monthly CDC report.`,
-									},
-								]);
+								successAlertText +=
+									' However, there is missing information you are required to enter before you can submit your monthly CDC report.';
 							}
+
+							setAlerts([
+								{
+									type: 'success',
+									heading: 'Enrolled',
+									text: successAlertText,
+								},
+							]);
 						}}
 					/>
 				)}
