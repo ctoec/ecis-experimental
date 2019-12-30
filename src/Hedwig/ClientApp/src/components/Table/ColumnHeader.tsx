@@ -8,6 +8,7 @@ type ColumnHeaderProps = {
 	sortOrder?: SortOrder;
 	index: number;
 	setTableSort: (sort: TableSort) => any;
+	width?: string;
 };
 
 export class ColumnHeader extends React.Component<ColumnHeaderProps> {
@@ -34,13 +35,14 @@ export class ColumnHeader extends React.Component<ColumnHeaderProps> {
 	};
 
 	render() {
-		const { name, sortable, sorted, sortOrder, index } = this.props;
+		const { name, sortable, sorted, sortOrder, index, width } = this.props;
 		return (
 			<th
 				scope="col"
 				className={'oec-table__column-header' + (sortable ? ' oec-sortable' : '')}
 				role="columnheader"
 				aria-sort={sortOrder || 'none'}
+				style={{width: width}}
 			>
 				{!sortable && <span className="oec-table__column-title">{name}</span>}
 				{sortable && (

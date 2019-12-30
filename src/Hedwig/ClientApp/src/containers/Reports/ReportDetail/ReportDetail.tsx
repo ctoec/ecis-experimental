@@ -65,7 +65,7 @@ export default function ReportDetail() {
 					<h1 className="tablet:grid-col-auto">
 						{monthFormatter(idx(report, _ => _.reportingPeriod.period))} {report.type} Report{' '}
 						{!report.submittedAt && (
-							<Tag text="DRAFT" color="gold-20v" addClass="margin-left-1 text-middle" />
+							<Tag text="DRAFT" color="gold-20v" className="margin-left-1 text-middle" />
 						)}
 					</h1>
 					<div className="tablet:grid-col-auto print-btn">

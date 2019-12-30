@@ -79,7 +79,9 @@ export default function Roster() {
 	Object.keys(fundingSourceDetails).forEach(source => {
 		const capacityForFunding = getFundingSpaceCapacity(site.organization, { source });
 		const enrolledForFunding = tsFilter<Enrollment>(enrollments, e =>
-			e.fundings ? tsFilter<Funding>(e.fundings, f => f.source === source).length > 0 : false
+			e.fundings
+				? tsFilter<Funding>(e.fundings, f => f.source === source).length > 0
+				: false
 		).length;
 
 		if (enrolledForFunding === 0) {
@@ -92,7 +94,7 @@ export default function Roster() {
 				enrolledForFunding,
 				capacityForFunding
 			),
-			symbol: <Tag text={source} color={fundingSourceDetails[source].colorToken} />,
+			symbol: <Tag text={source} color={fundingSourceDetails[source].colorToken} className="position-relative top-neg-2px" />,
 		});
 	});
 
