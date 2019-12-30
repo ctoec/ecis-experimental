@@ -15,3 +15,19 @@ export default function nameFormatter(name?: Child) {
 		(name.suffix || '')
 	).replace(/ +/g, ' ');
 }
+
+export function lastFirstNameFormatter(name?: Child) {
+	if (!name) {
+		return '';
+	}
+
+	return (
+		name.lastName +
+		', ' +
+		name.firstName +
+		(name.middleName ? ' ' : '') +
+		(name.middleName || '') +
+		(name.suffix ? ', ' : '') +
+		(name.suffix || '')
+	);
+}
