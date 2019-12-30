@@ -18,14 +18,11 @@ namespace Hedwig.Validations.Rules
     readonly IFamilyDeterminationRepository _determinations;
     public ValidationError Execute(Family family)
     {
-      if(family.Determinations == null)
-      {
-        family.Determinations = _determinations.GetDeterminationsByFamilyId(family.Id);
-      }
+      var determinations = family.Determinations ??  _determinations.GetDeterminationsByFamilyId(family.Id);
 
-      if(family.Determinations.Count == 0) return null;
+      if(determinations.Count == 0) return null;
 
-      var determination = family.Determinations
+      var determination = determinations
         .OrderByDescending(d => d.DeterminationDate)
         .First();
 

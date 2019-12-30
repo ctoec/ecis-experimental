@@ -22,6 +22,8 @@ namespace Hedwig.Models
     public DateTime? SubmittedAt { get; set; }
 
     [NotMapped]
+    public List<Enrollment> Enrollments { get; set; }
+    [NotMapped]
     public List<ValidationError> ValidationErrors { get; set; }
   }
 }

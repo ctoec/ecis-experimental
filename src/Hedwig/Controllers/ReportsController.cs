@@ -8,6 +8,7 @@ using System;
 using Hedwig.Models;
 using Hedwig.Repositories;
 using Hedwig.Security;
+using Hedwig.Validations;
 
 namespace Hedwig.Controllers
 {
@@ -16,10 +17,15 @@ namespace Hedwig.Controllers
   [Route("api/organizations/{orgId:int}/[controller]")]
   public class ReportsController : ControllerBase
   {
+    private readonly INonBlockingValidator _validator;
     private readonly IReportRepository _reports;
 
-    public ReportsController(IReportRepository reports)
+    public ReportsController(
+      INonBlockingValidator validator,
+      IReportRepository reports
+    )
     {
+      _validator = validator;
       _reports = reports;
     }
 
@@ -32,6 +38,7 @@ namespace Hedwig.Controllers
     )
     {
       var reports = await _reports.GetReportsForOrganizationAsync(orgId);
+      _validator.Validate(reports);
       return Ok(reports);
     }
 
@@ -47,6 +54,8 @@ namespace Hedwig.Controllers
     {
       var report = await _reports.GetReportForOrganizationAsync(id, orgId, include);
       if (report == null) return NotFound();
+
+      _validator.Validate(report);
       return Ok(report);
     }
 
@@ -59,6 +68,12 @@ namespace Hedwig.Controllers
     {
       if (report.Id != id) return BadRequest();
       if (report.OrganizationId != orgId) return BadRequest();
+
+      _validator.Validate(report);
+      if(report.ValidationErrors.Count > 0)
+      {
+        return BadRequest("Report cannot be submitted with validation errors");
+      }
 
       try {
         // TODO what are the update rules for this field?

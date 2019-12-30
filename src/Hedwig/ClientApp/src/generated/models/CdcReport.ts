@@ -14,6 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
+    Enrollment,
+    EnrollmentFromJSON,
+    EnrollmentFromJSONTyped,
+    EnrollmentToJSON,
     FundingSource,
     FundingSourceFromJSON,
     FundingSourceFromJSONTyped,
@@ -106,6 +110,12 @@ export interface CdcReport {
     submittedAt?: Date | null;
     /**
      * 
+     * @type {Array<Enrollment>}
+     * @memberof CdcReport
+     */
+    enrollments?: Array<Enrollment> | null;
+    /**
+     * 
      * @type {Array<ValidationError>}
      * @memberof CdcReport
      */
@@ -133,6 +143,7 @@ export function CdcReportFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         'reportingPeriodId': !exists(json, 'reportingPeriodId') ? undefined : json['reportingPeriodId'],
         'reportingPeriod': !exists(json, 'reportingPeriod') ? undefined : ReportingPeriodFromJSON(json['reportingPeriod']),
         'submittedAt': !exists(json, 'submittedAt') ? undefined : (json['submittedAt'] === null ? null : new Date(json['submittedAt'])),
+        'enrollments': !exists(json, 'enrollments') ? undefined : (json['enrollments'] === null ? null : (json['enrollments'] as Array<any>).map(EnrollmentFromJSON)),
         'validationErrors': !exists(json, 'validationErrors') ? undefined : (json['validationErrors'] === null ? null : (json['validationErrors'] as Array<any>).map(ValidationErrorFromJSON)),
     };
 }
@@ -157,6 +168,7 @@ export function CdcReportToJSON(value?: CdcReport | null): any {
         'reportingPeriodId': value.reportingPeriodId,
         'reportingPeriod': ReportingPeriodToJSON(value.reportingPeriod),
         'submittedAt': value.submittedAt === undefined ? undefined : (value.submittedAt === null ? null : value.submittedAt.toISOString()),
+        'enrollments': value.enrollments === undefined ? undefined : (value.enrollments === null ? null : (value.enrollments as Array<any>).map(EnrollmentToJSON)),
         'validationErrors': value.validationErrors === undefined ? undefined : (value.validationErrors === null ? null : (value.validationErrors as Array<any>).map(ValidationErrorToJSON)),
     };
 }
