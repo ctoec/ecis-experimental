@@ -169,7 +169,7 @@ const ChildInfo: Section = {
           enrollment: {
             id: 0,
             siteId: getIdForUser(user, "site"),
-            childId: emptyGuid(), 
+            childId: emptyGuid(),
             child: {
               id: emptyGuid(),
               organizationId: getIdForUser(user, "org"),
@@ -204,7 +204,7 @@ const ChildInfo: Section = {
               label="First"
               defaultValue={firstName || ''}
               onChange={event => updateFirstName(event.target.value)}
-              error={(attemptedSave && !firstName) 
+              error={(attemptedSave && !firstName)
                 ? {type: 'error', message: 'This information is required for enrollment' }
                 : undefined
               }
@@ -344,7 +344,7 @@ const ChildInfo: Section = {
             },
           ]}
         />
-        
+
         <h3>Ethnicity</h3>
         <p className="oec-form-helper">As identified by family</p>
         <RadioGroup
@@ -389,6 +389,10 @@ const ChildInfo: Section = {
             {
               value: Gender.Male,
               text: 'Male',
+            },
+            {
+              value: Gender.Nonbinary,
+              text: 'Nonbinary',
             },
             {
               value: Gender.Unknown,
