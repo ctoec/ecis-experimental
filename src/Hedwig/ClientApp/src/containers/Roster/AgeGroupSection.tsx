@@ -62,10 +62,12 @@ const defaultRosterTableProps: TableProps<DeepNonUndefineable<Enrollment>> = {
 			name: 'Funding',
 			cell: ({ row }) => (
 				<td>
-					{row.fundings &&
+					{row.fundings && row.fundings.length > 0 ?
 						row.fundings.map<React.ReactNode>((funding: DeepNonUndefineable<Funding>) =>
 							generateFundingTag(funding)
-						)}
+						) :
+						<span className="text-italic text-base">Private pay</span>
+					}
 				</td>
 			),
 			sort: row => idx(row, _ => _.fundings[0].source) || '',
