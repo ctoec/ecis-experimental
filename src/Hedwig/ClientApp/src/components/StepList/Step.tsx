@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import InlineIcon from '../InlineIcon/InlineIcon';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 
-export type ExternalStepStatus = 'incomplete' | 'complete' | 'attentionNeeded';
+export type ExternalStepStatus = 'incomplete' | 'complete' | 'attentionNeeded' | 'exempt';
 
 export type InternalStepStatus = 'notStarted' | 'active' | ExternalStepStatus;
 
@@ -25,6 +25,8 @@ const labelForStatus = (status: ExternalStepStatus) => {
 			return 'Complete';
 		case 'attentionNeeded':
 			return 'Attention needed';
+		case 'exempt':
+			return '';
 	}
 };
 
@@ -53,21 +55,23 @@ export default function Step<T>({
 						</div>
 					)}
 				</div>
-				<div className="oec-step-list__step__actions">
-					{status !== 'notStarted' && status !== 'active' && (
-						<>
-							<div className="oec-step-list__step__status-text">
-								<InlineIcon icon={status} provideScreenReaderFallback={false} />
-								{labelForStatus(status)}
-							</div>
-							{editPath && (
-								<Link to={editPath}>
-									Edit<span className="usa-sr-only"> {name.toLowerCase()}</span>
-								</Link>
-							)}
-						</>
-					)}
-				</div>
+				{status !== 'exempt' && (
+					<div className="oec-step-list__step__actions">
+						{status !== 'notStarted' && status !== 'active' && (
+							<>
+								<div className="oec-step-list__step__status-text">
+									<InlineIcon icon={status} provideScreenReaderFallback={false} />
+									{labelForStatus(status)}
+								</div>
+								{editPath && (
+									<Link to={editPath}>
+										Edit<span className="usa-sr-only"> {name.toLowerCase()}</span>
+									</Link>
+								)}
+							</>
+						)}
+					</div>
+				)}
 			</ErrorBoundary>
 		</li>
 	);
