@@ -6,6 +6,8 @@ export function genderFromString(str: string) {
       return Gender.Female;
     case Gender.Male:
       return Gender.Male;
+    case Gender.Nonbinary:
+      return Gender.Nonbinary;
     case Gender.Unknown:
       return Gender.Unknown;
     default:
@@ -19,6 +21,8 @@ export function prettyGender(gender: Gender) {
       return 'Female';
     case Gender.Male:
       return 'Male';
+    case Gender.Nonbinary:
+      return 'Nonbinary';
     case Gender.Unknown:
       return 'Unknown';
     default:
