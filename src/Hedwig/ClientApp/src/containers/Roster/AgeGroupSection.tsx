@@ -100,7 +100,9 @@ export default function AgeGroupSection({
 	});
 	return (
 		<>
-			<h2>{`${ageGroupTitle} (${pluralize('child', tableProps.data.length, true)})`}</h2>
+			<h2 className="margin-top-6">
+				{`${ageGroupTitle} (${pluralize('child', tableProps.data.length, true)})`}
+			</h2>
 			{fundingSpaces && (
 				<ul>
 					{fundingSpaces.map(space => (

@@ -1612,7 +1612,7 @@ exports[`Storyshots Legend Default 1`] = `
   }
 >
   <div
-    className="grid-row flex-wrap margin-top-2 margin-bottom-6 grid-gap oec-legend"
+    className="grid-row flex-wrap margin-y-2 grid-gap oec-legend"
   >
     <div
       className="margin-right-1"
