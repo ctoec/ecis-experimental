@@ -183,7 +183,6 @@ const ChildInfo: Section = {
 			}
 		};
 
-		// TODO: WAS BIRTHDATE REMOVED INTENTIONALLY?
 		// TODO: should gender be radio buttons as recommended by USWDS rather than select?
 
 		return (
