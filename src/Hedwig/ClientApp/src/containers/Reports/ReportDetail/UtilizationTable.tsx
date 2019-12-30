@@ -7,7 +7,19 @@ import { CdcRates } from './CdcRates';
 import { prettyAge } from '../../../utils/ageGroupUtils';
 import { prettyFundingTime } from '../../../utils/fundingTimeUtils';
 import currencyFormatter from '../../../utils/currencyFormatter';
-import cartesianProduct from '../../../utils/cartesianProduct';
+import getFundingSpaceCapacity from '../../../utils/getFundingSpaceCapacity';
+
+export function calculateRate(accredited: boolean, titleI: boolean, region: Region, ageGroup: Age, time: FundingTime) {
+  const rate = CdcRates.find(rate =>
+    rate.accredited === accredited &&
+    rate.titleI === titleI &&
+    rate.region === region &&
+    rate.ageGroup === ageGroup &&
+    rate.time === time
+  );
+
+  return rate ? rate.rate : 0;
+}
 
 interface UtilizationTableRow {
   key: string
@@ -28,6 +40,7 @@ export default function UtilizationTable(report: CdcReport) {
   const periodEnd = idx(report, _ => _.reportingPeriod.periodEnd);
   const weeksInPeriod = periodStart && periodEnd ? moment(periodEnd).add(1, 'day').diff(periodStart, 'weeks') : 0;
 
+<<<<<<< HEAD
   const enrollments = (idx(report, _ => _.enrollments) || []) as Enrollment[];
 
   let rows: UtilizationTableRow[] = cartesianProduct({
@@ -39,6 +52,43 @@ export default function UtilizationTable(report: CdcReport) {
     const rate = calculateRate(report.accredited, site.titleI, site.region, ageGroup, fundingTime);
 
     const cappedCount = Math.min(count, capacity);
+=======
+  const accredited = report.accredited;
+  const sites = idx(report, _ => _.organization.sites) || [];
+  // TODO bad default handling. Make DeepNonUndefinable ? 
+  const region = sites.length ? sites[0].region : Region.NorthWest;
+  const titleI = sites.length ? sites[0].titleI : false;
+  const ageGroups = [Age.InfantToddler, Age.Preschool, Age.SchoolAge];
+  const fundingTimes = [FundingTime.Full, FundingTime.Part];
+
+  const enrollments = report.enrollments
+    ? report.enrollments.flatMap(enrollment => {
+      const cdcFunding = enrollment.fundings
+        ? enrollment.fundings.find(funding => funding.source == report.type)
+        : undefined;
+      
+      if(!cdcFunding) return [];
+
+      return {
+        ageGroup: enrollment.ageGroup,
+        time: cdcFunding.time
+      }
+    })
+    : [];
+
+  const rows: UtilizationTableRow[] = ageGroups.flatMap(ageGroup => fundingTimes.flatMap(fundingTime => {
+    const count = enrollments
+      .filter(enrollment => enrollment.ageGroup == ageGroup && enrollment.time == fundingTime)
+      .length;
+
+    const capacity = getFundingSpaceCapacity(
+      report.organization,
+      { source: report.type, ageGroup, time: fundingTime }
+    );
+
+    const cappedCount = Math.min(count, capacity);
+    const rate = calculateRate(accredited, titleI, region, ageGroup, fundingTime);
+>>>>>>> Adds validation to report enrollments
     const total = cappedCount * rate * weeksInPeriod;
     const paid = capacity * rate * weeksInPeriod;
     const balance = total - paid;
@@ -53,7 +103,11 @@ export default function UtilizationTable(report: CdcReport) {
       total,
       balance,
     }
+<<<<<<< HEAD
   }).filter(({ count, capacity }) => count > 0 || capacity > 0);
+=======
+  }));
+>>>>>>> Adds validation to report enrollments
 
   const totalRow = rows.reduce((total, row) => {
     return {
