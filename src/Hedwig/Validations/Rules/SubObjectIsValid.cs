@@ -15,7 +15,7 @@ namespace Hedwig.Validations.Rules
       _validator.Validate(subObject);
     }
 
-    protected void ValidateSubObjects<T>(List<T> subObjects) where T : INonBlockingValidatableObject
+    protected void ValidateSubObject<T>(List<T> subObjects) where T : INonBlockingValidatableObject
     {
       subObjects.ForEach(subObject => ValidateSubObject(subObject));
     }
