@@ -9,7 +9,7 @@ exports[`Storyshots Alert Error 1`] = `
   }
 >
   <div
-    className="usa-alert usa-alert--error grid-row"
+    className="usa-alert usa-alert--error grid-row margin-y-4"
     role="alert"
   >
     <div
@@ -46,7 +46,7 @@ exports[`Storyshots Alert Info 1`] = `
   }
 >
   <div
-    className="usa-alert usa-alert--info grid-row"
+    className="usa-alert usa-alert--info grid-row margin-y-4"
   >
     <div
       className="display-flex flex-fill"
@@ -82,7 +82,7 @@ exports[`Storyshots Alert Success 1`] = `
   }
 >
   <div
-    className="usa-alert usa-alert--success grid-row"
+    className="usa-alert usa-alert--success grid-row margin-y-4"
   >
     <div
       className="display-flex flex-fill"
@@ -118,7 +118,7 @@ exports[`Storyshots Alert Warning 1`] = `
   }
 >
   <div
-    className="usa-alert usa-alert--warning grid-row"
+    className="usa-alert usa-alert--warning grid-row margin-y-4"
   >
     <div
       className="display-flex flex-fill"
