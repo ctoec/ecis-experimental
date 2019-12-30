@@ -1,6 +1,7 @@
 import React from 'react';
 import RadioButton from './RadioButton';
-import FieldSet, { FormError } from '../FieldSet/FieldSet';
+import FieldSet from '../FieldSet/FieldSet';
+import { FormStatusProps } from '../FormStatus/FormStatus';
 
 type RadioButtonOptions = {
 	text: string;
@@ -9,27 +10,29 @@ type RadioButtonOptions = {
 
 type RadioGroupProps = {
 	options: RadioButtonOptions[];
-	groupName: string;
+	id: string;
 	onChange: (event: React.ChangeEvent<HTMLInputElement>) => any;
 	selected?: string;
 	horizontal?: boolean;
 	legend: string;
-	error?: FormError;
+	status?: FormStatusProps;
 };
 
 export default function RadioGroup({
 	options,
-	groupName,
+	id,
 	onChange,
 	selected,
 	horizontal,
 	legend,
-	error
+	status
 }: RadioGroupProps) {
 	return (
 		<FieldSet
 			legend={legend}
-			error={error}
+			status={status}
+			id={id}
+			aria-describedby={status ? status.id : undefined}
 		>
 			<div className={horizontal ? 'grid-row flex-align-start grid-gap' : ''}>
 				{options.map(option => (
@@ -38,7 +41,7 @@ export default function RadioGroup({
 						text={option.text}
 						onChange={onChange}
 						key={option.value}
-						name={groupName}
+						name={`${id}-group`}
 						selected={option.value === selected}
 						className={horizontal ? 'grid-col flex-auto' : ''}
 					/>

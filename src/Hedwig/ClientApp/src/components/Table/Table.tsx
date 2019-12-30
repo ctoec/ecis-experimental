@@ -3,7 +3,7 @@ import ColumnHeader from './ColumnHeader';
 import Row from './Row';
 
 type Column<T> = {
-	name: string;
+	name: string | JSX.Element;
 	cell: React.FC<{ row: T }>;
 	sort?: (row: T) => number | string;
 	width?: string;

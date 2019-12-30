@@ -1,37 +1,46 @@
 import React from 'react';
-import InlineIcon from '../InlineIcon/InlineIcon';
-import { ValidationErrorFromJSONTyped } from '../../generated';
-
-export type FormError = {
-  message?: string;
-  type: 'warning' | 'error';
-};
+import FormStatus, { FormStatusProps } from '../FormStatus/FormStatus';
 
 type FieldSetProps = {
-  error?: FormError;
-  legend: string;
-  display?: string;
+	legend: string;
+	id: string;
+	showLegend?: boolean;
+	status?: FormStatusProps;
+	display?: string;
 };
 
 const FieldSet: React.FC<FieldSetProps> = ({
-  error,
-  legend,
-  display,
-  children
+	legend,
+	id,
+	showLegend,
+	status,
+	display,
+	children,
 }) => {
-  return (
-    <fieldset className={`grid-gap grid-row usa-fieldset 
-      ${error ? ` usa-fieldset--${error.type}` : ''}
-      ${display ? ` display-${display}`: ''}
-    `} >
-      <legend className="usa-sr-only">{legend}</legend>
-      {error && (
-        <span className={`usa-${error.type}-message`} id="field-set-error-message" role={error.type === "error" ? "alert" : "status"}>
-          {error.type === 'warning' ? <InlineIcon icon='incomplete' /> : ''} {error.message}
-        </span>
-      )}
-      {children}
-    </fieldset>
-  )
-}
+	if (legend.length > 25) {
+		console.warn('FieldSet legend is kind of long. This might be annoying for people using screen readers.')
+	}
+	return (
+		<fieldset
+			className={`grid-gap grid-row usa-fieldset 
+			${status ? ` usa-fieldset--${status.type}` : ''}
+      ${display ? ` display-${display}` : ''}
+    `}
+			id={id}
+			aria-describedby={status ? status.id : undefined}
+		>
+			<legend
+				className={
+					showLegend ? `usa-label${status ? ` usa-label--${status.type}` : ''}` : 'usa-sr-only'
+				}
+				id={`fieldset-legend-${id}`}
+			>
+				{legend}
+			</legend>
+			{status && <FormStatus {...status} />}
+			{children}
+		</fieldset>
+	);
+};
+
 export default FieldSet;

@@ -1,58 +1,48 @@
 import React from 'react';
-import { FormError } from '../FieldSet/FieldSet';
+import FormStatus, { FormStatusProps } from '../FormStatus/FormStatus';
 
 type TextInputProps = {
-  label: string | JSX.Element;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => any;
-  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => any;
-  id: string;
-  defaultValue?: string;
-  disabled?: boolean;
-  success?: boolean;
-  error?: FormError;
-  errorMessage?: string;
-  errorType?: 'error' | 'warning';
-  small?: boolean;
-  optional?: boolean;
+	label: string | JSX.Element;
+	onChange: (event: React.ChangeEvent<HTMLInputElement>) => any;
+	onBlur?: (event: React.FocusEvent<HTMLInputElement>) => any;
+	id: string;
+	defaultValue?: string;
+	disabled?: boolean;
+	status?: FormStatusProps;
+	small?: boolean;
+	optional?: boolean;
 };
 
 export default function TextInput({
-  label,
-  onChange,
-  onBlur,
-  id,
-  defaultValue,
-  disabled,
-  success,
-  error,
-  errorMessage,
-  errorType,
-  small,
-  optional,
+	label,
+	onChange,
+	onBlur,
+	id,
+	defaultValue,
+	disabled,
+	status,
+	small,
+	optional,
 }: TextInputProps) {
-  return (
-    <div className={`usa-form-group${error ? ` usa-form-group--${error.type}` : ''}`}>
-      <label className={`usa-label${error ? ` usa-label--${error.type}` : ''}`} htmlFor={id}>
-        {label} {optional && '(Optional)'}
-      </label>
-      {error && (
-        <span className={`usa-${error.type}-message`} id="input-error-message" role="alert">
-          {error.message} 
-        </span>
-      )}
-      <input
-        className={`usa-input${error ? ` usa-input--${error.type}` : ''}${
-          small ? ' usa-input--small' : ''
-          }${success ? ' usa-input--success' : ''}`}
-        id={id}
-        name={id}
-        type="text"
-        disabled={disabled}
-        onChange={onChange}
-        onBlur={onBlur}
-        defaultValue={defaultValue}
-        aria-describedby={error ? 'input-error-message' : undefined}
-      />
-    </div>
-  );
+	return (
+		<div className={`usa-form-group${status ? ` usa-form-group--${status.type}` : ''}`}>
+			<label className={`usa-label${status ? ` usa-label--${status.type}` : ''}`} htmlFor={id}>
+				{label} {optional && <span className="usa-label__optional">&nbsp;(optional)</span>}
+			</label>
+			{status && status.message && <FormStatus {...status} />}
+			<input
+				className={`usa-input${status ? ` usa-input--${status.type}` : ''}${
+					small ? ' usa-input--small' : ''
+				}`}
+				id={id}
+				name={id}
+				type="text"
+				disabled={disabled}
+				onChange={onChange}
+				onBlur={onBlur}
+				defaultValue={defaultValue}
+				aria-describedby={status ? status.id : undefined}
+			/>
+		</div>
+	);
 }

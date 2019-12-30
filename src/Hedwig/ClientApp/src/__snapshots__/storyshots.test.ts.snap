@@ -246,12 +246,14 @@ exports[`Storyshots Checklist Box disabled 1`] = `
 >
   <fieldset
     className="grid-gap grid-row usa-fieldset 
-      
+			
       
     "
+    id="storybook-checklist-disabled"
   >
     <legend
       className="usa-sr-only"
+      id="fieldset-legend-storybook-checklist-disabled"
     >
       Checklist items
     </legend>
@@ -266,7 +268,7 @@ exports[`Storyshots Checklist Box disabled 1`] = `
           defaultChecked={true}
           disabled={true}
           id="one"
-          name="storybook-checklist-disabled"
+          name="storybook-checklist-disabled-one"
           onChange={[Function]}
           type="checkbox"
           value="one"
@@ -286,7 +288,7 @@ exports[`Storyshots Checklist Box disabled 1`] = `
           defaultChecked={true}
           disabled={true}
           id="two"
-          name="storybook-checklist-disabled"
+          name="storybook-checklist-disabled-two"
           onChange={[Function]}
           type="checkbox"
           value="two"
@@ -313,12 +315,14 @@ exports[`Storyshots Checklist Default 1`] = `
 >
   <fieldset
     className="grid-gap grid-row usa-fieldset 
-      
+			
       
     "
+    id="storybook-checklist"
   >
     <legend
       className="usa-sr-only"
+      id="fieldset-legend-storybook-checklist"
     >
       Checklist items
     </legend>
@@ -332,7 +336,7 @@ exports[`Storyshots Checklist Default 1`] = `
           className="usa-checkbox__input"
           defaultChecked={false}
           id="one"
-          name="storybook-checklist"
+          name="storybook-checklist-one"
           onChange={[Function]}
           type="checkbox"
           value="one"
@@ -351,7 +355,7 @@ exports[`Storyshots Checklist Default 1`] = `
           className="usa-checkbox__input"
           defaultChecked={false}
           id="two"
-          name="storybook-checklist"
+          name="storybook-checklist-two"
           onChange={[Function]}
           type="checkbox"
           value="two"
@@ -378,12 +382,14 @@ exports[`Storyshots Checklist Default selection 1`] = `
 >
   <fieldset
     className="grid-gap grid-row usa-fieldset 
-      
+			
       
     "
+    id="storybook-checklist-default-selection"
   >
     <legend
       className="usa-sr-only"
+      id="fieldset-legend-storybook-checklist-default-selection"
     >
       Checklist items
     </legend>
@@ -397,7 +403,7 @@ exports[`Storyshots Checklist Default selection 1`] = `
           className="usa-checkbox__input"
           defaultChecked={true}
           id="one"
-          name="storybook-checklist-default-selection"
+          name="storybook-checklist-default-selection-one"
           onChange={[Function]}
           type="checkbox"
           value="one"
@@ -416,7 +422,7 @@ exports[`Storyshots Checklist Default selection 1`] = `
           className="usa-checkbox__input"
           defaultChecked={true}
           id="two"
-          name="storybook-checklist-default-selection"
+          name="storybook-checklist-default-selection-two"
           onChange={[Function]}
           type="checkbox"
           value="two"
@@ -443,12 +449,14 @@ exports[`Storyshots Checklist Horizontal 1`] = `
 >
   <fieldset
     className="grid-gap grid-row usa-fieldset 
-      
+			
       
     "
+    id="storybook-checklist-2"
   >
     <legend
       className="usa-sr-only"
+      id="fieldset-legend-storybook-checklist-2"
     >
       Checklist items
     </legend>
@@ -462,7 +470,7 @@ exports[`Storyshots Checklist Horizontal 1`] = `
           className="usa-checkbox__input"
           defaultChecked={false}
           id="one"
-          name="storybook-checklist-2"
+          name="storybook-checklist-2-one"
           onChange={[Function]}
           type="checkbox"
           value="one"
@@ -481,7 +489,7 @@ exports[`Storyshots Checklist Horizontal 1`] = `
           className="usa-checkbox__input"
           defaultChecked={false}
           id="two"
-          name="storybook-checklist-2"
+          name="storybook-checklist-2-two"
           onChange={[Function]}
           type="checkbox"
           value="two"
@@ -507,19 +515,22 @@ exports[`Storyshots Checklist With error 1`] = `
   }
 >
   <fieldset
+    aria-describedby="checklis-error"
     className="grid-gap grid-row usa-fieldset 
-       usa-fieldset--error
+			 usa-fieldset--error
       
     "
+    id="storybook-checklist-with-error"
   >
     <legend
       className="usa-sr-only"
+      id="fieldset-legend-storybook-checklist-with-error"
     >
       Checklist items
     </legend>
     <span
       className="usa-error-message"
-      id="field-set-error-message"
+      id="checklis-error"
       role="alert"
     >
       
@@ -536,7 +547,7 @@ exports[`Storyshots Checklist With error 1`] = `
           className="usa-checkbox__input"
           defaultChecked={false}
           id="one"
-          name="storybook-checklist-with-error"
+          name="storybook-checklist-with-error-one"
           onChange={[Function]}
           type="checkbox"
           value="one"
@@ -555,7 +566,84 @@ exports[`Storyshots Checklist With error 1`] = `
           className="usa-checkbox__input"
           defaultChecked={false}
           id="two"
-          name="storybook-checklist-with-error"
+          name="storybook-checklist-with-error-two"
+          onChange={[Function]}
+          type="checkbox"
+          value="two"
+        />
+        <label
+          className="usa-checkbox__label"
+          htmlFor="two"
+        >
+          Option two
+        </label>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots Checklist With success 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    aria-describedby="checklist-success"
+    className="grid-gap grid-row usa-fieldset 
+			 usa-fieldset--success
+      
+    "
+    id="storybook-checklist-with-success"
+  >
+    <legend
+      className="usa-sr-only"
+      id="fieldset-legend-storybook-checklist-with-success"
+    >
+      Checklist items
+    </legend>
+    <span
+      className="usa-success-message"
+      id="checklist-success"
+      role="status"
+    >
+      
+       
+      These fields were validated woo
+    </span>
+    <div
+      className=""
+    >
+      <div
+        className="usa-checkbox "
+      >
+        <input
+          className="usa-checkbox__input"
+          defaultChecked={false}
+          id="one"
+          name="storybook-checklist-with-success-one"
+          onChange={[Function]}
+          type="checkbox"
+          value="one"
+        />
+        <label
+          className="usa-checkbox__label"
+          htmlFor="one"
+        >
+          Option one
+        </label>
+      </div>
+      <div
+        className="usa-checkbox "
+      >
+        <input
+          className="usa-checkbox__input"
+          defaultChecked={false}
+          id="two"
+          name="storybook-checklist-with-success-two"
           onChange={[Function]}
           type="checkbox"
           value="two"
@@ -581,19 +669,22 @@ exports[`Storyshots Checklist With warning 1`] = `
   }
 >
   <fieldset
+    aria-describedby="checklist-warning"
     className="grid-gap grid-row usa-fieldset 
-       usa-fieldset--warning
+			 usa-fieldset--warning
       
     "
+    id="storybook-checklist-with-warning"
   >
     <legend
       className="usa-sr-only"
+      id="fieldset-legend-storybook-checklist-with-warning"
     >
       Checklist items
     </legend>
     <span
       className="usa-warning-message"
-      id="field-set-error-message"
+      id="checklist-warning"
       role="status"
     >
       <span
@@ -623,7 +714,7 @@ exports[`Storyshots Checklist With warning 1`] = `
           className="usa-checkbox__input"
           defaultChecked={false}
           id="one"
-          name="storybook-checklist-with-warning"
+          name="storybook-checklist-with-warning-one"
           onChange={[Function]}
           type="checkbox"
           value="one"
@@ -642,7 +733,7 @@ exports[`Storyshots Checklist With warning 1`] = `
           className="usa-checkbox__input"
           defaultChecked={false}
           id="two"
-          name="storybook-checklist-with-warning"
+          name="storybook-checklist-with-warning-two"
           onChange={[Function]}
           type="checkbox"
           value="two"
@@ -659,7 +750,131 @@ exports[`Storyshots Checklist With warning 1`] = `
 </div>
 `;
 
-exports[`Storyshots DatePicker ByRange 1`] = `
+exports[`Storyshots DatePicker Default 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group "
+  >
+    <label
+      className="usa-label margin-top-0 "
+      htmlFor="default-datepicker-date"
+    >
+      Pick a date
+    </label>
+    <span
+      className="oec-date-input"
+    >
+      <div
+        className="SingleDatePicker SingleDatePicker_1"
+      >
+        <div>
+          <div
+            className="SingleDatePickerInput SingleDatePickerInput_1"
+          >
+            <div
+              className="DateInput DateInput_1"
+            >
+              <input
+                aria-describedby="DateInput__screen-reader-message-default-datepicker-date"
+                aria-label="Date"
+                autoComplete="off"
+                className="DateInput_input DateInput_input_1"
+                disabled={false}
+                id="default-datepicker-date"
+                name="default-datepicker-date"
+                onChange={[Function]}
+                onFocus={[Function]}
+                onKeyDown={[Function]}
+                placeholder="Date"
+                readOnly={false}
+                required={false}
+                type="text"
+                value="10/30/2019"
+              />
+              <p
+                className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
+                id="DateInput__screen-reader-message-default-datepicker-date"
+              >
+                Navigate forward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+`;
+
+exports[`Storyshots DatePicker Disabled 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group "
+  >
+    <label
+      className="usa-label margin-top-0 "
+      htmlFor="disabled-datepicker-date"
+    >
+      Pick a date
+    </label>
+    <span
+      className="oec-date-input"
+    >
+      <div
+        className="SingleDatePicker SingleDatePicker_1"
+      >
+        <div>
+          <div
+            className="SingleDatePickerInput SingleDatePickerInput_1 SingleDatePickerInput__disabled SingleDatePickerInput__disabled_2"
+          >
+            <div
+              className="DateInput DateInput_1 DateInput__disabled DateInput__disabled_2"
+            >
+              <input
+                aria-describedby="DateInput__screen-reader-message-disabled-datepicker-date"
+                aria-label="Date"
+                autoComplete="off"
+                className="DateInput_input DateInput_input_1 DateInput_input__disabled DateInput_input__disabled_2"
+                disabled={true}
+                id="disabled-datepicker-date"
+                name="disabled-datepicker-date"
+                onChange={[Function]}
+                onFocus={[Function]}
+                onKeyDown={[Function]}
+                placeholder="Date"
+                readOnly={false}
+                required={false}
+                type="text"
+                value="10/30/2019"
+              />
+              <p
+                className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
+                id="DateInput__screen-reader-message-disabled-datepicker-date"
+              >
+                Navigate forward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+`;
+
+exports[`Storyshots DatePicker Disabled with range 1`] = `
 <div
   style={
     Object {
@@ -668,31 +883,36 @@ exports[`Storyshots DatePicker ByRange 1`] = `
   }
 >
   <fieldset
-    className="usa-fieldset"
+    className="grid-gap grid-row usa-fieldset 
+			
+      
+    "
+    id="disabled-range-datepicker"
   >
     <legend
-      className="usa-sr-only"
+      className="usa-label"
+      id="fieldset-legend-disabled-range-datepicker"
     >
-      Choose a date range
+      Pick a date
     </legend>
     <div
       className="DateRangePicker DateRangePicker_1"
     >
       <div>
         <div
-          className="DateRangePickerInput DateRangePickerInput_1 DateRangePickerInput__withBorder DateRangePickerInput__withBorder_2"
+          className="DateRangePickerInput DateRangePickerInput_1 DateRangePickerInput__disabled DateRangePickerInput__disabled_2"
         >
           <div
-            className="DateInput DateInput_1"
+            className="DateInput DateInput_1 DateInput__disabled DateInput__disabled_2"
           >
             <input
-              aria-describedby="DateInput__screen-reader-message-startDate"
+              aria-describedby="DateInput__screen-reader-message-disabled-range-datepicker-start-date"
               aria-label="Start Date"
               autoComplete="off"
-              className="DateInput_input DateInput_input_1"
-              disabled={false}
-              id="startDate"
-              name="startDate"
+              className="DateInput_input DateInput_input_1 DateInput_input__disabled DateInput_input__disabled_2"
+              disabled={true}
+              id="disabled-range-datepicker-start-date"
+              name="disabled-range-datepicker-start-date"
               onChange={[Function]}
               onFocus={[Function]}
               onKeyDown={[Function]}
@@ -704,7 +924,193 @@ exports[`Storyshots DatePicker ByRange 1`] = `
             />
             <p
               className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
-              id="DateInput__screen-reader-message-startDate"
+              id="DateInput__screen-reader-message-disabled-range-datepicker-start-date"
+            >
+              Navigate forward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
+            </p>
+          </div>
+          <div
+            aria-hidden="true"
+            className="DateRangePickerInput_arrow DateRangePickerInput_arrow_1"
+            role="presentation"
+          >
+            <svg
+              className="DateRangePickerInput_arrow_svg DateRangePickerInput_arrow_svg_1"
+              focusable="false"
+              viewBox="0 0 1000 1000"
+            >
+              <path
+                d="M694 242l249 250c12 11 12 21 1 32L694 773c-5 5-10 7-16 7s-11-2-16-7c-11-11-11-21 0-32l210-210H68c-13 0-23-10-23-23s10-23 23-23h806L662 275c-21-22 11-54 32-33z"
+              />
+            </svg>
+          </div>
+          <div
+            className="DateInput DateInput_1 DateInput__disabled DateInput__disabled_2"
+          >
+            <input
+              aria-describedby="DateInput__screen-reader-message-disabled-range-datepicker-end-date"
+              aria-label="End Date"
+              autoComplete="off"
+              className="DateInput_input DateInput_input_1 DateInput_input__disabled DateInput_input__disabled_2"
+              disabled={true}
+              id="disabled-range-datepicker-end-date"
+              name="disabled-range-datepicker-end-date"
+              onChange={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              placeholder="End Date"
+              readOnly={false}
+              required={false}
+              type="text"
+              value="10/30/2019"
+            />
+            <p
+              className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
+              id="DateInput__screen-reader-message-disabled-range-datepicker-end-date"
+            >
+              Navigate backward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots DatePicker Error 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group  usa-form-group--error"
+  >
+    <label
+      className="usa-label margin-top-0  usa-label--error"
+      htmlFor="error-datepicker-date"
+    >
+      Pick a date
+    </label>
+    <span
+      className="usa-error-message"
+      id="datepicker-error"
+      role="alert"
+    >
+      
+       
+      Pick a better date
+    </span>
+    <span
+      aria-describedby="datepicker-error"
+      className="oec-date-input oec-date-input--error"
+    >
+      <div
+        className="SingleDatePicker SingleDatePicker_1"
+      >
+        <div>
+          <div
+            className="SingleDatePickerInput SingleDatePickerInput_1"
+          >
+            <div
+              className="DateInput DateInput_1"
+            >
+              <input
+                aria-describedby="DateInput__screen-reader-message-error-datepicker-date"
+                aria-label="Date"
+                autoComplete="off"
+                className="DateInput_input DateInput_input_1"
+                disabled={false}
+                id="error-datepicker-date"
+                name="error-datepicker-date"
+                onChange={[Function]}
+                onFocus={[Function]}
+                onKeyDown={[Function]}
+                placeholder="Date"
+                readOnly={false}
+                required={false}
+                type="text"
+                value="10/30/2019"
+              />
+              <p
+                className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
+                id="DateInput__screen-reader-message-error-datepicker-date"
+              >
+                Navigate forward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+`;
+
+exports[`Storyshots DatePicker Error with range 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    aria-describedby="datepicker-error"
+    className="grid-gap grid-row usa-fieldset 
+			 usa-fieldset--error
+      
+    "
+    id="error-datepicker"
+  >
+    <legend
+      className="usa-label usa-label--error"
+      id="fieldset-legend-error-datepicker"
+    >
+      Pick a date
+    </legend>
+    <span
+      className="usa-error-message"
+      id="datepicker-error"
+      role="alert"
+    >
+      
+       
+      Pick a better date
+    </span>
+    <div
+      className="DateRangePicker DateRangePicker_1"
+    >
+      <div>
+        <div
+          className="DateRangePickerInput DateRangePickerInput_1"
+        >
+          <div
+            className="DateInput DateInput_1"
+          >
+            <input
+              aria-describedby="DateInput__screen-reader-message-error-datepicker-start-date"
+              aria-label="Start Date"
+              autoComplete="off"
+              className="DateInput_input DateInput_input_1"
+              disabled={false}
+              id="error-datepicker-start-date"
+              name="error-datepicker-start-date"
+              onChange={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              placeholder="Start Date"
+              readOnly={false}
+              required={false}
+              type="text"
+              value="10/30/2019"
+            />
+            <p
+              className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
+              id="DateInput__screen-reader-message-error-datepicker-start-date"
             >
               Navigate forward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
             </p>
@@ -728,13 +1134,13 @@ exports[`Storyshots DatePicker ByRange 1`] = `
             className="DateInput DateInput_1"
           >
             <input
-              aria-describedby="DateInput__screen-reader-message-endDate"
+              aria-describedby="DateInput__screen-reader-message-error-datepicker-end-date"
               aria-label="End Date"
               autoComplete="off"
               className="DateInput_input DateInput_input_1"
               disabled={false}
-              id="endDate"
-              name="endDate"
+              id="error-datepicker-end-date"
+              name="error-datepicker-end-date"
               onChange={[Function]}
               onFocus={[Function]}
               onKeyDown={[Function]}
@@ -746,7 +1152,7 @@ exports[`Storyshots DatePicker ByRange 1`] = `
             />
             <p
               className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
-              id="DateInput__screen-reader-message-endDate"
+              id="DateInput__screen-reader-message-error-datepicker-end-date"
             >
               Navigate backward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
             </p>
@@ -758,7 +1164,69 @@ exports[`Storyshots DatePicker ByRange 1`] = `
 </div>
 `;
 
-exports[`Storyshots DatePicker Default 1`] = `
+exports[`Storyshots DatePicker Optional 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group "
+  >
+    <label
+      className="usa-label margin-top-0 "
+      htmlFor="optional-datepicker-date"
+    >
+      Pick a date (Optional)
+    </label>
+    <span
+      className="oec-date-input"
+    >
+      <div
+        className="SingleDatePicker SingleDatePicker_1"
+      >
+        <div>
+          <div
+            className="SingleDatePickerInput SingleDatePickerInput_1"
+          >
+            <div
+              className="DateInput DateInput_1"
+            >
+              <input
+                aria-describedby="DateInput__screen-reader-message-optional-datepicker-date"
+                aria-label="Date"
+                autoComplete="off"
+                className="DateInput_input DateInput_input_1"
+                disabled={false}
+                id="optional-datepicker-date"
+                name="optional-datepicker-date"
+                onChange={[Function]}
+                onFocus={[Function]}
+                onKeyDown={[Function]}
+                placeholder="Date"
+                readOnly={false}
+                required={false}
+                type="text"
+                value="10/30/2019"
+              />
+              <p
+                className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
+                id="DateInput__screen-reader-message-optional-datepicker-date"
+              >
+                Navigate forward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+`;
+
+exports[`Storyshots DatePicker Range 1`] = `
 <div
   style={
     Object {
@@ -767,35 +1235,40 @@ exports[`Storyshots DatePicker Default 1`] = `
   }
 >
   <fieldset
-    className="usa-fieldset"
+    className="grid-gap grid-row usa-fieldset 
+			
+      
+    "
+    id="byrange-datepicker"
   >
     <legend
-      className="usa-sr-only"
+      className="usa-label"
+      id="fieldset-legend-byrange-datepicker"
     >
-      Choose a date
+      Pick a date
     </legend>
     <div
-      className="SingleDatePicker SingleDatePicker_1"
+      className="DateRangePicker DateRangePicker_1"
     >
       <div>
         <div
-          className="SingleDatePickerInput SingleDatePickerInput_1 SingleDatePickerInput__withBorder SingleDatePickerInput__withBorder_2"
+          className="DateRangePickerInput DateRangePickerInput_1"
         >
           <div
             className="DateInput DateInput_1"
           >
             <input
-              aria-describedby="DateInput__screen-reader-message-date"
-              aria-label="Date"
+              aria-describedby="DateInput__screen-reader-message-byrange-datepicker-start-date"
+              aria-label="Start Date"
               autoComplete="off"
               className="DateInput_input DateInput_input_1"
               disabled={false}
-              id="date"
-              name="date"
+              id="byrange-datepicker-start-date"
+              name="byrange-datepicker-start-date"
               onChange={[Function]}
               onFocus={[Function]}
               onKeyDown={[Function]}
-              placeholder="Date"
+              placeholder="Start Date"
               readOnly={false}
               required={false}
               type="text"
@@ -803,9 +1276,449 @@ exports[`Storyshots DatePicker Default 1`] = `
             />
             <p
               className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
-              id="DateInput__screen-reader-message-date"
+              id="DateInput__screen-reader-message-byrange-datepicker-start-date"
             >
               Navigate forward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
+            </p>
+          </div>
+          <div
+            aria-hidden="true"
+            className="DateRangePickerInput_arrow DateRangePickerInput_arrow_1"
+            role="presentation"
+          >
+            <svg
+              className="DateRangePickerInput_arrow_svg DateRangePickerInput_arrow_svg_1"
+              focusable="false"
+              viewBox="0 0 1000 1000"
+            >
+              <path
+                d="M694 242l249 250c12 11 12 21 1 32L694 773c-5 5-10 7-16 7s-11-2-16-7c-11-11-11-21 0-32l210-210H68c-13 0-23-10-23-23s10-23 23-23h806L662 275c-21-22 11-54 32-33z"
+              />
+            </svg>
+          </div>
+          <div
+            className="DateInput DateInput_1"
+          >
+            <input
+              aria-describedby="DateInput__screen-reader-message-byrange-datepicker-end-date"
+              aria-label="End Date"
+              autoComplete="off"
+              className="DateInput_input DateInput_input_1"
+              disabled={false}
+              id="byrange-datepicker-end-date"
+              name="byrange-datepicker-end-date"
+              onChange={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              placeholder="End Date"
+              readOnly={false}
+              required={false}
+              type="text"
+              value="10/30/2019"
+            />
+            <p
+              className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
+              id="DateInput__screen-reader-message-byrange-datepicker-end-date"
+            >
+              Navigate backward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots DatePicker Success 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group  usa-form-group--success"
+  >
+    <label
+      className="usa-label margin-top-0  usa-label--success"
+      htmlFor="error-datepicker-date"
+    >
+      Pick a date
+    </label>
+    <span
+      className="usa-success-message"
+      id="datepicker-success"
+      role="status"
+    >
+      
+       
+      You did good
+    </span>
+    <span
+      aria-describedby="datepicker-success"
+      className="oec-date-input oec-date-input--success"
+    >
+      <div
+        className="SingleDatePicker SingleDatePicker_1"
+      >
+        <div>
+          <div
+            className="SingleDatePickerInput SingleDatePickerInput_1"
+          >
+            <div
+              className="DateInput DateInput_1"
+            >
+              <input
+                aria-describedby="DateInput__screen-reader-message-error-datepicker-date"
+                aria-label="Date"
+                autoComplete="off"
+                className="DateInput_input DateInput_input_1"
+                disabled={false}
+                id="error-datepicker-date"
+                name="error-datepicker-date"
+                onChange={[Function]}
+                onFocus={[Function]}
+                onKeyDown={[Function]}
+                placeholder="Date"
+                readOnly={false}
+                required={false}
+                type="text"
+                value="10/30/2019"
+              />
+              <p
+                className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
+                id="DateInput__screen-reader-message-error-datepicker-date"
+              >
+                Navigate forward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+`;
+
+exports[`Storyshots DatePicker Success with range 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    aria-describedby="datepicker-success"
+    className="grid-gap grid-row usa-fieldset 
+			 usa-fieldset--success
+      
+    "
+    id="error-datepicker"
+  >
+    <legend
+      className="usa-label usa-label--success"
+      id="fieldset-legend-error-datepicker"
+    >
+      Pick a date
+    </legend>
+    <span
+      className="usa-success-message"
+      id="datepicker-success"
+      role="status"
+    >
+      
+       
+      You did good
+    </span>
+    <div
+      className="DateRangePicker DateRangePicker_1"
+    >
+      <div>
+        <div
+          className="DateRangePickerInput DateRangePickerInput_1"
+        >
+          <div
+            className="DateInput DateInput_1"
+          >
+            <input
+              aria-describedby="DateInput__screen-reader-message-error-datepicker-start-date"
+              aria-label="Start Date"
+              autoComplete="off"
+              className="DateInput_input DateInput_input_1"
+              disabled={false}
+              id="error-datepicker-start-date"
+              name="error-datepicker-start-date"
+              onChange={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              placeholder="Start Date"
+              readOnly={false}
+              required={false}
+              type="text"
+              value="10/30/2019"
+            />
+            <p
+              className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
+              id="DateInput__screen-reader-message-error-datepicker-start-date"
+            >
+              Navigate forward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
+            </p>
+          </div>
+          <div
+            aria-hidden="true"
+            className="DateRangePickerInput_arrow DateRangePickerInput_arrow_1"
+            role="presentation"
+          >
+            <svg
+              className="DateRangePickerInput_arrow_svg DateRangePickerInput_arrow_svg_1"
+              focusable="false"
+              viewBox="0 0 1000 1000"
+            >
+              <path
+                d="M694 242l249 250c12 11 12 21 1 32L694 773c-5 5-10 7-16 7s-11-2-16-7c-11-11-11-21 0-32l210-210H68c-13 0-23-10-23-23s10-23 23-23h806L662 275c-21-22 11-54 32-33z"
+              />
+            </svg>
+          </div>
+          <div
+            className="DateInput DateInput_1"
+          >
+            <input
+              aria-describedby="DateInput__screen-reader-message-error-datepicker-end-date"
+              aria-label="End Date"
+              autoComplete="off"
+              className="DateInput_input DateInput_input_1"
+              disabled={false}
+              id="error-datepicker-end-date"
+              name="error-datepicker-end-date"
+              onChange={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              placeholder="End Date"
+              readOnly={false}
+              required={false}
+              type="text"
+              value="10/30/2019"
+            />
+            <p
+              className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
+              id="DateInput__screen-reader-message-error-datepicker-end-date"
+            >
+              Navigate backward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots DatePicker Warning 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group  usa-form-group--warning"
+  >
+    <label
+      className="usa-label margin-top-0  usa-label--warning"
+      htmlFor="error-datepicker-date"
+    >
+      Pick a date
+    </label>
+    <span
+      className="usa-warning-message"
+      id="datepicker-warning"
+      role="status"
+    >
+      <span
+        className="oec-inline-icon oec-inline-icon--incomplete"
+      >
+        <svg>
+          error.svg
+        </svg>
+        <span
+          className="usa-sr-only"
+        >
+          (
+          incomplete
+          )
+        </span>
+      </span>
+       
+      Meh, fine
+    </span>
+    <span
+      aria-describedby="datepicker-warning"
+      className="oec-date-input oec-date-input--warning"
+    >
+      <div
+        className="SingleDatePicker SingleDatePicker_1"
+      >
+        <div>
+          <div
+            className="SingleDatePickerInput SingleDatePickerInput_1"
+          >
+            <div
+              className="DateInput DateInput_1"
+            >
+              <input
+                aria-describedby="DateInput__screen-reader-message-error-datepicker-date"
+                aria-label="Date"
+                autoComplete="off"
+                className="DateInput_input DateInput_input_1"
+                disabled={false}
+                id="error-datepicker-date"
+                name="error-datepicker-date"
+                onChange={[Function]}
+                onFocus={[Function]}
+                onKeyDown={[Function]}
+                placeholder="Date"
+                readOnly={false}
+                required={false}
+                type="text"
+                value="10/30/2019"
+              />
+              <p
+                className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
+                id="DateInput__screen-reader-message-error-datepicker-date"
+              >
+                Navigate forward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+`;
+
+exports[`Storyshots DatePicker Warning with range 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    aria-describedby="datepicker-warning"
+    className="grid-gap grid-row usa-fieldset 
+			 usa-fieldset--warning
+      
+    "
+    id="error-datepicker"
+  >
+    <legend
+      className="usa-label usa-label--warning"
+      id="fieldset-legend-error-datepicker"
+    >
+      Pick a date
+    </legend>
+    <span
+      className="usa-warning-message"
+      id="datepicker-warning"
+      role="status"
+    >
+      <span
+        className="oec-inline-icon oec-inline-icon--incomplete"
+      >
+        <svg>
+          error.svg
+        </svg>
+        <span
+          className="usa-sr-only"
+        >
+          (
+          incomplete
+          )
+        </span>
+      </span>
+       
+      Meh, fine
+    </span>
+    <div
+      className="DateRangePicker DateRangePicker_1"
+    >
+      <div>
+        <div
+          className="DateRangePickerInput DateRangePickerInput_1"
+        >
+          <div
+            className="DateInput DateInput_1"
+          >
+            <input
+              aria-describedby="DateInput__screen-reader-message-error-datepicker-start-date"
+              aria-label="Start Date"
+              autoComplete="off"
+              className="DateInput_input DateInput_input_1"
+              disabled={false}
+              id="error-datepicker-start-date"
+              name="error-datepicker-start-date"
+              onChange={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              placeholder="Start Date"
+              readOnly={false}
+              required={false}
+              type="text"
+              value="10/30/2019"
+            />
+            <p
+              className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
+              id="DateInput__screen-reader-message-error-datepicker-start-date"
+            >
+              Navigate forward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
+            </p>
+          </div>
+          <div
+            aria-hidden="true"
+            className="DateRangePickerInput_arrow DateRangePickerInput_arrow_1"
+            role="presentation"
+          >
+            <svg
+              className="DateRangePickerInput_arrow_svg DateRangePickerInput_arrow_svg_1"
+              focusable="false"
+              viewBox="0 0 1000 1000"
+            >
+              <path
+                d="M694 242l249 250c12 11 12 21 1 32L694 773c-5 5-10 7-16 7s-11-2-16-7c-11-11-11-21 0-32l210-210H68c-13 0-23-10-23-23s10-23 23-23h806L662 275c-21-22 11-54 32-33z"
+              />
+            </svg>
+          </div>
+          <div
+            className="DateInput DateInput_1"
+          >
+            <input
+              aria-describedby="DateInput__screen-reader-message-error-datepicker-end-date"
+              aria-label="End Date"
+              autoComplete="off"
+              className="DateInput_input DateInput_input_1"
+              disabled={false}
+              id="error-datepicker-end-date"
+              name="error-datepicker-end-date"
+              onChange={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              placeholder="End Date"
+              readOnly={false}
+              required={false}
+              type="text"
+              value="10/30/2019"
+            />
+            <p
+              className="DateInput_screenReaderMessage DateInput_screenReaderMessage_1"
+              id="DateInput__screen-reader-message-error-datepicker-end-date"
+            >
+              Navigate backward to interact with the calendar and select a date. Press the question mark key to get the keyboard shortcuts for changing dates.
             </p>
           </div>
         </div>
@@ -920,14 +1833,14 @@ exports[`Storyshots Dropdown Default 1`] = `
   >
     <label
       className="usa-label"
-      htmlFor="Choose-one-of-these-things"
+      htmlFor="default-dropdown"
     >
       Choose one of these things
     </label>
     <select
       className="usa-select"
-      id="Choose-one-of-these-things"
-      name="Choose-one-of-these-things"
+      id="default-dropdown"
+      name="default-dropdown"
       onChange={[Function]}
     >
       <option>
@@ -961,15 +1874,15 @@ exports[`Storyshots Dropdown Disabled 1`] = `
   >
     <label
       className="usa-label"
-      htmlFor="Choose-one-of-these-things"
+      htmlFor="disabled-dropdown"
     >
       Choose one of these things
     </label>
     <select
       className="usa-select"
       disabled={true}
-      id="Choose-one-of-these-things"
-      name="Choose-one-of-these-things"
+      id="disabled-dropdown"
+      name="disabled-dropdown"
       onChange={[Function]}
     >
       <option>
@@ -1003,22 +1916,24 @@ exports[`Storyshots Dropdown Error 1`] = `
   >
     <label
       className="usa-label usa-label--error"
-      htmlFor="Choose-one-of-these-things"
+      htmlFor="dropdown-with-error"
     >
       Choose one of these things
     </label>
     <span
       className="usa-error-message"
-      id="Choose-one-of-these-things-error-message"
+      id="dropdown-error"
       role="alert"
     >
-      There was an error.
+      
+       
+      Pick something else
     </span>
     <select
-      aria-describedby="Choose-one-of-these-things-error-message"
+      aria-describedby="dropdown-error"
       className="usa-select usa-input--error"
-      id="Choose-one-of-these-things"
-      name="Choose-one-of-these-things"
+      id="dropdown-with-error"
+      name="dropdown-with-error"
       onChange={[Function]}
     >
       <option>
@@ -1048,18 +1963,92 @@ exports[`Storyshots Dropdown Success 1`] = `
   }
 >
   <div
-    className="usa-form-group"
+    className="usa-form-group usa-form-group--success"
   >
     <label
-      className="usa-label"
-      htmlFor="Choose-one-of-these-things"
+      className="usa-label usa-label--success"
+      htmlFor="dropdown-with-success"
     >
       Choose one of these things
     </label>
+    <span
+      className="usa-success-message"
+      id="dropdown-success"
+      role="status"
+    >
+      
+       
+      You did good
+    </span>
     <select
+      aria-describedby="dropdown-success"
       className="usa-select usa-input--success"
-      id="Choose-one-of-these-things"
-      name="Choose-one-of-these-things"
+      id="dropdown-with-success"
+      name="dropdown-with-success"
+      onChange={[Function]}
+    >
+      <option>
+        Choose here
+      </option>
+      <option
+        value="one"
+      >
+        Thing One
+      </option>
+      <option
+        value="two"
+      >
+        Thing Two
+      </option>
+    </select>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Dropdown Warning 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group usa-form-group--warning"
+  >
+    <label
+      className="usa-label usa-label--warning"
+      htmlFor="dropdown-with-success"
+    >
+      Choose one of these things
+    </label>
+    <span
+      className="usa-warning-message"
+      id="dropdown-warning"
+      role="status"
+    >
+      <span
+        className="oec-inline-icon oec-inline-icon--incomplete"
+      >
+        <svg>
+          error.svg
+        </svg>
+        <span
+          className="usa-sr-only"
+        >
+          (
+          incomplete
+          )
+        </span>
+      </span>
+       
+      Choose wisely
+    </span>
+    <select
+      aria-describedby="dropdown-warning"
+      className="usa-select usa-input--warning"
+      id="dropdown-with-success"
+      name="dropdown-with-success"
       onChange={[Function]}
     >
       <option>
@@ -1090,14 +2079,44 @@ exports[`Storyshots FieldSet Default 1`] = `
 >
   <fieldset
     className="grid-gap grid-row usa-fieldset 
-      
+			
       
     "
+    id="default-fieldset"
   >
     <legend
       className="usa-sr-only"
+      id="fieldset-legend-default-fieldset"
     >
       field set
+    </legend>
+    <p>
+      I'm inside a field set!
+    </p>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots FieldSet Show legend 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    className="grid-gap grid-row usa-fieldset 
+			
+      
+    "
+    id="show-legend-fieldset"
+  >
+    <legend
+      className="usa-label"
+      id="fieldset-legend-show-legend-fieldset"
+    >
+      Field set
     </legend>
     <p>
       I'm inside a field set!
@@ -1115,19 +2134,22 @@ exports[`Storyshots FieldSet With error 1`] = `
   }
 >
   <fieldset
+    aria-describedby="fieldset-error"
     className="grid-gap grid-row usa-fieldset 
-       usa-fieldset--error
+			 usa-fieldset--error
       
     "
+    id="error-fieldset"
   >
     <legend
       className="usa-sr-only"
+      id="fieldset-legend-error-fieldset"
     >
       Error field set
     </legend>
     <span
       className="usa-error-message"
-      id="field-set-error-message"
+      id="fieldset-error"
       role="alert"
     >
       
@@ -1147,6 +2169,50 @@ exports[`Storyshots FieldSet With error 1`] = `
 </div>
 `;
 
+exports[`Storyshots FieldSet With success 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    aria-describedby="fieldset-success"
+    className="grid-gap grid-row usa-fieldset 
+			 usa-fieldset--success
+      
+    "
+    id="success-fieldset"
+  >
+    <legend
+      className="usa-sr-only"
+      id="fieldset-legend-success-fieldset"
+    >
+      Success field set
+    </legend>
+    <span
+      className="usa-success-message"
+      id="fieldset-success"
+      role="status"
+    >
+      
+       
+      These fields are filled out and validated yay!
+    </span>
+    <p>
+       Wow! 
+    </p>
+    <p>
+       You're so smart! 
+    </p>
+    <p>
+       What great form input! 
+    </p>
+  </fieldset>
+</div>
+`;
+
 exports[`Storyshots FieldSet With warning 1`] = `
 <div
   style={
@@ -1156,19 +2222,22 @@ exports[`Storyshots FieldSet With warning 1`] = `
   }
 >
   <fieldset
+    aria-describedby="fieldset-warning"
     className="grid-gap grid-row usa-fieldset 
-       usa-fieldset--warning
+			 usa-fieldset--warning
       
     "
+    id="warning-fieldset"
   >
     <legend
       className="usa-sr-only"
+      id="fieldset-legend-warning-fieldset"
     >
       Warning field set
     </legend>
     <span
       className="usa-warning-message"
-      id="field-set-error-message"
+      id="fieldset-warning"
       role="status"
     >
       <span
@@ -1622,8 +2691,8 @@ exports[`Storyshots Legend Default 1`] = `
       >
         <svg
           className="oec-legend__symbol__svg"
-          height="100%"
-          width="100%"
+          height="1em"
+          width="1em"
         >
           <rect
             fill="currentColor"
@@ -1646,8 +2715,8 @@ exports[`Storyshots Legend Default 1`] = `
       >
         <svg
           className="oec-legend__symbol__svg"
-          height="100%"
-          width="100%"
+          height="1em"
+          width="1em"
         >
           <rect
             fill="currentColor"
@@ -1670,8 +2739,8 @@ exports[`Storyshots Legend Default 1`] = `
       >
         <svg
           className="oec-legend__symbol__svg"
-          height="100%"
-          width="100%"
+          height="1em"
+          width="1em"
         >
           <rect
             fill="currentColor"
@@ -1694,8 +2763,8 @@ exports[`Storyshots Legend Default 1`] = `
       >
         <svg
           className="oec-legend__symbol__svg"
-          height="100%"
-          width="100%"
+          height="1em"
+          width="1em"
         >
           <rect
             fill="currentColor"
@@ -1724,12 +2793,14 @@ exports[`Storyshots RadioGroup Default 1`] = `
 >
   <fieldset
     className="grid-gap grid-row usa-fieldset 
-      
+			
       
     "
+    id="storybook-radio-group"
   >
     <legend
       className="usa-sr-only"
+      id="fieldset-legend-storybook-radio-group"
     >
       Radiogroup items
     </legend>
@@ -1743,7 +2814,7 @@ exports[`Storyshots RadioGroup Default 1`] = `
           checked={false}
           className="usa-radio__input"
           id="one"
-          name="storybook-radio-group"
+          name="storybook-radio-group-group"
           onChange={[Function]}
           type="radio"
           value="one"
@@ -1762,7 +2833,7 @@ exports[`Storyshots RadioGroup Default 1`] = `
           checked={false}
           className="usa-radio__input"
           id="two"
-          name="storybook-radio-group"
+          name="storybook-radio-group-group"
           onChange={[Function]}
           type="radio"
           value="two"
@@ -1789,12 +2860,14 @@ exports[`Storyshots RadioGroup Default selection 1`] = `
 >
   <fieldset
     className="grid-gap grid-row usa-fieldset 
-      
+			
       
     "
+    id="storybook-radio-group-default-selection"
   >
     <legend
       className="usa-sr-only"
+      id="fieldset-legend-storybook-radio-group-default-selection"
     >
       Radiogroup items
     </legend>
@@ -1808,7 +2881,7 @@ exports[`Storyshots RadioGroup Default selection 1`] = `
           checked={true}
           className="usa-radio__input"
           id="one"
-          name="storybook-radio-group-default-selection"
+          name="storybook-radio-group-default-selection-group"
           onChange={[Function]}
           type="radio"
           value="one"
@@ -1827,7 +2900,7 @@ exports[`Storyshots RadioGroup Default selection 1`] = `
           checked={false}
           className="usa-radio__input"
           id="two"
-          name="storybook-radio-group-default-selection"
+          name="storybook-radio-group-default-selection-group"
           onChange={[Function]}
           type="radio"
           value="two"
@@ -1854,12 +2927,14 @@ exports[`Storyshots RadioGroup Horizontal 1`] = `
 >
   <fieldset
     className="grid-gap grid-row usa-fieldset 
-      
+			
       
     "
+    id="storybook-radio-group-2"
   >
     <legend
       className="usa-sr-only"
+      id="fieldset-legend-storybook-radio-group-2"
     >
       Radiogroup items
     </legend>
@@ -1873,7 +2948,7 @@ exports[`Storyshots RadioGroup Horizontal 1`] = `
           checked={false}
           className="usa-radio__input"
           id="one"
-          name="storybook-radio-group-2"
+          name="storybook-radio-group-2-group"
           onChange={[Function]}
           type="radio"
           value="one"
@@ -1892,7 +2967,7 @@ exports[`Storyshots RadioGroup Horizontal 1`] = `
           checked={false}
           className="usa-radio__input"
           id="two"
-          name="storybook-radio-group-2"
+          name="storybook-radio-group-2-group"
           onChange={[Function]}
           type="radio"
           value="two"
@@ -1918,19 +2993,22 @@ exports[`Storyshots RadioGroup With error 1`] = `
   }
 >
   <fieldset
+    aria-describedby="radio-group-error"
     className="grid-gap grid-row usa-fieldset 
-       usa-fieldset--error
+			 usa-fieldset--error
       
     "
+    id="storybook-radio-group-with-warning"
   >
     <legend
       className="usa-sr-only"
+      id="fieldset-legend-storybook-radio-group-with-warning"
     >
       Radiogroup items
     </legend>
     <span
       className="usa-error-message"
-      id="field-set-error-message"
+      id="radio-group-error"
       role="alert"
     >
       
@@ -1947,7 +3025,7 @@ exports[`Storyshots RadioGroup With error 1`] = `
           checked={true}
           className="usa-radio__input"
           id="one"
-          name="storybook-radio-group-with-warning"
+          name="storybook-radio-group-with-warning-group"
           onChange={[Function]}
           type="radio"
           value="one"
@@ -1966,7 +3044,84 @@ exports[`Storyshots RadioGroup With error 1`] = `
           checked={false}
           className="usa-radio__input"
           id="two"
-          name="storybook-radio-group-with-warning"
+          name="storybook-radio-group-with-warning-group"
+          onChange={[Function]}
+          type="radio"
+          value="two"
+        />
+        <label
+          className="usa-radio__label"
+          htmlFor="two"
+        >
+          Option two
+        </label>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots RadioGroup With success 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    aria-describedby="radio-group-status"
+    className="grid-gap grid-row usa-fieldset 
+			 usa-fieldset--success
+      
+    "
+    id="storybook-radio-group-with-warning"
+  >
+    <legend
+      className="usa-sr-only"
+      id="fieldset-legend-storybook-radio-group-with-warning"
+    >
+      Radiogroup items
+    </legend>
+    <span
+      className="usa-success-message"
+      id="radio-group-status"
+      role="status"
+    >
+      
+       
+      This value was accepted
+    </span>
+    <div
+      className=""
+    >
+      <div
+        className="usa-radio "
+      >
+        <input
+          checked={true}
+          className="usa-radio__input"
+          id="one"
+          name="storybook-radio-group-with-warning-group"
+          onChange={[Function]}
+          type="radio"
+          value="one"
+        />
+        <label
+          className="usa-radio__label"
+          htmlFor="one"
+        >
+          Option one
+        </label>
+      </div>
+      <div
+        className="usa-radio "
+      >
+        <input
+          checked={false}
+          className="usa-radio__input"
+          id="two"
+          name="storybook-radio-group-with-warning-group"
           onChange={[Function]}
           type="radio"
           value="two"
@@ -1992,19 +3147,22 @@ exports[`Storyshots RadioGroup With warning 1`] = `
   }
 >
   <fieldset
+    aria-describedby="radio-group-warning"
     className="grid-gap grid-row usa-fieldset 
-       usa-fieldset--warning
+			 usa-fieldset--warning
       
     "
+    id="storybook-radio-group-with-warning"
   >
     <legend
       className="usa-sr-only"
+      id="fieldset-legend-storybook-radio-group-with-warning"
     >
       Radiogroup items
     </legend>
     <span
       className="usa-warning-message"
-      id="field-set-error-message"
+      id="radio-group-warning"
       role="status"
     >
       <span
@@ -2034,7 +3192,7 @@ exports[`Storyshots RadioGroup With warning 1`] = `
           checked={true}
           className="usa-radio__input"
           id="one"
-          name="storybook-radio-group-with-warning"
+          name="storybook-radio-group-with-warning-group"
           onChange={[Function]}
           type="radio"
           value="one"
@@ -2053,7 +3211,7 @@ exports[`Storyshots RadioGroup With warning 1`] = `
           checked={false}
           className="usa-radio__input"
           id="two"
-          name="storybook-radio-group-with-warning"
+          name="storybook-radio-group-with-warning-group"
           onChange={[Function]}
           type="radio"
           value="two"
@@ -2433,15 +3591,15 @@ exports[`Storyshots TextInput Default 1`] = `
   >
     <label
       className="usa-label"
-      htmlFor="cat"
+      htmlFor="id"
     >
       Default text input
        
     </label>
     <input
       className="usa-input"
-      id="cat"
-      name="cat"
+      id="id"
+      name="id"
       onChange={[Function]}
       type="text"
     />
@@ -2462,7 +3620,7 @@ exports[`Storyshots TextInput Disabled 1`] = `
   >
     <label
       className="usa-label"
-      htmlFor="cat"
+      htmlFor="id3"
     >
       Default text input
        
@@ -2470,8 +3628,8 @@ exports[`Storyshots TextInput Disabled 1`] = `
     <input
       className="usa-input"
       disabled={true}
-      id="cat"
-      name="cat"
+      id="id3"
+      name="id3"
       onChange={[Function]}
       type="text"
     />
@@ -2492,23 +3650,25 @@ exports[`Storyshots TextInput Error 1`] = `
   >
     <label
       className="usa-label usa-label--error"
-      htmlFor="cat"
+      htmlFor="id8"
     >
       Default text input
        
     </label>
     <span
       className="usa-error-message"
-      id="input-error-message"
+      id="text-input-error"
       role="alert"
     >
+      
+       
       Error!
     </span>
     <input
-      aria-describedby="input-error-message"
+      aria-describedby="text-input-error"
       className="usa-input usa-input--error"
-      id="cat"
-      name="cat"
+      id="id8"
+      name="id8"
       onChange={[Function]}
       type="text"
     />
@@ -2528,19 +3688,22 @@ exports[`Storyshots TextInput Error inside error Fieldset 1`] = `
     className="usa-form"
   >
     <fieldset
+      aria-describedby="text-input-error"
       className="grid-gap grid-row usa-fieldset 
-       usa-fieldset--error
+			 usa-fieldset--error
        display-inline-block
     "
+      id="example-fieldset-error"
     >
       <legend
         className="usa-sr-only"
+        id="fieldset-legend-example-fieldset-error"
       >
         Text inputs
       </legend>
       <span
         className="usa-error-message"
-        id="field-set-error-message"
+        id="text-input-error"
         role="alert"
       >
         
@@ -2555,23 +3718,25 @@ exports[`Storyshots TextInput Error inside error Fieldset 1`] = `
         >
           <label
             className="usa-label usa-label--error"
-            htmlFor="cat"
+            htmlFor="id9"
           >
             Short
              
           </label>
           <span
             className="usa-error-message"
-            id="input-error-message"
+            id="text-input-error"
             role="alert"
           >
+            
+             
             Error!
           </span>
           <input
-            aria-describedby="input-error-message"
+            aria-describedby="text-input-error"
             className="usa-input usa-input--error"
-            id="cat"
-            name="cat"
+            id="id9"
+            name="id9"
             onChange={[Function]}
             type="text"
           />
@@ -2585,23 +3750,25 @@ exports[`Storyshots TextInput Error inside error Fieldset 1`] = `
         >
           <label
             className="usa-label usa-label--error"
-            htmlFor="cat"
+            htmlFor="id10"
           >
             Long
              
           </label>
           <span
             className="usa-error-message"
-            id="input-error-message"
+            id="text-input-error"
             role="alert"
           >
+            
+             
             Error!
           </span>
           <input
-            aria-describedby="input-error-message"
+            aria-describedby="text-input-error"
             className="usa-input usa-input--error"
-            id="cat"
-            name="cat"
+            id="id10"
+            name="id10"
             onChange={[Function]}
             type="text"
           />
@@ -2625,16 +3792,20 @@ exports[`Storyshots TextInput Optional 1`] = `
   >
     <label
       className="usa-label"
-      htmlFor="cat"
+      htmlFor="id2"
     >
       Default optional text input
        
-      (Optional)
+      <span
+        className="usa-label__optional"
+      >
+         (optional)
+      </span>
     </label>
     <input
       className="usa-input"
-      id="cat"
-      name="cat"
+      id="id2"
+      name="id2"
       onChange={[Function]}
       type="text"
     />
@@ -2651,19 +3822,29 @@ exports[`Storyshots TextInput Success 1`] = `
   }
 >
   <div
-    className="usa-form-group"
+    className="usa-form-group usa-form-group--success"
   >
     <label
-      className="usa-label"
-      htmlFor="cat"
+      className="usa-label usa-label--success"
+      htmlFor="id4"
     >
       Default text input
        
     </label>
+    <span
+      className="usa-success-message"
+      id="text-input-success"
+      role="status"
+    >
+      
+       
+      Success!
+    </span>
     <input
+      aria-describedby="text-input-success"
       className="usa-input usa-input--success"
-      id="cat"
-      name="cat"
+      id="id4"
+      name="id4"
       onChange={[Function]}
       type="text"
     />
@@ -2691,13 +3872,28 @@ exports[`Storyshots TextInput Warning 1`] = `
     </label>
     <span
       className="usa-warning-message"
-      id="input-error-message"
-      role="alert"
+      id="text-input-warning"
+      role="status"
     >
+      <span
+        className="oec-inline-icon oec-inline-icon--incomplete"
+      >
+        <svg>
+          error.svg
+        </svg>
+        <span
+          className="usa-sr-only"
+        >
+          (
+          incomplete
+          )
+        </span>
+      </span>
+       
       Warning!
     </span>
     <input
-      aria-describedby="input-error-message"
+      aria-describedby="text-input-warning"
       className="usa-input usa-input--warning"
       id="cat"
       name="cat"
@@ -2720,19 +3916,22 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
     className="usa-form"
   >
     <fieldset
+      aria-describedby="text-input-warning"
       className="grid-gap grid-row usa-fieldset 
-       usa-fieldset--warning
+			 usa-fieldset--warning
        display-inline-block
     "
+      id="warning-fieldset"
     >
       <legend
         className="usa-sr-only"
+        id="fieldset-legend-warning-fieldset"
       >
         Text inputs
       </legend>
       <span
         className="usa-warning-message"
-        id="field-set-error-message"
+        id="text-input-warning"
         role="status"
       >
         <span
@@ -2767,13 +3966,28 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
           </label>
           <span
             className="usa-warning-message"
-            id="input-error-message"
-            role="alert"
+            id="text-input-warning"
+            role="status"
           >
+            <span
+              className="oec-inline-icon oec-inline-icon--incomplete"
+            >
+              <svg>
+                error.svg
+              </svg>
+              <span
+                className="usa-sr-only"
+              >
+                (
+                incomplete
+                )
+              </span>
+            </span>
+             
             Warning!
           </span>
           <input
-            aria-describedby="input-error-message"
+            aria-describedby="text-input-warning"
             className="usa-input usa-input--warning"
             id="cat"
             name="cat"
@@ -2797,13 +4011,28 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
           </label>
           <span
             className="usa-warning-message"
-            id="input-error-message"
-            role="alert"
+            id="text-input-warning"
+            role="status"
           >
+            <span
+              className="oec-inline-icon oec-inline-icon--incomplete"
+            >
+              <svg>
+                error.svg
+              </svg>
+              <span
+                className="usa-sr-only"
+              >
+                (
+                incomplete
+                )
+              </span>
+            </span>
+             
             Warning!
           </span>
           <input
-            aria-describedby="input-error-message"
+            aria-describedby="text-input-warning"
             className="usa-input usa-input--warning"
             id="cat"
             name="cat"
@@ -2830,7 +4059,7 @@ exports[`Storyshots TextInput With default value 1`] = `
   >
     <label
       className="usa-label"
-      htmlFor="cat"
+      htmlFor="id1"
     >
       Default text input
        
@@ -2838,8 +4067,8 @@ exports[`Storyshots TextInput With default value 1`] = `
     <input
       className="usa-input"
       defaultValue="default text"
-      id="cat"
-      name="cat"
+      id="id1"
+      name="id1"
       onChange={[Function]}
       type="text"
     />

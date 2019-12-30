@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import RadioGroup from './RadioGroup';
-import { FormError } from '../FieldSet/FieldSet';
+import { FormStatusProps } from '../FormStatus/FormStatus';
 
 const onChange = action('onChange');
 const options = [
@@ -15,15 +15,28 @@ const options = [
 		value: 'two',
 	},
 ];
-const warning: FormError = { type: 'warning', message: 'These fields need your attention' };
-const error: FormError = { type: 'error', message: 'These fields will block your progress' };
+const warning: FormStatusProps = {
+	type: 'warning',
+	message: 'These fields need your attention',
+	id: 'radio-group-warning',
+};
+const success: FormStatusProps = {
+	type: 'success',
+	message: 'This value was accepted',
+	id: 'radio-group-status',
+};
+const error: FormStatusProps = {
+	type: 'error',
+	message: 'These fields will block your progress',
+	id: 'radio-group-error',
+};
 
 storiesOf('RadioGroup', module)
 	.add('Default', () => {
 		return (
 			<RadioGroup
 				options={options}
-				groupName="storybook-radio-group"
+				id="storybook-radio-group"
 				onChange={onChange}
 				legend="Radiogroup items"
 			/>
@@ -33,7 +46,7 @@ storiesOf('RadioGroup', module)
 		return (
 			<RadioGroup
 				options={options}
-				groupName="storybook-radio-group-2"
+				id="storybook-radio-group-2"
 				onChange={onChange}
 				horizontal={true}
 				legend="Radiogroup items"
@@ -44,7 +57,7 @@ storiesOf('RadioGroup', module)
 		return (
 			<RadioGroup
 				options={options}
-				groupName="storybook-radio-group-default-selection"
+				id="storybook-radio-group-default-selection"
 				onChange={onChange}
 				selected="one"
 				legend="Radiogroup items"
@@ -55,23 +68,35 @@ storiesOf('RadioGroup', module)
 		return (
 			<RadioGroup
 				options={options}
-				groupName="storybook-radio-group-with-warning"
+				id="storybook-radio-group-with-warning"
 				onChange={onChange}
 				selected="one"
 				legend="Radiogroup items"
-				error={warning}
+				status={warning}
 			/>
-		)
+		);
+	})
+	.add('With success', () => {
+		return (
+			<RadioGroup
+				options={options}
+				id="storybook-radio-group-with-warning"
+				onChange={onChange}
+				selected="one"
+				legend="Radiogroup items"
+				status={success}
+			/>
+		);
 	})
 	.add('With error', () => {
 		return (
 			<RadioGroup
 				options={options}
-				groupName="storybook-radio-group-with-warning"
+				id="storybook-radio-group-with-warning"
 				onChange={onChange}
 				selected="one"
 				legend="Radiogroup items"
-				error={error}
+				status={error}
 			/>
-		)
-	})
+		);
+	});

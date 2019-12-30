@@ -74,14 +74,14 @@ export default function EnrollmentDetail({
 								<section.Summary {...props} />
 							</div>
 							<div className="hedwig-enrollment-details-section__actions">
-								<Link to={`edit/${section.key}`}>
-								Edit<span className="usa-sr-only"> {section.name.toLowerCase()}</span>
-								</Link>
 								{section.status(props) === 'incomplete' && (
 									<span>
 										<InlineIcon icon="incomplete" /> Missing information
 									</span>
-								)} 
+								)}
+								<Link to={`edit/${section.key}`}>
+								Edit<span className="usa-sr-only"> {section.name.toLowerCase()}</span>
+								</Link>
 							</div>
 						</section>
 					);
