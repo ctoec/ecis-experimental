@@ -1,26 +1,27 @@
 import React, { ReactElement, useContext } from 'react';
 import AlertContext from '../contexts/Alert/AlertContext';
-import Alert from '../components/Alert/Alert';
-import DirectionalLink from '../components/DirectionalLink/DirectionalLink';
+import Alert, { AlertProps } from '../components/Alert/Alert';
+import DirectionalLink, { DirectionalLinkProps } from '../components/DirectionalLink/DirectionalLink';
 import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary';
 
 type CommonContainerPropsType = {
 	children: ReactElement<any> | null;
-	// TODO: IMPORT THE ACTUAL TYPE
-	directionalLinkProps?: any;
+	directionalLinkProps?: DirectionalLinkProps;
+	additionalAlerts?: AlertProps[];
 };
 
 export default function CommonContainer({
 	children,
-	directionalLinkProps = { direction: 'left', to: '/roster', text: 'Back to roster' },
+	directionalLinkProps,
+	additionalAlerts = [] as AlertProps[],
 }: CommonContainerPropsType) {
 	const { getAlerts } = useContext(AlertContext);
-	const alerts = getAlerts();
+	const alerts = additionalAlerts.concat(getAlerts());
 
 	return (
 		<ErrorBoundary>
 			<div className="grid-container">
-				<DirectionalLink {...directionalLinkProps} />
+				{directionalLinkProps && <DirectionalLink {...directionalLinkProps} />}
 				{alerts && alerts.map((alert, index) => <Alert key={index} {...alert}></Alert>)}
 			</div>
 			<ErrorBoundary>{children}</ErrorBoundary>

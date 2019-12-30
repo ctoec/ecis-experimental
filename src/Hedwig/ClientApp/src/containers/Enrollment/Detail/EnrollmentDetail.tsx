@@ -61,12 +61,18 @@ export default function EnrollmentDetail({
 	const child = enrollment.child;
 
 	return (
-		<CommonContainer>
+		<CommonContainer
+			directionalLinkProps={{
+				direction: 'left',
+				to: '/roster',
+				text: 'Back to roster',
+			}}
+		>
 			<section className="grid-container">
 				<h1>{nameFormatter(child)}</h1>
 				{sections.map(section => {
 					var props: SectionProps = { enrollment, mutate };
-					
+
 					return (
 						<section key={section.key} className="hedwig-enrollment-details-section">
 							<div className="hedwig-enrollment-details-section__content">
@@ -80,13 +86,12 @@ export default function EnrollmentDetail({
 									</span>
 								)}
 								<Link to={`edit/${section.key}`}>
-								Edit<span className="usa-sr-only"> {section.name.toLowerCase()}</span>
+									Edit<span className="usa-sr-only"> {section.name.toLowerCase()}</span>
 								</Link>
 							</div>
 						</section>
 					);
-				}
-			)}
+				})}
 			</section>
 		</CommonContainer>
 	);

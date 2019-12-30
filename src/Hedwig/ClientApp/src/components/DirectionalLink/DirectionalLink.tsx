@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { ReactComponent as Arrow } from '../../assets/images/arrowRight.svg';
 // Have to have it inline or we can't inherit color
 
-type DirectionalLinkProps = {
+export type DirectionalLinkProps = {
 	direction: 'left' | 'right' | 'up' | 'down';
 	to: string;
 	text: string;

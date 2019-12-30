@@ -7,8 +7,9 @@ import Feedback from './containers/Feedback/Feedback';
 import Help from './containers/Help/Help';
 import Login from './containers/Login/Login';
 import PageNotFound from './containers/PageNotFound/PageNotFound';
-import Reports from './containers/Reports/Reports';
 import Roster from './containers/Roster/Roster';
+import ReportsSummary from './containers/Reports/ReportsSummary/ReportsSummary';
+import ReportDetail from './containers/Reports/ReportDetail/ReportDetail';
 
 export type RouteConfig = {
 	path: string;
@@ -54,12 +55,12 @@ export const routes: RouteConfig[] = [
 	{
 		path: '/reports',
 		exact: true,
-		component: Reports,
+		component: ReportsSummary,
 	},
 	{
 		path: '/reports/:id',
-		// exact: true,
-		component: Reports,
+		exact: true,
+		component: ReportDetail,
 	},
 	{
 		path: '/feedback',

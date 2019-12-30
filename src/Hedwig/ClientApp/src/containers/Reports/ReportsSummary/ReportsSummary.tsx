@@ -13,8 +13,8 @@ import {
 import getIdForUser from '../../../utils/getIdForUser';
 import idx from 'idx';
 import { DeepNonUndefineable } from '../../../utils/types';
-import Alert from '../../../components/Alert/Alert';
 import AlertContext from '../../../contexts/Alert/AlertContext';
+import CommonContainer from '../../CommonContainer';
 
 export default function ReportsSummary() {
 	const { user } = useContext(UserContext);
@@ -31,9 +31,6 @@ export default function ReportsSummary() {
 		api => api.apiOrganizationsOrgIdReportsGet(reportParams),
 		[user]
 	);
-
-	const { getAlerts } = useContext(AlertContext);
-	const alerts = getAlerts();
 
 	if (loading || error || !reports || orgLoading || orgError || !organization) {
 		return <div className="Reports"></div>;
@@ -113,11 +110,8 @@ export default function ReportsSummary() {
 	};
 
 	return (
-		<div className="Reports">
+		<CommonContainer>
 			<section className="grid-container">
-				{alerts.map((alert, index) => (
-					<Alert key={index} {...alert}></Alert>
-				))}
 				<h1>Reports</h1>
 				<h2 className="margin-top-4">Pending reports</h2>
 				{pendingReports.length > 0 ? (
@@ -132,6 +126,6 @@ export default function ReportsSummary() {
 				<h2 className="margin-top-6">Submitted reports</h2>
 				<Table {...submittedTableProps} fullWidth />
 			</section>
-		</div>
+		</CommonContainer>
 	);
 }
