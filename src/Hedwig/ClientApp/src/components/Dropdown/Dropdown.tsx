@@ -1,4 +1,5 @@
 import React from 'react';
+import FormStatus, { FormStatusProps } from '../FormStatus/FormStatus';
 
 type DropdownOption = {
 	value: string;
@@ -7,15 +8,13 @@ type DropdownOption = {
 
 type DropdownProps = {
 	options: DropdownOption[];
-	selected?: string;
 	label: string;
-	noSelectionText?: string;
 	onChange: (event: React.ChangeEvent<HTMLSelectElement>) => any;
-	id?: string;
-	success?: boolean;
+	id: string;
+	selected?: string;
+	noSelectionText?: string;
 	disabled?: boolean;
-	error?: boolean;
-	errorMessage?: string;
+	status?: FormStatusProps;
 };
 
 export default function Dropdown({
@@ -25,33 +24,22 @@ export default function Dropdown({
 	noSelectionText,
 	onChange,
 	id,
-	success,
 	disabled,
-	error,
-	errorMessage,
+	status,
 }: DropdownProps) {
-	const selectId = id || label.split(' ').join('-');
-	const errorMessageId = `${selectId}-error-message`;
-
 	return (
-		<div className={`usa-form-group${error ? ' usa-form-group--error' : ''}`}>
-			<label className={`usa-label${error ? ' usa-label--error' : ''}`} htmlFor={selectId}>
+		<div className={`usa-form-group${status ? ` usa-form-group--${status.type}` : ''}`}>
+			<label className={`usa-label${status ? ` usa-label--${status.type}` : ''}`} htmlFor={id}>
 				{label}
 			</label>
-			{error && errorMessage && (
-				<span className="usa-error-message" id={errorMessageId} role="alert">
-					{errorMessage}
-				</span>
-			)}
+			{status && status.message && <FormStatus {...status} />}
 			<select
-				className={`usa-select${error ? ' usa-input--error' : ''}${
-					success ? ' usa-input--success' : ''
-				}`}
-				name={selectId}
-				id={selectId}
+				className={`usa-select${status ? ` usa-input--${status.type}` : ''}`}
+				name={id}
+				id={id}
 				onChange={onChange}
 				disabled={disabled}
-				aria-describedby={error ? errorMessageId : undefined}
+				aria-describedby={status ? status.id : undefined}
 				value={selected}
 			>
 				{noSelectionText && <option value={undefined}>{noSelectionText}</option>}

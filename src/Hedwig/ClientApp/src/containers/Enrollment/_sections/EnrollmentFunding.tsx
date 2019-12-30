@@ -107,21 +107,21 @@ const EnrollmentFunding: Section = {
             label="Site"
             selected={siteId ? '' + siteId : undefined}
             onChange={event => updateSiteId(parseInt(event.target.value, 10))}
+            id="enrollment-site"
           />
-          <label className="usa-label" htmlFor="date">
-            Start date
-					</label>
 					<DatePicker
 						onChange={range =>
 							updateEntry((range.startDate && range.startDate.toDate()) || null)
 						}
-						dateRange={{ startDate: entry ? moment(entry) : null, endDate: null }}
+            dateRange={{ startDate: entry ? moment(entry) : null, endDate: null }}
+            label="Start date"
+            id="enrollment-start-date"
 					/>
 
 					<h3>Age group</h3>
   				<RadioGroup
             legend="Age"
-  					groupName="age"
+  					id="age"
   					options={[
   						{
   							text: 'Infant/Toddler',

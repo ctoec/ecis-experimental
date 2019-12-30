@@ -7,14 +7,18 @@ import dateFormatter from '../../../utils/dateFormatter';
 import notNullOrUndefined from '../../../utils/notNullOrUndefined';
 import moment from 'moment';
 import idx from 'idx';
-import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest, Enrollment, FamilyDetermination } from '../../../generated';
+import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest } from '../../../generated';
 import Checklist from '../../../components/Checklist/Checklist';
 import Alert from '../../../components/Alert/Alert';
 import parseCurrencyFromString from '../../../utils/parseCurrencyFromString';
 import currencyFormatter from '../../../utils/currencyFormatter';
 import getIdForUser from '../../../utils/getIdForUser';
 import UserContext from '../../../contexts/User/UserContext';
-import { sectionHasValidationErrors, errorForField, warningForFieldSet, errorForFieldSet } from '../../../utils/validations';
+import {
+	sectionHasValidationErrors,
+	errorForField,
+	errorForFieldSet,
+} from '../../../utils/validations';
 import { determinationArgsAreValid } from '../../../utils/models';
 import FieldSet from '../../../components/FieldSet/FieldSet';
 
@@ -25,10 +29,9 @@ const FamilyIncome: Section = {
 		if (idx(enrollment, _ => _.child.foster)) {
 			return 'exempt';
 		}
-		return sectionHasValidationErrors(
-			[idx(enrollment, _ => _.child.family.determinations) || null]) ?
-			'incomplete' :
-			'complete'
+		return sectionHasValidationErrors([idx(enrollment, _ => _.child.family.determinations) || null])
+			? 'incomplete'
+			: 'complete';
 	},
 	Summary: ({ enrollment }) => {
 		if (!enrollment || !enrollment.child || !enrollment.child.family) return <></>;
@@ -37,37 +40,37 @@ const FamilyIncome: Section = {
 		let elementToReturn;
 
 		if (isFoster) {
-			elementToReturn = <p>Household Income: This information is not required for foster children.</p>;
+			elementToReturn = (
+				<p>Household Income: This information is not required for foster children.</p>
+			);
 		} else if (!determination) {
 			elementToReturn = <p>No income determination on record.</p>;
 		} else if (determination.notDisclosed) {
 			elementToReturn = <p>Income determination not disclosed.</p>;
 		} else {
-			elementToReturn = <>
-				<p>Household size: {determination.numberOfPeople}</p>
-				<p>Annual household income: ${idx(determination, _ => _.income.toFixed(2))}</p>
-				<p>Determined on: {dateFormatter(idx(determination, _ => _.determinationDate))}</p>
-			</>;
+			elementToReturn = (
+				<>
+					<p>Household size: {determination.numberOfPeople}</p>
+					<p>Annual household income: ${idx(determination, _ => _.income.toFixed(2))}</p>
+					<p>Determined on: {dateFormatter(idx(determination, _ => _.determinationDate))}</p>
+				</>
+			);
 		}
-		return (
-			<div className="FamilyIncomeSummary">
-				{elementToReturn}
-			</div>
-		);
+		return <div className="FamilyIncomeSummary">{elementToReturn}</div>;
 	},
 
 	Form: ({ enrollment, mutate, callback }) => {
 		if (!enrollment || !enrollment.child || !enrollment.child.family) {
-			throw new Error("FamilyIncome rendered without enrollment.child.family");
+			throw new Error('FamilyIncome rendered without enrollment.child.family');
 		}
 
 		const { user } = useContext(UserContext);
 		const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
 			id: enrollment.id || 0,
-			siteId: getIdForUser(user, "site"),
-			orgId: getIdForUser(user, "org"),
-			enrollment: enrollment
-		}
+			siteId: getIdForUser(user, 'site'),
+			orgId: getIdForUser(user, 'org'),
+			enrollment: enrollment,
+		};
 
 		const child = enrollment.child;
 		const determination = idx(child, _ => _.family.determinations[0]) || undefined;
@@ -86,7 +89,7 @@ const FamilyIncome: Section = {
 			numberOfPeople,
 			income,
 			determinationDate,
-			notDisclosed
+			notDisclosed,
 		};
 		const [validArgs, updateValidArgs] = useState();
 		const [attemptedSave, updateAttemptedSave] = useState(false);
@@ -97,7 +100,7 @@ const FamilyIncome: Section = {
 			} else {
 				updateValidArgs(undefined);
 			}
-		}, [JSON.stringify(args)])
+		}, [JSON.stringify(args)]);
 
 		function proceedWithoutCreatingDetermination(args: any) {
 			return !args.notDisclosed && !args.numberOfPeople && !args.income && !args.determinationDate;
@@ -121,9 +124,9 @@ const FamilyIncome: Section = {
 			if ((numberOfPeople && income && determination) || notDisclosed) {
 				const args = {
 					notDisclosed: notDisclosed,
-					numberOfPeople: notDisclosed ? undefined : (numberOfPeople || undefined),
-					income: notDisclosed ? undefined : (income || undefined),
-					determined: notDisclosed ? undefined : (determination || undefined),
+					numberOfPeople: notDisclosed ? undefined : numberOfPeople || undefined,
+					income: notDisclosed ? undefined : income || undefined,
+					determined: notDisclosed ? undefined : determination || undefined,
 				};
 
 				if (enrollment && child && child.family) {
@@ -135,24 +138,27 @@ const FamilyIncome: Section = {
 								...child,
 								family: {
 									...child.family,
-									determinations: determination ?
-										[{
-											...determination,
-											...validArgs
-										}] :
-										[{
-											id: 0,
-											familyId: child.family.id,
-											...validArgs
-										}]
-								}
-							}
-						}
-					}
-					mutate((api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
-						.then((res) => {
-							if (callback && res) callback(res);
-						});
+									determinations: determination
+										? [
+												{
+													...determination,
+													...validArgs,
+												},
+										  ]
+										: [
+												{
+													id: 0,
+													familyId: child.family.id,
+													...validArgs,
+												},
+										  ],
+								},
+							},
+						},
+					};
+					mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params)).then(res => {
+						if (callback && res) callback(res);
+					});
 				}
 			}
 		};
@@ -170,8 +176,10 @@ const FamilyIncome: Section = {
 					{!notDisclosed && (
 						<>
 							<FieldSet
+								id="family-income"
 								legend="Family income determination"
-								error={errorForFieldSet(
+								status={errorForFieldSet(
+									'family-income',
 									[numberOfPeople, income, determinationDate],
 									attemptedSave,
 									!notDisclosed,
@@ -187,10 +195,11 @@ const FamilyIncome: Section = {
 										updateNumberOfPeople(value);
 									}}
 									onBlur={event => (event.target.value = numberOfPeople ? '' + numberOfPeople : '')}
-									error={errorForField(
+									status={errorForField(
+										'numberOfPeople',
 										numberOfPeople,
 										attemptedSave,
-										!notDisclosed,
+										!notDisclosed
 									)}
 									small
 								/>
@@ -201,45 +210,47 @@ const FamilyIncome: Section = {
 									onChange={event => {
 										updateIncome(parseCurrencyFromString(event.target.value));
 									}}
-									onBlur={event => (event.target.value = notNullOrUndefined(income) ? currencyFormatter(income) : '')}
-									error={errorForField(
-										income,
-										attemptedSave,
-										!notDisclosed
-									)}
+									onBlur={event =>
+										(event.target.value = notNullOrUndefined(income)
+											? currencyFormatter(income)
+											: '')
+									}
+									status={errorForField('income', income, attemptedSave, !notDisclosed)}
 								/>
-								<label className="usa-label" htmlFor="date">
-									Date of income determination
-			  				</label>
 								<DatePicker
+									label="Date of income determination"
+									id="income-determination-date"
 									onChange={range =>
 										updateDeterminationDate((range.startDate && range.startDate.toDate()) || null)
 									}
-									dateRange={{ startDate: determinationDate ? moment(determinationDate) : null, endDate: null }}
+									dateRange={{
+										startDate: determinationDate ? moment(determinationDate) : null,
+										endDate: null,
+									}}
 								/>
 							</FieldSet>
 						</>
 					)}
 					<Checklist
 						legend="Family income disclosure"
-						groupName="familyIncome"
+						id="familyIncome"
 						options={[
 							{
 								text: 'Family income not disclosed',
 								value: 'familyIncomeNotDisclosed',
 								checked: notDisclosed,
-								onChange: event => updateNotDisclosed(event.target.checked)
-							}
+								onChange: event => updateNotDisclosed(event.target.checked),
+							},
 						]}
 					/>
 				</div>
 
-				{notDisclosed &&
+				{notDisclosed && (
 					<Alert
 						type="info"
 						text="Income information is required to enroll a child in a CDC funded space. You will not be able to assign this child to a funding space without this information."
 					/>
-				}
+				)}
 
 				<div className="usa-form">
 					<Button text="Save" onClick={save} disabled={attemptedSave && !validArgs} />

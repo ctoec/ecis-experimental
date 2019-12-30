@@ -2,6 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import Dropdown from './Dropdown';
+import { FormStatusProps } from '../FormStatus/FormStatus';
 
 const onChange = action('onChange');
 const options = [
@@ -14,6 +15,21 @@ const options = [
 		text: 'Thing Two',
 	},
 ];
+const error: FormStatusProps = {
+	type: 'error',
+	message: 'Pick something else',
+	id: 'dropdown-error',
+};
+const warning: FormStatusProps = {
+	type: 'warning',
+	message: 'Choose wisely',
+	id: 'dropdown-warning',
+};
+const success: FormStatusProps = {
+	type: 'success',
+	message: 'You did good',
+	id: 'dropdown-success',
+};
 
 storiesOf('Dropdown', module)
 	.add('Default', () => {
@@ -23,6 +39,7 @@ storiesOf('Dropdown', module)
 				label="Choose one of these things"
 				noSelectionText="Choose here"
 				onChange={onChange}
+				id="default-dropdown"
 			/>
 		);
 	})
@@ -33,8 +50,8 @@ storiesOf('Dropdown', module)
 				label="Choose one of these things"
 				noSelectionText="Choose here"
 				onChange={onChange}
-				error={true}
-				errorMessage="There was an error."
+				status={error}
+				id="dropdown-with-error"
 			/>
 		);
 	})
@@ -45,7 +62,20 @@ storiesOf('Dropdown', module)
 				label="Choose one of these things"
 				noSelectionText="Choose here"
 				onChange={onChange}
-				success={true}
+				status={success}
+				id="dropdown-with-success"
+			/>
+		);
+	})
+	.add('Warning', () => {
+		return (
+			<Dropdown
+				options={options}
+				label="Choose one of these things"
+				noSelectionText="Choose here"
+				onChange={onChange}
+				status={warning}
+				id="dropdown-with-success"
 			/>
 		);
 	})
@@ -57,6 +87,7 @@ storiesOf('Dropdown', module)
 				noSelectionText="Choose here"
 				onChange={onChange}
 				disabled={true}
+				id="disabled-dropdown"
 			/>
 		);
 	});

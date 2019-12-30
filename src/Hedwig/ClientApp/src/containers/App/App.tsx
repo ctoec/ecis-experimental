@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
+import 'react-dates/initialize';
 import { Switch } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import { NavItemProps } from '../../components/Header/NavItem';
 import MakeRouteWithSubRoutes from './MakeRouteWithSubRoutes';
 import routes from '../../routes';
-import 'react-dates/initialize';
 import useApi from '../../hooks/useApi';
 import { ApiOrganizationsOrgIdReportsGetRequest, CdcReport as Report } from '../../generated';
 import getIdForUser from '../../utils/getIdForUser';

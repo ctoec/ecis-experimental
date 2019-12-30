@@ -6,6 +6,7 @@ import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary';
 
 type CommonContainerPropsType = {
 	children: ReactElement<any> | null;
+	// TODO: IMPORT THE ACTUAL TYPE
 	directionalLinkProps?: any;
 };
 

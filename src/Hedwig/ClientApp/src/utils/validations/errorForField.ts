@@ -1,31 +1,35 @@
 import { Validatable } from "./Validatable";
 import { hasValidationErrors } from "./hasValidationErrors";
 import { processValidationError } from "./processValidationError";
-import { FormError } from "../../components/FieldSet/FieldSet";
+import { FormStatusProps } from "../../components/FormStatus/FormStatus";
 
 export function warningForField<T extends Validatable>(
-  field: string,
+  fieldId: string,
   entity: T | null,
   message?: string,
-) : FormError | undefined {
-  if(entity && hasValidationErrors(entity, [field])) {
+) : FormStatusProps | undefined {
+  if(entity && hasValidationErrors(entity, [fieldId])) {
     return {
-      type: 'warning',
-      message: message != undefined ? message : processValidationError(field, entity.validationErrors)
-    };
+			type: 'warning',
+			message:
+				message != undefined ? message : processValidationError(fieldId, entity.validationErrors),
+			id: `${fieldId}-warning`,
+		};
   }
 }
 
 export function errorForField(
+  fieldId: string,
   fieldValue: any,
   attemptedSave: boolean,
   additionalCondition: boolean = true,
   message?: string,
-) : FormError | undefined {
+) : FormStatusProps | undefined {
   if(!fieldValue && attemptedSave && additionalCondition) {
     return {
-      type: 'error',
-      message: message
-    }
+			type: 'error',
+			message: message,
+			id: `${fieldId}-error`,
+		};
   }
 }
