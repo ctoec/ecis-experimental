@@ -126,14 +126,12 @@ namespace Hedwig.Data
 
         if (cdc)
         {
-          Console.WriteLine($"mod {enrollment.Id % 4}");
           CreateFunding(
             enrollmentId: enrollment.Id,
             source: FundingSource.CDC,
-            firstReportingPeriodId: reportingPeriods[(enrollment.Id % 3) + 1].Id,
-            entry: entry,
-            exit: exit != null ? "2019-09-01" : null,
-            time: FundingTime.Full
+            certificateStartDate: null,
+            time: FundingTime.Full,
+            firstReportingPeriod: reportingPeriods[0]
           );
         }
       });
@@ -328,26 +326,28 @@ namespace Hedwig.Data
     private Funding CreateFunding(
       int enrollmentId,
       FundingSource source,
-      int firstReportingPeriodId,
-      int? lastReportingPeriodId = null,
-      string entry = "2019-08-05",
-      string exit = null,
-      FundingTime time = FundingTime.Full
+      string certificateStartDate = "2019-08-05",
+      string certificateEndDate = null,
+      FundingTime time = FundingTime.Full,
+      ReportingPeriod firstReportingPeriod = null
     )
     {
       var funding = new Funding
       {
         EnrollmentId = enrollmentId,
         Source = source,
-        FirstReportingPeriodId = firstReportingPeriodId,
-        LastReportingPeriodId = lastReportingPeriodId,
-        CertificateStartDate = DateTime.Parse(entry),
-        Time = time
+        Time = time,
+        FirstReportingPeriod = firstReportingPeriod
       };
 
-      if (exit != null)
+      if (certificateStartDate != null)
       {
-        funding.CertificateEndDate = DateTime.Parse(exit);
+        funding.CertificateStartDate = DateTime.Parse(certificateStartDate);
+      }
+
+      if (certificateEndDate != null)
+      {
+        funding.CertificateEndDate = DateTime.Parse(certificateEndDate);
       }
 
       _context.Fundings.Add(funding);

@@ -183,6 +183,9 @@ const ChildInfo: Section = {
 			}
 		};
 
+		// TODO: WAS BIRTHDATE REMOVED INTENTIONALLY?
+		// TODO: should gender be radio buttons as recommended by USWDS rather than select?
+
 		return (
 			<div className="ChildInfoForm usa-form">
 				<div className="grid-row grid-gap">
@@ -401,14 +404,18 @@ const ChildInfo: Section = {
 							text: 'Male',
 						},
 						{
+							value: Gender.Nonbinary,
+							text: 'Nonbinary',
+						},
+						{
 							value: Gender.Unknown,
 							text: 'Unknown',
 						},
 					]}
 					label="Gender"
 					selected={gender || Gender.Unspecified}
-          onChange={event => updateGender(genderFromString(event.target.value))}
-          id="gender-select"
+					onChange={event => updateGender(genderFromString(event.target.value))}
+					id="gender-select"
 				/>
 
 				<Button text="Save" onClick={save} disabled={attemptedSave && !validArgs} />

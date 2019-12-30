@@ -33,9 +33,7 @@ const FamilyInfo: Section = {
 					</>
 				) : (
 					<p>No family information on record.</p>
-				)
-
-				}
+				)}
 			</div>
 		);
 	},
