@@ -2191,6 +2191,11 @@ exports[`Storyshots Table Full width 1`] = `
           className="oec-table__column-header oec-sortable"
           role="columnheader"
           scope="col"
+          style={
+            Object {
+              "width": undefined,
+            }
+          }
         >
           <button
             aria-label="Sort table by Name in descending order"
@@ -2215,6 +2220,11 @@ exports[`Storyshots Table Full width 1`] = `
           className="oec-table__column-header oec-sortable"
           role="columnheader"
           scope="col"
+          style={
+            Object {
+              "width": undefined,
+            }
+          }
         >
           <button
             aria-label="Sort table by Price in ascending order"
@@ -2297,6 +2307,11 @@ exports[`Storyshots Table Normal 1`] = `
           className="oec-table__column-header oec-sortable"
           role="columnheader"
           scope="col"
+          style={
+            Object {
+              "width": undefined,
+            }
+          }
         >
           <button
             aria-label="Sort table by Name in descending order"
@@ -2321,6 +2336,11 @@ exports[`Storyshots Table Normal 1`] = `
           className="oec-table__column-header oec-sortable"
           role="columnheader"
           scope="col"
+          style={
+            Object {
+              "width": undefined,
+            }
+          }
         >
           <button
             aria-label="Sort table by Price in ascending order"

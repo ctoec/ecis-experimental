@@ -48,6 +48,7 @@ const defaultRosterTableProps: TableProps<DeepNonUndefineable<Enrollment>> = {
 				</th>
 			),
 			sort: row => lastFirstNameFormatter(row.child),
+			width: "35%",
 		},
 		{
 			name: 'Birthdate',
@@ -58,6 +59,7 @@ const defaultRosterTableProps: TableProps<DeepNonUndefineable<Enrollment>> = {
 					</td>
 				)) || <></>,
 			sort: row => ((row.child && row.child.birthdate) || new Date(0)).getTime(),
+			width: "20%",
 		},
 		{
 			name: 'Funding',
@@ -70,6 +72,7 @@ const defaultRosterTableProps: TableProps<DeepNonUndefineable<Enrollment>> = {
 				</td>
 			),
 			sort: row => idx(row, _ => _.fundings[0].source) || '',
+			width: "25%",
 		},
 		{
 			name: 'Enrollment date',
@@ -81,6 +84,7 @@ const defaultRosterTableProps: TableProps<DeepNonUndefineable<Enrollment>> = {
 				</td>
 			),
 			sort: row => (row.entry && row.entry.toString()) || '',
+			width: "20%",
 		},
 	],
 	defaultSortColumn: 0,

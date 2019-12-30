@@ -6,6 +6,7 @@ type Column<T> = {
 	name: string;
 	cell: React.FC<{ row: T }>;
 	sort?: (row: T) => number | string;
+	width?: string;
 };
 
 export type SortOrder = 'ascending' | 'descending';
@@ -81,6 +82,7 @@ export class Table<T> extends React.Component<TableProps<T>, TableSort> {
 								index={index}
 								key={index}
 								setTableSort={this.setTableSort}
+								width={column.width}
 							/>
 						))}
 					</tr>
