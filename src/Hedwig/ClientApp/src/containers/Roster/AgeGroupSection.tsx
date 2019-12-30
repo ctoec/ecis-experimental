@@ -6,7 +6,7 @@ import { Table, TableProps } from '../../components/Table/Table';
 import Tag from '../../components/Tag/Tag';
 import InlineIcon from '../../components/InlineIcon/InlineIcon';
 import { Enrollment, Funding, FundingSpace } from '../../generated';
-import nameFormatter from '../../utils/nameFormatter';
+import { lastFirstNameFormatter } from '../../utils/nameFormatter';
 import dateFormatter from '../../utils/dateFormatter';
 import getColorForFundingSource, { fundingSourceDetails } from '../../utils/fundingTypeFormatters';
 import { DeepNonUndefineable } from '../../utils/types';
@@ -41,12 +41,13 @@ const defaultRosterTableProps: TableProps<DeepNonUndefineable<Enrollment>> = {
 			cell: ({ row }) => (
 				<th scope="row">
 					<Link to={`/roster/enrollments/${row.id}/`} className="usa-link">
-						{nameFormatter(row.child)}
-						{hasValidationErrors(row) ? InlineIcon({ icon: 'incomplete' }) : ''}
+						{lastFirstNameFormatter(row.child)}
 					</Link>
+					&nbsp;
+					{hasValidationErrors(row) ? InlineIcon({ icon: 'incomplete' }) : ''}
 				</th>
 			),
-			sort: row => (row.child && row.child.lastName ? row.child.lastName : ''),
+			sort: row => lastFirstNameFormatter(row.child),
 		},
 		{
 			name: 'Birthdate',
