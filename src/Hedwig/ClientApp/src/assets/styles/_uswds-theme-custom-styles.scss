@@ -317,6 +317,8 @@ $future-step-color: color('base-dark') !default;
 	&::before {
 		background: $current-step-color;
 	}
+
+	color: color('ink');
 }
 
 .oec-step-list__step:not(.oec-step-list__step--notStarted):not(.oec-step-list__step--active) {
@@ -529,10 +531,16 @@ $future-step-color: color('base-dark') !default;
 	}
 }
 
+.usa-label__optional {
+	position: absolute;
+	color: color($theme-color-base);
+}
+
 .oec-form-helper {
 	margin-top: 0;
 	font-size: size('ui', 4);
 	font-style: italic;
+	color: color('base');
 }
 
 .oec-action-list {
