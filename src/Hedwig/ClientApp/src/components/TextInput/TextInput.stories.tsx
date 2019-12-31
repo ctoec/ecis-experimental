@@ -35,7 +35,7 @@ storiesOf('TextInput', module)
 				<FieldSet
 					legend="Text inputs"
 					status={warning}
-					display="inline-block"
+					className="display-inline-block"
 					id="example-fieldset-warning"
 				>
 					<div className="mobile-lg:grid-col-4 display-inline-block">
@@ -57,7 +57,7 @@ storiesOf('TextInput', module)
 				<FieldSet
 					legend="Text inputs"
 					status={warning}
-					display="inline-block"
+					className="display-inline-block"
 					id="warning-fieldset"
 				>
 					<div className="mobile-lg:grid-col-4 display-inline-block">
@@ -68,7 +68,7 @@ storiesOf('TextInput', module)
 					</div>
 				</FieldSet>
 			</div>
-		)
+		);
 	})
 	.add('Error', () => {
 		return <TextInput id="id8" label="Default text input" onChange={onChange} status={error} />
@@ -79,7 +79,7 @@ storiesOf('TextInput', module)
 				<FieldSet
 					legend="Text inputs"
 					status={error}
-					display="inline-block"
+					className="display-inline-block"
 					id="example-fieldset-error"
 				>
 					<div className="mobile-lg:grid-col-4 display-inline-block">

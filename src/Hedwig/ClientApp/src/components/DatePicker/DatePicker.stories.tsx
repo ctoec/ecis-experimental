@@ -37,7 +37,18 @@ storiesOf('DatePicker', module)
 				label={label}
 				onChange={onChange}
 				dateRange={dateRange}
-				byRange={true}
+				format="rangeCalendar"
+				id="byrange-datepicker"
+			/>
+		);
+	})
+	.add('Text input only', () => {
+		return (
+			<DatePicker
+				label={label}
+				onChange={onChange}
+				dateRange={dateRange}
+				format="inputOnly"
 				id="byrange-datepicker"
 			/>
 		);
@@ -49,7 +60,7 @@ storiesOf('DatePicker', module)
 				onChange={onChange}
 				dateRange={dateRange}
 				id="optional-datepicker"
-				optional={true}
+				optional
 			/>
 		);
 	})
@@ -70,7 +81,7 @@ storiesOf('DatePicker', module)
 				label={label}
 				onChange={onChange}
 				dateRange={dateRange}
-				byRange={true}
+				format="rangeCalendar"
 				id="disabled-range-datepicker"
 				disabled={true}
 			/>
@@ -94,7 +105,7 @@ storiesOf('DatePicker', module)
 				id="error-datepicker"
 				onChange={onChange}
 				dateRange={dateRange}
-				byRange={true}
+				format="rangeCalendar"
 				status={success}
 			/>
 		);
@@ -117,7 +128,7 @@ storiesOf('DatePicker', module)
 				id="error-datepicker"
 				onChange={onChange}
 				dateRange={dateRange}
-				byRange={true}
+				format="rangeCalendar"
 				status={warning}
 			/>
 		);
@@ -140,7 +151,7 @@ storiesOf('DatePicker', module)
 				id="error-datepicker"
 				onChange={onChange}
 				dateRange={dateRange}
-				byRange={true}
+				format="rangeCalendar"
 				status={error}
 			/>
 		);

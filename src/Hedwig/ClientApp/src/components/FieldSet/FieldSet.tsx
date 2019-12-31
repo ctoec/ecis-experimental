@@ -2,11 +2,11 @@ import React from 'react';
 import FormStatus, { FormStatusProps } from '../FormStatus/FormStatus';
 
 type FieldSetProps = {
-	legend: string;
+	legend: string | JSX.Element;
 	id: string;
 	showLegend?: boolean;
 	status?: FormStatusProps;
-	display?: string;
+	className?: string;
 };
 
 const FieldSet: React.FC<FieldSetProps> = ({
@@ -14,17 +14,16 @@ const FieldSet: React.FC<FieldSetProps> = ({
 	id,
 	showLegend,
 	status,
-	display,
+	className,
 	children,
 }) => {
-	if (legend.length > 25) {
-		console.warn('FieldSet legend is kind of long. This might be annoying for people using screen readers.')
-	}
+	// if (typeof legend === 'string' && legend.length > 25) {
+	// 	console.warn('FieldSet legend is kind of long. This might be annoying for people using screen readers.')
+	// }
 	return (
 		<fieldset
 			className={`grid-gap grid-row usa-fieldset 
 			${status ? ` usa-fieldset--${status.type}` : ''}
-      ${display ? ` display-${display}` : ''}
     `}
 			id={id}
 			aria-describedby={status ? status.id : undefined}
@@ -38,7 +37,9 @@ const FieldSet: React.FC<FieldSetProps> = ({
 				{legend}
 			</legend>
 			{status && <FormStatus {...status} />}
-			{children}
+			<div className={`grid-gap grid-row ${className}`}>
+				{children}
+			</div>
 		</fieldset>
 	);
 };

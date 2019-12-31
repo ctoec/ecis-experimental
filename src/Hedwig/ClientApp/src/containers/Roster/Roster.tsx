@@ -159,7 +159,7 @@ export default function Roster() {
 						<DatePicker
 							id="enrollment-roster-datepicker"
 							label="Date"
-							byRange={byRange}
+							format={byRange ? 'rangeCalendar' : 'dayCalendar'}
 							onChange={(newDateRange: DateRange) => setDateRange(newDateRange)}
 							dateRange={dateRange}
 							possibleRange={{ startDate: null, endDate: moment().local() }}

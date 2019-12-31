@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import moment, { Moment } from 'moment';
 import { DateRangePicker, SingleDatePicker } from 'react-dates';
 import FieldSet from '../FieldSet/FieldSet';
+import TextInput from '../TextInput/TextInput';
 import FormStatus, { FormStatusProps } from '../FormStatus/FormStatus';
 
 export type DateRange = {
@@ -14,11 +15,12 @@ type DatePickerProps = {
 	onChange: (newRange: DateRange) => any;
 	id: string;
 	label: string | JSX.Element;
+	format?: 'rangeCalendar' | 'dayCalendar' | 'inputOnly';
 	disabled?: boolean;
 	status?: FormStatusProps;
 	optional?: boolean;
-	byRange?: boolean;
 	possibleRange?: DateRange;
+	hideLabel?: boolean; // Will only take effect on fieldsets-- otherwise we should not hide the label
 };
 
 export const DatePicker: React.FC<DatePickerProps> = ({
@@ -26,16 +28,17 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 	onChange,
 	id,
 	label,
+	format = 'dayCalendar',
 	disabled,
 	status,
-	optional,
-	byRange,
 	possibleRange,
+	hideLabel,
 }) => {
 	const [selectedRange, setSelectedRange] = useState(dateRange);
 	const [datePickerFocused, setDatePickerFocused] = useState();
 
 	function setDateRange(input: DateRange) {
+		console.log(input);
 		setSelectedRange(input);
 		onChange(input);
 	}
@@ -58,10 +61,37 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 	// TODO: Make it so that user can optionally make calendar not show for things like birthdate?  But keep format for consistency's sake?
 	// TODO: revisit usage of this datepicker library at all-- can't add aria-describedby :/
 
-	const labelText = `${label}${optional ? ' (Optional)' : ''}`;
-	if (byRange) {
+	if (format === 'inputOnly') {
 		return (
-			<FieldSet legend={labelText} status={status} id={id} showLegend={true}>
+			<FieldSet legend={label} status={status} id={id} showLegend={!hideLabel}>
+				<TextInput
+					label="Month"
+					onChange={() => {}}
+					id={`${id}-month`}
+					small
+					className="display-inline"
+				/>
+				<TextInput
+					label="Day"
+					onChange={() => {}}
+					id={`${id}-day`}
+					small
+					className="display-inline"
+				/>
+				<TextInput
+					label="Year"
+					onChange={() => {}}
+					id={`${id}-year`}
+					small
+					className="display-inline"
+				/>
+			</FieldSet>
+		);
+	}
+
+	if (format === 'rangeCalendar') {
+		return (
+			<FieldSet legend={label} status={status} id={id} showLegend={!hideLabel}>
 				<DateRangePicker
 					startDate={selectedRange.startDate}
 					startDateId={`${id}-start-date`}
@@ -72,6 +102,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 					onFocusChange={(focused: string | null) => setDatePickerFocused(focused)}
 					isOutsideRange={date => isOutsidePossibleRange(date)}
 					initialVisibleMonth={() => moment().subtract(1, 'M')}
+					numberOfMonths={1}
 					noBorder={true}
 					disabled={disabled}
 				/>
@@ -84,7 +115,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 				className={`usa-label margin-top-0 ${status ? ` usa-label--${status.type}` : ''}`}
 				htmlFor={`${id}-date`}
 			>
-				{labelText}
+				{label}
 			</label>
 			{status && status.message && <FormStatus {...status} />}
 			<span
@@ -99,6 +130,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 					onFocusChange={({ focused }: any) => setDatePickerFocused(focused ? 'startDate' : null)}
 					isOutsideRange={date => isOutsidePossibleRange(date)}
 					initialVisibleMonth={() => moment().subtract(1, 'M')}
+					numberOfMonths={1}
 					noBorder={true}
 					disabled={disabled}
 				/>

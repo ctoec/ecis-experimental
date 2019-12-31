@@ -251,6 +251,8 @@ const ChildInfo: Section = {
 					</div>
 				</div>
 
+				{/* TODO: FIX HEADER SPACING-- EITHER JUST HAVE IT HERE OR FIX SPACING WHERE IT'S USED */}
+				{/* TODO: GENERALLY FIX THIS */}
 				<h3>Date of birth</h3>
 				<FieldSet
 					status={warningForFieldSet(
@@ -274,6 +276,14 @@ const ChildInfo: Section = {
 							)}
 						/>
 				</FieldSet>
+				<DatePicker
+					onChange={range => updateBirthdate((range.startDate && range.startDate.toDate()) || null)}
+					dateRange={{ startDate: birthdate ? moment(birthdate) : null, endDate: null }}
+					label="Date of birth"
+					hideLabel={true}
+					id="birthdate-picker"
+					format="inputOnly"
+				/>
 
 				<h3>Birth certificate</h3>
 				<FieldSet
@@ -284,7 +294,7 @@ const ChildInfo: Section = {
 						'This information is required for OEC reporting'
 					)}
 					legend="Birth certificate"
-					display="inline-block"
+					className="display-inline-block"
 					id="birth-certificate-fields"
 				>
 					<div className="mobile-lg:grid-col-12">
