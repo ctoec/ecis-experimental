@@ -41,8 +41,8 @@ namespace Hedwig.Repositories
 						_context.Fundings.Add(funding);
 					}
 				}
-				_context.Update(enrollment);
 			}
+      _context.Update(enrollment);
 		}
 
 		public void AddEnrollment(Enrollment enrollment)

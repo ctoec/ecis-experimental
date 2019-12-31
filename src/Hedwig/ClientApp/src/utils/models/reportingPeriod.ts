@@ -28,7 +28,7 @@ const periodSorter = (a: ReportingPeriod, b: ReportingPeriod) => {
  */
 export const firstEligibleReportingPeriod = (periods: ReportingPeriod[], startDate: Date): ReportingPeriod | undefined => {
 	const filteredPeriods = [...periods].filter(period => startDate <= period.periodEnd);
-	const sortedPeriods = filteredPeriods.sort(periodSorter);
+	const sortedPeriods = [...filteredPeriods].sort(periodSorter);
 	return sortedPeriods[0];
 }
 
