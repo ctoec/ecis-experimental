@@ -12,6 +12,7 @@ type TextInputProps = {
 	small?: boolean;
 	optional?: boolean;
 	className?: string;
+	inputProps?: React.HTMLProps<HTMLInputElement>;
 };
 
 export default function TextInput({
@@ -25,6 +26,7 @@ export default function TextInput({
 	small,
 	optional,
 	className,
+	inputProps,
 }: TextInputProps) {
 	return (
 		<div className={`${className} usa-form-group${status ? ` usa-form-group--${status.type}` : ''}`}>
@@ -44,6 +46,7 @@ export default function TextInput({
 				onBlur={onBlur}
 				defaultValue={defaultValue}
 				aria-describedby={status ? status.id : undefined}
+				{...inputProps}
 			/>
 		</div>
 	);

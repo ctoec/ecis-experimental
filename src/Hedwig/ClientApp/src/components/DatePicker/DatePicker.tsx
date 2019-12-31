@@ -23,6 +23,12 @@ type DatePickerProps = {
 	hideLabel?: boolean; // Will only take effect on fieldsets-- otherwise we should not hide the label
 };
 
+type SeparatedDate = {
+	month: number;
+	day: number;
+	year: number;
+};
+
 export const DatePicker: React.FC<DatePickerProps> = ({
 	dateRange,
 	onChange,
@@ -36,6 +42,8 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 }) => {
 	const [selectedRange, setSelectedRange] = useState(dateRange);
 	const [datePickerFocused, setDatePickerFocused] = useState();
+	const [separatedStartDate, setSeparatedStartDate] = useState();
+	const [separatedEndDate, setSeparatedEndDate] = useState();
 
 	function setDateRange(input: DateRange) {
 		console.log(input);
@@ -57,8 +65,8 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 		return false;
 	}
 
+	// OnChange-- do it one input box at a time?  Autofocus?  Research this
 	// TODO: Accept people entering a date like 6/22/89-- override js defaults if necessary to assume 2000s rather than 1900s!
-	// TODO: Make it so that user can optionally make calendar not show for things like birthdate?  But keep format for consistency's sake?
 	// TODO: revisit usage of this datepicker library at all-- can't add aria-describedby :/
 
 	if (format === 'inputOnly') {
@@ -70,6 +78,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 					id={`${id}-month`}
 					small
 					className="display-inline"
+					inputProps={{ maxLength: 2, type: 'number', min: 1, max: 12 }}
 				/>
 				<TextInput
 					label="Day"
@@ -77,13 +86,14 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 					id={`${id}-day`}
 					small
 					className="display-inline"
+					inputProps={{ maxLength: 2, type: 'number', min: 1, max: 31 }}
 				/>
 				<TextInput
 					label="Year"
 					onChange={() => {}}
 					id={`${id}-year`}
-					small
 					className="display-inline"
+					inputProps={{ maxLength: 4, type: 'number', min: 1990, max: 2100 }}
 				/>
 			</FieldSet>
 		);
