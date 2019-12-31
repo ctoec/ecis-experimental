@@ -17,6 +17,7 @@ import { prettyFundingTime, fundingTimeFromString } from '../../../utils/funding
 import { nextNReportingPeriods } from '../../../utils/models/reportingPeriod';
 import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
 import { currentFunding } from '../../../utils/models';
+import { familyDeterminationNotDisclosed } from '../../../utils/models/familyDetermination';
 
 const EnrollmentFunding: Section = {
   key: 'enrollment-funding',
@@ -195,16 +196,13 @@ const EnrollmentFunding: Section = {
 						selected={siteId ? '' + siteId : undefined}
 						onChange={event => updateSiteId(parseInt(event.target.value, 10))}
 					/>
-					<label className="usa-label" htmlFor="date">
-						Start date
-					</label>
 					<DatePicker
 						onChange={range =>
 							updateEntry((range.startDate && range.startDate.toDate()) || null)
 						}
-            dateRange={{ startDate: entry ? moment(entry) : null, endDate: null }}
-            label="Start date"
-            id="enrollment-start-date"
+						dateRange={{ startDate: entry ? moment(entry) : null, endDate: null }}
+						label="Start date"
+						id="enrollment-start-date"
 					/>
 
 					<h3>Age group</h3>
@@ -239,12 +237,16 @@ const EnrollmentFunding: Section = {
 									value: '',
 									text: '- Select -'
 								},
-								...Object.values(FundingTime).map(fundingTime => {
-									return {
-										value: fundingTime,
-										text: `CDC - ${prettyFundingTime(fundingTime)}`
-									}
-								}),
+								...(
+									familyDeterminationNotDisclosed(enrollment) ?
+										[] :
+										Object.values(FundingTime).map(fundingTime => {
+											return {
+												value: fundingTime,
+												text: `CDC - ${prettyFundingTime(fundingTime)}`
+											}
+										})
+									),
 								{
 									value: 'privatePay',
 									text: 'Private pay'
