@@ -6,7 +6,7 @@ namespace HedwigTests.Helpers
 {
 	public class ReportingPeriodHelper
 	{
-		public static ReportingPeriod CreatePeriod(
+		public static ReportingPeriod CreateReportingPeriod(
 			HedwigContext context,
 			FundingSource type = FundingSource.CDC,
 			string period = "2019-10-01",

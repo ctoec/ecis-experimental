@@ -15,7 +15,7 @@ namespace HedwigTests.Helpers
       string submittedAt = null
     )
     {
-      reportingPeriod = reportingPeriod ?? ReportingPeriodHelper.CreatePeriod(context, type: FundingSource.CDC);
+      reportingPeriod = reportingPeriod ?? ReportingPeriodHelper.CreateReportingPeriod(context, type: FundingSource.CDC);
       organization = organization ?? OrganizationHelper.CreateOrganization(context);
 
       var report = new CdcReport

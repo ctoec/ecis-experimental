@@ -11,8 +11,8 @@ namespace HedwigTests.Helpers
 			FundingSource source = FundingSource.CDC,
 			FundingTime time = FundingTime.Full,
 			Enrollment enrollment = null,
-      string entry = "2000-01-01",
-			string exit = null
+			ReportingPeriod firstReportingPeriod = null,
+			ReportingPeriod lastReportingPeriod = null
 		)
 		{
 			enrollment = enrollment ?? EnrollmentHelper.CreateEnrollment(context);
@@ -22,10 +22,10 @@ namespace HedwigTests.Helpers
 				EnrollmentId = enrollment.Id,
 				Source = source,
 				Time = time,
-        CertificateStartDate = DateTime.Parse(entry)
+        FirstReportingPeriod = firstReportingPeriod
 			};
 
-			if (exit != null) funding.CertificateEndDate = DateTime.Parse(exit);
+			if (lastReportingPeriod != null) funding.LastReportingPeriod = lastReportingPeriod;
 
 			context.Fundings.Add(funding);
 			context.SaveChanges();

@@ -23,14 +23,20 @@ type DeepNonUndefineableObject<T extends object> =
 	// Add type for symbols
 	& AddSymbolToPrimitive<T>
 
-// Helper interface for handling arrays
-// Interface is required because defined types cannot use extend
-// class DeepNonUndefineableArray<T> extends Array<DeepNonUndefineable<T>> {
-// 	tsFilter<T>(filterFunc: (value: DeepNonUndefineable<T>) => boolean): DeepNonUndefineable<T>[] {
-// 		return this.filter<DeepNonUndefineable<T>>(filterFunc as ((_: DeepNonUndefineable<T>) => _ is DeepNonUndefineable<TemplateStringsArray>));
-// 	}
-// };
-interface DeepNonUndefineableArray<T> extends Array<DeepNonUndefineable<T>> {};
+// Class for handling arrays with overriden methods to handle typescript limitations
+export class DeepNonUndefineableArray<T> extends Array<DeepNonUndefineable<T>> {
+	constructor() {
+		super();
+	}
+
+	filter<S extends DeepNonUndefineable<T>>(callbackfn: (value: DeepNonUndefineable<T>, index: number, array: DeepNonUndefineable<T>[]) => boolean, thisArg?: any): DeepNonUndefineable<T[]> {
+		return super.filter<S>(((obj, i, arr) => callbackfn(obj, i, arr)) as (_: DeepNonUndefineable<T>, i: number, a: DeepNonUndefineable<T>[]) => _ is S);
+	}
+
+	find<S extends DeepNonUndefineable<T>>(predicate: (value: DeepNonUndefineable<T>, index: number, obj: DeepNonUndefineable<T>[]) => boolean, thisArg?: any): DeepNonUndefineable<T> | undefined {
+		return super.find<S>(((val, i, o) => predicate(val, i, o)) as (_: DeepNonUndefineable<T>, i: number, o: DeepNonUndefineable<T>[]) => _ is S);
+	}
+}
 
 // Helper type to make the return type of a funtion required
 type FunctionWithRequiredReturnType<

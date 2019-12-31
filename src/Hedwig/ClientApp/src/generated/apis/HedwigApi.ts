@@ -21,12 +21,18 @@ import {
     Enrollment,
     EnrollmentFromJSON,
     EnrollmentToJSON,
+    FundingSource,
+    FundingSourceFromJSON,
+    FundingSourceToJSON,
     Organization,
     OrganizationFromJSON,
     OrganizationToJSON,
     ProblemDetails,
     ProblemDetailsFromJSON,
     ProblemDetailsToJSON,
+    ReportingPeriod,
+    ReportingPeriodFromJSON,
+    ReportingPeriodToJSON,
     Site,
     SiteFromJSON,
     SiteToJSON,
@@ -92,6 +98,10 @@ export interface ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest {
     orgId: number;
     siteId: number;
     enrollment?: Enrollment;
+}
+
+export interface ApiReportingPeriodSourceGetRequest {
+    source: FundingSource;
 }
 
 /**
@@ -489,6 +499,38 @@ export class HedwigApi extends runtime.BaseAPI {
      */
     async apiOrganizationsOrgIdSitesSiteIdEnrollmentsPost(requestParameters: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest): Promise<Enrollment> {
         const response = await this.apiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     */
+    async apiReportingPeriodSourceGetRaw(requestParameters: ApiReportingPeriodSourceGetRequest): Promise<runtime.ApiResponse<Array<ReportingPeriod>>> {
+        if (requestParameters.source === null || requestParameters.source === undefined) {
+            throw new runtime.RequiredError('source','Required parameter requestParameters.source was null or undefined when calling apiReportingPeriodSourceGet.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
+        const response = await this.request({
+            path: `/api/ReportingPeriod/{source}`.replace(`{${"source"}}`, encodeURIComponent(String(requestParameters.source))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ReportingPeriodFromJSON));
+    }
+
+    /**
+     */
+    async apiReportingPeriodSourceGet(requestParameters: ApiReportingPeriodSourceGetRequest): Promise<Array<ReportingPeriod>> {
+        const response = await this.apiReportingPeriodSourceGetRaw(requestParameters);
         return await response.value();
     }
 
