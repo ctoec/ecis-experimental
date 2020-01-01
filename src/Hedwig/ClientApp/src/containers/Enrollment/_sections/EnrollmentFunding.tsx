@@ -18,6 +18,8 @@ import { nextNReportingPeriods } from '../../../utils/models/reportingPeriod';
 import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
 import { currentFunding } from '../../../utils/models';
 import { familyDeterminationNotDisclosed } from '../../../utils/models/familyDetermination';
+import Checkbox from '../../../components/Checklist/Checkbox';
+import TextInput from '../../../components/TextInput/TextInput';
 
 const EnrollmentFunding: Section = {
   key: 'enrollment-funding',
@@ -40,8 +42,21 @@ const EnrollmentFunding: Section = {
 				return 1;
 			}
 		});
+		const c4kFundings = (enrollment.fundings || []).filter<DeepNonUndefineable<Funding>>(
+			(funding => funding.source === FundingSource.C4K)
+		).sort((a,b) => {
+			if (a.firstReportingPeriod.periodStart === b.firstReportingPeriod.periodStart) {
+				return 0;
+			} else if (a.firstReportingPeriod.periodStart < b.firstReportingPeriod.periodStart) {
+				return -1;
+			} else {
+				return 1;
+			}
+		});
 		const cdcFunding = cdcFundings.length > 0 ? cdcFundings[0] : undefined;
 		const isPrivatePay = cdcFunding === undefined;
+		const c4kFunding = c4kFundings.length > 0 ? c4kFundings[0] : undefined;
+		const receivesC4k = c4kFunding !== undefined;
 
 		const fundingFirstReportingPeriod = reportingPeriods.find<DeepNonUndefineable<ReportingPeriod>>(period => cdcFunding ? cdcFunding.firstReportingPeriodId == period.id : false);
 		return (
@@ -57,14 +72,24 @@ const EnrollmentFunding: Section = {
 						<p>Funding:{' '}
 							{isPrivatePay ?
 								'Private pay' :
-								`CDC - ${prettyFundingTime((cdcFunding as Funding).time)}` // cdcFunding will always be defined by Typescript does not infer so
+								`CDC - ${prettyFundingTime((cdcFunding as Funding).time)}` // cdcFunding will always be defined but Typescript does not infer so
 							}
 						</p>
 						{!isPrivatePay &&
 							<p>First reporting period:{' '}
-								{dateFormatter((fundingFirstReportingPeriod as ReportingPeriod).period)} {/*cdcFunding will always be defined by Typescript does not infer so*/}
+								{dateFormatter((fundingFirstReportingPeriod as ReportingPeriod).period)} {/*cdcFunding will always be defined but Typescript does not infer so */}
 							</p>
 						}
+						{receivesC4k && (
+							<>
+								<p>Care 4 Kids Family ID:{' '}
+									{(c4kFunding as Funding).familyId} {/* c4kFunding will always be defined but Typescript does not infer so */}
+								</p>
+								<p>Care 4 Kids Certificate Start Date:{' '}
+									{dateFormatter((c4kFunding as Funding).certificateStartDate)} {/* c4kFunding will always be defined but Typescript does not infer so */}
+								</p>
+							</>
+						)}
 					</>
 				)}
 			</div>
@@ -92,6 +117,7 @@ const EnrollmentFunding: Section = {
 		const [age, updateAge] = useState(enrollment ? enrollment.ageGroup : null);
 
 		const fundings = enrollment.fundings ? enrollment.fundings : [] as DeepNonUndefineable<Funding[]>;
+
 		const cdcFundings = fundings.filter(funding => funding.source === FundingSource.CDC);
 		const cdcFunding = currentFunding(cdcFundings);
 		const [cdcFundingId] = useState<number | null>(cdcFunding ? cdcFunding.id : null);
@@ -101,6 +127,13 @@ const EnrollmentFunding: Section = {
 		const [cdcReportingPeriod, updateCdcReportingPeriod] = useState<ReportingPeriod | null>(null);
 
 		const [reportingPeriodOptions, updateReportingPeriodOptions] = useState<ReportingPeriod[]>([]);
+
+		const c4kFundings = fundings.filter(funding => funding.source === FundingSource.C4K);
+		const c4kFunding = currentFunding(c4kFundings);
+		const [c4kFundingId] = useState<number | null>(c4kFunding ? c4kFunding.id : null);
+		const [receivesC4k, updateReceivesC4k] = useState<boolean>(!!c4kFunding);
+		const [c4kFamilyId, updateC4kFamilyId] = useState<number | null>(c4kFunding ? c4kFunding.familyId : null);
+		const [c4kCertificateStartDate, updateC4kCertificateStartDate] = useState<Date | null>(c4kFunding ? c4kFunding.certificateStartDate : null);
 
 		useEffect(() => {
 			if (reportingPeriods) {
@@ -159,11 +192,44 @@ const EnrollmentFunding: Section = {
 				]
 			}
 
-      const args = {
-        entry: entry,
-        ageGroup: age || undefined,
+			if (c4kFundingId && receivesC4k) {
+				// Current funding exists, update it with supplied information
+				const newC4kFunding = {
+					...(c4kFunding as Funding),
+					certificateStartDate: c4kCertificateStartDate ? c4kCertificateStartDate : undefined,
+					familyId: c4kFamilyId
+				}
+				updatedFundings = [
+					...(updatedFundings.filter(funding => funding.id !== c4kFundingId)),
+					newC4kFunding
+				]
+			} else if (c4kFundingId && !receivesC4k) {
+				// Current funding exists, remove it because it has been switched to no receipt of C4K
+				updatedFundings = [
+					...updatedFundings.filter(funding => funding.id !== c4kFundingId)
+				]
+			} else if (!c4kFundingId && receivesC4k) {
+				// // No current funding, add new funding with supplied information
+				const newC4kFunding: Funding = {
+					id: 0,
+					enrollmentId: enrollment.id,
+					source: FundingSource.C4K,
+					certificateStartDate: c4kCertificateStartDate ? c4kCertificateStartDate : undefined,
+					familyId: c4kFamilyId
+				}
+				updatedFundings = [
+					...updatedFundings,
+					newC4kFunding
+				]
+			} else /* !c4kFunding && !receivesC4k */ {
+				// No current funding, do nothing because receives C4K has not been selected
+			}
+
+			const args = {
+				entry: entry,
+				ageGroup: age || undefined,
 				fundings: updatedFundings
-      };
+			};
 
 			if (enrollment) {
 				const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
@@ -300,6 +366,32 @@ const EnrollmentFunding: Section = {
 										''
 							}
 						/>
+					)}
+					<h3>Care 4 Kids</h3>
+					<Checkbox
+						text="Receives Care 4 Kids"
+						value="receives-c4k"
+						name="receives-c4k"
+						onChange={(e) => updateReceivesC4k(!!e.target.checked)}
+						checked={!!receivesC4k}
+					/>
+					{receivesC4k && (
+						<>
+							<TextInput
+								id="familyId"
+								label="Family ID"
+								defaultValue={c4kFamilyId ? '' + c4kFamilyId : ''}
+								onChange={event => updateC4kFamilyId(parseInt(event.target.value))}
+							/>
+							<DatePicker
+								onChange={range =>
+									updateC4kCertificateStartDate((range.startDate && range.startDate.toDate()) || null)
+								}
+								dateRange={{ startDate: c4kCertificateStartDate ? moment(c4kCertificateStartDate) : null, endDate: null }}
+								label="Certificate start date"
+								id="c4k-certificate-start-date"
+							/>
+						</>
 					)}
 				</div>
 
