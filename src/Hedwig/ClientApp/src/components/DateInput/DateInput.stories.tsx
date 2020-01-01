@@ -28,7 +28,7 @@ const success: FormStatusProps = {
 	id: 'DateInput-success',
 };
 
-storiesOf('Day input', module)
+storiesOf('Date input', module)
 	.add('Default', () => {
 		return <DateInput {...commonProps} format="dayInput" />;
 	})

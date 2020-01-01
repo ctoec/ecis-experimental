@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { Section } from '../enrollmentTypes';
 import Button from '../../../components/Button/Button';
 import TextInput from '../../../components/TextInput/TextInput';
-import DatePicker from '../../../components/DatePicker/DatePicker';
+import DateInput from '../../../components/DateInput/DateInput';
 import Checklist from '../../../components/Checklist/Checklist';
 import RadioGroup from '../../../components/RadioGroup/RadioGroup';
 import Dropdown from '../../../components/Dropdown/Dropdown';
@@ -275,14 +275,13 @@ const ChildInfo: Section = {
 								''
 							)}
 						/>
-				</FieldSet>
-				<DatePicker
+				<DateInput
 					onChange={range => updateBirthdate((range.startDate && range.startDate.toDate()) || null)}
 					dateRange={{ startDate: birthdate ? moment(birthdate) : null, endDate: null }}
 					label="Date of birth"
 					id="birthdate-picker"
-					format="dayInput"
 				/>
+				</FieldSet>
 
 				<h3>Birth certificate</h3>
 				<FieldSet

@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import moment, { Moment } from 'moment';
 import FieldSet from '../FieldSet/FieldSet';
 import TextInput from '../TextInput/TextInput';
 import FormStatus, { FormStatusProps } from '../FormStatus/FormStatus';
-
-// TODO: maybe ditch the calendar datepicker if we're not actually using it
 
 export type DateRange = {
 	startDate: Moment | null;
@@ -17,11 +15,12 @@ type inputDetailType = {
 		inputProps: any;
 	};
 	parseMoment: (inputMoment: Moment | null) => string | undefined;
-	isValid: (value: string) => boolean;
+	checkValidity: (value: any) => boolean;
+	startIsInvalid?: boolean;
+	endIsInvalid?: boolean;
 	start?: undefined | string;
-	startSetter?: any | undefined; // TODO: REAL TYPE-- STATE OR WHATEVER
 	end?: undefined | string;
-	endSetter?: any;
+	errorMessage: string;
 };
 
 type inputDetailsType = { [key: string]: inputDetailType };
@@ -31,8 +30,7 @@ type DateInputProps = {
 	onChange: (newRange: DateRange) => void;
 	id: string;
 	label: string | JSX.Element;
-	format: 'dayInput' | 'rangeInput';
-	onBlur?: (currentProps: DateInputProps) => void;
+	format?: 'dayInput' | 'rangeInput';
 	disabled?: boolean;
 	status?: FormStatusProps;
 	possibleRange?: DateRange;
@@ -45,19 +43,25 @@ export const DateInput: React.FC<DateInputProps> = ({
 	onChange,
 	id,
 	label,
-	format,
-	onBlur,
+	format = 'dayInput',
 	disabled,
 	status,
 	possibleRange,
 	hideLabel,
 }) => {
 	const [selectedRange, setSelectedRange] = useState(dateRange);
-  const [DateInputFocused, setDateInputFocused] = useState<'startDate' | 'endDate' | null>(null);
-  
-  // TODO: use effect, listen to each of the values, try to set date range on change
 
-	const inputDetails: inputDetailsType = {
+	const [inputDetails, setInputDetails] = useState<inputDetailsType>({
+		month: {
+			props: {
+				inputProps: { maxLength: 2, type: 'number', min: 1, max: 12 },
+				label: 'Month',
+			},
+			parseMoment: (inputMoment: Moment | null) =>
+				inputMoment ? inputMoment.format('MM') : undefined,
+			checkValidity: value => +value > 0 && +value < 13,
+			errorMessage: 'Invalid month',
+		},
 		day: {
 			props: {
 				label: 'Day',
@@ -65,7 +69,8 @@ export const DateInput: React.FC<DateInputProps> = ({
 			},
 			parseMoment: (inputMoment: Moment | null) =>
 				inputMoment ? inputMoment.format('DD') : undefined,
-			isValid: value => +value < 32 && +value > 0,
+			checkValidity: value => +value < 32 && +value > 0,
+			errorMessage: 'Invalid day',
 		},
 		year: {
 			props: {
@@ -74,81 +79,104 @@ export const DateInput: React.FC<DateInputProps> = ({
 			},
 			parseMoment: (inputMoment: Moment | null) =>
 				inputMoment ? inputMoment.format('YYYY') : undefined,
-			isValid: value =>
+			checkValidity: value =>
 				value.length === 2 || (value.length === 4 && +value > 1989 && +value < 2101),
+			errorMessage: 'Invalid year',
 		},
-		month: {
-			props: {
-				inputProps: { maxLength: 2, type: 'number', min: 1, max: 12 },
-				label: 'Month',
-			},
-			parseMoment: (inputMoment: Moment | null) =>
-				inputMoment ? inputMoment.format('MM') : undefined,
-			isValid: value => +value > 0 && +value < 13,
-		},
-	};
-
-	Object.keys(inputDetails).forEach(key => {
-    // UUUUGH can't use hook here
-		const inputDetail = inputDetails[key];
-		const [startVal, startSetter] = useState<string | undefined>(
-			inputDetails[key].parseMoment(dateRange.startDate)
-		);
-		const [endVal, endSetter] = useState<string | undefined>(
-			inputDetails[key].parseMoment(dateRange.startDate)
-		);
-
-		inputDetail.start = startVal;
-		inputDetail.startSetter = startSetter;
-		inputDetail.end = endVal;
-		inputDetail.endSetter = endSetter;
 	});
 
-	function isOutsidePossibleRange(candidateDate: Moment) {
-		if (!possibleRange) {
-			return false;
+	// Add warning that date isn't valid if it isn't?
+	useEffect(() => {
+		const newStart = moment(
+			`${inputDetails.year.start}-${inputDetails.month.start}-${inputDetails.day.start}`,
+			'YYYY-MM-DD'
+		);
+		let newEnd = newStart;
+		if (format === 'rangeInput') {
+			newEnd = moment(
+				`${inputDetails.year.end}-${inputDetails.month.end}-${inputDetails.day.end}`,
+				'YYYY-MM-DD'
+			);
 		}
-		const { startDate, endDate } = possibleRange;
-		if (startDate && candidateDate.isBefore(startDate)) {
-			return true;
-		}
-		if (endDate && candidateDate.isAfter(endDate)) {
-			return true;
-		}
-		return false;
-	}
+		setSelectedRange({ startDate: newStart, endDate: newEnd });
+		onChange(selectedRange);
+	}, [inputDetails]);
 
-	// OnChange-- do it one input box at a time?  Autofocus?  Research this
 	// TODO: implement "optional" styling for fieldset
+	// TODO: move hint logic to fieldset
 
 	const commonDateInputProps = {
-		small: true,
-		className: 'display-inline',
+		className: 'display-inline "display-flex flex-column flex-align-end',
 		disabled: disabled,
+		type: 'number',
 	};
 
 	if (format === 'rangeInput') {
 		return (
 			<FieldSet legend={label} status={status} id={id} showLegend={!hideLabel}>
+				<span className="usa-hint">For example: 04 28 1986</span>
+
 				<FieldSet legend={`${label} start`} id={`${id}-start-date`} showLegend>
 					{Object.keys(inputDetails).map(key => (
 						<TextInput
 							defaultValue={inputDetails[key].start}
-							onChange={event => inputDetails[key].startSetter(event.target.value)}
+							onChange={event => {
+								const newInputDetails = Object.assign({}, inputDetails);
+								newInputDetails[key].start = event.target.value;
+								setInputDetails(newInputDetails);
+							}}
 							id={`${id}-${key}-start-date`}
 							{...inputDetails[key].props}
 							{...commonDateInputProps}
+							onBlur={event => {
+								const newInputDetails = Object.assign({}, inputDetails);
+								newInputDetails[key].startIsInvalid = !inputDetails[key].checkValidity(
+									event.target.value
+								);
+								setInputDetails(newInputDetails);
+							}}
+							status={
+								inputDetails[key].startIsInvalid
+									? {
+											type: 'error',
+											message: inputDetails[key].errorMessage,
+											id: `${id}-${key}-start-error`,
+									  }
+									: undefined
+							}
 						/>
 					))}{' '}
 				</FieldSet>
 				<FieldSet legend={`${label} end`} id={`${id}-end-date`} showLegend>
+					<span className="usa-hint">For example: 04 28 1986</span>
+
 					{Object.keys(inputDetails).map(key => (
 						<TextInput
 							defaultValue={inputDetails[key].end}
-							onChange={event => inputDetails[key].endSetter(event.target.value)}
+							onChange={event => {
+								const newInputDetails = Object.assign({}, inputDetails);
+								newInputDetails[key].end = event.target.value;
+								setInputDetails(newInputDetails);
+							}}
 							id={`${id}-${key}-end-date`}
 							{...inputDetails[key].props}
 							{...commonDateInputProps}
+							onBlur={event => {
+								const newInputDetails = Object.assign({}, inputDetails);
+								newInputDetails[key].endIsInvalid = !inputDetails[key].checkValidity(
+									event.target.value
+								);
+								setInputDetails(newInputDetails);
+							}}
+							status={
+								inputDetails[key].endIsInvalid
+									? {
+											type: 'error',
+											message: inputDetails[key].errorMessage,
+											id: `${id}-${key}-start-error`,
+									  }
+									: undefined
+							}
 						/>
 					))}
 				</FieldSet>
@@ -160,10 +188,30 @@ export const DateInput: React.FC<DateInputProps> = ({
 			{Object.keys(inputDetails).map(key => (
 				<TextInput
 					defaultValue={inputDetails[key].start}
-					onChange={event => inputDetails[key].startSetter(event.target.value)}
+					onChange={event => {
+						const newInputDetails = Object.assign({}, inputDetails);
+						newInputDetails[key].start = event.target.value;
+						setInputDetails(newInputDetails);
+					}}
 					id={`${id}-${key}-start-date`}
 					{...inputDetails[key].props}
 					{...commonDateInputProps}
+					onBlur={event => {
+						const newInputDetails = Object.assign({}, inputDetails);
+						newInputDetails[key].startIsInvalid = !inputDetails[key].checkValidity(
+							event.target.value
+						);
+						setInputDetails(newInputDetails);
+					}}
+					status={
+						inputDetails[key].startIsInvalid
+							? {
+									type: 'error',
+									message: inputDetails[key].errorMessage,
+									id: `${id}-${key}-start-error`,
+							  }
+							: undefined
+					}
 				/>
 			))}
 		</FieldSet>
