@@ -282,7 +282,7 @@ const ChildInfo: Section = {
 					label="Date of birth"
 					hideLabel={true}
 					id="birthdate-picker"
-					format="inputOnly"
+					format="dayInput"
 				/>
 
 				<h3>Birth certificate</h3>

@@ -8,7 +8,7 @@ import { FormStatusProps } from '../FormStatus/FormStatus';
 
 const onChange = action('onChange');
 const dateRange = { startDate: moment('2019-10-30'), endDate: moment('2019-10-30') };
-const label = 'Pick a date';
+const label = 'Date';
 const error: FormStatusProps = {
 	type: 'error',
 	message: 'Pick a better date',
@@ -26,9 +26,15 @@ const success: FormStatusProps = {
 };
 
 storiesOf('DatePicker', module)
-	.add('Default', () => {
+	.add('Day calendar', () => {
 		return (
-			<DatePicker label={label} onChange={onChange} dateRange={dateRange} id="default-datepicker" />
+			<DatePicker
+				label={label}
+				onChange={onChange}
+				dateRange={dateRange}
+				id="default-datepicker"
+				format="dayCalendar"
+			/>
 		);
 	})
 	.add('Range', () => {
@@ -42,13 +48,24 @@ storiesOf('DatePicker', module)
 			/>
 		);
 	})
-	.add('Text input only', () => {
+	.add('Single text input only', () => {
 		return (
 			<DatePicker
 				label={label}
 				onChange={onChange}
 				dateRange={dateRange}
-				format="inputOnly"
+				format="dayInput"
+				id="byrange-datepicker"
+			/>
+		);
+	})
+	.add('Range text input only', () => {
+		return (
+			<DatePicker
+				label={label}
+				onChange={onChange}
+				dateRange={dateRange}
+				format="rangeInput"
 				id="byrange-datepicker"
 			/>
 		);
@@ -61,6 +78,7 @@ storiesOf('DatePicker', module)
 				dateRange={dateRange}
 				id="optional-datepicker"
 				optional
+				format="dayInput"
 			/>
 		);
 	})
@@ -72,10 +90,11 @@ storiesOf('DatePicker', module)
 				dateRange={dateRange}
 				id="disabled-datepicker"
 				disabled={true}
+				format="dayInput"
 			/>
 		);
 	})
-	.add('Disabled with range', () => {
+	.add('Disabled with range calendar', () => {
 		return (
 			<DatePicker
 				label={label}
@@ -95,17 +114,18 @@ storiesOf('DatePicker', module)
 				onChange={onChange}
 				dateRange={dateRange}
 				status={success}
+				format="dayInput"
 			/>
 		);
 	})
-	.add('Success with range', () => {
+	.add('Success with range input', () => {
 		return (
 			<DatePicker
 				label={label}
 				id="error-datepicker"
 				onChange={onChange}
 				dateRange={dateRange}
-				format="rangeCalendar"
+				format="rangeInput"
 				status={success}
 			/>
 		);
@@ -118,6 +138,7 @@ storiesOf('DatePicker', module)
 				onChange={onChange}
 				dateRange={dateRange}
 				status={warning}
+				format="dayCalendar"
 			/>
 		);
 	})
@@ -141,17 +162,18 @@ storiesOf('DatePicker', module)
 				onChange={onChange}
 				dateRange={dateRange}
 				status={error}
+				format="dayCalendar"
 			/>
 		);
 	})
-	.add('Error with range', () => {
+	.add('Error with range input', () => {
 		return (
 			<DatePicker
 				label={label}
 				id="error-datepicker"
 				onChange={onChange}
 				dateRange={dateRange}
-				format="rangeCalendar"
+				format="rangeInput"
 				status={error}
 			/>
 		);

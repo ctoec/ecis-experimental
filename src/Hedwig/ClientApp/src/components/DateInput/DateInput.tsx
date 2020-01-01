@@ -218,29 +218,13 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 		);
 	}
 	return (
-		<div className={`usa-form-group ${status ? ` usa-form-group--${status.type}` : ''}`}>
-			<label
-				className={`usa-label margin-top-0 ${status ? ` usa-label--${status.type}` : ''}`}
-				htmlFor={`${id}-date`}
-			>
-				{label}
-			</label>
-			{status && status.message && <FormStatus {...status} />}
-			<span
-				className={`oec-date-input${status ? ` oec-date-input--${status.type}` : ''}`}
-				aria-describedby={status ? status.id : undefined}
-			>
-				<SingleDatePicker
-					id={`${id}-date`}
-					date={selectedRange.startDate}
-					focused={datePickerFocused === 'startDate'}
-					onDateChange={date => setDateRange({ startDate: date, endDate: date })}
-					onFocusChange={({ focused }: any) => setDatePickerFocused(focused ? 'startDate' : null)}
-					isOutsideRange={date => isOutsidePossibleRange(date)}
-					initialVisibleMonth={() => moment().subtract(1, 'M')}
-					numberOfMonths={1}
-					noBorder={true}
-					disabled={disabled}
+		<FieldSet legend={label} id={id} status={status} showLegend={!hideLabel}>
+			{Object.keys(inputDetails).map(key => (
+				<TextInput
+					defaultValue={inputDetails[key].start}
+					onChange={event => inputDetails[key].startSetter(event.target.value)}
+					id={`${id}-${key}-start-date`}
+					{...inputDetails[key].props}
 				/>
 			))}
 		</FieldSet>
