@@ -26,13 +26,13 @@ type inputDetailType = {
 
 type inputDetailsType = { [key: string]: inputDetailType };
 
-type DatePickerProps = {
+type DateInputProps = {
 	dateRange: DateRange;
 	onChange: (newRange: DateRange) => void;
 	id: string;
 	label: string | JSX.Element;
 	format: 'dayInput' | 'rangeInput';
-	onBlur?: (currentProps: DatePickerProps) => void;
+	onBlur?: (currentProps: DateInputProps) => void;
 	disabled?: boolean;
 	status?: FormStatusProps;
 	possibleRange?: DateRange;
@@ -40,7 +40,7 @@ type DatePickerProps = {
 	// Will only take effect on fieldsets-- otherwise we should not hide the label
 };
 
-export const DatePicker: React.FC<DatePickerProps> = ({
+export const DateInput: React.FC<DateInputProps> = ({
 	dateRange,
 	onChange,
 	id,
@@ -53,7 +53,9 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 	hideLabel,
 }) => {
 	const [selectedRange, setSelectedRange] = useState(dateRange);
-	const [datePickerFocused, setDatePickerFocused] = useState<'startDate' | 'endDate' | null>(null);
+  const [DateInputFocused, setDateInputFocused] = useState<'startDate' | 'endDate' | null>(null);
+  
+  // TODO: use effect, listen to each of the values, try to set date range on change
 
 	const inputDetails: inputDetailsType = {
 		day: {
@@ -87,6 +89,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 	};
 
 	Object.keys(inputDetails).forEach(key => {
+    // UUUUGH can't use hook here
 		const inputDetail = inputDetails[key];
 		const [startVal, startSetter] = useState<string | undefined>(
 			inputDetails[key].parseMoment(dateRange.startDate)
@@ -94,24 +97,12 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 		const [endVal, endSetter] = useState<string | undefined>(
 			inputDetails[key].parseMoment(dateRange.startDate)
 		);
+
 		inputDetail.start = startVal;
 		inputDetail.startSetter = startSetter;
 		inputDetail.end = endVal;
 		inputDetail.endSetter = endSetter;
 	});
-
-	function setDateRange(input: DateRange | null) {
-		// TODO: validate input-- if it's not a valid moment, add a status??
-		if (input === null) {
-			return;
-		}
-		const startDateValid = input.startDate.isValid();
-		const endDateIsValid = input.endDate.isValid();
-		// TODO: if one of them is not valid, set the other one? show an error?
-
-		setSelectedRange(input);
-		onChange(input);
-	}
 
 	function isOutsidePossibleRange(candidateDate: Moment) {
 		if (!possibleRange) {
@@ -128,9 +119,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 	}
 
 	// OnChange-- do it one input box at a time?  Autofocus?  Research this
-	// TODO: Accept people entering a date like 6/22/89-- override js defaults if necessary to assume 2000s rather than 1900s!
-	// TODO: revisit usage of this datepicker library at all-- can't add aria-describedby :/
-	// TODO: implement optional styling for fieldset
+	// TODO: implement "optional" styling for fieldset
 
 	const commonDateInputProps = {
 		small: true,
@@ -174,10 +163,11 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 					onChange={event => inputDetails[key].startSetter(event.target.value)}
 					id={`${id}-${key}-start-date`}
 					{...inputDetails[key].props}
+					{...commonDateInputProps}
 				/>
 			))}
 		</FieldSet>
 	);
 };
 
-export default DatePicker;
+export default DateInput;

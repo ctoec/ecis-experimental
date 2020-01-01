@@ -280,7 +280,6 @@ const ChildInfo: Section = {
 					onChange={range => updateBirthdate((range.startDate && range.startDate.toDate()) || null)}
 					dateRange={{ startDate: birthdate ? moment(birthdate) : null, endDate: null }}
 					label="Date of birth"
-					hideLabel={true}
 					id="birthdate-picker"
 					format="dayInput"
 				/>
