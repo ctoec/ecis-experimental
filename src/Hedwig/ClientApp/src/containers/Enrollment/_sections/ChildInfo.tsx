@@ -280,6 +280,7 @@ const ChildInfo: Section = {
 					dateRange={{ startDate: birthdate ? moment(birthdate) : null, endDate: null }}
 					label="Date of birth"
 					id="birthdate-picker"
+					hideLabel
 				/>
 				</FieldSet>
 
