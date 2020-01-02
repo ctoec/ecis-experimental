@@ -13,11 +13,6 @@ namespace Hedwig.Repositories
 	{
 		public ReportingPeriodRepository(HedwigContext context) : base(context) { }
 
-		public Task SaveChangesAsync()
-		{
-			return _context.SaveChangesAsync();
-		}
-
 		public async Task<List<ReportingPeriod>> GetReportingPeriodsByFundingSourceAsync(FundingSource source)
 		{
 			return await _context.ReportingPeriods
@@ -26,9 +21,8 @@ namespace Hedwig.Repositories
 		}
 	}
 
-	public interface IReportingPeriodRepository
+	public interface IReportingPeriodRepository : IHedwigRepository
 	{
-		Task SaveChangesAsync();
 		Task<List<ReportingPeriod>> GetReportingPeriodsByFundingSourceAsync(FundingSource source);
 	}
 }

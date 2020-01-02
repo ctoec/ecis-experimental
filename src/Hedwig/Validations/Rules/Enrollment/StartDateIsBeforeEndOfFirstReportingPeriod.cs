@@ -6,12 +6,17 @@ namespace Hedwig.Validations.Rules
 {
 	public class StartDateIsBeforeEndOfFirstReportingPeriod: IValidationRule<Enrollment>
 	{
+
+		private readonly IFundingRepository _fundings;
 		public StartDateIsBeforeEndOfFirstReportingPeriod(
-		) : base() {}
+			IFundingRepository fundings
+		) : base() {
+			_fundings = fundings;
+		}
 
 		public ValidationError Execute(Enrollment enrollment)
 		{
-			var fundings = enrollment.Fundings;
+			var fundings = enrollment.Fundings ?? _fundings.GetFundingsByEnrollmentId(enrollment.Id);
 			var cdcFunding = fundings
 				.Where(funding => funding.Source == FundingSource.CDC)
 				.OrderBy(funding => funding.FirstReportingPeriod.PeriodStart)
@@ -22,13 +27,20 @@ namespace Hedwig.Validations.Rules
 				return null;
 			}
 
-			if (enrollment.Entry > cdcFunding.FirstReportingPeriod.PeriodEnd)
+			if(!enrollment.Entry.HasValue)
+			{
+				return null;
+			}
+
+
+			if (enrollment.Entry.Value.Date > cdcFunding.FirstReportingPeriod.PeriodEnd.Date)
 			{
 				return new ValidationError(
 					field: "Entry",
 					message: "Start date cannot be later than end of first reporting period"
 				);
 			}
+
 			return null;
 		}
 	}

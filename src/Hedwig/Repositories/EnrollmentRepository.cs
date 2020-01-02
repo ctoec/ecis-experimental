@@ -103,7 +103,10 @@ namespace Hedwig.Repositories
 
       if (include.Contains(INCLUDE_FUNDINGS))
       {
-        enrollment = enrollment.Include(e => e.Fundings);
+        enrollment = enrollment.Include(e => e.Fundings)
+            .ThenInclude(f => f.FirstReportingPeriod)
+          .Include(e => e.Fundings)
+            .ThenInclude(f => f.LastReportingPeriod);
       }
 
 			if(include.Contains(INCLUDE_SITES))

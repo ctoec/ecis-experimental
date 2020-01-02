@@ -2,6 +2,8 @@ using Xunit;
 using Hedwig.Models;
 using System;
 using Hedwig.Validations.Rules;
+using Moq;
+using Hedwig.Repositories;
 
 namespace HedwigTests.Validations.Rules
 {
@@ -31,8 +33,10 @@ namespace HedwigTests.Validations.Rules
         Fundings = new Funding[] { funding }
       };
 
+      var _fundings = new Mock<IFundingRepository>();
+
       // when
-      var rule = new StartDateIsBeforeEndOfFirstReportingPeriod();
+      var rule = new StartDateIsBeforeEndOfFirstReportingPeriod(_fundings.Object);
       var result = rule.Execute(enrollment);
 
       // then

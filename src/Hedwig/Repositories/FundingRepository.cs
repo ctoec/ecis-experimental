@@ -12,9 +12,19 @@ namespace Hedwig.Repositories
 	{
 
 		public FundingRepository(HedwigContext context) : base(context) {}
+
+		public List<Funding> GetFundingsByEnrollmentId(int enrollmentId)
+		{
+			return _context.Fundings
+				.Where(f => f.EnrollmentId == enrollmentId)
+				.Include(f => f.FirstReportingPeriod)
+				.Include(f => f.LastReportingPeriod)
+				.ToList();
+		}
 	}
 
-	public interface IFundingRepository
+	public interface IFundingRepository : IHedwigRepository
 	{
+		List<Funding> GetFundingsByEnrollmentId(int enrollmentId);
 	}
 }
