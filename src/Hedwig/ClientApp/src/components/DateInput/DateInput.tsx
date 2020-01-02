@@ -126,6 +126,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 				>
 					{Object.keys(inputDetails).map(key => (
 						<TextInput
+							key={key}
 							defaultValue={inputDetails[key].start}
 							onChange={event => {
 								const newInputDetails = Object.assign({}, inputDetails);
@@ -162,6 +163,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 				>
 					{Object.keys(inputDetails).map(key => (
 						<TextInput
+							key={key}
 							defaultValue={inputDetails[key].end}
 							onChange={event => {
 								const newInputDetails = Object.assign({}, inputDetails);
@@ -203,6 +205,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 		>
 			{Object.keys(inputDetails).map(key => (
 				<TextInput
+					key={key}
 					defaultValue={inputDetails[key].start}
 					onChange={event => {
 						const newInputDetails = Object.assign({}, inputDetails);
