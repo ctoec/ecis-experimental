@@ -13,7 +13,7 @@ namespace Hedwig.Models
 		[StringLength(100)]
 		public string Name { get; set; }
 
-		[Required]		
+		[Required]
 		public bool TitleI { get; set; } = false;
 
 		[Required]
