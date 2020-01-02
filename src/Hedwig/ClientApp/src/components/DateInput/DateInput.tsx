@@ -59,6 +59,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 				inputMoment ? inputMoment.format('MM') : undefined,
 			checkValidity: value => +value > 0 && +value < 13,
 			errorMessage: 'Invalid month',
+			className: 'usa-form-group--month'
 		},
 		day: {
 			props: {
@@ -69,6 +70,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 				inputMoment ? inputMoment.format('DD') : undefined,
 			checkValidity: value => +value < 32 && +value > 0,
 			errorMessage: 'Invalid day',
+			className: 'usa-form-group--day'
 		},
 		year: {
 			props: {
@@ -80,6 +82,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 			checkValidity: value =>
 				value.length === 2 || (value.length === 4 && +value > 1989 && +value < 2101),
 			errorMessage: 'Invalid year',
+			className: 'usa-form-group--year',
 		},
 	});
 
@@ -103,10 +106,51 @@ export const DateInput: React.FC<DateInputProps> = ({
 	// TODO: implement "optional" styling for fieldset
 
 	const commonDateInputProps = {
-		className: 'oec-date-input__input display-inline margin-left-0',
+		className: 'oec-date-input__input margin-left-0',
 		disabled: disabled,
 		type: 'number',
+		inline: true,
 	};
+
+	const startDateFieldset = (
+		<FieldSet
+			legend={`${label} start`}
+			id={`${id}-start-date`}
+			showLegend
+			className="flex-row display-flex flex-align-end usa-memorable-date"
+		>
+			{Object.keys(inputDetails).map(key => (
+				<TextInput
+					key={key}
+					defaultValue={inputDetails[key].start}
+					onChange={event => {
+						const newInputDetails = Object.assign({}, inputDetails);
+						newInputDetails[key].start = event.target.value;
+						setInputDetails(newInputDetails);
+					}}
+					id={`${id}-${key}-start-date`}
+					{...inputDetails[key].props}
+					{...commonDateInputProps}
+					onBlur={event => {
+						const newInputDetails = Object.assign({}, inputDetails);
+						newInputDetails[key].startIsInvalid = !inputDetails[key].checkValidity(
+							event.target.value
+						);
+						setInputDetails(newInputDetails);
+					}}
+					status={
+						inputDetails[key].startIsInvalid
+							? {
+									type: 'warning',
+									message: inputDetails[key].errorMessage,
+									id: `${id}-${key}-start-error`,
+							  }
+							: undefined
+					}
+				/>
+			))}{' '}
+		</FieldSet>
+	);
 
 	if (format === 'rangeInput') {
 		return (
@@ -118,48 +162,12 @@ export const DateInput: React.FC<DateInputProps> = ({
 				hint="For example: 04 28 1986"
 				className="flex-row display-flex flex-align-end"
 			>
-				<FieldSet
-					legend={`${label} start`}
-					id={`${id}-start-date`}
-					showLegend
-					className="flex-row display-flex flex-align-end"
-				>
-					{Object.keys(inputDetails).map(key => (
-						<TextInput
-							key={key}
-							defaultValue={inputDetails[key].start}
-							onChange={event => {
-								const newInputDetails = Object.assign({}, inputDetails);
-								newInputDetails[key].start = event.target.value;
-								setInputDetails(newInputDetails);
-							}}
-							id={`${id}-${key}-start-date`}
-							{...inputDetails[key].props}
-							{...commonDateInputProps}
-							onBlur={event => {
-								const newInputDetails = Object.assign({}, inputDetails);
-								newInputDetails[key].startIsInvalid = !inputDetails[key].checkValidity(
-									event.target.value
-								);
-								setInputDetails(newInputDetails);
-							}}
-							status={
-								inputDetails[key].startIsInvalid
-									? {
-											type: 'warning',
-											message: inputDetails[key].errorMessage,
-											id: `${id}-${key}-start-error`,
-									  }
-									: undefined
-							}
-						/>
-					))}{' '}
-				</FieldSet>
+				{startDateFieldset}
 				<FieldSet
 					legend={`${label} end`}
 					id={`${id}-end-date`}
 					showLegend
-					className="flex-row display-flex flex-align-end"
+					className="flex-row display-flex flex-align-end usa-memorable-date"
 				>
 					{Object.keys(inputDetails).map(key => (
 						<TextInput
@@ -195,46 +203,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 			</FieldSet>
 		);
 	}
-	return (
-		<FieldSet
-			legend={label}
-			id={id}
-			status={status}
-			showLegend={!hideLabel}
-			className="flex-row display-flex flex-align-end"
-		>
-			{Object.keys(inputDetails).map(key => (
-				<TextInput
-					key={key}
-					defaultValue={inputDetails[key].start}
-					onChange={event => {
-						const newInputDetails = Object.assign({}, inputDetails);
-						newInputDetails[key].start = event.target.value;
-						setInputDetails(newInputDetails);
-					}}
-					id={`${id}-${key}-start-date`}
-					{...inputDetails[key].props}
-					{...commonDateInputProps}
-					onBlur={event => {
-						const newInputDetails = Object.assign({}, inputDetails);
-						newInputDetails[key].startIsInvalid = !inputDetails[key].checkValidity(
-							event.target.value
-						);
-						setInputDetails(newInputDetails);
-					}}
-					status={
-						inputDetails[key].startIsInvalid
-							? {
-									type: 'warning',
-									message: inputDetails[key].errorMessage,
-									id: `${id}-${key}-start-error`,
-							  }
-							: undefined
-					}
-				/>
-			))}
-		</FieldSet>
-	);
+	return startDateFieldset;
 };
 
 export default DateInput;

@@ -13,6 +13,7 @@ type TextInputProps = {
 	optional?: boolean;
 	className?: string;
 	inputProps?: React.HTMLProps<HTMLInputElement>;
+	inline?: boolean;
 };
 
 export default function TextInput({
@@ -27,6 +28,7 @@ export default function TextInput({
 	optional,
 	className,
 	inputProps,
+	inline,
 }: TextInputProps) {
 	return (
 		<div className={`${className} usa-form-group${status ? ` usa-form-group--${status.type}` : ''}`}>
@@ -37,7 +39,7 @@ export default function TextInput({
 			<input
 				className={`usa-input${status ? ` usa-input--${status.type}` : ''}${
 					small ? ' usa-input--small' : ''
-				}`}
+				}${inline ? ' usa-input--inline' : ''}`}
 				id={id}
 				name={id}
 				type="text"
