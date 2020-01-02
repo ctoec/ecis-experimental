@@ -101,10 +101,9 @@ export const DateInput: React.FC<DateInputProps> = ({
 	}, [inputDetails]);
 
 	// TODO: implement "optional" styling for fieldset
-	// TODO: move hint logic to fieldset
 
 	const commonDateInputProps = {
-		className: 'display-inline',
+		className: 'display-inline margin-left-0',
 		disabled: disabled,
 		type: 'number',
 	};
