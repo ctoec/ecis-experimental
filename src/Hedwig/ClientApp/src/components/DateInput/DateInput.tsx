@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import moment, { Moment } from 'moment';
 import FieldSet from '../FieldSet/FieldSet';
 import TextInput from '../TextInput/TextInput';
-import FormStatus, { FormStatusProps } from '../FormStatus/FormStatus';
+import { FormStatusProps } from '../FormStatus/FormStatus';
 
 export type DateRange = {
 	startDate: Moment | null;
@@ -33,7 +33,6 @@ type DateInputProps = {
 	format?: 'dayInput' | 'rangeInput';
 	disabled?: boolean;
 	status?: FormStatusProps;
-	possibleRange?: DateRange;
 	hideLabel?: boolean;
 	// Will only take effect on fieldsets-- otherwise we should not hide the label
 };
@@ -46,7 +45,6 @@ export const DateInput: React.FC<DateInputProps> = ({
 	format = 'dayInput',
 	disabled,
 	status,
-	possibleRange,
 	hideLabel,
 }) => {
 	const [selectedRange, setSelectedRange] = useState(dateRange);
@@ -106,17 +104,27 @@ export const DateInput: React.FC<DateInputProps> = ({
 	// TODO: move hint logic to fieldset
 
 	const commonDateInputProps = {
-		className: 'display-inline "display-flex flex-column flex-align-end',
+		className: 'display-inline',
 		disabled: disabled,
 		type: 'number',
 	};
 
 	if (format === 'rangeInput') {
 		return (
-			<FieldSet legend={label} status={status} id={id} showLegend={!hideLabel}>
-				<span className="usa-hint">For example: 04 28 1986</span>
-
-				<FieldSet legend={`${label} start`} id={`${id}-start-date`} showLegend>
+			<FieldSet
+				legend={label}
+				status={status}
+				id={id}
+				showLegend={!hideLabel}
+				hint="For example: 04 28 1986"
+				className="flex-row display-flex flex-align-end"
+			>
+				<FieldSet
+					legend={`${label} start`}
+					id={`${id}-start-date`}
+					showLegend
+					className="flex-row display-flex flex-align-end"
+				>
 					{Object.keys(inputDetails).map(key => (
 						<TextInput
 							defaultValue={inputDetails[key].start}
@@ -138,7 +146,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 							status={
 								inputDetails[key].startIsInvalid
 									? {
-											type: 'error',
+											type: 'warning',
 											message: inputDetails[key].errorMessage,
 											id: `${id}-${key}-start-error`,
 									  }
@@ -147,9 +155,12 @@ export const DateInput: React.FC<DateInputProps> = ({
 						/>
 					))}{' '}
 				</FieldSet>
-				<FieldSet legend={`${label} end`} id={`${id}-end-date`} showLegend>
-					<span className="usa-hint">For example: 04 28 1986</span>
-
+				<FieldSet
+					legend={`${label} end`}
+					id={`${id}-end-date`}
+					showLegend
+					className="flex-row display-flex flex-align-end"
+				>
 					{Object.keys(inputDetails).map(key => (
 						<TextInput
 							defaultValue={inputDetails[key].end}
@@ -171,7 +182,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 							status={
 								inputDetails[key].endIsInvalid
 									? {
-											type: 'error',
+											type: 'warning',
 											message: inputDetails[key].errorMessage,
 											id: `${id}-${key}-start-error`,
 									  }
@@ -184,7 +195,13 @@ export const DateInput: React.FC<DateInputProps> = ({
 		);
 	}
 	return (
-		<FieldSet legend={label} id={id} status={status} showLegend={!hideLabel}>
+		<FieldSet
+			legend={label}
+			id={id}
+			status={status}
+			showLegend={!hideLabel}
+			className="flex-row display-flex flex-align-end"
+		>
 			{Object.keys(inputDetails).map(key => (
 				<TextInput
 					defaultValue={inputDetails[key].start}
@@ -206,7 +223,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 					status={
 						inputDetails[key].startIsInvalid
 							? {
-									type: 'error',
+									type: 'warning',
 									message: inputDetails[key].errorMessage,
 									id: `${id}-${key}-start-error`,
 							  }
