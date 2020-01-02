@@ -3,21 +3,20 @@ import { mount } from 'enzyme';
 import { Age, FundingTime, CdcReport, FundingSource, Enrollment, Region } from '../../../generated';
 import UtilizationTable, { calculateRate } from './UtilizationTable';
 import emptyGuid from '../../../utils/emptyGuid';
+import cartesianProduct from '../../../utils/cartesianProduct';
 
 describe('calculateRate', () => {
   it('includes all possible rates', () => {
-    [true, false].forEach(accredited => {
-      [true, false].forEach(titleI => {
-        [Region.East, Region.NorthCentral, Region.NorthWest, Region.SouthCentral, Region.SouthWest].forEach(region => {
-          [Age.InfantToddler, Age.Preschool, Age.SchoolAge].forEach(ageGroup => {
-            [FundingTime.Full, FundingTime.Part].forEach(time => {
-              const rate = calculateRate(accredited, titleI, region, ageGroup, time);
-              expect(rate).toBeGreaterThan(0);
-            });
-          });
-        });
-      });
-    });
+  	cartesianProduct({
+  		accredited: [true, false],
+  		titleI: [true, false],
+  		region: [Region.East, Region.NorthCentral, Region.NorthWest, Region.SouthCentral, Region.SouthWest],
+  		ageGroup: [Age.InfantToddler, Age.Preschool, Age.SchoolAge],
+  		time: [FundingTime.Full, FundingTime.Part],
+  	}).forEach(combo => {
+      const rate = calculateRate(combo.accredited, combo.titleI, combo.region, combo.ageGroup, combo.time);
+      expect(rate).toBeGreaterThan(0);
+  	});
   });
 });
 
@@ -27,6 +26,7 @@ const reportWithEnrollments = (enrollments: Enrollment[]) => {
     organizationId: 1,
     accredited: true,
     type: FundingSource.CDC,
+    enrollments,
     reportingPeriod: {
       id: 1,
       type: FundingSource.CDC,
@@ -51,7 +51,6 @@ const reportWithEnrollments = (enrollments: Enrollment[]) => {
         name: "Test Site",
         region: Region.East,
         titleI: false,
-        enrollments,
         organizationId: 1,
       }],
     },
