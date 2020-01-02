@@ -1,24 +1,13 @@
 import React from 'react';
 import Table, { TableProps } from '../../../components/Table/Table';
-import { CdcReport, Age, FundingTime, Region } from '../../../generated';
+import { CdcReport, Enrollment, Age, FundingSource, FundingTime, Region } from '../../../generated';
 import idx from 'idx';
 import moment from 'moment';
 import { CdcRates } from './CdcRates';
 import { prettyAge } from '../../../utils/ageGroupUtils';
 import { prettyFundingTime } from '../../../utils/fundingTimeUtils';
 import currencyFormatter from '../../../utils/currencyFormatter';
-
-export function calculateRate(accredited: boolean, titleI: boolean, region: Region, ageGroup: Age, time: FundingTime) {
-  const rate = CdcRates.find(rate =>
-    rate.accredited === accredited &&
-    rate.titleI === titleI &&
-    rate.region === region &&
-    rate.ageGroup === ageGroup &&
-    rate.time === time
-  );
-
-  return rate ? rate.rate : 0;
-}
+import cartesianProduct from '../../../utils/cartesianProduct';
 
 interface UtilizationTableRow {
   key: string
@@ -32,60 +21,39 @@ interface UtilizationTableRow {
 }
 
 export default function UtilizationTable(report: CdcReport) {
+  const site = idx(report, _ => _.organization.sites[0]);
+  if (!site) { return <></>; }
+
   const periodStart = idx(report, _ => _.reportingPeriod.periodStart);
   const periodEnd = idx(report, _ => _.reportingPeriod.periodEnd);
   const weeksInPeriod = periodStart && periodEnd ? moment(periodEnd).add(1, 'day').diff(periodStart, 'weeks') : 0;
 
-  const accredited = report.accredited;
-  const fundingSpaces = idx(report, _ => _.organization.fundingSpaces) || [];
+  const enrollments = (idx(report, _ => _.enrollments) || []) as Enrollment[];
 
-  const sites = idx(report, _ => _.organization.sites) || [];
-  const ageGroups = [Age.InfantToddler, Age.Preschool, Age.SchoolAge];
-  const fundingTimes = [FundingTime.Full, FundingTime.Part];
+  let rows: UtilizationTableRow[] = cartesianProduct({
+    ageGroup: [Age.InfantToddler, Age.Preschool, Age.SchoolAge],
+    fundingTime: [FundingTime.Full, FundingTime.Part]
+  }).map(({ ageGroup, fundingTime }) => {
+    const capacity = findCapacity(report, ageGroup, fundingTime);
+    const count = countEnrollments(enrollments, ageGroup, fundingTime);
+    const rate = calculateRate(report.accredited, site.titleI, site.region, ageGroup, fundingTime);
 
-  const rows: UtilizationTableRow[] = sites.flatMap(site => {
-    const region = site.region;
-    const titleI = site.titleI;
+    const cappedCount = Math.min(count, capacity);
+    const total = cappedCount * rate * weeksInPeriod;
+    const paid = capacity * rate * weeksInPeriod;
+    const balance = total - paid;
 
-    const enrollments = site.enrollments.flatMap(enrollment => {
-      const cdcFunding = enrollment.fundings.find(funding => funding.source === report.type);
-      if (!cdcFunding) { return []; }
-      return {
-        ageGroup: enrollment.ageGroup,
-        time: cdcFunding.time,
-      };
-    });
-
-    return ageGroups.flatMap(ageGroup => fundingTimes.flatMap(fundingTime => {
-      const count = enrollments
-        .filter(enrollment => enrollment.ageGroup === ageGroup && enrollment.time === fundingTime)
-        .length;
-
-      const capacity = idx(
-        fundingSpaces.find(space => space.ageGroup === ageGroup && space.time === fundingTime),
-        _ => _.capacity
-      ) || 0;
-
-      const cappedCount = Math.min(count, capacity);
-
-      const rate = calculateRate(accredited, titleI, region, ageGroup, fundingTime);
-
-      const total = cappedCount * rate * weeksInPeriod;
-      const paid = capacity * rate * weeksInPeriod;
-      const balance = total - paid;
-
-      return {
-        key: `${ageGroup}-${fundingTime}`,
-        ageGroup,
-        fundingTime,
-        count,
-        capacity,
-        rate,
-        total,
-        balance,
-      }
-    }));
-  });
+    return {
+      key: `${ageGroup}-${fundingTime}`,
+      ageGroup,
+      fundingTime,
+      count,
+      capacity,
+      rate,
+      total,
+      balance,
+    }
+  }).filter(({ count, capacity }) => count > 0 || capacity > 0);
 
   const totalRow = rows.reduce((total, row) => {
     return {
@@ -164,4 +132,36 @@ export default function UtilizationTable(report: CdcReport) {
     <h2 className="margin-bottom-neg-205">Monthly utilization</h2>
     <Table {...tableProps} fullWidth />
   </>
+}
+
+export function calculateRate(accredited: boolean, titleI: boolean, region: Region, ageGroup: Age, time: FundingTime) {
+  const rate = CdcRates.find(rate =>
+    rate.accredited === accredited &&
+    rate.titleI === titleI &&
+    rate.region === region &&
+    rate.ageGroup === ageGroup &&
+    rate.time === time
+  );
+
+  return rate ? rate.rate : 0;
+}
+
+export function findCapacity(report: CdcReport, ageGroup: Age, fundingTime: FundingTime) {
+  const fundingSpaces = idx(report, _ => _.organization.fundingSpaces) || [];
+
+  return idx(
+    fundingSpaces.find(space => space.ageGroup === ageGroup && space.time === fundingTime),
+    _ => _.capacity
+  ) || 0;
+}
+
+export function countEnrollments(enrollments: Enrollment[], ageGroup: Age, fundingTime: FundingTime) {
+  return enrollments.filter(enrollment => {
+    if (enrollment.ageGroup !== ageGroup) { return false; }
+
+    const cdcFunding = (idx(enrollment, _ => _.fundings) || [])
+      .find(funding => funding.source === FundingSource.CDC);
+
+    return idx(cdcFunding, _ => _.time) === fundingTime;
+  }).length;
 }
