@@ -34,7 +34,7 @@ interface UtilizationTableRow {
 export default function UtilizationTable(report: CdcReport) {
   const periodStart = idx(report, _ => _.reportingPeriod.periodStart);
   const periodEnd = idx(report, _ => _.reportingPeriod.periodEnd);
-  const weeksInPeriod = periodStart && periodEnd ? moment(periodEnd).diff(periodStart, 'weeks') : 0;
+  const weeksInPeriod = periodStart && periodEnd ? moment(periodEnd).add(1, 'day').diff(periodStart, 'weeks') : 0;
 
   const accredited = report.accredited;
   const fundingSpaces = idx(report, _ => _.organization.fundingSpaces) || [];
