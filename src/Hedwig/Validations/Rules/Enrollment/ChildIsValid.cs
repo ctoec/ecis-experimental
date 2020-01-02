@@ -20,13 +20,10 @@ namespace Hedwig.Validations.Rules
     {
       if(enrollment.ChildId != Guid.Empty)
       {
-        if(enrollment.Child == null)
-        {
-          _children.GetChildById(enrollment.ChildId);
-        }
+        var child = enrollment.Child ?? _children.GetChildById(enrollment.ChildId);
 
-        ValidateSubObject(enrollment.Child);
-        if(enrollment.Child.ValidationErrors.Count > 0)
+        ValidateSubObject(child);
+        if(child.ValidationErrors.Count > 0)
         {
           return new ValidationError(
             field: "Child",

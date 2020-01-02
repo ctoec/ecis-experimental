@@ -91,8 +91,9 @@ namespace Hedwig.Data
         "Harry,Melling,2016-10-27,Male,TRUE,2019-09-02,,CDC,"
       }.ToList();
 
-      lines.ForEach(line =>
+      for(int i = 0; i < lines.Count; i++)
       {
+        var line = lines[i];
         var cells = line.Split(",");
 
         var firstName = cells[0];
@@ -137,12 +138,13 @@ namespace Hedwig.Data
             lastReportingPeriod: cells[6] != "" ? reportingPeriods[0] : null
           );
         }
-      });
+      }
 
       // Additional organization for security testing
       var honeyPotOrganization = CreateOrganization(name: "Honey Pot");
       var honeyPotSite = CreateSite(organizationId: honeyPotOrganization.Id, name: "Honey Pot");
-      var honeyPotChild = CreateChild(firstName: "Pooh", lastName: "Bear", organizationId: honeyPotOrganization.Id);
+      var honeyPotFamily = CreateFamily(organizationId: honeyPotOrganization.Id);
+      var honeyPotChild = CreateChild(firstName: "Pooh", lastName: "Bear", organizationId: honeyPotOrganization.Id, familyId: honeyPotFamily.Id);
       var honeyPotEnrollment = CreateEnrollment(childId: honeyPotChild.Id, siteId: honeyPotSite.Id);
       var honeyPotUser = CreateUser(wingedKeysId: Guid.NewGuid(), firstName: "Julia", lastName: "Hogan");
       CreateOrganizationPermission(organizationId: honeyPotOrganization.Id, userId: honeyPotUser.Id);

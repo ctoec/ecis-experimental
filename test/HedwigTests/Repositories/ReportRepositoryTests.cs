@@ -24,10 +24,10 @@ namespace HedwigTests.Repositories
       {
         // Set up test data
         var organization = OrganizationHelper.CreateOrganization(context);
-        var report = ReportHelper.CreateCdcReport(context, organization: organization);
+        var reportingPeriod = ReportingPeriodHelper.CreateReportingPeriod(context);
+        var report = ReportHelper.CreateCdcReport(context, organization: organization, reportingPeriod: reportingPeriod);
         var site = SiteHelper.CreateSite(context, organization: organization);
         var enrollment = EnrollmentHelper.CreateEnrollment(context, site: site, ageGroup: Age.Preschool);
-        var reportingPeriod = ReportingPeriodHelper.CreateReportingPeriod(context);
         var funding = FundingHelper.CreateFunding(context, enrollment: enrollment, time: FundingTime.Full, firstReportingPeriod: reportingPeriod);
 
         if (submitted)
@@ -60,16 +60,14 @@ namespace HedwigTests.Repositories
         // It includes the Enrollments (and Fundings too)
         Assert.Equal(
           include.Contains("enrollments"),
-          result.Organization != null &&
-            result.Organization.Sites != null &&
-            result.Organization.Sites.FirstOrDefault().Enrollments != null &&
-            result.Organization.Sites.FirstOrDefault().Enrollments.FirstOrDefault().Fundings != null
+          result.Enrollments != null &&
+           result.Enrollments.FirstOrDefault().Fundings != null
         );
 
         // When it includes enrollments
         if (include.Contains("enrollments"))
         {
-          var enrollmentResult = result.Organization.Sites.FirstOrDefault().Enrollments.FirstOrDefault();
+          var enrollmentResult = result.Enrollments.FirstOrDefault();
           var fundingResult = enrollmentResult.Fundings.FirstOrDefault();
 
           // A submitted report should return the data as of when it was submitted

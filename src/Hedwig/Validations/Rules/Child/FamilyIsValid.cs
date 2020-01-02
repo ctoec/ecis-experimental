@@ -19,13 +19,10 @@ namespace Hedwig.Validations.Rules
     {
       if(child.FamilyId.HasValue)
       {
-        if(child.Family == null)
-        {
-          _families.GetFamilyById(child.FamilyId.Value);
-        }
+        var family = child.Family ?? _families.GetFamilyById(child.FamilyId.Value);
 
-        ValidateSubObject(child.Family);
-        if(child.Family.ValidationErrors.Count > 0)
+        ValidateSubObject(family);
+        if(family.ValidationErrors.Count > 0)
         {
           return new ValidationError(
             field: "Family",
