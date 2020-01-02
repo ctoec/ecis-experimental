@@ -72,6 +72,12 @@ export interface Funding {
     source?: FundingSource;
     /**
      * 
+     * @type {number}
+     * @memberof Funding
+     */
+    familyId?: number | null;
+    /**
+     * 
      * @type {Date}
      * @memberof Funding
      */
@@ -146,6 +152,7 @@ export function FundingFromJSONTyped(json: any, ignoreDiscriminator: boolean): F
         'enrollmentId': json['enrollmentId'],
         'enrollment': !exists(json, 'enrollment') ? undefined : EnrollmentFromJSON(json['enrollment']),
         'source': !exists(json, 'source') ? undefined : FundingSourceFromJSON(json['source']),
+        'familyId': !exists(json, 'familyId') ? undefined : json['familyId'],
         'certificateStartDate': !exists(json, 'certificateStartDate') ? undefined : (json['certificateStartDate'] === null ? null : new Date(json['certificateStartDate'])),
         'certificateEndDate': !exists(json, 'certificateEndDate') ? undefined : (json['certificateEndDate'] === null ? null : new Date(json['certificateEndDate'])),
         'firstReportingPeriodId': !exists(json, 'firstReportingPeriodId') ? undefined : json['firstReportingPeriodId'],
@@ -172,6 +179,7 @@ export function FundingToJSON(value?: Funding | null): any {
         'enrollmentId': value.enrollmentId,
         'enrollment': EnrollmentToJSON(value.enrollment),
         'source': FundingSourceToJSON(value.source),
+        'familyId': value.familyId,
         'certificateStartDate': value.certificateStartDate === undefined ? undefined : (value.certificateStartDate === null ? null : value.certificateStartDate.toISOString()),
         'certificateEndDate': value.certificateEndDate === undefined ? undefined : (value.certificateEndDate === null ? null : value.certificateEndDate.toISOString()),
         'firstReportingPeriodId': value.firstReportingPeriodId,

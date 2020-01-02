@@ -104,6 +104,7 @@ namespace Hedwig
 			services.AddScoped<IValidationRule<Enrollment>, ChildIsValid>();
 			services.AddScoped<IValidationRule<Enrollment>, AgeGroupRequired>();
 			services.AddScoped<IValidationRule<Enrollment>, EntryRequired>();
+			services.AddScoped<IValidationRule<Enrollment>, StartDateIsBeforeEndOfFirstReportingPeriod>();
 
 			// Child
 			services.AddScoped<IValidationRule<Child>, FamilyIsValid>();
