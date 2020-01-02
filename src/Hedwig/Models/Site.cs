@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Hedwig.Models
 {
@@ -11,10 +13,11 @@ namespace Hedwig.Models
 		[StringLength(100)]
 		public string Name { get; set; }
 
-		[Required]		
+		[Required]
 		public bool TitleI { get; set; } = false;
 
 		[Required]
+		[JsonConverter(typeof(StringEnumConverter))]
 		public Region Region { get; set; }
 
 		[Required]

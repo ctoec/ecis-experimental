@@ -83,6 +83,8 @@ namespace Hedwig.Repositories
         var enrollmentIds = enrollments.Select(enrollment => enrollment.Id);
         var fundings = await (asOf.HasValue ? _context.Fundings.AsOf(asOf.Value) : _context.Fundings)
           .AsNoTracking()
+          .Include(funding => funding.FirstReportingPeriod)
+          .Include(funding => funding.LastReportingPeriod)
           .Where(funding => enrollmentIds.Contains(funding.EnrollmentId))
           .Where(funding => funding.FirstReportingPeriod.PeriodStart <= reportResult.ReportingPeriod.PeriodStart)
           .Where(funding => funding.LastReportingPeriod == null || funding.LastReportingPeriod.PeriodEnd >= reportResult.ReportingPeriod.PeriodEnd)

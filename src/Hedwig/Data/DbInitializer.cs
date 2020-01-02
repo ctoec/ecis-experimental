@@ -132,9 +132,9 @@ namespace Hedwig.Data
           CreateFunding(
             enrollmentId: enrollment.Id,
             source: FundingSource.CDC,
-            certificateStartDate: null,
             time: FundingTime.Full,
-            firstReportingPeriod: reportingPeriods[0]
+            firstReportingPeriod: reportingPeriods[0],
+            lastReportingPeriod: cells[6] != "" ? reportingPeriods[0] : null
           );
         }
       });
@@ -329,10 +329,11 @@ namespace Hedwig.Data
     private Funding CreateFunding(
       int enrollmentId,
       FundingSource source,
-      string certificateStartDate = "2019-08-05",
+      string certificateStartDate = null,
       string certificateEndDate = null,
       FundingTime time = FundingTime.Full,
-      ReportingPeriod firstReportingPeriod = null
+      ReportingPeriod firstReportingPeriod = null,
+      ReportingPeriod lastReportingPeriod = null
     )
     {
       var funding = new Funding
@@ -340,7 +341,8 @@ namespace Hedwig.Data
         EnrollmentId = enrollmentId,
         Source = source,
         Time = time,
-        FirstReportingPeriod = firstReportingPeriod
+        FirstReportingPeriod = firstReportingPeriod,
+        LastReportingPeriod = lastReportingPeriod
       };
 
       if (certificateStartDate != null)
