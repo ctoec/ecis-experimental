@@ -103,7 +103,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 	// TODO: implement "optional" styling for fieldset
 
 	const commonDateInputProps = {
-		className: 'display-inline margin-left-0',
+		className: 'oec-date-input__input display-inline margin-left-0',
 		disabled: disabled,
 		type: 'number',
 	};

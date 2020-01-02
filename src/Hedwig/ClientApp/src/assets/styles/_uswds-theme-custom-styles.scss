@@ -476,6 +476,11 @@ $future-step-color: color('base-dark') !default;
 	border-right: 33px solid color('primary-darker');
 }
 
+// *** Date Input ***
+.oec-date-input__input.usa-form-group--error, .oec-date-input__input.usa-form-group--warning {
+	margin-top: 0;
+}
+
 // *** Select Input ***
 .usa-select:disabled {
 	-moz-osx-font-smoothing: grayscale;
