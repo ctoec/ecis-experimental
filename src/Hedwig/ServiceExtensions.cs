@@ -130,6 +130,9 @@ namespace Hedwig
 			services.AddScoped<IValidationRule<FamilyDetermination>, IfDisclosedIncomeRequired>();
 			services.AddScoped<IValidationRule<FamilyDetermination>, IfDisclosedNumberOfPeopleRequired>();
 
+			// Reports
+			services.AddScoped<IValidationRule<CdcReport>, EnrollmentsAreValid>();
+
 			// Register Non-blocking validator
 			services.AddScoped<INonBlockingValidator, NonBlockingValidator>();
 		}

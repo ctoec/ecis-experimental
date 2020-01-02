@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Hedwig.Validations.Rules
 {
   public abstract class SubObjectIsValid
@@ -11,6 +13,11 @@ namespace Hedwig.Validations.Rules
     protected void ValidateSubObject<T>(T subObject) where T : INonBlockingValidatableObject
     {
       _validator.Validate(subObject);
+    }
+
+    protected void ValidateSubObject<T>(List<T> subObjects) where T : INonBlockingValidatableObject
+    {
+      subObjects.ForEach(subObject => ValidateSubObject(subObject));
     }
   }
 }

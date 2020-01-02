@@ -3,9 +3,9 @@ import { Organization } from '../generated';
 export default function getFundingSpaceCapacity(
 	organization: Organization | undefined,
 	opts: { source?: string; ageGroup?: string; time?: string }
-): number | undefined {
-	if (!organization) return;
-	if (!organization.fundingSpaces) return;
+): number {
+	if (!organization) return 0;
+	if (!organization.fundingSpaces) return 0;
 
 	let fundingSpaces = organization.fundingSpaces;
 

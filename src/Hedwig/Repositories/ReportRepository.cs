@@ -51,7 +51,7 @@ namespace Hedwig.Repositories
       }
 
       // To enable later manual inclusion of enrollments/children, include sites now
-      if (include.Contains(INCLUDE_SITES) || include.Contains(INCLUDE_ENROLLMENTS) || include.Contains(INCLUDE_CHILD))
+      if (include.Contains(INCLUDE_SITES))
       {
         reportQuery = reportQuery
           .Include(report => report.Organization)
@@ -68,43 +68,17 @@ namespace Hedwig.Repositories
       var reportResult = await reportQuery.FirstOrDefaultAsync();
 
       // Optionally manually insert time-versioned enrollment records
-      if (include.Contains(INCLUDE_ENROLLMENTS) || include.Contains(INCLUDE_CHILD))
+      if (include.Contains(INCLUDE_ENROLLMENTS))
       {
-        var asOf = reportResult.SubmittedAt;
-        var sites = reportResult.Organization.Sites.ToList();
-        var siteIds = sites.Select(site => site.Id);
-
-        // Potential optimization to fetch only the enrollments that are funded during the reporting period
-        var enrollments = await (asOf.HasValue ? _context.Enrollments.AsOf(asOf.Value) : _context.Enrollments)
-          .AsNoTracking()
-          .Where(enrollment => siteIds.Contains(enrollment.SiteId))
-          .ToListAsync();
-
-        var enrollmentIds = enrollments.Select(enrollment => enrollment.Id);
-        var fundings = await (asOf.HasValue ? _context.Fundings.AsOf(asOf.Value) : _context.Fundings)
-          .AsNoTracking()
-          .Where(funding => enrollmentIds.Contains(funding.EnrollmentId))
-          .Where(funding => funding.FirstReportingPeriod.PeriodStart <= reportResult.ReportingPeriod.PeriodStart)
-          .Where(funding => funding.LastReportingPeriod == null || funding.LastReportingPeriod.PeriodEnd >= reportResult.ReportingPeriod.PeriodEnd)
-          .ToListAsync();
-
-        // Add fundings to enrollments
-        enrollments.ForEach(enrollment =>
-        {
-          enrollment.Fundings = fundings.Where(funding => funding.EnrollmentId == enrollment.Id).ToList() as ICollection<Funding>;
-        });
-
-        // Filter for funded enrollments (only funded enrollments are included in report)
-        enrollments = enrollments.Where(enrollment => enrollment.Fundings.Any(funding => funding.Source == reportResult.Type)).ToList();
-
+        var enrollments = GetEnrollmentsForReport(reportResult);
         // Optionally manually insert time-versioned child records
         if (include.Contains(INCLUDE_CHILD))
         {
           var childIds = enrollments.Select(enrollment => enrollment.ChildId);
-          var children = await (asOf.HasValue ? _context.Children.AsOf(asOf.Value) : _context.Children)
+          var children = (reportResult.SubmittedAt.HasValue ? _context.Children.AsOf(reportResult.SubmittedAt.Value) : _context.Children)
             .AsNoTracking()
             .Where(child => childIds.Contains(child.Id))
-            .ToDictionaryAsync(child => child.Id);
+            .ToDictionary(child => child.Id);
 
           // Add children to enrollments
           enrollments.ForEach(enrollment =>
@@ -113,14 +87,44 @@ namespace Hedwig.Repositories
           });
         }
 
-        // Add enrollments to sites
-        sites.ForEach(site =>
-        {
-          site.Enrollments = enrollments.Where(enrollment => enrollment.SiteId == site.Id).ToList();
-        });
+        // Add enrollments to report
+        reportResult.Enrollments = enrollments;
       }
 
       return reportResult;
+    }
+
+    public List<Enrollment> GetEnrollmentsForReport(CdcReport report)
+    {
+      var sites = report.Organization != null && report.Organization.Sites != null 
+        ? report.Organization.Sites.ToList()
+        : _context.Sites.Where(s => s.OrganizationId == report.OrganizationId).ToList();
+      var siteIds = sites.Select(site => site.Id);
+
+      // Potential optimization to fetch only the enrollments that are funded during the reporting period
+      var enrollments = (report.SubmittedAt.HasValue ? _context.Enrollments.AsOf(report.SubmittedAt.Value) : _context.Enrollments)
+        .AsNoTracking()
+        .Where(enrollment => siteIds.Contains(enrollment.SiteId))
+        .ToList();
+
+      var enrollmentIds = enrollments.Select(enrollment => enrollment.Id);
+      var fundings = (report.SubmittedAt.HasValue ? _context.Fundings.AsOf(report.SubmittedAt.Value) : _context.Fundings)
+        .AsNoTracking()
+        .Include(funding => funding.FirstReportingPeriod)
+        .Include(funding => funding.LastReportingPeriod)
+        .Where(funding => enrollmentIds.Contains(funding.EnrollmentId))
+        .Where(funding => funding.FirstReportingPeriod.PeriodStart <= report.ReportingPeriod.PeriodStart)
+        .Where(funding => funding.LastReportingPeriod == null || funding.LastReportingPeriod.PeriodEnd >= report.ReportingPeriod.PeriodEnd)
+        .ToList();
+
+      // Add fundings to enrollments
+      enrollments.ForEach(enrollment =>
+      {
+        enrollment.Fundings = fundings.Where(funding => funding.EnrollmentId == enrollment.Id).ToList();
+      });
+
+      // Filter for funded enrollments (only funded enrollments are included in report)
+      return enrollments.Where(enrollment => enrollment.Fundings.Any(funding => funding.Source == report.Type)).ToList();
     }
   }
 
@@ -129,5 +133,7 @@ namespace Hedwig.Repositories
     void UpdateReport(Report report);
     Task<List<CdcReport>> GetReportsForOrganizationAsync(int orgId);
     Task<CdcReport> GetReportForOrganizationAsync(int id, int orgId, string[] include);
+
+    List<Enrollment> GetEnrollmentsForReport(CdcReport report);
   }
 }
