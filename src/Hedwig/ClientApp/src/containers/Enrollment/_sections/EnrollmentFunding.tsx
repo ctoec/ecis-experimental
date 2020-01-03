@@ -12,7 +12,7 @@ import UserContext from '../../../contexts/User/UserContext';
 import { ageFromString, prettyAge } from '../../../utils/ageGroupUtils';
 import getIdForUser from '../../../utils/getIdForUser';
 import { DeepNonUndefineable } from '../../../utils/types';
-import { sectionHasValidationErrors } from '../../../utils/validations';
+import { sectionHasValidationErrors, warningForField } from '../../../utils/validations';
 import { prettyFundingTime, fundingTimeFromString } from '../../../utils/fundingTimeUtils';
 import { nextNReportingPeriods } from '../../../utils/models/reportingPeriod';
 import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
@@ -24,7 +24,7 @@ import TextInput from '../../../components/TextInput/TextInput';
 const EnrollmentFunding: Section = {
   key: 'enrollment-funding',
   name: 'Enrollment and funding',
-  status: ({ enrollment }) => enrollment && sectionHasValidationErrors([enrollment, enrollment.fundings]) ? 'incomplete' : 'complete',
+  status: ({ enrollment }) => enrollment && sectionHasValidationErrors([enrollment.fundings]) ? 'incomplete' : 'complete',
 
   Summary: ({ enrollment }) => {
 		const { cdcReportingPeriods: reportingPeriods } = useContext(ReportingPeriodContext);
@@ -148,7 +148,9 @@ const EnrollmentFunding: Section = {
 
 		useEffect(() => {
 			const startDate = entry ? entry : enrollment.entry ? enrollment.entry : new Date();
-			updateReportingPeriodOptions(nextNReportingPeriods(reportingPeriods, startDate, 3));
+			const nextPeriods = nextNReportingPeriods(reportingPeriods, startDate, 3);
+			// const periods = cdcReportingPeriod ? [cdcReportingPeriod, ...nextPeriods] : nextPeriods;
+			updateReportingPeriodOptions(nextPeriods);
 		}, [enrollment.entry, entry, reportingPeriods])
 
 		const save = () => {
@@ -168,7 +170,8 @@ const EnrollmentFunding: Section = {
 				const newCdcFunding: Funding = {
 					...(currentCdcFunding as Funding), // currentCdcFunding will always be defined but typescript doesn't infer so
 					time: cdcFundingTime ? cdcFundingTime : undefined,
-					firstReportingPeriodId: (cdcReportingPeriod as ReportingPeriod).id // cdcReporingPeriod will always be defined but typescript doesn't infer so
+					firstReportingPeriodId: (cdcReportingPeriod as ReportingPeriod).id, // cdcReporingPeriod will always be defined but typescript doesn't infer so
+					firstReportingPeriod: (cdcReportingPeriod as ReportingPeriod) // cdcReporingPeriod will always be defined but typescript doesn't infer so
 				};
 				updatedFundings = [
 					...(fundings.filter<DeepNonUndefineable<Funding>>(funding => funding.id !== cdcFundingId)),
@@ -345,6 +348,10 @@ const EnrollmentFunding: Section = {
 							id="firstReportingPeriod"
 							options={
 								[
+									// {
+									// 	value: '',
+									// 	text: '- Select -'
+									// },
 									...(reportingPeriodOptions.map(period => {
 										return {
 											value: '' + period.id,
@@ -360,11 +367,13 @@ const EnrollmentFunding: Section = {
 							}}
 							selected={
 								cdcReportingPeriod ?
-								'' + cdcReportingPeriod.id :
-									reportingPeriodOptions[0] ?
-										'' + reportingPeriodOptions[0].id :
-										''
+									'' + cdcReportingPeriod.id :
+									''
 							}
+							status={warningForField(
+								'firstReportingPeriod',
+								cdcFunding as DeepNonUndefineable<Funding>
+							)}
 						/>
 					)}
 					<h3>Care 4 Kids</h3>
