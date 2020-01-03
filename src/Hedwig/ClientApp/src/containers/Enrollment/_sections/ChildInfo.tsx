@@ -252,12 +252,28 @@ const ChildInfo: Section = {
 				</div>
 
 				<h3>Date of birth</h3>
-				<DatePicker
-					onChange={range => updateBirthdate((range.startDate && range.startDate.toDate()) || null)}
-					dateRange={{ startDate: birthdate ? moment(birthdate) : null, endDate: null }}
-					label="Birth date"
-					id="birthdate-picker"
-				/>
+				<FieldSet
+					status={warningForFieldSet(
+						'birthdate-fields',
+						['birthdate'],
+						enrollment ? enrollment.child : null,
+						'This information is required for OEC reporting'
+					)} 
+					legend="Birthdate"
+					id="birthdate-fields"
+					>
+						<DatePicker
+							onChange={range => updateBirthdate((range.startDate && range.startDate.toDate()) || null)}
+							dateRange={{ startDate: birthdate ? moment(birthdate) : null, endDate: null }}
+							label="Birth date"
+							id="birthdate-picker"
+							status={warningForField(
+								'birthdate',
+								enrollment ? enrollment.child : null,
+								''
+							)}
+						/>
+				</FieldSet>
 
 				<h3>Birth certificate</h3>
 				<FieldSet
@@ -377,7 +393,7 @@ const ChildInfo: Section = {
 						},
 					]}
 					selected={
-						hispanicOrLatinxEthnicity === null ? '' : hispanicOrLatinxEthnicity ? 'yes' : 'no'
+						hispanicOrLatinxEthnicity === (null || undefined) ? '' : hispanicOrLatinxEthnicity ? 'yes' : 'no'
 					}
 					onChange={event =>
 						updateHispanicOrLatinxEthnicity(

@@ -86,7 +86,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 			>
 				{labelText}
 			</label>
-			{status && <FormStatus {...status} />}
+			{status && status.message && <FormStatus {...status} />}
 			<span
 				className={`oec-date-input${status ? ` oec-date-input--${status.type}` : ''}`}
 				aria-describedby={status ? status.id : undefined}
