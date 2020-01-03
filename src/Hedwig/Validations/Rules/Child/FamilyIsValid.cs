@@ -26,7 +26,8 @@ namespace Hedwig.Validations.Rules
         {
           return new ValidationError(
             field: "Family",
-            message: "Family has validation errors"
+            message: "Family has validation errors",
+            isSubObjectValidation: true
           );
         }
       }

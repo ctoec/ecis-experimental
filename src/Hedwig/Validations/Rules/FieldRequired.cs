@@ -4,10 +4,16 @@ namespace Hedwig.Validations.Rules
   {
     readonly string _fieldName;
     readonly string _prettyFieldName;
-    public FieldRequired(string fieldName, string prettyFieldName = null)
+    readonly bool _isSubObjectValidation;
+    public FieldRequired(
+      string fieldName,
+      string prettyFieldName = null,
+      bool isSubObjectValidation = false
+    )
     {
       _fieldName = fieldName;
       _prettyFieldName = prettyFieldName;
+      _isSubObjectValidation = isSubObjectValidation;
     }
     public ValidationError Execute(T entity)
     {
@@ -19,7 +25,8 @@ namespace Hedwig.Validations.Rules
         {
           return new ValidationError(
             field: _fieldName,
-            message: $"{(_prettyFieldName != null ? _prettyFieldName : _fieldName)} is required"
+            message: $"{(_prettyFieldName != null ? _prettyFieldName : _fieldName)} is required",
+            isSubObjectValidation: _isSubObjectValidation
           );
         }
       }

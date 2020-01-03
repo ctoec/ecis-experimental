@@ -5,7 +5,12 @@ namespace Hedwig.Validations
   public sealed class ValidationError
   {
 
-    public ValidationError(string message, string field = null, string[] fields = null)
+    public ValidationError(
+      string message, 
+      bool isSubObjectValidation = false,
+      string field = null,
+      string[] fields = null
+    )
     {
       Message = message;
       Field = field;
@@ -14,6 +19,8 @@ namespace Hedwig.Validations
 
     [Required]
     public readonly string Message;
+    [Required]
+    public readonly bool IsSubObjectValidation; 
     public readonly string Field;
     public readonly string[] Fields;
   }

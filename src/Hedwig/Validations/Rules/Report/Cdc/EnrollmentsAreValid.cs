@@ -25,7 +25,8 @@ namespace Hedwig.Validations.Rules
         {
           return new ValidationError(
             field: "Enrollments",
-            message: "Enrollments have validation errors"
+            message: "Enrollments have validation errors",
+            isSubObjectValidation: true
           );
         }
 
