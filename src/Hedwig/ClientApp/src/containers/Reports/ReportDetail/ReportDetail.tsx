@@ -73,8 +73,8 @@ export default function ReportDetail() {
 					</div>
 				</div>
 				<p className="usa-intro">
-					{idx(report, _ => _.organization.name)} |{' '}
-					{dateFormatter(idx(report, _ => _.reportingPeriod.periodStart))} -{' '}
+					{idx(report, _ => _.organization.name)} <br />
+					{dateFormatter(idx(report, _ => _.reportingPeriod.periodStart))}–
 					{dateFormatter(idx(report, _ => _.reportingPeriod.periodEnd))}
 				</p>
 				<ReportSubmitForm

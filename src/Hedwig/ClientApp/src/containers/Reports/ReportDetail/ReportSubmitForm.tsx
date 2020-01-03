@@ -82,7 +82,7 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
     <React.Fragment>
     {report.submittedAt && (
       <p>
-        <b>Submitted At:</b> {report.submittedAt.toLocaleDateString()}{' '}
+        <b>Submitted:</b> {report.submittedAt.toLocaleDateString()}{' '}
       </p>
     )}
     <div className="usa-checkbox margin-bottom-5">

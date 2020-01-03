@@ -66,7 +66,7 @@ const EnrollmentFunding: Section = {
 						<p>Site: {idx(enrollment, _ => _.site.name)} </p>
 						<p>Age Group: {prettyAge(idx(enrollment, _ => _.ageGroup) || null)}</p>
 						<p>
-							Enrollement date:{' '}
+							Enrollment date:{' '}
 							{dateFormatter(idx(enrollment, _ => _.entry))}
 						</p>
 						<p>Funding:{' '}
@@ -177,7 +177,7 @@ const EnrollmentFunding: Section = {
 			} else if (!cdcFundingId && privatePay) {
 				// No current funding, do nothing because private pay has been selected
 				updatedFundings = [...fundings];
-			} else /* !cdcFunding && !privatePay */ { 
+			} else /* !cdcFunding && !privatePay */ {
 				// No current funding, add new funding with supplied information
 				const newCdcFunding: Funding = {
 					id: 0,
@@ -290,7 +290,7 @@ const EnrollmentFunding: Section = {
 							},
 						]}
 						selected={'' + age}
-						onChange={event => 
+						onChange={event =>
 							updateAge(ageFromString(event.target.value))
 						}
 					/>
