@@ -20,7 +20,7 @@ export type InternalStepProps<T> = {
 const labelForStatus = (status: ExternalStepStatus) => {
 	switch (status) {
 		case 'incomplete':
-			return 'Incomplete';
+			return 'Missing information';
 		case 'complete':
 			return 'Complete';
 		case 'attentionNeeded':
