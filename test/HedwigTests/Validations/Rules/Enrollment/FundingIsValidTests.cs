@@ -27,7 +27,7 @@ namespace HedwigTests.Validations.Rules
 			};
 
 			var fundingRule = new Mock<IValidationRule<Funding>>();
-			var fundingResult = fundingIsValid ? null : new ValidationError("message", "field");
+			var fundingResult = fundingIsValid ? null : new ValidationError("message", field: "field");
 			fundingRule.Setup(cr => cr.Execute(funding))
 				.Returns(fundingResult);
 

@@ -29,7 +29,7 @@ namespace HedwigTests.Validations.Rules
       };
 
       var enrollmentRule = new Mock<IValidationRule<Enrollment>>();
-      var enrollmentResult = enrollmentsNotValid ? null : new ValidationError("message", "field");
+      var enrollmentResult = enrollmentsNotValid ? null : new ValidationError("message", field: "field");
       enrollmentRule.Setup(er => er.Execute(e1))
         .Returns(enrollmentResult);
 

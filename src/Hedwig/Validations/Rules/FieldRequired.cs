@@ -24,9 +24,9 @@ namespace Hedwig.Validations.Rules
         if (value == null)
         {
           return new ValidationError(
-            field: _fieldName,
             message: $"{(_prettyFieldName != null ? _prettyFieldName : _fieldName)} is required",
-            isSubObjectValidation: _isSubObjectValidation
+            isSubObjectValidation: _isSubObjectValidation,
+            field: _fieldName
           );
         }
       }

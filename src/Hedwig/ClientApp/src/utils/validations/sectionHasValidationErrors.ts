@@ -6,9 +6,9 @@ export function sectionHasValidationErrors(sectionObjects: (Validatable | Valida
     if (!sectionObject) return;
 
     if (Array.isArray(sectionObject)) {
-      hasErrors = sectionObject.some(item => hasValidationErrors(item)) || hasErrors;
+      hasErrors = sectionObject.some(item => hasValidationErrors(item, undefined, true)) || hasErrors;
     } else {
-      hasErrors = hasValidationErrors(sectionObject) || hasErrors;
+      hasErrors = hasValidationErrors(sectionObject, undefined, true) || hasErrors;
     }
   });
 

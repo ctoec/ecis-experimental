@@ -13,6 +13,7 @@ namespace Hedwig.Validations
     )
     {
       Message = message;
+      IsSubObjectValidation = isSubObjectValidation;
       Field = field;
       Fields = fields;
     }
