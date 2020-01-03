@@ -267,7 +267,7 @@ exports[`Storyshots Checklist Box disabled 1`] = `
           className="usa-checkbox__input"
           defaultChecked={true}
           disabled={true}
-          id="one"
+          id="storybook-checklist-disabled-one"
           name="storybook-checklist-disabled-one"
           onChange={[Function]}
           type="checkbox"
@@ -275,7 +275,7 @@ exports[`Storyshots Checklist Box disabled 1`] = `
         />
         <label
           className="usa-checkbox__label"
-          htmlFor="one"
+          htmlFor="storybook-checklist-disabled-one"
         >
           Option one
         </label>
@@ -287,7 +287,7 @@ exports[`Storyshots Checklist Box disabled 1`] = `
           className="usa-checkbox__input"
           defaultChecked={true}
           disabled={true}
-          id="two"
+          id="storybook-checklist-disabled-two"
           name="storybook-checklist-disabled-two"
           onChange={[Function]}
           type="checkbox"
@@ -295,7 +295,7 @@ exports[`Storyshots Checklist Box disabled 1`] = `
         />
         <label
           className="usa-checkbox__label"
-          htmlFor="two"
+          htmlFor="storybook-checklist-disabled-two"
         >
           Option two
         </label>
@@ -335,7 +335,7 @@ exports[`Storyshots Checklist Default 1`] = `
         <input
           className="usa-checkbox__input"
           defaultChecked={false}
-          id="one"
+          id="storybook-checklist-one"
           name="storybook-checklist-one"
           onChange={[Function]}
           type="checkbox"
@@ -343,7 +343,7 @@ exports[`Storyshots Checklist Default 1`] = `
         />
         <label
           className="usa-checkbox__label"
-          htmlFor="one"
+          htmlFor="storybook-checklist-one"
         >
           Option one
         </label>
@@ -354,7 +354,7 @@ exports[`Storyshots Checklist Default 1`] = `
         <input
           className="usa-checkbox__input"
           defaultChecked={false}
-          id="two"
+          id="storybook-checklist-two"
           name="storybook-checklist-two"
           onChange={[Function]}
           type="checkbox"
@@ -362,7 +362,7 @@ exports[`Storyshots Checklist Default 1`] = `
         />
         <label
           className="usa-checkbox__label"
-          htmlFor="two"
+          htmlFor="storybook-checklist-two"
         >
           Option two
         </label>
@@ -402,7 +402,7 @@ exports[`Storyshots Checklist Default selection 1`] = `
         <input
           className="usa-checkbox__input"
           defaultChecked={true}
-          id="one"
+          id="storybook-checklist-default-selection-one"
           name="storybook-checklist-default-selection-one"
           onChange={[Function]}
           type="checkbox"
@@ -410,7 +410,7 @@ exports[`Storyshots Checklist Default selection 1`] = `
         />
         <label
           className="usa-checkbox__label"
-          htmlFor="one"
+          htmlFor="storybook-checklist-default-selection-one"
         >
           Option one
         </label>
@@ -421,7 +421,7 @@ exports[`Storyshots Checklist Default selection 1`] = `
         <input
           className="usa-checkbox__input"
           defaultChecked={true}
-          id="two"
+          id="storybook-checklist-default-selection-two"
           name="storybook-checklist-default-selection-two"
           onChange={[Function]}
           type="checkbox"
@@ -429,7 +429,7 @@ exports[`Storyshots Checklist Default selection 1`] = `
         />
         <label
           className="usa-checkbox__label"
-          htmlFor="two"
+          htmlFor="storybook-checklist-default-selection-two"
         >
           Option two
         </label>
@@ -469,7 +469,7 @@ exports[`Storyshots Checklist Horizontal 1`] = `
         <input
           className="usa-checkbox__input"
           defaultChecked={false}
-          id="one"
+          id="storybook-checklist-2-one"
           name="storybook-checklist-2-one"
           onChange={[Function]}
           type="checkbox"
@@ -477,7 +477,7 @@ exports[`Storyshots Checklist Horizontal 1`] = `
         />
         <label
           className="usa-checkbox__label"
-          htmlFor="one"
+          htmlFor="storybook-checklist-2-one"
         >
           Option one
         </label>
@@ -488,7 +488,7 @@ exports[`Storyshots Checklist Horizontal 1`] = `
         <input
           className="usa-checkbox__input"
           defaultChecked={false}
-          id="two"
+          id="storybook-checklist-2-two"
           name="storybook-checklist-2-two"
           onChange={[Function]}
           type="checkbox"
@@ -496,7 +496,7 @@ exports[`Storyshots Checklist Horizontal 1`] = `
         />
         <label
           className="usa-checkbox__label"
-          htmlFor="two"
+          htmlFor="storybook-checklist-2-two"
         >
           Option two
         </label>
@@ -546,7 +546,7 @@ exports[`Storyshots Checklist With error 1`] = `
         <input
           className="usa-checkbox__input"
           defaultChecked={false}
-          id="one"
+          id="storybook-checklist-with-error-one"
           name="storybook-checklist-with-error-one"
           onChange={[Function]}
           type="checkbox"
@@ -554,7 +554,7 @@ exports[`Storyshots Checklist With error 1`] = `
         />
         <label
           className="usa-checkbox__label"
-          htmlFor="one"
+          htmlFor="storybook-checklist-with-error-one"
         >
           Option one
         </label>
@@ -565,7 +565,7 @@ exports[`Storyshots Checklist With error 1`] = `
         <input
           className="usa-checkbox__input"
           defaultChecked={false}
-          id="two"
+          id="storybook-checklist-with-error-two"
           name="storybook-checklist-with-error-two"
           onChange={[Function]}
           type="checkbox"
@@ -573,7 +573,7 @@ exports[`Storyshots Checklist With error 1`] = `
         />
         <label
           className="usa-checkbox__label"
-          htmlFor="two"
+          htmlFor="storybook-checklist-with-error-two"
         >
           Option two
         </label>
@@ -623,7 +623,7 @@ exports[`Storyshots Checklist With success 1`] = `
         <input
           className="usa-checkbox__input"
           defaultChecked={false}
-          id="one"
+          id="storybook-checklist-with-success-one"
           name="storybook-checklist-with-success-one"
           onChange={[Function]}
           type="checkbox"
@@ -631,7 +631,7 @@ exports[`Storyshots Checklist With success 1`] = `
         />
         <label
           className="usa-checkbox__label"
-          htmlFor="one"
+          htmlFor="storybook-checklist-with-success-one"
         >
           Option one
         </label>
@@ -642,7 +642,7 @@ exports[`Storyshots Checklist With success 1`] = `
         <input
           className="usa-checkbox__input"
           defaultChecked={false}
-          id="two"
+          id="storybook-checklist-with-success-two"
           name="storybook-checklist-with-success-two"
           onChange={[Function]}
           type="checkbox"
@@ -650,7 +650,7 @@ exports[`Storyshots Checklist With success 1`] = `
         />
         <label
           className="usa-checkbox__label"
-          htmlFor="two"
+          htmlFor="storybook-checklist-with-success-two"
         >
           Option two
         </label>
@@ -713,7 +713,7 @@ exports[`Storyshots Checklist With warning 1`] = `
         <input
           className="usa-checkbox__input"
           defaultChecked={false}
-          id="one"
+          id="storybook-checklist-with-warning-one"
           name="storybook-checklist-with-warning-one"
           onChange={[Function]}
           type="checkbox"
@@ -721,7 +721,7 @@ exports[`Storyshots Checklist With warning 1`] = `
         />
         <label
           className="usa-checkbox__label"
-          htmlFor="one"
+          htmlFor="storybook-checklist-with-warning-one"
         >
           Option one
         </label>
@@ -732,7 +732,7 @@ exports[`Storyshots Checklist With warning 1`] = `
         <input
           className="usa-checkbox__input"
           defaultChecked={false}
-          id="two"
+          id="storybook-checklist-with-warning-two"
           name="storybook-checklist-with-warning-two"
           onChange={[Function]}
           type="checkbox"
@@ -740,7 +740,7 @@ exports[`Storyshots Checklist With warning 1`] = `
         />
         <label
           className="usa-checkbox__label"
-          htmlFor="two"
+          htmlFor="storybook-checklist-with-warning-two"
         >
           Option two
         </label>

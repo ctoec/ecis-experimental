@@ -23,7 +23,7 @@ export default function Checkbox({
 		<div className={`usa-checkbox ${className}`}>
 			<input
 				className="usa-checkbox__input"
-				id={value}
+				id={name}
 				type="checkbox"
 				name={name}
 				value={value}
@@ -31,7 +31,7 @@ export default function Checkbox({
 				onChange={onChange}
 				disabled={disabled}
 			/>
-			<label className="usa-checkbox__label" htmlFor={value}>
+			<label className="usa-checkbox__label" htmlFor={name}>
 				{text}
 			</label>
 		</div>
