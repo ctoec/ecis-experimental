@@ -26,8 +26,7 @@ namespace Hedwig
       services.ConfigureControllers();
       services.ConfigureSpa();
       services.ConfigureRepositories();
-      var wingedKeysUri = Configuration.GetValue<string>("WingedKeysUri");
-      services.ConfigureAuthentication(wingedKeysUri);
+      services.ConfigureAuthentication(Configuration.GetValue<string>("WingedKeysUri"));
       services.ConfigureAuthorization();
       services.ConfigureValidation();
       services.AddSwaggerGen(c =>
