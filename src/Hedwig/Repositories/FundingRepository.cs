@@ -1,10 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Linq;
 using Hedwig.Models;
 using Hedwig.Data;
-using System;
+using System.Collections.Generic;
 
 namespace Hedwig.Repositories
 {
@@ -12,9 +10,30 @@ namespace Hedwig.Repositories
 	{
 
 		public FundingRepository(HedwigContext context) : base(context) {}
+
+		public Funding GetFirstFundingByEnrollmentId(int id)
+		{
+			return _context.Fundings
+				.Where(funding => funding.EnrollmentId == id)
+				.Where(funding => funding.Source == FundingSource.CDC)
+				.Include(funding => funding.FirstReportingPeriod)
+				.OrderBy(funding => funding.FirstReportingPeriod.PeriodStart)
+				.FirstOrDefault();
+		}
+
+		public List<Funding> GetFundingsByEnrollmentId(int enrollmentId)
+		{
+			return _context.Fundings
+				.Where(f => f.EnrollmentId == enrollmentId)
+				.Include(f => f.FirstReportingPeriod)
+				.Include(f => f.LastReportingPeriod)
+				.ToList();
+		}
 	}
 
-	public interface IFundingRepository
+	public interface IFundingRepository : IHedwigRepository
 	{
+		Funding GetFirstFundingByEnrollmentId(int id);
+		List<Funding> GetFundingsByEnrollmentId(int enrollmentId);
 	}
 }
