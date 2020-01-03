@@ -96,6 +96,12 @@ export interface Enrollment {
     exit?: Date | null;
     /**
      * 
+     * @type {string}
+     * @memberof Enrollment
+     */
+    exitReason?: string | null;
+    /**
+     * 
      * @type {Array<Funding>}
      * @memberof Enrollment
      */
@@ -138,6 +144,7 @@ export function EnrollmentFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'ageGroup': !exists(json, 'ageGroup') ? undefined : AgeFromJSON(json['ageGroup']),
         'entry': !exists(json, 'entry') ? undefined : (json['entry'] === null ? null : new Date(json['entry'])),
         'exit': !exists(json, 'exit') ? undefined : (json['exit'] === null ? null : new Date(json['exit'])),
+        'exitReason': !exists(json, 'exitReason') ? undefined : json['exitReason'],
         'fundings': !exists(json, 'fundings') ? undefined : (json['fundings'] === null ? null : (json['fundings'] as Array<any>).map(FundingFromJSON)),
         'validationErrors': !exists(json, 'validationErrors') ? undefined : (json['validationErrors'] === null ? null : (json['validationErrors'] as Array<any>).map(ValidationErrorFromJSON)),
         'authorId': !exists(json, 'authorId') ? undefined : json['authorId'],
@@ -162,6 +169,7 @@ export function EnrollmentToJSON(value?: Enrollment | null): any {
         'ageGroup': AgeToJSON(value.ageGroup),
         'entry': value.entry === undefined ? undefined : (value.entry === null ? null : value.entry.toISOString()),
         'exit': value.exit === undefined ? undefined : (value.exit === null ? null : value.exit.toISOString()),
+        'exitReason': value.exitReason,
         'fundings': value.fundings === undefined ? undefined : (value.fundings === null ? null : (value.fundings as Array<any>).map(FundingToJSON)),
         'validationErrors': value.validationErrors === undefined ? undefined : (value.validationErrors === null ? null : (value.validationErrors as Array<any>).map(ValidationErrorToJSON)),
         'authorId': value.authorId,
