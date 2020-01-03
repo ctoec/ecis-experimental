@@ -22,7 +22,7 @@ const FamilyInfo: Section = {
 		const family = enrollment.child.family;
 		const [address, missingInformation] = addressFormatter(family);
 		const foster = enrollment.child.foster;
-		const homelessness = family.homelessness;
+		const homelessness = family && family.homelessness;
 		return (
 			<div className="FamilyInfoSummary">
 				{family && (address || foster || homelessness) ? (
