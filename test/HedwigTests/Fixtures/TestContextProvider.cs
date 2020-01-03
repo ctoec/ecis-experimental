@@ -27,7 +27,7 @@ namespace HedwigTests.Fixtures
 				optionsBuilder.UseLoggerFactory(loggerFactory);
 			}
 
-           	HttpContextAccessor = new TestHttpContextAccessorProvider().HttpContextAccessor;
+			HttpContextAccessor = new TestHttpContextAccessorProvider().HttpContextAccessor;
 			Context = new TestHedwigContext(optionsBuilder.Options, HttpContextAccessor);
 		}
 		public void Dispose()
