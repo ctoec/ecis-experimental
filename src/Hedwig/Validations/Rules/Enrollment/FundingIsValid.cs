@@ -18,7 +18,13 @@ namespace Hedwig.Validations.Rules
 
     public ValidationError Execute(Enrollment enrollment)
     {
-      if (enrollment != null && enrollment.Fundings.Count > 0)
+      if (enrollment == null)
+      {
+        return null;
+      }
+
+      var fundings = enrollment.Fundings ?? _fundings.GetFundingsByEnrollmentId(enrollment.Id);
+      if (fundings.Count > 0)
       {
 
         var funding = _fundings.GetFirstFundingByEnrollmentId(enrollment.Id);
