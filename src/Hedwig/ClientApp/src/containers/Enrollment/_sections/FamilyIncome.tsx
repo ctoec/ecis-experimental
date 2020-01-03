@@ -227,6 +227,7 @@ const FamilyIncome: Section = {
 										startDate: determinationDate ? moment(determinationDate) : null,
 										endDate: null,
 									}}
+									status={errorForField('determinationDate', determinationDate, attemptedSave, !notDisclosed)}
 								/>
 							</FieldSet>
 						</>
