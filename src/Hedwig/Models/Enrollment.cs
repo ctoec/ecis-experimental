@@ -30,6 +30,8 @@ namespace Hedwig.Models
 
 		public DateTime? Exit { get; set; }
 
+		public string ExitReason { get; set; }
+
 		public ICollection<Funding> Fundings { get; set; }
 
 		[NotMapped]
