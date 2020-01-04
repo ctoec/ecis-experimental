@@ -262,45 +262,34 @@ exports[`Storyshots Checklist Box disabled 1`] = `
       <div
         className=""
       >
-        <input
-          className="usa-checkbox__input"
-          defaultChecked={true}
-          disabled={true}
-          id="storybook-checklist-disabled-one"
-          name="storybook-checklist-disabled-one"
-          onChange={[Function]}
-          type="checkbox"
-          value="one"
-        />
-        <label
-          className="usa-checkbox__label"
-          htmlFor="storybook-checklist-disabled-one"
-        >
-          Option one
-        </label>
-      </div>
-      <div
-        className="usa-checkbox "
-      >
-        <input
-          className="usa-checkbox__input"
-          defaultChecked={true}
-          disabled={true}
-          id="storybook-checklist-disabled-two"
-          name="storybook-checklist-disabled-two"
-          onChange={[Function]}
-          type="checkbox"
-          value="two"
-        />
-        <label
-          className="usa-checkbox__label"
-          htmlFor="storybook-checklist-disabled-two"
+        <div
+          className="usa-checkbox "
         >
           <input
             className="usa-checkbox__input"
             defaultChecked={true}
             disabled={true}
-            id="two"
+            id="storybook-checklist-disabled-one"
+            name="storybook-checklist-disabled-one"
+            onChange={[Function]}
+            type="checkbox"
+            value="one"
+          />
+          <label
+            className="usa-checkbox__label"
+            htmlFor="storybook-checklist-disabled-one"
+          >
+            Option one
+          </label>
+        </div>
+        <div
+          className="usa-checkbox "
+        >
+          <input
+            className="usa-checkbox__input"
+            defaultChecked={true}
+            disabled={true}
+            id="storybook-checklist-disabled-two"
             name="storybook-checklist-disabled-two"
             onChange={[Function]}
             type="checkbox"
@@ -308,7 +297,7 @@ exports[`Storyshots Checklist Box disabled 1`] = `
           />
           <label
             className="usa-checkbox__label"
-            htmlFor="two"
+            htmlFor="storybook-checklist-disabled-two"
           >
             Option two
           </label>
@@ -345,42 +334,32 @@ exports[`Storyshots Checklist Default 1`] = `
       <div
         className=""
       >
-        <input
-          className="usa-checkbox__input"
-          defaultChecked={false}
-          id="storybook-checklist-one"
-          name="storybook-checklist-one"
-          onChange={[Function]}
-          type="checkbox"
-          value="one"
-        />
-        <label
-          className="usa-checkbox__label"
-          htmlFor="storybook-checklist-one"
-        >
-          Option one
-        </label>
-      </div>
-      <div
-        className="usa-checkbox "
-      >
-        <input
-          className="usa-checkbox__input"
-          defaultChecked={false}
-          id="storybook-checklist-two"
-          name="storybook-checklist-two"
-          onChange={[Function]}
-          type="checkbox"
-          value="two"
-        />
-        <label
-          className="usa-checkbox__label"
-          htmlFor="storybook-checklist-two"
+        <div
+          className="usa-checkbox "
         >
           <input
             className="usa-checkbox__input"
             defaultChecked={false}
-            id="two"
+            id="storybook-checklist-one"
+            name="storybook-checklist-one"
+            onChange={[Function]}
+            type="checkbox"
+            value="one"
+          />
+          <label
+            className="usa-checkbox__label"
+            htmlFor="storybook-checklist-one"
+          >
+            Option one
+          </label>
+        </div>
+        <div
+          className="usa-checkbox "
+        >
+          <input
+            className="usa-checkbox__input"
+            defaultChecked={false}
+            id="storybook-checklist-two"
             name="storybook-checklist-two"
             onChange={[Function]}
             type="checkbox"
@@ -388,7 +367,7 @@ exports[`Storyshots Checklist Default 1`] = `
           />
           <label
             className="usa-checkbox__label"
-            htmlFor="two"
+            htmlFor="storybook-checklist-two"
           >
             Option two
           </label>
@@ -425,42 +404,32 @@ exports[`Storyshots Checklist Default selection 1`] = `
       <div
         className=""
       >
-        <input
-          className="usa-checkbox__input"
-          defaultChecked={true}
-          id="storybook-checklist-default-selection-one"
-          name="storybook-checklist-default-selection-one"
-          onChange={[Function]}
-          type="checkbox"
-          value="one"
-        />
-        <label
-          className="usa-checkbox__label"
-          htmlFor="storybook-checklist-default-selection-one"
-        >
-          Option one
-        </label>
-      </div>
-      <div
-        className="usa-checkbox "
-      >
-        <input
-          className="usa-checkbox__input"
-          defaultChecked={true}
-          id="storybook-checklist-default-selection-two"
-          name="storybook-checklist-default-selection-two"
-          onChange={[Function]}
-          type="checkbox"
-          value="two"
-        />
-        <label
-          className="usa-checkbox__label"
-          htmlFor="storybook-checklist-default-selection-two"
+        <div
+          className="usa-checkbox "
         >
           <input
             className="usa-checkbox__input"
             defaultChecked={true}
-            id="two"
+            id="storybook-checklist-default-selection-one"
+            name="storybook-checklist-default-selection-one"
+            onChange={[Function]}
+            type="checkbox"
+            value="one"
+          />
+          <label
+            className="usa-checkbox__label"
+            htmlFor="storybook-checklist-default-selection-one"
+          >
+            Option one
+          </label>
+        </div>
+        <div
+          className="usa-checkbox "
+        >
+          <input
+            className="usa-checkbox__input"
+            defaultChecked={true}
+            id="storybook-checklist-default-selection-two"
             name="storybook-checklist-default-selection-two"
             onChange={[Function]}
             type="checkbox"
@@ -468,7 +437,7 @@ exports[`Storyshots Checklist Default selection 1`] = `
           />
           <label
             className="usa-checkbox__label"
-            htmlFor="two"
+            htmlFor="storybook-checklist-default-selection-two"
           >
             Option two
           </label>
@@ -505,42 +474,32 @@ exports[`Storyshots Checklist Horizontal 1`] = `
       <div
         className="grid-row flex-align-start grid-gap"
       >
-        <input
-          className="usa-checkbox__input"
-          defaultChecked={false}
-          id="storybook-checklist-2-one"
-          name="storybook-checklist-2-one"
-          onChange={[Function]}
-          type="checkbox"
-          value="one"
-        />
-        <label
-          className="usa-checkbox__label"
-          htmlFor="storybook-checklist-2-one"
-        >
-          Option one
-        </label>
-      </div>
-      <div
-        className="usa-checkbox grid-col flex-auto"
-      >
-        <input
-          className="usa-checkbox__input"
-          defaultChecked={false}
-          id="storybook-checklist-2-two"
-          name="storybook-checklist-2-two"
-          onChange={[Function]}
-          type="checkbox"
-          value="two"
-        />
-        <label
-          className="usa-checkbox__label"
-          htmlFor="storybook-checklist-2-two"
+        <div
+          className="usa-checkbox grid-col flex-auto"
         >
           <input
             className="usa-checkbox__input"
             defaultChecked={false}
-            id="two"
+            id="storybook-checklist-2-one"
+            name="storybook-checklist-2-one"
+            onChange={[Function]}
+            type="checkbox"
+            value="one"
+          />
+          <label
+            className="usa-checkbox__label"
+            htmlFor="storybook-checklist-2-one"
+          >
+            Option one
+          </label>
+        </div>
+        <div
+          className="usa-checkbox grid-col flex-auto"
+        >
+          <input
+            className="usa-checkbox__input"
+            defaultChecked={false}
+            id="storybook-checklist-2-two"
             name="storybook-checklist-2-two"
             onChange={[Function]}
             type="checkbox"
@@ -548,7 +507,7 @@ exports[`Storyshots Checklist Horizontal 1`] = `
           />
           <label
             className="usa-checkbox__label"
-            htmlFor="two"
+            htmlFor="storybook-checklist-2-two"
           >
             Option two
           </label>
@@ -595,23 +554,13 @@ exports[`Storyshots Checklist With error 1`] = `
       <div
         className=""
       >
-        <input
-          className="usa-checkbox__input"
-          defaultChecked={false}
-          id="storybook-checklist-with-error-one"
-          name="storybook-checklist-with-error-one"
-          onChange={[Function]}
-          type="checkbox"
-          value="one"
-        />
-        <label
-          className="usa-checkbox__label"
-          htmlFor="storybook-checklist-with-error-one"
+        <div
+          className="usa-checkbox "
         >
           <input
             className="usa-checkbox__input"
             defaultChecked={false}
-            id="one"
+            id="storybook-checklist-with-error-one"
             name="storybook-checklist-with-error-one"
             onChange={[Function]}
             type="checkbox"
@@ -619,7 +568,7 @@ exports[`Storyshots Checklist With error 1`] = `
           />
           <label
             className="usa-checkbox__label"
-            htmlFor="one"
+            htmlFor="storybook-checklist-with-error-one"
           >
             Option one
           </label>
@@ -630,7 +579,7 @@ exports[`Storyshots Checklist With error 1`] = `
           <input
             className="usa-checkbox__input"
             defaultChecked={false}
-            id="two"
+            id="storybook-checklist-with-error-two"
             name="storybook-checklist-with-error-two"
             onChange={[Function]}
             type="checkbox"
@@ -638,7 +587,7 @@ exports[`Storyshots Checklist With error 1`] = `
           />
           <label
             className="usa-checkbox__label"
-            htmlFor="two"
+            htmlFor="storybook-checklist-with-error-two"
           >
             Option two
           </label>
@@ -691,7 +640,7 @@ exports[`Storyshots Checklist With success 1`] = `
           <input
             className="usa-checkbox__input"
             defaultChecked={false}
-            id="one"
+            id="storybook-checklist-with-success-one"
             name="storybook-checklist-with-success-one"
             onChange={[Function]}
             type="checkbox"
@@ -699,7 +648,7 @@ exports[`Storyshots Checklist With success 1`] = `
           />
           <label
             className="usa-checkbox__label"
-            htmlFor="one"
+            htmlFor="storybook-checklist-with-success-one"
           >
             Option one
           </label>
@@ -710,7 +659,7 @@ exports[`Storyshots Checklist With success 1`] = `
           <input
             className="usa-checkbox__input"
             defaultChecked={false}
-            id="two"
+            id="storybook-checklist-with-success-two"
             name="storybook-checklist-with-success-two"
             onChange={[Function]}
             type="checkbox"
@@ -718,7 +667,7 @@ exports[`Storyshots Checklist With success 1`] = `
           />
           <label
             className="usa-checkbox__label"
-            htmlFor="two"
+            htmlFor="storybook-checklist-with-success-two"
           >
             Option two
           </label>
@@ -784,7 +733,7 @@ exports[`Storyshots Checklist With warning 1`] = `
           <input
             className="usa-checkbox__input"
             defaultChecked={false}
-            id="one"
+            id="storybook-checklist-with-warning-one"
             name="storybook-checklist-with-warning-one"
             onChange={[Function]}
             type="checkbox"
@@ -792,7 +741,7 @@ exports[`Storyshots Checklist With warning 1`] = `
           />
           <label
             className="usa-checkbox__label"
-            htmlFor="one"
+            htmlFor="storybook-checklist-with-warning-one"
           >
             Option one
           </label>
@@ -803,7 +752,7 @@ exports[`Storyshots Checklist With warning 1`] = `
           <input
             className="usa-checkbox__input"
             defaultChecked={false}
-            id="two"
+            id="storybook-checklist-with-warning-two"
             name="storybook-checklist-with-warning-two"
             onChange={[Function]}
             type="checkbox"
@@ -811,7 +760,7 @@ exports[`Storyshots Checklist With warning 1`] = `
           />
           <label
             className="usa-checkbox__label"
-            htmlFor="two"
+            htmlFor="storybook-checklist-with-warning-two"
           >
             Option two
           </label>
@@ -831,6 +780,7 @@ exports[`Storyshots Date input Default 1`] = `
   }
 >
   <fieldset
+    aria-describedby="dateinput-example-start-date-hint"
     className="grid-gap grid-row usa-fieldset 
 			
     "
@@ -842,6 +792,11 @@ exports[`Storyshots Date input Default 1`] = `
     >
       Date
     </legend>
+    <span
+      className="usa-hint"
+    >
+      For example: 04 28 1986
+    </span>
     <div
       className="grid-gap grid-row flex-row display-flex flex-align-end usa-memorable-date"
     >
@@ -929,6 +884,7 @@ exports[`Storyshots Date input Disabled day input 1`] = `
   }
 >
   <fieldset
+    aria-describedby="dateinput-example-start-date-hint"
     className="grid-gap grid-row usa-fieldset 
 			
     "
@@ -940,6 +896,11 @@ exports[`Storyshots Date input Disabled day input 1`] = `
     >
       Date
     </legend>
+    <span
+      className="usa-hint"
+    >
+      For example: 04 28 1986
+    </span>
     <div
       className="grid-gap grid-row flex-row display-flex flex-align-end usa-memorable-date"
     >
@@ -1062,6 +1023,7 @@ exports[`Storyshots Date input Disabled range input 1`] = `
         >
           Date start
         </legend>
+        
         <div
           className="grid-gap grid-row flex-row display-flex flex-align-end usa-memorable-date"
         >
@@ -1243,6 +1205,7 @@ exports[`Storyshots Date input Error 1`] = `
   }
 >
   <fieldset
+    aria-describedby="dateinput-example-start-date-hint"
     className="grid-gap grid-row usa-fieldset 
 			
     "
@@ -1254,6 +1217,11 @@ exports[`Storyshots Date input Error 1`] = `
     >
       Date
     </legend>
+    <span
+      className="usa-hint"
+    >
+      For example: 04 28 1986
+    </span>
     <div
       className="grid-gap grid-row flex-row display-flex flex-align-end usa-memorable-date"
     >
@@ -1382,6 +1350,7 @@ exports[`Storyshots Date input Error with range 1`] = `
         >
           Date start
         </legend>
+        
         <div
           className="grid-gap grid-row flex-row display-flex flex-align-end usa-memorable-date"
         >
@@ -1595,6 +1564,7 @@ exports[`Storyshots Date input Range input 1`] = `
         >
           Date start
         </legend>
+        
         <div
           className="grid-gap grid-row flex-row display-flex flex-align-end usa-memorable-date"
         >
@@ -1770,6 +1740,7 @@ exports[`Storyshots Date input Success 1`] = `
   }
 >
   <fieldset
+    aria-describedby="dateinput-example-start-date-hint"
     className="grid-gap grid-row usa-fieldset 
 			
     "
@@ -1781,6 +1752,11 @@ exports[`Storyshots Date input Success 1`] = `
     >
       Date
     </legend>
+    <span
+      className="usa-hint"
+    >
+      For example: 04 28 1986
+    </span>
     <div
       className="grid-gap grid-row flex-row display-flex flex-align-end usa-memorable-date"
     >
@@ -1909,6 +1885,7 @@ exports[`Storyshots Date input Success with range 1`] = `
         >
           Date start
         </legend>
+        
         <div
           className="grid-gap grid-row flex-row display-flex flex-align-end usa-memorable-date"
         >
@@ -1990,18 +1967,9 @@ exports[`Storyshots Date input Success with range 1`] = `
     "
         id="dateinput-example-end-date"
       >
-        <input
-          className="usa-checkbox__input"
-          defaultChecked={false}
-          id="storybook-checklist-with-error-two"
-          name="storybook-checklist-with-error-two"
-          onChange={[Function]}
-          type="checkbox"
-          value="two"
-        />
-        <label
-          className="usa-checkbox__label"
-          htmlFor="storybook-checklist-with-error-two"
+        <legend
+          className="usa-label"
+          id="fieldset-legend-dateinput-example-end-date"
         >
           Date end
         </legend>
@@ -2093,6 +2061,7 @@ exports[`Storyshots Date input Warning 1`] = `
   }
 >
   <fieldset
+    aria-describedby="dateinput-example-start-date-hint"
     className="grid-gap grid-row usa-fieldset 
 			
     "
@@ -2104,24 +2073,20 @@ exports[`Storyshots Date input Warning 1`] = `
     >
       Date
     </legend>
+    <span
+      className="usa-hint"
+    >
+      For example: 04 28 1986
+    </span>
     <div
       className="grid-gap grid-row flex-row display-flex flex-align-end usa-memorable-date"
     >
       <div
         className="oec-date-input__input margin-left-0 usa-form-group"
       >
-        <input
-          className="usa-checkbox__input"
-          defaultChecked={false}
-          id="storybook-checklist-with-success-one"
-          name="storybook-checklist-with-success-one"
-          onChange={[Function]}
-          type="checkbox"
-          value="one"
-        />
         <label
-          className="usa-checkbox__label"
-          htmlFor="storybook-checklist-with-success-one"
+          className="usa-label"
+          htmlFor="dateinput-example-month-start-date"
         >
           Month
            
@@ -2150,10 +2115,14 @@ exports[`Storyshots Date input Warning 1`] = `
            
         </label>
         <input
-          className="usa-checkbox__input"
-          defaultChecked={false}
-          id="storybook-checklist-with-success-two"
-          name="storybook-checklist-with-success-two"
+          className="usa-input usa-input--inline"
+          defaultValue="30"
+          id="dateinput-example-day-start-date"
+          max={31}
+          maxLength={2}
+          min={1}
+          name="dateinput-example-day-start-date"
+          onBlur={[Function]}
           onChange={[Function]}
           type="number"
         />
@@ -2162,8 +2131,8 @@ exports[`Storyshots Date input Warning 1`] = `
         className="oec-date-input__input margin-left-0 usa-form-group"
       >
         <label
-          className="usa-checkbox__label"
-          htmlFor="storybook-checklist-with-success-two"
+          className="usa-label"
+          htmlFor="dateinput-example-year-start-date"
         >
           Year
            
@@ -2244,21 +2213,13 @@ exports[`Storyshots Date input Warning with range 1`] = `
     "
         id="dateinput-example-start-date"
       >
-        <input
-          className="usa-checkbox__input"
-          defaultChecked={false}
-          id="storybook-checklist-with-warning-one"
-          name="storybook-checklist-with-warning-one"
-          onChange={[Function]}
-          type="checkbox"
-          value="one"
-        />
-        <label
-          className="usa-checkbox__label"
-          htmlFor="storybook-checklist-with-warning-one"
+        <legend
+          className="usa-label"
+          id="fieldset-legend-dateinput-example-start-date"
         >
           Date start
         </legend>
+        
         <div
           className="grid-gap grid-row flex-row display-flex flex-align-end usa-memorable-date"
         >
@@ -2340,18 +2301,9 @@ exports[`Storyshots Date input Warning with range 1`] = `
     "
         id="dateinput-example-end-date"
       >
-        <input
-          className="usa-checkbox__input"
-          defaultChecked={false}
-          id="storybook-checklist-with-warning-two"
-          name="storybook-checklist-with-warning-two"
-          onChange={[Function]}
-          type="checkbox"
-          value="two"
-        />
-        <label
-          className="usa-checkbox__label"
-          htmlFor="storybook-checklist-with-warning-two"
+        <legend
+          className="usa-label"
+          id="fieldset-legend-dateinput-example-end-date"
         >
           Date end
         </legend>
@@ -2869,7 +2821,7 @@ exports[`Storyshots DatePicker Optional 1`] = `
       className="usa-label margin-top-0 "
       htmlFor="optional-datepicker-date"
     >
-      Pick a date (Optional)
+      Pick a date
     </label>
     <span
       className="oec-date-input"
