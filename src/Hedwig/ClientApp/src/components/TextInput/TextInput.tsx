@@ -11,6 +11,9 @@ type TextInputProps = {
 	status?: FormStatusProps;
 	small?: boolean;
 	optional?: boolean;
+	className?: string;
+	inputProps?: React.HTMLProps<HTMLInputElement>;
+	inline?: boolean;
 };
 
 export default function TextInput({
@@ -23,9 +26,12 @@ export default function TextInput({
 	status,
 	small,
 	optional,
+	className,
+	inputProps,
+	inline,
 }: TextInputProps) {
 	return (
-		<div className={`usa-form-group${status ? ` usa-form-group--${status.type}` : ''}`}>
+		<div className={`${className} usa-form-group${status ? ` usa-form-group--${status.type}` : ''}`}>
 			<label className={`usa-label${status ? ` usa-label--${status.type}` : ''}`} htmlFor={id}>
 				{label} {optional && <span className="usa-label__optional">&nbsp;(optional)</span>}
 			</label>
@@ -33,7 +39,7 @@ export default function TextInput({
 			<input
 				className={`usa-input${status ? ` usa-input--${status.type}` : ''}${
 					small ? ' usa-input--small' : ''
-				}`}
+				}${inline ? ' usa-input--inline' : ''}`}
 				id={id}
 				name={id}
 				type="text"
@@ -42,6 +48,7 @@ export default function TextInput({
 				onBlur={onBlur}
 				defaultValue={defaultValue}
 				aria-describedby={status ? status.id : undefined}
+				{...inputProps}
 			/>
 		</div>
 	);

@@ -2,11 +2,12 @@ import React from 'react';
 import FormStatus, { FormStatusProps } from '../FormStatus/FormStatus';
 
 type FieldSetProps = {
-	legend: string;
+	legend: string | JSX.Element;
 	id: string;
 	showLegend?: boolean;
 	status?: FormStatusProps;
-	display?: string;
+	className?: string;
+	hint?: string;
 };
 
 const FieldSet: React.FC<FieldSetProps> = ({
@@ -14,20 +15,29 @@ const FieldSet: React.FC<FieldSetProps> = ({
 	id,
 	showLegend,
 	status,
-	display,
+	className,
 	children,
+	hint,
 }) => {
-	if (legend.length > 25) {
+	if (typeof legend === 'string' && legend.length > 25) {
+		// TODO: make this work regardless of element type
 		console.warn('FieldSet legend is kind of long. This might be annoying for people using screen readers.')
+	}
+	const hintId = `${id}-hint`;
+	let ariaDescriber;
+	if (hint) {
+		ariaDescriber = hintId;
+	}
+	if (status) {
+		ariaDescriber = status.id;
 	}
 	return (
 		<fieldset
 			className={`grid-gap grid-row usa-fieldset 
 			${status ? ` usa-fieldset--${status.type}` : ''}
-      ${display ? ` display-${display}` : ''}
     `}
 			id={id}
-			aria-describedby={status ? status.id : undefined}
+			aria-describedby={ariaDescriber}
 		>
 			<legend
 				className={
@@ -37,8 +47,9 @@ const FieldSet: React.FC<FieldSetProps> = ({
 			>
 				{legend}
 			</legend>
+			{hint && <span className="usa-hint">{hint}</span>}
 			{status && <FormStatus {...status} />}
-			{children}
+			<div className={`grid-gap grid-row ${className}`}>{children}</div>
 		</fieldset>
 	);
 };

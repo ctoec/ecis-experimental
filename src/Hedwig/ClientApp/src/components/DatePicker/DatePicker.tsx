@@ -84,7 +84,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 				className={`usa-label margin-top-0 ${status ? ` usa-label--${status.type}` : ''}`}
 				htmlFor={`${id}-date`}
 			>
-				{labelText}
+				{label}
 			</label>
 			{status && status.message && <FormStatus {...status} />}
 			<span
@@ -99,6 +99,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 					onFocusChange={({ focused }: any) => setDatePickerFocused(focused ? 'startDate' : null)}
 					isOutsideRange={date => isOutsidePossibleRange(date)}
 					initialVisibleMonth={() => moment().subtract(1, 'M')}
+					numberOfMonths={1}
 					noBorder={true}
 					disabled={disabled}
 				/>

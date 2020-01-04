@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { Section } from '../enrollmentTypes';
 import Button from '../../../components/Button/Button';
 import TextInput from '../../../components/TextInput/TextInput';
-import DatePicker from '../../../components/DatePicker/DatePicker';
+import DateInput from '../../../components/DateInput/DateInput';
 import Checklist from '../../../components/Checklist/Checklist';
 import RadioGroup from '../../../components/RadioGroup/RadioGroup';
 import Dropdown from '../../../components/Dropdown/Dropdown';
@@ -251,29 +251,23 @@ const ChildInfo: Section = {
 					</div>
 				</div>
 
+				{/* TODO: FIX HEADER SPACING-- EITHER JUST HAVE IT HERE OR FIX SPACING WHERE IT'S USED */}
 				<h3>Date of birth</h3>
-				<FieldSet
+				<DateInput
+					onChange={range =>
+						updateBirthdate((range.startDate && range.startDate.toDate()) || null)
+					}
+					dateRange={{ startDate: birthdate ? moment(birthdate) : null, endDate: null }}
+					label="Birth date"
+					id="birthdate-picker"
+					hideLabel
 					status={warningForFieldSet(
 						'birthdate-fields',
 						['birthdate'],
 						enrollment ? enrollment.child : null,
 						'This information is required for OEC reporting'
-					)} 
-					legend="Birthdate"
-					id="birthdate-fields"
-					>
-						<DatePicker
-							onChange={range => updateBirthdate((range.startDate && range.startDate.toDate()) || null)}
-							dateRange={{ startDate: birthdate ? moment(birthdate) : null, endDate: null }}
-							label="Birth date"
-							id="birthdate-picker"
-							status={warningForField(
-								'birthdate',
-								enrollment ? enrollment.child : null,
-								''
-							)}
-						/>
-				</FieldSet>
+					)}
+				/>
 
 				<h3>Birth certificate</h3>
 				<FieldSet
@@ -284,7 +278,7 @@ const ChildInfo: Section = {
 						'This information is required for OEC reporting'
 					)}
 					legend="Birth certificate"
-					display="inline-block"
+					className="display-inline-block"
 					id="birth-certificate-fields"
 				>
 					<div className="mobile-lg:grid-col-12">
@@ -393,7 +387,11 @@ const ChildInfo: Section = {
 						},
 					]}
 					selected={
-						hispanicOrLatinxEthnicity === (null || undefined) ? '' : hispanicOrLatinxEthnicity ? 'yes' : 'no'
+						hispanicOrLatinxEthnicity === (null || undefined)
+							? ''
+							: hispanicOrLatinxEthnicity
+							? 'yes'
+							: 'no'
 					}
 					onChange={event =>
 						updateHispanicOrLatinxEthnicity(

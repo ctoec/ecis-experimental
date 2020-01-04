@@ -114,7 +114,7 @@ const FamilyInfo: Section = {
 						idx(enrollment, _ => _.child.family) || null,
 						'This information is required for OEC reporting',
 					)}
-					display="inline-block"
+					className="display-inline-block"
 				>
 					<div className="mobile-lg:grid-col-12">
 						<TextInput
