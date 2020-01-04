@@ -1,11 +1,6 @@
 import React from 'react';
 import FormStatus, { FormStatusProps } from '../FormStatus/FormStatus';
 
-export type FormError = {
-  message?: string;
-  type: 'warning' | 'error';
-};
-
 type FieldSetProps = {
 	legend: string;
 	id: string;
