@@ -12,7 +12,6 @@ import { Enrollment } from '../../../generated/models/Enrollment';
 import Button from '../../../components/Button/Button';
 import { AlertProps } from '../../../components/Alert/Alert';
 import { DeepNonUndefineable, tsFilter } from '../../../utils/types';
-import AlertContext from '../../../contexts/Alert/AlertContext';
 import CommonContainer from '../../CommonContainer';
 import { DirectionalLinkProps } from '../../../components/DirectionalLink/DirectionalLink';
 
@@ -28,15 +27,12 @@ export default function ReportDetail() {
 		api => api.apiOrganizationsOrgIdReportsIdGet(reportParams),
 		[user]
 	);
-	const { getAlerts, setAlerts } = useContext(AlertContext);
-	const alerts = getAlerts();
-
+	
 	if (loading || error || !report) {
 		return <div className="Report"></div>;
 	}
 
-	const numEnrollmentsMissingInfo = tsFilter<Enrollment>(
-		report.enrollments as DeepNonUndefineable<Enrollment[]>,
+	const numEnrollmentsMissingInfo = (report.enrollments|| []).filter<DeepNonUndefineable<Enrollment>>(
 		e => !!e.validationErrors && e.validationErrors.length > 0
 	).length;
 

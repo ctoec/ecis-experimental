@@ -16,7 +16,7 @@ export default function CommonContainer({
 	additionalAlerts = [] as AlertProps[],
 }: CommonContainerPropsType) {
 	const { getAlerts } = useContext(AlertContext);
-	const alerts = additionalAlerts.concat(getAlerts());
+	const alerts = [...additionalAlerts, ...getAlerts()];
 
 	return (
 		<ErrorBoundary>
