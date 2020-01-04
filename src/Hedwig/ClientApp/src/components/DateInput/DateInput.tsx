@@ -131,6 +131,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 			legend={format === 'rangeInput' ? `${label} start` : label}
 			id={`${id}-start-date`}
 			showLegend={format === 'rangeInput' ? true : !hideLabel}
+			hint={format !== 'rangeInput' ? 'For example: 04 28 1986' : ''}
 			className="flex-row display-flex flex-align-end usa-memorable-date"
 		>
 			{Object.keys(inputDetails).map(key => (

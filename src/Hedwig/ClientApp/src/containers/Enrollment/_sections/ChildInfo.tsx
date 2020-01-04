@@ -252,37 +252,22 @@ const ChildInfo: Section = {
 				</div>
 
 				{/* TODO: FIX HEADER SPACING-- EITHER JUST HAVE IT HERE OR FIX SPACING WHERE IT'S USED */}
-				{/* TODO: GENERALLY FIX THIS */}
 				<h3>Date of birth</h3>
-				<FieldSet
+				<DateInput
+					onChange={range =>
+						updateBirthdate((range.startDate && range.startDate.toDate()) || null)
+					}
+					dateRange={{ startDate: birthdate ? moment(birthdate) : null, endDate: null }}
+					label="Birth date"
+					id="birthdate-picker"
+					hideLabel
 					status={warningForFieldSet(
 						'birthdate-fields',
 						['birthdate'],
 						enrollment ? enrollment.child : null,
 						'This information is required for OEC reporting'
-					)} 
-					legend="Birthdate"
-					id="birthdate-fields"
-					>
-						<DatePicker
-							onChange={range => updateBirthdate((range.startDate && range.startDate.toDate()) || null)}
-							dateRange={{ startDate: birthdate ? moment(birthdate) : null, endDate: null }}
-							label="Birth date"
-							id="birthdate-picker"
-							status={warningForField(
-								'birthdate',
-								enrollment ? enrollment.child : null,
-								''
-							)}
-						/>
-				<DateInput
-					onChange={range => updateBirthdate((range.startDate && range.startDate.toDate()) || null)}
-					dateRange={{ startDate: birthdate ? moment(birthdate) : null, endDate: null }}
-					label="Date of birth"
-					id="birthdate-picker"
-					hideLabel
+					)}
 				/>
-				</FieldSet>
 
 				<h3>Birth certificate</h3>
 				<FieldSet
@@ -402,7 +387,11 @@ const ChildInfo: Section = {
 						},
 					]}
 					selected={
-						hispanicOrLatinxEthnicity === (null || undefined) ? '' : hispanicOrLatinxEthnicity ? 'yes' : 'no'
+						hispanicOrLatinxEthnicity === (null || undefined)
+							? ''
+							: hispanicOrLatinxEthnicity
+							? 'yes'
+							: 'no'
 					}
 					onChange={event =>
 						updateHispanicOrLatinxEthnicity(
