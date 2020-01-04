@@ -131,6 +131,9 @@ namespace Hedwig
 			services.AddScoped<IValidationRule<FamilyDetermination>, IfDisclosedIncomeRequired>();
 			services.AddScoped<IValidationRule<FamilyDetermination>, IfDisclosedNumberOfPeopleRequired>();
 
+			// Fundings
+			services.AddScoped<IValidationRule<Funding>, EndOfFirstReportingPeriodIsLaterThanEnrollmentStartDate>();
+
 			// Reports
 			services.AddScoped<IValidationRule<CdcReport>, EnrollmentsAreValid>();
 

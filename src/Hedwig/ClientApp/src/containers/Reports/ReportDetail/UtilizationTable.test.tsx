@@ -110,7 +110,7 @@ describe('UtilizationTable', () => {
 
     const table = mount(<UtilizationTable {...report} />);
 
-    expect(table.find('tr')).toHaveLength(3);
+    expect(table.find('tr')).toHaveLength(5);
   });
 
   it('does not include enrollments without an age', () => {
