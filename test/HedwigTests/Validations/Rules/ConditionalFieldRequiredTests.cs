@@ -20,7 +20,7 @@ namespace HedwigTests.Validations.Rules
       var entity = new TestValidatableEntity();
 
       // when
-      var rule = new Mock<FieldRequired<TestValidatableEntity>>(fieldName, prettyFieldName);
+      var rule = new Mock<FieldRequired<TestValidatableEntity>>(fieldName, prettyFieldName, false);
       rule.CallBase = true;
       var result = rule.Object.Execute(entity);
 
