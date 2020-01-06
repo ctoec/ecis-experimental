@@ -27,7 +27,10 @@ namespace Hedwig.Validations.Rules
       if (fundings.Count > 0)
       {
 
+        // TODO validation all fundings
         var funding = _fundings.GetFirstFundingByEnrollmentId(enrollment.Id);
+        
+        // Hydrate fundings with enrollment object so it can be accessed in funding validations
         funding.Enrollment = enrollment;
 
         ValidateSubObject(funding);

@@ -41,19 +41,5 @@ namespace Hedwig.Validations.Attributes
 
       return null;
     }
-
-    private bool ReportingPeriodIsValid(ReportingPeriod period, DateTime? compareDate)
-    {
-      if(compareDate.HasValue && period != null)
-      {
-        if(period.PeriodStart.Date  > compareDate.Value.Date
-          || period.PeriodEnd.Date < compareDate.Value.Date)
-        {
-          return false;
-        }
-      }
-
-      return true;
-    }
   }
 }
