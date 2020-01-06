@@ -28,10 +28,13 @@ namespace Hedwig.Models
 
 		public DateTime? Entry { get; set; }
 
+		[Exit_AfterEntryIfExists]
 		public DateTime? Exit { get; set; }
 
+		[ExitReason_RequiredIfExitExists]
 		public string ExitReason { get; set; }
 
+		[CDC_Funding_ReportingPeriodsAreValid]
 		public ICollection<Funding> Fundings { get; set; }
 
 		[NotMapped]

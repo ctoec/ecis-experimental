@@ -134,7 +134,7 @@ namespace Hedwig.Data
             enrollmentId: enrollment.Id,
             source: FundingSource.CDC,
             time: FundingTime.Full,
-            firstReportingPeriod: reportingPeriods[0],
+            firstReportingPeriod: reportingPeriods[1],
             lastReportingPeriod: cells[6] != "" ? reportingPeriods[0] : null
           );
         }

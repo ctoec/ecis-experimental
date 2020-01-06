@@ -15,6 +15,7 @@ import getIdForUser from '../../../utils/getIdForUser';
 import InlineIcon from '../../../components/InlineIcon/InlineIcon';
 import CommonContainer from '../../CommonContainer';
 import { SectionProps } from '../enrollmentTypes';
+import Button from '../../../components/Button/Button';
 
 type EnrollmentDetailParams = {
 	match: {
@@ -69,7 +70,12 @@ export default function EnrollmentDetail({
 			}}
 		>
 			<section className="grid-container">
-				<h1>{nameFormatter(child)}</h1>
+				<div className="grid-row flex-first-baseline flex-space-between">
+					<h1>{nameFormatter(child)}</h1>
+					<div className="tablet:grid-col-auto">
+						<Button text="Withdraw" href={`/roster/enrollments/${enrollment.id}/withdraw`} />
+					</div>
+				</div>
 				{sections.map(section => {
 					var props: SectionProps = { enrollment, mutate };
 

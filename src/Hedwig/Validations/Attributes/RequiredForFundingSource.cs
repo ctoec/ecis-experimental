@@ -18,7 +18,7 @@ namespace Hedwig.Validations.Attributes
       {
         if(value == null)
         {
-          return new ValidationResult($"{validationContext.DisplayName} is required for funding with source: {funding.Source.ToString()}");
+          return new ValidationResult($"{validationContext.DisplayName} is required for {funding.Source.ToString()} funding");
         }
       }
 

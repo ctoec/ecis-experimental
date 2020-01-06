@@ -121,12 +121,12 @@ const FamilyIncome: Section = {
 
 			// If determination is added, all fields must be present
 			// or notDisclosed must be true
-			if ((numberOfPeople && income && determination) || notDisclosed) {
+			if ((numberOfPeople && income && determinationDate) || notDisclosed) {
 				const args = {
 					notDisclosed: notDisclosed,
 					numberOfPeople: notDisclosed ? undefined : numberOfPeople || undefined,
 					income: notDisclosed ? undefined : income || undefined,
-					determined: notDisclosed ? undefined : determination || undefined,
+					determined: notDisclosed ? undefined : determinationDate || undefined,
 				};
 
 				if (enrollment && child && child.family) {

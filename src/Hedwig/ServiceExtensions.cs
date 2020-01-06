@@ -131,11 +131,11 @@ namespace Hedwig
 			services.AddScoped<IValidationRule<FamilyDetermination>, IfDisclosedIncomeRequired>();
 			services.AddScoped<IValidationRule<FamilyDetermination>, IfDisclosedNumberOfPeopleRequired>();
 
-			// Fundings
-			services.AddScoped<IValidationRule<Funding>, EndOfFirstReportingPeriodIsLaterThanEnrollmentStartDate>();
-
 			// Reports
 			services.AddScoped<IValidationRule<CdcReport>, EnrollmentsAreValid>();
+
+			// Funding
+			services.AddScoped<IValidationRule<Funding>, IfEnrollmentEntry_FirstReportingPeriodRequired>();
 
 			// Register Non-blocking validator
 			services.AddScoped<INonBlockingValidator, NonBlockingValidator>();
