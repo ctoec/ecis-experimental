@@ -386,7 +386,7 @@ $future-step-color: color('base-dark') !default;
 	}
 }
 
-.hedwig-enrollment-details-section {
+.oec-enrollment-details-section {
 	@include u-padding-bottom(1);
 	border-bottom: units('1px') solid color('base-lighter');
 
@@ -396,7 +396,7 @@ $future-step-color: color('base-dark') !default;
 	}
 }
 
-.hedwig-enrollment-details-section__actions {
+.oec-enrollment-details-section__actions {
 	@include u-margin-bottom(2);
 	@include u-line-height('ui', 3);
 	margin-left: auto;
@@ -412,7 +412,7 @@ $future-step-color: color('base-dark') !default;
 	}
 }
 
-.hedwig-enrollment-details-section__content {
+.oec-enrollment-details-section__content {
 	p {
 		@include u-margin-y(1);
 	}
@@ -511,6 +511,12 @@ $future-step-color: color('base-dark') !default;
 	border-left-color: color($theme-color-warning-dark);
 }
 
+// TODO: DO WE WANT THIS?
+// .usa-form-group--success {
+// 	@extend .usa-form-group--error;
+// 	border-left-color: color($theme-color-success-dark);
+// }
+
 .usa-warning-message, .usa-success-message {
 	@extend .usa-error-message;
 	color: color($theme-color-base);
@@ -521,6 +527,12 @@ $future-step-color: color('base-dark') !default;
 	@extend .usa-input--error;
 	border-color: color($theme-color-warning-dark);
 }
+
+// TODO: DO WE WANT THIS?
+// .usa-input--success {
+// 	@extend .usa-input--error;
+// 	border-color: color($theme-color-success-dark);
+// }
 
 .usa-fieldset--error {
 	border-left-width: 0.25rem;
@@ -560,6 +572,7 @@ $future-step-color: color('base-dark') !default;
 }
 
 .oec-form-helper {
+	// Help text within a form
 	margin-top: 0;
 	font-size: size('ui', 4);
 	font-style: italic;
@@ -630,6 +643,16 @@ $future-step-color: color('base-dark') !default;
 .oec-directional-link__arrow--direction-up {
   -webkit-transform: rotate(270deg);
   transform: rotate(270deg);
+}
+
+// *** Button ***
+// When we use links like buttons we need to style them the same
+a.usa-button {
+	text-decoration: inherit;
+}
+
+.usa-form a.usa-button:visited {
+	@extend .usa-button:visited;
 }
 
 // Background and text colors-- text used for SVG where fill or stroke attr = currentColor

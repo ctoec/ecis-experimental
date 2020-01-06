@@ -80,12 +80,12 @@ export default function EnrollmentDetail({
 					var props: SectionProps = { enrollment, mutate };
 
 					return (
-						<section key={section.key} className="hedwig-enrollment-details-section">
-							<div className="hedwig-enrollment-details-section__content">
+						<section key={section.key} className="oec-enrollment-details-section">
+							<div className="oec-enrollment-details-section__content">
 								<h2>{section.name}</h2>
 								<section.Summary {...props} />
 							</div>
-							<div className="hedwig-enrollment-details-section__actions">
+							<div className="oec-enrollment-details-section__actions">
 								{section.status(props) === 'incomplete' && (
 									<span>
 										<InlineIcon icon="incomplete" /> Missing information
