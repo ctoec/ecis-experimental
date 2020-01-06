@@ -4,7 +4,7 @@ namespace Hedwig.Validations.Rules
 {
   public class FamilyIdRequired : FieldRequired<Child>
   {
-    public FamilyIdRequired() : base("FamilyId")
+    public FamilyIdRequired() : base("FamilyId", isSubObjectValidation: true)
     { }
   }
 }

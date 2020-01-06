@@ -28,10 +28,10 @@ namespace HedwigTests.Validations.Rules
       };
 
       var determinationRule = new Mock<IValidationRule<FamilyDetermination>>();
-      var mostRecentResult = mostRecentIsValid ? null : new ValidationError("message", "field");
+      var mostRecentResult = mostRecentIsValid ? null : new ValidationError("message", field: "field");
       determinationRule.Setup(dr => dr.Execute(mostRecent))
         .Returns(mostRecentResult);
-      var otherResult = otherIsValid ? null : new ValidationError("message", "field");
+      var otherResult = otherIsValid ? null : new ValidationError("message", field: "field");
       determinationRule.Setup(dr => dr.Execute(older))
         .Returns(otherResult);
 

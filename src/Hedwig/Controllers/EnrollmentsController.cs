@@ -109,6 +109,7 @@ namespace Hedwig.Controllers
                 return NotFound();
             }
 
+            _validator.Validate(enrollment);
             return Ok(enrollment);
         }
     }

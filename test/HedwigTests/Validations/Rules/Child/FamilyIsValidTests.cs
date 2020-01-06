@@ -27,7 +27,7 @@ namespace HedwigTests.Validations.Rules
       };
 
       var familyRule = new Mock<IValidationRule<Family>>();
-      var familyResult = familyIsValid ? null : new ValidationError("message", "field");
+      var familyResult = familyIsValid ? null : new ValidationError("message", field: "field");
       familyRule.Setup(fr => fr.Execute(family))
         .Returns(familyResult);
       

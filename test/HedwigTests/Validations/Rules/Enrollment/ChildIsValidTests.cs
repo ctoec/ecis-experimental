@@ -27,7 +27,7 @@ namespace HedwigTests.Validations.Rules
       };
 
       var childRule = new Mock<IValidationRule<Child>>();
-      var childResult = childIsValid ? null : new ValidationError("message", "field");
+      var childResult = childIsValid ? null : new ValidationError("message", field: "field");
       childRule.Setup(cr => cr.Execute(child))
         .Returns(childResult);
 

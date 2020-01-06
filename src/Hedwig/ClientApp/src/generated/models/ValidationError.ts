@@ -27,6 +27,12 @@ export interface ValidationError {
     readonly message: string | null;
     /**
      * 
+     * @type {boolean}
+     * @memberof ValidationError
+     */
+    readonly isSubObjectValidation: boolean;
+    /**
+     * 
      * @type {string}
      * @memberof ValidationError
      */
@@ -50,6 +56,7 @@ export function ValidationErrorFromJSONTyped(json: any, ignoreDiscriminator: boo
     return {
         
         'message': json['message'],
+        'isSubObjectValidation': json['isSubObjectValidation'],
         'field': !exists(json, 'field') ? undefined : json['field'],
         'fields': !exists(json, 'fields') ? undefined : json['fields'],
     };

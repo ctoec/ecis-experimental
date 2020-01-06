@@ -55,7 +55,7 @@ namespace HedwigTests.Validations
       // if
       var rule = new Mock<IValidationRule<TestValidatableEntity>>();
       rule.Setup(r => r.Execute(It.IsAny<TestValidatableEntity>()))
-        .Returns(new ValidationError(It.IsAny<string>(), It.IsAny<string>()));
+        .Returns(new ValidationError(It.IsAny<string>(), field: It.IsAny<string>()));
 
       var serviceProvider = new Mock<IServiceProvider>();
       serviceProvider.Setup(sp => sp.GetService(typeof(IEnumerable<IValidationRule<TestValidatableEntity>>)))
@@ -76,7 +76,7 @@ namespace HedwigTests.Validations
       // if 
       var errorRule = new Mock<IValidationRule<TestValidatableEntity>>();
       errorRule.Setup(r => r.Execute(It.IsAny<TestValidatableEntity>()))
-        .Returns(new ValidationError(It.IsAny<string>(), It.IsAny<string>()));
+        .Returns(new ValidationError(It.IsAny<string>(), field: It.IsAny<string>()));
 
       var noErrorRule = new Mock<IValidationRule<TestValidatableEntity>>();
       noErrorRule.Setup(r => r.Execute(It.IsAny<TestValidatableEntity>()))
