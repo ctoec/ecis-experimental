@@ -7,9 +7,8 @@ export function warningForFieldSet<T extends Validatable>(
   fields: string[],
   entity: T | null,
   message: string,
-  additionalCondition: boolean = true
 ): FormStatusProps | undefined {
-  if(hasValidationErrors(entity, fields) && additionalCondition) {
+  if(hasValidationErrors(entity, fields)) {
     return {
       type: 'warning',
       message: message,

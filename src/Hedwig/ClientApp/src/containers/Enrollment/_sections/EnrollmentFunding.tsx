@@ -307,8 +307,7 @@ const EnrollmentFunding: Section = {
 							'age-group-warning',
 							['ageGroup'],
 							enrollment,
-							'This field is required for OEC reporting',
-							attemptedSave
+							'This field is required for OEC reporting'
 						)}
 					/>
 					<h2>Funding</h2>
