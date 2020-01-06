@@ -39,6 +39,9 @@ import {
     User,
     UserFromJSON,
     UserToJSON,
+    ValidationProblemDetails,
+    ValidationProblemDetailsFromJSON,
+    ValidationProblemDetailsToJSON,
 } from '../models';
 
 export interface ApiOrganizationsIdGetRequest {

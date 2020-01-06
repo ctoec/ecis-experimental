@@ -2,6 +2,8 @@ import { Validatable } from "./Validatable";
 import { hasValidationErrors } from "./hasValidationErrors";
 import { processValidationError } from "./processValidationError";
 import { FormStatusProps } from "../../components/FormStatus/FormStatus";
+import { processBlockingValidationErrors } from "./processBlockingValidationErrors";
+import { ValidationProblemDetails } from "../../generated";
 
 export function warningForField<T extends Validatable>(
   fieldId: string,
@@ -18,14 +20,51 @@ export function warningForField<T extends Validatable>(
   }
 }
 
-export function errorForField(
+/**
+ * Parses an error response from the server,  and if error exists for specified field,
+ * creates error-type FormStatusProps with either optional override message,
+ * or message from error.
+ * @param fieldId 
+ * @param error 
+ * @param message 
+ */
+export function serverErrorForField(
+  fieldId: string,
+  error?: ValidationProblemDetails,
+  message?: string
+) : FormStatusProps | undefined
+{
+  if(!error) return;
+
+  const fieldError = processBlockingValidationErrors(
+    fieldId, 
+    error.errors
+  );
+
+  if(fieldError) {
+    return {
+      type: 'error',
+      message: message ? message : fieldError,
+      id: `${fieldId}-error`
+    }
+  }
+}
+
+/**
+ * Based on supplied 
+ * @param fieldId 
+ * @param fieldValue 
+ * @param saveCondition 
+ * @param additionalCondition 
+ * @param message 
+ */
+export function clientErrorForField(
   fieldId: string,
   fieldValue: any,
-  attemptedSave: boolean,
-  additionalCondition: boolean = true,
+  saveCondition: boolean,
   message?: string,
 ) : FormStatusProps | undefined {
-  if(!fieldValue && attemptedSave && additionalCondition) {
+  if(!fieldValue && saveCondition) {
     return {
 			type: 'error',
 			message: message,

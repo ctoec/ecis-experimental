@@ -20,11 +20,10 @@ export function warningForFieldSet<T extends Validatable>(
 export function errorForFieldSet(
   fieldSetId: string,
   fieldValues: any[],
-  attemptedSave: boolean,
-  additionCondition: boolean = true,
+  saveCondition: boolean,
   message: string
 ) : FormStatusProps | undefined {
-  if(fieldValues.some(f => !f) && attemptedSave && additionCondition) {
+  if(fieldValues.some(f => !f) && saveCondition) {
     return {
 			type: 'error',
 			message,

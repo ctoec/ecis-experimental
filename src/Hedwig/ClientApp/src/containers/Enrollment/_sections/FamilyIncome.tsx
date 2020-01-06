@@ -16,7 +16,7 @@ import getIdForUser from '../../../utils/getIdForUser';
 import UserContext from '../../../contexts/User/UserContext';
 import {
 	sectionHasValidationErrors,
-	errorForField,
+	clientErrorForField,
 	errorForFieldSet,
 } from '../../../utils/validations';
 import { determinationArgsAreValid } from '../../../utils/models';
@@ -181,8 +181,7 @@ const FamilyIncome: Section = {
 								status={errorForFieldSet(
 									'family-income',
 									[numberOfPeople, income, determinationDate],
-									attemptedSave,
-									!notDisclosed,
+									attemptedSave && !notDisclosed,
 									'If income is disclosed, this information is required for enrollment'
 								)}
 							>
@@ -195,11 +194,10 @@ const FamilyIncome: Section = {
 										updateNumberOfPeople(value);
 									}}
 									onBlur={event => (event.target.value = numberOfPeople ? '' + numberOfPeople : '')}
-									status={errorForField(
+									status={clientErrorForField(
 										'numberOfPeople',
 										numberOfPeople,
-										attemptedSave,
-										!notDisclosed
+										attemptedSave && !notDisclosed
 									)}
 									small
 								/>
@@ -215,7 +213,7 @@ const FamilyIncome: Section = {
 											? currencyFormatter(income)
 											: '')
 									}
-									status={errorForField('income', income, attemptedSave, !notDisclosed)}
+									status={clientErrorForField('income', income, attemptedSave && !notDisclosed)}
 								/>
 								<DatePicker
 									label="Date of income determination"
@@ -227,7 +225,7 @@ const FamilyIncome: Section = {
 										startDate: determinationDate ? moment(determinationDate) : null,
 										endDate: null,
 									}}
-									status={errorForField('determinationDate', determinationDate, attemptedSave, !notDisclosed)}
+									status={clientErrorForField('determinationDate', determinationDate, attemptedSave && !notDisclosed)}
 								/>
 							</FieldSet>
 						</>
