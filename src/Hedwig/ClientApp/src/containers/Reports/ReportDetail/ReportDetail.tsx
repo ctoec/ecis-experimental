@@ -27,8 +27,8 @@ export default function ReportDetail() {
 		api => api.apiOrganizationsOrgIdReportsIdGet(reportParams),
 		[user]
 	);
-	
-	if (loading || error || !report) {
+
+	if (loading || !report) {
 		return <div className="Report"></div>;
 	}
 
@@ -36,16 +36,27 @@ export default function ReportDetail() {
 		e => !!e.validationErrors && e.validationErrors.length > 0
 	).length;
 
-	let additionalAlerts: AlertProps[] | undefined;
+	let additionalAlerts: AlertProps[] = [];
+
+	if (error) {
+		additionalAlerts.push(
+			{
+	      type: 'error',
+	      heading: 'Something went wrong',
+	      text: 'There was an error loading the report',
+			},
+		);
+	}
+
 	if (numEnrollmentsMissingInfo) {
-		additionalAlerts = [
+		additionalAlerts.push(
 			{
 				type: 'error',
 				heading: 'Update roster',
 				text: `There are ${numEnrollmentsMissingInfo} enrollments missing information required to submit this CDC report.`,
 				actionItem: <Button text="Update roster" href="/roster" />,
 			},
-		];
+		);
 	}
 
 	const directionalLinkProps: DirectionalLinkProps = {
