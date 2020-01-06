@@ -12,7 +12,6 @@ services:
     environment:
       SQLCONNSTR_HEDWIG: Server=db;Database=master;User=sa;Password=TestPassword1
       CLIENT_HOST: 'http://client:3000'
-      ASPNETCORE_ENVIRONMENT: Development
     volumes:
       - ./src/Hedwig:/app/src/Hedwig:cached
       - ./test/HedwigTests:/app/test/HedwigTests:cached
