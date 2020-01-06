@@ -90,4 +90,15 @@ storiesOf('Dropdown', module)
 				id="disabled-dropdown"
 			/>
 		);
-	});
+	})
+	.add('With other text', () => {
+		return (
+			<Dropdown
+				options={options}
+				label="Chose one of these things"
+				onChange={onChange}
+				otherText="or make up your own thing"
+				id="with-other-text-dropdown"
+			/> 
+		)
+	})

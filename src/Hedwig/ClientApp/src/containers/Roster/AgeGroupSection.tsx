@@ -3,12 +3,11 @@ import idx from 'idx';
 import pluralize from 'pluralize';
 import { Link } from 'react-router-dom';
 import { Table, TableProps } from '../../components/Table/Table';
-import Tag from '../../components/Tag/Tag';
 import InlineIcon from '../../components/InlineIcon/InlineIcon';
 import { Enrollment, Funding, FundingSpace } from '../../generated';
 import { lastFirstNameFormatter } from '../../utils/nameFormatter';
 import dateFormatter from '../../utils/dateFormatter';
-import getColorForFundingSource, { fundingSourceDetails } from '../../utils/fundingTypeFormatters';
+import { generateFundingTag } from '../../utils/models';
 import { DeepNonUndefineable } from '../../utils/types';
 import { hasValidationErrors } from '../../utils/validations';
 import { tsFilter } from '../../utils/types';
@@ -21,16 +20,6 @@ type AgeGroupSectionProps = {
 	enrollments: DeepNonUndefineable<Enrollment>[];
 	fundingSpaces?: FundingSpace[];
 };
-
-function generateFundingTag(funding: DeepNonUndefineable<Funding>, index: number): JSX.Element {
-	return (
-		<Tag
-			key={`${funding.source}-${funding.time}-${index}`}
-			text={funding.source ? fundingSourceDetails[funding.source].tagFormatter(funding) : ''}
-			color={funding.source ? getColorForFundingSource(funding.source) : 'gray-90'}
-		/>
-	);
-}
 
 const defaultRosterTableProps: TableProps<DeepNonUndefineable<Enrollment>> = {
 	id: 'roster-table',

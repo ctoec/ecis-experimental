@@ -10,6 +10,7 @@ import PageNotFound from './containers/PageNotFound/PageNotFound';
 import Roster from './containers/Roster/Roster';
 import ReportsSummary from './containers/Reports/ReportsSummary/ReportsSummary';
 import ReportDetail from './containers/Reports/ReportDetail/ReportDetail';
+import Withdrawal from './containers/Withdrawal/Withdrawal';
 
 export type RouteConfig = {
 	path: string;
@@ -51,6 +52,10 @@ export const routes: RouteConfig[] = [
 	{
 		path: '/roster/enrollments/:enrollmentId/edit/:sectionId',
 		component: EnrollmentEdit,
+	},
+	{
+		path: '/roster/enrollments/:enrollmentId/withdraw',
+		component: Withdrawal,
 	},
 	{
 		path: '/reports',

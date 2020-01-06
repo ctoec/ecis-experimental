@@ -1,13 +1,14 @@
 import React from 'react';
 
 export type TagProps = {
-	text: String;
+	text: string;
+	key?: string;
 	color?: string;
 	className?: string;
 };
 
-export default function Tag({ text, color, className: addClassName }: TagProps) {
+export default function Tag({ key, text, color, className: addClassName }: TagProps) {
 	var className = `usa-tag ${addClassName}`;
 	if (color) className += ` bg-${color}`;
-	return <span className={className}>{text}</span>;
+	return <span key={key} className={className}>{text}</span>;
 }

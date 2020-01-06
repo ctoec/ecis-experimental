@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import TextInput from '../TextInput/TextInput';
 import FormStatus, { FormStatusProps } from '../FormStatus/FormStatus';
 
 type DropdownOption = {
@@ -9,10 +10,11 @@ type DropdownOption = {
 type DropdownProps = {
 	options: DropdownOption[];
 	label: string;
-	onChange: (event: React.ChangeEvent<HTMLSelectElement>) => any;
 	id: string;
 	selected?: string;
 	noSelectionText?: string;
+	onChange: (event: React.ChangeEvent<HTMLSelectElement|HTMLInputElement>) => any;
+	otherText?: string;
 	disabled?: boolean;
 	status?: FormStatusProps;
 };
@@ -23,10 +25,27 @@ export default function Dropdown({
 	label,
 	noSelectionText,
 	onChange,
+	otherText,
 	id,
 	disabled,
 	status,
 }: DropdownProps) {
+	const selectId = id || label.split(' ').join('-');
+	const errorMessageId = `${selectId}-error-message`;
+	const [showOtherTextInput, updateShowOtherTextInput] = useState(false);
+
+  const userDefinedOnChange = onChange;
+	if(otherText != undefined) {
+		onChange = event => {
+			if(event.target.value === otherText) {
+				updateShowOtherTextInput(true);
+			} else {
+				updateShowOtherTextInput(false);
+			}
+			userDefinedOnChange(event);
+		}
+	}
+
 	return (
 		<div className={`usa-form-group${status ? ` usa-form-group--${status.type}` : ''}`}>
 			<label className={`usa-label${status ? ` usa-label--${status.type}` : ''}`} htmlFor={id}>
@@ -48,7 +67,16 @@ export default function Dropdown({
 						{option.text}
 					</option>
 				))}
+				{otherText != undefined && <option value={otherText}>{otherText}</option>}
 			</select>
+			{showOtherTextInput && otherText != undefined &&
+				<TextInput
+					id="other"
+					label=""
+					defaultValue=""
+					onChange={userDefinedOnChange}
+				/>
+			}
 		</div>
 	);
 }
