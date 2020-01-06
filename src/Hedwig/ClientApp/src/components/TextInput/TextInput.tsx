@@ -31,7 +31,7 @@ export default function TextInput({
 	inline,
 }: TextInputProps) {
 	return (
-		<div className={`${className} usa-form-group${status ? ` usa-form-group--${status.type}` : ''}`}>
+		<div className={`${className || ''} usa-form-group${status ? ` usa-form-group--${status.type}` : ''}`}>
 			<label className={`usa-label${status ? ` usa-label--${status.type}` : ''}`} htmlFor={id}>
 				{label} {optional && <span className="usa-label__optional">&nbsp;(optional)</span>}
 			</label>

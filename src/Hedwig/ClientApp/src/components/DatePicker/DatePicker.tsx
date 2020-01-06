@@ -81,7 +81,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 	return (
 		<div className={`usa-form-group ${status ? ` usa-form-group--${status.type}` : ''}`}>
 			<label
-				className={`usa-label margin-top-0 ${status ? ` usa-label--${status.type}` : ''}`}
+				className={`usa-label ${status ? ` usa-label--${status.type}` : ''}`}
 				htmlFor={`${id}-date`}
 			>
 				{label}

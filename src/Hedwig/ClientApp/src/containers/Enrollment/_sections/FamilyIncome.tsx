@@ -233,6 +233,7 @@ const FamilyIncome: Section = {
 					<Checklist
 						legend="Family income disclosure"
 						id="familyIncome"
+						className="margin-top-3"
 						options={[
 							{
 								text: 'Family income not disclosed',
