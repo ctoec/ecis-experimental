@@ -32,7 +32,7 @@ namespace Hedwig.Validations.Attributes
             return new ValidationResult("Fundings for ended enrollments must have last reporting periods");
           }
 
-          if(funding.LastReportingPeriod.PeriodStart.Date < enrollment.Exit.Value.Date)
+          if(funding.LastReportingPeriod.PeriodStart.Date > enrollment.Exit.Value.Date)
           {
             return new ValidationResult("Last reporting period for CDC funding must start before enrollment ends");
           }

@@ -14,6 +14,7 @@ import Button from "../../components/Button/Button";
 import CommonContainer from "../CommonContainer";
 import { errorForField, blockingErrorForField } from "../../utils/validations";
 import ReportingPeriodContext from "../../contexts/ReportingPeriod/ReportingPeriodContext";
+import { processBlockingValidationErrors } from "../../utils/validations/processBlockingValidationErrors";
 
 type WithdrawalProps = {
   history: History,
@@ -138,10 +139,17 @@ export default function Withdrawal({
                       updateEnrollmentEndDate((range.startDate && range.startDate.toDate()) || undefined)
                     }
                     dateRange={{ startDate: null, endDate: null}}
-                    status={errorForField(
+                    status={(apiError && processBlockingValidationErrors("exit", apiError.errors))
+                    ? blockingErrorForField(
+                      "exit",
+                      apiError
+                    )
+                    : errorForField(
                       "exit",
                       enrollmentEndDate,
-                      attemptedSave
+                      attemptedSave,
+                      true,
+                      "This information is required for withdrawal"
                     )}
                   />
                   <Dropdown
@@ -156,7 +164,7 @@ export default function Withdrawal({
                     status={blockingErrorForField(
                       "exitreason",
                       apiError,
-                      "This field is required for withdrawal"
+                      "This information is required for withdrawal"
                     )}
                   />
                   <Dropdown
@@ -182,7 +190,7 @@ export default function Withdrawal({
                     status={blockingErrorForField(
                       "fundings",
                       apiError,
-                      "This field is required for withdrawal"
+                      lastReportingPeriod ? undefined : 'This information is required for withdrawal'
                     )}
                   />
                 </div>
