@@ -85,10 +85,19 @@ export default function useApi<TData>(
 		}
 
 		// Invoke the supplied API method and update state with reducer
-		return query(api).then((result) => {
-			setState({ ...state, data: reducer(data, result) })
-			return result;
-		});
+		return query(api)
+			.then((result) => {
+				setState({ ...state, data: reducer(data, result) })
+				return result;
+			})
+			.catch(async (error) => {
+				if(error.status >= 400) {
+					setState({...state, loading: false, error: error.toString()});
+					return;
+				}
+
+				return Promise.reject(await error.json());
+			})
 	}, [api]);
 
 	// Rerun query whenever deps or accessToken changes
@@ -113,7 +122,14 @@ export default function useApi<TData>(
 					callback(result);
 				}
 			})
-			.catch((error) => setState({ ...state, loading: false, error: error.toString() }));
+			.catch(async (error) => {
+				if(error.status >= 400) {
+					setState({ ...state, loading: false, error: error.toString() });
+					return;
+				}
+
+				return Promise.reject(await error.json());
+			});
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [...deps, accessToken]);
 

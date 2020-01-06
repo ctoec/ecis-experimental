@@ -14,6 +14,9 @@ import {
 	Gender,
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
 	Enrollment,
+	ValidationProblemDetails,
+	ValidationErrorFromJSON,
+	ValidationProblemDetailsFromJSON,
 } from '../../../generated';
 import idx from 'idx';
 import UserContext from '../../../contexts/User/UserContext';
@@ -32,6 +35,7 @@ import {
 	sectionHasValidationErrors,
 	warningForFieldSet,
 	warningForField,
+	serverErrorForField,
 } from '../../../utils/validations';
 import FieldSet from '../../../components/FieldSet/FieldSet';
 
@@ -125,24 +129,10 @@ const ChildInfo: Section = {
 			hispanicOrLatinxEthnicity,
 			gender,
 		};
-		const [validArgs, updateValidArgs] = useState();
-		const [attemptedSave, updateAttemptedSave] = useState(false);
-
-		useEffect(() => {
-			if (childArgsAreValid(args)) {
-				updateValidArgs(args);
-			} else {
-				updateValidArgs(undefined);
-			}
-		}, [JSON.stringify(args)]);
+		const [apiError, setApiError] = useState<ValidationProblemDetails>();
 
 		const save = () => {
-			if (!validArgs) {
-				// TODO: apply styling to missing fields
-				// TODO: SET ALERT HERE?
-				updateAttemptedSave(true);
-				return;
-			}
+
 			if (enrollment) {
 				// If enrollment exists, put to save changes
 				const putParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
@@ -153,13 +143,17 @@ const ChildInfo: Section = {
 							id: enrollment.childId,
 							organizationId: getIdForUser(user, 'org'),
 							...enrollment.child,
-							...validArgs,
+							...args,
 						},
 					},
 				};
-				mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams)).then(res => {
-					if (callback && res) callback(res);
-				});
+				mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams))
+					.then(res => {
+						if (callback && res) callback(res);
+					})
+					.catch(error => {
+						setApiError(ValidationProblemDetailsFromJSON(error));
+					});
 			} else if (siteId) {
 				// If enrollment doesn't exist, post to create a new enrollment
 				const postParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest = {
@@ -171,13 +165,17 @@ const ChildInfo: Section = {
 						child: {
 							id: emptyGuid(),
 							organizationId: getIdForUser(user, 'org'),
-							...validArgs,
+							...args,
 						},
 					},
 				};
-				mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsPost(postParams)).then(res => {
-					if (callback && res) callback(res);
-				});
+				mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsPost(postParams))
+					.then(res => {
+						if (callback && res) callback(res);
+					})
+					.catch(error => {
+						setApiError(ValidationProblemDetailsFromJSON(error));
+					});
 			} else {
 				throw new Error('Something impossible happened');
 			}
@@ -203,15 +201,11 @@ const ChildInfo: Section = {
 							label="First"
 							defaultValue={firstName || ''}
 							onChange={event => updateFirstName(event.target.value)}
-							status={
-								attemptedSave && !firstName
-									? {
-											type: 'error',
-											message: 'This information is required for enrollment',
-											id: 'firstName-error',
-									  }
-									: undefined
-							}
+							status={serverErrorForField(
+								"child.firstname",
+								apiError,
+								"This information is required for enrollment"
+							)}
 						/>
 					</div>
 					<div className="mobile-lg:grid-col-9">
@@ -229,15 +223,11 @@ const ChildInfo: Section = {
 							label="Last"
 							defaultValue={lastName || ''}
 							onChange={event => updateLastName(event.target.value)}
-							status={
-								attemptedSave && !lastName
-									? {
-											type: 'error',
-											message: 'This information is required for enrollment',
-											id: 'lastName-error',
-									  }
-									: undefined
-							}
+							status={serverErrorForField(
+								"child.lastname", 
+								apiError,
+								"This information is required for enrollment"
+							)}
 						/>
 					</div>
 					<div className="mobile-lg:grid-col-3">
@@ -431,7 +421,7 @@ const ChildInfo: Section = {
 					id="gender-select"
 				/>
 
-				<Button text="Save" onClick={save} disabled={attemptedSave && !validArgs} />
+				<Button text="Save" onClick={save}/>
 			</div>
 		);
 	},
