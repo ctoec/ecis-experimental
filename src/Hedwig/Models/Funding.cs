@@ -33,6 +33,7 @@ namespace Hedwig.Models
     public int? FirstReportingPeriodId {get; set; }
     public ReportingPeriod FirstReportingPeriod { get; set; }
     public int? LastReportingPeriodId { get; set; }
+    [LastReportingPeriodAfterFirst]
     public ReportingPeriod LastReportingPeriod { get; set; }
     [RequiredForFundingSource(FundingSource.CDC)]
     [JsonConverter(typeof(StringEnumConverter))]
