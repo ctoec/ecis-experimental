@@ -182,7 +182,6 @@ const ChildInfo: Section = {
 		};
 
 		// TODO: should gender be radio buttons as recommended by USWDS rather than select?
-
 		return (
 			<div className="ChildInfoForm usa-form">
 				<div className="grid-row grid-gap">
@@ -377,7 +376,7 @@ const ChildInfo: Section = {
 						},
 					]}
 					selected={
-						hispanicOrLatinxEthnicity === (null || undefined)
+						(hispanicOrLatinxEthnicity === null || hispanicOrLatinxEthnicity === undefined)
 							? ''
 							: hispanicOrLatinxEthnicity
 							? 'yes'
