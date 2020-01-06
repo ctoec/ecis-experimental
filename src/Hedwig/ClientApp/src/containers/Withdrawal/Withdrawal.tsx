@@ -12,7 +12,7 @@ import { nextNReportingPeriods } from "../../utils/models/reportingPeriod";
 import getIdForUser from "../../utils/getIdForUser";
 import Button from "../../components/Button/Button";
 import CommonContainer from "../CommonContainer";
-import { errorForField, blockingErrorForField } from "../../utils/validations";
+import { clientErrorForField, serverErrorForField } from "../../utils/validations";
 import ReportingPeriodContext from "../../contexts/ReportingPeriod/ReportingPeriodContext";
 import { processBlockingValidationErrors } from "../../utils/validations/processBlockingValidationErrors";
 
@@ -140,15 +140,14 @@ export default function Withdrawal({
                     }
                     dateRange={{ startDate: null, endDate: null}}
                     status={(apiError && processBlockingValidationErrors("exit", apiError.errors))
-                    ? blockingErrorForField(
+                    ? serverErrorForField(
                       "exit",
                       apiError
                     )
-                    : errorForField(
+                    : clientErrorForField(
                       "exit",
                       enrollmentEndDate,
                       attemptedSave,
-                      true,
                       "This information is required for withdrawal"
                     )}
                   />
@@ -161,7 +160,7 @@ export default function Withdrawal({
                     otherText="Other"
                     noSelectionText="-Select-"
                     onChange={event => updateExitReason(event.target.value)}
-                    status={blockingErrorForField(
+                    status={serverErrorForField(
                       "exitreason",
                       apiError,
                       "This information is required for withdrawal"
@@ -187,7 +186,7 @@ export default function Withdrawal({
                       const chosen = reportingPeriods.find<ReportingPeriod>( period => period.id === parseInt(event.target.value))
                       updateLastReportingPeriod(chosen);
                     }}
-                    status={blockingErrorForField(
+                    status={serverErrorForField(
                       "fundings",
                       apiError,
                       lastReportingPeriod ? undefined : 'This information is required for withdrawal'
