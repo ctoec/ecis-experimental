@@ -12,7 +12,7 @@ import { nextNReportingPeriods } from "../../utils/models/reportingPeriod";
 import getIdForUser from "../../utils/getIdForUser";
 import Button from "../../components/Button/Button";
 import CommonContainer from "../CommonContainer";
-import { errorForField, errorForFieldNEW } from "../../utils/validations";
+import { errorForField, blockingErrorForField } from "../../utils/validations";
 import ReportingPeriodContext from "../../contexts/ReportingPeriod/ReportingPeriodContext";
 
 type WithdrawalProps = {
@@ -153,7 +153,7 @@ export default function Withdrawal({
                     otherText="Other"
                     noSelectionText="-Select-"
                     onChange={event => updateExitReason(event.target.value)}
-                    status={errorForFieldNEW(
+                    status={blockingErrorForField(
                       "exitreason",
                       apiError,
                       "This field is required for withdrawal"
@@ -179,7 +179,7 @@ export default function Withdrawal({
                       const chosen = reportingPeriods.find<ReportingPeriod>( period => period.id === parseInt(event.target.value))
                       updateLastReportingPeriod(chosen);
                     }}
-                    status={errorForFieldNEW(
+                    status={blockingErrorForField(
                       "fundings",
                       apiError,
                       "This field is required for withdrawal"
