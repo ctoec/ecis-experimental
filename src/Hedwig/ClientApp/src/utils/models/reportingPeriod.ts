@@ -21,15 +21,33 @@ const periodSorter = (a: ReportingPeriod, b: ReportingPeriod) => {
 	return 1;
 }
 
+const periodSorterInverse = (a: ReportingPeriod, b: ReportingPeriod) => {
+	if(a.periodStart === b.periodStart) return 0;
+	if(a.periodStart > b.periodStart) return -1;
+	return 1;
+}
+
 /**
- * Function to determine the first eligible reporting period for a given enrollment start date/entry.
+ * Function to determine the first eligible reporting period for a given enrollment start date (entry)
  * @param periods The array of reporting periods provided by ReportingPeriodContext
- * @param startDate The enrollment start date (aka entry)
+ * @param startDate The enrollment start date (entry)
  */
 export const firstEligibleReportingPeriod = (periods: ReportingPeriod[], startDate: Date): ReportingPeriod | undefined => {
 	const filteredPeriods = [...periods].filter(period => startDate <= period.periodEnd);
 	const sortedPeriods = [...filteredPeriods].sort(periodSorter);
 	return sortedPeriods[0];
+}
+
+/**
+ * Function to determine the last eligible reporting period for a given enrollment end date.
+ * @param periods The array of reporting periods provided by ReportingPeriodContext
+ * @param endDate The enrollment start date (exit)
+ */
+export const lastEligibleReportingPeriod = (periods: ReportingPeriod[], endDate: Date): ReportingPeriod | undefined => {
+	const filteredPeriods = [...periods].filter(period => endDate >= period.periodStart);
+	const sortedPeriods = [...filteredPeriods].sort(periodSorterInverse);
+	return sortedPeriods[0];
+
 }
 
 /**
@@ -66,5 +84,17 @@ export const nextNReportingPeriods = (periods: ReportingPeriod[], startDate: Dat
 		throw new Error("First eligible reporting period cannot be found");
 	}
 	const index = sortedPeriods.findIndex(period => period.id === _firstEligibleReportingPeriod.id);
+	return sortedPeriods.slice(index, index + n);
+}
+
+export const lastNReportingPeriods = (periods: ReportingPeriod[], endDate: Date, n: number): ReportingPeriod[] => {
+	const sortedPeriods = [...periods].sort(periodSorterInverse);
+
+	const _lastEligibleReportingPeriod = lastEligibleReportingPeriod(periods, endDate);
+	if(!_lastEligibleReportingPeriod) {
+		throw new Error ("Last eligible reporting period cannot be found");
+	}
+
+	const index = sortedPeriods.findIndex(period => period.id === _lastEligibleReportingPeriod.id);
 	return sortedPeriods.slice(index, index + n);
 }

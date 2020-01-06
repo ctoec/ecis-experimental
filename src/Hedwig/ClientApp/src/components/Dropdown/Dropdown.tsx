@@ -30,11 +30,14 @@ export default function Dropdown({
 	disabled,
 	status,
 }: DropdownProps) {
-	const selectId = id || label.split(' ').join('-');
-	const errorMessageId = `${selectId}-error-message`;
 	const [showOtherTextInput, updateShowOtherTextInput] = useState(false);
 
-  const userDefinedOnChange = onChange;
+	/**
+	 * When 'otherText' is defined, it means the dropdown should display a text input
+	 * field when user selects other text value from dropdown. This wraps the user-
+	 * defined onChange function to handle display logic for the otherText input
+	 */
+	const userDefinedOnChange = onChange;
 	if(otherText != undefined) {
 		onChange = event => {
 			if(event.target.value === otherText) {

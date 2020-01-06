@@ -8,13 +8,16 @@ import { generateFundingTag, enrollmentExitReasons, currentFunding } from "../..
 import DatePicker from "../../components/DatePicker/DatePicker";
 import Dropdown from "../../components/Dropdown/Dropdown";
 import useApi from "../../hooks/useApi";
-import { nextNReportingPeriods } from "../../utils/models/reportingPeriod";
+import { nextNReportingPeriods, lastNReportingPeriods } from "../../utils/models/reportingPeriod";
 import getIdForUser from "../../utils/getIdForUser";
 import Button from "../../components/Button/Button";
 import CommonContainer from "../CommonContainer";
 import { clientErrorForField, serverErrorForField } from "../../utils/validations";
 import ReportingPeriodContext from "../../contexts/ReportingPeriod/ReportingPeriodContext";
 import { processBlockingValidationErrors } from "../../utils/validations/processBlockingValidationErrors";
+import InlineIcon from "../../components/InlineIcon/InlineIcon";
+import { AlertProps } from "../../components/Alert/Alert";
+import AlertContext from "../../contexts/Alert/AlertContext";
 
 type WithdrawalProps = {
   history: History,
@@ -32,6 +35,7 @@ export default function Withdrawal({
   }
 }: WithdrawalProps) {
   const { user } = useContext(UserContext);
+  const { getAlerts, setAlerts } = useContext(AlertContext);
   const { cdcReportingPeriods: reportingPeriods } = useContext(ReportingPeriodContext);
 
   const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest = {
@@ -68,6 +72,19 @@ export default function Withdrawal({
 
   const save = () => {
     setAttemptedSave(true);
+
+    // funded enrollments without first reporting period are not valid for withdrawl
+    // TODO add option to add first reporting period here
+    if(cdcFunding && !cdcFunding.firstReportingPeriod) {
+      setAlerts([{
+        type: 'error',
+        heading: 'Cannot withdraw',
+        text: 'CDC funded enrollments must have first reporting period for withdrawal'
+      }]);
+
+      return;
+    }
+
     //enrollment end date (exit) is required for withdrawl
     if(!enrollmentEndDate) {
       return;
@@ -124,7 +141,10 @@ export default function Withdrawal({
                   <h4>Funding</h4>
                   {generateFundingTag(cdcFunding)}
                   <p>Enrollment: {cdcFunding.time}</p>
-                  <p>First reporting period: {cdcFunding.firstReportingPeriod.period.toLocaleDateString()}</p>
+                  <p>First reporting period: {cdcFunding.firstReportingPeriod 
+                    ? cdcFunding.firstReportingPeriod.period.toLocaleDateString()
+                    : InlineIcon({icon: 'attentionNeeded'})
+                  }</p>
                 </div>
               }
             </div>
@@ -170,7 +190,7 @@ export default function Withdrawal({
                     label="Last reporting period"
                     id="last-reporting-period"
                     options={
-                      nextNReportingPeriods(
+                        lastNReportingPeriods(
                         reportingPeriods,
                         enrollmentEndDate || new Date(Date.now()),
                         5
