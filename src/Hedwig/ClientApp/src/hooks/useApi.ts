@@ -91,7 +91,7 @@ export default function useApi<TData>(
 				return result;
 			})
 			.catch(async (error) => {
-				if(error.status >= 400) {
+				if(error.status > 400) {
 					setState({...state, loading: false, error: error.toString()});
 					return;
 				}
@@ -123,7 +123,7 @@ export default function useApi<TData>(
 				}
 			})
 			.catch(async (error) => {
-				if(error.status >= 400) {
+				if(error.status > 400) {
 					setState({ ...state, loading: false, error: error.toString() });
 					return;
 				}
