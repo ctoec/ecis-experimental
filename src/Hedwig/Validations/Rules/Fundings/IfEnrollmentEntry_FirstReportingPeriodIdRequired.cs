@@ -2,13 +2,13 @@ using Hedwig.Models;
 
 namespace Hedwig.Validations.Rules
 {
-  public class IfEnrollmentEntry_FirstReportingPeriodRequired : IValidationRule<Funding>
+  public class IfEnrollmentEntry_FirstReportingPeriodIdRequired : IValidationRule<Funding>
   {
     public ValidationError Execute(Funding funding)
     {
       if(funding.Source == FundingSource.CDC)
       {
-        if(funding.Enrollment.Entry.HasValue && funding.FirstReportingPeriod == null)
+        if(funding.Enrollment.Entry.HasValue && !funding.FirstReportingPeriodId.HasValue)
         {
           return new ValidationError(
             field: "FirstReportingPeriod",

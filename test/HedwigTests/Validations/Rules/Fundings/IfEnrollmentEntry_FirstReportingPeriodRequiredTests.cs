@@ -27,12 +27,12 @@ namespace HedwigTests.Validations.Rules
       if(hasEntry) enrollment.Entry = DateTime.Now;
       var funding = new Funding();
       if(hasFirstReportingPeriod) {
-        funding.FirstReportingPeriod = new ReportingPeriod();
+        funding.FirstReportingPeriodId = It.IsAny<int>();
       }
       funding.Enrollment = enrollment;
 
       // when
-      var rule = new IfEnrollmentEntry_FirstReportingPeriodRequired();
+      var rule = new IfEnrollmentEntry_FirstReportingPeriodIdRequired();
       var result = rule.Execute(funding);
 
       // then

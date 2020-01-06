@@ -27,7 +27,7 @@ namespace Hedwig.Validations.Attributes
 
         if(enrollment.Exit.HasValue)
         {
-          if(funding.LastReportingPeriod == null)
+          if(funding.LastReportingPeriodId == null)
           {
             return new ValidationResult("Fundings for ended enrollments must have last reporting periods");
           }
