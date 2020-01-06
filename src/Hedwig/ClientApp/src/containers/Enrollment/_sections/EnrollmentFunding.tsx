@@ -12,7 +12,7 @@ import UserContext from '../../../contexts/User/UserContext';
 import { ageFromString, prettyAge } from '../../../utils/ageGroupUtils';
 import getIdForUser from '../../../utils/getIdForUser';
 import { DeepNonUndefineable } from '../../../utils/types';
-import { sectionHasValidationErrors, warningForField } from '../../../utils/validations';
+import { sectionHasValidationErrors, warningForField, warningForFieldSet } from '../../../utils/validations';
 import { prettyFundingTime, fundingTimeFromString } from '../../../utils/fundingTimeUtils';
 import { nextNReportingPeriods } from '../../../utils/models/reportingPeriod';
 import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
@@ -20,11 +20,12 @@ import { currentFunding } from '../../../utils/models';
 import { familyDeterminationNotDisclosed } from '../../../utils/models/familyDetermination';
 import Checkbox from '../../../components/Checklist/Checkbox';
 import TextInput from '../../../components/TextInput/TextInput';
+import InlineIcon from '../../../components/InlineIcon/InlineIcon';
 
 const EnrollmentFunding: Section = {
   key: 'enrollment-funding',
   name: 'Enrollment and funding',
-  status: ({ enrollment }) => enrollment && sectionHasValidationErrors([enrollment.fundings]) ? 'incomplete' : 'complete',
+  status: ({ enrollment }) => enrollment && sectionHasValidationErrors([enrollment, enrollment.fundings]) ? 'incomplete' : 'complete',
 
   Summary: ({ enrollment }) => {
 		const { cdcReportingPeriods: reportingPeriods } = useContext(ReportingPeriodContext);
@@ -64,11 +65,8 @@ const EnrollmentFunding: Section = {
 				{enrollment && (
 					<>
 						<p>Site: {idx(enrollment, _ => _.site.name)} </p>
-						<p>Age Group: {prettyAge(idx(enrollment, _ => _.ageGroup) || null)}</p>
-						<p>
-							Enrollment date:{' '}
-							{dateFormatter(idx(enrollment, _ => _.entry))}
-						</p>
+						<p>Age Group: {enrollment.ageGroup ? prettyAge(enrollment.ageGroup): InlineIcon({icon:'incomplete'})}</p>
+						<p> Enrollment date: {enrollment.entry ? dateFormatter(enrollment.entry) : InlineIcon({icon: 'incomplete'})} </p>
 						<p>Funding:{' '}
 							{isPrivatePay ?
 								'Private pay' :
@@ -77,7 +75,7 @@ const EnrollmentFunding: Section = {
 						</p>
 						{!isPrivatePay &&
 							<p>First reporting period:{' '}
-								{dateFormatter((fundingFirstReportingPeriod as ReportingPeriod).period)} {/*cdcFunding will always be defined but Typescript does not infer so */}
+								{fundingFirstReportingPeriod ? dateFormatter(fundingFirstReportingPeriod.period) : InlineIcon({icon: 'incomplete'})}
 							</p>
 						}
 						{receivesC4k && (
@@ -124,7 +122,7 @@ const EnrollmentFunding: Section = {
 		const [cdcFundingTime, updateCdcFundingTime] = useState<FundingTime | null>(cdcFunding ? cdcFunding.time : null);
 		const [privatePay, updatePrivatePay] = useState<boolean>(cdcFundings.length === 0);
 
-		const [cdcReportingPeriod, updateCdcReportingPeriod] = useState<ReportingPeriod | null>(null);
+		const [cdcReportingPeriod, updateCdcReportingPeriod] = useState<ReportingPeriod>();
 
 		const [reportingPeriodOptions, updateReportingPeriodOptions] = useState<ReportingPeriod[]>([]);
 
@@ -141,8 +139,8 @@ const EnrollmentFunding: Section = {
 					reportingPeriods.find<DeepNonUndefineable<ReportingPeriod>>(
 						period => period.id === cdcFunding.firstReportingPeriodId
 					) :
-					null;
-				updateCdcReportingPeriod(_cdcReporingPeriod ? _cdcReporingPeriod : null);
+					undefined;
+				updateCdcReportingPeriod(_cdcReporingPeriod);
 			}
 		}, [reportingPeriods, cdcFunding]);
 
@@ -153,7 +151,10 @@ const EnrollmentFunding: Section = {
 			updateReportingPeriodOptions(nextPeriods);
 		}, [enrollment.entry, entry, reportingPeriods])
 
+		const [attemptedSave, setAttemptedSave] = useState(false);
+
 		const save = () => {
+			setAttemptedSave(true);
 			const currentCdcFunding = fundings.find<DeepNonUndefineable<Funding>>(
 				(funding => funding.id === cdcFundingId) as (_: DeepNonUndefineable<Funding>) => _ is DeepNonUndefineable<Funding>
 			);
@@ -170,8 +171,8 @@ const EnrollmentFunding: Section = {
 				const newCdcFunding: Funding = {
 					...(currentCdcFunding as Funding), // currentCdcFunding will always be defined but typescript doesn't infer so
 					time: cdcFundingTime ? cdcFundingTime : undefined,
-					firstReportingPeriodId: (cdcReportingPeriod as ReportingPeriod).id, // cdcReporingPeriod will always be defined but typescript doesn't infer so
-					firstReportingPeriod: (cdcReportingPeriod as ReportingPeriod) // cdcReporingPeriod will always be defined but typescript doesn't infer so
+					firstReportingPeriodId: cdcReportingPeriod ? cdcReportingPeriod.id : undefined,
+					firstReportingPeriod: cdcReportingPeriod
 				};
 				updatedFundings = [
 					...(fundings.filter<DeepNonUndefineable<Funding>>(funding => funding.id !== cdcFundingId)),
@@ -187,7 +188,8 @@ const EnrollmentFunding: Section = {
 					enrollmentId: enrollment.id,
 					source: FundingSource.CDC,
 					time: cdcFundingTime ? cdcFundingTime : undefined,
-					firstReportingPeriodId: (cdcReportingPeriod as ReportingPeriod).id // cdcReporingPeriod will always be defined but typescript doesn't infer so
+					firstReportingPeriodId: cdcReportingPeriod ? cdcReportingPeriod.id : undefined,
+					firstReportingPeriod: cdcReportingPeriod
 				}
 				updatedFundings = [
 					...fundings,
@@ -272,12 +274,17 @@ const EnrollmentFunding: Section = {
 						dateRange={{ startDate: entry ? moment(entry) : null, endDate: null }}
 						label="Start date"
 						id="enrollment-start-date"
+						status={warningForField(
+							'entry',
+							enrollment,
+							'This information is required for OEC reporting'
+						)}
 					/>
 
 					<h3>Age group</h3>
 					<RadioGroup
-						legend="Age"
-						id="age"
+						legend="Age group"
+						id="age-group"
 						options={[
 							{
 								text: 'Infant/Toddler',
@@ -296,6 +303,13 @@ const EnrollmentFunding: Section = {
 						onChange={event =>
 							updateAge(ageFromString(event.target.value))
 						}
+						status={warningForFieldSet(
+							'age-group-warning',
+							['ageGroup'],
+							enrollment,
+							'This field is required for OEC reporting',
+							attemptedSave
+						)}
 					/>
 					<h2>Funding</h2>
 					<Dropdown
@@ -348,10 +362,6 @@ const EnrollmentFunding: Section = {
 							id="firstReportingPeriod"
 							options={
 								[
-									// {
-									// 	value: '',
-									// 	text: '- Select -'
-									// },
 									...(reportingPeriodOptions.map(period => {
 										return {
 											value: '' + period.id,
@@ -360,10 +370,11 @@ const EnrollmentFunding: Section = {
 									}))
 								]
 							}
+							noSelectionText="-Select-"
 							label="First reporting period"
 							onChange={event => {
 								const chosen = reportingPeriodOptions.find(period => period.id === parseInt(event.target.value));
-								updateCdcReportingPeriod(chosen || reportingPeriodOptions[0]);
+								updateCdcReportingPeriod(chosen);
 							}}
 							selected={
 								cdcReportingPeriod ?
@@ -372,7 +383,8 @@ const EnrollmentFunding: Section = {
 							}
 							status={warningForField(
 								'firstReportingPeriod',
-								cdcFunding as DeepNonUndefineable<Funding>
+								cdcFunding as DeepNonUndefineable<Funding>,
+								'This information is required for OEC reporting'
 							)}
 						/>
 					)}

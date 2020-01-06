@@ -28,6 +28,7 @@ namespace Hedwig.Validations.Rules
       {
 
         var funding = _fundings.GetFirstFundingByEnrollmentId(enrollment.Id);
+        funding.Enrollment = enrollment;
 
         ValidateSubObject(funding);
         if(funding.ValidationErrors.Count > 0)

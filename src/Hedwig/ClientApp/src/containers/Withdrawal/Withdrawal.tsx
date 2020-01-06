@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { History } from 'history';
 import UserContext from "../../contexts/User/UserContext";
-import { Enrollment, Funding, FundingSource, ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest, ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest, ValidationProblemDetails, ValidationProblemDetailsFromJSON } from "../../generated";
+import { Enrollment, Funding, FundingSource, ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest, ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest, ValidationProblemDetails, ValidationProblemDetailsFromJSON, ReportingPeriod } from "../../generated";
 import nameFormatter from "../../utils/nameFormatter";
 import { DeepNonUndefineable, tsFilter } from "../../utils/types";
 import { generateFundingTag, enrollmentExitReasons, currentFunding } from "../../utils/models";
@@ -42,7 +42,7 @@ export default function Withdrawal({
   const [loading, error, enrollment, mutate] = useApi<Enrollment>(
     api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet({
       ...defaultParams,
-      include: ['child', 'family', 'determinations', 'fundings', 'sites', 'reporting_periods']
+      include: ['child', 'family', 'determinations', 'fundings', 'sites']
     }),
     [enrollmentId, user],
     {
@@ -52,13 +52,9 @@ export default function Withdrawal({
 
   const [enrollmentEndDate, updateEnrollmentEndDate] = useState<Date>();
   const [exitReason, updateExitReason] = useState<string>();
-  const [lastReportingPeriodId, updateLastReportingPeriodId] = useState<number>();
-  const args = {
-    enrollmentEndDate,
-    exitReason,
-    lastReportingPeriodId
-  };
+  const [lastReportingPeriod, updateLastReportingPeriod] = useState<ReportingPeriod>();
 
+  const [attemptedSave, setAttemptedSave] = useState(false);
   const [apiError, setApiError] = useState<ValidationProblemDetails>();
 
   if(loading || error || !enrollment) {
@@ -70,13 +66,20 @@ export default function Withdrawal({
   const cdcFunding = currentFunding(cdcFundings);
 
   const save = () => {
+    setAttemptedSave(true);
+    //enrollment end date (exit) is required for withdrawl
+    if(!enrollmentEndDate) {
+      return;
+    }
+
     let updatedFundings: Funding[] = fundings;
-    if(cdcFunding) {
+    if(cdcFunding && lastReportingPeriod) {
       updatedFundings = [
         ...(fundings.filter<DeepNonUndefineable<Funding>>(funding => funding.id !== cdcFunding.id)),
         {
           ...cdcFunding,
-          lastReportingPeriodId: lastReportingPeriodId
+          lastReportingPeriodId: lastReportingPeriod.id,
+          lastReportingPeriod: lastReportingPeriod
         }
       ]
     }
@@ -135,9 +138,10 @@ export default function Withdrawal({
                       updateEnrollmentEndDate((range.startDate && range.startDate.toDate()) || undefined)
                     }
                     dateRange={{ startDate: null, endDate: null}}
-                    status={errorForFieldNEW(
+                    status={errorForField(
                       "exit",
-                      apiError
+                      enrollmentEndDate,
+                      attemptedSave
                     )}
                   />
                   <Dropdown
@@ -172,11 +176,13 @@ export default function Withdrawal({
                     }
                     noSelectionText="-Select-"
                     onChange={event => {
-                      updateLastReportingPeriodId(parseInt(event.target.value))
+                      const chosen = reportingPeriods.find<ReportingPeriod>( period => period.id === parseInt(event.target.value))
+                      updateLastReportingPeriod(chosen);
                     }}
                     status={errorForFieldNEW(
-                      "funding",
-                      apiError
+                      "fundings",
+                      apiError,
+                      "This field is required for withdrawal"
                     )}
                   />
                 </div>
