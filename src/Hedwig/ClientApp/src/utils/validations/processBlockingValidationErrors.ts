@@ -3,7 +3,8 @@ export function processBlockingValidationErrors(field: string, errors?: { [key: 
     return undefined;
   }
 
-  const error = Object.entries(errors).find(([key]) => key.toUpperCase() === field.toUpperCase());
+  const fieldRegex = new RegExp(field.split('.').join('.*'), 'i');
+  const error = Object.entries(errors).find(([key]) => key.match(fieldRegex));
 
   if(error) {
     const [_, messages] = error;

@@ -7,12 +7,12 @@ import RadioGroup from '../../../components/RadioGroup/RadioGroup';
 import dateFormatter from '../../../utils/dateFormatter';
 import moment from 'moment';
 import idx from 'idx';
-import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest, Age, FundingTime, Funding, FundingSource, ReportingPeriod } from '../../../generated';
+import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest, Age, FundingTime, Funding, FundingSource, ReportingPeriod, ValidationProblemDetails, ValidationProblemDetailsFromJSON } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
 import { ageFromString, prettyAge } from '../../../utils/ageGroupUtils';
 import getIdForUser from '../../../utils/getIdForUser';
 import { DeepNonUndefineable } from '../../../utils/types';
-import { sectionHasValidationErrors, warningForField, warningForFieldSet } from '../../../utils/validations';
+import { sectionHasValidationErrors, warningForField, warningForFieldSet, serverErrorForField } from '../../../utils/validations';
 import { prettyFundingTime, fundingTimeFromString } from '../../../utils/fundingTimeUtils';
 import { nextNReportingPeriods } from '../../../utils/models/reportingPeriod';
 import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
@@ -151,10 +151,9 @@ const EnrollmentFunding: Section = {
 			updateReportingPeriodOptions(nextPeriods);
 		}, [enrollment.entry, entry, reportingPeriods])
 
-		const [attemptedSave, setAttemptedSave] = useState(false);
+		const [apiError, setApiError] = useState<ValidationProblemDetails>();
 
 		const save = () => {
-			setAttemptedSave(true);
 			const currentCdcFunding = fundings.find<DeepNonUndefineable<Funding>>(
 				(funding => funding.id === cdcFundingId) as (_: DeepNonUndefineable<Funding>) => _ is DeepNonUndefineable<Funding>
 			);
@@ -245,9 +244,12 @@ const EnrollmentFunding: Section = {
 					}
 				}
 				mutate((api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
-					.then((res) => {
+					.then(res => {
 						if (callback && res) callback(res);
-					});
+					})
+					.catch(error => {
+						setApiError(ValidationProblemDetailsFromJSON(error));
+					})
 			}
 		};
 
@@ -402,6 +404,10 @@ const EnrollmentFunding: Section = {
 								label="Family ID"
 								defaultValue={c4kFamilyId ? '' + c4kFamilyId : ''}
 								onChange={event => updateC4kFamilyId(parseInt(event.target.value))}
+								status={serverErrorForField(
+									'fundings.familyId',
+									apiError,
+								)}
 							/>
 							<DatePicker
 								onChange={range =>
@@ -410,6 +416,10 @@ const EnrollmentFunding: Section = {
 								dateRange={{ startDate: c4kCertificateStartDate ? moment(c4kCertificateStartDate) : null, endDate: null }}
 								label="Certificate start date"
 								id="c4k-certificate-start-date"
+								status={serverErrorForField(
+									'fundings.certificatestartdate',
+									apiError,
+								)}
 							/>
 						</>
 					)}
