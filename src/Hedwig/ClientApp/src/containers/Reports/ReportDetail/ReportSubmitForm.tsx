@@ -14,6 +14,14 @@ import { useHistory } from 'react-router';
 import { AlertProps } from '../../../components/Alert/Alert';
 import monthFormatter from '../../../utils/monthFormatter';
 import { DeepNonUndefineable } from '../../../utils/types';
+import {
+	useFocusFirstError,
+	serverErrorForField,
+} from '../../../utils/validations';
+import {
+	ValidationProblemDetails,
+	ValidationProblemDetailsFromJSON,
+} from '../../../generated';
 
 export type ReportSubmitFormProps = {
   report: DeepNonUndefineable<CdcReport>,
@@ -36,6 +44,10 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
     id: report.id || 0,
     orgId: getIdForUser(user, "org")
   };
+
+	const [apiError, setApiError] = useState<ValidationProblemDetails>();
+
+	useFocusFirstError([apiError]);
 
   function updatedReport(): CdcReport {
     return {
@@ -68,14 +80,9 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
           history.push('/reports', newAlerts);
         }
       })
-      .catch(err => {
-        console.log(err);
-        setAlerts([{
-          type: 'error',
-          heading: 'Report not submitted',
-          text: 'There was an error submitting this report'
-        }])
-      })
+			.catch(error => {
+				setApiError(ValidationProblemDetailsFromJSON(error));
+			});
   }
 
   return (
@@ -115,6 +122,11 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
             onChange={(e) => setC4KRevenue(parseCurrencyFromString(e.target.value))}
             onBlur={event => (event.target.value = c4KRevenue !== null ? currencyFormatter(c4KRevenue) : '')}
             disabled={!!report.submittedAt}
+						status={serverErrorForField(
+							"report.c4krevenue",
+							apiError,
+							"This information is required for the report"
+						)}
           />
           <div className="margin-top-2">
             <Checkbox
@@ -133,6 +145,11 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
             onChange={(e) => setFamilyFeesRevenue(parseCurrencyFromString(e.target.value))}
             onBlur={event => (event.target.value = familyFeesRevenue !== null ? currencyFormatter(familyFeesRevenue) : '')}
             disabled={!!report.submittedAt}
+						status={serverErrorForField(
+							"report.familyfeesrevenue",
+							apiError,
+							"This information is required for the report"
+						)}
           />
         </fieldset>
         {!report.submittedAt && <input className="usa-button" type="submit" value="Submit" disabled={!canSubmit} />}

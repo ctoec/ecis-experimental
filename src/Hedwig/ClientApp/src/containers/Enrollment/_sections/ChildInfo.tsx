@@ -32,6 +32,7 @@ import {
 	getSummaryLine,
 } from '../../../utils/models';
 import {
+	useFocusFirstError,
 	sectionHasValidationErrors,
 	warningForFieldSet,
 	warningForField,
@@ -131,6 +132,8 @@ const ChildInfo: Section = {
 		};
 		const [apiError, setApiError] = useState<ValidationProblemDetails>();
 
+		useFocusFirstError([apiError]);
+
 		const save = () => {
 
 			if (enrollment) {
@@ -223,7 +226,7 @@ const ChildInfo: Section = {
 							defaultValue={lastName || ''}
 							onChange={event => updateLastName(event.target.value)}
 							status={serverErrorForField(
-								"child.lastname", 
+								"child.lastname",
 								apiError,
 								"This information is required for enrollment"
 							)}

@@ -4,3 +4,4 @@ export * from './Validatable';
 export * from './sectionHasValidationErrors';
 export * from './errorForFieldSet';
 export * from './errorForField';
+export * from './useFocusFirstError';
