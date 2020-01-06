@@ -210,15 +210,15 @@ td.oec-table__cell--strong {
 }
 
 .oec-inline-icon--attentionNeeded path {
-	fill: #D83933;
+	fill: color($theme-color-error-dark);
 }
 
 .oec-inline-icon--complete path {
-	fill: #12890E;
+	fill: color($theme-color-success-dark);
 }
 
 .oec-inline-icon--incomplete path {
-	fill: #FFBE2E;
+	fill: color($theme-color-warning-dark);
 }
 
 // Derived from CMS Design System: https://github.com/CMSgov/design-system/blob/master/packages/core/src/components/StepList/StepList.scss

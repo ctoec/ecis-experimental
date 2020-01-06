@@ -138,7 +138,7 @@ export default function Roster() {
 					</div>
 				</div>
 				{showPastEnrollments && (
-					<>
+					<div className="padding-bottom-2">
 						<RadioGroup
 							legend="Select date or date range"
 							options={[
@@ -165,7 +165,7 @@ export default function Roster() {
 							possibleRange={{ startDate: null, endDate: moment().local() }}
 							className="margin-top-neg-3"
 						/>
-					</>
+					</div>
 				)}
 				<Legend items={legendItems} />
 				<AgeGroupSection
