@@ -163,6 +163,7 @@ export default function Roster() {
 							onChange={(newDateRange: DateRange) => setDateRange(newDateRange)}
 							dateRange={dateRange}
 							possibleRange={{ startDate: null, endDate: moment().local() }}
+							className="margin-top-neg-3"
 						/>
 					</>
 				)}
