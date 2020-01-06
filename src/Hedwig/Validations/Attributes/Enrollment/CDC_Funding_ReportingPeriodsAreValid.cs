@@ -20,9 +20,9 @@ namespace Hedwig.Validations.Attributes
         }
 
         if(enrollment.Entry.HasValue && funding.FirstReportingPeriod != null 
-          && funding.FirstReportingPeriod.PeriodStart.Date > enrollment.Entry.Value.Date)
+          && funding.FirstReportingPeriod.PeriodEnd.Date < enrollment.Entry.Value.Date)
         {
-          return new ValidationResult("First reporting period for CDC funding must start after enrollment");
+          return new ValidationResult("First reporting period for CDC funding must not end before enrollment starts");
         }
 
         if(enrollment.Exit.HasValue)
