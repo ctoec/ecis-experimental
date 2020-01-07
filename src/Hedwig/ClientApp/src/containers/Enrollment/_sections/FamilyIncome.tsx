@@ -175,7 +175,7 @@ const FamilyIncome: Section = {
 						<>
 							<FieldSet
 								id="family-income"
-								legend="Family income determination"
+								legend="Family income"
 								status={errorForFieldSet(
 									'family-income',
 									[numberOfPeople, income, determinationDate],

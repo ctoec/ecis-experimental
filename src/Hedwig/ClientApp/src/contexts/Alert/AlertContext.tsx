@@ -32,19 +32,21 @@ export const useAlertContext = (initial?: AlertProps[]): AlertContextType => {
 			setAlertsSetAtPath(null);
 		}
 		setAlertsDisplayAtPath(null); // Should always be reset when new alerts?
+		console.log(newAlerts);
 		internalSetAlerts(newAlerts);
 	};
 
 	const history = useHistory();
 	history.listen(historyLocation => {
 		// Clear alerts when we navigate away from where they were set or displayed
-		if (alerts.length && alertsDisplayAtPath && historyLocation.pathname !== alertsDisplayAtPath) {
+		if (alerts.length > 0 && alertsDisplayAtPath && historyLocation.pathname !== alertsDisplayAtPath) {
+			console.log('Reset alerts', alerts, alertsDisplayAtPath, historyLocation.pathname)
 			setAlerts([]);
 		}
 	});
 
 	const getAlerts = (): AlertProps[] => {
-		if (alerts.length && location.pathname !== alertsSetAtPath && !alertsDisplayAtPath) {
+		if (alerts.length > 0 && location.pathname !== alertsSetAtPath && !alertsDisplayAtPath) {
 			// If there are alerts, we are at a different path than where we set the alerts, and there is not already a displayed at path
 			setAlertsDisplayAtPath(location.pathname);
 		}
