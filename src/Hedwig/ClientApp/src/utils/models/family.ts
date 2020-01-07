@@ -10,10 +10,7 @@ export function addressFormatter(family?: Family) {
   var state = family.state ? family.state : '';
   var zip = family.zip ? family.zip : '';
 
-  if (!street && !town && !state && !zip) {
-    return ['']
-  }
-  var fullAddress = `${street}, ${town}, ${state} ${zip}`;
+  var fullAddress = (!street && !town && !state && !zip) ? '' : `${street}, ${town}, ${state} ${zip}`;
   if(!street || !town || !state || !zip) {
     return [fullAddress, InlineIcon({icon: 'incomplete'})];
   }
