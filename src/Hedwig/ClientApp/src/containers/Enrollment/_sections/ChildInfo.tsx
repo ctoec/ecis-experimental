@@ -183,7 +183,7 @@ const ChildInfo: Section = {
 				throw new Error('Something impossible happened');
 			}
 		};
-
+console.log(birthdate)
 		// TODO: should gender be radio buttons as recommended by USWDS rather than select?
 		return (
 			<div className="ChildInfoForm usa-form">
@@ -245,7 +245,7 @@ const ChildInfo: Section = {
 
 				<h3>Date of birth</h3>
 				<DateInput
-					onChange={range => updateBirthdate((range.startDate && range.startDate.toDate()) || null)}
+					onChange={range => updateBirthdate(range.startDate && range.startDate.isValid() ? range.startDate.toDate() : null)}
 					dateRange={{ startDate: birthdate ? moment(birthdate) : null, endDate: null }}
 					label="Birth date"
 					id="birthdate-picker"
