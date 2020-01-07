@@ -17,7 +17,6 @@ type inputDetailType = {
 	parseMoment: (inputMoment: Moment | null) => string | undefined;
 	checkValidity: (value: any) => boolean;
 	errorMessage: string;
-	className: string;
 };
 
 type inputDetailsType = { [key: string]: inputDetailType };
@@ -54,7 +53,6 @@ const inputDetails: inputDetailsType = {
 			inputMoment ? inputMoment.format('MM') : undefined,
 		checkValidity: value => +value > 0 && +value < 13,
 		errorMessage: 'Invalid month',
-		className: 'usa-form-group--month',
 	},
 	day: {
 		props: {
@@ -65,7 +63,6 @@ const inputDetails: inputDetailsType = {
 			inputMoment ? inputMoment.format('DD') : undefined,
 		checkValidity: value => +value < 32 && +value > 0,
 		errorMessage: 'Invalid day',
-		className: 'usa-form-group--day',
 	},
 	year: {
 		props: {
@@ -77,7 +74,6 @@ const inputDetails: inputDetailsType = {
 		checkValidity: value =>
 			value.length === 2 || (value.length === 4 && +value > 1989 && +value < 2101),
 		errorMessage: 'Invalid year',
-		className: 'usa-form-group--year',
 	},
 };
 
@@ -122,7 +118,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 	// TODO: implement "optional" styling for fieldset
 
 	const commonDateInputProps = {
-		className: 'oec-date-input__input margin-left-0',
+		className: 'oec-date-input__input',
 		disabled: disabled,
 		type: 'number',
 		inline: true,
