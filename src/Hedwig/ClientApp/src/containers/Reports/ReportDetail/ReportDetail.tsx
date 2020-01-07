@@ -11,7 +11,7 @@ import useApi from '../../../hooks/useApi';
 import { Enrollment } from '../../../generated/models/Enrollment';
 import Button from '../../../components/Button/Button';
 import { AlertProps } from '../../../components/Alert/Alert';
-import { DeepNonUndefineable, tsFilter } from '../../../utils/types';
+import { DeepNonUndefineable } from '../../../utils/types';
 import CommonContainer from '../../CommonContainer';
 import { DirectionalLinkProps } from '../../../components/DirectionalLink/DirectionalLink';
 

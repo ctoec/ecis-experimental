@@ -4,20 +4,20 @@ import pluralize from 'pluralize';
 import { Link } from 'react-router-dom';
 import { Table, TableProps } from '../../components/Table/Table';
 import InlineIcon from '../../components/InlineIcon/InlineIcon';
-import { Enrollment, Funding, FundingSpace } from '../../generated';
+import { Enrollment, Funding, FundingSpace, FundingSource } from '../../generated';
 import { lastFirstNameFormatter } from '../../utils/nameFormatter';
 import dateFormatter from '../../utils/dateFormatter';
 import { generateFundingTag } from '../../utils/models';
-import { DeepNonUndefineable } from '../../utils/types';
+import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../utils/types';
 import { hasValidationErrors } from '../../utils/validations';
-import { tsFilter } from '../../utils/types';
+import { isFunded } from '../../utils/models';
 
 export type AgeGroupTableProps = { id: string; data: DeepNonUndefineable<Enrollment>[] };
 
 type AgeGroupSectionProps = {
 	ageGroup: string;
 	ageGroupTitle: string;
-	enrollments: DeepNonUndefineable<Enrollment>[];
+	enrollments: DeepNonUndefineableArray<Enrollment>;
 	fundingSpaces?: FundingSpace[];
 };
 
@@ -34,7 +34,7 @@ const defaultRosterTableProps: TableProps<DeepNonUndefineable<Enrollment>> = {
 						{lastFirstNameFormatter(row.child)}
 					</Link>
 					&nbsp;
-					{hasValidationErrors(row) ? InlineIcon({ icon: 'incomplete' }) : ''}
+					{(isFunded(row, { source: FundingSource.CDC }) && hasValidationErrors(row)) ? InlineIcon({ icon: 'incomplete' }) : ''}
 				</th>
 			),
 			sort: row => lastFirstNameFormatter(row.child),
@@ -103,11 +103,9 @@ export default function AgeGroupSection({
 			{fundingSpaces && (
 				<ul>
 					{fundingSpaces.map(space => {
-						const enrolledForFunding = tsFilter<Enrollment>(enrollments, e =>
-							e.fundings ? tsFilter<Funding>(
-								e.fundings, f => f.source === space.source && f.time == space.time
-							).length > 0 : false
-						).length;
+						const enrolledForFunding = enrollments.filter<DeepNonUndefineable<Enrollment>>(
+							enrollment => isFunded(enrollment, { source: space.source, time: space.time })
+							).length
 
 						return (
 							<li key={`${space.time}-${ageGroupTitle}`}>

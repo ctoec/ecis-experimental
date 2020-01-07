@@ -56,8 +56,3 @@ export type DeepNonUndefineable<T> =
 	T extends any[] ? DeepNonUndefineableArray<T[number]> :
 	T extends (...args: any[]) => any ? FunctionWithRequiredReturnType<T> :
 	T extends object ? DeepNonUndefineableObject<T> : NonUndefineable<T>;
-
-
-export function tsFilter<T>(arr: DeepNonUndefineable<T>[], filterFunc: (value: DeepNonUndefineable<T>) => boolean) {
-	return arr.filter<DeepNonUndefineable<T>>(filterFunc as ((_: DeepNonUndefineable<T>) => _ is DeepNonUndefineable<T>));
-}

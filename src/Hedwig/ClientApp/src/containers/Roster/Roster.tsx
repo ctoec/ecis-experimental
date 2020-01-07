@@ -12,12 +12,13 @@ import Button from '../../components/Button/Button';
 import RadioGroup from '../../components/RadioGroup/RadioGroup';
 import Legend, { LegendItem } from '../../components/Legend/Legend';
 import useApi from '../../hooks/useApi';
-import { Age, Enrollment, FundingSpace, Funding } from '../../generated';
+import { Age, Enrollment, FundingSpace, Funding, FundingSource } from '../../generated';
 import InlineIcon from '../../components/InlineIcon/InlineIcon';
 import UserContext from '../../contexts/User/UserContext';
 import AgeGroupSection from './AgeGroupSection';
 import { getObjectsByAgeGroup } from '../../utils/ageGroupUtils';
-import { tsFilter } from '../../utils/types';
+import { DeepNonUndefineable } from '../../utils/types';
+import { isFunded } from '../../utils/models';
 
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
@@ -56,11 +57,8 @@ export default function Roster() {
 		return <div className="Roster"></div>;
 	}
 
-	const incompleteEnrollments = tsFilter<Enrollment>(enrollments, e => !e.ageGroup || !e.entry);
-	const completeEnrollments = tsFilter<Enrollment>(
-		enrollments,
-		e => !incompleteEnrollments.includes(e)
-	);
+	const incompleteEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>(enrollment => !enrollment.ageGroup || !enrollment.entry);
+	const completeEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>(enrollment => !incompleteEnrollments.includes(enrollment));
 
 	const completeEnrollmentsByAgeGroup = getObjectsByAgeGroup(completeEnrollments);
 
@@ -78,10 +76,8 @@ export default function Roster() {
 
 	Object.keys(fundingSourceDetails).forEach(source => {
 		const capacityForFunding = getFundingSpaceCapacity(site.organization, { source });
-		const enrolledForFunding = tsFilter<Enrollment>(enrollments, e =>
-			e.fundings
-				? tsFilter<Funding>(e.fundings, f => f.source === source).length > 0
-				: false
+		const enrolledForFunding = enrollments.filter<DeepNonUndefineable<Enrollment>>(
+			enrollment => isFunded(enrollment, { source })
 		).length;
 
 		if (enrolledForFunding === 0) {
@@ -98,9 +94,10 @@ export default function Roster() {
 		});
 	});
 
-	const missingInformationEnrollmentsCount = tsFilter<Enrollment>(
-		enrollments,
-		e => !!e.validationErrors && e.validationErrors.length > 0
+	// CDC funded enrollments with validationErrors are considered to be missing information
+	const missingInformationEnrollmentsCount = enrollments.filter<DeepNonUndefineable<Enrollment>>(enrollment => 
+		isFunded(enrollment, { source: FundingSource.CDC })
+		&& !!enrollment.validationErrors && enrollment.validationErrors.length > 0 
 	).length;
 	if (missingInformationEnrollmentsCount > 0) {
 		legendItems.push({

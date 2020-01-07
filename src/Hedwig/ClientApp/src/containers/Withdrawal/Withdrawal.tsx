@@ -3,7 +3,7 @@ import { History } from 'history';
 import UserContext from "../../contexts/User/UserContext";
 import { Enrollment, Funding, FundingSource, ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest, ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest, ValidationProblemDetails, ValidationProblemDetailsFromJSON, ReportingPeriod } from "../../generated";
 import nameFormatter from "../../utils/nameFormatter";
-import { DeepNonUndefineable, tsFilter } from "../../utils/types";
+import { DeepNonUndefineable } from "../../utils/types";
 import { generateFundingTag, enrollmentExitReasons, currentFunding } from "../../utils/models";
 import DatePicker from "../../components/DatePicker/DatePicker";
 import Dropdown from "../../components/Dropdown/Dropdown";
