@@ -92,7 +92,7 @@ export default function EnrollmentDetail({
 									</span>
 								)}
 								<Link
-									to={`edit/${section.key}`}
+									to={`/roster/enrollments/${enrollment.id}/edit/${section.key}`}
 									className={familyIncomeForFosterChild ? 'display-none important' : ''}
 								>
 									Edit<span className="usa-sr-only"> {section.name.toLowerCase()}</span>
