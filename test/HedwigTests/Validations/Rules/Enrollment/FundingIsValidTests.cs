@@ -37,8 +37,6 @@ namespace HedwigTests.Validations.Rules
 
 			var _validator = new NonBlockingValidator(_serviceProvider.Object);
 			var _funding = new Mock<IFundingRepository>();
-			_funding.Setup(f => f.GetFirstFundingByEnrollmentId(enrollment.Id))
-				.Returns(funding);
 
 			// when
 			var rule = new FundingIsValid(_validator, _funding.Object);

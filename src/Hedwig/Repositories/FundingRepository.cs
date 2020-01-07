@@ -11,16 +11,6 @@ namespace Hedwig.Repositories
 
 		public FundingRepository(HedwigContext context) : base(context) {}
 
-		public Funding GetFirstFundingByEnrollmentId(int id)
-		{
-			return _context.Fundings
-				.Where(funding => funding.EnrollmentId == id)
-				.Where(funding => funding.Source == FundingSource.CDC)
-				.Include(funding => funding.FirstReportingPeriod)
-				.OrderBy(funding => funding.FirstReportingPeriod.PeriodStart)
-				.FirstOrDefault();
-		}
-
 		public List<Funding> GetFundingsByEnrollmentId(int enrollmentId)
 		{
 			return _context.Fundings
@@ -33,7 +23,6 @@ namespace Hedwig.Repositories
 
 	public interface IFundingRepository : IHedwigRepository
 	{
-		Funding GetFirstFundingByEnrollmentId(int id);
 		List<Funding> GetFundingsByEnrollmentId(int enrollmentId);
 	}
 }

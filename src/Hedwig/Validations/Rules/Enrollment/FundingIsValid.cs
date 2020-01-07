@@ -24,12 +24,8 @@ namespace Hedwig.Validations.Rules
       }
 
       var fundings = enrollment.Fundings ?? _fundings.GetFundingsByEnrollmentId(enrollment.Id);
-      if (fundings.Count > 0)
+      foreach(var funding in fundings)
       {
-
-        // TODO validation all fundings
-        var funding = _fundings.GetFirstFundingByEnrollmentId(enrollment.Id);
-        
         // Hydrate fundings with enrollment object so it can be accessed in funding validations
         funding.Enrollment = enrollment;
 
