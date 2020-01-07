@@ -19,6 +19,7 @@ type DatePickerProps = {
 	optional?: boolean;
 	byRange?: boolean;
 	possibleRange?: DateRange;
+	className?: string;
 };
 
 export const DatePicker: React.FC<DatePickerProps> = ({
@@ -31,6 +32,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 	optional,
 	byRange,
 	possibleRange,
+	className,
 }) => {
 	const [selectedRange, setSelectedRange] = useState(dateRange);
 	const [datePickerFocused, setDatePickerFocused] = useState();
@@ -79,9 +81,9 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 		);
 	}
 	return (
-		<div className={`usa-form-group ${status ? ` usa-form-group--${status.type}` : ''}`}>
+		<div className={`${className || ''} usa-form-group ${status ? ` usa-form-group--${status.type}` : ''}`}>
 			<label
-				className={`usa-label margin-top-0 ${status ? ` usa-label--${status.type}` : ''}`}
+				className={`usa-label ${status ? ` usa-label--${status.type}` : ''}`}
 				htmlFor={`${id}-date`}
 			>
 				{label}

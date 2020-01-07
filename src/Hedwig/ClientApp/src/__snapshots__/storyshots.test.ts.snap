@@ -245,7 +245,7 @@ exports[`Storyshots Checklist Box disabled 1`] = `
   }
 >
   <fieldset
-    className="grid-gap grid-row usa-fieldset 
+    className="grid-gap grid-row usa-fieldset
 			
     "
     id="storybook-checklist-disabled"
@@ -257,7 +257,7 @@ exports[`Storyshots Checklist Box disabled 1`] = `
       Checklist items
     </legend>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row "
     >
       <div
         className=""
@@ -317,7 +317,7 @@ exports[`Storyshots Checklist Default 1`] = `
   }
 >
   <fieldset
-    className="grid-gap grid-row usa-fieldset 
+    className="grid-gap grid-row usa-fieldset
 			
     "
     id="storybook-checklist"
@@ -329,7 +329,7 @@ exports[`Storyshots Checklist Default 1`] = `
       Checklist items
     </legend>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row "
     >
       <div
         className=""
@@ -387,7 +387,7 @@ exports[`Storyshots Checklist Default selection 1`] = `
   }
 >
   <fieldset
-    className="grid-gap grid-row usa-fieldset 
+    className="grid-gap grid-row usa-fieldset
 			
     "
     id="storybook-checklist-default-selection"
@@ -399,7 +399,7 @@ exports[`Storyshots Checklist Default selection 1`] = `
       Checklist items
     </legend>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row "
     >
       <div
         className=""
@@ -457,7 +457,7 @@ exports[`Storyshots Checklist Horizontal 1`] = `
   }
 >
   <fieldset
-    className="grid-gap grid-row usa-fieldset 
+    className="grid-gap grid-row usa-fieldset
 			
     "
     id="storybook-checklist-2"
@@ -469,7 +469,7 @@ exports[`Storyshots Checklist Horizontal 1`] = `
       Checklist items
     </legend>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row "
     >
       <div
         className="grid-row flex-align-start grid-gap"
@@ -528,7 +528,7 @@ exports[`Storyshots Checklist With error 1`] = `
 >
   <fieldset
     aria-describedby="checklis-error"
-    className="grid-gap grid-row usa-fieldset 
+    className="grid-gap grid-row usa-fieldset
 			 usa-fieldset--error
     "
     id="storybook-checklist-with-error"
@@ -549,7 +549,7 @@ exports[`Storyshots Checklist With error 1`] = `
       These fields will block your progress
     </span>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row "
     >
       <div
         className=""
@@ -608,7 +608,7 @@ exports[`Storyshots Checklist With success 1`] = `
 >
   <fieldset
     aria-describedby="checklist-success"
-    className="grid-gap grid-row usa-fieldset 
+    className="grid-gap grid-row usa-fieldset
 			 usa-fieldset--success
     "
     id="storybook-checklist-with-success"
@@ -629,7 +629,7 @@ exports[`Storyshots Checklist With success 1`] = `
       These fields were validated woo
     </span>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row "
     >
       <div
         className=""
@@ -688,7 +688,7 @@ exports[`Storyshots Checklist With warning 1`] = `
 >
   <fieldset
     aria-describedby="checklist-warning"
-    className="grid-gap grid-row usa-fieldset 
+    className="grid-gap grid-row usa-fieldset
 			 usa-fieldset--warning
     "
     id="storybook-checklist-with-warning"
@@ -722,7 +722,7 @@ exports[`Storyshots Checklist With warning 1`] = `
       These fields need your attention
     </span>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row "
     >
       <div
         className=""
@@ -781,7 +781,7 @@ exports[`Storyshots Date input Default 1`] = `
 >
   <fieldset
     aria-describedby="dateinput-example-start-date-hint"
-    className="grid-gap grid-row usa-fieldset 
+    className="grid-gap grid-row usa-fieldset
 			
     "
     id="dateinput-example-start-date"
@@ -885,7 +885,7 @@ exports[`Storyshots Date input Disabled day input 1`] = `
 >
   <fieldset
     aria-describedby="dateinput-example-start-date-hint"
-    className="grid-gap grid-row usa-fieldset 
+    className="grid-gap grid-row usa-fieldset
 			
     "
     id="dateinput-example-start-date"
@@ -992,7 +992,7 @@ exports[`Storyshots Date input Disabled range input 1`] = `
 >
   <fieldset
     aria-describedby="dateinput-example-hint"
-    className="grid-gap grid-row usa-fieldset 
+    className="grid-gap grid-row usa-fieldset
 			
     "
     id="dateinput-example"
@@ -1012,7 +1012,7 @@ exports[`Storyshots Date input Disabled range input 1`] = `
       className="grid-gap grid-row flex-row display-flex flex-align-end"
     >
       <fieldset
-        className="grid-gap grid-row usa-fieldset 
+        className="grid-gap grid-row usa-fieldset
 			
     "
         id="dateinput-example-start-date"
@@ -1103,7 +1103,7 @@ exports[`Storyshots Date input Disabled range input 1`] = `
         </div>
       </fieldset>
       <fieldset
-        className="grid-gap grid-row usa-fieldset 
+        className="grid-gap grid-row usa-fieldset
 			
     "
         id="dateinput-example-end-date"
@@ -1206,7 +1206,7 @@ exports[`Storyshots Date input Error 1`] = `
 >
   <fieldset
     aria-describedby="dateinput-example-start-date-hint"
-    className="grid-gap grid-row usa-fieldset 
+    className="grid-gap grid-row usa-fieldset
 			
     "
     id="dateinput-example-start-date"
@@ -1310,7 +1310,7 @@ exports[`Storyshots Date input Error with range 1`] = `
 >
   <fieldset
     aria-describedby="DateInput-error"
-    className="grid-gap grid-row usa-fieldset 
+    className="grid-gap grid-row usa-fieldset
 			 usa-fieldset--error
     "
     id="dateinput-example"
@@ -1339,7 +1339,7 @@ exports[`Storyshots Date input Error with range 1`] = `
       className="grid-gap grid-row flex-row display-flex flex-align-end"
     >
       <fieldset
-        className="grid-gap grid-row usa-fieldset 
+        className="grid-gap grid-row usa-fieldset
 			
     "
         id="dateinput-example-start-date"
@@ -1430,7 +1430,7 @@ exports[`Storyshots Date input Error with range 1`] = `
         </div>
       </fieldset>
       <fieldset
-        className="grid-gap grid-row usa-fieldset 
+        className="grid-gap grid-row usa-fieldset
 			
     "
         id="dateinput-example-end-date"
@@ -1533,7 +1533,7 @@ exports[`Storyshots Date input Range input 1`] = `
 >
   <fieldset
     aria-describedby="dateinput-example-hint"
-    className="grid-gap grid-row usa-fieldset 
+    className="grid-gap grid-row usa-fieldset
 			
     "
     id="dateinput-example"
@@ -1553,7 +1553,7 @@ exports[`Storyshots Date input Range input 1`] = `
       className="grid-gap grid-row flex-row display-flex flex-align-end"
     >
       <fieldset
-        className="grid-gap grid-row usa-fieldset 
+        className="grid-gap grid-row usa-fieldset
 			
     "
         id="dateinput-example-start-date"
@@ -1641,7 +1641,7 @@ exports[`Storyshots Date input Range input 1`] = `
         </div>
       </fieldset>
       <fieldset
-        className="grid-gap grid-row usa-fieldset 
+        className="grid-gap grid-row usa-fieldset
 			
     "
         id="dateinput-example-end-date"
@@ -1741,7 +1741,7 @@ exports[`Storyshots Date input Success 1`] = `
 >
   <fieldset
     aria-describedby="dateinput-example-start-date-hint"
-    className="grid-gap grid-row usa-fieldset 
+    className="grid-gap grid-row usa-fieldset
 			
     "
     id="dateinput-example-start-date"
@@ -1845,7 +1845,7 @@ exports[`Storyshots Date input Success with range 1`] = `
 >
   <fieldset
     aria-describedby="DateInput-success"
-    className="grid-gap grid-row usa-fieldset 
+    className="grid-gap grid-row usa-fieldset
 			 usa-fieldset--success
     "
     id="dateinput-example"
@@ -1874,7 +1874,7 @@ exports[`Storyshots Date input Success with range 1`] = `
       className="grid-gap grid-row flex-row display-flex flex-align-end"
     >
       <fieldset
-        className="grid-gap grid-row usa-fieldset 
+        className="grid-gap grid-row usa-fieldset
 			
     "
         id="dateinput-example-start-date"
@@ -1962,7 +1962,7 @@ exports[`Storyshots Date input Success with range 1`] = `
         </div>
       </fieldset>
       <fieldset
-        className="grid-gap grid-row usa-fieldset 
+        className="grid-gap grid-row usa-fieldset
 			
     "
         id="dateinput-example-end-date"
@@ -2062,7 +2062,7 @@ exports[`Storyshots Date input Warning 1`] = `
 >
   <fieldset
     aria-describedby="dateinput-example-start-date-hint"
-    className="grid-gap grid-row usa-fieldset 
+    className="grid-gap grid-row usa-fieldset
 			
     "
     id="dateinput-example-start-date"
@@ -2166,7 +2166,7 @@ exports[`Storyshots Date input Warning with range 1`] = `
 >
   <fieldset
     aria-describedby="DateInput-warning"
-    className="grid-gap grid-row usa-fieldset 
+    className="grid-gap grid-row usa-fieldset
 			 usa-fieldset--warning
     "
     id="dateinput-example"
@@ -2208,7 +2208,7 @@ exports[`Storyshots Date input Warning with range 1`] = `
       className="grid-gap grid-row flex-row display-flex flex-align-end"
     >
       <fieldset
-        className="grid-gap grid-row usa-fieldset 
+        className="grid-gap grid-row usa-fieldset
 			
     "
         id="dateinput-example-start-date"
@@ -2296,7 +2296,7 @@ exports[`Storyshots Date input Warning with range 1`] = `
         </div>
       </fieldset>
       <fieldset
-        className="grid-gap grid-row usa-fieldset 
+        className="grid-gap grid-row usa-fieldset
 			
     "
         id="dateinput-example-end-date"
@@ -2395,10 +2395,10 @@ exports[`Storyshots DatePicker Default 1`] = `
   }
 >
   <div
-    className="usa-form-group "
+    className=" usa-form-group "
   >
     <label
-      className="usa-label margin-top-0 "
+      className="usa-label "
       htmlFor="default-datepicker-date"
     >
       Pick a date
@@ -2457,10 +2457,10 @@ exports[`Storyshots DatePicker Disabled 1`] = `
   }
 >
   <div
-    className="usa-form-group "
+    className=" usa-form-group "
   >
     <label
-      className="usa-label margin-top-0 "
+      className="usa-label "
       htmlFor="disabled-datepicker-date"
     >
       Pick a date
@@ -2519,7 +2519,7 @@ exports[`Storyshots DatePicker Disabled with range 1`] = `
   }
 >
   <fieldset
-    className="grid-gap grid-row usa-fieldset 
+    className="grid-gap grid-row usa-fieldset
 			
     "
     id="disabled-range-datepicker"
@@ -2531,7 +2531,7 @@ exports[`Storyshots DatePicker Disabled with range 1`] = `
       Pick a date
     </legend>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row "
     >
       <div
         className="DateRangePicker DateRangePicker_1"
@@ -2626,10 +2626,10 @@ exports[`Storyshots DatePicker Error 1`] = `
   }
 >
   <div
-    className="usa-form-group  usa-form-group--error"
+    className=" usa-form-group  usa-form-group--error"
   >
     <label
-      className="usa-label margin-top-0  usa-label--error"
+      className="usa-label  usa-label--error"
       htmlFor="error-datepicker-date"
     >
       Pick a date
@@ -2699,7 +2699,7 @@ exports[`Storyshots DatePicker Error with range 1`] = `
 >
   <fieldset
     aria-describedby="datepicker-error"
-    className="grid-gap grid-row usa-fieldset 
+    className="grid-gap grid-row usa-fieldset
 			 usa-fieldset--error
     "
     id="error-datepicker"
@@ -2720,7 +2720,7 @@ exports[`Storyshots DatePicker Error with range 1`] = `
       Pick a better date
     </span>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row "
     >
       <div
         className="DateRangePicker DateRangePicker_1"
@@ -2815,10 +2815,10 @@ exports[`Storyshots DatePicker Optional 1`] = `
   }
 >
   <div
-    className="usa-form-group "
+    className=" usa-form-group "
   >
     <label
-      className="usa-label margin-top-0 "
+      className="usa-label "
       htmlFor="optional-datepicker-date"
     >
       Pick a date
@@ -2877,7 +2877,7 @@ exports[`Storyshots DatePicker Range 1`] = `
   }
 >
   <fieldset
-    className="grid-gap grid-row usa-fieldset 
+    className="grid-gap grid-row usa-fieldset
 			
     "
     id="byrange-datepicker"
@@ -2889,7 +2889,7 @@ exports[`Storyshots DatePicker Range 1`] = `
       Pick a date
     </legend>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row "
     >
       <div
         className="DateRangePicker DateRangePicker_1"
@@ -2984,10 +2984,10 @@ exports[`Storyshots DatePicker Success 1`] = `
   }
 >
   <div
-    className="usa-form-group  usa-form-group--success"
+    className=" usa-form-group  usa-form-group--success"
   >
     <label
-      className="usa-label margin-top-0  usa-label--success"
+      className="usa-label  usa-label--success"
       htmlFor="error-datepicker-date"
     >
       Pick a date
@@ -3057,7 +3057,7 @@ exports[`Storyshots DatePicker Success with range 1`] = `
 >
   <fieldset
     aria-describedby="datepicker-success"
-    className="grid-gap grid-row usa-fieldset 
+    className="grid-gap grid-row usa-fieldset
 			 usa-fieldset--success
     "
     id="error-datepicker"
@@ -3078,7 +3078,7 @@ exports[`Storyshots DatePicker Success with range 1`] = `
       You did good
     </span>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row "
     >
       <div
         className="DateRangePicker DateRangePicker_1"
@@ -3173,10 +3173,10 @@ exports[`Storyshots DatePicker Warning 1`] = `
   }
 >
   <div
-    className="usa-form-group  usa-form-group--warning"
+    className=" usa-form-group  usa-form-group--warning"
   >
     <label
-      className="usa-label margin-top-0  usa-label--warning"
+      className="usa-label  usa-label--warning"
       htmlFor="error-datepicker-date"
     >
       Pick a date
@@ -3259,7 +3259,7 @@ exports[`Storyshots DatePicker Warning with range 1`] = `
 >
   <fieldset
     aria-describedby="datepicker-warning"
-    className="grid-gap grid-row usa-fieldset 
+    className="grid-gap grid-row usa-fieldset
 			 usa-fieldset--warning
     "
     id="error-datepicker"
@@ -3293,7 +3293,7 @@ exports[`Storyshots DatePicker Warning with range 1`] = `
       Meh, fine
     </span>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row "
     >
       <div
         className="DateRangePicker DateRangePicker_1"
@@ -3772,7 +3772,7 @@ exports[`Storyshots FieldSet Default 1`] = `
   }
 >
   <fieldset
-    className="grid-gap grid-row usa-fieldset 
+    className="grid-gap grid-row usa-fieldset
 			
     "
     id="default-fieldset"
@@ -3784,7 +3784,7 @@ exports[`Storyshots FieldSet Default 1`] = `
       field set
     </legend>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row "
     >
       <p>
         I'm inside a field set!
@@ -3803,7 +3803,7 @@ exports[`Storyshots FieldSet Show legend 1`] = `
   }
 >
   <fieldset
-    className="grid-gap grid-row usa-fieldset 
+    className="grid-gap grid-row usa-fieldset
 			
     "
     id="show-legend-fieldset"
@@ -3815,7 +3815,7 @@ exports[`Storyshots FieldSet Show legend 1`] = `
       Field set
     </legend>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row "
     >
       <p>
         I'm inside a field set!
@@ -3835,7 +3835,7 @@ exports[`Storyshots FieldSet With error 1`] = `
 >
   <fieldset
     aria-describedby="fieldset-error"
-    className="grid-gap grid-row usa-fieldset 
+    className="grid-gap grid-row usa-fieldset
 			 usa-fieldset--error
     "
     id="error-fieldset"
@@ -3856,7 +3856,7 @@ exports[`Storyshots FieldSet With error 1`] = `
       These fields will block your progress!
     </span>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row "
     >
       <p>
          Uh oh! 
@@ -3882,7 +3882,7 @@ exports[`Storyshots FieldSet With success 1`] = `
 >
   <fieldset
     aria-describedby="fieldset-success"
-    className="grid-gap grid-row usa-fieldset 
+    className="grid-gap grid-row usa-fieldset
 			 usa-fieldset--success
     "
     id="success-fieldset"
@@ -3903,7 +3903,7 @@ exports[`Storyshots FieldSet With success 1`] = `
       These fields are filled out and validated yay!
     </span>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row "
     >
       <p>
          Wow! 
@@ -3929,7 +3929,7 @@ exports[`Storyshots FieldSet With warning 1`] = `
 >
   <fieldset
     aria-describedby="fieldset-warning"
-    className="grid-gap grid-row usa-fieldset 
+    className="grid-gap grid-row usa-fieldset
 			 usa-fieldset--warning
     "
     id="warning-fieldset"
@@ -3963,7 +3963,7 @@ exports[`Storyshots FieldSet With warning 1`] = `
       These fields need your attention!
     </span>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row "
     >
       <p>
          Oh no! 
@@ -4501,7 +4501,7 @@ exports[`Storyshots RadioGroup Default 1`] = `
   }
 >
   <fieldset
-    className="grid-gap grid-row usa-fieldset 
+    className="grid-gap grid-row usa-fieldset
 			
     "
     id="storybook-radio-group"
@@ -4513,7 +4513,7 @@ exports[`Storyshots RadioGroup Default 1`] = `
       Radiogroup items
     </legend>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row "
     >
       <div
         className=""
@@ -4571,7 +4571,7 @@ exports[`Storyshots RadioGroup Default selection 1`] = `
   }
 >
   <fieldset
-    className="grid-gap grid-row usa-fieldset 
+    className="grid-gap grid-row usa-fieldset
 			
     "
     id="storybook-radio-group-default-selection"
@@ -4583,7 +4583,7 @@ exports[`Storyshots RadioGroup Default selection 1`] = `
       Radiogroup items
     </legend>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row "
     >
       <div
         className=""
@@ -4641,7 +4641,7 @@ exports[`Storyshots RadioGroup Horizontal 1`] = `
   }
 >
   <fieldset
-    className="grid-gap grid-row usa-fieldset 
+    className="grid-gap grid-row usa-fieldset
 			
     "
     id="storybook-radio-group-2"
@@ -4653,7 +4653,7 @@ exports[`Storyshots RadioGroup Horizontal 1`] = `
       Radiogroup items
     </legend>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row "
     >
       <div
         className="grid-row flex-align-start grid-gap"
@@ -4712,7 +4712,7 @@ exports[`Storyshots RadioGroup With error 1`] = `
 >
   <fieldset
     aria-describedby="radio-group-error"
-    className="grid-gap grid-row usa-fieldset 
+    className="grid-gap grid-row usa-fieldset
 			 usa-fieldset--error
     "
     id="storybook-radio-group-with-warning"
@@ -4733,7 +4733,7 @@ exports[`Storyshots RadioGroup With error 1`] = `
       These fields will block your progress
     </span>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row "
     >
       <div
         className=""
@@ -4792,7 +4792,7 @@ exports[`Storyshots RadioGroup With success 1`] = `
 >
   <fieldset
     aria-describedby="radio-group-status"
-    className="grid-gap grid-row usa-fieldset 
+    className="grid-gap grid-row usa-fieldset
 			 usa-fieldset--success
     "
     id="storybook-radio-group-with-warning"
@@ -4813,7 +4813,7 @@ exports[`Storyshots RadioGroup With success 1`] = `
       This value was accepted
     </span>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row "
     >
       <div
         className=""
@@ -4872,7 +4872,7 @@ exports[`Storyshots RadioGroup With warning 1`] = `
 >
   <fieldset
     aria-describedby="radio-group-warning"
-    className="grid-gap grid-row usa-fieldset 
+    className="grid-gap grid-row usa-fieldset
 			 usa-fieldset--warning
     "
     id="storybook-radio-group-with-warning"
@@ -4906,7 +4906,7 @@ exports[`Storyshots RadioGroup With warning 1`] = `
       These fields need your attention
     </span>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row "
     >
       <div
         className=""
@@ -5314,7 +5314,7 @@ exports[`Storyshots TextInput Default 1`] = `
   }
 >
   <div
-    className="undefined usa-form-group"
+    className=" usa-form-group"
   >
     <label
       className="usa-label"
@@ -5343,7 +5343,7 @@ exports[`Storyshots TextInput Disabled 1`] = `
   }
 >
   <div
-    className="undefined usa-form-group"
+    className=" usa-form-group"
   >
     <label
       className="usa-label"
@@ -5373,7 +5373,7 @@ exports[`Storyshots TextInput Error 1`] = `
   }
 >
   <div
-    className="undefined usa-form-group usa-form-group--error"
+    className=" usa-form-group usa-form-group--error"
   >
     <label
       className="usa-label usa-label--error"
@@ -5416,7 +5416,7 @@ exports[`Storyshots TextInput Error inside error Fieldset 1`] = `
   >
     <fieldset
       aria-describedby="text-input-error"
-      className="grid-gap grid-row usa-fieldset 
+      className="grid-gap grid-row usa-fieldset
 			 usa-fieldset--error
     "
       id="example-fieldset-error"
@@ -5443,7 +5443,7 @@ exports[`Storyshots TextInput Error inside error Fieldset 1`] = `
           className="mobile-lg:grid-col-4 display-inline-block"
         >
           <div
-            className="undefined usa-form-group usa-form-group--error"
+            className=" usa-form-group usa-form-group--error"
           >
             <label
               className="usa-label usa-label--error"
@@ -5475,7 +5475,7 @@ exports[`Storyshots TextInput Error inside error Fieldset 1`] = `
           className="mobile-lg:grid-col-8 display-inline-block"
         >
           <div
-            className="undefined usa-form-group usa-form-group--error"
+            className=" usa-form-group usa-form-group--error"
           >
             <label
               className="usa-label usa-label--error"
@@ -5518,7 +5518,7 @@ exports[`Storyshots TextInput Optional 1`] = `
   }
 >
   <div
-    className="undefined usa-form-group"
+    className=" usa-form-group"
   >
     <label
       className="usa-label"
@@ -5552,7 +5552,7 @@ exports[`Storyshots TextInput Success 1`] = `
   }
 >
   <div
-    className="undefined usa-form-group usa-form-group--success"
+    className=" usa-form-group usa-form-group--success"
   >
     <label
       className="usa-label usa-label--success"
@@ -5591,7 +5591,7 @@ exports[`Storyshots TextInput Warning 1`] = `
   }
 >
   <div
-    className="undefined usa-form-group usa-form-group--warning"
+    className=" usa-form-group usa-form-group--warning"
   >
     <label
       className="usa-label usa-label--warning"
@@ -5647,7 +5647,7 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
   >
     <fieldset
       aria-describedby="text-input-warning"
-      className="grid-gap grid-row usa-fieldset 
+      className="grid-gap grid-row usa-fieldset
 			 usa-fieldset--warning
     "
       id="warning-fieldset"
@@ -5687,7 +5687,7 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
           className="mobile-lg:grid-col-4 display-inline-block"
         >
           <div
-            className="undefined usa-form-group usa-form-group--warning"
+            className=" usa-form-group usa-form-group--warning"
           >
             <label
               className="usa-label usa-label--warning"
@@ -5732,7 +5732,7 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
           className="mobile-lg:grid-col-8 display-inline-block"
         >
           <div
-            className="undefined usa-form-group usa-form-group--warning"
+            className=" usa-form-group usa-form-group--warning"
           >
             <label
               className="usa-label usa-label--warning"
@@ -5788,7 +5788,7 @@ exports[`Storyshots TextInput With default value 1`] = `
   }
 >
   <div
-    className="undefined usa-form-group"
+    className=" usa-form-group"
   >
     <label
       className="usa-label"

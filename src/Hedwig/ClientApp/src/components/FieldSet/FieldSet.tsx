@@ -33,7 +33,7 @@ const FieldSet: React.FC<FieldSetProps> = ({
 	}
 	return (
 		<fieldset
-			className={`grid-gap grid-row usa-fieldset 
+			className={`grid-gap grid-row usa-fieldset
 			${status ? ` usa-fieldset--${status.type}` : ''}
     `}
 			id={id}
@@ -49,7 +49,7 @@ const FieldSet: React.FC<FieldSetProps> = ({
 			</legend>
 			{hint && <span className="usa-hint">{hint}</span>}
 			{status && <FormStatus {...status} />}
-			<div className={`grid-gap grid-row ${className}`}>{children}</div>
+			<div className={`grid-gap grid-row ${className || ''}`}>{children}</div>
 		</fieldset>
 	);
 };
