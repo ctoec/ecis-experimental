@@ -18,6 +18,7 @@ import { processBlockingValidationErrors } from "../../utils/validations/process
 import InlineIcon from "../../components/InlineIcon/InlineIcon";
 import { AlertProps } from "../../components/Alert/Alert";
 import AlertContext from "../../contexts/Alert/AlertContext";
+import { splitCamelCase } from "../../utils/splitCamelCase";
 
 type WithdrawalProps = {
   history: History,
@@ -146,7 +147,7 @@ export default function Withdrawal({
               <div className="mobile-lg:grid-col-6">
                 <h4>Current enrollment</h4>
                 <p>{enrollment.site.name}</p>
-                <p>Age: {enrollment.ageGroup}</p>
+                <p>Age: {splitCamelCase(enrollment.ageGroup, '/')}</p>
                 <p>Enrollment date: {enrollment.entry && enrollment.entry.toLocaleDateString()}</p>              </div>
               {cdcFunding && 
                 <div className="mobile-lg:grid-col-6">
