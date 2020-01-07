@@ -35,10 +35,11 @@ type DateInputProps = {
 	dateRange: DateRange;
 	onChange: (newRange: DateRange) => void;
 	id: string;
-	label: string | JSX.Element;
+	label: string;
 	format?: 'dayInput' | 'rangeInput';
 	disabled?: boolean;
 	status?: FormStatusProps;
+	className?: string;
 	hideLabel?: boolean;
 	// Will only take effect on fieldsets-- otherwise we should not hide the label
 };
@@ -88,6 +89,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 	format = 'dayInput',
 	disabled,
 	status,
+	className,
 	hideLabel,
 }) => {
 	const initialRangeByVal: rangeByValType = {};
@@ -132,7 +134,8 @@ export const DateInput: React.FC<DateInputProps> = ({
 			id={`${id}-start-date`}
 			showLegend={format === 'rangeInput' ? true : !hideLabel}
 			hint={format !== 'rangeInput' ? 'For example: 04 28 1986' : ''}
-			className="flex-row display-flex flex-align-end usa-memorable-date"
+			childrenGroupClassName="flex-row display-flex flex-align-end usa-memorable-date"
+			className={className}
 		>
 			{Object.keys(inputDetails).map(key => (
 				<TextInput
@@ -173,14 +176,15 @@ export const DateInput: React.FC<DateInputProps> = ({
 				id={id}
 				showLegend={!hideLabel}
 				hint="For example: 04 28 1986"
-				className="flex-row display-flex flex-align-end"
+				childrenGroupClassName="flex-row display-flex flex-align-end"
+				className={className}
 			>
 				{startDateFieldset}
 				<FieldSet
 					legend={`${label} end`}
 					id={`${id}-end-date`}
 					showLegend
-					className="flex-row display-flex flex-align-end usa-memorable-date"
+					childrenGroupClassName="flex-row display-flex flex-align-end usa-memorable-date"
 				>
 					{Object.keys(inputDetails).map(key => (
 						<TextInput

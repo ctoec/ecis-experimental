@@ -166,8 +166,14 @@ const FamilyIncome: Section = {
 		var isFoster = enrollment.child.foster;
 
 		if (isFoster) {
-			save();
-			return <></>;
+			// Fixed infinite loop bug by getting rid of save here-- but do we need to save for some reason?
+			return (
+				<Alert
+					type="info"
+					heading="Information not needed"
+					text="It is not necessary to enter family income information for a child in foster care. If this child is not in foster care, indicate so in the family information section."
+				/>
+			);
 		}
 
 		return (
@@ -225,7 +231,11 @@ const FamilyIncome: Section = {
 										startDate: determinationDate ? moment(determinationDate) : null,
 										endDate: null,
 									}}
-									status={clientErrorForField('determinationDate', determinationDate, attemptedSave && !notDisclosed)}
+									status={clientErrorForField(
+										'determinationDate',
+										determinationDate,
+										attemptedSave && !notDisclosed
+									)}
 								/>
 							</FieldSet>
 						</>

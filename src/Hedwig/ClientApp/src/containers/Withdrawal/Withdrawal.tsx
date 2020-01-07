@@ -136,7 +136,7 @@ export default function Withdrawal({
   return (
     <CommonContainer
       directionalLinkProps={
-        {direction: 'left', to: `/roster/enrollments/${enrollment.id}`, text:'Back'}
+        {direction: 'left', to: `/roster/enrollments/${enrollment.id}/`, text:'Back'}
       }
     >
         <section className="grid-container">

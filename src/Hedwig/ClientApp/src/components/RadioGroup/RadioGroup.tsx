@@ -16,6 +16,8 @@ type RadioGroupProps = {
 	horizontal?: boolean;
 	legend: string;
 	status?: FormStatusProps;
+	className?: string;
+	hint?: string;
 };
 
 export default function RadioGroup({
@@ -25,7 +27,9 @@ export default function RadioGroup({
 	selected,
 	horizontal,
 	legend,
-	status
+	status,
+	className,
+	hint,
 }: RadioGroupProps) {
 	return (
 		<FieldSet
@@ -33,6 +37,9 @@ export default function RadioGroup({
 			status={status}
 			id={id}
 			aria-describedby={status ? status.id : undefined}
+			className={className}
+			childrenGroupClassName="margin-top-3"
+			hint={hint}
 		>
 			<div className={horizontal ? 'grid-row flex-align-start grid-gap' : ''}>
 				{options.map(option => (

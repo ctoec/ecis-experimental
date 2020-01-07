@@ -18,6 +18,7 @@ type ChecklistProps = {
 	horizontal?: boolean;
 	status?: FormStatusProps;
 	className?: string;
+	hint?: string;
 };
 
 export default function Checklist({
@@ -26,14 +27,15 @@ export default function Checklist({
 	horizontal,
 	legend,
 	status,
-	className
+	hint
 }: ChecklistProps) {
 	return (
 		<FieldSet
 			legend={legend}
 			status={status}
 			id={id}
-			className={className}
+			childrenGroupClassName="margin-top-3"
+			hint={hint}
 		>
 			<div className={horizontal ? 'grid-row flex-align-start grid-gap' : ''}>
 				{options.map(option => (

@@ -155,6 +155,8 @@ export default function Roster() {
 							horizontal={true}
 							id={'dateSelectionType'}
 							selected={byRange ? 'range' : 'date'}
+							className="margin-top-neg-3"
+							// This is goofy but we're getting rid of this soon anyway
 						/>
 						<DatePicker
 							id="enrollment-roster-datepicker"

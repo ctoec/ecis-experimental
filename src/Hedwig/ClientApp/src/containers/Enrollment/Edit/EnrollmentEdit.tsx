@@ -97,7 +97,13 @@ export default function EnrollmentEdit({
 	};
 
 	return (
-		<CommonContainer>
+		<CommonContainer
+			directionalLinkProps={{
+				direction: 'left',
+				to: `/roster/enrollments/${enrollment.id}/`,
+				text: `Back to enrollment details`,
+			}}
+		>
 			<section className="grid-container">
 				<h1>Edit {section.name.toLowerCase()}</h1>
 				<section.Form enrollment={enrollment} mutate={mutate} callback={afterSave} />

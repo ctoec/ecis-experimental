@@ -320,7 +320,7 @@ const EnrollmentFunding: Section = {
 						)}
 					/>
 
-					<h2>Age group</h2>
+					<h3>Age group</h3>
 					<RadioGroup
 						legend="Age group"
 						id="age-group"
@@ -347,7 +347,7 @@ const EnrollmentFunding: Section = {
 							'This field is required for OEC reporting'
 						)}
 					/>
-					<h2>Funding</h2>
+					<h3>Funding</h3>
 					<Dropdown
 						id="fundingType"
 						options={[
@@ -410,7 +410,7 @@ const EnrollmentFunding: Section = {
 							)}
 						/>
 					)}
-					<h2>Care 4 Kids</h2>
+					<h3>Care 4 Kids</h3>
 					<Checklist
 						options={[
 							{
@@ -422,6 +422,7 @@ const EnrollmentFunding: Section = {
 						]}
 						id="c4k-checklist-box"
 						legend="Receives Care 4 Kids"
+						className="margin-top-3"
 					/>
 					{receivesC4k && (
 						<>

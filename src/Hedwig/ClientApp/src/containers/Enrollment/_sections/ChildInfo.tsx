@@ -200,20 +200,20 @@ const ChildInfo: Section = {
 					<div className="mobile-lg:grid-col-9">
 						<TextInput
 							id="firstName"
-							label="First"
+							label="First name"
 							defaultValue={firstName || ''}
 							onChange={event => updateFirstName(event.target.value)}
 							status={serverErrorForField(
-								"child.firstname",
+								'child.firstname',
 								apiError,
-								"This information is required for enrollment"
+								'This information is required for enrollment'
 							)}
 						/>
 					</div>
 					<div className="mobile-lg:grid-col-9">
 						<TextInput
 							id="middleName"
-							label="Middle"
+							label="Middle name"
 							defaultValue={middleName || ''}
 							onChange={event => updateMiddleName(event.target.value)}
 							optional
@@ -222,13 +222,13 @@ const ChildInfo: Section = {
 					<div className="mobile-lg:grid-col-9">
 						<TextInput
 							id="lastName"
-							label="Last"
+							label="Last name"
 							defaultValue={lastName || ''}
 							onChange={event => updateLastName(event.target.value)}
 							status={serverErrorForField(
-								"child.lastname",
+								'child.lastname',
 								apiError,
-								"This information is required for enrollment"
+								'This information is required for enrollment'
 							)}
 						/>
 					</div>
@@ -243,12 +243,9 @@ const ChildInfo: Section = {
 					</div>
 				</div>
 
-				{/* TODO: FIX HEADER SPACING-- EITHER JUST HAVE IT HERE OR FIX SPACING WHERE IT'S USED */}
-				<h2>Date of birth</h2>
+				<h3>Date of birth</h3>
 				<DateInput
-					onChange={range =>
-						updateBirthdate((range.startDate && range.startDate.toDate()) || null)
-					}
+					onChange={range => updateBirthdate((range.startDate && range.startDate.toDate()) || null)}
 					dateRange={{ startDate: birthdate ? moment(birthdate) : null, endDate: null }}
 					label="Birth date"
 					id="birthdate-picker"
@@ -261,7 +258,7 @@ const ChildInfo: Section = {
 					)}
 				/>
 
-				<h2>Birth certificate</h2>
+				<h3>Birth certificate</h3>
 				<FieldSet
 					status={warningForFieldSet(
 						'birth-certificate-fields',
@@ -306,9 +303,9 @@ const ChildInfo: Section = {
 					</div>
 				</FieldSet>
 
-				<h2>Race</h2>
-				<p className="oec-form-helper">As identified by family</p>
+				<h3>Race</h3>
 				<Checklist
+					hint="As identified by family"
 					status={warningForFieldSet(
 						'race-checklist',
 						[
@@ -357,9 +354,9 @@ const ChildInfo: Section = {
 					]}
 				/>
 
-				<h2>Ethnicity</h2>
-				<p className="oec-form-helper">As identified by family</p>
+				<h3>Ethnicity</h3>
 				<RadioGroup
+					hint="As identified by family"
 					status={warningForFieldSet(
 						'ethnicity-radiogroup',
 						['hispanicOrLatinxEthnicity'],
@@ -379,7 +376,7 @@ const ChildInfo: Section = {
 						},
 					]}
 					selected={
-						(hispanicOrLatinxEthnicity === null || hispanicOrLatinxEthnicity === undefined)
+						hispanicOrLatinxEthnicity === null || hispanicOrLatinxEthnicity === undefined
 							? ''
 							: hispanicOrLatinxEthnicity
 							? 'yes'
@@ -392,7 +389,7 @@ const ChildInfo: Section = {
 					}
 				/>
 
-				<h2>Gender</h2>
+				<h3>Gender</h3>
 				<p className="oec-form-helper">As identified by family</p>
 				<Dropdown
 					options={[
@@ -423,7 +420,7 @@ const ChildInfo: Section = {
 					id="gender-select"
 				/>
 
-				<Button text="Save" onClick={save}/>
+				<Button text="Save" onClick={save} />
 			</div>
 		);
 	},
