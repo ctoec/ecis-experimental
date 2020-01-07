@@ -35,7 +35,7 @@ export default function Withdrawal({
   }
 }: WithdrawalProps) {
   const { user } = useContext(UserContext);
-  const { getAlerts, setAlerts } = useContext(AlertContext);
+  const { setAlerts } = useContext(AlertContext);
   const { cdcReportingPeriods: reportingPeriods } = useContext(ReportingPeriodContext);
 
   const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest = {
@@ -62,28 +62,28 @@ export default function Withdrawal({
   const [attemptedSave, setAttemptedSave] = useState(false);
   const [apiError, setApiError] = useState<ValidationProblemDetails>();
 
-  if(loading || error || !enrollment) {
-    return <div className="Withdrawl"></div>;
-  }
-
-  const fundings = enrollment.fundings ? enrollment.fundings : [] as DeepNonUndefineable<Funding[]>;
+  const fundings = (enrollment && enrollment.fundings) ? enrollment.fundings : [] as DeepNonUndefineable<Funding[]>;
   const cdcFundings = fundings.filter(funding => funding.source === FundingSource.CDC);
   const cdcFunding = currentFunding(cdcFundings);
-
-  const save = () => {
-    setAttemptedSave(true);
-
-    // funded enrollments without first reporting period are not valid for withdrawl
-    // TODO add option to add first reporting period here
-    if(cdcFunding && !cdcFunding.firstReportingPeriod) {
+  // TODO: replace this whole endeavor with ability to simply select a first reporting period in this form
+  const cannotWithdraw = cdcFunding && !cdcFunding.firstReportingPeriod;
+  useEffect(() => {
+    if(cannotWithdraw) {
       setAlerts([{
         type: 'error',
         heading: 'Cannot withdraw',
         text: 'CDC funded enrollments must have first reporting period for withdrawal'
       }]);
-
-      return;
+      history.push(`/roster/enrollments/${enrollment.id}`);
     }
+  }, [enrollment]);
+ 
+  if(loading || error || !enrollment) {
+    return <div className="Withdrawl"></div>;
+  }
+
+  const save = () => {
+    setAttemptedSave(true);
 
     //enrollment end date (exit) is required for withdrawl
     if(!enrollmentEndDate) {
@@ -101,6 +101,18 @@ export default function Withdrawal({
         }
       ]
     }
+
+    const c4KFunding =  currentFunding(fundings.filter<DeepNonUndefineable<Funding>>(funding => funding.source === FundingSource.C4K));
+    if(c4KFunding) {
+      updatedFundings = [
+        ...(updatedFundings.filter(funding => funding.id != c4KFunding.id)),
+        {
+          ...c4KFunding,
+          certificateEndDate: enrollmentEndDate
+        }
+      ]
+    }
+
     const putParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
       ...defaultParams,
       enrollment: {
@@ -219,7 +231,7 @@ export default function Withdrawal({
                   <Button text="Cancel" href={`/roster/enrollments/${enrollment.id}/`} appearance='base' />
                 </div>
                 <div className="mobile-lg:grid-col-auto">
-                  <Button text="Confirm and withdraw" onClick={save} />
+                  <Button text="Confirm and withdraw" onClick={save} disabled={cannotWithdraw}/>
                 </div>
               </div>
             </div>
