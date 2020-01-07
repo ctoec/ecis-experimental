@@ -247,7 +247,8 @@ exports[`Storyshots Checklist Box disabled 1`] = `
   <fieldset
     className="grid-gap grid-row usa-fieldset
 			
-    "
+			 undefined
+			"
     id="storybook-checklist-disabled"
   >
     <legend
@@ -257,7 +258,7 @@ exports[`Storyshots Checklist Box disabled 1`] = `
       Checklist items
     </legend>
     <div
-      className="grid-gap grid-row "
+      className="grid-gap grid-row margin-top-3"
     >
       <div
         className=""
@@ -319,7 +320,8 @@ exports[`Storyshots Checklist Default 1`] = `
   <fieldset
     className="grid-gap grid-row usa-fieldset
 			
-    "
+			 undefined
+			"
     id="storybook-checklist"
   >
     <legend
@@ -329,7 +331,7 @@ exports[`Storyshots Checklist Default 1`] = `
       Checklist items
     </legend>
     <div
-      className="grid-gap grid-row "
+      className="grid-gap grid-row margin-top-3"
     >
       <div
         className=""
@@ -389,7 +391,8 @@ exports[`Storyshots Checklist Default selection 1`] = `
   <fieldset
     className="grid-gap grid-row usa-fieldset
 			
-    "
+			 undefined
+			"
     id="storybook-checklist-default-selection"
   >
     <legend
@@ -399,7 +402,7 @@ exports[`Storyshots Checklist Default selection 1`] = `
       Checklist items
     </legend>
     <div
-      className="grid-gap grid-row "
+      className="grid-gap grid-row margin-top-3"
     >
       <div
         className=""
@@ -459,7 +462,8 @@ exports[`Storyshots Checklist Horizontal 1`] = `
   <fieldset
     className="grid-gap grid-row usa-fieldset
 			
-    "
+			 undefined
+			"
     id="storybook-checklist-2"
   >
     <legend
@@ -469,7 +473,7 @@ exports[`Storyshots Checklist Horizontal 1`] = `
       Checklist items
     </legend>
     <div
-      className="grid-gap grid-row "
+      className="grid-gap grid-row margin-top-3"
     >
       <div
         className="grid-row flex-align-start grid-gap"
@@ -530,7 +534,8 @@ exports[`Storyshots Checklist With error 1`] = `
     aria-describedby="checklis-error"
     className="grid-gap grid-row usa-fieldset
 			 usa-fieldset--error
-    "
+			 undefined
+			"
     id="storybook-checklist-with-error"
   >
     <legend
@@ -549,7 +554,7 @@ exports[`Storyshots Checklist With error 1`] = `
       These fields will block your progress
     </span>
     <div
-      className="grid-gap grid-row "
+      className="grid-gap grid-row margin-top-3"
     >
       <div
         className=""
@@ -610,7 +615,8 @@ exports[`Storyshots Checklist With success 1`] = `
     aria-describedby="checklist-success"
     className="grid-gap grid-row usa-fieldset
 			 usa-fieldset--success
-    "
+			 undefined
+			"
     id="storybook-checklist-with-success"
   >
     <legend
@@ -629,7 +635,7 @@ exports[`Storyshots Checklist With success 1`] = `
       These fields were validated woo
     </span>
     <div
-      className="grid-gap grid-row "
+      className="grid-gap grid-row margin-top-3"
     >
       <div
         className=""
@@ -690,7 +696,8 @@ exports[`Storyshots Checklist With warning 1`] = `
     aria-describedby="checklist-warning"
     className="grid-gap grid-row usa-fieldset
 			 usa-fieldset--warning
-    "
+			 undefined
+			"
     id="storybook-checklist-with-warning"
   >
     <legend
@@ -722,7 +729,7 @@ exports[`Storyshots Checklist With warning 1`] = `
       These fields need your attention
     </span>
     <div
-      className="grid-gap grid-row "
+      className="grid-gap grid-row margin-top-3"
     >
       <div
         className=""
@@ -783,7 +790,8 @@ exports[`Storyshots Date input Default 1`] = `
     aria-describedby="dateinput-example-start-date-hint"
     className="grid-gap grid-row usa-fieldset
 			
-    "
+			 undefined
+			"
     id="dateinput-example-start-date"
   >
     <legend
@@ -793,15 +801,15 @@ exports[`Storyshots Date input Default 1`] = `
       Date
     </legend>
     <span
-      className="usa-hint"
+      className="usa-hint oec-form-helper"
     >
       For example: 04 28 1986
     </span>
     <div
-      className="grid-gap grid-row flex-row display-flex flex-align-end usa-memorable-date"
+      className="grid-gap grid-row flex-row flex-align-end usa-memorable-date"
     >
       <div
-        className="oec-date-input__input margin-left-0 usa-form-group"
+        className="oec-date-input__input usa-form-group"
       >
         <label
           className="usa-label"
@@ -824,7 +832,7 @@ exports[`Storyshots Date input Default 1`] = `
         />
       </div>
       <div
-        className="oec-date-input__input margin-left-0 usa-form-group"
+        className="oec-date-input__input usa-form-group"
       >
         <label
           className="usa-label"
@@ -847,7 +855,7 @@ exports[`Storyshots Date input Default 1`] = `
         />
       </div>
       <div
-        className="oec-date-input__input margin-left-0 usa-form-group"
+        className="oec-date-input__input usa-form-group"
       >
         <label
           className="usa-label"
@@ -887,7 +895,8 @@ exports[`Storyshots Date input Disabled day input 1`] = `
     aria-describedby="dateinput-example-start-date-hint"
     className="grid-gap grid-row usa-fieldset
 			
-    "
+			 undefined
+			"
     id="dateinput-example-start-date"
   >
     <legend
@@ -897,15 +906,15 @@ exports[`Storyshots Date input Disabled day input 1`] = `
       Date
     </legend>
     <span
-      className="usa-hint"
+      className="usa-hint oec-form-helper"
     >
       For example: 04 28 1986
     </span>
     <div
-      className="grid-gap grid-row flex-row display-flex flex-align-end usa-memorable-date"
+      className="grid-gap grid-row flex-row flex-align-end usa-memorable-date"
     >
       <div
-        className="oec-date-input__input margin-left-0 usa-form-group"
+        className="oec-date-input__input usa-form-group"
       >
         <label
           className="usa-label"
@@ -929,7 +938,7 @@ exports[`Storyshots Date input Disabled day input 1`] = `
         />
       </div>
       <div
-        className="oec-date-input__input margin-left-0 usa-form-group"
+        className="oec-date-input__input usa-form-group"
       >
         <label
           className="usa-label"
@@ -953,7 +962,7 @@ exports[`Storyshots Date input Disabled day input 1`] = `
         />
       </div>
       <div
-        className="oec-date-input__input margin-left-0 usa-form-group"
+        className="oec-date-input__input usa-form-group"
       >
         <label
           className="usa-label"
@@ -994,7 +1003,8 @@ exports[`Storyshots Date input Disabled range input 1`] = `
     aria-describedby="dateinput-example-hint"
     className="grid-gap grid-row usa-fieldset
 			
-    "
+			 undefined
+			"
     id="dateinput-example"
   >
     <legend
@@ -1004,7 +1014,7 @@ exports[`Storyshots Date input Disabled range input 1`] = `
       Date
     </legend>
     <span
-      className="usa-hint"
+      className="usa-hint oec-form-helper"
     >
       For example: 04 28 1986
     </span>
@@ -1014,7 +1024,8 @@ exports[`Storyshots Date input Disabled range input 1`] = `
       <fieldset
         className="grid-gap grid-row usa-fieldset
 			
-    "
+			 undefined
+			"
         id="dateinput-example-start-date"
       >
         <legend
@@ -1025,10 +1036,10 @@ exports[`Storyshots Date input Disabled range input 1`] = `
         </legend>
         
         <div
-          className="grid-gap grid-row flex-row display-flex flex-align-end usa-memorable-date"
+          className="grid-gap grid-row flex-row flex-align-end usa-memorable-date"
         >
           <div
-            className="oec-date-input__input margin-left-0 usa-form-group"
+            className="oec-date-input__input usa-form-group"
           >
             <label
               className="usa-label"
@@ -1052,7 +1063,7 @@ exports[`Storyshots Date input Disabled range input 1`] = `
             />
           </div>
           <div
-            className="oec-date-input__input margin-left-0 usa-form-group"
+            className="oec-date-input__input usa-form-group"
           >
             <label
               className="usa-label"
@@ -1076,7 +1087,7 @@ exports[`Storyshots Date input Disabled range input 1`] = `
             />
           </div>
           <div
-            className="oec-date-input__input margin-left-0 usa-form-group"
+            className="oec-date-input__input usa-form-group"
           >
             <label
               className="usa-label"
@@ -1105,7 +1116,8 @@ exports[`Storyshots Date input Disabled range input 1`] = `
       <fieldset
         className="grid-gap grid-row usa-fieldset
 			
-    "
+			 undefined
+			"
         id="dateinput-example-end-date"
       >
         <legend
@@ -1115,10 +1127,10 @@ exports[`Storyshots Date input Disabled range input 1`] = `
           Date end
         </legend>
         <div
-          className="grid-gap grid-row flex-row display-flex flex-align-end usa-memorable-date"
+          className="grid-gap grid-row flex-row flex-align-end usa-memorable-date"
         >
           <div
-            className="oec-date-input__input margin-left-0 usa-form-group"
+            className="oec-date-input__input usa-form-group"
           >
             <label
               className="usa-label"
@@ -1142,7 +1154,7 @@ exports[`Storyshots Date input Disabled range input 1`] = `
             />
           </div>
           <div
-            className="oec-date-input__input margin-left-0 usa-form-group"
+            className="oec-date-input__input usa-form-group"
           >
             <label
               className="usa-label"
@@ -1166,7 +1178,7 @@ exports[`Storyshots Date input Disabled range input 1`] = `
             />
           </div>
           <div
-            className="oec-date-input__input margin-left-0 usa-form-group"
+            className="oec-date-input__input usa-form-group"
           >
             <label
               className="usa-label"
@@ -1205,28 +1217,38 @@ exports[`Storyshots Date input Error 1`] = `
   }
 >
   <fieldset
-    aria-describedby="dateinput-example-start-date-hint"
+    aria-describedby="DateInput-error"
     className="grid-gap grid-row usa-fieldset
-			
-    "
+			 usa-fieldset--error
+			 undefined
+			"
     id="dateinput-example-start-date"
   >
     <legend
-      className="usa-label"
+      className="usa-label usa-label--error"
       id="fieldset-legend-dateinput-example-start-date"
     >
       Date
     </legend>
     <span
-      className="usa-hint"
+      className="usa-hint oec-form-helper"
     >
       For example: 04 28 1986
     </span>
+    <span
+      className="usa-error-message"
+      id="DateInput-error"
+      role="alert"
+    >
+      
+       
+      Pick a better date
+    </span>
     <div
-      className="grid-gap grid-row flex-row display-flex flex-align-end usa-memorable-date"
+      className="grid-gap grid-row flex-row flex-align-end usa-memorable-date"
     >
       <div
-        className="oec-date-input__input margin-left-0 usa-form-group"
+        className="oec-date-input__input usa-form-group"
       >
         <label
           className="usa-label"
@@ -1249,7 +1271,7 @@ exports[`Storyshots Date input Error 1`] = `
         />
       </div>
       <div
-        className="oec-date-input__input margin-left-0 usa-form-group"
+        className="oec-date-input__input usa-form-group"
       >
         <label
           className="usa-label"
@@ -1272,7 +1294,7 @@ exports[`Storyshots Date input Error 1`] = `
         />
       </div>
       <div
-        className="oec-date-input__input margin-left-0 usa-form-group"
+        className="oec-date-input__input usa-form-group"
       >
         <label
           className="usa-label"
@@ -1312,7 +1334,8 @@ exports[`Storyshots Date input Error with range 1`] = `
     aria-describedby="DateInput-error"
     className="grid-gap grid-row usa-fieldset
 			 usa-fieldset--error
-    "
+			 undefined
+			"
     id="dateinput-example"
   >
     <legend
@@ -1322,7 +1345,7 @@ exports[`Storyshots Date input Error with range 1`] = `
       Date
     </legend>
     <span
-      className="usa-hint"
+      className="usa-hint oec-form-helper"
     >
       For example: 04 28 1986
     </span>
@@ -1341,7 +1364,8 @@ exports[`Storyshots Date input Error with range 1`] = `
       <fieldset
         className="grid-gap grid-row usa-fieldset
 			
-    "
+			 undefined
+			"
         id="dateinput-example-start-date"
       >
         <legend
@@ -1352,10 +1376,10 @@ exports[`Storyshots Date input Error with range 1`] = `
         </legend>
         
         <div
-          className="grid-gap grid-row flex-row display-flex flex-align-end usa-memorable-date"
+          className="grid-gap grid-row flex-row flex-align-end usa-memorable-date"
         >
           <div
-            className="oec-date-input__input margin-left-0 usa-form-group"
+            className="oec-date-input__input usa-form-group"
           >
             <label
               className="usa-label"
@@ -1379,7 +1403,7 @@ exports[`Storyshots Date input Error with range 1`] = `
             />
           </div>
           <div
-            className="oec-date-input__input margin-left-0 usa-form-group"
+            className="oec-date-input__input usa-form-group"
           >
             <label
               className="usa-label"
@@ -1403,7 +1427,7 @@ exports[`Storyshots Date input Error with range 1`] = `
             />
           </div>
           <div
-            className="oec-date-input__input margin-left-0 usa-form-group"
+            className="oec-date-input__input usa-form-group"
           >
             <label
               className="usa-label"
@@ -1432,7 +1456,8 @@ exports[`Storyshots Date input Error with range 1`] = `
       <fieldset
         className="grid-gap grid-row usa-fieldset
 			
-    "
+			 undefined
+			"
         id="dateinput-example-end-date"
       >
         <legend
@@ -1442,10 +1467,10 @@ exports[`Storyshots Date input Error with range 1`] = `
           Date end
         </legend>
         <div
-          className="grid-gap grid-row flex-row display-flex flex-align-end usa-memorable-date"
+          className="grid-gap grid-row flex-row flex-align-end usa-memorable-date"
         >
           <div
-            className="oec-date-input__input margin-left-0 usa-form-group"
+            className="oec-date-input__input usa-form-group"
           >
             <label
               className="usa-label"
@@ -1469,7 +1494,7 @@ exports[`Storyshots Date input Error with range 1`] = `
             />
           </div>
           <div
-            className="oec-date-input__input margin-left-0 usa-form-group"
+            className="oec-date-input__input usa-form-group"
           >
             <label
               className="usa-label"
@@ -1493,7 +1518,7 @@ exports[`Storyshots Date input Error with range 1`] = `
             />
           </div>
           <div
-            className="oec-date-input__input margin-left-0 usa-form-group"
+            className="oec-date-input__input usa-form-group"
           >
             <label
               className="usa-label"
@@ -1535,7 +1560,8 @@ exports[`Storyshots Date input Range input 1`] = `
     aria-describedby="dateinput-example-hint"
     className="grid-gap grid-row usa-fieldset
 			
-    "
+			 undefined
+			"
     id="dateinput-example"
   >
     <legend
@@ -1545,7 +1571,7 @@ exports[`Storyshots Date input Range input 1`] = `
       Date
     </legend>
     <span
-      className="usa-hint"
+      className="usa-hint oec-form-helper"
     >
       For example: 04 28 1986
     </span>
@@ -1555,7 +1581,8 @@ exports[`Storyshots Date input Range input 1`] = `
       <fieldset
         className="grid-gap grid-row usa-fieldset
 			
-    "
+			 undefined
+			"
         id="dateinput-example-start-date"
       >
         <legend
@@ -1566,10 +1593,10 @@ exports[`Storyshots Date input Range input 1`] = `
         </legend>
         
         <div
-          className="grid-gap grid-row flex-row display-flex flex-align-end usa-memorable-date"
+          className="grid-gap grid-row flex-row flex-align-end usa-memorable-date"
         >
           <div
-            className="oec-date-input__input margin-left-0 usa-form-group"
+            className="oec-date-input__input usa-form-group"
           >
             <label
               className="usa-label"
@@ -1592,7 +1619,7 @@ exports[`Storyshots Date input Range input 1`] = `
             />
           </div>
           <div
-            className="oec-date-input__input margin-left-0 usa-form-group"
+            className="oec-date-input__input usa-form-group"
           >
             <label
               className="usa-label"
@@ -1615,7 +1642,7 @@ exports[`Storyshots Date input Range input 1`] = `
             />
           </div>
           <div
-            className="oec-date-input__input margin-left-0 usa-form-group"
+            className="oec-date-input__input usa-form-group"
           >
             <label
               className="usa-label"
@@ -1643,7 +1670,8 @@ exports[`Storyshots Date input Range input 1`] = `
       <fieldset
         className="grid-gap grid-row usa-fieldset
 			
-    "
+			 undefined
+			"
         id="dateinput-example-end-date"
       >
         <legend
@@ -1653,10 +1681,10 @@ exports[`Storyshots Date input Range input 1`] = `
           Date end
         </legend>
         <div
-          className="grid-gap grid-row flex-row display-flex flex-align-end usa-memorable-date"
+          className="grid-gap grid-row flex-row flex-align-end usa-memorable-date"
         >
           <div
-            className="oec-date-input__input margin-left-0 usa-form-group"
+            className="oec-date-input__input usa-form-group"
           >
             <label
               className="usa-label"
@@ -1679,7 +1707,7 @@ exports[`Storyshots Date input Range input 1`] = `
             />
           </div>
           <div
-            className="oec-date-input__input margin-left-0 usa-form-group"
+            className="oec-date-input__input usa-form-group"
           >
             <label
               className="usa-label"
@@ -1702,7 +1730,7 @@ exports[`Storyshots Date input Range input 1`] = `
             />
           </div>
           <div
-            className="oec-date-input__input margin-left-0 usa-form-group"
+            className="oec-date-input__input usa-form-group"
           >
             <label
               className="usa-label"
@@ -1740,28 +1768,38 @@ exports[`Storyshots Date input Success 1`] = `
   }
 >
   <fieldset
-    aria-describedby="dateinput-example-start-date-hint"
+    aria-describedby="DateInput-success"
     className="grid-gap grid-row usa-fieldset
-			
-    "
+			 usa-fieldset--success
+			 undefined
+			"
     id="dateinput-example-start-date"
   >
     <legend
-      className="usa-label"
+      className="usa-label usa-label--success"
       id="fieldset-legend-dateinput-example-start-date"
     >
       Date
     </legend>
     <span
-      className="usa-hint"
+      className="usa-hint oec-form-helper"
     >
       For example: 04 28 1986
     </span>
+    <span
+      className="usa-success-message"
+      id="DateInput-success"
+      role="status"
+    >
+      
+       
+      You did good
+    </span>
     <div
-      className="grid-gap grid-row flex-row display-flex flex-align-end usa-memorable-date"
+      className="grid-gap grid-row flex-row flex-align-end usa-memorable-date"
     >
       <div
-        className="oec-date-input__input margin-left-0 usa-form-group"
+        className="oec-date-input__input usa-form-group"
       >
         <label
           className="usa-label"
@@ -1784,7 +1822,7 @@ exports[`Storyshots Date input Success 1`] = `
         />
       </div>
       <div
-        className="oec-date-input__input margin-left-0 usa-form-group"
+        className="oec-date-input__input usa-form-group"
       >
         <label
           className="usa-label"
@@ -1807,7 +1845,7 @@ exports[`Storyshots Date input Success 1`] = `
         />
       </div>
       <div
-        className="oec-date-input__input margin-left-0 usa-form-group"
+        className="oec-date-input__input usa-form-group"
       >
         <label
           className="usa-label"
@@ -1847,7 +1885,8 @@ exports[`Storyshots Date input Success with range 1`] = `
     aria-describedby="DateInput-success"
     className="grid-gap grid-row usa-fieldset
 			 usa-fieldset--success
-    "
+			 undefined
+			"
     id="dateinput-example"
   >
     <legend
@@ -1857,7 +1896,7 @@ exports[`Storyshots Date input Success with range 1`] = `
       Date
     </legend>
     <span
-      className="usa-hint"
+      className="usa-hint oec-form-helper"
     >
       For example: 04 28 1986
     </span>
@@ -1876,7 +1915,8 @@ exports[`Storyshots Date input Success with range 1`] = `
       <fieldset
         className="grid-gap grid-row usa-fieldset
 			
-    "
+			 undefined
+			"
         id="dateinput-example-start-date"
       >
         <legend
@@ -1887,10 +1927,10 @@ exports[`Storyshots Date input Success with range 1`] = `
         </legend>
         
         <div
-          className="grid-gap grid-row flex-row display-flex flex-align-end usa-memorable-date"
+          className="grid-gap grid-row flex-row flex-align-end usa-memorable-date"
         >
           <div
-            className="oec-date-input__input margin-left-0 usa-form-group"
+            className="oec-date-input__input usa-form-group"
           >
             <label
               className="usa-label"
@@ -1913,7 +1953,7 @@ exports[`Storyshots Date input Success with range 1`] = `
             />
           </div>
           <div
-            className="oec-date-input__input margin-left-0 usa-form-group"
+            className="oec-date-input__input usa-form-group"
           >
             <label
               className="usa-label"
@@ -1936,7 +1976,7 @@ exports[`Storyshots Date input Success with range 1`] = `
             />
           </div>
           <div
-            className="oec-date-input__input margin-left-0 usa-form-group"
+            className="oec-date-input__input usa-form-group"
           >
             <label
               className="usa-label"
@@ -1964,7 +2004,8 @@ exports[`Storyshots Date input Success with range 1`] = `
       <fieldset
         className="grid-gap grid-row usa-fieldset
 			
-    "
+			 undefined
+			"
         id="dateinput-example-end-date"
       >
         <legend
@@ -1974,10 +2015,10 @@ exports[`Storyshots Date input Success with range 1`] = `
           Date end
         </legend>
         <div
-          className="grid-gap grid-row flex-row display-flex flex-align-end usa-memorable-date"
+          className="grid-gap grid-row flex-row flex-align-end usa-memorable-date"
         >
           <div
-            className="oec-date-input__input margin-left-0 usa-form-group"
+            className="oec-date-input__input usa-form-group"
           >
             <label
               className="usa-label"
@@ -2000,7 +2041,7 @@ exports[`Storyshots Date input Success with range 1`] = `
             />
           </div>
           <div
-            className="oec-date-input__input margin-left-0 usa-form-group"
+            className="oec-date-input__input usa-form-group"
           >
             <label
               className="usa-label"
@@ -2023,7 +2064,7 @@ exports[`Storyshots Date input Success with range 1`] = `
             />
           </div>
           <div
-            className="oec-date-input__input margin-left-0 usa-form-group"
+            className="oec-date-input__input usa-form-group"
           >
             <label
               className="usa-label"
@@ -2061,28 +2102,51 @@ exports[`Storyshots Date input Warning 1`] = `
   }
 >
   <fieldset
-    aria-describedby="dateinput-example-start-date-hint"
+    aria-describedby="DateInput-warning"
     className="grid-gap grid-row usa-fieldset
-			
-    "
+			 usa-fieldset--warning
+			 undefined
+			"
     id="dateinput-example-start-date"
   >
     <legend
-      className="usa-label"
+      className="usa-label usa-label--warning"
       id="fieldset-legend-dateinput-example-start-date"
     >
       Date
     </legend>
     <span
-      className="usa-hint"
+      className="usa-hint oec-form-helper"
     >
       For example: 04 28 1986
     </span>
+    <span
+      className="usa-warning-message"
+      id="DateInput-warning"
+      role="status"
+    >
+      <span
+        className="oec-inline-icon oec-inline-icon--incomplete"
+      >
+        <svg>
+          error.svg
+        </svg>
+        <span
+          className="usa-sr-only"
+        >
+          (
+          incomplete
+          )
+        </span>
+      </span>
+       
+      Meh, fine
+    </span>
     <div
-      className="grid-gap grid-row flex-row display-flex flex-align-end usa-memorable-date"
+      className="grid-gap grid-row flex-row flex-align-end usa-memorable-date"
     >
       <div
-        className="oec-date-input__input margin-left-0 usa-form-group"
+        className="oec-date-input__input usa-form-group"
       >
         <label
           className="usa-label"
@@ -2105,7 +2169,7 @@ exports[`Storyshots Date input Warning 1`] = `
         />
       </div>
       <div
-        className="oec-date-input__input margin-left-0 usa-form-group"
+        className="oec-date-input__input usa-form-group"
       >
         <label
           className="usa-label"
@@ -2128,7 +2192,7 @@ exports[`Storyshots Date input Warning 1`] = `
         />
       </div>
       <div
-        className="oec-date-input__input margin-left-0 usa-form-group"
+        className="oec-date-input__input usa-form-group"
       >
         <label
           className="usa-label"
@@ -2168,7 +2232,8 @@ exports[`Storyshots Date input Warning with range 1`] = `
     aria-describedby="DateInput-warning"
     className="grid-gap grid-row usa-fieldset
 			 usa-fieldset--warning
-    "
+			 undefined
+			"
     id="dateinput-example"
   >
     <legend
@@ -2178,7 +2243,7 @@ exports[`Storyshots Date input Warning with range 1`] = `
       Date
     </legend>
     <span
-      className="usa-hint"
+      className="usa-hint oec-form-helper"
     >
       For example: 04 28 1986
     </span>
@@ -2210,7 +2275,8 @@ exports[`Storyshots Date input Warning with range 1`] = `
       <fieldset
         className="grid-gap grid-row usa-fieldset
 			
-    "
+			 undefined
+			"
         id="dateinput-example-start-date"
       >
         <legend
@@ -2221,10 +2287,10 @@ exports[`Storyshots Date input Warning with range 1`] = `
         </legend>
         
         <div
-          className="grid-gap grid-row flex-row display-flex flex-align-end usa-memorable-date"
+          className="grid-gap grid-row flex-row flex-align-end usa-memorable-date"
         >
           <div
-            className="oec-date-input__input margin-left-0 usa-form-group"
+            className="oec-date-input__input usa-form-group"
           >
             <label
               className="usa-label"
@@ -2247,7 +2313,7 @@ exports[`Storyshots Date input Warning with range 1`] = `
             />
           </div>
           <div
-            className="oec-date-input__input margin-left-0 usa-form-group"
+            className="oec-date-input__input usa-form-group"
           >
             <label
               className="usa-label"
@@ -2270,7 +2336,7 @@ exports[`Storyshots Date input Warning with range 1`] = `
             />
           </div>
           <div
-            className="oec-date-input__input margin-left-0 usa-form-group"
+            className="oec-date-input__input usa-form-group"
           >
             <label
               className="usa-label"
@@ -2298,7 +2364,8 @@ exports[`Storyshots Date input Warning with range 1`] = `
       <fieldset
         className="grid-gap grid-row usa-fieldset
 			
-    "
+			 undefined
+			"
         id="dateinput-example-end-date"
       >
         <legend
@@ -2308,10 +2375,10 @@ exports[`Storyshots Date input Warning with range 1`] = `
           Date end
         </legend>
         <div
-          className="grid-gap grid-row flex-row display-flex flex-align-end usa-memorable-date"
+          className="grid-gap grid-row flex-row flex-align-end usa-memorable-date"
         >
           <div
-            className="oec-date-input__input margin-left-0 usa-form-group"
+            className="oec-date-input__input usa-form-group"
           >
             <label
               className="usa-label"
@@ -2334,7 +2401,7 @@ exports[`Storyshots Date input Warning with range 1`] = `
             />
           </div>
           <div
-            className="oec-date-input__input margin-left-0 usa-form-group"
+            className="oec-date-input__input usa-form-group"
           >
             <label
               className="usa-label"
@@ -2357,7 +2424,7 @@ exports[`Storyshots Date input Warning with range 1`] = `
             />
           </div>
           <div
-            className="oec-date-input__input margin-left-0 usa-form-group"
+            className="oec-date-input__input usa-form-group"
           >
             <label
               className="usa-label"
@@ -2521,7 +2588,8 @@ exports[`Storyshots DatePicker Disabled with range 1`] = `
   <fieldset
     className="grid-gap grid-row usa-fieldset
 			
-    "
+			 undefined
+			"
     id="disabled-range-datepicker"
   >
     <legend
@@ -2531,7 +2599,7 @@ exports[`Storyshots DatePicker Disabled with range 1`] = `
       Pick a date
     </legend>
     <div
-      className="grid-gap grid-row "
+      className="grid-gap grid-row undefined"
     >
       <div
         className="DateRangePicker DateRangePicker_1"
@@ -2701,7 +2769,8 @@ exports[`Storyshots DatePicker Error with range 1`] = `
     aria-describedby="datepicker-error"
     className="grid-gap grid-row usa-fieldset
 			 usa-fieldset--error
-    "
+			 undefined
+			"
     id="error-datepicker"
   >
     <legend
@@ -2720,7 +2789,7 @@ exports[`Storyshots DatePicker Error with range 1`] = `
       Pick a better date
     </span>
     <div
-      className="grid-gap grid-row "
+      className="grid-gap grid-row undefined"
     >
       <div
         className="DateRangePicker DateRangePicker_1"
@@ -2879,7 +2948,8 @@ exports[`Storyshots DatePicker Range 1`] = `
   <fieldset
     className="grid-gap grid-row usa-fieldset
 			
-    "
+			 undefined
+			"
     id="byrange-datepicker"
   >
     <legend
@@ -2889,7 +2959,7 @@ exports[`Storyshots DatePicker Range 1`] = `
       Pick a date
     </legend>
     <div
-      className="grid-gap grid-row "
+      className="grid-gap grid-row undefined"
     >
       <div
         className="DateRangePicker DateRangePicker_1"
@@ -3059,7 +3129,8 @@ exports[`Storyshots DatePicker Success with range 1`] = `
     aria-describedby="datepicker-success"
     className="grid-gap grid-row usa-fieldset
 			 usa-fieldset--success
-    "
+			 undefined
+			"
     id="error-datepicker"
   >
     <legend
@@ -3078,7 +3149,7 @@ exports[`Storyshots DatePicker Success with range 1`] = `
       You did good
     </span>
     <div
-      className="grid-gap grid-row "
+      className="grid-gap grid-row undefined"
     >
       <div
         className="DateRangePicker DateRangePicker_1"
@@ -3261,7 +3332,8 @@ exports[`Storyshots DatePicker Warning with range 1`] = `
     aria-describedby="datepicker-warning"
     className="grid-gap grid-row usa-fieldset
 			 usa-fieldset--warning
-    "
+			 undefined
+			"
     id="error-datepicker"
   >
     <legend
@@ -3293,7 +3365,7 @@ exports[`Storyshots DatePicker Warning with range 1`] = `
       Meh, fine
     </span>
     <div
-      className="grid-gap grid-row "
+      className="grid-gap grid-row undefined"
     >
       <div
         className="DateRangePicker DateRangePicker_1"
@@ -3774,7 +3846,8 @@ exports[`Storyshots FieldSet Default 1`] = `
   <fieldset
     className="grid-gap grid-row usa-fieldset
 			
-    "
+			 undefined
+			"
     id="default-fieldset"
   >
     <legend
@@ -3784,7 +3857,7 @@ exports[`Storyshots FieldSet Default 1`] = `
       field set
     </legend>
     <div
-      className="grid-gap grid-row "
+      className="grid-gap grid-row undefined"
     >
       <p>
         I'm inside a field set!
@@ -3805,7 +3878,8 @@ exports[`Storyshots FieldSet Show legend 1`] = `
   <fieldset
     className="grid-gap grid-row usa-fieldset
 			
-    "
+			 undefined
+			"
     id="show-legend-fieldset"
   >
     <legend
@@ -3815,7 +3889,7 @@ exports[`Storyshots FieldSet Show legend 1`] = `
       Field set
     </legend>
     <div
-      className="grid-gap grid-row "
+      className="grid-gap grid-row undefined"
     >
       <p>
         I'm inside a field set!
@@ -3837,7 +3911,8 @@ exports[`Storyshots FieldSet With error 1`] = `
     aria-describedby="fieldset-error"
     className="grid-gap grid-row usa-fieldset
 			 usa-fieldset--error
-    "
+			 undefined
+			"
     id="error-fieldset"
   >
     <legend
@@ -3856,7 +3931,7 @@ exports[`Storyshots FieldSet With error 1`] = `
       These fields will block your progress!
     </span>
     <div
-      className="grid-gap grid-row "
+      className="grid-gap grid-row undefined"
     >
       <p>
          Uh oh! 
@@ -3884,7 +3959,8 @@ exports[`Storyshots FieldSet With success 1`] = `
     aria-describedby="fieldset-success"
     className="grid-gap grid-row usa-fieldset
 			 usa-fieldset--success
-    "
+			 undefined
+			"
     id="success-fieldset"
   >
     <legend
@@ -3903,7 +3979,7 @@ exports[`Storyshots FieldSet With success 1`] = `
       These fields are filled out and validated yay!
     </span>
     <div
-      className="grid-gap grid-row "
+      className="grid-gap grid-row undefined"
     >
       <p>
          Wow! 
@@ -3931,7 +4007,8 @@ exports[`Storyshots FieldSet With warning 1`] = `
     aria-describedby="fieldset-warning"
     className="grid-gap grid-row usa-fieldset
 			 usa-fieldset--warning
-    "
+			 undefined
+			"
     id="warning-fieldset"
   >
     <legend
@@ -3963,7 +4040,7 @@ exports[`Storyshots FieldSet With warning 1`] = `
       These fields need your attention!
     </span>
     <div
-      className="grid-gap grid-row "
+      className="grid-gap grid-row undefined"
     >
       <p>
          Oh no! 
@@ -4503,7 +4580,8 @@ exports[`Storyshots RadioGroup Default 1`] = `
   <fieldset
     className="grid-gap grid-row usa-fieldset
 			
-    "
+			 undefined
+			"
     id="storybook-radio-group"
   >
     <legend
@@ -4513,7 +4591,7 @@ exports[`Storyshots RadioGroup Default 1`] = `
       Radiogroup items
     </legend>
     <div
-      className="grid-gap grid-row "
+      className="grid-gap grid-row margin-top-3"
     >
       <div
         className=""
@@ -4573,7 +4651,8 @@ exports[`Storyshots RadioGroup Default selection 1`] = `
   <fieldset
     className="grid-gap grid-row usa-fieldset
 			
-    "
+			 undefined
+			"
     id="storybook-radio-group-default-selection"
   >
     <legend
@@ -4583,7 +4662,7 @@ exports[`Storyshots RadioGroup Default selection 1`] = `
       Radiogroup items
     </legend>
     <div
-      className="grid-gap grid-row "
+      className="grid-gap grid-row margin-top-3"
     >
       <div
         className=""
@@ -4643,7 +4722,8 @@ exports[`Storyshots RadioGroup Horizontal 1`] = `
   <fieldset
     className="grid-gap grid-row usa-fieldset
 			
-    "
+			 undefined
+			"
     id="storybook-radio-group-2"
   >
     <legend
@@ -4653,7 +4733,7 @@ exports[`Storyshots RadioGroup Horizontal 1`] = `
       Radiogroup items
     </legend>
     <div
-      className="grid-gap grid-row "
+      className="grid-gap grid-row margin-top-3"
     >
       <div
         className="grid-row flex-align-start grid-gap"
@@ -4714,7 +4794,8 @@ exports[`Storyshots RadioGroup With error 1`] = `
     aria-describedby="radio-group-error"
     className="grid-gap grid-row usa-fieldset
 			 usa-fieldset--error
-    "
+			 undefined
+			"
     id="storybook-radio-group-with-warning"
   >
     <legend
@@ -4733,7 +4814,7 @@ exports[`Storyshots RadioGroup With error 1`] = `
       These fields will block your progress
     </span>
     <div
-      className="grid-gap grid-row "
+      className="grid-gap grid-row margin-top-3"
     >
       <div
         className=""
@@ -4794,7 +4875,8 @@ exports[`Storyshots RadioGroup With success 1`] = `
     aria-describedby="radio-group-status"
     className="grid-gap grid-row usa-fieldset
 			 usa-fieldset--success
-    "
+			 undefined
+			"
     id="storybook-radio-group-with-warning"
   >
     <legend
@@ -4813,7 +4895,7 @@ exports[`Storyshots RadioGroup With success 1`] = `
       This value was accepted
     </span>
     <div
-      className="grid-gap grid-row "
+      className="grid-gap grid-row margin-top-3"
     >
       <div
         className=""
@@ -4874,7 +4956,8 @@ exports[`Storyshots RadioGroup With warning 1`] = `
     aria-describedby="radio-group-warning"
     className="grid-gap grid-row usa-fieldset
 			 usa-fieldset--warning
-    "
+			 undefined
+			"
     id="storybook-radio-group-with-warning"
   >
     <legend
@@ -4906,7 +4989,7 @@ exports[`Storyshots RadioGroup With warning 1`] = `
       These fields need your attention
     </span>
     <div
-      className="grid-gap grid-row "
+      className="grid-gap grid-row margin-top-3"
     >
       <div
         className=""
@@ -5418,7 +5501,8 @@ exports[`Storyshots TextInput Error inside error Fieldset 1`] = `
       aria-describedby="text-input-error"
       className="grid-gap grid-row usa-fieldset
 			 usa-fieldset--error
-    "
+			 display-inline-block
+			"
       id="example-fieldset-error"
     >
       <legend
@@ -5437,7 +5521,7 @@ exports[`Storyshots TextInput Error inside error Fieldset 1`] = `
         Error!
       </span>
       <div
-        className="grid-gap grid-row display-inline-block"
+        className="grid-gap grid-row undefined"
       >
         <div
           className="mobile-lg:grid-col-4 display-inline-block"
@@ -5649,7 +5733,8 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
       aria-describedby="text-input-warning"
       className="grid-gap grid-row usa-fieldset
 			 usa-fieldset--warning
-    "
+			 display-inline-block
+			"
       id="warning-fieldset"
     >
       <legend
@@ -5681,7 +5766,7 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
         Warning!
       </span>
       <div
-        className="grid-gap grid-row display-inline-block"
+        className="grid-gap grid-row undefined"
       >
         <div
           className="mobile-lg:grid-col-4 display-inline-block"

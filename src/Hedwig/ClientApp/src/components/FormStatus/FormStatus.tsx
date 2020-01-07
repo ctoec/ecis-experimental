@@ -15,7 +15,7 @@ export default ({ message, type, id }: FormStatusProps) => {
 			id={id}
 			role={type === 'error' ? 'alert' : 'status'}
 		>
-			{type === 'warning' ? <InlineIcon icon="incomplete" /> : ''} {message}
+			{(type === 'warning' && message) ? <InlineIcon icon="incomplete" /> : ''} {message}
 		</span>
 	);
 };

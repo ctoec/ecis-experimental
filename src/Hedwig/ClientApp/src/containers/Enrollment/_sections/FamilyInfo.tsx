@@ -7,14 +7,23 @@ import idx from 'idx';
 import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
 import getIdForUser from '../../../utils/getIdForUser';
-import { sectionHasValidationErrors, hasValidationErrors, processValidationError, warningForFieldSet, warningForField } from '../../../utils/validations';
+import {
+	sectionHasValidationErrors,
+	hasValidationErrors,
+	processValidationError,
+	warningForFieldSet,
+	warningForField,
+} from '../../../utils/validations';
 import FieldSet from '../../../components/FieldSet/FieldSet';
 import { addressFormatter, homelessnessText, fosterText } from '../../../utils/models';
 
 const FamilyInfo: Section = {
 	key: 'family-information',
 	name: 'Family information',
-	status: ({ enrollment }) =>  sectionHasValidationErrors([idx(enrollment, _ => _.child.family) || null]) ? 'incomplete' : 'complete',
+	status: ({ enrollment }) =>
+		sectionHasValidationErrors([idx(enrollment, _ => _.child.family) || null])
+			? 'incomplete'
+			: 'complete',
 
 	Summary: ({ enrollment }) => {
 		if (!enrollment || !enrollment.child) return <></>;
@@ -27,7 +36,9 @@ const FamilyInfo: Section = {
 			<div className="FamilyInfoSummary">
 				{family && (address || foster || homelessness) ? (
 					<>
-						<p>Address: {address} {missingInformation}</p>
+						<p>
+							Address: {address} {missingInformation}
+						</p>
 						{foster && <p>{fosterText()}</p>}
 						{homelessness && <p>{homelessnessText()}</p>}
 					</>
@@ -47,10 +58,10 @@ const FamilyInfo: Section = {
 		const { user } = useContext(UserContext);
 		const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
 			id: enrollment.id || 0,
-			orgId: getIdForUser(user, "org"),
-			siteId: getIdForUser(user, "site"),
-			enrollment: enrollment
-		}
+			orgId: getIdForUser(user, 'org'),
+			siteId: getIdForUser(user, 'site'),
+			enrollment: enrollment,
+		};
 
 		const [addressLine1, updateAddressLine1] = useState(
 			child.family ? child.family.addressLine1 : null
@@ -88,19 +99,18 @@ const FamilyInfo: Section = {
 							foster,
 							family: {
 								id: child.familyId || 0,
-								organizationId: getIdForUser(user, "org"),
+								organizationId: getIdForUser(user, 'org'),
 								...child.family,
-								...args
-							}
-						}
-					}
-				}
-				mutate((api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
-					.then((res) => {
-						if(callback && res) callback(res);
-					})
+								...args,
+							},
+						},
+					},
+				};
+				mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params)).then(res => {
+					if (callback && res) callback(res);
+				});
 			}
-		}
+		};
 
 		return (
 			<div className="FamilyInfoForm usa-form">
@@ -112,7 +122,7 @@ const FamilyInfo: Section = {
 						'family-address',
 						['addressLine1', 'state', 'town', 'zip'],
 						idx(enrollment, _ => _.child.family) || null,
-						'This information is required for OEC reporting',
+						'This information is required for OEC reporting'
 					)}
 					className="display-inline-block"
 				>
@@ -121,9 +131,7 @@ const FamilyInfo: Section = {
 							id="addressLine1"
 							label="Address line 1"
 							defaultValue={addressLine1 || ''}
-							onChange={event => updateAddressLine1(
-								event.target.value ? event.target.value : null
-							)}
+							onChange={event => updateAddressLine1(event.target.value ? event.target.value : null)}
 							status={warningForField(
 								'addressLine1',
 								idx(enrollment, _ => _.child.family) || null,
@@ -136,9 +144,7 @@ const FamilyInfo: Section = {
 							id="addressLine2"
 							label="Address line 2"
 							defaultValue={addressLine2 || ''}
-							onChange={event => updateAddressLine2(
-								event.target.value ? event.target.value : null
-							)}
+							onChange={event => updateAddressLine2(event.target.value ? event.target.value : null)}
 							optional={true}
 						/>
 					</div>
@@ -147,29 +153,17 @@ const FamilyInfo: Section = {
 							id="state"
 							label="State"
 							defaultValue={state || ''}
-							onChange={event => updateState(
-								event.target.value ? event.target.value : null
-							)}
-							status={warningForField(
-								'state',
-								idx(enrollment, _ => _.child.family) || null,
-								''
-							)}
+							onChange={event => updateState(event.target.value ? event.target.value : null)}
+							status={warningForField('state', idx(enrollment, _ => _.child.family) || null, '')}
 						/>
 					</div>
 					<div className="mobile-lg:grid-col-8 display-inline-block">
 						<TextInput
 							id="town"
 							label="Town"
-							defaultValue={town || '' }
-							onChange={event => updateTown(
-								event.target.value ? event.target.value : null
-							)}
-							status={warningForField(
-								'town',
-								idx(enrollment, _ => _.child.family) || null,
-								''
-							)}
+							defaultValue={town || ''}
+							onChange={event => updateTown(event.target.value ? event.target.value : null)}
+							status={warningForField('town', idx(enrollment, _ => _.child.family) || null, '')}
 						/>
 					</div>
 					<div className="mobile-lg:grid-col-6">
@@ -177,45 +171,37 @@ const FamilyInfo: Section = {
 							id="zip"
 							label="ZIP Code"
 							defaultValue={zip || ''}
-							onChange={event => updateZip(
-								event.target.value ? event.target.value : null
-							)}
-							status={warningForField(
-								'zip',
-								idx(enrollment, _ => _.child.family) || null,
-								''
-							)}
+							onChange={event => updateZip(event.target.value ? event.target.value : null)}
+							status={warningForField('zip', idx(enrollment, _ => _.child.family) || null, '')}
 						/>
 					</div>
 				</FieldSet>
 
 				<h3>Other</h3>
-				<div className="margin-top-3">
-					<Checklist
-						legend="Foster"
-						id="foster"
-						options={[
-							{
-								text: fosterText(),
-								value: 'foster',
-								checked: foster,
-								onChange: event => updateFoster(event.target.checked),
-							},
-						]}
-					/>
-					<Checklist
-						legend="Homelessness"
-						id="homelessness"
-						options={[
-							{
-								text: homelessnessText(),
-								value: 'homelessness',
-								checked: homelessness || false,
-								onChange: event => updateHomelessness(event.target.checked),
-							},
-						]}
-					/>
-				</div>
+				<Checklist
+					legend="Foster"
+					id="foster"
+					options={[
+						{
+							text: fosterText(),
+							value: 'foster',
+							checked: foster,
+							onChange: event => updateFoster(event.target.checked),
+						},
+					]}
+				/>
+				<Checklist
+					legend="Homelessness"
+					id="homelessness"
+					options={[
+						{
+							text: homelessnessText(),
+							value: 'homelessness',
+							checked: homelessness || false,
+							onChange: event => updateHomelessness(event.target.checked),
+						},
+					]}
+				/>
 				<p className="oec-form-helper">
 					Indicate if you are aware that the family has experienced housing insecurity, including
 					overcrowded housing, within the last year.

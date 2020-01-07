@@ -17,7 +17,6 @@ type inputDetailType = {
 	parseMoment: (inputMoment: Moment | null) => string | undefined;
 	checkValidity: (value: any) => boolean;
 	errorMessage: string;
-	className: string;
 };
 
 type inputDetailsType = { [key: string]: inputDetailType };
@@ -35,10 +34,11 @@ type DateInputProps = {
 	dateRange: DateRange;
 	onChange: (newRange: DateRange) => void;
 	id: string;
-	label: string | JSX.Element;
+	label: string;
 	format?: 'dayInput' | 'rangeInput';
 	disabled?: boolean;
 	status?: FormStatusProps;
+	className?: string;
 	hideLabel?: boolean;
 	// Will only take effect on fieldsets-- otherwise we should not hide the label
 };
@@ -53,7 +53,6 @@ const inputDetails: inputDetailsType = {
 			inputMoment ? inputMoment.format('MM') : undefined,
 		checkValidity: value => +value > 0 && +value < 13,
 		errorMessage: 'Invalid month',
-		className: 'usa-form-group--month',
 	},
 	day: {
 		props: {
@@ -64,7 +63,6 @@ const inputDetails: inputDetailsType = {
 			inputMoment ? inputMoment.format('DD') : undefined,
 		checkValidity: value => +value < 32 && +value > 0,
 		errorMessage: 'Invalid day',
-		className: 'usa-form-group--day',
 	},
 	year: {
 		props: {
@@ -76,7 +74,6 @@ const inputDetails: inputDetailsType = {
 		checkValidity: value =>
 			value.length === 2 || (value.length === 4 && +value > 1989 && +value < 2101),
 		errorMessage: 'Invalid year',
-		className: 'usa-form-group--year',
 	},
 };
 
@@ -88,6 +85,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 	format = 'dayInput',
 	disabled,
 	status,
+	className,
 	hideLabel,
 }) => {
 	const initialRangeByVal: rangeByValType = {};
@@ -120,11 +118,16 @@ export const DateInput: React.FC<DateInputProps> = ({
 	// TODO: implement "optional" styling for fieldset
 
 	const commonDateInputProps = {
-		className: 'oec-date-input__input margin-left-0',
+		className: 'oec-date-input__input',
 		disabled: disabled,
 		type: 'number',
 		inline: true,
 	};
+
+	const showInlineWarning = !status && Object.keys(rangeByVal).find(
+		dateItem => rangeByVal[dateItem].startIsInvalid || rangeByVal[dateItem].endIsInvalid
+	);
+	const inlineWarning: FormStatusProps | undefined = showInlineWarning ? { type: 'warning', id: 'invalid-date-field' } : undefined;
 
 	const startDateFieldset = (
 		<FieldSet
@@ -132,7 +135,9 @@ export const DateInput: React.FC<DateInputProps> = ({
 			id={`${id}-start-date`}
 			showLegend={format === 'rangeInput' ? true : !hideLabel}
 			hint={format !== 'rangeInput' ? 'For example: 04 28 1986' : ''}
-			className="flex-row display-flex flex-align-end usa-memorable-date"
+			childrenGroupClassName="flex-row flex-align-end usa-memorable-date"
+			className={className}
+			status={format === 'rangeInput' ? undefined : (status || inlineWarning)}
 		>
 			{Object.keys(inputDetails).map(key => (
 				<TextInput
@@ -169,18 +174,19 @@ export const DateInput: React.FC<DateInputProps> = ({
 		return (
 			<FieldSet
 				legend={label}
-				status={status}
+				status={status || inlineWarning}
 				id={id}
 				showLegend={!hideLabel}
 				hint="For example: 04 28 1986"
-				className="flex-row display-flex flex-align-end"
+				childrenGroupClassName="flex-row display-flex flex-align-end"
+				className={className}
 			>
 				{startDateFieldset}
 				<FieldSet
 					legend={`${label} end`}
 					id={`${id}-end-date`}
 					showLegend
-					className="flex-row display-flex flex-align-end usa-memorable-date"
+					childrenGroupClassName="flex-row flex-align-end usa-memorable-date"
 				>
 					{Object.keys(inputDetails).map(key => (
 						<TextInput
