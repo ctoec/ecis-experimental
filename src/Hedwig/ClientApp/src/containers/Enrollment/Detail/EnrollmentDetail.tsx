@@ -78,7 +78,7 @@ export default function EnrollmentDetail({
 				</div>
 				{sections.map(section => {
 					var props: SectionProps = { enrollment, mutate };
-
+					const familyIncomeForFosterChild = section.key === 'family-income' && child.foster;
 					return (
 						<section key={section.key} className="oec-enrollment-details-section">
 							<div className="oec-enrollment-details-section__content">
@@ -91,7 +91,10 @@ export default function EnrollmentDetail({
 										<InlineIcon icon="incomplete" /> Missing information
 									</span>
 								)}
-								<Link to={`edit/${section.key}`}>
+								<Link
+									to={`edit/${section.key}`}
+									className={familyIncomeForFosterChild ? 'display-none important' : ''}
+								>
 									Edit<span className="usa-sr-only"> {section.name.toLowerCase()}</span>
 								</Link>
 							</div>
