@@ -192,51 +192,58 @@ const EnrollmentFunding: Section = {
 		useEffect(() => {
 			const startDate = entry ? entry : enrollment.entry ? enrollment.entry : new Date();
 			const nextPeriods = nextNReportingPeriods(reportingPeriods, startDate, 3);
-			// const periods = cdcReportingPeriod ? [cdcReportingPeriod, ...nextPeriods] : nextPeriods;
-			updateReportingPeriodOptions(nextPeriods);
+			let nextPeriodsExcludingCurrent = nextPeriods;
+			if (cdcReportingPeriod) {
+				nextPeriodsExcludingCurrent = [...nextPeriods.filter(period => period.id != cdcReportingPeriod.id)];
+			}
+			const periods = cdcReportingPeriod ? [cdcReportingPeriod, ...nextPeriodsExcludingCurrent] : nextPeriodsExcludingCurrent;
+			updateReportingPeriodOptions(periods);
 		}, [enrollment.entry, entry, reportingPeriods]);
 
 		const [apiError, setApiError] = useState<ValidationProblemDetails>();
 
 		const save = () => {
-			const currentCdcFunding = fundings.find<DeepNonUndefineable<Funding>>((funding =>
-				funding.id === cdcFundingId) as (
-				_: DeepNonUndefineable<Funding>
-			) => _ is DeepNonUndefineable<Funding>);
-
 			let updatedFundings: Funding[];
-			if (cdcFundingId && privatePay) {
-				// Current funding exists, remove it because it has been switched to private pay
-				// TODO: Consider whether this should instead set the exit date on funding to today
+
+			const currentCdcFunding = fundings.find<DeepNonUndefineable<Funding>>(
+				funding => funding.id === cdcFundingId
+			);
+
+			if (cdcFundingId) {
+				// Current funding exists
+				// Remove current current (we either need to update it or remove it)
 				updatedFundings = [
-					...fundings.filter<DeepNonUndefineable<Funding>>(funding => funding.id !== cdcFundingId),
+					...fundings.filter<DeepNonUndefineable<Funding>>(funding => funding.id !== cdcFundingId)
 				];
-			} else if (cdcFundingId && !privatePay) {
-				// Current funding exists, update it with supplied information
-				const newCdcFunding: Funding = {
-					...(currentCdcFunding as Funding), // currentCdcFunding will always be defined but typescript doesn't infer so
-					time: cdcFundingTime ? cdcFundingTime : undefined,
-					firstReportingPeriodId: cdcReportingPeriod ? cdcReportingPeriod.id : undefined,
-					firstReportingPeriod: cdcReportingPeriod,
-				};
-				updatedFundings = [
-					...fundings.filter<DeepNonUndefineable<Funding>>(funding => funding.id !== cdcFundingId),
-					newCdcFunding,
-				];
-			} else if (!cdcFundingId && privatePay) {
-				// No current funding, do nothing because private pay has been selected
+				if (!privatePay) {
+					// The funding is to be updated, so add it back with the new values
+					updatedFundings.push({
+						...(currentCdcFunding as Funding), // currentCdcFunding will always be defined but typescript doesn't infer so
+						time: cdcFundingTime ? cdcFundingTime : undefined,
+						firstReportingPeriodId: cdcReportingPeriod ? cdcReportingPeriod.id : undefined,
+						firstReportingPeriod: cdcReportingPeriod,
+					});
+				} else {
+					// The funding is to be removed
+					// Do nothing
+				}
+			} else {
+				// No current funding exists
+				// Copy over all fundings
 				updatedFundings = [...fundings];
-			} /* !cdcFunding && !privatePay */ else {
-				// No current funding, add new funding with supplied information
-				const newCdcFunding: Funding = {
-					id: 0,
-					enrollmentId: enrollment.id,
-					source: FundingSource.CDC,
-					time: cdcFundingTime ? cdcFundingTime : undefined,
-					firstReportingPeriodId: cdcReportingPeriod ? cdcReportingPeriod.id : undefined,
-					firstReportingPeriod: cdcReportingPeriod,
-				};
-				updatedFundings = [...fundings, newCdcFunding];
+				if (!privatePay) {
+					// There should be a new funding added
+					updatedFundings.push({
+						id: 0,
+						enrollmentId: enrollment.id,
+						source: FundingSource.CDC,
+						time: cdcFundingTime ? cdcFundingTime : undefined,
+						firstReportingPeriodId: cdcReportingPeriod ? cdcReportingPeriod.id : undefined,
+					});
+				} else {
+					// We are not adding a new funding
+					// Do nothing
+				}
 			}
 
 			if (c4kFundingId && receivesC4k) {
@@ -403,11 +410,17 @@ const EnrollmentFunding: Section = {
 								updateCdcReportingPeriod(chosen);
 							}}
 							selected={cdcReportingPeriod ? '' + cdcReportingPeriod.id : ''}
-							status={warningForField(
-								'firstReportingPeriod',
-								cdcFunding as DeepNonUndefineable<Funding>,
-								'This information is required for OEC reporting'
-							)}
+							status={
+								serverErrorForField(
+									'fundings',
+									apiError
+								) ||
+								warningForField(
+									'firstReportingPeriod',
+									cdcFunding ? cdcFunding as Funding : null,
+									'This information is required for OEC reporting'
+								)
+							}
 						/>
 					)}
 					<h3>Care 4 Kids</h3>
