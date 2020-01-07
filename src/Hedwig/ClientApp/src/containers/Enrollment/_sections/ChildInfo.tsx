@@ -183,7 +183,7 @@ const ChildInfo: Section = {
 				throw new Error('Something impossible happened');
 			}
 		};
-console.log(birthdate)
+
 		// TODO: should gender be radio buttons as recommended by USWDS rather than select?
 		return (
 			<div className="ChildInfoForm usa-form">
