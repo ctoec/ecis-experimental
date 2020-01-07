@@ -25,7 +25,7 @@ namespace Hedwig.Validations.Rules
       if(prop != null)
       {
         var value = prop.GetValue(entity);
-        if(CheckCondition(entity) && value == null)
+        if(CheckCondition(entity) && (value == null || value as string == ""))
         {
           return new ValidationError(
             field: _fieldName,

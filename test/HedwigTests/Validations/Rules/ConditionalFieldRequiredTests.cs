@@ -29,23 +29,24 @@ namespace HedwigTests.Validations.Rules
     }
 
     [Theory]
-    [InlineData(true, false, true)]
-    [InlineData(true, true, false)]
-    [InlineData(false, true, false)]
-    [InlineData(false, false, false)]
-    public void Execute_ReturnsError_IfConditionTrueAndFieldDoesNotExist(
+    [InlineData(true, null, true)]
+    [InlineData(true, "", true)]
+    [InlineData(true, "Value", false)]
+    [InlineData(false, "Value", false)]
+    [InlineData(false, null, false)]
+    [InlineData(false, "", false)]
+    public void Execute_ReturnsError_IfConditionTrueAndFieldDoesNotExist_OrIsEmptyString(
       bool conditionResult,
-      bool fieldExists,
+      string fieldValue,
       bool doesError
     )
     {
       // if
       var fieldName = "FieldName";
-      var entity = new TestValidatableEntity();
-      if (fieldExists)
+      var entity = new TestValidatableEntity
       {
-        entity.FieldName = true;
-      }
+        FieldName = fieldValue
+      };
 
       // when
       var rule = new Mock<ConditionalFieldRequired<TestValidatableEntity>>("condition Message", fieldName, null);

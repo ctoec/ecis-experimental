@@ -6,7 +6,7 @@ namespace HedwigTests.Validations
 
  public class TestValidatableEntity : INonBlockingValidatableObject
   {
-    public bool? FieldName { get; set; }
+    public string FieldName { get; set; }
     public List<ValidationError> ValidationErrors { get; set; }
   }
 }
