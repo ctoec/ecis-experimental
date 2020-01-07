@@ -114,7 +114,7 @@ export default function Roster() {
 
 	return (
 		<CommonContainer>
-			<section className="grid-container">
+			<div className="grid-container">
 				<div className="grid-row flex-first-baseline flex-space-between">
 					<h1 className="tablet:grid-col-auto">{site.name}</h1>
 					<div className="tablet:grid-col-auto">
@@ -191,7 +191,7 @@ export default function Roster() {
 					ageGroupTitle={`Incomplete enrollments`}
 					enrollments={incompleteEnrollments}
 				/>
-			</section>
+			</div>
 		</CommonContainer>
 	);
 }
