@@ -74,6 +74,7 @@ export default function Withdrawal({
         heading: 'Cannot withdraw',
         text: 'CDC funded enrollments must have first reporting period for withdrawal'
       }]);
+      history.push(`/roster/enrollments/${enrollment.id}`);
     }
   }, [enrollment]);
  
