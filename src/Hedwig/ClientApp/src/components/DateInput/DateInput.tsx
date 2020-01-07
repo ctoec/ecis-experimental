@@ -96,7 +96,6 @@ export const DateInput: React.FC<DateInputProps> = ({
 	});
 	
 	const [rangeByVal, setRangeByVal] = useState<rangeByValType>(initialRangeByVal);
-	const [selectedRange, setSelectedRange] = useState(dateRange);
 
 	// Add warning that date isn't valid if it isn't?
 	useEffect(() => {
@@ -111,8 +110,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 				'YYYY-MM-DD'
 			);
 		}
-		setSelectedRange({ startDate: newStart, endDate: newEnd });
-		onChange(selectedRange);
+		onChange({ startDate: newStart, endDate: newEnd });
 	}, [rangeByVal]);
 
 	// TODO: implement "optional" styling for fieldset

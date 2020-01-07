@@ -407,7 +407,7 @@ $future-step-color: color('base-dark') !default;
 		text-align: right;
 	}
 
-	a {
+	a:not(.display-none) {
 		display: block;
 	}
 }

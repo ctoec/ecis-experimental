@@ -129,7 +129,7 @@ export default function Roster() {
 							<span className="margin-right-2 flex-auto">{numKidsEnrolledText}</span>
 							<Button
 								text={
-									showPastEnrollments ? 'View only current enrollments' : 'View past enrollments'
+									showPastEnrollments ? 'View only current enrollments' : 'Filter for past enrollments'
 								}
 								appearance="unstyled"
 								onClick={handlePastEnrollmentsChange}
