@@ -47,7 +47,7 @@ const FieldSet: React.FC<FieldSetProps> = ({
 			>
 				{legend}
 			</legend>
-			{hint && <span className="usa-hint">{hint}</span>}
+			{hint && <span className="usa-hint oec-form-helper">{hint}</span>}
 			{status && <FormStatus {...status} />}
 			<div className={`grid-gap grid-row ${className || ''}`}>{children}</div>
 		</fieldset>

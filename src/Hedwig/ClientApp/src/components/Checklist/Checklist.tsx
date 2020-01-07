@@ -14,8 +14,8 @@ type CheckboxOptions = {
 type ChecklistProps = {
 	options: CheckboxOptions[];
 	id: string;
-	horizontal?: boolean;
 	legend: string;
+	horizontal?: boolean;
 	status?: FormStatusProps;
 	className?: string;
 };

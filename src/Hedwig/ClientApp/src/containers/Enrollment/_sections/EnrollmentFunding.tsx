@@ -32,7 +32,7 @@ import { nextNReportingPeriods } from '../../../utils/models/reportingPeriod';
 import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
 import { currentFunding } from '../../../utils/models';
 import { familyDeterminationNotDisclosed } from '../../../utils/models/familyDetermination';
-import Checkbox from '../../../components/Checklist/Checkbox';
+import Checklist from '../../../components/Checklist/Checklist';
 import TextInput from '../../../components/TextInput/TextInput';
 import InlineIcon from '../../../components/InlineIcon/InlineIcon';
 
@@ -320,7 +320,7 @@ const EnrollmentFunding: Section = {
 						)}
 					/>
 
-					<h3>Age group</h3>
+					<h2>Age group</h2>
 					<RadioGroup
 						legend="Age group"
 						id="age-group"
@@ -410,13 +410,18 @@ const EnrollmentFunding: Section = {
 							)}
 						/>
 					)}
-					<h3>Care 4 Kids</h3>
-					<Checkbox
-						text="Receives Care 4 Kids"
-						value="receives-c4k"
-						name="receives-c4k"
-						onChange={e => updateReceivesC4k(!!e.target.checked)}
-						checked={!!receivesC4k}
+					<h2>Care 4 Kids</h2>
+					<Checklist
+						options={[
+							{
+								text: 'Receives Care 4 Kids',
+								value: 'receives-c4k',
+								checked: !!receivesC4k,
+								onChange: e => updateReceivesC4k(!!e.target.checked),
+							},
+						]}
+						id="c4k-checklist-box"
+						legend="Receives Care 4 Kids"
 					/>
 					{receivesC4k && (
 						<>

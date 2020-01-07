@@ -491,7 +491,7 @@ $future-step-color: color('base-dark') !default;
 }
 
 .usa-form {
-	h3 {
+	h2, h3 {
 		@include u-margin-top(4);
 		margin-bottom: 0;
 	}

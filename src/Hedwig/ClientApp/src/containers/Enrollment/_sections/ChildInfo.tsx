@@ -244,7 +244,7 @@ const ChildInfo: Section = {
 				</div>
 
 				{/* TODO: FIX HEADER SPACING-- EITHER JUST HAVE IT HERE OR FIX SPACING WHERE IT'S USED */}
-				<h3>Date of birth</h3>
+				<h2>Date of birth</h2>
 				<DateInput
 					onChange={range =>
 						updateBirthdate((range.startDate && range.startDate.toDate()) || null)
@@ -261,7 +261,7 @@ const ChildInfo: Section = {
 					)}
 				/>
 
-				<h3>Birth certificate</h3>
+				<h2>Birth certificate</h2>
 				<FieldSet
 					status={warningForFieldSet(
 						'birth-certificate-fields',
@@ -306,7 +306,7 @@ const ChildInfo: Section = {
 					</div>
 				</FieldSet>
 
-				<h3>Race</h3>
+				<h2>Race</h2>
 				<p className="oec-form-helper">As identified by family</p>
 				<Checklist
 					status={warningForFieldSet(
@@ -357,7 +357,7 @@ const ChildInfo: Section = {
 					]}
 				/>
 
-				<h3>Ethnicity</h3>
+				<h2>Ethnicity</h2>
 				<p className="oec-form-helper">As identified by family</p>
 				<RadioGroup
 					status={warningForFieldSet(
@@ -392,7 +392,7 @@ const ChildInfo: Section = {
 					}
 				/>
 
-				<h3>Gender</h3>
+				<h2>Gender</h2>
 				<p className="oec-form-helper">As identified by family</p>
 				<Dropdown
 					options={[

@@ -104,7 +104,7 @@ const FamilyInfo: Section = {
 
 		return (
 			<div className="FamilyInfoForm usa-form">
-				<h3>Address</h3>
+				<h2>Address</h2>
 				<FieldSet
 					id="family-address"
 					legend="Address"
@@ -189,7 +189,7 @@ const FamilyInfo: Section = {
 					</div>
 				</FieldSet>
 
-				<h3>Other</h3>
+				<h2>Other</h2>
 				<div className="margin-top-3">
 					<Checklist
 						legend="Foster"
