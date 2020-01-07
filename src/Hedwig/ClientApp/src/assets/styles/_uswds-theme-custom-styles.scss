@@ -496,10 +496,6 @@ $future-step-color: color('base-dark') !default;
 		margin-bottom: 0;
 	}
 
-	fieldset {
-		// @include u-margin-top(1);
-	}
-
 	.usa-button {
 		@include u-margin-top(6);
 		@include u-margin-bottom(4);
@@ -542,6 +538,7 @@ $future-step-color: color('base-dark') !default;
 	.usa-form-group--error {
 		margin-top: 0;
 		margin-left: 0;
+		padding-left: 0;
 		border-left: none;
 	}
 }
@@ -551,7 +548,9 @@ $future-step-color: color('base-dark') !default;
 	border-left-color: color($theme-color-warning-dark);
 
 	.usa-form-group--warning {
-		margin-left: auto;
+		margin-top: 0;
+		margin-left: 0;
+		padding-left: 0;
 		border-left: none;
 	}
 }
@@ -561,7 +560,9 @@ $future-step-color: color('base-dark') !default;
 	border-left-color: color($theme-color-success-dark);
 
 	.usa-form-group--success {
-		margin-left: auto;
+		margin-top: 0;
+		margin-left: 0;
+		padding-left: 0;
 		border-left: none;
 	}
 }

@@ -128,14 +128,20 @@ export const DateInput: React.FC<DateInputProps> = ({
 		inline: true,
 	};
 
+	const showInlineWarning = !status && Object.keys(rangeByVal).find(
+		dateItem => rangeByVal[dateItem].startIsInvalid || rangeByVal[dateItem].endIsInvalid
+	);
+	const inlineWarning: FormStatusProps | undefined = showInlineWarning ? { type: 'warning', id: 'invalid-date-field' } : undefined;
+
 	const startDateFieldset = (
 		<FieldSet
 			legend={format === 'rangeInput' ? `${label} start` : label}
 			id={`${id}-start-date`}
 			showLegend={format === 'rangeInput' ? true : !hideLabel}
 			hint={format !== 'rangeInput' ? 'For example: 04 28 1986' : ''}
-			childrenGroupClassName="flex-row display-flex flex-align-end usa-memorable-date"
+			childrenGroupClassName="flex-row flex-align-end usa-memorable-date"
 			className={className}
+			status={format === 'rangeInput' ? undefined : (status || inlineWarning)}
 		>
 			{Object.keys(inputDetails).map(key => (
 				<TextInput
@@ -172,7 +178,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 		return (
 			<FieldSet
 				legend={label}
-				status={status}
+				status={status || inlineWarning}
 				id={id}
 				showLegend={!hideLabel}
 				hint="For example: 04 28 1986"
@@ -184,7 +190,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 					legend={`${label} end`}
 					id={`${id}-end-date`}
 					showLegend
-					childrenGroupClassName="flex-row display-flex flex-align-end usa-memorable-date"
+					childrenGroupClassName="flex-row flex-align-end usa-memorable-date"
 				>
 					{Object.keys(inputDetails).map(key => (
 						<TextInput
