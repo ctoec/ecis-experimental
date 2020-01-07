@@ -26,5 +26,30 @@ namespace HedwigTests.Validations.Rules
       // then
       Assert.Equal(!prettyFieldNameExists, result.Message.Contains(fieldName));
     }
+
+    [Theory]
+    [InlineData(null, true)]
+    [InlineData("", true)]
+    [InlineData("Value", false)]
+    public void Execute_ReturnsError_IfFieldDoesNotExist_OrIsEmptyString(
+      string fieldValue,
+      bool doesError
+    )
+    {
+      // if
+      var fieldName = "FieldName";
+      var entity = new TestValidatableEntity
+      {
+        FieldName = fieldValue
+      };
+
+      // when
+      var rule = new Mock<FieldRequired<TestValidatableEntity>>(fieldName, null, false);
+      rule.CallBase = true;
+      var result = rule.Object.Execute(entity);
+
+      // then
+      Assert.Equal(doesError, result != null);
+    }
   }
 }

@@ -21,7 +21,7 @@ namespace Hedwig.Validations.Rules
       if(prop != null)
       {
         var value = prop.GetValue(entity);
-        if (value == null)
+        if (value == null || value as string == "")
         {
           return new ValidationError(
             message: $"{(_prettyFieldName != null ? _prettyFieldName : _fieldName)} is required",
