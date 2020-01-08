@@ -117,6 +117,7 @@ namespace Hedwig
 			services.AddScoped<IValidationRule<Child>, FirstNameRequired>();
 			services.AddScoped<IValidationRule<Child>, LastNameRequired>();
 			services.AddScoped<IValidationRule<Child>, RaceRequired>();
+			services.AddScoped<IValidationRule<Child>, GenderMustBeSpecified>();
 
 			// Family
 			services.AddScoped<IValidationRule<Family>, MostRecentDeterminationIsValid>();
