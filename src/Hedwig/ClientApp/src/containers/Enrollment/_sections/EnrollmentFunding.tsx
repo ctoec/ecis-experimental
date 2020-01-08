@@ -40,10 +40,7 @@ const EnrollmentFunding: Section = {
 	key: 'enrollment-funding',
 	name: 'Enrollment and funding',
 	status: ({ enrollment }) =>
-		enrollment && (
-			sectionHasValidationErrors([enrollment, enrollment.fundings]) ||
-			!!(enrollment.fundings || []).find(funding => !funding.source)
-		)
+		enrollment && sectionHasValidationErrors([enrollment, enrollment.fundings])
 			? 'incomplete'
 			: 'complete',
 
