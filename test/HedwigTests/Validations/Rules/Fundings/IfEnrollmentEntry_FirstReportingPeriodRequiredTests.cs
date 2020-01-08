@@ -16,7 +16,7 @@ namespace HedwigTests.Validations.Rules
     [InlineData(true, false, true)]
     [InlineData(false, true, false)]
     [InlineData(false, false, false)]
-    public void Execute_ReturnsError_IfEnrollmentHasEntry_AndFundingDoesNotHaveFirstReportingPeriod(
+    public void Execute_ReturnsError_IfEnrollmentHasEntryAndSource_AndFundingDoesNotHaveFirstReportingPeriod(
       bool hasEntry,
       bool hasFirstReportingPeriod,
       bool doesError
@@ -26,6 +26,7 @@ namespace HedwigTests.Validations.Rules
       var enrollment = new Enrollment();
       if(hasEntry) enrollment.Entry = DateTime.Now;
       var funding = new Funding();
+      funding.Source = FundingSource.CDC;
       if(hasFirstReportingPeriod) {
         funding.FirstReportingPeriodId = It.IsAny<int>();
       }

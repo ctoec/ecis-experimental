@@ -20,7 +20,7 @@ namespace Hedwig.Models
     public Enrollment Enrollment { get; set; }
 
     [JsonConverter(typeof(StringEnumConverter))]
-    public FundingSource Source { get; set; }
+    public FundingSource? Source { get; set; }
 
     // C4K funding fields
     // [RequiredForFundingSource(FundingSource.C4K)]
