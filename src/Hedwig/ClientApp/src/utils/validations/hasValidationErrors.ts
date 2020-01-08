@@ -25,7 +25,7 @@ function errorIsFor(error: ValidationError, fields: string[], skipSubObjectValid
 
 	// Errors with `fields` array 
 	else if(error.fields) {
-		const fieldMatch = error.fields.find(field => upperCaseFields.includes(field));
+		const fieldMatch = error.fields.find(field => upperCaseFields.includes(field.toUpperCase()));
 		return fieldMatch && hasError(error, skipSubObjectValidations);
 	}
 

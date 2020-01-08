@@ -418,6 +418,12 @@ const ChildInfo: Section = {
 					selected={gender || Gender.Unspecified}
 					onChange={event => updateGender(genderFromString(event.target.value))}
 					id="gender-select"
+					status={warningForFieldSet(
+						'gender-select',
+						['gender'],
+						enrollment ? enrollment.child : null,
+						'This information is required for OEC reporting'
+					)}
 				/>
 
 				<Button text="Save" onClick={save} />
