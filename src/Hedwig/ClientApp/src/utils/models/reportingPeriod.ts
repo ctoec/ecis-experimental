@@ -1,13 +1,12 @@
-import { ReportingPeriod, Funding, Enrollment } from '../../generated';
+import { ReportingPeriod, Funding } from '../../generated';
 import idx from 'idx';
+import moment from 'moment';
 
 export const currentReportingPeriod = (periods: ReportingPeriod[]): ReportingPeriod | undefined => {
-	const now = new Date(Date.now());
-	const currentYear = now.getFullYear();
-	const currentMonth = now.getMonth();
-	const startOfMonthDate = new Date(currentYear, currentMonth);
+	const now = moment();
+	const startOfMonthDate = moment(`${now.format('YYYY-MM')}-01`);
 	// Assumes that ReportingPeriod.Period will always be on the first day of the month
-	return periods.find(period => period.period.getTime() === startOfMonthDate.getTime());
+	return periods.find(period => period.period.getTime() === startOfMonthDate.valueOf());
 }
 
 /**

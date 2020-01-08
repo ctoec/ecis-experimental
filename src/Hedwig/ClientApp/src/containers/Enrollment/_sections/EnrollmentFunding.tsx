@@ -177,7 +177,7 @@ const EnrollmentFunding: Section = {
 		}, [reportingPeriods, cdcFunding]);
 
 		useEffect(() => {
-			const startDate = entry ? entry : enrollment.entry ? enrollment.entry : new Date();
+			const startDate = entry ? entry : enrollment.entry ? enrollment.entry : moment().toDate();
 			updateReportingPeriodOptions(
 				nextNReportingPeriods(reportingPeriods, startDate, 5)
 			);
