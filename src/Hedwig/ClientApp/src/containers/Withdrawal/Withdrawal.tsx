@@ -59,12 +59,25 @@ export default function Withdrawal({
   const [exitReason, updateExitReason] = useState<string>();
   const [lastReportingPeriod, updateLastReportingPeriod] = useState<ReportingPeriod>();
 
+  const [reportingPeriodOptions, updateReportingPeriodOptions] = useState(reportingPeriods);
+
   const [attemptedSave, setAttemptedSave] = useState(false);
   const [apiError, setApiError] = useState<ValidationProblemDetails>();
 
   const fundings = (enrollment && enrollment.fundings) ? enrollment.fundings : [] as DeepNonUndefineable<Funding[]>;
   const cdcFundings = fundings.filter(funding => funding.source === FundingSource.CDC);
   const cdcFunding = currentFunding(cdcFundings);
+
+  useEffect(() => {
+    updateReportingPeriodOptions(
+      lastNReportingPeriods(
+        reportingPeriods,
+        enrollmentEndDate || new Date(Date.now()),
+        5
+      )
+    )
+  }, [reportingPeriods, enrollmentEndDate]);
+
   // TODO: replace this whole endeavor with ability to simply select a first reporting period in this form
   const cannotWithdraw = cdcFunding && !cdcFunding.firstReportingPeriod;
   useEffect(() => {
@@ -133,7 +146,7 @@ export default function Withdrawal({
         history.push(`/roster`)
       })
       .catch(async (error) => {
-        setApiError(ValidationProblemDetailsFromJSON(error));
+        setApiError(await ValidationProblemDetailsFromJSON(error));
       });
   }
 
@@ -181,17 +194,20 @@ export default function Withdrawal({
                       updateEnrollmentEndDate((range.startDate && range.startDate.toDate()) || undefined)
                     }
                     dateRange={{ startDate: null, endDate: null}}
-                    status={(apiError && processBlockingValidationErrors("exit", apiError.errors))
-                    ? serverErrorForField(
-                      "exit",
-                      apiError
-                    )
-                    : clientErrorForField(
-                      "exit",
-                      enrollmentEndDate,
-                      attemptedSave,
-                      "This information is required for withdrawal"
-                    )}
+                    status={
+                      reportingPeriodOptions.length === 0
+                      ? { type: 'error', id: 'last-reporting-period-error', message: 'ECE Reporter only contains data for fiscal year 2020 and later. Please do not add children who withdrew prior to July 2019.' }
+                      : apiError && processBlockingValidationErrors("exit", apiError.errors)
+                        ? serverErrorForField(
+                          "exit",
+                          apiError)
+                        : clientErrorForField(
+                          "exit",
+                          enrollmentEndDate,
+                          attemptedSave,
+                          "This information is required for withdrawal"
+                        )
+                     }
                   />
                   <Dropdown
                     label="Reason"
@@ -211,18 +227,12 @@ export default function Withdrawal({
                   {cdcFunding && <Dropdown
                     label="Last reporting period"
                     id="last-reporting-period"
-                    options={
-                        lastNReportingPeriods(
-                        reportingPeriods,
-                        enrollmentEndDate || new Date(Date.now()),
-                        5
-                      ).map(period =>
-                        ({
-                          value: '' + period.id,
-                          text: `${period.periodStart.toLocaleDateString()} - ${period.periodEnd.toLocaleDateString()}`
-                        })
-                      )
-                    }
+                    options={reportingPeriodOptions.map(period => 
+                      ({ 
+                        value: '' + period.id,
+                        text: `${period.periodStart.toLocaleDateString()} - ${period.periodEnd.toLocaleDateString()}`
+                      })
+                    )}
                     noSelectionText="-Select-"
                     onChange={event => {
                       const chosen = reportingPeriods.find<ReportingPeriod>( period => period.id === parseInt(event.target.value))

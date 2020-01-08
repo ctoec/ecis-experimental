@@ -178,13 +178,9 @@ const EnrollmentFunding: Section = {
 
 		useEffect(() => {
 			const startDate = entry ? entry : enrollment.entry ? enrollment.entry : new Date();
-			const nextPeriods = nextNReportingPeriods(reportingPeriods, startDate, 3);
-			let nextPeriodsExcludingCurrent = nextPeriods;
-			if (cdcReportingPeriod) {
-				nextPeriodsExcludingCurrent = [...nextPeriods.filter(period => period.id != cdcReportingPeriod.id)];
-			}
-			const periods = cdcReportingPeriod ? [cdcReportingPeriod, ...nextPeriodsExcludingCurrent] : nextPeriodsExcludingCurrent;
-			updateReportingPeriodOptions(periods);
+			updateReportingPeriodOptions(
+				nextNReportingPeriods(reportingPeriods, startDate, 5)
+			);
 		}, [enrollment.entry, entry, reportingPeriods]);
 
 		const [apiError, setApiError] = useState<ValidationProblemDetails>();
@@ -390,10 +386,6 @@ const EnrollmentFunding: Section = {
 					<Dropdown
 						id="fundingType"
 						options={[
-							{
-								value: '',
-								text: '- Select -',
-							},
 							...(familyDeterminationNotDisclosed(enrollment)
 								? []
 								: Object.values(FundingTime).map(fundingTime => {
@@ -407,6 +399,7 @@ const EnrollmentFunding: Section = {
 								text: 'Private pay',
 							},
 						]}
+						noSelectionText="-Select-"
 						label="Funding type"
 						onChange={event => {
 							if (event.target.value === 'privatePay') {
