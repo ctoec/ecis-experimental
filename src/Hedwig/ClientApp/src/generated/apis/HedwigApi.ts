@@ -539,6 +539,33 @@ export class HedwigApi extends runtime.BaseAPI {
 
     /**
      */
+    async apiStatusGetRaw(): Promise<runtime.ApiResponse<void>> {
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
+        const response = await this.request({
+            path: `/api/status`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async apiStatusGet(): Promise<void> {
+        await this.apiStatusGetRaw();
+    }
+
+    /**
+     */
     async apiUsersCurrentGetRaw(): Promise<runtime.ApiResponse<User>> {
         const queryParameters: runtime.HTTPQuery = {};
 
