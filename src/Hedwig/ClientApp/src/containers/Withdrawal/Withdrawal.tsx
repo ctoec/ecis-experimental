@@ -8,7 +8,7 @@ import { generateFundingTag, enrollmentExitReasons, currentFunding } from "../..
 import DatePicker from "../../components/DatePicker/DatePicker";
 import Dropdown from "../../components/Dropdown/Dropdown";
 import useApi from "../../hooks/useApi";
-import { nextNReportingPeriods, lastNReportingPeriods } from "../../utils/models/reportingPeriod";
+import { lastNReportingPeriods } from "../../utils/models/reportingPeriod";
 import getIdForUser from "../../utils/getIdForUser";
 import Button from "../../components/Button/Button";
 import CommonContainer from "../CommonContainer";
@@ -16,7 +16,6 @@ import { clientErrorForField, serverErrorForField } from "../../utils/validation
 import ReportingPeriodContext from "../../contexts/ReportingPeriod/ReportingPeriodContext";
 import { processBlockingValidationErrors } from "../../utils/validations/processBlockingValidationErrors";
 import InlineIcon from "../../components/InlineIcon/InlineIcon";
-import { AlertProps } from "../../components/Alert/Alert";
 import AlertContext from "../../contexts/Alert/AlertContext";
 import { splitCamelCase } from "../../utils/splitCamelCase";
 
@@ -72,8 +71,8 @@ export default function Withdrawal({
     if(cannotWithdraw) {
       setAlerts([{
         type: 'error',
-        heading: 'Cannot withdraw',
-        text: 'CDC funded enrollments must have first reporting period for withdrawal'
+        heading: 'Information needed to withdraw child',
+        text: 'To withdraw a child from a funded space in your program, "first reporting period" cannot be blank. Please update this information for the child before withdrawing'
       }]);
       history.push(`/roster/enrollments/${enrollment.id}`);
     }
@@ -126,6 +125,11 @@ export default function Withdrawal({
 
     mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams))
       .then(() => {
+        setAlerts([{
+          type: 'success',
+          heading: 'Withdrawn',
+          text: `${nameFormatter(enrollment.child)} has been successfully withdrawn from the program. Their information can be found by searching for "past enrollments".`
+        }]);
         history.push(`/roster`)
       })
       .catch(async (error) => {
@@ -199,7 +203,7 @@ export default function Withdrawal({
                       "This information is required for withdrawal"
                     )}
                   />
-                  <Dropdown
+                  {cdcFunding && <Dropdown
                     label="Last reporting period"
                     id="last-reporting-period"
                     options={
@@ -224,7 +228,7 @@ export default function Withdrawal({
                       apiError,
                       lastReportingPeriod ? undefined : 'This information is required for withdrawal'
                     )}
-                  />
+                  />}
                 </div>
               </div>
               <div className="grid-row">

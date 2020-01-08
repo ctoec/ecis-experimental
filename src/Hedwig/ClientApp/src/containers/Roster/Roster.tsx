@@ -19,6 +19,7 @@ import AgeGroupSection from './AgeGroupSection';
 import { getObjectsByAgeGroup } from '../../utils/ageGroupUtils';
 import { DeepNonUndefineable } from '../../utils/types';
 import { isFunded } from '../../utils/models';
+import CommonContainer from '../CommonContainer';
 
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
@@ -112,8 +113,8 @@ export default function Roster() {
 	}
 
 	return (
-		<div className="Roster">
-			<section className="grid-container">
+		<CommonContainer>
+			<div className="grid-container">
 				<div className="grid-row flex-first-baseline flex-space-between">
 					<h1 className="tablet:grid-col-auto">{site.name}</h1>
 					<div className="tablet:grid-col-auto">
@@ -190,7 +191,7 @@ export default function Roster() {
 					ageGroupTitle={`Incomplete enrollments`}
 					enrollments={incompleteEnrollments}
 				/>
-			</section>
-		</div>
+			</div>
+		</CommonContainer>
 	);
 }
