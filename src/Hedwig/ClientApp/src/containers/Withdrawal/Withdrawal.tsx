@@ -28,7 +28,7 @@ type WithdrawalProps = {
   }
 };
 
-export default function Withdrawal({ 
+export default function Withdrawal({
   history,
   match: {
     params: { enrollmentId }
@@ -77,7 +77,7 @@ export default function Withdrawal({
       history.push(`/roster/enrollments/${enrollment.id}`);
     }
   }, [enrollment]);
- 
+
   if(loading || error || !enrollment) {
     return <div className="Withdrawl"></div>;
   }
@@ -145,34 +145,39 @@ export default function Withdrawal({
     >
         <section className="grid-container">
           <h1>Withdraw from program</h1>
-          <div className="margin-left-5">
+          <div>
             <h2>{nameFormatter(enrollment.child)}</h2>
-            <div className="grid-row grid-gap">
+            <div className="grid-row grid-gap margin-top-neg-1">
               <div className="mobile-lg:grid-col-6">
                 <h4>Current enrollment</h4>
-                <p>{enrollment.site.name}</p>
-                <p>Age: {splitCamelCase(enrollment.ageGroup, '/')}</p>
-                <p>Enrollment date: {enrollment.entry && enrollment.entry.toLocaleDateString()}</p>              </div>
-              {cdcFunding && 
+                <p className="margin-top-neg-2 line-height-sans-4">
+                	{enrollment.site.name}<br />
+                	Age: {splitCamelCase(enrollment.ageGroup, '/')}<br />
+                	Enrollment date: {enrollment.entry && enrollment.entry.toLocaleDateString()}
+                </p>
+              </div>
+              {cdcFunding &&
                 <div className="mobile-lg:grid-col-6">
                   <h4>Funding</h4>
-                  {generateFundingTag(cdcFunding)}
-                  <p>Enrollment: {cdcFunding.time}</p>
-                  <p>First reporting period: {cdcFunding.firstReportingPeriod 
-                    ? cdcFunding.firstReportingPeriod.period.toLocaleDateString()
-                    : InlineIcon({icon: 'attentionNeeded'})
-                  }</p>
+                  <p className="margin-top-neg-2 line-height-sans-4">
+	                  {generateFundingTag(cdcFunding)}<br />
+	                  Enrollment: {cdcFunding.time}<br />
+	                  First reporting period: {cdcFunding.firstReportingPeriod
+                    	? cdcFunding.firstReportingPeriod.period.toLocaleDateString()
+                    	: InlineIcon({icon: 'attentionNeeded'})
+                  }
+                  </p>
                 </div>
               }
             </div>
-          
+
             <div className="usa-form">
               <div className="grid-row grid-gap">
                 <div className="mobile-lg:grid-col-12">
                   <DatePicker
                     label="Enrollment end date"
                     id="enrollment-end-date"
-                    onChange={range => 
+                    onChange={range =>
                       updateEnrollmentEndDate((range.startDate && range.startDate.toDate()) || undefined)
                     }
                     dateRange={{ startDate: null, endDate: null}}
@@ -211,8 +216,8 @@ export default function Withdrawal({
                         reportingPeriods,
                         enrollmentEndDate || new Date(Date.now()),
                         5
-                      ).map(period => 
-                        ({ 
+                      ).map(period =>
+                        ({
                           value: '' + period.id,
                           text: `${period.periodStart.toLocaleDateString()} - ${period.periodEnd.toLocaleDateString()}`
                         })
@@ -231,13 +236,14 @@ export default function Withdrawal({
                   />}
                 </div>
               </div>
-              <div className="grid-row">
-                <div className="mobile-lg:grid-col-auto">
-                  <Button text="Cancel" href={`/roster/enrollments/${enrollment.id}/`} appearance='base' />
-                </div>
-                <div className="mobile-lg:grid-col-auto">
-                  <Button text="Confirm and withdraw" onClick={save} disabled={cannotWithdraw}/>
-                </div>
+            </div>
+
+            <div className="grid-row margin-y-6">
+              <div className="mobile-lg:grid-col-auto">
+                <Button text="Cancel" href={`/roster/enrollments/${enrollment.id}/`} appearance='outline' />
+              </div>
+              <div className="mobile-lg:grid-col-auto padding-left-2">
+                <Button text="Confirm and withdraw" onClick={save} disabled={cannotWithdraw}/>
               </div>
             </div>
           </div>

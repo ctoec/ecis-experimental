@@ -51,7 +51,7 @@ const FamilyIncome: Section = {
 			elementToReturn = (
 				<>
 					<p>Household size: {determination.numberOfPeople}</p>
-					<p>Annual household income: ${idx(determination, _ => _.income.toFixed(2))}</p>
+					<p>Annual household income: {idx(determination, _ => currencyFormatter(_.income))}</p>
 					<p>Determined on: {dateFormatter(idx(determination, _ => _.determinationDate))}</p>
 				</>
 			);
