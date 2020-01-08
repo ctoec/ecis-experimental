@@ -121,46 +121,40 @@ const FamilyIncome: Section = {
 
 			// If determination is added, all fields must be present
 			// or notDisclosed must be true
-			if ((numberOfPeople && income && determinationDate) || notDisclosed) {
-				const args = {
-					notDisclosed: notDisclosed,
-					numberOfPeople: notDisclosed ? undefined : numberOfPeople || undefined,
-					income: notDisclosed ? undefined : income || undefined,
-					determined: notDisclosed ? undefined : determinationDate || undefined,
-				};
-
-				if (enrollment && child && child.family) {
-					const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
-						...defaultParams,
-						enrollment: {
-							...enrollment,
-							child: {
-								...child,
-								family: {
-									...child.family,
-									determinations: determination
-										? [
-												{
-													...determination,
-													...validArgs,
-												},
-										  ]
-										: [
-												{
-													id: 0,
-													familyId: child.family.id,
-													...validArgs,
-												},
-										  ],
-								},
+			if (enrollment && child && child.family) {
+				const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
+					...defaultParams,
+					enrollment: {
+						...enrollment,
+						child: {
+							...child,
+							family: {
+								...child.family,
+								determinations: determination
+									? [
+											{
+												...determination,
+												...validArgs,
+											},
+									  ]
+									: [
+											{
+												id: 0,
+												familyId: child.family.id,
+												...validArgs,
+											},
+									  ],
 							},
 						},
-					};
-					mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params)).then(res => {
+					},
+				};
+				mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
+					.then(res => {
 						if (callback && res) callback(res);
-					});
-				}
+					})
+					.catch();
 			}
+			
 		};
 
 		if (enrollment.child.foster && callback) {

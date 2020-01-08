@@ -30,8 +30,7 @@ import {
 import { prettyFundingTime, fundingTimeFromString } from '../../../utils/fundingTimeUtils';
 import { nextNReportingPeriods } from '../../../utils/models/reportingPeriod';
 import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
-import { currentFunding, updateFunding, createFunding, currentC4kFunding } from '../../../utils/models';
-import { familyDeterminationNotDisclosed } from '../../../utils/models/familyDetermination';
+import { familyDeterminationNotDisclosed, currentFunding, updateFunding, createFunding, currentC4kFunding } from '../../../utils/models';
 import Checklist from '../../../components/Checklist/Checklist';
 import TextInput from '../../../components/TextInput/TextInput';
 import InlineIcon from '../../../components/InlineIcon/InlineIcon';
