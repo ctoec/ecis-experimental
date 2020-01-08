@@ -82,7 +82,6 @@ export default function EnrollmentEdit({
 		const inSiteName = enrollment.site ? ` in ${enrollment.site.name}` : '';
 		let successAlertText = `${childName}'s enrollment${inSiteName} has been updated.`;
 		const informationIsMissing = hasValidationErrors(enrollment);
-		console.log(informationIsMissing)
 		if (informationIsMissing) {
 			successAlertText +=
 				' However, there is missing information you are required to enter before you can submit your monthly CDC report.';
