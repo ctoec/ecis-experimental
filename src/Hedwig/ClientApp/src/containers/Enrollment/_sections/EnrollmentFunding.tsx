@@ -112,16 +112,13 @@ const EnrollmentFunding: Section = {
 									: InlineIcon({ icon: 'incomplete' })}
 							</p>
 						)}
-						{receivesC4k && (
+						{(receivesC4k && c4kFunding) && (
 							<>
 								<p>
-									Care 4 Kids Family ID: {(c4kFunding as Funding).familyId}{' '}
-									{/* c4kFunding will always be defined but Typescript does not infer so */}
+									Care 4 Kids Family ID: {c4kFunding.familyId ? c4kFunding.familyId : InlineIcon({icon: 'incomplete'})}
 								</p>
 								<p>
-									Care 4 Kids Certificate Start Date:{' '}
-									{dateFormatter((c4kFunding as Funding).certificateStartDate)}{' '}
-									{/* c4kFunding will always be defined but Typescript does not infer so */}
+									Care 4 Kids Certificate Start Date: {c4kFunding.certificateStartDate ? dateFormatter(c4kFunding.certificateStartDate) : InlineIcon({icon: 'incomplete'})}
 								</p>
 							</>
 						)}
@@ -444,10 +441,10 @@ const EnrollmentFunding: Section = {
 								label="Family ID"
 								defaultValue={c4kFamilyId ? '' + c4kFamilyId : ''}
 								onChange={event => updateC4kFamilyId(parseInt(event.target.value))}
-								status={serverErrorForField(
-									'fundings.familyId',
-									apiError,
-									'Family ID is required if this child receives Care 4 Kids'
+								status={warningForField(
+									'familyId',
+									c4kFunding ? c4kFunding : null,
+									'This information is required for OEC reporting'
 								)}
 							/>
 							<DatePicker
@@ -462,10 +459,10 @@ const EnrollmentFunding: Section = {
 								}}
 								label="Certificate start date"
 								id="c4k-certificate-start-date"
-								status={serverErrorForField(
-									'fundings.certificatestartdate',
-									apiError,
-									'Certificate start date is required if this child receives Care 4 Kids'
+								status={warningForField(
+									'certificateStartDate',
+									c4kFunding ? c4kFunding : null,
+									'This information is required for OEC reporting'
 								)}
 							/>
 						</>

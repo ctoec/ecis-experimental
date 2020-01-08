@@ -29,7 +29,7 @@ namespace Hedwig.Validations.Rules
         {
           return new ValidationError(
             field: _fieldName,
-            message: $"{(_prettyFieldName != null ? _prettyFieldName : _fieldName)} is required when ${_conditionalMessage}"
+            message: $"{(_prettyFieldName != null ? _prettyFieldName : _fieldName)} is required when {_conditionalMessage}"
           );
         }
       }
