@@ -8,6 +8,7 @@ export type SectionProps = {
 	mutate: Mutate<Enrollment>;
 	callback?: (e: Enrollment) => void;
 	siteId?: string;
+	visitedSections?: {[key: string]: boolean}
 };
 
 export interface Section {

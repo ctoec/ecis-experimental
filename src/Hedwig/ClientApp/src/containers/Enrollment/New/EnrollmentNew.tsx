@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { History } from 'history';
 import { Section, SectionProps } from '../enrollmentTypes';
 import { default as StepList, StepProps } from '../../../components/StepList/StepList';
@@ -40,6 +40,16 @@ const mapSectionsToSteps = (sections: Section[]) => {
 	return steps;
 };
 
+const mapSectionToVisitedStates = (sections: Section[]) => {
+	return sections.reduce<{[key: string]: boolean}>(
+		(acc, section) => ({
+			...acc,
+			[section.key]: false
+		}),
+		{}
+	);
+}
+
 /**
  * React component for entering a new enrollment. This component
  * hands off to a StepList component of sections, which are included
@@ -75,6 +85,15 @@ export default function EnrollmentNew({
 		}
 	);
 
+	const [visitedSections, updateVisitedSections] = useState(mapSectionToVisitedStates(sections));
+
+	const visitSection = (section: Section) => {
+		updateVisitedSections({
+			...visitedSections,
+			[section.key]: true
+		});
+	}
+
 	/**
 	 * Accepts an enrollment and updates URL to appropriate section.
 	 *
@@ -88,6 +107,8 @@ export default function EnrollmentNew({
 		}
 
 		const currentIndex = sections.findIndex(section => section.key === sectionId);
+		const currentSection = sections[currentIndex];
+		visitSection(currentSection);
 
 		// If we're on the last section, we'll move to a final 'review' section where all
 		// steps are collapsed and we can 'Finish' the enrollment.
@@ -111,6 +132,7 @@ export default function EnrollmentNew({
 		mutate: mutate,
 		callback: afterSave,
 		siteId,
+		visitedSections: visitedSections
 	};
 
 	return (
