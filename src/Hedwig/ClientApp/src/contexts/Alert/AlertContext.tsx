@@ -1,5 +1,5 @@
-import { createContext, useState } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import React, { createContext, useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { AlertProps } from '../../components/Alert/Alert';
 
 export type AlertContextType = {
@@ -14,16 +14,12 @@ const AlertContext = createContext<AlertContextType>({
 
 const { Provider, Consumer } = AlertContext;
 
-export { Provider as AlertProvider };
-export { Consumer as AlertConsumer };
-export default AlertContext;
+const AlertProvider: React.FC = ({ children }) => {
+	const location = useLocation();
 
-export const useAlertContext = (initial?: AlertProps[]): AlertContextType => {
-	const [alerts, internalSetAlerts] = useState<AlertProps[]>(initial ? initial : []);
+	const [alerts, internalSetAlerts] = useState<AlertProps[]>([]);
 	const [alertsSetAtPath, setAlertsSetAtPath] = useState();
 	const [alertsDisplayAtPath, setAlertsDisplayAtPath] = useState();
-
-	const location = useLocation();
 
 	const setAlerts = (newAlerts: AlertProps[]) => {
 		if (newAlerts.length > 0) {
@@ -32,18 +28,18 @@ export const useAlertContext = (initial?: AlertProps[]): AlertContextType => {
 			setAlertsSetAtPath(null);
 		}
 		setAlertsDisplayAtPath(null); // Should always be reset when new alerts?
-		console.log(newAlerts);
 		internalSetAlerts(newAlerts);
 	};
 
-	const history = useHistory();
-	history.listen(historyLocation => {
-		// Clear alerts when we navigate away from where they were set or displayed
-		if (alerts.length > 0 && alertsDisplayAtPath && historyLocation.pathname !== alertsDisplayAtPath) {
-			console.log('Reset alerts', alerts, alertsDisplayAtPath, historyLocation.pathname)
+	useEffect(() => {
+		if (
+			alerts.length > 0 &&
+			alertsDisplayAtPath &&
+			location.pathname !== alertsDisplayAtPath
+		) {
 			setAlerts([]);
 		}
-	});
+	}, [location.pathname])
 
 	const getAlerts = (): AlertProps[] => {
 		if (alerts.length > 0 && location.pathname !== alertsSetAtPath && !alertsDisplayAtPath) {
@@ -53,8 +49,18 @@ export const useAlertContext = (initial?: AlertProps[]): AlertContextType => {
 		return alerts;
 	};
 
-	return {
-		getAlerts,
-		setAlerts,
-	};
+	return (
+		<Provider
+			value={{
+				getAlerts,
+				setAlerts,
+			}}
+		>
+			{children}
+		</Provider>
+	);
 };
+
+export { Consumer as AlertConsumer };
+export default AlertContext;
+export { AlertProvider };

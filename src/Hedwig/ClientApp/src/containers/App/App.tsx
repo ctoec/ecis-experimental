@@ -10,7 +10,7 @@ import { ApiOrganizationsOrgIdReportsGetRequest, CdcReport as Report } from '../
 import getIdForUser from '../../utils/getIdForUser';
 import UserContext from '../../contexts/User/UserContext';
 import { useCacheInvalidator, AppProvider } from '../../contexts/App/AppContext';
-import { useAlertContext, AlertProvider } from '../../contexts/Alert/AlertContext';
+import { AlertProvider } from '../../contexts/Alert/AlertContext';
 import { DeepNonUndefineable } from '../../utils/types';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
@@ -21,7 +21,6 @@ const App: React.FC = () => {
 	const { user } = useContext(UserContext);
 	const cacheContext = useCacheInvalidator();
 	const { cacheInvalidator } = cacheContext;
-	const alertContext = useAlertContext();
 
 	const params: ApiOrganizationsOrgIdReportsGetRequest = {
 		orgId: getIdForUser(user, 'org'),
@@ -69,7 +68,7 @@ const App: React.FC = () => {
 				/>
 				<main id="main-content">
 					<ErrorBoundary>
-						<AlertProvider value={alertContext}>
+						<AlertProvider>
 							<Switch>
 								{routes.map((route, index) => (
 									<MakeRouteWithSubRoutes key={index} {...route} />
