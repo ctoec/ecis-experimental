@@ -124,7 +124,7 @@ const EnrollmentFunding: Section = {
 			throw new Error('EnrollmentFunding rendered without an enrollment');
 		}
 
-		const initialLoad = visitedSections ? !visitedSections[EnrollmentFunding.key] : true;
+		const initialLoad = visitedSections ? !visitedSections[EnrollmentFunding.key] : false;
 
 		const { user } = useContext(UserContext);
 		const { cdcReportingPeriods: reportingPeriods } = useContext(ReportingPeriodContext);
