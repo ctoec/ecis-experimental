@@ -88,6 +88,7 @@ export function updateFunding({
 				source,
 				time,
 				firstReportingPeriodId : reportingPeriod ? reportingPeriod.id : undefined,
+				firstReportingPeriod: reportingPeriod
 			}
 		case FundingSource.C4K:
 			return {

@@ -14,7 +14,7 @@ export const currentReportingPeriod = (periods: ReportingPeriod[]): ReportingPer
  * @param a Reporting Period
  * @param b Reporting Period
  */
-const periodSorter = (a: ReportingPeriod, b: ReportingPeriod) => {
+export const periodSorter = (a: ReportingPeriod, b: ReportingPeriod) => {
 	if (a.periodStart === b.periodStart) return 0;
 	if (a.periodStart < b.periodStart) return -1;
 	return 1;
@@ -78,9 +78,7 @@ export const fundingWithinReportingPeriod = (funding: Funding, period: Reporting
 export const nextNReportingPeriods = (periods: ReportingPeriod[], startDate: Date, n: number): ReportingPeriod[] => {
 	const sortedPeriods = [...periods].sort(periodSorter);
 
-	console.log("sorted periods len", sortedPeriods);
 	const _firstEligibleReportingPeriod = firstEligibleReportingPeriod(periods, startDate);
-	console.log("first elig", _firstEligibleReportingPeriod);
 	if (!_firstEligibleReportingPeriod) {
 		return [];
 	}

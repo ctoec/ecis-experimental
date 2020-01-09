@@ -28,7 +28,7 @@ import {
 	serverErrorForField,
 } from '../../../utils/validations';
 import { prettyFundingTime, fundingTimeFromString } from '../../../utils/fundingTimeUtils';
-import { nextNReportingPeriods } from '../../../utils/models/reportingPeriod';
+import { nextNReportingPeriods, periodSorter } from '../../../utils/models/reportingPeriod';
 import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
 import { familyDeterminationNotDisclosed, currentFunding, updateFunding, createFunding, currentC4kFunding } from '../../../utils/models';
 import Checklist from '../../../components/Checklist/Checklist';
@@ -178,9 +178,13 @@ const EnrollmentFunding: Section = {
 
 		useEffect(() => {
 			const startDate = entry ? entry : enrollment.entry ? enrollment.entry : moment().toDate();
-			updateReportingPeriodOptions(
-				nextNReportingPeriods(reportingPeriods, startDate, 5)
-			);
+			const nextPeriods = nextNReportingPeriods(reportingPeriods, startDate, 5);
+			let nextPeriodsExcludingCurrent = nextPeriods;
+			if (cdcReportingPeriod) {
+				nextPeriodsExcludingCurrent = [...nextPeriods.filter(period => period.id != cdcReportingPeriod.id)];
+			}
+			const periods = cdcReportingPeriod ? [cdcReportingPeriod, ...nextPeriodsExcludingCurrent] : nextPeriodsExcludingCurrent;
+			updateReportingPeriodOptions(periods.sort(periodSorter));
 		}, [enrollment.entry, entry, reportingPeriods]);
 
 		const [apiError, setApiError] = useState<ValidationProblemDetails>();
