@@ -22,6 +22,7 @@ import {
 } from '../../../utils/validations';
 import FieldSet from '../../../components/FieldSet/FieldSet';
 import InlineIcon from '../../../components/InlineIcon/InlineIcon';
+import initialLoadErrorGuard from '../../../utils/validations/initialLoadErrorGuard';
 
 const FamilyIncome: Section = {
 	key: 'family-income',
@@ -62,10 +63,12 @@ const FamilyIncome: Section = {
 		return <div className="FamilyIncomeSummary">{elementToReturn}</div>;
 	},
 
-	Form: ({ enrollment, mutate, callback }) => {
+	Form: ({ enrollment, mutate, callback, visitedSections }) => {
 		if (!enrollment || !enrollment.child || !enrollment.child.family) {
 			throw new Error('FamilyIncome rendered without enrollment.child.family');
 		}
+
+		const initialLoad = visitedSections ? !visitedSections[FamilyIncome.key] : false;
 
 		const { user } = useContext(UserContext);
 		const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
@@ -159,20 +162,21 @@ const FamilyIncome: Section = {
 							<FieldSet
 								id="family-income"
 								legend="Family income"
-								status={
+								status={initialLoadErrorGuard(
+									initialLoad,
 									warningForFieldSet(
-									'family-income',
-									['numberOfPeople', 'income', 'determinationDate'],
-									determination ? determination : null,
-									'This information is required for enrollment'
-									) ||
+										'family-income',
+										['numberOfPeople', 'income', 'determinationDate'],
+										determination ? determination : null,
+										'This information is required for enrollment'
+										) ||
 									warningForFieldSet(
 										'family-income',
 										['child.family.determinations'],
 										enrollment,
 										'Income must be determined for funded enrollments'
 									)
-								}
+								)}
 							>
 								<TextInput
 									id="numberOfPeople"
@@ -183,10 +187,13 @@ const FamilyIncome: Section = {
 										updateNumberOfPeople(value);
 									}}
 									onBlur={event => (event.target.value = numberOfPeople ? '' + numberOfPeople : '')}
-									status={warningForField(
-										'numberOfPeople',
-										determination ? determination : null,
-										''
+									status={initialLoadErrorGuard(
+										initialLoad,
+										warningForField(
+											'numberOfPeople',
+											determination ? determination : null,
+											''
+										)
 									)}
 									small
 								/>
@@ -202,10 +209,13 @@ const FamilyIncome: Section = {
 											? currencyFormatter(income)
 											: '')
 									}
-									status={warningForField(
-										'income',
-										determination ? determination : null,
-										''
+									status={initialLoadErrorGuard(
+										initialLoad,
+										warningForField(
+											'income',
+											determination ? determination : null,
+											''
+										)
 									)}
 								/>
 								<DatePicker
@@ -218,10 +228,13 @@ const FamilyIncome: Section = {
 										startDate: determinationDate ? moment(determinationDate) : null,
 										endDate: null,
 									}}
-									status={warningForField(
-										'determintionDate',
-										determination ? determination : null,
-										''
+									status={initialLoadErrorGuard(
+										initialLoad,
+										warningForField(
+											'determintionDate',
+											determination ? determination : null,
+											''
+										)
 									)}
 								/>
 							</FieldSet>
