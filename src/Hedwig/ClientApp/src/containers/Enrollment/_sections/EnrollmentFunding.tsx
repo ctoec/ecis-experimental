@@ -34,6 +34,7 @@ import { familyDeterminationNotDisclosed, currentFunding, updateFunding, createF
 import Checklist from '../../../components/Checklist/Checklist';
 import TextInput from '../../../components/TextInput/TextInput';
 import InlineIcon from '../../../components/InlineIcon/InlineIcon';
+import initialLoadErrorGuard from '../../../utils/validations/initialLoadErrorGuard';
 
 const EnrollmentFunding: Section = {
 	key: 'enrollment-funding',
@@ -352,11 +353,13 @@ const EnrollmentFunding: Section = {
 						dateRange={{ startDate: entry ? moment(entry) : null, endDate: null }}
 						label="Start date"
 						id="enrollment-start-date"
-						status={warningForField(
-							'entry',
-							enrollment,
-							'This information is required for OEC reporting'
-						)}
+						status={initialLoadErrorGuard(
+							initialLoad,
+							warningForField(
+								'entry',
+								enrollment,
+								'This information is required for OEC reporting'
+						))}
 					/>
 
 					<h3>Age group</h3>
@@ -379,11 +382,14 @@ const EnrollmentFunding: Section = {
 						]}
 						selected={'' + age}
 						onChange={event => updateAge(ageFromString(event.target.value))}
-						status={warningForFieldSet(
-							'age-group-warning',
-							['ageGroup'],
-							enrollment,
-							'This field is required for OEC reporting'
+						status={initialLoadErrorGuard(
+							initialLoad,
+							warningForFieldSet(
+								'age-group-warning',
+								['ageGroup'],
+								enrollment,
+								'This field is required for OEC reporting'
+							)
 						)}
 					/>
 					<h3>Funding</h3>
@@ -440,14 +446,17 @@ const EnrollmentFunding: Section = {
 							}}
 							selected={cdcReportingPeriod ? '' + cdcReportingPeriod.id : ''}
 							status={
-								serverErrorForField(
-									'fundings',
-									apiError
-								) ||
-								warningForField(
-									'firstReportingPeriod',
-									cdcFunding ? cdcFunding as Funding : null,
-									'This information is required for OEC reporting'
+								initialLoadErrorGuard(
+									initialLoad,
+									serverErrorForField(
+										'fundings',
+										apiError
+									) ||
+									warningForField(
+										'firstReportingPeriod',
+										cdcFunding ? cdcFunding as Funding : null,
+										'This information is required for OEC reporting'
+									)
 								)
 							}
 						/>
@@ -473,10 +482,13 @@ const EnrollmentFunding: Section = {
 								label="Family ID"
 								defaultValue={c4kFamilyId ? '' + c4kFamilyId : ''}
 								onChange={event => updateC4kFamilyId(parseInt(event.target.value))}
-								status={warningForField(
-									'familyId',
-									c4kFunding ? c4kFunding : null,
-									'This information is required for OEC reporting'
+								status={initialLoadErrorGuard(
+									initialLoad,
+									warningForField(
+										'familyId',
+										c4kFunding ? c4kFunding : null,
+										'This information is required for OEC reporting'
+									)
 								)}
 							/>
 							<DatePicker
@@ -491,10 +503,13 @@ const EnrollmentFunding: Section = {
 								}}
 								label="Certificate start date"
 								id="c4k-certificate-start-date"
-								status={warningForField(
-									'certificateStartDate',
-									c4kFunding ? c4kFunding : null,
-									'This information is required for OEC reporting'
+								status={initialLoadErrorGuard(
+									initialLoad,
+									warningForField(
+										'certificateStartDate',
+										c4kFunding ? c4kFunding : null,
+										'This information is required for OEC reporting'
+									)
 								)}
 							/>
 						</>

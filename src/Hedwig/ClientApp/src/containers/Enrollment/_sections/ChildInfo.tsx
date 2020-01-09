@@ -39,6 +39,7 @@ import {
 	serverErrorForField,
 } from '../../../utils/validations';
 import FieldSet from '../../../components/FieldSet/FieldSet';
+import initialLoadErrorGuard from '../../../utils/validations/initialLoadErrorGuard';
 
 const ChildInfo: Section = {
 	key: 'child-information',
@@ -64,10 +65,12 @@ const ChildInfo: Section = {
 		);
 	},
 
-	Form: ({ enrollment, siteId, mutate, callback }) => {
+	Form: ({ enrollment, siteId, mutate, callback, visitedSections }) => {
 		if (!enrollment && !siteId) {
 			throw new Error('ChildInfo rendered without an enrollment or a siteId');
 		}
+
+		const initialLoad = visitedSections ? !visitedSections[ChildInfo.key] : false;
 
 		const { user } = useContext(UserContext);
 		const defaultPostParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest = {
@@ -203,11 +206,14 @@ const ChildInfo: Section = {
 							label="First name"
 							defaultValue={firstName || ''}
 							onChange={event => updateFirstName(event.target.value)}
-							status={serverErrorForField(
-								'child.firstname',
-								apiError,
-								'This information is required for enrollment'
-							)}
+							status={initialLoadErrorGuard(
+									initialLoad,
+									serverErrorForField(
+										'child.firstname',
+										apiError,
+										'This information is required for enrollment'
+									)
+								)}
 						/>
 					</div>
 					<div className="mobile-lg:grid-col-9">
@@ -225,10 +231,13 @@ const ChildInfo: Section = {
 							label="Last name"
 							defaultValue={lastName || ''}
 							onChange={event => updateLastName(event.target.value)}
-							status={serverErrorForField(
-								'child.lastname',
-								apiError,
-								'This information is required for enrollment'
+							status={initialLoadErrorGuard(
+								initialLoad,
+								serverErrorForField(
+									'child.lastname',
+									apiError,
+									'This information is required for enrollment'
+								)
 							)}
 						/>
 					</div>
@@ -250,21 +259,27 @@ const ChildInfo: Section = {
 					label="Birth date"
 					id="birthdate-picker"
 					hideLabel
-					status={warningForFieldSet(
-						'birthdate-fields',
-						['birthdate'],
-						enrollment ? enrollment.child : null,
-						'This information is required for OEC reporting'
+					status={initialLoadErrorGuard(
+						initialLoad,
+						warningForFieldSet(
+							'birthdate-fields',
+							['birthdate'],
+							enrollment ? enrollment.child : null,
+							'This information is required for OEC reporting'
+						)
 					)}
 				/>
 
 				<h3>Birth certificate</h3>
 				<FieldSet
-					status={warningForFieldSet(
-						'birth-certificate-fields',
-						['birthCertificateId', 'birthState', 'birthTown'],
-						enrollment ? enrollment.child : null,
-						'This information is required for OEC reporting'
+					status={initialLoadErrorGuard(
+						initialLoad,
+						warningForFieldSet(
+							'birth-certificate-fields',
+							['birthCertificateId', 'birthState', 'birthTown'],
+							enrollment ? enrollment.child : null,
+							'This information is required for OEC reporting'
+						)
 					)}
 					legend="Birth certificate"
 					className="display-inline-block"
@@ -276,10 +291,13 @@ const ChildInfo: Section = {
 							label="Birth certificate ID #"
 							defaultValue={birthCertificateId || ''}
 							onChange={event => updateBirthCertificateId(event.target.value)}
-							status={warningForField(
-								'birthCertificateId',
-								enrollment ? enrollment.child : null,
-								''
+							status={initialLoadErrorGuard(
+								initialLoad,
+								warningForField(
+									'birthCertificateId',
+									enrollment ? enrollment.child : null,
+									''
+								)
 							)}
 						/>
 					</div>
@@ -289,7 +307,14 @@ const ChildInfo: Section = {
 							label="State"
 							defaultValue={birthState || ''}
 							onChange={event => updateBirthState(event.target.value)}
-							status={warningForField('birthState', enrollment ? enrollment.child : null, '')}
+							status={initialLoadErrorGuard(
+								initialLoad,
+								warningForField(
+									'birthState',
+									enrollment ? enrollment.child : null,
+									''
+								)
+							)}
 						/>
 					</div>
 					<div className="mobile-lg:grid-col-8 display-inline-block">
@@ -298,7 +323,14 @@ const ChildInfo: Section = {
 							label="Town"
 							defaultValue={birthTown || ''}
 							onChange={event => updateBirthTown(event.target.value)}
-							status={warningForField('birthTown', enrollment ? enrollment.child : null, '')}
+							status={initialLoadErrorGuard(
+								initialLoad,
+								warningForField(
+									'birthTown',
+									enrollment ? enrollment.child : null,
+									''
+								)
+							)}
 						/>
 					</div>
 				</FieldSet>
@@ -306,17 +338,20 @@ const ChildInfo: Section = {
 				<h3>Race</h3>
 				<Checklist
 					hint="As identified by family"
-					status={warningForFieldSet(
-						'race-checklist',
-						[
-							'americanIndianOrAlaskaNative',
-							'asian',
-							'blackOrAfricanAmerican',
-							'NativeHawaiianOrPacificIslander',
-							'white',
-						],
-						enrollment ? enrollment.child : null,
-						'This information is required for OEC reporting'
+					status={initialLoadErrorGuard(
+						initialLoad,
+						warningForFieldSet(
+							'race-checklist',
+							[
+								'americanIndianOrAlaskaNative',
+								'asian',
+								'blackOrAfricanAmerican',
+								'NativeHawaiianOrPacificIslander',
+								'white',
+							],
+							enrollment ? enrollment.child : null,
+							'This information is required for OEC reporting'
+						)
 					)}
 					legend="Race"
 					id="race-checklist"
@@ -357,11 +392,14 @@ const ChildInfo: Section = {
 				<h3>Ethnicity</h3>
 				<RadioGroup
 					hint="As identified by family"
-					status={warningForFieldSet(
-						'ethnicity-radiogroup',
-						['hispanicOrLatinxEthnicity'],
-						enrollment ? enrollment.child : null,
-						'This information is required for OEC reporting'
+					status={initialLoadErrorGuard(
+						initialLoad,
+						warningForFieldSet(
+							'ethnicity-radiogroup',
+							['hispanicOrLatinxEthnicity'],
+							enrollment ? enrollment.child : null,
+							'This information is required for OEC reporting'
+						)
 					)}
 					legend="Ethnicity"
 					id="ethnicity-radiogroup"
@@ -418,11 +456,14 @@ const ChildInfo: Section = {
 					selected={gender || Gender.Unspecified}
 					onChange={event => updateGender(genderFromString(event.target.value))}
 					id="gender-select"
-					status={warningForFieldSet(
-						'gender-select',
-						['gender'],
-						enrollment ? enrollment.child : null,
-						'This information is required for OEC reporting'
+					status={initialLoadErrorGuard(
+						initialLoad,
+						warningForFieldSet(
+							'gender-select',
+							['gender'],
+							enrollment ? enrollment.child : null,
+							'This information is required for OEC reporting'
+						)
 					)}
 				/>
 
