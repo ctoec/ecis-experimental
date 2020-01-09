@@ -48,8 +48,16 @@ namespace Hedwig.Data
       modelBuilder.Entity<Site>().ToTable("Site");
       modelBuilder.Entity<User>().ToTable("User");
 
-      // Set all fks onDelete to restrict to enable complex fk relationships
+      // Set all default fks onDelete to restrict to enable complex fk relationships
       modelBuilder.SetAllFKsOnDelete(DeleteBehavior.Restrict);
+
+      // Override specific foreign key relationships
+      modelBuilder.Entity<Funding>()
+        .HasOne(f => f.Enrollment)
+        .WithMany(e => e.Fundings)
+        .HasForeignKey(f => f.EnrollmentId)
+        .IsRequired()
+        .OnDelete(DeleteBehavior.Cascade);
     }
 
     /// <summary>
@@ -147,7 +155,7 @@ namespace Hedwig.Data
       var isGuid = Guid.TryParse(subClaim, out wingedKeysId);
       if (!isGuid) 
       { 
-        return null; 
+        return null;
       }
 
       return Users

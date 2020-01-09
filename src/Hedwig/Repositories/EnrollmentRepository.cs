@@ -139,7 +139,6 @@ namespace Hedwig.Repositories
 		public void DeleteEnrollment(Enrollment enrollment)
 		{
 			_context.Enrollments.Remove(enrollment);
-			return;
 		}
 	}
 
