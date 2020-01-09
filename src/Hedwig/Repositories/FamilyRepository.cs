@@ -15,6 +15,7 @@ namespace Hedwig.Repositories
 		public Family GetFamilyById(int id)
 		{
 			var family = _context.Families
+				.AsNoTracking()
 				.Where(f => f.Id == id);
 
 			return family.FirstOrDefault();

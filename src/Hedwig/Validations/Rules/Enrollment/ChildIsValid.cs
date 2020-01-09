@@ -1,6 +1,6 @@
 using Hedwig.Models;
 using Hedwig.Repositories;
-using System.Linq;
+using System.Collections.Generic;
 using System;
 
 namespace Hedwig.Validations.Rules
@@ -21,6 +21,7 @@ namespace Hedwig.Validations.Rules
       if(enrollment.ChildId != Guid.Empty)
       {
         var child = enrollment.Child ?? _children.GetChildById(enrollment.ChildId);
+        child.Enrollments = new List<Enrollment>{enrollment};
 
         ValidateSubObject(child);
         if(child.ValidationErrors.Count > 0)

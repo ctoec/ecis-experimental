@@ -55,6 +55,7 @@ namespace Hedwig.Repositories
 		public Child GetChildById(Guid id)
 		{
 			return _context.Children
+				.AsNoTracking()
 				.Single(c => c.Id == id);
 		}
 	}

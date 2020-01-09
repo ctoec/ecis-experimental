@@ -31,13 +31,11 @@ namespace Hedwig.Validations.Rules
       if(determination.ValidationErrors.Count > 0)
       {
         return new ValidationError(
-          field: determination.GetType().Name,
+          field: "Determinations",
           message: "Most recent determination has validation errors",
           isSubObjectValidation: true
         );
       }
-
-      //TODO somehow unload determinations if we added them
 
       return null;
     }

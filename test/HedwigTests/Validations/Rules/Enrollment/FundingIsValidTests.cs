@@ -39,7 +39,7 @@ namespace HedwigTests.Validations.Rules
 			var _funding = new Mock<IFundingRepository>();
 
 			// when
-			var rule = new FundingIsValid(_validator, _funding.Object);
+			var rule = new FundingsAreValid(_validator, _funding.Object);
 			var result = rule.Execute(enrollment);
 
 			// then

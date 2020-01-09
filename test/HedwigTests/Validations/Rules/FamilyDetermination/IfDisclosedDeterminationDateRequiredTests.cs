@@ -28,7 +28,7 @@ namespace HedwigTests.Validations.Rules
       }
 
       // when
-      var rule = new IfDisclosedDeterminationDateRequired();
+      var rule = new IfDisclosed_DeterminationDateRequired();
       var result = rule.Execute(determination);
 
       // then

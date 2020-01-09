@@ -27,7 +27,7 @@ namespace HedwigTests.Validations.Rules
       }
 
       // when
-      var rule = new IfDisclosedIncomeRequired();
+      var rule = new IfDisclosed_IncomeRequired();
       var result = rule.Execute(determination);
 
       // then

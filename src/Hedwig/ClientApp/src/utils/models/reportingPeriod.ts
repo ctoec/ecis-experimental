@@ -79,9 +79,11 @@ export const fundingWithinReportingPeriod = (funding: Funding, period: Reporting
 export const nextNReportingPeriods = (periods: ReportingPeriod[], startDate: Date, n: number): ReportingPeriod[] => {
 	const sortedPeriods = [...periods].sort(periodSorter);
 
+	console.log("sorted periods len", sortedPeriods);
 	const _firstEligibleReportingPeriod = firstEligibleReportingPeriod(periods, startDate);
+	console.log("first elig", _firstEligibleReportingPeriod);
 	if (!_firstEligibleReportingPeriod) {
-		throw new Error("First eligible reporting period cannot be found");
+		return [];
 	}
 	const index = sortedPeriods.findIndex(period => period.id === _firstEligibleReportingPeriod.id);
 	return sortedPeriods.slice(index, index + n);
@@ -92,7 +94,7 @@ export const lastNReportingPeriods = (periods: ReportingPeriod[], endDate: Date,
 
 	const _lastEligibleReportingPeriod = lastEligibleReportingPeriod(periods, endDate);
 	if(!_lastEligibleReportingPeriod) {
-		throw new Error ("Last eligible reporting period cannot be found");
+		return [];
 	}
 
 	const index = sortedPeriods.findIndex(period => period.id === _lastEligibleReportingPeriod.id);

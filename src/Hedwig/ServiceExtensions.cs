@@ -104,7 +104,8 @@ namespace Hedwig
 			services.AddScoped<IValidationRule<Enrollment>, ChildIsValid>();
 			services.AddScoped<IValidationRule<Enrollment>, AgeGroupRequired>();
 			services.AddScoped<IValidationRule<Enrollment>, EntryRequired>();
-			services.AddScoped<IValidationRule<Enrollment>, FundingIsValid>();
+			services.AddScoped<IValidationRule<Enrollment>, FundingsAreValid>();
+			services.AddScoped<IValidationRule<Enrollment>, IfCdcFunded_DisclosedFamilyDeterminationRequired>();
 
 			// Child
 			services.AddScoped<IValidationRule<Child>, FamilyIsValid>();
@@ -127,10 +128,9 @@ namespace Hedwig
 			services.AddScoped<IValidationRule<Family>, ZipRequired>();
 
 			// Family Determination
-			services.AddScoped<IValidationRule<FamilyDetermination>, DeterminedWithinSixMonths>();
-			services.AddScoped<IValidationRule<FamilyDetermination>, IfDisclosedDeterminationDateRequired>();
-			services.AddScoped<IValidationRule<FamilyDetermination>, IfDisclosedIncomeRequired>();
-			services.AddScoped<IValidationRule<FamilyDetermination>, IfDisclosedNumberOfPeopleRequired>();
+			services.AddScoped<IValidationRule<FamilyDetermination>, IfDisclosed_DeterminationDateRequired>();
+			services.AddScoped<IValidationRule<FamilyDetermination>, IfDisclosed_IncomeRequired>();
+			services.AddScoped<IValidationRule<FamilyDetermination>, IfDisclosed_NumberOfPeopleRequired>();
 
 			// Reports
 			services.AddScoped<IValidationRule<CdcReport>, EnrollmentsAreValid>();

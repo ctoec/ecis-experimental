@@ -5,10 +5,10 @@ using System;
 
 namespace Hedwig.Validations.Rules
 {
-  public class FundingIsValid: SubObjectIsValid, IValidationRule<Enrollment>
+  public class FundingsAreValid: SubObjectIsValid, IValidationRule<Enrollment>
   {
     readonly IFundingRepository _fundings;
-    public FundingIsValid(
+    public FundingsAreValid(
       INonBlockingValidator validator,
       IFundingRepository fundings
     ) : base(validator)
