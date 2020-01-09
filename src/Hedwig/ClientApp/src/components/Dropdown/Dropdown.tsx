@@ -75,8 +75,7 @@ export default function Dropdown({
 			{showOtherTextInput && otherText != undefined &&
 				<TextInput
 					id="other"
-					label=""
-					defaultValue=""
+					label={otherText}
 					onChange={userDefinedOnChange}
 				/>
 			}

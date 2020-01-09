@@ -45,7 +45,7 @@ export default function Checklist({
 						onChange={option.onChange}
 						key={option.value}
 						name={`${id}-${option.value}`}
-						checked={option.checked}
+						selected={option.checked}
 						className={horizontal ? 'grid-col flex-auto' : ''}
 						disabled={option.disabled}
 					/>

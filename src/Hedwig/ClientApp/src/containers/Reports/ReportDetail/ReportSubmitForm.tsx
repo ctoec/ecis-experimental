@@ -3,7 +3,7 @@ import { CdcReport, ApiOrganizationsOrgIdReportsIdPutRequest } from '../../../ge
 import { Mutate } from '../../../hooks/useApi';
 import UserContext from '../../../contexts/User/UserContext';
 import TextInput from '../../../components/TextInput/TextInput';
-import Checkbox from '../../../components/Checklist/Checkbox';
+import Checklist from '../../../components/Checklist/Checklist';
 import AppContext from '../../../contexts/App/AppContext';
 import currencyFormatter from '../../../utils/currencyFormatter';
 import parseCurrencyFromString from '../../../utils/parseCurrencyFromString';
@@ -86,74 +86,87 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
   }
 
   return (
-    <React.Fragment>
-    {report.submittedAt && (
-      <p>
-        <b>Submitted:</b> {report.submittedAt.toLocaleDateString()}{' '}
-      </p>
-    )}
-    <div className="usa-checkbox margin-bottom-5">
-      <input
-        className="usa-checkbox__input"
-        id="accredited"
-        type="checkbox"
-        disabled={!!report.submittedAt}
-        defaultChecked={accredited}
-        onChange={e => setAccredited(e.target.checked)}
-      />
-      <label className="usa-checkbox__label" htmlFor="accredited">
-        Accredited
-			</label>
-    </div>
-    <UtilizationTable {...{...report, accredited}} />
-    <form className="usa-form" onSubmit={onSubmit}>
-        <fieldset className="usa-fieldset">
-          <legend>
-            <h2 className="margin-bottom-0 margin-top-2">Other Revenue</h2>
-          </legend>
-          <TextInput
-            id="c4k-revenue"
-            label={
-              <React.Fragment>
-                <span className="text-bold">Care 4 Kids</span>
-              </React.Fragment>
-            }
-            defaultValue={currencyFormatter(c4KRevenue)}
-            onChange={(e) => setC4KRevenue(parseCurrencyFromString(e.target.value))}
-            onBlur={event => (event.target.value = c4KRevenue !== null ? currencyFormatter(c4KRevenue) : '')}
-            disabled={!!report.submittedAt}
+		<React.Fragment>
+			{report.submittedAt && (
+				<p>
+					<b>Submitted:</b> {report.submittedAt.toLocaleDateString()}{' '}
+				</p>
+			)}
+			{/* TODO: WHY ARE WE USING THIS WHEN WE HAVE A CHECKLIST COMPONENT? */}
+			<div className="usa-checkbox margin-bottom-5">
+				<input
+					className="usa-checkbox__input"
+					id="accredited"
+					type="checkbox"
+					disabled={!!report.submittedAt}
+					defaultChecked={accredited}
+					onChange={e => setAccredited(e.target.checked)}
+				/>
+				<label className="usa-checkbox__label" htmlFor="accredited">
+					Accredited
+				</label>
+			</div>
+			<UtilizationTable {...{ ...report, accredited }} />
+			<form className="usa-form" onSubmit={onSubmit}>
+				<fieldset className="usa-fieldset">
+					<legend>
+						<h2 className="margin-bottom-0 margin-top-2">Other Revenue</h2>
+					</legend>
+					<TextInput
+						id="c4k-revenue"
+						label={
+							<React.Fragment>
+								<span className="text-bold">Care 4 Kids</span>
+							</React.Fragment>
+						}
+						defaultValue={currencyFormatter(c4KRevenue)}
+						onChange={e => setC4KRevenue(parseCurrencyFromString(e.target.value))}
+						onBlur={event =>
+							(event.target.value = c4KRevenue !== null ? currencyFormatter(c4KRevenue) : '')
+						}
+						disabled={!!report.submittedAt}
 						status={serverErrorForField(
-							"report.c4krevenue",
+							'report.c4krevenue',
 							apiError,
-							"This information is required for the report"
+							'This information is required for the report'
 						)}
-          />
-          <div className="margin-top-2">
-            <Checkbox
-              text="Includes retroactive payment for past months"
-              value="c4k-includes-retroactive"
-              name="c4k-includes-retroactive"
-              onChange={(e) => setRetroactiveC4KRevenue(!!e.target.checked)}
-              disabled={!!report.submittedAt}
-              checked={retroactiveC4KRevenue}
-            />
-          </div>
-          <TextInput
-            id="family-fees-revenue"
-            label={<span className="text-bold">Family Fees</span>}
-            defaultValue={currencyFormatter(familyFeesRevenue)}
-            onChange={(e) => setFamilyFeesRevenue(parseCurrencyFromString(e.target.value))}
-            onBlur={event => (event.target.value = familyFeesRevenue !== null ? currencyFormatter(familyFeesRevenue) : '')}
-            disabled={!!report.submittedAt}
+					/>
+					<div className="margin-top-2">
+						<Checklist
+							id="c4k-includes-retroactive"
+							legend="Includes retroactive payment"
+							options={[
+								{
+									text: 'Includes retroactive payment for past months',
+									value: 'c4k-includes-retroactive',
+									checked: retroactiveC4KRevenue,
+									onChange: e => setRetroactiveC4KRevenue(!!e.target.checked),
+									disabled: !!report.submittedAt,
+								},
+							]}
+						/>
+					</div>
+					<TextInput
+						id="family-fees-revenue"
+						label={<span className="text-bold">Family Fees</span>}
+						defaultValue={currencyFormatter(familyFeesRevenue)}
+						onChange={e => setFamilyFeesRevenue(parseCurrencyFromString(e.target.value))}
+						onBlur={event =>
+							(event.target.value =
+								familyFeesRevenue !== null ? currencyFormatter(familyFeesRevenue) : '')
+						}
+						disabled={!!report.submittedAt}
 						status={serverErrorForField(
-							"report.familyfeesrevenue",
+							'report.familyfeesrevenue',
 							apiError,
-							"This information is required for the report"
+							'This information is required for the report'
 						)}
-          />
-        </fieldset>
-        {!report.submittedAt && <input className="usa-button" type="submit" value="Submit" disabled={!canSubmit} />}
-      </form>
-    </React.Fragment>
-  );
+					/>
+				</fieldset>
+				{!report.submittedAt && (
+					<input className="usa-button" type="submit" value="Submit" disabled={!canSubmit} />
+				)}
+			</form>
+		</React.Fragment>
+	);
 }
