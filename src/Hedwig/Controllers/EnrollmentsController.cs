@@ -112,5 +112,29 @@ namespace Hedwig.Controllers
             _validator.Validate(enrollment);
             return Ok(enrollment);
         }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> Delete(
+            int id,
+            int orgId,
+            int siteId,
+            Enrollment enrollment
+        )
+        {
+            if (enrollment.Id != id) return BadRequest();
+
+            try {
+                _enrollments.DeleteEnrollment(enrollment);
+                await _enrollments.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return NotFound();
+            }
+
+            return Ok();
+        }
     }
 }

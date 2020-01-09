@@ -12,12 +12,14 @@ import UserContext from '../../../contexts/User/UserContext';
 import {
 	Enrollment,
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest,
+	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDeleteRequest,
 } from '../../../generated';
 import getIdForUser from '../../../utils/getIdForUser';
 import CommonContainer from '../../CommonContainer';
 import { hasValidationErrors } from '../../../utils/validations';
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import nameFormatter from '../../../utils/nameFormatter';
+import { useEffect } from '@storybook/addons';
 
 type EnrollmentNewParams = {
 	history: History;
@@ -85,6 +87,33 @@ export default function EnrollmentNew({
 		}
 	);
 
+	const [cancel, updateCancel] = useState(false);
+	const processSuccessfulCancel = () => {
+		setAlerts([
+			{
+				type: 'info',
+				heading: 'Cancelled enrollment',
+				text: 'Successfully cancelled enrollment',
+			},
+		]);
+		history.push('/roster');
+	}
+	const cancelParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDeleteRequest = {
+		id: enrollmentId ? enrollmentId : 0,
+		orgId: getIdForUser(user, 'org'),
+		siteId: getIdForUser(user, 'site'),
+		enrollment: enrollment
+	};
+	const [, cancelError] = useApi(
+		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDelete(cancelParams),
+		[enrollmentId, enrollment, user, cancel],
+		{
+			skip: !cancel,
+			callback: processSuccessfulCancel
+		}
+	);
+	
+
 	const [visitedSections, updateVisitedSections] = useState(mapSectionToVisitedStates(sections));
 
 	const visitSection = (section: Section) => {
@@ -92,6 +121,10 @@ export default function EnrollmentNew({
 			...visitedSections,
 			[section.key]: true
 		});
+	}
+
+	if (cancelError) {
+		// TODO: do something with this error
 	}
 
 	/**
@@ -141,31 +174,47 @@ export default function EnrollmentNew({
 				<div className="margin-top-2 margin-bottom-5">
 					<StepList steps={steps} activeStep={sectionId} props={props} />
 				</div>
-				{sectionId === 'review' && (
+				<div className="grid-row flex-first-baseline flex-space-between">
 					<Button
-						href="../"
-						text="Finish"
+						text="Cancel"
+						appearance='outline'
 						onClick={() => {
-							const childName = nameFormatter(enrollment.child);
-							const inSiteName = enrollment.site ? ` in ${enrollment.site.name}` : '';
-							let successAlertText = `${childName} has been successfully enrolled${inSiteName}.`;
-
-							const informationIsMissing = hasValidationErrors(enrollment);
-							if (informationIsMissing) {
-								successAlertText +=
-									' However, there is missing information you are required to enter before you can submit your monthly CDC report.';
+							var response = window.confirm("Are you sure you want to cancel? All information entered for this enrollment will be lost.");
+							if (response) {
+								if (enrollment) {
+									updateCancel(true);
+								} else {
+									processSuccessfulCancel();
+								}
 							}
-
-							setAlerts([
-								{
-									type: 'success',
-									heading: 'Enrolled',
-									text: successAlertText,
-								},
-							]);
 						}}
 					/>
-				)}
+					{sectionId === 'review' && 
+						<Button
+							href="../"
+							text="Finish"
+							onClick={() => {
+								const childName = nameFormatter(enrollment.child);
+								const inSiteName = enrollment.site ? ` in ${enrollment.site.name}` : '';
+								let successAlertText = `${childName} has been successfully enrolled${inSiteName}.`;
+
+								const informationIsMissing = hasValidationErrors(enrollment);
+								if (informationIsMissing) {
+									successAlertText +=
+										' However, there is missing information you are required to enter before you can submit your monthly CDC report.';
+								}
+
+								setAlerts([
+									{
+										type: 'success',
+										heading: 'Enrolled',
+										text: successAlertText,
+									},
+								]);
+							}}
+						/>
+					}
+				</div>
 			</section>
 		</CommonContainer>
 	);
