@@ -195,6 +195,7 @@ export default function Withdrawal({
                     }
                     dateRange={{ startDate: null, endDate: null}}
                     status={
+                        // TODO should we use a different fact for this condition?
                       reportingPeriodOptions.length === 0
                       ? { type: 'error', id: 'last-reporting-period-error', message: 'ECE Reporter only contains data for fiscal year 2020 and later. Please do not add children who withdrew prior to July 2019.' }
                       : apiError && processBlockingValidationErrors("exit", apiError.errors)

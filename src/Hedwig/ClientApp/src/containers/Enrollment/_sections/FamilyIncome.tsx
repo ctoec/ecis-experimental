@@ -140,6 +140,7 @@ const FamilyIncome: Section = {
 					.then(res => {
 						if (callback && res) callback(res);
 					})
+                     // TODO deal with error from server
 					.catch();
 			}
 			
