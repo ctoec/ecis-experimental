@@ -4,14 +4,14 @@ using System.Linq;
 
 namespace Hedwig.Validations.Rules
 {
-  public class IfCdcFunded_DisclosedFamilyDeterminationRequired : IValidationRule<Enrollment>
+  public class IfCdcFunded_AndChildNotFoster_DisclosedFamilyDeterminationRequired : IValidationRule<Enrollment>
   {
     readonly IFundingRepository _fundings;
     readonly IChildRepository _children;
     readonly IFamilyRepository _families;
     readonly IFamilyDeterminationRepository _determinations;
 
-    public IfCdcFunded_DisclosedFamilyDeterminationRequired(
+    public IfCdcFunded_AndChildNotFoster_DisclosedFamilyDeterminationRequired(
       IFundingRepository fundings,
       IChildRepository children,
       IFamilyRepository families,
@@ -30,7 +30,7 @@ namespace Hedwig.Validations.Rules
       if(fundings.Any(f => f.Source == FundingSource.CDC))
       {
         var child = enrollment.Child ?? _children.GetChildById(enrollment.ChildId);
-        if(child.FamilyId.HasValue)
+        if(child.FamilyId.HasValue && !child.Foster)
         {
           var family = child.Family ?? _families.GetFamilyById(child.FamilyId.Value);
           var determinations = family.Determinations ?? _determinations.GetDeterminationsByFamilyId(family.Id);
