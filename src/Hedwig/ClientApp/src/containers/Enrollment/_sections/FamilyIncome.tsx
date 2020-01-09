@@ -16,11 +16,12 @@ import getIdForUser from '../../../utils/getIdForUser';
 import UserContext from '../../../contexts/User/UserContext';
 import {
 	sectionHasValidationErrors,
-	clientErrorForField,
-	errorForFieldSet,
+	processValidationError,
+	warningForField,
+	warningForFieldSet,
 } from '../../../utils/validations';
-import { determinationArgsAreValid } from '../../../utils/models';
 import FieldSet from '../../../components/FieldSet/FieldSet';
+import InlineIcon from '../../../components/InlineIcon/InlineIcon';
 
 const FamilyIncome: Section = {
 	key: 'family-income',
@@ -30,6 +31,7 @@ const FamilyIncome: Section = {
 			return 'exempt';
 		}
 		return sectionHasValidationErrors([idx(enrollment, _ => _.child.family.determinations) || null])
+			|| processValidationError("child.family.determinations", enrollment ? enrollment.validationErrors : null)
 			? 'incomplete'
 			: 'complete';
 	},
@@ -43,19 +45,20 @@ const FamilyIncome: Section = {
 			elementToReturn = (
 				<p>Household Income: This information is not required for foster children.</p>
 			);
-		} else if (!determination) {
+		} else if (!determination && !processValidationError("child.family.determinations", enrollment ? enrollment.validationErrors : null)) {
 			elementToReturn = <p>No income determination on record.</p>;
-		} else if (determination.notDisclosed) {
+		} else if (determination && determination.notDisclosed) {
 			elementToReturn = <p>Income determination not disclosed.</p>;
 		} else {
 			elementToReturn = (
 				<>
-					<p>Household size: {determination.numberOfPeople}</p>
-					<p>Annual household income: {idx(determination, _ => currencyFormatter(_.income))}</p>
-					<p>Determined on: {dateFormatter(idx(determination, _ => _.determinationDate))}</p>
+					<p>Household size: {determination && determination.numberOfPeople ? determination.numberOfPeople : InlineIcon({icon: 'incomplete'})}</p>
+					<p>Annual household income: {determination && determination.income ? currencyFormatter(determination.income) : InlineIcon({icon: 'incomplete'})}</p>
+					<p>Determined on: {determination && determination.determinationDate ? dateFormatter(determination.determinationDate) : InlineIcon({icon: 'incomplete'})}</p>
 				</>
 			);
 		}
+
 		return <div className="FamilyIncomeSummary">{elementToReturn}</div>;
 	},
 
@@ -91,16 +94,6 @@ const FamilyIncome: Section = {
 			determinationDate,
 			notDisclosed,
 		};
-		const [validArgs, updateValidArgs] = useState();
-		const [attemptedSave, updateAttemptedSave] = useState(false);
-
-		useEffect(() => {
-			if (determinationArgsAreValid(args)) {
-				updateValidArgs(args);
-			} else {
-				updateValidArgs(undefined);
-			}
-		}, [JSON.stringify(args)]);
 
 		function proceedWithoutCreatingDetermination(args: any) {
 			return !args.notDisclosed && !args.numberOfPeople && !args.income && !args.determinationDate;
@@ -111,11 +104,6 @@ const FamilyIncome: Section = {
 				if (callback) {
 					callback(enrollment);
 				}
-				return;
-			}
-
-			if (!validArgs) {
-				updateAttemptedSave(true);
 				return;
 			}
 
@@ -134,14 +122,14 @@ const FamilyIncome: Section = {
 									? [
 											{
 												...determination,
-												...validArgs,
+												...args,
 											},
 									  ]
 									: [
 											{
 												id: 0,
 												familyId: child.family.id,
-												...validArgs,
+												...args,
 											},
 									  ],
 							},
@@ -170,12 +158,20 @@ const FamilyIncome: Section = {
 							<FieldSet
 								id="family-income"
 								legend="Family income"
-								status={errorForFieldSet(
+								status={
+									warningForFieldSet(
 									'family-income',
-									[numberOfPeople, income, determinationDate],
-									attemptedSave && !notDisclosed,
-									'If income is disclosed, this information is required for enrollment'
-								)}
+									['numberOfPeople', 'income', 'determinationDate'],
+									determination ? determination : null,
+									'This information is required for enrollment'
+									) ||
+									warningForFieldSet(
+										'family-income',
+										['child.family.determinations'],
+										enrollment,
+										'Income must be determined for funded enrollments'
+									)
+								}
 							>
 								<TextInput
 									id="numberOfPeople"
@@ -186,10 +182,10 @@ const FamilyIncome: Section = {
 										updateNumberOfPeople(value);
 									}}
 									onBlur={event => (event.target.value = numberOfPeople ? '' + numberOfPeople : '')}
-									status={clientErrorForField(
+									status={warningForField(
 										'numberOfPeople',
-										numberOfPeople,
-										attemptedSave && !notDisclosed
+										determination ? determination : null,
+										''
 									)}
 									small
 								/>
@@ -205,7 +201,11 @@ const FamilyIncome: Section = {
 											? currencyFormatter(income)
 											: '')
 									}
-									status={clientErrorForField('income', income, attemptedSave && !notDisclosed)}
+									status={warningForField(
+										'income',
+										determination ? determination : null,
+										''
+									)}
 								/>
 								<DatePicker
 									label="Date of income determination"
@@ -217,10 +217,10 @@ const FamilyIncome: Section = {
 										startDate: determinationDate ? moment(determinationDate) : null,
 										endDate: null,
 									}}
-									status={clientErrorForField(
-										'determinationDate',
-										determinationDate,
-										attemptedSave && !notDisclosed
+									status={warningForField(
+										'determintionDate',
+										determination ? determination : null,
+										''
 									)}
 								/>
 							</FieldSet>
@@ -228,7 +228,7 @@ const FamilyIncome: Section = {
 					)}
 					<Checklist
 						legend="Family income disclosure"
-						id="familyIncome"
+						id="family-income-disclosed"
 						className="margin-top-3"
 						options={[
 							{
@@ -238,10 +238,17 @@ const FamilyIncome: Section = {
 								onChange: event => updateNotDisclosed(event.target.checked),
 							},
 						]}
+						status={!notDisclosed  ? undefined : warningForFieldSet(
+							'family-income-disclosed',
+							['child.family.determinations'],
+							enrollment,
+							'Income must be disclosed for funded enrollments'
+						)}
 					/>
 				</div>
 
-				{notDisclosed && (
+				{(notDisclosed && !processValidationError("child.family.determinations", enrollment ? enrollment.validationErrors : null)) 
+				&& (
 					<Alert
 						type="info"
 						text="Income information is required to enroll a child in a CDC funded space. You will not be able to assign this child to a funding space without this information."
@@ -249,7 +256,7 @@ const FamilyIncome: Section = {
 				)}
 
 				<div className="usa-form">
-					<Button text="Save" onClick={save} disabled={attemptedSave && !validArgs} />
+					<Button text="Save" onClick={save} />
 				</div>
 			</div>
 		);

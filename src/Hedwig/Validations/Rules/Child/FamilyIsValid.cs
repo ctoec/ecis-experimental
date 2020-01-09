@@ -1,5 +1,6 @@
 using Hedwig.Models;
 using Hedwig.Repositories;
+using System.Collections.Generic;
 
 namespace Hedwig.Validations.Rules
 {
@@ -20,6 +21,7 @@ namespace Hedwig.Validations.Rules
       if(child.FamilyId.HasValue)
       {
         var family = child.Family ?? _families.GetFamilyById(child.FamilyId.Value);
+        family.Children = new List<Child>{child};
 
         ValidateSubObject(family);
         if(family.ValidationErrors.Count > 0)

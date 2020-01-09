@@ -27,7 +27,7 @@ namespace HedwigTests.Validations.Rules
       }
 
       // when
-      var rule = new IfDisclosedNumberOfPeopleRequired();
+      var rule = new IfDisclosed_NumberOfPeopleRequired();
       var result = rule.Execute(determination);
 
       // then
