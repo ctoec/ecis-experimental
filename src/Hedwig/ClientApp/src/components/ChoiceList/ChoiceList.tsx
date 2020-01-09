@@ -49,6 +49,23 @@ export default function ChoiceList({
 	label,
 }: RadioOrChecklistProps | DropdownProps) {
 	const [showOtherTextInput, updateShowOtherTextInput] = useState(false);
+	const [selectedItems, updateSelection] = useState(selected);
+
+	const changeEvent = event => {
+		if (event.target.value === 'other') {
+			updateShowOtherTextInput(true);
+		} else {
+			updateShowOtherTextInput(false);
+		}
+		if (type === 'check') {
+			// If it's already there, get rid of it
+			// Otherwise add it
+		} else {
+			updateSelection([event.target.value]);
+		}
+		userDefinedOnChange(selectedItems, otherTextInput);
+	}
+
 	const userDefinedOnChange = onChange;
 	const options = [...inputOptions];
 	if (otherText !== undefined) {
@@ -56,20 +73,12 @@ export default function ChoiceList({
 			text: otherText,
 			value: 'other',
 		});
-		onChange = event => {
-			if (event.target.value === 'other') {
-				updateShowOtherTextInput(true);
-			} else {
-				updateShowOtherTextInput(false);
-			}
-			userDefinedOnChange(event);
-		};
 	}
 
 	let children: JSX.Element[] = [];
 	switch (type) {
 		case 'radio':
-			if (selected.length > 1) {
+			if (selectedItems.length > 1) {
 				throw new Error('Radio group can only have one selected value at a time.');
 			}
 			children = options.map(option => (
@@ -77,7 +86,7 @@ export default function ChoiceList({
 					{...option}
 					name={`${id}-group`}
 					onChange={onChange}
-					selected={selected.includes(option.value)}
+					selected={selectedItems.includes(option.value)}
 				/>
 			));
 			break;
@@ -87,11 +96,14 @@ export default function ChoiceList({
 					{...option}
 					name={`${id}-${option.value}`}
 					onChange={onChange}
-					selected={selected.includes(option.value)}
+					selected={selectedItems.includes(option.value)}
 				/>
 			));
 			break;
 		case 'select':
+			if (selectedItems.length > 1) {
+				throw new Error('Dropdown can only have one selected value at a time.');
+			}
 			const optionElements = [<option value={undefined}>- Select -</option>];
 			options.forEach(option => {
 				optionElements.push(
@@ -108,7 +120,7 @@ export default function ChoiceList({
 					onChange={onChange}
 					disabled={disabled}
 					aria-describedby={status ? status.id : undefined}
-					value={selected}
+					value={selectedItems[0]}
 				>
 					{[...optionElements]}
 				</select>,
@@ -123,9 +135,11 @@ export default function ChoiceList({
 		// Select has length of one
 		return (
 			<div className={`usa-form-group${status ? ` usa-form-group--${status.type}` : ''}`}>
-				{label && <label className={`usa-label${status ? ` usa-label--${status.type}` : ''}`} htmlFor={id}>
-					{label}
-				</label>}
+				{label && (
+					<label className={`usa-label${status ? ` usa-label--${status.type}` : ''}`} htmlFor={id}>
+						{label}
+					</label>
+				)}
 				{status && status.message && <FormStatus {...status} />}){[...children]}
 			</div>
 		);
