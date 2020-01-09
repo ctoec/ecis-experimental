@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { History } from 'history';
+import moment from 'moment';
 import UserContext from "../../contexts/User/UserContext";
 import { Enrollment, Funding, FundingSource, ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest, ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest, ValidationProblemDetails, ValidationProblemDetailsFromJSON, ReportingPeriod } from "../../generated";
 import nameFormatter from "../../utils/nameFormatter";
@@ -72,7 +73,7 @@ export default function Withdrawal({
     updateReportingPeriodOptions(
       lastNReportingPeriods(
         reportingPeriods,
-        enrollmentEndDate || new Date(Date.now()),
+        enrollmentEndDate || moment().toDate(),
         5
       )
     )
