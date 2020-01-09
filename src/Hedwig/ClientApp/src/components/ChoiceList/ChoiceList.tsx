@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import TextInput from '../TextInput/TextInput';
 import FormStatus, { FormStatusProps } from '../FormStatus/FormStatus';
 import FieldSet from '../FieldSet/FieldSet';
-import Checkbox from '../Checklist/Checkbox';
+import Checkbox from './Checkbox';
 import RadioButton from '../RadioGroup/RadioButton';
 
 type Option = {
@@ -13,7 +13,11 @@ type Option = {
 type ChoiceListProps = {
 	options: Option[];
 	id: string;
-	onChange: (selectedValues: string[], otherInput?: string) => any;
+	onChange: (
+		e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+		selectedValues: string[],
+		otherInput?: string
+	) => any;
 	selected?: string[];
 	status?: FormStatusProps;
 	disabled?: boolean;
@@ -58,7 +62,7 @@ export default function ChoiceList({
 		const changedValue = event.target.value;
 		if (event.target.type === 'text') {
 			updateotherInput(changedValue);
-			onChange(selectedItems, changedValue);
+			onChange(event, selectedItems, changedValue);
 			return;
 		}
 		let newSelectedItems: string[];
@@ -70,7 +74,7 @@ export default function ChoiceList({
 			newSelectedItems = [changedValue];
 		}
 		updateSelection(newSelectedItems);
-		onChange(newSelectedItems, otherInput);
+		onChange(event, newSelectedItems, otherInput);
 	};
 
 	const options = [...inputOptions];

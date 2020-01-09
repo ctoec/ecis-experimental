@@ -3,7 +3,7 @@ import { Section } from '../enrollmentTypes';
 import Button from '../../../components/Button/Button';
 import TextInput from '../../../components/TextInput/TextInput';
 import DateInput from '../../../components/DateInput/DateInput';
-import Checklist from '../../../components/Checklist/Checklist';
+import ChoiceList from '../../../components/ChoiceList/ChoiceList';
 import RadioGroup from '../../../components/RadioGroup/RadioGroup';
 import Dropdown from '../../../components/Dropdown/Dropdown';
 import nameFormatter from '../../../utils/nameFormatter';
@@ -339,7 +339,7 @@ const ChildInfo: Section = {
 				</FieldSet>
 
 				<h3>Race</h3>
-				<Checklist
+				<ChoiceList
 					hint="As identified by family"
 					status={initialLoadErrorGuard(
 						initialLoad,

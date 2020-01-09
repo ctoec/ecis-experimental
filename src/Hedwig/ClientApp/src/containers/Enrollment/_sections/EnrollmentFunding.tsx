@@ -31,7 +31,7 @@ import { prettyFundingTime, fundingTimeFromString } from '../../../utils/funding
 import { nextNReportingPeriods, periodSorter } from '../../../utils/models/reportingPeriod';
 import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
 import { familyDeterminationNotDisclosed, currentFunding, updateFunding, createFunding, currentC4kFunding } from '../../../utils/models';
-import Checklist from '../../../components/Checklist/Checklist';
+import ChoiceList from '../../../components/ChoiceList/ChoiceList';
 import TextInput from '../../../components/TextInput/TextInput';
 import InlineIcon from '../../../components/InlineIcon/InlineIcon';
 import initialLoadErrorGuard from '../../../utils/validations/initialLoadErrorGuard';
@@ -465,7 +465,7 @@ const EnrollmentFunding: Section = {
 						/>
 					)}
 					<h3>Care 4 Kids</h3>
-					<Checklist
+					<ChoiceList
 						options={[
 							{
 								text: 'Receives Care 4 Kids',
