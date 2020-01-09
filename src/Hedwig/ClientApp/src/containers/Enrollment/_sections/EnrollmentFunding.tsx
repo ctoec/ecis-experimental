@@ -184,7 +184,7 @@ const EnrollmentFunding: Section = {
 				nextPeriodsExcludingCurrent = [...nextPeriods.filter(period => period.id != cdcReportingPeriod.id)];
 			}
 			const periods = cdcReportingPeriod ? [cdcReportingPeriod, ...nextPeriodsExcludingCurrent] : nextPeriodsExcludingCurrent;
-			updateReportingPeriodOptions(periods.sort(periodSorter));
+			updateReportingPeriodOptions([...periods].sort(periodSorter));
 		}, [enrollment.entry, entry, reportingPeriods]);
 
 		const [apiError, setApiError] = useState<ValidationProblemDetails>();
