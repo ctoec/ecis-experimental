@@ -11,26 +11,29 @@ type Option = {
 };
 
 type ChoiceListProps = {
-	type: 'radio' | 'check' | 'select';
 	options: Option[];
 	id: string;
-	onChange: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => any;
-	selected: string[];
-	legend: string;
+	onChange: (selectedValues: string[], otherInput?: string) => any;
+	selected?: string[];
 	status?: FormStatusProps;
 	disabled?: boolean;
 	className?: string;
 	hint?: string;
-	horizontal?: boolean;
-	otherText?: string;
+	otherInputLabel?: string;
 };
 
 type RadioOrChecklistProps = ChoiceListProps & {
+	type: 'radio' | 'check';
+	legend: string;
 	label?: never;
+	horizontal?: boolean;
 };
 
 type DropdownProps = ChoiceListProps & {
+	type: 'select';
 	label: string;
+	horizontal?: never;
+	legend?: never;
 };
 
 export default function ChoiceList({
@@ -38,44 +41,49 @@ export default function ChoiceList({
 	options: inputOptions,
 	id,
 	onChange,
-	selected,
+	selected = [],
 	legend,
 	status,
 	disabled,
 	className,
 	hint,
 	horizontal,
-	otherText,
+	otherInputLabel,
 	label,
 }: RadioOrChecklistProps | DropdownProps) {
-	const [showOtherTextInput, updateShowOtherTextInput] = useState(false);
 	const [selectedItems, updateSelection] = useState(selected);
+	const [otherInput, updateotherInput] = useState();
 
-	const changeEvent = event => {
-		if (event.target.value === 'other') {
-			updateShowOtherTextInput(true);
-		} else {
-			updateShowOtherTextInput(false);
+	const changeEvent = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+		const changedValue = event.target.value;
+		if (event.target.type === 'text') {
+			updateotherInput(changedValue);
+			onChange(selectedItems, changedValue);
+			return;
 		}
-		if (type === 'check') {
-			// If it's already there, get rid of it
-			// Otherwise add it
+		let newSelectedItems: string[];
+		if (selectedItems.includes(changedValue)) {
+			newSelectedItems = selectedItems.filter(v => v !== changedValue);
+		} else if (type === 'check') {
+			newSelectedItems = [changedValue, ...selectedItems];
 		} else {
-			updateSelection([event.target.value]);
+			newSelectedItems = [changedValue];
 		}
-		userDefinedOnChange(selectedItems, otherTextInput);
-	}
+		updateSelection(newSelectedItems);
+		onChange(newSelectedItems, otherInput);
+	};
 
-	const userDefinedOnChange = onChange;
 	const options = [...inputOptions];
-	if (otherText !== undefined) {
+	if (otherInputLabel !== undefined) {
 		options.push({
-			text: otherText,
+			text: otherInputLabel,
 			value: 'other',
 		});
 	}
 
+	const showotherInput = selectedItems.includes('other');
 	let children: JSX.Element[] = [];
+
 	switch (type) {
 		case 'radio':
 			if (selectedItems.length > 1) {
@@ -85,8 +93,9 @@ export default function ChoiceList({
 				<RadioButton
 					{...option}
 					name={`${id}-group`}
-					onChange={onChange}
+					onChange={changeEvent}
 					selected={selectedItems.includes(option.value)}
+					key={`${id}-${option.value}`}
 				/>
 			));
 			break;
@@ -95,8 +104,9 @@ export default function ChoiceList({
 				<Checkbox
 					{...option}
 					name={`${id}-${option.value}`}
-					onChange={onChange}
+					onChange={changeEvent}
 					selected={selectedItems.includes(option.value)}
+					key={`${id}-${option.value}`}
 				/>
 			));
 			break;
@@ -104,20 +114,25 @@ export default function ChoiceList({
 			if (selectedItems.length > 1) {
 				throw new Error('Dropdown can only have one selected value at a time.');
 			}
-			const optionElements = [<option value={undefined}>- Select -</option>];
+			const optionElements = [
+				<option key={`${id}-unselected`} value={undefined}>
+					- Select -
+				</option>,
+			];
 			options.forEach(option => {
 				optionElements.push(
-					<option value={option.value} key={`${option.value}`}>
+					<option value={option.value} key={`${id}-${option.value}`}>
 						{option.text}
 					</option>
 				);
 			});
 			children = [
 				<select
+					key={`${id}-select`}
 					className={`usa-select${status ? ` usa-input--${status.type}` : ''}`}
 					name={id}
 					id={id}
-					onChange={onChange}
+					onChange={changeEvent}
 					disabled={disabled}
 					aria-describedby={status ? status.id : undefined}
 					value={selectedItems[0]}
@@ -128,28 +143,35 @@ export default function ChoiceList({
 	}
 
 	// TODO:
-	// Write stories, incl for errors
 	// Replace existing inputs
 
-	if (options.length === 1 && !showOtherTextInput) {
-		// Select has length of one
-		return (
-			<div className={`usa-form-group${status ? ` usa-form-group--${status.type}` : ''}`}>
+	if (children.length === 1) {
+		const singletonInput = (
+			<div
+				className={`usa-form-group${status ? ` usa-form-group--${status.type}` : ''}`}
+				key={`${id}-form-group`}
+			>
 				{label && (
 					<label className={`usa-label${status ? ` usa-label--${status.type}` : ''}`} htmlFor={id}>
 						{label}
 					</label>
 				)}
-				{status && status.message && <FormStatus {...status} />}){[...children]}
+				{status && status.message && <FormStatus {...status} />}
+				{[...children]}
 			</div>
 		);
+		if (!showotherInput) {
+			return singletonInput;
+		}
+		children = [singletonInput];
 	}
 
 	return (
 		<FieldSet
-			legend={legend}
+			// Will never actually be undefined
+			legend={legend || label || ''}
 			status={status}
-			id={id}
+			id={`${id}-fieldset`}
 			aria-describedby={status ? status.id : undefined}
 			className={className}
 			childrenGroupClassName="margin-top-3"
@@ -157,9 +179,8 @@ export default function ChoiceList({
 		>
 			<div className={horizontal ? 'grid-row flex-align-start grid-gap' : ''}>
 				{[...children]}
-				{showOtherTextInput && otherText != undefined && (
-					// TODO: DOES THIS NEED ARIA DESCRIBED BY OR ANYTHING?
-					<TextInput id={`${id}-other`} label={otherText} onChange={userDefinedOnChange} />
+				{showotherInput && otherInputLabel != undefined && (
+					<TextInput id={`${id}-other`} label={otherInputLabel} onChange={changeEvent} />
 				)}
 			</div>
 		</FieldSet>

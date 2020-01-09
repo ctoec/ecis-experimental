@@ -7,12 +7,10 @@ import { FormStatusProps } from '../FormStatus/FormStatus';
 const onChange = action('onChange');
 const options = [
 	{
-		checked: false,
 		text: 'Option one',
 		value: 'one',
 	},
 	{
-		checked: false,
 		text: 'Option two',
 		value: 'two',
 	},
@@ -42,7 +40,30 @@ storiesOf('ChoiceList', module)
 				options={options}
 				id="storybook-checklist"
 				legend="Checklist items"
+			/>
+		);
+	})
+	.add('Radio with preselected option', () => {
+		return (
+			<ChoiceList
+				type="radio"
+				onChange={onChange}
+				options={options}
+				id="storybook-checklist"
+				legend="Checklist items"
 				selected={['one']}
+			/>
+		);
+	})
+	.add('Radio with error', () => {
+		return (
+			<ChoiceList
+				type="radio"
+				onChange={onChange}
+				options={options}
+				id="storybook-checklist"
+				legend="Checklist items"
+				status={error}
 			/>
 		);
 	})
@@ -54,23 +75,21 @@ storiesOf('ChoiceList', module)
 				options={options}
 				id="storybook-checklist"
 				legend="Checklist items"
-				selected={['one']}
 			/>
 		);
 	})
-	.add('Select', () => {
+	.add('Single checkbox', () => {
 		return (
 			<ChoiceList
-				type="select"
+				type="check"
 				onChange={onChange}
-				options={options}
+				options={[options[0]]}
 				id="storybook-checklist"
 				legend="Checklist items"
-				selected={['one']}
 			/>
 		);
 	})
-	.add('Other', () => {
+	.add('Checklist with warning', () => {
 		return (
 			<ChoiceList
 				type="check"
@@ -78,8 +97,42 @@ storiesOf('ChoiceList', module)
 				options={options}
 				id="storybook-checklist"
 				legend="Checklist items"
-				selected={['one']}
-				otherText="Other choice"
+				status={warning}
+			/>
+		);
+	})
+	.add('Select', () => {
+		return (
+			<ChoiceList
+				label="Select"
+				type="select"
+				onChange={onChange}
+				options={options}
+				id="storybook-checklist"
+			/>
+		);
+	})
+	.add('Select with success', () => {
+		return (
+			<ChoiceList
+				label="Select"
+				type="select"
+				onChange={onChange}
+				options={options}
+				id="storybook-checklist"
+				status={success}
+			/>
+		);
+	})
+	.add('Select with other', () => {
+		return (
+			<ChoiceList
+				label="Select"
+				type="select"
+				onChange={onChange}
+				options={options}
+				id="storybook-checklist"
+				otherInputLabel="Other choice"
 			/>
 		);
 	});
