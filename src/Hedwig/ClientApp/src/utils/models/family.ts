@@ -1,5 +1,5 @@
 import { Family } from "../../generated";
-import InlineIcon from "../../components/InlineIcon/InlineIcon";
+import { InlineIcon } from "../../components";
 
 export function addressFormatter(family?: Family) {
   if(!family) {

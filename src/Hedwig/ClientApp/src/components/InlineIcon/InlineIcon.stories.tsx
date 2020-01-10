@@ -1,7 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-
-import InlineIcon from './InlineIcon';
+import { InlineIcon } from '..';
 
 storiesOf('InlineIcon', module)
 	.add('Attention needed', () => {

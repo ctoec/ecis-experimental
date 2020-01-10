@@ -3,8 +3,7 @@ import moment from 'moment';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import 'react-dates/initialize';
-import DateInput from './DateInput';
-import { FormStatusProps } from '../FormStatus/FormStatus';
+import { DateInput, FormStatusProps } from '..';
 
 const commonProps = {
 	onChange: action('onChange'),

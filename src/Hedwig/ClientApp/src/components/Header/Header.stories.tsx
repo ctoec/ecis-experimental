@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, text, object } from '@storybook/addon-knobs';
 
-import Header from './Header';
+import { Header } from './Header';
 import { NavItemProps } from './NavItem';
 
 const defaultTitle = 'Hello world!';

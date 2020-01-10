@@ -1,5 +1,5 @@
 import { Child } from '../../generated';
-import InlineIcon from '../../components/InlineIcon/InlineIcon';
+import { InlineIcon } from '../../components';
 
 const RACES: (keyof Child)[] = [
   'americanIndianOrAlaskaNative',

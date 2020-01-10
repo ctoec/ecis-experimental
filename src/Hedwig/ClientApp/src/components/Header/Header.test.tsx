@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
-import { default as Header, HeaderProps } from './Header';
+import { Header, HeaderProps } from './Header';
 
 const headerProps: HeaderProps = {
 	title: 'Header test',

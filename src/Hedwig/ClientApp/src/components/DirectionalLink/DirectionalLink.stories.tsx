@@ -1,7 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-
-import DirectionalLink from './DirectionalLink';
+import { DirectionalLink } from '..';
 
 storiesOf('DirectionalLink', module)
 	.add('Up arrow', () => {

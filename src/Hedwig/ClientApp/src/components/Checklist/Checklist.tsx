@@ -1,7 +1,5 @@
 import React from 'react';
-import { Checkbox } from './Checkbox';
-import FieldSet from '../FieldSet/FieldSet';
-import { FormStatusProps } from '../FormStatus/FormStatus';
+import { Checkbox, FieldSet, FormStatusProps } from '..';
 
 type CheckboxOptions = {
 	text: string;

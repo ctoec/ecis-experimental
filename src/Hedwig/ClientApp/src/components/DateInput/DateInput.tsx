@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import moment, { Moment } from 'moment';
-import FieldSet from '../FieldSet/FieldSet';
-import TextInput from '../TextInput/TextInput';
-import { FormStatusProps } from '../FormStatus/FormStatus';
+import { FieldSet, TextInput, FormStatusProps } from '..';
 
 type DateRange = {
 	startDate: Moment | null;
@@ -230,5 +228,3 @@ export const DateInput: React.FC<DateInputProps> = ({
 	}
 	return startDateFieldset;
 };
-
-export default DateInput;

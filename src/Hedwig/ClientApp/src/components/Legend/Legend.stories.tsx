@@ -1,7 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-
-import Legend from './Legend';
+import { Legend } from '..';
 
 const legendItems = [
 	{

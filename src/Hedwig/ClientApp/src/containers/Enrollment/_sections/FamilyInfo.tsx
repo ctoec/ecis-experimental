@@ -1,9 +1,7 @@
 import React, { useState, useContext } from 'react';
-import { Section } from '../enrollmentTypes';
-import Button from '../../../components/Button/Button';
-import TextInput from '../../../components/TextInput/TextInput';
-import ChoiceList from '../../../components/ChoiceList/ChoiceList';
 import idx from 'idx';
+import { Section } from '../enrollmentTypes';
+import { Button, TextInput, Checklist, FieldSet } from '../../../components';
 import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
 import getIdForUser from '../../../utils/getIdForUser';
@@ -14,7 +12,6 @@ import {
 	warningForFieldSet,
 	warningForField,
 } from '../../../utils/validations';
-import FieldSet from '../../../components/FieldSet/FieldSet';
 import { addressFormatter, homelessnessText, fosterText } from '../../../utils/models';
 import initialLoadErrorGuard from '../../../utils/validations/initialLoadErrorGuard';
 

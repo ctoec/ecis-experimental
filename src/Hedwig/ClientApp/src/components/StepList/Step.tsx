@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import InlineIcon from '../InlineIcon/InlineIcon';
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
+import { InlineIcon , ErrorBoundary} from '..';
 
 export type ExternalStepStatus = 'incomplete' | 'complete' | 'attentionNeeded' | 'exempt';
 

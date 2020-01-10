@@ -1,9 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import TextInput from './TextInput';
-import FieldSet from '../FieldSet/FieldSet';
-import { FormStatusProps } from '../FormStatus/FormStatus';
+import { TextInput, FieldSet, FormStatusProps } from '..';
 
 const onChange = action('onChange');
 const warning: FormStatusProps = { type: 'warning', message: 'Warning!', id: 'text-input-warning' };
