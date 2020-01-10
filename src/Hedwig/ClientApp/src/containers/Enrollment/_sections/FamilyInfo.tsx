@@ -9,11 +9,14 @@ import UserContext from '../../../contexts/User/UserContext';
 import getIdForUser from '../../../utils/getIdForUser';
 import {
 	sectionHasValidationErrors,
+	hasValidationErrors,
+	processValidationError,
 	warningForFieldSet,
 	warningForField,
 } from '../../../utils/validations';
 import FieldSet from '../../../components/FieldSet/FieldSet';
 import { addressFormatter, homelessnessText, fosterText } from '../../../utils/models';
+import initialLoadErrorGuard from '../../../utils/validations/initialLoadErrorGuard';
 
 const FamilyInfo: Section = {
 	key: 'family-information',
@@ -49,6 +52,8 @@ const FamilyInfo: Section = {
 		if (!enrollment || !enrollment.child) {
 			throw new Error('FamilyInfo rendered without a child');
 		}
+
+		const initialLoad = visitedSections ? !visitedSections[FamilyInfo.key] : false;
 
 		const child = enrollment.child;
 		const { user } = useContext(UserContext);
@@ -118,11 +123,14 @@ const FamilyInfo: Section = {
 				<FieldSet
 					id="family-address"
 					legend="Address"
-					status={warningForFieldSet(
-						'family-address',
-						['addressLine1', 'state', 'town', 'zip'],
-						idx(enrollment, _ => _.child.family) || null,
-						'This information is required for OEC reporting'
+					status={initialLoadErrorGuard(
+						initialLoad,
+						warningForFieldSet(
+							'family-address',
+							['addressLine1', 'state', 'town', 'zip'],
+							idx(enrollment, _ => _.child.family) || null,
+							'This information is required for OEC reporting'
+						)
 					)}
 					className="display-inline-block"
 				>
@@ -132,10 +140,13 @@ const FamilyInfo: Section = {
 							label="Address line 1"
 							defaultValue={addressLine1 || ''}
 							onChange={event => updateAddressLine1(event.target.value ? event.target.value : null)}
-							status={warningForField(
-								'addressLine1',
-								idx(enrollment, _ => _.child.family) || null,
-								''
+							status={initialLoadErrorGuard(
+								initialLoad,
+								warningForField(
+									'addressLine1',
+									idx(enrollment, _ => _.child.family) || null,
+									''
+								)
 							)}
 						/>
 					</div>
@@ -154,7 +165,14 @@ const FamilyInfo: Section = {
 							label="State"
 							defaultValue={state || ''}
 							onChange={event => updateState(event.target.value ? event.target.value : null)}
-							status={warningForField('state', idx(enrollment, _ => _.child.family) || null, '')}
+							status={initialLoadErrorGuard(
+								initialLoad,
+								warningForField(
+									'state',
+									idx(enrollment, _ => _.child.family) || null,
+									''
+								)
+							)}
 						/>
 					</div>
 					<div className="mobile-lg:grid-col-8 display-inline-block">
@@ -163,7 +181,14 @@ const FamilyInfo: Section = {
 							label="Town"
 							defaultValue={town || ''}
 							onChange={event => updateTown(event.target.value ? event.target.value : null)}
-							status={warningForField('town', idx(enrollment, _ => _.child.family) || null, '')}
+							status={initialLoadErrorGuard(
+								initialLoad,
+								warningForField(
+									'town',
+									idx(enrollment, _ => _.child.family) || null,
+									''
+								)
+							)}
 						/>
 					</div>
 					<div className="mobile-lg:grid-col-6">
@@ -172,7 +197,14 @@ const FamilyInfo: Section = {
 							label="ZIP Code"
 							defaultValue={zip || ''}
 							onChange={event => updateZip(event.target.value ? event.target.value : null)}
-							status={warningForField('zip', idx(enrollment, _ => _.child.family) || null, '')}
+							status={initialLoadErrorGuard(
+								initialLoad,
+								warningForField(
+									'zip',
+									idx(enrollment, _ => _.child.family) || null,
+									''
+								)
+							)}
 						/>
 					</div>
 				</FieldSet>
