@@ -4,7 +4,6 @@ import Button from '../../../components/Button/Button';
 import TextInput from '../../../components/TextInput/TextInput';
 import DateInput from '../../../components/DateInput/DateInput';
 import ChoiceList from '../../../components/ChoiceList/ChoiceList';
-import RadioGroup from '../../../components/RadioGroup/RadioGroup';
 import Dropdown from '../../../components/Dropdown/Dropdown';
 import nameFormatter from '../../../utils/nameFormatter';
 import dateFormatter from '../../../utils/dateFormatter';
@@ -388,19 +387,20 @@ const ChildInfo: Section = {
 				/>
 
 				<h3>Ethnicity</h3>
-				<RadioGroup
+				<ChoiceList
+					type="radio"
 					hint="As identified by family"
 					status={initialLoadErrorGuard(
 						initialLoad,
 						warningForFieldSet(
-							'ethnicity-radiogroup',
+							'ethnicity-ChoiceList',
 							['hispanicOrLatinxEthnicity'],
 							enrollment ? enrollment.child : null,
 							'This information is required for OEC reporting'
 						)
 					)}
 					legend="Ethnicity"
-					id="ethnicity-radiogroup"
+					id="ethnicity-ChoiceList"
 					options={[
 						{
 							text: 'Not Hispanic or Latinx',
@@ -413,10 +413,10 @@ const ChildInfo: Section = {
 					]}
 					selected={
 						hispanicOrLatinxEthnicity === null || hispanicOrLatinxEthnicity === undefined
-							? ''
+							? undefined
 							: hispanicOrLatinxEthnicity
-							? 'yes'
-							: 'no'
+							? ['yes']
+							: ['no']
 					}
 					onChange={event =>
 						updateHispanicOrLatinxEthnicity(

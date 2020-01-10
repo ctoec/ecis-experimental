@@ -3,7 +3,7 @@ import TextInput from '../TextInput/TextInput';
 import FormStatus, { FormStatusProps } from '../FormStatus/FormStatus';
 import FieldSet from '../FieldSet/FieldSet';
 import Checkbox from './Checkbox';
-import RadioButton from '../RadioGroup/RadioButton';
+import RadioButton from './RadioButton';
 
 type Option = {
 	text: string;

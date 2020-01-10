@@ -6,7 +6,7 @@ import { act } from 'react-dom/test-utils';
 import 'react-dates/initialize';
 import Roster from './Roster';
 import UserContext from '../../contexts/User/UserContext';
-import RadioGroup from '../../components/RadioGroup/RadioGroup';
+import ChoiceList from '../../components/ChoiceList/ChoiceList';
 
 const fakeDate = '2019-09-30';
 
@@ -178,7 +178,7 @@ describe('Roster', () => {
 			await waitForUpdate(wrapper);
 		});
 
-		const radioGroup = wrapper.find(RadioGroup);
+		const radioGroup = wrapper.find(ChoiceList);
 
 		await act(async () => {
 			radioGroup.props().onChange({ target: { value: 'range' } });

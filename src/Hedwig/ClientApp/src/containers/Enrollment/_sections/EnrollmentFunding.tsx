@@ -3,7 +3,7 @@ import { Section } from '../enrollmentTypes';
 import Button from '../../../components/Button/Button';
 import DatePicker from '../../../components/DatePicker/DatePicker';
 import Dropdown from '../../../components/Dropdown/Dropdown';
-import RadioGroup from '../../../components/RadioGroup/RadioGroup';
+import ChoiceList from '../../../components/ChoiceList/ChoiceList';
 import dateFormatter from '../../../utils/dateFormatter';
 import moment from 'moment';
 import idx from 'idx';
@@ -37,7 +37,6 @@ import {
 	createFunding,
 	currentC4kFunding,
 } from '../../../utils/models';
-import ChoiceList from '../../../components/ChoiceList/ChoiceList';
 import TextInput from '../../../components/TextInput/TextInput';
 import InlineIcon from '../../../components/InlineIcon/InlineIcon';
 import initialLoadErrorGuard from '../../../utils/validations/initialLoadErrorGuard';
@@ -391,7 +390,8 @@ const EnrollmentFunding: Section = {
 					/>
 
 					<h3>Age group</h3>
-					<RadioGroup
+					<ChoiceList
+						type="radio"
 						legend="Age group"
 						id="age-group"
 						options={[
@@ -408,7 +408,7 @@ const EnrollmentFunding: Section = {
 								value: Age.SchoolAge,
 							},
 						]}
-						selected={'' + age}
+						selected={['' + age]}
 						onChange={event => updateAge(ageFromString(event.target.value))}
 						status={initialLoadErrorGuard(
 							initialLoad,

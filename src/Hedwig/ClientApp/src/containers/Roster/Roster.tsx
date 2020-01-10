@@ -9,7 +9,7 @@ import getIdForUser from '../../utils/getIdForUser';
 import Tag from '../../components/Tag/Tag';
 import DatePicker, { DateRange } from '../../components/DatePicker/DatePicker';
 import Button from '../../components/Button/Button';
-import RadioGroup from '../../components/RadioGroup/RadioGroup';
+import ChoiceList from '../../components/ChoiceList/ChoiceList';
 import Legend, { LegendItem } from '../../components/Legend/Legend';
 import useApi from '../../hooks/useApi';
 import { Age, Enrollment, FundingSpace, FundingSource } from '../../generated';
@@ -137,7 +137,8 @@ export default function Roster() {
 				</div>
 				{showPastEnrollments && (
 					<div className="padding-bottom-2">
-						<RadioGroup
+						<ChoiceList
+							type="radio"
 							legend="Select date or date range"
 							options={[
 								{
@@ -152,7 +153,7 @@ export default function Roster() {
 							onChange={event => setByRange(event.target.value === 'range')}
 							horizontal={true}
 							id={'dateSelectionType'}
-							selected={byRange ? 'range' : 'date'}
+							selected={byRange ? ['range'] : ['date']}
 							className="margin-top-neg-3"
 							// This is goofy but we're getting rid of this soon anyway
 						/>
