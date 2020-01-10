@@ -73,7 +73,7 @@ export default function EnrollmentDetail({
 				<div className="grid-row flex-first-baseline flex-space-between">
 					<h1>{nameFormatter(child)}</h1>
 					<div className="tablet:grid-col-auto">
-						<Button text="Withdraw" href={`/roster/enrollments/${enrollment.id}/withdraw`} />
+						<Button text="Withdraw" href={`/roster/enrollments/${enrollment.id}/withdraw`} className="margin-right-0" />
 					</div>
 				</div>
 				{sections.map(section => {

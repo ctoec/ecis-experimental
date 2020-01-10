@@ -9,6 +9,7 @@ type ButtonProps = {
 	href?: string;
 	appearance?: ButtonAppearance;
 	disabled?: boolean;
+	className?: string,
 };
 
 export default function Button({
@@ -17,6 +18,7 @@ export default function Button({
 	href,
 	appearance,
 	disabled,
+	className,
 }: ButtonProps) {
 	onClick = onClick || (() => {});
 	
@@ -26,7 +28,9 @@ export default function Button({
 				to={href}
 				className={`usa-button ${
 					appearance && appearance !== 'default' ? 'usa-button--' + appearance : ''
-				}`}
+				}
+				${className}
+				`}
 				onClick={onClick}
 			>
 				{text}
