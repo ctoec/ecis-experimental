@@ -7,7 +7,7 @@ import nameFormatter from "../../utils/nameFormatter";
 import { DeepNonUndefineable } from "../../utils/types";
 import { generateFundingTag, enrollmentExitReasons, currentFunding } from "../../utils/models";
 import DatePicker from "../../components/DatePicker/DatePicker";
-import Dropdown from "../../components/Dropdown/Dropdown";
+import ChoiceList from "../../components/ChoiceList/ChoiceList";
 import useApi from "../../hooks/useApi";
 import { lastNReportingPeriods } from "../../utils/models/reportingPeriod";
 import getIdForUser from "../../utils/getIdForUser";
@@ -152,114 +152,134 @@ export default function Withdrawal({
   }
 
   return (
-    <CommonContainer
-      directionalLinkProps={
-        {direction: 'left', to: `/roster/enrollments/${enrollment.id}/`, text:'Back'}
-      }
-    >
-        <section className="grid-container">
-          <h1>Withdraw from program</h1>
-          <div>
-            <h2>{nameFormatter(enrollment.child)}</h2>
-            <div className="grid-row grid-gap margin-top-neg-1">
-              <div className="mobile-lg:grid-col-6">
-                <h4>Current enrollment</h4>
-                <p className="margin-top-neg-2 line-height-sans-4">
-                	{enrollment.site.name}<br />
-                	Age: {splitCamelCase(enrollment.ageGroup, '/')}<br />
-                	Enrollment date: {enrollment.entry && enrollment.entry.toLocaleDateString()}
-                </p>
-              </div>
-              {cdcFunding &&
-                <div className="mobile-lg:grid-col-6">
-                  <h4>Funding</h4>
-                  <p className="margin-top-neg-2 line-height-sans-4">
-	                  {generateFundingTag(cdcFunding)}<br />
-	                  Enrollment: {cdcFunding.time}<br />
-	                  First reporting period: {cdcFunding.firstReportingPeriod
-                    	? cdcFunding.firstReportingPeriod.period.toLocaleDateString()
-                    	: InlineIcon({icon: 'attentionNeeded'})
-                  }
-                  </p>
-                </div>
-              }
-            </div>
+		<CommonContainer
+			directionalLinkProps={{
+				direction: 'left',
+				to: `/roster/enrollments/${enrollment.id}/`,
+				text: 'Back',
+			}}
+		>
+			<section className="grid-container">
+				<h1>Withdraw from program</h1>
+				<div>
+					<h2>{nameFormatter(enrollment.child)}</h2>
+					<div className="grid-row grid-gap margin-top-neg-1">
+						<div className="mobile-lg:grid-col-6">
+							<h4>Current enrollment</h4>
+							<p className="margin-top-neg-2 line-height-sans-4">
+								{enrollment.site.name}
+								<br />
+								Age: {splitCamelCase(enrollment.ageGroup, '/')}
+								<br />
+								Enrollment date: {enrollment.entry && enrollment.entry.toLocaleDateString()}
+							</p>
+						</div>
+						{cdcFunding && (
+							<div className="mobile-lg:grid-col-6">
+								<h4>Funding</h4>
+								<p className="margin-top-neg-2 line-height-sans-4">
+									{generateFundingTag(cdcFunding)}
+									<br />
+									Enrollment: {cdcFunding.time}
+									<br />
+									First reporting period:{' '}
+									{cdcFunding.firstReportingPeriod
+										? cdcFunding.firstReportingPeriod.period.toLocaleDateString()
+										: InlineIcon({ icon: 'attentionNeeded' })}
+								</p>
+							</div>
+						)}
+					</div>
 
-            <div className="usa-form">
-              <div className="grid-row grid-gap">
-                <div className="mobile-lg:grid-col-12">
-                  <DatePicker
-                    label="Enrollment end date"
-                    id="enrollment-end-date"
-                    onChange={range =>
-                      updateEnrollmentEndDate((range.startDate && range.startDate.toDate()) || undefined)
-                    }
-                    dateRange={{ startDate: null, endDate: null}}
-                    status={
-                        // TODO should we use a different fact for this condition?
-                      reportingPeriodOptions.length === 0
-                      ? { type: 'error', id: 'last-reporting-period-error', message: 'ECE Reporter only contains data for fiscal year 2020 and later. Please do not add children who withdrew prior to July 2019.' }
-                      : apiError && processBlockingValidationErrors("exit", apiError.errors)
-                        ? serverErrorForField(
-                          "exit",
-                          apiError)
-                        : clientErrorForField(
-                          "exit",
-                          enrollmentEndDate,
-                          attemptedSave,
-                          "This information is required for withdrawal"
-                        )
-                     }
-                  />
-                  <Dropdown
-                    label="Reason"
-                    id="exit-reason"
-                    options={Object.entries(enrollmentExitReasons).map(
-                      ([key, reason]) => ({value: key, text: reason})
-                    )}
-                    otherText="Other"
-                    noSelectionText="-Select-"
-                    onChange={event => updateExitReason(event.target.value)}
-                    status={serverErrorForField(
-                      "exitreason",
-                      apiError,
-                      "This information is required for withdrawal"
-                    )}
-                  />
-                  {cdcFunding && <Dropdown
-                    label="Last reporting period"
-                    id="last-reporting-period"
-                    options={reportingPeriodOptions.map(period => 
-                      ({ 
-                        value: '' + period.id,
-                        text: `${period.periodStart.toLocaleDateString()} - ${period.periodEnd.toLocaleDateString()}`
-                      })
-                    )}
-                    noSelectionText="-Select-"
-                    onChange={event => {
-                      const chosen = reportingPeriods.find<ReportingPeriod>( period => period.id === parseInt(event.target.value))
-                      updateLastReportingPeriod(chosen);
-                    }}
-                    status={serverErrorForField(
-                      "fundings",
-                      apiError,
-                      lastReportingPeriod ? undefined : 'This information is required for withdrawal'
-                    )}
-                  />}
-                </div>
-              </div>
-            </div>
+					<div className="usa-form">
+						<div className="grid-row grid-gap">
+							<div className="mobile-lg:grid-col-12">
+								<DatePicker
+									label="Enrollment end date"
+									id="enrollment-end-date"
+									onChange={range =>
+										updateEnrollmentEndDate(
+											(range.startDate && range.startDate.toDate()) || undefined
+										)
+									}
+									dateRange={{ startDate: null, endDate: null }}
+									status={
+										// TODO should we use a different fact for this condition?
+										reportingPeriodOptions.length === 0
+											? {
+													type: 'error',
+													id: 'last-reporting-period-error',
+													message:
+														'ECE Reporter only contains data for fiscal year 2020 and later. Please do not add children who withdrew prior to July 2019.',
+											  }
+											: apiError && processBlockingValidationErrors('exit', apiError.errors)
+											? serverErrorForField('exit', apiError)
+											: clientErrorForField(
+													'exit',
+													enrollmentEndDate,
+													attemptedSave,
+													'This information is required for withdrawal'
+											  )
+									}
+								/>
+								<ChoiceList
+									type="select"
+									label="Reason"
+									id="exit-reason"
+									options={Object.entries(enrollmentExitReasons).map(([key, reason]) => ({
+										value: key,
+										text: reason,
+									}))}
+									otherInputLabel="Other"
+									onChange={event => updateExitReason(event.target.value)}
+									status={serverErrorForField(
+										'exitreason',
+										apiError,
+										'This information is required for withdrawal'
+									)}
+								/>
+								{cdcFunding && (
+									<ChoiceList
+										type="select"
+										label="Last reporting period"
+										id="last-reporting-period"
+										options={reportingPeriodOptions.map(period => ({
+											value: '' + period.id,
+											text: `${period.periodStart.toLocaleDateString()} - ${period.periodEnd.toLocaleDateString()}`,
+										}))}
+										onChange={event => {
+											const chosen = reportingPeriods.find<ReportingPeriod>(
+												period => period.id === parseInt(event.target.value)
+											);
+											updateLastReportingPeriod(chosen);
+										}}
+										status={serverErrorForField(
+											'fundings',
+											apiError,
+											lastReportingPeriod
+												? undefined
+												: 'This information is required for withdrawal'
+										)}
+									/>
+								)}
+							</div>
+						</div>
+					</div>
 
-            <div className="grid-row margin-y-6">
-              <div className="mobile-lg:grid-col-auto">
-                <Button text="Cancel" href={`/roster/enrollments/${enrollment.id}/`} appearance='outline' />
-              </div>
-              <div className="mobile-lg:grid-col-auto padding-left-2">
-                <Button text="Confirm and withdraw" onClick={save} disabled={cannotWithdraw}/>
-              </div>
-            </div>
-          </div>
-        </section>
-    </CommonContainer>
-  )
+					<div className="grid-row margin-y-6">
+						<div className="mobile-lg:grid-col-auto">
+							<Button
+								text="Cancel"
+								href={`/roster/enrollments/${enrollment.id}/`}
+								appearance="outline"
+							/>
+						</div>
+						<div className="mobile-lg:grid-col-auto padding-left-2">
+							<Button text="Confirm and withdraw" onClick={save} disabled={cannotWithdraw} />
+						</div>
+					</div>
+				</div>
+			</section>
+		</CommonContainer>
+	);
 }

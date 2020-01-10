@@ -2,7 +2,6 @@ import React, { useContext, useState, useEffect } from 'react';
 import { Section } from '../enrollmentTypes';
 import Button from '../../../components/Button/Button';
 import DatePicker from '../../../components/DatePicker/DatePicker';
-import Dropdown from '../../../components/Dropdown/Dropdown';
 import ChoiceList from '../../../components/ChoiceList/ChoiceList';
 import dateFormatter from '../../../utils/dateFormatter';
 import moment from 'moment';
@@ -210,7 +209,7 @@ const EnrollmentFunding: Section = {
 
 			// CDC REGION
 			if (sourcelessFunding) {
-				// The user previously saved without selecting a funding from the dropdown
+				// The user previously saved without selecting a funding from the ChoiceList
 				if (!privatePay && !cdcFundingTime) {
 					// The user still hasn't selected a funding
 					// Do nothing
@@ -361,7 +360,8 @@ const EnrollmentFunding: Section = {
 		return (
 			<div className="EnrollmentFundingForm">
 				<div className="usa-form">
-					<Dropdown
+					<ChoiceList
+						type="select"
 						id="site"
 						options={
 							idx(user, _ =>
@@ -372,7 +372,7 @@ const EnrollmentFunding: Section = {
 							) || []
 						}
 						label="Site"
-						selected={siteId ? '' + siteId : undefined}
+						selected={siteId ? ['' + siteId] : undefined}
 						onChange={event => updateSiteId(parseInt(event.target.value, 10))}
 					/>
 					<DatePicker
@@ -421,7 +421,8 @@ const EnrollmentFunding: Section = {
 						)}
 					/>
 					<h3>Funding</h3>
-					<Dropdown
+					<ChoiceList
+						type="select"
 						id="fundingType"
 						options={[
 							...(familyDeterminationNotDisclosed(enrollment)
@@ -437,7 +438,6 @@ const EnrollmentFunding: Section = {
 								text: 'Private pay',
 							},
 						]}
-						noSelectionText="-Select-"
 						label="Funding type"
 						onChange={event => {
 							if (event.target.value === 'privatePay') {
@@ -451,10 +451,11 @@ const EnrollmentFunding: Section = {
 								updateCdcFundingTime(fundingTimeFromString(event.target.value));
 							}
 						}}
-						selected={privatePay ? 'privatePay' : cdcFundingTime !== null ? cdcFundingTime : ''}
+						selected={privatePay ? ['privatePay'] : cdcFundingTime !== null ? [cdcFundingTime] : undefined}
 					/>
 					{!privatePay && cdcFundingTime && (
-						<Dropdown
+						<ChoiceList
+							type="select"
 							id="firstReportingPeriod"
 							options={[
 								...reportingPeriodOptions.map(period => {
@@ -464,7 +465,6 @@ const EnrollmentFunding: Section = {
 									};
 								}),
 							]}
-							noSelectionText="-Select-"
 							label="First reporting period"
 							onChange={event => {
 								const chosen = reportingPeriodOptions.find(
@@ -472,7 +472,7 @@ const EnrollmentFunding: Section = {
 								);
 								updateCdcReportingPeriod(chosen);
 							}}
-							selected={cdcReportingPeriod ? '' + cdcReportingPeriod.id : ''}
+							selected={cdcReportingPeriod ? ['' + cdcReportingPeriod.id] : undefined}
 							status={
 								initialLoadErrorGuard(
 									initialLoad,

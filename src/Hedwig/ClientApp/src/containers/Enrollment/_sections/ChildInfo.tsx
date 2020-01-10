@@ -4,7 +4,6 @@ import Button from '../../../components/Button/Button';
 import TextInput from '../../../components/TextInput/TextInput';
 import DateInput from '../../../components/DateInput/DateInput';
 import ChoiceList from '../../../components/ChoiceList/ChoiceList';
-import Dropdown from '../../../components/Dropdown/Dropdown';
 import nameFormatter from '../../../utils/nameFormatter';
 import dateFormatter from '../../../utils/dateFormatter';
 import moment from 'moment';
@@ -427,7 +426,8 @@ const ChildInfo: Section = {
 
 				<h3>Gender</h3>
 				<p className="oec-form-helper">As identified by family</p>
-				<Dropdown
+				<ChoiceList
+					type="select"
 					options={[
 						{
 							value: Gender.Unspecified,
@@ -451,7 +451,7 @@ const ChildInfo: Section = {
 						},
 					]}
 					label="Gender"
-					selected={gender || Gender.Unspecified}
+					selected={[gender] || [Gender.Unspecified]}
 					onChange={event => updateGender(genderFromString(event.target.value))}
 					id="gender-select"
 					status={initialLoadErrorGuard(
