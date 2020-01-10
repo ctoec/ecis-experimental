@@ -94,7 +94,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 		initialRangeByVal[dateItem].start = inputDetails[dateItem].parseMoment(dateRange.startDate);
 		initialRangeByVal[dateItem].end = inputDetails[dateItem].parseMoment(dateRange.endDate);
 	});
-	
+
 	const [rangeByVal, setRangeByVal] = useState<rangeByValType>(initialRangeByVal);
 
 	// Add warning that date isn't valid if it isn't?
@@ -122,10 +122,14 @@ export const DateInput: React.FC<DateInputProps> = ({
 		inline: true,
 	};
 
-	const showInlineWarning = !status && Object.keys(rangeByVal).find(
-		dateItem => rangeByVal[dateItem].startIsInvalid || rangeByVal[dateItem].endIsInvalid
-	);
-	const inlineWarning: FormStatusProps | undefined = showInlineWarning ? { type: 'warning', id: 'invalid-date-field' } : undefined;
+	const showInlineWarning =
+		!status &&
+		Object.keys(rangeByVal).find(
+			dateItem => rangeByVal[dateItem].startIsInvalid || rangeByVal[dateItem].endIsInvalid
+		);
+	const inlineWarning: FormStatusProps | undefined = showInlineWarning
+		? { type: 'warning', id: 'invalid-date-field' }
+		: undefined;
 
 	const startDateFieldset = (
 		<FieldSet
@@ -135,35 +139,38 @@ export const DateInput: React.FC<DateInputProps> = ({
 			hint={format !== 'rangeInput' ? 'For example: 04 28 1986' : ''}
 			childrenGroupClassName="flex-row flex-align-end usa-memorable-date"
 			className={className}
-			status={format === 'rangeInput' ? undefined : (status || inlineWarning)}
+			status={format === 'rangeInput' ? undefined : status || inlineWarning}
 		>
 			{Object.keys(inputDetails).map(key => (
-				<TextInput
-					key={key}
-					defaultValue={rangeByVal[key].start}
-					onChange={event => {
-						const newRangeVals = Object.assign({}, rangeByVal);
-						newRangeVals[key].start = event.target.value;
-						setRangeByVal(newRangeVals);
-					}}
-					id={`${id}-${key}-start-date`}
-					{...inputDetails[key].props}
-					{...commonDateInputProps}
-					onBlur={event => {
-						const newRangeVals = Object.assign({}, rangeByVal);
-						newRangeVals[key].startIsInvalid = !inputDetails[key].checkValidity(event.target.value);
-						setRangeByVal(newRangeVals);
-					}}
-					status={
-						rangeByVal[key].startIsInvalid
-							? {
-									type: 'warning',
-									message: inputDetails[key].errorMessage,
-									id: `${id}-${key}-start-error`,
-							  }
-							: undefined
-					}
-				/>
+				<div key={key}>
+					<TextInput
+						defaultValue={rangeByVal[key].start}
+						onChange={event => {
+							const newRangeVals = Object.assign({}, rangeByVal);
+							newRangeVals[key].start = event.target.value;
+							setRangeByVal(newRangeVals);
+						}}
+						id={`${id}-${key}-start-date`}
+						{...inputDetails[key].props}
+						{...commonDateInputProps}
+						onBlur={event => {
+							const newRangeVals = Object.assign({}, rangeByVal);
+							newRangeVals[key].startIsInvalid = !inputDetails[key].checkValidity(
+								event.target.value
+							);
+							setRangeByVal(newRangeVals);
+						}}
+						status={
+							rangeByVal[key].startIsInvalid
+								? {
+										type: 'warning',
+										message: inputDetails[key].errorMessage,
+										id: `${id}-${key}-start-error`,
+								  }
+								: undefined
+						}
+					/>
+				</div>
 			))}{' '}
 		</FieldSet>
 	);
@@ -187,34 +194,35 @@ export const DateInput: React.FC<DateInputProps> = ({
 					childrenGroupClassName="flex-row flex-align-end usa-memorable-date"
 				>
 					{Object.keys(inputDetails).map(key => (
-						<TextInput
-							key={key}
-							defaultValue={rangeByVal[key].end}
-							onChange={event => {
-								const newRangeVals = Object.assign({}, rangeByVal);
-								newRangeVals[key].end = event.target.value;
-								setRangeByVal(newRangeVals);
-							}}
-							id={`${id}-${key}-end-date`}
-							{...inputDetails[key].props}
-							{...commonDateInputProps}
-							onBlur={event => {
-								const newRangeVals = Object.assign({}, rangeByVal);
-								newRangeVals[key].endIsInvalid = !inputDetails[key].checkValidity(
-									event.target.value
-								);
-								setRangeByVal(newRangeVals);
-							}}
-							status={
-								rangeByVal[key].endIsInvalid
-									? {
-											type: 'warning',
-											message: inputDetails[key].errorMessage,
-											id: `${id}-${key}-start-error`,
-									  }
-									: undefined
-							}
-						/>
+						<div key={key}>
+							<TextInput
+								defaultValue={rangeByVal[key].end}
+								onChange={event => {
+									const newRangeVals = Object.assign({}, rangeByVal);
+									newRangeVals[key].end = event.target.value;
+									setRangeByVal(newRangeVals);
+								}}
+								id={`${id}-${key}-end-date`}
+								{...inputDetails[key].props}
+								{...commonDateInputProps}
+								onBlur={event => {
+									const newRangeVals = Object.assign({}, rangeByVal);
+									newRangeVals[key].endIsInvalid = !inputDetails[key].checkValidity(
+										event.target.value
+									);
+									setRangeByVal(newRangeVals);
+								}}
+								status={
+									rangeByVal[key].endIsInvalid
+										? {
+												type: 'warning',
+												message: inputDetails[key].errorMessage,
+												id: `${id}-${key}-start-error`,
+										  }
+										: undefined
+								}
+							/>
+						</div>
 					))}
 				</FieldSet>
 			</FieldSet>
