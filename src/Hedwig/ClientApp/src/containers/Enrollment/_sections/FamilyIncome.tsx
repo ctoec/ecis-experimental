@@ -246,7 +246,7 @@ const FamilyIncome: Section = {
 						legend="Family income disclosure"
 						id="family-income-disclosed"
 						className="margin-top-3"
-						onChange={event => updateNotDisclosed(event.target.checked)}
+						onChange={event => updateNotDisclosed((event.target as HTMLInputElement).checked)}
 						selected={notDisclosed ? ['familyIncomeNotDisclosed'] : undefined}
 						options={[
 							{

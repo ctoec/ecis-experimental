@@ -14,7 +14,7 @@ type ChoiceListProps = {
 	options: Option[];
 	id: string;
 	onChange: (
-		e: React.ChangeEvent<HTMLFormElement>,
+		e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
 		selectedValues: string[],
 		otherInput?: string
 	) => any;
@@ -29,8 +29,8 @@ type ChoiceListProps = {
 type RadioOrChecklistProps = ChoiceListProps & {
 	type: 'radio' | 'check';
 	legend: string;
-	horizontal?: boolean;
 	label?: never;
+	horizontal?: boolean;
 };
 
 type DropdownProps = ChoiceListProps & {
@@ -58,7 +58,7 @@ export default function ChoiceList({
 	const [selectedItems, updateSelection] = useState(selected);
 	const [otherInput, updateotherInput] = useState();
 
-	const changeEvent = (event: React.ChangeEvent<HTMLFormElement>) => {
+	const changeEvent = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
 		const changedValue = event.target.value;
 		if (event.target.type === 'text') {
 			updateotherInput(changedValue);
@@ -152,7 +152,7 @@ export default function ChoiceList({
 	if (children.length === 1) {
 		const singletonInput = (
 			<div
-				className={`usa-form-group${status ? ` usa-form-group--${status.type}` : ''}`}
+				className={`usa-form-group${status ? ` usa-form-group--${status.type}` : ''}${!label ? ' margin-top-3' : ''}`}
 				key={`${id}-form-group`}
 			>
 				{label && (
@@ -183,7 +183,7 @@ export default function ChoiceList({
 		>
 			<div className={horizontal ? 'grid-row flex-align-start grid-gap' : ''}>
 				{[...children]}
-				{showotherInput && otherInputLabel != undefined && (
+				{showotherInput && otherInputLabel !== undefined && (
 					<TextInput id={`${id}-other`} label={otherInputLabel} onChange={changeEvent} />
 				)}
 			</div>

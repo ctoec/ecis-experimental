@@ -499,7 +499,7 @@ const EnrollmentFunding: Section = {
 							},
 						]}
 						id="c4k-checklist-box"
-						onChange={e => updateReceivesC4k(!!e.target.checked)}
+						onChange={e => updateReceivesC4k(!!(e.target as HTMLInputElement).checked)}
 						selected={receivesC4k ? ['receives-c4k'] : undefined}
 						legend="Receives Care 4 Kids"
 						className="margin-top-3"

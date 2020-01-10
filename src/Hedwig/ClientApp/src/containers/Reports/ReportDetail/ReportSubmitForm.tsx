@@ -3,7 +3,7 @@ import { CdcReport, ApiOrganizationsOrgIdReportsIdPutRequest } from '../../../ge
 import { Mutate } from '../../../hooks/useApi';
 import UserContext from '../../../contexts/User/UserContext';
 import TextInput from '../../../components/TextInput/TextInput';
-import Checklist from '../../../components/Checklist/Checklist';
+import ChoiceList from '../../../components/ChoiceList/ChoiceList';
 import AppContext from '../../../contexts/App/AppContext';
 import currencyFormatter from '../../../utils/currencyFormatter';
 import parseCurrencyFromString from '../../../utils/parseCurrencyFromString';
@@ -92,7 +92,7 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 					<b>Submitted:</b> {report.submittedAt.toLocaleDateString()}{' '}
 				</p>
 			)}
-			{/* TODO: WHY ARE WE USING THIS WHEN WE HAVE A CHECKLIST COMPONENT? */}
+			{/* TODO: WHY ARE WE USING THIS WHEN WE HAVE A ChoiceList COMPONENT? */}
 			<div className="usa-checkbox margin-bottom-5">
 				<input
 					className="usa-checkbox__input"
@@ -100,7 +100,7 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 					type="checkbox"
 					disabled={!!report.submittedAt}
 					defaultChecked={accredited}
-					onChange={e => setAccredited(e.target.checked)}
+					onChange={e => setAccredited((e.target as HTMLInputElement).checked)}
 				/>
 				<label className="usa-checkbox__label" htmlFor="accredited">
 					Accredited
@@ -132,16 +132,17 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 						)}
 					/>
 					<div className="margin-top-2">
-						<Checklist
+						<ChoiceList
+							type="check"
 							id="c4k-includes-retroactive"
 							legend="Includes retroactive payment"
+							selected={retroactiveC4KRevenue ? ['retroactiveC4KRevenue'] : undefined}
+							onChange={e => setRetroactiveC4KRevenue(!!(e.target as HTMLInputElement).checked)}
+							disabled={!!report.submittedAt}
 							options={[
 								{
 									text: 'Includes retroactive payment for past months',
-									value: 'c4k-includes-retroactive',
-									checked: retroactiveC4KRevenue,
-									onChange: e => setRetroactiveC4KRevenue(!!e.target.checked),
-									disabled: !!report.submittedAt,
+									value: 'retroactiveC4KRevenue',
 								},
 							]}
 						/>
