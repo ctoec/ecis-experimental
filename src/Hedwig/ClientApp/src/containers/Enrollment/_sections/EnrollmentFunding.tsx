@@ -116,7 +116,7 @@ const EnrollmentFunding: Section = {
 		);
 	},
 
-	Form: ({ enrollment, mutate, callback, visitedSections }) => {
+	Form: ({ enrollment, mutate, successCallback, finallyCallback, visitedSections }) => {
 		if (!enrollment) {
 			throw new Error('EnrollmentFunding rendered without an enrollment');
 		}
@@ -323,10 +323,13 @@ const EnrollmentFunding: Section = {
 				};
 				mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
 					.then(res => {
-						if (callback && res) callback(res);
+						if (successCallback && res) successCallback(res);
 					})
 					.catch(error => {
 						setApiError(ValidationProblemDetailsFromJSON(error));
+					})
+					.finally(() => {
+						finallyCallback && finallyCallback(EnrollmentFunding);
 					});
 			}
 		};

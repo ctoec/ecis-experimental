@@ -65,7 +65,7 @@ const ChildInfo: Section = {
 		);
 	},
 
-	Form: ({ enrollment, siteId, mutate, callback, visitedSections }) => {
+	Form: ({ enrollment, siteId, mutate, successCallback, finallyCallback, visitedSections }) => {
 		if (!enrollment && !siteId) {
 			throw new Error('ChildInfo rendered without an enrollment or a siteId');
 		}
@@ -138,7 +138,6 @@ const ChildInfo: Section = {
 		useFocusFirstError([apiError]);
 
 		const save = () => {
-
 			if (enrollment) {
 				// If enrollment exists, put to save changes
 				const putParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
@@ -155,10 +154,13 @@ const ChildInfo: Section = {
 				};
 				mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams))
 					.then(res => {
-						if (callback && res) callback(res);
+						if (successCallback && res) successCallback(res);
 					})
 					.catch(error => {
 						setApiError(ValidationProblemDetailsFromJSON(error));
+					})
+					.finally(() => {
+						finallyCallback && finallyCallback(ChildInfo);
 					});
 			} else if (siteId) {
 				// If enrollment doesn't exist, post to create a new enrollment
@@ -177,10 +179,13 @@ const ChildInfo: Section = {
 				};
 				mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsPost(postParams))
 					.then(res => {
-						if (callback && res) callback(res);
+						if (successCallback && res) successCallback(res);
 					})
 					.catch(error => {
 						setApiError(ValidationProblemDetailsFromJSON(error));
+					})
+					.finally(() => {
+						finallyCallback && finallyCallback(ChildInfo);
 					});
 			} else {
 				throw new Error('Something impossible happened');

@@ -6,7 +6,8 @@ import { DeepNonUndefineable } from '../../utils/types';
 export type SectionProps = {
 	enrollment: DeepNonUndefineable<Enrollment> | null;
 	mutate: Mutate<Enrollment>;
-	callback?: (e: Enrollment) => void;
+	successCallback?: (e: Enrollment) => void;
+	finallyCallback?: (s: Section) => void;
 	siteId?: string;
 	visitedSections?: {[key: string]: boolean}
 };

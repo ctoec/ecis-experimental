@@ -63,7 +63,7 @@ const FamilyIncome: Section = {
 		return <div className="FamilyIncomeSummary">{elementToReturn}</div>;
 	},
 
-	Form: ({ enrollment, mutate, callback, visitedSections }) => {
+	Form: ({ enrollment, mutate, successCallback, finallyCallback, visitedSections }) => {
 		if (!enrollment || !enrollment.child || !enrollment.child.family) {
 			throw new Error('FamilyIncome rendered without enrollment.child.family');
 		}
@@ -103,9 +103,12 @@ const FamilyIncome: Section = {
 		}
 
 		const save = () => {
-			if (proceedWithoutCreatingDetermination(args)) {
-				if (callback) {
-					callback(enrollment);
+			if (proceedWithoutCreatingDetermination(args) || enrollment.child.foster) {
+				if (successCallback) {
+					successCallback(enrollment);
+				}
+				if (finallyCallback) {
+					finallyCallback(FamilyIncome);
 				}
 				return;
 			}
@@ -141,18 +144,16 @@ const FamilyIncome: Section = {
 				};
 				mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
 					.then(res => {
-						if (callback && res) callback(res);
+						if (successCallback && res) successCallback(res);
 					})
-                     // TODO deal with error from server
-					.catch();
+					// TODO deal with error from server
+					.catch()
+					.finally(() => {
+						finallyCallback && finallyCallback(FamilyIncome);
+					});
 			}
 			
 		};
-
-		if (enrollment.child.foster && callback) {
-			// Just move on to the next section
-			callback(enrollment);
-		}
 
 		return (
 			<div className="FamilyIncomeForm">

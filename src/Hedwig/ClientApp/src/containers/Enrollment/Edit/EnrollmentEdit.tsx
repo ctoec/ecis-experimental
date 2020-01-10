@@ -106,7 +106,7 @@ export default function EnrollmentEdit({
 		>
 			<section className="grid-container">
 				<h1>Edit {section.name.toLowerCase()}</h1>
-				<section.Form enrollment={enrollment} mutate={mutate} callback={afterSave} />
+				<section.Form enrollment={enrollment} mutate={mutate} successCallback={afterSave} />
 			</section>
 		</CommonContainer>
 	);

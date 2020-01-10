@@ -107,8 +107,6 @@ export default function EnrollmentNew({
 		}
 
 		const currentIndex = sections.findIndex(section => section.key === sectionId);
-		const currentSection = sections[currentIndex];
-		visitSection(currentSection);
 
 		// If we're on the last section, we'll move to a final 'review' section where all
 		// steps are collapsed and we can 'Finish' the enrollment.
@@ -130,7 +128,8 @@ export default function EnrollmentNew({
 	const props: SectionProps = {
 		enrollment: enrollment,
 		mutate: mutate,
-		callback: afterSave,
+		successCallback: afterSave,
+		finallyCallback: visitSection,
 		siteId,
 		visitedSections: visitedSections
 	};
