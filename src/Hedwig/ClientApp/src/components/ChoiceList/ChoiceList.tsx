@@ -146,9 +146,6 @@ export default function ChoiceList({
 			];
 	}
 
-	// TODO:
-	// Replace existing inputs
-
 	if (children.length === 1) {
 		const singletonInput = (
 			<div
