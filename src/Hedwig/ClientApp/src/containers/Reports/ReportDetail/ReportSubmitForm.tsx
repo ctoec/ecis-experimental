@@ -14,98 +14,95 @@ import { useHistory } from 'react-router';
 import { AlertProps } from '../../../components/Alert/Alert';
 import monthFormatter from '../../../utils/monthFormatter';
 import { DeepNonUndefineable } from '../../../utils/types';
-import {
-	useFocusFirstError,
-	serverErrorForField,
-} from '../../../utils/validations';
-import {
-	ValidationProblemDetails,
-	ValidationProblemDetailsFromJSON,
-} from '../../../generated';
+import { useFocusFirstError, serverErrorForField } from '../../../utils/validations';
+import { ValidationProblemDetails, ValidationProblemDetailsFromJSON } from '../../../generated';
 
 export type ReportSubmitFormProps = {
-  report: DeepNonUndefineable<CdcReport>,
-  mutate: Mutate<CdcReport>,
-  canSubmit: boolean
+	report: DeepNonUndefineable<CdcReport>;
+	mutate: Mutate<CdcReport>;
+	canSubmit: boolean;
 };
 
 export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSubmitFormProps) {
-  const history = useHistory();
-  const [accredited, setAccredited] = useState(report.accredited);
-  const [c4KRevenue, setC4KRevenue] = useState(report.c4KRevenue || null);
-  const [retroactiveC4KRevenue, setRetroactiveC4KRevenue] = useState(report.retroactiveC4KRevenue);
-  const [familyFeesRevenue, setFamilyFeesRevenue] = useState(report.familyFeesRevenue || null);
+	const history = useHistory();
+	const [accredited, setAccredited] = useState(report.accredited);
+	const [c4KRevenue, setC4KRevenue] = useState(report.c4KRevenue || null);
+	const [retroactiveC4KRevenue, setRetroactiveC4KRevenue] = useState(report.retroactiveC4KRevenue);
+	const [familyFeesRevenue, setFamilyFeesRevenue] = useState(report.familyFeesRevenue || null);
 
-  const { user } = useContext(UserContext);
-  const { invalidateCache: invalidateAppCache } = useContext(AppContext);
-  const { getAlerts, setAlerts } = useContext(AlertContext);
-  const alerts = getAlerts();
-  const params: ApiOrganizationsOrgIdReportsIdPutRequest = {
-    id: report.id || 0,
-    orgId: getIdForUser(user, "org")
-  };
+	const { user } = useContext(UserContext);
+	const { invalidateCache: invalidateAppCache } = useContext(AppContext);
+	const { getAlerts, setAlerts } = useContext(AlertContext);
+	const alerts = getAlerts();
+	const params: ApiOrganizationsOrgIdReportsIdPutRequest = {
+		id: report.id || 0,
+		orgId: getIdForUser(user, 'org'),
+	};
 
 	const [apiError, setApiError] = useState<ValidationProblemDetails>();
 
 	useFocusFirstError([apiError]);
 
-  function updatedReport(): CdcReport {
-    return {
-      ...report,
-      accredited,
-      c4KRevenue: c4KRevenue !== null ? c4KRevenue : undefined,
-      retroactiveC4KRevenue,
-      familyFeesRevenue: familyFeesRevenue !== null ? familyFeesRevenue : undefined,
-    };
-  }
+	function updatedReport(): CdcReport {
+		return {
+			...report,
+			accredited,
+			c4KRevenue: c4KRevenue !== null ? c4KRevenue : undefined,
+			retroactiveC4KRevenue,
+			familyFeesRevenue: familyFeesRevenue !== null ? familyFeesRevenue : undefined,
+		};
+	}
 
-  function onSubmit(e: FormEvent) {
-    e.preventDefault();
-    mutate(
-      api => api.apiOrganizationsOrgIdReportsIdPut({
-        ...params,
-        cdcReport: updatedReport()
-      })
-    )
-      .then(res => {
-        if (res) {
-          const newAlert = {
-            type: 'success',
-            heading: 'Submitted',
-            text: `The ${monthFormatter(report.reportingPeriod.period)} CDC Report has been shared with the Office of Early Childhood`
-          } as AlertProps;
-          const newAlerts = [...alerts, newAlert];
-          setAlerts(newAlerts);
-          invalidateAppCache(); // Updates the count of unsubmitted reports in the nav bar
-          history.push('/reports', newAlerts);
-        }
-      })
+	function onSubmit(e: FormEvent) {
+		e.preventDefault();
+		mutate(api =>
+			api.apiOrganizationsOrgIdReportsIdPut({
+				...params,
+				cdcReport: updatedReport(),
+			})
+		)
+			.then(res => {
+				if (res) {
+					const newAlert = {
+						type: 'success',
+						heading: 'Submitted',
+						text: `The ${monthFormatter(
+							report.reportingPeriod.period
+						)} CDC Report has been shared with the Office of Early Childhood`,
+					} as AlertProps;
+					const newAlerts = [...alerts, newAlert];
+					setAlerts(newAlerts);
+					invalidateAppCache(); // Updates the count of unsubmitted reports in the nav bar
+					history.push('/reports', newAlerts);
+				}
+			})
 			.catch(error => {
 				setApiError(ValidationProblemDetailsFromJSON(error));
 			});
-  }
+	}
 
-  return (
+	return (
 		<React.Fragment>
 			{report.submittedAt && (
 				<p>
 					<b>Submitted:</b> {report.submittedAt.toLocaleDateString()}{' '}
 				</p>
 			)}
-			{/* TODO: WHY ARE WE USING THIS WHEN WE HAVE A ChoiceList COMPONENT? */}
-			<div className="usa-checkbox margin-bottom-5">
-				<input
-					className="usa-checkbox__input"
-					id="accredited"
-					type="checkbox"
-					disabled={!!report.submittedAt}
-					defaultChecked={accredited}
-					onChange={e => setAccredited((e.target as HTMLInputElement).checked)}
-				/>
-				<label className="usa-checkbox__label" htmlFor="accredited">
-					Accredited
-				</label>
-			</div>
+			<ChoiceList
+				type="check"
+				id="accredited"
+				legend="Accredited"
+				disabled={!!report.submittedAt}
+				selected={accredited ? ['accredited'] : undefined}
+				options={[
+					{
+						text: 'Accredited',
+						value: 'accredited',
+					},
+				]}
+				onChange={e => setAccredited((e.target as HTMLInputElement).checked)}
+				className="usa-checkbox margin-bottom-5"
+			/>
 			<UtilizationTable {...{ ...report, accredited }} />
 			<form className="usa-form" onSubmit={onSubmit}>
 				<fieldset className="usa-fieldset">
