@@ -80,11 +80,11 @@ class Header extends React.Component<HeaderProps & RouteComponentProps, HeaderSt
 				<header className="usa-header usa-header--extended" role="banner">
 					<div className="usa-navbar">
 						<div className="usa-logo" id="extended-logo">
-							<em className="usa-logo__text">
-								<Link to="/" aria-label={`${title} home`}>
-									{title}
-								</Link>
-							</em>
+           		<Link to="/" aria-label={`${title} home`}>
+								<em className="usa-logo__text">
+										{title}
+								</em>
+							</Link>
 						</div>
 						<button className="usa-menu-btn" onClick={this.showMenu}>
 							Menu

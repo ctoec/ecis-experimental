@@ -2,8 +2,19 @@
   @page { size:8.5in 11in; margin: 2cm }
   
   // header, <Alert>, <Button type="submit">, <Link>, <DirectionalLink>, .print-btn
-  header, [role="alert"], input[type="submit"], .usa-link, .oec-directional-link, .print-btn{
+  header,
+  [role="alert"],
+  input[type="submit"],
+  .usa-link:not(.print),
+  .oec-directional-link,
+  .print-btn,
+  .usa-button {
     @include u-display('none');
+  }
+
+  .usa-link {
+    text-decoration: none;
+    color: black;
   }
 
   body {

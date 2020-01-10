@@ -4082,17 +4082,17 @@ exports[`Storyshots Header Logged in 1`] = `
           className="usa-logo"
           id="extended-logo"
         >
-          <em
-            className="usa-logo__text"
+          <a
+            aria-label="Hello world! home"
+            href="/"
+            onClick={[Function]}
           >
-            <a
-              aria-label="Hello world! home"
-              href="/"
-              onClick={[Function]}
+            <em
+              className="usa-logo__text"
             >
               Hello world!
-            </a>
-          </em>
+            </em>
+          </a>
         </div>
         <button
           className="usa-menu-btn"
@@ -4250,17 +4250,17 @@ exports[`Storyshots Header Logged out 1`] = `
           className="usa-logo"
           id="extended-logo"
         >
-          <em
-            className="usa-logo__text"
+          <a
+            aria-label="Hello world! home"
+            href="/"
+            onClick={[Function]}
           >
-            <a
-              aria-label="Hello world! home"
-              href="/"
-              onClick={[Function]}
+            <em
+              className="usa-logo__text"
             >
               Hello world!
-            </a>
-          </em>
+            </em>
+          </a>
         </div>
         <button
           className="usa-menu-btn"

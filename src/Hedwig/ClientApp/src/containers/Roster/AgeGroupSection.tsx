@@ -30,7 +30,7 @@ const defaultRosterTableProps: TableProps<DeepNonUndefineable<Enrollment>> = {
 			name: 'Name',
 			cell: ({ row }) => (
 				<th scope="row">
-					<Link to={`/roster/enrollments/${row.id}/`} className="usa-link">
+					<Link to={`/roster/enrollments/${row.id}/`} className="usa-link print">
 						{lastFirstNameFormatter(row.child)}
 					</Link>
 					&nbsp;

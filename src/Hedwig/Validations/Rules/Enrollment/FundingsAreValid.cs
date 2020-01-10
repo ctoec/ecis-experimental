@@ -1,7 +1,5 @@
 using Hedwig.Models;
 using Hedwig.Repositories;
-using System.Linq;
-using System;
 
 namespace Hedwig.Validations.Rules
 {
@@ -34,7 +32,8 @@ namespace Hedwig.Validations.Rules
         {
           return new ValidationError(
             field: "Fundings",
-            message: "Fundings has validation errors"
+            message: "Fundings has validation errors",
+            isSubObjectValidation: true
           );
         }
       }

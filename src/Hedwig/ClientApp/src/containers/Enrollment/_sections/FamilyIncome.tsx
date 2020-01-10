@@ -54,7 +54,7 @@ const FamilyIncome: Section = {
 			elementToReturn = (
 				<>
 					<p>Household size: {determination && determination.numberOfPeople ? determination.numberOfPeople : InlineIcon({icon: 'incomplete'})}</p>
-					<p>Annual household income: {determination && determination.income ? currencyFormatter(determination.income) : InlineIcon({icon: 'incomplete'})}</p>
+					<p>Annual household income: {determination && determination.income != null && determination.income != undefined  ? currencyFormatter(determination.income) : InlineIcon({icon: 'incomplete'})}</p>
 					<p>Determined on: {determination && determination.determinationDate ? dateFormatter(determination.determinationDate) : InlineIcon({icon: 'incomplete'})}</p>
 				</>
 			);
