@@ -392,14 +392,14 @@ const ChildInfo: Section = {
 					status={initialLoadErrorGuard(
 						initialLoad,
 						warningForFieldSet(
-							'ethnicity-ChoiceList',
+							'ethnicity-radiogroup',
 							['hispanicOrLatinxEthnicity'],
 							enrollment ? enrollment.child : null,
 							'This information is required for OEC reporting'
 						)
 					)}
 					legend="Ethnicity"
-					id="ethnicity-ChoiceList"
+					id="ethnicity-radiogroup"
 					options={[
 						{
 							text: 'Not Hispanic or Latinx',
