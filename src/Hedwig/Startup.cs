@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -96,9 +97,10 @@ namespace Hedwig
 
         if (env.IsDevelopment())
         {
-          string CLIENT_HOST = Environment.GetEnvironmentVariable("CLIENT_HOST") ?? "http://localhost:3000";
-          spa.UseProxyToSpaDevelopmentServer(CLIENT_HOST);
-        }
+					/*string CLIENT_HOST = Environment.GetEnvironmentVariable("CLIENT_HOST") ?? "http://localhost:3000";
+          spa.UseProxyToSpaDevelopmentServer(CLIENT_HOST);*/
+					spa.UseReactDevelopmentServer(npmScript: "start");
+				}
       });
 
     }
