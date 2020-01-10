@@ -16,7 +16,7 @@ type TextInputProps = {
 	inline?: boolean;
 };
 
-export default function TextInput({
+export function TextInput({
 	label,
 	onChange,
 	onBlur,

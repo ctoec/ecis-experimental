@@ -10,7 +10,7 @@ type CheckboxProps = {
 	disabled?: boolean;
 };
 
-export default function Checkbox({
+export function Checkbox({
 	text,
 	value,
 	name,

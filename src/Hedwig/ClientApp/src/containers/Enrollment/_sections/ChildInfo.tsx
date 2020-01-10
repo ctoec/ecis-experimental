@@ -1,12 +1,18 @@
 import React, { useContext, useState } from 'react';
 import { Section } from '../enrollmentTypes';
-import Button from '../../../components/Button/Button';
-import TextInput from '../../../components/TextInput/TextInput';
-import DateInput from '../../../components/DateInput/DateInput';
-import ChoiceList from '../../../components/ChoiceList/ChoiceList';
+import moment from 'moment';
+import idx from 'idx';
+import {
+	Button,
+	TextInput,
+	DateInput,
+	Checklist,
+	RadioGroup,
+	Dropdown,
+	FieldSet,
+} from '../../../components';
 import nameFormatter from '../../../utils/nameFormatter';
 import dateFormatter from '../../../utils/dateFormatter';
-import moment from 'moment';
 import {
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest,
 	Gender,
@@ -15,7 +21,6 @@ import {
 	ValidationProblemDetails,
 	ValidationProblemDetailsFromJSON,
 } from '../../../generated';
-import idx from 'idx';
 import UserContext from '../../../contexts/User/UserContext';
 import getIdForUser from '../../../utils/getIdForUser';
 import emptyGuid from '../../../utils/emptyGuid';
@@ -34,7 +39,6 @@ import {
 	warningForField,
 	serverErrorForField,
 } from '../../../utils/validations';
-import FieldSet from '../../../components/FieldSet/FieldSet';
 import initialLoadErrorGuard from '../../../utils/validations/initialLoadErrorGuard';
 
 const ChildInfo: Section = {

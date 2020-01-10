@@ -4,7 +4,7 @@ import FieldSet from '../FieldSet/FieldSet';
 import TextInput from '../TextInput/TextInput';
 import { FormStatusProps } from '../FormStatus/FormStatus';
 
-export type DateRange = {
+type DateRange = {
 	startDate: Moment | null;
 	endDate: Moment | null;
 };

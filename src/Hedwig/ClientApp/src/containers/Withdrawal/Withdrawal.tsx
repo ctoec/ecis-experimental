@@ -6,17 +6,14 @@ import { Enrollment, Funding, FundingSource, ApiOrganizationsOrgIdSitesSiteIdEnr
 import nameFormatter from "../../utils/nameFormatter";
 import { DeepNonUndefineable } from "../../utils/types";
 import { generateFundingTag, enrollmentExitReasons, currentFunding } from "../../utils/models";
-import DatePicker from "../../components/DatePicker/DatePicker";
-import ChoiceList from "../../components/ChoiceList/ChoiceList";
+import { DatePicker, Dropdown, Button, InlineIcon } from '../../components';
 import useApi from "../../hooks/useApi";
 import { lastNReportingPeriods } from "../../utils/models/reportingPeriod";
 import getIdForUser from "../../utils/getIdForUser";
-import Button from "../../components/Button/Button";
 import CommonContainer from "../CommonContainer";
 import { clientErrorForField, serverErrorForField } from "../../utils/validations";
 import ReportingPeriodContext from "../../contexts/ReportingPeriod/ReportingPeriodContext";
 import { processBlockingValidationErrors } from "../../utils/validations/processBlockingValidationErrors";
-import InlineIcon from "../../components/InlineIcon/InlineIcon";
 import AlertContext from "../../contexts/Alert/AlertContext";
 import { splitCamelCase } from "../../utils/splitCamelCase";
 

@@ -12,7 +12,7 @@ type ButtonProps = {
 	className?: string,
 };
 
-export default function Button({
+export function Button({
 	text,
 	onClick,
 	href,

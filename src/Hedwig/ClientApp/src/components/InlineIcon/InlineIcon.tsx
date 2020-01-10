@@ -11,7 +11,7 @@ export type InlineIconProps = {
 	provideScreenReaderFallback?: boolean;
 };
 
-export default function InlineIcon({ icon, provideScreenReaderFallback = true }: InlineIconProps) {
+export function InlineIcon({ icon, provideScreenReaderFallback = true }: InlineIconProps) {
 	let text: string;
 	let iconComponent;
 

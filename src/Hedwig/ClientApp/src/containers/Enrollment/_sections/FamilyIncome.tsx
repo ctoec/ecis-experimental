@@ -1,15 +1,11 @@
 import React, { useState, useContext } from 'react';
-import { Section } from '../enrollmentTypes';
-import Button from '../../../components/Button/Button';
-import TextInput from '../../../components/TextInput/TextInput';
-import DatePicker from '../../../components/DatePicker/DatePicker';
-import dateFormatter from '../../../utils/dateFormatter';
-import notNullOrUndefined from '../../../utils/notNullOrUndefined';
 import moment from 'moment';
 import idx from 'idx';
+import { Section } from '../enrollmentTypes';
+import { Button, TextInput, DatePicker, Alert, Checklist, FieldSet, InlineIcon } from '../../../components';
+import dateFormatter from '../../../utils/dateFormatter';
+import notNullOrUndefined from '../../../utils/notNullOrUndefined';
 import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest } from '../../../generated';
-import ChoiceList from '../../../components/ChoiceList/ChoiceList';
-import Alert from '../../../components/Alert/Alert';
 import parseCurrencyFromString from '../../../utils/parseCurrencyFromString';
 import currencyFormatter from '../../../utils/currencyFormatter';
 import getIdForUser from '../../../utils/getIdForUser';
@@ -20,8 +16,6 @@ import {
 	warningForField,
 	warningForFieldSet,
 } from '../../../utils/validations';
-import FieldSet from '../../../components/FieldSet/FieldSet';
-import InlineIcon from '../../../components/InlineIcon/InlineIcon';
 import initialLoadErrorGuard from '../../../utils/validations/initialLoadErrorGuard';
 
 const FamilyIncome: Section = {

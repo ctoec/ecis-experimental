@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import moment, { Moment } from 'moment';
 import { DateRangePicker, SingleDatePicker } from 'react-dates';
-import FieldSet from '../FieldSet/FieldSet';
-import FormStatus, { FormStatusProps } from '../FormStatus/FormStatus';
+import { FieldSet, FormStatus, FormStatusProps } from '..';
 
 export type DateRange = {
 	startDate: Moment | null;
@@ -110,5 +109,3 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 		</div>
 	);
 };
-
-export default DatePicker;

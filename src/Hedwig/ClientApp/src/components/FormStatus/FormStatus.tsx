@@ -8,7 +8,7 @@ export type FormStatusProps = {
 	message?: string;
 };
 
-export default ({ message, type, id }: FormStatusProps) => {
+export const FormStatus = ({ message, type, id }: FormStatusProps) => {
 	return (
 		<span
 			className={`usa-${type}-message`}

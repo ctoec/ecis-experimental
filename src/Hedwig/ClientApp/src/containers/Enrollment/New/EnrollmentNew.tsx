@@ -6,7 +6,7 @@ import ChildInfo from '../_sections/ChildInfo';
 import FamilyInfo from '../_sections/FamilyInfo';
 import FamilyIncome from '../_sections/FamilyIncome';
 import EnrollmentFunding from '../_sections/EnrollmentFunding';
-import Button from '../../../components/Button/Button';
+import { Button } from '../../../components';
 import useApi from '../../../hooks/useApi';
 import UserContext from '../../../contexts/User/UserContext';
 import {

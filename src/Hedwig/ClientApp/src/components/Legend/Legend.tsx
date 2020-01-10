@@ -17,7 +17,7 @@ const defaultSymbol = (
 	</svg>
 );
 
-export default function Legend({ items }: LegendProps) {
+export function Legend({ items }: LegendProps) {
 	return (
 		<div className="grid-row flex-wrap margin-y-2 grid-gap oec-legend">
 			{items.map((item, index) => (

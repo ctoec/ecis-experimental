@@ -7,7 +7,7 @@ export type AlertProps = {
 	actionItem?: JSX.Element;
 };
 
-export default function Alert({ type, heading, text, actionItem }: AlertProps) {
+export function Alert({ type, heading, text, actionItem }: AlertProps) {
 	// If in the future we make this interactive, we should use the alertdialog role
 	return (
 		<div

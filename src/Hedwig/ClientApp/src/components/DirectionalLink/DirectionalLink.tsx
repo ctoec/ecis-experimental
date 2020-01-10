@@ -10,7 +10,7 @@ export type DirectionalLinkProps = {
 	arrowSide?: 'left' | 'right';
 };
 
-export default function DirectionalLink({
+export function DirectionalLink({
 	direction = 'right',
 	to,
 	text,

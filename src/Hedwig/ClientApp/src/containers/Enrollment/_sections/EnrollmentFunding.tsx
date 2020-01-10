@@ -1,11 +1,17 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Section } from '../enrollmentTypes';
-import Button from '../../../components/Button/Button';
-import DatePicker from '../../../components/DatePicker/DatePicker';
-import ChoiceList from '../../../components/ChoiceList/ChoiceList';
-import dateFormatter from '../../../utils/dateFormatter';
 import moment from 'moment';
 import idx from 'idx';
+import { Section } from '../enrollmentTypes';
+import {
+	Button,
+	DatePicker,
+	Dropdown,
+	RadioGroup,
+	Checklist,
+	TextInput,
+	InlineIcon,
+} from '../../../components';
+import dateFormatter from '../../../utils/dateFormatter';
 import {
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
 	Age,
@@ -30,8 +36,11 @@ import { prettyFundingTime, fundingTimeFromString } from '../../../utils/funding
 import { nextNReportingPeriods, periodSorter } from '../../../utils/models/reportingPeriod';
 import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
 import { familyDeterminationNotDisclosed, currentFunding, updateFunding, createFunding, currentC4kFunding } from '../../../utils/models';
+<<<<<<< HEAD
 import TextInput from '../../../components/TextInput/TextInput';
 import InlineIcon from '../../../components/InlineIcon/InlineIcon';
+=======
+>>>>>>> Import components less chaotically
 import initialLoadErrorGuard from '../../../utils/validations/initialLoadErrorGuard';
 
 const EnrollmentFunding: Section = {

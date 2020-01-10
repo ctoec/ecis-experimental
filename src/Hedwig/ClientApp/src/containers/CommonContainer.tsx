@@ -1,8 +1,12 @@
 import React, { ReactElement, useContext } from 'react';
 import AlertContext from '../contexts/Alert/AlertContext';
-import Alert, { AlertProps } from '../components/Alert/Alert';
-import DirectionalLink, { DirectionalLinkProps } from '../components/DirectionalLink/DirectionalLink';
-import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary';
+import {
+	Alert,
+	AlertProps,
+	DirectionalLink,
+	DirectionalLinkProps,
+	ErrorBoundary,
+} from '../components';
 
 type CommonContainerPropsType = {
 	children: ReactElement<any> | null;
