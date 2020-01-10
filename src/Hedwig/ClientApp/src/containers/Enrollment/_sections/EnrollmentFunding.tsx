@@ -426,7 +426,7 @@ const EnrollmentFunding: Section = {
 								updateCdcFundingTime(fundingTimeFromString(event.target.value));
 							}
 						}}
-						selected={privatePay ? 'privatePay' : cdcFundingTime !== null ? cdcFundingTime : ''}
+						selected={privatePay ? ['privatePay'] : cdcFundingTime !== null ? [cdcFundingTime] : undefined}
 					/>
 					{!privatePay && cdcFundingTime && (
 						<ChoiceList
