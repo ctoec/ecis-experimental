@@ -166,7 +166,7 @@ namespace Hedwig.Data
       _context.Users.RemoveRange(_context.Users.ToList());
     }
 
-    private Organization CreateOrganization(string name = "Children's Adventure Center")
+    private Organization CreateOrganization(string name = "Hogwarts")
     {
       var organization = new Organization { Name = name };
       _context.Organizations.Add(organization);
@@ -197,7 +197,7 @@ namespace Hedwig.Data
 
     private Site CreateSite(
       int organizationId,
-      string name = "Children's Adventure Center",
+      string name = "Hogwarts",
       Region region = Region.East
     )
     {
