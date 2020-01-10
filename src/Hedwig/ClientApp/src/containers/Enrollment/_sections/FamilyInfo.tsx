@@ -48,7 +48,7 @@ const FamilyInfo: Section = {
 		);
 	},
 
-	Form: ({ enrollment, mutate, callback, visitedSections }) => {
+	Form: ({ enrollment, mutate, successCallback, finallyCallback, visitedSections }) => {
 		if (!enrollment || !enrollment.child) {
 			throw new Error('FamilyInfo rendered without a child');
 		}
@@ -107,9 +107,13 @@ const FamilyInfo: Section = {
 						},
 					},
 				};
-				mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params)).then(res => {
-					if (callback && res) callback(res);
-				});
+				mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
+					.then(res => {
+						if (successCallback && res) successCallback(res);
+					})
+					.finally(() => {
+						finallyCallback && finallyCallback(FamilyInfo);
+					});
 			}
 		};
 

@@ -6,7 +6,7 @@ import getColorForFundingSource, { fundingSourceDetails } from "../fundingTypeFo
 export function generateFundingTag(funding: DeepNonUndefineable<Funding>, index?: any): JSX.Element {
 	let key = `${funding.source}-${funding.time}`;
 	if(index) key = `${key}-${index}`;
-	const text = funding.source ? fundingSourceDetails[funding.source].tagFormatter(funding) : '';
+	const text = funding.source ? fundingSourceDetails[funding.source].tagFormatter(funding) : 'Not specified';
 	const color = funding.source ? getColorForFundingSource(funding.source) : 'gray-90';
 	return Tag({ key, text, color });
 }
