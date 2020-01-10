@@ -96,41 +96,61 @@ const ChildInfo: Section = {
 		const [birthTown, updateBirthTown] = useState(child ? child.birthTown : null);
 		const [birthState, updateBirthState] = useState(child ? child.birthState : null);
 
-		const [americanIndianOrAlaskaNative, updateAmericanIndianOrAlaskaNative] = useState(
-			child ? child.americanIndianOrAlaskaNative : false
-		);
-		const [asian, updateAsian] = useState(child ? child.asian : false);
-		const [blackOrAfricanAmerican, updateBlackOrAfricanAmerican] = useState(
-			child ? child.blackOrAfricanAmerican : false
-		);
-		const [nativeHawaiianOrPacificIslander, updateNativeHawaiianOrPacificIslander] = useState(
-			child ? child.nativeHawaiianOrPacificIslander : false
-		);
-		const [white, updateWhite] = useState(child ? child.white : false);
+		// Is there a reason not to do this this way?
+		const [childRace, updateChildRace] = useState([
+			{
+				text: 'American Indian or Alaska Native',
+				value: 'americanIndianOrAlaskaNative',
+				selected: (child && child.americanIndianOrAlaskaNative) || false,
+			},
+			{
+				text: 'Asian',
+				value: 'asian',
+				selected: (child && child.asian) || false,
+			},
+			{
+				text: 'Black or African American',
+				value: 'blackOrAfricanAmerican',
+				selected: (child && child.blackOrAfricanAmerican) || false,
+			},
+			{
+				text: 'Native Hawaiian or Pacific Islander',
+				value: 'nativeHawaiianOrPacificIslander',
+				selected: (child && child.nativeHawaiianOrPacificIslander) || false,
+			},
+			{
+				text: 'White',
+				value: 'white',
+				selected: (child && child.white) || false,
+			},
+		]);
+
 		const [hispanicOrLatinxEthnicity, updateHispanicOrLatinxEthnicity] = useState(
 			child ? child.hispanicOrLatinxEthnicity : null
 		);
 
 		const [gender, updateGender] = useState(child ? child.gender : Gender.Unspecified);
 
-		const args = {
-			sasid,
-			firstName,
-			middleName,
-			lastName,
-			suffix,
-			birthdate,
-			birthCertificateId,
-			birthTown,
-			birthState,
-			americanIndianOrAlaskaNative,
-			asian,
-			blackOrAfricanAmerican,
-			nativeHawaiianOrPacificIslander,
-			white,
-			hispanicOrLatinxEthnicity,
-			gender,
-		};
+		let childRaceArgs: { [key: string]: boolean } = {};
+		childRace.forEach(raceObj => (childRaceArgs[raceObj.value] = raceObj.selected));
+
+		const args = Object.assign(
+			{
+				sasid,
+				firstName,
+				middleName,
+				lastName,
+				suffix,
+				birthdate,
+				birthCertificateId,
+				birthTown,
+				birthState,
+				hispanicOrLatinxEthnicity,
+				gender,
+			},
+			childRaceArgs
+		);
+
 		const [apiError, setApiError] = useState<ValidationProblemDetails>();
 
 		useFocusFirstError([apiError]);
@@ -257,7 +277,11 @@ const ChildInfo: Section = {
 
 				<h3>Date of birth</h3>
 				<DateInput
-					onChange={range => updateBirthdate(range.startDate && range.startDate.isValid() ? range.startDate.toDate() : null)}
+					onChange={range =>
+						updateBirthdate(
+							range.startDate && range.startDate.isValid() ? range.startDate.toDate() : null
+						)
+					}
 					dateRange={{ startDate: birthdate ? moment(birthdate) : null, endDate: null }}
 					label="Birth date"
 					id="birthdate-picker"
@@ -340,56 +364,27 @@ const ChildInfo: Section = {
 
 				<h3>Race</h3>
 				<ChoiceList
+					type="check"
+					options={childRace}
+					selected={childRace.filter(raceObj => raceObj.selected).map(raceObj => raceObj.value)}
 					hint="As identified by family"
 					status={initialLoadErrorGuard(
 						initialLoad,
 						warningForFieldSet(
-							'race-checklist',
-							[
-								'americanIndianOrAlaskaNative',
-								'asian',
-								'blackOrAfricanAmerican',
-								'NativeHawaiianOrPacificIslander',
-								'white',
-							],
-							enrollment ? enrollment.child : null,
-							'This information is required for OEC reporting'
-						)
-					)}
+						'race-checklist',
+						childRace.map(o => o.value),
+						enrollment ? enrollment.child : null,
+						'This information is required for OEC reporting'
+					))}
 					legend="Race"
 					id="race-checklist"
-					options={[
-						{
-							text: 'American Indian or Alaska Native',
-							value: 'americanIndianOrAlaskaNative',
-							checked: americanIndianOrAlaskaNative || false,
-							onChange: event => updateAmericanIndianOrAlaskaNative(event.target.checked),
-						},
-						{
-							text: 'Asian',
-							value: 'asian',
-							checked: asian || false,
-							onChange: event => updateAsian(event.target.checked),
-						},
-						{
-							text: 'Black or African American',
-							value: 'blackOrAfricanAmerican',
-							checked: blackOrAfricanAmerican || false,
-							onChange: event => updateBlackOrAfricanAmerican(event.target.checked),
-						},
-						{
-							text: 'Native Hawaiian or Pacific Islander',
-							value: 'nativeHawaiianOrPacificIslander',
-							checked: nativeHawaiianOrPacificIslander || false,
-							onChange: event => updateNativeHawaiianOrPacificIslander(event.target.checked),
-						},
-						{
-							text: 'White',
-							value: 'white',
-							checked: white || false,
-							onChange: event => updateWhite(event.target.checked),
-						},
-					]}
+					onChange={(_, selected) => {
+						updateChildRace(
+							childRace.map(raceObj =>
+								Object.assign({}, { selected: selected.includes(raceObj.value) }, raceObj)
+							)
+						);
+					}}
 				/>
 
 				<h3>Ethnicity</h3>

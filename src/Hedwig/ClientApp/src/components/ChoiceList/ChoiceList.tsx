@@ -14,7 +14,7 @@ type ChoiceListProps = {
 	options: Option[];
 	id: string;
 	onChange: (
-		e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+		e: React.ChangeEvent<HTMLFormElement>,
 		selectedValues: string[],
 		otherInput?: string
 	) => any;
@@ -29,8 +29,8 @@ type ChoiceListProps = {
 type RadioOrChecklistProps = ChoiceListProps & {
 	type: 'radio' | 'check';
 	legend: string;
-	label?: never;
 	horizontal?: boolean;
+	label?: never;
 };
 
 type DropdownProps = ChoiceListProps & {
@@ -58,7 +58,7 @@ export default function ChoiceList({
 	const [selectedItems, updateSelection] = useState(selected);
 	const [otherInput, updateotherInput] = useState();
 
-	const changeEvent = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+	const changeEvent = (event: React.ChangeEvent<HTMLFormElement>) => {
 		const changedValue = event.target.value;
 		if (event.target.type === 'text') {
 			updateotherInput(changedValue);

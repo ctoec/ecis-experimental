@@ -30,7 +30,13 @@ import {
 import { prettyFundingTime, fundingTimeFromString } from '../../../utils/fundingTimeUtils';
 import { nextNReportingPeriods, periodSorter } from '../../../utils/models/reportingPeriod';
 import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
-import { familyDeterminationNotDisclosed, currentFunding, updateFunding, createFunding, currentC4kFunding } from '../../../utils/models';
+import {
+	familyDeterminationNotDisclosed,
+	currentFunding,
+	updateFunding,
+	createFunding,
+	currentC4kFunding,
+} from '../../../utils/models';
 import ChoiceList from '../../../components/ChoiceList/ChoiceList';
 import TextInput from '../../../components/TextInput/TextInput';
 import InlineIcon from '../../../components/InlineIcon/InlineIcon';
@@ -52,13 +58,15 @@ const EnrollmentFunding: Section = {
 		const fundings = enrollment.fundings || [];
 		const sourcelessFunding = fundings.find(funding => !funding.source);
 
-		const cdcFundings = fundings
-			.filter<DeepNonUndefineable<Funding>>(funding => funding.source === FundingSource.CDC);
+		const cdcFundings = fundings.filter<DeepNonUndefineable<Funding>>(
+			funding => funding.source === FundingSource.CDC
+		);
 		const cdcFunding = currentFunding(cdcFundings);
 		const isPrivatePay = !sourcelessFunding && cdcFunding === undefined;
 
-		const c4kFundings = fundings
-			.filter<DeepNonUndefineable<Funding>>(funding => funding.source === FundingSource.C4K)
+		const c4kFundings = fundings.filter<DeepNonUndefineable<Funding>>(
+			funding => funding.source === FundingSource.C4K
+		);
 		const c4kFunding = currentC4kFunding(c4kFundings);
 		const receivesC4k = c4kFunding !== undefined;
 
@@ -85,11 +93,11 @@ const EnrollmentFunding: Section = {
 						</p>
 						<p>
 							Funding:{' '}
-							{sourcelessFunding ?
-								InlineIcon({ icon: 'incomplete' }) :
-								isPrivatePay
-									? 'Private pay'
-									: `CDC - ${prettyFundingTime((cdcFunding as Funding).time)}` // cdcFunding will always be defined but Typescript does not infer so
+							{sourcelessFunding
+								? InlineIcon({ icon: 'incomplete' })
+								: isPrivatePay
+								? 'Private pay'
+								: `CDC - ${prettyFundingTime((cdcFunding as Funding).time)}` // cdcFunding will always be defined but Typescript does not infer so
 							}
 						</p>
 						{!isPrivatePay && !sourcelessFunding && (
@@ -100,13 +108,17 @@ const EnrollmentFunding: Section = {
 									: InlineIcon({ icon: 'incomplete' })}
 							</p>
 						)}
-						{(receivesC4k && c4kFunding) && (
+						{receivesC4k && c4kFunding && (
 							<>
 								<p>
-									Care 4 Kids Family ID: {c4kFunding.familyId ? c4kFunding.familyId : InlineIcon({icon: 'incomplete'})}
+									Care 4 Kids Family ID:{' '}
+									{c4kFunding.familyId ? c4kFunding.familyId : InlineIcon({ icon: 'incomplete' })}
 								</p>
 								<p>
-									Care 4 Kids Certificate Start Date: {c4kFunding.certificateStartDate ? dateFormatter(c4kFunding.certificateStartDate) : InlineIcon({icon: 'incomplete'})}
+									Care 4 Kids Certificate Start Date:{' '}
+									{c4kFunding.certificateStartDate
+										? dateFormatter(c4kFunding.certificateStartDate)
+										: InlineIcon({ icon: 'incomplete' })}
 								</p>
 							</>
 						)}
@@ -149,7 +161,9 @@ const EnrollmentFunding: Section = {
 		const [cdcFundingTime, updateCdcFundingTime] = useState<FundingTime | null>(
 			cdcFunding ? cdcFunding.time : null
 		);
-		const [privatePay, updatePrivatePay] = useState<boolean>(!initialLoad && !sourcelessFunding && cdcFundings.length === 0);
+		const [privatePay, updatePrivatePay] = useState<boolean>(
+			!initialLoad && !sourcelessFunding && cdcFundings.length === 0
+		);
 
 		const [cdcReportingPeriod, updateCdcReportingPeriod] = useState<ReportingPeriod>();
 
@@ -184,7 +198,9 @@ const EnrollmentFunding: Section = {
 			if (cdcReportingPeriod) {
 				nextPeriodsExcludingCurrent = [...nextPeriods.filter(period => period.id !== cdcReportingPeriod.id)];
 			}
-			const periods = cdcReportingPeriod ? [cdcReportingPeriod, ...nextPeriodsExcludingCurrent] : nextPeriodsExcludingCurrent;
+			const periods = cdcReportingPeriod
+				? [cdcReportingPeriod, ...nextPeriodsExcludingCurrent]
+				: nextPeriodsExcludingCurrent;
 			updateReportingPeriodOptions([...periods].sort(periodSorter));
 		}, [enrollment.entry, entry, reportingPeriods, cdcReportingPeriod]);
 
@@ -202,21 +218,21 @@ const EnrollmentFunding: Section = {
 				} else {
 					// The user has explicitly selected a funding
 					// Remove this sourceless funding (we either need to update it or remove it)
-					updatedFundings = [
-						...fundings.filter(funding => funding.id !== sourcelessFunding.id)
-					];
+					updatedFundings = [...fundings.filter(funding => funding.id !== sourcelessFunding.id)];
 					if (privatePay) {
-					// The user has explicitly selected private pay
-					// We've already removed the sourceless funding
+						// The user has explicitly selected private pay
+						// We've already removed the sourceless funding
 					} else if (cdcFundingTime) {
 						// The user has explicitly selected a CDC funding
 						// Update the funding
-						updatedFundings.push(updateFunding({
-							currentFunding: sourcelessFunding,
-							source: FundingSource.CDC,
-							time: cdcFundingTime,
-							reportingPeriod: cdcReportingPeriod
-						}));
+						updatedFundings.push(
+							updateFunding({
+								currentFunding: sourcelessFunding,
+								source: FundingSource.CDC,
+								time: cdcFundingTime,
+								reportingPeriod: cdcReportingPeriod,
+							})
+						);
 					}
 				}
 			} else {
@@ -225,27 +241,33 @@ const EnrollmentFunding: Section = {
 					// Current funding exists
 					// Remove current current (we either need to update it or remove it)
 					updatedFundings = [
-						...fundings.filter<DeepNonUndefineable<Funding>>(funding => funding.id !== cdcFundingId)
+						...fundings.filter<DeepNonUndefineable<Funding>>(
+							funding => funding.id !== cdcFundingId
+						),
 					];
 					if (!privatePay && cdcFundingTime) {
 						// The funding is to be updated, so add it back with the new values
-						updatedFundings.push(updateFunding({
-							currentFunding: cdcFunding,
-							time: cdcFundingTime,
-							reportingPeriod: cdcReportingPeriod
-						}));
+						updatedFundings.push(
+							updateFunding({
+								currentFunding: cdcFunding,
+								time: cdcFundingTime,
+								reportingPeriod: cdcReportingPeriod,
+							})
+						);
 					} else if (privatePay && !cdcFundingTime) {
 						// The funding is to be removed
 						// Do nothing
 					} else if (!privatePay && !cdcFundingTime) {
 						// '- Select -' was chosen
-						updatedFundings.push(createFunding({
-							enrollmentId: enrollment.id,
-							source: null
-						}))
+						updatedFundings.push(
+							createFunding({
+								enrollmentId: enrollment.id,
+								source: null,
+							})
+						);
 					} else {
 						// privatePay and cdcFundingTime should never both be value-ful
-						throw new Error("Something impossible happened");
+						throw new Error('Something impossible happened');
 					}
 				} else {
 					// No current funding exists
@@ -253,23 +275,26 @@ const EnrollmentFunding: Section = {
 					updatedFundings = [...fundings];
 					if (cdcFundingTime && !privatePay) {
 						// There should be a new funding added
-						updatedFundings.push(createFunding({
-							enrollmentId: enrollment.id,
-							source: FundingSource.CDC,
-							time: cdcFundingTime,
-							firstReportingPeriodId: cdcReportingPeriod ? cdcReportingPeriod.id : undefined
-						}));
+						updatedFundings.push(
+							createFunding({
+								enrollmentId: enrollment.id,
+								source: FundingSource.CDC,
+								time: cdcFundingTime,
+								firstReportingPeriodId: cdcReportingPeriod ? cdcReportingPeriod.id : undefined,
+							})
+						);
 					} else if (!cdcFunding && privatePay) {
 						// User selected private pay, do nothing
 					} else if (!cdcFunding && !privatePay) {
 						// User did not select a funding, create a source-less funding
-						updatedFundings.push(createFunding({
-							enrollmentId: enrollment.id,
-							source: null
-						}));
-					}
-					else /* (cdcFundingTime && privatePay) */ {
-						throw new Error("Something impossible happened");
+						updatedFundings.push(
+							createFunding({
+								enrollmentId: enrollment.id,
+								source: null,
+							})
+						);
+					} /* (cdcFundingTime && privatePay) */ else {
+						throw new Error('Something impossible happened');
 					}
 				}
 			}
@@ -466,15 +491,16 @@ const EnrollmentFunding: Section = {
 					)}
 					<h3>Care 4 Kids</h3>
 					<ChoiceList
+						type="check"
 						options={[
 							{
 								text: 'Receives Care 4 Kids',
 								value: 'receives-c4k',
-								checked: !!receivesC4k,
-								onChange: e => updateReceivesC4k(!!e.target.checked),
 							},
 						]}
 						id="c4k-checklist-box"
+						onChange={e => updateReceivesC4k(!!e.target.checked)}
+						selected={receivesC4k ? ['receives-c4k'] : undefined}
 						legend="Receives Care 4 Kids"
 						className="margin-top-3"
 					/>

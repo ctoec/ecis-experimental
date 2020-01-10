@@ -8,7 +8,7 @@ import notNullOrUndefined from '../../../utils/notNullOrUndefined';
 import moment from 'moment';
 import idx from 'idx';
 import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest } from '../../../generated';
-import Checklist from '../../../components/Checklist/Checklist';
+import ChoiceList from '../../../components/ChoiceList/ChoiceList';
 import Alert from '../../../components/Alert/Alert';
 import parseCurrencyFromString from '../../../utils/parseCurrencyFromString';
 import currencyFormatter from '../../../utils/currencyFormatter';
@@ -241,16 +241,17 @@ const FamilyIncome: Section = {
 							</FieldSet>
 						</>
 					)}
-					<Checklist
+					<ChoiceList
+						type="check"
 						legend="Family income disclosure"
 						id="family-income-disclosed"
 						className="margin-top-3"
+						onChange={event => updateNotDisclosed(event.target.checked)}
+						selected={notDisclosed ? ['familyIncomeNotDisclosed'] : undefined}
 						options={[
 							{
 								text: 'Family income not disclosed',
 								value: 'familyIncomeNotDisclosed',
-								checked: notDisclosed,
-								onChange: event => updateNotDisclosed(event.target.checked),
 							},
 						]}
 						status={!notDisclosed  ? undefined : warningForFieldSet(
