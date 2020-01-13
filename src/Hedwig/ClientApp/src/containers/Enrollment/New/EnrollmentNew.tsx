@@ -190,6 +190,7 @@ export default function EnrollmentNew({
 					/>
 					{sectionId === 'review' && 
 						<Button
+							className="margin-right-0"
 							href="../"
 							text="Finish"
 							onClick={() => {

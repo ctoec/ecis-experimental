@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useCallback } from 'react';
 import { Section } from '../enrollmentTypes';
 import moment from 'moment';
 import idx from 'idx';
@@ -8,6 +8,7 @@ import {
 	DateInput,
 	ChoiceList,
 	FieldSet,
+	DateRange,
 } from '../../../components';
 import nameFormatter from '../../../utils/nameFormatter';
 import dateFormatter from '../../../utils/dateFormatter';
@@ -90,13 +91,15 @@ const ChildInfo: Section = {
 		const [suffix, updateSuffix] = useState(child ? child.suffix : null);
 
 		const [birthdate, updateBirthdate] = useState(child ? child.birthdate : null);
+		const setBirthdate = useCallback((range: DateRange) => {
+			updateBirthdate(range.startDate && range.startDate.isValid() ? range.startDate.toDate() : null);
+		},[updateBirthdate])
 		const [birthCertificateId, updateBirthCertificateId] = useState(
 			child ? child.birthCertificateId : null
 		);
 		const [birthTown, updateBirthTown] = useState(child ? child.birthTown : null);
 		const [birthState, updateBirthState] = useState(child ? child.birthState : null);
 
-		// Is there a reason not to do this this way?
 		const [childRace, updateChildRace] = useState([
 			{
 				text: 'American Indian or Alaska Native',
@@ -275,11 +278,7 @@ const ChildInfo: Section = {
 
 				<h3>Date of birth</h3>
 				<DateInput
-					onChange={range =>
-						updateBirthdate(
-							range.startDate && range.startDate.isValid() ? range.startDate.toDate() : null
-						)
-					}
+					onChange={setBirthdate}
 					dateRange={{ startDate: birthdate ? moment(birthdate) : null, endDate: null }}
 					label="Birth date"
 					id="birthdate-picker"
