@@ -61,6 +61,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 	// TODO: revisit usage of this datepicker library at all-- can't add aria-describedby :/
 
 	const labelText = `${label}${optional ? ' (Optional)' : ''}`;
+	const initialVisibleMonth = selectedRange.startDate || moment();
 	if (byRange) {
 		return (
 			<FieldSet legend={labelText} status={status} id={id} showLegend={true}>
@@ -73,7 +74,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 					onDatesChange={dates => setDateRange(dates)}
 					onFocusChange={(focused: string | null) => setDatePickerFocused(focused)}
 					isOutsideRange={date => isOutsidePossibleRange(date)}
-					initialVisibleMonth={() => moment().subtract(1, 'M')}
+					initialVisibleMonth={() => initialVisibleMonth}
 					noBorder={true}
 					disabled={disabled}
 				/>
@@ -100,7 +101,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 					onDateChange={date => setDateRange({ startDate: date, endDate: date })}
 					onFocusChange={({ focused }: any) => setDatePickerFocused(focused ? 'startDate' : null)}
 					isOutsideRange={date => isOutsidePossibleRange(date)}
-					initialVisibleMonth={() => moment().subtract(1, 'M')}
+					initialVisibleMonth={() => initialVisibleMonth}
 					numberOfMonths={1}
 					noBorder={true}
 					disabled={disabled}
