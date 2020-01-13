@@ -826,74 +826,80 @@ exports[`Storyshots Date input Default 1`] = `
     <div
       className="grid-gap grid-row flex-row flex-align-end usa-memorable-date"
     >
-      <div
-        className="oec-date-input__input usa-form-group"
-      >
-        <label
-          className="usa-label"
-          htmlFor="dateinput-example-month-start-date"
+      <div>
+        <div
+          className="oec-date-input__input usa-form-group"
         >
-          Month
-           
-        </label>
-        <input
-          className="usa-input usa-input--inline"
-          defaultValue="10"
-          id="dateinput-example-month-start-date"
-          max={12}
-          maxLength={2}
-          min={1}
-          name="dateinput-example-month-start-date"
-          onBlur={[Function]}
-          onChange={[Function]}
-          type="number"
-        />
+          <label
+            className="usa-label"
+            htmlFor="dateinput-example-month-start-date"
+          >
+            Month
+             
+          </label>
+          <input
+            className="usa-input usa-input--inline"
+            defaultValue="10"
+            id="dateinput-example-month-start-date"
+            max={12}
+            maxLength={2}
+            min={1}
+            name="dateinput-example-month-start-date"
+            onBlur={[Function]}
+            onChange={[Function]}
+            type="number"
+          />
+        </div>
       </div>
-      <div
-        className="oec-date-input__input usa-form-group"
-      >
-        <label
-          className="usa-label"
-          htmlFor="dateinput-example-day-start-date"
+      <div>
+        <div
+          className="oec-date-input__input usa-form-group"
         >
-          Day
-           
-        </label>
-        <input
-          className="usa-input usa-input--inline"
-          defaultValue="30"
-          id="dateinput-example-day-start-date"
-          max={31}
-          maxLength={2}
-          min={1}
-          name="dateinput-example-day-start-date"
-          onBlur={[Function]}
-          onChange={[Function]}
-          type="number"
-        />
+          <label
+            className="usa-label"
+            htmlFor="dateinput-example-day-start-date"
+          >
+            Day
+             
+          </label>
+          <input
+            className="usa-input usa-input--inline"
+            defaultValue="30"
+            id="dateinput-example-day-start-date"
+            max={31}
+            maxLength={2}
+            min={1}
+            name="dateinput-example-day-start-date"
+            onBlur={[Function]}
+            onChange={[Function]}
+            type="number"
+          />
+        </div>
       </div>
-      <div
-        className="oec-date-input__input usa-form-group"
-      >
-        <label
-          className="usa-label"
-          htmlFor="dateinput-example-year-start-date"
+      <div>
+        <div
+          className="oec-date-input__input usa-form-group"
         >
-          Year
-           
-        </label>
-        <input
-          className="usa-input usa-input--inline"
-          defaultValue="2019"
-          id="dateinput-example-year-start-date"
-          max={2100}
-          maxLength={4}
-          min={1990}
-          name="dateinput-example-year-start-date"
-          onBlur={[Function]}
-          onChange={[Function]}
-          type="number"
-        />
+          <label
+            className="usa-label"
+            htmlFor="dateinput-example-year-start-date"
+          >
+            Year
+             
+          </label>
+          <input
+            className="usa-input usa-input--inline"
+            defaultValue="2019"
+            id="dateinput-example-year-start-date"
+            max={2100}
+            maxLength={4}
+            min={1990}
+            name="dateinput-example-year-start-date"
+            onBlur={[Function]}
+            onChange={[Function]}
+            type="number"
+          />
+        </div>
       </div>
        
     </div>
@@ -931,77 +937,83 @@ exports[`Storyshots Date input Disabled day input 1`] = `
     <div
       className="grid-gap grid-row flex-row flex-align-end usa-memorable-date"
     >
-      <div
-        className="oec-date-input__input usa-form-group"
-      >
-        <label
-          className="usa-label"
-          htmlFor="dateinput-example-month-start-date"
+      <div>
+        <div
+          className="oec-date-input__input usa-form-group"
         >
-          Month
-           
-        </label>
-        <input
-          className="usa-input usa-input--inline"
-          defaultValue="10"
-          disabled={true}
-          id="dateinput-example-month-start-date"
-          max={12}
-          maxLength={2}
-          min={1}
-          name="dateinput-example-month-start-date"
-          onBlur={[Function]}
-          onChange={[Function]}
-          type="number"
-        />
+          <label
+            className="usa-label"
+            htmlFor="dateinput-example-month-start-date"
+          >
+            Month
+             
+          </label>
+          <input
+            className="usa-input usa-input--inline"
+            defaultValue="10"
+            disabled={true}
+            id="dateinput-example-month-start-date"
+            max={12}
+            maxLength={2}
+            min={1}
+            name="dateinput-example-month-start-date"
+            onBlur={[Function]}
+            onChange={[Function]}
+            type="number"
+          />
+        </div>
       </div>
-      <div
-        className="oec-date-input__input usa-form-group"
-      >
-        <label
-          className="usa-label"
-          htmlFor="dateinput-example-day-start-date"
+      <div>
+        <div
+          className="oec-date-input__input usa-form-group"
         >
-          Day
-           
-        </label>
-        <input
-          className="usa-input usa-input--inline"
-          defaultValue="30"
-          disabled={true}
-          id="dateinput-example-day-start-date"
-          max={31}
-          maxLength={2}
-          min={1}
-          name="dateinput-example-day-start-date"
-          onBlur={[Function]}
-          onChange={[Function]}
-          type="number"
-        />
+          <label
+            className="usa-label"
+            htmlFor="dateinput-example-day-start-date"
+          >
+            Day
+             
+          </label>
+          <input
+            className="usa-input usa-input--inline"
+            defaultValue="30"
+            disabled={true}
+            id="dateinput-example-day-start-date"
+            max={31}
+            maxLength={2}
+            min={1}
+            name="dateinput-example-day-start-date"
+            onBlur={[Function]}
+            onChange={[Function]}
+            type="number"
+          />
+        </div>
       </div>
-      <div
-        className="oec-date-input__input usa-form-group"
-      >
-        <label
-          className="usa-label"
-          htmlFor="dateinput-example-year-start-date"
+      <div>
+        <div
+          className="oec-date-input__input usa-form-group"
         >
-          Year
-           
-        </label>
-        <input
-          className="usa-input usa-input--inline"
-          defaultValue="2019"
-          disabled={true}
-          id="dateinput-example-year-start-date"
-          max={2100}
-          maxLength={4}
-          min={1990}
-          name="dateinput-example-year-start-date"
-          onBlur={[Function]}
-          onChange={[Function]}
-          type="number"
-        />
+          <label
+            className="usa-label"
+            htmlFor="dateinput-example-year-start-date"
+          >
+            Year
+             
+          </label>
+          <input
+            className="usa-input usa-input--inline"
+            defaultValue="2019"
+            disabled={true}
+            id="dateinput-example-year-start-date"
+            max={2100}
+            maxLength={4}
+            min={1990}
+            name="dateinput-example-year-start-date"
+            onBlur={[Function]}
+            onChange={[Function]}
+            type="number"
+          />
+        </div>
       </div>
        
     </div>
@@ -1056,77 +1068,83 @@ exports[`Storyshots Date input Disabled range input 1`] = `
         <div
           className="grid-gap grid-row flex-row flex-align-end usa-memorable-date"
         >
-          <div
-            className="oec-date-input__input usa-form-group"
-          >
-            <label
-              className="usa-label"
-              htmlFor="dateinput-example-month-start-date"
+          <div>
+            <div
+              className="oec-date-input__input usa-form-group"
             >
-              Month
-               
-            </label>
-            <input
-              className="usa-input usa-input--inline"
-              defaultValue="10"
-              disabled={true}
-              id="dateinput-example-month-start-date"
-              max={12}
-              maxLength={2}
-              min={1}
-              name="dateinput-example-month-start-date"
-              onBlur={[Function]}
-              onChange={[Function]}
-              type="number"
-            />
+              <label
+                className="usa-label"
+                htmlFor="dateinput-example-month-start-date"
+              >
+                Month
+                 
+              </label>
+              <input
+                className="usa-input usa-input--inline"
+                defaultValue="10"
+                disabled={true}
+                id="dateinput-example-month-start-date"
+                max={12}
+                maxLength={2}
+                min={1}
+                name="dateinput-example-month-start-date"
+                onBlur={[Function]}
+                onChange={[Function]}
+                type="number"
+              />
+            </div>
           </div>
-          <div
-            className="oec-date-input__input usa-form-group"
-          >
-            <label
-              className="usa-label"
-              htmlFor="dateinput-example-day-start-date"
+          <div>
+            <div
+              className="oec-date-input__input usa-form-group"
             >
-              Day
-               
-            </label>
-            <input
-              className="usa-input usa-input--inline"
-              defaultValue="30"
-              disabled={true}
-              id="dateinput-example-day-start-date"
-              max={31}
-              maxLength={2}
-              min={1}
-              name="dateinput-example-day-start-date"
-              onBlur={[Function]}
-              onChange={[Function]}
-              type="number"
-            />
+              <label
+                className="usa-label"
+                htmlFor="dateinput-example-day-start-date"
+              >
+                Day
+                 
+              </label>
+              <input
+                className="usa-input usa-input--inline"
+                defaultValue="30"
+                disabled={true}
+                id="dateinput-example-day-start-date"
+                max={31}
+                maxLength={2}
+                min={1}
+                name="dateinput-example-day-start-date"
+                onBlur={[Function]}
+                onChange={[Function]}
+                type="number"
+              />
+            </div>
           </div>
-          <div
-            className="oec-date-input__input usa-form-group"
-          >
-            <label
-              className="usa-label"
-              htmlFor="dateinput-example-year-start-date"
+          <div>
+            <div
+              className="oec-date-input__input usa-form-group"
             >
-              Year
-               
-            </label>
-            <input
-              className="usa-input usa-input--inline"
-              defaultValue="2019"
-              disabled={true}
-              id="dateinput-example-year-start-date"
-              max={2100}
-              maxLength={4}
-              min={1990}
-              name="dateinput-example-year-start-date"
-              onBlur={[Function]}
-              onChange={[Function]}
-              type="number"
-            />
+              <label
+                className="usa-label"
+                htmlFor="dateinput-example-year-start-date"
+              >
+                Year
+                 
+              </label>
+              <input
+                className="usa-input usa-input--inline"
+                defaultValue="2019"
+                disabled={true}
+                id="dateinput-example-year-start-date"
+                max={2100}
+                maxLength={4}
+                min={1990}
+                name="dateinput-example-year-start-date"
+                onBlur={[Function]}
+                onChange={[Function]}
+                type="number"
+              />
+            </div>
           </div>
            
         </div>
@@ -1147,77 +1165,83 @@ exports[`Storyshots Date input Disabled range input 1`] = `
         <div
           className="grid-gap grid-row flex-row flex-align-end usa-memorable-date"
         >
-          <div
-            className="oec-date-input__input usa-form-group"
-          >
-            <label
-              className="usa-label"
-              htmlFor="dateinput-example-month-end-date"
+          <div>
+            <div
+              className="oec-date-input__input usa-form-group"
             >
-              Month
-               
-            </label>
-            <input
-              className="usa-input usa-input--inline"
-              defaultValue="10"
-              disabled={true}
-              id="dateinput-example-month-end-date"
-              max={12}
-              maxLength={2}
-              min={1}
-              name="dateinput-example-month-end-date"
-              onBlur={[Function]}
-              onChange={[Function]}
-              type="number"
-            />
+              <label
+                className="usa-label"
+                htmlFor="dateinput-example-month-end-date"
+              >
+                Month
+                 
+              </label>
+              <input
+                className="usa-input usa-input--inline"
+                defaultValue="10"
+                disabled={true}
+                id="dateinput-example-month-end-date"
+                max={12}
+                maxLength={2}
+                min={1}
+                name="dateinput-example-month-end-date"
+                onBlur={[Function]}
+                onChange={[Function]}
+                type="number"
+              />
+            </div>
           </div>
-          <div
-            className="oec-date-input__input usa-form-group"
-          >
-            <label
-              className="usa-label"
-              htmlFor="dateinput-example-day-end-date"
+          <div>
+            <div
+              className="oec-date-input__input usa-form-group"
             >
-              Day
-               
-            </label>
-            <input
-              className="usa-input usa-input--inline"
-              defaultValue="30"
-              disabled={true}
-              id="dateinput-example-day-end-date"
-              max={31}
-              maxLength={2}
-              min={1}
-              name="dateinput-example-day-end-date"
-              onBlur={[Function]}
-              onChange={[Function]}
-              type="number"
-            />
+              <label
+                className="usa-label"
+                htmlFor="dateinput-example-day-end-date"
+              >
+                Day
+                 
+              </label>
+              <input
+                className="usa-input usa-input--inline"
+                defaultValue="30"
+                disabled={true}
+                id="dateinput-example-day-end-date"
+                max={31}
+                maxLength={2}
+                min={1}
+                name="dateinput-example-day-end-date"
+                onBlur={[Function]}
+                onChange={[Function]}
+                type="number"
+              />
+            </div>
           </div>
-          <div
-            className="oec-date-input__input usa-form-group"
-          >
-            <label
-              className="usa-label"
-              htmlFor="dateinput-example-year-end-date"
+          <div>
+            <div
+              className="oec-date-input__input usa-form-group"
             >
-              Year
-               
-            </label>
-            <input
-              className="usa-input usa-input--inline"
-              defaultValue="2019"
-              disabled={true}
-              id="dateinput-example-year-end-date"
-              max={2100}
-              maxLength={4}
-              min={1990}
-              name="dateinput-example-year-end-date"
-              onBlur={[Function]}
-              onChange={[Function]}
-              type="number"
-            />
+              <label
+                className="usa-label"
+                htmlFor="dateinput-example-year-end-date"
+              >
+                Year
+                 
+              </label>
+              <input
+                className="usa-input usa-input--inline"
+                defaultValue="2019"
+                disabled={true}
+                id="dateinput-example-year-end-date"
+                max={2100}
+                maxLength={4}
+                min={1990}
+                name="dateinput-example-year-end-date"
+                onBlur={[Function]}
+                onChange={[Function]}
+                type="number"
+              />
+            </div>
           </div>
         </div>
       </fieldset>
@@ -1265,74 +1289,80 @@ exports[`Storyshots Date input Error 1`] = `
     <div
       className="grid-gap grid-row flex-row flex-align-end usa-memorable-date"
     >
-      <div
-        className="oec-date-input__input usa-form-group"
-      >
-        <label
-          className="usa-label"
-          htmlFor="dateinput-example-month-start-date"
+      <div>
+        <div
+          className="oec-date-input__input usa-form-group"
         >
-          Month
-           
-        </label>
-        <input
-          className="usa-input usa-input--inline"
-          defaultValue="10"
-          id="dateinput-example-month-start-date"
-          max={12}
-          maxLength={2}
-          min={1}
-          name="dateinput-example-month-start-date"
-          onBlur={[Function]}
-          onChange={[Function]}
-          type="number"
-        />
+          <label
+            className="usa-label"
+            htmlFor="dateinput-example-month-start-date"
+          >
+            Month
+             
+          </label>
+          <input
+            className="usa-input usa-input--inline"
+            defaultValue="10"
+            id="dateinput-example-month-start-date"
+            max={12}
+            maxLength={2}
+            min={1}
+            name="dateinput-example-month-start-date"
+            onBlur={[Function]}
+            onChange={[Function]}
+            type="number"
+          />
+        </div>
       </div>
-      <div
-        className="oec-date-input__input usa-form-group"
-      >
-        <label
-          className="usa-label"
-          htmlFor="dateinput-example-day-start-date"
+      <div>
+        <div
+          className="oec-date-input__input usa-form-group"
         >
-          Day
-           
-        </label>
-        <input
-          className="usa-input usa-input--inline"
-          defaultValue="30"
-          id="dateinput-example-day-start-date"
-          max={31}
-          maxLength={2}
-          min={1}
-          name="dateinput-example-day-start-date"
-          onBlur={[Function]}
-          onChange={[Function]}
-          type="number"
-        />
+          <label
+            className="usa-label"
+            htmlFor="dateinput-example-day-start-date"
+          >
+            Day
+             
+          </label>
+          <input
+            className="usa-input usa-input--inline"
+            defaultValue="30"
+            id="dateinput-example-day-start-date"
+            max={31}
+            maxLength={2}
+            min={1}
+            name="dateinput-example-day-start-date"
+            onBlur={[Function]}
+            onChange={[Function]}
+            type="number"
+          />
+        </div>
       </div>
-      <div
-        className="oec-date-input__input usa-form-group"
-      >
-        <label
-          className="usa-label"
-          htmlFor="dateinput-example-year-start-date"
+      <div>
+        <div
+          className="oec-date-input__input usa-form-group"
         >
-          Year
-           
-        </label>
-        <input
-          className="usa-input usa-input--inline"
-          defaultValue="2019"
-          id="dateinput-example-year-start-date"
-          max={2100}
-          maxLength={4}
-          min={1990}
-          name="dateinput-example-year-start-date"
-          onBlur={[Function]}
-          onChange={[Function]}
-          type="number"
-        />
+          <label
+            className="usa-label"
+            htmlFor="dateinput-example-year-start-date"
+          >
+            Year
+             
+          </label>
+          <input
+            className="usa-input usa-input--inline"
+            defaultValue="2019"
+            id="dateinput-example-year-start-date"
+            max={2100}
+            maxLength={4}
+            min={1990}
+            name="dateinput-example-year-start-date"
+            onBlur={[Function]}
+            onChange={[Function]}
+            type="number"
+          />
+        </div>
       </div>
        
     </div>
@@ -1396,77 +1426,83 @@ exports[`Storyshots Date input Error with range 1`] = `
         <div
           className="grid-gap grid-row flex-row flex-align-end usa-memorable-date"
         >
-          <div
-            className="oec-date-input__input usa-form-group"
-          >
-            <label
-              className="usa-label"
-              htmlFor="dateinput-example-month-start-date"
+          <div>
+            <div
+              className="oec-date-input__input usa-form-group"
             >
-              Month
-               
-            </label>
-            <input
-              className="usa-input usa-input--inline"
-              defaultValue="10"
-              disabled={true}
-              id="dateinput-example-month-start-date"
-              max={12}
-              maxLength={2}
-              min={1}
-              name="dateinput-example-month-start-date"
-              onBlur={[Function]}
-              onChange={[Function]}
-              type="number"
-            />
+              <label
+                className="usa-label"
+                htmlFor="dateinput-example-month-start-date"
+              >
+                Month
+                 
+              </label>
+              <input
+                className="usa-input usa-input--inline"
+                defaultValue="10"
+                disabled={true}
+                id="dateinput-example-month-start-date"
+                max={12}
+                maxLength={2}
+                min={1}
+                name="dateinput-example-month-start-date"
+                onBlur={[Function]}
+                onChange={[Function]}
+                type="number"
+              />
+            </div>
           </div>
-          <div
-            className="oec-date-input__input usa-form-group"
-          >
-            <label
-              className="usa-label"
-              htmlFor="dateinput-example-day-start-date"
+          <div>
+            <div
+              className="oec-date-input__input usa-form-group"
             >
-              Day
-               
-            </label>
-            <input
-              className="usa-input usa-input--inline"
-              defaultValue="30"
-              disabled={true}
-              id="dateinput-example-day-start-date"
-              max={31}
-              maxLength={2}
-              min={1}
-              name="dateinput-example-day-start-date"
-              onBlur={[Function]}
-              onChange={[Function]}
-              type="number"
-            />
+              <label
+                className="usa-label"
+                htmlFor="dateinput-example-day-start-date"
+              >
+                Day
+                 
+              </label>
+              <input
+                className="usa-input usa-input--inline"
+                defaultValue="30"
+                disabled={true}
+                id="dateinput-example-day-start-date"
+                max={31}
+                maxLength={2}
+                min={1}
+                name="dateinput-example-day-start-date"
+                onBlur={[Function]}
+                onChange={[Function]}
+                type="number"
+              />
+            </div>
           </div>
-          <div
-            className="oec-date-input__input usa-form-group"
-          >
-            <label
-              className="usa-label"
-              htmlFor="dateinput-example-year-start-date"
+          <div>
+            <div
+              className="oec-date-input__input usa-form-group"
             >
-              Year
-               
-            </label>
-            <input
-              className="usa-input usa-input--inline"
-              defaultValue="2019"
-              disabled={true}
-              id="dateinput-example-year-start-date"
-              max={2100}
-              maxLength={4}
-              min={1990}
-              name="dateinput-example-year-start-date"
-              onBlur={[Function]}
-              onChange={[Function]}
-              type="number"
-            />
+              <label
+                className="usa-label"
+                htmlFor="dateinput-example-year-start-date"
+              >
+                Year
+                 
+              </label>
+              <input
+                className="usa-input usa-input--inline"
+                defaultValue="2019"
+                disabled={true}
+                id="dateinput-example-year-start-date"
+                max={2100}
+                maxLength={4}
+                min={1990}
+                name="dateinput-example-year-start-date"
+                onBlur={[Function]}
+                onChange={[Function]}
+                type="number"
+              />
+            </div>
           </div>
            
         </div>
@@ -1487,77 +1523,83 @@ exports[`Storyshots Date input Error with range 1`] = `
         <div
           className="grid-gap grid-row flex-row flex-align-end usa-memorable-date"
         >
-          <div
-            className="oec-date-input__input usa-form-group"
-          >
-            <label
-              className="usa-label"
-              htmlFor="dateinput-example-month-end-date"
+          <div>
+            <div
+              className="oec-date-input__input usa-form-group"
             >
-              Month
-               
-            </label>
-            <input
-              className="usa-input usa-input--inline"
-              defaultValue="10"
-              disabled={true}
-              id="dateinput-example-month-end-date"
-              max={12}
-              maxLength={2}
-              min={1}
-              name="dateinput-example-month-end-date"
-              onBlur={[Function]}
-              onChange={[Function]}
-              type="number"
-            />
+              <label
+                className="usa-label"
+                htmlFor="dateinput-example-month-end-date"
+              >
+                Month
+                 
+              </label>
+              <input
+                className="usa-input usa-input--inline"
+                defaultValue="10"
+                disabled={true}
+                id="dateinput-example-month-end-date"
+                max={12}
+                maxLength={2}
+                min={1}
+                name="dateinput-example-month-end-date"
+                onBlur={[Function]}
+                onChange={[Function]}
+                type="number"
+              />
+            </div>
           </div>
-          <div
-            className="oec-date-input__input usa-form-group"
-          >
-            <label
-              className="usa-label"
-              htmlFor="dateinput-example-day-end-date"
+          <div>
+            <div
+              className="oec-date-input__input usa-form-group"
             >
-              Day
-               
-            </label>
-            <input
-              className="usa-input usa-input--inline"
-              defaultValue="30"
-              disabled={true}
-              id="dateinput-example-day-end-date"
-              max={31}
-              maxLength={2}
-              min={1}
-              name="dateinput-example-day-end-date"
-              onBlur={[Function]}
-              onChange={[Function]}
-              type="number"
-            />
+              <label
+                className="usa-label"
+                htmlFor="dateinput-example-day-end-date"
+              >
+                Day
+                 
+              </label>
+              <input
+                className="usa-input usa-input--inline"
+                defaultValue="30"
+                disabled={true}
+                id="dateinput-example-day-end-date"
+                max={31}
+                maxLength={2}
+                min={1}
+                name="dateinput-example-day-end-date"
+                onBlur={[Function]}
+                onChange={[Function]}
+                type="number"
+              />
+            </div>
           </div>
-          <div
-            className="oec-date-input__input usa-form-group"
-          >
-            <label
-              className="usa-label"
-              htmlFor="dateinput-example-year-end-date"
+          <div>
+            <div
+              className="oec-date-input__input usa-form-group"
             >
-              Year
-               
-            </label>
-            <input
-              className="usa-input usa-input--inline"
-              defaultValue="2019"
-              disabled={true}
-              id="dateinput-example-year-end-date"
-              max={2100}
-              maxLength={4}
-              min={1990}
-              name="dateinput-example-year-end-date"
-              onBlur={[Function]}
-              onChange={[Function]}
-              type="number"
-            />
+              <label
+                className="usa-label"
+                htmlFor="dateinput-example-year-end-date"
+              >
+                Year
+                 
+              </label>
+              <input
+                className="usa-input usa-input--inline"
+                defaultValue="2019"
+                disabled={true}
+                id="dateinput-example-year-end-date"
+                max={2100}
+                maxLength={4}
+                min={1990}
+                name="dateinput-example-year-end-date"
+                onBlur={[Function]}
+                onChange={[Function]}
+                type="number"
+              />
+            </div>
           </div>
         </div>
       </fieldset>
@@ -1613,74 +1655,80 @@ exports[`Storyshots Date input Range input 1`] = `
         <div
           className="grid-gap grid-row flex-row flex-align-end usa-memorable-date"
         >
-          <div
-            className="oec-date-input__input usa-form-group"
-          >
-            <label
-              className="usa-label"
-              htmlFor="dateinput-example-month-start-date"
+          <div>
+            <div
+              className="oec-date-input__input usa-form-group"
             >
-              Month
-               
-            </label>
-            <input
-              className="usa-input usa-input--inline"
-              defaultValue="10"
-              id="dateinput-example-month-start-date"
-              max={12}
-              maxLength={2}
-              min={1}
-              name="dateinput-example-month-start-date"
-              onBlur={[Function]}
-              onChange={[Function]}
-              type="number"
-            />
+              <label
+                className="usa-label"
+                htmlFor="dateinput-example-month-start-date"
+              >
+                Month
+                 
+              </label>
+              <input
+                className="usa-input usa-input--inline"
+                defaultValue="10"
+                id="dateinput-example-month-start-date"
+                max={12}
+                maxLength={2}
+                min={1}
+                name="dateinput-example-month-start-date"
+                onBlur={[Function]}
+                onChange={[Function]}
+                type="number"
+              />
+            </div>
           </div>
-          <div
-            className="oec-date-input__input usa-form-group"
-          >
-            <label
-              className="usa-label"
-              htmlFor="dateinput-example-day-start-date"
+          <div>
+            <div
+              className="oec-date-input__input usa-form-group"
             >
-              Day
-               
-            </label>
-            <input
-              className="usa-input usa-input--inline"
-              defaultValue="30"
-              id="dateinput-example-day-start-date"
-              max={31}
-              maxLength={2}
-              min={1}
-              name="dateinput-example-day-start-date"
-              onBlur={[Function]}
-              onChange={[Function]}
-              type="number"
-            />
+              <label
+                className="usa-label"
+                htmlFor="dateinput-example-day-start-date"
+              >
+                Day
+                 
+              </label>
+              <input
+                className="usa-input usa-input--inline"
+                defaultValue="30"
+                id="dateinput-example-day-start-date"
+                max={31}
+                maxLength={2}
+                min={1}
+                name="dateinput-example-day-start-date"
+                onBlur={[Function]}
+                onChange={[Function]}
+                type="number"
+              />
+            </div>
           </div>
-          <div
-            className="oec-date-input__input usa-form-group"
-          >
-            <label
-              className="usa-label"
-              htmlFor="dateinput-example-year-start-date"
+          <div>
+            <div
+              className="oec-date-input__input usa-form-group"
             >
-              Year
-               
-            </label>
-            <input
-              className="usa-input usa-input--inline"
-              defaultValue="2019"
-              id="dateinput-example-year-start-date"
-              max={2100}
-              maxLength={4}
-              min={1990}
-              name="dateinput-example-year-start-date"
-              onBlur={[Function]}
-              onChange={[Function]}
-              type="number"
-            />
+              <label
+                className="usa-label"
+                htmlFor="dateinput-example-year-start-date"
+              >
+                Year
+                 
+              </label>
+              <input
+                className="usa-input usa-input--inline"
+                defaultValue="2019"
+                id="dateinput-example-year-start-date"
+                max={2100}
+                maxLength={4}
+                min={1990}
+                name="dateinput-example-year-start-date"
+                onBlur={[Function]}
+                onChange={[Function]}
+                type="number"
+              />
+            </div>
           </div>
            
         </div>
@@ -1701,74 +1749,80 @@ exports[`Storyshots Date input Range input 1`] = `
         <div
           className="grid-gap grid-row flex-row flex-align-end usa-memorable-date"
         >
-          <div
-            className="oec-date-input__input usa-form-group"
-          >
-            <label
-              className="usa-label"
-              htmlFor="dateinput-example-month-end-date"
+          <div>
+            <div
+              className="oec-date-input__input usa-form-group"
             >
-              Month
-               
-            </label>
-            <input
-              className="usa-input usa-input--inline"
-              defaultValue="10"
-              id="dateinput-example-month-end-date"
-              max={12}
-              maxLength={2}
-              min={1}
-              name="dateinput-example-month-end-date"
-              onBlur={[Function]}
-              onChange={[Function]}
-              type="number"
-            />
+              <label
+                className="usa-label"
+                htmlFor="dateinput-example-month-end-date"
+              >
+                Month
+                 
+              </label>
+              <input
+                className="usa-input usa-input--inline"
+                defaultValue="10"
+                id="dateinput-example-month-end-date"
+                max={12}
+                maxLength={2}
+                min={1}
+                name="dateinput-example-month-end-date"
+                onBlur={[Function]}
+                onChange={[Function]}
+                type="number"
+              />
+            </div>
           </div>
-          <div
-            className="oec-date-input__input usa-form-group"
-          >
-            <label
-              className="usa-label"
-              htmlFor="dateinput-example-day-end-date"
+          <div>
+            <div
+              className="oec-date-input__input usa-form-group"
             >
-              Day
-               
-            </label>
-            <input
-              className="usa-input usa-input--inline"
-              defaultValue="30"
-              id="dateinput-example-day-end-date"
-              max={31}
-              maxLength={2}
-              min={1}
-              name="dateinput-example-day-end-date"
-              onBlur={[Function]}
-              onChange={[Function]}
-              type="number"
-            />
+              <label
+                className="usa-label"
+                htmlFor="dateinput-example-day-end-date"
+              >
+                Day
+                 
+              </label>
+              <input
+                className="usa-input usa-input--inline"
+                defaultValue="30"
+                id="dateinput-example-day-end-date"
+                max={31}
+                maxLength={2}
+                min={1}
+                name="dateinput-example-day-end-date"
+                onBlur={[Function]}
+                onChange={[Function]}
+                type="number"
+              />
+            </div>
           </div>
-          <div
-            className="oec-date-input__input usa-form-group"
-          >
-            <label
-              className="usa-label"
-              htmlFor="dateinput-example-year-end-date"
+          <div>
+            <div
+              className="oec-date-input__input usa-form-group"
             >
-              Year
-               
-            </label>
-            <input
-              className="usa-input usa-input--inline"
-              defaultValue="2019"
-              id="dateinput-example-year-end-date"
-              max={2100}
-              maxLength={4}
-              min={1990}
-              name="dateinput-example-year-end-date"
-              onBlur={[Function]}
-              onChange={[Function]}
-              type="number"
-            />
+              <label
+                className="usa-label"
+                htmlFor="dateinput-example-year-end-date"
+              >
+                Year
+                 
+              </label>
+              <input
+                className="usa-input usa-input--inline"
+                defaultValue="2019"
+                id="dateinput-example-year-end-date"
+                max={2100}
+                maxLength={4}
+                min={1990}
+                name="dateinput-example-year-end-date"
+                onBlur={[Function]}
+                onChange={[Function]}
+                type="number"
+              />
+            </div>
           </div>
         </div>
       </fieldset>
@@ -1816,74 +1870,80 @@ exports[`Storyshots Date input Success 1`] = `
     <div
       className="grid-gap grid-row flex-row flex-align-end usa-memorable-date"
     >
-      <div
-        className="oec-date-input__input usa-form-group"
-      >
-        <label
-          className="usa-label"
-          htmlFor="dateinput-example-month-start-date"
+      <div>
+        <div
+          className="oec-date-input__input usa-form-group"
         >
-          Month
-           
-        </label>
-        <input
-          className="usa-input usa-input--inline"
-          defaultValue="10"
-          id="dateinput-example-month-start-date"
-          max={12}
-          maxLength={2}
-          min={1}
-          name="dateinput-example-month-start-date"
-          onBlur={[Function]}
-          onChange={[Function]}
-          type="number"
-        />
+          <label
+            className="usa-label"
+            htmlFor="dateinput-example-month-start-date"
+          >
+            Month
+             
+          </label>
+          <input
+            className="usa-input usa-input--inline"
+            defaultValue="10"
+            id="dateinput-example-month-start-date"
+            max={12}
+            maxLength={2}
+            min={1}
+            name="dateinput-example-month-start-date"
+            onBlur={[Function]}
+            onChange={[Function]}
+            type="number"
+          />
+        </div>
       </div>
-      <div
-        className="oec-date-input__input usa-form-group"
-      >
-        <label
-          className="usa-label"
-          htmlFor="dateinput-example-day-start-date"
+      <div>
+        <div
+          className="oec-date-input__input usa-form-group"
         >
-          Day
-           
-        </label>
-        <input
-          className="usa-input usa-input--inline"
-          defaultValue="30"
-          id="dateinput-example-day-start-date"
-          max={31}
-          maxLength={2}
-          min={1}
-          name="dateinput-example-day-start-date"
-          onBlur={[Function]}
-          onChange={[Function]}
-          type="number"
-        />
+          <label
+            className="usa-label"
+            htmlFor="dateinput-example-day-start-date"
+          >
+            Day
+             
+          </label>
+          <input
+            className="usa-input usa-input--inline"
+            defaultValue="30"
+            id="dateinput-example-day-start-date"
+            max={31}
+            maxLength={2}
+            min={1}
+            name="dateinput-example-day-start-date"
+            onBlur={[Function]}
+            onChange={[Function]}
+            type="number"
+          />
+        </div>
       </div>
-      <div
-        className="oec-date-input__input usa-form-group"
-      >
-        <label
-          className="usa-label"
-          htmlFor="dateinput-example-year-start-date"
+      <div>
+        <div
+          className="oec-date-input__input usa-form-group"
         >
-          Year
-           
-        </label>
-        <input
-          className="usa-input usa-input--inline"
-          defaultValue="2019"
-          id="dateinput-example-year-start-date"
-          max={2100}
-          maxLength={4}
-          min={1990}
-          name="dateinput-example-year-start-date"
-          onBlur={[Function]}
-          onChange={[Function]}
-          type="number"
-        />
+          <label
+            className="usa-label"
+            htmlFor="dateinput-example-year-start-date"
+          >
+            Year
+             
+          </label>
+          <input
+            className="usa-input usa-input--inline"
+            defaultValue="2019"
+            id="dateinput-example-year-start-date"
+            max={2100}
+            maxLength={4}
+            min={1990}
+            name="dateinput-example-year-start-date"
+            onBlur={[Function]}
+            onChange={[Function]}
+            type="number"
+          />
+        </div>
       </div>
        
     </div>
@@ -1947,74 +2007,80 @@ exports[`Storyshots Date input Success with range 1`] = `
         <div
           className="grid-gap grid-row flex-row flex-align-end usa-memorable-date"
         >
-          <div
-            className="oec-date-input__input usa-form-group"
-          >
-            <label
-              className="usa-label"
-              htmlFor="dateinput-example-month-start-date"
+          <div>
+            <div
+              className="oec-date-input__input usa-form-group"
             >
-              Month
-               
-            </label>
-            <input
-              className="usa-input usa-input--inline"
-              defaultValue="10"
-              id="dateinput-example-month-start-date"
-              max={12}
-              maxLength={2}
-              min={1}
-              name="dateinput-example-month-start-date"
-              onBlur={[Function]}
-              onChange={[Function]}
-              type="number"
-            />
+              <label
+                className="usa-label"
+                htmlFor="dateinput-example-month-start-date"
+              >
+                Month
+                 
+              </label>
+              <input
+                className="usa-input usa-input--inline"
+                defaultValue="10"
+                id="dateinput-example-month-start-date"
+                max={12}
+                maxLength={2}
+                min={1}
+                name="dateinput-example-month-start-date"
+                onBlur={[Function]}
+                onChange={[Function]}
+                type="number"
+              />
+            </div>
           </div>
-          <div
-            className="oec-date-input__input usa-form-group"
-          >
-            <label
-              className="usa-label"
-              htmlFor="dateinput-example-day-start-date"
+          <div>
+            <div
+              className="oec-date-input__input usa-form-group"
             >
-              Day
-               
-            </label>
-            <input
-              className="usa-input usa-input--inline"
-              defaultValue="30"
-              id="dateinput-example-day-start-date"
-              max={31}
-              maxLength={2}
-              min={1}
-              name="dateinput-example-day-start-date"
-              onBlur={[Function]}
-              onChange={[Function]}
-              type="number"
-            />
+              <label
+                className="usa-label"
+                htmlFor="dateinput-example-day-start-date"
+              >
+                Day
+                 
+              </label>
+              <input
+                className="usa-input usa-input--inline"
+                defaultValue="30"
+                id="dateinput-example-day-start-date"
+                max={31}
+                maxLength={2}
+                min={1}
+                name="dateinput-example-day-start-date"
+                onBlur={[Function]}
+                onChange={[Function]}
+                type="number"
+              />
+            </div>
           </div>
-          <div
-            className="oec-date-input__input usa-form-group"
-          >
-            <label
-              className="usa-label"
-              htmlFor="dateinput-example-year-start-date"
+          <div>
+            <div
+              className="oec-date-input__input usa-form-group"
             >
-              Year
-               
-            </label>
-            <input
-              className="usa-input usa-input--inline"
-              defaultValue="2019"
-              id="dateinput-example-year-start-date"
-              max={2100}
-              maxLength={4}
-              min={1990}
-              name="dateinput-example-year-start-date"
-              onBlur={[Function]}
-              onChange={[Function]}
-              type="number"
-            />
+              <label
+                className="usa-label"
+                htmlFor="dateinput-example-year-start-date"
+              >
+                Year
+                 
+              </label>
+              <input
+                className="usa-input usa-input--inline"
+                defaultValue="2019"
+                id="dateinput-example-year-start-date"
+                max={2100}
+                maxLength={4}
+                min={1990}
+                name="dateinput-example-year-start-date"
+                onBlur={[Function]}
+                onChange={[Function]}
+                type="number"
+              />
+            </div>
           </div>
            
         </div>
@@ -2035,74 +2101,80 @@ exports[`Storyshots Date input Success with range 1`] = `
         <div
           className="grid-gap grid-row flex-row flex-align-end usa-memorable-date"
         >
-          <div
-            className="oec-date-input__input usa-form-group"
-          >
-            <label
-              className="usa-label"
-              htmlFor="dateinput-example-month-end-date"
+          <div>
+            <div
+              className="oec-date-input__input usa-form-group"
             >
-              Month
-               
-            </label>
-            <input
-              className="usa-input usa-input--inline"
-              defaultValue="10"
-              id="dateinput-example-month-end-date"
-              max={12}
-              maxLength={2}
-              min={1}
-              name="dateinput-example-month-end-date"
-              onBlur={[Function]}
-              onChange={[Function]}
-              type="number"
-            />
+              <label
+                className="usa-label"
+                htmlFor="dateinput-example-month-end-date"
+              >
+                Month
+                 
+              </label>
+              <input
+                className="usa-input usa-input--inline"
+                defaultValue="10"
+                id="dateinput-example-month-end-date"
+                max={12}
+                maxLength={2}
+                min={1}
+                name="dateinput-example-month-end-date"
+                onBlur={[Function]}
+                onChange={[Function]}
+                type="number"
+              />
+            </div>
           </div>
-          <div
-            className="oec-date-input__input usa-form-group"
-          >
-            <label
-              className="usa-label"
-              htmlFor="dateinput-example-day-end-date"
+          <div>
+            <div
+              className="oec-date-input__input usa-form-group"
             >
-              Day
-               
-            </label>
-            <input
-              className="usa-input usa-input--inline"
-              defaultValue="30"
-              id="dateinput-example-day-end-date"
-              max={31}
-              maxLength={2}
-              min={1}
-              name="dateinput-example-day-end-date"
-              onBlur={[Function]}
-              onChange={[Function]}
-              type="number"
-            />
+              <label
+                className="usa-label"
+                htmlFor="dateinput-example-day-end-date"
+              >
+                Day
+                 
+              </label>
+              <input
+                className="usa-input usa-input--inline"
+                defaultValue="30"
+                id="dateinput-example-day-end-date"
+                max={31}
+                maxLength={2}
+                min={1}
+                name="dateinput-example-day-end-date"
+                onBlur={[Function]}
+                onChange={[Function]}
+                type="number"
+              />
+            </div>
           </div>
-          <div
-            className="oec-date-input__input usa-form-group"
-          >
-            <label
-              className="usa-label"
-              htmlFor="dateinput-example-year-end-date"
+          <div>
+            <div
+              className="oec-date-input__input usa-form-group"
             >
-              Year
-               
-            </label>
-            <input
-              className="usa-input usa-input--inline"
-              defaultValue="2019"
-              id="dateinput-example-year-end-date"
-              max={2100}
-              maxLength={4}
-              min={1990}
-              name="dateinput-example-year-end-date"
-              onBlur={[Function]}
-              onChange={[Function]}
-              type="number"
-            />
+              <label
+                className="usa-label"
+                htmlFor="dateinput-example-year-end-date"
+              >
+                Year
+                 
+              </label>
+              <input
+                className="usa-input usa-input--inline"
+                defaultValue="2019"
+                id="dateinput-example-year-end-date"
+                max={2100}
+                maxLength={4}
+                min={1990}
+                name="dateinput-example-year-end-date"
+                onBlur={[Function]}
+                onChange={[Function]}
+                type="number"
+              />
+            </div>
           </div>
         </div>
       </fieldset>
@@ -2163,74 +2235,80 @@ exports[`Storyshots Date input Warning 1`] = `
     <div
       className="grid-gap grid-row flex-row flex-align-end usa-memorable-date"
     >
-      <div
-        className="oec-date-input__input usa-form-group"
-      >
-        <label
-          className="usa-label"
-          htmlFor="dateinput-example-month-start-date"
+      <div>
+        <div
+          className="oec-date-input__input usa-form-group"
         >
-          Month
-           
-        </label>
-        <input
-          className="usa-input usa-input--inline"
-          defaultValue="10"
-          id="dateinput-example-month-start-date"
-          max={12}
-          maxLength={2}
-          min={1}
-          name="dateinput-example-month-start-date"
-          onBlur={[Function]}
-          onChange={[Function]}
-          type="number"
-        />
+          <label
+            className="usa-label"
+            htmlFor="dateinput-example-month-start-date"
+          >
+            Month
+             
+          </label>
+          <input
+            className="usa-input usa-input--inline"
+            defaultValue="10"
+            id="dateinput-example-month-start-date"
+            max={12}
+            maxLength={2}
+            min={1}
+            name="dateinput-example-month-start-date"
+            onBlur={[Function]}
+            onChange={[Function]}
+            type="number"
+          />
+        </div>
       </div>
-      <div
-        className="oec-date-input__input usa-form-group"
-      >
-        <label
-          className="usa-label"
-          htmlFor="dateinput-example-day-start-date"
+      <div>
+        <div
+          className="oec-date-input__input usa-form-group"
         >
-          Day
-           
-        </label>
-        <input
-          className="usa-input usa-input--inline"
-          defaultValue="30"
-          id="dateinput-example-day-start-date"
-          max={31}
-          maxLength={2}
-          min={1}
-          name="dateinput-example-day-start-date"
-          onBlur={[Function]}
-          onChange={[Function]}
-          type="number"
-        />
+          <label
+            className="usa-label"
+            htmlFor="dateinput-example-day-start-date"
+          >
+            Day
+             
+          </label>
+          <input
+            className="usa-input usa-input--inline"
+            defaultValue="30"
+            id="dateinput-example-day-start-date"
+            max={31}
+            maxLength={2}
+            min={1}
+            name="dateinput-example-day-start-date"
+            onBlur={[Function]}
+            onChange={[Function]}
+            type="number"
+          />
+        </div>
       </div>
-      <div
-        className="oec-date-input__input usa-form-group"
-      >
-        <label
-          className="usa-label"
-          htmlFor="dateinput-example-year-start-date"
+      <div>
+        <div
+          className="oec-date-input__input usa-form-group"
         >
-          Year
-           
-        </label>
-        <input
-          className="usa-input usa-input--inline"
-          defaultValue="2019"
-          id="dateinput-example-year-start-date"
-          max={2100}
-          maxLength={4}
-          min={1990}
-          name="dateinput-example-year-start-date"
-          onBlur={[Function]}
-          onChange={[Function]}
-          type="number"
-        />
+          <label
+            className="usa-label"
+            htmlFor="dateinput-example-year-start-date"
+          >
+            Year
+             
+          </label>
+          <input
+            className="usa-input usa-input--inline"
+            defaultValue="2019"
+            id="dateinput-example-year-start-date"
+            max={2100}
+            maxLength={4}
+            min={1990}
+            name="dateinput-example-year-start-date"
+            onBlur={[Function]}
+            onChange={[Function]}
+            type="number"
+          />
+        </div>
       </div>
        
     </div>
@@ -2307,74 +2385,80 @@ exports[`Storyshots Date input Warning with range 1`] = `
         <div
           className="grid-gap grid-row flex-row flex-align-end usa-memorable-date"
         >
-          <div
-            className="oec-date-input__input usa-form-group"
-          >
-            <label
-              className="usa-label"
-              htmlFor="dateinput-example-month-start-date"
+          <div>
+            <div
+              className="oec-date-input__input usa-form-group"
             >
-              Month
-               
-            </label>
-            <input
-              className="usa-input usa-input--inline"
-              defaultValue="10"
-              id="dateinput-example-month-start-date"
-              max={12}
-              maxLength={2}
-              min={1}
-              name="dateinput-example-month-start-date"
-              onBlur={[Function]}
-              onChange={[Function]}
-              type="number"
-            />
+              <label
+                className="usa-label"
+                htmlFor="dateinput-example-month-start-date"
+              >
+                Month
+                 
+              </label>
+              <input
+                className="usa-input usa-input--inline"
+                defaultValue="10"
+                id="dateinput-example-month-start-date"
+                max={12}
+                maxLength={2}
+                min={1}
+                name="dateinput-example-month-start-date"
+                onBlur={[Function]}
+                onChange={[Function]}
+                type="number"
+              />
+            </div>
           </div>
-          <div
-            className="oec-date-input__input usa-form-group"
-          >
-            <label
-              className="usa-label"
-              htmlFor="dateinput-example-day-start-date"
+          <div>
+            <div
+              className="oec-date-input__input usa-form-group"
             >
-              Day
-               
-            </label>
-            <input
-              className="usa-input usa-input--inline"
-              defaultValue="30"
-              id="dateinput-example-day-start-date"
-              max={31}
-              maxLength={2}
-              min={1}
-              name="dateinput-example-day-start-date"
-              onBlur={[Function]}
-              onChange={[Function]}
-              type="number"
-            />
+              <label
+                className="usa-label"
+                htmlFor="dateinput-example-day-start-date"
+              >
+                Day
+                 
+              </label>
+              <input
+                className="usa-input usa-input--inline"
+                defaultValue="30"
+                id="dateinput-example-day-start-date"
+                max={31}
+                maxLength={2}
+                min={1}
+                name="dateinput-example-day-start-date"
+                onBlur={[Function]}
+                onChange={[Function]}
+                type="number"
+              />
+            </div>
           </div>
-          <div
-            className="oec-date-input__input usa-form-group"
-          >
-            <label
-              className="usa-label"
-              htmlFor="dateinput-example-year-start-date"
+          <div>
+            <div
+              className="oec-date-input__input usa-form-group"
             >
-              Year
-               
-            </label>
-            <input
-              className="usa-input usa-input--inline"
-              defaultValue="2019"
-              id="dateinput-example-year-start-date"
-              max={2100}
-              maxLength={4}
-              min={1990}
-              name="dateinput-example-year-start-date"
-              onBlur={[Function]}
-              onChange={[Function]}
-              type="number"
-            />
+              <label
+                className="usa-label"
+                htmlFor="dateinput-example-year-start-date"
+              >
+                Year
+                 
+              </label>
+              <input
+                className="usa-input usa-input--inline"
+                defaultValue="2019"
+                id="dateinput-example-year-start-date"
+                max={2100}
+                maxLength={4}
+                min={1990}
+                name="dateinput-example-year-start-date"
+                onBlur={[Function]}
+                onChange={[Function]}
+                type="number"
+              />
+            </div>
           </div>
            
         </div>
@@ -2395,74 +2479,80 @@ exports[`Storyshots Date input Warning with range 1`] = `
         <div
           className="grid-gap grid-row flex-row flex-align-end usa-memorable-date"
         >
-          <div
-            className="oec-date-input__input usa-form-group"
-          >
-            <label
-              className="usa-label"
-              htmlFor="dateinput-example-month-end-date"
+          <div>
+            <div
+              className="oec-date-input__input usa-form-group"
             >
-              Month
-               
-            </label>
-            <input
-              className="usa-input usa-input--inline"
-              defaultValue="10"
-              id="dateinput-example-month-end-date"
-              max={12}
-              maxLength={2}
-              min={1}
-              name="dateinput-example-month-end-date"
-              onBlur={[Function]}
-              onChange={[Function]}
-              type="number"
-            />
+              <label
+                className="usa-label"
+                htmlFor="dateinput-example-month-end-date"
+              >
+                Month
+                 
+              </label>
+              <input
+                className="usa-input usa-input--inline"
+                defaultValue="10"
+                id="dateinput-example-month-end-date"
+                max={12}
+                maxLength={2}
+                min={1}
+                name="dateinput-example-month-end-date"
+                onBlur={[Function]}
+                onChange={[Function]}
+                type="number"
+              />
+            </div>
           </div>
-          <div
-            className="oec-date-input__input usa-form-group"
-          >
-            <label
-              className="usa-label"
-              htmlFor="dateinput-example-day-end-date"
+          <div>
+            <div
+              className="oec-date-input__input usa-form-group"
             >
-              Day
-               
-            </label>
-            <input
-              className="usa-input usa-input--inline"
-              defaultValue="30"
-              id="dateinput-example-day-end-date"
-              max={31}
-              maxLength={2}
-              min={1}
-              name="dateinput-example-day-end-date"
-              onBlur={[Function]}
-              onChange={[Function]}
-              type="number"
-            />
+              <label
+                className="usa-label"
+                htmlFor="dateinput-example-day-end-date"
+              >
+                Day
+                 
+              </label>
+              <input
+                className="usa-input usa-input--inline"
+                defaultValue="30"
+                id="dateinput-example-day-end-date"
+                max={31}
+                maxLength={2}
+                min={1}
+                name="dateinput-example-day-end-date"
+                onBlur={[Function]}
+                onChange={[Function]}
+                type="number"
+              />
+            </div>
           </div>
-          <div
-            className="oec-date-input__input usa-form-group"
-          >
-            <label
-              className="usa-label"
-              htmlFor="dateinput-example-year-end-date"
+          <div>
+            <div
+              className="oec-date-input__input usa-form-group"
             >
-              Year
-               
-            </label>
-            <input
-              className="usa-input usa-input--inline"
-              defaultValue="2019"
-              id="dateinput-example-year-end-date"
-              max={2100}
-              maxLength={4}
-              min={1990}
-              name="dateinput-example-year-end-date"
-              onBlur={[Function]}
-              onChange={[Function]}
-              type="number"
-            />
+              <label
+                className="usa-label"
+                htmlFor="dateinput-example-year-end-date"
+              >
+                Year
+                 
+              </label>
+              <input
+                className="usa-input usa-input--inline"
+                defaultValue="2019"
+                id="dateinput-example-year-end-date"
+                max={2100}
+                maxLength={4}
+                min={1990}
+                name="dateinput-example-year-end-date"
+                onBlur={[Function]}
+                onChange={[Function]}
+                type="number"
+              />
+            </div>
           </div>
         </div>
       </fieldset>
