@@ -2,7 +2,7 @@ import React, { useState, FormEvent, useContext } from 'react';
 import { CdcReport, ApiOrganizationsOrgIdReportsIdPutRequest } from '../../../generated';
 import { Mutate } from '../../../hooks/useApi';
 import UserContext from '../../../contexts/User/UserContext';
-import { TextInput, Checkbox, AlertProps } from '../../../components';
+import { TextInput, ChoiceList, AlertProps } from '../../../components';
 import AppContext from '../../../contexts/App/AppContext';
 import currencyFormatter from '../../../utils/currencyFormatter';
 import parseCurrencyFromString from '../../../utils/parseCurrencyFromString';

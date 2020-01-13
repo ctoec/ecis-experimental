@@ -109,7 +109,8 @@ export const DateInput: React.FC<DateInputProps> = ({
 			);
 		}
 		onChange({ startDate: newStart, endDate: newEnd });
-	}, [rangeByVal, format, onChange]);
+	}, [rangeByVal, format]);
+	// Adding on change here results in an infinite loop
 
 	// TODO: implement "optional" styling for fieldset
 

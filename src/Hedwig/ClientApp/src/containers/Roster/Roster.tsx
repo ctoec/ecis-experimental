@@ -11,7 +11,7 @@ import {
 	DatePicker,
 	DateRange,
 	Button,
-	RadioGroup,
+	ChoiceList,
 	Legend,
 	LegendItem,
 	InlineIcon,

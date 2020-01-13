@@ -6,9 +6,7 @@ import {
 	Button,
 	TextInput,
 	DateInput,
-	Checklist,
-	RadioGroup,
-	Dropdown,
+	ChoiceList,
 	FieldSet,
 } from '../../../components';
 import nameFormatter from '../../../utils/nameFormatter';

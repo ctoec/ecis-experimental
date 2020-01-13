@@ -5,9 +5,7 @@ import { Section } from '../enrollmentTypes';
 import {
 	Button,
 	DatePicker,
-	Dropdown,
-	RadioGroup,
-	Checklist,
+	ChoiceList,
 	TextInput,
 	InlineIcon,
 } from '../../../components';
@@ -36,11 +34,6 @@ import { prettyFundingTime, fundingTimeFromString } from '../../../utils/funding
 import { nextNReportingPeriods, periodSorter } from '../../../utils/models/reportingPeriod';
 import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
 import { familyDeterminationNotDisclosed, currentFunding, updateFunding, createFunding, currentC4kFunding } from '../../../utils/models';
-<<<<<<< HEAD
-import TextInput from '../../../components/TextInput/TextInput';
-import InlineIcon from '../../../components/InlineIcon/InlineIcon';
-=======
->>>>>>> Import components less chaotically
 import initialLoadErrorGuard from '../../../utils/validations/initialLoadErrorGuard';
 
 const EnrollmentFunding: Section = {

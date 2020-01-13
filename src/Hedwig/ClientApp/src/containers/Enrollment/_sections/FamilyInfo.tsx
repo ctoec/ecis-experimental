@@ -1,14 +1,12 @@
 import React, { useState, useContext } from 'react';
 import idx from 'idx';
 import { Section } from '../enrollmentTypes';
-import { Button, TextInput, Checklist, FieldSet } from '../../../components';
+import { Button, TextInput, ChoiceList, FieldSet } from '../../../components';
 import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
 import getIdForUser from '../../../utils/getIdForUser';
 import {
 	sectionHasValidationErrors,
-	hasValidationErrors,
-	processValidationError,
 	warningForFieldSet,
 	warningForField,
 } from '../../../utils/validations';
