@@ -2,6 +2,8 @@ import { DeepNonUndefineable } from "../types"
 import { Funding, FundingSource, FundingTime, ReportingPeriod } from "../../generated"
 import { Tag } from "../../components";
 import getColorForFundingSource, { fundingSourceDetails } from "../fundingTypeFormatters"
+import moment from "moment";
+
 
 export function generateFundingTag(funding: DeepNonUndefineable<Funding>, index?: any): JSX.Element {
 	let key = `${funding.source}-${funding.time}`;
@@ -11,15 +13,59 @@ export function generateFundingTag(funding: DeepNonUndefineable<Funding>, index?
 	return Tag({ key, text, color });
 }
 
-// TODO: Rename currentCdcFunding
-export function currentFunding(fundings: DeepNonUndefineable<Funding[]>): DeepNonUndefineable<Funding> | undefined
-{
-	return fundings.find<DeepNonUndefineable<Funding>>(funding => funding.lastReportingPeriodId === undefined);
+export function isCurrent(funding:Funding) : boolean {
+	switch(funding.source) {
+		case FundingSource.CDC:
+			return isCurrentCDC(funding);
+
+		case FundingSource.C4K:
+			return isCurrentC4K(funding);
+
+		default:
+			return false;
+	}
+
 }
 
-export function currentC4kFunding(fundings: DeepNonUndefineable<Funding[]>): DeepNonUndefineable<Funding> | undefined
-{
-	return fundings.find<DeepNonUndefineable<Funding>>(funding => funding.certificateEndDate === undefined);
+export function isCurrentCDC(funding: Funding) : boolean {
+	const now = moment();
+	return (
+		// has no last reporting period
+		!funding.lastReportingPeriodId
+		// or end of last reporting period is in the future
+		|| !!(funding.lastReportingPeriod && now.isSameOrBefore(funding.lastReportingPeriod.periodEnd))
+	)
+	&& (
+		// has no first reporting period
+		!funding.firstReportingPeriodId
+		// start of first reporting period is in the past
+		|| !!(funding.firstReportingPeriod && now.isSameOrAfter(funding.firstReportingPeriod.periodStart))
+	);
+}
+
+export function isCurrentC4K(funding: Funding) : boolean {
+	const now = moment();
+	return (
+		// has no cert end date
+		!funding.certificateEndDate
+		// or cert end date is in the future
+		|| !!(funding.certificateEndDate && now.isSameOrBefore(funding.certificateEndDate))
+	)
+	&& (
+		// hast no cert start
+		!funding.certificateStartDate
+		// or cert start is in the past
+		|| !!(funding.certificateStartDate && now.isSameOrAfter(funding.certificateStartDate))
+	)
+}
+
+// TODO: Rename currentCdcFunding
+export function currentCdcFunding(fundings: DeepNonUndefineable<Funding[]>): DeepNonUndefineable<Funding> | undefined {
+	return fundings.find<DeepNonUndefineable<Funding>>(funding => funding.source === FundingSource.CDC && isCurrentCDC(funding));
+}
+
+export function currentC4kFunding(fundings: DeepNonUndefineable<Funding[]>): DeepNonUndefineable<Funding> | undefined {
+	return fundings.find<DeepNonUndefineable<Funding>>(funding => funding.source === FundingSource.C4K && funding.certificateEndDate === undefined);
 }
 
 export function createFunding({
@@ -102,13 +148,4 @@ export function updateFunding({
 	}
 }
 
-export const enrollmentExitReasons = {
-	AgedOut: "Aged out",
-	StoppedAttending: "Stopped attending",
-	DifferentProgram: "Chose to attend a different program",
-	MovedInCT: "Moved within Connecticut",
-	MovedOutCT: "Moved to another state",
-	LackOfPayment: "Withdrew due to lack of payment",
-	AskedToLeave: "Child was asked to leave",
-	Unknown: "Unknown",
-};
+export const NO_FUNDING = "private pay";

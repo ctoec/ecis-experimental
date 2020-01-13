@@ -14,7 +14,7 @@ import {
 } from '../../generated';
 import nameFormatter from '../../utils/nameFormatter';
 import { DeepNonUndefineable } from '../../utils/types';
-import { generateFundingTag, enrollmentExitReasons, currentFunding } from '../../utils/models';
+import { generateFundingTag, enrollmentExitReasons, currentCdcFunding, currentC4kFunding } from "../../utils/models";
 import { DatePicker, ChoiceList, Button, InlineIcon } from '../../components';
 import useApi from '../../hooks/useApi';
 import { lastNReportingPeriods } from '../../utils/models/reportingPeriod';
@@ -76,8 +76,8 @@ export default function Withdrawal({
 		enrollment && enrollment.fundings
 			? enrollment.fundings
 			: ([] as DeepNonUndefineable<Funding[]>);
-	const cdcFundings = fundings.filter(funding => funding.source === FundingSource.CDC);
-	const cdcFunding = currentFunding(cdcFundings);
+  const cdcFundings = fundings.filter(funding => funding.source === FundingSource.CDC);
+  const cdcFunding = currentCdcFunding(cdcFundings);
 
 	useEffect(() => {
 		updateReportingPeriodOptions(
@@ -125,7 +125,7 @@ export default function Withdrawal({
 			];
 		}
 
-		const c4KFunding = currentFunding(
+		const c4KFunding = currentC4kFunding(
 			fundings.filter<DeepNonUndefineable<Funding>>(funding => funding.source === FundingSource.C4K)
 		);
 		if (c4KFunding) {
@@ -137,7 +137,6 @@ export default function Withdrawal({
 				},
 			];
 		}
-
 		const putParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
 			...defaultParams,
 			enrollment: {

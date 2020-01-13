@@ -82,7 +82,7 @@ export default function Roster() {
 	Object.keys(fundingSourceDetails).forEach(source => {
 		const capacityForFunding = getFundingSpaceCapacity(site.organization, { source });
 		const enrolledForFunding = enrollments.filter<DeepNonUndefineable<Enrollment>>(
-			enrollment => isFunded(enrollment, { source })
+			enrollment => isFunded(enrollment, { source, current: true})
 		).length;
 
 		if (enrolledForFunding === 0) {

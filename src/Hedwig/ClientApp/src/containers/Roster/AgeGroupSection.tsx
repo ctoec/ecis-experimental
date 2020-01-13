@@ -6,7 +6,7 @@ import { Table, TableProps, InlineIcon } from '../../components';
 import { Enrollment, Funding, FundingSpace, FundingSource } from '../../generated';
 import { lastFirstNameFormatter } from '../../utils/nameFormatter';
 import dateFormatter from '../../utils/dateFormatter';
-import { generateFundingTag } from '../../utils/models';
+import { generateFundingTag, isCurrent, NO_FUNDING } from '../../utils/models';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../utils/types';
 import { hasValidationErrors } from '../../utils/validations';
 import { isFunded } from '../../utils/models';
@@ -33,7 +33,7 @@ const defaultRosterTableProps: TableProps<DeepNonUndefineable<Enrollment>> = {
 						{lastFirstNameFormatter(row.child)}
 					</Link>
 					&nbsp;
-					{(isFunded(row, { source: FundingSource.CDC }) && hasValidationErrors(row)) ? InlineIcon({ icon: 'incomplete' }) : ''}
+					{(isFunded(row, { source: FundingSource.CDC, current: true }) && hasValidationErrors(row)) ? InlineIcon({ icon: 'incomplete' }) : ''}
 				</th>
 			),
 			sort: row => lastFirstNameFormatter(row.child),
@@ -55,10 +55,12 @@ const defaultRosterTableProps: TableProps<DeepNonUndefineable<Enrollment>> = {
 			cell: ({ row }) => (
 				<td>
 					{row.fundings && row.fundings.length > 0 ?
-						row.fundings.map<React.ReactNode>((funding: DeepNonUndefineable<Funding>, index: number) =>
+						row.fundings
+						.filter(funding => isCurrent(funding))
+						.map<React.ReactNode>((funding: DeepNonUndefineable<Funding>, index: number) =>
 							generateFundingTag(funding, index)
 						) :
-						<span className="text-italic text-base">Private pay</span>
+						<span className="text-italic text-base">{NO_FUNDING}</span>
 					}
 				</td>
 			),
