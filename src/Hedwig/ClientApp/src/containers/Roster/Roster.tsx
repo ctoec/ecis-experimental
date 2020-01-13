@@ -118,7 +118,7 @@ export default function Roster() {
 				<div className="grid-row flex-first-baseline flex-space-between">
 					<h1 className="tablet:grid-col-auto">{site.name}</h1>
 					<div className="tablet:grid-col-auto">
-						<Button text="Enroll child" href={`/roster/sites/${site.id}/enroll`} />
+						<Button text="Enroll child" href={`/roster/sites/${site.id}/enroll`} className="margin-right-0" />
 					</div>
 				</div>
 				<div className="grid-row">
