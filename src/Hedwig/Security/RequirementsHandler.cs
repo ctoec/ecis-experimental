@@ -1,9 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
-using System;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Hedwig.Repositories;
 
