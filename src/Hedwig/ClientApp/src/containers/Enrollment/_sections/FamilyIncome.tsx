@@ -1,15 +1,19 @@
 import React, { useState, useContext } from 'react';
-import { Section } from '../enrollmentTypes';
-import Button from '../../../components/Button/Button';
-import TextInput from '../../../components/TextInput/TextInput';
-import DatePicker from '../../../components/DatePicker/DatePicker';
-import dateFormatter from '../../../utils/dateFormatter';
-import notNullOrUndefined from '../../../utils/notNullOrUndefined';
 import moment from 'moment';
 import idx from 'idx';
+import { Section } from '../enrollmentTypes';
+import {
+	Button,
+	TextInput,
+	DatePicker,
+	Alert,
+	ChoiceList,
+	FieldSet,
+	InlineIcon,
+} from '../../../components';
+import dateFormatter from '../../../utils/dateFormatter';
+import notNullOrUndefined from '../../../utils/notNullOrUndefined';
 import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest } from '../../../generated';
-import ChoiceList from '../../../components/ChoiceList/ChoiceList';
-import Alert from '../../../components/Alert/Alert';
 import parseCurrencyFromString from '../../../utils/parseCurrencyFromString';
 import currencyFormatter from '../../../utils/currencyFormatter';
 import getIdForUser from '../../../utils/getIdForUser';
@@ -20,8 +24,6 @@ import {
 	warningForField,
 	warningForFieldSet,
 } from '../../../utils/validations';
-import FieldSet from '../../../components/FieldSet/FieldSet';
-import InlineIcon from '../../../components/InlineIcon/InlineIcon';
 import initialLoadErrorGuard from '../../../utils/validations/initialLoadErrorGuard';
 
 const FamilyIncome: Section = {
@@ -31,8 +33,13 @@ const FamilyIncome: Section = {
 		if (idx(enrollment, _ => _.child.foster)) {
 			return 'exempt';
 		}
-		return sectionHasValidationErrors([idx(enrollment, _ => _.child.family.determinations) || null])
-			|| processValidationError("child.family.determinations", enrollment ? enrollment.validationErrors : null)
+		return sectionHasValidationErrors([
+			idx(enrollment, _ => _.child.family.determinations) || null,
+		]) ||
+			processValidationError(
+				'child.family.determinations',
+				enrollment ? enrollment.validationErrors : null
+			)
 			? 'incomplete'
 			: 'complete';
 	},
@@ -46,16 +53,37 @@ const FamilyIncome: Section = {
 			elementToReturn = (
 				<p>Household Income: This information is not required for foster children.</p>
 			);
-		} else if (!determination && !processValidationError("child.family.determinations", enrollment ? enrollment.validationErrors : null)) {
+		} else if (
+			!determination &&
+			!processValidationError(
+				'child.family.determinations',
+				enrollment ? enrollment.validationErrors : null
+			)
+		) {
 			elementToReturn = <p>No income determination on record.</p>;
 		} else if (determination && determination.notDisclosed) {
 			elementToReturn = <p>Income determination not disclosed.</p>;
 		} else {
 			elementToReturn = (
 				<>
-					<p>Household size: {determination && determination.numberOfPeople ? determination.numberOfPeople : InlineIcon({icon: 'incomplete'})}</p>
-					<p>Annual household income: {determination && determination.income !== null && determination.income !== undefined  ? currencyFormatter(determination.income) : InlineIcon({icon: 'incomplete'})}</p>
-					<p>Determined on: {determination && determination.determinationDate ? dateFormatter(determination.determinationDate) : InlineIcon({icon: 'incomplete'})}</p>
+					<p>
+						Household size:{' '}
+						{determination && determination.numberOfPeople
+							? determination.numberOfPeople
+							: InlineIcon({ icon: 'incomplete' })}
+					</p>
+					<p>
+						Annual household income:{' '}
+						{determination && determination.income !== null && determination.income !== undefined
+							? currencyFormatter(determination.income)
+							: InlineIcon({ icon: 'incomplete' })}
+					</p>
+					<p>
+						Determined on:{' '}
+						{determination && determination.determinationDate
+							? dateFormatter(determination.determinationDate)
+							: InlineIcon({ icon: 'incomplete' })}
+					</p>
 				</>
 			);
 		}
@@ -152,7 +180,6 @@ const FamilyIncome: Section = {
 						finallyCallback && finallyCallback(FamilyIncome);
 					});
 			}
-			
 		};
 
 		return (
@@ -170,13 +197,13 @@ const FamilyIncome: Section = {
 										['numberOfPeople', 'income', 'determinationDate'],
 										determination ? determination : null,
 										'This information is required for enrollment'
-										) ||
-									warningForFieldSet(
-										'family-income',
-										['child.family.determinations'],
-										enrollment,
-										'Income must be determined for funded enrollments'
-									)
+									) ||
+										warningForFieldSet(
+											'family-income',
+											['child.family.determinations'],
+											enrollment,
+											'Income must be determined for funded enrollments'
+										)
 								)}
 							>
 								<TextInput
@@ -190,11 +217,7 @@ const FamilyIncome: Section = {
 									onBlur={event => (event.target.value = numberOfPeople ? '' + numberOfPeople : '')}
 									status={initialLoadErrorGuard(
 										initialLoad,
-										warningForField(
-											'numberOfPeople',
-											determination ? determination : null,
-											''
-										)
+										warningForField('numberOfPeople', determination ? determination : null, '')
 									)}
 									small
 								/>
@@ -212,11 +235,7 @@ const FamilyIncome: Section = {
 									}
 									status={initialLoadErrorGuard(
 										initialLoad,
-										warningForField(
-											'income',
-											determination ? determination : null,
-											''
-										)
+										warningForField('income', determination ? determination : null, '')
 									)}
 								/>
 								<DatePicker
@@ -231,11 +250,7 @@ const FamilyIncome: Section = {
 									}}
 									status={initialLoadErrorGuard(
 										initialLoad,
-										warningForField(
-											'determintionDate',
-											determination ? determination : null,
-											''
-										)
+										warningForField('determintionDate', determination ? determination : null, '')
 									)}
 								/>
 							</FieldSet>
@@ -254,22 +269,29 @@ const FamilyIncome: Section = {
 								value: 'familyIncomeNotDisclosed',
 							},
 						]}
-						status={!notDisclosed  ? undefined : warningForFieldSet(
-							'family-income-disclosed',
-							['child.family.determinations'],
-							enrollment,
-							'Income must be disclosed for funded enrollments'
-						)}
+						status={
+							!notDisclosed
+								? undefined
+								: warningForFieldSet(
+										'family-income-disclosed',
+										['child.family.determinations'],
+										enrollment,
+										'Income must be disclosed for funded enrollments'
+								  )
+						}
 					/>
 				</div>
 
-				{(notDisclosed && !processValidationError("child.family.determinations", enrollment ? enrollment.validationErrors : null)) 
-				&& (
-					<Alert
-						type="info"
-						text="Income information is required to enroll a child in a CDC funded space. You will not be able to assign this child to a funding space without this information."
-					/>
-				)}
+				{notDisclosed &&
+					!processValidationError(
+						'child.family.determinations',
+						enrollment ? enrollment.validationErrors : null
+					) && (
+						<Alert
+							type="info"
+							text="Income information is required to enroll a child in a CDC funded space. You will not be able to assign this child to a funding space without this information."
+						/>
+					)}
 
 				<div className="usa-form">
 					<Button text="Save" onClick={save} />

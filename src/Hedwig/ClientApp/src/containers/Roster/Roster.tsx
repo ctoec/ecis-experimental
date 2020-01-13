@@ -6,14 +6,18 @@ import getDefaultDateRange from '../../utils/getDefaultDateRange';
 import { fundingSourceDetails } from '../../utils/fundingTypeFormatters';
 import getFundingSpaceCapacity from '../../utils/getFundingSpaceCapacity';
 import getIdForUser from '../../utils/getIdForUser';
-import Tag from '../../components/Tag/Tag';
-import DatePicker, { DateRange } from '../../components/DatePicker/DatePicker';
-import Button from '../../components/Button/Button';
-import ChoiceList from '../../components/ChoiceList/ChoiceList';
-import Legend, { LegendItem } from '../../components/Legend/Legend';
+import {
+	Tag,
+	DatePicker,
+	DateRange,
+	Button,
+	ChoiceList,
+	Legend,
+	LegendItem,
+	InlineIcon,
+} from '../../components';
 import useApi from '../../hooks/useApi';
 import { Age, Enrollment, FundingSpace, FundingSource } from '../../generated';
-import InlineIcon from '../../components/InlineIcon/InlineIcon';
 import UserContext from '../../contexts/User/UserContext';
 import AgeGroupSection from './AgeGroupSection';
 import { getObjectsByAgeGroup } from '../../utils/ageGroupUtils';

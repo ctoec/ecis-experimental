@@ -1,11 +1,11 @@
 import React from 'react';
-import Alert from '../Alert/Alert';
+import { Alert } from '..';
 
 type ErrorBoundaryState = {
 	hasError: boolean;
 };
 
-class ErrorBoundary extends React.Component {
+export class ErrorBoundary extends React.Component {
   // https://reactjs.org/docs/error-boundaries.html
 	// Hooks don't handle componentDidCatch so this has to be a class for now
 	// https://reactjs.org/docs/hooks-faq.html#do-hooks-cover-all-use-cases-for-classes
@@ -33,5 +33,3 @@ class ErrorBoundary extends React.Component {
 		return this.props.children;
 	}
 }
-
-export default ErrorBoundary;

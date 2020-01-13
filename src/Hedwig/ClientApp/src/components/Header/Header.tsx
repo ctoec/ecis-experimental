@@ -30,7 +30,7 @@ const setActiveStateOfNavItem = function(item: NavItemProps, index: number, path
 	return { ...item, active };
 };
 
-class Header extends React.Component<HeaderProps & RouteComponentProps, HeaderState> {
+class HeaderWithoutRouter extends React.Component<HeaderProps & RouteComponentProps, HeaderState> {
 	state = { menuIsVisible: false };
 
 	showMenu = () => {
@@ -126,6 +126,4 @@ class Header extends React.Component<HeaderProps & RouteComponentProps, HeaderSt
 	}
 }
 
-const HeaderWithRouter = withRouter(Header);
-
-export default HeaderWithRouter;
+export const Header = withRouter(HeaderWithoutRouter);

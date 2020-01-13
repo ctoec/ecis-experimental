@@ -1,5 +1,5 @@
 import React from 'react';
-import FormStatus, { FormStatusProps } from '../FormStatus/FormStatus';
+import { FormStatus, FormStatusProps } from '..';
 
 type TextInputProps = {
 	label: string | JSX.Element;
@@ -16,7 +16,7 @@ type TextInputProps = {
 	inline?: boolean;
 };
 
-export default function TextInput({
+export function TextInput({
 	label,
 	onChange,
 	onBlur,

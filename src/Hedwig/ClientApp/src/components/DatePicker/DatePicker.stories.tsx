@@ -3,8 +3,7 @@ import moment from 'moment';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import 'react-dates/initialize';
-import DatePicker from './DatePicker';
-import { FormStatusProps } from '../FormStatus/FormStatus';
+import { DatePicker, FormStatusProps } from '..';
 
 const onChange = action('onChange');
 const dateRange = { startDate: moment('2019-10-30'), endDate: moment('2019-10-30') };

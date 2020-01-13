@@ -6,7 +6,7 @@ import { act } from 'react-dom/test-utils';
 import 'react-dates/initialize';
 import Roster from './Roster';
 import UserContext from '../../contexts/User/UserContext';
-import ChoiceList from '../../components/ChoiceList/ChoiceList';
+import { ChoiceList } from '../../components';
 
 const fakeDate = '2019-09-30';
 

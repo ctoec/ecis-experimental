@@ -1,5 +1,5 @@
 import React from 'react';
-import FormStatus, { FormStatusProps } from '../FormStatus/FormStatus';
+import { FormStatus, FormStatusProps } from '..';
 
 export type FieldSetProps = {
 	legend: string;
@@ -11,7 +11,7 @@ export type FieldSetProps = {
 	childrenGroupClassName?: string;
 };
 
-const FieldSet: React.FC<FieldSetProps> = ({
+export const FieldSet: React.FC<FieldSetProps> = ({
 	legend,
 	id,
 	showLegend,
@@ -58,5 +58,3 @@ const FieldSet: React.FC<FieldSetProps> = ({
 		</fieldset>
 	);
 };
-
-export default FieldSet;

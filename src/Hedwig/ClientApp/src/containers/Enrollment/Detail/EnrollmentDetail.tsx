@@ -12,10 +12,9 @@ import {
 import UserContext from '../../../contexts/User/UserContext';
 import useApi from '../../../hooks/useApi';
 import getIdForUser from '../../../utils/getIdForUser';
-import InlineIcon from '../../../components/InlineIcon/InlineIcon';
+import { InlineIcon, Button } from '../../../components';
 import CommonContainer from '../../CommonContainer';
 import { SectionProps } from '../enrollmentTypes';
-import Button from '../../../components/Button/Button';
 
 type EnrollmentDetailParams = {
 	match: {

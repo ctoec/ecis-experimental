@@ -7,7 +7,7 @@ export type TagProps = {
 	className?: string;
 };
 
-export default function Tag({ key, text, color, className: addClassName }: TagProps) {
+export function Tag({ key, text, color, className: addClassName }: TagProps) {
 	var className = `usa-tag ${addClassName}`;
 	if (color) className += ` bg-${color}`;
 	return <span key={key} className={className}>{text}</span>;

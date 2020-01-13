@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import TextInput from '../TextInput/TextInput';
-import FormStatus, { FormStatusProps } from '../FormStatus/FormStatus';
-import FieldSet from '../FieldSet/FieldSet';
+import { TextInput, FormStatus, FormStatusProps, FieldSet } from '..';
 import Checkbox from './Checkbox';
 import RadioButton from './RadioButton';
 
@@ -44,7 +42,7 @@ type DropdownProps = ChoiceListProps & {
 	legend?: never;
 };
 
-export default function ChoiceList({
+export function ChoiceList({
 	type,
 	options: inputOptions,
 	id,

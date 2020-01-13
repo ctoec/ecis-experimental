@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import Alert from './Alert';
+import { Alert } from '..';
 
 storiesOf('Alert', module)
 	.add('Success', () => {

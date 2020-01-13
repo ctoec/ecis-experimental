@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import moment, { Moment } from 'moment';
-import FieldSet from '../FieldSet/FieldSet';
-import TextInput from '../TextInput/TextInput';
-import { FormStatusProps } from '../FormStatus/FormStatus';
+import { FieldSet, TextInput, FormStatusProps } from '..';
 
-export type DateRange = {
+type DateRange = {
 	startDate: Moment | null;
 	endDate: Moment | null;
 };
@@ -111,7 +109,8 @@ export const DateInput: React.FC<DateInputProps> = ({
 			);
 		}
 		onChange({ startDate: newStart, endDate: newEnd });
-	}, [rangeByVal, format, onChange]);
+	}, [rangeByVal, format]);
+	// Adding on change here results in an infinite loop
 
 	// TODO: implement "optional" styling for fieldset
 
@@ -230,5 +229,3 @@ export const DateInput: React.FC<DateInputProps> = ({
 	}
 	return startDateFieldset;
 };
-
-export default DateInput;

@@ -4,16 +4,13 @@ import { useParams } from 'react-router-dom';
 import ReportSubmitForm from './ReportSubmitForm';
 import monthFormatter from '../../../utils/monthFormatter';
 import dateFormatter from '../../../utils/dateFormatter';
-import Tag from '../../../components/Tag/Tag';
 import UserContext from '../../../contexts/User/UserContext';
 import getIdForUser from '../../../utils/getIdForUser';
 import useApi from '../../../hooks/useApi';
 import { Enrollment } from '../../../generated/models/Enrollment';
-import Button from '../../../components/Button/Button';
-import { AlertProps } from '../../../components/Alert/Alert';
+import { Button, AlertProps, DirectionalLinkProps, Tag } from '../../../components';
 import { DeepNonUndefineable } from '../../../utils/types';
 import CommonContainer from '../../CommonContainer';
-import { DirectionalLinkProps } from '../../../components/DirectionalLink/DirectionalLink';
 
 export default function ReportDetail() {
 	const { id } = useParams();

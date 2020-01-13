@@ -1,8 +1,6 @@
 import React, { useContext } from 'react';
 import 'react-dates/initialize';
 import { Switch } from 'react-router-dom';
-import Header from '../../components/Header/Header';
-import { NavItemProps } from '../../components/Header/NavItem';
 import MakeRouteWithSubRoutes from './MakeRouteWithSubRoutes';
 import routes from '../../routes';
 import useApi from '../../hooks/useApi';
@@ -12,7 +10,7 @@ import UserContext from '../../contexts/User/UserContext';
 import { useCacheInvalidator, AppProvider } from '../../contexts/App/AppContext';
 import { AlertProvider } from '../../contexts/Alert/AlertContext';
 import { DeepNonUndefineable } from '../../utils/types';
-import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
+import { ErrorBoundary, Header, NavItemProps } from '../../components';
 
 /**
  * Main React component container for Hedwig application

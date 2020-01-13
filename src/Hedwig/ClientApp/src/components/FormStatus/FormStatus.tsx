@@ -1,5 +1,5 @@
 import React from 'react';
-import InlineIcon from '../InlineIcon/InlineIcon';
+import { InlineIcon } from '..';
 
 export type FormStatusProps = {
 	type: 'warning' | 'error' | 'success';
@@ -8,7 +8,7 @@ export type FormStatusProps = {
 	message?: string;
 };
 
-export default ({ message, type, id }: FormStatusProps) => {
+export const FormStatus = ({ message, type, id }: FormStatusProps) => {
 	return (
 		<span
 			className={`usa-${type}-message`}

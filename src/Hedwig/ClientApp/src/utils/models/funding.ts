@@ -1,6 +1,6 @@
 import { DeepNonUndefineable } from "../types"
 import { Funding, FundingSource, FundingTime, ReportingPeriod } from "../../generated"
-import Tag from "../../components/Tag/Tag";
+import { Tag } from "../../components";
 import getColorForFundingSource, { fundingSourceDetails } from "../fundingTypeFormatters"
 
 export function generateFundingTag(funding: DeepNonUndefineable<Funding>, index?: any): JSX.Element {
