@@ -22,8 +22,8 @@ namespace Hedwig
 
     public virtual void ConfigureServices(IServiceCollection services)
     {
-      services.ConfigureSqlServer(Configuration.GetConnectionString("HEDWIG"));
-      services.ConfigureCors();
+			services.ConfigureSqlServer(Configuration.GetConnectionString("HEDWIG"));
+			services.ConfigureCors();
       services.ConfigureControllers();
       services.ConfigureSpa();
       services.ConfigureRepositories();
@@ -81,7 +81,7 @@ namespace Hedwig
       app.UseAuthentication();
       app.UseAuthorization();
 
-      if (!env.IsDevelopment())
+			if (!env.IsDevelopment())
       {
         app.UseSpaStaticFiles();
       }
@@ -97,9 +97,15 @@ namespace Hedwig
 
         if (env.IsDevelopment())
         {
-					/*string CLIENT_HOST = Environment.GetEnvironmentVariable("CLIENT_HOST") ?? "http://localhost:3000";
-          spa.UseProxyToSpaDevelopmentServer(CLIENT_HOST);*/
-					spa.UseReactDevelopmentServer(npmScript: "start");
+					if (Environment.GetEnvironmentVariable("DOCKER_DEVELOPMENT") != null)
+					{
+						string CLIENT_HOST = Environment.GetEnvironmentVariable("CLIENT_HOST") ?? "http://localhost:3000";
+						spa.UseProxyToSpaDevelopmentServer(CLIENT_HOST);
+					}
+					else
+					{
+						spa.UseReactDevelopmentServer(npmScript: "start");
+					}		  
 				}
       });
 

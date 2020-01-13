@@ -41,31 +41,36 @@ namespace Hedwig
 
     public static IWebHostBuilder CreateHostBuilder(string[] args) {
       var environment = GetEnvironmentNameFromAppSettings();
-      return WebHost.CreateDefaultBuilder(args)
-        .ConfigureLogging((context, logging) =>
-        {
-          logging.ClearProviders();
-          logging.AddConfiguration(context.Configuration.GetSection("Logging"));
-          logging.AddConsole();
-          logging.AddDebug();
+			return WebHost.CreateDefaultBuilder(args)
+			.ConfigureLogging((context, logging) =>
+			{
+				logging.ClearProviders();
+				logging.AddConfiguration(context.Configuration.GetSection("Logging"));
+				logging.AddConsole();
+				logging.AddDebug();
 
-          var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-          if (environment != Environments.Development)
-          {
-            logging.AddAWSProvider();
-          }
+				var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+				if (environment != Environments.Development)
+				{
+				logging.AddAWSProvider();
+				}
 
-        })
-        .UseEnvironment(environment)
-        .UseStartup<Startup>();
-    }
+			})
+			.UseEnvironment(environment)
+			.UseStartup<Startup>();
+	}
+
+		public static IConfigurationRoot GetIConfigurationRoot()
+		{
+	  return new ConfigurationBuilder()
+			.SetBasePath(Directory.GetCurrentDirectory())
+			.AddJsonFile("appsettings.json", optional: true)
+			.Build();
+		}
 
     private static string GetEnvironmentNameFromAppSettings(string defaultValue = null)
     {
-      return new ConfigurationBuilder()
-        .SetBasePath(Directory.GetCurrentDirectory())
-        .AddJsonFile("appsettings.json", optional: true)
-        .Build()
+      return Program.GetIConfigurationRoot()
         .GetValue<string>("EnvironmentName", defaultValue ?? "Development");
     }
   }
