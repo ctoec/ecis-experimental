@@ -59,10 +59,9 @@ sudo mount -o bind /home/ubuntu/ws/winged-keys /home/ubuntu/ws/ecis-experimental
 #---------------------------------------
 publicIP=$(curl https://checkip.amazonaws.com)
 sudo -i -u ubuntu bash -c 'sed -i "s|localhost|'"$publicIP"'|g" /home/ubuntu/ws/ecis-experimental/src/Hedwig/ClientApp/public/config.json'
-sudo -i -u ubuntu bash -c 'sed -i "s|localhost|'"$publicIP"'|g" /home/ubuntu/ws/winged-keys/src/WingedKeys/appsettings.Development.json'
+sudo -i -u ubuntu bash -c 'sed -i "s|localhost|'"$publicIP"'|g" /home/ubuntu/ws/winged-keys/src/WingedKeys/appsettings.json'
 
 #---------------------------------------
 # Startup docker
 #---------------------------------------
 sudo bash -c 'cd /home/ubuntu/ws/ecis-experimental && docker-compose up --build >> /var/www/html/index.html 2>&1'
-
