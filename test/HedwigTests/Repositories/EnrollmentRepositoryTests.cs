@@ -7,6 +7,7 @@ using Hedwig.Repositories;
 using Hedwig.Models;
 using HedwigTests.Helpers;
 using HedwigTests.Fixtures;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace HedwigTests.Repositories
@@ -37,6 +38,51 @@ namespace HedwigTests.Repositories
         enrollmentRepo.AddEnrollment(enrollment);
 
         Assert.Equal(EntityState.Added, context.Entry(enrollment).State);
+      }
+    }
+
+    [Fact]
+    public void DeleteEnrollment()
+    {
+      using (var context = new TestContextProvider().Context)
+      {
+        var enrollment = new Enrollment();
+
+        var enrollmentRepo = new EnrollmentRepository(context);
+        enrollmentRepo.AddEnrollment(enrollment);
+
+        Assert.Equal(EntityState.Added, context.Entry(enrollment).State);
+
+        enrollmentRepo.DeleteEnrollment(enrollment);
+
+        Assert.Equal(EntityState.Detached, context.Entry(enrollment).State);
+      }
+    }
+
+    [Fact]
+    public void DeleteEnrollmentAndDanglingSubObjects()
+    {
+      using (var context = new TestContextProvider().Context)
+      {
+        var enrollment = new Enrollment();
+        var child = new Child();
+        var funding = new Funding();
+        enrollment.Id = 1;
+        funding.Enrollment = enrollment;
+        funding.EnrollmentId = enrollment.Id;
+        enrollment.Child = child;
+
+        var enrollmentRepo = new EnrollmentRepository(context);
+        var fundingRepo = new FundingRepository(context);
+        enrollmentRepo.AddEnrollment(enrollment);
+
+        Assert.Equal(EntityState.Added, context.Entry(enrollment).State);
+
+        enrollmentRepo.DeleteEnrollment(enrollment);
+
+        Assert.Equal(EntityState.Detached, context.Entry(funding).State);
+        Assert.Equal(EntityState.Added, context.Entry(child).State);
+        Assert.Equal(EntityState.Detached, context.Entry(enrollment).State);
       }
     }
 

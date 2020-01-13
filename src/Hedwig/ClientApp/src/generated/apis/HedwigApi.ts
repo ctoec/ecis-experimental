@@ -83,6 +83,13 @@ export interface ApiOrganizationsOrgIdSitesSiteIdEnrollmentsGetRequest {
     endDate?: Date;
 }
 
+export interface ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDeleteRequest {
+    id: number;
+    orgId: number;
+    siteId: number;
+    enrollment?: Enrollment;
+}
+
 export interface ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest {
     id: number;
     orgId: number;
@@ -377,6 +384,48 @@ export class HedwigApi extends runtime.BaseAPI {
     async apiOrganizationsOrgIdSitesSiteIdEnrollmentsGet(requestParameters: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsGetRequest): Promise<Array<Enrollment>> {
         const response = await this.apiOrganizationsOrgIdSitesSiteIdEnrollmentsGetRaw(requestParameters);
         return await response.value();
+    }
+
+    /**
+     */
+    async apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDeleteRaw(requestParameters: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDeleteRequest): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDelete.');
+        }
+
+        if (requestParameters.orgId === null || requestParameters.orgId === undefined) {
+            throw new runtime.RequiredError('orgId','Required parameter requestParameters.orgId was null or undefined when calling apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDelete.');
+        }
+
+        if (requestParameters.siteId === null || requestParameters.siteId === undefined) {
+            throw new runtime.RequiredError('siteId','Required parameter requestParameters.siteId was null or undefined when calling apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDelete.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json-patch+json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
+        const response = await this.request({
+            path: `/api/organizations/{orgId}/sites/{siteId}/Enrollments/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))).replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters.orgId))).replace(`{${"siteId"}}`, encodeURIComponent(String(requestParameters.siteId))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+            body: EnrollmentToJSON(requestParameters.enrollment),
+        });
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDelete(requestParameters: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDeleteRequest): Promise<void> {
+        await this.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDeleteRaw(requestParameters);
     }
 
     /**

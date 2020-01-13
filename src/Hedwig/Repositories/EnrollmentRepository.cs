@@ -135,6 +135,11 @@ namespace Hedwig.Repositories
 			}
 			return enrollment.FirstOrDefaultAsync();
 		}
+
+		public void DeleteEnrollment(Enrollment enrollment)
+		{
+			_context.Enrollments.Remove(enrollment);
+		}
 	}
 
 	public interface IEnrollmentRepository : IHedwigRepository 
@@ -144,6 +149,8 @@ namespace Hedwig.Repositories
 		Task<List<Enrollment>> GetEnrollmentsForSiteAsync(int siteId, DateTime? from = null, DateTime? to = null, string[] include = null);
 		Task<Enrollment> GetEnrollmentForSiteAsync(int id, int siteId, string[] include = null);
 		Enrollment GetEnrollmentById(int id);
+
+		void DeleteEnrollment(Enrollment enrollment);
 	}
 
 	public static class EnrollmentQueryExtensions

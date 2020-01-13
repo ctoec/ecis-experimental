@@ -96,5 +96,34 @@ namespace HedwigTests.Controllers
             _enrollments.Verify(e => e.UpdateEnrollment(It.IsAny<Enrollment>()), times);
             Assert.IsType(resultType, result.Result);
         }
+
+        [Theory]
+        [InlineData(1, 1, false, true, typeof(OkResult))]
+        [InlineData(1, 2, false, false, typeof(BadRequestResult))]
+        [InlineData(1, 1, true, true, typeof(NotFoundResult))]
+        public async Task Delete_RemovesEnrollment_IfValid_AndExists(
+            int pathId,
+            int id,
+            bool shouldNotFind,
+            bool shouldDeleteEnrollment,
+            Type resultType
+        )
+        {
+            var _validator = new Mock<INonBlockingValidator>();
+            var _enrollments = new Mock<IEnrollmentRepository>();
+            if(shouldNotFind) {
+                _enrollments.Setup(e => e.SaveChangesAsync())
+                    .Throws(new DbUpdateConcurrencyException());
+            }
+
+            var controller = new EnrollmentsController(_validator.Object, _enrollments.Object);
+
+            var enrollment = new Enrollment{ Id = id };
+
+            var result = await controller.Delete(pathId, 1, 1, enrollment);
+            var times = shouldDeleteEnrollment ? Times.Once() : Times.Never();
+            _enrollments.Verify(e => e.DeleteEnrollment(It.IsAny<Enrollment>()), times);
+            Assert.IsType(resultType, result);
+        }
     }
 }
