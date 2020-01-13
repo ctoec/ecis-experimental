@@ -90,7 +90,7 @@ export default function Withdrawal({
       }]);
       history.push(`/roster/enrollments/${enrollment.id}`);
     }
-  }, [enrollment]);
+  }, [enrollment, cannotWithdraw, history, setAlerts]);
 
   if(loading || error || !enrollment) {
     return <div className="Withdrawl"></div>;
@@ -119,7 +119,7 @@ export default function Withdrawal({
     const c4KFunding =  currentFunding(fundings.filter<DeepNonUndefineable<Funding>>(funding => funding.source === FundingSource.C4K));
     if(c4KFunding) {
       updatedFundings = [
-        ...(updatedFundings.filter(funding => funding.id != c4KFunding.id)),
+        ...(updatedFundings.filter(funding => funding.id !== c4KFunding.id)),
         {
           ...c4KFunding,
           certificateEndDate: enrollmentEndDate

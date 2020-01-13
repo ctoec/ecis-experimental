@@ -14,7 +14,7 @@ export function warningForField<T extends Validatable>(
     return {
 			type: 'warning',
 			message:
-				message != undefined ? message : processValidationError(fieldId, entity.validationErrors),
+				message !== undefined ? message : processValidationError(fieldId, entity.validationErrors),
 			id: `${fieldId}-warning`,
 		};
   }

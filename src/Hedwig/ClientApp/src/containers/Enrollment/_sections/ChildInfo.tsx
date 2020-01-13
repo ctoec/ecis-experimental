@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { Section } from '../enrollmentTypes';
 import Button from '../../../components/Button/Button';
 import TextInput from '../../../components/TextInput/TextInput';
@@ -15,7 +15,6 @@ import {
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
 	Enrollment,
 	ValidationProblemDetails,
-	ValidationErrorFromJSON,
 	ValidationProblemDetailsFromJSON,
 } from '../../../generated';
 import idx from 'idx';
@@ -28,7 +27,6 @@ import {
 	prettyMultiRace,
 	prettyEthnicity,
 	birthCertPresent,
-	childArgsAreValid,
 	getSummaryLine,
 } from '../../../utils/models';
 import {

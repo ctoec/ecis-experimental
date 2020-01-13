@@ -13,7 +13,6 @@ import {
 import getIdForUser from '../../../utils/getIdForUser';
 import idx from 'idx';
 import { DeepNonUndefineable } from '../../../utils/types';
-import AlertContext from '../../../contexts/Alert/AlertContext';
 import CommonContainer from '../../CommonContainer';
 
 export default function ReportsSummary() {

@@ -9,8 +9,6 @@ import UserContext from '../../../contexts/User/UserContext';
 import getIdForUser from '../../../utils/getIdForUser';
 import {
 	sectionHasValidationErrors,
-	hasValidationErrors,
-	processValidationError,
 	warningForFieldSet,
 	warningForField,
 } from '../../../utils/validations';

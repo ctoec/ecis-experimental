@@ -80,25 +80,31 @@ export default function useApi<TData>(
 	) => {
 		// If there is no API, throw error
 		if (!api) {
-			setState({ ...state, loading: false });
+			setState((state) => {
+				return { ...state, loading: false }
+			});
 			return Promise.reject("No api!");
 		}
 
 		// Invoke the supplied API method and update state with reducer
 		return query(api)
 			.then((result) => {
-				setState({ ...state, data: reducer(data, result) })
+				setState((state) => {
+					return { ...state, data: reducer(data, result) }
+				});
 				return result;
 			})
 			.catch(async (error) => {
 				if(error.status > 400) {
-					setState({...state, loading: false, error: error.toString()});
+					setState((state) => {
+						return {...state, loading: false, error: error.toString()}
+					});
 					return;
 				}
 
 				return Promise.reject(await error.json());
 			})
-	}, [api]);
+	}, [api, data]);
 
 	// Rerun query whenever deps or accessToken changes
 	useEffect(() => {

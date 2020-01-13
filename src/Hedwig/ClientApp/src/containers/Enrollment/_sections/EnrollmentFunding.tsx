@@ -63,7 +63,7 @@ const EnrollmentFunding: Section = {
 		const receivesC4k = c4kFunding !== undefined;
 
 		const fundingFirstReportingPeriod = reportingPeriods.find<DeepNonUndefineable<ReportingPeriod>>(
-			period => (cdcFunding ? cdcFunding.firstReportingPeriodId == period.id : false)
+			period => (cdcFunding ? cdcFunding.firstReportingPeriodId === period.id : false)
 		);
 		return (
 			<div className="EnrollmentFundingSummary">
@@ -182,11 +182,11 @@ const EnrollmentFunding: Section = {
 			const nextPeriods = nextNReportingPeriods(reportingPeriods, startDate, 5);
 			let nextPeriodsExcludingCurrent = nextPeriods;
 			if (cdcReportingPeriod) {
-				nextPeriodsExcludingCurrent = [...nextPeriods.filter(period => period.id != cdcReportingPeriod.id)];
+				nextPeriodsExcludingCurrent = [...nextPeriods.filter(period => period.id !== cdcReportingPeriod.id)];
 			}
 			const periods = cdcReportingPeriod ? [cdcReportingPeriod, ...nextPeriodsExcludingCurrent] : nextPeriodsExcludingCurrent;
 			updateReportingPeriodOptions([...periods].sort(periodSorter));
-		}, [enrollment.entry, entry, reportingPeriods]);
+		}, [enrollment.entry, entry, reportingPeriods, cdcReportingPeriod]);
 
 		const [apiError, setApiError] = useState<ValidationProblemDetails>();
 
