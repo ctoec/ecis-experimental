@@ -11,9 +11,9 @@ namespace Hedwig.Repositories
 
 		public UserRepository(HedwigContext context) : base(context) { }
 
-		public async Task<User> GetUserByIdAsync(int id)
+		public Task<User> GetUserByIdAsync(int id)
 		{
-			return await _context.Users
+			return _context.Users
 				.Include(u => u.OrgPermissions)
 					.ThenInclude(op => op.Organization)
 						.ThenInclude(o => o.Sites)
@@ -22,8 +22,8 @@ namespace Hedwig.Repositories
 				.SingleOrDefaultAsync(u => u.Id == id);
 		}
 		
-		public async Task<User> GetUserByWingedKeysIdAsync(Guid id) {
-			return await _context.Users
+		public Task<User> GetUserByWingedKeysIdAsync(Guid id) {
+			return _context.Users
 			.Include(u => u.OrgPermissions)
 				.ThenInclude(op => op.Organization)
 					.ThenInclude(o => o.Sites)

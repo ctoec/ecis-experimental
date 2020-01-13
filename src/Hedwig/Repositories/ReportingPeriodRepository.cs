@@ -1,6 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
@@ -13,9 +11,9 @@ namespace Hedwig.Repositories
 	{
 		public ReportingPeriodRepository(HedwigContext context) : base(context) { }
 
-		public async Task<List<ReportingPeriod>> GetReportingPeriodsByFundingSourceAsync(FundingSource source)
+		public Task<List<ReportingPeriod>> GetReportingPeriodsByFundingSourceAsync(FundingSource source)
 		{
-			return await _context.ReportingPeriods
+			return _context.ReportingPeriods
 				.Where(period => period.Type == source)
 				.ToListAsync();
 		}
