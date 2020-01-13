@@ -561,7 +561,7 @@ $future-step-color: color('base-dark') !default;
 
 .usa-fieldset--success {
 	@extend .usa-fieldset--error;
-	border-left-color: color($theme-color-success-dark);
+	border-left-color: color($theme-color-success);
 
 	.usa-form-group--success {
 		margin-top: 0;

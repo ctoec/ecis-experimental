@@ -7,7 +7,7 @@ import nameFormatter from "../../utils/nameFormatter";
 import { DeepNonUndefineable } from "../../utils/types";
 import { generateFundingTag, enrollmentExitReasons, currentFunding } from "../../utils/models";
 import DatePicker from "../../components/DatePicker/DatePicker";
-import Dropdown from "../../components/Dropdown/Dropdown";
+import ChoiceList from "../../components/ChoiceList/ChoiceList";
 import useApi from "../../hooks/useApi";
 import { lastNReportingPeriods } from "../../utils/models/reportingPeriod";
 import getIdForUser from "../../utils/getIdForUser";
@@ -211,14 +211,14 @@ export default function Withdrawal({
                         )
                      }
                   />
-                  <Dropdown
+                  <ChoiceList
+                    type="select"
                     label="Reason"
                     id="exit-reason"
                     options={Object.entries(enrollmentExitReasons).map(
                       ([key, reason]) => ({value: key, text: reason})
                     )}
-                    otherText="Other"
-                    noSelectionText="-Select-"
+                    otherInputLabel="Other"
                     onChange={event => updateExitReason(event.target.value)}
                     status={serverErrorForField(
                       "exitreason",
@@ -226,7 +226,8 @@ export default function Withdrawal({
                       "This information is required for withdrawal"
                     )}
                   />
-                  {cdcFunding && <Dropdown
+                  {cdcFunding && <ChoiceList
+                    type="select"
                     label="Last reporting period"
                     id="last-reporting-period"
                     options={reportingPeriodOptions.map(period => 
@@ -235,7 +236,6 @@ export default function Withdrawal({
                         text: `${period.periodStart.toLocaleDateString()} - ${period.periodEnd.toLocaleDateString()}`
                       })
                     )}
-                    noSelectionText="-Select-"
                     onChange={event => {
                       const chosen = reportingPeriods.find<ReportingPeriod>( period => period.id === parseInt(event.target.value))
                       updateLastReportingPeriod(chosen);

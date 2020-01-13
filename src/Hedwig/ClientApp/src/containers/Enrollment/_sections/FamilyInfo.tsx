@@ -2,13 +2,15 @@ import React, { useState, useContext } from 'react';
 import { Section } from '../enrollmentTypes';
 import Button from '../../../components/Button/Button';
 import TextInput from '../../../components/TextInput/TextInput';
-import Checklist from '../../../components/Checklist/Checklist';
+import ChoiceList from '../../../components/ChoiceList/ChoiceList';
 import idx from 'idx';
 import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
 import getIdForUser from '../../../utils/getIdForUser';
 import {
 	sectionHasValidationErrors,
+	hasValidationErrors,
+	processValidationError,
 	warningForFieldSet,
 	warningForField,
 } from '../../../utils/validations';
@@ -208,27 +210,29 @@ const FamilyInfo: Section = {
 				</FieldSet>
 
 				<h3>Other</h3>
-				<Checklist
+				<ChoiceList
+					type="check"
 					legend="Foster"
 					id="foster"
+					selected={foster ? ['foster'] : undefined}
+					onChange={event => updateFoster((event.target as unknown as HTMLInputElement).checked)}
 					options={[
 						{
 							text: fosterText(),
 							value: 'foster',
-							checked: foster,
-							onChange: event => updateFoster(event.target.checked),
 						},
 					]}
 				/>
-				<Checklist
+				<ChoiceList
+					type="check"
 					legend="Homelessness"
 					id="homelessness"
+					selected={homelessness ? ['homelessness'] : undefined}
+					onChange={event => updateHomelessness((event.target as unknown as HTMLInputElement).checked)}
 					options={[
 						{
 							text: homelessnessText(),
 							value: 'homelessness',
-							checked: homelessness || false,
-							onChange: event => updateHomelessness(event.target.checked),
 						},
 					]}
 				/>

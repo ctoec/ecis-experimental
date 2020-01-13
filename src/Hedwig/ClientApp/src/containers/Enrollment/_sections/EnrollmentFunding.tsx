@@ -2,8 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { Section } from '../enrollmentTypes';
 import Button from '../../../components/Button/Button';
 import DatePicker from '../../../components/DatePicker/DatePicker';
-import Dropdown from '../../../components/Dropdown/Dropdown';
-import RadioGroup from '../../../components/RadioGroup/RadioGroup';
+import ChoiceList from '../../../components/ChoiceList/ChoiceList';
 import dateFormatter from '../../../utils/dateFormatter';
 import moment from 'moment';
 import idx from 'idx';
@@ -31,7 +30,6 @@ import { prettyFundingTime, fundingTimeFromString } from '../../../utils/funding
 import { nextNReportingPeriods, periodSorter } from '../../../utils/models/reportingPeriod';
 import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
 import { familyDeterminationNotDisclosed, currentFunding, updateFunding, createFunding, currentC4kFunding } from '../../../utils/models';
-import Checklist from '../../../components/Checklist/Checklist';
 import TextInput from '../../../components/TextInput/TextInput';
 import InlineIcon from '../../../components/InlineIcon/InlineIcon';
 import initialLoadErrorGuard from '../../../utils/validations/initialLoadErrorGuard';
@@ -195,7 +193,7 @@ const EnrollmentFunding: Section = {
 
 			// CDC REGION
 			if (sourcelessFunding) {
-				// The user previously saved without selecting a funding from the dropdown
+				// The user previously saved without selecting a funding from the ChoiceList
 				if (!privatePay && !cdcFundingTime) {
 					// The user still hasn't selected a funding
 					// Do nothing
@@ -337,7 +335,8 @@ const EnrollmentFunding: Section = {
 		return (
 			<div className="EnrollmentFundingForm">
 				<div className="usa-form">
-					<Dropdown
+					<ChoiceList
+						type="select"
 						id="site"
 						options={
 							idx(user, _ =>
@@ -348,7 +347,7 @@ const EnrollmentFunding: Section = {
 							) || []
 						}
 						label="Site"
-						selected={siteId ? '' + siteId : undefined}
+						selected={siteId ? ['' + siteId] : undefined}
 						onChange={event => updateSiteId(parseInt(event.target.value, 10))}
 					/>
 					<DatePicker
@@ -366,7 +365,8 @@ const EnrollmentFunding: Section = {
 					/>
 
 					<h3>Age group</h3>
-					<RadioGroup
+					<ChoiceList
+						type="radio"
 						legend="Age group"
 						id="age-group"
 						options={[
@@ -383,7 +383,7 @@ const EnrollmentFunding: Section = {
 								value: Age.SchoolAge,
 							},
 						]}
-						selected={'' + age}
+						selected={['' + age]}
 						onChange={event => updateAge(ageFromString(event.target.value))}
 						status={initialLoadErrorGuard(
 							initialLoad,
@@ -396,7 +396,8 @@ const EnrollmentFunding: Section = {
 						)}
 					/>
 					<h3>Funding</h3>
-					<Dropdown
+					<ChoiceList
+						type="select"
 						id="fundingType"
 						options={[
 							...(familyDeterminationNotDisclosed(enrollment)
@@ -412,7 +413,6 @@ const EnrollmentFunding: Section = {
 								text: 'Private pay',
 							},
 						]}
-						noSelectionText="-Select-"
 						label="Funding type"
 						onChange={event => {
 							if (event.target.value === 'privatePay') {
@@ -426,10 +426,11 @@ const EnrollmentFunding: Section = {
 								updateCdcFundingTime(fundingTimeFromString(event.target.value));
 							}
 						}}
-						selected={privatePay ? 'privatePay' : cdcFundingTime !== null ? cdcFundingTime : ''}
+						selected={privatePay ? ['privatePay'] : cdcFundingTime !== null ? [cdcFundingTime] : undefined}
 					/>
 					{!privatePay && cdcFundingTime && (
-						<Dropdown
+						<ChoiceList
+							type="select"
 							id="firstReportingPeriod"
 							options={[
 								...reportingPeriodOptions.map(period => {
@@ -439,7 +440,6 @@ const EnrollmentFunding: Section = {
 									};
 								}),
 							]}
-							noSelectionText="-Select-"
 							label="First reporting period"
 							onChange={event => {
 								const chosen = reportingPeriodOptions.find(
@@ -447,7 +447,7 @@ const EnrollmentFunding: Section = {
 								);
 								updateCdcReportingPeriod(chosen);
 							}}
-							selected={cdcReportingPeriod ? '' + cdcReportingPeriod.id : ''}
+							selected={cdcReportingPeriod ? ['' + cdcReportingPeriod.id] : undefined}
 							status={
 								initialLoadErrorGuard(
 									initialLoad,
@@ -465,16 +465,17 @@ const EnrollmentFunding: Section = {
 						/>
 					)}
 					<h3>Care 4 Kids</h3>
-					<Checklist
+					<ChoiceList
+						type="check"
+						selected={receivesC4k ? ['receives-c4k'] : undefined}
 						options={[
 							{
 								text: 'Receives Care 4 Kids',
 								value: 'receives-c4k',
-								checked: !!receivesC4k,
-								onChange: e => updateReceivesC4k(!!e.target.checked),
 							},
 						]}
-						id="c4k-checklist-box"
+						onChange={e => updateReceivesC4k(!!(e.target as HTMLInputElement).checked)}
+						id="c4k-check-box"
 						legend="Receives Care 4 Kids"
 						className="margin-top-3"
 					/>
