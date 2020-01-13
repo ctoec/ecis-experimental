@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import { AlertProps } from '../../components/Alert/Alert';
 
@@ -21,7 +21,7 @@ const AlertProvider: React.FC = ({ children }) => {
 	const [alertsSetAtPath, setAlertsSetAtPath] = useState();
 	const [alertsDisplayAtPath, setAlertsDisplayAtPath] = useState();
 
-	const setAlerts = (newAlerts: AlertProps[]) => {
+	const setAlerts = useCallback((newAlerts: AlertProps[]) => {
 		if (newAlerts.length > 0) {
 			setAlertsSetAtPath(location.pathname);
 		} else {
@@ -29,7 +29,7 @@ const AlertProvider: React.FC = ({ children }) => {
 		}
 		setAlertsDisplayAtPath(null); // Should always be reset when new alerts?
 		internalSetAlerts(newAlerts);
-	};
+	}, [location.pathname]);
 
 	useEffect(() => {
 		if (
@@ -39,7 +39,7 @@ const AlertProvider: React.FC = ({ children }) => {
 		) {
 			setAlerts([]);
 		}
-	}, [location.pathname])
+	}, [location.pathname, alerts.length, alertsDisplayAtPath, setAlerts])
 
 	const getAlerts = (): AlertProps[] => {
 		if (alerts.length > 0 && location.pathname !== alertsSetAtPath && !alertsDisplayAtPath) {

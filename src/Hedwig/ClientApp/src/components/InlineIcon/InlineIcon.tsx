@@ -2,7 +2,6 @@ import React from 'react';
 import { ReactComponent as Error } from '../../../node_modules/uswds/dist/img/alerts/error.svg';
 import { ReactComponent as Info } from '../../../node_modules/uswds/dist/img/alerts/info.svg';
 import { ReactComponent as Success } from '../../../node_modules/uswds/dist/img/alerts/success.svg';
-import { ReactComponent as Warning } from '../../../node_modules/uswds/dist/img/alerts/warning.svg';
 
 
 type Icon = 'attentionNeeded' | 'complete' | 'incomplete';

@@ -19,7 +19,6 @@ import CommonContainer from '../../CommonContainer';
 import { hasValidationErrors } from '../../../utils/validations';
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import nameFormatter from '../../../utils/nameFormatter';
-import { useEffect } from '@storybook/addons';
 
 type EnrollmentNewParams = {
 	history: History;

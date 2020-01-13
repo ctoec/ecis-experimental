@@ -206,6 +206,7 @@ const AuthenticationProvider: React.FC<AuthenticationProviderPropsType> = ({
 			}
 		}
 	}, [
+		idToken,
 		clientId,
 		scope,
 		localStorageKey,
