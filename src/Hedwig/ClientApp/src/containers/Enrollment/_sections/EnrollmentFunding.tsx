@@ -475,7 +475,7 @@ const EnrollmentFunding: Section = {
 							},
 						]}
 						onChange={e => updateReceivesC4k(!!(e.target as HTMLInputElement).checked)}
-						id="c4k-ChoiceList-box"
+						id="c4k-check-box"
 						legend="Receives Care 4 Kids"
 						className="margin-top-3"
 					/>

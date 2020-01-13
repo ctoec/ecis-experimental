@@ -132,22 +132,20 @@ const ChildInfo: Section = {
 		let childRaceArgs: { [key: string]: boolean } = {};
 		childRace.forEach(raceObj => (childRaceArgs[raceObj.value] = raceObj.selected));
 
-		const args = Object.assign(
-			{
-				sasid,
-				firstName,
-				middleName,
-				lastName,
-				suffix,
-				birthdate,
-				birthCertificateId,
-				birthTown,
-				birthState,
-				hispanicOrLatinxEthnicity,
-				gender,
-			},
-			childRaceArgs
-		);
+		const args = {
+			sasid,
+			firstName,
+			middleName,
+			lastName,
+			suffix,
+			birthdate,
+			birthCertificateId,
+			birthTown,
+			birthState,
+			hispanicOrLatinxEthnicity,
+			gender,
+			...childRaceArgs,
+		};
 
 		const [apiError, setApiError] = useState<ValidationProblemDetails>();
 
@@ -228,13 +226,13 @@ const ChildInfo: Section = {
 							defaultValue={firstName || ''}
 							onChange={event => updateFirstName(event.target.value)}
 							status={initialLoadErrorGuard(
-									initialLoad,
-									serverErrorForField(
-										'child.firstname',
-										apiError,
-										'This information is required for enrollment'
-									)
-								)}
+								initialLoad,
+								serverErrorForField(
+									'child.firstname',
+									apiError,
+									'This information is required for enrollment'
+								)
+							)}
 						/>
 					</div>
 					<div className="mobile-lg:grid-col-9">
@@ -318,11 +316,7 @@ const ChildInfo: Section = {
 							onChange={event => updateBirthCertificateId(event.target.value)}
 							status={initialLoadErrorGuard(
 								initialLoad,
-								warningForField(
-									'birthCertificateId',
-									enrollment ? enrollment.child : null,
-									''
-								)
+								warningForField('birthCertificateId', enrollment ? enrollment.child : null, '')
 							)}
 						/>
 					</div>
@@ -334,11 +328,7 @@ const ChildInfo: Section = {
 							onChange={event => updateBirthState(event.target.value)}
 							status={initialLoadErrorGuard(
 								initialLoad,
-								warningForField(
-									'birthState',
-									enrollment ? enrollment.child : null,
-									''
-								)
+								warningForField('birthState', enrollment ? enrollment.child : null, '')
 							)}
 						/>
 					</div>
@@ -350,11 +340,7 @@ const ChildInfo: Section = {
 							onChange={event => updateBirthTown(event.target.value)}
 							status={initialLoadErrorGuard(
 								initialLoad,
-								warningForField(
-									'birthTown',
-									enrollment ? enrollment.child : null,
-									''
-								)
+								warningForField('birthTown', enrollment ? enrollment.child : null, '')
 							)}
 						/>
 					</div>
@@ -369,11 +355,12 @@ const ChildInfo: Section = {
 					status={initialLoadErrorGuard(
 						initialLoad,
 						warningForFieldSet(
-						'race-checklist',
-						childRace.map(o => o.value),
-						enrollment ? enrollment.child : null,
-						'This information is required for OEC reporting'
-					))}
+							'race-checklist',
+							childRace.map(o => o.value),
+							enrollment ? enrollment.child : null,
+							'This information is required for OEC reporting'
+						)
+					)}
 					legend="Race"
 					id="race-checklist"
 					onChange={(_, selected) => {

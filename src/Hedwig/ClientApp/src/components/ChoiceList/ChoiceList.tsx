@@ -10,11 +10,13 @@ type Option = {
 	value: string;
 };
 
+type HTMLChoiceElement = HTMLInputElement | HTMLSelectElement;
+
 type ChoiceListProps = {
 	options: Option[];
 	id: string;
 	onChange: (
-		e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+		e: React.ChangeEvent<HTMLChoiceElement>,
 		selectedValues: string[],
 		otherInput?: string
 	) => any;
@@ -29,13 +31,15 @@ type ChoiceListProps = {
 type RadioOrChecklistProps = ChoiceListProps & {
 	type: 'radio' | 'check';
 	legend: string;
-	label?: never;
 	horizontal?: boolean;
+	label?: never;
+	unselectedText?: never;
 };
 
 type DropdownProps = ChoiceListProps & {
 	type: 'select';
 	label: string;
+	unselectedText?: string;
 	horizontal?: never;
 	legend?: never;
 };
@@ -54,23 +58,29 @@ export default function ChoiceList({
 	horizontal,
 	otherInputLabel,
 	label,
+	unselectedText,
 }: RadioOrChecklistProps | DropdownProps) {
 	const [selectedItems, updateSelection] = useState(selected);
-	const [otherInput, updateotherInput] = useState();
+	const [otherInput, updateOtherInput] = useState();
 
-	const changeEvent = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+	const changeEvent = (event: React.ChangeEvent<HTMLChoiceElement>) => {
 		const changedValue = event.target.value;
 		if (event.target.type === 'text') {
-			updateotherInput(changedValue);
+			// If it's the other text input box
+			updateOtherInput(changedValue);
+			// Do whatever the dev wants done when things change
 			onChange(event, selectedItems, changedValue);
 			return;
 		}
 		let newSelectedItems: string[];
 		if (selectedItems.includes(changedValue)) {
+			// Uncheck a checkbox if it was already checked
 			newSelectedItems = selectedItems.filter(v => v !== changedValue);
 		} else if (type === 'check') {
+			// If it wasn't already selected and it's a checkbox, add it to whatever else is selected
 			newSelectedItems = [changedValue, ...selectedItems];
 		} else {
+			// If it's a radio or dropdown, only this value is selected now
 			newSelectedItems = [changedValue];
 		}
 		updateSelection(newSelectedItems);
@@ -120,7 +130,7 @@ export default function ChoiceList({
 			}
 			const optionElements = [
 				<option key={`${id}-unselected`} value={undefined}>
-					- Select -
+					{unselectedText || '- Select -'}
 				</option>,
 			];
 			options.forEach(option => {

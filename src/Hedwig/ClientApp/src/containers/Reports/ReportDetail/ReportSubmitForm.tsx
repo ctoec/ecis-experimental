@@ -134,7 +134,7 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 							id="c4k-includes-retroactive"
 							legend="Includes retroactive payment"
 							selected={retroactiveC4KRevenue ? ['retroactiveC4KRevenue'] : undefined}
-							onChange={e => setRetroactiveC4KRevenue(!!(e.target as HTMLInputElement).checked)}
+							onChange={e => setRetroactiveC4KRevenue((e.target as HTMLInputElement).checked)}
 							disabled={!!report.submittedAt}
 							options={[
 								{
