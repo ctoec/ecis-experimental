@@ -843,7 +843,7 @@ exports[`Storyshots Date input Default 1`] = `
       Date
     </legend>
     <span
-      className="usa-hint"
+      className="usa-hint text-italic"
     >
       For example: 04 28 1986
     </span>
@@ -958,7 +958,7 @@ exports[`Storyshots Date input Disabled day input 1`] = `
       Date
     </legend>
     <span
-      className="usa-hint"
+      className="usa-hint text-italic"
     >
       For example: 04 28 1986
     </span>
@@ -1076,7 +1076,7 @@ exports[`Storyshots Date input Disabled range input 1`] = `
       Date
     </legend>
     <span
-      className="usa-hint"
+      className="usa-hint text-italic"
     >
       For example: 04 28 1986
     </span>
@@ -1315,7 +1315,7 @@ exports[`Storyshots Date input Error 1`] = `
       Date
     </legend>
     <span
-      className="usa-hint"
+      className="usa-hint text-italic"
     >
       For example: 04 28 1986
     </span>
@@ -1440,7 +1440,7 @@ exports[`Storyshots Date input Error with range 1`] = `
       Date
     </legend>
     <span
-      className="usa-hint"
+      className="usa-hint text-italic"
     >
       For example: 04 28 1986
     </span>
@@ -1687,7 +1687,7 @@ exports[`Storyshots Date input Range input 1`] = `
       Date
     </legend>
     <span
-      className="usa-hint"
+      className="usa-hint text-italic"
     >
       For example: 04 28 1986
     </span>
@@ -1920,7 +1920,7 @@ exports[`Storyshots Date input Success 1`] = `
       Date
     </legend>
     <span
-      className="usa-hint"
+      className="usa-hint text-italic"
     >
       For example: 04 28 1986
     </span>
@@ -2045,7 +2045,7 @@ exports[`Storyshots Date input Success with range 1`] = `
       Date
     </legend>
     <span
-      className="usa-hint"
+      className="usa-hint text-italic"
     >
       For example: 04 28 1986
     </span>
@@ -2287,7 +2287,7 @@ exports[`Storyshots Date input Warning 1`] = `
       Date
     </legend>
     <span
-      className="usa-hint"
+      className="usa-hint text-italic"
     >
       For example: 04 28 1986
     </span>
@@ -2425,7 +2425,7 @@ exports[`Storyshots Date input Warning with range 1`] = `
       Date
     </legend>
     <span
-      className="usa-hint"
+      className="usa-hint text-italic"
     >
       For example: 04 28 1986
     </span>
@@ -2673,7 +2673,7 @@ exports[`Storyshots DatePicker Default 1`] = `
       Pick a date
     </label>
     <span
-      className="usa-hint display-block"
+      className="usa-hint text-italic display-block"
     >
       For example: 04/28/1986
     </span>
@@ -2740,7 +2740,7 @@ exports[`Storyshots DatePicker Disabled 1`] = `
       Pick a date
     </label>
     <span
-      className="usa-hint display-block"
+      className="usa-hint text-italic display-block"
     >
       For example: 04/28/1986
     </span>
@@ -2813,7 +2813,7 @@ exports[`Storyshots DatePicker Disabled with range 1`] = `
       Pick a date
     </legend>
     <span
-      className="usa-hint"
+      className="usa-hint text-italic"
     >
       For example: 04/28/1986
     </span>
@@ -2922,7 +2922,7 @@ exports[`Storyshots DatePicker Error 1`] = `
       Pick a date
     </label>
     <span
-      className="usa-hint display-block"
+      className="usa-hint text-italic display-block"
     >
       For example: 04/28/1986
     </span>
@@ -3006,7 +3006,7 @@ exports[`Storyshots DatePicker Error with range 1`] = `
       Pick a date
     </legend>
     <span
-      className="usa-hint"
+      className="usa-hint text-italic"
     >
       For example: 04/28/1986
     </span>
@@ -3124,7 +3124,7 @@ exports[`Storyshots DatePicker Optional 1`] = `
       Pick a date
     </label>
     <span
-      className="usa-hint display-block"
+      className="usa-hint text-italic display-block"
     >
       For example: 04/28/1986 (optional)
     </span>
@@ -3197,7 +3197,7 @@ exports[`Storyshots DatePicker Range 1`] = `
       Pick a date
     </legend>
     <span
-      className="usa-hint"
+      className="usa-hint text-italic"
     >
       For example: 04/28/1986
     </span>
@@ -3306,7 +3306,7 @@ exports[`Storyshots DatePicker Success 1`] = `
       Pick a date
     </label>
     <span
-      className="usa-hint display-block"
+      className="usa-hint text-italic display-block"
     >
       For example: 04/28/1986
     </span>
@@ -3390,7 +3390,7 @@ exports[`Storyshots DatePicker Success with range 1`] = `
       Pick a date
     </legend>
     <span
-      className="usa-hint"
+      className="usa-hint text-italic"
     >
       For example: 04/28/1986
     </span>
@@ -3508,7 +3508,7 @@ exports[`Storyshots DatePicker Warning 1`] = `
       Pick a date
     </label>
     <span
-      className="usa-hint display-block"
+      className="usa-hint text-italic display-block"
     >
       For example: 04/28/1986
     </span>
@@ -3605,7 +3605,7 @@ exports[`Storyshots DatePicker Warning with range 1`] = `
       Pick a date
     </legend>
     <span
-      className="usa-hint"
+      className="usa-hint text-italic"
     >
       For example: 04/28/1986
     </span>
