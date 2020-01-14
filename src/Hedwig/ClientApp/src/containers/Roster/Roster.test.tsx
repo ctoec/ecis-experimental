@@ -81,7 +81,7 @@ jest.mock('../../hooks/useApi', () => {
 								exit: null,
 								fundings: [],
 								id: 1,
-								age: 'preschool',
+								ageGroup: 'preschool',
 								siteId: 1,
 							},
 							{
@@ -104,7 +104,7 @@ jest.mock('../../hooks/useApi', () => {
 									},
 								],
 								id: 2,
-								age: 'preschool',
+								ageGroup: 'preschool',
 							},
 						].filter(e => {
 							return (

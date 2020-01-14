@@ -54,8 +54,6 @@ export default function EnrollmentDetail({
 		}
 	);
 
-	console.log(enrollment)
-
 	if (loading || error || !enrollment) {
 		return <div className="EnrollmentDetail"></div>;
 	}

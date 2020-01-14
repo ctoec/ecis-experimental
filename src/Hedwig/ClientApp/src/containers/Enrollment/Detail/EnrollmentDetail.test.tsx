@@ -1,11 +1,17 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { BrowserRouter } from 'react-router-dom';
-import { act } from 'react-dom/test-utils';
 import 'react-dates/initialize';
 import EnrollmentDetail from './EnrollmentDetail';
 import UserContext from '../../../contexts/User/UserContext';
-import { User, Region } from '../../../generated';
+import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
+import {
+	User,
+	Region,
+	ReportingPeriod,
+	FundingSource,
+	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest,
+} from '../../../generated';
 import emptyGuid from '../../../utils/emptyGuid';
 
 const user: User = {
@@ -36,39 +42,61 @@ const user: User = {
 	sitePermissions: [],
 };
 
+const fakeReportingPeriodContext: ReportingPeriod[] = [
+	{
+		id: 1,
+		type: FundingSource.CDC,
+		period: new Date('2019-03-01'),
+		periodStart: new Date('2019-03-01'),
+		periodEnd: new Date('2019-03-31'),
+		dueAt: new Date('2019-04-01'),
+	},
+];
+
 // https://github.com/facebook/jest/issues/5579
 jest.mock('../../../hooks/useApi', () => {
+	const completeEnrollment = {
+		id: 1,
+		childId: '2',
+		siteId: 1,
+		ageGroup: 'preschool',
+		entry: '2019-03-03',
+		exit: null,
+		child: {
+			id: 2,
+			firstName: 'Lily',
+			middleName: 'Luna',
+			lastName: 'Potter',
+			birthdate: '2016-12-12',
+			birthTown: 'Hogsmeade',
+			birthState: 'CT',
+			birthCertificateId: '123',
+			suffix: null,
+			gender: 'Female',
+			hispanicOrLatinxEthnicity: true,
+			nativeHawaiianOrPacificIslander: true,
+		},
+		fundings: [
+			{
+				firstReportingPeriodId: 1,
+				entry: '2019-03-01',
+				exit: '2019-04-01',
+				source: 'CDC',
+				time: 'part',
+			},
+		],
+	};
+
+	const incompleteEnrollment = Object.assign({}, completeEnrollment, { entry: undefined });
+
 	return {
 		__esModule: true,
 		default: (callback: any, dependencies: any[]) => {
 			return callback(
 				{
-					apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet: (params: any) => [
-						false,
-						null,
-						{
-							child: {
-								id: 2,
-								firstName: 'Lily',
-								middleName: 'Luna',
-								lastName: 'Potter',
-								birthdate: '2016-12-12',
-								suffix: null,
-							},
-							entry: '2019-03-03',
-							exit: null,
-							fundings: [
-								{
-									entry: '2019-03-01',
-									exit: '2019-04-01',
-									source: 'CDC',
-									time: 'part',
-								},
-							],
-							id: 2,
-							age: 'preschool',
-						},
-					],
+					apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet: (
+						params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest
+					) => [false, null, params.id === 1 ? completeEnrollment : incompleteEnrollment],
 				},
 				[]
 			);
@@ -91,13 +119,33 @@ describe('EnrollmentDetail', () => {
 	it('matches snapshot', () => {
 		const wrapper = mount(
 			<UserContext.Provider value={{ user }}>
-				<BrowserRouter>
-					<EnrollmentDetail match={{ params: { enrollmentId: 2 } }} />
-				</BrowserRouter>
+				<ReportingPeriodContext.Provider
+					value={{ cdcReportingPeriods: fakeReportingPeriodContext }}
+				>
+					<BrowserRouter>
+						<EnrollmentDetail match={{ params: { enrollmentId: 1 } }} />
+					</BrowserRouter>
+				</ReportingPeriodContext.Provider>
 			</UserContext.Provider>
 		);
-		console.log(wrapper.debug());
 		expect(wrapper.html()).toMatchSnapshot();
+		wrapper.unmount();
+	});
+
+	it('shows incomplete indications when incomplete information is given', () => {
+		const wrapper = mount(
+			<UserContext.Provider value={{ user }}>
+				<ReportingPeriodContext.Provider
+					value={{ cdcReportingPeriods: fakeReportingPeriodContext }}
+				>
+					<BrowserRouter>
+						<EnrollmentDetail match={{ params: { enrollmentId: 2 } }} />
+					</BrowserRouter>
+				</ReportingPeriodContext.Provider>
+			</UserContext.Provider>
+		);
+		const incompleteIcons = wrapper.find('.oec-inline-icon--incomplete');
+		expect(incompleteIcons.length).toBe(1);
 		wrapper.unmount();
 	});
 });
