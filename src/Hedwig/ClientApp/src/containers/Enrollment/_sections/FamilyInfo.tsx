@@ -231,7 +231,7 @@ const FamilyInfo: Section = {
 						},
 					]}
 				/>
-				<p className="oec-form-helper">
+				<p className="usa-hint">
 					Indicate if you are aware that the family has experienced housing insecurity, including
 					overcrowded housing, within the last year.
 				</p>
