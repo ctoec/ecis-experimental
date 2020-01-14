@@ -33,7 +33,7 @@ import {
 import { prettyFundingTime, fundingTimeFromString } from '../../../utils/fundingTimeUtils';
 import { nextNReportingPeriods, periodSorter } from '../../../utils/models/reportingPeriod';
 import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
-import { familyDeterminationNotDisclosed, currentFunding, updateFunding, createFunding, currentC4kFunding } from '../../../utils/models';
+import { familyDeterminationNotDisclosed, currentCdcFunding, updateFunding, createFunding, currentC4kFunding } from '../../../utils/models';
 import initialLoadErrorGuard from '../../../utils/validations/initialLoadErrorGuard';
 
 const EnrollmentFunding: Section = {
@@ -54,7 +54,7 @@ const EnrollmentFunding: Section = {
 
 		const cdcFundings = fundings
 			.filter<DeepNonUndefineable<Funding>>(funding => funding.source === FundingSource.CDC);
-		const cdcFunding = currentFunding(cdcFundings);
+		const cdcFunding = currentCdcFunding(cdcFundings);
 		const isPrivatePay = !sourcelessFunding && cdcFunding === undefined;
 
 		const c4kFundings = fundings
@@ -144,7 +144,7 @@ const EnrollmentFunding: Section = {
 
 		const sourcelessFunding = fundings.find(funding => !funding.source);
 		const cdcFundings = fundings.filter(funding => funding.source === FundingSource.CDC);
-		const cdcFunding = currentFunding(cdcFundings);
+		const cdcFunding = currentCdcFunding(cdcFundings);
 		const [cdcFundingId] = useState<number | null>(cdcFunding ? cdcFunding.id : null);
 		const [cdcFundingTime, updateCdcFundingTime] = useState<FundingTime | null>(
 			cdcFunding ? cdcFunding.time : null
@@ -156,7 +156,7 @@ const EnrollmentFunding: Section = {
 		const [reportingPeriodOptions, updateReportingPeriodOptions] = useState<ReportingPeriod[]>([]);
 
 		const c4kFundings = fundings.filter(funding => funding.source === FundingSource.C4K);
-		const c4kFunding = currentFunding(c4kFundings);
+		const c4kFunding = currentC4kFunding(c4kFundings);
 		const [c4kFundingId] = useState<number | null>(c4kFunding ? c4kFunding.id : null);
 		const [receivesC4k, updateReceivesC4k] = useState<boolean>(!!c4kFunding);
 		const [c4kFamilyId, updateC4kFamilyId] = useState<number | null>(
