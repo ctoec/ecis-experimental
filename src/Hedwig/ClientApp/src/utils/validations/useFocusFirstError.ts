@@ -4,9 +4,8 @@ export function useFocusFirstError(deps: DependencyList | undefined = []) {
 	const [firstElWithError, setFirstElWithError] = useState();
 	useEffect(() => {
 		// TODO: ALSO NEEDS TO ACCOUNT FOR FIELDSET ERRORS? radio buttons and stuff?
-		// oec-date-input--error input
-		const input = document.getElementsByClassName('usa-input--error')[0];
-		setFirstElWithError(input);
+		const input = document.querySelectorAll('.usa-input--error, .oec-date-input--error input');
+		setFirstElWithError(input ? input[0] : undefined);
 	});
 
 	return useEffect(() => {
