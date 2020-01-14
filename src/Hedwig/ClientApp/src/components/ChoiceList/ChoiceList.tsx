@@ -190,6 +190,7 @@ export function ChoiceList({
 			className={className}
 			childrenGroupClassName="margin-top-3"
 			hint={hint}
+			optional={optional}
 		>
 			<div className={horizontal ? 'grid-row flex-align-start grid-gap' : ''}>
 				{[...children]}

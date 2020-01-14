@@ -6,6 +6,7 @@ export type FieldSetProps = {
 	id: string;
 	showLegend?: boolean;
 	status?: FormStatusProps;
+	optional?: boolean;
 	className?: string;
 	hint?: string;
 	childrenGroupClassName?: string;
@@ -16,6 +17,7 @@ export const FieldSet: React.FC<FieldSetProps> = ({
 	id,
 	showLegend,
 	status,
+	optional,
 	className,
 	children,
 	hint,
@@ -43,6 +45,8 @@ export const FieldSet: React.FC<FieldSetProps> = ({
 			`}
 			id={id}
 			aria-describedby={ariaDescriber}
+			// TODO: is this bad usability? are things that aren't optional always required?
+			aria-required={!optional}
 		>
 			<legend
 				className={
