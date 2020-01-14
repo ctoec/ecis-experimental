@@ -8,6 +8,9 @@ trigger:
 pool:
   vmImage: "ubuntu-latest"
 
+variables:
+  CI_BUILD: "true"
+
 jobs:
 #
 # Backend Tests
@@ -127,10 +130,10 @@ jobs:
   - script: dotnet tool install --tool-path $(Agent.ToolsDirectory) dotnet-ef --version 3.0.0
     displayName: "Install EntityFramework"
 
-  - script: export ConnectionStrings__HEDWIG=xxx && export CI_BUILD=true && $(Agent.ToolsDirectory)/dotnet-ef --verbose migrations script --idempotent --output $(Build.ArtifactStagingDirectory)/hedwig-db.sql --context HedwigContext --project src/Hedwig
+  - script: export ConnectionStrings__HEDWIG=xxx && $(Agent.ToolsDirectory)/dotnet-ef --verbose migrations script --idempotent --output $(Build.ArtifactStagingDirectory)/hedwig-db.sql --context HedwigContext --project src/Hedwig
     displayName: "Generate migration script"
 
-  - script: export CI_BUILD=true && dotnet publish "$(Build.SourcesDirectory)/src/Hedwig/Hedwig.csproj" --output "$(Build.SourcesDirectory)/src/Hedwig/dist" --configuration Release
+  - script: dotnet publish "$(Build.SourcesDirectory)/src/Hedwig/Hedwig.csproj" --output "$(Build.SourcesDirectory)/src/Hedwig/dist" --configuration Release
     displayName: "Publish Hedwig"
 
   - script: cp $(Build.SourcesDirectory)/src/Hedwig/appsettings.json $(Build.SourcesDirectory)/src/Hedwig/dist
