@@ -44,7 +44,7 @@
 		<None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
 	</ItemGroup>
 
-	<Target Name="EnsureNodeEnv" BeforeTargets="Build" Condition=" '$(DOCKER_DEVELOPMENT)' == '' AND !Exists('$(SpaRoot)node_modules') ">
+	<Target Name="EnsureNodeEnv" BeforeTargets="Build" Condition=" '$(DOCKER_DEVELOPMENT)' == '' AND '$(CI_BUILD)' == '' AND !Exists('$(SpaRoot)node_modules') ">
 		<!-- Ensure Node.js is installed -->
 		<Exec Command="node --version" ContinueOnError="true">
 			<Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
@@ -59,7 +59,7 @@
 		<Exec WorkingDirectory="$(SpaRoot)" Command="yarn install" />
 	</Target>
 
-	<Target Name="EnsureDotnetEf" BeforeTargets="Build" Condition=" '$(DOCKER_DEVELOPMENT)' == '' ">
+	<Target Name="EnsureDotnetEf" BeforeTargets="Build" Condition=" '$(DOCKER_DEVELOPMENT)' == '' AND $(CI_BUILD)' == '' ">
 		<!-- Ensure Dotnet EF is installed -->
 		<Exec Command="dotnet ef --version" ContinueOnError="true">
 			<Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
