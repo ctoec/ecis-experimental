@@ -148,9 +148,10 @@ export function ChoiceList({
 					id={id}
 					onChange={changeEvent}
 					disabled={disabled}
-					aria-describedby={status ? status.id : undefined}
 					value={selectedItems[0]}
 					required={!optional}
+					aria-describedby={status ? status.id : undefined}
+					aria-invalid={status && status.type === 'error'}
 				>
 					{[...optionElements]}
 				</select>,
