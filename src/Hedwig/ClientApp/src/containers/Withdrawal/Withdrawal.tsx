@@ -181,17 +181,15 @@ export default function Withdrawal({
 		>
 			<div className="grid-container">
 				<h1>Withdraw {nameFormatter(enrollment.child)} from program</h1>
-				<div className="grid-row grid-gap margin-top-neg-1 oec-enrollment-details-section__content">
-					<section className="mobile-lg:grid-col-6">
-						<h2>Current enrollment</h2>
+				<div className="grid-row grid-gap oec-enrollment-details-section__content">
+					<div className="mobile-lg:grid-col-6">
 						<p>{enrollment.site.name}</p>
 						<p>Age: {splitCamelCase(enrollment.ageGroup, '/')}</p>
 						<p>Enrollment date: {enrollment.entry && enrollment.entry.toLocaleDateString()}</p>
-					</section>
+					</div>
 					{cdcFunding && (
-						<section className="mobile-lg:grid-col-6">
-							<h2>Funding</h2>
-							{generateFundingTag(cdcFunding)}
+						<div className="mobile-lg:grid-col-6">
+							<p>{generateFundingTag(cdcFunding)}</p>
 							<p>Enrollment: {cdcFunding.time}</p>
 							<p>
 								First reporting period:{' '}
@@ -199,7 +197,7 @@ export default function Withdrawal({
 									? cdcFunding.firstReportingPeriod.period.toLocaleDateString()
 									: InlineIcon({ icon: 'attentionNeeded' })}
 							</p>
-						</section>
+						</div>
 					)}
 				</div>
 
