@@ -59,7 +59,7 @@
 		<Exec WorkingDirectory="$(SpaRoot)" Command="yarn install" />
 	</Target>
 
-	<Target Name="EnsureDotnetEf" BeforeTargets="Build" Condition=" '$(DOCKER_DEVELOPMENT)' == '' AND $(CI_BUILD)' == '' ">
+	<Target Name="EnsureDotnetEf" BeforeTargets="Build" Condition=" '$(DOCKER_DEVELOPMENT)' == '' AND '$(CI_BUILD)' == '' ">
 		<!-- Ensure Dotnet EF is installed -->
 		<Exec Command="dotnet ef --version" ContinueOnError="true">
 			<Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
