@@ -168,7 +168,7 @@ export default function EnrollmentNew({
 
 	return (
 		<CommonContainer>
-			<section className="grid-container">
+			<div className="grid-container">
 				<h1>Enroll child</h1>
 				<div className="margin-top-2 margin-bottom-5">
 					<StepList steps={steps} activeStep={sectionId} props={props} />
@@ -215,7 +215,7 @@ export default function EnrollmentNew({
 						/>
 					}
 				</div>
-			</section>
+			</div>
 		</CommonContainer>
 	);
 }

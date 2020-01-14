@@ -67,7 +67,7 @@ export default function ReportDetail() {
 			additionalAlerts={additionalAlerts || undefined}
 			directionalLinkProps={directionalLinkProps}
 		>
-			<section className="grid-container">
+			<div className="grid-container">
 				<div className="grid-row flex-first-baseline flex-space-between">
 					<h1 className="tablet:grid-col-auto">
 						{monthFormatter(idx(report, _ => _.reportingPeriod.period))} {report.type} Report{' '}
@@ -89,7 +89,7 @@ export default function ReportDetail() {
 					mutate={mutate}
 					canSubmit={numEnrollmentsMissingInfo === 0}
 				/>
-			</section>
+			</div>
 		</CommonContainer>
 	);
 }

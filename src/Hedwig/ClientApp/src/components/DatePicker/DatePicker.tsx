@@ -111,7 +111,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 			>
 				{label}
 			</label>
-			<span className="usa-hint display-block">{hint}</span>
+			<span className="usa-hint text-italic display-block">{hint}</span>
 			{status && status.message && <FormStatus {...status} />}
 			<span
 				className={`oec-date-input${status ? ` oec-date-input--${status.type}` : ''}`}

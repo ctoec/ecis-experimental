@@ -164,7 +164,7 @@ export function ChoiceList({
 				className={`usa-form-group${status ? ` usa-form-group--${status.type}` : ''}`}
 				key={`${id}-form-group`}
 			>
-				{hint && <span className="usa-hint">{hint}</span>}
+				{hint && <span className="usa-hint text-italic">{hint}</span>}
 				<div className={!label ? 'margin-top-3' : ''}></div>
 				{label && (
 					<label className={`usa-label${status ? ` usa-label--${status.type}` : ''}`} htmlFor={id}>

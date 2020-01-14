@@ -231,7 +231,7 @@ const FamilyInfo: Section = {
 						},
 					]}
 				/>
-				<p className="usa-hint">
+				<p className="usa-hint text-italic">
 					Indicate if you are aware that the family has experienced housing insecurity, including
 					overcrowded housing, within the last year.
 				</p>
