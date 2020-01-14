@@ -76,8 +76,6 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 	const hint = `For example: 04/28/1986${optional ? ' (optional)' : ''}`;
 	const initialVisibleMonth = selectedRange.startDate || moment();
 
-	console.log(datePickerFocused);
-
 	if (byRange) {
 		return (
 			<FieldSet
