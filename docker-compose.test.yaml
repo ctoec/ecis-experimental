@@ -12,7 +12,7 @@ services:
     environment:
       SQLCONNSTR_HEDWIG: Server=test_db;Database=master;User=sa;Password=TestPassword1
       ASPNETCORE_ENVIRONMENT: Development
-			DockerDevelopment: "true"
+      DOCKER_DEVELOPMENT: "true"
     volumes:
       - ./src/Hedwig:/app/src/Hedwig
       - ./test/HedwigTests:/app/test/HedwigTests
