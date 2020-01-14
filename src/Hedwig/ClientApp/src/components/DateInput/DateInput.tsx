@@ -35,6 +35,7 @@ type DateInputProps = {
 	label: string;
 	format?: 'dayInput' | 'rangeInput';
 	disabled?: boolean;
+	optional?: boolean;
 	status?: FormStatusProps;
 	className?: string;
 	hideLabel?: boolean;
@@ -82,6 +83,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 	label,
 	format = 'dayInput',
 	disabled,
+	optional,
 	status,
 	className,
 	hideLabel,
@@ -158,6 +160,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 							);
 							setRangeByVal(newRangeVals);
 						}}
+						optional={optional}
 						status={
 							rangeByVal[key].startIsInvalid
 								? {
@@ -210,6 +213,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 									);
 									setRangeByVal(newRangeVals);
 								}}
+								optional={optional}
 								status={
 									rangeByVal[key].endIsInvalid
 										? {

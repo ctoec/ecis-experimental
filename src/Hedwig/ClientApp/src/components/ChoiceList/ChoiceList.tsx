@@ -21,6 +21,7 @@ type ChoiceListProps = {
 	selected?: string[];
 	status?: FormStatusProps;
 	disabled?: boolean;
+	optional?: boolean;
 	className?: string;
 	hint?: string;
 	otherInputLabel?: string;
@@ -51,6 +52,7 @@ export function ChoiceList({
 	legend,
 	status,
 	disabled,
+	optional,
 	className,
 	hint,
 	horizontal,
@@ -148,6 +150,7 @@ export function ChoiceList({
 					disabled={disabled}
 					aria-describedby={status ? status.id : undefined}
 					value={selectedItems[0]}
+					required={!optional}
 				>
 					{[...optionElements]}
 				</select>,
