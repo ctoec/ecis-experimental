@@ -20,7 +20,11 @@ import useApi from '../../hooks/useApi';
 import { lastNReportingPeriods } from '../../utils/models/reportingPeriod';
 import getIdForUser from '../../utils/getIdForUser';
 import CommonContainer from '../CommonContainer';
-import { clientErrorForField, serverErrorForField } from '../../utils/validations';
+import {
+	clientErrorForField,
+	serverErrorForField,
+	useFocusFirstError,
+} from '../../utils/validations';
 import ReportingPeriodContext from '../../contexts/ReportingPeriod/ReportingPeriodContext';
 import { processBlockingValidationErrors } from '../../utils/validations/processBlockingValidationErrors';
 import AlertContext from '../../contexts/Alert/AlertContext';
@@ -100,6 +104,8 @@ export default function Withdrawal({
 			history.push(`/roster/enrollments/${enrollment.id}`);
 		}
 	}, [enrollment, cannotWithdraw, history, setAlerts]);
+
+	useFocusFirstError([apiError]);
 
 	if (loading || error || !enrollment) {
 		return <div className="Withdrawl"></div>;

@@ -39,13 +39,10 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 	const [datePickerFocused, setDatePickerFocused] = useState();
 
 	function setDateRange(input: DateRange) {
-		// If input is null, add field warning on focus and don't fire on change event
 		const startDateInvalid = !input.startDate || !input.startDate.isValid();
 		const endDateInvalid = !input.endDate || !input.endDate.isValid();
 		setSelectedRange({ ...input, startDateInvalid, endDateInvalid });
-		if (!startDateInvalid && !endDateInvalid) {
-			onChange(input);
-		}
+		onChange(input);
 	}
 
 	function isOutsidePossibleRange(candidateDate: Moment) {
