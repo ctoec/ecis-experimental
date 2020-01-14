@@ -68,12 +68,10 @@ export default function EnrollmentDetail({
 				text: 'Back to roster',
 			}}
 		>
-			<section className="grid-container">
+			<div className="grid-container">
 				<div className="grid-row flex-first-baseline flex-space-between">
 					<h1>{nameFormatter(child)}</h1>
-					<div className="tablet:grid-col-auto">
-						<Button text="Withdraw" href={`/roster/enrollments/${enrollment.id}/withdraw`} className="margin-right-0" />
-					</div>
+					<Button text="Withdraw" href={`/roster/enrollments/${enrollment.id}/withdraw`} className="margin-right-0" />
 				</div>
 				{sections.map(section => {
 					var props: SectionProps = { enrollment, mutate };
@@ -100,7 +98,7 @@ export default function EnrollmentDetail({
 						</section>
 					);
 				})}
-			</section>
+			</div>
 		</CommonContainer>
 	);
 }

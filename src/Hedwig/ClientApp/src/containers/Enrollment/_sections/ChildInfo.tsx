@@ -249,30 +249,32 @@ const ChildInfo: Section = {
 							optional
 						/>
 					</div>
-					<div className="mobile-lg:grid-col-9">
-						<TextInput
-							id="lastName"
-							label="Last name"
-							defaultValue={lastName || ''}
-							onChange={event => updateLastName(event.target.value)}
-							status={initialLoadErrorGuard(
-								initialLoad,
-								serverErrorForField(
-									'child.lastname',
-									apiError,
-									'This information is required for enrollment'
-								)
-							)}
-						/>
-					</div>
-					<div className="mobile-lg:grid-col-3">
-						<TextInput
-							id="suffix"
-							label="Suffix"
-							defaultValue={suffix || ''}
-							onChange={event => updateSuffix(event.target.value)}
-							optional
-						/>
+					<div className="display-flex flex-row flex-align-end grid-row grid-gap">
+						<div className="mobile-lg:grid-col-9">
+							<TextInput
+								id="lastName"
+								label="Last name"
+								defaultValue={lastName || ''}
+								onChange={event => updateLastName(event.target.value)}
+								status={initialLoadErrorGuard(
+									initialLoad,
+									serverErrorForField(
+										'child.lastname',
+										apiError,
+										'This information is required for enrollment'
+									)
+								)}
+							/>
+						</div>
+						<div className="mobile-lg:grid-col-3">
+							<TextInput
+								id="suffix"
+								label="Suffix"
+								defaultValue={suffix || ''}
+								onChange={event => updateSuffix(event.target.value)}
+								optional
+							/>
+						</div>
 					</div>
 				</div>
 
@@ -413,8 +415,8 @@ const ChildInfo: Section = {
 				/>
 
 				<h3>Gender</h3>
-				<p className="oec-form-helper">As identified by family</p>
 				<ChoiceList
+					hint="As identified by family"
 					type="select"
 					options={[
 						{

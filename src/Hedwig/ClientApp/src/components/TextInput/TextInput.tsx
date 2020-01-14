@@ -11,6 +11,8 @@ type TextInputProps = {
 	status?: FormStatusProps;
 	small?: boolean;
 	optional?: boolean;
+	hideOptionalText?: boolean;
+	// You might want to hide the text if it's in a fieldset that is optional, like in the date input component
 	className?: string;
 	inputProps?: React.HTMLProps<HTMLInputElement>;
 	inline?: boolean;
@@ -26,6 +28,7 @@ export function TextInput({
 	status,
 	small,
 	optional,
+	hideOptionalText,
 	className,
 	inputProps,
 	inline,
@@ -33,7 +36,7 @@ export function TextInput({
 	return (
 		<div className={`${className || ''} usa-form-group${status ? ` usa-form-group--${status.type}` : ''}`}>
 			<label className={`usa-label${status ? ` usa-label--${status.type}` : ''}`} htmlFor={id}>
-				{label} {optional && <span className="usa-label__optional">&nbsp;(optional)</span>}
+				{label} {optional && !hideOptionalText && <span className="usa-hint">&nbsp;(optional)</span>}
 			</label>
 			{status && status.message && <FormStatus {...status} />}
 			<input
@@ -48,6 +51,8 @@ export function TextInput({
 				onBlur={onBlur}
 				defaultValue={defaultValue}
 				aria-describedby={status ? status.id : undefined}
+				aria-invalid={status && status.type === 'error'}
+				required={!optional}
 				{...inputProps}
 			/>
 		</div>

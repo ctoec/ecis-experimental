@@ -21,6 +21,7 @@ type ChoiceListProps = {
 	selected?: string[];
 	status?: FormStatusProps;
 	disabled?: boolean;
+	optional?: boolean;
 	className?: string;
 	hint?: string;
 	otherInputLabel?: string;
@@ -51,6 +52,7 @@ export function ChoiceList({
 	legend,
 	status,
 	disabled,
+	optional,
 	className,
 	hint,
 	horizontal,
@@ -146,8 +148,10 @@ export function ChoiceList({
 					id={id}
 					onChange={changeEvent}
 					disabled={disabled}
-					aria-describedby={status ? status.id : undefined}
 					value={selectedItems[0]}
+					required={!optional}
+					aria-describedby={status ? status.id : undefined}
+					aria-invalid={status && status.type === 'error'}
 				>
 					{[...optionElements]}
 				</select>,
@@ -157,9 +161,11 @@ export function ChoiceList({
 	if (children.length === 1) {
 		const singletonInput = (
 			<div
-				className={`usa-form-group${status ? ` usa-form-group--${status.type}` : ''}${!label ? ' margin-top-3' : ''}`}
+				className={`usa-form-group${status ? ` usa-form-group--${status.type}` : ''}`}
 				key={`${id}-form-group`}
 			>
+				{hint && <span className="usa-hint text-italic">{hint}</span>}
+				<div className={!label ? 'margin-top-3' : ''}></div>
 				{label && (
 					<label className={`usa-label${status ? ` usa-label--${status.type}` : ''}`} htmlFor={id}>
 						{label}
@@ -185,6 +191,7 @@ export function ChoiceList({
 			className={className}
 			childrenGroupClassName="margin-top-3"
 			hint={hint}
+			optional={optional}
 		>
 			<div className={horizontal ? 'grid-row flex-align-start grid-gap' : ''}>
 				{[...children]}

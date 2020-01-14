@@ -1,8 +1,17 @@
-import { useEffect, DependencyList } from 'react';
+import { useEffect, DependencyList, useState } from 'react';
 
-export function useFocusFirstError(deps?: DependencyList | undefined) {
+export function useFocusFirstError(deps: DependencyList | undefined = []) {
+	const [firstElWithError, setFirstElWithError] = useState();
+	useEffect(() => {
+		const input = document.querySelectorAll(
+			'.usa-input--error, .oec-date-input--error input, .usa-fieldset--error'
+		);
+		setFirstElWithError(input ? input[0] : undefined);
+	});
+
 	return useEffect(() => {
-		const input = document.getElementsByClassName('usa-input--error')[0];
-		if (input) { (input as HTMLElement).focus() }
-	}, deps);
+		if (firstElWithError) {
+			(firstElWithError as HTMLElement).focus();
+		}
+	}, [...deps, firstElWithError]);
 }

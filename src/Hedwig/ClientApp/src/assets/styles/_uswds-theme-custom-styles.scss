@@ -571,20 +571,6 @@ $future-step-color: color('base-dark') !default;
 	}
 }
 
-.usa-label__optional {
-	position: absolute;
-	color: color($theme-color-base);
-}
-
-.oec-form-helper {
-	// Help text within a form
-	// TODO: anywhere we're using this is probably a place where we should use a fieldset hint instead
-	margin-top: 0;
-	font-size: size('ui', 4);
-	font-style: italic;
-	color: color('base');
-}
-
 .oec-action-list {
 	list-style-type: none;
 	padding-left: 0;

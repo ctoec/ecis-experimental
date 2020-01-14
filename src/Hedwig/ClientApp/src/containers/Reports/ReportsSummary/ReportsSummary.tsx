@@ -110,21 +110,25 @@ export default function ReportsSummary() {
 
 	return (
 		<CommonContainer>
-			<section className="grid-container">
+			<div className="grid-container">
 				<h1>Reports</h1>
-				<h2 className="margin-top-4">Pending reports</h2>
-				{pendingReports.length > 0 ? (
-					<Table {...pendingTableProps} fullWidth />
-				) : (
-					<p>
-						<em>
-							No reports pending. Reports become available after the end of the reporting period.
-						</em>
-					</p>
-				)}
-				<h2 className="margin-top-6">Submitted reports</h2>
-				<Table {...submittedTableProps} fullWidth />
-			</section>
+				<section>
+					<h2 className="margin-top-4">Pending reports</h2>
+					{pendingReports.length > 0 ? (
+						<Table {...pendingTableProps} fullWidth />
+					) : (
+						<p>
+							<em>
+								No reports pending. Reports become available after the end of the reporting period.
+							</em>
+						</p>
+					)}
+				</section>
+				<section>
+					<h2 className="margin-top-6">Submitted reports</h2>
+					<Table {...submittedTableProps} fullWidth />
+				</section>
+			</div>
 		</CommonContainer>
 	);
 }

@@ -6,13 +6,15 @@ import { FieldSet, FormStatus, FormStatusProps } from '..';
 export type DateRange = {
 	startDate: Moment | null;
 	endDate: Moment | null;
+	startDateInvalid?: boolean;
+	endDateInvalid?: boolean;
 };
 
 type DatePickerProps = {
 	dateRange: DateRange;
 	onChange: (newRange: DateRange) => any;
 	id: string;
-	label: string | JSX.Element;
+	label: string;
 	disabled?: boolean;
 	status?: FormStatusProps;
 	optional?: boolean;
@@ -27,7 +29,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 	id,
 	label,
 	disabled,
-	status,
+	status: inputStatus,
 	optional,
 	byRange,
 	possibleRange,
@@ -37,7 +39,9 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 	const [datePickerFocused, setDatePickerFocused] = useState();
 
 	function setDateRange(input: DateRange) {
-		setSelectedRange(input);
+		const startDateInvalid = !input.startDate || !input.startDate.isValid();
+		const endDateInvalid = !input.endDate || !input.endDate.isValid();
+		setSelectedRange({ ...input, startDateInvalid, endDateInvalid });
 		onChange(input);
 	}
 
@@ -55,15 +59,30 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 		return false;
 	}
 
-	// TODO: Accept people entering a date like 6/22/89-- override js defaults if necessary to assume 2000s rather than 1900s!
-	// TODO: Make it so that user can optionally make calendar not show for things like birthdate?  But keep format for consistency's sake?
 	// TODO: revisit usage of this datepicker library at all-- can't add aria-describedby :/
 
-	const labelText = `${label}${optional ? ' (Optional)' : ''}`;
+	let status = inputStatus;
+	if (
+		datePickerFocused === null &&
+		!inputStatus &&
+		(selectedRange.startDateInvalid || selectedRange.endDateInvalid)
+	) {
+		status = { type: 'warning', id: `${id}-warning`, message: 'Date format must be MM/DD/YYYY' };
+	}
+
+	const hint = `For example: 04/28/1986${optional ? ' (optional)' : ''}`;
 	const initialVisibleMonth = selectedRange.startDate || moment();
+
 	if (byRange) {
 		return (
-			<FieldSet legend={labelText} status={status} id={id} showLegend={true}>
+			<FieldSet
+				legend={label}
+				status={status}
+				id={id}
+				showLegend={true}
+				hint={hint}
+				optional={optional}
+			>
 				<DateRangePicker
 					startDate={selectedRange.startDate}
 					startDateId={`${id}-start-date`}
@@ -81,13 +100,18 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 		);
 	}
 	return (
-		<div className={`${className || ''} usa-form-group ${status ? ` usa-form-group--${status.type}` : ''}`}>
+		<div
+			className={`${className || ''} usa-form-group ${
+				status ? ` usa-form-group--${status.type}` : ''
+			}`}
+		>
 			<label
 				className={`usa-label ${status ? ` usa-label--${status.type}` : ''}`}
 				htmlFor={`${id}-date`}
 			>
 				{label}
 			</label>
+			<span className="usa-hint text-italic display-block">{hint}</span>
 			{status && status.message && <FormStatus {...status} />}
 			<span
 				className={`oec-date-input${status ? ` oec-date-input--${status.type}` : ''}`}

@@ -104,10 +104,10 @@ export default function EnrollmentEdit({
 				text: `Back to enrollment details`,
 			}}
 		>
-			<section className="grid-container">
+			<div className="grid-container">
 				<h1>Edit {section.name.toLowerCase()}</h1>
 				<section.Form enrollment={enrollment} mutate={mutate} successCallback={afterSave} />
-			</section>
+			</div>
 		</CommonContainer>
 	);
 }
