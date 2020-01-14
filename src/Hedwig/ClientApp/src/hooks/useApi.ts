@@ -133,8 +133,11 @@ export default function useApi<TData>(
 					setState({ ...state, loading: false, error: error.toString() });
 					return;
 				}
-
-				return Promise.reject(await error.json());
+				if (error && error.json) {
+					return Promise.reject(await error.json());
+				} else {
+					return Promise.reject(error);
+				}
 			});
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [...deps, accessToken]);

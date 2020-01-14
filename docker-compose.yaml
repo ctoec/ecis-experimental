@@ -11,8 +11,9 @@ services:
         dockerfile: Dockerfile
     environment:
       ConnectionStrings__HEDWIG: Server=db;Database=master;User=sa;Password=TestPassword1
-			WingedKeysUri: 'https://winged-keys:5050'
+      WingedKeysUri: 'https://winged-keys:5050'
       CLIENT_HOST: 'http://client:3000'
+      DOCKER_DEVELOPMENT: 'true'
     volumes:
       - ./src/Hedwig:/app/src/Hedwig:cached
       - ./test/HedwigTests:/app/test/HedwigTests:cached
