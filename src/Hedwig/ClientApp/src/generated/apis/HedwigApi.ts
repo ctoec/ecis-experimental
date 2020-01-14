@@ -110,7 +110,7 @@ export interface ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest {
     enrollment?: Enrollment;
 }
 
-export interface ApiReportingPeriodSourceGetRequest {
+export interface ApiReportingPeriodsSourceGetRequest {
     source: FundingSource;
 }
 
@@ -556,9 +556,9 @@ export class HedwigApi extends runtime.BaseAPI {
 
     /**
      */
-    async apiReportingPeriodSourceGetRaw(requestParameters: ApiReportingPeriodSourceGetRequest): Promise<runtime.ApiResponse<Array<ReportingPeriod>>> {
+    async apiReportingPeriodsSourceGetRaw(requestParameters: ApiReportingPeriodsSourceGetRequest): Promise<runtime.ApiResponse<Array<ReportingPeriod>>> {
         if (requestParameters.source === null || requestParameters.source === undefined) {
-            throw new runtime.RequiredError('source','Required parameter requestParameters.source was null or undefined when calling apiReportingPeriodSourceGet.');
+            throw new runtime.RequiredError('source','Required parameter requestParameters.source was null or undefined when calling apiReportingPeriodsSourceGet.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -570,7 +570,7 @@ export class HedwigApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/api/ReportingPeriod/{source}`.replace(`{${"source"}}`, encodeURIComponent(String(requestParameters.source))),
+            path: `/api/ReportingPeriods/{source}`.replace(`{${"source"}}`, encodeURIComponent(String(requestParameters.source))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -581,8 +581,8 @@ export class HedwigApi extends runtime.BaseAPI {
 
     /**
      */
-    async apiReportingPeriodSourceGet(requestParameters: ApiReportingPeriodSourceGetRequest): Promise<Array<ReportingPeriod>> {
-        const response = await this.apiReportingPeriodSourceGetRaw(requestParameters);
+    async apiReportingPeriodsSourceGet(requestParameters: ApiReportingPeriodsSourceGetRequest): Promise<Array<ReportingPeriod>> {
+        const response = await this.apiReportingPeriodsSourceGetRaw(requestParameters);
         return await response.value();
     }
 

@@ -8,11 +8,11 @@ namespace Hedwig.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ReportingPeriodController : ControllerBase
+    public class ReportingPeriodsController : ControllerBase
     {
         private readonly IReportingPeriodRepository _periods;
 
-        public ReportingPeriodController(IReportingPeriodRepository periods)
+        public ReportingPeriodsController(IReportingPeriodRepository periods)
         {
             _periods = periods;
         }
