@@ -3,8 +3,9 @@ import { useEffect, DependencyList, useState } from 'react';
 export function useFocusFirstError(deps: DependencyList | undefined = []) {
 	const [firstElWithError, setFirstElWithError] = useState();
 	useEffect(() => {
-		// TODO: ALSO NEEDS TO ACCOUNT FOR FIELDSET ERRORS? radio buttons and stuff?
-		const input = document.querySelectorAll('.usa-input--error, .oec-date-input--error input');
+		const input = document.querySelectorAll(
+			'.usa-input--error, .oec-date-input--error input, .usa-fieldset--error'
+		);
 		setFirstElWithError(input ? input[0] : undefined);
 	});
 
