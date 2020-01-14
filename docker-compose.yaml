@@ -10,7 +10,8 @@ services:
         context: .
         dockerfile: Dockerfile
     environment:
-      SQLCONNSTR_HEDWIG: Server=db;Database=master;User=sa;Password=TestPassword1
+      ConnectionStrings__HEDWIG: Server=db;Database=master;User=sa;Password=TestPassword1
+			WingedKeysUri: 'https://winged-keys:5050'
       CLIENT_HOST: 'http://client:3000'
     volumes:
       - ./src/Hedwig:/app/src/Hedwig:cached
@@ -44,8 +45,7 @@ services:
         context: .
         dockerfile: ./winged-keys/Dockerfile
     environment:
-      SQLCONNSTR_WINGEDKEYS: Server=winged-keys-db;Database=master;User=sa;Password=TestPassword1
-      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__WINGEDKEYS: Server=winged-keys-db;Database=master;User=sa;Password=TestPassword1
     volumes:
       - ./winged-keys/src/WingedKeys:/app/src/WingedKeys:cached
       # - ./winged-keys/tests/WingedKeysTests:/app/tests/WingedKeysTests:cached

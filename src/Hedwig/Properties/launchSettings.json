@@ -1,29 +1,24 @@
 {
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:5000",
-      "sslPort": 5001
-    }
-  },
   "$schema": "http://json.schemastore.org/launchsettings.json",
-  "profiles": {
-    "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": true,
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "applicationUrl": "https://localhost:5001"
-    },
-    "Hedwig": {
-      "commandName": "Project",
-      "launchBrowser": true,
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "applicationUrl": "https://localhost:5001;http://localhost:5000"
-    }
-  }
+	"profiles": {
+		"Hedwig": {
+			"commandName": "Project",
+			"launchBrowser": true,
+			"environmentVariables": {
+				"ASPNETCORE_ENVIRONMENT": "Development"
+			},
+			"applicationUrl": "http://localhost:5000;https://localhost:5001"
+		},
+		"HedwigWatch": {
+			"commandName": "Executable",
+			"executablePath": "dotnet",
+			"commandLineArgs": "watch run --urls \"http://localhost:5000;https://localhost:5001\"",
+			"workingDirectory": "$(ProjectDir)",
+			"launchBrowser": true,
+			"launchUrl": "https://localhost:5001",
+			"environmentVariables": {
+				"ASPNETCORE_ENVIRONMENT": "Development"
+			}
+		}
+	}
 }
