@@ -7,6 +7,8 @@ import 'react-dates/initialize';
 import Roster from './Roster';
 import UserContext from '../../contexts/User/UserContext';
 import { ChoiceList } from '../../components';
+import { User, Region } from '../../generated';
+import emptyGuid from '../../utils/emptyGuid';
 
 const fakeDate = '2019-09-30';
 
@@ -119,8 +121,6 @@ jest.mock('../../hooks/useApi', () => {
 });
 
 import useApi from '../../hooks/useApi';
-import { User, Region } from '../../generated';
-import emptyGuid from '../../utils/emptyGuid';
 
 beforeAll(() => {
 	mockdate.set(fakeDate);

@@ -5206,7 +5206,7 @@ exports[`Storyshots TextInput Warning 1`] = `
   >
     <label
       className="usa-label usa-label--warning"
-      htmlFor="cat"
+      htmlFor="id5"
     >
       Default text input
        
@@ -5237,8 +5237,8 @@ exports[`Storyshots TextInput Warning 1`] = `
       aria-describedby="text-input-warning"
       aria-invalid={false}
       className="usa-input usa-input--warning"
-      id="cat"
-      name="cat"
+      id="id5"
+      name="id5"
       onChange={[Function]}
       required={true}
       type="text"
@@ -5266,11 +5266,11 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
 			 usa-fieldset--warning
 			 display-inline-block
 			"
-      id="warning-fieldset"
+      id="example-fieldset-warning"
     >
       <legend
         className="usa-sr-only"
-        id="fieldset-legend-warning-fieldset"
+        id="fieldset-legend-example-fieldset-warning"
       >
         Text inputs
       </legend>
@@ -5307,7 +5307,7 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
           >
             <label
               className="usa-label usa-label--warning"
-              htmlFor="cat"
+              htmlFor="id6"
             >
               Short
                
@@ -5338,8 +5338,8 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
               aria-describedby="text-input-warning"
               aria-invalid={false}
               className="usa-input usa-input--warning"
-              id="cat"
-              name="cat"
+              id="id6"
+              name="id6"
               onChange={[Function]}
               required={true}
               type="text"
@@ -5354,7 +5354,7 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
           >
             <label
               className="usa-label usa-label--warning"
-              htmlFor="cat"
+              htmlFor="id7"
             >
               Long
                
@@ -5385,8 +5385,8 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
               aria-describedby="text-input-warning"
               aria-invalid={false}
               className="usa-input usa-input--warning"
-              id="cat"
-              name="cat"
+              id="id7"
+              name="id7"
               onChange={[Function]}
               required={true}
               type="text"
