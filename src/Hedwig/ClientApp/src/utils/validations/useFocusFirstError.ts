@@ -1,8 +1,14 @@
-import { useEffect, DependencyList } from 'react';
+import { useEffect, DependencyList, useState } from 'react';
 
-export function useFocusFirstError(deps?: DependencyList | undefined) {
-	return useEffect(() => {
+export function useFocusFirstError(deps: DependencyList | undefined = []) {
+	const [firstElWithError, setFirstElWithError] = useState();
+	useEffect(() => {
+		// TODO: ALSO NEEDS TO ACCOUNT FOR FIELDSET ERRORS? radio buttons and stuff?
 		const input = document.getElementsByClassName('usa-input--error')[0];
-		if (input) { (input as HTMLElement).focus() }
-	}, deps);
+		setFirstElWithError(input);
+	});
+
+	return useEffect(() => {
+		if (firstElWithError) { (firstElWithError as HTMLElement).focus() }
+	}, [...deps, firstElWithError]);
 }
