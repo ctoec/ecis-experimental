@@ -1,44 +1,13 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import mockdate from 'mockdate';
-import { BrowserRouter } from 'react-router-dom';
 import { act } from 'react-dom/test-utils';
 import 'react-dates/initialize';
 import Roster from './Roster';
-import UserContext from '../../contexts/User/UserContext';
+import CommonContextProviderMock from '../../contexts/__mocks__/CommonContextProviderMock';
 import { ChoiceList } from '../../components';
-import { User, Region } from '../../generated';
-import emptyGuid from '../../utils/emptyGuid';
 
 const fakeDate = '2019-09-30';
-
-const user: User = {
-	id: 1,
-	wingedKeysId: emptyGuid(),
-	firstName: 'Minerva',
-	lastName: 'McGonagall',
-	orgPermissions: [
-		{
-			organizationId: 1,
-			organization: {
-				id: 1,
-				name: "Children's Adventure Center",
-				sites: [
-					{
-						id: 1,
-						name: "Children's Adventure Center",
-						organizationId: 1,
-						region: Region.East,
-						titleI: false,
-					},
-				],
-			},
-			id: 1,
-			userId: 1,
-		},
-	],
-	sitePermissions: [],
-};
 
 const waitForUpdate = async (wrapper: any) => {
 	await new Promise(resolve => setTimeout(resolve, 10));
@@ -60,11 +29,9 @@ afterAll(() => {
 describe('Roster', () => {
 	it('matches snapshot', () => {
 		const wrapper = mount(
-			<UserContext.Provider value={{ user }}>
-				<BrowserRouter>
-					<Roster />
-				</BrowserRouter>
-			</UserContext.Provider>
+			<CommonContextProviderMock>
+				<Roster />
+			</CommonContextProviderMock>
 		);
 		expect(wrapper.html()).toMatchSnapshot();
 		wrapper.unmount();
@@ -72,11 +39,9 @@ describe('Roster', () => {
 
 	it('renders intro text with the correct number of children', async () => {
 		const wrapper = mount(
-			<UserContext.Provider value={{ user }}>
-				<BrowserRouter>
-					<Roster />
-				</BrowserRouter>
-			</UserContext.Provider>
+			<CommonContextProviderMock>
+				<Roster />
+			</CommonContextProviderMock>
 		);
 		await act(async () => {
 			await waitForUpdate(wrapper);
@@ -88,11 +53,9 @@ describe('Roster', () => {
 
 	it('updates the number of children', async () => {
 		const wrapper = mount(
-			<UserContext.Provider value={{ user }}>
-				<BrowserRouter>
-					<Roster />
-				</BrowserRouter>
-			</UserContext.Provider>
+			<CommonContextProviderMock>
+				<Roster />
+			</CommonContextProviderMock>
 		);
 		await act(async () => {
 			await waitForUpdate(wrapper);
