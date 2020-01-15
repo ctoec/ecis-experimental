@@ -69,57 +69,7 @@ const fakeReportingPeriodContext: ReportingPeriod[] = [
 	},
 ];
 
-// https://github.com/facebook/jest/issues/5579
-jest.mock('../../../hooks/useApi', () => {
-	const completeEnrollment = {
-		id: 1,
-		childId: '2',
-		siteId: 1,
-		ageGroup: 'preschool',
-		entry: '2019-03-03',
-		exit: null,
-		child: {
-			id: 2,
-			firstName: 'Lily',
-			middleName: 'Luna',
-			lastName: 'Potter',
-			birthdate: '2016-12-12',
-			birthTown: 'Hogsmeade',
-			birthState: 'CT',
-			birthCertificateId: '123',
-			suffix: null,
-			gender: 'Female',
-			hispanicOrLatinxEthnicity: true,
-			nativeHawaiianOrPacificIslander: true,
-		},
-		fundings: [
-			{
-				firstReportingPeriodId: 1,
-				entry: '2019-03-01',
-				exit: '2019-04-01',
-				source: 'CDC',
-				time: 'part',
-			},
-		],
-	};
-
-	const incompleteEnrollment = Object.assign({}, completeEnrollment, { entry: undefined });
-
-	return {
-		__esModule: true,
-		default: (callback: any, dependencies: any[]) => {
-			return callback(
-				{
-					apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet: (
-						params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest
-					) => [false, null, params.id === 1 ? completeEnrollment : incompleteEnrollment],
-				},
-				[]
-			);
-		},
-	};
-});
-
+jest.mock('../../../hooks/useApi');
 import useApi from '../../../hooks/useApi';
 
 afterAll(() => {
@@ -156,4 +106,17 @@ describe('EnrollmentDetail', () => {
 		expect(incompleteIcons.length).toBe(1);
 		wrapper.unmount();
 	});
+
+	// TODO: enrollment edit tests
+	// it('shows the appropriate number of reporting periods', () => {
+	// 	const wrapper = mount(
+	// 		<EnrollmentTestWrapper>
+	// 			<EnrollmentDetail match={{ params: { enrollmentId: 1 } }} />
+	// 		</EnrollmentTestWrapper>
+	// 	);
+	// 	const reportingPeriodOptions = wrapper.find('#firstReportingPeriod option');
+	// 	console.log(reportingPeriodOptions.debug());
+	// 	expect(reportingPeriodOptions.length).toBe(fakeReportingPeriodContext.length);
+	// 	wrapper.unmount();
+	// });
 });
