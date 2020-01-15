@@ -47,9 +47,28 @@ const completeEnrollment = {
 	],
 };
 
-const incompleteEnrollment = Object.assign({}, completeEnrollment, {
-	entry: undefined,
-});
+const incompleteEnrollment = {
+	id: 2,
+	childId: '2',
+	siteId: 1,
+	ageGroup: 'Preschool',
+	entry: '2019-01-01',
+	exit: null,
+	child: {
+		id: 2,
+		firstName: 'James',
+		middleName: 'Sirius',
+		lastName: 'Potter',
+		birthdate: '2015-04-28',
+		birthTown: 'Hogsmeade',
+		birthState: 'CT',
+		nativeHawaiianOrPacificIslander: true,
+		hispanicOrLatinxEthnicity: true,
+		gender: 'Female',
+		foster: false,
+	},
+	fundings: [],
+};
 
 export default (query: (api: any) => any) => {
 	return query({
@@ -71,44 +90,8 @@ export default (query: (api: any) => any) => {
 			false,
 			null,
 			[
-				{
-					child: {
-						id: 1,
-						firstName: 'James',
-						middleName: 'Sirius',
-						lastName: 'Potter',
-						birthdate: '2015-04-28',
-						suffix: null,
-					},
-					entry: '2019-01-01',
-					exit: null,
-					fundings: [],
-					id: 1,
-					ageGroup: 'preschool',
-					siteId: 1,
-				},
-				{
-					child: {
-						id: 2,
-						firstName: 'Lily',
-						middleName: 'Luna',
-						lastName: 'Potter',
-						birthdate: '2016-12-12',
-						suffix: null,
-					},
-					entry: '2019-03-03',
-					exit: null,
-					fundings: [
-						{
-							entry: '2019-03-01',
-							exit: '2019-04-01',
-							source: FundingSource.CDC,
-							time: 'part',
-						},
-					],
-					id: 2,
-					ageGroup: 'preschool',
-				},
+				incompleteEnrollment,
+				completeEnrollment
 			].filter(e => {
 				return (
 					(!e.entry ? true : moment(e.entry).isBefore(params.endDate)) &&
