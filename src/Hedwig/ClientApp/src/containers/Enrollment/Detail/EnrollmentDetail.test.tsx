@@ -106,27 +106,28 @@ jest.mock('../../../hooks/useApi', () => {
 
 import useApi from '../../../hooks/useApi';
 
-beforeAll(() => {
-	// mockdate.set(fakeDate);
-});
+// beforeAll(() => {
+// 	// mockdate.set(fakeDate);
+// });
 
 afterAll(() => {
-	// mockdate.reset();
 	jest.resetModules();
 });
+
+const EnrollmentTestWrapper: React.FC = ({ children }) => (
+	<UserContext.Provider value={{ user }}>
+		<ReportingPeriodContext.Provider value={{ cdcReportingPeriods: fakeReportingPeriodContext }}>
+			<BrowserRouter>{children}</BrowserRouter>
+		</ReportingPeriodContext.Provider>
+	</UserContext.Provider>
+);
 
 describe('EnrollmentDetail', () => {
 	it('matches snapshot', () => {
 		const wrapper = mount(
-			<UserContext.Provider value={{ user }}>
-				<ReportingPeriodContext.Provider
-					value={{ cdcReportingPeriods: fakeReportingPeriodContext }}
-				>
-					<BrowserRouter>
-						<EnrollmentDetail match={{ params: { enrollmentId: 1 } }} />
-					</BrowserRouter>
-				</ReportingPeriodContext.Provider>
-			</UserContext.Provider>
+			<EnrollmentTestWrapper>
+				<EnrollmentDetail match={{ params: { enrollmentId: 1 } }} />
+			</EnrollmentTestWrapper>
 		);
 		expect(wrapper.html()).toMatchSnapshot();
 		wrapper.unmount();
@@ -134,15 +135,9 @@ describe('EnrollmentDetail', () => {
 
 	it('shows incomplete indications when incomplete information is given', () => {
 		const wrapper = mount(
-			<UserContext.Provider value={{ user }}>
-				<ReportingPeriodContext.Provider
-					value={{ cdcReportingPeriods: fakeReportingPeriodContext }}
-				>
-					<BrowserRouter>
-						<EnrollmentDetail match={{ params: { enrollmentId: 2 } }} />
-					</BrowserRouter>
-				</ReportingPeriodContext.Provider>
-			</UserContext.Provider>
+			<EnrollmentTestWrapper>
+				<EnrollmentDetail match={{ params: { enrollmentId: 2 } }} />
+			</EnrollmentTestWrapper>
 		);
 		const incompleteIcons = wrapper.find('.oec-inline-icon--incomplete');
 		expect(incompleteIcons.length).toBe(1);
