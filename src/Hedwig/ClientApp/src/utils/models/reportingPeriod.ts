@@ -14,16 +14,17 @@ export const currentReportingPeriod = (periods: ReportingPeriod[]): ReportingPer
  * @param a Reporting Period
  * @param b Reporting Period
  */
-export const periodSorter = (a: ReportingPeriod, b: ReportingPeriod) => {
-	if (a.periodStart === b.periodStart) return 0;
-	if (a.periodStart < b.periodStart) return -1;
-	return 1;
+export const periodSorter = (a: ReportingPeriod, b: ReportingPeriod, inverse: boolean = false) => {
+	const aMomentValue = moment(a.periodStart).valueOf();
+	const bMomentValue = moment(b.periodStart).valueOf();
+	if (inverse) {
+		return bMomentValue - aMomentValue;
+	}
+	return aMomentValue - bMomentValue;
 };
 
 const periodSorterInverse = (a: ReportingPeriod, b: ReportingPeriod) => {
-	if (a.periodStart === b.periodStart) return 0;
-	if (a.periodStart > b.periodStart) return -1;
-	return 1;
+	return periodSorter(a, b, true);
 };
 
 /**
@@ -51,7 +52,7 @@ export const lastEligibleReportingPeriod = (
 	periods: ReportingPeriod[],
 	endDate: Date
 ): ReportingPeriod | undefined => {
-	const filteredPeriods = [...periods].filter(period => endDate >= period.periodStart);
+	const filteredPeriods = [...periods].filter(period => moment(period.periodStart).isSameOrBefore(endDate));
 	const sortedPeriods = [...filteredPeriods].sort(periodSorterInverse);
 	return sortedPeriods[0];
 };
@@ -73,9 +74,9 @@ export const fundingWithinReportingPeriod = (
 	if (!fundingPeriodStart && !fundingPeriodEnd) {
 		return false;
 	} else if (!fundingPeriodEnd) {
-		return (fundingPeriodStart as Date) < end;
+		return moment(fundingPeriodStart || undefined).isBefore(end);
 	} else {
-		return start < fundingPeriodEnd;
+		return moment(start).isBefore(fundingPeriodEnd);
 	}
 };
 

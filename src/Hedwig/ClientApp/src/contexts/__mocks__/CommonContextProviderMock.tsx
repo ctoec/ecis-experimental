@@ -1,6 +1,3 @@
-// pass it which contexts to mock
-// give it a way to override data for a specific context
-
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import 'react-dates/initialize';
