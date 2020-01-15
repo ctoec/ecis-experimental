@@ -152,18 +152,18 @@ namespace Hedwig.Data
 
     private void DeleteAllData()
     {
-      _context.Permissions.RemoveRange(_context.Permissions.ToList());
-      _context.FamilyDeterminations.RemoveRange(_context.FamilyDeterminations.ToList());
-      _context.Families.RemoveRange(_context.Families.ToList());
-      _context.Children.RemoveRange(_context.Children.ToList());
-      _context.Enrollments.RemoveRange(_context.Enrollments.ToList());
-      _context.Fundings.RemoveRange(_context.Fundings.ToList());
-      _context.FundingSpaces.RemoveRange(_context.FundingSpaces.ToList());
-      _context.ReportingPeriods.RemoveRange(_context.ReportingPeriods.ToList());
-      _context.Reports.RemoveRange(_context.Reports.ToList());
-      _context.Sites.RemoveRange(_context.Sites.ToList());
-      _context.Organizations.RemoveRange(_context.Organizations.ToList());
-      _context.Users.RemoveRange(_context.Users.ToList());
+			_context.Permissions.RemoveRange(_context.Permissions.ToList());
+			_context.FamilyDeterminations.RemoveRange(_context.FamilyDeterminations.ToList());
+			_context.Families.RemoveRange(_context.Families.ToList());
+			_context.Children.RemoveRange(_context.Children.ToList());
+			_context.Enrollments.RemoveRange(_context.Enrollments.ToList());
+			_context.Fundings.RemoveRange(_context.Fundings.ToList());
+			_context.FundingSpaces.RemoveRange(_context.FundingSpaces.ToList());
+			_context.ReportingPeriods.RemoveRange(_context.ReportingPeriods.ToList());
+			_context.Reports.RemoveRange(_context.Reports.ToList());
+			_context.Sites.RemoveRange(_context.Sites.ToList());
+			_context.Organizations.RemoveRange(_context.Organizations.ToList());
+			_context.Users.RemoveRange(_context.Users.ToList());
     }
 
     private Organization CreateOrganization(string name = "Hogwarts")

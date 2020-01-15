@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using Hedwig.Data;
 using Moq;
+using Hedwig;
+using Microsoft.Extensions.Configuration;
 
 namespace HedwigTests.Fixtures
 {
@@ -16,9 +18,9 @@ namespace HedwigTests.Fixtures
 
 		public TestContextProvider()
 		{
-
+			var configuration = Program.GetIConfigurationRoot();
 			var optionsBuilder = new DbContextOptionsBuilder<HedwigContext>()
-				.UseSqlServer(Environment.GetEnvironmentVariable("SQLCONNSTR_HEDWIG"))
+				.UseSqlServer(configuration.GetConnectionString("HEDWIG"))
 				.EnableSensitiveDataLogging();
 
 			if(TestEnvironmentFlags.ShouldLogSQL())

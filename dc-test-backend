@@ -1,7 +1,3 @@
 cmd="$@"
 
-if [ "$DOCKER_ON_WINDOWS" ]; then
-  docker-compose -f docker-compose-windows.yaml exec backend sh -c "cd /app/test/HedwigTests && $cmd"
-else
-  docker-compose exec backend sh -c "cd /app/test/HedwigTests && $cmd"
-fi
+docker-compose exec backend sh -c "cd /app/test/HedwigTests && $cmd"

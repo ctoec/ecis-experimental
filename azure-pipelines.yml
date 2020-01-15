@@ -8,6 +8,9 @@ trigger:
 pool:
   vmImage: "ubuntu-latest"
 
+variables:
+  CI_BUILD: "true"
+
 jobs:
 #
 # Backend Tests

@@ -1,15 +1,10 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29324.140
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{922697FC-243A-498B-8C8E-3ACFED03BA84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hedwig", "src\Hedwig\Hedwig.csproj", "{87A917A7-A30D-42F1-8834-86474698D6E8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hedwig", "src\Hedwig\Hedwig.csproj", "{B2868F77-A23A-467E-8225-53EF3C053EE1}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{922697FC-243A-498B-8C8E-3ACFED03BA84}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HedwigTests", "src\HedwigTests\HedwigTests.csproj", "{B2868F77-A23A-467E-8225-53EF3C053EE1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HedwigTests", "test\HedwigTests\HedwigTests.csproj", "{60049312-9EBB-4BE8-B9D0-10E3C66128E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +12,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{71B22772-8519-4ADE-8B8F-1470669975B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{71B22772-8519-4ADE-8B8F-1470669975B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{71B22772-8519-4ADE-8B8F-1470669975B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{71B22772-8519-4ADE-8B8F-1470669975B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87A917A7-A30D-42F1-8834-86474698D6E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87A917A7-A30D-42F1-8834-86474698D6E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87A917A7-A30D-42F1-8834-86474698D6E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87A917A7-A30D-42F1-8834-86474698D6E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60049312-9EBB-4BE8-B9D0-10E3C66128E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60049312-9EBB-4BE8-B9D0-10E3C66128E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60049312-9EBB-4BE8-B9D0-10E3C66128E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60049312-9EBB-4BE8-B9D0-10E3C66128E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

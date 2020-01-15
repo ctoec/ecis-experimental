@@ -1,8 +1,1 @@
-if [ "$DOCKER_ON_WINDOWS" ]; then
-  docker-compose -f docker-compose-windows.yaml exec client $@
-else
-  docker-compose exec client $@
-fi
-
-
-
+docker-compose exec client $@
