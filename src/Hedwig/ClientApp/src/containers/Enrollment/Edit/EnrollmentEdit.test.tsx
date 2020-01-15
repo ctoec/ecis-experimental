@@ -1,17 +1,16 @@
 import React from 'react';
 import { mount } from 'enzyme';
+import mockdate from 'mockdate';
 import { BrowserRouter } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
 import 'react-dates/initialize';
-import EnrollmentDetail from './EnrollmentDetail';
+import EnrollmentEdit from './EnrollmentEdit';
 import UserContext from '../../../contexts/User/UserContext';
 import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
-import {
-	User,
-	Region,
-	ReportingPeriod,
-	FundingSource,
-} from '../../../generated';
+import { User, Region, ReportingPeriod, FundingSource } from '../../../generated';
 import emptyGuid from '../../../utils/emptyGuid';
+
+const fakeDate = '2019-03-02';
 
 const user: User = {
 	id: 1,
@@ -71,7 +70,12 @@ const fakeReportingPeriodContext: ReportingPeriod[] = [
 jest.mock('../../../hooks/useApi');
 import useApi from '../../../hooks/useApi';
 
+beforeAll(() => {
+	mockdate.set(fakeDate);
+});
+
 afterAll(() => {
+	mockdate.reset();
 	jest.resetModules();
 });
 
@@ -83,25 +87,20 @@ const EnrollmentTestWrapper: React.FC = ({ children }) => (
 	</UserContext.Provider>
 );
 
-describe('EnrollmentDetail', () => {
-	it('matches snapshot', () => {
-		const wrapper = mount(
-			<EnrollmentTestWrapper>
-				<EnrollmentDetail match={{ params: { enrollmentId: 1 } }} />
-			</EnrollmentTestWrapper>
-		);
-		expect(wrapper.html()).toMatchSnapshot();
-		wrapper.unmount();
-	});
+const history = createBrowserHistory();
 
-	it('shows incomplete indications when incomplete information is given', () => {
+describe('EnrollmentEdit', () => {
+	it('shows the appropriate number of reporting periods', () => {
 		const wrapper = mount(
 			<EnrollmentTestWrapper>
-				<EnrollmentDetail match={{ params: { enrollmentId: 2 } }} />
+				<EnrollmentEdit
+					history={history}
+					match={{ params: { enrollmentId: 1, sectionId: 'enrollment-funding' } }}
+				/>
 			</EnrollmentTestWrapper>
 		);
-		const incompleteIcons = wrapper.find('.oec-inline-icon--incomplete');
-		expect(incompleteIcons.length).toBe(1);
+		const reportingPeriodOptions = wrapper.find('select#firstReportingPeriod option');
+		expect(reportingPeriodOptions.length).toBe(fakeReportingPeriodContext.length + 1);
 		wrapper.unmount();
 	});
 });
