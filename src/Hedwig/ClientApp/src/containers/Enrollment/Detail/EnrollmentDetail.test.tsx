@@ -49,7 +49,23 @@ const fakeReportingPeriodContext: ReportingPeriod[] = [
 		period: new Date('2019-03-01'),
 		periodStart: new Date('2019-03-01'),
 		periodEnd: new Date('2019-03-31'),
-		dueAt: new Date('2019-04-01'),
+		dueAt: new Date('2019-04-15'),
+	},
+	{
+		id: 2,
+		type: FundingSource.CDC,
+		period: new Date('2019-04-01'),
+		periodStart: new Date('2019-04-01'),
+		periodEnd: new Date('2019-04-30'),
+		dueAt: new Date('2019-05-15'),
+	},
+	{
+		id: 3,
+		type: FundingSource.CDC,
+		period: new Date('2019-05-01'),
+		periodStart: new Date('2019-05-01'),
+		periodEnd: new Date('2019-05-31'),
+		dueAt: new Date('2019-06-15'),
 	},
 ];
 
@@ -106,14 +122,11 @@ jest.mock('../../../hooks/useApi', () => {
 
 import useApi from '../../../hooks/useApi';
 
-// beforeAll(() => {
-// 	// mockdate.set(fakeDate);
-// });
-
 afterAll(() => {
 	jest.resetModules();
 });
 
+// TODO: write all the enrollment tests in one file?  figure out way to separate them
 const EnrollmentTestWrapper: React.FC = ({ children }) => (
 	<UserContext.Provider value={{ user }}>
 		<ReportingPeriodContext.Provider value={{ cdcReportingPeriods: fakeReportingPeriodContext }}>
