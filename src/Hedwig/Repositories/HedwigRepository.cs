@@ -1,4 +1,5 @@
 using Hedwig.Data;
+using Hedwig.Models;
 using System;
 using System.Threading.Tasks;
 using System.Linq;
@@ -34,8 +35,7 @@ namespace Hedwig.Repositories
 		/// <param name="updates"></param>
 		/// <param name="currents"></param>
 		/// <typeparam name="T"></typeparam>
-		public void UpdateEnumerableChildObjects<T>(IEnumerable<T> updates, IEnumerable<T> currents)
-			where T : IHedwigIdEntity<int>
+		public void UpdateEnumerableChildObjects(IEnumerable<IHedwigIdEntity<object>> updates, IEnumerable<IHedwigIdEntity<object>> currents)
 		{
 			if (updates == null)
 			{
@@ -52,22 +52,16 @@ namespace Hedwig.Repositories
 
 			foreach(var update in updates)
 			{
-				// if(update.Id is Guid guid)
-				// {
-				// 	if (guid == Guid.Empty)
-				// 	{
-				// 		_context.Add(update);
-				// 		break;
-				// 	}
-				// }
-
-				if(update.Id is int iid)
+				if(update.Id is Guid guid && guid == Guid.Empty)
 				{
-					if(iid == 0)
-					{
-						_context.Add(update);
-						break;
-					}
+					_context.Add(update);
+					break;
+				}
+
+				if(update.Id is int iid && iid == 0)
+				{
+					_context.Add(update);
+					break;
 				}
 
 				_context.Update(update);

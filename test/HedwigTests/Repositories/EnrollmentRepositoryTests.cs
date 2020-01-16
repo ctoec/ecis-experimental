@@ -84,8 +84,6 @@ namespace HedwigTests.Repositories
       }
     }
 
-
-
     [Fact]
     public void AddEnrollment()
     {

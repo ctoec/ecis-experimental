@@ -1,4 +1,8 @@
-public interface IHedwigIdEntity<T>
+namespace Hedwig.Models
 {
-  T Id { get; }
+  public interface IHedwigIdEntity<out T>
+  {
+    T Id { get; }
+  }
 }
+
