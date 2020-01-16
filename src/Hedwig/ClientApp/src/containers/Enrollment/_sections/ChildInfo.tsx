@@ -233,6 +233,7 @@ const ChildInfo: Section = {
 							status={initialLoadErrorGuard(
 								initialLoad,
 								serverErrorForField(
+									// TODO: is changing this ID going to mess with screen readers?
 									'child.firstname',
 									apiError,
 									'This information is required for enrollment'

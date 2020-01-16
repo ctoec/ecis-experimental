@@ -46,28 +46,6 @@ storiesOf('TextInput', module)
 			</div>
 		)
 	})
-	.add('Warning', () => {
-		return <TextInput id="cat" label="Default text input" onChange={onChange} status={warning} />;
-	})
-	.add('Warning inside warning Fieldset', () => {
-		return (
-			<div className="usa-form">
-				<FieldSet
-					legend="Text inputs"
-					status={warning}
-					className="display-inline-block"
-					id="warning-fieldset"
-				>
-					<div className="mobile-lg:grid-col-4 display-inline-block">
-						<TextInput id="cat" label="Short" onChange={onChange} status={warning} />
-					</div>
-					<div className="mobile-lg:grid-col-8 display-inline-block">
-						<TextInput id="cat" label="Long" onChange={onChange} status={warning} />
-					</div>
-				</FieldSet>
-			</div>
-		);
-	})
 	.add('Error', () => {
 		return <TextInput id="id8" label="Default text input" onChange={onChange} status={error} />
 	})
