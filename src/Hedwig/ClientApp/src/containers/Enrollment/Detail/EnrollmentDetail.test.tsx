@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import 'react-dates/initialize';
 import EnrollmentDetail from './EnrollmentDetail';
 import CommonContextProviderMock from '../../../contexts/__mocks__/CommonContextProviderMock';
-
+import { completeEnrollment, enrollmentMissingBirthCertId } from '../../../hooks/__mocks__/useApi';
 
 jest.mock('../../../hooks/useApi');
 import useApi from '../../../hooks/useApi';
@@ -16,7 +16,7 @@ describe('EnrollmentDetail', () => {
 	it('matches snapshot', () => {
 		const wrapper = mount(
 			<CommonContextProviderMock>
-				<EnrollmentDetail match={{ params: { enrollmentId: 1 } }} />
+				<EnrollmentDetail match={{ params: { enrollmentId: completeEnrollment.id } }} />
 			</CommonContextProviderMock>
 		);
 		expect(wrapper.html()).toMatchSnapshot();
@@ -26,7 +26,7 @@ describe('EnrollmentDetail', () => {
 	it('shows incomplete indications when incomplete information is given', () => {
 		const wrapper = mount(
 			<CommonContextProviderMock>
-				<EnrollmentDetail match={{ params: { enrollmentId: 2 } }} />
+				<EnrollmentDetail match={{ params: { enrollmentId: enrollmentMissingBirthCertId.id } }} />
 			</CommonContextProviderMock>
 		);
 		const incompleteIcons = wrapper.find('.oec-inline-icon--incomplete');

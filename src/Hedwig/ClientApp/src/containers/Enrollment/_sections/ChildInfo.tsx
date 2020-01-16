@@ -211,6 +211,8 @@ const ChildInfo: Section = {
 			}
 		};
 
+
+		console.log(JSON.stringify(apiError))
 		// TODO: should gender be radio buttons as recommended by USWDS rather than select?
 		return (
 			<div className="ChildInfoForm usa-form">

@@ -1,11 +1,11 @@
 const moment = require('moment');
 import {
 	FundingSource,
+	ValidationProblemDetails,
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest,
 } from '../../generated';
 
-
-const completeEnrollment = {
+export const completeEnrollment = {
 	id: 1,
 	childId: '2',
 	siteId: 1,
@@ -47,7 +47,7 @@ const completeEnrollment = {
 	],
 };
 
-const incompleteEnrollment = {
+export const enrollmentMissingBirthCertId = {
 	id: 2,
 	childId: '2',
 	siteId: 1,
@@ -62,6 +62,7 @@ const incompleteEnrollment = {
 		birthdate: '2015-04-28',
 		birthTown: 'Hogsmeade',
 		birthState: 'CT',
+		// birthCertificateId: MISSING ON PURPOSE
 		nativeHawaiianOrPacificIslander: true,
 		hispanicOrLatinxEthnicity: true,
 		gender: 'Female',
@@ -70,11 +71,37 @@ const incompleteEnrollment = {
 	fundings: [],
 };
 
+export const enrollmentMissingFirstName = JSON.parse(JSON.stringify(completeEnrollment));
+enrollmentMissingFirstName.id = 3;
+enrollmentMissingFirstName.child.firstName = '';
+
+export const allFakeEnrollments = [
+	completeEnrollment,
+	enrollmentMissingBirthCertId,
+	enrollmentMissingFirstName,
+];
+
+export const firstNameError: ValidationProblemDetails = {
+	errors: { 'Child.FirstName': ['The FirstName field is required.'] },
+	type: 'https://tools.ietf.org/html/rfc7231#section-6.5.1',
+	title: 'One or more validation errors occurred.',
+	status: 400,
+};
+const mutation = (_: any) => {
+	return new Promise((resolve, reject) => {
+		reject(firstNameError);
+	});
+};
+
 export default (query: (api: any) => any) => {
 	return query({
 		apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet: (
 			params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest
-		) => [false, null, params.id === 1 ? completeEnrollment : incompleteEnrollment],
+		) => {
+			const thisEnrollment = allFakeEnrollments.find(e => e.id === params.id);
+			const mutate = thisEnrollment.id === enrollmentMissingFirstName.id ? mutation : undefined;
+			return [false, null, thisEnrollment, mutate];
+		},
 		apiOrganizationsOrgIdSitesIdGet: (params: any) => [
 			false,
 			null,
@@ -89,10 +116,7 @@ export default (query: (api: any) => any) => {
 		apiOrganizationsOrgIdSitesSiteIdEnrollmentsGet: (params: any) => [
 			false,
 			null,
-			[
-				incompleteEnrollment,
-				completeEnrollment
-			].filter(e => {
+			[enrollmentMissingBirthCertId, completeEnrollment].filter(e => {
 				return (
 					(!e.entry ? true : moment(e.entry).isBefore(params.endDate)) &&
 					(!e.exit ? true : moment(e.exit).isAfter(moment(params.startDate)))

@@ -59,6 +59,7 @@ describe('Roster', () => {
 		);
 		await act(async () => {
 			await waitForUpdate(wrapper);
+
 			wrapper
 				.find('Button')
 				.at(1)
