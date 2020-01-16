@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Hedwig.Models
 {
-	public class Organization
+	public class Organization : IHedwigIdEntity<int>
 	{
 		[Required]
 		public int Id { get; set; }

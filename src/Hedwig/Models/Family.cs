@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Hedwig.Models
 {
-	public class Family : TemporalEntity, INonBlockingValidatableObject
+	public class Family : TemporalEntity, IHedwigIdEntity<int>, INonBlockingValidatableObject
 	{
 		
 		[Required]

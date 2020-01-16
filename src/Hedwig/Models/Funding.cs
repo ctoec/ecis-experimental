@@ -10,7 +10,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Hedwig.Models
 {
-  public class Funding : TemporalEntity, INonBlockingValidatableObject
+  public class Funding : TemporalEntity, IHedwigIdEntity<int>, INonBlockingValidatableObject
   {
     [Required]
     public int Id { get; set; }

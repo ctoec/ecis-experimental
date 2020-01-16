@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace Hedwig.Models
 {
-	public class Site
+	public class Site : IHedwigIdEntity<int>
 	{
 		public int Id { get; set; }
 

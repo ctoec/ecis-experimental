@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Hedwig.Models
 {
-	public class User
+	public class User : IHedwigIdEntity<int>
 	{
 		[Required]
 		public int Id { get; set; }

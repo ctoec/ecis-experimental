@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Hedwig.Models
 {
-	public abstract class Permission
+	public abstract class Permission : IHedwigIdEntity<int>
 	{
 		[Required]
 		public int Id { get; set; }
