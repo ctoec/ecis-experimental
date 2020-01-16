@@ -64,13 +64,17 @@ export const completeEnrollment: Enrollment = {
 
 type ChangeField = { accessor: string[]; newValue?: any };
 function makeEnrollment(enrollment: Enrollment, changeFields: ChangeField[]) {
+	// Make a deep copy to avoid changing the original
 	const newEnrollment = JSON.parse(JSON.stringify(enrollment));
 	changeFields.forEach(field => {
 		let changeObject = newEnrollment;
 		field.accessor.forEach((accessor, i) => {
+			// Accessors are an ordered array of strings referring to nested vals in an object
 			if (i === field.accessor.length - 1) {
+				// If it's the last one in the array, then it's the thing that needs to be changed to a new value
 				changeObject[accessor] = field.newValue;
 			} else {
+				// Otherwise keep digging
 				changeObject = changeObject[accessor];
 			}
 		});
