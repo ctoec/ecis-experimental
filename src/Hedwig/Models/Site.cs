@@ -24,6 +24,11 @@ namespace Hedwig.Models
 		public int OrganizationId { get; set; }
 		public Organization Organization { get; set; }
 
+		public int? FacilityCode { get; set; }
+		public int? LicenseNumber { get; set; }
+		public int? NaeycId { get; set; }
+		public int? RegistryId { get; set; }
+
 		public ICollection<Enrollment> Enrollments { get; set; }
 	}
 }
