@@ -3,7 +3,7 @@ import moment, { Moment } from 'moment';
 import { DateRangePicker, SingleDatePicker } from 'react-dates';
 import { FieldSet, FormStatus, FormStatusProps } from '..';
 
-export type DateRange = {
+export type MomentDateRange = {
 	startDate: Moment | null;
 	endDate: Moment | null;
 	startDateInvalid?: boolean;
@@ -11,15 +11,15 @@ export type DateRange = {
 };
 
 type DatePickerProps = {
-	dateRange: DateRange;
-	onChange: (newRange: DateRange) => any;
+	dateRange: MomentDateRange;
+	onChange: (newRange: MomentDateRange) => any;
 	id: string;
 	label: string;
 	disabled?: boolean;
 	status?: FormStatusProps;
 	optional?: boolean;
 	byRange?: boolean;
-	possibleRange?: DateRange;
+	possibleRange?: MomentDateRange;
 	className?: string;
 };
 
@@ -38,7 +38,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 	const [selectedRange, setSelectedRange] = useState(dateRange);
 	const [datePickerFocused, setDatePickerFocused] = useState();
 
-	function setDateRange(input: DateRange) {
+	function setDateRange(input: MomentDateRange) {
 		const startDateInvalid = !input.startDate || !input.startDate.isValid();
 		const endDateInvalid = !input.endDate || !input.endDate.isValid();
 		setSelectedRange({ ...input, startDateInvalid, endDateInvalid });

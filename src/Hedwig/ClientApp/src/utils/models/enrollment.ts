@@ -1,12 +1,12 @@
 import { Enrollment } from "../../generated";
-import { isCurrent } from "./funding";
+import { isCurrentToRange, DateDateRange } from "./funding";
 
 export function isFunded(
   enrollment: Enrollment | null,
   opts: {
    source?: string,
    time?: string,
-   current?: boolean
+   currentRange?: DateDateRange
   }
 )
 {
@@ -24,8 +24,8 @@ export function isFunded(
     fundings = fundings.filter(funding => funding.time === opts.time);
   }
 
-  if(opts.current) {
-    fundings = fundings.filter(funding => isCurrent(funding));
+  if(opts.currentRange) {
+    fundings = fundings.filter(funding => isCurrentToRange(funding, opts.currentRange));
   }
 
   return fundings.length > 0;

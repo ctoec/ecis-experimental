@@ -9,7 +9,7 @@ import getIdForUser from '../../utils/getIdForUser';
 import {
 	Tag,
 	DatePicker,
-	DateRange,
+	MomentDateRange,
 	Button,
 	ChoiceList,
 	Legend,
@@ -27,7 +27,7 @@ import CommonContainer from '../CommonContainer';
 
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
-	const [dateRange, setDateRange] = useState<DateRange>(getDefaultDateRange());
+	const [dateRange, setDateRange] = useState<MomentDateRange>(getDefaultDateRange());
 	const [byRange, setByRange] = useState(false);
 	const handlePastEnrollmentsChange = () => {
 		toggleShowPastEnrollments(!showPastEnrollments);
@@ -82,7 +82,7 @@ export default function Roster() {
 	Object.keys(fundingSourceDetails).forEach(source => {
 		const capacityForFunding = getFundingSpaceCapacity(site.organization, { source });
 		const enrolledForFunding = enrollments.filter<DeepNonUndefineable<Enrollment>>(
-			enrollment => isFunded(enrollment, { source, current: true})
+			enrollment => isFunded(enrollment, { source, currentRange: { startDate: enrollment.entry, endDate: enrollment.exit } })
 		).length;
 
 		if (enrolledForFunding === 0) {
@@ -165,7 +165,7 @@ export default function Roster() {
 							id="enrollment-roster-datepicker"
 							label="Date"
 							byRange={byRange}
-							onChange={(newDateRange: DateRange) => setDateRange(newDateRange)}
+							onChange={(newDateRange: MomentDateRange) => setDateRange(newDateRange)}
 							dateRange={dateRange}
 							possibleRange={{ startDate: null, endDate: moment().local() }}
 							className="margin-top-neg-3"

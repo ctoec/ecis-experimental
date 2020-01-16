@@ -2,7 +2,6 @@ import { DeepNonUndefineable } from "../types"
 import { Funding, FundingSource, FundingTime, ReportingPeriod } from "../../generated"
 import { Tag } from "../../components";
 import getColorForFundingSource, { fundingSourceDetails } from "../fundingTypeFormatters"
-import moment from "moment";
 
 
 export function generateFundingTag(funding: DeepNonUndefineable<Funding>, index?: any): JSX.Element {
@@ -13,55 +12,87 @@ export function generateFundingTag(funding: DeepNonUndefineable<Funding>, index?
 	return Tag({ key, text, color });
 }
 
-export function isCurrent(funding:Funding) : boolean {
+export type DateDateRange = {
+	startDate: Date | null,
+	endDate: Date | null,
+}
+
+/**
+ * Returns true if the funding overlaps with the provided range.
+ * If no range is provided, defaults to {now(), now()}
+ * @param funding 
+ * @param range 
+ */
+export function isCurrentToRange(funding:Funding, range?: DateDateRange) : boolean {
+	range = range ? range : { startDate: new Date(Date.now()), endDate: new Date(Date.now()) }
 	switch(funding.source) {
 		case FundingSource.CDC:
-			return isCurrentCDC(funding);
+			return isCurrentToRangeCDC(funding, range);
 
 		case FundingSource.C4K:
-			return isCurrentC4K(funding);
+			return isCurrentToRangeC4K(funding, range);
 
 		default:
 			return false;
 	}
-
 }
 
-export function isCurrentCDC(funding: Funding) : boolean {
-	const now = moment();
-	return (
-		// has no last reporting period
-		!funding.lastReportingPeriodId
-		// or end of last reporting period is in the future
-		|| !!(funding.lastReportingPeriod && now.isSameOrBefore(funding.lastReportingPeriod.periodEnd))
+/**
+ * CDC Funding does NOT overlap with range if:
+ * - Last reporting period ends before range starts
+ * - First reporting period starts after range ends
+ * @param funding 
+ * @param range 
+ */
+export function isCurrentToRangeCDC(funding: Funding, range: DateDateRange) : boolean {
+	if(
+		(
+			range.startDate
+			&& funding.lastReportingPeriod
+			&& funding.lastReportingPeriod.periodEnd < range.startDate
+		) 
+		&&
+		(
+			range.endDate
+			&& funding.firstReportingPeriod
+			&& funding.firstReportingPeriod.periodStart > range.endDate
+		)
 	)
-	&& (
-		// has no first reporting period
-		!funding.firstReportingPeriodId
-		// start of first reporting period is in the past
-		|| !!(funding.firstReportingPeriod && now.isSameOrAfter(funding.firstReportingPeriod.periodStart))
-	);
+	{
+		return false;
+	}
+	return true;
 }
 
-export function isCurrentC4K(funding: Funding) : boolean {
-	const now = moment();
-	return (
-		// has no cert end date
-		!funding.certificateEndDate
-		// or cert end date is in the future
-		|| !!(funding.certificateEndDate && now.isSameOrBefore(funding.certificateEndDate))
+/**
+ * C4K funding does NOT overlap with range if:
+ * - Certificate end date is before range start
+ * - Certificate start date is after range ends
+ * @param funding
+ * @param range 
+ */
+export function isCurrentToRangeC4K(funding: Funding, range: DateDateRange) : boolean {
+	if(
+		(
+			range.startDate
+			&& funding.certificateEndDate
+			&& funding.certificateEndDate < range.startDate
+		)
+		&&
+		(
+			range.endDate
+			&& funding.certificateStartDate
+			&& funding.certificateStartDate > range.endDate
+		)
 	)
-	&& (
-		// hast no cert start
-		!funding.certificateStartDate
-		// or cert start is in the past
-		|| !!(funding.certificateStartDate && now.isSameOrAfter(funding.certificateStartDate))
-	)
+	{
+		return false;
+	}
+	return true;
 }
 
-// TODO: Rename currentCdcFunding
 export function currentCdcFunding(fundings: DeepNonUndefineable<Funding[]>): DeepNonUndefineable<Funding> | undefined {
-	return fundings.find<DeepNonUndefineable<Funding>>(funding => funding.source === FundingSource.CDC && isCurrentCDC(funding));
+	return fundings.find<DeepNonUndefineable<Funding>>(funding => funding.source === FundingSource.CDC && isCurrentToRange(funding));
 }
 
 export function currentC4kFunding(fundings: DeepNonUndefineable<Funding[]>): DeepNonUndefineable<Funding> | undefined {
