@@ -94,24 +94,42 @@ describe('EnrollmentEdit', () => {
 					.props()
 					.onClick();
 			});
-			const addressErr = formContent.find('FieldSet#family-address').dive().find('FormStatus').props().type;
+			const addressErr = formContent
+				.find('FieldSet#family-address')
+				.dive()
+				.find('FormStatus')
+				.props().type;
 			expect(addressErr).toBe('warning');
 			wrapper.unmount();
 		});
 	});
 
 	describe('family income', () => {
-		// const wrapper = mount(
-		// 	<CommonContextProviderMock>
-		// 		<EnrollmentEdit
-		// 			history={history}
-		// 			match={{ params: { enrollmentId: completeEnrollment.id, sectionId: 'family-income' } }}
-		// 		/>
-		// 	</CommonContextProviderMock>
-		// );
-		// const reportingPeriodOptions = wrapper.find('select#firstReportingPeriod option');
-		// expect(reportingPeriodOptions.length).toBe(defaultCdcReportingPeriods.length + 1);
-		// wrapper.unmount();
+		it('shows an info alert if family income is not disclosed', () => {
+			const wrapper = shallow(
+				<CommonContextProviderMock>
+					<EnrollmentEdit
+						history={history}
+						match={{
+							params: {
+								enrollmentId: completeEnrollment.id,
+								sectionId: 'family-income',
+							},
+						}}
+					/>
+				</CommonContextProviderMock>
+			);
+
+			const alertPropsType = wrapper
+				.find('EnrollmentEdit')
+				.dive()
+				.find('Form')
+				.dive()
+				.find('Alert')
+				.props().type;
+			expect(alertPropsType).toBe('info');
+			wrapper.unmount();
+		});
 	});
 
 	it('shows the appropriate number of reporting periods for enrollment funding', () => {

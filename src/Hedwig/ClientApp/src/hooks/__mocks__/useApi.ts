@@ -37,8 +37,8 @@ export const completeEnrollment: Enrollment = {
 			state: 'CT',
 			zip: '77777',
 			homelessness: false,
-			determinations: [],
 			organizationId: 1,
+			determinations: [{ id: 1, notDisclosed: true, familyId: 1 }],
 		},
 	},
 	fundings: [
