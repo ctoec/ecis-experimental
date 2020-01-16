@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { mount, ReactWrapper } from 'enzyme';
 import mockdate from 'mockdate';
 import { createBrowserHistory } from 'history';
 import 'react-dates/initialize';
@@ -30,13 +30,12 @@ afterAll(() => {
 
 const history = createBrowserHistory();
 
-const actions = async (wrapper: any, _actions: any) => {
+export async function waitForComponentToPaint<P = {}>(wrapper: ReactWrapper<P>, amount = 1000) {
 	await act(async () => {
-		await new Promise(resolve => setTimeout(resolve, 0));
-		_actions();
+		await new Promise(resolve => setTimeout(resolve, amount));
 		wrapper.update();
 	});
-};
+}
 
 describe('EnrollmentEdit', () => {
 	// Add tests for validations for each section
@@ -56,13 +55,14 @@ describe('EnrollmentEdit', () => {
 				</CommonContextProviderMock>
 			);
 			const saveButton = wrapper.find('Button')
-			await actions(saveButton, () => {
-				saveButton.props().onClick();
+			await act(async () => {
+				saveButton.simulate('click')
 			})
+			waitForComponentToPaint(wrapper);
 			const firstNameErr = wrapper.find('#firstName');
-			// .usa-input--error
 			console.log(firstNameErr.debug())
 			expect(true);
+			wrapper.unmount();
 		})
 	});
 
