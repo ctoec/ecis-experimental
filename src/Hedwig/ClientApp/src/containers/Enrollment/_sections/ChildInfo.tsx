@@ -8,7 +8,7 @@ import {
 	DateInput,
 	ChoiceList,
 	FieldSet,
-	DateRange,
+	MomentDateRange,
 } from '../../../components';
 import nameFormatter from '../../../utils/nameFormatter';
 import dateFormatter from '../../../utils/dateFormatter';
@@ -91,7 +91,7 @@ const ChildInfo: Section = {
 		const [suffix, updateSuffix] = useState(child ? child.suffix : null);
 
 		const [birthdate, updateBirthdate] = useState(child ? child.birthdate : null);
-		const setBirthdate = useCallback((range: DateRange) => {
+		const setBirthdate = useCallback((range: MomentDateRange) => {
 			updateBirthdate(range.startDate && range.startDate.isValid() ? range.startDate.toDate() : null);
 		},[updateBirthdate])
 		const [birthCertificateId, updateBirthCertificateId] = useState(

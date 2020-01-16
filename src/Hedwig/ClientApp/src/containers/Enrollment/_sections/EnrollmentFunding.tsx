@@ -151,7 +151,7 @@ const EnrollmentFunding: Section = {
 		);
 		const [privatePay, updatePrivatePay] = useState<boolean>(!initialLoad && !sourcelessFunding && cdcFundings.length === 0);
 
-		const [cdcReportingPeriod, updateCdcReportingPeriod] = useState<ReportingPeriod>();
+		const [cdcReportingPeriod, updateCdcReportingPeriod] = useState<ReportingPeriod|undefined>(cdcFunding ? cdcFunding.firstReportingPeriod : undefined);
 
 		const [reportingPeriodOptions, updateReportingPeriodOptions] = useState<ReportingPeriod[]>([]);
 
