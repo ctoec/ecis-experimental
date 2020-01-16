@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Hedwig.Models
 {
-	public class Child : TemporalEntity, INonBlockingValidatableObject
+	public class Child : TemporalEntity, IHedwigIdEntity<Guid>, INonBlockingValidatableObject
 	{
 		[Required]
 		public Guid Id { get; set; }

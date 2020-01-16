@@ -1,5 +1,9 @@
 using Hedwig.Data;
+using Hedwig.Models;
+using System;
 using System.Threading.Tasks;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Hedwig.Repositories
 {
@@ -21,6 +25,47 @@ namespace Hedwig.Repositories
 		public Task SaveChangesAsync()
 		{
 			return _context.SaveChangesAsync();
+		}
+
+		/// <summary>
+		/// TODO: Update this to work for int or Guid. Not necessary right now b/c 
+		/// we don't yet deal with updating multi-child families; every enumerable
+		/// child object contains entities with int Ids.
+		/// </summary>
+		/// <param name="updates"></param>
+		/// <param name="currents"></param>
+		/// <typeparam name="T"></typeparam>
+		public void UpdateEnumerableChildObjects(IEnumerable<IHedwigIdEntity<object>> updates, IEnumerable<IHedwigIdEntity<object>> currents)
+		{
+			if (updates == null)
+			{
+				return;
+			}
+
+			foreach(var current in currents)
+			{
+				if(!updates.Any(u => u.Id == current.Id))
+				{
+					_context.Remove(current);
+				}
+			}
+
+			foreach(var update in updates)
+			{
+				if(update.Id is Guid guid && guid == Guid.Empty)
+				{
+					_context.Add(update);
+					break;
+				}
+
+				if(update.Id is int iid && iid == 0)
+				{
+					_context.Add(update);
+					break;
+				}
+
+				_context.Update(update);
+			}
 		}
 	}
 

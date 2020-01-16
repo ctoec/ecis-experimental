@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Hedwig.Models
 {
-  public class ReportingPeriod
+  public class ReportingPeriod : IHedwigIdEntity<int>
   {
     [Required]
     public int Id { get; set; }

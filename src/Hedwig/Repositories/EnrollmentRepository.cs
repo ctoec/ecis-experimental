@@ -20,32 +20,8 @@ namespace Hedwig.Repositories
 
 		public void UpdateEnrollment(Enrollment enrollment)
 		{
-			
-			var fundings = enrollment.Fundings;
-			if (fundings != null)
-			{
-				var currentFundings = _context.Fundings.AsNoTracking().Where(f => f.EnrollmentId == enrollment.Id).ToList();
-				foreach (var currentFunding in currentFundings)
-				{
-					if (!fundings.Any(f => f.Id == currentFunding.Id))
-					{
-						_context.Fundings.Remove(currentFunding);
-					}
-				}
-
-				foreach (var funding in fundings)
-				{
-					var dbFunding = _context.Fundings.AsNoTracking().SingleOrDefault(f => f.Id == funding.Id);
-					if (dbFunding != null)
-					{
-						_context.Update(funding);
-					}
-					else
-					{
-						_context.Fundings.Add(funding);
-					}
-				}
-			}
+      var currentFundings = _context.Fundings.AsNoTracking().Where(f => f.EnrollmentId == enrollment.Id).ToList();
+			UpdateEnumerableChildObjects(enrollment.Fundings as IEnumerable<IHedwigIdEntity<object>>, currentFundings as IEnumerable<IHedwigIdEntity<object>>);
 			_context.Update(enrollment);
 		}
 

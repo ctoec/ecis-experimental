@@ -9,7 +9,7 @@ using Hedwig.Validations.Attributes;
 
 namespace Hedwig.Models
 {
-	public class Enrollment : TemporalEntity, INonBlockingValidatableObject
+	public class Enrollment : TemporalEntity, IHedwigIdEntity<int>, INonBlockingValidatableObject
 	{
 		[Required]
 		public int Id { get; set; }

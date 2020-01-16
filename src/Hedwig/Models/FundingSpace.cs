@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Hedwig.Models
 {
-  public class FundingSpace
+  public class FundingSpace : IHedwigIdEntity<int>
   {
     public int Id { get; set; }
 
