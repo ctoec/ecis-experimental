@@ -1,30 +1,45 @@
 const moment = require('moment');
 import {
 	FundingSource,
-	ValidationProblemDetails,
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest,
+	Enrollment,
+	Age,
+	Gender,
+	FundingTime,
 } from '../../generated';
 
-export const completeEnrollment = {
+export const completeEnrollment: Enrollment = {
 	id: 1,
 	childId: '2',
 	siteId: 1,
-	ageGroup: 'Preschool',
-	entry: '2019-02-03',
+	ageGroup: Age.Preschool,
+	entry: new Date('2018-02-03'),
 	exit: null,
 	child: {
-		id: 2,
+		id: '2',
 		firstName: 'Lily',
 		middleName: 'Luna',
 		lastName: 'Potter',
-		birthdate: '2016-12-12',
+		birthdate: new Date('2016-12-12'),
 		birthTown: 'Hogsmeade',
 		birthState: 'CT',
 		birthCertificateId: '123',
 		nativeHawaiianOrPacificIslander: true,
 		hispanicOrLatinxEthnicity: true,
-		gender: 'Female',
+		gender: Gender.Female,
 		foster: false,
+		familyId: 1,
+		organizationId: 1,
+		family: {
+			id: 1,
+			addressLine1: '4 Privet Drive',
+			town: 'Hogsmeade',
+			state: 'CT',
+			zip: '77777',
+			homelessness: false,
+			determinations: [],
+			organizationId: 1,
+		},
 	},
 	fundings: [
 		{
@@ -42,65 +57,96 @@ export const completeEnrollment = {
 				periodEnd: new Date('2019-03-31'),
 				dueAt: new Date('2019-04-15'),
 			},
-			time: 'Full',
+			time: FundingTime.Full,
 		},
 	],
 };
 
-export const enrollmentMissingBirthCertId = {
-	id: 2,
-	childId: '2',
-	siteId: 1,
-	ageGroup: 'Preschool',
-	entry: '2019-01-01',
-	exit: null,
-	child: {
-		id: 2,
-		firstName: 'James',
-		middleName: 'Sirius',
-		lastName: 'Potter',
-		birthdate: '2015-04-28',
-		birthTown: 'Hogsmeade',
-		birthState: 'CT',
-		// birthCertificateId: MISSING ON PURPOSE
-		nativeHawaiianOrPacificIslander: true,
-		hispanicOrLatinxEthnicity: true,
-		gender: 'Female',
-		foster: false,
-	},
-	fundings: [],
-};
+type ChangeField = { accessor: string[]; newValue?: any };
+function makeEnrollment(enrollment: Enrollment, changeFields: ChangeField[]) {
+	const newEnrollment = JSON.parse(JSON.stringify(enrollment));
+	changeFields.forEach(field => {
+		let changeObject = newEnrollment;
+		field.accessor.forEach((accessor, i) => {
+			if (i === field.accessor.length - 1) {
+				changeObject[accessor] = field.newValue;
+			} else {
+				changeObject = changeObject[accessor];
+			}
+		});
+	});
+	return newEnrollment;
+}
 
-export const enrollmentMissingFirstName = JSON.parse(JSON.stringify(completeEnrollment));
-enrollmentMissingFirstName.id = 3;
-enrollmentMissingFirstName.child.firstName = '';
+export const enrollmentMissingBirthCertId = makeEnrollment(completeEnrollment, [
+	{ accessor: ['child', 'birthCertificateId'], newValue: undefined },
+	{ accessor: ['id'], newValue: 2 },
+]);
+
+export const enrollmentMissingFirstName = makeEnrollment(completeEnrollment, [
+	{ accessor: ['child', 'firstName'], newValue: undefined },
+	{ accessor: ['id'], newValue: 3 },
+]);
+
+export const enrollmentMissingAddress = makeEnrollment(completeEnrollment, [
+	{ accessor: ['child', 'family', 'addressLine1'], newValue: undefined },
+	{ accessor: ['id'], newValue: 4 },
+	{
+		accessor: ['child', 'family', 'validationErrors'],
+		newValue: [
+			{
+				message: 'Street address is required',
+				isSubObjectValidation: false,
+				field: 'AddressLine1',
+			},
+		],
+	},
+]);
+
+export const enrollmentWithLaterStart = makeEnrollment(completeEnrollment, [
+	{ accessor: ['entry'], newValue: new Date('2019-03-01') },
+	{ accessor: ['id'], newValue: 5 },
+]);
 
 export const allFakeEnrollments = [
-	completeEnrollment,
-	enrollmentMissingBirthCertId,
-	enrollmentMissingFirstName,
+	{
+		enrollment: completeEnrollment,
+	},
+	{
+		enrollment: enrollmentMissingBirthCertId,
+	},
+	{
+		enrollment: enrollmentMissingFirstName,
+		mutationError: {
+			errors: { 'Child.FirstName': ['The FirstName field is required.'] },
+			type: 'https://tools.ietf.org/html/rfc7231#section-6.5.1',
+			title: 'One or more validation errors occurred.',
+			status: 400,
+		},
+	},
+	{
+		enrollment: enrollmentMissingAddress,
+	},
+	{
+		enrollment: enrollmentWithLaterStart,
+	},
 ];
-
-export const firstNameError: ValidationProblemDetails = {
-	errors: { 'Child.FirstName': ['The FirstName field is required.'] },
-	type: 'https://tools.ietf.org/html/rfc7231#section-6.5.1',
-	title: 'One or more validation errors occurred.',
-	status: 400,
-};
-const mutation = (_: any) => {
-	return new Promise((resolve, reject) => {
-		reject(firstNameError);
-	});
-};
 
 export default (query: (api: any) => any) => {
 	return query({
 		apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet: (
 			params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest
 		) => {
-			const thisEnrollment = allFakeEnrollments.find(e => e.id === params.id);
-			const mutate = thisEnrollment.id === enrollmentMissingFirstName.id ? mutation : undefined;
-			return [false, null, thisEnrollment, mutate];
+			const thisEnrollment = allFakeEnrollments.find(e => e.enrollment.id === params.id);
+			if (!thisEnrollment) return;
+			const mutate = (_: any) => {
+				return new Promise((resolve, reject) => {
+					thisEnrollment.mutationError
+						? reject(thisEnrollment.mutationError)
+						: resolve(thisEnrollment.enrollment);
+				});
+			};
+			return [false, null, thisEnrollment.enrollment, mutate];
 		},
 		apiOrganizationsOrgIdSitesIdGet: (params: any) => [
 			false,
@@ -116,7 +162,7 @@ export default (query: (api: any) => any) => {
 		apiOrganizationsOrgIdSitesSiteIdEnrollmentsGet: (params: any) => [
 			false,
 			null,
-			[enrollmentMissingBirthCertId, completeEnrollment].filter(e => {
+			[enrollmentWithLaterStart, completeEnrollment].filter(e => {
 				return (
 					(!e.entry ? true : moment(e.entry).isBefore(params.endDate)) &&
 					(!e.exit ? true : moment(e.exit).isAfter(moment(params.startDate)))

@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import 'react-dates/initialize';
 import EnrollmentDetail from './EnrollmentDetail';
 import CommonContextProviderMock from '../../../contexts/__mocks__/CommonContextProviderMock';
@@ -24,12 +24,20 @@ describe('EnrollmentDetail', () => {
 	});
 
 	it('shows incomplete indications when incomplete information is given', () => {
-		const wrapper = mount(
+		const wrapper = shallow(
 			<CommonContextProviderMock>
 				<EnrollmentDetail match={{ params: { enrollmentId: enrollmentMissingBirthCertId.id } }} />
 			</CommonContextProviderMock>
 		);
-		const incompleteIcons = wrapper.find('.oec-inline-icon--incomplete');
+
+		// :/
+		const incompleteIcons = wrapper
+			.find('EnrollmentDetail')
+			.dive()
+			.find('Summary')
+			.first()
+			.dive()
+			.find('.oec-inline-icon--incomplete');
 		expect(incompleteIcons.length).toBe(1);
 		wrapper.unmount();
 	});

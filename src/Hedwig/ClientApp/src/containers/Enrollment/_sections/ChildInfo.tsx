@@ -211,18 +211,6 @@ const ChildInfo: Section = {
 			}
 		};
 
-		console.log(
-			initialLoadErrorGuard(
-				initialLoad,
-				serverErrorForField(
-					// TODO: is changing this ID going to mess with screen readers?
-					'child.firstname',
-					apiError,
-					'This information is required for enrollment'
-				)
-			)
-		);
-
 		// TODO: should gender be radio buttons as recommended by USWDS rather than select?
 		return (
 			<div className="ChildInfoForm usa-form">
@@ -251,11 +239,6 @@ const ChildInfo: Section = {
 									'This information is required for enrollment'
 								)
 							)}
-							// status={{
-							// 	type: 'error',
-							// 	id: 'child.firstname-error',
-							// 	message: 'CAT'
-							// }}
 						/>
 					</div>
 					<div className="mobile-lg:grid-col-9">

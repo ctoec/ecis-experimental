@@ -1,7 +1,8 @@
 import React from 'react';
-import { mount, ReactWrapper } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import mockdate from 'mockdate';
 import { createBrowserHistory } from 'history';
+import { act } from 'react-dom/test-utils';
 import 'react-dates/initialize';
 import EnrollmentEdit from './EnrollmentEdit';
 import CommonContextProviderMock, {
@@ -9,15 +10,14 @@ import CommonContextProviderMock, {
 } from '../../../contexts/__mocks__/CommonContextProviderMock';
 import {
 	completeEnrollment,
-	enrollmentMissingBirthCertId,
 	enrollmentMissingFirstName,
+	enrollmentMissingAddress,
 } from '../../../hooks/__mocks__/useApi';
 
 const fakeDate = '2019-03-02';
 
 jest.mock('../../../hooks/useApi');
 import useApi from '../../../hooks/useApi';
-import { act } from 'react-dom/test-utils';
 
 beforeAll(() => {
 	mockdate.set(fakeDate);
@@ -30,18 +30,10 @@ afterAll(() => {
 
 const history = createBrowserHistory();
 
-export async function waitForComponentToPaint<P = {}>(wrapper: ReactWrapper<P>, amount = 1000) {
-	await act(async () => {
-		await new Promise(resolve => setTimeout(resolve, amount));
-		wrapper.update();
-	});
-}
-
 describe('EnrollmentEdit', () => {
-	// Add tests for validations for each section
 	describe('child info', () => {
 		it('shows an error if rendered without a child first name', async () => {
-			const wrapper = mount(
+			const wrapper = shallow(
 				<CommonContextProviderMock>
 					<EnrollmentEdit
 						history={history}
@@ -54,30 +46,64 @@ describe('EnrollmentEdit', () => {
 					/>
 				</CommonContextProviderMock>
 			);
-			const saveButton = wrapper.find('Button')
+			const formContent = wrapper
+				.find('EnrollmentEdit')
+				.dive()
+				.find('Form')
+				.dive();
 			await act(async () => {
-				saveButton.simulate('click')
-			})
-			waitForComponentToPaint(wrapper);
-			const firstNameErr = wrapper.find('#firstName');
-			console.log(firstNameErr.debug())
-			expect(true);
+				formContent
+					.find('Button')
+					.props()
+					.onClick();
+			});
+			console.log(formContent.debug())
+			const firstNameErr = formContent
+				.find('TextInput#firstName')
+				.dive()
+				.find('FormStatus')
+				.props().message;
+			// All of this finding and diving is ridiculous but mount wasn't drilling down to the FormStatus for some reason
+			expect(firstNameErr).toBe('This information is required for enrollment');
 			wrapper.unmount();
-		})
+		});
 	});
 
 	describe('family info', () => {
-		// const wrapper = mount(
-		// 	<CommonContextProviderMock>
-		// 		<EnrollmentEdit
-		// 			history={history}
-		// 			match={{ params: { enrollmentId: completeEnrollment.id, sectionId: 'family-information' } }}
-		// 		/>
-		// 	</CommonContextProviderMock>
-		// );
-		// const reportingPeriodOptions = wrapper.find('select#firstReportingPeriod option');
-		// expect(reportingPeriodOptions.length).toBe(defaultCdcReportingPeriods.length + 1);
-		// wrapper.unmount();
+		it('shows a fieldset warning if there is no address', async () => {
+			const wrapper = shallow(
+				<CommonContextProviderMock>
+					<EnrollmentEdit
+						history={history}
+						match={{
+							params: {
+								enrollmentId: enrollmentMissingAddress.id,
+								sectionId: 'family-information',
+							},
+						}}
+					/>
+				</CommonContextProviderMock>
+			);
+			const formContent = wrapper
+				.find('EnrollmentEdit')
+				.dive()
+				.find('Form')
+				.dive();
+			await act(async () => {
+				formContent
+					.find('Button')
+					.props()
+					.onClick();
+			});
+			const firstNameErr = formContent
+				.find('TextInput#firstName')
+				.dive()
+				.find('FormStatus')
+				.props().message;
+			// All of this finding and diving is ridiculous but mount wasn't drilling down to the FormStatus for some reason
+			expect(firstNameErr).toBe('This information is required for enrollment');
+			wrapper.unmount();
+		});
 	});
 
 	describe('family income', () => {
@@ -99,7 +125,9 @@ describe('EnrollmentEdit', () => {
 			<CommonContextProviderMock>
 				<EnrollmentEdit
 					history={history}
-					match={{ params: { enrollmentId: completeEnrollment.id, sectionId: 'enrollment-funding' } }}
+					match={{
+						params: { enrollmentId: completeEnrollment.id, sectionId: 'enrollment-funding' },
+					}}
 				/>
 			</CommonContextProviderMock>
 		);
