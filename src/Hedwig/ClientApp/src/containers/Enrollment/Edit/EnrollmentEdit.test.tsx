@@ -57,7 +57,6 @@ describe('EnrollmentEdit', () => {
 					.props()
 					.onClick();
 			});
-			console.log(formContent.debug())
 			const firstNameErr = formContent
 				.find('TextInput#firstName')
 				.dive()
@@ -95,13 +94,8 @@ describe('EnrollmentEdit', () => {
 					.props()
 					.onClick();
 			});
-			const firstNameErr = formContent
-				.find('TextInput#firstName')
-				.dive()
-				.find('FormStatus')
-				.props().message;
-			// All of this finding and diving is ridiculous but mount wasn't drilling down to the FormStatus for some reason
-			expect(firstNameErr).toBe('This information is required for enrollment');
+			const addressErr = formContent.find('FieldSet#family-address').dive().find('FormStatus').props().type;
+			expect(addressErr).toBe('warning');
 			wrapper.unmount();
 		});
 	});
