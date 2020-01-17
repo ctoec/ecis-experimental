@@ -9,7 +9,7 @@ import getIdForUser from '../../utils/getIdForUser';
 import {
 	Tag,
 	DatePicker,
-	MomentDateRange,
+	DateRange,
 	Button,
 	ChoiceList,
 	Legend,
@@ -27,7 +27,7 @@ import CommonContainer from '../CommonContainer';
 
 export default function Roster() {
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
-	const [dateRange, setDateRange] = useState<MomentDateRange>(getDefaultDateRange());
+	const [dateRange, setDateRange] = useState<DateRange>(getDefaultDateRange());
 	const [byRange, setByRange] = useState(false);
 	const handlePastEnrollmentsChange = () => {
 		toggleShowPastEnrollments(!showPastEnrollments);
@@ -82,7 +82,7 @@ export default function Roster() {
 	Object.keys(fundingSourceDetails).forEach(source => {
 		const capacityForFunding = getFundingSpaceCapacity(site.organization, { source });
 		const enrolledForFunding = enrollments.filter<DeepNonUndefineable<Enrollment>>(
-			enrollment => isFunded(enrollment, { source, currentRange: { startDate: enrollment.entry, endDate: enrollment.exit } })
+			enrollment => isFunded(enrollment, { source })
 		).length;
 
 		if (enrolledForFunding === 0) {
@@ -93,7 +93,8 @@ export default function Roster() {
 			text: fundingSourceDetails[source].legendTextFormatter(
 				fundingSourceDetails[source].fullTitle,
 				enrolledForFunding,
-				capacityForFunding
+				capacityForFunding,
+				showPastEnrollments
 			),
 			symbol: <Tag text={source} color={fundingSourceDetails[source].colorToken} className="position-relative top-neg-2px" />,
 		});
@@ -165,7 +166,7 @@ export default function Roster() {
 							id="enrollment-roster-datepicker"
 							label="Date"
 							byRange={byRange}
-							onChange={(newDateRange: MomentDateRange) => setDateRange(newDateRange)}
+							onChange={(newDateRange: DateRange) => setDateRange(newDateRange)}
 							dateRange={dateRange}
 							possibleRange={{ startDate: null, endDate: moment().local() }}
 							className="margin-top-neg-3"
@@ -178,23 +179,31 @@ export default function Roster() {
 					ageGroupTitle={`Infant/toddler`}
 					enrollments={completeEnrollmentsByAgeGroup[Age.InfantToddler]}
 					fundingSpaces={fundingSpacesByAgeGroup[Age.InfantToddler] as FundingSpace[]}
+					rosterDateRange={dateRange}
+					showPastEnrollments={showPastEnrollments}
 				/>
 				<AgeGroupSection
 					ageGroup={Age.Preschool}
 					ageGroupTitle={`Preschool`}
 					enrollments={completeEnrollmentsByAgeGroup[Age.Preschool]}
 					fundingSpaces={fundingSpacesByAgeGroup[Age.Preschool] as FundingSpace[]}
+					rosterDateRange={dateRange}
+					showPastEnrollments={showPastEnrollments}
 				/>
 				<AgeGroupSection
 					ageGroup={Age.SchoolAge}
 					ageGroupTitle={`School age`}
 					enrollments={completeEnrollmentsByAgeGroup[Age.SchoolAge]}
 					fundingSpaces={fundingSpacesByAgeGroup[Age.SchoolAge] as FundingSpace[]}
+					rosterDateRange={dateRange}
+					showPastEnrollments={showPastEnrollments}
 				/>
 				<AgeGroupSection
 					ageGroup="incomplete"
 					ageGroupTitle={`Incomplete enrollments`}
 					enrollments={incompleteEnrollments}
+					rosterDateRange={dateRange}
+					showPastEnrollments={showPastEnrollments}
 				/>
 			</div>
 		</CommonContainer>

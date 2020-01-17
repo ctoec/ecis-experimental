@@ -1,8 +1,25 @@
 import { DeepNonUndefineable } from "../types"
 import { Funding, FundingSource, FundingTime, ReportingPeriod } from "../../generated"
-import { Tag } from "../../components";
+import { Tag, DateRange } from "../../components";
 import getColorForFundingSource, { fundingSourceDetails } from "../fundingTypeFormatters"
+import moment from "moment";
 
+/**
+ * naive-ly deduplicate fundings based on source & time
+ * @param fundings
+ */
+export function dedupeFundings(fundings: DeepNonUndefineable<Funding[]>) {
+	const uniqueFundings: {[key: string]: DeepNonUndefineable<Funding>}  = {};
+
+	fundings.map(funding => {
+		const key = `${funding.source}${funding.time}`;
+		if(!uniqueFundings[key]) {
+			uniqueFundings[key] = funding;
+		}
+	});
+
+	return Object.values(uniqueFundings);
+}
 
 export function generateFundingTag(funding: DeepNonUndefineable<Funding>, index?: any): JSX.Element {
 	let key = `${funding.source}-${funding.time}`;
@@ -12,19 +29,14 @@ export function generateFundingTag(funding: DeepNonUndefineable<Funding>, index?
 	return Tag({ key, text, color });
 }
 
-export type DateDateRange = {
-	startDate: Date | null,
-	endDate: Date | null,
-}
-
 /**
  * Returns true if the funding overlaps with the provided range.
  * If no range is provided, defaults to {now(), now()}
  * @param funding 
  * @param range 
  */
-export function isCurrentToRange(funding:Funding, range?: DateDateRange) : boolean {
-	range = range ? range : { startDate: new Date(Date.now()), endDate: new Date(Date.now()) }
+export function isCurrentToRange(funding:Funding, range?: DateRange) : boolean {
+	range = range ? range : { startDate: moment(), endDate: moment() }
 	switch(funding.source) {
 		case FundingSource.CDC:
 			return isCurrentToRangeCDC(funding, range);
@@ -44,18 +56,18 @@ export function isCurrentToRange(funding:Funding, range?: DateDateRange) : boole
  * @param funding 
  * @param range 
  */
-export function isCurrentToRangeCDC(funding: Funding, range: DateDateRange) : boolean {
+export function isCurrentToRangeCDC(funding: Funding, range: DateRange) : boolean {
 	if(
 		(
 			range.startDate
 			&& funding.lastReportingPeriod
-			&& funding.lastReportingPeriod.periodEnd < range.startDate
+			&& range.startDate.isAfter(funding.lastReportingPeriod.periodEnd)
 		) 
-		&&
+		||
 		(
 			range.endDate
 			&& funding.firstReportingPeriod
-			&& funding.firstReportingPeriod.periodStart > range.endDate
+			&& range.endDate.isBefore(funding.firstReportingPeriod.periodStart)
 		)
 	)
 	{
@@ -71,18 +83,18 @@ export function isCurrentToRangeCDC(funding: Funding, range: DateDateRange) : bo
  * @param funding
  * @param range 
  */
-export function isCurrentToRangeC4K(funding: Funding, range: DateDateRange) : boolean {
+export function isCurrentToRangeC4K(funding: Funding, range: DateRange) : boolean {
 	if(
 		(
 			range.startDate
 			&& funding.certificateEndDate
-			&& funding.certificateEndDate < range.startDate
+			&& range.startDate.isAfter(funding.certificateEndDate)
 		)
-		&&
+		||
 		(
 			range.endDate
 			&& funding.certificateStartDate
-			&& funding.certificateStartDate > range.endDate
+			&& range.endDate.isBefore(funding.certificateStartDate)
 		)
 	)
 	{

@@ -1,10 +1,10 @@
 import pluralize from 'pluralize';
-import { MomentDateRange } from '../components/DatePicker/DatePicker';
+import { DateRange } from '../components/DatePicker/DatePicker';
 
 export default function enrollmentTextFormatter(
 	numKids: number,
 	showPastEnrollments: boolean,
-	currentDateRange: MomentDateRange,
+	currentDateRange: DateRange,
 	byRange: boolean
 ) {
 	const pluralizedNumKids = pluralize('child', numKids, true);

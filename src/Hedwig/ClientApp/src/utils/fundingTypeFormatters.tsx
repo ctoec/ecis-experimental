@@ -4,7 +4,8 @@ import { Funding, FundingSource } from '../generated';
 export type LegendTextFormatter = (
 	fullTitle: string,
 	enrolledForFunding?: number,
-	capacityForFunding?: number
+	capacityForFunding?: number,
+	showPastEnrollments?: boolean 
 ) => string | JSX.Element;
 
 type FundingSourceDetail = {
@@ -30,7 +31,16 @@ export const fundingSourceDetails: { [key: string]: FundingSourceDetail } = {
 		colorToken: 'blue-50v',
 		fullTitle: 'Child Day Care',
 		tagFormatter: funding => `CDC${ptOrFT(funding.time)}`,
-		legendTextFormatter: (fullTitle, enrolledForFunding, capacityForFunding) => {
+		legendTextFormatter: (fullTitle, enrolledForFunding, capacityForFunding, showPastEnrollments) => {
+			if(showPastEnrollments) {
+				return (
+					<React.Fragment>
+						<span className="text-bold">{enrolledForFunding}</span>
+						<span> recieved {fullTitle} funding</span>
+					</React.Fragment>
+				)
+			}
+			
 			return (
 				<React.Fragment>
 					<span className="text-bold">
@@ -45,11 +55,11 @@ export const fundingSourceDetails: { [key: string]: FundingSourceDetail } = {
 		colorToken: 'violet-warm-60',
 		fullTitle: 'Care 4 Kids',
 		tagFormatter: funding => 'C4K',
-		legendTextFormatter: (fullTitle, enrolledForFunding) => {
+		legendTextFormatter: (fullTitle, enrolledForFunding, _ , showPastEnrollments) => {
 			return (
 				<React.Fragment>
 					<span className="text-bold">{enrolledForFunding}</span>
-					<span> receiving {fullTitle}</span>
+					<span>{showPastEnrollments ? 'recieved' : 'receiving'} {fullTitle}</span>
 				</React.Fragment>
 			);
 		},
