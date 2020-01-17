@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useCallback, useContext, useState, useEffect } from 'react';
 import moment from 'moment';
 import idx from 'idx';
 import { Section } from '../enrollmentTypes';
@@ -33,7 +33,7 @@ import {
 import { prettyFundingTime, fundingTimeFromString } from '../../../utils/fundingTimeUtils';
 import { nextNReportingPeriods, periodSorter } from '../../../utils/models/reportingPeriod';
 import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
-import { familyDeterminationNotDisclosed, currentCdcFunding, updateFunding, createFunding, currentC4kFunding } from '../../../utils/models';
+import { familyDeterminationNotDisclosed, currentCdcFunding, updateFunding, createFunding, currentC4kFunding, prepareFundings } from '../../../utils/models';
 import initialLoadErrorGuard from '../../../utils/validations/initialLoadErrorGuard';
 
 const EnrollmentFunding: Section = {
@@ -191,6 +191,21 @@ const EnrollmentFunding: Section = {
 		const [apiError, setApiError] = useState<ValidationProblemDetails>();
 
 		const save = () => {
+			// const updatedFundings = prepareFundings(fundings, {
+			// 	enrollment,
+			// 	sourcelessFunding,
+			// 	privatePay,
+			// 	cdcFundingId,
+			// 	cdcFunding,
+			// 	cdcFundingTime,
+			// 	cdcReportingPeriod,
+			// 	receivesC4k,
+			// 	c4kFundingId,
+			// 	c4kFunding,
+			// 	c4kCertificateStartDate,
+			// 	c4kFamilyId
+			// });
+
 			let updatedFundings: Funding[] | undefined = undefined;
 
 			// CDC REGION
@@ -275,37 +290,37 @@ const EnrollmentFunding: Section = {
 			}
 			// END CDC REGION
 
-			// C4K REGION
-			if (!updatedFundings) {
-				updatedFundings = [...fundings];
-			}
-			if (c4kFundingId && receivesC4k) {
-				// Current funding exists, update it with supplied information
-				const newC4kFunding = {
-					...(c4kFunding as Funding),
-					certificateStartDate: c4kCertificateStartDate ? c4kCertificateStartDate : undefined,
-					familyId: c4kFamilyId,
-				};
-				updatedFundings = [
-					...updatedFundings.filter(funding => funding.id !== c4kFundingId),
-					newC4kFunding,
-				];
-			} else if (c4kFundingId && !receivesC4k) {
-				// Current funding exists, remove it because it has been switched to no receipt of C4K
-				updatedFundings = [...updatedFundings.filter(funding => funding.id !== c4kFundingId)];
-			} else if (!c4kFundingId && receivesC4k) {
-				// // No current funding, add new funding with supplied information
-				const newC4kFunding: Funding = {
-					id: 0,
-					enrollmentId: enrollment.id,
-					source: FundingSource.C4K,
-					certificateStartDate: c4kCertificateStartDate ? c4kCertificateStartDate : undefined,
-					familyId: c4kFamilyId,
-				};
-				updatedFundings = [...updatedFundings, newC4kFunding];
-			} /* !c4kFunding && !receivesC4k */ else {
-				// No current funding, do nothing because receives C4K has not been selected
-			}
+			// // C4K REGION
+			// if (!updatedFundings) {
+			// 	updatedFundings = [...fundings];
+			// }
+			// if (c4kFundingId && receivesC4k) {
+			// 	// Current funding exists, update it with supplied information
+			// 	const newC4kFunding = {
+			// 		...(c4kFunding as Funding),
+			// 		certificateStartDate: c4kCertificateStartDate ? c4kCertificateStartDate : undefined,
+			// 		familyId: c4kFamilyId,
+			// 	};
+			// 	updatedFundings = [
+			// 		...updatedFundings.filter(funding => funding.id !== c4kFundingId),
+			// 		newC4kFunding,
+			// 	];
+			// } else if (c4kFundingId && !receivesC4k) {
+			// 	// Current funding exists, remove it because it has been switched to no receipt of C4K
+			// 	updatedFundings = [...updatedFundings.filter(funding => funding.id !== c4kFundingId)];
+			// } else if (!c4kFundingId && receivesC4k) {
+			// 	// // No current funding, add new funding with supplied information
+			// 	const newC4kFunding: Funding = {
+			// 		id: 0,
+			// 		enrollmentId: enrollment.id,
+			// 		source: FundingSource.C4K,
+			// 		certificateStartDate: c4kCertificateStartDate ? c4kCertificateStartDate : undefined,
+			// 		familyId: c4kFamilyId,
+			// 	};
+			// 	updatedFundings = [...updatedFundings, newC4kFunding];
+			// } /* !c4kFunding && !receivesC4k */ else {
+			// 	// No current funding, do nothing because receives C4K has not been selected
+			// }
 
 			const args = {
 				entry: entry,
@@ -333,6 +348,20 @@ const EnrollmentFunding: Section = {
 					});
 			}
 		};
+		// , [
+		// 		enrollment,
+		// 		sourcelessFunding,
+		// 		privatePay,
+		// 		cdcFundingId,
+		// 		cdcFunding,
+		// 		cdcFundingTime,
+		// 		cdcReportingPeriod,
+		// 		receivesC4k,
+		// 		c4kFundingId,
+		// 		c4kFunding,
+		// 		c4kCertificateStartDate,
+		// 		c4kFamilyId
+		// ]);
 
 		return (
 			<div className="EnrollmentFundingForm">
@@ -406,7 +435,7 @@ const EnrollmentFunding: Section = {
 								? []
 								: Object.values(FundingTime).map(fundingTime => {
 										return {
-											value: fundingTime,
+											value: '' + fundingTime,
 											text: `CDC - ${prettyFundingTime(fundingTime)}`,
 										};
 								  })),
@@ -428,8 +457,9 @@ const EnrollmentFunding: Section = {
 								updateCdcFundingTime(fundingTimeFromString(event.target.value));
 							}
 						}}
-						selected={privatePay ? ['privatePay'] : cdcFundingTime !== null ? [cdcFundingTime] : undefined}
+						selected={privatePay ? ['privatePay'] : cdcFundingTime !== null ? ['' + cdcFundingTime] : undefined}
 					/>
+					{console.log(cdcReportingPeriod)}
 					{!privatePay && cdcFundingTime && (
 						<ChoiceList
 							type="select"

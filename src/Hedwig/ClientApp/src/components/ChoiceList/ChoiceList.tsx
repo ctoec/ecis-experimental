@@ -140,6 +140,7 @@ export function ChoiceList({
 					</option>
 				);
 			});
+			console.log(selectedItems)
 			children = [
 				<select
 					key={`${id}-select`}
