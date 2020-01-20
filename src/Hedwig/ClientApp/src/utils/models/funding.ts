@@ -5,13 +5,24 @@ import getColorForFundingSource, { fundingSourceDetails } from "../fundingTypeFo
 import moment from "moment";
 
 /**
- * naive-ly deduplicate fundings based on source & time
+ * Filter fundings for displaying 
+ * @param fundings 
+ * @param rosterDateRange 
+ */
+export function filterFundingsForRosterTags(fundings: Funding[] | null, rosterDateRange?: DateRange) {
+	if (!fundings) return [];
+	const currentToRosterDateRange = fundings.filter(funding => isCurrentToRange(funding, rosterDateRange));
+	return dedupeFundings(currentToRosterDateRange);
+}
+
+/**
+ * naive-ly deduplicate fundings based on source & time for displaying in roster
  * @param fundings
  */
-export function dedupeFundings(fundings: DeepNonUndefineable<Funding[]>) {
-	const uniqueFundings: {[key: string]: DeepNonUndefineable<Funding>}  = {};
+function dedupeFundings(fundings: Funding[]) {
+	const uniqueFundings: {[key: string]: Funding }  = {};
 
-	fundings.map(funding => {
+	fundings.forEach(funding => {
 		const key = `${funding.source}${funding.time}`;
 		if(!uniqueFundings[key]) {
 			uniqueFundings[key] = funding;
@@ -56,14 +67,14 @@ export function isCurrentToRange(funding:Funding, range?: DateRange) : boolean {
  * @param funding 
  * @param range 
  */
-export function isCurrentToRangeCDC(funding: Funding, range: DateRange) : boolean {
+function isCurrentToRangeCDC(funding: Funding, range: DateRange) : boolean {
 	if(
 		(
 			range.startDate
 			&& funding.lastReportingPeriod
 			&& range.startDate.isAfter(funding.lastReportingPeriod.periodEnd)
-		) 
-		||
+		)
+	||
 		(
 			range.endDate
 			&& funding.firstReportingPeriod
@@ -73,6 +84,7 @@ export function isCurrentToRangeCDC(funding: Funding, range: DateRange) : boolea
 	{
 		return false;
 	}
+
 	return true;
 }
 
@@ -83,7 +95,7 @@ export function isCurrentToRangeCDC(funding: Funding, range: DateRange) : boolea
  * @param funding
  * @param range 
  */
-export function isCurrentToRangeC4K(funding: Funding, range: DateRange) : boolean {
+function isCurrentToRangeC4K(funding: Funding, range: DateRange) : boolean {
 	if(
 		(
 			range.startDate
@@ -100,7 +112,7 @@ export function isCurrentToRangeC4K(funding: Funding, range: DateRange) : boolea
 	{
 		return false;
 	}
-	return true;
+	return true;	
 }
 
 export function currentCdcFunding(fundings: DeepNonUndefineable<Funding[]>): DeepNonUndefineable<Funding> | undefined {

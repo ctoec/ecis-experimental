@@ -6,7 +6,7 @@ import { Table, TableProps, InlineIcon, DateRange } from '../../components';
 import { Enrollment, Funding, FundingSpace, FundingSource } from '../../generated';
 import { lastFirstNameFormatter } from '../../utils/nameFormatter';
 import dateFormatter from '../../utils/dateFormatter';
-import { generateFundingTag, isCurrentToRange, NO_FUNDING, dedupeFundings } from '../../utils/models';
+import { generateFundingTag, NO_FUNDING, filterFundingsForRosterTags } from '../../utils/models';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../utils/types';
 import { hasValidationErrors } from '../../utils/validations';
 import { isFunded } from '../../utils/models';
@@ -66,10 +66,8 @@ export default function AgeGroupSection({
 				name: 'Funding',
 				cell: ({ row }) => (
 					<td>
-						{row.fundings && dedupeFundings(
-							row.fundings.filter(funding => isCurrentToRange(funding, rosterDateRange))
-							).length > 0 ?
-							dedupeFundings(row.fundings.filter(funding => isCurrentToRange(funding, rosterDateRange)))
+						{filterFundingsForRosterTags(row.fundings, rosterDateRange).length > 0
+						? (filterFundingsForRosterTags(row.fundings, rosterDateRange) as DeepNonUndefineable<Funding[]>)
 							.map<React.ReactNode>((funding: DeepNonUndefineable<Funding>, index: number) =>
 								generateFundingTag(funding, index)
 							) :
