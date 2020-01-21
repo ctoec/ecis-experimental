@@ -60,7 +60,7 @@ export function TextInput({
 				aria-describedby={status ? status.id : undefined}
 				aria-invalid={status && status.type === 'error'}
 				aria-required={!optional}
-				// Using aria-required because default Chrome behavior for required attribute interferes with our error messages
+				// Using aria-required to avoid default Chrome behavior
 
 				{...inputProps}
 			/>
