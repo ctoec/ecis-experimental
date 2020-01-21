@@ -1,12 +1,13 @@
 import { Enrollment } from "../../generated";
-import { isCurrentToRange, DateDateRange } from "./funding";
+import { isCurrentToRange } from "./funding";
+import { DateRange } from "../../components";
 
 export function isFunded(
   enrollment: Enrollment | null,
   opts: {
    source?: string,
    time?: string,
-   currentRange?: DateDateRange
+   currentRange?: DateRange
   }
 )
 {
