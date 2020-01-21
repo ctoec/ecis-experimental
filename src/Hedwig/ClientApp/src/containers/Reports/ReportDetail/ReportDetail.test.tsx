@@ -11,7 +11,7 @@ afterAll(() => {
 	jest.resetModules();
 });
 
-describe('EnrollmentDetail', () => {
+describe('ReportDetail', () => {
 	it('matches snapshot', () => {
 		const wrapper = mount(
 			<CommonContextProviderMock>
@@ -22,22 +22,17 @@ describe('EnrollmentDetail', () => {
 		wrapper.unmount();
 	});
 
-	// it('shows incomplete indications when incomplete information is given', () => {
-	// 	const wrapper = shallow(
-	// 		<CommonContextProviderMock>
-	// 			<ReportDetail match={{ params: { enrollmentId: enrollmentMissingBirthCertId.id } }} />
-	// 		</CommonContextProviderMock>
-	// 	);
-
-	// 	// :/
-	// 	const incompleteIcons = wrapper
-	// 		.find('EnrollmentDetail')
-	// 		.dive()
-	// 		.find('Summary')
-	// 		.first()
-	// 		.dive()
-	// 		.find('.oec-inline-icon--incomplete');
-	// 	expect(incompleteIcons.length).toBe(1);
-	// 	wrapper.unmount();
-	// });
+	it('shows an alert if enrollments are missing info', () => {
+		const wrapper = shallow(
+			<CommonContextProviderMock>
+				<ReportDetail match={{ params: {} }}/>
+			</CommonContextProviderMock>
+		);
+		const incompleteIcons = wrapper
+			.find('ReportDetail')
+			.dive();
+		console.log(incompleteIcons.debug())
+		// expect(incompleteIcons.length).toBe(1);
+		wrapper.unmount();
+	});
 });

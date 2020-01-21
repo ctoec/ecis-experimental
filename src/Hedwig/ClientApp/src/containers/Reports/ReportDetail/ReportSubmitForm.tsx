@@ -52,7 +52,6 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 	}
 
 	function onSubmit(e: FormEvent) {
-		console.log(e)
 		e.preventDefault();
 		mutate(api =>
 			api.apiOrganizationsOrgIdReportsIdPut({
@@ -79,8 +78,6 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 				setApiError(ValidationProblemDetailsFromJSON(error));
 			});
 	}
-
-	console.log(apiError)
 
 	return (
 		<React.Fragment>
