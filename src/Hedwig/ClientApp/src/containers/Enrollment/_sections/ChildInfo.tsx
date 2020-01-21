@@ -375,7 +375,7 @@ const ChildInfo: Section = {
 					onChange={(_, selected) => {
 						updateChildRace(
 							childRace.map(raceObj =>
-								Object.assign({}, raceObj, { selected: selected.includes(raceObj.value) })
+								({...raceObj, selected: selected.includes(raceObj.value) })
 							)
 						);
 					}}
