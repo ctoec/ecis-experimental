@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Router } from 'react-router-dom';
 import 'react-dates/initialize';
 import UserContext from '../User/UserContext';
 import ReportingPeriodContext from '../ReportingPeriod/ReportingPeriodContext';
@@ -64,17 +64,20 @@ export const defaultCdcReportingPeriods: ReportingPeriod[] = [
 type CommonContextProviderMockProps = {
 	user?: User;
 	cdcReportingPeriods?: ReportingPeriod[];
+	RouterObject?: any;
+	// TODO: REAL TYPE HERE
 };
 
 const CommonContextProviderMock: React.FC<CommonContextProviderMockProps> = ({
 	children,
 	user = defaultUser,
 	cdcReportingPeriods = defaultCdcReportingPeriods,
+	RouterObject = BrowserRouter,
 }) => {
 	return (
 		<UserContext.Provider value={{ user }}>
 			<ReportingPeriodContext.Provider value={{ cdcReportingPeriods }}>
-				<BrowserRouter>{children}</BrowserRouter>
+				<RouterObject>{children}</RouterObject>
 			</ReportingPeriodContext.Provider>
 		</UserContext.Provider>
 	);

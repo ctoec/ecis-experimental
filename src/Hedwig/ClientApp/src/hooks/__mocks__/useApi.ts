@@ -1,12 +1,35 @@
 const moment = require('moment');
 import {
-	FundingSource,
-	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest,
-	Enrollment,
 	Age,
-	Gender,
+	CdcReport,
+	Enrollment,
+	FundingSource,
 	FundingTime,
+	Gender,
+	Region,
+	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest,
+	ApiOrganizationsOrgIdReportsIdGetRequest,
 } from '../../generated';
+
+type ChangeField = { keys: string[]; newValue?: any };
+const swapFields = <T>(inputObject: T, changeFields: ChangeField[]): T => {
+	// Make a deep copy to avoid changing the original
+	const newObject = JSON.parse(JSON.stringify(inputObject));
+	changeFields.forEach(field => {
+		let changeObject = newObject;
+		field.keys.forEach((key, i) => {
+			// Accessors are an ordered array of strings referring to nested keys
+			if (i === field.keys.length - 1) {
+				// If it's the last key in the array, then it's the thing that needs to be changed to a new value
+				changeObject[key] = field.newValue;
+			} else {
+				// Otherwise keep digging
+				changeObject = changeObject[key];
+			}
+		});
+	});
+	return newObject;
+};
 
 export const completeEnrollment: Enrollment = {
 	id: 1,
@@ -62,41 +85,21 @@ export const completeEnrollment: Enrollment = {
 	],
 };
 
-type ChangeField = { accessor: string[]; newValue?: any };
-function makeEnrollment(enrollment: Enrollment, changeFields: ChangeField[]) {
-	// Make a deep copy to avoid changing the original
-	const newEnrollment = JSON.parse(JSON.stringify(enrollment));
-	changeFields.forEach(field => {
-		let changeObject = newEnrollment;
-		field.accessor.forEach((accessor, i) => {
-			// Accessors are an ordered array of strings referring to nested vals in an object
-			if (i === field.accessor.length - 1) {
-				// If it's the last one in the array, then it's the thing that needs to be changed to a new value
-				changeObject[accessor] = field.newValue;
-			} else {
-				// Otherwise keep digging
-				changeObject = changeObject[accessor];
-			}
-		});
-	});
-	return newEnrollment;
-}
-
-export const enrollmentMissingBirthCertId = makeEnrollment(completeEnrollment, [
-	{ accessor: ['child', 'birthCertificateId'], newValue: undefined },
-	{ accessor: ['id'], newValue: 2 },
+export const enrollmentMissingBirthCertId = swapFields(completeEnrollment, [
+	{ keys: ['child', 'birthCertificateId'], newValue: undefined },
+	{ keys: ['id'], newValue: 2 },
 ]);
 
-export const enrollmentMissingFirstName = makeEnrollment(completeEnrollment, [
-	{ accessor: ['child', 'firstName'], newValue: undefined },
-	{ accessor: ['id'], newValue: 3 },
+export const enrollmentMissingFirstName = swapFields(completeEnrollment, [
+	{ keys: ['child', 'firstName'], newValue: undefined },
+	{ keys: ['id'], newValue: 3 },
 ]);
 
-export const enrollmentMissingAddress = makeEnrollment(completeEnrollment, [
-	{ accessor: ['child', 'family', 'addressLine1'], newValue: undefined },
-	{ accessor: ['id'], newValue: 4 },
+export const enrollmentMissingAddress = swapFields(completeEnrollment, [
+	{ keys: ['child', 'family', 'addressLine1'], newValue: undefined },
+	{ keys: ['id'], newValue: 4 },
 	{
-		accessor: ['child', 'family', 'validationErrors'],
+		keys: ['child', 'family', 'validationErrors'],
 		newValue: [
 			{
 				message: 'Street address is required',
@@ -107,9 +110,9 @@ export const enrollmentMissingAddress = makeEnrollment(completeEnrollment, [
 	},
 ]);
 
-export const enrollmentWithLaterStart = makeEnrollment(completeEnrollment, [
-	{ accessor: ['entry'], newValue: new Date('2019-03-01') },
-	{ accessor: ['id'], newValue: 5 },
+export const enrollmentWithLaterStart = swapFields(completeEnrollment, [
+	{ keys: ['entry'], newValue: new Date('2019-03-01') },
+	{ keys: ['id'], newValue: 5 },
 ]);
 
 export const allFakeEnrollments = [
@@ -135,6 +138,60 @@ export const allFakeEnrollments = [
 		enrollment: enrollmentWithLaterStart,
 	},
 ];
+
+export const defaultOrganization = {
+	id: 1,
+	name: 'Test Organization',
+	fundingSpaces: [
+		{
+			source: FundingSource.CDC,
+			ageGroup: Age.Preschool,
+			time: FundingTime.Full,
+			capacity: 2,
+			organizationId: 1,
+		},
+	],
+	sites: [
+		{
+			name: 'Test Site',
+			region: Region.East,
+			titleI: false,
+			organizationId: 1,
+		},
+	],
+};
+
+export const defaultReport: CdcReport = {
+	id: 1,
+	organizationId: 1,
+	accredited: true,
+	type: FundingSource.CDC,
+	enrollments: allFakeEnrollments.map(e => e.enrollment),
+	reportingPeriod: {
+		id: 1,
+		type: FundingSource.CDC,
+		period: new Date('2019-09-01'),
+		dueAt: new Date('2019-10-15'),
+		periodStart: new Date('2019-09-01'),
+		periodEnd: new Date('2019-09-28'),
+	},
+	organization: defaultOrganization,
+};
+
+export const laterReport: CdcReport = swapFields(defaultReport, [
+	{
+		keys: ['reportingPeriod'],
+		newValue: {
+			id: 1,
+			type: FundingSource.CDC,
+			period: new Date('2019-10-01'),
+			dueAt: new Date('2019-11-15'),
+			periodStart: new Date('2019-10-01'),
+			periodEnd: new Date('2019-10-31'),
+		},
+	},
+	{ keys: ['id'], newValue: 2 },
+]);
 
 export default (query: (api: any) => any) => {
 	return query({
@@ -173,5 +230,18 @@ export default (query: (api: any) => any) => {
 				);
 			}),
 		],
+		apiOrganizationsOrgIdReportsGet: (params: any) => [
+			false,
+			null,
+			[defaultReport, laterReport],
+			(_: any) => {
+				return new Promise((resolve, reject) => {
+					resolve(defaultReport);
+					reject({});
+				});
+			},
+		],
+		apiOrganizationsIdGet: (params: any) => [false, null, defaultOrganization],
+		apiOrganizationsOrgIdReportsIdGet: (params: any) => [false, null, defaultReport],
 	});
 };
