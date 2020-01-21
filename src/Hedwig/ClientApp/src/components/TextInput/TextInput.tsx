@@ -36,9 +36,14 @@ export function TextInput({
 	inline,
 }: TextInputProps) {
 	return (
-		<div className={`${className || ''} usa-form-group${status ? ` usa-form-group--${status.type}` : ''}`}>
+		<div
+			className={`${className || ''} usa-form-group${
+				status ? ` usa-form-group--${status.type}` : ''
+			}`}
+		>
 			<label className={`usa-label${status ? ` usa-label--${status.type}` : ''}`} htmlFor={id}>
-				{label} {optional && !hideOptionalText && <span className="usa-hint">&nbsp;(optional)</span>}
+				{label}{' '}
+				{optional && !hideOptionalText && <span className="usa-hint">&nbsp;(optional)</span>}
 			</label>
 			{status && status.message && <FormStatus {...status} />}
 			<input
@@ -54,7 +59,9 @@ export function TextInput({
 				defaultValue={defaultValue}
 				aria-describedby={status ? status.id : undefined}
 				aria-invalid={status && status.type === 'error'}
-				required={!optional}
+				aria-required={!optional}
+				// Using aria-required because default Chrome behavior for required attribute interferes with our error messages
+
 				{...inputProps}
 			/>
 		</div>

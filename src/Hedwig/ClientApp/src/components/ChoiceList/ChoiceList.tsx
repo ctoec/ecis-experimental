@@ -152,7 +152,8 @@ export function ChoiceList({
 					onChange={changeEvent}
 					disabled={disabled}
 					value={selectedItems[0]}
-					required={!optional}
+					aria-required={!optional}
+					// Using aria-required because default Chrome behavior for required attribute interferes with our error messages
 					aria-describedby={status ? status.id : undefined}
 					aria-invalid={status && status.type === 'error'}
 				>

@@ -4,6 +4,8 @@ import 'react-dates/initialize';
 import ReportSubmitForm from './ReportSubmitForm';
 import CommonContextProviderMock from '../../../contexts/__mocks__/CommonContextProviderMock';
 import { defaultReport } from '../../../hooks/__mocks__/useApi';
+import { DeepNonUndefineable } from '../../../utils/types';
+import { CdcReport } from '../../../generated';
 
 jest.mock('../../../hooks/useApi');
 import useApi from '../../../hooks/useApi';
@@ -12,38 +14,46 @@ afterAll(() => {
 	jest.resetModules();
 });
 
-// TODO: FIX THIS
 describe('EnrollmentDetail', () => {
 	it('matches snapshot', () => {
 		const wrapper = mount(
 			<CommonContextProviderMock>
-				{/* <ReportSubmitForm
-					report={defaultReport}
-					mutate={mutate}
-					canSubmit={numEnrollmentsMissingInfo === 0}
-				/> */}
+				<ReportSubmitForm
+					report={defaultReport as DeepNonUndefineable<CdcReport>}
+					mutate={(_: any) => {
+						return new Promise((resolve, reject) => {
+							resolve(defaultReport);
+							reject({});
+						});
+					}}
+					canSubmit={true}
+				/>
 			</CommonContextProviderMock>
 		);
 		expect(wrapper.html()).toMatchSnapshot();
 		wrapper.unmount();
 	});
 
-	// it('shows incomplete indications when incomplete information is given', () => {
-	// 	const wrapper = shallow(
+	// See TODO in report submit form-- currently no api errors, are those fields actually required?
+	// it('shows an error when information is missing', () => {
+	// 	const wrapper = mount(
 	// 		<CommonContextProviderMock>
-	// 			<ReportSubmitForm match={{ params: { enrollmentId: enrollmentMissingBirthCertId.id } }} />
+	// 			<ReportSubmitForm
+	// 				report={defaultReport as DeepNonUndefineable<CdcReport>}
+	// 				mutate={(_: any) => {
+	// 					return new Promise((resolve, reject) => {
+	// 						resolve(defaultReport);
+	// 						reject({});
+	// 					});
+	// 				}}
+	// 				canSubmit={false}
+	// 			/>
 	// 		</CommonContextProviderMock>
 	// 	);
 
-	// 	// :/
 	// 	const incompleteIcons = wrapper
-	// 		.find('EnrollmentDetail')
-	// 		.dive()
-	// 		.find('Summary')
-	// 		.first()
-	// 		.dive()
 	// 		.find('.oec-inline-icon--incomplete');
-	// 	expect(incompleteIcons.length).toBe(1);
+	// 	expect(incompleteIcons.length).toBe(2);
 	// 	wrapper.unmount();
 	// });
 });

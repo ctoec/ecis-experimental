@@ -52,6 +52,7 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 	}
 
 	function onSubmit(e: FormEvent) {
+		console.log(e)
 		e.preventDefault();
 		mutate(api =>
 			api.apiOrganizationsOrgIdReportsIdPut({
@@ -79,6 +80,8 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 			});
 	}
 
+	console.log(apiError)
+
 	return (
 		<React.Fragment>
 			{report.submittedAt && (
@@ -104,9 +107,11 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 			<UtilizationTable {...{ ...report, accredited }} />
 			<form className="usa-form" onSubmit={onSubmit}>
 				<fieldset className="usa-fieldset">
+					{/* TODO: REPLACE WITH FIELDSET COMPONENT */}
 					<legend>
 						<h2 className="margin-bottom-0 margin-top-2">Other Revenue</h2>
 					</legend>
+					{/* TODO: is this actually required? error isn't happening.  We should mark it as optional if it isn't */}
 					<TextInput
 						id="c4k-revenue"
 						label={
@@ -159,6 +164,7 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 						)}
 					/>
 				</fieldset>
+				{/* TODO: REPLACE WITH BUTTON COMPONENT */}
 				{!report.submittedAt && (
 					<input className="usa-button" type="submit" value="Submit" disabled={!canSubmit} />
 				)}

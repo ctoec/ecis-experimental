@@ -193,6 +193,22 @@ export const laterReport: CdcReport = swapFields(defaultReport, [
 	{ keys: ['id'], newValue: 2 },
 ]);
 
+export const earlierReport: CdcReport = swapFields(defaultReport, [
+	{
+		keys: ['reportingPeriod'],
+		newValue: {
+			id: 1,
+			type: FundingSource.CDC,
+			period: new Date('2019-08-01'),
+			dueAt: new Date('2019-09-15'),
+			periodStart: new Date('2019-08-01'),
+			periodEnd: new Date('2019-08-31'),
+		},
+	},
+	{ keys: ['id'], newValue: 3 },
+	{ keys: ['submittedAt'], newValue: new Date('2019-09-14') },
+]);
+
 export default (query: (api: any) => any) => {
 	return query({
 		apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet: (
@@ -233,7 +249,7 @@ export default (query: (api: any) => any) => {
 		apiOrganizationsOrgIdReportsGet: (params: any) => [
 			false,
 			null,
-			[defaultReport, laterReport],
+			[defaultReport, laterReport, earlierReport],
 			(_: any) => {
 				return new Promise((resolve, reject) => {
 					resolve(defaultReport);
