@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount, shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import 'react-dates/initialize';
 import ReportDetail from './ReportDetail';
 import CommonContextProviderMock from '../../../contexts/__mocks__/CommonContextProviderMock';
