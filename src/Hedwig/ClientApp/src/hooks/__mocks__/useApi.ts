@@ -8,7 +8,6 @@ import {
 	Gender,
 	Region,
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest,
-	ApiOrganizationsOrgIdReportsIdGetRequest,
 } from '../../generated';
 
 type ChangeField = { keys: string[]; newValue?: any };
@@ -30,6 +29,22 @@ const swapFields = <T>(inputObject: T, changeFields: ChangeField[]): T => {
 	});
 	return newObject;
 };
+
+const reportEnrollmentValidationError = [
+	{
+		message: 'Enrollments have validation errors',
+		isSubObjectValidation: true,
+		field: 'Enrollments',
+	},
+];
+
+const enrollmentValidationError = [
+	{
+		message: 'Child has validation errors',
+		isSubObjectValidation: true,
+		field: 'Child',
+	},
+];
 
 export const completeEnrollment: Enrollment = {
 	id: 1,
@@ -88,16 +103,20 @@ export const completeEnrollment: Enrollment = {
 export const enrollmentMissingBirthCertId = swapFields(completeEnrollment, [
 	{ keys: ['child', 'birthCertificateId'], newValue: undefined },
 	{ keys: ['id'], newValue: 2 },
+	{ keys: ['validationErrors'], newValue: enrollmentValidationError },
 ]);
 
 export const enrollmentMissingFirstName = swapFields(completeEnrollment, [
 	{ keys: ['child', 'firstName'], newValue: undefined },
 	{ keys: ['id'], newValue: 3 },
+	{ keys: ['validationErrors'], newValue: enrollmentValidationError },
 ]);
 
 export const enrollmentMissingAddress = swapFields(completeEnrollment, [
 	{ keys: ['child', 'family', 'addressLine1'], newValue: undefined },
 	{ keys: ['id'], newValue: 4 },
+	{ keys: ['validationErrors'], newValue: enrollmentValidationError },
+
 	{
 		keys: ['child', 'family', 'validationErrors'],
 		newValue: [
@@ -176,6 +195,7 @@ export const defaultReport: CdcReport = {
 		periodEnd: new Date('2019-09-28'),
 	},
 	organization: defaultOrganization,
+	validationErrors: reportEnrollmentValidationError,
 };
 
 export const laterReport: CdcReport = swapFields(defaultReport, [
@@ -207,6 +227,7 @@ export const earlierReport: CdcReport = swapFields(defaultReport, [
 	},
 	{ keys: ['id'], newValue: 3 },
 	{ keys: ['submittedAt'], newValue: new Date('2019-09-14') },
+	{ keys: ['validationErrors'], newValue: undefined },
 ]);
 
 export default (query: (api: any) => any) => {
