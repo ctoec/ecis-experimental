@@ -91,9 +91,14 @@ const ChildInfo: Section = {
 		const [suffix, updateSuffix] = useState(child ? child.suffix : null);
 
 		const [birthdate, updateBirthdate] = useState(child ? child.birthdate : null);
-		const setBirthdate = useCallback((range: MomentDateRange) => {
-			updateBirthdate(range.startDate && range.startDate.isValid() ? range.startDate.toDate() : null);
-		},[updateBirthdate])
+		const setBirthdate = useCallback(
+			(range: MomentDateRange) => {
+				updateBirthdate(
+					range.startDate && range.startDate.isValid() ? range.startDate.toDate() : null
+				);
+			},
+			[updateBirthdate]
+		);
 		const [birthCertificateId, updateBirthCertificateId] = useState(
 			child ? child.birthCertificateId : null
 		);
@@ -370,7 +375,7 @@ const ChildInfo: Section = {
 					onChange={(_, selected) => {
 						updateChildRace(
 							childRace.map(raceObj =>
-								Object.assign({}, { selected: selected.includes(raceObj.value) }, raceObj)
+								Object.assign({}, raceObj, { selected: selected.includes(raceObj.value) })
 							)
 						);
 					}}
