@@ -1,8 +1,6 @@
 import { isCurrentToRange, filterFundingsForRosterTags } from './funding';
 import { FundingSource, FundingTime, Funding, ReportingPeriod } from '../../generated';
 import moment from 'moment';
-import { DeepNonUndefineable } from '../types';
-import { fundingSourceDetails } from '../fundingTypeFormatters';
 
 it('filterFundingsForRosterTags deduplicates fundings based on source and time values', () => {
   const baseFunding = { id: 1, enrollmentId: 1 };
