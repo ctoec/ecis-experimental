@@ -4,7 +4,7 @@ import { DateRange } from "../../components";
 
 export function isFunded(
   enrollment: Enrollment | null,
-  opts: {
+  opts?: {
    source?: string,
    time?: string,
    currentRange?: DateRange
@@ -17,16 +17,17 @@ export function isFunded(
 
   let fundings = enrollment.fundings;
 
-  if(opts.source) {
-    fundings = fundings.filter(funding => funding.source === opts.source);
+  const _opts = opts || {};
+  if(_opts.source) {
+    fundings = fundings.filter(funding => funding.source === _opts.source);
   }
 
-  if(opts.time) {
-    fundings = fundings.filter(funding => funding.time === opts.time);
+  if(_opts.time) {
+    fundings = fundings.filter(funding => funding.time === _opts.time);
   }
 
-  if(opts.currentRange) {
-    fundings = fundings.filter(funding => isCurrentToRange(funding, opts.currentRange));
+  if(_opts.currentRange) {
+    fundings = fundings.filter(funding => isCurrentToRange(funding, _opts.currentRange));
   }
 
   return fundings.length > 0;
