@@ -39,6 +39,5 @@ describe('EnrollmentDetail', () => {
 			.dive()
 			.find('.oec-inline-icon--incomplete');
 		expect(incompleteIcons.length).toBe(1);
-		wrapper.unmount();
 	});
 });
