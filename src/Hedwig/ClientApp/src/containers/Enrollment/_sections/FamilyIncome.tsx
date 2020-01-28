@@ -126,23 +126,7 @@ const FamilyIncome: Section = {
 			notDisclosed,
 		};
 
-		function proceedWithoutCreatingDetermination(args: any) {
-			return !args.notDisclosed && !args.numberOfPeople && !args.income && !args.determinationDate;
-		}
-
 		const save = () => {
-			if (proceedWithoutCreatingDetermination(args) || enrollment.child.foster) {
-				if (successCallback) {
-					successCallback(enrollment);
-				}
-				if (finallyCallback) {
-					finallyCallback(FamilyIncome);
-				}
-				return;
-			}
-
-			// If determination is added, all fields must be present
-			// or notDisclosed must be true
 			if (enrollment && child && child.family) {
 				const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
 					...defaultParams,

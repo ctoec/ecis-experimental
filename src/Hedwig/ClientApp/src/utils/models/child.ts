@@ -56,10 +56,3 @@ export function getSummaryLine(val: any) {
 
   return InlineIcon({ icon: 'incomplete' });
 }
-
-// TODO: validate birthdate
-export function childArgsAreValid(args: any) {
-  // required fields
-  if (!args.firstName || !args.lastName) return false;
-  return true;
-}
