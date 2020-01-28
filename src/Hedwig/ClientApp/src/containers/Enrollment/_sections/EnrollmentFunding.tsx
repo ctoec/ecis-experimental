@@ -30,8 +30,6 @@ import {
 	warningForFieldSet,
 	serverErrorForField,
 } from '../../../utils/validations';
-import { prettyFundingTime } from '../../../utils/fundingTimeUtils';
-import { nextNReportingPeriods, periodSorter } from '../../../utils/models/reportingPeriod';
 import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
 import { 
 	familyDeterminationNotDisclosed,
@@ -40,7 +38,10 @@ import {
 	createFunding,
 	currentC4kFunding,
 	ageFromString,
-    getSourcelessFunding,
+  getSourcelessFunding,
+	nextNReportingPeriods,
+	periodSorter,
+	prettyFundingTime,
 	prettyAge
 } from '../../../utils/models';
 import initialLoadErrorGuard from '../../../utils/validations/initialLoadErrorGuard';

@@ -1,4 +1,4 @@
-import { FundingTime } from "../generated";
+import { FundingTime } from "../../generated";
 
 export function fundingTimeFromString(str: string) {
   switch (str) {
@@ -9,7 +9,7 @@ export function fundingTimeFromString(str: string) {
     default:
       return null;
   }
-};
+}
 
 export function prettyFundingTime(time: FundingTime | null | undefined) {
   switch (time) {
@@ -20,4 +20,4 @@ export function prettyFundingTime(time: FundingTime | null | undefined) {
     default:
       return '';
   }
-};
+}

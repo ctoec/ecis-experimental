@@ -1,5 +1,5 @@
 import { FundingTime } from '../generated/';
-import { fundingTimeFromString } from './fundingTimeUtils';
+import { fundingTimeFromString } from './models/fundingTime';
 
 export enum FundingSelection {
 	CDC_FULL,
