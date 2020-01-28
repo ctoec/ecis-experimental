@@ -1,4 +1,4 @@
-import { Age } from '../generated';
+import { Age } from '../../generated';
 
 export function ageFromString(str: string) {
 	switch (str) {

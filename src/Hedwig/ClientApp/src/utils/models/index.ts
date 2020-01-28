@@ -4,3 +4,6 @@ export * from './family';
 export * from './familyDetermination';
 export * from './funding';
 export * from './enrollment';
+export * from './ageGroup';
+export * from './fundingTime';
+export * from './reportingPeriod';

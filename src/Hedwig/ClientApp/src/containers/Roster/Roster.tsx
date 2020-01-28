@@ -20,9 +20,8 @@ import useApi from '../../hooks/useApi';
 import { Age, Enrollment, FundingSpace, FundingSource } from '../../generated';
 import UserContext from '../../contexts/User/UserContext';
 import AgeGroupSection from './AgeGroupSection';
-import { getObjectsByAgeGroup } from '../../utils/ageGroupUtils';
 import { DeepNonUndefineable } from '../../utils/types';
-import { isFunded } from '../../utils/models';
+import { isFunded, getObjectsByAgeGroup } from '../../utils/models';
 import CommonContainer from '../CommonContainer';
 
 export default function Roster() {

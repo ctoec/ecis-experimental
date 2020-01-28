@@ -19,10 +19,10 @@ import {
 	enrollmentExitReasons,
 	currentCdcFunding,
 	currentC4kFunding,
+	lastNReportingPeriods 
 } from '../../utils/models';
 import { DatePicker, ChoiceList, Button, InlineIcon } from '../../components';
 import useApi from '../../hooks/useApi';
-import { lastNReportingPeriods } from '../../utils/models/reportingPeriod';
 import getIdForUser from '../../utils/getIdForUser';
 import CommonContainer from '../CommonContainer';
 import {
