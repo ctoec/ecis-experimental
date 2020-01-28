@@ -2,6 +2,7 @@ import React from 'react';
 import { FormStatus, FormStatusProps } from '..';
 
 type TextInputProps = {
+	name?: string;
 	label: string | JSX.Element;
 	onChange: (event: React.ChangeEvent<HTMLInputElement>) => any;
 	onBlur?: (event: React.FocusEvent<HTMLInputElement>) => any;
@@ -19,6 +20,7 @@ type TextInputProps = {
 };
 
 export function TextInput({
+	name,
 	label,
 	onChange,
 	onBlur,
@@ -44,7 +46,7 @@ export function TextInput({
 					small ? ' usa-input--small' : ''
 				}${inline ? ' usa-input--inline' : ''}`}
 				id={id}
-				name={id}
+				name={name}
 				type="text"
 				disabled={disabled}
 				onChange={onChange}

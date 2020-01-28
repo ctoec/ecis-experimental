@@ -8,11 +8,12 @@ type Option = {
 	value: string;
 };
 
-type HTMLChoiceElement = HTMLInputElement | HTMLSelectElement;
+export type HTMLChoiceElement = HTMLInputElement | HTMLSelectElement;
 
 type ChoiceListProps = {
 	options: Option[];
 	id: string;
+	name?: string;
 	onChange: (
 		e: React.ChangeEvent<HTMLChoiceElement>,
 		selectedValues: string[],
@@ -47,6 +48,7 @@ export function ChoiceList({
 	type,
 	options: inputOptions,
 	id,
+	name,
 	onChange,
 	selected = [],
 	legend,
@@ -106,7 +108,7 @@ export function ChoiceList({
 			children = options.map(option => (
 				<RadioButton
 					{...option}
-					name={`${id}-group`}
+					name={name || ''}
 					onChange={changeEvent}
 					selected={selectedItems.includes(option.value)}
 					key={`${id}-${option.value}`}
@@ -116,8 +118,9 @@ export function ChoiceList({
 		case 'check':
 			children = options.map(option => (
 				<Checkbox
+					id={`${id}-${option.value}`}
 					{...option}
-					name={`${id}-${option.value}`}
+					name={name || ''}
 					onChange={changeEvent}
 					selected={selectedItems.includes(option.value)}
 					key={`${id}-${option.value}`}
@@ -140,7 +143,6 @@ export function ChoiceList({
 					</option>
 				);
 			});
-			console.log(selectedItems)
 			children = [
 				<select
 					key={`${id}-select`}
@@ -197,7 +199,7 @@ export function ChoiceList({
 			<div className={horizontal ? 'grid-row flex-align-start grid-gap' : ''}>
 				{[...children]}
 				{showotherInput && otherInputLabel !== undefined && (
-					<TextInput id={`${id}-other`} label={otherInputLabel} onChange={changeEvent} />
+					<TextInput id={`${id}-other`} name={name || ''} label={otherInputLabel} onChange={changeEvent} />
 				)}
 			</div>
 		</FieldSet>

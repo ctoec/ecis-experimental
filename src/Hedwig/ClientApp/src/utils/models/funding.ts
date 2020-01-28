@@ -115,153 +115,14 @@ function isCurrentToRangeC4K(funding: Funding, range: DateRange) : boolean {
 	return true;	
 }
 
-export function currentCdcFunding(fundings: DeepNonUndefineable<Funding[]>): DeepNonUndefineable<Funding> | undefined {
-	return fundings.find<DeepNonUndefineable<Funding>>(funding => funding.source === FundingSource.CDC && isCurrentToRange(funding));
+export function currentCdcFunding(fundings: DeepNonUndefineable<Funding[]> | null): DeepNonUndefineable<Funding> | undefined {
+	return (fundings || [])
+		.find<DeepNonUndefineable<Funding>>(funding => funding.source === FundingSource.CDC && isCurrentToRange(funding));
 }
 
-export function currentC4kFunding(fundings: DeepNonUndefineable<Funding[]>): DeepNonUndefineable<Funding> | undefined {
-	return fundings.find<DeepNonUndefineable<Funding>>(funding => funding.source === FundingSource.C4K && funding.certificateEndDate === undefined);
-}
-
-export function prepareFundings(
-	fundings: DeepNonUndefineable<Funding[]>,
-	{
-		enrollment,
-		sourcelessFunding,
-		privatePay,
-		cdcFundingId,
-		cdcFunding,
-		cdcFundingTime,
-		cdcReportingPeriod,
-		receivesC4k,
-		c4kFundingId,
-		c4kFunding,
-		c4kCertificateStartDate,
-		c4kFamilyId,
-	} : {
-		enrollment: Enrollment,
-		sourcelessFunding: Funding | undefined,
-		privatePay: boolean,
-		cdcFundingId: number | null,
-		cdcFunding: Funding | undefined,
-		cdcFundingTime: FundingTime | null,
-		cdcReportingPeriod: ReportingPeriod | undefined,
-		receivesC4k: boolean,
-		c4kFundingId: number | null,
-		c4kFunding: Funding | undefined,
-		c4kCertificateStartDate: Date | null,
-		c4kFamilyId: number | null
-	}) {
-		// Begin by copying over all current fundings
-		let updatedFundings = [...fundings] as Funding[];
-		// CDC REGION
-		if (sourcelessFunding) {
-			// The user previously saved without selecting a funding from the ChoiceList
-			if (!privatePay && !cdcFundingTime) {
-				// The user still hasn't selected a funding
-				// Do nothing
-			} else {
-				// The user has explicitly selected a funding
-				// Remove this sourceless funding (we either need to update it or remove it)
-				updatedFundings = updatedFundings.filter(funding => funding.id !== sourcelessFunding.id);
-				if (privatePay) {
-				// The user has explicitly selected private pay
-				// We've already removed the sourceless funding
-				} else if (cdcFundingTime) {
-					// The user has explicitly selected a CDC funding
-					// Update the funding
-					updatedFundings.push(updateFunding({
-						currentFunding: sourcelessFunding,
-						source: FundingSource.CDC,
-						time: cdcFundingTime,
-						reportingPeriod: cdcReportingPeriod
-					}));
-				}
-			}
-		} else {
-			// There is no sourceless funding
-			if (cdcFundingId && cdcFunding) {
-				// Current funding exists
-				// Remove current current (we either need to update it or remove it)
-				updatedFundings = updatedFundings.filter(funding => funding.id !== cdcFundingId);
-				if (!privatePay && cdcFundingTime) {
-					// The funding is to be updated, so add it back with the new values
-					updatedFundings.push(updateFunding({
-						currentFunding: cdcFunding,
-						time: cdcFundingTime,
-						reportingPeriod: cdcReportingPeriod
-					}));
-				} else if (privatePay && !cdcFundingTime) {
-					// The funding is to be removed
-					// Do nothing
-				} else if (!privatePay && !cdcFundingTime) {
-					// '- Select -' was chosen
-					updatedFundings.push(createFunding({
-						enrollmentId: enrollment.id,
-						source: null
-					}))
-				} else {
-					// privatePay and cdcFundingTime should never both be value-ful
-					throw new Error("Something impossible happened");
-				}
-			} else {
-				// No current funding exists
-				if (cdcFundingTime && !privatePay) {
-					// There should be a new funding added
-					updatedFundings.push(createFunding({
-						enrollmentId: enrollment.id,
-						source: FundingSource.CDC,
-						time: cdcFundingTime,
-						firstReportingPeriodId: cdcReportingPeriod ? cdcReportingPeriod.id : undefined
-					}));
-				} else if (!cdcFunding && privatePay) {
-					// User selected private pay, do nothing
-				} else if (!cdcFunding && !privatePay) {
-					// User did not select a funding, create a source-less funding
-					updatedFundings.push(createFunding({
-						enrollmentId: enrollment.id,
-						source: null
-					}));
-				}
-				else /* (cdcFundingTime && privatePay) */ {
-					throw new Error("Something impossible happened");
-				}
-			}
-		}
-		// END CDC REGION
-
-		// C4K REGION
-		if (c4kFundingId && c4kFunding) {
-			// Remove current current (we either need to update it or remove it)
-			// Remove 
-			updatedFundings = updatedFundings.filter(funding => funding.id !== c4kFundingId);
-			if (!receivesC4k) {
-				// The user has explicitly removed c4k funding
-				// We've already removed the funding, so do nothing
-			} else {
-				// The funding is to be updated, so add it back with the new values
-				updatedFundings.push(updateFunding({
-					currentFunding: c4kFunding,
-					certificateStartDate: c4kCertificateStartDate ? c4kCertificateStartDate : undefined,
-					familyId: c4kFamilyId
-				}));
-			}
-		} else {
-			// No current funding, add new funding with supplied information
-			if (receivesC4k) {
-				updatedFundings.push(createFunding({
-					enrollmentId: enrollment.id,
-					source: FundingSource.C4K,
-					certificateStartDate: c4kCertificateStartDate ? c4kCertificateStartDate : undefined,
-					familyId: c4kFamilyId
-				}))
-			} else {
-				// No current funding, do nothing because receives C4K has not been selected
-			}
-		}
-		// END C4K REGION
-
-		return updatedFundings;
+export function currentC4kFunding(fundings: DeepNonUndefineable<Funding[]> | null): DeepNonUndefineable<Funding> | undefined {
+	return (fundings || [])
+		.find<DeepNonUndefineable<Funding>>(funding => funding.source === FundingSource.C4K && funding.certificateEndDate === undefined);
 }
 
 export function createFunding({
@@ -342,6 +203,20 @@ export function updateFunding({
 		default:
 			throw new Error("Something impossible happened");
 	}
+}
+
+export function hasFundings(enrollment: DeepNonUndefineable<Enrollment>): DeepNonUndefineable<Funding[]> | undefined {
+	const fundings = enrollment.fundings;
+	return !fundings ? undefined : fundings;
+}
+
+export function hasSourcelessFunding(enrollment: DeepNonUndefineable<Enrollment>): DeepNonUndefineable<Funding> | undefined {
+	const fundings = hasFundings(enrollment);
+	if (!fundings) {
+		return undefined;
+	}
+
+	return fundings.find(funding => !funding.source);
 }
 
 export const NO_FUNDING = "private pay";
