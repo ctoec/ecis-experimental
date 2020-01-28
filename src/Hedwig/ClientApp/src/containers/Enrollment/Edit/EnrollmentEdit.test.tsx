@@ -18,6 +18,7 @@ const fakeDate = '2019-03-02';
 
 jest.mock('../../../hooks/useApi');
 import useApi from '../../../hooks/useApi';
+import { Link } from 'react-router-dom';
 
 beforeAll(() => {
 	mockdate.set(fakeDate);
@@ -132,19 +133,21 @@ describe('EnrollmentEdit', () => {
 		});
 	});
 
-	it('shows the appropriate number of reporting periods for enrollment funding', () => {
-		const wrapper = mount(
-			<CommonContextProviderMock>
-				<EnrollmentEdit
-					history={history}
-					match={{
-						params: { enrollmentId: completeEnrollment.id, sectionId: 'enrollment-funding' },
-					}}
-				/>
-			</CommonContextProviderMock>
-		);
-		const reportingPeriodOptions = wrapper.find('select#firstReportingPeriod option');
-		expect(reportingPeriodOptions.length).toBe(defaultCdcReportingPeriods.length + 1);
-		wrapper.unmount();
-	});
+	describe('enrollment and funding', () => {
+		it('shows the appropriate number of reporting periods for enrollment funding', () => {
+			const wrapper = mount(
+				<CommonContextProviderMock>
+					<EnrollmentEdit
+						history={history}
+						match={{
+							params: { enrollmentId: completeEnrollment.id, sectionId: 'enrollment-funding' },
+						}}
+					/>
+				</CommonContextProviderMock>
+			);
+			const reportingPeriodOptions = wrapper.find('select#firstReportingPeriod option');
+			expect(reportingPeriodOptions.length).toBe(defaultCdcReportingPeriods.length + 1);
+			wrapper.unmount();
+		});
+	})
 });

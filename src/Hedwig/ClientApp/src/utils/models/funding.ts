@@ -1,5 +1,5 @@
 import { DeepNonUndefineable } from "../types"
-import { Funding, FundingSource, FundingTime, ReportingPeriod } from "../../generated"
+import { Funding, FundingSource, FundingTime, ReportingPeriod, Enrollment} from "../../generated"
 import { Tag, DateRange } from "../../components";
 import getColorForFundingSource, { fundingSourceDetails } from "../fundingTypeFormatters"
 import moment from "moment";
@@ -115,27 +115,29 @@ function isCurrentToRangeC4K(funding: Funding, range: DateRange) : boolean {
 	return true;	
 }
 
-export function currentCdcFunding(fundings: DeepNonUndefineable<Funding[]>): DeepNonUndefineable<Funding> | undefined {
-	return fundings.find<DeepNonUndefineable<Funding>>(funding => funding.source === FundingSource.CDC && isCurrentToRange(funding));
+export function currentCdcFunding(fundings: DeepNonUndefineable<Funding[]> | null): DeepNonUndefineable<Funding> | undefined {
+	return (fundings || [])
+		.find<DeepNonUndefineable<Funding>>(funding => funding.source === FundingSource.CDC && !funding.lastReportingPeriod);
 }
 
-export function currentC4kFunding(fundings: DeepNonUndefineable<Funding[]>): DeepNonUndefineable<Funding> | undefined {
-	return fundings.find<DeepNonUndefineable<Funding>>(funding => funding.source === FundingSource.C4K && funding.certificateEndDate === undefined);
+export function currentC4kFunding(fundings: DeepNonUndefineable<Funding[]> | null): DeepNonUndefineable<Funding> | undefined {
+	return (fundings || [])
+		.find<DeepNonUndefineable<Funding>>(funding => funding.source === FundingSource.C4K && funding.certificateEndDate === undefined);
 }
 
 export function createFunding({
 	enrollmentId,
 	source,
 	time,
-	firstReportingPeriodId,
+	firstReportingPeriod,
 	familyId,
 	certificateStartDate
 }: {
 	enrollmentId: number,
 	source: FundingSource | null,
 	time?: FundingTime,
-	firstReportingPeriodId?: number,
-	familyId?: number,
+	firstReportingPeriod?: ReportingPeriod,
+	familyId?: number | null,
 	certificateStartDate?: Date
 }): Funding {
 	switch (source) {
@@ -145,7 +147,7 @@ export function createFunding({
 				enrollmentId,
 				source,
 				time,
-				firstReportingPeriodId,
+				firstReportingPeriod,
 			}
 		case FundingSource.C4K:
 			return {
@@ -178,7 +180,7 @@ export function updateFunding({
 	source?: FundingSource,
 	time?: FundingTime,
 	reportingPeriod?: ReportingPeriod,
-	familyId?: number,
+	familyId?: number | null,
 	certificateStartDate?: Date
 }): Funding {
 	source = source ? source : currentFunding.source;
@@ -201,6 +203,20 @@ export function updateFunding({
 		default:
 			throw new Error("Something impossible happened");
 	}
+}
+
+export function getFundings(enrollment: DeepNonUndefineable<Enrollment>): DeepNonUndefineable<Funding[]> | undefined {
+	const fundings = enrollment.fundings;
+	return !fundings ? undefined : fundings;
+}
+
+export function getSourcelessFunding(enrollment: DeepNonUndefineable<Enrollment>): DeepNonUndefineable<Funding> | undefined {
+	const fundings = getFundings(enrollment);
+	if (!fundings) {
+		return undefined;
+	}
+
+	return fundings.find(funding => !funding.source);
 }
 
 export const NO_FUNDING = "private pay";

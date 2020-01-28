@@ -1,9 +1,10 @@
 import React from 'react';
 
 type CheckboxProps = {
+	id: string;
 	text: string;
 	value: string;
-	name: string;
+	name?: string;
 	onChange: (event: React.ChangeEvent<HTMLInputElement>) => any;
 	selected?: boolean;
 	className?: string;
@@ -11,6 +12,7 @@ type CheckboxProps = {
 };
 
 export default function Checkbox({
+	id,
 	text,
 	value,
 	name,
@@ -23,15 +25,15 @@ export default function Checkbox({
 		<div className={`usa-checkbox ${className}`}>
 			<input
 				className="usa-checkbox__input"
-				id={name}
+				id={id}
 				type="checkbox"
-				name={name}
+				name={name || ''}
 				value={value}
 				defaultChecked={selected}
 				onChange={onChange}
 				disabled={disabled}
 			/>
-			<label className="usa-checkbox__label" htmlFor={name}>
+			<label className="usa-checkbox__label" htmlFor={id}>
 				{text}
 			</label>
 		</div>

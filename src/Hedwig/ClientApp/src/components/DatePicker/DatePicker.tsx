@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import moment, { Moment } from 'moment';
 import { DateRangePicker, SingleDatePicker } from 'react-dates';
 import { FieldSet, FormStatus, FormStatusProps } from '..';
+import { InputField } from '../../utils/forms/form';
 
 export type DateRange = {
 	startDate: Moment | null;
@@ -12,8 +13,9 @@ export type DateRange = {
 
 type DatePickerProps = {
 	dateRange: DateRange;
-	onChange: (newRange: DateRange) => any;
+	onChange: (newRange: InputField<DateRange>) => any;
 	id: string;
+	name?: string;
 	label: string;
 	disabled?: boolean;
 	status?: FormStatusProps;
@@ -27,6 +29,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 	dateRange,
 	onChange,
 	id,
+	name,
 	label,
 	disabled,
 	status: inputStatus,
@@ -42,7 +45,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 		const startDateInvalid = !input.startDate || !input.startDate.isValid();
 		const endDateInvalid = !input.endDate || !input.endDate.isValid();
 		setSelectedRange({ ...input, startDateInvalid, endDateInvalid });
-		onChange(input);
+		onChange({...input, name: name || ''});
 	}
 
 	function isOutsidePossibleRange(candidateDate: Moment) {
