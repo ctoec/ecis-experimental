@@ -22,7 +22,6 @@ import {
 	Enrollment,
 } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
-import { ageFromString, prettyAge } from '../../../utils/ageGroupUtils';
 import getIdForUser from '../../../utils/getIdForUser';
 import { DeepNonUndefineable } from '../../../utils/types';
 import {
@@ -34,7 +33,16 @@ import {
 import { prettyFundingTime } from '../../../utils/fundingTimeUtils';
 import { nextNReportingPeriods, periodSorter } from '../../../utils/models/reportingPeriod';
 import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
-import { familyDeterminationNotDisclosed, currentCdcFunding, updateFunding, createFunding, currentC4kFunding, getSourcelessFunding } from '../../../utils/models';
+import { 
+	familyDeterminationNotDisclosed,
+	currentCdcFunding,
+	updateFunding,
+	createFunding,
+	currentC4kFunding,
+	ageFromString,
+    getSourcelessFunding,
+	prettyAge
+} from '../../../utils/models';
 import initialLoadErrorGuard from '../../../utils/validations/initialLoadErrorGuard';
 import { FundingSelection, fundingSelectionFromString, fundingSelectionToString } from '../../../utils/fundingSelectionUtils';
 import { FormReducer, formReducer, updateData, toFormString } from '../../../utils/forms/form';

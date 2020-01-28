@@ -4,7 +4,7 @@ import { CdcReport, Enrollment, Age, FundingSource, FundingTime, Region } from '
 import idx from 'idx';
 import moment from 'moment';
 import { CdcRates } from './CdcRates';
-import { prettyAge } from '../../../utils/ageGroupUtils';
+import { prettyAge } from '../../../utils/models';
 import { prettyFundingTime } from '../../../utils/fundingTimeUtils';
 import currencyFormatter from '../../../utils/currencyFormatter';
 import cartesianProduct from '../../../utils/cartesianProduct';
