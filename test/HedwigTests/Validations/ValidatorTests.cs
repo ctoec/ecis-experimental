@@ -98,5 +98,28 @@ namespace HedwigTests.Validations
       // then
       Assert.Single(validateable.ValidationErrors);
     }
+
+    [Fact]
+    public void Validate_Rules_NullEntity()
+    {
+      // if
+      var rule = new Mock<IValidationRule<TestValidatableEntity>>();
+      rule.Setup(r => r.Execute(It.IsAny<TestValidatableEntity>()))
+        .Returns(new ValidationError(It.IsAny<string>(), field: It.IsAny<string>()));
+
+
+      var serviceProvider = new Mock<IServiceProvider>();
+      serviceProvider.Setup(sp => sp.GetService(typeof(IEnumerable<IValidationRule<TestValidatableEntity>>)))
+        .Returns(new List<IValidationRule<TestValidatableEntity>>{rule.Object});
+
+      TestValidatableEntity validateable = null;
+
+      // when
+      var validator = new NonBlockingValidator(serviceProvider.Object);
+      validator.Validate(validateable);
+
+      // then
+      rule.Verify(rule => rule.Execute(validateable), Times.Never());
+    }
   }
 }

@@ -18,6 +18,13 @@ namespace Hedwig.Validations.Rules
     readonly IFamilyDeterminationRepository _determinations;
     public ValidationError Execute(Family family)
     {
+      // Family determination validations do not apply to enrollments for children living with foster families
+      // (For now, can assume child here is the child for the enrollment, added to the family on line 25 of Validations/Rules/Child/FamilyIsValid.cs)
+      var child = family.Children != null ? family.Children.FirstOrDefault() : null;
+      if(child != null && child.Foster) {
+        return null;
+      }
+
       var determinations = family.Determinations ??  _determinations.GetDeterminationsByFamilyId(family.Id);
 
       if(determinations.Count == 0) return null;

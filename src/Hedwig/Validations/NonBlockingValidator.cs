@@ -16,6 +16,10 @@ namespace Hedwig.Validations
 
     public void Validate<T>(T entity) where T : INonBlockingValidatableObject
     {
+      if(entity == null) {
+        return;
+      }
+      
       var rules = _serviceProvider.GetServices<IValidationRule<T>>();
       var errors = new List<ValidationError>();
       foreach (var rule in rules)
