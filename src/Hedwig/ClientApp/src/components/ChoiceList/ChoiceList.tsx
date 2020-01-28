@@ -129,7 +129,7 @@ export function ChoiceList({
 				throw new Error('Dropdown can only have one selected value at a time.');
 			}
 			const optionElements = [
-				<option key={`${id}-unselected`} value={undefined}>
+				<option key={`${id}-unselected`} value="">
 					{unselectedText || '- Select -'}
 				</option>,
 			];

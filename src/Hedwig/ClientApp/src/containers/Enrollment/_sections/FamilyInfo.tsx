@@ -137,11 +137,7 @@ const FamilyInfo: Section = {
 							onChange={event => updateAddressLine1(event.target.value ? event.target.value : null)}
 							status={initialLoadErrorGuard(
 								initialLoad,
-								warningForField(
-									'addressLine1',
-									idx(enrollment, _ => _.child.family) || null,
-									''
-								)
+								warningForField('addressLine1', idx(enrollment, _ => _.child.family) || null, '')
 							)}
 						/>
 					</div>
@@ -154,22 +150,6 @@ const FamilyInfo: Section = {
 							optional={true}
 						/>
 					</div>
-					<div className="mobile-lg:grid-col-4 display-inline-block">
-						<TextInput
-							id="state"
-							label="State"
-							defaultValue={state || ''}
-							onChange={event => updateState(event.target.value ? event.target.value : null)}
-							status={initialLoadErrorGuard(
-								initialLoad,
-								warningForField(
-									'state',
-									idx(enrollment, _ => _.child.family) || null,
-									''
-								)
-							)}
-						/>
-					</div>
 					<div className="mobile-lg:grid-col-8 display-inline-block">
 						<TextInput
 							id="town"
@@ -178,11 +158,21 @@ const FamilyInfo: Section = {
 							onChange={event => updateTown(event.target.value ? event.target.value : null)}
 							status={initialLoadErrorGuard(
 								initialLoad,
-								warningForField(
-									'town',
-									idx(enrollment, _ => _.child.family) || null,
-									''
-								)
+								warningForField('town', idx(enrollment, _ => _.child.family) || null, '')
+							)}
+						/>
+					</div>
+					<div className="mobile-lg:grid-col-4 display-inline-block">
+						<ChoiceList
+							type="select"
+							id="state"
+							label="State"
+							options={['CT', 'MA', 'NY', 'RI'].map(_state => ({ text: _state, value: _state}))}
+							selected={state ? [state] : undefined}
+							onChange={(event, selectedValues) => updateState(selectedValues[0])}
+							status={initialLoadErrorGuard(
+								initialLoad,
+								warningForField('state', idx(enrollment, _ => _.child.family) || null, '')
 							)}
 						/>
 					</div>
@@ -194,11 +184,7 @@ const FamilyInfo: Section = {
 							onChange={event => updateZip(event.target.value ? event.target.value : null)}
 							status={initialLoadErrorGuard(
 								initialLoad,
-								warningForField(
-									'zip',
-									idx(enrollment, _ => _.child.family) || null,
-									''
-								)
+								warningForField('zip', idx(enrollment, _ => _.child.family) || null, '')
 							)}
 						/>
 					</div>
@@ -210,7 +196,7 @@ const FamilyInfo: Section = {
 					legend="Foster"
 					id="foster"
 					selected={foster ? ['foster'] : undefined}
-					onChange={event => updateFoster((event.target as unknown as HTMLInputElement).checked)}
+					onChange={event => updateFoster(((event.target as unknown) as HTMLInputElement).checked)}
 					options={[
 						{
 							text: fosterText(),
@@ -223,7 +209,9 @@ const FamilyInfo: Section = {
 					legend="Homelessness"
 					id="homelessness"
 					selected={homelessness ? ['homelessness'] : undefined}
-					onChange={event => updateHomelessness((event.target as unknown as HTMLInputElement).checked)}
+					onChange={event =>
+						updateHomelessness(((event.target as unknown) as HTMLInputElement).checked)
+					}
 					options={[
 						{
 							text: homelessnessText(),

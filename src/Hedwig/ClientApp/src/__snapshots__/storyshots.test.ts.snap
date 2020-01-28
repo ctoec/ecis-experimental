@@ -658,7 +658,9 @@ exports[`Storyshots ChoiceList Select 1`] = `
       onChange={[Function]}
       required={true}
     >
-      <option>
+      <option
+        value=""
+      >
         - Select -
       </option>
       <option
@@ -703,7 +705,9 @@ exports[`Storyshots ChoiceList Select with other 1`] = `
       onChange={[Function]}
       required={true}
     >
-      <option>
+      <option
+        value=""
+      >
         - Select -
       </option>
       <option
@@ -764,7 +768,9 @@ exports[`Storyshots ChoiceList Select with success 1`] = `
       onChange={[Function]}
       required={true}
     >
-      <option>
+      <option
+        value=""
+      >
         - Select -
       </option>
       <option

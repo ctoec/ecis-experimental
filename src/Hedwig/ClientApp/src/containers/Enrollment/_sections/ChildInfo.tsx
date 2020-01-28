@@ -329,18 +329,6 @@ const ChildInfo: Section = {
 							)}
 						/>
 					</div>
-					<div className="mobile-lg:grid-col-4 display-inline-block">
-						<TextInput
-							id="birthState"
-							label="State"
-							defaultValue={birthState || ''}
-							onChange={event => updateBirthState(event.target.value)}
-							status={initialLoadErrorGuard(
-								initialLoad,
-								warningForField('birthState', enrollment ? enrollment.child : null, '')
-							)}
-						/>
-					</div>
 					<div className="mobile-lg:grid-col-8 display-inline-block">
 						<TextInput
 							id="birthTown"
@@ -350,6 +338,18 @@ const ChildInfo: Section = {
 							status={initialLoadErrorGuard(
 								initialLoad,
 								warningForField('birthTown', enrollment ? enrollment.child : null, '')
+							)}
+						/>
+					</div>
+					<div className="mobile-lg:grid-col-4 display-inline-block">
+						<TextInput
+							id="birthState"
+							label="State"
+							defaultValue={birthState || ''}
+							onChange={event => updateBirthState(event.target.value)}
+							status={initialLoadErrorGuard(
+								initialLoad,
+								warningForField('birthState', enrollment ? enrollment.child : null, '')
 							)}
 						/>
 					</div>
