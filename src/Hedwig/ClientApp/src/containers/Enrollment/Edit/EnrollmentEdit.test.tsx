@@ -149,41 +149,5 @@ describe('EnrollmentEdit', () => {
 			expect(reportingPeriodOptions.length).toBe(defaultCdcReportingPeriods.length + 1);
 			wrapper.unmount();
 		});
-
-		it('maintains selected funding type and reporting period after clicking save and returning', async () => {
-			const wrapper = mount(
-				<CommonContextProviderMock>
-					<EnrollmentEdit
-						history={history}
-						match={{
-							params: { enrollmentId: completeEnrollment.id, sectionId: 'enrollment-funding' }
-						}}
-					/>
-				</CommonContextProviderMock>
-			);
-
-			const initialFundingTypeSelect = wrapper.find('select#fundingType');
-			const initialFundingType = initialFundingTypeSelect.props();
-			expect(initialFundingType.value).toBe('Full');
-
-			const saveBtn = wrapper.find('.EnrollmentFundingForm button');
-			await act(async () => {
-				saveBtn
-					.props()
-					.onClick();
-			});
-
-			console.log(wrapper.find('.oec-enrollment-details-section a'));
-			const editBtn = wrapper.find('.oec-enrollment-details-section Link');
-			console.log(editBtn.instance());
-			await act(async () => {
-				editBtn.simulate('click', { button: 0 })
-			});
-
-			const nextFundingTypeSelect = wrapper.find('select#fundingType');
-			const nextFundingType = nextFundingTypeSelect.props();
-
-			expect(nextFundingType.value).toBe(initialFundingType.value);
-		})
 	})
 });

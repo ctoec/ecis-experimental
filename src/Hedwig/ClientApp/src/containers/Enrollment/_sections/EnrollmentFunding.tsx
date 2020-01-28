@@ -34,7 +34,7 @@ import {
 import { prettyFundingTime } from '../../../utils/fundingTimeUtils';
 import { nextNReportingPeriods, periodSorter } from '../../../utils/models/reportingPeriod';
 import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
-import { familyDeterminationNotDisclosed, currentCdcFunding, updateFunding, createFunding, currentC4kFunding, hasSourcelessFunding } from '../../../utils/models';
+import { familyDeterminationNotDisclosed, currentCdcFunding, updateFunding, createFunding, currentC4kFunding, getSourcelessFunding } from '../../../utils/models';
 import initialLoadErrorGuard from '../../../utils/validations/initialLoadErrorGuard';
 import { FundingSelection, fundingSelectionFromString, fundingSelectionToString } from '../../../utils/fundingSelectionUtils';
 import { FormReducer, formReducer, updateData, toFormString } from '../../../utils/forms/form';
@@ -52,7 +52,7 @@ const EnrollmentFunding: Section = {
 
 		if (!enrollment) return <></>;
 
-		const sourcelessFunding = hasSourcelessFunding(enrollment);
+		const sourcelessFunding = getSourcelessFunding(enrollment);
 		const fundings = enrollment.fundings || [];
 		const cdcFunding = currentCdcFunding(fundings);
 		const isPrivatePay = !sourcelessFunding && cdcFunding === undefined;
@@ -136,7 +136,7 @@ const EnrollmentFunding: Section = {
 		const entry = _enrollment.entry;
 
 		const fundings = _enrollment.fundings || [];
-		const sourcelessFunding = hasSourcelessFunding(_enrollment);
+		const sourcelessFunding = getSourcelessFunding(_enrollment);
 		const cdcFunding = currentCdcFunding(fundings);
 		const [cdcReportingPeriod, updateCdcReportingPeriod] = useState<ReportingPeriod | undefined>(cdcFunding ? cdcFunding.firstReportingPeriod : undefined);
 

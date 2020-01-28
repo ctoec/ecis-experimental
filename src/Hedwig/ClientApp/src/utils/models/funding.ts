@@ -205,13 +205,13 @@ export function updateFunding({
 	}
 }
 
-export function hasFundings(enrollment: DeepNonUndefineable<Enrollment>): DeepNonUndefineable<Funding[]> | undefined {
+export function getFundings(enrollment: DeepNonUndefineable<Enrollment>): DeepNonUndefineable<Funding[]> | undefined {
 	const fundings = enrollment.fundings;
 	return !fundings ? undefined : fundings;
 }
 
-export function hasSourcelessFunding(enrollment: DeepNonUndefineable<Enrollment>): DeepNonUndefineable<Funding> | undefined {
-	const fundings = hasFundings(enrollment);
+export function getSourcelessFunding(enrollment: DeepNonUndefineable<Enrollment>): DeepNonUndefineable<Funding> | undefined {
+	const fundings = getFundings(enrollment);
 	if (!fundings) {
 		return undefined;
 	}
