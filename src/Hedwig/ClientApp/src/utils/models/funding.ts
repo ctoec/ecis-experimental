@@ -117,7 +117,7 @@ function isCurrentToRangeC4K(funding: Funding, range: DateRange) : boolean {
 
 export function currentCdcFunding(fundings: DeepNonUndefineable<Funding[]> | null): DeepNonUndefineable<Funding> | undefined {
 	return (fundings || [])
-		.find<DeepNonUndefineable<Funding>>(funding => funding.source === FundingSource.CDC && isCurrentToRange(funding));
+		.find<DeepNonUndefineable<Funding>>(funding => funding.source === FundingSource.CDC && !funding.lastReportingPeriod);
 }
 
 export function currentC4kFunding(fundings: DeepNonUndefineable<Funding[]> | null): DeepNonUndefineable<Funding> | undefined {
@@ -129,14 +129,14 @@ export function createFunding({
 	enrollmentId,
 	source,
 	time,
-	firstReportingPeriodId,
+	firstReportingPeriod,
 	familyId,
 	certificateStartDate
 }: {
 	enrollmentId: number,
 	source: FundingSource | null,
 	time?: FundingTime,
-	firstReportingPeriodId?: number,
+	firstReportingPeriod?: ReportingPeriod,
 	familyId?: number | null,
 	certificateStartDate?: Date
 }): Funding {
@@ -147,7 +147,7 @@ export function createFunding({
 				enrollmentId,
 				source,
 				time,
-				firstReportingPeriodId,
+				firstReportingPeriod,
 			}
 		case FundingSource.C4K:
 			return {

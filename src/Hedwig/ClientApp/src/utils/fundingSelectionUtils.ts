@@ -24,7 +24,7 @@ export function fundingSelectionToString(fundingSelection: FundingSelection) {
 export function fundingSelectionFromString(value: string): FundingSelection {
 	return value === 'privatePay' ?
 		FundingSelection.PRIVATE_PAY :
-		value === '- Select -' ?
+		value === '' ?
 			FundingSelection.UNSELECTED :
 			fundingTimeFromString(value) === FundingTime.Full ?
 				FundingSelection.CDC_FULL :

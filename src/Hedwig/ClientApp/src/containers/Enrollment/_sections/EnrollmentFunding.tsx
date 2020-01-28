@@ -183,7 +183,7 @@ const EnrollmentFunding: Section = {
 			}
 			const periods = cdcReportingPeriod ? [cdcReportingPeriod, ...nextPeriodsExcludingCurrent] : nextPeriodsExcludingCurrent;
 			updateReportingPeriodOptions([...periods].sort(periodSorter));
-		}, [enrollment.entry, entry, reportingPeriods, /*cdcReportingPeriod*/]);
+		}, [enrollment.entry, entry, reportingPeriods]);
 
 		const [apiError, setApiError] = useState<ValidationProblemDetails>();
 
@@ -207,10 +207,15 @@ const EnrollmentFunding: Section = {
 				case FundingSelection.CDC_PART:
 					const time = fundingSelection === FundingSelection.CDC_FULL ? FundingTime.Full : FundingTime.Part;
 					if (cdcFunding) {
-						const e = cdcFunding.enrollment;
-						cdcFunding.enrollment = e as DeepNonUndefineable<Enrollment>;
 						updatedFundings.push(updateFunding({
 							currentFunding: cdcFunding,
+							time,
+							reportingPeriod: cdcReportingPeriod
+						}));
+					} else if (sourcelessFunding) {
+						updatedFundings.push(updateFunding({
+							currentFunding: sourcelessFunding,
+							source: FundingSource.CDC,
 							time,
 							reportingPeriod: cdcReportingPeriod
 						}));
@@ -219,7 +224,7 @@ const EnrollmentFunding: Section = {
 							enrollmentId: enrollment.id,
 							source: FundingSource.CDC,
 							time,
-							firstReportingPeriodId: cdcReportingPeriod ? cdcReportingPeriod.id : undefined
+							firstReportingPeriod: cdcReportingPeriod
 						}));
 					}
 					break;
@@ -354,10 +359,6 @@ const EnrollmentFunding: Section = {
 						status={
 							initialLoadErrorGuard(
 								initialLoad,
-								serverErrorForField(
-									'fundings',
-									apiError
-								) ||
 								warningForField(
 									'source',
 									cdcFunding || sourcelessFunding || null,
