@@ -65,7 +65,6 @@ describe('EnrollmentEdit', () => {
 				.props().message;
 			// All of this finding and diving is ridiculous but mount wasn't drilling down to the FormStatus for some reason
 			expect(firstNameErr).toBe('This information is required for enrollment');
-			wrapper.unmount();
 		});
 	});
 
@@ -101,7 +100,6 @@ describe('EnrollmentEdit', () => {
 				.find('FormStatus')
 				.props().type;
 			expect(addressErr).toBe('warning');
-			wrapper.unmount();
 		});
 	});
 
@@ -129,7 +127,6 @@ describe('EnrollmentEdit', () => {
 				.find('Alert')
 				.props().type;
 			expect(alertPropsType).toBe('info');
-			wrapper.unmount();
 		});
 	});
 
