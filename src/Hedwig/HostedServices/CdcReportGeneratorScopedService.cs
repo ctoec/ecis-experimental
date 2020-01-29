@@ -6,13 +6,13 @@ using System.Linq;
 
 namespace Hedwig.HostedServices
 {
-	class CDCReportGeneratorScopedService
+	class CdcReportGeneratorScopedService
 	{
-		private IOrganizationRepository _organizations;
-		private IReportingPeriodRepository _periods;
-		private IReportRepository _reports;
+		private readonly IOrganizationRepository _organizations;
+		private readonly IReportingPeriodRepository _periods;
+		private readonly IReportRepository _reports;
 
-		public CDCReportGeneratorScopedService(
+		public CdcReportGeneratorScopedService(
 			IOrganizationRepository organizations,
 			IReportingPeriodRepository periods,
 			IReportRepository reports
@@ -27,8 +27,7 @@ namespace Hedwig.HostedServices
 		{
 			var periods = await _periods.GetReportingPeriodsByFundingSourceAsync(FundingSource.CDC);
 			var currentReportingPeriod = periods
-				.Where(period => period.PeriodEnd.Date == DateTime.UtcNow.Date)
-				.FirstOrDefault();
+				.FirstOrDefault(period => period.PeriodEnd.Date == DateTime.UtcNow.Date);
 
 			if (currentReportingPeriod == null) {
 				return;
@@ -41,7 +40,7 @@ namespace Hedwig.HostedServices
 				var report = new CdcReport {
 					OrganizationId = organization.Id,
 					ReportingPeriod = currentReportingPeriod,
-					Accredited = previousReport != null ? previousReport.Accredited : false, 
+					Accredited = previousReport != null && previousReport.Accredited, 
 				};
 
 				_reports.AddReport(report);

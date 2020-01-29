@@ -148,7 +148,7 @@ namespace Hedwig
 
 		public static void ConfigureHostedServices(this IServiceCollection services)
 		{
-			services.AddScoped<CDCReportGeneratorScopedService>();
+			services.AddScoped<CdcReportGeneratorScopedService>();
 			services.AddHostedService<DailyServiceExecutor>();
 		}
 	}

@@ -16,7 +16,7 @@ namespace Hedwig.HostedServices
 			_services = services;
 		}
 
-		public Task StartAsync(CancellationToken stoppingToken)
+		public Task StartAsync(CancellationToken cancellationToken)
 		{
 			_timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromDays(1));
 			return Task.CompletedTask;
@@ -27,13 +27,13 @@ namespace Hedwig.HostedServices
 			using (var scope = _services.CreateScope())
 			{
 				var serviceProvider = scope.ServiceProvider;
-				var cdcReportGeneratorService = serviceProvider.GetRequiredService<CDCReportGeneratorScopedService>();
+				var cdcReportGeneratorService = serviceProvider.GetRequiredService<CdcReportGeneratorScopedService>();
 
 				cdcReportGeneratorService.DoWork().Wait();
 			}
 		}
 
-		public async Task StopAsync(CancellationToken stoppingToken)
+		public async Task StopAsync(CancellationToken cancellationToken)
 		{
 			// Gracefully stop background services when app shuts down (We think?????)
 			_timer?.Change(Timeout.Infinite, 0);
