@@ -39,7 +39,7 @@ namespace Hedwig.Data
         CreateReportingPeriod(period: "2019-10-01", start: "2019-09-30", end: "2019-10-27", due: "2019-11-15"),
         CreateReportingPeriod(period: "2019-11-01", start: "2019-10-28", end: "2019-11-29", due: "2019-12-15"),
         CreateReportingPeriod(period: "2019-12-01", start: "2019-12-02", end: "2019-12-27", due: "2020-01-15"),
-        CreateReportingPeriod(period: "2020-01-01", start: "2019-12-30", end: "2020-01-31", due: "2020-02-15"),
+        CreateReportingPeriod(period: "2020-01-01", start: "2019-12-30", end: "2020-01-29", due: "2020-02-15"), // TO CHANGE!!!
         CreateReportingPeriod(period: "2020-02-01", start: "2020-02-03", end: "2020-02-28", due: "2020-03-15")
       };
 
@@ -148,6 +148,8 @@ namespace Hedwig.Data
       var honeyPotEnrollment = CreateEnrollment(childId: honeyPotChild.Id, siteId: honeyPotSite.Id);
       var honeyPotUser = CreateUser(wingedKeysId: Guid.NewGuid(), firstName: "Julia", lastName: "Hogan");
       CreateOrganizationPermission(organizationId: honeyPotOrganization.Id, userId: honeyPotUser.Id);
+
+      CreateFundingSpace(organizationId: honeyPotOrganization.Id, ageGroup: Age.InfantToddler, time: FundingTime.Full, capacity: 10);
     }
 
     private void DeleteAllData()
