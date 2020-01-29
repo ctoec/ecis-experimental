@@ -106,6 +106,9 @@ export default function EnrollmentEdit({
 		>
 			<div className="grid-container">
 				<h1>Edit {section.name.toLowerCase()}</h1>
+				<p className="usa-intro">
+					{nameFormatter(enrollment.child)}
+				</p>
 				<section.Form enrollment={enrollment} mutate={mutate} successCallback={afterSave} />
 			</div>
 		</CommonContainer>
