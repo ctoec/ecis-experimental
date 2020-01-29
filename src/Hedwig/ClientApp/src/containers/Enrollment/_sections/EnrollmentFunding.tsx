@@ -79,7 +79,7 @@ const EnrollmentFunding: Section = {
 					<>
 						<p>Site: {idx(enrollment, _ => _.site.name)} </p>
 						<p>
-							Age Group:{' '}
+							Age group:{' '}
 							{enrollment.ageGroup
 								? prettyAge(enrollment.ageGroup)
 								: InlineIcon({ icon: 'incomplete' })}
