@@ -186,7 +186,7 @@ export default function Withdrawal({
 		>
 			<div className="grid-container">
 				<h1>Withdraw {nameFormatter(enrollment.child)}</h1>
-				<div className="grid-row grid-gap oec-enrollment-details-section__content">
+				<div className="grid-row grid-gap oec-enrollment-details-section__content margin-top-1">
 					<div className="mobile-lg:grid-col-6">
 						<p>{enrollment.site.name}</p>
 						<p>Age: {splitCamelCase(enrollment.ageGroup, '/')}</p>
