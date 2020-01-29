@@ -22,14 +22,14 @@ namespace Hedwig.HostedServices
 			return Task.CompletedTask;
 		}
 
-		public async void DoWork(Object state)
+		public void DoWork(Object state)
 		{
 			using (var scope = _services.CreateScope())
 			{
 				var serviceProvider = scope.ServiceProvider;
 				var cdcReportGeneratorService = serviceProvider.GetRequiredService<CDCReportGeneratorScopedService>();
 
-				await cdcReportGeneratorService.DoWork();
+				cdcReportGeneratorService.DoWork().Wait();
 			}
 		}
 
