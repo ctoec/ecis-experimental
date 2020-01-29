@@ -19,7 +19,7 @@ import {
 	enrollmentExitReasons,
 	currentCdcFunding,
 	currentC4kFunding,
-	lastNReportingPeriods 
+	lastNReportingPeriods
 } from '../../utils/models';
 import { DatePicker, ChoiceList, Button, InlineIcon } from '../../components';
 import useApi from '../../hooks/useApi';
@@ -185,7 +185,7 @@ export default function Withdrawal({
 			}}
 		>
 			<div className="grid-container">
-				<h1>Withdraw {nameFormatter(enrollment.child)} from program</h1>
+				<h1>Withdraw {nameFormatter(enrollment.child)}</h1>
 				<div className="grid-row grid-gap oec-enrollment-details-section__content">
 					<div className="mobile-lg:grid-col-6">
 						<p>{enrollment.site.name}</p>
