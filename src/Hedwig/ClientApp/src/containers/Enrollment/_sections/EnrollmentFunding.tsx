@@ -31,7 +31,7 @@ import {
 	serverErrorForField,
 } from '../../../utils/validations';
 import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
-import { 
+import {
 	familyDeterminationNotDisclosed,
 	currentCdcFunding,
 	updateFunding,
@@ -196,7 +196,7 @@ const EnrollmentFunding: Section = {
 
 		const [apiError, setApiError] = useState<ValidationProblemDetails>();
 
-		const save = () => {
+		const save = (event: React.FormEvent<HTMLFormElement>) => {
 			// remove sourceless funding and cdcFunding if they exist
 			let updatedFundings: Funding[] = [...fundings]
 				.filter(funding => funding.id !== (sourcelessFunding && sourcelessFunding.id))
@@ -239,6 +239,8 @@ const EnrollmentFunding: Section = {
 					break;
 				default:
 					break;
+
+				event.preventDefault();
 			}
 
 			updatedFundings = [...updatedFundings]
@@ -277,7 +279,7 @@ const EnrollmentFunding: Section = {
 		};
 
 		return (
-			<div className="EnrollmentFundingForm">
+			<form className="EnrollmentFundingForm" onSubmit={save} noValidate autoComplete="off">
 				<div className="usa-form">
 					<ChoiceList
 						type="select"
@@ -472,9 +474,9 @@ const EnrollmentFunding: Section = {
 				</div>
 
 				<div className="usa-form">
-					<Button text="Save" onClick={save} />
+					<Button text="Save" onClick='submit' />
 				</div>
-			</div>
+			</form>
 		);
 	},
 };

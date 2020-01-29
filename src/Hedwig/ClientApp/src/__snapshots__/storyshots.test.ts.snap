@@ -154,7 +154,7 @@ exports[`Storyshots Button Base 1`] = `
   }
 >
   <button
-    className="usa-button usa-button--base"
+    className="usa-button usa-button--base undefined"
     onClick={[Function]}
     type="button"
   >
@@ -172,7 +172,7 @@ exports[`Storyshots Button Default 1`] = `
   }
 >
   <button
-    className="usa-button "
+    className="usa-button undefined"
     onClick={[Function]}
     type="button"
   >
@@ -190,7 +190,7 @@ exports[`Storyshots Button Disabled 1`] = `
   }
 >
   <button
-    className="usa-button "
+    className="usa-button undefined"
     disabled={true}
     onClick={[Function]}
     type="button"
@@ -209,7 +209,7 @@ exports[`Storyshots Button Secondary 1`] = `
   }
 >
   <button
-    className="usa-button usa-button--secondary"
+    className="usa-button usa-button--secondary undefined"
     onClick={[Function]}
     type="button"
   >
@@ -227,7 +227,7 @@ exports[`Storyshots Button Unstyled 1`] = `
   }
 >
   <button
-    className="usa-button usa-button--unstyled"
+    className="usa-button usa-button--unstyled undefined"
     onClick={[Function]}
     type="button"
   >

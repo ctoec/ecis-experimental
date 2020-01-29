@@ -161,7 +161,7 @@ const ChildInfo: Section = {
 
 		useFocusFirstError([apiError]);
 
-		const save = () => {
+		const save = (event: React.FormEvent<HTMLFormElement>) => {
 			if (enrollment) {
 				// If enrollment exists, put to save changes
 				const putParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
@@ -214,11 +214,13 @@ const ChildInfo: Section = {
 			} else {
 				throw new Error('Something impossible happened');
 			}
+
+			event.preventDefault();
 		};
 
 		// TODO: should gender be radio buttons as recommended by USWDS rather than select?
 		return (
-			<div className="ChildInfoForm usa-form">
+			<form className="ChildInfoForm usa-form" onSubmit={save} noValidate autoComplete="off">
 				<div className="grid-row grid-gap">
 					<div className="mobile-lg:grid-col-12">
 						<TextInput
@@ -461,8 +463,8 @@ const ChildInfo: Section = {
 					)}
 				/>
 
-				<Button text="Save" onClick={save} />
-			</div>
+				<Button text="Save" onClick='submit' />
+			</form>
 		);
 	},
 };

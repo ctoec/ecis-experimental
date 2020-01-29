@@ -5,7 +5,7 @@ type ButtonAppearance = 'default' | 'base' | 'secondary' | 'unstyled' | 'outline
 
 type ButtonProps = {
 	text: string;
-	onClick?: () => any;
+	onClick?: (() => any) | 'submit';
 	href?: string;
 	appearance?: ButtonAppearance;
 	disabled?: boolean;
@@ -20,17 +20,23 @@ export function Button({
 	disabled,
 	className,
 }: ButtonProps) {
-	onClick = onClick || (() => {});
-	
+	const isSubmit = onClick === 'submit';
+	onClick = typeof(onClick) === 'function' ? onClick : (() => {});
+
+	const classString = 'usa-button' +
+		(
+			appearance && appearance !== 'default' ?
+				' usa-button--' + appearance :
+				''
+		) +
+		' ' +
+		className;
+
 	if (href) {
 		return (
 			<Link
 				to={href}
-				className={`usa-button ${
-					appearance && appearance !== 'default' ? 'usa-button--' + appearance : ''
-				}
-				${className}
-				`}
+				className={classString}
 				onClick={onClick}
 			>
 				{text}
@@ -38,12 +44,21 @@ export function Button({
 		);
 	}
 
+	if (isSubmit) {
+		return (
+			<input
+				className={classString}
+				disabled={disabled}
+				type="submit"
+				value={text}
+			/>
+		);
+	}
+
 
 	return (
 		<button
-			className={`usa-button ${
-				appearance && appearance !== 'default' ? 'usa-button--' + appearance : ''
-			}`}
+			className={classString}
 			disabled={disabled}
 			onClick={onClick}
 			type="button"
