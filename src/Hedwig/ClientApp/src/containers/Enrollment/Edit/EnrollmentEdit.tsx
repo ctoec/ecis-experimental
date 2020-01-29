@@ -10,6 +10,7 @@ import UserContext from '../../../contexts/User/UserContext';
 import {
 	Enrollment,
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest,
+	ApiOrganizationsOrgIdSitesIdGetRequest,
 } from '../../../generated';
 import { validatePermissions, getIdForUser } from '../../../utils/models';
 import useApi from '../../../hooks/useApi';
@@ -63,6 +64,14 @@ export default function EnrollmentEdit({
 		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
 		[user]
 	);
+
+	// Separate query so that mutation doesn't try to update all the enrollments when user saves this one
+	const siteParams: ApiOrganizationsOrgIdSitesIdGetRequest = {
+		id: getIdForUser(user, 'site'),
+		orgId: getIdForUser(user, 'org'),
+		include: ['organizations', 'enrollments', 'funding_spaces'],
+	};
+	const [,, site] = useApi(api => api.apiOrganizationsOrgIdSitesIdGet(siteParams), [user]);
 
 	if (!section) {
 		return <PageNotFound />;
