@@ -31,7 +31,7 @@ import {
 	serverErrorForField,
 } from '../../../utils/validations';
 import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
-import { 
+import {
 	familyDeterminationNotDisclosed,
 	currentCdcFunding,
 	updateFunding,
@@ -42,7 +42,8 @@ import {
 	nextNReportingPeriods,
 	periodSorter,
 	prettyFundingTime,
-	prettyAge
+	prettyAge,
+	reportingPeriodFormatter
 } from '../../../utils/models';
 import initialLoadErrorGuard from '../../../utils/validations/initialLoadErrorGuard';
 import { FundingSelection, fundingSelectionFromString, fundingSelectionToString } from '../../../utils/fundingSelectionUtils';
@@ -78,7 +79,7 @@ const EnrollmentFunding: Section = {
 					<>
 						<p>Site: {idx(enrollment, _ => _.site.name)} </p>
 						<p>
-							Age Group:{' '}
+							Age group:{' '}
 							{enrollment.ageGroup
 								? prettyAge(enrollment.ageGroup)
 								: InlineIcon({ icon: 'incomplete' })}
@@ -103,7 +104,7 @@ const EnrollmentFunding: Section = {
 							<p>
 								First reporting period:{' '}
 								{fundingFirstReportingPeriod
-									? dateFormatter(fundingFirstReportingPeriod.period)
+									? reportingPeriodFormatter(fundingFirstReportingPeriod)
 									: InlineIcon({ icon: 'incomplete' })}
 							</p>
 						)}
@@ -385,7 +386,7 @@ const EnrollmentFunding: Section = {
 									...reportingPeriodOptions.map(period => {
 										return {
 											value: '' + period.id,
-											text: `${period.periodStart.toLocaleDateString()} - ${period.periodEnd.toLocaleDateString()}`,
+											text: reportingPeriodFormatter(period, { extended: true }),
 										};
 									}),
 								]}
