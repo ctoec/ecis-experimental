@@ -29,8 +29,9 @@ export function Button({
 				' usa-button--' + appearance :
 				''
 		) +
-		' ' +
-		className;
+		(
+			className ? ' ' + className : ''
+		);
 
 	if (href) {
 		return (
