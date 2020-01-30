@@ -142,6 +142,15 @@ namespace Hedwig.Repositories
     {
       _context.Add(report);
     }
+
+    public bool HasCdcReportForOrganizationAndReportingPeriod(int orgId, ReportingPeriod period)
+    {
+      return _context.Reports
+        .OfType<CdcReport>()
+        .Where(report => report.OrganizationId == orgId)
+        .Where(report => report.ReportingPeriodId == period.Id)
+        .FirstOrDefault() != null;
+    }
   }
 
   public interface IReportRepository : IHedwigRepository
@@ -155,5 +164,7 @@ namespace Hedwig.Repositories
     CdcReport GetMostRecentSubmittedCdcReportForOrganization(int orgId);
 
     void AddReport(Report report);
+
+    bool HasCdcReportForOrganizationAndReportingPeriod(int orgId, ReportingPeriod period);
   }
 }

@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.OpenApi.Models;
+using Hedwig.Utilities;
 
 namespace Hedwig
 {
@@ -31,6 +32,7 @@ namespace Hedwig
 			services.ConfigureAuthorization();
 			services.ConfigureValidation();
 			services.ConfigureHostedServices();
+			services.AddSingleton<IDateTime, SystemDateTime>();
 			services.AddSwaggerGen(c =>
 			{
 				c.SwaggerDoc("v1", new OpenApiInfo { Title = "Hedwig API", Version = "v1" });

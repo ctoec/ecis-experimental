@@ -29,7 +29,7 @@ namespace Hedwig.HostedServices
 				var serviceProvider = scope.ServiceProvider;
 				var cdcReportGeneratorService = serviceProvider.GetRequiredService<CdcReportGeneratorScopedService>();
 
-				cdcReportGeneratorService.DoWork().Wait();
+				cdcReportGeneratorService.TryGenerateReports().Wait();
 			}
 		}
 
