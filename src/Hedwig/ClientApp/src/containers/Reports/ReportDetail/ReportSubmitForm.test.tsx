@@ -33,27 +33,4 @@ describe('EnrollmentDetail', () => {
 		expect(wrapper.html()).toMatchSnapshot();
 		wrapper.unmount();
 	});
-
-	// See TODO in report submit form-- currently no api errors, are those fields actually required?
-	// it('shows an error when information is missing', () => {
-	// 	const wrapper = mount(
-	// 		<CommonContextProviderMock>
-	// 			<ReportSubmitForm
-	// 				report={defaultReport as DeepNonUndefineable<CdcReport>}
-	// 				mutate={(_: any) => {
-	// 					return new Promise((resolve, reject) => {
-	// 						resolve(defaultReport);
-	// 						reject({});
-	// 					});
-	// 				}}
-	// 				canSubmit={false}
-	// 			/>
-	// 		</CommonContextProviderMock>
-	// 	);
-
-	// 	const incompleteIcons = wrapper
-	// 		.find('.oec-inline-icon--incomplete');
-	// 	expect(incompleteIcons.length).toBe(2);
-	// 	wrapper.unmount();
-	// });
 });
