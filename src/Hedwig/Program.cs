@@ -24,7 +24,7 @@ namespace Hedwig
 				{
 					var services = scope.ServiceProvider;
 					var logger = services.GetRequiredService<ILogger<Program>>();
-					logger.LogInformation("Detected environment " + environment);
+					logger.LogWarning("Detected environment " + environment);
 
 					try
 					{
@@ -60,7 +60,7 @@ namespace Hedwig
 				}
 
 			})
-			//.UseEnvironment(environment)
+			.UseEnvironment(environment)
 			.UseStartup<Startup>();
 	}
 
