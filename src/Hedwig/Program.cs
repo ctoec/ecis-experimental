@@ -60,7 +60,7 @@ namespace Hedwig
 				}
 
 			})
-			.UseEnvironment(environment)
+			//.UseEnvironment(environment)
 			.UseStartup<Startup>();
 	}
 
