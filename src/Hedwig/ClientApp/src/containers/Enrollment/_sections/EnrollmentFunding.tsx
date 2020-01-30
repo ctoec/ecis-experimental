@@ -47,6 +47,7 @@ import {
 	FundingSelection,
 	fundingSelectionFromString,
 	fundingSelectionToString,
+	FundingType,
 } from '../../../utils/fundingSelectionUtils';
 import { FormReducer, formReducer, updateData, toFormString } from '../../../utils/forms/form';
 import useApi from '../../../hooks/useApi';
@@ -161,16 +162,16 @@ const EnrollmentFunding: Section = {
 			cdcFunding ? cdcFunding.firstReportingPeriod : undefined
 		);
 
-		const [fundingSelection, updateFundingSelection] = useState(
-			// TODO: simplify this to { source, time } to make it easier to use elsewhere?
+		const initialFundingSource =
 			initialLoad || sourcelessFunding
-				? FundingSelection.UNSELECTED
-				: !cdcFunding
-				? FundingSelection.PRIVATE_PAY
-				: cdcFunding.time === FundingTime.Full
-				? FundingSelection.CDC_FULL
-				: FundingSelection.CDC_PART
-		);
+				? FundingType.UNSELECTED
+				: cdcFunding
+				? FundingType.CDC
+				: FundingType.PRIVATE_PAY;
+		const [fundingSelection, updateFundingSelection] = useState<FundingSelection>({
+			source: initialFundingSource,
+			time: cdcFunding ? cdcFunding.time : undefined,
+		});
 
 		const [reportingPeriodOptions, updateReportingPeriodOptions] = useState<ReportingPeriod[]>([]);
 
@@ -219,8 +220,8 @@ const EnrollmentFunding: Section = {
 				.filter(funding => funding.id !== (sourcelessFunding && sourcelessFunding.id))
 				.filter(funding => funding.id !== (cdcFunding && cdcFunding.id));
 
-			switch (fundingSelection) {
-				case FundingSelection.UNSELECTED:
+			switch (fundingSelection.source) {
+				case FundingType.UNSELECTED:
 					updatedFundings.push(
 						createFunding({
 							enrollmentId: enrollment.id,
@@ -228,13 +229,11 @@ const EnrollmentFunding: Section = {
 						})
 					);
 					break;
-				case FundingSelection.PRIVATE_PAY:
+				case FundingType.PRIVATE_PAY:
 					// do nothing
 					break;
-				case FundingSelection.CDC_FULL:
-				case FundingSelection.CDC_PART:
-					const time =
-						fundingSelection === FundingSelection.CDC_FULL ? FundingTime.Full : FundingTime.Part;
+				case FundingType.CDC:
+					const time = fundingSelection.time || FundingTime.Part;
 					if (cdcFunding) {
 						updatedFundings.push(
 							updateFunding({
@@ -336,27 +335,26 @@ const EnrollmentFunding: Section = {
 
 		// TODO: make alert wider?
 		// TODO: do we care which reporting periods it violates this constraint for, or just the current one?
-		// TODO: just set utilization ratio numbers here so they can be used in message, do the checking on the fly
-		const [overUtilized, setOverUtilized] = useState(false);
-		const newlySetCdcFunding =
-			!cdcFunding && FundingSelection[fundingSelection].slice(0, 3) === 'CDC';
+		type UtilizationRate = {
+			capacity: number;
+			numEnrolled: number;
+		};
+		const [utilizationRate, setUtilizationRate] = useState<UtilizationRate>();
+		const newlySetCdcFunding = !cdcFunding && fundingSelection.source === FundingType.CDC;
 		useEffect(() => {
 			const thisPeriod = currentReportingPeriod(reportingPeriods);
 			// TODO: solve problem of why we aren't getting reporting period info for enrollments below
 			if (!site || !site.enrollments || !(cdcFunding || newlySetCdcFunding) || !thisPeriod) {
-				setOverUtilized(false);
 				return;
 			}
 			// This and below will need rewritten if we have more than just CDC in the dropdown
 			const currentFundingOpts = {
 				source: FundingSource.CDC,
-				// TODO: change the funding selection logic to make this easier
-				time:
-					FundingSelection[fundingSelection] === 'CDC_FULL' ? FundingTime.Full : FundingTime.Part,
+				time: fundingSelection.time,
 				ageGroup: _enrollment.ageGroup,
 			};
-			const capacityForFunding = getFundingSpaceCapacity(site.organization, currentFundingOpts);
-			const enrolledForFunding = site.enrollments.filter<DeepNonUndefineable<Enrollment>>(
+			const capacity = getFundingSpaceCapacity(site.organization, currentFundingOpts);
+			const enrolled = site.enrollments.filter<DeepNonUndefineable<Enrollment>>(
 				e =>
 					e.ageGroup === _enrollment.ageGroup &&
 					isFunded(e, {
@@ -368,12 +366,8 @@ const EnrollmentFunding: Section = {
 					})
 			);
 
-			const numEnrolledForFunding = enrolledForFunding.length + (newlySetCdcFunding ? 1 : 0);
-			if (numEnrolledForFunding > capacityForFunding) {
-				setOverUtilized(true);
-				return;
-			}
-			setOverUtilized(false);
+			const numEnrolled = enrolled.length + (newlySetCdcFunding ? 1 : 0);
+			setUtilizationRate({ capacity, numEnrolled });
 		}, [site, fundingSelection, _enrollment.ageGroup]);
 
 		return (
@@ -460,41 +454,7 @@ const EnrollmentFunding: Section = {
 							)
 						)}
 					/>
-					{(fundingSelection === FundingSelection.CDC_FULL ||
-						fundingSelection === FundingSelection.CDC_PART) && (
-<<<<<<< HEAD
-							<ChoiceList
-								type="select"
-								id="firstReportingPeriod"
-								options={[
-									...reportingPeriodOptions.map(period => {
-										return {
-											value: '' + period.id,
-											text: reportingPeriodFormatter(period, { extended: true }),
-										};
-									}),
-								]}
-								label="First reporting period"
-								onChange={event => {
-									const chosen = reportingPeriodOptions.find(
-										period => period.id === parseInt(event.target.value)
-									);
-									updateCdcReportingPeriod(chosen);
-								}}
-								selected={toFormString(cdcReportingPeriod ? cdcReportingPeriod.id : undefined)}
-								status={
-									initialLoadErrorGuard(
-										initialLoad,
-										serverErrorForField(
-											'fundings',
-											apiError
-										) ||
-										warningForField(
-											'firstReportingPeriod',
-											cdcFunding || null,
-											'This information is required for OEC reporting'
-										)
-=======
+					{fundingSelection.source === FundingType.CDC && (
 						<ChoiceList
 							type="select"
 							id="firstReportingPeriod"
@@ -522,17 +482,16 @@ const EnrollmentFunding: Section = {
 										'firstReportingPeriod',
 										cdcFunding || null,
 										'This information is required for OEC reporting'
->>>>>>> Begin to debug reporting period issues
 									)
 							)}
 						/>
 					)}
-					{overUtilized && (
+					{utilizationRate && utilizationRate.numEnrolled > utilizationRate.capacity && (
 						<Alert
 							type="info"
 							// TODO: This will only warn about the current reporting period.  What if they set an earlier reporting period date?
 							// We should probably warn about all of the reporting periods this will mess with?
-							text={`Blah out of blah spaces are utilized for the REPORTING PERIOD reporting period.`}
+							text={`${utilizationRate.numEnrolled} out of ${utilizationRate.capacity} spaces are utilized for the REPORTING PERIOD reporting period.`}
 						/>
 					)}
 					<h3>Care 4 Kids</h3>
