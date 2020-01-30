@@ -55,7 +55,8 @@ namespace Hedwig
 				var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 				if (environment != Environments.Development)
 				{
-				logging.AddAWSProvider();
+					logging.AddEventLog();
+					logging.AddAWSProvider();
 				}
 
 			})
