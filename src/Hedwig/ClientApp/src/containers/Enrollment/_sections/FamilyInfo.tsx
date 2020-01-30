@@ -4,7 +4,7 @@ import { Section } from '../enrollmentTypes';
 import { Button, TextInput, ChoiceList, FieldSet } from '../../../components';
 import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
-import getIdForUser from '../../../utils/getIdForUser';
+import { validatePermissions, getIdForUser } from '../../../utils/models';
 import {
 	sectionHasValidationErrors,
 	warningForFieldSet,
@@ -43,7 +43,7 @@ const FamilyInfo: Section = {
 		);
 	},
 
-	Form: ({ enrollment, mutate, successCallback, finallyCallback, visitedSections }) => {
+	Form: ({ enrollment, siteId, mutate, successCallback, finallyCallback, visitedSections }) => {
 		if (!enrollment || !enrollment.child) {
 			throw new Error('FamilyInfo rendered without a child');
 		}
@@ -55,7 +55,7 @@ const FamilyInfo: Section = {
 		const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
 			id: enrollment.id || 0,
 			orgId: getIdForUser(user, 'org'),
-			siteId: getIdForUser(user, 'site'),
+			siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 			enrollment: enrollment,
 		};
 

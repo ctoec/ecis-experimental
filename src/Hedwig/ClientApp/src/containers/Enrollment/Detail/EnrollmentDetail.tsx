@@ -11,7 +11,7 @@ import {
 } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
 import useApi from '../../../hooks/useApi';
-import getIdForUser from '../../../utils/getIdForUser';
+import { validatePermissions, getIdForUser } from '../../../utils/models';
 import { InlineIcon, Button } from '../../../components';
 import CommonContainer from '../../CommonContainer';
 import { SectionProps } from '../enrollmentTypes';
@@ -19,6 +19,7 @@ import { SectionProps } from '../enrollmentTypes';
 type EnrollmentDetailParams = {
 	match: {
 		params: {
+			siteId: number;
 			enrollmentId?: number;
 		};
 	};
@@ -34,7 +35,7 @@ const sections = [ChildInfo, FamilyInfo, FamilyIncome, EnrollmentFunding];
  */
 export default function EnrollmentDetail({
 	match: {
-		params: { enrollmentId },
+		params: { siteId, enrollmentId },
 	},
 }: EnrollmentDetailParams) {
 	const { user } = useContext(UserContext);
@@ -43,7 +44,7 @@ export default function EnrollmentDetail({
 	const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest = {
 		id: enrollmentId ? enrollmentId : 0,
 		orgId: getIdForUser(user, 'org'),
-		siteId: getIdForUser(user, 'site'),
+		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		include: ['child', 'family', 'determinations', 'fundings', 'sites'],
 	};
 	const [loading, error, enrollment, mutate] = useApi<Enrollment>(
@@ -71,10 +72,10 @@ export default function EnrollmentDetail({
 			<div className="grid-container">
 				<div className="grid-row flex-first-baseline flex-space-between">
 					<h1>{nameFormatter(child)}</h1>
-					<Button text="Withdraw" href={`/roster/enrollments/${enrollment.id}/withdraw`} className="margin-right-0" />
+					<Button text="Withdraw" href={`/roster/sites/${siteId}/enrollments/${enrollment.id}/withdraw`} className="margin-right-0" />
 				</div>
 				{sections.map(section => {
-					var props: SectionProps = { enrollment, mutate };
+					var props: SectionProps = { siteId, enrollment, mutate };
 					const familyIncomeForFosterChild = section.key === 'family-income' && child.foster;
 					return (
 						<section key={section.key} className="oec-enrollment-details-section">
@@ -89,7 +90,7 @@ export default function EnrollmentDetail({
 									</span>
 								)}
 								<Link
-									to={`/roster/enrollments/${enrollment.id}/edit/${section.key}`}
+									to={`/roster/sites/${siteId}/enrollments/${enrollment.id}/edit/${section.key}`}
 									className={familyIncomeForFosterChild ? 'display-none important' : ''}
 								>
 									Edit<span className="usa-sr-only"> {section.name.toLowerCase()}</span>

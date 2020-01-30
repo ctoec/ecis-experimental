@@ -22,7 +22,7 @@ import {
 	Enrollment,
 } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
-import getIdForUser from '../../../utils/getIdForUser';
+import { validatePermissions, getIdForUser } from '../../../utils/models';
 import { DeepNonUndefineable } from '../../../utils/types';
 import {
 	sectionHasValidationErrors,
@@ -124,7 +124,7 @@ const EnrollmentFunding: Section = {
 		);
 	},
 
-	Form: ({ enrollment, mutate, successCallback, finallyCallback, visitedSections }) => {
+	Form: ({ enrollment, siteId, mutate, successCallback, finallyCallback, visitedSections }) => {
 		if (!enrollment) {
 			throw new Error('EnrollmentFunding rendered without an enrollment');
 		}
@@ -137,7 +137,7 @@ const EnrollmentFunding: Section = {
 		const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
 			id: enrollment.id || 0,
 			orgId: getIdForUser(user, 'org'),
-			siteId: getIdForUser(user, 'site'),
+			siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 			enrollment: enrollment,
 		};
 

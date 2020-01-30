@@ -14,6 +14,7 @@ import { isFunded } from '../../utils/models';
 export type AgeGroupTableProps = { id: string; data: DeepNonUndefineable<Enrollment>[] };
 
 type AgeGroupSectionProps = {
+	siteId: number;
 	ageGroup: string;
 	ageGroupTitle: string;
 	enrollments: DeepNonUndefineableArray<Enrollment>;
@@ -23,6 +24,7 @@ type AgeGroupSectionProps = {
 };
 
 export default function AgeGroupSection({
+	siteId,
 	ageGroup,
 	ageGroupTitle,
 	enrollments,
@@ -41,7 +43,7 @@ export default function AgeGroupSection({
 				name: 'Name',
 				cell: ({ row }) => (
 					<th scope="row">
-						<Link to={`/roster/enrollments/${row.id}/`} className="usa-link print">
+						<Link to={`/roster/sites/${siteId}/enrollments/${row.id}/`} className="usa-link print">
 							{lastFirstNameFormatter(row.child)}
 						</Link>
 						&nbsp;

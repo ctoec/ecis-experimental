@@ -6,7 +6,7 @@ import { TextInput, ChoiceList, AlertProps } from '../../../components';
 import AppContext from '../../../contexts/App/AppContext';
 import currencyFormatter from '../../../utils/currencyFormatter';
 import parseCurrencyFromString from '../../../utils/parseCurrencyFromString';
-import getIdForUser from '../../../utils/getIdForUser';
+import { getIdForUser } from '../../../utils/models';
 import UtilizationTable from './UtilizationTable';
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import { useHistory } from 'react-router';
