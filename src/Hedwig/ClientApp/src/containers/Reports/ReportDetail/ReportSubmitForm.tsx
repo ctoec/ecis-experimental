@@ -2,7 +2,7 @@ import React, { useState, FormEvent, useContext } from 'react';
 import { CdcReport, ApiOrganizationsOrgIdReportsIdPutRequest } from '../../../generated';
 import { Mutate } from '../../../hooks/useApi';
 import UserContext from '../../../contexts/User/UserContext';
-import { TextInput, ChoiceList, AlertProps } from '../../../components';
+import { Button, TextInput, ChoiceList, AlertProps } from '../../../components';
 import AppContext from '../../../contexts/App/AppContext';
 import currencyFormatter from '../../../utils/currencyFormatter';
 import parseCurrencyFromString from '../../../utils/parseCurrencyFromString';
@@ -102,7 +102,7 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 				className="usa-checkbox margin-bottom-5"
 			/>
 			<UtilizationTable {...{ ...report, accredited }} />
-			<form className="usa-form" onSubmit={onSubmit}>
+			<form className="usa-form" onSubmit={onSubmit} noValidate autoComplete="off">
 				<fieldset className="usa-fieldset">
 					{/* TODO: REPLACE WITH FIELDSET COMPONENT */}
 					<legend>
@@ -163,7 +163,7 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 				</fieldset>
 				{/* TODO: REPLACE WITH BUTTON COMPONENT */}
 				{!report.submittedAt && (
-					<input className="usa-button" type="submit" value="Submit" disabled={!canSubmit} />
+					<Button onClick="submit" text="Submit" disabled={!canSubmit} />
 				)}
 			</form>
 		</React.Fragment>

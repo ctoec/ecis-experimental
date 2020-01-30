@@ -172,7 +172,7 @@ exports[`Storyshots Button Default 1`] = `
   }
 >
   <button
-    className="usa-button "
+    className="usa-button"
     onClick={[Function]}
     type="button"
   >
@@ -190,7 +190,7 @@ exports[`Storyshots Button Disabled 1`] = `
   }
 >
   <button
-    className="usa-button "
+    className="usa-button"
     disabled={true}
     onClick={[Function]}
     type="button"

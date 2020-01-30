@@ -126,7 +126,7 @@ const FamilyIncome: Section = {
 			notDisclosed,
 		};
 
-		const save = () => {
+		const save = (event: React.FormEvent<HTMLFormElement>) => {
 			if (enrollment && child && child.family) {
 				const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
 					...defaultParams,
@@ -164,10 +164,12 @@ const FamilyIncome: Section = {
 						finallyCallback && finallyCallback(FamilyIncome);
 					});
 			}
+
+			event.preventDefault();
 		};
 
 		return (
-			<div className="FamilyIncomeForm">
+			<form className="FamilyIncomeForm" onSubmit={save} noValidate autoComplete="off">
 				<div className="usa-form">
 					{!notDisclosed && (
 						<>
@@ -278,9 +280,9 @@ const FamilyIncome: Section = {
 					)}
 
 				<div className="usa-form">
-					<Button text="Save" onClick={save} />
+					<Button text="Save" onClick='submit' />
 				</div>
-			</div>
+			</form>
 		);
 	},
 };

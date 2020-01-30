@@ -30,7 +30,7 @@ const FamilyInfo: Section = {
 		const homelessness = family && family.homelessness;
 		return (
 			<div className="FamilyInfoSummary">
-				{family && 
+				{family &&
 					<>
 						<p>
 							Address: {address} {missingInformation}
@@ -74,7 +74,7 @@ const FamilyInfo: Section = {
 
 		const [foster, updateFoster] = useState(child.foster ? child.foster : false);
 
-		const save = () => {
+		const save = (event: React.FormEvent<HTMLFormElement>) => {
 			const args = {
 				addressLine1,
 				addressLine2,
@@ -110,10 +110,12 @@ const FamilyInfo: Section = {
 						finallyCallback && finallyCallback(FamilyInfo);
 					});
 			}
+
+			event.preventDefault();
 		};
 
 		return (
-			<div className="FamilyInfoForm usa-form">
+			<form className="FamilyInfoForm usa-form" onSubmit={save} noValidate autoComplete="off">
 				<h3>Address</h3>
 				<FieldSet
 					id="family-address"
@@ -223,8 +225,8 @@ const FamilyInfo: Section = {
 					Indicate if you are aware that the family has experienced housing insecurity, including
 					overcrowded housing, within the last year.
 				</p>
-				<Button text="Save" onClick={save} />
-			</div>
+				<Button text="Save" onClick='submit' />
+			</form>
 		);
 	},
 };
