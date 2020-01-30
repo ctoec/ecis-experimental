@@ -5,7 +5,7 @@ import enrollmentTextFormatter from '../../utils/enrollmentTextFormatter';
 import getDefaultDateRange from '../../utils/getDefaultDateRange';
 import { fundingSourceDetails } from '../../utils/fundingTypeFormatters';
 import getFundingSpaceCapacity from '../../utils/getFundingSpaceCapacity';
-import getIdForUser from '../../utils/getIdForUser';
+import { validatePermissions, getIdForUser } from '../../utils/models';
 import {
 	Tag,
 	DatePicker,
@@ -35,8 +35,9 @@ export default function Roster() {
 	};
 
 	const { user } = useContext(UserContext);
+	const siteId = idx(user, _ => _.orgPermissions[0].organization.sites[0].id) || 0;
 	const siteParams = {
-		id: getIdForUser(user, 'site'),
+		id: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		orgId: getIdForUser(user, 'org'),
 		include: ['organizations', 'funding_spaces'],
 	};
@@ -47,7 +48,7 @@ export default function Roster() {
 
 	const enrollmentsParams = {
 		orgId: getIdForUser(user, 'org'),
-		siteId: getIdForUser(user, 'site'),
+		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		include: ['child', 'fundings'],
 		startDate: (dateRange && dateRange.startDate && dateRange.startDate.toDate()) || undefined,
 		endDate: (dateRange && dateRange.endDate && dateRange.endDate.toDate()) || undefined,
@@ -174,6 +175,7 @@ export default function Roster() {
 				)}
 				<Legend items={legendItems} />
 				<AgeGroupSection
+					siteId={siteId}
 					ageGroup={Age.InfantToddler}
 					ageGroupTitle={`Infant/toddler`}
 					enrollments={completeEnrollmentsByAgeGroup[Age.InfantToddler]}
@@ -182,6 +184,7 @@ export default function Roster() {
 					showPastEnrollments={showPastEnrollments}
 				/>
 				<AgeGroupSection
+					siteId={siteId}
 					ageGroup={Age.Preschool}
 					ageGroupTitle={`Preschool`}
 					enrollments={completeEnrollmentsByAgeGroup[Age.Preschool]}
@@ -190,6 +193,7 @@ export default function Roster() {
 					showPastEnrollments={showPastEnrollments}
 				/>
 				<AgeGroupSection
+					siteId={siteId}
 					ageGroup={Age.SchoolAge}
 					ageGroupTitle={`School age`}
 					enrollments={completeEnrollmentsByAgeGroup[Age.SchoolAge]}
@@ -198,6 +202,7 @@ export default function Roster() {
 					showPastEnrollments={showPastEnrollments}
 				/>
 				<AgeGroupSection
+					siteId={siteId}
 					ageGroup="incomplete"
 					ageGroupTitle={`Incomplete enrollments`}
 					enrollments={incompleteEnrollments}

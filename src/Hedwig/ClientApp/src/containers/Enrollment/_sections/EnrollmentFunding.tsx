@@ -22,7 +22,7 @@ import {
 	Enrollment,
 } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
-import getIdForUser from '../../../utils/getIdForUser';
+import { validatePermissions, getIdForUser } from '../../../utils/models';
 import { DeepNonUndefineable } from '../../../utils/types';
 import {
 	sectionHasValidationErrors,
@@ -42,7 +42,8 @@ import {
 	nextNReportingPeriods,
 	periodSorter,
 	prettyFundingTime,
-	prettyAge
+	prettyAge,
+	reportingPeriodFormatter
 } from '../../../utils/models';
 import initialLoadErrorGuard from '../../../utils/validations/initialLoadErrorGuard';
 import { FundingSelection, fundingSelectionFromString, fundingSelectionToString } from '../../../utils/fundingSelectionUtils';
@@ -78,7 +79,7 @@ const EnrollmentFunding: Section = {
 					<>
 						<p>Site: {idx(enrollment, _ => _.site.name)} </p>
 						<p>
-							Age Group:{' '}
+							Age group:{' '}
 							{enrollment.ageGroup
 								? prettyAge(enrollment.ageGroup)
 								: InlineIcon({ icon: 'incomplete' })}
@@ -103,7 +104,7 @@ const EnrollmentFunding: Section = {
 							<p>
 								First reporting period:{' '}
 								{fundingFirstReportingPeriod
-									? dateFormatter(fundingFirstReportingPeriod.period)
+									? reportingPeriodFormatter(fundingFirstReportingPeriod)
 									: InlineIcon({ icon: 'incomplete' })}
 							</p>
 						)}
@@ -123,7 +124,7 @@ const EnrollmentFunding: Section = {
 		);
 	},
 
-	Form: ({ enrollment, mutate, successCallback, finallyCallback, visitedSections }) => {
+	Form: ({ enrollment, siteId, mutate, successCallback, finallyCallback, visitedSections }) => {
 		if (!enrollment) {
 			throw new Error('EnrollmentFunding rendered without an enrollment');
 		}
@@ -136,7 +137,7 @@ const EnrollmentFunding: Section = {
 		const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
 			id: enrollment.id || 0,
 			orgId: getIdForUser(user, 'org'),
-			siteId: getIdForUser(user, 'site'),
+			siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 			enrollment: enrollment,
 		};
 
@@ -387,7 +388,7 @@ const EnrollmentFunding: Section = {
 									...reportingPeriodOptions.map(period => {
 										return {
 											value: '' + period.id,
-											text: `${period.periodStart.toLocaleDateString()} - ${period.periodEnd.toLocaleDateString()}`,
+											text: reportingPeriodFormatter(period, { extended: true }),
 										};
 									}),
 								]}

@@ -2,6 +2,20 @@ import { ReportingPeriod, Funding } from '../../generated';
 import idx from 'idx';
 import moment from 'moment';
 
+export const reportingPeriodFormatter = (period: ReportingPeriod, options: { extended?: boolean } = { }) => {
+	const extended = options.extended || false;
+
+	let periodString = moment(period.period).format('MMMM YYYY');
+
+	if (extended) {
+		const start = moment(period.periodStart).format('M/D');
+		const end = moment(period.periodEnd).format('M/D');
+		periodString += ` (${start}–${end})`;
+	}
+
+	return periodString
+}
+
 export const currentReportingPeriod = (periods: ReportingPeriod[]): ReportingPeriod | undefined => {
 	const now = moment();
 	const startOfMonthDate = moment(`${now.format('YYYY-MM')}-01`);

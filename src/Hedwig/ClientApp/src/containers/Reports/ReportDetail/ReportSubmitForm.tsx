@@ -6,7 +6,7 @@ import { Button, TextInput, ChoiceList, AlertProps } from '../../../components';
 import AppContext from '../../../contexts/App/AppContext';
 import currencyFormatter from '../../../utils/currencyFormatter';
 import parseCurrencyFromString from '../../../utils/parseCurrencyFromString';
-import getIdForUser from '../../../utils/getIdForUser';
+import { getIdForUser } from '../../../utils/models';
 import UtilizationTable from './UtilizationTable';
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import { useHistory } from 'react-router';
@@ -104,9 +104,11 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 			<UtilizationTable {...{ ...report, accredited }} />
 			<form className="usa-form" onSubmit={onSubmit} noValidate autoComplete="off">
 				<fieldset className="usa-fieldset">
+					{/* TODO: REPLACE WITH FIELDSET COMPONENT */}
 					<legend>
 						<h2 className="margin-bottom-0 margin-top-2">Other Revenue</h2>
 					</legend>
+					{/* TODO: is this actually required? error isn't happening.  We should mark it as optional if it isn't */}
 					<TextInput
 						id="c4k-revenue"
 						label={
@@ -159,6 +161,7 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 						)}
 					/>
 				</fieldset>
+				{/* TODO: REPLACE WITH BUTTON COMPONENT */}
 				{!report.submittedAt && (
 					<Button onClick="submit" text="Submit" disabled={!canSubmit} />
 				)}

@@ -11,7 +11,7 @@ import {
 	Enrollment,
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest,
 } from '../../../generated';
-import getIdForUser from '../../../utils/getIdForUser';
+import { validatePermissions, getIdForUser } from '../../../utils/models';
 import useApi from '../../../hooks/useApi';
 import CommonContainer from '../../CommonContainer';
 import { hasValidationErrors } from '../../../utils/validations';
@@ -22,6 +22,7 @@ type EnrollmentEditParams = {
 	history: History;
 	match: {
 		params: {
+			siteId: number;
 			enrollmentId: number;
 			sectionId: string;
 		};
@@ -44,7 +45,7 @@ const sections: { [key: string]: Section } = {
 export default function EnrollmentEdit({
 	history,
 	match: {
-		params: { enrollmentId, sectionId },
+		params: { siteId, enrollmentId, sectionId },
 	},
 }: EnrollmentEditParams) {
 	const section = sections[sectionId];
@@ -55,7 +56,7 @@ export default function EnrollmentEdit({
 	const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest = {
 		id: enrollmentId ? enrollmentId : 0,
 		orgId: getIdForUser(user, 'org'),
-		siteId: getIdForUser(user, 'site'),
+		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		include: ['child', 'family', 'determinations', 'fundings'],
 	};
 	const [loading, error, enrollment, mutate] = useApi(
@@ -93,20 +94,23 @@ export default function EnrollmentEdit({
 				text: successAlertText,
 			},
 		]);
-		history.push(`/roster/enrollments/${enrollment.id}/`);
+		history.push(`/roster/sites/${siteId}/enrollments/${enrollment.id}/`);
 	};
 
 	return (
 		<CommonContainer
 			directionalLinkProps={{
 				direction: 'left',
-				to: `/roster/enrollments/${enrollment.id}/`,
+				to: `/roster/sites/${siteId}/enrollments/${enrollment.id}/`,
 				text: `Back to enrollment details`,
 			}}
 		>
 			<div className="grid-container">
 				<h1>Edit {section.name.toLowerCase()}</h1>
-				<section.Form enrollment={enrollment} mutate={mutate} successCallback={afterSave} />
+				<p className="usa-intro">
+					{nameFormatter(enrollment.child)}
+				</p>
+				<section.Form siteId={siteId} enrollment={enrollment} mutate={mutate} successCallback={afterSave}/>
 			</div>
 		</CommonContainer>
 	);

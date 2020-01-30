@@ -1,6 +1,6 @@
 import { ReportingPeriod, FundingSource } from "../../generated";
 import moment from "moment";
-import { currentReportingPeriod, periodSorter, firstEligibleReportingPeriod, lastEligibleReportingPeriod } from "./reportingPeriod";
+import { reportingPeriodFormatter, currentReportingPeriod, periodSorter, firstEligibleReportingPeriod, lastEligibleReportingPeriod } from "./reportingPeriod";
 
 const baseReportingPeriod: ReportingPeriod = {
   id: 1,
@@ -10,6 +10,24 @@ const baseReportingPeriod: ReportingPeriod = {
   periodEnd: new Date(Date.now()),
   dueAt: new Date(Date.now()),
 };
+
+describe('reportingPeriodFormatter', () => {
+	const period = {
+		...baseReportingPeriod,
+		period: new Date('2020-01-01'),
+		periodStart: new Date('2019-12-30'),
+		periodEnd: new Date('2020-02-02'),
+	}
+
+	it('formats just the month', () => {
+		expect(reportingPeriodFormatter(period)).toEqual('January 2020');
+	});
+
+	it('extended format displays the date range', () => {
+		expect(reportingPeriodFormatter(period, { extended: true }))
+			.toEqual('January 2020 (12/30–2/2)');
+	});
+});
 
 it('currentReportingPeriod finds current reporting period', () => {
   const currentId = 100;
@@ -24,7 +42,7 @@ it('currentReportingPeriod finds current reporting period', () => {
   ];
 
   const res = currentReportingPeriod(reportingPeriods);
-  
+
   expect(res).toBeTruthy();
   expect(res).toHaveProperty('id', currentId);
 });
@@ -40,7 +58,7 @@ it.each([true, false])('periodSorter sorts reporting periods by period start dat
     id: 2,
     periodStart: new Date('2019-02-01'),
   };
- 
+
 
   const res = periodSorter(sooner, later, inverse);
 

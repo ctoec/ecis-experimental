@@ -7,3 +7,4 @@ export * from './enrollment';
 export * from './ageGroup';
 export * from './fundingTime';
 export * from './reportingPeriod';
+export * from './user';

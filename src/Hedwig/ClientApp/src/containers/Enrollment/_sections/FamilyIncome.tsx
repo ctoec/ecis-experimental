@@ -16,7 +16,7 @@ import notNullOrUndefined from '../../../utils/notNullOrUndefined';
 import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest } from '../../../generated';
 import parseCurrencyFromString from '../../../utils/parseCurrencyFromString';
 import currencyFormatter from '../../../utils/currencyFormatter';
-import getIdForUser from '../../../utils/getIdForUser';
+import { validatePermissions, getIdForUser } from '../../../utils/models';
 import UserContext from '../../../contexts/User/UserContext';
 import {
 	sectionHasValidationErrors,
@@ -91,7 +91,7 @@ const FamilyIncome: Section = {
 		return <div className="FamilyIncomeSummary">{elementToReturn}</div>;
 	},
 
-	Form: ({ enrollment, mutate, successCallback, finallyCallback, visitedSections }) => {
+	Form: ({ enrollment, siteId, mutate, successCallback, finallyCallback, visitedSections }) => {
 		if (!enrollment || !enrollment.child || !enrollment.child.family) {
 			throw new Error('FamilyIncome rendered without enrollment.child.family');
 		}
@@ -101,7 +101,7 @@ const FamilyIncome: Section = {
 		const { user } = useContext(UserContext);
 		const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
 			id: enrollment.id || 0,
-			siteId: getIdForUser(user, 'site'),
+			siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 			orgId: getIdForUser(user, 'org'),
 			enrollment: enrollment,
 		};

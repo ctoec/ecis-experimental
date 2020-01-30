@@ -652,11 +652,11 @@ exports[`Storyshots ChoiceList Select 1`] = `
       Select
     </label>
     <select
+      aria-required={true}
       className="usa-select"
       id="storybook-checklist"
       name="storybook-checklist"
       onChange={[Function]}
-      required={true}
     >
       <option
         value=""
@@ -699,11 +699,11 @@ exports[`Storyshots ChoiceList Select with other 1`] = `
       Select
     </label>
     <select
+      aria-required={true}
       className="usa-select"
       id="storybook-checklist"
       name="storybook-checklist"
       onChange={[Function]}
-      required={true}
     >
       <option
         value=""
@@ -762,11 +762,11 @@ exports[`Storyshots ChoiceList Select with success 1`] = `
     <select
       aria-describedby="checklist-success"
       aria-invalid={false}
+      aria-required={true}
       className="usa-select usa-input--success"
       id="storybook-checklist"
       name="storybook-checklist"
       onChange={[Function]}
-      required={true}
     >
       <option
         value=""
@@ -868,6 +868,7 @@ exports[`Storyshots Date input Default 1`] = `
              
           </label>
           <input
+            aria-required={true}
             className="usa-input usa-input--inline"
             defaultValue="10"
             id="dateinput-example-month-start-date"
@@ -876,7 +877,6 @@ exports[`Storyshots Date input Default 1`] = `
             min={1}
             onBlur={[Function]}
             onChange={[Function]}
-            required={true}
             type="number"
           />
         </div>
@@ -893,6 +893,7 @@ exports[`Storyshots Date input Default 1`] = `
              
           </label>
           <input
+            aria-required={true}
             className="usa-input usa-input--inline"
             defaultValue="30"
             id="dateinput-example-day-start-date"
@@ -901,7 +902,6 @@ exports[`Storyshots Date input Default 1`] = `
             min={1}
             onBlur={[Function]}
             onChange={[Function]}
-            required={true}
             type="number"
           />
         </div>
@@ -918,6 +918,7 @@ exports[`Storyshots Date input Default 1`] = `
              
           </label>
           <input
+            aria-required={true}
             className="usa-input usa-input--inline"
             defaultValue="2019"
             id="dateinput-example-year-start-date"
@@ -926,7 +927,6 @@ exports[`Storyshots Date input Default 1`] = `
             min={1990}
             onBlur={[Function]}
             onChange={[Function]}
-            required={true}
             type="number"
           />
         </div>
@@ -980,6 +980,7 @@ exports[`Storyshots Date input Disabled day input 1`] = `
              
           </label>
           <input
+            aria-required={true}
             className="usa-input usa-input--inline"
             defaultValue="10"
             disabled={true}
@@ -989,7 +990,6 @@ exports[`Storyshots Date input Disabled day input 1`] = `
             min={1}
             onBlur={[Function]}
             onChange={[Function]}
-            required={true}
             type="number"
           />
         </div>
@@ -1006,6 +1006,7 @@ exports[`Storyshots Date input Disabled day input 1`] = `
              
           </label>
           <input
+            aria-required={true}
             className="usa-input usa-input--inline"
             defaultValue="30"
             disabled={true}
@@ -1015,7 +1016,6 @@ exports[`Storyshots Date input Disabled day input 1`] = `
             min={1}
             onBlur={[Function]}
             onChange={[Function]}
-            required={true}
             type="number"
           />
         </div>
@@ -1032,6 +1032,7 @@ exports[`Storyshots Date input Disabled day input 1`] = `
              
           </label>
           <input
+            aria-required={true}
             className="usa-input usa-input--inline"
             defaultValue="2019"
             disabled={true}
@@ -1041,7 +1042,6 @@ exports[`Storyshots Date input Disabled day input 1`] = `
             min={1990}
             onBlur={[Function]}
             onChange={[Function]}
-            required={true}
             type="number"
           />
         </div>
@@ -1113,6 +1113,7 @@ exports[`Storyshots Date input Disabled range input 1`] = `
                  
               </label>
               <input
+                aria-required={true}
                 className="usa-input usa-input--inline"
                 defaultValue="10"
                 disabled={true}
@@ -1122,7 +1123,6 @@ exports[`Storyshots Date input Disabled range input 1`] = `
                 min={1}
                 onBlur={[Function]}
                 onChange={[Function]}
-                required={true}
                 type="number"
               />
             </div>
@@ -1139,6 +1139,7 @@ exports[`Storyshots Date input Disabled range input 1`] = `
                  
               </label>
               <input
+                aria-required={true}
                 className="usa-input usa-input--inline"
                 defaultValue="30"
                 disabled={true}
@@ -1148,7 +1149,6 @@ exports[`Storyshots Date input Disabled range input 1`] = `
                 min={1}
                 onBlur={[Function]}
                 onChange={[Function]}
-                required={true}
                 type="number"
               />
             </div>
@@ -1165,6 +1165,7 @@ exports[`Storyshots Date input Disabled range input 1`] = `
                  
               </label>
               <input
+                aria-required={true}
                 className="usa-input usa-input--inline"
                 defaultValue="2019"
                 disabled={true}
@@ -1174,7 +1175,6 @@ exports[`Storyshots Date input Disabled range input 1`] = `
                 min={1990}
                 onBlur={[Function]}
                 onChange={[Function]}
-                required={true}
                 type="number"
               />
             </div>
@@ -1211,6 +1211,7 @@ exports[`Storyshots Date input Disabled range input 1`] = `
                  
               </label>
               <input
+                aria-required={true}
                 className="usa-input usa-input--inline"
                 defaultValue="10"
                 disabled={true}
@@ -1220,7 +1221,6 @@ exports[`Storyshots Date input Disabled range input 1`] = `
                 min={1}
                 onBlur={[Function]}
                 onChange={[Function]}
-                required={true}
                 type="number"
               />
             </div>
@@ -1237,6 +1237,7 @@ exports[`Storyshots Date input Disabled range input 1`] = `
                  
               </label>
               <input
+                aria-required={true}
                 className="usa-input usa-input--inline"
                 defaultValue="30"
                 disabled={true}
@@ -1246,7 +1247,6 @@ exports[`Storyshots Date input Disabled range input 1`] = `
                 min={1}
                 onBlur={[Function]}
                 onChange={[Function]}
-                required={true}
                 type="number"
               />
             </div>
@@ -1263,6 +1263,7 @@ exports[`Storyshots Date input Disabled range input 1`] = `
                  
               </label>
               <input
+                aria-required={true}
                 className="usa-input usa-input--inline"
                 defaultValue="2019"
                 disabled={true}
@@ -1272,7 +1273,6 @@ exports[`Storyshots Date input Disabled range input 1`] = `
                 min={1990}
                 onBlur={[Function]}
                 onChange={[Function]}
-                required={true}
                 type="number"
               />
             </div>
@@ -1337,6 +1337,7 @@ exports[`Storyshots Date input Error 1`] = `
              
           </label>
           <input
+            aria-required={true}
             className="usa-input usa-input--inline"
             defaultValue="10"
             id="dateinput-example-month-start-date"
@@ -1345,7 +1346,6 @@ exports[`Storyshots Date input Error 1`] = `
             min={1}
             onBlur={[Function]}
             onChange={[Function]}
-            required={true}
             type="number"
           />
         </div>
@@ -1362,6 +1362,7 @@ exports[`Storyshots Date input Error 1`] = `
              
           </label>
           <input
+            aria-required={true}
             className="usa-input usa-input--inline"
             defaultValue="30"
             id="dateinput-example-day-start-date"
@@ -1370,7 +1371,6 @@ exports[`Storyshots Date input Error 1`] = `
             min={1}
             onBlur={[Function]}
             onChange={[Function]}
-            required={true}
             type="number"
           />
         </div>
@@ -1387,6 +1387,7 @@ exports[`Storyshots Date input Error 1`] = `
              
           </label>
           <input
+            aria-required={true}
             className="usa-input usa-input--inline"
             defaultValue="2019"
             id="dateinput-example-year-start-date"
@@ -1395,7 +1396,6 @@ exports[`Storyshots Date input Error 1`] = `
             min={1990}
             onBlur={[Function]}
             onChange={[Function]}
-            required={true}
             type="number"
           />
         </div>
@@ -1477,6 +1477,7 @@ exports[`Storyshots Date input Error with range 1`] = `
                  
               </label>
               <input
+                aria-required={true}
                 className="usa-input usa-input--inline"
                 defaultValue="10"
                 disabled={true}
@@ -1486,7 +1487,6 @@ exports[`Storyshots Date input Error with range 1`] = `
                 min={1}
                 onBlur={[Function]}
                 onChange={[Function]}
-                required={true}
                 type="number"
               />
             </div>
@@ -1503,6 +1503,7 @@ exports[`Storyshots Date input Error with range 1`] = `
                  
               </label>
               <input
+                aria-required={true}
                 className="usa-input usa-input--inline"
                 defaultValue="30"
                 disabled={true}
@@ -1512,7 +1513,6 @@ exports[`Storyshots Date input Error with range 1`] = `
                 min={1}
                 onBlur={[Function]}
                 onChange={[Function]}
-                required={true}
                 type="number"
               />
             </div>
@@ -1529,6 +1529,7 @@ exports[`Storyshots Date input Error with range 1`] = `
                  
               </label>
               <input
+                aria-required={true}
                 className="usa-input usa-input--inline"
                 defaultValue="2019"
                 disabled={true}
@@ -1538,7 +1539,6 @@ exports[`Storyshots Date input Error with range 1`] = `
                 min={1990}
                 onBlur={[Function]}
                 onChange={[Function]}
-                required={true}
                 type="number"
               />
             </div>
@@ -1575,6 +1575,7 @@ exports[`Storyshots Date input Error with range 1`] = `
                  
               </label>
               <input
+                aria-required={true}
                 className="usa-input usa-input--inline"
                 defaultValue="10"
                 disabled={true}
@@ -1584,7 +1585,6 @@ exports[`Storyshots Date input Error with range 1`] = `
                 min={1}
                 onBlur={[Function]}
                 onChange={[Function]}
-                required={true}
                 type="number"
               />
             </div>
@@ -1601,6 +1601,7 @@ exports[`Storyshots Date input Error with range 1`] = `
                  
               </label>
               <input
+                aria-required={true}
                 className="usa-input usa-input--inline"
                 defaultValue="30"
                 disabled={true}
@@ -1610,7 +1611,6 @@ exports[`Storyshots Date input Error with range 1`] = `
                 min={1}
                 onBlur={[Function]}
                 onChange={[Function]}
-                required={true}
                 type="number"
               />
             </div>
@@ -1627,6 +1627,7 @@ exports[`Storyshots Date input Error with range 1`] = `
                  
               </label>
               <input
+                aria-required={true}
                 className="usa-input usa-input--inline"
                 defaultValue="2019"
                 disabled={true}
@@ -1636,7 +1637,6 @@ exports[`Storyshots Date input Error with range 1`] = `
                 min={1990}
                 onBlur={[Function]}
                 onChange={[Function]}
-                required={true}
                 type="number"
               />
             </div>
@@ -1709,6 +1709,7 @@ exports[`Storyshots Date input Range input 1`] = `
                  
               </label>
               <input
+                aria-required={true}
                 className="usa-input usa-input--inline"
                 defaultValue="10"
                 id="dateinput-example-month-start-date"
@@ -1717,7 +1718,6 @@ exports[`Storyshots Date input Range input 1`] = `
                 min={1}
                 onBlur={[Function]}
                 onChange={[Function]}
-                required={true}
                 type="number"
               />
             </div>
@@ -1734,6 +1734,7 @@ exports[`Storyshots Date input Range input 1`] = `
                  
               </label>
               <input
+                aria-required={true}
                 className="usa-input usa-input--inline"
                 defaultValue="30"
                 id="dateinput-example-day-start-date"
@@ -1742,7 +1743,6 @@ exports[`Storyshots Date input Range input 1`] = `
                 min={1}
                 onBlur={[Function]}
                 onChange={[Function]}
-                required={true}
                 type="number"
               />
             </div>
@@ -1759,6 +1759,7 @@ exports[`Storyshots Date input Range input 1`] = `
                  
               </label>
               <input
+                aria-required={true}
                 className="usa-input usa-input--inline"
                 defaultValue="2019"
                 id="dateinput-example-year-start-date"
@@ -1767,7 +1768,6 @@ exports[`Storyshots Date input Range input 1`] = `
                 min={1990}
                 onBlur={[Function]}
                 onChange={[Function]}
-                required={true}
                 type="number"
               />
             </div>
@@ -1804,6 +1804,7 @@ exports[`Storyshots Date input Range input 1`] = `
                  
               </label>
               <input
+                aria-required={true}
                 className="usa-input usa-input--inline"
                 defaultValue="10"
                 id="dateinput-example-month-end-date"
@@ -1812,7 +1813,6 @@ exports[`Storyshots Date input Range input 1`] = `
                 min={1}
                 onBlur={[Function]}
                 onChange={[Function]}
-                required={true}
                 type="number"
               />
             </div>
@@ -1829,6 +1829,7 @@ exports[`Storyshots Date input Range input 1`] = `
                  
               </label>
               <input
+                aria-required={true}
                 className="usa-input usa-input--inline"
                 defaultValue="30"
                 id="dateinput-example-day-end-date"
@@ -1837,7 +1838,6 @@ exports[`Storyshots Date input Range input 1`] = `
                 min={1}
                 onBlur={[Function]}
                 onChange={[Function]}
-                required={true}
                 type="number"
               />
             </div>
@@ -1854,6 +1854,7 @@ exports[`Storyshots Date input Range input 1`] = `
                  
               </label>
               <input
+                aria-required={true}
                 className="usa-input usa-input--inline"
                 defaultValue="2019"
                 id="dateinput-example-year-end-date"
@@ -1862,7 +1863,6 @@ exports[`Storyshots Date input Range input 1`] = `
                 min={1990}
                 onBlur={[Function]}
                 onChange={[Function]}
-                required={true}
                 type="number"
               />
             </div>
@@ -1927,6 +1927,7 @@ exports[`Storyshots Date input Success 1`] = `
              
           </label>
           <input
+            aria-required={true}
             className="usa-input usa-input--inline"
             defaultValue="10"
             id="dateinput-example-month-start-date"
@@ -1935,7 +1936,6 @@ exports[`Storyshots Date input Success 1`] = `
             min={1}
             onBlur={[Function]}
             onChange={[Function]}
-            required={true}
             type="number"
           />
         </div>
@@ -1952,6 +1952,7 @@ exports[`Storyshots Date input Success 1`] = `
              
           </label>
           <input
+            aria-required={true}
             className="usa-input usa-input--inline"
             defaultValue="30"
             id="dateinput-example-day-start-date"
@@ -1960,7 +1961,6 @@ exports[`Storyshots Date input Success 1`] = `
             min={1}
             onBlur={[Function]}
             onChange={[Function]}
-            required={true}
             type="number"
           />
         </div>
@@ -1977,6 +1977,7 @@ exports[`Storyshots Date input Success 1`] = `
              
           </label>
           <input
+            aria-required={true}
             className="usa-input usa-input--inline"
             defaultValue="2019"
             id="dateinput-example-year-start-date"
@@ -1985,7 +1986,6 @@ exports[`Storyshots Date input Success 1`] = `
             min={1990}
             onBlur={[Function]}
             onChange={[Function]}
-            required={true}
             type="number"
           />
         </div>
@@ -2067,6 +2067,7 @@ exports[`Storyshots Date input Success with range 1`] = `
                  
               </label>
               <input
+                aria-required={true}
                 className="usa-input usa-input--inline"
                 defaultValue="10"
                 id="dateinput-example-month-start-date"
@@ -2075,7 +2076,6 @@ exports[`Storyshots Date input Success with range 1`] = `
                 min={1}
                 onBlur={[Function]}
                 onChange={[Function]}
-                required={true}
                 type="number"
               />
             </div>
@@ -2092,6 +2092,7 @@ exports[`Storyshots Date input Success with range 1`] = `
                  
               </label>
               <input
+                aria-required={true}
                 className="usa-input usa-input--inline"
                 defaultValue="30"
                 id="dateinput-example-day-start-date"
@@ -2100,7 +2101,6 @@ exports[`Storyshots Date input Success with range 1`] = `
                 min={1}
                 onBlur={[Function]}
                 onChange={[Function]}
-                required={true}
                 type="number"
               />
             </div>
@@ -2117,6 +2117,7 @@ exports[`Storyshots Date input Success with range 1`] = `
                  
               </label>
               <input
+                aria-required={true}
                 className="usa-input usa-input--inline"
                 defaultValue="2019"
                 id="dateinput-example-year-start-date"
@@ -2125,7 +2126,6 @@ exports[`Storyshots Date input Success with range 1`] = `
                 min={1990}
                 onBlur={[Function]}
                 onChange={[Function]}
-                required={true}
                 type="number"
               />
             </div>
@@ -2162,6 +2162,7 @@ exports[`Storyshots Date input Success with range 1`] = `
                  
               </label>
               <input
+                aria-required={true}
                 className="usa-input usa-input--inline"
                 defaultValue="10"
                 id="dateinput-example-month-end-date"
@@ -2170,7 +2171,6 @@ exports[`Storyshots Date input Success with range 1`] = `
                 min={1}
                 onBlur={[Function]}
                 onChange={[Function]}
-                required={true}
                 type="number"
               />
             </div>
@@ -2187,6 +2187,7 @@ exports[`Storyshots Date input Success with range 1`] = `
                  
               </label>
               <input
+                aria-required={true}
                 className="usa-input usa-input--inline"
                 defaultValue="30"
                 id="dateinput-example-day-end-date"
@@ -2195,7 +2196,6 @@ exports[`Storyshots Date input Success with range 1`] = `
                 min={1}
                 onBlur={[Function]}
                 onChange={[Function]}
-                required={true}
                 type="number"
               />
             </div>
@@ -2212,6 +2212,7 @@ exports[`Storyshots Date input Success with range 1`] = `
                  
               </label>
               <input
+                aria-required={true}
                 className="usa-input usa-input--inline"
                 defaultValue="2019"
                 id="dateinput-example-year-end-date"
@@ -2220,7 +2221,6 @@ exports[`Storyshots Date input Success with range 1`] = `
                 min={1990}
                 onBlur={[Function]}
                 onChange={[Function]}
-                required={true}
                 type="number"
               />
             </div>
@@ -2298,6 +2298,7 @@ exports[`Storyshots Date input Warning 1`] = `
              
           </label>
           <input
+            aria-required={true}
             className="usa-input usa-input--inline"
             defaultValue="10"
             id="dateinput-example-month-start-date"
@@ -2306,7 +2307,6 @@ exports[`Storyshots Date input Warning 1`] = `
             min={1}
             onBlur={[Function]}
             onChange={[Function]}
-            required={true}
             type="number"
           />
         </div>
@@ -2323,6 +2323,7 @@ exports[`Storyshots Date input Warning 1`] = `
              
           </label>
           <input
+            aria-required={true}
             className="usa-input usa-input--inline"
             defaultValue="30"
             id="dateinput-example-day-start-date"
@@ -2331,7 +2332,6 @@ exports[`Storyshots Date input Warning 1`] = `
             min={1}
             onBlur={[Function]}
             onChange={[Function]}
-            required={true}
             type="number"
           />
         </div>
@@ -2348,6 +2348,7 @@ exports[`Storyshots Date input Warning 1`] = `
              
           </label>
           <input
+            aria-required={true}
             className="usa-input usa-input--inline"
             defaultValue="2019"
             id="dateinput-example-year-start-date"
@@ -2356,7 +2357,6 @@ exports[`Storyshots Date input Warning 1`] = `
             min={1990}
             onBlur={[Function]}
             onChange={[Function]}
-            required={true}
             type="number"
           />
         </div>
@@ -2451,6 +2451,7 @@ exports[`Storyshots Date input Warning with range 1`] = `
                  
               </label>
               <input
+                aria-required={true}
                 className="usa-input usa-input--inline"
                 defaultValue="10"
                 id="dateinput-example-month-start-date"
@@ -2459,7 +2460,6 @@ exports[`Storyshots Date input Warning with range 1`] = `
                 min={1}
                 onBlur={[Function]}
                 onChange={[Function]}
-                required={true}
                 type="number"
               />
             </div>
@@ -2476,6 +2476,7 @@ exports[`Storyshots Date input Warning with range 1`] = `
                  
               </label>
               <input
+                aria-required={true}
                 className="usa-input usa-input--inline"
                 defaultValue="30"
                 id="dateinput-example-day-start-date"
@@ -2484,7 +2485,6 @@ exports[`Storyshots Date input Warning with range 1`] = `
                 min={1}
                 onBlur={[Function]}
                 onChange={[Function]}
-                required={true}
                 type="number"
               />
             </div>
@@ -2501,6 +2501,7 @@ exports[`Storyshots Date input Warning with range 1`] = `
                  
               </label>
               <input
+                aria-required={true}
                 className="usa-input usa-input--inline"
                 defaultValue="2019"
                 id="dateinput-example-year-start-date"
@@ -2509,7 +2510,6 @@ exports[`Storyshots Date input Warning with range 1`] = `
                 min={1990}
                 onBlur={[Function]}
                 onChange={[Function]}
-                required={true}
                 type="number"
               />
             </div>
@@ -2546,6 +2546,7 @@ exports[`Storyshots Date input Warning with range 1`] = `
                  
               </label>
               <input
+                aria-required={true}
                 className="usa-input usa-input--inline"
                 defaultValue="10"
                 id="dateinput-example-month-end-date"
@@ -2554,7 +2555,6 @@ exports[`Storyshots Date input Warning with range 1`] = `
                 min={1}
                 onBlur={[Function]}
                 onChange={[Function]}
-                required={true}
                 type="number"
               />
             </div>
@@ -2571,6 +2571,7 @@ exports[`Storyshots Date input Warning with range 1`] = `
                  
               </label>
               <input
+                aria-required={true}
                 className="usa-input usa-input--inline"
                 defaultValue="30"
                 id="dateinput-example-day-end-date"
@@ -2579,7 +2580,6 @@ exports[`Storyshots Date input Warning with range 1`] = `
                 min={1}
                 onBlur={[Function]}
                 onChange={[Function]}
-                required={true}
                 type="number"
               />
             </div>
@@ -2596,6 +2596,7 @@ exports[`Storyshots Date input Warning with range 1`] = `
                  
               </label>
               <input
+                aria-required={true}
                 className="usa-input usa-input--inline"
                 defaultValue="2019"
                 id="dateinput-example-year-end-date"
@@ -2604,7 +2605,6 @@ exports[`Storyshots Date input Warning with range 1`] = `
                 min={1990}
                 onBlur={[Function]}
                 onChange={[Function]}
-                required={true}
                 type="number"
               />
             </div>
@@ -4882,10 +4882,10 @@ exports[`Storyshots TextInput Default 1`] = `
        
     </label>
     <input
+      aria-required={true}
       className="usa-input"
       id="id"
       onChange={[Function]}
-      required={true}
       type="text"
     />
   </div>
@@ -4911,11 +4911,11 @@ exports[`Storyshots TextInput Disabled 1`] = `
        
     </label>
     <input
+      aria-required={true}
       className="usa-input"
       disabled={true}
       id="id3"
       onChange={[Function]}
-      required={true}
       type="text"
     />
   </div>
@@ -4952,10 +4952,10 @@ exports[`Storyshots TextInput Error 1`] = `
     <input
       aria-describedby="text-input-error"
       aria-invalid={true}
+      aria-required={true}
       className="usa-input usa-input--error"
       id="id8"
       onChange={[Function]}
-      required={true}
       type="text"
     />
   </div>
@@ -5026,10 +5026,10 @@ exports[`Storyshots TextInput Error inside error Fieldset 1`] = `
             <input
               aria-describedby="text-input-error"
               aria-invalid={true}
+              aria-required={true}
               className="usa-input usa-input--error"
               id="id9"
               onChange={[Function]}
-              required={true}
               type="text"
             />
           </div>
@@ -5059,10 +5059,10 @@ exports[`Storyshots TextInput Error inside error Fieldset 1`] = `
             <input
               aria-describedby="text-input-error"
               aria-invalid={true}
+              aria-required={true}
               className="usa-input usa-input--error"
               id="id10"
               onChange={[Function]}
-              required={true}
               type="text"
             />
           </div>
@@ -5097,10 +5097,10 @@ exports[`Storyshots TextInput Optional 1`] = `
       </span>
     </label>
     <input
+      aria-required={false}
       className="usa-input"
       id="id2"
       onChange={[Function]}
-      required={false}
       type="text"
     />
   </div>
@@ -5137,10 +5137,10 @@ exports[`Storyshots TextInput Success 1`] = `
     <input
       aria-describedby="text-input-success"
       aria-invalid={false}
+      aria-required={true}
       className="usa-input usa-input--success"
       id="id4"
       onChange={[Function]}
-      required={true}
       type="text"
     />
   </div>
@@ -5190,10 +5190,10 @@ exports[`Storyshots TextInput Warning 1`] = `
     <input
       aria-describedby="text-input-warning"
       aria-invalid={false}
+      aria-required={true}
       className="usa-input usa-input--warning"
       id="id5"
       onChange={[Function]}
-      required={true}
       type="text"
     />
   </div>
@@ -5290,10 +5290,10 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
             <input
               aria-describedby="text-input-warning"
               aria-invalid={false}
+              aria-required={true}
               className="usa-input usa-input--warning"
               id="id6"
               onChange={[Function]}
-              required={true}
               type="text"
             />
           </div>
@@ -5336,10 +5336,10 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
             <input
               aria-describedby="text-input-warning"
               aria-invalid={false}
+              aria-required={true}
               className="usa-input usa-input--warning"
               id="id7"
               onChange={[Function]}
-              required={true}
               type="text"
             />
           </div>
@@ -5369,11 +5369,11 @@ exports[`Storyshots TextInput With default value 1`] = `
        
     </label>
     <input
+      aria-required={true}
       className="usa-input"
       defaultValue="default text"
       id="id1"
       onChange={[Function]}
-      required={true}
       type="text"
     />
   </div>
