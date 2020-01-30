@@ -2,6 +2,40 @@
 	"name": "hedwig",
 	"version": "0.1.0",
 	"private": true,
+	"scripts": {
+		"build": "react-scripts build",
+		"build-storybook": "build-storybook -s public",
+		"eject": "react-scripts eject",
+		"start": "react-scripts start",
+		"storybook": "start-storybook -p 9009 -s public",
+		"test": "CI=true react-scripts test --env=jsdom"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged"
+		}
+	},
+	"lint-staged": {
+		"src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+			"prettier --single-quote --write",
+			"git add"
+		]
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	},
+	"eslintConfig": {
+		"extends": "react-app"
+	},
 	"dependencies": {
 		"@openid/appauth": "^1.2.6",
 		"@storybook/addon-actions": "^5.1.11",
@@ -9,6 +43,9 @@
 		"@storybook/addon-storyshots": "^5.1.11",
 		"@storybook/addons": "^5.1.11",
 		"@storybook/react": "^5.1.11",
+		"@testing-library/jest-dom": "^5.0.2",
+		"@testing-library/react": "^9.4.0",
+		"@types/enzyme": "^3.10.4",
 		"@types/jest": "^24.0.17",
 		"@types/lodash": "^4.14.149",
 		"@types/node": "12.7.2",
@@ -46,39 +83,5 @@
 		"uswds": "^2.3.1",
 		"utility-types": "^3.8.0",
 		"yarn": "^1.17.3"
-	},
-	"scripts": {
-		"start": "react-scripts start",
-		"build": "react-scripts build",
-		"test": "CI=true react-scripts test --env=jsdom",
-		"eject": "react-scripts eject",
-		"storybook": "start-storybook -p 9009 -s public",
-		"build-storybook": "build-storybook -s public"
-	},
-	"husky": {
-		"hooks": {
-			"pre-commit": "lint-staged"
-		}
-	},
-	"lint-staged": {
-		"src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
-			"prettier --single-quote --write",
-			"git add"
-		]
-	},
-	"eslintConfig": {
-		"extends": "react-app"
-	},
-	"browserslist": {
-		"production": [
-			">0.2%",
-			"not dead",
-			"not op_mini all"
-		],
-		"development": [
-			"last 1 chrome version",
-			"last 1 firefox version",
-			"last 1 safari version"
-		]
 	}
 }
