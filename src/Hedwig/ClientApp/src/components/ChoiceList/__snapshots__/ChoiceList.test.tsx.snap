@@ -372,10 +372,10 @@ Object {
           choice
         </label>
         <select
+          aria-required="true"
           class="usa-select"
           id="id"
           name="id"
-          required=""
         >
           <option
             value=""
@@ -410,10 +410,10 @@ Object {
         choice
       </label>
       <select
+        aria-required="true"
         class="usa-select"
         id="id"
         name="id"
-        required=""
       >
         <option
           value=""
