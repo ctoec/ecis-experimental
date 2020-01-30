@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+using System;
 
 namespace Hedwig.Models
 {
@@ -6,5 +6,6 @@ namespace Hedwig.Models
     {
         public int? AuthorId { get; set; }
         public User Author { get; set; }
+        public DateTime? UpdatedAt { get; set; }
     }
 }

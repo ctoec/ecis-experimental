@@ -1,7 +1,4 @@
 using Xunit;
-using Hedwig.Data;
-using Moq;
-using Moq.Protected;
 using Hedwig.Models;
 using Microsoft.EntityFrameworkCore;
 using HedwigTests.Fixtures;
@@ -15,58 +12,68 @@ namespace HedwigTests.Data
   public class HedwigContextTests
   {
     [Fact]
-    public void Add_TemporalEntity_AddsAuthor()
+    public void AddedTemporalEntity_IsUpdated_OnSaveChanges()
     {
-      // If a HedwigContext instance exists
-      var opts = new DbContextOptionsBuilder<HedwigContext>()
-        .UseInMemoryDatabase<HedwigContext>("db");
-      var httpContextAccessor = new TestHttpContextAccessorProvider().HttpContextAccessor;
-      var contextMock = new Mock<HedwigContext>(opts.Options, httpContextAccessor);
+      using(var context = new TestHedwigContextProvider().Context)
+      {
+        var family = new Family {
+          OrganizationId = context.Organizations.First().Id
+        };
+        context.Add(family);
+        context.SaveChanges();
 
-      var userId = 1;
-      contextMock
-        .Protected()
-        .Setup<int?>("GetCurrentUserId")
-        .Returns(userId);
-        
-      contextMock.CallBase = true;
+        Assert.NotNull(family.AuthorId);
+        Assert.NotNull(family.UpdatedAt);
+      }
+   }
 
-      // When a temporal entities are added
-      var family = new Family();
-      var child = new Child { Family = family };
-      contextMock.Object.Add(child);
+   [Fact]
+   public void UpdatedTemporalEntity_IsUpdated_OnSaveChanges()
+   {
+     using(var context = new TestHedwigContextProvider().Context)
+     {
+       var family = FamilyHelper.CreateFamily(context);
+       var updatedAt = family.UpdatedAt;
+       context.Update(family);
+       context.SaveChanges();
 
-      // Then author is added to the entity
-      Assert.Equal(userId, child.AuthorId.Value);
-      Assert.Equal(userId, child.Family.AuthorId.Value);
-    }
+       Assert.NotNull(family.AuthorId);
+       Assert.NotNull(family.UpdatedAt);
+       Assert.NotEqual(updatedAt, family.UpdatedAt);  
+     }
+   }
 
     [Fact]
-    public void Update_TemporalEntity_AddsAuthor()
+    public async Task AddedTemporalEntity_IsUpdated_OnSaveChangesAsync()
     {
-      // If a HedwigContext instance exists
-      var opts = new DbContextOptionsBuilder<HedwigContext>()
-        .UseInMemoryDatabase<HedwigContext>("db");
-      var httpContextAccessor = new TestHedwigContextProvider().HttpContextAccessor;
-      var contextMock = new Mock<HedwigContext>(opts.Options, httpContextAccessor);
+      using(var context = new TestHedwigContextProvider().Context)
+      {
+        var family = new Family {
+          OrganizationId = context.Organizations.First().Id
+        };
+        context.Add(family);
+        await context.SaveChangesAsync();
 
-      var userId = 1;
-      contextMock
-        .Protected()
-        .Setup<int?>("GetCurrentUserId")
-        .Returns(userId);
+        Assert.NotNull(family.AuthorId);
+        Assert.NotNull(family.UpdatedAt);
+      }
+   }
 
-      contextMock.CallBase = true;
+  [Fact]
+   public async Task UpdatedTemporalEntity_IsUpdated_OnSaveChangesAsync()
+   {
+     using(var context = new TestHedwigContextProvider().Context)
+     {
+       var family = FamilyHelper.CreateFamily(context);
+       var updatedAt = family.UpdatedAt;
+       context.Update(family);
+       await context.SaveChangesAsync();
 
-      // When temporal entities are updated
-      var family = new Family();
-      var child = new Child{ Family = family };
-      contextMock.Object.Update(child);
-
-      // Then author is added to the entity
-      Assert.Equal(userId, child.AuthorId.Value);
-      Assert.Equal(userId, child.Family.AuthorId.Value);
-    }
+       Assert.NotNull(family.AuthorId);
+       Assert.NotNull(family.UpdatedAt);
+       Assert.NotEqual(updatedAt, family.UpdatedAt);  
+     }
+   }
 
     [Fact]
     public void SaveChanges_DoesNotAddReadOnlyEntity()
