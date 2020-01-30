@@ -1,5 +1,5 @@
 import { validatePermissions } from '.';
-import { UserFromJSON, SiteFromJSON, SiteFromJSONTyped, OrganizationToJSON, OrganizationFromJSON } from '../../generated';
+import { UserFromJSON, SiteFromJSON, OrganizationFromJSON } from '../../generated';
 
 describe('validatePermissions', () => {
   const site = SiteFromJSON({
@@ -25,7 +25,7 @@ describe('validatePermissions', () => {
   });
 
   it('returns true when org id is within user permissions', () => {
-    const hasAccess = validatePermissions(user, 'org', org.id as number);
+    const hasAccess = validatePermissions(user, 'org', org.id);
     expect(hasAccess).toBe(false);
   });
 
