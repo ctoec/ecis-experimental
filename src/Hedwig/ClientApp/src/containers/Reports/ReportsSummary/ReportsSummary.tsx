@@ -10,7 +10,7 @@ import {
 	CdcReport as Report,
 	ApiOrganizationsIdGetRequest,
 } from '../../../generated';
-import getIdForUser from '../../../utils/getIdForUser';
+import { getIdForUser } from '../../../utils/models';
 import idx from 'idx';
 import { DeepNonUndefineable } from '../../../utils/types';
 import CommonContainer from '../../CommonContainer';

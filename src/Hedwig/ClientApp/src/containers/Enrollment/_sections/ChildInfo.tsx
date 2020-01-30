@@ -21,7 +21,7 @@ import {
 	ValidationProblemDetailsFromJSON,
 } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
-import getIdForUser from '../../../utils/getIdForUser';
+import { validatePermissions, getIdForUser } from '../../../utils/models';
 import emptyGuid from '../../../utils/emptyGuid';
 import {
 	genderFromString,
@@ -74,7 +74,7 @@ const ChildInfo: Section = {
 		const { user } = useContext(UserContext);
 		const defaultPostParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest = {
 			orgId: getIdForUser(user, 'org'),
-			siteId: getIdForUser(user, 'site'),
+			siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 			enrollment: enrollment as Enrollment,
 		};
 		const defaultPutParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
@@ -192,7 +192,7 @@ const ChildInfo: Section = {
 					...defaultPostParams,
 					enrollment: {
 						id: 0,
-						siteId: getIdForUser(user, 'site'),
+						siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 						childId: emptyGuid(),
 						child: {
 							id: emptyGuid(),

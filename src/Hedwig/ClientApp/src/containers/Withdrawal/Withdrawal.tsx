@@ -23,7 +23,7 @@ import {
 } from '../../utils/models';
 import { DatePicker, ChoiceList, Button, InlineIcon } from '../../components';
 import useApi from '../../hooks/useApi';
-import getIdForUser from '../../utils/getIdForUser';
+import { validatePermissions, getIdForUser } from '../../utils/models';
 import CommonContainer from '../CommonContainer';
 import {
 	clientErrorForField,
@@ -39,7 +39,8 @@ type WithdrawalProps = {
 	history: History;
 	match: {
 		params: {
-			enrollmentId?: number;
+			siteId: number;
+			enrollmentId: number;
 		};
 	};
 };
@@ -47,7 +48,7 @@ type WithdrawalProps = {
 export default function Withdrawal({
 	history,
 	match: {
-		params: { enrollmentId },
+		params: { siteId, enrollmentId },
 	},
 }: WithdrawalProps) {
 	const { user } = useContext(UserContext);
@@ -57,7 +58,7 @@ export default function Withdrawal({
 	const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest = {
 		id: enrollmentId || 0,
 		orgId: getIdForUser(user, 'org'),
-		siteId: getIdForUser(user, 'site'),
+		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 	};
 
 	const [loading, error, enrollment, mutate] = useApi<Enrollment>(
@@ -106,7 +107,7 @@ export default function Withdrawal({
 						'To withdraw a child from a funded space in your program, "first reporting period" cannot be blank. Please update this information for the child before withdrawing',
 				},
 			]);
-			history.push(`/roster/enrollments/${enrollment.id}`);
+			history.push(`/roster/sites/${siteId}/enrollments/${enrollment.id}`);
 		}
 	}, [enrollment, cannotWithdraw, history, setAlerts]);
 
@@ -180,7 +181,7 @@ export default function Withdrawal({
 		<CommonContainer
 			directionalLinkProps={{
 				direction: 'left',
-				to: `/roster/enrollments/${enrollment.id}/`,
+				to: `/roster/sites/${siteId}/enrollments/${enrollment.id}/`,
 				text: 'Back',
 			}}
 		>
@@ -277,7 +278,7 @@ export default function Withdrawal({
 					<div className="mobile-lg:grid-col-auto">
 						<Button
 							text="Cancel"
-							href={`/roster/enrollments/${enrollment.id}/`}
+							href={`/roster/sites/${siteId}/enrollments/${enrollment.id}/`}
 							appearance="outline"
 						/>
 					</div>
