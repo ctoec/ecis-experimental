@@ -65,14 +65,6 @@ export default function EnrollmentEdit({
 		[user]
 	);
 
-	// Separate query so that mutation doesn't try to update all the enrollments when user saves this one
-	const siteParams: ApiOrganizationsOrgIdSitesIdGetRequest = {
-		id: getIdForUser(user, 'site'),
-		orgId: getIdForUser(user, 'org'),
-		include: ['organizations', 'enrollments', 'funding_spaces'],
-	};
-	const [,, site] = useApi(api => api.apiOrganizationsOrgIdSitesIdGet(siteParams), [user]);
-
 	if (!section) {
 		return <PageNotFound />;
 	}
