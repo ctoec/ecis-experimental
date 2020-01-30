@@ -17,8 +17,6 @@ import {
 const fakeDate = '2019-03-02';
 
 jest.mock('../../../hooks/useApi');
-import useApi from '../../../hooks/useApi';
-import { Link } from 'react-router-dom';
 
 beforeAll(() => {
 	mockdate.set(fakeDate);
