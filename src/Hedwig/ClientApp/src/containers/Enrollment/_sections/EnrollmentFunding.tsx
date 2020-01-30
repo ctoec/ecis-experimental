@@ -337,7 +337,8 @@ const EnrollmentFunding: Section = {
 		// TODO: make alert wider?
 		// TODO: do we care which reporting periods it violates this constraint for, or just the current one?
 		const [overUtilized, setOverUtilized] = useState(false);
-		const newlySetCdcFunding = !cdcFunding && FundingSelection[fundingSelection].slice(0, 3) === 'CDC';
+		const newlySetCdcFunding =
+			!cdcFunding && FundingSelection[fundingSelection].slice(0, 3) === 'CDC';
 		useEffect(() => {
 			const thisPeriod = currentReportingPeriod(reportingPeriods);
 			// TODO: solve problem of why we aren't getting reporting period info for enrollments below
@@ -349,24 +350,24 @@ const EnrollmentFunding: Section = {
 			const currentFundingOpts = {
 				source: FundingSource.CDC,
 				// TODO: change the funding selection logic to make this easier
-				time: FundingSelection[fundingSelection] === 'CDC_FULL' ? FundingTime.Full : FundingTime.Part,
+				time:
+					FundingSelection[fundingSelection] === 'CDC_FULL' ? FundingTime.Full : FundingTime.Part,
 				ageGroup: _enrollment.ageGroup,
 			};
 			const capacityForFunding = getFundingSpaceCapacity(site.organization, currentFundingOpts);
 			const enrolledForFunding = site.enrollments.filter<DeepNonUndefineable<Enrollment>>(
 				e =>
-				e.ageGroup === _enrollment.ageGroup &&
-				isFunded(e, {
-					...currentFundingOpts,
-					currentRange: {
-						startDate: moment(thisPeriod.periodStart),
-						endDate: moment(thisPeriod.periodEnd),
-					},
-				})
-				)
-				// it adds funding if it's a 
-			const numEnrolledForFunding = enrolledForFunding.length + (newlySetCdcFunding ? 1 : 0);
+					e.ageGroup === _enrollment.ageGroup &&
+					isFunded(e, {
+						...currentFundingOpts,
+						currentRange: {
+							startDate: moment(thisPeriod.periodStart),
+							endDate: moment(thisPeriod.periodEnd),
+						},
+					})
+			);
 
+			const numEnrolledForFunding = enrolledForFunding.length + (newlySetCdcFunding ? 1 : 0);
 			if (numEnrolledForFunding > capacityForFunding) {
 				setOverUtilized(true);
 				return;
