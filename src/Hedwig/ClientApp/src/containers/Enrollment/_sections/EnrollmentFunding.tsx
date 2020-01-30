@@ -162,6 +162,7 @@ const EnrollmentFunding: Section = {
 		);
 
 		const [fundingSelection, updateFundingSelection] = useState(
+			// TODO: simplify this to { source, time } to make it easier to use elsewhere?
 			initialLoad || sourcelessFunding
 				? FundingSelection.UNSELECTED
 				: !cdcFunding
@@ -333,41 +334,45 @@ const EnrollmentFunding: Section = {
 			]);
 		}, [site, _enrollment.ageGroup]);
 
-		const [overUtilized, setOverUtilized] = useState(false);
+		// TODO: make alert wider?
 		// TODO: do we care which reporting periods it violates this constraint for, or just the current one?
+		const [overUtilized, setOverUtilized] = useState(false);
+		const newlySetCdcFunding = !cdcFunding && FundingSelection[fundingSelection].slice(0, 3) === 'CDC';
 		useEffect(() => {
 			const thisPeriod = currentReportingPeriod(reportingPeriods);
-			if (!site || !site.enrollments || !cdcFunding || !thisPeriod) {
+			// TODO: solve problem of why we aren't getting reporting period info for enrollments below
+			if (!site || !site.enrollments || !(cdcFunding || newlySetCdcFunding) || !thisPeriod) {
 				setOverUtilized(false);
 				return;
 			}
 			// This and below will need rewritten if we have more than just CDC in the dropdown
 			const currentFundingOpts = {
 				source: FundingSource.CDC,
-				time: cdcFunding.time,
+				// TODO: change the funding selection logic to make this easier
+				time: FundingSelection[fundingSelection] === 'CDC_FULL' ? FundingTime.Full : FundingTime.Part,
 				ageGroup: _enrollment.ageGroup,
 			};
 			const capacityForFunding = getFundingSpaceCapacity(site.organization, currentFundingOpts);
-			const _e = site.enrollments.filter<DeepNonUndefineable<Enrollment>>(
+			const enrolledForFunding = site.enrollments.filter<DeepNonUndefineable<Enrollment>>(
 				e =>
-					e.ageGroup === _enrollment.ageGroup &&
-					isFunded(e, {
-						...currentFundingOpts,
-						currentRange: {
-							startDate: moment(thisPeriod.periodStart),
-							endDate: moment(thisPeriod.periodEnd),
-						},
-					})
-			)
-			console.log(_e)
-			const enrolledForFunding = _e.length;
-			if (enrolledForFunding > capacityForFunding) {
-				console.log(enrolledForFunding, capacityForFunding);
+				e.ageGroup === _enrollment.ageGroup &&
+				isFunded(e, {
+					...currentFundingOpts,
+					currentRange: {
+						startDate: moment(thisPeriod.periodStart),
+						endDate: moment(thisPeriod.periodEnd),
+					},
+				})
+				)
+				// it adds funding if it's a 
+			const numEnrolledForFunding = enrolledForFunding.length + (newlySetCdcFunding ? 1 : 0);
+
+			if (numEnrolledForFunding > capacityForFunding) {
 				setOverUtilized(true);
 				return;
 			}
 			setOverUtilized(false);
-		}, [site, cdcFunding, _enrollment.ageGroup]);
+		}, [site, fundingSelection, _enrollment.ageGroup]);
 
 		return (
 			<form className="EnrollmentFundingForm" onSubmit={save} noValidate autoComplete="off">
@@ -523,6 +528,8 @@ const EnrollmentFunding: Section = {
 					{overUtilized && (
 						<Alert
 							type="info"
+							// TODO: This will only warn about the current reporting period.  What if they set an earlier reporting period date?
+							// We should probably warn about all of the reporting periods this will mess with?
 							text={`Blah out of blah spaces are utilized for the REPORTING PERIOD reporting period.`}
 						/>
 					)}
