@@ -50,9 +50,9 @@ namespace Hedwig.Repositories
 			if (include.Contains(INCLUDE_FUNDINGS))
 			{
 				enrollments = enrollments.Include(e => e.Fundings)
-						.ThenInclude(f => f.FirstReportingPeriod);
-					// .Include(e => e.Fundings)
-					// 	.ThenInclude(f => f.LastReportingPeriod);
+						.ThenInclude(f => f.FirstReportingPeriod)
+					.Include(e => e.Fundings)
+						.ThenInclude(f => f.LastReportingPeriod);
 			}
 
 			if (include.Contains(INCLUDE_CHILD))
