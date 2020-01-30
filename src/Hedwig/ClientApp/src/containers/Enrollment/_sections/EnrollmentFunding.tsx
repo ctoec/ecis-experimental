@@ -336,6 +336,7 @@ const EnrollmentFunding: Section = {
 
 		// TODO: make alert wider?
 		// TODO: do we care which reporting periods it violates this constraint for, or just the current one?
+		// TODO: just set utilization ratio numbers here so they can be used in message, do the checking on the fly
 		const [overUtilized, setOverUtilized] = useState(false);
 		const newlySetCdcFunding =
 			!cdcFunding && FundingSelection[fundingSelection].slice(0, 3) === 'CDC';
