@@ -12,7 +12,7 @@ namespace HedwigTests.Repositories
 		[Fact]
 		public async Task GetSitesForOrganizationAsync_ReturnsSitesWithOrganizationId()
 		{
-			using (var context = new TestContextProvider().Context)
+			using (var context = new TestHedwigContextProvider().Context)
 			{
 				var organization = OrganizationHelper.CreateOrganization(context);
 				var sites = SiteHelper.CreateSites(context, 3, organization: organization);
@@ -41,7 +41,7 @@ namespace HedwigTests.Repositories
 		{
 			int orgId;
 			int id;
-			using (var context = new TestContextProvider().Context)
+			using (var context = new TestHedwigContextProvider().Context)
 			{
 				var enrollment = EnrollmentHelper.CreateEnrollment(context);
 
@@ -49,7 +49,7 @@ namespace HedwigTests.Repositories
 				orgId = enrollment.Site.OrganizationId;
 			}
 
-			using (var context = new TestContextProvider().Context)
+			using (var context = new TestHedwigContextProvider().Context)
 			{
 				var siteRepo = new SiteRepository(context);
 				var res = await siteRepo.GetSiteForOrganizationAsync(id, orgId, include);

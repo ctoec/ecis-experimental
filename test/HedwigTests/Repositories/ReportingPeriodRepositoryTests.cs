@@ -12,7 +12,7 @@ namespace HedwigTests.Repositories
     [Fact]
     public async Task GetReportingPeriodsByFundingSource_ReturnsReportingPeriods()
     {
-      using (var context = new TestContextProvider().Context)
+      using (var context = new TestHedwigContextProvider().Context)
       {
         var cdcReportingPeriod = ReportingPeriodHelper.CreateReportingPeriod(context, type: FundingSource.CDC);
         var otherReportingPeriod = ReportingPeriodHelper.CreateReportingPeriod(context, type: FundingSource.C4K);

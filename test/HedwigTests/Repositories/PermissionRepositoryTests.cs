@@ -12,7 +12,7 @@ namespace HedwigTests.Repositories
         [Fact]
         public void UserCanAccessSite_SitePermission()
         {
-            using( var context = new TestContextProvider().Context) {
+            using( var context = new TestHedwigContextProvider().Context) {
                 // If user exists with site permission
                 var user = UserHelper.CreateUser(context);
                 var site = SiteHelper.CreateSite(context);
@@ -30,7 +30,7 @@ namespace HedwigTests.Repositories
         [Fact]
         public void UserCanAccessSite_OrganizationPermission()
         {
-            using( var context = new TestContextProvider().Context) {
+            using( var context = new TestHedwigContextProvider().Context) {
                 // If user exists with organization permission that includes site
                 var user = UserHelper.CreateUser(context);
                 var site = SiteHelper.CreateSite(context);
@@ -49,7 +49,7 @@ namespace HedwigTests.Repositories
         [Fact]
         public void UserCanAccessSite_No_Permission()
         {
-            using( var context = new TestContextProvider().Context) {
+            using( var context = new TestHedwigContextProvider().Context) {
                 // If user exists without any permissions
                 var user = UserHelper.CreateUser(context);
                 var site = SiteHelper.CreateSite(context);

@@ -16,7 +16,7 @@ namespace HedwigTests.Security
         [Fact]
         public void Organization_Controller_User_Has_Organization_Access_Evaluate_Returns_True()
         {
-            using (var dbContext = new TestContextProvider().Context) {
+            using (var dbContext = new TestHedwigContextProvider().Context) {
                 // If user exists with access to organization
                 var user = UserHelper.CreateUser(dbContext);
                 var organization = OrganizationHelper.CreateOrganization(dbContext);
@@ -50,7 +50,7 @@ namespace HedwigTests.Security
         [Fact]
         public void Other_Controller_User_Has_Organization_Access_Evaluate_Returns_True()
         {
-            using (var dbContext = new TestContextProvider().Context) {
+            using (var dbContext = new TestHedwigContextProvider().Context) {
                 // If user exists with access to organization
                 var user = UserHelper.CreateUser(dbContext);
                 var organization = OrganizationHelper.CreateOrganization(dbContext);
@@ -85,7 +85,7 @@ namespace HedwigTests.Security
         [Fact]
         public void User_Does_Not_Have_Organization_Access_Evaluate_Returns_False()
         {
-            using (var dbContext = new TestContextProvider().Context) {
+            using (var dbContext = new TestHedwigContextProvider().Context) {
                 // If user exists without access to any organization
                 var user = UserHelper.CreateUser(dbContext);
 

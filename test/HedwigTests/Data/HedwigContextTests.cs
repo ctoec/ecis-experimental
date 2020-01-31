@@ -43,7 +43,7 @@ namespace HedwigTests.Data
       // If a HedwigContext instance exists
       var opts = new DbContextOptionsBuilder<HedwigContext>()
         .UseInMemoryDatabase<HedwigContext>("db");
-      var httpContextAccessor = new TestContextProvider().HttpContextAccessor;
+      var httpContextAccessor = new TestHedwigContextProvider().HttpContextAccessor;
       var contextMock = new Mock<HedwigContext>(opts.Options, httpContextAccessor);
 
       var userId = 1;
