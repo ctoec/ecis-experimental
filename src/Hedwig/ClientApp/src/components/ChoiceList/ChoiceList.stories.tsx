@@ -37,8 +37,8 @@ storiesOf('ChoiceList', module)
 				type="radio"
 				onChange={onChange}
 				options={options}
-				id="storybook-checklist"
-				legend="Checklist items"
+				id="storybook-radio"
+				legend="Radio items"
 			/>
 		);
 	})
@@ -48,8 +48,8 @@ storiesOf('ChoiceList', module)
 				type="radio"
 				onChange={onChange}
 				options={options}
-				id="storybook-checklist"
-				legend="Checklist items"
+				id="storybook-radio"
+				legend="Radio items"
 				selected={['one']}
 			/>
 		);
@@ -60,11 +60,23 @@ storiesOf('ChoiceList', module)
 				type="radio"
 				onChange={onChange}
 				options={options}
-				id="storybook-checklist"
-				legend="Checklist items"
+				id="storybook-radio"
+				legend="Radio items"
 				status={error}
 			/>
 		);
+	})
+	.add('Disabled radio', () => {
+		return (
+			<ChoiceList
+				type="radio"
+				onChange={onChange}
+				options={options}
+				disabled={true}
+				id="storybook-radio"
+				legend="Radio items"
+			/>
+		)
 	})
 	.add('Checklist', () => {
 		return (
@@ -100,6 +112,18 @@ storiesOf('ChoiceList', module)
 			/>
 		);
 	})
+	.add('Disabled checklist', () => {
+		return (
+			<ChoiceList
+				type="check"
+				onChange={onChange}
+				options={options}
+				disabled={true}
+				id="storybook-checklist"
+				legend="Checklist items"
+			/>
+		)
+	})
 	.add('Select', () => {
 		return (
 			<ChoiceList
@@ -107,7 +131,7 @@ storiesOf('ChoiceList', module)
 				type="select"
 				onChange={onChange}
 				options={options}
-				id="storybook-checklist"
+				id="storybook-select"
 			/>
 		);
 	})
@@ -118,7 +142,7 @@ storiesOf('ChoiceList', module)
 				type="select"
 				onChange={onChange}
 				options={options}
-				id="storybook-checklist"
+				id="storybook-select"
 				status={success}
 			/>
 		);
@@ -130,8 +154,20 @@ storiesOf('ChoiceList', module)
 				type="select"
 				onChange={onChange}
 				options={options}
-				id="storybook-checklist"
+				id="storybook-select"
 				otherInputLabel="Other choice"
+			/>
+		);
+	})
+	.add('Disabled select', () => {
+		return (
+			<ChoiceList
+				label="Select"
+				type="select"
+				onChange={onChange}
+				options={options}
+				disabled={true}
+				id="storybook-select"
 			/>
 		);
 	});
