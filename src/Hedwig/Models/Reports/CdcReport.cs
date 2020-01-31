@@ -13,6 +13,7 @@ namespace Hedwig.Models
 		public bool RetroactiveC4KRevenue { get; set; } = false;
 
 		[Column(TypeName = "decimal(18,2)")]
-		public decimal FamilyFeesRevenue { get; set; }
+		[Required]
+		public decimal? FamilyFeesRevenue { get; set; }
 	}
 }

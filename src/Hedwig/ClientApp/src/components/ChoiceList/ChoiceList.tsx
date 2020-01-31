@@ -123,6 +123,7 @@ export function ChoiceList({
 					name={name || ''}
 					onChange={changeEvent}
 					selected={selectedItems.includes(option.value)}
+					disabled={disabled}
 					key={`${id}-${option.value}`}
 				/>
 			));
