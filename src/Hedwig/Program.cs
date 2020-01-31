@@ -56,7 +56,7 @@ namespace Hedwig
 				if (environment != Environments.Development)
 				{
 					logging.AddEventLog();
-					logging.AddAWSProvider();
+					logging.AddAWSProvider(context.Configuration.GetAWSLoggingConfigSection());
 				}
 
 			})
