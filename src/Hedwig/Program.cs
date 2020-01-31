@@ -18,10 +18,14 @@ namespace Hedwig
 		{
 			var host = CreateHostBuilder(args).Build();
 			var environment = GetEnvironmentNameFromAppSettings();
+
 			if(environment != Environments.Production) {
 				using (var scope = host.Services.CreateScope())
 				{
 					var services = scope.ServiceProvider;
+					var logger = services.GetRequiredService<ILogger<Program>>();
+					logger.LogInformation("Detected environment " + environment);
+
 					try
 					{
 						var context = services.GetRequiredService<HedwigContext>();
@@ -30,7 +34,6 @@ namespace Hedwig
 					}
 					catch (Exception ex)
 					{
-						var logger = services.GetRequiredService<ILogger<Program>>();
 						logger.LogError(ex, "An error occurred while seeding the database.");
 					}
 				}
@@ -49,10 +52,9 @@ namespace Hedwig
 				logging.AddConsole();
 				logging.AddDebug();
 
-				var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 				if (environment != Environments.Development)
 				{
-				logging.AddAWSProvider();
+					logging.AddAWSProvider(context.Configuration.GetAWSLoggingConfigSection());
 				}
 
 			})
