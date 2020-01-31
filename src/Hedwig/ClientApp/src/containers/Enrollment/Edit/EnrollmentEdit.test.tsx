@@ -17,8 +17,6 @@ import {
 const fakeDate = '2019-03-02';
 
 jest.mock('../../../hooks/useApi');
-import useApi from '../../../hooks/useApi';
-import { Link } from 'react-router-dom';
 
 beforeAll(() => {
 	mockdate.set(fakeDate);
@@ -54,9 +52,8 @@ describe('EnrollmentEdit', () => {
 				.dive();
 			await act(async () => {
 				formContent
-					.find('Button')
-					.props()
-					.onClick();
+					.find('form')
+					.simulate('submit', { preventDefault() {} });
 			});
 			const firstNameErr = formContent
 				.find('TextInput#firstName')
@@ -90,9 +87,8 @@ describe('EnrollmentEdit', () => {
 				.dive();
 			await act(async () => {
 				formContent
-					.find('Button')
-					.props()
-					.onClick();
+					.find('form')
+					.simulate('submit', { preventDefault() {} });
 			});
 			const addressErr = formContent
 				.find('FieldSet#family-address')

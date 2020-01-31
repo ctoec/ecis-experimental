@@ -10,6 +10,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Hedwig.Validations;
 using Hedwig.Validations.Rules;
 using Hedwig.Models;
+using Hedwig.HostedServices;
 
 namespace Hedwig
 {
@@ -143,6 +144,12 @@ namespace Hedwig
 
 			// Register Non-blocking validator
 			services.AddScoped<INonBlockingValidator, NonBlockingValidator>();
+		}
+
+		public static void ConfigureHostedServices(this IServiceCollection services)
+		{
+			services.AddScoped<CdcReportGeneratorScopedService>();
+			services.AddHostedService<DailyServiceExecutor>();
 		}
 	}
 }

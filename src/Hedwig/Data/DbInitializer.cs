@@ -148,6 +148,8 @@ namespace Hedwig.Data
       var honeyPotEnrollment = CreateEnrollment(childId: honeyPotChild.Id, siteId: honeyPotSite.Id);
       var honeyPotUser = CreateUser(wingedKeysId: Guid.NewGuid(), firstName: "Julia", lastName: "Hogan");
       CreateOrganizationPermission(organizationId: honeyPotOrganization.Id, userId: honeyPotUser.Id);
+
+      CreateFundingSpace(organizationId: honeyPotOrganization.Id, ageGroup: Age.InfantToddler, time: FundingTime.Full, capacity: 10);
     }
 
     private void DeleteAllData()

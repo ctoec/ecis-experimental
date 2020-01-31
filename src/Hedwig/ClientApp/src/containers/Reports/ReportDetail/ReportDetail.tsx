@@ -5,7 +5,7 @@ import ReportSubmitForm from './ReportSubmitForm';
 import monthFormatter from '../../../utils/monthFormatter';
 import dateFormatter from '../../../utils/dateFormatter';
 import UserContext from '../../../contexts/User/UserContext';
-import getIdForUser from '../../../utils/getIdForUser';
+import { getIdForUser } from '../../../utils/models';
 import useApi from '../../../hooks/useApi';
 import { Enrollment } from '../../../generated/models/Enrollment';
 import { Button, AlertProps, DirectionalLinkProps, Tag } from '../../../components';

@@ -41,20 +41,20 @@ export const routes: RouteConfig[] = [
 		component: EnrollmentNew,
 	},
 	{
-		path: '/roster/enrollments/:enrollmentId',
+		path: '/roster/sites/:siteId/enrollments/:enrollmentId',
 		exact: true,
 		component: EnrollmentDetail,
 	},
 	{
-		path: '/roster/enrollments/:enrollmentId/new/:sectionId',
+		path: '/roster/sites/:siteId/enrollments/:enrollmentId/new/:sectionId',
 		component: EnrollmentNew,
 	},
 	{
-		path: '/roster/enrollments/:enrollmentId/edit/:sectionId',
+		path: '/roster/sites/:siteId/enrollments/:enrollmentId/edit/:sectionId',
 		component: EnrollmentEdit,
 	},
 	{
-		path: '/roster/enrollments/:enrollmentId/withdraw',
+		path: '/roster/sites/:siteId/enrollments/:enrollmentId/withdraw',
 		component: Withdrawal,
 	},
 	{

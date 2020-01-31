@@ -14,7 +14,7 @@ import {
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest,
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDeleteRequest,
 } from '../../../generated';
-import getIdForUser from '../../../utils/getIdForUser';
+import { validatePermissions, getIdForUser } from '../../../utils/models';
 import CommonContainer from '../../CommonContainer';
 import { hasValidationErrors } from '../../../utils/validations';
 import AlertContext from '../../../contexts/Alert/AlertContext';
@@ -24,7 +24,7 @@ type EnrollmentNewParams = {
 	history: History;
 	match: {
 		params: {
-			siteId?: string;
+			siteId: number;
 			enrollmentId?: number;
 			sectionId?: string;
 		};
@@ -64,10 +64,6 @@ export default function EnrollmentNew({
 		params: { siteId, enrollmentId, sectionId = ChildInfo.key },
 	},
 }: EnrollmentNewParams) {
-	if (!siteId && !enrollmentId) {
-		throw new Error('EnrollmentNew rendered without siteId or enrollmentId parameters');
-	}
-
 	const { user } = useContext(UserContext);
 	const { setAlerts } = useContext(AlertContext);
 
@@ -75,7 +71,7 @@ export default function EnrollmentNew({
 	const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest = {
 		id: enrollmentId ? enrollmentId : 0,
 		orgId: getIdForUser(user, 'org'),
-		siteId: getIdForUser(user, 'site'),
+		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		include: ['child', 'family', 'determinations', 'fundings', 'sites'],
 	};
 	const [loading, error, enrollment, mutate] = useApi<Enrollment>(
@@ -100,7 +96,7 @@ export default function EnrollmentNew({
 	const cancelParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDeleteRequest = {
 		id: enrollmentId ? enrollmentId : 0,
 		orgId: getIdForUser(user, 'org'),
-		siteId: getIdForUser(user, 'site'),
+		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		enrollment: enrollment
 	};
 	const [, cancelError] = useApi(
@@ -135,7 +131,7 @@ export default function EnrollmentNew({
 		// Enrollments begin at /roster/sites/:siteId/enroll. We replace this URL in the
 		// browser history once we have an ID for the child.
 		if (!enrollmentId) {
-			history.replace(`/roster/enrollments/${enrollment.id}/new/${sectionId}`);
+			history.replace(`/roster/sites/${siteId}/enrollments/${enrollment.id}/new/${sectionId}`);
 		}
 
 		const currentIndex = sections.findIndex(section => section.key === sectionId);
@@ -143,10 +139,10 @@ export default function EnrollmentNew({
 		// If we're on the last section, we'll move to a final 'review' section where all
 		// steps are collapsed and we can 'Finish' the enrollment.
 		if (currentIndex === sections.length - 1) {
-			history.push(`/roster/enrollments/${enrollment.id}/new/review`);
+			history.push(`/roster/sites/${siteId}/enrollments/${enrollment.id}/new/review`);
 		} else {
 			const nextSectionId = sections[currentIndex + 1].key;
-			history.push(`/roster/enrollments/${enrollment.id}/new/${nextSectionId}`);
+			history.push(`/roster/sites/${siteId}/enrollments/${enrollment.id}/new/${nextSectionId}`);
 		}
 	};
 
