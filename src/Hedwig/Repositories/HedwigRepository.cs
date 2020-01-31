@@ -39,6 +39,7 @@ namespace Hedwig.Repositories
 			// TODO: is this correct? Or should null updates mean null/empty child object array ? 
 			if (updates == null)
 			{
+				// Why?  To account for casting fails?
 				return;
 			}
 
@@ -46,6 +47,7 @@ namespace Hedwig.Repositories
 			{
 				if(!updates.Any(u => u.Id.Equals(current.Id)))
 				{
+					Console.WriteLine("REMOVING A THING");
 					_context.Remove(current);
 				}
 			}
