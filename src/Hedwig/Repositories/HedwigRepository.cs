@@ -39,13 +39,16 @@ namespace Hedwig.Repositories
 		{
 			if (updates == null)
 			{
+				// Why?  To account for casting fails?
 				return;
 			}
 
 			foreach(var current in currents)
 			{
+				Console.WriteLine("A CURRENT THING");
 				if(!updates.Any(u => u.Id == current.Id))
 				{
+					Console.WriteLine("REMOVING A THING");
 					_context.Remove(current);
 				}
 			}

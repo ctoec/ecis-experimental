@@ -157,10 +157,13 @@ const EnrollmentFunding: Section = {
 
 		const fundings = _enrollment.fundings || [];
 		const sourcelessFunding = getSourcelessFunding(_enrollment);
+		
 		const cdcFunding = currentCdcFunding(fundings);
 		const [cdcReportingPeriod, updateCdcReportingPeriod] = useState<ReportingPeriod | undefined>(
 			cdcFunding ? cdcFunding.firstReportingPeriod : undefined
-		);
+			);
+			
+		const isPrivatePay = !sourcelessFunding && cdcFunding === undefined;
 
 		const initialFundingSource =
 			initialLoad || sourcelessFunding
@@ -291,6 +294,7 @@ const EnrollmentFunding: Section = {
 						fundings: updatedFundings,
 					},
 				};
+
 				mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
 					.then(res => {
 						if (successCallback && res) successCallback(res);
