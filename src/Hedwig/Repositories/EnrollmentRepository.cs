@@ -21,29 +21,9 @@ namespace Hedwig.Repositories
 		public void UpdateEnrollment(Enrollment enrollment)
 		{
       var currentFundings = _context.Fundings.AsNoTracking().Where(f => f.EnrollmentId == enrollment.Id).ToList();
-
-			Console.WriteLine($"FUNDINGS PRINTED HERE {enrollment.Fundings.Count} {currentFundings.Count}");
-			// Casting enrollment fundings here converts an empty list to null for some reason???
-
-			// var newFundings = enrollment.Fundings as IEnumerable<IHedwigIdEntity<object>>;
-			var newFundings = enrollment.Fundings.AsEnumerable().Cast<IHedwigIdEntity<object>>();
-			// var oldFundings = currentFundings as IEnumerable<IHedwigIdEntity<object>>;
-			var oldFundings = currentFundings.AsEnumerable().Cast<IHedwigIdEntity<object>>();
-
-			if (enrollment.Fundings == null)
-			{
-				Console.WriteLine("ENROLLMENT FUNDINGS NULL");
-			}
-			if (newFundings == null) {
-				Console.WriteLine("NEW FUNDINGS NULL");
-			}
-			if (oldFundings == null)
-			{
-				Console.WriteLine("OLD FUNDINGS NULL");
-			}
-			
+			var newFundings = enrollment.Fundings.AsEnumerable().Cast<IHedwigIdEntity<int>>();
+			var oldFundings = currentFundings.AsEnumerable().Cast<IHedwigIdEntity<int>>();
 			UpdateEnumerableChildObjects(newFundings, oldFundings);
-			Console.WriteLine($"SECOND FUNDINGS PRINTED HERE {enrollment.Fundings.Count} {currentFundings.Count}");
 			_context.Update(enrollment);
 		}
 

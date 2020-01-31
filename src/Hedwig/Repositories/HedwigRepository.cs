@@ -35,20 +35,17 @@ namespace Hedwig.Repositories
 		/// <param name="updates"></param>
 		/// <param name="currents"></param>
 		/// <typeparam name="T"></typeparam>
-		public void UpdateEnumerableChildObjects(IEnumerable<IHedwigIdEntity<object>> updates, IEnumerable<IHedwigIdEntity<object>> currents)
+		public void UpdateEnumerableChildObjects<T>(IEnumerable<IHedwigIdEntity<T>> updates, IEnumerable<IHedwigIdEntity<T>> currents) where T : IEquatable<T>
 		{
 			if (updates == null)
 			{
-				// Why?  To account for casting fails?
 				return;
 			}
 
 			foreach(var current in currents)
 			{
-				Console.WriteLine("A CURRENT THING");
-				if(!updates.Any(u => u.Id == current.Id))
+				if(!updates.Any(u => u.Id.Equals(current.Id)))
 				{
-					Console.WriteLine("REMOVING A THING");
 					_context.Remove(current);
 				}
 			}
