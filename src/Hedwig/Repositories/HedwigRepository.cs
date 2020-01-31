@@ -49,23 +49,6 @@ namespace Hedwig.Repositories
 					_context.Remove(current);
 				}
 			}
-
-			foreach(var update in updates)
-			{
-				if(update.Id is Guid guid && guid == Guid.Empty)
-				{
-					_context.Add(update);
-					break;
-				}
-
-				if(update.Id is int iid && iid == 0)
-				{
-					_context.Add(update);
-					break;
-				}
-
-				_context.Update(update);
-			}
 		}
 	}
 

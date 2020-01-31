@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using Hedwig.Data;
 
 namespace HedwigTests.Fixtures
 {
@@ -7,7 +8,7 @@ namespace HedwigTests.Fixtures
 	{
 		public static void ConfigureSqlServer(this IServiceCollection services, string connectionString)
 		{
-			services.AddDbContext<TestHedwigContext>(options =>
+			services.AddDbContext<HedwigContext>(options =>
 					options.UseSqlServer(connectionString)
 						.EnableSensitiveDataLogging()
 			);

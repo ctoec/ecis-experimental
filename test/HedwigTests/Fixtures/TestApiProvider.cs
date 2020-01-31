@@ -4,13 +4,14 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
+using Hedwig.Data;
 
 namespace HedwigTests.Fixtures
 {
 	public class TestApiProvider : IDisposable
 	{
 		private TestServer _server;
-		public TestHedwigContext Context;
+		public HedwigContext Context;
 		public HttpClient Client { get; private set; }
 		public TestApiProvider()
 		{
@@ -25,7 +26,7 @@ namespace HedwigTests.Fixtures
 			_server = new TestServer(builder);
 
 			var scope = _server.Host.Services.CreateScope();
-			Context = scope.ServiceProvider.GetRequiredService<TestHedwigContext>();
+			Context = scope.ServiceProvider.GetRequiredService<HedwigContext>();
 			Client = _server.CreateClient();
 		}
 
