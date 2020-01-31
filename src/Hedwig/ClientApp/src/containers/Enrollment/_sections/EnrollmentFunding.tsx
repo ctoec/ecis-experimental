@@ -313,7 +313,7 @@ const EnrollmentFunding: Section = {
 			// Otherwise we get "Enrollment exit reason is required for ended enrollments" validation errors on both site.enrollments and child.org.site.enrollments
 			id: getIdForUser(user, 'site'),
 			orgId: getIdForUser(user, 'org'),
-			include: ['organizations', 'enrollments', 'funding_spaces', 'fundings'],
+			include: ['organizations', 'enrollments', 'funding_spaces', 'fundings', 'reports'],
 		};
 		const [, , site] = useApi(api => api.apiOrganizationsOrgIdSitesIdGet(siteParams), [user]);
 

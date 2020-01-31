@@ -34,12 +34,10 @@ namespace Hedwig.Repositories
 		/// <param name="updates"></param>
 		/// <param name="currents"></param>
 		/// <typeparam name="T"></typeparam>
-		public void UpdateEnumerableChildObjects<T>(IEnumerable<IHedwigIdEntity<T>> updates, IEnumerable<IHedwigIdEntity<T>> currents)
+		public void UpdateEnumerableChildObjects<T>(IEnumerable<IHedwigIdEntity<T>> updates, IEnumerable<IHedwigIdEntity<T>> currents) where T : IEquatable<T>
 		{
-			// TODO: is this correct? Or should null updates mean null/empty child object array ? 
 			if (updates == null)
 			{
-				// Why?  To account for casting fails?
 				return;
 			}
 
@@ -47,7 +45,6 @@ namespace Hedwig.Repositories
 			{
 				if(!updates.Any(u => u.Id.Equals(current.Id)))
 				{
-					Console.WriteLine("REMOVING A THING");
 					_context.Remove(current);
 				}
 			}
