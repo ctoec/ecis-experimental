@@ -428,10 +428,6 @@ const ChildInfo: Section = {
 					type="select"
 					options={[
 						{
-							value: Gender.Unspecified,
-							text: '- Select -',
-						},
-						{
 							value: Gender.Female,
 							text: 'Female',
 						},
