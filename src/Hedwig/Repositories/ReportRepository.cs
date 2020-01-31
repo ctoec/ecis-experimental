@@ -126,6 +126,31 @@ namespace Hedwig.Repositories
       // Filter for funded enrollments (only funded enrollments are included in report)
       return enrollments.Where(enrollment => enrollment.Fundings.Any(funding => funding.Source == report.Type)).ToList();
     }
+
+    public CdcReport GetMostRecentSubmittedCdcReportForOrganization(int orgId)
+    {
+      return _context.Reports
+        .OfType<CdcReport>()
+        .Include(report => report.ReportingPeriod)
+        .Where(report => report.SubmittedAt != null)
+        .Where(report => report.OrganizationId == orgId)
+        .OrderByDescending(report => report.ReportingPeriod.Period)
+        .FirstOrDefault();
+    }
+
+    public void AddReport(Report report)
+    {
+      _context.Add(report);
+    }
+
+    public bool HasCdcReportForOrganizationAndReportingPeriod(int orgId, ReportingPeriod period)
+    {
+      return _context.Reports
+        .OfType<CdcReport>()
+        .Where(report => report.OrganizationId == orgId)
+        .Where(report => report.ReportingPeriodId == period.Id)
+        .FirstOrDefault() != null;
+    }
   }
 
   public interface IReportRepository : IHedwigRepository
@@ -135,5 +160,11 @@ namespace Hedwig.Repositories
     Task<CdcReport> GetReportForOrganizationAsync(int id, int orgId, string[] include);
 
     List<Enrollment> GetEnrollmentsForReport(CdcReport report);
+
+    CdcReport GetMostRecentSubmittedCdcReportForOrganization(int orgId);
+
+    void AddReport(Report report);
+
+    bool HasCdcReportForOrganizationAndReportingPeriod(int orgId, ReportingPeriod period);
   }
 }
