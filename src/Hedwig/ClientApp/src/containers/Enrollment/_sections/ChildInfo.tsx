@@ -21,7 +21,7 @@ import {
 	ValidationProblemDetailsFromJSON,
 } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
-import getIdForUser from '../../../utils/getIdForUser';
+import { validatePermissions, getIdForUser } from '../../../utils/models';
 import emptyGuid from '../../../utils/emptyGuid';
 import {
 	genderFromString,
@@ -74,7 +74,7 @@ const ChildInfo: Section = {
 		const { user } = useContext(UserContext);
 		const defaultPostParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest = {
 			orgId: getIdForUser(user, 'org'),
-			siteId: getIdForUser(user, 'site'),
+			siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 			enrollment: enrollment as Enrollment,
 		};
 		const defaultPutParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
@@ -161,7 +161,7 @@ const ChildInfo: Section = {
 
 		useFocusFirstError([apiError]);
 
-		const save = () => {
+		const save = (event: React.FormEvent<HTMLFormElement>) => {
 			if (enrollment) {
 				// If enrollment exists, put to save changes
 				const putParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
@@ -192,7 +192,7 @@ const ChildInfo: Section = {
 					...defaultPostParams,
 					enrollment: {
 						id: 0,
-						siteId: getIdForUser(user, 'site'),
+						siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 						childId: emptyGuid(),
 						child: {
 							id: emptyGuid(),
@@ -214,11 +214,13 @@ const ChildInfo: Section = {
 			} else {
 				throw new Error('Something impossible happened');
 			}
+
+			event.preventDefault();
 		};
 
 		// TODO: should gender be radio buttons as recommended by USWDS rather than select?
 		return (
-			<div className="ChildInfoForm usa-form">
+			<form className="ChildInfoForm usa-form" onSubmit={save} noValidate autoComplete="off">
 				<div className="grid-row grid-gap">
 					<div className="mobile-lg:grid-col-12">
 						<TextInput
@@ -426,10 +428,6 @@ const ChildInfo: Section = {
 					type="select"
 					options={[
 						{
-							value: Gender.Unspecified,
-							text: '- Select -',
-						},
-						{
 							value: Gender.Female,
 							text: 'Female',
 						},
@@ -461,8 +459,8 @@ const ChildInfo: Section = {
 					)}
 				/>
 
-				<Button text="Save" onClick={save} />
-			</div>
+				<Button text="Save" onClick='submit' />
+			</form>
 		);
 	},
 };

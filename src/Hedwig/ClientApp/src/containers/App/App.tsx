@@ -5,7 +5,7 @@ import MakeRouteWithSubRoutes from './MakeRouteWithSubRoutes';
 import routes from '../../routes';
 import useApi from '../../hooks/useApi';
 import { ApiOrganizationsOrgIdReportsGetRequest, CdcReport as Report } from '../../generated';
-import getIdForUser from '../../utils/getIdForUser';
+import { getIdForUser } from '../../utils/models';
 import UserContext from '../../contexts/User/UserContext';
 import { useCacheInvalidator, AppProvider } from '../../contexts/App/AppContext';
 import { AlertProvider } from '../../contexts/Alert/AlertContext';

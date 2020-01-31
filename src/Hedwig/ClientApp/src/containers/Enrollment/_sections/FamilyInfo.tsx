@@ -4,7 +4,7 @@ import { Section } from '../enrollmentTypes';
 import { Button, TextInput, ChoiceList, FieldSet } from '../../../components';
 import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
-import getIdForUser from '../../../utils/getIdForUser';
+import { validatePermissions, getIdForUser } from '../../../utils/models';
 import {
 	sectionHasValidationErrors,
 	warningForFieldSet,
@@ -30,7 +30,7 @@ const FamilyInfo: Section = {
 		const homelessness = family && family.homelessness;
 		return (
 			<div className="FamilyInfoSummary">
-				{family && 
+				{family &&
 					<>
 						<p>
 							Address: {address} {missingInformation}
@@ -43,7 +43,7 @@ const FamilyInfo: Section = {
 		);
 	},
 
-	Form: ({ enrollment, mutate, successCallback, finallyCallback, visitedSections }) => {
+	Form: ({ enrollment, siteId, mutate, successCallback, finallyCallback, visitedSections }) => {
 		if (!enrollment || !enrollment.child) {
 			throw new Error('FamilyInfo rendered without a child');
 		}
@@ -55,7 +55,7 @@ const FamilyInfo: Section = {
 		const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
 			id: enrollment.id || 0,
 			orgId: getIdForUser(user, 'org'),
-			siteId: getIdForUser(user, 'site'),
+			siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 			enrollment: enrollment,
 		};
 
@@ -74,7 +74,7 @@ const FamilyInfo: Section = {
 
 		const [foster, updateFoster] = useState(child.foster ? child.foster : false);
 
-		const save = () => {
+		const save = (event: React.FormEvent<HTMLFormElement>) => {
 			const args = {
 				addressLine1,
 				addressLine2,
@@ -110,10 +110,12 @@ const FamilyInfo: Section = {
 						finallyCallback && finallyCallback(FamilyInfo);
 					});
 			}
+
+			event.preventDefault();
 		};
 
 		return (
-			<div className="FamilyInfoForm usa-form">
+			<form className="FamilyInfoForm usa-form" onSubmit={save} noValidate autoComplete="off">
 				<h3>Address</h3>
 				<FieldSet
 					id="family-address"
@@ -223,8 +225,8 @@ const FamilyInfo: Section = {
 					Indicate if you are aware that the family has experienced housing insecurity, including
 					overcrowded housing, within the last year.
 				</p>
-				<Button text="Save" onClick={save} />
-			</div>
+				<Button text="Save" onClick='submit' />
+			</form>
 		);
 	},
 };

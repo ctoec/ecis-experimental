@@ -1,6 +1,6 @@
 // If you want to run as a non-root user in the container, see .devcontainer/docker-compose.yml.
 {
-	"name": "Existing Docker Compose (Extend)",
+	"name": "Backend",
 
 	// Update the 'dockerComposeFile' list if you have more compose files or use different names.
 	// The .devcontainer/docker-compose.yml file contains any overrides you need/want to make.
@@ -37,6 +37,7 @@
 
 	// Add the IDs of extensions you want installed when the container is created in the array below.
 	"extensions": [
-		"ms-vscode.csharp"
+		"ms-vscode.csharp",
+		"ms-mssql.mssql"
 	]
 }
