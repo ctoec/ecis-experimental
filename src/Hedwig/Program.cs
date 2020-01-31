@@ -24,7 +24,7 @@ namespace Hedwig
 				{
 					var services = scope.ServiceProvider;
 					var logger = services.GetRequiredService<ILogger<Program>>();
-					logger.LogWarning("Detected environment " + environment);
+					logger.LogInformation("Detected environment " + environment);
 
 					try
 					{
@@ -55,7 +55,6 @@ namespace Hedwig
 				var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 				if (environment != Environments.Development)
 				{
-					logging.AddEventLog();
 					logging.AddAWSProvider(context.Configuration.GetAWSLoggingConfigSection());
 				}
 
