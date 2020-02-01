@@ -313,7 +313,7 @@ const EnrollmentFunding: Section = {
 			// Otherwise we get "Enrollment exit reason is required for ended enrollments" validation errors on both site.enrollments and child.org.site.enrollments
 			id: getIdForUser(user, 'site'),
 			orgId: getIdForUser(user, 'org'),
-			include: ['organizations', 'enrollments', 'funding_spaces', 'fundings', 'reports'],
+			include: ['organizations', 'enrollments', 'funding_spaces', 'fundings'],
 		};
 		const [, , site] = useApi(api => api.apiOrganizationsOrgIdSitesIdGet(siteParams), [user]);
 
@@ -347,7 +347,6 @@ const EnrollmentFunding: Section = {
 		const newlySetCdcFunding = !cdcFunding && fundingSelection.source === FundingType.CDC;
 		useEffect(() => {
 			const thisPeriod = currentReportingPeriod(reportingPeriods);
-			// TODO: solve problem of why we aren't getting reporting period info for enrollments below
 			if (!site || !site.enrollments || !(cdcFunding || newlySetCdcFunding) || !thisPeriod) {
 				return;
 			}
