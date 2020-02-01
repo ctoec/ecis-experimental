@@ -10,7 +10,6 @@ import UserContext from '../../../contexts/User/UserContext';
 import {
 	Enrollment,
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest,
-	ApiOrganizationsOrgIdSitesIdGetRequest,
 } from '../../../generated';
 import { validatePermissions, getIdForUser } from '../../../utils/models';
 import useApi from '../../../hooks/useApi';
