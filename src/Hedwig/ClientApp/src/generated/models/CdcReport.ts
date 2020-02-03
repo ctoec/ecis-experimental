@@ -65,7 +65,7 @@ export interface CdcReport {
      * @type {number}
      * @memberof CdcReport
      */
-    familyFeesRevenue?: number;
+    familyFeesRevenue: number | null;
     /**
      * 
      * @type {number}
@@ -135,7 +135,7 @@ export function CdcReportFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         'accredited': json['accredited'],
         'c4KRevenue': !exists(json, 'c4KRevenue') ? undefined : json['c4KRevenue'],
         'retroactiveC4KRevenue': !exists(json, 'retroactiveC4KRevenue') ? undefined : json['retroactiveC4KRevenue'],
-        'familyFeesRevenue': !exists(json, 'familyFeesRevenue') ? undefined : json['familyFeesRevenue'],
+        'familyFeesRevenue': json['familyFeesRevenue'],
         'organizationId': json['organizationId'],
         'organization': !exists(json, 'organization') ? undefined : OrganizationFromJSON(json['organization']),
         'id': json['id'],

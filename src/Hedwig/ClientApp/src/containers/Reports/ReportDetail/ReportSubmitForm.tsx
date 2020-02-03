@@ -27,7 +27,7 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 	const [accredited, setAccredited] = useState(report.accredited);
 	const [c4KRevenue, setC4KRevenue] = useState(report.c4KRevenue || null);
 	const [retroactiveC4KRevenue, setRetroactiveC4KRevenue] = useState(report.retroactiveC4KRevenue);
-	const [familyFeesRevenue, setFamilyFeesRevenue] = useState(notNullOrUndefined(report.familyFeesRevenue) ? report.familyFeesRevenue : null);
+	const [familyFeesRevenue, setFamilyFeesRevenue] = useState(report.familyFeesRevenue);
 
 	const { user } = useContext(UserContext);
 	const { invalidateCache: invalidateAppCache } = useContext(AppContext);
@@ -48,7 +48,7 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 			accredited,
 			c4KRevenue: c4KRevenue !== null ? c4KRevenue : undefined,
 			retroactiveC4KRevenue,
-			familyFeesRevenue: familyFeesRevenue !== null ? familyFeesRevenue : undefined,
+			familyFeesRevenue: familyFeesRevenue,
 		};
 	}
 

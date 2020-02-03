@@ -195,6 +195,7 @@ export const defaultReport: CdcReport = {
 		periodEnd: new Date('2019-09-28'),
 	},
 	organization: defaultOrganization,
+	familyFeesRevenue: 1000,
 	validationErrors: reportEnrollmentValidationError,
 };
 

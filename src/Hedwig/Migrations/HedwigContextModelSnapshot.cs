@@ -506,7 +506,8 @@ namespace Hedwig.Migrations
                     b.Property<decimal>("C4KRevenue")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal>("FamilyFeesRevenue")
+                    b.Property<decimal?>("FamilyFeesRevenue")
+                        .IsRequired()
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<bool>("RetroactiveC4KRevenue")
