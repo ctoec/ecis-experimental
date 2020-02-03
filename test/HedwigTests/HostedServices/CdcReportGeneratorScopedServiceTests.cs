@@ -10,50 +10,56 @@ using HedwigTests.Fixtures;
 using Hedwig.Models;
 using Hedwig.HostedServices;
 using Hedwig.Utilities;
+using Microsoft.Extensions.Logging;
 
 namespace HedwigTests.HostedServices
 {
 	public class CdcReportGeneratorScopedServiceTests
 	{
 		[Theory]
-		[InlineData(true, 2019, 10, 1, 1)] // default in CreateReportingPeriod
-		[InlineData(true, 2019, 10, 2, 0)]
-		[InlineData(false, 2019, 10, 1, 0)]
-		[InlineData(false, 2019, 10, 2, 0)]
+		[InlineData(true, "2010-10-31", 1)]
+		[InlineData(true, "2010-11-01", 1)] 
+		[InlineData(true, "2010-11-10", 1)]
+		[InlineData(false, "2010-10-31", 0)]
+		[InlineData(false, "2010-11-01", 0)]
+		[InlineData(false, "2010-11-10", 0)]
 		public async Task CreatesReportForOrganization(
 			bool hasFundingSpace,
-			int year,
-			int month,
-			int day,
+			string today,
 			int numOfReportsGenerated
 		)
 		{
 			int organizationId;
+			int lastReportingPeriodId;
 			using (var context = new TestHedwigContextProvider().Context)
 			{
 				var organization = OrganizationHelper.CreateOrganization(context);
 				organizationId = organization.Id;
-				var fundingSpace = FundingSpaceHelper.CreateFundingSpace(organizationId);
 				if (hasFundingSpace)
 				{
-					organization.FundingSpaces = new List<FundingSpace> {
-						fundingSpace
-					};
+					FundingSpaceHelper.CreateFundingSpace(context, organizationId);
 				}
-				var currentReportingPeriod = ReportingPeriodHelper.CreateReportingPeriod(context);
+
+				var lastReportingPeriod = ReportingPeriodHelper.GetOrCreateReportingPeriodForPeriod(
+					context,
+					period: "2010-10-01",
+					periodStart: "2010-10-01",
+					periodEnd: "2010-10-31"
+				);
+				lastReportingPeriodId = lastReportingPeriod.Id;
 			}
 
 			using (var context = new TestHedwigContextProvider().Context)
 			{
+				var logger = new Mock<ILogger<CdcReportGeneratorScopedService>>();
 				var orgRepo = new OrganizationRepository(context);
 				var reportingPeriodRepo = new ReportingPeriodRepository(context);
 				var reportRepo = new ReportRepository(context);
 				var dateTime = new Mock<IDateTime>();
-				dateTime.Setup(dateTime => dateTime.UtcNow).Returns(new DateTime(
-					year, month, day 
-				));
+				dateTime.Setup(dateTime => dateTime.UtcNow).Returns(DateTime.Parse(today));
 
 				var cdcReportGenerator = new CdcReportGeneratorScopedService(
+					logger.Object,
 					orgRepo,
 					reportingPeriodRepo,
 					reportRepo,
@@ -68,9 +74,14 @@ namespace HedwigTests.HostedServices
 
 				Assert.Empty(previousReports);
 				Assert.Equal(numOfReportsGenerated, reports.Count());
+				if(numOfReportsGenerated > 0)
+				{
+					Assert.True(reports.All(report => report.ReportingPeriodId == lastReportingPeriodId));
+				}
 			}
 		}
 
+		[Fact]
 		public async Task DoesNotCreateDuplicateReports()
 		{
 			int organizationId;
@@ -78,7 +89,7 @@ namespace HedwigTests.HostedServices
 			{
 				var organization = OrganizationHelper.CreateOrganization(context);
 				organizationId = organization.Id;
-				var fundingSpace = FundingSpaceHelper.CreateFundingSpace(organizationId);
+				var fundingSpace = FundingSpaceHelper.CreateFundingSpace(context, organizationId);
 				organization.FundingSpaces = new List<FundingSpace> {
 					fundingSpace
 				};
@@ -87,15 +98,15 @@ namespace HedwigTests.HostedServices
 
 			using (var context = new TestHedwigContextProvider().Context)
 			{
+				var logger = new Mock<ILogger<CdcReportGeneratorScopedService>>();
 				var orgRepo = new OrganizationRepository(context);
 				var reportingPeriodRepo = new ReportingPeriodRepository(context);
 				var reportRepo = new ReportRepository(context);
 				var dateTime = new Mock<IDateTime>();
-				dateTime.Setup(dateTime => dateTime.UtcNow).Returns(new DateTime(
-					2019, 10, 1 
-				));
+				dateTime.Setup(dateTime => dateTime.UtcNow).Returns(DateTime.Parse("2019-10-01"));
 
 				var cdcReportGenerator = new CdcReportGeneratorScopedService(
+					logger.Object,
 					orgRepo,
 					reportingPeriodRepo,
 					reportRepo,
