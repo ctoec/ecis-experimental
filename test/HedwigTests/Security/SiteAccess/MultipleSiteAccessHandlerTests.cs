@@ -18,7 +18,7 @@ namespace HedwigTests.Security
 		public void Organization_Controller_User_Has_All_Sites_Access_Returns_True()
 		{
 			// TODO: Figure out how to mock .TryGetValues b/c it updates a parameter in place instead of as a return
-			using (var dbContext = new TestContextProvider().Context) {
+			using (var dbContext = new TestHedwigContextProvider().Context) {
 				// If user exists with access to site
 				var user = UserHelper.CreateUser(dbContext);
 				var site = SiteHelper.CreateSite(dbContext);
