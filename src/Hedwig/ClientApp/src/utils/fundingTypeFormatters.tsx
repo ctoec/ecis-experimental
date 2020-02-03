@@ -5,7 +5,7 @@ export type LegendTextFormatter = (
 	fullTitle: string,
 	enrolledForFunding?: number,
 	capacityForFunding?: number,
-	showPastEnrollments?: boolean 
+	showPastEnrollments?: boolean
 ) => string | JSX.Element;
 
 type FundingSourceDetail = {
@@ -40,7 +40,7 @@ export const fundingSourceDetails: { [key: string]: FundingSourceDetail } = {
 					</React.Fragment>
 				)
 			}
-			
+
 			return (
 				<React.Fragment>
 					<span className="text-bold">
@@ -59,7 +59,7 @@ export const fundingSourceDetails: { [key: string]: FundingSourceDetail } = {
 			return (
 				<React.Fragment>
 					<span className="text-bold">{enrolledForFunding}</span>
-					<span>{showPastEnrollments ? 'recieved' : 'receiving'} {fullTitle}</span>
+					<span> {showPastEnrollments ? 'recieved' : 'receiving'} {fullTitle}</span>
 				</React.Fragment>
 			);
 		},
