@@ -29,7 +29,7 @@ namespace HedwigTests.HostedServices
 		)
 		{
 			int organizationId;
-			using (var context = new TestContextProvider().Context)
+			using (var context = new TestHedwigContextProvider().Context)
 			{
 				var organization = OrganizationHelper.CreateOrganization(context);
 				organizationId = organization.Id;
@@ -43,7 +43,7 @@ namespace HedwigTests.HostedServices
 				var currentReportingPeriod = ReportingPeriodHelper.CreateReportingPeriod(context);
 			}
 
-			using (var context = new TestContextProvider().Context)
+			using (var context = new TestHedwigContextProvider().Context)
 			{
 				var orgRepo = new OrganizationRepository(context);
 				var reportingPeriodRepo = new ReportingPeriodRepository(context);
@@ -66,15 +66,15 @@ namespace HedwigTests.HostedServices
 
 				var reports = await reportRepo.GetReportsForOrganizationAsync(organizationId);
 
-				Assert.Equal(previousReports.Count, 0);
-				Assert.Equal(reports.Count, numOfReportsGenerated);
+				Assert.Empty(previousReports);
+				Assert.Equal(numOfReportsGenerated, reports.Count());
 			}
 		}
 
 		public async Task DoesNotCreateDuplicateReports()
 		{
 			int organizationId;
-			using (var context = new TestContextProvider().Context)
+			using (var context = new TestHedwigContextProvider().Context)
 			{
 				var organization = OrganizationHelper.CreateOrganization(context);
 				organizationId = organization.Id;
@@ -85,7 +85,7 @@ namespace HedwigTests.HostedServices
 				var currentReportingPeriod = ReportingPeriodHelper.CreateReportingPeriod(context);
 			}
 
-			using (var context = new TestContextProvider().Context)
+			using (var context = new TestHedwigContextProvider().Context)
 			{
 				var orgRepo = new OrganizationRepository(context);
 				var reportingPeriodRepo = new ReportingPeriodRepository(context);
@@ -110,8 +110,8 @@ namespace HedwigTests.HostedServices
 
 				var reports = await reportRepo.GetReportsForOrganizationAsync(organizationId);
 
-				Assert.Equal(previousReports.Count, 0);
-				Assert.Equal(reports.Count, 1);
+				Assert.Empty(previousReports);
+				Assert.Single(reports);
 			}
 		}
 	}

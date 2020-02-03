@@ -34,13 +34,42 @@ namespace Hedwig.Data
       CreateOrganizationPermission(organizationId: organization.Id, userId: user.Id);
 
       var reportingPeriods = new ReportingPeriod[] {
-        CreateReportingPeriod(period: "2019-08-01", start: "2019-07-29", end: "2019-09-01", due: "2019-09-15"),
-        CreateReportingPeriod(period: "2019-09-01", start: "2019-09-02", end: "2019-09-29", due: "2019-10-15"),
+        CreateReportingPeriod(period: "2017-07-01", start: "2017-07-03", end: "2017-07-30", due: "2017-08-18"),
+        CreateReportingPeriod(period: "2017-08-01", start: "2017-07-31", end: "2017-08-27", due: "2017-09-15"),
+        CreateReportingPeriod(period: "2017-09-01", start: "2017-08-28", end: "2017-10-01", due: "2017-10-20"),
+        CreateReportingPeriod(period: "2017-10-01", start: "2017-10-02", end: "2017-10-29", due: "2017-11-17"),
+        CreateReportingPeriod(period: "2017-11-01", start: "2017-10-30", end: "2017-11-26", due: "2017-12-15"),
+        CreateReportingPeriod(period: "2017-12-01", start: "2017-11-27", end: "2017-12-31", due: "2018-01-19"),
+        CreateReportingPeriod(period: "2018-01-01", start: "2018-01-01", end: "2018-01-28", due: "2018-02-16"),
+        CreateReportingPeriod(period: "2018-02-01", start: "2018-01-29", end: "2018-02-25", due: "2018-03-16"),
+        CreateReportingPeriod(period: "2018-03-01", start: "2018-02-26", end: "2018-04-01", due: "2018-04-20"),
+        CreateReportingPeriod(period: "2018-04-01", start: "2018-04-02", end: "2018-04-29", due: "2018-05-18"),
+        CreateReportingPeriod(period: "2018-05-01", start: "2018-04-30", end: "2018-05-27", due: "2018-06-15"),
+        CreateReportingPeriod(period: "2018-06-01", start: "2018-05-28", end: "2018-07-01", due: "2018-07-20"),
+        CreateReportingPeriod(period: "2018-07-01", start: "2018-07-02", end: "2018-07-29", due: "2018-08-17"),
+        CreateReportingPeriod(period: "2018-08-01", start: "2018-07-30", end: "2018-09-02", due: "2018-09-21"),
+        CreateReportingPeriod(period: "2018-09-01", start: "2018-09-03", end: "2018-09-30", due: "2018-10-19"),
+        CreateReportingPeriod(period: "2018-10-01", start: "2018-10-01", end: "2018-10-28", due: "2018-11-16"),
+        CreateReportingPeriod(period: "2018-11-01", start: "2018-10-29", end: "2018-12-02", due: "2018-12-21"),
+        CreateReportingPeriod(period: "2018-12-01", start: "2018-12-03", end: "2018-12-30", due: "2019-01-18"),
+        CreateReportingPeriod(period: "2019-01-01", start: "2018-12-31", end: "2019-01-27", due: "2019-02-15"),
+        CreateReportingPeriod(period: "2019-02-01", start: "2019-01-28", end: "2019-02-24", due: "2019-03-15"),
+        CreateReportingPeriod(period: "2019-03-01", start: "2019-02-25", end: "2019-03-31", due: "2019-04-19"),
+        CreateReportingPeriod(period: "2019-04-01", start: "2019-04-01", end: "2019-04-28", due: "2019-05-17"),
+        CreateReportingPeriod(period: "2019-05-01", start: "2019-04-29", end: "2019-06-02", due: "2019-06-21"),
+        CreateReportingPeriod(period: "2019-06-01", start: "2019-06-03", end: "2019-06-30", due: "2019-07-19"),
+        CreateReportingPeriod(period: "2019-07-01", start: "2019-07-01", end: "2019-07-28", due: "2019-08-16"),
+        CreateReportingPeriod(period: "2019-08-01", start: "2019-07-29", end: "2019-09-01", due: "2019-09-20"),
+        CreateReportingPeriod(period: "2019-09-01", start: "2019-09-02", end: "2019-09-29", due: "2019-10-18"),
         CreateReportingPeriod(period: "2019-10-01", start: "2019-09-30", end: "2019-10-27", due: "2019-11-15"),
-        CreateReportingPeriod(period: "2019-11-01", start: "2019-10-28", end: "2019-11-29", due: "2019-12-15"),
-        CreateReportingPeriod(period: "2019-12-01", start: "2019-12-02", end: "2019-12-27", due: "2020-01-15"),
-        CreateReportingPeriod(period: "2020-01-01", start: "2019-12-30", end: "2020-01-31", due: "2020-02-15"),
-        CreateReportingPeriod(period: "2020-02-01", start: "2020-02-03", end: "2020-02-28", due: "2020-03-15")
+        CreateReportingPeriod(period: "2019-11-01", start: "2019-10-28", end: "2019-12-01", due: "2019-12-20"),
+        CreateReportingPeriod(period: "2019-12-01", start: "2019-12-02", end: "2019-12-29", due: "2020-01-17"),
+        CreateReportingPeriod(period: "2020-01-01", start: "2019-12-30", end: "2020-02-02", due: "2020-02-21"),
+        CreateReportingPeriod(period: "2020-02-01", start: "2020-02-03", end: "2020-03-01", due: "2020-03-20"),
+        CreateReportingPeriod(period: "2020-03-01", start: "2020-03-02", end: "2020-03-29", due: "2020-04-17"),
+        CreateReportingPeriod(period: "2020-04-01", start: "2020-03-30", end: "2020-04-26", due: "2020-05-15"),
+        CreateReportingPeriod(period: "2020-05-01", start: "2020-04-27", end: "2020-05-31", due: "2020-06-19"),
+        CreateReportingPeriod(period: "2020-06-01", start: "2020-06-01", end: "2020-06-28", due: "2020-07-17")
       };
 
       CreateCdcReport(organizationId: organization.Id, reportingPeriodId: reportingPeriods[0].Id, submittedAt: "2019-09-09");
@@ -49,46 +78,46 @@ namespace Hedwig.Data
       CreateCdcReport(organizationId: organization.Id, reportingPeriodId: reportingPeriods[3].Id);
 
       var lines = new string[] {
-        "Alan,Rickman,2018-12-07,Male,TRUE,2019-09-02,,CDC,",
-        "David,Thewlis,2016-07-29,Male,TRUE,2019-09-02,,CDC,",
-        "Helena,Bonham Carter,2016-01-01,Female,TRUE,2019-09-02,,,",
-        "Maggie,Smith,2015-02-02,Female,TRUE,2018-09-03,,CDC,",
-        "Michael,Gambon,2015-07-06,Male,TRUE,2018-09-03,,CDC,",
-        "Richard,Griffiths,2018-07-02,Male,TRUE,2019-09-02,,CDC,",
-        "Richard,Harris,2015-12-23,Male,TRUE,2018-09-03,,CDC,",
-        "Warwick,Davis,2018-11-25,Male,FALSE,2019-09-02,,CDC,",
-        "Emma,Thompson,2016-08-03,Female,TRUE,2019-09-02,,CDC,",
-        "Robbie,Coltrane,2017-10-27,Male,TRUE,2019-09-02,,CDC,",
-        "David,Bradley,2014-11-20,Male,TRUE,2018-09-03,2019-08-30,CDC,",
-        "John,Cleese,2015-10-21,Male,TRUE,2019-09-02,,,",
-        "John,Hurt,2018-02-14,Male,TRUE,2019-09-02,,CDC,",
-        "Kenneth,Branagh,2018-08-19,Male,FALSE,2019-09-02,,CDC,",
-        "Miranda,Richardson,2018-11-09,Female,TRUE,2019-09-02,,CDC,",
-        "Matthew,Lewis,2017-12-07,Male,TRUE,2019-09-02,,,",
-        "Tom,Felton,2015-07-29,Male,TRUE,2019-09-02,,CDC,",
-        "Daniel,Radcliffe,2015-01-01,Male,TRUE,2019-09-02,,CDC,",
-        "Emma,Watson,2015-03-02,Female,TRUE,2018-09-03,,,",
-        "Alfred,Enoch,2015-09-06,Male,TRUE,2018-09-03,2019-08-30,CDC,",
-        "Ralph,Fiennes,2017-07-02,Male,TRUE,2019-09-02,,CDC,",
-        "James,Phelps,2014-12-23,Male,TRUE,2018-09-03,,,",
-        "Oliver,Phelps,2017-11-25,Male,TRUE,2019-09-02,,CDC,",
-        "Bonnie,Wright,2015-08-03,Female,TRUE,2019-09-02,,,",
-        "Julie,Walters,2016-10-27,Female,TRUE,2019-09-02,,CDC,",
-        "Chris,Rankin,2014-12-20,Male,TRUE,2018-09-03,2019-08-30,CDC,",
-        "Rupert,Grint,2015-01-21,Male,TRUE,2019-09-02,,CDC,",
-        "Robert,Hardy,2017-02-14,Male,TRUE,2019-09-02,,CDC,",
-        "Jason,Isaacs,2017-08-19,Male,TRUE,2019-09-02,,CDC,",
-        "Mark,Williams,2017-11-09,Male,TRUE,2019-09-02,,CDC,",
-        "Timothy,Spall,2016-12-07,Male,TRUE,2019-09-02,,CDC,",
-        "Katie,Leung,2016-07-29,Female,TRUE,2019-09-02,,CDC,",
-        "Robert,Pattinson,2015-04-01,Male,TRUE,2019-09-02,,CDC,",
-        "Evanna,Lynch,2015-02-03,Female,TRUE,2018-09-03,,,",
-        "Imelda,Staunton,2016-07-06,Female,TRUE,2018-09-03,,CDC,",
-        "Joshua,Herdman,2016-07-02,Male,TRUE,2019-09-02,,CDC,",
-        "Ian,Hart,2015-12-02,Male,TRUE,2018-09-03,2019-08-30,CDC,",
-        "David,Tennant,2017-11-25,Male,TRUE,2019-09-02,,CDC,",
-        "Devon,Murray,2017-08-03,Male,TRUE,2019-09-02,,CDC,",
-        "Harry,Melling,2016-10-27,Male,TRUE,2019-09-02,,CDC,"
+        "Alan,Rickman,2018-12-07,Male,TRUE,2019-09-02,,CDC,C4K,FOSTER",
+        "David,Thewlis,2016-07-29,Male,TRUE,2019-09-02,,CDC,,",
+        "Helena,Bonham Carter,2016-01-01,Female,TRUE,2019-09-02,,,,",
+        "Maggie,Smith,2015-02-02,Female,TRUE,2018-09-03,,CDC,,",
+        "Michael,Gambon,2015-07-06,Male,TRUE,2018-09-03,,CDC,,",
+        "Richard,Griffiths,2018-07-02,Male,TRUE,2019-09-02,,CDC,,",
+        "Richard,Harris,2015-12-23,Male,TRUE,2018-09-03,,CDC,,",
+        "Warwick,Davis,2018-11-25,Male,TRUE,2019-09-02,,CDC,,",
+        "Emma,Thompson,2016-08-03,Female,TRUE,2019-09-02,,CDC,,",
+        "Robbie,Coltrane,2017-10-27,Male,TRUE,2019-09-02,,CDC,,",
+        "David,Bradley,2014-11-20,Male,TRUE,2018-09-03,2019-08-30,CDC,C4K,",
+        "John,Cleese,2015-10-21,Male,TRUE,2019-09-02,,,,",
+        "John,Hurt,2018-02-14,Male,TRUE,2019-09-02,,CDC,,",
+        "Kenneth,Branagh,2018-08-19,Male,FALSE,2019-09-02,,CDC,,",
+        "Miranda,Richardson,2018-11-09,Female,TRUE,2019-09-02,,CDC,,",
+        "Matthew,Lewis,2017-12-07,Male,TRUE,2019-09-02,,,,",
+        "Tom,Felton,2015-07-29,Male,TRUE,2019-09-02,,CDC,,",
+        "Daniel,Radcliffe,2015-01-01,Male,TRUE,2019-09-02,,CDC,,",
+        "Emma,Watson,2015-03-02,Female,TRUE,2018-09-03,,,,",
+        "Alfred,Enoch,2015-09-06,Male,TRUE,2018-09-03,2019-08-30,CDC,,",
+        "Ralph,Fiennes,2017-07-02,Male,TRUE,2019-09-02,,CDC,,",
+        "James,Phelps,2014-12-23,Male,TRUE,2018-09-03,,,,",
+        "Oliver,Phelps,2017-11-25,Male,TRUE,2019-09-02,,CDC,,",
+        "Bonnie,Wright,2015-08-03,Female,TRUE,2019-09-02,,,C4K,",
+        "Julie,Walters,2016-10-27,Female,TRUE,2019-09-02,,CDC,C4K,",
+        "Chris,Rankin,2014-12-20,Male,FALSE,2018-09-03,2019-08-30,CDC,,",
+        "Rupert,Grint,2015-01-21,Male,TRUE,2019-09-02,,CDC,,",
+        "Robert,Hardy,2017-02-14,Male,TRUE,2019-09-02,,CDC,,",
+        "Jason,Isaacs,2017-08-19,Male,TRUE,2019-09-02,,CDC,C4K,",
+        "Mark,Williams,2017-11-09,Male,TRUE,2019-09-02,,CDC,,",
+        "Timothy,Spall,2016-12-07,Male,TRUE,2019-09-02,,CDC,,",
+        "Katie,Leung,2016-07-29,Female,TRUE,2019-09-02,,CDC,,",
+        "Robert,Pattinson,2015-04-01,Male,TRUE,2019-09-02,,CDC,,",
+        "Evanna,Lynch,2015-02-03,Female,TRUE,2018-09-03,,,C4K,",
+        "Imelda,Staunton,2016-07-06,Female,TRUE,2018-09-03,,CDC,,",
+        "Joshua,Herdman,2016-07-02,Male,TRUE,2019-09-02,,CDC,,",
+        "Ian,Hart,2015-12-02,Male,TRUE,2018-09-03,2019-08-30,CDC,,",
+        "David,Tennant,2017-11-25,Male,TRUE,2019-09-02,,CDC,,",
+        "Devon,Murray,2017-08-03,Male,TRUE,2019-09-02,,CDC,,",
+        "Harry,Melling,2016-10-27,Male,TRUE,2019-09-02,,CDC,,"
       }.ToList();
 
       for(int i = 0; i < lines.Count; i++)
@@ -104,9 +133,17 @@ namespace Hedwig.Data
         var entry = cells[5];
         var exit = cells[6] != "" ? cells[6] : null;
         var cdc = cells[7] == "CDC";
+        var c4k = cells[8] == "C4K";
+        var foster = cells[9] == "FOSTER";
 
         var family = CreateFamily(organizationId: organization.Id);
-        CreateFamilyDetermination(familyId: family.Id);
+
+        if (foster) {
+          // Partial determination for a child with a foster family
+          CreateFamilyDetermination(familyId: family.Id, income: null);
+        } else {
+          CreateFamilyDetermination(familyId: family.Id);
+        }
 
         var child = CreateChild(
           organizationId: organization.Id,
@@ -115,7 +152,8 @@ namespace Hedwig.Data
           lastName: lastName,
           birthdate: birthdate,
           gender: gender,
-          birthCertificateRecorded: birthCertificateRecorded
+          birthCertificateRecorded: birthCertificateRecorded,
+          foster: foster
         );
 
         var ageGroupCutoff = DateTime.Parse("2017-09-01");
@@ -134,9 +172,41 @@ namespace Hedwig.Data
             enrollmentId: enrollment.Id,
             source: FundingSource.CDC,
             time: FundingTime.Full,
-            firstReportingPeriod: reportingPeriods[1],
-            lastReportingPeriod: cells[6] != "" ? reportingPeriods[0] : null
+            firstReportingPeriod: entry == "2018-09-03" ? reportingPeriods[14] : reportingPeriods[26],
+            lastReportingPeriod: cells[6] != "" ? reportingPeriods[25] : null
           );
+        }
+
+        if (c4k)
+        {
+          CreateFunding(
+            enrollmentId: enrollment.Id,
+            source: FundingSource.C4K,
+            certificateStartDate: entry,
+            certificateEndDate: exit,
+            familyId: 123456
+          );
+        }
+
+        if (entry == "2018-09-03" && DateTime.Parse(birthdate) < ageGroupCutoff) {
+          var firstEnrollment = CreateEnrollment(
+            childId: child.Id,
+            siteId: site.Id,
+            entry: "2017-09-04",
+            exit: entry,
+            ageGroup: Age.InfantToddler
+          );
+
+          if (cdc)
+          {
+            CreateFunding(
+              enrollmentId: firstEnrollment.Id,
+              source: FundingSource.CDC,
+              time: FundingTime.Full,
+              firstReportingPeriod: reportingPeriods[2],
+              lastReportingPeriod: reportingPeriods[13]
+            );
+          }
         }
       }
 
@@ -154,18 +224,18 @@ namespace Hedwig.Data
 
     private void DeleteAllData()
     {
-			_context.Permissions.RemoveRange(_context.Permissions.ToList());
-			_context.FamilyDeterminations.RemoveRange(_context.FamilyDeterminations.ToList());
-			_context.Families.RemoveRange(_context.Families.ToList());
-			_context.Children.RemoveRange(_context.Children.ToList());
-			_context.Enrollments.RemoveRange(_context.Enrollments.ToList());
-			_context.Fundings.RemoveRange(_context.Fundings.ToList());
-			_context.FundingSpaces.RemoveRange(_context.FundingSpaces.ToList());
-			_context.ReportingPeriods.RemoveRange(_context.ReportingPeriods.ToList());
-			_context.Reports.RemoveRange(_context.Reports.ToList());
-			_context.Sites.RemoveRange(_context.Sites.ToList());
-			_context.Organizations.RemoveRange(_context.Organizations.ToList());
-			_context.Users.RemoveRange(_context.Users.ToList());
+      _context.Permissions.RemoveRange(_context.Permissions.ToList());
+      _context.FamilyDeterminations.RemoveRange(_context.FamilyDeterminations.ToList());
+      _context.Families.RemoveRange(_context.Families.ToList());
+      _context.Children.RemoveRange(_context.Children.ToList());
+      _context.Enrollments.RemoveRange(_context.Enrollments.ToList());
+      _context.Fundings.RemoveRange(_context.Fundings.ToList());
+      _context.FundingSpaces.RemoveRange(_context.FundingSpaces.ToList());
+      _context.ReportingPeriods.RemoveRange(_context.ReportingPeriods.ToList());
+      _context.Reports.RemoveRange(_context.Reports.ToList());
+      _context.Sites.RemoveRange(_context.Sites.ToList());
+      _context.Organizations.RemoveRange(_context.Organizations.ToList());
+      _context.Users.RemoveRange(_context.Users.ToList());
     }
 
     private Organization CreateOrganization(string name = "Hogwarts")
@@ -252,7 +322,7 @@ namespace Hedwig.Data
     private FamilyDetermination CreateFamilyDetermination(
       int familyId,
       int numberOfPeople = 3,
-      decimal income = 20000M,
+      decimal? income = 20000M,
       string determined = "2019-08-01"
     )
     {
@@ -275,7 +345,8 @@ namespace Hedwig.Data
       string lastName = "Doe",
       string birthdate = "2016-06-01",
       Gender gender = Gender.Unspecified,
-      bool birthCertificateRecorded = true
+      bool birthCertificateRecorded = true,
+      bool foster = false
     )
     {
       var rand = new Random();
@@ -291,7 +362,8 @@ namespace Hedwig.Data
         Gender = gender,
         White = randomIsWhite,
         BlackOrAfricanAmerican = !randomIsWhite,
-        HispanicOrLatinxEthnicity = randomIsHispanic
+        HispanicOrLatinxEthnicity = randomIsHispanic,
+        Foster = foster
       };
 
       if (birthCertificateRecorded)
@@ -335,9 +407,10 @@ namespace Hedwig.Data
       FundingSource source,
       string certificateStartDate = null,
       string certificateEndDate = null,
-      FundingTime time = FundingTime.Full,
+      FundingTime? time = null,
       ReportingPeriod firstReportingPeriod = null,
-      ReportingPeriod lastReportingPeriod = null
+      ReportingPeriod lastReportingPeriod = null,
+      int? familyId = null
     )
     {
       var funding = new Funding
@@ -346,7 +419,8 @@ namespace Hedwig.Data
         Source = source,
         Time = time,
         FirstReportingPeriod = firstReportingPeriod,
-        LastReportingPeriod = lastReportingPeriod
+        LastReportingPeriod = lastReportingPeriod,
+        FamilyId = familyId
       };
 
       if (certificateStartDate != null)
