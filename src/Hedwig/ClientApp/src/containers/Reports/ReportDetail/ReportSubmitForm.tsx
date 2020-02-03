@@ -2,7 +2,7 @@ import React, { useState, FormEvent, useContext } from 'react';
 import { CdcReport, ApiOrganizationsOrgIdReportsIdPutRequest } from '../../../generated';
 import { Mutate } from '../../../hooks/useApi';
 import UserContext from '../../../contexts/User/UserContext';
-import { Button, TextInput, ChoiceList, AlertProps } from '../../../components';
+import { Button, TextInput, ChoiceList, AlertProps, FieldSet } from '../../../components';
 import AppContext from '../../../contexts/App/AppContext';
 import currencyFormatter from '../../../utils/currencyFormatter';
 import parseCurrencyFromString from '../../../utils/parseCurrencyFromString';
@@ -14,6 +14,7 @@ import monthFormatter from '../../../utils/monthFormatter';
 import { DeepNonUndefineable } from '../../../utils/types';
 import { useFocusFirstError, serverErrorForField } from '../../../utils/validations';
 import { ValidationProblemDetails, ValidationProblemDetailsFromJSON } from '../../../generated';
+import notNullOrUndefined from '../../../utils/notNullOrUndefined';
 
 export type ReportSubmitFormProps = {
 	report: DeepNonUndefineable<CdcReport>;
@@ -26,7 +27,7 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 	const [accredited, setAccredited] = useState(report.accredited);
 	const [c4KRevenue, setC4KRevenue] = useState(report.c4KRevenue || null);
 	const [retroactiveC4KRevenue, setRetroactiveC4KRevenue] = useState(report.retroactiveC4KRevenue);
-	const [familyFeesRevenue, setFamilyFeesRevenue] = useState(report.familyFeesRevenue || null);
+	const [familyFeesRevenue, setFamilyFeesRevenue] = useState(report.familyFeesRevenue);
 
 	const { user } = useContext(UserContext);
 	const { invalidateCache: invalidateAppCache } = useContext(AppContext);
@@ -47,7 +48,7 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 			accredited,
 			c4KRevenue: c4KRevenue !== null ? c4KRevenue : undefined,
 			retroactiveC4KRevenue,
-			familyFeesRevenue: familyFeesRevenue !== null ? familyFeesRevenue : undefined,
+			familyFeesRevenue: familyFeesRevenue,
 		};
 	}
 
@@ -103,12 +104,11 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 			/>
 			<UtilizationTable {...{ ...report, accredited }} />
 			<form className="usa-form" onSubmit={onSubmit} noValidate autoComplete="off">
-				<fieldset className="usa-fieldset">
-					{/* TODO: REPLACE WITH FIELDSET COMPONENT */}
-					<legend>
-						<h2 className="margin-bottom-0 margin-top-2">Other Revenue</h2>
-					</legend>
-					{/* TODO: is this actually required? error isn't happening.  We should mark it as optional if it isn't */}
+				<h2>Other Revenue</h2>
+				<FieldSet
+					id="other-revenue"
+					legend="Other Revenue"
+				>
 					<TextInput
 						id="c4k-revenue"
 						label={
@@ -121,6 +121,7 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 						onBlur={event =>
 							(event.target.value = c4KRevenue !== null ? currencyFormatter(c4KRevenue) : '')
 						}
+						optional={true}
 						disabled={!!report.submittedAt}
 						status={serverErrorForField(
 							'report.c4krevenue',
@@ -128,22 +129,20 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 							'This information is required for the report'
 						)}
 					/>
-					<div className="margin-top-2">
-						<ChoiceList
-							type="check"
-							id="c4k-includes-retroactive"
-							legend="Includes retroactive payment"
-							selected={retroactiveC4KRevenue ? ['retroactiveC4KRevenue'] : undefined}
-							onChange={e => setRetroactiveC4KRevenue((e.target as HTMLInputElement).checked)}
-							disabled={!!report.submittedAt}
-							options={[
-								{
-									text: 'Includes retroactive payment for past months',
-									value: 'retroactiveC4KRevenue',
-								},
-							]}
-						/>
-					</div>
+					<ChoiceList
+						type="check"
+						id="c4k-includes-retroactive"
+						legend="Includes retroactive payment"
+						selected={retroactiveC4KRevenue ? ['retroactiveC4KRevenue'] : undefined}
+						onChange={e => setRetroactiveC4KRevenue((e.target as HTMLInputElement).checked)}
+						disabled={!!report.submittedAt}
+						options={[
+							{
+								text: 'Includes retroactive payment for past months',
+								value: 'retroactiveC4KRevenue',
+							},
+						]}
+					/>
 					<TextInput
 						id="family-fees-revenue"
 						label={<span className="text-bold">Family Fees</span>}
@@ -155,13 +154,12 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 						}
 						disabled={!!report.submittedAt}
 						status={serverErrorForField(
-							'report.familyfeesrevenue',
+							'familyfeesrevenue',
 							apiError,
-							'This information is required for the report'
+							'This information is required'
 						)}
 					/>
-				</fieldset>
-				{/* TODO: REPLACE WITH BUTTON COMPONENT */}
+				</FieldSet>
 				{!report.submittedAt && (
 					<Button onClick="submit" text="Submit" disabled={!canSubmit} />
 				)}

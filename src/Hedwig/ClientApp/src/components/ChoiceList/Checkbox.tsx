@@ -31,7 +31,7 @@ export default function Checkbox({
 				value={value}
 				defaultChecked={selected}
 				onChange={onChange}
-				disabled={disabled}
+				disabled={!!disabled}
 			/>
 			<label className="usa-checkbox__label" htmlFor={id}>
 				{text}

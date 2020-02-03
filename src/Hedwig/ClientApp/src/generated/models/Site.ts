@@ -72,6 +72,30 @@ export interface Site {
     organization?: Organization;
     /**
      * 
+     * @type {number}
+     * @memberof Site
+     */
+    facilityCode?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof Site
+     */
+    licenseNumber?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof Site
+     */
+    naeycId?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof Site
+     */
+    registryId?: number | null;
+    /**
+     * 
      * @type {Array<Enrollment>}
      * @memberof Site
      */
@@ -94,6 +118,10 @@ export function SiteFromJSONTyped(json: any, ignoreDiscriminator: boolean): Site
         'region': RegionFromJSON(json['region']),
         'organizationId': json['organizationId'],
         'organization': !exists(json, 'organization') ? undefined : OrganizationFromJSON(json['organization']),
+        'facilityCode': !exists(json, 'facilityCode') ? undefined : json['facilityCode'],
+        'licenseNumber': !exists(json, 'licenseNumber') ? undefined : json['licenseNumber'],
+        'naeycId': !exists(json, 'naeycId') ? undefined : json['naeycId'],
+        'registryId': !exists(json, 'registryId') ? undefined : json['registryId'],
         'enrollments': !exists(json, 'enrollments') ? undefined : (json['enrollments'] === null ? null : (json['enrollments'] as Array<any>).map(EnrollmentFromJSON)),
     };
 }
@@ -113,6 +141,10 @@ export function SiteToJSON(value?: Site | null): any {
         'region': RegionToJSON(value.region),
         'organizationId': value.organizationId,
         'organization': OrganizationToJSON(value.organization),
+        'facilityCode': value.facilityCode,
+        'licenseNumber': value.licenseNumber,
+        'naeycId': value.naeycId,
+        'registryId': value.registryId,
         'enrollments': value.enrollments === undefined ? undefined : (value.enrollments === null ? null : (value.enrollments as Array<any>).map(EnrollmentToJSON)),
     };
 }

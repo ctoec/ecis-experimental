@@ -270,6 +270,7 @@ exports[`Storyshots ChoiceList Checklist 1`] = `
           <input
             className="usa-checkbox__input"
             defaultChecked={false}
+            disabled={false}
             id="storybook-checklist-one"
             name=""
             onChange={[Function]}
@@ -289,6 +290,7 @@ exports[`Storyshots ChoiceList Checklist 1`] = `
           <input
             className="usa-checkbox__input"
             defaultChecked={false}
+            disabled={false}
             id="storybook-checklist-two"
             name=""
             onChange={[Function]}
@@ -366,6 +368,7 @@ exports[`Storyshots ChoiceList Checklist with warning 1`] = `
           <input
             className="usa-checkbox__input"
             defaultChecked={false}
+            disabled={false}
             id="storybook-checklist-one"
             name=""
             onChange={[Function]}
@@ -385,6 +388,7 @@ exports[`Storyshots ChoiceList Checklist with warning 1`] = `
           <input
             className="usa-checkbox__input"
             defaultChecked={false}
+            disabled={false}
             id="storybook-checklist-two"
             name=""
             onChange={[Function]}
@@ -404,7 +408,7 @@ exports[`Storyshots ChoiceList Checklist with warning 1`] = `
 </div>
 `;
 
-exports[`Storyshots ChoiceList Radio 1`] = `
+exports[`Storyshots ChoiceList Disabled checklist 1`] = `
 <div
   style={
     Object {
@@ -433,11 +437,86 @@ exports[`Storyshots ChoiceList Radio 1`] = `
         className=""
       >
         <div
+          className="usa-checkbox undefined"
+        >
+          <input
+            className="usa-checkbox__input"
+            defaultChecked={false}
+            disabled={true}
+            id="storybook-checklist-one"
+            name=""
+            onChange={[Function]}
+            type="checkbox"
+            value="one"
+          />
+          <label
+            className="usa-checkbox__label"
+            htmlFor="storybook-checklist-one"
+          >
+            Option one
+          </label>
+        </div>
+        <div
+          className="usa-checkbox undefined"
+        >
+          <input
+            className="usa-checkbox__input"
+            defaultChecked={false}
+            disabled={true}
+            id="storybook-checklist-two"
+            name=""
+            onChange={[Function]}
+            type="checkbox"
+            value="two"
+          />
+          <label
+            className="usa-checkbox__label"
+            htmlFor="storybook-checklist-two"
+          >
+            Option two
+          </label>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots ChoiceList Disabled radio 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    aria-required={true}
+    className="grid-gap grid-row usa-fieldset
+			
+			 undefined
+			"
+    id="storybook-radio-fieldset"
+  >
+    <legend
+      className="usa-sr-only"
+      id="fieldset-legend-storybook-radio-fieldset"
+    >
+      Radio items
+    </legend>
+    <div
+      className="grid-gap grid-row margin-top-3"
+    >
+      <div
+        className=""
+      >
+        <div
           className="usa-radio undefined"
         >
           <input
             checked={false}
             className="usa-radio__input"
+            disabled={true}
             id="one"
             name=""
             onChange={[Function]}
@@ -457,6 +536,129 @@ exports[`Storyshots ChoiceList Radio 1`] = `
           <input
             checked={false}
             className="usa-radio__input"
+            disabled={true}
+            id="two"
+            name=""
+            onChange={[Function]}
+            type="radio"
+            value="two"
+          />
+          <label
+            className="usa-radio__label"
+            htmlFor="two"
+          >
+            Option two
+          </label>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots ChoiceList Disabled select 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group"
+  >
+    <div
+      className=""
+    />
+    <label
+      className="usa-label"
+      htmlFor="storybook-select"
+    >
+      Select
+    </label>
+    <select
+      aria-required={true}
+      className="usa-select"
+      disabled={true}
+      id="storybook-select"
+      name="storybook-select"
+      onChange={[Function]}
+    >
+      <option
+        value=""
+      >
+        - Select -
+      </option>
+      <option
+        value="one"
+      >
+        Option one
+      </option>
+      <option
+        value="two"
+      >
+        Option two
+      </option>
+    </select>
+  </div>
+</div>
+`;
+
+exports[`Storyshots ChoiceList Radio 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    aria-required={true}
+    className="grid-gap grid-row usa-fieldset
+			
+			 undefined
+			"
+    id="storybook-radio-fieldset"
+  >
+    <legend
+      className="usa-sr-only"
+      id="fieldset-legend-storybook-radio-fieldset"
+    >
+      Radio items
+    </legend>
+    <div
+      className="grid-gap grid-row margin-top-3"
+    >
+      <div
+        className=""
+      >
+        <div
+          className="usa-radio undefined"
+        >
+          <input
+            checked={false}
+            className="usa-radio__input"
+            disabled={false}
+            id="one"
+            name=""
+            onChange={[Function]}
+            type="radio"
+            value="one"
+          />
+          <label
+            className="usa-radio__label"
+            htmlFor="one"
+          >
+            Option one
+          </label>
+        </div>
+        <div
+          className="usa-radio undefined"
+        >
+          <input
+            checked={false}
+            className="usa-radio__input"
+            disabled={false}
             id="two"
             name=""
             onChange={[Function]}
@@ -492,13 +694,13 @@ exports[`Storyshots ChoiceList Radio with error 1`] = `
 			 usa-fieldset--error
 			 undefined
 			"
-    id="storybook-checklist-fieldset"
+    id="storybook-radio-fieldset"
   >
     <legend
       className="usa-sr-only"
-      id="fieldset-legend-storybook-checklist-fieldset"
+      id="fieldset-legend-storybook-radio-fieldset"
     >
-      Checklist items
+      Radio items
     </legend>
     <span
       className="usa-error-message"
@@ -521,6 +723,7 @@ exports[`Storyshots ChoiceList Radio with error 1`] = `
           <input
             checked={false}
             className="usa-radio__input"
+            disabled={false}
             id="one"
             name=""
             onChange={[Function]}
@@ -540,6 +743,7 @@ exports[`Storyshots ChoiceList Radio with error 1`] = `
           <input
             checked={false}
             className="usa-radio__input"
+            disabled={false}
             id="two"
             name=""
             onChange={[Function]}
@@ -573,13 +777,13 @@ exports[`Storyshots ChoiceList Radio with preselected option 1`] = `
 			
 			 undefined
 			"
-    id="storybook-checklist-fieldset"
+    id="storybook-radio-fieldset"
   >
     <legend
       className="usa-sr-only"
-      id="fieldset-legend-storybook-checklist-fieldset"
+      id="fieldset-legend-storybook-radio-fieldset"
     >
-      Checklist items
+      Radio items
     </legend>
     <div
       className="grid-gap grid-row margin-top-3"
@@ -593,6 +797,7 @@ exports[`Storyshots ChoiceList Radio with preselected option 1`] = `
           <input
             checked={true}
             className="usa-radio__input"
+            disabled={false}
             id="one"
             name=""
             onChange={[Function]}
@@ -612,6 +817,7 @@ exports[`Storyshots ChoiceList Radio with preselected option 1`] = `
           <input
             checked={false}
             className="usa-radio__input"
+            disabled={false}
             id="two"
             name=""
             onChange={[Function]}
@@ -647,15 +853,15 @@ exports[`Storyshots ChoiceList Select 1`] = `
     />
     <label
       className="usa-label"
-      htmlFor="storybook-checklist"
+      htmlFor="storybook-select"
     >
       Select
     </label>
     <select
       aria-required={true}
       className="usa-select"
-      id="storybook-checklist"
-      name="storybook-checklist"
+      id="storybook-select"
+      name="storybook-select"
       onChange={[Function]}
     >
       <option
@@ -694,15 +900,15 @@ exports[`Storyshots ChoiceList Select with other 1`] = `
     />
     <label
       className="usa-label"
-      htmlFor="storybook-checklist"
+      htmlFor="storybook-select"
     >
       Select
     </label>
     <select
       aria-required={true}
       className="usa-select"
-      id="storybook-checklist"
-      name="storybook-checklist"
+      id="storybook-select"
+      name="storybook-select"
       onChange={[Function]}
     >
       <option
@@ -746,7 +952,7 @@ exports[`Storyshots ChoiceList Select with success 1`] = `
     />
     <label
       className="usa-label usa-label--success"
-      htmlFor="storybook-checklist"
+      htmlFor="storybook-select"
     >
       Select
     </label>
@@ -764,8 +970,8 @@ exports[`Storyshots ChoiceList Select with success 1`] = `
       aria-invalid={false}
       aria-required={true}
       className="usa-select usa-input--success"
-      id="storybook-checklist"
-      name="storybook-checklist"
+      id="storybook-select"
+      name="storybook-select"
       onChange={[Function]}
     >
       <option
@@ -808,6 +1014,7 @@ exports[`Storyshots ChoiceList Single checkbox 1`] = `
       <input
         className="usa-checkbox__input"
         defaultChecked={false}
+        disabled={false}
         id="storybook-checklist-one"
         name=""
         onChange={[Function]}
