@@ -342,8 +342,8 @@ const EnrollmentFunding: Section = {
 		};
 		const [utilizationRate, setUtilizationRate] = useState<UtilizationRate>();
 		const newlySetCdcFunding = !cdcFunding && fundingSelection.source === FundingType.CDC;
+		const thisPeriod = currentReportingPeriod(reportingPeriods);
 		useEffect(() => {
-			const thisPeriod = currentReportingPeriod(reportingPeriods);
 			if (!site || !site.enrollments || !(cdcFunding || newlySetCdcFunding) || !thisPeriod) {
 				return;
 			}
@@ -368,7 +368,7 @@ const EnrollmentFunding: Section = {
 
 			const numEnrolled = enrolled.length + (newlySetCdcFunding ? 1 : 0);
 			setUtilizationRate({ capacity, numEnrolled });
-		}, [site, fundingSelection, _enrollment.ageGroup]);
+		}, [site, fundingSelection, _enrollment.ageGroup, thisPeriod]);
 
 		return (
 			<form className="EnrollmentFundingForm" onSubmit={save} noValidate autoComplete="off">
@@ -492,9 +492,9 @@ const EnrollmentFunding: Section = {
 							// TODO (after user research): This will only warn about the current reporting period.  What if they set an earlier reporting period date?
 							text={`${utilizationRate.numEnrolled} out of ${
 								utilizationRate.capacity
-							} spaces are utilized for the ${cdcReportingPeriod ? moment(cdcReportingPeriod.period).format(
-								'MMM YYYY'
-							) : 'current'} reporting period.`}
+							} spaces are utilized for the ${
+								thisPeriod ? moment(thisPeriod.period).format('MMMM YYYY') : 'current'
+							} reporting period.`}
 						/>
 					)}
 					<h3>Care 4 Kids</h3>
