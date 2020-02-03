@@ -157,13 +157,11 @@ const EnrollmentFunding: Section = {
 
 		const fundings = _enrollment.fundings || [];
 		const sourcelessFunding = getSourcelessFunding(_enrollment);
-		
+
 		const cdcFunding = currentCdcFunding(fundings);
 		const [cdcReportingPeriod, updateCdcReportingPeriod] = useState<ReportingPeriod | undefined>(
 			cdcFunding ? cdcFunding.firstReportingPeriod : undefined
-			);
-			
-		const isPrivatePay = !sourcelessFunding && cdcFunding === undefined;
+		);
 
 		const initialFundingSource =
 			initialLoad || sourcelessFunding
@@ -218,7 +216,6 @@ const EnrollmentFunding: Section = {
 		const [apiError, setApiError] = useState<ValidationProblemDetails>();
 
 		const save = (event: React.FormEvent<HTMLFormElement>) => {
-			// remove sourceless funding and cdcFunding if they exist
 			let updatedFundings: Funding[] = [...fundings]
 				.filter(funding => funding.id !== (sourcelessFunding && sourcelessFunding.id))
 				.filter(funding => funding.id !== (cdcFunding && cdcFunding.id));
@@ -311,7 +308,7 @@ const EnrollmentFunding: Section = {
 		const siteParams: ApiOrganizationsOrgIdSitesIdGetRequest = {
 			// Separate query so that mutation doesn't try to update all the enrollments when user saves this one
 			// Otherwise we get "Enrollment exit reason is required for ended enrollments" validation errors on both site.enrollments and child.org.site.enrollments
-			id: getIdForUser(user, 'site'),
+			id: validatePermissions(user, 'site', siteId) ? siteId : 0,
 			orgId: getIdForUser(user, 'org'),
 			include: ['organizations', 'enrollments', 'funding_spaces', 'fundings'],
 		};
@@ -492,9 +489,12 @@ const EnrollmentFunding: Section = {
 					{utilizationRate && utilizationRate.numEnrolled > utilizationRate.capacity && (
 						<Alert
 							type="info"
-							// TODO: This will only warn about the current reporting period.  What if they set an earlier reporting period date?
-							// We should probably warn about all of the reporting periods this will mess with?
-							text={`${utilizationRate.numEnrolled} out of ${utilizationRate.capacity} spaces are utilized for the REPORTING PERIOD reporting period.`}
+							// TODO (after user research): This will only warn about the current reporting period.  What if they set an earlier reporting period date?
+							text={`${utilizationRate.numEnrolled} out of ${
+								utilizationRate.capacity
+							} spaces are utilized for the ${cdcReportingPeriod ? moment(cdcReportingPeriod.period).format(
+								'MMM YYYY'
+							) : 'current'} reporting period.`}
 						/>
 					)}
 					<h3>Care 4 Kids</h3>
@@ -556,7 +556,7 @@ const EnrollmentFunding: Section = {
 				</div>
 
 				<div className="usa-form">
-					<Button text="Save" onClick='submit' />
+					<Button text="Save" onClick="submit" />
 				</div>
 			</form>
 		);
