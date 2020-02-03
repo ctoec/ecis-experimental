@@ -17,7 +17,7 @@ namespace HedwigTests.Security
         [Fact]
         public void Site_Controller_User_Has_Site_Access_Evaluate_Returns_True()
         {
-            using (var dbContext = new TestContextProvider().Context) {
+            using (var dbContext = new TestHedwigContextProvider().Context) {
                 // If user exists with access to site
                 var user = UserHelper.CreateUser(dbContext);
                 var site = SiteHelper.CreateSite(dbContext);
@@ -50,7 +50,7 @@ namespace HedwigTests.Security
         [Fact]
         public void Other_Controller_User_Has_Site_Access_Evaluate_Returns_True()
         {
-            using (var dbContext = new TestContextProvider().Context) {
+            using (var dbContext = new TestHedwigContextProvider().Context) {
                 // If user exists with access to site
                 var user = UserHelper.CreateUser(dbContext);
                 var site = SiteHelper.CreateSite(dbContext);
@@ -84,7 +84,7 @@ namespace HedwigTests.Security
         [Fact]
         public void User_Does_Not_Have_Site_Access_Evaluate_Returns_False()
         {
-            using (var dbContext = new TestContextProvider().Context) {
+            using (var dbContext = new TestHedwigContextProvider().Context) {
                 // If user exists with out access to any site
                 var user = UserHelper.CreateUser(dbContext);
 

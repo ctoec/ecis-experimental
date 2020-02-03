@@ -12,7 +12,7 @@ namespace HedwigTests.Repositories
         [Fact]
         public void GetFamilyById_ReturnsFamilyWithId()
         {
-            using (var context = new TestContextProvider().Context)
+            using (var context = new TestHedwigContextProvider().Context)
             {
                 var family = FamilyHelper.CreateFamily(context);
 

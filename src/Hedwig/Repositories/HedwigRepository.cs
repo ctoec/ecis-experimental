@@ -28,15 +28,15 @@ namespace Hedwig.Repositories
 		}
 
 		/// <summary>
-		/// TODO: Update this to work for int or Guid. Not necessary right now b/c 
-		/// we don't yet deal with updating multi-child families; every enumerable
-		/// child object contains entities with int Ids.
+		/// Deletes removed items from enumerable child object array on object update.
+		/// Adding and updating in the array happens for free with Entity Framework
 		/// </summary>
 		/// <param name="updates"></param>
 		/// <param name="currents"></param>
 		/// <typeparam name="T"></typeparam>
-		public void UpdateEnumerableChildObjects(IEnumerable<IHedwigIdEntity<object>> updates, IEnumerable<IHedwigIdEntity<object>> currents)
+		public void UpdateEnumerableChildObjects<T>(IEnumerable<IHedwigIdEntity<T>> updates, IEnumerable<IHedwigIdEntity<T>> currents)
 		{
+			// TODO: is this correct? Or should null updates mean null/empty child object array ? 
 			if (updates == null)
 			{
 				return;
@@ -44,27 +44,10 @@ namespace Hedwig.Repositories
 
 			foreach(var current in currents)
 			{
-				if(!updates.Any(u => u.Id == current.Id))
+				if(!updates.Any(u => u.Id.Equals(current.Id)))
 				{
 					_context.Remove(current);
 				}
-			}
-
-			foreach(var update in updates)
-			{
-				if(update.Id is Guid guid && guid == Guid.Empty)
-				{
-					_context.Add(update);
-					break;
-				}
-
-				if(update.Id is int iid && iid == 0)
-				{
-					_context.Add(update);
-					break;
-				}
-
-				_context.Update(update);
 			}
 		}
 	}

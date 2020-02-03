@@ -240,8 +240,6 @@ const EnrollmentFunding: Section = {
 					break;
 				default:
 					break;
-
-				event.preventDefault();
 			}
 
 			updatedFundings = [...updatedFundings]
@@ -277,6 +275,8 @@ const EnrollmentFunding: Section = {
 						finallyCallback && finallyCallback(EnrollmentFunding);
 					});
 			}
+
+			event.preventDefault();
 		};
 
 		return (
