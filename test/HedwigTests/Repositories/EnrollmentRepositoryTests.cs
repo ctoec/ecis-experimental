@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 using Xunit;
 using Hedwig.Repositories;
 using Hedwig.Models;
@@ -18,13 +19,13 @@ namespace HedwigTests.Repositories
     public void UpdateEnrollment_UpdatesFundings()
     {
       Enrollment enrollment;
-      using (var context = new TestContextProvider().Context)
+      Funding funding;
+      using (var context = new TestHedwigContextProvider().Context)
       {
         enrollment = EnrollmentHelper.CreateEnrollment(context);
-        var fundings = new List<Funding>{ FundingHelper.CreateFunding(context, enrollment: enrollment) };
+        funding = FundingHelper.CreateFunding(context, enrollment: enrollment);
       }
-
-      using (var context = new TestContextProvider().Context)
+      using (var context = new TestHedwigContextProvider().Context)
       {
         var enrollmentRepo = new EnrollmentRepository(context);
         enrollmentRepo.UpdateEnrollment(enrollment);
@@ -38,25 +39,23 @@ namespace HedwigTests.Repositories
     public void UpdateEnrollment_RemovesFundings()
     {
       Enrollment enrollment;
-      using (var context = new TestContextProvider().Context)
+      Funding funding;
+      using (var context = new TestHedwigContextProvider().Context)
       {
         enrollment = EnrollmentHelper.CreateEnrollment(context);
-        var fundings = new List<Funding>{ FundingHelper.CreateFunding(context, enrollment: enrollment) };
+        funding = FundingHelper.CreateFunding(context, enrollment: enrollment);
       }
 
       enrollment.Fundings = new List<Funding>();
 
-      using (var context = new TestContextProvider().Context)
+      using (var contextProvider = new TestHedwigContextProvider()) 
       {
-        var enrollmentRepo = new EnrollmentRepository(context);
-        var oldEnrollment = context.Enrollments.AsNoTracking()
-          .Where(e => e.Id == enrollment.Id)
-          .Include(e => e.Fundings)
-          .First();
+        var contextMock = contextProvider.ContextMock;
+        var enrollmentRepo = new EnrollmentRepository(contextMock.Object);
         enrollmentRepo.UpdateEnrollment(enrollment);
 
-        Assert.Equal(EntityState.Modified, context.Entry(enrollment).State);
-        Assert.Equal(EntityState.Detached, context.Entry(oldEnrollment.Fundings.First()).State);
+        Assert.Equal(EntityState.Modified, contextMock.Object.Entry(enrollment).State);
+        contextMock.Verify(c => c.Remove<IHedwigIdEntity<int>>(It.Is<Funding>(f => f.Id == funding.Id)), Times.Once());
       }
     }
 
@@ -64,10 +63,10 @@ namespace HedwigTests.Repositories
     public void UpdateEnrollment_AddsFundings()
     {
       Enrollment enrollment;
-      using (var context = new TestContextProvider().Context)
+      using (var context = new TestHedwigContextProvider().Context)
       {
         enrollment = EnrollmentHelper.CreateEnrollment(context);
-        var fundings = new List<Funding>{ FundingHelper.CreateFunding(context, enrollment: enrollment) };
+        FundingHelper.CreateFunding(context, enrollment: enrollment);
       }
 
       enrollment.Fundings = new List<Funding>{
@@ -75,11 +74,12 @@ namespace HedwigTests.Repositories
         new Funding{Source = FundingSource.CDC}
       };
 
-      using (var context = new TestContextProvider().Context)
+      using (var context = new TestHedwigContextProvider().Context)
       {
         var enrollmentRepo = new EnrollmentRepository(context);
         enrollmentRepo.UpdateEnrollment(enrollment);
         
+        Assert.Equal(EntityState.Modified, context.Entry(enrollment).State);
         Assert.Equal(EntityState.Added, context.Entry(enrollment.Fundings.Last()).State);
       }
     }
@@ -87,7 +87,7 @@ namespace HedwigTests.Repositories
     [Fact]
     public void AddEnrollment()
     {
-      using (var context = new TestContextProvider().Context)
+      using (var context = new TestHedwigContextProvider().Context)
       {
         var enrollment = new Enrollment();
 
@@ -101,7 +101,7 @@ namespace HedwigTests.Repositories
     [Fact]
     public void DeleteEnrollment()
     {
-      using (var context = new TestContextProvider().Context)
+      using (var context = new TestHedwigContextProvider().Context)
       {
         var enrollment = new Enrollment();
 
@@ -119,7 +119,7 @@ namespace HedwigTests.Repositories
     [Fact]
     public void DeleteEnrollment_DeletesDanglingSubObjects()
     {
-      using (var context = new TestContextProvider().Context)
+      using (var context = new TestHedwigContextProvider().Context)
       {
         var enrollment = new Enrollment();
         var child = new Child();
@@ -166,7 +166,7 @@ namespace HedwigTests.Repositories
     {
       int[] ids;
       int siteId;
-      using (var context = new TestContextProvider().Context)
+      using (var context = new TestHedwigContextProvider().Context)
       {
         var site = SiteHelper.CreateSite(context);
         var enrollments = EnrollmentHelper.CreateEnrollments(context, 3, site: site);
@@ -174,7 +174,7 @@ namespace HedwigTests.Repositories
         siteId = site.Id;
       }
 
-      using (var context = new TestContextProvider().Context)
+      using (var context = new TestHedwigContextProvider().Context)
       {
         var enrollmentRepo = new EnrollmentRepository(context);
         var res = await enrollmentRepo.GetEnrollmentsForSiteAsync(siteId, include: include);
@@ -209,14 +209,14 @@ namespace HedwigTests.Repositories
     {
       int id;
       int siteId;
-      using (var context = new TestContextProvider().Context)
+      using (var context = new TestHedwigContextProvider().Context)
       {
         var enrollment = EnrollmentHelper.CreateEnrollment(context);
         id = enrollment.Id;
         siteId = enrollment.SiteId;
       }
 
-      using (var context = new TestContextProvider().Context)
+      using (var context = new TestHedwigContextProvider().Context)
       {
         var enrollmentRepo = new EnrollmentRepository(context);
         var res = await enrollmentRepo.GetEnrollmentForSiteAsync(id, siteId, include);
@@ -252,7 +252,7 @@ namespace HedwigTests.Repositories
       bool included
     )
     {
-      using (var context = new TestContextProvider().Context)
+      using (var context = new TestHedwigContextProvider().Context)
       {
         // if enrollment exists with entry and exit
         var enrollment = EnrollmentHelper.CreateEnrollment(context, entry, exit);

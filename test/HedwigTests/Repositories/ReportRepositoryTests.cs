@@ -20,7 +20,7 @@ namespace HedwigTests.Repositories
     [InlineData(true, new string[] { "organizations", "sites", "funding_spaces", "enrollments" })]
     public async Task Get_Report_For_Organization(bool submitted, string[] include)
     {
-      using (var context = new TestContextProvider().Context)
+      using (var context = new TestHedwigContextProvider().Context)
       {
         // Set up test data
         var organization = OrganizationHelper.CreateOrganization(context);
@@ -80,7 +80,7 @@ namespace HedwigTests.Repositories
     [Fact]
     public async Task GetReportsForOrganization()
     {
-      using (var context = new TestContextProvider().Context)
+      using (var context = new TestHedwigContextProvider().Context)
       {
         var organization = OrganizationHelper.CreateOrganization(context);
         var reports = ReportHelper.CreateCdcReports(context, 5, organization: organization);

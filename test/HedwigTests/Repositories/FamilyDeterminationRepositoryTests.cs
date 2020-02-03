@@ -13,7 +13,7 @@ namespace HedwigTests.Repositories
 		[Fact]
 		public void GetDeterminationByFamilyId_ReturnsDeterminationsWithFamilyId()
 		{
-			using (var context = new TestContextProvider().Context)
+			using (var context = new TestHedwigContextProvider().Context)
 			{
 				// If family determinations exist with family Id
 				var family = FamilyHelper.CreateFamily(context);

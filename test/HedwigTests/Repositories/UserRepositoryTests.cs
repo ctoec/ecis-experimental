@@ -11,7 +11,7 @@ namespace HedwigTests.Repositories
         [Fact]
         public async Task Get_User_By_Id()
         {
-            using (var context = new TestContextProvider().Context) {
+            using (var context = new TestHedwigContextProvider().Context) {
 				// If a user exists
 				var user = UserHelper.CreateUser(context);
 

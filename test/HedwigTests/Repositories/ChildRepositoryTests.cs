@@ -26,7 +26,7 @@ namespace HedwigTests.Repositories
 		{
 			Guid[] ids;
 			int organizationId;
-			using (var context = new TestContextProvider().Context)
+			using (var context = new TestHedwigContextProvider().Context)
 			{
 				var organization = OrganizationHelper.CreateOrganization(context);
 				var children = ChildHelper.CreateChildren(context, 3, organization: organization);
@@ -34,7 +34,7 @@ namespace HedwigTests.Repositories
 				organizationId = organization.Id;
 			}
 
-			using (var context = new TestContextProvider().Context)
+			using (var context = new TestHedwigContextProvider().Context)
 			{
 				var childRepo = new ChildRepository(context);
 				var res = await childRepo.GetChildrenForOrganizationAsync(organizationId, include);
@@ -57,11 +57,11 @@ namespace HedwigTests.Repositories
 		)
 		{
 			Child child;
-			using (var context = new TestContextProvider().Context)
+			using (var context = new TestHedwigContextProvider().Context)
 			{
 				child = ChildHelper.CreateChild(context);
 			}
-			using (var context = new TestContextProvider().Context)
+			using (var context = new TestHedwigContextProvider().Context)
 			{	
 				var childRepo = new ChildRepository(context);
 				var res = await childRepo.GetChildForOrganizationAsync(child.Id, child.OrganizationId, include);
@@ -75,7 +75,7 @@ namespace HedwigTests.Repositories
 		[Fact]
 		public void GetChildById_ReturnsChild()
 		{
-			using (var context = new TestContextProvider().Context)
+			using (var context = new TestHedwigContextProvider().Context)
 			{
 				// If a child exists
 				string name = "First";

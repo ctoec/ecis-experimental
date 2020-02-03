@@ -11,12 +11,14 @@ using Microsoft.Extensions.Configuration;
 
 namespace HedwigTests.Fixtures
 {
-	public class TestContextProvider : IDisposable
+	public class TestHedwigContextProvider : IDisposable
 	{
-		public TestHedwigContext Context { get; private set; }
+		public HedwigContext Context { get; private set; }
+
+		public Mock<HedwigContext> ContextMock { get; private set; }
 		public IHttpContextAccessor HttpContextAccessor { get; private set; }
 
-		public TestContextProvider()
+		public TestHedwigContextProvider(bool callBase = true)
 		{
 			var configuration = Program.GetIConfigurationRoot();
 			var optionsBuilder = new DbContextOptionsBuilder<HedwigContext>()
@@ -30,8 +32,12 @@ namespace HedwigTests.Fixtures
 			}
 
 			HttpContextAccessor = new TestHttpContextAccessorProvider().HttpContextAccessor;
-			Context = new TestHedwigContext(optionsBuilder.Options, HttpContextAccessor);
+
+			ContextMock = new Mock<HedwigContext>(optionsBuilder.Options, HttpContextAccessor);
+			ContextMock.CallBase = callBase;
+			Context = ContextMock.Object;
 		}
+
 		public void Dispose()
 		{
 			Context?.Dispose();
