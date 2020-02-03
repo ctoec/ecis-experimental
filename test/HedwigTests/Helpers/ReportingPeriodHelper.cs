@@ -1,11 +1,34 @@
 using System;
 using Hedwig.Data;
 using Hedwig.Models;
+using System.Linq;
 
 namespace HedwigTests.Helpers
 {
 	public class ReportingPeriodHelper
 	{
+
+		public static ReportingPeriod GetOrCreateReportingPeriodForPeriod(
+			HedwigContext context,
+			string period,
+			string periodStart,
+			string periodEnd,
+			string dueAt = null,
+			FundingSource type = FundingSource.CDC
+    )
+		{
+			var existing = context.ReportingPeriods
+				.Where(reportingPeriod => reportingPeriod.Type == type)
+				.Where(reportingPeriod => reportingPeriod.Period == DateTime.Parse(period))
+				.FirstOrDefault();
+
+			if(existing != null){
+				return existing;
+			}
+
+			dueAt = dueAt == null ? DateTime.Parse(periodEnd).AddDays(15).ToShortDateString() : dueAt;
+			return CreateReportingPeriod(context, type, period, periodStart, periodEnd, dueAt);
+		}
 		public static ReportingPeriod CreateReportingPeriod(
 			HedwigContext context,
 			FundingSource type = FundingSource.CDC,
@@ -24,7 +47,7 @@ namespace HedwigTests.Helpers
 				DueAt = DateTime.Parse(dueAt)
 			};
 
-			context.ReportingPeriods.Add(reportingPeriod);
+			context.Add(reportingPeriod);
 			context.SaveChanges();
 			return reportingPeriod;
 		}

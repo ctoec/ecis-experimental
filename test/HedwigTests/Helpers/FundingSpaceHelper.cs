@@ -9,6 +9,7 @@ namespace HedwigTests.Helpers
 	{
 
 		public static FundingSpace CreateFundingSpace(
+			HedwigContext context,
 			int organizationId,
 			FundingSource source = FundingSource.CDC,
 			Age ageGroup = Age.Preschool,
@@ -24,6 +25,9 @@ namespace HedwigTests.Helpers
 				Time = time,
 				Capacity = capacity
 			};
+
+			context.Add(space);
+			context.SaveChanges();
 			return space;
 		}
 	}

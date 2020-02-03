@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using System;
 using Hedwig.Models;
 using Hedwig.Data;
 
@@ -17,10 +18,20 @@ namespace Hedwig.Repositories
 				.Where(period => period.Type == source)
 				.ToListAsync();
 		}
+
+		public ReportingPeriod GetLastReportingPeriodBeforeDate(FundingSource source, DateTime compareDate)
+		{
+			return _context.ReportingPeriods
+				.Where(period => period.Type == source)
+				.Where(period => period.PeriodEnd.Date <= compareDate)
+				.OrderByDescending(period => period.Period)
+				.FirstOrDefault();
+		}
 	}
 
 	public interface IReportingPeriodRepository : IHedwigRepository
 	{
 		Task<List<ReportingPeriod>> GetReportingPeriodsByFundingSourceAsync(FundingSource source);
+		ReportingPeriod GetLastReportingPeriodBeforeDate(FundingSource source, DateTime compareDate);
 	}
 }

@@ -1,26 +1,30 @@
 using Hedwig.Models;
 using Hedwig.Repositories;
-using System;
+using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
-using System.Linq;
+using System;
 using Hedwig.Utilities;
 
 namespace Hedwig.HostedServices
 {
 	public class CdcReportGeneratorScopedService
 	{
+
+		private readonly ILogger<CdcReportGeneratorScopedService> _logger;
 		private readonly IOrganizationRepository _organizations;
 		private readonly IReportingPeriodRepository _periods;
 		private readonly IReportRepository _reports;
 		private readonly IDateTime _dateTime;
 
 		public CdcReportGeneratorScopedService(
+			ILogger<CdcReportGeneratorScopedService> logger,
 			IOrganizationRepository organizations,
 			IReportingPeriodRepository periods,
 			IReportRepository reports,
 			IDateTime dateTime
 		)
 		{
+			_logger = logger;
 			_organizations = organizations;
 			_periods = periods;
 			_reports = reports;
@@ -29,33 +33,38 @@ namespace Hedwig.HostedServices
 
 		public async Task TryGenerateReports()
 		{
-			var periods = await _periods.GetReportingPeriodsByFundingSourceAsync(FundingSource.CDC);
-			var currentReportingPeriod = periods
-				.FirstOrDefault(period => period.PeriodEnd.Date == _dateTime.UtcNow.Date);
-
-			if (currentReportingPeriod == null) {
-				return;
-			}
-
-			var organizations = _organizations.GetOrganizationsWithFundingSpaces(FundingSource.CDC);
-			foreach (var organization in organizations)
+			_logger.LogInformation("Starting CDC report generation task");
+			try 
 			{
-				var orgId = organization.Id;
-				if (!_reports.HasCdcReportForOrganizationAndReportingPeriod(orgId, currentReportingPeriod))
+				var lastReportingPeriod = _periods.GetLastReportingPeriodBeforeDate(FundingSource.CDC, _dateTime.UtcNow.Date);
+				
+				var createdReportsCount = 0;
+				var organizations = _organizations.GetOrganizationsWithFundingSpaces(FundingSource.CDC);
+				foreach (var organization in organizations)
 				{
-					// New report has not been created
-					var previousReport = _reports.GetMostRecentSubmittedCdcReportForOrganization(orgId);
-					var report = new CdcReport {
-						OrganizationId = organization.Id,
-						ReportingPeriod = currentReportingPeriod,
-						Accredited = previousReport != null && previousReport.Accredited, 
-					};
+					// If report has not been created for last reporting period, create it
+					if (!_reports.HasCdcReportForOrganizationAndReportingPeriod(organization.Id, lastReportingPeriod))
+					{
+	        	var previousReport = _reports.GetMostRecentSubmittedCdcReportForOrganization(organization.Id);
+						var report = new CdcReport {
+							OrganizationId = organization.Id,
+							ReportingPeriod = lastReportingPeriod,
+							Accredited = previousReport != null && previousReport.Accredited, 
+						};
 
-					_reports.AddReport(report);
+						_reports.AddReport(report);
+						createdReportsCount += 1;
+					}
 				}
+				
+				await _reports.SaveChangesAsync();
+				_logger.LogInformation($"Successfully created {createdReportsCount} reports for reporting period {lastReportingPeriod.Period.Date}");
 			}
-
-			await _reports.SaveChangesAsync();
+			catch (Exception e)
+			{
+				// TODO: figure out how to alert on this when alerting exists
+				_logger.LogError($"Unable to create reports", e);
+			}
 		}
 	}
 }
