@@ -34,7 +34,7 @@ namespace Hedwig.Repositories
 		/// <param name="updates"></param>
 		/// <param name="currents"></param>
 		/// <typeparam name="T"></typeparam>
-		public void UpdateEnumerableChildObjects<T>(IEnumerable<IHedwigIdEntity<T>> updates, IEnumerable<IHedwigIdEntity<T>> currents) where T : IEquatable<T>
+		public void UpdateEnumerableChildObjects<T>(IEnumerable<IHedwigIdEntity<T>> updates, IEnumerable<IHedwigIdEntity<T>> currents)
 		{
 			if (updates == null)
 			{

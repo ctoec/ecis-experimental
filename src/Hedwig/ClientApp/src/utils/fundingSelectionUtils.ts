@@ -24,12 +24,10 @@ export function fundingSelectionToString(fundingSelection: FundingSelection): st
 }
 
 export function fundingSelectionFromString(value: string): FundingSelection {
+	// prettier-ignore
 	const source =
-		value === 'privatePay'
-			? FundingType.PRIVATE_PAY
-			: value === ''
-			? FundingType.UNSELECTED
-			: FundingType.CDC;
+		(value === 'privatePay' ?
+			FundingType.PRIVATE_PAY : (value === '' ? FundingType.UNSELECTED : FundingType.CDC));
 	if (source !== FundingType.CDC) {
 		return { source };
 	}
