@@ -22,12 +22,12 @@ afterAll(() => {
 
 describe('Roster', () => {
 	it('matches snapshot', () => {
-		const { baseElement } = render(
+		const component = render(
 			<CommonContextProviderMock>
 				<Roster />
 			</CommonContextProviderMock>
 		);
-		expect(baseElement).toMatchSnapshot();
+		expect(component).toMatchSnapshot();
 	});
 
 	it('renders intro text with the correct number of children', async () => {
