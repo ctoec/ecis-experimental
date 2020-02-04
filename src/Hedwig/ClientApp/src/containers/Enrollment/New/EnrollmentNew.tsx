@@ -19,7 +19,7 @@ import CommonContainer from '../../CommonContainer';
 import { hasValidationErrors } from '../../../utils/validations';
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import nameFormatter from '../../../utils/nameFormatter';
-import onRouteChange from '../../../hooks/onRouteChange';
+import useRouteChange from '../../../hooks/useRouteChange';
 
 type EnrollmentNewParams = {
 	history: History;
@@ -118,7 +118,7 @@ export default function EnrollmentNew({
 		});
 	};
 
-	onRouteChange(() => window.scroll(0, 0));
+	useRouteChange(() => window.scroll(0, 0));
 
 	if (cancelError) {
 		// TODO: do something with this error
