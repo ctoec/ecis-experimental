@@ -2,7 +2,7 @@ import React from 'react';
 import mockdate from 'mockdate';
 import { createBrowserHistory } from 'history';
 import { act } from 'react-dom/test-utils';
-import { render, fireEvent, wait, waitForElement, getByText } from '@testing-library/react';
+import { render, fireEvent, wait, waitForElement, getByText, getAllByRole } from '@testing-library/react';
 import 'react-dates/initialize';
 import CommonContextProviderMock, {
 	defaultCdcReportingPeriods,
@@ -61,7 +61,7 @@ describe('EnrollmentEdit', () => {
 	});
 
 	describe('family info', () => {
-		it('shows a fieldset warning if there is no address', async () => {
+		it('shows a fieldset warning if there is no address', () => {
 			const { getByRole } = render(
 				<CommonContextProviderMock>
 					<EnrollmentEdit
@@ -76,56 +76,49 @@ describe('EnrollmentEdit', () => {
 				</CommonContextProviderMock>
 			);
 
-			const addressErr = await waitForElement(() =>
-					getByRole('status')
-			);
+			const addressErr = getByRole('status');
 
 			expect(addressErr.className).toBe('usa-warning-message');
 		});
 	});
 
-	// describe('family income', () => {
-	// 	it('shows an info alert if family income is not disclosed', () => {
-	// 		const wrapper = shallow(
-	// 			<CommonContextProviderMock>
-	// 				<EnrollmentEdit
-	// 					history={history}
-	// 					match={{
-	// 						params: {
-	// 							enrollmentId: completeEnrollment.id,
-	// 							sectionId: 'family-income',
-	// 						},
-	// 					}}
-	// 				/>
-	// 			</CommonContextProviderMock>
-	// 		);
+	describe('family income', () => {
+		it('shows an info alert if family income is not disclosed', () => {
+			const { getByText } = render(
+				<CommonContextProviderMock>
+					<EnrollmentEdit
+						history={history}
+						match={{
+							params: {
+								enrollmentId: completeEnrollment.id,
+								sectionId: 'family-income',
+							},
+						}}
+					/>
+				</CommonContextProviderMock>
+			);
 
-	// 		const alertPropsType = wrapper
-	// 			.find('EnrollmentEdit')
-	// 			.dive()
-	// 			.find('Form')
-	// 			.dive()
-	// 			.find('Alert')
-	// 			.props().type;
-	// 		expect(alertPropsType).toBe('info');
-	// 	});
-	// });
+			const infoAlert = getByText('Income information is required to enroll a child in a CDC funded space. You will not be able to assign this child to a funding space without this information.');
 
-	// describe('enrollment and funding', () => {
-	// 	it('shows the appropriate number of reporting periods for enrollment funding', () => {
-	// 		const wrapper = mount(
-	// 			<CommonContextProviderMock>
-	// 				<EnrollmentEdit
-	// 					history={history}
-	// 					match={{
-	// 						params: { enrollmentId: completeEnrollment.id, sectionId: 'enrollment-funding' },
-	// 					}}
-	// 				/>
-	// 			</CommonContextProviderMock>
-	// 		);
-	// 		const reportingPeriodOptions = wrapper.find('select#firstReportingPeriod option');
-	// 		expect(reportingPeriodOptions.length).toBe(defaultCdcReportingPeriods.length + 1);
-	// 		wrapper.unmount();
-	// 	});
-	// })
+			expect(infoAlert).toBeInTheDOM();
+		});
+	});
+
+	describe('enrollment and funding', () => {
+		it('shows the appropriate number of reporting periods for enrollment funding', () => {
+			const { getByLabelText } = render(
+				<CommonContextProviderMock>
+					<EnrollmentEdit
+						history={history}
+						match={{
+							params: { enrollmentId: completeEnrollment.id, sectionId: 'enrollment-funding' },
+						}}
+					/>
+				</CommonContextProviderMock>
+			);
+			const reportingPeriodSelect = getByLabelText('First reporting period');
+			const reportingPeriodOptions = getAllByRole(reportingPeriodSelect, 'option');
+			expect(reportingPeriodOptions.length).toBe(defaultCdcReportingPeriods.length + 1);
+		});
+	})
 });
