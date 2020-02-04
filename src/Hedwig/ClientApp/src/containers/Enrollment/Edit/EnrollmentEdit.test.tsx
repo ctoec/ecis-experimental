@@ -1,8 +1,7 @@
 import React from 'react';
 import mockdate from 'mockdate';
 import { createBrowserHistory } from 'history';
-import { act } from 'react-dom/test-utils';
-import { render, fireEvent, wait, waitForElement, getByText, getAllByRole } from '@testing-library/react';
+import { render, fireEvent, waitForElement, getAllByRole } from '@testing-library/react';
 import 'react-dates/initialize';
 import CommonContextProviderMock, {
 	defaultCdcReportingPeriods,
