@@ -49,6 +49,25 @@ namespace Hedwig.Controllers
 			return enrollments;
 		}
 
+		[HttpGet("{id}")]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		public async Task<ActionResult<Enrollment>> Get(
+			int id,
+			int orgId,
+			int siteId,
+			[FromQuery(Name="include[]")] string [] include
+		)
+		{
+
+			var enrollment = await _enrollments.GetEnrollmentForSiteAsync(id, siteId, include);
+			if(enrollment == null) return NotFound();
+
+			_validator.Validate(enrollment);
+
+			return enrollment;
+		}
+
 		[HttpGet("/api/organizations/{orgId:int}/[controller]")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -77,25 +96,6 @@ namespace Hedwig.Controllers
 			return enrollments;
 		}
 
-		[HttpGet("{id}")]
-		[ProducesResponseType(StatusCodes.Status200OK)]
-		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		public async Task<ActionResult<Enrollment>> Get(
-			int id,
-			int orgId,
-			int siteId,
-			[FromQuery(Name="include[]")] string [] include
-		)
-		{
-
-			var enrollment = await _enrollments.GetEnrollmentForSiteAsync(id, siteId, include);
-			if(enrollment == null) return NotFound();
-
-			_validator.Validate(enrollment);
-
-			return enrollment;
-		}
-
 		[HttpPost]
 		[ProducesResponseType(StatusCodes.Status201Created)]
 		[ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
@@ -111,6 +111,7 @@ namespace Hedwig.Controllers
 			_enrollments.AddEnrollment(enrollment);
 			await _enrollments.SaveChangesAsync();
 
+			_validator.Validate(enrollment);
 			return CreatedAtAction(
 				nameof(Get),
 				new { id = enrollment.Id, orgId = orgId, siteId = siteId },
