@@ -4220,6 +4220,7 @@ exports[`Storyshots Header Logged in 1`] = `
   >
     <div
       className="usa-overlay"
+      data-testid="overlay"
       onClick={[Function]}
     />
     <header
@@ -4388,6 +4389,7 @@ exports[`Storyshots Header Logged out 1`] = `
   >
     <div
       className="usa-overlay"
+      data-testid="overlay"
       onClick={[Function]}
     />
     <header

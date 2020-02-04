@@ -1,7 +1,9 @@
 import React from 'react';
-import { mount } from 'enzyme';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, Router } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
 import { Header, HeaderProps } from './Header';
+import { render, fireEvent } from '@testing-library/react'
+import { act } from 'react-dom/test-utils';
 
 const headerProps: HeaderProps = {
 	title: 'Header test',
@@ -17,71 +19,141 @@ const headerProps: HeaderProps = {
 };
 
 it('shows first section as active when at the root path', () => {
-	const wrapper = mount(
+	const { getByText } = render(
 		<MemoryRouter>
 			<Header {...headerProps} />
 		</MemoryRouter>
 	);
 
-	const navLinks = wrapper.find('a.usa-nav__link');
-
-	expect(navLinks.first().hasClass('usa-current')).toBe(true);
-	expect(navLinks.at(1).hasClass('usa-current')).toBe(false);
+	const activeSection = getByText('Active section').closest('a');
+	const otherSection = getByText('Another section').closest('a');
+	expect(activeSection).toBeDefined();
+	expect(otherSection).toBeDefined();
+	if (!activeSection || !otherSection) {
+		throw new Error('Typescript guarding');
+	}
+	expect(activeSection.classList.contains('usa-current')).toBeTruthy();
+	expect(otherSection.classList.contains('usa-current')).toBeFalsy();
 });
 
 it('shows the path as active when matching', () => {
-	const wrapper = mount(
+	const { getByText } = render(
 		<MemoryRouter initialEntries={['/another/nested/path']}>
 			<Header {...headerProps} />
 		</MemoryRouter>
 	);
 
-	const navLinks = wrapper.find('a.usa-nav__link');
-
-	expect(navLinks.first().hasClass('usa-current')).toBe(false);
-	expect(navLinks.at(1).hasClass('usa-current')).toBe(true);
+	const activeSection = getByText('Active section').closest('a');
+	const otherSection = getByText('Another section').closest('a');
+	expect(activeSection).toBeDefined();
+	expect(otherSection).toBeDefined();
+	if (!activeSection || !otherSection) {
+		throw new Error('Typescript guarding');
+	}
+	expect(activeSection.classList.contains('usa-current')).toBeFalsy();
+	expect(otherSection.classList.contains('usa-current')).toBeTruthy();
 });
 
-it('opens menu when menu clicked', () => {
-	const wrapper = mount(
+it('opens and closes menu when menu clicked', () => {
+	const { getByText, getByRole, getByTestId, getByAltText } = render(
 		<MemoryRouter>
 			<Header {...headerProps} />
 		</MemoryRouter>
 	);
 
-	expect(wrapper.find('div.usa-overlay').hasClass('is-visible')).toBe(false);
-	expect(wrapper.find('nav.usa-nav').hasClass('is-visible')).toBe(false);
-	wrapper.find('button.usa-menu-btn').simulate('click');
-	expect(wrapper.find('div.usa-overlay').hasClass('is-visible')).toBe(true);
-	expect(wrapper.find('nav.usa-nav').hasClass('is-visible')).toBe(true);
-});
+	const menu = getByText(/menu/i);
+	const overlay = getByTestId('overlay');
+	const nav = getByRole(/navigation/i);
+	// TODO: (After CSS refactor) Ensure the menu is not visible
+	expect(overlay.classList.contains('is-visible')).toBeFalsy();
+	expect(nav.classList.contains('is-visible')).toBeFalsy();
 
-it('closes menu when close button clicked', () => {
-	const wrapper = mount(
-		<MemoryRouter>
-			<Header {...headerProps} />
-		</MemoryRouter>
-	);
+	// Resize window so that menu button appears
+	act(() => {
+		// @ts-ignore TS does not allow changing innerWidth
+		window.innerWidth = 100;
+		fireEvent(window, new Event('resize'));
+	});
 
-	wrapper.find('button.usa-menu-btn').simulate('click');
-	wrapper.find('button.usa-nav__close').simulate('click');
-	expect(wrapper.find('div.usa-overlay').hasClass('is-visible')).toBe(false);
-	expect(wrapper.find('nav.usa-nav').hasClass('is-visible')).toBe(false);
+	// TODO: (After CSS refactor) Ensure the menu is visible
+	fireEvent.click(menu);
+
+	expect(overlay.classList.contains('is-visible')).toBeTruthy();
+	expect(nav.classList.contains('is-visible')).toBeTruthy();
+
+	const close = getByAltText(/close/i);
+
+	fireEvent.click(close);
+
+	expect(overlay.classList.contains('is-visible')).toBeFalsy();
+	expect(nav.classList.contains('is-visible')).toBeFalsy();
 });
 
 it('closes menu when location changed', () => {
-	// Not quite sure how to test this one.
+	const history = createMemoryHistory();
+	const { getByText, getByRole, getByTestId } = render(
+		<Router history={history}>
+			<Header {...headerProps} />
+		</Router>
+	);
+
+	const menu = getByText(/menu/i);
+	const overlay = getByTestId('overlay');
+	const nav = getByRole(/navigation/i);
+	// TODO: (After CSS refactor) Ensure the menu is not visible
+	expect(overlay.classList.contains('is-visible')).toBeFalsy();
+	expect(nav.classList.contains('is-visible')).toBeFalsy();
+
+	// Resize window so that menu button appears
+	act(() => {
+		// @ts-ignore TS does not allow changing innerWidth
+		window.innerWidth = 100;
+		fireEvent(window, new Event('resize'));
+	});
+
+	// TODO: (After CSS refactor) Ensure the menu is visible
+	fireEvent.click(menu);
+
+	expect(overlay.classList.contains('is-visible')).toBeTruthy();
+	expect(nav.classList.contains('is-visible')).toBeTruthy();
+
+	act(() => {
+		history.push('/reports');
+	});
+
+	expect(overlay.classList.contains('is-visible')).toBeFalsy();
+	expect(nav.classList.contains('is-visible')).toBeFalsy();
 });
 
 it('closes menu when clicking elsewhere', () => {
-	const wrapper = mount(
+	const { getByText, getByRole, getByTestId, getByAltText } = render(
 		<MemoryRouter>
 			<Header {...headerProps} />
 		</MemoryRouter>
 	);
 
-	wrapper.find('button.usa-menu-btn').simulate('click');
-	wrapper.find('div.usa-overlay').simulate('click');
-	expect(wrapper.find('div.usa-overlay').hasClass('is-visible')).toBe(false);
-	expect(wrapper.find('nav.usa-nav').hasClass('is-visible')).toBe(false);
+	const menu = getByText(/menu/i);
+	const overlay = getByTestId('overlay');
+	const nav = getByRole(/navigation/i);
+	// TODO: (After CSS refactor) Ensure the menu is not visible
+	expect(overlay.classList.contains('is-visible')).toBeFalsy();
+	expect(nav.classList.contains('is-visible')).toBeFalsy();
+
+	// Resize window so that menu button appears
+	act(() => {
+		// @ts-ignore TS does not allow changing innerWidth
+		window.innerWidth = 100;
+		fireEvent(window, new Event('resize'));
+	});
+
+	// TODO: (After CSS refactor) Ensure the menu is visible
+	fireEvent.click(menu);
+
+	expect(overlay.classList.contains('is-visible')).toBeTruthy();
+	expect(nav.classList.contains('is-visible')).toBeTruthy();
+
+	fireEvent.click(overlay);
+
+	expect(overlay.classList.contains('is-visible')).toBeFalsy();
+	expect(nav.classList.contains('is-visible')).toBeFalsy();
 });

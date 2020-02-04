@@ -74,13 +74,14 @@ class HeaderWithoutRouter extends React.Component<HeaderProps & RouteComponentPr
 		return (
 			<div className={this.state.menuIsVisible ? 'usa-js-mobile-nav--active' : ''}>
 				<div
+					data-testid='overlay'
 					className={'usa-overlay' + (this.state.menuIsVisible ? ' is-visible' : '')}
 					onClick={this.hideMenu}
 				></div>
 				<header className="usa-header usa-header--extended" role="banner">
 					<div className="usa-navbar">
 						<div className="usa-logo" id="extended-logo">
-           		<Link to="/" aria-label={`${title} home`}>
+							<Link to="/" aria-label={`${title} home`}>
 								<em className="usa-logo__text">
 										{title}
 								</em>
