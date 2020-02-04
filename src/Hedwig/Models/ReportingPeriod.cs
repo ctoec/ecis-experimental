@@ -3,9 +3,11 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Hedwig.Models.Attributes;
 
 namespace Hedwig.Models
 {
+  [ReadOnly]
   public class ReportingPeriod : IHedwigIdEntity<int>
   {
     [Required]
