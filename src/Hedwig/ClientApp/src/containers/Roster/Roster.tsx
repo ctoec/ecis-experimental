@@ -17,7 +17,7 @@ import {
 	InlineIcon,
 } from '../../components';
 import useApi from '../../hooks/useApi';
-import { Age, Enrollment, FundingSpace, FundingSource, Site, ApiOrganizationsOrgIdEnrollmentsGetRequest } from '../../generated';
+import { Age, Enrollment, FundingSpace, FundingSource, ApiOrganizationsOrgIdEnrollmentsGetRequest } from '../../generated';
 import UserContext from '../../contexts/User/UserContext';
 import AgeGroupSection from './AgeGroupSection';
 import { DeepNonUndefineable } from '../../utils/types';
