@@ -41,7 +41,12 @@ namespace Hedwig.Repositories
             {
                 if(include.Contains(INCLUDE_FUNDINGS))
                 {
-                    site = site.Include(s => s.Enrollments).ThenInclude(e => e.Fundings);
+                    site = site.Include(s => s.Enrollments)
+                        .ThenInclude(e => e.Fundings)
+                            .ThenInclude(f => f.FirstReportingPeriod)
+                    .Include(s => s.Enrollments)
+                        .ThenInclude(e => e.Fundings)
+                            .ThenInclude(f => f.LastReportingPeriod);
                 }
 
                 if(include.Contains(INCLUDE_CHILD))

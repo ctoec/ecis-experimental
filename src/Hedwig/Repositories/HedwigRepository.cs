@@ -36,7 +36,6 @@ namespace Hedwig.Repositories
 		/// <typeparam name="T"></typeparam>
 		public void UpdateEnumerableChildObjects<T>(IEnumerable<IHedwigIdEntity<T>> updates, IEnumerable<IHedwigIdEntity<T>> currents)
 		{
-			// TODO: is this correct? Or should null updates mean null/empty child object array ? 
 			if (updates == null)
 			{
 				return;
