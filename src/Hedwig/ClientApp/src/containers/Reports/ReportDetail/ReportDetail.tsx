@@ -1,11 +1,9 @@
 import React, { useContext } from 'react';
-import idx from 'idx';
 import { useParams } from 'react-router-dom';
 import ReportSubmitForm from './ReportSubmitForm';
-import monthFormatter from '../../../utils/monthFormatter';
 import dateFormatter from '../../../utils/dateFormatter';
 import UserContext from '../../../contexts/User/UserContext';
-import { getIdForUser } from '../../../utils/models';
+import { getIdForUser, reportingPeriodFormatter } from '../../../utils/models';
 import useApi from '../../../hooks/useApi';
 import { Enrollment } from '../../../generated/models/Enrollment';
 import { Button, AlertProps, DirectionalLinkProps, Tag } from '../../../components';
@@ -70,7 +68,7 @@ export default function ReportDetail() {
 			<div className="grid-container">
 				<div className="grid-row flex-first-baseline flex-space-between">
 					<h1 className="tablet:grid-col-auto">
-						{monthFormatter(idx(report, _ => _.reportingPeriod.period))} {report.type} Report{' '}
+						{reportingPeriodFormatter(report.reportingPeriod)} {report.type} Report{' '}
 						{!report.submittedAt && (
 							<Tag text="DRAFT" color="gold-20v" className="margin-left-1 text-middle" />
 						)}
@@ -80,9 +78,9 @@ export default function ReportDetail() {
 					</div>
 				</div>
 				<p className="usa-intro">
-					{idx(report, _ => _.organization.name)} <br />
-					{dateFormatter(idx(report, _ => _.reportingPeriod.periodStart))}–
-					{dateFormatter(idx(report, _ => _.reportingPeriod.periodEnd))}
+					{report.organization.name} <br />
+					{dateFormatter(report.reportingPeriod.periodStart)}–
+					{dateFormatter(report.reportingPeriod.periodEnd)}
 				</p>
 				<ReportSubmitForm
 					report={report}

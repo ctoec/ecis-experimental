@@ -565,7 +565,7 @@ exports[`Storyshots ChoiceList Disabled select 1`] = `
   }
 >
   <div
-    className="usa-form-group"
+    className="usa-form-group "
   >
     <div
       className=""
@@ -846,7 +846,7 @@ exports[`Storyshots ChoiceList Select 1`] = `
   }
 >
   <div
-    className="usa-form-group"
+    className="usa-form-group "
   >
     <div
       className=""
@@ -893,7 +893,7 @@ exports[`Storyshots ChoiceList Select with other 1`] = `
   }
 >
   <div
-    className="usa-form-group"
+    className="usa-form-group "
   >
     <div
       className=""
@@ -945,7 +945,7 @@ exports[`Storyshots ChoiceList Select with success 1`] = `
   }
 >
   <div
-    className="usa-form-group usa-form-group--success"
+    className="usa-form-group usa-form-group--success "
   >
     <div
       className=""
@@ -1003,7 +1003,7 @@ exports[`Storyshots ChoiceList Single checkbox 1`] = `
   }
 >
   <div
-    className="usa-form-group"
+    className="usa-form-group "
   >
     <div
       className="margin-top-3"
