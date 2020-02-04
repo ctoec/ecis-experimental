@@ -141,7 +141,7 @@ h1 {
 }
 
 .oec-table__cell--tabular-nums {
-	font-variant-numeric: tabular-nums;
+	@extend .text-tabular;
 }
 
 .oec-table__cell--right-align {
