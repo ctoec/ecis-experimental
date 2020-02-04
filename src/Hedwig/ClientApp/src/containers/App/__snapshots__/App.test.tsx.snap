@@ -1,0 +1,292 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshow 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="App"
+      >
+        <a
+          class="usa-skipnav"
+          href="#main-content"
+        >
+          Skip to main content
+        </a>
+        <div
+          class=""
+        >
+          <div
+            class="usa-overlay"
+          />
+          <header
+            class="usa-header usa-header--extended"
+            role="banner"
+          >
+            <div
+              class="usa-navbar"
+            >
+              <div
+                class="usa-logo"
+                id="extended-logo"
+              >
+                <a
+                  aria-label="ECE Reporter home"
+                  href="/"
+                >
+                  <em
+                    class="usa-logo__text"
+                  >
+                    ECE Reporter
+                  </em>
+                </a>
+              </div>
+              <button
+                class="usa-menu-btn"
+              >
+                Menu
+              </button>
+            </div>
+            <nav
+              class="usa-nav"
+              role="navigation"
+            >
+              <div
+                class="usa-nav__inner"
+              >
+                <button
+                  class="usa-nav__close"
+                >
+                  <img
+                    alt="close"
+                    src="close.svg"
+                  />
+                </button>
+                <ul
+                  class="usa-nav__primary usa-accordion"
+                >
+                  <li
+                    class="usa-nav__primary-item"
+                  >
+                    <a
+                      class="usa-nav__link usa-current"
+                      href="/roster"
+                    >
+                      <span>
+                        Roster
+                      </span>
+                    </a>
+                  </li>
+                  <li
+                    class="usa-nav__primary-item"
+                  >
+                    <a
+                      class="usa-nav__link"
+                      href="/reports"
+                    >
+                      <span>
+                        Reports
+                      </span>
+                    </a>
+                  </li>
+                </ul>
+                <div
+                  class="usa-nav__secondary"
+                >
+                  <ul
+                    class="usa-nav__secondary-links"
+                  />
+                  <div
+                    class="oec-logged-in-user"
+                  >
+                    <a
+                      href="/login"
+                    >
+                      Log in
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </nav>
+          </header>
+        </div>
+        <main
+          id="main-content"
+        >
+          <div
+            class="Roster"
+          />
+        </main>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="App"
+    >
+      <a
+        class="usa-skipnav"
+        href="#main-content"
+      >
+        Skip to main content
+      </a>
+      <div
+        class=""
+      >
+        <div
+          class="usa-overlay"
+        />
+        <header
+          class="usa-header usa-header--extended"
+          role="banner"
+        >
+          <div
+            class="usa-navbar"
+          >
+            <div
+              class="usa-logo"
+              id="extended-logo"
+            >
+              <a
+                aria-label="ECE Reporter home"
+                href="/"
+              >
+                <em
+                  class="usa-logo__text"
+                >
+                  ECE Reporter
+                </em>
+              </a>
+            </div>
+            <button
+              class="usa-menu-btn"
+            >
+              Menu
+            </button>
+          </div>
+          <nav
+            class="usa-nav"
+            role="navigation"
+          >
+            <div
+              class="usa-nav__inner"
+            >
+              <button
+                class="usa-nav__close"
+              >
+                <img
+                  alt="close"
+                  src="close.svg"
+                />
+              </button>
+              <ul
+                class="usa-nav__primary usa-accordion"
+              >
+                <li
+                  class="usa-nav__primary-item"
+                >
+                  <a
+                    class="usa-nav__link usa-current"
+                    href="/roster"
+                  >
+                    <span>
+                      Roster
+                    </span>
+                  </a>
+                </li>
+                <li
+                  class="usa-nav__primary-item"
+                >
+                  <a
+                    class="usa-nav__link"
+                    href="/reports"
+                  >
+                    <span>
+                      Reports
+                    </span>
+                  </a>
+                </li>
+              </ul>
+              <div
+                class="usa-nav__secondary"
+              >
+                <ul
+                  class="usa-nav__secondary-links"
+                />
+                <div
+                  class="oec-logged-in-user"
+                >
+                  <a
+                    href="/login"
+                  >
+                    Log in
+                  </a>
+                </div>
+              </div>
+            </div>
+          </nav>
+        </header>
+      </div>
+      <main
+        id="main-content"
+      >
+        <div
+          class="Roster"
+        />
+      </main>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

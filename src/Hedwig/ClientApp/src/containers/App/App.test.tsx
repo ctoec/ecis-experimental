@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, MemoryRouter } from 'react-router-dom';
+import { render } from '@testing-library/react';
 import App from './App';
 
 it('renders without crashing', () => {
@@ -12,4 +13,14 @@ it('renders without crashing', () => {
 		div
 	);
 	ReactDOM.unmountComponentAtNode(div);
+});
+
+it('matches snapshot', () => {
+	const component = render(
+		<MemoryRouter>
+			<App />
+		</MemoryRouter>
+	);
+
+	expect(component).toMatchSnapshot();
 });
