@@ -18,6 +18,7 @@ namespace Hedwig.Models
 		[Column(TypeName = "decimal(14,2)")]
 		public decimal? Income { get; set; }
 
+		[Column(TypeName="date")]
 		public DateTime? DeterminationDate { get; set; }
 
 		[Required]
