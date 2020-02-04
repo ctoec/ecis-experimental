@@ -48,7 +48,6 @@ describe('EnrollmentEdit', () => {
 
 			// Save without entering any data
 			fireEvent.click(getByText('Save'));
-
 			// TODO: also try with keyboard event?
 
 			const firstNameErr = await waitForElement(() =>
@@ -61,39 +60,29 @@ describe('EnrollmentEdit', () => {
 		});
 	});
 
-	// describe('family info', () => {
-	// 	it('shows a fieldset warning if there is no address', async () => {
-	// 		const wrapper = shallow(
-	// 			<CommonContextProviderMock>
-	// 				<EnrollmentEdit
-	// 					history={history}
-	// 					match={{
-	// 						params: {
-	// 							enrollmentId: enrollmentMissingAddress.id,
-	// 							sectionId: 'family-information',
-	// 						},
-	// 					}}
-	// 				/>
-	// 			</CommonContextProviderMock>
-	// 		);
-	// 		const formContent = wrapper
-	// 			.find('EnrollmentEdit')
-	// 			.dive()
-	// 			.find('Form')
-	// 			.dive();
-	// 		await act(async () => {
-	// 			formContent
-	// 				.find('form')
-	// 				.simulate('submit', { preventDefault() {} });
-	// 		});
-	// 		const addressErr = formContent
-	// 			.find('FieldSet#family-address')
-	// 			.dive()
-	// 			.find('FormStatus')
-	// 			.props().type;
-	// 		expect(addressErr).toBe('warning');
-	// 	});
-	// });
+	describe('family info', () => {
+		it('shows a fieldset warning if there is no address', async () => {
+			const { getByRole } = render(
+				<CommonContextProviderMock>
+					<EnrollmentEdit
+						history={history}
+						match={{
+							params: {
+								enrollmentId: enrollmentMissingAddress.id,
+								sectionId: 'family-information',
+							},
+						}}
+					/>
+				</CommonContextProviderMock>
+			);
+
+			const addressErr = await waitForElement(() =>
+					getByRole('status')
+			);
+
+			expect(addressErr.className).toBe('usa-warning-message');
+		});
+	});
 
 	// describe('family income', () => {
 	// 	it('shows an info alert if family income is not disclosed', () => {
