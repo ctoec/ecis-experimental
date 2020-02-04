@@ -19,6 +19,7 @@ import CommonContainer from '../../CommonContainer';
 import { hasValidationErrors } from '../../../utils/validations';
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import nameFormatter from '../../../utils/nameFormatter';
+import useRouteChange from '../../../hooks/useRouteChange';
 
 type EnrollmentNewParams = {
 	history: History;
@@ -42,14 +43,14 @@ const mapSectionsToSteps = (sections: Section[]) => {
 };
 
 const mapSectionToVisitedStates = (sections: Section[]) => {
-	return sections.reduce<{[key: string]: boolean}>(
+	return sections.reduce<{ [key: string]: boolean }>(
 		(acc, section) => ({
 			...acc,
-			[section.key]: false
+			[section.key]: false,
 		}),
 		{}
 	);
-}
+};
 
 /**
  * React component for entering a new enrollment. This component
@@ -92,31 +93,32 @@ export default function EnrollmentNew({
 			},
 		]);
 		history.push('/roster');
-	}
+	};
 	const cancelParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDeleteRequest = {
 		id: enrollmentId ? enrollmentId : 0,
 		orgId: getIdForUser(user, 'org'),
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
-		enrollment: enrollment
+		enrollment: enrollment,
 	};
 	const [, cancelError] = useApi(
 		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDelete(cancelParams),
 		[enrollmentId, enrollment, user, cancel],
 		{
 			skip: !cancel,
-			callback: processSuccessfulCancel
+			callback: processSuccessfulCancel,
 		}
 	);
-	
 
 	const [visitedSections, updateVisitedSections] = useState(mapSectionToVisitedStates(sections));
 
 	const visitSection = (section: Section) => {
 		updateVisitedSections({
 			...visitedSections,
-			[section.key]: true
+			[section.key]: true,
 		});
-	}
+	};
+
+	useRouteChange(() => window.scroll(0, 0));
 
 	if (cancelError) {
 		// TODO: do something with this error
@@ -159,7 +161,7 @@ export default function EnrollmentNew({
 		successCallback: afterSave,
 		finallyCallback: visitSection,
 		siteId,
-		visitedSections: visitedSections
+		visitedSections: visitedSections,
 	};
 
 	return (
@@ -172,9 +174,11 @@ export default function EnrollmentNew({
 				<div className="grid-row flex-first-baseline flex-space-between">
 					<Button
 						text="Cancel"
-						appearance='outline'
+						appearance="outline"
 						onClick={() => {
-							var response = window.confirm("Are you sure you want to cancel? All information entered for this enrollment will be lost.");
+							var response = window.confirm(
+								'Are you sure you want to cancel? All information entered for this enrollment will be lost.'
+							);
 							if (response) {
 								if (enrollment) {
 									updateCancel(true);
@@ -184,7 +188,7 @@ export default function EnrollmentNew({
 							}
 						}}
 					/>
-					{sectionId === 'review' && 
+					{sectionId === 'review' && (
 						<Button
 							className="margin-right-0"
 							href="../"
@@ -209,7 +213,7 @@ export default function EnrollmentNew({
 								]);
 							}}
 						/>
-					}
+					)}
 				</div>
 			</div>
 		</CommonContainer>
