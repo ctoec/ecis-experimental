@@ -53,9 +53,9 @@ describe('EnrollmentEdit', () => {
 				getByText('This information is required for enrollment')
 			);
 
-			expect(firstNameErr).toBeInTheDOM();
+			expect(firstNameErr).toBeInTheDocument();
 			// TODO: the id needs to be updated-- this will probably mess things up
-			expect(firstNameErr.id).toBe('child.firstname-error');
+			expect(firstNameErr.id).toBe('child-firstname-error');
 		});
 	});
 
@@ -77,7 +77,7 @@ describe('EnrollmentEdit', () => {
 
 			const addressErr = getByRole('status');
 
-			expect(addressErr.className).toBe('usa-warning-message');
+			expect(addressErr.classList.contains('usa-warning-message'));
 		});
 	});
 
@@ -99,7 +99,7 @@ describe('EnrollmentEdit', () => {
 
 			const infoAlert = getByText('Income information is required to enroll a child in a CDC funded space. You will not be able to assign this child to a funding space without this information.');
 
-			expect(infoAlert).toBeInTheDOM();
+			expect(infoAlert).toBeInTheDocument();
 		});
 	});
 
