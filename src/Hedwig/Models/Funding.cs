@@ -23,10 +23,10 @@ namespace Hedwig.Models
     public FundingSource? Source { get; set; }
 
     // C4K funding fields
-    // [RequiredForFundingSource(FundingSource.C4K)]
     public int? FamilyId { get; set; }
-    // [RequiredForFundingSource(FundingSource.C4K)]
+    [Column(TypeName="date")]
     public DateTime? CertificateStartDate { get; set; }
+    [Column(TypeName="date")]
     public DateTime? CertificateEndDate { get; set; }
 
     // CDC funding fields

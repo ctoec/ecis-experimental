@@ -26,9 +26,11 @@ namespace Hedwig.Models
 		[JsonConverter(typeof(StringEnumConverter))]
 		public Age? AgeGroup { get; set; }
 
+		[Column(TypeName="date")]
 		public DateTime? Entry { get; set; }
 
 		[Exit_AfterEntryIfExists]
+		[Column(TypeName="date")]
 		public DateTime? Exit { get; set; }
 
 		[ExitReason_RequiredIfExitExists]
