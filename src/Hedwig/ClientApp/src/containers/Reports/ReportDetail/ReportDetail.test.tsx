@@ -1,11 +1,15 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { render, fireEvent } from '@testing-library/react';
 import 'react-dates/initialize';
 import ReportDetail from './ReportDetail';
 import CommonContextProviderMock from '../../../contexts/__mocks__/CommonContextProviderMock';
+import useApi from '../../../hooks/useApi';
+import { CdcReport } from '../../../generated';
+import { mockApi, defaultReport, completeEnrollment } from '../../../hooks/__mocks__/useApi';
+
+const readyReport = { ...defaultReport, enrollments: [completeEnrollment] };
 
 jest.mock('../../../hooks/useApi');
-import useApi from '../../../hooks/useApi';
 
 jest.mock('react-router-dom', () => ({
 	...jest.requireActual('react-router-dom'), // use actual for all non-hook parts
@@ -15,29 +19,77 @@ jest.mock('react-router-dom', () => ({
 	}),
 }));
 
+let mockLoading: boolean;
+let mockError: string | null;
+let mockReport: CdcReport;
+let mockMutate: Function;
+
+const defaultLoading = false;
+const defaultError   = null;
+const defaultMutate  = () => Promise.resolve();
+
+beforeEach(() => {
+	mockLoading = defaultLoading;
+	mockError   = defaultError;
+	mockReport  = defaultReport;
+	mockMutate  = defaultMutate;
+});
+
+jest.mock('../../../hooks/useApi', () => (query: Function) => query({
+	...mockApi,
+	apiOrganizationsOrgIdReportsIdGet: (params: any) => [
+		mockLoading,
+		mockError,
+		mockReport,
+		mockMutate
+	]
+}));
+
 afterAll(() => {
 	jest.resetModules();
 });
 
 describe('ReportDetail', () => {
 	it('matches snapshot', () => {
-		const wrapper = mount(
+		const { asFragment } = render(
 			<CommonContextProviderMock>
 				<ReportDetail />
 			</CommonContextProviderMock>
 		);
-		expect(wrapper.html()).toMatchSnapshot();
-		wrapper.unmount();
+		expect(asFragment()).toMatchSnapshot();
 	});
 
-	it('shows an alert if enrollments are missing info', () => {
-		const wrapper = mount(
-			<CommonContextProviderMock>
-				<ReportDetail />
-			</CommonContextProviderMock>
-		);
-		const alert = wrapper.find('.usa-alert__heading').text();
-		expect(alert).toBe('Update roster');
-		wrapper.unmount();
+	describe('when roster is missing information', () => {
+		it('shows an alert and disables submit', () => {
+			const { getByText, getByRole } = render(
+				<CommonContextProviderMock>
+					<ReportDetail />
+				</CommonContextProviderMock>
+			);
+
+			expect(getByRole('alert')).toHaveTextContent('Update roster');
+			expect(getByText('Submit')).toHaveAttribute('disabled');
+		});
+	});
+
+	describe('when report is ready to be submitted', () => {
+		beforeEach(() => {
+			mockReport = readyReport;
+			mockMutate = jest.fn(() => Promise.resolve());
+		});
+
+		it('allows the report to be submitted', () => {
+			const { getByText, getByLabelText } = render(
+				<CommonContextProviderMock>
+					<ReportDetail />
+				</CommonContextProviderMock>
+			);
+
+			fireEvent.change(getByLabelText(/Care 4 Kids/), { target: { value: '1234.56' } });
+			fireEvent.change(getByLabelText('Family Fees'), { target: { value: '1234.56' } });
+			fireEvent.click(getByText('Submit'));
+
+			expect(mockMutate).toHaveBeenCalled();
+		});
 	});
 });

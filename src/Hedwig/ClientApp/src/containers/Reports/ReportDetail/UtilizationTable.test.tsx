@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { render } from '@testing-library/react'
 import { Age, FundingTime, CdcReport, FundingSource, Enrollment, Region } from '../../../generated';
 import UtilizationTable, { calculateRate } from './UtilizationTable';
 import emptyGuid from '../../../utils/emptyGuid';
@@ -76,8 +76,8 @@ const defaultReport = reportWithEnrollments([
 
 describe('UtilizationTable', () => {
   it('matches snapshot', () => {
-    const table = mount(<UtilizationTable {...defaultReport} />);
-    expect(table.html()).toMatchSnapshot();
+    const { asFragment } = render(<UtilizationTable {...defaultReport} />);
+		expect(asFragment()).toMatchSnapshot();
   });
 
   it('includes a row for each type of enrollment and funding space', () => {
@@ -108,9 +108,11 @@ describe('UtilizationTable', () => {
       },
     ]);
 
-    const table = mount(<UtilizationTable {...report} />);
+    const { container } = render(<UtilizationTable {...report} />);
 
-    expect(table.find('tr')).toHaveLength(5);
+    expect(container).toHaveTextContent("Infant/Toddler – full time");
+    expect(container).toHaveTextContent("Infant/Toddler – part time");
+    expect(container).toHaveTextContent("Preschool – full time");
   });
 
   it('does not include enrollments without an age', () => {
@@ -129,8 +131,8 @@ describe('UtilizationTable', () => {
       }
     ]);
 
-    const table = mount(<UtilizationTable {...report} />);
+    const { container } = render(<UtilizationTable {...report} />);
 
-    expect(table.find('td').first().text()).toEqual("0/2 spaces")
+    expect(container).toHaveTextContent("0/2 spaces");
   });
 });
