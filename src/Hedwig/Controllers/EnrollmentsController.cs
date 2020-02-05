@@ -72,7 +72,7 @@ namespace Hedwig.Controllers
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
-		public async Task<ActionResult<List<Enrollment>>> GetForOrganizationBySite(
+		public async Task<ActionResult<List<Enrollment>>> Get(
 			int orgId,
 			[FromQuery(Name="siteIds[]")] int[] siteIds,
 			[FromQuery(Name="include[]")] string[] include,

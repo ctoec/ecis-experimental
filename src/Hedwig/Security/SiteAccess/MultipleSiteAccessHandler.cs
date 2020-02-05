@@ -42,12 +42,6 @@ namespace Hedwig.Security
 				return false;
 			});
 
-			// TODO: Allow for only organization level access
-			var routeData = _httpContextAccessor.HttpContext.GetRouteData();
-			var orgIdParam = ((string)routeData.Values["controller"]) == "Organizations" ? "id" : "orgId";
-			var orgIdStr = (string)routeData.Values[orgIdParam];
-			// END
-
 			if (canAccess)
 			{
 				context.Succeed(requirement);
