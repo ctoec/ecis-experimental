@@ -17,7 +17,7 @@ import {
 	InlineIcon,
 } from '../../components';
 import useApi from '../../hooks/useApi';
-import { Age, Enrollment, FundingSpace, FundingSource } from '../../generated';
+import { Age, Enrollment, FundingSpace, FundingSource, ApiOrganizationsOrgIdEnrollmentsGetRequest } from '../../generated';
 import UserContext from '../../contexts/User/UserContext';
 import AgeGroupSection from './AgeGroupSection';
 import { DeepNonUndefineable } from '../../utils/types';
@@ -35,26 +35,27 @@ export default function Roster() {
 	};
 
 	const { user } = useContext(UserContext);
-	const siteId = idx(user, _ => _.orgPermissions[0].organization.sites[0].id) || 0;
+	const siteIds = (idx(user, _ => _.orgPermissions[0].organization.sites) || []).map(s => s.id);
+	const siteId = siteIds[0];
 	const siteParams = {
-		id: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		orgId: getIdForUser(user, 'org'),
+		id: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		include: ['organizations', 'funding_spaces'],
-	};
+	}
 	const [siteLoading, siteError, site] = useApi(
 		api => api.apiOrganizationsOrgIdSitesIdGet(siteParams),
-		[user]
+		[user, siteId]
 	);
 
-	const enrollmentsParams = {
+	const enrollmentParams: ApiOrganizationsOrgIdEnrollmentsGetRequest = {
 		orgId: getIdForUser(user, 'org'),
-		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
+		siteIds: siteIds,
 		include: ['child', 'fundings'],
 		startDate: (dateRange && dateRange.startDate && dateRange.startDate.toDate()) || undefined,
 		endDate: (dateRange && dateRange.endDate && dateRange.endDate.toDate()) || undefined,
-	};
+	}
 	const [enrollmentLoading, enrollmentError, enrollments] = useApi(
-		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsGet(enrollmentsParams),
+		api => api.apiOrganizationsOrgIdEnrollmentsGet(enrollmentParams),
 		[user, dateRange]
 	);
 
