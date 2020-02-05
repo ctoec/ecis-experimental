@@ -1,21 +1,15 @@
 import React from 'react';
-import { mount } from 'enzyme';
-import mockdate from 'mockdate';
-import { act } from 'react-dom/test-utils';
+import { render, fireEvent } from '@testing-library/react';
+
 import 'react-dates/initialize';
-import Roster from './Roster';
+import mockdate from 'mockdate';
 import CommonContextProviderMock from '../../contexts/__mocks__/CommonContextProviderMock';
-import { ChoiceList } from '../../components';
+
+import Roster from './Roster';
 
 const fakeDate = '2019-09-30';
 
-const waitForUpdate = async (wrapper: any) => {
-	await new Promise(resolve => setTimeout(resolve, 10));
-	wrapper.update();
-};
-
 jest.mock('../../hooks/useApi');
-import useApi from '../../hooks/useApi';
 
 beforeAll(() => {
 	mockdate.set(fakeDate);
@@ -28,62 +22,45 @@ afterAll(() => {
 
 describe('Roster', () => {
 	it('matches snapshot', () => {
-		const wrapper = mount(
+		const { baseElement } = render(
 			<CommonContextProviderMock>
 				<Roster />
 			</CommonContextProviderMock>
 		);
-		expect(wrapper.html()).toMatchSnapshot();
-		wrapper.unmount();
+		expect(baseElement).toMatchSnapshot();
 	});
 
 	it('renders intro text with the correct number of children', async () => {
-		const wrapper = mount(
+		const { baseElement } = render(
 			<CommonContextProviderMock>
 				<Roster />
 			</CommonContextProviderMock>
 		);
-		await act(async () => {
-			await waitForUpdate(wrapper);
-		});
-		const introSpanText = wrapper.find('.usa-intro span').text();
-		expect(introSpanText).toBe('2 children enrolled.');
-		wrapper.unmount();
+
+		expect(baseElement).toHaveTextContent(/2 children enrolled/i);
 	});
 
 	it('updates the number of children', async () => {
-		const wrapper = mount(
+		const { baseElement, getByText, getByPlaceholderText } = render(
 			<CommonContextProviderMock>
 				<Roster />
 			</CommonContextProviderMock>
 		);
-		await act(async () => {
-			await waitForUpdate(wrapper);
 
-			wrapper
-				.find('Button')
-				.at(1)
-				.props()
-				.onClick();
-			await waitForUpdate(wrapper);
-		});
+		const filterButton = getByText(/filter for past enrollments/i);
 
-		const radioGroup = wrapper.find(ChoiceList);
+		fireEvent.click(filterButton);
 
-		await act(async () => {
-			radioGroup.props().onChange({ target: { value: 'range' } });
-			await waitForUpdate(wrapper);
-			const startDateInput = wrapper.find('input#enrollment-roster-datepicker-start-date');
-			const endDateInput = wrapper.find('input#enrollment-roster-datepicker-end-date');
-			startDateInput.simulate('change', { target: { value: '01/01/2018' } });
-			endDateInput.simulate('change', { target: { value: '02/01/2019' } });
-			await waitForUpdate(wrapper);
-		});
+		const byDateRange = getByText(/by range/i);
 
-		const introSpanText = wrapper.find('.usa-intro span').text();
-		expect(introSpanText).toBe(
-			'1 child was enrolled between January 1, 2018 and February 1, 2019.'
-		);
-		wrapper.unmount();
+		fireEvent.click(byDateRange);
+
+		const startDateInput = getByPlaceholderText(/start date/i);
+		const endDateInput = getByPlaceholderText(/end date/i);
+
+		fireEvent.change(startDateInput, { target: { value: '01/01/2018' } });
+		fireEvent.change(endDateInput, { target: { value: '02/01/2019' } });
+
+		expect(baseElement).toHaveTextContent(/1 child was enrolled between January 1, 2018 and February 1, 2019/i);
 	});
 });
