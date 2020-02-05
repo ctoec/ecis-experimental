@@ -1,9 +1,11 @@
 using Hedwig.Models;
+using Hedwig.Models.Attributes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Hedwig.Data
 {
@@ -58,6 +60,52 @@ namespace Hedwig.Data
         .HasForeignKey(f => f.EnrollmentId)
         .IsRequired()
         .OnDelete(DeleteBehavior.Cascade);
+    }
+
+    /// <summary>
+    /// Override `SaveChangesAsync()` to first protect read-only entities (optional for testing)
+    /// </summary>
+    /// <param name="ignoreReadOnly"></param>
+    /// <returns></returns>
+    public Task<int> SaveChangesAsync(bool ignoreReadOnly = false)
+    {
+      if(!ignoreReadOnly)
+      {
+        ProtectReadOnlyEntities();
+      }
+      return base.SaveChangesAsync();
+    }
+
+    /// <summary>
+    /// Override `SaveChanges()` to first protect read-only entities (optional for testing)
+    /// </summary>
+    /// <param name="ignoreReadOnly"></param>
+    /// <returns></returns>
+    public new int SaveChanges(bool ignoreReadOnly = false)
+    {
+			if(!ignoreReadOnly)
+      {
+	      ProtectReadOnlyEntities();
+			}
+      return base.SaveChanges();
+    }
+
+    /// <summary>
+    /// Ensures no read-only entities are updated by explicitly overwriting the state
+    /// of any read-only entities the change tracker knows to be modified.
+    /// </summary>
+    private void ProtectReadOnlyEntities()
+    {
+      var newOrUpdatedEntities = ChangeTracker.Entries()
+        .Where(e => 
+          ReadOnlyAttribute.IsReadOnly(e.Entity) && 
+          (e.State == EntityState.Added || e.State == EntityState.Modified)
+        );
+
+      foreach (var entity in newOrUpdatedEntities)
+      {
+        entity.State = entity.State == EntityState.Added ? EntityState.Detached : EntityState.Unchanged;
+      }
     }
 
     /// <summary>

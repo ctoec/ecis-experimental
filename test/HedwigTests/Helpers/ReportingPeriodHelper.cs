@@ -48,7 +48,7 @@ namespace HedwigTests.Helpers
 			};
 
 			context.Add(reportingPeriod);
-			context.SaveChanges();
+			context.SaveChanges(ignoreReadOnly: true);
 			return reportingPeriod;
 		}
 	}
