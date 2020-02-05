@@ -79,7 +79,7 @@ export default function ReportDetail() {
 						<Button text="Print" onClick={window.print} appearance="outline" />
 					</div>
 				</div>
-				<p className="usa-intro">
+				<p className="intro">
 					{idx(report, _ => _.organization.name)} <br />
 					{dateFormatter(idx(report, _ => _.reportingPeriod.periodStart))}–
 					{dateFormatter(idx(report, _ => _.reportingPeriod.periodEnd))}

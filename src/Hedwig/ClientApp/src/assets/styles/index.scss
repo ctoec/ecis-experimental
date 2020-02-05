@@ -7,7 +7,6 @@
 ========================================
 ========================================
 */
-
 // -------------------------------------
 // Import individual theme settings
 
@@ -35,4 +34,10 @@
 // Import theme custom styles
 
 @import 'uswds-theme-custom-styles';
+
+@import 'general';
+@import '../../components/Header';
+@import '../../components/InlineIcon';
+@import '../../components/StepList';
+@import '../../components/Table';
 @import 'print';

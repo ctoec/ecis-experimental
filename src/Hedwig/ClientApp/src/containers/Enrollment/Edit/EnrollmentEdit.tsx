@@ -107,7 +107,7 @@ export default function EnrollmentEdit({
 		>
 			<div className="grid-container">
 				<h1>Edit {section.name.toLowerCase()}</h1>
-				<p className="usa-intro">{nameFormatter(enrollment.child)}</p>
+				<p className="intro">{nameFormatter(enrollment.child)}</p>
 				<section.Form
 					siteId={siteId}
 					enrollment={enrollment}

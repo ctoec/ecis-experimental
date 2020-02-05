@@ -1,0 +1,30 @@
+// *** Prose ***
+h1 {
+	margin: 0;
+}
+
+.intro {
+	margin-top: 0;
+}
+
+.attention-needed {
+	color: color('secondary');
+}
+
+// *** Alignment ***
+.flex-first-baseline {
+	align-items: first baseline;
+}
+
+.flex-space-between {
+	justify-content: space-between;
+}
+
+// *** Grid ***
+.grid-container > .usa-alert:first-child {
+	margin-top: 1.67em;
+}
+
+.grid-container {
+	margin-bottom: 2rem;
+}

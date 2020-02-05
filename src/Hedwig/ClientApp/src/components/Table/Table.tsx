@@ -1,6 +1,7 @@
 import React from 'react';
 import ColumnHeader from './ColumnHeader';
 import Row from './Row';
+import cx from 'classnames';
 
 type Column<T> = {
 	name: string | JSX.Element;
@@ -69,7 +70,10 @@ export class Table<T> extends React.Component<TableProps<T>, TableSort> {
 		}
 
 		return (
-			<table id={id} className={`oec-table ${fullWidth && 'oec-table--full-width'}`}>
+			<table id={id} className={cx(
+				'oec-table',
+				{ 'oec-table--full-width': fullWidth }
+			)}>
 				{caption && <caption>{caption}</caption>}
 				<thead>
 					<tr>
@@ -88,7 +92,7 @@ export class Table<T> extends React.Component<TableProps<T>, TableSort> {
 					</tr>
 				</thead>
 				<tbody>
-					{sortedData.map((row, index) => (
+					{sortedData.map(row => (
 						<Row row={row} cells={cells} onClick={onRowClick} key={rowKey(row)} />
 					))}
 				</tbody>
