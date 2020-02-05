@@ -35,7 +35,7 @@ export default function Roster() {
 	};
 
 	const { user } = useContext(UserContext);
-	const siteIds = (idx(user, _ => _.orgPermissions[0].organization.sites) || []).map(site => site.id);
+	const siteIds = (idx(user, _ => _.orgPermissions[0].organization.sites) || []).map(s => s.id);
 	const siteId = siteIds[0];
 	const siteParams = {
 		orgId: getIdForUser(user, 'org'),

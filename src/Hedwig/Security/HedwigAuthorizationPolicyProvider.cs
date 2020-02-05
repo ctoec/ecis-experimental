@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -7,7 +6,7 @@ namespace Hedwig.Security
 {
 	public abstract class HedwigAuthorizationPolicyProvider : IAuthorizationPolicyProvider
 	{
-		private List<IAuthorizationRequirement> _requirements = new List<IAuthorizationRequirement>();
+		private readonly List<IAuthorizationRequirement> _requirements = new List<IAuthorizationRequirement>();
 
 		protected void AddRequirement(IAuthorizationRequirement requirement)
 		{
@@ -30,7 +29,7 @@ namespace Hedwig.Security
 		{
 			return GetDefaultPolicy();
 		}
-		virtual public AuthorizationPolicy GetPolicy(string name)
+		virtual public AuthorizationPolicy GetPolicy(string policyName)
 		{
 			return GetDefaultPolicy();
 		}
@@ -42,7 +41,7 @@ namespace Hedwig.Security
 		{
 			return Task.FromResult(GetDefaultPolicy());
 		}
-		virtual public Task<AuthorizationPolicy>  GetPolicyAsync(string name)
+		virtual public Task<AuthorizationPolicy>  GetPolicyAsync(string policyName)
 		{
 			return Task.FromResult(GetDefaultPolicy());
 		}
