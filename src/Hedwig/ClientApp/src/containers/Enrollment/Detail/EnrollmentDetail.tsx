@@ -4,7 +4,7 @@ import FamilyInfo from '../_sections/FamilyInfo';
 import FamilyIncome from '../_sections/FamilyIncome';
 import EnrollmentFunding from '../_sections/EnrollmentFunding';
 import { Link } from 'react-router-dom';
-import nameFormatter from '../../../utils/nameFormatter';
+import { nameFormatter } from '../../../utils/stringFormatters';
 import {
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest,
 	Enrollment,

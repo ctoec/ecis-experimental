@@ -10,7 +10,7 @@ import {
 	FieldSet,
 	DateRange,
 } from '../../../components';
-import nameFormatter from '../../../utils/nameFormatter';
+import { nameFormatter } from '../../../utils/stringFormatters';
 import dateFormatter from '../../../utils/dateFormatter';
 import {
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest,

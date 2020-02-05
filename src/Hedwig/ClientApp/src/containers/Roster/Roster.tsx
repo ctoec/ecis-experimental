@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import idx from 'idx';
 import moment from 'moment';
-import enrollmentTextFormatter from '../../utils/enrollmentTextFormatter';
+import { enrollmentTextFormatter } from '../../utils/stringFormatters';
 import getDefaultDateRange from '../../utils/getDefaultDateRange';
 import { fundingSourceDetails } from '../../utils/fundingTypeFormatters';
 import getFundingSpaceCapacity from '../../utils/getFundingSpaceCapacity';
