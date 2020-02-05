@@ -10,7 +10,6 @@ import {
 	ApiOrganizationsIdGetRequest,
 } from '../../../generated';
 import { getIdForUser, reportingPeriodFormatter } from '../../../utils/models';
-import idx from 'idx';
 import { DeepNonUndefineable } from '../../../utils/types';
 import CommonContainer from '../../CommonContainer';
 
