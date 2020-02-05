@@ -16,7 +16,7 @@ import useApi from '../../../hooks/useApi';
 import CommonContainer from '../../CommonContainer';
 import { hasValidationErrors } from '../../../utils/validations';
 import AlertContext from '../../../contexts/Alert/AlertContext';
-import nameFormatter from '../../../utils/nameFormatter';
+import { nameFormatter } from '../../../utils/stringFormatters';
 
 type EnrollmentEditParams = {
 	history: History;

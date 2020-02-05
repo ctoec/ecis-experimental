@@ -1,6 +1,6 @@
-import { Child } from '../generated/models/Child';
+import { Child } from '../../generated/models/Child';
 
-export default function nameFormatter(name?: Child) {
+export function nameFormatter(name?: Child) {
 	if (!name) {
 		return '';
 	}

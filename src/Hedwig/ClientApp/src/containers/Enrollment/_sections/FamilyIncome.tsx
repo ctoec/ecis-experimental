@@ -192,38 +192,45 @@ const FamilyIncome: Section = {
 										)
 								)}
 							>
-								<TextInput
-									id="numberOfPeople"
-									label="Household size"
-									defaultValue={numberOfPeople ? '' + numberOfPeople : ''}
-									onChange={event => {
-										const value = parseInt(event.target.value.replace(/[^0-9.]/g, ''), 10) || null;
-										updateNumberOfPeople(value);
-									}}
-									onBlur={event => (event.target.value = numberOfPeople ? '' + numberOfPeople : '')}
-									status={initialLoadErrorGuard(
-										initialLoad,
-										warningForField('numberOfPeople', determination ? determination : null, '')
-									)}
-									small
-								/>
-								<TextInput
-									id="income"
-									label="Annual household income"
-									defaultValue={currencyFormatter(income)}
-									onChange={event => {
-										updateIncome(parseCurrencyFromString(event.target.value));
-									}}
-									onBlur={event =>
-										(event.target.value = notNullOrUndefined(income)
-											? currencyFormatter(income)
-											: '')
-									}
-									status={initialLoadErrorGuard(
-										initialLoad,
-										warningForField('income', determination ? determination : null, '')
-									)}
-								/>
+								<div>
+									<TextInput
+										id="numberOfPeople"
+										label="Household size"
+										defaultValue={numberOfPeople ? '' + numberOfPeople : ''}
+										onChange={event => {
+											const value =
+												parseInt(event.target.value.replace(/[^0-9.]/g, ''), 10) || null;
+											updateNumberOfPeople(value);
+										}}
+										onBlur={event =>
+											(event.target.value = numberOfPeople ? '' + numberOfPeople : '')
+										}
+										status={initialLoadErrorGuard(
+											initialLoad,
+											warningForField('numberOfPeople', determination ? determination : null, '')
+										)}
+										small
+									/>
+								</div>
+								<div>
+									<TextInput
+										id="income"
+										label="Annual household income"
+										defaultValue={currencyFormatter(income)}
+										onChange={event => {
+											updateIncome(parseCurrencyFromString(event.target.value));
+										}}
+										onBlur={event =>
+											(event.target.value = notNullOrUndefined(income)
+												? currencyFormatter(income)
+												: '')
+										}
+										status={initialLoadErrorGuard(
+											initialLoad,
+											warningForField('income', determination ? determination : null, '')
+										)}
+									/>
+								</div>
 								<DatePicker
 									label="Date of income determination"
 									id="income-determination-date"
@@ -280,7 +287,7 @@ const FamilyIncome: Section = {
 					)}
 
 				<div className="usa-form">
-					<Button text="Save" onClick='submit' />
+					<Button text="Save" onClick="submit" />
 				</div>
 			</form>
 		);
