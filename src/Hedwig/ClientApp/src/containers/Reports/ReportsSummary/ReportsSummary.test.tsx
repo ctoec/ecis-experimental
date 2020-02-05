@@ -2,7 +2,6 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import ReportsSummary from './ReportsSummary';
 import CommonContextProviderMock from '../../../contexts/__mocks__/CommonContextProviderMock';
-import useApi from '../../../hooks/useApi';
 import { CdcReport } from '../../../generated';
 import { mockApi, defaultReport } from '../../../hooks/__mocks__/useApi';
 

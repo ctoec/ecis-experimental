@@ -3,13 +3,10 @@ import { render, fireEvent } from '@testing-library/react';
 import 'react-dates/initialize';
 import ReportDetail from './ReportDetail';
 import CommonContextProviderMock from '../../../contexts/__mocks__/CommonContextProviderMock';
-import useApi from '../../../hooks/useApi';
 import { CdcReport } from '../../../generated';
 import { mockApi, defaultReport, completeEnrollment } from '../../../hooks/__mocks__/useApi';
 
 const readyReport = { ...defaultReport, enrollments: [completeEnrollment] };
-
-jest.mock('../../../hooks/useApi');
 
 jest.mock('react-router-dom', () => ({
 	...jest.requireActual('react-router-dom'), // use actual for all non-hook parts

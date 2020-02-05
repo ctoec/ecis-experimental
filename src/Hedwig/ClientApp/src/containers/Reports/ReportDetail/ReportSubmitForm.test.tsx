@@ -8,7 +8,6 @@ import { DeepNonUndefineable } from '../../../utils/types';
 import { CdcReport } from '../../../generated';
 
 jest.mock('../../../hooks/useApi');
-import useApi from '../../../hooks/useApi';
 
 afterAll(() => {
 	jest.resetModules();
