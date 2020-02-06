@@ -24,6 +24,38 @@ h1 {
 	width: fit-content;
 }
 
+.exact-width-flex {
+	@extend .width-fit-content;
+	flex: 0 0 auto;
+}
+
+.flex-center {
+	justify-content: center;
+}
+
+// *** Lists ***
+/* hide original list counter */
+ol > li {
+	display:block;
+}
+/* reset counter */
+ol > li:first-child {
+	counter-reset: item;
+}
+/* increment counter */
+ol > li {
+	counter-increment: item;
+}
+/* print counter */
+ol > li:before {
+	content:counters(item, ".") ". ";
+	font-weight:bold;
+}
+
+ol.no-list-counter > li:before {
+	content: '';
+}
+
 // *** Grid ***
 .grid-container > .usa-alert:first-child {
 	margin-top: 1.67em;
