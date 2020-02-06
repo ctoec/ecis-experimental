@@ -12,6 +12,7 @@ import {
 } from '../../../utils/validations';
 import { addressFormatter, homelessnessText, fosterText } from '../../../utils/models';
 import initialLoadErrorGuard from '../../../utils/validations/initialLoadErrorGuard';
+import useIsExecuting from '../../../hooks/useIsExecuting';
 
 const FamilyInfo: Section = {
 	key: 'family-information',
@@ -74,7 +75,7 @@ const FamilyInfo: Section = {
 
 		const [foster, updateFoster] = useState(child.foster ? child.foster : false);
 
-		const save = (event: React.FormEvent<HTMLFormElement>) => {
+		const _save = () => {
 			const args = {
 				addressLine1,
 				addressLine2,
@@ -102,7 +103,7 @@ const FamilyInfo: Section = {
 						},
 					},
 				};
-				mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
+				return mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
 					.then(res => {
 						if (successCallback && res) successCallback(res);
 					})
@@ -110,9 +111,11 @@ const FamilyInfo: Section = {
 						finallyCallback && finallyCallback(FamilyInfo);
 					});
 			}
-
-			event.preventDefault();
+			return new Promise(() => {});
+			// TODO: what should happen if there is no child or enrollment id?  See also family income
 		};
+
+		const { isExecuting: isMutating, updateIsExecuting: save } = useIsExecuting(_save);
 
 		return (
 			<form className="FamilyInfoForm usa-form" onSubmit={save} noValidate autoComplete="off">
@@ -169,7 +172,7 @@ const FamilyInfo: Section = {
 							type="select"
 							id="state"
 							label="State"
-							options={['CT', 'MA', 'NY', 'RI'].map(_state => ({ text: _state, value: _state}))}
+							options={['CT', 'MA', 'NY', 'RI'].map(_state => ({ text: _state, value: _state }))}
 							selected={state ? [state] : undefined}
 							onChange={(event, selectedValues) => updateState(selectedValues[0])}
 							status={initialLoadErrorGuard(
@@ -225,7 +228,7 @@ const FamilyInfo: Section = {
 					Indicate if you are aware that the family has experienced housing insecurity, including
 					overcrowded housing, within the last year.
 				</p>
-				<Button text="Save" onClick='submit' />
+				<Button text={isMutating ? 'Saving' : 'Save'} onClick="submit" disabled={isMutating} />
 			</form>
 		);
 	},

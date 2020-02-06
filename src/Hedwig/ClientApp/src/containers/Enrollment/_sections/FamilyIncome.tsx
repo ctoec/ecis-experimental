@@ -25,6 +25,7 @@ import {
 	warningForFieldSet,
 } from '../../../utils/validations';
 import initialLoadErrorGuard from '../../../utils/validations/initialLoadErrorGuard';
+import useIsExecuting from '../../../hooks/useIsExecuting';
 
 const FamilyIncome: Section = {
 	key: 'family-income',
@@ -126,7 +127,7 @@ const FamilyIncome: Section = {
 			notDisclosed,
 		};
 
-		const save = (event: React.FormEvent<HTMLFormElement>) => {
+		const _save = () => {
 			if (enrollment && child && child.family) {
 				const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
 					...defaultParams,
@@ -154,19 +155,23 @@ const FamilyIncome: Section = {
 						},
 					},
 				};
-				mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
-					.then(res => {
-						if (successCallback && res) successCallback(res);
-					})
-					// TODO deal with error from server
-					.catch()
-					.finally(() => {
-						finallyCallback && finallyCallback(FamilyIncome);
-					});
+				return (
+					mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
+						.then(res => {
+							if (successCallback && res) successCallback(res);
+						})
+						// TODO deal with error from server
+						.catch()
+						.finally(() => {
+							finallyCallback && finallyCallback(FamilyIncome);
+						})
+				);
 			}
-
-			event.preventDefault();
+			return new Promise(() => {});
+			// TODO: what should happen if there is no enrollment, child, or family?  See also family info
 		};
+
+		const { isExecuting: isMutating, updateIsExecuting: save } = useIsExecuting(_save);
 
 		return (
 			<form className="FamilyIncomeForm" onSubmit={save} noValidate autoComplete="off">
@@ -287,7 +292,7 @@ const FamilyIncome: Section = {
 					)}
 
 				<div className="usa-form">
-					<Button text="Save" onClick="submit" />
+					<Button text={isMutating ? 'Saving' : 'Save'} onClick="submit" disabled={isMutating} />
 				</div>
 			</form>
 		);

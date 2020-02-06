@@ -14,7 +14,7 @@ import monthFormatter from '../../../utils/monthFormatter';
 import { DeepNonUndefineable } from '../../../utils/types';
 import { useFocusFirstError, serverErrorForField } from '../../../utils/validations';
 import { ValidationProblemDetails, ValidationProblemDetailsFromJSON } from '../../../generated';
-import useIsExecutingState from '../../../hooks/useIsExecutingState';
+import useIsExecuting from '../../../hooks/useIsExecuting';
 
 export type ReportSubmitFormProps = {
 	report: DeepNonUndefineable<CdcReport>;
@@ -52,9 +52,8 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 		};
 	}
 
-	const { callback: onSubmit, isExecuting: isSubmitting } = useIsExecutingState((e: FormEvent) => {
-		e.preventDefault();
-		mutate(api =>
+	function _onSubmit() {
+		return mutate(api =>
 			api.apiOrganizationsOrgIdReportsIdPut({
 				...params,
 				cdcReport: updatedReport(),
@@ -77,8 +76,9 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 			})
 			.catch(error => {
 				setApiError(ValidationProblemDetailsFromJSON(error));
-			});
-	})
+			})
+	}
+	const { isExecuting: isMutating, updateIsExecuting: onSubmit } = useIsExecuting(_onSubmit);
 
 	return (
 		<React.Fragment>
@@ -160,8 +160,8 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 				{!report.submittedAt && (
 					<Button
 						onClick="submit"
-						text={isSubmitting ? 'Submitting...' : 'Submit'}
-						disabled={!canSubmit || isSubmitting}
+						text={isMutating ? 'Submitting...' : 'Submit'}
+						disabled={!canSubmit || isMutating}
 					/>
 				)}
 			</form>
