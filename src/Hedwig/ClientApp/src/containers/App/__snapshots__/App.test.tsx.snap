@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="container"
+  >
+    <a
+      class="usa-skipnav"
+      href="#main-content"
+    >
+      Skip to main content
+    </a>
+    <div
+      class=""
+    >
+      <div
+        class="usa-overlay"
+        data-testid="overlay"
+      />
+      <header
+        class="usa-header usa-header--extended"
+        role="banner"
+      >
+        <div
+          class="usa-navbar"
+        >
+          <div
+            class="usa-logo"
+            id="extended-logo"
+          >
+            <a
+              aria-label="ECE Reporter home"
+              href="/"
+            >
+              <em
+                class="usa-logo__text"
+              >
+                ECE Reporter
+              </em>
+            </a>
+          </div>
+          <button
+            class="usa-menu-btn"
+          >
+            Menu
+          </button>
+        </div>
+        <nav
+          class="usa-nav"
+          role="navigation"
+        >
+          <div
+            class="usa-nav__inner"
+          >
+            <button
+              class="usa-nav__close"
+            >
+              <img
+                alt="close"
+                src="close.svg"
+              />
+            </button>
+            <ul
+              class="usa-nav__primary usa-accordion"
+            >
+              <li
+                class="usa-nav__primary-item"
+              >
+                <a
+                  class="usa-nav__link usa-current"
+                  href="/roster"
+                >
+                  <span>
+                    Roster
+                  </span>
+                </a>
+              </li>
+              <li
+                class="usa-nav__primary-item"
+              >
+                <a
+                  class="usa-nav__link"
+                  href="/reports"
+                >
+                  <span>
+                    Reports
+                  </span>
+                </a>
+              </li>
+            </ul>
+            <div
+              class="usa-nav__secondary"
+            >
+              <ul
+                class="usa-nav__secondary-links"
+              />
+              <div
+                class="oec-logged-in-user"
+              >
+                <a
+                  href="/login"
+                >
+                  Log in
+                </a>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </header>
+    </div>
+    <main
+      id="main-content"
+    >
+      <div
+        class="Roster"
+      />
+    </main>
+  </div>
+</DocumentFragment>
+`;
