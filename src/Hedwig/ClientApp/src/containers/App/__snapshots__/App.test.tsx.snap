@@ -3,7 +3,7 @@
 exports[`matches snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="App"
+    class="container"
   >
     <a
       class="usa-skipnav"
@@ -16,6 +16,7 @@ exports[`matches snapshot 1`] = `
     >
       <div
         class="usa-overlay"
+        data-testid="overlay"
       />
       <header
         class="usa-header usa-header--extended"
