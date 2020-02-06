@@ -14,7 +14,7 @@ import monthFormatter from '../../../utils/monthFormatter';
 import { DeepNonUndefineable } from '../../../utils/types';
 import { useFocusFirstError, serverErrorForField } from '../../../utils/validations';
 import { ValidationProblemDetails, ValidationProblemDetailsFromJSON } from '../../../generated';
-import notNullOrUndefined from '../../../utils/notNullOrUndefined';
+import useIsExecutingState from '../../../hooks/useIsExecutingState';
 
 export type ReportSubmitFormProps = {
 	report: DeepNonUndefineable<CdcReport>;
@@ -52,7 +52,7 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 		};
 	}
 
-	function onSubmit(e: FormEvent) {
+	const { callback: onSubmit, isExecuting: isSubmitting } = useIsExecutingState((e: FormEvent) => {
 		e.preventDefault();
 		mutate(api =>
 			api.apiOrganizationsOrgIdReportsIdPut({
@@ -78,7 +78,7 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 			.catch(error => {
 				setApiError(ValidationProblemDetailsFromJSON(error));
 			});
-	}
+	})
 
 	return (
 		<React.Fragment>
@@ -105,10 +105,7 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 			<UtilizationTable {...{ ...report, accredited }} />
 			<form className="usa-form" onSubmit={onSubmit} noValidate autoComplete="off">
 				<h2>Other Revenue</h2>
-				<FieldSet
-					id="other-revenue"
-					legend="Other Revenue"
-				>
+				<FieldSet id="other-revenue" legend="Other Revenue">
 					<TextInput
 						id="c4k-revenue"
 						label={
@@ -161,7 +158,11 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 					/>
 				</FieldSet>
 				{!report.submittedAt && (
-					<Button onClick="submit" text="Submit" disabled={!canSubmit} />
+					<Button
+						onClick="submit"
+						text={isSubmitting ? 'Submitting...' : 'Submit'}
+						disabled={!canSubmit || isSubmitting}
+					/>
 				)}
 			</form>
 		</React.Fragment>
