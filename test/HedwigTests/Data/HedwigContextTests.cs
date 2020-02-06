@@ -73,14 +73,14 @@ namespace HedwigTests.Data
     {
       using(var context = new TestHedwigContextProvider().Context)
       {
-        var totalReportingPeriods = context.ReportingPeriods.AsNoTracking().Count();
         // If a read-only entity is created
+        var now = DateTime.Now;
         var reportingPeriod = new ReportingPeriod {
           Type = FundingSource.CDC,
-          Period = DateTime.Now,
-          PeriodStart = DateTime.Now,
-          PeriodEnd = DateTime.Now,
-          DueAt = DateTime.Now
+          Period = now,
+          PeriodStart = now,
+          PeriodEnd = now,
+          DueAt = now
         };
         context.Add(reportingPeriod);
         
@@ -88,8 +88,8 @@ namespace HedwigTests.Data
         context.SaveChanges();
 
         // Then the changes are not persisted to the DB
-        var res = context.ReportingPeriods.AsNoTracking().Count();
-        Assert.Equal(totalReportingPeriods, res);
+        var res = context.ReportingPeriods.Where(rp => rp.Period == now);
+        Assert.Empty(res);
       }
     }
 
@@ -118,14 +118,14 @@ namespace HedwigTests.Data
     {
       using(var context = new TestHedwigContextProvider().Context)
       {
-        var totalReportingPeriods = context.ReportingPeriods.AsNoTracking().Count();
         // If a read-only entity is created
+        var now = DateTime.Now;
         var reportingPeriod = new ReportingPeriod {
           Type = FundingSource.CDC,
-          Period = DateTime.Now,
-          PeriodStart = DateTime.Now,
-          PeriodEnd = DateTime.Now,
-          DueAt = DateTime.Now
+          Period = now,
+          PeriodStart = now,
+          PeriodEnd = now,
+          DueAt = now
         };
         context.Add(reportingPeriod);
         
@@ -133,8 +133,8 @@ namespace HedwigTests.Data
         await context.SaveChangesAsync();
 
         // Then the changes are not persisted to the DB
-        var res = context.ReportingPeriods.AsNoTracking().Count();
-        Assert.Equal(totalReportingPeriods, res);
+        var res = context.ReportingPeriods.Where(rp => rp.Period == now);
+        Assert.Empty(res);
       }
     }
 
