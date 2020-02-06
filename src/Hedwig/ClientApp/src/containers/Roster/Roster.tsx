@@ -129,7 +129,7 @@ export default function Roster() {
 				</div>
 				<div className="grid-row">
 					<div className="tablet:grid-col-fill">
-						<p className="usa-intro display-flex flex-row flex-wrap flex-justify-start">
+						<p className="intro display-flex flex-row flex-wrap flex-justify-start">
 							<span className="margin-right-2 flex-auto">{numKidsEnrolledText}</span>
 							<Button
 								text={

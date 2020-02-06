@@ -4,6 +4,7 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { default as NavItem, NavItemProps } from './NavItem';
 import closeIcon from 'uswds/src/img/close.svg';
+import cx from 'classnames';
 
 export type HeaderProps = {
 	title: string;
@@ -72,46 +73,54 @@ class HeaderWithoutRouter extends React.Component<HeaderProps & RouteComponentPr
 		const secondaryNavItems = navItems.filter(item => item.type === 'secondary');
 
 		return (
-			<div className={this.state.menuIsVisible ? 'usa-js-mobile-nav--active' : ''}>
+			<div className={cx({
+				'usa-js-mobile-nav--active': this.state.menuIsVisible
+			})}>
 				<div
 					data-testid='overlay'
-					className={'usa-overlay' + (this.state.menuIsVisible ? ' is-visible' : '')}
+					className={cx(
+						'usa-overlay',
+						{ 'is-visible': this.state.menuIsVisible }
+					)}
 					onClick={this.hideMenu}
 				></div>
-				<header className="usa-header usa-header--extended" role="banner">
-					<div className="usa-navbar">
-						<div className="usa-logo" id="extended-logo">
+				<header className={cx("usa-header", "usa-header--extended")} role="banner">
+					<div className={cx("usa-navbar")}>
+						<div className={cx("usa-logo")} id="extended-logo">
 							<Link to="/" aria-label={`${title} home`}>
-								<em className="usa-logo__text">
+								<em className={cx("usa-logo__text")}>
 										{title}
 								</em>
 							</Link>
 						</div>
-						<button className="usa-menu-btn" onClick={this.showMenu}>
+						<button className={cx("usa-menu-btn")} onClick={this.showMenu}>
 							Menu
 						</button>
 					</div>
 					<nav
 						role="navigation"
-						className={'usa-nav' + (this.state.menuIsVisible ? ' is-visible' : '')}
+						className={cx(
+							'usa-nav',
+							{ 'is-visible': this.state.menuIsVisible }
+						)}
 					>
-						<div className="usa-nav__inner">
-							<button className="usa-nav__close" onClick={this.hideMenu}>
+						<div className={cx("usa-nav__inner")}>
+							<button className={cx("usa-nav__close")} onClick={this.hideMenu}>
 								<img src={closeIcon} alt="close" />
 							</button>
-							<ul className="usa-nav__primary usa-accordion">
+							<ul className={cx("usa-nav__primary usa-accordion")}>
 								{primaryNavItems.map((item, index) => (
 									<NavItem {...item} key={index} />
 								))}
 							</ul>
-							<div className="usa-nav__secondary">
-								<ul className="usa-nav__secondary-links">
+							<div className={cx("usa-nav__secondary")}>
+								<ul className={cx("usa-nav__secondary-links")}>
 									{secondaryNavItems.map((item, index) => (
 										<NavItem {...item} key={index} />
 									))}
 									{userFirstName && <NavItem type="secondary" title="Log out" path={logoutPath} />}
 								</ul>
-								<div className="oec-logged-in-user">
+								<div className={cx("oec-logged-in-user")}>
 									{userFirstName ? (
 										<span>Hi, {userFirstName}.</span>
 									) : (

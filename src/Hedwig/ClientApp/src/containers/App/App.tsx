@@ -12,6 +12,9 @@ import { AlertProvider } from '../../contexts/Alert/AlertContext';
 import { DeepNonUndefineable } from '../../utils/types';
 import { ErrorBoundary, Header, NavItemProps } from '../../components';
 
+import cx from 'classnames';
+import styles from './App.module.scss';
+
 /**
  * Main React component container for Hedwig application
  */
@@ -52,7 +55,7 @@ const App: React.FC = () => {
 	];
 
 	return (
-		<div className="App">
+		<div className={cx(styles.container)}>
 			<AppProvider value={cacheContext}>
 				<a className="usa-skipnav" href="#main-content">
 					Skip to main content

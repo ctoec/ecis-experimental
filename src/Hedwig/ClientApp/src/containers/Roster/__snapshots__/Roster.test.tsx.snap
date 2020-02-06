@@ -34,7 +34,7 @@ exports[`Roster matches snapshot 1`] = `
         class="tablet:grid-col-fill"
       >
         <p
-          class="usa-intro display-flex flex-row flex-wrap flex-justify-start"
+          class="intro display-flex flex-row flex-wrap flex-justify-start"
         >
           <span
             class="margin-right-2 flex-auto"
