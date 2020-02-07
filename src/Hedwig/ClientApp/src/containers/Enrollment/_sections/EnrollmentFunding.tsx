@@ -304,7 +304,7 @@ const EnrollmentFunding: Section = {
 			}
 		};
 
-		const { isExecuting: isMutating, updateIsExecuting: save } = useIsExecuting(_save);
+		const { isExecuting: isMutating, setExecuting: save } = useIsExecuting(_save);
 
 		const siteParams: ApiOrganizationsOrgIdSitesIdGetRequest = {
 			// Separate query so that mutation doesn't try to update all the enrollments when user saves this one
@@ -557,7 +557,7 @@ const EnrollmentFunding: Section = {
 				</div>
 
 				<div className="usa-form">
-					<Button text={isMutating ? 'Saving' : 'Save'} onClick="submit" disabled={isMutating} />
+					<Button text={isMutating ? 'Saving...' : 'Save'} onClick="submit" disabled={isMutating} />
 				</div>
 			</form>
 		);

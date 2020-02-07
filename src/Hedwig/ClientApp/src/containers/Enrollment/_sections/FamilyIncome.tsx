@@ -171,7 +171,7 @@ const FamilyIncome: Section = {
 			// TODO: what should happen if there is no enrollment, child, or family?  See also family info
 		};
 
-		const { isExecuting: isMutating, updateIsExecuting: save } = useIsExecuting(_save);
+		const { isExecuting: isMutating, setExecuting: save } = useIsExecuting(_save);
 
 		return (
 			<form className="FamilyIncomeForm" onSubmit={save} noValidate autoComplete="off">
@@ -292,7 +292,7 @@ const FamilyIncome: Section = {
 					)}
 
 				<div className="usa-form">
-					<Button text={isMutating ? 'Saving' : 'Save'} onClick="submit" disabled={isMutating} />
+					<Button text={isMutating ? 'Saving...' : 'Save'} onClick="submit" disabled={isMutating} />
 				</div>
 			</form>
 		);

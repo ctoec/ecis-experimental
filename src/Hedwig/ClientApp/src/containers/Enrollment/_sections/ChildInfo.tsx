@@ -210,7 +210,7 @@ const ChildInfo: Section = {
 			}
 		};
 
-		const { isExecuting: isMutating, updateIsExecuting: save } = useIsExecuting(_save);
+		const { isExecuting: isMutating, setExecuting: save } = useIsExecuting(_save);
 
 		// TODO: should gender be radio buttons as recommended by USWDS rather than select?
 		return (
@@ -450,7 +450,7 @@ const ChildInfo: Section = {
 					)}
 				/>
 
-				<Button text={isMutating ? 'Saving' : 'Save'} onClick="submit" disabled={isMutating} />
+				<Button text={isMutating ? 'Saving...' : 'Save'} onClick="submit" disabled={isMutating} />
 			</form>
 		);
 	},

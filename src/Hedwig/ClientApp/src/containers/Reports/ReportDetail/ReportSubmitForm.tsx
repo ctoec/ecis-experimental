@@ -78,7 +78,7 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 				setApiError(ValidationProblemDetailsFromJSON(error));
 			})
 	}
-	const { isExecuting: isMutating, updateIsExecuting: onSubmit } = useIsExecuting(_onSubmit);
+	const { isExecuting: isMutating, setExecuting: onSubmit } = useIsExecuting(_onSubmit);
 
 	return (
 		<React.Fragment>

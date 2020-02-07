@@ -115,7 +115,7 @@ const FamilyInfo: Section = {
 			// TODO: what should happen if there is no child or enrollment id?  See also family income
 		};
 
-		const { isExecuting: isMutating, updateIsExecuting: save } = useIsExecuting(_save);
+		const { isExecuting: isMutating, setExecuting: save } = useIsExecuting(_save);
 
 		return (
 			<form className="FamilyInfoForm usa-form" onSubmit={save} noValidate autoComplete="off">
@@ -228,7 +228,7 @@ const FamilyInfo: Section = {
 					Indicate if you are aware that the family has experienced housing insecurity, including
 					overcrowded housing, within the last year.
 				</p>
-				<Button text={isMutating ? 'Saving' : 'Save'} onClick="submit" disabled={isMutating} />
+				<Button text={isMutating ? 'Saving...' : 'Save'} onClick="submit" disabled={isMutating} />
 			</form>
 		);
 	},
