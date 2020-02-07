@@ -164,7 +164,7 @@ jobs:
   # Publish artifact to dropbox - hedwig-spa
   - task: PublishBuildArtifacts@1
     displayName: "Publish Artifacts: hedwig-spa"
-   # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     inputs:
       pathToPublish: "$(Build.ArtifactStagingDirectory)/hedwig-spa.zip"
       artifactName: hedwig-spa
@@ -172,7 +172,7 @@ jobs:
   # Publish artifact to dropbox - hedwig-db
   - task: PublishBuildArtifacts@1
     displayName: "Publish Artifacts: hedwig-db"
-   # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     inputs:
       pathToPublish: "$(Build.ArtifactStagingDirectory)/hedwig-db.sql"
       artifactName: hedwig-db

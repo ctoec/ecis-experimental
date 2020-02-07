@@ -26,10 +26,6 @@ namespace Hedwig
 					var logger = services.GetRequiredService<ILogger<Program>>();
 					logger.LogInformation("Detected environment " + environment);
 
-					logger.LogError("DevOps sample 01 logger error event for Sentry");
-					logger.LogError("DevOps sample 02 logger error event for Sentry");
-					logger.LogCritical("DevOps sample logger critial event for Sentry");
-
 					try
 					{
 						var context = services.GetRequiredService<HedwigContext>();
