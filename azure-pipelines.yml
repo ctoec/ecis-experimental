@@ -206,4 +206,3 @@ jobs:
 
   - script: $(Build.SourcesDirectory)/installer/tf/prsystem/tf-pr-system-clean.sh
     displayName: 'Command: clean ubuntu systems via terraform'
-
