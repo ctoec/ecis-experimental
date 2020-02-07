@@ -20,7 +20,8 @@ export const currentReportingPeriod = (periods: ReportingPeriod[]): ReportingPer
 	const now = moment();
 	const startOfMonthDate = moment(`${now.format('YYYY-MM')}-01`);
 	// Assumes that ReportingPeriod.Period will always be on the first day of the month
-	return periods.find(period => period.period.getTime() === startOfMonthDate.valueOf());
+	// Compare with dates, not times to avoid timezone ridiculousness
+	return periods.find(period => moment(period.period).format('YYYY-MM-DD') === startOfMonthDate.format('YYYY-MM-DD'));
 };
 
 /**

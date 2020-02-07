@@ -75,16 +75,18 @@ namespace Hedwig
 
 		public static void ConfigureAuthorization(this IServiceCollection services)
 		{
-			services.AddScoped<IAuthorizationHandler, RequirementsHandler>();
+			services.AddScoped<IAuthorizationHandler, OrganizationAccessHandler>();
+			services.AddScoped<IAuthorizationHandler, SingleSiteAccessHandler>();
+			services.AddScoped<IAuthorizationHandler, MultipleSiteAccessHandler>();
 			services.AddAuthorization(options =>
 			{
 				options.AddPolicy(
-					UserSiteAccessRequirement.NAME,
-					policy => policy .AddRequirements(new UserSiteAccessRequirement())
+					OrganizationAccessPolicyProvider.NAME,
+					OrganizationAccessPolicyProvider.GetPolicy()
 				);
 				options.AddPolicy(
-					UserOrganizationAccessRequirement.NAME,
-					policy => policy.AddRequirements(new UserOrganizationAccessRequirement())
+					SiteAccessPolicyProvider.NAME,
+					SiteAccessPolicyProvider.GetPolicy()
 				);
 			});
 		}

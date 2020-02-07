@@ -1,13 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import 'react-dates/lib/css/_datepicker.css';
-import './assets/styles/index.scss';
-import App from './containers/App/App';
 import { BrowserRouter } from 'react-router-dom';
-import * as serviceWorker from './serviceWorker';
+
 import { AuthenticationProvider } from './contexts/Authentication/AuthenticationContext';
 import { UserProvider } from './contexts/User/UserContext';
 import { ReportingPeriodProvider } from './contexts/ReportingPeriod/ReportingPeriodContext';
+
+import * as serviceWorker from './serviceWorker';
+
+import App from './containers/App/App';
+
+import 'react-dates/lib/css/_datepicker.css';
+import './assets/styles/index.scss';
 
 const render = (Component: React.FC) => {
 	return ReactDOM.render(

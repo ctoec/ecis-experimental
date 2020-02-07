@@ -6,8 +6,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Hedwig.Validations;
 using Hedwig.Validations.Attributes;
-using Hedwig.Repositories;
-using Microsoft.AspNetCore.Http;
 
 namespace Hedwig.Models
 {
@@ -31,6 +29,8 @@ namespace Hedwig.Models
 
 		[StringLength(10)]
 		public string Suffix { get; set; }
+		
+		[Column(TypeName="date")]
 		public DateTime? Birthdate { get; set; }
 		public string BirthTown { get; set; }
 		public string BirthState { get; set; }

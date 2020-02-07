@@ -4,7 +4,7 @@ import pluralize from 'pluralize';
 import { Link } from 'react-router-dom';
 import { Table, TableProps, InlineIcon, DateRange } from '../../components';
 import { Enrollment, Funding, FundingSpace, FundingSource } from '../../generated';
-import { lastFirstNameFormatter } from '../../utils/nameFormatter';
+import { lastFirstNameFormatter } from '../../utils/stringFormatters';
 import dateFormatter from '../../utils/dateFormatter';
 import { generateFundingTag, NO_FUNDING, filterFundingsForRosterTags } from '../../utils/models';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../utils/types';

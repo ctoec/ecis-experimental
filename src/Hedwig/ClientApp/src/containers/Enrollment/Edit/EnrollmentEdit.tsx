@@ -16,7 +16,7 @@ import useApi from '../../../hooks/useApi';
 import CommonContainer from '../../CommonContainer';
 import { hasValidationErrors } from '../../../utils/validations';
 import AlertContext from '../../../contexts/Alert/AlertContext';
-import nameFormatter from '../../../utils/nameFormatter';
+import { nameFormatter } from '../../../utils/stringFormatters';
 
 type EnrollmentEditParams = {
 	history: History;
@@ -107,10 +107,13 @@ export default function EnrollmentEdit({
 		>
 			<div className="grid-container">
 				<h1>Edit {section.name.toLowerCase()}</h1>
-				<p className="usa-intro">
-					{nameFormatter(enrollment.child)}
-				</p>
-				<section.Form siteId={siteId} enrollment={enrollment} mutate={mutate} successCallback={afterSave}/>
+				<p className="usa-intro">{nameFormatter(enrollment.child)}</p>
+				<section.Form
+					siteId={siteId}
+					enrollment={enrollment}
+					mutate={mutate}
+					successCallback={afterSave}
+				/>
 			</div>
 		</CommonContainer>
 	);

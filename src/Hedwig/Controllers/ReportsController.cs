@@ -13,7 +13,7 @@ using Hedwig.Validations;
 namespace Hedwig.Controllers
 {
   [ApiController]
-  [Authorize(Policy = UserOrganizationAccessRequirement.NAME)]
+  [Authorize(Policy = OrganizationAccessPolicyProvider.NAME)]
   [Route("api/organizations/{orgId:int}/[controller]")]
   public class ReportsController : ControllerBase
   {

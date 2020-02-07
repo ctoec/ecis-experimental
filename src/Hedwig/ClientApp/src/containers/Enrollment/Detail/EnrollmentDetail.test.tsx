@@ -1,6 +1,6 @@
 import React from 'react';
-import { mount, shallow } from 'enzyme';
 import 'react-dates/initialize';
+import { render } from '@testing-library/react';
 import EnrollmentDetail from './EnrollmentDetail';
 import CommonContextProviderMock from '../../../contexts/__mocks__/CommonContextProviderMock';
 import { completeEnrollment, enrollmentMissingBirthCertId } from '../../../hooks/__mocks__/useApi';
@@ -14,30 +14,22 @@ afterAll(() => {
 
 describe('EnrollmentDetail', () => {
 	it('matches snapshot', () => {
-		const wrapper = mount(
+		const { container } = render(
 			<CommonContextProviderMock>
 				<EnrollmentDetail match={{ params: { enrollmentId: completeEnrollment.id } }} />
 			</CommonContextProviderMock>
 		);
-		expect(wrapper.html()).toMatchSnapshot();
-		wrapper.unmount();
+		expect(container).toMatchSnapshot();
 	});
 
 	it('shows incomplete indications when incomplete information is given', () => {
-		const wrapper = shallow(
+		const { getAllByText } = render(
 			<CommonContextProviderMock>
 				<EnrollmentDetail match={{ params: { enrollmentId: enrollmentMissingBirthCertId.id } }} />
 			</CommonContextProviderMock>
 		);
 
-		// :/
-		const incompleteIcons = wrapper
-			.find('EnrollmentDetail')
-			.dive()
-			.find('Summary')
-			.first()
-			.dive()
-			.find('.oec-inline-icon--incomplete');
+		const incompleteIcons = getAllByText('(incomplete)');
 		expect(incompleteIcons.length).toBe(1);
 	});
 });

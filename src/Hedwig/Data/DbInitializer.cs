@@ -456,7 +456,7 @@ namespace Hedwig.Data
       };
 
       _context.ReportingPeriods.Add(reportingPeriod);
-      _context.SaveChanges();
+      _context.SaveChanges(ignoreReadOnly: true);
       return reportingPeriod;
     }
 
