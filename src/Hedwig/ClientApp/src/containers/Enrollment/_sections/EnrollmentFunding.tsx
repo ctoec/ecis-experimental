@@ -302,6 +302,8 @@ const EnrollmentFunding: Section = {
 						finallyCallback && finallyCallback(EnrollmentFunding);
 					});
 			}
+			return new Promise(() => {});
+			// TODO: what should happen if there is no enrollment, child, or family?  See also family info and family income
 		};
 
 		const { isExecuting: isMutating, setExecuting: save } = usePromiseExecution(_save);
