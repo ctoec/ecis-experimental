@@ -232,68 +232,70 @@ export const earlierReport: CdcReport = swapFields(defaultReport, [
 	{ keys: ['validationErrors'], newValue: undefined },
 ]);
 
-export default (query: (api: any) => any) => {
-	return query({
-		apiOrganizationsOrgIdEnrollmentsGet: (
-			params: ApiOrganizationsOrgIdEnrollmentsGetRequest
-		) => {
-			const enrollments = allFakeEnrollments
-				.filter(e => (params.siteIds || []).includes(e.enrollment.siteId))
-				.filter(({ enrollment: e }) => {
-					return (
-						(!e.entry ? true : moment(e.entry).isBefore(params.endDate)) &&
-						(!e.exit ? true : moment(e.exit).isAfter(moment(params.startDate)))
-					);
-				});
-			return [false, null, enrollments];
-		},
-		apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet: (
-			params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest
-		) => {
-			const thisEnrollment = allFakeEnrollments.find(e => e.enrollment.id === params.id);
-			if (!thisEnrollment) return;
-			const mutate = (_: any) => {
-				return new Promise((resolve, reject) => {
-					thisEnrollment.mutationError
-						? reject(thisEnrollment.mutationError)
-						: resolve(thisEnrollment.enrollment);
-				});
-			};
-			return [false, null, thisEnrollment.enrollment, mutate];
-		},
-		apiOrganizationsOrgIdSitesIdGet: (params: any) => [
-			false,
-			null,
-			{
-				id: 1,
-				name: "Children's Adventure Center",
-				organizationId: 1,
-				enrollments: undefined,
-				organization: undefined,
-			},
-		],
-		apiOrganizationsOrgIdSitesSiteIdEnrollmentsGet: (params: any) => [
-			false,
-			null,
-			[enrollmentWithLaterStart, completeEnrollment].filter(e => {
+export const mockApi = {
+	apiOrganizationsOrgIdEnrollmentsGet: (
+		params: ApiOrganizationsOrgIdEnrollmentsGetRequest
+	) => {
+		const enrollments = allFakeEnrollments
+			.filter(e => (params.siteIds || []).includes(e.enrollment.siteId))
+			.filter(({ enrollment: e }) => {
 				return (
 					(!e.entry ? true : moment(e.entry).isBefore(params.endDate)) &&
 					(!e.exit ? true : moment(e.exit).isAfter(moment(params.startDate)))
 				);
-			}),
-		],
-		apiOrganizationsOrgIdReportsGet: (params: any) => [
-			false,
-			null,
-			[defaultReport, laterReport, earlierReport],
-			(_: any) => {
-				return new Promise((resolve, reject) => {
-					resolve(defaultReport);
-					reject({});
-				});
-			},
-		],
-		apiOrganizationsIdGet: (params: any) => [false, null, defaultOrganization],
-		apiOrganizationsOrgIdReportsIdGet: (params: any) => [false, null, defaultReport],
-	});
+			});
+		return [false, null, enrollments];
+	},
+	apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet: (
+		params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest
+	) => {
+		const thisEnrollment = allFakeEnrollments.find(e => e.enrollment.id === params.id);
+		if (!thisEnrollment) return;
+		const mutate = (_: any) => {
+			return new Promise((resolve, reject) => {
+				thisEnrollment.mutationError
+					? reject(thisEnrollment.mutationError)
+					: resolve(thisEnrollment.enrollment);
+			});
+		};
+		return [false, null, thisEnrollment.enrollment, mutate];
+	},
+	apiOrganizationsOrgIdSitesIdGet: (params: any) => [
+		false,
+		null,
+		{
+			id: 1,
+			name: "Children's Adventure Center",
+			organizationId: 1,
+			enrollments: undefined,
+			organization: undefined,
+		},
+	],
+	apiOrganizationsOrgIdSitesSiteIdEnrollmentsGet: (params: any) => [
+		false,
+		null,
+		[enrollmentWithLaterStart, completeEnrollment].filter(e => {
+			return (
+				(!e.entry ? true : moment(e.entry).isBefore(params.endDate)) &&
+				(!e.exit ? true : moment(e.exit).isAfter(moment(params.startDate)))
+			);
+		}),
+	],
+	apiOrganizationsOrgIdReportsGet: (params: any) => [
+		false,
+		null,
+		[defaultReport, laterReport, earlierReport],
+		(_: any) => {
+			return new Promise((resolve, reject) => {
+				resolve(defaultReport);
+				reject({});
+			});
+		},
+	],
+	apiOrganizationsIdGet: (params: any) => [false, null, defaultOrganization],
+	apiOrganizationsOrgIdReportsIdGet: (params: any) => [false, null, defaultReport],
+};
+
+export default (query: (api: any) => any) => {
+	return query(mockApi);
 };

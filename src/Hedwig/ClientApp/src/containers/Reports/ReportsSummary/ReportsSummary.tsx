@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Table, TableProps } from '../../../components/Table/Table';
-import monthFormatter from '../../../utils/monthFormatter';
 import dateFormatter from '../../../utils/dateFormatter';
 import UserContext from '../../../contexts/User/UserContext';
 import useApi from '../../../hooks/useApi';
@@ -10,8 +9,7 @@ import {
 	CdcReport as Report,
 	ApiOrganizationsIdGetRequest,
 } from '../../../generated';
-import { getIdForUser } from '../../../utils/models';
-import idx from 'idx';
+import { getIdForUser, reportingPeriodFormatter } from '../../../utils/models';
 import { DeepNonUndefineable } from '../../../utils/types';
 import CommonContainer from '../../CommonContainer';
 
@@ -49,21 +47,24 @@ export default function ReportsSummary() {
 				cell: ({ row }) => (
 					<th scope="row">
 						<Link to={`/reports/${row.id}`} className="usa-link">
-							{monthFormatter(row.reportingPeriod.period as Date)}
+							{reportingPeriodFormatter(row.reportingPeriod)}
 						</Link>
 					</th>
 				),
-				sort: row => (row.reportingPeriod.period && row.reportingPeriod.period.getMonth()) || -1,
+				sort: row => row.reportingPeriod.period.getTime() || 0,
+				width: "21%",
 			},
 			{
 				name: 'Type',
 				cell: ({ row }) => <td>{row.type}</td>,
 				sort: row => row.type,
+				width: "16%",
 			},
 			{
 				name: 'Program/Site',
 				cell: _ => <td>{organization.name}</td>,
 				sort: _ => organization.name || '',
+				width: "38%",
 			},
 		],
 		defaultSortColumn: 0,
@@ -80,12 +81,15 @@ export default function ReportsSummary() {
 				name: 'Due date',
 				cell: ({ row }) => (
 					<td className="oec-table__cell--tabular-nums oec-table__cell--gray">
-						{dateFormatter(row.reportingPeriod.dueAt as Date)}
+						{dateFormatter(row.reportingPeriod.dueAt)}
 					</td>
 				),
-				sort: row => idx(row, _ => _.reportingPeriod.dueAt.getTime()) || 0,
+				sort: row => row.reportingPeriod.dueAt.getTime() || 0,
+				width: "24%",
 			},
 		],
+		defaultSortColumn: 3,
+		defaultSortOrder: 'ascending',
 	};
 
 	const submittedTableProps: TableProps<DeepNonUndefineable<Report>> = {
@@ -100,10 +104,11 @@ export default function ReportsSummary() {
 				name: 'Date submitted',
 				cell: ({ row }) => (
 					<td className="oec-table__cell--tabular-nums">
-						{dateFormatter(row.submittedAt as Date)}
+						{dateFormatter(row.submittedAt)}
 					</td>
 				),
 				sort: row => (row.submittedAt && row.submittedAt.getTime()) || 0,
+				width: "24%",
 			},
 		],
 	};

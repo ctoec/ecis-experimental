@@ -360,7 +360,7 @@ Object {
   "baseElement": <body>
     <div>
       <div
-        class="usa-form-group"
+        class="usa-form-group "
       >
         <div
           class=""
@@ -398,7 +398,7 @@ Object {
   </body>,
   "container": <div>
     <div
-      class="usa-form-group"
+      class="usa-form-group "
     >
       <div
         class=""
