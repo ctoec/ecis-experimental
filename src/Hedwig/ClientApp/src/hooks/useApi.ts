@@ -24,7 +24,7 @@ interface ApiState<T> {
 	skip: boolean,
 }
 
-type ApiResult<TData> = [
+export type ApiResult<TData> = [
 	boolean,
 	(string | null),
 	DeepNonUndefineable<TData>,

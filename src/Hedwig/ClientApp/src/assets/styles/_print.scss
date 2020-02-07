@@ -1,0 +1,39 @@
+@media print {
+  @page { size:8.5in 11in; margin: 2cm }
+  
+  // header, <Alert>, <Button type="submit">, <Link>, <DirectionalLink>, .print-btn
+  header,
+  [role="alert"],
+  input[type="submit"],
+  .usa-link:not(.print),
+  .oec-directional-link,
+  .print-btn,
+  .usa-button {
+    @include u-display('none');
+  }
+
+  .usa-link {
+    text-decoration: none;
+    color: black;
+  }
+
+  body {
+    @include u-text($theme-color-base-ink);
+  }
+
+  // <Tag />
+  .usa-tag {
+    background-color: #ffffff;
+    @include u-text($theme-color-base-ink);
+  }
+
+  // This is redundant to how things are already styled with USWDS, but there's a Chrome print bug where this doesn't show the first time a user attempts to print
+  .usa-checkbox__input:checked + .usa-checkbox__label::before {
+    background-color: color($theme-color-primary);
+    background-image: url(/static/media/correct8.1c696dec.svg), linear-gradient(transparent, transparent);
+  }
+  .usa-checkbox__input:checked:disabled + .usa-checkbox__label::before {
+    background-color: color($theme-color-base-lighter);
+    background-image: url(/static/media/correct8.1c696dec.svg), linear-gradient(transparent, transparent);
+  }
+}

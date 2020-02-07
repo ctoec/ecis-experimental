@@ -1,0 +1,75 @@
+.oec-table {
+	@extend .usa-table;
+	@extend .usa-table--borderless;
+
+	th,
+	td {
+		border-color: color('base-lighter');
+	}
+}
+
+.oec-table__cell--tabular-nums {
+	@extend .text-tabular;
+}
+
+.oec-table__cell--right-align {
+	text-align: right;
+}
+
+td.oec-table__cell--strong {
+	font-weight: 700;
+}
+
+.oec-table__cell--red {
+	color: color('secondary');
+}
+
+.oec-table__cell--gray {
+	color: color('base');
+}
+
+.oec-table--full-width {
+	width: 100%;
+}
+
+.oec-sortable .oec-table__column-title {
+	text-decoration: none;
+	color: inherit;
+	font-weight: inherit;
+}
+
+.oec-table__sort-controls {
+	display: inline-block;
+	position: relative;
+	margin-left: units(1);
+
+	span::before {
+		content: '';
+		display: block;
+		position: absolute;
+		left: 0;
+		width: 0;
+		height: 0;
+		border-width: 0.4em;
+		border-style: solid;
+		border-color: color('base-light');
+		border-left: 0.25em solid transparent;
+		border-right: 0.25em solid transparent;
+	}
+
+	span.active::before {
+		border-color: color('primary');
+		border-left-color: transparent;
+		border-right-color: transparent;
+	}
+
+	.oec-table__sort-controls__asc::before {
+		bottom: units(-1px);
+		border-bottom: none;
+	}
+
+	.oec-table__sort-controls__desc::before {
+		bottom: 0.4em;
+		border-top: none;
+	}
+}

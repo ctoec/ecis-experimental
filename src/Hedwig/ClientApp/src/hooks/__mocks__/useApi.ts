@@ -8,6 +8,7 @@ import {
 	Gender,
 	Region,
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest,
+	ApiOrganizationsOrgIdEnrollmentsGetRequest,
 } from '../../generated';
 
 type ChangeField = { keys: string[]; newValue?: any };
@@ -232,6 +233,19 @@ export const earlierReport: CdcReport = swapFields(defaultReport, [
 ]);
 
 export const mockApi = {
+	apiOrganizationsOrgIdEnrollmentsGet: (
+		params: ApiOrganizationsOrgIdEnrollmentsGetRequest
+	) => {
+		const enrollments = allFakeEnrollments
+			.filter(e => (params.siteIds || []).includes(e.enrollment.siteId))
+			.filter(({ enrollment: e }) => {
+				return (
+					(!e.entry ? true : moment(e.entry).isBefore(params.endDate)) &&
+					(!e.exit ? true : moment(e.exit).isAfter(moment(params.startDate)))
+				);
+			});
+		return [false, null, enrollments];
+	},
 	apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet: (
 		params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest
 	) => {

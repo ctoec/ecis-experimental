@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import idx from 'idx';
 import moment from 'moment';
-import enrollmentTextFormatter from '../../utils/enrollmentTextFormatter';
+import { enrollmentTextFormatter } from '../../utils/stringFormatters';
 import getDefaultDateRange from '../../utils/getDefaultDateRange';
 import { fundingSourceDetails } from '../../utils/fundingTypeFormatters';
 import getFundingSpaceCapacity from '../../utils/getFundingSpaceCapacity';
@@ -17,7 +17,7 @@ import {
 	InlineIcon,
 } from '../../components';
 import useApi from '../../hooks/useApi';
-import { Age, Enrollment, FundingSpace, FundingSource } from '../../generated';
+import { Age, Enrollment, FundingSpace, FundingSource, ApiOrganizationsOrgIdEnrollmentsGetRequest } from '../../generated';
 import UserContext from '../../contexts/User/UserContext';
 import AgeGroupSection from './AgeGroupSection';
 import { DeepNonUndefineable } from '../../utils/types';
@@ -35,26 +35,27 @@ export default function Roster() {
 	};
 
 	const { user } = useContext(UserContext);
-	const siteId = idx(user, _ => _.orgPermissions[0].organization.sites[0].id) || 0;
+	const siteIds = (idx(user, _ => _.orgPermissions[0].organization.sites) || []).map(s => s.id);
+	const siteId = siteIds[0];
 	const siteParams = {
-		id: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		orgId: getIdForUser(user, 'org'),
+		id: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		include: ['organizations', 'funding_spaces'],
-	};
+	}
 	const [siteLoading, siteError, site] = useApi(
 		api => api.apiOrganizationsOrgIdSitesIdGet(siteParams),
-		[user]
+		[user, siteId]
 	);
 
-	const enrollmentsParams = {
+	const enrollmentParams: ApiOrganizationsOrgIdEnrollmentsGetRequest = {
 		orgId: getIdForUser(user, 'org'),
-		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
+		siteIds: siteIds,
 		include: ['child', 'fundings'],
 		startDate: (dateRange && dateRange.startDate && dateRange.startDate.toDate()) || undefined,
 		endDate: (dateRange && dateRange.endDate && dateRange.endDate.toDate()) || undefined,
-	};
+	}
 	const [enrollmentLoading, enrollmentError, enrollments] = useApi(
-		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsGet(enrollmentsParams),
+		api => api.apiOrganizationsOrgIdEnrollmentsGet(enrollmentParams),
 		[user, dateRange]
 	);
 
@@ -128,7 +129,7 @@ export default function Roster() {
 				</div>
 				<div className="grid-row">
 					<div className="tablet:grid-col-fill">
-						<p className="usa-intro display-flex flex-row flex-wrap flex-justify-start">
+						<p className="intro display-flex flex-row flex-wrap flex-justify-start">
 							<span className="margin-right-2 flex-auto">{numKidsEnrolledText}</span>
 							<Button
 								text={

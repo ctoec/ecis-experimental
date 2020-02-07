@@ -84,7 +84,7 @@ function isCurrentToRangeCDC(funding: Funding, range: DateRange) : boolean {
 	{
 		return false;
 	}
-
+	// TODO: right now this returns true if first reporting period and last reporting period are undefined-- do we want that?
 	return true;
 }
 

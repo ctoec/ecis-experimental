@@ -45,7 +45,7 @@ namespace Hedwig.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("Birthdate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("date");
 
                     b.Property<bool>("BlackOrAfricanAmerican")
                         .HasColumnType("bit");
@@ -120,10 +120,10 @@ namespace Hedwig.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("Entry")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("date");
 
                     b.Property<DateTime?>("Exit")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("date");
 
                     b.Property<string>("ExitReason")
                         .HasColumnType("nvarchar(max)");
@@ -193,7 +193,7 @@ namespace Hedwig.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("DeterminationDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("date");
 
                     b.Property<int>("FamilyId")
                         .HasColumnType("int");
@@ -227,10 +227,10 @@ namespace Hedwig.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("CertificateEndDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("date");
 
                     b.Property<DateTime?>("CertificateStartDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("date");
 
                     b.Property<int>("EnrollmentId")
                         .HasColumnType("int");
@@ -363,16 +363,16 @@ namespace Hedwig.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("DueAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("date");
 
                     b.Property<DateTime>("Period")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("date");
 
                     b.Property<DateTime>("PeriodEnd")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("date");
 
                     b.Property<DateTime>("PeriodStart")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("date");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");

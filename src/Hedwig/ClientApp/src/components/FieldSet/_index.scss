@@ -1,0 +1,36 @@
+.usa-fieldset--error {
+	border-left-width: 0.25rem;
+	border-left-style: solid;
+	border-left-color: color($theme-color-error-dark);
+
+	.usa-form-group--error {
+		margin-top: 0;
+		margin-left: 0;
+		padding-left: 0;
+		border-left: none;
+	}
+}
+
+.usa-fieldset--warning {
+	@extend .usa-fieldset--error;
+	border-left-color: color($theme-color-warning-dark);
+
+	.usa-form-group--warning {
+		margin-top: 0;
+		margin-left: 0;
+		padding-left: 0;
+		border-left: none;
+	}
+}
+
+.usa-fieldset--success {
+	@extend .usa-fieldset--error;
+	border-left-color: color($theme-color-success);
+
+	.usa-form-group--success {
+		margin-top: 0;
+		margin-left: 0;
+		padding-left: 0;
+		border-left: none;
+	}
+}

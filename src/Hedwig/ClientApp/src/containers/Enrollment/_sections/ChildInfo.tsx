@@ -2,15 +2,8 @@ import React, { useContext, useState, useCallback } from 'react';
 import { Section } from '../enrollmentTypes';
 import moment from 'moment';
 import idx from 'idx';
-import {
-	Button,
-	TextInput,
-	DateInput,
-	ChoiceList,
-	FieldSet,
-	DateRange,
-} from '../../../components';
-import nameFormatter from '../../../utils/nameFormatter';
+import { Button, TextInput, DateInput, ChoiceList, FieldSet, DateRange } from '../../../components';
+import { nameFormatter } from '../../../utils/stringFormatters';
 import dateFormatter from '../../../utils/dateFormatter';
 import {
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest,
@@ -39,6 +32,7 @@ import {
 	serverErrorForField,
 } from '../../../utils/validations';
 import initialLoadErrorGuard from '../../../utils/validations/initialLoadErrorGuard';
+import usePromiseExecution from '../../../hooks/usePromiseExecution';
 
 const ChildInfo: Section = {
 	key: 'child-information',
@@ -161,7 +155,7 @@ const ChildInfo: Section = {
 
 		useFocusFirstError([apiError]);
 
-		const save = (event: React.FormEvent<HTMLFormElement>) => {
+		const _save = () => {
 			if (enrollment) {
 				// If enrollment exists, put to save changes
 				const putParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
@@ -176,7 +170,7 @@ const ChildInfo: Section = {
 						},
 					},
 				};
-				mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams))
+				return mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams))
 					.then(res => {
 						if (successCallback && res) successCallback(res);
 					})
@@ -201,7 +195,7 @@ const ChildInfo: Section = {
 						},
 					},
 				};
-				mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsPost(postParams))
+				return mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsPost(postParams))
 					.then(res => {
 						if (successCallback && res) successCallback(res);
 					})
@@ -214,9 +208,9 @@ const ChildInfo: Section = {
 			} else {
 				throw new Error('Something impossible happened');
 			}
-
-			event.preventDefault();
 		};
+
+		const { isExecuting: isMutating, setExecuting: save } = usePromiseExecution(_save);
 
 		// TODO: should gender be radio buttons as recommended by USWDS rather than select?
 		return (
@@ -240,7 +234,6 @@ const ChildInfo: Section = {
 							status={initialLoadErrorGuard(
 								initialLoad,
 								serverErrorForField(
-									// TODO: is changing this ID going to mess with screen readers?
 									'child.firstname',
 									apiError,
 									'This information is required for enrollment'
@@ -376,9 +369,7 @@ const ChildInfo: Section = {
 					id="race-checklist"
 					onChange={(_, selected) => {
 						updateChildRace(
-							childRace.map(raceObj =>
-								({...raceObj, selected: selected.includes(raceObj.value) })
-							)
+							childRace.map(raceObj => ({ ...raceObj, selected: selected.includes(raceObj.value) }))
 						);
 					}}
 				/>
@@ -459,7 +450,7 @@ const ChildInfo: Section = {
 					)}
 				/>
 
-				<Button text="Save" onClick='submit' />
+				<Button text={isMutating ? 'Saving...' : 'Save'} onClick="submit" disabled={isMutating} />
 			</form>
 		);
 	},

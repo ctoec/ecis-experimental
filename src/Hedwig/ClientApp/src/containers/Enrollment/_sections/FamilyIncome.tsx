@@ -25,6 +25,7 @@ import {
 	warningForFieldSet,
 } from '../../../utils/validations';
 import initialLoadErrorGuard from '../../../utils/validations/initialLoadErrorGuard';
+import usePromiseExecution from '../../../hooks/usePromiseExecution';
 
 const FamilyIncome: Section = {
 	key: 'family-income',
@@ -126,7 +127,7 @@ const FamilyIncome: Section = {
 			notDisclosed,
 		};
 
-		const save = (event: React.FormEvent<HTMLFormElement>) => {
+		const _save = () => {
 			if (enrollment && child && child.family) {
 				const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
 					...defaultParams,
@@ -154,19 +155,23 @@ const FamilyIncome: Section = {
 						},
 					},
 				};
-				mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
-					.then(res => {
-						if (successCallback && res) successCallback(res);
-					})
-					// TODO deal with error from server
-					.catch()
-					.finally(() => {
-						finallyCallback && finallyCallback(FamilyIncome);
-					});
+				return (
+					mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
+						.then(res => {
+							if (successCallback && res) successCallback(res);
+						})
+						// TODO deal with error from server
+						.catch()
+						.finally(() => {
+							finallyCallback && finallyCallback(FamilyIncome);
+						})
+				);
 			}
-
-			event.preventDefault();
+			return new Promise(() => {});
+			// TODO: what should happen if there is no enrollment, child, or family?  See also family info and enrollment funding
 		};
+
+		const { isExecuting: isMutating, setExecuting: save } = usePromiseExecution(_save);
 
 		return (
 			<form className="FamilyIncomeForm" onSubmit={save} noValidate autoComplete="off">
@@ -192,38 +197,45 @@ const FamilyIncome: Section = {
 										)
 								)}
 							>
-								<TextInput
-									id="numberOfPeople"
-									label="Household size"
-									defaultValue={numberOfPeople ? '' + numberOfPeople : ''}
-									onChange={event => {
-										const value = parseInt(event.target.value.replace(/[^0-9.]/g, ''), 10) || null;
-										updateNumberOfPeople(value);
-									}}
-									onBlur={event => (event.target.value = numberOfPeople ? '' + numberOfPeople : '')}
-									status={initialLoadErrorGuard(
-										initialLoad,
-										warningForField('numberOfPeople', determination ? determination : null, '')
-									)}
-									small
-								/>
-								<TextInput
-									id="income"
-									label="Annual household income"
-									defaultValue={currencyFormatter(income)}
-									onChange={event => {
-										updateIncome(parseCurrencyFromString(event.target.value));
-									}}
-									onBlur={event =>
-										(event.target.value = notNullOrUndefined(income)
-											? currencyFormatter(income)
-											: '')
-									}
-									status={initialLoadErrorGuard(
-										initialLoad,
-										warningForField('income', determination ? determination : null, '')
-									)}
-								/>
+								<div>
+									<TextInput
+										id="numberOfPeople"
+										label="Household size"
+										defaultValue={numberOfPeople ? '' + numberOfPeople : ''}
+										onChange={event => {
+											const value =
+												parseInt(event.target.value.replace(/[^0-9.]/g, ''), 10) || null;
+											updateNumberOfPeople(value);
+										}}
+										onBlur={event =>
+											(event.target.value = numberOfPeople ? '' + numberOfPeople : '')
+										}
+										status={initialLoadErrorGuard(
+											initialLoad,
+											warningForField('numberOfPeople', determination ? determination : null, '')
+										)}
+										small
+									/>
+								</div>
+								<div>
+									<TextInput
+										id="income"
+										label="Annual household income"
+										defaultValue={currencyFormatter(income)}
+										onChange={event => {
+											updateIncome(parseCurrencyFromString(event.target.value));
+										}}
+										onBlur={event =>
+											(event.target.value = notNullOrUndefined(income)
+												? currencyFormatter(income)
+												: '')
+										}
+										status={initialLoadErrorGuard(
+											initialLoad,
+											warningForField('income', determination ? determination : null, '')
+										)}
+									/>
+								</div>
 								<DatePicker
 									label="Date of income determination"
 									id="income-determination-date"
@@ -280,7 +292,7 @@ const FamilyIncome: Section = {
 					)}
 
 				<div className="usa-form">
-					<Button text="Save" onClick='submit' />
+					<Button text={isMutating ? 'Saving...' : 'Save'} onClick="submit" disabled={isMutating} />
 				</div>
 			</form>
 		);

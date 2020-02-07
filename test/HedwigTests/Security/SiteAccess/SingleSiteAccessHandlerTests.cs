@@ -1,11 +1,11 @@
 using Xunit;
 using Moq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using System.Security.Claims;
 using System.Collections.Generic;
 using Hedwig.Repositories;
-using Hedwig.Models;
 using Hedwig.Security;
 using HedwigTests.Fixtures;
 using HedwigTests.Helpers;
@@ -29,7 +29,12 @@ namespace HedwigTests.Security
                 var userClaim = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {claim}));
 
                 // - httpContext for request to 'Sites' controller for that site
+                
+                
                 var httpContext = new Mock<HttpContext>();
+                var httpContextAccessor = new HttpContextAccessor {
+                    HttpContext = httpContext.Object
+                };
                 var routeValues = new RouteValueDictionary(new Dictionary<string, string>{
                     {"controller", "Sites"},
                     {"id", $"{site.Id}"}
@@ -40,11 +45,16 @@ namespace HedwigTests.Security
                 // - permission repository
                 var permissions = new PermissionRepository(dbContext);
 
-                var req = new UserSiteAccessRequirement();
-                var res = req.Evaluate(userClaim, httpContext.Object, permissions);
+                var reqHandler = new SingleSiteAccessHandler(httpContextAccessor, permissions);
+                var req = new SiteAccessRequirement();
 
-                // Then it should evaluate to True
-                Assert.True(res);
+                var authContext = new AuthorizationHandlerContext(new List<IAuthorizationRequirement> { req }, userClaim, new object());
+
+                // When requirement handler handles authorization context
+                reqHandler.HandleAsync(authContext);
+
+                // Then authorization context will have succeeded
+                Assert.True(authContext.HasSucceeded);
             }
         }
         [Fact]
@@ -63,6 +73,9 @@ namespace HedwigTests.Security
 
                 // - httpContext for request to other controller nested under that site
                 var httpContext = new Mock<HttpContext>();
+                var httpContextAccessor = new HttpContextAccessor {
+                    HttpContext = httpContext.Object
+                };
                 var routeValues = new RouteValueDictionary(new Dictionary<string, string>{
                     {"controller", "Other"},
                     {"siteId", $"{site.Id}"}
@@ -73,11 +86,16 @@ namespace HedwigTests.Security
                 // - permission repository
                 var permissions = new PermissionRepository(dbContext);
 
-                var req = new UserSiteAccessRequirement();
-                var res = req.Evaluate(userClaim, httpContext.Object, permissions);
+                var reqHandler = new SingleSiteAccessHandler(httpContextAccessor, permissions);
+                var req = new SiteAccessRequirement();
 
-                // Then it should evaluate to True
-                Assert.True(res);
+                var authContext = new AuthorizationHandlerContext(new List<IAuthorizationRequirement> { req }, userClaim, new object());
+
+                // When requirement handler handles authorization context
+                reqHandler.HandleAsync(authContext);
+
+                // Then authorization context will have succeeded
+                Assert.True(authContext.HasSucceeded);
             }
         }
 
@@ -95,6 +113,9 @@ namespace HedwigTests.Security
 
                 // - httpContext for request to 'Sites' controller for any site
                 var httpContext = new Mock<HttpContext>();
+                var httpContextAccessor = new HttpContextAccessor {
+                    HttpContext = httpContext.Object
+                };
                 var routeValues = new RouteValueDictionary(new Dictionary<string, string>{
                     {"controller", "Site"},
                     {"id", "1"}
@@ -105,11 +126,16 @@ namespace HedwigTests.Security
                 // - permission repository
                 var permissions = new PermissionRepository(dbContext);
 
-                var req = new UserSiteAccessRequirement();
-                var res = req.Evaluate(userClaim, httpContext.Object, permissions);
+                var reqHandler = new SingleSiteAccessHandler(httpContextAccessor, permissions);
+                var req = new SiteAccessRequirement();
 
-                // Then it should evaluate to False
-                Assert.False(res);
+                var authContext = new AuthorizationHandlerContext(new List<IAuthorizationRequirement> { req }, userClaim, new object());
+
+                // When requirement handler handles authorization context
+                reqHandler.HandleAsync(authContext);
+
+                // Then authorization context will have succeeded
+                Assert.False(authContext.HasSucceeded);
             }
         }
 

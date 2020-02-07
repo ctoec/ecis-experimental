@@ -12,7 +12,7 @@ import {
 	ValidationProblemDetailsFromJSON,
 	ReportingPeriod,
 } from '../../generated';
-import nameFormatter from '../../utils/nameFormatter';
+import { nameFormatter, splitCamelCase } from '../../utils/stringFormatters';
 import { DeepNonUndefineable } from '../../utils/types';
 import {
 	generateFundingTag,
@@ -33,7 +33,6 @@ import {
 import ReportingPeriodContext from '../../contexts/ReportingPeriod/ReportingPeriodContext';
 import { processBlockingValidationErrors } from '../../utils/validations/processBlockingValidationErrors';
 import AlertContext from '../../contexts/Alert/AlertContext';
-import { splitCamelCase } from '../../utils/splitCamelCase';
 
 type WithdrawalProps = {
 	history: History;
