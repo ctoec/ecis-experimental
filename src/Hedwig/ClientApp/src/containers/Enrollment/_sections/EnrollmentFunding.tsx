@@ -52,7 +52,7 @@ import {
 import { FormReducer, formReducer, updateData, toFormString } from '../../../utils/forms/form';
 import useApi from '../../../hooks/useApi';
 import getFundingSpaceCapacity from '../../../utils/getFundingSpaceCapacity';
-import useIsExecuting from '../../../hooks/useIsExecuting';
+import usePromiseExecution from '../../../hooks/usePromiseExecution';
 
 const EnrollmentFunding: Section = {
 	key: 'enrollment-funding',
@@ -304,7 +304,7 @@ const EnrollmentFunding: Section = {
 			}
 		};
 
-		const { isExecuting: isMutating, setExecuting: save } = useIsExecuting(_save);
+		const { isExecuting: isMutating, setExecuting: save } = usePromiseExecution(_save);
 
 		const siteParams: ApiOrganizationsOrgIdSitesIdGetRequest = {
 			// Separate query so that mutation doesn't try to update all the enrollments when user saves this one

@@ -14,7 +14,7 @@ import monthFormatter from '../../../utils/monthFormatter';
 import { DeepNonUndefineable } from '../../../utils/types';
 import { useFocusFirstError, serverErrorForField } from '../../../utils/validations';
 import { ValidationProblemDetails, ValidationProblemDetailsFromJSON } from '../../../generated';
-import useIsExecuting from '../../../hooks/useIsExecuting';
+import usePromiseExecution from '../../../hooks/usePromiseExecution';
 
 export type ReportSubmitFormProps = {
 	report: DeepNonUndefineable<CdcReport>;
@@ -78,7 +78,7 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 				setApiError(ValidationProblemDetailsFromJSON(error));
 			})
 	}
-	const { isExecuting: isMutating, setExecuting: onSubmit } = useIsExecuting(_onSubmit);
+	const { isExecuting: isMutating, setExecuting: onSubmit } = usePromiseExecution(_onSubmit);
 
 	return (
 		<React.Fragment>

@@ -12,7 +12,7 @@ import {
 } from '../../../utils/validations';
 import { addressFormatter, homelessnessText, fosterText } from '../../../utils/models';
 import initialLoadErrorGuard from '../../../utils/validations/initialLoadErrorGuard';
-import useIsExecuting from '../../../hooks/useIsExecuting';
+import usePromiseExecution from '../../../hooks/usePromiseExecution';
 
 const FamilyInfo: Section = {
 	key: 'family-information',
@@ -115,7 +115,7 @@ const FamilyInfo: Section = {
 			// TODO: what should happen if there is no child or enrollment id?  See also family income
 		};
 
-		const { isExecuting: isMutating, setExecuting: save } = useIsExecuting(_save);
+		const { isExecuting: isMutating, setExecuting: save } = usePromiseExecution(_save);
 
 		return (
 			<form className="FamilyInfoForm usa-form" onSubmit={save} noValidate autoComplete="off">

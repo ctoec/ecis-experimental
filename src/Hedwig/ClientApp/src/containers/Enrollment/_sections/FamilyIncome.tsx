@@ -25,7 +25,7 @@ import {
 	warningForFieldSet,
 } from '../../../utils/validations';
 import initialLoadErrorGuard from '../../../utils/validations/initialLoadErrorGuard';
-import useIsExecuting from '../../../hooks/useIsExecuting';
+import usePromiseExecution from '../../../hooks/usePromiseExecution';
 
 const FamilyIncome: Section = {
 	key: 'family-income',
@@ -171,7 +171,7 @@ const FamilyIncome: Section = {
 			// TODO: what should happen if there is no enrollment, child, or family?  See also family info
 		};
 
-		const { isExecuting: isMutating, setExecuting: save } = useIsExecuting(_save);
+		const { isExecuting: isMutating, setExecuting: save } = usePromiseExecution(_save);
 
 		return (
 			<form className="FamilyIncomeForm" onSubmit={save} noValidate autoComplete="off">
