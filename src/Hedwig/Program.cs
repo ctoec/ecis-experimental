@@ -19,12 +19,15 @@ namespace Hedwig
 			var host = CreateHostBuilder(args).Build();
 			var environment = GetEnvironmentNameFromAppSettings();
 
-			if(environment != Environments.Production) {
+				if (environment != Environments.Production) {
 				using (var scope = host.Services.CreateScope())
 				{
 					var services = scope.ServiceProvider;
 					var logger = services.GetRequiredService<ILogger<Program>>();
 					logger.LogInformation("Detected environment " + environment);
+
+					logger.LogError("DevOps sample logger error event for Sentry");
+					logger.LogCritical("DevOps sample logger critial event for Sentry");
 
 					try
 					{
@@ -55,9 +58,12 @@ namespace Hedwig
 				if (environment != Environments.Development)
 				{
 					logging.AddAWSProvider(context.Configuration.GetAWSLoggingConfigSection());
+					logging.Services.Configure<Sentry.Extensions.Logging.SentryLoggingOptions>(context.Configuration.GetSection("Sentry"));
+					logging.AddSentry();
 				}
 
 			})
+			.UseSentry()
 			.UseEnvironment(environment)
 			.UseStartup<Startup>();
 	}
