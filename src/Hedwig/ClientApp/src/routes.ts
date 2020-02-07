@@ -7,6 +7,7 @@ import Feedback from './containers/Feedback/Feedback';
 import Help from './containers/Help/Help';
 import Login from './containers/Login/Login';
 import PageNotFound from './containers/PageNotFound/PageNotFound';
+import PrivacyPolicy from './containers/PrivacyPolicy/PrivacyPolicy';
 import Roster from './containers/Roster/Roster';
 import ReportsSummary from './containers/Reports/ReportsSummary/ReportsSummary';
 import ReportDetail from './containers/Reports/ReportDetail/ReportDetail';
@@ -74,6 +75,10 @@ export const routes: RouteConfig[] = [
 	{
 		path: '/help',
 		component: Help,
+	},
+	{
+		path: '/privacy-policy',
+		component: PrivacyPolicy,
 	},
 	{
 		path: '/login',

@@ -50,7 +50,7 @@ const App: React.FC = () => {
 					: 'Reports',
 			path: '/reports',
 		},
-		// { type: 'secondary', title: 'Feedback', path: '/feedback' },
+		{ type: 'secondary', title: 'Privacy Policy', path: '/privacy-policy' },
 		// { type: 'secondary', title: 'Help', path: '/help' },
 	];
 
