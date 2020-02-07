@@ -8,9 +8,10 @@ namespace HedwigTests.Models
         
         class TemporalModel : TemporalEntity { }
         [Fact]
-        public void TemporalEntity_Has_AuthoredBy()
+        public void TemporalEntity_Has_AuthoredByUpdatedAt()
         {
             Assert.NotNull(typeof(TemporalModel).GetProperty("AuthorId"));
+            Assert.NotNull(typeof(TemporalModel).GetProperty("UpdatedAt"));
         }
     }
 }

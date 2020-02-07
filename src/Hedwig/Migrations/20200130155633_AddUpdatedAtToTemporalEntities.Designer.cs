@@ -5,14 +5,16 @@ using Hedwig.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Hedwig.Migrations
 {
     [DbContext(typeof(HedwigContext))]
-    partial class HedwigContextModelSnapshot : ModelSnapshot
+    [Migration("20200130155633_AddUpdatedAtToTemporalEntities")]
+    partial class AddUpdatedAtToTemporalEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,7 +47,7 @@ namespace Hedwig.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("Birthdate")
-                        .HasColumnType("date");
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("BlackOrAfricanAmerican")
                         .HasColumnType("bit");
@@ -123,10 +125,10 @@ namespace Hedwig.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("Entry")
-                        .HasColumnType("date");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("Exit")
-                        .HasColumnType("date");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ExitReason")
                         .HasColumnType("nvarchar(max)");
@@ -202,7 +204,7 @@ namespace Hedwig.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("DeterminationDate")
-                        .HasColumnType("date");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("FamilyId")
                         .HasColumnType("int");
@@ -239,10 +241,10 @@ namespace Hedwig.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("CertificateEndDate")
-                        .HasColumnType("date");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("CertificateStartDate")
-                        .HasColumnType("date");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("EnrollmentId")
                         .HasColumnType("int");
@@ -378,16 +380,16 @@ namespace Hedwig.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("DueAt")
-                        .HasColumnType("date");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("Period")
-                        .HasColumnType("date");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("PeriodEnd")
-                        .HasColumnType("date");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("PeriodStart")
-                        .HasColumnType("date");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");
@@ -521,8 +523,7 @@ namespace Hedwig.Migrations
                     b.Property<decimal>("C4KRevenue")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal?>("FamilyFeesRevenue")
-                        .IsRequired()
+                    b.Property<decimal>("FamilyFeesRevenue")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<bool>("RetroactiveC4KRevenue")
