@@ -38,11 +38,11 @@ describe('ReportSubmitForm', () => {
 			</CommonContextProviderMock>
 		);
 
-		expect(getByText('Preschool').parentNode.nextSibling.nextSibling).toHaveTextContent('$165.32');
+		expect(getByText('Preschool').closest('tr')).toHaveTextContent('$165.32');
 
 		fireEvent.click(getByLabelText('Accredited'));
 
-		expect(getByText('Preschool').parentNode.nextSibling.nextSibling).toHaveTextContent('$126.59');
+		expect(getByText('Preschool').closest('tr')).toHaveTextContent('$126.59');
 	});
 
 	it('pretty formats currency values', () => {
