@@ -53,7 +53,7 @@ jobs:
   displayName: 'Frontend Tests'
 
   steps:
-  - script: cd $(Build.SourcesDirectory)/src/Hedwig/ClientApp && yarn install && yarn test --ci
+  - script: cd $(Build.SourcesDirectory)/src/Hedwig/ClientApp && yarn install && yarn test --ci -t=/\b(?!accessibility)\b\S+/
     displayName: "Install node_modules and Run Tests"
 
 #

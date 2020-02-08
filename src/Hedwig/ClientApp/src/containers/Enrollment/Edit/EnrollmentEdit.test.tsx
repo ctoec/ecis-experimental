@@ -12,6 +12,7 @@ import {
 	enrollmentMissingAddress,
 } from '../../../hooks/__mocks__/useApi';
 import EnrollmentEdit from './EnrollmentEdit';
+import { accessibilityTestHelper } from '../../accessibilityTestHelper';
 
 const fakeDate = '2019-03-02';
 
@@ -97,7 +98,9 @@ describe('EnrollmentEdit', () => {
 				</CommonContextProviderMock>
 			);
 
-			const infoAlert = getByText('Income information is required to enroll a child in a CDC funded space. You will not be able to assign this child to a funding space without this information.');
+			const infoAlert = getByText(
+				'Income information is required to enroll a child in a CDC funded space. You will not be able to assign this child to a funding space without this information.'
+			);
 
 			expect(infoAlert).toBeInTheDocument();
 		});
@@ -119,5 +122,16 @@ describe('EnrollmentEdit', () => {
 			const reportingPeriodOptions = getAllByRole(reportingPeriodSelect, 'option');
 			expect(reportingPeriodOptions.length).toBe(defaultCdcReportingPeriods.length + 1);
 		});
-	})
+	});
+
+	accessibilityTestHelper(
+		<CommonContextProviderMock>
+			<EnrollmentEdit
+				history={history}
+				match={{
+					params: { enrollmentId: completeEnrollment.id, sectionId: 'enrollment-funding' },
+				}}
+			/>
+		</CommonContextProviderMock>
+	);
 });
