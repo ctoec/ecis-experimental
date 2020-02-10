@@ -1,10 +1,11 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import 'react-dates/initialize';
 import UserContext from '../User/UserContext';
 import ReportingPeriodContext from '../ReportingPeriod/ReportingPeriodContext';
 import { User, Region, ReportingPeriod, FundingSource } from '../../generated';
 import emptyGuid from '../../utils/emptyGuid';
+import { createMemoryHistory, History } from 'history';
 
 export const defaultUser: User = {
 	id: 1,
@@ -64,17 +65,23 @@ export const defaultCdcReportingPeriods: ReportingPeriod[] = [
 type CommonContextProviderMockProps = {
 	user?: User;
 	cdcReportingPeriods?: ReportingPeriod[];
+	history?: History<any>
 };
 
 const CommonContextProviderMock: React.FC<CommonContextProviderMockProps> = ({
 	children,
 	user = defaultUser,
 	cdcReportingPeriods = defaultCdcReportingPeriods,
+	history = createMemoryHistory()
 }) => {
 	return (
 		<UserContext.Provider value={{ user }}>
 			<ReportingPeriodContext.Provider value={{ cdcReportingPeriods }}>
-				<BrowserRouter>{children}</BrowserRouter>
+				<Router
+					history={history}
+				>
+					{children}
+				</Router>
 			</ReportingPeriodContext.Provider>
 		</UserContext.Provider>
 	);

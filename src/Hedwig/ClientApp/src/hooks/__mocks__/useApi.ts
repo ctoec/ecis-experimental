@@ -135,6 +135,12 @@ export const enrollmentWithLaterStart = swapFields(completeEnrollment, [
 	{ keys: ['id'], newValue: 5 },
 ]);
 
+export const enrollmentWithFoster = swapFields(completeEnrollment, [
+	{ keys: ['child', 'foster'], newValue: true },
+	{ keys: ['id'], newValue: 6 },
+	{ keys: ['child', 'family', 'determinations'], newValue: [] }
+]);
+
 export const allFakeEnrollments = [
 	{
 		enrollment: completeEnrollment,
@@ -157,6 +163,10 @@ export const allFakeEnrollments = [
 	{
 		enrollment: enrollmentWithLaterStart,
 	},
+	{
+		doNotIncludeInAllEnrollments: true,
+		enrollment: enrollmentWithFoster,
+	}
 ];
 
 export const defaultOrganization = {
@@ -186,7 +196,7 @@ export const defaultReport: CdcReport = {
 	organizationId: 1,
 	accredited: true,
 	type: FundingSource.CDC,
-	enrollments: allFakeEnrollments.map(e => e.enrollment),
+	enrollments: allFakeEnrollments.filter(e => !e.doNotIncludeInAllEnrollments).map(e => e.enrollment),
 	reportingPeriod: {
 		id: 1,
 		type: FundingSource.CDC,
@@ -237,6 +247,7 @@ export const mockApi = {
 		params: ApiOrganizationsOrgIdEnrollmentsGetRequest
 	) => {
 		const enrollments = allFakeEnrollments
+			.filter(e => !e.doNotIncludeInAllEnrollments)
 			.filter(e => (params.siteIds || []).includes(e.enrollment.siteId))
 			.filter(({ enrollment: e }) => {
 				return (
@@ -294,6 +305,7 @@ export const mockApi = {
 	],
 	apiOrganizationsIdGet: (params: any) => [false, null, defaultOrganization],
 	apiOrganizationsOrgIdReportsIdGet: (params: any) => [false, null, defaultReport],
+	apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDelete: (params: any) => [false, null],
 };
 
 export default (query: (api: any) => any) => {

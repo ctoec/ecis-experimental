@@ -173,6 +173,12 @@ const FamilyIncome: Section = {
 
 		const { isExecuting: isMutating, setExecuting: save } = usePromiseExecution(_save);
 
+		// To skip over family income section when "Lives with foster family" is selected
+		if (child.foster && successCallback) {
+			successCallback(enrollment);
+			return <></>;
+		}
+
 		return (
 			<form className="FamilyIncomeForm" onSubmit={save} noValidate autoComplete="off">
 				<div className="usa-form">
