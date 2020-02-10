@@ -1,20 +1,15 @@
 import React from 'react';
 import mockdate from 'mockdate';
-import { createBrowserHistory, createMemoryHistory } from 'history';
-import { render, fireEvent, waitForElement, getAllByRole, act, wait, getByDisplayValue } from '@testing-library/react';
+import { createMemoryHistory } from 'history';
+import { render, fireEvent, wait } from '@testing-library/react';
 import 'react-dates/initialize';
-import CommonContextProviderMock, {
-	defaultCdcReportingPeriods,
-} from '../../../contexts/__mocks__/CommonContextProviderMock';
+import CommonContextProviderMock from '../../../contexts/__mocks__/CommonContextProviderMock';
 import {
 	completeEnrollment,
-	enrollmentMissingFirstName,
-	enrollmentMissingAddress,
 	enrollmentWithFoster,
 } from '../../../hooks/__mocks__/useApi';
 import EnrollmentNew from './EnrollmentNew';
 import { Route } from 'react-router';
-// import { act } from 'react-dom/test-utils';
 
 const fakeDate = '2019-03-02';
 
@@ -29,11 +24,9 @@ afterAll(() => {
 	jest.resetModules();
 });
 
-// const history = createBrowserHistory();
-
 describe('EnrollmentNew', () => {
 	it('does not skip family income section when lives with foster family is not selected', async () => {
-		const history = createBrowserHistory();
+		const history = createMemoryHistory();
 		const { getByText } = render(
 			<CommonContextProviderMock>
 				<EnrollmentNew
