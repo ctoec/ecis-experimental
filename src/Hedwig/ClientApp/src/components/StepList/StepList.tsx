@@ -33,7 +33,6 @@ const mapStepsToInternalProps = function<T>(steps: StepProps<T>[], activeStep: s
 		} else {
 			status = externalStep.status(props);
 		}
-
 		const step: InternalStepProps<T> = { ...externalStep, props, status };
 
 		return step;
