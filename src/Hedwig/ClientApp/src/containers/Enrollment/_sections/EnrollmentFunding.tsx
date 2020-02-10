@@ -465,8 +465,7 @@ const EnrollmentFunding: Section = {
 								...reportingPeriodOptions.map(period => {
 									return {
 										value: '' + period.id,
-										// TODO: use moment to avoid browser date weirdness
-										text: `${period.periodStart.toLocaleDateString()} - ${period.periodEnd.toLocaleDateString()}`,
+										text: reportingPeriodFormatter(period, { extended: true }),
 									};
 								}),
 							]}
@@ -496,7 +495,7 @@ const EnrollmentFunding: Section = {
 							text={`${utilizationRate.numEnrolled} out of ${
 								utilizationRate.capacity
 							} spaces are utilized for the ${
-								thisPeriod ? moment(thisPeriod.period).format('MMMM YYYY') : 'current'
+								thisPeriod ? reportingPeriodFormatter(thisPeriod) : 'current'
 							} reporting period.`}
 						/>
 					)}
