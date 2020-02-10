@@ -7,6 +7,7 @@ import { completeEnrollment, enrollmentMissingBirthCertId } from '../../../hooks
 
 jest.mock('../../../hooks/useApi');
 import useApi from '../../../hooks/useApi';
+import { accessibilityTestHelper } from '../../accessibilityTestHelper';
 
 afterAll(() => {
 	jest.resetModules();
@@ -32,4 +33,10 @@ describe('EnrollmentDetail', () => {
 		const incompleteIcons = getAllByText('(incomplete)');
 		expect(incompleteIcons.length).toBe(1);
 	});
+
+	accessibilityTestHelper(
+		<CommonContextProviderMock>
+			<EnrollmentDetail match={{ params: { enrollmentId: enrollmentMissingBirthCertId.id } }} />
+		</CommonContextProviderMock>
+	);
 });

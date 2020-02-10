@@ -6,6 +6,7 @@ import mockdate from 'mockdate';
 import CommonContextProviderMock from '../../contexts/__mocks__/CommonContextProviderMock';
 
 import Roster from './Roster';
+import { accessibilityTestHelper } from '../accessibilityTestHelper';
 
 // Implicitly reads from the '../../hooks/__mocks__/useApi.ts file
 jest.mock('../../hooks/useApi');
@@ -63,7 +64,15 @@ describe('Roster', () => {
 		fireEvent.change(endDateInput, { target: { value: '02/01/2019' } });
 
 		await wait(() => {
-			expect(baseElement).toHaveTextContent(/4 children were enrolled between January 1, 2018 and February 1, 2019/i);
+			expect(baseElement).toHaveTextContent(
+				/4 children were enrolled between January 1, 2018 and February 1, 2019/i
+			);
 		});
 	});
+
+	accessibilityTestHelper(
+		<CommonContextProviderMock>
+			<Roster />
+		</CommonContextProviderMock>
+	);
 });

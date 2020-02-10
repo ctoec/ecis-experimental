@@ -4,6 +4,7 @@ import ReportsSummary from './ReportsSummary';
 import CommonContextProviderMock from '../../../contexts/__mocks__/CommonContextProviderMock';
 import { CdcReport } from '../../../generated';
 import { mockApi, defaultReport } from '../../../hooks/__mocks__/useApi';
+import { accessibilityTestHelper } from '../../accessibilityTestHelper';
 
 const submittedReport = { ...defaultReport, submittedAt: new Date('2019-09-14') };
 
@@ -12,23 +13,21 @@ let mockError: string | null;
 let mockReports: CdcReport[];
 
 const defaultLoading = false;
-const defaultError   = null;
+const defaultError = null;
 const defaultReports = [defaultReport, submittedReport];
 
 beforeEach(() => {
 	mockLoading = defaultLoading;
-	mockError   = defaultError;
+	mockError = defaultError;
 	mockReports = defaultReports;
 });
 
-jest.mock('../../../hooks/useApi', () => (query: Function) => query({
-	...mockApi,
-	apiOrganizationsOrgIdReportsGet: (params: any) => [
-		mockLoading,
-		mockError,
-		mockReports
-	]
-}));
+jest.mock('../../../hooks/useApi', () => (query: Function) =>
+	query({
+		...mockApi,
+		apiOrganizationsOrgIdReportsGet: (params: any) => [mockLoading, mockError, mockReports],
+	})
+);
 
 afterAll(() => {
 	jest.resetModules();
@@ -56,6 +55,12 @@ describe('ReportsSummary', () => {
 				</CommonContextProviderMock>
 			);
 			expect(getAllByText(/No reports pending/)).toHaveLength(1);
-		})
-	})
+		});
+	});
+
+	accessibilityTestHelper(
+		<CommonContextProviderMock>
+			<ReportsSummary />
+		</CommonContextProviderMock>
+	);
 });
