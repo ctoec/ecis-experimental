@@ -163,6 +163,7 @@ namespace Hedwig.Data
           siteId: site.Id,
           entry: entry,
           exit: exit,
+          exitReason: exit != null ? "Other" : null,
           ageGroup: DateTime.Parse(birthdate) > ageGroupCutoff ? Age.InfantToddler : Age.Preschool
         );
 
@@ -194,6 +195,7 @@ namespace Hedwig.Data
             siteId: site.Id,
             entry: "2017-09-04",
             exit: entry,
+            exitReason: "Other",
             ageGroup: Age.InfantToddler
           );
 
@@ -383,6 +385,7 @@ namespace Hedwig.Data
       int siteId,
       string entry = "2019-08-01",
       string exit = null,
+      string exitReason = null,
       Age ageGroup = Age.Preschool
     )
     {
@@ -396,6 +399,7 @@ namespace Hedwig.Data
       if (exit != null)
       {
         enrollment.Exit = DateTime.Parse(exit);
+        enrollment.ExitReason = exitReason;
       }
       _context.Enrollments.Add(enrollment);
       _context.SaveChanges();
