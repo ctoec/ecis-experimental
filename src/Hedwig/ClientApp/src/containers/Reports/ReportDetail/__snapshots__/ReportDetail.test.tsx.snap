@@ -34,7 +34,7 @@ exports[`ReportDetail matches snapshot 1`] = `
           <p
             class="usa-alert__text"
           >
-            There are 3 enrollments missing information required to submit this CDC report.
+            There are enrollments missing information required to submit this report.
           </p>
         </div>
         <div
