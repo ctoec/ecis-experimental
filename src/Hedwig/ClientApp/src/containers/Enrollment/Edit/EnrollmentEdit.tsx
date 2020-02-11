@@ -16,7 +16,11 @@ import useApi from '../../../hooks/useApi';
 import CommonContainer from '../../CommonContainer';
 import { hasValidationErrors } from '../../../utils/validations';
 import AlertContext from '../../../contexts/Alert/AlertContext';
-import { nameFormatter } from '../../../utils/stringFormatters';
+import {
+	nameFormatter,
+	editEnrollmentMissingInfoAlert,
+	editEnrollmentCompleteAlert,
+} from '../../../utils/stringFormatters';
 
 type EnrollmentEditParams = {
 	history: History;
@@ -80,19 +84,10 @@ export default function EnrollmentEdit({
 	 */
 	const afterSave = (enrollment: Enrollment) => {
 		const childName = nameFormatter(enrollment.child);
-		const inSiteName = enrollment.site ? ` in ${enrollment.site.name}` : '';
-		let successAlertText = `${childName}'s enrollment${inSiteName} has been updated.`;
-		const informationIsMissing = hasValidationErrors(enrollment);
-		if (informationIsMissing) {
-			successAlertText +=
-				' However, there is missing information you are required to enter before you can submit your monthly CDC report.';
-		}
 		setAlerts([
-			{
-				type: 'success',
-				heading: 'Enrolled',
-				text: successAlertText,
-			},
+			hasValidationErrors(enrollment)
+				? editEnrollmentMissingInfoAlert(childName)
+				: editEnrollmentCompleteAlert(childName),
 		]);
 		history.push(`/roster/sites/${siteId}/enrollments/${enrollment.id}/`);
 	};
