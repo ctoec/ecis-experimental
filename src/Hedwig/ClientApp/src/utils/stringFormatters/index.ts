@@ -4,4 +4,12 @@ export { rosterEnrollmentsFormatter } from './rosterEnrollmentsFormatter';
 export { elementIdFormatter } from './elementIdFormatter';
 export { enrollmentDetailMetadataFormatter} from './enrollmentDetailMetadataFormatter';
 export { enrollmentTextFormatter } from './enrollmentTextFormatter';
-export * from './alertTextMakers';
+export {
+	newEnrollmentCompleteAlert,
+	newEnrollentMissingInfoAlert,
+	editEnrollmentCompleteAlert,
+	editEnrollmentMissingInfoAlert,
+	updateRosterAlert,
+	reportSubmittedAlert,
+	childWithdrawnAlert,
+} from './alertTextMakers';
