@@ -23,11 +23,12 @@ export const editEnrollmentMissingInfoAlert = (childName: string): AlertProps =>
 	heading: 'Updated, some information missing',
 	text: `${childName} has been updated.`,
 });
-export const updateRosterAlert = (numMissingInfo: string | number): AlertProps => ({
+export const updateRosterAlert = (numMissingInfo: number): AlertProps => ({
 	type: 'error',
 	heading: 'Update roster',
-	text: `There ${numMissingInfo === 1 ? 'is' : 'are'} enrollment${numMissingInfo > 1 &&
-		's'} missing information required to submit this report.`,
+	text: `There ${numMissingInfo === 1 ? 'is' : 'are'} ${numMissingInfo} enrollment${
+		numMissingInfo > 1 ? 's' : ''
+	} missing information required to submit this report.`,
 	actionItem: <Button text="Update roster" href="/roster" />,
 });
 export const reportSubmittedAlert = (reportingPeriod: ReportingPeriod): AlertProps => ({
