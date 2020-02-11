@@ -18,7 +18,11 @@ import { validatePermissions, getIdForUser } from '../../../utils/models';
 import CommonContainer from '../../CommonContainer';
 import { hasValidationErrors } from '../../../utils/validations';
 import AlertContext from '../../../contexts/Alert/AlertContext';
-import { nameFormatter } from '../../../utils/stringFormatters';
+import {
+	nameFormatter,
+	newEnrollentMissingInfoAlert,
+	newEnrollmentCompleteAlert,
+} from '../../../utils/stringFormatters';
 import useRouteChange from '../../../hooks/useRouteChange';
 
 type EnrollmentNewParams = {
@@ -85,13 +89,6 @@ export default function EnrollmentNew({
 
 	const [cancel, updateCancel] = useState(false);
 	const processSuccessfulCancel = () => {
-		setAlerts([
-			{
-				type: 'info',
-				heading: 'Cancelled enrollment',
-				text: 'Successfully cancelled enrollment',
-			},
-		]);
 		history.push('/roster');
 	};
 	const cancelParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDeleteRequest = {
@@ -177,7 +174,7 @@ export default function EnrollmentNew({
 						appearance="outline"
 						onClick={() => {
 							var response = window.confirm(
-								'Are you sure you want to cancel? All information entered for this enrollment will be lost.'
+								'Are you sure you want to cancel? You will lose all information entered for this child.'
 							);
 							if (response) {
 								if (enrollment) {
@@ -195,21 +192,10 @@ export default function EnrollmentNew({
 							text="Finish"
 							onClick={() => {
 								const childName = nameFormatter(enrollment.child);
-								const inSiteName = enrollment.site ? ` in ${enrollment.site.name}` : '';
-								let successAlertText = `${childName} has been successfully enrolled${inSiteName}.`;
-
-								const informationIsMissing = hasValidationErrors(enrollment);
-								if (informationIsMissing) {
-									successAlertText +=
-										' However, there is missing information you are required to enter before you can submit your monthly CDC report.';
-								}
-
 								setAlerts([
-									{
-										type: 'success',
-										heading: 'Enrolled',
-										text: successAlertText,
-									},
+									hasValidationErrors(enrollment)
+										? newEnrollentMissingInfoAlert(childName)
+										: newEnrollmentCompleteAlert(childName),
 								]);
 							}}
 						/>

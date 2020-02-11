@@ -9,6 +9,7 @@ import { Enrollment } from '../../../generated/models/Enrollment';
 import { Button, AlertProps, DirectionalLinkProps, Tag } from '../../../components';
 import { DeepNonUndefineable } from '../../../utils/types';
 import CommonContainer from '../../CommonContainer';
+import { updateRosterAlert } from '../../../utils/stringFormatters/alertTextMakers';
 
 export default function ReportDetail() {
 	const { id } = useParams();
@@ -44,14 +45,7 @@ export default function ReportDetail() {
 	}
 
 	if (numEnrollmentsMissingInfo) {
-		additionalAlerts.push(
-			{
-				type: 'error',
-				heading: 'Update roster',
-				text: `There are ${numEnrollmentsMissingInfo} enrollments missing information required to submit this CDC report.`,
-				actionItem: <Button text="Update roster" href="/roster" />,
-			},
-		);
+		additionalAlerts.push(updateRosterAlert(numEnrollmentsMissingInfo));
 	}
 
 	const directionalLinkProps: DirectionalLinkProps = {

@@ -12,14 +12,14 @@ import {
 	ValidationProblemDetailsFromJSON,
 	ReportingPeriod,
 } from '../../generated';
-import { nameFormatter, splitCamelCase } from '../../utils/stringFormatters';
+import { nameFormatter, splitCamelCase, childWithdrawnAlert } from '../../utils/stringFormatters';
 import { DeepNonUndefineable } from '../../utils/types';
 import {
 	generateFundingTag,
 	enrollmentExitReasons,
 	currentCdcFunding,
 	currentC4kFunding,
-	lastNReportingPeriods
+	lastNReportingPeriods,
 } from '../../utils/models';
 import { DatePicker, ChoiceList, Button, InlineIcon } from '../../components';
 import useApi from '../../hooks/useApi';
@@ -160,15 +160,7 @@ export default function Withdrawal({
 
 		mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams))
 			.then(() => {
-				setAlerts([
-					{
-						type: 'success',
-						heading: 'Withdrawn',
-						text: `${nameFormatter(
-							enrollment.child
-						)} has been successfully withdrawn from the program. Their information can be found by searching for "past enrollments".`,
-					},
-				]);
+				setAlerts([childWithdrawnAlert(nameFormatter(enrollment.child))]);
 				history.push(`/roster`);
 			})
 			.catch(async error => {
