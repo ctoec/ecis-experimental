@@ -94,6 +94,12 @@ export interface FamilyDetermination {
      * @memberof FamilyDetermination
      */
     author?: User;
+    /**
+     * 
+     * @type {Date}
+     * @memberof FamilyDetermination
+     */
+    updatedAt?: Date | null;
 }
 
 export function FamilyDeterminationFromJSON(json: any): FamilyDetermination {
@@ -116,6 +122,7 @@ export function FamilyDeterminationFromJSONTyped(json: any, ignoreDiscriminator:
         'validationErrors': !exists(json, 'validationErrors') ? undefined : (json['validationErrors'] === null ? null : (json['validationErrors'] as Array<any>).map(ValidationErrorFromJSON)),
         'authorId': !exists(json, 'authorId') ? undefined : json['authorId'],
         'author': !exists(json, 'author') ? undefined : UserFromJSON(json['author']),
+        'updatedAt': !exists(json, 'updatedAt') ? undefined : (json['updatedAt'] === null ? null : new Date(json['updatedAt'])),
     };
 }
 
@@ -138,6 +145,7 @@ export function FamilyDeterminationToJSON(value?: FamilyDetermination | null): a
         'validationErrors': value.validationErrors === undefined ? undefined : (value.validationErrors === null ? null : (value.validationErrors as Array<any>).map(ValidationErrorToJSON)),
         'authorId': value.authorId,
         'author': UserToJSON(value.author),
+        'updatedAt': value.updatedAt === undefined ? undefined : (value.updatedAt === null ? null : value.updatedAt.toISOString()),
     };
 }
 

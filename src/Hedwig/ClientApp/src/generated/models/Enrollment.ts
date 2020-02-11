@@ -124,6 +124,12 @@ export interface Enrollment {
      * @memberof Enrollment
      */
     author?: User;
+    /**
+     * 
+     * @type {Date}
+     * @memberof Enrollment
+     */
+    updatedAt?: Date | null;
 }
 
 export function EnrollmentFromJSON(json: any): Enrollment {
@@ -149,6 +155,7 @@ export function EnrollmentFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'validationErrors': !exists(json, 'validationErrors') ? undefined : (json['validationErrors'] === null ? null : (json['validationErrors'] as Array<any>).map(ValidationErrorFromJSON)),
         'authorId': !exists(json, 'authorId') ? undefined : json['authorId'],
         'author': !exists(json, 'author') ? undefined : UserFromJSON(json['author']),
+        'updatedAt': !exists(json, 'updatedAt') ? undefined : (json['updatedAt'] === null ? null : new Date(json['updatedAt'])),
     };
 }
 
@@ -174,6 +181,7 @@ export function EnrollmentToJSON(value?: Enrollment | null): any {
         'validationErrors': value.validationErrors === undefined ? undefined : (value.validationErrors === null ? null : (value.validationErrors as Array<any>).map(ValidationErrorToJSON)),
         'authorId': value.authorId,
         'author': UserToJSON(value.author),
+        'updatedAt': value.updatedAt === undefined ? undefined : (value.updatedAt === null ? null : value.updatedAt.toISOString()),
     };
 }
 

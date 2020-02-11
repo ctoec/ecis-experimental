@@ -54,6 +54,13 @@ export const completeEnrollment: Enrollment = {
 	ageGroup: Age.Preschool,
 	entry: new Date('2018-02-03'),
 	exit: null,
+	author: {
+		firstName: "Test",
+		lastName: "User",
+		id: 1,
+		wingedKeysId: "00000000-0000-0000-0000-000000000000"
+	}, 
+	updatedAt: new Date(Date.now()),
 	child: {
 		id: '2',
 		firstName: 'Lily',
