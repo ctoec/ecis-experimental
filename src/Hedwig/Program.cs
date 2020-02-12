@@ -19,7 +19,7 @@ namespace Hedwig
 			var host = CreateHostBuilder(args).Build();
 			var environment = GetEnvironmentNameFromAppSettings();
 
-				if (environment != Environments.Production) {
+			if (environment != Environments.Production) {
 				using (var scope = host.Services.CreateScope())
 				{
 					var services = scope.ServiceProvider;
