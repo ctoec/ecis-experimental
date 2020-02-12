@@ -38,6 +38,27 @@ services:
       - /entrypoint.sh
     environment:
       - HOST=0.0.0.0
+  winged-keys-db:
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      SA_PASSWORD: TestPassword1
+      ACCEPT_EULA: Y
+  winged-keys:
+    build:
+        context: .
+        dockerfile: ./winged-keys/Dockerfile
+    environment:
+      ConnectionStrings__WINGEDKEYS: Server=winged-keys-db;Database=master;User=sa;Password=TestPassword1
+    volumes:
+      - ./winged-keys/src/WingedKeys:/app/src/WingedKeys:cached
+      # - ./winged-keys/tests/WingedKeysTests:/app/tests/WingedKeysTests:cached
+      - ./winged-keys/entrypoint.sh:/entrypoint.sh
+    working_dir: /app/src/WingedKeys
+    ports:
+      - 5050:5050
+    entrypoint:
+      - sh
+      - /entrypoint.sh
 
   # Selenium containers
   backend-for-selenium:
@@ -71,40 +92,36 @@ services:
     container_name: selenium-hub
     ports:
       - 4444:4444
-  client-e2e-firefox:
+  e2e-chrome:
+    image: selenium/node-chrome
+    depends_on:
+      - selenium-hub
+    environment:
+      - HUB_HOST=selenium-hub
+      - HUB_PORT=4444
+  e2e-firefox:
     image: selenium/node-firefox
     depends_on:
       - selenium-hub
     environment:
       - HUB_HOST=selenium-hub
       - HUB_PORT=4444
-  client-e2e-chrome:
-    image: selenium/node-chrome-debug
-    depends_on:
-      - selenium-hub
-    environment:
-      - HUB_HOST=selenium-hub
-      - HUB_PORT=4444
-    ports:
-      - 5900:5900
-  winged-keys-db:
-    image: mcr.microsoft.com/mssql/server
-    environment:
-      SA_PASSWORD: TestPassword1
-      ACCEPT_EULA: Y
-  winged-keys:
-    build:
-        context: .
-        dockerfile: ./winged-keys/Dockerfile
-    environment:
-      ConnectionStrings__WINGEDKEYS: Server=winged-keys-db;Database=master;User=sa;Password=TestPassword1
-    volumes:
-      - ./winged-keys/src/WingedKeys:/app/src/WingedKeys:cached
-      # - ./winged-keys/tests/WingedKeysTests:/app/tests/WingedKeysTests:cached
-      - ./winged-keys/entrypoint.sh:/entrypoint.sh
-    working_dir: /app/src/WingedKeys
-    ports:
-      - 5050:5050
-    entrypoint:
-      - sh
-      - /entrypoint.sh
+  # Uncomment these (and comment the above e2e-* containers) to allow for VNC connection to the automated browser
+  # e2e-chrome-debug:
+  #   image: selenium/node-chrome-debug
+  #   depends_on:
+  #     - selenium-hub
+  #   environment:
+  #     - HUB_HOST=selenium-hub
+  #     - HUB_PORT=4444
+  #   ports:
+  #     - 5900:5900
+  # e2e-firefox-debug:
+  #   image: selenium/node-firefox-debug
+  #   depends_on:
+  #     - selenium-hub
+  #   environment:
+  #     - HUB_HOST=selenium-hub
+  #     - HUB_PORT=4444
+  #   ports:
+  #     - 5901:5900

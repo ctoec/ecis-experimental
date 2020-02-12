@@ -8,8 +8,10 @@
 		"eject": "react-scripts eject",
 		"start": "react-scripts start",
 		"storybook": "start-storybook -p 9009 -s public",
-		"test": "CI=true react-scripts test --env=jsdom --testPathIgnorePatterns=e2e",
-		"e2e": "CI=true react-scripts test --env=jsdom --testPathPattern=e2e"
+		"_test": "CI=true react-scripts test --env=jsdom",
+		"test": "yarn _test --testPathIgnorePatterns=e2e",
+		"test:e2e": "yarn _test --testPathPattern=e2e",
+		"test:e2e:firefox": "SELENIUM_BROWSER=firefox yarn test:e2e"
 	},
 	"husky": {
 		"hooks": {
