@@ -5,6 +5,7 @@ import {
 	FundingSource,
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest,
 	ApiOrganizationsOrgIdEnrollmentsGetRequest,
+	Child,
 } from '../../generated';
 import { completeEnrollment, child, report, organization } from '../../tests/data';
 import { swapFields } from '../../tests/helpers';

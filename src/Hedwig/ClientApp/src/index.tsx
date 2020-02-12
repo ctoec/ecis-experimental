@@ -2,20 +2,25 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 
+import * as Sentry from '@sentry/browser';
+import * as serviceWorker from './serviceWorker';
+
 import { AuthenticationProvider } from './contexts/Authentication/AuthenticationContext';
 import { UserProvider } from './contexts/User/UserContext';
 import { ReportingPeriodProvider } from './contexts/ReportingPeriod/ReportingPeriodContext';
-
-import * as serviceWorker from './serviceWorker';
 
 import App from './containers/App/App';
 
 import 'react-dates/lib/css/_datepicker.css';
 import './assets/styles/index.scss';
+import { getConfig } from './config';
 
-if (process.env.NODE_ENV !== 'production') {
-	const axe = require('react-axe');
-	axe(React, ReactDOM, 1000);
+const productionPreRender = async () => {
+	const SENTRY_DSN = await getConfig('Sentry.FEDsn');
+	const SENTRY_RELEASE = await getConfig('Sentry.Release');
+	if (SENTRY_DSN && SENTRY_RELEASE) {
+		Sentry.init({ dsn: SENTRY_DSN, release: SENTRY_RELEASE });
+	}
 }
 
 const render = (Component: React.FC) => {
@@ -45,7 +50,16 @@ const render = (Component: React.FC) => {
 	);
 };
 
-render(App);
+if (process.env.NODE_ENV === 'production') {
+	productionPreRender()
+		.then(() => console.log("Sentry successfully initialized"))
+		.catch((e) => console.error(e))
+		// Render the application regardless of Sentry registration
+		.finally(() => render(App));
+} else {
+	const axe = require('react-axe');
+	axe(React, ReactDOM, 1000);
+}
 
 if (module.hot) {
 	module.hot.accept('./containers/App/App', () => {

@@ -174,9 +174,6 @@ const ChildInfo: Section = {
 					.then(res => {
 						if (successCallback && res) successCallback(res);
 					})
-					.catch(error => {
-						setApiError(ValidationProblemDetailsFromJSON(error));
-					})
 					.finally(() => {
 						finallyCallback && finallyCallback(ChildInfo);
 					});
