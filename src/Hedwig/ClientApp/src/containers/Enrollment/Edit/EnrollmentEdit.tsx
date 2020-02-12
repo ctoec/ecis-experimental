@@ -20,7 +20,9 @@ import {
 	nameFormatter,
 	editEnrollmentMissingInfoAlert,
 	editEnrollmentCompleteAlert,
+	editSaveFailAlert,
 } from '../../../utils/stringFormatters';
+import { ErrorBoundary, AlertProps } from '../../../components';
 
 type EnrollmentEditParams = {
 	history: History;
@@ -103,12 +105,14 @@ export default function EnrollmentEdit({
 			<div className="grid-container">
 				<h1>Edit {section.name.toLowerCase()}</h1>
 				<p className="usa-intro">{nameFormatter(enrollment.child)}</p>
-				<section.Form
-					siteId={siteId}
-					enrollment={enrollment}
-					mutate={mutate}
-					successCallback={afterSave}
-				/>
+				<ErrorBoundary alertProps={editSaveFailAlert as AlertProps}>
+					<section.Form
+						siteId={siteId}
+						enrollment={enrollment}
+						mutate={mutate}
+						successCallback={afterSave}
+					/>
+				</ErrorBoundary>
 			</div>
 		</CommonContainer>
 	);

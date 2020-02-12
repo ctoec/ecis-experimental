@@ -67,7 +67,7 @@ export const reportSubmitFailAlert = {
 	text: (
 		<span>
 			We were unable to submit your report. Please try again. If you continue to experience
-			problems, contact {<MailToLink/>} for help.
+			problems, contact {<MailToLink />} for help.
 		</span>
 	),
 };
@@ -76,7 +76,7 @@ export const editSaveFailAlert = {
 	text: (
 		<span>
 			We were unable to save your changes. Please try again. If you continue to experience problems,
-			contact {<MailToLink/>} for help.
+			contact {<MailToLink />} for help.
 		</span>
 	),
 };
@@ -86,7 +86,7 @@ export const stepListSaveFailAlert = {
 	text: (
 		<span>
 			We were unable to save the information you entered. Please try again. If you continue to
-			experience problems, contact {<MailToLink/>} for help.
+			experience problems, contact {<MailToLink />} for help.
 		</span>
 	),
 };
