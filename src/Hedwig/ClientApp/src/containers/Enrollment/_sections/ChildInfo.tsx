@@ -58,7 +58,7 @@ const ChildInfo: Section = {
 		);
 	},
 
-	Form: ({ enrollment, siteId, mutate, successCallback, finallyCallback, visitedSections }) => {
+	Form: ({ enrollment, siteId, mutate, error, successCallback, finallyCallback, visitedSections }) => {
 		if (!enrollment && !siteId) {
 			throw new Error('ChildInfo rendered without an enrollment or a siteId');
 		}
@@ -151,9 +151,7 @@ const ChildInfo: Section = {
 			...childRaceArgs,
 		};
 
-		const [apiError, setApiError] = useState<ValidationProblemDetails>();
-
-		useFocusFirstError([apiError]);
+		useFocusFirstError([error]);
 
 		const _save = () => {
 			if (enrollment) {
@@ -173,9 +171,6 @@ const ChildInfo: Section = {
 				return mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams))
 					.then(res => {
 						if (successCallback && res) successCallback(res);
-					})
-					.catch(error => {
-						setApiError(ValidationProblemDetailsFromJSON(error));
 					})
 					.finally(() => {
 						finallyCallback && finallyCallback(ChildInfo);
@@ -197,10 +192,7 @@ const ChildInfo: Section = {
 				};
 				return mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsPost(postParams))
 					.then(res => {
-						if (successCallback && res) successCallback(res);
-					})
-					.catch(error => {
-						setApiError(ValidationProblemDetailsFromJSON(error));
+						if (successCallback && res && !error) successCallback(res);
 					})
 					.finally(() => {
 						finallyCallback && finallyCallback(ChildInfo);
@@ -237,7 +229,7 @@ const ChildInfo: Section = {
 								initialLoad,
 								serverErrorForField(
 									'child.firstname',
-									apiError,
+									error,
 									'This information is required for enrollment'
 								)
 							)}
@@ -265,7 +257,7 @@ const ChildInfo: Section = {
 									initialLoad,
 									serverErrorForField(
 										'child.lastname',
-										apiError,
+										error,
 										'This information is required for enrollment'
 									)
 								)}

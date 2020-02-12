@@ -77,6 +77,7 @@ export default function ReportDetail() {
 				<ReportSubmitForm
 					report={report}
 					mutate={mutate}
+					error={error}
 					canSubmit={numEnrollmentsMissingInfo === 0}
 				/>
 			</div>

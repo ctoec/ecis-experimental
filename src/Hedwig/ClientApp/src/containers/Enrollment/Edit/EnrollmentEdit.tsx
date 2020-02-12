@@ -74,7 +74,7 @@ export default function EnrollmentEdit({
 		return <PageNotFound />;
 	}
 
-	if (loading || error || !enrollment) {
+	if (loading || !enrollment) {
 		return <div className="EnrollmentEdit"></div>;
 	}
 
@@ -110,6 +110,7 @@ export default function EnrollmentEdit({
 						siteId={siteId}
 						enrollment={enrollment}
 						mutate={mutate}
+					    error={error}
 						successCallback={afterSave}
 					/>
 				</ErrorBoundary>

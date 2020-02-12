@@ -5,6 +5,7 @@ import { FormStatusProps } from '../../components/FormStatus/FormStatus';
 import { processBlockingValidationErrors } from './processBlockingValidationErrors';
 import { ValidationProblemDetails } from '../../generated';
 import { elementIdFormatter } from '../stringFormatters';
+import { ApiError } from '../../hooks/useApi';
 
 export function warningForField<T extends Validatable>(
 	fieldId: string,
@@ -31,12 +32,13 @@ export function warningForField<T extends Validatable>(
  */
 export function serverErrorForField(
 	fieldId: string,
-	error?: ValidationProblemDetails,
+	error: ApiError | null,
 	message?: string
 ): FormStatusProps | undefined {
-	if (!error) return;
+	const validationError = error as ValidationProblemDetails;
+	if (!validationError || !validationError.errors) return;
 
-	const fieldError = processBlockingValidationErrors(fieldId, error.errors);
+	const fieldError = processBlockingValidationErrors(fieldId, validationError.errors);
 
 	if (fieldError) {
 		return {

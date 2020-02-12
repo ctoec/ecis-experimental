@@ -55,7 +55,7 @@ export default function EnrollmentDetail({
 		}
 	);
 
-	if (loading || error || !enrollment) {
+	if (loading || !enrollment) {
 		return <div className="EnrollmentDetail"></div>;
 	}
 
@@ -84,7 +84,7 @@ export default function EnrollmentDetail({
 					/>
 				</div>
 				{sections.map(section => {
-					var props: SectionProps = { siteId, enrollment, mutate };
+					var props: SectionProps = { siteId, enrollment, mutate, error };
 					const familyIncomeForFosterChild = section.key === 'family-income' && child.foster;
 					return (
 						<section key={section.key} className="oec-enrollment-details-section">

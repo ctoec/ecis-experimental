@@ -138,7 +138,7 @@ const EnrollmentFunding: Section = {
 		);
 	},
 
-	Form: ({ enrollment, siteId, mutate, successCallback, finallyCallback, visitedSections }) => {
+	Form: ({ enrollment, siteId, mutate, error, successCallback, finallyCallback, visitedSections }) => {
 		if (!enrollment) {
 			throw new Error('EnrollmentFunding rendered without an enrollment');
 		}
@@ -219,8 +219,6 @@ const EnrollmentFunding: Section = {
 			updateReportingPeriodOptions([...periods].sort(periodSorter));
 		}, [enrollment.entry, entry, reportingPeriods]);
 
-		const [apiError, setApiError] = useState<ValidationProblemDetails>();
-
 		const _save = () => {
 			let updatedFundings: Funding[] = [...fundings]
 				.filter(funding => funding.id !== (sourcelessFunding && sourcelessFunding.id))
@@ -298,10 +296,7 @@ const EnrollmentFunding: Section = {
 
 				return mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
 					.then(res => {
-						if (successCallback && res) successCallback(res);
-					})
-					.catch(error => {
-						setApiError(ValidationProblemDetailsFromJSON(error));
+						if (successCallback && res && !error) successCallback(res);
 					})
 					.finally(() => {
 						finallyCallback && finallyCallback(EnrollmentFunding);
@@ -484,7 +479,7 @@ const EnrollmentFunding: Section = {
 							selected={toFormString(cdcReportingPeriod ? cdcReportingPeriod.id : undefined)}
 							status={initialLoadErrorGuard(
 								initialLoad,
-								serverErrorForField('fundings', apiError) ||
+								serverErrorForField('fundings', error) ||
 									warningForField(
 										'firstReportingPeriod',
 										cdcFunding || null,

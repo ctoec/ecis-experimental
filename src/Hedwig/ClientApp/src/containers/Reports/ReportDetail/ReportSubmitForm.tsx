@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, FormEvent } from 'react';
 import {
 	CdcReport,
 	ApiOrganizationsOrgIdReportsIdPutRequest,
 	ApiOrganizationsOrgIdEnrollmentsGetRequest,
 } from '../../../generated';
-import useApi, { Mutate } from '../../../hooks/useApi';
+import useApi, { Mutate, ApiError } from '../../../hooks/useApi';
 import UserContext from '../../../contexts/User/UserContext';
 import {
 	Button,
@@ -35,10 +35,11 @@ import pluralize from 'pluralize';
 export type ReportSubmitFormProps = {
 	report: DeepNonUndefineable<CdcReport>;
 	mutate: Mutate<CdcReport>;
+	error: ApiError | null;
 	canSubmit: boolean;
 };
 
-export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSubmitFormProps) {
+export default function ReportSubmitForm({ report, mutate, error, canSubmit }: ReportSubmitFormProps) {
 	const history = useHistory();
 	const asOf = report.submittedAt ? report.submittedAt : undefined;
 	const [accredited, setAccredited] = useState(report.accredited);
@@ -85,9 +86,7 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 		}
 	}, [allEnrollments]);
 
-	const [apiError, setApiError] = useState<ValidationProblemDetails>();
-
-	useFocusFirstError([apiError]);
+	useFocusFirstError([error]);
 
 	function updatedReport(): CdcReport {
 		return {
@@ -116,9 +115,6 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 					history.push('/reports', newAlerts);
 				}
 			})
-			.catch(error => {
-				setApiError(ValidationProblemDetailsFromJSON(error));
-			});
 	}
 	const { isExecuting: isMutating, setExecuting: onSubmit } = usePromiseExecution(_onSubmit);
 
@@ -168,8 +164,8 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 						optional={true}
 						disabled={!!report.submittedAt}
 						status={serverErrorForField(
-							'c4krevenue',
-							apiError,
+							'report.c4krevenue',
+							error,
 							'This information is required for the report'
 						)}
 					/>
@@ -200,7 +196,7 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 						disabled={!!report.submittedAt}
 						status={serverErrorForField(
 							'familyfeesrevenue',
-							apiError,
+							error,
 							'This information is required'
 						)}
 					/>

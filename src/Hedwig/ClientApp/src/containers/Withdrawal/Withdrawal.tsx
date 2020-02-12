@@ -81,7 +81,6 @@ export default function Withdrawal({
 	const [reportingPeriodOptions, updateReportingPeriodOptions] = useState(reportingPeriods);
 
 	const [attemptedSave, setAttemptedSave] = useState(false);
-	const [apiError, setApiError] = useState<ValidationProblemDetails>();
 
 	const fundings =
 		enrollment && enrollment.fundings
@@ -107,9 +106,9 @@ export default function Withdrawal({
 		}
 	}, [enrollment, isMissingInformation, history, setAlerts]);
 
-	useFocusFirstError([apiError]);
+	useFocusFirstError([error]);
 
-	if (loading || error || !enrollment) {
+	if (loading || !enrollment) {
 		return <div className="Withdrawl"></div>;
 	}
 
@@ -157,11 +156,10 @@ export default function Withdrawal({
 
 		mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams))
 			.then(() => {
-				setAlerts([childWithdrawnAlert(nameFormatter(enrollment.child))]);
-				history.push(`/roster`);
-			})
-			.catch(async error => {
-				setApiError(await ValidationProblemDetailsFromJSON(error));
+				if(!error) {
+				    setAlerts([childWithdrawnAlert(nameFormatter(enrollment.child))]);
+					history.push(`/roster`);
+				}
 			});
 	};
 
@@ -212,8 +210,8 @@ export default function Withdrawal({
 										message:
 											'ECE Reporter only contains data for fiscal year 2020 and later. Please do not add children who withdrew prior to July 2019.',
 								  }
-								: apiError && processBlockingValidationErrors('exit', apiError.errors)
-								? serverErrorForField('exit', apiError)
+								: error && processBlockingValidationErrors('exit', (error as ValidationProblemDetails).errors)
+								? serverErrorForField('exit', error)
 								: clientErrorForField(
 										'exit',
 										enrollmentEndDate,
@@ -234,7 +232,7 @@ export default function Withdrawal({
 						onChange={event => updateExitReason(event.target.value)}
 						status={serverErrorForField(
 							'exitreason',
-							apiError,
+							error,
 							'This information is required for withdrawal'
 						)}
 					/>
@@ -255,8 +253,8 @@ export default function Withdrawal({
 							}}
 							status={serverErrorForField(
 								'fundings',
-								apiError,
-								'This information is required for withdrawal'
+								error,
+								lastReportingPeriod ? undefined : 'This information is required for withdrawal'
 							)}
 						/>
 					)}

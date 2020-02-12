@@ -92,7 +92,7 @@ const FamilyIncome: Section = {
 		return <div className="FamilyIncomeSummary">{elementToReturn}</div>;
 	},
 
-	Form: ({ enrollment, siteId, mutate, successCallback, finallyCallback, visitedSections }) => {
+	Form: ({ enrollment, siteId, mutate, error, successCallback, finallyCallback, visitedSections }) => {
 		if (!enrollment || !enrollment.child || !enrollment.child.family) {
 			throw new Error('FamilyIncome rendered without enrollment.child.family');
 		}
@@ -158,10 +158,8 @@ const FamilyIncome: Section = {
 				return (
 					mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
 						.then(res => {
-							if (successCallback && res) successCallback(res);
+							if (successCallback && res && !error) successCallback(res);
 						})
-						// TODO deal with error from server
-						.catch()
 						.finally(() => {
 							finallyCallback && finallyCallback(FamilyIncome);
 						})

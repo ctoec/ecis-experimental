@@ -44,7 +44,7 @@ const FamilyInfo: Section = {
 		);
 	},
 
-	Form: ({ enrollment, siteId, mutate, successCallback, finallyCallback, visitedSections }) => {
+	Form: ({ enrollment, siteId, mutate, error, successCallback, finallyCallback, visitedSections }) => {
 		if (!enrollment || !enrollment.child) {
 			throw new Error('FamilyInfo rendered without a child');
 		}
@@ -105,7 +105,7 @@ const FamilyInfo: Section = {
 				};
 				return mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
 					.then(res => {
-						if (successCallback && res) successCallback(res);
+						if (successCallback && res && !error) successCallback(res);
 					})
 					.finally(() => {
 						finallyCallback && finallyCallback(FamilyInfo);

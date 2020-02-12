@@ -146,7 +146,7 @@ export default function EnrollmentNew({
 		}
 	};
 
-	if (loading || error || !user) {
+	if (loading || !user) {
 		// Need to add user here so that a refresh after partial enrollment doesn't crash
 		return <div className="EnrollmentNew"></div>;
 	}
@@ -156,6 +156,7 @@ export default function EnrollmentNew({
 	const props: SectionProps = {
 		enrollment: enrollment,
 		mutate: mutate,
+		error: error,
 		successCallback: afterSave,
 		finallyCallback: visitSection,
 		siteId,

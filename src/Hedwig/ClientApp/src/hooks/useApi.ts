@@ -1,15 +1,18 @@
-import { useContext, useEffect, useState, DependencyList, useCallback } from 'react';
-import { Configuration, HedwigApi } from '../generated';
+import { useContext, useEffect, useState, DependencyList, useCallback, Dispatch, SetStateAction } from 'react';
+import { Configuration, HedwigApi, ValidationProblemDetailsFromJSON, ProblemDetailsFromJSON } from '../generated';
 import getCurrentHost from '../utils/getCurrentHost';
 import AuthenticationContext from '../contexts/Authentication/AuthenticationContext';
 import { DeepNonUndefineable } from '../utils/types';
+import { ValidationProblemDetails, ProblemDetails } from '../generated';
+import { parseZone } from 'moment';
 
+export type ApiError = ValidationProblemDetails | ProblemDetails;
 export type Reducer<TData> = (data: TData, result: TData) => TData;
 export type Query<TData> = (api: HedwigApi) => Promise<TData>;
 export type Mutate<TData> = (
 	query: Query<TData>,
 	reducer?: Reducer<TData | undefined>
-) => Promise<TData | undefined>;
+) => Promise<TData | void>
 
 interface ApiParamOpts<T> {
 	defaultValue?: T;
@@ -19,12 +22,17 @@ interface ApiParamOpts<T> {
 
 interface ApiState<T> {
 	loading: boolean;
-	error: string | null;
+	error: ApiError | null,
 	data?: T;
 	skip: boolean;
 }
 
-export type ApiResult<TData> = [boolean, string | null, DeepNonUndefineable<TData>, Mutate<TData>];
+export type ApiResult<TData> = [
+	boolean,
+	(ApiError | null),
+	DeepNonUndefineable<TData>,
+	Mutate<TData>
+];
 
 export default function useApi<TData>(
 	query: (api: HedwigApi) => Promise<TData>,
@@ -65,6 +73,27 @@ export default function useApi<TData>(
 		  )
 		: null;
 
+  // Create error parsing function
+	const handleError = async (error: any) => {
+		let jsonResponse: Object | null = null;
+		try {
+			jsonResponse = JSON.parse(await error.text());
+		} catch {}
+
+		let apiError: ApiError | null = null;
+		if(jsonResponse) {
+			if (error.state === 400) {
+				apiError = ValidationProblemDetailsFromJSON(await error.json()) || null;
+			} else {
+				apiError = ProblemDetailsFromJSON(await error.json()) || null;
+			}
+		}
+
+		setState((state) => {
+			return {...state, error: apiError}
+		});
+	}
+
 	// Create mutate function
 	const mutate = useCallback<Mutate<TData>>(
 		(_query, reducer = (_, result) => result) => {
@@ -73,7 +102,7 @@ export default function useApi<TData>(
 				setState(_state => {
 					return { ..._state, loading: false };
 				});
-				return Promise.reject('No api!');
+				return result;
 			}
 
 			// Invoke the supplied API method and update state with reducer
@@ -84,19 +113,11 @@ export default function useApi<TData>(
 					});
 					return result;
 				})
-				.catch(async _error => {
-					if (_error.status > 400) {
-						setState(_state => {
-							return { ..._state, loading: false, error: _error.toString() };
-						});
-						return;
-					}
-
-					return Promise.reject(await _error.json());
-				});
-		},
-		[api, data]
-	);
+			})
+			.catch(async (error) => {
+				await handleError(error);
+			});
+	}, [api, data]);
 
 	// Rerun query whenever deps or accessToken changes
 	useEffect(() => {
@@ -120,16 +141,8 @@ export default function useApi<TData>(
 					callback(result);
 				}
 			})
-			.catch(async _error => {
-				if (_error.status > 400) {
-					setState({ ...state, loading: false, error: _error.toString() });
-					return;
-				}
-				if (_error && _error.json) {
-					return Promise.reject(await _error.json());
-				} else {
-					return Promise.reject(_error);
-				}
+			.catch(async (error) => {
+				await handleError(error);
 			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [...deps, accessToken]);
