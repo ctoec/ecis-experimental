@@ -38,9 +38,9 @@ export const clickLogin = async (driver: IWebDriver) => {
 
   // Find username and password fields
   const usernameInput = await waitFor(driver, selectorByPlaceholder('Username'));
-  usernameInput.sendKeys('');
+  usernameInput.sendKeys('voldemort');
   const passwordInput = await driver.findElement(selectorByPlaceholder('Password'));
-  passwordInput.sendKeys('');
+  passwordInput.sendKeys('thechosenone');
 
   // Find the login button and click it
   const submitBtn = await driver.findElement(selectorByValue('login'));
