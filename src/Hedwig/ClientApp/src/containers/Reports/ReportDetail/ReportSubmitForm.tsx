@@ -14,6 +14,7 @@ import { DeepNonUndefineable } from '../../../utils/types';
 import { useFocusFirstError, serverErrorForField } from '../../../utils/validations';
 import { ValidationProblemDetails, ValidationProblemDetailsFromJSON } from '../../../generated';
 import usePromiseExecution from '../../../hooks/usePromiseExecution';
+import { reportSubmittedAlert } from '../../../utils/stringFormatters';
 
 export type ReportSubmitFormProps = {
 	report: DeepNonUndefineable<CdcReport>;
@@ -60,13 +61,7 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 		)
 			.then(res => {
 				if (res) {
-					const newAlert = {
-						type: 'success',
-						heading: 'Submitted',
-						text: `The ${reportingPeriodFormatter(
-							report.reportingPeriod
-						)} CDC Report has been shared with the Office of Early Childhood`,
-					} as AlertProps;
+					const newAlert = reportSubmittedAlert(report.reportingPeriod)
 					const newAlerts = [...alerts, newAlert];
 					setAlerts(newAlerts);
 					invalidateAppCache(); // Updates the count of unsubmitted reports in the nav bar

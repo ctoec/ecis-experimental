@@ -2,8 +2,8 @@ import React from 'react';
 
 export type AlertProps = {
 	type: 'success' | 'warning' | 'error' | 'info';
-	heading?: string;
 	text: string;
+	heading?: string;
 	actionItem?: JSX.Element;
 };
 
