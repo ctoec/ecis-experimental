@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import idx from 'idx';
 import moment from 'moment';
-import { enrollmentTextFormatter } from '../../utils/stringFormatters';
+import { rosterEnrollmentsFormatter } from '../../utils/stringFormatters';
 import getDefaultDateRange from '../../utils/getDefaultDateRange';
 import { fundingSourceDetails } from '../../utils/fundingTypeFormatters';
 import getFundingSpaceCapacity from '../../utils/getFundingSpaceCapacity';
@@ -71,7 +71,7 @@ export default function Roster() {
 	const fundingSpaces = idx(site, _ => _.organization.fundingSpaces) || [];
 	const fundingSpacesByAgeGroup = getObjectsByAgeGroup(fundingSpaces);
 
-	const numKidsEnrolledText = enrollmentTextFormatter(
+	const numKidsEnrolledText = rosterEnrollmentsFormatter(
 		enrollments.length,
 		showPastEnrollments,
 		dateRange,

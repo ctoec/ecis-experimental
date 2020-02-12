@@ -164,7 +164,8 @@ namespace Hedwig.Data
           entry: entry,
           exit: exit,
           exitReason: exit != null ? "Other" : null,
-          ageGroup: DateTime.Parse(birthdate) > ageGroupCutoff ? Age.InfantToddler : Age.Preschool
+          ageGroup: DateTime.Parse(birthdate) > ageGroupCutoff ? Age.InfantToddler : Age.Preschool,
+          author: user
         );
 
         if (cdc)
@@ -386,7 +387,8 @@ namespace Hedwig.Data
       string entry = "2019-08-01",
       string exit = null,
       string exitReason = null,
-      Age ageGroup = Age.Preschool
+      Age ageGroup = Age.Preschool,
+      User author = null
     )
     {
       var enrollment = new Enrollment
@@ -401,6 +403,13 @@ namespace Hedwig.Data
         enrollment.Exit = DateTime.Parse(exit);
         enrollment.ExitReason = exitReason;
       }
+
+      if(author != null)
+      {
+        enrollment.Author = author;
+        enrollment.UpdatedAt = DateTime.Now;
+      }
+
       _context.Enrollments.Add(enrollment);
       _context.SaveChanges();
       return enrollment;

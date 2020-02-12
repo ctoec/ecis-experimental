@@ -136,6 +136,12 @@ export interface Funding {
      * @memberof Funding
      */
     author?: User;
+    /**
+     * 
+     * @type {Date}
+     * @memberof Funding
+     */
+    updatedAt?: Date | null;
 }
 
 export function FundingFromJSON(json: any): Funding {
@@ -163,6 +169,7 @@ export function FundingFromJSONTyped(json: any, ignoreDiscriminator: boolean): F
         'validationErrors': !exists(json, 'validationErrors') ? undefined : (json['validationErrors'] === null ? null : (json['validationErrors'] as Array<any>).map(ValidationErrorFromJSON)),
         'authorId': !exists(json, 'authorId') ? undefined : json['authorId'],
         'author': !exists(json, 'author') ? undefined : UserFromJSON(json['author']),
+        'updatedAt': !exists(json, 'updatedAt') ? undefined : (json['updatedAt'] === null ? null : new Date(json['updatedAt'])),
     };
 }
 
@@ -190,6 +197,7 @@ export function FundingToJSON(value?: Funding | null): any {
         'validationErrors': value.validationErrors === undefined ? undefined : (value.validationErrors === null ? null : (value.validationErrors as Array<any>).map(ValidationErrorToJSON)),
         'authorId': value.authorId,
         'author': UserToJSON(value.author),
+        'updatedAt': value.updatedAt === undefined ? undefined : (value.updatedAt === null ? null : value.updatedAt.toISOString()),
     };
 }
 

@@ -40,6 +40,7 @@ namespace Hedwig.Repositories
 		{
 			var enrollments = _context.Enrollments
 				.FilterByDates(from, to)
+				.Include(e => e.Author)
 				.Where(e => e.SiteId == siteId);
 
 
@@ -72,12 +73,14 @@ namespace Hedwig.Repositories
 				}
 			}
 
+			enrollments = enrollments.Include(e => e.Author);
 			return enrollments.ToListAsync();
 		}
 
 		public Task<Enrollment> GetEnrollmentForSiteAsync(int id, int siteId, string[] include)
 		{
 			var enrollment = _context.Enrollments
+				.Include(e => e.Author)
 				.Where(e => e.SiteId == siteId
 					&& e.Id == id);
 
@@ -110,6 +113,8 @@ namespace Hedwig.Repositories
 					}
 				}
 			}
+
+			enrollment = enrollment.Include(e => e.Author);
 			return enrollment.FirstOrDefaultAsync();
 		}
 

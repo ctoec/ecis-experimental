@@ -1,7 +1,7 @@
 import pluralize from 'pluralize';
 import { DateRange } from '../../components/DatePicker/DatePicker';
 
-export function enrollmentTextFormatter(
+export function rosterEnrollmentsFormatter(
 	numKids: number,
 	showPastEnrollments: boolean,
 	currentDateRange: DateRange,

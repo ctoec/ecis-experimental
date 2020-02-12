@@ -23,9 +23,16 @@ exports[`EnrollmentDetail matches snapshot 1`] = `
     <div
       class="grid-row flex-first-baseline flex-space-between"
     >
-      <h1>
-        Lily Luna Potter
-      </h1>
+      <div>
+        <h1>
+          Lily Luna Potter
+        </h1>
+        <span
+          class="usa-hint text-italic"
+        >
+          Last updated on February 12th, 2020 by T. User
+        </span>
+      </div>
       <a
         class="usa-button margin-right-0"
         href="/roster/sites/undefined/enrollments/1/withdraw"

@@ -4,7 +4,7 @@ import FamilyInfo from '../_sections/FamilyInfo';
 import FamilyIncome from '../_sections/FamilyIncome';
 import EnrollmentFunding from '../_sections/EnrollmentFunding';
 import { Link } from 'react-router-dom';
-import { nameFormatter } from '../../../utils/stringFormatters';
+import { nameFormatter, enrollmentDetailMetadataFormatter } from '../../../utils/stringFormatters';
 import {
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest,
 	Enrollment,
@@ -71,7 +71,10 @@ export default function EnrollmentDetail({
 		>
 			<div className="grid-container">
 				<div className="grid-row flex-first-baseline flex-space-between">
-					<h1>{nameFormatter(child)}</h1>
+					<div>
+						<h1>{nameFormatter(child)}</h1>
+						<span className="usa-hint text-italic">{enrollmentDetailMetadataFormatter(enrollment)}</span>
+					</div>
 					<Button text="Withdraw" href={`/roster/sites/${siteId}/enrollments/${enrollment.id}/withdraw`} className="margin-right-0" />
 				</div>
 				{sections.map(section => {
