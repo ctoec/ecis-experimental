@@ -153,7 +153,7 @@ class ExtendedWebElement extends WebElement implements WebElementExtension {
 	async findByValue(text: string, opt_timeout?: number, opt_message?: string) {
 		return await this.findByLocator(selectorByValue(text), opt_timeout, opt_message);
 	}
-};
+}
 
 const waitForElement = async (driver: IWebDriver, selector: Locator, opt_timeout?: number, opt_message?: string) => {
 	await driver.wait(until.elementLocated(selector), opt_timeout, opt_message);

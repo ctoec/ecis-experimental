@@ -41,7 +41,7 @@ describe('Smoke screen', () => {
 		const driver = driverHelper.createDriver();
 		try {
 			let root = await load(driver, appUrl);
-			let { findByLocator, findByPlaceholder, findByText, findByValue } = render(root);
+			let { findByText } = render(root);
 
 			// Find login button and click it
 			const loginBtn = await findByText('Log in');
@@ -50,7 +50,7 @@ describe('Smoke screen', () => {
 			// Wait for page navigation
 			await driver.wait(until.titleIs('IdentityServer4'));
 			root = await reload(driver);
-			({ findByPlaceholder, findByValue } = render(root));
+			let { findByPlaceholder, findByValue } = render(root);
 
 			// Find username and password fields
 			const usernameInput = await findByPlaceholder('Username');
@@ -65,7 +65,7 @@ describe('Smoke screen', () => {
 			// Wait for page navigation
 			await driver.wait(until.titleIs('ECE Reporter'));
 			root = await reload(driver);
-			({ findByLocator } = render(root));
+			let { findByLocator } = render(root);
 
 			// Wait for welcome header text to display
 			const name = await findByLocator({ css: '.oec-logged-in-user' });
