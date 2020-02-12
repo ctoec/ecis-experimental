@@ -52,6 +52,7 @@ import {
 import { FormReducer, formReducer, updateData, toFormString } from '../../../utils/forms/form';
 import useApi from '../../../hooks/useApi';
 import getFundingSpaceCapacity from '../../../utils/getFundingSpaceCapacity';
+import usePromiseExecution from '../../../hooks/usePromiseExecution';
 
 const EnrollmentFunding: Section = {
 	key: 'enrollment-funding',
@@ -215,7 +216,7 @@ const EnrollmentFunding: Section = {
 
 		const [apiError, setApiError] = useState<ValidationProblemDetails>();
 
-		const save = (event: React.FormEvent<HTMLFormElement>) => {
+		const _save = () => {
 			let updatedFundings: Funding[] = [...fundings]
 				.filter(funding => funding.id !== (sourcelessFunding && sourcelessFunding.id))
 				.filter(funding => funding.id !== (cdcFunding && cdcFunding.id));
@@ -290,7 +291,7 @@ const EnrollmentFunding: Section = {
 					},
 				};
 
-				mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
+				return mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
 					.then(res => {
 						if (successCallback && res) successCallback(res);
 					})
@@ -301,9 +302,11 @@ const EnrollmentFunding: Section = {
 						finallyCallback && finallyCallback(EnrollmentFunding);
 					});
 			}
-
-			event.preventDefault();
+			return new Promise(() => {});
+			// TODO: what should happen if there is no enrollment, child, or family?  See also family info and family income
 		};
+
+		const { isExecuting: isMutating, setExecuting: save } = usePromiseExecution(_save);
 
 		const siteParams: ApiOrganizationsOrgIdSitesIdGetRequest = {
 			// Separate query so that mutation doesn't try to update all the enrollments when user saves this one
@@ -462,8 +465,7 @@ const EnrollmentFunding: Section = {
 								...reportingPeriodOptions.map(period => {
 									return {
 										value: '' + period.id,
-										// TODO: use moment to avoid browser date weirdness
-										text: `${period.periodStart.toLocaleDateString()} - ${period.periodEnd.toLocaleDateString()}`,
+										text: reportingPeriodFormatter(period, { extended: true }),
 									};
 								}),
 							]}
@@ -493,7 +495,7 @@ const EnrollmentFunding: Section = {
 							text={`${utilizationRate.numEnrolled} out of ${
 								utilizationRate.capacity
 							} spaces are utilized for the ${
-								thisPeriod ? moment(thisPeriod.period).format('MMMM YYYY') : 'current'
+								thisPeriod ? reportingPeriodFormatter(thisPeriod) : 'current'
 							} reporting period.`}
 						/>
 					)}
@@ -556,7 +558,7 @@ const EnrollmentFunding: Section = {
 				</div>
 
 				<div className="usa-form">
-					<Button text="Save" onClick="submit" />
+					<Button text={isMutating ? 'Saving...' : 'Save'} onClick="submit" disabled={isMutating} />
 				</div>
 			</form>
 		);

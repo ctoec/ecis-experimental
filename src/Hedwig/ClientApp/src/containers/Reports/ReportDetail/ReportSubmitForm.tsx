@@ -6,15 +6,14 @@ import { Button, TextInput, ChoiceList, AlertProps, FieldSet } from '../../../co
 import AppContext from '../../../contexts/App/AppContext';
 import currencyFormatter from '../../../utils/currencyFormatter';
 import parseCurrencyFromString from '../../../utils/parseCurrencyFromString';
-import { getIdForUser } from '../../../utils/models';
+import { getIdForUser, reportingPeriodFormatter } from '../../../utils/models';
 import UtilizationTable from './UtilizationTable';
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import { useHistory } from 'react-router';
-import monthFormatter from '../../../utils/monthFormatter';
 import { DeepNonUndefineable } from '../../../utils/types';
 import { useFocusFirstError, serverErrorForField } from '../../../utils/validations';
 import { ValidationProblemDetails, ValidationProblemDetailsFromJSON } from '../../../generated';
-import notNullOrUndefined from '../../../utils/notNullOrUndefined';
+import usePromiseExecution from '../../../hooks/usePromiseExecution';
 
 export type ReportSubmitFormProps = {
 	report: DeepNonUndefineable<CdcReport>;
@@ -52,9 +51,8 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 		};
 	}
 
-	function onSubmit(e: FormEvent) {
-		e.preventDefault();
-		mutate(api =>
+	function _onSubmit() {
+		return mutate(api =>
 			api.apiOrganizationsOrgIdReportsIdPut({
 				...params,
 				cdcReport: updatedReport(),
@@ -65,8 +63,8 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 					const newAlert = {
 						type: 'success',
 						heading: 'Submitted',
-						text: `The ${monthFormatter(
-							report.reportingPeriod.period
+						text: `The ${reportingPeriodFormatter(
+							report.reportingPeriod
 						)} CDC Report has been shared with the Office of Early Childhood`,
 					} as AlertProps;
 					const newAlerts = [...alerts, newAlert];
@@ -77,8 +75,9 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 			})
 			.catch(error => {
 				setApiError(ValidationProblemDetailsFromJSON(error));
-			});
+			})
 	}
+	const { isExecuting: isMutating, setExecuting: onSubmit } = usePromiseExecution(_onSubmit);
 
 	return (
 		<React.Fragment>
@@ -100,15 +99,12 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 					},
 				]}
 				onChange={e => setAccredited((e.target as HTMLInputElement).checked)}
-				className="usa-checkbox margin-bottom-5"
+				className="margin-bottom-5"
 			/>
 			<UtilizationTable {...{ ...report, accredited }} />
 			<form className="usa-form" onSubmit={onSubmit} noValidate autoComplete="off">
 				<h2>Other Revenue</h2>
-				<FieldSet
-					id="other-revenue"
-					legend="Other Revenue"
-				>
+				<FieldSet id="other-revenue" legend="Other Revenue">
 					<TextInput
 						id="c4k-revenue"
 						label={
@@ -161,7 +157,11 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 					/>
 				</FieldSet>
 				{!report.submittedAt && (
-					<Button onClick="submit" text="Submit" disabled={!canSubmit} />
+					<Button
+						onClick="submit"
+						text={isMutating ? 'Submitting...' : 'Submit'}
+						disabled={!canSubmit || isMutating}
+					/>
 				)}
 			</form>
 		</React.Fragment>

@@ -1,5 +1,4 @@
 using System;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Hedwig.Models.Attributes
 {

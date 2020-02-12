@@ -16,7 +16,7 @@ namespace HedwigTests.Helpers
 			organization = organization ?? OrganizationHelper.CreateOrganization(context);
 			
 			var family = new Family { OrganizationId = organization.Id };
-			context.Add<Family>(family);
+			context.Add(family);
 			context.SaveChanges();
 			return family;
 		}

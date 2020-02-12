@@ -73,6 +73,7 @@ namespace Hedwig.Data
       {
         ProtectReadOnlyEntities();
       }
+      UpdateTemporalEntities();
       return base.SaveChangesAsync();
     }
 
@@ -87,7 +88,25 @@ namespace Hedwig.Data
       {
 	      ProtectReadOnlyEntities();
 			}
+
+      UpdateTemporalEntities();
       return base.SaveChanges();
+    }
+
+    private void UpdateTemporalEntities()
+    {
+      var newOrUpdatedEntities = ChangeTracker.Entries()
+        .Where(e => 
+          e.Entity is TemporalEntity &&
+          (e.State == EntityState.Added || e.State == EntityState.Modified)
+        );
+
+      int? currentUserId = GetCurrentUserId();
+      DateTime now = DateTime.UtcNow;
+      foreach(var entity in newOrUpdatedEntities)
+      {
+        UpdateTemporalEntity(entity.Entity as TemporalEntity, currentUserId, now);
+      }
     }
 
     /// <summary>
@@ -109,74 +128,15 @@ namespace Hedwig.Data
     }
 
     /// <summary>
-    /// Overrides the base `DbContext.Add()` functionality to add an author name to the AuthoredBy
-    /// field on temporal entities.
-    /// NOTE: This means we need to use the `context.Add<T>()` approach to create db models,
-    /// as opposed to `context.[TypeDbSet].Add()` approach.
+    /// Adds AuthorId and UpdatedAt to an Added or Modified TemporalEntity
     /// </summary>
     /// <param name="entity"></param>
-    /// <typeparam name="TEntity"></typeparam>
-    /// <returns></returns>
-    public override EntityEntry<TEntity> Add<TEntity>(TEntity entity)
-    {
-      if (IsTemporalEntityType<TEntity>())
-      {
-        int? currentUserId = GetCurrentUserId();
-        AddAuthorToTemporalEntity(entity as TemporalEntity, currentUserId);
-      }
-
-      return base.Add<TEntity>(entity);
-    }
-
-
-    /// <summary>
-    /// Overrides the base `DbContext.Update()` functionality to add an author name to the AuthoredBy
-    /// field on temporal entities.
-    /// NOTE: This means we need to use the `context.Update<T>()` approach to update db models,
-    /// as opposed to `context.true[TypeDbSet].Update()` approach.
-    /// </summary>
-    /// <param name="entity"></param>
-    /// <typeparam name="TEntity"></typeparam>
-    /// <returns></returns>
-    public override EntityEntry<TEntity> Update<TEntity>(TEntity entity)
-    {
-      if (IsTemporalEntityType<TEntity>())
-      {
-        int? currentUserId = GetCurrentUserId();
-        AddAuthorToTemporalEntity(entity as TemporalEntity, currentUserId);
-      }
-      return base.Update<TEntity>(entity);
-    }
-
-    /// <summary>
-    /// Determines if a given entity type is a TemporalEntity
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <returns>True if type T is subclass of TemporalEntity, else false.</returns>
-    private bool IsTemporalEntityType<T>()
-    {
-      return typeof(TemporalEntity).IsAssignableFrom(typeof(T));
-    }
-
-    /// <summary>
-    /// Recursively adds author UserId to AuthorId field on temporal entities
-    /// </summary>
-    /// <param name="entity"></param>s
-    protected void AddAuthorToTemporalEntity(TemporalEntity entity, int? currentUserId)
+    /// <param name="currentUserId"></param>
+    /// <param name="now"></param>
+    private void UpdateTemporalEntity(TemporalEntity entity, int? currentUserId, DateTime now)
     {
       entity.AuthorId = currentUserId;
-      
-      // Recursively add AuthorId to any TemporalEntity sub-props
-      var props = entity.GetType().GetProperties();
-      foreach (var prop in props)
-      {
-        var subProp = prop.GetValue(entity);
-        if (typeof(TemporalEntity).IsAssignableFrom(prop.PropertyType)
-          && subProp != null)
-        {
-          AddAuthorToTemporalEntity(subProp as TemporalEntity, currentUserId);
-        }
-      }
+      entity.UpdatedAt = now;
     }
 
     /// <summary>
