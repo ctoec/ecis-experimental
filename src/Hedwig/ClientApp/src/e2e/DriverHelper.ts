@@ -1,9 +1,8 @@
-import { Builder, ThenableWebDriver, WebDriver, Locator, until, By } from 'selenium-webdriver';
+import { ThenableWebDriver, WebDriver, Builder } from "selenium-webdriver";
+
+import { gridHost } from "./config";
 
 export type IWebDriver = ThenableWebDriver | WebDriver;
-export const clientHost = 'https://backend-for-selenium:5001';
-export const gridHost = 'http://selenium-hub:4444/wd/hub';
-export const defaultTimeout = 10000;
 
 export class DriverHelper {
 	__drivers: IWebDriver[] = [];
@@ -41,25 +40,4 @@ export class DriverHelper {
 			}
 		});
 	}
-}
-export const loadAndWaitFor = async (driver: IWebDriver, selector: Locator) => {
-	await driver.get(clientHost);
-	return await waitFor(driver, selector);
-}
-
-export const waitFor = async (driver: IWebDriver, selector: Locator) => {
-	await driver.wait(until.elementLocated(selector));
-	return driver.findElement(selector);
-}
-
-export const selectorByText = (text: string) => {
-	return By.xpath(`//*[text()=\"${text}\"]`);
-}
-
-export const selectorByPlaceholder = (text: string) => {
-	return By.xpath(`//*[@placeholder=\"${text}\"]`);
-}
-
-export const selectorByValue = (text: string) => {
-	return By.xpath(`//*[@value=\"${text}\"]`);
 }
