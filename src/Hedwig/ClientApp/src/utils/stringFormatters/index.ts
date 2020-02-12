@@ -10,4 +10,7 @@ export {
 	updateRosterAlert,
 	reportSubmittedAlert,
 	childWithdrawnAlert,
+	reportSubmitFailAlert,
+	editSaveFailAlert,
+	stepListSaveFailAlert,
 } from './alertTextMakers';
