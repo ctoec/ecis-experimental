@@ -2,6 +2,7 @@ import React from 'react';
 import { AlertProps, Button } from '../../components';
 import { ReportingPeriod } from '../../generated';
 import { reportingPeriodFormatter } from '../models';
+import pluralize from 'pluralize';
 
 export const newEnrollmentCompleteAlert = (childName: string): AlertProps => ({
 	type: 'success',
@@ -26,9 +27,11 @@ export const editEnrollmentMissingInfoAlert = (childName: string): AlertProps =>
 export const updateRosterAlert = (numMissingInfo: number): AlertProps => ({
 	type: 'error',
 	heading: 'Update roster',
-	text: `There ${numMissingInfo === 1 ? 'is' : 'are'} ${numMissingInfo} enrollment${
-		numMissingInfo > 1 ? 's' : ''
-	} missing information required to submit this report.`,
+	text: `There ${numMissingInfo === 1 ? 'is' : 'are'} ${pluralize(
+		'enrollment',
+		numMissingInfo,
+		true
+	)} missing information required to submit this report.`,
 	actionItem: <Button text="Update roster" href="/roster" />,
 });
 export const reportSubmittedAlert = (reportingPeriod: ReportingPeriod): AlertProps => ({

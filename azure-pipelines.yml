@@ -40,6 +40,7 @@ jobs:
 
   - task: PublishTestResults@2
     displayName: "Publish test results"
+    condition: succeededOrFailed()
     inputs:
       testResultsFormat: "VSTest"
       testResultsFiles: "**/*.trx"
@@ -144,6 +145,12 @@ jobs:
     displayName: "Add installer web.config to distribution"
   - script: cp -r $(Build.SourcesDirectory)/installer $(Build.SourcesDirectory)/src/Hedwig/dist/installer
     displayName: "Add installer files to distribution"
+  - script: echo $(Build.BuildNumber) > $(Build.SourcesDirectory)/src/Hedwig/dist/installer/build-build-number.txt
+    displayName: "Stored build number in distribution"
+  - script: echo hedwig-$(Build.BuildNumber) > $(Build.SourcesDirectory)/src/Hedwig/dist/installer/build-build-release.txt
+    displayName: "Stored build release in distribution"
+  - script: echo $(Build.SourceVersion) > $(Build.SourcesDirectory)/src/Hedwig/dist/installer/build-source-version.txt
+    displayName: "Stored build source version in distribution"
 
   - task: ArchiveFiles@2
     displayName: "Archive files"
