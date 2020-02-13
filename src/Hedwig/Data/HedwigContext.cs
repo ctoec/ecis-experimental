@@ -167,6 +167,7 @@ namespace Hedwig.Data
       }
 
       return Users
+        .AsNoTracking()
         .Where(user => user.WingedKeysId == wingedKeysId)
         .Select(user => user.Id)
         .Cast<int?>()

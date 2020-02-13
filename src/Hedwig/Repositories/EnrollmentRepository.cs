@@ -40,7 +40,6 @@ namespace Hedwig.Repositories
 		{
 			var enrollments = _context.Enrollments
 				.FilterByDates(from, to)
-				.Include(e => e.Author)
 				.Where(e => e.SiteId == siteId);
 
 
@@ -73,14 +72,12 @@ namespace Hedwig.Repositories
 				}
 			}
 
-			enrollments = enrollments.Include(e => e.Author);
 			return enrollments.ToListAsync();
 		}
 
 		public Task<Enrollment> GetEnrollmentForSiteAsync(int id, int siteId, string[] include)
 		{
-			var enrollment = _context.Enrollments
-				.Include(e => e.Author)
+			var enrollmentQuery = _context.Enrollments
 				.Where(e => e.SiteId == siteId
 					&& e.Id == id);
 
@@ -88,7 +85,7 @@ namespace Hedwig.Repositories
 
 			if (include.Contains(INCLUDE_FUNDINGS))
 			{
-				enrollment = enrollment.Include(e => e.Fundings)
+				enrollmentQuery = enrollmentQuery.Include(e => e.Fundings)
 						.ThenInclude(f => f.FirstReportingPeriod)
 					.Include(e => e.Fundings)
 						.ThenInclude(f => f.LastReportingPeriod);
@@ -96,26 +93,28 @@ namespace Hedwig.Repositories
 
 			if(include.Contains(INCLUDE_SITES))
 			{
-				enrollment = enrollment.Include(e => e.Site);
+				enrollmentQuery = enrollmentQuery.Include(e => e.Site);
 			}
 
 			if (include.Contains(INCLUDE_CHILD))
 			{
-				enrollment = enrollment.Include(e => e.Child);
+				enrollmentQuery = enrollmentQuery.Include(e => e.Child);
 
 				if (include.Contains(INCLUDE_FAMILY))
 				{
-					enrollment = ((IIncludableQueryable<Enrollment, Child>)enrollment).ThenInclude(c => c.Family);
+					enrollmentQuery = ((IIncludableQueryable<Enrollment, Child>)enrollmentQuery).ThenInclude(c => c.Family);
 
 					if (include.Contains(INCLUDE_DETERMINATIONS))
 					{
-						enrollment = ((IIncludableQueryable<Enrollment, Family>)enrollment).ThenInclude(f => f.Determinations);
+						enrollmentQuery = ((IIncludableQueryable<Enrollment, Family>)enrollmentQuery).ThenInclude(f => f.Determinations);
 					}
 				}
 			}
 
-			enrollment = enrollment.Include(e => e.Author);
-			return enrollment.FirstOrDefaultAsync();
+			var enrollment = enrollmentQuery.FirstOrDefault();
+			var author = _context.Users.AsNoTracking().FirstOrDefault(u => u.Id == enrollment.AuthorId);
+			enrollment.Author = author;
+			return Task.FromResult(enrollment);
 		}
 
 		public void DeleteEnrollment(Enrollment enrollment)
