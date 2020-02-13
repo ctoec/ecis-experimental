@@ -41,26 +41,29 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 
 	const childrenParams: ApiOrganizationsOrgIdChildrenGetRequest = {
 		orgId: getIdForUser(user, 'org'),
-		include: ['fundings']
+		include: ['fundings'],
+		startDate: report.reportingPeriod.periodStart,
+		endDate: report.reportingPeriod.periodEnd
 	}
 	const [, , childMappedEnrollments] = useApi(
 		(api) => api.apiOrganizationsOrgIdChildrenGet(childrenParams),
-		[user]
+		[user, report]
 	);
 	const [care4KidsCount, setCare4KidsCount] = useState(0);
 
 	useEffect(() => {
 		if (childMappedEnrollments) {
-			const c4kChildren = Object.values(childMappedEnrollments).filter(enrollmentGroup => {
-				const currentEnrollment = enrollmentGroup.find(enrollment => {
-					return enrollment.exit === null;
+			const c4kChildren = Object.values(childMappedEnrollments)
+				.filter(enrollmentGroup => {
+					const currentEnrollment = enrollmentGroup.find(enrollment => {
+						return enrollment.exit === null;
+					});
+					if (!currentEnrollment) {
+						return false;
+					}
+					const fundings = currentEnrollment.fundings;
+					return currentC4kFunding(fundings) !== undefined;
 				});
-				if (!currentEnrollment) {
-					return false;
-				}
-				const fundings = currentEnrollment.fundings;
-				return currentC4kFunding(fundings) !== undefined;
-			});
 			setCare4KidsCount(c4kChildren.length)
 		}
 	}, [childMappedEnrollments]);

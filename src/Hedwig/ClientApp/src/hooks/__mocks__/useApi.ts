@@ -9,7 +9,9 @@ import {
 	Region,
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest,
 	ApiOrganizationsOrgIdEnrollmentsGetRequest,
+	Child,
 } from '../../generated';
+import { DeepNonUndefineableArray } from '../../utils/types';
 
 type ChangeField = { keys: string[]; newValue?: any };
 const swapFields = <T>(inputObject: T, changeFields: ChangeField[]): T => {
@@ -47,6 +49,33 @@ const enrollmentValidationError = [
 	},
 ];
 
+export const child: Child = {
+	id: '2',
+	firstName: 'Lily',
+	middleName: 'Luna',
+	lastName: 'Potter',
+	birthdate: new Date('2016-12-12'),
+	birthTown: 'Hogsmeade',
+	birthState: 'CT',
+	birthCertificateId: '123',
+	nativeHawaiianOrPacificIslander: true,
+	hispanicOrLatinxEthnicity: true,
+	gender: Gender.Female,
+	foster: false,
+	familyId: 1,
+	organizationId: 1,
+	family: {
+		id: 1,
+		addressLine1: '4 Privet Drive',
+		town: 'Hogsmeade',
+		state: 'CT',
+		zip: '77777',
+		homelessness: false,
+		organizationId: 1,
+		determinations: [{ id: 1, notDisclosed: true, familyId: 1 }],
+	}
+}
+
 export const completeEnrollment: Enrollment = {
 	id: 1,
 	childId: '2',
@@ -61,32 +90,7 @@ export const completeEnrollment: Enrollment = {
 		wingedKeysId: "00000000-0000-0000-0000-000000000000"
 	}, 
 	updatedAt: new Date('2020-01-01'),
-	child: {
-		id: '2',
-		firstName: 'Lily',
-		middleName: 'Luna',
-		lastName: 'Potter',
-		birthdate: new Date('2016-12-12'),
-		birthTown: 'Hogsmeade',
-		birthState: 'CT',
-		birthCertificateId: '123',
-		nativeHawaiianOrPacificIslander: true,
-		hispanicOrLatinxEthnicity: true,
-		gender: Gender.Female,
-		foster: false,
-		familyId: 1,
-		organizationId: 1,
-		family: {
-			id: 1,
-			addressLine1: '4 Privet Drive',
-			town: 'Hogsmeade',
-			state: 'CT',
-			zip: '77777',
-			homelessness: false,
-			organizationId: 1,
-			determinations: [{ id: 1, notDisclosed: true, familyId: 1 }],
-		},
-	},
+	child: child,
 	fundings: [
 		{
 			id: 1,
@@ -277,6 +281,10 @@ export const mockApi = {
 			});
 		};
 		return [false, null, thisEnrollment.enrollment, mutate];
+	},
+	apiOrganizationsOrgIdChildrenGet: (params: any) => {
+		const mappedChildToEnrollment = [child].reduce<{[x: string]: Enrollment[]}>((acc, c) => (acc[c.id] = c.enrollments || [], acc), {});
+		return [false, null, mappedChildToEnrollment];
 	},
 	apiOrganizationsOrgIdSitesIdGet: (params: any) => [
 		false,
