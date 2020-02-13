@@ -82,10 +82,10 @@ export default function useApi<TData>(
 
 		let apiError: ApiError | null = null;
 		if(jsonResponse) {
-			if (error.state === 400) {
-				apiError = ValidationProblemDetailsFromJSON(await error.json()) || null;
+			if (error.status === 400) {
+				apiError = ValidationProblemDetailsFromJSON(jsonResponse) || null;
 			} else {
-				apiError = ProblemDetailsFromJSON(await error.json()) || null;
+				apiError = ProblemDetailsFromJSON(jsonResponse) || null;
 			}
 		}
 

@@ -26,11 +26,12 @@ import {
 	useFocusFirstError,
 	serverErrorForField,
 	clientErrorForField,
+    isBlockingValidationError,
 } from '../../../utils/validations';
-import { ValidationProblemDetails, ValidationProblemDetailsFromJSON } from '../../../generated';
 import usePromiseExecution from '../../../hooks/usePromiseExecution';
 import { reportSubmittedAlert, reportSubmitFailAlert } from '../../../utils/stringFormatters';
 import pluralize from 'pluralize';
+import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
 
 export type ReportSubmitFormProps = {
 	report: DeepNonUndefineable<CdcReport>;
@@ -86,7 +87,17 @@ export default function ReportSubmitForm({ report, mutate, error, canSubmit }: R
 		}
 	}, [allEnrollments]);
 
+	// set up form state
 	useFocusFirstError([error]);
+	const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
+	useEffect(() => {
+		if(error && !hasAlertedOnError) {
+			if(!isBlockingValidationError(error)) {
+				throw new Error(error.title || 'Unknown api error');
+			}
+			setAlerts([validationErrorAlert]);
+		}
+	}, [error, hasAlertedOnError]);
 
 	function updatedReport(): CdcReport {
 		return {
@@ -164,6 +175,8 @@ export default function ReportSubmitForm({ report, mutate, error, canSubmit }: R
 						optional={true}
 						disabled={!!report.submittedAt}
 						status={serverErrorForField(
+							hasAlertedOnError,
+							setHasAlertedOnError,
 							'report.c4krevenue',
 							error,
 							'This information is required for the report'
@@ -195,6 +208,8 @@ export default function ReportSubmitForm({ report, mutate, error, canSubmit }: R
 						}
 						disabled={!!report.submittedAt}
 						status={serverErrorForField(
+							hasAlertedOnError,
+							setHasAlertedOnError,
 							'familyfeesrevenue',
 							error,
 							'This information is required'

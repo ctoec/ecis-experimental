@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import moment from 'moment';
 import idx from 'idx';
 import { Section } from '../enrollmentTypes';
@@ -23,9 +23,12 @@ import {
 	processValidationError,
 	warningForField,
 	warningForFieldSet,
+	initialLoadErrorGuard,
+	isBlockingValidationError,
 } from '../../../utils/validations';
-import initialLoadErrorGuard from '../../../utils/validations/initialLoadErrorGuard';
 import usePromiseExecution from '../../../hooks/usePromiseExecution';
+import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
+import AlertContext from '../../../contexts/Alert/AlertContext';
 
 const FamilyIncome: Section = {
 	key: 'family-income',
@@ -97,7 +100,18 @@ const FamilyIncome: Section = {
 			throw new Error('FamilyIncome rendered without enrollment.child.family');
 		}
 
+		// set up form state
+		const { setAlerts } = useContext(AlertContext);
 		const initialLoad = visitedSections ? !visitedSections[FamilyIncome.key] : false;
+		const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
+		useEffect(() => {
+			if(error && !hasAlertedOnError) {
+				if(!isBlockingValidationError(error)) {
+					throw new Error(error.title || 'Unknown api error');
+				}
+				setAlerts([validationErrorAlert]);
+			}
+		}, [error, hasAlertedOnError]);
 
 		const { user } = useContext(UserContext);
 		const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {

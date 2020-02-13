@@ -11,8 +11,6 @@ import {
 	Funding,
 	FundingSource,
 	ReportingPeriod,
-	ValidationProblemDetails,
-	ValidationProblemDetailsFromJSON,
 	Enrollment,
 	ApiOrganizationsOrgIdSitesIdGetRequest,
 } from '../../../generated';
@@ -24,6 +22,9 @@ import {
 	warningForField,
 	warningForFieldSet,
 	serverErrorForField,
+	initialLoadErrorGuard,
+	useFocusFirstError,
+	isBlockingValidationError,
 } from '../../../utils/validations';
 import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
 import {
@@ -42,7 +43,6 @@ import {
 	isFunded,
 	currentReportingPeriod,
 } from '../../../utils/models';
-import initialLoadErrorGuard from '../../../utils/validations/initialLoadErrorGuard';
 import {
 	FundingSelection,
 	fundingSelectionFromString,
@@ -53,6 +53,8 @@ import { FormReducer, formReducer, updateData, toFormString } from '../../../uti
 import useApi from '../../../hooks/useApi';
 import getFundingSpaceCapacity from '../../../utils/getFundingSpaceCapacity';
 import usePromiseExecution from '../../../hooks/usePromiseExecution';
+import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
+import AlertContext from '../../../contexts/Alert/AlertContext';
 
 type UtilizationRate = {
 	capacity: number;
@@ -143,7 +145,19 @@ const EnrollmentFunding: Section = {
 			throw new Error('EnrollmentFunding rendered without an enrollment');
 		}
 
+		// set up form state
+		const { setAlerts } = useContext(AlertContext);
 		const initialLoad = visitedSections ? !visitedSections[EnrollmentFunding.key] : false;
+		const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
+		useFocusFirstError([error]);
+		useEffect(() => {
+			if(error && !hasAlertedOnError) {
+				if(!isBlockingValidationError(error)) {
+					throw new Error(error.title || 'Unknown api error');
+				}
+				setAlerts([validationErrorAlert]);
+			}
+		}, [error, hasAlertedOnError]);
 
 		const { user } = useContext(UserContext);
 		const { cdcReportingPeriods: reportingPeriods } = useContext(ReportingPeriodContext);
@@ -479,7 +493,7 @@ const EnrollmentFunding: Section = {
 							selected={toFormString(cdcReportingPeriod ? cdcReportingPeriod.id : undefined)}
 							status={initialLoadErrorGuard(
 								initialLoad,
-								serverErrorForField('fundings', error) ||
+								serverErrorForField(hasAlertedOnError, setHasAlertedOnError, 'fundings', error) ||
 									warningForField(
 										'firstReportingPeriod',
 										cdcFunding || null,

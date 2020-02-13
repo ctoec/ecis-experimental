@@ -110,7 +110,7 @@ export default function EnrollmentEdit({
 						siteId={siteId}
 						enrollment={enrollment}
 						mutate={mutate}
-					    error={error}
+					  error={error}
 						successCallback={afterSave}
 					/>
 				</ErrorBoundary>
