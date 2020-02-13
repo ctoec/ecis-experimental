@@ -30,7 +30,7 @@ exports[`EnrollmentDetail matches snapshot 1`] = `
         <span
           class="usa-hint text-italic"
         >
-          Last updated on February 13th, 2020 by T. User
+          Last updated on January 1st, 2020 by T. User
         </span>
       </div>
       <a
