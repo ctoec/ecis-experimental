@@ -38,7 +38,7 @@ namespace Hedwig.Controllers
 			[FromQuery(Name="endDate")] DateTime? to = null
 		)
 		{
-			var children = await _children.GetChildrenForOrganizationAsync(orgId, from, to, include);
+			var children = await _children.GetChildrenIdToEnrollmentsForOrganizationAsync(orgId, from, to, include);
 			return Ok(children);
 		}
 	}

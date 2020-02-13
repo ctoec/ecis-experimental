@@ -13,7 +13,28 @@ namespace Hedwig.Repositories
 	{
 		public ChildRepository(HedwigContext context) : base(context) {}
 
-		public async Task<IDictionary<Guid, ICollection<Enrollment>>> GetChildrenForOrganizationAsync(
+		public async Task<List<Child>> GetChildrenForOrganizationAsync(
+			int organizationId,
+			string[] include = null
+		)
+		{
+			var children = _context.Children
+				.Where(c => c.OrganizationId == organizationId);
+
+			include = include ?? new string[]{};
+			if (include.Contains(INCLUDE_FAMILY))
+			{
+				children = children.Include(c => c.Family);
+
+				if(include.Contains(INCLUDE_DETERMINATIONS))
+				{
+					children = ((IIncludableQueryable<Child, Family>)children).ThenInclude(f => f.Determinations);
+				}
+			}
+			return await children.ToListAsync();
+		}
+
+		public async Task<IDictionary<Guid, ICollection<Enrollment>>> GetChildrenIdToEnrollmentsForOrganizationAsync(
 			int organizationId,
 			DateTime? from = null,
 			DateTime? to = null,
@@ -25,12 +46,6 @@ namespace Hedwig.Repositories
 				.Where(c => c.OrganizationId == organizationId)
 				.Select(c => c.Id)
 				.ToListAsync();
-
-			// Get IDs of sites in given organization
-			// var siteIdsForOrganization = _context.Sites
-			// 	.Where(s => s.OrganizationId == organizationId)
-			// 	.Select(s => s.Id)
-			// 	.ToList();
 
 			// Get IDs of children with
 			// enrollments in any sites in the given organization
@@ -56,7 +71,6 @@ namespace Hedwig.Repositories
 					children = ((IIncludableQueryable<Child, Family>)children).ThenInclude(f => f.Determinations);
 				}
 			}
-
 			return await children.ToDictionaryAsync(c => c.Id, c => c.Enrollments);
 		}
 
@@ -89,7 +103,11 @@ namespace Hedwig.Repositories
 
 	public interface IChildRepository
 	{
-		Task<IDictionary<Guid, ICollection<Enrollment>>> GetChildrenForOrganizationAsync(
+		Task<List<Child>> GetChildrenForOrganizationAsync(
+			int organizationId,
+			string[] include = null
+		);
+		Task<IDictionary<Guid, ICollection<Enrollment>>> GetChildrenIdToEnrollmentsForOrganizationAsync(
 			int organizationId,
 			DateTime? from = null,
 			DateTime? to = null,
