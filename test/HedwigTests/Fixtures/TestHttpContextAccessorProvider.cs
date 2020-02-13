@@ -8,7 +8,7 @@ namespace HedwigTests.Fixtures
   public class TestHttpContextAccessorProvider
   {
     public IHttpContextAccessor HttpContextAccessor { get; private set; }
-    public static Guid USER_CONTEXT_SUB = Guid.Parse("00000000-0000-0000-0000-000000000000");
+    public static Guid USER_CONTEXT_SUB = Guid.Parse("2c0ec653-8829-4aa1-82ba-37c8832bbb88");
     public TestHttpContextAccessorProvider()
     {
       var mockHttpContextAccessor = new Mock<IHttpContextAccessor>();

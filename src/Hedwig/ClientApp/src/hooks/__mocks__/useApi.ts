@@ -60,7 +60,7 @@ export const completeEnrollment: Enrollment = {
 		id: 1,
 		wingedKeysId: "00000000-0000-0000-0000-000000000000"
 	}, 
-	updatedAt: new Date(Date.now()),
+	updatedAt: new Date('2020-01-01'),
 	child: {
 		id: '2',
 		firstName: 'Lily',
