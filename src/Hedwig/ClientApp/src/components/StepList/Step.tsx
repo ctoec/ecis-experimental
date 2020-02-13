@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { InlineIcon , ErrorBoundary} from '..';
+import { InlineIcon } from '..';
 
 export type ExternalStepStatus = 'incomplete' | 'complete' | 'attentionNeeded' | 'exempt';
 
@@ -39,39 +39,37 @@ export default function Step<T>({
 }: InternalStepProps<T>) {
 	return (
 		<li className={`oec-step-list__step oec-step-list__step--${status}`}>
-			<ErrorBoundary>
-				<div className="oec-step-list__step__content">
-					<h2 className="oec-step-list__step__title">{name}</h2>
+			<div className="oec-step-list__step__content">
+				<h2 className="oec-step-list__step__title">{name}</h2>
 
-					{status !== 'notStarted' && status !== 'active' && (
-						<div className="oec-step-list__step__summary">
-							<Summary {...props} />
-						</div>
-					)}
-					{status === 'active' && (
-						<div className="oec-step-list__step__form">
-							<Form {...props} />
-						</div>
-					)}
-				</div>
-				{status !== 'exempt' && (
-					<div className="oec-step-list__step__actions">
-						{status !== 'notStarted' && status !== 'active' && (
-							<>
-								<div className="oec-step-list__step__status-text">
-									<InlineIcon icon={status} provideScreenReaderFallback={false} />
-									{labelForStatus(status)}
-								</div>
-								{editPath && (
-									<Link to={editPath}>
-										Edit<span className="usa-sr-only"> {name.toLowerCase()}</span>
-									</Link>
-								)}
-							</>
-						)}
+				{status !== 'notStarted' && status !== 'active' && (
+					<div className="oec-step-list__step__summary">
+						<Summary {...props} />
 					</div>
 				)}
-			</ErrorBoundary>
+				{status === 'active' && (
+					<div className="oec-step-list__step__form">
+						<Form {...props} />
+					</div>
+				)}
+			</div>
+			{status !== 'exempt' && (
+				<div className="oec-step-list__step__actions">
+					{status !== 'notStarted' && status !== 'active' && (
+						<>
+							<div className="oec-step-list__step__status-text">
+								<InlineIcon icon={status} provideScreenReaderFallback={false} />
+								{labelForStatus(status)}
+							</div>
+							{editPath && (
+								<Link to={editPath}>
+									Edit<span className="usa-sr-only"> {name.toLowerCase()}</span>
+								</Link>
+							)}
+						</>
+					)}
+				</div>
+			)}
 		</li>
 	);
 }

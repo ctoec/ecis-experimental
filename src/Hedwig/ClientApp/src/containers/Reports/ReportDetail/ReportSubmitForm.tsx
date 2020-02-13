@@ -2,7 +2,7 @@ import React, { useState, FormEvent, useContext } from 'react';
 import { CdcReport, ApiOrganizationsOrgIdReportsIdPutRequest } from '../../../generated';
 import { Mutate } from '../../../hooks/useApi';
 import UserContext from '../../../contexts/User/UserContext';
-import { Button, TextInput, ChoiceList, AlertProps, FieldSet } from '../../../components';
+import { Button, TextInput, ChoiceList, AlertProps, FieldSet, ErrorBoundary } from '../../../components';
 import AppContext from '../../../contexts/App/AppContext';
 import currencyFormatter from '../../../utils/currencyFormatter';
 import parseCurrencyFromString from '../../../utils/parseCurrencyFromString';
@@ -14,7 +14,7 @@ import { DeepNonUndefineable } from '../../../utils/types';
 import { useFocusFirstError, serverErrorForField } from '../../../utils/validations';
 import { ValidationProblemDetails, ValidationProblemDetailsFromJSON } from '../../../generated';
 import usePromiseExecution from '../../../hooks/usePromiseExecution';
-import { reportSubmittedAlert } from '../../../utils/stringFormatters';
+import { reportSubmittedAlert, reportSubmitFailAlert } from '../../../utils/stringFormatters';
 
 export type ReportSubmitFormProps = {
 	report: DeepNonUndefineable<CdcReport>;
@@ -61,7 +61,7 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 		)
 			.then(res => {
 				if (res) {
-					const newAlert = reportSubmittedAlert(report.reportingPeriod)
+					const newAlert = reportSubmittedAlert(report.reportingPeriod);
 					const newAlerts = [...alerts, newAlert];
 					setAlerts(newAlerts);
 					invalidateAppCache(); // Updates the count of unsubmitted reports in the nav bar
@@ -70,12 +70,12 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 			})
 			.catch(error => {
 				setApiError(ValidationProblemDetailsFromJSON(error));
-			})
+			});
 	}
 	const { isExecuting: isMutating, setExecuting: onSubmit } = usePromiseExecution(_onSubmit);
 
 	return (
-		<React.Fragment>
+		<ErrorBoundary alertProps={reportSubmitFailAlert as AlertProps}>
 			{report.submittedAt && (
 				<p>
 					<b>Submitted:</b> {report.submittedAt.toLocaleDateString()}{' '}
@@ -102,11 +102,7 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 				<FieldSet id="other-revenue" legend="Other Revenue">
 					<TextInput
 						id="c4k-revenue"
-						label={
-							<React.Fragment>
-								<span className="text-bold">Care 4 Kids</span>
-							</React.Fragment>
-						}
+						label={<span className="text-bold">Care 4 Kids</span>}
 						defaultValue={currencyFormatter(c4KRevenue)}
 						onChange={e => setC4KRevenue(parseCurrencyFromString(e.target.value))}
 						onBlur={event =>
@@ -159,6 +155,6 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 					/>
 				)}
 			</form>
-		</React.Fragment>
+		</ErrorBoundary>
 	);
 }

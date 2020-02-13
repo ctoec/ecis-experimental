@@ -46,3 +46,47 @@ export const childWithdrawnAlert = (childName: string): AlertProps => ({
 	heading: 'Withdrawn',
 	text: `${childName} has been withdrawn. To find them again, filter the roster for past enrollments.	`,
 });
+
+const MailToLink = () => (
+	// TODO: MAKE THE BODY CONTAIN USEFUL INFORMATION LIKE URL?
+	// TODO: MAKE THIS SEPARATE COMPONENT IN COMPONENT LIBRARY?
+	<a
+		href="mailto:oec-data-pilot@skylight.digital&subject=ECE%20reporter%20bug"
+		target="_blank"
+		rel="noopener noreferrer"
+	>
+		oec-data-pilot@skylight.digital
+	</a>
+);
+const saveFailAlertProps = {
+	type: 'error',
+	heading: 'Something went wrong',
+};
+export const reportSubmitFailAlert = {
+	...saveFailAlertProps,
+	text: (
+		<span>
+			We were unable to submit your report. Please try again. If you continue to experience
+			problems, contact {<MailToLink />} for help.
+		</span>
+	),
+};
+export const editSaveFailAlert = {
+	...saveFailAlertProps,
+	text: (
+		<span>
+			We were unable to save your changes. Please try again. If you continue to experience problems,
+			contact {<MailToLink />} for help.
+		</span>
+	),
+};
+export const stepListSaveFailAlert = {
+	// new enrollments
+	...saveFailAlertProps,
+	text: (
+		<span>
+			We were unable to save the information you entered. Please try again. If you continue to
+			experience problems, contact {<MailToLink />} for help.
+		</span>
+	),
+};

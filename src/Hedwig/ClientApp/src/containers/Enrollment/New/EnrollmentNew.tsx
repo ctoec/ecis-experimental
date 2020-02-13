@@ -6,7 +6,7 @@ import ChildInfo from '../_sections/ChildInfo';
 import FamilyInfo from '../_sections/FamilyInfo';
 import FamilyIncome from '../_sections/FamilyIncome';
 import EnrollmentFunding from '../_sections/EnrollmentFunding';
-import { Button } from '../../../components';
+import { Button, ErrorBoundary, AlertProps } from '../../../components';
 import useApi from '../../../hooks/useApi';
 import UserContext from '../../../contexts/User/UserContext';
 import {
@@ -22,6 +22,7 @@ import {
 	nameFormatter,
 	newEnrollentMissingInfoAlert,
 	newEnrollmentCompleteAlert,
+	stepListSaveFailAlert,
 } from '../../../utils/stringFormatters';
 import useRouteChange from '../../../hooks/useRouteChange';
 
@@ -166,7 +167,9 @@ export default function EnrollmentNew({
 			<div className="grid-container">
 				<h1>Enroll child</h1>
 				<div className="margin-top-2 margin-bottom-5">
-					<StepList steps={steps} activeStep={sectionId} props={props} />
+					<ErrorBoundary alertProps={stepListSaveFailAlert as AlertProps}>
+						<StepList steps={steps} activeStep={sectionId} props={props} />
+					</ErrorBoundary>
 				</div>
 				<div className="grid-row flex-first-baseline flex-space-between">
 					<Button
