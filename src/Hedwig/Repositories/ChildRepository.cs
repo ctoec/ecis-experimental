@@ -13,11 +13,38 @@ namespace Hedwig.Repositories
 	{
 		public ChildRepository(HedwigContext context) : base(context) {}
 
-		public Task<List<Child>> GetChildrenForOrganizationAsync(int organizationId, string[] include = null)
+		public async Task<IDictionary<Guid, ICollection<Enrollment>>> GetChildrenForOrganizationAsync(
+			int organizationId,
+			DateTime? from = null,
+			DateTime? to = null,
+			string[] include = null
+		)
 		{
-			var children = _context.Children
-				.Where(c => c.OrganizationId == organizationId);
+			// Get IDs of children in given Organization
+			var childrenIdsForOrganization = await _context.Children
+				.Where(c => c.OrganizationId == organizationId)
+				.Select(c => c.Id)
+				.ToListAsync();
 
+			// Get IDs of sites in given organization
+			// var siteIdsForOrganization = _context.Sites
+			// 	.Where(s => s.OrganizationId == organizationId)
+			// 	.Select(s => s.Id)
+			// 	.ToList();
+
+			// Get IDs of children with
+			// enrollments in any sites in the given organization
+			// filtered by given dates
+			var childIds = await _context.Enrollments
+				.FilterByDates(from, to)
+				.Where(e => childrenIdsForOrganization.Contains(e.ChildId))
+				.Select(e => e.ChildId)
+				.ToListAsync();
+
+			var children = _context.Children
+				.Include(c => c.Enrollments)
+				.ThenInclude(e => e.Fundings)
+				.Where(c => childIds.Contains(c.Id));
 
 			include = include ?? new string[]{};
 			if (include.Contains(INCLUDE_FAMILY))
@@ -30,7 +57,7 @@ namespace Hedwig.Repositories
 				}
 			}
 
-			return children.ToListAsync();
+			return await children.ToDictionaryAsync(c => c.Id, c => c.Enrollments);
 		}
 
 		public Task<Child> GetChildForOrganizationAsync(Guid id, int organizationId, string[] include = null)
@@ -62,6 +89,13 @@ namespace Hedwig.Repositories
 
 	public interface IChildRepository
 	{
+		Task<IDictionary<Guid, ICollection<Enrollment>>> GetChildrenForOrganizationAsync(
+			int organizationId,
+			DateTime? from = null,
+			DateTime? to = null,
+			string[] include = null
+		);
+		Task<Child> GetChildForOrganizationAsync(Guid id, int organizationId, string[] include);
 		Child GetChildById(Guid id);
 	}
 }

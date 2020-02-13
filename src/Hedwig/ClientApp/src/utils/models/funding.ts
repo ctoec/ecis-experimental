@@ -122,7 +122,7 @@ export function currentCdcFunding(fundings: DeepNonUndefineable<Funding[]> | nul
 
 export function currentC4kFunding(fundings: DeepNonUndefineable<Funding[]> | null): DeepNonUndefineable<Funding> | undefined {
 	return (fundings || [])
-		.find<DeepNonUndefineable<Funding>>(funding => funding.source === FundingSource.C4K && funding.certificateEndDate === undefined);
+		.find<DeepNonUndefineable<Funding>>(funding => funding.source === FundingSource.C4K && (funding.certificateEndDate === undefined || funding.certificateEndDate === null));
 }
 
 export function createFunding({

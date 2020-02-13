@@ -49,6 +49,13 @@ export interface ApiOrganizationsIdGetRequest {
     include?: Array<string>;
 }
 
+export interface ApiOrganizationsOrgIdChildrenGetRequest {
+    orgId: number;
+    include?: Array<string>;
+    startDate?: Date;
+    endDate?: Date;
+}
+
 export interface ApiOrganizationsOrgIdEnrollmentsGetRequest {
     orgId: number;
     siteIds?: Array<number>;
@@ -160,6 +167,50 @@ export class HedwigApi extends runtime.BaseAPI {
      */
     async apiOrganizationsIdGet(requestParameters: ApiOrganizationsIdGetRequest): Promise<Organization> {
         const response = await this.apiOrganizationsIdGetRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     */
+    async apiOrganizationsOrgIdChildrenGetRaw(requestParameters: ApiOrganizationsOrgIdChildrenGetRequest): Promise<runtime.ApiResponse<{ [key: string]: Array<Enrollment>; }>> {
+        if (requestParameters.orgId === null || requestParameters.orgId === undefined) {
+            throw new runtime.RequiredError('orgId','Required parameter requestParameters.orgId was null or undefined when calling apiOrganizationsOrgIdChildrenGet.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        if (requestParameters.include) {
+            queryParameters['include[]'] = requestParameters.include;
+        }
+
+        if (requestParameters.startDate !== undefined) {
+            queryParameters['startDate'] = (requestParameters.startDate as any).toISOString();
+        }
+
+        if (requestParameters.endDate !== undefined) {
+            queryParameters['endDate'] = (requestParameters.endDate as any).toISOString();
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["Authorization"] = this.configuration.apiKey("Authorization"); // Bearer authentication
+        }
+
+        const response = await this.request({
+            path: `/api/organizations/{orgId}/Children`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters.orgId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse<any>(response);
+    }
+
+    /**
+     */
+    async apiOrganizationsOrgIdChildrenGet(requestParameters: ApiOrganizationsOrgIdChildrenGetRequest): Promise<{ [key: string]: Array<Enrollment>; }> {
+        const response = await this.apiOrganizationsOrgIdChildrenGetRaw(requestParameters);
         return await response.value();
     }
 

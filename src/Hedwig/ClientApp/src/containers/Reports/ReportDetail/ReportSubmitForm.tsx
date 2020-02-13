@@ -1,12 +1,12 @@
-import React, { useState, FormEvent, useContext } from 'react';
-import { CdcReport, ApiOrganizationsOrgIdReportsIdPutRequest } from '../../../generated';
-import { Mutate } from '../../../hooks/useApi';
+import React, { useState, useEffect, useContext } from 'react';
+import { CdcReport, ApiOrganizationsOrgIdReportsIdPutRequest, ApiOrganizationsOrgIdChildrenGetRequest, Enrollment } from '../../../generated';
+import useApi, { Mutate } from '../../../hooks/useApi';
 import UserContext from '../../../contexts/User/UserContext';
 import { Button, TextInput, ChoiceList, AlertProps, FieldSet, ErrorBoundary } from '../../../components';
 import AppContext from '../../../contexts/App/AppContext';
 import currencyFormatter from '../../../utils/currencyFormatter';
 import parseCurrencyFromString from '../../../utils/parseCurrencyFromString';
-import { getIdForUser, reportingPeriodFormatter } from '../../../utils/models';
+import { currentC4kFunding, getIdForUser } from '../../../utils/models';
 import UtilizationTable from './UtilizationTable';
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import { useHistory } from 'react-router';
@@ -15,6 +15,7 @@ import { useFocusFirstError, serverErrorForField } from '../../../utils/validati
 import { ValidationProblemDetails, ValidationProblemDetailsFromJSON } from '../../../generated';
 import usePromiseExecution from '../../../hooks/usePromiseExecution';
 import { reportSubmittedAlert, reportSubmitFailAlert } from '../../../utils/stringFormatters';
+import pluralize from 'pluralize';
 
 export type ReportSubmitFormProps = {
 	report: DeepNonUndefineable<CdcReport>;
@@ -37,6 +38,32 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 		id: report.id || 0,
 		orgId: getIdForUser(user, 'org'),
 	};
+
+	const childrenParams: ApiOrganizationsOrgIdChildrenGetRequest = {
+		orgId: getIdForUser(user, 'org'),
+		include: ['fundings']
+	}
+	const [, , childMappedEnrollments] = useApi(
+		(api) => api.apiOrganizationsOrgIdChildrenGet(childrenParams),
+		[user]
+	);
+	const [care4KidsCount, setCare4KidsCount] = useState(0);
+
+	useEffect(() => {
+		if (childMappedEnrollments) {
+			const c4kChildren = Object.values(childMappedEnrollments).filter(enrollmentGroup => {
+				const currentEnrollment = enrollmentGroup.find(enrollment => {
+					return enrollment.exit === null;
+				});
+				if (!currentEnrollment) {
+					return false;
+				}
+				const fundings = currentEnrollment.fundings;
+				return currentC4kFunding(fundings) !== undefined;
+			});
+			setCare4KidsCount(c4kChildren.length)
+		}
+	}, [childMappedEnrollments]);
 
 	const [apiError, setApiError] = useState<ValidationProblemDetails>();
 
@@ -102,7 +129,12 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 				<FieldSet id="other-revenue" legend="Other Revenue">
 					<TextInput
 						id="c4k-revenue"
-						label={<span className="text-bold">Care 4 Kids</span>}
+						label={
+							<React.Fragment>
+								<span className="text-bold">Care 4 Kids</span>
+								<span> ({care4KidsCount} {pluralize('kid', care4KidsCount)} receiving subsidies)</span>
+							</React.Fragment>
+						}
 						defaultValue={currencyFormatter(c4KRevenue)}
 						onChange={e => setC4KRevenue(parseCurrencyFromString(e.target.value))}
 						onBlur={event =>
