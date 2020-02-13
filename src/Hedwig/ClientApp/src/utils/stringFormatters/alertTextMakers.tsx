@@ -47,11 +47,11 @@ export const childWithdrawnAlert = (childName: string): AlertProps => ({
 	text: `${childName} has been withdrawn. To find them again, filter the roster for past enrollments.	`,
 });
 
-// TODO: MAKE THE BODY CONTAIN USEFUL INFORMATION LIKE URL
-// TODO: MAKE THIS SEPARATE COMPONENT IN COMPONENT LIBRARY
 const MailToLink = () => (
+	// TODO: MAKE THE BODY CONTAIN USEFUL INFORMATION LIKE URL?
+	// TODO: MAKE THIS SEPARATE COMPONENT IN COMPONENT LIBRARY?
 	<a
-		href="mailto:oec-data-pilot@skylight.digital&subject=ECE%20reporter%20bug&body=%20"
+		href="mailto:oec-data-pilot@skylight.digital&subject=ECE%20reporter%20bug"
 		target="_blank"
 		rel="noopener noreferrer"
 	>
