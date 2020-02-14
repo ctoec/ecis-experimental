@@ -111,6 +111,13 @@ namespace Hedwig.Repositories
 				}
 			}
 
+			/** Author is needed to display metadata about enrollment updates
+				* However, simply including Author via enrollmentQuery.Include(e => e.Author) includes author
+				* on all sub-objects (child, family, familyDetermination, funding). If the same author entity is
+				* associated with multiple objects in a single update, the DB update fails with:
+				* "System.InvalidOperationException: The instance of entity type 'User' cannot be tracked because another instance with the same key value for {'Id'} is already being tracked."
+				* A better solution for this will probably need to be determined, but for now, including un-tracked author on the enrollment ensures there is no clash. 
+				*/
 			var enrollment = enrollmentQuery.FirstOrDefault();
 			var author = _context.Users.AsNoTracking().FirstOrDefault(u => u.Id == enrollment.AuthorId);
 			enrollment.Author = author;
