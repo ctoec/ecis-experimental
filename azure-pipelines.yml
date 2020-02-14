@@ -183,7 +183,7 @@ jobs:
       replaceExistingArchive: true
 
   # Publish artifact to dropbox - hedwig-spa
-  - task: PublishPipelineArtifacts@1
+  - task: PublishPipelineArtifact@1
     displayName: "Publish Artifacts: hedwig-spa"
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     inputs:
@@ -191,7 +191,7 @@ jobs:
       artifactName: hedwig-spa
 
   # Publish artifact to dropbox - hedwig-db
-  - task: PublishPipelineArtifacts@1
+  - task: PublishPipelineArtifact@1
     displayName: "Publish Artifacts: hedwig-db"
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     inputs:
