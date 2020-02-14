@@ -40,7 +40,6 @@ namespace Hedwig.Repositories
 		{
 			var enrollments = _context.Enrollments
 				.FilterByDates(from, to)
-				.Include(e => e.Author)
 				.Where(e => e.SiteId == siteId);
 
 
@@ -73,14 +72,12 @@ namespace Hedwig.Repositories
 				}
 			}
 
-			enrollments = enrollments.Include(e => e.Author);
 			return enrollments.ToListAsync();
 		}
 
 		public Task<Enrollment> GetEnrollmentForSiteAsync(int id, int siteId, string[] include)
 		{
-			var enrollment = _context.Enrollments
-				.Include(e => e.Author)
+			var enrollmentQuery = _context.Enrollments
 				.Where(e => e.SiteId == siteId
 					&& e.Id == id);
 
@@ -88,7 +85,7 @@ namespace Hedwig.Repositories
 
 			if (include.Contains(INCLUDE_FUNDINGS))
 			{
-				enrollment = enrollment.Include(e => e.Fundings)
+				enrollmentQuery = enrollmentQuery.Include(e => e.Fundings)
 						.ThenInclude(f => f.FirstReportingPeriod)
 					.Include(e => e.Fundings)
 						.ThenInclude(f => f.LastReportingPeriod);
@@ -96,26 +93,35 @@ namespace Hedwig.Repositories
 
 			if(include.Contains(INCLUDE_SITES))
 			{
-				enrollment = enrollment.Include(e => e.Site);
+				enrollmentQuery = enrollmentQuery.Include(e => e.Site);
 			}
 
 			if (include.Contains(INCLUDE_CHILD))
 			{
-				enrollment = enrollment.Include(e => e.Child);
+				enrollmentQuery = enrollmentQuery.Include(e => e.Child);
 
 				if (include.Contains(INCLUDE_FAMILY))
 				{
-					enrollment = ((IIncludableQueryable<Enrollment, Child>)enrollment).ThenInclude(c => c.Family);
+					enrollmentQuery = ((IIncludableQueryable<Enrollment, Child>)enrollmentQuery).ThenInclude(c => c.Family);
 
 					if (include.Contains(INCLUDE_DETERMINATIONS))
 					{
-						enrollment = ((IIncludableQueryable<Enrollment, Family>)enrollment).ThenInclude(f => f.Determinations);
+						enrollmentQuery = ((IIncludableQueryable<Enrollment, Family>)enrollmentQuery).ThenInclude(f => f.Determinations);
 					}
 				}
 			}
 
-			enrollment = enrollment.Include(e => e.Author);
-			return enrollment.FirstOrDefaultAsync();
+			/** Author is needed to display metadata about enrollment updates
+				* However, simply including Author via enrollmentQuery.Include(e => e.Author) includes author
+				* on all sub-objects (child, family, familyDetermination, funding). If the same author entity is
+				* associated with multiple objects in a single update, the DB update fails with:
+				* "System.InvalidOperationException: The instance of entity type 'User' cannot be tracked because another instance with the same key value for {'Id'} is already being tracked."
+				* A better solution for this will probably need to be determined, but for now, including un-tracked author on the enrollment ensures there is no clash. 
+				*/
+			var enrollment = enrollmentQuery.FirstOrDefault();
+			var author = _context.Users.AsNoTracking().FirstOrDefault(u => u.Id == enrollment.AuthorId);
+			enrollment.Author = author;
+			return Task.FromResult(enrollment);
 		}
 
 		public void DeleteEnrollment(Enrollment enrollment)
