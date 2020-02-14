@@ -1,6 +1,6 @@
 import { ThenableWebDriver, WebDriver, Builder } from 'selenium-webdriver';
 
-import { gridHost, browserStackAccesstoken, browserStackUsername } from "./config";
+import { gridHost, browserStackAccesstoken, browserStackUsername, browserStackLocal } from "./config";
 
 export type IWebDriver = ThenableWebDriver | WebDriver;
 
@@ -23,7 +23,7 @@ export class DriverHelper {
 		// Set up browser stack
 		capabilities.set('browserstack.user', browserStackUsername);
 		capabilities.set('browserstack.key', browserStackAccesstoken);
-		capabilities.set('browserstack.local', true);
+		capabilities.set('browserstack.local', browserStackLocal);
 		capabilities.set('browserstack.debug', true);
 		capabilities.set('browserstack.video', true);
 		capabilities.set('resolution', '1920x1080');

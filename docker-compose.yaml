@@ -51,6 +51,7 @@ services:
       HOST: '0.0.0.0'
       E2E_GRID_URL: 'http://selenium-hub:4444/wd/hub'
       E2E_CLIENT_URL: 'https://backend-for-selenium:5001'
+      BROWSERSTACK_LOCAL: 'true'
       BROWSERSTACK_USERNAME: ${BROWSERSTACK_USERNAME}
       BROWSERSTACK_ACCESS_KEY: ${BROWSERSTACK_ACCESS_KEY}
 >>>>>>> Support browserstack

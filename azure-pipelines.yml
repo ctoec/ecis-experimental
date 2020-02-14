@@ -145,8 +145,8 @@ jobs:
       tokenPrefix: "__"
       tokenSuffix: "__"
 
-  - task: PublishPipelineArtifact@1
-    displayName: "Publish Artifacts: hedwig-spa"
+  - task: PublishBuildArtifacts@1
+    displayName: "Publish Artifacts: hedwig-uncompiled-spa"
     # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     inputs:
       pathToPublish: "$(Build.SourcesDirectory)/src/Hedwig/ClientApp"
