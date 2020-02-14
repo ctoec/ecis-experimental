@@ -7,8 +7,11 @@ using HedwigTests.Fixtures;
 
 namespace HedwigTests.Models.Attributes
 {
-  [ReadOnly]
-  public class ReadOnlyEntity {}
+  public class Entity {
+    [ReadOnly]
+    public string ReadOnlyProperty { get; set; }
+    public string WriteableProperty { get; set; }
+  }
   public class ReadOnlyAttributeTests
   {
     [Theory]
@@ -19,10 +22,10 @@ namespace HedwigTests.Models.Attributes
     )
     {
       // if 
-      var entity = isReadOnly ? new ReadOnlyEntity() : new object();
+      var property = isReadOnly ? typeof(Entity).GetProperty("ReadOnlyProperty") : typeof(Entity).GetProperty("WriteableProperty");
 
       // when
-      var res = ReadOnlyAttribute.IsReadOnly(entity);
+      var res = ReadOnlyAttribute.IsReadOnly(property);
 
       // then
       Assert.Equal(isReadOnly, res);

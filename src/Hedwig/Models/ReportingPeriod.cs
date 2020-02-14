@@ -7,7 +7,6 @@ using Hedwig.Models.Attributes;
 
 namespace Hedwig.Models
 {
-  [ReadOnly]
   public class ReportingPeriod : IHedwigIdEntity<int>
   {
     [Required]

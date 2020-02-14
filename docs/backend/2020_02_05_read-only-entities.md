@@ -20,9 +20,9 @@ EF Core Attribute.
 
 ## Status
 * Proposed
-* __Accepted__
+* Accepted
 * Rejected
-* Superceded
+* __Superceded__
 * Accepted (Partially superceded)
 
 ## Consequences

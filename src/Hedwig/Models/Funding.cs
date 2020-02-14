@@ -6,6 +6,7 @@ using Hedwig.Validations;
 using Hedwig.Validations.Attributes;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Hedwig.Models.Attributes;
 
 
 namespace Hedwig.Models
@@ -31,8 +32,10 @@ namespace Hedwig.Models
 
     // CDC funding fields
     public int? FirstReportingPeriodId {get; set; }
+    [ReadOnly]
     public ReportingPeriod FirstReportingPeriod { get; set; }
     public int? LastReportingPeriodId { get; set; }
+    [ReadOnly]
     [LastReportingPeriodAfterFirst]
     public ReportingPeriod LastReportingPeriod { get; set; }
     [RequiredForFundingSource(FundingSource.CDC)]

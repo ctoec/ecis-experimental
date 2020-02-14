@@ -174,8 +174,8 @@ namespace Hedwig.Data
             enrollmentId: enrollment.Id,
             source: FundingSource.CDC,
             time: FundingTime.Full,
-            firstReportingPeriod: entry == "2018-09-03" ? reportingPeriods[14] : reportingPeriods[26],
-            lastReportingPeriod: cells[6] != "" ? reportingPeriods[25] : null
+            firstReportingPeriodId: entry == "2018-09-03" ? reportingPeriods[14].Id : reportingPeriods[26].Id,
+            lastReportingPeriodId: exit != null ? reportingPeriods[25].Id : (int?) null
           );
         }
 
@@ -206,8 +206,8 @@ namespace Hedwig.Data
               enrollmentId: firstEnrollment.Id,
               source: FundingSource.CDC,
               time: FundingTime.Full,
-              firstReportingPeriod: reportingPeriods[2],
-              lastReportingPeriod: reportingPeriods[13]
+              firstReportingPeriodId: reportingPeriods[2].Id,
+              lastReportingPeriodId: reportingPeriods[13].Id
             );
           }
         }
@@ -421,8 +421,8 @@ namespace Hedwig.Data
       string certificateStartDate = null,
       string certificateEndDate = null,
       FundingTime? time = null,
-      ReportingPeriod firstReportingPeriod = null,
-      ReportingPeriod lastReportingPeriod = null,
+      int? firstReportingPeriodId = null,
+      int? lastReportingPeriodId = null,
       int? familyId = null
     )
     {
@@ -431,8 +431,8 @@ namespace Hedwig.Data
         EnrollmentId = enrollmentId,
         Source = source,
         Time = time,
-        FirstReportingPeriod = firstReportingPeriod,
-        LastReportingPeriod = lastReportingPeriod,
+        FirstReportingPeriodId = firstReportingPeriodId,
+        LastReportingPeriodId = lastReportingPeriodId,
         FamilyId = familyId
       };
 
@@ -469,7 +469,7 @@ namespace Hedwig.Data
       };
 
       _context.ReportingPeriods.Add(reportingPeriod);
-      _context.SaveChanges(ignoreReadOnly: true);
+      _context.SaveChanges();
       return reportingPeriod;
     }
 

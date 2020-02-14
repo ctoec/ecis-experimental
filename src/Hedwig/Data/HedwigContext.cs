@@ -4,8 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.AspNetCore.Http;
 using System;
+using System.Reflection;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections;
 
 namespace Hedwig.Data
 {
@@ -63,18 +65,92 @@ namespace Hedwig.Data
     }
 
     /// <summary>
+    /// Override `Add<TEntity>(TEntity entity)` to first unset any read-only properties
+    /// </summary>
+    /// <param name="entity"></param>
+    /// <typeparam name="TEntity"></typeparam>
+    /// <returns></returns>
+    public override EntityEntry<TEntity> Add<TEntity>(TEntity entity)
+    {
+      RecursivelyUnsetReadOnlyProperties(entity);
+      return base.Add<TEntity>(entity);
+    }
+
+    /// <summary>
+    /// Override `Update<TEntity>(TEntity entity)` to first unset any read-only properties
+    /// </summary>
+    /// <param name="entity"></param>
+    /// <typeparam name="TEntity"></typeparam>
+    /// <returns></returns>
+    public override EntityEntry<TEntity> Update<TEntity>(TEntity entity)
+    {
+      RecursivelyUnsetReadOnlyProperties(entity);
+      return base.Update<TEntity>(entity);
+    }
+
+    /// <summary>
+    /// Recursive function to unset read-only properties on an entity,
+    /// and all model sub-object entities
+    /// </summary>
+    /// <param name="entity"></param>
+    private void RecursivelyUnsetReadOnlyProperties(object entity) 
+    {
+      // Only check objects that are not null, and are Hedwig models
+      if(entity == null || !isModel(entity)) { 
+        return;
+      }
+      
+      // Iterate through enumerable properties
+      if(entity is IEnumerable enumerable && enumerable != null) {
+        foreach(var item in enumerable) {
+          RecursivelyUnsetReadOnlyProperties(item);
+        }
+        return;
+      }
+
+      // Iterate over all properties and unset any that are read-only
+      var properties = entity.GetType().GetProperties();
+      foreach(var prop in properties)
+      {
+        UnsetReadOnlyProperty(entity, prop);
+        var propertyValue = prop.GetValue(entity);
+        // Recursively do check on each property
+        RecursivelyUnsetReadOnlyProperties(propertyValue);
+      }
+    }
+
+    /// <summary>
+    /// Helper function to determine if an entity is a Hedwig model
+    /// </summary>
+    /// <param name="entity"></param>
+    /// <returns></returns>
+    private bool isModel(object entity) 
+    {
+      return entity.GetType().FullName.Contains("Hedwig.Models");
+    }
+
+    /// <summary>
+    /// Unsets a property on an entity if the property is read-only
+    /// </summary>
+    /// <param name="entity"></param>
+    /// <param name="property"></param>
+    private void UnsetReadOnlyProperty(object entity, PropertyInfo property) 
+    {
+      if(ReadOnlyAttribute.IsReadOnly(property))
+      {
+        property.SetValue(entity, null);
+      }
+    }
+
+    /// <summary>
     /// Override `SaveChangesAsync()` to first protect read-only entities (optional for testing)
     /// </summary>
     /// <param name="ignoreReadOnly"></param>
     /// <returns></returns>
-    public Task<int> SaveChangesAsync(bool ignoreReadOnly = false)
+    public override Task<int> SaveChangesAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
     {
-      if(!ignoreReadOnly)
-      {
-        ProtectReadOnlyEntities();
-      }
       UpdateTemporalEntities();
-      return base.SaveChangesAsync();
+      return base.SaveChangesAsync(cancellationToken);
     }
 
     /// <summary>
@@ -82,13 +158,8 @@ namespace Hedwig.Data
     /// </summary>
     /// <param name="ignoreReadOnly"></param>
     /// <returns></returns>
-    public new int SaveChanges(bool ignoreReadOnly = false)
+    public override int SaveChanges()
     {
-			if(!ignoreReadOnly)
-      {
-	      ProtectReadOnlyEntities();
-			}
-
       UpdateTemporalEntities();
       return base.SaveChanges();
     }
@@ -109,23 +180,6 @@ namespace Hedwig.Data
       }
     }
 
-    /// <summary>
-    /// Ensures no read-only entities are updated by explicitly overwriting the state
-    /// of any read-only entities the change tracker knows to be modified.
-    /// </summary>
-    private void ProtectReadOnlyEntities()
-    {
-      var newOrUpdatedEntities = ChangeTracker.Entries()
-        .Where(e => 
-          ReadOnlyAttribute.IsReadOnly(e.Entity) && 
-          (e.State == EntityState.Added || e.State == EntityState.Modified)
-        );
-
-      foreach (var entity in newOrUpdatedEntities)
-      {
-        entity.State = entity.State == EntityState.Added ? EntityState.Detached : EntityState.Unchanged;
-      }
-    }
 
     /// <summary>
     /// Adds AuthorId and UpdatedAt to an Added or Modified TemporalEntity
