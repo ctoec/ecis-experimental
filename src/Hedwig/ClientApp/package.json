@@ -11,6 +11,7 @@
 		"_test": "CI=true react-scripts test --env=jsdom",
 		"test": "yarn _test --testPathIgnorePatterns=e2e",
 		"test:e2e": "yarn _test --testPathPattern=e2e",
+		"test:e2e:browserstack": "E2E_GRID_URL='http://hub-cloud.browserstack.com/wd/hub' yarn test:e2e",
 		"test:e2e:firefox": "SELENIUM_BROWSER=firefox yarn test:e2e"
 	},
 	"husky": {

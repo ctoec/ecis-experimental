@@ -1,2 +1,4 @@
-export const clientHost = 'https://backend-for-selenium:5001';
-export const gridHost = 'http://selenium-hub:4444/wd/hub';
+export const clientHost = process.env.E2E_CLIENT_URL;
+export const gridHost = process.env.E2E_GRID_URL;
+export const browserStackUsername = process.env.BROWSERSTACK_USERNAME;
+export const browserStackAccesstoken = process.env.BROWSERSTACK_ACCESS_KEY;

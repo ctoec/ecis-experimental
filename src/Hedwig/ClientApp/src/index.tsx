@@ -29,9 +29,7 @@ const render = (Component: React.FC) => {
 			<AuthenticationProvider
 				clientId="hedwig"
 				localStorageKey="hedwig-key"
-				defaultOpenIdConnectUrl={
-					process.env.REACT_APP_SELENIUM_TESTS ? 'https://winged-keys:5050' : undefined
-				}
+				defaultOpenIdConnectUrl={process.env.REACT_APP_DEFAULT_WINGED_KEYS_URL}
 				// NOTE: "offline_access" is required in scope string to retrieve refresh tokens
 				scope="openid profile hedwig_backend offline_access"
 				extras={{

@@ -3,8 +3,8 @@ import { render, load, reload } from './QueryHelper';
 import { DriverHelper } from './DriverHelper';
 import { clientHost } from './config';
 
-// Set time out to 30 seconds
-jest.setTimeout(30 * 1000);
+// Set time out to 60 seconds
+jest.setTimeout(60 * 1000);
 
 const appUrl = `${clientHost}/`;
 

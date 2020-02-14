@@ -145,6 +145,9 @@ jobs:
       tokenPrefix: "__"
       tokenSuffix: "__"
 
+  - publish: $(Build.SourcesDirectory)/src/Hedwig/ClientApp
+    artifact: UncompiledSpa
+
   - script: dotnet tool install --tool-path $(Agent.ToolsDirectory) dotnet-ef --version 3.0.0
     displayName: "Install EntityFramework"
 

@@ -42,10 +42,18 @@ services:
       - sh
       - /entrypoint.sh
     environment:
+<<<<<<< HEAD
       - HOST=0.0.0.0
     depends_on:
       - backend
       - winged-keys
+=======
+      HOST: '0.0.0.0'
+      E2E_GRID_URL: 'http://selenium-hub:4444/wd/hub'
+      E2E_CLIENT_URL: 'https://backend-for-selenium:5001'
+      BROWSERSTACK_USERNAME: ${BROWSERSTACK_USERNAME}
+      BROWSERSTACK_ACCESS_KEY: ${BROWSERSTACK_ACCESS_KEY}
+>>>>>>> Support browserstack
   winged-keys-db:
     image: mcr.microsoft.com/mssql/server
     environment:
@@ -96,7 +104,7 @@ services:
       - sh
       - /entrypoint.sh
     environment:
-      - REACT_APP_SELENIUM_TESTS=true
+      REACT_APP_DEFAULT_WINGED_KEYS_URL: 'https://winged-keys:5050'
   selenium-hub:
     image: selenium/hub
     container_name: selenium-hub
@@ -116,6 +124,15 @@ services:
     environment:
       - HUB_HOST=selenium-hub
       - HUB_PORT=4444
+  browser-stack-local-tunnel:
+    image: browserstack/local
+    environment:
+      - BROWSERSTACK_USERNAME=${BROWSERSTACK_USERNAME}
+      - BROWSERSTACK_ACCESS_KEY=${BROWSERSTACK_ACCESS_KEY}
+    entrypoint: 
+     - sh 
+     - -c 
+     - "./BrowserStackLocal --key ${BROWSERSTACK_ACCESS_KEY}"
   # Uncomment these (and comment the above e2e-* containers) to allow for VNC connection to the automated browser
   # e2e-chrome-debug:
   #   image: selenium/node-chrome-debug
