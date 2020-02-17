@@ -33,8 +33,8 @@ namespace HedwigTests.Repositories
             using( var context = new TestHedwigContextProvider().Context) {
                 // If user exists with organization permission that includes site
                 var user = UserHelper.CreateUser(context);
-                var site = SiteHelper.CreateSite(context);
-                var organization = OrganizationHelper.CreateOrganization(context, sites: new Site[]{site});
+                var organization = OrganizationHelper.CreateOrganization(context);
+                var site = SiteHelper.CreateSite(context, organization: organization);
                 PermissionHelper.CreateOrganizationPermission(context, user, organization);
 
                 // When repository is queried for user access to site

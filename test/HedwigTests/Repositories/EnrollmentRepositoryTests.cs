@@ -19,12 +19,22 @@ namespace HedwigTests.Repositories
     public void UpdateEnrollment_UpdatesFundings()
     {
       Enrollment enrollment;
-      Funding funding;
       using (var context = new TestHedwigContextProvider().Context)
       {
         enrollment = EnrollmentHelper.CreateEnrollment(context);
-        funding = FundingHelper.CreateFunding(context, enrollment: enrollment);
+        FundingHelper.CreateFunding(context, enrollment: enrollment);
       }
+
+      // Unset recursive cyclical references
+      enrollment.Site.Organization.Sites = null;
+      enrollment.Site.Enrollments = null;
+      enrollment.Child.Enrollments = null;
+      enrollment.Child.Family.Children = null;
+      foreach(var funding in enrollment.Fundings)
+      {
+        funding.Enrollment = null;
+      }
+
       using (var context = new TestHedwigContextProvider().Context)
       {
         var enrollmentRepo = new EnrollmentRepository(context);
@@ -46,6 +56,15 @@ namespace HedwigTests.Repositories
         funding = FundingHelper.CreateFunding(context, enrollment: enrollment);
       }
 
+      // Unset recursive cyclical references
+      enrollment.Site.Organization.Sites = null;
+      enrollment.Site.Enrollments = null;
+      enrollment.Child.Enrollments = null;
+      enrollment.Child.Family.Children = null;
+      foreach(var _funding in enrollment.Fundings)
+      {
+        _funding.Enrollment = null;
+      }
       enrollment.Fundings = new List<Funding>();
 
       using (var contextProvider = new TestHedwigContextProvider()) 
@@ -67,6 +86,16 @@ namespace HedwigTests.Repositories
       {
         enrollment = EnrollmentHelper.CreateEnrollment(context);
         FundingHelper.CreateFunding(context, enrollment: enrollment);
+      }
+
+      // Unset recursive cyclical references
+      enrollment.Site.Organization.Sites = null;
+      enrollment.Site.Enrollments = null;
+      enrollment.Child.Enrollments = null;
+      enrollment.Child.Family.Children = null;
+      foreach(var funding in enrollment.Fundings)
+      {
+        funding.Enrollment = null;
       }
 
       enrollment.Fundings = new List<Funding>{

@@ -31,7 +31,7 @@ namespace HedwigTests.Helpers
 				OrganizationId = organization.Id
 			};
 
-			context.Add<Child>(child);
+			context.Add(child);
 			context.SaveChanges();
 			return child;
 		}

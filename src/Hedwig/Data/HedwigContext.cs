@@ -14,6 +14,7 @@ namespace Hedwig.Data
   public class HedwigContext : DbContext
   {
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private int MAX_RECURSION_DEPTH = 5;
     public HedwigContext(DbContextOptions<HedwigContext> options, IHttpContextAccessor httpContextAccessor) : base(options)
     {
       _httpContextAccessor = httpContextAccessor;
@@ -93,8 +94,14 @@ namespace Hedwig.Data
     /// and all model sub-object entities
     /// </summary>
     /// <param name="entity"></param>
-    private void RecursivelyUnsetReadOnlyProperties(object entity) 
+    private void RecursivelyUnsetReadOnlyProperties(object entity, int depth = 0) 
     {
+      // To avoid stack overflow
+      if(depth > MAX_RECURSION_DEPTH)
+      {
+        throw new Exception($"Exceeded MAX_RECURSION_DEPTH when unsetting read-only properties");
+      }
+      
       // Only check objects that are not null, and are Hedwig models
       if(entity == null || !isModel(entity)) { 
         return;
@@ -103,7 +110,7 @@ namespace Hedwig.Data
       // Iterate through enumerable properties
       if(entity is IEnumerable enumerable && enumerable != null) {
         foreach(var item in enumerable) {
-          RecursivelyUnsetReadOnlyProperties(item);
+          RecursivelyUnsetReadOnlyProperties(item, depth + 1);
         }
         return;
       }
@@ -115,7 +122,7 @@ namespace Hedwig.Data
         UnsetReadOnlyProperty(entity, prop);
         var propertyValue = prop.GetValue(entity);
         // Recursively do check on each property
-        RecursivelyUnsetReadOnlyProperties(propertyValue);
+        RecursivelyUnsetReadOnlyProperties(propertyValue, depth + 1);
       }
     }
 

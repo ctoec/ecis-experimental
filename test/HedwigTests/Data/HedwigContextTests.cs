@@ -90,7 +90,7 @@ namespace HedwigTests.Data
           OrganizationId = org.Id
         };
 
-        var nowString = DateTime.Now.ToString();
+        var nowString = DateTime.Now.Millisecond.ToString();
         var user = new User{ FirstName = nowString };
         child.Author = user;
 
@@ -98,9 +98,10 @@ namespace HedwigTests.Data
         context.Add(child);
         context.SaveChanges();
 
-        // Then the change is not persisted
+        // Then the read-only property is not set
         var childRes = context.Children.AsNoTracking().First(c => c.Id == child.Id);
         Assert.Null(childRes.Author);
+        // and no read-only entity is created
         var userRes = context.Users.FirstOrDefault(u => u.FirstName == nowString);
         Assert.Null(userRes);
       }
@@ -115,25 +116,24 @@ namespace HedwigTests.Data
       {
         // If an entity with read-only property exists
         child = ChildHelper.CreateChild(context);
-        var author = UserHelper.CreateUser(context, firstName: nowString);
-        // And read-only property has a value
-        child.Author = author;
-        context.SaveChanges();
+        // (load author entity)
+        context.Users.First(u => u.Id == child.AuthorId);
       }
 
-      // When the read-only property is updated
-      child.Author.FirstName = DateTime.Now.AddDays(3).ToString();
-      // NOTE: Necessary to avoid inifite loop self reference (which does not happen in real useage)
+      // (necessary to avoid inifite cyclical reference)
       child.Family.Children = null;
 
+      // When the read-only property is updated
+      var previousName = child.Author.FirstName;
+      child.Author.FirstName = DateTime.Now.AddDays(3).ToString();
       using(var context = new TestHedwigContextProvider().Context)
       {
         context.Update(child);
         context.SaveChanges();
 
         // Then the change is not persisted
-        var childRes = context.Children.AsNoTracking().First(c => c.Id == child.Id);
-        Assert.Equal(nowString, childRes.Author.FirstName);
+        var childRes = context.Children.AsNoTracking().Include(c => c.Author).First(c => c.Id == child.Id);
+        Assert.Equal(previousName, childRes.Author.FirstName);
       }
     }
   }

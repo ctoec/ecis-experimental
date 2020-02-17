@@ -22,10 +22,10 @@ namespace HedwigTests.Helpers
 				EnrollmentId = enrollment.Id,
 				Source = source,
 				Time = time,
-        FirstReportingPeriod = firstReportingPeriod
 			};
 
-			if (lastReportingPeriod != null) funding.LastReportingPeriod = lastReportingPeriod;
+			if (firstReportingPeriod != null) funding.FirstReportingPeriodId = firstReportingPeriod.Id;
+			if (lastReportingPeriod != null) funding.LastReportingPeriodId = lastReportingPeriod.Id;
 
 			context.Fundings.Add(funding);
 			context.SaveChanges();
