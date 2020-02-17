@@ -144,15 +144,18 @@ export const mockApi = {
 		params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest
 	) => {
 		const thisEnrollment = allFakeEnrollments.find(e => e.enrollment.id === params.id);
+		let error = null;
 		if (!thisEnrollment) return;
 		const mutate = (_: any) => {
-			return new Promise((resolve, reject) => {
-				thisEnrollment.mutationError
-					? reject(thisEnrollment.mutationError)
-					: resolve(thisEnrollment.enrollment);
+			return new Promise((resolve) => {
+				if(thisEnrollment.mutationError) {
+					error = thisEnrollment.mutationError;
+					return; 
+				}
+				resolve(thisEnrollment.enrollment);
 			});
 		};
-		return [false, null, thisEnrollment.enrollment, mutate];
+		return [false, error, thisEnrollment.enrollment, mutate];
 	},
 	apiOrganizationsOrgIdChildrenGet: (params: any) => {
 		const mappedChildToEnrollment = [child].reduce<{ [x: string]: Enrollment[] }>((acc, c) => {
