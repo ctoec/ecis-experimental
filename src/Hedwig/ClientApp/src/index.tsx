@@ -13,9 +13,9 @@ import App from './containers/App/App';
 import 'react-dates/lib/css/_datepicker.css';
 import './assets/styles/index.scss';
 
-// TODO: how are we flagging production vs development?
+// Is there a better place for this?
 if (process.env.NODE_ENV !== 'production') {
-	var axe = require('react-axe');
+	const axe = require('react-axe');
 	axe(React, ReactDOM, 1000);
 }
 
