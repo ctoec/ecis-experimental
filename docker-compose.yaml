@@ -36,6 +36,8 @@ services:
     entrypoint:
       - sh
       - /entrypoint.sh
+    environment:
+      - HOST=0.0.0.0
   winged-keys-db:
     image: mcr.microsoft.com/mssql/server
     environment:
@@ -57,3 +59,69 @@ services:
     entrypoint:
       - sh
       - /entrypoint.sh
+
+  # Selenium containers
+  backend-for-selenium:
+    build:
+        context: .
+        dockerfile: selenium.Dockerfile
+    environment:
+      ConnectionStrings__HEDWIG: Server=db;Database=master;User=sa;Password=TestPassword1
+      WingedKeysUri: 'https://winged-keys:5050'
+      CLIENT_HOST: 'http://client-for-selenium:3000'
+      DOCKER_DEVELOPMENT: 'true'
+    volumes:
+      - ./entrypoint-backend.sh:/entrypoint.sh
+    working_dir: /app/src/Hedwig
+    entrypoint:
+      - sh
+      - /entrypoint.sh
+  client-for-selenium:
+    image: node:12
+    volumes:
+      - ./src/Hedwig/ClientApp:/home/node/app:cached
+      - ./entrypoint-client.sh:/entrypoint.sh
+    working_dir: /home/node/app
+    entrypoint:
+      - sh
+      - /entrypoint.sh
+    environment:
+      - REACT_APP_SELENIUM_TESTS=true
+  selenium-hub:
+    image: selenium/hub
+    container_name: selenium-hub
+    ports:
+      - 4444:4444
+  e2e-chrome:
+    image: selenium/node-chrome
+    depends_on:
+      - selenium-hub
+    environment:
+      - HUB_HOST=selenium-hub
+      - HUB_PORT=4444
+  e2e-firefox:
+    image: selenium/node-firefox
+    depends_on:
+      - selenium-hub
+    environment:
+      - HUB_HOST=selenium-hub
+      - HUB_PORT=4444
+  # Uncomment these (and comment the above e2e-* containers) to allow for VNC connection to the automated browser
+  # e2e-chrome-debug:
+  #   image: selenium/node-chrome-debug
+  #   depends_on:
+  #     - selenium-hub
+  #   environment:
+  #     - HUB_HOST=selenium-hub
+  #     - HUB_PORT=4444
+  #   ports:
+  #     - 5900:5900
+  # e2e-firefox-debug:
+  #   image: selenium/node-firefox-debug
+  #   depends_on:
+  #     - selenium-hub
+  #   environment:
+  #     - HUB_HOST=selenium-hub
+  #     - HUB_PORT=4444
+  #   ports:
+  #     - 5901:5900

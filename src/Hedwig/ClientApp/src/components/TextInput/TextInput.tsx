@@ -15,7 +15,7 @@ type TextInputProps = {
 	hideOptionalText?: boolean;
 	// You might want to hide the text if it's in a fieldset that is optional, like in the date input component
 	className?: string;
-	inputProps?: React.HTMLProps<HTMLInputElement>;
+	inputProps?: React.HTMLProps<HTMLInputElement> & { inputMode: 'text' };
 	inline?: boolean;
 };
 
