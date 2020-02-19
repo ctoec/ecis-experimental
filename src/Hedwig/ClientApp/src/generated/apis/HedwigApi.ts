@@ -51,6 +51,7 @@ export interface ApiOrganizationsIdGetRequest {
 
 export interface ApiOrganizationsOrgIdChildrenGetRequest {
     orgId: number;
+    reportId?: number;
     include?: Array<string>;
     startDate?: Date;
     endDate?: Date;
@@ -178,6 +179,10 @@ export class HedwigApi extends runtime.BaseAPI {
         }
 
         const queryParameters: runtime.HTTPQuery = {};
+
+        if (requestParameters.reportId !== undefined) {
+            queryParameters['reportId'] = requestParameters.reportId;
+        }
 
         if (requestParameters.include) {
             queryParameters['include[]'] = requestParameters.include;

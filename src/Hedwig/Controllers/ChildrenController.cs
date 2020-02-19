@@ -33,12 +33,13 @@ namespace Hedwig.Controllers
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		public async Task<ActionResult<IDictionary<Guid, ICollection<Enrollment>>>> Get(
 			int orgId,
+			[FromQuery(Name="reportId")] int reportId,
 			[FromQuery(Name="include[]")] string[] include,
 			[FromQuery(Name="startDate")] DateTime? from = null,
 			[FromQuery(Name="endDate")] DateTime? to = null
 		)
 		{
-			var children = await _children.GetChildrenIdToEnrollmentsForOrganizationAsync(orgId, from, to, include);
+			var children = await _children.GetChildrenIdToEnrollmentsForOrganizationAsync(orgId, reportId, from, to, include);
 			return Ok(children);
 		}
 	}

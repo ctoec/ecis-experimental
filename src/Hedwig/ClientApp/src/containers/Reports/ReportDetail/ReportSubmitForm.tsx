@@ -41,6 +41,7 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 
 	const childrenParams: ApiOrganizationsOrgIdChildrenGetRequest = {
 		orgId: getIdForUser(user, 'org'),
+		reportId: report.id,
 		include: ['fundings'],
 		startDate: report.reportingPeriod.periodStart,
 		endDate: report.reportingPeriod.periodEnd

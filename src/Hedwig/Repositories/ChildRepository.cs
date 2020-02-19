@@ -36,13 +36,27 @@ namespace Hedwig.Repositories
 
 		public async Task<IDictionary<Guid, ICollection<Enrollment>>> GetChildrenIdToEnrollmentsForOrganizationAsync(
 			int organizationId,
+			int reportId,
 			DateTime? from = null,
 			DateTime? to = null,
 			string[] include = null
 		)
 		{
+			var childrenSet = _context.Children;
+			var enrollmentsSet = _context.Enrollments;
+			var children = childrenSet.AsQueryable();
+			var enrollments = enrollmentsSet.AsQueryable();
+
+			// Prepare asOf if necessary
+			var report = _context.Reports.Where(r => r.Id == reportId).SingleOrDefault();
+			if (report != null && report.SubmittedAt.HasValue)
+			{
+				children = childrenSet.AsOf(report.SubmittedAt.Value);
+				enrollments = enrollmentsSet.AsOf(report.SubmittedAt.Value);
+			}
+
 			// Get IDs of children in given Organization
-			var childrenIdsForOrganization = await _context.Children
+			var childrenIdsForOrganization = await children
 				.Where(c => c.OrganizationId == organizationId)
 				.Select(c => c.Id)
 				.ToListAsync();
@@ -50,13 +64,13 @@ namespace Hedwig.Repositories
 			// Get IDs of children with
 			// enrollments in any sites in the given organization
 			// filtered by given dates
-			var childIds = await _context.Enrollments
+			var childIds = await enrollments
 				.FilterByDates(from, to)
 				.Where(e => childrenIdsForOrganization.Contains(e.ChildId))
 				.Select(e => e.ChildId)
 				.ToListAsync();
 
-			var children = _context.Children
+			var childrenQuery = children
 				.Include(c => c.Enrollments)
 				.ThenInclude(e => e.Fundings)
 				.Where(c => childIds.Contains(c.Id));
@@ -64,14 +78,14 @@ namespace Hedwig.Repositories
 			include = include ?? new string[]{};
 			if (include.Contains(INCLUDE_FAMILY))
 			{
-				children = children.Include(c => c.Family);
+				childrenQuery = childrenQuery.Include(c => c.Family);
 
 				if(include.Contains(INCLUDE_DETERMINATIONS))
 				{
-					children = ((IIncludableQueryable<Child, Family>)children).ThenInclude(f => f.Determinations);
+					childrenQuery = ((IIncludableQueryable<Child, Family>)childrenQuery).ThenInclude(f => f.Determinations);
 				}
 			}
-			return await children.ToDictionaryAsync(c => c.Id, c => c.Enrollments);
+			return await childrenQuery.ToDictionaryAsync(c => c.Id, c => c.Enrollments);
 		}
 
 		public Task<Child> GetChildForOrganizationAsync(Guid id, int organizationId, string[] include = null)
@@ -109,6 +123,7 @@ namespace Hedwig.Repositories
 		);
 		Task<IDictionary<Guid, ICollection<Enrollment>>> GetChildrenIdToEnrollmentsForOrganizationAsync(
 			int organizationId,
+			int reportId,
 			DateTime? from = null,
 			DateTime? to = null,
 			string[] include = null

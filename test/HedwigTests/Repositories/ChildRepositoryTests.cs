@@ -56,9 +56,11 @@ namespace HedwigTests.Repositories
 		{
 			Guid[] ids = new Guid[] {};
 			int organizationId;
+			Report report;
 			using (var context = new TestHedwigContextProvider().Context)
 			{
 				var organization = OrganizationHelper.CreateOrganization(context);
+				report = ReportHelper.CreateCdcReport(context, null, organization, null);
 				var children = ChildHelper.CreateChildren(context, 3, organization: organization);
 				var child1Enrollments = EnrollmentHelper.CreateEnrollments(context, child1EnrollmentsCount, children[0]);
 				var child2Enrollments = EnrollmentHelper.CreateEnrollments(context, child2EnrollmentsCount, children[1]);
@@ -81,7 +83,7 @@ namespace HedwigTests.Repositories
 			using (var context = new TestHedwigContextProvider().Context)
 			{
 				var childRepo = new ChildRepository(context);
-				var res = await childRepo.GetChildrenIdToEnrollmentsForOrganizationAsync(organizationId, null, null, new string[] {});
+				var res = await childRepo.GetChildrenIdToEnrollmentsForOrganizationAsync(organizationId, report.Id, null, null, new string[] {});
 				var values = res.Values;
 				var enrollments = values.SelectMany(v => v).ToList();
 				Assert.Equal(ids.OrderBy(id => id), res.Select(c => c.Key).OrderBy(id => id));
