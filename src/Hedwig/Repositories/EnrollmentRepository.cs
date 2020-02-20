@@ -78,38 +78,9 @@ namespace Hedwig.Repositories
 		public Task<Enrollment> GetEnrollmentForSiteAsync(int id, int siteId, string[] include)
 		{
 			var enrollmentQuery = _context.Enrollments
-				.Where(e => e.SiteId == siteId
-					&& e.Id == id);
+				.Where(e => e.SiteId == siteId && e.Id == id);
 
-			include = include ?? new string[] { };
-
-			if (include.Contains(INCLUDE_FUNDINGS))
-			{
-				enrollmentQuery = enrollmentQuery.Include(e => e.Fundings)
-						.ThenInclude(f => f.FirstReportingPeriod)
-					.Include(e => e.Fundings)
-						.ThenInclude(f => f.LastReportingPeriod);
-			}
-
-			if(include.Contains(INCLUDE_SITES))
-			{
-				enrollmentQuery = enrollmentQuery.Include(e => e.Site);
-			}
-
-			if (include.Contains(INCLUDE_CHILD))
-			{
-				enrollmentQuery = enrollmentQuery.Include(e => e.Child);
-
-				if (include.Contains(INCLUDE_FAMILY))
-				{
-					enrollmentQuery = ((IIncludableQueryable<Enrollment, Child>)enrollmentQuery).ThenInclude(c => c.Family);
-
-					if (include.Contains(INCLUDE_DETERMINATIONS))
-					{
-						enrollmentQuery = ((IIncludableQueryable<Enrollment, Family>)enrollmentQuery).ThenInclude(f => f.Determinations);
-					}
-				}
-			}
+			enrollmentQuery = enrollmentQuery.ProcessInclude(include);
 
 			/** Author is needed to display metadata about enrollment updates
 				* However, simply including Author via enrollmentQuery.Include(e => e.Author) includes author
@@ -124,6 +95,22 @@ namespace Hedwig.Repositories
 			return Task.FromResult(enrollment);
 		}
 
+		public async Task<List<Enrollment>> GetEnrollmentsForOrganizationAsync(
+			int orgId,
+			DateTime? from = null,
+			DateTime? to = null,
+			string[] include = null,
+			DateTime? asOf = null
+		)
+		{
+			var enrollments = 
+				(asOf != null ? _context.Enrollments.AsOf((DateTime)asOf) : _context.Enrollments)
+				.FilterByDates(from, to)
+				.Where(e => e.Site.OrganizationId == orgId);
+			enrollments = enrollments.ProcessInclude(include);
+			return await enrollments.ToListAsync();
+		}
+
 		public void DeleteEnrollment(Enrollment enrollment)
 		{
 			_context.Enrollments.Remove(enrollment);
@@ -136,6 +123,7 @@ namespace Hedwig.Repositories
 		void AddEnrollment(Enrollment enrollment);
 		Task<List<Enrollment>> GetEnrollmentsForSiteAsync(int siteId, DateTime? from = null, DateTime? to = null, string[] include = null);
 		Task<Enrollment> GetEnrollmentForSiteAsync(int id, int siteId, string[] include = null);
+		Task<List<Enrollment>> GetEnrollmentsForOrganizationAsync(int orgId, DateTime? from = null, DateTime? to = null, string[] include = null, DateTime? asOf = null);
 		Enrollment GetEnrollmentById(int id);
 
 		void DeleteEnrollment(Enrollment enrollment);
@@ -154,6 +142,40 @@ namespace Hedwig.Repositories
 					||
 					(e.Entry == null)
 				));
+			}
+
+			return query;
+		}
+
+		public static IQueryable<Enrollment> ProcessInclude(this IQueryable<Enrollment> query, string[] include = null)
+		{
+			include = include ?? new string[] { };
+			if (include.Contains(HedwigRepository.INCLUDE_SITES))
+			{
+				query = query.Include(e => e.Site);
+			}
+
+			if (include.Contains(HedwigRepository.INCLUDE_FUNDINGS))
+			{
+				query = query.Include(e => e.Fundings)
+						.ThenInclude(f => f.FirstReportingPeriod)
+					.Include(e => e.Fundings)
+						.ThenInclude(f => f.LastReportingPeriod);
+			}
+
+			if (include.Contains(HedwigRepository.INCLUDE_CHILD))
+			{
+				query = query.Include(e => e.Child);
+
+				if (include.Contains(HedwigRepository.INCLUDE_FAMILY))
+				{
+					query = ((IIncludableQueryable<Enrollment, Child>)query).ThenInclude(c => c.Family);
+
+					if (include.Contains(HedwigRepository.INCLUDE_DETERMINATIONS))
+					{
+						query = ((IIncludableQueryable<Enrollment, Family>)query).ThenInclude(f => f.Determinations);
+					}
+				}
 			}
 
 			return query;

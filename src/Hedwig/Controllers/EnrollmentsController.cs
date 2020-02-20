@@ -69,6 +69,7 @@ namespace Hedwig.Controllers
 		}
 
 		[HttpGet("/api/organizations/{orgId:int}/[controller]")]
+		[Authorize(Policy = OrganizationAccessPolicyProvider.NAME)]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -77,21 +78,33 @@ namespace Hedwig.Controllers
 			[FromQuery(Name="siteIds[]")] int[] siteIds,
 			[FromQuery(Name="include[]")] string[] include,
 			[FromQuery(Name="startDate")] DateTime? from = null,
-			[FromQuery(Name="endDate")] DateTime? to = null
+			[FromQuery(Name="endDate")] DateTime? to = null,
+			[FromQuery(Name="asOf")] DateTime? asOf = null
 		)
 		{
-			var orgSites = await _sites.GetSitesForOrganizationAsync(orgId);
-			var allSitesInOrg = siteIds.All(siteId => orgSites.Select(site => site.Id).Contains(siteId));
-			if (!allSitesInOrg)
-			{
-				return BadRequest("Some sites not in the associated organization.");
-			}
 			var enrollments = new List<Enrollment>();
-			foreach (var siteId in siteIds)
+			if (siteIds.Length > 0)
+			// Only get enrollments in the given sites (that are in the given organization)
 			{
-				var siteEnrollments = await _enrollments.GetEnrollmentsForSiteAsync(siteId, from, to, include);
-				enrollments.AddRange(siteEnrollments);
+				var orgSites = await _sites.GetSitesForOrganizationAsync(orgId);
+				var allSitesInOrg = siteIds.All(siteId => orgSites.Select(site => site.Id).Contains(siteId));
+				if (!allSitesInOrg)
+				{
+					return BadRequest("Some sites not in the associated organization.");
+				}
+				
+				foreach (var siteId in siteIds)
+				{
+					var siteEnrollments = await _enrollments.GetEnrollmentsForSiteAsync(siteId, from, to, include);
+					enrollments.AddRange(siteEnrollments);
+				}
 			}
+			else
+			// If no sites are specified, get all enrollments for the organization
+			{
+				enrollments = await _enrollments.GetEnrollmentsForOrganizationAsync(orgId, from, to, include, asOf);
+			}
+
 			_validator.Validate(enrollments);
 			return enrollments;
 		}

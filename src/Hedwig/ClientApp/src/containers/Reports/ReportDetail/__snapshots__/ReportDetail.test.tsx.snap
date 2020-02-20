@@ -271,6 +271,9 @@ exports[`ReportDetail matches snapshot 1`] = `
               >
                 Care 4 Kids
               </span>
+              <span>
+                 (0 kids receiving subsidies)
+              </span>
                
               <span
                 class="usa-hint"

@@ -122,7 +122,21 @@ export function currentCdcFunding(fundings: DeepNonUndefineable<Funding[]> | nul
 
 export function currentC4kFunding(fundings: DeepNonUndefineable<Funding[]> | null): DeepNonUndefineable<Funding> | undefined {
 	return (fundings || [])
-		.find<DeepNonUndefineable<Funding>>(funding => funding.source === FundingSource.C4K && funding.certificateEndDate === undefined);
+		.find<DeepNonUndefineable<Funding>>(funding => funding.source === FundingSource.C4K && (funding.certificateEndDate === undefined || funding.certificateEndDate === null));
+}
+
+export function activeC4kFundingAsOf(fundings: DeepNonUndefineable<Funding[]> | null, asOf?: Date) {
+	if (!asOf) {
+		return currentC4kFunding(fundings);
+	} else {
+		return (fundings || [])
+			.find<DeepNonUndefineable<Funding>>(funding => {
+				const isC4k = funding.source === FundingSource.C4K;
+				const startDateIsBeforeAsOf = moment(funding.certificateStartDate as Date).isBefore(asOf);
+				const endDateIsEmptyOrAfterAsOf = !funding.certificateEndDate || moment(funding.certificateEndDate).isAfter(asOf);
+				return isC4k && startDateIsBeforeAsOf && endDateIsEmptyOrAfterAsOf;
+			})
+	}
 }
 
 export function createFunding({

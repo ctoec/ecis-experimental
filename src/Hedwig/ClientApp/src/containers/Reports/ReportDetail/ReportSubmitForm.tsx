@@ -1,12 +1,12 @@
-import React, { useState, FormEvent, useContext } from 'react';
-import { CdcReport, ApiOrganizationsOrgIdReportsIdPutRequest } from '../../../generated';
-import { Mutate } from '../../../hooks/useApi';
+import React, { useState, useEffect, useContext } from 'react';
+import { CdcReport, ApiOrganizationsOrgIdReportsIdPutRequest, ApiOrganizationsOrgIdChildrenGetRequest, Enrollment, FundingSource, ApiOrganizationsOrgIdEnrollmentsGetRequest } from '../../../generated';
+import useApi, { Mutate } from '../../../hooks/useApi';
 import UserContext from '../../../contexts/User/UserContext';
 import { Button, TextInput, ChoiceList, AlertProps, FieldSet, ErrorBoundary } from '../../../components';
 import AppContext from '../../../contexts/App/AppContext';
 import currencyFormatter from '../../../utils/currencyFormatter';
 import parseCurrencyFromString from '../../../utils/parseCurrencyFromString';
-import { getIdForUser, reportingPeriodFormatter } from '../../../utils/models';
+import { currentC4kFunding, getIdForUser, activeC4kFundingAsOf } from '../../../utils/models';
 import UtilizationTable from './UtilizationTable';
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import { useHistory } from 'react-router';
@@ -15,6 +15,7 @@ import { useFocusFirstError, serverErrorForField } from '../../../utils/validati
 import { ValidationProblemDetails, ValidationProblemDetailsFromJSON } from '../../../generated';
 import usePromiseExecution from '../../../hooks/usePromiseExecution';
 import { reportSubmittedAlert, reportSubmitFailAlert } from '../../../utils/stringFormatters';
+import pluralize from 'pluralize';
 
 export type ReportSubmitFormProps = {
 	report: DeepNonUndefineable<CdcReport>;
@@ -24,6 +25,7 @@ export type ReportSubmitFormProps = {
 
 export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSubmitFormProps) {
 	const history = useHistory();
+	const asOf = report.submittedAt ? report.submittedAt : undefined;
 	const [accredited, setAccredited] = useState(report.accredited);
 	const [c4KRevenue, setC4KRevenue] = useState(report.c4KRevenue || null);
 	const [retroactiveC4KRevenue, setRetroactiveC4KRevenue] = useState(report.retroactiveC4KRevenue);
@@ -37,6 +39,33 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 		id: report.id || 0,
 		orgId: getIdForUser(user, 'org'),
 	};
+
+	const enrollmentParams: ApiOrganizationsOrgIdEnrollmentsGetRequest = {
+		orgId: getIdForUser(user, 'org'),
+		include: ['fundings'],
+		startDate: report.reportingPeriod.periodStart,
+		endDate: report.reportingPeriod.periodEnd,
+		asOf: asOf
+	}
+	const [, , allEnrollments] = useApi(
+		(api) => api.apiOrganizationsOrgIdEnrollmentsGet(enrollmentParams),
+		[user, report]
+	);
+	const [care4KidsCount, setCare4KidsCount] = useState(0);
+
+	useEffect(() => {
+		if (allEnrollments) {
+			var c4kFundedEnrollments = allEnrollments.filter(enrollment => !!activeC4kFundingAsOf(enrollment.fundings, asOf))
+			var childIds: string[] = [];
+			c4kFundedEnrollments.forEach(enrollment => {
+				const childId = enrollment.childId;
+				if (childIds.indexOf(childId) < 0) {
+					childIds.push(childId)
+				}
+			});
+			setCare4KidsCount(childIds.length)
+		}
+	}, [allEnrollments]);
 
 	const [apiError, setApiError] = useState<ValidationProblemDetails>();
 
@@ -102,7 +131,12 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 				<FieldSet id="other-revenue" legend="Other Revenue">
 					<TextInput
 						id="c4k-revenue"
-						label={<span className="text-bold">Care 4 Kids</span>}
+						label={
+							<React.Fragment>
+								<span className="text-bold">Care 4 Kids</span>
+								<span> ({care4KidsCount} {pluralize('kid', care4KidsCount)} receiving subsidies)</span>
+							</React.Fragment>
+						}
 						defaultValue={currencyFormatter(c4KRevenue)}
 						onChange={e => setC4KRevenue(parseCurrencyFromString(e.target.value))}
 						onBlur={event =>
