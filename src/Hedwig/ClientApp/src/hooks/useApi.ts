@@ -67,32 +67,32 @@ export default function useApi<TData>(
 
 	// Create mutate function
 	const mutate = useCallback<Mutate<TData>>(
-		(query, reducer = (_, result) => result) => {
+		(_query, reducer = (_, result) => result) => {
 			// If there is no API, throw error
 			if (!api) {
-				setState(state => {
-					return { ...state, loading: false };
+				setState(_state => {
+					return { ..._state, loading: false };
 				});
 				return Promise.reject('No api!');
 			}
 
 			// Invoke the supplied API method and update state with reducer
-			return query(api)
+			return _query(api)
 				.then(result => {
-					setState(state => {
-						return { ...state, data: reducer(data, result) };
+					setState(_state => {
+						return { ..._state, data: reducer(data, result) };
 					});
 					return result;
 				})
-				.catch(async error => {
-					if (error.status > 400) {
-						setState(state => {
-							return { ...state, loading: false, error: error.toString() };
+				.catch(async _error => {
+					if (_error.status > 400) {
+						setState(_state => {
+							return { ..._state, loading: false, error: _error.toString() };
 						});
 						return;
 					}
 
-					return Promise.reject(await error.json());
+					return Promise.reject(await _error.json());
 				});
 		},
 		[api, data]
@@ -120,15 +120,15 @@ export default function useApi<TData>(
 					callback(result);
 				}
 			})
-			.catch(async error => {
-				if (error.status > 400) {
-					setState({ ...state, loading: false, error: error.toString() });
+			.catch(async _error => {
+				if (_error.status > 400) {
+					setState({ ...state, loading: false, error: _error.toString() });
 					return;
 				}
-				if (error && error.json) {
-					return Promise.reject(await error.json());
+				if (_error && _error.json) {
+					return Promise.reject(await _error.json());
 				} else {
-					return Promise.reject(error);
+					return Promise.reject(_error);
 				}
 			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps

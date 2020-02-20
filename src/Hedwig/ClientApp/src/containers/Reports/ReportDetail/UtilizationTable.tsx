@@ -164,12 +164,12 @@ export function calculateRate(
 	time: FundingTime
 ) {
 	const rate = CdcRates.find(
-		rate =>
-			rate.accredited === accredited &&
-			rate.titleI === titleI &&
-			rate.region === region &&
-			rate.ageGroup === ageGroup &&
-			rate.time === time
+		r =>
+			r.accredited === accredited &&
+			r.titleI === titleI &&
+			r.region === region &&
+			r.ageGroup === ageGroup &&
+			r.time === time
 	);
 
 	return rate ? rate.rate : 0;

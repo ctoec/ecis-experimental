@@ -293,7 +293,10 @@ export const mockApi = {
 	},
 	apiOrganizationsOrgIdChildrenGet: (params: any) => {
 		const mappedChildToEnrollment = [child].reduce<{ [x: string]: Enrollment[] }>(
-			(acc, c) => ((acc[c.id] = c.enrollments || []), acc),
+			(acc, c) => {
+				acc[c.id] = c.enrollments || [];
+				return acc
+			},
 			{}
 		);
 		return [false, null, mappedChildToEnrollment];

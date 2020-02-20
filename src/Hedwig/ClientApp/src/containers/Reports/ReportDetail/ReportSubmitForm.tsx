@@ -2,9 +2,6 @@ import React, { useState, useEffect, useContext } from 'react';
 import {
 	CdcReport,
 	ApiOrganizationsOrgIdReportsIdPutRequest,
-	ApiOrganizationsOrgIdChildrenGetRequest,
-	Enrollment,
-	FundingSource,
 	ApiOrganizationsOrgIdEnrollmentsGetRequest,
 } from '../../../generated';
 import useApi, { Mutate } from '../../../hooks/useApi';
@@ -20,7 +17,7 @@ import {
 import AppContext from '../../../contexts/App/AppContext';
 import currencyFormatter from '../../../utils/currencyFormatter';
 import parseCurrencyFromString from '../../../utils/parseCurrencyFromString';
-import { currentC4kFunding, getIdForUser, activeC4kFundingAsOf } from '../../../utils/models';
+import { getIdForUser, activeC4kFundingAsOf } from '../../../utils/models';
 import UtilizationTable from './UtilizationTable';
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import { useHistory } from 'react-router';
