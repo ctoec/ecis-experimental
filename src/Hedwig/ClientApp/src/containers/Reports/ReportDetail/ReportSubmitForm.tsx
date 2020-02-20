@@ -1,8 +1,22 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { CdcReport, ApiOrganizationsOrgIdReportsIdPutRequest, ApiOrganizationsOrgIdChildrenGetRequest, Enrollment, FundingSource, ApiOrganizationsOrgIdEnrollmentsGetRequest } from '../../../generated';
+import {
+	CdcReport,
+	ApiOrganizationsOrgIdReportsIdPutRequest,
+	ApiOrganizationsOrgIdChildrenGetRequest,
+	Enrollment,
+	FundingSource,
+	ApiOrganizationsOrgIdEnrollmentsGetRequest,
+} from '../../../generated';
 import useApi, { Mutate } from '../../../hooks/useApi';
 import UserContext from '../../../contexts/User/UserContext';
-import { Button, TextInput, ChoiceList, AlertProps, FieldSet, ErrorBoundary } from '../../../components';
+import {
+	Button,
+	TextInput,
+	ChoiceList,
+	AlertProps,
+	FieldSet,
+	ErrorBoundary,
+} from '../../../components';
 import AppContext from '../../../contexts/App/AppContext';
 import currencyFormatter from '../../../utils/currencyFormatter';
 import parseCurrencyFromString from '../../../utils/parseCurrencyFromString';
@@ -45,25 +59,27 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 		include: ['fundings'],
 		startDate: report.reportingPeriod.periodStart,
 		endDate: report.reportingPeriod.periodEnd,
-		asOf: asOf
-	}
+		asOf: asOf,
+	};
 	const [, , allEnrollments] = useApi(
-		(api) => api.apiOrganizationsOrgIdEnrollmentsGet(enrollmentParams),
+		api => api.apiOrganizationsOrgIdEnrollmentsGet(enrollmentParams),
 		[user, report]
 	);
 	const [care4KidsCount, setCare4KidsCount] = useState(0);
 
 	useEffect(() => {
 		if (allEnrollments) {
-			var c4kFundedEnrollments = allEnrollments.filter(enrollment => !!activeC4kFundingAsOf(enrollment.fundings, asOf))
+			var c4kFundedEnrollments = allEnrollments.filter(
+				enrollment => !!activeC4kFundingAsOf(enrollment.fundings, asOf)
+			);
 			var childIds: string[] = [];
 			c4kFundedEnrollments.forEach(enrollment => {
 				const childId = enrollment.childId;
 				if (childIds.indexOf(childId) < 0) {
-					childIds.push(childId)
+					childIds.push(childId);
 				}
 			});
-			setCare4KidsCount(childIds.length)
+			setCare4KidsCount(childIds.length);
 		}
 	}, [allEnrollments]);
 
@@ -134,7 +150,10 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 						label={
 							<React.Fragment>
 								<span className="text-bold">Care 4 Kids</span>
-								<span> ({care4KidsCount} {pluralize('kid', care4KidsCount)} receiving subsidies)</span>
+								<span>
+									{' '}
+									({care4KidsCount} {pluralize('kid', care4KidsCount)} receiving subsidies)
+								</span>
 							</React.Fragment>
 						}
 						defaultValue={currencyFormatter(c4KRevenue)}

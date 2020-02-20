@@ -33,7 +33,7 @@ export type AuthenticationProviderPropsType = {
 	loginEndpoint?: string;
 	defaultOpenIdConnectUrl?: string;
 	redirectEndpoint?: string;
-	logoutEndpoint?: string,
+	logoutEndpoint?: string;
 	responseType?: string;
 	state?: any;
 	extras?: any;
@@ -48,7 +48,7 @@ const { Provider, Consumer } = AuthenticationContext;
 
 /**
  * Context Provider for OpenID Connect Login
- * 
+ *
  * @param props The props for configuring authentication.
  */
 const AuthenticationProvider: React.FC<AuthenticationProviderPropsType> = ({
@@ -74,9 +74,7 @@ const AuthenticationProvider: React.FC<AuthenticationProviderPropsType> = ({
 	const [openIdConnectUrl, setOpenIdConnectUrl] = useState();
 
 	// auth flow state
-	const [notifier] = useState<AuthorizationNotifier>(
-		new AuthorizationNotifier()
-	);
+	const [notifier] = useState<AuthorizationNotifier>(new AuthorizationNotifier());
 	notifier.setAuthorizationListener((req, resp, _) => {
 		if (resp) {
 			let verifier: string | undefined;
@@ -195,13 +193,15 @@ const AuthenticationProvider: React.FC<AuthenticationProviderPropsType> = ({
 				localStorage.removeItem(localStorageKey);
 				setAccessToken(null);
 				if (!configuration.endSessionEndpoint) {
-					throw new Error("no logout");
+					throw new Error('no logout');
 				}
 				const endSessionQueryParams = {
 					id_token_hint: idToken,
-					post_logout_redirect_uri: getCurrentHost()
+					post_logout_redirect_uri: getCurrentHost(),
 				} as StringMap;
-				const logoutUrl = `${configuration.endSessionEndpoint}?${(new BasicQueryStringUtils()).stringify(endSessionQueryParams)}`;
+				const logoutUrl = `${
+					configuration.endSessionEndpoint
+				}?${new BasicQueryStringUtils().stringify(endSessionQueryParams)}`;
 				window.location.href = logoutUrl;
 			}
 		}
@@ -219,7 +219,7 @@ const AuthenticationProvider: React.FC<AuthenticationProviderPropsType> = ({
 		isLogin,
 		isCallback,
 		isLogout,
-		redirectUrl
+		redirectUrl,
 	]);
 
 	/**

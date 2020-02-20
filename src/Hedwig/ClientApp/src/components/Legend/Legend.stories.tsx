@@ -19,7 +19,6 @@ const legendItems = [
 	},
 ];
 
-storiesOf('Legend', module)
-	.add('Default', () => {
-		return <Legend items={legendItems} />;
-	});
+storiesOf('Legend', module).add('Default', () => {
+	return <Legend items={legendItems} />;
+});

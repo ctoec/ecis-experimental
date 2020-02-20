@@ -5,47 +5,38 @@ import AuthenticationContext from '../contexts/Authentication/AuthenticationCont
 import { DeepNonUndefineable } from '../utils/types';
 
 export type Reducer<TData> = (data: TData, result: TData) => TData;
-export type Query<TData> = (api: HedwigApi) => Promise<TData>
+export type Query<TData> = (api: HedwigApi) => Promise<TData>;
 export type Mutate<TData> = (
 	query: Query<TData>,
 	reducer?: Reducer<TData | undefined>
-) => Promise<TData | undefined>
+) => Promise<TData | undefined>;
 
 interface ApiParamOpts<T> {
-	defaultValue?: T,
-	skip?: boolean,
-	callback?: (_: T) => void
+	defaultValue?: T;
+	skip?: boolean;
+	callback?: (_: T) => void;
 }
 
 interface ApiState<T> {
-	loading: boolean,
-	error: string | null,
-	data?: T,
-	skip: boolean,
+	loading: boolean;
+	error: string | null;
+	data?: T;
+	skip: boolean;
 }
 
-export type ApiResult<TData> = [
-	boolean,
-	(string | null),
-	DeepNonUndefineable<TData>,
-	Mutate<TData>
-];
+export type ApiResult<TData> = [boolean, string | null, DeepNonUndefineable<TData>, Mutate<TData>];
 
 export default function useApi<TData>(
 	query: (api: HedwigApi) => Promise<TData>,
 	deps: DependencyList = [],
 	opts?: ApiParamOpts<TData>
 ): ApiResult<TData> {
-	const {
-		defaultValue,
-		skip,
-		callback
-	} = {
+	const { defaultValue, skip, callback } = {
 		defaultValue: undefined,
 		skip: false,
 		callback: undefined,
-		...opts
-	}
+		...opts,
+	};
 
 	// Get accessToken for authentication
 	const { accessToken, withFreshToken } = useContext(AuthenticationContext);
@@ -65,46 +56,47 @@ export default function useApi<TData>(
 	const { loading, error, data } = state;
 
 	// Construct API with null default
-	const api = accessToken ? 
-		new HedwigApi(
-			new Configuration({
-				basePath: getCurrentHost(),
-				apiKey: `Bearer ${accessToken}`,
-			})
-		) : null;
+	const api = accessToken
+		? new HedwigApi(
+				new Configuration({
+					basePath: getCurrentHost(),
+					apiKey: `Bearer ${accessToken}`,
+				})
+		  )
+		: null;
 
 	// Create mutate function
-	const mutate = useCallback<Mutate<TData>>((
-	  query,
-	  reducer = (_, result) => result,
-	) => {
-		// If there is no API, throw error
-		if (!api) {
-			setState((state) => {
-				return { ...state, loading: false }
-			});
-			return Promise.reject("No api!");
-		}
-
-		// Invoke the supplied API method and update state with reducer
-		return query(api)
-			.then((result) => {
-				setState((state) => {
-					return { ...state, data: reducer(data, result) }
+	const mutate = useCallback<Mutate<TData>>(
+		(query, reducer = (_, result) => result) => {
+			// If there is no API, throw error
+			if (!api) {
+				setState(state => {
+					return { ...state, loading: false };
 				});
-				return result;
-			})
-			.catch(async (error) => {
-				if(error.status > 400) {
-					setState((state) => {
-						return {...state, loading: false, error: error.toString()}
-					});
-					return;
-				}
+				return Promise.reject('No api!');
+			}
 
-				return Promise.reject(await error.json());
-			})
-	}, [api, data]);
+			// Invoke the supplied API method and update state with reducer
+			return query(api)
+				.then(result => {
+					setState(state => {
+						return { ...state, data: reducer(data, result) };
+					});
+					return result;
+				})
+				.catch(async error => {
+					if (error.status > 400) {
+						setState(state => {
+							return { ...state, loading: false, error: error.toString() };
+						});
+						return;
+					}
+
+					return Promise.reject(await error.json());
+				});
+		},
+		[api, data]
+	);
 
 	// Rerun query whenever deps or accessToken changes
 	useEffect(() => {
@@ -122,14 +114,14 @@ export default function useApi<TData>(
 
 		// Invoke the supplied API method, and update state
 		query(api)
-			.then((result) => {
+			.then(result => {
 				setState({ ...state, loading: false, error: null, data: result });
 				if (callback) {
 					callback(result);
 				}
 			})
-			.catch(async (error) => {
-				if(error.status > 400) {
+			.catch(async error => {
+				if (error.status > 400) {
 					setState({ ...state, loading: false, error: error.toString() });
 					return;
 				}
@@ -139,7 +131,7 @@ export default function useApi<TData>(
 					return Promise.reject(error);
 				}
 			});
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [...deps, accessToken]);
 
 	return [loading, error, data as DeepNonUndefineable<TData>, mutate];

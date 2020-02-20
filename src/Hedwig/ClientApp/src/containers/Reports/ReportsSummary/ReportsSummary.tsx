@@ -33,9 +33,9 @@ export default function ReportsSummary() {
 		return <div className="Reports"></div>;
 	}
 
-	const pendingReports = reports.filter<DeepNonUndefineable<Report>>((r => !r.submittedAt) as (
-		_: DeepNonUndefineable<Report>
-	) => _ is DeepNonUndefineable<Report>);
+	const pendingReports = reports.filter<DeepNonUndefineable<Report>>(
+		(r => !r.submittedAt) as (_: DeepNonUndefineable<Report>) => _ is DeepNonUndefineable<Report>
+	);
 
 	const defaultTableProps: TableProps<DeepNonUndefineable<Report>> = {
 		id: 'reports-table',
@@ -52,19 +52,19 @@ export default function ReportsSummary() {
 					</th>
 				),
 				sort: row => row.reportingPeriod.period.getTime() || 0,
-				width: "21%",
+				width: '21%',
 			},
 			{
 				name: 'Type',
 				cell: ({ row }) => <td>{row.type}</td>,
 				sort: row => row.type,
-				width: "16%",
+				width: '16%',
 			},
 			{
 				name: 'Program/Site',
 				cell: _ => <td>{organization.name}</td>,
 				sort: _ => organization.name || '',
-				width: "38%",
+				width: '38%',
 			},
 		],
 		defaultSortColumn: 0,
@@ -85,7 +85,7 @@ export default function ReportsSummary() {
 					</td>
 				),
 				sort: row => row.reportingPeriod.dueAt.getTime() || 0,
-				width: "24%",
+				width: '24%',
 			},
 		],
 		defaultSortColumn: 3,
@@ -95,20 +95,18 @@ export default function ReportsSummary() {
 	const submittedTableProps: TableProps<DeepNonUndefineable<Report>> = {
 		...defaultTableProps,
 		id: 'submitted-reports-table',
-		data: reports.filter<DeepNonUndefineable<Report>>((r => !!r.submittedAt) as (
-			_: DeepNonUndefineable<Report>
-		) => _ is DeepNonUndefineable<Report>),
+		data: reports.filter<DeepNonUndefineable<Report>>(
+			(r => !!r.submittedAt) as (_: DeepNonUndefineable<Report>) => _ is DeepNonUndefineable<Report>
+		),
 		columns: [
 			...defaultTableProps.columns,
 			{
 				name: 'Date submitted',
 				cell: ({ row }) => (
-					<td className="oec-table__cell--tabular-nums">
-						{dateFormatter(row.submittedAt)}
-					</td>
+					<td className="oec-table__cell--tabular-nums">{dateFormatter(row.submittedAt)}</td>
 				),
 				sort: row => (row.submittedAt && row.submittedAt.getTime()) || 0,
-				width: "24%",
+				width: '24%',
 			},
 		],
 	};

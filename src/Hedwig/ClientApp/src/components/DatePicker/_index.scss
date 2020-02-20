@@ -1,12 +1,12 @@
 // https://github.com/airbnb/react-dates
 .oec-date-input {
-	&.oec-date-input--error input{
+	&.oec-date-input--error input {
 		@extend .usa-input--error;
 	}
-	&.oec-date-input--warning input{
+	&.oec-date-input--warning input {
 		@extend .usa-input--warning;
 	}
-	&.oec-date-input--success input{
+	&.oec-date-input--success input {
 		@extend .usa-input--success;
 	}
 }

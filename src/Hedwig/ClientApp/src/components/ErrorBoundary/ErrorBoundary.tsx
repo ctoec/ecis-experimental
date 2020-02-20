@@ -10,7 +10,7 @@ type ErrorBoundaryProps = {
 };
 
 export class ErrorBoundary extends React.Component<ErrorBoundaryProps> {
-  // https://reactjs.org/docs/error-boundaries.html
+	// https://reactjs.org/docs/error-boundaries.html
 	// Hooks don't handle componentDidCatch so this has to be a class for now
 	// https://reactjs.org/docs/hooks-faq.html#do-hooks-cover-all-use-cases-for-classes
 	public readonly state: ErrorBoundaryState = {
@@ -28,7 +28,11 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps> {
 
 	render() {
 		const { hasError } = this.state;
-		const alertProps = this.props.alertProps || { text: 'Something went wrong', type: 'error', heading: 'Error' };
+		const alertProps = this.props.alertProps || {
+			text: 'Something went wrong',
+			type: 'error',
+			heading: 'Error',
+		};
 		if (hasError) {
 			// TODO: set alert context here instead? return nothing?
 			return <Alert {...alertProps} />;

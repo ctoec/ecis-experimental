@@ -7,12 +7,12 @@ import CommonContextProviderMock, {
 	defaultCdcReportingPeriods,
 } from '../../../contexts/__mocks__/CommonContextProviderMock';
 import {
-	completeEnrollment,
 	enrollmentMissingFirstName,
 	enrollmentMissingAddress,
 } from '../../../hooks/__mocks__/useApi';
 import EnrollmentEdit from './EnrollmentEdit';
 import { accessibilityTestHelper } from '../../accessibilityTestHelper';
+import { completeEnrollment } from '../../../tests/data';
 
 const fakeDate = '2019-03-02';
 
@@ -123,6 +123,7 @@ describe('EnrollmentEdit', () => {
 			expect(reportingPeriodOptions.length).toBe(defaultCdcReportingPeriods.length + 1);
 		});
 	});
+<<<<<<< HEAD
 
 	accessibilityTestHelper(
 		<CommonContextProviderMock>
@@ -134,4 +135,6 @@ describe('EnrollmentEdit', () => {
 			/>
 		</CommonContextProviderMock>
 	);
+=======
+>>>>>>> Prettier and redo test data
 });

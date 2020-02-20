@@ -9,61 +9,32 @@ type ButtonProps = {
 	href?: string;
 	appearance?: ButtonAppearance;
 	disabled?: boolean;
-	className?: string,
+	className?: string;
 };
 
-export function Button({
-	text,
-	onClick,
-	href,
-	appearance,
-	disabled,
-	className,
-}: ButtonProps) {
+export function Button({ text, onClick, href, appearance, disabled, className }: ButtonProps) {
 	const isSubmit = onClick === 'submit';
-	onClick = typeof(onClick) === 'function' ? onClick : (() => {});
+	onClick = typeof onClick === 'function' ? onClick : () => {};
 
-	const classString = 'usa-button' +
-		(
-			appearance && appearance !== 'default' ?
-				' usa-button--' + appearance :
-				''
-		) +
-		(
-			className ? ' ' + className : ''
-		);
+	const classString =
+		'usa-button' +
+		(appearance && appearance !== 'default' ? ' usa-button--' + appearance : '') +
+		(className ? ' ' + className : '');
 
 	if (href) {
 		return (
-			<Link
-				to={href}
-				className={classString}
-				onClick={onClick}
-			>
+			<Link to={href} className={classString} onClick={onClick}>
 				{text}
 			</Link>
 		);
 	}
 
 	if (isSubmit) {
-		return (
-			<input
-				className={classString}
-				disabled={disabled}
-				type="submit"
-				value={text}
-			/>
-		);
+		return <input className={classString} disabled={disabled} type="submit" value={text} />;
 	}
 
-
 	return (
-		<button
-			className={classString}
-			disabled={disabled}
-			onClick={onClick}
-			type="button"
-		>
+		<button className={classString} disabled={disabled} onClick={onClick} type="button">
 			{text}
 		</button>
 	);

@@ -2,7 +2,7 @@ install:
 	dotnet restore && cd ClientApp && yarn install
 
 dc-start:
-	./dc up -d --build 
+	./dc up -d --build
 
 db-migrate:
 	dotnet ef database update
@@ -51,7 +51,7 @@ prettier:
 	./ClientApp/node_modules/.bin/prettier --single-quote --write "ClientApp/src/**/*.{js,jsx,ts,tsx,json,css,scss}"
 
 dc-prettier:
-	./dc-client ./node_modules/.bin/prettier --single-quote --write "/app/src/**/*.{js,jsx,ts,tsx,json,css,scss}
+	./dc-client ./node_modules/.bin/prettier --single-quote --write "/home/node/app/src/**/*.{js,jsx,ts,tsx,json,css,scss}"
 
 api-generate:
 	rm -rf ${PWD}/src/Hedwig/ClientApp/src/generated

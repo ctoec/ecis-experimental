@@ -1,16 +1,16 @@
 // Much of this file is influenced by https://levelup.gitconnected.com/handling-complex-form-state-using-react-hooks-76ee7bc937
 
-import produce from "immer";
-import { set } from "lodash";
-import { HTMLChoiceElement } from "../../components";
-import { Dispatch } from "react";
+import produce from 'immer';
+import { set } from 'lodash';
+import { HTMLChoiceElement } from '../../components';
+import { Dispatch } from 'react';
 
-/** 
+/**
  * Helper type for including name field on non-native select/input
  * e.g. DatePicker
  */
 export type InputField<T> = T & {
-	name: string
+	name: string;
 };
 
 /**
@@ -27,13 +27,13 @@ export type FormReducerUpdate<S> = S | Partial<S> | ((_: S) => S) | FormReducerO
  * Helper type for specifying path update
  */
 type FormReducerObjectPathUpdate<S> = {
-	_path: string | number | symbol | string[],
-	_value: Partial<S> | S
+	_path: string | number | symbol | string[];
+	_value: Partial<S> | S;
 };
 
 /**
  * Helper type constraint for FormReducerObjectPathUpdate
- * @param obj 
+ * @param obj
  */
 function isFormReducerObjectPathUpdate<S>(obj: any): obj is FormReducerObjectPathUpdate<S> {
 	const _obj = obj as FormReducerObjectPathUpdate<S>;
@@ -42,7 +42,7 @@ function isFormReducerObjectPathUpdate<S>(obj: any): obj is FormReducerObjectPat
 
 /**
  * Helper type constraint for React.ChangeEvent<T>
- * @param obj 
+ * @param obj
  */
 function isChangeEvent<T extends HTMLChoiceElement>(obj: any): obj is React.ChangeEvent<T> {
 	const _obj = obj as React.ChangeEvent<T>;
@@ -78,7 +78,7 @@ export function formReducer<S extends object>(state: S, updateArg: FormReducerUp
  * Wrapper function for applying the updates to form data based on a data transform
  * @param update update function returned from useReducer
  */
-export const updateData = 
+export const updateData =
 	// update supplied by result of useReducer
 	<S extends {}>(update: Dispatch<FormReducerUpdate<S>>) =>
 		// processData function convert string to appropriate data type
@@ -86,19 +86,21 @@ export const updateData =
 			// conditional fork for varying data input methods (select/input vs custom like DatePicker)
 			<T extends {}>(event: React.ChangeEvent<HTMLChoiceElement> | InputField<T>) => {
 				if (isChangeEvent(event)) {
-					const { target: { name, value } } = event;
+					const {
+						target: { name, value },
+					} = event;
 					update({
 						_path: name,
-						_value: processData(value)
+						_value: processData(value),
 					});
 				} else {
 					const { name } = event;
 					update({
 						_path: name,
-						_value: processData(event)
+						_value: processData(event),
 					});
 				}
-			}
+			};
 
 /**
  * Utility for processing ChoiceList selects

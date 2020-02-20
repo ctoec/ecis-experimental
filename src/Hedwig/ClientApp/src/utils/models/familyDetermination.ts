@@ -13,9 +13,9 @@ export function familyDeterminationNotDisclosed(enrollment: Enrollment): boolean
 }
 
 export function determinationSorter(a: FamilyDetermination, b: FamilyDetermination) {
-	if(!a.determinationDate) return 1;
-	if(!b.determinationDate) return -1;
-	if(a.determinationDate > b.determinationDate) return 1;
-	if(a.determinationDate < b.determinationDate) return -1;
+	if (!a.determinationDate) return 1;
+	if (!b.determinationDate) return -1;
+	if (a.determinationDate > b.determinationDate) return 1;
+	if (a.determinationDate < b.determinationDate) return -1;
 	return 0;
-}	
+}

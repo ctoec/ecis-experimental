@@ -9,7 +9,7 @@ export type SectionProps = {
 	successCallback?: (e: Enrollment) => void;
 	finallyCallback?: (s: Section) => void;
 	siteId: number;
-	visitedSections?: {[key: string]: boolean};
+	visitedSections?: { [key: string]: boolean };
 };
 
 export interface Section {

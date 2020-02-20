@@ -4,12 +4,10 @@ import { createMemoryHistory } from 'history';
 import { render, fireEvent, wait } from '@testing-library/react';
 import 'react-dates/initialize';
 import CommonContextProviderMock from '../../../contexts/__mocks__/CommonContextProviderMock';
-import {
-	completeEnrollment,
-	enrollmentWithFoster,
-} from '../../../hooks/__mocks__/useApi';
+import { enrollmentWithFoster } from '../../../hooks/__mocks__/useApi';
 import EnrollmentNew from './EnrollmentNew';
 import { Route } from 'react-router';
+import { completeEnrollment } from '../../../tests/data';
 
 const fakeDate = '2019-03-02';
 
@@ -47,31 +45,33 @@ describe('EnrollmentNew', () => {
 
 		await wait();
 
-		expect(history.location.pathname).toMatch(/family-income/i)
+		expect(history.location.pathname).toMatch(/family-income/i);
 	});
 
 	it('skips family income section when lives with foster family is selected', async () => {
 		const history = createMemoryHistory();
 		const enrollment = enrollmentWithFoster;
-		history.push(`/roster/sites/${enrollment.siteId}/enrollments/${enrollment.id}/new/family-information`);
+		history.push(
+			`/roster/sites/${enrollment.siteId}/enrollments/${enrollment.id}/new/family-information`
+		);
 		const { findByLabelText, getByDisplayValue } = render(
-			<CommonContextProviderMock
-				history={history}
-			>
+			<CommonContextProviderMock history={history}>
 				<Route
 					path={'/roster/sites/:siteId/enrollments/:enrollmentId/new/:sectionId'}
-					render={props => <EnrollmentNew
-						history={props.history}
-						match={{
-							params: {
-								siteId: props.match.params.siteId,
-								// Throws 'TypeError: Invalid attempt to destructure non-iterable instance' if we try to read from the props
-								// I have no idea why??
-								enrollmentId: enrollment.id,
-								sectionId: props.match.params.sectionId,
-							},
-						}}
-					/>}
+					render={props => (
+						<EnrollmentNew
+							history={props.history}
+							match={{
+								params: {
+									siteId: props.match.params.siteId,
+									// Throws 'TypeError: Invalid attempt to destructure non-iterable instance' if we try to read from the props
+									// I have no idea why??
+									enrollmentId: enrollment.id,
+									sectionId: props.match.params.sectionId,
+								},
+							}}
+						/>
+					)}
 				/>
 			</CommonContextProviderMock>
 		);
@@ -84,6 +84,6 @@ describe('EnrollmentNew', () => {
 
 		await wait();
 
-		expect(history.location.pathname).toMatch(/enrollment-funding/i)
+		expect(history.location.pathname).toMatch(/enrollment-funding/i);
 	});
 });

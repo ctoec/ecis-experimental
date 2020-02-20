@@ -30,7 +30,7 @@ export default function AgeGroupSection({
 	enrollments,
 	fundingSpaces,
 	rosterDateRange,
-	showPastEnrollments
+	showPastEnrollments,
 }: AgeGroupSectionProps) {
 	if (!enrollments.length) return null;
 
@@ -130,22 +130,29 @@ export default function AgeGroupSection({
 				<ul>
 					{fundingSpaces.map(space => {
 						const enrolledForFunding = enrollments.filter<DeepNonUndefineable<Enrollment>>(
-							enrollment => isFunded(enrollment, { source: space.source, time: space.time, currentRange: rosterDateRange})
-							).length
+							enrollment =>
+								isFunded(enrollment, {
+									source: space.source,
+									time: space.time,
+									currentRange: rosterDateRange,
+								})
+						).length;
 
 						return (
 							<li key={`${space.time}-${ageGroupTitle}`}>
 								<span className="text-bold">
-									{showPastEnrollments ? enrolledForFunding : `${enrolledForFunding}/${space.capacity}`}
+									{showPastEnrollments
+										? enrolledForFunding
+										: `${enrolledForFunding}/${space.capacity}`}
 								</span>
 								<span>
-									{showPastEnrollments 
-										? ` in ${(space.time || '').toLowerCase()} time ${(space.source || '')} spaces` 
-										: ` ${(space.time || '').toLowerCase()} time ${(space.source || '')} spaces filled`
-									} 
+									{showPastEnrollments
+										? ` in ${(space.time || '').toLowerCase()} time ${space.source || ''} spaces`
+										: ` ${(space.time || '').toLowerCase()} time ${space.source ||
+												''} spaces filled`}
 								</span>
 							</li>
-						)
+						);
 					})}
 				</ul>
 			)}

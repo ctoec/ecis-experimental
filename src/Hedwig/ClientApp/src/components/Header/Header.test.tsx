@@ -2,7 +2,7 @@ import React from 'react';
 import { MemoryRouter, Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { Header, HeaderProps } from './Header';
-import { render, fireEvent } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 
 const headerProps: HeaderProps = {
@@ -18,14 +18,17 @@ const headerProps: HeaderProps = {
 	logoutPath: '/logout',
 };
 
-const getClosestAnchorAndValidateExists = (get: any, text: string | RegExp): Exclude<any, undefined> => {
+const getClosestAnchorAndValidateExists = (
+	get: any,
+	text: string | RegExp
+): Exclude<any, undefined> => {
 	const section = get(text).closest('a');
 	expect(section).toBeDefined();
 	if (!section) {
 		throw new Error('Typescript guarding');
 	}
 	return section;
-}
+};
 
 const getMenuElementsAndValidateOpenMenu = (getByText: any, getByRole: any, getByTestId: any) => {
 	const menu = getByText(/menu/i);

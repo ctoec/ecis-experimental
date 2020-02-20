@@ -6,8 +6,8 @@ import { Tag } from '..';
 const defaultText = 'I AM A TAG';
 
 storiesOf('Tag', module)
-    .addDecorator(withKnobs)
-    .add('Default', () => {
-        const customText = text('Text', defaultText);
-        return <Tag text={customText} />;
-    });
+	.addDecorator(withKnobs)
+	.add('Default', () => {
+		const customText = text('Text', defaultText);
+		return <Tag text={customText} />;
+	});

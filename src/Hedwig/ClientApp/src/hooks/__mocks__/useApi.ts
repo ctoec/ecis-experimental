@@ -1,16 +1,12 @@
-const moment = require('moment');
+import moment from 'moment';
 import {
-	Age,
 	CdcReport,
 	Enrollment,
 	FundingSource,
-	FundingTime,
-	Gender,
-	Region,
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest,
 	ApiOrganizationsOrgIdEnrollmentsGetRequest,
-	Child,
 } from '../../generated';
+<<<<<<< HEAD
 
 type ChangeField = { keys: string[]; newValue?: any };
 const swapFields = <T>(inputObject: T, changeFields: ChangeField[]): T => {
@@ -39,6 +35,10 @@ const reportEnrollmentValidationError = [
 		field: 'Enrollments',
 	},
 ];
+=======
+import { completeEnrollment, child, report, organization } from '../../tests/data';
+import { swapFields } from '../../tests/helpers';
+>>>>>>> Prettier and redo test data
 
 const enrollmentValidationError = [
 	{
@@ -48,6 +48,7 @@ const enrollmentValidationError = [
 	},
 ];
 
+<<<<<<< HEAD
 export const child: Child = {
 	id: '2',
 	firstName: 'Lily',
@@ -111,6 +112,8 @@ export const completeEnrollment: Enrollment = {
 	],
 };
 
+=======
+>>>>>>> Prettier and redo test data
 export const enrollmentMissingBirthCertId = swapFields(completeEnrollment, [
 	{ keys: ['child', 'birthCertificateId'], newValue: undefined },
 	{ keys: ['id'], newValue: 2 },
@@ -179,6 +182,7 @@ export const allFakeEnrollments = [
 	},
 ];
 
+<<<<<<< HEAD
 export const defaultOrganization = {
 	id: 1,
 	name: 'Test Organization',
@@ -216,11 +220,16 @@ export const defaultReport: CdcReport = {
 		dueAt: new Date('2019-10-15'),
 		periodStart: new Date('2019-09-01'),
 		periodEnd: new Date('2019-09-28'),
+=======
+export const defaultReport = swapFields(report, [
+	{
+		keys: ['enrollments'],
+		newValue: allFakeEnrollments
+			.filter(e => !e.doNotIncludeInAllEnrollments)
+			.map(e => e.enrollment),
+>>>>>>> Prettier and redo test data
 	},
-	organization: defaultOrganization,
-	familyFeesRevenue: 1000,
-	validationErrors: reportEnrollmentValidationError,
-};
+]);
 
 export const laterReport: CdcReport = swapFields(defaultReport, [
 	{
@@ -321,7 +330,7 @@ export const mockApi = {
 			});
 		},
 	],
-	apiOrganizationsIdGet: (params: any) => [false, null, defaultOrganization],
+	apiOrganizationsIdGet: (params: any) => [false, null, organization],
 	apiOrganizationsOrgIdReportsIdGet: (params: any) => [false, null, defaultReport],
 	apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDelete: (params: any) => [false, null],
 };

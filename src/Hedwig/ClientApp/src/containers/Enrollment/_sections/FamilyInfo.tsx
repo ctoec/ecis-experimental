@@ -31,7 +31,7 @@ const FamilyInfo: Section = {
 		const homelessness = family && family.homelessness;
 		return (
 			<div className="FamilyInfoSummary">
-				{family &&
+				{family && (
 					<>
 						<p>
 							Address: {address} {missingInformation}
@@ -39,7 +39,7 @@ const FamilyInfo: Section = {
 						{foster && <p>{fosterText()}</p>}
 						{homelessness && <p>{homelessnessText()}</p>}
 					</>
-				}
+				)}
 			</div>
 		);
 	},

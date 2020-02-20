@@ -2,7 +2,10 @@ import { ReportingPeriod, Funding } from '../../generated';
 import idx from 'idx';
 import moment from 'moment';
 
-export const reportingPeriodFormatter = (period: ReportingPeriod, options: { extended?: boolean } = { }) => {
+export const reportingPeriodFormatter = (
+	period: ReportingPeriod,
+	options: { extended?: boolean } = {}
+) => {
 	const extended = options.extended || false;
 
 	let periodString = moment(period.period).format('MMMM YYYY');
@@ -13,15 +16,17 @@ export const reportingPeriodFormatter = (period: ReportingPeriod, options: { ext
 		periodString += ` (${start}–${end})`;
 	}
 
-	return periodString
-}
+	return periodString;
+};
 
 export const currentReportingPeriod = (periods: ReportingPeriod[]): ReportingPeriod | undefined => {
 	const now = moment();
 	const startOfMonthDate = moment(`${now.format('YYYY-MM')}-01`);
 	// Assumes that ReportingPeriod.Period will always be on the first day of the month
 	// Compare with dates, not times to avoid timezone ridiculousness
-	return periods.find(period => moment(period.period).format('YYYY-MM-DD') === startOfMonthDate.format('YYYY-MM-DD'));
+	return periods.find(
+		period => moment(period.period).format('YYYY-MM-DD') === startOfMonthDate.format('YYYY-MM-DD')
+	);
 };
 
 /**
@@ -67,7 +72,9 @@ export const lastEligibleReportingPeriod = (
 	periods: ReportingPeriod[],
 	endDate: Date
 ): ReportingPeriod | undefined => {
-	const filteredPeriods = [...periods].filter(period => moment(period.periodStart).isSameOrBefore(endDate));
+	const filteredPeriods = [...periods].filter(period =>
+		moment(period.periodStart).isSameOrBefore(endDate)
+	);
 	const sortedPeriods = [...filteredPeriods].sort(periodSorterInverse);
 	return sortedPeriods[0];
 };

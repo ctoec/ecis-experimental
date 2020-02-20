@@ -1,10 +1,10 @@
-import { User } from "../../generated";
-import idx from "idx";
+import { User } from '../../generated';
+import idx from 'idx';
 
 export type IdType = 'org' | 'site';
 
 /**
- * Accepts a User, an IdType, and id to validate that the user 
+ * Accepts a User, an IdType, and id to validate that the user
  * has access to the supplied id of idType.
  * @param user User object from which to validate information
  * @param idType 'org' or 'site' id to validate
@@ -20,16 +20,22 @@ export function validatePermissions(user: User | undefined, idType: IdType, id: 
 	}
 
 	if (idType === 'org') {
-		return (user.orgPermissions || []).map(permission => permission.organizationId).indexOf(id) >= 0;
+		return (
+			(user.orgPermissions || []).map(permission => permission.organizationId).indexOf(id) >= 0
+		);
 	}
 
 	if (idType === 'site') {
-		return (idx(user, _ => _.orgPermissions[0].organization.sites) || []).map(site => site.id).indexOf(id) >= 0;
+		return (
+			(idx(user, _ => _.orgPermissions[0].organization.sites) || [])
+				.map(site => site.id)
+				.indexOf(id) >= 0
+		);
 	}
 }
 
 /**
- * Accepts a User and an IdType to extract information from a user 
+ * Accepts a User and an IdType to extract information from a user
  * about the site and org with which the user is associated.
  * @param user User object from which to extract information
  * @param idType 'org' id to extract

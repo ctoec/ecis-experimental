@@ -3,7 +3,8 @@ import 'react-dates/initialize';
 import { render } from '@testing-library/react';
 import EnrollmentDetail from './EnrollmentDetail';
 import CommonContextProviderMock from '../../../contexts/__mocks__/CommonContextProviderMock';
-import { completeEnrollment, enrollmentMissingBirthCertId } from '../../../hooks/__mocks__/useApi';
+import { enrollmentMissingBirthCertId } from '../../../hooks/__mocks__/useApi';
+import { completeEnrollment } from '../../../tests/data';
 
 jest.mock('../../../hooks/useApi');
 import useApi from '../../../hooks/useApi';

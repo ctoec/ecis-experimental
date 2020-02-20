@@ -4,8 +4,9 @@ import 'react-dates/initialize';
 import ReportDetail from './ReportDetail';
 import CommonContextProviderMock from '../../../contexts/__mocks__/CommonContextProviderMock';
 import { CdcReport } from '../../../generated';
-import { mockApi, defaultReport, completeEnrollment } from '../../../hooks/__mocks__/useApi';
+import { mockApi, defaultReport } from '../../../hooks/__mocks__/useApi';
 import { accessibilityTestHelper } from '../../accessibilityTestHelper';
+import { completeEnrollment } from '../../../tests/data';
 
 const readyReport = { ...defaultReport, enrollments: [completeEnrollment] };
 

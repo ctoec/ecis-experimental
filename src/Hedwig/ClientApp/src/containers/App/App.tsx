@@ -36,9 +36,9 @@ const App: React.FC = () => {
 		!loading &&
 		!error &&
 		reports &&
-		reports.filter<DeepNonUndefineable<Report>>((r => !r.submittedAt) as (
-			_: DeepNonUndefineable<Report>
-		) => _ is DeepNonUndefineable<Report>).length;
+		reports.filter<DeepNonUndefineable<Report>>(
+			(r => !r.submittedAt) as (_: DeepNonUndefineable<Report>) => _ is DeepNonUndefineable<Report>
+		).length;
 
 	const navItems: NavItemProps[] = [
 		{ type: 'primary', title: 'Roster', path: '/roster' },
