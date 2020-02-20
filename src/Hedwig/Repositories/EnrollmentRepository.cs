@@ -80,7 +80,7 @@ namespace Hedwig.Repositories
 			var enrollmentQuery = _context.Enrollments
 				.Where(e => e.SiteId == siteId && e.Id == id);
 
-			enrollmentQuery.ProcessInclude(include);
+			enrollmentQuery = enrollmentQuery.ProcessInclude(include);
 
 			/** Author is needed to display metadata about enrollment updates
 				* However, simply including Author via enrollmentQuery.Include(e => e.Author) includes author
@@ -107,7 +107,7 @@ namespace Hedwig.Repositories
 				(asOf != null ? _context.Enrollments.AsOf((DateTime)asOf) : _context.Enrollments)
 				.FilterByDates(from, to)
 				.Where(e => e.Site.OrganizationId == orgId);
-			enrollments.ProcessInclude(include);
+			enrollments = enrollments.ProcessInclude(include);
 			return await enrollments.ToListAsync();
 		}
 
