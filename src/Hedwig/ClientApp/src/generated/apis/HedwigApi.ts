@@ -63,6 +63,7 @@ export interface ApiOrganizationsOrgIdEnrollmentsGetRequest {
     include?: Array<string>;
     startDate?: Date;
     endDate?: Date;
+    asOf?: Date;
 }
 
 export interface ApiOrganizationsOrgIdReportsGetRequest {
@@ -242,6 +243,10 @@ export class HedwigApi extends runtime.BaseAPI {
 
         if (requestParameters.endDate !== undefined) {
             queryParameters['endDate'] = (requestParameters.endDate as any).toISOString();
+        }
+
+        if (requestParameters.asOf !== undefined) {
+            queryParameters['asOf'] = (requestParameters.asOf as any).toISOString();
         }
 
         const headerParameters: runtime.HTTPHeaders = {};

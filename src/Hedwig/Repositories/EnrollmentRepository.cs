@@ -124,6 +124,50 @@ namespace Hedwig.Repositories
 			return Task.FromResult(enrollment);
 		}
 
+		public async Task<List<Enrollment>> GetEnrollmentsForOrganizationAsync(
+			int orgId,
+			DateTime? from = null,
+			DateTime? to = null,
+			string[] include = null,
+			DateTime? asOf = null
+		)
+		{
+			var enrollments = 
+				(asOf != null ? _context.Enrollments.AsOf((DateTime)asOf) : _context.Enrollments)
+				.FilterByDates(from, to)
+				.Where(e => e.Site.OrganizationId == orgId);
+
+			include = include ?? new string[] { };
+			if (include.Contains(INCLUDE_SITES))
+			{
+				enrollments = enrollments.Include(e => e.Site);
+			}
+
+			if (include.Contains(INCLUDE_FUNDINGS))
+			{
+				enrollments = enrollments.Include(e => e.Fundings)
+						.ThenInclude(f => f.FirstReportingPeriod)
+					.Include(e => e.Fundings)
+						.ThenInclude(f => f.LastReportingPeriod);
+			}
+
+			if (include.Contains(INCLUDE_CHILD))
+			{
+				enrollments = enrollments.Include(e => e.Child);
+
+				if (include.Contains(INCLUDE_FAMILY))
+				{
+					enrollments = ((IIncludableQueryable<Enrollment, Child>)enrollments).ThenInclude(c => c.Family);
+
+					if (include.Contains(INCLUDE_DETERMINATIONS))
+					{
+						enrollments = ((IIncludableQueryable<Enrollment, Family>)enrollments).ThenInclude(f => f.Determinations);
+					}
+				}
+			}
+			return await enrollments.ToListAsync();
+		}
+
 		public void DeleteEnrollment(Enrollment enrollment)
 		{
 			_context.Enrollments.Remove(enrollment);
@@ -136,6 +180,7 @@ namespace Hedwig.Repositories
 		void AddEnrollment(Enrollment enrollment);
 		Task<List<Enrollment>> GetEnrollmentsForSiteAsync(int siteId, DateTime? from = null, DateTime? to = null, string[] include = null);
 		Task<Enrollment> GetEnrollmentForSiteAsync(int id, int siteId, string[] include = null);
+		Task<List<Enrollment>> GetEnrollmentsForOrganizationAsync(int orgId, DateTime? from = null, DateTime? to = null, string[] include = null, DateTime? asOf = null);
 		Enrollment GetEnrollmentById(int id);
 
 		void DeleteEnrollment(Enrollment enrollment);

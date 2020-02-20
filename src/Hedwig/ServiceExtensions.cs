@@ -78,6 +78,7 @@ namespace Hedwig
 			services.AddScoped<IAuthorizationHandler, OrganizationAccessHandler>();
 			services.AddScoped<IAuthorizationHandler, SingleSiteAccessHandler>();
 			services.AddScoped<IAuthorizationHandler, MultipleSiteAccessHandler>();
+			services.AddScoped<IAuthorizationHandler, NoSiteSpecifiedAccessHandler>();
 			services.AddAuthorization(options =>
 			{
 				options.AddPolicy(

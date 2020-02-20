@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { CdcReport, ApiOrganizationsOrgIdReportsIdPutRequest, ApiOrganizationsOrgIdChildrenGetRequest, Enrollment } from '../../../generated';
+import { CdcReport, ApiOrganizationsOrgIdReportsIdPutRequest, ApiOrganizationsOrgIdChildrenGetRequest, Enrollment, FundingSource, ApiOrganizationsOrgIdEnrollmentsGetRequest } from '../../../generated';
 import useApi, { Mutate } from '../../../hooks/useApi';
 import UserContext from '../../../contexts/User/UserContext';
 import { Button, TextInput, ChoiceList, AlertProps, FieldSet, ErrorBoundary } from '../../../components';
 import AppContext from '../../../contexts/App/AppContext';
 import currencyFormatter from '../../../utils/currencyFormatter';
 import parseCurrencyFromString from '../../../utils/parseCurrencyFromString';
-import { currentC4kFunding, getIdForUser } from '../../../utils/models';
+import { currentC4kFunding, getIdForUser, activeC4kFundingAsOf } from '../../../utils/models';
 import UtilizationTable from './UtilizationTable';
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import { useHistory } from 'react-router';
@@ -25,6 +25,7 @@ export type ReportSubmitFormProps = {
 
 export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSubmitFormProps) {
 	const history = useHistory();
+	const asOf = report.submittedAt ? report.submittedAt : undefined;
 	const [accredited, setAccredited] = useState(report.accredited);
 	const [c4KRevenue, setC4KRevenue] = useState(report.c4KRevenue || null);
 	const [retroactiveC4KRevenue, setRetroactiveC4KRevenue] = useState(report.retroactiveC4KRevenue);
@@ -39,35 +40,32 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 		orgId: getIdForUser(user, 'org'),
 	};
 
-	const childrenParams: ApiOrganizationsOrgIdChildrenGetRequest = {
+	const enrollmentParams: ApiOrganizationsOrgIdEnrollmentsGetRequest = {
 		orgId: getIdForUser(user, 'org'),
-		reportId: report.id,
 		include: ['fundings'],
 		startDate: report.reportingPeriod.periodStart,
-		endDate: report.reportingPeriod.periodEnd
+		endDate: report.reportingPeriod.periodEnd,
+		asOf: asOf
 	}
-	const [, , childMappedEnrollments] = useApi(
-		(api) => api.apiOrganizationsOrgIdChildrenGet(childrenParams),
+	const [, , allEnrollments] = useApi(
+		(api) => api.apiOrganizationsOrgIdEnrollmentsGet(enrollmentParams),
 		[user, report]
 	);
 	const [care4KidsCount, setCare4KidsCount] = useState(0);
 
 	useEffect(() => {
-		if (childMappedEnrollments) {
-			const c4kChildren = Object.values(childMappedEnrollments)
-				.filter(enrollmentGroup => {
-					const currentEnrollment = enrollmentGroup.find(enrollment => {
-						return enrollment.exit === null;
-					});
-					if (!currentEnrollment) {
-						return false;
-					}
-					const fundings = currentEnrollment.fundings;
-					return currentC4kFunding(fundings) !== undefined;
-				});
-			setCare4KidsCount(c4kChildren.length)
+		if (allEnrollments) {
+			var c4kFundedEnrollments = allEnrollments.filter(enrollment => !!activeC4kFundingAsOf(enrollment.fundings, asOf))
+			var childIds: string[] = [];
+			c4kFundedEnrollments.forEach(enrollment => {
+				const childId = enrollment.childId;
+				if (childIds.indexOf(childId) < 0) {
+					childIds.push(childId)
+				}
+			});
+			setCare4KidsCount(childIds.length)
 		}
-	}, [childMappedEnrollments]);
+	}, [allEnrollments]);
 
 	const [apiError, setApiError] = useState<ValidationProblemDetails>();
 
