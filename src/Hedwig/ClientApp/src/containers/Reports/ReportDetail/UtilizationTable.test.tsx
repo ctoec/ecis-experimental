@@ -4,6 +4,7 @@ import { Age, FundingTime, CdcReport, FundingSource, Enrollment, Region } from '
 import UtilizationTable, { calculateRate } from './UtilizationTable';
 import emptyGuid from '../../../utils/emptyGuid';
 import cartesianProduct from '../../../utils/cartesianProduct';
+import { accessibilityTestHelper } from '../../accessibilityTestHelper';
 
 describe('calculateRate', () => {
   it('includes all possible rates', () => {
@@ -135,4 +136,6 @@ describe('UtilizationTable', () => {
 
     expect(container).toHaveTextContent("0/2 spaces");
   });
+
+  accessibilityTestHelper(<UtilizationTable {...defaultReport} />);
 });

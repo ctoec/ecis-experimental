@@ -5,6 +5,7 @@ import ReportDetail from './ReportDetail';
 import CommonContextProviderMock from '../../../contexts/__mocks__/CommonContextProviderMock';
 import { CdcReport } from '../../../generated';
 import { mockApi, defaultReport, completeEnrollment } from '../../../hooks/__mocks__/useApi';
+import { accessibilityTestHelper } from '../../accessibilityTestHelper';
 
 const readyReport = { ...defaultReport, enrollments: [completeEnrollment] };
 
@@ -22,25 +23,27 @@ let mockReport: CdcReport;
 let mockMutate: Function;
 
 const defaultLoading = false;
-const defaultError   = null;
-const defaultMutate  = () => Promise.resolve();
+const defaultError = null;
+const defaultMutate = () => Promise.resolve();
 
 beforeEach(() => {
 	mockLoading = defaultLoading;
-	mockError   = defaultError;
-	mockReport  = defaultReport;
-	mockMutate  = defaultMutate;
+	mockError = defaultError;
+	mockReport = defaultReport;
+	mockMutate = defaultMutate;
 });
 
-jest.mock('../../../hooks/useApi', () => (query: Function) => query({
-	...mockApi,
-	apiOrganizationsOrgIdReportsIdGet: (params: any) => [
-		mockLoading,
-		mockError,
-		mockReport,
-		mockMutate
-	]
-}));
+jest.mock('../../../hooks/useApi', () => (query: Function) =>
+	query({
+		...mockApi,
+		apiOrganizationsOrgIdReportsIdGet: (params: any) => [
+			mockLoading,
+			mockError,
+			mockReport,
+			mockMutate,
+		],
+	})
+);
 
 afterAll(() => {
 	jest.resetModules();
@@ -89,4 +92,10 @@ describe('ReportDetail', () => {
 			expect(mockMutate).toHaveBeenCalled();
 		});
 	});
+
+	accessibilityTestHelper(
+		<CommonContextProviderMock>
+			<ReportDetail />
+		</CommonContextProviderMock>
+	);
 });

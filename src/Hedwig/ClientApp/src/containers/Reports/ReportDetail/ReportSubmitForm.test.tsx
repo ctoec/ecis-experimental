@@ -6,6 +6,7 @@ import CommonContextProviderMock from '../../../contexts/__mocks__/CommonContext
 import { defaultReport } from '../../../hooks/__mocks__/useApi';
 import { DeepNonUndefineable } from '../../../utils/types';
 import { CdcReport } from '../../../generated';
+import { accessibilityTestHelper } from '../../accessibilityTestHelper';
 
 jest.mock('../../../hooks/useApi');
 
@@ -61,4 +62,14 @@ describe('ReportSubmitForm', () => {
 
 		expect(getByLabelText('Family Fees')).toHaveValue('$1,234.50');
 	});
+
+	accessibilityTestHelper(
+		<CommonContextProviderMock>
+			<ReportSubmitForm
+				report={defaultReport as DeepNonUndefineable<CdcReport>}
+				mutate={() => Promise.resolve()}
+				canSubmit={true}
+			/>
+		</CommonContextProviderMock>
+	);
 });
