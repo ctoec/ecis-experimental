@@ -28,6 +28,7 @@ namespace Hedwig.Data
       CreateFundingSpace(organizationId: organization.Id, ageGroup: Age.Preschool, time: FundingTime.Full, capacity: 20);
 
       var site = CreateSite(organizationId: organization.Id);
+      var site1 = CreateSite(organizationId: organization.Id, name: "The Good Place");
 
       var user = CreateUser(wingedKeysId: Guid.Parse("2c0ec653-8829-4aa1-82ba-37c8832bbb88"));
 
@@ -78,46 +79,46 @@ namespace Hedwig.Data
       CreateCdcReport(organizationId: organization.Id, reportingPeriodId: reportingPeriods[3].Id);
 
       var lines = new string[] {
-        "Alan,Rickman,2018-12-07,Male,TRUE,2019-09-02,,CDC,C4K,FOSTER",
-        "David,Thewlis,2016-07-29,Male,TRUE,2019-09-02,,CDC,,",
-        "Helena,Bonham Carter,2016-01-01,Female,TRUE,2019-09-02,,,,",
-        "Maggie,Smith,2015-02-02,Female,TRUE,2018-09-03,,CDC,,",
-        "Michael,Gambon,2015-07-06,Male,TRUE,2018-09-03,,CDC,,",
-        "Richard,Griffiths,2018-07-02,Male,TRUE,2019-09-02,,CDC,,",
-        "Richard,Harris,2015-12-23,Male,TRUE,2018-09-03,,CDC,,",
-        "Warwick,Davis,2018-11-25,Male,TRUE,2019-09-02,,CDC,,",
-        "Emma,Thompson,2016-08-03,Female,TRUE,2019-09-02,,CDC,,",
-        "Robbie,Coltrane,2017-10-27,Male,TRUE,2019-09-02,,CDC,,",
-        "David,Bradley,2014-11-20,Male,TRUE,2018-09-03,2019-08-30,CDC,C4K,",
-        "John,Cleese,2015-10-21,Male,TRUE,2019-09-02,,,,",
-        "John,Hurt,2018-02-14,Male,TRUE,2019-09-02,,CDC,,",
-        "Kenneth,Branagh,2018-08-19,Male,FALSE,2019-09-02,,CDC,,",
-        "Miranda,Richardson,2018-11-09,Female,TRUE,2019-09-02,,CDC,,",
-        "Matthew,Lewis,2017-12-07,Male,TRUE,2019-09-02,,,,",
-        "Tom,Felton,2015-07-29,Male,TRUE,2019-09-02,,CDC,,",
-        "Daniel,Radcliffe,2015-01-01,Male,TRUE,2019-09-02,,CDC,,",
-        "Emma,Watson,2015-03-02,Female,TRUE,2018-09-03,,,,",
-        "Alfred,Enoch,2015-09-06,Male,TRUE,2018-09-03,2019-08-30,CDC,,",
-        "Ralph,Fiennes,2017-07-02,Male,TRUE,2019-09-02,,CDC,,",
-        "James,Phelps,2014-12-23,Male,TRUE,2018-09-03,,,,",
-        "Oliver,Phelps,2017-11-25,Male,TRUE,2019-09-02,,CDC,,",
-        "Bonnie,Wright,2015-08-03,Female,TRUE,2019-09-02,,,C4K,",
-        "Julie,Walters,2016-10-27,Female,TRUE,2019-09-02,,CDC,C4K,",
-        "Chris,Rankin,2014-12-20,Male,FALSE,2018-09-03,2019-08-30,CDC,,",
-        "Rupert,Grint,2015-01-21,Male,TRUE,2019-09-02,,CDC,,",
-        "Robert,Hardy,2017-02-14,Male,TRUE,2019-09-02,,CDC,,",
-        "Jason,Isaacs,2017-08-19,Male,TRUE,2019-09-02,,CDC,C4K,",
-        "Mark,Williams,2017-11-09,Male,TRUE,2019-09-02,,CDC,,",
-        "Timothy,Spall,2016-12-07,Male,TRUE,2019-09-02,,CDC,,",
-        "Katie,Leung,2016-07-29,Female,TRUE,2019-09-02,,CDC,,",
-        "Robert,Pattinson,2015-04-01,Male,TRUE,2019-09-02,,CDC,,",
-        "Evanna,Lynch,2015-02-03,Female,TRUE,2018-09-03,,,C4K,",
-        "Imelda,Staunton,2016-07-06,Female,TRUE,2018-09-03,,CDC,,",
-        "Joshua,Herdman,2016-07-02,Male,TRUE,2019-09-02,,CDC,,",
-        "Ian,Hart,2015-12-02,Male,TRUE,2018-09-03,2019-08-30,CDC,,",
-        "David,Tennant,2017-11-25,Male,TRUE,2019-09-02,,CDC,,",
-        "Devon,Murray,2017-08-03,Male,TRUE,2019-09-02,,CDC,,",
-        "Harry,Melling,2016-10-27,Male,TRUE,2019-09-02,,CDC,,"
+        "Alan,Rickman,2018-12-07,Male,TRUE,2019-09-02,,CDC,C4K,FOSTER,ALTERNATE",
+        "David,Thewlis,2016-07-29,Male,TRUE,2019-09-02,,CDC,,,",
+        "Helena,Bonham Carter,2016-01-01,Female,TRUE,2019-09-02,,,,,",
+        "Maggie,Smith,2015-02-02,Female,TRUE,2018-09-03,,CDC,,,",
+        "Michael,Gambon,2015-07-06,Male,TRUE,2018-09-03,,CDC,,,",
+        "Richard,Griffiths,2018-07-02,Male,TRUE,2019-09-02,,CDC,,,",
+        "Richard,Harris,2015-12-23,Male,TRUE,2018-09-03,,CDC,,,",
+        "Warwick,Davis,2018-11-25,Male,TRUE,2019-09-02,,CDC,,,",
+        "Emma,Thompson,2016-08-03,Female,TRUE,2019-09-02,,CDC,,,",
+        "Robbie,Coltrane,2017-10-27,Male,TRUE,2019-09-02,,CDC,,,",
+        "David,Bradley,2014-11-20,Male,TRUE,2018-09-03,2019-08-30,CDC,C4K,,",
+        "John,Cleese,2015-10-21,Male,TRUE,2019-09-02,,,,,",
+        "John,Hurt,2018-02-14,Male,TRUE,2019-09-02,,CDC,,,",
+        "Kenneth,Branagh,2018-08-19,Male,FALSE,2019-09-02,,CDC,,,",
+        "Miranda,Richardson,2018-11-09,Female,TRUE,2019-09-02,,CDC,,,",
+        "Matthew,Lewis,2017-12-07,Male,TRUE,2019-09-02,,,,,",
+        "Tom,Felton,2015-07-29,Male,TRUE,2019-09-02,,CDC,,,",
+        "Daniel,Radcliffe,2015-01-01,Male,TRUE,2019-09-02,,CDC,,,",
+        "Emma,Watson,2015-03-02,Female,TRUE,2018-09-03,,,,,",
+        "Alfred,Enoch,2015-09-06,Male,TRUE,2018-09-03,2019-08-30,CDC,,,",
+        "Ralph,Fiennes,2017-07-02,Male,TRUE,2019-09-02,,CDC,,,",
+        "James,Phelps,2014-12-23,Male,TRUE,2018-09-03,,,,,",
+        "Oliver,Phelps,2017-11-25,Male,TRUE,2019-09-02,,CDC,,,",
+        "Bonnie,Wright,2015-08-03,Female,TRUE,2019-09-02,,,C4K,,",
+        "Julie,Walters,2016-10-27,Female,TRUE,2019-09-02,,CDC,C4K,,",
+        "Chris,Rankin,2014-12-20,Male,FALSE,2018-09-03,2019-08-30,CDC,,,",
+        "Rupert,Grint,2015-01-21,Male,TRUE,2019-09-02,,CDC,,,",
+        "Robert,Hardy,2017-02-14,Male,TRUE,2019-09-02,,CDC,,,",
+        "Jason,Isaacs,2017-08-19,Male,TRUE,2019-09-02,,CDC,C4K,,",
+        "Mark,Williams,2017-11-09,Male,TRUE,2019-09-02,,CDC,,,",
+        "Timothy,Spall,2016-12-07,Male,TRUE,2019-09-02,,CDC,,,",
+        "Katie,Leung,2016-07-29,Female,TRUE,2019-09-02,,CDC,,,",
+        "Robert,Pattinson,2015-04-01,Male,TRUE,2019-09-02,,CDC,,,",
+        "Evanna,Lynch,2015-02-03,Female,TRUE,2018-09-03,,,C4K,,",
+        "Imelda,Staunton,2016-07-06,Female,TRUE,2018-09-03,,CDC,,,",
+        "Joshua,Herdman,2016-07-02,Male,TRUE,2019-09-02,,CDC,,,",
+        "Ian,Hart,2015-12-02,Male,TRUE,2018-09-03,2019-08-30,CDC,,,",
+        "David,Tennant,2017-11-25,Male,TRUE,2019-09-02,,CDC,,,",
+        "Devon,Murray,2017-08-03,Male,TRUE,2019-09-02,,CDC,,,",
+        "Harry,Melling,2016-10-27,Male,TRUE,2019-09-02,,CDC,,,"
       }.ToList();
 
       for(int i = 0; i < lines.Count; i++)
@@ -135,6 +136,7 @@ namespace Hedwig.Data
         var cdc = cells[7] == "CDC";
         var c4k = cells[8] == "C4K";
         var foster = cells[9] == "FOSTER";
+        var alternateSite = cells[10] == "ALTERNATE";
 
         var family = CreateFamily(organizationId: organization.Id);
 
@@ -160,7 +162,7 @@ namespace Hedwig.Data
 
         var enrollment = CreateEnrollment(
           childId: child.Id,
-          siteId: site.Id,
+          siteId: alternateSite ? site1.Id : site.Id,
           entry: entry,
           exit: exit,
           exitReason: exit != null ? "Other" : null,

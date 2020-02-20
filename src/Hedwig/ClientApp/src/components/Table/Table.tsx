@@ -3,7 +3,7 @@ import ColumnHeader from './ColumnHeader';
 import Row from './Row';
 import cx from 'classnames';
 
-type Column<T> = {
+export type Column<T> = {
 	name: string | JSX.Element;
 	cell: React.FC<{ row: T }>;
 	sort?: (row: T) => number | string;
