@@ -13,7 +13,6 @@ import App from './containers/App/App';
 import 'react-dates/lib/css/_datepicker.css';
 import './assets/styles/index.scss';
 
-// Is there a better place for this?
 if (process.env.NODE_ENV !== 'production') {
 	const axe = require('react-axe');
 	axe(React, ReactDOM, 1000);
