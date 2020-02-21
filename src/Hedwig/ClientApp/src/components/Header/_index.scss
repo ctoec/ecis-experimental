@@ -13,6 +13,9 @@
 			}
 		}
 	}
+	a:focus .usa-logo__text {
+		@extend [href]:focus;
+	}
 }
 
 .usa-nav__secondary-links .usa-nav__secondary-item + .usa-nav__secondary-item {

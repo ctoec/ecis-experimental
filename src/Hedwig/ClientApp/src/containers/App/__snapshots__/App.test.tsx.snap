@@ -33,11 +33,11 @@ exports[`matches snapshot 1`] = `
               aria-label="ECE Reporter home"
               href="/"
             >
-              <em
+              <span
                 class="usa-logo__text"
               >
                 ECE Reporter
-              </em>
+              </span>
             </a>
           </div>
           <button
