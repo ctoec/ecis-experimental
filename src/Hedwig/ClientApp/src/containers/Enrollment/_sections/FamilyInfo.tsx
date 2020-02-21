@@ -119,7 +119,7 @@ const FamilyInfo: Section = {
 
 		return (
 			<form className="FamilyInfoForm usa-form" onSubmit={save} noValidate autoComplete="off">
-				<h3>Address</h3>
+				<h2>Address</h2>
 				<FieldSet
 					id="family-address"
 					legend="Address"
@@ -195,7 +195,7 @@ const FamilyInfo: Section = {
 					</div>
 				</FieldSet>
 
-				<h3>Other</h3>
+				<h2>Other</h2>
 				<ChoiceList
 					type="check"
 					legend="Foster"
