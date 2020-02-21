@@ -88,9 +88,9 @@ class HeaderWithoutRouter extends React.Component<HeaderProps & RouteComponentPr
 					<div className={cx("usa-navbar")}>
 						<div className={cx("usa-logo")} id="extended-logo">
 							<Link to="/" aria-label={`${title} home`}>
-								<em className={cx("usa-logo__text")}>
+								<span className={cx("usa-logo__text")}>
 										{title}
-								</em>
+								</span>
 							</Link>
 						</div>
 						<button className={cx("usa-menu-btn")} onClick={this.showMenu}>
