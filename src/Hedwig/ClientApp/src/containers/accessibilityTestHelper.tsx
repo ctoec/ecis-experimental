@@ -1,6 +1,8 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 import { axe, toHaveNoViolations } from 'jest-axe';
+
+
 expect.extend(toHaveNoViolations);
 
 // This is a *very* minimal accessibility check
@@ -8,7 +10,7 @@ expect.extend(toHaveNoViolations);
 export function accessibilityTestHelper(testComponent: React.ReactElement) {
 	it('passes accessibility checks', async () => {
 		const { container } = render(testComponent);
-    const results = await axe(container);
+		const results = await axe(container);
 		expect(results).toHaveNoViolations();
 		cleanup();
 	});

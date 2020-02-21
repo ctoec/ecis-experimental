@@ -279,7 +279,7 @@ const ChildInfo: Section = {
 					</div>
 				</div>
 
-				<h3>Date of birth</h3>
+				<h2>Date of birth</h2>
 				<DateInput
 					onChange={setBirthdate}
 					dateRange={{ startDate: birthdate ? moment(birthdate) : null, endDate: null }}
@@ -297,7 +297,7 @@ const ChildInfo: Section = {
 					)}
 				/>
 
-				<h3>Birth certificate</h3>
+				<h2>Birth certificate</h2>
 				<FieldSet
 					status={initialLoadErrorGuard(
 						initialLoad,
@@ -350,7 +350,7 @@ const ChildInfo: Section = {
 					</div>
 				</FieldSet>
 
-				<h3>Race</h3>
+				<h2>Race</h2>
 				<ChoiceList
 					type="check"
 					options={childRace}
@@ -374,7 +374,7 @@ const ChildInfo: Section = {
 					}}
 				/>
 
-				<h3>Ethnicity</h3>
+				<h2>Ethnicity</h2>
 				<ChoiceList
 					type="radio"
 					hint="As identified by family"
@@ -413,7 +413,7 @@ const ChildInfo: Section = {
 					}
 				/>
 
-				<h3>Gender</h3>
+				<h2>Gender</h2>
 				<ChoiceList
 					hint="As identified by family"
 					type="select"

@@ -406,7 +406,7 @@ const EnrollmentFunding: Section = {
 						)}
 					/>
 
-					<h3>Age group</h3>
+					<h2>Age group</h2>
 					<ChoiceList
 						type="radio"
 						legend="Age group"
@@ -438,7 +438,7 @@ const EnrollmentFunding: Section = {
 							)
 						)}
 					/>
-					<h3>Funding</h3>
+					<h2>Funding</h2>
 					<ChoiceList
 						type="select"
 						id="fundingType"
@@ -499,7 +499,7 @@ const EnrollmentFunding: Section = {
 							} reporting period.`}
 						/>
 					)}
-					<h3>Care 4 Kids</h3>
+					<h2>Care 4 Kids</h2>
 					<ChoiceList
 						type="check"
 						selected={receivesC4k ? ['receives-c4k'] : undefined}
