@@ -21,6 +21,7 @@ export function lastFirstNameFormatter(name?: Child) {
 		return '';
 	}
 
+	// TODO: IF FIRST NAME IS UNDEFINED THIS FORMATTING IS SILLY
 	return (
 		name.lastName +
 		', ' +

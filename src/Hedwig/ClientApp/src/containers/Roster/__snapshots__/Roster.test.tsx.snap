@@ -52,15 +52,74 @@ exports[`Roster matches snapshot 1`] = `
     </div>
     <div
       class="grid-row flex-wrap margin-y-2 grid-gap oec-legend"
-    />
+    >
+      <div
+        class="margin-right-1"
+      >
+        <div
+          class="oec-legend__symbol undefined"
+        >
+          <span
+            class="usa-tag position-relative top-neg-2px bg-blue-50v"
+          >
+            CDC
+          </span>
+        </div>
+        <div
+          class="width-fit-content display-inline margin-left-1 "
+        >
+          <span
+            class="text-bold"
+          >
+            5/0
+          </span>
+          <span>
+             Child Day Care spaces filled
+          </span>
+        </div>
+      </div>
+      <div
+        class="margin-right-1"
+      >
+        <div
+          class="oec-legend__symbol undefined"
+        >
+          <span
+            class="oec-inline-icon oec-inline-icon--incomplete"
+          >
+            <svg>
+              error.svg
+            </svg>
+            <span
+              class="usa-sr-only"
+            >
+              (incomplete)
+            </span>
+          </span>
+        </div>
+        <div
+          class="width-fit-content display-inline margin-left-1 "
+        >
+          <span
+            class="text-bold"
+          >
+            3
+          </span>
+          <span>
+             missing information
+          </span>
+        </div>
+      </div>
+    </div>
     <h2
       class="margin-top-6"
     >
-      Incomplete enrollments (5 children)
+      Preschool (5 children)
     </h2>
+    <ul />
     <table
       class="oec-table oec-table--full-width"
-      id="incomplete-roster-table"
+      id="Preschool-roster-table"
     >
       <thead>
         <tr>
@@ -169,20 +228,29 @@ exports[`Roster matches snapshot 1`] = `
           >
             <a
               class="usa-link print"
-              href="/roster/sites/1/enrollments/undefined/"
-            />
+              href="/roster/sites/1/enrollments/1/"
+            >
+              Potter, Lily Luna
+            </a>
              
           </th>
+          <td
+            class="oec-table__cell--tabular-nums"
+          >
+            12/12/2016
+          </td>
           <td>
             <span
-              class="text-italic text-base"
+              class="usa-tag undefined bg-blue-50v"
             >
-              private pay
+              CDC–FT
             </span>
           </td>
           <td
             class="oec-table__cell--tabular-nums"
-          />
+          >
+            02/03/2018
+          </td>
         </tr>
         <tr>
           <th
@@ -190,20 +258,41 @@ exports[`Roster matches snapshot 1`] = `
           >
             <a
               class="usa-link print"
-              href="/roster/sites/1/enrollments/undefined/"
-            />
+              href="/roster/sites/1/enrollments/2/"
+            >
+              Potter, Lily Luna
+            </a>
              
+            <span
+              class="oec-inline-icon oec-inline-icon--incomplete"
+            >
+              <svg>
+                error.svg
+              </svg>
+              <span
+                class="usa-sr-only"
+              >
+                (incomplete)
+              </span>
+            </span>
           </th>
+          <td
+            class="oec-table__cell--tabular-nums"
+          >
+            12/12/2016
+          </td>
           <td>
             <span
-              class="text-italic text-base"
+              class="usa-tag undefined bg-blue-50v"
             >
-              private pay
+              CDC–FT
             </span>
           </td>
           <td
             class="oec-table__cell--tabular-nums"
-          />
+          >
+            02/03/2018
+          </td>
         </tr>
         <tr>
           <th
@@ -211,20 +300,41 @@ exports[`Roster matches snapshot 1`] = `
           >
             <a
               class="usa-link print"
-              href="/roster/sites/1/enrollments/undefined/"
-            />
+              href="/roster/sites/1/enrollments/4/"
+            >
+              Potter, Lily Luna
+            </a>
              
+            <span
+              class="oec-inline-icon oec-inline-icon--incomplete"
+            >
+              <svg>
+                error.svg
+              </svg>
+              <span
+                class="usa-sr-only"
+              >
+                (incomplete)
+              </span>
+            </span>
           </th>
+          <td
+            class="oec-table__cell--tabular-nums"
+          >
+            12/12/2016
+          </td>
           <td>
             <span
-              class="text-italic text-base"
+              class="usa-tag undefined bg-blue-50v"
             >
-              private pay
+              CDC–FT
             </span>
           </td>
           <td
             class="oec-table__cell--tabular-nums"
-          />
+          >
+            02/03/2018
+          </td>
         </tr>
         <tr>
           <th
@@ -232,20 +342,29 @@ exports[`Roster matches snapshot 1`] = `
           >
             <a
               class="usa-link print"
-              href="/roster/sites/1/enrollments/undefined/"
-            />
+              href="/roster/sites/1/enrollments/5/"
+            >
+              Potter, Lily Luna
+            </a>
              
           </th>
+          <td
+            class="oec-table__cell--tabular-nums"
+          >
+            12/12/2016
+          </td>
           <td>
             <span
-              class="text-italic text-base"
+              class="usa-tag undefined bg-blue-50v"
             >
-              private pay
+              CDC–FT
             </span>
           </td>
           <td
             class="oec-table__cell--tabular-nums"
-          />
+          >
+            03/01/2019
+          </td>
         </tr>
         <tr>
           <th
@@ -253,20 +372,41 @@ exports[`Roster matches snapshot 1`] = `
           >
             <a
               class="usa-link print"
-              href="/roster/sites/1/enrollments/undefined/"
-            />
+              href="/roster/sites/1/enrollments/3/"
+            >
+              Potter, undefined Luna
+            </a>
              
+            <span
+              class="oec-inline-icon oec-inline-icon--incomplete"
+            >
+              <svg>
+                error.svg
+              </svg>
+              <span
+                class="usa-sr-only"
+              >
+                (incomplete)
+              </span>
+            </span>
           </th>
+          <td
+            class="oec-table__cell--tabular-nums"
+          >
+            12/12/2016
+          </td>
           <td>
             <span
-              class="text-italic text-base"
+              class="usa-tag undefined bg-blue-50v"
             >
-              private pay
+              CDC–FT
             </span>
           </td>
           <td
             class="oec-table__cell--tabular-nums"
-          />
+          >
+            02/03/2018
+          </td>
         </tr>
       </tbody>
     </table>

@@ -11,7 +11,6 @@ import {
 	ApiOrganizationsOrgIdEnrollmentsGetRequest,
 	Child,
 } from '../../generated';
-import { DeepNonUndefineableArray } from '../../utils/types';
 
 type ChangeField = { keys: string[]; newValue?: any };
 const swapFields = <T>(inputObject: T, changeFields: ChangeField[]): T => {
@@ -73,8 +72,8 @@ export const child: Child = {
 		homelessness: false,
 		organizationId: 1,
 		determinations: [{ id: 1, notDisclosed: true, familyId: 1 }],
-	}
-}
+	},
+};
 
 export const completeEnrollment: Enrollment = {
 	id: 1,
@@ -84,11 +83,11 @@ export const completeEnrollment: Enrollment = {
 	entry: new Date('2018-02-03'),
 	exit: null,
 	author: {
-		firstName: "Test",
-		lastName: "User",
+		firstName: 'Test',
+		lastName: 'User',
 		id: 1,
-		wingedKeysId: "00000000-0000-0000-0000-000000000000"
-	}, 
+		wingedKeysId: '00000000-0000-0000-0000-000000000000',
+	},
 	updatedAt: new Date('2020-01-01'),
 	child: child,
 	fundings: [
@@ -149,7 +148,7 @@ export const enrollmentWithLaterStart = swapFields(completeEnrollment, [
 export const enrollmentWithFoster = swapFields(completeEnrollment, [
 	{ keys: ['child', 'foster'], newValue: true },
 	{ keys: ['id'], newValue: 6 },
-	{ keys: ['child', 'family', 'determinations'], newValue: [] }
+	{ keys: ['child', 'family', 'determinations'], newValue: [] },
 ]);
 
 export const allFakeEnrollments = [
@@ -177,7 +176,7 @@ export const allFakeEnrollments = [
 	{
 		doNotIncludeInAllEnrollments: true,
 		enrollment: enrollmentWithFoster,
-	}
+	},
 ];
 
 export const defaultOrganization = {
@@ -207,7 +206,9 @@ export const defaultReport: CdcReport = {
 	organizationId: 1,
 	accredited: true,
 	type: FundingSource.CDC,
-	enrollments: allFakeEnrollments.filter(e => !e.doNotIncludeInAllEnrollments).map(e => e.enrollment),
+	enrollments: allFakeEnrollments
+		.filter(e => !e.doNotIncludeInAllEnrollments)
+		.map(e => e.enrollment),
 	reportingPeriod: {
 		id: 1,
 		type: FundingSource.CDC,
@@ -254,9 +255,7 @@ export const earlierReport: CdcReport = swapFields(defaultReport, [
 ]);
 
 export const mockApi = {
-	apiOrganizationsOrgIdEnrollmentsGet: (
-		params: ApiOrganizationsOrgIdEnrollmentsGetRequest
-	) => {
+	apiOrganizationsOrgIdEnrollmentsGet: (params: ApiOrganizationsOrgIdEnrollmentsGetRequest) => {
 		const enrollments = allFakeEnrollments
 			.filter(e => !e.doNotIncludeInAllEnrollments)
 			.filter(e => (params.siteIds || []).includes(e.enrollment.siteId))
@@ -265,7 +264,8 @@ export const mockApi = {
 					(!e.entry ? true : moment(e.entry).isBefore(params.endDate)) &&
 					(!e.exit ? true : moment(e.exit).isAfter(moment(params.startDate)))
 				);
-			});
+			})
+			.map(e => e.enrollment);
 		return [false, null, enrollments];
 	},
 	apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet: (
@@ -283,7 +283,10 @@ export const mockApi = {
 		return [false, null, thisEnrollment.enrollment, mutate];
 	},
 	apiOrganizationsOrgIdChildrenGet: (params: any) => {
-		const mappedChildToEnrollment = [child].reduce<{[x: string]: Enrollment[]}>((acc, c) => (acc[c.id] = c.enrollments || [], acc), {});
+		const mappedChildToEnrollment = [child].reduce<{ [x: string]: Enrollment[] }>(
+			(acc, c) => ((acc[c.id] = c.enrollments || []), acc),
+			{}
+		);
 		return [false, null, mappedChildToEnrollment];
 	},
 	apiOrganizationsOrgIdSitesIdGet: (params: any) => [
