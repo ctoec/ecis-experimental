@@ -4239,11 +4239,11 @@ exports[`Storyshots Header Logged in 1`] = `
             href="/"
             onClick={[Function]}
           >
-            <em
+            <span
               className="usa-logo__text"
             >
               Hello world!
-            </em>
+            </span>
           </a>
         </div>
         <button
@@ -4408,11 +4408,11 @@ exports[`Storyshots Header Logged out 1`] = `
             href="/"
             onClick={[Function]}
           >
-            <em
+            <span
               className="usa-logo__text"
             >
               Hello world!
-            </em>
+            </span>
           </a>
         </div>
         <button
