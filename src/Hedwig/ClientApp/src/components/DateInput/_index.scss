@@ -1,15 +1,16 @@
-.oec-date-input__input.usa-form-group--error,
-.oec-date-input__input.usa-form-group--warning {
-	margin-top: 0;
-}
+// .oec-date-input__input.usa-form-group--error, .oec-date-input__input.usa-form-group--warning {
+// 	margin-top: 0;
+// }
 
-.DateInput__disabled,
-.SingleDatePickerInput__disabled,
-.DateRangePickerInput__disabled {
-	background: unset;
-	background-color: unset;
-}
+// .DateInput__disabled, .SingleDatePickerInput__disabled, .DateRangePickerInput__disabled {
+// 	background: unset;
+// 	background-color: unset;
+// }
 
-.DateInput_input__focused {
-	border-bottom: unset;
+// .DateInput_input__focused {
+// 	border-bottom: unset;
+// }
+
+.oec-date-input button.usa-button {
+	margin: 0;
 }

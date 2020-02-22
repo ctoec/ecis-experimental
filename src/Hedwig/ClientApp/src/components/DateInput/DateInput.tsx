@@ -70,6 +70,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 			hint="For example: 04/28/1986"
 			status={status}
 			optional={optional}
+			className="oec-date-input oec-date-input-single"
 		>
 			{format === 'dayInput' && (
 				<div className="grid-row flex-row flex-align-end grid-gap position-relative">
@@ -83,8 +84,13 @@ export const DateInput: React.FC<DateInputProps> = ({
 							onChange({ startDate: parsedInput, endDate: parsedInput });
 						}}
 					/>
-					<div>
-						<Button text={'Calendar'} onClick={() => setCalendarOpen(!calendarOpen)} />
+					<div className="height-auto">
+						{/* TODO: CALENDAR ICON */}
+						<Button
+							text={'C'}
+							onClick={() => setCalendarOpen(!calendarOpen)}
+							aria-label={`${calendarOpen ? 'close' : 'open'} calendar`}
+						/>
 						{calendarOpen && (
 							<div className="position-absolute z-top">
 								<DayPickerSingleDateController
@@ -93,10 +99,10 @@ export const DateInput: React.FC<DateInputProps> = ({
 									focused={calendarOpen || false}
 									// Annoyingly this does not do anything for keyboard users
 									onFocusChange={f => setCalendarOpen(f.focused || false)}
-									onOutsideClick={(e) => {
+									onOutsideClick={e => {
 										const targetText = e.target.innerHTML;
-										if (targetText!== 'Calendar') {
-											setCalendarOpen(false)
+										if (targetText !== 'C') {
+											setCalendarOpen(false);
 										}
 									}}
 								/>
