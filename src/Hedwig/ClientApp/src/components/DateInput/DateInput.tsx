@@ -3,7 +3,7 @@ import moment, { Moment } from 'moment';
 import { DayPickerSingleDateController } from 'react-dates';
 import { FieldSet, TextInput, FormStatusProps, Button } from '..';
 
-type DateInputProps = {
+export type DateInputProps = {
 	onChange: (newDate: Moment | null) => void;
 	id: string;
 	label: string;
@@ -13,6 +13,7 @@ type DateInputProps = {
 	status?: FormStatusProps;
 	className?: string;
 	hideLabel?: boolean;
+	hideHint?: boolean;
 	// Will only take effect on fieldsets-- otherwise we should not hide the label
 };
 
@@ -41,6 +42,8 @@ export const DateInput: React.FC<DateInputProps> = ({
 	optional,
 	status,
 	className,
+	hideLabel = false,
+	hideHint = false,
 }) => {
 	// On text input blur, check for validity of date
 	// Fire on change event either way?
@@ -60,10 +63,11 @@ export const DateInput: React.FC<DateInputProps> = ({
 			legend={label}
 			id={`${id}-fieldset`}
 			disabled={disabled}
-			hint="For example: 04/28/1986"
+			hint={hideHint ? undefined : "For example: 04/28/1986"}
 			status={status}
 			optional={optional}
 			className="oec-date-input oec-date-input-single"
+			showLegend={!hideLabel}
 		>
 			<div className="grid-row flex-row flex-align-end grid-gap position-relative">
 				<TextInput

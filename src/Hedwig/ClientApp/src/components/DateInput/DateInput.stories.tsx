@@ -7,7 +7,7 @@ import { DateInput, FormStatusProps } from '..';
 
 const commonProps = {
 	onChange: action('onChange'),
-	dateRange: { startDate: moment('2019-10-30'), endDate: moment('2019-10-30') },
+	date: moment('2019-10-30'),
 	label: 'Date',
 	id: 'dateinput-example',
 };
@@ -29,11 +29,11 @@ const success: FormStatusProps = {
 
 storiesOf('Date input', module)
 	.add('Default', () => {
-		return <DateInput {...commonProps} format="dayInput" />;
+		return <DateInput {...commonProps} />;
 	})
-	.add('Range input', () => {
-		return <DateInput {...commonProps} format="rangeInput" />;
-	})
+	// .add('Range input', () => {
+	// 	return <DateInput {...commonProps} format="rangeInput" />;
+	// })
 	// .add('Optional', () => {
 	// 	return (
 	// 		<DateInput
@@ -46,26 +46,26 @@ storiesOf('Date input', module)
 	// 	);
 	// })
 	.add('Disabled day input', () => {
-		return <DateInput {...commonProps} disabled format="dayInput" />;
+		return <DateInput {...commonProps} disabled />;
 	})
-	.add('Disabled range input', () => {
-		return <DateInput {...commonProps} disabled format="rangeInput" />;
-	})
+	// .add('Disabled range input', () => {
+	// 	return <DateInput {...commonProps} disabled format="rangeInput" />;
+	// })
 	.add('Success', () => {
-		return <DateInput {...commonProps} format="dayInput" status={success} />;
+		return <DateInput {...commonProps} status={success} />;
 	})
-	.add('Success with range', () => {
-		return <DateInput {...commonProps} format="rangeInput" status={success} />;
-	})
+	// .add('Success with range', () => {
+	// 	return <DateInput {...commonProps} format="rangeInput" status={success} />;
+	// })
 	.add('Warning', () => {
-		return <DateInput {...commonProps} format="dayInput" status={warning} />;
+		return <DateInput {...commonProps} status={warning} />;
 	})
-	.add('Warning with range', () => {
-		return <DateInput {...commonProps} format="rangeInput" status={warning} />;
-	})
+	// .add('Warning with range', () => {
+	// 	return <DateInput {...commonProps} format="rangeInput" status={warning} />;
+	// })
 	.add('Error', () => {
-		return <DateInput {...commonProps} format="dayInput" status={error} />;
+		return <DateInput {...commonProps} status={error} />;
 	})
-	.add('Error with range', () => {
-		return <DateInput {...commonProps} disabled format="rangeInput" status={error} />;
-	});
+	// .add('Error with range', () => {
+	// 	return <DateInput {...commonProps} disabled format="rangeInput" status={error} />;
+	// });

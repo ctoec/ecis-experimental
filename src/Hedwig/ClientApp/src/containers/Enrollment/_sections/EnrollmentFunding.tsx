@@ -2,7 +2,14 @@ import React, { useContext, useState, useEffect, useReducer } from 'react';
 import moment from 'moment';
 import idx from 'idx';
 import { Section } from '../enrollmentTypes';
-import { Button, DatePicker, ChoiceList, TextInput, InlineIcon, Alert } from '../../../components';
+import {
+	Button,
+	DateInput,
+	ChoiceList,
+	TextInput,
+	InlineIcon,
+	Alert,
+} from '../../../components';
 import dateFormatter from '../../../utils/dateFormatter';
 import {
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
@@ -417,12 +424,12 @@ const EnrollmentFunding: Section = {
 			<form className="EnrollmentFundingForm" onSubmit={save} noValidate autoComplete="off">
 				<div className="usa-form">
 					<h2>{site && site.name}</h2>
-					<DatePicker
+					<DateInput
 						name="entry"
 						onChange={updateFormData(
-							range => (range.startDate && range.startDate.toDate()) || null
+							newDate => (newDate ? newDate.toDate() : null
 						)}
-						dateRange={{ startDate: entry ? moment(entry) : null, endDate: null }}
+						dateRange={entry ? moment(entry) : null}
 						label="Start date"
 						id="enrollment-start-date"
 						status={initialLoadErrorGuard(
@@ -557,7 +564,7 @@ const EnrollmentFunding: Section = {
 									)
 								)}
 							/>
-							<DatePicker
+							<DateInput
 								name="c4kCertificateStartDate"
 								onChange={range =>
 									updateC4kCertificateStartDate(
