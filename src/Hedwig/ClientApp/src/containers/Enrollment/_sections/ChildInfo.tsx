@@ -108,9 +108,7 @@ const ChildInfo: Section = {
 		const [birthdate, updateBirthdate] = useState(child ? child.birthdate : null);
 		const setBirthdate = useCallback(
 			(newBirthDate: Moment | null) => {
-				updateBirthdate(
-					newBirthDate.isValid() ? newBirthDate.toDate() : null
-				);
+				updateBirthdate(newBirthDate && newBirthDate.isValid() ? newBirthDate.toDate() : null);
 			},
 			[updateBirthdate]
 		);

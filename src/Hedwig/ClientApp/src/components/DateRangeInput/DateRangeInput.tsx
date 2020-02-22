@@ -7,7 +7,7 @@ export type DateRange = {
 	endDate: Moment | null;
 };
 
-type DateRangeInputProps = DateInputProps & {
+type DateRangeInputProps = Omit<DateInputProps, 'onChange'> & {
 	dateRange: DateRange;
 	onChange: (newDateRange: DateRange | null) => void;
 	possibleRange?: DateRange;
