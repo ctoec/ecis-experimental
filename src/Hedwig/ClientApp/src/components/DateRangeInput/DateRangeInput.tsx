@@ -33,9 +33,11 @@ export const DateRangeInput: React.FC<DateRangeInputProps> = ({
 			disabled={disabled}
 			hint="For example: 04/28/1986"
 			showLegend={!hideLabel}
+			optional={optional}
 		>
 			<DateInput
 				hideHint
+				hideLabel
 				date={dateRange.startDate}
 				onChange={newStartDate => onChange({ startDate: newStartDate, endDate: dateRange.endDate })}
 				id={`${id}-start-date`}
@@ -44,6 +46,7 @@ export const DateRangeInput: React.FC<DateRangeInputProps> = ({
 			<span>PUT ARROW HERE</span>
 			<DateInput
 				hideHint
+				hideLabel
 				date={dateRange.endDate}
 				onChange={newEndDate => onChange({ startDate: dateRange.startDate, endDate: newEndDate })}
 				id={`${id}-end-date`}

@@ -69,7 +69,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 			status={status}
 			optional={optional}
 			className="oec-date-input oec-date-input-single"
-			showLegend={!hideLabel}
+			showLegend={true}
 		>
 			<div className="grid-row flex-row flex-align-end grid-gap position-relative">
 				<TextInput
@@ -82,14 +82,14 @@ export const DateInput: React.FC<DateInputProps> = ({
 						onChange(parsedInput);
 					}}
 					name={name}
-					hideLabel
 				/>
-				<div className="height-auto">
+				<div className="height-auto position-absolute right-2">
 					{/* TODO: CALENDAR ICON */}
 					<Button
-						text={'C'}
+						text={(<span>C</span>)}
 						onClick={() => setCalendarOpen(!calendarOpen)}
 						aria-label={`${calendarOpen ? 'close' : 'open'} calendar`}
+						appearance="unstyled"
 					/>
 					<div className={`position-absolute z-top ${calendarOpen ? '' : 'display-none'}`}>
 						<DayPickerSingleDateController
