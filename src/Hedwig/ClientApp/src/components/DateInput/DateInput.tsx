@@ -82,6 +82,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 						onChange(parsedInput);
 					}}
 					name={name}
+					hideLabel
 				/>
 				<div className="height-auto">
 					{/* TODO: CALENDAR ICON */}
