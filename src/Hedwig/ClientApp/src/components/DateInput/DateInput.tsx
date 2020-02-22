@@ -14,6 +14,7 @@ export type DateInputProps = {
 	className?: string;
 	hideLabel?: boolean;
 	hideHint?: boolean;
+	name?: string;
 	// Will only take effect on fieldsets-- otherwise we should not hide the label
 };
 
@@ -44,6 +45,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 	className,
 	hideLabel = false,
 	hideHint = false,
+	name,
 }) => {
 	// On text input blur, check for validity of date
 	// Fire on change event either way?
@@ -79,6 +81,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 						const parsedInput = parseDateInput(stringDate);
 						onChange(parsedInput);
 					}}
+					name={name}
 				/>
 				<div className="height-auto">
 					{/* TODO: CALENDAR ICON */}

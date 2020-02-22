@@ -20,7 +20,7 @@ import {
 	currentC4kFunding,
 	lastNReportingPeriods,
 } from '../../utils/models';
-import { DatePicker, ChoiceList, Button, InlineIcon } from '../../components';
+import { DateInput, ChoiceList, Button, InlineIcon } from '../../components';
 import useApi from '../../hooks/useApi';
 import { validatePermissions, getIdForUser } from '../../utils/models';
 import CommonContainer from '../CommonContainer';
@@ -206,13 +206,11 @@ export default function Withdrawal({
 				</div>
 
 				<div className="usa-form mobile-lg:grid-col-12">
-					<DatePicker
+					<DateInput
 						label="Enrollment end date"
 						id="enrollment-end-date"
-						onChange={range =>
-							updateEnrollmentEndDate((range.startDate && range.startDate.toDate()) || undefined)
-						}
-						dateRange={{ startDate: null, endDate: null }}
+						onChange={newDate => updateEnrollmentEndDate(newDate ? newDate.toDate() : undefined)}
+						date={enrollmentEndDate ? moment(enrollmentEndDate) : undefined}
 						status={
 							// TODO should we use a different fact for this condition?
 							reportingPeriodOptions.length === 0

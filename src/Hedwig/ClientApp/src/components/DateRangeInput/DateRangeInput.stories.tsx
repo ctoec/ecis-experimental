@@ -11,33 +11,27 @@ const label = 'Pick a date';
 const error: FormStatusProps = {
 	type: 'error',
 	message: 'Pick a better date',
-	id: 'DateRangeInput-error',
+	id: 'range-input-error',
 };
 const warning: FormStatusProps = {
 	type: 'warning',
 	message: 'Meh, fine',
-	id: 'DateRangeInput-warning',
+	id: 'range-input-warning',
 };
 const success: FormStatusProps = {
 	type: 'success',
 	message: 'You did good',
-	id: 'DateRangeInput-success',
+	id: 'range-input-success',
 };
 
 storiesOf('DateRangeInput', module)
 	.add('Default', () => {
 		return (
-			<DateRangeInput label={label} onChange={onChange} dateRange={dateRange} id="default-DateRangeInput" />
-		);
-	})
-	.add('Range', () => {
-		return (
 			<DateRangeInput
 				label={label}
 				onChange={onChange}
 				dateRange={dateRange}
-				byRange={true}
-				id="byrange-DateRangeInput"
+				id="default-DateRangeInput"
 			/>
 		);
 	})
@@ -63,18 +57,6 @@ storiesOf('DateRangeInput', module)
 			/>
 		);
 	})
-	.add('Disabled with range', () => {
-		return (
-			<DateRangeInput
-				label={label}
-				onChange={onChange}
-				dateRange={dateRange}
-				byRange={true}
-				id="disabled-range-DateRangeInput"
-				disabled={true}
-			/>
-		);
-	})
 	.add('Success', () => {
 		return (
 			<DateRangeInput
@@ -82,18 +64,6 @@ storiesOf('DateRangeInput', module)
 				id="error-DateRangeInput"
 				onChange={onChange}
 				dateRange={dateRange}
-				status={success}
-			/>
-		);
-	})
-	.add('Success with range', () => {
-		return (
-			<DateRangeInput
-				label={label}
-				id="error-DateRangeInput"
-				onChange={onChange}
-				dateRange={dateRange}
-				byRange={true}
 				status={success}
 			/>
 		);
@@ -109,18 +79,6 @@ storiesOf('DateRangeInput', module)
 			/>
 		);
 	})
-	.add('Warning with range', () => {
-		return (
-			<DateRangeInput
-				label={label}
-				id="error-DateRangeInput"
-				onChange={onChange}
-				dateRange={dateRange}
-				byRange={true}
-				status={warning}
-			/>
-		);
-	})
 	.add('Error', () => {
 		return (
 			<DateRangeInput
@@ -128,18 +86,6 @@ storiesOf('DateRangeInput', module)
 				id="error-DateRangeInput"
 				onChange={onChange}
 				dateRange={dateRange}
-				status={error}
-			/>
-		);
-	})
-	.add('Error with range', () => {
-		return (
-			<DateRangeInput
-				label={label}
-				id="error-DateRangeInput"
-				onChange={onChange}
-				dateRange={dateRange}
-				byRange={true}
 				status={error}
 			/>
 		);

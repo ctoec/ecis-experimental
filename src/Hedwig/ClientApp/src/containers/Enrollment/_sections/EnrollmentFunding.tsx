@@ -426,10 +426,8 @@ const EnrollmentFunding: Section = {
 					<h2>{site && site.name}</h2>
 					<DateInput
 						name="entry"
-						onChange={updateFormData(
-							newDate => (newDate ? newDate.toDate() : null
-						)}
-						dateRange={entry ? moment(entry) : null}
+						onChange={updateFormData(newDate => (newDate ? newDate.toDate() : null))}
+						date={entry ? moment(entry) : null}
 						label="Start date"
 						id="enrollment-start-date"
 						status={initialLoadErrorGuard(
@@ -566,15 +564,10 @@ const EnrollmentFunding: Section = {
 							/>
 							<DateInput
 								name="c4kCertificateStartDate"
-								onChange={range =>
-									updateC4kCertificateStartDate(
-										(range.startDate && range.startDate.toDate()) || null
-									)
+								onChange={newDate =>
+									updateC4kCertificateStartDate(newDate ? newDate.toDate() : null)
 								}
-								dateRange={{
-									startDate: c4kCertificateStartDate ? moment(c4kCertificateStartDate) : null,
-									endDate: null,
-								}}
+								date={c4kCertificateStartDate ? moment(c4kCertificateStartDate) : null}
 								label="Certificate start date"
 								id="c4k-certificate-start-date"
 								status={initialLoadErrorGuard(
