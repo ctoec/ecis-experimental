@@ -4,7 +4,7 @@ namespace Hedwig.Validations.Rules
 {
   public class SourceRequired : FieldRequired<Funding>
   {
-    public SourceRequired() : base("Source")
-    { }
+	public SourceRequired() : base("Source")
+	{ }
   }
 }

@@ -2,7 +2,7 @@ install:
 	dotnet restore && cd ClientApp && yarn install
 
 dc-start:
-	./dc up -d --build
+	./dc up -d --build client
 
 db-migrate:
 	dotnet ef database update
@@ -52,6 +52,9 @@ prettier:
 
 dc-prettier:
 	./dc-client ./node_modules/.bin/prettier --single-quote --write "/home/node/app/src/**/*.{js,jsx,ts,tsx,json,css,scss}"
+
+dc-dotnet-format:
+	./dc-backend dotnet format
 
 api-generate:
 	rm -rf ${PWD}/src/Hedwig/ClientApp/src/generated

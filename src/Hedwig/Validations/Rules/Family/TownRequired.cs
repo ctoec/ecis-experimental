@@ -4,7 +4,7 @@ namespace Hedwig.Validations.Rules
 {
   public class TownRequired : FieldRequired<Family>
   {
-    public TownRequired() : base("Town")
-    {}
-  }  
+	public TownRequired() : base("Town")
+	{ }
+  }
 }

@@ -4,7 +4,7 @@ namespace Hedwig.Validations.Rules
 {
   public class FirstNameRequired : FieldRequired<Child>
   {
-    public FirstNameRequired() : base("FirstName")
-    { }
+	public FirstNameRequired() : base("FirstName")
+	{ }
   }
 }

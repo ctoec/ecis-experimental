@@ -7,23 +7,24 @@ namespace Hedwig.Controllers
   [Route("api/status")]
   public class StatusController : ControllerBase
   {
-    private readonly IConfiguration _configuration;
+	private readonly IConfiguration _configuration;
 
-    public StatusController(
-      IConfiguration configuration
-    )
-    {
-      _configuration = configuration;
-    }
-    
-    [HttpGet]
-    public IActionResult GetAction()
-    {
-      var env = _configuration.GetValue<string>("EnvironmentName");
-      return Ok(new {
-        Environment = env
-      });
-    }
+	public StatusController(
+	  IConfiguration configuration
+	)
+	{
+	  _configuration = configuration;
+	}
+
+	[HttpGet]
+	public IActionResult GetAction()
+	{
+	  var env = _configuration.GetValue<string>("EnvironmentName");
+	  return Ok(new
+	  {
+		Environment = env
+	  });
+	}
 
   }
 }

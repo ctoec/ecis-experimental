@@ -4,7 +4,7 @@ namespace Hedwig.Validations.Rules
 {
   public class BirthCertificateIdRequired : FieldRequired<Child>
   {
-    public BirthCertificateIdRequired() : base("BirthCertificateId")
-    {}
-  }  
+	public BirthCertificateIdRequired() : base("BirthCertificateId")
+	{ }
+  }
 }

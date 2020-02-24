@@ -4,7 +4,7 @@ namespace Hedwig.Validations.Rules
 {
   public class EntryRequired : FieldRequired<Enrollment>
   {
-    public EntryRequired() : base("Entry")
-    { }
+	public EntryRequired() : base("Entry")
+	{ }
   }
 }
