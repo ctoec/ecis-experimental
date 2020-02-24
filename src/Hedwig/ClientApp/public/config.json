@@ -1,3 +1,5 @@
 {
-	"WingedKeysUri": "https://localhost:5050"
+	"WingedKeysUri": "https://localhost:5050",
+	"Sentry.FEDsn": "",
+	"Sentry.Release": ""
 }
