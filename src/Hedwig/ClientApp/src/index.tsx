@@ -59,6 +59,7 @@ if (process.env.NODE_ENV === 'production') {
 } else {
 	const axe = require('react-axe');
 	axe(React, ReactDOM, 1000);
+	render(App);
 }
 
 if (module.hot) {
