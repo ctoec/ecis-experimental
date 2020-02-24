@@ -10,20 +10,20 @@ namespace Hedwig.Models
 {
   public abstract class Report : IHedwigIdEntity<int>, INonBlockingValidatableObject
   {
-    [Required]
-    public int Id { get; set; }
+	[Required]
+	public int Id { get; set; }
 
-    [JsonConverter(typeof(StringEnumConverter))]
-    public FundingSource Type { get; private set; }
+	[JsonConverter(typeof(StringEnumConverter))]
+	public FundingSource Type { get; private set; }
 
-    public int ReportingPeriodId { get; set; }
-    public ReportingPeriod ReportingPeriod { get; set; }
+	public int ReportingPeriodId { get; set; }
+	public ReportingPeriod ReportingPeriod { get; set; }
 
-    public DateTime? SubmittedAt { get; set; }
+	public DateTime? SubmittedAt { get; set; }
 
-    [NotMapped]
-    public List<Enrollment> Enrollments { get; set; }
-    [NotMapped]
-    public List<ValidationError> ValidationErrors { get; set; }
+	[NotMapped]
+	public List<Enrollment> Enrollments { get; set; }
+	[NotMapped]
+	public List<ValidationError> ValidationErrors { get; set; }
   }
 }

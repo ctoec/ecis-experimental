@@ -4,7 +4,7 @@ namespace Hedwig.Validations.Rules
 {
   public class StateRequired : FieldRequired<Family>
   {
-    public StateRequired() : base("State")
-    {}
-  }  
+	public StateRequired() : base("State")
+	{ }
+  }
 }

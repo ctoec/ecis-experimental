@@ -7,20 +7,20 @@ namespace Hedwig.Validations.Attributes
 {
   public class Exit_AfterEntryIfExists : ValidationAttribute
   {
-    protected override ValidationResult IsValid(object value, ValidationContext validationContext)
-    {
-      var enrollment = validationContext.ObjectInstance as Enrollment;
-      var exit = value as DateTime?;
+	protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+	{
+	  var enrollment = validationContext.ObjectInstance as Enrollment;
+	  var exit = value as DateTime?;
 
-      if(exit.HasValue && enrollment.Entry.HasValue)
-      {
-        if(exit.Value < enrollment.Entry.Value)
-        {
-          return new ValidationResult("Enrollment exit date cannot be before entry date");
-        }
-      }
+	  if (exit.HasValue && enrollment.Entry.HasValue)
+	  {
+		if (exit.Value < enrollment.Entry.Value)
+		{
+		  return new ValidationResult("Enrollment exit date cannot be before entry date");
+		}
+	  }
 
-      return null;
-    }
+	  return null;
+	}
   }
 }

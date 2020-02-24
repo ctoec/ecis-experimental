@@ -6,24 +6,24 @@ using Hedwig.Models;
 
 namespace Hedwig.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ReportingPeriodsController : ControllerBase
-    {
-        private readonly IReportingPeriodRepository _periods;
+  [Route("api/[controller]")]
+  [ApiController]
+  public class ReportingPeriodsController : ControllerBase
+  {
+	private readonly IReportingPeriodRepository _periods;
 
-        public ReportingPeriodsController(IReportingPeriodRepository periods)
-        {
-            _periods = periods;
-        }
+	public ReportingPeriodsController(IReportingPeriodRepository periods)
+	{
+	  _periods = periods;
+	}
 
-        // GET api/ReportingPeriod/CDC
-        [HttpGet("{source}")]
-        public async Task<ActionResult<List<ReportingPeriod>>> Get(
-            FundingSource source
-        )
-        {
-            return await _periods.GetReportingPeriodsByFundingSourceAsync(source);
-        }
-    }
+	// GET api/ReportingPeriod/CDC
+	[HttpGet("{source}")]
+	public async Task<ActionResult<List<ReportingPeriod>>> Get(
+		FundingSource source
+	)
+	{
+	  return await _periods.GetReportingPeriodsByFundingSourceAsync(source);
+	}
+  }
 }

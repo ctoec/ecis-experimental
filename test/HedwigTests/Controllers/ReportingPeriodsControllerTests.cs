@@ -9,17 +9,17 @@ namespace HedwigTests.Controllers
 {
   public class ReportingPeriodsControllerTests
   {
-    [Fact]
-    public async Task Get_Source_GetsReportingPeriodsBySource()
-    {
-      var _periods = new Mock<IReportingPeriodRepository>();
+	[Fact]
+	public async Task Get_Source_GetsReportingPeriodsBySource()
+	{
+	  var _periods = new Mock<IReportingPeriodRepository>();
 
-      var controller = new ReportingPeriodsController(_periods.Object);
+	  var controller = new ReportingPeriodsController(_periods.Object);
 
-      var source = FundingSource.CDC;
-      await controller.Get(source);
+	  var source = FundingSource.CDC;
+	  await controller.Get(source);
 
-      _periods.Verify(p => p.GetReportingPeriodsByFundingSourceAsync(source), Times.Once());
-    }
+	  _periods.Verify(p => p.GetReportingPeriodsByFundingSourceAsync(source), Times.Once());
+	}
   }
 }

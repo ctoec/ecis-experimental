@@ -4,7 +4,7 @@ namespace Hedwig.Validations.Rules
 {
   public class AgeGroupRequired : FieldRequired<Enrollment>
   {
-    public AgeGroupRequired() : base("AgeGroup", "Age group")
-    { }
+	public AgeGroupRequired() : base("AgeGroup", "Age group")
+	{ }
   }
 }

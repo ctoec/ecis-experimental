@@ -4,32 +4,32 @@ using System;
 
 namespace HedwigTests.Helpers
 {
-	public class FundingHelper
+  public class FundingHelper
+  {
+	public static Funding CreateFunding(
+		HedwigContext context,
+		FundingSource source = FundingSource.CDC,
+		FundingTime time = FundingTime.Full,
+		Enrollment enrollment = null,
+		ReportingPeriod firstReportingPeriod = null,
+		ReportingPeriod lastReportingPeriod = null
+	)
 	{
-		public static Funding CreateFunding(
-			HedwigContext context,
-			FundingSource source = FundingSource.CDC,
-			FundingTime time = FundingTime.Full,
-			Enrollment enrollment = null,
-			ReportingPeriod firstReportingPeriod = null,
-			ReportingPeriod lastReportingPeriod = null
-		)
-		{
-			enrollment = enrollment ?? EnrollmentHelper.CreateEnrollment(context);
+	  enrollment = enrollment ?? EnrollmentHelper.CreateEnrollment(context);
 
-			var funding = new Funding
-			{
-				EnrollmentId = enrollment.Id,
-				Source = source,
-				Time = time,
-        FirstReportingPeriod = firstReportingPeriod
-			};
+	  var funding = new Funding
+	  {
+		EnrollmentId = enrollment.Id,
+		Source = source,
+		Time = time,
+		FirstReportingPeriod = firstReportingPeriod
+	  };
 
-			if (lastReportingPeriod != null) funding.LastReportingPeriod = lastReportingPeriod;
+	  if (lastReportingPeriod != null) funding.LastReportingPeriod = lastReportingPeriod;
 
-			context.Fundings.Add(funding);
-			context.SaveChanges();
-			return funding;
-		}
+	  context.Fundings.Add(funding);
+	  context.SaveChanges();
+	  return funding;
 	}
+  }
 }

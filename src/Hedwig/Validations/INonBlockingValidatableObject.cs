@@ -4,6 +4,6 @@ namespace Hedwig.Validations
 {
   public interface INonBlockingValidatableObject
   {
-    List<ValidationError> ValidationErrors { get; set; }
+	List<ValidationError> ValidationErrors { get; set; }
   }
 }
