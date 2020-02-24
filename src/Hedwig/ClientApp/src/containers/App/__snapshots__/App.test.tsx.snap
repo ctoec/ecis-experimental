@@ -19,7 +19,7 @@ exports[`matches snapshot 1`] = `
         data-testid="overlay"
       />
       <header
-        class="usa-header usa-header--extended"
+        class="usa-header usa-header--extended usa-header--oec-default"
         role="banner"
       >
         <div
@@ -33,11 +33,15 @@ exports[`matches snapshot 1`] = `
               aria-label="ECE Reporter home"
               href="/"
             >
-              <span
-                class="usa-logo__text"
+              <div
+                class="usa-logo__text display-flex flex-align-center"
               >
-                ECE Reporter
-              </span>
+                <div>
+                  <h1>
+                    ECE Reporter
+                  </h1>
+                </div>
+              </div>
             </a>
           </div>
           <button
@@ -90,7 +94,7 @@ exports[`matches snapshot 1`] = `
               </li>
             </ul>
             <div
-              class="usa-nav__secondary"
+              class="usa-nav__secondary usa-nav__secondary--extended"
             >
               <ul
                 class="usa-nav__secondary-links"

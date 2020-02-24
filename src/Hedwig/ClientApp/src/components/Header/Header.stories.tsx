@@ -23,7 +23,7 @@ storiesOf('Header', module)
 		const customNavItems = object('Items', defaultNavItems);
 		return (
 			<Header
-				title={customTitle}
+				primaryTitle={customTitle}
 				navItems={customNavItems}
 				loginPath="/login"
 				logoutPath="/logout"
@@ -36,7 +36,7 @@ storiesOf('Header', module)
 		const customNavItems = object('Items', defaultNavItems);
 		return (
 			<Header
-				title={customTitle}
+				primaryTitle={customTitle}
 				navItems={customNavItems}
 				loginPath="/login"
 				logoutPath="/logout"

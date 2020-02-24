@@ -16,6 +16,23 @@
 	a:focus .usa-logo__text {
 		@extend [href]:focus;
 	}
+
+	&--oec-default {
+		h1 {
+			font-size: 0.5em;
+			font-weight: normal;
+		}
+
+		h2 {
+			font-size: 0.6em;
+		}
+	}
+}
+
+.usa-nav__secondary {
+	&--extended {
+		bottom: calc(100% - ((3rem + -7ch) / 2));
+	}
 }
 
 .usa-nav__secondary-links .usa-nav__secondary-item + .usa-nav__secondary-item {
@@ -61,7 +78,7 @@
 		float: right;
 		height: units(5);
 		text-align: right;
-		padding-top: 0.55rem;
+		padding-top: 0.35rem;
 	}
 
 	a {
