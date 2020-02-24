@@ -17,7 +17,7 @@ import {
 	InlineIcon,
 } from '../../components';
 import useApi from '../../hooks/useApi';
-import { Age, Enrollment, FundingSpace, FundingSource, ApiOrganizationsOrgIdEnrollmentsGetRequest } from '../../generated';
+import { Age, Enrollment, FundingSpace, FundingSource, ApiOrganizationsOrgIdEnrollmentsGetRequest, Organization } from '../../generated';
 import UserContext from '../../contexts/User/UserContext';
 import AgeGroupSection from './AgeGroupSection';
 import { DeepNonUndefineable } from '../../utils/types';
@@ -35,7 +35,9 @@ export default function Roster() {
 	};
 
 	const { user } = useContext(UserContext);
-	const siteIds = (idx(user, _ => _.orgPermissions[0].organization.sites) || []).map(s => s.id);
+	// Assumes that organization will always be defined
+	const organization = idx(user, _ => _.orgPermissions[0].organization) as Organization;
+	const siteIds = (idx(organization, _ => _.sites) || []).map(s => s.id);
 	const siteId = siteIds[0];
 	const siteParams = {
 		orgId: getIdForUser(user, 'org'),
@@ -176,7 +178,7 @@ export default function Roster() {
 				)}
 				<Legend items={legendItems} />
 				<AgeGroupSection
-					siteId={siteId}
+					organization={organization}
 					ageGroup={Age.InfantToddler}
 					ageGroupTitle={`Infant/toddler`}
 					enrollments={completeEnrollmentsByAgeGroup[Age.InfantToddler]}
@@ -185,7 +187,7 @@ export default function Roster() {
 					showPastEnrollments={showPastEnrollments}
 				/>
 				<AgeGroupSection
-					siteId={siteId}
+					organization={organization}
 					ageGroup={Age.Preschool}
 					ageGroupTitle={`Preschool`}
 					enrollments={completeEnrollmentsByAgeGroup[Age.Preschool]}
@@ -194,7 +196,7 @@ export default function Roster() {
 					showPastEnrollments={showPastEnrollments}
 				/>
 				<AgeGroupSection
-					siteId={siteId}
+					organization={organization}
 					ageGroup={Age.SchoolAge}
 					ageGroupTitle={`School age`}
 					enrollments={completeEnrollmentsByAgeGroup[Age.SchoolAge]}
@@ -203,7 +205,7 @@ export default function Roster() {
 					showPastEnrollments={showPastEnrollments}
 				/>
 				<AgeGroupSection
-					siteId={siteId}
+					organization={organization}
 					ageGroup="incomplete"
 					ageGroupTitle={`Incomplete enrollments`}
 					enrollments={incompleteEnrollments}

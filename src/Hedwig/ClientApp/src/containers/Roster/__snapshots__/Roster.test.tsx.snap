@@ -128,7 +128,7 @@ exports[`Roster matches snapshot 1`] = `
             class="oec-table__column-header oec-sortable"
             role="columnheader"
             scope="col"
-            style="width: 35%;"
+            style="width: 30%;"
           >
             <button
               aria-label="Sort table by Name in descending order"
@@ -176,7 +176,7 @@ exports[`Roster matches snapshot 1`] = `
             class="oec-table__column-header oec-sortable"
             role="columnheader"
             scope="col"
-            style="width: 25%;"
+            style="width: 20%;"
           >
             <button
               aria-label="Sort table by Funding in ascending order"
