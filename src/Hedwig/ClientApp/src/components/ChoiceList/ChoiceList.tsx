@@ -167,7 +167,8 @@ export function ChoiceList({
 	if (children.length === 1) {
 		const singletonInput = (
 			<div
-				className={`usa-form-group${status ? ` usa-form-group--${status.type}` : ''} ${className || ''}`}
+				className={`usa-form-group${status ? ` usa-form-group--${status.type}` : ''} ${className ||
+					''}`}
 				key={`${id}-form-group`}
 			>
 				{hint && <span className="usa-hint text-italic">{hint}</span>}
@@ -202,7 +203,12 @@ export function ChoiceList({
 			<div className={horizontal ? 'grid-row flex-align-start grid-gap' : ''}>
 				{[...children]}
 				{showotherInput && otherInputLabel !== undefined && (
-					<TextInput id={`${id}-other`} name={name || ''} label={otherInputLabel} onChange={changeEvent} />
+					<TextInput
+						id={`${id}-other`}
+						name={name || ''}
+						label={otherInputLabel}
+						onChange={changeEvent}
+					/>
 				)}
 			</div>
 		</FieldSet>

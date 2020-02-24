@@ -30,7 +30,7 @@ export default function AgeGroupSection({
 	enrollments,
 	fundingSpaces,
 	rosterDateRange,
-	showPastEnrollments
+	showPastEnrollments,
 }: AgeGroupSectionProps) {
 	if (!enrollments.length) return null;
 
@@ -43,11 +43,13 @@ export default function AgeGroupSection({
 					{lastFirstNameFormatter(row.child)}
 				</Link>
 				&nbsp;
-				{(isFunded(row, { source: FundingSource.CDC }) && hasValidationErrors(row)) ? InlineIcon({ icon: 'incomplete' }) : ''}
+				{isFunded(row, { source: FundingSource.CDC }) && hasValidationErrors(row)
+					? InlineIcon({ icon: 'incomplete' })
+					: ''}
 			</th>
 		),
 		sort: (row: Enrollment) => lastFirstNameFormatter(row.child),
-		width: "30%",
+		width: '30%',
 	};
 
 	const birthdateColumn = {
@@ -59,35 +61,33 @@ export default function AgeGroupSection({
 				</td>
 			)) || <></>,
 		sort: (row: Enrollment) => ((row.child && row.child.birthdate) || new Date(0)).getTime(),
-		width: "20%",
+		width: '20%',
 	};
 
 	const fundingColumn = {
 		name: 'Funding',
 		cell: ({ row }: { row: DeepNonUndefineable<Enrollment> }) => (
 			<td>
-				{filterFundingsForRosterTags(row.fundings, rosterDateRange).length > 0
-				? (filterFundingsForRosterTags(row.fundings, rosterDateRange) as DeepNonUndefineable<Funding[]>)
-					.map<React.ReactNode>((funding: DeepNonUndefineable<Funding>, index: number) =>
+				{filterFundingsForRosterTags(row.fundings, rosterDateRange).length > 0 ? (
+					(filterFundingsForRosterTags(row.fundings, rosterDateRange) as DeepNonUndefineable<
+						Funding[]
+					>).map<React.ReactNode>((funding: DeepNonUndefineable<Funding>, index: number) =>
 						generateFundingTag(funding, index)
-					) :
+					)
+				) : (
 					<span className="text-italic text-base">{NO_FUNDING}</span>
-				}
+				)}
 			</td>
 		),
 		sort: (row: Enrollment) => idx(row, _ => _.fundings[0].source) || '',
-		width: "20%",
+		width: '20%',
 	};
 
 	const siteColumn = {
 		name: 'Site',
-		cell: ({ row }: { row: DeepNonUndefineable<Enrollment> }) => (
-			<td>
-				{row.site.name}
-			</td>
-		),
+		cell: ({ row }: { row: DeepNonUndefineable<Enrollment> }) => <td>{row.site.name}</td>,
 		sort: (row: DeepNonUndefineable<Enrollment>) => (row.site.name || '').toLowerCase(),
-		width: '10%'
+		width: '10%',
 	};
 
 	const enrollmentDateColumn = {
@@ -100,7 +100,7 @@ export default function AgeGroupSection({
 			</td>
 		),
 		sort: (row: DeepNonUndefineable<Enrollment>) => (row.entry && row.entry.toString()) || '',
-		width: "20%",
+		width: '20%',
 	};
 
 	columns.push(nameColumn);
@@ -130,22 +130,29 @@ export default function AgeGroupSection({
 				<ul>
 					{fundingSpaces.map(space => {
 						const enrolledForFunding = enrollments.filter<DeepNonUndefineable<Enrollment>>(
-							enrollment => isFunded(enrollment, { source: space.source, time: space.time, currentRange: rosterDateRange})
-							).length
+							enrollment =>
+								isFunded(enrollment, {
+									source: space.source,
+									time: space.time,
+									currentRange: rosterDateRange,
+								})
+						).length;
 
 						return (
 							<li key={`${space.time}-${ageGroupTitle}`}>
 								<span className="text-bold">
-									{showPastEnrollments ? enrolledForFunding : `${enrolledForFunding}/${space.capacity}`}
+									{showPastEnrollments
+										? enrolledForFunding
+										: `${enrolledForFunding}/${space.capacity}`}
 								</span>
 								<span>
-									{showPastEnrollments 
-										? ` in ${(space.time || '').toLowerCase()} time ${(space.source || '')} spaces` 
-										: ` ${(space.time || '').toLowerCase()} time ${(space.source || '')} spaces filled`
-									} 
+									{showPastEnrollments
+										? ` in ${(space.time || '').toLowerCase()} time ${space.source || ''} spaces`
+										: ` ${(space.time || '').toLowerCase()} time ${space.source ||
+												''} spaces filled`}
 								</span>
 							</li>
-						)
+						);
 					})}
 				</ul>
 			)}

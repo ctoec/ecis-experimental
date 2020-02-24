@@ -7,12 +7,12 @@ import CommonContextProviderMock, {
 	defaultCdcReportingPeriods,
 } from '../../../contexts/__mocks__/CommonContextProviderMock';
 import {
-	completeEnrollment,
 	enrollmentMissingFirstName,
 	enrollmentMissingAddress,
 } from '../../../hooks/__mocks__/useApi';
 import EnrollmentEdit from './EnrollmentEdit';
 import { accessibilityTestHelper } from '../../accessibilityTestHelper';
+import { completeEnrollment } from '../../../tests/data';
 
 const fakeDate = '2019-03-02';
 

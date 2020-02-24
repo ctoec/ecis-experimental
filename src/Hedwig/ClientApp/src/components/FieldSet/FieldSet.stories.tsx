@@ -2,9 +2,21 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { FieldSet, FormStatusProps } from '..';
 
-const warning: FormStatusProps = { type: 'warning', message: 'These fields need your attention!', id: 'fieldset-warning' };
-const error: FormStatusProps = { type: 'error', message: 'These fields will block your progress!', id: 'fieldset-error' };
-const success: FormStatusProps = { type: 'success', message: 'These fields are filled out and validated yay!', id: 'fieldset-success' };
+const warning: FormStatusProps = {
+	type: 'warning',
+	message: 'These fields need your attention!',
+	id: 'fieldset-warning',
+};
+const error: FormStatusProps = {
+	type: 'error',
+	message: 'These fields will block your progress!',
+	id: 'fieldset-error',
+};
+const success: FormStatusProps = {
+	type: 'success',
+	message: 'These fields are filled out and validated yay!',
+	id: 'fieldset-success',
+};
 
 storiesOf('FieldSet', module).add('Default', () => {
 	return (

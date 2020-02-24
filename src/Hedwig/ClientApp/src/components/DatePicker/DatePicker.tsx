@@ -45,7 +45,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 		const startDateInvalid = !input.startDate || !input.startDate.isValid();
 		const endDateInvalid = !input.endDate || !input.endDate.isValid();
 		setSelectedRange({ ...input, startDateInvalid, endDateInvalid });
-		onChange({...input, name: name || ''});
+		onChange({ ...input, name: name || '' });
 	}
 
 	function isOutsidePossibleRange(candidateDate: Moment) {

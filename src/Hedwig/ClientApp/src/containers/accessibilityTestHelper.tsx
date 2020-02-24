@@ -2,7 +2,6 @@ import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 import { axe, toHaveNoViolations } from 'jest-axe';
 
-
 expect.extend(toHaveNoViolations);
 
 // This is a *very* minimal accessibility check

@@ -4,9 +4,7 @@ import { render } from '@testing-library/react';
 
 describe('PrivacyPolicy', () => {
 	it('matches snapshot', () => {
-		const { asFragment } = render(
-			<PrivacyPolicy />
-		);
+		const { asFragment } = render(<PrivacyPolicy />);
 		expect(asFragment()).toMatchSnapshot();
 	});
 });

@@ -18,19 +18,19 @@ describe('Smoke screen', () => {
 		const driver = driverHelper.createDriver();
 		try {
 			await load(driver, appUrl);
-			const title = await driver.getTitle()
+			const title = await driver.getTitle();
 			expect(title).toBe('ECE Reporter');
 		} finally {
 			await driverHelper.quit(driver);
 		}
 	});
-	
+
 	it('HTML Title renders', async () => {
 		const driver = driverHelper.createDriver();
 		try {
 			const root = await load(driver, appUrl);
 			const { getByLocator } = render(root);
-			const header = await getByLocator({css: 'header em'});
+			const header = await getByLocator({ css: 'header em' });
 			expect(await header.getText()).toBe('ECE Reporter');
 		} finally {
 			await driverHelper.quit(driver);

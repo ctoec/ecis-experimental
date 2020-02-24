@@ -13,7 +13,14 @@ storiesOf('TextInput', module)
 		return <TextInput id="id" label="Default text input" onChange={onChange} />;
 	})
 	.add('With default value', () => {
-		return <TextInput id="id1" label="Default text input" onChange={onChange} defaultValue="default text" />;
+		return (
+			<TextInput
+				id="id1"
+				label="Default text input"
+				onChange={onChange}
+				defaultValue="default text"
+			/>
+		);
 	})
 	.add('Optional', () => {
 		return <TextInput id="id2" label="Default optional text input" onChange={onChange} optional />;
@@ -44,10 +51,10 @@ storiesOf('TextInput', module)
 					</div>
 				</FieldSet>
 			</div>
-		)
+		);
 	})
 	.add('Error', () => {
-		return <TextInput id="id8" label="Default text input" onChange={onChange} status={error} />
+		return <TextInput id="id8" label="Default text input" onChange={onChange} status={error} />;
 	})
 	.add('Error inside error Fieldset', () => {
 		return (
@@ -67,4 +74,4 @@ storiesOf('TextInput', module)
 				</FieldSet>
 			</div>
 		);
-	})
+	});

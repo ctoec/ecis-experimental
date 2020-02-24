@@ -7,24 +7,14 @@ function createChoiceList(type: 'select' | 'radio' | 'check', selected?: string[
 		id: 'id',
 		options: [
 			{ text: 'Option 1', value: '1' },
-			{ text: 'Option 2', value: '2' }
+			{ text: 'Option 2', value: '2' },
 		],
-		onChange: () => {}
-	}
+		onChange: () => {},
+	};
 	if (type === 'select') {
-		return <ChoiceList
-			{...commonProps}
-			type={type}
-			label="choice"
-			selected={selected}
-		/>
+		return <ChoiceList {...commonProps} type={type} label="choice" selected={selected} />;
 	} else {
-		return <ChoiceList
-			{...commonProps}
-			type={type}
-			legend="choice"
-			selected={selected}
-		/>
+		return <ChoiceList {...commonProps} type={type} legend="choice" selected={selected} />;
 	}
 }
 
@@ -48,7 +38,7 @@ describe('check', () => {
 
 	it('selected prop is the selected input', () => {
 		const component = render(createChoiceList('check', ['1']));
-		expect((component.getByDisplayValue(/1/i) as HTMLInputElement).checked).toBeTruthy()
+		expect((component.getByDisplayValue(/1/i) as HTMLInputElement).checked).toBeTruthy();
 	});
 });
 
@@ -60,6 +50,6 @@ describe('radio', () => {
 
 	it('selected prop is the selected input', () => {
 		const component = render(createChoiceList('radio', ['1']));
-		expect((component.getByDisplayValue(/1/i) as HTMLInputElement).checked).toBeTruthy()
+		expect((component.getByDisplayValue(/1/i) as HTMLInputElement).checked).toBeTruthy();
 	});
 });

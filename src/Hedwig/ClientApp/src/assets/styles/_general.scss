@@ -36,7 +36,7 @@ h1 {
 // *** Lists ***
 /* hide original list counter */
 ol > li {
-	display:block;
+	display: block;
 }
 /* reset counter */
 ol > li:first-child {
@@ -48,8 +48,8 @@ ol > li {
 }
 /* print counter */
 ol > li:before {
-	content:counters(item, ".") ". ";
-	font-weight:bold;
+	content: counters(item, '.') '. ';
+	font-weight: bold;
 }
 
 ol.no-list-counter > li:before {
@@ -76,7 +76,8 @@ ol.no-list-counter > li:before {
 
 // *** Form ***
 .usa-form {
-	h2, h3 {
+	h2,
+	h3 {
 		@include u-margin-top(4);
 		margin-bottom: 0;
 	}
@@ -115,23 +116,23 @@ a.usa-button {
 
 // blue-50v text and tag bg
 .text-blue-50v {
-  color: color('blue-50v');
+	color: color('blue-50v');
 }
 .bg-blue-50v {
-  background-color: color('blue-50v');
+	background-color: color('blue-50v');
 }
 
 // violet-warm-60 text and tag bg
 .text-violet-warm-60 {
-  color: color('violet-warm-60');
+	color: color('violet-warm-60');
 }
 .bg-violet-warm-60 {
-  background-color: color('violet-warm-60');
+	background-color: color('violet-warm-60');
 }
 
 // gold-20v text and tag bg
 .text-gold-20v {
-  color: color('gold-20v');
+	color: color('gold-20v');
 }
 .bg-gold-20v {
 	background-color: color('gold-20v');
@@ -140,7 +141,7 @@ a.usa-button {
 
 // gold-30v text and tag bg
 .text-gold-30v {
-  color: color('gold-30v');
+	color: color('gold-30v');
 }
 .bg-gold-30v {
 	background-color: color('gold-30v');

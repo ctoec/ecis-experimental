@@ -1,3 +1,3 @@
 export default function notNullOrUndefined(value: any) {
-  return value !== null && typeof(value) !== 'undefined';
+	return value !== null && typeof value !== 'undefined';
 }

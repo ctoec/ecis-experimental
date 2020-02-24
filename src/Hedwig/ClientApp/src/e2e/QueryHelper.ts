@@ -10,10 +10,15 @@ const rootSelector = { css: 'html' };
  * @param opt_timeout Timeout to wait for html element to render
  * @param opt_message Message to display if timeout is reached
  */
-export const load = async (driver: IWebDriver, url: string, opt_timeout?: number, opt_message?: string) => {
+export const load = async (
+	driver: IWebDriver,
+	url: string,
+	opt_timeout?: number,
+	opt_message?: string
+) => {
 	await driver.get(url);
 	return await waitForElement(driver, rootSelector, opt_timeout, opt_message);
-}
+};
 
 /**
  * Call after a page navigation to ensure that the html element is rendered on the new page.
@@ -23,7 +28,7 @@ export const load = async (driver: IWebDriver, url: string, opt_timeout?: number
  */
 export const reload = async (driver: IWebDriver, opt_timeout?: number, opt_message?: string) => {
 	return await waitForElement(driver, rootSelector, opt_timeout, opt_message);
-}
+};
 
 /**
  * Obtain query methods on the supplied element.
@@ -70,26 +75,38 @@ export const render = (element: WebElement): RenderedWebElement => {
 		findByValue: (text: string) => {
 			return extendedWebElement.findByValue(text);
 		},
-	}
-}
+	};
+};
 
 interface WebElementExtension {
 	getByLocator(locator: Locator): Promise<ExtendedWebElement>;
 	queryByLocator(locator: Locator): Promise<ExtendedWebElement | null>;
-	findByLocator(locator: Locator, opt_timeout?: number, opt_message?: string): Promise<ExtendedWebElement>;
+	findByLocator(
+		locator: Locator,
+		opt_timeout?: number,
+		opt_message?: string
+	): Promise<ExtendedWebElement>;
 	getByText(text: string): Promise<ExtendedWebElement>;
 	queryByText(text: string): Promise<ExtendedWebElement | null>;
 	findByText(text: string, opt_timeout?: number, opt_message?: string): Promise<ExtendedWebElement>;
 	getByPlaceholder(text: string): Promise<ExtendedWebElement>;
 	queryByPlaceholder(text: string): Promise<ExtendedWebElement | null>;
-	findByPlaceholder(text: string, opt_timeout?: number, opt_message?: string): Promise<ExtendedWebElement>;
+	findByPlaceholder(
+		text: string,
+		opt_timeout?: number,
+		opt_message?: string
+	): Promise<ExtendedWebElement>;
 	getByValue(text: string): Promise<ExtendedWebElement>;
 	queryByValue(text: string): Promise<ExtendedWebElement | null>;
-	findByValue(text: string, opt_timeout?: number, opt_message?: string): Promise<ExtendedWebElement>;
+	findByValue(
+		text: string,
+		opt_timeout?: number,
+		opt_message?: string
+	): Promise<ExtendedWebElement>;
 }
 
 type RenderedWebElement = {
-	element: WebElement
+	element: WebElement;
 } & WebElementExtension;
 
 class ExtendedWebElement extends WebElement implements WebElementExtension {
@@ -118,7 +135,7 @@ class ExtendedWebElement extends WebElement implements WebElementExtension {
 	}
 	async findByLocator(locator: Locator, opt_timeout?: number, opt_message?: string) {
 		const driver = this.getDriver();
-		await driver.wait(until.elementsLocated(locator), opt_timeout, opt_message)
+		await driver.wait(until.elementsLocated(locator), opt_timeout, opt_message);
 		const elements = await this.findElements(locator);
 		if (elements.length === 1) {
 			return extendWebElement(elements[0]);
@@ -155,24 +172,29 @@ class ExtendedWebElement extends WebElement implements WebElementExtension {
 	}
 }
 
-const waitForElement = async (driver: IWebDriver, selector: Locator, opt_timeout?: number, opt_message?: string) => {
+const waitForElement = async (
+	driver: IWebDriver,
+	selector: Locator,
+	opt_timeout?: number,
+	opt_message?: string
+) => {
 	await driver.wait(until.elementLocated(selector), opt_timeout, opt_message);
 	return driver.findElement(selector);
-}
+};
 
 const extendWebElement = (element: WebElement): ExtendedWebElement => {
 	return new ExtendedWebElement(element);
-}
+};
 
 // Selectors
 const selectorByText = (text: string) => {
 	return By.xpath(`//*[text()=\"${text}\"]`);
-}
+};
 
 const selectorByPlaceholder = (text: string) => {
 	return By.xpath(`//*[@placeholder=\"${text}\"]`);
-}
+};
 
 const selectorByValue = (text: string) => {
 	return By.xpath(`//*[@value=\"${text}\"]`);
-}
+};

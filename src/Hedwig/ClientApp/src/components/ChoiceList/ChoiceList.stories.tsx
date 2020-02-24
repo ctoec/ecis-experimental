@@ -76,7 +76,7 @@ storiesOf('ChoiceList', module)
 				id="storybook-radio"
 				legend="Radio items"
 			/>
-		)
+		);
 	})
 	.add('Checklist', () => {
 		return (
@@ -122,7 +122,7 @@ storiesOf('ChoiceList', module)
 				id="storybook-checklist"
 				legend="Checklist items"
 			/>
-		)
+		);
 	})
 	.add('Select', () => {
 		return (

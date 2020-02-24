@@ -17,7 +17,14 @@ import {
 	InlineIcon,
 } from '../../components';
 import useApi from '../../hooks/useApi';
-import { Age, Enrollment, FundingSpace, FundingSource, ApiOrganizationsOrgIdEnrollmentsGetRequest, Organization } from '../../generated';
+import {
+	Age,
+	Enrollment,
+	FundingSpace,
+	FundingSource,
+	ApiOrganizationsOrgIdEnrollmentsGetRequest,
+	Organization,
+} from '../../generated';
 import UserContext from '../../contexts/User/UserContext';
 import AgeGroupSection from './AgeGroupSection';
 import { DeepNonUndefineable } from '../../utils/types';
@@ -43,7 +50,7 @@ export default function Roster() {
 		orgId: getIdForUser(user, 'org'),
 		id: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		include: ['organizations', 'funding_spaces'],
-	}
+	};
 	const [siteLoading, siteError, site] = useApi(
 		api => api.apiOrganizationsOrgIdSitesIdGet(siteParams),
 		[user, siteId]
@@ -55,7 +62,7 @@ export default function Roster() {
 		include: ['child', 'fundings'],
 		startDate: (dateRange && dateRange.startDate && dateRange.startDate.toDate()) || undefined,
 		endDate: (dateRange && dateRange.endDate && dateRange.endDate.toDate()) || undefined,
-	}
+	};
 	const [enrollmentLoading, enrollmentError, enrollments] = useApi(
 		api => api.apiOrganizationsOrgIdEnrollmentsGet(enrollmentParams),
 		[user, dateRange]
@@ -65,8 +72,12 @@ export default function Roster() {
 		return <div className="Roster"></div>;
 	}
 
-	const incompleteEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>(enrollment => !enrollment.ageGroup || !enrollment.entry);
-	const completeEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>(enrollment => !incompleteEnrollments.includes(enrollment));
+	const incompleteEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>(
+		enrollment => !enrollment.ageGroup || !enrollment.entry
+	);
+	const completeEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>(
+		enrollment => !incompleteEnrollments.includes(enrollment)
+	);
 
 	const completeEnrollmentsByAgeGroup = getObjectsByAgeGroup(completeEnrollments);
 
@@ -84,8 +95,8 @@ export default function Roster() {
 
 	Object.keys(fundingSourceDetails).forEach(source => {
 		const capacityForFunding = getFundingSpaceCapacity(site.organization, { source });
-		const enrolledForFunding = enrollments.filter<DeepNonUndefineable<Enrollment>>(
-			enrollment => isFunded(enrollment, { source })
+		const enrolledForFunding = enrollments.filter<DeepNonUndefineable<Enrollment>>(enrollment =>
+			isFunded(enrollment, { source })
 		).length;
 
 		if (enrolledForFunding === 0) {
@@ -99,14 +110,22 @@ export default function Roster() {
 				capacityForFunding,
 				showPastEnrollments
 			),
-			symbol: <Tag text={source} color={fundingSourceDetails[source].colorToken} className="position-relative top-neg-2px" />,
+			symbol: (
+				<Tag
+					text={source}
+					color={fundingSourceDetails[source].colorToken}
+					className="position-relative top-neg-2px"
+				/>
+			),
 		});
 	});
 
 	// CDC funded enrollments with validationErrors are considered to be missing information
-	const missingInformationEnrollmentsCount = enrollments.filter<DeepNonUndefineable<Enrollment>>(enrollment => 
-		isFunded(enrollment, { source: FundingSource.CDC })
-		&& !!enrollment.validationErrors && enrollment.validationErrors.length > 0 
+	const missingInformationEnrollmentsCount = enrollments.filter<DeepNonUndefineable<Enrollment>>(
+		enrollment =>
+			isFunded(enrollment, { source: FundingSource.CDC }) &&
+			!!enrollment.validationErrors &&
+			enrollment.validationErrors.length > 0
 	).length;
 	if (missingInformationEnrollmentsCount > 0) {
 		legendItems.push({
@@ -126,7 +145,11 @@ export default function Roster() {
 				<div className="grid-row flex-first-baseline flex-space-between">
 					<h1 className="tablet:grid-col-auto">{site.name}</h1>
 					<div className="tablet:grid-col-auto">
-						<Button text="Enroll child" href={`/roster/sites/${site.id}/enroll`} className="margin-right-0" />
+						<Button
+							text="Enroll child"
+							href={`/roster/sites/${site.id}/enroll`}
+							className="margin-right-0"
+						/>
 					</div>
 				</div>
 				<div className="grid-row">
@@ -135,7 +158,9 @@ export default function Roster() {
 							<span className="margin-right-2 flex-auto">{numKidsEnrolledText}</span>
 							<Button
 								text={
-									showPastEnrollments ? 'View only current enrollments' : 'Filter for past enrollments'
+									showPastEnrollments
+										? 'View only current enrollments'
+										: 'Filter for past enrollments'
 								}
 								appearance="unstyled"
 								onClick={handlePastEnrollmentsChange}

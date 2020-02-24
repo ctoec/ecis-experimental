@@ -28,20 +28,18 @@ export default function ReportDetail() {
 		return <div className="Report"></div>;
 	}
 
-	const numEnrollmentsMissingInfo = (report.enrollments|| []).filter<DeepNonUndefineable<Enrollment>>(
-		e => !!e.validationErrors && e.validationErrors.length > 0
-	).length;
+	const numEnrollmentsMissingInfo = (report.enrollments || []).filter<
+		DeepNonUndefineable<Enrollment>
+	>(e => !!e.validationErrors && e.validationErrors.length > 0).length;
 
 	let additionalAlerts: AlertProps[] = [];
 
 	if (error) {
-		additionalAlerts.push(
-			{
-	      type: 'error',
-	      heading: 'Something went wrong',
-	      text: 'There was an error loading the report',
-			},
-		);
+		additionalAlerts.push({
+			type: 'error',
+			heading: 'Something went wrong',
+			text: 'There was an error loading the report',
+		});
 	}
 
 	if (numEnrollmentsMissingInfo) {

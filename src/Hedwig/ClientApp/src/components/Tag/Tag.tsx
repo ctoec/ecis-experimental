@@ -10,5 +10,9 @@ export type TagProps = {
 export function Tag({ key, text, color, className: addClassName }: TagProps) {
 	var className = `usa-tag ${addClassName}`;
 	if (color) className += ` bg-${color}`;
-	return <span key={key} className={className}>{text}</span>;
+	return (
+		<span key={key} className={className}>
+			{text}
+		</span>
+	);
 }

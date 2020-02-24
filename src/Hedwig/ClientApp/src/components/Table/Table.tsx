@@ -70,10 +70,7 @@ export class Table<T> extends React.Component<TableProps<T>, TableSort> {
 		}
 
 		return (
-			<table id={id} className={cx(
-				'oec-table',
-				{ 'oec-table--full-width': fullWidth }
-			)}>
+			<table id={id} className={cx('oec-table', { 'oec-table--full-width': fullWidth })}>
 				{caption && <caption>{caption}</caption>}
 				<thead>
 					<tr>

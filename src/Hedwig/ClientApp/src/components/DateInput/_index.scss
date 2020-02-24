@@ -1,8 +1,11 @@
-.oec-date-input__input.usa-form-group--error, .oec-date-input__input.usa-form-group--warning {
+.oec-date-input__input.usa-form-group--error,
+.oec-date-input__input.usa-form-group--warning {
 	margin-top: 0;
 }
 
-.DateInput__disabled, .SingleDatePickerInput__disabled, .DateRangePickerInput__disabled {
+.DateInput__disabled,
+.SingleDatePickerInput__disabled,
+.DateRangePickerInput__disabled {
 	background: unset;
 	background-color: unset;
 }

@@ -73,9 +73,15 @@ export default function EnrollmentDetail({
 				<div className="grid-row flex-first-baseline flex-space-between">
 					<div>
 						<h1>{nameFormatter(child)}</h1>
-						<span className="usa-hint text-italic">{enrollmentDetailMetadataFormatter(enrollment)}</span>
+						<span className="usa-hint text-italic">
+							{enrollmentDetailMetadataFormatter(enrollment)}
+						</span>
 					</div>
-					<Button text="Withdraw" href={`/roster/sites/${siteId}/enrollments/${enrollment.id}/withdraw`} className="margin-right-0" />
+					<Button
+						text="Withdraw"
+						href={`/roster/sites/${siteId}/enrollments/${enrollment.id}/withdraw`}
+						className="margin-right-0"
+					/>
 				</div>
 				{sections.map(section => {
 					var props: SectionProps = { siteId, enrollment, mutate };

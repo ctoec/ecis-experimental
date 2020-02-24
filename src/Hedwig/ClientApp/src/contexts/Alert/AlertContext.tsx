@@ -21,25 +21,24 @@ const AlertProvider: React.FC = ({ children }) => {
 	const [alertsSetAtPath, setAlertsSetAtPath] = useState();
 	const [alertsDisplayAtPath, setAlertsDisplayAtPath] = useState();
 
-	const setAlerts = useCallback((newAlerts: AlertProps[]) => {
-		if (newAlerts.length > 0) {
-			setAlertsSetAtPath(location.pathname);
-		} else {
-			setAlertsSetAtPath(null);
-		}
-		setAlertsDisplayAtPath(null); // Should always be reset when new alerts?
-		internalSetAlerts(newAlerts);
-	}, [location.pathname]);
+	const setAlerts = useCallback(
+		(newAlerts: AlertProps[]) => {
+			if (newAlerts.length > 0) {
+				setAlertsSetAtPath(location.pathname);
+			} else {
+				setAlertsSetAtPath(null);
+			}
+			setAlertsDisplayAtPath(null); // Should always be reset when new alerts?
+			internalSetAlerts(newAlerts);
+		},
+		[location.pathname]
+	);
 
 	useEffect(() => {
-		if (
-			alerts.length > 0 &&
-			alertsDisplayAtPath &&
-			location.pathname !== alertsDisplayAtPath
-		) {
+		if (alerts.length > 0 && alertsDisplayAtPath && location.pathname !== alertsDisplayAtPath) {
 			setAlerts([]);
 		}
-	}, [location.pathname, alerts.length, alertsDisplayAtPath, setAlerts])
+	}, [location.pathname, alerts.length, alertsDisplayAtPath, setAlerts]);
 
 	const getAlerts = (): AlertProps[] => {
 		if (alerts.length > 0 && location.pathname !== alertsSetAtPath && !alertsDisplayAtPath) {

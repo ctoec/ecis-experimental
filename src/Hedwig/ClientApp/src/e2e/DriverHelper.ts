@@ -1,6 +1,6 @@
-import { ThenableWebDriver, WebDriver, Builder } from "selenium-webdriver";
+import { ThenableWebDriver, WebDriver, Builder } from 'selenium-webdriver';
 
-import { gridHost } from "./config";
+import { gridHost } from './config';
 
 export type IWebDriver = ThenableWebDriver | WebDriver;
 
@@ -21,7 +21,7 @@ export class DriverHelper {
 			.build();
 		this.__drivers.push(driver);
 		return driver;
-	}
+	};
 
 	quit = async (driver: ThenableWebDriver | WebDriver) => {
 		try {
@@ -29,7 +29,7 @@ export class DriverHelper {
 		} catch {
 			// Already closed
 		}
-	}
+	};
 
 	cleanup = async () => {
 		this.__drivers.forEach(async driver => {
@@ -39,5 +39,5 @@ export class DriverHelper {
 				// Already closed
 			}
 		});
-	}
+	};
 }

@@ -10,12 +10,8 @@ export type FormStatusProps = {
 
 export const FormStatus = ({ message, type, id }: FormStatusProps) => {
 	return (
-		<span
-			className={`usa-${type}-message`}
-			id={id}
-			role={type === 'error' ? 'alert' : 'status'}
-		>
-			{(type === 'warning' && message) ? <InlineIcon icon="incomplete" /> : ''} {message}
+		<span className={`usa-${type}-message`} id={id} role={type === 'error' ? 'alert' : 'status'}>
+			{type === 'warning' && message ? <InlineIcon icon="incomplete" /> : ''} {message}
 		</span>
 	);
 };

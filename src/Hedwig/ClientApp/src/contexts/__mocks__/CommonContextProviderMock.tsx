@@ -65,23 +65,19 @@ export const defaultCdcReportingPeriods: ReportingPeriod[] = [
 type CommonContextProviderMockProps = {
 	user?: User;
 	cdcReportingPeriods?: ReportingPeriod[];
-	history?: History<any>
+	history?: History<any>;
 };
 
 const CommonContextProviderMock: React.FC<CommonContextProviderMockProps> = ({
 	children,
 	user = defaultUser,
 	cdcReportingPeriods = defaultCdcReportingPeriods,
-	history = createMemoryHistory()
+	history = createMemoryHistory(),
 }) => {
 	return (
 		<UserContext.Provider value={{ user }}>
 			<ReportingPeriodContext.Provider value={{ cdcReportingPeriods }}>
-				<Router
-					history={history}
-				>
-					{children}
-				</Router>
+				<Router history={history}>{children}</Router>
 			</ReportingPeriodContext.Provider>
 		</UserContext.Provider>
 	);
