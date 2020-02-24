@@ -34,84 +34,83 @@ export default function AgeGroupSection({
 }: AgeGroupSectionProps) {
 	if (!enrollments.length) return null;
 
-	let columns: Column<DeepNonUndefineable<Enrollment>>[] = [];
-	columns = [
-		...columns, 
-		...[
-			{
-				name: 'Name',
-				cell: ({ row }: { row: DeepNonUndefineable<Enrollment> }) => (
-					<th scope="row">
-						<Link to={`/roster/sites/${row.siteId}/enrollments/${row.id}/`} className="usa-link print">
-							{lastFirstNameFormatter(row.child)}
-						</Link>
-						&nbsp;
-						{(isFunded(row, { source: FundingSource.CDC }) && hasValidationErrors(row)) ? InlineIcon({ icon: 'incomplete' }) : ''}
-					</th>
-				),
-				sort: (row: Enrollment) => lastFirstNameFormatter(row.child),
-				width: "30%",
-			},
-			{
-				name: 'Birthdate',
-				cell: ({ row }: { row: DeepNonUndefineable<Enrollment> }) =>
-					(row.child && (
-						<td className="oec-table__cell--tabular-nums">
-							{row.child.birthdate && dateFormatter(row.child.birthdate)}
-						</td>
-					)) || <></>,
-				sort: (row: Enrollment) => ((row.child && row.child.birthdate) || new Date(0)).getTime(),
-				width: "20%",
-			},
-			{
-				name: 'Funding',
-				cell: ({ row }: { row: DeepNonUndefineable<Enrollment> }) => (
-					<td>
-						{filterFundingsForRosterTags(row.fundings, rosterDateRange).length > 0
-						? (filterFundingsForRosterTags(row.fundings, rosterDateRange) as DeepNonUndefineable<Funding[]>)
-							.map<React.ReactNode>((funding: DeepNonUndefineable<Funding>, index: number) =>
-								generateFundingTag(funding, index)
-							) :
-							<span className="text-italic text-base">{NO_FUNDING}</span>
-						}
-					</td>
-				),
-				sort: (row: Enrollment) => idx(row, _ => _.fundings[0].source) || '',
-				width: "20%",
-			}
-		]
-	];
+	const columns: Column<DeepNonUndefineable<Enrollment>>[] = [];
+	const nameColumn = {
+		name: 'Name',
+		cell: ({ row }: { row: DeepNonUndefineable<Enrollment> }) => (
+			<th scope="row">
+				<Link to={`/roster/sites/${row.siteId}/enrollments/${row.id}/`} className="usa-link print">
+					{lastFirstNameFormatter(row.child)}
+				</Link>
+				&nbsp;
+				{(isFunded(row, { source: FundingSource.CDC }) && hasValidationErrors(row)) ? InlineIcon({ icon: 'incomplete' }) : ''}
+			</th>
+		),
+		sort: (row: Enrollment) => lastFirstNameFormatter(row.child),
+		width: "30%",
+	};
+
+	const birthdateColumn = {
+		name: 'Birthdate',
+		cell: ({ row }: { row: DeepNonUndefineable<Enrollment> }) =>
+			(row.child && (
+				<td className="oec-table__cell--tabular-nums">
+					{row.child.birthdate && dateFormatter(row.child.birthdate)}
+				</td>
+			)) || <></>,
+		sort: (row: Enrollment) => ((row.child && row.child.birthdate) || new Date(0)).getTime(),
+		width: "20%",
+	};
+
+	const fundingColumn = {
+		name: 'Funding',
+		cell: ({ row }: { row: DeepNonUndefineable<Enrollment> }) => (
+			<td>
+				{filterFundingsForRosterTags(row.fundings, rosterDateRange).length > 0
+				? (filterFundingsForRosterTags(row.fundings, rosterDateRange) as DeepNonUndefineable<Funding[]>)
+					.map<React.ReactNode>((funding: DeepNonUndefineable<Funding>, index: number) =>
+						generateFundingTag(funding, index)
+					) :
+					<span className="text-italic text-base">{NO_FUNDING}</span>
+				}
+			</td>
+		),
+		sort: (row: Enrollment) => idx(row, _ => _.fundings[0].source) || '',
+		width: "20%",
+	};
+
+	const siteColumn = {
+		name: 'Site',
+		cell: ({ row }: { row: DeepNonUndefineable<Enrollment> }) => (
+			<td>
+				{row.site.name}
+			</td>
+		),
+		sort: (row: DeepNonUndefineable<Enrollment>) => (row.site.name || '').toLowerCase(),
+		width: '10%'
+	};
+
+	const enrollmentDateColumn = {
+		name: 'Enrollment date',
+		cell: ({ row }: { row: DeepNonUndefineable<Enrollment> }) => (
+			<td className="oec-table__cell--tabular-nums">
+				{row.entry
+					? dateFormatter(row.entry) + (row.exit ? `–${dateFormatter(row.exit)}` : '')
+					: ''}
+			</td>
+		),
+		sort: (row: DeepNonUndefineable<Enrollment>) => (row.entry && row.entry.toString()) || '',
+		width: "20%",
+	};
+
+	columns.push(nameColumn);
+	columns.push(birthdateColumn);
+	columns.push(fundingColumn);
 	// Only show the site column if it exists (more than one site)
 	if (organization.sites && organization.sites.length > 1) {
-		columns = [
-			...columns,
-			{
-				name: 'Site',
-				cell: ({ row }: { row: DeepNonUndefineable<Enrollment> }) => (
-					<td>
-						{row.site.name}
-					</td>
-				),
-				sort: (row: DeepNonUndefineable<Enrollment>) => (row.site.name || '').toLowerCase(),
-				width: '10%'
-			}
-		]
+		columns.push(siteColumn);
 	}
-	columns = [
-		...columns,
-		{
-			name: 'Enrollment date',
-			cell: ({ row }) => (
-				<td className="oec-table__cell--tabular-nums">
-					{row.entry
-						? dateFormatter(row.entry) + (row.exit ? `–${dateFormatter(row.exit)}` : '')
-						: ''}
-				</td>
-			),
-			sort: row => (row.entry && row.entry.toString()) || '',
-			width: "20%",
-		}
-	];
+	columns.push(enrollmentDateColumn);
 
 	const rosterTableProps: TableProps<DeepNonUndefineable<Enrollment>> = {
 		id: `${ageGroup}-roster-table`,
