@@ -17,17 +17,14 @@ import {
 	InlineIcon,
 } from '../../components';
 import useApi from '../../hooks/useApi';
-<<<<<<< HEAD
-import { Age, Enrollment, FundingSpace, FundingSource, ApiOrganizationsOrgIdEnrollmentsGetRequest, Organization } from '../../generated';
-=======
 import {
 	Age,
 	Enrollment,
 	FundingSpace,
 	FundingSource,
 	ApiOrganizationsOrgIdEnrollmentsGetRequest,
+	Organization,
 } from '../../generated';
->>>>>>> Prettier and redo test data
 import UserContext from '../../contexts/User/UserContext';
 import AgeGroupSection from './AgeGroupSection';
 import { DeepNonUndefineable } from '../../utils/types';

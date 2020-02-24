@@ -6,39 +6,8 @@ import {
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest,
 	ApiOrganizationsOrgIdEnrollmentsGetRequest,
 } from '../../generated';
-<<<<<<< HEAD
-
-type ChangeField = { keys: string[]; newValue?: any };
-const swapFields = <T>(inputObject: T, changeFields: ChangeField[]): T => {
-	// Make a deep copy to avoid changing the original
-	const newObject = JSON.parse(JSON.stringify(inputObject));
-	changeFields.forEach(field => {
-		let changeObject = newObject;
-		field.keys.forEach((key, i) => {
-			// Accessors are an ordered array of strings referring to nested keys
-			if (i === field.keys.length - 1) {
-				// If it's the last key in the array, then it's the thing that needs to be changed to a new value
-				changeObject[key] = field.newValue;
-			} else {
-				// Otherwise keep digging
-				changeObject = changeObject[key];
-			}
-		});
-	});
-	return newObject;
-};
-
-const reportEnrollmentValidationError = [
-	{
-		message: 'Enrollments have validation errors',
-		isSubObjectValidation: true,
-		field: 'Enrollments',
-	},
-];
-=======
 import { completeEnrollment, child, report, organization } from '../../tests/data';
 import { swapFields } from '../../tests/helpers';
->>>>>>> Prettier and redo test data
 
 const enrollmentValidationError = [
 	{
@@ -48,72 +17,6 @@ const enrollmentValidationError = [
 	},
 ];
 
-<<<<<<< HEAD
-export const child: Child = {
-	id: '2',
-	firstName: 'Lily',
-	middleName: 'Luna',
-	lastName: 'Potter',
-	birthdate: new Date('2016-12-12'),
-	birthTown: 'Hogsmeade',
-	birthState: 'CT',
-	birthCertificateId: '123',
-	nativeHawaiianOrPacificIslander: true,
-	hispanicOrLatinxEthnicity: true,
-	gender: Gender.Female,
-	foster: false,
-	familyId: 1,
-	organizationId: 1,
-	family: {
-		id: 1,
-		addressLine1: '4 Privet Drive',
-		town: 'Hogsmeade',
-		state: 'CT',
-		zip: '77777',
-		homelessness: false,
-		organizationId: 1,
-		determinations: [{ id: 1, notDisclosed: true, familyId: 1 }],
-	},
-};
-
-export const completeEnrollment: Enrollment = {
-	id: 1,
-	childId: '2',
-	siteId: 1,
-	ageGroup: Age.Preschool,
-	entry: new Date('2018-02-03'),
-	exit: null,
-	author: {
-		firstName: 'Test',
-		lastName: 'User',
-		id: 1,
-		wingedKeysId: '00000000-0000-0000-0000-000000000000',
-	},
-	updatedAt: new Date('2020-01-01'),
-	child: child,
-	fundings: [
-		{
-			id: 1,
-			enrollmentId: 1,
-			source: FundingSource.CDC,
-			familyId: 1,
-			certificateStartDate: new Date('2019-03-01'),
-			firstReportingPeriodId: 1,
-			firstReportingPeriod: {
-				id: 1,
-				type: FundingSource.CDC,
-				period: new Date('2019-03-01'),
-				periodStart: new Date('2019-03-01'),
-				periodEnd: new Date('2019-03-31'),
-				dueAt: new Date('2019-04-15'),
-			},
-			time: FundingTime.Full,
-		},
-	],
-};
-
-=======
->>>>>>> Prettier and redo test data
 export const enrollmentMissingBirthCertId = swapFields(completeEnrollment, [
 	{ keys: ['child', 'birthCertificateId'], newValue: undefined },
 	{ keys: ['id'], newValue: 2 },
@@ -182,52 +85,12 @@ export const allFakeEnrollments = [
 	},
 ];
 
-<<<<<<< HEAD
-export const defaultOrganization = {
-	id: 1,
-	name: 'Test Organization',
-	fundingSpaces: [
-		{
-			source: FundingSource.CDC,
-			ageGroup: Age.Preschool,
-			time: FundingTime.Full,
-			capacity: 2,
-			organizationId: 1,
-		},
-	],
-	sites: [
-		{
-			name: 'Test Site',
-			region: Region.East,
-			titleI: false,
-			organizationId: 1,
-		},
-	],
-};
-
-export const defaultReport: CdcReport = {
-	id: 1,
-	organizationId: 1,
-	accredited: true,
-	type: FundingSource.CDC,
-	enrollments: allFakeEnrollments
-		.filter(e => !e.doNotIncludeInAllEnrollments)
-		.map(e => e.enrollment),
-	reportingPeriod: {
-		id: 1,
-		type: FundingSource.CDC,
-		period: new Date('2019-09-01'),
-		dueAt: new Date('2019-10-15'),
-		periodStart: new Date('2019-09-01'),
-		periodEnd: new Date('2019-09-28'),
-=======
 export const defaultReport = swapFields(report, [
 	{
 		keys: ['enrollments'],
 		newValue: allFakeEnrollments
 			.filter(e => !e.doNotIncludeInAllEnrollments)
 			.map(e => e.enrollment),
->>>>>>> Prettier and redo test data
 	},
 ]);
 
@@ -292,13 +155,10 @@ export const mockApi = {
 		return [false, null, thisEnrollment.enrollment, mutate];
 	},
 	apiOrganizationsOrgIdChildrenGet: (params: any) => {
-		const mappedChildToEnrollment = [child].reduce<{ [x: string]: Enrollment[] }>(
-			(acc, c) => {
-				acc[c.id] = c.enrollments || [];
-				return acc
-			},
-			{}
-		);
+		const mappedChildToEnrollment = [child].reduce<{ [x: string]: Enrollment[] }>((acc, c) => {
+			acc[c.id] = c.enrollments || [];
+			return acc;
+		}, {});
 		return [false, null, mappedChildToEnrollment];
 	},
 	apiOrganizationsOrgIdSitesIdGet: (params: any) => [

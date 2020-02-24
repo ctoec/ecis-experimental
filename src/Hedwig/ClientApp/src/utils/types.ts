@@ -64,9 +64,8 @@ type FunctionWithRequiredReturnType<
 	T extends (...args: any[]) => any
 > =
 	// If T extends function type, infer the arguments and return types
-	T extends (...args: infer A) => infer R
-		? // Make the return type not undefined
-		  (...args: A) => DeepNonUndefineable<R>
+	T extends (...args: infer A) => infer R // Make the return type not undefined
+		? (...args: A) => DeepNonUndefineable<R>
 		: never;
 
 // Export the conditional application of the appropriate helper type

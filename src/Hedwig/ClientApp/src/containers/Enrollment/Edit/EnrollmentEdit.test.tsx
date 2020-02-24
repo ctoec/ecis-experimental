@@ -123,7 +123,6 @@ describe('EnrollmentEdit', () => {
 			expect(reportingPeriodOptions.length).toBe(defaultCdcReportingPeriods.length + 1);
 		});
 	});
-<<<<<<< HEAD
 
 	accessibilityTestHelper(
 		<CommonContextProviderMock>
@@ -135,6 +134,4 @@ describe('EnrollmentEdit', () => {
 			/>
 		</CommonContextProviderMock>
 	);
-=======
->>>>>>> Prettier and redo test data
 });
