@@ -3,6 +3,7 @@ import moment, { Moment } from 'moment';
 import cx from 'classnames';
 import { DayPickerSingleDateController } from 'react-dates';
 import { FieldSet, TextInput, FormStatusProps, Button } from '..';
+import { ReactComponent as CalendarIcon} from '../../assets/images/calendar.svg';
 
 export type DateInputProps = {
 	onChange: (newDate: Moment | null) => void;
@@ -89,7 +90,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 				<div className="oec-calendar-dropdown oec-date-input__calendar-dropdown">
 					{/* TODO: CALENDAR ICON */}
 					<Button
-						text={<div className="oec-calendar-toggle__icon"></div>}
+						text={<CalendarIcon className="oec-calendar-toggle__icon"/>}
 						onClick={() => setCalendarOpen(!calendarOpen)}
 						aria-label={`${calendarOpen ? 'close' : 'open'} calendar`}
 						appearance="unstyled"
