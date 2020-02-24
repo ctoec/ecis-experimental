@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { ReactChild, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 
 type ButtonAppearance = 'default' | 'base' | 'secondary' | 'unstyled' | 'outline';
 
-type ButtonProps = {
-	text: string;
+export type ButtonProps = {
+	text: ReactNode;
 	onClick?: (() => any) | 'submit';
 	href?: string;
 	appearance?: ButtonAppearance;
@@ -30,7 +30,14 @@ export function Button({ text, onClick, href, appearance, disabled, className }:
 	}
 
 	if (isSubmit) {
-		return <input className={classString} disabled={disabled} type="submit" value={text} />;
+		return (
+			<input
+				className={classString}
+				disabled={disabled}
+				type="submit"
+				value={text as string}
+			/>
+		);
 	}
 
 	return (

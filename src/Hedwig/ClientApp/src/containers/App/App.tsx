@@ -14,6 +14,7 @@ import { ErrorBoundary, Header, NavItemProps } from '../../components';
 
 import cx from 'classnames';
 import styles from './App.module.scss';
+import { RosterProvider } from '../../contexts/Roster/RosterContext';
 
 /**
  * Main React component container for Hedwig application
@@ -41,7 +42,7 @@ const App: React.FC = () => {
 		).length;
 
 	const navItems: NavItemProps[] = [
-		{ type: 'primary', title: 'Roster', path: '/roster' },
+		{ type: 'primary', title: 'Program roster', path: '/roster' },
 		{
 			type: 'primary',
 			title:
@@ -70,11 +71,13 @@ const App: React.FC = () => {
 				<main id="main-content">
 					<ErrorBoundary>
 						<AlertProvider>
-							<Switch>
-								{routes.map((route, index) => (
-									<MakeRouteWithSubRoutes key={index} {...route} />
-								))}
-							</Switch>
+							<RosterProvider>
+								<Switch>
+									{routes.map((route, index) => (
+										<MakeRouteWithSubRoutes key={index} {...route} />
+									))}
+								</Switch>
+							</RosterProvider>
 						</AlertProvider>
 					</ErrorBoundary>
 				</main>

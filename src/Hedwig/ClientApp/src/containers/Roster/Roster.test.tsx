@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, fireEvent, wait } from '@testing-library/react';
+import { createMemoryHistory, createBrowserHistory} from 'history';
 
 import 'react-dates/initialize';
 import mockdate from 'mockdate';
@@ -7,9 +8,17 @@ import CommonContextProviderMock from '../../contexts/__mocks__/CommonContextPro
 
 import Roster from './Roster';
 import { accessibilityTestHelper } from '../accessibilityTestHelper';
+import { completeEnrollment } from '../../tests/data';
 
 // Implicitly reads from the '../../hooks/__mocks__/useApi.ts file
 jest.mock('../../hooks/useApi');
+
+jest.mock('react-router-dom', () => ({
+	...jest.requireActual('react-router-dom'), // use actual for all non-hook parts
+	useParams: () => ({
+		id: 1
+	}),
+}));
 
 const fakeDate = '2019-09-30';
 
@@ -24,8 +33,13 @@ afterAll(() => {
 
 describe('Roster', () => {
 	it('matches snapshot', () => {
+		const history = createMemoryHistory();
+		const enrollment = completeEnrollment;
+		history.push(
+			`/roster/sites/${enrollment.siteId}`
+		);
 		const { asFragment } = render(
-			<CommonContextProviderMock>
+			<CommonContextProviderMock history={history}>
 				<Roster />
 			</CommonContextProviderMock>
 		);
@@ -33,8 +47,13 @@ describe('Roster', () => {
 	});
 
 	it('renders intro text with the correct number of children', async () => {
+		const history = createMemoryHistory();
+		const enrollment = completeEnrollment;
+		history.push(
+			`/roster/sites/${enrollment.siteId}`
+		);
 		const { baseElement } = render(
-			<CommonContextProviderMock>
+			<CommonContextProviderMock history={history}>
 				<Roster />
 			</CommonContextProviderMock>
 		);
@@ -43,17 +62,17 @@ describe('Roster', () => {
 	});
 
 	it('updates the number of children', async () => {
-		const { baseElement, getByText, getByPlaceholderText } = render(
+		const { baseElement, getByText, getByPlaceholderText, getByLabelText } = render(
 			<CommonContextProviderMock>
 				<Roster />
 			</CommonContextProviderMock>
 		);
 
-		const filterButton = getByText(/filter for past enrollments/i);
+		const filterButton = getByText(/view past enrollments/i);
 
 		fireEvent.click(filterButton);
 
-		const byDateRange = getByText(/by range/i);
+		const byDateRange = getByLabelText(/by range/i);
 
 		fireEvent.click(byDateRange);
 
