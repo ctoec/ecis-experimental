@@ -24,7 +24,6 @@ export const DateRangeInput: React.FC<DateRangeInputProps> = ({
 	optional,
 	status,
 	className,
-	hideLabel,
 }) => {
 	return (
 		<FieldSet
@@ -32,26 +31,28 @@ export const DateRangeInput: React.FC<DateRangeInputProps> = ({
 			id={`${id}-outer-fieldset`}
 			disabled={disabled}
 			hint="For example: 04/28/1986"
-			showLegend={!hideLabel}
 			optional={optional}
+			showLegend
 		>
-			<DateInput
-				hideHint
-				hideLabel
-				date={dateRange.startDate}
-				onChange={newStartDate => onChange({ startDate: newStartDate, endDate: dateRange.endDate })}
-				id={`${id}-start-date`}
-				label="Start date"
-			/>
-			<span>PUT ARROW HERE</span>
-			<DateInput
-				hideHint
-				hideLabel
-				date={dateRange.endDate}
-				onChange={newEndDate => onChange({ startDate: dateRange.startDate, endDate: newEndDate })}
-				id={`${id}-end-date`}
-				label="End date"
-			/>
+			<div className="display-flex flex-direction-row flex-align-end">
+				<DateInput
+					hideHint
+					date={dateRange.startDate}
+					onChange={newStartDate =>
+						onChange({ startDate: newStartDate, endDate: dateRange.endDate })
+					}
+					id={`${id}-start-date`}
+					label="Start date"
+				/>
+				<div>PUT ARROW HERE</div>
+				<DateInput
+					hideHint
+					date={dateRange.endDate}
+					onChange={newEndDate => onChange({ startDate: dateRange.startDate, endDate: newEndDate })}
+					id={`${id}-end-date`}
+					label="End date"
+				/>
+			</div>
 		</FieldSet>
 	);
 };

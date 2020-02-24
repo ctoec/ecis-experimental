@@ -1,6 +1,5 @@
 import React from 'react';
 import cx from 'classnames';
-
 import { FormStatus, FormStatusProps } from '..';
 
 type TextInputProps = {
@@ -14,6 +13,7 @@ type TextInputProps = {
 	optional?: boolean;
 	hideOptionalText?: boolean;
 	// You might want to hide the text if it's in a fieldset that is optional, like in the date input component
+	srOnlyLabel?: boolean;
 	className?: string;
 	inline?: boolean;
 };
@@ -45,6 +45,7 @@ export function TextInput({
 	small,
 	optional,
 	hideOptionalText,
+	srOnlyLabel,
 	className,
 	inputProps,
 	inline,
@@ -106,7 +107,12 @@ export function TextInput({
 				status ? ` usa-form-group--${status.type}` : ''
 			}`}
 		>
-			<label className={`usa-label${status ? ` usa-label--${status.type}` : ''}`} htmlFor={id}>
+			<label
+				className={cx('usa-label', status ? `usa-label--${status.type}` : '', {
+					'usa-sr-only': srOnlyLabel,
+				})}
+				htmlFor={id}
+			>
 				{label}{' '}
 				{optional && !hideOptionalText && <span className="usa-hint">&nbsp;(optional)</span>}
 			</label>

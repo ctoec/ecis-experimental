@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import moment, { Moment } from 'moment';
+import cx from 'classnames';
 import { DayPickerSingleDateController } from 'react-dates';
 import { FieldSet, TextInput, FormStatusProps, Button } from '..';
 
@@ -43,7 +44,6 @@ export const DateInput: React.FC<DateInputProps> = ({
 	optional,
 	status,
 	className,
-	hideLabel = false,
 	hideHint = false,
 	name,
 }) => {
@@ -65,15 +65,15 @@ export const DateInput: React.FC<DateInputProps> = ({
 			legend={label}
 			id={`${id}-fieldset`}
 			disabled={disabled}
-			hint={hideHint ? undefined : "For example: 04/28/1986"}
+			hint={hideHint ? undefined : 'For example: 04/28/1986'}
 			status={status}
 			optional={optional}
-			className="oec-date-input oec-date-input-single"
+			className={cx('oec-date-input', 'oec-date-input-single', className)}
 			showLegend={true}
 		>
 			<div className="grid-row flex-row flex-align-end grid-gap position-relative">
 				<TextInput
-					label={label}
+					label={`${label} input`}
 					id={id}
 					onChange={e => setStringDate(e.target.value)}
 					defaultValue={stringDate}
@@ -82,16 +82,20 @@ export const DateInput: React.FC<DateInputProps> = ({
 						onChange(parsedInput);
 					}}
 					name={name}
+					srOnlyLabel
+					className="oec-date-input__text"
+					// Make label sr only because it's in a fieldset
 				/>
-				<div className="height-auto position-absolute right-2">
+				<div className="oec-calendar-dropdown oec-date-input__calendar-dropdown">
 					{/* TODO: CALENDAR ICON */}
 					<Button
-						text={(<span>C</span>)}
+						text={<div className="oec-calendar-toggle__icon"></div>}
 						onClick={() => setCalendarOpen(!calendarOpen)}
 						aria-label={`${calendarOpen ? 'close' : 'open'} calendar`}
 						appearance="unstyled"
+						className="oec-calendar-toggle oec-calendar-dropdown__toggle"
 					/>
-					<div className={`position-absolute z-top ${calendarOpen ? '' : 'display-none'}`}>
+					<div className={`oec-calendar-dropdown__calendar position-absolute z-top ${calendarOpen ? '' : 'display-none'}`}>
 						<DayPickerSingleDateController
 							date={date}
 							onDateChange={newDate => onChange(newDate)}
