@@ -96,7 +96,6 @@ export const DateInput: React.FC<DateInputProps> = ({
 					// Make label sr only because it's in a fieldset
 				/>
 				<div className="oec-calendar-dropdown oec-date-input__calendar-dropdown">
-					{/* TODO: CALENDAR ICON */}
 					<Button
 						text={<CalendarIcon className="oec-calendar-toggle__icon" />}
 						onClick={() => setCalendarOpen(!calendarOpen)}

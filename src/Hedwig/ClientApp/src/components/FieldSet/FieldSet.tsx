@@ -60,6 +60,7 @@ export const FieldSet: React.FC<FieldSetProps> = ({
 					}
 				>
 					{legend}
+					{optional && <span className="usa-hint">&nbsp;(optional)</span>}
 				</span>
 			</legend>
 			{hint && <span className="usa-hint text-italic">{hint}</span>}
