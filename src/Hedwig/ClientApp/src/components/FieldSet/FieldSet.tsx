@@ -52,13 +52,15 @@ export const FieldSet: React.FC<FieldSetProps> = ({
 			aria-invalid={status && status.type === 'error'}
 			disabled={disabled}
 		>
-			<legend
-				className={
-					showLegend ? `usa-label${status ? ` usa-label--${status.type}` : ''}` : 'usa-sr-only'
-				}
-				id={`fieldset-legend-${id}`}
-			>
-				{legend}
+			<legend id={`fieldset-legend-${id}`}>
+				{/* Needs to be wrapped in another el because spacing works differently for legends */}
+				<span
+					className={
+						showLegend ? `usa-label${status ? ` usa-label--${status.type}` : ''}` : 'usa-sr-only'
+					}
+				>
+					{legend}
+				</span>
 			</legend>
 			{hint && <span className="usa-hint text-italic">{hint}</span>}
 			{status && <FormStatus {...status} />}

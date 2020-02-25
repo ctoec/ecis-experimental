@@ -3,11 +3,11 @@ import moment, { Moment } from 'moment';
 import cx from 'classnames';
 import { DayPickerSingleDateController } from 'react-dates';
 import { FieldSet, TextInput, FormStatusProps, Button } from '..';
-import { ReactComponent as CalendarIcon} from '../../assets/images/calendar.svg';
+import { ReactComponent as CalendarIcon } from '../../assets/images/calendar.svg';
 import { InputField } from '../../utils/forms/form';
 
 export type DateInputProps = {
-	// This feels too tightly coupled with our utils and I don't like it
+	// Is this too tightly coupled with our utils/specific use case?
 	onChange: (newDate: InputField<Moment | null>) => any | void;
 	id: string;
 	label: string;
@@ -19,7 +19,6 @@ export type DateInputProps = {
 	hideLabel?: boolean;
 	hideHint?: boolean;
 	name?: string;
-	// Will only take effect on fieldsets-- otherwise we should not hide the label
 };
 
 // TODO: MOVE TO UTIL
@@ -38,6 +37,8 @@ const parseDateInput = (input?: string): Moment | null => {
 	return parsedInput;
 };
 
+const momentFormat = 'MM/DD/YYYY'
+
 export const DateInput: React.FC<DateInputProps> = ({
 	date = null,
 	onChange,
@@ -50,23 +51,21 @@ export const DateInput: React.FC<DateInputProps> = ({
 	hideHint = false,
 	name,
 }) => {
-	// On text input blur, check for validity of date
-	// Fire on change event either way?
-
-	// On calendar click, fire on change event, which should also update text input
-	// Make calendar dropdown optional
-
 	// TODO: default to empty date-- what should happen?
 
 	const [calendarOpen, setCalendarOpen] = useState<boolean>(false);
+	const [currentDate, setCurrentDate] = useState(date);
 	const [stringDate, setStringDate] = useState<string | undefined>(
-		date ? date.format('MM/DD/YYYY') : undefined
+		currentDate ? currentDate.format(momentFormat) : undefined
 	);
 
 	const onChangeEvent = (input: Moment | null) => {
 		const notNullInput = input || moment.invalid();
-		onChange({ ...notNullInput, name: name || '' });
-	}
+		setCurrentDate(notNullInput);
+		// Spread operator will not copy prototype
+		// https://dmitripavlutin.com/object-rest-spread-properties-javascript/
+		onChange(Object.assign(moment(), notNullInput, { name: name || '' }));
+	};
 
 	return (
 		<FieldSet
@@ -85,6 +84,8 @@ export const DateInput: React.FC<DateInputProps> = ({
 					id={id}
 					onChange={e => setStringDate(e.target.value)}
 					defaultValue={stringDate}
+					// Key forces re-render on default value change without making text input a controlled component
+					key={stringDate}
 					onBlur={() => {
 						const parsedInput = parseDateInput(stringDate);
 						onChangeEvent(parsedInput);
@@ -108,8 +109,11 @@ export const DateInput: React.FC<DateInputProps> = ({
 						}`}
 					>
 						<DayPickerSingleDateController
-							date={date}
-							onDateChange={newDate => onChangeEvent(newDate)}
+							date={currentDate}
+							onDateChange={newDate => {
+								setStringDate(newDate ? newDate.format(momentFormat) : '');
+								onChangeEvent(newDate);
+							}}
 							focused={calendarOpen || false}
 							// Annoyingly this does not do anything for keyboard users
 							onFocusChange={f => setCalendarOpen(f.focused || false)}
@@ -122,7 +126,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 									setCalendarOpen(false);
 								}
 							}}
-							initialVisibleMonth={() => date || moment()}
+							initialVisibleMonth={() => currentDate || moment()}
 						/>
 					</div>
 				</div>
