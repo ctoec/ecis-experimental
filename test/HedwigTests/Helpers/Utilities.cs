@@ -4,15 +4,15 @@ using System.Text;
 
 namespace HedwigTests.Helpers
 {
-  public class Utilities
-  {
-	private const int WAIT_MSEC = 1000;
-	public static DateTime GetAsOfWithSleep()
+	public class Utilities
 	{
-	  Thread.Sleep(WAIT_MSEC);
-	  DateTime asOf = DateTime.Now.ToUniversalTime();
-	  Thread.Sleep(WAIT_MSEC);
-	  return asOf;
+		private const int WAIT_MSEC = 1000;
+		public static DateTime GetAsOfWithSleep()
+		{
+			Thread.Sleep(WAIT_MSEC);
+			DateTime asOf = DateTime.Now.ToUniversalTime();
+			Thread.Sleep(WAIT_MSEC);
+			return asOf;
+		}
 	}
-  }
 }

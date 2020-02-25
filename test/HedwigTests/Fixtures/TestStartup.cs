@@ -6,22 +6,22 @@ using Hedwig;
 
 namespace HedwigTests.Fixtures
 {
-  public class TestStartup : Startup
-  {
-	public TestStartup(IConfiguration configuration) : base(configuration) { }
-
-	public override void ConfigureServices(IServiceCollection services)
+	public class TestStartup : Startup
 	{
-	  base.ConfigureServices(services);
-	  services.ConfigureSqlServer(Configuration.GetConnectionString("HEDWIG"));
+		public TestStartup(IConfiguration configuration) : base(configuration) { }
 
-	  IHttpContextAccessor httpContextAccessor = new TestHttpContextAccessorProvider().HttpContextAccessor;
-	  services.AddSingleton<IHttpContextAccessor>(httpContextAccessor);
-	  if (TestEnvironmentFlags.ShouldLogSQL())
-	  {
-		services.AddLogging(configure => configure.AddConsole());
-	  }
-	  services.ConfigureAuthentication();
+		public override void ConfigureServices(IServiceCollection services)
+		{
+			base.ConfigureServices(services);
+			services.ConfigureSqlServer(Configuration.GetConnectionString("HEDWIG"));
+
+			IHttpContextAccessor httpContextAccessor = new TestHttpContextAccessorProvider().HttpContextAccessor;
+			services.AddSingleton<IHttpContextAccessor>(httpContextAccessor);
+			if (TestEnvironmentFlags.ShouldLogSQL())
+			{
+				services.AddLogging(configure => configure.AddConsole());
+			}
+			services.ConfigureAuthentication();
+		}
 	}
-  }
 }

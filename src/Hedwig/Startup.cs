@@ -12,42 +12,42 @@ using Hedwig.Utilities;
 
 namespace Hedwig
 {
-  public class Startup
-  {
-	public IConfiguration Configuration { get; }
-
-	public Startup(IConfiguration configuration)
+	public class Startup
 	{
-	  Configuration = configuration;
-	}
+		public IConfiguration Configuration { get; }
 
-	public virtual void ConfigureServices(IServiceCollection services)
-	{
-	  services.ConfigureSqlServer(Configuration.GetConnectionString("HEDWIG"));
-	  services.ConfigureCors();
-	  services.ConfigureControllers();
-	  services.ConfigureSpa();
-	  services.ConfigureRepositories();
-	  services.ConfigureAuthentication(Configuration.GetValue<string>("WingedKeysUri"));
-	  services.ConfigureAuthorization();
-	  services.ConfigureValidation();
-	  services.ConfigureHostedServices();
-	  services.AddSingleton<IDateTime, SystemDateTime>();
-	  services.AddSwaggerGen(c =>
-	  {
-		c.SwaggerDoc("v1", new OpenApiInfo { Title = "Hedwig API", Version = "v1" });
-		c.DescribeAllEnumsAsStrings();
-		c.TagActionsBy(api => new List<string> { "Hedwig" });
-		c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+		public Startup(IConfiguration configuration)
 		{
-		  Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
-		  Name = "Authorization",
-		  In = ParameterLocation.Header,
-		  Type = SecuritySchemeType.ApiKey,
-		  Scheme = "Bearer"
-		});
-		c.AddSecurityRequirement(new OpenApiSecurityRequirement()
-		  {
+			Configuration = configuration;
+		}
+
+		public virtual void ConfigureServices(IServiceCollection services)
+		{
+			services.ConfigureSqlServer(Configuration.GetConnectionString("HEDWIG"));
+			services.ConfigureCors();
+			services.ConfigureControllers();
+			services.ConfigureSpa();
+			services.ConfigureRepositories();
+			services.ConfigureAuthentication(Configuration.GetValue<string>("WingedKeysUri"));
+			services.ConfigureAuthorization();
+			services.ConfigureValidation();
+			services.ConfigureHostedServices();
+			services.AddSingleton<IDateTime, SystemDateTime>();
+			services.AddSwaggerGen(c =>
+			{
+				c.SwaggerDoc("v1", new OpenApiInfo { Title = "Hedwig API", Version = "v1" });
+				c.DescribeAllEnumsAsStrings();
+				c.TagActionsBy(api => new List<string> { "Hedwig" });
+				c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+				{
+					Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+					Name = "Authorization",
+					In = ParameterLocation.Header,
+					Type = SecuritySchemeType.ApiKey,
+					Scheme = "Bearer"
+				});
+				c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+				{
 					{
 						new OpenApiSecurityScheme
 						{
@@ -62,57 +62,57 @@ namespace Hedwig
 						},
 						new List<string> { }
 					}
-		  });
-	  });
-	  services.AddHttpContextAccessor();
-	}
-
-	public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-	{
-	  if (env.IsDevelopment())
-	  {
-		app.UseDeveloperExceptionPage();
-		IdentityModelEventSource.ShowPII = true;
-		app.UseCors();
-	  }
-
-	  app.UseHttpsRedirection();
-
-	  app.UseSwagger();
-	  app.UseRouting();
-
-	  app.UseAuthentication();
-	  app.UseAuthorization();
-
-	  if (!env.IsDevelopment())
-	  {
-		app.UseSpaStaticFiles();
-	  }
-
-	  app.UseEndpoints(endpoints =>
-	  {
-		endpoints.MapControllers();
-	  });
-
-	  app.UseSpa(spa =>
-	  {
-		spa.Options.SourcePath = "ClientApp";
-
-		if (env.IsDevelopment())
-		{
-		  var isDocker = Environment.GetEnvironmentVariable("DOCKER_DEVELOPMENT");
-		  if (isDocker == "true")
-		  {
-			string CLIENT_HOST = Environment.GetEnvironmentVariable("CLIENT_HOST") ?? "http://localhost:3000";
-			spa.UseProxyToSpaDevelopmentServer(CLIENT_HOST);
-		  }
-		  else
-		  {
-			spa.UseReactDevelopmentServer(npmScript: "start");
-		  }
+				});
+			});
+			services.AddHttpContextAccessor();
 		}
-	  });
 
+		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+		{
+			if (env.IsDevelopment())
+			{
+				app.UseDeveloperExceptionPage();
+				IdentityModelEventSource.ShowPII = true;
+				app.UseCors();
+			}
+
+			app.UseHttpsRedirection();
+
+			app.UseSwagger();
+			app.UseRouting();
+
+			app.UseAuthentication();
+			app.UseAuthorization();
+
+			if (!env.IsDevelopment())
+			{
+				app.UseSpaStaticFiles();
+			}
+
+			app.UseEndpoints(endpoints =>
+			{
+				endpoints.MapControllers();
+			});
+
+			app.UseSpa(spa =>
+			{
+				spa.Options.SourcePath = "ClientApp";
+
+				if (env.IsDevelopment())
+				{
+					var isDocker = Environment.GetEnvironmentVariable("DOCKER_DEVELOPMENT");
+					if (isDocker == "true")
+					{
+						string CLIENT_HOST = Environment.GetEnvironmentVariable("CLIENT_HOST") ?? "http://localhost:3000";
+						spa.UseProxyToSpaDevelopmentServer(CLIENT_HOST);
+					}
+					else
+					{
+						spa.UseReactDevelopmentServer(npmScript: "start");
+					}
+				}
+			});
+
+		}
 	}
-  }
 }

@@ -8,4 +8,4 @@ echo "Formatting frontend code (javascript, CSS, json)..."
 docker-compose exec -T client ./node_modules/.bin/prettier --single-quote --write "/home/node/app/src/**/*.{js,jsx,ts,tsx,json,css,scss}"
 
 echo "Formatting backend code (C#)..."
-docker-compose exec -T backend dotnet format
+docker-compose exec -T backend sh -c "cd /app && dotnet format"

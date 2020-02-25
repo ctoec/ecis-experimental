@@ -8,8 +8,8 @@ using Hedwig.Models;
 
 namespace HedwigTests.Repositories
 {
-  public class FundingRepositoryTests
-  {
-	//TODO tests for GetFundingsByEnrollmentId
-  }
+	public class FundingRepositoryTests
+	{
+		//TODO tests for GetFundingsByEnrollmentId
+	}
 }

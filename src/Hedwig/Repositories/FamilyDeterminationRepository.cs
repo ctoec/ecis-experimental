@@ -8,20 +8,20 @@ using Hedwig.Data;
 
 namespace Hedwig.Repositories
 {
-  public class FamilyDeterminationRepository : HedwigRepository, IFamilyDeterminationRepository
-  {
-	public FamilyDeterminationRepository(HedwigContext context) : base(context) { }
-
-	public List<FamilyDetermination> GetDeterminationsByFamilyId(int familyId)
+	public class FamilyDeterminationRepository : HedwigRepository, IFamilyDeterminationRepository
 	{
-	  return _context.FamilyDeterminations
-		  .Where(fd => fd.FamilyId == familyId)
-		  .ToList();
-	}
-  }
+		public FamilyDeterminationRepository(HedwigContext context) : base(context) { }
 
-  public interface IFamilyDeterminationRepository
-  {
-	List<FamilyDetermination> GetDeterminationsByFamilyId(int familyId);
-  }
+		public List<FamilyDetermination> GetDeterminationsByFamilyId(int familyId)
+		{
+			return _context.FamilyDeterminations
+				.Where(fd => fd.FamilyId == familyId)
+				.ToList();
+		}
+	}
+
+	public interface IFamilyDeterminationRepository
+	{
+		List<FamilyDetermination> GetDeterminationsByFamilyId(int familyId);
+	}
 }

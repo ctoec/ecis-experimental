@@ -2,19 +2,19 @@ using System;
 
 namespace Hedwig.Utilities
 {
-  public class SystemDateTime : IDateTime
-  {
-	public SystemDateTime()
-	{ }
-
-	public DateTime Now
+	public class SystemDateTime : IDateTime
 	{
-	  get { return DateTime.Now; }
-	}
+		public SystemDateTime()
+		{ }
 
-	public DateTime UtcNow
-	{
-	  get { return DateTime.UtcNow; }
+		public DateTime Now
+		{
+			get { return DateTime.Now; }
+		}
+
+		public DateTime UtcNow
+		{
+			get { return DateTime.UtcNow; }
+		}
 	}
-  }
 }

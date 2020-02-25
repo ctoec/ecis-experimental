@@ -4,37 +4,37 @@ using System.Collections.Generic;
 
 namespace Hedwig.Validations.Rules
 {
-  public class FamilyIsValid : SubObjectIsValid, IValidationRule<Child>
-  {
-	readonly IFamilyRepository _families;
-
-	public FamilyIsValid(
-	  INonBlockingValidator validator,
-	  IFamilyRepository families
-	) : base(validator)
+	public class FamilyIsValid : SubObjectIsValid, IValidationRule<Child>
 	{
-	  _families = families;
-	}
+		readonly IFamilyRepository _families;
 
-	public ValidationError Execute(Child child)
-	{
-	  if (child.FamilyId.HasValue)
-	  {
-		var family = child.Family ?? _families.GetFamilyById(child.FamilyId.Value);
-		family.Children = new List<Child> { child };
-
-		ValidateSubObject(family);
-		if (family.ValidationErrors.Count > 0)
+		public FamilyIsValid(
+			INonBlockingValidator validator,
+			IFamilyRepository families
+		) : base(validator)
 		{
-		  return new ValidationError(
-			field: "Family",
-			message: "Family has validation errors",
-			isSubObjectValidation: true
-		  );
+			_families = families;
 		}
-	  }
 
-	  return null;
+		public ValidationError Execute(Child child)
+		{
+			if (child.FamilyId.HasValue)
+			{
+				var family = child.Family ?? _families.GetFamilyById(child.FamilyId.Value);
+				family.Children = new List<Child> { child };
+
+				ValidateSubObject(family);
+				if (family.ValidationErrors.Count > 0)
+				{
+					return new ValidationError(
+					field: "Family",
+					message: "Family has validation errors",
+					isSubObjectValidation: true
+					);
+				}
+			}
+
+			return null;
+		}
 	}
-  }
 }
