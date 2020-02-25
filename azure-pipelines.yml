@@ -67,7 +67,7 @@ jobs:
   displayName: 'Frontend Tests'
 
   steps:
-  - script: cd $(Build.SourcesDirectory)/src/Hedwig/ClientApp && npx prettier --single-quote --check "/home/node/app/src/**/*.{js,jsx,ts,tsx,json,css,scss}"
+  - script: cd $(Build.SourcesDirectory)/src/Hedwig/ClientApp && npx prettier --single-quote --check "$(Build.SourcesDirectory)/src/Hedwig/ClientApp/src/**/*.{js,jsx,ts,tsx,json,css,scss}"
     displayName: "Check formatting"
 
   - script: cd $(Build.SourcesDirectory)/src/Hedwig/ClientApp && yarn install &&  yarn test --ci
