@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import moment, { Moment } from 'moment';
-import { FieldSet, TextInput, FormStatusProps, DateInput, DateInputProps } from '..';
+import React from 'react';
+import { Moment } from 'moment';
+import cx from 'classnames';
+import { FieldSet, DateInput, DateInputProps } from '..';
+import { ReactComponent as ArrowIcon } from '../../assets/images/arrowRight.svg';
 
 export type DateRange = {
 	startDate: Moment | null;
@@ -33,6 +35,8 @@ export const DateRangeInput: React.FC<DateRangeInputProps> = ({
 			hint="For example: 04/28/1986"
 			optional={optional}
 			showLegend
+			status={status}
+			className={cx('oec-date-range-input', className)}
 		>
 			<div className="display-flex flex-direction-row flex-align-end">
 				<DateInput
@@ -44,7 +48,9 @@ export const DateRangeInput: React.FC<DateRangeInputProps> = ({
 					id={`${id}-start-date`}
 					label="Start date"
 				/>
-				<div>PUT ARROW HERE</div>
+				<div className="oec-date-range-input__arrow">
+					<ArrowIcon />
+				</div>
 				<DateInput
 					hideHint
 					date={dateRange.endDate}
