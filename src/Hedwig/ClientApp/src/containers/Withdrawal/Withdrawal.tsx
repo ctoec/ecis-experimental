@@ -34,6 +34,7 @@ import {
 import ReportingPeriodContext from '../../contexts/ReportingPeriod/ReportingPeriodContext';
 import { processBlockingValidationErrors } from '../../utils/validations/processBlockingValidationErrors';
 import AlertContext from '../../contexts/Alert/AlertContext';
+import { missingInformationForWithdrawalAlert } from '../../utils/stringFormatters/alertTextMakers';
 
 type WithdrawalProps = {
 	history: History;
@@ -101,14 +102,7 @@ export default function Withdrawal({
 
 	useEffect(() => {
 		if (isMissingInformation) {
-			setAlerts([
-				{
-					type: 'error',
-					heading: 'Information needed to withdraw child',
-					text:
-						'To withdraw a child from a funded space in your program, they cannot have any missing information. Please enter all missing information indicated below to withdraw this child.',
-				},
-			]);
+			setAlerts([missingInformationForWithdrawalAlert]);
 			history.push(`/roster/sites/${siteId}/enrollments/${enrollment.id}`);
 		}
 	}, [enrollment, isMissingInformation, history, setAlerts]);
