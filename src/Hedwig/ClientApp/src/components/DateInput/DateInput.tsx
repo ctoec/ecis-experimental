@@ -93,7 +93,6 @@ export const DateInput: React.FC<DateInputProps> = ({
 						text={<CalendarIcon className="oec-calendar-toggle__icon"/>}
 						onClick={() => setCalendarOpen(!calendarOpen)}
 						aria-label={`${calendarOpen ? 'close' : 'open'} calendar`}
-						appearance="unstyled"
 						className="oec-calendar-toggle oec-calendar-dropdown__toggle"
 					/>
 					<div className={`oec-calendar-dropdown__calendar position-absolute z-top ${calendarOpen ? '' : 'display-none'}`}>

@@ -13,20 +13,16 @@
 
 .oec-calendar-dropdown {
 	position: absolute;
-	right: 1rem;
+	right: 0.5rem;
 }
 
-.oec-calendar-dropdown__toggle {
+button.oec-calendar-dropdown__toggle {
 	top: 0.5rem;
 	height: 2.5rem;
-	padding: 0 1rem;
+	border-radius: unset;
+	border: 1px solid #565c65;
 }
 
 .oec-calendar-toggle__icon {
 	height: 1rem;
-	color: color($theme-color-primary-vivid);
-}
-
-.oec-calendar-toggle__icon:hover, .oec-calendar-dropdown__toggle:focus .oec-calendar-toggle__icon {
-	color: color($theme-color-primary-darker);
 }
