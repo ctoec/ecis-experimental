@@ -4,7 +4,7 @@ import { Button, ChoiceList, DatePicker, DateRange } from '../../components';
 import getDefaultDateRange from '../../utils/getDefaultDateRange';
 import { Site, Organization } from '../../generated';
 import { rosterEnrollmentsFormatter } from '../../utils/stringFormatters';
-import pluralize from "pluralize";
+import pluralize from 'pluralize';
 import ButtonWithDrowdown from '../../components/ButtonWithDropdown/ButtonWithDrowdown';
 
 type RosterHeaderProps = {

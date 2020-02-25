@@ -57,7 +57,7 @@ export function TextInput({
 		'aria-describedby': status ? status.id : undefined,
 		'aria-invalid': status && status.type === 'error',
 		// Using aria-required to avoid default Chrome behavior
-		'aria-required': !optional
+		'aria-required': !optional,
 	};
 
 	let inputElement;
