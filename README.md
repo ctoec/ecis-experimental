@@ -9,6 +9,8 @@ The public facing name of this project is "ECE Reporter". The interal name used 
 
 You will need to `git clone` the WingedKeys repository regardless of which setup you choose below.
 
+Install appropriate git commit from `/hooks` directory, following instructions in comments.
+
 ### Windows (Local)
 
 #### Step 1
@@ -225,3 +227,4 @@ $ dotnet watch run --urls "http://localhost:5000;https://localhost:5001"
 | Apply new database migrations | `make db-migrate` | `make dc-db-migrate` | |
 | Reset the database | `make db-reset` | `make dc-db-reset` | |
 | Clean up without committing (frontend JS and CSS only) | `make prettier` | `make dc-prettier` | |
+| Clean up without committing (backend CS only) | `make dotnet-format` | `make dc-dotnet-format` | |
