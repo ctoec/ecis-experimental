@@ -14,10 +14,13 @@ Object {
         id="id-fieldset"
       >
         <legend
-          class="usa-sr-only"
           id="fieldset-legend-id-fieldset"
         >
-          choice
+          <span
+            class="usa-sr-only"
+          >
+            choice
+          </span>
         </legend>
         <div
           class="grid-gap grid-row margin-top-3"
@@ -74,10 +77,13 @@ Object {
       id="id-fieldset"
     >
       <legend
-        class="usa-sr-only"
         id="fieldset-legend-id-fieldset"
       >
-        choice
+        <span
+          class="usa-sr-only"
+        >
+          choice
+        </span>
       </legend>
       <div
         class="grid-gap grid-row margin-top-3"
@@ -191,10 +197,13 @@ Object {
         id="id-fieldset"
       >
         <legend
-          class="usa-sr-only"
           id="fieldset-legend-id-fieldset"
         >
-          choice
+          <span
+            class="usa-sr-only"
+          >
+            choice
+          </span>
         </legend>
         <div
           class="grid-gap grid-row margin-top-3"
@@ -251,10 +260,13 @@ Object {
       id="id-fieldset"
     >
       <legend
-        class="usa-sr-only"
         id="fieldset-legend-id-fieldset"
       >
-        choice
+        <span
+          class="usa-sr-only"
+        >
+          choice
+        </span>
       </legend>
       <div
         class="grid-gap grid-row margin-top-3"
