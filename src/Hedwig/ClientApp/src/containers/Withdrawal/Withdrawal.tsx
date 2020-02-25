@@ -29,6 +29,7 @@ import {
 	clientErrorForField,
 	serverErrorForField,
 	useFocusFirstError,
+	hasValidationErrors,
 } from '../../utils/validations';
 import ReportingPeriodContext from '../../contexts/ReportingPeriod/ReportingPeriodContext';
 import { processBlockingValidationErrors } from '../../utils/validations/processBlockingValidationErrors';
@@ -89,26 +90,28 @@ export default function Withdrawal({
 	const cdcFunding = currentCdcFunding(cdcFundings);
 
 	useEffect(() => {
-		updateReportingPeriodOptions(
-			lastNReportingPeriods(reportingPeriods, enrollmentEndDate || moment().toDate(), 5)
-		);
+		if (reportingPeriods) {
+			updateReportingPeriodOptions(
+				lastNReportingPeriods(reportingPeriods, enrollmentEndDate || moment().toDate(), 5)
+			);
+		}
 	}, [reportingPeriods, enrollmentEndDate]);
 
-	// TODO: replace this whole endeavor with ability to simply select a first reporting period in this form
-	const cannotWithdraw = cdcFunding && !cdcFunding.firstReportingPeriod;
+	const isMissingInformation = hasValidationErrors(enrollment);
+
 	useEffect(() => {
-		if (cannotWithdraw) {
+		if (isMissingInformation) {
 			setAlerts([
 				{
 					type: 'error',
 					heading: 'Information needed to withdraw child',
 					text:
-						'To withdraw a child from a funded space in your program, "first reporting period" cannot be blank. Please update this information for the child before withdrawing',
+						'To withdraw a child from a funded space in your program, they cannot have any missing information. Please enter all missing information indicated below to withdraw this child.',
 				},
 			]);
 			history.push(`/roster/sites/${siteId}/enrollments/${enrollment.id}`);
 		}
-	}, [enrollment, cannotWithdraw, history, setAlerts]);
+	}, [enrollment, isMissingInformation, history, setAlerts]);
 
 	useFocusFirstError([apiError]);
 
@@ -259,7 +262,7 @@ export default function Withdrawal({
 							status={serverErrorForField(
 								'fundings',
 								apiError,
-								lastReportingPeriod ? undefined : 'This information is required for withdrawal'
+								'This information is required for withdrawal'
 							)}
 						/>
 					)}
@@ -274,7 +277,7 @@ export default function Withdrawal({
 						/>
 					</div>
 					<div className="mobile-lg:grid-col-auto padding-left-2">
-						<Button text="Confirm and withdraw" onClick={save} disabled={cannotWithdraw} />
+						<Button text="Confirm and withdraw" onClick={save} disabled={isMissingInformation} />
 					</div>
 				</div>
 			</div>
