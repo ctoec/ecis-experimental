@@ -12,35 +12,35 @@ using Hedwig.Security;
 
 namespace Hedwig.Controllers
 {
-  [ApiController]
-  [Authorize(Policy = OrganizationAccessPolicyProvider.NAME)]
-  [Route("api/organizations/{orgId:int}/[controller]")]
-  public class ChildrenController : ControllerBase
-  {
-	private readonly INonBlockingValidator _validator;
-	private readonly IChildRepository _children;
-	public ChildrenController(
-		INonBlockingValidator validator,
-		IChildRepository children
-	)
+	[ApiController]
+	[Authorize(Policy = OrganizationAccessPolicyProvider.NAME)]
+	[Route("api/organizations/{orgId:int}/[controller]")]
+	public class ChildrenController : ControllerBase
 	{
-	  _validator = validator;
-	  _children = children;
-	}
+		private readonly INonBlockingValidator _validator;
+		private readonly IChildRepository _children;
+		public ChildrenController(
+			INonBlockingValidator validator,
+			IChildRepository children
+		)
+		{
+			_validator = validator;
+			_children = children;
+		}
 
-	[HttpGet]
-	[ProducesResponseType(StatusCodes.Status200OK)]
-	[ProducesResponseType(StatusCodes.Status204NoContent)]
-	public async Task<ActionResult<IDictionary<Guid, ICollection<Enrollment>>>> Get(
-		int orgId,
-		[FromQuery(Name = "reportId")] int reportId,
-		[FromQuery(Name = "include[]")] string[] include,
-		[FromQuery(Name = "startDate")] DateTime? from = null,
-		[FromQuery(Name = "endDate")] DateTime? to = null
-	)
-	{
-	  var children = await _children.GetChildrenIdToEnrollmentsForOrganizationAsync(orgId, reportId, from, to, include);
-	  return Ok(children);
+		[HttpGet]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status204NoContent)]
+		public async Task<ActionResult<IDictionary<Guid, ICollection<Enrollment>>>> Get(
+			int orgId,
+			[FromQuery(Name = "reportId")] int reportId,
+			[FromQuery(Name = "include[]")] string[] include,
+			[FromQuery(Name = "startDate")] DateTime? from = null,
+			[FromQuery(Name = "endDate")] DateTime? to = null
+		)
+		{
+			var children = await _children.GetChildrenIdToEnrollmentsForOrganizationAsync(orgId, reportId, from, to, include);
+			return Ok(children);
+		}
 	}
-  }
 }

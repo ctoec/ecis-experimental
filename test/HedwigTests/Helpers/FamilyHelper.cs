@@ -6,28 +6,28 @@ using Hedwig.Models;
 
 namespace HedwigTests.Helpers
 {
-  public class FamilyHelper
-  {
-	public static Family CreateFamily(
-		HedwigContext context,
-		Organization organization = null
-	)
+	public class FamilyHelper
 	{
-	  organization = organization ?? OrganizationHelper.CreateOrganization(context);
+		public static Family CreateFamily(
+			HedwigContext context,
+			Organization organization = null
+		)
+		{
+			organization = organization ?? OrganizationHelper.CreateOrganization(context);
 
-	  var family = new Family { OrganizationId = organization.Id };
-	  context.Add(family);
-	  context.SaveChanges();
-	  return family;
+			var family = new Family { OrganizationId = organization.Id };
+			context.Add(family);
+			context.SaveChanges();
+			return family;
+		}
+
+		public static List<Family> CreateFamilies(HedwigContext context, int numberOfFamilies)
+		{
+			var families = Enumerable.Range(1, numberOfFamilies)
+				.Select(i => CreateFamily(context))
+				.ToList();
+
+			return families;
+		}
 	}
-
-	public static List<Family> CreateFamilies(HedwigContext context, int numberOfFamilies)
-	{
-	  var families = Enumerable.Range(1, numberOfFamilies)
-		  .Select(i => CreateFamily(context))
-		  .ToList();
-
-	  return families;
-	}
-  }
 }

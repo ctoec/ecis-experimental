@@ -8,37 +8,37 @@ using System.Security.Claims;
 
 namespace HedwigTests.Helpers
 {
-  public class AuthorizationRequirementHelper
-  {
-	public static ClaimsPrincipal CreatePrincipal(string authenticationType = null, IDictionary<string, string> claims = null)
+	public class AuthorizationRequirementHelper
 	{
-	  var identity = CreateIdentity(authenticationType, claims);
-	  return new ClaimsPrincipal(identity);
-	}
-
-	public static ClaimsIdentity CreateIdentity(string authenticationType, IDictionary<string, string> claims = null)
-	{
-	  var claimsList = new List<Claim>();
-
-	  if (claims != null)
-	  {
-		foreach (var c in claims)
+		public static ClaimsPrincipal CreatePrincipal(string authenticationType = null, IDictionary<string, string> claims = null)
 		{
-		  claimsList.Add(new Claim(c.Key, c.Value));
+			var identity = CreateIdentity(authenticationType, claims);
+			return new ClaimsPrincipal(identity);
 		}
-	  }
 
-	  return new ClaimsIdentity(claimsList, authenticationType);
-	}
+		public static ClaimsIdentity CreateIdentity(string authenticationType, IDictionary<string, string> claims = null)
+		{
+			var claimsList = new List<Claim>();
 
-	public static ClaimsIdentity GetTestIdentity()
-	{
-	  return new ClaimsIdentity(
-		  new Claim[] {
+			if (claims != null)
+			{
+				foreach (var c in claims)
+				{
+					claimsList.Add(new Claim(c.Key, c.Value));
+				}
+			}
+
+			return new ClaimsIdentity(claimsList, authenticationType);
+		}
+
+		public static ClaimsIdentity GetTestIdentity()
+		{
+			return new ClaimsIdentity(
+				new Claim[] {
 					new Claim("test_mode", "true")
-		  },
-		  "test"
-	  );
+				},
+				"test"
+			);
+		}
 	}
-  }
 }

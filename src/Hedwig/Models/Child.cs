@@ -9,52 +9,52 @@ using Hedwig.Validations.Attributes;
 
 namespace Hedwig.Models
 {
-  public class Child : TemporalEntity, IHedwigIdEntity<Guid>, INonBlockingValidatableObject
-  {
-	[Required]
-	public Guid Id { get; set; }
+	public class Child : TemporalEntity, IHedwigIdEntity<Guid>, INonBlockingValidatableObject
+	{
+		[Required]
+		public Guid Id { get; set; }
 
-	public string Sasid { get; set; }
+		public string Sasid { get; set; }
 
-	[Required]
-	[StringLength(35)]
-	public string FirstName { get; set; }
+		[Required]
+		[StringLength(35)]
+		public string FirstName { get; set; }
 
-	[StringLength(35)]
-	public string MiddleName { get; set; }
+		[StringLength(35)]
+		public string MiddleName { get; set; }
 
-	[Required]
-	[StringLength(35)]
-	public string LastName { get; set; }
+		[Required]
+		[StringLength(35)]
+		public string LastName { get; set; }
 
-	[StringLength(10)]
-	public string Suffix { get; set; }
+		[StringLength(10)]
+		public string Suffix { get; set; }
 
-	[Column(TypeName = "date")]
-	public DateTime? Birthdate { get; set; }
-	public string BirthTown { get; set; }
-	public string BirthState { get; set; }
-	public string BirthCertificateId { get; set; }
-	public bool AmericanIndianOrAlaskaNative { get; set; } = false;
-	public bool Asian { get; set; } = false;
-	public bool BlackOrAfricanAmerican { get; set; } = false;
-	public bool NativeHawaiianOrPacificIslander { get; set; } = false;
-	public bool White { get; set; } = false;
-	public bool? HispanicOrLatinxEthnicity { get; set; }
+		[Column(TypeName = "date")]
+		public DateTime? Birthdate { get; set; }
+		public string BirthTown { get; set; }
+		public string BirthState { get; set; }
+		public string BirthCertificateId { get; set; }
+		public bool AmericanIndianOrAlaskaNative { get; set; } = false;
+		public bool Asian { get; set; } = false;
+		public bool BlackOrAfricanAmerican { get; set; } = false;
+		public bool NativeHawaiianOrPacificIslander { get; set; } = false;
+		public bool White { get; set; } = false;
+		public bool? HispanicOrLatinxEthnicity { get; set; }
 
-	[JsonConverter(typeof(StringEnumConverter))]
-	public Gender Gender { get; set; } = Gender.Unspecified;
-	public bool Foster { get; set; } = false;
-	public int? FamilyId { get; set; }
-	public Family Family { get; set; }
-	public ICollection<Enrollment> Enrollments { get; set; }
+		[JsonConverter(typeof(StringEnumConverter))]
+		public Gender Gender { get; set; } = Gender.Unspecified;
+		public bool Foster { get; set; } = false;
+		public int? FamilyId { get; set; }
+		public Family Family { get; set; }
+		public ICollection<Enrollment> Enrollments { get; set; }
 
-	[Required]
-	[OrgIdFromPath]
-	public int OrganizationId { get; set; }
-	public Organization Organization { get; set; }
+		[Required]
+		[OrgIdFromPath]
+		public int OrganizationId { get; set; }
+		public Organization Organization { get; set; }
 
-	[NotMapped]
-	public List<ValidationError> ValidationErrors { get; set; }
-  }
+		[NotMapped]
+		public List<ValidationError> ValidationErrors { get; set; }
+	}
 }

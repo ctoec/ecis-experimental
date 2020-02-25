@@ -8,21 +8,21 @@ using Hedwig.Data;
 
 namespace Hedwig.Repositories
 {
-  public class FamilyRepository : HedwigRepository, IFamilyRepository
-  {
-	public FamilyRepository(HedwigContext context) : base(context) { }
-
-	public Family GetFamilyById(int id)
+	public class FamilyRepository : HedwigRepository, IFamilyRepository
 	{
-	  var family = _context.Families
-		  .AsNoTracking()
-		  .Where(f => f.Id == id);
+		public FamilyRepository(HedwigContext context) : base(context) { }
 
-	  return family.FirstOrDefault();
+		public Family GetFamilyById(int id)
+		{
+			var family = _context.Families
+				.AsNoTracking()
+				.Where(f => f.Id == id);
+
+			return family.FirstOrDefault();
+		}
 	}
-  }
-  public interface IFamilyRepository
-  {
-	Family GetFamilyById(int id);
-  }
+	public interface IFamilyRepository
+	{
+		Family GetFamilyById(int id);
+	}
 }

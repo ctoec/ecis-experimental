@@ -6,25 +6,25 @@ using Hedwig.Models;
 
 namespace Hedwig.Controllers
 {
-  [Route("api/[controller]")]
-  [ApiController]
-  public class UsersController : ControllerBase
-  {
-	private readonly IUserRepository _users;
-
-	public UsersController(IUserRepository users)
+	[Route("api/[controller]")]
+	[ApiController]
+	public class UsersController : ControllerBase
 	{
-	  _users = users;
-	}
+		private readonly IUserRepository _users;
 
-	// GET api/users/current
-	[HttpGet("current")]
-	public async Task<ActionResult<User>> GetCurrent()
-	{
-	  var subClaim = User.FindFirst("sub")?.Value;
-	  if (subClaim == null) { return null; }
-	  var wingedKeysId = Guid.Parse(subClaim);
-	  return await _users.GetUserByWingedKeysIdAsync(wingedKeysId);
+		public UsersController(IUserRepository users)
+		{
+			_users = users;
+		}
+
+		// GET api/users/current
+		[HttpGet("current")]
+		public async Task<ActionResult<User>> GetCurrent()
+		{
+			var subClaim = User.FindFirst("sub")?.Value;
+			if (subClaim == null) { return null; }
+			var wingedKeysId = Guid.Parse(subClaim);
+			return await _users.GetUserByWingedKeysIdAsync(wingedKeysId);
+		}
 	}
-  }
 }

@@ -5,22 +5,22 @@ using Hedwig.Repositories;
 
 namespace Hedwig.Validations.Attributes
 {
-  public class Exit_AfterEntryIfExists : ValidationAttribute
-  {
-	protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+	public class Exit_AfterEntryIfExists : ValidationAttribute
 	{
-	  var enrollment = validationContext.ObjectInstance as Enrollment;
-	  var exit = value as DateTime?;
-
-	  if (exit.HasValue && enrollment.Entry.HasValue)
-	  {
-		if (exit.Value < enrollment.Entry.Value)
+		protected override ValidationResult IsValid(object value, ValidationContext validationContext)
 		{
-		  return new ValidationResult("Enrollment exit date cannot be before entry date");
-		}
-	  }
+			var enrollment = validationContext.ObjectInstance as Enrollment;
+			var exit = value as DateTime?;
 
-	  return null;
+			if (exit.HasValue && enrollment.Entry.HasValue)
+			{
+				if (exit.Value < enrollment.Entry.Value)
+				{
+					return new ValidationResult("Enrollment exit date cannot be before entry date");
+				}
+			}
+
+			return null;
+		}
 	}
-  }
 }

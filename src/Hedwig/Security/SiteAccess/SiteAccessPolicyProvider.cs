@@ -2,18 +2,18 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Hedwig.Security
 {
-  public class SiteAccessPolicyProvider : HedwigAuthorizationPolicyProvider
-  {
-	public const string NAME = "SiteAccessPolicy";
-
-	private SiteAccessPolicyProvider()
+	public class SiteAccessPolicyProvider : HedwigAuthorizationPolicyProvider
 	{
-	  AddRequirement(new SiteAccessRequirement());
-	}
+		public const string NAME = "SiteAccessPolicy";
 
-	public static AuthorizationPolicy GetPolicy()
-	{
-	  return (new SiteAccessPolicyProvider()).GetDefaultPolicy();
+		private SiteAccessPolicyProvider()
+		{
+			AddRequirement(new SiteAccessRequirement());
+		}
+
+		public static AuthorizationPolicy GetPolicy()
+		{
+			return (new SiteAccessPolicyProvider()).GetDefaultPolicy();
+		}
 	}
-  }
 }

@@ -7,25 +7,25 @@ using HedwigTests.Fixtures;
 
 namespace HedwigTests.Models.Attributes
 {
-  [ReadOnly]
-  public class ReadOnlyEntity { }
-  public class ReadOnlyAttributeTests
-  {
-	[Theory]
-	[InlineData(true)]
-	[InlineData(false)]
-	public void IsReadOnly_ReturnsTrueIfEntityHasReadOnlyAttribute(
-	  bool isReadOnly
-	)
+	[ReadOnly]
+	public class ReadOnlyEntity { }
+	public class ReadOnlyAttributeTests
 	{
-	  // if 
-	  var entity = isReadOnly ? new ReadOnlyEntity() : new object();
+		[Theory]
+		[InlineData(true)]
+		[InlineData(false)]
+		public void IsReadOnly_ReturnsTrueIfEntityHasReadOnlyAttribute(
+			bool isReadOnly
+		)
+		{
+			// if 
+			var entity = isReadOnly ? new ReadOnlyEntity() : new object();
 
-	  // when
-	  var res = ReadOnlyAttribute.IsReadOnly(entity);
+			// when
+			var res = ReadOnlyAttribute.IsReadOnly(entity);
 
-	  // then
-	  Assert.Equal(isReadOnly, res);
+			// then
+			Assert.Equal(isReadOnly, res);
+		}
 	}
-  }
 }
