@@ -94,5 +94,6 @@ export const stepListSaveFailAlert = {
 export const missingInformationForWithdrawalAlert: AlertProps = {
 	type: 'error',
 	heading: 'Information needed to withdraw child',
-	text: 'To withdraw a child from a funded space in your program, they cannot have any missing information. Please enter all missing information indicated below to withdraw this child.',
+	text:
+		'To withdraw a child from a funded space in your program, they cannot have any missing information. Please enter all missing information indicated below to withdraw this child.',
 };
