@@ -1,5 +1,5 @@
 import pluralize from 'pluralize';
-import { DateRange } from '../../components/DateRangeInput/DatePicker';
+import { DateRange } from '../../components';
 
 export function rosterEnrollmentsFormatter(
 	numKids: number,

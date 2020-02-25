@@ -2,14 +2,7 @@ import React, { useContext, useState, useEffect, useReducer } from 'react';
 import moment from 'moment';
 import idx from 'idx';
 import { Section } from '../enrollmentTypes';
-import {
-	Button,
-	DateInput,
-	ChoiceList,
-	TextInput,
-	InlineIcon,
-	Alert,
-} from '../../../components';
+import { Button, DateInput, ChoiceList, TextInput, InlineIcon, Alert } from '../../../components';
 import dateFormatter from '../../../utils/dateFormatter';
 import {
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,

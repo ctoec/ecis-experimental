@@ -4,9 +4,11 @@ import cx from 'classnames';
 import { DayPickerSingleDateController } from 'react-dates';
 import { FieldSet, TextInput, FormStatusProps, Button } from '..';
 import { ReactComponent as CalendarIcon} from '../../assets/images/calendar.svg';
+import { InputField } from '../../utils/forms/form';
 
 export type DateInputProps = {
-	onChange: (newDate: Moment | null) => void;
+	// This feels too tightly coupled with our utils and I don't like it
+	onChange: (newDate: InputField<Moment | null>) => any | void;
 	id: string;
 	label: string;
 	date?: Moment | null;
@@ -61,6 +63,11 @@ export const DateInput: React.FC<DateInputProps> = ({
 		date ? date.format('MM/DD/YYYY') : undefined
 	);
 
+	const onChangeEvent = (input: Moment | null) => {
+		const notNullInput = input || moment.invalid();
+		onChange({ ...notNullInput, name: name || '' });
+	}
+
 	return (
 		<FieldSet
 			legend={label}
@@ -80,7 +87,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 					defaultValue={stringDate}
 					onBlur={() => {
 						const parsedInput = parseDateInput(stringDate);
-						onChange(parsedInput);
+						onChangeEvent(parsedInput);
 					}}
 					name={name}
 					srOnlyLabel
@@ -90,15 +97,19 @@ export const DateInput: React.FC<DateInputProps> = ({
 				<div className="oec-calendar-dropdown oec-date-input__calendar-dropdown">
 					{/* TODO: CALENDAR ICON */}
 					<Button
-						text={<CalendarIcon className="oec-calendar-toggle__icon"/>}
+						text={<CalendarIcon className="oec-calendar-toggle__icon" />}
 						onClick={() => setCalendarOpen(!calendarOpen)}
 						aria-label={`${calendarOpen ? 'close' : 'open'} calendar`}
 						className="oec-calendar-toggle oec-calendar-dropdown__toggle"
 					/>
-					<div className={`oec-calendar-dropdown__calendar position-absolute z-top ${calendarOpen ? '' : 'display-none'}`}>
+					<div
+						className={`oec-calendar-dropdown__calendar position-absolute z-top ${
+							calendarOpen ? '' : 'display-none'
+						}`}
+					>
 						<DayPickerSingleDateController
 							date={date}
-							onDateChange={newDate => onChange(newDate)}
+							onDateChange={newDate => onChangeEvent(newDate)}
 							focused={calendarOpen || false}
 							// Annoyingly this does not do anything for keyboard users
 							onFocusChange={f => setCalendarOpen(f.focused || false)}
