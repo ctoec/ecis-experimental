@@ -4243,9 +4243,11 @@ exports[`Storyshots Header Logged in 1`] = `
               className="usa-logo__text display-flex flex-align-center"
             >
               <div>
-                <h1>
+                <div
+                  className="primary-title"
+                >
                   Hello world!
-                </h1>
+                </div>
               </div>
             </div>
           </a>
@@ -4416,9 +4418,11 @@ exports[`Storyshots Header Logged out 1`] = `
               className="usa-logo__text display-flex flex-align-center"
             >
               <div>
-                <h1>
+                <div
+                  className="primary-title"
+                >
                   Hello world!
-                </h1>
+                </div>
               </div>
             </div>
           </a>

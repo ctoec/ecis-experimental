@@ -18,12 +18,14 @@
 	}
 
 	&--oec-default {
-		h1 {
+		.primary-title {
+			margin: 0;
 			font-size: 0.5em;
 			font-weight: normal;
 		}
-
-		h2 {
+	
+		.secondary-title {
+			margin: 0;
 			font-size: 0.6em;
 		}
 	}

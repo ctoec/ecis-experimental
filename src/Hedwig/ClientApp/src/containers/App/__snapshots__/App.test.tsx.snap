@@ -37,9 +37,11 @@ exports[`matches snapshot 1`] = `
                 class="usa-logo__text display-flex flex-align-center"
               >
                 <div>
-                  <h1>
+                  <div
+                    class="primary-title"
+                  >
                     ECE Reporter
-                  </h1>
+                  </div>
                 </div>
               </div>
             </a>
