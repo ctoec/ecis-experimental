@@ -9,44 +9,39 @@ import { Link } from 'react-router-dom';
 import useHideOnLostFocus from '../../hooks/useHideOnLostFocus';
 
 type ButtonOptionProps = {
-	text: string,
-	value: string
-}
+	text: string;
+	value: string;
+};
 
 type ButtonWithDrowdownProps = ButtonProps & {
-	id: string,
-	onChange?: (_: React.ChangeEvent<HTMLSelectElement>) => any,
-	options: ButtonOptionProps[]
+	id: string;
+	onChange?: (_: React.ChangeEvent<HTMLSelectElement>) => any;
+	options: ButtonOptionProps[];
 };
 
 const ButtonWithDrowdown: React.FC<ButtonWithDrowdownProps> = ({
 	id,
 	appearance,
 	text,
-	options
+	options,
 }) => {
 	const { ref, isComponentVisible, setIsComponentVisible } = useHideOnLostFocus<HTMLDivElement>();
 
 	return (
-		<div 
-			id={id}
-			ref={ref}
-			className={cx(styles.container)}
-		>
+		<div id={id} ref={ref} className={cx(styles.container)}>
 			<Button
 				className={cx(styles['with-dropdown'])}
 				appearance={appearance}
 				text={
-					<span>{text}&nbsp;<div className={cx(styles['caret-down'])} /></span>
+					<span>
+						{text}&nbsp;
+						<div className={cx(styles['caret-down'])} />
+					</span>
 				}
 				onClick={() => setIsComponentVisible(hide => !hide)}
 			/>
-			<div className={cx(
-				{ [styles.hidden]: !isComponentVisible },
-				styles.dropdown
-			)
-			}>
-				{options.map(option => 
+			<div className={cx({ [styles.hidden]: !isComponentVisible }, styles.dropdown)}>
+				{options.map(option => (
 					<Link
 						className={cx(styles.option)}
 						onClick={() => setIsComponentVisible(hide => !hide)}
@@ -54,10 +49,10 @@ const ButtonWithDrowdown: React.FC<ButtonWithDrowdownProps> = ({
 					>
 						{option.text}
 					</Link>
-				)}
+				))}
 			</div>
 		</div>
-	)
-}
+	);
+};
 
 export default ButtonWithDrowdown;

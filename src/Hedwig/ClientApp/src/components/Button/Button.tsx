@@ -31,12 +31,7 @@ export function Button({ text, onClick, href, appearance, disabled, className }:
 
 	if (isSubmit) {
 		return (
-			<input
-				className={classString}
-				disabled={disabled}
-				type="submit"
-				value={text as string}
-			/>
+			<input className={classString} disabled={disabled} type="submit" value={text as string} />
 		);
 	}
 

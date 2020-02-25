@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef} from "react";
+import { useEffect, useState, useRef } from 'react';
 
 /**
  * Allows for hiding an element when a user clicks outside of a given element 'ref'
@@ -15,14 +15,14 @@ const useHideOnLostFocus = <T extends HTMLElement>() => {
 
 	useEffect(() => {
 		// Bind the event listener
-		document.addEventListener("mousedown", handleClickOutside);
+		document.addEventListener('mousedown', handleClickOutside);
 		return () => {
 			// Unbind the event listener on clean up
-			document.removeEventListener("mousedown", handleClickOutside);
+			document.removeEventListener('mousedown', handleClickOutside);
 		};
 	});
 
 	return { ref, isComponentVisible, setIsComponentVisible };
-}
+};
 
 export default useHideOnLostFocus;

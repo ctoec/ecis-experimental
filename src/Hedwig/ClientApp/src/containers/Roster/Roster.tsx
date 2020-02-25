@@ -13,7 +13,14 @@ import {
 	DateRange,
 } from '../../components';
 import useApi from '../../hooks/useApi';
-import { Age, Enrollment, FundingSpace, FundingSource, ApiOrganizationsOrgIdEnrollmentsGetRequest, ApiOrganizationsIdGetRequest } from '../../generated';
+import {
+	Age,
+	Enrollment,
+	FundingSpace,
+	FundingSource,
+	ApiOrganizationsOrgIdEnrollmentsGetRequest,
+	ApiOrganizationsIdGetRequest,
+} from '../../generated';
 import UserContext from '../../contexts/User/UserContext';
 import AgeGroupSection from './AgeGroupSection';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../utils/types';
@@ -29,22 +36,22 @@ export default function Roster() {
 
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
 	const [dateRange, setDateRange] = useState<DateRange>(getDefaultDateRange());
-  const [filterByRange, setFilterByRange] = useState(false);
+	const [filterByRange, setFilterByRange] = useState(false);
 
 	const orgParams: ApiOrganizationsIdGetRequest = {
 		id: getIdForUser(user, 'org'),
 		include: ['sites', 'funding_spaces'],
-	}
+	};
 	const [organizationLoading, organizationError, organization] = useApi(
-		(api) => api.apiOrganizationsIdGet(orgParams),
-		[user],
+		api => api.apiOrganizationsIdGet(orgParams),
+		[user]
 	);
 
 	const sites = organization && organization.sites;
 	const siteIds = (sites || []).map(s => s.id);
 	const siteId = urlSiteId ? parseInt(urlSiteId) : undefined;
 	const site = sites && siteId ? sites.find(s => s.id === siteId) : undefined;
-	
+
 	const enrollmentParams: ApiOrganizationsOrgIdEnrollmentsGetRequest = {
 		orgId: getIdForUser(user, 'org'),
 		siteIds: siteIds,
@@ -54,11 +61,17 @@ export default function Roster() {
 	};
 	const [enrollmentLoading, enrollmentError, _enrollments] = useApi(
 		api => api.apiOrganizationsOrgIdEnrollmentsGet(enrollmentParams),
-		[user, dateRange, organization],
+		[user, dateRange, organization]
 	);
 
-	if (organizationLoading || organizationError || !organization 
-			|| enrollmentLoading || enrollmentError || !_enrollments) {
+	if (
+		organizationLoading ||
+		organizationError ||
+		!organization ||
+		enrollmentLoading ||
+		enrollmentError ||
+		!_enrollments
+	) {
 		return <div className="Roster"></div>;
 	}
 
@@ -69,8 +82,8 @@ export default function Roster() {
 		siteRosterDirectionalLinkProps = {
 			to: '/roster',
 			text: 'Back to program roster',
-			direction: 'left'
-		}
+			direction: 'left',
+		};
 	} else {
 		enrollments = _enrollments;
 	}
@@ -91,8 +104,8 @@ export default function Roster() {
 
 	Object.keys(fundingSourceDetails).forEach(source => {
 		const capacityForFunding = getFundingSpaceCapacity(organization, { source });
-		const enrolledForFunding = enrollments.filter<DeepNonUndefineable<Enrollment>>(
-			enrollment => isFunded(enrollment, { source })
+		const enrolledForFunding = enrollments.filter<DeepNonUndefineable<Enrollment>>(enrollment =>
+			isFunded(enrollment, { source })
 		).length;
 
 		if (enrolledForFunding === 0) {
@@ -136,9 +149,7 @@ export default function Roster() {
 	}
 
 	return (
-		<CommonContainer
-			directionalLinkProps={siteRosterDirectionalLinkProps}
-		>
+		<CommonContainer directionalLinkProps={siteRosterDirectionalLinkProps}>
 			<div className="grid-container">
 				<RosterHeader
 					organization={organization}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent, wait } from '@testing-library/react';
-import { createMemoryHistory, createBrowserHistory} from 'history';
+import { createMemoryHistory, createBrowserHistory } from 'history';
 
 import 'react-dates/initialize';
 import mockdate from 'mockdate';
@@ -16,7 +16,7 @@ jest.mock('../../hooks/useApi');
 jest.mock('react-router-dom', () => ({
 	...jest.requireActual('react-router-dom'), // use actual for all non-hook parts
 	useParams: () => ({
-		id: 1
+		id: 1,
 	}),
 }));
 
@@ -35,9 +35,7 @@ describe('Roster', () => {
 	it('matches snapshot', () => {
 		const history = createMemoryHistory();
 		const enrollment = completeEnrollment;
-		history.push(
-			`/roster/sites/${enrollment.siteId}`
-		);
+		history.push(`/roster/sites/${enrollment.siteId}`);
 		const { asFragment } = render(
 			<CommonContextProviderMock history={history}>
 				<Roster />
@@ -49,9 +47,7 @@ describe('Roster', () => {
 	it('renders intro text with the correct number of children', async () => {
 		const history = createMemoryHistory();
 		const enrollment = completeEnrollment;
-		history.push(
-			`/roster/sites/${enrollment.siteId}`
-		);
+		history.push(`/roster/sites/${enrollment.siteId}`);
 		const { baseElement } = render(
 			<CommonContextProviderMock history={history}>
 				<Roster />

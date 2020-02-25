@@ -12,12 +12,12 @@ type RosterHeaderProps = {
 	site?: Site;
 	numberOfEnrollments: number;
 	showPastEnrollments: boolean;
-  toggleShowPastEnrollments: () => void;
-  dateRange: DateRange;
-  setDateRange: (_: DateRange) => void;
-  filterByRange: boolean;
-  setFilterByRange: (_: boolean) => void;
-}
+	toggleShowPastEnrollments: () => void;
+	dateRange: DateRange;
+	setDateRange: (_: DateRange) => void;
+	filterByRange: boolean;
+	setFilterByRange: (_: boolean) => void;
+};
 
 const RosterHeader: React.FC<RosterHeaderProps> = ({
 	organization,
@@ -28,7 +28,7 @@ const RosterHeader: React.FC<RosterHeaderProps> = ({
 	dateRange,
 	setDateRange,
 	filterByRange,
-	setFilterByRange
+	setFilterByRange,
 }) => {
 	const sites = organization.sites || [];
 
@@ -60,7 +60,7 @@ const RosterHeader: React.FC<RosterHeaderProps> = ({
 									text={` ${sites.length} sites`}
 									options={sites.map(s => ({
 										text: s.name || '',
-										value: `/roster/sites/${s.id}`
+										value: `/roster/sites/${s.id}`,
 									}))}
 								/>
 							</span>
@@ -82,20 +82,24 @@ const RosterHeader: React.FC<RosterHeaderProps> = ({
 				<div className="margin-bottom-2 grid-row flex-first-baseline flex-space-between">
 					<div className="tablet:grid-col-fill">
 						<h1 className="tablet:grid-col-auto">{site.name}</h1>
-							<p className="intro display-flex flex-row flex-wrap flex-justify-start">
-								{numKidsEnrolledText}
-								&nbsp;
-								<Button
-									text={
-										showPastEnrollments ? 'View only current enrollments' : 'View past enrollments'
-									}
-									appearance="unstyled"
-									onClick={handlePastEnrollmentsChange}
-								/>
-							</p>
+						<p className="intro display-flex flex-row flex-wrap flex-justify-start">
+							{numKidsEnrolledText}
+							&nbsp;
+							<Button
+								text={
+									showPastEnrollments ? 'View only current enrollments' : 'View past enrollments'
+								}
+								appearance="unstyled"
+								onClick={handlePastEnrollmentsChange}
+							/>
+						</p>
 					</div>
 					<div className="tablet:grid-col-auto">
-						<Button text="Enroll child" href={`/roster/sites/${site.id}/enroll`} className="margin-right-0" />
+						<Button
+							text="Enroll child"
+							href={`/roster/sites/${site.id}/enroll`}
+							className="margin-right-0"
+						/>
 					</div>
 				</div>
 				{showPastEnrollments && (
@@ -134,6 +138,6 @@ const RosterHeader: React.FC<RosterHeaderProps> = ({
 			</>
 		);
 	}
-}
+};
 
 export default RosterHeader;

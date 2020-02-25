@@ -21,7 +21,7 @@ const productionPreRender = async () => {
 	if (SENTRY_DSN && SENTRY_RELEASE) {
 		Sentry.init({ dsn: SENTRY_DSN, release: SENTRY_RELEASE });
 	}
-}
+};
 
 const render = (Component: React.FC) => {
 	return ReactDOM.render(
@@ -52,8 +52,8 @@ const render = (Component: React.FC) => {
 
 if (process.env.NODE_ENV === 'production') {
 	productionPreRender()
-		.then(() => console.log("Sentry successfully initialized"))
-		.catch((e) => console.error(e))
+		.then(() => console.log('Sentry successfully initialized'))
+		.catch(e => console.error(e))
 		// Render the application regardless of Sentry registration
 		.finally(() => render(App));
 } else {
