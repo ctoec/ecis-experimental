@@ -205,7 +205,7 @@ const FamilyIncome: Section = {
 							>
 								<div>
 									<TextInput
-										type='input'
+										type="input"
 										id="numberOfPeople"
 										label="Household size"
 										defaultValue={numberOfPeople ? '' + numberOfPeople : ''}
@@ -226,7 +226,7 @@ const FamilyIncome: Section = {
 								</div>
 								<div>
 									<TextInput
-										type='input'
+										type="input"
 										id="income"
 										label="Annual household income"
 										defaultValue={currencyFormatter(income)}

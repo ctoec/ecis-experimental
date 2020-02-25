@@ -22,7 +22,11 @@ import UtilizationTable from './UtilizationTable';
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import { useHistory } from 'react-router';
 import { DeepNonUndefineable } from '../../../utils/types';
-import { useFocusFirstError, serverErrorForField, clientErrorForField } from '../../../utils/validations';
+import {
+	useFocusFirstError,
+	serverErrorForField,
+	clientErrorForField,
+} from '../../../utils/validations';
 import { ValidationProblemDetails, ValidationProblemDetailsFromJSON } from '../../../generated';
 import usePromiseExecution from '../../../hooks/usePromiseExecution';
 import { reportSubmittedAlert, reportSubmitFailAlert } from '../../../utils/stringFormatters';
@@ -92,7 +96,7 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 			c4KRevenue: c4KRevenue !== null ? c4KRevenue : undefined,
 			retroactiveC4KRevenue,
 			familyFeesRevenue: familyFeesRevenue,
-			comment: comment !== null ? comment : undefined
+			comment: comment !== null ? comment : undefined,
 		};
 	}
 
@@ -145,7 +149,7 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 				<h2>Other Revenue</h2>
 				<FieldSet id="other-revenue" legend="Other Revenue">
 					<TextInput
-						type='input'
+						type="input"
 						id="c4k-revenue"
 						label={
 							<React.Fragment>
@@ -184,7 +188,7 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 						]}
 					/>
 					<TextInput
-						type='input'
+						type="input"
 						id="family-fees-revenue"
 						label={<span className="text-bold">Family Fees</span>}
 						defaultValue={currencyFormatter(familyFeesRevenue)}
@@ -201,9 +205,13 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 						)}
 					/>
 					<TextInput
-						type='textarea'
+						type="textarea"
 						id="cdc-report-comment"
-						label={<span className="text-bold">Anything to share with the Office of Early Childhood about your report?</span>}
+						label={
+							<span className="text-bold">
+								Anything to share with the Office of Early Childhood about your report?
+							</span>
+						}
 						defaultValue={comment || ''}
 						onChange={e => setComment(e.target.value)}
 						disabled={!!report.submittedAt}

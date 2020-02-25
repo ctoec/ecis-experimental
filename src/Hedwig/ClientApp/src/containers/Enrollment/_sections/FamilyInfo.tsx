@@ -136,7 +136,7 @@ const FamilyInfo: Section = {
 				>
 					<div className="mobile-lg:grid-col-12">
 						<TextInput
-							type='input'
+							type="input"
 							id="addressLine1"
 							label="Address line 1"
 							defaultValue={addressLine1 || ''}
@@ -149,7 +149,7 @@ const FamilyInfo: Section = {
 					</div>
 					<div className="mobile-lg:grid-col-12">
 						<TextInput
-							type='input'
+							type="input"
 							id="addressLine2"
 							label="Address line 2"
 							defaultValue={addressLine2 || ''}
@@ -159,7 +159,7 @@ const FamilyInfo: Section = {
 					</div>
 					<div className="mobile-lg:grid-col-8 display-inline-block">
 						<TextInput
-							type='input'
+							type="input"
 							id="town"
 							label="Town"
 							defaultValue={town || ''}
@@ -186,7 +186,7 @@ const FamilyInfo: Section = {
 					</div>
 					<div className="mobile-lg:grid-col-6">
 						<TextInput
-							type='input'
+							type="input"
 							id="zip"
 							label="ZIP Code"
 							defaultValue={zip || ''}

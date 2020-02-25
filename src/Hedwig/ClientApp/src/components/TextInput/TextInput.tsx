@@ -23,14 +23,14 @@ type TextInputHTMLInputElementProps = TextInputProps & {
 	onChange: (event: React.ChangeEvent<HTMLInputElement>) => any;
 	onBlur?: (event: React.FocusEvent<HTMLInputElement>) => any;
 	inputProps?: React.HTMLProps<HTMLInputElement> & { inputMode: 'text' } & { type: 'input' };
-}
+};
 
 type TextInputHTMLTextAreaElementProps = TextInputProps & {
 	type: 'textarea';
 	onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => any;
 	onBlur?: (event: React.FocusEvent<HTMLTextAreaElement>) => any;
 	inputProps?: React.HTMLProps<HTMLTextAreaElement> & { inputMode: 'text' } & { type: 'textarea' };
-}
+};
 
 export function TextInput({
 	type,
@@ -47,27 +47,31 @@ export function TextInput({
 	hideOptionalText,
 	className,
 	inputProps,
-	inline
+	inline,
 }: TextInputHTMLInputElementProps | TextInputHTMLTextAreaElementProps) {
+	const commonProps = {
+		id,
+		name,
+		disabled,
+		defaultValue,
+		'aria-describedby': status ? status.id : undefined,
+		'aria-invalid': status && status.type === 'error',
+		// Using aria-required to avoid default Chrome behavior
+		'aria-required': !optional,
+	};
+
 	let inputElement;
 	switch (type) {
 		case 'textarea':
 			inputElement = (
 				<textarea
-					className={cx(
-						'usa-textarea',
-					)}
-					id={id}
-					name={name}
-					disabled={disabled}
+					className={cx('usa-textarea')}
 					onChange={onChange as (_: React.ChangeEvent<HTMLTextAreaElement>) => any}
 					onBlur={onBlur as (_: React.FocusEvent<HTMLTextAreaElement>) => any}
-					defaultValue={defaultValue}
 					aria-describedby={status ? status.id : undefined}
 					aria-invalid={status && status.type === 'error'}
-					// Using aria-required to avoid default Chrome behavior
-					aria-required={!optional}
-					{...inputProps as React.HTMLProps<HTMLTextAreaElement>}
+					{...commonProps}
+					{...(inputProps as React.HTMLProps<HTMLTextAreaElement>)}
 				/>
 			);
 			break;
@@ -78,27 +82,20 @@ export function TextInput({
 					className={cx(
 						'usa-input',
 						{
-							[`usa-input--${status && status.type}`]: status
+							[`usa-input--${status && status.type}`]: status,
 						},
 						{
-							'usa-input--small': small
+							'usa-input--small': small,
 						},
 						{
-							'usa-input--inline': inline
+							'usa-input--inline': inline,
 						}
 					)}
-					id={id}
-					name={name}
 					type="text"
-					disabled={disabled}
 					onChange={onChange as (_: React.ChangeEvent<HTMLInputElement>) => any}
 					onBlur={onBlur as (_: React.FocusEvent<HTMLInputElement>) => any}
-					defaultValue={defaultValue}
-					aria-describedby={status ? status.id : undefined}
-					aria-invalid={status && status.type === 'error'}
-					// Using aria-required to avoid default Chrome behavior
-					aria-required={!optional}
-					{...inputProps as React.HTMLProps<HTMLInputElement>}
+					{...commonProps}
+					{...(inputProps as React.HTMLProps<HTMLInputElement>)}
 				/>
 			);
 	}

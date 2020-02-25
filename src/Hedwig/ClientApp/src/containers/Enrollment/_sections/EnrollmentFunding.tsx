@@ -517,7 +517,7 @@ const EnrollmentFunding: Section = {
 					{receivesC4k && (
 						<>
 							<TextInput
-								type='input'
+								type="input"
 								name="receivesC4k"
 								id="familyId"
 								label="Family ID"

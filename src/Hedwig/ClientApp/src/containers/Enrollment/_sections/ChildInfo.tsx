@@ -218,7 +218,7 @@ const ChildInfo: Section = {
 				<div className="grid-row grid-gap">
 					<div className="mobile-lg:grid-col-12">
 						<TextInput
-							type='input'
+							type="input"
 							id="sasid"
 							label="SASID"
 							defaultValue={sasid || ''}
@@ -228,7 +228,7 @@ const ChildInfo: Section = {
 					</div>
 					<div className="mobile-lg:grid-col-9">
 						<TextInput
-							type='input'
+							type="input"
 							id="firstName"
 							label="First name"
 							defaultValue={firstName || ''}
@@ -245,7 +245,7 @@ const ChildInfo: Section = {
 					</div>
 					<div className="mobile-lg:grid-col-9">
 						<TextInput
-							type='input'
+							type="input"
 							id="middleName"
 							label="Middle name"
 							defaultValue={middleName || ''}
@@ -256,7 +256,7 @@ const ChildInfo: Section = {
 					<div className="display-flex flex-row flex-align-end grid-row grid-gap">
 						<div className="mobile-lg:grid-col-9">
 							<TextInput
-								type='input'
+								type="input"
 								id="lastName"
 								label="Last name"
 								defaultValue={lastName || ''}
@@ -273,7 +273,7 @@ const ChildInfo: Section = {
 						</div>
 						<div className="mobile-lg:grid-col-3">
 							<TextInput
-								type='input'
+								type="input"
 								id="suffix"
 								label="Suffix"
 								defaultValue={suffix || ''}
@@ -319,7 +319,7 @@ const ChildInfo: Section = {
 				>
 					<div className="mobile-lg:grid-col-12">
 						<TextInput
-							type='input'
+							type="input"
 							id="birthCertificateId"
 							label="Birth certificate ID #"
 							defaultValue={birthCertificateId || ''}
@@ -332,7 +332,7 @@ const ChildInfo: Section = {
 					</div>
 					<div className="mobile-lg:grid-col-8 display-inline-block">
 						<TextInput
-							type='input'
+							type="input"
 							id="birthTown"
 							label="Town"
 							defaultValue={birthTown || ''}
@@ -345,7 +345,7 @@ const ChildInfo: Section = {
 					</div>
 					<div className="mobile-lg:grid-col-4 display-inline-block">
 						<TextInput
-							type='input'
+							type="input"
 							id="birthState"
 							label="State"
 							defaultValue={birthState || ''}

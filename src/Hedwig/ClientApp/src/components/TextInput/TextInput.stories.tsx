@@ -10,12 +10,12 @@ const success: FormStatusProps = { type: 'success', message: 'Success!', id: 'te
 
 storiesOf('TextInput', module)
 	.add('Default', () => {
-		return <TextInput type='input' id="id" label="Default text input" onChange={onChange} />;
+		return <TextInput type="input" id="id" label="Default text input" onChange={onChange} />;
 	})
 	.add('With default value', () => {
 		return (
 			<TextInput
-				type='input'
+				type="input"
 				id="id1"
 				label="Default text input"
 				onChange={onChange}
@@ -24,16 +24,42 @@ storiesOf('TextInput', module)
 		);
 	})
 	.add('Optional', () => {
-		return <TextInput type='input' id="id2" label="Default optional text input" onChange={onChange} optional />;
+		return (
+			<TextInput
+				type="input"
+				id="id2"
+				label="Default optional text input"
+				onChange={onChange}
+				optional
+			/>
+		);
 	})
 	.add('Disabled', () => {
-		return <TextInput type='input' id="id3" label="Default text input" onChange={onChange} disabled />;
+		return (
+			<TextInput type="input" id="id3" label="Default text input" onChange={onChange} disabled />
+		);
 	})
 	.add('Success', () => {
-		return <TextInput type='input' id="id4" label="Default text input" onChange={onChange} status={success} />;
+		return (
+			<TextInput
+				type="input"
+				id="id4"
+				label="Default text input"
+				onChange={onChange}
+				status={success}
+			/>
+		);
 	})
 	.add('Warning', () => {
-		return <TextInput type='input'id="id5" label="Default text input" onChange={onChange} status={warning} />;
+		return (
+			<TextInput
+				type="input"
+				id="id5"
+				label="Default text input"
+				onChange={onChange}
+				status={warning}
+			/>
+		);
 	})
 	.add('Warning inside warning Fieldset', () => {
 		return (
@@ -45,17 +71,25 @@ storiesOf('TextInput', module)
 					id="example-fieldset-warning"
 				>
 					<div className="mobile-lg:grid-col-4 display-inline-block">
-						<TextInput type='input' id="id6" label="Short" onChange={onChange} status={warning} />
+						<TextInput type="input" id="id6" label="Short" onChange={onChange} status={warning} />
 					</div>
 					<div className="mobile-lg:grid-col-8 display-inline-block">
-						<TextInput type='input' id="id7" label="Long" onChange={onChange} status={warning} />
+						<TextInput type="input" id="id7" label="Long" onChange={onChange} status={warning} />
 					</div>
 				</FieldSet>
 			</div>
 		);
 	})
 	.add('Error', () => {
-		return <TextInput type='input' id="id8" label="Default text input" onChange={onChange} status={error} />;
+		return (
+			<TextInput
+				type="input"
+				id="id8"
+				label="Default text input"
+				onChange={onChange}
+				status={error}
+			/>
+		);
 	})
 	.add('Error inside error Fieldset', () => {
 		return (
@@ -67,10 +101,10 @@ storiesOf('TextInput', module)
 					id="example-fieldset-error"
 				>
 					<div className="mobile-lg:grid-col-4 display-inline-block">
-						<TextInput type='input' id="id9" label="Short" onChange={onChange} status={error} />
+						<TextInput type="input" id="id9" label="Short" onChange={onChange} status={error} />
 					</div>
 					<div className="mobile-lg:grid-col-8 display-inline-block">
-						<TextInput type='input' id="id10" label="Long" onChange={onChange} status={error} />
+						<TextInput type="input" id="id10" label="Long" onChange={onChange} status={error} />
 					</div>
 				</FieldSet>
 			</div>
