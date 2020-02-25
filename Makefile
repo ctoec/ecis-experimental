@@ -53,6 +53,9 @@ prettier:
 dc-prettier:
 	./dc-client ./node_modules/.bin/prettier --single-quote --write "/home/node/app/src/**/*.{js,jsx,ts,tsx,json,css,scss}"
 
+dotnet-format:
+	dotnet format
+
 dc-dotnet-format:
 	./dc-backend dotnet format
 

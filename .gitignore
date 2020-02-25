@@ -255,3 +255,6 @@ winged-keys
 
 # Swagger/OAS
 swagger.json
+
+# Editor config for src/Hedwig
+src/Hedwig/.editorconfig
