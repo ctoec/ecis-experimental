@@ -118,8 +118,6 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 	}
 	const { isExecuting: isMutating, setExecuting: onSubmit } = usePromiseExecution(_onSubmit);
 
-	const invalidData = comment ? comment.length > 400 : false;
-
 	return (
 		<ErrorBoundary alertProps={reportSubmitFailAlert as AlertProps}>
 			{report.submittedAt && (
@@ -166,7 +164,7 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 						optional={true}
 						disabled={!!report.submittedAt}
 						status={serverErrorForField(
-							'report.c4krevenue',
+							'c4krevenue',
 							apiError,
 							'This information is required for the report'
 						)}
@@ -209,12 +207,6 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 						defaultValue={comment || ''}
 						onChange={e => setComment(e.target.value)}
 						disabled={!!report.submittedAt}
-						status={clientErrorForField(
-							'comment',
-							undefined,
-							!!(comment && comment.length > 400),
-							'You can include up to 400 characters in your note'
-						)}
 						optional={true}
 					/>
 				</FieldSet>
@@ -222,7 +214,7 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 					<Button
 						onClick="submit"
 						text={isMutating ? 'Submitting...' : 'Submit'}
-						disabled={!canSubmit || isMutating || invalidData}
+						disabled={!canSubmit || isMutating}
 					/>
 				)}
 			</form>
