@@ -1,23 +1,35 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import moment from 'moment';
-import { Button, ChoiceList, DatePicker, DateRange, DirectionalLink } from '../../components';
+import { Button, ChoiceList, DatePicker, DateRange } from '../../components';
 import getDefaultDateRange from '../../utils/getDefaultDateRange';
 import { Site, Organization } from '../../generated';
-import RosterContext from '../../contexts/Roster/RosterContext';
 import { rosterEnrollmentsFormatter } from '../../utils/stringFormatters';
 import pluralize from 'pluralize';
 import ButtonWithDrowdown from '../../components/ButtonWithDropdown/ButtonWithDrowdown';
-import { Link } from 'react-router-dom';
-import CommonContainer from '../CommonContainer';
 
 type RosterHeaderProps = {
 	organization: Organization;
 	site?: Site;
 	numberOfEnrollments: number;
+	showPastEnrollments: boolean;
+  toggleShowPastEnrollments: () => void;
+  dateRange: DateRange;
+  setDateRange: (_: DateRange) => void;
+  filterByRange: boolean;
+  setFilterByRange: (_: boolean) => void;
 }
 
-const RosterHeader: React.FC<RosterHeaderProps> = ({ organization, site, numberOfEnrollments }) => {
-	const { showPastEnrollments, toggleShowPastEnrollments, dateRange, setDateRange, filterByRange, setFilterByRange } = useContext(RosterContext);
+const RosterHeader: React.FC<RosterHeaderProps> = ({
+	organization,
+	site,
+	numberOfEnrollments,
+	showPastEnrollments,
+	toggleShowPastEnrollments,
+	dateRange,
+	setDateRange,
+	filterByRange,
+	setFilterByRange
+}) => {
 	const sites = organization.sites || [];
 
 	const handlePastEnrollmentsChange = () => {
@@ -50,7 +62,6 @@ const RosterHeader: React.FC<RosterHeaderProps> = ({ organization, site, numberO
 										text: s.name || '',
 										value: `/roster/sites/${s.id}`
 									}))}
-									onChange={(e) => {alert("hi"); console.log(e)}}
 								/>
 							</span>
 						</div>

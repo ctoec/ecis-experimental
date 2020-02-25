@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import idx from 'idx';
-
+import { useParams } from 'react-router-dom';
 import { fundingSourceDetails } from '../../utils/fundingTypeFormatters';
 import getFundingSpaceCapacity from '../../utils/getFundingSpaceCapacity';
 import { getIdForUser } from '../../utils/models';
@@ -10,6 +10,7 @@ import {
 	LegendItem,
 	InlineIcon,
 	DirectionalLinkProps,
+	DateRange,
 } from '../../components';
 import useApi from '../../hooks/useApi';
 import { Age, Enrollment, FundingSpace, FundingSource, ApiOrganizationsOrgIdEnrollmentsGetRequest, ApiOrganizationsIdGetRequest } from '../../generated';
@@ -19,13 +20,16 @@ import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../utils/types
 import { isFunded, getObjectsByAgeGroup } from '../../utils/models';
 import CommonContainer from '../CommonContainer';
 import RosterHeader from './RosterHeader';
-import RosterContext from '../../contexts/Roster/RosterContext';
-import { useParams } from 'react-router-dom';
+
+import getDefaultDateRange from '../../utils/getDefaultDateRange';
 
 export default function Roster() {
 	const { id: urlSiteId } = useParams();
-	const { showPastEnrollments, dateRange } = useContext(RosterContext);
 	const { user } = useContext(UserContext);
+
+	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
+	const [dateRange, setDateRange] = useState<DateRange>(getDefaultDateRange());
+  const [filterByRange, setFilterByRange] = useState(false);
 
 	const orgParams: ApiOrganizationsIdGetRequest = {
 		id: getIdForUser(user, 'org'),
@@ -140,6 +144,12 @@ export default function Roster() {
 					organization={organization}
 					site={site}
 					numberOfEnrollments={enrollments.length}
+					showPastEnrollments={showPastEnrollments}
+					toggleShowPastEnrollments={() => toggleShowPastEnrollments(!showPastEnrollments)}
+					dateRange={dateRange}
+					setDateRange={setDateRange}
+					filterByRange={filterByRange}
+					setFilterByRange={setFilterByRange}
 				/>
 				<Legend items={legendItems} />
 				<AgeGroupSection

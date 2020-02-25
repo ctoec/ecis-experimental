@@ -1,9 +1,9 @@
 import { useEffect, useState, useRef} from "react";
 
 /**
- * Hook that alerts clicks outside of the passed ref
+ * Allows for hiding an element when a user clicks outside of a given element 'ref'
  */
-const useVisibleOnFocus = <T extends HTMLElement>() => {
+const useHideOnLostFocus = <T extends HTMLElement>() => {
 	const [isComponentVisible, setIsComponentVisible] = useState(false);
 	const ref = useRef<T>(null);
 
@@ -25,4 +25,4 @@ const useVisibleOnFocus = <T extends HTMLElement>() => {
 	return { ref, isComponentVisible, setIsComponentVisible };
 }
 
-export default useVisibleOnFocus;
+export default useHideOnLostFocus;

@@ -6,7 +6,6 @@ import ReportingPeriodContext from '../ReportingPeriod/ReportingPeriodContext';
 import { User, Region, ReportingPeriod, FundingSource } from '../../generated';
 import emptyGuid from '../../utils/emptyGuid';
 import { createMemoryHistory, History } from 'history';
-import { RosterProvider } from '../Roster/RosterContext';
 
 export const defaultUser: User = {
 	id: 1,
@@ -78,9 +77,7 @@ const CommonContextProviderMock: React.FC<CommonContextProviderMockProps> = ({
 	return (
 		<UserContext.Provider value={{ user }}>
 			<ReportingPeriodContext.Provider value={{ cdcReportingPeriods }}>
-				<RosterProvider>
-					<Router history={history}>{children}</Router>
-				</RosterProvider>
+				<Router history={history}>{children}</Router>
 			</ReportingPeriodContext.Provider>
 		</UserContext.Provider>
 	);

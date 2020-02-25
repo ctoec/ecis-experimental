@@ -6,7 +6,7 @@ import { Button, ButtonProps } from '..';
 import styles from './ButtonWithDropdown.module.scss';
 import { Link } from 'react-router-dom';
 
-import useVisibleOnFocus from '../../hooks/useVisibleOnFocus';
+import useHideOnLostFocus from '../../hooks/useHideOnLostFocus';
 
 type ButtonOptionProps = {
 	text: string,
@@ -15,7 +15,7 @@ type ButtonOptionProps = {
 
 type ButtonWithDrowdownProps = ButtonProps & {
 	id: string,
-	onChange: (_: React.ChangeEvent<HTMLSelectElement>) => any,
+	onChange?: (_: React.ChangeEvent<HTMLSelectElement>) => any,
 	options: ButtonOptionProps[]
 };
 
@@ -23,10 +23,9 @@ const ButtonWithDrowdown: React.FC<ButtonWithDrowdownProps> = ({
 	id,
 	appearance,
 	text,
-	onChange,
 	options
 }) => {
-	const { ref, isComponentVisible, setIsComponentVisible } = useVisibleOnFocus<HTMLDivElement>();
+	const { ref, isComponentVisible, setIsComponentVisible } = useHideOnLostFocus<HTMLDivElement>();
 
 	return (
 		<div 
