@@ -204,6 +204,7 @@ export function ChoiceList({
 				{[...children]}
 				{showotherInput && otherInputLabel !== undefined && (
 					<TextInput
+						type="input"
 						id={`${id}-other`}
 						name={name || ''}
 						label={otherInputLabel}

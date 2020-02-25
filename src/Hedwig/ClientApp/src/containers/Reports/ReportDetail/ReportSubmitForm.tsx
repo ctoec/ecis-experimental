@@ -22,7 +22,11 @@ import UtilizationTable from './UtilizationTable';
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import { useHistory } from 'react-router';
 import { DeepNonUndefineable } from '../../../utils/types';
-import { useFocusFirstError, serverErrorForField } from '../../../utils/validations';
+import {
+	useFocusFirstError,
+	serverErrorForField,
+	clientErrorForField,
+} from '../../../utils/validations';
 import { ValidationProblemDetails, ValidationProblemDetailsFromJSON } from '../../../generated';
 import usePromiseExecution from '../../../hooks/usePromiseExecution';
 import { reportSubmittedAlert, reportSubmitFailAlert } from '../../../utils/stringFormatters';
@@ -41,6 +45,7 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 	const [c4KRevenue, setC4KRevenue] = useState(report.c4KRevenue || null);
 	const [retroactiveC4KRevenue, setRetroactiveC4KRevenue] = useState(report.retroactiveC4KRevenue);
 	const [familyFeesRevenue, setFamilyFeesRevenue] = useState(report.familyFeesRevenue);
+	const [comment, setComment] = useState(report.comment);
 
 	const { user } = useContext(UserContext);
 	const { invalidateCache: invalidateAppCache } = useContext(AppContext);
@@ -91,6 +96,7 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 			c4KRevenue: c4KRevenue !== null ? c4KRevenue : undefined,
 			retroactiveC4KRevenue,
 			familyFeesRevenue: familyFeesRevenue,
+			comment: comment !== null ? comment : undefined,
 		};
 	}
 
@@ -143,6 +149,7 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 				<h2>Other Revenue</h2>
 				<FieldSet id="other-revenue" legend="Other Revenue">
 					<TextInput
+						type="input"
 						id="c4k-revenue"
 						label={
 							<React.Fragment>
@@ -161,7 +168,7 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 						optional={true}
 						disabled={!!report.submittedAt}
 						status={serverErrorForField(
-							'report.c4krevenue',
+							'c4krevenue',
 							apiError,
 							'This information is required for the report'
 						)}
@@ -181,6 +188,7 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 						]}
 					/>
 					<TextInput
+						type="input"
 						id="family-fees-revenue"
 						label={<span className="text-bold">Family Fees</span>}
 						defaultValue={currencyFormatter(familyFeesRevenue)}
@@ -195,6 +203,19 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 							apiError,
 							'This information is required'
 						)}
+					/>
+					<TextInput
+						type="textarea"
+						id="cdc-report-comment"
+						label={
+							<span className="text-bold">
+								Anything to share with the Office of Early Childhood about your report?
+							</span>
+						}
+						defaultValue={comment || ''}
+						onChange={e => setComment(e.target.value)}
+						disabled={!!report.submittedAt}
+						optional={true}
 					/>
 				</FieldSet>
 				{!report.submittedAt && (

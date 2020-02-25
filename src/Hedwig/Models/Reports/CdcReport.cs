@@ -15,5 +15,7 @@ namespace Hedwig.Models
 	[Column(TypeName = "decimal(18,2)")]
 	[Required]
 	public decimal? FamilyFeesRevenue { get; set; }
+
+	public string Comment { get; set; }
   }
 }

@@ -144,6 +144,8 @@ export const DateInput: React.FC<DateInputProps> = ({
 			{Object.keys(inputDetails).map(key => (
 				<div key={key}>
 					<TextInput
+						//@ts-ignore IDK, y'all TS has a problem here
+						type="input"
 						defaultValue={rangeByVal[key].start}
 						onChange={event => {
 							const newRangeVals = Object.assign({}, rangeByVal);
@@ -197,6 +199,8 @@ export const DateInput: React.FC<DateInputProps> = ({
 					{Object.keys(inputDetails).map(key => (
 						<div key={key}>
 							<TextInput
+								//@ts-ignore IDK, y'all TS has a problem here
+								type="input"
 								defaultValue={rangeByVal[key].end}
 								onChange={event => {
 									const newRangeVals = Object.assign({}, rangeByVal);

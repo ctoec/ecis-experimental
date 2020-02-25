@@ -68,6 +68,12 @@ export interface CdcReport {
 	familyFeesRevenue: number | null;
 	/**
 	 *
+	 * @type {string}
+	 * @memberof CdcReport
+	 */
+	comment?: string | null;
+	/**
+	 *
 	 * @type {number}
 	 * @memberof CdcReport
 	 */
@@ -137,6 +143,7 @@ export function CdcReportFromJSONTyped(json: any, ignoreDiscriminator: boolean):
 			? undefined
 			: json['retroactiveC4KRevenue'],
 		familyFeesRevenue: json['familyFeesRevenue'],
+		comment: !exists(json, 'comment') ? undefined : json['comment'],
 		organizationId: json['organizationId'],
 		organization: !exists(json, 'organization')
 			? undefined
@@ -177,6 +184,7 @@ export function CdcReportToJSON(value?: CdcReport | null): any {
 		c4KRevenue: value.c4KRevenue,
 		retroactiveC4KRevenue: value.retroactiveC4KRevenue,
 		familyFeesRevenue: value.familyFeesRevenue,
+		comment: value.comment,
 		organizationId: value.organizationId,
 		organization: OrganizationToJSON(value.organization),
 		id: value.id,

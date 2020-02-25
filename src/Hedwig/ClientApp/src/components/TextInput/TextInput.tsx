@@ -1,11 +1,11 @@
 import React from 'react';
+import cx from 'classnames';
+
 import { FormStatus, FormStatusProps } from '..';
 
 type TextInputProps = {
 	name?: string;
 	label: string | JSX.Element;
-	onChange: (event: React.ChangeEvent<HTMLInputElement>) => any;
-	onBlur?: (event: React.FocusEvent<HTMLInputElement>) => any;
 	id: string;
 	defaultValue?: string;
 	disabled?: boolean;
@@ -15,11 +15,25 @@ type TextInputProps = {
 	hideOptionalText?: boolean;
 	// You might want to hide the text if it's in a fieldset that is optional, like in the date input component
 	className?: string;
-	inputProps?: React.HTMLProps<HTMLInputElement> & { inputMode: 'text' };
 	inline?: boolean;
 };
 
+type TextInputHTMLInputElementProps = TextInputProps & {
+	type: 'input';
+	onChange: (event: React.ChangeEvent<HTMLInputElement>) => any;
+	onBlur?: (event: React.FocusEvent<HTMLInputElement>) => any;
+	inputProps?: React.HTMLProps<HTMLInputElement> & { inputMode: 'text' } & { type: 'input' };
+};
+
+type TextInputHTMLTextAreaElementProps = TextInputProps & {
+	type: 'textarea';
+	onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => any;
+	onBlur?: (event: React.FocusEvent<HTMLTextAreaElement>) => any;
+	inputProps?: React.HTMLProps<HTMLTextAreaElement> & { inputMode: 'text' } & { type: 'textarea' };
+};
+
 export function TextInput({
+	type,
 	name,
 	label,
 	onChange,
@@ -34,7 +48,58 @@ export function TextInput({
 	className,
 	inputProps,
 	inline,
-}: TextInputProps) {
+}: TextInputHTMLInputElementProps | TextInputHTMLTextAreaElementProps) {
+	const commonProps = {
+		id,
+		name,
+		disabled,
+		defaultValue,
+		'aria-describedby': status ? status.id : undefined,
+		'aria-invalid': status && status.type === 'error',
+		// Using aria-required to avoid default Chrome behavior
+		'aria-required': !optional,
+	};
+
+	let inputElement;
+	switch (type) {
+		case 'textarea':
+			inputElement = (
+				<textarea
+					className={cx('usa-textarea')}
+					onChange={onChange as (_: React.ChangeEvent<HTMLTextAreaElement>) => any}
+					onBlur={onBlur as (_: React.FocusEvent<HTMLTextAreaElement>) => any}
+					aria-describedby={status ? status.id : undefined}
+					aria-invalid={status && status.type === 'error'}
+					{...commonProps}
+					{...(inputProps as React.HTMLProps<HTMLTextAreaElement>)}
+				/>
+			);
+			break;
+		case 'input':
+		default:
+			inputElement = (
+				<input
+					className={cx(
+						'usa-input',
+						{
+							[`usa-input--${status && status.type}`]: status,
+						},
+						{
+							'usa-input--small': small,
+						},
+						{
+							'usa-input--inline': inline,
+						}
+					)}
+					type="text"
+					onChange={onChange as (_: React.ChangeEvent<HTMLInputElement>) => any}
+					onBlur={onBlur as (_: React.FocusEvent<HTMLInputElement>) => any}
+					{...commonProps}
+					{...(inputProps as React.HTMLProps<HTMLInputElement>)}
+				/>
+			);
+	}
+
 	return (
 		<div
 			className={`${className || ''} usa-form-group${
@@ -46,24 +111,7 @@ export function TextInput({
 				{optional && !hideOptionalText && <span className="usa-hint">&nbsp;(optional)</span>}
 			</label>
 			{status && status.message && <FormStatus {...status} />}
-			<input
-				className={`usa-input${status ? ` usa-input--${status.type}` : ''}${
-					small ? ' usa-input--small' : ''
-				}${inline ? ' usa-input--inline' : ''}`}
-				id={id}
-				name={name}
-				type="text"
-				disabled={disabled}
-				onChange={onChange}
-				onBlur={onBlur}
-				defaultValue={defaultValue}
-				aria-describedby={status ? status.id : undefined}
-				aria-invalid={status && status.type === 'error'}
-				aria-required={!optional}
-				// Using aria-required to avoid default Chrome behavior
-
-				{...inputProps}
-			/>
+			{inputElement}
 		</div>
 	);
 }
