@@ -335,6 +335,31 @@ exports[`ReportDetail matches snapshot 1`] = `
               value="$1,000.00"
             />
           </div>
+          <div
+            class=" usa-form-group"
+          >
+            <label
+              class="usa-label"
+              for="cdc-report-comment"
+            >
+              <span
+                class="text-bold"
+              >
+                Anything to share with the Office of Early Childhood about your report?
+              </span>
+               
+              <span
+                class="usa-hint"
+              >
+                 (optional)
+              </span>
+            </label>
+            <textarea
+              aria-required="false"
+              class="usa-textarea"
+              id="cdc-report-comment"
+            />
+          </div>
         </div>
       </fieldset>
       <input
