@@ -85,7 +85,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 					onChange={e => setStringDate(e.target.value)}
 					defaultValue={stringDate}
 					// Key forces re-render on default value change without making text input a controlled component
-					key={stringDate}
+					key={JSON.stringify(currentDate)}
 					onBlur={() => {
 						const parsedInput = parseDateInput(stringDate);
 						onChangeEvent(parsedInput);
@@ -99,7 +99,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 					<Button
 						text={<CalendarIcon className="oec-calendar-toggle__icon" />}
 						onClick={() => setCalendarOpen(!calendarOpen)}
-						aria-label={`${calendarOpen ? 'close' : 'open'} calendar`}
+						title={`${calendarOpen ? 'close' : 'open'} calendar`}
 						className="oec-calendar-toggle oec-calendar-dropdown__toggle"
 					/>
 					<div

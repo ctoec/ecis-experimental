@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 import { Button, ChoiceList, DateInput, DateRangeInput, DateRange } from '../../components';
 import getDefaultDateRange from '../../utils/getDefaultDateRange';
 import { Site, Organization } from '../../generated';
@@ -148,7 +147,7 @@ const RosterHeader: React.FC<RosterHeaderProps> = ({
 							<DateRangeInput
 								id="enrollment-roster-datepicker"
 								label="Date"
-								onChange={(newDateRange) => setDateRange(newDateRange)}
+								onChange={(newDateRange) => newDateRange ? setDateRange(newDateRange) : null}
 								// TODO: IF DATE RANGE IS INVALID CREATE ERROR STATUS
 								dateRange={dateRange}
 								// possibleRange={{ startDate: null, endDate: moment().local() }}

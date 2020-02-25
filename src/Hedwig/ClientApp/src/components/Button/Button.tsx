@@ -1,4 +1,4 @@
-import React, { ReactChild, ReactNode } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 type ButtonAppearance = 'default' | 'base' | 'secondary' | 'unstyled' | 'outline';
@@ -8,17 +8,19 @@ type BaseButtonProps = {
 	appearance?: ButtonAppearance;
 	disabled?: boolean;
 	className?: string;
-}
-
-type ButtonProps = BaseButtonProps & {
-	text: string | JSX.Element;
-	onClick?: (() => any);
 };
+
+export type ButtonProps = BaseButtonProps &
+	React.HTMLProps<HTMLButtonElement | HTMLAnchorElement> & {
+		text: string | JSX.Element;
+		onClick?: () => any;
+	};
 
 type SubmitButtonProps = BaseButtonProps & {
 	text: string;
 	onClick?: 'submit';
-}
+	title?: string;
+};
 
 export function Button({
 	text,
@@ -27,24 +29,14 @@ export function Button({
 	appearance,
 	disabled,
 	className,
+	title,
 }: ButtonProps | SubmitButtonProps) {
-	const isSubmit = onClick === 'submit';
-	onClick = typeof onClick === 'function' ? onClick : () => {};
-
 	const classString =
 		'usa-button' +
 		(appearance && appearance !== 'default' ? ' usa-button--' + appearance : '') +
 		(className ? ' ' + className : '');
 
-	if (href) {
-		return (
-			<Link to={href} className={classString} onClick={onClick}>
-				{text}
-			</Link>
-		);
-	}
-
-	if (isSubmit) {
+	if (onClick === 'submit') {
 		return (
 			<input
 				className={classString}
@@ -52,12 +44,28 @@ export function Button({
 				type="submit"
 				value={typeof text === 'string' ? text : undefined}
 				// This will never actually be an element but TS doesn't know that
+				title={title}
 			/>
+		);
+	}
+	onClick = typeof onClick === 'function' ? onClick : () => {};
+
+	if (href) {
+		return (
+			<Link to={href} className={classString} onClick={onClick} title={title}>
+				{text}
+			</Link>
 		);
 	}
 
 	return (
-		<button className={classString} disabled={disabled} onClick={onClick} type="button">
+		<button
+			className={classString}
+			disabled={disabled}
+			onClick={onClick}
+			type="button"
+			title={title}
+		>
 			{text}
 		</button>
 	);
