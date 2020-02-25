@@ -57,7 +57,7 @@ dotnet-format:
 	dotnet format
 
 dc-dotnet-format:
-	docker-compose exec backend sh -c "cd /app && dotnet format"
+	./dc-backend sh -c "cd /app && dotnet format"
 
 api-generate:
 	rm -rf ${PWD}/src/Hedwig/ClientApp/src/generated
