@@ -49,7 +49,7 @@ export default function AgeGroupSection({
 			</th>
 		),
 		sort: (row: Enrollment) => lastFirstNameFormatter(row.child),
-		width: '30%',
+		width: '25%',
 	};
 
 	const birthdateColumn = {
@@ -87,7 +87,7 @@ export default function AgeGroupSection({
 		name: 'Site',
 		cell: ({ row }: { row: DeepNonUndefineable<Enrollment> }) => <td>{row.site.name}</td>,
 		sort: (row: DeepNonUndefineable<Enrollment>) => (row.site.name || '').toLowerCase(),
-		width: '10%',
+		width: '15%',
 	};
 
 	const enrollmentDateColumn = {

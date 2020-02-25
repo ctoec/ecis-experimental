@@ -4,18 +4,45 @@ exports[`Roster matches snapshot 1`] = `
 <DocumentFragment>
   <div
     class="grid-container"
-  />
+  >
+    <a
+      class="oec-directional-link"
+      href="/roster"
+    >
+      <svg
+        class="oec-directional-link__arrow oec-directional-link__arrow--direction-left oec-directional-link__arrow--side-left"
+      >
+        arrowRight.svg
+      </svg>
+      Back to program roster
+    </a>
+  </div>
   <div
     class="grid-container"
   >
     <div
-      class="grid-row flex-first-baseline flex-space-between"
+      class="margin-bottom-2 grid-row flex-first-baseline flex-space-between"
     >
-      <h1
-        class="tablet:grid-col-auto"
+      <div
+        class="tablet:grid-col-fill"
       >
-        Children's Adventure Center
-      </h1>
+        <h1
+          class="tablet:grid-col-auto"
+        >
+          Test Site
+        </h1>
+        <p
+          class="intro display-flex flex-row flex-wrap flex-justify-start"
+        >
+          5 children enrolled. 
+          <button
+            class="usa-button usa-button--unstyled"
+            type="button"
+          >
+            View past enrollments
+          </button>
+        </p>
+      </div>
       <div
         class="tablet:grid-col-auto"
       >
@@ -25,29 +52,6 @@ exports[`Roster matches snapshot 1`] = `
         >
           Enroll child
         </a>
-      </div>
-    </div>
-    <div
-      class="grid-row"
-    >
-      <div
-        class="tablet:grid-col-fill"
-      >
-        <p
-          class="intro display-flex flex-row flex-wrap flex-justify-start"
-        >
-          <span
-            class="margin-right-2 flex-auto"
-          >
-            5 children enrolled.
-          </span>
-          <button
-            class="usa-button usa-button--unstyled"
-            type="button"
-          >
-            Filter for past enrollments
-          </button>
-        </p>
       </div>
     </div>
     <div
@@ -71,7 +75,7 @@ exports[`Roster matches snapshot 1`] = `
           <span
             class="text-bold"
           >
-            5/0
+            5/2
           </span>
           <span>
              Child Day Care spaces filled
@@ -128,7 +132,7 @@ exports[`Roster matches snapshot 1`] = `
             class="oec-table__column-header oec-sortable"
             role="columnheader"
             scope="col"
-            style="width: 30%;"
+            style="width: 25%;"
           >
             <button
               aria-label="Sort table by Name in descending order"

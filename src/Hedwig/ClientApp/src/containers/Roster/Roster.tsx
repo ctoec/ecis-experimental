@@ -1,20 +1,16 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import idx from 'idx';
-import moment from 'moment';
-import { rosterEnrollmentsFormatter } from '../../utils/stringFormatters';
-import getDefaultDateRange from '../../utils/getDefaultDateRange';
+import { useParams } from 'react-router-dom';
 import { fundingSourceDetails } from '../../utils/fundingTypeFormatters';
 import getFundingSpaceCapacity from '../../utils/getFundingSpaceCapacity';
-import { validatePermissions, getIdForUser } from '../../utils/models';
+import { getIdForUser } from '../../utils/models';
 import {
 	Tag,
-	DatePicker,
-	DateRange,
-	Button,
-	ChoiceList,
 	Legend,
 	LegendItem,
 	InlineIcon,
+	DirectionalLinkProps,
+	DateRange,
 } from '../../components';
 import useApi from '../../hooks/useApi';
 import {
@@ -23,38 +19,38 @@ import {
 	FundingSpace,
 	FundingSource,
 	ApiOrganizationsOrgIdEnrollmentsGetRequest,
-	Organization,
+	ApiOrganizationsIdGetRequest,
 } from '../../generated';
 import UserContext from '../../contexts/User/UserContext';
 import AgeGroupSection from './AgeGroupSection';
-import { DeepNonUndefineable } from '../../utils/types';
+import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../utils/types';
 import { isFunded, getObjectsByAgeGroup } from '../../utils/models';
 import CommonContainer from '../CommonContainer';
+import RosterHeader from './RosterHeader';
+
+import getDefaultDateRange from '../../utils/getDefaultDateRange';
 
 export default function Roster() {
+	const { id: urlSiteId } = useParams();
+	const { user } = useContext(UserContext);
+
 	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
 	const [dateRange, setDateRange] = useState<DateRange>(getDefaultDateRange());
-	const [byRange, setByRange] = useState(false);
-	const handlePastEnrollmentsChange = () => {
-		toggleShowPastEnrollments(!showPastEnrollments);
-		setByRange(false);
-		setDateRange(getDefaultDateRange());
-	};
+	const [filterByRange, setFilterByRange] = useState(false);
 
-	const { user } = useContext(UserContext);
-	// Assumes that organization will always be defined
-	const organization = idx(user, _ => _.orgPermissions[0].organization) as Organization;
-	const siteIds = (idx(organization, _ => _.sites) || []).map(s => s.id);
-	const siteId = siteIds[0];
-	const siteParams = {
-		orgId: getIdForUser(user, 'org'),
-		id: validatePermissions(user, 'site', siteId) ? siteId : 0,
-		include: ['organizations', 'funding_spaces'],
+	const orgParams: ApiOrganizationsIdGetRequest = {
+		id: getIdForUser(user, 'org'),
+		include: ['sites', 'funding_spaces'],
 	};
-	const [siteLoading, siteError, site] = useApi(
-		api => api.apiOrganizationsOrgIdSitesIdGet(siteParams),
-		[user, siteId]
+	const [organizationLoading, organizationError, organization] = useApi(
+		api => api.apiOrganizationsIdGet(orgParams),
+		[user]
 	);
+
+	const sites = organization && organization.sites;
+	const siteIds = (sites || []).map(s => s.id);
+	const siteId = urlSiteId ? parseInt(urlSiteId) : undefined;
+	const site = sites && siteId ? sites.find(s => s.id === siteId) : undefined;
 
 	const enrollmentParams: ApiOrganizationsOrgIdEnrollmentsGetRequest = {
 		orgId: getIdForUser(user, 'org'),
@@ -63,13 +59,33 @@ export default function Roster() {
 		startDate: (dateRange && dateRange.startDate && dateRange.startDate.toDate()) || undefined,
 		endDate: (dateRange && dateRange.endDate && dateRange.endDate.toDate()) || undefined,
 	};
-	const [enrollmentLoading, enrollmentError, enrollments] = useApi(
+	const [enrollmentLoading, enrollmentError, _enrollments] = useApi(
 		api => api.apiOrganizationsOrgIdEnrollmentsGet(enrollmentParams),
-		[user, dateRange]
+		[user, dateRange, organization]
 	);
 
-	if (siteLoading || siteError || !site || enrollmentLoading || enrollmentError || !enrollments) {
+	if (
+		organizationLoading ||
+		organizationError ||
+		!organization ||
+		enrollmentLoading ||
+		enrollmentError ||
+		!_enrollments
+	) {
 		return <div className="Roster"></div>;
+	}
+
+	let enrollments: DeepNonUndefineableArray<Enrollment> = [];
+	let siteRosterDirectionalLinkProps: DirectionalLinkProps | undefined = undefined;
+	if (site) {
+		enrollments = _enrollments.filter(e => e.siteId === site.id);
+		siteRosterDirectionalLinkProps = {
+			to: '/roster',
+			text: 'Back to program roster',
+			direction: 'left',
+		};
+	} else {
+		enrollments = _enrollments;
 	}
 
 	const incompleteEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>(
@@ -84,17 +100,10 @@ export default function Roster() {
 	const fundingSpaces = idx(site, _ => _.organization.fundingSpaces) || [];
 	const fundingSpacesByAgeGroup = getObjectsByAgeGroup(fundingSpaces);
 
-	const numKidsEnrolledText = rosterEnrollmentsFormatter(
-		enrollments.length,
-		showPastEnrollments,
-		dateRange,
-		byRange
-	);
-
 	const legendItems: LegendItem[] = [];
 
 	Object.keys(fundingSourceDetails).forEach(source => {
-		const capacityForFunding = getFundingSpaceCapacity(site.organization, { source });
+		const capacityForFunding = getFundingSpaceCapacity(organization, { source });
 		const enrolledForFunding = enrollments.filter<DeepNonUndefineable<Enrollment>>(enrollment =>
 			isFunded(enrollment, { source })
 		).length;
@@ -140,67 +149,19 @@ export default function Roster() {
 	}
 
 	return (
-		<CommonContainer>
+		<CommonContainer directionalLinkProps={siteRosterDirectionalLinkProps}>
 			<div className="grid-container">
-				<div className="grid-row flex-first-baseline flex-space-between">
-					<h1 className="tablet:grid-col-auto">{site.name}</h1>
-					<div className="tablet:grid-col-auto">
-						<Button
-							text="Enroll child"
-							href={`/roster/sites/${site.id}/enroll`}
-							className="margin-right-0"
-						/>
-					</div>
-				</div>
-				<div className="grid-row">
-					<div className="tablet:grid-col-fill">
-						<p className="intro display-flex flex-row flex-wrap flex-justify-start">
-							<span className="margin-right-2 flex-auto">{numKidsEnrolledText}</span>
-							<Button
-								text={
-									showPastEnrollments
-										? 'View only current enrollments'
-										: 'Filter for past enrollments'
-								}
-								appearance="unstyled"
-								onClick={handlePastEnrollmentsChange}
-							/>
-						</p>
-					</div>
-				</div>
-				{showPastEnrollments && (
-					<div className="padding-bottom-2">
-						<ChoiceList
-							type="radio"
-							legend="Select date or date range"
-							options={[
-								{
-									text: 'By date',
-									value: 'date',
-								},
-								{
-									text: 'By range',
-									value: 'range',
-								},
-							]}
-							onChange={event => setByRange(event.target.value === 'range')}
-							horizontal={true}
-							id={'dateSelectionType'}
-							selected={byRange ? ['range'] : ['date']}
-							className="margin-top-neg-3"
-							// This is goofy but we're getting rid of this soon anyway
-						/>
-						<DatePicker
-							id="enrollment-roster-datepicker"
-							label="Date"
-							byRange={byRange}
-							onChange={(newDateRange: DateRange) => setDateRange(newDateRange)}
-							dateRange={dateRange}
-							possibleRange={{ startDate: null, endDate: moment().local() }}
-							className="margin-top-neg-3"
-						/>
-					</div>
-				)}
+				<RosterHeader
+					organization={organization}
+					site={site}
+					numberOfEnrollments={enrollments.length}
+					showPastEnrollments={showPastEnrollments}
+					toggleShowPastEnrollments={() => toggleShowPastEnrollments(!showPastEnrollments)}
+					dateRange={dateRange}
+					setDateRange={setDateRange}
+					filterByRange={filterByRange}
+					setFilterByRange={setFilterByRange}
+				/>
 				<Legend items={legendItems} />
 				<AgeGroupSection
 					organization={organization}

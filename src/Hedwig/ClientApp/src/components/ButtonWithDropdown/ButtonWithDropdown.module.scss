@@ -1,0 +1,47 @@
+.container {
+	border-bottom: 1px solid #005ea2;
+}
+
+.with-dropdown,
+.with-dropdown:hover {
+	text-decoration: none !important;
+}
+
+.caret-down {
+	display: inline-block;
+	margin-bottom: -3px;
+	padding-bottom: 3px;
+	height: 13px;
+	width: 13px;
+
+	content: url('../../../node_modules/uswds/dist/img/arrow-down.svg');
+}
+
+.dropdown {
+	position: absolute;
+	top: 1.2em;
+	left: 12.7em;
+	z-index: 1;
+}
+
+.option {
+	display: block;
+
+	width: 100%;
+	padding: 1em;
+	height: fit-content;
+
+	border: solid black 1px;
+	background-color: #ffffff;
+
+	text-decoration: none;
+	color: #000;
+}
+
+.option:hover {
+	background-color: #e7e7e7;
+}
+
+.hidden {
+	display: none;
+}

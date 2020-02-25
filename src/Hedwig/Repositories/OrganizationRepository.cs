@@ -19,6 +19,10 @@ namespace Hedwig.Repositories
 		  .Where(o => o.Id == id);
 
 	  include = include ?? new string[] { };
+	  if (include.Contains(INCLUDE_FUNDING_SPACES))
+	  {
+		organization = organization.Include(o => o.FundingSpaces);
+	  }
 	  if (include.Contains(INCLUDE_SITES))
 	  {
 		organization = organization.Include(o => o.Sites);

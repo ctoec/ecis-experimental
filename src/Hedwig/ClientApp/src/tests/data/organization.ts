@@ -14,6 +14,7 @@ export const organization = {
 	],
 	sites: [
 		{
+			id: 1,
 			name: 'Test Site',
 			region: Region.East,
 			titleI: false,

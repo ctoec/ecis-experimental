@@ -5,7 +5,6 @@ import {
 	FundingSource,
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest,
 	ApiOrganizationsOrgIdEnrollmentsGetRequest,
-	Child,
 } from '../../generated';
 import { completeEnrollment, child, report, organization } from '../../tests/data';
 import { swapFields } from '../../tests/helpers';
@@ -131,7 +130,7 @@ export const mockApi = {
 	apiOrganizationsOrgIdEnrollmentsGet: (params: ApiOrganizationsOrgIdEnrollmentsGetRequest) => {
 		const enrollments = allFakeEnrollments
 			.filter(e => !e.doNotIncludeInAllEnrollments)
-			.filter(e => (params.siteIds || []).includes(e.enrollment.siteId))
+			.filter(e => !params.siteIds || params.siteIds.includes(e.enrollment.siteId))
 			.filter(({ enrollment: e }) => {
 				return (
 					(!e.entry ? true : moment(e.entry).isBefore(params.endDate)) &&
