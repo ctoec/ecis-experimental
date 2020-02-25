@@ -1,6 +1,7 @@
 #!/bin/sh
 #
-# To install, create a symlink from this file to `./git/hooks/pre-commit` by running something like:      # ln -s ../../hooks/pre-commit-docker-compose .git/hooks/pre-commit
+# To install, create a symlink from this file to `./git/hooks/pre-commit` by running something like:
+# ln -s ../../hooks/pre-commit-docker-compose .git/hooks/pre-commit
 # from the repository root
 
 echo "Formatting frontend code (javascript, CSS, json)..."
