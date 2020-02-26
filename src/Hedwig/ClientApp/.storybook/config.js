@@ -8,6 +8,7 @@ import 'react-dates/lib/css/_datepicker.css';
 import '../src/assets/styles/index.scss';
 
 jest.mock('react-dates', () => ({
+	// https://github.com/airbnb/react-dates/issues/528
 	DayPickerSingleDateController: ({ ...props }) =>
 		`<DayPickerSingleDateController" ${JSON.stringify(props)}/>`,
 }));
