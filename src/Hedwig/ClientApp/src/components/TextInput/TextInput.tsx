@@ -19,7 +19,7 @@ type TextInputProps = {
 };
 
 type TextInputHTMLInputElementProps = TextInputProps & {
-	type: 'input';
+	type?: 'input';
 	onChange: (event: React.ChangeEvent<HTMLInputElement>) => any;
 	onBlur?: (event: React.FocusEvent<HTMLInputElement>) => any;
 	inputProps?: React.HTMLProps<HTMLInputElement> & { inputMode: 'text' } & { type: 'input' };
@@ -33,7 +33,7 @@ type TextInputHTMLTextAreaElementProps = TextInputProps & {
 };
 
 export function TextInput({
-	type,
+	type = 'input',
 	name,
 	label,
 	onChange,

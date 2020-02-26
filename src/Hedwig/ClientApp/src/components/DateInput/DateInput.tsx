@@ -82,7 +82,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 				<TextInput
 					label={`${label} input`}
 					id={`${id}-input`}
-					onChange={e => setStringDate(e.target.value)}
+					onChange={(e: React.ChangeEvent<HTMLInputElement>) => setStringDate(e.target.value)}
 					defaultValue={stringDate}
 					// Key forces re-render on default value change without making text input a controlled component
 					key={JSON.stringify(currentDate)}
@@ -122,7 +122,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 							// TODO: IMPLEMENT ON TAB ONCE TYPES FOR THIS LIBRARY ARE UPDATED :/
 							// onTab={() => {}}
 							onOutsideClick={e => {
-								const clickOnCalendarOrButton = e.target.closest(`#${id} .oec-calendar-dropdown`);								
+								const clickOnCalendarOrButton = e.target.closest(`#${id} .oec-calendar-dropdown`);
 								// If a user clicks the button again, the button will handle closing it, and this would fire first and cause problems
 								if (!clickOnCalendarOrButton) {
 									setCalendarOpen(false);
