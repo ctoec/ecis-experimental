@@ -106,8 +106,8 @@ const EnrollmentFunding: Section = {
 							{sourcelessFunding
 								? InlineIcon({ icon: 'incomplete' })
 								: isPrivatePay
-									? 'Private pay'
-									: `CDC - ${prettyFundingTime((cdcFunding as Funding).time)}` // cdcFunding will always be defined but Typescript does not infer so
+								? 'Private pay'
+								: `CDC - ${prettyFundingTime((cdcFunding as Funding).time)}` // cdcFunding will always be defined but Typescript does not infer so
 							}
 						</p>
 						{!isPrivatePay && !sourcelessFunding && (
@@ -173,8 +173,8 @@ const EnrollmentFunding: Section = {
 			initialLoad || sourcelessFunding
 				? FundingType.UNSELECTED
 				: cdcFunding
-					? FundingType.CDC
-					: FundingType.PRIVATE_PAY;
+				? FundingType.CDC
+				: FundingType.PRIVATE_PAY;
 		const [fundingSelection, updateFundingSelection] = useState<FundingSelection>({
 			source: initialFundingSource,
 			time: cdcFunding ? cdcFunding.time : undefined,
@@ -196,8 +196,8 @@ const EnrollmentFunding: Section = {
 			if (reportingPeriods) {
 				const _cdcReporingPeriod = cdcFunding
 					? reportingPeriods.find<DeepNonUndefineable<ReportingPeriod>>(
-						period => period.id === cdcFunding.firstReportingPeriodId
-					)
+							period => period.id === cdcFunding.firstReportingPeriodId
+					  )
 					: undefined;
 				updateCdcReportingPeriod(_cdcReporingPeriod);
 			}
@@ -307,7 +307,7 @@ const EnrollmentFunding: Section = {
 						finallyCallback && finallyCallback(EnrollmentFunding);
 					});
 			}
-			return new Promise(() => { });
+			return new Promise(() => {});
 			// TODO: what should happen if there is no enrollment, child, or family?  See also family info and family income
 		};
 
@@ -369,13 +369,11 @@ const EnrollmentFunding: Section = {
 					})
 			);
 			const newCdcFunding = !cdcFunding && fundingSelection.source === FundingType.CDC;
-			const removedCdcFunding = cdcFunding && (fundingSelection.source === FundingType.PRIVATE_PAY || fundingSelection.source === FundingType.UNSELECTED);
-			const countDifferent =
-				newCdcFunding ?
-					1 :
-					removedCdcFunding ?
-						-1 :
-						0
+			const removedCdcFunding =
+				cdcFunding &&
+				(fundingSelection.source === FundingType.PRIVATE_PAY ||
+					fundingSelection.source === FundingType.UNSELECTED);
+			const countDifferent = newCdcFunding ? 1 : removedCdcFunding ? -1 : 0;
 			const numEnrolled = enrolled.length + countDifferent;
 			setUtilizationRate({ capacity, numEnrolled });
 		}, [site, fundingSelection, _enrollment.ageGroup, thisPeriod]);
@@ -487,11 +485,11 @@ const EnrollmentFunding: Section = {
 							status={initialLoadErrorGuard(
 								initialLoad,
 								serverErrorForField('fundings', apiError) ||
-								warningForField(
-									'firstReportingPeriod',
-									cdcFunding || null,
-									'This information is required for OEC reporting'
-								)
+									warningForField(
+										'firstReportingPeriod',
+										cdcFunding || null,
+										'This information is required for OEC reporting'
+									)
 							)}
 						/>
 					)}
@@ -501,9 +499,9 @@ const EnrollmentFunding: Section = {
 							// TODO (after user research): This will only warn about the current reporting period.  What if they set an earlier reporting period date?
 							text={`${utilizationRate.numEnrolled} out of ${
 								utilizationRate.capacity
-								} spaces are utilized for the ${
+							} spaces are utilized for the ${
 								thisPeriod ? reportingPeriodFormatter(thisPeriod) : 'current'
-								} reporting period.`}
+							} reporting period.`}
 						/>
 					)}
 					<h2>Care 4 Kids</h2>
