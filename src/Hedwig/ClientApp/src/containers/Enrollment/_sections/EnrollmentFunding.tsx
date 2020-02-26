@@ -25,6 +25,7 @@ import {
 	initialLoadErrorGuard,
 	useFocusFirstError,
 	isBlockingValidationError,
+	processValidationError,
 } from '../../../utils/validations';
 import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
 import {
@@ -65,7 +66,16 @@ const EnrollmentFunding: Section = {
 	key: 'enrollment-funding',
 	name: 'Enrollment and funding',
 	status: ({ enrollment }) =>
-		enrollment && sectionHasValidationErrors([enrollment, enrollment.fundings])
+		enrollment && (
+			sectionHasValidationErrors([enrollment.fundings]) ||
+			processValidationError(
+				'ageGroup',
+				enrollment ? enrollment.validationErrors : null
+			) ||
+			processValidationError(
+				'entry',
+				enrollment ? enrollment.validationErrors : null
+			))
 			? 'incomplete'
 			: 'complete',
 
@@ -343,7 +353,18 @@ const EnrollmentFunding: Section = {
 		const [fundingTypeOpts, setFundingTypeOpts] = useState<{ value: string; text: string }[]>([]);
 		useEffect(() => {
 			const orgFundingSpaces = idx(site, _ => _.organization.fundingSpaces);
-			if (!orgFundingSpaces || familyDeterminationNotDisclosed(enrollment)) return;
+			// If the organization has no funding spaces
+			// Or if the family income is not disclosed and no previous cdc funding had been entered
+			// We do not want to automatically delete data if it has already been entered
+			if (!orgFundingSpaces || (familyDeterminationNotDisclosed(enrollment) && !cdcFunding)) {
+				setFundingTypeOpts([
+					{
+						value: 'privatePay',
+						text: 'Private pay',
+					},
+				]);
+				return;
+			}
 			const newFundingTypeOpts = orgFundingSpaces
 				.filter(space => space.ageGroup === _enrollment.ageGroup)
 				.map(space => ({
@@ -357,7 +378,7 @@ const EnrollmentFunding: Section = {
 					text: 'Private pay',
 				},
 			]);
-		}, [site, _enrollment.ageGroup]);
+		}, [site, _enrollment.ageGroup, enrollment]);
 
 		// TODO: make alert wider?
 		// TODO: do we care which reporting periods it violates this constraint for, or just the current one?
