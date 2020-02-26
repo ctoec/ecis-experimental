@@ -26,7 +26,7 @@ import {
 	useFocusFirstError,
 	serverErrorForField,
 	clientErrorForField,
-    isBlockingValidationError,
+	isBlockingValidationError,
 } from '../../../utils/validations';
 import usePromiseExecution from '../../../hooks/usePromiseExecution';
 import { reportSubmittedAlert, reportSubmitFailAlert } from '../../../utils/stringFormatters';
@@ -40,7 +40,12 @@ export type ReportSubmitFormProps = {
 	canSubmit: boolean;
 };
 
-export default function ReportSubmitForm({ report, mutate, error, canSubmit }: ReportSubmitFormProps) {
+export default function ReportSubmitForm({
+	report,
+	mutate,
+	error,
+	canSubmit,
+}: ReportSubmitFormProps) {
 	const history = useHistory();
 	const asOf = report.submittedAt ? report.submittedAt : undefined;
 	const [accredited, setAccredited] = useState(report.accredited);
@@ -91,8 +96,8 @@ export default function ReportSubmitForm({ report, mutate, error, canSubmit }: R
 	useFocusFirstError([error]);
 	const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
 	useEffect(() => {
-		if(error && !hasAlertedOnError) {
-			if(!isBlockingValidationError(error)) {
+		if (error && !hasAlertedOnError) {
+			if (!isBlockingValidationError(error)) {
 				throw new Error(error.title || 'Unknown api error');
 			}
 			setAlerts([validationErrorAlert]);
@@ -116,16 +121,15 @@ export default function ReportSubmitForm({ report, mutate, error, canSubmit }: R
 				...params,
 				cdcReport: updatedReport(),
 			})
-		)
-			.then(res => {
-				if (res) {
-					const newAlert = reportSubmittedAlert(report.reportingPeriod);
-					const newAlerts = [...alerts, newAlert];
-					setAlerts(newAlerts);
-					invalidateAppCache(); // Updates the count of unsubmitted reports in the nav bar
-					history.push('/reports', newAlerts);
-				}
-			})
+		).then(res => {
+			if (res) {
+				const newAlert = reportSubmittedAlert(report.reportingPeriod);
+				const newAlerts = [...alerts, newAlert];
+				setAlerts(newAlerts);
+				invalidateAppCache(); // Updates the count of unsubmitted reports in the nav bar
+				history.push('/reports', newAlerts);
+			}
+		});
 	}
 	const { isExecuting: isMutating, setExecuting: onSubmit } = usePromiseExecution(_onSubmit);
 

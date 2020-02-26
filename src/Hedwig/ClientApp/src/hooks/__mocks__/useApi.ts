@@ -147,10 +147,10 @@ export const mockApi = {
 		let error = null;
 		if (!thisEnrollment) return;
 		const mutate = (_: any) => {
-			return new Promise((resolve) => {
-				if(thisEnrollment.mutationError) {
+			return new Promise(resolve => {
+				if (thisEnrollment.mutationError) {
 					error = thisEnrollment.mutationError;
-					return; 
+					return;
 				}
 				resolve(thisEnrollment.enrollment);
 			});

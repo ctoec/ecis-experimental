@@ -58,7 +58,7 @@ const MailToLink = () => (
 		oec-data-pilot@skylight.digital
 	</a>
 );
-const saveFailAlertProps: { type: AlertType, heading: string } = {
+const saveFailAlertProps: { type: AlertType; heading: string } = {
 	type: 'error',
 	heading: 'Something went wrong',
 };
@@ -102,11 +102,11 @@ export const validationErrorAlert: AlertProps = {
 	...saveFailAlertProps,
 	text: (
 		<span>
-    We couldn't save your changes because we detected a potential inconsistency in the data. 
-		This shouldn't have happened. Our team has been notified of the problem.
-		<br/>
-    You may still be able to update other children on your roster. 
-		Please wait to submit a report to OEC until the problem is fixed. For updates, contact {<MailToLink />}.
+			We couldn't save your changes because we detected a potential inconsistency in the data. This
+			shouldn't have happened. Our team has been notified of the problem.
+			<br />
+			You may still be able to update other children on your roster. Please wait to submit a report
+			to OEC until the problem is fixed. For updates, contact {<MailToLink />}.
 		</span>
-	)
+	),
 };

@@ -29,7 +29,7 @@ import {
 	warningForField,
 	serverErrorForField,
 	initialLoadErrorGuard,
-	isBlockingValidationError 
+	isBlockingValidationError,
 } from '../../../utils/validations';
 import usePromiseExecution from '../../../hooks/usePromiseExecution';
 import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
@@ -59,7 +59,15 @@ const ChildInfo: Section = {
 		);
 	},
 
-	Form: ({ enrollment, siteId, mutate, error, successCallback, finallyCallback, visitedSections }) => {
+	Form: ({
+		enrollment,
+		siteId,
+		mutate,
+		error,
+		successCallback,
+		finallyCallback,
+		visitedSections,
+	}) => {
 		if (!enrollment && !siteId) {
 			throw new Error('ChildInfo rendered without an enrollment or a siteId');
 		}
@@ -70,9 +78,9 @@ const ChildInfo: Section = {
 		const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
 		useFocusFirstError([error]);
 		useEffect(() => {
-			if(error && !hasAlertedOnError) {
-				if(!isBlockingValidationError(error)) {
-						throw new Error(error.title || 'Unknown api error');
+			if (error && !hasAlertedOnError) {
+				if (!isBlockingValidationError(error)) {
+					throw new Error(error.title || 'Unknown api error');
 				}
 				setAlerts([validationErrorAlert]);
 			}

@@ -41,10 +41,13 @@ export function serverErrorForField(
 ): FormStatusProps | undefined {
 	if (!error || !isBlockingValidationError(error)) return;
 
-	const fieldError = processBlockingValidationErrors(fieldId, (error as ValidationProblemDetails).errors);
+	const fieldError = processBlockingValidationErrors(
+		fieldId,
+		(error as ValidationProblemDetails).errors
+	);
 
 	if (fieldError) {
-		if(!hasAlertedOnError) {
+		if (!hasAlertedOnError) {
 			setHasAlertedOnError(true);
 		}
 		return {

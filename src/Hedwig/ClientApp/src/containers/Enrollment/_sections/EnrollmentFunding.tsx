@@ -140,7 +140,15 @@ const EnrollmentFunding: Section = {
 		);
 	},
 
-	Form: ({ enrollment, siteId, mutate, error, successCallback, finallyCallback, visitedSections }) => {
+	Form: ({
+		enrollment,
+		siteId,
+		mutate,
+		error,
+		successCallback,
+		finallyCallback,
+		visitedSections,
+	}) => {
 		if (!enrollment) {
 			throw new Error('EnrollmentFunding rendered without an enrollment');
 		}
@@ -151,8 +159,8 @@ const EnrollmentFunding: Section = {
 		const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
 		useFocusFirstError([error]);
 		useEffect(() => {
-			if(error && !hasAlertedOnError) {
-				if(!isBlockingValidationError(error)) {
+			if (error && !hasAlertedOnError) {
+				if (!isBlockingValidationError(error)) {
 					throw new Error(error.title || 'Unknown api error');
 				}
 				setAlerts([validationErrorAlert]);

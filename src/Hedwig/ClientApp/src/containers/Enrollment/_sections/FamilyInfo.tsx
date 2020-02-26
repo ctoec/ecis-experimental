@@ -9,8 +9,8 @@ import {
 	sectionHasValidationErrors,
 	warningForFieldSet,
 	warningForField,
-	initialLoadErrorGuard, 
-	useFocusFirstError
+	initialLoadErrorGuard,
+	useFocusFirstError,
 } from '../../../utils/validations';
 import { addressFormatter, homelessnessText, fosterText } from '../../../utils/models';
 import usePromiseExecution from '../../../hooks/usePromiseExecution';
@@ -48,7 +48,15 @@ const FamilyInfo: Section = {
 		);
 	},
 
-	Form: ({ enrollment, siteId, mutate, error, successCallback, finallyCallback, visitedSections }) => {
+	Form: ({
+		enrollment,
+		siteId,
+		mutate,
+		error,
+		successCallback,
+		finallyCallback,
+		visitedSections,
+	}) => {
 		if (!enrollment || !enrollment.child) {
 			throw new Error('FamilyInfo rendered without a child');
 		}
@@ -59,14 +67,13 @@ const FamilyInfo: Section = {
 		const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
 		useFocusFirstError([error]);
 		useEffect(() => {
-			if(error && !hasAlertedOnError) {
-				if(!isBlockingValidationError(error)) {
+			if (error && !hasAlertedOnError) {
+				if (!isBlockingValidationError(error)) {
 					throw new Error(error.title || 'Unknown api error');
 				}
 				setAlerts([validationErrorAlert]);
 			}
 		}, [error, hasAlertedOnError]);
-
 
 		const child = enrollment.child;
 		const { user } = useContext(UserContext);

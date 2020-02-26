@@ -95,7 +95,15 @@ const FamilyIncome: Section = {
 		return <div className="FamilyIncomeSummary">{elementToReturn}</div>;
 	},
 
-	Form: ({ enrollment, siteId, mutate, error, successCallback, finallyCallback, visitedSections }) => {
+	Form: ({
+		enrollment,
+		siteId,
+		mutate,
+		error,
+		successCallback,
+		finallyCallback,
+		visitedSections,
+	}) => {
 		if (!enrollment || !enrollment.child || !enrollment.child.family) {
 			throw new Error('FamilyIncome rendered without enrollment.child.family');
 		}
@@ -105,8 +113,8 @@ const FamilyIncome: Section = {
 		const initialLoad = visitedSections ? !visitedSections[FamilyIncome.key] : false;
 		const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
 		useEffect(() => {
-			if(error && !hasAlertedOnError) {
-				if(!isBlockingValidationError(error)) {
+			if (error && !hasAlertedOnError) {
+				if (!isBlockingValidationError(error)) {
 					throw new Error(error.title || 'Unknown api error');
 				}
 				setAlerts([validationErrorAlert]);
@@ -169,15 +177,13 @@ const FamilyIncome: Section = {
 						},
 					},
 				};
-				return (
-					mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
-						.then(res => {
-							if (successCallback && res && !error) successCallback(res);
-						})
-						.finally(() => {
-							finallyCallback && finallyCallback(FamilyIncome);
-						})
-				);
+				return mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
+					.then(res => {
+						if (successCallback && res && !error) successCallback(res);
+					})
+					.finally(() => {
+						finallyCallback && finallyCallback(FamilyIncome);
+					});
 			}
 			return new Promise(() => {});
 			// TODO: what should happen if there is no enrollment, child, or family?  See also family info and enrollment funding

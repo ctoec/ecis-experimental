@@ -34,7 +34,10 @@ import {
 import ReportingPeriodContext from '../../contexts/ReportingPeriod/ReportingPeriodContext';
 import { processBlockingValidationErrors } from '../../utils/validations/processBlockingValidationErrors';
 import AlertContext from '../../contexts/Alert/AlertContext';
-import { validationErrorAlert, missingInformationForWithdrawalAlert } from '../../utils/stringFormatters/alertTextMakers';
+import {
+	validationErrorAlert,
+	missingInformationForWithdrawalAlert,
+} from '../../utils/stringFormatters/alertTextMakers';
 
 type WithdrawalProps = {
 	history: History;
@@ -93,8 +96,8 @@ export default function Withdrawal({
 	useFocusFirstError([error]);
 	const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
 	useEffect(() => {
-		if(error && !hasAlertedOnError) {
-			if(!isBlockingValidationError(error)) {
+		if (error && !hasAlertedOnError) {
+			if (!isBlockingValidationError(error)) {
 				throw new Error(error.title || 'Unknown api error');
 			}
 			setAlerts([validationErrorAlert]);
@@ -117,7 +120,6 @@ export default function Withdrawal({
 			history.push(`/roster/sites/${siteId}/enrollments/${enrollment.id}`);
 		}
 	}, [enrollment, isMissingInformation, history, setAlerts]);
-
 
 	if (loading || !enrollment) {
 		return <div className="Withdrawl"></div>;
@@ -165,13 +167,12 @@ export default function Withdrawal({
 			},
 		};
 
-		mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams))
-			.then(() => {
-				if(!error) {
-				    setAlerts([childWithdrawnAlert(nameFormatter(enrollment.child))]);
-					history.push(`/roster`);
-				}
-			});
+		mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams)).then(() => {
+			if (!error) {
+				setAlerts([childWithdrawnAlert(nameFormatter(enrollment.child))]);
+				history.push(`/roster`);
+			}
+		});
 	};
 
 	return (
@@ -221,7 +222,11 @@ export default function Withdrawal({
 										message:
 											'ECE Reporter only contains data for fiscal year 2020 and later. Please do not add children who withdrew prior to July 2019.',
 								  }
-								: error && processBlockingValidationErrors('exit', (error as ValidationProblemDetails).errors)
+								: error &&
+								  processBlockingValidationErrors(
+										'exit',
+										(error as ValidationProblemDetails).errors
+								  )
 								? serverErrorForField(hasAlertedOnError, setHasAlertedOnError, 'exit', error)
 								: clientErrorForField(
 										'exit',
