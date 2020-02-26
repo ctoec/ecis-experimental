@@ -126,6 +126,8 @@ export const DateInput: React.FC<DateInputProps> = ({
 									.map((el: HTMLElement) => el.className)
 									.join('')
 									.includes('oec-calendar-dropdown');
+								// TODO: DO THIS BY ID INSTEAD SO THAT RANGE CALENDARS CLOSE WHEN YOU CLICK THE OTHER ONE
+								
 								// If a user clicks the button again, the button will handle closing it, and this would fire first and cause problems
 								if (!clickOnCalendarOrButton) {
 									setCalendarOpen(false);

@@ -24,6 +24,42 @@
 // 	}
 // }
 
+.oec-calendar-dropdown {
+	position: absolute;
+	right: 0.5rem;
+}
+
+button.oec-calendar-dropdown__toggle {
+	top: 0.5rem;
+	height: 2.5rem;
+	border-radius: unset;
+	border: 1px solid #565c65;
+}
+
+.oec-calendar-toggle__icon {
+	height: 1rem;
+}
+
+// https://github.com/airbnb/react-dates/issues/1249 :/
+.DayPicker {
+	visibility: unset;
+	// all: unset;
+}
+
+.DayPicker_transitionContainer {
+	height: unset !important;
+}
+
+.DayPicker_transitionContainer:before {
+	content: '';
+	display: block;
+	padding-top: 100%; /* ratio of 1:1*/
+}
+
+.DayPicker_transitionContainer .CalendarMonthGrid__horizontal {
+	top: 0;
+}
+
 .CalendarDay__selected,
 .CalendarDay__selected:active,
 .CalendarDay__selected:hover {
@@ -53,24 +89,3 @@
 .DayPickerKeyboardShortcuts_show__bottomRight:hover::before {
 	border-right: 33px solid color('primary-darker');
 }
-
-.oec-calendar-dropdown {
-	position: absolute;
-	right: 0.5rem;
-}
-
-button.oec-calendar-dropdown__toggle {
-	top: 0.5rem;
-	height: 2.5rem;
-	border-radius: unset;
-	border: 1px solid #565c65;
-}
-
-.oec-calendar-toggle__icon {
-	height: 1rem;
-}
-
-// https://github.com/airbnb/react-dates/issues/1249 :/
-// .DayPicker {
-// 	visibility: unset !important;
-// }
