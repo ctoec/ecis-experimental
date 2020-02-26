@@ -31,6 +31,7 @@ const RosterHeader: React.FC<RosterHeaderProps> = ({
 	setFilterByRange,
 }) => {
 	const sites = organization.sites || [];
+	const singleSiteProgram = sites.length === 1;
 
 	const handlePastEnrollmentsChange = () => {
 		toggleShowPastEnrollments();
@@ -38,7 +39,7 @@ const RosterHeader: React.FC<RosterHeaderProps> = ({
 		setDateRange(getDefaultDateRange());
 	};
 
-	if (!site) {
+	if (!site && !singleSiteProgram) {
 		const pluralizedNumKids = pluralize('child', numberOfEnrollments, true);
 
 		return (
@@ -77,11 +78,15 @@ const RosterHeader: React.FC<RosterHeaderProps> = ({
 			filterByRange
 		);
 
+		// If site is undefined, then it is a single site program
+		// Assumes there is always at least one site in an organization
+		const activeSite = site || sites[0];
+
 		return (
 			<>
 				<div className="margin-bottom-2 grid-row flex-first-baseline flex-space-between">
 					<div className="tablet:grid-col-fill">
-						<h1 className="tablet:grid-col-auto">{site.name}</h1>
+						<h1 className="tablet:grid-col-auto">{activeSite.name}</h1>
 						<p className="intro display-flex flex-row flex-wrap flex-justify-start">
 							{numKidsEnrolledText}
 							&nbsp;
@@ -97,7 +102,7 @@ const RosterHeader: React.FC<RosterHeaderProps> = ({
 					<div className="tablet:grid-col-auto">
 						<Button
 							text="Enroll child"
-							href={`/roster/sites/${site.id}/enroll`}
+							href={`/roster/sites/${activeSite.id}/enroll`}
 							className="margin-right-0"
 						/>
 					</div>
