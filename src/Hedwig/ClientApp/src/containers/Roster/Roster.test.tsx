@@ -72,11 +72,14 @@ describe('Roster', () => {
 
 		fireEvent.click(byDateRange);
 
-		const startDateInput = getByPlaceholderText(/start date/i);
-		const endDateInput = getByPlaceholderText(/end date/i);
-
+		const startDateInput = getByLabelText(/start date/i);
 		fireEvent.change(startDateInput, { target: { value: '01/01/2018' } });
+		fireEvent.blur(startDateInput)
+
+		const endDateInput = getByLabelText(/end date/i);
 		fireEvent.change(endDateInput, { target: { value: '02/01/2019' } });
+		fireEvent.blur(endDateInput);
+		
 
 		await wait(() => {
 			expect(baseElement).toHaveTextContent(
