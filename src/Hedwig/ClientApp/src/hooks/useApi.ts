@@ -77,28 +77,26 @@ export default function useApi<TData>(
 		  )
 		: null;
 
-	// Create error parsing function
+	// Create error handling functions
 	const handleError = async (_error: any) => {
-		let jsonResponse: Object | null = null;
 		try {
-			jsonResponse = await _error.json();
+			const apiError = await parseError(_error);
+			setState(state => {
+				return { ...state, error: apiError };
+			});
 		} catch {
-			/// does this mess w 403
-			throw new Error('Non-json api error');
+			throw new Error('Unknown error');
+		}
+	};
+
+	const parseError: (_error: any) => Promise<ApiError | null> = async (_error: any) => {
+		const jsonResponse = await _error.json();
+
+		if (_error.status === 400) {
+			return ValidationProblemDetailsFromJSON(jsonResponse) || null;
 		}
 
-		let apiError: ApiError | null = null;
-		if (jsonResponse) {
-			if (_error.status === 400) {
-				apiError = ValidationProblemDetailsFromJSON(jsonResponse) || null;
-			} else {
-				apiError = ProblemDetailsFromJSON(jsonResponse) || null;
-			}
-		}
-
-		setState(state => {
-			return { ...state, error: apiError };
-		});
+		return ProblemDetailsFromJSON(jsonResponse) || null;
 	};
 
 	// Create mutate function

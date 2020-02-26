@@ -27,10 +27,13 @@ const App: React.FC = () => {
 		orgId: getIdForUser(user, 'org'),
 	};
 
-	const [loading, error, reports] = useApi(api => api.apiOrganizationsOrgIdReportsGet(params), [
-		user,
-		cacheInvalidator,
-	]);
+	const [loading, error, reports] = useApi(
+		api => api.apiOrganizationsOrgIdReportsGet(params),
+		[user, cacheInvalidator],
+		{
+			skip: !user,
+		}
+	);
 
 	const pendingReportsCount =
 		!loading &&
