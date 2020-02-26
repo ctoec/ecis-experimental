@@ -1,12 +1,4 @@
-import {
-	useContext,
-	useEffect,
-	useState,
-	DependencyList,
-	useCallback,
-	Dispatch,
-	SetStateAction,
-} from 'react';
+import { useContext, useEffect, useState, DependencyList, useCallback } from 'react';
 import {
 	Configuration,
 	HedwigApi,
@@ -17,7 +9,6 @@ import getCurrentHost from '../utils/getCurrentHost';
 import AuthenticationContext from '../contexts/Authentication/AuthenticationContext';
 import { DeepNonUndefineable } from '../utils/types';
 import { ValidationProblemDetails, ProblemDetails } from '../generated';
-import { parseZone } from 'moment';
 
 export type ApiError = ValidationProblemDetails | ProblemDetails;
 export type Reducer<TData> = (data: TData, result: TData) => TData;
@@ -87,15 +78,18 @@ export default function useApi<TData>(
 		: null;
 
 	// Create error parsing function
-	const handleError = async (error: any) => {
+	const handleError = async (_error: any) => {
 		let jsonResponse: Object | null = null;
 		try {
-			jsonResponse = JSON.parse(await error.text());
-		} catch {}
+			jsonResponse = await _error.json();
+		} catch {
+			/// does this mess w 403
+			throw new Error('Non-json api error');
+		}
 
 		let apiError: ApiError | null = null;
 		if (jsonResponse) {
-			if (error.status === 400) {
+			if (_error.status === 400) {
 				apiError = ValidationProblemDetailsFromJSON(jsonResponse) || null;
 			} else {
 				apiError = ProblemDetailsFromJSON(jsonResponse) || null;
@@ -126,8 +120,8 @@ export default function useApi<TData>(
 					});
 					return result;
 				})
-				.catch(async error => {
-					await handleError(error);
+				.catch(async apiError => {
+					await handleError(apiError);
 				});
 		},
 		[api, data]
@@ -155,8 +149,8 @@ export default function useApi<TData>(
 					callback(result);
 				}
 			})
-			.catch(async error => {
-				await handleError(error);
+			.catch(async apiError => {
+				await handleError(apiError);
 			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [...deps, accessToken]);

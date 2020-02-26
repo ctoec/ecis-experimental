@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, FormEvent } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
 	CdcReport,
 	ApiOrganizationsOrgIdReportsIdPutRequest,
@@ -6,14 +6,7 @@ import {
 } from '../../../generated';
 import useApi, { Mutate, ApiError } from '../../../hooks/useApi';
 import UserContext from '../../../contexts/User/UserContext';
-import {
-	Button,
-	TextInput,
-	ChoiceList,
-	AlertProps,
-	FieldSet,
-	ErrorBoundary,
-} from '../../../components';
+import { Button, TextInput, ChoiceList, FieldSet, ErrorBoundary } from '../../../components';
 import AppContext from '../../../contexts/App/AppContext';
 import currencyFormatter from '../../../utils/currencyFormatter';
 import parseCurrencyFromString from '../../../utils/parseCurrencyFromString';
@@ -25,7 +18,6 @@ import { DeepNonUndefineable } from '../../../utils/types';
 import {
 	useFocusFirstError,
 	serverErrorForField,
-	clientErrorForField,
 	isBlockingValidationError,
 } from '../../../utils/validations';
 import usePromiseExecution from '../../../hooks/usePromiseExecution';
@@ -134,7 +126,7 @@ export default function ReportSubmitForm({
 	const { isExecuting: isMutating, setExecuting: onSubmit } = usePromiseExecution(_onSubmit);
 
 	return (
-		<ErrorBoundary alertProps={reportSubmitFailAlert as AlertProps}>
+		<ErrorBoundary alertProps={reportSubmitFailAlert}>
 			{report.submittedAt && (
 				<p>
 					<b>Submitted:</b> {report.submittedAt.toLocaleDateString()}{' '}

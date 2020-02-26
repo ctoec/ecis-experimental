@@ -23,12 +23,6 @@ export const enrollmentMissingBirthCertId = swapFields(completeEnrollment, [
 	{ keys: ['validationErrors'], newValue: enrollmentValidationError },
 ]);
 
-export const enrollmentMissingFirstName = swapFields(completeEnrollment, [
-	{ keys: ['child', 'firstName'], newValue: undefined },
-	{ keys: ['id'], newValue: 3 },
-	{ keys: ['validationErrors'], newValue: enrollmentValidationError },
-]);
-
 export const enrollmentMissingAddress = swapFields(completeEnrollment, [
 	{ keys: ['child', 'family', 'addressLine1'], newValue: undefined },
 	{ keys: ['id'], newValue: 4 },
@@ -63,15 +57,6 @@ export const allFakeEnrollments = [
 	},
 	{
 		enrollment: enrollmentMissingBirthCertId,
-	},
-	{
-		enrollment: enrollmentMissingFirstName,
-		mutationError: {
-			errors: { 'Child.FirstName': ['The FirstName field is required.'] },
-			type: 'https://tools.ietf.org/html/rfc7231#section-6.5.1',
-			title: 'One or more validation errors occurred.',
-			status: 400,
-		},
 	},
 	{
 		enrollment: enrollmentMissingAddress,
@@ -148,10 +133,6 @@ export const mockApi = {
 		if (!thisEnrollment) return;
 		const mutate = (_: any) => {
 			return new Promise(resolve => {
-				if (thisEnrollment.mutationError) {
-					error = thisEnrollment.mutationError;
-					return;
-				}
 				resolve(thisEnrollment.enrollment);
 			});
 		};

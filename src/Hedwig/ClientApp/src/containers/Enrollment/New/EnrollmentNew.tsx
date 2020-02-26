@@ -168,7 +168,7 @@ export default function EnrollmentNew({
 			<div className="grid-container">
 				<h1>Enroll child</h1>
 				<div className="margin-top-2 margin-bottom-5">
-					<ErrorBoundary alertProps={stepListSaveFailAlert as AlertProps}>
+					<ErrorBoundary alertProps={stepListSaveFailAlert}>
 						<StepList steps={steps} activeStep={sectionId} props={props} />
 					</ErrorBoundary>
 				</div>
