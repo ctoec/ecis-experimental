@@ -66,16 +66,10 @@ const EnrollmentFunding: Section = {
 	key: 'enrollment-funding',
 	name: 'Enrollment and funding',
 	status: ({ enrollment }) =>
-		enrollment && (
-			sectionHasValidationErrors([enrollment.fundings]) ||
-			processValidationError(
-				'ageGroup',
-				enrollment ? enrollment.validationErrors : null
-			) ||
-			processValidationError(
-				'entry',
-				enrollment ? enrollment.validationErrors : null
-			))
+		enrollment &&
+		(sectionHasValidationErrors([enrollment.fundings]) ||
+			processValidationError('ageGroup', enrollment ? enrollment.validationErrors : null) ||
+			processValidationError('entry', enrollment ? enrollment.validationErrors : null))
 			? 'incomplete'
 			: 'complete',
 
