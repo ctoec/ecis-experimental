@@ -2,31 +2,43 @@ import React from 'react';
 import { ReactComponent as Error } from '../../../node_modules/uswds/dist/img/alerts/error.svg';
 import { ReactComponent as Info } from '../../../node_modules/uswds/dist/img/alerts/info.svg';
 import { ReactComponent as Success } from '../../../node_modules/uswds/dist/img/alerts/success.svg';
+import { ReactComponent as ArrowDown } from '../../../node_modules/uswds/dist/img/arrow-down.svg';
 import cx from 'classnames';
 
-type Icon = 'attentionNeeded' | 'complete' | 'incomplete';
+type Icon = 'attentionNeeded' | 'complete' | 'incomplete' | 'angleDown';
 
 export type InlineIconProps = {
 	icon: Icon;
 	provideScreenReaderFallback?: boolean;
+	className?: string;
+	svgProps?: React.SVGProps<SVGSVGElement>;
 };
 
-export function InlineIcon({ icon, provideScreenReaderFallback = true }: InlineIconProps) {
+export function InlineIcon({
+	icon,
+	provideScreenReaderFallback = true,
+	className,
+	svgProps,
+}: InlineIconProps) {
 	let text: string;
 	let iconComponent;
 
 	switch (icon) {
 		case 'attentionNeeded':
 			text = 'attention needed';
-			iconComponent = <Error />;
+			iconComponent = <Error {...svgProps} />;
 			break;
 		case 'complete':
 			text = 'complete';
-			iconComponent = <Success />;
+			iconComponent = <Success {...svgProps} />;
 			break;
 		case 'incomplete':
 			text = 'incomplete';
-			iconComponent = <Error />;
+			iconComponent = <Error {...svgProps} />;
+			break;
+		case 'angleDown':
+			text = 'select dropdown';
+			iconComponent = <ArrowDown {...svgProps} />
 			break;
 		default:
 			text = '';
@@ -34,7 +46,7 @@ export function InlineIcon({ icon, provideScreenReaderFallback = true }: InlineI
 	}
 
 	return (
-		<span className={cx('oec-inline-icon', `oec-inline-icon--${icon}`)}>
+		<span className={cx(className, 'oec-inline-icon', `oec-inline-icon--${icon}`)}>
 			{iconComponent}
 			{provideScreenReaderFallback && <span className={cx('usa-sr-only')}>({text})</span>}
 		</span>

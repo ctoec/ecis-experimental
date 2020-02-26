@@ -1,5 +1,7 @@
 .container {
-	border-bottom: 1px solid #005ea2;
+	&--button-unstyled {
+		border-bottom: 1px solid #005ea2;
+	}
 }
 
 .with-dropdown,
@@ -7,20 +9,8 @@
 	text-decoration: none !important;
 }
 
-.caret-down {
-	display: inline-block;
-	margin-bottom: -3px;
-	padding-bottom: 3px;
-	height: 13px;
-	width: 13px;
-
-	content: url('../../../node_modules/uswds/dist/img/arrow-down.svg');
-}
-
 .dropdown {
 	position: absolute;
-	top: 1.2em;
-	left: 12.7em;
 	z-index: 1;
 }
 
