@@ -1,35 +1,9 @@
-// .oec-date-input__input.usa-form-group--error, .oec-date-input__input.usa-form-group--warning {
-// 	margin-top: 0;
-// }
-
-// .DateInput__disabled, .SingleDatePickerInput__disabled, .DateRangePickerInput__disabled {
-// 	background: unset;
-// 	background-color: unset;
-// }
-
-// .DateInput_input__focused {
-// 	border-bottom: unset;
-// }
-
-// // https://github.com/airbnb/react-dates
-// .oec-date-input {
-// 	&.oec-date-input--error input{
-// 		@extend .usa-input--error;
-// 	}
-// 	&.oec-date-input--warning input{
-// 		@extend .usa-input--warning;
-// 	}
-// 	&.oec-date-input--success input{
-// 		@extend .usa-input--success;
-// 	}
-// }
-
 .oec-calendar-dropdown {
 	position: absolute;
 	right: 0.5rem;
 }
 
-button.oec-calendar-dropdown__toggle {
+.oec-calendar-dropdown__toggle {
 	top: 0.5rem;
 	height: 2.5rem;
 	border-radius: unset;
@@ -61,6 +35,7 @@ button.oec-calendar-dropdown__toggle {
 }
 // *** end hacks ***
 
+// Setting calendar dropdown theme colors to match ours
 .CalendarDay__selected,
 .CalendarDay__selected:active,
 .CalendarDay__selected:hover {
