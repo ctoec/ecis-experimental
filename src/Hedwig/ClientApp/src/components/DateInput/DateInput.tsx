@@ -37,7 +37,7 @@ const parseDateInput = (input?: string): Moment | null => {
 	return parsedInput;
 };
 
-const momentFormat = 'MM/DD/YYYY'
+const momentFormat = 'MM/DD/YYYY';
 
 export const DateInput: React.FC<DateInputProps> = ({
 	date = null,
@@ -98,7 +98,9 @@ export const DateInput: React.FC<DateInputProps> = ({
 				<div className="oec-calendar-dropdown oec-date-input__calendar-dropdown">
 					<Button
 						text={<CalendarIcon className="oec-calendar-toggle__icon" />}
-						onClick={() => setCalendarOpen(!calendarOpen)}
+						onClick={() => {
+							setCalendarOpen(!calendarOpen);
+						}}
 						title={`${calendarOpen ? 'close' : 'open'} calendar`}
 						className="oec-calendar-toggle oec-calendar-dropdown__toggle"
 					/>
@@ -120,8 +122,12 @@ export const DateInput: React.FC<DateInputProps> = ({
 							// TODO: IMPLEMENT ON TAB ONCE TYPES FOR THIS LIBRARY ARE UPDATED :/
 							// onTab={() => {}}
 							onOutsideClick={e => {
-								const targetText = e.target.innerHTML;
-								if (targetText !== 'C') {
+								const clickOnCalendarOrButton = e.path
+									.map((el: HTMLElement) => el.className)
+									.join('')
+									.includes('oec-calendar-dropdown');
+								// If a user clicks the button again, the button will handle closing it, and this would fire first and cause problems
+								if (!clickOnCalendarOrButton) {
 									setCalendarOpen(false);
 								}
 							}}
