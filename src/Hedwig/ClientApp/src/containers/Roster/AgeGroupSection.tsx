@@ -48,7 +48,7 @@ export default function AgeGroupSection({
 					: ''}
 			</th>
 		),
-		sort: (row: Enrollment) => lastFirstNameFormatter(row.child),
+		sort: (row: Enrollment) => lastFirstNameFormatter(row.child).toLowerCase(),
 		width: '25%',
 	};
 
