@@ -265,9 +265,7 @@ const FamilyIncome: Section = {
 								<DateInput
 									label="Date of income determination"
 									id="income-determination-date"
-									onChange={newDate =>
-										updateDeterminationDate(newDate ? newDate.toDate() : null)
-									}
+									onChange={newDate => updateDeterminationDate(newDate ? newDate.toDate() : null)}
 									date={determinationDate ? moment(determinationDate) : null}
 									status={initialLoadErrorGuard(
 										initialLoad,

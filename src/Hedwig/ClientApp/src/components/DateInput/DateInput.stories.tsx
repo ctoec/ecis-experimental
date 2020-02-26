@@ -32,12 +32,7 @@ storiesOf('Date input', module)
 		return <DateInput {...commonProps} />;
 	})
 	.add('Optional', () => {
-		return (
-			<DateInput
-			{...commonProps}
-			optional={true}
-			/>
-		);
+		return <DateInput {...commonProps} optional={true} />;
 	})
 	.add('Disabled day input', () => {
 		return <DateInput {...commonProps} disabled />;
