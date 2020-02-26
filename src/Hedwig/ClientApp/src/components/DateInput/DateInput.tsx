@@ -70,7 +70,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 	return (
 		<FieldSet
 			legend={label}
-			id={`${id}-fieldset`}
+			id={id}
 			disabled={disabled}
 			hint={hideHint ? undefined : 'For example: 04/28/1986'}
 			status={status}
@@ -81,7 +81,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 			<div className="grid-row flex-row flex-align-end grid-gap position-relative">
 				<TextInput
 					label={`${label} input`}
-					id={id}
+					id={`${id}-input`}
 					onChange={e => setStringDate(e.target.value)}
 					defaultValue={stringDate}
 					// Key forces re-render on default value change without making text input a controlled component
@@ -122,12 +122,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 							// TODO: IMPLEMENT ON TAB ONCE TYPES FOR THIS LIBRARY ARE UPDATED :/
 							// onTab={() => {}}
 							onOutsideClick={e => {
-								const clickOnCalendarOrButton = e.path
-									.map((el: HTMLElement) => el.className)
-									.join('')
-									.includes('oec-calendar-dropdown');
-								// TODO: DO THIS BY ID INSTEAD SO THAT RANGE CALENDARS CLOSE WHEN YOU CLICK THE OTHER ONE
-								
+								const clickOnCalendarOrButton = e.target.closest(`#${id} .oec-calendar-dropdown`);								
 								// If a user clicks the button again, the button will handle closing it, and this would fire first and cause problems
 								if (!clickOnCalendarOrButton) {
 									setCalendarOpen(false);

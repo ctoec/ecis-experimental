@@ -40,10 +40,11 @@ button.oec-calendar-dropdown__toggle {
 	height: 1rem;
 }
 
+
+// *** Hacks for this issue ***
 // https://github.com/airbnb/react-dates/issues/1249 :/
 .DayPicker {
 	visibility: unset;
-	// all: unset;
 }
 
 .DayPicker_transitionContainer {
@@ -59,6 +60,8 @@ button.oec-calendar-dropdown__toggle {
 .DayPicker_transitionContainer .CalendarMonthGrid__horizontal {
 	top: 0;
 }
+// *** end hacks ***
+
 
 .CalendarDay__selected,
 .CalendarDay__selected:active,
