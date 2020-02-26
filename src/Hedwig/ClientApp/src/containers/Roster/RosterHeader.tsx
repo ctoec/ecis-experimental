@@ -57,10 +57,10 @@ const RosterHeader: React.FC<RosterHeaderProps> = ({
 							}))}
 							dropdownProps={{
 								className: 'margin-left-1',
-								svgProps: { fill: 'currentColor '}
+								svgProps: { fill: 'currentColor' },
 							}}
 							optionsProps={{
-								className: "position-absolute right-1"
+								className: 'position-absolute right-1',
 							}}
 						/>
 					</div>

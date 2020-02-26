@@ -34,11 +34,15 @@ const ButtonWithDrowdown: React.FC<ButtonWithDrowdownProps> = ({
 	const { ref, isComponentVisible, setIsComponentVisible } = useHideOnLostFocus<HTMLDivElement>();
 
 	return (
-		<div id={id} ref={ref} className={cx(
-			styles.container,
-			{ [styles['container--button-unstyled']]: appearance === 'unstyled'},
-			className
-		)}>
+		<div
+			id={id}
+			ref={ref}
+			className={cx(
+				styles.container,
+				{ [styles['container--button-unstyled']]: appearance === 'unstyled' },
+				className
+			)}
+		>
 			<Button
 				className={cx(styles['with-dropdown'])}
 				appearance={appearance}
@@ -48,16 +52,19 @@ const ButtonWithDrowdown: React.FC<ButtonWithDrowdownProps> = ({
 						<InlineIcon
 							icon="angleDown"
 							className={dropdownProps && dropdownProps.className}
-							svgProps={dropdownProps && dropdownProps.svgProps} />
+							svgProps={dropdownProps && dropdownProps.svgProps}
+						/>
 					</span>
 				}
 				onClick={() => setIsComponentVisible(hide => !hide)}
 			/>
-			<div className={cx(
-				optionsProps && optionsProps.className,
-				{ [styles.hidden]: !isComponentVisible },
-				styles.dropdown)
-			}>
+			<div
+				className={cx(
+					optionsProps && optionsProps.className,
+					{ [styles.hidden]: !isComponentVisible },
+					styles.dropdown
+				)}
+			>
 				{options.map(option => (
 					<Link
 						className={cx(styles.option)}

@@ -38,7 +38,7 @@ export function InlineIcon({
 			break;
 		case 'angleDown':
 			text = 'select dropdown';
-			iconComponent = <ArrowDown {...svgProps} />
+			iconComponent = <ArrowDown {...svgProps} />;
 			break;
 		default:
 			text = '';
