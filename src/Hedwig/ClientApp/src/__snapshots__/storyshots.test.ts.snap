@@ -1062,104 +1062,76 @@ exports[`Storyshots Date input Default 1`] = `
   }
 >
   <fieldset
-    aria-describedby="dateinput-example-start-date-hint"
+    aria-describedby="dateinput-example-hint"
     aria-required={true}
     className="grid-gap grid-row usa-fieldset
 			
-			 undefined
+			 oec-date-input oec-date-input-single
 			"
-    id="dateinput-example-start-date"
+    id="dateinput-example"
   >
     <legend
-      className="usa-label"
-      id="fieldset-legend-dateinput-example-start-date"
+      id="fieldset-legend-dateinput-example"
     >
-      Date
+      <span
+        className="usa-label"
+      >
+        Date
+      </span>
     </legend>
     <span
       className="usa-hint text-italic"
     >
-      For example: 04 28 1986
+      For example: 04/28/1986
     </span>
     <div
-      className="grid-gap grid-row flex-row flex-align-end usa-memorable-date"
+      className="grid-gap grid-row undefined"
     >
-      <div>
+      <div
+        className="grid-row flex-row flex-align-end grid-gap position-relative"
+      >
         <div
-          className="oec-date-input__input usa-form-group"
+          className="oec-date-input__text usa-form-group"
         >
           <label
-            className="usa-label"
-            htmlFor="dateinput-example-month-start-date"
+            className="usa-label usa-sr-only"
+            htmlFor="dateinput-example-input"
           >
-            Month
+            Date input
              
           </label>
           <input
             aria-required={true}
-            className="usa-input usa-input--inline"
-            defaultValue="10"
-            id="dateinput-example-month-start-date"
-            max={12}
-            maxLength={2}
-            min={1}
+            className="usa-input"
+            defaultValue="10/30/2019"
+            id="dateinput-example-input"
             onBlur={[Function]}
             onChange={[Function]}
-            type="number"
+            type="text"
           />
         </div>
-      </div>
-      <div>
         <div
-          className="oec-date-input__input usa-form-group"
+          className="oec-calendar-dropdown oec-date-input__calendar-dropdown"
         >
-          <label
-            className="usa-label"
-            htmlFor="dateinput-example-day-start-date"
+          <button
+            className="usa-button oec-calendar-toggle oec-calendar-dropdown__toggle"
+            onClick={[Function]}
+            title="open calendar"
+            type="button"
           >
-            Day
-             
-          </label>
-          <input
-            aria-required={true}
-            className="usa-input usa-input--inline"
-            defaultValue="30"
-            id="dateinput-example-day-start-date"
-            max={31}
-            maxLength={2}
-            min={1}
-            onBlur={[Function]}
-            onChange={[Function]}
-            type="number"
-          />
+            <svg
+              className="oec-calendar-toggle__icon"
+            >
+              calendar.svg
+            </svg>
+          </button>
+          <div
+            className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+          >
+            &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
+          </div>
         </div>
       </div>
-      <div>
-        <div
-          className="oec-date-input__input usa-form-group"
-        >
-          <label
-            className="usa-label"
-            htmlFor="dateinput-example-year-start-date"
-          >
-            Year
-             
-          </label>
-          <input
-            aria-required={true}
-            className="usa-input usa-input--inline"
-            defaultValue="2019"
-            id="dateinput-example-year-start-date"
-            max={2100}
-            maxLength={4}
-            min={1990}
-            onBlur={[Function]}
-            onChange={[Function]}
-            type="number"
-          />
-        </div>
-      </div>
-       
     </div>
   </fieldset>
 </div>
@@ -1174,107 +1146,77 @@ exports[`Storyshots Date input Disabled day input 1`] = `
   }
 >
   <fieldset
-    aria-describedby="dateinput-example-start-date-hint"
+    aria-describedby="dateinput-example-hint"
     aria-required={true}
     className="grid-gap grid-row usa-fieldset
 			
-			 undefined
+			 oec-date-input oec-date-input-single
 			"
-    id="dateinput-example-start-date"
+    disabled={true}
+    id="dateinput-example"
   >
     <legend
-      className="usa-label"
-      id="fieldset-legend-dateinput-example-start-date"
+      id="fieldset-legend-dateinput-example"
     >
-      Date
+      <span
+        className="usa-label"
+      >
+        Date
+      </span>
     </legend>
     <span
       className="usa-hint text-italic"
     >
-      For example: 04 28 1986
+      For example: 04/28/1986
     </span>
     <div
-      className="grid-gap grid-row flex-row flex-align-end usa-memorable-date"
+      className="grid-gap grid-row undefined"
     >
-      <div>
+      <div
+        className="grid-row flex-row flex-align-end grid-gap position-relative"
+      >
         <div
-          className="oec-date-input__input usa-form-group"
+          className="oec-date-input__text usa-form-group"
         >
           <label
-            className="usa-label"
-            htmlFor="dateinput-example-month-start-date"
+            className="usa-label usa-sr-only"
+            htmlFor="dateinput-example-input"
           >
-            Month
+            Date input
              
           </label>
           <input
             aria-required={true}
-            className="usa-input usa-input--inline"
-            defaultValue="10"
-            disabled={true}
-            id="dateinput-example-month-start-date"
-            max={12}
-            maxLength={2}
-            min={1}
+            className="usa-input"
+            defaultValue="10/30/2019"
+            id="dateinput-example-input"
             onBlur={[Function]}
             onChange={[Function]}
-            type="number"
+            type="text"
           />
         </div>
-      </div>
-      <div>
         <div
-          className="oec-date-input__input usa-form-group"
+          className="oec-calendar-dropdown oec-date-input__calendar-dropdown"
         >
-          <label
-            className="usa-label"
-            htmlFor="dateinput-example-day-start-date"
+          <button
+            className="usa-button oec-calendar-toggle oec-calendar-dropdown__toggle"
+            onClick={[Function]}
+            title="open calendar"
+            type="button"
           >
-            Day
-             
-          </label>
-          <input
-            aria-required={true}
-            className="usa-input usa-input--inline"
-            defaultValue="30"
-            disabled={true}
-            id="dateinput-example-day-start-date"
-            max={31}
-            maxLength={2}
-            min={1}
-            onBlur={[Function]}
-            onChange={[Function]}
-            type="number"
-          />
+            <svg
+              className="oec-calendar-toggle__icon"
+            >
+              calendar.svg
+            </svg>
+          </button>
+          <div
+            className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+          >
+            &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
+          </div>
         </div>
       </div>
-      <div>
-        <div
-          className="oec-date-input__input usa-form-group"
-        >
-          <label
-            className="usa-label"
-            htmlFor="dateinput-example-year-start-date"
-          >
-            Year
-             
-          </label>
-          <input
-            aria-required={true}
-            className="usa-input usa-input--inline"
-            defaultValue="2019"
-            disabled={true}
-            id="dateinput-example-year-start-date"
-            max={2100}
-            maxLength={4}
-            min={1990}
-            onBlur={[Function]}
-            onChange={[Function]}
-            type="number"
-          />
-        </div>
-      </div>
-       
     </div>
   </fieldset>
 </div>
@@ -1294,20 +1236,23 @@ exports[`Storyshots Date input Error 1`] = `
     aria-required={true}
     className="grid-gap grid-row usa-fieldset
 			 usa-fieldset--error
-			 undefined
+			 oec-date-input oec-date-input-single
 			"
-    id="dateinput-example-start-date"
+    id="dateinput-example"
   >
     <legend
-      className="usa-label usa-label--error"
-      id="fieldset-legend-dateinput-example-start-date"
+      id="fieldset-legend-dateinput-example"
     >
-      Date
+      <span
+        className="usa-label usa-label--error"
+      >
+        Date
+      </span>
     </legend>
     <span
       className="usa-hint text-italic"
     >
-      For example: 04 28 1986
+      For example: 04/28/1986
     </span>
     <span
       className="usa-error-message"
@@ -1319,84 +1264,142 @@ exports[`Storyshots Date input Error 1`] = `
       Pick a better date
     </span>
     <div
-      className="grid-gap grid-row flex-row flex-align-end usa-memorable-date"
+      className="grid-gap grid-row undefined"
     >
-      <div>
+      <div
+        className="grid-row flex-row flex-align-end grid-gap position-relative"
+      >
         <div
-          className="oec-date-input__input usa-form-group"
+          className="oec-date-input__text usa-form-group"
         >
           <label
-            className="usa-label"
-            htmlFor="dateinput-example-month-start-date"
+            className="usa-label usa-sr-only"
+            htmlFor="dateinput-example-input"
           >
-            Month
+            Date input
              
           </label>
           <input
             aria-required={true}
-            className="usa-input usa-input--inline"
-            defaultValue="10"
-            id="dateinput-example-month-start-date"
-            max={12}
-            maxLength={2}
-            min={1}
+            className="usa-input"
+            defaultValue="10/30/2019"
+            id="dateinput-example-input"
             onBlur={[Function]}
             onChange={[Function]}
-            type="number"
+            type="text"
           />
         </div>
-      </div>
-      <div>
         <div
-          className="oec-date-input__input usa-form-group"
+          className="oec-calendar-dropdown oec-date-input__calendar-dropdown"
+        >
+          <button
+            className="usa-button oec-calendar-toggle oec-calendar-dropdown__toggle"
+            onClick={[Function]}
+            title="open calendar"
+            type="button"
+          >
+            <svg
+              className="oec-calendar-toggle__icon"
+            >
+              calendar.svg
+            </svg>
+          </button>
+          <div
+            className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+          >
+            &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
+          </div>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots Date input Optional 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    aria-describedby="dateinput-example-hint"
+    aria-required={false}
+    className="grid-gap grid-row usa-fieldset
+			
+			 oec-date-input oec-date-input-single
+			"
+    id="dateinput-example"
+  >
+    <legend
+      id="fieldset-legend-dateinput-example"
+    >
+      <span
+        className="usa-label"
+      >
+        Date
+        <span
+          className="usa-hint"
+        >
+           (optional)
+        </span>
+      </span>
+    </legend>
+    <span
+      className="usa-hint text-italic"
+    >
+      For example: 04/28/1986
+    </span>
+    <div
+      className="grid-gap grid-row undefined"
+    >
+      <div
+        className="grid-row flex-row flex-align-end grid-gap position-relative"
+      >
+        <div
+          className="oec-date-input__text usa-form-group"
         >
           <label
-            className="usa-label"
-            htmlFor="dateinput-example-day-start-date"
+            className="usa-label usa-sr-only"
+            htmlFor="dateinput-example-input"
           >
-            Day
+            Date input
              
           </label>
           <input
             aria-required={true}
-            className="usa-input usa-input--inline"
-            defaultValue="30"
-            id="dateinput-example-day-start-date"
-            max={31}
-            maxLength={2}
-            min={1}
+            className="usa-input"
+            defaultValue="10/30/2019"
+            id="dateinput-example-input"
             onBlur={[Function]}
             onChange={[Function]}
-            type="number"
+            type="text"
           />
         </div>
-      </div>
-      <div>
         <div
-          className="oec-date-input__input usa-form-group"
+          className="oec-calendar-dropdown oec-date-input__calendar-dropdown"
         >
-          <label
-            className="usa-label"
-            htmlFor="dateinput-example-year-start-date"
+          <button
+            className="usa-button oec-calendar-toggle oec-calendar-dropdown__toggle"
+            onClick={[Function]}
+            title="open calendar"
+            type="button"
           >
-            Year
-             
-          </label>
-          <input
-            aria-required={true}
-            className="usa-input usa-input--inline"
-            defaultValue="2019"
-            id="dateinput-example-year-start-date"
-            max={2100}
-            maxLength={4}
-            min={1990}
-            onBlur={[Function]}
-            onChange={[Function]}
-            type="number"
-          />
+            <svg
+              className="oec-calendar-toggle__icon"
+            >
+              calendar.svg
+            </svg>
+          </button>
+          <div
+            className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+          >
+            &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
+          </div>
         </div>
       </div>
-       
     </div>
   </fieldset>
 </div>
@@ -1416,20 +1419,23 @@ exports[`Storyshots Date input Success 1`] = `
     aria-required={true}
     className="grid-gap grid-row usa-fieldset
 			 usa-fieldset--success
-			 undefined
+			 oec-date-input oec-date-input-single
 			"
-    id="dateinput-example-start-date"
+    id="dateinput-example"
   >
     <legend
-      className="usa-label usa-label--success"
-      id="fieldset-legend-dateinput-example-start-date"
+      id="fieldset-legend-dateinput-example"
     >
-      Date
+      <span
+        className="usa-label usa-label--success"
+      >
+        Date
+      </span>
     </legend>
     <span
       className="usa-hint text-italic"
     >
-      For example: 04 28 1986
+      For example: 04/28/1986
     </span>
     <span
       className="usa-success-message"
@@ -1441,84 +1447,53 @@ exports[`Storyshots Date input Success 1`] = `
       You did good
     </span>
     <div
-      className="grid-gap grid-row flex-row flex-align-end usa-memorable-date"
+      className="grid-gap grid-row undefined"
     >
-      <div>
+      <div
+        className="grid-row flex-row flex-align-end grid-gap position-relative"
+      >
         <div
-          className="oec-date-input__input usa-form-group"
+          className="oec-date-input__text usa-form-group"
         >
           <label
-            className="usa-label"
-            htmlFor="dateinput-example-month-start-date"
+            className="usa-label usa-sr-only"
+            htmlFor="dateinput-example-input"
           >
-            Month
+            Date input
              
           </label>
           <input
             aria-required={true}
-            className="usa-input usa-input--inline"
-            defaultValue="10"
-            id="dateinput-example-month-start-date"
-            max={12}
-            maxLength={2}
-            min={1}
+            className="usa-input"
+            defaultValue="10/30/2019"
+            id="dateinput-example-input"
             onBlur={[Function]}
             onChange={[Function]}
-            type="number"
+            type="text"
           />
         </div>
-      </div>
-      <div>
         <div
-          className="oec-date-input__input usa-form-group"
+          className="oec-calendar-dropdown oec-date-input__calendar-dropdown"
         >
-          <label
-            className="usa-label"
-            htmlFor="dateinput-example-day-start-date"
+          <button
+            className="usa-button oec-calendar-toggle oec-calendar-dropdown__toggle"
+            onClick={[Function]}
+            title="open calendar"
+            type="button"
           >
-            Day
-             
-          </label>
-          <input
-            aria-required={true}
-            className="usa-input usa-input--inline"
-            defaultValue="30"
-            id="dateinput-example-day-start-date"
-            max={31}
-            maxLength={2}
-            min={1}
-            onBlur={[Function]}
-            onChange={[Function]}
-            type="number"
-          />
+            <svg
+              className="oec-calendar-toggle__icon"
+            >
+              calendar.svg
+            </svg>
+          </button>
+          <div
+            className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+          >
+            &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
+          </div>
         </div>
       </div>
-      <div>
-        <div
-          className="oec-date-input__input usa-form-group"
-        >
-          <label
-            className="usa-label"
-            htmlFor="dateinput-example-year-start-date"
-          >
-            Year
-             
-          </label>
-          <input
-            aria-required={true}
-            className="usa-input usa-input--inline"
-            defaultValue="2019"
-            id="dateinput-example-year-start-date"
-            max={2100}
-            maxLength={4}
-            min={1990}
-            onBlur={[Function]}
-            onChange={[Function]}
-            type="number"
-          />
-        </div>
-      </div>
-       
     </div>
   </fieldset>
 </div>
@@ -1538,20 +1513,23 @@ exports[`Storyshots Date input Warning 1`] = `
     aria-required={true}
     className="grid-gap grid-row usa-fieldset
 			 usa-fieldset--warning
-			 undefined
+			 oec-date-input oec-date-input-single
 			"
-    id="dateinput-example-start-date"
+    id="dateinput-example"
   >
     <legend
-      className="usa-label usa-label--warning"
-      id="fieldset-legend-dateinput-example-start-date"
+      id="fieldset-legend-dateinput-example"
     >
-      Date
+      <span
+        className="usa-label usa-label--warning"
+      >
+        Date
+      </span>
     </legend>
     <span
       className="usa-hint text-italic"
     >
-      For example: 04 28 1986
+      For example: 04/28/1986
     </span>
     <span
       className="usa-warning-message"
@@ -1576,84 +1554,1206 @@ exports[`Storyshots Date input Warning 1`] = `
       Meh, fine
     </span>
     <div
-      className="grid-gap grid-row flex-row flex-align-end usa-memorable-date"
+      className="grid-gap grid-row undefined"
     >
-      <div>
+      <div
+        className="grid-row flex-row flex-align-end grid-gap position-relative"
+      >
         <div
-          className="oec-date-input__input usa-form-group"
+          className="oec-date-input__text usa-form-group"
         >
           <label
-            className="usa-label"
-            htmlFor="dateinput-example-month-start-date"
+            className="usa-label usa-sr-only"
+            htmlFor="dateinput-example-input"
           >
-            Month
+            Date input
              
           </label>
           <input
             aria-required={true}
-            className="usa-input usa-input--inline"
-            defaultValue="10"
-            id="dateinput-example-month-start-date"
-            max={12}
-            maxLength={2}
-            min={1}
+            className="usa-input"
+            defaultValue="10/30/2019"
+            id="dateinput-example-input"
             onBlur={[Function]}
             onChange={[Function]}
-            type="number"
+            type="text"
           />
         </div>
-      </div>
-      <div>
         <div
-          className="oec-date-input__input usa-form-group"
+          className="oec-calendar-dropdown oec-date-input__calendar-dropdown"
         >
-          <label
-            className="usa-label"
-            htmlFor="dateinput-example-day-start-date"
+          <button
+            className="usa-button oec-calendar-toggle oec-calendar-dropdown__toggle"
+            onClick={[Function]}
+            title="open calendar"
+            type="button"
           >
-            Day
-             
-          </label>
-          <input
-            aria-required={true}
-            className="usa-input usa-input--inline"
-            defaultValue="30"
-            id="dateinput-example-day-start-date"
-            max={31}
-            maxLength={2}
-            min={1}
-            onBlur={[Function]}
-            onChange={[Function]}
-            type="number"
-          />
+            <svg
+              className="oec-calendar-toggle__icon"
+            >
+              calendar.svg
+            </svg>
+          </button>
+          <div
+            className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+          >
+            &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
+          </div>
         </div>
       </div>
-      <div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots DateRangeInput Default 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    aria-describedby="default-DateRangeInput-outer-fieldset-hint"
+    aria-required={true}
+    className="grid-gap grid-row usa-fieldset
+			
+			 oec-date-range-input
+			"
+    id="default-DateRangeInput-outer-fieldset"
+  >
+    <legend
+      id="fieldset-legend-default-DateRangeInput-outer-fieldset"
+    >
+      <span
+        className="usa-label"
+      >
+        Pick a date
+      </span>
+    </legend>
+    <span
+      className="usa-hint text-italic"
+    >
+      For example: 04/28/1986
+    </span>
+    <div
+      className="grid-gap grid-row undefined"
+    >
+      <div
+        className="display-flex flex-direction-row flex-align-end"
+      >
+        <fieldset
+          aria-required={true}
+          className="grid-gap grid-row usa-fieldset
+			
+			 oec-date-input oec-date-input-single
+			"
+          id="default-DateRangeInput-start-date"
+        >
+          <legend
+            id="fieldset-legend-default-DateRangeInput-start-date"
+          >
+            <span
+              className="usa-label"
+            >
+              Start date
+            </span>
+          </legend>
+          <div
+            className="grid-gap grid-row undefined"
+          >
+            <div
+              className="grid-row flex-row flex-align-end grid-gap position-relative"
+            >
+              <div
+                className="oec-date-input__text usa-form-group"
+              >
+                <label
+                  className="usa-label usa-sr-only"
+                  htmlFor="default-DateRangeInput-start-date-input"
+                >
+                  Start date input
+                   
+                </label>
+                <input
+                  aria-required={true}
+                  className="usa-input"
+                  defaultValue="10/30/2019"
+                  id="default-DateRangeInput-start-date-input"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  type="text"
+                />
+              </div>
+              <div
+                className="oec-calendar-dropdown oec-date-input__calendar-dropdown"
+              >
+                <button
+                  className="usa-button oec-calendar-toggle oec-calendar-dropdown__toggle"
+                  onClick={[Function]}
+                  title="open calendar"
+                  type="button"
+                >
+                  <svg
+                    className="oec-calendar-toggle__icon"
+                  >
+                    calendar.svg
+                  </svg>
+                </button>
+                <div
+                  className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+                >
+                  &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
         <div
-          className="oec-date-input__input usa-form-group"
+          className="oec-date-range-input__arrow"
         >
-          <label
-            className="usa-label"
-            htmlFor="dateinput-example-year-start-date"
-          >
-            Year
-             
-          </label>
-          <input
-            aria-required={true}
-            className="usa-input usa-input--inline"
-            defaultValue="2019"
-            id="dateinput-example-year-start-date"
-            max={2100}
-            maxLength={4}
-            min={1990}
-            onBlur={[Function]}
-            onChange={[Function]}
-            type="number"
-          />
+          <svg>
+            arrowRight.svg
+          </svg>
         </div>
+        <fieldset
+          aria-required={true}
+          className="grid-gap grid-row usa-fieldset
+			
+			 oec-date-input oec-date-input-single
+			"
+          id="default-DateRangeInput-end-date"
+        >
+          <legend
+            id="fieldset-legend-default-DateRangeInput-end-date"
+          >
+            <span
+              className="usa-label"
+            >
+              End date
+            </span>
+          </legend>
+          <div
+            className="grid-gap grid-row undefined"
+          >
+            <div
+              className="grid-row flex-row flex-align-end grid-gap position-relative"
+            >
+              <div
+                className="oec-date-input__text usa-form-group"
+              >
+                <label
+                  className="usa-label usa-sr-only"
+                  htmlFor="default-DateRangeInput-end-date-input"
+                >
+                  End date input
+                   
+                </label>
+                <input
+                  aria-required={true}
+                  className="usa-input"
+                  defaultValue="10/30/2019"
+                  id="default-DateRangeInput-end-date-input"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  type="text"
+                />
+              </div>
+              <div
+                className="oec-calendar-dropdown oec-date-input__calendar-dropdown"
+              >
+                <button
+                  className="usa-button oec-calendar-toggle oec-calendar-dropdown__toggle"
+                  onClick={[Function]}
+                  title="open calendar"
+                  type="button"
+                >
+                  <svg
+                    className="oec-calendar-toggle__icon"
+                  >
+                    calendar.svg
+                  </svg>
+                </button>
+                <div
+                  className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+                >
+                  &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
       </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots DateRangeInput Disabled 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    aria-describedby="disabled-DateRangeInput-outer-fieldset-hint"
+    aria-required={true}
+    className="grid-gap grid-row usa-fieldset
+			
+			 oec-date-range-input
+			"
+    disabled={true}
+    id="disabled-DateRangeInput-outer-fieldset"
+  >
+    <legend
+      id="fieldset-legend-disabled-DateRangeInput-outer-fieldset"
+    >
+      <span
+        className="usa-label"
+      >
+        Pick a date
+      </span>
+    </legend>
+    <span
+      className="usa-hint text-italic"
+    >
+      For example: 04/28/1986
+    </span>
+    <div
+      className="grid-gap grid-row undefined"
+    >
+      <div
+        className="display-flex flex-direction-row flex-align-end"
+      >
+        <fieldset
+          aria-required={true}
+          className="grid-gap grid-row usa-fieldset
+			
+			 oec-date-input oec-date-input-single
+			"
+          id="disabled-DateRangeInput-start-date"
+        >
+          <legend
+            id="fieldset-legend-disabled-DateRangeInput-start-date"
+          >
+            <span
+              className="usa-label"
+            >
+              Start date
+            </span>
+          </legend>
+          <div
+            className="grid-gap grid-row undefined"
+          >
+            <div
+              className="grid-row flex-row flex-align-end grid-gap position-relative"
+            >
+              <div
+                className="oec-date-input__text usa-form-group"
+              >
+                <label
+                  className="usa-label usa-sr-only"
+                  htmlFor="disabled-DateRangeInput-start-date-input"
+                >
+                  Start date input
+                   
+                </label>
+                <input
+                  aria-required={true}
+                  className="usa-input"
+                  defaultValue="10/30/2019"
+                  id="disabled-DateRangeInput-start-date-input"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  type="text"
+                />
+              </div>
+              <div
+                className="oec-calendar-dropdown oec-date-input__calendar-dropdown"
+              >
+                <button
+                  className="usa-button oec-calendar-toggle oec-calendar-dropdown__toggle"
+                  onClick={[Function]}
+                  title="open calendar"
+                  type="button"
+                >
+                  <svg
+                    className="oec-calendar-toggle__icon"
+                  >
+                    calendar.svg
+                  </svg>
+                </button>
+                <div
+                  className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+                >
+                  &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <div
+          className="oec-date-range-input__arrow"
+        >
+          <svg>
+            arrowRight.svg
+          </svg>
+        </div>
+        <fieldset
+          aria-required={true}
+          className="grid-gap grid-row usa-fieldset
+			
+			 oec-date-input oec-date-input-single
+			"
+          id="disabled-DateRangeInput-end-date"
+        >
+          <legend
+            id="fieldset-legend-disabled-DateRangeInput-end-date"
+          >
+            <span
+              className="usa-label"
+            >
+              End date
+            </span>
+          </legend>
+          <div
+            className="grid-gap grid-row undefined"
+          >
+            <div
+              className="grid-row flex-row flex-align-end grid-gap position-relative"
+            >
+              <div
+                className="oec-date-input__text usa-form-group"
+              >
+                <label
+                  className="usa-label usa-sr-only"
+                  htmlFor="disabled-DateRangeInput-end-date-input"
+                >
+                  End date input
+                   
+                </label>
+                <input
+                  aria-required={true}
+                  className="usa-input"
+                  defaultValue="10/30/2019"
+                  id="disabled-DateRangeInput-end-date-input"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  type="text"
+                />
+              </div>
+              <div
+                className="oec-calendar-dropdown oec-date-input__calendar-dropdown"
+              >
+                <button
+                  className="usa-button oec-calendar-toggle oec-calendar-dropdown__toggle"
+                  onClick={[Function]}
+                  title="open calendar"
+                  type="button"
+                >
+                  <svg
+                    className="oec-calendar-toggle__icon"
+                  >
+                    calendar.svg
+                  </svg>
+                </button>
+                <div
+                  className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+                >
+                  &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots DateRangeInput Error 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    aria-describedby="range-input-error"
+    aria-invalid={true}
+    aria-required={true}
+    className="grid-gap grid-row usa-fieldset
+			 usa-fieldset--error
+			 oec-date-range-input
+			"
+    id="error-DateRangeInput-outer-fieldset"
+  >
+    <legend
+      id="fieldset-legend-error-DateRangeInput-outer-fieldset"
+    >
+      <span
+        className="usa-label usa-label--error"
+      >
+        Pick a date
+      </span>
+    </legend>
+    <span
+      className="usa-hint text-italic"
+    >
+      For example: 04/28/1986
+    </span>
+    <span
+      className="usa-error-message"
+      id="range-input-error"
+      role="alert"
+    >
+      
        
+      Pick a better date
+    </span>
+    <div
+      className="grid-gap grid-row undefined"
+    >
+      <div
+        className="display-flex flex-direction-row flex-align-end"
+      >
+        <fieldset
+          aria-required={true}
+          className="grid-gap grid-row usa-fieldset
+			
+			 oec-date-input oec-date-input-single
+			"
+          id="error-DateRangeInput-start-date"
+        >
+          <legend
+            id="fieldset-legend-error-DateRangeInput-start-date"
+          >
+            <span
+              className="usa-label"
+            >
+              Start date
+            </span>
+          </legend>
+          <div
+            className="grid-gap grid-row undefined"
+          >
+            <div
+              className="grid-row flex-row flex-align-end grid-gap position-relative"
+            >
+              <div
+                className="oec-date-input__text usa-form-group"
+              >
+                <label
+                  className="usa-label usa-sr-only"
+                  htmlFor="error-DateRangeInput-start-date-input"
+                >
+                  Start date input
+                   
+                </label>
+                <input
+                  aria-required={true}
+                  className="usa-input"
+                  defaultValue="10/30/2019"
+                  id="error-DateRangeInput-start-date-input"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  type="text"
+                />
+              </div>
+              <div
+                className="oec-calendar-dropdown oec-date-input__calendar-dropdown"
+              >
+                <button
+                  className="usa-button oec-calendar-toggle oec-calendar-dropdown__toggle"
+                  onClick={[Function]}
+                  title="open calendar"
+                  type="button"
+                >
+                  <svg
+                    className="oec-calendar-toggle__icon"
+                  >
+                    calendar.svg
+                  </svg>
+                </button>
+                <div
+                  className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+                >
+                  &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <div
+          className="oec-date-range-input__arrow"
+        >
+          <svg>
+            arrowRight.svg
+          </svg>
+        </div>
+        <fieldset
+          aria-required={true}
+          className="grid-gap grid-row usa-fieldset
+			
+			 oec-date-input oec-date-input-single
+			"
+          id="error-DateRangeInput-end-date"
+        >
+          <legend
+            id="fieldset-legend-error-DateRangeInput-end-date"
+          >
+            <span
+              className="usa-label"
+            >
+              End date
+            </span>
+          </legend>
+          <div
+            className="grid-gap grid-row undefined"
+          >
+            <div
+              className="grid-row flex-row flex-align-end grid-gap position-relative"
+            >
+              <div
+                className="oec-date-input__text usa-form-group"
+              >
+                <label
+                  className="usa-label usa-sr-only"
+                  htmlFor="error-DateRangeInput-end-date-input"
+                >
+                  End date input
+                   
+                </label>
+                <input
+                  aria-required={true}
+                  className="usa-input"
+                  defaultValue="10/30/2019"
+                  id="error-DateRangeInput-end-date-input"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  type="text"
+                />
+              </div>
+              <div
+                className="oec-calendar-dropdown oec-date-input__calendar-dropdown"
+              >
+                <button
+                  className="usa-button oec-calendar-toggle oec-calendar-dropdown__toggle"
+                  onClick={[Function]}
+                  title="open calendar"
+                  type="button"
+                >
+                  <svg
+                    className="oec-calendar-toggle__icon"
+                  >
+                    calendar.svg
+                  </svg>
+                </button>
+                <div
+                  className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+                >
+                  &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots DateRangeInput Optional 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    aria-describedby="optional-DateRangeInput-outer-fieldset-hint"
+    aria-required={false}
+    className="grid-gap grid-row usa-fieldset
+			
+			 oec-date-range-input
+			"
+    id="optional-DateRangeInput-outer-fieldset"
+  >
+    <legend
+      id="fieldset-legend-optional-DateRangeInput-outer-fieldset"
+    >
+      <span
+        className="usa-label"
+      >
+        Pick a date
+        <span
+          className="usa-hint"
+        >
+           (optional)
+        </span>
+      </span>
+    </legend>
+    <span
+      className="usa-hint text-italic"
+    >
+      For example: 04/28/1986
+    </span>
+    <div
+      className="grid-gap grid-row undefined"
+    >
+      <div
+        className="display-flex flex-direction-row flex-align-end"
+      >
+        <fieldset
+          aria-required={true}
+          className="grid-gap grid-row usa-fieldset
+			
+			 oec-date-input oec-date-input-single
+			"
+          id="optional-DateRangeInput-start-date"
+        >
+          <legend
+            id="fieldset-legend-optional-DateRangeInput-start-date"
+          >
+            <span
+              className="usa-label"
+            >
+              Start date
+            </span>
+          </legend>
+          <div
+            className="grid-gap grid-row undefined"
+          >
+            <div
+              className="grid-row flex-row flex-align-end grid-gap position-relative"
+            >
+              <div
+                className="oec-date-input__text usa-form-group"
+              >
+                <label
+                  className="usa-label usa-sr-only"
+                  htmlFor="optional-DateRangeInput-start-date-input"
+                >
+                  Start date input
+                   
+                </label>
+                <input
+                  aria-required={true}
+                  className="usa-input"
+                  defaultValue="10/30/2019"
+                  id="optional-DateRangeInput-start-date-input"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  type="text"
+                />
+              </div>
+              <div
+                className="oec-calendar-dropdown oec-date-input__calendar-dropdown"
+              >
+                <button
+                  className="usa-button oec-calendar-toggle oec-calendar-dropdown__toggle"
+                  onClick={[Function]}
+                  title="open calendar"
+                  type="button"
+                >
+                  <svg
+                    className="oec-calendar-toggle__icon"
+                  >
+                    calendar.svg
+                  </svg>
+                </button>
+                <div
+                  className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+                >
+                  &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <div
+          className="oec-date-range-input__arrow"
+        >
+          <svg>
+            arrowRight.svg
+          </svg>
+        </div>
+        <fieldset
+          aria-required={true}
+          className="grid-gap grid-row usa-fieldset
+			
+			 oec-date-input oec-date-input-single
+			"
+          id="optional-DateRangeInput-end-date"
+        >
+          <legend
+            id="fieldset-legend-optional-DateRangeInput-end-date"
+          >
+            <span
+              className="usa-label"
+            >
+              End date
+            </span>
+          </legend>
+          <div
+            className="grid-gap grid-row undefined"
+          >
+            <div
+              className="grid-row flex-row flex-align-end grid-gap position-relative"
+            >
+              <div
+                className="oec-date-input__text usa-form-group"
+              >
+                <label
+                  className="usa-label usa-sr-only"
+                  htmlFor="optional-DateRangeInput-end-date-input"
+                >
+                  End date input
+                   
+                </label>
+                <input
+                  aria-required={true}
+                  className="usa-input"
+                  defaultValue="10/30/2019"
+                  id="optional-DateRangeInput-end-date-input"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  type="text"
+                />
+              </div>
+              <div
+                className="oec-calendar-dropdown oec-date-input__calendar-dropdown"
+              >
+                <button
+                  className="usa-button oec-calendar-toggle oec-calendar-dropdown__toggle"
+                  onClick={[Function]}
+                  title="open calendar"
+                  type="button"
+                >
+                  <svg
+                    className="oec-calendar-toggle__icon"
+                  >
+                    calendar.svg
+                  </svg>
+                </button>
+                <div
+                  className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+                >
+                  &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots DateRangeInput Success 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    aria-describedby="range-input-success"
+    aria-invalid={false}
+    aria-required={true}
+    className="grid-gap grid-row usa-fieldset
+			 usa-fieldset--success
+			 oec-date-range-input
+			"
+    id="error-DateRangeInput-outer-fieldset"
+  >
+    <legend
+      id="fieldset-legend-error-DateRangeInput-outer-fieldset"
+    >
+      <span
+        className="usa-label usa-label--success"
+      >
+        Pick a date
+      </span>
+    </legend>
+    <span
+      className="usa-hint text-italic"
+    >
+      For example: 04/28/1986
+    </span>
+    <span
+      className="usa-success-message"
+      id="range-input-success"
+      role="status"
+    >
+      
+       
+      You did good
+    </span>
+    <div
+      className="grid-gap grid-row undefined"
+    >
+      <div
+        className="display-flex flex-direction-row flex-align-end"
+      >
+        <fieldset
+          aria-required={true}
+          className="grid-gap grid-row usa-fieldset
+			
+			 oec-date-input oec-date-input-single
+			"
+          id="error-DateRangeInput-start-date"
+        >
+          <legend
+            id="fieldset-legend-error-DateRangeInput-start-date"
+          >
+            <span
+              className="usa-label"
+            >
+              Start date
+            </span>
+          </legend>
+          <div
+            className="grid-gap grid-row undefined"
+          >
+            <div
+              className="grid-row flex-row flex-align-end grid-gap position-relative"
+            >
+              <div
+                className="oec-date-input__text usa-form-group"
+              >
+                <label
+                  className="usa-label usa-sr-only"
+                  htmlFor="error-DateRangeInput-start-date-input"
+                >
+                  Start date input
+                   
+                </label>
+                <input
+                  aria-required={true}
+                  className="usa-input"
+                  defaultValue="10/30/2019"
+                  id="error-DateRangeInput-start-date-input"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  type="text"
+                />
+              </div>
+              <div
+                className="oec-calendar-dropdown oec-date-input__calendar-dropdown"
+              >
+                <button
+                  className="usa-button oec-calendar-toggle oec-calendar-dropdown__toggle"
+                  onClick={[Function]}
+                  title="open calendar"
+                  type="button"
+                >
+                  <svg
+                    className="oec-calendar-toggle__icon"
+                  >
+                    calendar.svg
+                  </svg>
+                </button>
+                <div
+                  className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+                >
+                  &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <div
+          className="oec-date-range-input__arrow"
+        >
+          <svg>
+            arrowRight.svg
+          </svg>
+        </div>
+        <fieldset
+          aria-required={true}
+          className="grid-gap grid-row usa-fieldset
+			
+			 oec-date-input oec-date-input-single
+			"
+          id="error-DateRangeInput-end-date"
+        >
+          <legend
+            id="fieldset-legend-error-DateRangeInput-end-date"
+          >
+            <span
+              className="usa-label"
+            >
+              End date
+            </span>
+          </legend>
+          <div
+            className="grid-gap grid-row undefined"
+          >
+            <div
+              className="grid-row flex-row flex-align-end grid-gap position-relative"
+            >
+              <div
+                className="oec-date-input__text usa-form-group"
+              >
+                <label
+                  className="usa-label usa-sr-only"
+                  htmlFor="error-DateRangeInput-end-date-input"
+                >
+                  End date input
+                   
+                </label>
+                <input
+                  aria-required={true}
+                  className="usa-input"
+                  defaultValue="10/30/2019"
+                  id="error-DateRangeInput-end-date-input"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  type="text"
+                />
+              </div>
+              <div
+                className="oec-calendar-dropdown oec-date-input__calendar-dropdown"
+              >
+                <button
+                  className="usa-button oec-calendar-toggle oec-calendar-dropdown__toggle"
+                  onClick={[Function]}
+                  title="open calendar"
+                  type="button"
+                >
+                  <svg
+                    className="oec-calendar-toggle__icon"
+                  >
+                    calendar.svg
+                  </svg>
+                </button>
+                <div
+                  className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+                >
+                  &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots DateRangeInput Warning 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    aria-describedby="range-input-warning"
+    aria-invalid={false}
+    aria-required={true}
+    className="grid-gap grid-row usa-fieldset
+			 usa-fieldset--warning
+			 oec-date-range-input
+			"
+    id="error-DateRangeInput-outer-fieldset"
+  >
+    <legend
+      id="fieldset-legend-error-DateRangeInput-outer-fieldset"
+    >
+      <span
+        className="usa-label usa-label--warning"
+      >
+        Pick a date
+      </span>
+    </legend>
+    <span
+      className="usa-hint text-italic"
+    >
+      For example: 04/28/1986
+    </span>
+    <span
+      className="usa-warning-message"
+      id="range-input-warning"
+      role="status"
+    >
+      <span
+        className="oec-inline-icon oec-inline-icon--incomplete"
+      >
+        <svg>
+          error.svg
+        </svg>
+        <span
+          className="usa-sr-only"
+        >
+          (
+          incomplete
+          )
+        </span>
+      </span>
+       
+      Meh, fine
+    </span>
+    <div
+      className="grid-gap grid-row undefined"
+    >
+      <div
+        className="display-flex flex-direction-row flex-align-end"
+      >
+        <fieldset
+          aria-required={true}
+          className="grid-gap grid-row usa-fieldset
+			
+			 oec-date-input oec-date-input-single
+			"
+          id="error-DateRangeInput-start-date"
+        >
+          <legend
+            id="fieldset-legend-error-DateRangeInput-start-date"
+          >
+            <span
+              className="usa-label"
+            >
+              Start date
+            </span>
+          </legend>
+          <div
+            className="grid-gap grid-row undefined"
+          >
+            <div
+              className="grid-row flex-row flex-align-end grid-gap position-relative"
+            >
+              <div
+                className="oec-date-input__text usa-form-group"
+              >
+                <label
+                  className="usa-label usa-sr-only"
+                  htmlFor="error-DateRangeInput-start-date-input"
+                >
+                  Start date input
+                   
+                </label>
+                <input
+                  aria-required={true}
+                  className="usa-input"
+                  defaultValue="10/30/2019"
+                  id="error-DateRangeInput-start-date-input"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  type="text"
+                />
+              </div>
+              <div
+                className="oec-calendar-dropdown oec-date-input__calendar-dropdown"
+              >
+                <button
+                  className="usa-button oec-calendar-toggle oec-calendar-dropdown__toggle"
+                  onClick={[Function]}
+                  title="open calendar"
+                  type="button"
+                >
+                  <svg
+                    className="oec-calendar-toggle__icon"
+                  >
+                    calendar.svg
+                  </svg>
+                </button>
+                <div
+                  className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+                >
+                  &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <div
+          className="oec-date-range-input__arrow"
+        >
+          <svg>
+            arrowRight.svg
+          </svg>
+        </div>
+        <fieldset
+          aria-required={true}
+          className="grid-gap grid-row usa-fieldset
+			
+			 oec-date-input oec-date-input-single
+			"
+          id="error-DateRangeInput-end-date"
+        >
+          <legend
+            id="fieldset-legend-error-DateRangeInput-end-date"
+          >
+            <span
+              className="usa-label"
+            >
+              End date
+            </span>
+          </legend>
+          <div
+            className="grid-gap grid-row undefined"
+          >
+            <div
+              className="grid-row flex-row flex-align-end grid-gap position-relative"
+            >
+              <div
+                className="oec-date-input__text usa-form-group"
+              >
+                <label
+                  className="usa-label usa-sr-only"
+                  htmlFor="error-DateRangeInput-end-date-input"
+                >
+                  End date input
+                   
+                </label>
+                <input
+                  aria-required={true}
+                  className="usa-input"
+                  defaultValue="10/30/2019"
+                  id="error-DateRangeInput-end-date-input"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  type="text"
+                />
+              </div>
+              <div
+                className="oec-calendar-dropdown oec-date-input__calendar-dropdown"
+              >
+                <button
+                  className="usa-button oec-calendar-toggle oec-calendar-dropdown__toggle"
+                  onClick={[Function]}
+                  title="open calendar"
+                  type="button"
+                >
+                  <svg
+                    className="oec-calendar-toggle__icon"
+                  >
+                    calendar.svg
+                  </svg>
+                </button>
+                <div
+                  className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+                >
+                  &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
     </div>
   </fieldset>
 </div>
