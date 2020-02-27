@@ -1053,7 +1053,7 @@ exports[`Storyshots ChoiceList Single checkbox 1`] = `
 </div>
 `;
 
-exports[`Storyshots Date input Default 1`] = `
+exports[`Storyshots Date input Default with date 1`] = `
 <div
   style={
     Object {
@@ -1097,7 +1097,7 @@ exports[`Storyshots Date input Default 1`] = `
             className="usa-label usa-sr-only"
             htmlFor="dateinput-example-input"
           >
-            Date input
+            Date
              
           </label>
           <input
@@ -1107,6 +1107,7 @@ exports[`Storyshots Date input Default 1`] = `
             id="dateinput-example-input"
             onBlur={[Function]}
             onChange={[Function]}
+            onKeyUp={[Function]}
             type="text"
           />
         </div>
@@ -1129,6 +1130,90 @@ exports[`Storyshots Date input Default 1`] = `
             className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
           >
             &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
+          </div>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots Date input Default with no date set 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    aria-describedby="dateinput-example-hint"
+    aria-required={true}
+    className="grid-gap grid-row usa-fieldset
+			
+			 oec-date-input oec-date-input-single
+			"
+    id="dateinput-example"
+  >
+    <legend
+      id="fieldset-legend-dateinput-example"
+    >
+      <span
+        className="usa-label"
+      >
+        Date
+      </span>
+    </legend>
+    <span
+      className="usa-hint text-italic"
+    >
+      For example: 04/28/1986
+    </span>
+    <div
+      className="grid-gap grid-row undefined"
+    >
+      <div
+        className="grid-row flex-row flex-align-end grid-gap position-relative"
+      >
+        <div
+          className="oec-date-input__text usa-form-group"
+        >
+          <label
+            className="usa-label usa-sr-only"
+            htmlFor="dateinput-example-input"
+          >
+            Date
+             
+          </label>
+          <input
+            aria-required={true}
+            className="usa-input"
+            id="dateinput-example-input"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onKeyUp={[Function]}
+            type="text"
+          />
+        </div>
+        <div
+          className="oec-calendar-dropdown oec-date-input__calendar-dropdown"
+        >
+          <button
+            className="usa-button oec-calendar-toggle oec-calendar-dropdown__toggle"
+            onClick={[Function]}
+            title="open calendar"
+            type="button"
+          >
+            <svg
+              className="oec-calendar-toggle__icon"
+            >
+              calendar.svg
+            </svg>
+          </button>
+          <div
+            className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+          >
+            &lt;DayPickerSingleDateController" {"date":null,"focused":false}/&gt;
           </div>
         </div>
       </div>
@@ -1182,7 +1267,7 @@ exports[`Storyshots Date input Disabled day input 1`] = `
             className="usa-label usa-sr-only"
             htmlFor="dateinput-example-input"
           >
-            Date input
+            Date
              
           </label>
           <input
@@ -1192,6 +1277,7 @@ exports[`Storyshots Date input Disabled day input 1`] = `
             id="dateinput-example-input"
             onBlur={[Function]}
             onChange={[Function]}
+            onKeyUp={[Function]}
             type="text"
           />
         </div>
@@ -1276,7 +1362,7 @@ exports[`Storyshots Date input Error 1`] = `
             className="usa-label usa-sr-only"
             htmlFor="dateinput-example-input"
           >
-            Date input
+            Date
              
           </label>
           <input
@@ -1286,6 +1372,7 @@ exports[`Storyshots Date input Error 1`] = `
             id="dateinput-example-input"
             onBlur={[Function]}
             onChange={[Function]}
+            onKeyUp={[Function]}
             type="text"
           />
         </div>
@@ -1365,7 +1452,7 @@ exports[`Storyshots Date input Optional 1`] = `
             className="usa-label usa-sr-only"
             htmlFor="dateinput-example-input"
           >
-            Date input
+            Date
              
           </label>
           <input
@@ -1375,6 +1462,7 @@ exports[`Storyshots Date input Optional 1`] = `
             id="dateinput-example-input"
             onBlur={[Function]}
             onChange={[Function]}
+            onKeyUp={[Function]}
             type="text"
           />
         </div>
@@ -1459,7 +1547,7 @@ exports[`Storyshots Date input Success 1`] = `
             className="usa-label usa-sr-only"
             htmlFor="dateinput-example-input"
           >
-            Date input
+            Date
              
           </label>
           <input
@@ -1469,6 +1557,7 @@ exports[`Storyshots Date input Success 1`] = `
             id="dateinput-example-input"
             onBlur={[Function]}
             onChange={[Function]}
+            onKeyUp={[Function]}
             type="text"
           />
         </div>
@@ -1566,7 +1655,7 @@ exports[`Storyshots Date input Warning 1`] = `
             className="usa-label usa-sr-only"
             htmlFor="dateinput-example-input"
           >
-            Date input
+            Date
              
           </label>
           <input
@@ -1576,6 +1665,7 @@ exports[`Storyshots Date input Warning 1`] = `
             id="dateinput-example-input"
             onBlur={[Function]}
             onChange={[Function]}
+            onKeyUp={[Function]}
             type="text"
           />
         </div>
@@ -1673,7 +1763,7 @@ exports[`Storyshots DateRangeInput Default 1`] = `
                   className="usa-label usa-sr-only"
                   htmlFor="default-DateRangeInput-start-date-input"
                 >
-                  Start date input
+                  Start date
                    
                 </label>
                 <input
@@ -1683,6 +1773,7 @@ exports[`Storyshots DateRangeInput Default 1`] = `
                   id="default-DateRangeInput-start-date-input"
                   onBlur={[Function]}
                   onChange={[Function]}
+                  onKeyUp={[Function]}
                   type="text"
                 />
               </div>
@@ -1747,7 +1838,7 @@ exports[`Storyshots DateRangeInput Default 1`] = `
                   className="usa-label usa-sr-only"
                   htmlFor="default-DateRangeInput-end-date-input"
                 >
-                  End date input
+                  End date
                    
                 </label>
                 <input
@@ -1757,6 +1848,7 @@ exports[`Storyshots DateRangeInput Default 1`] = `
                   id="default-DateRangeInput-end-date-input"
                   onBlur={[Function]}
                   onChange={[Function]}
+                  onKeyUp={[Function]}
                   type="text"
                 />
               </div>
@@ -1858,7 +1950,7 @@ exports[`Storyshots DateRangeInput Disabled 1`] = `
                   className="usa-label usa-sr-only"
                   htmlFor="disabled-DateRangeInput-start-date-input"
                 >
-                  Start date input
+                  Start date
                    
                 </label>
                 <input
@@ -1868,6 +1960,7 @@ exports[`Storyshots DateRangeInput Disabled 1`] = `
                   id="disabled-DateRangeInput-start-date-input"
                   onBlur={[Function]}
                   onChange={[Function]}
+                  onKeyUp={[Function]}
                   type="text"
                 />
               </div>
@@ -1932,7 +2025,7 @@ exports[`Storyshots DateRangeInput Disabled 1`] = `
                   className="usa-label usa-sr-only"
                   htmlFor="disabled-DateRangeInput-end-date-input"
                 >
-                  End date input
+                  End date
                    
                 </label>
                 <input
@@ -1942,6 +2035,7 @@ exports[`Storyshots DateRangeInput Disabled 1`] = `
                   id="disabled-DateRangeInput-end-date-input"
                   onBlur={[Function]}
                   onChange={[Function]}
+                  onKeyUp={[Function]}
                   type="text"
                 />
               </div>
@@ -2052,7 +2146,7 @@ exports[`Storyshots DateRangeInput Error 1`] = `
                   className="usa-label usa-sr-only"
                   htmlFor="error-DateRangeInput-start-date-input"
                 >
-                  Start date input
+                  Start date
                    
                 </label>
                 <input
@@ -2062,6 +2156,7 @@ exports[`Storyshots DateRangeInput Error 1`] = `
                   id="error-DateRangeInput-start-date-input"
                   onBlur={[Function]}
                   onChange={[Function]}
+                  onKeyUp={[Function]}
                   type="text"
                 />
               </div>
@@ -2126,7 +2221,7 @@ exports[`Storyshots DateRangeInput Error 1`] = `
                   className="usa-label usa-sr-only"
                   htmlFor="error-DateRangeInput-end-date-input"
                 >
-                  End date input
+                  End date
                    
                 </label>
                 <input
@@ -2136,6 +2231,7 @@ exports[`Storyshots DateRangeInput Error 1`] = `
                   id="error-DateRangeInput-end-date-input"
                   onBlur={[Function]}
                   onChange={[Function]}
+                  onKeyUp={[Function]}
                   type="text"
                 />
               </div>
@@ -2241,7 +2337,7 @@ exports[`Storyshots DateRangeInput Optional 1`] = `
                   className="usa-label usa-sr-only"
                   htmlFor="optional-DateRangeInput-start-date-input"
                 >
-                  Start date input
+                  Start date
                    
                 </label>
                 <input
@@ -2251,6 +2347,7 @@ exports[`Storyshots DateRangeInput Optional 1`] = `
                   id="optional-DateRangeInput-start-date-input"
                   onBlur={[Function]}
                   onChange={[Function]}
+                  onKeyUp={[Function]}
                   type="text"
                 />
               </div>
@@ -2315,7 +2412,7 @@ exports[`Storyshots DateRangeInput Optional 1`] = `
                   className="usa-label usa-sr-only"
                   htmlFor="optional-DateRangeInput-end-date-input"
                 >
-                  End date input
+                  End date
                    
                 </label>
                 <input
@@ -2325,6 +2422,7 @@ exports[`Storyshots DateRangeInput Optional 1`] = `
                   id="optional-DateRangeInput-end-date-input"
                   onBlur={[Function]}
                   onChange={[Function]}
+                  onKeyUp={[Function]}
                   type="text"
                 />
               </div>
@@ -2435,7 +2533,7 @@ exports[`Storyshots DateRangeInput Success 1`] = `
                   className="usa-label usa-sr-only"
                   htmlFor="error-DateRangeInput-start-date-input"
                 >
-                  Start date input
+                  Start date
                    
                 </label>
                 <input
@@ -2445,6 +2543,7 @@ exports[`Storyshots DateRangeInput Success 1`] = `
                   id="error-DateRangeInput-start-date-input"
                   onBlur={[Function]}
                   onChange={[Function]}
+                  onKeyUp={[Function]}
                   type="text"
                 />
               </div>
@@ -2509,7 +2608,7 @@ exports[`Storyshots DateRangeInput Success 1`] = `
                   className="usa-label usa-sr-only"
                   htmlFor="error-DateRangeInput-end-date-input"
                 >
-                  End date input
+                  End date
                    
                 </label>
                 <input
@@ -2519,6 +2618,7 @@ exports[`Storyshots DateRangeInput Success 1`] = `
                   id="error-DateRangeInput-end-date-input"
                   onBlur={[Function]}
                   onChange={[Function]}
+                  onKeyUp={[Function]}
                   type="text"
                 />
               </div>
@@ -2642,7 +2742,7 @@ exports[`Storyshots DateRangeInput Warning 1`] = `
                   className="usa-label usa-sr-only"
                   htmlFor="error-DateRangeInput-start-date-input"
                 >
-                  Start date input
+                  Start date
                    
                 </label>
                 <input
@@ -2652,6 +2752,7 @@ exports[`Storyshots DateRangeInput Warning 1`] = `
                   id="error-DateRangeInput-start-date-input"
                   onBlur={[Function]}
                   onChange={[Function]}
+                  onKeyUp={[Function]}
                   type="text"
                 />
               </div>
@@ -2716,7 +2817,7 @@ exports[`Storyshots DateRangeInput Warning 1`] = `
                   className="usa-label usa-sr-only"
                   htmlFor="error-DateRangeInput-end-date-input"
                 >
-                  End date input
+                  End date
                    
                 </label>
                 <input
@@ -2726,6 +2827,7 @@ exports[`Storyshots DateRangeInput Warning 1`] = `
                   id="error-DateRangeInput-end-date-input"
                   onBlur={[Function]}
                   onChange={[Function]}
+                  onKeyUp={[Function]}
                   type="text"
                 />
               </div>

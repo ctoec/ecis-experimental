@@ -22,15 +22,17 @@ export type DateInputProps = {
 };
 
 // TODO: MOVE TO UTIL
-const parseDateInput = (input?: string): Moment | null => {
+const parseStringDateInput = (input?: string): Moment | null => {
 	let parsedInput = null;
 	if (input) {
 		const acceptedDelimiters = ['-', '/', ' '];
 		acceptedDelimiters.forEach(d => {
 			const splitInput = input.split(d);
 			if (splitInput.length === 3) {
+				// Will never be empty but ts doesn't know that
+				splitInput.unshift(splitInput.pop() || '');
 				// For parsing consistency across browsers
-				parsedInput = moment(splitInput.join('-'), 'MM-DD-YYYY');
+				parsedInput = moment(splitInput.join('-'), 'YYYY-MM-DD');
 			}
 		});
 	}
@@ -41,12 +43,12 @@ const momentFormat = 'MM/DD/YYYY';
 
 export const DateInput: React.FC<DateInputProps> = ({
 	date = null,
-	onChange,
+	onChange: inputOnChange,
 	id,
 	label,
 	disabled,
 	optional,
-	status,
+	status: inputStatus,
 	className,
 	hideHint = false,
 	name,
@@ -58,42 +60,71 @@ export const DateInput: React.FC<DateInputProps> = ({
 	const [stringDate, setStringDate] = useState<string | undefined>(
 		currentDate ? currentDate.format(momentFormat) : undefined
 	);
+	const [dateIsInvalid, setDateIsInvalid] = useState();
 
-	const onChangeEvent = (input: Moment | null) => {
-		const notNullInput = input || moment.invalid();
-		setCurrentDate(notNullInput);
-		// Spread operator will not copy prototype
-		// https://dmitripavlutin.com/object-rest-spread-properties-javascript/
-		onChange(Object.assign(moment(), notNullInput, { name: name || '' }));
+	const onMomentChange = (input: Moment | null) => {
+		// Whatever input is, set current date to that, even if it's not valid
+		setCurrentDate(input);
+		if (!input || !input.isValid()) {
+			setDateIsInvalid(true);
+		} else {
+			// Only call the callabck if it's a valid date
+			// Spread operator will not copy prototype
+			// https://dmitripavlutin.com/object-rest-spread-properties-javascript/
+			inputOnChange(Object.assign(moment(), input, { name: name || '' }));
+			setDateIsInvalid(false);
+		}
 	};
+
+	const onStringDateChange = (input: string | undefined) => {
+		if (!input && !currentDate) {
+			// If the new date didn't exist and there wasn't already a date, don't set a warning
+			return;
+		}
+		// Called on blur or on enter-- not on string change because that would show a warning after one key stroke
+		const newDate = parseStringDateInput(input);
+		// Otherwise if it's valid, proceed
+		onMomentChange(newDate);
+	};
+
+	let status = inputStatus;
+	if (dateIsInvalid) {
+		status = { type: 'warning', id: `${id}-error`, message: 'Invalid date' };
+	}
 
 	return (
 		<FieldSet
 			legend={label}
 			id={id}
-			disabled={disabled}
 			hint={hideHint ? undefined : 'For example: 04/28/1986'}
 			status={status}
 			optional={optional}
+			disabled={disabled}
 			className={cx('oec-date-input', 'oec-date-input-single', className)}
 			showLegend={true}
 		>
 			<div className="grid-row flex-row flex-align-end grid-gap position-relative">
 				<TextInput
-					label={`${label} input`}
+					label={label}
+					srOnlyLabel
 					id={`${id}-input`}
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) => setStringDate(e.target.value)}
 					defaultValue={stringDate}
 					// Key forces re-render on default value change without making text input a controlled component
 					key={JSON.stringify(currentDate)}
 					onBlur={() => {
-						const parsedInput = parseDateInput(stringDate);
-						onChangeEvent(parsedInput);
+						onStringDateChange(stringDate);
 					}}
 					name={name}
-					srOnlyLabel
-					className="oec-date-input__text"
 					// Make label sr only because it's in a fieldset
+					className="oec-date-input__text"
+					inputProps={{
+						onKeyUp: (e: { key: string; }) => {
+							if (e.key === 'Enter') {
+								onStringDateChange(stringDate);
+							}
+						},
+					}}
 				/>
 				<div className="oec-calendar-dropdown oec-date-input__calendar-dropdown">
 					<Button
@@ -110,12 +141,13 @@ export const DateInput: React.FC<DateInputProps> = ({
 						}`}
 					>
 						<DayPickerSingleDateController
+							key={JSON.stringify({ stringDate, dateIsInvalid, currentDate})}
 							date={currentDate}
 							onDateChange={newDate => {
-								setStringDate(newDate ? newDate.format(momentFormat) : '');
-								onChangeEvent(newDate);
+								setStringDate(newDate ? newDate.format(momentFormat) : undefined);
+								onMomentChange(newDate);
 							}}
-							focused={calendarOpen || false}
+							focused={calendarOpen}
 							// Annoyingly this does not do anything for keyboard users
 							onFocusChange={f => setCalendarOpen(f.focused || false)}
 							onBlur={() => setCalendarOpen(false)}

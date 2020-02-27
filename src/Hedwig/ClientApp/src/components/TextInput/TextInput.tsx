@@ -22,7 +22,7 @@ type TextInputHTMLInputElementProps = TextInputProps & {
 	type?: 'input';
 	onChange: (event: React.ChangeEvent<HTMLInputElement>) => any;
 	onBlur?: (event: React.FocusEvent<HTMLInputElement>) => any;
-	inputProps?: React.HTMLProps<HTMLInputElement> & { inputMode: 'text' } & { type: 'input' };
+	inputProps?: React.HTMLProps<HTMLInputElement>;
 };
 
 type TextInputHTMLTextAreaElementProps = TextInputProps & {

@@ -155,7 +155,7 @@ exports[`Roster matches snapshot 1`] = `
                 class="usa-label usa-sr-only"
                 for="enrollment-roster-datepicker-input"
               >
-                Date input 
+                Date 
               </label>
               <input
                 aria-required="true"

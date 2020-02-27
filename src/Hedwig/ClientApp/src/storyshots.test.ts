@@ -7,3 +7,5 @@ jest.mock('react-dates', () => ({
 }));
 
 initStoryshots();
+
+jest.resetAllMocks();
