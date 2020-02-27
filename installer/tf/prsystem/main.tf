@@ -49,7 +49,7 @@ resource "aws_instance" "target_system" {
     }
 
     root_block_device {
-      volume_size = "15"
+      volume_size = "10"
     }
 }
 
