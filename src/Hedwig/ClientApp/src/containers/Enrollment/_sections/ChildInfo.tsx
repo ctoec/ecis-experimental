@@ -1,4 +1,4 @@
-import React, { useContext, useState, useCallback } from 'react';
+import React, { useContext, useState, useCallback, useEffect } from 'react';
 import { Section } from '../enrollmentTypes';
 import moment from 'moment';
 import idx from 'idx';
@@ -10,8 +10,6 @@ import {
 	Gender,
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
 	Enrollment,
-	ValidationProblemDetails,
-	ValidationProblemDetailsFromJSON,
 } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
 import { validatePermissions, getIdForUser } from '../../../utils/models';
@@ -30,9 +28,12 @@ import {
 	warningForFieldSet,
 	warningForField,
 	serverErrorForField,
+	initialLoadErrorGuard,
+	isBlockingValidationError,
 } from '../../../utils/validations';
-import initialLoadErrorGuard from '../../../utils/validations/initialLoadErrorGuard';
 import usePromiseExecution from '../../../hooks/usePromiseExecution';
+import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
+import AlertContext from '../../../contexts/Alert/AlertContext';
 
 const ChildInfo: Section = {
 	key: 'child-information',
@@ -58,12 +59,32 @@ const ChildInfo: Section = {
 		);
 	},
 
-	Form: ({ enrollment, siteId, mutate, successCallback, finallyCallback, visitedSections }) => {
+	Form: ({
+		enrollment,
+		siteId,
+		mutate,
+		error,
+		successCallback,
+		finallyCallback,
+		visitedSections,
+	}) => {
 		if (!enrollment && !siteId) {
 			throw new Error('ChildInfo rendered without an enrollment or a siteId');
 		}
 
+		// set up form state
+		const { setAlerts } = useContext(AlertContext);
 		const initialLoad = visitedSections ? !visitedSections[ChildInfo.key] : false;
+		const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
+		useFocusFirstError([error]);
+		useEffect(() => {
+			if (error && !hasAlertedOnError) {
+				if (!isBlockingValidationError(error)) {
+					throw new Error(error.title || 'Unknown api error');
+				}
+				setAlerts([validationErrorAlert]);
+			}
+		}, [error, hasAlertedOnError]);
 
 		const { user } = useContext(UserContext);
 		const defaultPostParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest = {
@@ -151,10 +172,6 @@ const ChildInfo: Section = {
 			...childRaceArgs,
 		};
 
-		const [apiError, setApiError] = useState<ValidationProblemDetails>();
-
-		useFocusFirstError([apiError]);
-
 		const _save = () => {
 			if (enrollment) {
 				// If enrollment exists, put to save changes
@@ -173,9 +190,6 @@ const ChildInfo: Section = {
 				return mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams))
 					.then(res => {
 						if (successCallback && res) successCallback(res);
-					})
-					.catch(error => {
-						setApiError(ValidationProblemDetailsFromJSON(error));
 					})
 					.finally(() => {
 						finallyCallback && finallyCallback(ChildInfo);
@@ -197,10 +211,7 @@ const ChildInfo: Section = {
 				};
 				return mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsPost(postParams))
 					.then(res => {
-						if (successCallback && res) successCallback(res);
-					})
-					.catch(error => {
-						setApiError(ValidationProblemDetailsFromJSON(error));
+						if (successCallback && res && !error) successCallback(res);
 					})
 					.finally(() => {
 						finallyCallback && finallyCallback(ChildInfo);
@@ -236,8 +247,10 @@ const ChildInfo: Section = {
 							status={initialLoadErrorGuard(
 								initialLoad,
 								serverErrorForField(
+									hasAlertedOnError,
+									setHasAlertedOnError,
 									'child.firstname',
-									apiError,
+									error,
 									'This information is required for enrollment'
 								)
 							)}
@@ -264,8 +277,10 @@ const ChildInfo: Section = {
 								status={initialLoadErrorGuard(
 									initialLoad,
 									serverErrorForField(
+										hasAlertedOnError,
+										setHasAlertedOnError,
 										'child.lastname',
-										apiError,
+										error,
 										'This information is required for enrollment'
 									)
 								)}

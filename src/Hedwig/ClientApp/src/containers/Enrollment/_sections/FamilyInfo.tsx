@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import idx from 'idx';
 import { Section } from '../enrollmentTypes';
 import { Button, TextInput, ChoiceList, FieldSet } from '../../../components';
@@ -9,10 +9,14 @@ import {
 	sectionHasValidationErrors,
 	warningForFieldSet,
 	warningForField,
+	initialLoadErrorGuard,
+	useFocusFirstError,
 } from '../../../utils/validations';
 import { addressFormatter, homelessnessText, fosterText } from '../../../utils/models';
-import initialLoadErrorGuard from '../../../utils/validations/initialLoadErrorGuard';
 import usePromiseExecution from '../../../hooks/usePromiseExecution';
+import { isBlockingValidationError } from '../../../utils/validations/isBlockingValidationError';
+import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
+import AlertContext from '../../../contexts/Alert/AlertContext';
 
 const FamilyInfo: Section = {
 	key: 'family-information',
@@ -44,12 +48,32 @@ const FamilyInfo: Section = {
 		);
 	},
 
-	Form: ({ enrollment, siteId, mutate, successCallback, finallyCallback, visitedSections }) => {
+	Form: ({
+		enrollment,
+		siteId,
+		mutate,
+		error,
+		successCallback,
+		finallyCallback,
+		visitedSections,
+	}) => {
 		if (!enrollment || !enrollment.child) {
 			throw new Error('FamilyInfo rendered without a child');
 		}
 
+		// set up form state
+		const { setAlerts } = useContext(AlertContext);
 		const initialLoad = visitedSections ? !visitedSections[FamilyInfo.key] : false;
+		const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
+		useFocusFirstError([error]);
+		useEffect(() => {
+			if (error && !hasAlertedOnError) {
+				if (!isBlockingValidationError(error)) {
+					throw new Error(error.title || 'Unknown api error');
+				}
+				setAlerts([validationErrorAlert]);
+			}
+		}, [error, hasAlertedOnError]);
 
 		const child = enrollment.child;
 		const { user } = useContext(UserContext);
@@ -105,7 +129,7 @@ const FamilyInfo: Section = {
 				};
 				return mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
 					.then(res => {
-						if (successCallback && res) successCallback(res);
+						if (successCallback && res && !error) successCallback(res);
 					})
 					.finally(() => {
 						finallyCallback && finallyCallback(FamilyInfo);

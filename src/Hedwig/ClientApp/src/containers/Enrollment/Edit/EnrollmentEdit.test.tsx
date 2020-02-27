@@ -1,18 +1,18 @@
 import React from 'react';
 import mockdate from 'mockdate';
 import { createBrowserHistory } from 'history';
-import { render, fireEvent, waitForElement, getAllByRole } from '@testing-library/react';
+import { render, getAllByRole } from '@testing-library/react';
 import 'react-dates/initialize';
 import CommonContextProviderMock, {
 	defaultCdcReportingPeriods,
 } from '../../../contexts/__mocks__/CommonContextProviderMock';
-import {
-	enrollmentMissingFirstName,
-	enrollmentMissingAddress,
-} from '../../../hooks/__mocks__/useApi';
+import { enrollmentMissingAddress } from '../../../hooks/__mocks__/useApi';
 import EnrollmentEdit from './EnrollmentEdit';
 import { accessibilityTestHelper } from '../../accessibilityTestHelper';
 import { completeEnrollment } from '../../../tests/data';
+import ChildInfo from '../_sections/ChildInfo';
+import { DeepNonUndefineable } from '../../../utils/types';
+import { Enrollment } from '../../../generated';
 
 const fakeDate = '2019-03-02';
 
@@ -30,36 +30,6 @@ afterAll(() => {
 const history = createBrowserHistory();
 
 describe('EnrollmentEdit', () => {
-	describe('child info', () => {
-		it('shows an error if rendered without a child first name', async () => {
-			const { getByText } = render(
-				<CommonContextProviderMock>
-					<EnrollmentEdit
-						history={history}
-						match={{
-							params: {
-								enrollmentId: enrollmentMissingFirstName.id,
-								sectionId: 'child-information',
-							},
-						}}
-					/>
-				</CommonContextProviderMock>
-			);
-
-			// Save without entering any data
-			fireEvent.click(getByText('Save'));
-			// TODO: also try with keyboard event?
-
-			const firstNameErr = await waitForElement(() =>
-				getByText('This information is required for enrollment')
-			);
-
-			expect(firstNameErr).toBeInTheDocument();
-			// TODO: the id needs to be updated-- this will probably mess things up
-			expect(firstNameErr.id).toBe('child-firstname-error');
-		});
-	});
-
 	describe('family info', () => {
 		it('shows a fieldset warning if there is no address', () => {
 			const { getByRole } = render(

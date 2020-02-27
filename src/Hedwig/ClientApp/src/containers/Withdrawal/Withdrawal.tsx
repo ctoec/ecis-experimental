@@ -9,7 +9,6 @@ import {
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest,
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
 	ValidationProblemDetails,
-	ValidationProblemDetailsFromJSON,
 	ReportingPeriod,
 } from '../../generated';
 import { nameFormatter, splitCamelCase, childWithdrawnAlert } from '../../utils/stringFormatters';
@@ -30,11 +29,15 @@ import {
 	serverErrorForField,
 	useFocusFirstError,
 	hasValidationErrors,
+	isBlockingValidationError,
 } from '../../utils/validations';
 import ReportingPeriodContext from '../../contexts/ReportingPeriod/ReportingPeriodContext';
 import { processBlockingValidationErrors } from '../../utils/validations/processBlockingValidationErrors';
 import AlertContext from '../../contexts/Alert/AlertContext';
-import { missingInformationForWithdrawalAlert } from '../../utils/stringFormatters/alertTextMakers';
+import {
+	validationErrorAlert,
+	missingInformationForWithdrawalAlert,
+} from '../../utils/stringFormatters/alertTextMakers';
 
 type WithdrawalProps = {
 	history: History;
@@ -81,7 +84,6 @@ export default function Withdrawal({
 	const [reportingPeriodOptions, updateReportingPeriodOptions] = useState(reportingPeriods);
 
 	const [attemptedSave, setAttemptedSave] = useState(false);
-	const [apiError, setApiError] = useState<ValidationProblemDetails>();
 
 	const fundings =
 		enrollment && enrollment.fundings
@@ -89,6 +91,18 @@ export default function Withdrawal({
 			: ([] as DeepNonUndefineable<Funding[]>);
 	const cdcFundings = fundings.filter(funding => funding.source === FundingSource.CDC);
 	const cdcFunding = currentCdcFunding(cdcFundings);
+
+	// set up form state
+	useFocusFirstError([error]);
+	const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
+	useEffect(() => {
+		if (error && !hasAlertedOnError) {
+			if (!isBlockingValidationError(error)) {
+				throw new Error(error.title || 'Unknown api error');
+			}
+			setAlerts([validationErrorAlert]);
+		}
+	}, [error, hasAlertedOnError]);
 
 	useEffect(() => {
 		if (reportingPeriods) {
@@ -107,9 +121,7 @@ export default function Withdrawal({
 		}
 	}, [enrollment, isMissingInformation, history, setAlerts]);
 
-	useFocusFirstError([apiError]);
-
-	if (loading || error || !enrollment) {
+	if (loading || !enrollment) {
 		return <div className="Withdrawl"></div>;
 	}
 
@@ -155,14 +167,12 @@ export default function Withdrawal({
 			},
 		};
 
-		mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams))
-			.then(() => {
+		mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams)).then(() => {
+			if (!error) {
 				setAlerts([childWithdrawnAlert(nameFormatter(enrollment.child))]);
 				history.push(`/roster`);
-			})
-			.catch(async error => {
-				setApiError(await ValidationProblemDetailsFromJSON(error));
-			});
+			}
+		});
 	};
 
 	return (
@@ -212,8 +222,12 @@ export default function Withdrawal({
 										message:
 											'ECE Reporter only contains data for fiscal year 2020 and later. Please do not add children who withdrew prior to July 2019.',
 								  }
-								: apiError && processBlockingValidationErrors('exit', apiError.errors)
-								? serverErrorForField('exit', apiError)
+								: error &&
+								  processBlockingValidationErrors(
+										'exit',
+										(error as ValidationProblemDetails).errors
+								  )
+								? serverErrorForField(hasAlertedOnError, setHasAlertedOnError, 'exit', error)
 								: clientErrorForField(
 										'exit',
 										enrollmentEndDate,
@@ -233,8 +247,10 @@ export default function Withdrawal({
 						otherInputLabel="Other"
 						onChange={event => updateExitReason(event.target.value)}
 						status={serverErrorForField(
+							hasAlertedOnError,
+							setHasAlertedOnError,
 							'exitreason',
-							apiError,
+							error,
 							'This information is required for withdrawal'
 						)}
 					/>
@@ -254,9 +270,11 @@ export default function Withdrawal({
 								updateLastReportingPeriod(chosen);
 							}}
 							status={serverErrorForField(
+								hasAlertedOnError,
+								setHasAlertedOnError,
 								'fundings',
-								apiError,
-								'This information is required for withdrawal'
+								error,
+								lastReportingPeriod ? undefined : 'This information is required for withdrawal'
 							)}
 						/>
 					)}

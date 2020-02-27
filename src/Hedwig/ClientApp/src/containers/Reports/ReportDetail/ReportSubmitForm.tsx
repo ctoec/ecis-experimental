@@ -4,16 +4,9 @@ import {
 	ApiOrganizationsOrgIdReportsIdPutRequest,
 	ApiOrganizationsOrgIdEnrollmentsGetRequest,
 } from '../../../generated';
-import useApi, { Mutate } from '../../../hooks/useApi';
+import useApi, { Mutate, ApiError } from '../../../hooks/useApi';
 import UserContext from '../../../contexts/User/UserContext';
-import {
-	Button,
-	TextInput,
-	ChoiceList,
-	AlertProps,
-	FieldSet,
-	ErrorBoundary,
-} from '../../../components';
+import { Button, TextInput, ChoiceList, FieldSet, ErrorBoundary } from '../../../components';
 import AppContext from '../../../contexts/App/AppContext';
 import currencyFormatter from '../../../utils/currencyFormatter';
 import parseCurrencyFromString from '../../../utils/parseCurrencyFromString';
@@ -25,20 +18,26 @@ import { DeepNonUndefineable } from '../../../utils/types';
 import {
 	useFocusFirstError,
 	serverErrorForField,
-	clientErrorForField,
+	isBlockingValidationError,
 } from '../../../utils/validations';
-import { ValidationProblemDetails, ValidationProblemDetailsFromJSON } from '../../../generated';
 import usePromiseExecution from '../../../hooks/usePromiseExecution';
 import { reportSubmittedAlert, reportSubmitFailAlert } from '../../../utils/stringFormatters';
 import pluralize from 'pluralize';
+import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
 
 export type ReportSubmitFormProps = {
 	report: DeepNonUndefineable<CdcReport>;
 	mutate: Mutate<CdcReport>;
+	error: ApiError | null;
 	canSubmit: boolean;
 };
 
-export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSubmitFormProps) {
+export default function ReportSubmitForm({
+	report,
+	mutate,
+	error,
+	canSubmit,
+}: ReportSubmitFormProps) {
 	const history = useHistory();
 	const asOf = report.submittedAt ? report.submittedAt : undefined;
 	const [accredited, setAccredited] = useState(report.accredited);
@@ -85,9 +84,17 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 		}
 	}, [allEnrollments]);
 
-	const [apiError, setApiError] = useState<ValidationProblemDetails>();
-
-	useFocusFirstError([apiError]);
+	// set up form state
+	useFocusFirstError([error]);
+	const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
+	useEffect(() => {
+		if (error && !hasAlertedOnError) {
+			if (!isBlockingValidationError(error)) {
+				throw new Error(error.title || 'Unknown api error');
+			}
+			setAlerts([validationErrorAlert]);
+		}
+	}, [error, hasAlertedOnError]);
 
 	function updatedReport(): CdcReport {
 		return {
@@ -106,24 +113,20 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 				...params,
 				cdcReport: updatedReport(),
 			})
-		)
-			.then(res => {
-				if (res) {
-					const newAlert = reportSubmittedAlert(report.reportingPeriod);
-					const newAlerts = [...alerts, newAlert];
-					setAlerts(newAlerts);
-					invalidateAppCache(); // Updates the count of unsubmitted reports in the nav bar
-					history.push('/reports', newAlerts);
-				}
-			})
-			.catch(error => {
-				setApiError(ValidationProblemDetailsFromJSON(error));
-			});
+		).then(res => {
+			if (res) {
+				const newAlert = reportSubmittedAlert(report.reportingPeriod);
+				const newAlerts = [...alerts, newAlert];
+				setAlerts(newAlerts);
+				invalidateAppCache(); // Updates the count of unsubmitted reports in the nav bar
+				history.push('/reports', newAlerts);
+			}
+		});
 	}
 	const { isExecuting: isMutating, setExecuting: onSubmit } = usePromiseExecution(_onSubmit);
 
 	return (
-		<ErrorBoundary alertProps={reportSubmitFailAlert as AlertProps}>
+		<ErrorBoundary alertProps={reportSubmitFailAlert}>
 			{report.submittedAt && (
 				<p>
 					<b>Submitted:</b> {report.submittedAt.toLocaleDateString()}{' '}
@@ -168,8 +171,10 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 						optional={true}
 						disabled={!!report.submittedAt}
 						status={serverErrorForField(
-							'c4krevenue',
-							apiError,
+							hasAlertedOnError,
+							setHasAlertedOnError,
+							'report.c4krevenue',
+							error,
 							'This information is required for the report'
 						)}
 					/>
@@ -199,8 +204,10 @@ export default function ReportSubmitForm({ report, mutate, canSubmit }: ReportSu
 						}
 						disabled={!!report.submittedAt}
 						status={serverErrorForField(
+							hasAlertedOnError,
+							setHasAlertedOnError,
 							'familyfeesrevenue',
-							apiError,
+							error,
 							'This information is required'
 						)}
 					/>

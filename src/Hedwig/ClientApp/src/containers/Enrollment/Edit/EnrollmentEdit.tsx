@@ -74,7 +74,7 @@ export default function EnrollmentEdit({
 		return <PageNotFound />;
 	}
 
-	if (loading || error || !enrollment) {
+	if (loading || !enrollment) {
 		return <div className="EnrollmentEdit"></div>;
 	}
 
@@ -105,11 +105,12 @@ export default function EnrollmentEdit({
 			<div className="grid-container">
 				<h1>Edit {section.name.toLowerCase()}</h1>
 				<p className="usa-intro">{nameFormatter(enrollment.child)}</p>
-				<ErrorBoundary alertProps={editSaveFailAlert as AlertProps}>
+				<ErrorBoundary alertProps={editSaveFailAlert}>
 					<section.Form
 						siteId={siteId}
 						enrollment={enrollment}
 						mutate={mutate}
+						error={error}
 						successCallback={afterSave}
 					/>
 				</ErrorBoundary>

@@ -44,7 +44,8 @@ export default function Roster() {
 	};
 	const [organizationLoading, organizationError, organization] = useApi(
 		api => api.apiOrganizationsIdGet(orgParams),
-		[user]
+		[user],
+		{ skip: !user }
 	);
 
 	const sites = organization && organization.sites;
@@ -59,9 +60,11 @@ export default function Roster() {
 		startDate: (dateRange && dateRange.startDate && dateRange.startDate.toDate()) || undefined,
 		endDate: (dateRange && dateRange.endDate && dateRange.endDate.toDate()) || undefined,
 	};
+
 	const [enrollmentLoading, enrollmentError, _enrollments] = useApi(
 		api => api.apiOrganizationsOrgIdEnrollmentsGet(enrollmentParams),
-		[user, dateRange, organization]
+		[user, dateRange, organization],
+		{ skip: !user || !siteIds.length }
 	);
 
 	if (

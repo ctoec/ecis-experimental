@@ -1,7 +1,8 @@
 import React from 'react';
 
+export type AlertType = 'success' | 'warning' | 'error' | 'info';
 export type AlertProps = {
-	type: 'success' | 'warning' | 'error' | 'info';
+	type: AlertType;
 	text: string | JSX.Element;
 	heading?: string;
 	actionItem?: JSX.Element;

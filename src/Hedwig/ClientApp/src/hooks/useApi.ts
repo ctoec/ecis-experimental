@@ -1,15 +1,22 @@
 import { useContext, useEffect, useState, DependencyList, useCallback } from 'react';
-import { Configuration, HedwigApi } from '../generated';
+import {
+	Configuration,
+	HedwigApi,
+	ValidationProblemDetailsFromJSON,
+	ProblemDetailsFromJSON,
+} from '../generated';
 import getCurrentHost from '../utils/getCurrentHost';
 import AuthenticationContext from '../contexts/Authentication/AuthenticationContext';
 import { DeepNonUndefineable } from '../utils/types';
+import { ValidationProblemDetails, ProblemDetails } from '../generated';
 
+export type ApiError = ValidationProblemDetails | ProblemDetails;
 export type Reducer<TData> = (data: TData, result: TData) => TData;
 export type Query<TData> = (api: HedwigApi) => Promise<TData>;
 export type Mutate<TData> = (
 	query: Query<TData>,
 	reducer?: Reducer<TData | undefined>
-) => Promise<TData | undefined>;
+) => Promise<TData | void>;
 
 interface ApiParamOpts<T> {
 	defaultValue?: T;
@@ -19,12 +26,17 @@ interface ApiParamOpts<T> {
 
 interface ApiState<T> {
 	loading: boolean;
-	error: string | null;
+	error: ApiError | null;
 	data?: T;
 	skip: boolean;
 }
 
-export type ApiResult<TData> = [boolean, string | null, DeepNonUndefineable<TData>, Mutate<TData>];
+export type ApiResult<TData> = [
+	boolean,
+	ApiError | null,
+	DeepNonUndefineable<TData>,
+	Mutate<TData>
+];
 
 export default function useApi<TData>(
 	query: (api: HedwigApi) => Promise<TData>,
@@ -65,6 +77,28 @@ export default function useApi<TData>(
 		  )
 		: null;
 
+	// Create error handling functions
+	const handleError = async (_error: any) => {
+		try {
+			const apiError = await parseError(_error);
+			setState(state => {
+				return { ...state, error: apiError };
+			});
+		} catch {
+			throw new Error('Unknown error');
+		}
+	};
+
+	const parseError: (_error: any) => Promise<ApiError | null> = async (_error: any) => {
+		const jsonResponse = await _error.json();
+
+		if (_error.status === 400) {
+			return ValidationProblemDetailsFromJSON(jsonResponse) || null;
+		}
+
+		return ProblemDetailsFromJSON(jsonResponse) || null;
+	};
+
 	// Create mutate function
 	const mutate = useCallback<Mutate<TData>>(
 		(_query, reducer = (_, result) => result) => {
@@ -84,15 +118,8 @@ export default function useApi<TData>(
 					});
 					return result;
 				})
-				.catch(async _error => {
-					if (_error.status > 400) {
-						setState(_state => {
-							return { ..._state, loading: false, error: _error.toString() };
-						});
-						return;
-					}
-
-					return Promise.reject(await _error.json());
+				.catch(async apiError => {
+					await handleError(apiError);
 				});
 		},
 		[api, data]
@@ -120,16 +147,8 @@ export default function useApi<TData>(
 					callback(result);
 				}
 			})
-			.catch(async _error => {
-				if (_error.status > 400) {
-					setState({ ...state, loading: false, error: _error.toString() });
-					return;
-				}
-				if (_error && _error.json) {
-					return Promise.reject(await _error.json());
-				} else {
-					return Promise.reject(_error);
-				}
+			.catch(async apiError => {
+				await handleError(apiError);
 			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [...deps, accessToken]);
