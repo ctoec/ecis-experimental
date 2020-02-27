@@ -119,7 +119,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 					// Make label sr only because it's in a fieldset
 					className="oec-date-input__text"
 					inputProps={{
-						onKeyUp: (e: { key: string; }) => {
+						onKeyUp: (e: { key: string }) => {
 							if (e.key === 'Enter') {
 								onStringDateChange(stringDate);
 							}
@@ -141,7 +141,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 						}`}
 					>
 						<DayPickerSingleDateController
-							key={JSON.stringify({ stringDate, dateIsInvalid, currentDate})}
+							key={JSON.stringify({ stringDate, dateIsInvalid, currentDate })}
 							date={currentDate}
 							onDateChange={newDate => {
 								setStringDate(newDate ? newDate.format(momentFormat) : undefined);
