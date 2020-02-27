@@ -54,6 +54,11 @@ import useApi from '../../../hooks/useApi';
 import getFundingSpaceCapacity from '../../../utils/getFundingSpaceCapacity';
 import usePromiseExecution from '../../../hooks/usePromiseExecution';
 
+type UtilizationRate = {
+	capacity: number;
+	numEnrolled: number;
+};
+
 const EnrollmentFunding: Section = {
 	key: 'enrollment-funding',
 	name: 'Enrollment and funding',
@@ -339,15 +344,10 @@ const EnrollmentFunding: Section = {
 
 		// TODO: make alert wider?
 		// TODO: do we care which reporting periods it violates this constraint for, or just the current one?
-		type UtilizationRate = {
-			capacity: number;
-			numEnrolled: number;
-		};
 		const [utilizationRate, setUtilizationRate] = useState<UtilizationRate>();
-		const newlySetCdcFunding = !cdcFunding && fundingSelection.source === FundingType.CDC;
 		const thisPeriod = currentReportingPeriod(reportingPeriods);
 		useEffect(() => {
-			if (!site || !site.enrollments || !(cdcFunding || newlySetCdcFunding) || !thisPeriod) {
+			if (!site || !site.enrollments || !thisPeriod) {
 				return;
 			}
 			// This and below will need rewritten if we have more than just CDC in the dropdown
@@ -368,8 +368,13 @@ const EnrollmentFunding: Section = {
 						},
 					})
 			);
-
-			const numEnrolled = enrolled.length + (newlySetCdcFunding ? 1 : 0);
+			const newCdcFunding = !cdcFunding && fundingSelection.source === FundingType.CDC;
+			const removedCdcFunding =
+				cdcFunding &&
+				(fundingSelection.source === FundingType.PRIVATE_PAY ||
+					fundingSelection.source === FundingType.UNSELECTED);
+			const countDifferent = newCdcFunding ? 1 : removedCdcFunding ? -1 : 0;
+			const numEnrolled = enrolled.length + countDifferent;
 			setUtilizationRate({ capacity, numEnrolled });
 		}, [site, fundingSelection, _enrollment.ageGroup, thisPeriod]);
 
