@@ -22,13 +22,13 @@ namespace Hedwig.Data
 		{
 			DeleteAllData();
 
-			var organization = CreateOrganization();
+			var organization = CreateOrganization(name: "Hogwarts Child Development Center, Inc.");
 
 			CreateFundingSpace(organizationId: organization.Id, ageGroup: Age.InfantToddler, time: FundingTime.Full, capacity: 10);
 			CreateFundingSpace(organizationId: organization.Id, ageGroup: Age.Preschool, time: FundingTime.Full, capacity: 20);
 
-			var site = CreateSite(organizationId: organization.Id);
-			var site1 = CreateSite(organizationId: organization.Id, name: "The Good Place");
+			var site = CreateSite(organizationId: organization.Id, name: "Gryffindor Day Care Center");
+			var site1 = CreateSite(organizationId: organization.Id, name: "Helga Hufflepuff Day Care");
 
 			var user = CreateUser(wingedKeysId: Guid.Parse("2c0ec653-8829-4aa1-82ba-37c8832bbb88"));
 
