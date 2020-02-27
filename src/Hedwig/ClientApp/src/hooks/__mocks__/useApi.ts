@@ -153,11 +153,7 @@ export const mockApi = {
 		}, {});
 		return [false, null, mappedChildToEnrollment];
 	},
-	apiOrganizationsOrgIdSitesIdGet: (params: any) => [
-		false,
-		null,
-		site,
-	],
+	apiOrganizationsOrgIdSitesIdGet: (params: any) => [false, null, site],
 	apiOrganizationsOrgIdSitesSiteIdEnrollmentsGet: (params: any) => [
 		false,
 		null,
