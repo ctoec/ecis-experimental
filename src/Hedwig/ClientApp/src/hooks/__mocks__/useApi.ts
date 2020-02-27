@@ -17,6 +17,14 @@ const enrollmentValidationError = [
 	},
 ];
 
+const site = {
+	id: 1,
+	name: "Children's Adventure Center",
+	organizationId: 1,
+	enrollments: undefined,
+	organization: undefined,
+};
+
 export const enrollmentMissingBirthCertId = swapFields(completeEnrollment, [
 	{ keys: ['child', 'birthCertificateId'], newValue: undefined },
 	{ keys: ['id'], newValue: 2 },
@@ -145,17 +153,7 @@ export const mockApi = {
 		}, {});
 		return [false, null, mappedChildToEnrollment];
 	},
-	apiOrganizationsOrgIdSitesIdGet: (params: any) => [
-		false,
-		null,
-		{
-			id: 1,
-			name: "Children's Adventure Center",
-			organizationId: 1,
-			enrollments: undefined,
-			organization: undefined,
-		},
-	],
+	apiOrganizationsOrgIdSitesIdGet: (params: any) => [false, null, site],
 	apiOrganizationsOrgIdSitesSiteIdEnrollmentsGet: (params: any) => [
 		false,
 		null,
