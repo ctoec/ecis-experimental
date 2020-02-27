@@ -21,9 +21,8 @@ describe('enrollment sections', () => {
 				/>
 			);
 
-			// TODO: the id needs to be updated-- this will probably mess things up
-			const firstNameErr = await findByText('This information is required for enrollment');
-			expect(firstNameErr.id).toBe('child-firstname-error');
+			const firstNameInput = (await findByText('First name')).closest('div');
+			expect(firstNameInput).toHaveTextContent('This information is required for enrollment');
 		});
 
 		it('shows an error if rendered without a child last name', async () => {
@@ -39,8 +38,8 @@ describe('enrollment sections', () => {
 				/>
 			);
 
-			const lastNameErr = await findByText('This information is required for enrollment');
-			expect(lastNameErr.id).toBe('child-lastname-error');
+			const lastNameInput = (await findByText('Last name')).closest('div');
+			expect(lastNameInput).toHaveTextContent('This information is required for enrollment');
 		});
 	});
 });
