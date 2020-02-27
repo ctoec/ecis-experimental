@@ -14,6 +14,7 @@ services:
       WingedKeysUri: 'https://winged-keys:5050'
       CLIENT_HOST: 'http://client:3000'
       DOCKER_DEVELOPMENT: 'true'
+      ASPNETCORE_ENVIRONMENT: Development
     volumes:
       - ./src/Hedwig:/app/src/Hedwig:cached
       - ./test/HedwigTests:/app/test/HedwigTests:cached
