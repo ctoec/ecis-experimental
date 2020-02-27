@@ -7,10 +7,13 @@ import { DateInput, FormStatusProps } from '..';
 
 const commonProps = {
 	onChange: action('onChange'),
-	date: moment('2019-10-30'),
 	label: 'Date',
 	id: 'dateinput-example',
 };
+const commonPropsWithDefault = {
+	...commonProps,
+	date: moment('2019-10-30'),
+}
 const error: FormStatusProps = {
 	type: 'error',
 	message: 'Pick a better date',
@@ -28,21 +31,24 @@ const success: FormStatusProps = {
 };
 
 storiesOf('Date input', module)
-	.add('Default', () => {
+	.add('Default with no date set', () => {
 		return <DateInput {...commonProps} />;
 	})
+	.add('Default with date', () => {
+		return <DateInput {...commonPropsWithDefault} />;
+	})
 	.add('Optional', () => {
-		return <DateInput {...commonProps} optional={true} />;
+		return <DateInput {...commonPropsWithDefault} optional={true} />;
 	})
 	.add('Disabled day input', () => {
-		return <DateInput {...commonProps} disabled />;
+		return <DateInput {...commonPropsWithDefault} disabled />;
 	})
 	.add('Success', () => {
-		return <DateInput {...commonProps} status={success} />;
+		return <DateInput {...commonPropsWithDefault} status={success} />;
 	})
 	.add('Warning', () => {
-		return <DateInput {...commonProps} status={warning} />;
+		return <DateInput {...commonPropsWithDefault} status={warning} />;
 	})
 	.add('Error', () => {
-		return <DateInput {...commonProps} status={error} />;
+		return <DateInput {...commonPropsWithDefault} status={error} />;
 	});
