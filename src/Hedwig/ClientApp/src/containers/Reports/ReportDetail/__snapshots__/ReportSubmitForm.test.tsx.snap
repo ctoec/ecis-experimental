@@ -111,7 +111,7 @@ exports[`ReportSubmitForm matches snapshot 1`] = `
         <td
           class=" oec-table__cell--red"
         >
-          5/2 spaces
+          4/2 spaces
         </td>
         <td>
           $165.32
@@ -136,7 +136,7 @@ exports[`ReportSubmitForm matches snapshot 1`] = `
         <td
           class="oec-table__cell--strong oec-table__cell--red"
         >
-          5/2 spaces
+          4/2 spaces
         </td>
         <td />
         <td

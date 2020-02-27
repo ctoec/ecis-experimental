@@ -34,14 +34,6 @@ export default function ReportDetail() {
 
 	let additionalAlerts: AlertProps[] = [];
 
-	if (error) {
-		additionalAlerts.push({
-			type: 'error',
-			heading: 'Something went wrong',
-			text: 'There was an error loading the report',
-		});
-	}
-
 	if (numEnrollmentsMissingInfo) {
 		additionalAlerts.push(updateRosterAlert(numEnrollmentsMissingInfo));
 	}
@@ -77,6 +69,7 @@ export default function ReportDetail() {
 				<ReportSubmitForm
 					report={report}
 					mutate={mutate}
+					error={error}
 					canSubmit={numEnrollmentsMissingInfo === 0}
 				/>
 			</div>

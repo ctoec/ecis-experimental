@@ -1,5 +1,5 @@
 import React from 'react';
-import { AlertProps, Button } from '../../components';
+import { AlertProps, Button, AlertType } from '../../components';
 import { ReportingPeriod } from '../../generated';
 import { reportingPeriodFormatter } from '../models';
 import pluralize from 'pluralize';
@@ -58,11 +58,11 @@ const MailToLink = () => (
 		oec-data-pilot@skylight.digital
 	</a>
 );
-const saveFailAlertProps = {
+const saveFailAlertProps: { type: AlertType; heading: string } = {
 	type: 'error',
 	heading: 'Something went wrong',
 };
-export const reportSubmitFailAlert = {
+export const reportSubmitFailAlert: AlertProps = {
 	...saveFailAlertProps,
 	text: (
 		<span>
@@ -71,7 +71,7 @@ export const reportSubmitFailAlert = {
 		</span>
 	),
 };
-export const editSaveFailAlert = {
+export const editSaveFailAlert: AlertProps = {
 	...saveFailAlertProps,
 	text: (
 		<span>
@@ -80,7 +80,7 @@ export const editSaveFailAlert = {
 		</span>
 	),
 };
-export const stepListSaveFailAlert = {
+export const stepListSaveFailAlert: AlertProps = {
 	// new enrollments
 	...saveFailAlertProps,
 	text: (
@@ -96,4 +96,17 @@ export const missingInformationForWithdrawalAlert: AlertProps = {
 	heading: 'Information needed to withdraw child',
 	text:
 		'To withdraw a child from a funded space in your program, they cannot have any missing information. Please enter all missing information indicated below to withdraw this child.',
+};
+
+export const validationErrorAlert: AlertProps = {
+	...saveFailAlertProps,
+	text: (
+		<span>
+			We couldn't save your changes because we detected a potential inconsistency in the data. This
+			shouldn't have happened. Our team has been notified of the problem.
+			<br />
+			You may still be able to update other children on your roster. Please wait to submit a report
+			to OEC until the problem is fixed. For updates, contact {<MailToLink />}.
+		</span>
+	),
 };

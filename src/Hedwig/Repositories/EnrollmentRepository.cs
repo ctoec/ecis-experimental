@@ -90,8 +90,8 @@ namespace Hedwig.Repositories
 				* A better solution for this will probably need to be determined, but for now, including un-tracked author on the enrollment ensures there is no clash. 
 				*/
 			var enrollment = enrollmentQuery.FirstOrDefault();
-			var author = _context.Users.AsNoTracking().FirstOrDefault(u => u.Id == enrollment.AuthorId);
-			enrollment.Author = author;
+			// var author = _context.Users.AsNoTracking().FirstOrDefault(u => u.Id == enrollment.AuthorId);
+			// enrollment.Author = author;
 			return Task.FromResult(enrollment);
 		}
 

@@ -11,8 +11,6 @@ import {
 	Funding,
 	FundingSource,
 	ReportingPeriod,
-	ValidationProblemDetails,
-	ValidationProblemDetailsFromJSON,
 	Enrollment,
 	ApiOrganizationsOrgIdSitesIdGetRequest,
 } from '../../../generated';
@@ -24,6 +22,9 @@ import {
 	warningForField,
 	warningForFieldSet,
 	serverErrorForField,
+	initialLoadErrorGuard,
+	useFocusFirstError,
+	isBlockingValidationError,
 } from '../../../utils/validations';
 import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
 import {
@@ -42,7 +43,6 @@ import {
 	isFunded,
 	currentReportingPeriod,
 } from '../../../utils/models';
-import initialLoadErrorGuard from '../../../utils/validations/initialLoadErrorGuard';
 import {
 	FundingSelection,
 	fundingSelectionFromString,
@@ -53,6 +53,8 @@ import { FormReducer, formReducer, updateData, toFormString } from '../../../uti
 import useApi from '../../../hooks/useApi';
 import getFundingSpaceCapacity from '../../../utils/getFundingSpaceCapacity';
 import usePromiseExecution from '../../../hooks/usePromiseExecution';
+import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
+import AlertContext from '../../../contexts/Alert/AlertContext';
 
 type UtilizationRate = {
 	capacity: number;
@@ -138,12 +140,32 @@ const EnrollmentFunding: Section = {
 		);
 	},
 
-	Form: ({ enrollment, siteId, mutate, successCallback, finallyCallback, visitedSections }) => {
+	Form: ({
+		enrollment,
+		siteId,
+		mutate,
+		error,
+		successCallback,
+		finallyCallback,
+		visitedSections,
+	}) => {
 		if (!enrollment) {
 			throw new Error('EnrollmentFunding rendered without an enrollment');
 		}
 
+		// set up form state
+		const { setAlerts } = useContext(AlertContext);
 		const initialLoad = visitedSections ? !visitedSections[EnrollmentFunding.key] : false;
+		const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
+		useFocusFirstError([error]);
+		useEffect(() => {
+			if (error && !hasAlertedOnError) {
+				if (!isBlockingValidationError(error)) {
+					throw new Error(error.title || 'Unknown api error');
+				}
+				setAlerts([validationErrorAlert]);
+			}
+		}, [error, hasAlertedOnError]);
 
 		const { user } = useContext(UserContext);
 		const { cdcReportingPeriods: reportingPeriods } = useContext(ReportingPeriodContext);
@@ -218,8 +240,6 @@ const EnrollmentFunding: Section = {
 				: nextPeriodsExcludingCurrent;
 			updateReportingPeriodOptions([...periods].sort(periodSorter));
 		}, [enrollment.entry, entry, reportingPeriods]);
-
-		const [apiError, setApiError] = useState<ValidationProblemDetails>();
 
 		const _save = () => {
 			let updatedFundings: Funding[] = [...fundings]
@@ -298,10 +318,7 @@ const EnrollmentFunding: Section = {
 
 				return mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
 					.then(res => {
-						if (successCallback && res) successCallback(res);
-					})
-					.catch(error => {
-						setApiError(ValidationProblemDetailsFromJSON(error));
+						if (successCallback && res && !error) successCallback(res);
 					})
 					.finally(() => {
 						finallyCallback && finallyCallback(EnrollmentFunding);
@@ -484,7 +501,7 @@ const EnrollmentFunding: Section = {
 							selected={toFormString(cdcReportingPeriod ? cdcReportingPeriod.id : undefined)}
 							status={initialLoadErrorGuard(
 								initialLoad,
-								serverErrorForField('fundings', apiError) ||
+								serverErrorForField(hasAlertedOnError, setHasAlertedOnError, 'fundings', error) ||
 									warningForField(
 										'firstReportingPeriod',
 										cdcFunding || null,

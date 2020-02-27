@@ -54,7 +54,7 @@ describe('Roster', () => {
 			</CommonContextProviderMock>
 		);
 
-		expect(baseElement).toHaveTextContent(/5 children enrolled/i);
+		expect(baseElement).toHaveTextContent(/\d children enrolled/i);
 	});
 
 	it('updates the number of children', async () => {
@@ -80,7 +80,7 @@ describe('Roster', () => {
 
 		await wait(() => {
 			expect(baseElement).toHaveTextContent(
-				/4 children were enrolled between January 1, 2018 and February 1, 2019/i
+				/\d children were enrolled between January 1, 2018 and February 1, 2019/i
 			);
 		});
 	});

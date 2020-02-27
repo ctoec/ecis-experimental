@@ -34,7 +34,7 @@ exports[`ReportDetail matches snapshot 1`] = `
           <p
             class="usa-alert__text"
           >
-            There are 3 enrollments missing information required to submit this report.
+            There are 2 enrollments missing information required to submit this report.
           </p>
         </div>
         <div
@@ -193,7 +193,7 @@ exports[`ReportDetail matches snapshot 1`] = `
           <td
             class=" oec-table__cell--red"
           >
-            5/2 spaces
+            4/2 spaces
           </td>
           <td>
             $165.32
@@ -218,7 +218,7 @@ exports[`ReportDetail matches snapshot 1`] = `
           <td
             class="oec-table__cell--strong oec-table__cell--red"
           >
-            5/2 spaces
+            4/2 spaces
           </td>
           <td />
           <td
