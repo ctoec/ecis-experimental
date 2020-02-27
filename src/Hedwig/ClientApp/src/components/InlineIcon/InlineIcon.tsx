@@ -5,7 +5,7 @@ import { ReactComponent as Success } from '../../../node_modules/uswds/dist/img/
 import { ReactComponent as ArrowDown } from '../../../node_modules/uswds/dist/img/arrow-down.svg';
 import cx from 'classnames';
 
-type Icon = 'attentionNeeded' | 'complete' | 'incomplete' | 'angleDown';
+type Icon = 'attentionNeeded' | 'complete' | 'incomplete' | 'arrowDown';
 
 export type InlineIconProps = {
 	icon: Icon;
@@ -36,7 +36,7 @@ export function InlineIcon({
 			text = 'incomplete';
 			iconComponent = <Error {...svgProps} />;
 			break;
-		case 'angleDown':
+		case 'arrowDown':
 			text = 'select dropdown';
 			iconComponent = <ArrowDown {...svgProps} />;
 			break;

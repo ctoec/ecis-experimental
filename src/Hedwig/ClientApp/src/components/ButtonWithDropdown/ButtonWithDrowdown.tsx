@@ -50,7 +50,7 @@ const ButtonWithDrowdown: React.FC<ButtonWithDrowdownProps> = ({
 					<span>
 						{text}&nbsp;
 						<InlineIcon
-							icon="angleDown"
+							icon="arrowDown"
 							className={dropdownProps && dropdownProps.className}
 							svgProps={dropdownProps && dropdownProps.svgProps}
 						/>
@@ -67,6 +67,7 @@ const ButtonWithDrowdown: React.FC<ButtonWithDrowdownProps> = ({
 			>
 				{options.map(option => (
 					<Link
+						key={option.value}
 						className={cx(styles.option)}
 						onClick={() => setIsComponentVisible(hide => !hide)}
 						to={option.value}
