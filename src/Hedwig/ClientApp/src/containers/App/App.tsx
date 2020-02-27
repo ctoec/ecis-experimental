@@ -41,7 +41,7 @@ const App: React.FC = () => {
 		).length;
 
 	const navItems: NavItemProps[] = [
-		{ type: 'primary', title: 'Program roster', path: '/roster' },
+		{ type: 'primary', title: 'Roster', path: '/roster' },
 		{
 			type: 'primary',
 			title:
