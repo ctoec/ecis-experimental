@@ -47,7 +47,22 @@ const RosterHeader: React.FC<RosterHeaderProps> = ({
 				<div className="margin-bottom-2 grid-row flex-first-baseline flex-space-between">
 					<h1 className="tablet:grid-col-auto">{organization.name}</h1>
 					<div className="tablet:grid-col-auto">
-						{/* <Button text="Enroll child" href={`/roster/sites/${site.id}/enroll`} className="margin-right-0" /> */}
+						<ButtonWithDrowdown
+							id="enroll-select"
+							className="margin-right-0"
+							text="Enroll child"
+							options={sites.map(s => ({
+								text: s.name || '',
+								value: `/roster/sites/${s.id}/enroll`,
+							}))}
+							dropdownProps={{
+								className: 'margin-left-1',
+								svgProps: { fill: 'currentColor' },
+							}}
+							optionsProps={{
+								className: 'position-absolute right-1',
+							}}
+						/>
 					</div>
 				</div>
 				<div className="margin-bottom-4 grid-row">

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import cx from 'classnames';
 
-import { Button, ButtonProps } from '..';
+import { Button, ButtonProps, InlineIcon } from '..';
 
 import styles from './ButtonWithDropdown.module.scss';
 import { Link } from 'react-router-dom';
@@ -17,6 +17,9 @@ type ButtonWithDrowdownProps = ButtonProps & {
 	id: string;
 	onChange?: (_: React.ChangeEvent<HTMLSelectElement>) => any;
 	options: ButtonOptionProps[];
+	className?: string;
+	dropdownProps?: { className: string } & { svgProps: React.SVGProps<SVGSVGElement> };
+	optionsProps?: { className: string };
 };
 
 const ButtonWithDrowdown: React.FC<ButtonWithDrowdownProps> = ({
@@ -24,25 +27,47 @@ const ButtonWithDrowdown: React.FC<ButtonWithDrowdownProps> = ({
 	appearance,
 	text,
 	options,
+	className,
+	dropdownProps,
+	optionsProps,
 }) => {
 	const { ref, isComponentVisible, setIsComponentVisible } = useHideOnLostFocus<HTMLDivElement>();
 
 	return (
-		<div id={id} ref={ref} className={cx(styles.container)}>
+		<div
+			id={id}
+			ref={ref}
+			className={cx(
+				styles.container,
+				{ [styles['container--button-unstyled']]: appearance === 'unstyled' },
+				className
+			)}
+		>
 			<Button
 				className={cx(styles['with-dropdown'])}
 				appearance={appearance}
 				text={
 					<span>
 						{text}&nbsp;
-						<div className={cx(styles['caret-down'])} />
+						<InlineIcon
+							icon="arrowDown"
+							className={dropdownProps && dropdownProps.className}
+							svgProps={dropdownProps && dropdownProps.svgProps}
+						/>
 					</span>
 				}
 				onClick={() => setIsComponentVisible(hide => !hide)}
 			/>
-			<div className={cx({ [styles.hidden]: !isComponentVisible }, styles.dropdown)}>
+			<div
+				className={cx(
+					optionsProps && optionsProps.className,
+					{ [styles.hidden]: !isComponentVisible },
+					styles.dropdown
+				)}
+			>
 				{options.map(option => (
 					<Link
+						key={option.value}
 						className={cx(styles.option)}
 						onClick={() => setIsComponentVisible(hide => !hide)}
 						to={option.value}
