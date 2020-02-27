@@ -181,6 +181,15 @@ const EnrollmentFunding: Section = {
 			enrollment: enrollment,
 		};
 
+		const siteParams: ApiOrganizationsOrgIdSitesIdGetRequest = {
+			// Separate query so that mutation doesn't try to update all the enrollments when user saves this one
+			// Otherwise we get "Enrollment exit reason is required for ended enrollments" validation errors on both site.enrollments and child.org.site.enrollments
+			id: validatePermissions(user, 'site', siteId) ? siteId : 0,
+			orgId: getIdForUser(user, 'org'),
+			include: ['organizations', 'enrollments', 'funding_spaces', 'fundings'],
+		};
+		const [, , site] = useApi(api => api.apiOrganizationsOrgIdSitesIdGet(siteParams), [user]);
+
 		const [_enrollment, updateEnrollment] = useReducer<
 			FormReducer<DeepNonUndefineable<Enrollment>>
 		>(formReducer, enrollment);
@@ -244,6 +253,76 @@ const EnrollmentFunding: Section = {
 				: nextPeriodsExcludingCurrent;
 			updateReportingPeriodOptions([...periods].sort(periodSorter));
 		}, [enrollment.entry, entry, reportingPeriods]);
+
+		// Dropdown options for funding type
+		const [fundingTypeOpts, setFundingTypeOpts] = useState<{ value: string; text: string }[]>([]);
+		useEffect(() => {
+			const orgFundingSpaces = idx(site, _ => _.organization.fundingSpaces);
+			// Give private pay as the only option when the organization has no funding spaces
+			// Or the family income is not disclosed and there was not a previous CDC funding
+			// The CDC funding includes information that we do not want to silently remove
+			if (!orgFundingSpaces || (familyDeterminationNotDisclosed(enrollment) && !cdcFunding)) {
+				setFundingTypeOpts([
+					{
+						value: 'privatePay',
+						text: 'Private pay',
+					},
+				]);
+				return;
+			}
+			// Show funding type options provided the organization has that funding
+			// space for the given age group. If an age group is not selected, only
+			// private pay will be available as an option.
+			const newFundingTypeOpts = orgFundingSpaces
+				.filter(space => space.ageGroup === _enrollment.ageGroup)
+				.map(space => ({
+					value: '' + space.time,
+					text: `${space.source} - ${prettyFundingTime(space.time)}`,
+				}));
+			setFundingTypeOpts([
+				...newFundingTypeOpts,
+				{
+					value: 'privatePay',
+					text: 'Private pay',
+				},
+			]);
+		}, [site, _enrollment.ageGroup, enrollment]);
+
+		// TODO: make alert wider?
+		// TODO: do we care which reporting periods it violates this constraint for, or just the current one?
+		const [utilizationRate, setUtilizationRate] = useState<UtilizationRate>();
+		const thisPeriod = currentReportingPeriod(reportingPeriods);
+		useEffect(() => {
+			if (!site || !site.enrollments || !thisPeriod) {
+				return;
+			}
+			// This and below will need rewritten if we have more than just CDC in the dropdown
+			const currentFundingOpts = {
+				source: FundingSource.CDC,
+				time: fundingSelection.time,
+				ageGroup: _enrollment.ageGroup,
+			};
+			const capacity = getFundingSpaceCapacity(site.organization, currentFundingOpts);
+			const enrolled = site.enrollments.filter<DeepNonUndefineable<Enrollment>>(
+				e =>
+					e.ageGroup === _enrollment.ageGroup &&
+					isFunded(e, {
+						...currentFundingOpts,
+						currentRange: {
+							startDate: moment(thisPeriod.periodStart),
+							endDate: moment(thisPeriod.periodEnd),
+						},
+					})
+			);
+			const newCdcFunding = !cdcFunding && fundingSelection.source === FundingType.CDC;
+			const removedCdcFunding =
+				cdcFunding &&
+				(fundingSelection.source === FundingType.PRIVATE_PAY ||
+					fundingSelection.source === FundingType.UNSELECTED);
+			const countDifferent = newCdcFunding ? 1 : removedCdcFunding ? -1 : 0;
+			const numEnrolled = enrolled.length + countDifferent;
+			setUtilizationRate({ capacity, numEnrolled });
+		}, [site, fundingSelection, _enrollment.ageGroup, thisPeriod]);
 
 		const _save = () => {
 			let updatedFundings: Funding[] = [...fundings]
@@ -333,82 +412,6 @@ const EnrollmentFunding: Section = {
 		};
 
 		const { isExecuting: isMutating, setExecuting: save } = usePromiseExecution(_save);
-
-		const siteParams: ApiOrganizationsOrgIdSitesIdGetRequest = {
-			// Separate query so that mutation doesn't try to update all the enrollments when user saves this one
-			// Otherwise we get "Enrollment exit reason is required for ended enrollments" validation errors on both site.enrollments and child.org.site.enrollments
-			id: validatePermissions(user, 'site', siteId) ? siteId : 0,
-			orgId: getIdForUser(user, 'org'),
-			include: ['organizations', 'enrollments', 'funding_spaces', 'fundings'],
-		};
-		const [, , site] = useApi(api => api.apiOrganizationsOrgIdSitesIdGet(siteParams), [user]);
-
-		// Dropdown options for funding type
-		const [fundingTypeOpts, setFundingTypeOpts] = useState<{ value: string; text: string }[]>([]);
-		useEffect(() => {
-			const orgFundingSpaces = idx(site, _ => _.organization.fundingSpaces);
-			// If the organization has no funding spaces
-			// Or if the family income is not disclosed and no previous cdc funding had been entered
-			// We do not want to automatically delete data if it has already been entered
-			if (!orgFundingSpaces || (familyDeterminationNotDisclosed(enrollment) && !cdcFunding)) {
-				setFundingTypeOpts([
-					{
-						value: 'privatePay',
-						text: 'Private pay',
-					},
-				]);
-				return;
-			}
-			const newFundingTypeOpts = orgFundingSpaces
-				.filter(space => space.ageGroup === _enrollment.ageGroup)
-				.map(space => ({
-					value: '' + space.time,
-					text: `${space.source} - ${prettyFundingTime(space.time)}`,
-				}));
-			setFundingTypeOpts([
-				...newFundingTypeOpts,
-				{
-					value: 'privatePay',
-					text: 'Private pay',
-				},
-			]);
-		}, [site, _enrollment.ageGroup, enrollment]);
-
-		// TODO: make alert wider?
-		// TODO: do we care which reporting periods it violates this constraint for, or just the current one?
-		const [utilizationRate, setUtilizationRate] = useState<UtilizationRate>();
-		const thisPeriod = currentReportingPeriod(reportingPeriods);
-		useEffect(() => {
-			if (!site || !site.enrollments || !thisPeriod) {
-				return;
-			}
-			// This and below will need rewritten if we have more than just CDC in the dropdown
-			const currentFundingOpts = {
-				source: FundingSource.CDC,
-				time: fundingSelection.time,
-				ageGroup: _enrollment.ageGroup,
-			};
-			const capacity = getFundingSpaceCapacity(site.organization, currentFundingOpts);
-			const enrolled = site.enrollments.filter<DeepNonUndefineable<Enrollment>>(
-				e =>
-					e.ageGroup === _enrollment.ageGroup &&
-					isFunded(e, {
-						...currentFundingOpts,
-						currentRange: {
-							startDate: moment(thisPeriod.periodStart),
-							endDate: moment(thisPeriod.periodEnd),
-						},
-					})
-			);
-			const newCdcFunding = !cdcFunding && fundingSelection.source === FundingType.CDC;
-			const removedCdcFunding =
-				cdcFunding &&
-				(fundingSelection.source === FundingType.PRIVATE_PAY ||
-					fundingSelection.source === FundingType.UNSELECTED);
-			const countDifferent = newCdcFunding ? 1 : removedCdcFunding ? -1 : 0;
-			const numEnrolled = enrolled.length + countDifferent;
-			setUtilizationRate({ capacity, numEnrolled });
-		}, [site, fundingSelection, _enrollment.ageGroup, thisPeriod]);
 
 		return (
 			<form className="EnrollmentFundingForm" onSubmit={save} noValidate autoComplete="off">
