@@ -72,7 +72,7 @@ exports[`matches snapshot 1`] = `
                   href="/roster"
                 >
                   <span>
-                    Program roster
+                    Roster
                   </span>
                 </a>
               </li>
