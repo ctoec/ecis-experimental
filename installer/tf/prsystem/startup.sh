@@ -64,4 +64,4 @@ sudo -i -u ubuntu bash -c 'sed -i "s|localhost|'"$publicIP"'|g" /home/ubuntu/ws/
 #---------------------------------------
 # Startup docker
 #---------------------------------------
-sudo bash -c 'cd /home/ubuntu/ws/ecis-experimental && docker-compose up --build >> /var/www/html/index.html 2>&1'
+sudo bash -c 'cd /home/ubuntu/ws/ecis-experimental && docker-compose up --build client >> /var/www/html/index.html 2>&1'
