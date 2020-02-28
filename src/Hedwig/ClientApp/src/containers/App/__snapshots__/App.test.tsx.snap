@@ -30,7 +30,7 @@ exports[`matches snapshot 1`] = `
             id="extended-logo"
           >
             <a
-              aria-label="FOR TEST: NOT - ECE Reporter home"
+              aria-label="ECE Reporter home"
               href="/"
             >
               <div
