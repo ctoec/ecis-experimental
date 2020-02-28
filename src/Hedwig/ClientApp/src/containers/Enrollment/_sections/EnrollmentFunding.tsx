@@ -416,22 +416,7 @@ const EnrollmentFunding: Section = {
 		return (
 			<form className="EnrollmentFundingForm" onSubmit={save} noValidate autoComplete="off">
 				<div className="usa-form">
-					<ChoiceList
-						type="select"
-						id="site"
-						name="siteId"
-						options={
-							idx(user, _ =>
-								_.orgPermissions[0].organization.sites.map(s => ({
-									value: `${s.id}`,
-									text: s.name,
-								}))
-							) || []
-						}
-						label="Site"
-						selected={toFormString(_enrollment.siteId)}
-						onChange={updateFormData(value => parseInt(value, 10))}
-					/>
+					<h2>{site && site.name}</h2>
 					<DatePicker
 						name="entry"
 						onChange={updateFormData(
