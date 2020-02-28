@@ -1,4 +1,5 @@
 import React from 'react';
+import 'react-dates/initialize';
 import { configure, addDecorator } from '@storybook/react';
 import StoryRouter from 'storybook-react-router';
 import requireContext from 'require-context.macro';

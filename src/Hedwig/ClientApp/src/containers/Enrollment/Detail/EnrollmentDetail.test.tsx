@@ -1,5 +1,4 @@
 import React from 'react';
-import 'react-dates/initialize';
 import { render } from '@testing-library/react';
 import EnrollmentDetail from './EnrollmentDetail';
 import CommonContextProviderMock from '../../../contexts/__mocks__/CommonContextProviderMock';

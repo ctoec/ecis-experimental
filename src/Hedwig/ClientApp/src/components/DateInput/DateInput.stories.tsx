@@ -2,7 +2,6 @@ import React from 'react';
 import moment from 'moment';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import 'react-dates/initialize';
 import { DateInput, FormStatusProps } from '..';
 
 const commonProps = {

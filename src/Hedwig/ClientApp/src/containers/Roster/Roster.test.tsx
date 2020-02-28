@@ -1,11 +1,8 @@
 import React from 'react';
 import { render, fireEvent, wait } from '@testing-library/react';
-import { createMemoryHistory, createBrowserHistory } from 'history';
-
-import 'react-dates/initialize';
+import { createMemoryHistory } from 'history';
 import mockdate from 'mockdate';
 import CommonContextProviderMock from '../../contexts/__mocks__/CommonContextProviderMock';
-
 import Roster from './Roster';
 import { accessibilityTestHelper } from '../accessibilityTestHelper';
 import { completeEnrollment } from '../../tests/data';
