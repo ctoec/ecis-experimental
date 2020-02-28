@@ -12,6 +12,7 @@ import Roster from './containers/Roster/Roster';
 import ReportsSummary from './containers/Reports/ReportsSummary/ReportsSummary';
 import ReportDetail from './containers/Reports/ReportDetail/ReportDetail';
 import Withdrawal from './containers/Withdrawal/Withdrawal';
+import FormTest from './containers/FormTest/FormTest';
 
 export type RouteConfig = {
 	path: string;
@@ -87,6 +88,10 @@ export const routes: RouteConfig[] = [
 	{
 		path: '/logout',
 		component: Login,
+	},
+	{
+		path: '/form-test',
+		component: FormTest,
 	},
 	{
 		path: '/:unknown',
