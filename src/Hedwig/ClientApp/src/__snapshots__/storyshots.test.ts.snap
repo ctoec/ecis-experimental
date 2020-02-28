@@ -1127,7 +1127,8 @@ exports[`Storyshots Date input Default with date 1`] = `
             </svg>
           </button>
           <div
-            className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+            className="oec-calendar-dropdown__calendar position-absolute z-top"
+            hidden={true}
           >
             &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
           </div>
@@ -1211,7 +1212,8 @@ exports[`Storyshots Date input Default with no date set 1`] = `
             </svg>
           </button>
           <div
-            className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+            className="oec-calendar-dropdown__calendar position-absolute z-top"
+            hidden={true}
           >
             &lt;DayPickerSingleDateController" {"date":null,"focused":false}/&gt;
           </div>
@@ -1297,7 +1299,8 @@ exports[`Storyshots Date input Disabled day input 1`] = `
             </svg>
           </button>
           <div
-            className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+            className="oec-calendar-dropdown__calendar position-absolute z-top"
+            hidden={true}
           >
             &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
           </div>
@@ -1392,7 +1395,8 @@ exports[`Storyshots Date input Error 1`] = `
             </svg>
           </button>
           <div
-            className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+            className="oec-calendar-dropdown__calendar position-absolute z-top"
+            hidden={true}
           >
             &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
           </div>
@@ -1482,7 +1486,8 @@ exports[`Storyshots Date input Optional 1`] = `
             </svg>
           </button>
           <div
-            className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+            className="oec-calendar-dropdown__calendar position-absolute z-top"
+            hidden={true}
           >
             &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
           </div>
@@ -1577,7 +1582,8 @@ exports[`Storyshots Date input Success 1`] = `
             </svg>
           </button>
           <div
-            className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+            className="oec-calendar-dropdown__calendar position-absolute z-top"
+            hidden={true}
           >
             &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
           </div>
@@ -1685,7 +1691,8 @@ exports[`Storyshots Date input Warning 1`] = `
             </svg>
           </button>
           <div
-            className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+            className="oec-calendar-dropdown__calendar position-absolute z-top"
+            hidden={true}
           >
             &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
           </div>
@@ -1793,7 +1800,8 @@ exports[`Storyshots DateRangeInput Default 1`] = `
                   </svg>
                 </button>
                 <div
-                  className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+                  className="oec-calendar-dropdown__calendar position-absolute z-top"
+                  hidden={true}
                 >
                   &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
                 </div>
@@ -1868,7 +1876,8 @@ exports[`Storyshots DateRangeInput Default 1`] = `
                   </svg>
                 </button>
                 <div
-                  className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+                  className="oec-calendar-dropdown__calendar position-absolute z-top"
+                  hidden={true}
                 >
                   &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
                 </div>
@@ -1980,7 +1989,8 @@ exports[`Storyshots DateRangeInput Disabled 1`] = `
                   </svg>
                 </button>
                 <div
-                  className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+                  className="oec-calendar-dropdown__calendar position-absolute z-top"
+                  hidden={true}
                 >
                   &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
                 </div>
@@ -2055,7 +2065,8 @@ exports[`Storyshots DateRangeInput Disabled 1`] = `
                   </svg>
                 </button>
                 <div
-                  className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+                  className="oec-calendar-dropdown__calendar position-absolute z-top"
+                  hidden={true}
                 >
                   &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
                 </div>
@@ -2176,7 +2187,8 @@ exports[`Storyshots DateRangeInput Error 1`] = `
                   </svg>
                 </button>
                 <div
-                  className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+                  className="oec-calendar-dropdown__calendar position-absolute z-top"
+                  hidden={true}
                 >
                   &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
                 </div>
@@ -2251,7 +2263,8 @@ exports[`Storyshots DateRangeInput Error 1`] = `
                   </svg>
                 </button>
                 <div
-                  className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+                  className="oec-calendar-dropdown__calendar position-absolute z-top"
+                  hidden={true}
                 >
                   &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
                 </div>
@@ -2367,7 +2380,8 @@ exports[`Storyshots DateRangeInput Optional 1`] = `
                   </svg>
                 </button>
                 <div
-                  className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+                  className="oec-calendar-dropdown__calendar position-absolute z-top"
+                  hidden={true}
                 >
                   &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
                 </div>
@@ -2442,7 +2456,8 @@ exports[`Storyshots DateRangeInput Optional 1`] = `
                   </svg>
                 </button>
                 <div
-                  className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+                  className="oec-calendar-dropdown__calendar position-absolute z-top"
+                  hidden={true}
                 >
                   &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
                 </div>
@@ -2563,7 +2578,8 @@ exports[`Storyshots DateRangeInput Success 1`] = `
                   </svg>
                 </button>
                 <div
-                  className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+                  className="oec-calendar-dropdown__calendar position-absolute z-top"
+                  hidden={true}
                 >
                   &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
                 </div>
@@ -2638,7 +2654,8 @@ exports[`Storyshots DateRangeInput Success 1`] = `
                   </svg>
                 </button>
                 <div
-                  className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+                  className="oec-calendar-dropdown__calendar position-absolute z-top"
+                  hidden={true}
                 >
                   &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
                 </div>
@@ -2772,7 +2789,8 @@ exports[`Storyshots DateRangeInput Warning 1`] = `
                   </svg>
                 </button>
                 <div
-                  className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+                  className="oec-calendar-dropdown__calendar position-absolute z-top"
+                  hidden={true}
                 >
                   &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
                 </div>
@@ -2847,7 +2865,8 @@ exports[`Storyshots DateRangeInput Warning 1`] = `
                   </svg>
                 </button>
                 <div
-                  className="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+                  className="oec-calendar-dropdown__calendar position-absolute z-top"
+                  hidden={true}
                 >
                   &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
                 </div>

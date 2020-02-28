@@ -180,7 +180,8 @@ exports[`Roster matches snapshot 1`] = `
                 </svg>
               </button>
               <div
-                class="oec-calendar-dropdown__calendar position-absolute z-top display-none"
+                class="oec-calendar-dropdown__calendar position-absolute z-top"
+                hidden=""
               >
                 <div
                   class="DayPicker DayPicker_1 DayPicker__horizontal DayPicker__horizontal_2 DayPicker__hidden DayPicker__hidden_3 DayPicker__withBorder DayPicker__withBorder_4"

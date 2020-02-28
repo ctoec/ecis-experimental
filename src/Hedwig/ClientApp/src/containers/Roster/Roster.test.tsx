@@ -55,7 +55,7 @@ describe('Roster', () => {
 	});
 
 	it('updates the number of children', async () => {
-		const { baseElement, getByText, getByPlaceholderText, getByLabelText } = render(
+		const { baseElement, getByText, getByLabelText } = render(
 			<CommonContextProviderMock>
 				<Roster />
 			</CommonContextProviderMock>
