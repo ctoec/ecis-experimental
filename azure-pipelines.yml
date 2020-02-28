@@ -145,6 +145,13 @@ jobs:
       tokenPrefix: "__"
       tokenSuffix: "__"
 
+  - task: PublishBuildArtifacts@1
+    displayName: "Publish Artifacts: hedwig-uncompiled-spa"
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    inputs:
+      pathToPublish: "$(Build.SourcesDirectory)/src/Hedwig/ClientApp"
+      artifactName: hedwig-uncompiled-spa
+
   - script: dotnet tool install --tool-path $(Agent.ToolsDirectory) dotnet-ef --version 3.0.0
     displayName: "Install EntityFramework"
 
