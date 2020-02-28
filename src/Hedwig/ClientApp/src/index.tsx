@@ -55,8 +55,8 @@ if (process.env.NODE_ENV === 'production') {
 		// Render the application regardless of Sentry registration
 		.finally(() => render(App));
 } else {
-	const axe = require('react-axe');
-	axe(React, ReactDOM, 1000);
+	// const axe = require('react-axe');
+	// axe(React, ReactDOM, 1000);
 	render(App);
 }
 

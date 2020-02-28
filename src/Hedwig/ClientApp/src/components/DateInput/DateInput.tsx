@@ -53,8 +53,6 @@ export const DateInput: React.FC<DateInputProps> = ({
 	hideHint = false,
 	name,
 }) => {
-	// TODO: default to empty date-- what should happen?
-
 	const [calendarOpen, setCalendarOpen] = useState<boolean>(false);
 	const [currentDate, setCurrentDate] = useState(date);
 	const [stringDate, setStringDate] = useState<string | undefined>(
@@ -136,12 +134,12 @@ export const DateInput: React.FC<DateInputProps> = ({
 						className="oec-calendar-toggle oec-calendar-dropdown__toggle"
 					/>
 					<div
-						className={`oec-calendar-dropdown__calendar position-absolute z-top ${
-							calendarOpen ? '' : 'display-none'
-						}`}
+						className="oec-calendar-dropdown__calendar position-absolute z-top"
+						hidden={!calendarOpen}
 					>
 						<DayPickerSingleDateController
-							key={JSON.stringify({ stringDate, dateIsInvalid, currentDate })}
+							// Key forces re-render, which helps deal with bugs in this library-- see scss file
+							key={JSON.stringify({ stringDate, dateIsInvalid, currentDate, calendarOpen })}
 							date={currentDate}
 							onDateChange={newDate => {
 								setStringDate(newDate ? newDate.format(momentFormat) : undefined);
