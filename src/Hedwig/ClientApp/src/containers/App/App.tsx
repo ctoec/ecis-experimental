@@ -36,9 +36,10 @@ const App: React.FC = () => {
 	);
 
 	const [, , site] = useApi(
-		api => api.apiOrganizationsIdGet({
-			id: getIdForUser(user, 'org')
-		}),
+		api =>
+			api.apiOrganizationsIdGet({
+				id: getIdForUser(user, 'org'),
+			}),
 		[user]
 	);
 
@@ -72,7 +73,7 @@ const App: React.FC = () => {
 				</a>
 				<Header
 					primaryTitle="ECE Reporter"
-					secondaryTitle={site && site.name || undefined}
+					secondaryTitle={(site && site.name) || undefined}
 					navItems={navItems}
 					loginPath="/login"
 					logoutPath="/logout"

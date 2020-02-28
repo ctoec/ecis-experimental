@@ -85,13 +85,16 @@ class HeaderWithoutRouter extends React.Component<HeaderProps & RouteComponentPr
 					className={cx('usa-overlay', { 'is-visible': this.state.menuIsVisible })}
 					onClick={this.hideMenu}
 				></div>
-				<header className={cx('usa-header', 'usa-header--extended', 'usa-header--oec-default')} role="banner">
+				<header
+					className={cx('usa-header', 'usa-header--extended', 'usa-header--oec-default')}
+					role="banner"
+				>
 					<div className={cx('usa-navbar')}>
 						<div className={cx('usa-logo')} id="extended-logo">
 							<Link to="/" aria-label={`${primaryTitle} home`}>
 								<div className={cx('usa-logo__text', 'display-flex', 'flex-align-center')}>
-									<div className='primary-title'>{primaryTitle}</div>
-									{secondaryTitle && <div className='secondary-title'>{secondaryTitle}</div>}
+									<div className="primary-title">{primaryTitle}</div>
+									{secondaryTitle && <div className="secondary-title">{secondaryTitle}</div>}
 								</div>
 							</Link>
 						</div>
