@@ -30,7 +30,7 @@ describe('Smoke screen', () => {
 		try {
 			const root = await load(driver, appUrl);
 			const { getByLocator } = render(root);
-			const header = await getByLocator({ css: 'header h1' });
+			const header = await getByLocator({ css: 'header div.primary-title' });
 			expect(await header.getText()).toBe('ECE Reporter');
 		} finally {
 			await driverHelper.quit(driver);

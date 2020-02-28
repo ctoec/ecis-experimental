@@ -90,10 +90,8 @@ class HeaderWithoutRouter extends React.Component<HeaderProps & RouteComponentPr
 						<div className={cx('usa-logo')} id="extended-logo">
 							<Link to="/" aria-label={`${primaryTitle} home`}>
 								<div className={cx('usa-logo__text', 'display-flex', 'flex-align-center')}>
-									<div>
-										<div className='primary-title'>{primaryTitle}</div>
-										{secondaryTitle && <div className='secondary-title'>{secondaryTitle}</div>}
-									</div>
+									<div className='primary-title'>{primaryTitle}</div>
+									{secondaryTitle && <div className='secondary-title'>{secondaryTitle}</div>}
 								</div>
 							</Link>
 						</div>
