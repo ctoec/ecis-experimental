@@ -35,6 +35,14 @@ const App: React.FC = () => {
 		}
 	);
 
+	const [, , site] = useApi(
+		api =>
+			api.apiOrganizationsIdGet({
+				id: getIdForUser(user, 'org'),
+			}),
+		[user]
+	);
+
 	const pendingReportsCount =
 		!loading &&
 		!error &&
@@ -64,7 +72,8 @@ const App: React.FC = () => {
 					Skip to main content
 				</a>
 				<Header
-					title="ECE Reporter"
+					primaryTitle="ECE Reporter"
+					secondaryTitle={(site && site.name) || undefined}
 					navItems={navItems}
 					loginPath="/login"
 					logoutPath="/logout"

@@ -7,7 +7,8 @@ import closeIcon from 'uswds/src/img/close.svg';
 import cx from 'classnames';
 
 export type HeaderProps = {
-	title: string;
+	primaryTitle: string;
+	secondaryTitle?: string;
 	navItems: NavItemProps[];
 	loginPath?: string;
 	logoutPath?: string;
@@ -58,7 +59,8 @@ class HeaderWithoutRouter extends React.Component<HeaderProps & RouteComponentPr
 
 	render() {
 		const {
-			title,
+			primaryTitle,
+			secondaryTitle,
 			navItems,
 			loginPath = '/login',
 			logoutPath = '/logout',
@@ -83,11 +85,17 @@ class HeaderWithoutRouter extends React.Component<HeaderProps & RouteComponentPr
 					className={cx('usa-overlay', { 'is-visible': this.state.menuIsVisible })}
 					onClick={this.hideMenu}
 				></div>
-				<header className={cx('usa-header', 'usa-header--extended')} role="banner">
+				<header
+					className={cx('usa-header', 'usa-header--extended', 'usa-header--oec-default')}
+					role="banner"
+				>
 					<div className={cx('usa-navbar')}>
 						<div className={cx('usa-logo')} id="extended-logo">
-							<Link to="/" aria-label={`${title} home`}>
-								<span className={cx('usa-logo__text')}>{title}</span>
+							<Link to="/" aria-label={`${primaryTitle} home`}>
+								<div className={cx('usa-logo__text', 'display-flex', 'flex-align-center')}>
+									<div className="primary-title">{primaryTitle}</div>
+									{secondaryTitle && <div className="secondary-title">{secondaryTitle}</div>}
+								</div>
 							</Link>
 						</div>
 						<button className={cx('usa-menu-btn')} onClick={this.showMenu}>
@@ -107,7 +115,7 @@ class HeaderWithoutRouter extends React.Component<HeaderProps & RouteComponentPr
 									<NavItem {...item} key={index} />
 								))}
 							</ul>
-							<div className={cx('usa-nav__secondary')}>
+							<div className={cx('usa-nav__secondary', 'usa-nav__secondary--extended')}>
 								<ul className={cx('usa-nav__secondary-links')}>
 									{secondaryNavItems.map((item, index) => (
 										<NavItem {...item} key={index} />

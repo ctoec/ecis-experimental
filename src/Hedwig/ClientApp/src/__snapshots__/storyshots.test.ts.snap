@@ -4224,7 +4224,7 @@ exports[`Storyshots Header Logged in 1`] = `
       onClick={[Function]}
     />
     <header
-      className="usa-header usa-header--extended"
+      className="usa-header usa-header--extended usa-header--oec-default"
       role="banner"
     >
       <div
@@ -4239,11 +4239,15 @@ exports[`Storyshots Header Logged in 1`] = `
             href="/"
             onClick={[Function]}
           >
-            <span
-              className="usa-logo__text"
+            <div
+              className="usa-logo__text display-flex flex-align-center"
             >
-              Hello world!
-            </span>
+              <div
+                className="primary-title"
+              >
+                Hello world!
+              </div>
+            </div>
           </a>
         </div>
         <button
@@ -4323,7 +4327,7 @@ exports[`Storyshots Header Logged in 1`] = `
             </li>
           </ul>
           <div
-            className="usa-nav__secondary"
+            className="usa-nav__secondary usa-nav__secondary--extended"
           >
             <ul
               className="usa-nav__secondary-links"
@@ -4393,7 +4397,7 @@ exports[`Storyshots Header Logged out 1`] = `
       onClick={[Function]}
     />
     <header
-      className="usa-header usa-header--extended"
+      className="usa-header usa-header--extended usa-header--oec-default"
       role="banner"
     >
       <div
@@ -4408,11 +4412,15 @@ exports[`Storyshots Header Logged out 1`] = `
             href="/"
             onClick={[Function]}
           >
-            <span
-              className="usa-logo__text"
+            <div
+              className="usa-logo__text display-flex flex-align-center"
             >
-              Hello world!
-            </span>
+              <div
+                className="primary-title"
+              >
+                Hello world!
+              </div>
+            </div>
           </a>
         </div>
         <button
@@ -4492,7 +4500,7 @@ exports[`Storyshots Header Logged out 1`] = `
             </li>
           </ul>
           <div
-            className="usa-nav__secondary"
+            className="usa-nav__secondary usa-nav__secondary--extended"
           >
             <ul
               className="usa-nav__secondary-links"
