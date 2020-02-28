@@ -1,6 +1,11 @@
 import { ThenableWebDriver, WebDriver, Builder } from 'selenium-webdriver';
 
-import { gridHost, browserStackAccesstoken, browserStackUsername, browserStackLocal } from "./config";
+import {
+	gridHost,
+	browserStackAccesstoken,
+	browserStackUsername,
+	browserStackLocal,
+} from './config';
 
 export type IWebDriver = ThenableWebDriver | WebDriver;
 

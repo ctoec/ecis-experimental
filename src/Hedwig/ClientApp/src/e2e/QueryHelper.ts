@@ -18,7 +18,10 @@ export const load = async (
 ) => {
 	await driver.get(url);
 	// This is needed for BrowserStack that does not maximize the browser
-	await driver.manage().window().maximize();
+	await driver
+		.manage()
+		.window()
+		.maximize();
 	return await waitForElement(driver, rootSelector, opt_timeout, opt_message);
 };
 
