@@ -156,6 +156,7 @@ $future-step-color: color('base-dark') !default;
 }
 
 .oec-enrollment-details-section {
+	@include u-padding-top(2);
 	@include u-padding-bottom(1);
 	border-bottom: units('1px') solid color('base-lighter');
 
