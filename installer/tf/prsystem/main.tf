@@ -47,6 +47,10 @@ resource "aws_instance" "target_system" {
     tags = {
         Name = "ec2-${var.project_name}-cicd-pr-${var.github_pr}"
     }
+
+    root_block_device {
+      volume_size = "10"
+    }
 }
 
 output "aws_system_public_url" {
