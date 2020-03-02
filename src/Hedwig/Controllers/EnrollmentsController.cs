@@ -63,6 +63,10 @@ namespace Hedwig.Controllers
 			var enrollment = await _enrollments.GetEnrollmentForSiteAsync(id, siteId, include);
 			if (enrollment == null) return NotFound();
 
+			// quick fix until we implement more robust solution (DTO or other serialization rules)
+			enrollment.Child.Enrollments = null;
+			enrollment.Site.Enrollments = null;
+
 			_validator.Validate(enrollment);
 
 			return enrollment;
@@ -103,6 +107,13 @@ namespace Hedwig.Controllers
 			// If no sites are specified, get all enrollments for the organization
 			{
 				enrollments = await _enrollments.GetEnrollmentsForOrganizationAsync(orgId, from, to, include, asOf);
+			}
+
+			// quick fix until we implement more robust solution (DTO or other serialization rules)
+			foreach (var enrollment in enrollments)
+			{
+				enrollment.Child.Enrollments = null;
+				enrollment.Site.Enrollments = null;
 			}
 
 			_validator.Validate(enrollments);
