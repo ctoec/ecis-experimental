@@ -100,7 +100,7 @@ export default function Roster() {
 
 	const completeEnrollmentsByAgeGroup = getObjectsByAgeGroup(completeEnrollments);
 
-	const fundingSpaces = idx(site, _ => _.organization.fundingSpaces) || [];
+	const fundingSpaces = (organization && organization.fundingSpaces) || [];
 	const fundingSpacesByAgeGroup = getObjectsByAgeGroup(fundingSpaces);
 
 	const legendItems: LegendItem[] = [];

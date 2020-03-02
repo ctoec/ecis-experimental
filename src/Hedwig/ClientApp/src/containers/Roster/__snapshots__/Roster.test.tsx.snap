@@ -120,7 +120,18 @@ exports[`Roster matches snapshot 1`] = `
     >
       Preschool (4 children)
     </h2>
-    <ul />
+    <ul>
+      <li>
+        <span
+          class="text-bold"
+        >
+          4/2
+        </span>
+        <span>
+           full time CDC spaces filled
+        </span>
+      </li>
+    </ul>
     <table
       class="oec-table oec-table--full-width"
       id="Preschool-roster-table"
