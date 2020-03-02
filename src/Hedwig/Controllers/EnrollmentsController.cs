@@ -64,8 +64,15 @@ namespace Hedwig.Controllers
 			if (enrollment == null) return NotFound();
 
 			// quick fix until we implement more robust solution (DTO or other serialization rules)
-			enrollment.Child.Enrollments = null;
-			enrollment.Site.Enrollments = null;
+			if (enrollment.Child != null)
+			{
+				enrollment.Child.Enrollments = null;
+			}
+
+			if (enrollment.Site != null)
+			{
+				enrollment.Site.Enrollments = null;
+			}
 
 			_validator.Validate(enrollment);
 
@@ -112,8 +119,15 @@ namespace Hedwig.Controllers
 			// quick fix until we implement more robust solution (DTO or other serialization rules)
 			foreach (var enrollment in enrollments)
 			{
-				enrollment.Child.Enrollments = null;
-				enrollment.Site.Enrollments = null;
+				if (enrollment.Child != null)
+				{
+					enrollment.Child.Enrollments = null;
+				}
+
+				if (enrollment.Site != null)
+				{
+					enrollment.Site.Enrollments = null;
+				}
 			}
 
 			_validator.Validate(enrollments);
