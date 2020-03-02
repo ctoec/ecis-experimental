@@ -24,7 +24,7 @@ namespace Hedwig.Validations.Rules
 			var fundings = enrollment.Fundings ?? _fundings.GetFundingsByEnrollmentId(enrollment.Id);
 			foreach (var funding in fundings)
 			{
-				ValidateSubObject(funding, enrollment); 
+				ValidateSubObject(funding, enrollment);
 				if (funding.ValidationErrors.Count > 0)
 				{
 					return new ValidationError(

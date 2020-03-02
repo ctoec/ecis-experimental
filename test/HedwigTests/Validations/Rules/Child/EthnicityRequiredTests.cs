@@ -1,6 +1,6 @@
 using Xunit;
 using Hedwig.Models;
-using Hedwig.Validations.Rules; 
+using Hedwig.Validations.Rules;
 using Hedwig.Validations;
 
 namespace HedwigTests.Validations.Rules
