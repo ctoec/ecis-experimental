@@ -37,10 +37,10 @@ namespace HedwigTests.Validations.Rules
 
 			var determinationRule = new Mock<IValidationRule<FamilyDetermination>>();
 			var mostRecentResult = mostRecentIsValid ? null : new ValidationError("message", field: "field");
-			determinationRule.Setup(dr => dr.Execute(mostRecent))
+			determinationRule.Setup(dr => dr.Execute(mostRecent, It.IsAny<NonBlockingValidationContext>()))
 			.Returns(mostRecentResult);
 			var otherResult = otherIsValid ? null : new ValidationError("message", field: "field");
-			determinationRule.Setup(dr => dr.Execute(older))
+			determinationRule.Setup(dr => dr.Execute(older, It.IsAny<NonBlockingValidationContext>()))
 			.Returns(otherResult);
 
 			var _serviceProvider = new Mock<IServiceProvider>();
@@ -52,7 +52,7 @@ namespace HedwigTests.Validations.Rules
 
 			// when
 			var rule = new MostRecentDeterminationIsValid(_validator, _determinations.Object);
-			var result = rule.Execute(family);
+			var result = rule.Execute(family, new NonBlockingValidationContext());
 
 			// then
 			Assert.Equal(doesError, result != null);
@@ -74,7 +74,7 @@ namespace HedwigTests.Validations.Rules
 			family.Determinations = new List<FamilyDetermination> { determination };
 
 			var determinationRule = new Mock<IValidationRule<FamilyDetermination>>();
-			determinationRule.Setup(dr => dr.Execute(determination))
+			determinationRule.Setup(dr => dr.Execute(determination, It.IsAny<NonBlockingValidationContext>()))
 			.Returns(new ValidationError("message", field: "field"));
 			var _serviceProvider = new Mock<IServiceProvider>();
 			_serviceProvider.Setup(sp => sp.GetService(typeof(IEnumerable<IValidationRule<FamilyDetermination>>)))
@@ -85,7 +85,7 @@ namespace HedwigTests.Validations.Rules
 
 			// when
 			var rule = new MostRecentDeterminationIsValid(_validator, _determinations.Object);
-			var result = rule.Execute(family);
+			var result = rule.Execute(family, new NonBlockingValidationContext());
 
 			// then
 			Assert.Null(result);

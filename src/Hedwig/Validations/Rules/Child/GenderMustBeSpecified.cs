@@ -4,7 +4,7 @@ namespace Hedwig.Validations.Rules
 {
 	public class GenderMustBeSpecified : IValidationRule<Child>
 	{
-		public ValidationError Execute(Child child)
+		public ValidationError Execute(Child child, NonBlockingValidationContext context)
 		{
 			if (child.Gender == Gender.Unspecified)
 			{

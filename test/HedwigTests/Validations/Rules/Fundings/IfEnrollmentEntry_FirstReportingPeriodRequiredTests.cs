@@ -31,11 +31,11 @@ namespace HedwigTests.Validations.Rules
 			{
 				funding.FirstReportingPeriodId = It.IsAny<int>();
 			}
-			funding.Enrollment = enrollment;
 
 			// when
+			var validationContext = new NonBlockingValidationContext(enrollment);
 			var rule = new IfEnrollmentEntry_FirstReportingPeriodIdRequired();
-			var result = rule.Execute(funding);
+			var result = rule.Execute(funding, validationContext);
 
 			// then
 			Assert.Equal(doesError, result != null);

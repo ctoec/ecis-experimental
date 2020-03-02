@@ -19,7 +19,7 @@ namespace Hedwig.Validations.Rules
 		}
 
 		protected abstract bool CheckCondition(T entity);
-		public ValidationError Execute(T entity)
+		public ValidationError Execute(T entity, NonBlockingValidationContext context)
 		{
 			var prop = typeof(T).GetProperty(_fieldName);
 			if (prop != null)

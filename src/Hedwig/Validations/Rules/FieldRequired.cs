@@ -15,7 +15,7 @@ namespace Hedwig.Validations.Rules
 			_prettyFieldName = prettyFieldName;
 			_isSubObjectValidation = isSubObjectValidation;
 		}
-		public ValidationError Execute(T entity)
+		public ValidationError Execute(T entity, NonBlockingValidationContext context)
 		{
 			var prop = typeof(T).GetProperty(_fieldName);
 			if (prop != null)

@@ -29,7 +29,7 @@ namespace HedwigTests.Validations.Rules
 
 			var childRule = new Mock<IValidationRule<Child>>();
 			var childResult = childIsValid ? null : new ValidationError("message", field: "field");
-			childRule.Setup(cr => cr.Execute(child))
+			childRule.Setup(cr => cr.Execute(child, It.IsAny<NonBlockingValidationContext>()))
 			.Returns(childResult);
 
 			var _serviceProvider = new Mock<IServiceProvider>();
@@ -41,7 +41,7 @@ namespace HedwigTests.Validations.Rules
 
 			// when
 			var rule = new ChildIsValid(_validator, _children.Object);
-			var result = rule.Execute(enrollment);
+			var result = rule.Execute(enrollment, new NonBlockingValidationContext());
 
 			// then
 			Assert.Equal(doesError, result != null);

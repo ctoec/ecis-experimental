@@ -10,14 +10,14 @@ namespace Hedwig.Validations.Rules
 			_validator = validator;
 		}
 
-		protected void ValidateSubObject<T>(T subObject) where T : INonBlockingValidatableObject
+		protected void ValidateSubObject<T>(T subObject, object parentObject = null) where T : INonBlockingValidatableObject
 		{
-			_validator.Validate(subObject);
+			_validator.Validate(subObject, parentObject);
 		}
 
-		protected void ValidateSubObject<T>(List<T> subObjects) where T : INonBlockingValidatableObject
+		protected void ValidateSubObject<T>(List<T> subObjects, object parentObject = null) where T : INonBlockingValidatableObject
 		{
-			subObjects.ForEach(subObject => ValidateSubObject(subObject));
+			subObjects.ForEach(subObject => ValidateSubObject(subObject, parentObject));
 		}
 	}
 }

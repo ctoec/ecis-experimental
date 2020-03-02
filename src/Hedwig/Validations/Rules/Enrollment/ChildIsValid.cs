@@ -16,14 +16,13 @@ namespace Hedwig.Validations.Rules
 			_children = children;
 		}
 
-		public ValidationError Execute(Enrollment enrollment)
+		public ValidationError Execute(Enrollment enrollment, NonBlockingValidationContext context)
 		{
 			if (enrollment.ChildId != Guid.Empty)
 			{
 				var child = enrollment.Child ?? _children.GetChildById(enrollment.ChildId);
-				child.Enrollments = new List<Enrollment> { enrollment };
 
-				ValidateSubObject(child);
+				ValidateSubObject(child, enrollment);
 				if (child.ValidationErrors.Count > 0)
 				{
 					return new ValidationError(

@@ -24,7 +24,7 @@ namespace Hedwig.Validations.Rules
 			_determinations = determinations;
 		}
 
-		public ValidationError Execute(Enrollment enrollment)
+		public ValidationError Execute(Enrollment enrollment, NonBlockingValidationContext context)
 		{
 			var fundings = enrollment.Fundings ?? _fundings.GetFundingsByEnrollmentId(enrollment.Id);
 			if (fundings.Any(f => f.Source == FundingSource.CDC))

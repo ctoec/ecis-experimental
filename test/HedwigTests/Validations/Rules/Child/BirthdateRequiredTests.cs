@@ -1,6 +1,7 @@
 using Xunit;
 using Hedwig.Models;
 using Hedwig.Validations.Rules;
+using Hedwig.Validations;
 using System;
 
 namespace HedwigTests.Validations.Rules
@@ -24,7 +25,7 @@ namespace HedwigTests.Validations.Rules
 
 			// when
 			var rule = new BirthdateRequired();
-			var result = rule.Execute(child);
+			var result = rule.Execute(child, new NonBlockingValidationContext());
 
 			// then
 			Assert.Equal(doesError, result != null);

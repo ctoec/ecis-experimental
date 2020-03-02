@@ -14,7 +14,7 @@ namespace Hedwig.Validations.Rules
 			_fundings = fundings;
 		}
 
-		public ValidationError Execute(Enrollment enrollment)
+		public ValidationError Execute(Enrollment enrollment, NonBlockingValidationContext context)
 		{
 			if (enrollment == null)
 			{
@@ -24,10 +24,7 @@ namespace Hedwig.Validations.Rules
 			var fundings = enrollment.Fundings ?? _fundings.GetFundingsByEnrollmentId(enrollment.Id);
 			foreach (var funding in fundings)
 			{
-				// Hydrate fundings with enrollment object so it can be accessed in funding validations
-				funding.Enrollment = enrollment;
-
-				ValidateSubObject(funding);
+				ValidateSubObject(funding, enrollment); 
 				if (funding.ValidationErrors.Count > 0)
 				{
 					return new ValidationError(

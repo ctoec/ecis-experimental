@@ -32,7 +32,7 @@ namespace HedwigTests.Validations
 		{
 			// if
 			var rule = new Mock<IValidationRule<TestValidatableEntity>>();
-			rule.Setup(r => r.Execute(It.IsAny<TestValidatableEntity>()))
+			rule.Setup(r => r.Execute(It.IsAny<TestValidatableEntity>(), It.IsAny<NonBlockingValidationContext>()))
 			.Returns<ValidationError>(null);
 
 			var serviceProvider = new Mock<IServiceProvider>();
@@ -54,7 +54,7 @@ namespace HedwigTests.Validations
 		{
 			// if
 			var rule = new Mock<IValidationRule<TestValidatableEntity>>();
-			rule.Setup(r => r.Execute(It.IsAny<TestValidatableEntity>()))
+			rule.Setup(r => r.Execute(It.IsAny<TestValidatableEntity>(), It.IsAny<NonBlockingValidationContext>()))
 			.Returns(new ValidationError(It.IsAny<string>(), field: It.IsAny<string>()));
 
 			var serviceProvider = new Mock<IServiceProvider>();
@@ -75,11 +75,11 @@ namespace HedwigTests.Validations
 		{
 			// if 
 			var errorRule = new Mock<IValidationRule<TestValidatableEntity>>();
-			errorRule.Setup(r => r.Execute(It.IsAny<TestValidatableEntity>()))
+			errorRule.Setup(r => r.Execute(It.IsAny<TestValidatableEntity>(), It.IsAny<NonBlockingValidationContext>()))
 			.Returns(new ValidationError(It.IsAny<string>(), field: It.IsAny<string>()));
 
 			var noErrorRule = new Mock<IValidationRule<TestValidatableEntity>>();
-			noErrorRule.Setup(r => r.Execute(It.IsAny<TestValidatableEntity>()))
+			noErrorRule.Setup(r => r.Execute(It.IsAny<TestValidatableEntity>(), It.IsAny<NonBlockingValidationContext>()))
 			.Returns<ValidationError>(null);
 
 
@@ -104,22 +104,17 @@ namespace HedwigTests.Validations
 		{
 			// if
 			var rule = new Mock<IValidationRule<TestValidatableEntity>>();
-			rule.Setup(r => r.Execute(It.IsAny<TestValidatableEntity>()))
-			.Returns(new ValidationError(It.IsAny<string>(), field: It.IsAny<string>()));
-
 
 			var serviceProvider = new Mock<IServiceProvider>();
 			serviceProvider.Setup(sp => sp.GetService(typeof(IEnumerable<IValidationRule<TestValidatableEntity>>)))
 			.Returns(new List<IValidationRule<TestValidatableEntity>> { rule.Object });
 
-			TestValidatableEntity validateable = null;
-
 			// when
 			var validator = new NonBlockingValidator(serviceProvider.Object);
-			validator.Validate(validateable);
+			validator.Validate(null as TestValidatableEntity);
 
 			// then
-			rule.Verify(rule => rule.Execute(validateable), Times.Never());
+			rule.Verify(rule => rule.Execute(It.IsAny<TestValidatableEntity>(), It.IsAny<NonBlockingValidationContext>()), Times.Never());
 		}
 	}
 }
