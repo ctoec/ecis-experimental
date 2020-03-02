@@ -82,12 +82,10 @@ ol.no-list-counter > li:before {
 		@include u-margin-top(4);
 		margin-bottom: 0;
 	}
-
-	// TODO: this was messing up other buttons-- does removing it cause any problems?
-	// .usa-button {
-	// 	@include u-margin-top(6);
-	// 	@include u-margin-bottom(4);
-	// }
+	.usa-button[type=submit] {
+		@include u-margin-top(6);
+		@include u-margin-bottom(4);
+	}
 }
 
 .usa-form-group--warning {

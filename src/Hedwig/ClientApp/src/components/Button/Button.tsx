@@ -42,8 +42,8 @@ export function Button({
 				className={classString}
 				disabled={disabled}
 				type="submit"
-				value={typeof text === 'string' ? text : undefined}
-				// This will never actually be an element but TS doesn't know that
+				value={text as string}
+				// Value will never actually be an element for a submit button but TS doesn't know that
 				title={title}
 			/>
 		);

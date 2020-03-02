@@ -5,6 +5,7 @@ import { DayPickerSingleDateController } from 'react-dates';
 import { FieldSet, TextInput, FormStatusProps, Button } from '..';
 import { ReactComponent as CalendarIcon } from '../../assets/images/calendar.svg';
 import { InputField } from '../../utils/forms/form';
+import { parseStringDateInput } from '../../utils/stringFormatters';
 
 export type DateInputProps = {
 	// Is this too tightly coupled with our utils/specific use case?
@@ -19,24 +20,6 @@ export type DateInputProps = {
 	hideLabel?: boolean;
 	hideHint?: boolean;
 	name?: string;
-};
-
-// TODO: MOVE TO UTIL
-const parseStringDateInput = (input?: string): Moment | null => {
-	let parsedInput = null;
-	if (input) {
-		const acceptedDelimiters = ['-', '/', ' '];
-		acceptedDelimiters.forEach(d => {
-			const splitInput = input.split(d);
-			if (splitInput.length === 3) {
-				// Will never be empty but ts doesn't know that
-				splitInput.unshift(splitInput.pop() || '');
-				// For parsing consistency across browsers
-				parsedInput = moment(splitInput.join('-'), 'YYYY-MM-DD');
-			}
-		});
-	}
-	return parsedInput;
 };
 
 const momentFormat = 'MM/DD/YYYY';
@@ -66,7 +49,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 		if (!input || !input.isValid()) {
 			setDateIsInvalid(true);
 		} else {
-			// Only call the callabck if it's a valid date
+			// Only call the callback if it's a valid date
 			// Spread operator will not copy prototype
 			// https://dmitripavlutin.com/object-rest-spread-properties-javascript/
 			inputOnChange(Object.assign(moment(), input, { name: name || '' }));
@@ -105,6 +88,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 				<TextInput
 					label={label}
 					srOnlyLabel
+					// Make label sr only because it's in a fieldset
 					id={`${id}-input`}
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) => setStringDate(e.target.value)}
 					defaultValue={stringDate}
@@ -114,7 +98,6 @@ export const DateInput: React.FC<DateInputProps> = ({
 						onStringDateChange(stringDate);
 					}}
 					name={name}
-					// Make label sr only because it's in a fieldset
 					className="oec-date-input__text"
 					inputProps={{
 						onKeyUp: (e: { key: string }) => {

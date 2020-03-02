@@ -121,48 +121,47 @@ const RosterHeader: React.FC<RosterHeaderProps> = ({
 						/>
 					</div>
 				</div>
-				<div className="padding-bottom-2" hidden={!showPastEnrollments}>
-					<ChoiceList
-						type="radio"
-						legend="Select date or date range"
-						options={[
-							{
-								text: 'By date',
-								value: 'date',
-							},
-							{
-								text: 'By range',
-								value: 'range',
-							},
-						]}
-						onChange={event => setFilterByRange(event.target.value === 'range')}
-						horizontal={true}
-						id={'dateSelectionType'}
-						selected={filterByRange ? ['range'] : ['date']}
-						className="margin-top-neg-3"
-						// This is goofy but we're getting rid of this soon anyway
-					/>
-					{filterByRange ? (
-						<DateRangeInput
-							id="enrollment-roster-datepicker"
-							label="Date"
-							onChange={newDateRange => (newDateRange ? setDateRange(newDateRange) : null)}
-							// TODO: IF DATE RANGE IS INVALID CREATE ERROR STATUS
-							dateRange={dateRange}
-							// possibleRange={{ startDate: null, endDate: moment().local() }}
+				{showPastEnrollments && (
+					<div className="padding-bottom-2">
+						<ChoiceList
+							type="radio"
+							legend="Select date or date range"
+							options={[
+								{
+									text: 'By date',
+									value: 'date',
+								},
+								{
+									text: 'By range',
+									value: 'range',
+								},
+							]}
+							onChange={event => setFilterByRange(event.target.value === 'range')}
+							horizontal={true}
+							id={'dateSelectionType'}
+							selected={filterByRange ? ['range'] : ['date']}
 							className="margin-top-neg-3"
+							// This is goofy but we're getting rid of this soon anyway
 						/>
-					) : (
-						<DateInput
-							id="enrollment-roster-datepicker"
-							label="Date"
-							onChange={newDate => setDateRange({ startDate: newDate, endDate: newDate })}
-							date={dateRange.startDate}
-							// possibleRange={{ startDate: null, endDate: moment().local() }}
-							className="margin-top-neg-3"
-						/>
-					)}
-				</div>
+						{filterByRange ? (
+							<DateRangeInput
+								id="enrollment-roster-datepicker"
+								label="Date"
+								onChange={newDateRange => (newDateRange ? setDateRange(newDateRange) : null)}
+								dateRange={dateRange}
+								className="margin-top-neg-3"
+							/>
+						) : (
+							<DateInput
+								id="enrollment-roster-datepicker"
+								label="Date"
+								onChange={newDate => setDateRange({ startDate: newDate, endDate: newDate })}
+								date={dateRange.startDate}
+								className="margin-top-neg-3"
+							/>
+						)}
+					</div>
+				)}
 			</>
 		);
 	}
