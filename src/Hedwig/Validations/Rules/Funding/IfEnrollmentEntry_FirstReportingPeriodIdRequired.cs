@@ -2,23 +2,17 @@ using Hedwig.Models;
 
 namespace Hedwig.Validations.Rules
 {
-	public class IfEnrollmentEntry_FirstReportingPeriodIdRequired : IValidationRule<Funding>
+	public class IfEnrollmentEntry_FirstReportingPeriodIdRequired : ConditionalFieldRequired<Funding>
 	{
-		public ValidationError Execute(Funding funding, NonBlockingValidationContext context)
-		{
-			if (funding.Source == FundingSource.CDC)
-			{
-				var enrollment = (Enrollment) context.ParentEntity;
-				if (enrollment.Entry.HasValue && !funding.FirstReportingPeriodId.HasValue)
-				{
-					return new ValidationError(
-					field: "FirstReportingPeriod",
-					message: "First reporting period is required for funding on enrollments with start dates"
-					);
-				}
-			}
+		public IfEnrollmentEntry_FirstReportingPeriodIdRequired()
+			: base("Enrollment has entry date", "FirstReportingPeriod", "First reporting period")
+		{ }
 
-			return null;
+		protected override bool CheckCondition(Funding entity, NonBlockingValidationContext context)
+		{
+			var enrollment = (Enrollment) context.ParentEntity;
+			return entity.Source == FundingSource.CDC
+				&& (enrollment.Entry.HasValue && !entity.FirstReportingPeriodId.HasValue);
 		}
 	}
 }

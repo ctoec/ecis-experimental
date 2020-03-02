@@ -7,7 +7,7 @@ namespace Hedwig.Validations.Rules
 		public IfDisclosed_DeterminationDateRequired()
 			: base("income is disclosed", "DeterminationDate", "Date of income determination")
 		{ }
-		protected override bool CheckCondition(FamilyDetermination entity)
+		protected override bool CheckCondition(FamilyDetermination entity, NonBlockingValidationContext context)
 		{
 			return !entity.NotDisclosed;
 		}

@@ -18,14 +18,14 @@ namespace Hedwig.Validations.Rules
 			_prettyFieldName = prettyFieldName;
 		}
 
-		protected abstract bool CheckCondition(T entity);
+		protected abstract bool CheckCondition(T entity, NonBlockingValidationContext context);
 		public ValidationError Execute(T entity, NonBlockingValidationContext context)
 		{
 			var prop = typeof(T).GetProperty(_fieldName);
 			if (prop != null)
 			{
 				var value = prop.GetValue(entity);
-				if (CheckCondition(entity) && (value == null || value as string == ""))
+				if (CheckCondition(entity, context) && (value == null || value as string == ""))
 				{
 					return new ValidationError(
 					field: _fieldName,
