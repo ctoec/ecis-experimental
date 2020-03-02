@@ -1,4 +1,4 @@
-import moment, { Moment } from "moment";
+import moment, { Moment } from 'moment';
 
 export const parseStringDateInput = (input?: string): Moment | null => {
 	// Moment *sort of* does this but here we're ensuring that we don't accept garbage and don't cause time zone problems
