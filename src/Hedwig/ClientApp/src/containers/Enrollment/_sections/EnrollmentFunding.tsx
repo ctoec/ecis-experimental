@@ -493,6 +493,7 @@ const EnrollmentFunding: Section = {
 								}),
 							]}
 							label="First reporting period"
+							// TODO: USE FORM REDUCER
 							onChange={event => {
 								const chosen = reportingPeriodOptions.find(
 									period => period.id === parseInt(event.target.value)
@@ -532,6 +533,7 @@ const EnrollmentFunding: Section = {
 								value: 'receives-c4k',
 							},
 						]}
+						// TODO: USE FORM REDUCER
 						onChange={e => updateReceivesC4k(!!(e.target as HTMLInputElement).checked)}
 						id="c4k-check-box"
 						legend="Receives Care 4 Kids"
@@ -545,6 +547,7 @@ const EnrollmentFunding: Section = {
 								id="familyId"
 								label="Family ID"
 								defaultValue={c4kFamilyId ? '' + c4kFamilyId : ''}
+								// TODO: USE REDUCER HERE
 								onChange={event => updateC4kFamilyId(parseInt(event.target.value))}
 								status={initialLoadErrorGuard(
 									initialLoad,

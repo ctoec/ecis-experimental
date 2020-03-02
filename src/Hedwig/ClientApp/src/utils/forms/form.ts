@@ -82,16 +82,17 @@ export const updateData =
 	// update supplied by result of useReducer
 	<S extends {}>(update: Dispatch<FormReducerUpdate<S>>) =>
 		// processData function convert string to appropriate data type
-		(processData: (_: any) => any) =>
+		(processData: (_: any, event?: any) => any) =>
 			// conditional fork for varying data input methods (select/input vs custom like DatePicker)
 			<T extends {}>(event: React.ChangeEvent<HTMLChoiceElement> | InputField<T>) => {
 				if (isChangeEvent(event)) {
 					const {
 						target: { name, value },
+						nativeEvent,
 					} = event;
 					update({
 						_path: name,
-						_value: processData(value),
+						_value: processData(value, event),
 					});
 				} else {
 					const { name } = event;

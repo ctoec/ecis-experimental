@@ -221,6 +221,9 @@ const ChildInfo: Section = {
 
 		const { isExecuting: isMutating, setExecuting: save } = usePromiseExecution(_save);
 
+		// TODO: use reducer for everything except first and last name, for which we need an enrollment\
+		// will need to make an enrollment object to do anything with user reducer
+
 		// TODO: should gender be radio buttons as recommended by USWDS rather than select?
 		return (
 			<form className="ChildInfoForm usa-form" onSubmit={save} noValidate autoComplete="off">
