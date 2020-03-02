@@ -15,3 +15,4 @@ export {
 	editSaveFailAlert,
 	stepListSaveFailAlert,
 } from './alertTextMakers';
+export { parseStringDateInput } from './parseStringDateInput';

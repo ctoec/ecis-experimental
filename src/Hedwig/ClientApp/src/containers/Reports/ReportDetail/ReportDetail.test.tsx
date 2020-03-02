@@ -1,6 +1,5 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import 'react-dates/initialize';
 import ReportDetail from './ReportDetail';
 import CommonContextProviderMock from '../../../contexts/__mocks__/CommonContextProviderMock';
 import { CdcReport } from '../../../generated';

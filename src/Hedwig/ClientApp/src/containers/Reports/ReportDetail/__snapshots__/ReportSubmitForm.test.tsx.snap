@@ -169,10 +169,13 @@ exports[`ReportSubmitForm matches snapshot 1`] = `
       id="other-revenue"
     >
       <legend
-        class="usa-sr-only"
         id="fieldset-legend-other-revenue"
       >
-        Other Revenue
+        <span
+          class="usa-sr-only"
+        >
+          Other Revenue
+        </span>
       </legend>
       <div
         class="grid-gap grid-row undefined"

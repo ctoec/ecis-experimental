@@ -2,7 +2,7 @@ export * from './Alert/Alert';
 export * from './Button/Button';
 export * from './ChoiceList/ChoiceList';
 export * from './DateInput/DateInput';
-export * from './DatePicker/DatePicker';
+export * from './DateRangeInput/DateRangeInput';
 export * from './DirectionalLink/DirectionalLink';
 export * from './ErrorBoundary/ErrorBoundary';
 export * from './FieldSet/FieldSet';

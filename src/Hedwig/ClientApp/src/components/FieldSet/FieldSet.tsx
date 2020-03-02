@@ -10,6 +10,7 @@ export type FieldSetProps = {
 	className?: string;
 	hint?: string;
 	childrenGroupClassName?: string;
+	disabled?: boolean;
 };
 
 export const FieldSet: React.FC<FieldSetProps> = ({
@@ -22,6 +23,7 @@ export const FieldSet: React.FC<FieldSetProps> = ({
 	children,
 	hint,
 	childrenGroupClassName,
+	disabled,
 }) => {
 	if (typeof legend === 'string' && legend.length > 25) {
 		// TODO: make this work regardless of element type
@@ -48,14 +50,18 @@ export const FieldSet: React.FC<FieldSetProps> = ({
 			// TODO: is this bad usability? are things that aren't optional always required?
 			aria-required={!optional}
 			aria-invalid={status && status.type === 'error'}
+			disabled={disabled}
 		>
-			<legend
-				className={
-					showLegend ? `usa-label${status ? ` usa-label--${status.type}` : ''}` : 'usa-sr-only'
-				}
-				id={`fieldset-legend-${id}`}
-			>
-				{legend}
+			<legend id={`fieldset-legend-${id}`}>
+				{/* Needs to be wrapped in another el because spacing works differently for legends */}
+				<span
+					className={
+						showLegend ? `usa-label${status ? ` usa-label--${status.type}` : ''}` : 'usa-sr-only'
+					}
+				>
+					{legend}
+					{optional && <span className="usa-hint">&nbsp;(optional)</span>}
+				</span>
 			</legend>
 			{hint && <span className="usa-hint text-italic">{hint}</span>}
 			{status && <FormStatus {...status} />}

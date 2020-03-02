@@ -1,15 +1,67 @@
-.oec-date-input__input.usa-form-group--error,
-.oec-date-input__input.usa-form-group--warning {
-	margin-top: 0;
+.oec-calendar-dropdown {
+	position: absolute;
+	right: 0.5rem;
 }
 
-.DateInput__disabled,
-.SingleDatePickerInput__disabled,
-.DateRangePickerInput__disabled {
-	background: unset;
-	background-color: unset;
+.oec-calendar-dropdown__toggle {
+	top: 0.5rem;
+	height: 2.5rem;
+	border-radius: unset;
+	border: 1px solid #565c65;
 }
 
-.DateInput_input__focused {
-	border-bottom: unset;
+.oec-calendar-toggle__icon {
+	height: 1rem;
+}
+
+// *** Hacks for this issue ***
+// https://github.com/airbnb/react-dates/issues/1249 :/
+.DayPicker {
+	visibility: unset;
+}
+
+.DayPicker_transitionContainer {
+	height: unset !important;
+}
+
+.DayPicker_transitionContainer:before {
+	content: '';
+	display: block;
+	padding-top: 100%; /* ratio of 1:1*/
+}
+
+.DayPicker_transitionContainer .CalendarMonthGrid__horizontal {
+	top: 0;
+}
+// *** end hacks ***
+
+// Setting calendar dropdown theme colors to match ours
+.CalendarDay__selected,
+.CalendarDay__selected:active,
+.CalendarDay__selected:hover {
+	background: color('primary-dark');
+	border: 1px double color('primary-darker');
+}
+
+.CalendarDay__selected_span {
+	background: color('primary');
+	border: 1px double color('primary-darker');
+}
+
+.CalendarDay__hovered_span,
+.CalendarDay__hovered_span:hover,
+.CalendarDay__selected_span:active,
+.CalendarDay__selected_span:hover,
+.CalendarDay__hovered_span:active {
+	background: color('primary-light');
+	border: 1px double color('primary-darker');
+	color: #fff;
+}
+
+.DayPickerKeyboardShortcuts_show__bottomRight::before {
+	border-right: 33px solid color('primary');
+}
+
+.DayPickerKeyboardShortcuts_show__bottomRight:hover::before {
+	border-right: 33px solid color('primary-darker');
 }

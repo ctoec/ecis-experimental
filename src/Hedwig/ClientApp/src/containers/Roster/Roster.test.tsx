@@ -1,11 +1,8 @@
 import React from 'react';
 import { render, fireEvent, wait } from '@testing-library/react';
-import { createMemoryHistory, createBrowserHistory } from 'history';
-
-import 'react-dates/initialize';
+import { createMemoryHistory } from 'history';
 import mockdate from 'mockdate';
 import CommonContextProviderMock from '../../contexts/__mocks__/CommonContextProviderMock';
-
 import Roster from './Roster';
 import { accessibilityTestHelper } from '../accessibilityTestHelper';
 import { completeEnrollment } from '../../tests/data';
@@ -58,7 +55,7 @@ describe('Roster', () => {
 	});
 
 	it('updates the number of children', async () => {
-		const { baseElement, getByText, getByPlaceholderText, getByLabelText } = render(
+		const { baseElement, getByText, getByLabelText } = render(
 			<CommonContextProviderMock>
 				<Roster />
 			</CommonContextProviderMock>
@@ -72,11 +69,13 @@ describe('Roster', () => {
 
 		fireEvent.click(byDateRange);
 
-		const startDateInput = getByPlaceholderText(/start date/i);
-		const endDateInput = getByPlaceholderText(/end date/i);
-
+		const startDateInput = getByLabelText(/start date/i);
 		fireEvent.change(startDateInput, { target: { value: '01/01/2018' } });
+		fireEvent.blur(startDateInput);
+
+		const endDateInput = getByLabelText(/end date/i);
 		fireEvent.change(endDateInput, { target: { value: '02/01/2019' } });
+		fireEvent.blur(endDateInput);
 
 		await wait(() => {
 			expect(baseElement).toHaveTextContent(

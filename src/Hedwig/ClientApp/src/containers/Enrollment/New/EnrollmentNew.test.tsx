@@ -2,7 +2,6 @@ import React from 'react';
 import mockdate from 'mockdate';
 import { createMemoryHistory } from 'history';
 import { render, fireEvent, wait } from '@testing-library/react';
-import 'react-dates/initialize';
 import CommonContextProviderMock from '../../../contexts/__mocks__/CommonContextProviderMock';
 import { enrollmentWithFoster } from '../../../hooks/__mocks__/useApi';
 import EnrollmentNew from './EnrollmentNew';

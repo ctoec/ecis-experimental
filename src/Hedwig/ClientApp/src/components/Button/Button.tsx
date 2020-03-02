@@ -1,42 +1,71 @@
-import React, { ReactChild, ReactNode } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 type ButtonAppearance = 'default' | 'base' | 'secondary' | 'unstyled' | 'outline';
 
-export type ButtonProps = {
-	text: ReactNode;
-	onClick?: (() => any) | 'submit';
+type BaseButtonProps = {
 	href?: string;
 	appearance?: ButtonAppearance;
 	disabled?: boolean;
 	className?: string;
 };
 
-export function Button({ text, onClick, href, appearance, disabled, className }: ButtonProps) {
-	const isSubmit = onClick === 'submit';
-	onClick = typeof onClick === 'function' ? onClick : () => {};
+export type ButtonProps = BaseButtonProps &
+	React.HTMLProps<HTMLButtonElement | HTMLAnchorElement> & {
+		text: string | JSX.Element;
+		onClick?: () => any;
+	};
 
+type SubmitButtonProps = BaseButtonProps & {
+	text: string;
+	onClick?: 'submit';
+	title?: string;
+};
+
+export function Button({
+	text,
+	onClick,
+	href,
+	appearance,
+	disabled,
+	className,
+	title,
+}: ButtonProps | SubmitButtonProps) {
 	const classString =
 		'usa-button' +
 		(appearance && appearance !== 'default' ? ' usa-button--' + appearance : '') +
 		(className ? ' ' + className : '');
 
+	if (onClick === 'submit') {
+		return (
+			<input
+				className={classString}
+				disabled={disabled}
+				type="submit"
+				value={text as string}
+				// Value will never actually be an element for a submit button but TS doesn't know that
+				title={title}
+			/>
+		);
+	}
+	onClick = typeof onClick === 'function' ? onClick : () => {};
+
 	if (href) {
 		return (
-			<Link to={href} className={classString} onClick={onClick}>
+			<Link to={href} className={classString} onClick={onClick} title={title}>
 				{text}
 			</Link>
 		);
 	}
 
-	if (isSubmit) {
-		return (
-			<input className={classString} disabled={disabled} type="submit" value={text as string} />
-		);
-	}
-
 	return (
-		<button className={classString} disabled={disabled} onClick={onClick} type="button">
+		<button
+			className={classString}
+			disabled={disabled}
+			onClick={onClick}
+			type="button"
+			title={title}
+		>
 			{text}
 		</button>
 	);

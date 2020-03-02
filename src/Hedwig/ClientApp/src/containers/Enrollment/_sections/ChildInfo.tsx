@@ -1,6 +1,6 @@
 import React, { useContext, useState, useCallback, useEffect } from 'react';
 import { Section } from '../enrollmentTypes';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 import idx from 'idx';
 import { Button, TextInput, DateInput, ChoiceList, FieldSet, DateRange } from '../../../components';
 import { nameFormatter } from '../../../utils/stringFormatters';
@@ -107,10 +107,8 @@ const ChildInfo: Section = {
 
 		const [birthdate, updateBirthdate] = useState(child ? child.birthdate : null);
 		const setBirthdate = useCallback(
-			(range: DateRange) => {
-				updateBirthdate(
-					range.startDate && range.startDate.isValid() ? range.startDate.toDate() : null
-				);
+			(newBirthDate: Moment | null) => {
+				updateBirthdate(newBirthDate && newBirthDate.isValid() ? newBirthDate.toDate() : null);
 			},
 			[updateBirthdate]
 		);
@@ -302,7 +300,7 @@ const ChildInfo: Section = {
 				<h2>Date of birth</h2>
 				<DateInput
 					onChange={setBirthdate}
-					dateRange={{ startDate: birthdate ? moment(birthdate) : null, endDate: null }}
+					date={birthdate ? moment(birthdate) : null}
 					label="Birth date"
 					id="birthdate-picker"
 					hideLabel

@@ -5,7 +5,7 @@ import { Section } from '../enrollmentTypes';
 import {
 	Button,
 	TextInput,
-	DatePicker,
+	DateInput,
 	Alert,
 	ChoiceList,
 	FieldSet,
@@ -262,16 +262,11 @@ const FamilyIncome: Section = {
 										)}
 									/>
 								</div>
-								<DatePicker
+								<DateInput
 									label="Date of income determination"
 									id="income-determination-date"
-									onChange={range =>
-										updateDeterminationDate((range.startDate && range.startDate.toDate()) || null)
-									}
-									dateRange={{
-										startDate: determinationDate ? moment(determinationDate) : null,
-										endDate: null,
-									}}
+									onChange={newDate => updateDeterminationDate(newDate ? newDate.toDate() : null)}
+									date={determinationDate ? moment(determinationDate) : null}
 									status={initialLoadErrorGuard(
 										initialLoad,
 										warningForField('determintionDate', determination ? determination : null, '')

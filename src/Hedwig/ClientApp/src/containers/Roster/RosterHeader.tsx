@@ -1,6 +1,5 @@
 import React from 'react';
-import moment from 'moment';
-import { Button, ChoiceList, DatePicker, DateRange } from '../../components';
+import { Button, ChoiceList, DateInput, DateRangeInput, DateRange } from '../../components';
 import getDefaultDateRange from '../../utils/getDefaultDateRange';
 import { Site, Organization } from '../../generated';
 import { rosterEnrollmentsFormatter } from '../../utils/stringFormatters';
@@ -144,15 +143,23 @@ const RosterHeader: React.FC<RosterHeaderProps> = ({
 							className="margin-top-neg-3"
 							// This is goofy but we're getting rid of this soon anyway
 						/>
-						<DatePicker
-							id="enrollment-roster-datepicker"
-							label="Date"
-							byRange={filterByRange}
-							onChange={(newDateRange: DateRange) => setDateRange(newDateRange)}
-							dateRange={dateRange}
-							possibleRange={{ startDate: null, endDate: moment().local() }}
-							className="margin-top-neg-3"
-						/>
+						{filterByRange ? (
+							<DateRangeInput
+								id="enrollment-roster-datepicker"
+								label="Date"
+								onChange={newDateRange => (newDateRange ? setDateRange(newDateRange) : null)}
+								dateRange={dateRange}
+								className="margin-top-neg-3"
+							/>
+						) : (
+							<DateInput
+								id="enrollment-roster-datepicker"
+								label="Date"
+								onChange={newDate => setDateRange({ startDate: newDate, endDate: newDate })}
+								date={dateRange.startDate}
+								className="margin-top-neg-3"
+							/>
+						)}
 					</div>
 				)}
 			</>

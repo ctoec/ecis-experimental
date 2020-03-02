@@ -1,6 +1,5 @@
 import React from 'react';
 import { Router } from 'react-router-dom';
-import 'react-dates/initialize';
 import UserContext from '../User/UserContext';
 import ReportingPeriodContext from '../ReportingPeriod/ReportingPeriodContext';
 import { User, Region, ReportingPeriod, FundingSource } from '../../generated';

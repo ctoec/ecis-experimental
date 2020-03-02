@@ -82,8 +82,7 @@ ol.no-list-counter > li:before {
 		@include u-margin-top(4);
 		margin-bottom: 0;
 	}
-
-	.usa-button {
+	.usa-button[type='submit'] {
 		@include u-margin-top(6);
 		@include u-margin-bottom(4);
 	}

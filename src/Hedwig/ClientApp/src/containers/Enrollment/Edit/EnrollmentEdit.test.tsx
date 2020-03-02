@@ -2,7 +2,6 @@ import React from 'react';
 import mockdate from 'mockdate';
 import { createBrowserHistory } from 'history';
 import { render, getAllByRole } from '@testing-library/react';
-import 'react-dates/initialize';
 import CommonContextProviderMock, {
 	defaultCdcReportingPeriods,
 } from '../../../contexts/__mocks__/CommonContextProviderMock';
@@ -10,9 +9,6 @@ import { enrollmentMissingAddress } from '../../../hooks/__mocks__/useApi';
 import EnrollmentEdit from './EnrollmentEdit';
 import { accessibilityTestHelper } from '../../accessibilityTestHelper';
 import { completeEnrollment } from '../../../tests/data';
-import ChildInfo from '../_sections/ChildInfo';
-import { DeepNonUndefineable } from '../../../utils/types';
-import { Enrollment } from '../../../generated';
 
 const fakeDate = '2019-03-02';
 

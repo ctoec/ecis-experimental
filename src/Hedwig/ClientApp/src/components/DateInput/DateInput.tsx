@@ -1,238 +1,151 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import moment, { Moment } from 'moment';
-import { FieldSet, TextInput, FormStatusProps } from '..';
+import cx from 'classnames';
+import { DayPickerSingleDateController } from 'react-dates';
+import { FieldSet, TextInput, FormStatusProps, Button } from '..';
+import { ReactComponent as CalendarIcon } from '../../assets/images/calendar.svg';
+import { InputField } from '../../utils/forms/form';
+import { parseStringDateInput } from '../../utils/stringFormatters';
 
-type DateRange = {
-	startDate: Moment | null;
-	endDate: Moment | null;
-};
-
-type inputDetailType = {
-	props: {
-		label: string;
-		inputProps: any;
-	};
-	parseMoment: (inputMoment: Moment | null) => string | undefined;
-	checkValidity: (value: any) => boolean;
-	errorMessage: string;
-};
-
-type inputDetailsType = { [key: string]: inputDetailType };
-
-type rangeValType = {
-	start?: string;
-	end?: string;
-	startIsInvalid?: boolean;
-	endIsInvalid?: boolean;
-};
-
-type rangeByValType = { [key: string]: rangeValType };
-
-type DateInputProps = {
-	dateRange: DateRange;
-	onChange: (newRange: DateRange) => void;
+export type DateInputProps = {
+	// Is this too tightly coupled with our utils/specific use case?
+	onChange: (newDate: InputField<Moment | null>) => any | void;
 	id: string;
 	label: string;
-	format?: 'dayInput' | 'rangeInput';
+	date?: Moment | null;
 	disabled?: boolean;
 	optional?: boolean;
 	status?: FormStatusProps;
 	className?: string;
 	hideLabel?: boolean;
-	// Will only take effect on fieldsets-- otherwise we should not hide the label
+	hideHint?: boolean;
+	name?: string;
 };
 
-const inputDetails: inputDetailsType = {
-	month: {
-		props: {
-			inputProps: { maxLength: 2, type: 'number', min: 1, max: 12 },
-			label: 'Month',
-		},
-		parseMoment: (inputMoment: Moment | null) =>
-			inputMoment ? inputMoment.format('MM') : undefined,
-		checkValidity: value => +value > 0 && +value < 13,
-		errorMessage: 'Invalid month',
-	},
-	day: {
-		props: {
-			label: 'Day',
-			inputProps: { maxLength: 2, type: 'number', min: 1, max: 31 },
-		},
-		parseMoment: (inputMoment: Moment | null) =>
-			inputMoment ? inputMoment.format('DD') : undefined,
-		checkValidity: value => +value < 32 && +value > 0,
-		errorMessage: 'Invalid day',
-	},
-	year: {
-		props: {
-			label: 'Year',
-			inputProps: { maxLength: 4, type: 'number', min: 1990, max: 2100 },
-		},
-		parseMoment: (inputMoment: Moment | null) =>
-			inputMoment ? inputMoment.format('YYYY') : undefined,
-		checkValidity: value =>
-			value.length === 2 || (value.length === 4 && +value > 1989 && +value < 2101),
-		errorMessage: 'Invalid year',
-	},
-};
+const momentFormat = 'MM/DD/YYYY';
 
 export const DateInput: React.FC<DateInputProps> = ({
-	dateRange,
-	onChange,
+	date = null,
+	onChange: inputOnChange,
 	id,
 	label,
-	format = 'dayInput',
 	disabled,
 	optional,
-	status,
+	status: inputStatus,
 	className,
-	hideLabel,
+	hideHint = false,
+	name,
 }) => {
-	const initialRangeByVal: rangeByValType = {};
-	Object.keys(inputDetails).forEach(dateItem => {
-		initialRangeByVal[dateItem] = {};
-		initialRangeByVal[dateItem].start = inputDetails[dateItem].parseMoment(dateRange.startDate);
-		initialRangeByVal[dateItem].end = inputDetails[dateItem].parseMoment(dateRange.endDate);
-	});
+	const [calendarOpen, setCalendarOpen] = useState<boolean>(false);
+	const [currentDate, setCurrentDate] = useState(date);
+	const [stringDate, setStringDate] = useState<string | undefined>(
+		currentDate ? currentDate.format(momentFormat) : undefined
+	);
+	const [dateIsInvalid, setDateIsInvalid] = useState();
 
-	const [rangeByVal, setRangeByVal] = useState<rangeByValType>(initialRangeByVal);
-
-	// Add warning that date isn't valid if it isn't?
-	useEffect(() => {
-		const newStart = moment(
-			`${rangeByVal.year.start}-${rangeByVal.month.start}-${rangeByVal.day.start}`,
-			'YYYY-MM-DD'
-		);
-		let newEnd = newStart;
-		if (format === 'rangeInput') {
-			newEnd = moment(
-				`${rangeByVal.year.end}-${rangeByVal.month.end}-${rangeByVal.day.end}`,
-				'YYYY-MM-DD'
-			);
+	const onMomentChange = (input: Moment | null) => {
+		// Whatever input is, set current date to that, even if it's not valid
+		setCurrentDate(input);
+		if (!input || !input.isValid()) {
+			setDateIsInvalid(true);
+		} else {
+			// Only call the callback if it's a valid date
+			// Spread operator will not copy prototype
+			// https://dmitripavlutin.com/object-rest-spread-properties-javascript/
+			inputOnChange(Object.assign(moment(), input, { name: name || '' }));
+			setDateIsInvalid(false);
 		}
-		onChange({ startDate: newStart, endDate: newEnd });
-	}, [rangeByVal, format, onChange]);
-
-	// TODO: implement "optional" styling for fieldset
-
-	const commonDateInputProps = {
-		className: 'oec-date-input__input',
-		disabled: disabled,
-		type: 'number',
-		inline: true,
 	};
 
-	const showInlineWarning =
-		!status &&
-		Object.keys(rangeByVal).find(
-			dateItem => rangeByVal[dateItem].startIsInvalid || rangeByVal[dateItem].endIsInvalid
-		);
-	const inlineWarning: FormStatusProps | undefined = showInlineWarning
-		? { type: 'warning', id: 'invalid-date-field' }
-		: undefined;
+	const onStringDateChange = (input: string | undefined) => {
+		if (!input && !currentDate) {
+			// If the new date didn't exist and there wasn't already a date, don't set a warning
+			return;
+		}
+		// Called on blur or on enter-- not on string change because that would show a warning after one key stroke
+		const newDate = parseStringDateInput(input);
+		// Otherwise if it's valid, proceed
+		onMomentChange(newDate);
+	};
 
-	const startDateFieldset = (
+	let status = inputStatus;
+	if (dateIsInvalid) {
+		status = { type: 'warning', id: `${id}-error`, message: 'Invalid date' };
+	}
+
+	return (
 		<FieldSet
-			legend={format === 'rangeInput' ? `${label} start` : label}
-			id={`${id}-start-date`}
-			showLegend={format === 'rangeInput' ? true : !hideLabel}
-			hint={format !== 'rangeInput' ? 'For example: 04 28 1986' : ''}
-			childrenGroupClassName="flex-row flex-align-end usa-memorable-date"
-			className={className}
-			status={format === 'rangeInput' ? undefined : status || inlineWarning}
+			legend={label}
+			id={id}
+			hint={hideHint ? undefined : 'For example: 04/28/1986'}
+			status={status}
+			optional={optional}
+			disabled={disabled}
+			className={cx('oec-date-input', 'oec-date-input-single', className)}
+			showLegend={true}
 		>
-			{Object.keys(inputDetails).map(key => (
-				<div key={key}>
-					<TextInput
-						//@ts-ignore IDK, y'all TS has a problem here
-						type="input"
-						defaultValue={rangeByVal[key].start}
-						onChange={event => {
-							const newRangeVals = Object.assign({}, rangeByVal);
-							newRangeVals[key].start = event.target.value;
-							setRangeByVal(newRangeVals);
+			<div className="grid-row flex-row flex-align-end grid-gap position-relative">
+				<TextInput
+					label={label}
+					srOnlyLabel
+					// Make label sr only because it's in a fieldset
+					id={`${id}-input`}
+					onChange={(e: React.ChangeEvent<HTMLInputElement>) => setStringDate(e.target.value)}
+					defaultValue={stringDate}
+					// Key forces re-render on default value change without making text input a controlled component
+					key={JSON.stringify(currentDate)}
+					onBlur={() => {
+						onStringDateChange(stringDate);
+					}}
+					name={name}
+					className="oec-date-input__text"
+					inputProps={{
+						onKeyUp: (e: { key: string }) => {
+							if (e.key === 'Enter') {
+								onStringDateChange(stringDate);
+							}
+						},
+					}}
+				/>
+				<div className="oec-calendar-dropdown oec-date-input__calendar-dropdown">
+					<Button
+						text={<CalendarIcon className="oec-calendar-toggle__icon" />}
+						onClick={() => {
+							setCalendarOpen(!calendarOpen);
 						}}
-						id={`${id}-${key}-start-date`}
-						{...inputDetails[key].props}
-						{...commonDateInputProps}
-						onBlur={event => {
-							const newRangeVals = Object.assign({}, rangeByVal);
-							newRangeVals[key].startIsInvalid = !inputDetails[key].checkValidity(
-								event.target.value
-							);
-							setRangeByVal(newRangeVals);
-						}}
-						optional={optional}
-						status={
-							rangeByVal[key].startIsInvalid
-								? {
-										type: 'warning',
-										message: inputDetails[key].errorMessage,
-										id: `${id}-${key}-start-error`,
-								  }
-								: undefined
-						}
+						title={`${calendarOpen ? 'close' : 'open'} calendar`}
+						className="oec-calendar-toggle oec-calendar-dropdown__toggle"
 					/>
+					<div
+						className="oec-calendar-dropdown__calendar position-absolute z-top"
+						hidden={!calendarOpen}
+					>
+						<DayPickerSingleDateController
+							// Key forces re-render, which helps deal with bugs in this library-- see scss file
+							key={JSON.stringify({ stringDate, dateIsInvalid, currentDate, calendarOpen })}
+							date={currentDate}
+							onDateChange={newDate => {
+								setStringDate(newDate ? newDate.format(momentFormat) : undefined);
+								onMomentChange(newDate);
+							}}
+							focused={calendarOpen}
+							// Annoyingly this does not do anything for keyboard users
+							onFocusChange={f => setCalendarOpen(f.focused || false)}
+							onBlur={() => setCalendarOpen(false)}
+							// TODO: IMPLEMENT ON TAB ONCE TYPES FOR THIS LIBRARY ARE UPDATED :/
+							// onTab={() => {}}
+							onOutsideClick={e => {
+								const clickOnCalendarOrButton = e.target.closest(`#${id} .oec-calendar-dropdown`);
+								// If a user clicks the button again, the button will handle closing it, and this would fire first and cause problems
+								if (!clickOnCalendarOrButton) {
+									setCalendarOpen(false);
+								}
+							}}
+							initialVisibleMonth={() => currentDate || moment()}
+						/>
+					</div>
 				</div>
-			))}{' '}
+			</div>
 		</FieldSet>
 	);
-
-	if (format === 'rangeInput') {
-		return (
-			<FieldSet
-				legend={label}
-				status={status || inlineWarning}
-				id={id}
-				showLegend={!hideLabel}
-				hint="For example: 04 28 1986"
-				childrenGroupClassName="flex-row display-flex flex-align-end"
-				className={className}
-			>
-				{startDateFieldset}
-				<FieldSet
-					legend={`${label} end`}
-					id={`${id}-end-date`}
-					showLegend
-					childrenGroupClassName="flex-row flex-align-end usa-memorable-date"
-				>
-					{Object.keys(inputDetails).map(key => (
-						<div key={key}>
-							<TextInput
-								//@ts-ignore IDK, y'all TS has a problem here
-								type="input"
-								defaultValue={rangeByVal[key].end}
-								onChange={event => {
-									const newRangeVals = Object.assign({}, rangeByVal);
-									newRangeVals[key].end = event.target.value;
-									setRangeByVal(newRangeVals);
-								}}
-								id={`${id}-${key}-end-date`}
-								{...inputDetails[key].props}
-								{...commonDateInputProps}
-								onBlur={event => {
-									const newRangeVals = Object.assign({}, rangeByVal);
-									newRangeVals[key].endIsInvalid = !inputDetails[key].checkValidity(
-										event.target.value
-									);
-									setRangeByVal(newRangeVals);
-								}}
-								optional={optional}
-								status={
-									rangeByVal[key].endIsInvalid
-										? {
-												type: 'warning',
-												message: inputDetails[key].errorMessage,
-												id: `${id}-${key}-start-error`,
-										  }
-										: undefined
-								}
-							/>
-						</div>
-					))}
-				</FieldSet>
-			</FieldSet>
-		);
-	}
-	return startDateFieldset;
 };
