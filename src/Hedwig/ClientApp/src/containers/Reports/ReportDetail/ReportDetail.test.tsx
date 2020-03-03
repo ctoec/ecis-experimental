@@ -66,7 +66,8 @@ describe('ReportDetail', () => {
 
 	describe('when report is ready to be submitted', () => {
 		beforeEach(() => {
-			(mockReport = _mockReport), (mockMutate = jest.fn(() => Promise.resolve()));
+			mockReport = _mockReport;
+			mockMutate = jest.fn(() => Promise.resolve());
 		});
 
 		it('allows the report to be submitted', () => {
