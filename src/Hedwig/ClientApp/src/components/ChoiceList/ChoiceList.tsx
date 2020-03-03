@@ -149,7 +149,7 @@ export function ChoiceList({
 				<select
 					key={`${id}-select`}
 					className={`usa-select${status ? ` usa-input--${status.type}` : ''}`}
-					name={id}
+					name={name || ''}
 					id={id}
 					onChange={changeEvent}
 					disabled={disabled}

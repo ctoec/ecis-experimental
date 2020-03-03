@@ -88,7 +88,6 @@ export const updateData =
 				if (isChangeEvent(event)) {
 					const {
 						target: { name, value },
-						nativeEvent,
 					} = event;
 					update({
 						_path: name,
