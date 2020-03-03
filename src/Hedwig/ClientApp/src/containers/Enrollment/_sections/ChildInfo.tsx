@@ -1,8 +1,7 @@
-import React, { useContext, useState, useCallback, useEffect, useReducer } from 'react';
+import React, { useContext, useState, useEffect, useReducer } from 'react';
 import { Section } from '../enrollmentTypes';
-import moment, { Moment } from 'moment';
-import idx from 'idx';
-import { Button, TextInput, DateInput, ChoiceList, FieldSet, DateRange } from '../../../components';
+import moment from 'moment';
+import { Button, TextInput, DateInput, ChoiceList, FieldSet } from '../../../components';
 import { nameFormatter } from '../../../utils/stringFormatters';
 import dateFormatter from '../../../utils/dateFormatter';
 import {
@@ -102,13 +101,29 @@ const ChildInfo: Section = {
 					child: {
 						id: emptyGuid(),
 						organizationId: getIdForUser(user, 'org'),
-						// ...args,
+						// Nullable fields
+						sasid: null,
+						firstName: null,
+						middleName: null,
+						lastName: null,
+						suffix: null,
+						birthCertificateId: null,
+						birthTown: null,
+						birthState: null,
+						birthdate: null,
+						// Fields that must have a default value
+						americanIndianOrAlaskaNative: false,
+						asian: false,
+						blackOrAfricanAmerican: false,
+						nativeHawaiianOrPacificIslander: false,
+						white: false,
+						hispanicOrLatinxEthnicity: false,
+						gender: Gender.Unspecified,
 					},
 				} as DeepNonUndefineable<Enrollment>)
 		);
-		const updateFormData = updateData<DeepNonUndefineable<Enrollment>>(updateEnrollment);
 
-		console.log(_enrollment);
+		const updateFormData = updateData<DeepNonUndefineable<Enrollment>>(updateEnrollment);
 
 		const defaultPostParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest = {
 			orgId: getIdForUser(user, 'org'),
@@ -117,95 +132,65 @@ const ChildInfo: Section = {
 		};
 		const defaultPutParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
 			...defaultPostParams,
-			id: idx(enrollment, _ => _.id) || 0,
+			id: _enrollment.id,
 		};
 
-		const child = enrollment && enrollment.child;
-		const [sasid, updateSasid] = useState(child ? child.sasid : null);
-
-		const [firstName, updateFirstName] = useState(child ? child.firstName : null);
-		const [middleName, updateMiddleName] = useState(child ? child.middleName : null);
-		const [lastName, updateLastName] = useState(child ? child.lastName : null);
-		const [suffix, updateSuffix] = useState(child ? child.suffix : null);
-
-		const [birthdate, updateBirthdate] = useState(child ? child.birthdate : null);
-		const setBirthdate = useCallback(
-			(newBirthDate: Moment | null) => {
-				updateBirthdate(newBirthDate && newBirthDate.isValid() ? newBirthDate.toDate() : null);
+		const {
+			child: {
+				sasid,
+				firstName,
+				middleName,
+				lastName,
+				suffix,
+				birthCertificateId,
+				birthTown,
+				birthState,
+				birthdate,
+				americanIndianOrAlaskaNative,
+				asian,
+				blackOrAfricanAmerican,
+				nativeHawaiianOrPacificIslander,
+				white,
+				hispanicOrLatinxEthnicity,
+				gender,
 			},
-			[updateBirthdate]
-		);
-		const [birthCertificateId, updateBirthCertificateId] = useState(
-			child ? child.birthCertificateId : null
-		);
-		const [birthTown, updateBirthTown] = useState(child ? child.birthTown : null);
-		const [birthState, updateBirthState] = useState(child ? child.birthState : null);
+		} = _enrollment;
 
-		const [childRace, updateChildRace] = useState([
+		const childRace = [
 			{
 				text: 'American Indian or Alaska Native',
 				value: 'americanIndianOrAlaskaNative',
-				selected: (child && child.americanIndianOrAlaskaNative) || false,
+				selected: americanIndianOrAlaskaNative,
 			},
 			{
 				text: 'Asian',
 				value: 'asian',
-				selected: (child && child.asian) || false,
+				selected: asian,
 			},
 			{
 				text: 'Black or African American',
 				value: 'blackOrAfricanAmerican',
-				selected: (child && child.blackOrAfricanAmerican) || false,
+				selected: blackOrAfricanAmerican,
 			},
 			{
 				text: 'Native Hawaiian or Pacific Islander',
 				value: 'nativeHawaiianOrPacificIslander',
-				selected: (child && child.nativeHawaiianOrPacificIslander) || false,
+				selected: nativeHawaiianOrPacificIslander,
 			},
 			{
 				text: 'White',
 				value: 'white',
-				selected: (child && child.white) || false,
+				selected: white,
 			},
-		]);
-
-		const [hispanicOrLatinxEthnicity, updateHispanicOrLatinxEthnicity] = useState(
-			child ? child.hispanicOrLatinxEthnicity : null
-		);
-
-		const [gender, updateGender] = useState(child ? child.gender : Gender.Unspecified);
-
-		let childRaceArgs: { [key: string]: boolean } = {};
-		childRace.forEach(raceObj => (childRaceArgs[raceObj.value] = raceObj.selected));
-
-		const args = {
-			sasid,
-			firstName,
-			middleName,
-			lastName,
-			suffix,
-			birthdate,
-			birthCertificateId,
-			birthTown,
-			birthState,
-			hispanicOrLatinxEthnicity,
-			gender,
-			...childRaceArgs,
-		};
+		].map(r => ({ ...r, name: `child.${r.value}` }));
 
 		const _save = () => {
 			if (enrollment) {
-				// If enrollment exists, put to save changes
+				// If enrollment existed already, put to save changes
 				const putParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
 					...defaultPutParams,
 					enrollment: {
-						...enrollment,
-						child: {
-							id: enrollment.childId,
-							organizationId: getIdForUser(user, 'org'),
-							...enrollment.child,
-							...args,
-						},
+						..._enrollment,
 					},
 				};
 				return mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams))
@@ -220,14 +205,7 @@ const ChildInfo: Section = {
 				const postParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest = {
 					...defaultPostParams,
 					enrollment: {
-						id: 0,
-						siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
-						childId: emptyGuid(),
-						child: {
-							id: emptyGuid(),
-							organizationId: getIdForUser(user, 'org'),
-							...args,
-						},
+						..._enrollment,
 					},
 				};
 				return mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsPost(postParams))
@@ -244,10 +222,6 @@ const ChildInfo: Section = {
 
 		const { isExecuting: isMutating, setExecuting: save } = usePromiseExecution(_save);
 
-		// TODO: use reducer for everything except first and last name, for which we need an enrollment\
-		// will need to make an enrollment object to do anything with user reducer
-
-		// TODO: should gender be radio buttons as recommended by USWDS rather than select?
 		return (
 			<form className="ChildInfoForm usa-form" onSubmit={save} noValidate autoComplete="off">
 				<div className="grid-row grid-gap">
@@ -256,8 +230,9 @@ const ChildInfo: Section = {
 							type="input"
 							id="sasid"
 							label="SASID"
+							name="child.sasid"
+							onChange={updateFormData(newSasid => newSasid)}
 							defaultValue={sasid || ''}
-							onChange={event => updateSasid(event.target.value)}
 							optional
 						/>
 					</div>
@@ -267,7 +242,8 @@ const ChildInfo: Section = {
 							id="firstName"
 							label="First name"
 							defaultValue={firstName || ''}
-							onChange={event => updateFirstName(event.target.value)}
+							name="child.firstName"
+							onChange={updateFormData(newFirstName => newFirstName)}
 							status={initialLoadErrorGuard(
 								initialLoad,
 								serverErrorForField(
@@ -286,7 +262,8 @@ const ChildInfo: Section = {
 							id="middleName"
 							label="Middle name"
 							defaultValue={middleName || ''}
-							onChange={event => updateMiddleName(event.target.value)}
+							name="child.middleName"
+							onChange={updateFormData(newMiddleName => newMiddleName)}
 							optional
 						/>
 					</div>
@@ -297,7 +274,8 @@ const ChildInfo: Section = {
 								id="lastName"
 								label="Last name"
 								defaultValue={lastName || ''}
-								onChange={event => updateLastName(event.target.value)}
+								name="child.lastName"
+								onChange={updateFormData(newLastName => newLastName)}
 								status={initialLoadErrorGuard(
 									initialLoad,
 									serverErrorForField(
@@ -316,7 +294,8 @@ const ChildInfo: Section = {
 								id="suffix"
 								label="Suffix"
 								defaultValue={suffix || ''}
-								onChange={event => updateSuffix(event.target.value)}
+								name="child.suffix"
+								onChange={updateFormData(newSuffix => newSuffix)}
 								optional
 							/>
 						</div>
@@ -325,7 +304,8 @@ const ChildInfo: Section = {
 
 				<h2>Date of birth</h2>
 				<DateInput
-					onChange={setBirthdate}
+					name="child.birthdate"
+					onChange={updateFormData(newBirthdate => newBirthdate.toDate())}
 					date={birthdate ? moment(birthdate) : null}
 					label="Birth date"
 					id="birthdate-picker"
@@ -362,7 +342,8 @@ const ChildInfo: Section = {
 							id="birthCertificateId"
 							label="Birth certificate ID #"
 							defaultValue={birthCertificateId || ''}
-							onChange={event => updateBirthCertificateId(event.target.value)}
+							name="child.birthCertificateId"
+							onChange={updateFormData(newCertId => newCertId)}
 							status={initialLoadErrorGuard(
 								initialLoad,
 								warningForField('birthCertificateId', enrollment ? enrollment.child : null, '')
@@ -375,7 +356,8 @@ const ChildInfo: Section = {
 							id="birthTown"
 							label="Town"
 							defaultValue={birthTown || ''}
-							onChange={event => updateBirthTown(event.target.value)}
+							name="child.birthTown"
+							onChange={updateFormData(newTown => newTown)}
 							status={initialLoadErrorGuard(
 								initialLoad,
 								warningForField('birthTown', enrollment ? enrollment.child : null, '')
@@ -387,8 +369,9 @@ const ChildInfo: Section = {
 							type="input"
 							id="birthState"
 							label="State"
+							name="child.birthState"
+							onChange={updateFormData(newState => newState)}
 							defaultValue={birthState || ''}
-							onChange={event => updateBirthState(event.target.value)}
 							status={initialLoadErrorGuard(
 								initialLoad,
 								warningForField('birthState', enrollment ? enrollment.child : null, '')
@@ -414,11 +397,8 @@ const ChildInfo: Section = {
 					)}
 					legend="Race"
 					id="race-checklist"
-					onChange={(_, selected) => {
-						updateChildRace(
-							childRace.map(raceObj => ({ ...raceObj, selected: selected.includes(raceObj.value) }))
-						);
-					}}
+					name="child"
+					onChange={updateFormData((_, e) => e.target.checked)}
 				/>
 
 				<h2>Ethnicity</h2>
@@ -453,11 +433,8 @@ const ChildInfo: Section = {
 							? ['yes']
 							: ['no']
 					}
-					onChange={event =>
-						updateHispanicOrLatinxEthnicity(
-							event.target.value === '' ? null : event.target.value === 'yes'
-						)
-					}
+					name="child.hispanicOrLatinxEthnicity"
+					onChange={updateFormData(selectedValue => selectedValue === 'yes')}
 				/>
 
 				<h2>Gender</h2>
@@ -484,7 +461,8 @@ const ChildInfo: Section = {
 					]}
 					label="Gender"
 					selected={[gender] || [Gender.Unspecified]}
-					onChange={event => updateGender(genderFromString(event.target.value))}
+					name="child.gender"
+					onChange={updateFormData(newGender => genderFromString(newGender))}
 					id="gender-select"
 					status={initialLoadErrorGuard(
 						initialLoad,

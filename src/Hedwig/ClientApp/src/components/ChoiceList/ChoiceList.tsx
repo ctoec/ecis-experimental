@@ -6,6 +6,7 @@ import RadioButton from './RadioButton';
 type Option = {
 	text: string;
 	value: string;
+	name?: string;
 };
 
 export type HTMLChoiceElement = HTMLInputElement | HTMLSelectElement;
@@ -108,7 +109,7 @@ export function ChoiceList({
 			children = options.map(option => (
 				<RadioButton
 					{...option}
-					name={name || ''}
+					name={option.name || name || ''}
 					onChange={changeEvent}
 					selected={selectedItems.includes(option.value)}
 					disabled={disabled}
@@ -121,7 +122,7 @@ export function ChoiceList({
 				<Checkbox
 					id={`${id}-${option.value}`}
 					{...option}
-					name={name || ''}
+					name={option.name || name || ''}
 					onChange={changeEvent}
 					selected={selectedItems.includes(option.value)}
 					disabled={disabled}

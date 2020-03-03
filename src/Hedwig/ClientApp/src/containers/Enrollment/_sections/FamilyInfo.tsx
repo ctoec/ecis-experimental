@@ -96,10 +96,8 @@ const FamilyInfo: Section = {
 			enrollment: _enrollment,
 		};
 
-		const {
-			family: { addressLine1, addressLine2, town, state, zip, homelessness },
-			foster,
-		} = child || {};
+		const { family, foster } = child || {};
+		const { addressLine1, addressLine2, town, state, zip, homelessness } = family || {};
 
 		const _save = () => {
 			if (enrollment.child && enrollment.id) {
