@@ -1,6 +1,6 @@
 import { Child, Gender } from '../../generated';
 
-export const child: Child = {
+export const mockChild: Child = {
 	id: '2',
 	firstName: 'Lily',
 	middleName: 'Luna',

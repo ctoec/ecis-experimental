@@ -41,6 +41,7 @@ export default function Roster() {
 		id: getIdForUser(user, 'org'),
 		include: ['sites', 'funding_spaces'],
 	};
+
 	const [organizationLoading, organizationError, organization] = useApi(
 		api => api.apiOrganizationsIdGet(orgParams),
 		[user],

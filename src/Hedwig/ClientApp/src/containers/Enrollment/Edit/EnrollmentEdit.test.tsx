@@ -1,18 +1,35 @@
+// Variables used in jest mockes -- must start with `mock`
+import { mockAllFakeEnrollments, mockSite } from '../../../tests/data';
+import mockUseApi, {
+	mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet,
+	mockApiOrganizationsOrgIdSitesIdGet,
+} from '../../../hooks/__mocks__/useApi';
+
+// Jest mocks must occur before later imports
+jest.mock('../../../hooks/useApi', () =>
+	mockUseApi({
+		apiOrganizationsOrgIdSitesIdGet: mockApiOrganizationsOrgIdSitesIdGet(mockSite),
+		apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet: mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(
+			mockAllFakeEnrollments
+		),
+	})
+);
+
 import React from 'react';
 import mockdate from 'mockdate';
 import { createBrowserHistory } from 'history';
 import { render, getAllByRole } from '@testing-library/react';
-import CommonContextProviderMock, {
-	defaultCdcReportingPeriods,
-} from '../../../contexts/__mocks__/CommonContextProviderMock';
-import { enrollmentMissingAddress } from '../../../hooks/__mocks__/useApi';
+import 'react-dates/initialize';
+import TestProvider from '../../../contexts/__mocks__/TestProvider';
 import EnrollmentEdit from './EnrollmentEdit';
 import { accessibilityTestHelper } from '../../accessibilityTestHelper';
-import { completeEnrollment } from '../../../tests/data';
+import {
+	mockCompleteEnrollment,
+	cdcReportingPeriods,
+	mockEnrollmentMissingAddress,
+} from '../../../tests/data';
 
 const fakeDate = '2019-03-02';
-
-jest.mock('../../../hooks/useApi');
 
 beforeAll(() => {
 	mockdate.set(fakeDate);
@@ -29,17 +46,18 @@ describe('EnrollmentEdit', () => {
 	describe('family info', () => {
 		it('shows a fieldset warning if there is no address', () => {
 			const { getByRole } = render(
-				<CommonContextProviderMock>
+				<TestProvider>
 					<EnrollmentEdit
 						history={history}
 						match={{
 							params: {
-								enrollmentId: enrollmentMissingAddress.id,
+								siteId: mockEnrollmentMissingAddress.siteId,
+								enrollmentId: mockEnrollmentMissingAddress.id,
 								sectionId: 'family-information',
 							},
 						}}
 					/>
-				</CommonContextProviderMock>
+				</TestProvider>
 			);
 
 			const addressErr = getByRole('status');
@@ -51,17 +69,18 @@ describe('EnrollmentEdit', () => {
 	describe('family income', () => {
 		it('shows an info alert if family income is not disclosed', () => {
 			const { getByText } = render(
-				<CommonContextProviderMock>
+				<TestProvider>
 					<EnrollmentEdit
 						history={history}
 						match={{
 							params: {
-								enrollmentId: completeEnrollment.id,
+								siteId: mockCompleteEnrollment.siteId,
+								enrollmentId: mockCompleteEnrollment.id,
 								sectionId: 'family-income',
 							},
 						}}
 					/>
-				</CommonContextProviderMock>
+				</TestProvider>
 			);
 
 			const infoAlert = getByText(
@@ -75,29 +94,37 @@ describe('EnrollmentEdit', () => {
 	describe('enrollment and funding', () => {
 		it('shows the appropriate number of reporting periods for enrollment funding', () => {
 			const { getByLabelText } = render(
-				<CommonContextProviderMock>
+				<TestProvider>
 					<EnrollmentEdit
 						history={history}
 						match={{
-							params: { enrollmentId: completeEnrollment.id, sectionId: 'enrollment-funding' },
+							params: {
+								siteId: mockCompleteEnrollment.siteId,
+								enrollmentId: mockCompleteEnrollment.id,
+								sectionId: 'enrollment-funding',
+							},
 						}}
 					/>
-				</CommonContextProviderMock>
+				</TestProvider>
 			);
 			const reportingPeriodSelect = getByLabelText('First reporting period');
 			const reportingPeriodOptions = getAllByRole(reportingPeriodSelect, 'option');
-			expect(reportingPeriodOptions.length).toBe(defaultCdcReportingPeriods.length + 1);
+			expect(reportingPeriodOptions.length).toBe(cdcReportingPeriods.length + 1);
 		});
 	});
 
 	accessibilityTestHelper(
-		<CommonContextProviderMock>
+		<TestProvider>
 			<EnrollmentEdit
 				history={history}
 				match={{
-					params: { enrollmentId: completeEnrollment.id, sectionId: 'enrollment-funding' },
+					params: {
+						siteId: mockCompleteEnrollment.siteId,
+						enrollmentId: mockCompleteEnrollment.id,
+						sectionId: 'enrollment-funding',
+					},
 				}}
 			/>
-		</CommonContextProviderMock>
+		</TestProvider>
 	);
 });

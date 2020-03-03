@@ -34,7 +34,7 @@ exports[`Roster matches snapshot 1`] = `
         <p
           class="intro display-flex flex-row flex-wrap flex-justify-start"
         >
-          4 children enrolled. 
+          5 children enrolled. 
           <button
             class="usa-button usa-button--unstyled"
             type="button"
@@ -75,7 +75,7 @@ exports[`Roster matches snapshot 1`] = `
           <span
             class="text-bold"
           >
-            4/2
+            5/2
           </span>
           <span>
              Child Day Care spaces filled
@@ -118,7 +118,7 @@ exports[`Roster matches snapshot 1`] = `
     <h2
       class="margin-top-6"
     >
-      Preschool (4 children)
+      Preschool (5 children)
     </h2>
     <ul>
       <li>
@@ -379,6 +379,36 @@ exports[`Roster matches snapshot 1`] = `
             class="oec-table__cell--tabular-nums"
           >
             03/01/2019
+          </td>
+        </tr>
+        <tr>
+          <th
+            scope="row"
+          >
+            <a
+              class="usa-link print"
+              href="/roster/sites/1/enrollments/6/"
+            >
+              Potter, Lily Luna
+            </a>
+             
+          </th>
+          <td
+            class="oec-table__cell--tabular-nums"
+          >
+            12/12/2016
+          </td>
+          <td>
+            <span
+              class="usa-tag undefined bg-blue-50v"
+            >
+              CDC–FT
+            </span>
+          </td>
+          <td
+            class="oec-table__cell--tabular-nums"
+          >
+            02/03/2018
           </td>
         </tr>
       </tbody>
