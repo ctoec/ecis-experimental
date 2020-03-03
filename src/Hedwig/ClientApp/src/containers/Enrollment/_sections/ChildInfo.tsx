@@ -231,7 +231,7 @@ const ChildInfo: Section = {
 							id="sasid"
 							label="SASID"
 							name="child.sasid"
-							onChange={updateFormData(newSasid => newSasid)}
+							onChange={updateFormData()}
 							defaultValue={sasid || ''}
 							optional
 						/>
@@ -243,7 +243,7 @@ const ChildInfo: Section = {
 							label="First name"
 							defaultValue={firstName || ''}
 							name="child.firstName"
-							onChange={updateFormData(newFirstName => newFirstName)}
+							onChange={updateFormData()}
 							status={initialLoadErrorGuard(
 								initialLoad,
 								serverErrorForField(
@@ -263,7 +263,7 @@ const ChildInfo: Section = {
 							label="Middle name"
 							defaultValue={middleName || ''}
 							name="child.middleName"
-							onChange={updateFormData(newMiddleName => newMiddleName)}
+							onChange={updateFormData()}
 							optional
 						/>
 					</div>
@@ -275,7 +275,7 @@ const ChildInfo: Section = {
 								label="Last name"
 								defaultValue={lastName || ''}
 								name="child.lastName"
-								onChange={updateFormData(newLastName => newLastName)}
+								onChange={updateFormData()}
 								status={initialLoadErrorGuard(
 									initialLoad,
 									serverErrorForField(
@@ -295,7 +295,7 @@ const ChildInfo: Section = {
 								label="Suffix"
 								defaultValue={suffix || ''}
 								name="child.suffix"
-								onChange={updateFormData(newSuffix => newSuffix)}
+								onChange={updateFormData()}
 								optional
 							/>
 						</div>
@@ -343,7 +343,7 @@ const ChildInfo: Section = {
 							label="Birth certificate ID #"
 							defaultValue={birthCertificateId || ''}
 							name="child.birthCertificateId"
-							onChange={updateFormData(newCertId => newCertId)}
+							onChange={updateFormData()}
 							status={initialLoadErrorGuard(
 								initialLoad,
 								warningForField('birthCertificateId', enrollment ? enrollment.child : null, '')
@@ -357,7 +357,7 @@ const ChildInfo: Section = {
 							label="Town"
 							defaultValue={birthTown || ''}
 							name="child.birthTown"
-							onChange={updateFormData(newTown => newTown)}
+							onChange={updateFormData()}
 							status={initialLoadErrorGuard(
 								initialLoad,
 								warningForField('birthTown', enrollment ? enrollment.child : null, '')
@@ -370,7 +370,7 @@ const ChildInfo: Section = {
 							id="birthState"
 							label="State"
 							name="child.birthState"
-							onChange={updateFormData(newState => newState)}
+							onChange={updateFormData()}
 							defaultValue={birthState || ''}
 							status={initialLoadErrorGuard(
 								initialLoad,
@@ -462,7 +462,7 @@ const ChildInfo: Section = {
 					label="Gender"
 					selected={[gender] || [Gender.Unspecified]}
 					name="child.gender"
-					onChange={updateFormData(newGender => genderFromString(newGender))}
+					onChange={updateFormData(genderFromString)}
 					id="gender-select"
 					status={initialLoadErrorGuard(
 						initialLoad,

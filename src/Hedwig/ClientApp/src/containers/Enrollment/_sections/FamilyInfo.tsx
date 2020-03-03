@@ -117,7 +117,6 @@ const FamilyInfo: Section = {
 		};
 
 		const _save = () => {
-			console.log(_enrollment);
 			if (enrollment.child && enrollment.id) {
 				const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
 					...defaultParams,
@@ -165,7 +164,7 @@ const FamilyInfo: Section = {
 							label="Address line 1"
 							name="child.family.addressLine1"
 							defaultValue={addressLine1 || ''}
-							onChange={updateFormData(newAddressLine1 => newAddressLine1)}
+							onChange={updateFormData()}
 							status={initialLoadErrorGuard(
 								initialLoad,
 								warningForField('addressLine1', idx(enrollment, _ => _.child.family) || null, '')
@@ -179,7 +178,7 @@ const FamilyInfo: Section = {
 							label="Address line 2"
 							name="child.family.addressLine2"
 							defaultValue={addressLine2 || ''}
-							onChange={updateFormData(newAddressLine2 => newAddressLine2)}
+							onChange={updateFormData()}
 							optional={true}
 						/>
 					</div>
@@ -190,7 +189,7 @@ const FamilyInfo: Section = {
 							label="Town"
 							name="child.family.town"
 							defaultValue={town || ''}
-							onChange={updateFormData(newTown => newTown)}
+							onChange={updateFormData()}
 							status={initialLoadErrorGuard(
 								initialLoad,
 								warningForField('town', idx(enrollment, _ => _.child.family) || null, '')
@@ -206,7 +205,7 @@ const FamilyInfo: Section = {
 							options={['CT', 'MA', 'NY', 'RI'].map(_state => ({ text: _state, value: _state }))}
 							selected={state ? [state] : undefined}
 							// onChange={(event, selectedValues) => updateState(selectedValues[0])}
-							onChange={updateFormData(newState => newState)}
+							onChange={updateFormData()}
 							status={initialLoadErrorGuard(
 								initialLoad,
 								warningForField('state', idx(enrollment, _ => _.child.family) || null, '')
@@ -220,7 +219,7 @@ const FamilyInfo: Section = {
 							label="ZIP Code"
 							name="child.family.zip"
 							defaultValue={zip || ''}
-							onChange={updateFormData(newZip => newZip)}
+							onChange={updateFormData()}
 							status={initialLoadErrorGuard(
 								initialLoad,
 								warningForField('zip', idx(enrollment, _ => _.child.family) || null, '')
