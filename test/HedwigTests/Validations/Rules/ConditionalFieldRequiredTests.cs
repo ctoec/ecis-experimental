@@ -50,12 +50,13 @@ namespace HedwigTests.Validations.Rules
 			};
 
 			// when
+			var validationContext = new NonBlockingValidationContext();
 			var rule = new Mock<ConditionalFieldRequired<TestValidatableEntity>>("condition Message", fieldName, null);
 			rule.Protected()
-			.Setup<bool>("CheckCondition", new object[] { entity })
+			.Setup<bool>("CheckCondition", new object[] { entity, validationContext })
 			.Returns(conditionResult);
 			rule.CallBase = true;
-			var result = rule.Object.Execute(entity, new NonBlockingValidationContext());
+			var result = rule.Object.Execute(entity, validationContext);
 
 			// then
 			Assert.Equal(doesError, result != null);
