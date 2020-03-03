@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import idx from 'idx';
 import { useParams } from 'react-router-dom';
 import { fundingSourceDetails } from '../../utils/fundingTypeFormatters';
 import getFundingSpaceCapacity from '../../utils/getFundingSpaceCapacity';
