@@ -46,7 +46,7 @@ function isFormReducerObjectPathUpdate<S>(obj: any): obj is FormReducerObjectPat
  */
 function isChangeEvent<T extends HTMLChoiceElement>(obj: any): obj is React.ChangeEvent<T> {
 	const _obj = obj as React.ChangeEvent<T>;
-	return _obj.target && _obj.target.name && _obj.target.value ? true : false;
+	return _obj.target && _obj.target.name ? true : false;
 }
 
 /**

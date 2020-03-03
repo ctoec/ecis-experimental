@@ -87,8 +87,28 @@ const FamilyInfo: Section = {
 		>(formReducer, enrollment);
 		const updateFormData = updateData<DeepNonUndefineable<Enrollment>>(updateEnrollment);
 
-		const child = _enrollment.child;
 		const { user } = useContext(UserContext);
+
+		if (!_enrollment.child.family) {
+			// If there isn't a family, create one-- otherwise user can save section without making one
+			updateFormData(e => e.value)({
+				name: 'child.family',
+				value: {
+					id: _enrollment.child.familyId || 0,
+					organizationId: getIdForUser(user, 'org'),
+					addressLine1: null,
+					addressLine2: null,
+					town: null,
+					state: null,
+					zip: null,
+					homelessness: false,
+				},
+			});
+		}
+		const child = _enrollment.child;
+		const { foster, family } = child;
+		const { addressLine1, addressLine2, town, state, zip, homelessness } = family || {};
+
 		const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
 			id: _enrollment.id || 0,
 			orgId: getIdForUser(user, 'org'),
@@ -96,10 +116,8 @@ const FamilyInfo: Section = {
 			enrollment: _enrollment,
 		};
 
-		const { family, foster } = child || {};
-		const { addressLine1, addressLine2, town, state, zip, homelessness } = family || {};
-
 		const _save = () => {
+			console.log(_enrollment);
 			if (enrollment.child && enrollment.id) {
 				const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
 					...defaultParams,
@@ -110,6 +128,7 @@ const FamilyInfo: Section = {
 				};
 				return mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
 					.then(res => {
+						console.log(res);
 						if (successCallback && res && !error) successCallback(res);
 					})
 					.finally(() => {
