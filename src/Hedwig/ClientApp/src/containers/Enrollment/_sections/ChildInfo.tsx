@@ -1,4 +1,4 @@
-import React, { useContext, useState, useCallback, useEffect } from 'react';
+import React, { useContext, useState, useCallback, useEffect, useReducer } from 'react';
 import { Section } from '../enrollmentTypes';
 import moment, { Moment } from 'moment';
 import idx from 'idx';
@@ -34,6 +34,8 @@ import {
 import usePromiseExecution from '../../../hooks/usePromiseExecution';
 import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
 import AlertContext from '../../../contexts/Alert/AlertContext';
+import { FormReducer, formReducer, updateData } from '../../../utils/forms/form';
+import { DeepNonUndefineable } from '../../../utils/types';
 
 const ChildInfo: Section = {
 	key: 'child-information',
@@ -87,6 +89,27 @@ const ChildInfo: Section = {
 		}, [error, hasAlertedOnError]);
 
 		const { user } = useContext(UserContext);
+
+		const [_enrollment, updateEnrollment] = useReducer<
+			FormReducer<DeepNonUndefineable<Enrollment>>
+		>(
+			formReducer,
+			enrollment ||
+				({
+					id: 0,
+					siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
+					childId: emptyGuid(),
+					child: {
+						id: emptyGuid(),
+						organizationId: getIdForUser(user, 'org'),
+						// ...args,
+					},
+				} as DeepNonUndefineable<Enrollment>)
+		);
+		const updateFormData = updateData<DeepNonUndefineable<Enrollment>>(updateEnrollment);
+
+		console.log(_enrollment);
+
 		const defaultPostParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest = {
 			orgId: getIdForUser(user, 'org'),
 			siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
