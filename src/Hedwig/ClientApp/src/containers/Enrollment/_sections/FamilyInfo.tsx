@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useReducer } from 'react';
+import React, { useContext, useEffect, useReducer } from 'react';
 import idx from 'idx';
 import { Section } from '../enrollmentTypes';
 import { Button, TextInput, ChoiceList, FieldSet } from '../../../components';
@@ -69,18 +69,18 @@ const FamilyInfo: Section = {
 		// set up form state
 		const { setAlerts } = useContext(AlertContext);
 		const initialLoad = visitedSections ? !visitedSections[FamilyInfo.key] : false;
-		const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
-		// We're not setting has alerted on error anywhere?
+		// const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
+		// We're not setting has alerted on error anywhere because there are no server errors here?
 
 		useFocusFirstError([error]);
 		useEffect(() => {
-			if (error && !hasAlertedOnError) {
+			if (error) {
 				if (!isBlockingValidationError(error)) {
 					throw new Error(error.title || 'Unknown api error');
 				}
 				setAlerts([validationErrorAlert]);
 			}
-		}, [error, hasAlertedOnError]);
+		}, [error]);
 
 		const [_enrollment, updateEnrollment] = useReducer<
 			FormReducer<DeepNonUndefineable<Enrollment>>

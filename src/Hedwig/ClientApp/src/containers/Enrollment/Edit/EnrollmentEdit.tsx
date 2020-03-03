@@ -22,7 +22,7 @@ import {
 	editEnrollmentCompleteAlert,
 	editSaveFailAlert,
 } from '../../../utils/stringFormatters';
-import { ErrorBoundary, AlertProps } from '../../../components';
+import { ErrorBoundary } from '../../../components';
 
 type EnrollmentEditParams = {
 	history: History;

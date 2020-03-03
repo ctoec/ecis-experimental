@@ -9,6 +9,6 @@ export default function useRouteChange(callback: () => any) {
 	const { pathname } = useLocation();
 	useEffect(() => {
 		callback();
-	}, [pathname]);
+	}, [pathname, callback]);
 	return null;
 }

@@ -169,7 +169,7 @@ const EnrollmentFunding: Section = {
 				}
 				setAlerts([validationErrorAlert]);
 			}
-		}, [error, hasAlertedOnError]);
+		}, [error, hasAlertedOnError, setAlerts]);
 
 		const { user } = useContext(UserContext);
 		const { cdcReportingPeriods: reportingPeriods } = useContext(ReportingPeriodContext);
@@ -252,7 +252,7 @@ const EnrollmentFunding: Section = {
 				? [cdcReportingPeriod, ...nextPeriodsExcludingCurrent]
 				: nextPeriodsExcludingCurrent;
 			updateReportingPeriodOptions([...periods].sort(periodSorter));
-		}, [enrollment.entry, entry, reportingPeriods]);
+		}, [enrollment.entry, entry, reportingPeriods, cdcReportingPeriod]);
 
 		// Dropdown options for funding type
 		const [fundingTypeOpts, setFundingTypeOpts] = useState<{ value: string; text: string }[]>([]);
@@ -286,7 +286,7 @@ const EnrollmentFunding: Section = {
 					text: 'Private pay',
 				},
 			]);
-		}, [site, _enrollment.ageGroup, enrollment]);
+		}, [site, _enrollment.ageGroup, enrollment, cdcFunding]);
 
 		// TODO: make alert wider?
 		// TODO: do we care which reporting periods it violates this constraint for, or just the current one?
@@ -322,7 +322,7 @@ const EnrollmentFunding: Section = {
 			const countDifferent = newCdcFunding ? 1 : removedCdcFunding ? -1 : 0;
 			const numEnrolled = enrolled.length + countDifferent;
 			setUtilizationRate({ capacity, numEnrolled });
-		}, [site, fundingSelection, _enrollment.ageGroup, thisPeriod]);
+		}, [site, fundingSelection, _enrollment.ageGroup, thisPeriod, cdcFunding]);
 
 		const _save = () => {
 			let updatedFundings: Funding[] = [...fundings]
