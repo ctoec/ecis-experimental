@@ -90,4 +90,5 @@ describe('ReportDetail', () => {
 			<ReportDetail />
 		</TestProvider>
 	);
+	
 });
