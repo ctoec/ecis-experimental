@@ -240,9 +240,7 @@ const FamilyIncome: Section = {
 									id="income-determination-date"
 									date={determinationDate ? moment(determinationDate) : null}
 									name="child.family.determinations[0].determinationDate"
-									onChange={updateFormData(newDate =>
-										newDate ? newDate.toDate() : null
-									)}
+									onChange={updateFormData(newDate => (newDate ? newDate.toDate() : null))}
 									status={initialLoadErrorGuard(
 										initialLoad,
 										warningForField('determintionDate', determination ? determination : null, '')
