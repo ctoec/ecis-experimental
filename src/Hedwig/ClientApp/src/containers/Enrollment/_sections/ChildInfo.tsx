@@ -135,26 +135,25 @@ const ChildInfo: Section = {
 			id: _enrollment.id,
 		};
 
+		const child = _enrollment.child || {};
 		const {
-			child: {
-				sasid,
-				firstName,
-				middleName,
-				lastName,
-				suffix,
-				birthCertificateId,
-				birthTown,
-				birthState,
-				birthdate,
-				americanIndianOrAlaskaNative,
-				asian,
-				blackOrAfricanAmerican,
-				nativeHawaiianOrPacificIslander,
-				white,
-				hispanicOrLatinxEthnicity,
-				gender,
-			},
-		} = _enrollment;
+			sasid,
+			firstName,
+			middleName,
+			lastName,
+			suffix,
+			birthCertificateId,
+			birthTown,
+			birthState,
+			birthdate,
+			americanIndianOrAlaskaNative,
+			asian,
+			blackOrAfricanAmerican,
+			nativeHawaiianOrPacificIslander,
+			white,
+			hispanicOrLatinxEthnicity,
+			gender,
+		} = child;
 
 		const childRace = [
 			{

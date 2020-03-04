@@ -127,7 +127,7 @@ const FamilyInfo: Section = {
 				};
 				return mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
 					.then(res => {
-						console.log(res);
+						// console.log(res);
 						if (successCallback && res && !error) successCallback(res);
 					})
 					.finally(() => {
