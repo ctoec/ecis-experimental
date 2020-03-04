@@ -114,7 +114,7 @@ export default function useApi<TData>(
 			return _query(api)
 				.then(result => {
 					setState(_state => {
-						return { ..._state, data: reducer(data, result) };
+						return { ..._state, loading: false, error: null, data: reducer(data, result) };
 					});
 					return result;
 				})
