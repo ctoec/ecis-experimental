@@ -13,6 +13,7 @@ export default function usePromiseExecution(
 	const setExecuting = (e: FormEvent) => {
 		e.preventDefault();
 		_setExecuting(true);
+		// TODO: is this what is causing the memory leak error?
 		callback().finally(() => _setExecuting(false));
 	};
 	return { isExecuting, setExecuting };

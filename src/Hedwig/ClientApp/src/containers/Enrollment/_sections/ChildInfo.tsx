@@ -117,7 +117,7 @@ const ChildInfo: Section = {
 						blackOrAfricanAmerican: false,
 						nativeHawaiianOrPacificIslander: false,
 						white: false,
-						hispanicOrLatinxEthnicity: false,
+						hispanicOrLatinxEthnicity: null,
 						gender: Gender.Unspecified,
 					},
 				} as DeepNonUndefineable<Enrollment>)

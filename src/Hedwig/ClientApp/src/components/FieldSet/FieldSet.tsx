@@ -25,12 +25,6 @@ export const FieldSet: React.FC<FieldSetProps> = ({
 	childrenGroupClassName,
 	disabled,
 }) => {
-	if (typeof legend === 'string' && legend.length > 25) {
-		// TODO: make this work regardless of element type
-		console.warn(
-			'FieldSet legend is kind of long. This might be annoying for people using screen readers.'
-		);
-	}
 	const hintId = `${id}-hint`;
 	let ariaDescriber;
 	if (hint) {
