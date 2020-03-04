@@ -101,7 +101,6 @@ const ChildInfo: Section = {
 					child: {
 						id: emptyGuid(),
 						organizationId: getIdForUser(user, 'org'),
-						// Nullable fields
 						sasid: null,
 						firstName: null,
 						middleName: null,
@@ -111,13 +110,11 @@ const ChildInfo: Section = {
 						birthTown: null,
 						birthState: null,
 						birthdate: null,
-						// Fields that must have a default value
 						americanIndianOrAlaskaNative: false,
 						asian: false,
 						blackOrAfricanAmerican: false,
 						nativeHawaiianOrPacificIslander: false,
 						white: false,
-						hispanicOrLatinxEthnicity: null,
 						gender: Gender.Unspecified,
 					},
 				} as DeepNonUndefineable<Enrollment>)
