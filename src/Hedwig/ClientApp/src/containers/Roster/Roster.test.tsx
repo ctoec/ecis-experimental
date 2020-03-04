@@ -1,29 +1,37 @@
 // Variables used in jest mockes -- must start with `mock`
-import { mockAllFakeEnrollments, mockOrganization } from '../../tests/data';
+import {
+	mockAllFakeEnrollments,
+	mockSingleSiteOrganization,
+	mockEnrollmentMissingAddress,
+	mockMultiSiteOrganization,
+} from '../../tests/data';
 import mockUseApi, {
 	mockApiOrganizationsOrgIdEnrollmentsGet,
 	mockApiOrganizationsIdGet,
 } from '../../hooks/__mocks__/useApi';
 
+let mockOrganization = mockSingleSiteOrganization;
+let mockEnrollments = mockAllFakeEnrollments;
 // Jest mocks must occur before later imports
-jest.mock('../../hooks/useApi', () =>
-	mockUseApi({
-		apiOrganizationsIdGet: mockApiOrganizationsIdGet(mockOrganization),
-		apiOrganizationsOrgIdEnrollmentsGet: mockApiOrganizationsOrgIdEnrollmentsGet(
-			mockAllFakeEnrollments
-		),
-	})
-);
+jest.mock('../../hooks/useApi', () => {
+	return mockUseApi({
+		apiOrganizationsIdGet: (_: any) => mockApiOrganizationsIdGet(mockOrganization)(_),
+		apiOrganizationsOrgIdEnrollmentsGet: (_: any) =>
+			mockApiOrganizationsOrgIdEnrollmentsGet(mockEnrollments)(_),
+	});
+});
 
+let mockSiteId: number | undefined = 1;
 jest.mock('react-router-dom', () => ({
 	...jest.requireActual('react-router-dom'), // use actual for all non-hook parts
 	useParams: () => ({
-		id: 1,
+		id: mockSiteId,
 	}),
 }));
 
 import React from 'react';
 import { render, fireEvent, wait } from '@testing-library/react';
+import { createMemoryHistory } from 'history';
 
 import 'react-dates/initialize';
 import mockdate from 'mockdate';
@@ -32,6 +40,7 @@ import { accessibilityTestHelper } from '../accessibilityTestHelper';
 import TestProvider from '../../contexts/__mocks__/TestProvider';
 
 import Roster from './Roster';
+import idx from 'idx';
 
 const fakeDate = '2019-09-30';
 
@@ -91,6 +100,94 @@ describe('Roster', () => {
 			expect(baseElement).toHaveTextContent(
 				/\d children were enrolled between January 1, 2018 and February 1, 2019/i
 			);
+		});
+	});
+
+	describe('given an enrollment with missing information', () => {
+		beforeEach(() => {
+			mockEnrollments = [mockEnrollmentMissingAddress];
+		});
+
+		it('it renders a missing information notice in legend', () => {
+			const { getByText } = render(
+				<TestProvider>
+					<Roster />
+				</TestProvider>
+			);
+
+			const missingInformation = getByText(/missing information/);
+			expect(missingInformation.previousSibling).toHaveTextContent(/1/);
+		});
+
+		it('it renders a missing infomration notice in roster table', () => {
+			const { getByText } = render(
+				<TestProvider>
+					<Roster />
+				</TestProvider>
+			);
+
+			const childNameRegex = new RegExp(
+				`${idx(mockEnrollmentMissingAddress, _ => _.child.firstName)}`
+			);
+			const childCell = getByText(childNameRegex);
+			const missingInformation = childCell.nextElementSibling;
+			expect(missingInformation).not.toBeNull();
+		});
+	});
+
+	describe('given a single site organization', () => {
+		beforeEach(() => {
+			// Set page to render as /roster
+			mockSiteId = undefined;
+		});
+
+		it('clicking enroll child brings up the enrollment flow', async () => {
+			const history = createMemoryHistory();
+			const { getByText } = render(
+				<TestProvider history={history}>
+					<Roster />
+				</TestProvider>
+			);
+
+			const enrollBtn = getByText(/Enroll child/);
+			fireEvent.click(enrollBtn);
+
+			expect(history.location.pathname).toMatch(/enroll/);
+		});
+	});
+
+	describe('given a multi site organization', () => {
+		beforeEach(() => {
+			// Set page to render as /roster
+			mockSiteId = undefined;
+			mockOrganization = mockMultiSiteOrganization;
+		});
+
+		it('clicking enroll child shows site dropdown', async () => {
+			const history = createMemoryHistory();
+			const { getByText, asFragment } = render(
+				<TestProvider history={history}>
+					<Roster />
+				</TestProvider>
+			);
+
+			const enrollBtn = getByText(/Enroll child/).closest('button');
+			expect(enrollBtn).not.toBeNull();
+			if (enrollBtn === null) {
+				throw new Error('Typescript guarding');
+			}
+			fireEvent.click(enrollBtn);
+
+			expect(history.location.pathname).not.toMatch(/enroll/);
+
+			const dropdown = enrollBtn.nextElementSibling;
+
+			expect(dropdown).not.toBeNull();
+			if (dropdown === null) {
+				throw new Error('Typescript guarding');
+			}
+
+			expect(dropdown.childElementCount).toBe(mockMultiSiteOrganization.sites.length);
 		});
 	});
 

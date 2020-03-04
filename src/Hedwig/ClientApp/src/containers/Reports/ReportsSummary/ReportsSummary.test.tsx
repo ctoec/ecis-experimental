@@ -2,9 +2,7 @@
 import {
 	mockDefaultReport,
 	mockReport as _mockReport,
-	mockCompleteEnrollment,
-	mockEnrollmentWithFoster,
-	mockOrganization,
+	mockSingleSiteOrganization,
 } from '../../../tests/data';
 import mockUseApi, { mockApiOrganizationsIdGet } from '../../../hooks/__mocks__/useApi';
 
@@ -16,7 +14,7 @@ let mockReports = defaultReports;
 // Jest mocks must occur before later imports
 jest.mock('../../../hooks/useApi', () =>
 	mockUseApi({
-		apiOrganizationsIdGet: mockApiOrganizationsIdGet(mockOrganization),
+		apiOrganizationsIdGet: mockApiOrganizationsIdGet(mockSingleSiteOrganization),
 		apiOrganizationsOrgIdReportsGet: (_: any) => [false, null, mockReports],
 	})
 );

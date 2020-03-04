@@ -1,5 +1,5 @@
 import { CdcReport, FundingSource } from '../../generated';
-import { mockOrganization, mockAllFakeEnrollments } from '.';
+import { mockSingleSiteOrganization, mockAllFakeEnrollments } from '.';
 import { swapFields } from '../helpers';
 
 const reportEnrollmentValidationError = [
@@ -24,7 +24,7 @@ export const mockReport: CdcReport = {
 		periodStart: new Date('2019-09-01'),
 		periodEnd: new Date('2019-09-28'),
 	},
-	organization: mockOrganization,
+	organization: mockSingleSiteOrganization,
 	familyFeesRevenue: 1000,
 	validationErrors: reportEnrollmentValidationError,
 };

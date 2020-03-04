@@ -9,3 +9,13 @@ export const mockSite: Site = {
 	titleI: false,
 	region: Region.East,
 };
+
+export const mockAnotherSite: Site = {
+	id: 2,
+	name: "Children's Adventure Center",
+	organizationId: 1,
+	enrollments: undefined,
+	organization: undefined,
+	titleI: false,
+	region: Region.East,
+};
