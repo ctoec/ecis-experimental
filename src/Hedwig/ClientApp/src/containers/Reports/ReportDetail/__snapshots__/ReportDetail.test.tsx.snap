@@ -97,7 +97,7 @@ exports[`ReportDetail matches snapshot 1`] = `
           checked=""
           class="usa-checkbox__input"
           id="accredited-accredited"
-          name=""
+          name="accredited"
           type="checkbox"
           value="accredited"
         />
@@ -288,6 +288,7 @@ exports[`ReportDetail matches snapshot 1`] = `
               aria-required="false"
               class="usa-input"
               id="c4k-revenue"
+              name="c4KRevenue"
               type="text"
               value=""
             />
@@ -304,7 +305,7 @@ exports[`ReportDetail matches snapshot 1`] = `
               <input
                 class="usa-checkbox__input"
                 id="c4k-includes-retroactive-retroactiveC4KRevenue"
-                name=""
+                name="retroactiveC4KRevenue"
                 type="checkbox"
                 value="retroactiveC4KRevenue"
               />
@@ -334,6 +335,7 @@ exports[`ReportDetail matches snapshot 1`] = `
               aria-required="true"
               class="usa-input"
               id="family-fees-revenue"
+              name="familyFeesRevenue"
               type="text"
               value="$1,000.00"
             />
@@ -361,6 +363,7 @@ exports[`ReportDetail matches snapshot 1`] = `
               aria-required="false"
               class="usa-textarea"
               id="cdc-report-comment"
+              name="comment"
             />
           </div>
         </div>

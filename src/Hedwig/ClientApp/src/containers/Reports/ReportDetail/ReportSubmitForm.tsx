@@ -78,7 +78,7 @@ export default function ReportSubmitForm({
 		api => api.apiOrganizationsOrgIdEnrollmentsGet(enrollmentParams),
 		[user, report]
 	);
-	
+
 	const [care4KidsCount, setCare4KidsCount] = useState(0);
 
 	useEffect(() => {

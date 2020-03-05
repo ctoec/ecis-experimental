@@ -87,7 +87,7 @@ export default function Withdrawal({
 
 	useEffect(() => {
 		if (enrollment) {
-			updateEnrollment(enrollment)
+			updateEnrollment(enrollment);
 		}
 	}, [enrollment]);
 
