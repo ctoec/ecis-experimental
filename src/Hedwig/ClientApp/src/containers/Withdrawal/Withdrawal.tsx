@@ -112,7 +112,6 @@ export default function Withdrawal({
 
 	const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
 	useEffect(() => {
-		console.log({error}, {hasAlertedOnError})
 		if (error && !hasAlertedOnError) {
 			if (!isBlockingValidationError(error)) {
 				throw new Error(error.title || 'Unknown api error');
@@ -152,8 +151,7 @@ export default function Withdrawal({
 
 	const save = () => {
 		setAttemptedSave(true);
-
-		// Enrollment end date (exit) is required for withdrawl
+		//enrollment end date (exit) is required for withdrawl
 		if (!enrollmentEndDate) {
 			return;
 		}

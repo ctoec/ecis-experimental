@@ -44,7 +44,9 @@ function isFormReducerObjectPathUpdate<S>(obj: any): obj is FormReducerObjectPat
  * Helper type constraint for React.ChangeEvent<T>
  * @param obj
  */
-function isChangeEvent<T extends HTMLChoiceElement>(obj: any): obj is React.ChangeEvent<T> {
+function isChangeEvent<T extends HTMLChoiceElement | HTMLTextAreaElement>(
+	obj: any
+): obj is React.ChangeEvent<T> {
 	const _obj = obj as React.ChangeEvent<T>;
 	return _obj.target && _obj.target.name ? true : false;
 }
@@ -85,7 +87,9 @@ export const updateData =
 		// TODO: REWORK TYPINGS HERE
 		(processData?: (valOrEvent: any, eventIfChangeEvent?: any) => any) =>
 			// conditional fork for varying data input methods (select/input vs custom like DatePicker)
-			<T extends {}>(event: React.ChangeEvent<HTMLChoiceElement> | InputField<T>) => {
+			<T extends {}>(
+				event: React.ChangeEvent<HTMLChoiceElement | HTMLTextAreaElement> | InputField<T>
+			) => {
 				if (isChangeEvent(event)) {
 					const {
 						target: { name, value },
