@@ -137,13 +137,13 @@ export default function Withdrawal({
 		}
 	}, [enrollment, isMissingInformation, history, setAlerts, siteId]);
 
-	const [withdrawn, setWithdrawn] = useState(false);
+	const [withdrawnAttempted, setWithdrawnAttempted] = useState(false);
 	useEffect(() => {
-		if (withdrawn && !error) {
+		if (withdrawnAttempted && !error) {
 			setAlerts([childWithdrawnAlert(nameFormatter(enrollment.child))]);
 			history.push(`/roster`);
 		}
-	}, [withdrawn, enrollment, history, setAlerts, error]);
+	}, [withdrawnAttempted, enrollment, history, setAlerts, error]);
 
 	if (loading || !enrollment || !enrollment.site) {
 		return <div className="Withdrawl"></div>;
@@ -151,7 +151,7 @@ export default function Withdrawal({
 
 	const save = () => {
 		setAttemptedSave(true);
-		//enrollment end date (exit) is required for withdrawl
+		// Enrollment end date (exit) is required for withdrawl
 		if (!enrollmentEndDate) {
 			return;
 		}
@@ -189,7 +189,7 @@ export default function Withdrawal({
 		};
 
 		mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams)).then(res => {
-			setWithdrawn(true);
+			setWithdrawnAttempted(true);
 		});
 	};
 
