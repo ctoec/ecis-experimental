@@ -1,33 +1,31 @@
+// Variables used in jest mockes -- must start with `mock`
+import {
+	mockDefaultReport,
+	mockReport as _mockReport,
+	mockCompleteEnrollment,
+	mockEnrollmentWithFoster,
+	mockOrganization,
+} from '../../../tests/data';
+import mockUseApi, { mockApiOrganizationsIdGet } from '../../../hooks/__mocks__/useApi';
+
+const submittedReport = { ...mockDefaultReport, submittedAt: new Date('2019-09-14') };
+const defaultReports = [mockDefaultReport, submittedReport];
+
+let mockReports = defaultReports;
+
+// Jest mocks must occur before later imports
+jest.mock('../../../hooks/useApi', () =>
+	mockUseApi({
+		apiOrganizationsIdGet: mockApiOrganizationsIdGet(mockOrganization),
+		apiOrganizationsOrgIdReportsGet: (_: any) => [false, null, mockReports],
+	})
+);
+
 import React from 'react';
 import { render } from '@testing-library/react';
 import ReportsSummary from './ReportsSummary';
-import CommonContextProviderMock from '../../../contexts/__mocks__/CommonContextProviderMock';
-import { CdcReport } from '../../../generated';
-import { mockApi, defaultReport } from '../../../hooks/__mocks__/useApi';
+import CommonContextProviderMock from '../../../contexts/__mocks__/TestProvider';
 import { accessibilityTestHelper } from '../../accessibilityTestHelper';
-
-const submittedReport = { ...defaultReport, submittedAt: new Date('2019-09-14') };
-
-let mockLoading: boolean;
-let mockError: string | null;
-let mockReports: CdcReport[];
-
-const defaultLoading = false;
-const defaultError = null;
-const defaultReports = [defaultReport, submittedReport];
-
-beforeEach(() => {
-	mockLoading = defaultLoading;
-	mockError = defaultError;
-	mockReports = defaultReports;
-});
-
-jest.mock('../../../hooks/useApi', () => (query: Function) =>
-	query({
-		...mockApi,
-		apiOrganizationsOrgIdReportsGet: (params: any) => [mockLoading, mockError, mockReports],
-	})
-);
 
 afterAll(() => {
 	jest.resetModules();

@@ -193,7 +193,7 @@ exports[`ReportDetail matches snapshot 1`] = `
           <td
             class=" oec-table__cell--red"
           >
-            4/2 spaces
+            5/2 spaces
           </td>
           <td>
             $165.32
@@ -218,7 +218,7 @@ exports[`ReportDetail matches snapshot 1`] = `
           <td
             class="oec-table__cell--strong oec-table__cell--red"
           >
-            4/2 spaces
+            5/2 spaces
           </td>
           <td />
           <td

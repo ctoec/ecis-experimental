@@ -1,8 +1,16 @@
 import { Enrollment, Age, FundingSource, FundingTime } from '../../generated';
+import { swapFields } from '../helpers';
+import { mockChild } from '.';
 
-import { child } from '.';
+const enrollmentValidationError = [
+	{
+		message: 'Child has validation errors',
+		isSubObjectValidation: true,
+		field: 'Child',
+	},
+];
 
-export const completeEnrollment: Enrollment = {
+export const mockCompleteEnrollment: Enrollment = {
 	id: 1,
 	childId: '2',
 	siteId: 1,
@@ -16,7 +24,7 @@ export const completeEnrollment: Enrollment = {
 		wingedKeysId: '00000000-0000-0000-0000-000000000000',
 	},
 	updatedAt: new Date('2020-01-01'),
-	child: child,
+	child: mockChild,
 	fundings: [
 		{
 			id: 1,
@@ -37,3 +45,45 @@ export const completeEnrollment: Enrollment = {
 		},
 	],
 };
+
+export const mockEnrollmentMissingBirthCertId = swapFields(mockCompleteEnrollment, [
+	{ keys: ['child', 'birthCertificateId'], newValue: undefined },
+	{ keys: ['id'], newValue: 2 },
+	{ keys: ['validationErrors'], newValue: enrollmentValidationError },
+]);
+
+export const mockEnrollmentMissingAddress = swapFields(mockCompleteEnrollment, [
+	{ keys: ['child', 'family', 'addressLine1'], newValue: undefined },
+	{ keys: ['id'], newValue: 4 },
+	{ keys: ['validationErrors'], newValue: enrollmentValidationError },
+
+	{
+		keys: ['child', 'family', 'validationErrors'],
+		newValue: [
+			{
+				message: 'Street address is required',
+				isSubObjectValidation: false,
+				field: 'AddressLine1',
+			},
+		],
+	},
+]);
+
+export const mockEnrollmentWithLaterStart = swapFields(mockCompleteEnrollment, [
+	{ keys: ['entry'], newValue: new Date('2019-03-01') },
+	{ keys: ['id'], newValue: 5 },
+]);
+
+export const mockEnrollmentWithFoster = swapFields(mockCompleteEnrollment, [
+	{ keys: ['child', 'foster'], newValue: true },
+	{ keys: ['id'], newValue: 6 },
+	{ keys: ['child', 'family', 'determinations'], newValue: [] },
+]);
+
+export const mockAllFakeEnrollments = [
+	mockCompleteEnrollment,
+	mockEnrollmentMissingBirthCertId,
+	mockEnrollmentMissingAddress,
+	mockEnrollmentWithLaterStart,
+	mockEnrollmentWithFoster,
+];

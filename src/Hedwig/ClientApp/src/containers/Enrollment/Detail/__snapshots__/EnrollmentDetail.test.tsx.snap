@@ -35,7 +35,7 @@ exports[`EnrollmentDetail matches snapshot 1`] = `
       </div>
       <a
         class="usa-button margin-right-0"
-        href="/roster/sites/undefined/enrollments/1/withdraw"
+        href="/roster/sites/1/enrollments/1/withdraw"
       >
         Withdraw
       </a>
@@ -83,7 +83,7 @@ exports[`EnrollmentDetail matches snapshot 1`] = `
       >
         <a
           class=""
-          href="/roster/sites/undefined/enrollments/1/edit/child-information"
+          href="/roster/sites/1/enrollments/1/edit/child-information"
         >
           Edit
           <span
@@ -120,7 +120,7 @@ exports[`EnrollmentDetail matches snapshot 1`] = `
       >
         <a
           class=""
-          href="/roster/sites/undefined/enrollments/1/edit/family-information"
+          href="/roster/sites/1/enrollments/1/edit/family-information"
         >
           Edit
           <span
@@ -154,7 +154,7 @@ exports[`EnrollmentDetail matches snapshot 1`] = `
       >
         <a
           class=""
-          href="/roster/sites/undefined/enrollments/1/edit/family-income"
+          href="/roster/sites/1/enrollments/1/edit/family-income"
         >
           Edit
           <span
@@ -211,7 +211,7 @@ exports[`EnrollmentDetail matches snapshot 1`] = `
       >
         <a
           class=""
-          href="/roster/sites/undefined/enrollments/1/edit/enrollment-funding"
+          href="/roster/sites/1/enrollments/1/edit/enrollment-funding"
         >
           Edit
           <span

@@ -1,6 +1,6 @@
 import { FundingSource, Age, FundingTime, Region } from '../../generated';
 
-export const organization = {
+export const mockOrganization = {
 	id: 1,
 	name: 'Test Organization',
 	fundingSpaces: [
