@@ -81,13 +81,13 @@ export default function Withdrawal({
 	const [exitReason, updateExitReason] = useState<string>();
 	const [lastReportingPeriod, updateLastReportingPeriod] = useState<ReportingPeriod>();
 	const [reportingPeriodOptions, updateReportingPeriodOptions] = useState(reportingPeriods);
-	
+
 	const fundings =
-	enrollment && enrollment.fundings
-	? enrollment.fundings
-	: ([] as DeepNonUndefineable<Funding[]>);
+		enrollment && enrollment.fundings
+			? enrollment.fundings
+			: ([] as DeepNonUndefineable<Funding[]>);
 	const cdcFunding = currentCdcFunding(fundings);
-	
+
 	// Set up form state
 
 	// Don't show errors until save has been attempted
