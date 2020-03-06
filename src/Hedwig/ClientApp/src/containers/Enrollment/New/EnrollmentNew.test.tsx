@@ -1,16 +1,36 @@
+// Variables used in jest mockes -- must start with `mock`
+import { mockAllFakeEnrollments, mockSite } from '../../../tests/data';
+import mockUseApi, {
+	mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet,
+	mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDelete,
+	mockApiOrganizationsOrgIdSitesIdGet,
+} from '../../../hooks/__mocks__/useApi';
+
+// Jest mocks must occur before later imports
+jest.mock('../../../hooks/useApi', () =>
+	mockUseApi({
+		apiOrganizationsOrgIdSitesIdGet: mockApiOrganizationsOrgIdSitesIdGet(mockSite),
+		apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet: mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(
+			mockAllFakeEnrollments
+		),
+		apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDelete: mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDelete(),
+	})
+);
+
 import React from 'react';
-import mockdate from 'mockdate';
 import { createMemoryHistory } from 'history';
 import { render, fireEvent, wait } from '@testing-library/react';
-import CommonContextProviderMock from '../../../contexts/__mocks__/CommonContextProviderMock';
-import { enrollmentWithFoster } from '../../../hooks/__mocks__/useApi';
-import EnrollmentNew from './EnrollmentNew';
 import { Route } from 'react-router';
-import { completeEnrollment } from '../../../tests/data';
+
+import 'react-dates/initialize';
+import mockdate from 'mockdate';
+
+import TestProvider from '../../../contexts/__mocks__/TestProvider';
+import { mockCompleteEnrollment, mockEnrollmentWithFoster } from '../../../tests/data';
+
+import EnrollmentNew from './EnrollmentNew';
 
 const fakeDate = '2019-03-02';
-
-jest.mock('../../../hooks/useApi');
 
 beforeAll(() => {
 	mockdate.set(fakeDate);
@@ -25,18 +45,18 @@ describe('EnrollmentNew', () => {
 	it('does not skip family income section when lives with foster family is not selected', async () => {
 		const history = createMemoryHistory();
 		const { getByText } = render(
-			<CommonContextProviderMock>
+			<TestProvider>
 				<EnrollmentNew
 					history={history}
 					match={{
 						params: {
 							siteId: 1,
-							enrollmentId: completeEnrollment.id,
+							enrollmentId: mockCompleteEnrollment.id,
 							sectionId: 'family-information',
 						},
 					}}
 				/>
-			</CommonContextProviderMock>
+			</TestProvider>
 		);
 
 		const saveBtn = getByText(/Save/i);
@@ -49,12 +69,12 @@ describe('EnrollmentNew', () => {
 
 	it('skips family income section when lives with foster family is selected', async () => {
 		const history = createMemoryHistory();
-		const enrollment = enrollmentWithFoster;
+		const enrollment = mockEnrollmentWithFoster;
 		history.push(
 			`/roster/sites/${enrollment.siteId}/enrollments/${enrollment.id}/new/family-information`
 		);
 		const { findByLabelText, getByDisplayValue } = render(
-			<CommonContextProviderMock history={history}>
+			<TestProvider history={history}>
 				<Route
 					path={'/roster/sites/:siteId/enrollments/:enrollmentId/new/:sectionId'}
 					render={props => (
@@ -72,7 +92,7 @@ describe('EnrollmentNew', () => {
 						/>
 					)}
 				/>
-			</CommonContextProviderMock>
+			</TestProvider>
 		);
 
 		const fosterCheckbox = await findByLabelText(/Child lives with foster family/i);

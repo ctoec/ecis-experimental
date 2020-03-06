@@ -1,13 +1,27 @@
-import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-import ReportDetail from './ReportDetail';
-import CommonContextProviderMock from '../../../contexts/__mocks__/CommonContextProviderMock';
-import { CdcReport } from '../../../generated';
-import { mockApi, defaultReport } from '../../../hooks/__mocks__/useApi';
-import { accessibilityTestHelper } from '../../accessibilityTestHelper';
-import { completeEnrollment } from '../../../tests/data';
+// Variables used in jest mockes -- must start with `mock`
+import {
+	mockDefaultReport,
+	mockReport as _mockReport,
+	mockCompleteEnrollment,
+	mockEnrollmentWithFoster,
+} from '../../../tests/data';
+import mockUseApi, {
+	mockApiOrganizationsOrgIdEnrollmentsGet,
+} from '../../../hooks/__mocks__/useApi';
 
-const readyReport = { ...defaultReport, enrollments: [completeEnrollment] };
+let mockReport = mockDefaultReport;
+let mockMutate: any;
+
+// Jest mocks must occur before later imports
+jest.mock('../../../hooks/useApi', () =>
+	mockUseApi({
+		apiOrganizationsOrgIdEnrollmentsGet: mockApiOrganizationsOrgIdEnrollmentsGet([
+			mockCompleteEnrollment,
+			mockEnrollmentWithFoster,
+		]),
+		apiOrganizationsOrgIdReportsIdGet: (_: any) => [false, null, mockReport, mockMutate],
+	})
+);
 
 jest.mock('react-router-dom', () => ({
 	...jest.requireActual('react-router-dom'), // use actual for all non-hook parts
@@ -17,33 +31,11 @@ jest.mock('react-router-dom', () => ({
 	}),
 }));
 
-let mockLoading: boolean;
-let mockError: string | null;
-let mockReport: CdcReport;
-let mockMutate: Function;
-
-const defaultLoading = false;
-const defaultError = null;
-const defaultMutate = () => Promise.resolve();
-
-beforeEach(() => {
-	mockLoading = defaultLoading;
-	mockError = defaultError;
-	mockReport = defaultReport;
-	mockMutate = defaultMutate;
-});
-
-jest.mock('../../../hooks/useApi', () => (query: Function) =>
-	query({
-		...mockApi,
-		apiOrganizationsOrgIdReportsIdGet: (params: any) => [
-			mockLoading,
-			mockError,
-			mockReport,
-			mockMutate,
-		],
-	})
-);
+import React from 'react';
+import { render, fireEvent } from '@testing-library/react';
+import ReportDetail from './ReportDetail';
+import TestProvider from '../../../contexts/__mocks__/TestProvider';
+import { accessibilityTestHelper } from '../../accessibilityTestHelper';
 
 afterAll(() => {
 	jest.resetModules();
@@ -52,9 +44,9 @@ afterAll(() => {
 describe('ReportDetail', () => {
 	it('matches snapshot', () => {
 		const { asFragment } = render(
-			<CommonContextProviderMock>
+			<TestProvider>
 				<ReportDetail />
-			</CommonContextProviderMock>
+			</TestProvider>
 		);
 		expect(asFragment()).toMatchSnapshot();
 	});
@@ -62,9 +54,9 @@ describe('ReportDetail', () => {
 	describe('when roster is missing information', () => {
 		it('shows an alert and disables submit', () => {
 			const { getByText, getByRole } = render(
-				<CommonContextProviderMock>
+				<TestProvider>
 					<ReportDetail />
-				</CommonContextProviderMock>
+				</TestProvider>
 			);
 
 			expect(getByRole('alert')).toHaveTextContent('Update roster');
@@ -74,15 +66,15 @@ describe('ReportDetail', () => {
 
 	describe('when report is ready to be submitted', () => {
 		beforeEach(() => {
-			mockReport = readyReport;
+			mockReport = _mockReport;
 			mockMutate = jest.fn(() => Promise.resolve());
 		});
 
 		it('allows the report to be submitted', () => {
 			const { getByText, getByLabelText } = render(
-				<CommonContextProviderMock>
+				<TestProvider>
 					<ReportDetail />
-				</CommonContextProviderMock>
+				</TestProvider>
 			);
 
 			fireEvent.change(getByLabelText(/Care 4 Kids/), { target: { value: '1234.56' } });
@@ -94,8 +86,8 @@ describe('ReportDetail', () => {
 	});
 
 	accessibilityTestHelper(
-		<CommonContextProviderMock>
+		<TestProvider>
 			<ReportDetail />
-		</CommonContextProviderMock>
+		</TestProvider>
 	);
 });

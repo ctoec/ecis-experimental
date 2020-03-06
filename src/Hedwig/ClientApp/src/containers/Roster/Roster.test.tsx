@@ -1,14 +1,19 @@
-import React from 'react';
-import { render, fireEvent, wait } from '@testing-library/react';
-import { createMemoryHistory } from 'history';
-import mockdate from 'mockdate';
-import CommonContextProviderMock from '../../contexts/__mocks__/CommonContextProviderMock';
-import Roster from './Roster';
-import { accessibilityTestHelper } from '../accessibilityTestHelper';
-import { completeEnrollment } from '../../tests/data';
+// Variables used in jest mockes -- must start with `mock`
+import { mockAllFakeEnrollments, mockOrganization } from '../../tests/data';
+import mockUseApi, {
+	mockApiOrganizationsOrgIdEnrollmentsGet,
+	mockApiOrganizationsIdGet,
+} from '../../hooks/__mocks__/useApi';
 
-// Implicitly reads from the '../../hooks/__mocks__/useApi.ts file
-jest.mock('../../hooks/useApi');
+// Jest mocks must occur before later imports
+jest.mock('../../hooks/useApi', () =>
+	mockUseApi({
+		apiOrganizationsIdGet: mockApiOrganizationsIdGet(mockOrganization),
+		apiOrganizationsOrgIdEnrollmentsGet: mockApiOrganizationsOrgIdEnrollmentsGet(
+			mockAllFakeEnrollments
+		),
+	})
+);
 
 jest.mock('react-router-dom', () => ({
 	...jest.requireActual('react-router-dom'), // use actual for all non-hook parts
@@ -16,6 +21,17 @@ jest.mock('react-router-dom', () => ({
 		id: 1,
 	}),
 }));
+
+import React from 'react';
+import { render, fireEvent, wait } from '@testing-library/react';
+
+import 'react-dates/initialize';
+import mockdate from 'mockdate';
+
+import { accessibilityTestHelper } from '../accessibilityTestHelper';
+import TestProvider from '../../contexts/__mocks__/TestProvider';
+
+import Roster from './Roster';
 
 const fakeDate = '2019-09-30';
 
@@ -30,25 +46,19 @@ afterAll(() => {
 
 describe('Roster', () => {
 	it('matches snapshot', () => {
-		const history = createMemoryHistory();
-		const enrollment = completeEnrollment;
-		history.push(`/roster/sites/${enrollment.siteId}`);
 		const { asFragment } = render(
-			<CommonContextProviderMock history={history}>
+			<TestProvider>
 				<Roster />
-			</CommonContextProviderMock>
+			</TestProvider>
 		);
 		expect(asFragment()).toMatchSnapshot();
 	});
 
 	it('renders intro text with the correct number of children', async () => {
-		const history = createMemoryHistory();
-		const enrollment = completeEnrollment;
-		history.push(`/roster/sites/${enrollment.siteId}`);
 		const { baseElement } = render(
-			<CommonContextProviderMock history={history}>
+			<TestProvider>
 				<Roster />
-			</CommonContextProviderMock>
+			</TestProvider>
 		);
 
 		expect(baseElement).toHaveTextContent(/\d children enrolled/i);
@@ -56,9 +66,9 @@ describe('Roster', () => {
 
 	it('updates the number of children', async () => {
 		const { baseElement, getByText, getByLabelText } = render(
-			<CommonContextProviderMock>
+			<TestProvider>
 				<Roster />
-			</CommonContextProviderMock>
+			</TestProvider>
 		);
 
 		const filterButton = getByText(/view past enrollments/i);
@@ -85,8 +95,8 @@ describe('Roster', () => {
 	});
 
 	accessibilityTestHelper(
-		<CommonContextProviderMock>
+		<TestProvider>
 			<Roster />
-		</CommonContextProviderMock>
+		</TestProvider>
 	);
 });
