@@ -19,6 +19,7 @@ import {
 	currentCdcFunding,
 	currentC4kFunding,
 	lastNReportingPeriods,
+	reportingPeriodFormatter,
 } from '../../utils/models';
 import { DateInput, ChoiceList, Button, InlineIcon } from '../../components';
 import useApi from '../../hooks/useApi';
@@ -205,7 +206,7 @@ export default function Withdrawal({
 							<p>
 								First reporting period:{' '}
 								{cdcFunding.firstReportingPeriod
-									? cdcFunding.firstReportingPeriod.period.toLocaleDateString()
+									? reportingPeriodFormatter(cdcFunding.firstReportingPeriod)
 									: InlineIcon({ icon: 'attentionNeeded' })}
 							</p>
 						</div>
@@ -266,7 +267,7 @@ export default function Withdrawal({
 							id="last-reporting-period"
 							options={reportingPeriodOptions.map(period => ({
 								value: '' + period.id,
-								text: `${period.periodStart.toLocaleDateString()} - ${period.periodEnd.toLocaleDateString()}`,
+								text: reportingPeriodFormatter(period, { extended: true }),
 							}))}
 							onChange={event => {
 								const chosen = reportingPeriods.find<ReportingPeriod>(
