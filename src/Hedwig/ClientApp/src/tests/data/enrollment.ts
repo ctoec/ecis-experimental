@@ -2,6 +2,7 @@ import { Enrollment, Age, FundingSource, FundingTime } from '../../generated';
 import { swapFields } from '../helpers';
 import { mockChild } from '.';
 import { mockSite } from './site';
+import emptyGuid from '../../utils/emptyGuid';
 
 const enrollmentValidationError = [
 	{
@@ -13,7 +14,7 @@ const enrollmentValidationError = [
 
 export const mockCompleteEnrollment: Enrollment = {
 	id: 1,
-	childId: '2',
+	childId: emptyGuid(),
 	siteId: 1,
 	site: mockSite,
 	ageGroup: Age.Preschool,

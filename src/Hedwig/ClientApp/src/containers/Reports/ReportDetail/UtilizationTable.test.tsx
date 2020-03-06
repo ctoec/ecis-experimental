@@ -5,6 +5,7 @@ import UtilizationTable, { calculateRate } from './UtilizationTable';
 import emptyGuid from '../../../utils/emptyGuid';
 import cartesianProduct from '../../../utils/cartesianProduct';
 import { accessibilityTestHelper } from '../../../tests/helpers';
+import { mockReport, mockCompleteEnrollment } from '../../../tests/data';
 
 describe('calculateRate', () => {
 	it('includes all possible rates', () => {
@@ -34,62 +35,10 @@ describe('calculateRate', () => {
 });
 
 const reportWithEnrollments = (enrollments: Enrollment[]) => {
-	const report: CdcReport = {
-		id: 1,
-		organizationId: 1,
-		accredited: true,
-		type: FundingSource.CDC,
-		enrollments,
-		reportingPeriod: {
-			id: 1,
-			type: FundingSource.CDC,
-			period: new Date('2019-09-01'),
-			dueAt: new Date('2019-10-15'),
-			periodStart: new Date('2019-09-01'),
-			periodEnd: new Date('2019-09-28'),
-		},
-		organization: {
-			id: 1,
-			name: 'Test Organization',
-			fundingSpaces: [
-				{
-					source: FundingSource.CDC,
-					ageGroup: Age.Preschool,
-					time: FundingTime.Full,
-					capacity: 2,
-					organizationId: 1,
-				},
-			],
-			sites: [
-				{
-					name: 'Test Site',
-					region: Region.East,
-					titleI: false,
-					organizationId: 1,
-				},
-			],
-		},
-	};
-
-	return report;
+	return { ...mockReport, enrollments };
 };
 
-const defaultReport = reportWithEnrollments([
-	{
-		id: 1,
-		ageGroup: Age.Preschool,
-		siteId: 1,
-		childId: emptyGuid(),
-		fundings: [
-			{
-				id: 1,
-				source: FundingSource.CDC,
-				time: FundingTime.Full,
-				enrollmentId: 1,
-			},
-		],
-	},
-]);
+const defaultReport = reportWithEnrollments([mockCompleteEnrollment]);
 
 describe('UtilizationTable', () => {
 	it('matches snapshot', () => {

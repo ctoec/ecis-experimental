@@ -1,7 +1,8 @@
 import { Child, Gender } from '../../generated';
+import emptyGuid from '../../utils/emptyGuid';
 
 export const mockChild: Child = {
-	id: '2',
+	id: emptyGuid(),
 	firstName: 'Lily',
 	middleName: 'Luna',
 	lastName: 'Potter',
