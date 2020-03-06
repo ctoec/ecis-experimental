@@ -25,7 +25,7 @@ import ReportSubmitForm from './ReportSubmitForm';
 import TestProvider from '../../../contexts/__mocks__/TestProvider';
 import { DeepNonUndefineable } from '../../../utils/types';
 import { CdcReport } from '../../../generated';
-import { accessibilityTestHelper } from '../../accessibilityTestHelper';
+import { accessibilityTestHelper } from '../../../tests/helpers';
 
 afterAll(() => {
 	jest.resetModules();

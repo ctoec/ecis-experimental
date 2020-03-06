@@ -20,7 +20,7 @@ import { render } from '@testing-library/react';
 import EnrollmentDetail from './EnrollmentDetail';
 import TestProvider from '../../../contexts/__mocks__/TestProvider';
 import { mockCompleteEnrollment, mockEnrollmentMissingBirthCertId } from '../../../tests/data';
-import { accessibilityTestHelper } from '../../accessibilityTestHelper';
+import { accessibilityTestHelper } from '../../../tests/helpers';
 
 afterAll(() => {
 	jest.resetModules();

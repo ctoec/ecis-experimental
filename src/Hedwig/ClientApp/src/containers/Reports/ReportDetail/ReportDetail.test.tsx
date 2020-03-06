@@ -35,7 +35,7 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import ReportDetail from './ReportDetail';
 import TestProvider from '../../../contexts/__mocks__/TestProvider';
-import { accessibilityTestHelper } from '../../accessibilityTestHelper';
+import { accessibilityTestHelper } from '../../../tests/helpers';
 
 afterAll(() => {
 	jest.resetModules();
