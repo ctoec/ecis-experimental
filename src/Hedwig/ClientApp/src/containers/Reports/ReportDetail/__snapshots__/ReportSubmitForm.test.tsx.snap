@@ -104,6 +104,58 @@ exports[`ReportSubmitForm matches snapshot 1`] = `
       <tr>
         <th>
           <strong>
+            Infant/Toddler
+          </strong>
+           – full time
+        </th>
+        <td
+          class=" oec-table__cell--red"
+        >
+          1/0 spaces
+        </td>
+        <td>
+          $169.95
+        </td>
+        <td
+          class=""
+        >
+          $0.00
+        </td>
+        <td
+          class=" "
+        >
+          $0.00
+        </td>
+      </tr>
+      <tr>
+        <th>
+          <strong>
+            Infant/Toddler
+          </strong>
+           – part time
+        </th>
+        <td
+          class=" oec-table__cell--red"
+        >
+          1/0 spaces
+        </td>
+        <td>
+          $59.50
+        </td>
+        <td
+          class=""
+        >
+          $0.00
+        </td>
+        <td
+          class=" "
+        >
+          $0.00
+        </td>
+      </tr>
+      <tr>
+        <th>
+          <strong>
             Preschool
           </strong>
            – full time
@@ -130,13 +182,39 @@ exports[`ReportSubmitForm matches snapshot 1`] = `
       <tr>
         <th>
           <strong>
+            Preschool
+          </strong>
+           – part time
+        </th>
+        <td
+          class=" oec-table__cell--red"
+        >
+          1/0 spaces
+        </td>
+        <td>
+          $57.85
+        </td>
+        <td
+          class=""
+        >
+          $0.00
+        </td>
+        <td
+          class=" "
+        >
+          $0.00
+        </td>
+      </tr>
+      <tr>
+        <th>
+          <strong>
             Total
           </strong>
         </th>
         <td
           class="oec-table__cell--strong oec-table__cell--red"
         >
-          5/2 spaces
+          8/2 spaces
         </td>
         <td />
         <td

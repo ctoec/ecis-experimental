@@ -5,7 +5,7 @@ import UtilizationTable, { calculateRate } from './UtilizationTable';
 import emptyGuid from '../../../utils/emptyGuid';
 import cartesianProduct from '../../../utils/cartesianProduct';
 import { accessibilityTestHelper } from '../../../tests/helpers';
-import { mockReport, mockCompleteEnrollment } from '../../../tests/data';
+import { mockReport, mockCompleteEnrollment, mockPartTimeEnrollment, mockFullTimeInfantEnrollment, mockPartTimeInfantEnrollment } from '../../../tests/data';
 
 describe('calculateRate', () => {
 	it('includes all possible rates', () => {
@@ -48,34 +48,8 @@ describe('UtilizationTable', () => {
 
 	it('includes a row for each type of enrollment and funding space', () => {
 		const report = reportWithEnrollments([
-			{
-				id: 1,
-				ageGroup: Age.InfantToddler,
-				siteId: 1,
-				childId: emptyGuid(),
-				fundings: [
-					{
-						id: 1,
-						source: FundingSource.CDC,
-						time: FundingTime.Full,
-						enrollmentId: 1,
-					},
-				],
-			},
-			{
-				id: 2,
-				ageGroup: Age.InfantToddler,
-				siteId: 1,
-				childId: emptyGuid(),
-				fundings: [
-					{
-						id: 1,
-						source: FundingSource.CDC,
-						time: FundingTime.Part,
-						enrollmentId: 1,
-					},
-				],
-			},
+			mockFullTimeInfantEnrollment,
+			mockPartTimeInfantEnrollment,
 		]);
 
 		const { container } = render(<UtilizationTable {...report} />);

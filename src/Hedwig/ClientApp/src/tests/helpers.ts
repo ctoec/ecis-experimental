@@ -15,7 +15,7 @@ export function accessibilityTestHelper(testComponent: React.ReactElement) {
 	});
 }
 
-type ChangeField = { keys: string[]; newValue?: any };
+type ChangeField = { keys: (string | number)[]; newValue?: any };
 export const swapFields = <T>(inputObject: T, changeFields: ChangeField[]): T => {
 	// Make a deep copy to avoid changing the original
 	const newObject = JSON.parse(JSON.stringify(inputObject));
