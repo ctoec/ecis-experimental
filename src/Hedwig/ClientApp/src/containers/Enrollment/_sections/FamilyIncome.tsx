@@ -153,7 +153,7 @@ const FamilyIncome: Section = {
 				};
 				return mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
 					.then(res => {
-						if (successCallback && res && !error) successCallback(res);
+						if (successCallback && res) successCallback(res);
 					})
 					.finally(() => {
 						finallyCallback && finallyCallback(FamilyIncome);
