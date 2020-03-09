@@ -81,20 +81,22 @@ export default function Withdrawal({
 	const [enrollmentEndDate, updateEnrollmentEndDate] = useState<Date>();
 	const [exitReason, updateExitReason] = useState<string>();
 	const [lastReportingPeriod, updateLastReportingPeriod] = useState<ReportingPeriod>();
-
 	const [reportingPeriodOptions, updateReportingPeriodOptions] = useState(reportingPeriods);
-
-	const [attemptedSave, setAttemptedSave] = useState(false);
 
 	const fundings =
 		enrollment && enrollment.fundings
 			? enrollment.fundings
 			: ([] as DeepNonUndefineable<Funding[]>);
-	const cdcFundings = fundings.filter(funding => funding.source === FundingSource.CDC);
-	const cdcFunding = currentCdcFunding(cdcFundings);
+	const cdcFunding = currentCdcFunding(fundings);
 
-	// set up form state
+	// Set up form state
+
+	// Don't show errors until save has been attempted
+	const [attemptedSave, setAttemptedSave] = useState(false);
+
+	// If there's an error, programmatically set focus to that field
 	useFocusFirstError([error]);
+
 	const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
 	useEffect(() => {
 		if (error && !hasAlertedOnError) {
@@ -103,7 +105,7 @@ export default function Withdrawal({
 			}
 			setAlerts([validationErrorAlert]);
 		}
-	}, [error, hasAlertedOnError]);
+	}, [error, hasAlertedOnError, setAlerts]);
 
 	useEffect(() => {
 		if (reportingPeriods) {
@@ -114,22 +116,30 @@ export default function Withdrawal({
 	}, [reportingPeriods, enrollmentEndDate]);
 
 	const isMissingInformation = hasValidationErrors(enrollment);
-
+	// If the enrollment is missing information, navigate to that enrollment so user can fix it
 	useEffect(() => {
 		if (isMissingInformation) {
 			setAlerts([missingInformationForWithdrawalAlert]);
 			history.push(`/roster/sites/${siteId}/enrollments/${enrollment.id}`);
 		}
-	}, [enrollment, isMissingInformation, history, setAlerts]);
+	}, [enrollment, isMissingInformation, history, setAlerts, siteId]);
 
-	if (loading || !enrollment || !enrollment.site) {
+	const [withdrawn, setWithdrawn] = useState(false);
+	useEffect(() => {
+		if (withdrawn && !error) {
+			setAlerts([childWithdrawnAlert(nameFormatter(enrollment.child))]);
+			history.push(`/roster`);
+		}
+	}, [withdrawn, enrollment, history, setAlerts, error]);
+
+	if (loading || !enrollment|| !enrollment.site) {
 		return <div className="Withdrawl"></div>;
 	}
 
 	const save = () => {
 		setAttemptedSave(true);
 
-		//enrollment end date (exit) is required for withdrawl
+		// Enrollment end date (exit) is required for withdrawl
 		if (!enrollmentEndDate) {
 			return;
 		}
@@ -168,11 +178,8 @@ export default function Withdrawal({
 			},
 		};
 
-		mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams)).then(() => {
-			if (!error) {
-				setAlerts([childWithdrawnAlert(nameFormatter(enrollment.child))]);
-				history.push(`/roster`);
-			}
+		mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams)).then(res => {
+			setWithdrawn(true);
 		});
 	};
 
