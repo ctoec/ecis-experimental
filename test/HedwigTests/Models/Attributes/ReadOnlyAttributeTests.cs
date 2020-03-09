@@ -1,14 +1,13 @@
 using Xunit;
-using Moq;
 using Hedwig.Models.Attributes;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
-using HedwigTests.Fixtures;
 
 namespace HedwigTests.Models.Attributes
 {
-	[ReadOnly]
-	public class ReadOnlyEntity { }
+	public class Entity
+	{
+		[ReadOnly]
+		public object Property { get; set; }
+	}
 	public class ReadOnlyAttributeTests
 	{
 		[Theory]
@@ -19,10 +18,9 @@ namespace HedwigTests.Models.Attributes
 		)
 		{
 			// if 
-			var entity = isReadOnly ? new ReadOnlyEntity() : new object();
-
+			object entity = isReadOnly ? (object)new Entity() : new { Property = new object() };
 			// when
-			var res = ReadOnlyAttribute.IsReadOnly(entity);
+			var res = ReadOnlyAttribute.IsReadOnly(entity.GetType().GetProperty("Property"));
 
 			// then
 			Assert.Equal(isReadOnly, res);

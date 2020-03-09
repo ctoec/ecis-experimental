@@ -1,5 +1,4 @@
 using Hedwig.Models;
-using Hedwig.Models.Attributes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.AspNetCore.Http;
@@ -63,32 +62,21 @@ namespace Hedwig.Data
 		}
 
 		/// <summary>
-		/// Override `SaveChangesAsync()` to first protect read-only entities (optional for testing)
+		/// Override `SaveChangesAsync()` to first update temporal entities with author and timestamp data
 		/// </summary>
-		/// <param name="ignoreReadOnly"></param>
 		/// <returns></returns>
-		public Task<int> SaveChangesAsync(bool ignoreReadOnly = false)
+		public override Task<int> SaveChangesAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
 		{
-			if (!ignoreReadOnly)
-			{
-				ProtectReadOnlyEntities();
-			}
 			UpdateTemporalEntities();
-			return base.SaveChangesAsync();
+			return base.SaveChangesAsync(cancellationToken);
 		}
 
 		/// <summary>
-		/// Override `SaveChanges()` to first protect read-only entities (optional for testing)
+		/// Override `SaveChanges()` to first update temporal entities with author and timestamp data
 		/// </summary>
-		/// <param name="ignoreReadOnly"></param>
 		/// <returns></returns>
-		public new int SaveChanges(bool ignoreReadOnly = false)
+		public override int SaveChanges()
 		{
-			if (!ignoreReadOnly)
-			{
-				ProtectReadOnlyEntities();
-			}
-
 			UpdateTemporalEntities();
 			return base.SaveChanges();
 		}
@@ -106,24 +94,6 @@ namespace Hedwig.Data
 			foreach (var entity in newOrUpdatedEntities)
 			{
 				UpdateTemporalEntity(entity.Entity as TemporalEntity, currentUserId, now);
-			}
-		}
-
-		/// <summary>
-		/// Ensures no read-only entities are updated by explicitly overwriting the state
-		/// of any read-only entities the change tracker knows to be modified.
-		/// </summary>
-		private void ProtectReadOnlyEntities()
-		{
-			var newOrUpdatedEntities = ChangeTracker.Entries()
-			.Where(e =>
-				ReadOnlyAttribute.IsReadOnly(e.Entity) &&
-				(e.State == EntityState.Added || e.State == EntityState.Modified)
-			);
-
-			foreach (var entity in newOrUpdatedEntities)
-			{
-				entity.State = entity.State == EntityState.Added ? EntityState.Detached : EntityState.Unchanged;
 			}
 		}
 

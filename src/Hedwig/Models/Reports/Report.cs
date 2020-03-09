@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using Hedwig.Validations;
 using System.ComponentModel.DataAnnotations;
+using Hedwig.Models.Attributes;
 
 namespace Hedwig.Models
 {
@@ -17,6 +18,7 @@ namespace Hedwig.Models
 		public FundingSource Type { get; private set; }
 
 		public int ReportingPeriodId { get; set; }
+		[ReadOnly]
 		public ReportingPeriod ReportingPeriod { get; set; }
 
 		public DateTime? SubmittedAt { get; set; }

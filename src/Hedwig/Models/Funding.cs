@@ -4,6 +4,7 @@ using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations.Schema;
 using Hedwig.Validations;
 using Hedwig.Validations.Attributes;
+using Hedwig.Models.Attributes;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -31,9 +32,11 @@ namespace Hedwig.Models
 
 		// CDC funding fields
 		public int? FirstReportingPeriodId { get; set; }
+		[ReadOnly]
 		public ReportingPeriod FirstReportingPeriod { get; set; }
 		public int? LastReportingPeriodId { get; set; }
 		[LastReportingPeriodAfterFirst]
+		[ReadOnly]
 		public ReportingPeriod LastReportingPeriod { get; set; }
 		[RequiredForFundingSource(FundingSource.CDC)]
 		[JsonConverter(typeof(StringEnumConverter))]

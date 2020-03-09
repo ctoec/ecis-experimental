@@ -20,10 +20,10 @@ EF Core Attribute.
 
 ## Status
 * Proposed
-* __Accepted__
+* Accepted
 * Rejected
 * Superceded
-* Accepted (Partially superceded)
+* __Accepted (Partially superceded)__
 
 ## Consequences
 - Creating or updating a read-only entity via the API fails silently
