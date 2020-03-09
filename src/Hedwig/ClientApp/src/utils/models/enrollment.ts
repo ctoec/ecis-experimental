@@ -31,7 +31,7 @@ export function emptyEnrollment(siteId: number) {
 			gender: Gender.Unspecified,
 		},
 	} as DeepNonUndefineable<Enrollment>;
-};
+}
 
 export function isFunded(
 	enrollment: Enrollment | null,
