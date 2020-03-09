@@ -122,7 +122,7 @@ export default function Withdrawal({
 		}
 	}, [enrollment, isMissingInformation, history, setAlerts]);
 
-	if (loading || !enrollment) {
+	if (loading || !enrollment || !enrollment.site) {
 		return <div className="Withdrawl"></div>;
 	}
 
