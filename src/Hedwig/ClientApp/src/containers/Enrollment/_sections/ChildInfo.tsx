@@ -11,7 +11,7 @@ import {
 	Enrollment,
 } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
-import { validatePermissions, getIdForUser } from '../../../utils/models';
+import { validatePermissions, getIdForUser, emptyEnrollment } from '../../../utils/models';
 import emptyGuid from '../../../utils/emptyGuid';
 import {
 	genderFromString,
@@ -91,34 +91,7 @@ const ChildInfo: Section = {
 
 		const [_enrollment, updateEnrollment] = useReducer<
 			FormReducer<DeepNonUndefineable<Enrollment>>
-		>(
-			formReducer,
-			enrollment ||
-				({
-					id: 0,
-					siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
-					childId: emptyGuid(),
-					child: {
-						id: emptyGuid(),
-						organizationId: getIdForUser(user, 'org'),
-						sasid: null,
-						firstName: null,
-						middleName: null,
-						lastName: null,
-						suffix: null,
-						birthCertificateId: null,
-						birthTown: null,
-						birthState: null,
-						birthdate: null,
-						americanIndianOrAlaskaNative: false,
-						asian: false,
-						blackOrAfricanAmerican: false,
-						nativeHawaiianOrPacificIslander: false,
-						white: false,
-						gender: Gender.Unspecified,
-					},
-				} as DeepNonUndefineable<Enrollment>)
-		);
+		>(formReducer, enrollment || emptyEnrollment(siteId));
 
 		const updateFormData = updateData<DeepNonUndefineable<Enrollment>>(updateEnrollment);
 

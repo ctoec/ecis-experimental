@@ -7,7 +7,7 @@ import {
 	Enrollment,
 } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
-import { validatePermissions, getIdForUser } from '../../../utils/models';
+import { validatePermissions, getIdForUser, createEmptyFamily } from '../../../utils/models';
 import {
 	sectionHasValidationErrors,
 	warningForFieldSet,
@@ -70,7 +70,7 @@ const FamilyInfo: Section = {
 		const { setAlerts } = useContext(AlertContext);
 		const initialLoad = visitedSections ? !visitedSections[FamilyInfo.key] : false;
 		// const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
-		// We're not setting has alerted on error anywhere because there are no server errors here?
+		// Above line is left to show symmetry for future form component refactor-- wasn't actually used in this component
 
 		useFocusFirstError([error]);
 		useEffect(() => {
@@ -93,16 +93,7 @@ const FamilyInfo: Section = {
 			// If there isn't a family, create one-- otherwise user can save section without making one
 			updateFormData(e => e.value)({
 				name: 'child.family',
-				value: {
-					id: _enrollment.child.familyId || 0,
-					organizationId: getIdForUser(user, 'org'),
-					addressLine1: null,
-					addressLine2: null,
-					town: null,
-					state: null,
-					zip: null,
-					homelessness: false,
-				},
+				value: createEmptyFamily(getIdForUser(user, 'org'), enrollment.child.familyId || 0),
 			});
 		}
 		const child = _enrollment.child;
@@ -204,7 +195,6 @@ const FamilyInfo: Section = {
 							name="child.family.state"
 							options={['CT', 'MA', 'NY', 'RI'].map(_state => ({ text: _state, value: _state }))}
 							selected={state ? [state] : undefined}
-							// onChange={(event, selectedValues) => updateState(selectedValues[0])}
 							onChange={updateFormData()}
 							status={initialLoadErrorGuard(
 								initialLoad,

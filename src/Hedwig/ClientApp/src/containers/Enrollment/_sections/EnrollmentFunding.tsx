@@ -355,7 +355,6 @@ const EnrollmentFunding: Section = {
 						updatedFundings.push(
 							updateFunding({
 								currentFunding: sourcelessFunding,
-								// Why are we setting CDC as the source by default?  Is this the cause of our overenrollment weirdness?
 								source: FundingSource.CDC,
 								time,
 								reportingPeriod: cdcReportingPeriod,
