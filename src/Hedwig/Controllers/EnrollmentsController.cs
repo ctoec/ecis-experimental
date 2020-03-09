@@ -10,6 +10,7 @@ using Hedwig.Validations;
 using Hedwig.Security;
 using System;
 using System.Linq;
+using Hedwig.Filters;
 
 namespace Hedwig.Controllers
 {
@@ -35,6 +36,7 @@ namespace Hedwig.Controllers
 		[HttpGet]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
+		[TransformEntityFilter]
 		public async Task<ActionResult<List<Enrollment>>> Get(
 			int orgId,
 			int siteId,
@@ -52,6 +54,7 @@ namespace Hedwig.Controllers
 		[HttpGet("{id}")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[TransformEntityFilter]
 		public async Task<ActionResult<Enrollment>> Get(
 			int id,
 			int orgId,
@@ -63,17 +66,6 @@ namespace Hedwig.Controllers
 			var enrollment = await _enrollments.GetEnrollmentForSiteAsync(id, siteId, include);
 			if (enrollment == null) return NotFound();
 
-			// quick fix until we implement more robust solution (DTO or other serialization rules)
-			if (enrollment.Child != null)
-			{
-				enrollment.Child.Enrollments = null;
-			}
-
-			if (enrollment.Site != null)
-			{
-				enrollment.Site.Enrollments = null;
-			}
-
 			_validator.Validate(enrollment);
 
 			return enrollment;
@@ -84,6 +76,7 @@ namespace Hedwig.Controllers
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
+		[TransformEntityFilter]
 		public async Task<ActionResult<List<Enrollment>>> Get(
 			int orgId,
 			[FromQuery(Name = "siteIds[]")] int[] siteIds,
@@ -116,20 +109,6 @@ namespace Hedwig.Controllers
 				enrollments = await _enrollments.GetEnrollmentsForOrganizationAsync(orgId, from, to, include, asOf);
 			}
 
-			// quick fix until we implement more robust solution (DTO or other serialization rules)
-			foreach (var enrollment in enrollments)
-			{
-				if (enrollment.Child != null)
-				{
-					enrollment.Child.Enrollments = null;
-				}
-
-				if (enrollment.Site != null)
-				{
-					enrollment.Site.Enrollments = null;
-				}
-			}
-
 			_validator.Validate(enrollments);
 			return enrollments;
 		}
@@ -137,6 +116,7 @@ namespace Hedwig.Controllers
 		[HttpPost]
 		[ProducesResponseType(StatusCodes.Status201Created)]
 		[ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+		[TransformEntityFilter]
 		public async Task<ActionResult<Enrollment>> Post(
 			int orgId,
 			int siteId,
@@ -161,6 +141,7 @@ namespace Hedwig.Controllers
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[TransformEntityFilter]
 		public async Task<ActionResult<Enrollment>> Put(
 			int id,
 			int orgId,
