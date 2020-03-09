@@ -1,7 +1,8 @@
+import { render, load } from '../QueryHelper';
+import { DriverHelper } from '../DriverHelper';
+import { clientHost } from '../config';
+import login from '../utilities/login';
 import { until } from 'selenium-webdriver';
-import { render, load, reload } from './QueryHelper';
-import { DriverHelper } from './DriverHelper';
-import { clientHost } from './config';
 
 // Set time out to 60 seconds
 jest.setTimeout(60 * 1000);
@@ -41,37 +42,16 @@ describe('Smoke screen', () => {
 		const driver = driverHelper.createDriver();
 		try {
 			let root = await load(driver, appUrl);
-			let { findByText } = render(root);
 
-			// Find login button and click it
-			const loginBtn = await findByText('Log in');
-			await loginBtn.click();
+			root = await login(driver, root);
 
-			// Wait for page navigation
-			await driver.wait(until.titleIs('IdentityServer4'));
-			root = await reload(driver);
-			let { findByPlaceholder, findByValue } = render(root);
-
-			// Find username and password fields
-			const usernameInput = await findByPlaceholder('Username');
-			usernameInput.sendKeys('voldemort');
-			const passwordInput = await findByPlaceholder('Password');
-			passwordInput.sendKeys('thechosenone');
-
-			// Find the login button and click it
-			const submitBtn = await findByValue('login');
-			await submitBtn.click();
-
-			// Wait for page navigation
-			await driver.wait(until.titleIs('ECE Reporter'));
-			root = await reload(driver);
-			let { findByLocator } = render(root);
+			const { findByLocator } = render(root);
 
 			// Wait for welcome header text to display
 			const name = await findByLocator({ css: '.oec-logged-in-user' });
 			await driver.wait(until.elementTextMatches(name, /Hi/i));
 
-			expect(await name.getText()).toBe('Hi, Chris.');
+			expect(await name.getText()).toMatch(/Hi, .*/);
 		} finally {
 			await driverHelper.quit(driver);
 		}
