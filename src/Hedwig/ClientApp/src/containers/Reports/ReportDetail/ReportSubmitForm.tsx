@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useReducer } from 'react';
 import {
 	CdcReport,
 	ApiOrganizationsOrgIdReportsIdPutRequest,
@@ -24,6 +24,7 @@ import usePromiseExecution from '../../../hooks/usePromiseExecution';
 import { reportSubmittedAlert, reportSubmitFailAlert } from '../../../utils/stringFormatters';
 import pluralize from 'pluralize';
 import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
+import { FormReducer, formReducer, updateData } from '../../../utils/forms/form';
 
 export type ReportSubmitFormProps = {
 	report: DeepNonUndefineable<CdcReport>;
@@ -39,17 +40,27 @@ export default function ReportSubmitForm({
 	canSubmit,
 }: ReportSubmitFormProps) {
 	const history = useHistory();
-	const asOf = report.submittedAt ? report.submittedAt : undefined;
-	const [accredited, setAccredited] = useState(report.accredited);
-	const [c4KRevenue, setC4KRevenue] = useState(report.c4KRevenue || null);
-	const [retroactiveC4KRevenue, setRetroactiveC4KRevenue] = useState(report.retroactiveC4KRevenue);
-	const [familyFeesRevenue, setFamilyFeesRevenue] = useState(report.familyFeesRevenue);
-	const [comment, setComment] = useState(report.comment);
 
 	const { user } = useContext(UserContext);
+
+	const [_report, updateReport] = useReducer<FormReducer<DeepNonUndefineable<CdcReport>>>(
+		formReducer,
+		report
+	);
+	const updateFormData = updateData<DeepNonUndefineable<CdcReport>>(updateReport);
+	const {
+		submittedAt,
+		accredited,
+		c4KRevenue,
+		retroactiveC4KRevenue,
+		familyFeesRevenue,
+		comment,
+	} = _report;
+
 	const { invalidateCache: invalidateAppCache } = useContext(AppContext);
 	const { getAlerts, setAlerts } = useContext(AlertContext);
 	const alerts = getAlerts();
+
 	const params: ApiOrganizationsOrgIdReportsIdPutRequest = {
 		id: report.id || 0,
 		orgId: getIdForUser(user, 'org'),
@@ -60,18 +71,20 @@ export default function ReportSubmitForm({
 		include: ['fundings'],
 		startDate: report.reportingPeriod.periodStart,
 		endDate: report.reportingPeriod.periodEnd,
-		asOf: asOf,
+		asOf: submittedAt || undefined,
 	};
+
 	const [, , allEnrollments] = useApi(
 		api => api.apiOrganizationsOrgIdEnrollmentsGet(enrollmentParams),
 		[user, report]
 	);
+
 	const [care4KidsCount, setCare4KidsCount] = useState(0);
 
 	useEffect(() => {
 		if (allEnrollments) {
 			var c4kFundedEnrollments = allEnrollments.filter(
-				enrollment => !!activeC4kFundingAsOf(enrollment.fundings, asOf)
+				enrollment => !!activeC4kFundingAsOf(enrollment.fundings, submittedAt || undefined)
 			);
 			var childIds: string[] = [];
 			c4kFundedEnrollments.forEach(enrollment => {
@@ -96,22 +109,11 @@ export default function ReportSubmitForm({
 		}
 	}, [error, hasAlertedOnError]);
 
-	function updatedReport(): CdcReport {
-		return {
-			...report,
-			accredited,
-			c4KRevenue: c4KRevenue !== null ? c4KRevenue : undefined,
-			retroactiveC4KRevenue,
-			familyFeesRevenue: familyFeesRevenue,
-			comment: comment !== null ? comment : undefined,
-		};
-	}
-
 	function _onSubmit() {
 		return mutate(api =>
 			api.apiOrganizationsOrgIdReportsIdPut({
 				...params,
-				cdcReport: updatedReport(),
+				cdcReport: { ..._report },
 			})
 		).then(res => {
 			if (res) {
@@ -135,6 +137,7 @@ export default function ReportSubmitForm({
 			<ChoiceList
 				type="check"
 				id="accredited"
+				name="accredited"
 				legend="Accredited"
 				disabled={!!report.submittedAt}
 				selected={accredited ? ['accredited'] : undefined}
@@ -144,16 +147,17 @@ export default function ReportSubmitForm({
 						value: 'accredited',
 					},
 				]}
-				onChange={e => setAccredited((e.target as HTMLInputElement).checked)}
+				onChange={updateFormData((_, e) => e.target.checked)}
 				className="margin-bottom-5"
 			/>
-			<UtilizationTable {...{ ...report, accredited }} />
+			<UtilizationTable {...{ ..._report, accredited }} />
 			<form className="usa-form" onSubmit={onSubmit} noValidate autoComplete="off">
 				<h2>Other Revenue</h2>
 				<FieldSet id="other-revenue" legend="Other Revenue">
 					<TextInput
 						type="input"
 						id="c4k-revenue"
+						name="c4KRevenue"
 						label={
 							<React.Fragment>
 								<span className="text-bold">Care 4 Kids</span>
@@ -164,7 +168,7 @@ export default function ReportSubmitForm({
 							</React.Fragment>
 						}
 						defaultValue={currencyFormatter(c4KRevenue)}
-						onChange={e => setC4KRevenue(parseCurrencyFromString(e.target.value))}
+						onChange={updateFormData(parseCurrencyFromString)}
 						onBlur={event =>
 							(event.target.value = c4KRevenue !== null ? currencyFormatter(c4KRevenue) : '')
 						}
@@ -182,8 +186,9 @@ export default function ReportSubmitForm({
 						type="check"
 						id="c4k-includes-retroactive"
 						legend="Includes retroactive payment"
+						name="retroactiveC4KRevenue"
 						selected={retroactiveC4KRevenue ? ['retroactiveC4KRevenue'] : undefined}
-						onChange={e => setRetroactiveC4KRevenue((e.target as HTMLInputElement).checked)}
+						onChange={updateFormData((_, e) => e.target.checked)}
 						disabled={!!report.submittedAt}
 						options={[
 							{
@@ -195,9 +200,10 @@ export default function ReportSubmitForm({
 					<TextInput
 						type="input"
 						id="family-fees-revenue"
+						name="familyFeesRevenue"
 						label={<span className="text-bold">Family Fees</span>}
 						defaultValue={currencyFormatter(familyFeesRevenue)}
-						onChange={e => setFamilyFeesRevenue(parseCurrencyFromString(e.target.value))}
+						onChange={updateFormData(parseCurrencyFromString)}
 						onBlur={event =>
 							(event.target.value =
 								familyFeesRevenue !== null ? currencyFormatter(familyFeesRevenue) : '')
@@ -214,13 +220,14 @@ export default function ReportSubmitForm({
 					<TextInput
 						type="textarea"
 						id="cdc-report-comment"
+						name="comment"
 						label={
 							<span className="text-bold">
 								Anything to share with the Office of Early Childhood about your report?
 							</span>
 						}
 						defaultValue={comment || ''}
-						onChange={e => setComment(e.target.value)}
+						onChange={updateFormData()}
 						disabled={!!report.submittedAt}
 						optional={true}
 					/>

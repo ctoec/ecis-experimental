@@ -387,7 +387,7 @@ Object {
           aria-required="true"
           class="usa-select"
           id="id"
-          name="id"
+          name=""
         >
           <option
             value=""
@@ -425,7 +425,7 @@ Object {
         aria-required="true"
         class="usa-select"
         id="id"
-        name="id"
+        name=""
       >
         <option
           value=""

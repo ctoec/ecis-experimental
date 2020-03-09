@@ -593,7 +593,7 @@ exports[`Storyshots ChoiceList Disabled select 1`] = `
       className="usa-select"
       disabled={true}
       id="storybook-select"
-      name="storybook-select"
+      name=""
       onChange={[Function]}
     >
       <option
@@ -882,7 +882,7 @@ exports[`Storyshots ChoiceList Select 1`] = `
       aria-required={true}
       className="usa-select"
       id="storybook-select"
-      name="storybook-select"
+      name=""
       onChange={[Function]}
     >
       <option
@@ -929,7 +929,7 @@ exports[`Storyshots ChoiceList Select with other 1`] = `
       aria-required={true}
       className="usa-select"
       id="storybook-select"
-      name="storybook-select"
+      name=""
       onChange={[Function]}
     >
       <option
@@ -992,7 +992,7 @@ exports[`Storyshots ChoiceList Select with success 1`] = `
       aria-required={true}
       className="usa-select usa-input--success"
       id="storybook-select"
-      name="storybook-select"
+      name=""
       onChange={[Function]}
     >
       <option

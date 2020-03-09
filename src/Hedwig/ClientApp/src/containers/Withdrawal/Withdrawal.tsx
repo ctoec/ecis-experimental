@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useReducer } from 'react';
 import { History } from 'history';
 import moment from 'moment';
 import UserContext from '../../contexts/User/UserContext';
@@ -39,6 +39,7 @@ import {
 	validationErrorAlert,
 	missingInformationForWithdrawalAlert,
 } from '../../utils/stringFormatters/alertTextMakers';
+import { FormReducer, updateData, formReducer } from '../../utils/forms/form';
 
 type WithdrawalProps = {
 	history: History;
@@ -78,14 +79,26 @@ export default function Withdrawal({
 		}
 	);
 
-	const [enrollmentEndDate, updateEnrollmentEndDate] = useState<Date>();
-	const [exitReason, updateExitReason] = useState<string>();
+	const [_enrollment, updateEnrollment] = useReducer<FormReducer<DeepNonUndefineable<Enrollment>>>(
+		formReducer,
+		enrollment
+	);
+	const updateFormData = updateData<DeepNonUndefineable<Enrollment>>(updateEnrollment);
+
+	useEffect(() => {
+		if (enrollment) {
+			updateEnrollment(enrollment);
+		}
+	}, [enrollment]);
+
+	const { exit: enrollmentEndDate, exitReason } = _enrollment || {};
+
 	const [lastReportingPeriod, updateLastReportingPeriod] = useState<ReportingPeriod>();
 	const [reportingPeriodOptions, updateReportingPeriodOptions] = useState(reportingPeriods);
 
 	const fundings =
-		enrollment && enrollment.fundings
-			? enrollment.fundings
+		_enrollment && _enrollment.fundings
+			? _enrollment.fundings
 			: ([] as DeepNonUndefineable<Funding[]>);
 	const cdcFunding = currentCdcFunding(fundings);
 
@@ -124,13 +137,13 @@ export default function Withdrawal({
 		}
 	}, [enrollment, isMissingInformation, history, setAlerts, siteId]);
 
-	const [withdrawn, setWithdrawn] = useState(false);
+	const [withdrawnAttempted, setWithdrawnAttempted] = useState(false);
 	useEffect(() => {
-		if (withdrawn && !error) {
+		if (withdrawnAttempted && !error) {
 			setAlerts([childWithdrawnAlert(nameFormatter(enrollment.child))]);
 			history.push(`/roster`);
 		}
-	}, [withdrawn, enrollment, history, setAlerts, error]);
+	}, [withdrawnAttempted, enrollment, history, setAlerts, error]);
 
 	if (loading || !enrollment || !enrollment.site) {
 		return <div className="Withdrawl"></div>;
@@ -138,7 +151,6 @@ export default function Withdrawal({
 
 	const save = () => {
 		setAttemptedSave(true);
-
 		// Enrollment end date (exit) is required for withdrawl
 		if (!enrollmentEndDate) {
 			return;
@@ -171,15 +183,13 @@ export default function Withdrawal({
 		const putParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
 			...defaultParams,
 			enrollment: {
-				...enrollment,
-				exit: enrollmentEndDate,
-				exitReason,
+				..._enrollment,
 				fundings: updatedFundings,
 			},
 		};
 
 		mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams)).then(res => {
-			setWithdrawn(true);
+			setWithdrawnAttempted(true);
 		});
 	};
 
@@ -217,7 +227,8 @@ export default function Withdrawal({
 					<DateInput
 						label="Enrollment end date"
 						id="enrollment-end-date"
-						onChange={newDate => updateEnrollmentEndDate(newDate ? newDate.toDate() : undefined)}
+						name="exit"
+						onChange={updateFormData(newDate => newDate.toDate())}
 						date={enrollmentEndDate ? moment(enrollmentEndDate) : undefined}
 						status={
 							// TODO should we use a different fact for this condition?
@@ -250,8 +261,10 @@ export default function Withdrawal({
 							value: key,
 							text: reason,
 						}))}
+						selected={exitReason ? [exitReason] : undefined}
 						otherInputLabel="Other"
-						onChange={event => updateExitReason(event.target.value)}
+						name="exitReason"
+						onChange={updateFormData()}
 						status={serverErrorForField(
 							hasAlertedOnError,
 							setHasAlertedOnError,

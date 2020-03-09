@@ -1,5 +1,4 @@
-import { ReportingPeriod, Funding } from '../../generated';
-import idx from 'idx';
+import { ReportingPeriod } from '../../generated';
 import moment from 'moment';
 
 export const reportingPeriodFormatter = (

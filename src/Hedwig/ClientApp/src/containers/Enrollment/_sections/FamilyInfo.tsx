@@ -1,10 +1,13 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useReducer } from 'react';
 import idx from 'idx';
 import { Section } from '../enrollmentTypes';
 import { Button, TextInput, ChoiceList, FieldSet } from '../../../components';
-import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest } from '../../../generated';
+import {
+	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
+	Enrollment,
+} from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
-import { validatePermissions, getIdForUser } from '../../../utils/models';
+import { validatePermissions, getIdForUser, createEmptyFamily } from '../../../utils/models';
 import {
 	sectionHasValidationErrors,
 	warningForFieldSet,
@@ -17,6 +20,8 @@ import usePromiseExecution from '../../../hooks/usePromiseExecution';
 import { isBlockingValidationError } from '../../../utils/validations/isBlockingValidationError';
 import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
 import AlertContext from '../../../contexts/Alert/AlertContext';
+import { FormReducer, formReducer, updateData } from '../../../utils/forms/form';
+import { DeepNonUndefineable } from '../../../utils/types';
 
 const FamilyInfo: Section = {
 	key: 'family-information',
@@ -64,71 +69,56 @@ const FamilyInfo: Section = {
 		// set up form state
 		const { setAlerts } = useContext(AlertContext);
 		const initialLoad = visitedSections ? !visitedSections[FamilyInfo.key] : false;
-		const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
+		// const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
+		// Above line is left to show symmetry for future form component refactor-- wasn't actually used in this component
+
 		useFocusFirstError([error]);
 		useEffect(() => {
-			if (error && !hasAlertedOnError) {
+			if (error) {
 				if (!isBlockingValidationError(error)) {
 					throw new Error(error.title || 'Unknown api error');
 				}
 				setAlerts([validationErrorAlert]);
 			}
-		}, [error, hasAlertedOnError]);
+		}, [error]);
 
-		const child = enrollment.child;
+		const [_enrollment, updateEnrollment] = useReducer<
+			FormReducer<DeepNonUndefineable<Enrollment>>
+		>(formReducer, enrollment);
+		const updateFormData = updateData<DeepNonUndefineable<Enrollment>>(updateEnrollment);
+
 		const { user } = useContext(UserContext);
+
+		if (!_enrollment.child.family) {
+			// If there isn't a family, create one-- otherwise user can save section without making one
+			updateFormData(e => e.value)({
+				name: 'child.family',
+				value: createEmptyFamily(getIdForUser(user, 'org'), enrollment.child.familyId || 0),
+			});
+		}
+		const child = _enrollment.child;
+		const { foster, family } = child;
+		const { addressLine1, addressLine2, town, state, zip, homelessness } = family || {};
+
 		const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
-			id: enrollment.id || 0,
+			id: _enrollment.id || 0,
 			orgId: getIdForUser(user, 'org'),
 			siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
-			enrollment: enrollment,
+			enrollment: _enrollment,
 		};
 
-		const [addressLine1, updateAddressLine1] = useState(
-			child.family ? child.family.addressLine1 : null
-		);
-		const [addressLine2, updateAddressLine2] = useState(
-			child.family ? child.family.addressLine2 : null
-		);
-		const [town, updateTown] = useState(child.family ? child.family.town : null);
-		const [state, updateState] = useState(child.family ? child.family.state : null);
-		const [zip, updateZip] = useState(child.family ? child.family.zip : null);
-		const [homelessness, updateHomelessness] = useState(
-			child.family ? child.family.homelessness : undefined
-		);
-
-		const [foster, updateFoster] = useState(child.foster ? child.foster : false);
-
 		const _save = () => {
-			const args = {
-				addressLine1,
-				addressLine2,
-				town,
-				state,
-				zip,
-				homelessness,
-			};
-
 			if (enrollment.child && enrollment.id) {
 				const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
 					...defaultParams,
 					id: enrollment.id,
 					enrollment: {
-						...enrollment,
-						child: {
-							...child,
-							foster,
-							family: {
-								id: child.familyId || 0,
-								organizationId: getIdForUser(user, 'org'),
-								...child.family,
-								...args,
-							},
-						},
+						..._enrollment,
 					},
 				};
 				return mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
 					.then(res => {
+						// console.log(res);
 						if (successCallback && res && !error) successCallback(res);
 					})
 					.finally(() => {
@@ -163,8 +153,9 @@ const FamilyInfo: Section = {
 							type="input"
 							id="addressLine1"
 							label="Address line 1"
+							name="child.family.addressLine1"
 							defaultValue={addressLine1 || ''}
-							onChange={event => updateAddressLine1(event.target.value ? event.target.value : null)}
+							onChange={updateFormData()}
 							status={initialLoadErrorGuard(
 								initialLoad,
 								warningForField('addressLine1', idx(enrollment, _ => _.child.family) || null, '')
@@ -176,8 +167,9 @@ const FamilyInfo: Section = {
 							type="input"
 							id="addressLine2"
 							label="Address line 2"
+							name="child.family.addressLine2"
 							defaultValue={addressLine2 || ''}
-							onChange={event => updateAddressLine2(event.target.value ? event.target.value : null)}
+							onChange={updateFormData()}
 							optional={true}
 						/>
 					</div>
@@ -186,8 +178,9 @@ const FamilyInfo: Section = {
 							type="input"
 							id="town"
 							label="Town"
+							name="child.family.town"
 							defaultValue={town || ''}
-							onChange={event => updateTown(event.target.value ? event.target.value : null)}
+							onChange={updateFormData()}
 							status={initialLoadErrorGuard(
 								initialLoad,
 								warningForField('town', idx(enrollment, _ => _.child.family) || null, '')
@@ -199,9 +192,10 @@ const FamilyInfo: Section = {
 							type="select"
 							id="state"
 							label="State"
+							name="child.family.state"
 							options={['CT', 'MA', 'NY', 'RI'].map(_state => ({ text: _state, value: _state }))}
 							selected={state ? [state] : undefined}
-							onChange={(event, selectedValues) => updateState(selectedValues[0])}
+							onChange={updateFormData()}
 							status={initialLoadErrorGuard(
 								initialLoad,
 								warningForField('state', idx(enrollment, _ => _.child.family) || null, '')
@@ -213,8 +207,9 @@ const FamilyInfo: Section = {
 							type="input"
 							id="zip"
 							label="ZIP Code"
+							name="child.family.zip"
 							defaultValue={zip || ''}
-							onChange={event => updateZip(event.target.value ? event.target.value : null)}
+							onChange={updateFormData()}
 							status={initialLoadErrorGuard(
 								initialLoad,
 								warningForField('zip', idx(enrollment, _ => _.child.family) || null, '')
@@ -228,8 +223,9 @@ const FamilyInfo: Section = {
 					type="check"
 					legend="Foster"
 					id="foster"
+					name="child.foster"
 					selected={foster ? ['foster'] : undefined}
-					onChange={event => updateFoster(((event.target as unknown) as HTMLInputElement).checked)}
+					onChange={updateFormData((_, event) => event.target.checked)}
 					options={[
 						{
 							text: fosterText(),
@@ -241,10 +237,9 @@ const FamilyInfo: Section = {
 					type="check"
 					legend="Homelessness"
 					id="homelessness"
+					name="child.family.homelessness"
 					selected={homelessness ? ['homelessness'] : undefined}
-					onChange={event =>
-						updateHomelessness(((event.target as unknown) as HTMLInputElement).checked)
-					}
+					onChange={updateFormData((_, event) => event.target.checked)}
 					options={[
 						{
 							text: homelessnessText(),

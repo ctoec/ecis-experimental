@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useReducer } from 'react';
 import moment from 'moment';
 import idx from 'idx';
 import { Section } from '../enrollmentTypes';
@@ -13,7 +13,10 @@ import {
 } from '../../../components';
 import dateFormatter from '../../../utils/dateFormatter';
 import notNullOrUndefined from '../../../utils/notNullOrUndefined';
-import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest } from '../../../generated';
+import {
+	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
+	Enrollment,
+} from '../../../generated';
 import parseCurrencyFromString from '../../../utils/parseCurrencyFromString';
 import currencyFormatter from '../../../utils/currencyFormatter';
 import { validatePermissions, getIdForUser } from '../../../utils/models';
@@ -29,6 +32,8 @@ import {
 import usePromiseExecution from '../../../hooks/usePromiseExecution';
 import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
 import AlertContext from '../../../contexts/Alert/AlertContext';
+import { FormReducer, formReducer, updateData } from '../../../utils/forms/form';
+import { DeepNonUndefineable } from '../../../utils/types';
 
 const FamilyIncome: Section = {
 	key: 'family-income',
@@ -129,52 +134,21 @@ const FamilyIncome: Section = {
 			enrollment: enrollment,
 		};
 
-		const child = enrollment.child;
-		const determination = idx(child, _ => _.family.determinations[0]) || undefined;
-		const [numberOfPeople, updateNumberOfPeople] = React.useState(
-			determination ? determination.numberOfPeople : null
-		);
-		const [income, updateIncome] = React.useState(determination ? determination.income : null);
-		const [determinationDate, updateDeterminationDate] = React.useState(
-			determination ? determination.determinationDate : null
-		);
-		const [notDisclosed, updateNotDisclosed] = useState(
-			determination ? determination.notDisclosed : false
-		);
+		const [_enrollment, updateEnrollment] = useReducer<
+			FormReducer<DeepNonUndefineable<Enrollment>>
+		>(formReducer, enrollment);
+		const updateFormData = updateData<DeepNonUndefineable<Enrollment>>(updateEnrollment);
 
-		const args = {
-			numberOfPeople,
-			income,
-			determinationDate,
-			notDisclosed,
-		};
+		const child = _enrollment.child;
+		const determination = idx(child, _ => _.family.determinations[0]) || undefined;
+		const { numberOfPeople, income, determinationDate, notDisclosed } = determination || {};
 
 		const _save = () => {
 			if (enrollment && child && child.family) {
 				const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
 					...defaultParams,
 					enrollment: {
-						...enrollment,
-						child: {
-							...child,
-							family: {
-								...child.family,
-								determinations: determination
-									? [
-											{
-												...determination,
-												...args,
-											},
-									  ]
-									: [
-											{
-												id: 0,
-												familyId: child.family.id,
-												...args,
-											},
-									  ],
-							},
-						},
+						..._enrollment,
 					},
 				};
 				return mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
@@ -227,11 +201,10 @@ const FamilyIncome: Section = {
 										id="numberOfPeople"
 										label="Household size"
 										defaultValue={numberOfPeople ? '' + numberOfPeople : ''}
-										onChange={event => {
-											const value =
-												parseInt(event.target.value.replace(/[^0-9.]/g, ''), 10) || null;
-											updateNumberOfPeople(value);
-										}}
+										onChange={updateFormData(
+											newNumberOfPeople =>
+												parseInt(newNumberOfPeople.replace(/[^0-9.]/g, ''), 10) || null
+										)}
 										onBlur={event =>
 											(event.target.value = numberOfPeople ? '' + numberOfPeople : '')
 										}
@@ -240,6 +213,7 @@ const FamilyIncome: Section = {
 											warningForField('numberOfPeople', determination ? determination : null, '')
 										)}
 										small
+										name="child.family.determinations[0].numberOfPeople"
 									/>
 								</div>
 								<div>
@@ -247,10 +221,9 @@ const FamilyIncome: Section = {
 										type="input"
 										id="income"
 										label="Annual household income"
+										name="child.family.determinations[0].income"
 										defaultValue={currencyFormatter(income)}
-										onChange={event => {
-											updateIncome(parseCurrencyFromString(event.target.value));
-										}}
+										onChange={updateFormData(parseCurrencyFromString)}
 										onBlur={event =>
 											(event.target.value = notNullOrUndefined(income)
 												? currencyFormatter(income)
@@ -265,8 +238,9 @@ const FamilyIncome: Section = {
 								<DateInput
 									label="Date of income determination"
 									id="income-determination-date"
-									onChange={newDate => updateDeterminationDate(newDate ? newDate.toDate() : null)}
 									date={determinationDate ? moment(determinationDate) : null}
+									name="child.family.determinations[0].determinationDate"
+									onChange={updateFormData(newDate => (newDate ? newDate.toDate() : null))}
 									status={initialLoadErrorGuard(
 										initialLoad,
 										warningForField('determintionDate', determination ? determination : null, '')
@@ -280,7 +254,8 @@ const FamilyIncome: Section = {
 						legend="Family income disclosure"
 						id="family-income-disclosed"
 						className="margin-top-3"
-						onChange={event => updateNotDisclosed((event.target as HTMLInputElement).checked)}
+						name="child.family.determinations[0].notDisclosed"
+						onChange={updateFormData((_, event) => event.target.checked)}
 						selected={notDisclosed ? ['familyIncomeNotDisclosed'] : undefined}
 						options={[
 							{

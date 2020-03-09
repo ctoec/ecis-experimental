@@ -1,6 +1,19 @@
 import { Family } from '../../generated';
 import { InlineIcon } from '../../components';
 
+export function createEmptyFamily(orgId: number, familyId = 0) {
+	return {
+		id: familyId,
+		organizationId: orgId,
+		addressLine1: null,
+		addressLine2: null,
+		town: null,
+		state: null,
+		zip: null,
+		homelessness: false,
+	};
+}
+
 export function addressFormatter(family?: Family) {
 	if (!family) {
 		return [''];
