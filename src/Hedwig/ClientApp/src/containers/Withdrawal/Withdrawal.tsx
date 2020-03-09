@@ -180,7 +180,7 @@ export default function Withdrawal({
 			},
 		};
 
-		mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams)).then((res) => {
+		mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams)).then(res => {
 			if (res) {
 				setAlerts([childWithdrawnAlert(nameFormatter(enrollment.child))]);
 				history.push(`/roster`);
