@@ -16,7 +16,7 @@ export type Query<TData> = (api: HedwigApi) => Promise<TData>;
 export type Mutate<TData> = (
 	query: Query<TData>,
 	reducer?: Reducer<TData | undefined>
-) => Promise<TData | void>;
+) => Promise<TData | null>;
 
 interface ApiParamOpts<T> {
 	defaultValue?: T;
@@ -125,6 +125,7 @@ export default function useApi<TData>(
 				})
 				.catch(async apiError => {
 					await handleError(apiError);
+					return null;
 				});
 		},
 		[api, data]
