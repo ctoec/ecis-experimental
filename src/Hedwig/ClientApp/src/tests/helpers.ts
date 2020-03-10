@@ -1,8 +1,6 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-
-expect.extend(toHaveNoViolations);
+import { axe } from 'jest-axe';
 
 // This is a *very* minimal accessibility check
 // From the README for the jest-axe library: "The GDS Accessibility team found that only ~30% of issues are found by automated testing."
