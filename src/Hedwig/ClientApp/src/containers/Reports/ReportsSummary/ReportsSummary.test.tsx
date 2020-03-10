@@ -7,14 +7,19 @@ import {
 } from '../../../tests/data';
 import mockUseApi, { mockApiOrganizationsIdGet } from '../../../hooks/__mocks__/useApi';
 
-const submittedReport = { ...mockDefaultReport, submittedAt: new Date('2019-09-14') };
-const defaultReports = [mockDefaultReport, submittedReport];
 const pendingReports = cdcReportingPeriods.map(reportingPeriod => ({
 	...mockDefaultReport,
 	reportingPeriod,
 }));
+const submittedReports = pendingReports.map(pendingReport => ({
+	...pendingReport,
+	submittedAt: new Date('2019-09-14'),
+}));
+const defaultReports = [...pendingReports, ...submittedReports];
 
 let mockReports = defaultReports;
+
+const reportingPeriodToMoment = (text: string) => moment(text, 'MMMM YYYY');
 
 // Jest mocks must occur before later imports
 jest.mock('../../../hooks/useApi', () =>
@@ -46,20 +51,20 @@ describe('ReportsSummary', () => {
 	});
 
 	it('formats reporting period as MMMM YYYY', () => {
-		mockReports = [submittedReport];
+		mockReports = submittedReports;
 		const { getByText } = render(
 			<CommonContextProviderMock>
 				<ReportsSummary />
 			</CommonContextProviderMock>
 		);
 		expect(
-			getByText(moment(submittedReport.reportingPeriod?.period).format('MMMM YYYY'))
+			getByText(moment(submittedReports[0].reportingPeriod?.period).format('MMMM YYYY'))
 		).toBeInTheDocument();
 	});
 
 	describe('when there are no pending reports', () => {
 		beforeEach(() => {
-			mockReports = [submittedReport];
+			mockReports = submittedReports;
 		});
 
 		it('shows explanatory text', () => {
@@ -86,29 +91,53 @@ describe('ReportsSummary', () => {
 			expect(getAllByText(/CDC/)).toHaveLength(pendingReports.length);
 		});
 
-		it('orders by due date and lists the oldest one first by default', () => {
+		it('orders by due date and lists the oldest report first by default', () => {
 			const { getAllByRole } = render(
 				<CommonContextProviderMock>
 					<ReportsSummary />
 				</CommonContextProviderMock>
 			);
-			const textToMoment = (text: string) => moment(text, 'MMMM YYYY');
 			const reportLinks = getAllByRole('link').map(link => link.textContent);
 			const sortedReportLinks = [...reportLinks].sort((a, b) =>
-				textToMoment(a || '').diff(textToMoment(b || ''))
+				reportingPeriodToMoment(a || '').diff(reportingPeriodToMoment(b || ''))
 			);
+			// Make sure we're not comparing empty strings
 			expect(reportLinks).toHaveLength(pendingReports.length);
+			// The strings of link text should be the same
 			expect(reportLinks.join()).toEqual(sortedReportLinks.join());
 		});
 	});
 
-	xdescribe('when there are submitted reports', () => {
-		it('lists the one with the most recent reporting period first by default', () => {});
-	});
+	describe('when there are submitted reports', () => {
+		beforeEach(() => {
+			mockReports = submittedReports;
+		});
 
-	xdescribe('when there are submitted and pending reports', () => {
-		it('does not include submitted reports in the pending table', () => {});
-		it('does not include pending reports in the submitted table', () => {});
+		it('lists the correct number of reports', () => {
+			const { getAllByText } = render(
+				<CommonContextProviderMock>
+					<ReportsSummary />
+				</CommonContextProviderMock>
+			);
+			expect(getAllByText(/CDC/)).toHaveLength(submittedReports.length);
+		});
+
+		it('lists the reports with the most recent reporting period first by default', () => {
+			// Opposite of the pending reports test
+			const { getAllByRole } = render(
+				<CommonContextProviderMock>
+					<ReportsSummary />
+				</CommonContextProviderMock>
+			);
+			const reportLinks = getAllByRole('link').map(link => link.textContent);
+			const sortedReportLinks = [...reportLinks].sort((a, b) =>
+				reportingPeriodToMoment(b || '').diff(reportingPeriodToMoment(a || ''))
+			);
+			// Make sure we're not comparing empty strings
+			expect(reportLinks).toHaveLength(pendingReports.length);
+			// The strings of link text should be the same
+			expect(reportLinks.join()).toEqual(sortedReportLinks.join());
+		});
 	});
 
 	accessibilityTestHelper(

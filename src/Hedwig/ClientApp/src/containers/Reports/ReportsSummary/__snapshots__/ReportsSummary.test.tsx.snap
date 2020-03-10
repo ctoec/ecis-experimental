@@ -130,7 +130,7 @@ exports[`ReportsSummary matches snapshot 1`] = `
                 class="usa-link"
                 href="/reports/1"
               >
-                September 2019
+                March 2019
               </a>
             </th>
             <td>
@@ -142,7 +142,53 @@ exports[`ReportsSummary matches snapshot 1`] = `
             <td
               class="oec-table__cell--tabular-nums oec-table__cell--gray"
             >
-              10/15/2019
+              04/15/2019
+            </td>
+          </tr>
+          <tr>
+            <th
+              scope="row"
+            >
+              <a
+                class="usa-link"
+                href="/reports/1"
+              >
+                April 2019
+              </a>
+            </th>
+            <td>
+              CDC
+            </td>
+            <td>
+              Test Organization
+            </td>
+            <td
+              class="oec-table__cell--tabular-nums oec-table__cell--gray"
+            >
+              05/15/2019
+            </td>
+          </tr>
+          <tr>
+            <th
+              scope="row"
+            >
+              <a
+                class="usa-link"
+                href="/reports/1"
+              >
+                May 2019
+              </a>
+            </th>
+            <td>
+              CDC
+            </td>
+            <td>
+              Test Organization
+            </td>
+            <td
+              class="oec-table__cell--tabular-nums oec-table__cell--gray"
+            >
+              06/15/2019
             </td>
           </tr>
         </tbody>
@@ -267,7 +313,53 @@ exports[`ReportsSummary matches snapshot 1`] = `
                 class="usa-link"
                 href="/reports/1"
               >
-                September 2019
+                May 2019
+              </a>
+            </th>
+            <td>
+              CDC
+            </td>
+            <td>
+              Test Organization
+            </td>
+            <td
+              class="oec-table__cell--tabular-nums"
+            >
+              09/14/2019
+            </td>
+          </tr>
+          <tr>
+            <th
+              scope="row"
+            >
+              <a
+                class="usa-link"
+                href="/reports/1"
+              >
+                April 2019
+              </a>
+            </th>
+            <td>
+              CDC
+            </td>
+            <td>
+              Test Organization
+            </td>
+            <td
+              class="oec-table__cell--tabular-nums"
+            >
+              09/14/2019
+            </td>
+          </tr>
+          <tr>
+            <th
+              scope="row"
+            >
+              <a
+                class="usa-link"
+                href="/reports/1"
+              >
+                March 2019
               </a>
             </th>
             <td>
