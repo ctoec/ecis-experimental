@@ -91,7 +91,7 @@ const ChildInfo: Section = {
 
 		const [_enrollment, updateEnrollment] = useReducer<
 			FormReducer<DeepNonUndefineable<Enrollment>>
-		>(formReducer, enrollment || emptyEnrollment(siteId));
+		>(formReducer, enrollment || emptyEnrollment(siteId, user));
 
 		const updateFormData = updateData<DeepNonUndefineable<Enrollment>>(updateEnrollment);
 

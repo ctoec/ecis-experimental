@@ -79,24 +79,29 @@ export default function useApi<TData>(
 
 	// Create error handling functions
 	const handleError = async (_error: any) => {
-		try {
-			const apiError = await parseError(_error);
-			setState(state => {
-				return { ...state, error: apiError };
-			});
-		} catch {
-			throw new Error('Unknown error');
-		}
+		const apiError = await parseError(_error);
+		setState(_state => {
+			return { ..._state, error: apiError };
+		});
 	};
 
 	const parseError: (_error: any) => Promise<ApiError | null> = async (_error: any) => {
-		const jsonResponse = await _error.json();
+		try {
+			const jsonResponse = await _error.json();
 
-		if (_error.status === 400) {
-			return ValidationProblemDetailsFromJSON(jsonResponse) || null;
+			if (_error.status === 400) {
+				return ValidationProblemDetailsFromJSON(jsonResponse) || null;
+			} else {
+				return ProblemDetailsFromJSON(jsonResponse) || null;
+			}
+		} catch (e) {
+			console.error('Error cannot be converted to JSON');
+			console.error(e);
+			return {
+				detail: 'Please inspect console for error',
+				title: 'Unknown error',
+			};
 		}
-
-		return ProblemDetailsFromJSON(jsonResponse) || null;
 	};
 
 	// Create mutate function
@@ -116,7 +121,7 @@ export default function useApi<TData>(
 					setState(_state => {
 						return { ..._state, loading: false, error: null, data: reducer(data, result) };
 					});
-					return result;
+					return result; // is there a reason we return the result?
 				})
 				.catch(async apiError => {
 					await handleError(apiError);

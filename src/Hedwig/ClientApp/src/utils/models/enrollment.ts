@@ -1,12 +1,11 @@
-import { Enrollment, Gender } from '../../generated';
+import { Enrollment, Gender, User } from '../../generated';
 import { isCurrentToRange } from './funding';
 import { DateRange } from '../../components';
 import { validatePermissions, getIdForUser } from '.';
-import { user } from '../../tests/data';
 import emptyGuid from '../emptyGuid';
 import { DeepNonUndefineable } from '../types';
 
-export function emptyEnrollment(siteId: number) {
+export function emptyEnrollment(siteId: number, user?: User) {
 	return {
 		id: 0,
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
