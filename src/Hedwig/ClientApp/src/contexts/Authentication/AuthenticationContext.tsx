@@ -29,7 +29,8 @@ export type AuthenticationContextType = {
 export type AuthenticationProviderPropsType = {
 	clientId: string;
 	scope: string;
-	localStorageKey: string;
+	localStorageAccessTokenKey: string;
+	localStorageIdTokenKey: string;
 	loginEndpoint?: string;
 	defaultOpenIdConnectUrl?: string;
 	redirectEndpoint?: string;
@@ -58,7 +59,8 @@ const AuthenticationProvider: React.FC<AuthenticationProviderPropsType> = ({
 	redirectEndpoint = '/login/callback',
 	logoutEndpoint = '/logout',
 	scope,
-	localStorageKey,
+	localStorageAccessTokenKey,
+	localStorageIdTokenKey,
 	responseType = AuthorizationRequest.RESPONSE_TYPE_CODE,
 	state = undefined,
 	extras = {},
@@ -125,20 +127,20 @@ const AuthenticationProvider: React.FC<AuthenticationProviderPropsType> = ({
 
 	// Get accessToken from localstorage on initial mount
 	useEffect(() => {
-		const localStorageAccessToken = localStorage.getItem(localStorageKey);
+		const localStorageAccessToken = localStorage.getItem(localStorageAccessTokenKey);
 		// Update accessToken if it was present in local storage
 		if (!!localStorageAccessToken) {
 			setAccessToken(localStorageAccessToken);
 		}
-	}, [localStorageKey]);
+	}, [localStorageAccessTokenKey]);
 
 	// Update localstorage when accessToken changes
 	useEffect(() => {
-		const localStorageAccessToken = localStorage.getItem(localStorageKey);
+		const localStorageAccessToken = localStorage.getItem(localStorageAccessTokenKey);
 		if (accessToken && accessToken !== localStorageAccessToken) {
-			localStorage.setItem(localStorageKey, accessToken);
+			localStorage.setItem(localStorageAccessTokenKey, accessToken);
 		}
-	}, [accessToken, localStorageKey]);
+	}, [accessToken, localStorageAccessTokenKey]);
 
 	// Only fetch on openIdConnectUrl change
 	useEffect(() => {
@@ -190,13 +192,14 @@ const AuthenticationProvider: React.FC<AuthenticationProviderPropsType> = ({
 				/*
 				 * Remove the access token, clear react state, and navigate to main page.
 				 */
-				localStorage.removeItem(localStorageKey);
+				localStorage.removeItem(localStorageAccessTokenKey);
 				setAccessToken(null);
 				if (!configuration.endSessionEndpoint) {
 					throw new Error('no logout');
 				}
+				const savedIdToken = localStorage.getItem(localStorageIdTokenKey);
 				const endSessionQueryParams = {
-					id_token_hint: idToken,
+					id_token_hint: idToken || savedIdToken,
 					post_logout_redirect_uri: getCurrentHost(),
 				} as StringMap;
 				const logoutUrl = `${
@@ -209,7 +212,8 @@ const AuthenticationProvider: React.FC<AuthenticationProviderPropsType> = ({
 		idToken,
 		clientId,
 		scope,
-		localStorageKey,
+		localStorageAccessTokenKey,
+		localStorageIdTokenKey,
 		configuration,
 		authorizationHandler,
 		responseType,
@@ -247,6 +251,7 @@ const AuthenticationProvider: React.FC<AuthenticationProviderPropsType> = ({
 		});
 		return tokenHandler.performTokenRequest(configuration, req).then(resp => {
 			setIdToken(resp.idToken);
+			localStorage.setItem(localStorageIdTokenKey, resp.idToken || '');
 			setAccessToken(resp.accessToken);
 			setTokenResponse(resp);
 			history.push('/');
