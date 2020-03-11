@@ -59,17 +59,10 @@ namespace HedwigTests.Validations.Rules
 		}
 
 		[Fact]
-		public void Execute_ReturnsNull_IfFamilyHasChildWithFosterTrue()
+		public void Execute_ReturnsNull_IfParentEntityIsChildWithFosterTrue()
 		{
 			// if
-			var child = new Child
-			{
-				Foster = true
-			};
-			var family = new Family
-			{
-				Children = new List<Child> { child }
-			};
+			var family = new Family();
 			var determination = new FamilyDetermination { Family = family };
 			family.Determinations = new List<FamilyDetermination> { determination };
 
@@ -85,7 +78,7 @@ namespace HedwigTests.Validations.Rules
 
 			// when
 			var rule = new MostRecentDeterminationIsValid(_validator, _determinations.Object);
-			var result = rule.Execute(family, new NonBlockingValidationContext());
+			var result = rule.Execute(family, new NonBlockingValidationContext(parentEntity: new Child { Foster = true }));
 
 			// then
 			Assert.Null(result);
