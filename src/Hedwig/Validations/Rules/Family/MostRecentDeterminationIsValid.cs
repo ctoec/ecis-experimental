@@ -19,7 +19,7 @@ namespace Hedwig.Validations.Rules
 		public ValidationError Execute(Family family, NonBlockingValidationContext context)
 		{
 			// Family determination validations do not apply to enrollments for children living with foster families
-			var child = (Child)context.ParentEntity;
+			var child = context.GetParentEntity<Child>();
 			if (child != null && child.Foster)
 			{
 				return null;
@@ -33,8 +33,16 @@ namespace Hedwig.Validations.Rules
 			.OrderByDescending(d => d.DeterminationDate)
 			.First();
 
-			ValidateSubObject(determination, family);
+			if (determination == null)
+			{
+				return new ValidationError(
+					field: "Determinations",
+					message: "At least one family determination is required",
+					isSubObjectValidation: true
+				);
+			}
 
+			ValidateSubObject(determination, family);
 			if (determination.ValidationErrors.Count > 0)
 			{
 				return new ValidationError(

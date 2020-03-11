@@ -183,7 +183,12 @@ const FamilyIncome: Section = {
 									initialLoad,
 									warningForFieldSet(
 										'family-income',
-										['numberOfPeople', 'income', 'determinationDate'],
+										/**
+										 * If determinationDate has value, then validation errors for that field are
+										 * about the value so we DO NOT want to display the general 'information is required'
+										 * FieldSet warning. If it does not have value, then we would want to check for this warning.
+										 */
+										['numberOfPeople', 'income', !determinationDate ? 'determinationDate' : ''],
 										determination ? determination : null,
 										'This information is required for enrollment'
 									) ||
@@ -243,7 +248,11 @@ const FamilyIncome: Section = {
 									onChange={updateFormData(newDate => (newDate ? newDate.toDate() : null))}
 									status={initialLoadErrorGuard(
 										initialLoad,
-										warningForField('determintionDate', determination ? determination : null, '')
+										warningForField(
+											'determinationDate',
+											determination ? determination : null,
+											!determinationDate ? '' : undefined
+										)
 									)}
 								/>
 							</FieldSet>

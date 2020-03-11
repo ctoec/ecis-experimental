@@ -78,7 +78,9 @@ namespace HedwigTests.Validations.Rules
 
 			// when
 			var rule = new MostRecentDeterminationIsValid(_validator, _determinations.Object);
-			var result = rule.Execute(family, new NonBlockingValidationContext(parentEntity: new Child { Foster = true }));
+			var validationContext = new NonBlockingValidationContext();
+			validationContext.AddParentEntity(new Child { Foster = true });
+			var result = rule.Execute(family, validationContext);
 
 			// then
 			Assert.Null(result);

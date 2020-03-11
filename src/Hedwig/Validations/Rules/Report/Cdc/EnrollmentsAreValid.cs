@@ -20,7 +20,7 @@ namespace Hedwig.Validations.Rules
 		{
 
 			var enrollments = report.Enrollments ?? _reports.GetEnrollmentsForReport(report);
-			ValidateSubObject(enrollments);
+			ValidateSubObject(enrollments, report);
 			if (enrollments.Any(e => e.ValidationErrors.Count > 0))
 			{
 				return new ValidationError(
