@@ -49,7 +49,7 @@ namespace HedwigTests.Helpers
 			};
 
 			context.Add(reportingPeriod);
-			context.SaveChanges(ignoreReadOnly: true);
+			context.SaveChanges();
 			return reportingPeriod;
 		}
 	}
