@@ -1,4 +1,5 @@
 using Hedwig.Validations.Rules;
+using Hedwig.Validations;
 using Moq;
 using Moq.Protected;
 using Xunit;
@@ -22,7 +23,7 @@ namespace HedwigTests.Validations.Rules
 			// when
 			var rule = new Mock<FieldRequired<TestValidatableEntity>>(fieldName, prettyFieldName, false);
 			rule.CallBase = true;
-			var result = rule.Object.Execute(entity);
+			var result = rule.Object.Execute(entity, new NonBlockingValidationContext());
 
 			// then
 			Assert.Equal(!prettyFieldNameExists, result.Message.Contains(fieldName));
@@ -49,12 +50,13 @@ namespace HedwigTests.Validations.Rules
 			};
 
 			// when
+			var validationContext = new NonBlockingValidationContext();
 			var rule = new Mock<ConditionalFieldRequired<TestValidatableEntity>>("condition Message", fieldName, null);
 			rule.Protected()
-			.Setup<bool>("CheckCondition", new object[] { entity })
+			.Setup<bool>("CheckCondition", new object[] { entity, validationContext })
 			.Returns(conditionResult);
 			rule.CallBase = true;
-			var result = rule.Object.Execute(entity);
+			var result = rule.Object.Execute(entity, validationContext);
 
 			// then
 			Assert.Equal(doesError, result != null);

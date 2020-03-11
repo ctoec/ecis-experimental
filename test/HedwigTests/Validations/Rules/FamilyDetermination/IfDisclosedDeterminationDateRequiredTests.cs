@@ -2,6 +2,7 @@ using Xunit;
 using Hedwig.Models;
 using System;
 using Hedwig.Validations.Rules;
+using Hedwig.Validations;
 
 namespace HedwigTests.Validations.Rules
 {
@@ -30,7 +31,7 @@ namespace HedwigTests.Validations.Rules
 
 			// when
 			var rule = new IfDisclosed_DeterminationDateRequired();
-			var result = rule.Execute(determination);
+			var result = rule.Execute(determination, new NonBlockingValidationContext());
 
 			// then
 			Assert.Equal(doesError, result != null);

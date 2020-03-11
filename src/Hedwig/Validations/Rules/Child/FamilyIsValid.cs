@@ -16,14 +16,13 @@ namespace Hedwig.Validations.Rules
 			_families = families;
 		}
 
-		public ValidationError Execute(Child child)
+		public ValidationError Execute(Child child, NonBlockingValidationContext context)
 		{
 			if (child.FamilyId.HasValue)
 			{
 				var family = child.Family ?? _families.GetFamilyById(child.FamilyId.Value);
-				family.Children = new List<Child> { child };
 
-				ValidateSubObject(family);
+				ValidateSubObject(family, child);
 				if (family.ValidationErrors.Count > 0)
 				{
 					return new ValidationError(

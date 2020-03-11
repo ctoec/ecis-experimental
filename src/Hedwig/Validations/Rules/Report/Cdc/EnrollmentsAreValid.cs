@@ -16,7 +16,7 @@ namespace Hedwig.Validations.Rules
 			_reports = reports;
 		}
 
-		public ValidationError Execute(CdcReport report)
+		public ValidationError Execute(CdcReport report, NonBlockingValidationContext context)
 		{
 
 			var enrollments = report.Enrollments ?? _reports.GetEnrollmentsForReport(report);

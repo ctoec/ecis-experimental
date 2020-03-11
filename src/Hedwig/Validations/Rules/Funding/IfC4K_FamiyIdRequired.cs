@@ -8,7 +8,7 @@ namespace Hedwig.Validations.Rules
 			: base("source is Care 4 Kids", "FamilyId")
 		{ }
 
-		protected override bool CheckCondition(Funding entity)
+		protected override bool CheckCondition(Funding entity, NonBlockingValidationContext context)
 		{
 			return entity.Source == FundingSource.C4K;
 		}

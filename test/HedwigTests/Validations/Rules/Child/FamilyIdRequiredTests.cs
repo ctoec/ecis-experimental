@@ -1,6 +1,7 @@
 using Xunit;
 using Hedwig.Models;
 using Hedwig.Validations.Rules;
+using Hedwig.Validations;
 
 namespace HedwigTests.Validations.Rules
 {
@@ -23,7 +24,7 @@ namespace HedwigTests.Validations.Rules
 
 			// when
 			var rule = new FamilyIdRequired();
-			var result = rule.Execute(child);
+			var result = rule.Execute(child, new NonBlockingValidationContext());
 
 			// then
 			Assert.Equal(doesError, result != null);

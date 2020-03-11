@@ -5,7 +5,7 @@ namespace Hedwig.Validations.Rules
 {
 	public class RaceRequired : IValidationRule<Child>
 	{
-		public ValidationError Execute(Child child)
+		public ValidationError Execute(Child child, NonBlockingValidationContext context)
 		{
 			// At least one of the race fields must = true
 			if (!

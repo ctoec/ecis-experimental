@@ -29,7 +29,7 @@ namespace HedwigTests.Validations.Rules
 
 			var fundingRule = new Mock<IValidationRule<Funding>>();
 			var fundingResult = fundingIsValid ? null : new ValidationError("message", field: "field");
-			fundingRule.Setup(cr => cr.Execute(funding))
+			fundingRule.Setup(cr => cr.Execute(funding, It.IsAny<NonBlockingValidationContext>()))
 				.Returns(fundingResult);
 
 			var _serviceProvider = new Mock<IServiceProvider>();
@@ -41,7 +41,7 @@ namespace HedwigTests.Validations.Rules
 
 			// when
 			var rule = new FundingsAreValid(_validator, _funding.Object);
-			var result = rule.Execute(enrollment);
+			var result = rule.Execute(enrollment, new NonBlockingValidationContext());
 
 			// then
 			Assert.Equal(doesError, result != null);

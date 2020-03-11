@@ -7,7 +7,7 @@ namespace Hedwig.Validations.Rules
 		public IfDisclosed_IncomeRequired()
 			: base("income is disclosed", "Income", "Annual household income")
 		{ }
-		protected override bool CheckCondition(FamilyDetermination entity)
+		protected override bool CheckCondition(FamilyDetermination entity, NonBlockingValidationContext context)
 		{
 			return !entity.NotDisclosed;
 		}

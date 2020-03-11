@@ -2,6 +2,7 @@ using Xunit;
 using Hedwig.Models;
 using System;
 using Hedwig.Validations.Rules;
+using Hedwig.Validations;
 
 namespace HedwigTests.Validations.Rules
 {
@@ -24,7 +25,7 @@ namespace HedwigTests.Validations.Rules
 
 			// when
 			var rule = new EntryRequired();
-			var result = rule.Execute(enrollment);
+			var result = rule.Execute(enrollment, new NonBlockingValidationContext());
 
 			// then
 			Assert.Equal(doesError, result != null);
