@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"build": "react-scripts build",
-		"build-storybook": "build-storybook -s public",
+		"build-storybook": "build-storybook -s public -o storybook",
 		"eject": "react-scripts eject",
 		"start": "react-scripts start",
 		"storybook": "start-storybook -p 9009 -s public",
