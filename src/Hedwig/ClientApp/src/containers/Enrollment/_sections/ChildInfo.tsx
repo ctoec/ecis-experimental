@@ -179,7 +179,7 @@ const ChildInfo: Section = {
 				};
 				return mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsPost(postParams))
 					.then(res => {
-						if (successCallback && res && !error) successCallback(res);
+						if (successCallback && res) successCallback(res);
 					})
 					.finally(() => {
 						finallyCallback && finallyCallback(ChildInfo);

@@ -16,7 +16,8 @@ export type Query<TData> = (api: HedwigApi) => Promise<TData>;
 export type Mutate<TData> = (
 	query: Query<TData>,
 	reducer?: Reducer<TData | undefined>
-) => Promise<TData | void>;
+) => Promise<TData | null>;
+// Null is the return value if the mutation fails
 
 interface ApiParamOpts<T> {
 	defaultValue?: T;
@@ -121,10 +122,12 @@ export default function useApi<TData>(
 					setState(_state => {
 						return { ..._state, loading: false, error: null, data: reducer(data, result) };
 					});
-					return result; // is there a reason we return the result?
+					return result;
 				})
 				.catch(async apiError => {
 					await handleError(apiError);
+					return null;
+					// If there was an error, return null
 				});
 		},
 		[api, data]
