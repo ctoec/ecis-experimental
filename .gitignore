@@ -261,3 +261,6 @@ swagger.json
 
 # Editor config for src/Hedwig
 src/Hedwig/.editorconfig
+
+# Storybook Build Assets
+src/Hedwig/ClientApp/storybook
