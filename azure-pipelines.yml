@@ -147,7 +147,7 @@ jobs:
 
   - task: PublishBuildArtifacts@1
     displayName: "Publish Artifacts: hedwig-uncompiled-spa"
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     inputs:
       pathToPublish: "$(Build.SourcesDirectory)/src/Hedwig/ClientApp"
       artifactName: hedwig-uncompiled-spa
@@ -176,6 +176,19 @@ jobs:
   - script: echo $(Build.SourceVersion) > $(Build.SourcesDirectory)/src/Hedwig/dist/installer/build-source-version.txt
     displayName: "Stored build source version in distribution"
 
+  - script: yarn build-storybook
+    displayName: "Generate storybook export"
+
+  - task: ArchiveFiles@2
+    displayName: "Archive files - storybook"
+    inputs:
+      rootFolderOrFile: "$(Build.SourcesDirectory)/storybook"
+      includeRootFolder: false
+      archiveType: "zip"
+      #tarCompression: 'gz' # Optional. Options: gz, bz2, xz, none
+      archiveFile: "$(Build.ArtifactStagingDirectory)/hedwig-storybook.zip"
+      replaceExistingArchive: true
+
   - task: ArchiveFiles@2
     displayName: "Archive files"
     inputs:
@@ -189,7 +202,7 @@ jobs:
   # Publish artifact to dropbox - hedwig-spa
   - task: PublishBuildArtifacts@1
     displayName: "Publish Artifacts: hedwig-spa"
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     inputs:
       pathToPublish: "$(Build.ArtifactStagingDirectory)/hedwig-spa.zip"
       artifactName: hedwig-spa
@@ -197,10 +210,18 @@ jobs:
   # Publish artifact to dropbox - hedwig-db
   - task: PublishBuildArtifacts@1
     displayName: "Publish Artifacts: hedwig-db"
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     inputs:
       pathToPublish: "$(Build.ArtifactStagingDirectory)/hedwig-db.sql"
       artifactName: hedwig-db
+
+  # Publish artifact to dropbox - hedwig-storybook
+  - task: PublishBuildArtifacts@1
+    displayName: "Publish Artifacts: hedwig-storybook"
+    #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    inputs:
+      pathToPublish: "$(Build.ArtifactStagingDirectory)/hedwig-storybook.zip"
+      artifactName: hedwig-storybook
 #
 # Pull Request System
 #
