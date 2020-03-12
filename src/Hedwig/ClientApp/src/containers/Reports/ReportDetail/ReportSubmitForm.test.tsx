@@ -37,7 +37,7 @@ describe('ReportSubmitForm', () => {
 			<TestProvider>
 				<ReportSubmitForm
 					report={mockDefaultReport as DeepNonUndefineable<CdcReport>}
-					mutate={() => Promise.resolve()}
+					mutate={() => Promise.resolve(null)}
 					canSubmit={true}
 					error={null}
 				/>
@@ -47,22 +47,22 @@ describe('ReportSubmitForm', () => {
 	});
 
 	it('updates rates if accreditation is changed', () => {
-		const { getByText, getByLabelText } = render(
+		const { getAllByText, getByLabelText } = render(
 			<TestProvider>
 				<ReportSubmitForm
 					report={mockDefaultReport as DeepNonUndefineable<CdcReport>}
-					mutate={() => Promise.resolve()}
+					mutate={() => Promise.resolve(null)}
 					canSubmit={true}
 					error={null}
 				/>
 			</TestProvider>
 		);
 
-		expect(getByText('Preschool').closest('tr')).toHaveTextContent('$165.32');
+		expect(getAllByText('Preschool')[0].closest('tr')).toHaveTextContent('$165.32');
 
 		fireEvent.click(getByLabelText('Accredited'));
 
-		expect(getByText('Preschool').closest('tr')).toHaveTextContent('$126.59');
+		expect(getAllByText('Preschool')[0].closest('tr')).toHaveTextContent('$126.59');
 	});
 
 	it('pretty formats currency values', () => {
@@ -70,7 +70,7 @@ describe('ReportSubmitForm', () => {
 			<TestProvider>
 				<ReportSubmitForm
 					report={mockDefaultReport as DeepNonUndefineable<CdcReport>}
-					mutate={() => Promise.resolve()}
+					mutate={() => Promise.resolve(null)}
 					canSubmit={true}
 					error={null}
 				/>
@@ -87,7 +87,7 @@ describe('ReportSubmitForm', () => {
 		<TestProvider>
 			<ReportSubmitForm
 				report={mockDefaultReport as DeepNonUndefineable<CdcReport>}
-				mutate={() => Promise.resolve()}
+				mutate={() => Promise.resolve(null)}
 				canSubmit={true}
 				error={null}
 			/>
