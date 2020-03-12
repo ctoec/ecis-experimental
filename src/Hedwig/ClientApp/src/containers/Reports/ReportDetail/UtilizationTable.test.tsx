@@ -5,7 +5,13 @@ import UtilizationTable, { calculateRate } from './UtilizationTable';
 import emptyGuid from '../../../utils/emptyGuid';
 import cartesianProduct from '../../../utils/cartesianProduct';
 import { accessibilityTestHelper } from '../../../tests/helpers';
-import { mockReport, mockCompleteEnrollment, mockPartTimeEnrollment, mockFullTimeInfantEnrollment, mockPartTimeInfantEnrollment } from '../../../tests/data';
+import {
+	mockReport,
+	mockCompleteEnrollment,
+	mockPartTimeEnrollment,
+	mockFullTimeInfantEnrollment,
+	mockPartTimeInfantEnrollment,
+} from '../../../tests/data';
 
 describe('calculateRate', () => {
 	it('includes all possible rates', () => {
