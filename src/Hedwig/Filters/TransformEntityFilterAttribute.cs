@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Hedwig.Models.Attributes;
@@ -10,6 +11,13 @@ namespace Hedwig.Filters
 {
 	public class TransformEntityFilterAttribute : ActionFilterAttribute, IActionFilter
 	{
+		private readonly IDictionary<PropertyInfo, object> UnsetReadOnlyPropertyValues;
+
+		public TransformEntityFilterAttribute()
+		{
+			UnsetReadOnlyPropertyValues = new Dictionary<PropertyInfo, object>();
+		}
+
 		/// <summary>
 		/// A filter task that runs before a controller action is invoked.
 		/// Finds any incoming arguments that are application models, and 
@@ -34,11 +42,12 @@ namespace Hedwig.Filters
 		public override void OnActionExecuted(ActionExecutedContext context)
 		{
 			var responseEntities = (context.Result as ObjectResult).Value;
-
 			var responseEntityType = GetEntityType(responseEntities.GetType());
+
 			if (IsApplicationModelType(responseEntityType))
 			{
 				UnsetTypeSubEntities(responseEntities, new Type[] { responseEntityType });
+				ReSetReadOnlyProperties(responseEntities);
 			}
 		}
 
@@ -48,7 +57,7 @@ namespace Hedwig.Filters
 		/// read-only entities are discarded.
 		/// </summary>
 		/// <param name="entity"></param>
-		private static void UnsetReadOnlyProperties(object entity)
+		private void UnsetReadOnlyProperties(object entity)
 		{
 			if (entity is ICollection collection)
 			{
@@ -69,12 +78,44 @@ namespace Hedwig.Filters
 			{
 				if (ReadOnlyAttribute.IsReadOnly(prop))
 				{
+					var value = prop.GetValue(entity);
+					UnsetReadOnlyPropertyValues[prop] = value;
 					prop.SetValue(entity, null);
 					continue;
 				}
 
 				var propValue = prop.GetValue(entity);
 				UnsetReadOnlyProperties(propValue);
+			}
+		}
+
+		private void ReSetReadOnlyProperties(object entity)
+		{
+			if (entity is ICollection collection)
+			{
+				foreach (var item in collection)
+				{
+					ReSetReadOnlyProperties(item);
+				}
+				return;
+			}
+
+			if (entity == null || !IsApplicationModelType(entity.GetType()))
+			{
+				return;
+			}
+
+			var properties = entity.GetType().GetProperties();
+			foreach (var prop in properties)
+			{
+				if (UnsetReadOnlyPropertyValues.ContainsKey(prop))
+				{
+					prop.SetValue(entity, UnsetReadOnlyPropertyValues[prop]);
+					continue;
+				}
+
+				var propValue = prop.GetValue(entity);
+				ReSetReadOnlyProperties(propValue);
 			}
 		}
 
@@ -85,7 +126,7 @@ namespace Hedwig.Filters
 		/// </summary>
 		/// <param name="entity"></param>
 		/// <param name="entityType"></param>
-		private static void UnsetTypeSubEntities(object entity, IEnumerable<Type> entityTypes)
+		private void UnsetTypeSubEntities(object entity, IEnumerable<Type> entityTypes)
 		{
 			if (entity is ICollection collection)
 			{
@@ -125,7 +166,7 @@ namespace Hedwig.Filters
 		/// </summary>
 		/// <param name="entity"></param>
 		/// <returns></returns>
-		private static bool IsApplicationModelType(Type entityType)
+		private bool IsApplicationModelType(Type entityType)
 		{
 			return entityType.Namespace.Contains(nameof(Hedwig.Models))
 				&& !(entityType.IsEnum);
@@ -139,7 +180,7 @@ namespace Hedwig.Filters
 		/// </summary>
 		/// <param name="type"></param>
 		/// <returns></returns>
-		private static Type GetEntityType(Type type)
+		private Type GetEntityType(Type type)
 		{
 			return type.IsGenericType && (
 				type.GetGenericTypeDefinition() == typeof(ICollection<>)
