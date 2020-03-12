@@ -176,13 +176,13 @@ jobs:
   - script: echo $(Build.SourceVersion) > $(Build.SourcesDirectory)/src/Hedwig/dist/installer/build-source-version.txt
     displayName: "Stored build source version in distribution"
 
-  - script: yarn build-storybook
+  - script: cd $(Build.SourcesDirectory)/src/Hedwig/ClientApp && yarn build-storybook
     displayName: "Generate storybook export"
 
   - task: ArchiveFiles@2
     displayName: "Archive files - storybook"
     inputs:
-      rootFolderOrFile: "$(Build.SourcesDirectory)/storybook"
+      rootFolderOrFile: "$(Build.SourcesDirectory)/src/Hedwig/ClientApp/storybook"
       includeRootFolder: false
       archiveType: "zip"
       #tarCompression: 'gz' # Optional. Options: gz, bz2, xz, none
