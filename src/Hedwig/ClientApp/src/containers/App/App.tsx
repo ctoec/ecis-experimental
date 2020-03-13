@@ -35,12 +35,13 @@ const App: React.FC = () => {
 		}
 	);
 
-	const [, , site] = useApi(
+	const [, , organization] = useApi(
 		api =>
 			api.apiOrganizationsIdGet({
 				id: getIdForUser(user, 'org'),
 			}),
-		[user]
+		[user],
+		{ skip: !user }
 	);
 
 	const pendingReportsCount =
@@ -73,7 +74,7 @@ const App: React.FC = () => {
 				</a>
 				<Header
 					primaryTitle="ECE Reporter"
-					secondaryTitle={(site && site.name) || undefined}
+					secondaryTitle={(organization && organization.name) || undefined}
 					navItems={navItems}
 					loginPath="/login"
 					logoutPath="/logout"
