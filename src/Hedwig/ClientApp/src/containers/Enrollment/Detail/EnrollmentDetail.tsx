@@ -79,7 +79,7 @@ export default function EnrollmentDetail({
 					</div>
 					<Button
 						text="Withdraw"
-						href={`/roster/sites/${siteId}/enrollments/${enrollment.id}/withdraw`}
+						href={`/roster/sites/${siteId}/enrollments/${enrollment.id}/withdraw-new`}
 						className="margin-right-0"
 					/>
 				</div>
