@@ -109,7 +109,6 @@ namespace Hedwig
 			services.AddScoped<IValidationRule<Enrollment>, AgeGroupRequired>();
 			services.AddScoped<IValidationRule<Enrollment>, EntryRequired>();
 			services.AddScoped<IValidationRule<Enrollment>, FundingsAreValid>();
-			services.AddScoped<IValidationRule<Enrollment>, IfCdcFunded_AndChildNotFoster_DisclosedFamilyDeterminationRequired>();
 
 			// Child
 			services.AddScoped<IValidationRule<Child>, FamilyIsValid>();
@@ -135,6 +134,8 @@ namespace Hedwig
 			services.AddScoped<IValidationRule<FamilyDetermination>, IfDisclosed_DeterminationDateRequired>();
 			services.AddScoped<IValidationRule<FamilyDetermination>, IfDisclosed_IncomeRequired>();
 			services.AddScoped<IValidationRule<FamilyDetermination>, IfDisclosed_NumberOfPeopleRequired>();
+			services.AddScoped<IValidationRule<FamilyDetermination>, IfEnrollmentFunded_NotDeterminedFalse>();
+			services.AddScoped<IValidationRule<FamilyDetermination>, IfEnrollmentFunded_DeterminationDateValid>();
 
 			// Reports
 			services.AddScoped<IValidationRule<CdcReport>, EnrollmentsAreValid>();

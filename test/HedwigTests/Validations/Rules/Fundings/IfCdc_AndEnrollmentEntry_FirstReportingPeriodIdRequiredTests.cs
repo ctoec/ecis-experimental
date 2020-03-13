@@ -33,7 +33,8 @@ namespace HedwigTests.Validations.Rules
 			}
 
 			// when
-			var validationContext = new NonBlockingValidationContext(enrollment);
+			var validationContext = new NonBlockingValidationContext();
+			validationContext.AddParentEntity(enrollment);
 			var rule = new IfEnrollmentEntry_FirstReportingPeriodIdRequired();
 			var result = rule.Execute(funding, validationContext);
 
