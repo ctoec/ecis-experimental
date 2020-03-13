@@ -74,8 +74,6 @@ const EnrollmentFunding: Section = {
 			: 'complete',
 
 	Summary: ({ enrollment }) => {
-		const { cdcReportingPeriods: reportingPeriods } = useContext(ReportingPeriodContext);
-
 		if (!enrollment) return <></>;
 
 		const sourcelessFunding = getSourcelessFunding(enrollment);
@@ -86,9 +84,7 @@ const EnrollmentFunding: Section = {
 		const c4kFunding = currentC4kFunding(fundings);
 		const receivesC4k = c4kFunding !== undefined;
 
-		const fundingFirstReportingPeriod = reportingPeriods.find<DeepNonUndefineable<ReportingPeriod>>(
-			period => (cdcFunding ? cdcFunding.firstReportingPeriodId === period.id : false)
-		);
+		const fundingFirstReportingPeriod = cdcFunding ? cdcFunding.firstReportingPeriod : null;
 		return (
 			<div className="EnrollmentFundingSummary">
 				{enrollment && (

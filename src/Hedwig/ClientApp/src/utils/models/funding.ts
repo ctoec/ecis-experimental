@@ -167,6 +167,7 @@ export function createFunding({
 				enrollmentId,
 				source,
 				time,
+				firstReportingPeriodId: firstReportingPeriod ? firstReportingPeriod.id : null,
 				firstReportingPeriod,
 			};
 		case FundingSource.C4K:
