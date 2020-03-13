@@ -37,6 +37,8 @@ namespace Hedwig.Validations
 				if (error != null) errors.Add(error);
 			}
 
+			_validationContext.RemoveParentEntity<T>();
+
 			entity.ValidationErrors = errors;
 		}
 
@@ -47,6 +49,7 @@ namespace Hedwig.Validations
 				Validate(entity, parentEntity);
 			}
 		}
+
 	}
 
 	public interface INonBlockingValidator

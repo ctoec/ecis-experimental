@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace Hedwig.Validations.Rules
 {
-	public class EnrollmentsAreValid : SubObjectIsValid, IValidationRule<CdcReport>
+	public class ReportEnrollmentsAreValid : SubObjectIsValid, IValidationRule<CdcReport>
 	{
 		readonly IReportRepository _reports;
 
-		public EnrollmentsAreValid(
+		public ReportEnrollmentsAreValid(
 			INonBlockingValidator validator,
 			IReportRepository reports
 		) : base(validator)

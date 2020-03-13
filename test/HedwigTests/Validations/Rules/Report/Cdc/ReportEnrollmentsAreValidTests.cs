@@ -9,7 +9,7 @@ using Hedwig.Repositories;
 
 namespace HedwigTests.Validations.Rules
 {
-	public class EnrollmentsAreValidTests
+	public class ReportEnrollmentsAreValidTests
 	{
 		[Theory]
 		[InlineData(true, false)]
@@ -42,7 +42,7 @@ namespace HedwigTests.Validations.Rules
 			var _reports = new Mock<IReportRepository>();
 
 			// when
-			var rule = new EnrollmentsAreValid(_validator, _reports.Object);
+			var rule = new ReportEnrollmentsAreValid(_validator, _reports.Object);
 			var result = rule.Execute(report, new NonBlockingValidationContext());
 
 			// Then

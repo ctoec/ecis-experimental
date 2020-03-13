@@ -37,5 +37,10 @@ namespace Hedwig.Validations
 			ParentEntities.TryGetValue(typeof(T), out value);
 			return (T)value;
 		}
+
+		public bool RemoveParentEntity<T>()
+		{
+			return ParentEntities.Remove(typeof(T));
+		}		
 	}
 }

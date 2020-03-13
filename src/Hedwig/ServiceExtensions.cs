@@ -140,7 +140,7 @@ namespace Hedwig
 			// services.AddScoped<IValidationRule<FamilyDetermination>, IfEnrollmentFunded_DeterminationDateValid>();
 
 			// Reports
-			services.AddScoped<IValidationRule<CdcReport>, EnrollmentsAreValid>();
+			services.AddScoped<IValidationRule<CdcReport>, ReportEnrollmentsAreValid>();
 
 			// Funding
 			services.AddScoped<IValidationRule<Funding>, IfEnrollmentEntry_FirstReportingPeriodIdRequired>();

@@ -105,6 +105,16 @@ namespace Hedwig.Repositories
 				}
 			}
 
+			if(include.Contains(INCLUDE_ENROLLMENTS))
+			{
+				child = child.Include(c => c.Enrollments);
+
+				if(include.Contains(INCLUDE_FUNDINGS))
+				{
+					child = ((IIncludableQueryable<Child, Enrollment>)child).ThenInclude(e => e.Fundings);
+				}
+			}
+
 			return child.FirstOrDefaultAsync();
 		}
 		public Child GetChildById(Guid id)

@@ -18,6 +18,12 @@ namespace Hedwig.Validations.Rules
 
 		public ValidationError Execute(Enrollment enrollment, NonBlockingValidationContext context)
 		{
+			// Do not do enrollment.Child validations if validating in context of child parent
+			if(context.GetParentEntity<Child>() != null)
+			{
+				return null;
+			}
+
 			if (enrollment.ChildId != Guid.Empty)
 			{
 				var child = enrollment.Child ?? _children.GetChildById(enrollment.ChildId);

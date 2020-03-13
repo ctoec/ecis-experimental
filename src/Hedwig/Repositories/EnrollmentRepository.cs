@@ -74,6 +74,13 @@ namespace Hedwig.Repositories
 			return await enrollments.ToListAsync();
 		}
 
+		public List<Enrollment> GetEnrollmentsByChildId(Guid childId)
+		{
+			return _context.Enrollments
+				.Where(e => e.ChildId == childId)
+				.ToList();
+		}
+
 		public void DeleteEnrollment(Enrollment enrollment)
 		{
 			_context.Enrollments.Remove(enrollment);
@@ -88,6 +95,7 @@ namespace Hedwig.Repositories
 		Task<Enrollment> GetEnrollmentForSiteAsync(int id, int siteId, string[] include = null);
 		Task<List<Enrollment>> GetEnrollmentsForOrganizationAsync(int orgId, DateTime? from = null, DateTime? to = null, string[] include = null, DateTime? asOf = null);
 		Enrollment GetEnrollmentById(int id);
+		List<Enrollment> GetEnrollmentsByChildId(Guid childId);
 
 		void DeleteEnrollment(Enrollment enrollment);
 	}

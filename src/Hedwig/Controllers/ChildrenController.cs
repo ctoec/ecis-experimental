@@ -30,6 +30,23 @@ namespace Hedwig.Controllers
 
 		[HttpGet]
 		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		public async Task<ActionResult<Child>> Get(
+			int orgId,
+			Guid id,
+			[FromQuery(Name = "include[]")] string[] include
+		)
+		{
+			var child = await _children.GetChildForOrganizationAsync(id, orgId, include);
+			if (child == null) return NotFound();
+
+			_validator.Validate(child);
+			return Ok(child);
+
+		}
+
+		[HttpGet]
+		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		public async Task<ActionResult<IDictionary<Guid, ICollection<Enrollment>>>> Get(
 			int orgId,
