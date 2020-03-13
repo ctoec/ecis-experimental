@@ -50,6 +50,9 @@ export const render = (element: WebElement): RenderedWebElement => {
 		queryByLocator: (locator: Locator) => {
 			return extendedWebElement.queryByLocator(locator);
 		},
+		queryAllByLocator: (locator: Locator) => {
+			return extendedWebElement.queryAllByLocator(locator);
+		},
 		findByLocator: (locator: Locator, opt_timeout?: number, opt_message?: string) => {
 			return extendedWebElement.findByLocator(locator, opt_timeout, opt_message);
 		},
@@ -58,6 +61,9 @@ export const render = (element: WebElement): RenderedWebElement => {
 		},
 		queryByText: (text: string) => {
 			return extendedWebElement.queryByText(text);
+		},
+		queryAllByText: (text: string) => {
+			return extendedWebElement.queryAllByText(text);
 		},
 		findByText: (text: string, opt_timeout?: number, opt_message?: string) => {
 			return extendedWebElement.findByText(text, opt_timeout, opt_message);
@@ -86,6 +92,7 @@ export const render = (element: WebElement): RenderedWebElement => {
 interface WebElementExtension {
 	getByLocator(locator: Locator): Promise<ExtendedWebElement>;
 	queryByLocator(locator: Locator): Promise<ExtendedWebElement | null>;
+	queryAllByLocator(locator: Locator): Promise<ExtendedWebElement[]>;
 	findByLocator(
 		locator: Locator,
 		opt_timeout?: number,
@@ -93,6 +100,7 @@ interface WebElementExtension {
 	): Promise<ExtendedWebElement>;
 	getByText(text: string): Promise<ExtendedWebElement>;
 	queryByText(text: string): Promise<ExtendedWebElement | null>;
+	queryAllByText(test: string): Promise<ExtendedWebElement[]>;
 	findByText(text: string, opt_timeout?: number, opt_message?: string): Promise<ExtendedWebElement>;
 	getByPlaceholder(text: string): Promise<ExtendedWebElement>;
 	queryByPlaceholder(text: string): Promise<ExtendedWebElement | null>;
@@ -138,6 +146,11 @@ class ExtendedWebElement extends WebElement implements WebElementExtension {
 			throw new Error(`More than 1 element was found with supplied locator`);
 		}
 	}
+	async queryAllByLocator(locator: Locator) {
+		const elements = await this.findElements(locator);
+		const extendedElements = elements.map(element => extendWebElement(element));
+		return extendedElements;
+	}
 	async findByLocator(locator: Locator, opt_timeout?: number, opt_message?: string) {
 		const driver = this.getDriver();
 		await driver.wait(until.elementsLocated(locator), opt_timeout, opt_message);
@@ -153,6 +166,9 @@ class ExtendedWebElement extends WebElement implements WebElementExtension {
 	}
 	async queryByText(text: string) {
 		return await this.queryByLocator(selectorByText(text));
+	}
+	async queryAllByText(text: string) {
+		return await this.queryAllByLocator(selectorByText(text));
 	}
 	async findByText(text: string, opt_timeout?: number, opt_message?: string) {
 		return await this.findByLocator(selectorByText(text), opt_timeout, opt_message);
