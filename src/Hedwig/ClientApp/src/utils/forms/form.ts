@@ -57,6 +57,11 @@ function isChangeEvent<T extends HTMLChoiceElement | HTMLTextAreaElement>(
  * @param updateArg Update mechanism
  */
 export function formReducer<S extends object>(state: S, updateArg: FormReducerUpdate<S>) {
+	console.log('form reducer called', state, updateArg)
+	if (!updateArg) {
+		// TODO: WHY???
+		return state;
+	}
 	if (updateArg instanceof Function) {
 		// if the type of update argument is a callback function, apply it to the current state
 		return { ...state, ...updateArg(state) };
@@ -86,10 +91,11 @@ export const updateData =
 		// processData function convert string to appropriate data type
 		// TODO: REWORK TYPINGS HERE
 		(processData?: (valOrEvent: any, eventIfChangeEvent?: any) => any) =>
-			// conditional fork for varying data input methods (select/input vs custom like DatePicker)
-			<T extends {}>(
-				event: React.ChangeEvent<HTMLChoiceElement | HTMLTextAreaElement> | InputField<T>
+		// conditional fork for varying data input methods (select/input vs custom like DatePicker)
+		<T extends {}>(
+			event: React.ChangeEvent<HTMLChoiceElement | HTMLTextAreaElement> | InputField<T>
 			) => {
+				console.log('change event')
 				if (isChangeEvent(event)) {
 					const {
 						target: { name, value },

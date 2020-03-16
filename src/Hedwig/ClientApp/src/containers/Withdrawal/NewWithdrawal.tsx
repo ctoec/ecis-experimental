@@ -1,36 +1,49 @@
-import React, { useContext, useReducer, useState, useEffect } from "react";
+import React, { useContext, useReducer, useState, useEffect } from 'react';
 import { History } from 'history';
-import UserContext from "../../contexts/User/UserContext";
-import { getIdForUser, validatePermissions, currentCdcFunding, currentC4kFunding, lastNReportingPeriods, reportingPeriodFormatter, enrollmentExitReasons } from "../../utils/models";
-import useNewUseApi, { ApiError } from "../../hooks/newUseApi";
-import { Enrollment, ReportingPeriod, Funding, ValidationProblemDetails } from "../../generated";
-import { FormReducer, formReducer, updateData } from "../../utils/forms/form";
-import { DeepNonUndefineable, DeepNonUndefineableArray } from "../../utils/types";
-import ReportingPeriodContext from "../../contexts/ReportingPeriod/ReportingPeriodContext";
-import { useFocusFirstError, hasValidationErrors, isBlockingValidationError, serverErrorForField } from "../../utils/validations";
-import { childWithdrawnAlert, nameFormatter, splitCamelCase } from "../../utils/stringFormatters";
-import AlertContext from "../../contexts/Alert/AlertContext";
-import { validationErrorAlert } from "../../utils/stringFormatters/alertTextMakers";
-import moment from "moment";
-import CommonContainer from "../CommonContainer";
-import { InlineIcon, DateInput, ChoiceList, Button } from "../../components";
-import { processBlockingValidationErrors } from "../../utils/validations/processBlockingValidationErrors";
+import UserContext from '../../contexts/User/UserContext';
+import {
+	getIdForUser,
+	validatePermissions,
+	currentCdcFunding,
+	currentC4kFunding,
+	lastNReportingPeriods,
+	reportingPeriodFormatter,
+	enrollmentExitReasons,
+} from '../../utils/models';
+import useNewUseApi, { ApiError } from '../../hooks/newUseApi';
+import { Enrollment, ReportingPeriod, Funding, ValidationProblemDetails } from '../../generated';
+import { FormReducer, formReducer, updateData } from '../../utils/forms/form';
+import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../utils/types';
+import ReportingPeriodContext from '../../contexts/ReportingPeriod/ReportingPeriodContext';
+import {
+	useFocusFirstError,
+	hasValidationErrors,
+	isBlockingValidationError,
+	serverErrorForField,
+} from '../../utils/validations';
+import { childWithdrawnAlert, nameFormatter, splitCamelCase } from '../../utils/stringFormatters';
+import AlertContext from '../../contexts/Alert/AlertContext';
+import { validationErrorAlert } from '../../utils/stringFormatters/alertTextMakers';
+import moment from 'moment';
+import CommonContainer from '../CommonContainer';
+import { InlineIcon, DateInput, ChoiceList, Button } from '../../components';
+import { processBlockingValidationErrors } from '../../utils/validations/processBlockingValidationErrors';
 
 type WithdrawalProps = {
-	history: History,
+	history: History;
 	match: {
 		params: {
 			siteId: number;
 			enrollmentId: number;
-		}
-	}
-}
+		};
+	};
+};
 
 export default function NewWithdrawal({
 	history,
 	match: {
-		params: { siteId, enrollmentId }
-	}
+		params: { siteId, enrollmentId },
+	},
 }: WithdrawalProps) {
 	const { user } = useContext(UserContext);
 	const { setAlerts } = useContext(AlertContext);
@@ -41,21 +54,29 @@ export default function NewWithdrawal({
 		orgId: getIdForUser(user, 'org'),
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 	};
+
 	const [getLoading, getError, getData] = useNewUseApi<Enrollment>(
-		api => 
+		api =>
 			api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet({
 				...requestParams,
-				include: ['child', 'family', 'determinations', 'fundings', 'sites']
+				include: ['child', 'family', 'determinations', 'fundings', 'sites'],
 			}),
 		{ skip: !enrollmentId || !user }
 	);
+
 	const [enrollment, updateEnrollment] = useReducer<FormReducer<DeepNonUndefineable<Enrollment>>>(
-		formReducer, 
+		formReducer,
 		getData
 	);
 
+	useEffect(() => {
+		// When get data has changed, update the enrollment to not be empty
+		updateEnrollment(getData)
+	}, [getData])
+
 	// set up form variables and update functions
 	const updateFormData = updateData<DeepNonUndefineable<Enrollment>>(updateEnrollment);
+
 	const { exit: enrollmentEndDate, exitReason } = enrollment || {};
 	const [lastReportingPeriod, setLastReportingPeriod] = useState<ReportingPeriod>();
 
@@ -63,13 +84,13 @@ export default function NewWithdrawal({
 	const { cdcReportingPeriods: reportingPeriods } = useContext(ReportingPeriodContext);
 	const [reportingPeriodOptions, setReportingPeriodOptions] = useState(reportingPeriods);
 	useEffect(() => {
-		if(reportingPeriods) {
+		if (reportingPeriods) {
 			setReportingPeriodOptions(
 				lastNReportingPeriods(reportingPeriods, enrollmentEndDate || moment().toDate(), 5)
 			);
 		}
 	}, [reportingPeriods, enrollmentEndDate]);
-	
+
 	// set up form state
 	const [loading, setLoading] = useState(getLoading);
 	const [error, setError] = useState<ApiError | null>(getError);
@@ -79,15 +100,18 @@ export default function NewWithdrawal({
 
 	// set up convenience derived variables
 	const isMissingInformation = hasValidationErrors(enrollment);
-	const fundings = enrollment && enrollment.fundings ? enrollment.fundings : ([] as DeepNonUndefineableArray<Funding>);
+	const fundings =
+		enrollment && enrollment.fundings
+			? enrollment.fundings
+			: ([] as DeepNonUndefineableArray<Funding>);
 	const cdcFunding = currentCdcFunding(fundings);
 
 	// set up PUT request to be triggered on save attempt
 	const [putLoading, putError, putData] = useNewUseApi<Enrollment>(
-		api => 
+		api =>
 			api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut({
 				...requestParams,
-				enrollment
+				enrollment,
 			}),
 		{ skip: !attempedSave }
 	);
@@ -95,48 +119,47 @@ export default function NewWithdrawal({
 		setLoading(putLoading);
 		setError(putError);
 		updateEnrollment(putData);
-	}, [putLoading, putError, putData])
-
+	}, [putLoading, putError, putData]);
 
 	// handle PUT request
 	useEffect(() => {
-		if(!attempedSave) {
+		if (!attempedSave) {
 			return;
 		}
 
-		if(loading) {
+		if (loading) {
 			return;
 		}
 
-		if(!error) {
-			setAlerts([childWithdrawnAlert(nameFormatter(enrollment.child))])
+		if (!error) {
+			setAlerts([childWithdrawnAlert(nameFormatter(enrollment.child))]);
 			history.push(`/roster`);
 			return;
 		}
 
-		if(!hasAlertedOnError) {
-			if(!isBlockingValidationError(error)) {
+		if (!hasAlertedOnError) {
+			if (!isBlockingValidationError(error)) {
 				throw new Error(error.title || 'Unknown api error');
 			}
 			setAlerts([validationErrorAlert]);
 		}
-	}, [attempedSave, loading, error, enrollment, hasAlertedOnError, setAlerts]) 
+	}, [attempedSave, loading, error, enrollment, hasAlertedOnError, setAlerts]);
 
 	// save function
 	const save = () => {
 		// handle enrollment updates that are not handled by form reducer updates
 		let updatedFundings: Funding[] = fundings;
-		if(cdcFunding && lastReportingPeriod) {
+		if (cdcFunding && lastReportingPeriod) {
 			updatedFundings = [
 				...updatedFundings.filter(f => f.id !== cdcFunding.id),
 				{
 					...cdcFunding,
-					lastReportingPeriodId: lastReportingPeriod.id
-				}
+					lastReportingPeriodId: lastReportingPeriod.id,
+				},
 			];
 		}
 
-		// TODO: should we be doing this? 
+		// TODO: should we be doing this?
 		// given that we're back to treating c4k certs as valid for one year,
 		// I'm thinking not
 		// const c4kFunding = currentC4kFunding(fundings);
@@ -152,10 +175,11 @@ export default function NewWithdrawal({
 
 		enrollment.fundings = updatedFundings as DeepNonUndefineableArray<Funding>;
 		setAttempedSave(true);
-	}
+	};
 
-	if(loading || !enrollment) {
-		return <div className="Withdrawal"></div>
+	if (loading || !enrollment) {
+		console.log('empty div');
+		return <div className="Withdrawal"></div>;
 	}
 
 	return (
@@ -177,11 +201,10 @@ export default function NewWithdrawal({
 					{cdcFunding && (
 						<div>
 							<p>
-								First reporting period: {' '}
+								First reporting period:{' '}
 								{cdcFunding.firstReportingPeriod
 									? reportingPeriodFormatter(cdcFunding.firstReportingPeriod)
-									:InlineIcon({icon: 'attentionNeeded' })
-								}
+									: InlineIcon({ icon: 'attentionNeeded' })}
 							</p>
 						</div>
 					)}
@@ -197,17 +220,18 @@ export default function NewWithdrawal({
 						status={
 							reportingPeriodOptions.length === 0
 								? {
-									type: 'error',
-									id: 'last-reporting-period-error',
-									message: 'ECE Reporting only contains data for fiscal year 2020 and later. Please do not add children who withdrew prior to July 2019.',
-								}
+										type: 'error',
+										id: 'last-reporting-period-error',
+										message:
+											'ECE Reporting only contains data for fiscal year 2020 and later. Please do not add children who withdrew prior to July 2019.',
+								  }
 								: serverErrorForField(
 										hasAlertedOnError,
 										setHasAlertedOnError,
 										'exit',
 										error,
 										'This information is required for withdrawal'
-									)
+								  )
 						}
 					/>
 					<ChoiceList
@@ -216,7 +240,7 @@ export default function NewWithdrawal({
 						id="exit-reason"
 						options={Object.entries(enrollmentExitReasons).map(([key, reason]) => ({
 							value: key,
-							text: reason
+							text: reason,
 						}))}
 						selected={exitReason ? [exitReason] : undefined}
 						otherInputLabel="Other"
@@ -237,7 +261,7 @@ export default function NewWithdrawal({
 							id="last-reporting-period"
 							options={reportingPeriodOptions.map(period => ({
 								value: '' + period.id,
-								text: reportingPeriodFormatter(period, { extended: true })
+								text: reportingPeriodFormatter(period, { extended: true }),
 							}))}
 							onChange={event => {
 								const chosen = reportingPeriods.find<ReportingPeriod>(
