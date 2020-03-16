@@ -27,11 +27,19 @@ namespace Hedwig.Repositories
 				.OrderByDescending(period => period.Period)
 				.FirstOrDefault();
 		}
+
+		public ReportingPeriod GetById(int id)
+		{
+			return _context.ReportingPeriods
+				.FirstOrDefault(period => period.Id == id);
+		}
 	}
 
 	public interface IReportingPeriodRepository : IHedwigRepository
 	{
 		Task<List<ReportingPeriod>> GetReportingPeriodsByFundingSourceAsync(FundingSource source);
 		ReportingPeriod GetLastReportingPeriodBeforeDate(FundingSource source, DateTime compareDate);
+
+		ReportingPeriod GetById(int id);
 	}
 }
