@@ -40,7 +40,8 @@ namespace HedwigTests.Validations.Rules
 
 			// when
 			var fundings = new Mock<IFundingRepository>();
-			var rule = new IfEnrollmentFunded_DeterminationDateValid(fundings.Object);
+			var reportingPeriods = new Mock<IReportingPeriodRepository>();
+			var rule = new IfEnrollmentFunded_DeterminationDateValid(fundings.Object, reportingPeriods.Object);
 
 			var context = new NonBlockingValidationContext();
 			context.AddParentEntity(enrollment);
@@ -87,7 +88,8 @@ namespace HedwigTests.Validations.Rules
 
 			// when
 			var fundings = new Mock<IFundingRepository>();
-			var rule = new IfEnrollmentFunded_DeterminationDateValid(fundings.Object);
+			var reportingPeriods = new Mock<IReportingPeriodRepository>();
+			var rule = new IfEnrollmentFunded_DeterminationDateValid(fundings.Object, reportingPeriods.Object);
 
 			var context = new NonBlockingValidationContext();
 			context.AddParentEntity(enrollment);

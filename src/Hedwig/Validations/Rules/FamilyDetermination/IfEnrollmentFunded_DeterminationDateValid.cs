@@ -8,12 +8,15 @@ namespace Hedwig.Validations.Rules
 	public class IfEnrollmentFunded_DeterminationDateValid : IValidationRule<FamilyDetermination>
 	{
 		private readonly IFundingRepository _fundings;
+		private readonly IReportingPeriodRepository _reportingPeriods;
 
 		public IfEnrollmentFunded_DeterminationDateValid(
-			IFundingRepository fundings
+			IFundingRepository fundings,
+			IReportingPeriodRepository reportingPeriods
 		)
 		{
 			_fundings = fundings;
+			_reportingPeriods = reportingPeriods;
 		}
 
 		public ValidationError Execute(FamilyDetermination determination, NonBlockingValidationContext context)
@@ -32,7 +35,9 @@ namespace Hedwig.Validations.Rules
 				var report = context.GetParentEntity<CdcReport>();
 				if (report != null)
 				{
-					compareDate = report.ReportingPeriod.PeriodEnd;
+					compareDate = report.ReportingPeriod != null
+						? report.ReportingPeriod.PeriodEnd
+						: _reportingPeriods.GetById(report.ReportingPeriodId).PeriodEnd;
 				}
 
 				if (determination.DeterminationDate < compareDate.AddYears(-1))
