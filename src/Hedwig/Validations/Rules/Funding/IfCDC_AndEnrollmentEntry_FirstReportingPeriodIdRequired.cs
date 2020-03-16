@@ -10,7 +10,7 @@ namespace Hedwig.Validations.Rules
 
 		protected override bool CheckCondition(Funding entity, NonBlockingValidationContext context)
 		{
-			var enrollment = (Enrollment)context.ParentEntity;
+			var enrollment = context.GetParentEntity<Enrollment>();
 			return entity.Source == FundingSource.CDC
 				&& (enrollment.Entry.HasValue && !entity.FirstReportingPeriodId.HasValue);
 		}

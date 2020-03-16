@@ -7,11 +7,13 @@ namespace Hedwig.Validations
 {
 	public class NonBlockingValidator : INonBlockingValidator
 	{
+		readonly NonBlockingValidationContext _validationContext;
 		readonly IServiceProvider _serviceProvider;
 
 		public NonBlockingValidator(IServiceProvider serviceProvider)
 		{
 			_serviceProvider = serviceProvider;
+			_validationContext = new NonBlockingValidationContext();
 		}
 
 		public void Validate<T>(T entity, object parentEntity = null) where T : INonBlockingValidatableObject
@@ -24,10 +26,10 @@ namespace Hedwig.Validations
 			var rules = _serviceProvider.GetServices<IValidationRule<T>>();
 			var errors = new List<ValidationError>();
 
-			var validationContext = new NonBlockingValidationContext(parentEntity);
+			_validationContext.AddParentEntity(parentEntity);
 			foreach (var rule in rules)
 			{
-				var error = rule.Execute(entity, validationContext);
+				var error = rule.Execute(entity, _validationContext);
 				if (error != null) errors.Add(error);
 			}
 
