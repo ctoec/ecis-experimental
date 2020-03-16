@@ -20,14 +20,14 @@ namespace Hedwig.Filters
 
 		/// <summary>
 		/// A filter task that runs before a controller action is invoked.
-		/// Finds any incoming arguments that are application models, and 
+		/// Finds any incoming arguments that are application models, and
 		/// runs necessary pre-processing on them
 		/// </summary>
 		/// <param name="context"></param>
 		public override void OnActionExecuting(ActionExecutingContext context)
 		{
 			var requestEntities = context.ActionArguments.Values
-				.Where(item => IsApplicationModelType(item.GetType()))
+				.Where(item => item.GetType().IsApplicationModel())
 				.ToList();
 
 			UnsetReadOnlyProperties(requestEntities);
@@ -41,13 +41,13 @@ namespace Hedwig.Filters
 		/// <param name="context"></param>
 		public override void OnActionExecuted(ActionExecutedContext context)
 		{
-			var responseEntities = (context.Result as ObjectResult).Value;
-			var responseEntityType = GetEntityType(responseEntities.GetType());
+			var responseEntity = (context.Result as ObjectResult).Value;
+			var responseEntityType = responseEntity.GetType().GetEntityType();
 
-			if (IsApplicationModelType(responseEntityType))
+			if (responseEntityType.IsApplicationModel())
 			{
-				UnsetTypeSubEntities(responseEntities, new Type[] { responseEntityType });
-				ReSetReadOnlyProperties(responseEntities);
+				UnsetTypeSubEntities(responseEntity, new Type[] { responseEntityType });
+				ReSetReadOnlyProperties(responseEntity);
 			}
 		}
 
@@ -68,7 +68,7 @@ namespace Hedwig.Filters
 				return;
 			}
 
-			if (entity == null || !IsApplicationModelType(entity.GetType()))
+			if (entity == null || !entity.GetType().IsApplicationModel())
 			{
 				return;
 			}
@@ -100,7 +100,7 @@ namespace Hedwig.Filters
 				return;
 			}
 
-			if (entity == null || !IsApplicationModelType(entity.GetType()))
+			if (entity == null || !entity.GetType().IsApplicationModel())
 			{
 				return;
 			}
@@ -137,7 +137,7 @@ namespace Hedwig.Filters
 				return;
 			}
 
-			if (entity == null || !IsApplicationModelType(entity.GetType()))
+			if (entity == null || !entity.GetType().IsApplicationModel())
 			{
 				return;
 			}
@@ -145,7 +145,7 @@ namespace Hedwig.Filters
 			var properties = entity.GetType().GetProperties();
 			foreach (var prop in properties)
 			{
-				var type = GetEntityType(prop.PropertyType);
+				var type = prop.PropertyType.GetEntityType();
 				if (entityTypes.Any(entityType => entityType == type))
 				{
 					prop.SetValue(entity, null);
@@ -157,7 +157,7 @@ namespace Hedwig.Filters
 				// Recursively remove entities of same type as prop if:
 				// - prop is application model type
 				// - prop is not read-only (this allows all objects in the tree to retain Author and Reporting Period references)
-				if (IsApplicationModelType(type) && !ReadOnlyAttribute.IsReadOnly(prop))
+				if (type.IsApplicationModel() && !ReadOnlyAttribute.IsReadOnly(prop))
 				{
 					entityTypes = entityTypes.Append(type);
 				}
@@ -165,33 +165,5 @@ namespace Hedwig.Filters
 			}
 		}
 
-		/// <summary>
-		/// Helper function to determine if a given object is an application model type
-		/// </summary>
-		/// <param name="entity"></param>
-		/// <returns></returns>
-		private bool IsApplicationModelType(Type entityType)
-		{
-			return entityType.Namespace.Contains(nameof(Hedwig.Models))
-				&& !(entityType.IsEnum);
-		}
-
-		/// <summary>
-		/// Helper function to get the underlying generic type of an ICollection type,
-		/// or the original type otherwise.abstract Ex:
-		/// 	GetEntityType(typeof(List<TInner>)) returns TInner
-		/// 	GetEntityType(typeof(T)) returns T
-		/// </summary>
-		/// <param name="type"></param>
-		/// <returns></returns>
-		private Type GetEntityType(Type type)
-		{
-			return type.IsGenericType && (
-				type.GetGenericTypeDefinition() == typeof(ICollection<>)
-				|| type.GetGenericTypeDefinition() == typeof(List<>)
-			)
-				? type.GetGenericArguments()[0]
-				: type;
-		}
 	}
 }

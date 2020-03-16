@@ -11,6 +11,7 @@ using Hedwig.Validations;
 using Hedwig.Validations.Rules;
 using Hedwig.Models;
 using Hedwig.HostedServices;
+using Hedwig.Filters;
 
 namespace Hedwig
 {
@@ -149,6 +150,9 @@ namespace Hedwig
 
 			// Register Non-blocking validator
 			services.AddScoped<INonBlockingValidator, NonBlockingValidator>();
+
+			// Register ValidateEntityFilterAttribute filter
+			services.AddScoped<ValidateEntityFilterAttribute>();
 		}
 
 		public static void ConfigureHostedServices(this IServiceCollection services)

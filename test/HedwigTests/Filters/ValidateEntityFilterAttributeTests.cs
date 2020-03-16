@@ -7,14 +7,19 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Hedwig.Filters;
+using Hedwig.Validations;
 using HedwigTests.Hedwig.Models;
 
 namespace HedwigTests.Filters
 {
-	public class TransformEntityFilterAttributeTests
+	public class ValidateEntityFilterAttributeTests
 	{
-		[Fact]
-		public void OnActionExecuting_UnsetsReadOnlyProperties_OnApplicationModels()
+		[Theory]
+		[InlineData(false)]
+		[InlineData(true)]
+		public void OnActionExecuting_ValidatesEntity_IfOnExecuting(
+			bool onExecuting
+		)
 		{
 			// If an ActionContext exists
 			var httpContext = new Mock<HttpContext>();
@@ -32,11 +37,7 @@ namespace HedwigTests.Filters
 			// and an ActionExecutingContext exists with the ActionContext
 			// and with an ActionArgument member
 			// with an entry that is an application model
-			var applicationModel = new ApplicationModel
-			{
-				// with a read-only propery with a value
-				ReadOnlyProperty = "VALUE"
-			};
+			var applicationModel = new ApplicationModel();
 			var actionArguments = new Dictionary<string, object> {
 				{ "key", applicationModel }
 			};
@@ -48,16 +49,26 @@ namespace HedwigTests.Filters
 				new object()
 			);
 
-			// When OnActionExecuting is executed with the context
-			var filter = new TransformEntityFilterAttribute();
+			// and an INonBlockingValidator exists
+			var _validator = new Mock<INonBlockingValidator>();
+
+			// and a ValidateEntityFilter exists with the validator and isExecuting
+			var filter = new ValidateEntityFilterAttribute(_validator.Object, onExecuting);
+
+			// when OnActionExecuting is executed with the context
 			filter.OnActionExecuting(executingContext);
 
-			// Then the read-only property on the application model is unset
-			Assert.Null(applicationModel.ReadOnlyProperty);
+			// then the validation is executed if isExecuting, or skipped if not
+			var times = onExecuting ? Times.AtLeastOnce() : Times.Never();
+			_validator.Verify(v => v.Validate(It.IsAny<INonBlockingValidatableObject>(), null), times);
 		}
 
-		[Fact]
-		public void OnActionExecuted_UnsetsTypeSubEntities_ForApplicationModelResponse()
+		[Theory]
+		[InlineData(false)]
+		[InlineData(true)]
+		public void OnActionExecuted_ValidatesEntity_IfNotOnExecuting(
+			bool onExecuting
+		)
 		{
 			// If an ActionContext exists
 			var httpContext = new Mock<HttpContext>();
@@ -70,7 +81,6 @@ namespace HedwigTests.Filters
 				ActionDescriptor = actionDescriptor.Object
 			};
 
-
 			var filterMock = new Mock<IList<IFilterMetadata>>();
 
 			// and an ActionExecutedContext exists with the ActionContext
@@ -81,21 +91,23 @@ namespace HedwigTests.Filters
 			);
 
 			// with an ObjectResult as the result
-			// with an application model as the value
-			var parentApplicationModel = new ApplicationModel
-			{
-				ChildApplicationModel = new ApplicationModel()
-			};
-
+			// with an applicatoin model as the value
+			var applicationModel = new Hedwig.Models.ApplicationModel();
 			executedContext.Setup(ec => ec.Result)
-				.Returns(new ObjectResult(parentApplicationModel));
+				.Returns(new ObjectResult(applicationModel));
 
-			// When the filter OnActionExecuted is executed with the context
-			var filter = new TransformEntityFilterAttribute();
+			// and an INonBlockingValidator exists
+			var _validator = new Mock<INonBlockingValidator>();
+
+			// and a ValidateEntityFilter exists with the validator and isExecuting
+			var filter = new ValidateEntityFilterAttribute(_validator.Object, onExecuting);
+
+			// when OnActionExecuted is executed with the context
 			filter.OnActionExecuted(executedContext.Object);
 
-			// Then child properties of same type as applicationModel are unset
-			Assert.Null(parentApplicationModel.ChildApplicationModel);
+			// then the validation is executed if NOT isExecuting, or skipped if true
+			var times = !onExecuting ? Times.AtLeastOnce() : Times.Never();
+			_validator.Verify(v => v.Validate(It.IsAny<INonBlockingValidatableObject>(), null), times);
 		}
 	}
 }
