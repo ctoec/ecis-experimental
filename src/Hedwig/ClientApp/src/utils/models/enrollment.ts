@@ -1,5 +1,5 @@
-import { Enrollment, Gender, User } from '../../generated';
-import { isCurrentToRange } from './funding';
+import { Enrollment, Gender, User, C4KCertificate } from '../../generated';
+import { isCurrentFundingToRange } from './funding';
 import { DateRange } from '../../components';
 import { validatePermissions, getIdForUser } from '.';
 import emptyGuid from '../emptyGuid';
@@ -28,6 +28,7 @@ export function emptyEnrollment(siteId: number, user?: User) {
 			nativeHawaiianOrPacificIslander: false,
 			white: false,
 			gender: Gender.Unspecified,
+			c4KCertificates: [] as C4KCertificate[],
 		},
 	} as DeepNonUndefineable<Enrollment>;
 }
@@ -56,7 +57,7 @@ export function isFunded(
 	}
 
 	if (_opts.currentRange) {
-		fundings = fundings.filter(funding => isCurrentToRange(funding, _opts.currentRange));
+		fundings = fundings.filter(funding => isCurrentFundingToRange(funding, _opts.currentRange));
 	}
 
 	return fundings.length > 0;

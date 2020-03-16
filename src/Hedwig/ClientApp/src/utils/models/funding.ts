@@ -1,30 +1,19 @@
 import { DeepNonUndefineable } from '../types';
-import { Funding, FundingSource, FundingTime, ReportingPeriod, Enrollment } from '../../generated';
-import { Tag, DateRange } from '../../components';
-import getColorForFundingSource from '../fundingTypeFormatters';
+import {  DateRange } from '../../components';
+import {
+	Funding,
+	FundingSource,
+	FundingTime,
+	ReportingPeriod,
+	Enrollment
+} from '../../generated';
 import moment from 'moment';
-
-/**
- * Filter fundings for displaying
- * @param fundings
- * @param rosterDateRange
- */
-export function filterFundingsForRosterTags(
-	fundings: Funding[] | null,
-	rosterDateRange?: DateRange
-) {
-	if (!fundings) return [];
-	const currentToRosterDateRange = fundings.filter(funding =>
-		isCurrentToRange(funding, rosterDateRange)
-	);
-	return dedupeFundings(currentToRosterDateRange);
-}
 
 /**
  * naive-ly deduplicate fundings based on source & time for displaying in roster
  * @param fundings
  */
-function dedupeFundings(fundings: Funding[]) {
+export function dedupeFundings(fundings: Funding[]) {
 	const uniqueFundings: { [key: string]: Funding } = {};
 
 	fundings.forEach(funding => {
@@ -37,48 +26,17 @@ function dedupeFundings(fundings: Funding[]) {
 	return Object.values(uniqueFundings);
 }
 
-function ptOrFT(fundingTime: string | undefined) {
-	if (fundingTime === 'Full') {
-		return '–FT';
-	}
-	if (fundingTime === 'Part') {
-		return '–PT';
-	}
-	return '';
-}
-
-export function generateFundingTag(
-	funding: Funding | { source: FundingSource; time?: FundingTime },
-	opts?: {
-		index?: number | string;
-		includeTime?: boolean;
-		className?: string;
-	}
-): JSX.Element {
-	const { index, includeTime, className } = opts || {};
-	let key = `${funding.source}-${funding.time}`;
-	if (index) key = `${key}-${index}`;
-	let text = `${funding.source}` || 'Not specified';
-	if (includeTime) text = `${text}${ptOrFT(funding.time)}`;
-	const color = funding.source ? getColorForFundingSource(funding.source) : 'gray-90';
-	return Tag({ key, text, color, className });
-}
-
 /**
  * Returns true if the funding overlaps with the provided range.
  * If no range is provided, defaults to {now(), now()}
  * @param funding
  * @param range
  */
-export function isCurrentToRange(funding: Funding, range?: DateRange): boolean {
+export function isCurrentFundingToRange(funding: Funding, range?: DateRange): boolean {
 	range = range ? range : { startDate: moment(), endDate: moment() };
 	switch (funding.source) {
 		case FundingSource.CDC:
 			return isCurrentToRangeCDC(funding, range);
-
-		case FundingSource.C4K:
-			return isCurrentToRangeC4K(funding, range);
-
 		default:
 			return false;
 	}
@@ -106,57 +64,12 @@ function isCurrentToRangeCDC(funding: Funding, range: DateRange): boolean {
 	return true;
 }
 
-/**
- * C4K funding does NOT overlap with range if:
- * - Certificate end date is before range start
- * - Certificate start date is after range ends
- * @param funding
- * @param range
- */
-function isCurrentToRangeC4K(funding: Funding, range: DateRange): boolean {
-	if (
-		(range.startDate &&
-			funding.certificateEndDate &&
-			range.startDate.isAfter(funding.certificateEndDate)) ||
-		(range.endDate &&
-			funding.certificateStartDate &&
-			range.endDate.isBefore(funding.certificateStartDate))
-	) {
-		return false;
-	}
-	return true;
-}
-
 export function currentCdcFunding(
 	fundings: DeepNonUndefineable<Funding[]> | null
 ): DeepNonUndefineable<Funding> | undefined {
 	return (fundings || []).find<DeepNonUndefineable<Funding>>(
 		funding => funding.source === FundingSource.CDC && !funding.lastReportingPeriod
 	);
-}
-
-export function currentC4kFunding(
-	fundings: DeepNonUndefineable<Funding[]> | null
-): DeepNonUndefineable<Funding> | undefined {
-	return (fundings || []).find<DeepNonUndefineable<Funding>>(
-		funding =>
-			funding.source === FundingSource.C4K &&
-			(funding.certificateEndDate === undefined || funding.certificateEndDate === null)
-	);
-}
-
-export function activeC4kFundingAsOf(fundings: DeepNonUndefineable<Funding[]> | null, asOf?: Date) {
-	if (!asOf) {
-		return currentC4kFunding(fundings);
-	} else {
-		return (fundings || []).find<DeepNonUndefineable<Funding>>(funding => {
-			const isC4k = funding.source === FundingSource.C4K;
-			const startDateIsBeforeAsOf = moment(funding.certificateStartDate as Date).isBefore(asOf);
-			const endDateIsEmptyOrAfterAsOf =
-				!funding.certificateEndDate || moment(funding.certificateEndDate).isAfter(asOf);
-			return isC4k && startDateIsBeforeAsOf && endDateIsEmptyOrAfterAsOf;
-		});
-	}
 }
 
 export function createFunding({
@@ -183,14 +96,6 @@ export function createFunding({
 				time,
 				firstReportingPeriodId: firstReportingPeriod ? firstReportingPeriod.id : null,
 				firstReportingPeriod,
-			};
-		case FundingSource.C4K:
-			return {
-				id: 0,
-				enrollmentId,
-				source,
-				familyId,
-				certificateStartDate,
 			};
 		case null:
 			return {
@@ -227,13 +132,6 @@ export function updateFunding({
 				time,
 				firstReportingPeriodId: reportingPeriod ? reportingPeriod.id : undefined,
 				firstReportingPeriod: reportingPeriod,
-			};
-		case FundingSource.C4K:
-			return {
-				...currentFunding,
-				source,
-				familyId,
-				certificateStartDate,
 			};
 		default:
 			throw new Error('Something impossible happened');

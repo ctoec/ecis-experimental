@@ -14,6 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
+	C4KCertificate,
+	C4KCertificateFromJSON,
+	C4KCertificateFromJSONTyped,
+	C4KCertificateToJSON,
 	Enrollment,
 	EnrollmentFromJSON,
 	EnrollmentFromJSONTyped,
@@ -186,6 +190,12 @@ export interface Child {
 	organization?: Organization;
 	/**
 	 *
+	 * @type {Array<C4KCertificate>}
+	 * @memberof Child
+	 */
+	c4KCertificates: Array<C4KCertificate> | null;
+	/**
+	 *
 	 * @type {Array<ValidationError>}
 	 * @memberof Child
 	 */
@@ -262,6 +272,10 @@ export function ChildFromJSONTyped(json: any, ignoreDiscriminator: boolean): Chi
 		organization: !exists(json, 'organization')
 			? undefined
 			: OrganizationFromJSON(json['organization']),
+		c4KCertificates:
+			json['c4KCertificates'] === null
+				? null
+				: (json['c4KCertificates'] as Array<any>).map(C4KCertificateFromJSON),
 		validationErrors: !exists(json, 'validationErrors')
 			? undefined
 			: json['validationErrors'] === null
@@ -318,6 +332,10 @@ export function ChildToJSON(value?: Child | null): any {
 				: (value.enrollments as Array<any>).map(EnrollmentToJSON),
 		organizationId: value.organizationId,
 		organization: OrganizationToJSON(value.organization),
+		c4KCertificates:
+			value.c4KCertificates === null
+				? null
+				: (value.c4KCertificates as Array<any>).map(C4KCertificateToJSON),
 		validationErrors:
 			value.validationErrors === undefined
 				? undefined

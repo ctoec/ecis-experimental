@@ -29,6 +29,13 @@ namespace Hedwig.Repositories
 			var newFundings = enrollment.Fundings.AsEnumerable().Cast<IHedwigIdEntity<int>>();
 			var oldFundings = currentFundings.AsEnumerable().Cast<IHedwigIdEntity<int>>();
 			UpdateEnumerableChildObjects(newFundings, oldFundings);
+
+			var currentC4kCertificates = _context.C4KCertificates.AsNoTracking().Where(c => c.ChildId == enrollment.ChildId).ToList();
+			var newC4kCertificatesRaw = enrollment.Child.C4KCertificates != null ? enrollment.Child.C4KCertificates : new List<C4KCertificate> { };
+			var newC4kCertificates = newC4kCertificatesRaw.AsEnumerable().Cast<IHedwigIdEntity<int>>();
+			var oldC4kCertificates = currentC4kCertificates.AsEnumerable().Cast<IHedwigIdEntity<int>>();
+			UpdateEnumerableChildObjects(newC4kCertificates, oldC4kCertificates);
+
 			_context.Update(enrollment);
 		}
 
@@ -150,7 +157,9 @@ namespace Hedwig.Repositories
 				query = query.Include(e => e.Fundings)
 						.ThenInclude(f => f.FirstReportingPeriod)
 					.Include(e => e.Fundings)
-						.ThenInclude(f => f.LastReportingPeriod);
+						.ThenInclude(f => f.LastReportingPeriod)
+					.Include(e => e.Child)
+						.ThenInclude(c => c.C4KCertificates);
 			}
 
 			if (include.Contains(HedwigRepository.INCLUDE_CHILD))

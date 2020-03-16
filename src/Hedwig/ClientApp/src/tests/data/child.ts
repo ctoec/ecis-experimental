@@ -26,4 +26,5 @@ export const mockChild: Child = {
 		organizationId: 1,
 		determinations: [{ id: 1, notDisclosed: true, familyId: 1 }],
 	},
+	c4KCertificates: [],
 };

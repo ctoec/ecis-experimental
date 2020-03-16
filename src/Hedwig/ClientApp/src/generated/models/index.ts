@@ -1,4 +1,5 @@
 export * from './Age';
+export * from './C4KCertificate';
 export * from './CdcReport';
 export * from './Child';
 export * from './Enrollment';

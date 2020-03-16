@@ -177,11 +177,12 @@ namespace Hedwig.Data
 				if (cdc)
 				{
 					CreateFunding(
-					enrollmentId: enrollment.Id,
-					source: FundingSource.CDC,
-					time: FundingTime.Full,
-					firstReportingPeriod: entry == "2018-09-03" ? reportingPeriods[14] : reportingPeriods[26],
-					lastReportingPeriod: cells[6] != "" ? reportingPeriods[25] : null
+						enrollmentId: enrollment.Id,
+						isC4K: false,
+						source: FundingSource.CDC,
+						time: FundingTime.Full,
+						firstReportingPeriod: entry == "2018-09-03" ? reportingPeriods[14] : reportingPeriods[26],
+						lastReportingPeriod: cells[6] != "" ? reportingPeriods[25] : null
 					);
 				}
 
@@ -208,7 +209,8 @@ namespace Hedwig.Data
 				{
 					CreateFunding(
 					enrollmentId: enrollment.Id,
-					source: FundingSource.C4K,
+					isC4K: true,
+					childId: child.Id,
 					certificateStartDate: entry,
 					certificateEndDate: exit,
 					familyId: 123456
@@ -230,6 +232,7 @@ namespace Hedwig.Data
 					{
 						CreateFunding(
 							enrollmentId: firstEnrollment.Id,
+							isC4K: false,
 							source: FundingSource.CDC,
 							time: FundingTime.Full,
 							firstReportingPeriod: reportingPeriods[2],
@@ -256,6 +259,7 @@ namespace Hedwig.Data
 			_context.Permissions.RemoveRange(_context.Permissions.ToList());
 			_context.FamilyDeterminations.RemoveRange(_context.FamilyDeterminations.ToList());
 			_context.Families.RemoveRange(_context.Families.ToList());
+			_context.C4KCertificates.RemoveRange(_context.C4KCertificates.ToList());
 			_context.Children.RemoveRange(_context.Children.ToList());
 			_context.Enrollments.RemoveRange(_context.Enrollments.ToList());
 			_context.Fundings.RemoveRange(_context.Fundings.ToList());
@@ -443,40 +447,62 @@ namespace Hedwig.Data
 			return enrollment;
 		}
 
-		private Funding CreateFunding(
+		private object CreateFunding(
 			int enrollmentId,
-			FundingSource source,
+			bool isC4K,
+			Guid? childId = null,
+			int? familyId = null,
 			string certificateStartDate = null,
 			string certificateEndDate = null,
+			FundingSource? source = FundingSource.CDC,
 			FundingTime? time = null,
 			ReportingPeriod firstReportingPeriod = null,
-			ReportingPeriod lastReportingPeriod = null,
-			int? familyId = null
+			ReportingPeriod lastReportingPeriod = null
 		)
 		{
-			var funding = new Funding
+			if (isC4K)
 			{
-				EnrollmentId = enrollmentId,
-				Source = source,
-				Time = time,
-				FirstReportingPeriod = firstReportingPeriod,
-				LastReportingPeriod = lastReportingPeriod,
-				FamilyId = familyId
-			};
+				C4KCertificate funding;
+				var random = new Random();
+				if (certificateEndDate == null)
+				{
+					funding = new C4KCertificate
+					{
+						ChildId = (Guid)childId,
+						StartDate = DateTime.Parse(certificateStartDate),
+						EndDate = null,
+						FamilyCertificateId = random.Next(1000, 9999)
+					};
+				}
+				else
+				{
+					funding = new C4KCertificate
+					{
+						ChildId = (Guid)childId,
+						StartDate = DateTime.Parse(certificateStartDate),
+						EndDate = DateTime.Parse(certificateEndDate),
+						FamilyCertificateId = random.Next(1000, 9999),
+					};
+				}
 
-			if (certificateStartDate != null)
-			{
-				funding.CertificateStartDate = DateTime.Parse(certificateStartDate);
+				_context.C4KCertificates.Add(funding);
+				_context.SaveChanges();
+				return funding;
 			}
-
-			if (certificateEndDate != null)
+			else
 			{
-				funding.CertificateEndDate = DateTime.Parse(certificateEndDate);
+				var funding = new Funding
+				{
+					EnrollmentId = enrollmentId,
+					Source = source,
+					Time = time,
+					FirstReportingPeriod = firstReportingPeriod,
+					LastReportingPeriod = lastReportingPeriod,
+				};
+				_context.Fundings.Add(funding);
+				_context.SaveChanges();
+				return funding;
 			}
-
-			_context.Fundings.Add(funding);
-			_context.SaveChanges();
-			return funding;
 		}
 
 		private ReportingPeriod CreateReportingPeriod(

@@ -33,8 +33,6 @@ export const mockCompleteEnrollment: Enrollment = {
 			id: 1,
 			enrollmentId: 1,
 			source: FundingSource.CDC,
-			familyId: 1,
-			certificateStartDate: new Date('2019-03-01'),
 			firstReportingPeriodId: 1,
 			firstReportingPeriod: {
 				id: 1,

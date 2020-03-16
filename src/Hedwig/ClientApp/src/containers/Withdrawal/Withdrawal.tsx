@@ -2,23 +2,25 @@ import React, { useContext, useReducer, useState, useEffect } from 'react';
 import { History } from 'history';
 import UserContext from '../../contexts/User/UserContext';
 import {
-	getIdForUser,
-	validatePermissions,
-	currentCdcFunding,
-	lastNReportingPeriods,
-	reportingPeriodFormatter,
-	enrollmentExitReasons,
-	generateFundingTag,
-	prettyFundingTime,
-} from '../../utils/models';
-import useNewUseApi, { ApiError } from '../../hooks/newUseApi';
-import {
 	Enrollment,
 	Funding,
-	ValidationProblemDetails,
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest,
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
+	ValidationProblemDetails,
+	C4KCertificate,
 } from '../../generated';
+import { nameFormatter, splitCamelCase, childWithdrawnAlert } from '../../utils/stringFormatters';
+import {
+	enrollmentExitReasons,
+	currentCdcFunding,
+	currentC4kCertificate,
+	lastNReportingPeriods,
+	reportingPeriodFormatter,
+	prettyFundingTime,
+	validatePermissions,
+	getIdForUser,
+} from '../../utils/models';
+import useNewUseApi, { ApiError } from '../../hooks/newUseApi';
 import { FormReducer, formReducer, updateData } from '../../utils/forms/form';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../utils/types';
 import ReportingPeriodContext from '../../contexts/ReportingPeriod/ReportingPeriodContext';
@@ -29,7 +31,6 @@ import {
 	serverErrorForField,
 	clientErrorForField,
 } from '../../utils/validations';
-import { childWithdrawnAlert, nameFormatter, splitCamelCase } from '../../utils/stringFormatters';
 import AlertContext from '../../contexts/Alert/AlertContext';
 import {
 	validationErrorAlert,
@@ -40,6 +41,7 @@ import CommonContainer from '../CommonContainer';
 import { InlineIcon, DateInput, ChoiceList, Button } from '../../components';
 import { processBlockingValidationErrors } from '../../utils/validations/processBlockingValidationErrors';
 import dateFormatter from '../../utils/dateFormatter';
+import { generateFundingTypeTag } from '../../utils/fundingType';
 
 type WithdrawalProps = {
 	history: History;
@@ -134,6 +136,7 @@ export default function Withdrawal({
 			? enrollment.fundings
 			: ([] as DeepNonUndefineableArray<Funding>);
 	const cdcFunding = currentCdcFunding(fundings);
+	const c4KFunding = currentC4kCertificate(enrollment);
 
 	const { lastReportingPeriod } = cdcFunding || {};
 
@@ -150,6 +153,23 @@ export default function Withdrawal({
 			updateEnrollment({
 				...enrollment,
 				fundings: updatedFundings as DeepNonUndefineableArray<Funding>,
+			});
+		}
+		if (c4KFunding) {
+			let c4KCertificates: C4KCertificate[] = enrollment.child.c4KCertificates || [];
+			c4KCertificates = [
+				...c4KCertificates.filter(cert => cert.id !== c4KFunding.id),
+				{
+					...c4KFunding,
+					endDate: enrollmentEndDate,
+				},
+			];
+			updateEnrollment({
+				...enrollment,
+				child: {
+					...enrollment.child,
+					c4KCertificates: c4KCertificates as DeepNonUndefineable<C4KCertificate[]>
+				}
 			});
 		}
 	};
@@ -219,7 +239,7 @@ export default function Withdrawal({
 					</div>
 					{cdcFunding && (
 						<div className="mobile-lg:grid-col-6">
-							<p>{generateFundingTag(cdcFunding)}</p>
+							<p>{generateFundingTypeTag({ ...cdcFunding, type: 'CDC' })}</p>
 							<p>Enrollment: {prettyFundingTime(cdcFunding.time)}</p>
 							<p>
 								First reporting period:{' '}

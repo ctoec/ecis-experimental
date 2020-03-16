@@ -54,6 +54,9 @@ namespace Hedwig.Models
 		public int OrganizationId { get; set; }
 		public Organization Organization { get; set; }
 
+		[Required]
+		public List<C4KCertificate> C4KCertificates { get; set; }
+
 		[NotMapped]
 		public List<ValidationError> ValidationErrors { get; set; }
 	}
