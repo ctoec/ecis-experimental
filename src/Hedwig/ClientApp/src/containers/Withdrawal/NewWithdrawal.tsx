@@ -84,7 +84,6 @@ export default function NewWithdrawal({
 
 	useEffect(() => {
 		// When get data has changed, update the enrollment to not be empty
-		console.log('update enrollment with get data');
 		updateEnrollment(getData);
 	}, [getData]);
 
@@ -127,11 +126,11 @@ export default function NewWithdrawal({
 	);
 
 	useEffect(() => {
-		setError(putError);
 		setAttemptingSave(false);
-		if (error && !hasAlertedOnError) {
-			if (!isBlockingValidationError(error)) {
-				throw new Error(error.title || 'Unknown api error');
+		setError(putError);
+		if (putError && !hasAlertedOnError) {
+			if (!isBlockingValidationError(putError)) {
+				throw new Error(putError.title || 'Unknown api error');
 			}
 			setAlerts([validationErrorAlert]);
 		}
@@ -139,7 +138,7 @@ export default function NewWithdrawal({
 
 	useEffect(() => {
 		// If the withdraw request went through, then return to the roster
-		if (putData && !error) {
+		if (putData && !putError) {
 			setAlerts([childWithdrawnAlert(nameFormatter(enrollment.child))]);
 			history.push(`/roster`);
 		}
