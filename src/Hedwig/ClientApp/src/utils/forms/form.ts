@@ -87,9 +87,9 @@ export const updateData =
 		// processData function convert string to appropriate data type
 		// TODO: REWORK TYPINGS HERE
 		(processData?: (valOrEvent: any, eventIfChangeEvent?: any) => any) =>
-		// conditional fork for varying data input methods (select/input vs custom like DatePicker)
-		<T extends {}>(
-			event: React.ChangeEvent<HTMLChoiceElement | HTMLTextAreaElement> | InputField<T>
+			// conditional fork for varying data input methods (select/input vs custom like DatePicker)
+			<T extends {}>(
+				event: React.ChangeEvent<HTMLChoiceElement | HTMLTextAreaElement> | InputField<T>
 			) => {
 				if (isChangeEvent(event)) {
 					const {

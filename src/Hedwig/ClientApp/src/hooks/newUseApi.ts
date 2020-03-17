@@ -74,7 +74,7 @@ export default function useNewUseApi<TData>(
 
 	useEffect(() => {
 		if (callback) callback();
-	}, [state])
+	}, [state]);
 
 	// No loading because loading will never be true at this point
 	return [error, data as DeepNonUndefineable<TData>];
@@ -94,7 +94,7 @@ const constructApi: (_accessToken: string | null) => HedwigApi | null = (
 };
 
 const parseError: (_error: any) => Promise<ApiError | null> = async (_error: any) => {
-	console.error(_error)
+	console.error(_error);
 	try {
 		const jsonResponse = await _error.json();
 		if (_error.status === 400) {

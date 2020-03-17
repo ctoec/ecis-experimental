@@ -60,7 +60,7 @@ export const routes: RouteConfig[] = [
 	},
 	{
 		path: '/roster/sites/:siteId/enrollments/:enrollmentId/withdraw-new',
-		component: NewWithdrawal
+		component: NewWithdrawal,
 	},
 	{
 		path: '/reports',
