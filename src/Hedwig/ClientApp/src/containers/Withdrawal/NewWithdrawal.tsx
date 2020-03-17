@@ -84,7 +84,7 @@ export default function NewWithdrawal({
 
 	useEffect(() => {
 		// When get data has changed, update the enrollment to not be empty
-		console.log('update enrollment with get data')
+		console.log('update enrollment with get data');
 		updateEnrollment(getData);
 	}, [getData]);
 
@@ -117,7 +117,6 @@ export default function NewWithdrawal({
 	const cdcFunding = currentCdcFunding(fundings);
 
 	// set up PUT request to be triggered on save attempt
-	console.log(enrollment)
 	const [putLoading, putError, putData] = useNewUseApi<Enrollment>(
 		api =>
 			api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut({
@@ -128,32 +127,23 @@ export default function NewWithdrawal({
 	);
 
 	useEffect(() => {
-		// WILL THIS DEFINITELY FINISH FIRING BEFORE THE NEXT ONE??
-		console.log('on put error or put data change');
 		setError(putError);
-		updateEnrollment(putData);
-		setAttemptingSave(false)
-	}, [putError, putData]);
-
-	// After PUT request
-	useEffect(() => {
-		if (!enrollmentEndDate || !putData) {
-			return;
-		}
-
-		if (!error) {
-			setAlerts([childWithdrawnAlert(nameFormatter(enrollment.child))]);
-			history.push(`/roster`);
-			return;
-		}
-
-		if (!hasAlertedOnError) {
+		setAttemptingSave(false);
+		if (error && !hasAlertedOnError) {
 			if (!isBlockingValidationError(error)) {
 				throw new Error(error.title || 'Unknown api error');
 			}
 			setAlerts([validationErrorAlert]);
 		}
-	}, [putData, error, enrollment, hasAlertedOnError, setAlerts]);
+	}, [putError]);
+
+	useEffect(() => {
+		// If the withdraw request went through, then return to the roster
+		if (putData && !error) {
+			setAlerts([childWithdrawnAlert(nameFormatter(enrollment.child))]);
+			history.push(`/roster`);
+		}
+	}, [putData]);
 
 	// save function
 	const save = () => {
@@ -168,7 +158,7 @@ export default function NewWithdrawal({
 				},
 			];
 		}
-		
+
 		updateEnrollment({
 			...enrollment,
 			fundings: updatedFundings as DeepNonUndefineableArray<Funding>,
@@ -198,6 +188,7 @@ export default function NewWithdrawal({
 					<div className="mobile-lg:grid-col-6">
 						<p>{site.name}</p>
 						<p>Age: {splitCamelCase(enrollment.ageGroup, '/')}</p>
+						{/* TODO: USE DATE FORMATTER */}
 						<p>Enrollment date: {enrollment.entry && enrollment.entry.toLocaleDateString()}</p>
 					</div>
 					{cdcFunding && (

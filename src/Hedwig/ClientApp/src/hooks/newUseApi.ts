@@ -74,6 +74,7 @@ export default function useNewUseApi<TData>(
 			});
 	}, [accessToken, skip]);
 
+	// TODO: will loading not work because useEffect is always fired first?
 	return [loading, error, data as DeepNonUndefineable<TData>];
 }
 
@@ -91,6 +92,7 @@ const constructApi: (_accessToken: string | null) => HedwigApi | null = (
 };
 
 const parseError: (_error: any) => Promise<ApiError | null> = async (_error: any) => {
+	console.error(_error)
 	try {
 		const jsonResponse = await _error.json();
 		if (_error.status === 400) {
