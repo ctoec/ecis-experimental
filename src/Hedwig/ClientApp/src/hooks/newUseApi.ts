@@ -15,7 +15,6 @@ import getCurrentHost from '../utils/getCurrentHost';
 export type ApiError = ValidationProblemDetails | ProblemDetails;
 
 interface ApiState<TData> {
-	skip: boolean;
 	loading: boolean;
 	error: ApiError | null;
 	data: TData | null;
@@ -43,41 +42,35 @@ export default function useNewUseApi<TData>(
 	});
 
 	// Set initial api state
-	const _skip = opts.skip;
+	const { skip } = opts;
 	const [state, setState] = useState<ApiState<TData>>({
-		skip: _skip,
 		loading: true,
 		error: null,
 		data: null,
 	});
-	const { skip, loading, error, data } = state;
+	const { loading, error, data } = state;
 
-	// construct API instance
-	// does this need to happen in the useEffect loop to recreate api when accessToken exists?
-	
 	// Run query
 	useEffect(() => {
-		if (!accessToken || skip) {
-			// should we set error here ?
-			setState({ ...state, loading: false, data: null });
+		if (skip) {
+			setState({ ...state, loading: false });
 			return;
 		}
-		
+
 		const api = constructApi(accessToken);
 		if (!api) {
-			// TODO: SET ERROR HERE
-			// should we set data and/or error here?
-			setState({ ...state, loading: false });
+			setState({ ...state, error: { detail: 'API not found' }, loading: false });
 			return;
 		}
 
 		// make API query
 		query(api)
 			.then(apiResult => {
-				setState({ ...state, loading: false, error: null, data: apiResult });
+				setState(_state => ({ ..._state, loading: false, error: null, data: apiResult }));
 			})
 			.catch(async apiError => {
-				setState({ ...state, loading: false, data: null, error: await parseError(apiError) });
+				const _error = await parseError(apiError);
+				setState({ ...state, loading: false, data: null, error: _error });
 			});
 	}, [accessToken, skip]);
 

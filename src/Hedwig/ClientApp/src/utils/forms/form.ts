@@ -36,6 +36,7 @@ type FormReducerObjectPathUpdate<S> = {
  * @param obj
  */
 function isFormReducerObjectPathUpdate<S>(obj: any): obj is FormReducerObjectPathUpdate<S> {
+	if (!obj) return false;
 	const _obj = obj as FormReducerObjectPathUpdate<S>;
 	return _obj._path !== undefined && _obj._value !== undefined;
 }
@@ -57,11 +58,6 @@ function isChangeEvent<T extends HTMLChoiceElement | HTMLTextAreaElement>(
  * @param updateArg Update mechanism
  */
 export function formReducer<S extends object>(state: S, updateArg: FormReducerUpdate<S>) {
-	console.log('form reducer called', state, updateArg)
-	if (!updateArg) {
-		// TODO: WHY???
-		return state;
-	}
 	if (updateArg instanceof Function) {
 		// if the type of update argument is a callback function, apply it to the current state
 		return { ...state, ...updateArg(state) };
@@ -95,7 +91,6 @@ export const updateData =
 		<T extends {}>(
 			event: React.ChangeEvent<HTMLChoiceElement | HTMLTextAreaElement> | InputField<T>
 			) => {
-				console.log('change event')
 				if (isChangeEvent(event)) {
 					const {
 						target: { name, value },

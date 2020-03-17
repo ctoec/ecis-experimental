@@ -20,6 +20,7 @@ import {
 	hasValidationErrors,
 	isBlockingValidationError,
 	serverErrorForField,
+	clientErrorForField,
 } from '../../utils/validations';
 import { childWithdrawnAlert, nameFormatter, splitCamelCase } from '../../utils/stringFormatters';
 import AlertContext from '../../contexts/Alert/AlertContext';
@@ -47,13 +48,24 @@ export default function NewWithdrawal({
 }: WithdrawalProps) {
 	const { user } = useContext(UserContext);
 	const { setAlerts } = useContext(AlertContext);
+	const { cdcReportingPeriods: reportingPeriods } = useContext(ReportingPeriodContext);
 
-	// set up initial form data
-	const requestParams = {
-		id: enrollmentId || 0,
-		orgId: getIdForUser(user, 'org'),
-		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
-	};
+	// Set request params as  a state var so that we only attempt to run queries once we have them
+	const [requestParams, setRequestParams] = useState();
+	useEffect(() => {
+		if (!enrollmentId || !user || !siteId) {
+			return;
+		}
+		if (!validatePermissions(user, 'site', siteId)) {
+			throw new Error('User is not authorized');
+		}
+		setRequestParams({
+			// These are used in get and put
+			id: enrollmentId,
+			orgId: getIdForUser(user, 'org'),
+			siteId: siteId,
+		});
+	}, [enrollmentId, user, siteId]);
 
 	const [getLoading, getError, getData] = useNewUseApi<Enrollment>(
 		api =>
@@ -61,27 +73,25 @@ export default function NewWithdrawal({
 				...requestParams,
 				include: ['child', 'family', 'determinations', 'fundings', 'sites'],
 			}),
-		{ skip: !enrollmentId || !user }
+		{ skip: !requestParams }
 	);
 
 	const [enrollment, updateEnrollment] = useReducer<FormReducer<DeepNonUndefineable<Enrollment>>>(
 		formReducer,
 		getData
 	);
+	const updateFormData = updateData<DeepNonUndefineable<Enrollment>>(updateEnrollment);
 
 	useEffect(() => {
 		// When get data has changed, update the enrollment to not be empty
-		updateEnrollment(getData)
-	}, [getData])
+		console.log('update enrollment with get data')
+		updateEnrollment(getData);
+	}, [getData]);
 
-	// set up form variables and update functions
-	const updateFormData = updateData<DeepNonUndefineable<Enrollment>>(updateEnrollment);
-
-	const { exit: enrollmentEndDate, exitReason } = enrollment || {};
+	const { exit: enrollmentEndDate, exitReason, site } = enrollment || {};
 	const [lastReportingPeriod, setLastReportingPeriod] = useState<ReportingPeriod>();
 
 	// set up supporting data contexts
-	const { cdcReportingPeriods: reportingPeriods } = useContext(ReportingPeriodContext);
 	const [reportingPeriodOptions, setReportingPeriodOptions] = useState(reportingPeriods);
 	useEffect(() => {
 		if (reportingPeriods) {
@@ -92,10 +102,10 @@ export default function NewWithdrawal({
 	}, [reportingPeriods, enrollmentEndDate]);
 
 	// set up form state
-	const [loading, setLoading] = useState(getLoading);
 	const [error, setError] = useState<ApiError | null>(getError);
 	const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
-	const [attempedSave, setAttempedSave] = useState(false);
+	const [attemptedSave, setAttemptedSave] = useState(false); // Only matters once for sake of not showing client errors
+	const [attemptingSave, setAttemptingSave] = useState(false); // Matters when deciding to run "mutate" effect
 	useFocusFirstError([error]);
 
 	// set up convenience derived variables
@@ -107,27 +117,27 @@ export default function NewWithdrawal({
 	const cdcFunding = currentCdcFunding(fundings);
 
 	// set up PUT request to be triggered on save attempt
+	console.log(enrollment)
 	const [putLoading, putError, putData] = useNewUseApi<Enrollment>(
 		api =>
 			api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut({
 				...requestParams,
 				enrollment,
 			}),
-		{ skip: !attempedSave }
+		{ skip: !attemptingSave || !requestParams || !enrollmentEndDate }
 	);
+
 	useEffect(() => {
-		setLoading(putLoading);
+		// WILL THIS DEFINITELY FINISH FIRING BEFORE THE NEXT ONE??
+		console.log('on put error or put data change');
 		setError(putError);
 		updateEnrollment(putData);
-	}, [putLoading, putError, putData]);
+		setAttemptingSave(false)
+	}, [putError, putData]);
 
-	// handle PUT request
+	// After PUT request
 	useEffect(() => {
-		if (!attempedSave) {
-			return;
-		}
-
-		if (loading) {
+		if (!enrollmentEndDate || !putData) {
 			return;
 		}
 
@@ -143,7 +153,7 @@ export default function NewWithdrawal({
 			}
 			setAlerts([validationErrorAlert]);
 		}
-	}, [attempedSave, loading, error, enrollment, hasAlertedOnError, setAlerts]);
+	}, [putData, error, enrollment, hasAlertedOnError, setAlerts]);
 
 	// save function
 	const save = () => {
@@ -158,27 +168,19 @@ export default function NewWithdrawal({
 				},
 			];
 		}
-
-		// TODO: should we be doing this?
-		// given that we're back to treating c4k certs as valid for one year,
-		// I'm thinking not
-		// const c4kFunding = currentC4kFunding(fundings);
-		// if(c4kFunding) {
-		// 	updatedFundings = [
-		// 		...updatedFundings.filter(f => f.id != c4kFunding.id),
-		// 		{
-		// 			...c4kFunding,
-		// 			certificateEndDate: enrollmentEndDate,
-		// 		}
-		// 	];
-		// }
-
-		enrollment.fundings = updatedFundings as DeepNonUndefineableArray<Funding>;
-		setAttempedSave(true);
+		
+		updateEnrollment({
+			...enrollment,
+			fundings: updatedFundings as DeepNonUndefineableArray<Funding>,
+		});
+		if (!attemptedSave) {
+			// Only need to mess with this the first time
+			setAttemptedSave(true);
+		}
+		setAttemptingSave(true);
 	};
 
-	if (loading || !enrollment) {
-		console.log('empty div');
+	if (getLoading || !enrollment || !site) {
 		return <div className="Withdrawal"></div>;
 	}
 
@@ -194,7 +196,7 @@ export default function NewWithdrawal({
 				<h1>Withdraw {nameFormatter(enrollment.child)}</h1>
 				<div className="grid-row grid-gap oec-enrollment-details-section__content margin-top-1">
 					<div className="mobile-lg:grid-col-6">
-						<p>{enrollment.site.name}</p>
+						<p>{site.name}</p>
 						<p>Age: {splitCamelCase(enrollment.ageGroup, '/')}</p>
 						<p>Enrollment date: {enrollment.entry && enrollment.entry.toLocaleDateString()}</p>
 					</div>
@@ -218,18 +220,24 @@ export default function NewWithdrawal({
 						onChange={updateFormData(newDate => newDate.toDate())}
 						date={enrollmentEndDate ? moment(enrollmentEndDate) : undefined}
 						status={
+							// TODO should we use a different fact for this condition?
 							reportingPeriodOptions.length === 0
 								? {
 										type: 'error',
 										id: 'last-reporting-period-error',
 										message:
-											'ECE Reporting only contains data for fiscal year 2020 and later. Please do not add children who withdrew prior to July 2019.',
+											'ECE Reporter only contains data for fiscal year 2020 and later. Please do not add children who withdrew prior to July 2019.',
 								  }
-								: serverErrorForField(
-										hasAlertedOnError,
-										setHasAlertedOnError,
+								: error &&
+								  processBlockingValidationErrors(
 										'exit',
-										error,
+										(error as ValidationProblemDetails).errors
+								  )
+								? serverErrorForField(hasAlertedOnError, setHasAlertedOnError, 'exit', error)
+								: clientErrorForField(
+										'exit',
+										enrollmentEndDate,
+										attemptedSave,
 										'This information is required for withdrawal'
 								  )
 						}
@@ -291,7 +299,11 @@ export default function NewWithdrawal({
 						/>
 					</div>
 					<div className="mobile-lg:grid-col-auto padding-left-2">
-						<Button text="Confirm and withdraw" onClick={save} disabled={isMissingInformation} />
+						<Button
+							text={putLoading ? 'Withdrawing...' : 'Confirm and withdraw'}
+							onClick={save}
+							disabled={isMissingInformation || putLoading}
+						/>
 					</div>
 				</div>
 			</div>
