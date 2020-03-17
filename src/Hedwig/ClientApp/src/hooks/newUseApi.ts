@@ -15,24 +15,23 @@ import getCurrentHost from '../utils/getCurrentHost';
 export type ApiError = ValidationProblemDetails | ProblemDetails;
 
 interface ApiState<TData> {
-	loading: boolean;
 	error: ApiError | null;
 	data: TData | null;
 }
 
 export type ApiResult<TData> = [
-	boolean, //loading
 	ApiError | null, // error
 	DeepNonUndefineable<TData> // response
 ];
 
 interface ApiParamOpts {
-	skip: boolean;
+	skip?: boolean;
+	callback?: () => void;
 }
 
 export default function useNewUseApi<TData>(
 	query: (api: HedwigApi) => Promise<TData>,
-	opts: ApiParamOpts = { skip: false }
+	opts: ApiParamOpts = { skip: false, callback: () => null }
 ): ApiResult<TData> {
 	// Get accessToken for authenticated API calls
 	const { accessToken, withFreshToken } = useContext(AuthenticationContext);
@@ -42,40 +41,43 @@ export default function useNewUseApi<TData>(
 	});
 
 	// Set initial api state
-	const { skip } = opts;
+	const { skip, callback } = opts;
 	const [state, setState] = useState<ApiState<TData>>({
-		loading: true,
 		error: null,
 		data: null,
 	});
-	const { loading, error, data } = state;
+	const { error, data } = state;
 
 	// Run query
 	useEffect(() => {
 		if (skip) {
-			setState({ ...state, loading: false });
+			setState({ ...state });
 			return;
 		}
 
 		const api = constructApi(accessToken);
 		if (!api) {
-			setState({ ...state, error: { detail: 'API not found' }, loading: false });
+			setState({ ...state, error: { detail: 'API not found' } });
 			return;
 		}
 
 		// make API query
 		query(api)
 			.then(apiResult => {
-				setState(_state => ({ ..._state, loading: false, error: null, data: apiResult }));
+				setState(_state => ({ ..._state, error: null, data: apiResult }));
 			})
 			.catch(async apiError => {
 				const _error = await parseError(apiError);
-				setState({ ...state, loading: false, data: null, error: _error });
+				setState({ ...state, data: null, error: _error });
 			});
 	}, [accessToken, skip]);
 
-	// TODO: will loading not work because useEffect is always fired first?
-	return [loading, error, data as DeepNonUndefineable<TData>];
+	useEffect(() => {
+		if (callback) callback();
+	}, [state])
+
+	// No loading because loading will never be true at this point
+	return [error, data as DeepNonUndefineable<TData>];
 }
 
 const constructApi: (_accessToken: string | null) => HedwigApi | null = (

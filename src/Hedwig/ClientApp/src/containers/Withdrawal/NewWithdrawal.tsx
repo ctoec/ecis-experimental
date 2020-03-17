@@ -67,7 +67,7 @@ export default function NewWithdrawal({
 		});
 	}, [enrollmentId, user, siteId]);
 
-	const [getLoading, getError, getData] = useNewUseApi<Enrollment>(
+	const [getError, getData] = useNewUseApi<Enrollment>(
 		api =>
 			api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet({
 				...requestParams,
@@ -103,7 +103,7 @@ export default function NewWithdrawal({
 	// set up form state
 	const [error, setError] = useState<ApiError | null>(getError);
 	const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
-	const [attemptedSave, setAttemptedSave] = useState(false); // Only matters once for sake of not showing client errors
+	const [attemptedSave, setAttemptedSave] = useState(false); // Only matters once for sake of not showing client errors on first load, before user has a chance to do anything
 	const [attemptingSave, setAttemptingSave] = useState(false); // Matters when deciding to run "mutate" effect
 	useFocusFirstError([error]);
 
@@ -116,17 +116,19 @@ export default function NewWithdrawal({
 	const cdcFunding = currentCdcFunding(fundings);
 
 	// set up PUT request to be triggered on save attempt
-	const [putLoading, putError, putData] = useNewUseApi<Enrollment>(
+	const [putError, putData] = useNewUseApi<Enrollment>(
 		api =>
 			api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut({
 				...requestParams,
 				enrollment,
 			}),
-		{ skip: !attemptingSave || !requestParams || !enrollmentEndDate }
+		{
+			skip: !attemptingSave || !requestParams || !enrollmentEndDate,
+			callback: () => setAttemptingSave(false),
+		}
 	);
 
 	useEffect(() => {
-		setAttemptingSave(false);
 		setError(putError);
 		if (putError && !hasAlertedOnError) {
 			if (!isBlockingValidationError(putError)) {
@@ -162,14 +164,20 @@ export default function NewWithdrawal({
 			...enrollment,
 			fundings: updatedFundings as DeepNonUndefineableArray<Funding>,
 		});
+
 		if (!attemptedSave) {
 			// Only need to mess with this the first time
 			setAttemptedSave(true);
 		}
-		setAttemptingSave(true);
+
+		// TODO: should we separate this from the fundings logic in case the enrollment state update doesn't finish in time?
+		if (enrollmentEndDate) {
+			// Only do this if we're actually going to hit the server-- otherwise it doesn't get unset when we show the client error
+			setAttemptingSave(true);
+		}
 	};
 
-	if (getLoading || !enrollment || !site) {
+	if (!enrollment || !site) {
 		return <div className="Withdrawal"></div>;
 	}
 
@@ -290,9 +298,9 @@ export default function NewWithdrawal({
 					</div>
 					<div className="mobile-lg:grid-col-auto padding-left-2">
 						<Button
-							text={putLoading ? 'Withdrawing...' : 'Confirm and withdraw'}
+							text={attemptingSave ? 'Withdrawing...' : 'Confirm and withdraw'}
 							onClick={save}
-							disabled={isMissingInformation || putLoading}
+							disabled={isMissingInformation || attemptingSave}
 						/>
 					</div>
 				</div>
