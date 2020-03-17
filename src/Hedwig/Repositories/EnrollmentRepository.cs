@@ -77,6 +77,7 @@ namespace Hedwig.Repositories
 		public List<Enrollment> GetEnrollmentsByChildId(Guid childId)
 		{
 			return _context.Enrollments
+				.AsNoTracking()
 				.Where(e => e.ChildId == childId)
 				.ToList();
 		}

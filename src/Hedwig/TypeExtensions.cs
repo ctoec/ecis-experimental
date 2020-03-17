@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 
-namespace Hedwig.Filters
+namespace Hedwig
 {
 	public static class TypeExtensions
 	{

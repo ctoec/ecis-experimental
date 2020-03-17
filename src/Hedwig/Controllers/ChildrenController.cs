@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using Hedwig.Models;
 using Hedwig.Repositories;
 using Hedwig.Validations;
 using Hedwig.Security;
+using Hedwig.Filters;
 
 namespace Hedwig.Controllers
 {
@@ -17,20 +19,19 @@ namespace Hedwig.Controllers
 	[Route("api/organizations/{orgId:int}/[controller]")]
 	public class ChildrenController : ControllerBase
 	{
-		private readonly INonBlockingValidator _validator;
 		private readonly IChildRepository _children;
 		public ChildrenController(
-			INonBlockingValidator validator,
 			IChildRepository children
 		)
 		{
-			_validator = validator;
 			_children = children;
 		}
 
-		[HttpGet]
+		[HttpGet("{id}")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[TypeFilter(typeof(ValidateEntityFilterAttribute), Order = 1)]
+		[TransformEntityFilter(Order = 2)]
 		public async Task<ActionResult<Child>> Get(
 			int orgId,
 			Guid id,
@@ -40,24 +41,48 @@ namespace Hedwig.Controllers
 			var child = await _children.GetChildForOrganizationAsync(id, orgId, include);
 			if (child == null) return NotFound();
 
-			_validator.Validate(child);
 			return Ok(child);
 
 		}
 
-		[HttpGet]
-		[ProducesResponseType(StatusCodes.Status200OK)]
-		[ProducesResponseType(StatusCodes.Status204NoContent)]
-		public async Task<ActionResult<IDictionary<Guid, ICollection<Enrollment>>>> Get(
+		[HttpPost]
+		public async Task<ActionResult<Child>> Post(
 			int orgId,
-			[FromQuery(Name = "reportId")] int reportId,
-			[FromQuery(Name = "include[]")] string[] include,
-			[FromQuery(Name = "startDate")] DateTime? from = null,
-			[FromQuery(Name = "endDate")] DateTime? to = null
+			Child child
 		)
 		{
-			var children = await _children.GetChildrenIdToEnrollmentsForOrganizationAsync(orgId, reportId, from, to, include);
-			return Ok(children);
+			if(child.Id != Guid.Empty) return BadRequest();
+
+			_children.AddChild(child);
+			await _children.SaveChangesAsync();
+
+			return CreatedAtAction(
+				nameof(Get),
+				new { id = child.Id, orgId = orgId },
+				child
+			);
+		}
+
+		[HttpPut("{id}")]
+		public async Task<ActionResult<Child>> Put(
+			Guid id,
+			int orgId,
+			Child child
+		)
+		{
+			if(child.Id != id) return BadRequest();
+
+			try 
+			{
+				_children.UpdateChild(child);
+				await _children.SaveChangesAsync();
+			}
+			catch (DbUpdateConcurrencyException)
+			{
+				return NotFound();
+			}
+
+			return Ok();
 		}
 	}
 }
