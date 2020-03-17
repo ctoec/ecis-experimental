@@ -153,7 +153,11 @@ namespace Hedwig.Filters
 				}
 
 				var propValue = prop.GetValue(entity);
-				if (IsApplicationModelType(type))
+
+				// Recursively remove entities of same type as prop if:
+				// - prop is application model type
+				// - prop is not read-only (this allows all objects in the tree to retain Author and Reporting Period references)
+				if (IsApplicationModelType(type) && !ReadOnlyAttribute.IsReadOnly(prop))
 				{
 					entityTypes = entityTypes.Append(type);
 				}
