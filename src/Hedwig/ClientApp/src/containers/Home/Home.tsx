@@ -76,7 +76,7 @@ const Home: any = () => {
 				<div className="display-flex flex-justify flex-align-center">
 					<p className="text-primary text-light font-sans-lg">Find out what's new at OEC</p>
 					<Button
-						className="usa-button--big bg-accent-cool-darker radius-0 text-light"
+						className={cx(styles['usa-button'], 'bg-accent-cool-darker radius-0')}
 						text={
 							<span className="display-flex flex-align-center">
 								<span>Visit the OEC website</span>
