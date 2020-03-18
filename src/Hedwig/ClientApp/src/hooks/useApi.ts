@@ -52,7 +52,9 @@ export default function useApi<TData>(
 	};
 
 	// Get accessToken for authentication
-	const { accessToken, withFreshToken } = useContext(AuthenticationContext);
+	const { accessToken, withFreshToken, loading: accessTokenLoading } = useContext(
+		AuthenticationContext
+	);
 
 	// Every render, check if token is expired and refetch as needed
 	useEffect(() => {
@@ -82,7 +84,7 @@ export default function useApi<TData>(
 	const handleError = async (_error: any) => {
 		const apiError = await parseError(_error);
 		setState(_state => {
-			return { ..._state, error: apiError };
+			return { ..._state, loading: false, error: apiError };
 		});
 	};
 
@@ -110,9 +112,6 @@ export default function useApi<TData>(
 		(_query, reducer = (_, result) => result) => {
 			// If there is no API, throw error
 			if (!api) {
-				setState(_state => {
-					return { ..._state, loading: false };
-				});
 				return Promise.reject('No api!');
 			}
 
@@ -135,15 +134,22 @@ export default function useApi<TData>(
 
 	// Rerun query whenever deps or accessToken changes
 	useEffect(() => {
-		// If there is no access token, set data to undefined, loading to false, and exit
+		// Do not attempt to make a request if we are still
+		// waiting on the access token
+		if (accessTokenLoading) {
+			return;
+		}
+
+		// If there is no access token and it is done loading,
+		// Then the user is not logged in so
+		// Set data to undefined, loading to false, and exit
 		if (!accessToken) {
 			setState({ ...state, loading: false, data: undefined });
 			return;
 		}
 
-		// If the API doesn't exist or skip is true, exit with loading false
+		// If the API doesn't exist or skip is true, exit
 		if (!api || skip) {
-			setState({ ...state, loading: false });
 			return;
 		}
 
@@ -159,7 +165,7 @@ export default function useApi<TData>(
 				await handleError(apiError);
 			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [...deps, accessToken]);
+	}, [...deps, accessToken, accessTokenLoading]);
 
 	return [loading, error, data as DeepNonUndefineable<TData>, mutate];
 }
