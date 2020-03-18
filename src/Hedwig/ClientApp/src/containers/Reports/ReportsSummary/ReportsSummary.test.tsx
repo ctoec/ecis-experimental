@@ -97,13 +97,15 @@ describe('ReportsSummary', () => {
 					<ReportsSummary />
 				</CommonContextProviderMock>
 			);
+			// Get the report links as they appear in the document
 			const reportLinks = getAllByRole('link').map(link => link.textContent);
+			// Copy the array and sort it by ascending date for comparison
 			const sortedReportLinks = [...reportLinks].sort((a, b) =>
 				reportingPeriodToMoment(a || '').diff(reportingPeriodToMoment(b || ''))
 			);
-			// Make sure we're not comparing empty strings
+			// Make sure we're not comparing empty arrays
 			expect(reportLinks).toHaveLength(pendingReports.length);
-			// The strings of link text should be the same
+			// The joined strings of link text should be the same because the order of dates should be the same
 			expect(reportLinks.join()).toEqual(sortedReportLinks.join());
 		});
 	});
@@ -129,13 +131,16 @@ describe('ReportsSummary', () => {
 					<ReportsSummary />
 				</CommonContextProviderMock>
 			);
+			// Get the report links as they appear in the document
 			const reportLinks = getAllByRole('link').map(link => link.textContent);
+			// Copy the array and sort it by ascending date for comparison
+
 			const sortedReportLinks = [...reportLinks].sort((a, b) =>
 				reportingPeriodToMoment(b || '').diff(reportingPeriodToMoment(a || ''))
 			);
 			// Make sure we're not comparing empty strings
 			expect(reportLinks).toHaveLength(pendingReports.length);
-			// The strings of link text should be the same
+			// The joined strings of link text should be the same because the order of dates should be the same
 			expect(reportLinks.join()).toEqual(sortedReportLinks.join());
 		});
 	});

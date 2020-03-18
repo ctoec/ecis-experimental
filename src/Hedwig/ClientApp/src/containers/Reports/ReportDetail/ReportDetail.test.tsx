@@ -55,6 +55,8 @@ describe('ReportDetail', () => {
 	});
 
 	it('has the correct utilization ratios', () => {
+		// Default report has 2 full time preschool spaces
+		// These mocked enrollments are one of each full and part infant/toddler and preschool
 		mockReport = {
 			...mockDefaultReport,
 			enrollments: [
@@ -72,7 +74,7 @@ describe('ReportDetail', () => {
 		);
 		const oneOfZeros = getAllByText('1/0 spaces');
 		const oneOfTwos = getAllByText('1/2 spaces');
-		// Infant toddler full and part and preschool part will all be 1/0 spaces
+		// Infant toddler full and part and preschool part will all be 1/0 spaces since our fictional site only has 2 full time preschool spaces
 		expect(oneOfZeros).toHaveLength(3);
 		// Preschool full will be 1/2 spaces
 		expect(oneOfTwos).toHaveLength(1);
