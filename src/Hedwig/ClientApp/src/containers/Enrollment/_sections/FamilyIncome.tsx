@@ -147,8 +147,8 @@ const FamilyIncome: Section = {
 
 		const child = _enrollment.child;
 		const determination = idx(child, _ => _.family.determinations[0]) || undefined;
-		const { numberOfPeople, income, determinationDate, notDisclosed } = determination || {};
 
+		const { numberOfPeople, income, determinationDate, notDisclosed } = determination || {};
 		const _save = () => {
 			const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
 				...defaultParams,
@@ -176,8 +176,7 @@ const FamilyIncome: Section = {
 		return (
 			<form className="FamilyIncomeForm" onSubmit={save} noValidate autoComplete="off">
 				<div className="usa-form">
-					{(!notDisclosed ||
-						hasValidationErrors(determination ? determination : null, ['notDisclosed'])) && (
+					{!notDisclosed && (
 						<>
 							<FieldSet
 								id="family-income"
@@ -191,15 +190,8 @@ const FamilyIncome: Section = {
 										// value of determinationDate and should not trigger a missing information alert
 										['numberOfPeople', 'income', !determinationDate ? 'determinationDate' : ''],
 										determination ? determination : null,
-										'This information is required for enrollment'
+										'This information is required for OEC reporting'
 									) ||
-										// Missing disclosed determination for funded enrollment warning
-										warningForFieldSet(
-											'family-income',
-											['notDisclosed'],
-											determination ? determination : null,
-											'Income must be determined for CDC funded enrollments'
-										) ||
 										// Missing determination warning
 										warningForFieldSet(
 											'family-income',
@@ -282,22 +274,18 @@ const FamilyIncome: Section = {
 								value: 'familyIncomeNotDisclosed',
 							},
 						]}
-						status={
-							!notDisclosed
-								? undefined
-								: warningForFieldSet(
-										'family-income-disclosed',
-										['child.family.determinations'],
-										enrollment,
-										'Income must be disclosed for funded enrollments'
-								  )
-						}
+						status={warningForFieldSet(
+							'family-income',
+							['notDisclosed'],
+							determination ? determination : null,
+							'Income information must be disclosed for CDC funded enrollments'
+						)}
 					/>
 				</div>
 
 				{/*Only display the alert if:
 				 - determination is notDisclosed
-				 - there is no 'notDisclosed' validationError (which will result in the form being displayed with errors)
+				 - there is no 'notDisclosed' validationError (which will result in warning on the notDisclosed field)
 				*/}
 				{notDisclosed &&
 					!hasValidationErrors(determination ? determination : null, ['notDisclosed']) && (

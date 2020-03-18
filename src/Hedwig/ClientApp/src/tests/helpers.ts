@@ -1,6 +1,8 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 import { axe } from 'jest-axe';
+import { ValidationError } from '../generated';
+import { DeepNonUndefineable } from '../utils/types';
 
 // This is a *very* minimal accessibility check
 // From the README for the jest-axe library: "The GDS Accessibility team found that only ~30% of issues are found by automated testing."
@@ -31,4 +33,17 @@ export const swapFields = <T>(inputObject: T, changeFields: ChangeField[]): T =>
 		});
 	});
 	return newObject;
+};
+
+export const getValidationError = (params: {
+	field?: string;
+	fields?: string[];
+	message?: string;
+}) => {
+	return {
+		field: params.field,
+		fields: params.fields,
+		message: params.message ? params.message : 'message',
+		isSubObjectValidation: false,
+	} as DeepNonUndefineable<ValidationError>;
 };
