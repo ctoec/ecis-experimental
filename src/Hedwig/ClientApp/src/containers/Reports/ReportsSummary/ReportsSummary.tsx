@@ -40,6 +40,7 @@ export default function ReportsSummary() {
 	const defaultTableProps: TableProps<DeepNonUndefineable<Report>> = {
 		id: 'reports-table',
 		data: reports,
+		fullWidth: true,
 		rowKey: row => row.id,
 		columns: [
 			{
@@ -118,7 +119,7 @@ export default function ReportsSummary() {
 				<section>
 					<h2 className="margin-top-4">Pending reports</h2>
 					{pendingReports.length > 0 ? (
-						<Table {...pendingTableProps} fullWidth />
+						<Table {...pendingTableProps} />
 					) : (
 						<p>
 							<em>
@@ -129,7 +130,7 @@ export default function ReportsSummary() {
 				</section>
 				<section>
 					<h2 className="margin-top-6">Submitted reports</h2>
-					<Table {...submittedTableProps} fullWidth />
+					<Table {...submittedTableProps} />
 				</section>
 			</div>
 		</CommonContainer>

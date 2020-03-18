@@ -36,7 +36,7 @@ import { createMemoryHistory } from 'history';
 import 'react-dates/initialize';
 import mockdate from 'mockdate';
 
-import { accessibilityTestHelper } from '../accessibilityTestHelper';
+import { accessibilityTestHelper } from '../../tests/helpers';
 import TestProvider from '../../contexts/__mocks__/TestProvider';
 
 import Roster from './Roster';

@@ -2,6 +2,7 @@ import { Enrollment, Age, FundingSource, FundingTime } from '../../generated';
 import { swapFields } from '../helpers';
 import { mockChild } from '.';
 import { mockSite } from './site';
+import emptyGuid from '../../utils/emptyGuid';
 
 const enrollmentValidationError = [
 	{
@@ -13,7 +14,7 @@ const enrollmentValidationError = [
 
 export const mockCompleteEnrollment: Enrollment = {
 	id: 1,
-	childId: '2',
+	childId: emptyGuid(),
 	siteId: 1,
 	site: mockSite,
 	ageGroup: Age.Preschool,
@@ -82,10 +83,28 @@ export const mockEnrollmentWithFoster = swapFields(mockCompleteEnrollment, [
 	{ keys: ['child', 'family', 'determinations'], newValue: [] },
 ]);
 
+export const mockPartTimeEnrollment = swapFields(mockCompleteEnrollment, [
+	{ keys: ['fundings', 0, 'time'], newValue: FundingTime.Part },
+	{ keys: ['id'], newValue: 7 },
+]);
+
+export const mockPartTimeInfantEnrollment = swapFields(mockPartTimeEnrollment, [
+	{ keys: ['id'], newValue: 8 },
+	{ keys: ['ageGroup'], newValue: Age.InfantToddler },
+]);
+
+export const mockFullTimeInfantEnrollment = swapFields(mockCompleteEnrollment, [
+	{ keys: ['id'], newValue: 9 },
+	{ keys: ['ageGroup'], newValue: Age.InfantToddler },
+]);
+
 export const mockAllFakeEnrollments = [
 	mockCompleteEnrollment,
 	mockEnrollmentMissingBirthCertId,
 	mockEnrollmentMissingAddress,
 	mockEnrollmentWithLaterStart,
 	mockEnrollmentWithFoster,
+	mockPartTimeEnrollment,
+	mockPartTimeInfantEnrollment,
+	mockFullTimeInfantEnrollment,
 ];

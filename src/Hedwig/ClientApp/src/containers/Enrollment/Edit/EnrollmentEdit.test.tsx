@@ -22,7 +22,7 @@ import { render, getAllByRole } from '@testing-library/react';
 import 'react-dates/initialize';
 import TestProvider from '../../../contexts/__mocks__/TestProvider';
 import EnrollmentEdit from './EnrollmentEdit';
-import { accessibilityTestHelper } from '../../accessibilityTestHelper';
+import { accessibilityTestHelper } from '../../../tests/helpers';
 import {
 	mockCompleteEnrollment,
 	cdcReportingPeriods,
