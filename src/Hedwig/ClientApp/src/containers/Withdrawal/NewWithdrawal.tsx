@@ -88,7 +88,6 @@ export default function NewWithdrawal({
 	}, [getData]);
 
 	const { exit: enrollmentEndDate, exitReason, site } = enrollment || {};
-	const [lastReportingPeriod, setLastReportingPeriod] = useState<ReportingPeriod>();
 
 	// set up supporting data contexts
 	const [reportingPeriodOptions, setReportingPeriodOptions] = useState(reportingPeriods);
@@ -115,6 +114,25 @@ export default function NewWithdrawal({
 			: ([] as DeepNonUndefineableArray<Funding>);
 	const cdcFunding = currentCdcFunding(fundings);
 
+	const { lastReportingPeriod } = cdcFunding || {};
+
+	const setLastReportingPeriod = (lastReportingPeriodId: number) => {
+		let updatedFundings: Funding[] = fundings;
+		if (cdcFunding) {
+			updatedFundings = [
+				...updatedFundings.filter(f => f.id !== cdcFunding.id),
+				{
+					...cdcFunding,
+					lastReportingPeriodId: lastReportingPeriodId,
+				},
+			];
+			updateEnrollment({
+				...enrollment,
+				fundings: updatedFundings as DeepNonUndefineableArray<Funding>,
+			});
+		}
+	};
+
 	// set up PUT request to be triggered on save attempt
 	const [putError, putData] = useNewUseApi<Enrollment>(
 		api =>
@@ -129,6 +147,13 @@ export default function NewWithdrawal({
 	);
 
 	useEffect(() => {
+		// If the withdraw request went through, then return to the roster
+		if (putData && !putError) {
+			setAlerts([childWithdrawnAlert(nameFormatter(enrollment.child))]);
+			history.push(`/roster`);
+		}
+
+		// Otherwiwe handle the error
 		setError(putError);
 		if (putError && !hasAlertedOnError) {
 			if (!isBlockingValidationError(putError)) {
@@ -136,41 +161,14 @@ export default function NewWithdrawal({
 			}
 			setAlerts([validationErrorAlert]);
 		}
-	}, [putError]);
-
-	useEffect(() => {
-		// If the withdraw request went through, then return to the roster
-		if (putData && !putError) {
-			setAlerts([childWithdrawnAlert(nameFormatter(enrollment.child))]);
-			history.push(`/roster`);
-		}
-	}, [putData]);
+	}, [putData, putError]);
 
 	// save function
 	const save = () => {
-		// handle enrollment updates that are not handled by form reducer updates
-		let updatedFundings: Funding[] = fundings;
-		if (cdcFunding && lastReportingPeriod) {
-			updatedFundings = [
-				...updatedFundings.filter(f => f.id !== cdcFunding.id),
-				{
-					...cdcFunding,
-					lastReportingPeriodId: lastReportingPeriod.id,
-				},
-			];
-		}
-
-		updateEnrollment({
-			...enrollment,
-			fundings: updatedFundings as DeepNonUndefineableArray<Funding>,
-		});
-
 		if (!attemptedSave) {
 			// Only need to mess with this the first time
 			setAttemptedSave(true);
 		}
-
-		// TODO: should we separate this from the fundings logic in case the enrollment state update doesn't finish in time?
 		if (enrollmentEndDate) {
 			// Only do this if we're actually going to hit the server-- otherwise it doesn't get unset when we show the client error
 			setAttemptingSave(true);
@@ -270,10 +268,8 @@ export default function NewWithdrawal({
 								text: reportingPeriodFormatter(period, { extended: true }),
 							}))}
 							onChange={event => {
-								const chosen = reportingPeriods.find<ReportingPeriod>(
-									period => period.id === parseInt(event.target.value)
-								);
-								setLastReportingPeriod(chosen);
+								const newReportingPeriodId = parseInt(event.target.value);
+								setLastReportingPeriod(newReportingPeriodId);
 							}}
 							status={serverErrorForField(
 								hasAlertedOnError,
