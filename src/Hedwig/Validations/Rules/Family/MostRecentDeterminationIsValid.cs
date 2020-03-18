@@ -27,11 +27,9 @@ namespace Hedwig.Validations.Rules
 
 			var determinations = family.Determinations ?? _determinations.GetDeterminationsByFamilyId(family.Id);
 
-			if (determinations.Count == 0) return null;
-
 			var determination = determinations
 			.OrderByDescending(d => d.DeterminationDate)
-			.First();
+			.FirstOrDefault();
 
 			if (determination == null)
 			{
