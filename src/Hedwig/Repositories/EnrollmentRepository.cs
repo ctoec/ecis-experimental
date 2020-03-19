@@ -42,57 +42,20 @@ namespace Hedwig.Repositories
 				.FilterByDates(from, to)
 				.Where(e => e.SiteId == siteId);
 
-
-			include = include ?? new string[] { };
-			if (include.Contains(INCLUDE_SITES))
-			{
-				enrollments = enrollments.Include(e => e.Site);
-			}
-
-			if (include.Contains(INCLUDE_FUNDINGS))
-			{
-				enrollments = enrollments.Include(e => e.Fundings)
-						.ThenInclude(f => f.FirstReportingPeriod)
-					.Include(e => e.Fundings)
-						.ThenInclude(f => f.LastReportingPeriod);
-			}
-
-			if (include.Contains(INCLUDE_CHILD))
-			{
-				enrollments = enrollments.Include(e => e.Child);
-
-				if (include.Contains(INCLUDE_FAMILY))
-				{
-					enrollments = ((IIncludableQueryable<Enrollment, Child>)enrollments).ThenInclude(c => c.Family);
-
-					if (include.Contains(INCLUDE_DETERMINATIONS))
-					{
-						enrollments = ((IIncludableQueryable<Enrollment, Family>)enrollments).ThenInclude(f => f.Determinations);
-					}
-				}
-			}
+			enrollments = enrollments.ProcessInclude(include);
 
 			return enrollments.ToListAsync();
 		}
 
 		public Task<Enrollment> GetEnrollmentForSiteAsync(int id, int siteId, string[] include)
 		{
-			var enrollmentQuery = _context.Enrollments
+			var enrollment = _context.Enrollments
 				.Where(e => e.SiteId == siteId && e.Id == id);
 
-			enrollmentQuery = enrollmentQuery.ProcessInclude(include);
+			enrollment = enrollment.Include(e => e.Author);
+			enrollment = enrollment.ProcessInclude(include);
 
-			/** Author is needed to display metadata about enrollment updates
-				* However, simply including Author via enrollmentQuery.Include(e => e.Author) includes author
-				* on all sub-objects (child, family, familyDetermination, funding). If the same author entity is
-				* associated with multiple objects in a single update, the DB update fails with:
-				* "System.InvalidOperationException: The instance of entity type 'User' cannot be tracked because another instance with the same key value for {'Id'} is already being tracked."
-				* A better solution for this will probably need to be determined, but for now, including un-tracked author on the enrollment ensures there is no clash. 
-				*/
-			var enrollment = enrollmentQuery.FirstOrDefault();
-			// var author = _context.Users.AsNoTracking().FirstOrDefault(u => u.Id == enrollment.AuthorId);
-			// enrollment.Author = author;
-			return Task.FromResult(enrollment);
+			return enrollment.FirstOrDefaultAsync();
 		}
 
 		public async Task<List<Enrollment>> GetEnrollmentsForOrganizationAsync(
