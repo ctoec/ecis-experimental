@@ -28,6 +28,7 @@ import {
 	warningForFieldSet,
 	initialLoadErrorGuard,
 	isBlockingValidationError,
+	hasValidationErrors,
 } from '../../../utils/validations';
 import usePromiseExecution from '../../../hooks/usePromiseExecution';
 import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
@@ -39,15 +40,20 @@ const FamilyIncome: Section = {
 	key: 'family-income',
 	name: 'Family income determination',
 	status: ({ enrollment }) => {
+		// family income disclosure not required for children living with foster families
 		if (idx(enrollment, _ => _.child.foster)) {
 			return 'exempt';
 		}
+
+		// section is incomplete if:
+		// - section itself has validation errors
+		// - family section has validation error for `determinations` field
 		return sectionHasValidationErrors([
 			idx(enrollment, _ => _.child.family.determinations) || null,
 		]) ||
 			processValidationError(
-				'child.family.determinations',
-				enrollment ? enrollment.validationErrors : null
+				'determinations',
+				idx(enrollment, _ => _.child.family.validationErrors) || null
 			)
 			? 'incomplete'
 			: 'complete';
@@ -141,26 +147,22 @@ const FamilyIncome: Section = {
 
 		const child = _enrollment.child;
 		const determination = idx(child, _ => _.family.determinations[0]) || undefined;
-		const { numberOfPeople, income, determinationDate, notDisclosed } = determination || {};
 
+		const { numberOfPeople, income, determinationDate, notDisclosed } = determination || {};
 		const _save = () => {
-			if (enrollment && child && child.family) {
-				const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
-					...defaultParams,
-					enrollment: {
-						..._enrollment,
-					},
-				};
-				return mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
-					.then(res => {
-						if (successCallback && res) successCallback(res);
-					})
-					.finally(() => {
-						finallyCallback && finallyCallback(FamilyIncome);
-					});
-			}
-			return new Promise(() => {});
-			// TODO: what should happen if there is no enrollment, child, or family?  See also family info and enrollment funding
+			const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
+				...defaultParams,
+				enrollment: {
+					..._enrollment,
+				},
+			};
+			return mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
+				.then(res => {
+					if (successCallback && res) successCallback(res);
+				})
+				.finally(() => {
+					finallyCallback && finallyCallback(FamilyIncome);
+				});
 		};
 
 		const { isExecuting: isMutating, setExecuting: save } = usePromiseExecution(_save);
@@ -181,22 +183,22 @@ const FamilyIncome: Section = {
 								legend="Family income"
 								status={initialLoadErrorGuard(
 									initialLoad,
+									// Missing information for determination warning
 									warningForFieldSet(
 										'family-income',
-										/**
-										 * If determinationDate has value, then validation errors for that field are
-										 * about the value so we DO NOT want to display the general 'information is required'
-										 * FieldSet warning. If it does not have value, then we would want to check for this warning.
-										 */
+										// Only check for determinationDate errors if it does not have a value. Otherwise, the error is about the
+										// value of determinationDate and should not trigger a missing information alert
 										['numberOfPeople', 'income', !determinationDate ? 'determinationDate' : ''],
 										determination ? determination : null,
-										'This information is required for enrollment'
+										'This information is required for OEC reporting'
 									) ||
+										// Missing determination warning
 										warningForFieldSet(
 											'family-income',
-											['child.family.determinations'],
-											enrollment,
-											'Income must be determined for funded enrollments'
+											['determinations'],
+											idx(enrollment, _ => _.child.family) || null,
+											'Income must be determined or marked as not disclosed',
+											true
 										)
 								)}
 							>
@@ -272,24 +274,21 @@ const FamilyIncome: Section = {
 								value: 'familyIncomeNotDisclosed',
 							},
 						]}
-						status={
-							!notDisclosed
-								? undefined
-								: warningForFieldSet(
-										'family-income-disclosed',
-										['child.family.determinations'],
-										enrollment,
-										'Income must be disclosed for funded enrollments'
-								  )
-						}
+						status={warningForFieldSet(
+							'family-income',
+							['notDisclosed'],
+							determination ? determination : null,
+							'Income information must be disclosed for CDC funded enrollments'
+						)}
 					/>
 				</div>
 
+				{/*Only display the alert if:
+				 - determination is notDisclosed
+				 - there is no 'notDisclosed' validationError (which will result in warning on the notDisclosed field)
+				*/}
 				{notDisclosed &&
-					!processValidationError(
-						'child.family.determinations',
-						enrollment ? enrollment.validationErrors : null
-					) && (
+					!hasValidationErrors(determination ? determination : null, ['notDisclosed']) && (
 						<Alert
 							type="info"
 							text="Income information is required to enroll a child in a CDC funded space. You will not be able to assign this child to a funding space without this information."

@@ -6,9 +6,10 @@ export function warningForFieldSet<T extends Validatable>(
 	fieldSetId: string,
 	fields: string[],
 	entity: T | null,
-	message: string
+	message: string,
+	skipSubObjectValidations: boolean = false
 ): FormStatusProps | undefined {
-	if (hasValidationErrors(entity, fields)) {
+	if (hasValidationErrors(entity, fields, skipSubObjectValidations)) {
 		return {
 			type: 'warning',
 			message: message,
