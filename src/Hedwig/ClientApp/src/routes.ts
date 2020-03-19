@@ -11,7 +11,6 @@ import Roster from './containers/Roster/Roster';
 import ReportsSummary from './containers/Reports/ReportsSummary/ReportsSummary';
 import ReportDetail from './containers/Reports/ReportDetail/ReportDetail';
 import Withdrawal from './containers/Withdrawal/Withdrawal';
-import NewWithdrawal from './containers/Withdrawal/NewWithdrawal';
 
 export type RouteConfig = {
 	path: string;
@@ -57,10 +56,6 @@ export const routes: RouteConfig[] = [
 	{
 		path: '/roster/sites/:siteId/enrollments/:enrollmentId/withdraw',
 		component: Withdrawal,
-	},
-	{
-		path: '/roster/sites/:siteId/enrollments/:enrollmentId/withdraw-new',
-		component: NewWithdrawal,
 	},
 	{
 		path: '/reports',

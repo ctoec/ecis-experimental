@@ -1,45 +1,33 @@
-import React, { useContext, useState, useEffect, useReducer } from 'react';
+import React, { useContext, useReducer, useState, useEffect } from 'react';
 import { History } from 'history';
-import moment from 'moment';
 import UserContext from '../../contexts/User/UserContext';
 import {
-	Enrollment,
-	Funding,
-	FundingSource,
-	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest,
-	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
-	ValidationProblemDetails,
-	ReportingPeriod,
-} from '../../generated';
-import { nameFormatter, splitCamelCase, childWithdrawnAlert } from '../../utils/stringFormatters';
-import { DeepNonUndefineable } from '../../utils/types';
-import {
-	generateFundingTag,
-	enrollmentExitReasons,
+	getIdForUser,
+	validatePermissions,
 	currentCdcFunding,
-	currentC4kFunding,
 	lastNReportingPeriods,
 	reportingPeriodFormatter,
+	enrollmentExitReasons,
 } from '../../utils/models';
-import { DateInput, ChoiceList, Button, InlineIcon } from '../../components';
-import useApi from '../../hooks/useApi';
-import { validatePermissions, getIdForUser } from '../../utils/models';
-import CommonContainer from '../CommonContainer';
+import useNewUseApi, { ApiError } from '../../hooks/newUseApi';
+import { Enrollment, Funding, ValidationProblemDetails } from '../../generated';
+import { FormReducer, formReducer, updateData } from '../../utils/forms/form';
+import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../utils/types';
+import ReportingPeriodContext from '../../contexts/ReportingPeriod/ReportingPeriodContext';
 import {
-	clientErrorForField,
-	serverErrorForField,
 	useFocusFirstError,
 	hasValidationErrors,
 	isBlockingValidationError,
+	serverErrorForField,
+	clientErrorForField,
 } from '../../utils/validations';
-import ReportingPeriodContext from '../../contexts/ReportingPeriod/ReportingPeriodContext';
-import { processBlockingValidationErrors } from '../../utils/validations/processBlockingValidationErrors';
+import { childWithdrawnAlert, nameFormatter, splitCamelCase } from '../../utils/stringFormatters';
 import AlertContext from '../../contexts/Alert/AlertContext';
-import {
-	validationErrorAlert,
-	missingInformationForWithdrawalAlert,
-} from '../../utils/stringFormatters/alertTextMakers';
-import { FormReducer, updateData, formReducer } from '../../utils/forms/form';
+import { validationErrorAlert } from '../../utils/stringFormatters/alertTextMakers';
+import moment from 'moment';
+import CommonContainer from '../CommonContainer';
+import { InlineIcon, DateInput, ChoiceList, Button } from '../../components';
+import { processBlockingValidationErrors } from '../../utils/validations/processBlockingValidationErrors';
 
 type WithdrawalProps = {
 	history: History;
@@ -61,138 +49,141 @@ export default function Withdrawal({
 	const { setAlerts } = useContext(AlertContext);
 	const { cdcReportingPeriods: reportingPeriods } = useContext(ReportingPeriodContext);
 
-	const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest = {
-		id: enrollmentId || 0,
-		orgId: getIdForUser(user, 'org'),
-		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
-	};
+	// Set request params as  a state var so that we only attempt to run queries once we have them
+	const [requestParams, setRequestParams] = useState();
+	useEffect(() => {
+		if (!enrollmentId || !user || !siteId) {
+			return;
+		}
+		if (!validatePermissions(user, 'site', siteId)) {
+			throw new Error('User is not authorized');
+		}
+		setRequestParams({
+			// These are used in get and put
+			id: enrollmentId,
+			orgId: getIdForUser(user, 'org'),
+			siteId: siteId,
+		});
+	}, [enrollmentId, user, siteId]);
 
-	const [loading, error, enrollment, mutate] = useApi<Enrollment>(
+	const [getRequestError, getRequestData] = useNewUseApi<Enrollment>(
 		api =>
 			api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet({
-				...defaultParams,
+				...requestParams,
 				include: ['child', 'family', 'determinations', 'fundings', 'sites'],
 			}),
-		[enrollmentId, user],
-		{
-			skip: !enrollmentId,
-		}
+		{ skip: !requestParams }
 	);
 
-	const [_enrollment, updateEnrollment] = useReducer<FormReducer<DeepNonUndefineable<Enrollment>>>(
+	const [enrollment, updateEnrollment] = useReducer<FormReducer<DeepNonUndefineable<Enrollment>>>(
 		formReducer,
-		enrollment
+		getRequestData
 	);
 	const updateFormData = updateData<DeepNonUndefineable<Enrollment>>(updateEnrollment);
 
 	useEffect(() => {
-		if (enrollment) {
-			updateEnrollment(enrollment);
-		}
-	}, [enrollment]);
+		// When get data has changed, update the enrollment to not be empty
+		updateEnrollment(getRequestData);
+	}, [getRequestData]);
 
-	const { exit: enrollmentEndDate, exitReason } = _enrollment || {};
+	const { exit: enrollmentEndDate, exitReason, site } = enrollment || {};
 
-	const [lastReportingPeriod, updateLastReportingPeriod] = useState<ReportingPeriod>();
-	const [reportingPeriodOptions, updateReportingPeriodOptions] = useState(reportingPeriods);
-
-	const fundings =
-		_enrollment && _enrollment.fundings
-			? _enrollment.fundings
-			: ([] as DeepNonUndefineable<Funding[]>);
-	const cdcFunding = currentCdcFunding(fundings);
-
-	// Set up form state
-
-	// Don't show errors until save has been attempted
-	const [attemptedSave, setAttemptedSave] = useState(false);
-
-	// If there's an error, programmatically set focus to that field
-	useFocusFirstError([error]);
-
-	const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
-	useEffect(() => {
-		if (error && !hasAlertedOnError) {
-			if (!isBlockingValidationError(error)) {
-				throw new Error(error.title || 'Unknown api error');
-			}
-			setAlerts([validationErrorAlert]);
-		}
-	}, [error, hasAlertedOnError, setAlerts]);
-
+	// set up supporting data contexts
+	const [reportingPeriodOptions, setReportingPeriodOptions] = useState(reportingPeriods);
 	useEffect(() => {
 		if (reportingPeriods) {
-			updateReportingPeriodOptions(
+			setReportingPeriodOptions(
 				lastNReportingPeriods(reportingPeriods, enrollmentEndDate || moment().toDate(), 5)
 			);
 		}
 	}, [reportingPeriods, enrollmentEndDate]);
 
+	// set up form state
+	const [error, setError] = useState<ApiError | null>(getRequestError);
+	const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
+	const [attemptedSave, setAttemptedSave] = useState(false); // Only matters once for sake of not showing client errors on first load, before user has a chance to do anything
+	const [attemptingSave, setAttemptingSave] = useState(false); // Matters when deciding to run "mutate" effect
+	useFocusFirstError([error]);
+
+	// set up convenience derived variables
 	const isMissingInformation = hasValidationErrors(enrollment);
-	// If the enrollment is missing information, navigate to that enrollment so user can fix it
-	useEffect(() => {
-		if (isMissingInformation) {
-			setAlerts([missingInformationForWithdrawalAlert]);
-			history.push(`/roster/sites/${siteId}/enrollments/${enrollment.id}`);
-		}
-	}, [enrollment, isMissingInformation, history, setAlerts, siteId]);
+	const fundings =
+		enrollment && enrollment.fundings
+			? enrollment.fundings
+			: ([] as DeepNonUndefineableArray<Funding>);
+	const cdcFunding = currentCdcFunding(fundings);
 
-	if (loading || !enrollment || !enrollment.site) {
-		return <div className="Withdrawl"></div>;
-	}
+	const { lastReportingPeriod } = cdcFunding || {};
 
-	const save = () => {
-		setAttemptedSave(true);
-		// Enrollment end date (exit) is required for withdrawl
-		if (!enrollmentEndDate) {
-			return;
-		}
-
+	const setLastReportingPeriod = (lastReportingPeriodId: number) => {
 		let updatedFundings: Funding[] = fundings;
-		if (cdcFunding && lastReportingPeriod) {
+		if (cdcFunding) {
 			updatedFundings = [
-				...fundings.filter<DeepNonUndefineable<Funding>>(funding => funding.id !== cdcFunding.id),
+				...updatedFundings.filter(f => f.id !== cdcFunding.id),
 				{
 					...cdcFunding,
-					lastReportingPeriodId: lastReportingPeriod.id,
-					lastReportingPeriod: lastReportingPeriod,
+					lastReportingPeriodId: lastReportingPeriodId,
 				},
 			];
+			updateEnrollment({
+				...enrollment,
+				fundings: updatedFundings as DeepNonUndefineableArray<Funding>,
+			});
 		}
-
-		const c4KFunding = currentC4kFunding(
-			fundings.filter<DeepNonUndefineable<Funding>>(funding => funding.source === FundingSource.C4K)
-		);
-		if (c4KFunding) {
-			updatedFundings = [
-				...updatedFundings.filter(funding => funding.id !== c4KFunding.id),
-				{
-					...c4KFunding,
-					certificateEndDate: enrollmentEndDate,
-				},
-			];
-		}
-		const putParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
-			...defaultParams,
-			enrollment: {
-				..._enrollment,
-				fundings: updatedFundings,
-			},
-		};
-
-		mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams)).then(res => {
-			if (res) {
-				setAlerts([childWithdrawnAlert(nameFormatter(enrollment.child))]);
-				history.push(`/roster`);
-			}
-		});
 	};
+
+	// set up PUT request to be triggered on save attempt
+	const [putRequestError, putRequestData] = useNewUseApi<Enrollment>(
+		api =>
+			api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut({
+				...requestParams,
+				enrollment,
+			}),
+		{
+			skip: !attemptingSave || !requestParams || !enrollmentEndDate,
+			callback: () => setAttemptingSave(false),
+		}
+	);
+
+	useEffect(() => {
+		// If the withdraw request went through, then return to the roster
+		if (putRequestData && !putRequestError) {
+			setAlerts([childWithdrawnAlert(nameFormatter(enrollment.child))]);
+			history.push(`/roster`);
+		}
+
+		// Otherwiwe handle the error
+		setError(putRequestError);
+		if (putRequestError && !hasAlertedOnError) {
+			if (!isBlockingValidationError(putRequestError)) {
+				throw new Error(putRequestError.title || 'Unknown api error');
+			}
+			setAlerts([validationErrorAlert]);
+		}
+	}, [putRequestData, putRequestError]);
+
+	// save function
+	const save = () => {
+		if (!attemptedSave) {
+			// Only need to mess with this the first time
+			setAttemptedSave(true);
+		}
+		if (enrollmentEndDate) {
+			// The enrollment end date is verified on the client side because it's how we know we're attempting a withdrawal
+			// If we set the attempting save variable without an end date, then it won't get unset, because the request won't hit the server, and the callback won't be called
+			setAttemptingSave(true);
+		}
+	};
+
+	if (!enrollment || !site) {
+		return <div className="Withdrawal"></div>;
+	}
 
 	return (
 		<CommonContainer
 			directionalLinkProps={{
 				direction: 'left',
-				to: `/roster/sites/${siteId}/enrollments/${enrollment.id}/`,
+				to: `/roster/sites/${siteId}/enrollments/${enrollment.id}`,
 				text: 'Back',
 			}}
 		>
@@ -200,14 +191,13 @@ export default function Withdrawal({
 				<h1>Withdraw {nameFormatter(enrollment.child)}</h1>
 				<div className="grid-row grid-gap oec-enrollment-details-section__content margin-top-1">
 					<div className="mobile-lg:grid-col-6">
-						<p>{enrollment.site.name}</p>
+						<p>{site.name}</p>
 						<p>Age: {splitCamelCase(enrollment.ageGroup, '/')}</p>
+						{/* TODO: USE DATE FORMATTER */}
 						<p>Enrollment date: {enrollment.entry && enrollment.entry.toLocaleDateString()}</p>
 					</div>
 					{cdcFunding && (
-						<div className="mobile-lg:grid-col-6">
-							<p>{generateFundingTag(cdcFunding)}</p>
-							<p>Enrollment: {cdcFunding.time}</p>
+						<div>
 							<p>
 								First reporting period:{' '}
 								{cdcFunding.firstReportingPeriod
@@ -218,7 +208,7 @@ export default function Withdrawal({
 					)}
 				</div>
 
-				<div className="usa-form mobile-lg:grid-col-12">
+				<div className="use-form mobile-lg:grid-col-12">
 					<DateInput
 						label="Enrollment end date"
 						id="enrollment-end-date"
@@ -263,7 +253,7 @@ export default function Withdrawal({
 						status={serverErrorForField(
 							hasAlertedOnError,
 							setHasAlertedOnError,
-							'exitreason',
+							'exitReason',
 							error,
 							'This information is required for withdrawal'
 						)}
@@ -278,16 +268,16 @@ export default function Withdrawal({
 								text: reportingPeriodFormatter(period, { extended: true }),
 							}))}
 							onChange={event => {
-								const chosen = reportingPeriods.find<ReportingPeriod>(
-									period => period.id === parseInt(event.target.value)
-								);
-								updateLastReportingPeriod(chosen);
+								const newReportingPeriodId = parseInt(event.target.value);
+								setLastReportingPeriod(newReportingPeriodId);
 							}}
 							status={serverErrorForField(
 								hasAlertedOnError,
 								setHasAlertedOnError,
 								'fundings',
 								error,
+								// if last reporting period exists, then the value is invalid
+								// so do not display required information copy
 								lastReportingPeriod ? undefined : 'This information is required for withdrawal'
 							)}
 						/>
@@ -303,7 +293,11 @@ export default function Withdrawal({
 						/>
 					</div>
 					<div className="mobile-lg:grid-col-auto padding-left-2">
-						<Button text="Confirm and withdraw" onClick={save} disabled={isMissingInformation} />
+						<Button
+							text={attemptingSave ? 'Withdrawing...' : 'Confirm and withdraw'}
+							onClick={save}
+							disabled={isMissingInformation || attemptingSave}
+						/>
 					</div>
 				</div>
 			</div>
