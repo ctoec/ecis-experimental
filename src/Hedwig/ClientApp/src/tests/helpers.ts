@@ -39,11 +39,12 @@ export const getValidationError = (params: {
 	field?: string;
 	fields?: string[];
 	message?: string;
+	isSubObjectValidation?: boolean;
 }) => {
 	return {
 		field: params.field,
 		fields: params.fields,
 		message: params.message ? params.message : 'message',
-		isSubObjectValidation: false,
+		isSubObjectValidation: params.isSubObjectValidation ? params.isSubObjectValidation : false,
 	} as DeepNonUndefineable<ValidationError>;
 };
