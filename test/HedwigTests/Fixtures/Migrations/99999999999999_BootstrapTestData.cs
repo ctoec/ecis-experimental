@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace hedwig.Migrations
+namespace Hedwig.Migrations
 {
 	public partial class BootstrapTestData : Migration
 	{
