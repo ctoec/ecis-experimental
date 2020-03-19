@@ -134,7 +134,7 @@ class HeaderWithoutRouter extends React.Component<HeaderProps & RouteComponentPr
 									{userFirstName ? (
 										<span>Hi, {userFirstName}.</span>
 									) : (
-										<Link to={loginPath}>Log in</Link>
+										<Link to={loginPath}>Sign in</Link>
 									)}
 								</div>
 							</div>

@@ -3546,7 +3546,7 @@ exports[`Storyshots Header Logged out 1`] = `
                 href="/login"
                 onClick={[Function]}
               >
-                Log in
+                Sign in
               </a>
             </div>
           </div>

@@ -32,7 +32,7 @@
 
 	// This is redundant to how things are already styled with USWDS, but there's a Chrome print bug where this doesn't show the first time a user attempts to print
 	.usa-checkbox__input:checked + .usa-checkbox__label::before {
-		background-color: color($theme-color-primary);
+		@include u-bg('primary');
 		background-image: url(/static/media/correct8.1c696dec.svg),
 			linear-gradient(transparent, transparent);
 	}

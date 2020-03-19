@@ -92,7 +92,7 @@ exports[`matches snapshot 1`] = `
                 <a
                   href="/login"
                 >
-                  Log in
+                  Sign in
                 </a>
               </div>
             </div>
