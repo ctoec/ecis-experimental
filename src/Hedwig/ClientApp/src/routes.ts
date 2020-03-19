@@ -1,5 +1,4 @@
 import React from 'react';
-
 import EnrollmentNew from './containers/Enrollment/New/EnrollmentNew';
 import EnrollmentDetail from './containers/Enrollment/Detail/EnrollmentDetail';
 import EnrollmentEdit from './containers/Enrollment/Edit/EnrollmentEdit';

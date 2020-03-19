@@ -36,6 +36,7 @@ type FormReducerObjectPathUpdate<S> = {
  * @param obj
  */
 function isFormReducerObjectPathUpdate<S>(obj: any): obj is FormReducerObjectPathUpdate<S> {
+	if (!obj) return false;
 	const _obj = obj as FormReducerObjectPathUpdate<S>;
 	return _obj._path !== undefined && _obj._value !== undefined;
 }
