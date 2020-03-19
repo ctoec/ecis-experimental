@@ -264,3 +264,6 @@ src/Hedwig/.editorconfig
 
 # Storybook Build Assets
 src/Hedwig/ClientApp/storybook
+
+# App_Offline.htm created by dotnet
+src/Hedwig/App_Offline.htm
