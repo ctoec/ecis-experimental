@@ -5,13 +5,12 @@ import {
 	getIdForUser,
 	validatePermissions,
 	currentCdcFunding,
-	currentC4kFunding,
 	lastNReportingPeriods,
 	reportingPeriodFormatter,
 	enrollmentExitReasons,
 } from '../../utils/models';
 import useNewUseApi, { ApiError } from '../../hooks/newUseApi';
-import { Enrollment, ReportingPeriod, Funding, ValidationProblemDetails } from '../../generated';
+import { Enrollment, Funding, ValidationProblemDetails } from '../../generated';
 import { FormReducer, formReducer, updateData } from '../../utils/forms/form';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../utils/types';
 import ReportingPeriodContext from '../../contexts/ReportingPeriod/ReportingPeriodContext';
@@ -67,7 +66,7 @@ export default function NewWithdrawal({
 		});
 	}, [enrollmentId, user, siteId]);
 
-	const [getError, getData] = useNewUseApi<Enrollment>(
+	const [getRequestError, getRequestData] = useNewUseApi<Enrollment>(
 		api =>
 			api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet({
 				...requestParams,
@@ -78,14 +77,14 @@ export default function NewWithdrawal({
 
 	const [enrollment, updateEnrollment] = useReducer<FormReducer<DeepNonUndefineable<Enrollment>>>(
 		formReducer,
-		getData
+		getRequestData
 	);
 	const updateFormData = updateData<DeepNonUndefineable<Enrollment>>(updateEnrollment);
 
 	useEffect(() => {
 		// When get data has changed, update the enrollment to not be empty
-		updateEnrollment(getData);
-	}, [getData]);
+		updateEnrollment(getRequestData);
+	}, [getRequestData]);
 
 	const { exit: enrollmentEndDate, exitReason, site } = enrollment || {};
 
@@ -100,7 +99,7 @@ export default function NewWithdrawal({
 	}, [reportingPeriods, enrollmentEndDate]);
 
 	// set up form state
-	const [error, setError] = useState<ApiError | null>(getError);
+	const [error, setError] = useState<ApiError | null>(getRequestError);
 	const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
 	const [attemptedSave, setAttemptedSave] = useState(false); // Only matters once for sake of not showing client errors on first load, before user has a chance to do anything
 	const [attemptingSave, setAttemptingSave] = useState(false); // Matters when deciding to run "mutate" effect
@@ -134,7 +133,7 @@ export default function NewWithdrawal({
 	};
 
 	// set up PUT request to be triggered on save attempt
-	const [putError, putData] = useNewUseApi<Enrollment>(
+	const [putRequestError, putRequestData] = useNewUseApi<Enrollment>(
 		api =>
 			api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut({
 				...requestParams,
@@ -148,20 +147,20 @@ export default function NewWithdrawal({
 
 	useEffect(() => {
 		// If the withdraw request went through, then return to the roster
-		if (putData && !putError) {
+		if (putRequestData && !putRequestError) {
 			setAlerts([childWithdrawnAlert(nameFormatter(enrollment.child))]);
 			history.push(`/roster`);
 		}
 
 		// Otherwiwe handle the error
-		setError(putError);
-		if (putError && !hasAlertedOnError) {
-			if (!isBlockingValidationError(putError)) {
-				throw new Error(putError.title || 'Unknown api error');
+		setError(putRequestError);
+		if (putRequestError && !hasAlertedOnError) {
+			if (!isBlockingValidationError(putRequestError)) {
+				throw new Error(putRequestError.title || 'Unknown api error');
 			}
 			setAlerts([validationErrorAlert]);
 		}
-	}, [putData, putError]);
+	}, [putRequestData, putRequestError]);
 
 	// save function
 	const save = () => {
@@ -170,7 +169,8 @@ export default function NewWithdrawal({
 			setAttemptedSave(true);
 		}
 		if (enrollmentEndDate) {
-			// Only do this if we're actually going to hit the server-- otherwise it doesn't get unset when we show the client error
+			// The enrollment end date is verified on the client side because it's how we know we're attempting a withdrawal
+			// If we set the attempting save variable without an end date, then it won't get unset, because the request won't hit the server, and the callback won't be called
 			setAttemptingSave(true);
 		}
 	};

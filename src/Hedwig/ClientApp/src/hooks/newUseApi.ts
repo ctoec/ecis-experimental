@@ -3,7 +3,6 @@ import {
 	ProblemDetails,
 	HedwigApi,
 	Configuration,
-	BlobApiResponse,
 	ProblemDetailsFromJSON,
 	ValidationProblemDetailsFromJSON,
 } from '../generated';
@@ -51,7 +50,6 @@ export default function useNewUseApi<TData>(
 	// Run query
 	useEffect(() => {
 		if (skip) {
-			setState({ ...state });
 			return;
 		}
 
@@ -80,24 +78,24 @@ export default function useNewUseApi<TData>(
 	return [error, data as DeepNonUndefineable<TData>];
 }
 
-const constructApi: (_accessToken: string | null) => HedwigApi | null = (
-	_accessToken: string | null
+const constructApi: (accessToken: string | null) => HedwigApi | null = (
+	accessToken: string | null
 ) => {
-	if (!_accessToken) return null;
+	if (!accessToken) return null;
 
 	return new HedwigApi(
 		new Configuration({
 			basePath: getCurrentHost(),
-			apiKey: `Bearer ${_accessToken}`,
+			apiKey: `Bearer ${accessToken}`,
 		})
 	);
 };
 
-const parseError: (_error: any) => Promise<ApiError | null> = async (_error: any) => {
-	console.error(_error);
+const parseError: (error: any) => Promise<ApiError | null> = async (error: any) => {
+	console.error(error);
 	try {
-		const jsonResponse = await _error.json();
-		if (_error.status === 400) {
+		const jsonResponse = await error.json();
+		if (error.status === 400) {
 			return ValidationProblemDetailsFromJSON(jsonResponse) || null;
 		} else {
 			return ProblemDetailsFromJSON(jsonResponse) || null;
