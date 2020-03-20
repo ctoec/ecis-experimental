@@ -7,6 +7,7 @@ resources:
   - repository: WingedKeys
     type: github
     name: ctoec/winged-keys
+    endpoint: 'Github'
 
 trigger:
   - master
