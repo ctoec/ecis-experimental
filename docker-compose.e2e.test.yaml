@@ -31,7 +31,7 @@ services:
   winged-keys:
     build:
         context: .
-        dockerfile: ./winged-keys/Dockerfile
+        dockerfile: ../winged-keys/Dockerfile
     environment:
       ConnectionStrings__WINGEDKEYS: Server=winged-keys-db;Database=master;User=sa;Password=TestPassword1
     volumes:
