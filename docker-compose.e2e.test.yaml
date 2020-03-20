@@ -35,8 +35,8 @@ services:
     environment:
       ConnectionStrings__WINGEDKEYS: Server=winged-keys-db;Database=master;User=sa;Password=TestPassword1
     volumes:
-      - ./winged-keys/src/WingedKeys:/app/src/WingedKeys:cached
-      - ./winged-keys/entrypoint.sh:/entrypoint.sh
+      - ../winged-keys/src/WingedKeys:/app/src/WingedKeys:cached
+      - ../winged-keys/entrypoint.sh:/entrypoint.sh
     working_dir: /app/src/WingedKeys
     ports:
       - 5050:5050
@@ -44,7 +44,7 @@ services:
       - sh
       - /entrypoint.sh
     depends_on:
-    - winged-keys-db
+      - winged-keys-db
 
   # Selenium containers
   backend-for-selenium:
