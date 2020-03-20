@@ -93,6 +93,7 @@ jobs:
 
   steps:
   - checkout: self
+    path: ecis-experimental
   - checkout: WingedKeys
     path: winged-keys
 
