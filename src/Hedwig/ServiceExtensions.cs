@@ -135,7 +135,8 @@ namespace Hedwig
 			services.AddScoped<IValidationRule<FamilyDetermination>, IfDisclosed_IncomeRequired>();
 			services.AddScoped<IValidationRule<FamilyDetermination>, IfDisclosed_NumberOfPeopleRequired>();
 			services.AddScoped<IValidationRule<FamilyDetermination>, IfEnrollmentFunded_NotDeterminedFalse>();
-			services.AddScoped<IValidationRule<FamilyDetermination>, IfEnrollmentFunded_DeterminationDateValid>();
+			// Temporarily disable 1-year requirement for family determination (COVID-19 extenuating circumstances, etc)
+			// services.AddScoped<IValidationRule<FamilyDetermination>, IfEnrollmentFunded_DeterminationDateValid>();
 
 			// Reports
 			services.AddScoped<IValidationRule<CdcReport>, EnrollmentsAreValid>();
