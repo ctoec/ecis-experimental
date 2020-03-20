@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace hedwig.Migrations
+namespace Hedwig.Migrations
 {
 	[DbContext(typeof(HedwigContext))]
 	[Migration("999999999999999_BootstrapTestData")]

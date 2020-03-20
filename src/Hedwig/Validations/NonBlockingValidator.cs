@@ -23,13 +23,17 @@ namespace Hedwig.Validations
 				return;
 			}
 
-			var rules = _serviceProvider.GetServices<IValidationRule<T>>();
+			var ruleType = typeof(IValidationRule<>).MakeGenericType(entity.GetType());
+			var rules = _serviceProvider.GetServices(ruleType);
 			var errors = new List<ValidationError>();
 
 			_validationContext.AddParentEntity(parentEntity);
 			foreach (var rule in rules)
 			{
-				var error = rule.Execute(entity, _validationContext);
+				// rule is of type `ruleType`, but due to compile-time type limitations it is only known to be of type `object`.
+				// Use reflection to access the Execute method known to exist on all `IValidationRule<>`s & invoke it.
+				var executeFunc = rule.GetType().GetMethod(nameof(IValidationRule<INonBlockingValidatableObject>.Execute));
+				var error = (ValidationError)executeFunc.Invoke(rule, new object[] { entity, _validationContext });
 				if (error != null) errors.Add(error);
 			}
 
