@@ -79,6 +79,40 @@ jobs:
     displayName: "Install node_modules and Run Tests"
 
 #
+# E2E Tests
+#
+- job: test_e2e
+  displayName: 'E2E Tests'
+
+  steps:
+  - task: UseDotNet@2
+    displayName: 'Use .NET Core sdk'
+    inputs:
+      packageType: sdk
+      version: 3.0.x
+      installationPath: $(Agent.ToolsDirectory)/dotnet
+
+  - task: DotNetCoreCLI@2
+    displayName: "Restore Hedwig"
+    inputs:
+      command: restore
+      projects: "$(Build.SourcesDirectory)/src/Hedwig/Hedwig.csproj"
+
+  - task: DockerCompose@0
+    displayName: "Docker compose run e2e tests"
+    inputs:
+      dockerComposeFile: "docker-compose.yaml"
+      dockerComposeCommand: "up --exit-code-from client"
+
+  - task: PublishTestResults@2
+    displayName: "Publish test results"
+    condition: succeededOrFailed()
+    inputs:
+      testResultsFormat: "VSTest"
+      testResultsFiles: "**/*.trx"
+      failTaskOnFailedTests: false
+
+#
 # Sonarcloud Analysis
 #
 - job: run_sonarcloud

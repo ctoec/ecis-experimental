@@ -4,4 +4,4 @@ if [ -z "$nm" ]; then
     yarn install
 fi
 echo "starting client..."
-yarn start
+yarn test:e2e
