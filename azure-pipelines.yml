@@ -94,7 +94,7 @@ jobs:
   steps:
   - checkout: self
   - checkout: WingedKeys
-    path: winged-keys
+    path: $(Build.SourcesDirectory)/winged-keys
 
   - task: DockerCompose@0
     displayName: "Docker compose run e2e tests"
