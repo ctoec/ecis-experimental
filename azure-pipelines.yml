@@ -108,7 +108,8 @@ jobs:
     displayName: "Publish test results"
     condition: succeededOrFailed()
     inputs:
-      testResultsFormat: "VSTest"
+      testResultsFormat: "JUnit"
+      searchFolder: "$(Agent.BuildDirectory)"
       testResultsFiles: "**/junit.xml"
       failTaskOnFailedTests: false
 
