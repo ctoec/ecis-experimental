@@ -2,6 +2,12 @@
 #  This is the driver file for Azure DevOps 2019 build pipeline
 #
 
+resources:
+  repositories:
+  - repository: WingedKeys
+    type: github
+    name: ctoec/winged-keys
+
 trigger:
   - master
 
@@ -85,18 +91,9 @@ jobs:
   displayName: 'E2E Tests'
 
   steps:
-  - task: UseDotNet@2
-    displayName: 'Use .NET Core sdk'
-    inputs:
-      packageType: sdk
-      version: 3.0.x
-      installationPath: $(Agent.ToolsDirectory)/dotnet
-
-  - task: DotNetCoreCLI@2
-    displayName: "Restore Hedwig"
-    inputs:
-      command: restore
-      projects: "$(Build.SourcesDirectory)/src/Hedwig/Hedwig.csproj"
+  - checkout: self
+    path: winged-keys
+  - checkout: WingedKeys
 
   - task: DockerCompose@0
     displayName: "Docker compose run e2e tests"
