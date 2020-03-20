@@ -5,3 +5,4 @@ if [ -z "$nm" ]; then
 fi
 echo "starting client..."
 yarn test:e2e
+exit 0

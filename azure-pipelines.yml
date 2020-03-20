@@ -102,6 +102,7 @@ jobs:
     inputs:
       dockerComposeFile: "$(Agent.BuildDirectory)/ecis-experimental/docker-compose.e2e.test.yaml"
       dockerComposeCommand: "up --abort-on-container-exit"
+    continueOnError: true
 
   - task: PublishTestResults@2
     displayName: "Publish test results"
