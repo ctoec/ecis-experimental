@@ -101,7 +101,7 @@ jobs:
   - task: DockerCompose@0
     displayName: "Docker compose run e2e tests"
     inputs:
-      dockerComposeFile: "docker-compose.yaml"
+      dockerComposeFile: "docker-compose.e2e.yaml"
       dockerComposeCommand: "up --exit-code-from client"
 
   - task: PublishTestResults@2
