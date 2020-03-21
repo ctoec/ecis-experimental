@@ -12,7 +12,6 @@ import {
 } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
 import { validatePermissions, getIdForUser, emptyEnrollment } from '../../../utils/models';
-import emptyGuid from '../../../utils/emptyGuid';
 import {
 	genderFromString,
 	prettyGender,
@@ -30,11 +29,11 @@ import {
 	initialLoadErrorGuard,
 	isBlockingValidationError,
 } from '../../../utils/validations';
-import usePromiseExecution from '../../../hooks/usePromiseExecution';
 import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import { FormReducer, formReducer, updateData } from '../../../utils/forms/form';
 import { DeepNonUndefineable } from '../../../utils/types';
+import useNewUseApi, { ApiError } from '../../../hooks/newUseApi';
 
 const ChildInfo: Section = {
 	key: 'child-information',
@@ -77,15 +76,16 @@ const ChildInfo: Section = {
 		const { setAlerts } = useContext(AlertContext);
 		const initialLoad = visitedSections ? !visitedSections[ChildInfo.key] : false;
 		const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
-		useFocusFirstError([error]);
+		const [_error, setError] = useState<ApiError | null>(error);
+		useFocusFirstError([_error]);
 		useEffect(() => {
-			if (error && !hasAlertedOnError) {
-				if (!isBlockingValidationError(error)) {
-					throw new Error(error.title || 'Unknown api error');
+			if (_error && !hasAlertedOnError) {
+				if (!isBlockingValidationError(_error)) {
+					throw new Error(_error.title || 'Unknown api error');
 				}
 				setAlerts([validationErrorAlert]);
 			}
-		}, [error, hasAlertedOnError]);
+		}, [_error, hasAlertedOnError]);
 
 		const { user } = useContext(UserContext);
 
@@ -94,16 +94,6 @@ const ChildInfo: Section = {
 		>(formReducer, enrollment || emptyEnrollment(siteId, user));
 
 		const updateFormData = updateData<DeepNonUndefineable<Enrollment>>(updateEnrollment);
-
-		const defaultPostParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest = {
-			orgId: getIdForUser(user, 'org'),
-			siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
-			enrollment: enrollment as Enrollment,
-		};
-		const defaultPutParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
-			...defaultPostParams,
-			id: _enrollment.id,
-		};
 
 		const child = _enrollment.child || {};
 		const {
@@ -153,43 +143,59 @@ const ChildInfo: Section = {
 			},
 		].map(r => ({ ...r, name: `child.${r.value}` }));
 
-		const _save = () => {
-			if (enrollment) {
-				// If enrollment existed already, put to save changes
-				const putParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
-					...defaultPutParams,
-					enrollment: {
-						..._enrollment,
-					},
-				};
-				return mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams))
-					.then(res => {
-						if (successCallback && res) successCallback(res);
-					})
-					.finally(() => {
-						finallyCallback && finallyCallback(ChildInfo);
-					});
-			} else if (siteId) {
-				// If enrollment doesn't exist, post to create a new enrollment
-				const postParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest = {
-					...defaultPostParams,
-					enrollment: {
-						..._enrollment,
-					},
-				};
-				return mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsPost(postParams))
-					.then(res => {
-						if (successCallback && res) successCallback(res);
-					})
-					.finally(() => {
-						finallyCallback && finallyCallback(ChildInfo);
-					});
-			} else {
-				throw new Error('Something impossible happened');
-			}
+		const [attemptingSave, setAttemptingSave] = useState(false);
+
+		const postParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest = {
+			orgId: getIdForUser(user, 'org'),
+			siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
+			enrollment: { ..._enrollment },
 		};
 
-		const { isExecuting: isMutating, setExecuting: save } = usePromiseExecution(_save);
+		const useApiOpts = {
+			callback: () => setAttemptingSave(false),
+			skip: enrollment
+				? !attemptingSave || !enrollment
+				: !!enrollment || !attemptingSave || !siteId,
+		};
+
+		// set up PUT request to be triggered on save attempt
+		const [saveError, saveData] = enrollment
+			? useNewUseApi<Enrollment>(
+					api =>
+						api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut({
+							...postParams,
+							id: _enrollment.id,
+						}),
+					useApiOpts
+			  )
+			: useNewUseApi<Enrollment>(
+					api =>
+						api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsPost({
+							...postParams,
+						}),
+					useApiOpts
+			  );
+
+		useEffect(() => {
+			// If the request went through, then do the next steps
+			if (saveData && !saveError) {
+				if (successCallback) successCallback(saveData);
+				finallyCallback && finallyCallback(ChildInfo);
+			}
+
+			// Otherwiwe handle the error
+			setError(saveError);
+			if (saveError && !hasAlertedOnError) {
+				if (!isBlockingValidationError(saveError)) {
+					throw new Error(saveError.title || 'Unknown api error');
+				}
+				setAlerts([validationErrorAlert]);
+			}
+		}, [saveData, saveError]);
+
+		const save = () => {
+			setAttemptingSave(true);
+		};
 
 		return (
 			<form className="ChildInfoForm usa-form" onSubmit={save} noValidate autoComplete="off">
@@ -444,7 +450,11 @@ const ChildInfo: Section = {
 					)}
 				/>
 
-				<Button text={isMutating ? 'Saving...' : 'Save'} onClick="submit" disabled={isMutating} />
+				<Button
+					text={attemptingSave ? 'Saving...' : 'Save'}
+					onClick="submit"
+					disabled={attemptingSave}
+				/>
 			</form>
 		);
 	},

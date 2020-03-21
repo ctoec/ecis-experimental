@@ -6,8 +6,8 @@ import ChildInfo from '../_sections/ChildInfo';
 import FamilyInfo from '../_sections/FamilyInfo';
 import FamilyIncome from '../_sections/FamilyIncome';
 import EnrollmentFunding from '../_sections/EnrollmentFunding';
-import { Button, ErrorBoundary, AlertProps } from '../../../components';
-import useApi from '../../../hooks/useApi';
+import { Button, ErrorBoundary } from '../../../components';
+import useNewUseApi, { ApiError } from '../../../hooks/newUseApi';
 import UserContext from '../../../contexts/User/UserContext';
 import {
 	Enrollment,
@@ -80,12 +80,13 @@ export default function EnrollmentNew({
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		include: ['child', 'family', 'determinations', 'fundings', 'sites'],
 	};
-	const [loading, error, enrollment, mutate] = useApi<Enrollment>(
-		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
-		[enrollmentId, user],
-		{
-			skip: !enrollmentId,
-		}
+	const [error, enrollment] = useNewUseApi<Enrollment>(
+		api =>
+			api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet({
+				...params,
+				include: ['child', 'family', 'determinations', 'fundings', 'sites'],
+			}),
+		{ skip: !enrollmentId }
 	);
 
 	const [cancel, updateCancel] = useState(false);
@@ -98,9 +99,9 @@ export default function EnrollmentNew({
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		enrollment: enrollment,
 	};
-	const [, cancelError] = useApi(
+	const [cancelError] = useNewUseApi(
 		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDelete(cancelParams),
-		[enrollmentId, enrollment, user, cancel],
+		// [enrollmentId, enrollment, user, cancel],
 		{
 			skip: !cancel,
 			callback: processSuccessfulCancel,
@@ -155,7 +156,7 @@ export default function EnrollmentNew({
 
 	const props: SectionProps = {
 		enrollment: enrollment,
-		mutate: mutate,
+		// mutate: mutate,
 		error: error,
 		successCallback: afterSave,
 		finallyCallback: visitSection,
