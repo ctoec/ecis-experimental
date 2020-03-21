@@ -59,31 +59,26 @@ const ChildInfo: Section = {
 		);
 	},
 
-	Form: ({
-		enrollment,
-		siteId,
-		error,
-		successCallback,
-		finallyCallback,
-		visitedSections,
-	}) => {
+	Form: ({ enrollment, siteId, error, successCallback, finallyCallback, visitedSections }) => {
 		if (!enrollment && !siteId) {
 			throw new Error('ChildInfo rendered without an enrollment or a siteId');
 		}
 		const { user } = useContext(UserContext);
 		const { setAlerts } = useContext(AlertContext);
-		
+
 		// set up form state
 		const initialLoad = visitedSections ? !visitedSections[ChildInfo.key] : false;
 		const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
 		const [_error, setError] = useState<ApiError | null>(error);
 		useFocusFirstError([_error]);
 		useEffect(() => {
+			console.log(_error)
 			if (_error && !hasAlertedOnError) {
 				if (!isBlockingValidationError(_error)) {
 					throw new Error(_error.title || 'Unknown api error');
 				}
-				setAlerts([validationErrorAlert]);
+				// Do we actually want to set an alert here?  We haven't been
+				// setAlerts([validationErrorAlert]);
 			}
 		}, [_error, hasAlertedOnError]);
 
@@ -178,18 +173,12 @@ const ChildInfo: Section = {
 
 			if (saveData && !saveError) {
 				if (successCallback) successCallback(saveData);
-				finallyCallback && finallyCallback(ChildInfo);
 			}
 
-			// Otherwiwe handle the error
+			// Set the new error regardless of whether there is one
 			setError(saveError);
-
-			if (saveError && !hasAlertedOnError) {
-				if (!isBlockingValidationError(saveError)) {
-					throw new Error(saveError.title || 'Unknown api error');
-				}
-				setAlerts([validationErrorAlert]);
-			}
+			
+			finallyCallback && finallyCallback(ChildInfo);
 		}, [saveData, saveError]);
 
 		const save = () => {
@@ -224,7 +213,7 @@ const ChildInfo: Section = {
 									hasAlertedOnError,
 									setHasAlertedOnError,
 									'child.firstname',
-									error,
+									_error,
 									'This information is required for enrollment'
 								)
 							)}
@@ -256,7 +245,7 @@ const ChildInfo: Section = {
 										hasAlertedOnError,
 										setHasAlertedOnError,
 										'child.lastname',
-										error,
+										_error,
 										'This information is required for enrollment'
 									)
 								)}
@@ -451,7 +440,7 @@ const ChildInfo: Section = {
 
 				<Button
 					text={attemptingSave ? 'Saving...' : 'Save'}
-					onClick="submit"
+					onClick={() => setAttemptingSave(true)}
 					disabled={attemptingSave}
 				/>
 			</form>
