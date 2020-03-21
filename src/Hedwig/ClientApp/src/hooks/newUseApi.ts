@@ -71,8 +71,8 @@ export default function useNewUseApi<TData>(
 	}, [accessToken, skip]);
 
 	useEffect(() => {
-		if (callback) callback();
-	}, [state]);
+		if (callback && !skip) callback();
+	}, [state, skip]);
 
 	// No loading because loading will never be true at this point
 	return [error, data as DeepNonUndefineable<TData>];

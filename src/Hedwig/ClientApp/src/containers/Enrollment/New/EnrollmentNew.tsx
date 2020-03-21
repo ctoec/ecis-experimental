@@ -86,7 +86,7 @@ export default function EnrollmentNew({
 				...params,
 				include: ['child', 'family', 'determinations', 'fundings', 'sites'],
 			}),
-		{ skip: !enrollmentId }
+		{ skip: !enrollmentId || !user }
 	);
 
 	const [cancel, updateCancel] = useState(false);
@@ -102,6 +102,7 @@ export default function EnrollmentNew({
 	const [cancelError] = useNewUseApi(
 		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDelete(cancelParams),
 		// [enrollmentId, enrollment, user, cancel],
+		// TODO: DO WE NEED TO DO ANYTHING WITH THESE DEPS NOW?
 		{
 			skip: !cancel,
 			callback: processSuccessfulCancel,
@@ -121,6 +122,7 @@ export default function EnrollmentNew({
 
 	if (cancelError) {
 		// TODO: do something with this error
+		console.error(cancelError);
 	}
 
 	/**
@@ -147,8 +149,8 @@ export default function EnrollmentNew({
 		}
 	};
 
-	if (loading || !user) {
-		// Need to add user here so that a refresh after partial enrollment doesn't crash
+	if (!user) {
+		// Need to check for user here so that a refresh after partial enrollment doesn't crash
 		return <div className="EnrollmentNew"></div>;
 	}
 
@@ -156,7 +158,8 @@ export default function EnrollmentNew({
 
 	const props: SectionProps = {
 		enrollment: enrollment,
-		// mutate: mutate,
+		mutate: () => new Promise(() => {}),
+		// TODO: DITCH MUTATE
 		error: error,
 		successCallback: afterSave,
 		finallyCallback: visitSection,

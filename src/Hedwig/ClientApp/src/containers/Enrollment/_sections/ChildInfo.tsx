@@ -7,8 +7,8 @@ import dateFormatter from '../../../utils/dateFormatter';
 import {
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest,
 	Gender,
-	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
 	Enrollment,
+	HedwigApi,
 } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
 import { validatePermissions, getIdForUser, emptyEnrollment } from '../../../utils/models';
@@ -62,7 +62,6 @@ const ChildInfo: Section = {
 	Form: ({
 		enrollment,
 		siteId,
-		mutate,
 		error,
 		successCallback,
 		finallyCallback,
@@ -71,9 +70,10 @@ const ChildInfo: Section = {
 		if (!enrollment && !siteId) {
 			throw new Error('ChildInfo rendered without an enrollment or a siteId');
 		}
-
-		// set up form state
+		const { user } = useContext(UserContext);
 		const { setAlerts } = useContext(AlertContext);
+		
+		// set up form state
 		const initialLoad = visitedSections ? !visitedSections[ChildInfo.key] : false;
 		const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
 		const [_error, setError] = useState<ApiError | null>(error);
@@ -86,8 +86,6 @@ const ChildInfo: Section = {
 				setAlerts([validationErrorAlert]);
 			}
 		}, [_error, hasAlertedOnError]);
-
-		const { user } = useContext(UserContext);
 
 		const [_enrollment, updateEnrollment] = useReducer<
 			FormReducer<DeepNonUndefineable<Enrollment>>
@@ -154,30 +152,30 @@ const ChildInfo: Section = {
 		const useApiOpts = {
 			callback: () => setAttemptingSave(false),
 			skip: enrollment
-				? !attemptingSave || !enrollment
-				: !!enrollment || !attemptingSave || !siteId,
+				? // If there is already an enrollment, then we should fire the put when we are attempting save and there is an enrollment
+				  !attemptingSave || !enrollment
+				: // If there is not an enrollment, we should fire save when we are attempting save and there is a site id (and not use a post if there is an enrollment)
+				  !!enrollment || !attemptingSave || !siteId,
 		};
 
 		// set up PUT request to be triggered on save attempt
-		const [saveError, saveData] = enrollment
-			? useNewUseApi<Enrollment>(
-					api =>
-						api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut({
-							...postParams,
-							id: _enrollment.id,
-						}),
-					useApiOpts
-			  )
-			: useNewUseApi<Enrollment>(
-					api =>
-						api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsPost({
-							...postParams,
-						}),
-					useApiOpts
-			  );
+		const apiQuery = (api: HedwigApi) =>
+			enrollment
+				? api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut({
+						...postParams,
+						id: _enrollment.id,
+				  })
+				: api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsPost({
+						...postParams,
+				  });
+		const [saveError, saveData] = useNewUseApi<Enrollment>(apiQuery, useApiOpts);
 
 		useEffect(() => {
 			// If the request went through, then do the next steps
+			if (!saveData && !saveError) {
+				return;
+			}
+
 			if (saveData && !saveError) {
 				if (successCallback) successCallback(saveData);
 				finallyCallback && finallyCallback(ChildInfo);
@@ -185,6 +183,7 @@ const ChildInfo: Section = {
 
 			// Otherwiwe handle the error
 			setError(saveError);
+
 			if (saveError && !hasAlertedOnError) {
 				if (!isBlockingValidationError(saveError)) {
 					throw new Error(saveError.title || 'Unknown api error');
