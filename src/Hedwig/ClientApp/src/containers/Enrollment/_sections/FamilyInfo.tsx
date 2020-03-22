@@ -111,7 +111,7 @@ const FamilyInfo: Section = {
 		const [attemptingSave, setAttemptingSave] = useState(false);
 		const [saveError, saveData] = useNewUseApi<Enrollment>(
 			api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(defaultParams),
-			{ skip: !attemptingSave }
+			{ skip: !attemptingSave, callback: () => setAttemptingSave(false) }
 		);
 
 		useEffect(() => {
@@ -256,7 +256,7 @@ const FamilyInfo: Section = {
 				</p>
 				<Button
 					text={attemptingSave ? 'Saving...' : 'Save'}
-					onClick="submit"
+					onClick={() => setAttemptingSave(true)}
 					disabled={attemptingSave}
 				/>
 			</form>
