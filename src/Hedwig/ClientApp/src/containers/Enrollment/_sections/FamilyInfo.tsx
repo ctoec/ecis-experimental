@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useReducer } from 'react';
+import React, { useContext, useEffect, useReducer, useState } from 'react';
 import idx from 'idx';
 import { Section } from '../enrollmentTypes';
 import { Button, TextInput, ChoiceList, FieldSet } from '../../../components';
@@ -16,12 +16,12 @@ import {
 	useFocusFirstError,
 } from '../../../utils/validations';
 import { addressFormatter, homelessnessText, fosterText } from '../../../utils/models';
-import usePromiseExecution from '../../../hooks/usePromiseExecution';
 import { isBlockingValidationError } from '../../../utils/validations/isBlockingValidationError';
 import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import { FormReducer, formReducer, updateData } from '../../../utils/forms/form';
 import { DeepNonUndefineable } from '../../../utils/types';
+import useNewUseApi, { ApiError } from '../../../hooks/newUseApi';
 
 const FamilyInfo: Section = {
 	key: 'family-information',
@@ -56,8 +56,7 @@ const FamilyInfo: Section = {
 	Form: ({
 		enrollment,
 		siteId,
-		mutate,
-		error,
+		error: inputError,
 		successCallback,
 		finallyCallback,
 		visitedSections,
@@ -71,6 +70,8 @@ const FamilyInfo: Section = {
 		const initialLoad = visitedSections ? !visitedSections[FamilyInfo.key] : false;
 		// const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
 		// Above line is left to show symmetry for future form component refactor-- wasn't actually used in this component
+
+		const [error, setError] = useState<ApiError | null>(inputError);
 
 		useFocusFirstError([error]);
 		useEffect(() => {
@@ -101,34 +102,37 @@ const FamilyInfo: Section = {
 		const { addressLine1, addressLine2, town, state, zip, homelessness } = family || {};
 
 		const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
-			id: _enrollment.id || 0,
+			id: _enrollment.id,
 			orgId: getIdForUser(user, 'org'),
 			siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 			enrollment: _enrollment,
 		};
 
-		const _save = () => {
-			if (enrollment.child && enrollment.id) {
-				const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
-					...defaultParams,
-					id: enrollment.id,
-					enrollment: {
-						..._enrollment,
-					},
-				};
-				return mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
-					.then(res => {
-						if (successCallback && res) successCallback(res);
-					})
-					.finally(() => {
-						finallyCallback && finallyCallback(FamilyInfo);
-					});
-			}
-			return new Promise(() => {});
-			// TODO: what should happen if there is no child or enrollment id?  See also family income
-		};
+		const [attemptingSave, setAttemptingSave] = useState(false);
+		const [saveError, saveData] = useNewUseApi<Enrollment>(
+			api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(defaultParams),
+			{ skip: !attemptingSave }
+		);
 
-		const { isExecuting: isMutating, setExecuting: save } = usePromiseExecution(_save);
+		useEffect(() => {
+			// If the request went through, then do the next steps
+			if (!saveData && !saveError) {
+				return;
+			}
+
+			// Set the new error regardless of whether there is one
+			setError(saveError);
+
+			if (saveData && !saveError) {
+				if (successCallback) successCallback(saveData);
+			}
+
+			finallyCallback && finallyCallback(FamilyInfo);
+		}, [saveData, saveError]);
+
+		const save = () => {
+			setAttemptingSave(true);
+		};
 
 		return (
 			<form className="FamilyInfoForm usa-form" onSubmit={save} noValidate autoComplete="off">
@@ -250,7 +254,11 @@ const FamilyInfo: Section = {
 					Indicate if you are aware that the family has experienced housing insecurity, including
 					overcrowded housing, within the last year.
 				</p>
-				<Button text={isMutating ? 'Saving...' : 'Save'} onClick="submit" disabled={isMutating} />
+				<Button
+					text={attemptingSave ? 'Saving...' : 'Save'}
+					onClick="submit"
+					disabled={attemptingSave}
+				/>
 			</form>
 		);
 	},
