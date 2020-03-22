@@ -72,7 +72,6 @@ const ChildInfo: Section = {
 		const [_error, setError] = useState<ApiError | null>(error);
 		useFocusFirstError([_error]);
 		useEffect(() => {
-			console.log(_error)
 			if (_error && !hasAlertedOnError) {
 				if (!isBlockingValidationError(_error)) {
 					throw new Error(_error.title || 'Unknown api error');
@@ -171,13 +170,13 @@ const ChildInfo: Section = {
 				return;
 			}
 
+			// Set the new error regardless of whether there is one
+			setError(saveError);
+
 			if (saveData && !saveError) {
 				if (successCallback) successCallback(saveData);
 			}
 
-			// Set the new error regardless of whether there is one
-			setError(saveError);
-			
 			finallyCallback && finallyCallback(ChildInfo);
 		}, [saveData, saveError]);
 

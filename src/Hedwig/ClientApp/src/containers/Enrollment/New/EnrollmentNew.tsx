@@ -73,6 +73,15 @@ export default function EnrollmentNew({
 	const { user } = useContext(UserContext);
 	const { setAlerts } = useContext(AlertContext);
 
+	const [visitedSections, updateVisitedSections] = useState(mapSectionToVisitedStates(sections));
+
+	const visitSection = (section: Section) => {
+		updateVisitedSections({
+			...visitedSections,
+			[section.key]: true,
+		});
+	};
+
 	// Get enrollment by id
 	const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest = {
 		id: enrollmentId ? enrollmentId : 0,
@@ -109,15 +118,6 @@ export default function EnrollmentNew({
 		}
 	);
 
-	const [visitedSections, updateVisitedSections] = useState(mapSectionToVisitedStates(sections));
-
-	const visitSection = (section: Section) => {
-		updateVisitedSections({
-			...visitedSections,
-			[section.key]: true,
-		});
-	};
-
 	useRouteChange(() => window.scroll(0, 0));
 
 	if (cancelError) {
@@ -130,11 +130,11 @@ export default function EnrollmentNew({
 	 *
 	 * @param enrollment Enrollment that was just saved
 	 */
-	const afterSave = (enrollment: Enrollment) => {
+	const afterSave = (_enrollment: Enrollment) => {
 		// Enrollments begin at /roster/sites/:siteId/enroll. We replace this URL in the
 		// browser history once we have an ID for the child.
 		if (!enrollmentId) {
-			history.replace(`/roster/sites/${siteId}/enrollments/${enrollment.id}/new/${sectionId}`);
+			history.replace(`/roster/sites/${siteId}/enrollments/${_enrollment.id}/new/${sectionId}`);
 		}
 
 		const currentIndex = sections.findIndex(section => section.key === sectionId);
@@ -142,15 +142,16 @@ export default function EnrollmentNew({
 		// If we're on the last section, we'll move to a final 'review' section where all
 		// steps are collapsed and we can 'Finish' the enrollment.
 		if (currentIndex === sections.length - 1) {
-			history.push(`/roster/sites/${siteId}/enrollments/${enrollment.id}/new/review`);
+			history.push(`/roster/sites/${siteId}/enrollments/${_enrollment.id}/new/review`);
 		} else {
 			const nextSectionId = sections[currentIndex + 1].key;
-			history.push(`/roster/sites/${siteId}/enrollments/${enrollment.id}/new/${nextSectionId}`);
+			history.push(`/roster/sites/${siteId}/enrollments/${_enrollment.id}/new/${nextSectionId}`);
 		}
 	};
 
-	if (!user) {
+	if (!user || (enrollmentId && !enrollment)) {
 		// Need to check for user here so that a refresh after partial enrollment doesn't crash
+		// If there's an enrollmentId and not an enrollment, the get request is still loading
 		return <div className="EnrollmentNew"></div>;
 	}
 
