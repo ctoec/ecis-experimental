@@ -58,6 +58,7 @@ import usePromiseExecution from '../../../hooks/usePromiseExecution';
 import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import displayErrorOrWarning from '../../../utils/validations/displayErrorOrWarning';
+import { ApiError } from '../../../hooks/newUseApi';
 
 type UtilizationRate = {
 	capacity: number;
@@ -146,7 +147,7 @@ const EnrollmentFunding: Section = {
 		enrollment,
 		siteId,
 		mutate,
-		error,
+		error: inputError,
 		successCallback,
 		finallyCallback,
 		visitedSections,
@@ -159,6 +160,7 @@ const EnrollmentFunding: Section = {
 		const { setAlerts } = useContext(AlertContext);
 		const initialLoad = visitedSections ? !visitedSections[EnrollmentFunding.key] : false;
 		const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
+		const [error, setError] = useState<ApiError | null>(inputError);
 		useFocusFirstError([error]);
 		useEffect(() => {
 			if (error && !hasAlertedOnError) {
