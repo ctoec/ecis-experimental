@@ -78,6 +78,8 @@ services:
     depends_on:
       - backend-for-selenium
       - db
+      - e2e-firefox
+      - e2e-chrome
   selenium-hub:
     image: selenium/hub
     container_name: selenium-hub
