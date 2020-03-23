@@ -5,15 +5,15 @@ import { BrowserRouter } from 'react-router-dom';
 import * as Sentry from '@sentry/browser';
 import * as serviceWorker from './serviceWorker';
 
+import App from './containers/App/App';
 import { AuthenticationProvider } from './contexts/Authentication/AuthenticationContext';
 import { UserProvider } from './contexts/User/UserContext';
 import { ReportingPeriodProvider } from './contexts/ReportingPeriod/ReportingPeriodContext';
-
-import App from './containers/App/App';
+import { getConfig } from './config';
 
 import 'react-dates/lib/css/_datepicker.css';
 import './assets/styles/index.scss';
-import { getConfig } from './config';
+
 
 const productionPreRender = async () => {
 	const SENTRY_DSN = await getConfig('Sentry.FEDsn');
