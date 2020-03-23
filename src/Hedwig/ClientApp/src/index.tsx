@@ -14,7 +14,6 @@ import { getConfig } from './config';
 import 'react-dates/lib/css/_datepicker.css';
 import './assets/styles/index.scss';
 
-
 const productionPreRender = async () => {
 	const SENTRY_DSN = await getConfig('Sentry.FEDsn');
 	const SENTRY_RELEASE = await getConfig('Sentry.Release');
