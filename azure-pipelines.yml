@@ -79,7 +79,7 @@ jobs:
   displayName: 'Frontend Tests'
 
   steps:
-  - script: cd $(Agent.BuildDirectory)/src/Hedwig/ClientApp && npx prettier --single-quote --check "$(Build.SourcesDirectory)/src/Hedwig/ClientApp/src/**/*.{js,jsx,ts,tsx,json,css,scss}"
+  - script: cd $(Agent.BuildDirectory)/ecis-experimental/src/Hedwig/ClientApp && npx prettier --single-quote --check "$(Build.SourcesDirectory)/src/Hedwig/ClientApp/src/**/*.{js,jsx,ts,tsx,json,css,scss}"
     displayName: "Check formatting"
 
   - script: cd $(Agent.BuildDirectory)/src/Hedwig/ClientApp && yarn install &&  yarn test --ci
