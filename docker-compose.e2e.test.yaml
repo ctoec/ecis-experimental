@@ -9,7 +9,6 @@ services:
     image: node:12
     volumes:
       - ./src/Hedwig/ClientApp:/home/node/app:cached
-      - ./src/Hedwig/ClientApp/junit.xml:/home/node/app/junit.xml
       - ./entrypoint-e2e-test.sh:/entrypoint.sh
     working_dir: /home/node/app
     entrypoint:
