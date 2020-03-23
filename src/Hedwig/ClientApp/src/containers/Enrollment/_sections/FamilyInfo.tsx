@@ -130,12 +130,8 @@ const FamilyInfo: Section = {
 			finallyCallback && finallyCallback(FamilyInfo);
 		}, [saveData, saveError]);
 
-		const save = () => {
-			setAttemptingSave(true);
-		};
-
 		return (
-			<form className="FamilyInfoForm usa-form" onSubmit={save} noValidate autoComplete="off">
+			<form className="FamilyInfoForm usa-form" noValidate autoComplete="off">
 				<h2>Address</h2>
 				<FieldSet
 					id="family-address"

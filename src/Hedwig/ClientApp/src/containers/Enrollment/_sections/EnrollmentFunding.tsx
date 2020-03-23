@@ -174,13 +174,6 @@ const EnrollmentFunding: Section = {
 		const { user } = useContext(UserContext);
 		const { cdcReportingPeriods: reportingPeriods } = useContext(ReportingPeriodContext);
 
-		const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
-			id: enrollment.id || 0,
-			orgId: getIdForUser(user, 'org'),
-			siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
-			enrollment: enrollment,
-		};
-
 		const siteParams: ApiOrganizationsOrgIdSitesIdGetRequest = {
 			// Separate query so that mutation doesn't try to update all the enrollments when user saves this one
 			// Otherwise we get "Enrollment exit reason is required for ended enrollments" validation errors on both site.enrollments and child.org.site.enrollments
@@ -398,6 +391,12 @@ const EnrollmentFunding: Section = {
 		};
 
 		const [attemptingSave, setAttemptingSave] = useState(false);
+		const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
+			id: enrollment.id || 0,
+			orgId: getIdForUser(user, 'org'),
+			siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
+			enrollment: _enrollment,
+		};
 		const [saveError, saveData] = useNewUseApi<Enrollment>(
 			api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(defaultParams),
 			{ skip: !attemptingSave, callback: () => setAttemptingSave(false) }
@@ -426,7 +425,7 @@ const EnrollmentFunding: Section = {
 		};
 
 		return (
-			<form className="EnrollmentFundingForm" onSubmit={save} noValidate autoComplete="off">
+			<form className="EnrollmentFundingForm" noValidate autoComplete="off">
 				<div className="usa-form">
 					<h2>{site && site.name}</h2>
 					<DateInput
@@ -644,7 +643,7 @@ const EnrollmentFunding: Section = {
 				<div className="usa-form">
 					<Button
 						text={attemptingSave ? 'Saving...' : 'Save'}
-						onClick={() => setAttemptingSave(true)}
+						onClick={() => save()}
 						disabled={attemptingSave}
 					/>
 				</div>

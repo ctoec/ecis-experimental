@@ -180,12 +180,8 @@ const ChildInfo: Section = {
 			finallyCallback && finallyCallback(ChildInfo);
 		}, [saveData, saveError]);
 
-		const save = () => {
-			setAttemptingSave(true);
-		};
-
 		return (
-			<form className="ChildInfoForm usa-form" onSubmit={save} noValidate autoComplete="off">
+			<form className="ChildInfoForm usa-form" noValidate autoComplete="off">
 				<div className="grid-row grid-gap">
 					<div className="mobile-lg:grid-col-12">
 						<TextInput

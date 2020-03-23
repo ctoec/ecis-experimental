@@ -133,24 +133,24 @@ const FamilyIncome: Section = {
 		}, [error, hasAlertedOnError]);
 
 		const { user } = useContext(UserContext);
+		
+		const [_enrollment, updateEnrollment] = useReducer<
+		FormReducer<DeepNonUndefineable<Enrollment>>
+		>(formReducer, enrollment);
+		const updateFormData = updateData<DeepNonUndefineable<Enrollment>>(updateEnrollment);
+		
+		const child = _enrollment.child;
+		const determination = idx(child, _ => _.family.determinations[0]) || undefined;
+		
+		const { numberOfPeople, income, determinationDate, notDisclosed } = determination || {};
+		
+		const [attemptingSave, setAttemptingSave] = useState(false);
 		const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
 			id: enrollment.id || 0,
 			siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 			orgId: getIdForUser(user, 'org'),
-			enrollment: enrollment,
+			enrollment: _enrollment,
 		};
-
-		const [_enrollment, updateEnrollment] = useReducer<
-			FormReducer<DeepNonUndefineable<Enrollment>>
-		>(formReducer, enrollment);
-		const updateFormData = updateData<DeepNonUndefineable<Enrollment>>(updateEnrollment);
-
-		const child = _enrollment.child;
-		const determination = idx(child, _ => _.family.determinations[0]) || undefined;
-
-		const { numberOfPeople, income, determinationDate, notDisclosed } = determination || {};
-
-		const [attemptingSave, setAttemptingSave] = useState(false);
 		const [saveError, saveData] = useNewUseApi<Enrollment>(
 			api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(defaultParams),
 			{ skip: !attemptingSave, callback: () => setAttemptingSave(false) }
@@ -172,10 +172,6 @@ const FamilyIncome: Section = {
 			finallyCallback && finallyCallback(FamilyIncome);
 		}, [saveData, saveError]);
 
-		const save = () => {
-			setAttemptingSave(true);
-		};
-
 		// To skip over family income section when "Lives with foster family" is selected
 		if (child.foster && successCallback) {
 			successCallback(enrollment);
@@ -183,7 +179,7 @@ const FamilyIncome: Section = {
 		}
 
 		return (
-			<form className="FamilyIncomeForm" onSubmit={save} noValidate autoComplete="off">
+			<form className="FamilyIncomeForm" noValidate autoComplete="off">
 				<div className="usa-form">
 					{!notDisclosed && (
 						<>
