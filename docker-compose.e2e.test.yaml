@@ -62,6 +62,8 @@ services:
     entrypoint:
       - sh
       - /entrypoint.sh
+    depends_on:
+      - winged-keys
   client-for-selenium:
     image: node:12
     volumes:
