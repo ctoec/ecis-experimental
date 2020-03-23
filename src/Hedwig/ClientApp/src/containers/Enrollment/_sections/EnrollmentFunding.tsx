@@ -16,7 +16,7 @@ import {
 } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
 import { validatePermissions, getIdForUser } from '../../../utils/models';
-import { DeepNonUndefineable } from '../../../utils/types';
+import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../../utils/types';
 import {
 	sectionHasValidationErrors,
 	warningForField,
@@ -58,7 +58,7 @@ import usePromiseExecution from '../../../hooks/usePromiseExecution';
 import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import displayErrorOrWarning from '../../../utils/validations/displayErrorOrWarning';
-import { ApiError } from '../../../hooks/newUseApi';
+import useNewUseApi, { ApiError } from '../../../hooks/newUseApi';
 
 type UtilizationRate = {
 	capacity: number;
@@ -146,7 +146,6 @@ const EnrollmentFunding: Section = {
 	Form: ({
 		enrollment,
 		siteId,
-		mutate,
 		error: inputError,
 		successCallback,
 		finallyCallback,
@@ -189,7 +188,9 @@ const EnrollmentFunding: Section = {
 			orgId: getIdForUser(user, 'org'),
 			include: ['organizations', 'enrollments', 'funding_spaces', 'fundings'],
 		};
-		const [, , site] = useApi(api => api.apiOrganizationsOrgIdSitesIdGet(siteParams), [user]);
+		const [, site] = useNewUseApi(api => api.apiOrganizationsOrgIdSitesIdGet(siteParams), {
+			skip: !user,
+		});
 
 		const [_enrollment, updateEnrollment] = useReducer<
 			FormReducer<DeepNonUndefineable<Enrollment>>
@@ -325,7 +326,7 @@ const EnrollmentFunding: Section = {
 			setUtilizationRate({ capacity, numEnrolled });
 		}, [site, fundingSelection, _enrollment.ageGroup, thisPeriod, cdcFunding]);
 
-		const _save = () => {
+		const updateEnrollmentFundings = () => {
 			let updatedFundings: Funding[] = [...fundings]
 				.filter(funding => funding.id !== (sourcelessFunding && sourcelessFunding.id))
 				.filter(funding => funding.id !== (cdcFunding && cdcFunding.id));
@@ -376,6 +377,7 @@ const EnrollmentFunding: Section = {
 					break;
 			}
 
+			// TODO: break this into separate method, use it for the c4k checkbox
 			updatedFundings = [...updatedFundings].filter(
 				funding => funding.id !== (c4kFunding && c4kFunding.id)
 			);
@@ -387,32 +389,41 @@ const EnrollmentFunding: Section = {
 					certificateStartDate: c4kCertificateStartDate ? c4kCertificateStartDate : undefined,
 					familyId: c4kFamilyId,
 				});
-			} else {
-				// do nothing
 			}
 
-			if (enrollment) {
-				const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
-					...defaultParams,
-					enrollment: {
-						..._enrollment,
-						fundings: updatedFundings,
-					},
-				};
-
-				return mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
-					.then(res => {
-						if (successCallback && res) successCallback(res);
-					})
-					.finally(() => {
-						finallyCallback && finallyCallback(EnrollmentFunding);
-					});
-			}
-			return new Promise(() => {});
-			// TODO: what should happen if there is no enrollment, child, or family?  See also family info and family income
+			updateEnrollment({
+				..._enrollment,
+				fundings: updatedFundings as DeepNonUndefineableArray<Funding>,
+			});
 		};
 
-		const { isExecuting: isMutating, setExecuting: save } = usePromiseExecution(_save);
+		const [attemptingSave, setAttemptingSave] = useState(false);
+		const [saveError, saveData] = useNewUseApi<Enrollment>(
+			api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(defaultParams),
+			{ skip: !attemptingSave, callback: () => setAttemptingSave(false) }
+		);
+
+		useEffect(() => {
+			// If the request went through, then do the next steps
+			if (!saveData && !saveError) {
+				return;
+			}
+
+			// Set the new error regardless of whether there is one
+			setError(saveError);
+
+			if (saveData && !saveError) {
+				if (successCallback) successCallback(saveData);
+			}
+
+			finallyCallback && finallyCallback(EnrollmentFunding);
+		}, [saveData, saveError]);
+
+		const save = () => {
+			// TODO: MOVE THIS TO WHERE IT ACTUALLY MAKES SENSE
+			updateEnrollmentFundings();
+			setAttemptingSave(true);
+		};
 
 		return (
 			<form className="EnrollmentFundingForm" onSubmit={save} noValidate autoComplete="off">
@@ -631,7 +642,11 @@ const EnrollmentFunding: Section = {
 				</div>
 
 				<div className="usa-form">
-					<Button text={isMutating ? 'Saving...' : 'Save'} onClick="submit" disabled={isMutating} />
+					<Button
+						text={attemptingSave ? 'Saving...' : 'Save'}
+						onClick={() => setAttemptingSave(true)}
+						disabled={attemptingSave}
+					/>
 				</div>
 			</form>
 		);
