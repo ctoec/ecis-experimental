@@ -191,7 +191,9 @@ const EnrollmentFunding: Section = {
 		const updateFormData = updateData<DeepNonUndefineable<Enrollment>>(updateEnrollment);
 		const entry = _enrollment.entry;
 
-		const fundings = _enrollment.fundings || [];
+		const [fundings, updateFundings] = useState(
+			_enrollment.fundings || ([] as DeepNonUndefineableArray<Funding>)
+		);
 		const sourcelessFunding = getSourcelessFunding(_enrollment);
 
 		const cdcFunding = currentCdcFunding(fundings);
@@ -211,15 +213,6 @@ const EnrollmentFunding: Section = {
 		});
 
 		const [reportingPeriodOptions, updateReportingPeriodOptions] = useState<ReportingPeriod[]>([]);
-
-		const c4kFunding = currentC4kFunding(fundings);
-		const [receivesC4k, updateReceivesC4k] = useState<boolean>(!!c4kFunding);
-		const [c4kFamilyId, updateC4kFamilyId] = useState<number | null>(
-			c4kFunding ? c4kFunding.familyId : null
-		);
-		const [c4kCertificateStartDate, updateC4kCertificateStartDate] = useState<Date | null>(
-			c4kFunding ? c4kFunding.certificateStartDate : null
-		);
 
 		// For page load
 		useEffect(() => {
@@ -369,58 +362,65 @@ const EnrollmentFunding: Section = {
 				default:
 					break;
 			}
-
-			// TODO: break this into separate method, use it for the c4k checkbox
-			updatedFundings = [...updatedFundings].filter(
-				funding => funding.id !== (c4kFunding && c4kFunding.id)
-			);
-			if (receivesC4k) {
-				updatedFundings.push({
-					id: c4kFunding ? c4kFunding.id : 0,
-					enrollmentId: enrollment.id,
-					source: FundingSource.C4K,
-					certificateStartDate: c4kCertificateStartDate ? c4kCertificateStartDate : undefined,
-					familyId: c4kFamilyId,
-				});
-			}
-
 			updateEnrollment({
 				..._enrollment,
 				fundings: updatedFundings as DeepNonUndefineableArray<Funding>,
 			});
 		};
 
+		// *** C4K ***
+		const inputC4kFunding = currentC4kFunding(fundings);
+		const [c4kFunding, updateC4kFunding] = useState<DeepNonUndefineable<Funding>>(
+			inputC4kFunding ||
+				({
+					id: 0,
+					enrollmentId: enrollment.id,
+					source: FundingSource.C4K,
+				} as DeepNonUndefineable<Funding>)
+		);
+		const [receivesC4k, updateReceivesC4k] = useState<boolean>(!!inputC4kFunding);
+		const { familyId: c4kFamilyId, certificateStartDate: c4kCertificateStartDate } =
+			c4kFunding || {};
+		useEffect(() => {
+			// When the existing one is updated, update the fundings
+			let updatedFundings = [...fundings].filter(
+				funding => funding.id !== (c4kFunding && c4kFunding.id)
+			);
+			if (receivesC4k) {
+				updatedFundings.push(c4kFunding);
+			}
+			updateFundings(updatedFundings);
+		}, [c4kFunding, receivesC4k]);
+
+		// *** Save ***
 		const [attemptingSave, setAttemptingSave] = useState(false);
 		const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
 			id: enrollment.id || 0,
 			orgId: getIdForUser(user, 'org'),
 			siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
-			enrollment: _enrollment,
+			enrollment: { ..._enrollment, fundings },
 		};
 		const [saveError, saveData] = useNewUseApi<Enrollment>(
 			api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(defaultParams),
-			{ skip: !attemptingSave, callback: () => setAttemptingSave(false) }
+			{ skip: !attemptingSave || !user, callback: () => setAttemptingSave(false) }
 		);
-
 		useEffect(() => {
 			// If the request went through, then do the next steps
 			if (!saveData && !saveError) {
 				return;
 			}
-
 			// Set the new error regardless of whether there is one
 			setError(saveError);
 
 			if (saveData && !saveError) {
 				if (successCallback) successCallback(saveData);
 			}
-
 			finallyCallback && finallyCallback(EnrollmentFunding);
 		}, [saveData, saveError]);
 
 		const save = () => {
 			// TODO: MOVE THIS TO WHERE IT ACTUALLY MAKES SENSE
-			updateEnrollmentFundings();
+			// updateEnrollmentFundings();
 			setAttemptingSave(true);
 		};
 
@@ -580,7 +580,6 @@ const EnrollmentFunding: Section = {
 								value: 'receives-c4k',
 							},
 						]}
-						// TODO: USE FORM REDUCER
 						onChange={e => updateReceivesC4k(!!(e.target as HTMLInputElement).checked)}
 						id="c4k-check-box"
 						legend="Receives Care 4 Kids"
@@ -594,8 +593,12 @@ const EnrollmentFunding: Section = {
 								id="familyId"
 								label="Family ID"
 								defaultValue={c4kFamilyId ? '' + c4kFamilyId : ''}
-								// TODO: USE REDUCER HERE
-								onChange={event => updateC4kFamilyId(parseInt(event.target.value))}
+								onChange={event =>
+									updateC4kFunding({
+										...c4kFunding,
+										familyId: parseInt(event.target.value) || null,
+									})
+								}
 								status={initialLoadErrorGuard(
 									initialLoad,
 									displayErrorOrWarning(
@@ -615,7 +618,10 @@ const EnrollmentFunding: Section = {
 							<DateInput
 								name="c4kCertificateStartDate"
 								onChange={newDate =>
-									updateC4kCertificateStartDate(newDate ? newDate.toDate() : null)
+									updateC4kFunding({
+										...c4kFunding,
+										certificateStartDate: newDate ? newDate.toDate() : null,
+									})
 								}
 								date={c4kCertificateStartDate ? moment(c4kCertificateStartDate) : null}
 								label="Certificate start date"
