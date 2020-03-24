@@ -24,6 +24,7 @@ import getCurrentHost from '../../utils/getCurrentHost';
 export type AuthenticationContextType = {
 	accessToken: string | null;
 	withFreshToken: () => Promise<void>;
+	loading: boolean;
 };
 
 export type AuthenticationProviderPropsType = {
@@ -43,6 +44,7 @@ export type AuthenticationProviderPropsType = {
 const AuthenticationContext = React.createContext<AuthenticationContextType>({
 	accessToken: null,
 	withFreshToken: async () => {},
+	loading: true,
 });
 
 const { Provider, Consumer } = AuthenticationContext;
@@ -71,6 +73,7 @@ const AuthenticationProvider: React.FC<AuthenticationProviderPropsType> = ({
 	const location = useLocation();
 
 	// state
+	const [loading, setLoading] = useState(true);
 	const [idToken, setIdToken] = useState<string>();
 	const [accessToken, setAccessToken] = useState<string | null>(null);
 	const [openIdConnectUrl, setOpenIdConnectUrl] = useState();
@@ -130,6 +133,7 @@ const AuthenticationProvider: React.FC<AuthenticationProviderPropsType> = ({
 		const localStorageAccessToken = localStorage.getItem(localStorageAccessTokenKey);
 		// Update accessToken if it was present in local storage
 		if (!!localStorageAccessToken) {
+			setLoading(false);
 			setAccessToken(localStorageAccessToken);
 		}
 	}, [localStorageAccessTokenKey]);
@@ -194,6 +198,7 @@ const AuthenticationProvider: React.FC<AuthenticationProviderPropsType> = ({
 				 */
 				localStorage.removeItem(localStorageAccessTokenKey);
 				setAccessToken(null);
+				setLoading(false);
 				if (!configuration.endSessionEndpoint) {
 					throw new Error('no logout');
 				}
@@ -206,6 +211,8 @@ const AuthenticationProvider: React.FC<AuthenticationProviderPropsType> = ({
 					configuration.endSessionEndpoint
 				}?${new BasicQueryStringUtils().stringify(endSessionQueryParams)}`;
 				window.location.href = logoutUrl;
+			} else {
+				setLoading(false);
 			}
 		}
 	}, [
@@ -254,6 +261,7 @@ const AuthenticationProvider: React.FC<AuthenticationProviderPropsType> = ({
 			localStorage.setItem(localStorageIdTokenKey, resp.idToken || '');
 			setAccessToken(resp.accessToken);
 			setTokenResponse(resp);
+			setLoading(false);
 			history.push('/');
 		});
 	}
@@ -289,6 +297,7 @@ const AuthenticationProvider: React.FC<AuthenticationProviderPropsType> = ({
 			value={{
 				accessToken: accessToken,
 				withFreshToken: makeRefreshTokenRequest,
+				loading: loading,
 			}}
 		>
 			{children}

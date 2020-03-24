@@ -52,19 +52,24 @@ const App: React.FC = () => {
 			(r => !r.submittedAt) as (_: DeepNonUndefineable<Report>) => _ is DeepNonUndefineable<Report>
 		).length;
 
-	const navItems: NavItemProps[] = [
-		{ type: 'primary', title: 'Roster', path: '/roster' },
-		{
-			type: 'primary',
-			title:
-				pendingReportsCount && pendingReportsCount > 0
-					? `Reports (${pendingReportsCount})`
-					: 'Reports',
-			path: '/reports',
-		},
+	let navItems: NavItemProps[] = [
 		{ type: 'secondary', title: 'Privacy policy', path: '/privacy-policy' },
 		// { type: 'secondary', title: 'Help', path: '/help' },
 	];
+
+	if (user) {
+		navItems = navItems.concat([
+			{ type: 'primary', title: 'Roster', path: '/roster' },
+			{
+				type: 'primary',
+				title:
+					pendingReportsCount && pendingReportsCount > 0
+						? `Reports (${pendingReportsCount})`
+						: 'Reports',
+				path: '/reports',
+			},
+		]);
+	}
 
 	return (
 		<div className={cx(styles.container)}>

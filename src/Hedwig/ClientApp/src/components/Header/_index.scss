@@ -22,6 +22,10 @@
 			margin: 0;
 			font-size: 0.5em;
 			font-weight: normal;
+
+			&--only {
+				font-size: inherit;
+			}
 		}
 
 		.secondary-title {

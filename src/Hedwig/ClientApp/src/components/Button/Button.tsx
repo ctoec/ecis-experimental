@@ -5,6 +5,7 @@ type ButtonAppearance = 'default' | 'base' | 'secondary' | 'unstyled' | 'outline
 
 type BaseButtonProps = {
 	href?: string;
+	external?: boolean;
 	appearance?: ButtonAppearance;
 	disabled?: boolean;
 	className?: string;
@@ -26,6 +27,7 @@ export function Button({
 	text,
 	onClick,
 	href,
+	external,
 	appearance,
 	disabled,
 	className,
@@ -50,11 +52,19 @@ export function Button({
 	}
 	onClick = typeof onClick === 'function' ? onClick : () => {};
 
-	if (href) {
+	if (href && !external) {
 		return (
 			<Link to={href} className={classString} onClick={onClick} title={title}>
 				{text}
 			</Link>
+		);
+	}
+
+	if (href && external) {
+		return (
+			<a href={href} className={classString} onClick={onClick} title={title}>
+				{text}
+			</a>
 		);
 	}
 

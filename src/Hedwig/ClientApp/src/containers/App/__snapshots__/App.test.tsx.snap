@@ -38,7 +38,7 @@ exports[`matches snapshot 1`] = `
               >
                 <div>
                   <div
-                    class="primary-title"
+                    class="primary-title primary-title--only"
                   >
                     ECE Reporter
                   </div>
@@ -69,32 +69,7 @@ exports[`matches snapshot 1`] = `
             </button>
             <ul
               class="usa-nav__primary usa-accordion"
-            >
-              <li
-                class="usa-nav__primary-item"
-              >
-                <a
-                  class="usa-nav__link usa-current"
-                  href="/roster"
-                >
-                  <span>
-                    Roster
-                  </span>
-                </a>
-              </li>
-              <li
-                class="usa-nav__primary-item"
-              >
-                <a
-                  class="usa-nav__link"
-                  href="/reports"
-                >
-                  <span>
-                    Reports
-                  </span>
-                </a>
-              </li>
-            </ul>
+            />
             <div
               class="usa-nav__secondary usa-nav__secondary--extended"
             >
@@ -117,7 +92,7 @@ exports[`matches snapshot 1`] = `
                 <a
                   href="/login"
                 >
-                  Log in
+                  Sign in
                 </a>
               </div>
             </div>
@@ -127,11 +102,7 @@ exports[`matches snapshot 1`] = `
     </div>
     <main
       id="main-content"
-    >
-      <div
-        class="Roster"
-      />
-    </main>
+    />
   </div>
 </DocumentFragment>
 `;
