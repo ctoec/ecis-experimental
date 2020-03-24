@@ -26,6 +26,7 @@ import {
 	useFocusFirstError,
 	isBlockingValidationError,
 	processValidationError,
+	clientErrorForField,
 } from '../../../utils/validations';
 import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
 import {
@@ -56,6 +57,7 @@ import getFundingSpaceCapacity from '../../../utils/getFundingSpaceCapacity';
 import usePromiseExecution from '../../../hooks/usePromiseExecution';
 import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
 import AlertContext from '../../../contexts/Alert/AlertContext';
+import displayErrorOrWarning from '../../../utils/validations/displayErrorOrWarning';
 
 type UtilizationRate = {
 	capacity: number;
@@ -160,6 +162,7 @@ const EnrollmentFunding: Section = {
 		useFocusFirstError([error]);
 		useEffect(() => {
 			if (error && !hasAlertedOnError) {
+				console.log(error, isBlockingValidationError(error));
 				if (!isBlockingValidationError(error)) {
 					throw new Error(error.title || 'Unknown api error');
 				}
@@ -421,7 +424,18 @@ const EnrollmentFunding: Section = {
 						id="enrollment-start-date"
 						status={initialLoadErrorGuard(
 							initialLoad,
-							warningForField('entry', enrollment, 'This information is required for OEC reporting')
+							displayErrorOrWarning(
+								error,
+								{
+									isFieldSet: false,
+								},
+								undefined,
+								{
+									object: enrollment,
+									field: 'entry',
+									message: 'This information is required for OEC reporting',
+								}
+							)
 						)}
 					/>
 
@@ -449,11 +463,18 @@ const EnrollmentFunding: Section = {
 						onChange={updateFormData(ageFromString)}
 						status={initialLoadErrorGuard(
 							initialLoad,
-							warningForFieldSet(
-								'age-group-warning',
-								['ageGroup'],
-								enrollment,
-								'This field is required for OEC reporting'
+							displayErrorOrWarning(
+								error,
+								{
+									isFieldSet: true,
+									fieldSetId: 'age-group-warning',
+								},
+								undefined,
+								{
+									object: enrollment,
+									fields: ['ageGroup'],
+									message: 'This field is required for OEC reporting',
+								}
 							)
 						)}
 					/>
@@ -469,10 +490,17 @@ const EnrollmentFunding: Section = {
 						selected={toFormString(fundingSelectionToString(fundingSelection))}
 						status={initialLoadErrorGuard(
 							initialLoad,
-							warningForField(
-								'source',
-								cdcFunding || sourcelessFunding || null,
-								'This information is required for OEC reporting'
+							displayErrorOrWarning(
+								error,
+								{
+									isFieldSet: false,
+								},
+								undefined,
+								{
+									object: cdcFunding || sourcelessFunding || null,
+									field: 'source',
+									message: 'This information is required for OEC reporting',
+								}
 							)
 						)}
 					/>
@@ -499,12 +527,23 @@ const EnrollmentFunding: Section = {
 							selected={toFormString(cdcReportingPeriod ? cdcReportingPeriod.id : undefined)}
 							status={initialLoadErrorGuard(
 								initialLoad,
-								serverErrorForField(hasAlertedOnError, setHasAlertedOnError, 'fundings', error) ||
-									warningForField(
-										'firstReportingPeriod',
-										cdcFunding || null,
-										'This information is required for OEC reporting'
-									)
+								displayErrorOrWarning(
+									error,
+									{
+										isFieldSet: false,
+									},
+									{
+										field: 'fundings.firstReportingPeriodId',
+										hasAlertedOnError,
+										setHasAlertedOnError,
+										message: 'This information is required for enrollment',
+									},
+									{
+										object: cdcFunding || null,
+										field: 'firstReportingPeriod',
+										message: 'This information is required for OEC reporting',
+									}
+								)
 							)}
 						/>
 					)}
@@ -547,10 +586,17 @@ const EnrollmentFunding: Section = {
 								onChange={event => updateC4kFamilyId(parseInt(event.target.value))}
 								status={initialLoadErrorGuard(
 									initialLoad,
-									warningForField(
-										'familyId',
-										c4kFunding ? c4kFunding : null,
-										'This information is required for OEC reporting'
+									displayErrorOrWarning(
+										error,
+										{
+											isFieldSet: false,
+										},
+										undefined,
+										{
+											object: c4kFunding ? c4kFunding : null,
+											field: 'familyId',
+											message: 'This information is required for OEC reporting',
+										}
 									)
 								)}
 							/>
@@ -564,10 +610,17 @@ const EnrollmentFunding: Section = {
 								id="c4k-certificate-start-date"
 								status={initialLoadErrorGuard(
 									initialLoad,
-									warningForField(
-										'certificateStartDate',
-										c4kFunding ? c4kFunding : null,
-										'This information is required for OEC reporting'
+									displayErrorOrWarning(
+										error,
+										{
+											isFieldSet: false,
+										},
+										undefined,
+										{
+											object: c4kFunding ? c4kFunding : null,
+											field: 'certificateStartDate',
+											message: 'This information is required for OEC reporting',
+										}
 									)
 								)}
 							/>
