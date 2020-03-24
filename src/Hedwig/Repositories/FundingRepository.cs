@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using Hedwig.Models;
 using Hedwig.Data;
@@ -19,10 +20,21 @@ namespace Hedwig.Repositories
 				.Include(f => f.LastReportingPeriod)
 				.ToList();
 		}
+
+		public List<Funding> GetFundingsByChildId(Guid childId)
+		{
+			return _context.Fundings
+				.Include(f => f.Enrollment)
+				.Where(f => f.Enrollment.ChildId == childId)
+				.Include(f => f.FirstReportingPeriod)
+				.Include(f => f.LastReportingPeriod)
+				.ToList();
+		}
 	}
 
 	public interface IFundingRepository : IHedwigRepository
 	{
 		List<Funding> GetFundingsByEnrollmentId(int enrollmentId);
+		List<Funding> GetFundingsByChildId(Guid childId);
 	}
 }
