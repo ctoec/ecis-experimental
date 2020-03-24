@@ -80,7 +80,7 @@ namespace Hedwig.Filters
 			var properties = entity.GetType().GetProperties();
 			foreach (var prop in properties)
 			{
-				if (ReadOnlyAttribute.IsReadOnly(prop))
+				if (prop.IsReadOnly())
 				{
 					var value = prop.GetValue(entity);
 					UnsetReadOnlyPropertyValues[prop] = value;
@@ -150,7 +150,9 @@ namespace Hedwig.Filters
 			foreach (var prop in properties)
 			{
 				var type = prop.PropertyType.GetEntityType();
-				if (entityTypes.Any(entityType => entityType == type))
+				if (entityTypes.Any(entityType => entityType == type)
+				// Do not unset read-only properties or not mapped properties
+				&& !prop.IsReadOnly() && !prop.IsNotMapped())
 				{
 					prop.SetValue(entity, null);
 					continue;
@@ -158,10 +160,8 @@ namespace Hedwig.Filters
 
 				var propValue = prop.GetValue(entity);
 
-				// Recursively remove entities of same type as prop if:
-				// - prop is application model type
-				// - prop is not read-only (this allows all objects in the tree to retain Author and Reporting Period references)
-				if (type.IsApplicationModel() && !ReadOnlyAttribute.IsReadOnly(prop))
+				// Recursively remove entities of same type as prop if prop is application model type
+				if (type.IsApplicationModel())
 				{
 					entityTypes = entityTypes.Append(type);
 				}
