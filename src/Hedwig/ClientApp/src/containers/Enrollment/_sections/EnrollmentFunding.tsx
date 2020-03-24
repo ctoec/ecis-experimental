@@ -424,13 +424,18 @@ const EnrollmentFunding: Section = {
 						id="enrollment-start-date"
 						status={initialLoadErrorGuard(
 							initialLoad,
-							!!error
-								? undefined
-								: warningForField(
-										'entry',
-										enrollment,
-										'This information is required for OEC reporting'
-								  )
+							displayErrorOrWarning(
+								error,
+								{
+									isFieldSet: false,
+								},
+								undefined,
+								{
+									object: enrollment,
+									field: 'entry',
+									message: 'This information is required for OEC reporting',
+								}
+							)
 						)}
 					/>
 
@@ -458,14 +463,19 @@ const EnrollmentFunding: Section = {
 						onChange={updateFormData(ageFromString)}
 						status={initialLoadErrorGuard(
 							initialLoad,
-							!!error
-								? undefined
-								: warningForFieldSet(
-										'age-group-warning',
-										['ageGroup'],
-										enrollment,
-										'This field is required for OEC reporting'
-								  )
+							displayErrorOrWarning(
+								error,
+								{
+									isFieldSet: true,
+									fieldSetId: 'age-group-warning',
+								},
+								undefined,
+								{
+									object: enrollment,
+									fields: ['ageGroup'],
+									message: 'This field is required for OEC reporting',
+								}
+							)
 						)}
 					/>
 					<h2>Funding</h2>
