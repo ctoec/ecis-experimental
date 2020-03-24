@@ -108,6 +108,12 @@ export interface Enrollment {
 	fundings?: Array<Funding> | null;
 	/**
 	 *
+	 * @type {Array<Enrollment>}
+	 * @memberof Enrollment
+	 */
+	pastEnrollments?: Array<Enrollment> | null;
+	/**
+	 *
 	 * @type {Array<ValidationError>}
 	 * @memberof Enrollment
 	 */
@@ -159,6 +165,11 @@ export function EnrollmentFromJSONTyped(json: any, ignoreDiscriminator: boolean)
 			: json['fundings'] === null
 			? null
 			: (json['fundings'] as Array<any>).map(FundingFromJSON),
+		pastEnrollments: !exists(json, 'pastEnrollments')
+			? undefined
+			: json['pastEnrollments'] === null
+			? null
+			: (json['pastEnrollments'] as Array<any>).map(EnrollmentFromJSON),
 		validationErrors: !exists(json, 'validationErrors')
 			? undefined
 			: json['validationErrors'] === null
@@ -203,6 +214,12 @@ export function EnrollmentToJSON(value?: Enrollment | null): any {
 				: value.fundings === null
 				? null
 				: (value.fundings as Array<any>).map(FundingToJSON),
+		pastEnrollments:
+			value.pastEnrollments === undefined
+				? undefined
+				: value.pastEnrollments === null
+				? null
+				: (value.pastEnrollments as Array<any>).map(EnrollmentToJSON),
 		validationErrors:
 			value.validationErrors === undefined
 				? undefined
