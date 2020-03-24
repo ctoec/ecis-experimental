@@ -111,16 +111,20 @@ const FamilyIncome: Section = {
 		siteId,
 		error: inputError,
 		successCallback,
-		finallyCallback,
+		visitSection,
 		visitedSections,
 	}) => {
 		if (!enrollment || !enrollment.child || !enrollment.child.family) {
 			throw new Error('FamilyIncome rendered without enrollment.child.family');
 		}
 
+		
 		// set up form state
 		const { setAlerts } = useContext(AlertContext);
 		const initialLoad = visitedSections ? !visitedSections[FamilyIncome.key] : false;
+		if (initialLoad) {
+			visitSection && visitSection(FamilyIncome)
+		}
 		const [error, setError] = useState<ApiError | null>(inputError);
 		const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
 		useEffect(() => {
@@ -161,15 +165,11 @@ const FamilyIncome: Section = {
 			if (!saveData && !saveError) {
 				return;
 			}
-
 			// Set the new error regardless of whether there is one
 			setError(saveError);
-
 			if (saveData && !saveError) {
 				if (successCallback) successCallback(saveData);
 			}
-
-			finallyCallback && finallyCallback(FamilyIncome);
 		}, [saveData, saveError]);
 
 		// To skip over family income section when "Lives with foster family" is selected

@@ -109,7 +109,6 @@ export default function EnrollmentEdit({
 					<section.Form
 						siteId={siteId}
 						enrollment={enrollment}
-						mutate={mutate}
 						error={error}
 						successCallback={afterSave}
 					/>

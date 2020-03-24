@@ -58,7 +58,7 @@ const FamilyInfo: Section = {
 		siteId,
 		error: inputError,
 		successCallback,
-		finallyCallback,
+		visitSection,
 		visitedSections,
 	}) => {
 		if (!enrollment || !enrollment.child) {
@@ -68,6 +68,9 @@ const FamilyInfo: Section = {
 		// set up form state
 		const { setAlerts } = useContext(AlertContext);
 		const initialLoad = visitedSections ? !visitedSections[FamilyInfo.key] : false;
+		if (initialLoad) {
+			visitSection && visitSection(FamilyInfo);
+		}
 		// const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
 		// Above line is left to show symmetry for future form component refactor-- wasn't actually used in this component
 
@@ -119,15 +122,11 @@ const FamilyInfo: Section = {
 			if (!saveData && !saveError) {
 				return;
 			}
-
 			// Set the new error regardless of whether there is one
 			setError(saveError);
-
 			if (saveData && !saveError) {
 				if (successCallback) successCallback(saveData);
 			}
-
-			finallyCallback && finallyCallback(FamilyInfo);
 		}, [saveData, saveError]);
 
 		return (

@@ -148,7 +148,7 @@ const EnrollmentFunding: Section = {
 		siteId,
 		error: inputError,
 		successCallback,
-		finallyCallback,
+		visitSection,
 		visitedSections,
 	}) => {
 		if (!enrollment) {
@@ -159,6 +159,9 @@ const EnrollmentFunding: Section = {
 		const { setAlerts } = useContext(AlertContext);
 		const initialLoad = visitedSections ? !visitedSections[EnrollmentFunding.key] : false;
 		const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
+		if (initialLoad) {
+			visitSection && visitSection(EnrollmentFunding);
+		}
 		const [error, setError] = useState<ApiError | null>(inputError);
 		useFocusFirstError([error]);
 		useEffect(() => {
@@ -196,7 +199,7 @@ const EnrollmentFunding: Section = {
 		);
 		const sourcelessFunding = getSourcelessFunding(_enrollment);
 
-		const cdcFunding = currentCdcFunding(fundings);
+		const [cdcFunding, updateCdcFunding] = useState(currentCdcFunding(fundings));
 		const [cdcReportingPeriod, updateCdcReportingPeriod] = useState<ReportingPeriod | undefined>(
 			cdcFunding ? cdcFunding.firstReportingPeriod : undefined
 		);
@@ -215,16 +218,16 @@ const EnrollmentFunding: Section = {
 		const [reportingPeriodOptions, updateReportingPeriodOptions] = useState<ReportingPeriod[]>([]);
 
 		// For page load
-		useEffect(() => {
-			if (reportingPeriods) {
-				const _cdcReporingPeriod = cdcFunding
-					? reportingPeriods.find<DeepNonUndefineable<ReportingPeriod>>(
-							period => period.id === cdcFunding.firstReportingPeriodId
-					  )
-					: undefined;
-				updateCdcReportingPeriod(_cdcReporingPeriod);
-			}
-		}, [reportingPeriods, cdcFunding]);
+		// useEffect(() => {
+		// 	if (reportingPeriods) {
+		// 		const _cdcReporingPeriod = cdcFunding
+		// 			? reportingPeriods.find<DeepNonUndefineable<ReportingPeriod>>(
+		// 					period => period.id === cdcFunding.firstReportingPeriodId
+		// 			  )
+		// 			: undefined;
+		// 		updateCdcReportingPeriod(_cdcReporingPeriod);
+		// 	}
+		// }, [reportingPeriods, cdcFunding]);
 
 		// For drop down and change on enrollment start date
 		useEffect(() => {
@@ -276,8 +279,7 @@ const EnrollmentFunding: Section = {
 			]);
 		}, [site, _enrollment.ageGroup, enrollment, cdcFunding]);
 
-		// TODO: make alert wider?
-		// TODO: do we care which reporting periods it violates this constraint for, or just the current one?
+		// *** Set the utilization rate ***
 		const [utilizationRate, setUtilizationRate] = useState<UtilizationRate>();
 		const thisPeriod = currentReportingPeriod(reportingPeriods);
 		useEffect(() => {
@@ -312,7 +314,8 @@ const EnrollmentFunding: Section = {
 			setUtilizationRate({ capacity, numEnrolled });
 		}, [site, fundingSelection, _enrollment.ageGroup, thisPeriod, cdcFunding]);
 
-		const updateEnrollmentFundings = () => {
+		// *** CDC ***
+		useEffect(() => {
 			let updatedFundings: Funding[] = [...fundings]
 				.filter(funding => funding.id !== (sourcelessFunding && sourcelessFunding.id))
 				.filter(funding => funding.id !== (cdcFunding && cdcFunding.id));
@@ -330,6 +333,7 @@ const EnrollmentFunding: Section = {
 					// do nothing
 					break;
 				case FundingType.CDC:
+					// Default to part time if none is selected
 					const time = fundingSelection.time || FundingTime.Part;
 					if (cdcFunding) {
 						updatedFundings.push(
@@ -362,11 +366,8 @@ const EnrollmentFunding: Section = {
 				default:
 					break;
 			}
-			updateEnrollment({
-				..._enrollment,
-				fundings: updatedFundings as DeepNonUndefineableArray<Funding>,
-			});
-		};
+			updateFundings(updatedFundings as DeepNonUndefineableArray<Funding>);
+		}, [fundingSelection, cdcReportingPeriod]);
 
 		// *** C4K ***
 		const inputC4kFunding = currentC4kFunding(fundings);
@@ -415,7 +416,6 @@ const EnrollmentFunding: Section = {
 			if (saveData && !saveError) {
 				if (successCallback) successCallback(saveData);
 			}
-			finallyCallback && finallyCallback(EnrollmentFunding);
 		}, [saveData, saveError]);
 
 		const save = () => {

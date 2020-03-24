@@ -59,7 +59,7 @@ const ChildInfo: Section = {
 		);
 	},
 
-	Form: ({ enrollment, siteId, error, successCallback, finallyCallback, visitedSections }) => {
+	Form: ({ enrollment, siteId, error, successCallback, visitSection, visitedSections }) => {
 		if (!enrollment && !siteId) {
 			throw new Error('ChildInfo rendered without an enrollment or a siteId');
 		}
@@ -68,6 +68,9 @@ const ChildInfo: Section = {
 
 		// set up form state
 		const initialLoad = visitedSections ? !visitedSections[ChildInfo.key] : false;
+		if (initialLoad) {
+			visitSection && visitSection(ChildInfo);
+		}
 		const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
 		const [_error, setError] = useState<ApiError | null>(error);
 		useFocusFirstError([_error]);
@@ -169,15 +172,11 @@ const ChildInfo: Section = {
 			if (!saveData && !saveError) {
 				return;
 			}
-
 			// Set the new error regardless of whether there is one
 			setError(saveError);
-
 			if (saveData && !saveError) {
 				if (successCallback) successCallback(saveData);
 			}
-
-			finallyCallback && finallyCallback(ChildInfo);
 		}, [saveData, saveError]);
 
 		return (

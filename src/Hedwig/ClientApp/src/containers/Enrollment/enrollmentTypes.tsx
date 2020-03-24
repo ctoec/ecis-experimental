@@ -6,11 +6,10 @@ import { ApiError } from '../../hooks/useApi';
 
 export type SectionProps = {
 	enrollment: DeepNonUndefineable<Enrollment> | null;
-	mutate: Mutate<Enrollment>;
 	error: ApiError | null;
 	successCallback?: (e: Enrollment) => void;
-	finallyCallback?: (s: Section) => void;
 	siteId: number;
+	visitSection?: (s: Section) => void;
 	visitedSections?: { [key: string]: boolean };
 };
 

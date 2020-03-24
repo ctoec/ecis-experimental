@@ -150,6 +150,7 @@ export default function EnrollmentNew({
 	};
 
 	if (!user || (enrollmentId && !enrollment)) {
+		console.log(enrollmentId, enrollment)
 		// Need to check for user here so that a refresh after partial enrollment doesn't crash
 		// If there's an enrollmentId and not an enrollment, the get request is still loading
 		return <div className="EnrollmentNew"></div>;
@@ -158,15 +159,15 @@ export default function EnrollmentNew({
 	const steps = mapSectionsToSteps(sections);
 
 	const props: SectionProps = {
-		enrollment: enrollment,
-		mutate: () => new Promise(() => {}),
-		// TODO: DITCH MUTATE
-		error: error,
+		enrollment,
+		error,
 		successCallback: afterSave,
-		finallyCallback: visitSection,
+		visitSection,
 		siteId,
-		visitedSections: visitedSections,
+		visitedSections,
 	};
+
+	console.log(props)
 
 	return (
 		<CommonContainer>
