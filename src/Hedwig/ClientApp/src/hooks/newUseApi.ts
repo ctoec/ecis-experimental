@@ -26,11 +26,16 @@ export type ApiResult<TData> = [
 interface ApiParamOpts {
 	skip?: boolean;
 	callback?: () => void;
+	deps?: any[];
 }
 
 export default function useNewUseApi<TData>(
 	query: (api: HedwigApi) => Promise<TData>,
-	opts: ApiParamOpts = { skip: false, callback: () => null }
+	opts: ApiParamOpts = {
+		skip: false,
+		callback: () => null,
+		deps: [],
+	}
 ): ApiResult<TData> {
 	// Get accessToken for authenticated API calls
 	const { accessToken, withFreshToken } = useContext(AuthenticationContext);
@@ -40,7 +45,7 @@ export default function useNewUseApi<TData>(
 	});
 
 	// Set initial api state
-	const { skip, callback } = opts;
+	const { skip, callback, deps } = opts;
 	const [state, setState] = useState<ApiState<TData>>({
 		error: null,
 		data: null,
@@ -53,6 +58,8 @@ export default function useNewUseApi<TData>(
 			return;
 		}
 
+		setState({ error: null, data: null });
+
 		const api = constructApi(accessToken);
 		if (!api) {
 			setState({ ...state, error: { detail: 'API not found' } });
@@ -62,16 +69,16 @@ export default function useNewUseApi<TData>(
 		// make API query
 		query(api)
 			.then(apiResult => {
-				setState(_state => ({ ..._state, error: null, data: apiResult }));
+				setState({ error: null, data: apiResult });
 			})
 			.catch(async apiError => {
 				const _error = await parseError(apiError);
-				setState({ ...state, data: null, error: _error });
+				setState({ data: null, error: _error });
 			});
-	}, [accessToken, skip]);
+	}, [accessToken, skip, ...(deps || [])]);
 
 	useEffect(() => {
-		if (callback && !skip) callback();
+		if (callback && !skip && (state.data || state.error)) callback();
 	}, [state, skip]);
 
 	// No loading because loading will never be true at this point
