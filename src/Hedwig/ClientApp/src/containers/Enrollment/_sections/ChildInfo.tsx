@@ -165,7 +165,7 @@ const ChildInfo: Section = {
 				: api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsPost({
 						...postParams,
 				  });
-		const [saveError, saveData] = useNewUseApi<Enrollment>(apiQuery, useApiOpts);
+		const { error: saveError, data: saveData } = useNewUseApi<Enrollment>(apiQuery, useApiOpts);
 
 		useEffect(() => {
 			// If the request went through, then do the next steps

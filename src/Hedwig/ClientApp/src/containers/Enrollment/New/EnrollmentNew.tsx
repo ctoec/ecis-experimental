@@ -89,7 +89,7 @@ export default function EnrollmentNew({
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		include: ['child', 'family', 'determinations', 'fundings', 'sites'],
 	};
-	const [error, enrollment] = useNewUseApi<Enrollment>(
+	const { error, data: enrollment, loading } = useNewUseApi<Enrollment>(
 		api =>
 			api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet({
 				...params,
@@ -108,7 +108,7 @@ export default function EnrollmentNew({
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		enrollment: enrollment,
 	};
-	const [cancelError] = useNewUseApi(
+	const { error: cancelError } = useNewUseApi(
 		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDelete(cancelParams),
 		// [enrollmentId, enrollment, user, cancel],
 		// TODO: DO WE NEED TO DO ANYTHING WITH THESE DEPS NOW?
@@ -149,8 +149,8 @@ export default function EnrollmentNew({
 		}
 	};
 
-	if (!user || (enrollmentId && !enrollment)) {
-		console.log(enrollmentId, enrollment)
+	if (loading || !user || (enrollmentId && !enrollment)) {
+		console.log(enrollmentId, enrollment);
 		// Need to check for user here so that a refresh after partial enrollment doesn't crash
 		// If there's an enrollmentId and not an enrollment, the get request is still loading
 		return <div className="EnrollmentNew"></div>;
@@ -167,7 +167,7 @@ export default function EnrollmentNew({
 		visitedSections,
 	};
 
-	console.log(props)
+	console.log(props);
 
 	return (
 		<CommonContainer>

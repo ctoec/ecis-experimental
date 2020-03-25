@@ -112,7 +112,7 @@ const FamilyInfo: Section = {
 		};
 
 		const [attemptingSave, setAttemptingSave] = useState(false);
-		const [saveError, saveData] = useNewUseApi<Enrollment>(
+		const { error: saveError, data: saveData } = useNewUseApi<Enrollment>(
 			api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(defaultParams),
 			{ skip: !attemptingSave, callback: () => setAttemptingSave(false) }
 		);

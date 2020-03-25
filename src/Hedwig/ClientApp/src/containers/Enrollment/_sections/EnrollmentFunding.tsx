@@ -184,7 +184,7 @@ const EnrollmentFunding: Section = {
 			orgId: getIdForUser(user, 'org'),
 			include: ['organizations', 'enrollments', 'funding_spaces', 'fundings'],
 		};
-		const [, site] = useNewUseApi(api => api.apiOrganizationsOrgIdSitesIdGet(siteParams), {
+		const { data: site } = useNewUseApi(api => api.apiOrganizationsOrgIdSitesIdGet(siteParams), {
 			skip: !user,
 		});
 
@@ -401,7 +401,7 @@ const EnrollmentFunding: Section = {
 			siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 			enrollment: { ..._enrollment, fundings },
 		};
-		const [saveError, saveData] = useNewUseApi<Enrollment>(
+		const { error: saveError, data: saveData } = useNewUseApi<Enrollment>(
 			api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(defaultParams),
 			{ skip: !attemptingSave || !user, callback: () => setAttemptingSave(false) }
 		);

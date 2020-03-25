@@ -118,12 +118,11 @@ const FamilyIncome: Section = {
 			throw new Error('FamilyIncome rendered without enrollment.child.family');
 		}
 
-		
 		// set up form state
 		const { setAlerts } = useContext(AlertContext);
 		const initialLoad = visitedSections ? !visitedSections[FamilyIncome.key] : false;
 		if (initialLoad) {
-			visitSection && visitSection(FamilyIncome)
+			visitSection && visitSection(FamilyIncome);
 		}
 		const [error, setError] = useState<ApiError | null>(inputError);
 		const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
@@ -137,17 +136,17 @@ const FamilyIncome: Section = {
 		}, [error, hasAlertedOnError]);
 
 		const { user } = useContext(UserContext);
-		
+
 		const [_enrollment, updateEnrollment] = useReducer<
-		FormReducer<DeepNonUndefineable<Enrollment>>
+			FormReducer<DeepNonUndefineable<Enrollment>>
 		>(formReducer, enrollment);
 		const updateFormData = updateData<DeepNonUndefineable<Enrollment>>(updateEnrollment);
-		
+
 		const child = _enrollment.child;
 		const determination = idx(child, _ => _.family.determinations[0]) || undefined;
-		
+
 		const { numberOfPeople, income, determinationDate, notDisclosed } = determination || {};
-		
+
 		const [attemptingSave, setAttemptingSave] = useState(false);
 		const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
 			id: enrollment.id || 0,
@@ -155,7 +154,7 @@ const FamilyIncome: Section = {
 			orgId: getIdForUser(user, 'org'),
 			enrollment: _enrollment,
 		};
-		const [saveError, saveData] = useNewUseApi<Enrollment>(
+		const { error: saveError, data: saveData } = useNewUseApi<Enrollment>(
 			api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(defaultParams),
 			{ skip: !attemptingSave, callback: () => setAttemptingSave(false) }
 		);
