@@ -49,13 +49,34 @@ namespace Hedwig.Repositories
 
 		public Task<Enrollment> GetEnrollmentForSiteAsync(int id, int siteId, string[] include)
 		{
-			var enrollment = _context.Enrollments
+			var enrollmentQuery = _context.Enrollments
 				.Where(e => e.SiteId == siteId && e.Id == id);
 
-			enrollment = enrollment.Include(e => e.Author);
-			enrollment = enrollment.ProcessInclude(include);
+			enrollmentQuery = enrollmentQuery.Include(e => e.Author);
+			enrollmentQuery = enrollmentQuery.ProcessInclude(include);
 
-			return enrollment.FirstOrDefaultAsync();
+			var enrollment = enrollmentQuery.FirstOrDefault();
+
+			// handle special include of un-mapped properties
+			if (enrollment != null
+			&& include.Contains(HedwigRepository.INCLUDE_PAST_ENROLLMENTS))
+			{
+				var pastEnrollments = _context.Enrollments.Where(
+					e => e.ChildId == enrollment.ChildId
+					// TODO: Add validations for multiple enrollments (cannot overlap, only one enrollment without entry/exit)
+					&& e.Entry.HasValue
+					&& e.Entry < enrollment.Entry
+				)
+				.Include(e => e.Fundings)
+					.ThenInclude(f => f.FirstReportingPeriod)
+				.Include(e => e.Fundings)
+					.ThenInclude(f => f.LastReportingPeriod)
+				.ToList();
+
+				enrollment.PastEnrollments = pastEnrollments;
+			}
+
+			return Task.FromResult(enrollment);
 		}
 
 		public async Task<List<Enrollment>> GetEnrollmentsForOrganizationAsync(

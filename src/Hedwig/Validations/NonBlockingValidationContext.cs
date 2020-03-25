@@ -37,5 +37,16 @@ namespace Hedwig.Validations
 			ParentEntities.TryGetValue(typeof(T), out value);
 			return (T)value;
 		}
+
+		/// <summary>
+		/// Removes entry with key of Type T from ParentEntities dictionary.
+		/// Returns the result of the Dictionary.Remove() call.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <returns></returns>
+		public bool RemoveParentEntity<T>()
+		{
+			return ParentEntities.Remove(typeof(T));
+		}
 	}
 }

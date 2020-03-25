@@ -188,23 +188,25 @@ namespace HedwigTests.Repositories
 		}
 
 		[Theory]
-		[InlineData(new string[] { }, false, false, false, false)]
-		[InlineData(new string[] { "fundings" }, true, false, false, false)]
-		[InlineData(new string[] { "child" }, false, true, false, false)]
-		[InlineData(new string[] { "family" }, false, false, false, false)]
-		[InlineData(new string[] { "determinations" }, false, false, false, false)]
-		[InlineData(new string[] { "child", "family" }, false, true, true, false)]
-		[InlineData(new string[] { "child", "determinations" }, false, true, false, false)]
-		[InlineData(new string[] { "child", "family", "determinations" }, false, true, true, true)]
-		[InlineData(new string[] { "child", "family", "determinations", "fundings" }, true, true, true, true)]
-		[InlineData(new string[] { "family", "determinations" }, false, false, false, false)]
-		[InlineData(new string[] { "family", "determinations", "fundings" }, true, false, false, false)]
+		[InlineData(new string[] { }, false, false, false, false, false)]
+		[InlineData(new string[] { "fundings" }, true, false, false, false, false)]
+		[InlineData(new string[] { "child" }, false, true, false, false, false)]
+		[InlineData(new string[] { "family" }, false, false, false, false, false)]
+		[InlineData(new string[] { "determinations" }, false, false, false, false, false)]
+		[InlineData(new string[] { "past_enrollments" }, false, false, false, false, true)]
+		[InlineData(new string[] { "child", "family" }, false, true, true, false, false)]
+		[InlineData(new string[] { "child", "determinations" }, false, true, false, false, false)]
+		[InlineData(new string[] { "child", "family", "determinations" }, false, true, true, true, false)]
+		[InlineData(new string[] { "child", "family", "determinations", "fundings" }, true, true, true, true, false)]
+		[InlineData(new string[] { "family", "determinations" }, false, false, false, false, false)]
+		[InlineData(new string[] { "family", "determinations", "fundings" }, true, false, false, false, false)]
 		public async Task GetEnrollmentForSite_ReturnsEnrollmentWithIdAndSiteId_IncludesEntities(
 			string[] include,
 			bool includeFundings,
 			bool includeChild,
 			bool includeFamily,
-			bool includeDeterminations
+			bool includeDeterminations,
+			bool includePastEnrollments
 			)
 		{
 			int id;
@@ -212,6 +214,7 @@ namespace HedwigTests.Repositories
 			using (var context = new TestHedwigContextProvider().Context)
 			{
 				var enrollment = EnrollmentHelper.CreateEnrollment(context);
+				EnrollmentHelper.CreateEnrollment(context, child: enrollment.Child);
 				id = enrollment.Id;
 				siteId = enrollment.SiteId;
 			}
@@ -226,6 +229,7 @@ namespace HedwigTests.Repositories
 				Assert.Equal(includeChild, res.Child != null);
 				Assert.Equal(includeFamily, res.Child != null && res.Child.Family != null);
 				Assert.Equal(includeDeterminations, res.Child != null && res.Child.Family != null && res.Child.Family.Determinations != null);
+				Assert.Equal(includePastEnrollments, res.PastEnrollments != null);
 			}
 		}
 
