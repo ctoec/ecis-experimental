@@ -149,8 +149,7 @@ export default function EnrollmentNew({
 		}
 	};
 
-	if (loading || !user || (enrollmentId && !enrollment)) {
-		console.log(enrollmentId, enrollment);
+	if (loading || !user) {
 		// Need to check for user here so that a refresh after partial enrollment doesn't crash
 		// If there's an enrollmentId and not an enrollment, the get request is still loading
 		return <div className="EnrollmentNew"></div>;
