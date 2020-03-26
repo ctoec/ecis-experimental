@@ -52,9 +52,7 @@ import {
 	FundingType,
 } from '../../../utils/fundingSelectionUtils';
 import { FormReducer, formReducer, updateData, toFormString } from '../../../utils/forms/form';
-import useApi from '../../../hooks/useApi';
 import getFundingSpaceCapacity from '../../../utils/getFundingSpaceCapacity';
-import usePromiseExecution from '../../../hooks/usePromiseExecution';
 import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import displayErrorOrWarning from '../../../utils/validations/displayErrorOrWarning';

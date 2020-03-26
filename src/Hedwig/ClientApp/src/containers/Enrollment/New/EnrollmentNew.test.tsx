@@ -4,13 +4,17 @@ import mockUseApi, {
 	mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet,
 	mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDelete,
 	mockApiOrganizationsOrgIdSitesIdGet,
-} from '../../../hooks/__mocks__/useApi';
+	mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut,
+} from '../../../hooks/__mocks__/newUseApi';
 
 // Jest mocks must occur before later imports
-jest.mock('../../../hooks/useApi', () =>
+jest.mock('../../../hooks/newUseApi', () =>
 	mockUseApi({
 		apiOrganizationsOrgIdSitesIdGet: mockApiOrganizationsOrgIdSitesIdGet(mockSite),
 		apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet: mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(
+			mockAllFakeEnrollments
+		),
+		apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut: mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(
 			mockAllFakeEnrollments
 		),
 		apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDelete: mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDelete(),

@@ -25,7 +25,7 @@ export type ApiResult<TData> = {
 	loading: boolean;
 };
 
-interface ApiParamOpts {
+export interface ApiParamOpts {
 	skip?: boolean;
 	callback?: () => void;
 	deps?: any[];

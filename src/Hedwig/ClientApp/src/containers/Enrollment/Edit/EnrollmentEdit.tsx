@@ -12,7 +12,6 @@ import {
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest,
 } from '../../../generated';
 import { validatePermissions, getIdForUser } from '../../../utils/models';
-import useApi from '../../../hooks/useApi';
 import CommonContainer from '../../CommonContainer';
 import { hasValidationErrors } from '../../../utils/validations';
 import AlertContext from '../../../contexts/Alert/AlertContext';
@@ -23,6 +22,7 @@ import {
 	editSaveFailAlert,
 } from '../../../utils/stringFormatters';
 import { ErrorBoundary } from '../../../components';
+import useNewUseApi from '../../../hooks/newUseApi';
 
 type EnrollmentEditParams = {
 	history: History;
@@ -65,9 +65,9 @@ export default function EnrollmentEdit({
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		include: ['child', 'family', 'determinations', 'fundings'],
 	};
-	const [loading, error, enrollment, mutate] = useApi(
+	const { loading, error, data: enrollment } = useNewUseApi(
 		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
-		[user]
+		{ skip: !user }
 	);
 
 	if (!section) {
