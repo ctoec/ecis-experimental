@@ -82,7 +82,6 @@ export default function useNewUseApi<TData>(
 		if (callback && !skip && (state.data || state.error)) callback();
 	}, [state, skip]);
 
-	// No loading because loading will never be true at this point
 	return { ...state, data: state.data as DeepNonUndefineable<TData> };
 }
 
