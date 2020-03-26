@@ -98,7 +98,7 @@ export default (mockApi: any) => (
 	const { skip, callback } = opts || {};
 
 	useEffect(() => {
-		if (callback) callback();
+		if (callback && !skip) callback();
 	}, [skip]);
 
 	return skip ? { error: null, data: null, loading: false } : query(mockApi);

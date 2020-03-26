@@ -144,9 +144,10 @@ export default function EnrollmentNew({
 		setNavigated(true);
 
 		const currentIndex = sections.findIndex(section => section.key === sectionId);
-		// If we're on the last section, we'll move to a final 'review' section where all
-		// steps are collapsed and we can 'Finish' the enrollment.
+
 		if (currentIndex === sections.length - 1) {
+			// If we're on the last section, we'll move to a final 'review' section where all
+			// steps are collapsed and we can 'Finish' the enrollment.
 			history.push(`/roster/sites/${siteId}/enrollments/${_enrollment.id}/new/review`);
 		} else {
 			const nextSectionId = sections[currentIndex + 1].key;
@@ -154,6 +155,7 @@ export default function EnrollmentNew({
 		}
 	};
 
+	console.log(navigated, loading, sectionId);
 	if (navigated || loading || !user) {
 		// Need to check for user here so that a refresh after partial enrollment doesn't crash
 		// If there's an enrollmentId and not an enrollment, the get request is still loading

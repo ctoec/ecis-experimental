@@ -23,8 +23,7 @@ jest.mock('../../../hooks/newUseApi', () =>
 
 import React from 'react';
 import { createMemoryHistory } from 'history';
-import { render, fireEvent, wait } from '@testing-library/react';
-import { Route } from 'react-router';
+import { render, fireEvent, wait, act } from '@testing-library/react';
 
 import 'react-dates/initialize';
 import mockdate from 'mockdate';
@@ -73,28 +72,17 @@ describe('EnrollmentNew', () => {
 
 	it('skips family income section when lives with foster family is selected', async () => {
 		const history = createMemoryHistory();
-		const enrollment = mockEnrollmentWithFoster;
-		history.push(
-			`/roster/sites/${enrollment.siteId}/enrollments/${enrollment.id}/new/family-information`
-		);
-		const { findByLabelText, getByDisplayValue } = render(
-			<TestProvider history={history}>
-				<Route
-					path={'/roster/sites/:siteId/enrollments/:enrollmentId/new/:sectionId'}
-					render={props => (
-						<EnrollmentNew
-							history={props.history}
-							match={{
-								params: {
-									siteId: props.match.params.siteId,
-									// Throws 'TypeError: Invalid attempt to destructure non-iterable instance' if we try to read from the props
-									// I have no idea why??
-									enrollmentId: enrollment.id,
-									sectionId: props.match.params.sectionId,
-								},
-							}}
-						/>
-					)}
+		const { getByText, findByLabelText, debug } = render(
+			<TestProvider>
+				<EnrollmentNew
+					history={history}
+					match={{
+						params: {
+							siteId: 1,
+							enrollmentId: mockEnrollmentWithFoster.id,
+							sectionId: 'family-information',
+						},
+					}}
 				/>
 			</TestProvider>
 		);
@@ -102,11 +90,17 @@ describe('EnrollmentNew', () => {
 		const fosterCheckbox = await findByLabelText(/Child lives with foster family/i);
 		expect((fosterCheckbox as HTMLInputElement).checked).toBeTruthy();
 
-		const saveBtn = getByDisplayValue(/Save/i);
-		fireEvent.click(saveBtn);
+		const saveBtn = getByText(/Save/i);
+		await act(async () => {
+			fireEvent.click(saveBtn);
+		});
 
-		await wait();
-
-		expect(history.location.pathname).toMatch(/enrollment-funding/i);
+		// Hits save in family income
+		// await wait(() => find)
+		debug();
+		await wait(() => expect(history.location.pathname).toMatch(/enrollment-funding/i), {
+			timeout: 1000,
+			// mutationObserverOptions: { subtree: true },
+		});
 	});
 });
