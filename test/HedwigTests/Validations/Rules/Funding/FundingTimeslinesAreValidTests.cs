@@ -23,38 +23,32 @@ namespace HedwigTests.Validations.Rules
 		[InlineData(2010, null, 2012, 2013, true)]
 		public void Execute_ReturnsError_IfAnyFundingIsNotValid(
 			int? f1FirstReportingPeriodStartYear,
-			int? f1LastReportingPeriodStartYear,
+			int? f1LastReportingPeriodEndYear,
 			int? f2FirstReportingPeriodStartYear,
-			int? f2LastReportingPeriodStartYear,
+			int? f2LastReportingPeriodEndYear,
 			bool doesError
 		)
 		{
 			// if
-			var child = new Child();
-			var enrollment = new Enrollment
-			{
-				Child = child,
-				ChildId = child.Id
-			};
-
 			var f1FirstReportingPeriod = f1FirstReportingPeriodStartYear != null ?
 			new ReportingPeriod
 			{
 				PeriodStart = new DateTime((int)f1FirstReportingPeriodStartYear, 1, 1)
 			} :
 			null;
-			var f1LastReportingPeriod = f1LastReportingPeriodStartYear != null ?
+			var f1LastReportingPeriod = f1LastReportingPeriodEndYear != null ?
 			new ReportingPeriod
 			{
-				PeriodStart = new DateTime((int)f1LastReportingPeriodStartYear, 1, 1)
+				PeriodEnd = new DateTime((int)f1LastReportingPeriodEndYear, 1, 1)
 			} :
 			null;
 			var funding1 = new Funding
 			{
-				Enrollment = enrollment,
-				EnrollmentId = enrollment.Id,
+				Id = 1,
+				FirstReportingPeriodId = f1FirstReportingPeriod.Id,
 				FirstReportingPeriod = f1FirstReportingPeriod,
-				LastReportingPeriod = f1LastReportingPeriod
+				LastReportingPeriod = f1LastReportingPeriod,
+				Source = FundingSource.CDC
 			};
 
 			var f2FirstReportingPeriod = f2FirstReportingPeriodStartYear != null ?
@@ -63,19 +57,30 @@ namespace HedwigTests.Validations.Rules
 				PeriodStart = new DateTime((int)f2FirstReportingPeriodStartYear, 1, 1)
 			} :
 			null;
-			var f2LastReportingPeriod = f2LastReportingPeriodStartYear != null ?
+			var f2LastReportingPeriod = f2LastReportingPeriodEndYear != null ?
 			new ReportingPeriod
 			{
-				PeriodStart = new DateTime((int)f2LastReportingPeriodStartYear, 1, 1)
+				PeriodEnd = new DateTime((int)f2LastReportingPeriodEndYear, 1, 1)
 			} :
 			null;
 			var funding2 = new Funding
 			{
-				Enrollment = enrollment,
-				EnrollmentId = enrollment.Id,
+				Id = 2,
+				FirstReportingPeriodId = f2FirstReportingPeriod.Id,
 				FirstReportingPeriod = f2FirstReportingPeriod,
-				LastReportingPeriod = f2LastReportingPeriod
+				LastReportingPeriod = f2LastReportingPeriod,
+				Source = FundingSource.CDC
 			};
+
+			var child = new Child();
+			var enrollment = new Enrollment
+			{
+				Child = child,
+				ChildId = child.Id,
+				Fundings = new List<Funding> { funding1, funding2 },
+			};
+			funding1.Enrollment = enrollment;
+			funding2.Enrollment = enrollment;
 
 			var fundingRule = new Mock<IValidationRule<Funding>>();
 			var _serviceProvider = new Mock<IServiceProvider>();

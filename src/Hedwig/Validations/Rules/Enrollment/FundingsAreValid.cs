@@ -1,6 +1,6 @@
 using Hedwig.Models;
 using Hedwig.Repositories;
-using System;
+using System.Linq;
 
 namespace Hedwig.Validations.Rules
 {
@@ -23,17 +23,9 @@ namespace Hedwig.Validations.Rules
 			}
 
 			var fundings = enrollment.Fundings ?? _fundings.GetFundingsByEnrollmentId(enrollment.Id);
-			var hasValidationErrors = false;
-			foreach (var funding in fundings)
-			{
-				ValidateSubObject(funding, enrollment);
-				if (funding.ValidationErrors.Count > 0)
-				{
-					hasValidationErrors = true;
-				}
-			}
-
-			if (hasValidationErrors)
+			var listFundings = fundings.ToList();
+			ValidateSubObject(listFundings, enrollment);
+			if (listFundings.Any(f => f.ValidationErrors.Count > 0))
 			{
 				return new ValidationError(
 				field: "Fundings",

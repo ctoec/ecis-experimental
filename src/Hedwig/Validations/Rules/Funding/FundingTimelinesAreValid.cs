@@ -64,7 +64,7 @@ namespace Hedwig.Validations.Rules
 					else
 					{
 						var currentLastReportingPeriodEnd = currentFunding.LastReportingPeriod.PeriodEnd;
-						if (firstReportingPeriod < currentLastReportingPeriodEnd)
+						if (firstReportingPeriod <= currentLastReportingPeriodEnd)
 						{
 							doesOverlap = true;
 						}
@@ -78,7 +78,7 @@ namespace Hedwig.Validations.Rules
 					}
 					else
 					{
-						if (currentFirstReportingPeriodStart < lastReportingPeriod)
+						if (currentFirstReportingPeriodStart <= lastReportingPeriod)
 						{
 							doesOverlap = true;
 						}
