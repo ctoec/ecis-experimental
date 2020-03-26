@@ -63,12 +63,19 @@ export default function useApi<TData>(
 
 	// Set initial state
 	const [state, setState] = useState<ApiState<TData>>({
-		loading: true,
+		// If we are eagerly making a request (not skipping), begin by loading true
+		// If we are to skip to start, don't start loading
+		loading: !skip,
 		error: null,
 		skip,
 		data: defaultValue,
 	});
 	const { loading, error, data } = state;
+
+	// Start/end loading whenever skip switches
+	useEffect(() => {
+		setState(_state => ({ ..._state, loading: !skip }));
+	}, [skip]);
 
 	// Construct API with null default
 	const api = accessToken

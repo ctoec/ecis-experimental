@@ -92,7 +92,7 @@ namespace Hedwig.Data
 		"David,Bradley,2014-11-20,Male,TRUE,2018-09-03,2019-08-30,CDC,C4K,,",
 		"John,Cleese,2015-10-21,Male,TRUE,2019-09-02,,,,,",
 		"John,Hurt,2018-02-14,Male,TRUE,2019-09-02,,CDC,,,",
-		"Kenneth,Branagh,2018-08-19,Male,FALSE,2019-09-02,,CDC,,,",
+		"Kenneth,Branagh,2018-08-19,Male,FALSE,2019-09-02,,CDC2,,,",
 		"Miranda,Richardson,2018-11-09,Female,TRUE,2019-09-02,,CDC,,,",
 		"Matthew,Lewis,2017-12-07,Male,TRUE,2019-09-02,,,,,",
 		"Tom,FELTON,2015-07-29,Male,TRUE,2019-09-02,,CDC,,,",
@@ -134,6 +134,7 @@ namespace Hedwig.Data
 				var entry = cells[5];
 				var exit = cells[6] != "" ? cells[6] : null;
 				var cdc = cells[7] == "CDC";
+				var cdc2 = cells[7] == "CDC2";
 				var c4k = cells[8] == "C4K";
 				var foster = cells[9] == "FOSTER";
 				var alternateSite = cells[10] == "ALTERNATE";
@@ -181,6 +182,25 @@ namespace Hedwig.Data
 					time: FundingTime.Full,
 					firstReportingPeriod: entry == "2018-09-03" ? reportingPeriods[14] : reportingPeriods[26],
 					lastReportingPeriod: cells[6] != "" ? reportingPeriods[25] : null
+					);
+				}
+
+				if (cdc2)
+				{
+					CreateFunding(
+					enrollmentId: enrollment.Id,
+					source: FundingSource.CDC,
+					time: FundingTime.Full,
+					firstReportingPeriod: reportingPeriods[30],
+					lastReportingPeriod: reportingPeriods[31]
+					);
+
+					CreateFunding(
+					enrollmentId: enrollment.Id,
+					source: FundingSource.CDC,
+					time: FundingTime.Full,
+					firstReportingPeriod: reportingPeriods[32],
+					lastReportingPeriod: null
 					);
 				}
 

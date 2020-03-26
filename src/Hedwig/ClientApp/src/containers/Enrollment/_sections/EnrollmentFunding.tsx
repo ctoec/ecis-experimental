@@ -19,14 +19,10 @@ import { validatePermissions, getIdForUser } from '../../../utils/models';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../../utils/types';
 import {
 	sectionHasValidationErrors,
-	warningForField,
-	warningForFieldSet,
-	serverErrorForField,
 	initialLoadErrorGuard,
 	useFocusFirstError,
 	isBlockingValidationError,
 	processValidationError,
-	clientErrorForField,
 } from '../../../utils/validations';
 import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
 import {
@@ -116,9 +112,21 @@ const EnrollmentFunding: Section = {
 						{!isPrivatePay && !sourcelessFunding && (
 							<p>
 								First reporting period:{' '}
-								{fundingFirstReportingPeriod
-									? reportingPeriodFormatter(fundingFirstReportingPeriod)
-									: InlineIcon({ icon: 'incomplete' })}
+								{fundingFirstReportingPeriod ? (
+									processValidationError(
+										'firstReportingPeriod',
+										cdcFunding && cdcFunding.validationErrors
+									) ? (
+										<>
+											{reportingPeriodFormatter(fundingFirstReportingPeriod)}
+											{InlineIcon({ icon: 'incomplete' })}
+										</>
+									) : (
+										reportingPeriodFormatter(fundingFirstReportingPeriod)
+									)
+								) : (
+									InlineIcon({ icon: 'incomplete' })
+								)}
 							</p>
 						)}
 						{receivesC4k && c4kFunding && (
@@ -196,7 +204,8 @@ const EnrollmentFunding: Section = {
 		);
 		const sourcelessFunding = getSourcelessFunding(_enrollment);
 
-		const [cdcFunding, updateCdcFunding] = useState(currentCdcFunding(fundings));
+		const cdcFundings = fundings.filter(funding => funding.source === FundingSource.CDC);
+		const cdcFunding = currentCdcFunding(fundings);
 		const [cdcReportingPeriod, updateCdcReportingPeriod] = useState<ReportingPeriod | undefined>(
 			cdcFunding ? cdcFunding.firstReportingPeriod : undefined
 		);
@@ -219,18 +228,42 @@ const EnrollmentFunding: Section = {
 		// For drop down and change on enrollment start date
 		useEffect(() => {
 			const startDate = entry ? entry : enrollment.entry ? enrollment.entry : moment().toDate();
-			const nextPeriods = nextNReportingPeriods(reportingPeriods, startDate, 5);
-			let nextPeriodsExcludingCurrent = nextPeriods;
-			if (cdcReportingPeriod) {
-				nextPeriodsExcludingCurrent = [
-					...nextPeriods.filter(period => period.id !== cdcReportingPeriod.id),
-				];
+			const currentlyUsedReportingPeriods = cdcFundings
+				.map(funding => funding.lastReportingPeriod)
+				.sort((p1, p2) =>
+					moment(p1.periodStart).isSame(p2.periodStart)
+						? 0
+						: moment(p1.periodStart).isBefore(p2.periodStart)
+						? -1
+						: 1
+				)
+				.filter(lastReportingPeriod => lastReportingPeriod !== undefined);
+
+			// If there are previous CDC fundings, find the most recent last reporting end date
+			let newestReportingPeriodEnd: Date | null = null;
+			if (currentlyUsedReportingPeriods.length >= 1) {
+				newestReportingPeriodEnd =
+					currentlyUsedReportingPeriods[currentlyUsedReportingPeriods.length - 1].periodEnd;
 			}
-			const periods = cdcReportingPeriod
-				? [cdcReportingPeriod, ...nextPeriodsExcludingCurrent]
-				: nextPeriodsExcludingCurrent;
+			// If the most recent end date exists, only show reporting period options after it.
+			// Otherwise, only show reporting period options on or after the enrollment entry date
+			var beginningDate = newestReportingPeriodEnd
+				? moment(newestReportingPeriodEnd)
+						.add(1, 'd')
+						.toDate()
+				: startDate;
+			let nextPeriods = nextNReportingPeriods(reportingPeriods, beginningDate, 5);
+
+			// If there is currently a selected value for the reporting period
+			if (cdcReportingPeriod) {
+				// Exclude it so we can safely add it back in without creating a duplicate
+				nextPeriods = [...nextPeriods.filter(period => period.id !== cdcReportingPeriod.id)];
+			}
+			// If there is currently a selected value for the reporting period
+			// We want to make sure that it is shown in the select field
+			const periods = cdcReportingPeriod ? [cdcReportingPeriod, ...nextPeriods] : nextPeriods;
 			updateReportingPeriodOptions([...periods].sort(periodSorter));
-		}, [enrollment.entry, entry, reportingPeriods, cdcReportingPeriod]);
+		}, [enrollment.entry, entry, reportingPeriods, cdcReportingPeriod, enrollment.fundings]);
 
 		// Dropdown options for funding type
 		const [fundingTypeOpts, setFundingTypeOpts] = useState<{ value: string; text: string }[]>([]);
@@ -533,7 +566,10 @@ const EnrollmentFunding: Section = {
 									{
 										object: cdcFunding || null,
 										field: 'firstReportingPeriod',
-										message: 'This information is required for OEC reporting',
+										message:
+											cdcFunding && !cdcFunding.firstReportingPeriodId
+												? 'This information is required for OEC reporting'
+												: undefined,
 									}
 								)
 							)}

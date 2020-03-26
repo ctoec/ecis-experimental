@@ -22,45 +22,74 @@ namespace Hedwig.Validations.Rules
 
 		public ValidationError Execute(Funding funding, NonBlockingValidationContext context)
 		{
+			if (funding.FirstReportingPeriodId == null)
+			{
+				return null;
+			}
 			var currentEnrollment = funding.Enrollment ?? _enrollments.GetEnrollmentById(funding.EnrollmentId);
 			var childId = currentEnrollment.ChildId;
-			var childFundings = _fundings.GetFundingsByChildId(childId);
-			var sortedFundings = childFundings.TakeWhile(f => f.FirstReportingPeriod != null).OrderBy(f => f.FirstReportingPeriod.PeriodStart);
+			var otherCdcFundings = _fundings.GetFundingsByChildId(childId).Where(f => f.Source == FundingSource.CDC).Where(f => f.Id != funding.Id);
+			var sortedFundings = otherCdcFundings.OrderBy(f => f.FirstReportingPeriod.PeriodStart);
 
 			if (sortedFundings.Count() == 0)
 			{
 				return null;
 			}
 
-			var currentFunding = sortedFundings.FirstOrDefault();
-			DateTime? currentEndReportingPeriod = null;
-			if (currentFunding.LastReportingPeriod != null)
+			var firstReportingPeriod = funding.FirstReportingPeriod.PeriodStart;
+			DateTime? lastReportingPeriod = null;
+			if (funding.LastReportingPeriod != null)
 			{
-				currentEndReportingPeriod = currentFunding.LastReportingPeriod.PeriodStart;
-			}
-			var isValid = true;
-			foreach (var iFunding in sortedFundings.Skip(1))
-			{
-				var nextReportingPeriod = iFunding.FirstReportingPeriod;
-				if (currentEndReportingPeriod == null)
-				{
-					isValid = false;
-				}
-				else
-				{
-					if (nextReportingPeriod != null)
-					{
-						var nextStartReportingPeriod = nextReportingPeriod.PeriodStart;
-						isValid = isValid && currentEndReportingPeriod < nextStartReportingPeriod;
-					}
-				}
-				currentEndReportingPeriod = nextReportingPeriod.PeriodEnd;
+				lastReportingPeriod = funding.LastReportingPeriod.PeriodEnd;
 			}
 
-			if (!isValid)
+			var doesOverlap = false;
+			foreach (var currentFunding in sortedFundings)
+			{
+				if (doesOverlap)
+				{
+					break;
+				}
+				var currentFirstReportingPeriodStart = currentFunding.FirstReportingPeriod.PeriodStart;
+				if (currentFirstReportingPeriodStart == firstReportingPeriod)
+				{
+					doesOverlap = true;
+				}
+				else if (currentFirstReportingPeriodStart < firstReportingPeriod)
+				{
+					if (currentFunding.LastReportingPeriod == null)
+					{
+						doesOverlap = true;
+					}
+					else
+					{
+						var currentLastReportingPeriodEnd = currentFunding.LastReportingPeriod.PeriodEnd;
+						if (firstReportingPeriod < currentLastReportingPeriodEnd)
+						{
+							doesOverlap = true;
+						}
+					}
+				}
+				else /* (firstReportingPeriod < currentFirstReportingPeriodStart) */
+				{
+					if (lastReportingPeriod == null)
+					{
+						doesOverlap = true;
+					}
+					else
+					{
+						if (currentFirstReportingPeriodStart < lastReportingPeriod)
+						{
+							doesOverlap = true;
+						}
+					}
+				}
+			}
+
+			if (doesOverlap)
 			{
 				return new ValidationError(
-					message: "Funding reporting periods cannot overlap",
+					message: "Cannot claim a child twice in a reporting period",
 					isSubObjectValidation: false,
 					field: "FirstReportingPeriod"
 				);

@@ -1,5 +1,6 @@
 using Hedwig.Models;
 using Hedwig.Repositories;
+using System;
 
 namespace Hedwig.Validations.Rules
 {
@@ -22,17 +23,23 @@ namespace Hedwig.Validations.Rules
 			}
 
 			var fundings = enrollment.Fundings ?? _fundings.GetFundingsByEnrollmentId(enrollment.Id);
+			var hasValidationErrors = false;
 			foreach (var funding in fundings)
 			{
 				ValidateSubObject(funding, enrollment);
 				if (funding.ValidationErrors.Count > 0)
 				{
-					return new ValidationError(
-					field: "Fundings",
-					message: "Fundings has validation errors",
-					isSubObjectValidation: true
-					);
+					hasValidationErrors = true;
 				}
+			}
+
+			if (hasValidationErrors)
+			{
+				return new ValidationError(
+				field: "Fundings",
+				message: "Fundings has validation errors",
+				isSubObjectValidation: true
+				);
 			}
 
 			return null;

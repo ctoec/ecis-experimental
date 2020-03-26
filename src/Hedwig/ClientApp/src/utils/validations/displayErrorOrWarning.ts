@@ -21,7 +21,7 @@ export default function displayErrorOrWarning<T>(
 		object: T | null;
 		field?: string;
 		fields?: string[];
-		message: string;
+		message?: string;
 	}
 ): FormStatusProps | undefined {
 	if (error) {
@@ -41,7 +41,7 @@ export default function displayErrorOrWarning<T>(
 					options.fieldSetId as string,
 					warningOptions.fields as string[],
 					warningOptions.object,
-					warningOptions.message
+					warningOptions.message as string
 				);
 			} else {
 				return warningForField(
