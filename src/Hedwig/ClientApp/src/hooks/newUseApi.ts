@@ -59,7 +59,7 @@ export default function useNewUseApi<TData>(
 			return;
 		}
 
-		setState({ ...state, loading: true });
+		setState({ data: null, error: null, loading: true });
 
 		const api = constructApi(accessToken);
 		if (!api) {

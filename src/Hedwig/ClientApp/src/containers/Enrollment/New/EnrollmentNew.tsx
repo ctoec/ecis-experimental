@@ -95,7 +95,7 @@ export default function EnrollmentNew({
 				...params,
 				include: ['child', 'family', 'determinations', 'fundings', 'sites'],
 			}),
-		{ skip: !enrollmentId || !user }
+		{ skip: !enrollmentId || !user, deps: [sectionId] }
 	);
 
 	const [cancel, updateCancel] = useState(false);
@@ -148,8 +148,10 @@ export default function EnrollmentNew({
 			history.push(`/roster/sites/${siteId}/enrollments/${_enrollment.id}/new/${nextSectionId}`);
 		}
 	};
+	const { child } = enrollment || {};
+	console.log({ loading }, history.location.pathname, sectionId, { child });
 
-	if (loading || !user) {
+	if (loading || !user || (enrollmentId && !enrollment)) {
 		// Need to check for user here so that a refresh after partial enrollment doesn't crash
 		// If there's an enrollmentId and not an enrollment, the get request is still loading
 		return <div className="EnrollmentNew"></div>;
