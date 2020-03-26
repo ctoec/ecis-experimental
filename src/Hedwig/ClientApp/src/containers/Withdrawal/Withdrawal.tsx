@@ -168,8 +168,8 @@ export default function Withdrawal({
 				...enrollment,
 				child: {
 					...enrollment.child,
-					c4KCertificates: c4KCertificates as DeepNonUndefineable<C4KCertificate[]>
-				}
+					c4KCertificates: c4KCertificates as DeepNonUndefineable<C4KCertificate[]>,
+				},
 			});
 		}
 	};

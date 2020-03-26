@@ -67,13 +67,14 @@ const EnrollmentFunding: Section = {
 		enrollment &&
 		(sectionHasValidationErrors([enrollment.fundings]) ||
 			processValidationError('ageGroup', enrollment ? enrollment.validationErrors : null) ||
-			processValidationError('entry', enrollment ? enrollment.validationErrors : null))
+			processValidationError('entry', enrollment ? enrollment.validationErrors : null) ||
+			sectionHasValidationErrors([enrollment.child]))
 			? 'incomplete'
 			: 'complete',
 
 	Summary: ({ enrollment }) => {
 		if (!enrollment) return <></>;
-
+		const child = enrollment.child;
 		const sourcelessFunding = getSourcelessFunding(enrollment);
 		const fundings = enrollment.fundings || [];
 		const cdcFunding = currentCdcFunding(fundings);
@@ -135,8 +136,8 @@ const EnrollmentFunding: Section = {
 							<>
 								<p>
 									Care 4 Kids Family ID:{' '}
-									{c4kFunding.familyCertificateId
-										? c4kFunding.familyCertificateId
+									{child.c4KFamilyCaseNumber
+										? child.c4KFamilyCaseNumber
 										: InlineIcon({ icon: 'incomplete' })}
 								</p>
 								<p>
@@ -206,6 +207,7 @@ const EnrollmentFunding: Section = {
 		const [fundings, updateFundings] = useState(
 			_enrollment.fundings || ([] as DeepNonUndefineableArray<Funding>)
 		);
+		const child = _enrollment.child;
 		const sourcelessFunding = getSourcelessFunding(_enrollment);
 
 		const cdcFundings = fundings.filter(funding => funding.source === FundingSource.CDC);
@@ -394,22 +396,24 @@ const EnrollmentFunding: Section = {
 		}, [fundingSelection, cdcReportingPeriod]);
 
 		// *** C4K ***
-		const inputC4kFunding = currentC4kCertificate(enrollment);
+				const inputC4kFunding = currentC4kCertificate(enrollment);
 		const [c4kCertificates, updateC4kCertificates] = useState<C4KCertificate[]>([
 			...(enrollment.child.c4KCertificates || []),
 		]);
+		const [c4kFamilyId, updateC4kFamilyId] = useState<number | null>(
+			child ? child.c4KFamilyCaseNumber : null
+		);
 		const [c4kFunding, updateC4kFunding] = useState<DeepNonUndefineable<C4KCertificate>>(
 			inputC4kFunding ||
 				({
 					id: 0,
 					childId: enrollment.child.id,
-					familyCertificateId: null,
 					startDate: null,
 					endDate: null
 				} as DeepNonUndefineable<C4KCertificate>)
 		);
 		const [receivesC4k, updateReceivesC4k] = useState<boolean>(!!inputC4kFunding);
-		const { familyCertificateId: c4kFamilyId, startDate: c4kCertificateStartDate } =
+		const { startDate: c4kCertificateStartDate } =
 			c4kFunding || {};
 		useEffect(() => {
 			// When the existing one is updated, update the fundings
@@ -433,6 +437,7 @@ const EnrollmentFunding: Section = {
 				fundings: fundings,
 				child: {
 					..._enrollment.child,
+					c4KFamilyCaseNumber: c4kFamilyId,
 					c4KCertificates: c4kCertificates,
 				},
 			},
@@ -630,12 +635,8 @@ const EnrollmentFunding: Section = {
 								id="familyId"
 								label="Family ID"
 								defaultValue={c4kFamilyId ? '' + c4kFamilyId : ''}
-								onChange={event =>
-									updateC4kFunding({
-										...c4kFunding,
-										familyCertificateId: parseInt(event.target.value) || null,
-									})
-								}
+								// TODO: USE REDUCER HERE
+								onChange={event => updateC4kFamilyId(parseInt(event.target.value))}
 								status={initialLoadErrorGuard(
 									initialLoad,
 									displayErrorOrWarning(
@@ -645,8 +646,8 @@ const EnrollmentFunding: Section = {
 										},
 										undefined,
 										{
-											object: c4kFunding ? c4kFunding : null,
-											field: 'familyCertificateId',
+											object: child ? child : null,
+											field: 'c4KFamilyCaseNumber',
 											message: 'This information is required for OEC reporting',
 										}
 									)

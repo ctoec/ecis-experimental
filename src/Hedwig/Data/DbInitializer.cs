@@ -213,7 +213,8 @@ namespace Hedwig.Data
 					childId: child.Id,
 					certificateStartDate: entry,
 					certificateEndDate: exit,
-					familyId: 123456
+					child: child,
+					caseNumber: 123456
 					);
 				}
 
@@ -451,7 +452,8 @@ namespace Hedwig.Data
 			int enrollmentId,
 			bool isC4K,
 			Guid? childId = null,
-			int? familyId = null,
+			Child child = null,
+			int? caseNumber = null,
 			string certificateStartDate = null,
 			string certificateEndDate = null,
 			FundingSource? source = FundingSource.CDC,
@@ -471,8 +473,8 @@ namespace Hedwig.Data
 						ChildId = (Guid)childId,
 						StartDate = DateTime.Parse(certificateStartDate),
 						EndDate = null,
-						FamilyCertificateId = random.Next(1000, 9999)
 					};
+					child.C4KFamilyCaseNumber = caseNumber ?? (new Random()).Next(1, 9999);
 				}
 				else
 				{
@@ -481,7 +483,6 @@ namespace Hedwig.Data
 						ChildId = (Guid)childId,
 						StartDate = DateTime.Parse(certificateStartDate),
 						EndDate = DateTime.Parse(certificateEndDate),
-						FamilyCertificateId = random.Next(1000, 9999),
 					};
 				}
 

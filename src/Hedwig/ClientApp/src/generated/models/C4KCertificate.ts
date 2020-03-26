@@ -52,12 +52,6 @@ export interface C4KCertificate {
 	endDate?: Date | null;
 	/**
 	 *
-	 * @type {number}
-	 * @memberof C4KCertificate
-	 */
-	familyCertificateId: number | null;
-	/**
-	 *
 	 * @type {Array<ValidationError>}
 	 * @memberof C4KCertificate
 	 */
@@ -84,7 +78,6 @@ export function C4KCertificateFromJSONTyped(
 			: json['endDate'] === null
 			? null
 			: new Date(json['endDate']),
-		familyCertificateId: json['familyCertificateId'],
 		validationErrors: !exists(json, 'validationErrors')
 			? undefined
 			: json['validationErrors'] === null
@@ -110,7 +103,6 @@ export function C4KCertificateToJSON(value?: C4KCertificate | null): any {
 				: value.endDate === null
 				? null
 				: value.endDate.toISOString(),
-		familyCertificateId: value.familyCertificateId,
 		validationErrors:
 			value.validationErrors === undefined
 				? undefined

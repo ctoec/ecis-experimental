@@ -14,13 +14,9 @@ namespace Hedwig.Models
 		[Required]
 		public Guid ChildId { get; set; }
 
-		[Required]
 		public DateTime? StartDate { get; set; }
 
 		public DateTime? EndDate { get; set; }
-
-		[Required]
-		public int? FamilyCertificateId { get; set; }
 
 		[NotMapped]
 		public List<ValidationError> ValidationErrors { get; set; }

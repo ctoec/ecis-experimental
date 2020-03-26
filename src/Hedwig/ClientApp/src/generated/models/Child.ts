@@ -190,6 +190,12 @@ export interface Child {
 	organization?: Organization;
 	/**
 	 *
+	 * @type {number}
+	 * @memberof Child
+	 */
+	c4KFamilyCaseNumber?: number | null;
+	/**
+	 *
 	 * @type {Array<C4KCertificate>}
 	 * @memberof Child
 	 */
@@ -272,6 +278,9 @@ export function ChildFromJSONTyped(json: any, ignoreDiscriminator: boolean): Chi
 		organization: !exists(json, 'organization')
 			? undefined
 			: OrganizationFromJSON(json['organization']),
+		c4KFamilyCaseNumber: !exists(json, 'c4KFamilyCaseNumber')
+			? undefined
+			: json['c4KFamilyCaseNumber'],
 		c4KCertificates:
 			json['c4KCertificates'] === null
 				? null
@@ -332,6 +341,7 @@ export function ChildToJSON(value?: Child | null): any {
 				: (value.enrollments as Array<any>).map(EnrollmentToJSON),
 		organizationId: value.organizationId,
 		organization: OrganizationToJSON(value.organization),
+		c4KFamilyCaseNumber: value.c4KFamilyCaseNumber,
 		c4KCertificates:
 			value.c4KCertificates === null
 				? null

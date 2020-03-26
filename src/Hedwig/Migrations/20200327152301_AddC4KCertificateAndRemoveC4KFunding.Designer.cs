@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hedwig.Migrations
 {
     [DbContext(typeof(HedwigContext))]
-    [Migration("20200313174500_AddC4KCertificateModel")]
-    partial class AddC4KCertificateModel
+    [Migration("20200327152301_AddC4KCertificateAndRemoveC4KFunding")]
+    partial class AddC4KCertificateAndRemoveC4KFunding
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -35,12 +35,7 @@ namespace Hedwig.Migrations
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("FamilyCertificateId")
-                        .IsRequired()
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("StartDate")
-                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -79,6 +74,9 @@ namespace Hedwig.Migrations
 
                     b.Property<bool>("BlackOrAfricanAmerican")
                         .HasColumnType("bit");
+
+                    b.Property<int?>("C4KFamilyCaseNumber")
+                        .HasColumnType("int");
 
                     b.Property<int?>("FamilyId")
                         .HasColumnType("int");
@@ -268,16 +266,7 @@ namespace Hedwig.Migrations
                     b.Property<int?>("AuthorId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("CertificateEndDate")
-                        .HasColumnType("date");
-
-                    b.Property<DateTime?>("CertificateStartDate")
-                        .HasColumnType("date");
-
                     b.Property<int>("EnrollmentId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("FamilyId")
                         .HasColumnType("int");
 
                     b.Property<int?>("FirstReportingPeriodId")
