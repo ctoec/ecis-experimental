@@ -7,7 +7,7 @@ import FamilyInfo from '../_sections/FamilyInfo';
 import FamilyIncome from '../_sections/FamilyIncome';
 import EnrollmentFunding from '../_sections/EnrollmentFunding';
 import { Button, ErrorBoundary } from '../../../components';
-import useNewUseApi, { ApiError } from '../../../hooks/newUseApi';
+import useNewUseApi from '../../../hooks/newUseApi';
 import UserContext from '../../../contexts/User/UserContext';
 import {
 	Enrollment,
