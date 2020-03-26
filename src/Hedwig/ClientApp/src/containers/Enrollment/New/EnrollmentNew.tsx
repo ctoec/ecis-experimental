@@ -82,6 +82,12 @@ export default function EnrollmentNew({
 		});
 	};
 
+	/*
+		We need "navigated" because history push in save rerenders this component before useApi has a chance to
+		set loading to true (and reload the enrollment with new fields, i.e. family for family income), leading to errors.
+	*/
+	const [navigated, setNavigated] = useState(false);
+
 	// Get enrollment by id
 	const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest = {
 		id: enrollmentId ? enrollmentId : 0,
@@ -95,7 +101,7 @@ export default function EnrollmentNew({
 				...params,
 				include: ['child', 'family', 'determinations', 'fundings', 'sites'],
 			}),
-		{ skip: !enrollmentId || !user, deps: [sectionId] }
+		{ skip: !enrollmentId || !user, deps: [sectionId], callback: () => setNavigated(false) }
 	);
 
 	const [cancel, updateCancel] = useState(false);
@@ -110,8 +116,6 @@ export default function EnrollmentNew({
 	};
 	const { error: cancelError } = useNewUseApi(
 		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDelete(cancelParams),
-		// [enrollmentId, enrollment, user, cancel],
-		// TODO: DO WE NEED TO DO ANYTHING WITH THESE DEPS NOW?
 		{
 			skip: !cancel,
 			callback: processSuccessfulCancel,
@@ -137,8 +141,9 @@ export default function EnrollmentNew({
 			history.replace(`/roster/sites/${siteId}/enrollments/${_enrollment.id}/new/${sectionId}`);
 		}
 
-		const currentIndex = sections.findIndex(section => section.key === sectionId);
+		setNavigated(true);
 
+		const currentIndex = sections.findIndex(section => section.key === sectionId);
 		// If we're on the last section, we'll move to a final 'review' section where all
 		// steps are collapsed and we can 'Finish' the enrollment.
 		if (currentIndex === sections.length - 1) {
@@ -148,10 +153,8 @@ export default function EnrollmentNew({
 			history.push(`/roster/sites/${siteId}/enrollments/${_enrollment.id}/new/${nextSectionId}`);
 		}
 	};
-	const { child } = enrollment || {};
-	console.log({ loading }, history.location.pathname, sectionId, { child });
 
-	if (loading || !user || (enrollmentId && !enrollment)) {
+	if (navigated || loading || !user) {
 		// Need to check for user here so that a refresh after partial enrollment doesn't crash
 		// If there's an enrollmentId and not an enrollment, the get request is still loading
 		return <div className="EnrollmentNew"></div>;
@@ -167,8 +170,6 @@ export default function EnrollmentNew({
 		siteId,
 		visitedSections,
 	};
-
-	console.log(props);
 
 	return (
 		<CommonContainer>
