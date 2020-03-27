@@ -2,6 +2,7 @@ import { DeepNonUndefineable } from '../types';
 import { DateRange } from '../../components';
 import { Funding, FundingSource, FundingTime, ReportingPeriod, Enrollment } from '../../generated';
 import moment from 'moment';
+import { dateSorter } from '../dateSorter';
 
 /**
  * naive-ly deduplicate fundings based on source & time for displaying in roster
@@ -148,6 +149,12 @@ export function getSourcelessFunding(
 	}
 
 	return fundings.find(funding => !funding.source);
+}
+
+export function fundingStartSorter(a: Funding, b: Funding): number {
+	var dateA = a.firstReportingPeriod ? a.firstReportingPeriod.period : null;
+	var dateB = b.firstReportingPeriod ? b.firstReportingPeriod.period : null;
+	return dateSorter(dateA, dateB);
 }
 
 export const NO_FUNDING = 'private pay';

@@ -11,10 +11,11 @@ import {
 } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
 import newUseApi from '../../../hooks/newUseApi';
-import { validatePermissions, getIdForUser } from '../../../utils/models';
+import { validatePermissions, getIdForUser, getEnrollmentHistoryProps } from '../../../utils/models';
 import { InlineIcon, Button } from '../../../components';
 import CommonContainer from '../../CommonContainer';
 import { SectionProps } from '../enrollmentTypes';
+import { ProcessList } from '../../../components/ProcessList/ProcessList';
 
 type EnrollmentDetailParams = {
 	match: {
@@ -107,6 +108,13 @@ export default function EnrollmentDetail({
 						</section>
 					);
 				})}
+				<div className="padding-top-2">
+					<h2>Enrollment summary</h2>
+					<ProcessList
+						processStepProps={getEnrollmentHistoryProps(enrollment)}
+						additionalClassName="margin-left-1"
+					/>
+					</div>
 			</div>
 		</CommonContainer>
 	);

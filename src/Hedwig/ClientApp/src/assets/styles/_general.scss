@@ -147,3 +147,8 @@ a.usa-button {
 	background-color: color('gold-30v');
 	color: #000;
 }
+
+// theme color primary tag bg
+.bg-theme-color-primary {
+	background-color: $theme-color-primary;
+}

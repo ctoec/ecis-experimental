@@ -1,9 +1,9 @@
-import { Enrollment, Gender, User, C4KCertificate } from '../../generated';
-import { isCurrentFundingToRange } from './funding';
-import { DateRange } from '../../components';
-import { validatePermissions, getIdForUser } from '.';
-import emptyGuid from '../emptyGuid';
-import { DeepNonUndefineable } from '../types';
+import { Enrollment, Gender, User, C4KCertificate } from '../../../generated';
+import { isCurrentFundingToRange } from '.';
+import { DateRange } from '../../../components';
+import { validatePermissions, getIdForUser } from '..';
+import emptyGuid from '../../emptyGuid';
+import { DeepNonUndefineable } from '../../types';
 
 export function emptyEnrollment(siteId: number, user?: User) {
 	return {
@@ -73,3 +73,4 @@ export const enrollmentExitReasons = {
 	AskedToLeave: 'Child was asked to leave',
 	Unknown: 'Unknown',
 };
+
