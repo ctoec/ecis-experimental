@@ -1,8 +1,7 @@
 import { StepStatus } from '../../components/StepList/StepList';
 import { Enrollment } from '../../generated';
-import { Mutate } from '../../hooks/useApi';
 import { DeepNonUndefineable } from '../../utils/types';
-import { ApiError } from '../../hooks/useApi';
+import { ApiError } from '../../hooks/newUseApi';
 
 export type SectionProps = {
 	enrollment: DeepNonUndefineable<Enrollment> | null;

@@ -29,7 +29,6 @@ import {
 	initialLoadErrorGuard,
 	isBlockingValidationError,
 } from '../../../utils/validations';
-import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import { FormReducer, formReducer, updateData } from '../../../utils/forms/form';
 import { DeepNonUndefineable } from '../../../utils/types';

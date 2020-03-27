@@ -10,7 +10,7 @@ import {
 	Enrollment,
 } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
-import useApi from '../../../hooks/useApi';
+import newUseApi from '../../../hooks/newUseApi';
 import { validatePermissions, getIdForUser } from '../../../utils/models';
 import { InlineIcon, Button } from '../../../components';
 import CommonContainer from '../../CommonContainer';
@@ -47,11 +47,10 @@ export default function EnrollmentDetail({
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		include: ['child', 'family', 'determinations', 'fundings', 'sites', 'past_enrollments'],
 	};
-	const [loading, error, enrollment, mutate] = useApi<Enrollment>(
+	const { loading, error, data: enrollment } = newUseApi<Enrollment>(
 		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
-		[enrollmentId, user],
 		{
-			skip: !enrollmentId,
+			skip: !enrollmentId || !user,
 		}
 	);
 
@@ -84,7 +83,7 @@ export default function EnrollmentDetail({
 					/>
 				</div>
 				{sections.map(section => {
-					var props: SectionProps = { siteId, enrollment, mutate, error };
+					var props: SectionProps = { siteId, enrollment, error };
 					const familyIncomeForFosterChild = section.key === 'family-income' && child.foster;
 					return (
 						<section key={section.key} className="oec-enrollment-details-section">
