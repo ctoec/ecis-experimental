@@ -7,7 +7,7 @@ import {
 	ValidationProblemDetailsFromJSON,
 } from '../generated';
 import { DeepNonUndefineable } from '../utils/types';
-import { useContext, useEffect, useState, TdHTMLAttributes } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import AuthenticationContext from '../contexts/Authentication/AuthenticationContext';
 import getCurrentHost from '../utils/getCurrentHost';
 
@@ -99,7 +99,6 @@ const constructApi: (accessToken: string | null) => HedwigApi | null = (
 };
 
 const parseError: (error: any) => Promise<ApiError | null> = async (error: any) => {
-	console.error(error);
 	try {
 		const jsonResponse = await error.json();
 		if (error.status === 400) {
