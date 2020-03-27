@@ -101,7 +101,5 @@ export default (mockApi: any) => (
 		if (callback && !skip) callback();
 	}, [skip, ...(deps || [])]);
 
-	console.log(query(mockApi), skip, callback);
-
 	return skip ? { error: null, data: null, loading: false } : query(mockApi);
 };

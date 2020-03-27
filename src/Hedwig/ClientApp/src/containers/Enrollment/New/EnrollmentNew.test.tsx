@@ -76,20 +76,6 @@ describe('EnrollmentNew', () => {
 		history.push(
 			`/roster/sites/${mockEnrollmentWithFoster.siteId}/enrollments/${mockEnrollmentWithFoster.id}/new/family-information`
 		);
-		// const { getByText, findByLabelText, debug } = render(
-		// 	<TestProvider>
-		// 		<EnrollmentNew
-		// 			history={history}
-		// 			match={{
-		// 				params: {
-		// 					siteId: 1,
-		// 					enrollmentId: mockEnrollmentWithFoster.id,
-		// 					sectionId: history.location.pathname.split('/').pop(),
-		// 				},
-		// 			}}
-		// 		/>
-		// 	</TestProvider>
-		// );
 
 		const { findByLabelText, getByText, debug } = render(
 			<TestProvider history={history}>
