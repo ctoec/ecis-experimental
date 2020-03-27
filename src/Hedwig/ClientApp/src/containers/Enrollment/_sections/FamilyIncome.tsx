@@ -171,7 +171,6 @@ const FamilyIncome: Section = {
 			}
 		}, [saveData, saveError]);
 
-		console.log(child, successCallback)
 		// To skip over family income section when "Lives with foster family" is selected
 		if (child.foster && successCallback) {
 			successCallback(enrollment);

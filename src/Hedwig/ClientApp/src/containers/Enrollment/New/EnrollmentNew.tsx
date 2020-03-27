@@ -155,7 +155,7 @@ export default function EnrollmentNew({
 		}
 	};
 
-	console.log(navigated, loading, sectionId);
+	console.log({ navigated }, { loading }, { history });
 	if (navigated || loading || !user) {
 		// Need to check for user here so that a refresh after partial enrollment doesn't crash
 		// If there's an enrollmentId and not an enrollment, the get request is still loading

@@ -23,7 +23,7 @@ jest.mock('../../../hooks/newUseApi', () =>
 
 import React from 'react';
 import { createMemoryHistory } from 'history';
-import { render, fireEvent, wait, act } from '@testing-library/react';
+import { render, fireEvent, wait, act, getByLabelText } from '@testing-library/react';
 
 import 'react-dates/initialize';
 import mockdate from 'mockdate';
@@ -32,6 +32,7 @@ import TestProvider from '../../../contexts/__mocks__/TestProvider';
 import { mockCompleteEnrollment, mockEnrollmentWithFoster } from '../../../tests/data';
 
 import EnrollmentNew from './EnrollmentNew';
+import { Route } from 'react-router';
 
 const fakeDate = '2019-03-02';
 
@@ -72,17 +73,40 @@ describe('EnrollmentNew', () => {
 
 	it('skips family income section when lives with foster family is selected', async () => {
 		const history = createMemoryHistory();
-		const { getByText, findByLabelText, debug } = render(
-			<TestProvider>
-				<EnrollmentNew
-					history={history}
-					match={{
-						params: {
-							siteId: 1,
-							enrollmentId: mockEnrollmentWithFoster.id,
-							sectionId: 'family-information',
-						},
-					}}
+		history.push(
+			`/roster/sites/${mockEnrollmentWithFoster.siteId}/enrollments/${mockEnrollmentWithFoster.id}/new/family-information`
+		);
+		// const { getByText, findByLabelText, debug } = render(
+		// 	<TestProvider>
+		// 		<EnrollmentNew
+		// 			history={history}
+		// 			match={{
+		// 				params: {
+		// 					siteId: 1,
+		// 					enrollmentId: mockEnrollmentWithFoster.id,
+		// 					sectionId: history.location.pathname.split('/').pop(),
+		// 				},
+		// 			}}
+		// 		/>
+		// 	</TestProvider>
+		// );
+
+		const { findByLabelText, getByText, debug } = render(
+			<TestProvider history={history}>
+				<Route
+					path={'/roster/sites/:siteId/enrollments/:enrollmentId/new/:sectionId'}
+					render={props => (
+						<EnrollmentNew
+							history={props.history}
+							match={{
+								params: {
+									siteId: props.match.params.siteId,
+									enrollmentId: mockEnrollmentWithFoster.id,
+									sectionId: props.match.params.sectionId,
+								},
+							}}
+						/>
+					)}
 				/>
 			</TestProvider>
 		);
@@ -91,16 +115,8 @@ describe('EnrollmentNew', () => {
 		expect((fosterCheckbox as HTMLInputElement).checked).toBeTruthy();
 
 		const saveBtn = getByText(/Save/i);
-		await act(async () => {
-			fireEvent.click(saveBtn);
-		});
+		fireEvent.click(saveBtn);
 
-		// Hits save in family income
-		// await wait(() => find)
-		debug();
-		await wait(() => expect(history.location.pathname).toMatch(/enrollment-funding/i), {
-			timeout: 1000,
-			// mutationObserverOptions: { subtree: true },
-		});
+		await wait(() => expect(history.location.pathname).toMatch(/enrollment-funding/i));
 	});
 });

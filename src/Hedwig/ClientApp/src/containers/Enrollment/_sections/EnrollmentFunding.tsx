@@ -417,8 +417,6 @@ const EnrollmentFunding: Section = {
 		}, [saveData, saveError]);
 
 		const save = () => {
-			// TODO: MOVE THIS TO WHERE IT ACTUALLY MAKES SENSE
-			// updateEnrollmentFundings();
 			setAttemptingSave(true);
 		};
 

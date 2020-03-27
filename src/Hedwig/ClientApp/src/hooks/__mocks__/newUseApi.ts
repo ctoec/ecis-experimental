@@ -9,7 +9,7 @@ import {
 	Child,
 } from '../../generated';
 import { ApiParamOpts } from '../newUseApi';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 
 export const mockApiOrganizationsOrgIdEnrollmentsGet = (enrollments: Enrollment[]) => (
 	params: ApiOrganizationsOrgIdEnrollmentsGetRequest
@@ -95,11 +95,13 @@ export default (mockApi: any) => (
 	query: (api: any) => any,
 	opts: ApiParamOpts = { skip: false }
 ) => {
-	const { skip, callback } = opts || {};
+	const { skip, callback, deps } = opts || {};
 
 	useEffect(() => {
 		if (callback && !skip) callback();
-	}, [skip]);
+	}, [skip, ...(deps || [])]);
+
+	console.log(query(mockApi), skip, callback);
 
 	return skip ? { error: null, data: null, loading: false } : query(mockApi);
 };
