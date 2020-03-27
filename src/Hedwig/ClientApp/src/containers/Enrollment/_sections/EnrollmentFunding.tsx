@@ -215,16 +215,6 @@ const EnrollmentFunding: Section = {
 		const [reportingPeriodOptions, updateReportingPeriodOptions] = useState<ReportingPeriod[]>([]);
 
 		// For page load
-		// useEffect(() => {
-		// 	if (reportingPeriods) {
-		// 		const _cdcReporingPeriod = cdcFunding
-		// 			? reportingPeriods.find<DeepNonUndefineable<ReportingPeriod>>(
-		// 					period => period.id === cdcFunding.firstReportingPeriodId
-		// 			  )
-		// 			: undefined;
-		// 		updateCdcReportingPeriod(_cdcReporingPeriod);
-		// 	}
-		// }, [reportingPeriods, cdcFunding]);
 
 		// For drop down and change on enrollment start date
 		useEffect(() => {
@@ -409,15 +399,10 @@ const EnrollmentFunding: Section = {
 			}
 			// Set the new error regardless of whether there is one
 			setError(saveError);
-
 			if (saveData && !saveError) {
 				if (successCallback) successCallback(saveData);
 			}
 		}, [saveData, saveError]);
-
-		const save = () => {
-			setAttemptingSave(true);
-		};
 
 		return (
 			<form className="EnrollmentFundingForm" noValidate autoComplete="off">
@@ -644,7 +629,7 @@ const EnrollmentFunding: Section = {
 				<div className="usa-form">
 					<Button
 						text={attemptingSave ? 'Saving...' : 'Save'}
-						onClick={() => save()}
+						onClick={() => setAttemptingSave(true)}
 						disabled={attemptingSave}
 					/>
 				</div>
