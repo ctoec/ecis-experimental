@@ -23,7 +23,7 @@ jest.mock('../../../hooks/newUseApi', () =>
 
 import React from 'react';
 import { createMemoryHistory } from 'history';
-import { render, fireEvent, wait, act, getByLabelText } from '@testing-library/react';
+import { render, fireEvent, wait } from '@testing-library/react';
 
 import 'react-dates/initialize';
 import mockdate from 'mockdate';
