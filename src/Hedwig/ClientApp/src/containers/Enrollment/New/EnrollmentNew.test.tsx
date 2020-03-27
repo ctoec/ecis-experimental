@@ -77,7 +77,7 @@ describe('EnrollmentNew', () => {
 			`/roster/sites/${mockEnrollmentWithFoster.siteId}/enrollments/${mockEnrollmentWithFoster.id}/new/family-information`
 		);
 
-		const { findByLabelText, getByText, debug } = render(
+		const { findByLabelText, getByText } = render(
 			<TestProvider history={history}>
 				<Route
 					path={'/roster/sites/:siteId/enrollments/:enrollmentId/new/:sectionId'}
