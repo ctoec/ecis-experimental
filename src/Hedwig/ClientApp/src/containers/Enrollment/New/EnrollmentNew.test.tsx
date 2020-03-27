@@ -24,6 +24,7 @@ jest.mock('../../../hooks/newUseApi', () =>
 import React from 'react';
 import { createMemoryHistory } from 'history';
 import { render, fireEvent, wait } from '@testing-library/react';
+import { Route } from 'react-router';
 
 import 'react-dates/initialize';
 import mockdate from 'mockdate';
@@ -32,7 +33,6 @@ import TestProvider from '../../../contexts/__mocks__/TestProvider';
 import { mockCompleteEnrollment, mockEnrollmentWithFoster } from '../../../tests/data';
 
 import EnrollmentNew from './EnrollmentNew';
-import { Route } from 'react-router';
 
 const fakeDate = '2019-03-02';
 
