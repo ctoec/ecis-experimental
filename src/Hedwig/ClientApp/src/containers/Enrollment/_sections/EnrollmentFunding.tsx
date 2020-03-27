@@ -164,7 +164,6 @@ const EnrollmentFunding: Section = {
 		useFocusFirstError([error]);
 		useEffect(() => {
 			if (error && !hasAlertedOnError) {
-				console.log(error, isBlockingValidationError(error));
 				if (!isBlockingValidationError(error)) {
 					throw new Error(error.title || 'Unknown api error');
 				}
