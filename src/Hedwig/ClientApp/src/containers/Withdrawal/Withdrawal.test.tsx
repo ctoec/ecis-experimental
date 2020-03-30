@@ -1,8 +1,14 @@
 // Variables used in jest mockes -- must start with `mock`
-import { mockAllFakeEnrollments, mockCompleteEnrollment } from '../../tests/data';
+import {
+	mockAllFakeEnrollments,
+	mockCompleteEnrollment,
+	mockEnrollmentMissingBirthCertId,
+	mockSite,
+} from '../../tests/data';
 import mockUseApi, {
 	mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet,
 	mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut,
+	mockApiOrganizationsOrgIdSitesIdGet,
 } from '../../hooks/__mocks__/newUseApi';
 import { accessibilityTestHelper } from '../../tests/helpers';
 import TestProvider from '../../contexts/__mocks__/TestProvider';
@@ -16,16 +22,9 @@ jest.mock('../../hooks/newUseApi', () => {
 		apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut: mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(
 			mockAllFakeEnrollments
 		),
+		apiOrganizationsOrgIdSitesIdGet: mockApiOrganizationsOrgIdSitesIdGet(mockSite),
 	});
 });
-
-let mockSiteId: number | undefined = 1;
-jest.mock('react-router-dom', () => ({
-	...jest.requireActual('react-router-dom'), // use actual for all non-hook parts
-	useParams: () => ({
-		id: mockSiteId,
-	}),
-}));
 
 import React from 'react';
 import { render, wait } from '@testing-library/react';
@@ -81,6 +80,28 @@ describe('Withdrawal', () => {
 			</TestProvider>
 		);
 		await wait(() => findByText(`Withdraw ${nameFormatter(mockCompleteEnrollment.child)}`));
+	});
+
+	it('navigates to enrollment edit if information is missing', async () => {
+		const history = createMemoryHistory();
+		render(
+			<TestProvider>
+				<Withdrawal
+					history={history}
+					match={{
+						params: {
+							siteId: mockEnrollmentMissingBirthCertId.siteId,
+							enrollmentId: mockEnrollmentMissingBirthCertId.id,
+						},
+					}}
+				/>
+			</TestProvider>
+		);
+		await wait(() =>
+			expect(history.location.pathname).toMatch(
+				`/roster/sites/${mockEnrollmentMissingBirthCertId.siteId}/enrollments/${mockEnrollmentMissingBirthCertId.id}`
+			)
+		);
 	});
 
 	accessibilityTestHelper(
