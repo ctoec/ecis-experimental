@@ -23,9 +23,8 @@ namespace Hedwig.Validations.Rules
 			}
 
 			var fundings = enrollment.Fundings ?? _fundings.GetFundingsByEnrollmentId(enrollment.Id);
-			var listFundings = fundings.ToList();
-			ValidateSubObject(listFundings, enrollment);
-			if (listFundings.Any(f => f.ValidationErrors.Count > 0))
+			ValidateSubObject(fundings, enrollment);
+			if (fundings.Any(f => f.ValidationErrors.Count > 0))
 			{
 				return new ValidationError(
 				field: "Fundings",

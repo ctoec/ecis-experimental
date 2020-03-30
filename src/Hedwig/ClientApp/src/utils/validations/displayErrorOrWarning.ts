@@ -12,10 +12,12 @@ export default function displayErrorOrWarning<T>(
 		fieldSetId?: string;
 	},
 	errorOptions?: {
-		field: string;
 		hasAlertedOnError: boolean;
 		setHasAlertedOnError: Dispatch<SetStateAction<boolean>>;
-		message: string;
+		errorDisplays: {
+			field: string;
+			message?: string;
+		}[];
 	},
 	warningOptions?: {
 		object: T | null;
@@ -26,12 +28,20 @@ export default function displayErrorOrWarning<T>(
 ): FormStatusProps | undefined {
 	if (error) {
 		if (errorOptions) {
-			return serverErrorForField(
-				errorOptions.hasAlertedOnError,
-				errorOptions.setHasAlertedOnError,
-				errorOptions.field,
-				error,
-				errorOptions.message
+			return errorOptions.errorDisplays.reduce<FormStatusProps | undefined>(
+				(serverError, errorDisplay) => {
+					return (
+						serverError ||
+						serverErrorForField(
+							errorOptions.hasAlertedOnError,
+							errorOptions.setHasAlertedOnError,
+							errorDisplay.field,
+							error,
+							errorDisplay.message
+						)
+					);
+				},
+				undefined
 			);
 		}
 	} else {

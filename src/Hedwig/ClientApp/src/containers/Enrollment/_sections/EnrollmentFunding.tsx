@@ -111,8 +111,9 @@ const EnrollmentFunding: Section = {
 						</p>
 						{!isPrivatePay && !sourcelessFunding && (
 							<p>
-								First reporting period:{' '}
+								First reporting period: {/* If there is not a value show incomplete */}
 								{fundingFirstReportingPeriod ? (
+									// If there is a value but there are validation errors, also show incomplete
 									processValidationError(
 										'firstReportingPeriod',
 										cdcFunding && cdcFunding.validationErrors
@@ -558,10 +559,15 @@ const EnrollmentFunding: Section = {
 										isFieldSet: false,
 									},
 									{
-										field: 'fundings.firstReportingPeriodId',
 										hasAlertedOnError,
 										setHasAlertedOnError,
-										message: 'This information is required for enrollment',
+										errorDisplays: [
+											{
+												field: 'fundings.firstReportingPeriodId',
+												message: 'This information is required for enrollment',
+											},
+											{ field: 'fundings' },
+										],
 									},
 									{
 										object: cdcFunding || null,

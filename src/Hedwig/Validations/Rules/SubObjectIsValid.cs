@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Hedwig.Validations.Rules
 {
@@ -15,9 +16,9 @@ namespace Hedwig.Validations.Rules
 			_validator.Validate(subObject, parentObject);
 		}
 
-		protected void ValidateSubObject<T>(List<T> subObjects, object parentObject = null) where T : INonBlockingValidatableObject
+		protected void ValidateSubObject<T>(ICollection<T> subObjects, object parentObject = null) where T : INonBlockingValidatableObject
 		{
-			subObjects.ForEach(subObject => ValidateSubObject(subObject, parentObject));
+			subObjects.ToList().ForEach(subObject => ValidateSubObject(subObject, parentObject));
 		}
 	}
 }

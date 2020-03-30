@@ -24,10 +24,11 @@ namespace Hedwig.Repositories
 		public List<Funding> GetFundingsByChildId(Guid childId)
 		{
 			return _context.Fundings
-				.Include(f => f.Enrollment)
-				.Where(f => f.Enrollment.ChildId == childId)
 				.Include(f => f.FirstReportingPeriod)
 				.Include(f => f.LastReportingPeriod)
+				.AsNoTracking()
+				.Include(f => f.Enrollment)
+				.Where(f => f.Enrollment.ChildId == childId)
 				.ToList();
 		}
 	}
