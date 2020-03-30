@@ -172,7 +172,6 @@ export default function ReportSubmitForm({
 						onBlur={event =>
 							(event.target.value = c4KRevenue !== null ? currencyFormatter(c4KRevenue) : '')
 						}
-						optional={true}
 						disabled={!!report.submittedAt}
 						status={serverErrorForField(
 							hasAlertedOnError,
