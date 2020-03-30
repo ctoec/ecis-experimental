@@ -33,6 +33,7 @@ import AlertContext from '../../../contexts/Alert/AlertContext';
 import { FormReducer, formReducer, updateData } from '../../../utils/forms/form';
 import { DeepNonUndefineable } from '../../../utils/types';
 import useNewUseApi, { ApiError } from '../../../hooks/newUseApi';
+import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
 
 const ChildInfo: Section = {
 	key: 'child-information',
@@ -78,8 +79,7 @@ const ChildInfo: Section = {
 				if (!isBlockingValidationError(_error)) {
 					throw new Error(_error.title || 'Unknown api error');
 				}
-				// Do we actually want to set an alert here?  We haven't been
-				// setAlerts([validationErrorAlert]);
+				setAlerts([validationErrorAlert]);
 			}
 		}, [_error, hasAlertedOnError]);
 
@@ -154,7 +154,7 @@ const ChildInfo: Section = {
 				  !!enrollment || !attemptingSave || !siteId,
 		};
 
-		// set up PUT request to be triggered on save attempt
+		// set up PUT or POST request to be triggered on save attempt
 		const apiQuery = (api: HedwigApi) =>
 			enrollment
 				? api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut({
@@ -167,11 +167,11 @@ const ChildInfo: Section = {
 		const { error: saveError, data: saveData } = useNewUseApi<Enrollment>(apiQuery, useApiOpts);
 
 		useEffect(() => {
-			// If the request went through, then do the next steps
 			if (!saveData && !saveError) {
+				// If the request did not go through, exit
 				return;
 			}
-			// Set the new error regardless of whether there is one
+			// Set the new error whether it's undefined or an error
 			setError(saveError);
 			if (saveData && !saveError) {
 				if (successCallback) successCallback(saveData);
