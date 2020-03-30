@@ -8,12 +8,14 @@ import { accessibilityTestHelper } from '../../tests/helpers';
 import TestProvider from '../../contexts/__mocks__/TestProvider';
 
 // Jest mocks must occur before later imports
-jest.mock('../../hooks/useApi', () => {
+jest.mock('../../hooks/newUseApi', () => {
 	return mockUseApi({
-		apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet: (_: any) =>
-			mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(mockAllFakeEnrollments)(_),
-		apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut: (_: any) =>
-			mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(mockAllFakeEnrollments)(_),
+		apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet: mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(
+			mockAllFakeEnrollments
+		),
+		apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut: mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(
+			mockAllFakeEnrollments
+		),
 	});
 });
 
@@ -26,11 +28,12 @@ jest.mock('react-router-dom', () => ({
 }));
 
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, wait } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import 'react-dates/initialize';
 import mockdate from 'mockdate';
 import Withdrawal from './Withdrawal';
+import { nameFormatter } from '../../utils/stringFormatters';
 
 const fakeDate = '2019-09-30';
 
@@ -44,7 +47,7 @@ afterAll(() => {
 });
 
 describe('Withdrawal', () => {
-	it('matches snapshot', () => {
+	it('matches snapshot', async () => {
 		const history = createMemoryHistory();
 		const { asFragment } = render(
 			<TestProvider>
@@ -59,7 +62,25 @@ describe('Withdrawal', () => {
 				/>
 			</TestProvider>
 		);
-		expect(asFragment()).toMatchSnapshot();
+		await wait(() => expect(asFragment()).toMatchSnapshot());
+	});
+
+	it('shows a header with the child name', async () => {
+		const history = createMemoryHistory();
+		const { findByText } = render(
+			<TestProvider>
+				<Withdrawal
+					history={history}
+					match={{
+						params: {
+							siteId: mockCompleteEnrollment.siteId,
+							enrollmentId: mockCompleteEnrollment.id,
+						},
+					}}
+				/>
+			</TestProvider>
+		);
+		await wait(() => findByText(`Withdraw ${nameFormatter(mockCompleteEnrollment.child)}`));
 	});
 
 	accessibilityTestHelper(
