@@ -124,7 +124,7 @@ export default function Roster() {
 			),
 			symbol: generateFundingTag(
 				{ source: source as FundingSource },
-				{ includeTime: true, className: 'position-relative top-neg-2px' }
+				{ className: 'position-relative top-neg-2px' }
 			),
 		});
 	});
