@@ -8,6 +8,8 @@ import {
 	lastNReportingPeriods,
 	reportingPeriodFormatter,
 	enrollmentExitReasons,
+	generateFundingTag,
+	prettyFundingTime,
 } from '../../utils/models';
 import useNewUseApi, { ApiError } from '../../hooks/newUseApi';
 import {
@@ -34,6 +36,7 @@ import moment from 'moment';
 import CommonContainer from '../CommonContainer';
 import { InlineIcon, DateInput, ChoiceList, Button } from '../../components';
 import { processBlockingValidationErrors } from '../../utils/validations/processBlockingValidationErrors';
+import dateFormatter from '../../utils/dateFormatter';
 
 type WithdrawalProps = {
 	history: History;
@@ -201,11 +204,12 @@ export default function Withdrawal({
 					<div className="mobile-lg:grid-col-6">
 						<p>{site.name}</p>
 						<p>Age: {splitCamelCase(enrollment.ageGroup, '/')}</p>
-						{/* TODO: USE DATE FORMATTER */}
-						<p>Enrollment date: {enrollment.entry && enrollment.entry.toLocaleDateString()}</p>
+						<p>Enrollment date: {dateFormatter(enrollment.entry)}</p>
 					</div>
 					{cdcFunding && (
-						<div>
+						<div className="mobile-lg:grid-col-6">
+							<p>{generateFundingTag(cdcFunding)}</p>
+							<p>Enrollment: {prettyFundingTime(cdcFunding.time)}</p>
 							<p>
 								First reporting period:{' '}
 								{cdcFunding.firstReportingPeriod

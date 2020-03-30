@@ -11,26 +11,14 @@ export type LegendTextFormatter = (
 type FundingSourceDetail = {
 	fullTitle: string;
 	colorToken?: string;
-	tagFormatter: (funding: Funding) => string;
 	legendTextFormatter: LegendTextFormatter;
 };
-
-function ptOrFT(fundingTime: string | undefined) {
-	if (fundingTime === 'Full') {
-		return '–FT';
-	}
-	if (fundingTime === 'Part') {
-		return '–PT';
-	}
-	return '';
-}
 
 // These colors are placeholders and will change
 export const fundingSourceDetails: { [key: string]: FundingSourceDetail } = {
 	CDC: {
 		colorToken: 'blue-50v',
 		fullTitle: 'Child Day Care',
-		tagFormatter: funding => `CDC${ptOrFT(funding.time)}`,
 		legendTextFormatter: (
 			fullTitle,
 			enrolledForFunding,
@@ -59,7 +47,6 @@ export const fundingSourceDetails: { [key: string]: FundingSourceDetail } = {
 	C4K: {
 		colorToken: 'violet-warm-60',
 		fullTitle: 'Care 4 Kids',
-		tagFormatter: funding => 'C4K',
 		legendTextFormatter: (fullTitle, enrolledForFunding, _, showPastEnrollments) => {
 			return (
 				<React.Fragment>
