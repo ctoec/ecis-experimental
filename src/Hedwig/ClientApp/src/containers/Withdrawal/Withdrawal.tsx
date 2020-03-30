@@ -8,6 +8,8 @@ import {
 	lastNReportingPeriods,
 	reportingPeriodFormatter,
 	enrollmentExitReasons,
+	generateFundingTag,
+	prettyFundingTime,
 } from '../../utils/models';
 import useNewUseApi, { ApiError } from '../../hooks/newUseApi';
 import {
@@ -29,11 +31,15 @@ import {
 } from '../../utils/validations';
 import { childWithdrawnAlert, nameFormatter, splitCamelCase } from '../../utils/stringFormatters';
 import AlertContext from '../../contexts/Alert/AlertContext';
-import { validationErrorAlert } from '../../utils/stringFormatters/alertTextMakers';
+import {
+	validationErrorAlert,
+	missingInformationForWithdrawalAlert,
+} from '../../utils/stringFormatters/alertTextMakers';
 import moment from 'moment';
 import CommonContainer from '../CommonContainer';
 import { InlineIcon, DateInput, ChoiceList, Button } from '../../components';
 import { processBlockingValidationErrors } from '../../utils/validations/processBlockingValidationErrors';
+import dateFormatter from '../../utils/dateFormatter';
 
 type WithdrawalProps = {
 	history: History;
@@ -115,6 +121,14 @@ export default function Withdrawal({
 
 	// set up convenience derived variables
 	const isMissingInformation = hasValidationErrors(enrollment);
+	// If the enrollment is missing information, navigate to that enrollment so user can fix it
+	useEffect(() => {
+		if (isMissingInformation) {
+			setAlerts([missingInformationForWithdrawalAlert]);
+			history.push(`/roster/sites/${siteId}/enrollments/${enrollment.id}`);
+		}
+	}, [enrollment, isMissingInformation, history, setAlerts, siteId]);
+
 	const fundings =
 		enrollment && enrollment.fundings
 			? enrollment.fundings
@@ -201,11 +215,12 @@ export default function Withdrawal({
 					<div className="mobile-lg:grid-col-6">
 						<p>{site.name}</p>
 						<p>Age: {splitCamelCase(enrollment.ageGroup, '/')}</p>
-						{/* TODO: USE DATE FORMATTER */}
-						<p>Enrollment date: {enrollment.entry && enrollment.entry.toLocaleDateString()}</p>
+						<p>Enrollment date: {dateFormatter(enrollment.entry)}</p>
 					</div>
 					{cdcFunding && (
-						<div>
+						<div className="mobile-lg:grid-col-6">
+							<p>{generateFundingTag(cdcFunding)}</p>
+							<p>Enrollment: {prettyFundingTime(cdcFunding.time)}</p>
 							<p>
 								First reporting period:{' '}
 								{cdcFunding.firstReportingPeriod

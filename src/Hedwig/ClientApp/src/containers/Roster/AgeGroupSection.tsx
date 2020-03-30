@@ -72,7 +72,11 @@ export default function AgeGroupSection({
 					(filterFundingsForRosterTags(row.fundings, rosterDateRange) as DeepNonUndefineable<
 						Funding[]
 					>).map<React.ReactNode>((funding: DeepNonUndefineable<Funding>, index: number) =>
-						generateFundingTag(funding, index)
+						generateFundingTag(funding, {
+							index,
+							includeTime: funding.source === FundingSource.CDC,
+							// Only include time in the tag if it's CDC
+						})
 					)
 				) : (
 					<span className="text-italic text-base">{NO_FUNDING}</span>

@@ -1,7 +1,7 @@
 import { DeepNonUndefineable } from '../types';
 import { Funding, FundingSource, FundingTime, ReportingPeriod, Enrollment } from '../../generated';
 import { Tag, DateRange } from '../../components';
-import getColorForFundingSource, { fundingSourceDetails } from '../fundingTypeFormatters';
+import getColorForFundingSource from '../fundingTypeFormatters';
 import moment from 'moment';
 
 /**
@@ -37,17 +37,31 @@ function dedupeFundings(fundings: Funding[]) {
 	return Object.values(uniqueFundings);
 }
 
+function ptOrFT(fundingTime: string | undefined) {
+	if (fundingTime === 'Full') {
+		return '–FT';
+	}
+	if (fundingTime === 'Part') {
+		return '–PT';
+	}
+	return '';
+}
+
 export function generateFundingTag(
-	funding: DeepNonUndefineable<Funding>,
-	index?: any
+	funding: Funding | { source: FundingSource; time?: FundingTime },
+	opts?: {
+		index?: number | string;
+		includeTime?: boolean;
+		className?: string;
+	}
 ): JSX.Element {
+	const { index, includeTime, className } = opts || {};
 	let key = `${funding.source}-${funding.time}`;
 	if (index) key = `${key}-${index}`;
-	const text = funding.source
-		? fundingSourceDetails[funding.source].tagFormatter(funding)
-		: 'Not specified';
+	let text = `${funding.source}` || 'Not specified';
+	if (includeTime) text = `${text}${ptOrFT(funding.time)}`;
 	const color = funding.source ? getColorForFundingSource(funding.source) : 'gray-90';
-	return Tag({ key, text, color });
+	return Tag({ key, text, color, className });
 }
 
 /**

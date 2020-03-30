@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fundingSourceDetails } from '../../utils/fundingTypeFormatters';
 import getFundingSpaceCapacity from '../../utils/getFundingSpaceCapacity';
-import { getIdForUser } from '../../utils/models';
+import { getIdForUser, generateFundingTag } from '../../utils/models';
 import {
 	Tag,
 	Legend,
@@ -122,12 +122,9 @@ export default function Roster() {
 				capacityForFunding,
 				showPastEnrollments
 			),
-			symbol: (
-				<Tag
-					text={source}
-					color={fundingSourceDetails[source].colorToken}
-					className="position-relative top-neg-2px"
-				/>
+			symbol: generateFundingTag(
+				{ source: source as FundingSource },
+				{ className: 'position-relative top-neg-2px' }
 			),
 		});
 	});
