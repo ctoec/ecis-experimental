@@ -12,26 +12,36 @@ export default function displayErrorOrWarning<T>(
 		fieldSetId?: string;
 	},
 	errorOptions?: {
-		field: string;
 		hasAlertedOnError: boolean;
 		setHasAlertedOnError: Dispatch<SetStateAction<boolean>>;
-		message: string;
+		errorDisplays: {
+			field: string;
+			message?: string;
+		}[];
 	},
 	warningOptions?: {
 		object: T | null;
 		field?: string;
 		fields?: string[];
-		message: string;
+		message?: string;
 	}
 ): FormStatusProps | undefined {
 	if (error) {
 		if (errorOptions) {
-			return serverErrorForField(
-				errorOptions.hasAlertedOnError,
-				errorOptions.setHasAlertedOnError,
-				errorOptions.field,
-				error,
-				errorOptions.message
+			return errorOptions.errorDisplays.reduce<FormStatusProps | undefined>(
+				(serverError, errorDisplay) => {
+					return (
+						serverError ||
+						serverErrorForField(
+							errorOptions.hasAlertedOnError,
+							errorOptions.setHasAlertedOnError,
+							errorDisplay.field,
+							error,
+							errorDisplay.message
+						)
+					);
+				},
+				undefined
 			);
 		}
 	} else {
@@ -41,7 +51,7 @@ export default function displayErrorOrWarning<T>(
 					options.fieldSetId as string,
 					warningOptions.fields as string[],
 					warningOptions.object,
-					warningOptions.message
+					warningOptions.message as string
 				);
 			} else {
 				return warningForField(

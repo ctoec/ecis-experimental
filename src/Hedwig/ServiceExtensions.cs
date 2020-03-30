@@ -146,6 +146,7 @@ namespace Hedwig
 			services.AddScoped<IValidationRule<Funding>, IfC4K_FamilyIdRequired>();
 			services.AddScoped<IValidationRule<Funding>, IfC4K_CertificateStartDateRequired>();
 			services.AddScoped<IValidationRule<Funding>, SourceRequired>();
+			services.AddScoped<IValidationRule<Funding>, FundingTimelinesAreValid>();
 
 			// Register Non-blocking validator
 			services.AddScoped<INonBlockingValidator, NonBlockingValidator>();

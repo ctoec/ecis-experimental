@@ -42,6 +42,11 @@ namespace Hedwig.Filters
 		{
 			if (_onExecuting) return;
 
+			if (context.Result == null)
+			{
+				return;
+			}
+
 			var responseEntity = (context.Result as ObjectResult).Value;
 
 			ValidateEntity(responseEntity);
