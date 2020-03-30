@@ -1,12 +1,12 @@
 import React from 'react';
-import { render, findByLabelText } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import FamilyIncome from './FamilyIncome';
 import { mockCompleteEnrollment } from '../../../tests/data';
 import { DeepNonUndefineable } from '../../../utils/types';
-import { Enrollment, FamilyDetermination, Family } from '../../../generated';
+import { Enrollment, FamilyDetermination } from '../../../generated';
 import { getValidationError } from '../../../tests/helpers';
 
-jest.mock('../../../hooks/useApi');
+jest.mock('../../../hooks/newUseApi');
 
 describe('enrollment sections', () => {
 	describe('FamilyIncome', () => {

@@ -7,12 +7,11 @@ import dateFormatter from '../../../utils/dateFormatter';
 import {
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest,
 	Gender,
-	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
 	Enrollment,
+	HedwigApi,
 } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
 import { validatePermissions, getIdForUser, emptyEnrollment } from '../../../utils/models';
-import emptyGuid from '../../../utils/emptyGuid';
 import {
 	genderFromString,
 	prettyGender,
@@ -30,11 +29,11 @@ import {
 	initialLoadErrorGuard,
 	isBlockingValidationError,
 } from '../../../utils/validations';
-import usePromiseExecution from '../../../hooks/usePromiseExecution';
-import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import { FormReducer, formReducer, updateData } from '../../../utils/forms/form';
 import { DeepNonUndefineable } from '../../../utils/types';
+import useNewUseApi, { ApiError } from '../../../hooks/newUseApi';
+import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
 
 const ChildInfo: Section = {
 	key: 'child-information',
@@ -60,50 +59,35 @@ const ChildInfo: Section = {
 		);
 	},
 
-	Form: ({
-		enrollment,
-		siteId,
-		mutate,
-		error,
-		successCallback,
-		finallyCallback,
-		visitedSections,
-	}) => {
+	Form: ({ enrollment, siteId, error, successCallback, visitSection, visitedSections }) => {
 		if (!enrollment && !siteId) {
 			throw new Error('ChildInfo rendered without an enrollment or a siteId');
 		}
+		const { user } = useContext(UserContext);
+		const { setAlerts } = useContext(AlertContext);
 
 		// set up form state
-		const { setAlerts } = useContext(AlertContext);
 		const initialLoad = visitedSections ? !visitedSections[ChildInfo.key] : false;
+		if (initialLoad) {
+			visitSection && visitSection(ChildInfo);
+		}
 		const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
-		useFocusFirstError([error]);
+		const [_error, setError] = useState<ApiError | null>(error);
+		useFocusFirstError([_error]);
 		useEffect(() => {
-			if (error && !hasAlertedOnError) {
-				if (!isBlockingValidationError(error)) {
-					throw new Error(error.title || 'Unknown api error');
+			if (_error && !hasAlertedOnError) {
+				if (!isBlockingValidationError(_error)) {
+					throw new Error(_error.title || 'Unknown api error');
 				}
 				setAlerts([validationErrorAlert]);
 			}
-		}, [error, hasAlertedOnError]);
-
-		const { user } = useContext(UserContext);
+		}, [_error, hasAlertedOnError]);
 
 		const [_enrollment, updateEnrollment] = useReducer<
 			FormReducer<DeepNonUndefineable<Enrollment>>
 		>(formReducer, enrollment || emptyEnrollment(siteId, user));
 
 		const updateFormData = updateData<DeepNonUndefineable<Enrollment>>(updateEnrollment);
-
-		const defaultPostParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest = {
-			orgId: getIdForUser(user, 'org'),
-			siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
-			enrollment: enrollment as Enrollment,
-		};
-		const defaultPutParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
-			...defaultPostParams,
-			id: _enrollment.id,
-		};
 
 		const child = _enrollment.child || {};
 		const {
@@ -153,46 +137,49 @@ const ChildInfo: Section = {
 			},
 		].map(r => ({ ...r, name: `child.${r.value}` }));
 
-		const _save = () => {
-			if (enrollment) {
-				// If enrollment existed already, put to save changes
-				const putParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
-					...defaultPutParams,
-					enrollment: {
-						..._enrollment,
-					},
-				};
-				return mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams))
-					.then(res => {
-						if (successCallback && res) successCallback(res);
-					})
-					.finally(() => {
-						finallyCallback && finallyCallback(ChildInfo);
-					});
-			} else if (siteId) {
-				// If enrollment doesn't exist, post to create a new enrollment
-				const postParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest = {
-					...defaultPostParams,
-					enrollment: {
-						..._enrollment,
-					},
-				};
-				return mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsPost(postParams))
-					.then(res => {
-						if (successCallback && res) successCallback(res);
-					})
-					.finally(() => {
-						finallyCallback && finallyCallback(ChildInfo);
-					});
-			} else {
-				throw new Error('Something impossible happened');
-			}
+		const [attemptingSave, setAttemptingSave] = useState(false);
+
+		const postParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest = {
+			orgId: getIdForUser(user, 'org'),
+			siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
+			enrollment: { ..._enrollment },
 		};
 
-		const { isExecuting: isMutating, setExecuting: save } = usePromiseExecution(_save);
+		const useApiOpts = {
+			callback: () => setAttemptingSave(false),
+			skip: enrollment
+				? // If there is already an enrollment, then we should fire the put when we are attempting save and there is an enrollment
+				  !attemptingSave || !enrollment
+				: // If there is not an enrollment, we should fire save when we are attempting save and there is a site id (and not use a post if there is an enrollment)
+				  !!enrollment || !attemptingSave || !siteId,
+		};
+
+		// set up PUT or POST request to be triggered on save attempt
+		const apiQuery = (api: HedwigApi) =>
+			enrollment
+				? api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut({
+						...postParams,
+						id: _enrollment.id,
+				  })
+				: api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsPost({
+						...postParams,
+				  });
+		const { error: saveError, data: saveData } = useNewUseApi<Enrollment>(apiQuery, useApiOpts);
+
+		useEffect(() => {
+			if (!saveData && !saveError) {
+				// If the request did not go through, exit
+				return;
+			}
+			// Set the new error whether it's undefined or an error
+			setError(saveError);
+			if (saveData && !saveError) {
+				if (successCallback) successCallback(saveData);
+			}
+		}, [saveData, saveError]);
 
 		return (
-			<form className="ChildInfoForm usa-form" onSubmit={save} noValidate autoComplete="off">
+			<form className="ChildInfoForm usa-form" noValidate autoComplete="off">
 				<div className="grid-row grid-gap">
 					<div className="mobile-lg:grid-col-12">
 						<TextInput
@@ -219,7 +206,7 @@ const ChildInfo: Section = {
 									hasAlertedOnError,
 									setHasAlertedOnError,
 									'child.firstname',
-									error,
+									_error,
 									'This information is required for enrollment'
 								)
 							)}
@@ -251,7 +238,7 @@ const ChildInfo: Section = {
 										hasAlertedOnError,
 										setHasAlertedOnError,
 										'child.lastname',
-										error,
+										_error,
 										'This information is required for enrollment'
 									)
 								)}
@@ -444,7 +431,11 @@ const ChildInfo: Section = {
 					)}
 				/>
 
-				<Button text={isMutating ? 'Saving...' : 'Save'} onClick="submit" disabled={isMutating} />
+				<Button
+					text={attemptingSave ? 'Saving...' : 'Save'}
+					onClick={() => setAttemptingSave(true)}
+					disabled={attemptingSave}
+				/>
 			</form>
 		);
 	},

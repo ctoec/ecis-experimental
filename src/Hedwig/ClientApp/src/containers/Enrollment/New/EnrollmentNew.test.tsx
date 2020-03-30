@@ -4,13 +4,17 @@ import mockUseApi, {
 	mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet,
 	mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDelete,
 	mockApiOrganizationsOrgIdSitesIdGet,
-} from '../../../hooks/__mocks__/useApi';
+	mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut,
+} from '../../../hooks/__mocks__/newUseApi';
 
 // Jest mocks must occur before later imports
-jest.mock('../../../hooks/useApi', () =>
+jest.mock('../../../hooks/newUseApi', () =>
 	mockUseApi({
 		apiOrganizationsOrgIdSitesIdGet: mockApiOrganizationsOrgIdSitesIdGet(mockSite),
 		apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet: mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(
+			mockAllFakeEnrollments
+		),
+		apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut: mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(
 			mockAllFakeEnrollments
 		),
 		apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDelete: mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDelete(),
@@ -69,11 +73,11 @@ describe('EnrollmentNew', () => {
 
 	it('skips family income section when lives with foster family is selected', async () => {
 		const history = createMemoryHistory();
-		const enrollment = mockEnrollmentWithFoster;
 		history.push(
-			`/roster/sites/${enrollment.siteId}/enrollments/${enrollment.id}/new/family-information`
+			`/roster/sites/${mockEnrollmentWithFoster.siteId}/enrollments/${mockEnrollmentWithFoster.id}/new/family-information`
 		);
-		const { findByLabelText, getByDisplayValue } = render(
+
+		const { findByLabelText, getByText } = render(
 			<TestProvider history={history}>
 				<Route
 					path={'/roster/sites/:siteId/enrollments/:enrollmentId/new/:sectionId'}
@@ -83,9 +87,7 @@ describe('EnrollmentNew', () => {
 							match={{
 								params: {
 									siteId: props.match.params.siteId,
-									// Throws 'TypeError: Invalid attempt to destructure non-iterable instance' if we try to read from the props
-									// I have no idea why??
-									enrollmentId: enrollment.id,
+									enrollmentId: mockEnrollmentWithFoster.id,
 									sectionId: props.match.params.sectionId,
 								},
 							}}
@@ -98,11 +100,9 @@ describe('EnrollmentNew', () => {
 		const fosterCheckbox = await findByLabelText(/Child lives with foster family/i);
 		expect((fosterCheckbox as HTMLInputElement).checked).toBeTruthy();
 
-		const saveBtn = getByDisplayValue(/Save/i);
+		const saveBtn = getByText(/Save/i);
 		fireEvent.click(saveBtn);
 
-		await wait();
-
-		expect(history.location.pathname).toMatch(/enrollment-funding/i);
+		await wait(() => expect(history.location.pathname).toMatch(/enrollment-funding/i));
 	});
 });

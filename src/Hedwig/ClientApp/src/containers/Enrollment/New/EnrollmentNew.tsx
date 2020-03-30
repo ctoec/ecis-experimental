@@ -6,8 +6,8 @@ import ChildInfo from '../_sections/ChildInfo';
 import FamilyInfo from '../_sections/FamilyInfo';
 import FamilyIncome from '../_sections/FamilyIncome';
 import EnrollmentFunding from '../_sections/EnrollmentFunding';
-import { Button, ErrorBoundary, AlertProps } from '../../../components';
-import useApi from '../../../hooks/useApi';
+import { Button, ErrorBoundary } from '../../../components';
+import useNewUseApi from '../../../hooks/newUseApi';
 import UserContext from '../../../contexts/User/UserContext';
 import {
 	Enrollment,
@@ -73,6 +73,21 @@ export default function EnrollmentNew({
 	const { user } = useContext(UserContext);
 	const { setAlerts } = useContext(AlertContext);
 
+	const [visitedSections, updateVisitedSections] = useState(mapSectionToVisitedStates(sections));
+
+	const visitSection = (section: Section) => {
+		updateVisitedSections({
+			...visitedSections,
+			[section.key]: true,
+		});
+	};
+
+	/*
+		We need "navigated" because history push in save rerenders this component before useApi has a chance to
+		set loading to true (and reload the enrollment with new fields, i.e. family for family income), leading to errors.
+	*/
+	const [navigated, setNavigated] = useState(false);
+
 	// Get enrollment by id
 	const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest = {
 		id: enrollmentId ? enrollmentId : 0,
@@ -80,12 +95,13 @@ export default function EnrollmentNew({
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		include: ['child', 'family', 'determinations', 'fundings', 'sites'],
 	};
-	const [loading, error, enrollment, mutate] = useApi<Enrollment>(
-		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
-		[enrollmentId, user],
-		{
-			skip: !enrollmentId,
-		}
+	const { error, data: enrollment, loading } = useNewUseApi<Enrollment>(
+		api =>
+			api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet({
+				...params,
+				include: ['child', 'family', 'determinations', 'fundings', 'sites'],
+			}),
+		{ skip: !enrollmentId || !user, deps: [sectionId], callback: () => setNavigated(false) }
 	);
 
 	const [cancel, updateCancel] = useState(false);
@@ -98,28 +114,19 @@ export default function EnrollmentNew({
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		enrollment: enrollment,
 	};
-	const [, cancelError] = useApi(
+	const { error: cancelError } = useNewUseApi(
 		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDelete(cancelParams),
-		[enrollmentId, enrollment, user, cancel],
 		{
 			skip: !cancel,
 			callback: processSuccessfulCancel,
 		}
 	);
 
-	const [visitedSections, updateVisitedSections] = useState(mapSectionToVisitedStates(sections));
-
-	const visitSection = (section: Section) => {
-		updateVisitedSections({
-			...visitedSections,
-			[section.key]: true,
-		});
-	};
-
 	useRouteChange(() => window.scroll(0, 0));
 
 	if (cancelError) {
 		// TODO: do something with this error
+		console.error(cancelError);
 	}
 
 	/**
@@ -127,40 +134,42 @@ export default function EnrollmentNew({
 	 *
 	 * @param enrollment Enrollment that was just saved
 	 */
-	const afterSave = (enrollment: Enrollment) => {
+	const afterSave = (_enrollment: Enrollment) => {
 		// Enrollments begin at /roster/sites/:siteId/enroll. We replace this URL in the
 		// browser history once we have an ID for the child.
 		if (!enrollmentId) {
-			history.replace(`/roster/sites/${siteId}/enrollments/${enrollment.id}/new/${sectionId}`);
+			history.replace(`/roster/sites/${siteId}/enrollments/${_enrollment.id}/new/${sectionId}`);
 		}
+
+		setNavigated(true);
 
 		const currentIndex = sections.findIndex(section => section.key === sectionId);
 
-		// If we're on the last section, we'll move to a final 'review' section where all
-		// steps are collapsed and we can 'Finish' the enrollment.
 		if (currentIndex === sections.length - 1) {
-			history.push(`/roster/sites/${siteId}/enrollments/${enrollment.id}/new/review`);
+			// If we're on the last section, we'll move to a final 'review' section where all
+			// steps are collapsed and we can 'Finish' the enrollment.
+			history.push(`/roster/sites/${siteId}/enrollments/${_enrollment.id}/new/review`);
 		} else {
 			const nextSectionId = sections[currentIndex + 1].key;
-			history.push(`/roster/sites/${siteId}/enrollments/${enrollment.id}/new/${nextSectionId}`);
+			history.push(`/roster/sites/${siteId}/enrollments/${_enrollment.id}/new/${nextSectionId}`);
 		}
 	};
 
-	if (loading || !user) {
-		// Need to add user here so that a refresh after partial enrollment doesn't crash
+	if (navigated || loading || !user) {
+		// Need to check for user here so that a refresh after partial enrollment doesn't crash
+		// If there's an enrollmentId and not an enrollment, the get request is still loading
 		return <div className="EnrollmentNew"></div>;
 	}
 
 	const steps = mapSectionsToSteps(sections);
 
 	const props: SectionProps = {
-		enrollment: enrollment,
-		mutate: mutate,
-		error: error,
+		enrollment,
+		error,
 		successCallback: afterSave,
-		finallyCallback: visitSection,
+		visitSection,
 		siteId,
-		visitedSections: visitedSections,
+		visitedSections,
 	};
 
 	return (

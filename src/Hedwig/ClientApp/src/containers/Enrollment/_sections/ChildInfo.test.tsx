@@ -5,9 +5,8 @@ import { DeepNonUndefineable } from '../../../utils/types';
 import { Enrollment } from '../../../generated';
 import { mockCompleteEnrollment } from '../../../tests/data';
 import { getValidationError } from '../../../tests/helpers';
-import { isElementOfType } from 'react-dom/test-utils';
 
-jest.mock('../../../hooks/useApi');
+jest.mock('../../../hooks/newUseApi');
 
 describe('enrollment sections', () => {
 	describe('ChildInfo', () => {
@@ -16,7 +15,6 @@ describe('enrollment sections', () => {
 				<ChildInfo.Form
 					siteId={1}
 					enrollment={{} as DeepNonUndefineable<Enrollment>}
-					mutate={async () => null}
 					error={{
 						errors: { 'Child.FirstName': ['error'] },
 						status: 400,

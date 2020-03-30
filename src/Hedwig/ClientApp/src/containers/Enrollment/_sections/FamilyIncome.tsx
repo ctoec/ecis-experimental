@@ -30,11 +30,11 @@ import {
 	isBlockingValidationError,
 	hasValidationErrors,
 } from '../../../utils/validations';
-import usePromiseExecution from '../../../hooks/usePromiseExecution';
 import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import { FormReducer, formReducer, updateData } from '../../../utils/forms/form';
 import { DeepNonUndefineable } from '../../../utils/types';
+import useNewUseApi, { ApiError } from '../../../hooks/newUseApi';
 
 const FamilyIncome: Section = {
 	key: 'family-income',
@@ -109,10 +109,9 @@ const FamilyIncome: Section = {
 	Form: ({
 		enrollment,
 		siteId,
-		mutate,
-		error,
+		error: inputError,
 		successCallback,
-		finallyCallback,
+		visitSection,
 		visitedSections,
 	}) => {
 		if (!enrollment || !enrollment.child || !enrollment.child.family) {
@@ -122,6 +121,10 @@ const FamilyIncome: Section = {
 		// set up form state
 		const { setAlerts } = useContext(AlertContext);
 		const initialLoad = visitedSections ? !visitedSections[FamilyIncome.key] : false;
+		if (initialLoad) {
+			visitSection && visitSection(FamilyIncome);
+		}
+		const [error, setError] = useState<ApiError | null>(inputError);
 		const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
 		useEffect(() => {
 			if (error && !hasAlertedOnError) {
@@ -133,12 +136,6 @@ const FamilyIncome: Section = {
 		}, [error, hasAlertedOnError]);
 
 		const { user } = useContext(UserContext);
-		const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
-			id: enrollment.id || 0,
-			siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
-			orgId: getIdForUser(user, 'org'),
-			enrollment: enrollment,
-		};
 
 		const [_enrollment, updateEnrollment] = useReducer<
 			FormReducer<DeepNonUndefineable<Enrollment>>
@@ -149,32 +146,39 @@ const FamilyIncome: Section = {
 		const determination = idx(child, _ => _.family.determinations[0]) || undefined;
 
 		const { numberOfPeople, income, determinationDate, notDisclosed } = determination || {};
-		const _save = () => {
-			const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
-				...defaultParams,
-				enrollment: {
-					..._enrollment,
-				},
-			};
-			return mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
-				.then(res => {
-					if (successCallback && res) successCallback(res);
-				})
-				.finally(() => {
-					finallyCallback && finallyCallback(FamilyIncome);
-				});
-		};
 
-		const { isExecuting: isMutating, setExecuting: save } = usePromiseExecution(_save);
+		const [attemptingSave, setAttemptingSave] = useState(false);
+		const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
+			id: enrollment.id || 0,
+			siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
+			orgId: getIdForUser(user, 'org'),
+			enrollment: _enrollment,
+		};
+		const { error: saveError, data: saveData } = useNewUseApi<Enrollment>(
+			api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(defaultParams),
+			{ skip: !attemptingSave, callback: () => setAttemptingSave(false) }
+		);
+
+		useEffect(() => {
+			// If the request went through, then do the next steps
+			if (!saveData && !saveError) {
+				return;
+			}
+			// Set the new error regardless of whether there is one
+			setError(saveError);
+			if (saveData && !saveError) {
+				if (successCallback) successCallback(saveData);
+			}
+		}, [saveData, saveError]);
 
 		// To skip over family income section when "Lives with foster family" is selected
 		if (child.foster && successCallback) {
 			successCallback(enrollment);
-			return <></>;
+			return <div className="FamilyIncome foster"></div>;
 		}
 
 		return (
-			<form className="FamilyIncomeForm" onSubmit={save} noValidate autoComplete="off">
+			<form className="FamilyIncomeForm" noValidate autoComplete="off">
 				<div className="usa-form">
 					{!notDisclosed && (
 						<>
@@ -296,7 +300,11 @@ const FamilyIncome: Section = {
 					)}
 
 				<div className="usa-form">
-					<Button text={isMutating ? 'Saving...' : 'Save'} onClick="submit" disabled={isMutating} />
+					<Button
+						text={attemptingSave ? 'Saving...' : 'Save'}
+						onClick={() => setAttemptingSave(true)}
+						disabled={attemptingSave}
+					/>
 				</div>
 			</form>
 		);

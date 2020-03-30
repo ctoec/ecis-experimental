@@ -16,7 +16,7 @@ import {
 } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
 import { validatePermissions, getIdForUser } from '../../../utils/models';
-import { DeepNonUndefineable } from '../../../utils/types';
+import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../../utils/types';
 import {
 	sectionHasValidationErrors,
 	warningForField,
@@ -52,12 +52,11 @@ import {
 	FundingType,
 } from '../../../utils/fundingSelectionUtils';
 import { FormReducer, formReducer, updateData, toFormString } from '../../../utils/forms/form';
-import useApi from '../../../hooks/useApi';
 import getFundingSpaceCapacity from '../../../utils/getFundingSpaceCapacity';
-import usePromiseExecution from '../../../hooks/usePromiseExecution';
 import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import displayErrorOrWarning from '../../../utils/validations/displayErrorOrWarning';
+import useNewUseApi, { ApiError } from '../../../hooks/newUseApi';
 
 type UtilizationRate = {
 	capacity: number;
@@ -145,10 +144,9 @@ const EnrollmentFunding: Section = {
 	Form: ({
 		enrollment,
 		siteId,
-		mutate,
-		error,
+		error: inputError,
 		successCallback,
-		finallyCallback,
+		visitSection,
 		visitedSections,
 	}) => {
 		if (!enrollment) {
@@ -159,10 +157,13 @@ const EnrollmentFunding: Section = {
 		const { setAlerts } = useContext(AlertContext);
 		const initialLoad = visitedSections ? !visitedSections[EnrollmentFunding.key] : false;
 		const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
+		if (initialLoad) {
+			visitSection && visitSection(EnrollmentFunding);
+		}
+		const [error, setError] = useState<ApiError | null>(inputError);
 		useFocusFirstError([error]);
 		useEffect(() => {
 			if (error && !hasAlertedOnError) {
-				console.log(error, isBlockingValidationError(error));
 				if (!isBlockingValidationError(error)) {
 					throw new Error(error.title || 'Unknown api error');
 				}
@@ -173,13 +174,6 @@ const EnrollmentFunding: Section = {
 		const { user } = useContext(UserContext);
 		const { cdcReportingPeriods: reportingPeriods } = useContext(ReportingPeriodContext);
 
-		const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
-			id: enrollment.id || 0,
-			orgId: getIdForUser(user, 'org'),
-			siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
-			enrollment: enrollment,
-		};
-
 		const siteParams: ApiOrganizationsOrgIdSitesIdGetRequest = {
 			// Separate query so that mutation doesn't try to update all the enrollments when user saves this one
 			// Otherwise we get "Enrollment exit reason is required for ended enrollments" validation errors on both site.enrollments and child.org.site.enrollments
@@ -187,7 +181,9 @@ const EnrollmentFunding: Section = {
 			orgId: getIdForUser(user, 'org'),
 			include: ['organizations', 'enrollments', 'funding_spaces', 'fundings'],
 		};
-		const [, , site] = useApi(api => api.apiOrganizationsOrgIdSitesIdGet(siteParams), [user]);
+		const { data: site } = useNewUseApi(api => api.apiOrganizationsOrgIdSitesIdGet(siteParams), {
+			skip: !user,
+		});
 
 		const [_enrollment, updateEnrollment] = useReducer<
 			FormReducer<DeepNonUndefineable<Enrollment>>
@@ -195,10 +191,12 @@ const EnrollmentFunding: Section = {
 		const updateFormData = updateData<DeepNonUndefineable<Enrollment>>(updateEnrollment);
 		const entry = _enrollment.entry;
 
-		const fundings = _enrollment.fundings || [];
+		const [fundings, updateFundings] = useState(
+			_enrollment.fundings || ([] as DeepNonUndefineableArray<Funding>)
+		);
 		const sourcelessFunding = getSourcelessFunding(_enrollment);
 
-		const cdcFunding = currentCdcFunding(fundings);
+		const [cdcFunding, updateCdcFunding] = useState(currentCdcFunding(fundings));
 		const [cdcReportingPeriod, updateCdcReportingPeriod] = useState<ReportingPeriod | undefined>(
 			cdcFunding ? cdcFunding.firstReportingPeriod : undefined
 		);
@@ -216,26 +214,7 @@ const EnrollmentFunding: Section = {
 
 		const [reportingPeriodOptions, updateReportingPeriodOptions] = useState<ReportingPeriod[]>([]);
 
-		const c4kFunding = currentC4kFunding(fundings);
-		const [receivesC4k, updateReceivesC4k] = useState<boolean>(!!c4kFunding);
-		const [c4kFamilyId, updateC4kFamilyId] = useState<number | null>(
-			c4kFunding ? c4kFunding.familyId : null
-		);
-		const [c4kCertificateStartDate, updateC4kCertificateStartDate] = useState<Date | null>(
-			c4kFunding ? c4kFunding.certificateStartDate : null
-		);
-
 		// For page load
-		useEffect(() => {
-			if (reportingPeriods) {
-				const _cdcReporingPeriod = cdcFunding
-					? reportingPeriods.find<DeepNonUndefineable<ReportingPeriod>>(
-							period => period.id === cdcFunding.firstReportingPeriodId
-					  )
-					: undefined;
-				updateCdcReportingPeriod(_cdcReporingPeriod);
-			}
-		}, [reportingPeriods, cdcFunding]);
 
 		// For drop down and change on enrollment start date
 		useEffect(() => {
@@ -287,8 +266,7 @@ const EnrollmentFunding: Section = {
 			]);
 		}, [site, _enrollment.ageGroup, enrollment, cdcFunding]);
 
-		// TODO: make alert wider?
-		// TODO: do we care which reporting periods it violates this constraint for, or just the current one?
+		// *** Set the utilization rate ***
 		const [utilizationRate, setUtilizationRate] = useState<UtilizationRate>();
 		const thisPeriod = currentReportingPeriod(reportingPeriods);
 		useEffect(() => {
@@ -323,7 +301,8 @@ const EnrollmentFunding: Section = {
 			setUtilizationRate({ capacity, numEnrolled });
 		}, [site, fundingSelection, _enrollment.ageGroup, thisPeriod, cdcFunding]);
 
-		const _save = () => {
+		// *** CDC ***
+		useEffect(() => {
 			let updatedFundings: Funding[] = [...fundings]
 				.filter(funding => funding.id !== (sourcelessFunding && sourcelessFunding.id))
 				.filter(funding => funding.id !== (cdcFunding && cdcFunding.id));
@@ -341,6 +320,7 @@ const EnrollmentFunding: Section = {
 					// do nothing
 					break;
 				case FundingType.CDC:
+					// Default to part time if none is selected
 					const time = fundingSelection.time || FundingTime.Part;
 					if (cdcFunding) {
 						updatedFundings.push(
@@ -373,47 +353,59 @@ const EnrollmentFunding: Section = {
 				default:
 					break;
 			}
+			updateFundings(updatedFundings as DeepNonUndefineableArray<Funding>);
+		}, [fundingSelection, cdcReportingPeriod]);
 
-			updatedFundings = [...updatedFundings].filter(
+		// *** C4K ***
+		const inputC4kFunding = currentC4kFunding(fundings);
+		const [c4kFunding, updateC4kFunding] = useState<DeepNonUndefineable<Funding>>(
+			inputC4kFunding ||
+				({
+					id: 0,
+					enrollmentId: enrollment.id,
+					source: FundingSource.C4K,
+				} as DeepNonUndefineable<Funding>)
+		);
+		const [receivesC4k, updateReceivesC4k] = useState<boolean>(!!inputC4kFunding);
+		const { familyId: c4kFamilyId, certificateStartDate: c4kCertificateStartDate } =
+			c4kFunding || {};
+		useEffect(() => {
+			// When the existing one is updated, update the fundings
+			let updatedFundings = [...fundings].filter(
 				funding => funding.id !== (c4kFunding && c4kFunding.id)
 			);
 			if (receivesC4k) {
-				updatedFundings.push({
-					id: c4kFunding ? c4kFunding.id : 0,
-					enrollmentId: enrollment.id,
-					source: FundingSource.C4K,
-					certificateStartDate: c4kCertificateStartDate ? c4kCertificateStartDate : undefined,
-					familyId: c4kFamilyId,
-				});
-			} else {
-				// do nothing
+				updatedFundings.push(c4kFunding);
 			}
+			updateFundings(updatedFundings);
+		}, [c4kFunding, receivesC4k]);
 
-			if (enrollment) {
-				const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
-					...defaultParams,
-					enrollment: {
-						..._enrollment,
-						fundings: updatedFundings,
-					},
-				};
-
-				return mutate(api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(params))
-					.then(res => {
-						if (successCallback && res) successCallback(res);
-					})
-					.finally(() => {
-						finallyCallback && finallyCallback(EnrollmentFunding);
-					});
-			}
-			return new Promise(() => {});
-			// TODO: what should happen if there is no enrollment, child, or family?  See also family info and family income
+		// *** Save ***
+		const [attemptingSave, setAttemptingSave] = useState(false);
+		const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
+			id: enrollment.id || 0,
+			orgId: getIdForUser(user, 'org'),
+			siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
+			enrollment: { ..._enrollment, fundings },
 		};
-
-		const { isExecuting: isMutating, setExecuting: save } = usePromiseExecution(_save);
+		const { error: saveError, data: saveData } = useNewUseApi<Enrollment>(
+			api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(defaultParams),
+			{ skip: !attemptingSave || !user, callback: () => setAttemptingSave(false) }
+		);
+		useEffect(() => {
+			// If the request went through, then do the next steps
+			if (!saveData && !saveError) {
+				return;
+			}
+			// Set the new error regardless of whether there is one
+			setError(saveError);
+			if (saveData && !saveError) {
+				if (successCallback) successCallback(saveData);
+			}
+		}, [saveData, saveError]);
 
 		return (
-			<form className="EnrollmentFundingForm" onSubmit={save} noValidate autoComplete="off">
+			<form className="EnrollmentFundingForm" noValidate autoComplete="off">
 				<div className="usa-form">
 					<h2>{site && site.name}</h2>
 					<DateInput
@@ -568,7 +560,6 @@ const EnrollmentFunding: Section = {
 								value: 'receives-c4k',
 							},
 						]}
-						// TODO: USE FORM REDUCER
 						onChange={e => updateReceivesC4k(!!(e.target as HTMLInputElement).checked)}
 						id="c4k-check-box"
 						legend="Receives Care 4 Kids"
@@ -582,8 +573,12 @@ const EnrollmentFunding: Section = {
 								id="familyId"
 								label="Family ID"
 								defaultValue={c4kFamilyId ? '' + c4kFamilyId : ''}
-								// TODO: USE REDUCER HERE
-								onChange={event => updateC4kFamilyId(parseInt(event.target.value))}
+								onChange={event =>
+									updateC4kFunding({
+										...c4kFunding,
+										familyId: parseInt(event.target.value) || null,
+									})
+								}
 								status={initialLoadErrorGuard(
 									initialLoad,
 									displayErrorOrWarning(
@@ -603,7 +598,10 @@ const EnrollmentFunding: Section = {
 							<DateInput
 								name="c4kCertificateStartDate"
 								onChange={newDate =>
-									updateC4kCertificateStartDate(newDate ? newDate.toDate() : null)
+									updateC4kFunding({
+										...c4kFunding,
+										certificateStartDate: newDate ? newDate.toDate() : null,
+									})
 								}
 								date={c4kCertificateStartDate ? moment(c4kCertificateStartDate) : null}
 								label="Certificate start date"
@@ -629,7 +627,11 @@ const EnrollmentFunding: Section = {
 				</div>
 
 				<div className="usa-form">
-					<Button text={isMutating ? 'Saving...' : 'Save'} onClick="submit" disabled={isMutating} />
+					<Button
+						text={attemptingSave ? 'Saving...' : 'Save'}
+						onClick={() => setAttemptingSave(true)}
+						disabled={attemptingSave}
+					/>
 				</div>
 			</form>
 		);

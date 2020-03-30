@@ -14,23 +14,28 @@ import getCurrentHost from '../utils/getCurrentHost';
 export type ApiError = ValidationProblemDetails | ProblemDetails;
 
 interface ApiState<TData> {
-	error: ApiError | null;
-	data: TData | null;
+	error: ApiError | null; // error
+	data: TData | null; // response
+	loading: boolean;
 }
 
-export type ApiResult<TData> = [
-	ApiError | null, // error
-	DeepNonUndefineable<TData> // response
-];
+export type ApiResult<TData> = {
+	error: ApiError | null; // error
+	data: DeepNonUndefineable<TData>; // response
+	loading: boolean;
+};
 
-interface ApiParamOpts {
+export interface ApiParamOpts {
 	skip?: boolean;
 	callback?: () => void;
+	deps?: any[];
 }
 
 export default function useNewUseApi<TData>(
 	query: (api: HedwigApi) => Promise<TData>,
-	opts: ApiParamOpts = { skip: false, callback: () => null }
+	opts: ApiParamOpts = {
+		skip: false,
+	}
 ): ApiResult<TData> {
 	// Get accessToken for authenticated API calls
 	const { accessToken, withFreshToken } = useContext(AuthenticationContext);
@@ -40,42 +45,44 @@ export default function useNewUseApi<TData>(
 	});
 
 	// Set initial api state
-	const { skip, callback } = opts;
+	const { skip, callback, deps } = opts;
 	const [state, setState] = useState<ApiState<TData>>({
 		error: null,
 		data: null,
+		loading: true,
 	});
-	const { error, data } = state;
 
 	// Run query
 	useEffect(() => {
 		if (skip) {
+			setState({ ...state, loading: false });
 			return;
 		}
 
+		setState({ data: null, error: null, loading: true });
+
 		const api = constructApi(accessToken);
 		if (!api) {
-			setState({ ...state, error: { detail: 'API not found' } });
+			setState({ ...state, loading: false, error: { detail: 'API not found' } });
 			return;
 		}
 
 		// make API query
 		query(api)
 			.then(apiResult => {
-				setState(_state => ({ ..._state, error: null, data: apiResult }));
+				setState({ error: null, data: apiResult, loading: false });
 			})
 			.catch(async apiError => {
 				const _error = await parseError(apiError);
-				setState({ ...state, data: null, error: _error });
+				setState({ data: null, error: _error, loading: false });
 			});
-	}, [accessToken, skip]);
+	}, [accessToken, skip, ...(deps || [])]);
 
 	useEffect(() => {
-		if (callback) callback();
-	}, [state]);
+		if (callback && !skip && (state.data || state.error)) callback();
+	}, [state, skip]);
 
-	// No loading because loading will never be true at this point
-	return [error, data as DeepNonUndefineable<TData>];
+	return { ...state, data: state.data as DeepNonUndefineable<TData> };
 }
 
 const constructApi: (accessToken: string | null) => HedwigApi | null = (
@@ -92,7 +99,6 @@ const constructApi: (accessToken: string | null) => HedwigApi | null = (
 };
 
 const parseError: (error: any) => Promise<ApiError | null> = async (error: any) => {
-	console.error(error);
 	try {
 		const jsonResponse = await error.json();
 		if (error.status === 400) {

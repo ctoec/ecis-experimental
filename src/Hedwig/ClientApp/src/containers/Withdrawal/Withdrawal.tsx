@@ -10,7 +10,13 @@ import {
 	enrollmentExitReasons,
 } from '../../utils/models';
 import useNewUseApi, { ApiError } from '../../hooks/newUseApi';
-import { Enrollment, Funding, ValidationProblemDetails } from '../../generated';
+import {
+	Enrollment,
+	Funding,
+	ValidationProblemDetails,
+	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest,
+	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
+} from '../../generated';
 import { FormReducer, formReducer, updateData } from '../../utils/forms/form';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../utils/types';
 import ReportingPeriodContext from '../../contexts/ReportingPeriod/ReportingPeriodContext';
@@ -50,7 +56,9 @@ export default function Withdrawal({
 	const { cdcReportingPeriods: reportingPeriods } = useContext(ReportingPeriodContext);
 
 	// Set request params as  a state var so that we only attempt to run queries once we have them
-	const [requestParams, setRequestParams] = useState();
+	const [requestParams, setRequestParams] = useState<
+		ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest
+	>();
 	useEffect(() => {
 		if (!enrollmentId || !user || !siteId) {
 			return;
@@ -66,12 +74,12 @@ export default function Withdrawal({
 		});
 	}, [enrollmentId, user, siteId]);
 
-	const [getRequestError, getRequestData] = useNewUseApi<Enrollment>(
+	const { error: getRequestError, data: getRequestData } = useNewUseApi<Enrollment>(
 		api =>
 			api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet({
 				...requestParams,
 				include: ['child', 'family', 'determinations', 'fundings', 'sites'],
-			}),
+			} as ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest),
 		{ skip: !requestParams }
 	);
 
@@ -133,12 +141,12 @@ export default function Withdrawal({
 	};
 
 	// set up PUT request to be triggered on save attempt
-	const [putRequestError, putRequestData] = useNewUseApi<Enrollment>(
+	const { error: putRequestError, data: putRequestData } = useNewUseApi<Enrollment>(
 		api =>
 			api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut({
 				...requestParams,
 				enrollment,
-			}),
+			} as ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest),
 		{
 			skip: !attemptingSave || !requestParams || !enrollmentEndDate,
 			callback: () => setAttemptingSave(false),
