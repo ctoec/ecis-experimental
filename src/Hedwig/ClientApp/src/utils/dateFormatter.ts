@@ -5,7 +5,7 @@ export default function dateFormatter(date?: string | null | Date | Moment, shor
 		return '';
 	}
 
-	if(short) return moment(date).format('MM/DD/YYYY');
+	if (short) return moment(date).format('MM/DD/YYYY');
 
 	return moment(date).format('MMMM Do, YYYY');
 }

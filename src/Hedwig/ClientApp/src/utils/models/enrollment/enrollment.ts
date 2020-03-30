@@ -73,4 +73,3 @@ export const enrollmentExitReasons = {
 	AskedToLeave: 'Child was asked to leave',
 	Unknown: 'Unknown',
 };
-

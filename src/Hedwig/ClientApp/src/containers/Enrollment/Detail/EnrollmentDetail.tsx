@@ -11,7 +11,11 @@ import {
 } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
 import newUseApi from '../../../hooks/newUseApi';
-import { validatePermissions, getIdForUser, getEnrollmentHistoryProps } from '../../../utils/models';
+import {
+	validatePermissions,
+	getIdForUser,
+	getEnrollmentHistoryProps,
+} from '../../../utils/models';
 import { InlineIcon, Button } from '../../../components';
 import CommonContainer from '../../CommonContainer';
 import { SectionProps } from '../enrollmentTypes';
@@ -114,7 +118,7 @@ export default function EnrollmentDetail({
 						processStepProps={getEnrollmentHistoryProps(enrollment)}
 						additionalClassName="margin-left-1"
 					/>
-					</div>
+				</div>
 			</div>
 		</CommonContainer>
 	);

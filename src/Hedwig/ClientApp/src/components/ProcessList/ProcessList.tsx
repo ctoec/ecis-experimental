@@ -1,26 +1,21 @@
 import React from 'react';
-import { ProcessStep, ProcessStepProps } from "./ProcessStep";
+import { ProcessStep, ProcessStepProps } from './ProcessStep';
 
 export type ProcessListProps = {
 	processStepProps: ProcessStepProps[];
 	additionalClassName?: string;
-}
+};
 
-export function ProcessList({
-	processStepProps,
-	additionalClassName
-
-}: ProcessListProps)
-{
+export function ProcessList({ processStepProps, additionalClassName }: ProcessListProps) {
 	return (
 		<ol className={`process ${additionalClassName}`}>
 			{processStepProps.map((props, idx) => (
-				<ProcessStep {
-					...{
+				<ProcessStep
+					{...{
 						...props,
-						key: `${idx}`
-					}
-				} />
+						key: `${idx}`,
+					}}
+				/>
 			))}
 		</ol>
 	);
