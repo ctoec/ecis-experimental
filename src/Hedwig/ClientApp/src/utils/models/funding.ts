@@ -1,12 +1,6 @@
 import { DeepNonUndefineable } from '../types';
-import {  DateRange } from '../../components';
-import {
-	Funding,
-	FundingSource,
-	FundingTime,
-	ReportingPeriod,
-	Enrollment
-} from '../../generated';
+import { DateRange } from '../../components';
+import { Funding, FundingSource, FundingTime, ReportingPeriod, Enrollment } from '../../generated';
 import moment from 'moment';
 
 /**

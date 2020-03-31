@@ -190,6 +190,7 @@ namespace Hedwig.Data
 				{
 					CreateFunding(
 					enrollmentId: enrollment.Id,
+					isC4K: false,
 					source: FundingSource.CDC,
 					time: FundingTime.Full,
 					firstReportingPeriod: reportingPeriods[30],
@@ -198,6 +199,7 @@ namespace Hedwig.Data
 
 					CreateFunding(
 					enrollmentId: enrollment.Id,
+					isC4K: false,
 					source: FundingSource.CDC,
 					time: FundingTime.Full,
 					firstReportingPeriod: reportingPeriods[32],

@@ -24,6 +24,7 @@ import {
 	useFocusFirstError,
 	isBlockingValidationError,
 	processValidationError,
+	hasValidationErrors,
 } from '../../../utils/validations';
 import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
 import {
@@ -65,10 +66,10 @@ const EnrollmentFunding: Section = {
 	name: 'Enrollment and funding',
 	status: ({ enrollment }) =>
 		enrollment &&
-		(sectionHasValidationErrors([enrollment.fundings]) ||
+		(hasValidationErrors(enrollment, ['fundings']) ||
 			processValidationError('ageGroup', enrollment ? enrollment.validationErrors : null) ||
 			processValidationError('entry', enrollment ? enrollment.validationErrors : null) ||
-			sectionHasValidationErrors([enrollment.child]))
+			sectionHasValidationErrors([enrollment.child.c4KCertificates]))
 			? 'incomplete'
 			: 'complete',
 
@@ -396,7 +397,7 @@ const EnrollmentFunding: Section = {
 		}, [fundingSelection, cdcReportingPeriod]);
 
 		// *** C4K ***
-				const inputC4kFunding = currentC4kCertificate(enrollment);
+		const inputC4kFunding = currentC4kCertificate(enrollment);
 		const [c4kCertificates, updateC4kCertificates] = useState<C4KCertificate[]>([
 			...(enrollment.child.c4KCertificates || []),
 		]);
@@ -409,12 +410,11 @@ const EnrollmentFunding: Section = {
 					id: 0,
 					childId: enrollment.child.id,
 					startDate: null,
-					endDate: null
+					endDate: null,
 				} as DeepNonUndefineable<C4KCertificate>)
 		);
 		const [receivesC4k, updateReceivesC4k] = useState<boolean>(!!inputC4kFunding);
-		const { startDate: c4kCertificateStartDate } =
-			c4kFunding || {};
+		const { startDate: c4kCertificateStartDate } = c4kFunding || {};
 		useEffect(() => {
 			// When the existing one is updated, update the fundings
 			let updatedC4kCertificates = [...c4kCertificates].filter(

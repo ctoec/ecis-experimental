@@ -38,6 +38,7 @@ namespace Hedwig.Validations.Rules
 
 			var firstReportingPeriod = funding.FirstReportingPeriod.PeriodStart;
 			DateTime? lastReportingPeriod = null;
+			Console.WriteLine(funding.LastReportingPeriod);
 			if (funding.LastReportingPeriod != null)
 			{
 				lastReportingPeriod = funding.LastReportingPeriod.PeriodEnd;
