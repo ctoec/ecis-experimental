@@ -104,9 +104,9 @@ export default function useApi<TData>(
 			} else {
 				return ProblemDetailsFromJSON(jsonResponse) || null;
 			}
-		} catch (e) {
+		} catch {
 			console.error('Error cannot be converted to JSON');
-			console.error(e);
+			console.error(_error);
 			return {
 				detail: 'Please inspect console for error',
 				title: 'Unknown error',

@@ -16,6 +16,7 @@ namespace Hedwig.Data
 			_httpContextAccessor = httpContextAccessor;
 		}
 
+		public DbSet<C4KCertificate> C4KCertificates { get; set; }
 		public DbSet<Child> Children { get; set; }
 		public DbSet<Enrollment> Enrollments { get; set; }
 		public DbSet<Family> Families { get; set; }
@@ -31,6 +32,7 @@ namespace Hedwig.Data
 		public DbSet<User> Users { get; set; }
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
+			modelBuilder.Entity<C4KCertificate>().ToTable("C4KCertificate");
 			modelBuilder.Entity<Child>().ToTable("Child");
 			modelBuilder.Entity<Enrollment>().ToTable("Enrollment");
 			modelBuilder.Entity<Family>().ToTable("Family");

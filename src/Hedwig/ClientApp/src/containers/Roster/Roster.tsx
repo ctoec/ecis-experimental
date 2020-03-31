@@ -1,8 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fundingSourceDetails } from '../../utils/fundingTypeFormatters';
-import getFundingSpaceCapacity from '../../utils/getFundingSpaceCapacity';
-import { getIdForUser, generateFundingTag } from '../../utils/models';
+import { legendDisplayDetails } from '../../utils/legendFormatters';
+import { getIdForUser } from '../../utils/models';
 import {
 	Tag,
 	Legend,
@@ -103,31 +102,15 @@ export default function Roster() {
 	const fundingSpaces = (organization && organization.fundingSpaces) || [];
 	const fundingSpacesByAgeGroup = getObjectsByAgeGroup(fundingSpaces);
 
-	const legendItems: LegendItem[] = [];
-
-	Object.keys(fundingSourceDetails).forEach(source => {
-		const capacityForFunding = getFundingSpaceCapacity(organization, { source });
-		const enrolledForFunding = enrollments.filter<DeepNonUndefineable<Enrollment>>(enrollment =>
-			isFunded(enrollment, { source })
-		).length;
-
-		if (enrolledForFunding === 0) {
-			return;
-		}
-
-		legendItems.push({
-			text: fundingSourceDetails[source].legendTextFormatter(
-				fundingSourceDetails[source].fullTitle,
-				enrolledForFunding,
-				capacityForFunding,
-				showPastEnrollments
+	const legendItems: LegendItem[] = Object.values(legendDisplayDetails).map(
+		({ colorToken, shortTitle, legendTextFormatter, hidden }) => ({
+			text: legendTextFormatter(organization, enrollments, showPastEnrollments),
+			symbol: (
+				<Tag text={shortTitle} color={colorToken} className="position-relative top-neg-2px" />
 			),
-			symbol: generateFundingTag(
-				{ source: source as FundingSource },
-				{ className: 'position-relative top-neg-2px' }
-			),
-		});
-	});
+			hidden: hidden(organization, enrollments),
+		})
+	);
 
 	// CDC funded enrollments with validationErrors are considered to be missing information
 	const missingInformationEnrollmentsCount = enrollments.filter<DeepNonUndefineable<Enrollment>>(

@@ -3,13 +3,18 @@ import idx from 'idx';
 import pluralize from 'pluralize';
 import { Link } from 'react-router-dom';
 import { Table, TableProps, InlineIcon, DateRange, Column } from '../../components';
-import { Enrollment, Funding, FundingSpace, FundingSource, Organization } from '../../generated';
+import { Enrollment, FundingSpace, FundingSource, Organization } from '../../generated';
 import { lastFirstNameFormatter } from '../../utils/stringFormatters';
 import dateFormatter from '../../utils/dateFormatter';
-import { generateFundingTag, NO_FUNDING, filterFundingsForRosterTags } from '../../utils/models';
+import { NO_FUNDING } from '../../utils/models';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../utils/types';
 import { hasValidationErrors } from '../../utils/validations';
 import { isFunded } from '../../utils/models';
+import {
+	generateFundingTypeTag,
+	filterFundingTypesForRosterTags,
+	FundingType,
+} from '../../utils/fundingType';
 
 export type AgeGroupTableProps = { id: string; data: DeepNonUndefineable<Enrollment>[] };
 
@@ -66,23 +71,26 @@ export default function AgeGroupSection({
 
 	const fundingColumn = {
 		name: 'Funding',
-		cell: ({ row }: { row: DeepNonUndefineable<Enrollment> }) => (
-			<td>
-				{filterFundingsForRosterTags(row.fundings, rosterDateRange).length > 0 ? (
-					(filterFundingsForRosterTags(row.fundings, rosterDateRange) as DeepNonUndefineable<
-						Funding[]
-					>).map<React.ReactNode>((funding: DeepNonUndefineable<Funding>, index: number) =>
-						generateFundingTag(funding, {
-							index,
-							includeTime: funding.source === FundingSource.CDC,
-							// Only include time in the tag if it's CDC
-						})
-					)
-				) : (
-					<span className="text-italic text-base">{NO_FUNDING}</span>
-				)}
-			</td>
-		),
+		cell: ({ row }: { row: DeepNonUndefineable<Enrollment> }) => {
+			const fundings = (row.fundings || []).map(funding => ({ ...funding, type: 'CDC' as 'CDC' }));
+			const certificates = (row.child.c4KCertificates || []).map(certificate => ({
+				...certificate,
+				type: 'C4K' as 'C4K',
+			}));
+			const fundingTypes: FundingType[] = [...fundings, ...certificates];
+			const fundingTypeTags = filterFundingTypesForRosterTags(fundingTypes, rosterDateRange);
+			return (
+				<td>
+					{fundingTypeTags.length > 0 ? (
+						fundingTypeTags.map<React.ReactNode>((value, index) =>
+							generateFundingTypeTag(value, { index, includeTime: true })
+						)
+					) : (
+						<span className="text-italic text-base">{NO_FUNDING}</span>
+					)}
+				</td>
+			);
+		},
 		sort: (row: Enrollment) => idx(row, _ => _.fundings[0].source) || '',
 		width: '20%',
 	};

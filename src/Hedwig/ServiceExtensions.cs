@@ -47,6 +47,7 @@ namespace Hedwig
 		public static void ConfigureRepositories(this IServiceCollection services)
 		{
 			services.AddScoped<IChildRepository, ChildRepository>();
+			services.AddScoped<IC4KCertificateRepository, C4KCertificateRepository>();
 			services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
 			services.AddScoped<IFamilyDeterminationRepository, FamilyDeterminationRepository>();
 			services.AddScoped<IFamilyRepository, FamilyRepository>();
@@ -118,11 +119,13 @@ namespace Hedwig
 			services.AddScoped<IValidationRule<Child>, BirthTownRequired>();
 			services.AddScoped<IValidationRule<Child>, BirthStateRequired>();
 			services.AddScoped<IValidationRule<Child>, BirthdateRequired>();
+			services.AddScoped<IValidationRule<Child>, C4KCertificatesAreValid>();
 			services.AddScoped<IValidationRule<Child>, EthnicityRequired>();
 			services.AddScoped<IValidationRule<Child>, FirstNameRequired>();
 			services.AddScoped<IValidationRule<Child>, LastNameRequired>();
 			services.AddScoped<IValidationRule<Child>, RaceRequired>();
 			services.AddScoped<IValidationRule<Child>, GenderMustBeSpecified>();
+			services.AddScoped<IValidationRule<Child>, IfC4K_C4KFamilyCaseNumberRequired>();
 
 			// Family
 			services.AddScoped<IValidationRule<Family>, MostRecentDeterminationIsValid>();
@@ -143,10 +146,11 @@ namespace Hedwig
 			services.AddScoped<IValidationRule<CdcReport>, EnrollmentsAreValid>();
 
 			// Funding
-			services.AddScoped<IValidationRule<Funding>, IfC4K_FamilyIdRequired>();
-			services.AddScoped<IValidationRule<Funding>, IfC4K_CertificateStartDateRequired>();
 			services.AddScoped<IValidationRule<Funding>, SourceRequired>();
 			services.AddScoped<IValidationRule<Funding>, FundingTimelinesAreValid>();
+
+			// C4K Certificates
+			services.AddScoped<IValidationRule<C4KCertificate>, CertificateStartDateRequired>();
 
 			// Register Non-blocking validator
 			services.AddScoped<INonBlockingValidator, NonBlockingValidator>();

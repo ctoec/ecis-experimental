@@ -23,13 +23,6 @@ namespace Hedwig.Models
 		[JsonConverter(typeof(StringEnumConverter))]
 		public FundingSource? Source { get; set; }
 
-		// C4K funding fields
-		public int? FamilyId { get; set; }
-		[Column(TypeName = "date")]
-		public DateTime? CertificateStartDate { get; set; }
-		[Column(TypeName = "date")]
-		public DateTime? CertificateEndDate { get; set; }
-
 		// CDC funding fields
 		[RequiredForFundingSource(FundingSource.CDC)]
 		public int? FirstReportingPeriodId { get; set; }

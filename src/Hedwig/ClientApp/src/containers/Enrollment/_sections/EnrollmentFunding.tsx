@@ -13,6 +13,7 @@ import {
 	ReportingPeriod,
 	Enrollment,
 	ApiOrganizationsOrgIdSitesIdGetRequest,
+	C4KCertificate,
 } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
 import { validatePermissions, getIdForUser } from '../../../utils/models';
@@ -23,6 +24,7 @@ import {
 	useFocusFirstError,
 	isBlockingValidationError,
 	processValidationError,
+	hasValidationErrors,
 } from '../../../utils/validations';
 import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
 import {
@@ -30,7 +32,7 @@ import {
 	currentCdcFunding,
 	updateFunding,
 	createFunding,
-	currentC4kFunding,
+	currentC4kCertificate,
 	ageFromString,
 	getSourcelessFunding,
 	nextNReportingPeriods,
@@ -64,21 +66,22 @@ const EnrollmentFunding: Section = {
 	name: 'Enrollment and funding',
 	status: ({ enrollment }) =>
 		enrollment &&
-		(sectionHasValidationErrors([enrollment.fundings]) ||
+		(hasValidationErrors(enrollment, ['fundings']) ||
 			processValidationError('ageGroup', enrollment ? enrollment.validationErrors : null) ||
-			processValidationError('entry', enrollment ? enrollment.validationErrors : null))
+			processValidationError('entry', enrollment ? enrollment.validationErrors : null) ||
+			sectionHasValidationErrors([enrollment.child.c4KCertificates]))
 			? 'incomplete'
 			: 'complete',
 
 	Summary: ({ enrollment }) => {
 		if (!enrollment) return <></>;
-
+		const child = enrollment.child;
 		const sourcelessFunding = getSourcelessFunding(enrollment);
 		const fundings = enrollment.fundings || [];
 		const cdcFunding = currentCdcFunding(fundings);
 		const isPrivatePay = !sourcelessFunding && cdcFunding === undefined;
 
-		const c4kFunding = currentC4kFunding(fundings);
+		const c4kFunding = currentC4kCertificate(enrollment);
 		const receivesC4k = c4kFunding !== undefined;
 
 		const fundingFirstReportingPeriod = cdcFunding ? cdcFunding.firstReportingPeriod : null;
@@ -134,12 +137,14 @@ const EnrollmentFunding: Section = {
 							<>
 								<p>
 									Care 4 Kids Family ID:{' '}
-									{c4kFunding.familyId ? c4kFunding.familyId : InlineIcon({ icon: 'incomplete' })}
+									{child.c4KFamilyCaseNumber
+										? child.c4KFamilyCaseNumber
+										: InlineIcon({ icon: 'incomplete' })}
 								</p>
 								<p>
 									Care 4 Kids Certificate Start Date:{' '}
-									{c4kFunding.certificateStartDate
-										? dateFormatter(c4kFunding.certificateStartDate)
+									{c4kFunding.startDate
+										? dateFormatter(c4kFunding.startDate)
 										: InlineIcon({ icon: 'incomplete' })}
 								</p>
 							</>
@@ -203,6 +208,7 @@ const EnrollmentFunding: Section = {
 		const [fundings, updateFundings] = useState(
 			_enrollment.fundings || ([] as DeepNonUndefineableArray<Funding>)
 		);
+		const child = _enrollment.child;
 		const sourcelessFunding = getSourcelessFunding(_enrollment);
 
 		const cdcFundings = fundings.filter(funding => funding.source === FundingSource.CDC);
@@ -391,27 +397,33 @@ const EnrollmentFunding: Section = {
 		}, [fundingSelection, cdcReportingPeriod]);
 
 		// *** C4K ***
-		const inputC4kFunding = currentC4kFunding(fundings);
-		const [c4kFunding, updateC4kFunding] = useState<DeepNonUndefineable<Funding>>(
+		const inputC4kFunding = currentC4kCertificate(enrollment);
+		const [c4kCertificates, updateC4kCertificates] = useState<C4KCertificate[]>([
+			...(enrollment.child.c4KCertificates || []),
+		]);
+		const [c4kFamilyId, updateC4kFamilyId] = useState<number | null>(
+			child ? child.c4KFamilyCaseNumber : null
+		);
+		const [c4kFunding, updateC4kFunding] = useState<DeepNonUndefineable<C4KCertificate>>(
 			inputC4kFunding ||
 				({
 					id: 0,
-					enrollmentId: enrollment.id,
-					source: FundingSource.C4K,
-				} as DeepNonUndefineable<Funding>)
+					childId: enrollment.child.id,
+					startDate: null,
+					endDate: null,
+				} as DeepNonUndefineable<C4KCertificate>)
 		);
 		const [receivesC4k, updateReceivesC4k] = useState<boolean>(!!inputC4kFunding);
-		const { familyId: c4kFamilyId, certificateStartDate: c4kCertificateStartDate } =
-			c4kFunding || {};
+		const { startDate: c4kCertificateStartDate } = c4kFunding || {};
 		useEffect(() => {
 			// When the existing one is updated, update the fundings
-			let updatedFundings = [...fundings].filter(
-				funding => funding.id !== (c4kFunding && c4kFunding.id)
+			let updatedC4kCertificates = [...c4kCertificates].filter(
+				cert => cert.id !== (c4kFunding && c4kFunding.id)
 			);
 			if (receivesC4k) {
-				updatedFundings.push(c4kFunding);
+				updatedC4kCertificates.push(c4kFunding);
 			}
-			updateFundings(updatedFundings);
+			updateC4kCertificates(updatedC4kCertificates);
 		}, [c4kFunding, receivesC4k]);
 
 		// *** Save ***
@@ -420,7 +432,15 @@ const EnrollmentFunding: Section = {
 			id: enrollment.id || 0,
 			orgId: getIdForUser(user, 'org'),
 			siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
-			enrollment: { ..._enrollment, fundings },
+			enrollment: {
+				..._enrollment,
+				fundings: fundings,
+				child: {
+					..._enrollment.child,
+					c4KFamilyCaseNumber: c4kFamilyId,
+					c4KCertificates: c4kCertificates,
+				},
+			},
 		};
 		const { error: saveError, data: saveData } = useNewUseApi<Enrollment>(
 			api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(defaultParams),
@@ -615,12 +635,8 @@ const EnrollmentFunding: Section = {
 								id="familyId"
 								label="Family ID"
 								defaultValue={c4kFamilyId ? '' + c4kFamilyId : ''}
-								onChange={event =>
-									updateC4kFunding({
-										...c4kFunding,
-										familyId: parseInt(event.target.value) || null,
-									})
-								}
+								// TODO: USE REDUCER HERE
+								onChange={event => updateC4kFamilyId(parseInt(event.target.value))}
 								status={initialLoadErrorGuard(
 									initialLoad,
 									displayErrorOrWarning(
@@ -630,8 +646,8 @@ const EnrollmentFunding: Section = {
 										},
 										undefined,
 										{
-											object: c4kFunding ? c4kFunding : null,
-											field: 'familyId',
+											object: child ? child : null,
+											field: 'c4KFamilyCaseNumber',
 											message: 'This information is required for OEC reporting',
 										}
 									)
@@ -642,7 +658,7 @@ const EnrollmentFunding: Section = {
 								onChange={newDate =>
 									updateC4kFunding({
 										...c4kFunding,
-										certificateStartDate: newDate ? newDate.toDate() : null,
+										startDate: newDate ? newDate.toDate() : null,
 									})
 								}
 								date={c4kCertificateStartDate ? moment(c4kCertificateStartDate) : null}
@@ -658,7 +674,7 @@ const EnrollmentFunding: Section = {
 										undefined,
 										{
 											object: c4kFunding ? c4kFunding : null,
-											field: 'certificateStartDate',
+											field: 'startDate',
 											message: 'This information is required for OEC reporting',
 										}
 									)

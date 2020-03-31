@@ -1,4 +1,5 @@
 export * from './gender';
+export * from './c4kCertificate';
 export * from './child';
 export * from './family';
 export * from './familyDetermination';

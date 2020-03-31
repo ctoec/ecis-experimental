@@ -26,7 +26,6 @@ namespace Hedwig.Repositories
 			return _context.Fundings
 				.Include(f => f.FirstReportingPeriod)
 				.Include(f => f.LastReportingPeriod)
-				.AsNoTracking()
 				.Include(f => f.Enrollment)
 				.Where(f => f.Enrollment.ChildId == childId)
 				.ToList();

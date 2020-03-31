@@ -84,7 +84,7 @@ export default function ReportSubmitForm({
 	useEffect(() => {
 		if (allEnrollments) {
 			var c4kFundedEnrollments = allEnrollments.filter(
-				enrollment => !!activeC4kFundingAsOf(enrollment.fundings, submittedAt || undefined)
+				enrollment => !!activeC4kFundingAsOf(enrollment, submittedAt || undefined)
 			);
 			var childIds: string[] = [];
 			c4kFundedEnrollments.forEach(enrollment => {
