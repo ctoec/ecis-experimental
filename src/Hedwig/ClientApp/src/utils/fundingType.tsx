@@ -25,35 +25,32 @@ function ptOrFT(fundingTime?: FundingTime) {
 
 export function generateFundingTypeTag(
 	fundingType: FundingType,
-	index?: any,
 	options?: {
-		includeTime: boolean;
+		index?: any;
+		className?: string;
+		includeTime?: boolean;
 	}
 ): JSX.Element {
 	const color = fundingType.type ? getDisplayColorForFundingType(fundingType.type) : 'gray-90';
-	console.log(options);
-	if (!options) {
-		options = { includeTime: true };
-	}
+	const { index, className, includeTime } = options || {};
 	let key, text;
 	switch (fundingType.type) {
 		case 'CDC':
 			key = `${fundingType.source}-${fundingType.time}`;
 			if (index) key = `${key}-${index}`;
-			console.log(options.includeTime);
-			if (fundingType.source && options.includeTime) {
+			if (fundingType.source && includeTime) {
 				text = `CDC${ptOrFT(fundingType.time)}`;
 			} else if (fundingType.source) {
 				text = 'CDC';
 			} else {
 				text = 'Not specified';
 			}
-			return Tag({ key, text, color });
+			return Tag({ key, text, color, className });
 		case 'C4K':
 			key = 'C4K';
 			if (index) key = `${key}-${index}`;
 			text = 'C4K';
-			return Tag({ key, text, color });
+			return Tag({ key, text, color, className });
 	}
 }
 
