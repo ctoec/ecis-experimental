@@ -22,6 +22,10 @@ import {
 	FundingSourceFromJSON,
 	FundingSourceFromJSONTyped,
 	FundingSourceToJSON,
+	FundingSpace,
+	FundingSpaceFromJSON,
+	FundingSpaceFromJSONTyped,
+	FundingSpaceToJSON,
 	FundingTime,
 	FundingTimeFromJSON,
 	FundingTimeFromJSONTyped,
@@ -64,6 +68,18 @@ export interface Funding {
 	 * @memberof Funding
 	 */
 	enrollment?: Enrollment;
+	/**
+	 *
+	 * @type {FundingSpace}
+	 * @memberof Funding
+	 */
+	fundingSpace?: FundingSpace;
+	/**
+	 *
+	 * @type {number}
+	 * @memberof Funding
+	 */
+	fundingSpaceId?: number | null;
 	/**
 	 *
 	 * @type {FundingSource}
@@ -138,6 +154,10 @@ export function FundingFromJSONTyped(json: any, ignoreDiscriminator: boolean): F
 		id: json['id'],
 		enrollmentId: json['enrollmentId'],
 		enrollment: !exists(json, 'enrollment') ? undefined : EnrollmentFromJSON(json['enrollment']),
+		fundingSpace: !exists(json, 'fundingSpace')
+			? undefined
+			: FundingSpaceFromJSON(json['fundingSpace']),
+		fundingSpaceId: !exists(json, 'fundingSpaceId') ? undefined : json['fundingSpaceId'],
 		source: !exists(json, 'source') ? undefined : FundingSourceFromJSON(json['source']),
 		firstReportingPeriodId: !exists(json, 'firstReportingPeriodId')
 			? undefined
@@ -178,6 +198,8 @@ export function FundingToJSON(value?: Funding | null): any {
 		id: value.id,
 		enrollmentId: value.enrollmentId,
 		enrollment: EnrollmentToJSON(value.enrollment),
+		fundingSpace: FundingSpaceToJSON(value.fundingSpace),
+		fundingSpaceId: value.fundingSpaceId,
 		source: FundingSourceToJSON(value.source),
 		firstReportingPeriodId: value.firstReportingPeriodId,
 		firstReportingPeriod: ReportingPeriodToJSON(value.firstReportingPeriod),

@@ -80,6 +80,8 @@ namespace Hedwig.Repositories
 					&& e.Entry < enrollment.Entry
 				)
 				.Include(e => e.Fundings)
+					.ThenInclude(f => f.FundingSpace)
+				.Include(e => e.Fundings)
 					.ThenInclude(f => f.FirstReportingPeriod)
 				.Include(e => e.Fundings)
 					.ThenInclude(f => f.LastReportingPeriod)
@@ -155,6 +157,8 @@ namespace Hedwig.Repositories
 			if (include.Contains(HedwigRepository.INCLUDE_FUNDINGS))
 			{
 				query = query.Include(e => e.Fundings)
+						.ThenInclude(f => f.FundingSpace)
+					.Include(e => e.Fundings)
 						.ThenInclude(f => f.FirstReportingPeriod)
 					.Include(e => e.Fundings)
 						.ThenInclude(f => f.LastReportingPeriod)

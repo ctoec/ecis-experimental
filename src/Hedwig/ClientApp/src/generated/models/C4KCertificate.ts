@@ -43,7 +43,7 @@ export interface C4KCertificate {
 	 * @type {Date}
 	 * @memberof C4KCertificate
 	 */
-	startDate: Date | null;
+	startDate?: Date | null;
 	/**
 	 *
 	 * @type {Date}
@@ -72,7 +72,11 @@ export function C4KCertificateFromJSONTyped(
 	return {
 		id: json['id'],
 		childId: json['childId'],
-		startDate: json['startDate'] === null ? null : new Date(json['startDate']),
+		startDate: !exists(json, 'startDate')
+			? undefined
+			: json['startDate'] === null
+			? null
+			: new Date(json['startDate']),
 		endDate: !exists(json, 'endDate')
 			? undefined
 			: json['endDate'] === null
@@ -96,7 +100,12 @@ export function C4KCertificateToJSON(value?: C4KCertificate | null): any {
 	return {
 		id: value.id,
 		childId: value.childId,
-		startDate: value.startDate === null ? null : value.startDate.toISOString(),
+		startDate:
+			value.startDate === undefined
+				? undefined
+				: value.startDate === null
+				? null
+				: value.startDate.toISOString(),
 		endDate:
 			value.endDate === undefined
 				? undefined
