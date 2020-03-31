@@ -241,7 +241,11 @@ export default function Withdrawal({
 					</div>
 					{cdcFunding && (
 						<div className="mobile-lg:grid-col-6">
-							<p>{generateFundingTypeTag({ ...cdcFunding, type: 'CDC' })}</p>
+							<p>
+								{generateFundingTypeTag({ ...cdcFunding, type: 'CDC' }, undefined, {
+									includeTime: false,
+								})}
+							</p>
 							<p>Enrollment: {prettyFundingTime(cdcFunding.time)}</p>
 							<p>
 								First reporting period:{' '}

@@ -82,7 +82,9 @@ export default function AgeGroupSection({
 			return (
 				<td>
 					{fundingTypeTags.length > 0 ? (
-						fundingTypeTags.map<React.ReactNode>(generateFundingTypeTag)
+						fundingTypeTags.map<React.ReactNode>((value, index) =>
+							generateFundingTypeTag(value, index)
+						)
 					) : (
 						<span className="text-italic text-base">{NO_FUNDING}</span>
 					)}

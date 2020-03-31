@@ -2,6 +2,7 @@ import { C4KCertificate, Enrollment } from '../../generated';
 import { DateRange } from '../../components';
 import { DeepNonUndefineable } from '../types';
 import moment from 'moment';
+import idx from 'idx';
 
 /**
  * C4K funding does NOT overlap with range if:
@@ -46,7 +47,11 @@ export function currentC4kCertificate(
 	if (!enrollment) {
 		return undefined;
 	}
-	const c4kCerts = enrollment.child.c4KCertificates;
+	const c4kCerts =
+		idx<Enrollment, DeepNonUndefineable<C4KCertificate[]>>(
+			enrollment,
+			_ => _.child.c4KCertificates as DeepNonUndefineable<C4KCertificate[]>
+		) || [];
 	// Sorts by the start of the certificate
 	const sortedCerts = (c4kCerts || []).sort(c4kCertificateSort);
 	// returns the latest one
@@ -60,7 +65,14 @@ export function activeC4kFundingAsOf(
 	if (!asOf) {
 		return currentC4kCertificate(enrollment);
 	} else {
-		const c4kCerts = enrollment ? enrollment.child.c4KCertificates : [];
+		if (!enrollment) {
+			return undefined;
+		}
+		const c4kCerts =
+			idx<Enrollment, DeepNonUndefineable<C4KCertificate[]>>(
+				enrollment,
+				_ => _.child.c4KCertificates as DeepNonUndefineable<C4KCertificate[]>
+			) || [];
 		// Sorts by the start of the certificate
 		const sortedCerts = (c4kCerts || []).sort(c4kCertificateSort);
 		// find cert with asOf between start and end dates
