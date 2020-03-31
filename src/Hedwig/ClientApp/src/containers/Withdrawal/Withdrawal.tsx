@@ -156,7 +156,9 @@ export default function Withdrawal({
 			});
 		}
 		if (c4KFunding) {
-			let c4KCertificates: C4KCertificate[] = enrollment.child.c4KCertificates || [];
+			let c4KCertificates: C4KCertificate[] = enrollment.child
+				? enrollment.child.c4KCertificates || []
+				: [];
 			c4KCertificates = [
 				...c4KCertificates.filter(cert => cert.id !== c4KFunding.id),
 				{
