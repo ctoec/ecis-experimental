@@ -1,11 +1,12 @@
 import { ProcessStepProps } from '../../../components/ProcessList/ProcessStep';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../types';
-import { Enrollment, Funding, FundingSource, FamilyDetermination } from '../../../generated';
+import { Enrollment, Funding, FundingSource, FamilyDetermination, C4KCertificate } from '../../../generated';
 import { prettyAge, prettyFundingTime, NO_FUNDING } from '..';
 import dateFormatter from '../../dateFormatter';
 import { inverseDateSorter } from '../../dateSorter';
 import moment from 'moment';
 import { scryRenderedComponentsWithType } from 'react-dom/test-utils';
+import { c4kCertificateSorter } from '../c4kCertificate';
 
 // sortable process step props include:
 // - sortDate, the field to use for sorting
@@ -74,7 +75,9 @@ export function getEnrollmentHistoryProps(
 			);
 
 			// C4K certification steps
-			// processStepProps = processStepProps.concat()
+			processStepProps = processStepProps.concat(
+				c4kCertificateStepProps(enrollment.child.c4KCertificates)
+			)
 		}
 	});
 
@@ -89,7 +92,7 @@ export function getEnrollmentHistoryProps(
  * used to determine if switch to private pay step should be created
  */
 function fundingStepProps(
-	fundings: DeepNonUndefineableArray<Funding> | null,
+	fundings: DeepNonUndefineable<Funding[]> | null,
 	enrollmentExit: Date | null
 ) {
 	var processStepProps: SortableProcessStepProps[] = [];
@@ -140,7 +143,7 @@ function fundingStepProps(
  * @param determinations
  */
 function determinationStepProps(
-	determinations: DeepNonUndefineableArray<FamilyDetermination> | null
+	determinations: DeepNonUndefineable<FamilyDetermination[]> | null
 ) {
 	var processStepProps: SortableProcessStepProps[] = [];
 	if (determinations) {
@@ -155,6 +158,31 @@ function determinationStepProps(
 				);
 			}
 		});
+	}
+
+	return processStepProps;
+}
+
+/**
+ * Generates SortableProcessStepProps array for a given array of C4KCertificates
+ * @param c4KCertificates 
+ */
+function c4kCertificateStepProps(
+	c4KCertificates: DeepNonUndefineable<C4KCertificate[]> | null
+) {
+	var processStepProps: SortableProcessStepProps[] = [];
+	if(c4KCertificates) {
+		c4KCertificates
+			.sort(c4kCertificateSorter)
+			.forEach((c4kCertificate, idx) => {
+				if(c4kCertificate.startDate) {
+					processStepProps.push(getSortableStep({
+						heading: idx === 0 ? 'Care 4 Kids certificate added' : 'Care 4 Kids certificate renewed',
+						body: `on ${dateFormatter(c4kCertificate.startDate, false)}`,
+						stepDate: c4kCertificate.startDate
+					}));
+				}
+			});
 	}
 
 	return processStepProps;
