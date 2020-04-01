@@ -1,5 +1,5 @@
 import { Enrollment, Gender, User, C4KCertificate } from '../../../generated';
-import { isCurrentFundingToRange } from '.';
+import { isCurrentFundingToRange } from '..';
 import { DateRange } from '../../../components';
 import { validatePermissions, getIdForUser } from '..';
 import emptyGuid from '../../emptyGuid';

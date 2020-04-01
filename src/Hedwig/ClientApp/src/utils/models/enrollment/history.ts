@@ -1,12 +1,18 @@
 import { ProcessStepProps } from '../../../components/ProcessList/ProcessStep';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../types';
-import { Enrollment, Funding, FundingSource, FamilyDetermination, C4KCertificate } from '../../../generated';
+import {
+	Enrollment,
+	Funding,
+	FundingSource,
+	FamilyDetermination,
+	C4KCertificate,
+} from '../../../generated';
 import { prettyAge, prettyFundingTime, NO_FUNDING } from '..';
 import dateFormatter from '../../dateFormatter';
 import { inverseDateSorter } from '../../dateSorter';
 import moment from 'moment';
-import { scryRenderedComponentsWithType } from 'react-dom/test-utils';
 import { c4kCertificateSorter } from '../c4kCertificate';
+import { fundingStartSorter } from '../funding';
 
 // sortable process step props include:
 // - sortDate, the field to use for sorting
@@ -33,34 +39,9 @@ export function getEnrollmentHistoryProps(
 	var processStepProps: SortableProcessStepProps[] = [];
 
 	allEnrollments.forEach((enrollment, idx) => {
-		// enrollment start steps
-		if (enrollment.entry) {
-			var props = {};
-			processStepProps.push(
-				getSortableStep({
-					heading:
-						idx === allEnrollments.length - 1
-							? `Changed enrollment to ${prettyAge(enrollment.ageGroup)} in ${enrollment.site.name}`
-							: // heading text for first enrollment (last in ordered array)
-							  `Enrolled in ${enrollment.site.name}`,
-					body: `on ${dateFormatter(enrollment.entry, false)}`,
-					stepDate: enrollment.entry,
-					stepWeight: -1,
-				})
-			);
-		}
-
-		// enrollment stop steps (only care about withdrawal for the last enrollment)
-		if (idx === 0 && enrollment.exit) {
-			processStepProps.push(
-				getSortableStep({
-					heading: `Withdrawn from ${enrollment.site.name}`,
-					body: `on ${dateFormatter(enrollment.exit, false)}`,
-					stepDate: enrollment.exit,
-					stepWeight: 1,
-				})
-			);
-		}
+		processStepProps = processStepProps.concat(
+			enrollmentStepProps(enrollment, idx, allEnrollments.length)
+		);
 
 		// funding steps
 		processStepProps = processStepProps.concat(
@@ -77,12 +58,52 @@ export function getEnrollmentHistoryProps(
 			// C4K certification steps
 			processStepProps = processStepProps.concat(
 				c4kCertificateStepProps(enrollment.child.c4KCertificates)
-			)
+			);
 		}
 	});
 
 	// return all steps sorted by `sortDate`, and sortWeight
 	return processStepProps.sort(enrollmentHistoryPropsSorter);
+}
+
+export function enrollmentStepProps(
+	_enrollment: DeepNonUndefineable<Enrollment>,
+	enrollmentIndex: number,
+	allEnrollmentsCount: number
+) {
+	var processStepProps: SortableProcessStepProps[] = [];
+
+	// enrollment start step
+	if (_enrollment.entry) {
+		processStepProps.push(
+			getSortableStep({
+				heading:
+					enrollmentIndex === allEnrollmentsCount - 1
+						? // heading text for first enrollment (last in ordered array)
+						  `Enrolled in ${_enrollment.site.name}`
+						: `Changed enrollment to ${prettyAge(_enrollment.ageGroup)} in ${
+								_enrollment.site.name
+						  }`,
+				body: `on ${dateFormatter(_enrollment.entry, false)}`,
+				stepDate: _enrollment.entry,
+				stepWeight: -1,
+			})
+		);
+	}
+
+	// enrollment stop step (only care about withdrawal for the last enrollment)
+	if (enrollmentIndex === 0 && _enrollment.exit) {
+		processStepProps.push(
+			getSortableStep({
+				heading: `Withdrawn from ${_enrollment.site.name}`,
+				body: `on ${dateFormatter(_enrollment.exit, false)}`,
+				stepDate: _enrollment.exit,
+				stepWeight: 1,
+			})
+		);
+	}
+
+	return processStepProps;
 }
 
 /**
@@ -91,35 +112,40 @@ export function getEnrollmentHistoryProps(
  * @param enrollmentExit the value of Exit on the owning enrollment,
  * used to determine if switch to private pay step should be created
  */
-function fundingStepProps(
+export function fundingStepProps(
 	fundings: DeepNonUndefineable<Funding[]> | null,
 	enrollmentExit: Date | null
 ) {
 	var processStepProps: SortableProcessStepProps[] = [];
 
 	if (fundings) {
-		fundings.forEach(funding => {
+		fundings.sort(fundingStartSorter).forEach(funding => {
 			// CDC Funding start if:
 			// - source is CDC
 			// - funding has first reporting period
 			if (funding.source === FundingSource.CDC && funding.firstReportingPeriod) {
+				var heading = `Switched funding to ${funding.source}`;
+				if (funding.time) heading += ` - ${prettyFundingTime(funding.time)}`;
+
 				processStepProps.push(
 					getSortableStep({
-						heading: `Switched funding to ${funding.source} - ${prettyFundingTime(funding.time)}`,
+						heading,
 						body: `on ${dateFormatter(funding.firstReportingPeriod.periodStart, false)}`,
 						stepDate: funding.firstReportingPeriod.periodStart,
 					})
 				);
 			}
+
 			// Switch to private pay if:
 			// - source is CDC
 			// - funding has last reporting period
-			// - enrollment still on going
+			// - enrollment is still ongoing (exit == null)
+			// 	 OR last reporting period ends before enrollment exit
 			// TODO: Handle other funding sources
-			else if (
+			if (
 				funding.source === FundingSource.CDC &&
 				funding.lastReportingPeriod &&
-				!enrollmentExit
+				(!enrollmentExit || funding.lastReportingPeriod.periodEnd < enrollmentExit)
 			) {
 				var dayAfterLastReportingPeriodEnd = moment(funding.lastReportingPeriod.periodEnd)
 					.add(1, 'days')
@@ -142,7 +168,7 @@ function fundingStepProps(
  * Generates SortableProcessStepProps array for a given array of family determinations
  * @param determinations
  */
-function determinationStepProps(
+export function determinationStepProps(
 	determinations: DeepNonUndefineable<FamilyDetermination[]> | null
 ) {
 	var processStepProps: SortableProcessStepProps[] = [];
@@ -165,24 +191,26 @@ function determinationStepProps(
 
 /**
  * Generates SortableProcessStepProps array for a given array of C4KCertificates
- * @param c4KCertificates 
+ * @param c4KCertificates
  */
-function c4kCertificateStepProps(
+export function c4kCertificateStepProps(
 	c4KCertificates: DeepNonUndefineable<C4KCertificate[]> | null
 ) {
 	var processStepProps: SortableProcessStepProps[] = [];
-	if(c4KCertificates) {
-		c4KCertificates
-			.sort(c4kCertificateSorter)
-			.forEach((c4kCertificate, idx) => {
-				if(c4kCertificate.startDate) {
-					processStepProps.push(getSortableStep({
-						heading: idx === 0 ? 'Care 4 Kids certificate added' : 'Care 4 Kids certificate renewed',
+
+	if (c4KCertificates) {
+		c4KCertificates.sort(c4kCertificateSorter).forEach((c4kCertificate, idx) => {
+			if (c4kCertificate.startDate) {
+				processStepProps.push(
+					getSortableStep({
+						heading:
+							idx === 0 ? 'Care 4 Kids certificate added' : 'Care 4 Kids certificate renewed',
 						body: `on ${dateFormatter(c4kCertificate.startDate, false)}`,
-						stepDate: c4kCertificate.startDate
-					}));
-				}
-			});
+						stepDate: c4kCertificate.startDate,
+					})
+				);
+			}
+		});
 	}
 
 	return processStepProps;
@@ -193,7 +221,10 @@ function c4kCertificateStepProps(
  * @param a
  * @param b
  */
-function enrollmentHistoryPropsSorter(a: SortableProcessStepProps, b: SortableProcessStepProps) {
+export function enrollmentHistoryPropsSorter(
+	a: SortableProcessStepProps,
+	b: SortableProcessStepProps
+) {
 	var dateSorterRes = inverseDateSorter(a.sortDate, b.sortDate);
 
 	if (dateSorterRes !== 0) return dateSorterRes;
@@ -211,7 +242,7 @@ function enrollmentHistoryPropsSorter(a: SortableProcessStepProps, b: SortablePr
  * @param stepDate
  * @param stepWeight
  */
-function getSortableStep(params: {
+export function getSortableStep(params: {
 	heading: string;
 	body: string;
 	stepDate: Date;
@@ -230,6 +261,6 @@ function getSortableStep(params: {
  * Returns true is date is less than 1 week old, else false
  * @param stepDate
  */
-function stepIsNew(stepDate: Date) {
+export function stepIsNew(stepDate: Date) {
 	return moment().add(-1, 'week') < moment(stepDate);
 }
