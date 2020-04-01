@@ -1,24 +1,42 @@
-import React, { useContext, useState, useEffect, useReducer } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { SectionProps } from '../../enrollmentTypes';
 import AlertContext from '../../../../contexts/Alert/AlertContext';
 import FamilyIncome from '.';
-import useNewUseApi, { ApiError } from '../../../../hooks/newUseApi';
-import { isBlockingValidationError, initialLoadErrorGuard, warningForFieldSet, warningForField, hasValidationErrors } from '../../../../utils/validations';
+import useApi, { ApiError } from '../../../../hooks/useApi';
+import {
+	isBlockingValidationError,
+	initialLoadErrorGuard,
+	warningForFieldSet,
+	hasValidationErrors,
+} from '../../../../utils/validations';
 import { validationErrorAlert } from '../../../../utils/stringFormatters/alertTextMakers';
 import UserContext from '../../../../contexts/User/UserContext';
-import { FormReducer, formReducer, updateData } from '../../../../utils/forms/form';
 import { DeepNonUndefineable } from '../../../../utils/types';
-import { Enrollment, ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest } from '../../../../generated';
+import {
+	Enrollment,
+	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
+	FamilyDetermination,
+} from '../../../../generated';
 import idx from 'idx';
-import { validatePermissions, getIdForUser } from '../../../../utils/models';
-import { FieldSet, TextInput, DateInput, ChoiceList, Alert, Button } from '../../../../components';
-import currencyFormatter from '../../../../utils/currencyFormatter';
-import parseCurrencyFromString from '../../../../utils/parseCurrencyFromString';
-import notNullOrUndefined from '../../../../utils/notNullOrUndefined';
-import moment from 'moment';
+import {
+	validatePermissions,
+	getIdForUser,
+	inverseDeterminationSorter,
+} from '../../../../utils/models';
+import { FieldSet, Alert } from '../../../../components';
+import Form from '../../../../components/Form/Form';
+import {
+	householdSizeField,
+	incomeDisclosedField,
+	annualHouseholdIncomeField,
+	determinationDateField,
+} from './Form';
+import FormInset from '../../../../components/Form/FormInset';
+import FormSubmitButton from '../../../../components/Form/FormSubmitButton';
 
 const EntryForm: React.FC<SectionProps> = ({
 	enrollment,
+	updateEnrollment,
 	siteId,
 	error: inputError,
 	successCallback,
@@ -48,24 +66,19 @@ const EntryForm: React.FC<SectionProps> = ({
 
 	const { user } = useContext(UserContext);
 
-	const [_enrollment, updateEnrollment] = useReducer<
-		FormReducer<DeepNonUndefineable<Enrollment>>
-	>(formReducer, enrollment);
-	const updateFormData = updateData<DeepNonUndefineable<Enrollment>>(updateEnrollment);
-
-	const child = _enrollment.child;
-	const determination = idx(child, _ => _.family.determinations[0]) || undefined;
-
-	const { numberOfPeople, income, determinationDate, notDisclosed } = determination || {};
+	const child = enrollment.child;
+	const determinations = idx(child, _ => _.family.determinations as FamilyDetermination[]) || [];
+	const sortedDeterminations = [...determinations].sort(inverseDeterminationSorter);
+	const determination = determinations[0];
 
 	const [attemptingSave, setAttemptingSave] = useState(false);
 	const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
 		id: enrollment.id || 0,
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		orgId: getIdForUser(user, 'org'),
-		enrollment: _enrollment,
+		enrollment: enrollment,
 	};
-	const { error: saveError, data: saveData } = useNewUseApi<Enrollment>(
+	const { error: saveError, data: saveData } = useApi<Enrollment>(
 		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(defaultParams),
 		{ skip: !attemptingSave, callback: () => setAttemptingSave(false) }
 	);
@@ -89,10 +102,28 @@ const EntryForm: React.FC<SectionProps> = ({
 	}
 
 	return (
-		<form className="FamilyIncomeForm" noValidate autoComplete="off">
-			<div className="usa-form">
-				{!notDisclosed && (
-					<>
+		<Form<Enrollment>
+			noValidate
+			autoComplete="off"
+			className="FamilyIncomeForm"
+			data={enrollment}
+			onSave={enrollment => {
+				updateEnrollment(enrollment as DeepNonUndefineable<Enrollment>);
+				setAttemptingSave(true);
+			}}
+			additionalInformation={{
+				initialLoad,
+			}}
+		>
+			<FormInset<Enrollment, { initialLoad: boolean }>
+				render={({ containingData: enrollment, additionalInformation }) => {
+					const determinationDate = determination && determination.determinationDate;
+					const notDisclosed = determination && determination.notDisclosed;
+					const { initialLoad } = additionalInformation;
+					if (notDisclosed) {
+						return null;
+					}
+					return (
 						<FieldSet
 							id="family-income"
 							legend="Family income"
@@ -117,107 +148,39 @@ const EntryForm: React.FC<SectionProps> = ({
 									)
 							)}
 						>
-							<div>
-								<TextInput
-									type="input"
-									id="numberOfPeople"
-									label="Household size"
-									defaultValue={numberOfPeople ? '' + numberOfPeople : ''}
-									onChange={updateFormData(
-										newNumberOfPeople =>
-											parseInt(newNumberOfPeople.replace(/[^0-9.]/g, ''), 10) || null
-									)}
-									onBlur={event =>
-										(event.target.value = numberOfPeople ? '' + numberOfPeople : '')
-									}
-									status={initialLoadErrorGuard(
-										initialLoad,
-										warningForField('numberOfPeople', determination ? determination : null, '')
-									)}
-									small
-									name="child.family.determinations[0].numberOfPeople"
-								/>
-							</div>
-							<div>
-								<TextInput
-									type="input"
-									id="income"
-									label="Annual household income"
-									name="child.family.determinations[0].income"
-									defaultValue={currencyFormatter(income)}
-									onChange={updateFormData(parseCurrencyFromString)}
-									onBlur={event =>
-										(event.target.value = notNullOrUndefined(income)
-											? currencyFormatter(income)
-											: '')
-									}
-									status={initialLoadErrorGuard(
-										initialLoad,
-										warningForField('income', determination ? determination : null, '')
-									)}
-								/>
-							</div>
-							<DateInput
-								label="Date of income determination"
-								id="income-determination-date"
-								date={determinationDate ? moment(determinationDate) : null}
-								name="child.family.determinations[0].determinationDate"
-								onChange={updateFormData(newDate => (newDate ? newDate.toDate() : null))}
-								status={initialLoadErrorGuard(
-									initialLoad,
-									warningForField(
-										'determinationDate',
-										determination ? determination : null,
-										!determinationDate ? '' : undefined
-									)
-								)}
-							/>
+							<div>{householdSizeField(0)}</div>
+							<div>{annualHouseholdIncomeField(0)}</div>
+							<div>{determinationDateField(0)}</div>
 						</FieldSet>
-					</>
-				)}
-				<ChoiceList
-					type="check"
-					legend="Family income disclosure"
-					id="family-income-disclosed"
-					className="margin-top-3"
-					name="child.family.determinations[0].notDisclosed"
-					onChange={updateFormData((_, event) => event.target.checked)}
-					selected={notDisclosed ? ['familyIncomeNotDisclosed'] : undefined}
-					options={[
-						{
-							text: 'Family income not disclosed',
-							value: 'familyIncomeNotDisclosed',
-						},
-					]}
-					status={warningForFieldSet(
-						'family-income',
-						['notDisclosed'],
-						determination ? determination : null,
-						'Income information must be disclosed for CDC funded enrollments'
-					)}
-				/>
-			</div>
-
+					);
+				}}
+			/>
+			{incomeDisclosedField(0)}
 			{/*Only display the alert if:
 			 - determination is notDisclosed
 			 - there is no 'notDisclosed' validationError (which will result in warning on the notDisclosed field)
 			*/}
-			{notDisclosed &&
-				!hasValidationErrors(determination ? determination : null, ['notDisclosed']) && (
-					<Alert
-						type="info"
-						text="Income information is required to enroll a child in a CDC funded space. You will not be able to assign this child to a funding space without this information."
-					/>
-				)}
-
+			<FormInset<Enrollment>
+				render={() => {
+					const notDisclosed = determination ? determination.notDisclosed || null : null;
+					if (
+						notDisclosed &&
+						!hasValidationErrors(determination ? determination : null, ['notDisclosed'])
+					) {
+						return (
+							<Alert
+								type="info"
+								text="Income information is required to enroll a child in a CDC funded space. You will not be able to assign this child to a funding space without this information."
+							/>
+						);
+					}
+					return null;
+				}}
+			/>
 			<div className="usa-form">
-				<Button
-					text={attemptingSave ? 'Saving...' : 'Save'}
-					onClick={() => setAttemptingSave(true)}
-					disabled={attemptingSave}
-				/>
+				<FormSubmitButton text={attemptingSave ? 'Saving...' : 'Save'} disabled={attemptingSave} />
 			</div>
-		</form>
+		</Form>
 	);
 };
 

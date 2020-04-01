@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Section } from '../enrollmentTypes';
 import { History } from 'history';
 import ChildInfo from '../_sections/ChildInfo';
@@ -23,6 +23,7 @@ import {
 } from '../../../utils/stringFormatters';
 import { ErrorBoundary } from '../../../components';
 import useApi from '../../../hooks/useApi';
+import { DeepNonUndefineable } from '../../../utils/types';
 
 type EnrollmentEditParams = {
 	history: History;
@@ -58,6 +59,7 @@ export default function EnrollmentEdit({
 	const { user } = useContext(UserContext);
 	const { setAlerts } = useContext(AlertContext);
 
+	const [enrollment, updateEnrollment] = useState<DeepNonUndefineable<Enrollment> | null>(null);
 	// Get enrollment by id
 	const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest = {
 		id: enrollmentId ? enrollmentId : 0,
@@ -65,10 +67,13 @@ export default function EnrollmentEdit({
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		include: ['child', 'family', 'determinations', 'fundings'],
 	};
-	const { loading, error, data: enrollment } = useApi(
+	const { loading, error, data: _enrollment } = useApi(
 		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
 		{ skip: !user }
 	);
+	useEffect(() => {
+		updateEnrollment(_enrollment);
+	}, [_enrollment]);
 
 	if (!section) {
 		return <PageNotFound />;
@@ -94,6 +99,14 @@ export default function EnrollmentEdit({
 		history.push(`/roster/sites/${siteId}/enrollments/${enrollment.id}/`);
 	};
 
+	const sectionFormProps = {
+		siteId,
+		enrollment,
+		updateEnrollment,
+		error,
+		successCallback: afterSave,
+	};
+
 	return (
 		<CommonContainer
 			directionalLinkProps={{
@@ -106,12 +119,7 @@ export default function EnrollmentEdit({
 				<h1>Edit {section.name.toLowerCase()}</h1>
 				<p className="usa-intro">{nameFormatter(enrollment.child)}</p>
 				<ErrorBoundary alertProps={editSaveFailAlert}>
-					<section.Form
-						siteId={siteId}
-						enrollment={enrollment}
-						error={error}
-						successCallback={afterSave}
-					/>
+					<section.Form {...sectionFormProps} />
 				</ErrorBoundary>
 			</div>
 		</CommonContainer>

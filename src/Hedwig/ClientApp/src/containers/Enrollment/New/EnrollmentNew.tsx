@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { History } from 'history';
 import { Section, SectionProps } from '../enrollmentTypes';
 import { default as StepList, StepProps } from '../../../components/StepList/StepList';
@@ -25,6 +25,7 @@ import {
 	stepListSaveFailAlert,
 } from '../../../utils/stringFormatters';
 import useRouteChange from '../../../hooks/useRouteChange';
+import { DeepNonUndefineable } from '../../../utils/types';
 
 type EnrollmentNewParams = {
 	history: History;
@@ -88,6 +89,7 @@ export default function EnrollmentNew({
 	*/
 	const [navigated, setNavigated] = useState(false);
 
+	const [enrollment, updateEnrollment] = useState<DeepNonUndefineable<Enrollment> | null>(null);
 	// Get enrollment by id
 	const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest = {
 		id: enrollmentId ? enrollmentId : 0,
@@ -95,7 +97,7 @@ export default function EnrollmentNew({
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		include: ['child', 'family', 'determinations', 'fundings', 'sites'],
 	};
-	const { error, data: enrollment, loading } = useApi<Enrollment>(
+	const { error, data: _enrollment, loading } = useApi<Enrollment>(
 		api =>
 			api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet({
 				...params,
@@ -103,6 +105,9 @@ export default function EnrollmentNew({
 			}),
 		{ skip: !enrollmentId || !user, deps: [sectionId], callback: () => setNavigated(false) }
 	);
+	useEffect(() => {
+		updateEnrollment(_enrollment);
+	}, [_enrollment]);
 
 	const [cancel, updateCancel] = useState(false);
 	const processSuccessfulCancel = () => {
@@ -112,7 +117,7 @@ export default function EnrollmentNew({
 		id: enrollmentId ? enrollmentId : 0,
 		orgId: getIdForUser(user, 'org'),
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
-		enrollment: enrollment,
+		enrollment: enrollment || undefined,
 	};
 	const { error: cancelError } = useApi(
 		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDelete(cancelParams),
@@ -160,11 +165,16 @@ export default function EnrollmentNew({
 		// If there's an enrollmentId and not an enrollment, the get request is still loading
 		return <div className="EnrollmentNew"></div>;
 	}
+	if (enrollmentId && !enrollment) {
+		// If we are tranisitioning pages, wait for the local enrollment state to be updated
+		return <div className="EnrollmentNew"></div>;
+	}
 
 	const steps = mapSectionsToSteps(sections);
 
 	const props: SectionProps = {
-		enrollment,
+		enrollment: enrollment,
+		updateEnrollment,
 		error,
 		successCallback: afterSave,
 		visitSection,
@@ -204,6 +214,9 @@ export default function EnrollmentNew({
 							href="../"
 							text="Finish"
 							onClick={() => {
+								if (!enrollment) {
+									return;
+								}
 								const childName = nameFormatter(enrollment.child);
 								setAlerts([
 									hasValidationErrors(enrollment)

@@ -1,9 +1,6 @@
 import idx from 'idx';
 import { Section } from '../../enrollmentTypes';
-import {
-	sectionHasValidationErrors,
-	processValidationError,
-} from '../../../../utils/validations';
+import { sectionHasValidationErrors, processValidationError } from '../../../../utils/validations';
 import Summary from './Summary';
 import EntryForm from './EntryForm';
 import UpdateForm from './UpdateForm';

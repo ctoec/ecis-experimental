@@ -20,11 +20,7 @@ describe('enrollment sections', () => {
 			];
 
 			const { findByText } = render(
-				<FamilyIncome.Form
-					siteId={1}
-					enrollment={enrollmentWithValidationErrors}
-					error={null}
-				/>
+				<FamilyIncome.Form siteId={1} enrollment={enrollmentWithValidationErrors} error={null} />
 			);
 
 			const fieldSet = (await findByText('Family income')).closest('fieldset');
@@ -45,11 +41,7 @@ describe('enrollment sections', () => {
 				];
 
 				const { findByText } = render(
-					<FamilyIncome.Form
-						siteId={1}
-						enrollment={enrollmentWithValidationErrors}
-						error={null}
-					/>
+					<FamilyIncome.Form siteId={1} enrollment={enrollmentWithValidationErrors} error={null} />
 				);
 
 				const fieldSet = (await findByText('Family income')).closest('fieldset');
@@ -73,11 +65,7 @@ describe('enrollment sections', () => {
 			];
 
 			const { findByText } = render(
-				<FamilyIncome.Form
-					siteId={1}
-					enrollment={enrollmentWithValidationErrors}
-					error={null}
-				/>
+				<FamilyIncome.Form siteId={1} enrollment={enrollmentWithValidationErrors} error={null} />
 			);
 			const fieldSet = (await findByText('Family income')).closest('fieldset');
 			expect(fieldSet).not.toHaveTextContent('This information is required for OEC reporting');
@@ -101,11 +89,7 @@ describe('enrollment sections', () => {
 			];
 
 			const { findByLabelText } = render(
-				<FamilyIncome.Form
-					siteId={1}
-					enrollment={enrollmentWithValidationErrors}
-					error={null}
-				/>
+				<FamilyIncome.Form siteId={1} enrollment={enrollmentWithValidationErrors} error={null} />
 			);
 
 			const someDOMElement = (await findByLabelText('Family income not disclosed')).parentElement
@@ -127,11 +111,7 @@ describe('enrollment sections', () => {
 			];
 
 			const { findByLabelText } = render(
-				<FamilyIncome.Form
-					siteId={1}
-					enrollment={enrollmentWithValidationErrors}
-					error={null}
-				/>
+				<FamilyIncome.Form siteId={1} enrollment={enrollmentWithValidationErrors} error={null} />
 			);
 
 			const someDOMElement = (await findByLabelText('Family income not disclosed')).parentElement

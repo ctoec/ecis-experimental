@@ -1,13 +1,11 @@
-import React, { useContext } from 'react';
-import { FormContext } from './Form';
+import React from 'react';
+import { FormContext, FormContextType, GenericFormContextType } from './Form';
+import useContext from '../../utils/useContext';
 
-type FormFieldGenericReactFC = <TData, TProps, TFieldData>(
-	_: FormFieldProps<TData, TProps, TFieldData>
-) => React.ReactElement<TProps>;
-
-type FormFieldComponentProps = {
+type FormFieldComponentProps<TData, TFieldData> = {
 	onChange: any;
-	data: any;
+	data: TFieldData;
+	containingData: TData;
 	name: string;
 };
 
@@ -17,9 +15,13 @@ function isValue<T>(_: T): _ is Value<T> {
 	return _ !== null && _ !== undefined;
 }
 
-type FormFieldProps<TData, TProps extends React.Props<any>, TFieldData> = {
-	render: (_: FormFieldComponentProps) => React.ReactElement<TProps>;
-	parseValue: (_: any) => TFieldData;
+type FormFieldProps<TData, TProps extends React.Props<any>, TFieldData, TAdditionalData> = {
+	render: (
+		_: FormFieldComponentProps<TData, TFieldData> & {
+			additionalInformation: TAdditionalData;
+		}
+	) => React.ReactElement<TProps>;
+	parseValue: (_: any, __: any) => TFieldData;
 	field: (_: Updatable<Value<TData>>) => Updatable<Value<TFieldData>>;
 };
 
@@ -51,18 +53,25 @@ function update<T>(data: Value<T>): Updatable<T> {
 	return new Updatable(data);
 }
 
-const FormField: FormFieldGenericReactFC = ({ render, parseValue, field }) => {
-	const { data, updateData } = useContext(FormContext);
-
+function FormField<TData, TProps, TFieldData, TAdditionalData>({
+	render,
+	parseValue,
+	field,
+}: FormFieldProps<TData, TProps, TFieldData, TAdditionalData>) {
+	const { data, updateData, additionalInformation } = useContext<
+		GenericFormContextType<TAdditionalData>
+	>(FormContext);
 	const { data: currentPathData, path } = field(update(data));
 
 	const renderProps = {
 		onChange: updateData(parseValue),
 		data: currentPathData,
+		containingData: data,
 		name: path,
+		additionalInformation,
 	};
 
 	return render(renderProps);
-};
+}
 
 export default FormField;

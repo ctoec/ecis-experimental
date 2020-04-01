@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Section } from '../enrollmentTypes';
 import { History } from 'history';
 import ChildInfo from '../_sections/ChildInfo';
@@ -10,19 +10,14 @@ import UserContext from '../../../contexts/User/UserContext';
 import {
 	Enrollment,
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest,
+	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
 } from '../../../generated';
 import { validatePermissions, getIdForUser } from '../../../utils/models';
 import CommonContainer from '../../CommonContainer';
-import { hasValidationErrors } from '../../../utils/validations';
-import AlertContext from '../../../contexts/Alert/AlertContext';
-import {
-	nameFormatter,
-	editEnrollmentMissingInfoAlert,
-	editEnrollmentCompleteAlert,
-	editSaveFailAlert,
-} from '../../../utils/stringFormatters';
+import { nameFormatter, editSaveFailAlert } from '../../../utils/stringFormatters';
 import { ErrorBoundary } from '../../../components';
 import useNewUseApi from '../../../hooks/newUseApi';
+import { DeepNonUndefineable } from '../../../utils/types';
 
 type EnrollmentUpdateParams = {
 	history: History;
@@ -48,7 +43,7 @@ const sections: { [key: string]: Section } = {
  *
  * @param props Props with location.
  */
-export default function EnrollmentEdit({
+export default function EnrollmentUpdate({
 	history,
 	match: {
 		params: { siteId, enrollmentId, sectionId },
@@ -56,8 +51,8 @@ export default function EnrollmentEdit({
 }: EnrollmentUpdateParams) {
 	const section = sections[sectionId];
 	const { user } = useContext(UserContext);
-	const { setAlerts } = useContext(AlertContext);
-
+	const [attemptingSave, setAttemptingSave] = useState(false);
+	const [enrollment, updateEnrollment] = useState<DeepNonUndefineable<Enrollment> | null>(null);
 	// Get enrollment by id
 	const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest = {
 		id: enrollmentId ? enrollmentId : 0,
@@ -65,10 +60,35 @@ export default function EnrollmentEdit({
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		include: ['child', 'family', 'determinations', 'fundings'],
 	};
-	const { loading, error, data: enrollment } = useNewUseApi(
+	const { loading, error, data: _enrollment } = useNewUseApi(
 		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
 		{ skip: !user }
 	);
+	useEffect(() => {
+		updateEnrollment(_enrollment);
+	}, [_enrollment]);
+
+	const saveParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
+		id: enrollment ? enrollment.id : 0,
+		orgId: getIdForUser(user, 'org'),
+		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
+		enrollment: enrollment || undefined,
+	};
+	const { loading: saveLoading, error: saveError, data: saveData } = useNewUseApi<Enrollment>(
+		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(saveParams),
+		{ skip: !attemptingSave || !user, callback: () => setAttemptingSave(false) }
+	);
+	useEffect(() => {
+		// If the request went through, then do the next steps
+		if (!saveData && !saveError) {
+			return;
+		}
+		// Set the new error regardless of whether there is one
+		if (saveData && !saveError) {
+			updateEnrollment(saveData);
+		} else {
+		}
+	}, [saveData, saveError]);
 
 	if (!section) {
 		return <PageNotFound />;
@@ -77,22 +97,6 @@ export default function EnrollmentEdit({
 	if (loading || !enrollment) {
 		return <div className="EnrollmentUpdate"></div>;
 	}
-
-	/**
-	 * Accepts an enrollment and navigates back to the enrollment
-	 * summary page.
-	 *
-	 * @param enrollment Enrollment that was just saved.
-	 */
-	const afterSave = (enrollment: Enrollment) => {
-		const childName = nameFormatter(enrollment.child);
-		setAlerts([
-			hasValidationErrors(enrollment)
-				? editEnrollmentMissingInfoAlert(childName)
-				: editEnrollmentCompleteAlert(childName),
-		]);
-		history.push(`/roster/sites/${siteId}/enrollments/${enrollment.id}/`);
-	};
 
 	if (!section.UpdateForm) {
 		history.push(`/roster/sites/${siteId}/enrollments/${enrollment.id}/edit/${sectionId}`);
@@ -104,17 +108,24 @@ export default function EnrollmentEdit({
 			directionalLinkProps={{
 				direction: 'left',
 				to: `/roster/sites/${siteId}/enrollments/${enrollment.id}/`,
-				text: `Back to enrollment details`,
+				text: `Back to summary`,
 			}}
 		>
 			<div className="grid-container">
-				<h1>Update {section.name.toLowerCase()} for {nameFormatter(enrollment.child)}</h1>
+				<h1 className="margin-y-4">
+					Update {section.name.toLowerCase()} for {nameFormatter(enrollment.child)}
+				</h1>
 				<ErrorBoundary alertProps={editSaveFailAlert}>
 					<section.UpdateForm
 						siteId={siteId}
+						updateEnrollment={enrollment => {
+							updateEnrollment(enrollment);
+							setAttemptingSave(true);
+						}}
+						loading={saveLoading}
+						error={error || saveError}
 						enrollment={enrollment}
-						error={error}
-						successCallback={afterSave}
+						success={saveData && !saveError}
 					/>
 				</ErrorBoundary>
 			</div>

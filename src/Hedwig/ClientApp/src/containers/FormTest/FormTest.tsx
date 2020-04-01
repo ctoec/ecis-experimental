@@ -15,8 +15,13 @@ const FormTest: React.FC<{}> = () => {
 
 	return (
 		<>
-			<Form<TestData> className="FamilyInfoForm" data={testData} onSave={save}>
-				<FormField<TestData, ChoiceListProps, string>
+			<Form<TestData, {}>
+				className="FamilyInfoForm"
+				data={testData}
+				onSave={save}
+				additionalInformation={{}}
+			>
+				<FormField<TestData, ChoiceListProps, string, never>
 					field={data => data.at('name')}
 					parseValue={_ => _}
 					render={props => (

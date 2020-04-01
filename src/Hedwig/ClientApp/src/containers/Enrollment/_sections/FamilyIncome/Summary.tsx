@@ -5,10 +5,15 @@ import { InlineIcon } from '../../../../components';
 import currencyFormatter from '../../../../utils/currencyFormatter';
 import dateFormatter from '../../../../utils/dateFormatter';
 import { SectionProps } from '../../enrollmentTypes';
+import { inverseDeterminationSorter } from '../../../../utils/models';
+import { FamilyDetermination } from '../../../../generated';
 
 const Summary: React.FC<SectionProps> = ({ enrollment }) => {
 	if (!enrollment || !enrollment.child || !enrollment.child.family) return <></>;
-	const determination = idx(enrollment, _ => _.child.family.determinations[0]);
+	const determinations =
+		idx(enrollment, _ => _.child.family.determinations as FamilyDetermination[]) || [];
+	const sortedDeterminations = [...determinations].sort(inverseDeterminationSorter);
+	const determination = sortedDeterminations[0];
 	const isFoster = enrollment.child.foster;
 	let elementToReturn;
 

@@ -10,7 +10,7 @@ export type InternalStepProps<T> = {
 	key: string;
 	name: string;
 	status: InternalStepStatus;
-	editPath: string;
+	editPath?: string;
 	Summary: React.FC<T>;
 	Form: React.FC<T>;
 	props: T;

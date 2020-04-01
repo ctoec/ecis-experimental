@@ -9,6 +9,11 @@
 		padding-left: 0;
 		border-left: none;
 	}
+
+	// Don't show two borders if error are nested
+	.usa-fieldset--error {
+		border-left-style: none;
+	}
 }
 
 .usa-fieldset--warning {
@@ -21,6 +26,11 @@
 		padding-left: 0;
 		border-left: none;
 	}
+
+	// Don't show two borders if warnings are nested
+	.usa-fieldset--warning {
+		border-left-style: none;
+	}
 }
 
 .usa-fieldset--success {
@@ -32,5 +42,10 @@
 		margin-left: 0;
 		padding-left: 0;
 		border-left: none;
+	}
+
+	// Don't show two borders if successes are nested
+	.usa-fieldset--success {
+		border-left-style: none;
 	}
 }
