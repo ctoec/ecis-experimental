@@ -20,6 +20,7 @@ namespace Hedwig.Models
 		public int EnrollmentId { get; set; }
 		public Enrollment Enrollment { get; set; }
 
+		[ReadOnly]
 		public FundingSpace FundingSpace { get; set; }
 		public int? FundingSpaceId { get; set; }
 
@@ -35,9 +36,6 @@ namespace Hedwig.Models
 		[LastReportingPeriodAfterFirst]
 		[ReadOnly]
 		public ReportingPeriod LastReportingPeriod { get; set; }
-		[RequiredForFundingSource(FundingSource.CDC)]
-		[JsonConverter(typeof(StringEnumConverter))]
-		public FundingTime? Time { get; set; }
 
 		[NotMapped]
 		public List<ValidationError> ValidationErrors { get; set; }

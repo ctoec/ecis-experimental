@@ -28,7 +28,7 @@ namespace HedwigTests.Repositories
 				var report = ReportHelper.CreateCdcReport(context, organization: organization, reportingPeriod: reportingPeriod);
 				var site = SiteHelper.CreateSite(context, organization: organization);
 				var enrollment = EnrollmentHelper.CreateEnrollment(context, site: site, ageGroup: Age.Preschool);
-				var funding = FundingHelper.CreateFunding(context, enrollment: enrollment, time: FundingTime.Full, firstReportingPeriod: reportingPeriod);
+				var funding = FundingHelper.CreateFunding(context, enrollment: enrollment, firstReportingPeriod: reportingPeriod);
 
 				if (submitted)
 				{
@@ -41,7 +41,6 @@ namespace HedwigTests.Repositories
 				}
 
 				enrollment.AgeGroup = Age.SchoolAge;
-				funding.Time = FundingTime.Part;
 				context.SaveChanges();
 
 				// When the repository is queried
@@ -72,7 +71,6 @@ namespace HedwigTests.Repositories
 
 					// A submitted report should return the data as of when it was submitted
 					Assert.Equal(submitted ? Age.Preschool : Age.SchoolAge, enrollmentResult.AgeGroup);
-					Assert.Equal(submitted ? FundingTime.Full : FundingTime.Part, fundingResult.Time);
 				}
 			}
 		}

@@ -24,8 +24,8 @@ namespace Hedwig.Data
 
 			var organization = CreateOrganization(name: "Hogwarts Child Development Center, Inc.");
 
-			CreateFundingSpace(organizationId: organization.Id, ageGroup: Age.InfantToddler, time: FundingTime.Full, capacity: 10);
-			CreateFundingSpace(organizationId: organization.Id, ageGroup: Age.Preschool, time: FundingTime.Full, capacity: 20);
+			var infantToddlerFundingSpace = CreateFundingSpace(organizationId: organization.Id, ageGroup: Age.InfantToddler, time: FundingTime.Full, capacity: 10);
+			var preschoolFundingSpace = CreateFundingSpace(organizationId: organization.Id, ageGroup: Age.Preschool, time: FundingTime.Full, capacity: 20);
 
 			var site = CreateSite(organizationId: organization.Id, name: "Gryffindor Day Care Center");
 			var site1 = CreateSite(organizationId: organization.Id, name: "Helga Hufflepuff Day Care");
@@ -180,43 +180,42 @@ namespace Hedwig.Data
 						enrollmentId: enrollment.Id,
 						isC4K: false,
 						source: FundingSource.CDC,
-						time: FundingTime.Full,
 						firstReportingPeriod: entry == "2018-09-03" ? reportingPeriods[14] : reportingPeriods[26],
-						lastReportingPeriod: cells[6] != "" ? reportingPeriods[25] : null
+						lastReportingPeriod: cells[6] != "" ? reportingPeriods[25] : null,
+						fundingSpace: DateTime.Parse(birthdate) > ageGroupCutoff ? infantToddlerFundingSpace : preschoolFundingSpace
 					);
 				}
 
 				if (cdc2)
 				{
 					CreateFunding(
-					enrollmentId: enrollment.Id,
-					isC4K: false,
-					source: FundingSource.CDC,
-					time: FundingTime.Full,
-					firstReportingPeriod: reportingPeriods[30],
-					lastReportingPeriod: reportingPeriods[31]
+						enrollmentId: enrollment.Id,
+						isC4K: false,
+						source: FundingSource.CDC,
+						firstReportingPeriod: reportingPeriods[30],
+						lastReportingPeriod: reportingPeriods[31],
+						fundingSpace: DateTime.Parse(birthdate) > ageGroupCutoff ? infantToddlerFundingSpace : preschoolFundingSpace
 					);
 
 					CreateFunding(
-					enrollmentId: enrollment.Id,
-					isC4K: false,
-					source: FundingSource.CDC,
-					time: FundingTime.Full,
-					firstReportingPeriod: reportingPeriods[32],
-					lastReportingPeriod: null
+						enrollmentId: enrollment.Id,
+						isC4K: false,
+						source: FundingSource.CDC,
+						firstReportingPeriod: reportingPeriods[32],
+						lastReportingPeriod: null
 					);
 				}
 
 				if (c4k)
 				{
 					CreateFunding(
-					enrollmentId: enrollment.Id,
-					isC4K: true,
-					childId: child.Id,
-					certificateStartDate: entry,
-					certificateEndDate: exit,
-					child: child,
-					caseNumber: 123456
+						enrollmentId: enrollment.Id,
+						isC4K: true,
+						childId: child.Id,
+						certificateStartDate: entry,
+						certificateEndDate: exit,
+						child: child,
+						caseNumber: 123456
 					);
 				}
 
@@ -237,9 +236,9 @@ namespace Hedwig.Data
 							enrollmentId: firstEnrollment.Id,
 							isC4K: false,
 							source: FundingSource.CDC,
-							time: FundingTime.Full,
 							firstReportingPeriod: reportingPeriods[2],
-							lastReportingPeriod: reportingPeriods[13]
+							lastReportingPeriod: reportingPeriods[13],
+							fundingSpace: infantToddlerFundingSpace
 						);
 					}
 				}
@@ -459,9 +458,9 @@ namespace Hedwig.Data
 			string certificateStartDate = null,
 			string certificateEndDate = null,
 			FundingSource? source = FundingSource.CDC,
-			FundingTime? time = null,
 			ReportingPeriod firstReportingPeriod = null,
-			ReportingPeriod lastReportingPeriod = null
+			ReportingPeriod lastReportingPeriod = null,
+			FundingSpace fundingSpace = null
 		)
 		{
 			if (isC4K)
@@ -498,9 +497,9 @@ namespace Hedwig.Data
 				{
 					EnrollmentId = enrollmentId,
 					Source = source,
-					Time = time,
 					FirstReportingPeriod = firstReportingPeriod,
 					LastReportingPeriod = lastReportingPeriod,
+					FundingSpace = fundingSpace
 				};
 				_context.Fundings.Add(funding);
 				_context.SaveChanges();

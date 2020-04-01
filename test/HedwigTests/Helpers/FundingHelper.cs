@@ -9,7 +9,6 @@ namespace HedwigTests.Helpers
 		public static Funding CreateFunding(
 			HedwigContext context,
 			FundingSource source = FundingSource.CDC,
-			FundingTime time = FundingTime.Full,
 			Enrollment enrollment = null,
 			ReportingPeriod firstReportingPeriod = null,
 			ReportingPeriod lastReportingPeriod = null
@@ -21,7 +20,6 @@ namespace HedwigTests.Helpers
 			{
 				EnrollmentId = enrollment.Id,
 				Source = source,
-				Time = time,
 				FirstReportingPeriod = firstReportingPeriod
 			};
 

@@ -12,10 +12,18 @@ import {
 const baseReportingPeriod: ReportingPeriod = {
 	id: 1,
 	type: FundingSource.CDC,
-	period: moment().add(-1, 'month').toDate(),
-	periodStart: moment().add(-1, 'month').toDate(),
-	periodEnd: moment().add(-1, 'month').toDate(),
-	dueAt: moment().add(-1, 'month').toDate(),
+	period: moment()
+		.add(-1, 'month')
+		.toDate(),
+	periodStart: moment()
+		.add(-1, 'month')
+		.toDate(),
+	periodEnd: moment()
+		.add(-1, 'month')
+		.toDate(),
+	dueAt: moment()
+		.add(-1, 'month')
+		.toDate(),
 };
 
 describe('reportingPeriodFormatter', () => {
