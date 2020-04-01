@@ -41,11 +41,13 @@ namespace Hedwig.Filters
 		/// <param name="context"></param>
 		public override void OnActionExecuted(ActionExecutedContext context)
 		{
-			if (context.Result == null)
+			var objectResult = (context.Result as ObjectResult);
+			if (objectResult == null)
 			{
 				return;
 			}
-			var responseEntity = (context.Result as ObjectResult).Value;
+
+			var responseEntity = objectResult.Value;
 			var responseEntityType = responseEntity.GetType().GetEntityType();
 
 			if (responseEntityType.IsApplicationModel())
