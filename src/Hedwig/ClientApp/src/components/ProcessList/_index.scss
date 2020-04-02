@@ -35,18 +35,15 @@
 	margin: 0 !important;
 
 	&:before {
-		color: white;
-		float: left;
-		font-size: 0.8em;
-		font-weight: 700;
-		text-align: center;
-		width: 1.45em;
-		margin-left: -2.8em;
 		display: block;
+		content: '';
+		float: left;
+		width: 1.0625em; /* 17/16 */
+		height: 1.0625em; /* 17/16 */
+		margin-left: -2.15625em; /* 34.5/16 */
 		background: white;
-		border: 0.2em solid $theme-color-primary;
+		border: 0.1875em solid $theme-color-primary; /* 3/16 */
 		border-radius: 6em;
-		content: '.';
 		position: relative;
 	}
 
