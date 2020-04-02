@@ -3743,6 +3743,99 @@ exports[`Storyshots Legend Default 1`] = `
 </div>
 `;
 
+exports[`Storyshots ProcessList Default 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <ol
+    className="process undefined"
+  >
+    <li
+      className="process-step"
+    >
+      <div
+        className="display-inline-block"
+      >
+        A long, long, long, long, long heading
+      </div>
+       
+      <span
+        className="usa-tag undefined bg-theme-color-primary"
+      >
+        NEW
+      </span>
+      <br />
+      <span
+        className="usa-hint text-italic"
+      >
+         
+        step content
+      </span>
+    </li>
+    <li
+      className="process-step"
+    >
+      <div
+        className="display-inline-block"
+      >
+        Step heading
+      </div>
+       
+      <span
+        className="usa-tag undefined bg-theme-color-primary"
+      >
+        NEW
+      </span>
+      <br />
+      <span
+        className="usa-hint text-italic"
+      >
+         
+        step content
+      </span>
+    </li>
+    <li
+      className="process-step"
+    >
+      <div
+        className="display-inline-block"
+      >
+        A long, long, long, long, long heading
+      </div>
+       
+      <br />
+      <span
+        className="usa-hint text-italic"
+      >
+         
+        step content
+      </span>
+    </li>
+    <li
+      className="process-step"
+    >
+      <div
+        className="display-inline-block"
+      >
+        Step heading
+      </div>
+       
+      <br />
+      <span
+        className="usa-hint text-italic"
+      >
+         
+        step content
+      </span>
+    </li>
+  </ol>
+</div>
+`;
+
 exports[`Storyshots StepList Default 1`] = `
 <div
   style={

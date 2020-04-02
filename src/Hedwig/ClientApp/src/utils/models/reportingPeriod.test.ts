@@ -8,13 +8,14 @@ import {
 	lastEligibleReportingPeriod,
 } from './reportingPeriod';
 
+// a default reporting period in the past
 const baseReportingPeriod: ReportingPeriod = {
 	id: 1,
 	type: FundingSource.CDC,
-	period: new Date(Date.now()),
-	periodStart: new Date(Date.now()),
-	periodEnd: new Date(Date.now()),
-	dueAt: new Date(Date.now()),
+	period: moment().add(-1, 'month').toDate(),
+	periodStart: moment().add(-1, 'month').toDate(),
+	periodEnd: moment().add(-1, 'month').toDate(),
+	dueAt: moment().add(-1, 'month').toDate(),
 };
 
 describe('reportingPeriodFormatter', () => {

@@ -96,5 +96,5 @@ it('determinationSorter sorts determinations by determinationDate', () => {
 
 	determinations.sort(determinationSorter);
 
-	expect(determinations.map(det => det.id)).toStrictEqual([earlierId, laterId, noDateId]);
+	expect(determinations.map(det => det.id)).toStrictEqual([noDateId, earlierId, laterId]);
 });

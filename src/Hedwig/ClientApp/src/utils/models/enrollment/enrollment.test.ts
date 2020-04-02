@@ -1,5 +1,5 @@
-import { Enrollment, FundingSource, FundingTime, Funding } from '../../generated';
-import { isFunded } from './enrollment';
+import { Enrollment, FundingSource, FundingTime, Funding } from '../../../generated';
+import { isFunded } from '.';
 
 const baseEnrollment: Enrollment = {
 	id: 1,
