@@ -48,7 +48,6 @@
 	}
 
 	&:last-child {
-		border-left: 0;
-		padding-left: 1.75em;
+		border-left-color: transparent;
 	}
 }
