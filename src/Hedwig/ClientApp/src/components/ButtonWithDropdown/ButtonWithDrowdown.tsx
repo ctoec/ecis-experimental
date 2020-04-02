@@ -1,20 +1,19 @@
 import React from 'react';
 import cx from 'classnames';
-
+import { Link } from 'react-router-dom';
+import useHideOnLostFocus from '../../hooks/useHideOnLostFocus';
 import { Button, ButtonProps, InlineIcon } from '..';
-
 import styles from './ButtonWithDropdown.module.scss';
+
 const {
 	container,
-	['container--button-unstyled']: buttonUnstyled,
+	'container--button-unstyled': buttonUnstyled,
 	hidden,
 	option,
 	dropdown,
-	['with-dropdown']: withDropdown,
+	'with-dropdown': withDropdown,
 } = styles;
-import { Link } from 'react-router-dom';
 
-import useHideOnLostFocus from '../../hooks/useHideOnLostFocus';
 
 type ButtonOptionProps = {
 	text: string;

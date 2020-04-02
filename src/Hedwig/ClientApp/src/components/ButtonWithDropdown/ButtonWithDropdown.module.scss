@@ -1,3 +1,8 @@
+// @import 'uswds/packages/required';
+@use '../../../node_modules/uswds/dist/scss/packages/required' as uswds;
+// TODO: SET PATH FOR COMPONENT LIBRARY IN CONFIG FILE
+@use '../../assets/styles/uswds-theme-color' as *;
+
 .container {
 	&--button-unstyled {
 		border-bottom: 1px solid #005ea2;
@@ -24,6 +29,7 @@
 	height: fit-content;
 
 	border: solid black 1px;
+	border-color: uswds.color($theme-color-base);
 	background-color: #ffffff;
 
 	text-decoration: none;
