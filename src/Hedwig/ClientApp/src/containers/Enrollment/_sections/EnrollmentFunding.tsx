@@ -14,9 +14,10 @@ import {
 	Enrollment,
 	ApiOrganizationsOrgIdSitesIdGetRequest,
 	C4KCertificate,
+	FundingSpace,
 } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
-import { validatePermissions, getIdForUser } from '../../../utils/models';
+import { validatePermissions, getIdForUser, getFundingSpaceFor, getTime } from '../../../utils/models';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../../utils/types';
 import {
 	sectionHasValidationErrors,
@@ -109,7 +110,7 @@ const EnrollmentFunding: Section = {
 								? InlineIcon({ icon: 'incomplete' })
 								: isPrivatePay
 								? 'Private pay'
-								: `CDC - ${prettyFundingTime((cdcFunding as Funding).time)}` // cdcFunding will always be defined but Typescript does not infer so
+								: `CDC - ${prettyFundingTime(getTime(cdcFunding))}`
 							}
 						</p>
 						{!isPrivatePay && !sourcelessFunding && (
@@ -225,7 +226,7 @@ const EnrollmentFunding: Section = {
 				: FundingType.PRIVATE_PAY;
 		const [fundingSelection, updateFundingSelection] = useState<FundingSelection>({
 			source: initialFundingSource,
-			time: cdcFunding ? cdcFunding.time : undefined,
+			time: getTime(cdcFunding)
 		});
 
 		const [reportingPeriodOptions, updateReportingPeriodOptions] = useState<ReportingPeriod[]>([]);
@@ -273,13 +274,13 @@ const EnrollmentFunding: Section = {
 		}, [enrollment.entry, entry, reportingPeriods, cdcReportingPeriod, enrollment.fundings]);
 
 		// Dropdown options for funding type
+		const fundingSpaces = idx(site, _ => _.organization.fundingSpaces) as DeepNonUndefineable<FundingSpace[]>;
 		const [fundingTypeOpts, setFundingTypeOpts] = useState<{ value: string; text: string }[]>([]);
 		useEffect(() => {
-			const orgFundingSpaces = idx(site, _ => _.organization.fundingSpaces);
 			// Give private pay as the only option when the organization has no funding spaces
 			// Or the family income is not disclosed and there was not a previous CDC funding
 			// The CDC funding includes information that we do not want to silently remove
-			if (!orgFundingSpaces || (familyDeterminationNotDisclosed(enrollment) && !cdcFunding)) {
+			if (!fundingSpaces || (familyDeterminationNotDisclosed(enrollment) && !cdcFunding)) {
 				setFundingTypeOpts([
 					{
 						value: 'privatePay',
@@ -291,7 +292,7 @@ const EnrollmentFunding: Section = {
 			// Show funding type options provided the organization has that funding
 			// space for the given age group. If an age group is not selected, only
 			// private pay will be available as an option.
-			const newFundingTypeOpts = orgFundingSpaces
+			const newFundingTypeOpts = fundingSpaces
 				.filter(space => space.ageGroup === _enrollment.ageGroup)
 				.map(space => ({
 					value: '' + space.time,
@@ -366,7 +367,7 @@ const EnrollmentFunding: Section = {
 						updatedFundings.push(
 							updateFunding({
 								currentFunding: cdcFunding,
-								time,
+								fundingSpace: getFundingSpaceFor(fundingSpaces, { ageGroup: enrollment.ageGroup, time: fundingSelection.time }),
 								reportingPeriod: cdcReportingPeriod,
 							})
 						);
@@ -375,7 +376,7 @@ const EnrollmentFunding: Section = {
 							updateFunding({
 								currentFunding: sourcelessFunding,
 								source: FundingSource.CDC,
-								time,
+								fundingSpace: getFundingSpaceFor(fundingSpaces, { ageGroup: enrollment.ageGroup, time: fundingSelection.time }),
 								reportingPeriod: cdcReportingPeriod,
 							})
 						);
@@ -384,7 +385,7 @@ const EnrollmentFunding: Section = {
 							createFunding({
 								enrollmentId: enrollment.id,
 								source: FundingSource.CDC,
-								time,
+								fundingSpace:  getFundingSpaceFor(fundingSpaces, { ageGroup: enrollment.ageGroup, time: fundingSelection.time }),
 								firstReportingPeriod: cdcReportingPeriod,
 							})
 						);

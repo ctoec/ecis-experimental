@@ -42,7 +42,6 @@ export const mockCompleteEnrollment: Enrollment = {
 				periodEnd: new Date('2019-03-31'),
 				dueAt: new Date('2019-04-15'),
 			},
-			time: FundingTime.Full,
 		},
 	],
 };
