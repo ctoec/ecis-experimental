@@ -76,8 +76,12 @@ describe('UtilizationTable', () => {
 					{
 						id: 1,
 						source: FundingSource.CDC,
-						time: FundingTime.Full,
 						enrollmentId: 1,
+						fundingSpace: {
+							organizationId: 1,
+							capacity: 1,
+							time: FundingTime.Full,
+						},
 					},
 				],
 			},

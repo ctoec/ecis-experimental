@@ -53,7 +53,7 @@ export function isFunded(
 	}
 
 	if (_opts.time) {
-		fundings = fundings.filter(funding => getTime(funding)=== _opts.time);
+		fundings = fundings.filter(funding => getTime(funding) === _opts.time);
 	}
 
 	if (_opts.currentRange) {

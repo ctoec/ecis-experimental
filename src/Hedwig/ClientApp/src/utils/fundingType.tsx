@@ -15,7 +15,7 @@ type InternalC4KCertificate = DeepNonUndefineable<C4KCertificate> & { type: 'C4K
 export type FundingType = (InternalFunding | InternalC4KCertificate) & FundingTypeDiscriminator;
 
 function ptOrFT(fundingSpace?: FundingSpace) {
-	if(!fundingSpace) return '';
+	if (!fundingSpace) return '';
 
 	if (fundingSpace.time === 'Full') {
 		return '–FT';

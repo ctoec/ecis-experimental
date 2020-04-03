@@ -1,6 +1,6 @@
 import { DeepNonUndefineable } from '../types';
 import { DateRange } from '../../components';
-import { Funding, FundingSource,  ReportingPeriod, Enrollment, FundingSpace } from '../../generated';
+import { Funding, FundingSource, ReportingPeriod, Enrollment, FundingSpace } from '../../generated';
 import moment from 'moment';
 import { dateSorter } from '../dateSorter';
 
@@ -11,10 +11,9 @@ export const NO_FUNDING = 'private pay';
 
 /**
  * Returns time from associated fundingSpace, or undefined
- * @param funding 
+ * @param funding
  */
-export function getTime(funding: Funding | undefined)
-{
+export function getTime(funding: Funding | undefined) {
 	return funding && funding.fundingSpace ? funding.fundingSpace.time : undefined;
 }
 
@@ -76,7 +75,7 @@ function isCurrentToRangeCDC(funding: Funding, range: DateRange): boolean {
 /**
  * Returns the CDC funding with lastReportingPeriod = null
  * (there should only ever be one!)
- * @param fundings 
+ * @param fundings
  */
 export function currentCdcFunding(
 	fundings: DeepNonUndefineable<Funding[]> | null
@@ -148,7 +147,7 @@ export function updateFunding({
 
 /**
  * Returns the first funding without defined source
- * @param enrollment 
+ * @param enrollment
  */
 export function getSourcelessFunding(
 	enrollment: DeepNonUndefineable<Enrollment>
@@ -163,7 +162,7 @@ export function getSourcelessFunding(
 /**
  * Sort function to sort an array of fundings by firstReportingPeriod.period
  * @param a
- * @param b 
+ * @param b
  */
 export function fundingStartSorter(a: Funding, b: Funding): number {
 	var dateA = a.firstReportingPeriod ? a.firstReportingPeriod.period : null;

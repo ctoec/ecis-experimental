@@ -12,55 +12,64 @@ const baseFunding: Funding = {
 	enrollmentId: 1,
 };
 
-it.each([undefined, []])('isFunded returns false if no fundings', fundings => {
-	const enrollment: Enrollment = {
-		...baseEnrollment,
-		fundings: fundings,
-	};
-
-	const res = isFunded(enrollment);
-
-	expect(res).toBeFalsy();
-});
-
-it.each([
-	[FundingSource.CDC, true],
-	[undefined, false],
-])(
-	'isFunded for source returns false if funding does not match source',
-	(fundingSource, isFundedRes) => {
-		const funding = {
-			...baseFunding,
-			source: fundingSource as FundingSource,
-		};
-
+describe('enrollment utils', () => {
+	it.each([undefined, []])('isFunded returns false if no fundings', fundings => {
 		const enrollment: Enrollment = {
 			...baseEnrollment,
-			fundings: [funding],
+			fundings: fundings,
 		};
 
-		const res = isFunded(enrollment, { source: FundingSource.CDC });
+		const res = isFunded(enrollment);
 
-		expect(res).toBe(isFundedRes);
-	}
-);
+		expect(res).toBeFalsy();
+	});
 
-it.each([
-	[FundingTime.Full, true],
-	[FundingTime.Part, false],
-	[undefined, false],
-])('isFunded for time returns false if funding does not match time', (fundingTime, isFundedRes) => {
-	const funding: Funding = {
-		...baseFunding,
-		time: fundingTime as FundingTime,
-	};
+	it.each([
+		[FundingSource.CDC, true],
+		[undefined, false],
+	])(
+		'isFunded for source returns false if funding does not match source',
+		(fundingSource, isFundedRes) => {
+			const funding = {
+				...baseFunding,
+				source: fundingSource as FundingSource,
+			};
 
-	const enrollment: Enrollment = {
-		...baseEnrollment,
-		fundings: [funding],
-	};
+			const enrollment: Enrollment = {
+				...baseEnrollment,
+				fundings: [funding],
+			};
 
-	const res = isFunded(enrollment, { time: FundingTime.Full });
+			const res = isFunded(enrollment, { source: FundingSource.CDC });
 
-	expect(res).toBe(isFundedRes);
+			expect(res).toBe(isFundedRes);
+		}
+	);
+
+	it.each([
+		[FundingTime.Full, true],
+		[FundingTime.Part, false],
+		[undefined, false],
+	])(
+		'isFunded for time returns false if funding does not match time',
+		(fundingTime, isFundedRes) => {
+			const funding: Funding = {
+				...baseFunding,
+				fundingSpace: {
+					capacity: 1,
+					organizationId: 1,
+					time: fundingTime as FundingTime,
+				},
+			};
+
+			const enrollment: Enrollment = {
+				...baseEnrollment,
+				fundings: [funding],
+			};
+
+			const res = isFunded(enrollment, { time: FundingTime.Full });
+
+			expect(res).toBe(isFundedRes);
+		}
+	);
 });

@@ -17,7 +17,12 @@ import {
 	FundingSpace,
 } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
-import { validatePermissions, getIdForUser, getFundingSpaceFor, getTime } from '../../../utils/models';
+import {
+	validatePermissions,
+	getIdForUser,
+	getFundingSpaceFor,
+	getTime,
+} from '../../../utils/models';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../../utils/types';
 import {
 	sectionHasValidationErrors,
@@ -110,8 +115,7 @@ const EnrollmentFunding: Section = {
 								? InlineIcon({ icon: 'incomplete' })
 								: isPrivatePay
 								? 'Private pay'
-								: `CDC - ${prettyFundingTime(getTime(cdcFunding))}`
-							}
+								: `CDC - ${prettyFundingTime(getTime(cdcFunding))}`}
 						</p>
 						{!isPrivatePay && !sourcelessFunding && (
 							<p>
@@ -226,7 +230,7 @@ const EnrollmentFunding: Section = {
 				: FundingType.PRIVATE_PAY;
 		const [fundingSelection, updateFundingSelection] = useState<FundingSelection>({
 			source: initialFundingSource,
-			time: getTime(cdcFunding)
+			time: getTime(cdcFunding),
 		});
 
 		const [reportingPeriodOptions, updateReportingPeriodOptions] = useState<ReportingPeriod[]>([]);
@@ -274,7 +278,9 @@ const EnrollmentFunding: Section = {
 		}, [enrollment.entry, entry, reportingPeriods, cdcReportingPeriod, enrollment.fundings]);
 
 		// Dropdown options for funding type
-		const fundingSpaces = idx(site, _ => _.organization.fundingSpaces) as DeepNonUndefineable<FundingSpace[]>;
+		const fundingSpaces = idx(site, _ => _.organization.fundingSpaces) as DeepNonUndefineable<
+			FundingSpace[]
+		>;
 		const [fundingTypeOpts, setFundingTypeOpts] = useState<{ value: string; text: string }[]>([]);
 		useEffect(() => {
 			// Give private pay as the only option when the organization has no funding spaces
@@ -367,7 +373,10 @@ const EnrollmentFunding: Section = {
 						updatedFundings.push(
 							updateFunding({
 								currentFunding: cdcFunding,
-								fundingSpace: getFundingSpaceFor(fundingSpaces, { ageGroup: enrollment.ageGroup, time: fundingSelection.time }),
+								fundingSpace: getFundingSpaceFor(fundingSpaces, {
+									ageGroup: enrollment.ageGroup,
+									time: fundingSelection.time,
+								}),
 								reportingPeriod: cdcReportingPeriod,
 							})
 						);
@@ -376,7 +385,10 @@ const EnrollmentFunding: Section = {
 							updateFunding({
 								currentFunding: sourcelessFunding,
 								source: FundingSource.CDC,
-								fundingSpace: getFundingSpaceFor(fundingSpaces, { ageGroup: enrollment.ageGroup, time: fundingSelection.time }),
+								fundingSpace: getFundingSpaceFor(fundingSpaces, {
+									ageGroup: enrollment.ageGroup,
+									time: fundingSelection.time,
+								}),
 								reportingPeriod: cdcReportingPeriod,
 							})
 						);
@@ -385,7 +397,10 @@ const EnrollmentFunding: Section = {
 							createFunding({
 								enrollmentId: enrollment.id,
 								source: FundingSource.CDC,
-								fundingSpace:  getFundingSpaceFor(fundingSpaces, { ageGroup: enrollment.ageGroup, time: fundingSelection.time }),
+								fundingSpace: getFundingSpaceFor(fundingSpaces, {
+									ageGroup: enrollment.ageGroup,
+									time: fundingSelection.time,
+								}),
 								firstReportingPeriod: cdcReportingPeriod,
 							})
 						);

@@ -12,7 +12,7 @@ import dateFormatter from '../../dateFormatter';
 import { inverseDateSorter } from '../../dateSorter';
 import moment from 'moment';
 import { c4kCertificateSorter } from '../c4kCertificate';
-import { fundingStartSorter } from '../funding';
+import { fundingStartSorter, getTime } from '../funding';
 
 // sortable process step props include:
 // - sortDate, the field to use for sorting
@@ -125,7 +125,8 @@ export function fundingStepProps(
 			// - funding has first reporting period
 			if (funding.source === FundingSource.CDC && funding.firstReportingPeriod) {
 				var heading = `Switched funding to ${funding.source}`;
-				if (funding.time) heading += ` - ${prettyFundingTime(funding.time)}`;
+				var fundingTime = getTime(funding);
+				if (fundingTime) heading += ` - ${prettyFundingTime(fundingTime)}`;
 
 				processStepProps.push(
 					getSortableStep({
