@@ -14,7 +14,6 @@ const {
 	'with-dropdown': withDropdown,
 } = styles;
 
-
 type ButtonOptionProps = {
 	text: string;
 	value: string;

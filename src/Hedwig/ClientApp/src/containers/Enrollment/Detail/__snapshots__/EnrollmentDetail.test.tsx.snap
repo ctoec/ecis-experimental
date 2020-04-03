@@ -246,7 +246,7 @@ exports[`EnrollmentDetail matches snapshot 1`] = `
             class="usa-hint text-italic"
           >
              
-            on March 1st, 2019
+            on March 01, 2019
           </span>
         </li>
         <li
@@ -263,7 +263,7 @@ exports[`EnrollmentDetail matches snapshot 1`] = `
             class="usa-hint text-italic"
           >
              
-            on February 3rd, 2018
+            on February 03, 2018
           </span>
         </li>
       </ol>

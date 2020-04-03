@@ -259,30 +259,34 @@ exports[`ReportSubmitForm matches snapshot 1`] = `
         class="grid-gap grid-row undefined"
       >
         <div
-          class=" usa-form-group"
+          class="mobile-lg:grid-col-12"
         >
-          <label
-            class="usa-label"
-            for="c4k-revenue"
+          <div
+            class="flex-fill usa-form-group"
           >
-            <span
-              class="text-bold"
+            <label
+              class="usa-label"
+              for="c4k-revenue"
             >
-              Care 4 Kids
-            </span>
-            <span>
-               (0 kids receiving subsidies)
-            </span>
-             
-          </label>
-          <input
-            aria-required="true"
-            class="usa-input"
-            id="c4k-revenue"
-            name="c4KRevenue"
-            type="text"
-            value=""
-          />
+              <span
+                class="text-bold"
+              >
+                Care 4 Kids
+              </span>
+              <span>
+                 (0 kids receiving subsidies)
+              </span>
+               
+            </label>
+            <input
+              aria-required="true"
+              class="usa-input"
+              id="c4k-revenue"
+              name="c4KRevenue"
+              type="text"
+              value=""
+            />
+          </div>
         </div>
         <div
           class="usa-form-group "
@@ -309,53 +313,61 @@ exports[`ReportSubmitForm matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class=" usa-form-group"
+          class="mobile-lg:grid-col-12"
         >
-          <label
-            class="usa-label"
-            for="family-fees-revenue"
+          <div
+            class="flex-fill usa-form-group"
           >
-            <span
-              class="text-bold"
+            <label
+              class="usa-label"
+              for="family-fees-revenue"
             >
-              Family Fees
-            </span>
-             
-          </label>
-          <input
-            aria-required="true"
-            class="usa-input"
-            id="family-fees-revenue"
-            name="familyFeesRevenue"
-            type="text"
-            value="$1,000.00"
-          />
+              <span
+                class="text-bold"
+              >
+                Family Fees
+              </span>
+               
+            </label>
+            <input
+              aria-required="true"
+              class="usa-input"
+              id="family-fees-revenue"
+              name="familyFeesRevenue"
+              type="text"
+              value="$1,000.00"
+            />
+          </div>
         </div>
         <div
-          class=" usa-form-group"
+          class="mobile-lg:grid-col-12"
         >
-          <label
-            class="usa-label"
-            for="cdc-report-comment"
+          <div
+            class=" usa-form-group"
           >
-            <span
-              class="text-bold"
+            <label
+              class="usa-label"
+              for="cdc-report-comment"
             >
-              Anything to share with the Office of Early Childhood about your report?
-            </span>
-             
-            <span
-              class="usa-hint"
-            >
-               (optional)
-            </span>
-          </label>
-          <textarea
-            aria-required="false"
-            class="usa-textarea"
-            id="cdc-report-comment"
-            name="comment"
-          />
+              <span
+                class="text-bold"
+              >
+                Anything to share with the Office of Early Childhood about your report?
+              </span>
+               
+              <span
+                class="usa-hint"
+              >
+                 (optional)
+              </span>
+            </label>
+            <textarea
+              aria-required="false"
+              class="usa-textarea"
+              id="cdc-report-comment"
+              name="comment"
+            />
+          </div>
         </div>
       </div>
     </fieldset>
