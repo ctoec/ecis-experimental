@@ -60,14 +60,13 @@ export default function Roster() {
 		endDate: (dateRange && dateRange.endDate && dateRange.endDate.toDate()) || undefined,
 	};
 
-	const {
-		loading: enrollmentLoading,
-		error: enrollmentError,
-		data: _enrollments,
-	} = newUseApi(api => api.apiOrganizationsOrgIdEnrollmentsGet(enrollmentParams), {
-		skip: !user || !siteIds.length,
-		deps: [user, dateRange, organization],
-	});
+	const { loading: enrollmentLoading, error: enrollmentError, data: _enrollments } = newUseApi(
+		api => api.apiOrganizationsOrgIdEnrollmentsGet(enrollmentParams),
+		{
+			skip: !user || !siteIds.length,
+			deps: [user, dateRange, organization],
+		}
+	);
 
 	if (
 		organizationLoading ||

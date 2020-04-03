@@ -30,8 +30,7 @@ const App: React.FC = () => {
 	const { loading, error, data: reports } = newUseApi(
 		api => api.apiOrganizationsOrgIdReportsGet(params),
 		{
-			skip: !user,
-			deps: [user, cacheInvalidator],
+			skip: !user || !cacheInvalidator,
 		}
 	);
 
