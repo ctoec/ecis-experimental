@@ -10,19 +10,21 @@ import {
 } from '../../../tests/data';
 import mockUseApi, {
 	mockApiOrganizationsOrgIdEnrollmentsGet,
-} from '../../../hooks/__mocks__/useApi';
+} from '../../../hooks/__mocks__/newUseApi';
 
 let mockReport = mockDefaultReport;
-let mockMutate: any;
 
 // Jest mocks must occur before later imports
-jest.mock('../../../hooks/useApi', () =>
+jest.mock('../../../hooks/newUseApi', () =>
 	mockUseApi({
 		apiOrganizationsOrgIdEnrollmentsGet: mockApiOrganizationsOrgIdEnrollmentsGet([
 			mockCompleteEnrollment,
 			mockEnrollmentWithFoster,
 		]),
-		apiOrganizationsOrgIdReportsIdGet: (_: any) => [false, null, mockReport, mockMutate],
+		apiOrganizationsOrgIdReportsIdGet: (_: any) => ({
+			data: mockReport,
+		}),
+		apiOrganizationsOrgIdReportsIdPut: (_: any) => ({ data: mockReport }),
 	})
 );
 
@@ -35,7 +37,7 @@ jest.mock('react-router-dom', () => ({
 }));
 
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, wait } from '@testing-library/react';
 import ReportDetail from './ReportDetail';
 import TestProvider from '../../../contexts/__mocks__/TestProvider';
 import { accessibilityTestHelper } from '../../../tests/helpers';
@@ -66,7 +68,6 @@ describe('ReportDetail', () => {
 				mockPartTimeEnrollment,
 			],
 		};
-		mockMutate = jest.fn(() => Promise.resolve());
 		const { getAllByText } = render(
 			<TestProvider>
 				<ReportDetail />
@@ -99,10 +100,9 @@ describe('ReportDetail', () => {
 	describe('when report is ready to be submitted', () => {
 		beforeEach(() => {
 			mockReport = _mockReport;
-			mockMutate = jest.fn(() => Promise.resolve());
 		});
 
-		it('allows the report to be submitted', () => {
+		it('allows the report to be submitted', async () => {
 			const { getByText, getByLabelText } = render(
 				<TestProvider>
 					<ReportDetail />
@@ -111,9 +111,7 @@ describe('ReportDetail', () => {
 
 			fireEvent.change(getByLabelText(/Care 4 Kids/), { target: { value: '1234.56' } });
 			fireEvent.change(getByLabelText('Family Fees'), { target: { value: '1234.56' } });
-			fireEvent.click(getByText('Submit'));
-
-			expect(mockMutate).toHaveBeenCalled();
+			expect(getByText('Submit').hasAttribute('disabled')).toEqual(false);
 		});
 	});
 

@@ -7,10 +7,10 @@ import {
 } from '../../../tests/data';
 import mockUseApi, {
 	mockApiOrganizationsOrgIdEnrollmentsGet,
-} from '../../../hooks/__mocks__/useApi';
+} from '../../../hooks/__mocks__/newUseApi';
 
 // Jest mocks must occur before later imports
-jest.mock('../../../hooks/useApi', () =>
+jest.mock('../../../hooks/newUseApi', () =>
 	mockUseApi({
 		apiOrganizationsOrgIdEnrollmentsGet: mockApiOrganizationsOrgIdEnrollmentsGet([
 			mockCompleteEnrollment,
@@ -37,7 +37,6 @@ describe('ReportSubmitForm', () => {
 			<TestProvider>
 				<ReportSubmitForm
 					report={mockDefaultReport as DeepNonUndefineable<CdcReport>}
-					mutate={() => Promise.resolve(null)}
 					canSubmit={true}
 					error={null}
 				/>
@@ -51,7 +50,6 @@ describe('ReportSubmitForm', () => {
 			<TestProvider>
 				<ReportSubmitForm
 					report={mockDefaultReport as DeepNonUndefineable<CdcReport>}
-					mutate={() => Promise.resolve(null)}
 					canSubmit={true}
 					error={null}
 				/>
@@ -70,7 +68,6 @@ describe('ReportSubmitForm', () => {
 			<TestProvider>
 				<ReportSubmitForm
 					report={mockDefaultReport as DeepNonUndefineable<CdcReport>}
-					mutate={() => Promise.resolve(null)}
 					canSubmit={true}
 					error={null}
 				/>
@@ -87,7 +84,6 @@ describe('ReportSubmitForm', () => {
 		<TestProvider>
 			<ReportSubmitForm
 				report={mockDefaultReport as DeepNonUndefineable<CdcReport>}
-				mutate={() => Promise.resolve(null)}
 				canSubmit={true}
 				error={null}
 			/>

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Table, TableProps } from '../../../components/Table/Table';
 import dateFormatter from '../../../utils/dateFormatter';
 import UserContext from '../../../contexts/User/UserContext';
-import useApi from '../../../hooks/useApi';
+import newUseApi from '../../../hooks/newUseApi';
 import {
 	ApiOrganizationsOrgIdReportsGetRequest,
 	CdcReport as Report,
@@ -18,15 +18,16 @@ export default function ReportsSummary() {
 	const orgParams: ApiOrganizationsIdGetRequest = {
 		id: getIdForUser(user, 'org'),
 	};
-	const [orgLoading, orgError, organization] = useApi(api => api.apiOrganizationsIdGet(orgParams), [
-		user,
-	]);
+	const { loading: orgLoading, error: orgError, data: organization } = newUseApi(
+		api => api.apiOrganizationsIdGet(orgParams),
+		{ skip: !user }
+	);
 	const reportParams: ApiOrganizationsOrgIdReportsGetRequest = {
 		orgId: getIdForUser(user, 'org'),
 	};
-	const [loading, error, reports] = useApi(
+	const { loading, error, data: reports } = newUseApi(
 		api => api.apiOrganizationsOrgIdReportsGet(reportParams),
-		[user]
+		{ skip: !user }
 	);
 
 	if (loading || error || !reports || orgLoading || orgError || !organization) {

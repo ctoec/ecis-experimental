@@ -1,11 +1,13 @@
 // Variables used in jest mockes -- must start with `mock`
 import {
 	mockDefaultReport,
-	mockReport as _mockReport,
 	mockSingleSiteOrganization,
 	cdcReportingPeriods,
 } from '../../../tests/data';
-import mockUseApi, { mockApiOrganizationsIdGet } from '../../../hooks/__mocks__/useApi';
+import mockUseApi, {
+	mockApiOrganizationsIdGet,
+	mockApiOrganizationsOrgIdReportsGet,
+} from '../../../hooks/__mocks__/newUseApi';
 
 const pendingReports = cdcReportingPeriods.map(reportingPeriod => ({
 	...mockDefaultReport,
@@ -22,10 +24,11 @@ let mockReports = defaultReports;
 const reportingPeriodToMoment = (text: string) => moment(text, 'MMMM YYYY');
 
 // Jest mocks must occur before later imports
-jest.mock('../../../hooks/useApi', () =>
+jest.mock('../../../hooks/newUseApi', () =>
 	mockUseApi({
 		apiOrganizationsIdGet: mockApiOrganizationsIdGet(mockSingleSiteOrganization),
-		apiOrganizationsOrgIdReportsGet: (_: any) => [false, null, mockReports],
+		apiOrganizationsOrgIdReportsGet: (_: any) =>
+			mockApiOrganizationsOrgIdReportsGet(mockReports)(_),
 	})
 );
 
@@ -60,21 +63,6 @@ describe('ReportsSummary', () => {
 		expect(
 			getByText(moment(submittedReports[0].reportingPeriod?.period).format('MMMM YYYY'))
 		).toBeInTheDocument();
-	});
-
-	describe('when there are no pending reports', () => {
-		beforeEach(() => {
-			mockReports = submittedReports;
-		});
-
-		it('shows explanatory text', () => {
-			const { getAllByText } = render(
-				<CommonContextProviderMock>
-					<ReportsSummary />
-				</CommonContextProviderMock>
-			);
-			expect(getAllByText(/No reports pending/)).toHaveLength(1);
-		});
 	});
 
 	describe('when there are pending reports', () => {
@@ -113,6 +101,15 @@ describe('ReportsSummary', () => {
 	describe('when there are submitted reports', () => {
 		beforeEach(() => {
 			mockReports = submittedReports;
+		});
+
+		it('shows explanatory text', () => {
+			const { getAllByText } = render(
+				<CommonContextProviderMock>
+					<ReportsSummary />
+				</CommonContextProviderMock>
+			);
+			expect(getAllByText(/No reports pending/)).toHaveLength(1);
 		});
 
 		it('lists the correct number of reports', () => {

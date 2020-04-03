@@ -4,7 +4,7 @@ import ReportSubmitForm from './ReportSubmitForm';
 import dateFormatter from '../../../utils/dateFormatter';
 import UserContext from '../../../contexts/User/UserContext';
 import { getIdForUser, reportingPeriodFormatter } from '../../../utils/models';
-import useApi from '../../../hooks/useApi';
+import newUseApi from '../../../hooks/newUseApi';
 import { Enrollment } from '../../../generated/models/Enrollment';
 import { Button, AlertProps, DirectionalLinkProps, Tag } from '../../../components';
 import { DeepNonUndefineable } from '../../../utils/types';
@@ -19,9 +19,9 @@ export default function ReportDetail() {
 		orgId: getIdForUser(user, 'org'),
 		include: ['organizations', 'enrollments', 'sites', 'funding_spaces', 'child'],
 	};
-	const [loading, error, report, mutate] = useApi(
+	const { loading, error, data: report } = newUseApi(
 		api => api.apiOrganizationsOrgIdReportsIdGet(reportParams),
-		[user]
+		{ skip: !user }
 	);
 
 	if (loading || !report) {
@@ -68,7 +68,6 @@ export default function ReportDetail() {
 				</p>
 				<ReportSubmitForm
 					report={report}
-					mutate={mutate}
 					error={error}
 					canSubmit={numEnrollmentsMissingInfo === 0}
 				/>
