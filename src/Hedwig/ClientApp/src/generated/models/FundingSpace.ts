@@ -18,6 +18,10 @@ import {
 	AgeFromJSON,
 	AgeFromJSONTyped,
 	AgeToJSON,
+	Funding,
+	FundingFromJSON,
+	FundingFromJSONTyped,
+	FundingToJSON,
 	FundingSource,
 	FundingSourceFromJSON,
 	FundingSourceFromJSONTyped,
@@ -80,6 +84,12 @@ export interface FundingSpace {
 	 * @memberof FundingSpace
 	 */
 	ageGroup?: Age;
+	/**
+	 *
+	 * @type {Array<Funding>}
+	 * @memberof FundingSpace
+	 */
+	fundings?: Array<Funding> | null;
 }
 
 export function FundingSpaceFromJSON(json: any): FundingSpace {
@@ -100,6 +110,11 @@ export function FundingSpaceFromJSONTyped(json: any, ignoreDiscriminator: boolea
 		source: !exists(json, 'source') ? undefined : FundingSourceFromJSON(json['source']),
 		time: !exists(json, 'time') ? undefined : FundingTimeFromJSON(json['time']),
 		ageGroup: !exists(json, 'ageGroup') ? undefined : AgeFromJSON(json['ageGroup']),
+		fundings: !exists(json, 'fundings')
+			? undefined
+			: json['fundings'] === null
+			? null
+			: (json['fundings'] as Array<any>).map(FundingFromJSON),
 	};
 }
 
@@ -118,5 +133,11 @@ export function FundingSpaceToJSON(value?: FundingSpace | null): any {
 		source: FundingSourceToJSON(value.source),
 		time: FundingTimeToJSON(value.time),
 		ageGroup: AgeToJSON(value.ageGroup),
+		fundings:
+			value.fundings === undefined
+				? undefined
+				: value.fundings === null
+				? null
+				: (value.fundings as Array<any>).map(FundingToJSON),
 	};
 }

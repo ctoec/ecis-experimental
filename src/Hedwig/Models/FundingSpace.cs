@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace Hedwig.Models
 {
@@ -23,5 +24,7 @@ namespace Hedwig.Models
 
 		[JsonConverter(typeof(StringEnumConverter))]
 		public Age AgeGroup { get; set; }
+
+		public List<Funding> Fundings { get; set; }
 	}
 }

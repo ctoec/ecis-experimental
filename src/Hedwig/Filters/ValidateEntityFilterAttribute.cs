@@ -42,12 +42,14 @@ namespace Hedwig.Filters
 		{
 			if (_onExecuting) return;
 
-			if (context.Result == null)
+
+			var objectResult = (context.Result as ObjectResult);
+			if (objectResult == null)
 			{
 				return;
 			}
 
-			var responseEntity = (context.Result as ObjectResult).Value;
+			var responseEntity = objectResult.Value;
 
 			ValidateEntity(responseEntity);
 		}

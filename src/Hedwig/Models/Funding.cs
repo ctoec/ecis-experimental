@@ -20,6 +20,9 @@ namespace Hedwig.Models
 		public int EnrollmentId { get; set; }
 		public Enrollment Enrollment { get; set; }
 
+		public FundingSpace FundingSpace { get; set; }
+		public int? FundingSpaceId { get; set; }
+
 		[JsonConverter(typeof(StringEnumConverter))]
 		public FundingSource? Source { get; set; }
 
