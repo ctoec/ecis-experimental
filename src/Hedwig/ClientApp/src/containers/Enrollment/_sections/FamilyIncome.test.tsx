@@ -6,7 +6,7 @@ import { DeepNonUndefineable } from '../../../utils/types';
 import { Enrollment, FamilyDetermination } from '../../../generated';
 import { getValidationError } from '../../../tests/helpers';
 
-jest.mock('../../../hooks/newUseApi');
+jest.mock('../../../hooks/useApi');
 
 describe('enrollment sections', () => {
 	describe('FamilyIncome', () => {
@@ -23,7 +23,6 @@ describe('enrollment sections', () => {
 				<FamilyIncome.Form
 					siteId={1}
 					enrollment={enrollmentWithValidationErrors}
-					mutate={async () => null}
 					error={null}
 				/>
 			);
@@ -49,7 +48,6 @@ describe('enrollment sections', () => {
 					<FamilyIncome.Form
 						siteId={1}
 						enrollment={enrollmentWithValidationErrors}
-						mutate={async () => null}
 						error={null}
 					/>
 				);
@@ -78,7 +76,6 @@ describe('enrollment sections', () => {
 				<FamilyIncome.Form
 					siteId={1}
 					enrollment={enrollmentWithValidationErrors}
-					mutate={async () => null}
 					error={null}
 				/>
 			);
@@ -107,7 +104,6 @@ describe('enrollment sections', () => {
 				<FamilyIncome.Form
 					siteId={1}
 					enrollment={enrollmentWithValidationErrors}
-					mutate={async () => null}
 					error={null}
 				/>
 			);
@@ -134,7 +130,6 @@ describe('enrollment sections', () => {
 				<FamilyIncome.Form
 					siteId={1}
 					enrollment={enrollmentWithValidationErrors}
-					mutate={async () => null}
 					error={null}
 				/>
 			);

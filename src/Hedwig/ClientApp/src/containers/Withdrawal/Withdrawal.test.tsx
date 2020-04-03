@@ -9,12 +9,12 @@ import mockUseApi, {
 	mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet,
 	mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut,
 	mockApiOrganizationsOrgIdSitesIdGet,
-} from '../../hooks/__mocks__/newUseApi';
+} from '../../hooks/__mocks__/useApi';
 import { accessibilityTestHelper } from '../../tests/helpers';
 import TestProvider from '../../contexts/__mocks__/TestProvider';
 
 // Jest mocks must occur before later imports
-jest.mock('../../hooks/newUseApi', () => {
+jest.mock('../../hooks/useApi', () => {
 	return mockUseApi({
 		apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet: mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(
 			mockAllFakeEnrollments

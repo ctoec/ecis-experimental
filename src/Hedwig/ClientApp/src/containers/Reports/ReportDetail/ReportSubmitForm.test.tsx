@@ -7,10 +7,10 @@ import {
 } from '../../../tests/data';
 import mockUseApi, {
 	mockApiOrganizationsOrgIdEnrollmentsGet,
-} from '../../../hooks/__mocks__/newUseApi';
+} from '../../../hooks/__mocks__/useApi';
 
 // Jest mocks must occur before later imports
-jest.mock('../../../hooks/newUseApi', () =>
+jest.mock('../../../hooks/useApi', () =>
 	mockUseApi({
 		apiOrganizationsOrgIdEnrollmentsGet: mockApiOrganizationsOrgIdEnrollmentsGet([
 			mockCompleteEnrollment,

@@ -4,7 +4,7 @@ import {
 	ApiOrganizationsOrgIdReportsIdPutRequest,
 	ApiOrganizationsOrgIdEnrollmentsGetRequest,
 } from '../../../generated';
-import newUseApi, { ApiError } from '../../../hooks/newUseApi';
+import useApi, { ApiError } from '../../../hooks/useApi';
 import UserContext from '../../../contexts/User/UserContext';
 import { Button, TextInput, ChoiceList, FieldSet, ErrorBoundary } from '../../../components';
 import AppContext from '../../../contexts/App/AppContext';
@@ -24,7 +24,7 @@ import { reportSubmittedAlert, reportSubmitFailAlert } from '../../../utils/stri
 import pluralize from 'pluralize';
 import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
 import { FormReducer, formReducer, updateData } from '../../../utils/forms/form';
-import useNewUseApi from '../../../hooks/newUseApi';
+import useNewUseApi from '../../../hooks/useApi';
 
 export type ReportSubmitFormProps = {
 	report: DeepNonUndefineable<CdcReport>;
@@ -72,7 +72,7 @@ export default function ReportSubmitForm({
 		asOf: submittedAt || undefined,
 	};
 
-	const { data: allEnrollments } = newUseApi(
+	const { data: allEnrollments } = useApi(
 		api => api.apiOrganizationsOrgIdEnrollmentsGet(enrollmentParams),
 		{ skip: !user || !report }
 	);

@@ -3,7 +3,7 @@ import 'react-dates/initialize';
 import { Switch } from 'react-router-dom';
 import MakeRouteWithSubRoutes from './MakeRouteWithSubRoutes';
 import routes from '../../routes';
-import newUseApi from '../../hooks/newUseApi';
+import useApi from '../../hooks/useApi';
 import { ApiOrganizationsOrgIdReportsGetRequest, CdcReport as Report } from '../../generated';
 import { getIdForUser } from '../../utils/models';
 import UserContext from '../../contexts/User/UserContext';
@@ -27,14 +27,14 @@ const App: React.FC = () => {
 		orgId: getIdForUser(user, 'org'),
 	};
 
-	const { loading, error, data: reports } = newUseApi(
+	const { loading, error, data: reports } = useApi(
 		api => api.apiOrganizationsOrgIdReportsGet(params),
 		{
 			skip: !user || !cacheInvalidator,
 		}
 	);
 
-	const { data: organization } = newUseApi(
+	const { data: organization } = useApi(
 		api =>
 			api.apiOrganizationsIdGet({
 				id: getIdForUser(user, 'org'),

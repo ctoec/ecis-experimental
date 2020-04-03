@@ -1,5 +1,5 @@
 import React from 'react';
-import newUseApi from '../../hooks/newUseApi';
+import useApi from '../../hooks/useApi';
 import { User } from '../../generated/models/User';
 
 export type UserContextType = {
@@ -22,7 +22,7 @@ export type UserProviderPropsType = {};
  * @param props Props with user
  */
 const UserProvider: React.FC<UserProviderPropsType> = ({ children }) => {
-	const { loading, data: user } = newUseApi(api => api.apiUsersCurrentGet());
+	const { loading, data: user } = useApi(api => api.apiUsersCurrentGet());
 	return <Provider value={{ loading, user }}>{children}</Provider>;
 };
 

@@ -6,7 +6,7 @@ import { Enrollment } from '../../../generated';
 import { mockCompleteEnrollment } from '../../../tests/data';
 import { getValidationError } from '../../../tests/helpers';
 
-jest.mock('../../../hooks/newUseApi');
+jest.mock('../../../hooks/useApi');
 
 describe('enrollment sections', () => {
 	describe('ChildInfo', () => {

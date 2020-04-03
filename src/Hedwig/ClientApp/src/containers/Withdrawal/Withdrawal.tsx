@@ -21,7 +21,7 @@ import {
 	getIdForUser,
 	getFundingTime,
 } from '../../utils/models';
-import useNewUseApi, { ApiError } from '../../hooks/newUseApi';
+import useNewUseApi, { ApiError } from '../../hooks/useApi';
 import { FormReducer, formReducer, updateData } from '../../utils/forms/form';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../utils/types';
 import ReportingPeriodContext from '../../contexts/ReportingPeriod/ReportingPeriodContext';

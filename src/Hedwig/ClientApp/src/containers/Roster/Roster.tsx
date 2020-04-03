@@ -10,7 +10,7 @@ import {
 	DirectionalLinkProps,
 	DateRange,
 } from '../../components';
-import newUseApi from '../../hooks/newUseApi';
+import useApi from '../../hooks/useApi';
 import {
 	Age,
 	Enrollment,
@@ -45,7 +45,7 @@ export default function Roster() {
 		loading: organizationLoading,
 		error: organizationError,
 		data: organization,
-	} = newUseApi(api => api.apiOrganizationsIdGet(orgParams), { skip: !user });
+	} = useApi(api => api.apiOrganizationsIdGet(orgParams), { skip: !user });
 
 	const sites = organization && organization.sites;
 	const siteIds = (sites || []).map(s => s.id);
@@ -60,7 +60,7 @@ export default function Roster() {
 		endDate: (dateRange && dateRange.endDate && dateRange.endDate.toDate()) || undefined,
 	};
 
-	const { loading: enrollmentLoading, error: enrollmentError, data: _enrollments } = newUseApi(
+	const { loading: enrollmentLoading, error: enrollmentError, data: _enrollments } = useApi(
 		api => api.apiOrganizationsOrgIdEnrollmentsGet(enrollmentParams),
 		{
 			skip: !user || !siteIds.length,

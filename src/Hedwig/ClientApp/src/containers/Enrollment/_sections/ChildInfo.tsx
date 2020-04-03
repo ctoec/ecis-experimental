@@ -32,7 +32,7 @@ import {
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import { FormReducer, formReducer, updateData } from '../../../utils/forms/form';
 import { DeepNonUndefineable } from '../../../utils/types';
-import useNewUseApi, { ApiError } from '../../../hooks/newUseApi';
+import useNewUseApi, { ApiError } from '../../../hooks/useApi';
 import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
 
 const ChildInfo: Section = {

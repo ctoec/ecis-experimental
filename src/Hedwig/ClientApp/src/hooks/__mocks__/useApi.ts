@@ -8,7 +8,7 @@ import {
 	Site,
 	Child,
 } from '../../generated';
-import { ApiParamOpts } from '../newUseApi';
+import { ApiParamOpts } from '../useApi';
 import { useEffect } from 'react';
 
 export const mockApiOrganizationsOrgIdEnrollmentsGet = (enrollments: Enrollment[]) => (

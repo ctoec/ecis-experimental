@@ -22,7 +22,7 @@ import {
 	editSaveFailAlert,
 } from '../../../utils/stringFormatters';
 import { ErrorBoundary } from '../../../components';
-import useNewUseApi from '../../../hooks/newUseApi';
+import useNewUseApi from '../../../hooks/useApi';
 
 type EnrollmentEditParams = {
 	history: History;

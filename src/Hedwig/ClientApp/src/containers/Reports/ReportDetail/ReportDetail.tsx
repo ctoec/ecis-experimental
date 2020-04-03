@@ -4,7 +4,7 @@ import ReportSubmitForm from './ReportSubmitForm';
 import dateFormatter from '../../../utils/dateFormatter';
 import UserContext from '../../../contexts/User/UserContext';
 import { getIdForUser, reportingPeriodFormatter } from '../../../utils/models';
-import newUseApi from '../../../hooks/newUseApi';
+import useApi from '../../../hooks/useApi';
 import { Enrollment } from '../../../generated/models/Enrollment';
 import { Button, AlertProps, DirectionalLinkProps, Tag } from '../../../components';
 import { DeepNonUndefineable } from '../../../utils/types';
@@ -19,7 +19,7 @@ export default function ReportDetail() {
 		orgId: getIdForUser(user, 'org'),
 		include: ['organizations', 'enrollments', 'sites', 'funding_spaces', 'child'],
 	};
-	const { loading, error, data: report } = newUseApi(
+	const { loading, error, data: report } = useApi(
 		api => api.apiOrganizationsOrgIdReportsIdGet(reportParams),
 		{ skip: !user }
 	);

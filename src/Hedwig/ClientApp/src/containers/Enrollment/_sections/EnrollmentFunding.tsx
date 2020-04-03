@@ -59,7 +59,7 @@ import getFundingSpaceCapacity from '../../../utils/getFundingSpaceCapacity';
 import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import displayErrorOrWarning from '../../../utils/validations/displayErrorOrWarning';
-import useNewUseApi, { ApiError } from '../../../hooks/newUseApi';
+import useNewUseApi, { ApiError } from '../../../hooks/useApi';
 
 type UtilizationRate = {
 	capacity: number;

@@ -31,7 +31,7 @@ export interface ApiParamOpts {
 	deps?: any[];
 }
 
-export default function useNewUseApi<TData>(
+export default function useApi<TData>(
 	query: (api: HedwigApi) => Promise<TData>,
 	opts: ApiParamOpts = {
 		skip: false,

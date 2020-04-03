@@ -5,7 +5,7 @@ import { FormStatusProps } from '../../components/FormStatus/FormStatus';
 import { processBlockingValidationErrors } from './processBlockingValidationErrors';
 import { ValidationProblemDetails } from '../../generated';
 import { elementIdFormatter } from '../stringFormatters';
-import { ApiError } from '../../hooks/newUseApi';
+import { ApiError } from '../../hooks/useApi';
 import { Dispatch, SetStateAction } from 'react';
 import { isBlockingValidationError } from './isBlockingValidationError';
 

@@ -7,7 +7,7 @@ import {
 import mockUseApi, {
 	mockApiOrganizationsIdGet,
 	mockApiOrganizationsOrgIdReportsGet,
-} from '../../../hooks/__mocks__/newUseApi';
+} from '../../../hooks/__mocks__/useApi';
 
 const pendingReports = cdcReportingPeriods.map(reportingPeriod => ({
 	...mockDefaultReport,
@@ -24,7 +24,7 @@ let mockReports = defaultReports;
 const reportingPeriodToMoment = (text: string) => moment(text, 'MMMM YYYY');
 
 // Jest mocks must occur before later imports
-jest.mock('../../../hooks/newUseApi', () =>
+jest.mock('../../../hooks/useApi', () =>
 	mockUseApi({
 		apiOrganizationsIdGet: mockApiOrganizationsIdGet(mockSingleSiteOrganization),
 		apiOrganizationsOrgIdReportsGet: (_: any) =>
