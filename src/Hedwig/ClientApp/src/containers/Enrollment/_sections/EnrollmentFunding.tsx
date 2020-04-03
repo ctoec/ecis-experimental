@@ -367,14 +367,12 @@ const EnrollmentFunding: Section = {
 					break;
 				case FundingType.CDC:
 					// Default to part time if none is selected
+					var fundingSpace = getFundingSpaceFor(fundingSpaces, { ageGroup: enrollment.ageGroup, time: fundingSelection.time });
 					if (cdcFunding) {
 						updatedFundings.push(
 							updateFunding({
 								currentFunding: cdcFunding,
-								fundingSpace: getFundingSpaceFor(fundingSpaces, {
-									ageGroup: enrollment.ageGroup,
-									time: fundingSelection.time,
-								}),
+								fundingSpace,
 								reportingPeriod: cdcReportingPeriod,
 							})
 						);
@@ -383,10 +381,7 @@ const EnrollmentFunding: Section = {
 							updateFunding({
 								currentFunding: sourcelessFunding,
 								source: FundingSource.CDC,
-								fundingSpace: getFundingSpaceFor(fundingSpaces, {
-									ageGroup: enrollment.ageGroup,
-									time: fundingSelection.time,
-								}),
+								fundingSpace,
 								reportingPeriod: cdcReportingPeriod,
 							})
 						);
@@ -395,10 +390,7 @@ const EnrollmentFunding: Section = {
 							createFunding({
 								enrollmentId: enrollment.id,
 								source: FundingSource.CDC,
-								fundingSpace: getFundingSpaceFor(fundingSpaces, {
-									ageGroup: enrollment.ageGroup,
-									time: fundingSelection.time,
-								}),
+								fundingSpace,
 								firstReportingPeriod: cdcReportingPeriod,
 							})
 						);
