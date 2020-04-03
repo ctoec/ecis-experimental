@@ -28,11 +28,14 @@
 	height: fit-content;
 
 	border: solid uswds.color($theme-color-base) 1px;
-	border-collapse: collapse;
 	background-color: #ffffff;
 
 	text-decoration: none;
-	color: #000;
+	color: uswds.color('ink');
+
+	&:not(:last-child) {
+		border-bottom: none;
+	}
 }
 
 .option:hover {
