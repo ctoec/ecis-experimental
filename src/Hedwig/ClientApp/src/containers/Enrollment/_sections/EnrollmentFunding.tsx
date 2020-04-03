@@ -7,7 +7,6 @@ import dateFormatter from '../../../utils/dateFormatter';
 import {
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
 	Age,
-	FundingTime,
 	Funding,
 	FundingSource,
 	ReportingPeriod,
@@ -21,7 +20,7 @@ import {
 	validatePermissions,
 	getIdForUser,
 	getFundingSpaceFor,
-	getTime,
+	getFundingTime,
 } from '../../../utils/models';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../../utils/types';
 import {
@@ -115,7 +114,7 @@ const EnrollmentFunding: Section = {
 								? InlineIcon({ icon: 'incomplete' })
 								: isPrivatePay
 								? 'Private pay'
-								: `CDC - ${prettyFundingTime(getTime(cdcFunding))}`}
+								: `CDC - ${prettyFundingTime(getFundingTime(cdcFunding))}`}
 						</p>
 						{!isPrivatePay && !sourcelessFunding && (
 							<p>
@@ -230,7 +229,7 @@ const EnrollmentFunding: Section = {
 				: FundingType.PRIVATE_PAY;
 		const [fundingSelection, updateFundingSelection] = useState<FundingSelection>({
 			source: initialFundingSource,
-			time: getTime(cdcFunding),
+			time: getFundingTime(cdcFunding),
 		});
 
 		const [reportingPeriodOptions, updateReportingPeriodOptions] = useState<ReportingPeriod[]>([]);
@@ -368,7 +367,6 @@ const EnrollmentFunding: Section = {
 					break;
 				case FundingType.CDC:
 					// Default to part time if none is selected
-					const time = fundingSelection.time || FundingTime.Part;
 					if (cdcFunding) {
 						updatedFundings.push(
 							updateFunding({

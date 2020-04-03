@@ -19,7 +19,7 @@ import {
 	prettyFundingTime,
 	validatePermissions,
 	getIdForUser,
-	getTime,
+	getFundingTime,
 } from '../../utils/models';
 import useNewUseApi, { ApiError } from '../../hooks/newUseApi';
 import { FormReducer, formReducer, updateData } from '../../utils/forms/form';
@@ -250,7 +250,7 @@ export default function Withdrawal({
 									}
 								)}
 							</p>
-							<p>Enrollment: {prettyFundingTime(getTime(cdcFunding))}</p>
+							<p>Enrollment: {prettyFundingTime(getFundingTime(cdcFunding))}</p>
 							<p>
 								First reporting period:{' '}
 								{cdcFunding.firstReportingPeriod

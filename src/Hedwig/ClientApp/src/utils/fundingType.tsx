@@ -1,6 +1,6 @@
-import { FundingTime, C4KCertificate, Funding, FundingSpace } from '../generated';
+import { C4KCertificate, Funding, FundingSpace } from '../generated';
 import { Tag, DateRange } from '../components';
-import { isCurrentFundingToRange, dedupeFundings, isCurrentToRangeC4K, getTime } from './models';
+import { isCurrentFundingToRange, dedupeFundings, isCurrentToRangeC4K, getFundingTime } from './models';
 import { DeepNonUndefineable } from './types';
 
 export type FundingTypes = 'CDC' | 'C4K';
@@ -39,7 +39,7 @@ export function generateFundingTypeTag(
 	let key, text;
 	switch (fundingType.type) {
 		case 'CDC':
-			key = `${fundingType.source}-${getTime(fundingType)}`;
+			key = `${fundingType.source}-${getFundingTime(fundingType)}`;
 			if (index) key = `${key}-${index}`;
 			if (fundingType.source && includeTime) {
 				text = `CDC${ptOrFT(fundingType.fundingSpace)}`;

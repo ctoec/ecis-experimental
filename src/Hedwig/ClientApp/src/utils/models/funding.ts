@@ -13,7 +13,7 @@ export const NO_FUNDING = 'private pay';
  * Returns time from associated fundingSpace, or undefined
  * @param funding
  */
-export function getTime(funding: Funding | undefined) {
+export function getFundingTime(funding: Funding | undefined) {
 	return funding && funding.fundingSpace ? funding.fundingSpace.time : undefined;
 }
 
@@ -25,7 +25,7 @@ export function dedupeFundings(fundings: Funding[]) {
 	const uniqueFundings: { [key: string]: Funding } = {};
 
 	fundings.forEach(funding => {
-		const key = `${funding.source}${getTime(funding)}`;
+		const key = `${funding.source}${getFundingTime(funding)}`;
 		if (!uniqueFundings[key]) {
 			uniqueFundings[key] = funding;
 		}

@@ -1,28 +1,25 @@
 import { FundingSpace, FundingTime, Age } from '../../generated';
 import { DeepNonUndefineable } from '../types';
 
+/**
+ * Returns the fundingSpace with given ageGroup and time value,
+ * or undefined if no matching fundingSpace found
+ * (There cannot be multiple fundingSpaces with the same ageGroup and time)
+ * 
+ * @param fundingSpaces 
+ * @param opts 
+ */
 export function getFundingSpaceFor(
-	fundingSpaces?: DeepNonUndefineable<FundingSpace[]> | null,
-	opts?: {
-		ageGroup?: Age;
-		time?: FundingTime;
+	fundingSpaces: DeepNonUndefineable<FundingSpace[]> | null | undefined,
+	opts: {
+		ageGroup: Age;
+		time: FundingTime | undefined;
 	}
 ) {
 	if (!fundingSpaces) return;
 
-	const _opts = opts || {};
-	const [fundingSpace] = fundingSpaces.filter(fundingSpace => {
-		let matches = true;
-		if (_opts.ageGroup) {
-			matches = matches && fundingSpace.ageGroup === _opts.ageGroup;
-		}
-
-		if (_opts.time) {
-			matches = matches && fundingSpace.time === _opts.time;
-		}
-
-		return matches;
-	});
+	const [fundingSpace] = fundingSpaces
+		.filter(space => space.ageGroup == opts.ageGroup && space.time == opts.time);
 
 	return fundingSpace;
 }

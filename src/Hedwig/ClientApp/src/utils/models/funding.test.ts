@@ -6,7 +6,6 @@ import { filterFundingTypesForRosterTags, FundingType } from '../fundingType';
 describe('funding utils', () => {
 	it('filterFundingTypesForRosterTags deduplicates fundings based on source and time values', () => {
 		const baseFunding = { id: 1, enrollmentId: 1, type: 'CDC' as 'CDC' };
-		const baseFundingSource = { organizationId: 1, capacity: 1 };
 		const fundings: FundingType[] = [
 			{
 				...baseFunding,
