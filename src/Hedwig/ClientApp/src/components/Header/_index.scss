@@ -14,7 +14,7 @@
 		}
 	}
 	a:focus .usa-logo__text {
-		// @extend [href]:focus;
+		@extend [href], :focus;
 	}
 
 	&--oec-default {
