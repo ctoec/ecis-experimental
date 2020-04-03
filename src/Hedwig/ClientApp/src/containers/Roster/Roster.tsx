@@ -10,7 +10,7 @@ import {
 	DirectionalLinkProps,
 	DateRange,
 } from '../../components';
-import useApi from '../../hooks/useApi';
+import newUseApi from '../../hooks/newUseApi';
 import {
 	Age,
 	Enrollment,
@@ -41,11 +41,11 @@ export default function Roster() {
 		include: ['sites', 'funding_spaces'],
 	};
 
-	const [organizationLoading, organizationError, organization] = useApi(
-		api => api.apiOrganizationsIdGet(orgParams),
-		[user],
-		{ skip: !user }
-	);
+	const {
+		loading: organizationLoading,
+		error: organizationError,
+		data: organization,
+	} = newUseApi(api => api.apiOrganizationsIdGet(orgParams), { skip: !user });
 
 	const sites = organization && organization.sites;
 	const siteIds = (sites || []).map(s => s.id);
@@ -60,11 +60,14 @@ export default function Roster() {
 		endDate: (dateRange && dateRange.endDate && dateRange.endDate.toDate()) || undefined,
 	};
 
-	const [enrollmentLoading, enrollmentError, _enrollments] = useApi(
-		api => api.apiOrganizationsOrgIdEnrollmentsGet(enrollmentParams),
-		[user, dateRange, organization],
-		{ skip: !user || !siteIds.length }
-	);
+	const {
+		loading: enrollmentLoading,
+		error: enrollmentError,
+		data: _enrollments,
+	} = newUseApi(api => api.apiOrganizationsOrgIdEnrollmentsGet(enrollmentParams), {
+		skip: !user || !siteIds.length,
+		deps: [user, dateRange, organization],
+	});
 
 	if (
 		organizationLoading ||

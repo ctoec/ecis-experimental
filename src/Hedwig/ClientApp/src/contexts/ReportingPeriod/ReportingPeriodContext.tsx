@@ -5,7 +5,7 @@ import {
 	ApiReportingPeriodsSourceGetRequest,
 	FundingSource,
 } from '../../generated';
-import useApi from '../../hooks/useApi';
+import newUseApi from '../../hooks/newUseApi';
 
 export type ReportingPeriodContextType = {
 	cdcReportingPeriods: DeepNonUndefineable<ReportingPeriod[]>;
@@ -22,7 +22,7 @@ const ReportingPeriodProvider: React.FC<{}> = ({ children }) => {
 		source: FundingSource.CDC,
 	};
 
-	const [, , cdcReportingPeriods] = useApi<ReportingPeriod[]>(api =>
+	const { data: cdcReportingPeriods } = newUseApi<ReportingPeriod[]>(api =>
 		api.apiReportingPeriodsSourceGet(cdcReportingPeriodParams)
 	);
 

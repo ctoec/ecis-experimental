@@ -8,12 +8,12 @@ import {
 import mockUseApi, {
 	mockApiOrganizationsOrgIdEnrollmentsGet,
 	mockApiOrganizationsIdGet,
-} from '../../hooks/__mocks__/useApi';
+} from '../../hooks/__mocks__/newUseApi';
 
 let mockOrganization = mockSingleSiteOrganization;
 let mockEnrollments = mockAllFakeEnrollments;
 // Jest mocks must occur before later imports
-jest.mock('../../hooks/useApi', () => {
+jest.mock('../../hooks/newUseApi', () => {
 	return mockUseApi({
 		apiOrganizationsIdGet: (_: any) => mockApiOrganizationsIdGet(mockOrganization)(_),
 		apiOrganizationsOrgIdEnrollmentsGet: (_: any) =>
