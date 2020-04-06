@@ -298,7 +298,7 @@ namespace Hedwig.Data
 				Source = source,
 				AgeGroup = ageGroup,
 				Capacity = capacity,
-				FundingTimeAllocations= new List<FundingTimeAllocation>{
+				FundingTimeAllocations = new List<FundingTimeAllocation>{
 					new FundingTimeAllocation{
 						Time = time,
 						Weeks = 52

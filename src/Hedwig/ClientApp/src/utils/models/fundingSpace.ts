@@ -28,20 +28,20 @@ export function getFundingSpaceFor(
 /**
  * Returns time for associated FundingTimeAllocation
  * TODO: Update to handle FundingSpace with multiple FundingTimeAllocations
- * @param fundingSpace 
+ * @param fundingSpace
  */
 export function getFundingSpaceTime(fundingSpace: FundingSpace | undefined) {
-	if(!fundingSpace) return;
-	if(!fundingSpace.fundingTimeAllocations) return;
-	if(!fundingSpace.fundingTimeAllocations.length) return;
+	if (!fundingSpace) return;
+	if (!fundingSpace.fundingTimeAllocations) return;
+	if (!fundingSpace.fundingTimeAllocations.length) return;
 
 	return fundingSpace.fundingTimeAllocations[0].time;
 }
 
 /**
  * Returns the summed capacity for all fundingSpaces that meet the given filter criteria
- * @param organization 
- * @param opts 
+ * @param organization
+ * @param opts
  */
 export function getFundingSpaceCapacity(
 	organization: Organization | undefined,

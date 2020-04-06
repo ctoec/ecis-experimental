@@ -4,7 +4,12 @@ import { CdcReport, Enrollment, Age, FundingSource, FundingTime, Region } from '
 import idx from 'idx';
 import moment from 'moment';
 import { CdcRates } from './CdcRates';
-import { prettyAge, prettyFundingTime, getFundingTime, getFundingSpaceCapacity } from '../../../utils/models';
+import {
+	prettyAge,
+	prettyFundingTime,
+	getFundingTime,
+	getFundingSpaceCapacity,
+} from '../../../utils/models';
 import currencyFormatter from '../../../utils/currencyFormatter';
 import cartesianProduct from '../../../utils/cartesianProduct';
 
@@ -41,7 +46,11 @@ export default function UtilizationTable(report: CdcReport) {
 		fundingTime: [FundingTime.Full, FundingTime.Part],
 	})
 		.map(({ ageGroup, fundingTime }) => {
-			const capacity = getFundingSpaceCapacity(report.organization, {source: FundingSource.CDC, ageGroup, time: fundingTime});
+			const capacity = getFundingSpaceCapacity(report.organization, {
+				source: FundingSource.CDC,
+				ageGroup,
+				time: fundingTime,
+			});
 			const count = countFundedEnrollments(enrollments, ageGroup, fundingTime);
 			const rate = calculateRate(
 				report.accredited,
@@ -185,11 +194,9 @@ export function countFundedEnrollments(
 			return false;
 		}
 
-		if(!enrollment.fundings) return false;
+		if (!enrollment.fundings) return false;
 
-		const cdcFunding = enrollment.fundings.find(
-			funding => funding.source === FundingSource.CDC
-		);
+		const cdcFunding = enrollment.fundings.find(funding => funding.source === FundingSource.CDC);
 
 		return getFundingTime(cdcFunding) === fundingTime;
 	}).length;

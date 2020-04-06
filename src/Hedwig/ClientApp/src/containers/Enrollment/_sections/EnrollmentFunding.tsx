@@ -48,7 +48,7 @@ import {
 	reportingPeriodFormatter,
 	isFunded,
 	currentReportingPeriod,
-	getFundingSpaceCapacity 
+	getFundingSpaceCapacity,
 } from '../../../utils/models';
 import {
 	FundingSelection,
@@ -302,7 +302,7 @@ const EnrollmentFunding: Section = {
 				.filter(space => space.ageGroup === _enrollment.ageGroup)
 				.map(space => ({
 					value: '' + getFundingSpaceTime(space),
-					text: `${space.source} - ${prettyFundingTime(getFundingSpaceTime(space))}`
+					text: `${space.source} - ${prettyFundingTime(getFundingSpaceTime(space))}`,
 				}));
 			setFundingTypeOpts([
 				...newFundingTypeOpts,

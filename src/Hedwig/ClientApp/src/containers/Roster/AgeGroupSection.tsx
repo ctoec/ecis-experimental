@@ -159,9 +159,10 @@ export default function AgeGroupSection({
 								</span>
 								<span>
 									{showPastEnrollments
-										? ` in ${prettyFundingTime(getFundingSpaceTime(space))} ${space.source || ''} spaces`
-										: ` ${prettyFundingTime(getFundingSpaceTime(space))} ${space.source || ''} spaces filled`
-									}
+										? ` in ${prettyFundingTime(getFundingSpaceTime(space))} ${space.source ||
+												''} spaces`
+										: ` ${prettyFundingTime(getFundingSpaceTime(space))} ${space.source ||
+												''} spaces filled`}
 								</span>
 							</li>
 						);

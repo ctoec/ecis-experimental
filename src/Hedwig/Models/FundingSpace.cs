@@ -30,7 +30,7 @@ namespace Hedwig.Models
 		[Required]
 		[JsonConverter(typeof(StringEnumConverter))]
 		public FundingTime Time { get; set; }
-		
+
 		[Required]
 		public int Weeks { get; set; }
 	}

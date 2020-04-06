@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { Age, FundingTime, CdcReport, FundingSource, Enrollment, Region } from '../../../generated';
+import { Age, FundingTime, FundingSource, Enrollment, Region, Funding } from '../../../generated';
 import UtilizationTable, { calculateRate } from './UtilizationTable';
 import emptyGuid from '../../../utils/emptyGuid';
 import cartesianProduct from '../../../utils/cartesianProduct';
@@ -80,9 +80,9 @@ describe('UtilizationTable', () => {
 						fundingSpace: {
 							organizationId: 1,
 							capacity: 1,
-							time: FundingTime.Full,
+							fundingTimeAllocations: [{ time: FundingTime.Full, weeks: 52 }],
 						},
-					},
+					} as Funding,
 				],
 			},
 		]);
