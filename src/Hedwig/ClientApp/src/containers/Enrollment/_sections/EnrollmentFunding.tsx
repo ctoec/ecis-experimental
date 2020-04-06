@@ -367,7 +367,10 @@ const EnrollmentFunding: Section = {
 					break;
 				case FundingType.CDC:
 					// Default to part time if none is selected
-					var fundingSpace = getFundingSpaceFor(fundingSpaces, { ageGroup: enrollment.ageGroup, time: fundingSelection.time });
+					var fundingSpace = getFundingSpaceFor(fundingSpaces, {
+						ageGroup: enrollment.ageGroup,
+						time: fundingSelection.time,
+					});
 					if (cdcFunding) {
 						updatedFundings.push(
 							updateFunding({
