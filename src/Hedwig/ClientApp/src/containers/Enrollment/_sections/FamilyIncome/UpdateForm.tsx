@@ -44,6 +44,8 @@ const UpdateForm: React.FC<SectionProps> = ({
 	const [isNew, setIsNew] = useState(false);
 	const [attemptingSave, setAttemptingSave] = useState(false);
 	const [forceClose, setForceClose] = useState<boolean>(false);
+	// Process response from API
+	// Passed down via EnrollmentUpdate
 	useEffect(() => {
 		if (loading) {
 			return;
@@ -79,6 +81,12 @@ const UpdateForm: React.FC<SectionProps> = ({
 		{}
 	);
 
+	/**
+	 * Provides for the warning/error messages and whether to display the
+	 * income not disclosed checkbox
+	 * @param sortedIndex The index of the determination after the list is sorted
+	 * @param index The index of the determination before the list is sorted
+	 */
 	const formInset = (sortedIndex: number, index: number) => (
 		<FormInset<Enrollment, { initialLoad: boolean }>
 			render={({ containingData: enrollment, additionalInformation }) => {
@@ -126,6 +134,10 @@ const UpdateForm: React.FC<SectionProps> = ({
 		/>
 	);
 
+	/**
+	 * Provides the above the fold information for each of the cards
+	 * @param determination
+	 */
 	const cardDetails = (determination: FamilyDetermination) => {
 		return (
 			<div className="usa-grid">
@@ -166,6 +178,13 @@ const UpdateForm: React.FC<SectionProps> = ({
 		);
 	};
 
+	/**
+	 * Provides the form for either new income determinations or updating previous/current ones
+	 * @param sortedIndex The index of the determination after the list is sorted
+	 * @param index The index of the determination before the list is sorted
+	 * @param submitText The text of the submit button in the form
+	 * @param isEdit Flag for whether this is a new determination or an update
+	 */
 	const form = (sortedIndex: number, index: number, submitText: string, isEdit: boolean) => (
 		<Form<Enrollment>
 			noValidate

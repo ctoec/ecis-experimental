@@ -1,3 +1,8 @@
+/**
+ * A collection of functional wrappers for React components that are
+ * commonly used in the FamilyIncome edit/update forms
+ */
+
 import React from 'react';
 import FormField from '../../../../components/Form/FormField';
 import {

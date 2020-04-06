@@ -14,12 +14,17 @@ type FormInsetProps<TData, TAdditionalData> = {
 	) => React.ReactElement | null;
 };
 
+/**
+ * Component for grouping form fields and adding fieldsets
+ * @param props
+ */
 function FormInset<TData, TAdditionalData = {}>({
 	render,
 }: FormInsetProps<TData, TAdditionalData>) {
-	const { data, additionalInformation } = useContext<GenericFormContextType<TAdditionalData>>(
-		FormContext
-	);
+	// Use non-React useContext to allow for generics in type parameter
+	const { data, additionalInformation } = useContext<
+		GenericFormContextType<TData, never, TAdditionalData>
+	>(FormContext);
 
 	const renderProps = {
 		containingData: data,

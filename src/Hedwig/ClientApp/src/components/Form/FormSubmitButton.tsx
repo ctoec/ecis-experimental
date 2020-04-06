@@ -6,8 +6,12 @@ type FormSumbitButtonProps = {
 	text: string;
 } & ButtonProps;
 
-const FormSubmitButton: React.FC<FormSumbitButtonProps> = ({ text }) => {
-	return <Button text={text} onClick="submit" />;
+/**
+ * Component for adding a form submit button
+ * @param props
+ */
+const FormSubmitButton: React.FC<FormSumbitButtonProps> = props => {
+	return <Button {...props} text={props.text} onClick="submit" />;
 };
 
 export default FormSubmitButton;

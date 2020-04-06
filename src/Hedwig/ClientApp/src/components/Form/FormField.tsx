@@ -1,31 +1,24 @@
 import React from 'react';
-import { FormContext, FormContextType, GenericFormContextType } from './Form';
+import { FormContext, GenericFormContextType } from './Form';
 import useContext from '../../utils/useContext';
 
-type FormFieldComponentProps<TData, TFieldData> = {
-	onChange: any;
-	data: TFieldData;
-	containingData: TData;
-	name: string;
-};
-
+/**
+ * Helper type to exclude null or undefined from the type
+ */
 type Value<T> = Exclude<T, null | undefined>;
 
+/**
+ * Helper utility to test whether a variable is of Value type
+ * @param _ Any obj to test whether it satisfies Value type
+ */
 function isValue<T>(_: T): _ is Value<T> {
 	return _ !== null && _ !== undefined;
 }
 
-type FormFieldProps<TData, TProps extends React.Props<any>, TFieldData, TAdditionalData> = {
-	render: (
-		_: FormFieldComponentProps<TData, TFieldData> & {
-			additionalInformation: TAdditionalData;
-		}
-	) => React.ReactElement<TProps>;
-	parseValue: (_: any, __: any) => TFieldData;
-	field: (_: Updatable<Value<TData>>) => Updatable<Value<TFieldData>>;
-};
-
-class Updatable<T> {
+/**
+ * A type-safe way to drill down into an object and gather the associated path
+ */
+class Updateable<T> {
 	data: T;
 	path: string;
 
@@ -34,7 +27,11 @@ class Updatable<T> {
 		this.path = path || '';
 	}
 
-	at<K extends keyof T>(field: K): Updatable<Value<T[K]>> {
+	/**
+	 * Drill down into the object by specifying the next field
+	 * @param field A field on the data object
+	 */
+	at<K extends keyof T>(field: K): Updateable<Value<T[K]>> {
 		if (!isValue(this.data)) {
 			if (typeof field === 'number') {
 				this.data = ([] as unknown) as T;
@@ -45,22 +42,74 @@ class Updatable<T> {
 		const newPath = this.path === '' ? '' + field : `${this.path}.${field}`;
 		let subObj = this.data[field];
 
-		return new Updatable((subObj as unknown) as Value<T[K]>, newPath);
+		return new Updateable((subObj as unknown) as Value<T[K]>, newPath);
 	}
 }
 
-function update<T>(data: Value<T>): Updatable<T> {
-	return new Updatable(data);
+/**
+ * Wrapper to the Updateable constructor with type casting
+ * @param data
+ */
+function update<T>(data: Value<T>): Updateable<Value<T>> {
+	return new Updateable(data);
 }
 
+/**
+ * Type for the props of the rendered form field component
+ */
+type FormFieldComponentProps<TData, TFieldData> = {
+	/**
+	 * An internal controller to trigger the reducer on user changes
+	 */
+	onChange: any;
+	/**
+	 * The data of the specified field that is being displayed/edited
+	 */
+	data: TFieldData;
+	/**
+	 * The data of the object controlling the form
+	 */
+	containingData: TData;
+	/**
+	 * The path to the field data
+	 */
+	name: string;
+};
+
+/**
+ * Type for the props supplied to the FormField component
+ */
+type FormFieldProps<TData, TProps extends React.Props<any>, TFieldData, TAdditionalData> = {
+	render: (
+		_: FormFieldComponentProps<TData, TFieldData> & {
+			additionalInformation: TAdditionalData;
+		}
+	) => React.ReactElement<TProps>;
+	/**
+	 * Function for converting the HTML Event target value string
+	 * into the data corresponding to the model
+	 */
+	parseValue: (_: any, __: any) => TFieldData;
+	/**
+	 * Function for accessing a specific value in the supplied data
+	 */
+	field: (_: Updateable<Value<TData>>) => Updateable<Value<TFieldData>>;
+};
+
+/**
+ * Component for rendering a form field
+ * @param props
+ */
 function FormField<TData, TProps, TFieldData, TAdditionalData>({
 	render,
 	parseValue,
 	field,
 }: FormFieldProps<TData, TProps, TFieldData, TAdditionalData>) {
+	// Uses a non-React useContext hook to allow for generics in the supplied type
 	const { data, updateData, additionalInformation } = useContext<
-		GenericFormContextType<TAdditionalData>
+		GenericFormContextType<Value<TData>, TFieldData, TAdditionalData>
 	>(FormContext);
+	// Prepare data as an Updateable and access the specified field and path
 	const { data: currentPathData, path } = field(update(data));
 
 	const renderProps = {

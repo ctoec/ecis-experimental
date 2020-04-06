@@ -1,15 +1,15 @@
 import React, { createContext, useEffect, useReducer, PropsWithChildren, useState } from 'react';
 import { FormReducer, formReducer, updateData } from '../../utils/forms/form';
 
-export type GenericFormContextType<S> = {
-	data: any;
-	updateData: (_: any) => void;
-	additionalInformation: S;
+export type GenericFormContextType<TData, TFieldData, TAdditionalInformation> = {
+	data: TData;
+	updateData: (_: (__: any, ___: any) => TFieldData) => void;
+	additionalInformation: TAdditionalInformation;
 };
 
 export type FormContextType = {
 	data: any;
-	updateData: (_: any) => void;
+	updateData: (_: (__: any, ___: any) => any) => void;
 	additionalInformation: any;
 };
 
@@ -25,9 +25,20 @@ type FormProps<TData> = {
 	className: string;
 	onSave: (_: TData) => any;
 	data: TData;
+	/**
+	 * Allow for consumers to pass down an arbitrary collection of other information
+	 */
 	additionalInformation: any;
 } & React.DetailedHTMLProps<React.FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>;
 
+/**
+ * General purpose form component
+ * Handles intermediate updates to the supplied data with a reducer
+ * Accepts a onSave prop for processing data after user submits
+ *
+ * NOTE: Consumer must supply a submit button (see FormSubmitButton)
+ * @param props
+ */
 const Form = <TData extends object>({
 	className,
 	onSave,
@@ -52,6 +63,7 @@ const Form = <TData extends object>({
 	};
 
 	return (
+		// Context provider so each form field can access the current same data store
 		<FormProvider
 			value={{
 				data: _data,
