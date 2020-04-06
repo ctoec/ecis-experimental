@@ -20,9 +20,6 @@ namespace Hedwig.Models
 		public FundingSource Source { get; set; }
 
 		[JsonConverter(typeof(StringEnumConverter))]
-		public FundingTime Time { get; set; }
-
-		[JsonConverter(typeof(StringEnumConverter))]
 		public Age AgeGroup { get; set; }
 		public List<Funding> Fundings { get; set; }
 		public List<FundingTimeAllocation> FundingTimeAllocations { get; set; }

@@ -4,7 +4,7 @@ import { CdcReport, Enrollment, Age, FundingSource, FundingTime, Region } from '
 import idx from 'idx';
 import moment from 'moment';
 import { CdcRates } from './CdcRates';
-import { prettyAge, prettyFundingTime } from '../../../utils/models';
+import { prettyAge, prettyFundingTime, getFundingTime, getFundingSpaceCapacity } from '../../../utils/models';
 import currencyFormatter from '../../../utils/currencyFormatter';
 import cartesianProduct from '../../../utils/cartesianProduct';
 
@@ -41,8 +41,8 @@ export default function UtilizationTable(report: CdcReport) {
 		fundingTime: [FundingTime.Full, FundingTime.Part],
 	})
 		.map(({ ageGroup, fundingTime }) => {
-			const capacity = findCapacity(report, ageGroup, fundingTime);
-			const count = countEnrollments(enrollments, ageGroup, fundingTime);
+			const capacity = getFundingSpaceCapacity(report.organization, {source: FundingSource.CDC, ageGroup, time: fundingTime});
+			const count = countFundedEnrollments(enrollments, ageGroup, fundingTime);
 			const rate = calculateRate(
 				report.accredited,
 				site.titleI,
@@ -175,18 +175,7 @@ export function calculateRate(
 	return rate ? rate.rate : 0;
 }
 
-export function findCapacity(report: CdcReport, ageGroup: Age, fundingTime: FundingTime) {
-	const fundingSpaces = idx(report, _ => _.organization.fundingSpaces) || [];
-
-	return (
-		idx(
-			fundingSpaces.find(space => space.ageGroup === ageGroup && space.time === fundingTime),
-			_ => _.capacity
-		) || 0
-	);
-}
-
-export function countEnrollments(
+export function countFundedEnrollments(
 	enrollments: Enrollment[],
 	ageGroup: Age,
 	fundingTime: FundingTime
@@ -196,10 +185,12 @@ export function countEnrollments(
 			return false;
 		}
 
-		const cdcFunding = (idx(enrollment, _ => _.fundings) || []).find(
+		if(!enrollment.fundings) return false;
+
+		const cdcFunding = enrollment.fundings.find(
 			funding => funding.source === FundingSource.CDC
 		);
 
-		return idx(cdcFunding, _ => _.fundingSpace.time) === fundingTime;
+		return getFundingTime(cdcFunding) === fundingTime;
 	}).length;
 }

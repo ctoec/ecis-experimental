@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Collections.Generic;
 using Hedwig.Models;
 
 namespace Hedwig.Data
@@ -164,13 +165,14 @@ namespace Hedwig.Data
 
 				var ageGroupCutoff = DateTime.Parse("2017-09-01");
 
+				var enrollmentAgeGroup = DateTime.Parse(birthdate) > ageGroupCutoff ? Age.InfantToddler : Age.Preschool;
 				var enrollment = CreateEnrollment(
 					childId: child.Id,
 					siteId: alternateSite ? site1.Id : site.Id,
 					entry: entry,
 					exit: exit,
 					exitReason: exit != null ? "Other" : null,
-					ageGroup: DateTime.Parse(birthdate) > ageGroupCutoff ? Age.InfantToddler : Age.Preschool,
+					ageGroup: enrollmentAgeGroup,
 					author: user
 				);
 
@@ -182,7 +184,7 @@ namespace Hedwig.Data
 						source: FundingSource.CDC,
 						firstReportingPeriod: entry == "2018-09-03" ? reportingPeriods[14] : reportingPeriods[26],
 						lastReportingPeriod: cells[6] != "" ? reportingPeriods[25] : null,
-						fundingSpace: DateTime.Parse(birthdate) > ageGroupCutoff ? infantToddlerFundingSpace : preschoolFundingSpace
+						fundingSpace: enrollmentAgeGroup == Age.InfantToddler ? infantToddlerFundingSpace : preschoolFundingSpace
 					);
 				}
 
@@ -194,7 +196,7 @@ namespace Hedwig.Data
 						source: FundingSource.CDC,
 						firstReportingPeriod: reportingPeriods[30],
 						lastReportingPeriod: reportingPeriods[31],
-						fundingSpace: DateTime.Parse(birthdate) > ageGroupCutoff ? infantToddlerFundingSpace : preschoolFundingSpace
+						fundingSpace: enrollmentAgeGroup == Age.InfantToddler ? infantToddlerFundingSpace : preschoolFundingSpace
 					);
 
 					CreateFunding(
@@ -202,7 +204,8 @@ namespace Hedwig.Data
 						isC4K: false,
 						source: FundingSource.CDC,
 						firstReportingPeriod: reportingPeriods[32],
-						lastReportingPeriod: null
+						lastReportingPeriod: null,
+						fundingSpace: enrollmentAgeGroup == Age.InfantToddler ? infantToddlerFundingSpace : preschoolFundingSpace
 					);
 				}
 
@@ -294,8 +297,13 @@ namespace Hedwig.Data
 				OrganizationId = organizationId,
 				Source = source,
 				AgeGroup = ageGroup,
-				Time = time,
-				Capacity = capacity
+				Capacity = capacity,
+				FundingTimeAllocations= new List<FundingTimeAllocation>{
+					new FundingTimeAllocation{
+						Time = time,
+						Weeks = 52
+					}
+				}
 			};
 			_context.FundingSpaces.Add(space);
 			_context.SaveChanges();

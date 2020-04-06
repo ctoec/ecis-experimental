@@ -6,7 +6,7 @@ import { Table, TableProps, InlineIcon, DateRange, Column } from '../../componen
 import { Enrollment, FundingSpace, FundingSource, Organization } from '../../generated';
 import { lastFirstNameFormatter } from '../../utils/stringFormatters';
 import dateFormatter from '../../utils/dateFormatter';
-import { NO_FUNDING } from '../../utils/models';
+import { NO_FUNDING, getFundingSpaceTime, prettyFundingTime } from '../../utils/models';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../utils/types';
 import { hasValidationErrors } from '../../utils/validations';
 import { isFunded } from '../../utils/models';
@@ -145,13 +145,13 @@ export default function AgeGroupSection({
 							enrollment =>
 								isFunded(enrollment, {
 									source: space.source,
-									time: space.time,
+									time: getFundingSpaceTime(space),
 									currentRange: rosterDateRange,
 								})
 						).length;
 
 						return (
-							<li key={`${space.time}-${ageGroupTitle}`}>
+							<li key={`${getFundingSpaceTime(space)}-${ageGroupTitle}`}>
 								<span className="text-bold">
 									{showPastEnrollments
 										? enrolledForFunding
@@ -159,9 +159,9 @@ export default function AgeGroupSection({
 								</span>
 								<span>
 									{showPastEnrollments
-										? ` in ${(space.time || '').toLowerCase()} time ${space.source || ''} spaces`
-										: ` ${(space.time || '').toLowerCase()} time ${space.source ||
-												''} spaces filled`}
+										? ` in ${prettyFundingTime(getFundingSpaceTime(space))} ${space.source || ''} spaces`
+										: ` ${prettyFundingTime(getFundingSpaceTime(space))} ${space.source || ''} spaces filled`
+									}
 								</span>
 							</li>
 						);

@@ -26,10 +26,6 @@ import {
 	FundingSourceFromJSON,
 	FundingSourceFromJSONTyped,
 	FundingSourceToJSON,
-	FundingTime,
-	FundingTimeFromJSON,
-	FundingTimeFromJSONTyped,
-	FundingTimeToJSON,
 	FundingTimeAllocation,
 	FundingTimeAllocationFromJSON,
 	FundingTimeAllocationFromJSONTyped,
@@ -78,12 +74,6 @@ export interface FundingSpace {
 	source?: FundingSource;
 	/**
 	 *
-	 * @type {FundingTime}
-	 * @memberof FundingSpace
-	 */
-	time?: FundingTime;
-	/**
-	 *
 	 * @type {Age}
 	 * @memberof FundingSpace
 	 */
@@ -118,7 +108,6 @@ export function FundingSpaceFromJSONTyped(json: any, ignoreDiscriminator: boolea
 			? undefined
 			: OrganizationFromJSON(json['organization']),
 		source: !exists(json, 'source') ? undefined : FundingSourceFromJSON(json['source']),
-		time: !exists(json, 'time') ? undefined : FundingTimeFromJSON(json['time']),
 		ageGroup: !exists(json, 'ageGroup') ? undefined : AgeFromJSON(json['ageGroup']),
 		fundings: !exists(json, 'fundings')
 			? undefined
@@ -146,7 +135,6 @@ export function FundingSpaceToJSON(value?: FundingSpace | null): any {
 		organizationId: value.organizationId,
 		organization: OrganizationToJSON(value.organization),
 		source: FundingSourceToJSON(value.source),
-		time: FundingTimeToJSON(value.time),
 		ageGroup: AgeToJSON(value.ageGroup),
 		fundings:
 			value.fundings === undefined

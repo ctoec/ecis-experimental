@@ -21,6 +21,7 @@ import {
 	getIdForUser,
 	getFundingSpaceFor,
 	getFundingTime,
+	getFundingSpaceTime,
 } from '../../../utils/models';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../../utils/types';
 import {
@@ -47,6 +48,7 @@ import {
 	reportingPeriodFormatter,
 	isFunded,
 	currentReportingPeriod,
+	getFundingSpaceCapacity 
 } from '../../../utils/models';
 import {
 	FundingSelection,
@@ -55,7 +57,6 @@ import {
 	FundingType,
 } from '../../../utils/fundingSelectionUtils';
 import { FormReducer, formReducer, updateData, toFormString } from '../../../utils/forms/form';
-import getFundingSpaceCapacity from '../../../utils/getFundingSpaceCapacity';
 import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import displayErrorOrWarning from '../../../utils/validations/displayErrorOrWarning';
@@ -300,8 +301,8 @@ const EnrollmentFunding: Section = {
 			const newFundingTypeOpts = fundingSpaces
 				.filter(space => space.ageGroup === _enrollment.ageGroup)
 				.map(space => ({
-					value: '' + space.time,
-					text: `${space.source} - ${prettyFundingTime(space.time)}`,
+					value: '' + getFundingSpaceTime(space),
+					text: `${space.source} - ${prettyFundingTime(getFundingSpaceTime(space))}`
 				}));
 			setFundingTypeOpts([
 				...newFundingTypeOpts,
@@ -351,7 +352,8 @@ const EnrollmentFunding: Section = {
 		useEffect(() => {
 			let updatedFundings: Funding[] = [...fundings]
 				.filter(funding => funding.id !== (sourcelessFunding && sourcelessFunding.id))
-				.filter(funding => funding.id !== (cdcFunding && cdcFunding.id));
+				.filter(funding => funding.id !== (cdcFunding && cdcFunding.id))
+				.filter(funding => funding.id !== 0);
 
 			switch (fundingSelection.source) {
 				case FundingType.UNSELECTED:
@@ -366,9 +368,8 @@ const EnrollmentFunding: Section = {
 					// do nothing
 					break;
 				case FundingType.CDC:
-					// Default to part time if none is selected
 					var fundingSpace = getFundingSpaceFor(fundingSpaces, {
-						ageGroup: enrollment.ageGroup,
+						ageGroup: _enrollment.ageGroup,
 						time: fundingSelection.time,
 					});
 					if (cdcFunding) {

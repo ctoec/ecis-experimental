@@ -45,7 +45,7 @@ export const mockCompleteEnrollment: Enrollment = {
 			fundingSpace: {
 				organizationId: 1,
 				capacity: 1,
-				time: FundingTime.Full,
+				fundingTimeAllocations: [{ time: FundingTime.Full, weeks: 52 }]
 			},
 		},
 	],
@@ -86,7 +86,7 @@ export const mockEnrollmentWithFoster = swapFields(mockCompleteEnrollment, [
 ]);
 
 export const mockPartTimeEnrollment = swapFields(mockCompleteEnrollment, [
-	{ keys: ['fundings', 0, 'fundingSpace', 'time'], newValue: FundingTime.Part },
+	{ keys: ['fundings', 0, 'fundingSpace', 'fundingTimeAllocations', '0', 'time'], newValue: FundingTime.Part },
 	{ keys: ['id'], newValue: 7 },
 ]);
 

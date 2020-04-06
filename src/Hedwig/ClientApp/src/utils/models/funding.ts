@@ -3,6 +3,7 @@ import { DateRange } from '../../components';
 import { Funding, FundingSource, ReportingPeriod, Enrollment, FundingSpace } from '../../generated';
 import moment from 'moment';
 import { dateSorter } from '../dateSorter';
+import { getFundingSpaceTime } from './fundingSpace';
 
 /**
  * constant for display string when an enrollment has no funding
@@ -14,7 +15,9 @@ export const NO_FUNDING = 'private pay';
  * @param funding
  */
 export function getFundingTime(funding: Funding | undefined) {
-	return funding && funding.fundingSpace ? funding.fundingSpace.time : undefined;
+	if (!funding) return;
+
+	return getFundingSpaceTime(funding.fundingSpace);
 }
 
 /**

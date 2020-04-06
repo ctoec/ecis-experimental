@@ -22,8 +22,10 @@ namespace HedwigTests.Helpers
 				OrganizationId = organizationId,
 				Source = source,
 				AgeGroup = ageGroup,
-				Time = time,
-				Capacity = capacity
+				Capacity = capacity,
+				FundingTimeAllocations = new List<FundingTimeAllocation>{
+					new FundingTimeAllocation {Time = time, Weeks = 52}
+				}
 			};
 
 			context.Add(space);
