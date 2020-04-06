@@ -20,7 +20,7 @@ const TestProvider: React.FC<TestProviderProps> = ({
 	history = createMemoryHistory(),
 }) => {
 	return (
-		<UserContext.Provider value={{ user }}>
+		<UserContext.Provider value={{ user, loading: false }}>
 			<ReportingPeriodContext.Provider value={{ cdcReportingPeriods }}>
 				<Router history={history}>{children}</Router>
 			</ReportingPeriodContext.Provider>

@@ -236,6 +236,414 @@ exports[`Storyshots Button Unstyled 1`] = `
 </div>
 `;
 
+exports[`Storyshots Card Compact Primary with Text 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="oec-card"
+  >
+    <div
+      className="oec-card-cell"
+    >
+      <span>
+        I am a compact card!
+      </span>
+    </div>
+    <div
+      className=""
+    />
+    <div
+      className="oec-card-cell oec-card-expansion"
+      hidden={true}
+    />
+  </div>
+</div>
+`;
+
+exports[`Storyshots Card Primary with Grid 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="oec-card oec-card--stretched"
+  >
+    <div
+      className="oec-card-cell"
+    >
+      <div
+        className="usa-grid"
+      >
+        <div
+          className="grid-row text-bold"
+        >
+          <div
+            className="grid-col"
+          >
+            First name
+          </div>
+          <div
+            className="grid-col"
+          >
+            Last name
+          </div>
+        </div>
+        <div
+          className="grid-row"
+        >
+          <div
+            className="grid-col"
+          >
+            Daniel
+          </div>
+          <div
+            className="grid-col"
+          >
+            Radcliff
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className=""
+    />
+    <div
+      className="oec-card-cell oec-card-expansion"
+      hidden={true}
+    />
+  </div>
+</div>
+`;
+
+exports[`Storyshots Card Primary with Text 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="oec-card oec-card--stretched"
+  >
+    <div
+      className="oec-card-cell"
+    >
+      <span>
+        I am a card!
+      </span>
+    </div>
+    <div
+      className=""
+    />
+    <div
+      className="oec-card-cell oec-card-expansion"
+      hidden={true}
+    />
+  </div>
+</div>
+`;
+
+exports[`Storyshots Card Secondary with Grid 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="oec-card oec-card--secondary oec-card--stretched"
+  >
+    <div
+      className="oec-card-cell"
+    >
+      <div
+        className="usa-grid"
+      >
+        <div
+          className="grid-row text-bold"
+        >
+          <div
+            className="grid-col"
+          >
+            First name
+          </div>
+          <div
+            className="grid-col"
+          >
+            Last name
+          </div>
+        </div>
+        <div
+          className="grid-row"
+        >
+          <div
+            className="grid-col"
+          >
+            Daniel
+          </div>
+          <div
+            className="grid-col"
+          >
+            Radcliff
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className=""
+    />
+    <div
+      className="oec-card-cell oec-card-expansion"
+      hidden={true}
+    />
+  </div>
+</div>
+`;
+
+exports[`Storyshots Card Secondary with Text 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="oec-card oec-card--secondary oec-card--stretched"
+  >
+    <div
+      className="oec-card-cell"
+    >
+      <span>
+        I am a card!
+      </span>
+    </div>
+    <div
+      className=""
+    />
+    <div
+      className="oec-card-cell oec-card-expansion"
+      hidden={true}
+    />
+  </div>
+</div>
+`;
+
+exports[`Storyshots Card With card expansion and card expander 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="oec-card oec-card--stretched"
+  >
+    <div
+      className="oec-card-cell"
+    >
+      <div
+        className="usa-grid"
+      >
+        <div
+          className="grid-row"
+        >
+          <div
+            className="grid-col"
+          >
+            <div
+              className="grid-row text-bold"
+            >
+              <div
+                className="grid-col"
+              >
+                First name
+              </div>
+              <div
+                className="grid-col"
+              >
+                Last name
+              </div>
+            </div>
+            <div
+              className="grid-row"
+            >
+              <div
+                className="grid-col"
+              >
+                Daniel
+              </div>
+              <div
+                className="grid-col"
+              >
+                Radcliff
+              </div>
+            </div>
+          </div>
+          <div
+            className="grid-col"
+          >
+            <button
+              className="usa-button usa-button--unstyled"
+              onClick={[Function]}
+              type="button"
+            >
+              Click on me to toggle showing the expansion
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="oec-card-divider"
+    />
+    <div
+      className="oec-card-cell oec-card-expansion"
+      hidden={false}
+    >
+      <div>
+        You can see me!! :D
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Card With closed card expansion 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="oec-card oec-card--stretched"
+  >
+    <div
+      className="oec-card-cell"
+    >
+      <div
+        className="usa-grid"
+      >
+        <div
+          className="grid-row text-bold"
+        >
+          <div
+            className="grid-col"
+          >
+            First name
+          </div>
+          <div
+            className="grid-col"
+          >
+            Last name
+          </div>
+        </div>
+        <div
+          className="grid-row"
+        >
+          <div
+            className="grid-col"
+          >
+            Daniel
+          </div>
+          <div
+            className="grid-col"
+          >
+            Radcliff
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className=""
+    />
+    <div
+      className="oec-card-cell oec-card-expansion"
+      hidden={true}
+    >
+      <div>
+        More information here but you can't see :'(
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Card With open card expansion 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="oec-card oec-card--stretched"
+  >
+    <div
+      className="oec-card-cell"
+    >
+      <div
+        className="usa-grid"
+      >
+        <div
+          className="grid-row text-bold"
+        >
+          <div
+            className="grid-col"
+          >
+            First name
+          </div>
+          <div
+            className="grid-col"
+          >
+            Last name
+          </div>
+        </div>
+        <div
+          className="grid-row"
+        >
+          <div
+            className="grid-col"
+          >
+            Daniel
+          </div>
+          <div
+            className="grid-col"
+          >
+            Radcliff
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="oec-card-divider"
+    />
+    <div
+      className="oec-card-cell oec-card-expansion"
+      hidden={false}
+    >
+      <div>
+        You can see me!! :D
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Storyshots ChoiceList Checklist 1`] = `
 <div
   style={

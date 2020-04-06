@@ -8,7 +8,6 @@ import UpdateForm from './UpdateForm';
 const FamilyIncome: Section = {
 	key: 'family-income',
 	name: 'Family income determination',
-	isUpdate: true,
 	status: ({ enrollment }) => {
 		// family income disclosure not required for children living with foster families
 		if (idx(enrollment, _ => _.child.foster)) {

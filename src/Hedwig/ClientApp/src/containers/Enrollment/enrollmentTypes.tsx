@@ -19,7 +19,6 @@ export type SectionProps = {
 export interface Section {
 	key: string;
 	name: string;
-	isUpdate?: boolean;
 	status: (props: SectionProps) => StepStatus;
 	Summary: React.FC<SectionProps>;
 	Form: React.FC<SectionProps>;

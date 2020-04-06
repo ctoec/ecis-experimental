@@ -38,8 +38,8 @@ const sections: { [key: string]: Section } = {
 };
 
 /**
- * React component for editing an enrollment. Hands off to a section
- * form component.
+ * React component for updating an enrollment. Renders a section
+ * update form component.
  *
  * @param props Props with location.
  */
@@ -98,6 +98,7 @@ export default function EnrollmentUpdate({
 		return <div className="EnrollmentUpdate"></div>;
 	}
 
+	// If update hasn't been implemented, default to edit
 	if (!section.UpdateForm) {
 		history.push(`/roster/sites/${siteId}/enrollments/${enrollment.id}/edit/${sectionId}`);
 		return <></>;

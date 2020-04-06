@@ -42,18 +42,23 @@ export function Card({
 	showTag = false,
 	children,
 }: PropsWithChildren<CardProps>) {
+	const [previousIsExpanded, setPreviousIsExpanded] = useState<boolean>();
 	const [isExpanded, setIsExpanded] = useState(expanded);
-	const toggleExpanded = () => setIsExpanded(_isExpanded => !_isExpanded);
+	const updateExpanded = (_: boolean) => {
+		setPreviousIsExpanded(isExpanded);
+		setIsExpanded(_);
+	};
+	const toggleExpanded = () => updateExpanded(!isExpanded);
 
 	useEffect(() => {
-		if (onExpansionChange) {
+		if (onExpansionChange && previousIsExpanded !== undefined) {
 			onExpansionChange(isExpanded);
 		}
 	}, [isExpanded]);
 
 	useEffect(() => {
 		if (forceClose) {
-			setIsExpanded(false);
+			updateExpanded(false);
 		}
 	}, [forceClose]);
 
