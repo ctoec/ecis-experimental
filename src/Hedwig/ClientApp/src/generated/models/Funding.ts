@@ -26,10 +26,6 @@ import {
 	FundingSpaceFromJSON,
 	FundingSpaceFromJSONTyped,
 	FundingSpaceToJSON,
-	FundingTime,
-	FundingTimeFromJSON,
-	FundingTimeFromJSONTyped,
-	FundingTimeToJSON,
 	ReportingPeriod,
 	ReportingPeriodFromJSON,
 	ReportingPeriodFromJSONTyped,
@@ -112,12 +108,6 @@ export interface Funding {
 	lastReportingPeriod?: ReportingPeriod;
 	/**
 	 *
-	 * @type {FundingTime}
-	 * @memberof Funding
-	 */
-	time?: FundingTime;
-	/**
-	 *
 	 * @type {Array<ValidationError>}
 	 * @memberof Funding
 	 */
@@ -171,7 +161,6 @@ export function FundingFromJSONTyped(json: any, ignoreDiscriminator: boolean): F
 		lastReportingPeriod: !exists(json, 'lastReportingPeriod')
 			? undefined
 			: ReportingPeriodFromJSON(json['lastReportingPeriod']),
-		time: !exists(json, 'time') ? undefined : FundingTimeFromJSON(json['time']),
 		validationErrors: !exists(json, 'validationErrors')
 			? undefined
 			: json['validationErrors'] === null
@@ -205,7 +194,6 @@ export function FundingToJSON(value?: Funding | null): any {
 		firstReportingPeriod: ReportingPeriodToJSON(value.firstReportingPeriod),
 		lastReportingPeriodId: value.lastReportingPeriodId,
 		lastReportingPeriod: ReportingPeriodToJSON(value.lastReportingPeriod),
-		time: FundingTimeToJSON(value.time),
 		validationErrors:
 			value.validationErrors === undefined
 				? undefined

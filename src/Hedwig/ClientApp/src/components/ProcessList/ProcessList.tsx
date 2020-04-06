@@ -10,7 +10,7 @@ export function ProcessList({ processStepProps, additionalClassName }: ProcessLi
 	return (
 		<ol className={`process ${additionalClassName}`}>
 			{processStepProps.map((props, idx) => (
-				<ProcessStep {...props } key={`${idx}`} />
+				<ProcessStep {...props} key={`${idx}`} />
 			))}
 		</ol>
 	);

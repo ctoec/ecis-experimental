@@ -1,6 +1,12 @@
-import { FundingTime, C4KCertificate, Funding } from '../generated';
+import { C4KCertificate, Funding, FundingSpace } from '../generated';
 import { Tag, DateRange } from '../components';
-import { isCurrentFundingToRange, dedupeFundings, isCurrentToRangeC4K } from './models';
+import {
+	isCurrentFundingToRange,
+	dedupeFundings,
+	isCurrentToRangeC4K,
+	getFundingTime,
+} from './models';
+import { DeepNonUndefineable } from './types';
 
 export type FundingTypes = 'CDC' | 'C4K';
 
@@ -8,16 +14,18 @@ interface FundingTypeDiscriminator {
 	type: FundingTypes;
 }
 
-type InternalFunding = Funding & { type: 'CDC' };
-type InternalC4KCertificate = C4KCertificate & { type: 'C4K' };
+type InternalFunding = DeepNonUndefineable<Funding> & { type: 'CDC' };
+type InternalC4KCertificate = DeepNonUndefineable<C4KCertificate> & { type: 'C4K' };
 
 export type FundingType = (InternalFunding | InternalC4KCertificate) & FundingTypeDiscriminator;
 
-function ptOrFT(fundingTime?: FundingTime) {
-	if (fundingTime === 'Full') {
+function ptOrFT(fundingSpace?: FundingSpace) {
+	if (!fundingSpace) return '';
+
+	if (fundingSpace.time === 'Full') {
 		return '–FT';
 	}
-	if (fundingTime === 'Part') {
+	if (fundingSpace.time === 'Part') {
 		return '–PT';
 	}
 	return '';
@@ -36,10 +44,10 @@ export function generateFundingTypeTag(
 	let key, text;
 	switch (fundingType.type) {
 		case 'CDC':
-			key = `${fundingType.source}-${fundingType.time}`;
+			key = `${fundingType.source}-${getFundingTime(fundingType)}`;
 			if (index) key = `${key}-${index}`;
 			if (fundingType.source && includeTime) {
-				text = `CDC${ptOrFT(fundingType.time)}`;
+				text = `CDC${ptOrFT(fundingType.fundingSpace)}`;
 			} else if (fundingType.source) {
 				text = 'CDC';
 			} else {

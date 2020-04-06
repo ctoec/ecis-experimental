@@ -1,8 +1,21 @@
 import { DeepNonUndefineable } from '../types';
 import { DateRange } from '../../components';
-import { Funding, FundingSource, FundingTime, ReportingPeriod, Enrollment } from '../../generated';
+import { Funding, FundingSource, ReportingPeriod, Enrollment, FundingSpace } from '../../generated';
 import moment from 'moment';
 import { dateSorter } from '../dateSorter';
+
+/**
+ * constant for display string when an enrollment has no funding
+ */
+export const NO_FUNDING = 'private pay';
+
+/**
+ * Returns time from associated fundingSpace, or undefined
+ * @param funding
+ */
+export function getFundingTime(funding: Funding | undefined) {
+	return funding && funding.fundingSpace ? funding.fundingSpace.time : undefined;
+}
 
 /**
  * naive-ly deduplicate fundings based on source & time for displaying in roster
@@ -12,7 +25,7 @@ export function dedupeFundings(fundings: Funding[]) {
 	const uniqueFundings: { [key: string]: Funding } = {};
 
 	fundings.forEach(funding => {
-		const key = `${funding.source}${funding.time}`;
+		const key = `${funding.source}${getFundingTime(funding)}`;
 		if (!uniqueFundings[key]) {
 			uniqueFundings[key] = funding;
 		}
@@ -59,6 +72,11 @@ function isCurrentToRangeCDC(funding: Funding, range: DateRange): boolean {
 	return true;
 }
 
+/**
+ * Returns the CDC funding with lastReportingPeriod = null
+ * (there should only ever be one!)
+ * @param fundings
+ */
 export function currentCdcFunding(
 	fundings: DeepNonUndefineable<Funding[]> | null
 ): DeepNonUndefineable<Funding> | undefined {
@@ -70,17 +88,13 @@ export function currentCdcFunding(
 export function createFunding({
 	enrollmentId,
 	source,
-	time,
+	fundingSpace,
 	firstReportingPeriod,
-	familyId,
-	certificateStartDate,
 }: {
 	enrollmentId: number;
 	source: FundingSource | null;
-	time?: FundingTime;
+	fundingSpace?: FundingSpace;
 	firstReportingPeriod?: ReportingPeriod;
-	familyId?: number | null;
-	certificateStartDate?: Date;
 }): Funding {
 	switch (source) {
 		case FundingSource.CDC:
@@ -88,8 +102,9 @@ export function createFunding({
 				id: 0,
 				enrollmentId,
 				source,
-				time,
-				firstReportingPeriodId: firstReportingPeriod ? firstReportingPeriod.id : null,
+				fundingSpaceId: fundingSpace ? fundingSpace.id : undefined,
+				fundingSpace: fundingSpace,
+				firstReportingPeriodId: firstReportingPeriod ? firstReportingPeriod.id : undefined,
 				firstReportingPeriod,
 			};
 		case null:
@@ -106,17 +121,13 @@ export function createFunding({
 export function updateFunding({
 	currentFunding,
 	source,
-	time,
+	fundingSpace,
 	reportingPeriod,
-	familyId,
-	certificateStartDate,
 }: {
 	currentFunding: Funding;
 	source?: FundingSource;
-	time?: FundingTime;
+	fundingSpace?: FundingSpace;
 	reportingPeriod?: ReportingPeriod;
-	familyId?: number | null;
-	certificateStartDate?: Date;
 }): Funding {
 	source = source ? source : currentFunding.source;
 	switch (source) {
@@ -124,7 +135,8 @@ export function updateFunding({
 			return {
 				...currentFunding,
 				source,
-				time,
+				fundingSpaceId: fundingSpace ? fundingSpace.id : undefined,
+				fundingSpace: fundingSpace,
 				firstReportingPeriodId: reportingPeriod ? reportingPeriod.id : undefined,
 				firstReportingPeriod: reportingPeriod,
 			};
@@ -133,28 +145,27 @@ export function updateFunding({
 	}
 }
 
-export function getFundings(
-	enrollment: DeepNonUndefineable<Enrollment>
-): DeepNonUndefineable<Funding[]> | undefined {
-	const fundings = enrollment.fundings;
-	return !fundings ? undefined : fundings;
-}
-
+/**
+ * Returns the first funding without defined source
+ * @param enrollment
+ */
 export function getSourcelessFunding(
 	enrollment: DeepNonUndefineable<Enrollment>
 ): DeepNonUndefineable<Funding> | undefined {
-	const fundings = getFundings(enrollment);
-	if (!fundings) {
+	if (!enrollment.fundings) {
 		return undefined;
 	}
 
-	return fundings.find(funding => !funding.source);
+	return enrollment.fundings.find(funding => !funding.source);
 }
 
+/**
+ * Sort function to sort an array of fundings by firstReportingPeriod.period
+ * @param a
+ * @param b
+ */
 export function fundingStartSorter(a: Funding, b: Funding): number {
 	var dateA = a.firstReportingPeriod ? a.firstReportingPeriod.period : null;
 	var dateB = b.firstReportingPeriod ? b.firstReportingPeriod.period : null;
 	return dateSorter(dateA, dateB);
 }
-
-export const NO_FUNDING = 'private pay';

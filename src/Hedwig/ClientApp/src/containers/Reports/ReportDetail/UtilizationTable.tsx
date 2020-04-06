@@ -200,6 +200,6 @@ export function countEnrollments(
 			funding => funding.source === FundingSource.CDC
 		);
 
-		return idx(cdcFunding, _ => _.time) === fundingTime;
+		return idx(cdcFunding, _ => _.fundingSpace.time) === fundingTime;
 	}).length;
 }

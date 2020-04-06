@@ -1,5 +1,5 @@
 import { Enrollment, Gender, User, C4KCertificate } from '../../../generated';
-import { isCurrentFundingToRange } from '..';
+import { isCurrentFundingToRange, getFundingTime } from '..';
 import { DateRange } from '../../../components';
 import { validatePermissions, getIdForUser } from '..';
 import emptyGuid from '../../emptyGuid';
@@ -53,7 +53,7 @@ export function isFunded(
 	}
 
 	if (_opts.time) {
-		fundings = fundings.filter(funding => funding.time === _opts.time);
+		fundings = fundings.filter(funding => getFundingTime(funding) === _opts.time);
 	}
 
 	if (_opts.currentRange) {
