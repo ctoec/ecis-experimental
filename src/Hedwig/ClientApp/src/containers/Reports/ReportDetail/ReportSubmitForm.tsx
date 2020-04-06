@@ -24,6 +24,7 @@ import { reportSubmittedAlert, reportSubmitFailAlert } from '../../../utils/stri
 import pluralize from 'pluralize';
 import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
 import { FormReducer, formReducer, updateData } from '../../../utils/forms/form';
+import dateFormatter from '../../../utils/dateFormatter';
 
 export type ReportSubmitFormProps = {
 	report: DeepNonUndefineable<CdcReport>;
@@ -138,7 +139,7 @@ export default function ReportSubmitForm({
 		<ErrorBoundary alertProps={reportSubmitFailAlert}>
 			{report.submittedAt && (
 				<p>
-					<b>Submitted:</b> {report.submittedAt.toLocaleDateString()}{' '}
+					<b>Submitted:</b> {dateFormatter(report.submittedAt)}{' '}
 				</p>
 			)}
 			<ChoiceList
@@ -161,33 +162,36 @@ export default function ReportSubmitForm({
 			<form className="usa-form" noValidate autoComplete="off">
 				<h2>Other Revenue</h2>
 				<FieldSet id="other-revenue" legend="Other Revenue">
-					<TextInput
-						type="input"
-						id="c4k-revenue"
-						name="c4KRevenue"
-						label={
-							<React.Fragment>
-								<span className="text-bold">Care 4 Kids</span>
-								<span>
-									{' '}
-									({care4KidsCount} {pluralize('kid', care4KidsCount)} receiving subsidies)
-								</span>
-							</React.Fragment>
-						}
-						defaultValue={currencyFormatter(c4KRevenue)}
-						onChange={updateFormData(parseCurrencyFromString)}
-						onBlur={event =>
-							(event.target.value = c4KRevenue !== null ? currencyFormatter(c4KRevenue) : '')
-						}
-						disabled={!!report.submittedAt}
-						status={serverErrorForField(
-							hasAlertedOnError,
-							setHasAlertedOnError,
-							'report.c4krevenue',
-							error,
-							'This information is required for the report'
-						)}
-					/>
+					<div className="mobile-lg:grid-col-12">
+						<TextInput
+							type="input"
+							id="c4k-revenue"
+							name="c4KRevenue"
+							label={
+								<React.Fragment>
+									<span className="text-bold">Care 4 Kids</span>
+									<span>
+										{' '}
+										({care4KidsCount} {pluralize('kid', care4KidsCount)} receiving subsidies)
+									</span>
+								</React.Fragment>
+							}
+							defaultValue={currencyFormatter(c4KRevenue)}
+							onChange={updateFormData(parseCurrencyFromString)}
+							onBlur={event =>
+								(event.target.value = c4KRevenue !== null ? currencyFormatter(c4KRevenue) : '')
+							}
+							disabled={!!report.submittedAt}
+							status={serverErrorForField(
+								hasAlertedOnError,
+								setHasAlertedOnError,
+								'report.c4krevenue',
+								error,
+								'This information is required for the report'
+							)}
+							className="flex-fill"
+						/>
+					</div>
 					<ChoiceList
 						type="check"
 						id="c4k-includes-retroactive"
@@ -203,40 +207,45 @@ export default function ReportSubmitForm({
 							},
 						]}
 					/>
-					<TextInput
-						type="input"
-						id="family-fees-revenue"
-						name="familyFeesRevenue"
-						label={<span className="text-bold">Family Fees</span>}
-						defaultValue={currencyFormatter(familyFeesRevenue)}
-						onChange={updateFormData(parseCurrencyFromString)}
-						onBlur={event =>
-							(event.target.value =
-								familyFeesRevenue !== null ? currencyFormatter(familyFeesRevenue) : '')
-						}
-						disabled={!!report.submittedAt}
-						status={serverErrorForField(
-							hasAlertedOnError,
-							setHasAlertedOnError,
-							'familyfeesrevenue',
-							error,
-							'This information is required'
-						)}
-					/>
-					<TextInput
-						type="textarea"
-						id="cdc-report-comment"
-						name="comment"
-						label={
-							<span className="text-bold">
-								Anything to share with the Office of Early Childhood about your report?
-							</span>
-						}
-						defaultValue={comment || ''}
-						onChange={updateFormData()}
-						disabled={!!report.submittedAt}
-						optional={true}
-					/>
+					<div className="mobile-lg:grid-col-12">
+						<TextInput
+							type="input"
+							id="family-fees-revenue"
+							name="familyFeesRevenue"
+							label={<span className="text-bold">Family Fees</span>}
+							defaultValue={currencyFormatter(familyFeesRevenue)}
+							onChange={updateFormData(parseCurrencyFromString)}
+							onBlur={event =>
+								(event.target.value =
+									familyFeesRevenue !== null ? currencyFormatter(familyFeesRevenue) : '')
+							}
+							disabled={!!report.submittedAt}
+							status={serverErrorForField(
+								hasAlertedOnError,
+								setHasAlertedOnError,
+								'familyfeesrevenue',
+								error,
+								'This information is required'
+							)}
+							className="flex-fill"
+						/>
+					</div>
+					<div className="mobile-lg:grid-col-12">
+						<TextInput
+							type="textarea"
+							id="cdc-report-comment"
+							name="comment"
+							label={
+								<span className="text-bold">
+									Anything to share with the Office of Early Childhood about your report?
+								</span>
+							}
+							defaultValue={comment || ''}
+							onChange={updateFormData()}
+							disabled={!!report.submittedAt}
+							optional={true}
+						/>
+					</div>
 				</FieldSet>
 				{!report.submittedAt && (
 					<Button

@@ -1,12 +1,18 @@
 import React from 'react';
 import cx from 'classnames';
-
-import { Button, ButtonProps, InlineIcon } from '..';
-
-import styles from './ButtonWithDropdown.module.scss';
 import { Link } from 'react-router-dom';
-
 import useHideOnLostFocus from '../../hooks/useHideOnLostFocus';
+import { Button, ButtonProps, InlineIcon } from '..';
+import styles from './ButtonWithDropdown.module.scss';
+
+const {
+	container,
+	'container--button-unstyled': buttonUnstyled,
+	hidden,
+	option,
+	dropdown,
+	'with-dropdown': withDropdown,
+} = styles;
 
 type ButtonOptionProps = {
 	text: string;
@@ -37,14 +43,10 @@ const ButtonWithDrowdown: React.FC<ButtonWithDrowdownProps> = ({
 		<div
 			id={id}
 			ref={ref}
-			className={cx(
-				styles.container,
-				{ [styles['container--button-unstyled']]: appearance === 'unstyled' },
-				className
-			)}
+			className={cx(container, { [buttonUnstyled]: appearance === 'unstyled' }, className)}
 		>
 			<Button
-				className={cx(styles['with-dropdown'])}
+				className={withDropdown}
 				appearance={appearance}
 				text={
 					<span>
@@ -61,18 +63,18 @@ const ButtonWithDrowdown: React.FC<ButtonWithDrowdownProps> = ({
 			<div
 				className={cx(
 					optionsProps && optionsProps.className,
-					{ [styles.hidden]: !isComponentVisible },
-					styles.dropdown
+					{ [hidden]: !isComponentVisible },
+					dropdown
 				)}
 			>
-				{options.map(option => (
+				{options.map(_option => (
 					<Link
-						key={option.value}
-						className={cx(styles.option)}
+						key={_option.value}
+						className={option}
 						onClick={() => setIsComponentVisible(hide => !hide)}
-						to={option.value}
+						to={_option.value}
 					>
-						{option.text}
+						{_option.text}
 					</Link>
 				))}
 			</div>
