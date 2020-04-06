@@ -32,7 +32,7 @@ import {
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import { FormReducer, formReducer, updateData } from '../../../utils/forms/form';
 import { DeepNonUndefineable } from '../../../utils/types';
-import useNewUseApi, { ApiError } from '../../../hooks/useApi';
+import useApi, { ApiError } from '../../../hooks/useApi';
 import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
 
 const ChildInfo: Section = {
@@ -164,7 +164,7 @@ const ChildInfo: Section = {
 				: api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsPost({
 						...postParams,
 				  });
-		const { error: saveError, data: saveData } = useNewUseApi<Enrollment>(apiQuery, useApiOpts);
+		const { error: saveError, data: saveData } = useApi<Enrollment>(apiQuery, useApiOpts);
 
 		useEffect(() => {
 			if (!saveData && !saveError) {

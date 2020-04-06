@@ -24,7 +24,6 @@ import { reportSubmittedAlert, reportSubmitFailAlert } from '../../../utils/stri
 import pluralize from 'pluralize';
 import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
 import { FormReducer, formReducer, updateData } from '../../../utils/forms/form';
-import useNewUseApi from '../../../hooks/useApi';
 
 export type ReportSubmitFormProps = {
 	report: DeepNonUndefineable<CdcReport>;
@@ -110,7 +109,7 @@ export default function ReportSubmitForm({
 	}, [error, hasAlertedOnError]);
 
 	const [attemptingSave, setAttemptingSave] = useState(false);
-	const { loading, error: saveError, data: saveData } = useNewUseApi<CdcReport>(
+	const { loading, error: saveError, data: saveData } = useApi<CdcReport>(
 		api =>
 			api.apiOrganizationsOrgIdReportsIdPut({
 				...params,

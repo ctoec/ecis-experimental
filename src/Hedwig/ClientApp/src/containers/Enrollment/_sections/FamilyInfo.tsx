@@ -21,7 +21,7 @@ import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextM
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import { FormReducer, formReducer, updateData } from '../../../utils/forms/form';
 import { DeepNonUndefineable } from '../../../utils/types';
-import useNewUseApi, { ApiError } from '../../../hooks/useApi';
+import useApi, { ApiError } from '../../../hooks/useApi';
 
 const FamilyInfo: Section = {
 	key: 'family-information',
@@ -112,7 +112,7 @@ const FamilyInfo: Section = {
 		};
 
 		const [attemptingSave, setAttemptingSave] = useState(false);
-		const { error: saveError, data: saveData } = useNewUseApi<Enrollment>(
+		const { error: saveError, data: saveData } = useApi<Enrollment>(
 			api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(defaultParams),
 			{ skip: !attemptingSave, callback: () => setAttemptingSave(false) }
 		);
