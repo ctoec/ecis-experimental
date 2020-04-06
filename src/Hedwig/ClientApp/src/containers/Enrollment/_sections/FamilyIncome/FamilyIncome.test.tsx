@@ -6,7 +6,7 @@ import { DeepNonUndefineable } from '../../../../utils/types';
 import { Enrollment, FamilyDetermination } from '../../../../generated';
 import { getValidationError } from '../../../../tests/helpers';
 
-jest.mock('../../../../hooks/newUseApi');
+jest.mock('../../../../hooks/useApi');
 
 describe('enrollment sections', () => {
 	describe('FamilyIncome', () => {

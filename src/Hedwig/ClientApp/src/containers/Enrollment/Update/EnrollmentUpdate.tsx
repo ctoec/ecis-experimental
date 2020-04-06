@@ -16,7 +16,7 @@ import { validatePermissions, getIdForUser } from '../../../utils/models';
 import CommonContainer from '../../CommonContainer';
 import { nameFormatter, editSaveFailAlert } from '../../../utils/stringFormatters';
 import { ErrorBoundary } from '../../../components';
-import useNewUseApi from '../../../hooks/newUseApi';
+import useApi from '../../../hooks/useApi';
 import { DeepNonUndefineable } from '../../../utils/types';
 
 type EnrollmentUpdateParams = {
@@ -60,7 +60,7 @@ export default function EnrollmentUpdate({
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		include: ['child', 'family', 'determinations', 'fundings'],
 	};
-	const { loading, error, data: _enrollment } = useNewUseApi(
+	const { loading, error, data: _enrollment } = useApi(
 		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
 		{ skip: !user }
 	);
@@ -74,7 +74,7 @@ export default function EnrollmentUpdate({
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		enrollment: enrollment || undefined,
 	};
-	const { loading: saveLoading, error: saveError, data: saveData } = useNewUseApi<Enrollment>(
+	const { loading: saveLoading, error: saveError, data: saveData } = useApi<Enrollment>(
 		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(saveParams),
 		{ skip: !attemptingSave || !user, callback: () => setAttemptingSave(false) }
 	);
