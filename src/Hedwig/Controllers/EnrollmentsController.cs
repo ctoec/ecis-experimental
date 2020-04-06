@@ -163,6 +163,7 @@ namespace Hedwig.Controllers
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[TransformEntityFilter]
 		public async Task<ActionResult> Delete(
 			int id,
 			int orgId,
