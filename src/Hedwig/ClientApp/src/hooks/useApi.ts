@@ -1,178 +1,117 @@
-import { useContext, useEffect, useState, DependencyList, useCallback } from 'react';
 import {
-	Configuration,
+	ValidationProblemDetails,
+	ProblemDetails,
 	HedwigApi,
-	ValidationProblemDetailsFromJSON,
+	Configuration,
 	ProblemDetailsFromJSON,
+	ValidationProblemDetailsFromJSON,
 } from '../generated';
-import getCurrentHost from '../utils/getCurrentHost';
-import AuthenticationContext from '../contexts/Authentication/AuthenticationContext';
 import { DeepNonUndefineable } from '../utils/types';
-import { ValidationProblemDetails, ProblemDetails } from '../generated';
+import { useContext, useEffect, useState } from 'react';
+import AuthenticationContext from '../contexts/Authentication/AuthenticationContext';
+import getCurrentHost from '../utils/getCurrentHost';
 
 export type ApiError = ValidationProblemDetails | ProblemDetails;
-export type Reducer<TData> = (data: TData, result: TData) => TData;
-export type Query<TData> = (api: HedwigApi) => Promise<TData>;
-export type Mutate<TData> = (
-	query: Query<TData>,
-	reducer?: Reducer<TData | undefined>
-) => Promise<TData | null>;
-// Null is the return value if the mutation fails
 
-interface ApiParamOpts<T> {
-	defaultValue?: T;
-	skip?: boolean;
-	callback?: (_: T) => void;
-}
-
-interface ApiState<T> {
+interface ApiState<TData> {
+	error: ApiError | null; // error
+	data: TData | null; // response
 	loading: boolean;
-	error: ApiError | null;
-	data?: T;
-	skip: boolean;
 }
 
-export type ApiResult<TData> = [
-	boolean,
-	ApiError | null,
-	DeepNonUndefineable<TData>,
-	Mutate<TData>
-];
+export type ApiResult<TData> = {
+	error: ApiError | null; // error
+	data: DeepNonUndefineable<TData>; // response
+	loading: boolean;
+};
+
+export interface ApiParamOpts {
+	skip?: boolean;
+	callback?: () => void;
+	deps?: any[];
+}
 
 export default function useApi<TData>(
 	query: (api: HedwigApi) => Promise<TData>,
-	deps: DependencyList = [],
-	opts?: ApiParamOpts<TData>
-): ApiResult<TData> {
-	const { defaultValue, skip, callback } = {
-		defaultValue: undefined,
+	opts: ApiParamOpts = {
 		skip: false,
-		callback: undefined,
-		...opts,
-	};
-
-	// Get accessToken for authentication
-	const { accessToken, withFreshToken, loading: accessTokenLoading } = useContext(
-		AuthenticationContext
-	);
-
-	// Every render, check if token is expired and refetch as needed
+	}
+): ApiResult<TData> {
+	// Get accessToken for authenticated API calls
+	const { accessToken, withFreshToken } = useContext(AuthenticationContext);
+	// And refresh on every render
 	useEffect(() => {
 		withFreshToken();
 	});
 
-	// Set initial state
+	// Set initial api state
+	const { skip, callback, deps } = opts;
 	const [state, setState] = useState<ApiState<TData>>({
-		// If we are eagerly making a request (not skipping), begin by loading true
-		// If we are to skip to start, don't start loading
-		loading: !skip,
 		error: null,
-		skip,
-		data: defaultValue,
+		data: null,
+		loading: true,
 	});
-	const { loading, error, data } = state;
 
-	// Start/end loading whenever skip switches
+	// Run query
 	useEffect(() => {
-		setState(_state => ({ ..._state, loading: !skip }));
-	}, [skip]);
-
-	// Construct API with null default
-	const api = accessToken
-		? new HedwigApi(
-				new Configuration({
-					basePath: getCurrentHost(),
-					apiKey: `Bearer ${accessToken}`,
-				})
-		  )
-		: null;
-
-	// Create error handling functions
-	const handleError = async (_error: any) => {
-		const apiError = await parseError(_error);
-		setState(_state => {
-			return { ..._state, loading: false, error: apiError };
-		});
-	};
-
-	const parseError: (_error: any) => Promise<ApiError | null> = async (_error: any) => {
-		try {
-			const jsonResponse = await _error.json();
-
-			if (_error.status === 400) {
-				return ValidationProblemDetailsFromJSON(jsonResponse) || null;
-			} else {
-				return ProblemDetailsFromJSON(jsonResponse) || null;
-			}
-		} catch {
-			console.error('Error cannot be converted to JSON');
-			console.error(_error);
-			return {
-				detail: 'Please inspect console for error',
-				title: 'Unknown error',
-			};
-		}
-	};
-
-	// Create mutate function
-	const mutate = useCallback<Mutate<TData>>(
-		(_query, reducer = (_, result) => result) => {
-			// If there is no API, throw error
-			if (!api) {
-				return Promise.reject('No api!');
-			}
-
-			// Invoke the supplied API method and update state with reducer
-			return _query(api)
-				.then(result => {
-					setState(_state => {
-						return { ..._state, loading: false, error: null, data: reducer(data, result) };
-					});
-					return result;
-				})
-				.catch(async apiError => {
-					await handleError(apiError);
-					return null;
-					// If there was an error, return null
-				});
-		},
-		[api, data]
-	);
-
-	// Rerun query whenever deps or accessToken changes
-	useEffect(() => {
-		// Do not attempt to make a request if we are still
-		// waiting on the access token
-		if (accessTokenLoading) {
+		if (skip) {
+			setState({ ...state, loading: false });
 			return;
 		}
 
-		// If there is no access token and it is done loading,
-		// Then the user is not logged in so
-		// Set data to undefined, loading to false, and exit
-		if (!accessToken) {
-			setState({ ...state, loading: false, data: undefined });
+		setState({ data: null, error: null, loading: true });
+
+		const api = constructApi(accessToken);
+		if (!api) {
+			setState({ ...state, loading: false, error: { detail: 'API not found' } });
 			return;
 		}
 
-		// If the API doesn't exist or skip is true, exit
-		if (!api || skip) {
-			return;
-		}
-
-		// Invoke the supplied API method, and update state
+		// make API query
 		query(api)
-			.then(result => {
-				setState({ ...state, loading: false, error: null, data: result });
-				if (callback) {
-					callback(result);
-				}
+			.then(apiResult => {
+				setState({ error: null, data: apiResult, loading: false });
 			})
 			.catch(async apiError => {
-				await handleError(apiError);
+				const _error = await parseError(apiError);
+				setState({ data: null, error: _error, loading: false });
 			});
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [...deps, accessToken, accessTokenLoading]);
+	}, [accessToken, skip, ...(deps || [])]);
 
-	return [loading, error, data as DeepNonUndefineable<TData>, mutate];
+	useEffect(() => {
+		if (callback && !skip && (state.data || state.error)) callback();
+	}, [state, skip]);
+
+	return { ...state, data: state.data as DeepNonUndefineable<TData> };
 }
+
+const constructApi: (accessToken: string | null) => HedwigApi | null = (
+	accessToken: string | null
+) => {
+	if (!accessToken) return null;
+
+	return new HedwigApi(
+		new Configuration({
+			basePath: getCurrentHost(),
+			apiKey: `Bearer ${accessToken}`,
+		})
+	);
+};
+
+const parseError: (error: any) => Promise<ApiError | null> = async (error: any) => {
+	try {
+		const jsonResponse = await error.json();
+		if (error.status === 400) {
+			return ValidationProblemDetailsFromJSON(jsonResponse) || null;
+		} else {
+			return ProblemDetailsFromJSON(jsonResponse) || null;
+		}
+	} catch (e) {
+		console.error('Error cannot be converted to JSON');
+		console.error(e);
+		return ProblemDetailsFromJSON({
+			detail: 'Inspect console for error',
+			title: 'Unknown error',
+		});
+	}
+};

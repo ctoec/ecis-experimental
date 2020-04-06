@@ -37,7 +37,6 @@ describe('ReportSubmitForm', () => {
 			<TestProvider>
 				<ReportSubmitForm
 					report={mockDefaultReport as DeepNonUndefineable<CdcReport>}
-					mutate={() => Promise.resolve(null)}
 					canSubmit={true}
 					error={null}
 				/>
@@ -51,7 +50,6 @@ describe('ReportSubmitForm', () => {
 			<TestProvider>
 				<ReportSubmitForm
 					report={mockDefaultReport as DeepNonUndefineable<CdcReport>}
-					mutate={() => Promise.resolve(null)}
 					canSubmit={true}
 					error={null}
 				/>
@@ -70,7 +68,6 @@ describe('ReportSubmitForm', () => {
 			<TestProvider>
 				<ReportSubmitForm
 					report={mockDefaultReport as DeepNonUndefineable<CdcReport>}
-					mutate={() => Promise.resolve(null)}
 					canSubmit={true}
 					error={null}
 				/>
@@ -87,7 +84,6 @@ describe('ReportSubmitForm', () => {
 		<TestProvider>
 			<ReportSubmitForm
 				report={mockDefaultReport as DeepNonUndefineable<CdcReport>}
-				mutate={() => Promise.resolve(null)}
 				canSubmit={true}
 				error={null}
 			/>

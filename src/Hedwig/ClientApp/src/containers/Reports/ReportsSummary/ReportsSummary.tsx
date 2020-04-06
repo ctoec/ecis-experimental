@@ -18,15 +18,16 @@ export default function ReportsSummary() {
 	const orgParams: ApiOrganizationsIdGetRequest = {
 		id: getIdForUser(user, 'org'),
 	};
-	const [orgLoading, orgError, organization] = useApi(api => api.apiOrganizationsIdGet(orgParams), [
-		user,
-	]);
+	const { loading: orgLoading, error: orgError, data: organization } = useApi(
+		api => api.apiOrganizationsIdGet(orgParams),
+		{ skip: !user }
+	);
 	const reportParams: ApiOrganizationsOrgIdReportsGetRequest = {
 		orgId: getIdForUser(user, 'org'),
 	};
-	const [loading, error, reports] = useApi(
+	const { loading, error, data: reports } = useApi(
 		api => api.apiOrganizationsOrgIdReportsGet(reportParams),
-		[user]
+		{ skip: !user }
 	);
 
 	if (loading || error || !reports || orgLoading || orgError || !organization) {

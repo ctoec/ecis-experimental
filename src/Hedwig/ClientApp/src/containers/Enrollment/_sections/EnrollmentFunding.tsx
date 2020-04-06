@@ -59,7 +59,7 @@ import getFundingSpaceCapacity from '../../../utils/getFundingSpaceCapacity';
 import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import displayErrorOrWarning from '../../../utils/validations/displayErrorOrWarning';
-import useNewUseApi, { ApiError } from '../../../hooks/newUseApi';
+import useApi, { ApiError } from '../../../hooks/useApi';
 
 type UtilizationRate = {
 	capacity: number;
@@ -199,7 +199,7 @@ const EnrollmentFunding: Section = {
 			orgId: getIdForUser(user, 'org'),
 			include: ['organizations', 'enrollments', 'funding_spaces', 'fundings'],
 		};
-		const { data: site } = useNewUseApi(api => api.apiOrganizationsOrgIdSitesIdGet(siteParams), {
+		const { data: site } = useApi(api => api.apiOrganizationsOrgIdSitesIdGet(siteParams), {
 			skip: !user,
 		});
 
@@ -367,7 +367,10 @@ const EnrollmentFunding: Section = {
 					break;
 				case FundingType.CDC:
 					// Default to part time if none is selected
-					var fundingSpace = getFundingSpaceFor(fundingSpaces, { ageGroup: enrollment.ageGroup, time: fundingSelection.time });
+					var fundingSpace = getFundingSpaceFor(fundingSpaces, {
+						ageGroup: enrollment.ageGroup,
+						time: fundingSelection.time,
+					});
 					if (cdcFunding) {
 						updatedFundings.push(
 							updateFunding({
@@ -448,7 +451,7 @@ const EnrollmentFunding: Section = {
 				},
 			},
 		};
-		const { error: saveError, data: saveData } = useNewUseApi<Enrollment>(
+		const { error: saveError, data: saveData } = useApi<Enrollment>(
 			api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(defaultParams),
 			{ skip: !attemptingSave || !user, callback: () => setAttemptingSave(false) }
 		);

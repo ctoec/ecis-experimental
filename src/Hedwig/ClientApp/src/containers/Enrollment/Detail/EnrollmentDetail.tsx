@@ -10,7 +10,7 @@ import {
 	Enrollment,
 } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
-import newUseApi from '../../../hooks/newUseApi';
+import useApi from '../../../hooks/useApi';
 import {
 	validatePermissions,
 	getIdForUser,
@@ -52,7 +52,7 @@ export default function EnrollmentDetail({
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		include: ['child', 'family', 'determinations', 'fundings', 'sites', 'past_enrollments'],
 	};
-	const { loading, error, data: enrollment } = newUseApi<Enrollment>(
+	const { loading, error, data: enrollment } = useApi<Enrollment>(
 		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
 		{
 			skip: !enrollmentId || !user,

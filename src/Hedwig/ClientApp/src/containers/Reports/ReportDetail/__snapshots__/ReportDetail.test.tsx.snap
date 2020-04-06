@@ -441,12 +441,13 @@ exports[`ReportDetail matches snapshot 1`] = `
           </div>
         </div>
       </fieldset>
-      <input
+      <button
         class="usa-button"
         disabled=""
-        type="submit"
-        value="Submit"
-      />
+        type="button"
+      >
+        Submit
+      </button>
     </form>
   </div>
 </DocumentFragment>

@@ -7,7 +7,7 @@ import FamilyInfo from '../_sections/FamilyInfo';
 import FamilyIncome from '../_sections/FamilyIncome';
 import EnrollmentFunding from '../_sections/EnrollmentFunding';
 import { Button, ErrorBoundary } from '../../../components';
-import useNewUseApi from '../../../hooks/newUseApi';
+import useApi from '../../../hooks/useApi';
 import UserContext from '../../../contexts/User/UserContext';
 import {
 	Enrollment,
@@ -95,7 +95,7 @@ export default function EnrollmentNew({
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		include: ['child', 'family', 'determinations', 'fundings', 'sites'],
 	};
-	const { error, data: enrollment, loading } = useNewUseApi<Enrollment>(
+	const { error, data: enrollment, loading } = useApi<Enrollment>(
 		api =>
 			api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet({
 				...params,
@@ -114,7 +114,7 @@ export default function EnrollmentNew({
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		enrollment: enrollment,
 	};
-	const { error: cancelError } = useNewUseApi(
+	const { error: cancelError } = useApi(
 		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDelete(cancelParams),
 		{
 			skip: !cancel,

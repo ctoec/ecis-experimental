@@ -4,7 +4,7 @@ import {
 	ApiOrganizationsOrgIdReportsIdPutRequest,
 	ApiOrganizationsOrgIdEnrollmentsGetRequest,
 } from '../../../generated';
-import useApi, { Mutate, ApiError } from '../../../hooks/useApi';
+import useApi, { ApiError } from '../../../hooks/useApi';
 import UserContext from '../../../contexts/User/UserContext';
 import { Button, TextInput, ChoiceList, FieldSet, ErrorBoundary } from '../../../components';
 import AppContext from '../../../contexts/App/AppContext';
@@ -20,7 +20,6 @@ import {
 	serverErrorForField,
 	isBlockingValidationError,
 } from '../../../utils/validations';
-import usePromiseExecution from '../../../hooks/usePromiseExecution';
 import { reportSubmittedAlert, reportSubmitFailAlert } from '../../../utils/stringFormatters';
 import pluralize from 'pluralize';
 import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
@@ -28,15 +27,13 @@ import { FormReducer, formReducer, updateData } from '../../../utils/forms/form'
 
 export type ReportSubmitFormProps = {
 	report: DeepNonUndefineable<CdcReport>;
-	mutate: Mutate<CdcReport>;
 	error: ApiError | null;
 	canSubmit: boolean;
 };
 
 export default function ReportSubmitForm({
 	report,
-	mutate,
-	error,
+	error: inputError,
 	canSubmit,
 }: ReportSubmitFormProps) {
 	const history = useHistory();
@@ -74,9 +71,9 @@ export default function ReportSubmitForm({
 		asOf: submittedAt || undefined,
 	};
 
-	const [, , allEnrollments] = useApi(
+	const { data: allEnrollments } = useApi(
 		api => api.apiOrganizationsOrgIdEnrollmentsGet(enrollmentParams),
-		[user, report]
+		{ skip: !user || !report }
 	);
 
 	const [care4KidsCount, setCare4KidsCount] = useState(0);
@@ -97,6 +94,8 @@ export default function ReportSubmitForm({
 		}
 	}, [allEnrollments]);
 
+	const [error, setError] = useState(inputError);
+
 	// set up form state
 	useFocusFirstError([error]);
 	const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
@@ -109,23 +108,31 @@ export default function ReportSubmitForm({
 		}
 	}, [error, hasAlertedOnError]);
 
-	function _onSubmit() {
-		return mutate(api =>
+	const [attemptingSave, setAttemptingSave] = useState(false);
+	const { loading, error: saveError, data: saveData } = useApi<CdcReport>(
+		api =>
 			api.apiOrganizationsOrgIdReportsIdPut({
 				...params,
 				cdcReport: { ..._report },
-			})
-		).then(res => {
-			if (res) {
-				const newAlert = reportSubmittedAlert(report.reportingPeriod);
-				const newAlerts = [...alerts, newAlert];
-				setAlerts(newAlerts);
-				invalidateAppCache(); // Updates the count of unsubmitted reports in the nav bar
-				history.push('/reports', newAlerts);
-			}
-		});
-	}
-	const { isExecuting: isMutating, setExecuting: onSubmit } = usePromiseExecution(_onSubmit);
+			}),
+		{ skip: !user || !attemptingSave, callback: () => setAttemptingSave(false) }
+	);
+
+	useEffect(() => {
+		if (!saveData && !saveError) {
+			// If the request did not go through, exit
+			return;
+		}
+		// Set the new error whether it's undefined or an error
+		setError(saveError);
+		if (saveData && !saveError) {
+			const newAlert = reportSubmittedAlert(report.reportingPeriod);
+			const newAlerts = [...alerts, newAlert];
+			setAlerts(newAlerts);
+			invalidateAppCache(); // Updates the count of unsubmitted reports in the nav bar
+			history.push('/reports', newAlerts);
+		}
+	}, [saveData, saveError]);
 
 	return (
 		<ErrorBoundary alertProps={reportSubmitFailAlert}>
@@ -151,7 +158,7 @@ export default function ReportSubmitForm({
 				className="margin-bottom-5"
 			/>
 			<UtilizationTable {...{ ..._report, accredited }} />
-			<form className="usa-form" onSubmit={onSubmit} noValidate autoComplete="off">
+			<form className="usa-form" noValidate autoComplete="off">
 				<h2>Other Revenue</h2>
 				<FieldSet id="other-revenue" legend="Other Revenue">
 					<TextInput
@@ -233,9 +240,9 @@ export default function ReportSubmitForm({
 				</FieldSet>
 				{!report.submittedAt && (
 					<Button
-						onClick="submit"
-						text={isMutating ? 'Submitting...' : 'Submit'}
-						disabled={!canSubmit || isMutating}
+						onClick={() => setAttemptingSave(true)}
+						text={attemptingSave ? 'Submitting...' : 'Submit'}
+						disabled={!canSubmit || attemptingSave || loading}
 					/>
 				)}
 			</form>

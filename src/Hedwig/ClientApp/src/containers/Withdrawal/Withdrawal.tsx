@@ -21,7 +21,7 @@ import {
 	getIdForUser,
 	getFundingTime,
 } from '../../utils/models';
-import useNewUseApi, { ApiError } from '../../hooks/newUseApi';
+import useApi, { ApiError } from '../../hooks/useApi';
 import { FormReducer, formReducer, updateData } from '../../utils/forms/form';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../utils/types';
 import ReportingPeriodContext from '../../contexts/ReportingPeriod/ReportingPeriodContext';
@@ -83,7 +83,7 @@ export default function Withdrawal({
 		});
 	}, [enrollmentId, user, siteId]);
 
-	const { error: getRequestError, data: getRequestData } = useNewUseApi<Enrollment>(
+	const { error: getRequestError, data: getRequestData } = useApi<Enrollment>(
 		api =>
 			api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet({
 				...requestParams,
@@ -178,7 +178,7 @@ export default function Withdrawal({
 	};
 
 	// set up PUT request to be triggered on save attempt
-	const { error: putRequestError, data: putRequestData } = useNewUseApi<Enrollment>(
+	const { error: putRequestError, data: putRequestData } = useApi<Enrollment>(
 		api =>
 			api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut({
 				...requestParams,

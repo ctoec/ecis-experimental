@@ -22,7 +22,7 @@ import {
 	editSaveFailAlert,
 } from '../../../utils/stringFormatters';
 import { ErrorBoundary } from '../../../components';
-import useNewUseApi from '../../../hooks/newUseApi';
+import useApi from '../../../hooks/useApi';
 
 type EnrollmentEditParams = {
 	history: History;
@@ -65,7 +65,7 @@ export default function EnrollmentEdit({
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		include: ['child', 'family', 'determinations', 'fundings'],
 	};
-	const { loading, error, data: enrollment } = useNewUseApi(
+	const { loading, error, data: enrollment } = useApi(
 		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
 		{ skip: !user }
 	);

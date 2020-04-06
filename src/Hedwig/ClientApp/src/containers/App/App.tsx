@@ -27,20 +27,18 @@ const App: React.FC = () => {
 		orgId: getIdForUser(user, 'org'),
 	};
 
-	const [loading, error, reports] = useApi(
+	const { loading, error, data: reports } = useApi(
 		api => api.apiOrganizationsOrgIdReportsGet(params),
-		[user, cacheInvalidator],
 		{
 			skip: !user,
 		}
 	);
 
-	const [, , organization] = useApi(
+	const { data: organization } = useApi(
 		api =>
 			api.apiOrganizationsIdGet({
 				id: getIdForUser(user, 'org'),
 			}),
-		[user],
 		{ skip: !user }
 	);
 
