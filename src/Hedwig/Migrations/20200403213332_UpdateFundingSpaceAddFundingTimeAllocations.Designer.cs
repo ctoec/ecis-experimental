@@ -5,14 +5,16 @@ using Hedwig.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Hedwig.Migrations
 {
     [DbContext(typeof(HedwigContext))]
-    partial class HedwigContextModelSnapshot : ModelSnapshot
+    [Migration("20200403213332_UpdateFundingSpaceAddFundingTimeAllocations")]
+    partial class UpdateFundingSpaceAddFundingTimeAllocations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -317,6 +319,9 @@ namespace Hedwig.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("Source")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Time")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

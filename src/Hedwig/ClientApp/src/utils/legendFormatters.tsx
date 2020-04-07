@@ -1,8 +1,7 @@
 import React from 'react';
 import { Organization, Enrollment, FundingSource } from '../generated';
 import { DeepNonUndefineable } from './types';
-import { isFunded, currentC4kCertificate } from './models';
-import getFundingSpaceCapacity from './getFundingSpaceCapacity';
+import { isFunded, currentC4kCertificate, getFundingSpaceCapacity } from './models';
 import { getDisplayColorForFundingType, FundingTypes } from './fundingType';
 
 export type LegendTextFormatter = (

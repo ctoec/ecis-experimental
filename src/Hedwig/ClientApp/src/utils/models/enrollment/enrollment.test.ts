@@ -58,7 +58,7 @@ describe('enrollment utils', () => {
 				fundingSpace: {
 					capacity: 1,
 					organizationId: 1,
-					time: fundingTime as FundingTime,
+					fundingTimeAllocations: [{ time: fundingTime, weeks: 52 }],
 				},
 			};
 

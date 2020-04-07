@@ -1,4 +1,4 @@
-import { FundingSource, Age, FundingTime, Region } from '../../generated';
+import { FundingSource, Age, FundingTime, Region, Organization } from '../../generated';
 import { swapFields } from '../helpers';
 import { mockSite, mockAnotherSite } from './site';
 
@@ -9,7 +9,7 @@ export const mockSingleSiteOrganization = {
 		{
 			source: FundingSource.CDC,
 			ageGroup: Age.Preschool,
-			time: FundingTime.Full,
+			fundingTimeAllocations: [{ time: FundingTime.Full, weeks: 52 }],
 			capacity: 2,
 			organizationId: 1,
 		},
@@ -23,7 +23,7 @@ export const mockSingleSiteOrganization = {
 			organizationId: 1,
 		},
 	],
-};
+} as Organization;
 
 export const mockMultiSiteOrganization = swapFields(mockSingleSiteOrganization, [
 	{

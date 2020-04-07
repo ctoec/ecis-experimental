@@ -11,14 +11,14 @@ describe('funding utils', () => {
 				...baseFunding,
 				source: FundingSource.CDC,
 				fundingSpace: {
-					time: FundingTime.Full,
+					fundingTimeAllocations: [{ time: FundingTime.Full, weeks: 52 }],
 				},
 			} as FundingType,
 			{
 				...baseFunding,
 				source: FundingSource.CDC,
 				fundingSpace: {
-					time: FundingTime.Part,
+					fundingTimeAllocations: [{ time: FundingTime.Part, weeks: 52 }],
 				},
 			} as FundingType,
 		];

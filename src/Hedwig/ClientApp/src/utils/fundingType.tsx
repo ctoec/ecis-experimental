@@ -5,6 +5,7 @@ import {
 	dedupeFundings,
 	isCurrentToRangeC4K,
 	getFundingTime,
+	getFundingSpaceTime,
 } from './models';
 import { DeepNonUndefineable } from './types';
 
@@ -22,10 +23,10 @@ export type FundingType = (InternalFunding | InternalC4KCertificate) & FundingTy
 function ptOrFT(fundingSpace?: FundingSpace) {
 	if (!fundingSpace) return '';
 
-	if (fundingSpace.time === 'Full') {
+	if (getFundingSpaceTime(fundingSpace) === 'Full') {
 		return '–FT';
 	}
-	if (fundingSpace.time === 'Part') {
+	if (getFundingSpaceTime(fundingSpace) === 'Part') {
 		return '–PT';
 	}
 	return '';

@@ -26,10 +26,10 @@ import {
 	FundingSourceFromJSON,
 	FundingSourceFromJSONTyped,
 	FundingSourceToJSON,
-	FundingTime,
-	FundingTimeFromJSON,
-	FundingTimeFromJSONTyped,
-	FundingTimeToJSON,
+	FundingTimeAllocation,
+	FundingTimeAllocationFromJSON,
+	FundingTimeAllocationFromJSONTyped,
+	FundingTimeAllocationToJSON,
 	Organization,
 	OrganizationFromJSON,
 	OrganizationFromJSONTyped,
@@ -74,12 +74,6 @@ export interface FundingSpace {
 	source?: FundingSource;
 	/**
 	 *
-	 * @type {FundingTime}
-	 * @memberof FundingSpace
-	 */
-	time?: FundingTime;
-	/**
-	 *
 	 * @type {Age}
 	 * @memberof FundingSpace
 	 */
@@ -90,6 +84,12 @@ export interface FundingSpace {
 	 * @memberof FundingSpace
 	 */
 	fundings?: Array<Funding> | null;
+	/**
+	 *
+	 * @type {Array<FundingTimeAllocation>}
+	 * @memberof FundingSpace
+	 */
+	fundingTimeAllocations?: Array<FundingTimeAllocation> | null;
 }
 
 export function FundingSpaceFromJSON(json: any): FundingSpace {
@@ -108,13 +108,17 @@ export function FundingSpaceFromJSONTyped(json: any, ignoreDiscriminator: boolea
 			? undefined
 			: OrganizationFromJSON(json['organization']),
 		source: !exists(json, 'source') ? undefined : FundingSourceFromJSON(json['source']),
-		time: !exists(json, 'time') ? undefined : FundingTimeFromJSON(json['time']),
 		ageGroup: !exists(json, 'ageGroup') ? undefined : AgeFromJSON(json['ageGroup']),
 		fundings: !exists(json, 'fundings')
 			? undefined
 			: json['fundings'] === null
 			? null
 			: (json['fundings'] as Array<any>).map(FundingFromJSON),
+		fundingTimeAllocations: !exists(json, 'fundingTimeAllocations')
+			? undefined
+			: json['fundingTimeAllocations'] === null
+			? null
+			: (json['fundingTimeAllocations'] as Array<any>).map(FundingTimeAllocationFromJSON),
 	};
 }
 
@@ -131,7 +135,6 @@ export function FundingSpaceToJSON(value?: FundingSpace | null): any {
 		organizationId: value.organizationId,
 		organization: OrganizationToJSON(value.organization),
 		source: FundingSourceToJSON(value.source),
-		time: FundingTimeToJSON(value.time),
 		ageGroup: AgeToJSON(value.ageGroup),
 		fundings:
 			value.fundings === undefined
@@ -139,5 +142,11 @@ export function FundingSpaceToJSON(value?: FundingSpace | null): any {
 				: value.fundings === null
 				? null
 				: (value.fundings as Array<any>).map(FundingToJSON),
+		fundingTimeAllocations:
+			value.fundingTimeAllocations === undefined
+				? undefined
+				: value.fundingTimeAllocations === null
+				? null
+				: (value.fundingTimeAllocations as Array<any>).map(FundingTimeAllocationToJSON),
 	};
 }

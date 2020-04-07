@@ -38,7 +38,13 @@ namespace Hedwig.Data
 			modelBuilder.Entity<Family>().ToTable("Family");
 			modelBuilder.Entity<FamilyDetermination>().ToTable("FamilyDetermination");
 			modelBuilder.Entity<Funding>().ToTable("Funding");
-			modelBuilder.Entity<FundingSpace>().ToTable("FundingSpace");
+			modelBuilder.Entity<FundingSpace>()
+				.ToTable("FundingSpace")
+				.Property(fs => fs.FundingTimeAllocations)
+				.HasConversion(
+					appModelValue => appModelValue.SerializeFundingTimeAllocations(),
+					dbValue => dbValue.DeserializeFundingTimeAllocations()
+				);
 			modelBuilder.Entity<Organization>().ToTable("Organization");
 			modelBuilder.Entity<Permission>().ToTable("Permission")
 			.HasDiscriminator<string>("Type")
