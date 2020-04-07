@@ -79,7 +79,7 @@ export default function useApi<TData>(
 	}, [accessToken, skip, ...(deps || [])]);
 
 	useEffect(() => {
-		if (callback && !skip && (state.data || state.error)) callback();
+		if (callback && !skip && !state.loading) callback();
 	}, [state, skip]);
 
 	return { ...state, data: state.data as DeepNonUndefineable<TData> };
