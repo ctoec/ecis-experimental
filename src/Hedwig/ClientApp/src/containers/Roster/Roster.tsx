@@ -43,14 +43,13 @@ export default function Roster() {
 		include: ['sites', 'funding_spaces'],
 	};
 
-	const {
-		loading: organizationLoading,
-		error: organizationError,
-		data: organization,
-	} = useApi(api => api.apiOrganizationsIdGet(orgParams), {
-		skip: !user,
-		defaultValue: {} as Organization,
-	});
+	const { loading: organizationLoading, error: organizationError, data: organization } = useApi(
+		api => api.apiOrganizationsIdGet(orgParams),
+		{
+			skip: !user,
+			defaultValue: {} as Organization,
+		}
+	);
 
 	const sites = organization && organization.sites;
 	const siteIds = (sites || []).map(s => s.id);
