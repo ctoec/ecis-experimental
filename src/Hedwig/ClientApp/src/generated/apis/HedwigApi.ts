@@ -55,6 +55,8 @@ export interface ApiOrganizationsOrgIdEnrollmentsGetRequest {
 	startDate?: Date;
 	endDate?: Date;
 	asOf?: Date;
+	skip?: number;
+	take?: number;
 }
 
 export interface ApiOrganizationsOrgIdReportsGetRequest {
@@ -89,6 +91,8 @@ export interface ApiOrganizationsOrgIdSitesSiteIdEnrollmentsGetRequest {
 	include?: Array<string>;
 	startDate?: Date;
 	endDate?: Date;
+	skip?: number;
+	take?: number;
 }
 
 export interface ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDeleteRequest {
@@ -204,6 +208,14 @@ export class HedwigApi extends runtime.BaseAPI {
 
 		if (requestParameters.asOf !== undefined) {
 			queryParameters['asOf'] = (requestParameters.asOf as any).toISOString();
+		}
+
+		if (requestParameters.skip !== undefined) {
+			queryParameters['skip'] = requestParameters.skip;
+		}
+
+		if (requestParameters.take !== undefined) {
+			queryParameters['take'] = requestParameters.take;
 		}
 
 		const headerParameters: runtime.HTTPHeaders = {};
@@ -504,6 +516,14 @@ export class HedwigApi extends runtime.BaseAPI {
 
 		if (requestParameters.endDate !== undefined) {
 			queryParameters['endDate'] = (requestParameters.endDate as any).toISOString();
+		}
+
+		if (requestParameters.skip !== undefined) {
+			queryParameters['skip'] = requestParameters.skip;
+		}
+
+		if (requestParameters.take !== undefined) {
+			queryParameters['take'] = requestParameters.take;
 		}
 
 		const headerParameters: runtime.HTTPHeaders = {};

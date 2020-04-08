@@ -39,10 +39,12 @@ namespace Hedwig.Controllers
 			int siteId,
 			[FromQuery(Name = "include[]")] string[] include,
 			[FromQuery(Name = "startDate")] DateTime? from = null,
-			[FromQuery(Name = "endDate")] DateTime? to = null
+			[FromQuery(Name = "endDate")] DateTime? to = null,
+			[FromQuery(Name = "skip")] int skip = 0,
+			[FromQuery(Name = "take")] int? take = null
 		)
 		{
-			var enrollments = await _enrollments.GetEnrollmentsForSiteAsync(siteId, from, to, include);
+			var enrollments = await _enrollments.GetEnrollmentsForSiteAsync(siteId, from, to, include, skip, take);
 			return enrollments;
 		}
 
@@ -78,7 +80,9 @@ namespace Hedwig.Controllers
 			[FromQuery(Name = "include[]")] string[] include,
 			[FromQuery(Name = "startDate")] DateTime? from = null,
 			[FromQuery(Name = "endDate")] DateTime? to = null,
-			[FromQuery(Name = "asOf")] DateTime? asOf = null
+			[FromQuery(Name = "asOf")] DateTime? asOf = null,
+			[FromQuery(Name = "skip")] int skip = 0,
+			[FromQuery(Name = "take")] int? take = null
 		)
 		{
 			var enrollments = new List<Enrollment>();
@@ -94,14 +98,14 @@ namespace Hedwig.Controllers
 
 				foreach (var siteId in siteIds)
 				{
-					var siteEnrollments = await _enrollments.GetEnrollmentsForSiteAsync(siteId, from, to, include);
+					var siteEnrollments = await _enrollments.GetEnrollmentsForSiteAsync(siteId, from, to, include, skip, take);
 					enrollments.AddRange(siteEnrollments);
 				}
 			}
 			else
 			// If no sites are specified, get all enrollments for the organization
 			{
-				enrollments = await _enrollments.GetEnrollmentsForOrganizationAsync(orgId, from, to, include, asOf);
+				enrollments = await _enrollments.GetEnrollmentsForOrganizationAsync(orgId, from, to, include, asOf, skip, take);
 			}
 
 			return enrollments;

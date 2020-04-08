@@ -92,8 +92,8 @@ export const mockApiOrganizationsOrgIdReportsIdGet = (report: CdcReport) => (par
 });
 
 export default (mockApi: any) => (
-	query: (api: any) => any,
-	opts: ApiParamOpts = { skip: false }
+	query: (api: any, opt?: any) => any,
+	opts: ApiParamOpts<any> = { skip: false }
 ) => {
 	const { skip, callback, deps } = opts || {};
 
