@@ -189,7 +189,7 @@ describe('Roster', () => {
 				throw new Error('Typescript guarding');
 			}
 
-			expect(dropdown.childElementCount).toBe(mockMultiSiteOrganization.sites.length);
+			expect(dropdown.childElementCount).toBe((mockMultiSiteOrganization.sites || []).length);
 		});
 	});
 
