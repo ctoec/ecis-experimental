@@ -48,7 +48,10 @@ namespace Hedwig.Repositories
 			int siteId,
 			DateTime? from = null,
 			DateTime? to = null,
-			string[] include = null)
+			string[] include = null,
+			int skip = 0,
+			int? take = null
+		)
 		{
 			var enrollments = _context.Enrollments
 				.FilterByDates(from, to)
@@ -56,7 +59,12 @@ namespace Hedwig.Repositories
 
 			enrollments = enrollments.ProcessInclude(include);
 
-			return enrollments.ToListAsync();
+			enrollments = enrollments.Skip(skip);
+			if (take.HasValue)
+			{
+				enrollments = enrollments.Take(take.Value);
+			}
+			return enrollments.OrderBy(e => e.Id).ToListAsync();
 		}
 
 		public Task<Enrollment> GetEnrollmentForSiteAsync(int id, int siteId, string[] include)
@@ -98,15 +106,24 @@ namespace Hedwig.Repositories
 			DateTime? from = null,
 			DateTime? to = null,
 			string[] include = null,
-			DateTime? asOf = null
+			DateTime? asOf = null,
+			int skip = 0,
+			int? take = null
 		)
 		{
 			var enrollments =
 				(asOf != null ? _context.Enrollments.AsOf((DateTime)asOf) : _context.Enrollments)
 				.FilterByDates(from, to)
 				.Where(e => e.Site.OrganizationId == orgId);
+
 			enrollments = enrollments.ProcessInclude(include);
-			return await enrollments.ToListAsync();
+
+			enrollments = enrollments.Skip(skip);
+			if (take.HasValue)
+			{
+				enrollments = enrollments.Take(take.Value);
+			}
+			return await enrollments.OrderBy(e => e.Id).ToListAsync();
 		}
 
 		public void DeleteEnrollment(Enrollment enrollment)
@@ -119,9 +136,9 @@ namespace Hedwig.Repositories
 	{
 		void UpdateEnrollment(Enrollment enrollment);
 		void AddEnrollment(Enrollment enrollment);
-		Task<List<Enrollment>> GetEnrollmentsForSiteAsync(int siteId, DateTime? from = null, DateTime? to = null, string[] include = null);
+		Task<List<Enrollment>> GetEnrollmentsForSiteAsync(int siteId, DateTime? from = null, DateTime? to = null, string[] include = null, int skip = 0, int? take = null);
 		Task<Enrollment> GetEnrollmentForSiteAsync(int id, int siteId, string[] include = null);
-		Task<List<Enrollment>> GetEnrollmentsForOrganizationAsync(int orgId, DateTime? from = null, DateTime? to = null, string[] include = null, DateTime? asOf = null);
+		Task<List<Enrollment>> GetEnrollmentsForOrganizationAsync(int orgId, DateTime? from = null, DateTime? to = null, string[] include = null, DateTime? asOf = null, int skip = 0, int? take = null);
 		Enrollment GetEnrollmentById(int id);
 		Enrollment GetEnrollmentByIdAsNoTracking(int id);
 

@@ -17,6 +17,8 @@ interface ApiState<TData> {
 	error: ApiError | null; // error
 	data: TData | null; // response
 	loading: boolean;
+	start: number;
+	count: number;
 }
 
 export type ApiResult<TData> = {
@@ -25,15 +27,17 @@ export type ApiResult<TData> = {
 	loading: boolean;
 };
 
-export interface ApiParamOpts {
+export interface ApiParamOpts<TData> {
 	skip?: boolean;
 	callback?: () => void;
 	deps?: any[];
+	defaultValue?: TData;
+	paginate?: boolean;
 }
 
 export default function useApi<TData>(
-	query: (api: HedwigApi) => Promise<TData>,
-	opts: ApiParamOpts = {
+	query: (api: HedwigApi, opt?: ApiExtraParamOpts) => Promise<TData>,
+	opts: ApiParamOpts<TData> = {
 		skip: false,
 	}
 ): ApiResult<TData> {
@@ -45,11 +49,13 @@ export default function useApi<TData>(
 	});
 
 	// Set initial api state
-	const { skip, callback, deps } = opts;
+	const { skip, callback, deps, defaultValue, paginate } = opts;
 	const [state, setState] = useState<ApiState<TData>>({
 		error: null,
-		data: null,
+		data: defaultValue || null,
 		loading: true,
+		start: 0,
+		count: 50,
 	});
 
 	// Run query
@@ -59,7 +65,7 @@ export default function useApi<TData>(
 			return;
 		}
 
-		setState({ data: null, error: null, loading: true });
+		setState({ ...state, error: null, loading: true });
 
 		const api = constructApi(accessToken);
 		if (!api) {
@@ -67,15 +73,51 @@ export default function useApi<TData>(
 			return;
 		}
 
-		// make API query
-		query(api)
-			.then(apiResult => {
-				setState({ error: null, data: apiResult, loading: false });
-			})
-			.catch(async apiError => {
-				const _error = await parseError(apiError);
-				setState({ data: null, error: _error, loading: false });
-			});
+		//
+		if (paginate) {
+			const paginatedQuery = (start: number, count: number) =>
+				query(api, {
+					start: start,
+					count: count,
+				})
+					.then(apiResult => {
+						// Need to use function syntax for state updates so pending updates aren't overwritten
+
+						// Stop once we have retrieved all the data
+						if (((apiResult as unknown) as any[]).length === 0) {
+							setState(s => ({ ...s, loading: false }));
+							return;
+						}
+
+						setState(s => ({
+							...s,
+							error: null,
+							data: ([
+								...(((s.data || []) as unknown) as any[]),
+								...((apiResult as unknown) as any[]),
+							] as unknown) as TData,
+							loading: true,
+						}));
+						// Continue requesting data
+						paginatedQuery(start + state.count, state.count);
+					})
+					.catch(async apiError => {
+						const _error = await parseError(apiError);
+						setState({ ...state, data: null, error: _error, loading: false });
+					});
+			// Kick off the first request
+			paginatedQuery(state.start, state.count);
+		} else {
+			// make API query
+			query(api)
+				.then(apiResult => {
+					setState({ ...state, error: null, data: apiResult, loading: false });
+				})
+				.catch(async apiError => {
+					const _error = await parseError(apiError);
+					setState({ ...state, data: null, error: _error, loading: false });
+				});
+		}
 	}, [accessToken, skip, ...(deps || [])]);
 
 	useEffect(() => {
@@ -113,5 +155,22 @@ const parseError: (error: any) => Promise<ApiError | null> = async (error: any) 
 			detail: 'Inspect console for error',
 			title: 'Unknown error',
 		});
+	}
+};
+
+export type ApiExtraParamOpts = {
+	start: number;
+	count: number;
+};
+
+export const paginate = <T>(requestParams: T, opts?: ApiExtraParamOpts) => {
+	if (!opts) {
+		return requestParams;
+	} else {
+		const processedOpts = {
+			skip: opts.start,
+			take: opts.count,
+		};
+		return { ...requestParams, ...processedOpts };
 	}
 };

@@ -28,6 +28,7 @@ namespace Hedwig.Repositories
 				.Include(f => f.LastReportingPeriod)
 				.Include(f => f.Enrollment)
 				.Where(f => f.Enrollment.ChildId == childId)
+				.AsNoTracking()
 				.ToList();
 		}
 	}

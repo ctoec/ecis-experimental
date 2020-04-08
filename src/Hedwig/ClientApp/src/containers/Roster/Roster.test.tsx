@@ -14,11 +14,15 @@ let mockOrganization = mockSingleSiteOrganization;
 let mockEnrollments = mockAllFakeEnrollments;
 // Jest mocks must occur before later imports
 jest.mock('../../hooks/useApi', () => {
-	return mockUseApi({
-		apiOrganizationsIdGet: (_: any) => mockApiOrganizationsIdGet(mockOrganization)(_),
-		apiOrganizationsOrgIdEnrollmentsGet: (_: any) =>
-			mockApiOrganizationsOrgIdEnrollmentsGet(mockEnrollments)(_),
-	});
+	return {
+		default: () =>
+			mockUseApi({
+				apiOrganizationsIdGet: (_: any) => mockApiOrganizationsIdGet(mockOrganization)(_),
+				apiOrganizationsOrgIdEnrollmentsGet: (_: any) =>
+					mockApiOrganizationsOrgIdEnrollmentsGet(mockEnrollments)(_),
+			}),
+		paginate: (_: any, __: any) => _,
+	};
 });
 
 let mockSiteId: number | undefined = 1;

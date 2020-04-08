@@ -132,13 +132,16 @@ namespace Hedwig.Filters
 		/// </summary>
 		/// <param name="entity"></param>
 		/// <param name="entityType"></param>
-		private void UnsetTypeSubEntities(object entity, IEnumerable<Type> entityTypes)
+		private void UnsetTypeSubEntities(object entity, IEnumerable<Type> typesToRemove)
 		{
-			if (entity is ICollection collection)
+			// IEnumerable is the most-broadly typed array-like type
+			// If there is an issue with array-like types not being filtered out
+			// Check that the model type implements IEnumerable
+			if (entity is IEnumerable enumerable)
 			{
-				foreach (var item in collection)
+				foreach (var item in enumerable)
 				{
-					UnsetTypeSubEntities(item, entityTypes);
+					UnsetTypeSubEntities(item, typesToRemove);
 				}
 				return;
 			}
@@ -152,22 +155,33 @@ namespace Hedwig.Filters
 			foreach (var prop in properties)
 			{
 				var type = prop.PropertyType.GetEntityType();
-				if (entityTypes.Any(entityType => entityType == type)
-				// Do not unset read-only properties or not mapped properties
-				&& !prop.IsReadOnly() && !prop.IsNotMapped())
+				// If the type has already been seen (in typeToRemove)
+				// And it is a persisted data value
+				// Set the response value to null
+				// And continue to the next prop
+				if (
+					typesToRemove.Any(typeToRemove => typeToRemove == type)
+					&& !prop.IsNotMapped()
+				)
 				{
 					prop.SetValue(entity, null);
 					continue;
 				}
 
+				// Get the value of the prop to recurse on
 				var propValue = prop.GetValue(entity);
 
-				// Recursively remove entities of same type as prop if prop is application model type
-				if (type.IsApplicationModel())
+				var newList = new List<Type>(typesToRemove);
+				// Add prop type to typesToremove if prop is application model type
+				// And not a read-only property
+				// Read only properties should be included no matter what
+				// e.g. reporting periods or users
+				if (type.IsApplicationModel() && !prop.IsReadOnly())
 				{
-					entityTypes = entityTypes.Append(type);
+					newList = newList.Append(type).ToList();
 				}
-				UnsetTypeSubEntities(propValue, entityTypes);
+				// Recurse down
+				UnsetTypeSubEntities(propValue, newList);
 			}
 		}
 

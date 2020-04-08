@@ -10,7 +10,7 @@ import {
 	DirectionalLinkProps,
 	DateRange,
 } from '../../components';
-import useApi from '../../hooks/useApi';
+import useApi, { paginate } from '../../hooks/useApi';
 import {
 	Age,
 	Enrollment,
@@ -18,6 +18,7 @@ import {
 	FundingSource,
 	ApiOrganizationsOrgIdEnrollmentsGetRequest,
 	ApiOrganizationsIdGetRequest,
+	Organization,
 } from '../../generated';
 import UserContext from '../../contexts/User/UserContext';
 import AgeGroupSection from './AgeGroupSection';
@@ -27,6 +28,7 @@ import CommonContainer from '../CommonContainer';
 import RosterHeader from './RosterHeader';
 
 import getDefaultDateRange from '../../utils/getDefaultDateRange';
+import { Suspend } from '../../components/Suspend/Suspend';
 
 export default function Roster() {
 	const { id: urlSiteId } = useParams();
@@ -45,7 +47,10 @@ export default function Roster() {
 		loading: organizationLoading,
 		error: organizationError,
 		data: organization,
-	} = useApi(api => api.apiOrganizationsIdGet(orgParams), { skip: !user });
+	} = useApi(api => api.apiOrganizationsIdGet(orgParams), {
+		skip: !user,
+		defaultValue: {} as Organization,
+	});
 
 	const sites = organization && organization.sites;
 	const siteIds = (sites || []).map(s => s.id);
@@ -61,23 +66,14 @@ export default function Roster() {
 	};
 
 	const { loading: enrollmentLoading, error: enrollmentError, data: _enrollments } = useApi(
-		api => api.apiOrganizationsOrgIdEnrollmentsGet(enrollmentParams),
+		(api, opt) => api.apiOrganizationsOrgIdEnrollmentsGet(paginate(enrollmentParams, opt)),
 		{
 			skip: !user || !siteIds.length,
 			deps: [user, dateRange, organization],
+			defaultValue: [],
+			paginate: true,
 		}
 	);
-
-	if (
-		organizationLoading ||
-		organizationError ||
-		!organization ||
-		enrollmentLoading ||
-		enrollmentError ||
-		!_enrollments
-	) {
-		return <div className="Roster"></div>;
-	}
 
 	let enrollments: DeepNonUndefineableArray<Enrollment> = [];
 	let siteRosterDirectionalLinkProps: DirectionalLinkProps | undefined = undefined;
@@ -136,53 +132,57 @@ export default function Roster() {
 	return (
 		<CommonContainer directionalLinkProps={siteRosterDirectionalLinkProps}>
 			<div className="grid-container">
-				<RosterHeader
-					organization={organization}
-					site={site}
-					numberOfEnrollments={enrollments.length}
-					showPastEnrollments={showPastEnrollments}
-					toggleShowPastEnrollments={() => toggleShowPastEnrollments(!showPastEnrollments)}
-					dateRange={dateRange}
-					setDateRange={setDateRange}
-					filterByRange={filterByRange}
-					setFilterByRange={setFilterByRange}
-				/>
-				<Legend items={legendItems} />
-				<AgeGroupSection
-					organization={organization}
-					ageGroup={Age.InfantToddler}
-					ageGroupTitle={`Infant/toddler`}
-					enrollments={completeEnrollmentsByAgeGroup[Age.InfantToddler]}
-					fundingSpaces={fundingSpacesByAgeGroup[Age.InfantToddler] as FundingSpace[]}
-					rosterDateRange={dateRange}
-					showPastEnrollments={showPastEnrollments}
-				/>
-				<AgeGroupSection
-					organization={organization}
-					ageGroup={Age.Preschool}
-					ageGroupTitle={`Preschool`}
-					enrollments={completeEnrollmentsByAgeGroup[Age.Preschool]}
-					fundingSpaces={fundingSpacesByAgeGroup[Age.Preschool] as FundingSpace[]}
-					rosterDateRange={dateRange}
-					showPastEnrollments={showPastEnrollments}
-				/>
-				<AgeGroupSection
-					organization={organization}
-					ageGroup={Age.SchoolAge}
-					ageGroupTitle={`School age`}
-					enrollments={completeEnrollmentsByAgeGroup[Age.SchoolAge]}
-					fundingSpaces={fundingSpacesByAgeGroup[Age.SchoolAge] as FundingSpace[]}
-					rosterDateRange={dateRange}
-					showPastEnrollments={showPastEnrollments}
-				/>
-				<AgeGroupSection
-					organization={organization}
-					ageGroup="incomplete"
-					ageGroupTitle={`Incomplete enrollments`}
-					enrollments={incompleteEnrollments}
-					rosterDateRange={dateRange}
-					showPastEnrollments={showPastEnrollments}
-				/>
+				<Suspend waitFor={!organizationLoading} fallback={<div>Loading...</div>}>
+					<RosterHeader
+						organization={organization}
+						site={site}
+						numberOfEnrollments={enrollments.length}
+						showPastEnrollments={showPastEnrollments}
+						toggleShowPastEnrollments={() => toggleShowPastEnrollments(!showPastEnrollments)}
+						dateRange={dateRange}
+						setDateRange={setDateRange}
+						filterByRange={filterByRange}
+						setFilterByRange={setFilterByRange}
+					/>
+					<Legend items={legendItems} />
+				</Suspend>
+				<Suspend waitFor={enrollments.length > 0} fallback={<div>Loading...</div>}>
+					<AgeGroupSection
+						organization={organization}
+						ageGroup={Age.InfantToddler}
+						ageGroupTitle={`Infant/toddler`}
+						enrollments={completeEnrollmentsByAgeGroup[Age.InfantToddler]}
+						fundingSpaces={fundingSpacesByAgeGroup[Age.InfantToddler] as FundingSpace[]}
+						rosterDateRange={dateRange}
+						showPastEnrollments={showPastEnrollments}
+					/>
+					<AgeGroupSection
+						organization={organization}
+						ageGroup={Age.Preschool}
+						ageGroupTitle={`Preschool`}
+						enrollments={completeEnrollmentsByAgeGroup[Age.Preschool]}
+						fundingSpaces={fundingSpacesByAgeGroup[Age.Preschool] as FundingSpace[]}
+						rosterDateRange={dateRange}
+						showPastEnrollments={showPastEnrollments}
+					/>
+					<AgeGroupSection
+						organization={organization}
+						ageGroup={Age.SchoolAge}
+						ageGroupTitle={`School age`}
+						enrollments={completeEnrollmentsByAgeGroup[Age.SchoolAge]}
+						fundingSpaces={fundingSpacesByAgeGroup[Age.SchoolAge] as FundingSpace[]}
+						rosterDateRange={dateRange}
+						showPastEnrollments={showPastEnrollments}
+					/>
+					<AgeGroupSection
+						organization={organization}
+						ageGroup="incomplete"
+						ageGroupTitle={`Incomplete enrollments`}
+						enrollments={incompleteEnrollments}
+						rosterDateRange={dateRange}
+						showPastEnrollments={showPastEnrollments}
+					/>
+				</Suspend>
 			</div>
 		</CommonContainer>
 	);
