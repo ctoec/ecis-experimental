@@ -73,7 +73,7 @@ export default function useApi<TData>(
 			return;
 		}
 
-		//
+		// We are assuming TData is array-like if paginate is true
 		if (paginate) {
 			const paginatedQuery = (start: number, count: number) =>
 				query(api, {
@@ -81,21 +81,18 @@ export default function useApi<TData>(
 					count: count,
 				})
 					.then(apiResult => {
-						// Need to use function syntax for state updates so pending updates aren't overwritten
-
 						// Stop once we have retrieved all the data
 						if (((apiResult as unknown) as any[]).length === 0) {
+							// Need to use function syntax for state updates so pending updates aren't overwritten
 							setState(s => ({ ...s, loading: false }));
 							return;
 						}
 
+						// Need to use function syntax for state updates so pending updates aren't overwritten
 						setState(s => ({
 							...s,
 							error: null,
-							data: ([
-								...(((s.data || []) as unknown) as any[]),
-								...((apiResult as unknown) as any[]),
-							] as unknown) as TData,
+							data: appendData(s.data, apiResult),
 							loading: true,
 						}));
 						// Continue requesting data
@@ -161,6 +158,13 @@ const parseError: (error: any) => Promise<ApiError | null> = async (error: any) 
 export type ApiExtraParamOpts = {
 	start: number;
 	count: number;
+};
+
+const appendData = <TData>(data: TData, newData: TData) => {
+	return ([
+		...(((data || []) as unknown) as any[]),
+		...((newData as unknown) as any[]),
+	] as unknown) as TData;
 };
 
 export const paginate = <T>(requestParams: T, opts?: ApiExtraParamOpts) => {
