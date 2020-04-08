@@ -50,7 +50,7 @@ class Updateable<T> {
  * Wrapper to the Updateable constructor with type casting
  * @param data
  */
-function update<T>(data: Value<T>): Updateable<Value<T>> {
+function makeUpdateableType<T>(data: Value<T>): Updateable<Value<T>> {
 	return new Updateable(data);
 }
 
@@ -103,20 +103,22 @@ type FormFieldProps<TData, TProps extends React.Props<any>, TFieldData, TAdditio
 function FormField<TData, TProps, TFieldData, TAdditionalData>({
 	render,
 	parseValue,
-	field,
+	field: getField,
 }: FormFieldProps<TData, TProps, TFieldData, TAdditionalData>) {
 	// Uses a non-React useContext hook to allow for generics in the supplied type
-	const { data, updateData, additionalInformation } = useContext<
+	const { data: parentObjectData, updateData, additionalInformation } = useContext<
 		GenericFormContextType<Value<TData>, TFieldData, TAdditionalData>
 	>(FormContext);
 	// Prepare data as an Updateable and access the specified field and path
-	const { data: currentPathData, path } = field(update(data));
+	const { data: fieldData, path: objectFieldAccessorPath } = getField(
+		makeUpdateableType(parentObjectData)
+	);
 
 	const renderProps = {
 		onChange: updateData(parseValue),
-		data: currentPathData,
-		containingData: data,
-		name: path,
+		data: fieldData,
+		containingData: parentObjectData,
+		name: objectFieldAccessorPath,
 		additionalInformation,
 	};
 

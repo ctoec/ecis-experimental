@@ -25,7 +25,6 @@ export { CardContext };
 export type CardProps = {
 	appearance?: 'primary' | 'secondary';
 	className?: string;
-	stretched?: boolean;
 	expanded?: boolean;
 	onExpansionChange?: (_: boolean) => void;
 	forceClose?: boolean;
@@ -35,7 +34,6 @@ export type CardProps = {
 export function Card({
 	appearance,
 	className,
-	stretched = true,
 	expanded = false,
 	onExpansionChange,
 	forceClose,
@@ -74,7 +72,6 @@ export function Card({
 					'oec-card',
 					{
 						[`oec-card--${appearance}`]: appearance,
-						'oec-card--stretched': stretched,
 					},
 					className
 				)}

@@ -18,11 +18,7 @@ import {
 	FamilyDetermination,
 } from '../../../../generated';
 import idx from 'idx';
-import {
-	validatePermissions,
-	getIdForUser,
-	inverseDeterminationSorter,
-} from '../../../../utils/models';
+import { validatePermissions, getIdForUser, determinationSorter } from '../../../../utils/models';
 import { FieldSet, Alert } from '../../../../components';
 import Form from '../../../../components/Form/Form';
 import {
@@ -39,6 +35,7 @@ const EntryForm: React.FC<SectionProps> = ({
 	updateEnrollment,
 	siteId,
 	error: inputError,
+	loading,
 	successCallback,
 	visitSection,
 	visitedSections,
@@ -68,8 +65,8 @@ const EntryForm: React.FC<SectionProps> = ({
 
 	const child = enrollment.child;
 	const determinations = idx(child, _ => _.family.determinations as FamilyDetermination[]) || [];
-	const sortedDeterminations = [...determinations].sort(inverseDeterminationSorter);
-	const determination = determinations[0];
+	const sortedDeterminations = [...determinations].sort((a, b) => determinationSorter(a, b, true));
+	const determination = sortedDeterminations[0];
 
 	const [attemptingSave, setAttemptingSave] = useState(false);
 	const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
@@ -178,7 +175,8 @@ const EntryForm: React.FC<SectionProps> = ({
 				}}
 			/>
 			<div className="usa-form">
-				<FormSubmitButton text={attemptingSave ? 'Saving...' : 'Save'} disabled={attemptingSave} />
+				{/* <FormSubmitButton text={attemptingSave ? 'Saving...' : 'Save'} disabled={attemptingSave} /> */}
+				<FormSubmitButton text={loading ? 'Saving...' : 'Save'} disabled={loading} />
 			</div>
 		</Form>
 	);

@@ -245,7 +245,7 @@ exports[`Storyshots Card Compact Primary with Text 1`] = `
   }
 >
   <div
-    className="oec-card"
+    className="oec-card width-max-content important"
   >
     <div
       className="oec-card-cell"
@@ -274,7 +274,7 @@ exports[`Storyshots Card Primary with Grid 1`] = `
   }
 >
   <div
-    className="oec-card oec-card--stretched"
+    className="oec-card"
   >
     <div
       className="oec-card-cell"
@@ -332,7 +332,7 @@ exports[`Storyshots Card Primary with Text 1`] = `
   }
 >
   <div
-    className="oec-card oec-card--stretched"
+    className="oec-card"
   >
     <div
       className="oec-card-cell"
@@ -361,7 +361,7 @@ exports[`Storyshots Card Secondary with Grid 1`] = `
   }
 >
   <div
-    className="oec-card oec-card--secondary oec-card--stretched"
+    className="oec-card oec-card--secondary"
   >
     <div
       className="oec-card-cell"
@@ -419,7 +419,7 @@ exports[`Storyshots Card Secondary with Text 1`] = `
   }
 >
   <div
-    className="oec-card oec-card--secondary oec-card--stretched"
+    className="oec-card oec-card--secondary"
   >
     <div
       className="oec-card-cell"
@@ -448,7 +448,7 @@ exports[`Storyshots Card With card expansion and card expander 1`] = `
   }
 >
   <div
-    className="oec-card oec-card--stretched"
+    className="oec-card"
   >
     <div
       className="oec-card-cell"
@@ -529,7 +529,7 @@ exports[`Storyshots Card With closed card expansion 1`] = `
   }
 >
   <div
-    className="oec-card oec-card--stretched"
+    className="oec-card"
   >
     <div
       className="oec-card-cell"
@@ -591,7 +591,7 @@ exports[`Storyshots Card With open card expansion 1`] = `
   }
 >
   <div
-    className="oec-card oec-card--stretched"
+    className="oec-card"
   >
     <div
       className="oec-card-cell"

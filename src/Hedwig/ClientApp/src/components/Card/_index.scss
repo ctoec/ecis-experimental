@@ -1,15 +1,11 @@
 .oec-card {
-	width: max-content;
+	width: 100%;
 
 	border-width: 3px;
 	@include u-border('gray-10');
 
 	&--secondary {
 		@include u-bg('gray-5');
-	}
-
-	&--stretched {
-		width: 100%;
 	}
 
 	.oec-card-tag {

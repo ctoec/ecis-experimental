@@ -46,7 +46,7 @@ exports[`EnrollmentUpdate matches snapshot 1`] = `
     </div>
     <div>
       <div
-        class="oec-card oec-card--stretched"
+        class="oec-card"
       >
         <div
           class="oec-card-cell"

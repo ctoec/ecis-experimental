@@ -123,7 +123,7 @@ export default function EnrollmentUpdate({
 							updateEnrollment(enrollment);
 							setAttemptingSave(true);
 						}}
-						loading={saveLoading}
+						loading={saveLoading || attemptingSave}
 						error={error || saveError}
 						enrollment={enrollment}
 						success={saveData && !saveError}

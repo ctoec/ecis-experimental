@@ -22,7 +22,7 @@ storiesOf('Card', module)
 	})
 	.add('Compact Primary with Text', () => {
 		return (
-			<Card stretched={false}>
+			<Card className="width-max-content important">
 				<span>I am a compact card!</span>
 			</Card>
 		);

@@ -8,7 +8,7 @@ import {
 import { DeepNonUndefineable } from '../../../../utils/types';
 import { Enrollment, FamilyDetermination } from '../../../../generated';
 import idx from 'idx';
-import { inverseDeterminationSorter } from '../../../../utils/models';
+import { determinationSorter } from '../../../../utils/models';
 import { FieldSet, Button, Card } from '../../../../components';
 import currencyFormatter from '../../../../utils/currencyFormatter';
 import Form from '../../../../components/Form/Form';
@@ -42,7 +42,6 @@ const UpdateForm: React.FC<SectionProps> = ({
 	const { setAlerts } = useContext(AlertContext);
 	const [addNewDetermination, setAddNewDetermination] = useState(false);
 	const [isNew, setIsNew] = useState(false);
-	const [attemptingSave, setAttemptingSave] = useState(false);
 	const [forceClose, setForceClose] = useState<boolean>(false);
 	// Process response from API
 	// Passed down via EnrollmentUpdate
@@ -58,7 +57,6 @@ const UpdateForm: React.FC<SectionProps> = ({
 			return;
 		}
 		if (success) {
-			setAttemptingSave(false);
 			if (addNewDetermination) {
 				setIsNew(true);
 			}
@@ -70,7 +68,7 @@ const UpdateForm: React.FC<SectionProps> = ({
 	const child = enrollment.child;
 	const determinations: DeepNonUndefineable<FamilyDetermination[]> =
 		idx(child, _ => _.family.determinations as DeepNonUndefineable<FamilyDetermination[]>) || [];
-	const sortedDeterminations = [...determinations].sort(inverseDeterminationSorter);
+	const sortedDeterminations = [...determinations].sort((a, b) => determinationSorter(a, b, true));
 	const currentDetermination = sortedDeterminations[0];
 	const pastDeterminations = sortedDeterminations.slice(1);
 	const determinationIdToIndexMap = determinations.reduce<{ [x: number]: number }>(
@@ -127,7 +125,9 @@ const UpdateForm: React.FC<SectionProps> = ({
 						<div>{householdSizeField(index)}</div>
 						<div>{annualHouseholdIncomeField(index)}</div>
 						<div>{determinationDateField(index)}</div>
-						{originalDetermination.notDisclosed && <div>{incomeDisclosedField(index)}</div>}
+						{originalDetermination && originalDetermination.notDisclosed && (
+							<div>{incomeDisclosedField(index)}</div>
+						)}
 					</FieldSet>
 				);
 			}}
@@ -193,7 +193,6 @@ const UpdateForm: React.FC<SectionProps> = ({
 			data={enrollment}
 			onSave={enrollment => {
 				updateEnrollment(enrollment as DeepNonUndefineable<Enrollment>);
-				setAttemptingSave(true);
 			}}
 			additionalInformation={{
 				initialLoad,
@@ -216,10 +215,7 @@ const UpdateForm: React.FC<SectionProps> = ({
 							onClick={() => setAddNewDetermination(false)}
 						/>
 					)}
-					<FormSubmitButton
-						text={attemptingSave ? 'Saving...' : submitText}
-						disabled={attemptingSave}
-					/>
+					<FormSubmitButton text={loading ? 'Saving...' : submitText} disabled={loading} />
 				</div>
 			</div>
 		</Form>
@@ -229,7 +225,7 @@ const UpdateForm: React.FC<SectionProps> = ({
 		<>
 			<h2 className="margin-bottom-1">Family income determination</h2>
 			{addNewDetermination && (
-				<Card stretched={false}>
+				<Card className="width-max-content important">
 					{form(determinations.length, determinations.length, 'Redetermine', false)}
 				</Card>
 			)}
