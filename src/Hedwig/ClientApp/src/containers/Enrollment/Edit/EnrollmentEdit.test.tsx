@@ -45,8 +45,8 @@ afterAll(() => {
 const history = createBrowserHistory();
 
 describe('EnrollmentEdit', () => {
-	describe('family info', () => {
-		it('shows a fieldset warning if there is no address', () => {
+	describe('when enrollment family info is missing data', () => {
+		it('shows a fieldset warning when the user is at /edit/family-information', () => {
 			const { getByRole } = render(
 				<TestProvider>
 					<EnrollmentEdit
@@ -63,7 +63,6 @@ describe('EnrollmentEdit', () => {
 			);
 
 			const addressErr = getByRole('status');
-
 			expect(addressErr.classList.contains('usa-warning-message'));
 		});
 	});

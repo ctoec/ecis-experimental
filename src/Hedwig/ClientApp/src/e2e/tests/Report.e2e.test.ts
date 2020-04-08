@@ -2,6 +2,7 @@ import { until } from 'selenium-webdriver';
 import { render, load } from '../QueryHelper';
 import { DriverHelper } from '../DriverHelper';
 import { clientHost } from '../config';
+import login from '../utilities/login';
 // import login from '../utilities/login';
 
 // Set time out to 60 seconds
@@ -15,8 +16,8 @@ beforeAll(() => {
 });
 
 // TODO: CREATE THESE UTILS, USE THEM BELOW
-const loginNavigateToReports = () => {
-	// log in
+const loginNavigateToReports = async (driver, root) => {
+	root = await login(driver, root);
 	// navigate to reports tab
 };
 
@@ -31,11 +32,18 @@ describe('when trying to submit a report', () => {
 		const driver = driverHelper.createDriver();
 		try {
 			let root = await load(driver, appUrl);
+			root = await login(driver, root);
+			const { findByText } = render(root);
 
-			// root = await login(driver, root);
-			// log in
-			// navigate to reports tab
-			// make sure that it's showing an alert for missing an enrollment
+			// Navigate to reports tab
+			const reportsLink = await findByText('Reports');
+			await reportsLink.click();
+
+			// Click on the pending report for March 2020
+			const pendingReportLink = await findByText('March 2020');
+			await pendingReportLink.click();
+
+			// Make sure that it's showing an alert for missing an enrollment
 		} finally {
 			await driverHelper.quit(driver);
 		}
