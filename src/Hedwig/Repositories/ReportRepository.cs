@@ -68,7 +68,7 @@ namespace Hedwig.Repositories
 			var reportResult = await reportQuery.FirstOrDefaultAsync();
 
 			// Optionally manually insert time-versioned enrollment records
-			if (include.Contains(INCLUDE_ENROLLMENTS))
+			if (reportResult != null && include.Contains(INCLUDE_ENROLLMENTS))
 			{
 				var enrollments = GetEnrollmentsForReport(reportResult);
 				// Optionally manually insert time-versioned child records
@@ -77,6 +77,7 @@ namespace Hedwig.Repositories
 					var childIds = enrollments.Select(enrollment => enrollment.ChildId);
 					var children = (reportResult.SubmittedAt.HasValue ? _context.Children.AsOf(reportResult.SubmittedAt.Value) : _context.Children)
 					.AsNoTracking()
+					.Include(child => child.C4KCertificates)
 					.Where(child => childIds.Contains(child.Id))
 					.ToDictionary(child => child.Id);
 
