@@ -9,6 +9,10 @@ type Option = {
 	name?: string;
 };
 
+type InternalOption = Option & {
+	expansion?: JSX.Element;
+};
+
 export type HTMLChoiceElement = HTMLInputElement | HTMLSelectElement;
 
 type InternalChoiceListProps = {
@@ -47,7 +51,7 @@ type DropdownProps = InternalChoiceListProps & {
 
 export type ChoiceListProps = RadioOrChecklistProps | DropdownProps;
 
-export function ChoiceList({
+export const ChoiceList: React.FC<ChoiceListProps> = ({
 	type,
 	options: inputOptions,
 	id,
@@ -64,9 +68,43 @@ export function ChoiceList({
 	otherInputLabel,
 	label,
 	unselectedText,
-}: ChoiceListProps) {
+	children: expansionChildren,
+}) => {
 	const [selectedItems, updateSelection] = useState(selected);
 	const [otherInput, updateOtherInput] = useState();
+
+	let internalOptions = inputOptions as InternalOption[];
+	const validTypesArray: boolean[] =
+		React.Children.map(expansionChildren, child => {
+			if (React.isValidElement(child)) {
+				return !!child.type && (child.type as Function).name === 'ChoiceListExpansion';
+			} else {
+				throw new Error('Invalid element');
+			}
+		}) || [];
+	const areValid = validTypesArray.reduce(
+		(pendingAreValid, isValid) => pendingAreValid && isValid,
+		true
+	);
+	if (!areValid) {
+		throw new Error('One or more children are not of type ChoiceListExpansion');
+	}
+	const valueToExpansionChild = React.Children.toArray(expansionChildren).reduce<{
+		[value: string]: JSX.Element;
+	}>((acc, child) => {
+		if (React.isValidElement(child)) {
+			return {
+				...acc,
+				[child.props.showOnValue as string]: child,
+			};
+		} else {
+			return acc;
+		}
+	}, {});
+	internalOptions = inputOptions.map(option => ({
+		...option,
+		expansion: valueToExpansionChild[option.value],
+	}));
 
 	const changeEvent = (event: React.ChangeEvent<HTMLChoiceElement>) => {
 		const changedValue = event.target.value;
@@ -92,7 +130,7 @@ export function ChoiceList({
 		onChange(event, newSelectedItems, otherInput);
 	};
 
-	const options = [...inputOptions];
+	const options = [...internalOptions];
 	if (otherInputLabel !== undefined) {
 		options.push({
 			text: otherInputLabel,
@@ -108,29 +146,45 @@ export function ChoiceList({
 			if (selectedItems.length > 1) {
 				throw new Error('Radio group can only have one selected value at a time.');
 			}
-			children = options.map(option => (
-				<RadioButton
-					{...option}
-					name={option.name || name || ''}
-					onChange={changeEvent}
-					selected={selectedItems.includes(option.value)}
-					disabled={disabled}
-					key={`${id}-${option.value}`}
-				/>
-			));
+			children = options.map(option => {
+				const expansion = option.expansion;
+				return (
+					<>
+						<RadioButton
+							{...option}
+							name={option.name || name || ''}
+							onChange={changeEvent}
+							selected={selectedItems.includes(option.value)}
+							disabled={disabled}
+							key={`${id}-${option.value}`}
+						/>
+						{expansion && selectedItems.includes(option.value) && (
+							<div className="oec-choicelist-expansion">{expansion}</div>
+						)}
+					</>
+				);
+			});
 			break;
 		case 'check':
-			children = options.map(option => (
-				<Checkbox
-					id={`${id}-${option.value}`}
-					{...option}
-					name={option.name || name || ''}
-					onChange={changeEvent}
-					selected={selectedItems.includes(option.value)}
-					disabled={disabled}
-					key={`${id}-${option.value}`}
-				/>
-			));
+			children = options.map(option => {
+				const expansion = option.expansion;
+				return (
+					<>
+						<Checkbox
+							id={`${id}-${option.value}`}
+							{...option}
+							name={option.name || name || ''}
+							onChange={changeEvent}
+							selected={selectedItems.includes(option.value)}
+							disabled={disabled}
+							key={`${id}-${option.value}`}
+						/>
+						{expansion && selectedItems.includes(option.value) && (
+							<div className="oec-choicelist-expansion">{expansion}</div>
+						)}
+					</>
+				);
+			});
 			break;
 		case 'select':
 			if (selectedItems.length > 1) {
@@ -164,6 +218,9 @@ export function ChoiceList({
 				>
 					{[...optionElements]}
 				</select>,
+				// <>
+				// 	<p>Test</p>
+				// </>
 			];
 	}
 
@@ -183,6 +240,16 @@ export function ChoiceList({
 				)}
 				{status && status.message && <FormStatus {...status} />}
 				{[...children]}
+				{options.map(option => {
+					const expansion = option.expansion;
+					return (
+						<>
+							{expansion && selectedItems.includes(option.value) && (
+								<div className="oec-choicelist-expansion">{option.expansion}</div>
+							)}
+						</>
+					);
+				})}
 			</div>
 		);
 		if (!showotherInput) {
@@ -217,4 +284,4 @@ export function ChoiceList({
 			</div>
 		</FieldSet>
 	);
-}
+};

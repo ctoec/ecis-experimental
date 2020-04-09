@@ -1,0 +1,15 @@
+.oec-choicelist-expansion {
+	border-left: solid $theme-color-primary 4px;
+	margin-left: 10px;
+	padding-left: 1.3em;
+
+	margin-bottom: 0.8em;
+
+	> :first-child {
+		padding-top: 0.7em;
+	}
+
+	> * {
+		padding-bottom: 1em;
+	}
+}

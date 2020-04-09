@@ -2,7 +2,15 @@ import React, { useContext, useState, useEffect, useReducer } from 'react';
 import moment from 'moment';
 import idx from 'idx';
 import { Section } from '../enrollmentTypes';
-import { Button, DateInput, ChoiceList, TextInput, InlineIcon, Alert } from '../../../components';
+import {
+	Button,
+	DateInput,
+	ChoiceList,
+	ChoiceListExpansion,
+	TextInput,
+	InlineIcon,
+	Alert,
+} from '../../../components';
 import dateFormatter from '../../../utils/dateFormatter';
 import {
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
@@ -305,11 +313,11 @@ const EnrollmentFunding: Section = {
 					text: `${space.source} - ${prettyFundingTime(getFundingSpaceTime(space))}`,
 				}));
 			setFundingTypeOpts([
-				...newFundingTypeOpts,
 				{
 					value: 'privatePay',
 					text: 'Private pay',
 				},
+				...newFundingTypeOpts,
 			]);
 		}, [site, _enrollment.ageGroup, enrollment, cdcFunding]);
 
@@ -536,10 +544,10 @@ const EnrollmentFunding: Section = {
 					/>
 					<h2>Funding</h2>
 					<ChoiceList
-						type="select"
+						type="radio"
+						legend="Funding type"
 						id="fundingType"
 						options={fundingTypeOpts}
-						label="Funding type"
 						onChange={event => {
 							updateFundingSelection(fundingSelectionFromString(event.target.value));
 						}}
@@ -559,58 +567,59 @@ const EnrollmentFunding: Section = {
 								}
 							)
 						)}
-					/>
-					{fundingSelection.source === FundingType.CDC && (
-						<ChoiceList
-							type="select"
-							id="firstReportingPeriod"
-							options={[
-								...reportingPeriodOptions.map(period => {
-									return {
-										value: '' + period.id,
-										text: reportingPeriodFormatter(period, { extended: true }),
-									};
-								}),
-							]}
-							label="First reporting period"
-							// TODO: USE FORM REDUCER
-							onChange={event => {
-								const chosen = reportingPeriodOptions.find(
-									period => period.id === parseInt(event.target.value)
-								);
-								updateCdcReportingPeriod(chosen);
-							}}
-							selected={toFormString(cdcReportingPeriod ? cdcReportingPeriod.id : undefined)}
-							status={initialLoadErrorGuard(
-								initialLoad,
-								displayErrorOrWarning(
-									error,
-									{
-										isFieldSet: false,
-									},
-									{
-										hasAlertedOnError,
-										setHasAlertedOnError,
-										errorDisplays: [
-											{
-												field: 'fundings.firstReportingPeriodId',
-												message: 'This information is required for enrollment',
-											},
-											{ field: 'fundings' },
-										],
-									},
-									{
-										object: cdcFunding || null,
-										field: 'firstReportingPeriod',
-										message:
-											cdcFunding && !cdcFunding.firstReportingPeriodId
-												? 'This information is required for OEC reporting'
-												: undefined,
-									}
-								)
-							)}
-						/>
-					)}
+					>
+						<ChoiceListExpansion showOnValue={'Full'}>
+							<ChoiceList
+								type="select"
+								id="firstReportingPeriod"
+								options={[
+									...reportingPeriodOptions.map(period => {
+										return {
+											value: '' + period.id,
+											text: reportingPeriodFormatter(period, { extended: true }),
+										};
+									}),
+								]}
+								label="First reporting period"
+								// TODO: USE FORM REDUCER
+								onChange={event => {
+									const chosen = reportingPeriodOptions.find(
+										period => period.id === parseInt(event.target.value)
+									);
+									updateCdcReportingPeriod(chosen);
+								}}
+								selected={toFormString(cdcReportingPeriod ? cdcReportingPeriod.id : undefined)}
+								status={initialLoadErrorGuard(
+									initialLoad,
+									displayErrorOrWarning(
+										error,
+										{
+											isFieldSet: false,
+										},
+										{
+											hasAlertedOnError,
+											setHasAlertedOnError,
+											errorDisplays: [
+												{
+													field: 'fundings.firstReportingPeriodId',
+													message: 'This information is required for enrollment',
+												},
+												{ field: 'fundings' },
+											],
+										},
+										{
+											object: cdcFunding || null,
+											field: 'firstReportingPeriod',
+											message:
+												cdcFunding && !cdcFunding.firstReportingPeriodId
+													? 'This information is required for OEC reporting'
+													: undefined,
+										}
+									)
+								)}
+							/>
+						</ChoiceListExpansion>
+					</ChoiceList>
 					{utilizationRate && utilizationRate.numEnrolled > utilizationRate.capacity && (
 						<Alert
 							type="info"

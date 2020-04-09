@@ -167,7 +167,7 @@ describe('Roster', () => {
 
 		it('clicking enroll child shows site dropdown', async () => {
 			const history = createMemoryHistory();
-			const { getByText, asFragment } = render(
+			const { getByText } = render(
 				<TestProvider history={history}>
 					<Roster />
 				</TestProvider>

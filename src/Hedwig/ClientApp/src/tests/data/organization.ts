@@ -1,6 +1,6 @@
-import { FundingSource, Age, FundingTime, Region, Organization } from '../../generated';
 import { swapFields } from '../helpers';
 import { mockSite, mockAnotherSite } from './site';
+import { FundingSource, Age, FundingTime, Region, Organization } from '../../generated';
 
 export const mockSingleSiteOrganization = {
 	id: 1,
