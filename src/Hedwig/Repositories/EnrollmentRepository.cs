@@ -13,11 +13,6 @@ namespace Hedwig.Repositories
 	{
 		public EnrollmentRepository(HedwigContext context) : base(context) { }
 
-		public Enrollment GetEnrollmentById(int id)
-		{
-			return _context.Enrollments.SingleOrDefault(e => e.Id == id);
-		}
-
 		public Enrollment GetEnrollmentByIdAsNoTracking(int id)
 		{
 			return _context.Enrollments.AsNoTracking().SingleOrDefault(e => e.Id == id);
@@ -139,7 +134,6 @@ namespace Hedwig.Repositories
 		Task<List<Enrollment>> GetEnrollmentsForSiteAsync(int siteId, DateTime? from = null, DateTime? to = null, string[] include = null, int skip = 0, int? take = null);
 		Task<Enrollment> GetEnrollmentForSiteAsync(int id, int siteId, string[] include = null);
 		Task<List<Enrollment>> GetEnrollmentsForOrganizationAsync(int orgId, DateTime? from = null, DateTime? to = null, string[] include = null, DateTime? asOf = null, int skip = 0, int? take = null);
-		Enrollment GetEnrollmentById(int id);
 		Enrollment GetEnrollmentByIdAsNoTracking(int id);
 
 		void DeleteEnrollment(Enrollment enrollment);

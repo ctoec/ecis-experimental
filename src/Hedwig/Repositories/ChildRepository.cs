@@ -53,7 +53,7 @@ namespace Hedwig.Repositories
 
 			return child.FirstOrDefaultAsync();
 		}
-		public Child GetChildById(Guid id)
+		public Child GetChildByIdAsNoTracking(Guid id)
 		{
 			return _context.Children
 				.AsNoTracking()
@@ -68,6 +68,6 @@ namespace Hedwig.Repositories
 			string[] include = null
 		);
 		Task<Child> GetChildForOrganizationAsync(Guid id, int organizationId, string[] include);
-		Child GetChildById(Guid id);
+		Child GetChildByIdAsNoTracking(Guid id);
 	}
 }

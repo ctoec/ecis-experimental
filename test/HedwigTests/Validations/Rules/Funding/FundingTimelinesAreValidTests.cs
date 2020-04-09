@@ -6,6 +6,8 @@ using Hedwig.Validations;
 using Moq;
 using System;
 using Hedwig.Repositories;
+using HedwigTests.Fixtures;
+using HedwigTests.Helpers;
 
 namespace HedwigTests.Validations.Rules
 {
@@ -88,7 +90,7 @@ namespace HedwigTests.Validations.Rules
 			.Returns(new List<IValidationRule<Funding>> { fundingRule.Object });
 
 			var _fundings = new Mock<IFundingRepository>();
-			_fundings.Setup(f => f.GetFundingsByChildId(It.IsAny<Guid>())).Returns(new List<Funding> { funding1, funding2 });
+			_fundings.Setup(f => f.GetFundingsByChildIdAsNoTracking(It.IsAny<Guid>())).Returns(new List<Funding> { funding1, funding2 });
 			var _enrollments = new Mock<IEnrollmentRepository>();
 
 			// when
@@ -97,6 +99,38 @@ namespace HedwigTests.Validations.Rules
 
 			// Then
 			Assert.Equal(doesError, result != null);
+		}
+
+
+		[Theory]
+		[InlineData(true)]
+		[InlineData(false)]
+		public void Execute_DoesNotAddEnrollmentToFunding(bool fundingHasEnrollmentReference)
+		{
+			Funding funding;
+			using (var context = new TestHedwigContextProvider().Context)
+			{
+				funding = FundingHelper.CreateFunding(context);
+			}
+
+			if (!fundingHasEnrollmentReference) funding.Enrollment = null;
+
+			using (var context = new TestHedwigContextProvider().Context)
+			{
+				context.Attach(funding);
+
+				var _serviceProvider = new Mock<IServiceProvider>();
+				var _validator = new NonBlockingValidator(_serviceProvider.Object);
+				var _fundings = new FundingRepository(context);
+				var _enrollments = new EnrollmentRepository(context);
+
+				// when
+				var rule = new FundingTimelinesAreValid(_fundings, _enrollments);
+				rule.Execute(funding, new NonBlockingValidationContext());
+
+				// then
+				Assert.Equal(fundingHasEnrollmentReference, funding.Enrollment != null);
+			}
 		}
 	}
 }

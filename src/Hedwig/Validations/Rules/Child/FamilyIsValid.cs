@@ -20,7 +20,7 @@ namespace Hedwig.Validations.Rules
 		{
 			if (child.FamilyId.HasValue)
 			{
-				var family = child.Family ?? _families.GetFamilyById(child.FamilyId.Value);
+				var family = child.Family ?? _families.GetFamilyByIdAsNoTracking(child.FamilyId.Value);
 
 				ValidateSubObject(family, child);
 				if (family.ValidationErrors.Count > 0)
