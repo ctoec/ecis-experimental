@@ -15,17 +15,17 @@ namespace HedwigTests.Repositories
 		{
 			using (var context = new TestHedwigContextProvider().Context)
 			{
-				// If family determinations exist with family Id
+				// If a family determination exist with family Id
 				var family = FamilyHelper.CreateFamily(context);
 				var determination = FamilyDeterminationHelper.CreateDetermination(context, family: family);
 
 				// When the repository is queried with a family Id
 				var determinationRepo = new FamilyDeterminationRepository(context);
-				var res = determinationRepo.GetDeterminationsByFamilyId(family.Id);
+				var res = determinationRepo.GetDeterminationsByFamilyIdAsNoTracking(family.Id);
 
-				// Then a list of enrollments with that family Id is returned
+				// Then a list including only that determination is returned
 				Assert.Single(res);
-				Assert.Equal(determination, res.First());
+				Assert.Equal(determination.Id, res.First().Id);
 			}
 		}
 	}

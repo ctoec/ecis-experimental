@@ -12,7 +12,7 @@ namespace Hedwig.Repositories
 	{
 		public FamilyRepository(HedwigContext context) : base(context) { }
 
-		public Family GetFamilyById(int id)
+		public Family GetFamilyByIdAsNoTracking(int id)
 		{
 			var family = _context.Families
 				.AsNoTracking()
@@ -23,6 +23,6 @@ namespace Hedwig.Repositories
 	}
 	public interface IFamilyRepository
 	{
-		Family GetFamilyById(int id);
+		Family GetFamilyByIdAsNoTracking(int id);
 	}
 }

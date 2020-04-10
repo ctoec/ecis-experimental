@@ -41,7 +41,7 @@ namespace Hedwig.Repositories
 
 			IQueryable<CdcReport> reportQuery = _context.Reports
 			.OfType<CdcReport>()
-			.AsNoTracking() // Disable tracking as these read-only queries should not be saved back to the DB
+			.AsNoTracking() // Disable tracking as these reports are composed from time-versioned records
 			.Where(report => report.Id == id && report.OrganizationId == orgId)
 			.Include(report => report.ReportingPeriod);
 
@@ -50,7 +50,6 @@ namespace Hedwig.Repositories
 				reportQuery = reportQuery.Include(report => report.Organization);
 			}
 
-			// To enable later manual inclusion of enrollments/children, include sites now
 			if (include.Contains(INCLUDE_SITES))
 			{
 				reportQuery = reportQuery
@@ -70,7 +69,7 @@ namespace Hedwig.Repositories
 			// Optionally manually insert time-versioned enrollment records
 			if (reportResult != null && include.Contains(INCLUDE_ENROLLMENTS))
 			{
-				var enrollments = GetEnrollmentsForReport(reportResult);
+				var enrollments = GetEnrollmentsForReportAsNoTracking(reportResult);
 				// Optionally manually insert time-versioned child records
 				if (include.Contains(INCLUDE_CHILD))
 				{
@@ -95,7 +94,7 @@ namespace Hedwig.Repositories
 			return reportResult;
 		}
 
-		public List<Enrollment> GetEnrollmentsForReport(CdcReport report)
+		public List<Enrollment> GetEnrollmentsForReportAsNoTracking(CdcReport report)
 		{
 			var sites = report.Organization != null && report.Organization.Sites != null
 			? report.Organization.Sites.ToList()
@@ -160,7 +159,7 @@ namespace Hedwig.Repositories
 		Task<List<CdcReport>> GetReportsForOrganizationAsync(int orgId);
 		Task<CdcReport> GetReportForOrganizationAsync(int id, int orgId, string[] include);
 
-		List<Enrollment> GetEnrollmentsForReport(CdcReport report);
+		List<Enrollment> GetEnrollmentsForReportAsNoTracking(CdcReport report);
 
 		CdcReport GetMostRecentSubmittedCdcReportForOrganization(int orgId);
 

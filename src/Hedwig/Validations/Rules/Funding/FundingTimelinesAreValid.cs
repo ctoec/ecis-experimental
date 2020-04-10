@@ -28,7 +28,7 @@ namespace Hedwig.Validations.Rules
 			}
 			var currentEnrollment = funding.Enrollment ?? _enrollments.GetEnrollmentByIdAsNoTracking(funding.EnrollmentId);
 			var childId = currentEnrollment.ChildId;
-			var otherCdcFundings = _fundings.GetFundingsByChildId(childId).Where(f => f.Source == FundingSource.CDC).Where(f => f.Id != funding.Id);
+			var otherCdcFundings = _fundings.GetFundingsByChildIdAsNoTracking(childId).Where(f => f.Source == FundingSource.CDC).Where(f => f.Id != funding.Id);
 			var sortedFundings = otherCdcFundings.OrderBy(f => f.FirstReportingPeriod.PeriodStart);
 
 			if (sortedFundings.Count() == 0)

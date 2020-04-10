@@ -6,6 +6,8 @@ using Hedwig.Validations;
 using Moq;
 using System;
 using Hedwig.Repositories;
+using HedwigTests.Helpers;
+using HedwigTests.Fixtures;
 
 namespace HedwigTests.Validations.Rules
 {
@@ -47,6 +49,41 @@ namespace HedwigTests.Validations.Rules
 
 			// Then
 			Assert.Equal(doesError, result != null);
+		}
+
+		[Theory]
+		[InlineData(true)]
+		[InlineData(false)]
+		public void Execute_DoesNotAddEnrollmentsToReport(bool reportHasEnrollmentsReference)
+		{
+			CdcReport report;
+			using (var context = new TestHedwigContextProvider().Context)
+			{
+				report = ReportHelper.CreateCdcReport(context) as CdcReport;
+				var site = SiteHelper.CreateSite(context, organization: report.Organization);
+				var enrollments = EnrollmentHelper.CreateEnrollments(context, 1, site: site);
+				report.Enrollments = enrollments;
+			}
+
+			if (!reportHasEnrollmentsReference) report.Enrollments = null;
+
+			using (var context = new TestHedwigContextProvider().Context)
+			{
+				context.Attach(report);
+
+				var _serviceProvider = new Mock<IServiceProvider>();
+				_serviceProvider.Setup(sp => sp.GetService(typeof(IEnumerable<IValidationRule<Enrollment>>)))
+					.Returns(new List<IValidationRule<Enrollment>>());
+				var _validator = new NonBlockingValidator(_serviceProvider.Object);
+				var _reports = new ReportRepository(context);
+
+				// when
+				var rule = new EnrollmentsAreValid(_validator, _reports);
+				rule.Execute(report, new NonBlockingValidationContext());
+
+				// then
+				Assert.Equal(reportHasEnrollmentsReference, report.Enrollments != null);
+			}
 		}
 	}
 }

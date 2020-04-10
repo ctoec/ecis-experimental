@@ -6,6 +6,8 @@ using Hedwig.Validations;
 using Hedwig.Repositories;
 using System.Collections.Generic;
 using System;
+using HedwigTests.Fixtures;
+using HedwigTests.Helpers;
 
 namespace HedwigTests.Validations.Rules
 {
@@ -84,6 +86,39 @@ namespace HedwigTests.Validations.Rules
 
 			// then
 			Assert.Null(result);
+		}
+
+		[Theory]
+		[InlineData(true)]
+		[InlineData(false)]
+		public void Execute_DoesNotAddFamilyDeterminationsToFamily(bool familyHasDeterminationsReference)
+		{
+			Family family;
+			using (var context = new TestHedwigContextProvider().Context)
+			{
+				family = FamilyHelper.CreateFamily(context);
+				FamilyDeterminationHelper.CreateDetermination(context, family: family);
+			}
+
+			if (!familyHasDeterminationsReference) family.Determinations = null;
+
+			using (var context = new TestHedwigContextProvider().Context)
+			{
+				context.Attach(family);
+
+				var _serviceProvider = new Mock<IServiceProvider>();
+				_serviceProvider.Setup(sp => sp.GetService(typeof(IEnumerable<IValidationRule<FamilyDetermination>>)))
+					.Returns(new List<IValidationRule<FamilyDetermination>>());
+				var _validator = new NonBlockingValidator(_serviceProvider.Object);
+				var _determinations = new FamilyDeterminationRepository(context);
+
+				// when
+				var rule = new MostRecentDeterminationIsValid(_validator, _determinations);
+				rule.Execute(family, new NonBlockingValidationContext());
+
+				// then
+				Assert.Equal(familyHasDeterminationsReference, family.Determinations != null);
+			}
 		}
 	}
 }

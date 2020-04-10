@@ -82,7 +82,7 @@ namespace HedwigTests.Repositories
 
 				// When the repository is queried for the child:
 				var childRepo = new ChildRepository(context);
-				var res = childRepo.GetChildById(child.Id);
+				var res = childRepo.GetChildByIdAsNoTracking(child.Id);
 
 				// Then
 				Assert.Equal(name, res.FirstName);

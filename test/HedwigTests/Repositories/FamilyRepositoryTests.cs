@@ -17,7 +17,7 @@ namespace HedwigTests.Repositories
 				var family = FamilyHelper.CreateFamily(context);
 
 				var familyRepo = new FamilyRepository(context);
-				var res = familyRepo.GetFamilyById(family.Id);
+				var res = familyRepo.GetFamilyByIdAsNoTracking(family.Id);
 
 				Assert.Equal(family.Id, res.Id);
 			}

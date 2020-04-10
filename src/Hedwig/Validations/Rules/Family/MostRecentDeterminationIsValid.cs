@@ -25,7 +25,7 @@ namespace Hedwig.Validations.Rules
 				return null;
 			}
 
-			var determinations = family.Determinations ?? _determinations.GetDeterminationsByFamilyId(family.Id);
+			var determinations = family.Determinations ?? _determinations.GetDeterminationsByFamilyIdAsNoTracking(family.Id);
 
 			var determination = determinations
 			.OrderByDescending(d => d.DeterminationDate)

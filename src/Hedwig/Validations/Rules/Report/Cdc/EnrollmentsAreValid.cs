@@ -19,7 +19,7 @@ namespace Hedwig.Validations.Rules
 		public ValidationError Execute(CdcReport report, NonBlockingValidationContext context)
 		{
 
-			var enrollments = report.Enrollments ?? _reports.GetEnrollmentsForReport(report);
+			var enrollments = report.Enrollments ?? _reports.GetEnrollmentsForReportAsNoTracking(report);
 			ValidateSubObject(enrollments, report);
 			if (enrollments.Any(e => e.ValidationErrors.Count > 0))
 			{
