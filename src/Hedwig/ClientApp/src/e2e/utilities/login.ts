@@ -4,11 +4,11 @@ import { IWebDriver } from '../DriverHelper';
 import { username, password } from '../environment_values.json';
 
 export default async function(driver: IWebDriver, root: WebElement) {
-	let { findByText } = render(root);
+	let { queryAllByText } = render(root);
 
 	// Find login button and click it
-	const loginBtn = await findByText('Log in');
-	await loginBtn.click();
+	const loginBtns = await queryAllByText('Sign in');
+	await loginBtns[0].click();
 
 	// Wait for page navigation
 	await driver.wait(until.titleIs('IdentityServer4'));
