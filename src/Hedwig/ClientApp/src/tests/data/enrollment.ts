@@ -1,6 +1,6 @@
 import { Enrollment, Age, FundingSource, FundingTime } from '../../generated';
 import { swapFields } from '../helpers';
-import { mockChild } from '.';
+import { mockChild } from './child';
 import { mockSite } from './site';
 import emptyGuid from '../../utils/emptyGuid';
 

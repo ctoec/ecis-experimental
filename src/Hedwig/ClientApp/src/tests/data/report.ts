@@ -1,6 +1,7 @@
 import { CdcReport, FundingSource } from '../../generated';
-import { mockSingleSiteOrganization, mockAllFakeEnrollments } from '.';
+import { mockAllFakeEnrollments } from './enrollment';
 import { swapFields } from '../helpers';
+import { mockSingleSiteOrganization } from './organization';
 
 const reportEnrollmentValidationError = [
 	{

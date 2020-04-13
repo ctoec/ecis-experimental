@@ -160,3 +160,18 @@ a.usa-button {
 .bg-theme-color-primary {
 	background-color: $theme-color-primary;
 }
+
+// *** Forms ***
+.oec-choicelist-expansion {
+	.usa-form-group {
+		.usa-label {
+			margin-top: 0;
+		}
+	}
+
+	.usa-form-group--error,
+	.usa-form-group--warning {
+		margin-top: 0;
+		margin-left: -1.55rem;
+	}
+}

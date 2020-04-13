@@ -92,7 +92,25 @@ describe('EnrollmentEdit', () => {
 	});
 
 	describe('enrollment and funding', () => {
-		it('shows the appropriate number of reporting periods for enrollment funding', () => {
+		it('matches snapshot', () => {
+			const { asFragment } = render(
+				<TestProvider>
+					<EnrollmentEdit
+						history={history}
+						match={{
+							params: {
+								siteId: mockCompleteEnrollment.siteId,
+								enrollmentId: mockCompleteEnrollment.id,
+								sectionId: 'enrollment-funding',
+							},
+						}}
+					/>
+				</TestProvider>
+			);
+			expect(asFragment()).toMatchSnapshot();
+		});
+
+		it('shows the appropriate number of reporting periods for enrollment funding', async () => {
 			const { getByLabelText } = render(
 				<TestProvider>
 					<EnrollmentEdit

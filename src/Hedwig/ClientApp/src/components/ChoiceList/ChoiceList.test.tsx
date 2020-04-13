@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { ChoiceList } from './ChoiceList';
+import { ChoiceListExpansion } from './ChoiceListExpansion';
 
 function createChoiceList(type: 'select' | 'radio' | 'check', selected?: string[]) {
 	const commonProps = {
@@ -18,6 +19,35 @@ function createChoiceList(type: 'select' | 'radio' | 'check', selected?: string[
 	}
 }
 
+function createChoiceListWithExpansion(type: 'select' | 'radio' | 'check', selected?: string[]) {
+	const commonProps = {
+		id: 'id',
+		options: [
+			{ text: 'Option 1', value: '1' },
+			{ text: 'Option 2', value: '2' },
+		],
+		onChange: () => {},
+	};
+	const expansion = (
+		<ChoiceListExpansion showOnValue="1">
+			<p>My expansion</p>
+		</ChoiceListExpansion>
+	);
+	if (type === 'select') {
+		return (
+			<ChoiceList {...commonProps} type={type} label="choice" selected={selected}>
+				{expansion}
+			</ChoiceList>
+		);
+	} else {
+		return (
+			<ChoiceList {...commonProps} type={type} legend="choice" selected={selected}>
+				{expansion}
+			</ChoiceList>
+		);
+	}
+}
+
 describe('select', () => {
 	it('matches snapshot', () => {
 		const component = render(createChoiceList('select'));
@@ -27,6 +57,18 @@ describe('select', () => {
 	it('selected prop is the selected input', () => {
 		const component = render(createChoiceList('select', ['1']));
 		expect(component.getByDisplayValue(/Option 1/i)).toBeTruthy();
+	});
+});
+
+describe('select with expansion', () => {
+	it('matches snapshot', () => {
+		const component = render(createChoiceListWithExpansion('select', ['1']));
+		expect(component).toMatchSnapshot();
+	});
+
+	it('expansion is showed when corresponding input selected', () => {
+		const component = render(createChoiceListWithExpansion('select', ['1']));
+		expect(component.getByText(/expansion/i)).toBeTruthy();
 	});
 });
 
@@ -42,6 +84,18 @@ describe('check', () => {
 	});
 });
 
+describe('select with expansion', () => {
+	it('matches snapshot', () => {
+		const component = render(createChoiceListWithExpansion('check', ['1']));
+		expect(component).toMatchSnapshot();
+	});
+
+	it('expansion is showed when corresponding input selected', () => {
+		const component = render(createChoiceListWithExpansion('check', ['1']));
+		expect(component.getByText(/expansion/i)).toBeTruthy();
+	});
+});
+
 describe('radio', () => {
 	it('matches snapshot', () => {
 		const component = render(createChoiceList('radio'));
@@ -51,5 +105,17 @@ describe('radio', () => {
 	it('selected prop is the selected input', () => {
 		const component = render(createChoiceList('radio', ['1']));
 		expect((component.getByDisplayValue(/1/i) as HTMLInputElement).checked).toBeTruthy();
+	});
+});
+
+describe('radio with expansion', () => {
+	it('matches snapshot', () => {
+		const component = render(createChoiceListWithExpansion('radio', ['1']));
+		expect(component).toMatchSnapshot();
+	});
+
+	it('expansion is showed when corresponding input selected', () => {
+		const component = render(createChoiceListWithExpansion('radio', ['1']));
+		expect(component.getByText(/expansion/i)).toBeTruthy();
 	});
 });
