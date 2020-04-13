@@ -142,7 +142,7 @@ jobs:
       scannerMode: "MSBuild"
       projectKey: "ecis-experimental"
       extraProperties: |
-        sonar.exclusions=**/Migrations/**,**/DbInitializer.cs,**/generated/**,**.stories.tsx
+        sonar.exclusions=**/Migrations/**,**/DbInitializer.cs,**/generated/**,**.stories.tsx,**.test.tsx,**.test.ts
         sonar.coverage.exclusions=**/**
 
   # Install typescript for sonarcloud 
