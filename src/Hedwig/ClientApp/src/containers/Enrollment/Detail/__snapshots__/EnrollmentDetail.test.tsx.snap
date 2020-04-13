@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`EnrollmentDetail matches snapshot 1`] = `
-<div>
+<DocumentFragment>
   <div
     class="grid-container"
   >
@@ -53,28 +53,22 @@ exports[`EnrollmentDetail matches snapshot 1`] = `
           class="ChildInfoSummary"
         >
           <p>
-            Name: 
-            Lily Luna Potter
+            Name: Lily Luna Potter
           </p>
           <p>
-            Birthdate: 
-            12/12/2016
+            Birthdate: 12/12/2016
           </p>
           <p>
-            Birth certificate: 
-            Yes
+            Birth certificate: Yes
           </p>
           <p>
-            Race: 
-            Native Hawaiian Or Pacific Islander
+            Race: Native Hawaiian Or Pacific Islander
           </p>
           <p>
-            Ethnicity: 
-            Hispanic/Latinx
+            Ethnicity: Hispanic/Latinx
           </p>
           <p>
-            Gender: 
-            Female
+            Gender: Female
           </p>
         </div>
       </div>
@@ -83,14 +77,13 @@ exports[`EnrollmentDetail matches snapshot 1`] = `
       >
         <a
           class=""
-          href="/roster/sites/1/enrollments/1/edit/child-information"
+          href="/roster/sites/1/enrollments/1/update/child-information"
         >
-          Edit
+          Update
           <span
             class="usa-sr-only"
           >
-             
-            child information
+             child information
           </span>
         </a>
       </div>
@@ -108,10 +101,7 @@ exports[`EnrollmentDetail matches snapshot 1`] = `
           class="FamilyInfoSummary"
         >
           <p>
-            Address: 
-            4 Privet Drive, Hogsmeade, CT 77777
-             
-            
+            Address: 4 Privet Drive, Hogsmeade, CT 77777 
           </p>
         </div>
       </div>
@@ -120,14 +110,13 @@ exports[`EnrollmentDetail matches snapshot 1`] = `
       >
         <a
           class=""
-          href="/roster/sites/1/enrollments/1/edit/family-information"
+          href="/roster/sites/1/enrollments/1/update/family-information"
         >
-          Edit
+          Update
           <span
             class="usa-sr-only"
           >
-             
-            family information
+             family information
           </span>
         </a>
       </div>
@@ -154,14 +143,13 @@ exports[`EnrollmentDetail matches snapshot 1`] = `
       >
         <a
           class=""
-          href="/roster/sites/1/enrollments/1/edit/family-income"
+          href="/roster/sites/1/enrollments/1/update/family-income"
         >
-          Edit
+          Update
           <span
             class="usa-sr-only"
           >
-             
-            family income determination
+             family income determination
           </span>
         </a>
       </div>
@@ -179,30 +167,19 @@ exports[`EnrollmentDetail matches snapshot 1`] = `
           class="EnrollmentFundingSummary"
         >
           <p>
-            Site: 
-            Children's Adventure Center
-             
+            Site: Children's Adventure Center 
           </p>
           <p>
-            Age group:
-             
-            Preschool
+            Age group: Preschool
           </p>
           <p>
-             
-            Enrollment date:
-             
-            02/03/2018
-             
+             Enrollment date: 02/03/2018 
           </p>
           <p>
-            Funding:
-             
-            CDC - full time
+            Funding: CDC - full time
           </p>
           <p>
-            First reporting period: 
-            March 2019
+            First reporting period: March 2019
           </p>
         </div>
       </div>
@@ -211,14 +188,13 @@ exports[`EnrollmentDetail matches snapshot 1`] = `
       >
         <a
           class=""
-          href="/roster/sites/1/enrollments/1/edit/enrollment-funding"
+          href="/roster/sites/1/enrollments/1/update/enrollment-funding"
         >
-          Edit
+          Update
           <span
             class="usa-sr-only"
           >
-             
-            enrollment and funding
+             enrollment and funding
           </span>
         </a>
       </div>
@@ -245,8 +221,7 @@ exports[`EnrollmentDetail matches snapshot 1`] = `
           <span
             class="usa-hint text-italic"
           >
-             
-            on March 01, 2019
+             on March 01, 2019
           </span>
         </li>
         <li
@@ -262,12 +237,11 @@ exports[`EnrollmentDetail matches snapshot 1`] = `
           <span
             class="usa-hint text-italic"
           >
-             
-            on February 03, 2018
+             on February 03, 2018
           </span>
         </li>
       </ol>
     </div>
   </div>
-</div>
+</DocumentFragment>
 `;

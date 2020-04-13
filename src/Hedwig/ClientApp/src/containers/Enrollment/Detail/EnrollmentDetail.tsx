@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import ChildInfo from '../_sections/ChildInfo';
 import FamilyInfo from '../_sections/FamilyInfo';
 import FamilyIncome from '../_sections/FamilyIncome';
@@ -20,6 +20,7 @@ import { InlineIcon, Button } from '../../../components';
 import CommonContainer from '../../CommonContainer';
 import { SectionProps } from '../enrollmentTypes';
 import { ProcessList } from '../../../components/ProcessList/ProcessList';
+import { DeepNonUndefineable } from '../../../utils/types';
 
 type EnrollmentDetailParams = {
 	match: {
@@ -45,6 +46,7 @@ export default function EnrollmentDetail({
 }: EnrollmentDetailParams) {
 	const { user } = useContext(UserContext);
 
+	const [enrollment, updateEnrollment] = useState<DeepNonUndefineable<Enrollment> | null>(null);
 	// Get enrollment by id
 	const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest = {
 		id: enrollmentId ? enrollmentId : 0,
@@ -52,12 +54,15 @@ export default function EnrollmentDetail({
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		include: ['child', 'family', 'determinations', 'fundings', 'sites', 'past_enrollments'],
 	};
-	const { loading, error, data: enrollment } = useApi<Enrollment>(
+	const { loading, error, data: _enrollment } = useApi<Enrollment>(
 		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
 		{
 			skip: !enrollmentId || !user,
 		}
 	);
+	useEffect(() => {
+		updateEnrollment(_enrollment);
+	}, [_enrollment]);
 
 	if (loading || !enrollment) {
 		return <div className="EnrollmentDetail"></div>;
@@ -88,7 +93,7 @@ export default function EnrollmentDetail({
 					/>
 				</div>
 				{sections.map(section => {
-					var props: SectionProps = { siteId, enrollment, error };
+					var props: SectionProps = { siteId, enrollment, updateEnrollment, error };
 					const familyIncomeForFosterChild = section.key === 'family-income' && child.foster;
 					return (
 						<section key={section.key} className="oec-enrollment-details-section">
@@ -103,10 +108,10 @@ export default function EnrollmentDetail({
 									</span>
 								)}
 								<Link
-									to={`/roster/sites/${siteId}/enrollments/${enrollment.id}/edit/${section.key}`}
+									to={`/roster/sites/${siteId}/enrollments/${enrollment.id}/update/${section.key}`}
 									className={familyIncomeForFosterChild ? 'display-none important' : ''}
 								>
-									Edit<span className="usa-sr-only"> {section.name.toLowerCase()}</span>
+									Update<span className="usa-sr-only"> {section.name.toLowerCase()}</span>
 								</Link>
 							</div>
 						</section>

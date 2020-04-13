@@ -2,7 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 import { FormStatus, FormStatusProps } from '..';
 
-type TextInputProps = {
+export type TextInputProps = {
 	name?: string;
 	label: string | JSX.Element;
 	id: string;

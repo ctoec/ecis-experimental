@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import moment, { Moment } from 'moment';
 import cx from 'classnames';
 import { DayPickerSingleDateController } from 'react-dates';
@@ -20,6 +20,7 @@ export type DateInputProps = {
 	hideLabel?: boolean;
 	hideHint?: boolean;
 	name?: string;
+	forceBlur?: boolean;
 };
 
 const momentFormat = 'MM/DD/YYYY';
@@ -35,6 +36,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 	className,
 	hideHint = false,
 	name,
+	forceBlur = false,
 }) => {
 	const [calendarOpen, setCalendarOpen] = useState<boolean>(false);
 	const [currentDate, setCurrentDate] = useState(date);
@@ -42,6 +44,12 @@ export const DateInput: React.FC<DateInputProps> = ({
 		currentDate ? currentDate.format(momentFormat) : undefined
 	);
 	const [dateIsInvalid, setDateIsInvalid] = useState();
+
+	useEffect(() => {
+		if (forceBlur) {
+			onMomentChange(currentDate);
+		}
+	}, [forceBlur]);
 
 	const onMomentChange = (input: Moment | null) => {
 		// Whatever input is, set current date to that, even if it's not valid

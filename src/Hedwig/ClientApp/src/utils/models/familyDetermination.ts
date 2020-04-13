@@ -13,6 +13,10 @@ export function familyDeterminationNotDisclosed(enrollment: Enrollment): boolean
 	return !!determinations[0].notDisclosed;
 }
 
-export function determinationSorter(a: FamilyDetermination, b: FamilyDetermination) {
-	return dateSorter(a.determinationDate, b.determinationDate);
+export function determinationSorter(
+	a: FamilyDetermination,
+	b: FamilyDetermination,
+	inverse?: true
+) {
+	return dateSorter(a.determinationDate, b.determinationDate, inverse);
 }

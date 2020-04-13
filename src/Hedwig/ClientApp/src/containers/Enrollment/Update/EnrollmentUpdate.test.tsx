@@ -17,24 +17,28 @@ jest.mock('../../../hooks/useApi', () =>
 
 import React from 'react';
 import { render } from '@testing-library/react';
-import EnrollmentDetail from './EnrollmentDetail';
 import TestProvider from '../../../contexts/__mocks__/TestProvider';
 import { mockCompleteEnrollment, mockEnrollmentMissingBirthCertId } from '../../../tests/data';
 import { accessibilityTestHelper } from '../../../tests/helpers';
+import EnrollmentUpdate from './EnrollmentUpdate';
+import { createMemoryHistory } from 'history';
 
 afterAll(() => {
 	jest.resetModules();
 });
 
-describe('EnrollmentDetail', () => {
+describe('EnrollmentUpdate', () => {
 	it('matches snapshot', () => {
+		const history = createMemoryHistory();
 		const { asFragment } = render(
-			<TestProvider>
-				<EnrollmentDetail
+			<TestProvider history={history}>
+				<EnrollmentUpdate
+					history={history}
 					match={{
 						params: {
 							siteId: mockCompleteEnrollment.siteId,
 							enrollmentId: mockCompleteEnrollment.id,
+							sectionId: 'family-income',
 						},
 					}}
 				/>
@@ -43,31 +47,16 @@ describe('EnrollmentDetail', () => {
 		expect(asFragment()).toMatchSnapshot();
 	});
 
-	it('shows incomplete indications when incomplete information is given', () => {
-		const { getAllByText } = render(
-			<TestProvider>
-				<EnrollmentDetail
-					match={{
-						params: {
-							siteId: mockEnrollmentMissingBirthCertId.siteId,
-							enrollmentId: mockEnrollmentMissingBirthCertId.id,
-						},
-					}}
-				/>
-			</TestProvider>
-		);
-
-		const incompleteIcons = getAllByText('(incomplete)');
-		expect(incompleteIcons.length).toBe(1);
-	});
-
+	const history = createMemoryHistory();
 	accessibilityTestHelper(
-		<TestProvider>
-			<EnrollmentDetail
+		<TestProvider history={history}>
+			<EnrollmentUpdate
+				history={history}
 				match={{
 					params: {
 						siteId: mockEnrollmentMissingBirthCertId.siteId,
 						enrollmentId: mockEnrollmentMissingBirthCertId.id,
+						sectionId: 'family-income',
 					},
 				}}
 			/>

@@ -83,9 +83,8 @@ const Home: any = () => {
 								<ArrowDown aria-hidden width="20" height="20" className="margin-left-3" />
 							</span>
 						}
-						href="https://stage.ctoec.org"
+						href="https://ctoec.org"
 						external={true}
-						// onClick={() => window.location.href = 'https://stage.ctoec.org'}
 						appearance="default"
 					/>
 				</div>

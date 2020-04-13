@@ -11,7 +11,7 @@ type Option = {
 
 export type HTMLChoiceElement = HTMLInputElement | HTMLSelectElement;
 
-type ChoiceListProps = {
+type InternalChoiceListProps = {
 	options: Option[];
 	id: string;
 	name?: string;
@@ -29,7 +29,7 @@ type ChoiceListProps = {
 	otherInputLabel?: string;
 };
 
-type RadioOrChecklistProps = ChoiceListProps & {
+type RadioOrChecklistProps = InternalChoiceListProps & {
 	type: 'radio' | 'check';
 	legend: string;
 	horizontal?: boolean;
@@ -37,13 +37,15 @@ type RadioOrChecklistProps = ChoiceListProps & {
 	unselectedText?: never;
 };
 
-type DropdownProps = ChoiceListProps & {
+type DropdownProps = InternalChoiceListProps & {
 	type: 'select';
 	label: string;
 	unselectedText?: string;
 	horizontal?: never;
 	legend?: never;
 };
+
+export type ChoiceListProps = RadioOrChecklistProps | DropdownProps;
 
 export function ChoiceList({
 	type,
@@ -62,7 +64,7 @@ export function ChoiceList({
 	otherInputLabel,
 	label,
 	unselectedText,
-}: RadioOrChecklistProps | DropdownProps) {
+}: ChoiceListProps) {
 	const [selectedItems, updateSelection] = useState(selected);
 	const [otherInput, updateOtherInput] = useState();
 

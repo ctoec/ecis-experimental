@@ -1,5 +1,6 @@
 export * from './Alert/Alert';
 export * from './Button/Button';
+export * from './Card/Card';
 export * from './ChoiceList/ChoiceList';
 export * from './DateInput/DateInput';
 export * from './DateRangeInput/DateRangeInput';

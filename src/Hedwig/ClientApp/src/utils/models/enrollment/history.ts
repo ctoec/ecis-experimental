@@ -9,7 +9,7 @@ import {
 } from '../../../generated';
 import { prettyAge, prettyFundingTime, NO_FUNDING } from '..';
 import dateFormatter from '../../dateFormatter';
-import { inverseDateSorter } from '../../dateSorter';
+import { dateSorter } from '../../dateSorter';
 import moment from 'moment';
 import { c4kCertificateSorter } from '../c4kCertificate';
 import { fundingStartSorter, getFundingTime } from '../funding';
@@ -226,7 +226,7 @@ export function enrollmentHistoryPropsSorter(
 	a: SortableProcessStepProps,
 	b: SortableProcessStepProps
 ) {
-	var dateSorterRes = inverseDateSorter(a.sortDate, b.sortDate);
+	var dateSorterRes = dateSorter(a.sortDate, b.sortDate, true);
 
 	if (dateSorterRes !== 0) return dateSorterRes;
 
