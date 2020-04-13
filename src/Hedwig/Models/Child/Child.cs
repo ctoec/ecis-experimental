@@ -55,7 +55,6 @@ namespace Hedwig.Models
 		public Organization Organization { get; set; }
 
 		public int? C4KFamilyCaseNumber { get; set; }
-		[Required]
 		public List<C4KCertificate> C4KCertificates { get; set; }
 
 		[NotMapped]

@@ -199,7 +199,7 @@ export interface Child {
 	 * @type {Array<C4KCertificate>}
 	 * @memberof Child
 	 */
-	c4KCertificates: Array<C4KCertificate> | null;
+	c4KCertificates?: Array<C4KCertificate> | null;
 	/**
 	 *
 	 * @type {Array<ValidationError>}
@@ -281,10 +281,11 @@ export function ChildFromJSONTyped(json: any, ignoreDiscriminator: boolean): Chi
 		c4KFamilyCaseNumber: !exists(json, 'c4KFamilyCaseNumber')
 			? undefined
 			: json['c4KFamilyCaseNumber'],
-		c4KCertificates:
-			json['c4KCertificates'] === null
-				? null
-				: (json['c4KCertificates'] as Array<any>).map(C4KCertificateFromJSON),
+		c4KCertificates: !exists(json, 'c4KCertificates')
+			? undefined
+			: json['c4KCertificates'] === null
+			? null
+			: (json['c4KCertificates'] as Array<any>).map(C4KCertificateFromJSON),
 		validationErrors: !exists(json, 'validationErrors')
 			? undefined
 			: json['validationErrors'] === null
@@ -343,7 +344,9 @@ export function ChildToJSON(value?: Child | null): any {
 		organization: OrganizationToJSON(value.organization),
 		c4KFamilyCaseNumber: value.c4KFamilyCaseNumber,
 		c4KCertificates:
-			value.c4KCertificates === null
+			value.c4KCertificates === undefined
+				? undefined
+				: value.c4KCertificates === null
 				? null
 				: (value.c4KCertificates as Array<any>).map(C4KCertificateToJSON),
 		validationErrors:
