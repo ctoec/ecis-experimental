@@ -89,7 +89,7 @@ type FormFieldProps<TData, TProps extends React.Props<any>, TFieldData, TAdditio
 	 * Function for converting the HTML Event target value string
 	 * into the data corresponding to the model
 	 */
-	parseValue: (_: any, __: any) => TFieldData;
+	parseValue: (_: any, __?: any) => TFieldData;
 	/**
 	 * Function for accessing a specific value in the supplied data
 	 */

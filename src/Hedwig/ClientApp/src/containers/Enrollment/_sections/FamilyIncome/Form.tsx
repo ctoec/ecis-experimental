@@ -137,7 +137,7 @@ export const annualHouseholdIncomeField = (index: number) => (
 	/>
 );
 
-export const determinationDateField = (index: number) => (
+export const determinationDateField = (index: number, isEdit?: boolean, forceBlur?: boolean) => (
 	<FormField<Enrollment, DateInputProps, Date | null, { initialLoad: boolean }>
 		field={data =>
 			data
@@ -157,7 +157,7 @@ export const determinationDateField = (index: number) => (
 				<DateInput
 					label="Date of income determination"
 					id={`income-determination-date-${index}`}
-					date={determinationDate ? moment(determinationDate) : null}
+					date={determinationDate ? moment(determinationDate) : !isEdit ? moment(new Date()) : null}
 					status={initialLoadErrorGuard(
 						initialLoad,
 						warningForField(
@@ -166,6 +166,7 @@ export const determinationDateField = (index: number) => (
 							!determinationDate ? '' : undefined
 						)
 					)}
+					forceBlur={forceBlur}
 					{...props}
 				/>
 			);

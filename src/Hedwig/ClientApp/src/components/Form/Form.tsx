@@ -1,21 +1,30 @@
 import React, { createContext, useEffect, useReducer, PropsWithChildren, useState } from 'react';
-import { FormReducer, formReducer, updateData } from '../../utils/forms/form';
+import { FormReducer, formReducer, updateData, InputField } from '../../utils/forms/form';
+import { HTMLChoiceElement } from '..';
 
 export type GenericFormContextType<TData, TFieldData, TAdditionalInformation> = {
 	data: TData;
-	updateData: (_: (__: any, ___: any) => TFieldData) => void;
+	updateData: (
+		_: (__: any, ___: any) => TFieldData
+	) => <T extends {}>(
+		event: React.ChangeEvent<HTMLChoiceElement | HTMLTextAreaElement> | InputField<T>
+	) => void;
 	additionalInformation: TAdditionalInformation;
 };
 
 export type FormContextType = {
 	data: any;
-	updateData: (_: (__: any, ___: any) => any) => void;
+	updateData: (
+		_: (__: any, ___: any) => any
+	) => <T extends {}>(
+		event: React.ChangeEvent<HTMLChoiceElement | HTMLTextAreaElement> | InputField<T>
+	) => void;
 	additionalInformation: any;
 };
 
 export const FormContext = createContext<FormContextType>({
 	data: undefined,
-	updateData: () => {},
+	updateData: () => () => {},
 	additionalInformation: {},
 });
 

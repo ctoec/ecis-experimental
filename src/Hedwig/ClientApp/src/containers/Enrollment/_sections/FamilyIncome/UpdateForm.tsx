@@ -9,7 +9,7 @@ import { DeepNonUndefineable } from '../../../../utils/types';
 import { Enrollment, FamilyDetermination } from '../../../../generated';
 import idx from 'idx';
 import { determinationSorter } from '../../../../utils/models';
-import { FieldSet, Button, Card } from '../../../../components';
+import { FieldSet, Button, Card, InlineIcon } from '../../../../components';
 import currencyFormatter from '../../../../utils/currencyFormatter';
 import Form from '../../../../components/Form/Form';
 import FormInset from '../../../../components/Form/FormInset';
@@ -25,6 +25,7 @@ import { ExpandCard } from '../../../../components/Card/ExpandCard';
 import { CardExpansion } from '../../../../components/Card/CardExpansion';
 import AlertContext from '../../../../contexts/Alert/AlertContext';
 import { validationErrorAlert } from '../../../../utils/stringFormatters/alertTextMakers';
+import ReactDOM from 'react-dom';
 
 const UpdateForm: React.FC<SectionProps> = ({
 	enrollment,
@@ -43,6 +44,7 @@ const UpdateForm: React.FC<SectionProps> = ({
 	const [addNewDetermination, setAddNewDetermination] = useState(false);
 	const [isNew, setIsNew] = useState(false);
 	const [forceClose, setForceClose] = useState<boolean>(false);
+	const [forceDateInputBlur, setForceDateInputBlur] = useState<boolean>(false);
 	// Process response from API
 	// Passed down via EnrollmentUpdate
 	useEffect(() => {
@@ -65,6 +67,13 @@ const UpdateForm: React.FC<SectionProps> = ({
 		}
 	}, [loading, error, success]);
 
+	useEffect(() => {
+		if (addNewDetermination) {
+			// ReactDOM.findDOMNode(document.)
+			setForceDateInputBlur(true);
+		}
+	}, [addNewDetermination]);
+
 	const child = enrollment.child;
 	const determinations: DeepNonUndefineable<FamilyDetermination[]> =
 		idx(child, _ => _.family.determinations as DeepNonUndefineable<FamilyDetermination[]>) || [];
@@ -85,7 +94,7 @@ const UpdateForm: React.FC<SectionProps> = ({
 	 * @param sortedIndex The index of the determination after the list is sorted
 	 * @param index The index of the determination before the list is sorted
 	 */
-	const formInset = (sortedIndex: number, index: number) => (
+	const formInset = (sortedIndex: number, index: number, isEdit: boolean) => (
 		<FormInset<Enrollment, { initialLoad: boolean }>
 			render={({ containingData: enrollment, additionalInformation }) => {
 				const originalDetermination = sortedDeterminations[sortedIndex];
@@ -124,7 +133,7 @@ const UpdateForm: React.FC<SectionProps> = ({
 					>
 						<div>{householdSizeField(index)}</div>
 						<div>{annualHouseholdIncomeField(index)}</div>
-						<div>{determinationDateField(index)}</div>
+						<div>{determinationDateField(index, isEdit, !isEdit && forceDateInputBlur)}</div>
 						{originalDetermination && originalDetermination.notDisclosed && (
 							<div>{incomeDisclosedField(index)}</div>
 						)}
@@ -152,14 +161,22 @@ const UpdateForm: React.FC<SectionProps> = ({
 								</div>
 								<div className="grid-row">
 									<div className="grid-col">
-										<div className="margin-top-2">{determination.numberOfPeople}</div>
-									</div>
-									<div className="grid-col">
-										<div className="margin-top-2">{currencyFormatter(determination.income)}</div>
+										<div className="margin-top-2">
+											{determination.numberOfPeople || InlineIcon({ icon: 'incomplete' })}
+										</div>
 									</div>
 									<div className="grid-col">
 										<div className="margin-top-2">
-											{dateFormatter(determination.determinationDate)}
+											{determination.income
+												? currencyFormatter(determination.income)
+												: InlineIcon({ icon: 'incomplete' })}
+										</div>
+									</div>
+									<div className="grid-col">
+										<div className="margin-top-2">
+											{determination.determinationDate
+												? dateFormatter(determination.determinationDate)
+												: InlineIcon({ icon: 'incomplete' })}
 										</div>
 									</div>
 								</div>
@@ -201,7 +218,7 @@ const UpdateForm: React.FC<SectionProps> = ({
 			<p className="text-bold font-sans-lg margin-top-2">
 				{isEdit ? 'Edit family income determination' : 'Redetermine family income'}
 			</p>
-			{formInset(sortedIndex, index)}
+			{formInset(sortedIndex, index, isEdit)}
 			<div className="display-flex">
 				<div className="usa-form">
 					{isEdit ? (
@@ -257,7 +274,7 @@ const UpdateForm: React.FC<SectionProps> = ({
 			</div>
 			{pastDeterminations.length > 0 && (
 				<>
-					<h3>Past income determinations</h3>
+					<h3 className="margin-top-6">Past income determinations</h3>
 					<div>
 						{pastDeterminations.map((determination, index) => (
 							<Card
