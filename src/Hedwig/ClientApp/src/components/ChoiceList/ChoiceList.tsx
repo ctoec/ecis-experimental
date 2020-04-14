@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextInput, FormStatus, FormStatusProps, FieldSet } from '..';
+import { TextInput, FormStatus, FormStatusProps, FieldSet, ChoiceListExpansion } from '..';
 import Checkbox from './Checkbox';
 import RadioButton from './RadioButton';
 
@@ -77,7 +77,7 @@ export const ChoiceList: React.FC<ChoiceListProps> = ({
 	const validTypesArray: boolean[] =
 		React.Children.map(expansionChildren, child => {
 			if (React.isValidElement(child)) {
-				return !!child.type && (child.type as Function).name === 'ChoiceListExpansion';
+				return !!child.type && (child.type as Function).name === ChoiceListExpansion.name;
 			} else {
 				throw new Error('Invalid element');
 			}
