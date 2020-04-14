@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Hedwig.Repositories
 {
@@ -21,34 +22,15 @@ namespace Hedwig.Repositories
 
 		protected readonly HedwigContext _context;
 
-		public HedwigRepository(HedwigContext context) => _context = context;
+		public HedwigRepository(HedwigContext context)
+		{
+ 			_context = context;
+			_context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+		}
 
 		public Task SaveChangesAsync()
 		{
 			return _context.SaveChangesAsync();
-		}
-
-		/// <summary>
-		/// Deletes removed items from enumerable child object array on object update.
-		/// Adding and updating in the array happens for free with Entity Framework
-		/// </summary>
-		/// <param name="updates"></param>
-		/// <param name="currents"></param>
-		/// <typeparam name="T"></typeparam>
-		public void UpdateEnumerableChildObjects<T>(IEnumerable<IHedwigIdEntity<T>> updates, IEnumerable<IHedwigIdEntity<T>> currents)
-		{
-			if (updates == null)
-			{
-				return;
-			}
-
-			foreach (var current in currents)
-			{
-				if (!updates.Any(u => u.Id.Equals(current.Id)))
-				{
-					_context.Remove(current);
-				}
-			}
 		}
 	}
 

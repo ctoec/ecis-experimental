@@ -20,17 +20,6 @@ namespace Hedwig.Repositories
 
 		public void UpdateEnrollment(Enrollment enrollment)
 		{
-			var currentFundings = _context.Fundings.AsNoTracking().Where(f => f.EnrollmentId == enrollment.Id).ToList();
-			var newFundings = enrollment.Fundings.AsEnumerable().Cast<IHedwigIdEntity<int>>();
-			var oldFundings = currentFundings.AsEnumerable().Cast<IHedwigIdEntity<int>>();
-			UpdateEnumerableChildObjects(newFundings, oldFundings);
-
-			var currentC4kCertificates = _context.C4KCertificates.AsNoTracking().Where(c => c.ChildId == enrollment.ChildId).ToList();
-			var newC4kCertificatesRaw = enrollment.Child.C4KCertificates != null ? enrollment.Child.C4KCertificates : new List<C4KCertificate> { };
-			var newC4kCertificates = newC4kCertificatesRaw.AsEnumerable().Cast<IHedwigIdEntity<int>>();
-			var oldC4kCertificates = currentC4kCertificates.AsEnumerable().Cast<IHedwigIdEntity<int>>();
-			UpdateEnumerableChildObjects(newC4kCertificates, oldC4kCertificates);
-
 			_context.Update(enrollment);
 		}
 

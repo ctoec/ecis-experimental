@@ -269,8 +269,8 @@ namespace HedwigTests.Repositories
 					DateTime.Parse(to)
 				);
 
-				// then
-				Assert.Equal(included, result.Contains(enrollment));
+				// Only check for ID equality because repository functions do not return any mappings by default
+				Assert.Equal(included, result.Any(e => e.Id == enrollment.Id));
 			}
 		}
 	}

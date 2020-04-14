@@ -20,7 +20,9 @@ namespace HedwigTests.Repositories
 				var siteRepo = new SiteRepository(context);
 				var res = await siteRepo.GetSitesForOrganizationAsync(organization.Id);
 
-				Assert.Equal(sites, res);
+
+				// Only check for ID equality because repository functions do not return any mappings by default
+				Assert.Equal(sites.Select(s => s.Id), res.Select(s => s.Id));
 			}
 		}
 

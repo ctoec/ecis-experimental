@@ -85,9 +85,10 @@ namespace HedwigTests.Repositories
 				ReportHelper.CreateCdcReport(context);
 
 				var reportRepo = new ReportRepository(context);
-				var result = await reportRepo.GetReportsForOrganizationAsync(organization.Id);
+				var res = await reportRepo.GetReportsForOrganizationAsync(organization.Id);
 
-				Assert.Equal(reports, result);
+				// Only check for ID equality because repository functions do not return any mappings by default
+				Assert.Equal(reports.Select(r => r.Id), res.Select(r => r.Id));
 			}
 		}
 	}

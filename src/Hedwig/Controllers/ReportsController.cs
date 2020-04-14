@@ -30,8 +30,7 @@ namespace Hedwig.Controllers
 		[HttpGet]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
-		[TypeFilter(typeof(ValidateEntityFilterAttribute), Order = 1)]
-		[TransformEntityFilter(Order = 2)]
+		[TypeFilter(typeof(ValidateEntityFilterAttribute))]
 		public async Task<ActionResult<List<CdcReport>>> Get(
 			int orgId
 		)
@@ -44,8 +43,7 @@ namespace Hedwig.Controllers
 		[HttpGet("{id:int}")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		[TypeFilter(typeof(ValidateEntityFilterAttribute), Order = 1)]
-		[TransformEntityFilter(Order = 2)]
+		[TypeFilter(typeof(ValidateEntityFilterAttribute))]
 		public async Task<ActionResult<CdcReport>> Get(
 			int id,
 			int orgId,
@@ -62,8 +60,7 @@ namespace Hedwig.Controllers
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		[TypeFilter(typeof(ValidateEntityFilterAttribute), Arguments = new object[] { true }, Order = 1)]
-		[TransformEntityFilter(Order = 2)]
+		[TypeFilter(typeof(ValidateEntityFilterAttribute), Arguments = new object[] { true })]
 		public async Task<ActionResult<CdcReport>> Put(
 			int id,
 			int orgId,

@@ -32,8 +32,7 @@ namespace Hedwig.Controllers
 		[HttpGet]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
-		[TypeFilter(typeof(ValidateEntityFilterAttribute), Order = 1)]
-		[TransformEntityFilter(Order = 2)]
+		[TypeFilter(typeof(ValidateEntityFilterAttribute))]
 		public async Task<ActionResult<List<Enrollment>>> Get(
 			int orgId,
 			int siteId,
@@ -51,8 +50,7 @@ namespace Hedwig.Controllers
 		[HttpGet("{id}")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		[TypeFilter(typeof(ValidateEntityFilterAttribute), Order = 1)]
-		[TransformEntityFilter(Order = 2)]
+		[TypeFilter(typeof(ValidateEntityFilterAttribute))]
 		public async Task<ActionResult<Enrollment>> Get(
 			int id,
 			int orgId,
@@ -72,8 +70,7 @@ namespace Hedwig.Controllers
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
-		[TypeFilter(typeof(ValidateEntityFilterAttribute), Order = 1)]
-		[TransformEntityFilter(Order = 2)]
+		[TypeFilter(typeof(ValidateEntityFilterAttribute))]
 		public async Task<ActionResult<List<Enrollment>>> Get(
 			int orgId,
 			[FromQuery(Name = "siteIds[]")] int[] siteIds,
@@ -114,8 +111,7 @@ namespace Hedwig.Controllers
 		[HttpPost]
 		[ProducesResponseType(StatusCodes.Status201Created)]
 		[ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
-		[TypeFilter(typeof(ValidateEntityFilterAttribute), Order = 1)]
-		[TransformEntityFilter(Order = 2)]
+		[TypeFilter(typeof(ValidateEntityFilterAttribute))]
 		public async Task<ActionResult<Enrollment>> Post(
 			int orgId,
 			int siteId,
@@ -139,8 +135,7 @@ namespace Hedwig.Controllers
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		[TypeFilter(typeof(ValidateEntityFilterAttribute), Order = 1)]
-		[TransformEntityFilter(Order = 2)]
+		[TypeFilter(typeof(ValidateEntityFilterAttribute))]
 		public async Task<ActionResult<Enrollment>> Put(
 			int id,
 			int orgId,
@@ -167,7 +162,6 @@ namespace Hedwig.Controllers
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		[TransformEntityFilter]
 		public async Task<ActionResult> Delete(
 			int id,
 			int orgId,
