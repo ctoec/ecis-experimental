@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Hedwig.Validations;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -33,10 +34,7 @@ namespace Hedwig.Filters
 				.Where(item => item.GetType().IsApplicationModel())
 				.ToList();
 
-			foreach (var entity in requestEntities)
-			{
-				ValidateEntity(entity);
-			}
+			Validate(requestEntities);
 		}
 		public override void OnActionExecuted(ActionExecutedContext context)
 		{
@@ -51,7 +49,7 @@ namespace Hedwig.Filters
 
 			var responseEntity = objectResult.Value;
 
-			ValidateEntity(responseEntity);
+			Validate(responseEntity);
 		}
 
 		/// <summary>
@@ -61,9 +59,9 @@ namespace Hedwig.Filters
 		/// if the cast fails, which is handled by Validate
 		/// </summary>
 		/// <param name="entity"></param>
-		private void ValidateEntity(object entity)
+		private void Validate(object entity)
 		{
-			if (entity.GetType().IsNonStringEnumerable())
+			if (entity is IEnumerable)
 			{
 				_validator.Validate(entity as IEnumerable<INonBlockingValidatableObject>);
 			}

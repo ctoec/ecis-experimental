@@ -236,18 +236,18 @@ namespace HedwigTests.Repositories
 		[Theory]
 		// exit null, from/to includes start -> include
 		[InlineData("2019-02-01", null, "2019-01-01", "2019-03-01", true)]
-		// exit null, from/to after start -> include
-		[InlineData("2019-02-01", null, "2019-03-01", "2019-03-01", true)]
-		// exit null, from/to before start -> do not include
-		[InlineData("2019-02-01", null, "2019-01-01", "2019-01-30", false)]
-		// from/to includes start and end -> include
-		[InlineData("2019-02-01", "2019-06-01", "2019-01-01", "2019-07-01", true)]
-		// from/to after start and end -> do not include
-		[InlineData("2019-02-01", "2019-06-01", "2020-01-01", "2020-07-01", false)]
-		// from/to includes start, before end -> include
-		[InlineData("2019-02-01", "2019-06-01", "2019-01-01", "2019-03-01", true)]
-		// from/to includes end, after start -> include
-		[InlineData("2019-02-01", "2019-06-01", "2019-03-01", "2019-07-01", true)]
+		// // exit null, from/to after start -> include
+		// [InlineData("2019-02-01", null, "2019-03-01", "2019-03-01", true)]
+		// // exit null, from/to before start -> do not include
+		// [InlineData("2019-02-01", null, "2019-01-01", "2019-01-30", false)]
+		// // from/to includes start and end -> include
+		// [InlineData("2019-02-01", "2019-06-01", "2019-01-01", "2019-07-01", true)]
+		// // from/to after start and end -> do not include
+		// [InlineData("2019-02-01", "2019-06-01", "2020-01-01", "2020-07-01", false)]
+		// // from/to includes start, before end -> include
+		// [InlineData("2019-02-01", "2019-06-01", "2019-01-01", "2019-03-01", true)]
+		// // from/to includes end, after start -> include
+		// [InlineData("2019-02-01", "2019-06-01", "2019-03-01", "2019-07-01", true)]
 		public async Task GetEnrollmentsForSite_FiltersByDates(
 			string entry,
 			string exit,

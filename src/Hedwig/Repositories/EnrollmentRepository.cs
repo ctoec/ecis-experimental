@@ -59,6 +59,7 @@ namespace Hedwig.Repositories
 			{
 				enrollments = enrollments.Take(take.Value);
 			}
+
 			return enrollments.OrderBy(e => e.Id).ToListAsync();
 		}
 
@@ -159,9 +160,11 @@ namespace Hedwig.Repositories
 
 		public static IQueryable<Enrollment> ProcessInclude(this IQueryable<Enrollment> query, string[] include = null)
 		{
+			Console.WriteLine("FOOBAR");
 			include = include ?? new string[] { };
 			if (include.Contains(HedwigRepository.INCLUDE_SITES))
 			{
+				Console.WriteLine("ADDING SITE");
 				query = query.Include(e => e.Site);
 			}
 

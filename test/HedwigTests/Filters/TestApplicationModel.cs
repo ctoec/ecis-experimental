@@ -1,4 +1,5 @@
 using Hedwig.Models.Attributes;
+using System.Collections.Generic;
 
 namespace HedwigTests.Hedwig.Models
 {
@@ -6,6 +7,6 @@ namespace HedwigTests.Hedwig.Models
 	{
 		[ReadOnly]
 		public object ReadOnlyProperty { get; set; }
-		public ApplicationModel ChildApplicationModel { get; set; }
+		public ICollection<ApplicationModel> ChildApplicationModels { get; set; }
 	}
 }

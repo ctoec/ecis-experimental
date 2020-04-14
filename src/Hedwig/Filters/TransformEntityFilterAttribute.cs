@@ -48,13 +48,8 @@ namespace Hedwig.Filters
 			}
 
 			var responseEntity = objectResult.Value;
-			var responseEntityType = responseEntity.GetType().GetEntityType();
-
-			if (responseEntityType.IsApplicationModel())
-			{
-				UnsetTypeSubEntities(responseEntity, new Type[] { responseEntityType });
-				ReSetReadOnlyProperties(responseEntity);
-			}
+			UnsetCyclicalCollectionMappings(responseEntity);
+			ResetReadOnlyProperties(responseEntity);
 		}
 
 		/// <summary>
@@ -65,6 +60,13 @@ namespace Hedwig.Filters
 		/// <param name="entity"></param>
 		private void UnsetReadOnlyProperties(object entity)
 		{
+			// Do not attempt to unset read-only properties on null entity
+			if (entity == null)
+			{
+				return;
+			}
+
+			// Individually attempt to unset read-only properties on a set of entities
 			if (entity is ICollection collection)
 			{
 				foreach (var item in collection)
@@ -74,11 +76,9 @@ namespace Hedwig.Filters
 				return;
 			}
 
-			if (entity == null || !entity.GetType().IsApplicationModel())
-			{
-				return;
-			}
-
+			// Attempt to unset read-only properties on an entity,
+			// storing an removed values in a map so they can be reset
+			// before returning object to client
 			var properties = entity.GetType().GetProperties();
 			foreach (var prop in properties)
 			{
@@ -90,100 +90,100 @@ namespace Hedwig.Filters
 					continue;
 				}
 
-				var propValue = prop.GetValue(entity);
-				UnsetReadOnlyProperties(propValue);
+				// Recurse on props that are models
+				var genericType = prop.PropertyType.IsGenericEnumerable() ? prop.PropertyType.GetGenericArguments()[0] : prop.PropertyType;
+				if(genericType.IsApplicationModel())
+				{
+					UnsetReadOnlyProperties(prop.GetValue(entity));
+				}
 			}
 		}
 
-		private void ReSetReadOnlyProperties(object entity)
+		private void ResetReadOnlyProperties(object entity)
 		{
+			// Do not attempt to reset read-only properties on null entity
+			if(entity == null)
+			{
+				return;
+			}
+
+			// Individually attempt to reset read-only properties on null entity
 			if (entity is ICollection collection)
 			{
 				foreach (var item in collection)
 				{
-					ReSetReadOnlyProperties(item);
+					ResetReadOnlyProperties(item);
 				}
 				return;
 			}
 
-			if (entity == null || !entity.GetType().IsApplicationModel())
-			{
-				return;
-			}
-
+			// Attempt to reset read-only properties on an entity,
+			// retrieving values from the map they were stored in
+			// upon unset on incoming request
 			var properties = entity.GetType().GetProperties();
 			foreach (var prop in properties)
 			{
 				if (UnsetReadOnlyPropertyValues.ContainsKey(prop))
 				{
 					prop.SetValue(entity, UnsetReadOnlyPropertyValues[prop]);
+					UnsetReadOnlyPropertyValues.Remove(prop);
 					continue;
 				}
 
-				var propValue = prop.GetValue(entity);
-				ReSetReadOnlyProperties(propValue);
+				// recurse on props that are models
+				var genericType = prop.PropertyType.IsGenericEnumerable() ? prop.PropertyType.GetGenericArguments()[0] : prop.PropertyType;
+				if(genericType.IsApplicationModel() && UnsetReadOnlyPropertyValues.Count > 0)
+				{
+					ResetReadOnlyProperties(prop.GetValue(entity));
+				}
 			}
 		}
 
-		/// <summary>
-		/// Given an entity node, unsets all sub-entities of the specified types.
-		/// Recursively appends model types of sub-entities to specified types,
-		/// ensuring no nested cyclical references exist.
-		/// </summary>
-		/// <param name="entity"></param>
-		/// <param name="entityType"></param>
-		private void UnsetTypeSubEntities(object entity, IEnumerable<Type> typesToRemove)
+		private void UnsetCyclicalCollectionMappings(object entity, HashSet<Type> typesToRemove = null)
 		{
-			// IEnumerable is the most-broadly typed array-like type
-			// If there is an issue with array-like types not being filtered out
-			// Check that the model type implements IEnumerable
-			if (entity is IEnumerable enumerable)
+			// Initialize typesToRemove set if it does not exist
+			typesToRemove = typesToRemove ?? new HashSet<Type>();
+
+			// Do not attempt to unset mappings on null entities
+			if (entity == null)
 			{
-				foreach (var item in enumerable)
+				return;
+			}
+
+			// Individually attempt to unset mappings on a set of entities
+			if(entity is IEnumerable enumerable)
+			{
+				foreach(var item in enumerable)
 				{
-					UnsetTypeSubEntities(item, typesToRemove);
+					UnsetCyclicalCollectionMappings(item, typesToRemove);
 				}
 				return;
 			}
 
-			if (entity == null || !entity.GetType().IsApplicationModel())
-			{
-				return;
-			}
-
-			var properties = entity.GetType().GetProperties();
+			// Attempt to unset cyclical mappings on entity 
+			var entityType = entity.GetType();
+			var properties = entityType.GetProperties();
 			foreach (var prop in properties)
 			{
-				var type = prop.PropertyType.GetEntityType();
-				// If the type has already been seen (in typeToRemove)
-				// And it is a persisted data value
-				// Set the response value to null
-				// And continue to the next prop
-				if (
-					typesToRemove.Any(typeToRemove => typeToRemove == type)
-					&& !prop.IsNotMapped()
-				)
+				// If prop is cyclical collection mapping
+				var genericType = prop.PropertyType.IsGenericEnumerable() ? prop.PropertyType.GetGenericArguments()[0] : prop.PropertyType;
+				if (prop.PropertyType.IsGenericEnumerable() 
+					// and the generic type of the collection is in typesToRemove
+					&& typesToRemove.Any(type => type.IsAssignableFrom(genericType)))
 				{
 					prop.SetValue(entity, null);
-					continue;
+					return;
 				}
 
-				// Get the value of the prop to recurse on
-				var propValue = prop.GetValue(entity);
-
-				var newList = new List<Type>(typesToRemove);
-				// Add prop type to typesToremove if prop is application model type
-				// And not a read-only property
-				// Read only properties should be included no matter what
-				// e.g. reporting periods or users
-				if (type.IsApplicationModel() && !prop.IsReadOnly())
+				// Recurse on props that are model types that have not already been seen
+				// (i.e. that do not appear in typesToRemove -- these cyclical references will be handled by JSON serialization rule )
+				if(genericType.IsApplicationModel() && !typesToRemove.Any(type => type.IsAssignableFrom(genericType)))
 				{
-					newList = newList.Append(type).ToList();
+					var _typesToRemove = new HashSet<Type>(typesToRemove);
+					_typesToRemove.Add(entityType);
+					UnsetCyclicalCollectionMappings(prop.GetValue(entity), _typesToRemove);
 				}
-				// Recurse down
-				UnsetTypeSubEntities(propValue, newList);
 			}
 		}
-
 	}
 }

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Hedwig.Filters;
 using HedwigTests.Hedwig.Models;
+using System.Linq;
 
 namespace HedwigTests.Filters
 {
@@ -84,7 +85,7 @@ namespace HedwigTests.Filters
 			// with an application model as the value
 			var parentApplicationModel = new ApplicationModel
 			{
-				ChildApplicationModel = new ApplicationModel()
+				ChildApplicationModels = new List<ApplicationModel> {new ApplicationModel() }
 			};
 
 			executedContext.Setup(ec => ec.Result)
@@ -94,8 +95,8 @@ namespace HedwigTests.Filters
 			var filter = new TransformEntityFilterAttribute();
 			filter.OnActionExecuted(executedContext.Object);
 
-			// Then child properties of same type as applicationModel are unset
-			Assert.Null(parentApplicationModel.ChildApplicationModel);
+			// Then child properties of same type as applicationModel on any CHILDREN of the object are unset
+			Assert.Null(parentApplicationModel.ChildApplicationModels.First().ChildApplicationModels);
 		}
 	}
 }
