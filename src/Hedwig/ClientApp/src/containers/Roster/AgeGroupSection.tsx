@@ -93,9 +93,26 @@ export default function AgeGroupSection({
 			return (
 				<td>
 					{fundingTypeTags.length > 0 ? (
-						fundingTypeTags.map<React.ReactNode>((value, index) =>
-							generateFundingTypeTag(value, { index, includeTime: true })
-						)
+						fundingTypeTags.map<React.ReactNode>((value, index) => {
+							let includeTime = false;
+							let splitTime = false;
+							const fundingSpaces = organization.fundingSpaces;
+							if (fundingSpaces) {
+								const matchingFundingSpaces = fundingSpaces
+									.filter(space => space.source === value.type)
+									.filter(space => space.ageGroup === ageGroup);
+								if (matchingFundingSpaces.length > 1) {
+									includeTime = true;
+								} else {
+									const fundingSpace = matchingFundingSpaces[0];
+									if (fundingSpace && (fundingSpace.fundingTimeAllocations || []).length > 1) {
+										includeTime = true;
+										splitTime = true;
+									}
+								}
+							}
+							return generateFundingTypeTag(value, { index, includeTime, splitTime });
+						})
 					) : (
 						<span className="text-italic text-base">{NO_FUNDING}</span>
 					)}
