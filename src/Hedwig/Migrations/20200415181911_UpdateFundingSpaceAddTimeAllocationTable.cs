@@ -6,10 +6,7 @@ namespace Hedwig.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "FundingTimeAllocations",
-                table: "FundingSpace");
-
+            
             migrationBuilder.CreateTable(
                 name: "FundingTimeAllocation",
                 columns: table => new
@@ -35,6 +32,23 @@ namespace Hedwig.Migrations
                 name: "IX_FundingTimeAllocation_FundingSpaceId",
                 table: "FundingTimeAllocation",
                 column: "FundingSpaceId");
+
+            
+            migrationBuilder.Sql(@"
+                INSERT INTO [FundingTimeAllocation] (FundingSpaceId, Time, Weeks)
+                SELECT 
+                    Id, 
+                    CASE 
+                        WHEN [FundingTimeAllocations] LIKE '%Full%' THEN 0 
+                        WHEN [FundingTimeAllocations] LIKE '%Part%' THEN 1 
+                    END, 
+                    52 -- All existing funding spaces are for a full year
+                FROM [FundingSpace];
+            ");
+
+            migrationBuilder.DropColumn(
+                name: "FundingTimeAllocations",
+                table: "FundingSpace");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
