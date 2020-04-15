@@ -5,7 +5,7 @@ import login from '../utilities/login';
 import { until } from 'selenium-webdriver';
 
 // Set time out to 60 seconds
-jest.setTimeout(600 * 1000);
+jest.setTimeout(60 * 1000);
 
 const appUrl = `${clientHost}/`;
 
@@ -17,14 +17,11 @@ beforeAll(() => {
 describe('Smoke screen', () => {
 	it('Browser Title renders', async () => {
 		const driver = driverHelper.createDriver();
-		console.log(appUrl);
 		try {
 			await load(driver, appUrl);
-			console.log('after driver load');
 			const title = await driver.getTitle();
 			expect(title).toBe('ECE Reporter');
 		} finally {
-			console.log('finally');
 			await driverHelper.quit(driver);
 		}
 	});

@@ -24,9 +24,9 @@ describe('during an Enroll workflow', () => {
 			root = await login(driver, root);
 			root = await beginEnroll(driver, root);
 
-			const { queryAllByText, findByValue } = render(root);
+			const { queryAllByText, findByText } = render(root);
 
-			const saveBtn = await findByValue('Save');
+			const saveBtn = await findByText('Save');
 			await saveBtn.click();
 
 			const alerts = await queryAllByText('This information is required for enrollment');

@@ -16,15 +16,12 @@ export const load = async (
 	opt_timeout?: number,
 	opt_message?: string
 ) => {
-	console.log('query helper load')
 	await driver.get(url);
-	console.log('after driver get url');
 	// This is needed for BrowserStack that does not maximize the browser
 	await driver
 		.manage()
 		.window()
 		.maximize();
-	console.log('after driver in load');
 	return await waitForElement(driver, rootSelector, opt_timeout, opt_message);
 };
 

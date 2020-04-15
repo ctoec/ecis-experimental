@@ -18,14 +18,14 @@ export async function beginEnroll(driver: IWebDriver, root: WebElement) {
 }
 
 export async function enterChildInfo(driver: IWebDriver, root: WebElement) {
-	const { findByValue, findByLocator } = render(root);
+	const { findByText, findByLocator } = render(root);
 
 	const firstNameInput = await findByLocator({ css: '#firstName' });
 	firstNameInput.sendKeys('First name');
 	const lastNameInput = await findByLocator({ css: '#lastName' });
 	lastNameInput.sendKeys('Last name');
 
-	const saveBtn = await findByValue('Save');
+	const saveBtn = await findByText('Save');
 	await saveBtn.click();
 
 	await driver.wait(until.urlMatches(/family-information/));
