@@ -13,7 +13,7 @@ type BaseButtonProps = {
 
 export type ButtonProps = BaseButtonProps &
 	React.HTMLProps<HTMLButtonElement | HTMLAnchorElement> & {
-		text: string | JSX.Element;
+		text: string;
 		onClick?: () => any;
 	};
 
@@ -75,6 +75,7 @@ export function Button({
 			onClick={onClick}
 			type="button"
 			title={title}
+			value={text}
 		>
 			{text}
 		</button>
