@@ -11,7 +11,10 @@ export function fundingTimeFromString(str: string) {
 	}
 }
 
-export function prettyFundingTime(time: FundingTime | null | undefined, capitalize: boolean = false) {
+export function prettyFundingTime(
+	time: FundingTime | null | undefined,
+	capitalize: boolean = false
+) {
 	let prettyTime = '';
 	switch (time) {
 		case FundingTime.Full:
@@ -24,7 +27,7 @@ export function prettyFundingTime(time: FundingTime | null | undefined, capitali
 			break;
 	}
 
-	if(capitalize) {
+	if (capitalize) {
 		prettyTime = prettyTime.charAt(0).toUpperCase() + prettyTime.slice(1);
 	}
 

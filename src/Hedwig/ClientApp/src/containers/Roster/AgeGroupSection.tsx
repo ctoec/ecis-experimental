@@ -6,7 +6,12 @@ import { Table, TableProps, InlineIcon, DateRange, Column } from '../../componen
 import { Enrollment, FundingSpace, FundingSource, Organization } from '../../generated';
 import { lastFirstNameFormatter } from '../../utils/stringFormatters';
 import dateFormatter from '../../utils/dateFormatter';
-import { NO_FUNDING, getFundingSpaceTime, prettyFundingTime, isFundedForFundingSpace } from '../../utils/models';
+import {
+	NO_FUNDING,
+	getFundingSpaceTime,
+	prettyFundingTime,
+	isFundedForFundingSpace,
+} from '../../utils/models';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../utils/types';
 import { hasValidationErrors } from '../../utils/validations';
 import { isFunded } from '../../utils/models';
@@ -144,7 +149,7 @@ export default function AgeGroupSection({
 					{fundingSpaces.map(space => {
 						const enrolledForFundingSpace = enrollments.filter<DeepNonUndefineable<Enrollment>>(
 							enrollment => isFundedForFundingSpace(enrollment, space.id, rosterDateRange)
-						).length
+						).length;
 
 						return (
 							<li className="padding-05" key={`${getFundingSpaceTime(space)}-${ageGroupTitle}`}>

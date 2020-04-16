@@ -34,6 +34,7 @@ import {
 	getFundingSpacesFor,
 	prettyFundingSpaceTimeAllocations,
 	getFundingSpaceTime,
+	isFundedForFundingSpace,
 } from '../../../utils/models';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../../utils/types';
 import {
@@ -105,7 +106,7 @@ const EnrollmentFunding: Section = {
 								? prettyAge(enrollment.ageGroup)
 								: InlineIcon({ icon: 'incomplete' })}
 						</p>
-					<p>
+						<p>
 							{' '}
 							Enrollment date:{' '}
 							{enrollment.entry
@@ -290,13 +291,21 @@ const EnrollmentFunding: Section = {
 		]);
 
 		/*** CDC (& eventually OTHER FUNDINGS (Non C4K)) ***/
-		const [fundingSourceOpts, setFundingSourceOpts] = useState<{ value: string; text: string }[]>([]);
-		const [fundingSpaceOpts, setFundingSpaceOpts] = useState<{ value: string, text: string }[]>([]);
+		const [fundingSourceOpts, setFundingSourceOpts] = useState<{ value: string; text: string }[]>(
+			[]
+		);
+		const [fundingSpaceOpts, setFundingSpaceOpts] = useState<{ value: string; text: string }[]>([]);
 
-		const [fundingSource, updateFundingSource] = useState<FundingSource|undefined>(cdcFunding ? FundingSource.CDC : undefined);
-		const [fundingSpace, updateFundingSpace] = useState<FundingSpace|undefined>(cdcFunding && cdcFunding.fundingSpace ? cdcFunding.fundingSpace: undefined);
-		
-		const fundingSpaces = idx(site, _ => _.organization.fundingSpaces) as DeepNonUndefineable<FundingSpace[]>;
+		const [fundingSource, updateFundingSource] = useState<FundingSource | undefined>(
+			cdcFunding ? FundingSource.CDC : undefined
+		);
+		const [fundingSpace, updateFundingSpace] = useState<FundingSpace | undefined>(
+			cdcFunding && cdcFunding.fundingSpace ? cdcFunding.fundingSpace : undefined
+		);
+
+		const fundingSpaces = idx(site, _ => _.organization.fundingSpaces) as DeepNonUndefineable<
+			FundingSpace[]
+		>;
 		// set funding source opts
 		useEffect(() => {
 			var privatePayOpt = {
@@ -317,49 +326,48 @@ const EnrollmentFunding: Section = {
 			// private pay will be available as an option.
 			const newFundingTypeOpts = fundingSpaces
 				.filter(space => space.ageGroup === _enrollment.ageGroup)
-				.reduce<({value: string, text: string}[])>((acc, fundingSpace) => {
-					if(acc.some(a => a.value == fundingSpace.source)) return acc;
-					
+				.reduce<{ value: string; text: string }[]>((acc, fundingSpace) => {
+					if (acc.some(a => a.value == fundingSpace.source)) return acc;
+
 					return [
 						...acc,
 						{
 							value: fundingSpace.source,
 							text: prettyFundingSource(fundingSpace.source),
-							name: fundingSpace.source,
-						}
-					]
+						},
+					];
 				}, []);
-				
-			setFundingSourceOpts([
-				privatePayOpt,
-				...newFundingTypeOpts,
-			]);
-		}, [site, _enrollment.ageGroup, enrollment, cdcFunding]);
 
+			setFundingSourceOpts([privatePayOpt, ...newFundingTypeOpts]);
+		}, [site, _enrollment.ageGroup, enrollment, cdcFunding]);
 
 		// update funding space opts
 		useEffect(() => {
-			if(!fundingSource || ! _enrollment.ageGroup) return;
+			if (!fundingSource || !_enrollment.ageGroup) return;
 
-			var matchingFundingSpaces = getFundingSpacesFor(fundingSpaces, { ageGroup: _enrollment.ageGroup, source: fundingSource });
+			var matchingFundingSpaces = getFundingSpacesFor(fundingSpaces, {
+				ageGroup: _enrollment.ageGroup,
+				source: fundingSource,
+			});
 
-			setFundingSpaceOpts(matchingFundingSpaces.map(fundingSpace => ({
-				value: '' + fundingSpace.id,
-				text: prettyFundingSpaceTimeAllocations(fundingSpace),
-				name: '' + fundingSpace.id
-			})));
+			setFundingSpaceOpts(
+				matchingFundingSpaces.map(fundingSpace => ({
+					value: '' + fundingSpace.id,
+					text: prettyFundingSpaceTimeAllocations(fundingSpace),
+				}))
+			);
 
 			// If there is only one funding space option, update selected fundingSpaceId accordingly
-			if(matchingFundingSpaces.length == 1) {
-				updateFundingSpace(matchingFundingSpaces[0])
+			if (matchingFundingSpaces.length == 1) {
+				updateFundingSpace(matchingFundingSpaces[0]);
 			}
+		}, [fundingSpaces, fundingSource, _enrollment.ageGroup]);
 
-		}, [fundingSpaces, fundingSource, _enrollment.ageGroup])
-
-		// update enrollment funding 
+		// update enrollment funding
 		useEffect(() => {
-			let updatedFundings: Funding[] = [...fundings]
-				.filter(funding => funding.id !== (cdcFunding && cdcFunding.id))
+			let updatedFundings: Funding[] = [...fundings].filter(
+				funding => funding.id !== (cdcFunding && cdcFunding.id)
+			);
 
 			switch (fundingSource) {
 				case FundingSource.CDC:
@@ -368,11 +376,12 @@ const EnrollmentFunding: Section = {
 							enrollmentId: enrollment.id,
 							source: FundingSource.CDC,
 							firstReportingPeriod: cdcReportingPeriod,
-							fundingSpace
+							fundingSpace,
 						})
 					);
 					break;
-				default: // Private pay
+				default:
+					// Private pay
 					break;
 			}
 			updateFundings(updatedFundings as DeepNonUndefineableArray<Funding>);
@@ -409,41 +418,43 @@ const EnrollmentFunding: Section = {
 			updateC4kCertificates(updatedC4kCertificates);
 		}, [c4kFunding, receivesC4k]);
 
+		// *** Set the utilization rate ***
+		const [utilizationRate, setUtilizationRate] = useState<UtilizationRate>();
+		const thisPeriod = currentReportingPeriod(reportingPeriods);
+		useEffect(() => {
+			console.log("ut rate");
+			if (!site || !site.enrollments || !thisPeriod) {
+				return;
+			}
 
-		// // *** Set the utilization rate ***
-		// const [utilizationRate, setUtilizationRate] = useState<UtilizationRate>();
-		// const thisPeriod = currentReportingPeriod(reportingPeriods);
-		// useEffect(() => {
-		// 	if (!site || !site.enrollments || !thisPeriod) {
-		// 		return;
-		// 	}
-		// 	// This and below will need rewritten if we have more than just CDC in the dropdown
-		// 	const currentFundingOpts = {
-		// 		source: FundingSource.CDC,
-		// 		time: fundingSelection.time,
-		// 		ageGroup: _enrollment.ageGroup,
-		// 	};
-		// 	const capacity = getFundingSpaceCapacity(site.organization, currentFundingOpts);
-		// 	const enrolled = site.enrollments.filter<DeepNonUndefineable<Enrollment>>(
-		// 		e =>
-		// 			e.ageGroup === _enrollment.ageGroup &&
-		// 			isFunded(e, {
-		// 				...currentFundingOpts,
-		// 				currentRange: {
-		// 					startDate: moment(thisPeriod.periodStart),
-		// 					endDate: moment(thisPeriod.periodEnd),
-		// 				},
-		// 			})
-		// 	);
-		// 	const newCdcFunding = !cdcFunding && fundingSelection.source === FundingType.CDC;
-		// 	const removedCdcFunding =
-		// 		cdcFunding &&
-		// 		(fundingSelection.source === FundingType.PRIVATE_PAY ||
-		// 			fundingSelection.source === FundingType.UNSELECTED);
-		// 	const countDifferent = newCdcFunding ? 1 : removedCdcFunding ? -1 : 0;
-		// 	const numEnrolled = enrolled.length + countDifferent;
-		// 	setUtilizationRate({ capacity, numEnrolled });
-		// }, [site, fundingSelection, _enrollment.ageGroup, thisPeriod, cdcFunding]);
+			// This and below will need rewritten if we have more than just CDC in the dropdown
+			const _fundingSpace = cdcFunding ? cdcFunding.fundingSpace :
+				fundingSpace ? fundingSpace :
+				undefined;
+
+			if (_fundingSpace) {
+				console.log("FUNDING SPACE ID ", _fundingSpace.id);
+				const enrolled = site.enrollments.filter<DeepNonUndefineable<Enrollment>>(e =>
+					isFundedForFundingSpace(e, _fundingSpace.id, {
+						startDate: moment(thisPeriod.periodStart),
+						endDate: moment(thisPeriod.periodEnd),
+					})
+				);
+
+				const newCdcFunding = !cdcFunding && fundingSource === FundingSource.CDC;
+				const removedCdcFunding = cdcFunding && !fundingSource;
+				const countDifferent = newCdcFunding ? 1 : removedCdcFunding ? -1 : 0;
+				const numEnrolled = enrolled.length + countDifferent;
+
+				const capacity = cdcFunding ? cdcFunding.fundingSpace.capacity : 
+					fundingSpace ? fundingSpace.capacity :
+					0;
+
+				console.log("capacity", capacity);
+				console.log("numenrollment", numEnrolled);
+				setUtilizationRate({ capacity, numEnrolled });
+			}
+		}, [site, thisPeriod, cdcFunding, fundingSpace]);
 
 		// *** Save ***
 		const [attemptingSave, setAttemptingSave] = useState(false);
@@ -466,11 +477,12 @@ const EnrollmentFunding: Section = {
 			{ skip: !attemptingSave || !user, callback: () => setAttemptingSave(false) }
 		);
 		useEffect(() => {
-			// If the request went through, then do the next steps
+			// If the request did not go through, return early
 			if (!saveData && !saveError) {
 				return;
 			}
-			// Set the new error regardless of whether there is one
+
+			// Handle post-request actions
 			setError(saveError);
 			if (saveData && !saveError) {
 				if (successCallback) successCallback(saveData);
@@ -489,16 +501,13 @@ const EnrollmentFunding: Section = {
 						id="enrollment-start-date"
 						status={initialLoadErrorGuard(
 							initialLoad,
-							displayErrorOrWarning(
-								error,
-								{
-									warningOptions: {
-										object: enrollment,
-										field: 'entry',
-										message: 'This information is required for OEC reporting',
-									}
-								}
-							)
+							displayErrorOrWarning(error, {
+								warningOptions: {
+									object: enrollment,
+									field: 'entry',
+									message: 'This information is required for OEC reporting',
+								},
+							})
 						)}
 					/>
 
@@ -512,35 +521,29 @@ const EnrollmentFunding: Section = {
 							{
 								text: 'Infant/Toddler',
 								value: Age.InfantToddler,
-								name: Age.InfantToddler,
 							},
 							{
 								text: 'Preschool',
 								value: Age.Preschool,
-								name: Age.Preschool,
 							},
 							{
 								text: 'School-age',
 								value: Age.SchoolAge,
-								name: Age.SchoolAge,
 							},
 						]}
 						selected={toFormString(_enrollment.ageGroup)}
 						onChange={updateFormData(ageFromString)}
 						status={initialLoadErrorGuard(
 							initialLoad,
-							displayErrorOrWarning(
-								error,
-								{
-									isFieldSet: true,
-									fieldSetId: 'age-group-warning',
-									warningOptions: {
-										object: enrollment,
-										fields: ['ageGroup'],
-										message: 'This field is required for OEC reporting',
-									}
-								}
-							)
+							displayErrorOrWarning(error, {
+								isFieldSet: true,
+								fieldSetId: 'age-group-warning',
+								warningOptions: {
+									object: enrollment,
+									fields: ['ageGroup'],
+									message: 'This field is required for OEC reporting',
+								},
+							})
 						)}
 					/>
 					<h2>Funding</h2>
@@ -556,45 +559,46 @@ const EnrollmentFunding: Section = {
 					>
 						<ChoiceListExpansion showOnValue={'CDC'}>
 							{fundingSpaceOpts.length ? (
-								fundingSpaceOpts.length == 1 
-								? <div>
-									<span className="usa-hint text-italic">{fundingSpaceOpts[0].text}</span>
-								  </div>
-								: <ChoiceList
-									type="select"
-									id="fundingSpace"
-									options={fundingSpaceOpts}
-									selected={toFormString(fundingSpace ? fundingSpace.id : '')}
-									label="Contract space"
-									// TODO: USE FORM REDUCER
-									onChange={event => {
-										updateFundingSpace(fundingSpaces.find(
-											fundingSpace => fundingSpace.id === parseInt(event.target.value)
-										))
-									}}
-									// TODO: SET UP THIS ERROR
-									status={initialLoadErrorGuard(
-										initialLoad,
-										displayErrorOrWarning(
-											error,
-											{
+								fundingSpaceOpts.length == 1 ? (
+									<div>
+										<span className="usa-hint text-italic">{fundingSpaceOpts[0].text}</span>
+									</div>
+								) : (
+									<ChoiceList
+										type="select"
+										id="fundingSpace"
+										options={fundingSpaceOpts}
+										selected={toFormString(fundingSpace ? fundingSpace.id : '')}
+										label="Contract space"
+										// TODO: USE FORM REDUCER
+										onChange={event => {
+											updateFundingSpace(
+												fundingSpaces.find(
+													fundingSpace => fundingSpace.id === parseInt(event.target.value)
+												)
+											);
+										}}
+										status={initialLoadErrorGuard(
+											initialLoad,
+											displayErrorOrWarning(error, {
 												errorOptions: {
 													hasAlertedOnError,
 													setHasAlertedOnError,
 													errorDisplays: [
 														{
-															field: "fundings.fundingSpaceId",
-															message: "This information is required for enrollment"
+															field: 'fundings.fundingSpaceId',
+															message: 'This information is required for enrollment',
 														},
-														{ field: "fundings.fundingSpace" } // To display
-													]
-												}
-											}
-										)
-									)}
+														{ field: 'fundings.fundingSpace' }, // To  display fundingSpace validation error message
+													],
+												},
+											})
+										)}
 									/>
-							) : undefined
-							}
+								)
+							) : (
+								undefined
+							)}
 							<ChoiceList
 								type="select"
 								id="firstReportingPeriod"
@@ -617,37 +621,34 @@ const EnrollmentFunding: Section = {
 								selected={toFormString(cdcReportingPeriod ? cdcReportingPeriod.id : undefined)}
 								status={initialLoadErrorGuard(
 									initialLoad,
-									displayErrorOrWarning(
-										error,
-										{
-											errorOptions: {
-												hasAlertedOnError,
-												setHasAlertedOnError,
-												errorDisplays: [
-													{
-														field: 'fundings.firstReportingPeriodId',
-														message: 'This information is required for enrollment',
-													},
-													{ field: 'fundings' }, // To display CDC_Funding_ReportingPeriodsAreValid error message
-												],
-											}
-										}
-									)
+									displayErrorOrWarning(error, {
+										errorOptions: {
+											hasAlertedOnError,
+											setHasAlertedOnError,
+											errorDisplays: [
+												{
+													field: 'fundings.firstReportingPeriodId',
+													message: 'This information is required for enrollment',
+												},
+												{ field: 'fundings' }, // To display enrollment funding validation error message
+											],
+										},
+									})
 								)}
 							/>
 						</ChoiceListExpansion>
 					</ChoiceList>
-					{/* {utilizationRate && utilizationRate.numEnrolled > utilizationRate.capacity && (
+					{utilizationRate && utilizationRate.numEnrolled > utilizationRate.capacity && (
 						<Alert
 							type="info"
 							// TODO (after user research): This will only warn about the current reporting period.  What if they set an earlier reporting period date?
 							text={`${utilizationRate.numEnrolled} out of ${
 								utilizationRate.capacity
-							} spaces are utilized for the ${
+							} spaces will be utilized for the ${
 								thisPeriod ? reportingPeriodFormatter(thisPeriod) : 'current'
 							} reporting period.`}
 						/>
-					)} */}
+					)}
 					<h2>Care 4 Kids</h2>
 					<ChoiceList
 						type="check"
@@ -675,16 +676,13 @@ const EnrollmentFunding: Section = {
 								onChange={event => updateC4kFamilyId(parseInt(event.target.value))}
 								status={initialLoadErrorGuard(
 									initialLoad,
-									displayErrorOrWarning(
-										error,
-										{
-											warningOptions: {
-												object: child ? child : null,
-												field: 'c4KFamilyCaseNumber',
-												message: 'This information is required for OEC reporting',
-											}
-										}
-									)
+									displayErrorOrWarning(error, {
+										warningOptions: {
+											object: child ? child : null,
+											field: 'c4KFamilyCaseNumber',
+											message: 'This information is required for OEC reporting',
+										},
+									})
 								)}
 							/>
 							<DateInput
@@ -700,16 +698,13 @@ const EnrollmentFunding: Section = {
 								id="c4k-certificate-start-date"
 								status={initialLoadErrorGuard(
 									initialLoad,
-									displayErrorOrWarning(
-										error,
-										{
-											warningOptions: {
-												object: c4kFunding ? c4kFunding : null,
-												field: 'startDate',
-												message: 'This information is required for OEC reporting',
-											}
-										}
-									)
+									displayErrorOrWarning(error, {
+										warningOptions: {
+											object: c4kFunding ? c4kFunding : null,
+											field: 'startDate',
+											message: 'This information is required for OEC reporting',
+										},
+									})
 								)}
 							/>
 						</>
