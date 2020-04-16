@@ -2,16 +2,14 @@ import { FundingSpace, Age, Organization, FundingSource } from '../../generated'
 import { DeepNonUndefineable } from '../types';
 import { prettyFundingTime } from './fundingTime';
 
-
-export function prettyFundingSpaceTimeAllocations(fundingSpace: DeepNonUndefineable<FundingSpace>)
-{
+export function prettyFundingSpaceTimeAllocations(fundingSpace: DeepNonUndefineable<FundingSpace>) {
 	if (!fundingSpace.fundingTimeAllocations) return '';
 
 	let str = '';
 	fundingSpace.fundingTimeAllocations.forEach((timeAllocation, idx) => {
-		if(idx > 0) str += ' / '
-		str += `${prettyFundingTime(timeAllocation.time, idx == 0)} (${timeAllocation.weeks} weeks)`
-	})
+		if (idx > 0) str += ' / ';
+		str += `${prettyFundingTime(timeAllocation.time, idx == 0)} (${timeAllocation.weeks} weeks)`;
+	});
 
 	return str;
 }
@@ -46,6 +44,20 @@ export function getFundingSpaceTime(fundingSpace: FundingSpace | undefined) {
 	if (!fundingSpace.fundingTimeAllocations.length) return;
 
 	return fundingSpace.fundingTimeAllocations[0].time;
+}
+
+export function getCombinedCapacity(
+	fundingSpaces: DeepNonUndefineable<FundingSpace[]> | null | undefined,
+	source?: FundingSource
+) {
+	if (!fundingSpaces) return 0;
+
+	let _fundingSpaces = fundingSpaces;
+	if (source) {
+		_fundingSpaces = _fundingSpaces.filter(fundingSpace => fundingSpace.source === source);
+	}
+
+	return _fundingSpaces.reduce((sum, space) => sum + space.capacity, 0);
 }
 
 /**

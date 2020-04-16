@@ -41,11 +41,10 @@ export function isFundedForFundingSpace(
 	if (!enrollment) return false;
 	if (!enrollment.fundings || !enrollment.fundings.length) return false;
 
-	let fundings = enrollment.fundings
-	.filter(funding => funding.fundingSpaceId === fundingSpaceId);
+	let fundings = enrollment.fundings.filter(funding => funding.fundingSpaceId === fundingSpaceId);
 
-	if(dateRange) {
-		fundings = fundings.filter(funding => isCurrentToRange(funding, dateRange))
+	if (dateRange) {
+		fundings = fundings.filter(funding => isCurrentToRange(funding, dateRange));
 	}
 
 	return fundings.length > 0;

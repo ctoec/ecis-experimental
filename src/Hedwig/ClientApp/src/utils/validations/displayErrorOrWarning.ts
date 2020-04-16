@@ -17,13 +17,13 @@ export default function displayErrorOrWarning<T>(
 				field: string;
 				message?: string;
 			}[];
-		},
+		};
 		warningOptions?: {
 			object: T | null;
 			field?: string;
 			fields?: string[];
 			message?: string;
-		}
+		};
 	}
 ): FormStatusProps | undefined {
 	if (error) {
