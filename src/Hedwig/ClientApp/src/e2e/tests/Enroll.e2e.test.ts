@@ -106,7 +106,6 @@ describe('during an Enroll workflow', () => {
 		}
 	});
 
-	// TODO: FIX THIS ONE
 	it('shows all valid funding options in enrollment and funding section before and after save', async () => {
 		const driver = driverHelper.createDriver();
 		try {
@@ -190,9 +189,11 @@ describe('during an Enroll workflow', () => {
 			const newSelectedFundingLabelText = await newSelectedFundingLabel.getAttribute('innerHTML');
 			expect(newSelectedFundingLabelText).toBe(selectedFundingLabel);
 
-			// reportingPeriodDropdown = await findByLocator({ css: '#firstReportingPeriod' });
-			// const newSelectedReportingPeriod = await reportingPeriodDropdown.getAttribute('value');
-			// expect(newSelectedReportingPeriod).toBe(selectedReportingPeriod);
+			reportingPeriodDropdown = await findByLocator({
+				xpath: "//*/label[text()='First reporting period']//following-sibling::select",
+			});
+			const newSelectedReportingPeriod = await reportingPeriodDropdown.getAttribute('value');
+			expect(newSelectedReportingPeriod).toBe(selectedReportingPeriod);
 		} finally {
 			await driverHelper.quit(driver);
 		}
