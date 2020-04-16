@@ -126,6 +126,10 @@ class ExtendedWebElement extends WebElement implements WebElementExtension {
 	constructor(element: WebElement) {
 		super(element.getDriver(), element.getId());
 	}
+	async debug() {
+		// This mimics the behavior of the react testing library function of the same name
+		console.log(await this.getAttribute('outerHTML'));
+	}
 	async getByLocator(locator: Locator) {
 		const elements = await this.findElements(locator);
 		if (elements.length === 0) {
@@ -182,6 +186,8 @@ class ExtendedWebElement extends WebElement implements WebElementExtension {
 	async findByPlaceholder(text: string, opt_timeout?: number, opt_message?: string) {
 		return await this.findByLocator(selectorByPlaceholder(text), opt_timeout, opt_message);
 	}
+
+	// TODO: GET RID OF THESE ONES -- make get by label method instead
 	async getByValue(text: string) {
 		return await this.getByLocator(selectorByValue(text));
 	}
