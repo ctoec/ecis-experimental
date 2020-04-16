@@ -13,7 +13,16 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import { FundingTime, FundingTimeFromJSON, FundingTimeFromJSONTyped, FundingTimeToJSON } from './';
+import {
+	FundingSpace,
+	FundingSpaceFromJSON,
+	FundingSpaceFromJSONTyped,
+	FundingSpaceToJSON,
+	FundingTime,
+	FundingTimeFromJSON,
+	FundingTimeFromJSONTyped,
+	FundingTimeToJSON,
+} from './';
 
 /**
  *
@@ -23,16 +32,34 @@ import { FundingTime, FundingTimeFromJSON, FundingTimeFromJSONTyped, FundingTime
 export interface FundingTimeAllocation {
 	/**
 	 *
-	 * @type {FundingTime}
+	 * @type {number}
 	 * @memberof FundingTimeAllocation
 	 */
-	time: FundingTime;
+	id?: number;
+	/**
+	 *
+	 * @type {number}
+	 * @memberof FundingTimeAllocation
+	 */
+	fundingSpaceId: number;
+	/**
+	 *
+	 * @type {FundingSpace}
+	 * @memberof FundingTimeAllocation
+	 */
+	fundingSpace?: FundingSpace;
 	/**
 	 *
 	 * @type {number}
 	 * @memberof FundingTimeAllocation
 	 */
 	weeks: number;
+	/**
+	 *
+	 * @type {FundingTime}
+	 * @memberof FundingTimeAllocation
+	 */
+	time: FundingTime;
 }
 
 export function FundingTimeAllocationFromJSON(json: any): FundingTimeAllocation {
@@ -47,8 +74,13 @@ export function FundingTimeAllocationFromJSONTyped(
 		return json;
 	}
 	return {
-		time: FundingTimeFromJSON(json['time']),
+		id: !exists(json, 'id') ? undefined : json['id'],
+		fundingSpaceId: json['fundingSpaceId'],
+		fundingSpace: !exists(json, 'fundingSpace')
+			? undefined
+			: FundingSpaceFromJSON(json['fundingSpace']),
 		weeks: json['weeks'],
+		time: FundingTimeFromJSON(json['time']),
 	};
 }
 
@@ -60,7 +92,10 @@ export function FundingTimeAllocationToJSON(value?: FundingTimeAllocation | null
 		return null;
 	}
 	return {
-		time: FundingTimeToJSON(value.time),
+		id: value.id,
+		fundingSpaceId: value.fundingSpaceId,
+		fundingSpace: FundingSpaceToJSON(value.fundingSpace),
 		weeks: value.weeks,
+		time: FundingTimeToJSON(value.time),
 	};
 }

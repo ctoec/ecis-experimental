@@ -18,8 +18,10 @@ namespace Hedwig.Models
 		public int EnrollmentId { get; set; }
 		public Enrollment Enrollment { get; set; }
 
-		[FundingSpaceAgeGroupMatches]
-		[FundingSpaceOrganizationMatches]
+		// TODO: Figure out how to access higher-level objects from the request pipeline in validationContext
+		// (Getting enrollment from DB does not work if setting Enrollment.AgeGroup and Funding.FundingSpace in the same request)
+		// [FundingSpaceAgeGroupMatches]
+		// [FundingSpaceOrganizationMatches]
 		public FundingSpace FundingSpace { get; protected set; }
 
 		[Required]
