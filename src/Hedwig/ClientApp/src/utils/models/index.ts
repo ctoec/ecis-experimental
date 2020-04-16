@@ -10,3 +10,4 @@ export * from './fundingTime';
 export * from './reportingPeriod';
 export * from './user';
 export * from './fundingSpace';
+export * from './fundingSource';

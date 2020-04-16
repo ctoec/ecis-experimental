@@ -1,7 +1,7 @@
 import { C4KCertificate, Funding, FundingSpace } from '../generated';
 import { Tag, DateRange } from '../components';
 import {
-	isCurrentFundingToRange,
+	isCurrentToRange,
 	dedupeFundings,
 	isCurrentToRangeC4K,
 	getFundingTime,
@@ -86,7 +86,7 @@ export function filterFundingTypesForRosterTags(
 
 	const fundings = fundingTypes
 		.filter(fundingType => fundingType.type === 'CDC')
-		.filter(fundingType => isCurrentFundingToRange(fundingType as Funding, rosterDateRange));
+		.filter(fundingType => isCurrentToRange(fundingType as Funding, rosterDateRange));
 	const certificates = fundingTypes
 		.filter(fundingType => fundingType.type === 'C4K')
 		.filter(fundingType => isCurrentToRangeC4K(fundingType as C4KCertificate, rosterDateRange));

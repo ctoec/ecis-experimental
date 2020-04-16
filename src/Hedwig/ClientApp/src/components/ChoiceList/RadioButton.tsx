@@ -20,7 +20,7 @@ export default function RadioButton({
 	className,
 }: RadioButtonProps) {
 	return (
-		<div className={`usa-radio ${className}`}>
+		<div className={`usa-radio ${className ? className : ''}`}>
 			<input
 				className="usa-radio__input"
 				id={value}

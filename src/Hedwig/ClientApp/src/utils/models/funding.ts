@@ -43,7 +43,7 @@ export function dedupeFundings(fundings: Funding[]) {
  * @param funding
  * @param range
  */
-export function isCurrentFundingToRange(funding: Funding, range?: DateRange): boolean {
+export function isCurrentToRange(funding: Funding, range?: DateRange): boolean {
 	range = range ? range : { startDate: moment(), endDate: moment() };
 	switch (funding.source) {
 		case FundingSource.CDC:
@@ -106,7 +106,7 @@ export function createFunding({
 				enrollmentId,
 				source,
 				fundingSpaceId: fundingSpace ? fundingSpace.id : undefined,
-				fundingSpace: fundingSpace,
+				fundingSpace,
 				firstReportingPeriodId: firstReportingPeriod ? firstReportingPeriod.id : undefined,
 				firstReportingPeriod,
 			};
