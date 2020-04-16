@@ -61,6 +61,13 @@ namespace Hedwig.Data
 			.HasForeignKey(f => f.EnrollmentId)
 			.IsRequired()
 			.OnDelete(DeleteBehavior.Cascade);
+
+			modelBuilder.Entity<FundingTimeAllocation>()
+			.HasOne(fta => fta.FundingSpace)
+			.WithMany(fs => fs.FundingTimeAllocations)
+			.HasForeignKey(fta => fta.FundingSpaceId)
+			.IsRequired()
+			.OnDelete(DeleteBehavior.Cascade);
 		}
 
 		/// <summary>
