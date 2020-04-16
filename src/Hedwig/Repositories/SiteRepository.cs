@@ -33,7 +33,9 @@ namespace Hedwig.Repositories
 
 				if (include.Contains(INCLUDE_FUNDING_SPACES))
 				{
-					site = ((IIncludableQueryable<Site, Organization>)site).ThenInclude(o => o.FundingSpaces);
+					site = ((IIncludableQueryable<Site, Organization>)site)
+						.ThenInclude(o => o.FundingSpaces)
+							.ThenInclude(fs => fs.FundingTimeAllocations);
 				}
 			}
 			// Chaining of multiple ThenIncludes is not supported, so to include both
