@@ -76,6 +76,7 @@ namespace Hedwig.Repositories
 				)
 				.Include(e => e.Fundings)
 					.ThenInclude(f => f.FundingSpace)
+						.ThenInclude(f => f.FundingTimeAllocations)
 				.Include(e => e.Fundings)
 					.ThenInclude(f => f.FirstReportingPeriod)
 				.Include(e => e.Fundings)

@@ -18,7 +18,11 @@ namespace Hedwig.Models
 		public int EnrollmentId { get; set; }
 		public Enrollment Enrollment { get; set; }
 
+		[FundingSpaceAgeGroupMatches]
+		[FundingSpaceOrganizationMatches]
 		public FundingSpace FundingSpace { get; protected set; }
+
+		[Required]
 		public int? FundingSpaceId { get; set; }
 
 		[JsonConverter(typeof(StringEnumConverter))]
