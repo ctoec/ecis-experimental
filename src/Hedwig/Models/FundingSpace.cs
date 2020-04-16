@@ -24,27 +24,4 @@ namespace Hedwig.Models
 		public List<Funding> Fundings { get; set; }
 		public List<FundingTimeAllocation> FundingTimeAllocations { get; set; }
 	}
-
-	public class FundingTimeAllocation
-	{
-		[Required]
-		[JsonConverter(typeof(StringEnumConverter))]
-		public FundingTime Time { get; set; }
-
-		[Required]
-		public int Weeks { get; set; }
-	}
-
-	public static class FundingConverterExtensions
-	{
-		public static List<FundingTimeAllocation> DeserializeFundingTimeAllocations(this string dbValue)
-		{
-			return JsonConvert.DeserializeObject<List<FundingTimeAllocation>>(dbValue);
-		}
-
-		public static string SerializeFundingTimeAllocations(this List<FundingTimeAllocation> appModelValue)
-		{
-			return JsonConvert.SerializeObject(appModelValue);
-		}
-	}
 }
