@@ -151,7 +151,7 @@ export default function Roster() {
 						ageGroup={Age.InfantToddler}
 						ageGroupTitle={`Infant/toddler`}
 						enrollments={completeEnrollmentsByAgeGroup[Age.InfantToddler]}
-						fundingSpaces={fundingSpacesByAgeGroup[Age.InfantToddler] as FundingSpace[]}
+						fundingSpaces={fundingSpacesByAgeGroup[Age.InfantToddler]}
 						rosterDateRange={dateRange}
 						showPastEnrollments={showPastEnrollments}
 					/>
@@ -160,7 +160,7 @@ export default function Roster() {
 						ageGroup={Age.Preschool}
 						ageGroupTitle={`Preschool`}
 						enrollments={completeEnrollmentsByAgeGroup[Age.Preschool]}
-						fundingSpaces={fundingSpacesByAgeGroup[Age.Preschool] as FundingSpace[]}
+						fundingSpaces={fundingSpacesByAgeGroup[Age.Preschool]}
 						rosterDateRange={dateRange}
 						showPastEnrollments={showPastEnrollments}
 					/>
@@ -169,7 +169,7 @@ export default function Roster() {
 						ageGroup={Age.SchoolAge}
 						ageGroupTitle={`School age`}
 						enrollments={completeEnrollmentsByAgeGroup[Age.SchoolAge]}
-						fundingSpaces={fundingSpacesByAgeGroup[Age.SchoolAge] as FundingSpace[]}
+						fundingSpaces={fundingSpacesByAgeGroup[Age.SchoolAge]}
 						rosterDateRange={dateRange}
 						showPastEnrollments={showPastEnrollments}
 					/>

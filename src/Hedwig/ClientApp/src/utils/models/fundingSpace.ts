@@ -1,28 +1,38 @@
-import { FundingSpace, FundingTime, Age, Organization } from '../../generated';
+import { FundingSpace, Age, Organization, FundingSource } from '../../generated';
 import { DeepNonUndefineable } from '../types';
+import { prettyFundingTime } from './fundingTime';
 
+
+export function prettyFundingSpaceTimeAllocations(fundingSpace: DeepNonUndefineable<FundingSpace>)
+{
+	if (!fundingSpace.fundingTimeAllocations) return '';
+
+	let str = '';
+	fundingSpace.fundingTimeAllocations.forEach((timeAllocation, idx) => {
+		if(idx > 0) str += ' / '
+		str += `${prettyFundingTime(timeAllocation.time, idx == 0)} (${timeAllocation.weeks} weeks)`
+	})
+
+	return str;
+}
 /**
- * Returns the fundingSpace with given ageGroup and time value,
- * or undefined if no matching fundingSpace found
- * (There cannot be multiple fundingSpaces with the same ageGroup and time)
+ * Returns the fundingSpaces with given ageGroup and source value
  *
  * @param fundingSpaces
  * @param opts
  */
-export function getFundingSpaceFor(
+export function getFundingSpacesFor(
 	fundingSpaces: DeepNonUndefineable<FundingSpace[]> | null | undefined,
 	opts: {
 		ageGroup: Age;
-		time: FundingTime | undefined;
+		source: FundingSource | undefined;
 	}
 ) {
-	if (!fundingSpaces) return;
+	if (!fundingSpaces) return [];
 
-	const [fundingSpace] = fundingSpaces.filter(
-		space => space.ageGroup == opts.ageGroup && getFundingSpaceTime(space) == opts.time
+	return fundingSpaces.filter(
+		space => space.ageGroup == opts.ageGroup && space.source == opts.source
 	);
-
-	return fundingSpace;
 }
 
 /**
