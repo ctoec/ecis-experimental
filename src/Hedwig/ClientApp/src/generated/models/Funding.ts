@@ -75,7 +75,7 @@ export interface Funding {
 	 * @type {number}
 	 * @memberof Funding
 	 */
-	fundingSpaceId?: number | null;
+	fundingSpaceId: number | null;
 	/**
 	 *
 	 * @type {FundingSource}
@@ -147,7 +147,7 @@ export function FundingFromJSONTyped(json: any, ignoreDiscriminator: boolean): F
 		fundingSpace: !exists(json, 'fundingSpace')
 			? undefined
 			: FundingSpaceFromJSON(json['fundingSpace']),
-		fundingSpaceId: !exists(json, 'fundingSpaceId') ? undefined : json['fundingSpaceId'],
+		fundingSpaceId: json['fundingSpaceId'],
 		source: !exists(json, 'source') ? undefined : FundingSourceFromJSON(json['source']),
 		firstReportingPeriodId: !exists(json, 'firstReportingPeriodId')
 			? undefined
