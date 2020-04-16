@@ -5,15 +5,15 @@ using System.ComponentModel.DataAnnotations;
 namespace Hedwig.Models
 
 {
-public class FundingTimeAllocation
+	public class FundingTimeAllocation
 	{
-		
-		public int Id { get; set;}
-		
+
+		public int Id { get; set; }
+
 		[Required]
 		public int FundingSpaceId { get; set; }
 		public FundingSpace FundingSpace { get; set; }
-		
+
 		[Required]
 		public int Weeks { get; set; }
 
