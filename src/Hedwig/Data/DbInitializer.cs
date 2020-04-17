@@ -448,8 +448,7 @@ namespace Hedwig.Data
 
 			if (author != null)
 			{
-				enrollment.Author = author;
-				enrollment.UpdatedAt = DateTime.Now;
+				enrollment.UpdateTemporalInfo(author.Id, DateTime.Now);
 			}
 
 			_context.Enrollments.Add(enrollment);
@@ -505,9 +504,9 @@ namespace Hedwig.Data
 				{
 					EnrollmentId = enrollmentId,
 					Source = source,
-					FirstReportingPeriod = firstReportingPeriod,
-					LastReportingPeriod = lastReportingPeriod,
-					FundingSpace = fundingSpace
+					FirstReportingPeriodId = firstReportingPeriod != null ? firstReportingPeriod.Id : null as int?,
+					LastReportingPeriodId = lastReportingPeriod != null ? lastReportingPeriod.Id : null as int?,
+					FundingSpaceId = fundingSpace != null ? fundingSpace.Id : null as int?
 				};
 				_context.Fundings.Add(funding);
 				_context.SaveChanges();

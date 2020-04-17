@@ -48,10 +48,10 @@ namespace HedwigTests.Validations.Rules
 			{
 				Id = 1,
 				FirstReportingPeriodId = f1FirstReportingPeriod.Id,
-				FirstReportingPeriod = f1FirstReportingPeriod,
-				LastReportingPeriod = f1LastReportingPeriod,
 				Source = FundingSource.CDC
 			};
+			funding1.GetType().GetProperty(nameof(funding1.FirstReportingPeriod)).SetValue(funding1, f1FirstReportingPeriod);
+			funding1.GetType().GetProperty(nameof(funding1.LastReportingPeriod)).SetValue(funding1, f1LastReportingPeriod);
 
 			var f2FirstReportingPeriod = f2FirstReportingPeriodStartYear != null ?
 			new ReportingPeriod
@@ -69,10 +69,10 @@ namespace HedwigTests.Validations.Rules
 			{
 				Id = 2,
 				FirstReportingPeriodId = f2FirstReportingPeriod.Id,
-				FirstReportingPeriod = f2FirstReportingPeriod,
-				LastReportingPeriod = f2LastReportingPeriod,
 				Source = FundingSource.CDC
 			};
+			funding2.GetType().GetProperty(nameof(funding2.FirstReportingPeriod)).SetValue(funding2, f2FirstReportingPeriod);
+			funding2.GetType().GetProperty(nameof(funding2.LastReportingPeriod)).SetValue(funding2, f2LastReportingPeriod);
 
 			var child = new Child();
 			var enrollment = new Enrollment

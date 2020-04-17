@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using Hedwig.Validations;
 using System.ComponentModel.DataAnnotations;
-using Hedwig.Models.Attributes;
 
 namespace Hedwig.Models
 {
@@ -15,11 +14,10 @@ namespace Hedwig.Models
 		public int Id { get; set; }
 
 		[JsonConverter(typeof(StringEnumConverter))]
-		public FundingSource Type { get; private set; }
+		public FundingSource Type { get; protected set; }
 
 		public int ReportingPeriodId { get; set; }
-		[ReadOnly]
-		public ReportingPeriod ReportingPeriod { get; set; }
+		public ReportingPeriod ReportingPeriod { get; protected set; }
 
 		public DateTime? SubmittedAt { get; set; }
 

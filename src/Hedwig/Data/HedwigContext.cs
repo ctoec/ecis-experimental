@@ -114,8 +114,7 @@ namespace Hedwig.Data
 		/// <param name="now"></param>
 		private void UpdateTemporalEntity(TemporalEntity entity, int? currentUserId, DateTime now)
 		{
-			entity.AuthorId = currentUserId;
-			entity.UpdatedAt = now;
+			entity.UpdateTemporalInfo(currentUserId, now);
 		}
 
 		/// <summary>

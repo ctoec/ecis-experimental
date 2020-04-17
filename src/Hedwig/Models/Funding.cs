@@ -1,10 +1,8 @@
-using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations.Schema;
 using Hedwig.Validations;
 using Hedwig.Validations.Attributes;
-using Hedwig.Models.Attributes;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -20,8 +18,7 @@ namespace Hedwig.Models
 		public int EnrollmentId { get; set; }
 		public Enrollment Enrollment { get; set; }
 
-		[ReadOnly]
-		public FundingSpace FundingSpace { get; set; }
+		public FundingSpace FundingSpace { get; protected set; }
 		public int? FundingSpaceId { get; set; }
 
 		[JsonConverter(typeof(StringEnumConverter))]
@@ -30,12 +27,10 @@ namespace Hedwig.Models
 		// CDC funding fields
 		[RequiredForFundingSource(FundingSource.CDC)]
 		public int? FirstReportingPeriodId { get; set; }
-		[ReadOnly]
-		public ReportingPeriod FirstReportingPeriod { get; set; }
+		public ReportingPeriod FirstReportingPeriod { get; protected set; }
 		public int? LastReportingPeriodId { get; set; }
 		[LastReportingPeriodAfterFirst]
-		[ReadOnly]
-		public ReportingPeriod LastReportingPeriod { get; set; }
+		public ReportingPeriod LastReportingPeriod { get; protected set; }
 
 		[NotMapped]
 		public List<ValidationError> ValidationErrors { get; set; }

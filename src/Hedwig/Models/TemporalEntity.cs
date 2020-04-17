@@ -1,15 +1,17 @@
 using System;
-using Hedwig.Models.Attributes;
 
 namespace Hedwig.Models
 {
 	public abstract class TemporalEntity
 	{
-		[ReadOnly]
-		public int? AuthorId { get; set; }
-		[ReadOnly]
-		public User Author { get; set; }
-		[ReadOnly]
-		public DateTime? UpdatedAt { get; set; }
+		public int? AuthorId { get; protected set; }
+		public User Author { get; protected set; }
+		public DateTime? UpdatedAt { get; protected set; }
+
+		public void UpdateTemporalInfo(int? authorId, DateTime? now)
+		{
+			this.AuthorId = authorId;
+			this.UpdatedAt = now;
+		}
 	}
 }

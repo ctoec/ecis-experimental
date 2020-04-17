@@ -49,7 +49,7 @@ namespace Hedwig.HostedServices
 						var report = new CdcReport
 						{
 							OrganizationId = organization.Id,
-							ReportingPeriod = lastReportingPeriod,
+							ReportingPeriodId = lastReportingPeriod.Id,
 							Accredited = previousReport != null && previousReport.Accredited,
 						};
 
