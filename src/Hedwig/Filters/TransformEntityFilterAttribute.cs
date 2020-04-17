@@ -11,28 +11,6 @@ namespace Hedwig.Filters
 {
 	public class TransformEntityFilterAttribute : ActionFilterAttribute, IActionFilter
 	{
-		private readonly IDictionary<PropertyInfo, object> UnsetReadOnlyPropertyValues;
-
-		public TransformEntityFilterAttribute()
-		{
-			UnsetReadOnlyPropertyValues = new Dictionary<PropertyInfo, object>();
-		}
-
-		/// <summary>
-		/// A filter task that runs before a controller action is invoked.
-		/// Finds any incoming arguments that are application models, and
-		/// runs necessary pre-processing on them
-		/// </summary>
-		/// <param name="context"></param>
-		public override void OnActionExecuting(ActionExecutingContext context)
-		{
-			var requestEntities = context.ActionArguments.Values
-				.Where(item => item.GetType().IsApplicationModel())
-				.ToList();
-
-			UnsetReadOnlyProperties(requestEntities);
-		}
-
 		/// <summary>
 		/// A filter task that runs after a controller action is invoked.
 		/// Determine if the action response is an application model(s), and
@@ -53,75 +31,6 @@ namespace Hedwig.Filters
 			if (responseEntityType.IsApplicationModel())
 			{
 				UnsetTypeSubEntities(responseEntity, new Type[] { responseEntityType });
-				ReSetReadOnlyProperties(responseEntity);
-			}
-		}
-
-		/// <summary>
-		/// Given a starting entity node, recursively unsets all read-only
-		/// entities in the entire entity object tree, ensuring changes to
-		/// read-only entities are discarded.
-		/// </summary>
-		/// <param name="entity"></param>
-		private void UnsetReadOnlyProperties(object entity)
-		{
-			if (entity is ICollection collection)
-			{
-				foreach (var item in collection)
-				{
-					UnsetReadOnlyProperties(item);
-				}
-				return;
-			}
-
-			if (entity == null || !entity.GetType().IsApplicationModel())
-			{
-				return;
-			}
-
-			var properties = entity.GetType().GetProperties();
-			foreach (var prop in properties)
-			{
-				if (prop.IsReadOnly())
-				{
-					var value = prop.GetValue(entity);
-					UnsetReadOnlyPropertyValues[prop] = value;
-					prop.SetValue(entity, null);
-					continue;
-				}
-
-				var propValue = prop.GetValue(entity);
-				UnsetReadOnlyProperties(propValue);
-			}
-		}
-
-		private void ReSetReadOnlyProperties(object entity)
-		{
-			if (entity is ICollection collection)
-			{
-				foreach (var item in collection)
-				{
-					ReSetReadOnlyProperties(item);
-				}
-				return;
-			}
-
-			if (entity == null || !entity.GetType().IsApplicationModel())
-			{
-				return;
-			}
-
-			var properties = entity.GetType().GetProperties();
-			foreach (var prop in properties)
-			{
-				if (UnsetReadOnlyPropertyValues.ContainsKey(prop))
-				{
-					prop.SetValue(entity, UnsetReadOnlyPropertyValues[prop]);
-					continue;
-				}
-
-				var propValue = prop.GetValue(entity);
-				ReSetReadOnlyProperties(propValue);
 			}
 		}
 
@@ -176,7 +85,7 @@ namespace Hedwig.Filters
 				// And not a read-only property
 				// Read only properties should be included no matter what
 				// e.g. reporting periods or users
-				if (type.IsApplicationModel() && !prop.IsReadOnly())
+				if (type.IsApplicationModel()) //  && !prop.IsReadOnly())
 				{
 					newList = newList.Append(type).ToList();
 				}

@@ -20,10 +20,9 @@ namespace HedwigTests.Helpers
 			{
 				EnrollmentId = enrollment.Id,
 				Source = source,
-				FirstReportingPeriod = firstReportingPeriod
+				FirstReportingPeriodId = firstReportingPeriod != null ? firstReportingPeriod.Id : null as int?,
+				LastReportingPeriodId = lastReportingPeriod != null ? lastReportingPeriod.Id : null as int?
 			};
-
-			if (lastReportingPeriod != null) funding.LastReportingPeriod = lastReportingPeriod;
 
 			context.Fundings.Add(funding);
 			context.SaveChanges();

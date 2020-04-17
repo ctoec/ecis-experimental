@@ -6,7 +6,6 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Hedwig.Validations;
 using Hedwig.Validations.Attributes;
-using Hedwig.Models.Attributes;
 
 namespace Hedwig.Models
 {
@@ -22,8 +21,7 @@ namespace Hedwig.Models
 		[Required]
 		[SiteIdFromPath]
 		public int SiteId { get; set; }
-		[ReadOnly]
-		public Site Site { get; set; }
+		public Site Site { get; protected set; }
 
 		[JsonConverter(typeof(StringEnumConverter))]
 		public Age? AgeGroup { get; set; }

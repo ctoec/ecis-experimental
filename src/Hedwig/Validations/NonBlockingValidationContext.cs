@@ -5,8 +5,7 @@ namespace Hedwig.Validations
 {
 	public class NonBlockingValidationContext
 	{
-		public IDictionary<Type, object> ParentEntities { get; private set; }
-
+		readonly IDictionary<Type, object> ParentEntities;
 		public NonBlockingValidationContext()
 		{
 			ParentEntities = new Dictionary<Type, object>();

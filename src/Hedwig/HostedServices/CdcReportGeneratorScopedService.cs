@@ -49,7 +49,7 @@ namespace Hedwig.HostedServices
 						var report = new CdcReport
 						{
 							OrganizationId = organization.Id,
-							ReportingPeriod = lastReportingPeriod,
+							ReportingPeriodId = lastReportingPeriod.Id,
 							Accredited = previousReport != null && previousReport.Accredited,
 						};
 
@@ -63,6 +63,7 @@ namespace Hedwig.HostedServices
 			}
 			catch (Exception e)
 			{
+				Console.WriteLine(e);
 				// TODO: figure out how to alert on this when alerting exists
 				_logger.LogError($"Unable to create reports", e);
 			}
