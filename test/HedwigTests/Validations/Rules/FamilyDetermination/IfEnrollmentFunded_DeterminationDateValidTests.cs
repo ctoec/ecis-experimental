@@ -53,9 +53,9 @@ namespace HedwigTests.Validations.Rules
 		}
 		[Theory]
 		[InlineData(true, true, false)]
-		// [InlineData(true, false, true)]
-		// [InlineData(false, true, false)]
-		// [InlineData(false, false, false)]
+		[InlineData(true, false, true)]
+		[InlineData(false, true, false)]
+		[InlineData(false, false, false)]
 		public void Execute_WithReportParentEntity_ReturnsError_IfEnrollmentFunded_AndDeterminationDateNotValid(
 			bool enrollmentIsFunded,
 			bool dateIsValid,

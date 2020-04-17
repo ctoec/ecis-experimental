@@ -85,7 +85,7 @@ namespace Hedwig.Filters
 				// And not a read-only property
 				// Read only properties should be included no matter what
 				// e.g. reporting periods or users
-				if (type.IsApplicationModel()) //  && !prop.IsReadOnly())
+				if (type.IsApplicationModel())
 				{
 					newList = newList.Append(type).ToList();
 				}
