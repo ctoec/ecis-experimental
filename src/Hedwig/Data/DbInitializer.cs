@@ -267,8 +267,8 @@ namespace Hedwig.Data
 			_context.C4KCertificates.RemoveRange(_context.C4KCertificates.ToList());
 			_context.Children.RemoveRange(_context.Children.ToList());
 			_context.Enrollments.RemoveRange(_context.Enrollments.ToList());
-			_context.Fundings.RemoveRange(_context.Fundings.ToList());
 			_context.FundingSpaces.RemoveRange(_context.FundingSpaces.ToList());
+			_context.Fundings.RemoveRange(_context.Fundings.ToList());
 			_context.ReportingPeriods.RemoveRange(_context.ReportingPeriods.ToList());
 			_context.Reports.RemoveRange(_context.Reports.ToList());
 			_context.Sites.RemoveRange(_context.Sites.ToList());

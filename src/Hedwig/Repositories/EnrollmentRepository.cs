@@ -169,6 +169,7 @@ namespace Hedwig.Repositories
 			{
 				query = query.Include(e => e.Fundings)
 						.ThenInclude(f => f.FundingSpace)
+							.ThenInclude(fs => fs.FundingTimeAllocations)
 					.Include(e => e.Fundings)
 						.ThenInclude(f => f.FirstReportingPeriod)
 					.Include(e => e.Fundings)
