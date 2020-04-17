@@ -19,7 +19,7 @@ namespace Hedwig.Validations.Rules
 			var enrollment = context.GetParentEntity<Enrollment>();
 			if (enrollment == null) return null;
 
-			var fundings = enrollment.Fundings ?? _fundings.GetFundingsByEnrollmentIdAsNoTracking(enrollment.Id);
+			var fundings = enrollment.Fundings ?? _fundings.GetFundingsByEnrollmentId(enrollment.Id);
 			if (fundings.Any(f => f.Source == FundingSource.CDC)
 			&& determination.NotDisclosed)
 			{

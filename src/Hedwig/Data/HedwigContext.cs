@@ -14,6 +14,7 @@ namespace Hedwig.Data
 		public HedwigContext(DbContextOptions<HedwigContext> options, IHttpContextAccessor httpContextAccessor) : base(options)
 		{
 			_httpContextAccessor = httpContextAccessor;
+			this.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 		}
 
 		public DbSet<C4KCertificate> C4KCertificates { get; set; }
@@ -145,7 +146,6 @@ namespace Hedwig.Data
 			}
 
 			return Users
-			.AsNoTracking()
 			.Where(user => user.WingedKeysId == wingedKeysId)
 			.Select(user => user.Id)
 			.Cast<int?>()

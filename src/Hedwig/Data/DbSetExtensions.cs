@@ -50,8 +50,7 @@ namespace Hedwig.Data
                     FROM {dbSet.GetTableName()}
                     FOR SYSTEM_TIME AS OF {{0}}",
 					asOf
-				)
-				.AsNoTracking();
+				);
 		}
 	}
 }

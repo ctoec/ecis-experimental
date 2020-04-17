@@ -1,12 +1,12 @@
-using Xunit;
-using Moq;
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using Moq;
+using Xunit;
 using Hedwig.Controllers;
 using Hedwig.Repositories;
-using Hedwig.Validations;
 using Hedwig.Models;
 
 namespace HedwigTests.Controllers
@@ -16,10 +16,11 @@ namespace HedwigTests.Controllers
 		[Fact]
 		public async Task Get_IncludeEntities_GetsEnrollmentsForSite_WithEntities()
 		{
+			var _mapper = new Mock<IMapper>();
 			var _enrollments = new Mock<IEnrollmentRepository>();
 			var _sites = new Mock<ISiteRepository>();
 
-			var controller = new EnrollmentsController(_enrollments.Object, _sites.Object);
+			var controller = new EnrollmentsController(_mapper.Object, _enrollments.Object, _sites.Object);
 
 			var siteId = 1;
 			var include = new string[] { "foo" };
@@ -31,10 +32,11 @@ namespace HedwigTests.Controllers
 		[Fact]
 		public async Task Get_Id_IncludeEntities_GetsEnrollmentForSite_WithEntities()
 		{
+			var _mapper = new Mock<IMapper>();
 			var _enrollments = new Mock<IEnrollmentRepository>();
 			var _sites = new Mock<ISiteRepository>();
 
-			var controller = new EnrollmentsController(_enrollments.Object, _sites.Object);
+			var controller = new EnrollmentsController(_mapper.Object, _enrollments.Object, _sites.Object);
 
 			var id = 1;
 			var siteId = 1;
@@ -53,10 +55,11 @@ namespace HedwigTests.Controllers
 			Type resultType
 		)
 		{
+			var _mapper = new Mock<IMapper>();
 			var _enrollments = new Mock<IEnrollmentRepository>();
 			var _sites = new Mock<ISiteRepository>();
 
-			var controller = new EnrollmentsController(_enrollments.Object, _sites.Object);
+			var controller = new EnrollmentsController(_mapper.Object, _enrollments.Object, _sites.Object);
 
 			var enrollment = new Enrollment { Id = id };
 
@@ -80,6 +83,7 @@ namespace HedwigTests.Controllers
 			Type resultType
 		)
 		{
+			var _mapper = new Mock<IMapper>();
 			var _enrollments = new Mock<IEnrollmentRepository>();
 			if (shouldNotFind)
 			{
@@ -89,7 +93,7 @@ namespace HedwigTests.Controllers
 
 			var _sites = new Mock<ISiteRepository>();
 
-			var controller = new EnrollmentsController(_enrollments.Object, _sites.Object);
+			var controller = new EnrollmentsController(_mapper.Object, _enrollments.Object, _sites.Object);
 
 			var enrollment = new Enrollment { Id = id };
 
@@ -111,6 +115,7 @@ namespace HedwigTests.Controllers
 			Type resultType
 		)
 		{
+			var _mapper = new Mock<IMapper>();
 			var _enrollments = new Mock<IEnrollmentRepository>();
 			if (shouldNotFind)
 			{
@@ -120,7 +125,7 @@ namespace HedwigTests.Controllers
 
 			var _sites = new Mock<ISiteRepository>();
 
-			var controller = new EnrollmentsController(_enrollments.Object, _sites.Object);
+			var controller = new EnrollmentsController(_mapper.Object, _enrollments.Object, _sites.Object);
 
 			var enrollment = new Enrollment { Id = id };
 

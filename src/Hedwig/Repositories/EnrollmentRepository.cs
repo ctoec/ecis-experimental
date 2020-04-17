@@ -13,25 +13,17 @@ namespace Hedwig.Repositories
 	{
 		public EnrollmentRepository(HedwigContext context) : base(context) { }
 
-		public Enrollment GetEnrollmentByIdAsNoTracking(int id)
+		public Enrollment GetEnrollmentById(int id)
 		{
-			return _context.Enrollments.AsNoTracking().SingleOrDefault(e => e.Id == id);
+			return _context.Enrollments
+				.Include(e => e.Child)
+				.Include(e => e.Fundings)
+				.SingleOrDefault(e => e.Id == id);
 		}
 
 		public void UpdateEnrollment(Enrollment enrollment)
 		{
-			var currentFundings = _context.Fundings.AsNoTracking().Where(f => f.EnrollmentId == enrollment.Id).ToList();
-			var newFundings = enrollment.Fundings.AsEnumerable().Cast<IHedwigIdEntity<int>>();
-			var oldFundings = currentFundings.AsEnumerable().Cast<IHedwigIdEntity<int>>();
-			UpdateEnumerableChildObjects(newFundings, oldFundings);
-
-			var currentC4kCertificates = _context.C4KCertificates.AsNoTracking().Where(c => c.ChildId == enrollment.ChildId).ToList();
-			var newC4kCertificatesRaw = enrollment.Child.C4KCertificates != null ? enrollment.Child.C4KCertificates : new List<C4KCertificate> { };
-			var newC4kCertificates = newC4kCertificatesRaw.AsEnumerable().Cast<IHedwigIdEntity<int>>();
-			var oldC4kCertificates = currentC4kCertificates.AsEnumerable().Cast<IHedwigIdEntity<int>>();
-			UpdateEnumerableChildObjects(newC4kCertificates, oldC4kCertificates);
-
-			_context.Update(enrollment);
+			UpdateHedwigIdEntityWithCollectionNavigationProperties<Enrollment, int>(enrollment);
 		}
 
 		public void AddEnrollment(Enrollment enrollment)
@@ -134,7 +126,7 @@ namespace Hedwig.Repositories
 		Task<List<Enrollment>> GetEnrollmentsForSiteAsync(int siteId, DateTime? from = null, DateTime? to = null, string[] include = null, int skip = 0, int? take = null);
 		Task<Enrollment> GetEnrollmentForSiteAsync(int id, int siteId, string[] include = null);
 		Task<List<Enrollment>> GetEnrollmentsForOrganizationAsync(int orgId, DateTime? from = null, DateTime? to = null, string[] include = null, DateTime? asOf = null, int skip = 0, int? take = null);
-		Enrollment GetEnrollmentByIdAsNoTracking(int id);
+		Enrollment GetEnrollmentById(int id);
 
 		void DeleteEnrollment(Enrollment enrollment);
 	}

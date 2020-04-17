@@ -21,7 +21,7 @@ namespace HedwigTests.Repositories
 
 				// When the repository is queried with a family Id
 				var determinationRepo = new FamilyDeterminationRepository(context);
-				var res = determinationRepo.GetDeterminationsByFamilyIdAsNoTracking(family.Id);
+				var res = determinationRepo.GetDeterminationsByFamilyId(family.Id);
 
 				// Then a list including only that determination is returned
 				Assert.Single(res);

@@ -12,20 +12,18 @@ namespace Hedwig.Repositories
 
 		public FundingRepository(HedwigContext context) : base(context) { }
 
-		public List<Funding> GetFundingsByEnrollmentIdAsNoTracking(int enrollmentId)
+		public List<Funding> GetFundingsByEnrollmentId(int enrollmentId)
 		{
 			return _context.Fundings
-				.AsNoTracking()
 				.Where(f => f.EnrollmentId == enrollmentId)
 				.Include(f => f.FirstReportingPeriod)
 				.Include(f => f.LastReportingPeriod)
 				.ToList();
 		}
 
-		public List<Funding> GetFundingsByChildIdAsNoTracking(Guid childId)
+		public List<Funding> GetFundingsByChildId(Guid childId)
 		{
 			return _context.Fundings
-				.AsNoTracking()
 				.Include(f => f.FirstReportingPeriod)
 				.Include(f => f.LastReportingPeriod)
 				.Include(f => f.Enrollment)
@@ -36,7 +34,7 @@ namespace Hedwig.Repositories
 
 	public interface IFundingRepository : IHedwigRepository
 	{
-		List<Funding> GetFundingsByEnrollmentIdAsNoTracking(int enrollmentId);
-		List<Funding> GetFundingsByChildIdAsNoTracking(Guid childId);
+		List<Funding> GetFundingsByEnrollmentId(int enrollmentId);
+		List<Funding> GetFundingsByChildId(Guid childId);
 	}
 }

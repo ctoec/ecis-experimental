@@ -38,6 +38,7 @@
 	// Add the IDs of extensions you want installed when the container is created in the array below.
 	"extensions": [
 		"ms-vscode.csharp",
-		"ms-mssql.mssql"
+		"ms-mssql.mssql",
+		"ms-dotnettools.csharp"
 	]
 }

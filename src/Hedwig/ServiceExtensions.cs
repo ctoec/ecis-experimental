@@ -12,6 +12,8 @@ using Hedwig.Validations.Rules;
 using Hedwig.Models;
 using Hedwig.HostedServices;
 using Hedwig.Filters;
+using Hedwig.Filters.Attributes;
+using AutoMapper;
 
 namespace Hedwig
 {
@@ -42,6 +44,20 @@ namespace Hedwig
 			{
 				configuration.RootPath = "ClientApp/build";
 			});
+		}
+
+		public static void ConfigureMapping(this IServiceCollection services)
+		{
+			services.AddAutoMapper(
+				typeof(EnrollmentProfile),
+				typeof(ChildProfile),
+				typeof(FundingProfile),
+				typeof(FundingSpaceProfile),
+				typeof(FamilyProfile),
+				typeof(FamilyDeterminationProfile),
+				typeof(OrganizationProfile),
+				typeof(SiteProfile)
+			);
 		}
 
 		public static void ConfigureRepositories(this IServiceCollection services)
@@ -94,10 +110,20 @@ namespace Hedwig
 			});
 		}
 
+		public static void ConfigureFilters(this IServiceCollection services)
+		{
+			services.AddScoped<IHedwigActionFilter<DTOProjectionFilterAttribute>, DTOProjectionFilter>();
+			services.AddScoped<IHedwigActionFilter<ValidateEntityFilterAttribute>, ValidateEntityFilter>();
+			services.AddScoped<HedwigActionFilterDispatcher>();
+		}
+
 		public static void ConfigureControllers(this IServiceCollection services)
 		{
 			services
-			.AddControllers()
+			.AddControllers(config =>
+			{
+				config.Filters.Add<HedwigActionFilterDispatcher>();
+			})
 			.AddNewtonsoftJson(options =>
 				{
 					options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;

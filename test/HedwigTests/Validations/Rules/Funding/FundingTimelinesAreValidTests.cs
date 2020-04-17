@@ -90,7 +90,7 @@ namespace HedwigTests.Validations.Rules
 			.Returns(new List<IValidationRule<Funding>> { fundingRule.Object });
 
 			var _fundings = new Mock<IFundingRepository>();
-			_fundings.Setup(f => f.GetFundingsByChildIdAsNoTracking(It.IsAny<Guid>())).Returns(new List<Funding> { funding1, funding2 });
+			_fundings.Setup(f => f.GetFundingsByChildId(It.IsAny<Guid>())).Returns(new List<Funding> { funding1, funding2 });
 			var _enrollments = new Mock<IEnrollmentRepository>();
 
 			// when

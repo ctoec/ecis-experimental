@@ -22,7 +22,7 @@ namespace Hedwig.Validations.Rules
 				return null;
 			}
 
-			var fundings = enrollment.Fundings ?? _fundings.GetFundingsByEnrollmentIdAsNoTracking(enrollment.Id);
+			var fundings = enrollment.Fundings ?? _fundings.GetFundingsByEnrollmentId(enrollment.Id);
 			ValidateSubObject(fundings, enrollment);
 			if (fundings.Any(f => f.ValidationErrors.Count > 0))
 			{

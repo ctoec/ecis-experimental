@@ -1,12 +1,13 @@
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc;
-using Hedwig.Validations;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc;
+using Hedwig.Filters.Attributes;
+using Hedwig.Validations;
 
 namespace Hedwig.Filters
 {
-	public class ValidateEntityFilterAttribute : ActionFilterAttribute, IActionFilter
+	public class ValidateEntityFilter : IHedwigActionFilter<ValidateEntityFilterAttribute>
 	{
 		/// <summary>
 		/// The validator instance
@@ -19,13 +20,13 @@ namespace Hedwig.Filters
 		/// </summary>
 		private readonly bool _onExecuting;
 
-		public ValidateEntityFilterAttribute(INonBlockingValidator validator, bool onExecuting = false)
+		public ValidateEntityFilter(INonBlockingValidator validator, bool onExecuting = false)
 		{
 			_validator = validator;
 			_onExecuting = onExecuting;
 		}
 
-		public override void OnActionExecuting(ActionExecutingContext context)
+		public void OnActionExecuting(ValidateEntityFilterAttribute attribute, ActionExecutingContext context)
 		{
 			if (!_onExecuting) return;
 
@@ -38,7 +39,7 @@ namespace Hedwig.Filters
 				ValidateEntity(entity);
 			}
 		}
-		public override void OnActionExecuted(ActionExecutedContext context)
+		public void OnActionExecuted(ValidateEntityFilterAttribute attribute, ActionExecutedContext context)
 		{
 			if (_onExecuting) return;
 
