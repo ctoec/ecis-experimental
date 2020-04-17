@@ -31,7 +31,7 @@ namespace Hedwig.Filters
 			var responseEntity = objectResult.Value;
 			var responseEntityType = responseEntity.GetType();
 
-			if (responseEntityType.GetEntityType().IsApplicationModel())
+			if (responseEntityType.GetGenericType().IsApplicationModel())
 			{
 				// Filter through dto to remove undesired properties
 				var responseEntityAsDto = _mapper.Map(responseEntity, responseEntityType, attribute.Type);

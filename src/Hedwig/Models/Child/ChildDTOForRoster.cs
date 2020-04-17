@@ -25,9 +25,8 @@ namespace Hedwig.Models
 		public Gender Gender { get; set; } = Gender.Unspecified;
 		public bool Foster { get; set; } = false;
 		public int? FamilyId { get; set; }
-		public FamilyDTOForRoster Family { get; set; }
 		public int OrganizationId { get; set; }
-		public Organization Organization { get; set; }
+		public OrganizationDTOForRoster Organization { get; set; }
 		public int? C4KFamilyCaseNumber { get; set; }
 		public List<C4KCertificate> C4KCertificates { get; set; }
 		public List<ValidationError> ValidationErrors { get; set; }
