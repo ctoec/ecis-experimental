@@ -26,7 +26,7 @@ namespace Hedwig.Filters
 			}
 
 			var responseEntity = objectResult.Value;
-			var responseEntityType = responseEntity.GetType().GetEntityType();
+			var responseEntityType = responseEntity.GetType().GetGenericType();
 
 			if (responseEntityType.IsApplicationModel())
 			{
@@ -63,7 +63,7 @@ namespace Hedwig.Filters
 			var properties = entity.GetType().GetProperties();
 			foreach (var prop in properties)
 			{
-				var type = prop.PropertyType.GetEntityType();
+				var type = prop.PropertyType.GetGenericType();
 				// If the type has already been seen (in typeToRemove)
 				// And it is a persisted data value
 				// Set the response value to null

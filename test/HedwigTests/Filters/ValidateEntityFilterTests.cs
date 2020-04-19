@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Hedwig.Filters;
+using Hedwig.Filters.Attributes;
 using Hedwig.Validations;
 using HedwigTests.Hedwig.Models;
 
@@ -53,10 +54,13 @@ namespace HedwigTests.Filters
 			var _validator = new Mock<INonBlockingValidator>();
 
 			// and a ValidateEntityFilter exists with the validator and isExecuting
-			var filter = new ValidateEntityFilterAttribute(_validator.Object, onExecuting);
+			var filter = new ValidateEntityFilter(_validator.Object, onExecuting);
+
+			// and a ValidateEntityFilterAttribute
+			var attribute = new Mock<ValidateEntityFilterAttribute>();
 
 			// when OnActionExecuting is executed with the context
-			filter.OnActionExecuting(executingContext);
+			filter.OnActionExecuting(attribute.Object, executingContext);
 
 			// then the validation is executed if isExecuting, or skipped if not
 			var times = onExecuting ? Times.AtLeastOnce() : Times.Never();
@@ -91,8 +95,8 @@ namespace HedwigTests.Filters
 			);
 
 			// with an ObjectResult as the result
-			// with an applicatoin model as the value
-			var applicationModel = new Hedwig.Models.ApplicationModel();
+			// with an application model as the value
+			var applicationModel = new ApplicationModel();
 			executedContext.Setup(ec => ec.Result)
 				.Returns(new ObjectResult(applicationModel));
 
@@ -100,10 +104,13 @@ namespace HedwigTests.Filters
 			var _validator = new Mock<INonBlockingValidator>();
 
 			// and a ValidateEntityFilter exists with the validator and isExecuting
-			var filter = new ValidateEntityFilterAttribute(_validator.Object, onExecuting);
+			var filter = new ValidateEntityFilter(_validator.Object, onExecuting);
+
+			// and a ValidateEntityFilterAttribute
+			var attribute = new Mock<ValidateEntityFilterAttribute>();
 
 			// when OnActionExecuted is executed with the context
-			filter.OnActionExecuted(executedContext.Object);
+			filter.OnActionExecuted(attribute.Object, executedContext.Object);
 
 			// then the validation is executed if NOT isExecuting, or skipped if true
 			var times = !onExecuting ? Times.AtLeastOnce() : Times.Never();

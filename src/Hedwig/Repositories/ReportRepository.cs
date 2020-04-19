@@ -41,7 +41,6 @@ namespace Hedwig.Repositories
 
 			IQueryable<CdcReport> reportQuery = _context.Reports
 			.OfType<CdcReport>()
-			.AsNoTracking() // Disable tracking as these reports are composed from time-versioned records
 			.Where(report => report.Id == id && report.OrganizationId == orgId)
 			.Include(report => report.ReportingPeriod);
 
@@ -69,13 +68,12 @@ namespace Hedwig.Repositories
 			// Optionally manually insert time-versioned enrollment records
 			if (reportResult != null && include.Contains(INCLUDE_ENROLLMENTS))
 			{
-				var enrollments = GetEnrollmentsForReportAsNoTracking(reportResult);
+				var enrollments = GetEnrollmentsForReport(reportResult);
 				// Optionally manually insert time-versioned child records
 				if (include.Contains(INCLUDE_CHILD))
 				{
 					var childIds = enrollments.Select(enrollment => enrollment.ChildId);
 					var children = (reportResult.SubmittedAt.HasValue ? _context.Children.AsOf(reportResult.SubmittedAt.Value) : _context.Children)
-					.AsNoTracking()
 					.Include(child => child.C4KCertificates)
 					.Where(child => childIds.Contains(child.Id))
 					.ToDictionary(child => child.Id);
@@ -94,7 +92,7 @@ namespace Hedwig.Repositories
 			return reportResult;
 		}
 
-		public List<Enrollment> GetEnrollmentsForReportAsNoTracking(CdcReport report)
+		public List<Enrollment> GetEnrollmentsForReport(CdcReport report)
 		{
 			var sites = report.Organization != null && report.Organization.Sites != null
 			? report.Organization.Sites.ToList()
@@ -103,13 +101,11 @@ namespace Hedwig.Repositories
 
 			// Potential optimization to fetch only the enrollments that are funded during the reporting period
 			var enrollments = (report.SubmittedAt.HasValue ? _context.Enrollments.AsOf(report.SubmittedAt.Value) : _context.Enrollments)
-			.AsNoTracking()
 			.Where(enrollment => siteIds.Contains(enrollment.SiteId))
 			.ToList();
 
 			var enrollmentIds = enrollments.Select(enrollment => enrollment.Id);
 			var fundings = (report.SubmittedAt.HasValue ? _context.Fundings.AsOf(report.SubmittedAt.Value) : _context.Fundings)
-			.AsNoTracking()
 			.Include(funding => funding.FirstReportingPeriod)
 			.Include(funding => funding.LastReportingPeriod)
 			.Where(funding => enrollmentIds.Contains(funding.EnrollmentId))
@@ -159,7 +155,7 @@ namespace Hedwig.Repositories
 		Task<List<CdcReport>> GetReportsForOrganizationAsync(int orgId);
 		Task<CdcReport> GetReportForOrganizationAsync(int id, int orgId, string[] include);
 
-		List<Enrollment> GetEnrollmentsForReportAsNoTracking(CdcReport report);
+		List<Enrollment> GetEnrollmentsForReport(CdcReport report);
 
 		CdcReport GetMostRecentSubmittedCdcReportForOrganization(int orgId);
 

@@ -20,47 +20,41 @@ namespace HedwigTests.Repositories
 		{
 			Enrollment enrollment;
 			Funding funding;
+			ReportingPeriod reportingPeriod;
 			using (var context = new TestHedwigContextProvider().Context)
 			{
 				enrollment = EnrollmentHelper.CreateEnrollment(context);
 				funding = FundingHelper.CreateFunding(context, enrollment: enrollment);
+				reportingPeriod = ReportingPeriodHelper.CreateReportingPeriod(context);
 			}
+
+			Assert.Null(funding.FirstReportingPeriodId);
+
+			funding.FirstReportingPeriodId = reportingPeriod.Id;
+			enrollment.Fundings = new List<Funding> {
+				funding
+			};
+
 			using (var context = new TestHedwigContextProvider().Context)
 			{
 				var enrollmentRepo = new EnrollmentRepository(context);
 				enrollmentRepo.UpdateEnrollment(enrollment);
+				context.SaveChanges();
+			}
 
-				Assert.Equal(EntityState.Modified, context.Entry(enrollment).State);
-				Assert.Equal(EntityState.Modified, context.Entry(enrollment.Fundings.First()).State);
+			using (var context = new TestHedwigContextProvider().Context)
+			{
+				var enrollmentRepo = new EnrollmentRepository(context);
+				var retrievedEnrollment = enrollmentRepo.GetEnrollmentById(enrollment.Id);
+				var retrievedFunding = retrievedEnrollment.Fundings.FirstOrDefault();
+
+				Assert.NotNull(retrievedFunding.FirstReportingPeriodId);
+				Assert.Equal(funding.FirstReportingPeriodId, retrievedFunding.FirstReportingPeriodId);
 			}
 		}
 
 		[Fact]
 		public void UpdateEnrollment_RemovesFundings()
-		{
-			Enrollment enrollment;
-			Funding funding;
-			using (var context = new TestHedwigContextProvider().Context)
-			{
-				enrollment = EnrollmentHelper.CreateEnrollment(context);
-				funding = FundingHelper.CreateFunding(context, enrollment: enrollment);
-			}
-
-			enrollment.Fundings = new List<Funding>();
-
-			using (var contextProvider = new TestHedwigContextProvider())
-			{
-				var contextMock = contextProvider.ContextMock;
-				var enrollmentRepo = new EnrollmentRepository(contextMock.Object);
-				enrollmentRepo.UpdateEnrollment(enrollment);
-
-				Assert.Equal(EntityState.Modified, contextMock.Object.Entry(enrollment).State);
-				contextMock.Verify(c => c.Remove<IHedwigIdEntity<int>>(It.Is<Funding>(f => f.Id == funding.Id)), Times.Once());
-			}
-		}
-
-		[Fact]
-		public void UpdateEnrollment_AddsFundings()
 		{
 			Enrollment enrollment;
 			using (var context = new TestHedwigContextProvider().Context)
@@ -69,18 +63,61 @@ namespace HedwigTests.Repositories
 				FundingHelper.CreateFunding(context, enrollment: enrollment);
 			}
 
-			enrollment.Fundings = new List<Funding>{
-		enrollment.Fundings.First(),
-		new Funding{Source = FundingSource.CDC}
-		};
+			Assert.NotEmpty(enrollment.Fundings);
+			enrollment.Fundings = new List<Funding>();
 
 			using (var context = new TestHedwigContextProvider().Context)
 			{
 				var enrollmentRepo = new EnrollmentRepository(context);
 				enrollmentRepo.UpdateEnrollment(enrollment);
+				context.SaveChanges();
+			}
 
-				Assert.Equal(EntityState.Modified, context.Entry(enrollment).State);
-				Assert.Equal(EntityState.Added, context.Entry(enrollment.Fundings.Last()).State);
+			using (var context = new TestHedwigContextProvider().Context)
+			{
+				var enrollmentRepo = new EnrollmentRepository(context);
+				var retrievedEnrollment = enrollmentRepo.GetEnrollmentById(enrollment.Id);
+				Assert.Empty(retrievedEnrollment.Fundings);
+			}
+		}
+
+		[Fact]
+		public void UpdateEnrollment_AddsFundings()
+		{
+			Enrollment enrollment;
+
+			using (var context = new TestHedwigContextProvider().Context)
+			{
+				enrollment = EnrollmentHelper.CreateEnrollment(context);
+				// funding = FundingHelper.CreateFunding(context);
+			}
+			Funding funding = new Funding
+			{
+				EnrollmentId = enrollment.Id,
+				Source = FundingSource.CDC,
+			};
+
+			Assert.Null(enrollment.Fundings);
+
+			enrollment.Fundings = new List<Funding> {
+				funding
+			};
+
+			using (var context = new TestHedwigContextProvider().Context)
+			{
+				var enrollmentRepo = new EnrollmentRepository(context);
+				enrollmentRepo.UpdateEnrollment(enrollment);
+				context.SaveChanges();
+			}
+
+			using (var context = new TestHedwigContextProvider().Context)
+			{
+				var enrollmentRepo = new EnrollmentRepository(context);
+				var retrievedEnrollment = enrollmentRepo.GetEnrollmentById(enrollment.Id);
+				Assert.NotEmpty(retrievedEnrollment.Fundings);
+
+				var retrievedFunding = retrievedEnrollment.Fundings.FirstOrDefault();
+				Assert.Equal(funding.Id, retrievedFunding.Id);
 			}
 		}
 
@@ -268,9 +305,10 @@ namespace HedwigTests.Repositories
 					DateTime.Parse(from),
 					DateTime.Parse(to)
 				);
+				var resultIds = result.Select(e => e.Id);
 
 				// then
-				Assert.Equal(included, result.Contains(enrollment));
+				Assert.Equal(included, resultIds.Contains(enrollment.Id));
 			}
 		}
 	}

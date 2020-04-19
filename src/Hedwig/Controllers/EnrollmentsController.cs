@@ -1,15 +1,15 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using Hedwig.Filters.Attributes;
 using Hedwig.Models;
 using Hedwig.Repositories;
 using Hedwig.Security;
-using System;
-using System.Linq;
-using Hedwig.Filters;
 
 namespace Hedwig.Controllers
 {
@@ -32,8 +32,8 @@ namespace Hedwig.Controllers
 		[HttpGet]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
-		[TypeFilter(typeof(ValidateEntityFilterAttribute), Order = 1)]
-		[TransformEntityFilter(Order = 2)]
+		[ValidateEntityFilterAttribute(Order = 1)]
+		[DTOProjectionFilter(typeof(List<EnrollmentSummaryDTO>), Order = 2)]
 		public async Task<ActionResult<List<Enrollment>>> Get(
 			int orgId,
 			int siteId,
@@ -51,8 +51,8 @@ namespace Hedwig.Controllers
 		[HttpGet("{id}")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		[TypeFilter(typeof(ValidateEntityFilterAttribute), Order = 1)]
-		[TransformEntityFilter(Order = 2)]
+		[ValidateEntityFilterAttribute(Order = 1)]
+		[DTOProjectionFilter(typeof(List<EnrollmentSummaryDTO>), Order = 2)]
 		public async Task<ActionResult<Enrollment>> Get(
 			int id,
 			int orgId,
@@ -72,8 +72,8 @@ namespace Hedwig.Controllers
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
-		[TypeFilter(typeof(ValidateEntityFilterAttribute), Order = 1)]
-		[TransformEntityFilter(Order = 2)]
+		[ValidateEntityFilterAttribute(Order = 1)]
+		[DTOProjectionFilter(typeof(List<EnrollmentSummaryDTO>), Order = 2)]
 		public async Task<ActionResult<List<Enrollment>>> Get(
 			int orgId,
 			[FromQuery(Name = "siteIds[]")] int[] siteIds,
@@ -114,8 +114,8 @@ namespace Hedwig.Controllers
 		[HttpPost]
 		[ProducesResponseType(StatusCodes.Status201Created)]
 		[ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
-		[TypeFilter(typeof(ValidateEntityFilterAttribute), Order = 1)]
-		[TransformEntityFilter(Order = 2)]
+		[ValidateEntityFilterAttribute(Order = 1)]
+		[DTOProjectionFilter(typeof(List<EnrollmentSummaryDTO>), Order = 2)]
 		public async Task<ActionResult<Enrollment>> Post(
 			int orgId,
 			int siteId,
@@ -139,8 +139,8 @@ namespace Hedwig.Controllers
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		[TypeFilter(typeof(ValidateEntityFilterAttribute), Order = 1)]
-		[TransformEntityFilter(Order = 2)]
+		[ValidateEntityFilterAttribute(Order = 1)]
+		[DTOProjectionFilter(typeof(List<EnrollmentSummaryDTO>), Order = 2)]
 		public async Task<ActionResult<Enrollment>> Put(
 			int id,
 			int orgId,
@@ -167,7 +167,7 @@ namespace Hedwig.Controllers
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		[TransformEntityFilter]
+		[DTOProjectionFilter(typeof(List<EnrollmentSummaryDTO>))]
 		public async Task<ActionResult> Delete(
 			int id,
 			int orgId,

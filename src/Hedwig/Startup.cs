@@ -25,8 +25,10 @@ namespace Hedwig
 		{
 			services.ConfigureSqlServer(Configuration.GetConnectionString("HEDWIG"));
 			services.ConfigureCors();
+			services.ConfigureFilters();
 			services.ConfigureControllers();
 			services.ConfigureSpa();
+			services.ConfigureMapping();
 			services.ConfigureRepositories();
 			services.ConfigureAuthentication(Configuration.GetValue<string>("WingedKeysUri"));
 			services.ConfigureAuthorization();

@@ -19,7 +19,7 @@ namespace HedwigTests.Filters
 			bool expectedResult
 		)
 		{
-			var result = type.IsNonStringEnumerable();
+			var result = type.IsGenericEnumerable();
 			Assert.Equal(expectedResult, result);
 		}
 
@@ -31,7 +31,7 @@ namespace HedwigTests.Filters
 			Type expectedResult
 		)
 		{
-			var result = type.GetEntityType();
+			var result = type.GetGenericType();
 			Assert.Equal(expectedResult, result);
 		}
 

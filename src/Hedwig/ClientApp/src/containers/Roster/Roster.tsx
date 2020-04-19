@@ -59,7 +59,7 @@ export default function Roster() {
 	const enrollmentParams: ApiOrganizationsOrgIdEnrollmentsGetRequest = {
 		orgId: getIdForUser(user, 'org'),
 		siteIds: siteIds,
-		include: ['child', 'fundings'],
+		include: ['child', 'fundings', 'sites'],
 		startDate: (dateRange && dateRange.startDate && dateRange.startDate.toDate()) || undefined,
 		endDate: (dateRange && dateRange.endDate && dateRange.endDate.toDate()) || undefined,
 	};

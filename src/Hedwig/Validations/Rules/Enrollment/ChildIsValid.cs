@@ -20,7 +20,7 @@ namespace Hedwig.Validations.Rules
 		{
 			if (enrollment.ChildId != Guid.Empty)
 			{
-				var child = enrollment.Child ?? _children.GetChildByIdAsNoTracking(enrollment.ChildId);
+				var child = enrollment.Child ?? _children.GetChildById(enrollment.ChildId);
 
 				ValidateSubObject(child, enrollment);
 				if (child.ValidationErrors.Count > 0)

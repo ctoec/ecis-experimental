@@ -12,17 +12,16 @@ namespace Hedwig.Repositories
 	{
 		public FamilyDeterminationRepository(HedwigContext context) : base(context) { }
 
-		public List<FamilyDetermination> GetDeterminationsByFamilyIdAsNoTracking(int familyId)
+		public List<FamilyDetermination> GetDeterminationsByFamilyId(int familyId)
 		{
 			return _context.FamilyDeterminations
 				.Where(fd => fd.FamilyId == familyId)
-				.AsNoTracking()
 				.ToList();
 		}
 	}
 
 	public interface IFamilyDeterminationRepository
 	{
-		List<FamilyDetermination> GetDeterminationsByFamilyIdAsNoTracking(int familyId);
+		List<FamilyDetermination> GetDeterminationsByFamilyId(int familyId);
 	}
 }

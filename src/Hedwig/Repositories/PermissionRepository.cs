@@ -12,14 +12,12 @@ namespace Hedwig.Repositories
 		public bool UserCanAccessSite(Guid externalUserId, int siteId)
 		{
 			var user = _context.Users
-				.AsNoTracking()
 				.FirstOrDefault(u => u.WingedKeysId == externalUserId);
 
 			// User can access site if:
 			// - Site permission exists for user for site
 			// - Organization permission exists for user for organization that includes site 
 			var sitePermissions = _context.Permissions
-				.AsNoTracking()
 				.OfType<SitePermission>()
 				.Where(sp => sp.UserId == user.Id && sp.SiteId == siteId)
 				.FirstOrDefault();
@@ -27,7 +25,6 @@ namespace Hedwig.Repositories
 			if (sitePermissions != null) return true;
 
 			var organizationPermissions = _context.Permissions
-				.AsNoTracking()
 				.OfType<OrganizationPermission>()
 					.Include(op => op.Organization)
 						.ThenInclude(o => o.Sites)
@@ -42,12 +39,10 @@ namespace Hedwig.Repositories
 		public bool UserCanAccessOrganization(Guid externalUserId, int organizationId)
 		{
 			var user = _context.Users
-				.AsNoTracking()
 				.FirstOrDefault(u => u.WingedKeysId == externalUserId);
 			// User can access organization if:
 			// - Organization permission exists for user for organization
 			var organizationPermission = _context.Permissions
-				.AsNoTracking()
 				.OfType<OrganizationPermission>()
 				.Where(op => op.UserId == user.Id && op.OrganizationId == organizationId)
 				.FirstOrDefault();

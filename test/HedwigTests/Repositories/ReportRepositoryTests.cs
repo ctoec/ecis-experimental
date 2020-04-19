@@ -82,12 +82,13 @@ namespace HedwigTests.Repositories
 			{
 				var organization = OrganizationHelper.CreateOrganization(context);
 				var reports = ReportHelper.CreateCdcReports(context, 5, organization: organization);
+				var reportIds = reports.Select(report => report.Id);
 				ReportHelper.CreateCdcReport(context);
 
 				var reportRepo = new ReportRepository(context);
 				var result = await reportRepo.GetReportsForOrganizationAsync(organization.Id);
-
-				Assert.Equal(reports, result);
+				var resultIds = result.Select(r => r.Id);
+				Assert.Equal(reportIds, resultIds);
 			}
 		}
 	}

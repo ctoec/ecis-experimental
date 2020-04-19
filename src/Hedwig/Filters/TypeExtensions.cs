@@ -11,11 +11,9 @@ namespace Hedwig.Filters
 		/// </summary>
 		/// <param name="type"></param>
 		/// <returns></returns>
-		public static bool IsNonStringEnumerable(this Type type)
+		public static bool IsGenericEnumerable(this Type type)
 		{
-			if (type == typeof(string)) return false;
-			return type.IsGenericType
-				&& type.GetInterface(nameof(IEnumerable)) != null;
+			return type.IsGenericType && typeof(IEnumerable).IsAssignableFrom(type);
 		}
 
 		/// <summary>
@@ -27,9 +25,9 @@ namespace Hedwig.Filters
 		/// </summary>
 		/// <param name="type"></param>
 		/// <returns></returns>
-		public static Type GetEntityType(this Type type)
+		public static Type GetGenericType(this Type type)
 		{
-			return type.IsNonStringEnumerable()
+			return type.IsGenericEnumerable()
 				? type.GetGenericArguments()[0]
 				: type;
 		}
