@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Hedwig.Models
 {
-	public class FundingDTOForRoster
+	public class FundingDTO
 	{
 		public int Id { get; set; }
 		public int EnrollmentId { get; set; }
-		public FundingSpaceDTOForRoster FundingSpace { get; set; }
+		public FundingSpaceDTO FundingSpace { get; set; }
 		public int? FundingSpaceId { get; set; }
 		public FundingSource? Source { get; set; }
 		public int? FirstReportingPeriodId { get; set; }

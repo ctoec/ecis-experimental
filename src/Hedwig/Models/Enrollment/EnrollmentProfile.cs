@@ -6,8 +6,8 @@ namespace Hedwig.Models
 	{
 		public EnrollmentProfile()
 		{
-			CreateMap<Enrollment, EnrollmentDTOForRoster>();
-			CreateMap<EnrollmentDTOForRoster, Enrollment>();
+			CreateMap<Enrollment, EnrollmentSummaryDTO>();
+			CreateMap<EnrollmentSummaryDTO, Enrollment>();
 		}
 	}
 }

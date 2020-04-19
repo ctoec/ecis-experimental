@@ -6,8 +6,8 @@ namespace Hedwig.Models
 	{
 		public OrganizationProfile()
 		{
-			CreateMap<Organization, OrganizationDTOForRoster>();
-			CreateMap<OrganizationDTOForRoster, Organization>();
+			CreateMap<Organization, EnrollmentSummaryOrganizationDTO>();
+			CreateMap<EnrollmentSummaryOrganizationDTO, Organization>();
 		}
 	}
 }

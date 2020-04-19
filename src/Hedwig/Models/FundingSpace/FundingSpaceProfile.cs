@@ -6,8 +6,8 @@ namespace Hedwig.Models
 	{
 		public FundingSpaceProfile()
 		{
-			CreateMap<FundingSpace, FundingSpaceDTOForRoster>();
-			CreateMap<FundingSpaceDTOForRoster, FundingSpace>();
+			CreateMap<FundingSpace, FundingSpaceDTO>();
+			CreateMap<FundingSpaceDTO, FundingSpace>();
 		}
 	}
 }

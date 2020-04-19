@@ -1,11 +1,8 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 
 namespace Hedwig.Models
 {
-	public class FundingSpaceDTOForRoster
+	public class FundingSpaceDTO
 	{
 		public int Id { get; set; }
 		public int Capacity { get; set; }

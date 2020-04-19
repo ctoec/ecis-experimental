@@ -1,6 +1,6 @@
 namespace Hedwig.Models
 {
-	public class SiteDTOForRoster
+	public class OrganizationSiteDTO
 	{
 		public int Id { get; set; }
 		public string Name { get; set; }
