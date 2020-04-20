@@ -19,8 +19,9 @@ namespace HedwigTests.Controllers
 		{
 			var orgId = 1;
 			var _reports = new Mock<IReportRepository>();
+			var _validator = new Mock<INonBlockingValidator>();
 
-			var controller = new ReportsController(_reports.Object);
+			var controller = new ReportsController(_reports.Object, _validator.Object);
 
 			await controller.Get(orgId);
 			_reports.Verify(r => r.GetReportsForOrganizationAsync(orgId), Times.Once());
@@ -43,7 +44,9 @@ namespace HedwigTests.Controllers
 			_reports.Setup(r => r.GetReportForOrganizationAsync(id, orgId, include))
 				.ReturnsAsync(returns);
 
-			var controller = new ReportsController(_reports.Object);
+			var _validator = new Mock<INonBlockingValidator>();
+
+			var controller = new ReportsController(_reports.Object, _validator.Object);
 
 			var result = await controller.Get(id, orgId, include);
 
@@ -70,7 +73,9 @@ namespace HedwigTests.Controllers
 					.Throws(new DbUpdateConcurrencyException());
 			}
 
-			var controller = new ReportsController(_reports.Object);
+			var _validator = new Mock<INonBlockingValidator>();
+
+			var controller = new ReportsController(_reports.Object, _validator.Object);
 
 			var orgId = 1;
 			var report = new CdcReport
