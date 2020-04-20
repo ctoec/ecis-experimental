@@ -14,36 +14,26 @@ namespace Hedwig.Filters
 		/// </summary>
 		private readonly INonBlockingValidator _validator;
 
-		/// <summary>
-		/// Flag to indicate if validation should occur before controller action is executed (OnActionExecuting),
-		/// or after controller action has executed (OnActionExecuted) 
-		/// </summary>
-		private readonly bool _onExecuting;
-
-		public ValidateEntityFilter(INonBlockingValidator validator, bool onExecuting = false)
+		public ValidateEntityFilter(INonBlockingValidator validator)
 		{
-			_validator = validator;
-			_onExecuting = onExecuting;
+			_validator = validator;		
 		}
-
+		
 		public void OnActionExecuting(ValidateEntityFilterAttribute attribute, ActionExecutingContext context)
 		{
-			if (!_onExecuting) return;
+			// if (!_onExecuting) return;
 
-			var requestEntities = context.ActionArguments.Values
-				.Where(item => item.GetType().IsApplicationModel())
-				.ToList();
+			// var requestEntities = context.ActionArguments.Values
+			// 	.Where(item => item.GetType().IsApplicationModel())
+			// 	.ToList();
 
-			foreach (var entity in requestEntities)
-			{
-				ValidateEntity(entity);
-			}
+			// foreach (var entity in requestEntities)
+			// {
+			// 	ValidateEntity(entity);
+			// }
 		}
 		public void OnActionExecuted(ValidateEntityFilterAttribute attribute, ActionExecutedContext context)
 		{
-			if (_onExecuting) return;
-
-
 			var objectResult = (context.Result as ObjectResult);
 			if (objectResult == null)
 			{
