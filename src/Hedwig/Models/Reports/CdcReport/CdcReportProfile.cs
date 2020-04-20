@@ -6,6 +6,9 @@ namespace Hedwig.Models
 	{
 		public CdcReportProfile()
 		{
+			CreateMap<CdcReport, CdcReportDTO>()
+				.ReverseMap();
+				
 			CreateMap<CdcReport, OrganizationReportSummaryDTO>()
 				.ReverseMap();
 		}
