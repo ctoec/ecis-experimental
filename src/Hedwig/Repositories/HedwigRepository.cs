@@ -42,7 +42,9 @@ namespace Hedwig.Repositories
 		/// <param name="entity"></param>
 		/// <typeparam name="T"></typeparam>
 		/// <typeparam name="TId"></typeparam>
-		public void UpdateHedwigIdEntityWithCollectionNavigationProperties<T, TId>(T entity) where T : IHedwigIdEntity<TId>
+		public void UpdateHedwigIdEntityWithCollectionNavigationProperties<TEntity, TDto, TId>(TEntity entity, TDto entityDTO) 
+			where TEntity : IHedwigIdEntity<TId> 
+			where TDto : IHedwigIdEntity<TId>
 		{
 			// Retreive the value currently in the database
 			var loadedEntity = _context.Find(entity.GetType(), entity.Id);
@@ -50,16 +52,16 @@ namespace Hedwig.Repositories
 			var trackedEntity = _context.Attach(loadedEntity);
 
 			// Apply updates to directly accessible properties (reference fks and property values)
-			trackedEntity.CurrentValues.SetValues(entity);
+			trackedEntity.CurrentValues.SetValues(entityDTO);
 
-			UpdateReferenceNavigationProperties(trackedEntity, loadedEntity, entity);
-			UpdateCollectionNavigationProperties(trackedEntity, loadedEntity, entity);
+			UpdateReferenceNavigationProperties(trackedEntity, loadedEntity, entityDTO, entity);
+			UpdateCollectionNavigationProperties(trackedEntity, loadedEntity, entityDTO, entity);
 		}
 
 		/// <summary>
 		/// Recursively updates reference navigation properties.
 		/// </summary>
-		private void UpdateReferenceNavigationProperties(EntityEntry trackedEntity, object loadedEntity, object entity)
+		private void UpdateReferenceNavigationProperties(EntityEntry trackedEntity, object loadedEntity, object incomingEntityDTO, object incomingEntity)
 		{
 			var referenceEntries = trackedEntity.References;
 			foreach (var referenceEntry in referenceEntries)
@@ -67,14 +69,16 @@ namespace Hedwig.Repositories
 				referenceEntry.Load();
 
 				var propertyInfo = referenceEntry.Metadata.PropertyInfo;
-				var currentValue = entity.GetType().GetProperty(propertyInfo.Name).GetValue(entity);
+				var currentDTOValue = incomingEntityDTO.GetType().GetProperty(propertyInfo.Name)?.GetValue(incomingEntityDTO);
+				var currentValue = incomingEntity.GetType().GetProperty(propertyInfo.Name).GetValue(incomingEntity);
 
-				if (referenceEntry.TargetEntry != null && currentValue != null) {
+				if (referenceEntry.TargetEntry != null && currentDTOValue != null)
+				{
 					var originalValue = propertyInfo.GetValue(loadedEntity);
 					referenceEntry.TargetEntry.OriginalValues.SetValues(originalValue);
-					referenceEntry.TargetEntry.CurrentValues.SetValues(currentValue);
+					referenceEntry.TargetEntry.CurrentValues.SetValues(currentDTOValue);
 
-					UpdateReferenceNavigationProperties(referenceEntry.TargetEntry, originalValue, currentValue);
+					UpdateReferenceNavigationProperties(referenceEntry.TargetEntry, originalValue, currentDTOValue, currentValue);
 				}
 			}
 		}
@@ -82,7 +86,7 @@ namespace Hedwig.Repositories
 		/// Updates collection navigation properties.
 		/// Adds, updates, or removes items in the collection.
 		/// </summary>
-		private void UpdateCollectionNavigationProperties(EntityEntry trackedEntity, object loadedEntity, object entity)
+		private void UpdateCollectionNavigationProperties(EntityEntry trackedEntity, object loadedEntity, object incomingEntityDTO, object incomingEntity)
 		{
 			// EF does not automatically update child objects that are collections
 			// See https://stackoverflow.com/questions/27176014/how-to-add-update-child-entities-when-updating-a-parent-entity-in-ef
@@ -99,7 +103,8 @@ namespace Hedwig.Repositories
 				// Get the original values currently in the database
 				var originalValues = propertyInfo.GetValue(loadedEntity) as IEnumerable<object>;
 				// Get the to-be current values for the incoming entity
-				var currentValues = entity.GetType().GetProperty(propertyInfo.Name).GetValue(entity) as IEnumerable<object>;
+				var currentDTOValues = incomingEntityDTO.GetType().GetProperty(propertyInfo.Name)?.GetValue(incomingEntityDTO) as IEnumerable<object>;
+				var currentValues = incomingEntity.GetType().GetProperty(propertyInfo.Name).GetValue(incomingEntity) as IEnumerable<object>;
 				if (originalValues != null)
 				{
 					foreach (var item in originalValues)
@@ -108,7 +113,7 @@ namespace Hedwig.Repositories
 						collectionEntry.FindEntry(item).State = EntityState.Deleted;
 					}
 				}
-				if (currentValues != null)
+				if (currentDTOValues != null)
 				{
 					foreach (var item in currentValues)
 					{
@@ -117,7 +122,7 @@ namespace Hedwig.Repositories
 						var savedItem = trackedItem.GetDatabaseValues();
 						// If it doesn't exist, add it to the db
 						if (savedItem == null)
-						{
+						{ 
 							_context.Add(item);
 						}
 						// Else reset the state from either delete/unchanged to modified

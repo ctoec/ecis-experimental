@@ -39,7 +39,7 @@ namespace Hedwig.Validations.Rules
 				return null;
 			}
 
-			var firstReportingPeriodStart = funding.FirstReportingPeriod != null 
+			var firstReportingPeriodStart = funding.FirstReportingPeriod != null
 				? funding.FirstReportingPeriod.PeriodStart
 				: _reportingPeriods.GetById(funding.FirstReportingPeriodId.Value).PeriodStart;
 

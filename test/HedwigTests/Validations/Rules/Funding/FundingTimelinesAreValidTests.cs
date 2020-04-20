@@ -92,9 +92,10 @@ namespace HedwigTests.Validations.Rules
 			var _fundings = new Mock<IFundingRepository>();
 			_fundings.Setup(f => f.GetFundingsByChildId(It.IsAny<Guid>())).Returns(new List<Funding> { funding1, funding2 });
 			var _enrollments = new Mock<IEnrollmentRepository>();
+			var _reportingPeriods = new Mock<IReportingPeriodRepository>();
 
 			// when
-			var rule = new FundingTimelinesAreValid(_fundings.Object, _enrollments.Object);
+			var rule = new FundingTimelinesAreValid(_fundings.Object, _enrollments.Object, _reportingPeriods.Object);
 			var result = rule.Execute(funding1, new NonBlockingValidationContext());
 
 			// Then
@@ -123,9 +124,10 @@ namespace HedwigTests.Validations.Rules
 				var _validator = new NonBlockingValidator(_serviceProvider.Object);
 				var _fundings = new FundingRepository(context);
 				var _enrollments = new EnrollmentRepository(context);
+				var _reportingPeriods = new ReportingPeriodRepository(context);
 
 				// when
-				var rule = new FundingTimelinesAreValid(_fundings, _enrollments);
+				var rule = new FundingTimelinesAreValid(_fundings, _enrollments, _reportingPeriods);
 				rule.Execute(funding, new NonBlockingValidationContext());
 
 				// then

@@ -54,7 +54,9 @@ namespace Hedwig
 				typeof(FundingProfile),
 				typeof(FundingSpaceProfile),
 				typeof(OrganizationProfile),
-				typeof(SiteProfile)
+				typeof(SiteProfile),
+				typeof(FamilyProfile),
+				typeof(FamilyDeterminationProfile)
 			);
 		}
 

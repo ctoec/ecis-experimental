@@ -10,6 +10,7 @@ using Hedwig.Filters.Attributes;
 using Hedwig.Models;
 using Hedwig.Repositories;
 using Hedwig.Security;
+using AutoMapper;
 
 namespace Hedwig.Controllers
 {
@@ -20,13 +21,17 @@ namespace Hedwig.Controllers
 	{
 		private readonly IEnrollmentRepository _enrollments;
 		private readonly ISiteRepository _sites;
+		private readonly IMapper _mapper;
+
 		public EnrollmentsController(
 			IEnrollmentRepository enrollments,
-			ISiteRepository sites
+			ISiteRepository sites,
+			IMapper mapper
 		)
 		{
 			_enrollments = enrollments;
 			_sites = sites;
+			_mapper = mapper;
 		}
 
 		// GET api/organizations/1/enrollments
@@ -152,7 +157,8 @@ namespace Hedwig.Controllers
 
 			try
 			{
-				_enrollments.UpdateEnrollment(enrollment);
+				var enrollmentDTO = _mapper.Map<Enrollment, EnrollmentDTO>(enrollment);
+				_enrollments.UpdateEnrollment(enrollment, enrollmentDTO);
 				await _enrollments.SaveChangesAsync();
 			}
 			catch (DbUpdateConcurrencyException)
