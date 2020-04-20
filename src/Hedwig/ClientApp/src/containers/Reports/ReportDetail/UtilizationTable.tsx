@@ -189,7 +189,6 @@ export function countFundedEnrollments(
 	ageGroup: Age,
 	fundingTime: FundingTime
 ) {
-	debugger;
 	return enrollments.filter(enrollment => {
 		if (enrollment.ageGroup !== ageGroup) {
 			return false;
