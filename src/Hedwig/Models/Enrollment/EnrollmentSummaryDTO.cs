@@ -9,7 +9,7 @@ namespace Hedwig.Models
 	{
 		public int Id { get; set; }
 		public Guid ChildId { get; set; }
-		public ChildDTOForRoster Child { get; set; }
+		public EnrollmentSummaryChildDTO Child { get; set; }
 		public int SiteId { get; set; }
 		public EnrollmentSummarySiteDTO Site { get; set; }
 		public Age? AgeGroup { get; set; }
