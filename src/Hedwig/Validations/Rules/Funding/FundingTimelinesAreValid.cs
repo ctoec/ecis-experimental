@@ -10,19 +10,22 @@ namespace Hedwig.Validations.Rules
 	{
 		readonly IFundingRepository _fundings;
 		readonly IEnrollmentRepository _enrollments;
+		readonly IReportingPeriodRepository _reportingPeriods;
 
 		public FundingTimelinesAreValid(
 			IFundingRepository fundings,
-			IEnrollmentRepository enrollments
+			IEnrollmentRepository enrollments,
+			IReportingPeriodRepository reportingPeriods
 		)
 		{
 			_fundings = fundings;
 			_enrollments = enrollments;
+			_reportingPeriods = reportingPeriods;
 		}
 
 		public ValidationError Execute(Funding funding, NonBlockingValidationContext context)
 		{
-			if (funding.FirstReportingPeriodId == null)
+			if (!funding.FirstReportingPeriodId.HasValue)
 			{
 				return null;
 			}
@@ -36,11 +39,16 @@ namespace Hedwig.Validations.Rules
 				return null;
 			}
 
-			var firstReportingPeriod = funding.FirstReportingPeriod.PeriodStart;
-			DateTime? lastReportingPeriod = null;
-			if (funding.LastReportingPeriod != null)
+			var firstReportingPeriodStart = funding.FirstReportingPeriod != null 
+				? funding.FirstReportingPeriod.PeriodStart
+				: _reportingPeriods.GetById(funding.FirstReportingPeriodId.Value).PeriodStart;
+
+			DateTime? lastReportingPeriodEnd = null;
+			if (funding.LastReportingPeriodId.HasValue)
 			{
-				lastReportingPeriod = funding.LastReportingPeriod.PeriodEnd;
+				lastReportingPeriodEnd = funding.LastReportingPeriod != null
+					? funding.LastReportingPeriod.PeriodEnd
+					: _reportingPeriods.GetById(funding.LastReportingPeriodId.Value).PeriodEnd;
 			}
 
 			var doesOverlap = false;
@@ -51,11 +59,11 @@ namespace Hedwig.Validations.Rules
 					break;
 				}
 				var currentFirstReportingPeriodStart = currentFunding.FirstReportingPeriod.PeriodStart;
-				if (currentFirstReportingPeriodStart == firstReportingPeriod)
+				if (currentFirstReportingPeriodStart == firstReportingPeriodStart)
 				{
 					doesOverlap = true;
 				}
-				else if (currentFirstReportingPeriodStart < firstReportingPeriod)
+				else if (currentFirstReportingPeriodStart < firstReportingPeriodStart)
 				{
 					if (currentFunding.LastReportingPeriod == null)
 					{
@@ -64,7 +72,7 @@ namespace Hedwig.Validations.Rules
 					else
 					{
 						var currentLastReportingPeriodEnd = currentFunding.LastReportingPeriod.PeriodEnd;
-						if (firstReportingPeriod <= currentLastReportingPeriodEnd)
+						if (firstReportingPeriodStart <= currentLastReportingPeriodEnd)
 						{
 							doesOverlap = true;
 						}
@@ -72,13 +80,13 @@ namespace Hedwig.Validations.Rules
 				}
 				else /* (firstReportingPeriod < currentFirstReportingPeriodStart) */
 				{
-					if (lastReportingPeriod == null)
+					if (lastReportingPeriodEnd == null)
 					{
 						doesOverlap = true;
 					}
 					else
 					{
-						if (currentFirstReportingPeriodStart <= lastReportingPeriod)
+						if (currentFirstReportingPeriodStart <= lastReportingPeriodEnd)
 						{
 							doesOverlap = true;
 						}

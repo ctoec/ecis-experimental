@@ -33,20 +33,17 @@ namespace Hedwig.Repositories
 
 		/// <summary>
 		/// Updates properties on entity.
-		/// Adds, removes, or updates the objects that are
-		/// collections accessed via a navigation property
+		/// Currently, collection navigation properties can only be
+		/// updated at the top level of the object heirarchy.
+		/// Reference navigation properties will be updated at any levels,
+		/// but collections on navigation properties will not be updated
+		/// TODO: Make collection updates recursive as well
 		/// </summary>
 		/// <param name="entity"></param>
 		/// <typeparam name="T"></typeparam>
 		/// <typeparam name="TId"></typeparam>
 		public void UpdateHedwigIdEntityWithCollectionNavigationProperties<T, TId>(T entity) where T : IHedwigIdEntity<TId>
 		{
-			// EF does not automatically update child objects that are collections
-			// See https://stackoverflow.com/questions/27176014/how-to-add-update-child-entities-when-updating-a-parent-entity-in-ef
-			// See https://stackoverflow.com/questions/11705569/using-the-entrytentity-currentvalues-setvalues-is-not-updating-collections
-			// See https://stackoverflow.com/questions/3635071/update-relationships-when-saving-changes-of-ef4-poco-objects/3635326#3635326
-			// My only thought on why EF doesn't include code like this is that it requires multiple round trips to the database
-
 			// Retreive the value currently in the database
 			var loadedEntity = _context.Find(entity.GetType(), entity.Id);
 			// And attach it the context
@@ -55,8 +52,44 @@ namespace Hedwig.Repositories
 			// Apply updates to directly accessible properties (reference fks and property values)
 			trackedEntity.CurrentValues.SetValues(entity);
 
-			// Get all the navigation properties that are collections
-			// We have to apply updates on those objects
+			UpdateReferenceNavigationProperties(trackedEntity, loadedEntity, entity);
+			UpdateCollectionNavigationProperties(trackedEntity, loadedEntity, entity);
+		}
+
+		/// <summary>
+		/// Recursively updates reference navigation properties.
+		/// </summary>
+		private void UpdateReferenceNavigationProperties(EntityEntry trackedEntity, object loadedEntity, object entity)
+		{
+			var referenceEntries = trackedEntity.References;
+			foreach (var referenceEntry in referenceEntries)
+			{
+				referenceEntry.Load();
+
+				var propertyInfo = referenceEntry.Metadata.PropertyInfo;
+				var currentValue = entity.GetType().GetProperty(propertyInfo.Name).GetValue(entity);
+
+				if (referenceEntry.TargetEntry != null && currentValue != null) {
+					var originalValue = propertyInfo.GetValue(loadedEntity);
+					referenceEntry.TargetEntry.OriginalValues.SetValues(originalValue);
+					referenceEntry.TargetEntry.CurrentValues.SetValues(currentValue);
+
+					UpdateReferenceNavigationProperties(referenceEntry.TargetEntry, originalValue, currentValue);
+				}
+			}
+		}
+		/// <summary>
+		/// Updates collection navigation properties.
+		/// Adds, updates, or removes items in the collection.
+		/// </summary>
+		private void UpdateCollectionNavigationProperties(EntityEntry trackedEntity, object loadedEntity, object entity)
+		{
+			// EF does not automatically update child objects that are collections
+			// See https://stackoverflow.com/questions/27176014/how-to-add-update-child-entities-when-updating-a-parent-entity-in-ef
+			// See https://stackoverflow.com/questions/11705569/using-the-entrytentity-currentvalues-setvalues-is-not-updating-collections
+			// See https://stackoverflow.com/questions/3635071/update-relationships-when-saving-changes-of-ef4-poco-objects/3635326#3635326
+			// My only thought on why EF doesn't include code like this is that it requires multiple round trips to the database
+
 			var collectionEntries = trackedEntity.Collections;
 			foreach (var collectionEntry in collectionEntries)
 			{
