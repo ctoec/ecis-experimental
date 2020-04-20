@@ -4,7 +4,7 @@ using Hedwig.Validations;
 
 namespace Hedwig.Models
 {
-	public class ChildDTOForRoster
+	public class EnrollmentSummaryChildDTO
 	{
 		public Guid Id { get; set; }
 		public string Sasid { get; set; }
