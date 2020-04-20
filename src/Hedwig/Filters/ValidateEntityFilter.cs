@@ -21,16 +21,7 @@ namespace Hedwig.Filters
 		
 		public void OnActionExecuting(ValidateEntityFilterAttribute attribute, ActionExecutingContext context)
 		{
-			// if (!_onExecuting) return;
-
-			// var requestEntities = context.ActionArguments.Values
-			// 	.Where(item => item.GetType().IsApplicationModel())
-			// 	.ToList();
-
-			// foreach (var entity in requestEntities)
-			// {
-			// 	ValidateEntity(entity);
-			// }
+			return;
 		}
 		public void OnActionExecuted(ValidateEntityFilterAttribute attribute, ActionExecutedContext context)
 		{
