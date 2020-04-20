@@ -11,6 +11,9 @@ namespace Hedwig.Models
 
 			CreateMap<Organization, OrganizationReportSummaryOrganizationDTO>()
 				.ReverseMap();
+
+			CreateMap<Organization, CdcReportOrganizationDTO>()
+				.ReverseMap();
 		}
 	}
 }
