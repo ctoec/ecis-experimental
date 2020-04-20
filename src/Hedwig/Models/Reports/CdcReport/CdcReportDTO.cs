@@ -10,7 +10,7 @@ namespace Hedwig.Models
 		public FundingSource Type { get; set; }
 		public ReportingPeriod ReportingPeriod { get; set; }
 		public DateTime? SubmittedAt { get; set; }
-		public CdcReportOrganizationDTO Organization { get; set; } 
+		public CdcReportOrganizationDTO Organization { get; set; }
 		public List<CdcReportEnrollmentDTO> Enrollments { get; set; }
 		public List<ValidationError> ValidationErrors { get; set; }
 	}

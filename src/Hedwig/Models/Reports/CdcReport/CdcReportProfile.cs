@@ -8,7 +8,7 @@ namespace Hedwig.Models
 		{
 			CreateMap<CdcReport, CdcReportDTO>()
 				.ReverseMap();
-				
+
 			CreateMap<CdcReport, OrganizationReportSummaryDTO>()
 				.ReverseMap();
 		}

@@ -16,24 +16,27 @@ namespace Hedwig.Filters
 
 		public ValidateEntityFilter(INonBlockingValidator validator)
 		{
-			_validator = validator;		
+			_validator = validator;
 		}
-		
+
 		public void OnActionExecuting(ValidateEntityFilterAttribute attribute, ActionExecutingContext context)
 		{
-			// if (!_onExecuting) return;
+			if (!attribute.OnExecuting) return;
 
-			// var requestEntities = context.ActionArguments.Values
-			// 	.Where(item => item.GetType().IsApplicationModel())
-			// 	.ToList();
+			var requestEntities = context.ActionArguments.Values
+				.Where(item => item.GetType().IsApplicationModel())
+				.ToList();
 
-			// foreach (var entity in requestEntities)
-			// {
-			// 	ValidateEntity(entity);
-			// }
+			foreach (var entity in requestEntities)
+			{
+				ValidateEntity(entity);
+			}
 		}
 		public void OnActionExecuted(ValidateEntityFilterAttribute attribute, ActionExecutedContext context)
 		{
+			if (attribute.OnExecuting) return;
+
+
 			var objectResult = (context.Result as ObjectResult);
 			if (objectResult == null)
 			{
