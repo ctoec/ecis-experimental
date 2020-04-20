@@ -8,6 +8,9 @@ namespace Hedwig.Models
 		{
 			CreateMap<Organization, EnrollmentSummaryOrganizationDTO>();
 			CreateMap<EnrollmentSummaryOrganizationDTO, Organization>();
+
+			CreateMap<Organization, OrganizationReportSummaryOrganizationDTO>()
+				.ReverseMap();
 		}
 	}
 }

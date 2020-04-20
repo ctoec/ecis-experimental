@@ -32,7 +32,7 @@ namespace Hedwig.Controllers
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ValidateEntityFilterAttribute(Order = 1)]
-		[TransformEntityFilter(Order = 2)]
+		[DTOProjectionFilter(typeof(List<OrganizationReportSummaryDTO>), Order = 2)]
 		public async Task<ActionResult<List<CdcReport>>> Get(
 			int orgId
 		)
