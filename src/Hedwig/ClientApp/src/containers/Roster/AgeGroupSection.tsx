@@ -145,7 +145,7 @@ export default function AgeGroupSection({
 			})
 		).length;
 		return {
-			symbol: legendDisplayDetails.CDC.symbol,
+			symbol: legendDisplayDetails[space.source || ''].symbol,
 			text: (
 				<>
 					<span>
