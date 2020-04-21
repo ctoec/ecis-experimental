@@ -168,37 +168,6 @@ export default function AgeGroupSection({
 				{`${ageGroupTitle} (${pluralize('child', rosterTableProps.data.length, true)})`}
 			</h2>
 			<Legend items={legendItems} />
-			{/* {fundingSpaces && (
-				<ul>
-					{fundingSpaces.map(space => {
-						const enrolledForFunding = enrollments.filter<DeepNonUndefineable<Enrollment>>(
-							enrollment =>
-								isFunded(enrollment, {
-									source: space.source,
-									time: getFundingSpaceTime(space),
-									currentRange: rosterDateRange,
-								})
-						).length;
-
-						return (
-							<li key={`${getFundingSpaceTime(space)}-${ageGroupTitle}`}>
-								<span className="text-bold">
-									{showPastEnrollments
-										? enrolledForFunding
-										: `${enrolledForFunding}/${space.capacity}`}
-								</span>
-								<span>
-									{showPastEnrollments
-										? ` in ${prettyFundingTime(getFundingSpaceTime(space))} ${space.source ||
-												''} spaces`
-										: ` ${prettyFundingTime(getFundingSpaceTime(space))} ${space.source ||
-												''} spaces filled`}
-								</span>
-							</li>
-						);
-					})}
-				</ul>
-			)} */}
 			<Table {...rosterTableProps} fullWidth />
 		</>
 	);
