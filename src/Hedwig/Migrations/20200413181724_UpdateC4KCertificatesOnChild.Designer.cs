@@ -5,14 +5,16 @@ using Hedwig.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Hedwig.Migrations
 {
     [DbContext(typeof(HedwigContext))]
-    partial class HedwigContextModelSnapshot : ModelSnapshot
+    [Migration("20200413181724_UpdateC4KCertificatesOnChild")]
+    partial class UpdateC4KCertificatesOnChild
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -310,6 +312,9 @@ namespace Hedwig.Migrations
                     b.Property<int>("Capacity")
                         .HasColumnType("int");
 
+                    b.Property<string>("FundingTimeAllocations")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("OrganizationId")
                         .HasColumnType("int");
 
@@ -321,29 +326,6 @@ namespace Hedwig.Migrations
                     b.HasIndex("OrganizationId");
 
                     b.ToTable("FundingSpace");
-                });
-
-            modelBuilder.Entity("Hedwig.Models.FundingTimeAllocation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("FundingSpaceId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Time")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Weeks")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FundingSpaceId");
-
-                    b.ToTable("FundingTimeAllocation");
                 });
 
             modelBuilder.Entity("Hedwig.Models.Organization", b =>
@@ -683,15 +665,6 @@ namespace Hedwig.Migrations
                         .WithMany("FundingSpaces")
                         .HasForeignKey("OrganizationId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Hedwig.Models.FundingTimeAllocation", b =>
-                {
-                    b.HasOne("Hedwig.Models.FundingSpace", "FundingSpace")
-                        .WithMany("FundingTimeAllocations")
-                        .HasForeignKey("FundingSpaceId")
-                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
