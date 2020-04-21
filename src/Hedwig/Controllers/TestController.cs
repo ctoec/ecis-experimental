@@ -9,12 +9,13 @@ namespace Hedwig.Controllers
 	[Route("test")]
 	public class TestConroller : ControllerBase
 	{
-		public TestConroller() {}
+		public TestConroller() { }
 
 		[HttpGet]
 		public ActionResult<object> Get()
 		{
-			return new {
+			return new
+			{
 				Id = 1
 			};
 		}
