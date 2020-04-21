@@ -100,11 +100,9 @@ export default function Roster() {
 	const fundingSpacesByAgeGroup = getObjectsByAgeGroup(fundingSpaces);
 
 	const legendItems: LegendItem[] = Object.values(legendDisplayDetails).map(
-		({ colorToken, shortTitle, legendTextFormatter, hidden }) => ({
+		({ legendTextFormatter, hidden, symbol }) => ({
+			symbol,
 			text: legendTextFormatter(organization, enrollments, showPastEnrollments),
-			symbol: (
-				<Tag text={shortTitle} color={colorToken} className="position-relative top-neg-2px" />
-			),
 			hidden: hidden(organization, enrollments),
 		})
 	);
@@ -117,6 +115,7 @@ export default function Roster() {
 			enrollment.validationErrors.length > 0
 	).length;
 	if (missingInformationEnrollmentsCount > 0) {
+		// When there are no kids missing information, this legend item should be hidden https://github.com/ctoec/ecis-experimental/issues/893"
 		legendItems.push({
 			text: (
 				<>
