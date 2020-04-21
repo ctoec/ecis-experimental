@@ -54,14 +54,14 @@ exports[`Roster matches snapshot 1`] = `
         </a>
       </div>
     </div>
-    <div
-      class="grid-row flex-wrap margin-y-2 grid-gap oec-legend"
+    <ul
+      class="margin-y-2 oec-legend add-list-reset grid-row grid-gap"
     >
-      <div
-        class="margin-right-1"
+      <li
+        class="oec-legend__item oec-legend-item margin-right-1"
       >
         <div
-          class="oec-legend__symbol undefined"
+          class="oec-legend-item__symbol undefined"
         >
           <span
             class="usa-tag position-relative top-neg-2px bg-blue-50v"
@@ -70,23 +70,23 @@ exports[`Roster matches snapshot 1`] = `
           </span>
         </div>
         <div
-          class="width-fit-content display-inline margin-left-1 "
+          class="oec-legend-item__text width-fit-content display-inline margin-left-1 "
         >
           <span
             class="text-bold"
           >
-            8/2
+            8
           </span>
           <span>
-             Child Day Care spaces filled
+             CDC spaces filled
           </span>
         </div>
-      </div>
-      <div
-        class="margin-right-1"
+      </li>
+      <li
+        class="oec-legend__item oec-legend-item margin-right-1"
       >
         <div
-          class="oec-legend__symbol undefined"
+          class="oec-legend-item__symbol undefined"
         >
           <span
             class="oec-inline-icon oec-inline-icon--incomplete"
@@ -102,7 +102,7 @@ exports[`Roster matches snapshot 1`] = `
           </span>
         </div>
         <div
-          class="width-fit-content display-inline margin-left-1 "
+          class="oec-legend-item__text width-fit-content display-inline margin-left-1 "
         >
           <span
             class="text-bold"
@@ -113,14 +113,16 @@ exports[`Roster matches snapshot 1`] = `
              missing information
           </span>
         </div>
-      </div>
-    </div>
+      </li>
+    </ul>
     <h2
       class="margin-top-6"
     >
       Infant/toddler (2 children)
     </h2>
-    <ul />
+    <ul
+      class="margin-y-2 oec-legend add-list-reset grid-col"
+    />
     <table
       class="oec-table oec-table--full-width"
       id="InfantToddler-roster-table"
@@ -293,16 +295,36 @@ exports[`Roster matches snapshot 1`] = `
     >
       Preschool (6 children)
     </h2>
-    <ul>
-      <li>
-        <span
-          class="text-bold"
+    <ul
+      class="margin-y-2 oec-legend add-list-reset grid-col"
+    >
+      <li
+        class="oec-legend__item oec-legend-item margin-y-1"
+      >
+        <div
+          class="oec-legend-item__symbol undefined"
         >
-          5/2
-        </span>
-        <span>
-           full time CDC spaces filled
-        </span>
+          <span
+            class="usa-tag position-relative top-neg-2px bg-blue-50v"
+          >
+            CDC
+          </span>
+        </div>
+        <div
+          class="oec-legend-item__text width-fit-content display-inline margin-left-1 "
+        >
+          <span>
+            full time — 
+          </span>
+          <span
+            class="text-bold"
+          >
+            5
+          </span>
+          <span>
+             spaces filled
+          </span>
+        </div>
       </li>
     </ul>
     <table

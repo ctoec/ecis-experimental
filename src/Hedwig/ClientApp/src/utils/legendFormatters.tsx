@@ -94,7 +94,7 @@ export const legendDisplayDetails: {
 	},
 	missing: {
 		symbol: <InlineIcon icon="incomplete" />,
-		legendTextFormatter: (enrollments) => {
+		legendTextFormatter: enrollments => {
 			// CDC funded enrollments with validationErrors are considered to be missing information
 			const missingInformationEnrollmentsCount = enrollments.filter<
 				DeepNonUndefineable<Enrollment>
