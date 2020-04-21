@@ -49,15 +49,19 @@ namespace Hedwig.Repositories
 			// Retreive the value currently in the database
 			var loadedEntity = _context.Find(entity.GetType(), entity.Id);
 			// And attach it the context
-			var trackedEntity = _context.Attach(loadedEntity);
+			var trackedEntry = _context.Attach(loadedEntity);
 
 			// Apply updates to directly accessible properties (reference fks and property values)
-			trackedEntity.CurrentValues.SetValues(entityDTO);
+			trackedEntry.CurrentValues.SetValues(entityDTO);
 
-			UpdateReferenceNavigationProperties(trackedEntity, loadedEntity, entityDTO, entity);
-			UpdateCollectionNavigationProperties(trackedEntity, loadedEntity, entityDTO, entity);
+			UpdateNavigationProperties(trackedEntry, loadedEntity, entityDTO, entity);
 		}
 
+		private void UpdateNavigationProperties(EntityEntry trackedEntry, object loadedEntity, object incomingEntityDTO, object incomingEntity)
+		{
+			UpdateReferenceNavigationProperties(trackedEntry, loadedEntity, incomingEntityDTO, incomingEntity);
+			UpdateCollectionNavigationProperties(trackedEntry, loadedEntity, incomingEntityDTO, incomingEntity);
+		}
 		/// <summary>
 		/// Recursively updates reference navigation properties.
 		/// </summary>
@@ -78,7 +82,7 @@ namespace Hedwig.Repositories
 					referenceEntry.TargetEntry.OriginalValues.SetValues(originalValue);
 					referenceEntry.TargetEntry.CurrentValues.SetValues(currentDTOValue);
 
-					UpdateReferenceNavigationProperties(referenceEntry.TargetEntry, originalValue, currentDTOValue, currentValue);
+					UpdateNavigationProperties(referenceEntry.TargetEntry, originalValue, currentDTOValue, currentValue);
 				}
 			}
 		}
@@ -99,36 +103,46 @@ namespace Hedwig.Repositories
 			{
 				// Load the target objects
 				collectionEntry.Load();
+
 				var propertyInfo = collectionEntry.Metadata.PropertyInfo;
 				// Get the original values currently in the database
 				var originalValues = propertyInfo.GetValue(loadedEntity) as IEnumerable<object>;
 				// Get the to-be current values for the incoming entity
 				var currentDTOValues = incomingEntityDTO.GetType().GetProperty(propertyInfo.Name)?.GetValue(incomingEntityDTO) as IEnumerable<object>;
 				var currentValues = incomingEntity.GetType().GetProperty(propertyInfo.Name).GetValue(incomingEntity) as IEnumerable<object>;
-				if (originalValues != null)
-				{
-					foreach (var item in originalValues)
-					{
-						// Delete all entries currently
-						collectionEntry.FindEntry(item).State = EntityState.Deleted;
-					}
-				}
+
 				if (currentDTOValues != null)
 				{
+					if (originalValues != null)
+					{
+						foreach (var item in originalValues)
+						{
+							// Delete all entries currently
+							collectionEntry.FindEntry(item).State = EntityState.Deleted;
+						}
+					}
 					foreach (var item in currentValues)
 					{
 						var trackedItem = _context.Entry(item);
-						// Get the current values for the given item
-						var savedItem = trackedItem.GetDatabaseValues();
+						var dbValues = trackedItem.GetDatabaseValues();
+
 						// If it doesn't exist, add it to the db
-						if (savedItem == null)
-						{ 
+						if (dbValues == null)
+						{
+							var parentFkProp = collectionEntry.Metadata.ForeignKey.PrincipalKey.Properties.First();
+							var fkValue = parentFkProp.PropertyInfo.GetValue(collectionEntry.EntityEntry.Entity);
+
+							var dependentFkProp = collectionEntry.Metadata.ForeignKey.Properties.First();
+							dependentFkProp.PropertyInfo.SetValue(item, fkValue);
 							_context.Add(item);
 						}
-						// Else reset the state from either delete/unchanged to modified
+						// Else set the original and current values
 						else
 						{
-							trackedItem.State = EntityState.Modified;
+							// var attachedEntity = _context.Attach(item);
+							var attachedItem = _context.Attach(trackedItem.Entity);
+							attachedItem.OriginalValues.SetValues(dbValues);
+							attachedItem.CurrentValues.SetValues(item);
 						}
 					}
 				}
