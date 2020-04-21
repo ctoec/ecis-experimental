@@ -2,8 +2,8 @@ import React from 'react';
 import idx from 'idx';
 import pluralize from 'pluralize';
 import { Link } from 'react-router-dom';
-import { Table, TableProps, InlineIcon, DateRange, Column } from '../../components';
-import { Enrollment, FundingSpace, FundingSource, Organization } from '../../generated';
+import { Table, TableProps, InlineIcon, DateRange, Column, Legend } from '../../components';
+import { Enrollment, FundingSpace, FundingSource, Organization, Site } from '../../generated';
 import { lastFirstNameFormatter } from '../../utils/stringFormatters';
 import dateFormatter from '../../utils/dateFormatter';
 import { NO_FUNDING, getFundingSpaceTime, prettyFundingTime } from '../../utils/models';
@@ -15,6 +15,7 @@ import {
 	filterFundingTypesForRosterTags,
 	FundingType,
 } from '../../utils/fundingType';
+import { legendDisplayDetails } from '../../utils/legendFormatters';
 
 export type AgeGroupTableProps = { id: string; data: DeepNonUndefineable<Enrollment>[] };
 
@@ -23,6 +24,7 @@ type AgeGroupSectionProps = {
 	ageGroup: string;
 	ageGroupTitle: string;
 	enrollments: DeepNonUndefineableArray<Enrollment>;
+	site?: Site;
 	fundingSpaces?: FundingSpace[];
 	rosterDateRange?: DateRange;
 	showPastEnrollments?: boolean;
@@ -30,6 +32,7 @@ type AgeGroupSectionProps = {
 
 export default function AgeGroupSection({
 	organization,
+	site,
 	ageGroup,
 	ageGroupTitle,
 	enrollments,
@@ -133,12 +136,39 @@ export default function AgeGroupSection({
 		defaultSortOrder: 'ascending',
 	};
 
+	const legendItems = (fundingSpaces || []).map(space => {
+		const enrolledForFunding = enrollments.filter<DeepNonUndefineable<Enrollment>>(enrollment =>
+			isFunded(enrollment, {
+				source: space.source,
+				time: getFundingSpaceTime(space),
+				currentRange: rosterDateRange,
+			})
+		).length;
+		return {
+			symbol: legendDisplayDetails.CDC.symbol,
+			text: (
+				<>
+					<span>{prettyFundingTime(getFundingSpaceTime(space))}</span>
+					<span className="text-bold">
+						{' — '}
+						{/* If past enrollments or site, only show number of spaces filled, not ratio for entire organization */}
+						{showPastEnrollments || site
+							? enrolledForFunding
+							: `${enrolledForFunding}/${space.capacity}`}
+					</span>
+					<span> spaces filled</span>
+				</>
+			),
+		};
+	});
+
 	return (
 		<>
 			<h2 className="margin-top-6">
 				{`${ageGroupTitle} (${pluralize('child', rosterTableProps.data.length, true)})`}
 			</h2>
-			{fundingSpaces && (
+			<Legend items={legendItems} />
+			{/* {fundingSpaces && (
 				<ul>
 					{fundingSpaces.map(space => {
 						const enrolledForFunding = enrollments.filter<DeepNonUndefineable<Enrollment>>(
@@ -168,7 +198,7 @@ export default function AgeGroupSection({
 						);
 					})}
 				</ul>
-			)}
+			)} */}
 			<Table {...rosterTableProps} fullWidth />
 		</>
 	);

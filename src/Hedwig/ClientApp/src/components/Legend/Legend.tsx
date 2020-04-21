@@ -20,11 +20,11 @@ const defaultSymbol = (
 
 export function Legend({ items }: LegendProps) {
 	return (
-		<div className="grid-row flex-wrap margin-y-2 grid-gap oec-legend">
+		<ul className="grid-row flex-wrap margin-y-2 grid-gap oec-legend">
 			{items
 				.filter(item => !item.hidden)
 				.map((item, index) => (
-					<div key={index} className="margin-right-1">
+					<li key={index} className="margin-right-1">
 						<div className={`oec-legend__symbol ${item.symbolClass}`}>
 							{item.symbol || defaultSymbol}
 						</div>
@@ -33,8 +33,8 @@ export function Legend({ items }: LegendProps) {
 						>
 							{item.text}
 						</div>
-					</div>
+					</li>
 				))}
-		</div>
+		</ul>
 	);
 }

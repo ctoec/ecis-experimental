@@ -95,12 +95,16 @@ export default function Roster() {
 		({ legendTextFormatter, hidden, symbol }) => ({
 			symbol,
 			text: legendTextFormatter(enrollments, { showPastEnrollments, organization, site }),
-			// TODO: REFACTOR HIDDEN AND SYMBOL TO LIVE TOGETHER ON THE LEGEND FORMATTER?
 			hidden: hidden(organization, enrollments),
 		})
 	);
 
-	console.log({ site });
+	const commonAgeGroupSectionProps = {
+		organization,
+		site,
+		rosterDateRange: dateRange,
+		showPastEnrollments,
+	};
 
 	return (
 		<CommonContainer directionalLinkProps={siteRosterDirectionalLinkProps}>
@@ -121,39 +125,31 @@ export default function Roster() {
 				</Suspend>
 				<Suspend waitFor={enrollments.length > 0} fallback={<div>Loading...</div>}>
 					<AgeGroupSection
-						organization={organization}
+						{...commonAgeGroupSectionProps}
 						ageGroup={Age.InfantToddler}
 						ageGroupTitle={`Infant/toddler`}
 						enrollments={completeEnrollmentsByAgeGroup[Age.InfantToddler]}
 						fundingSpaces={fundingSpacesByAgeGroup[Age.InfantToddler] as FundingSpace[]}
-						rosterDateRange={dateRange}
-						showPastEnrollments={showPastEnrollments}
 					/>
 					<AgeGroupSection
-						organization={organization}
+						{...commonAgeGroupSectionProps}
 						ageGroup={Age.Preschool}
 						ageGroupTitle={`Preschool`}
 						enrollments={completeEnrollmentsByAgeGroup[Age.Preschool]}
 						fundingSpaces={fundingSpacesByAgeGroup[Age.Preschool] as FundingSpace[]}
-						rosterDateRange={dateRange}
-						showPastEnrollments={showPastEnrollments}
 					/>
 					<AgeGroupSection
-						organization={organization}
+						{...commonAgeGroupSectionProps}
 						ageGroup={Age.SchoolAge}
 						ageGroupTitle={`School age`}
 						enrollments={completeEnrollmentsByAgeGroup[Age.SchoolAge]}
 						fundingSpaces={fundingSpacesByAgeGroup[Age.SchoolAge] as FundingSpace[]}
-						rosterDateRange={dateRange}
-						showPastEnrollments={showPastEnrollments}
 					/>
 					<AgeGroupSection
-						organization={organization}
+						{...commonAgeGroupSectionProps}
 						ageGroup="incomplete"
 						ageGroupTitle={`Incomplete enrollments`}
 						enrollments={incompleteEnrollments}
-						rosterDateRange={dateRange}
-						showPastEnrollments={showPastEnrollments}
 					/>
 				</Suspend>
 			</div>

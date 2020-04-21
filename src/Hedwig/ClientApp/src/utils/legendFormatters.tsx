@@ -67,7 +67,7 @@ export const legendDisplayDetails: {
 			}
 		},
 		hidden: organization =>
-			getFundingSpaceCapacity(organization, { source: FundingSource.CDC }) < 1,
+			getFundingSpaceCapacity(organization, { source: FundingSource.CDC }) === 0,
 	},
 	C4K: {
 		symbol: (
