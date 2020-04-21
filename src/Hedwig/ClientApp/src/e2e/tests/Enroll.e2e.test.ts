@@ -7,6 +7,7 @@ import { beginEnroll, enterChildInfo } from '../utilities/enroll';
 
 // Set time out to 60 seconds
 jest.setTimeout(60 * 1000);
+jest.retryTimes(3);
 
 const appUrl = `${clientHost}/`;
 
@@ -238,6 +239,6 @@ describe('during an Enroll workflow', () => {
 	});
 });
 
-afterAll(() => {
-	driverHelper.cleanup();
+afterAll(async () => {
+	await driverHelper.cleanup();
 });
