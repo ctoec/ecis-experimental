@@ -148,9 +148,11 @@ export default function AgeGroupSection({
 			symbol: legendDisplayDetails.CDC.symbol,
 			text: (
 				<>
-					<span>{prettyFundingTime(getFundingSpaceTime(space))}</span>
-					<span className="text-bold">
+					<span>
+						{prettyFundingTime(getFundingSpaceTime(space))}
 						{' — '}
+					</span>
+					<span className="text-bold">
 						{/* If past enrollments or site, only show number of spaces filled, not ratio for entire organization */}
 						{showPastEnrollments || site
 							? enrolledForFunding
@@ -161,9 +163,6 @@ export default function AgeGroupSection({
 			),
 		};
 	});
-
-	// DUMMY LEGEND ITEM FOR TESTING
-	legendItems.push({ text: 'FAKE FAKE FAKE' });
 
 	return (
 		<>
