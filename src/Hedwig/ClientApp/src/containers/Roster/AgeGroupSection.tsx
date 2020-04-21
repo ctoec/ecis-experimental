@@ -162,12 +162,15 @@ export default function AgeGroupSection({
 		};
 	});
 
+	// DUMMY LEGEND ITEM FOR TESTING
+	legendItems.push({ text: 'FAKE FAKE FAKE' });
+
 	return (
 		<>
 			<h2 className="margin-top-6">
 				{`${ageGroupTitle} (${pluralize('child', rosterTableProps.data.length, true)})`}
 			</h2>
-			<Legend items={legendItems} />
+			<Legend items={legendItems} vertical />
 			<Table {...rosterTableProps} fullWidth />
 		</>
 	);
