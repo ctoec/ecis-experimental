@@ -94,10 +94,13 @@ export default function Roster() {
 	const legendItems: LegendItem[] = Object.values(legendDisplayDetails).map(
 		({ legendTextFormatter, hidden, symbol }) => ({
 			symbol,
-			text: legendTextFormatter(organization, enrollments, showPastEnrollments),
+			text: legendTextFormatter(enrollments, { showPastEnrollments, organization, site }),
+			// TODO: REFACTOR HIDDEN AND SYMBOL TO LIVE TOGETHER ON THE LEGEND FORMATTER?
 			hidden: hidden(organization, enrollments),
 		})
 	);
+
+	console.log({ site });
 
 	return (
 		<CommonContainer directionalLinkProps={siteRosterDirectionalLinkProps}>

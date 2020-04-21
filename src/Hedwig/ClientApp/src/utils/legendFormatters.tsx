@@ -1,14 +1,19 @@
 import React from 'react';
-import { Organization, Enrollment, FundingSource } from '../generated';
+import { Organization, Enrollment, FundingSource, Site } from '../generated';
 import { DeepNonUndefineable } from './types';
 import { isFunded, currentC4kCertificate, getFundingSpaceCapacity } from './models';
 import { getDisplayColorForFundingType, FundingTypes } from './fundingType';
 import { Tag, InlineIcon } from '../components';
 
+export type LegendTextFormatterOpts = {
+	organization?: Organization;
+	showPastEnrollments?: boolean;
+	site?: Site;
+};
+
 export type LegendTextFormatter = (
-	organization: Organization,
 	enrollments: DeepNonUndefineable<Enrollment[]>,
-	showPastEnrollments?: boolean
+	opts?: LegendTextFormatterOpts
 ) => string | JSX.Element;
 
 type LegendDisplayDetail = {
@@ -28,7 +33,8 @@ export const legendDisplayDetails: {
 				className="position-relative top-neg-2px"
 			/>
 		),
-		legendTextFormatter: (organization, enrollments, showPastEnrollments) => {
+		legendTextFormatter: (enrollments, opts = {}) => {
+			let { organization, site, showPastEnrollments } = opts;
 			const enrolledForCdc = enrollments.filter(enrollment =>
 				isFunded(enrollment, { source: FundingSource.CDC })
 			).length;
@@ -37,19 +43,26 @@ export const legendDisplayDetails: {
 			});
 			if (showPastEnrollments) {
 				return (
-					<React.Fragment>
+					<>
 						<span className="text-bold">{enrolledForCdc}</span>
 						<span> recieved CDC funding</span>
-					</React.Fragment>
+					</>
+				);
+			} else if (site) {
+				return (
+					<>
+						<span className="text-bold">{enrolledForCdc}</span>
+						<span> CDC spaces filled</span>
+					</>
 				);
 			} else {
 				return (
-					<React.Fragment>
+					<>
 						<span className="text-bold">
 							{enrolledForCdc}/{cdcCapacity}
 						</span>
 						<span> CDC spaces filled</span>
-					</React.Fragment>
+					</>
 				);
 			}
 		},
@@ -64,14 +77,15 @@ export const legendDisplayDetails: {
 				className="position-relative top-neg-2px"
 			/>
 		),
-		legendTextFormatter: (_, enrollments, showPastEnrollments) => {
+		legendTextFormatter: (enrollments, opts = {}) => {
+			const { showPastEnrollments } = opts;
 			const enrolledWithC4k = enrollments.filter(enrollment => !!currentC4kCertificate(enrollment))
 				.length;
 			return (
-				<React.Fragment>
+				<>
 					<span className="text-bold">{enrolledWithC4k}</span>
 					<span> {showPastEnrollments ? 'recieved' : 'receiving'} Care 4 Kids</span>
-				</React.Fragment>
+				</>
 			);
 		},
 		// When there are no kids receiving C4K funding, this legend item should be hidden https://github.com/ctoec/ecis-experimental/issues/893
@@ -80,7 +94,7 @@ export const legendDisplayDetails: {
 	},
 	missing: {
 		symbol: <InlineIcon icon="incomplete" />,
-		legendTextFormatter: (_, enrollments) => {
+		legendTextFormatter: (enrollments) => {
 			// CDC funded enrollments with validationErrors are considered to be missing information
 			const missingInformationEnrollmentsCount = enrollments.filter<
 				DeepNonUndefineable<Enrollment>
