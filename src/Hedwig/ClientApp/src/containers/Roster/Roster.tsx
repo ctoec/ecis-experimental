@@ -2,20 +2,12 @@ import React, { useContext, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { legendDisplayDetails } from '../../utils/legendFormatters';
 import { getIdForUser } from '../../utils/models';
-import {
-	Tag,
-	Legend,
-	LegendItem,
-	InlineIcon,
-	DirectionalLinkProps,
-	DateRange,
-} from '../../components';
+import { Legend, LegendItem, DirectionalLinkProps, DateRange } from '../../components';
 import useApi, { paginate } from '../../hooks/useApi';
 import {
 	Age,
 	Enrollment,
 	FundingSpace,
-	FundingSource,
 	ApiOrganizationsOrgIdEnrollmentsGetRequest,
 	ApiOrganizationsIdGetRequest,
 	Organization,
@@ -23,7 +15,7 @@ import {
 import UserContext from '../../contexts/User/UserContext';
 import AgeGroupSection from './AgeGroupSection';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../utils/types';
-import { isFunded, getObjectsByAgeGroup } from '../../utils/models';
+import { getObjectsByAgeGroup } from '../../utils/models';
 import CommonContainer from '../CommonContainer';
 import RosterHeader from './RosterHeader';
 
@@ -43,7 +35,7 @@ export default function Roster() {
 		include: ['sites', 'funding_spaces'],
 	};
 
-	const { loading: organizationLoading, error: organizationError, data: organization } = useApi(
+	const { loading: organizationLoading, data: organization } = useApi(
 		api => api.apiOrganizationsIdGet(orgParams),
 		{
 			skip: !user,
@@ -64,7 +56,7 @@ export default function Roster() {
 		endDate: (dateRange && dateRange.endDate && dateRange.endDate.toDate()) || undefined,
 	};
 
-	const { loading: enrollmentLoading, error: enrollmentError, data: _enrollments } = useApi(
+	const { data: _enrollments } = useApi(
 		(api, opt) => api.apiOrganizationsOrgIdEnrollmentsGet(paginate(enrollmentParams, opt)),
 		{
 			skip: !user || !siteIds.length,
@@ -106,26 +98,6 @@ export default function Roster() {
 			hidden: hidden(organization, enrollments),
 		})
 	);
-
-	// CDC funded enrollments with validationErrors are considered to be missing information
-	const missingInformationEnrollmentsCount = enrollments.filter<DeepNonUndefineable<Enrollment>>(
-		enrollment =>
-			isFunded(enrollment, { source: FundingSource.CDC }) &&
-			!!enrollment.validationErrors &&
-			enrollment.validationErrors.length > 0
-	).length;
-	if (missingInformationEnrollmentsCount > 0) {
-		// When there are no kids missing information, this legend item should be hidden https://github.com/ctoec/ecis-experimental/issues/893"
-		legendItems.push({
-			text: (
-				<>
-					<span className="text-bold">{missingInformationEnrollmentsCount}</span>
-					<span> missing information</span>
-				</>
-			),
-			symbol: <InlineIcon icon="incomplete" />,
-		});
-	}
 
 	return (
 		<CommonContainer directionalLinkProps={siteRosterDirectionalLinkProps}>

@@ -17,7 +17,6 @@ type LegendDisplayDetail = {
 	hidden: (organization: Organization, enrollments: DeepNonUndefineable<Enrollment[]>) => boolean;
 };
 
-// These colors are placeholders and will change
 export const legendDisplayDetails: {
 	[LegendDisplayKey in FundingTypes | string]: LegendDisplayDetail;
 } = {
@@ -54,7 +53,7 @@ export const legendDisplayDetails: {
 				);
 			}
 		},
-		hidden: (organization, enrollments) =>
+		hidden: organization =>
 			getFundingSpaceCapacity(organization, { source: FundingSource.CDC }) < 1,
 	},
 	C4K: {
@@ -76,17 +75,20 @@ export const legendDisplayDetails: {
 			);
 		},
 		// When there are no kids receiving C4K funding, this legend item should be hidden https://github.com/ctoec/ecis-experimental/issues/893
-		hidden: (organization, enrollments) =>
+		hidden: (_, enrollments) =>
 			enrollments.filter(enrollment => !!currentC4kCertificate(enrollment)).length === 0,
 	},
 	missing: {
 		symbol: <InlineIcon icon="incomplete" />,
-		legendTextFormatter: (organization, enrollments, showPastEnrollments) => {
+		legendTextFormatter: (_, enrollments) => {
+			// CDC funded enrollments with validationErrors are considered to be missing information
 			const missingInformationEnrollmentsCount = enrollments.filter<
 				DeepNonUndefineable<Enrollment>
 			>(
 				enrollment =>
-					isFunded(enrollment, { source: FundingSource.CDC }) &&
+					isFunded(enrollment, {
+						source: FundingSource.CDC,
+					}) &&
 					!!enrollment.validationErrors &&
 					enrollment.validationErrors.length > 0
 			).length;
@@ -97,7 +99,7 @@ export const legendDisplayDetails: {
 				</>
 			);
 		},
-		hidden: (organization, enrollments) =>
+		hidden: (_, enrollments) =>
 			enrollments.filter<DeepNonUndefineable<Enrollment>>(
 				enrollment =>
 					isFunded(enrollment, { source: FundingSource.CDC }) &&
