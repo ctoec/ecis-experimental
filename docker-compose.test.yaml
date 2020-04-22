@@ -18,6 +18,7 @@ services:
       - ./test/HedwigTests:/app/test/HedwigTests
       - /app/src/Hedwig/obj
       - /app/src/Hedwig/bin
+      - ./Hedwig.sln:/app/Hedwig.sln
       - ./TestResults:/app/test/HedwigTests/TestResults
       - ./entrypoint-test.sh:/entrypoint.sh
     working_dir: /app

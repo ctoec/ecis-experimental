@@ -1,40 +1,34 @@
-using System;
 using System.Net.Http;
-using Microsoft.AspNetCore.TestHost;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
-using Hedwig.Data;
+using Microsoft.Extensions.Hosting;
 
 namespace HedwigTests.Fixtures
 {
-	public class TestApiProvider : IDisposable
+	public class TestApiProvider : WebApplicationFactory<TestStartup>
 	{
-		private TestServer _server;
-		public HedwigContext Context;
-		public HttpClient Client { get; private set; }
-		public TestApiProvider()
+		protected override IWebHostBuilder CreateWebHostBuilder()
 		{
-			var config = new ConfigurationBuilder()
-				.AddEnvironmentVariables()
-				.Build();
-
-			var builder = new WebHostBuilder()
-				.UseConfiguration(config)
-				.UseStartup<TestStartup>();
-
-			_server = new TestServer(builder);
-
-			var scope = _server.Host.Services.CreateScope();
-			Context = scope.ServiceProvider.GetRequiredService<HedwigContext>();
-			Client = _server.CreateClient();
+			return new WebHostBuilder()
+				.UseConfiguration(
+					new ConfigurationBuilder()
+						.AddEnvironmentVariables()
+						.Build()
+					)
+				.UseEnvironment(Environments.Development)
+				.UseStartup<TestStartup>()
+				.UseTestServer();
 		}
 
-		public void Dispose()
+		public HttpClient GetClient()
 		{
-			Context?.Dispose();
-			_server?.Dispose();
-			Client?.Dispose();
+			return this
+			.WithWebHostBuilder(
+				builder => builder.UseContentRoot(".")
+			)
+			.CreateClient();
 		}
 	}
 }

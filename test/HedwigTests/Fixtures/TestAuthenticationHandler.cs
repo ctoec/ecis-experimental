@@ -10,10 +10,10 @@ using HedwigTests.Helpers;
 
 namespace HedwigTests.Fixtures
 {
-	public class TestAuthenticationHandler : AuthenticationHandler<TestAuthenticationOptions>
+	public class TestAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
 	{
 		public TestAuthenticationHandler(
-			IOptionsMonitor<TestAuthenticationOptions> options,
+			IOptionsMonitor<AuthenticationSchemeOptions> options,
 			ILoggerFactory logger,
 			UrlEncoder encoder,
 			ISystemClock clock) : base(options, logger, encoder, clock)
@@ -61,7 +61,7 @@ namespace HedwigTests.Fixtures
 			var authenticationTicket = new AuthenticationTicket(
 			new ClaimsPrincipal(identity),
 			new AuthenticationProperties(),
-			"Test Scheme"
+			"Test"
 			);
 			return Task.FromResult(AuthenticateResult.Success(authenticationTicket));
 		}
@@ -69,13 +69,9 @@ namespace HedwigTests.Fixtures
 
 	public static class TestAuthenticationExtensions
 	{
-		public static AuthenticationBuilder AddTestAuth(this AuthenticationBuilder builder, Action<TestAuthenticationOptions> configureOptions)
+		public static AuthenticationBuilder AddTestAuth(this AuthenticationBuilder builder, Action<AuthenticationSchemeOptions> configureOptions)
 		{
-			return builder.AddScheme<TestAuthenticationOptions, TestAuthenticationHandler>("Test Scheme", "Test Auth", configureOptions);
+			return builder.AddScheme<AuthenticationSchemeOptions, TestAuthenticationHandler>("Test Scheme", "Test Auth", configureOptions);
 		}
-	}
-
-	public class TestAuthenticationOptions : AuthenticationSchemeOptions
-	{
 	}
 }

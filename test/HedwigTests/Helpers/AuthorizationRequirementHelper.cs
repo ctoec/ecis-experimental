@@ -37,7 +37,7 @@ namespace HedwigTests.Helpers
 				new Claim[] {
 					new Claim("test_mode", "true")
 				},
-				"test"
+				"Test Auth"
 			);
 		}
 	}
