@@ -93,14 +93,14 @@ namespace HedwigTests.Controllers
 			var _mapper = new Mock<IMapper>();
 			_mapper.Setup(m => m.Map<Enrollment, EnrollmentDTO>(It.IsAny<Enrollment>()))
 				.Returns(It.IsAny<EnrollmentDTO>());
-						
+
 			var controller = new EnrollmentsController(_enrollments.Object, _sites.Object, _mapper.Object);
 
 			var enrollment = new Enrollment { Id = id };
 
 			var result = await controller.Put(pathId, 1, 1, enrollment);
 			var times = shouldUpdateEnrollment ? Times.Once() : Times.Never();
-			_enrollments.Verify(e => e.UpdateEnrollment(It.IsAny<Enrollment>(), It.IsAny<EnrollmentDTO>()),times);
+			_enrollments.Verify(e => e.UpdateEnrollment(It.IsAny<Enrollment>(), It.IsAny<EnrollmentDTO>()), times);
 			Assert.IsType(resultType, result.Result);
 		}
 

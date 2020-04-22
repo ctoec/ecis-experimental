@@ -12,7 +12,7 @@ namespace Hedwig.Models
 		public string State { get; set; }
 		public string Zip { get; set; }
 		public bool Homelessness { get; set; }
-	  public List<EnrollmentFamilyDeterminationDTO> Determinations { get; set; }
+		public List<EnrollmentFamilyDeterminationDTO> Determinations { get; set; }
 		public int OrganizationId { get; set; }
 		public List<ValidationError> ValidationErrors { get; set; }
 

@@ -39,7 +39,8 @@ namespace HedwigTests.Repositories
 			using (var context = new TestHedwigContextProvider().Context)
 			{
 				var enrollmentRepo = new EnrollmentRepository(context);
-				var mapper = new MapperConfiguration(opts => {
+				var mapper = new MapperConfiguration(opts =>
+				{
 					opts.AddProfile(new EnrollmentProfile());
 					opts.AddProfile(new FundingProfile());
 					opts.AddProfile(new ChildProfile());
@@ -80,7 +81,8 @@ namespace HedwigTests.Repositories
 			using (var context = new TestHedwigContextProvider().Context)
 			{
 				var enrollmentRepo = new EnrollmentRepository(context);
-				var mapper = new MapperConfiguration(opts => {
+				var mapper = new MapperConfiguration(opts =>
+				{
 					opts.AddProfile(new EnrollmentProfile());
 					opts.AddProfile(new FundingProfile());
 					opts.AddProfile(new ChildProfile());
@@ -125,7 +127,8 @@ namespace HedwigTests.Repositories
 			using (var context = new TestHedwigContextProvider().Context)
 			{
 				var enrollmentRepo = new EnrollmentRepository(context);
-				var mapper = new MapperConfiguration(opts => {
+				var mapper = new MapperConfiguration(opts =>
+				{
 					opts.AddProfile(new EnrollmentProfile());
 					opts.AddProfile(new FundingProfile());
 					opts.AddProfile(new ChildProfile());

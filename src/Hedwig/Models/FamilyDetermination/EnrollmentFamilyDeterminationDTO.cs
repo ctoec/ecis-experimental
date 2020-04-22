@@ -4,7 +4,7 @@ using Hedwig.Validations;
 
 namespace Hedwig.Models
 {
-	public class EnrollmentFamilyDeterminationDTO 
+	public class EnrollmentFamilyDeterminationDTO
 	{
 		public int Id { get; set; }
 		public bool NotDisclosed { get; set; }

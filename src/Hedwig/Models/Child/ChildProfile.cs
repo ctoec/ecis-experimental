@@ -8,7 +8,7 @@ namespace Hedwig.Models
 		{
 			CreateMap<Child, ChildDTOForRoster>()
 				.ReverseMap();
-				
+
 			CreateMap<Child, EnrollmentChildDTO>()
 				.ReverseMap();
 		}

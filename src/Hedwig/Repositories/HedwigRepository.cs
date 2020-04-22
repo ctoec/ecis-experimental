@@ -39,8 +39,8 @@ namespace Hedwig.Repositories
 		/// <typeparam name="TEntity">The entity type</typeparam>
 		/// <typeparam name="TDto">The entity DTO type</typeparam>
 		/// <typeparam name="TId"></typeparam>
-		public void UpdateHedwigIdEntityWithCollectionNavigationProperties<TEntity, TDto, TId>(TEntity entity, TDto entityDTO) 
-			where TEntity : IHedwigIdEntity<TId> 
+		public void UpdateHedwigIdEntityWithCollectionNavigationProperties<TEntity, TDto, TId>(TEntity entity, TDto entityDTO)
+			where TEntity : IHedwigIdEntity<TId>
 			where TDto : IHedwigIdEntity<TId>
 		{
 			// Retreive the value currently in the database
@@ -91,10 +91,10 @@ namespace Hedwig.Repositories
 				var currentValue = incomingEntity.GetType().GetProperty(propertyInfo.Name).GetValue(incomingEntity);
 
 				// If there is an incoming value
-				if(currentDTOValue != null)
+				if (currentDTOValue != null)
 				{
 					// If there is not an orginal value, loaded from DB
-					if(referenceEntry.TargetEntry == null)
+					if (referenceEntry.TargetEntry == null)
 					{
 
 						// If the current entity is the FK declaring entity
@@ -179,7 +179,7 @@ namespace Hedwig.Repositories
 					}
 
 					// Update existing items with current items
-					if(currentValues != null)
+					if (currentValues != null)
 					{
 						foreach (var item in currentValues)
 						{
@@ -221,7 +221,7 @@ namespace Hedwig.Repositories
 						}
 					}
 				}
-	   	}
+			}
 		}
 
 		private bool IdEquals(object a, object b)
@@ -229,7 +229,7 @@ namespace Hedwig.Repositories
 			var aIdProp = a.GetType().GetProperty("Id");
 			var bIdProp = b.GetType().GetProperty("Id");
 
-			if(aIdProp == null || bIdProp == null || aIdProp.PropertyType != bIdProp.PropertyType)
+			if (aIdProp == null || bIdProp == null || aIdProp.PropertyType != bIdProp.PropertyType)
 			{
 				return false;
 			}
