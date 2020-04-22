@@ -18,7 +18,34 @@ namespace Hedwig.Filters
 
 		public void OnActionExecuting(ActionExecutingContext context)
 		{
-			return;
+			var attributes = context.Controller.GetType().GetCustomAttributes(true);
+			var attributesList = new List<Attribute>();
+			foreach (Attribute attribute in attributes)
+			{
+				attributesList.Add(attribute);
+			}
+
+			var descriptor = context.ActionDescriptor as ControllerActionDescriptor;
+			if (descriptor != null)
+			{
+				foreach (Attribute item in descriptor.MethodInfo.GetCustomAttributes(false))
+				{
+					if (item != null)
+					{
+						attributesList.Add(item);
+					}
+				}
+			}
+
+			foreach (var attribute in attributesList)
+			{
+				var filterType = typeof(IHedwigActionFilter<>).MakeGenericType(attribute.GetType());
+				var filters = _serviceProvider.GetServices(filterType);
+				foreach (dynamic filter in filters)
+				{
+					filter.OnActionExecuting((dynamic)attribute, context);
+				}
+			}
 		}
 
 		public void OnActionExecuted(ActionExecutedContext context)

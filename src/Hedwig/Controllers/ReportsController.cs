@@ -20,15 +20,12 @@ namespace Hedwig.Controllers
 	public class ReportsController : ControllerBase
 	{
 		private readonly IReportRepository _reports;
-		private readonly INonBlockingValidator _validator;
 
 		public ReportsController(
-			IReportRepository reports,
-			INonBlockingValidator validator
+			IReportRepository reports
 		)
 		{
 			_reports = reports;
-			_validator = validator;
 		}
 
 		// GET api/organizations/5/reports
@@ -67,6 +64,7 @@ namespace Hedwig.Controllers
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ValidateEntityFilter(true /* onExecuting */, Order = 1)]
 		[DTOProjectionFilter(typeof(CdcReportDTO), Order = 2)]
 		public async Task<ActionResult<CdcReport>> Put(
 			int id,
@@ -77,7 +75,6 @@ namespace Hedwig.Controllers
 			if (report.Id != id) return BadRequest();
 			if (report.OrganizationId != orgId) return BadRequest();
 
-			_validator.Validate(report);
 			if (report.ValidationErrors.Count > 0)
 			{
 				return BadRequest("Report cannot be submitted with validation errors");

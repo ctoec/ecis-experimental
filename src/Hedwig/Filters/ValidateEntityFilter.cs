@@ -14,17 +14,29 @@ namespace Hedwig.Filters
 		/// </summary>
 		private readonly INonBlockingValidator _validator;
 
-		public ValidateEntityFilter(INonBlockingValidator validator)
+		public ValidateEntityFilter(INonBlockingValidator validator, bool onExecuting = false)
 		{
 			_validator = validator;
 		}
 
 		public void OnActionExecuting(ValidateEntityFilterAttribute attribute, ActionExecutingContext context)
 		{
-			return;
+			if (!attribute.OnExecuting) return;
+
+			var requestEntities = context.ActionArguments.Values
+				.Where(item => item.GetType().IsApplicationModel())
+				.ToList();
+
+			foreach (var entity in requestEntities)
+			{
+				ValidateEntity(entity);
+			}
 		}
 		public void OnActionExecuted(ValidateEntityFilterAttribute attribute, ActionExecutedContext context)
 		{
+			if (attribute.OnExecuting) return;
+
+
 			var objectResult = (context.Result as ObjectResult);
 			if (objectResult == null)
 			{
