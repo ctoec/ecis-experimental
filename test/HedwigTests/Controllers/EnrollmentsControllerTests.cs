@@ -7,6 +7,7 @@ using Xunit;
 using Hedwig.Controllers;
 using Hedwig.Repositories;
 using Hedwig.Models;
+using AutoMapper;
 
 namespace HedwigTests.Controllers
 {

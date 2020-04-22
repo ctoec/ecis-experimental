@@ -1,4 +1,5 @@
 using AutoMapper;
+using System;
 
 namespace Hedwig.Models
 {
@@ -7,6 +8,10 @@ namespace Hedwig.Models
 		public FamilyDeterminationProfile()
 		{
 			CreateMap<FamilyDetermination, EnrollmentFamilyDeterminationDTO>()
+				.ForMember(
+					det => det.DeterminationDate,
+					opt => opt.MapFrom(det => det.DeterminationDate.HasValue ? det.DeterminationDate.Value.Date : null as DateTime?)
+				)
 				.ReverseMap();
 		}
 	}
