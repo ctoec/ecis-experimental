@@ -89,7 +89,7 @@ describe('UtilizationTable', () => {
 
 		const { container } = render(<UtilizationTable {...report} />);
 
-		expect(container).toHaveTextContent('0/2 spaces');
+		expect(container).toHaveTextContent('0/10 spaces');
 	});
 
 	accessibilityTestHelper(<UtilizationTable {...defaultReport} />);
