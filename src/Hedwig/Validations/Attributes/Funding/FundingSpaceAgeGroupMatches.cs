@@ -14,7 +14,7 @@ namespace Hedwig.Validations.Attributes
             {
                 var funding = validationContext.ObjectInstance as Funding;
                 var enrollments = validationContext.GetService(typeof(IEnrollmentRepository)) as IEnrollmentRepository;
-                var enrollment = funding.Enrollment ?? enrollments.GetEnrollmentByIdAsNoTracking(funding.EnrollmentId);
+                var enrollment = funding.Enrollment ?? enrollments.GetEnrollmentById(funding.EnrollmentId);
 
                 // Enrollment must have age group to associate fundings with fundingspaces
                 if (!enrollment.AgeGroup.HasValue)

@@ -86,7 +86,7 @@ export function enrollmentStepProps(
 						  }`,
 				body: `on ${dateFormatter(_enrollment.entry, false)}`,
 				stepDate: _enrollment.entry,
-				stepWeight: -1,
+				stepWeight: -2,
 			})
 		);
 	}
@@ -98,7 +98,7 @@ export function enrollmentStepProps(
 				heading: `Withdrawn from ${_enrollment.site.name}`,
 				body: `on ${dateFormatter(_enrollment.exit, false)}`,
 				stepDate: _enrollment.exit,
-				stepWeight: 1,
+				stepWeight: 2,
 			})
 		);
 	}
@@ -155,7 +155,7 @@ export function fundingStepProps(
 					getSortableStep({
 						heading: `Switched funding to ${NO_FUNDING}`,
 						body: `on ${dateFormatter(dayAfterLastReportingPeriodEnd, false)}`,
-						stepDate: dayAfterLastReportingPeriodEnd,
+						stepDate: dayAfterLastReportingPeriodEnd
 					})
 				);
 			}

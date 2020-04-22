@@ -14,7 +14,7 @@ namespace Hedwig.Validations.Attributes
             {
                 var funding = validationContext.ObjectInstance as Funding;
                 var enrollments = validationContext.GetService(typeof(IEnrollmentRepository)) as IEnrollmentRepository;
-                var enrollment = funding.Enrollment ?? enrollments.GetEnrollmentByIdAsNoTracking(funding.EnrollmentId);
+                var enrollment = funding.Enrollment ?? enrollments.GetEnrollmentById(funding.EnrollmentId);
 
                 // FundingSpace organizationId must be the same as Enrollment's Site organizationId
                 var sites = validationContext.GetService(typeof(ISiteRepository)) as ISiteRepository;

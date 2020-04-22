@@ -48,7 +48,7 @@ import {
 import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
 import {
 	familyDeterminationNotDisclosed,
-	currentCdcFunding,
+	getCurrentCdcFunding,
 	updateFunding,
 	createFunding,
 	currentC4kCertificate,
@@ -90,7 +90,7 @@ const EnrollmentFunding: Section = {
 		if (!enrollment) return <></>;
 		const child = enrollment.child;
 		const fundings = enrollment.fundings || [];
-		const cdcFunding = currentCdcFunding(fundings);
+		const cdcFunding = getCurrentCdcFunding(fundings);
 
 		const c4kFunding = currentC4kCertificate(enrollment);
 		const receivesC4k = c4kFunding !== undefined;
@@ -212,9 +212,9 @@ const EnrollmentFunding: Section = {
 		const child = _enrollment.child;
 
 		const cdcFundings = fundings.filter(funding => funding.source === FundingSource.CDC);
-		const cdcFunding = currentCdcFunding(fundings);
+		const currentCdcFunding = getCurrentCdcFunding(fundings);
 		const [cdcReportingPeriod, updateCdcReportingPeriod] = useState<ReportingPeriod | undefined>(
-			cdcFunding ? cdcFunding.firstReportingPeriod : undefined
+			currentCdcFunding ? currentCdcFunding.firstReportingPeriod : undefined
 		);
 
 		const [reportingPeriodOptions, updateReportingPeriodOptions] = useState<ReportingPeriod[]>([]);
@@ -294,13 +294,15 @@ const EnrollmentFunding: Section = {
 		const [fundingSourceOpts, setFundingSourceOpts] = useState<{ value: string; text: string }[]>(
 			[]
 		);
+
+		// TODO: is it smarter to store this as list of fundingspaces and switch to input options in
 		const [fundingSpaceOpts, setFundingSpaceOpts] = useState<{ value: string; text: string }[]>([]);
 
 		const [fundingSource, updateFundingSource] = useState<FundingSource | undefined>(
-			cdcFunding ? FundingSource.CDC : undefined
+			currentCdcFunding ? FundingSource.CDC : undefined
 		);
 		const [fundingSpace, updateFundingSpace] = useState<FundingSpace | undefined>(
-			cdcFunding && cdcFunding.fundingSpace ? cdcFunding.fundingSpace : undefined
+			currentCdcFunding && currentCdcFunding.fundingSpace ? currentCdcFunding.fundingSpace : undefined
 		);
 
 		const fundingSpaces = idx(site, _ => _.organization.fundingSpaces) as DeepNonUndefineable<
@@ -316,7 +318,7 @@ const EnrollmentFunding: Section = {
 			// Give private pay as the only option when the organization has no funding spaces
 			// Or the family income is not disclosed and there was not a previous CDC funding
 			// The CDC funding includes information that we do not want to silently remove
-			if (!fundingSpaces || (familyDeterminationNotDisclosed(enrollment) && !cdcFunding)) {
+			if (!fundingSpaces || (familyDeterminationNotDisclosed(enrollment) && !currentCdcFunding)) {
 				setFundingSourceOpts([privatePayOpt]);
 				return;
 			}
@@ -324,7 +326,7 @@ const EnrollmentFunding: Section = {
 			// Show funding type options provided the organization has that funding
 			// space for the given age group. If an age group is not selected, only
 			// private pay will be available as an option.
-			const newFundingTypeOpts = fundingSpaces
+			const newFundingSourceOpts = fundingSpaces
 				.filter(space => space.ageGroup === _enrollment.ageGroup)
 				.reduce<{ value: string; text: string }[]>((acc, fundingSpace) => {
 					if (acc.some(a => a.value == fundingSpace.source)) return acc;
@@ -338,12 +340,12 @@ const EnrollmentFunding: Section = {
 					];
 				}, []);
 
-			setFundingSourceOpts([privatePayOpt, ...newFundingTypeOpts]);
-		}, [site, _enrollment.ageGroup, enrollment, cdcFunding]);
+			setFundingSourceOpts([privatePayOpt, ...newFundingSourceOpts]);
+		}, [site, _enrollment.ageGroup, enrollment, currentCdcFunding]);
 
 		// update funding space opts
 		useEffect(() => {
-			if (!fundingSource || !_enrollment.ageGroup) return;
+			if (!fundingSpaces || !fundingSource || !_enrollment.ageGroup) return;
 
 			var matchingFundingSpaces = getFundingSpacesFor(fundingSpaces, {
 				ageGroup: _enrollment.ageGroup,
@@ -360,32 +362,48 @@ const EnrollmentFunding: Section = {
 			// If there is only one funding space option, update selected fundingSpaceId accordingly
 			if (matchingFundingSpaces.length == 1) {
 				updateFundingSpace(matchingFundingSpaces[0]);
+			} else if(fundingSpace && !matchingFundingSpaces.some(fs => fs.id == fundingSpace.id)) {
+				updateFundingSpace(undefined);
 			}
 		}, [fundingSpaces, fundingSource, _enrollment.ageGroup]);
 
 		// update enrollment funding
 		useEffect(() => {
-			let updatedFundings: Funding[] = [...fundings].filter(
-				funding => funding.id !== (cdcFunding && cdcFunding.id)
-			);
+			let updatedFundings: Funding[] = [...fundings]
+				// filter out current CDC funding (with either be deleted, or updated)
+				.filter(funding => funding.id !== (currentCdcFunding && currentCdcFunding.id))
+				// filter out other existing fundings that reference a no-longer-valid fundingspace
+				.filter(funding => !!(funding.fundingSpaceId && !fundingSpaceOpts.some(opt => opt.value === `${funding.fundingSpaceId}`)))
 
 			switch (fundingSource) {
 				case FundingSource.CDC:
-					updatedFundings.push(
-						createFunding({
-							enrollmentId: enrollment.id,
-							source: FundingSource.CDC,
-							firstReportingPeriod: cdcReportingPeriod,
-							fundingSpace,
-						})
-					);
+					if(currentCdcFunding) {
+						updatedFundings.push(
+							updateFunding({
+								currentFunding: currentCdcFunding,
+								source: FundingSource.CDC,
+								firstReportingPeriod: cdcReportingPeriod,
+								fundingSpace
+							})
+						);
+					} else {
+						updatedFundings.push(
+							createFunding({
+								enrollmentId: enrollment.id,
+								source: FundingSource.CDC,
+								firstReportingPeriod: cdcReportingPeriod,
+								fundingSpace,
+							})
+						);
+					}
 					break;
 				default:
 					// Private pay
 					break;
 			}
+
 			updateFundings(updatedFundings as DeepNonUndefineableArray<Funding>);
-		}, [fundingSource, fundingSpace, cdcReportingPeriod]);
+		}, [fundingSource, fundingSpaceOpts, cdcReportingPeriod]);
 
 		// *** C4K ***
 		const inputC4kFunding = currentC4kCertificate(enrollment);
@@ -422,18 +440,16 @@ const EnrollmentFunding: Section = {
 		const [utilizationRate, setUtilizationRate] = useState<UtilizationRate>();
 		const thisPeriod = currentReportingPeriod(reportingPeriods);
 		useEffect(() => {
-			console.log("ut rate");
 			if (!site || !site.enrollments || !thisPeriod) {
 				return;
 			}
 
 			// This and below will need rewritten if we have more than just CDC in the dropdown
-			const _fundingSpace = cdcFunding ? cdcFunding.fundingSpace :
+			const _fundingSpace = currentCdcFunding ? currentCdcFunding.fundingSpace :
 				fundingSpace ? fundingSpace :
 				undefined;
 
 			if (_fundingSpace) {
-				console.log("FUNDING SPACE ID ", _fundingSpace.id);
 				const enrolled = site.enrollments.filter<DeepNonUndefineable<Enrollment>>(e =>
 					isFundedForFundingSpace(e, _fundingSpace.id, {
 						startDate: moment(thisPeriod.periodStart),
@@ -441,20 +457,18 @@ const EnrollmentFunding: Section = {
 					})
 				);
 
-				const newCdcFunding = !cdcFunding && fundingSource === FundingSource.CDC;
-				const removedCdcFunding = cdcFunding && !fundingSource;
+				const newCdcFunding = !currentCdcFunding && fundingSource === FundingSource.CDC;
+				const removedCdcFunding = currentCdcFunding && !fundingSource;
 				const countDifferent = newCdcFunding ? 1 : removedCdcFunding ? -1 : 0;
 				const numEnrolled = enrolled.length + countDifferent;
 
-				const capacity = cdcFunding ? cdcFunding.fundingSpace.capacity : 
+				const capacity = currentCdcFunding ? currentCdcFunding.fundingSpace.capacity : 
 					fundingSpace ? fundingSpace.capacity :
 					0;
 
-				console.log("capacity", capacity);
-				console.log("numenrollment", numEnrolled);
 				setUtilizationRate({ capacity, numEnrolled });
 			}
-		}, [site, thisPeriod, cdcFunding, fundingSpace]);
+		}, [site, thisPeriod, currentCdcFunding, fundingSpace]);
 
 		// *** Save ***
 		const [attemptingSave, setAttemptingSave] = useState(false);
