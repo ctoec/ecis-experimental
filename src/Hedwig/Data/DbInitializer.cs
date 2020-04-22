@@ -204,7 +204,7 @@ namespace Hedwig.Data
 						enrollmentId: enrollment.Id,
 						isC4K: false,
 						source: FundingSource.CDC,
-						firstReportingPeriod: reportingPeriods[32],
+						firstReportingPeriod: reportingPeriods[33],
 						lastReportingPeriod: null,
 						fundingSpace: enrollmentAgeGroup == Age.InfantToddler ? infantToddlerFullTimeFundingSpace : preschoolFundingSpace
 					);
