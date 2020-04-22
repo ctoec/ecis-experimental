@@ -40,7 +40,10 @@ export default function AgeGroupSection({
 	rosterDateRange,
 	showPastEnrollments,
 }: AgeGroupSectionProps) {
-	if (!enrollments.length) return null;
+	// If we're looking at an org roster, there is a funding spaces array (i.e. it's not the incomplete section), and there are no funding spaces for this age group
+	// OR if it's a site view and there are no enrollments for this age group, don't show it
+	if ((site && !enrollments.length) || (fundingSpaces && !fundingSpaces.length)) return null;
+	// If we're looking at the organization roster, or if there are any funding spaces for this age group, at least show the header
 
 	const columns: Column<DeepNonUndefineable<Enrollment>>[] = [];
 	const nameColumn = {
@@ -136,6 +139,7 @@ export default function AgeGroupSection({
 		defaultSortOrder: 'ascending',
 	};
 
+	// One legend item per funding space of a given age group
 	const legendItems = (fundingSpaces || []).map(space => {
 		const enrolledForFunding = enrollments.filter<DeepNonUndefineable<Enrollment>>(enrollment =>
 			isFunded(enrollment, {
@@ -144,12 +148,17 @@ export default function AgeGroupSection({
 				currentRange: rosterDateRange,
 			})
 		).length;
+		const fundingTime = prettyFundingTime(getFundingSpaceTime(space));
+		const fundingTimeCapitalized = fundingTime.charAt(0).toUpperCase() + fundingTime.slice(1);
 		return {
 			symbol: legendDisplayDetails[space.source || ''].symbol,
+			hidden: site && enrolledForFunding === 0,
+			// If we're looking at an org roster, show the funding spaces available even if they're not used
+			// Hide the legend item if there are no kids enrolled for this funding space type and we are looking at one site
 			text: (
 				<>
 					<span>
-						{prettyFundingTime(getFundingSpaceTime(space))}
+						{fundingTimeCapitalized}
 						{' — '}
 					</span>
 					<span className="text-bold">

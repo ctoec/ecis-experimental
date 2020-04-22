@@ -113,6 +113,7 @@ export const legendDisplayDetails: {
 				</>
 			);
 		},
+		// When there are no kids missing information, this legend item should be hidden
 		hidden: (_, enrollments) =>
 			enrollments.filter<DeepNonUndefineable<Enrollment>>(
 				enrollment =>

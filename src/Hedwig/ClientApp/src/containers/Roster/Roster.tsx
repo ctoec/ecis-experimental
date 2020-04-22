@@ -94,6 +94,7 @@ export default function Roster() {
 	const legendItems: LegendItem[] = Object.values(legendDisplayDetails).map(
 		({ legendTextFormatter, hidden, symbol }) => ({
 			symbol,
+			// If we make date range filterable on the org view, will need to change this so that we don't show ratio on org level roster
 			text: legendTextFormatter(enrollments, { showPastEnrollments, organization, site }),
 			hidden: hidden(organization, enrollments),
 		})
@@ -145,12 +146,14 @@ export default function Roster() {
 						enrollments={completeEnrollmentsByAgeGroup[Age.SchoolAge]}
 						fundingSpaces={fundingSpacesByAgeGroup[Age.SchoolAge] as FundingSpace[]}
 					/>
-					<AgeGroupSection
-						{...commonAgeGroupSectionProps}
-						ageGroup="incomplete"
-						ageGroupTitle={`Incomplete enrollments`}
-						enrollments={incompleteEnrollments}
-					/>
+					{incompleteEnrollments.length > 0 && (
+						<AgeGroupSection
+							{...commonAgeGroupSectionProps}
+							ageGroup="incomplete"
+							ageGroupTitle={`Incomplete enrollments`}
+							enrollments={incompleteEnrollments}
+						/>
+					)}
 				</Suspend>
 			</div>
 		</CommonContainer>

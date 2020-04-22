@@ -35,6 +35,17 @@ export function getFundingSpaceTime(fundingSpace: FundingSpace | undefined) {
 	if (!fundingSpace.fundingTimeAllocations) return;
 	if (!fundingSpace.fundingTimeAllocations.length) return;
 
+	const uniqueFundingTimes = fundingSpace.fundingTimeAllocations
+		.map(space => space.time)
+		.filter((time, index, timesArray) => timesArray.indexOf(time) === index);
+	if (uniqueFundingTimes.length === 1) {
+		// If there's only one type of funding time in the allocations, then return that
+		return uniqueFundingTimes[0];
+	}
+	// Use "Part time / full time" when a FundingSpace includes a mix of part- and full-time weeks.
+	// TODO: The "part time" "full time" labels should appear even when there is only a single FundingSpace in a given age group. C.f. #892, which hides those labels from the tags on individual children because they will be shown here.
+	console.log('split')
+
 	return fundingSpace.fundingTimeAllocations[0].time;
 }
 
