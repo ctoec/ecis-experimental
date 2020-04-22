@@ -18,26 +18,9 @@ namespace Hedwig.Filters
 
 		public void OnActionExecuting(ActionExecutingContext context)
 		{
-			var attributes = context.Controller.GetType().GetCustomAttributes(true);
-			var attributesList = new List<Attribute>();
-			foreach (Attribute attribute in attributes)
-			{
-				attributesList.Add(attribute);
-			}
+			var controllerAttributes = GetControllerAttributes(context.Controller, context.ActionDescriptor as ControllerActionDescriptor);
 
-			var descriptor = context.ActionDescriptor as ControllerActionDescriptor;
-			if (descriptor != null)
-			{
-				foreach (Attribute item in descriptor.MethodInfo.GetCustomAttributes(false))
-				{
-					if (item != null)
-					{
-						attributesList.Add(item);
-					}
-				}
-			}
-
-			foreach (var attribute in attributesList)
+			foreach (var attribute in controllerAttributes)
 			{
 				var filterType = typeof(IHedwigActionFilter<>).MakeGenericType(attribute.GetType());
 				var filters = _serviceProvider.GetServices(filterType);
@@ -50,14 +33,28 @@ namespace Hedwig.Filters
 
 		public void OnActionExecuted(ActionExecutedContext context)
 		{
-			var attributes = context.Controller.GetType().GetCustomAttributes(true);
+			var controllerAttributes = GetControllerAttributes(context.Controller, context.ActionDescriptor as ControllerActionDescriptor);
+
+			foreach (var attribute in controllerAttributes)
+			{
+				var filterType = typeof(IHedwigActionFilter<>).MakeGenericType(attribute.GetType());
+				var filters = _serviceProvider.GetServices(filterType);
+				foreach (dynamic filter in filters)
+				{
+					filter.OnActionExecuted((dynamic)attribute, context);
+				}
+			}
+		}
+
+		private List<Attribute> GetControllerAttributes(object controller, ControllerActionDescriptor descriptor)
+		{
+			var attributes = controller.GetType().GetCustomAttributes(true);
 			var attributesList = new List<Attribute>();
 			foreach (Attribute attribute in attributes)
 			{
 				attributesList.Add(attribute);
 			}
 
-			var descriptor = context.ActionDescriptor as ControllerActionDescriptor;
 			if (descriptor != null)
 			{
 				foreach (Attribute item in descriptor.MethodInfo.GetCustomAttributes(false))
@@ -69,15 +66,7 @@ namespace Hedwig.Filters
 				}
 			}
 
-			foreach (var attribute in attributesList)
-			{
-				var filterType = typeof(IHedwigActionFilter<>).MakeGenericType(attribute.GetType());
-				var filters = _serviceProvider.GetServices(filterType);
-				foreach (dynamic filter in filters)
-				{
-					filter.OnActionExecuted((dynamic)attribute, context);
-				}
-			}
+			return attributesList;
 		}
 	}
 }
