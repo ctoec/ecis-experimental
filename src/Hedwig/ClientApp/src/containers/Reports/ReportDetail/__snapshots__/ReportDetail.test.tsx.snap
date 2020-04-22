@@ -191,7 +191,7 @@ exports[`ReportDetail matches snapshot 1`] = `
           <td
             class=" oec-table__cell--red"
           >
-            1/0 spaces
+            1/10 spaces
           </td>
           <td
             class="text-tabular"
@@ -216,17 +216,17 @@ exports[`ReportDetail matches snapshot 1`] = `
             <span
               style="visibility: hidden;"
             >
-              0000
+              00
             </span>
-            0.00
+            679.80
           </td>
           <td
-            class="text-tabular"
+            class="oec-table__cell--red text-tabular"
           >
             <div
-              class="position-relative"
+              class="position-relative one-half-char-left"
             >
-              $0.00
+              ($6,118.20)
             </div>
           </td>
         </tr>
@@ -291,7 +291,7 @@ exports[`ReportDetail matches snapshot 1`] = `
           <td
             class=" oec-table__cell--red"
           >
-            5/2 spaces
+            5/10 spaces
           </td>
           <td
             class="text-tabular"
@@ -316,15 +316,15 @@ exports[`ReportDetail matches snapshot 1`] = `
             <span
               style="visibility: hidden;"
             />
-            1,322.56
+            3,306.40
           </td>
           <td
-            class="text-tabular"
+            class="oec-table__cell--red text-tabular"
           >
             <div
-              class="position-relative"
+              class="position-relative one-half-char-left"
             >
-              $0.00
+              ($3,306.40)
             </div>
           </td>
         </tr>
@@ -338,7 +338,7 @@ exports[`ReportDetail matches snapshot 1`] = `
           <td
             class=" oec-table__cell--red"
           >
-            1/0 spaces
+            1/10 spaces
           </td>
           <td
             class="text-tabular"
@@ -365,17 +365,66 @@ exports[`ReportDetail matches snapshot 1`] = `
             <span
               style="visibility: hidden;"
             >
+              00
+            </span>
+            231.40
+          </td>
+          <td
+            class="oec-table__cell--red text-tabular"
+          >
+            <div
+              class="position-relative one-half-char-left"
+            >
+              ($2,082.60)
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th>
+            <strong>
+              School-age
+            </strong>
+             – full time
+          </th>
+          <td
+            class=" oec-table__cell--red"
+          >
+            0/10 spaces
+          </td>
+          <td
+            class="text-tabular"
+          >
+            <span>
+              $ 
+            </span>
+            <span
+              style="visibility: hidden;"
+            />
+            113.20
+            <span>
+               × 4 weeks
+            </span>
+          </td>
+          <td
+            class="text-tabular"
+          >
+            <span>
+              $ 
+            </span>
+            <span
+              style="visibility: hidden;"
+            >
               0000
             </span>
             0.00
           </td>
           <td
-            class="text-tabular"
+            class="oec-table__cell--red text-tabular"
           >
             <div
-              class="position-relative"
+              class="position-relative one-half-char-left"
             >
-              $0.00
+              ($4,528.00)
             </div>
           </td>
         </tr>
@@ -388,7 +437,7 @@ exports[`ReportDetail matches snapshot 1`] = `
           <td
             class="oec-table__cell--strong oec-table__cell--red"
           >
-            8/2 spaces
+            8/40 spaces
           </td>
           <td
             class="text-tabular"
@@ -402,15 +451,15 @@ exports[`ReportDetail matches snapshot 1`] = `
             <span
               style="visibility: hidden;"
             />
-            1,322.56
+            4,217.60
           </td>
           <td
-            class="oec-table__cell--strong text-tabular"
+            class="oec-table__cell--strong oec-table__cell--red text-tabular"
           >
             <div
-              class="position-relative"
+              class="position-relative one-half-char-left"
             >
-              $0.00
+              ($16,035.20)
             </div>
           </td>
         </tr>
