@@ -179,35 +179,45 @@ namespace Hedwig.Repositories
 					}
 
 					// Update existing items with current items
-					foreach (var item in currentValues)
+					if(currentValues != null)
 					{
-						// Load original value from DB
-						var trackedItem = _context.Entry(item);
-						var dbValues = trackedItem.GetDatabaseValues();
-
-						// If there is not an original value
-						if (dbValues == null)
+						foreach (var item in currentValues)
 						{
-							// Add principal FK id from parent
-							var parentFkProp = collectionEntry.Metadata.ForeignKey.PrincipalKey.Properties.First();
-							var fkValue = parentFkProp.PropertyInfo.GetValue(collectionEntry.EntityEntry.Entity);
+							// Load original value from DB
+							var trackedItem = _context.Entry(item);
+							var dbValues = trackedItem.GetDatabaseValues();
 
-							// To current child navigation entity
-							var dependentFkProp = collectionEntry.Metadata.ForeignKey.Properties
-								.First(prop => prop.PropertyInfo.DeclaringType == item.GetType());
-							dependentFkProp.PropertyInfo.SetValue(item, fkValue);
-							_context.Add(item);
-						}
-						// Otherwise, update the existing entity
-						else
-						{
-							var attachedItem = _context.Attach(trackedItem.Entity);
-							attachedItem.OriginalValues.SetValues(dbValues);
-							var itemDTO = currentDTOValues.First(currentDTOValue => IdEquals(currentDTOValue, item));
-							attachedItem.CurrentValues.SetValues(itemDTO);
+							// If there is not an original value
+							if (dbValues == null)
+							{
+								// Add principal FK id from parent
+								var parentFkProp = collectionEntry.Metadata.ForeignKey.PrincipalKey.Properties.First();
+								var fkValue = parentFkProp.PropertyInfo.GetValue(collectionEntry.EntityEntry.Entity);
 
-							// And recursively update entity navigation properties
-							// UpdateNavigationProperties(trackedItem, dbValues, item, itemDTO);
+								// To current child navigatioSn entity
+								var dependentFkProp = collectionEntry.Metadata.ForeignKey.Properties
+									.First(prop => prop.PropertyInfo.DeclaringType == item.GetType());
+								dependentFkProp.PropertyInfo.SetValue(item, fkValue);
+								_context.Add(item);
+							}
+							// Otherwise, update the existing entity
+							else
+							{
+								var itemDTO = currentDTOValues.First(currentDTOValue => IdEquals(currentDTOValue, item));
+								if (itemDTO != null)
+								{
+									// trackedItem.State = EntityState.Unchanged;
+									// trackedItem.OriginalValuesS.SetValues(dbValues);
+									// trackedItem.CurrentValues.SetValues(itemDTO);
+
+									var attachedEntity = _context.Attach(trackedItem.Entity);
+									attachedEntity.OriginalValues.SetValues(dbValues);
+									attachedEntity.CurrentValues.SetValues(itemDTO);
+									// And recursively update entity navigation properties
+									// UpdateNavigationProperties(trackedItem, dbValues, item, itemDTO);
+								}
+
+							}
 						}
 					}
 				}

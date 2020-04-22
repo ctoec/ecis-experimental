@@ -2,14 +2,13 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Moq;
 using Xunit;
 using Hedwig.Repositories;
 using Hedwig.Models;
 using HedwigTests.Helpers;
 using HedwigTests.Fixtures;
 using System.Collections.Generic;
-using System.Threading;
+using AutoMapper;
 
 namespace HedwigTests.Repositories
 {
@@ -35,17 +34,29 @@ namespace HedwigTests.Repositories
 				funding
 			};
 
+			enrollment.Fundings.FirstOrDefault().Enrollment = null;
+
 			using (var context = new TestHedwigContextProvider().Context)
 			{
 				var enrollmentRepo = new EnrollmentRepository(context);
-				enrollmentRepo.UpdateEnrollment(enrollment);
+				var mapper = new MapperConfiguration(opts => {
+					opts.AddProfile(new EnrollmentProfile());
+					opts.AddProfile(new FundingProfile());
+					opts.AddProfile(new ChildProfile());
+					opts.AddProfile(new FamilyProfile());
+					opts.AddProfile(new SiteProfile());
+				}).CreateMapper();
+				var enrollmentDTO = mapper.Map<Enrollment, EnrollmentDTO>(enrollment);
+				enrollmentRepo.UpdateEnrollment(enrollment, enrollmentDTO);
 				context.SaveChanges();
 			}
 
 			using (var context = new TestHedwigContextProvider().Context)
 			{
-				var enrollmentRepo = new EnrollmentRepository(context);
-				var retrievedEnrollment = enrollmentRepo.GetEnrollmentById(enrollment.Id);
+				var retrievedEnrollment = context.Enrollments
+					.Where(e => e.Id == enrollment.Id)
+					.Include(e => e.Fundings)
+					.FirstOrDefault();
 				var retrievedFunding = retrievedEnrollment.Fundings.FirstOrDefault();
 
 				Assert.NotNull(retrievedFunding.FirstReportingPeriodId);
@@ -69,7 +80,15 @@ namespace HedwigTests.Repositories
 			using (var context = new TestHedwigContextProvider().Context)
 			{
 				var enrollmentRepo = new EnrollmentRepository(context);
-				enrollmentRepo.UpdateEnrollment(enrollment);
+				var mapper = new MapperConfiguration(opts => {
+					opts.AddProfile(new EnrollmentProfile());
+					opts.AddProfile(new FundingProfile());
+					opts.AddProfile(new ChildProfile());
+					opts.AddProfile(new FamilyProfile());
+					opts.AddProfile(new SiteProfile());
+				}).CreateMapper();
+				var enrollmentDTO = mapper.Map<Enrollment, EnrollmentDTO>(enrollment);
+				enrollmentRepo.UpdateEnrollment(enrollment, enrollmentDTO);
 				context.SaveChanges();
 			}
 
@@ -106,7 +125,16 @@ namespace HedwigTests.Repositories
 			using (var context = new TestHedwigContextProvider().Context)
 			{
 				var enrollmentRepo = new EnrollmentRepository(context);
-				enrollmentRepo.UpdateEnrollment(enrollment);
+				var mapper = new MapperConfiguration(opts => {
+					opts.AddProfile(new EnrollmentProfile());
+					opts.AddProfile(new FundingProfile());
+					opts.AddProfile(new ChildProfile());
+					opts.AddProfile(new FamilyProfile());
+					opts.AddProfile(new SiteProfile());
+
+				}).CreateMapper();
+				var enrollmentDTO = mapper.Map<Enrollment, EnrollmentDTO>(enrollment);
+				enrollmentRepo.UpdateEnrollment(enrollment, enrollmentDTO);
 				context.SaveChanges();
 			}
 
