@@ -56,7 +56,7 @@ namespace Hedwig.Repositories
 
 			// If navigation properties were updated, set entity state to modified
 			// to trigger temporal info update on save
-			if(navigationsUpdated)
+			if (navigationsUpdated)
 			{
 				trackedEntry.State = EntityState.Modified;
 			}
@@ -143,7 +143,7 @@ namespace Hedwig.Repositories
 
 						// If any navigation properties were updated, set entity state to modified
 						// to trigger temporal info update on save
-						if(navigationsUpdated == true)
+						if (navigationsUpdated == true)
 						{
 							referenceEntry.TargetEntry.State = EntityState.Modified;
 						}
@@ -205,11 +205,11 @@ namespace Hedwig.Repositories
 						// Update existing items with current items
 						if (currentDTOValues != null && currentValues != null) // if currentDTOValues not null, currentValues will always be not null
 						{
-							if(originalValues.Count() != currentDTOValues.Count())
+							if (originalValues.Count() != currentDTOValues.Count())
 							{
 								collectionsUpdated = true;
 							}
-	
+
 							foreach (var currentItem in currentValues)
 							{
 								// Find original item in loaded original values for current item
@@ -244,7 +244,7 @@ namespace Hedwig.Repositories
 										loadedEntry.OriginalValues.SetValues(originalItem);
 										loadedEntry.CurrentValues.SetValues(itemDTO);
 
-										if(loadedEntry.State == EntityState.Modified)
+										if (loadedEntry.State == EntityState.Modified)
 										{
 											collectionsUpdated = true;
 										}
@@ -255,9 +255,9 @@ namespace Hedwig.Repositories
 							}
 						}
 					}
-					}
+				}
 			}
-			 return collectionsUpdated;
+			return collectionsUpdated;
 		}
 
 		///<summary>
