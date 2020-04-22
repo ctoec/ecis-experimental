@@ -80,6 +80,7 @@ namespace Hedwig.Repositories
 					.ThenInclude(f => f.FirstReportingPeriod)
 				.Include(e => e.Fundings)
 					.ThenInclude(f => f.LastReportingPeriod)
+				.Include(e => e.Site)
 				.ToList();
 
 				enrollment.PastEnrollments = pastEnrollments;
