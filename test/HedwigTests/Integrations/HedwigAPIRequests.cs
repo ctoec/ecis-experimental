@@ -24,15 +24,33 @@ namespace HedwigTests.Integrations
 
 			var uri = $"api/organizations/{organization.Id}/Enrollments";
 
-			foreach (var item in include)
-			{
-				uri = QueryHelpers.AddQueryString(uri, "include[]", item);
-			}
+			uri = AddQueryParams(uri, "include[]", s => s, include);
+			uri = AddQueryParams(uri, "siteIds[]", s => s.Id.ToString(), sites);
 
-			foreach (var item in sites)
-			{
-				uri = QueryHelpers.AddQueryString(uri, "siteIds[]", item.Id.ToString());
-			}
+			return MakeAuthenticatedRequest(HttpMethod.Get, user, uri);
+		}
+
+		public static HttpRequestMessage OrganizationSiteEnrollmentDetail(
+			User user,
+			Enrollment enrollment,
+			Organization organization,
+			Site site,
+			string[] include = null,
+			DateTime? startDate = null,
+			DateTime? endDate = null
+		)
+		{
+			include = include ?? new string[] {
+				"child",
+				"family",
+				"determinations",
+				"fundings",
+				"sites",
+				"past_enrollments"
+			};
+
+			var uri = $"api/organizations/{organization.Id}/sites/{site.Id}/Enrollments/{enrollment.Id}";
+			uri = AddQueryParams(uri, "include[]", s => s, include);
 
 			return MakeAuthenticatedRequest(HttpMethod.Get, user, uri);
 		}
@@ -42,6 +60,15 @@ namespace HedwigTests.Integrations
 			var request = new HttpRequestMessage(method, url);
 			request.Headers.Add("claims_sub", $"{user.WingedKeysId}");
 			return request;
+		}
+
+		public static string AddQueryParams<T>(string uri, string key, Func<T, string> action, T[] values)
+		{
+			foreach (var item in values)
+			{
+				uri = QueryHelpers.AddQueryString(uri, key, action(item));
+			}
+			return uri;
 		}
 	}
 }

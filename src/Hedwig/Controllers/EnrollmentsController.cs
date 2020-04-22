@@ -52,7 +52,6 @@ namespace Hedwig.Controllers
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ValidateEntityFilterAttribute(Order = 1)]
-		[DTOProjectionFilter(typeof(List<EnrollmentSummaryDTO>), Order = 2)]
 		public async Task<ActionResult<Enrollment>> Get(
 			int id,
 			int orgId,

@@ -21,6 +21,7 @@ namespace Hedwig.Models
 		[Required]
 		[SiteIdFromPath]
 		public int SiteId { get; set; }
+		[JsonProperty("site")]
 		public Site Site { get; protected set; }
 
 		[JsonConverter(typeof(StringEnumConverter))]
