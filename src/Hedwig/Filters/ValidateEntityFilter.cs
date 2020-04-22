@@ -14,7 +14,7 @@ namespace Hedwig.Filters
 		/// </summary>
 		private readonly INonBlockingValidator _validator;
 
-		public ValidateEntityFilter(INonBlockingValidator validator, bool onExecuting = false)
+		public ValidateEntityFilter(INonBlockingValidator validator)
 		{
 			_validator = validator;
 		}
