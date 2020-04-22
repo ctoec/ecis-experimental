@@ -76,13 +76,43 @@ namespace Hedwig.Repositories
 				var currentDTOValue = incomingEntityDTO.GetType().GetProperty(propertyInfo.Name)?.GetValue(incomingEntityDTO);
 				var currentValue = incomingEntity.GetType().GetProperty(propertyInfo.Name).GetValue(incomingEntity);
 
-				if (referenceEntry.TargetEntry != null && currentDTOValue != null)
+				// If there is an incoming value
+				if(currentDTOValue != null)
 				{
-					var originalValue = propertyInfo.GetValue(loadedEntity);
-					referenceEntry.TargetEntry.OriginalValues.SetValues(originalValue);
-					referenceEntry.TargetEntry.CurrentValues.SetValues(currentDTOValue);
+					// If there is not already an existing value in the DB, add the entity
+					if(referenceEntry.TargetEntry == null)
+					{
 
-					UpdateNavigationProperties(referenceEntry.TargetEntry, originalValue, currentDTOValue, currentValue);
+						// If the current entity is the declaring entity, then grab the id from parent and add to current
+						if (referenceEntry.Metadata.ForeignKey.DeclaringEntityType.ClrType == currentValue.GetType())
+						{
+							var parentFkProp = referenceEntry.Metadata.ForeignKey.PrincipalKey.Properties.First();
+							var fkValue = parentFkProp.PropertyInfo.GetValue(referenceEntry.EntityEntry.Entity);
+
+							var dependentFkProp = referenceEntry.Metadata.ForeignKey.Properties
+								.FirstOrDefault(prop => prop.PropertyInfo.DeclaringType == currentValue.GetType());
+
+							dependentFkProp.PropertyInfo.SetValue(currentValue, fkValue);
+						}
+
+						_context.Add(currentValue);
+
+						// If the parent entity is the declaring entity, then add the mapping to the parent
+						if (referenceEntry.Metadata.ForeignKey.DeclaringEntityType.ClrType == referenceEntry.EntityEntry.Entity.GetType())
+						{
+							var declaringParentReferenceProp = referenceEntry.Metadata.ForeignKey.DependentToPrincipal.PropertyInfo;
+							declaringParentReferenceProp.SetValue(referenceEntry.EntityEntry.Entity, currentValue);
+						}
+
+					}
+					// Otherwise, recursively update the existing entity
+					else
+					{
+						var originalValue = propertyInfo.GetValue(loadedEntity);
+						referenceEntry.TargetEntry.OriginalValues.SetValues(originalValue);
+						referenceEntry.TargetEntry.CurrentValues.SetValues(currentDTOValue);
+						UpdateNavigationProperties(referenceEntry.TargetEntry, originalValue, currentDTOValue, currentValue);
+					}
 				}
 			}
 		}
@@ -132,7 +162,8 @@ namespace Hedwig.Repositories
 							var parentFkProp = collectionEntry.Metadata.ForeignKey.PrincipalKey.Properties.First();
 							var fkValue = parentFkProp.PropertyInfo.GetValue(collectionEntry.EntityEntry.Entity);
 
-							var dependentFkProp = collectionEntry.Metadata.ForeignKey.Properties.First();
+							var dependentFkProp = collectionEntry.Metadata.ForeignKey.Properties
+								.First(prop => prop.PropertyInfo.DeclaringType == item.GetType());
 							dependentFkProp.PropertyInfo.SetValue(item, fkValue);
 							_context.Add(item);
 						}
@@ -146,7 +177,7 @@ namespace Hedwig.Repositories
 						}
 					}
 				}
-			}
+	   }
 		}
 	}
 
