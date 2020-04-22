@@ -1,8 +1,9 @@
 // Variables used in jest mockes -- must start with `mock`
-import { mockAllFakeEnrollments, mockSite } from '../../../tests/data';
+import { mockAllFakeEnrollments, mockSite, mockReport } from '../../../tests/data';
 import mockUseApi, {
 	mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet,
 	mockApiOrganizationsOrgIdSitesIdGet,
+	mockApiOrganizationsOrgIdReportsGet,
 } from '../../../hooks/__mocks__/useApi';
 
 // Jest mocks must occur before later imports
@@ -12,6 +13,7 @@ jest.mock('../../../hooks/useApi', () =>
 		apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet: mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(
 			mockAllFakeEnrollments
 		),
+		apiOrganizationsOrgIdReportsGet: mockApiOrganizationsOrgIdReportsGet([mockReport]),
 	})
 );
 
@@ -127,7 +129,7 @@ describe('EnrollmentEdit', () => {
 			);
 			const reportingPeriodSelect = getByLabelText('First reporting period');
 			const reportingPeriodOptions = getAllByRole(reportingPeriodSelect, 'option');
-			expect(reportingPeriodOptions.length).toBe(cdcReportingPeriods.length + 1);
+			expect(reportingPeriodOptions.length).toBe(cdcReportingPeriods.length);
 		});
 	});
 

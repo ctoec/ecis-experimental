@@ -1454,11 +1454,6 @@ exports[`EnrollmentEdit enrollment and funding matches snapshot 1`] = `
                     >
                       April 2019 (4/1–4/30)
                     </option>
-                    <option
-                      value="3"
-                    >
-                      May 2019 (5/1–5/31)
-                    </option>
                   </select>
                 </div>
               </div>

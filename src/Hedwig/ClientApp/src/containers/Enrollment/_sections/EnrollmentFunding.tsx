@@ -22,6 +22,7 @@ import {
 	ApiOrganizationsOrgIdSitesIdGetRequest,
 	C4KCertificate,
 	FundingSpace,
+	ApiOrganizationsOrgIdReportsGetRequest,
 } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
 import {
@@ -30,6 +31,10 @@ import {
 	getFundingSpaceFor,
 	getFundingTime,
 	getFundingSpaceTime,
+	reportingPeriodsAfterDate,
+	reportingPeriodsBeforeDate,
+	reportingPeriodsBetweenDates,
+	periodSorterInverse,
 } from '../../../utils/models';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../../utils/types';
 import {
@@ -69,6 +74,7 @@ import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextM
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import displayErrorOrWarning from '../../../utils/validations/displayErrorOrWarning';
 import useApi, { ApiError } from '../../../hooks/useApi';
+import { dateSorter } from '../../../utils/dateSorter';
 
 type UtilizationRate = {
 	capacity: number;
@@ -211,6 +217,17 @@ const EnrollmentFunding: Section = {
 		const { data: site } = useApi(api => api.apiOrganizationsOrgIdSitesIdGet(siteParams), {
 			skip: !user,
 		});
+		const reportsParams: ApiOrganizationsOrgIdReportsGetRequest = {
+			orgId: getIdForUser(user, 'org'),
+		};
+		const { data: reports } = useApi(api => api.apiOrganizationsOrgIdReportsGet(reportsParams), {
+			skip: !user,
+		});
+		const submittedReports = (reports || [])
+			.filter(report => !!report.submittedAt)
+			.sort((a, b) => dateSorter(a.submittedAt, b.submittedAt, true));
+		console.log(submittedReports);
+		const lastSubmittedReport = submittedReports[0];
 
 		const [_enrollment, updateEnrollment] = useReducer<
 			FormReducer<DeepNonUndefineable<Enrollment>>
@@ -248,42 +265,68 @@ const EnrollmentFunding: Section = {
 		// For drop down and change on enrollment start date
 		useEffect(() => {
 			const startDate = entry ? entry : enrollment.entry ? enrollment.entry : moment().toDate();
-			const currentlyUsedReportingPeriods = cdcFundings
-				.map(funding => funding.lastReportingPeriod)
-				.sort((p1, p2) =>
-					moment(p1.periodStart).isSame(p2.periodStart)
-						? 0
-						: moment(p1.periodStart).isBefore(p2.periodStart)
-						? -1
-						: 1
-				)
-				.filter(lastReportingPeriod => lastReportingPeriod !== undefined);
 
-			// If there are previous CDC fundings, find the most recent last reporting end date
-			let newestReportingPeriodEnd: Date | null = null;
-			if (currentlyUsedReportingPeriods.length >= 1) {
-				newestReportingPeriodEnd =
-					currentlyUsedReportingPeriods[currentlyUsedReportingPeriods.length - 1].periodEnd;
+			let periodsAfterEntryAndLastReportingPeriod: ReportingPeriod[];
+
+			const oneMonthFromToday = moment()
+				.add(1, 'month')
+				.toDate();
+			const reportingPeriodsAfterStartDate = reportingPeriodsBetweenDates(
+				reportingPeriods,
+				startDate,
+				oneMonthFromToday
+			);
+			if (lastSubmittedReport) {
+				const lastSubmittedReportingPeriodStart = lastSubmittedReport.reportingPeriod.periodStart;
+				const reportsBeforeLastSubmittedReport = reportingPeriodsBeforeDate(
+					reportingPeriods,
+					lastSubmittedReportingPeriodStart
+				);
+				periodsAfterEntryAndLastReportingPeriod = reportingPeriodsAfterStartDate.filter(
+					period => reportsBeforeLastSubmittedReport.map(p => p.id).indexOf(period.id) < 0
+				);
+			} else {
+				periodsAfterEntryAndLastReportingPeriod = reportingPeriodsAfterStartDate;
 			}
-			// If the most recent end date exists, only show reporting period options after it.
-			// Otherwise, only show reporting period options on or after the enrollment entry date
-			var beginningDate = newestReportingPeriodEnd
-				? moment(newestReportingPeriodEnd)
-						.add(1, 'd')
-						.toDate()
-				: startDate;
-			let nextPeriods = nextNReportingPeriods(reportingPeriods, beginningDate, 5);
 
+			const newestLastReportingPeriod = cdcFundings
+				.map(funding => funding.lastReportingPeriod)
+				.filter(period => period !== undefined)
+				.sort(periodSorterInverse)[0];
+
+			if (newestLastReportingPeriod) {
+				const periodsBeforeLastReportingPeriod = reportingPeriodsBeforeDate(
+					reportingPeriods,
+					newestLastReportingPeriod.periodEnd
+				);
+				periodsAfterEntryAndLastReportingPeriod = periodsAfterEntryAndLastReportingPeriod.filter(
+					period => periodsBeforeLastReportingPeriod.map(p => p.id).indexOf(period.id) < 0
+				);
+			}
+
+			let allValidPeriods = periodsAfterEntryAndLastReportingPeriod;
 			// If there is currently a selected value for the reporting period
 			if (cdcReportingPeriod) {
 				// Exclude it so we can safely add it back in without creating a duplicate
-				nextPeriods = [...nextPeriods.filter(period => period.id !== cdcReportingPeriod.id)];
+				allValidPeriods = [
+					...allValidPeriods.filter(period => period.id !== cdcReportingPeriod.id),
+				];
 			}
+			console.log(allValidPeriods);
 			// If there is currently a selected value for the reporting period
 			// We want to make sure that it is shown in the select field
-			const periods = cdcReportingPeriod ? [cdcReportingPeriod, ...nextPeriods] : nextPeriods;
+			const periods = cdcReportingPeriod
+				? [cdcReportingPeriod, ...allValidPeriods]
+				: allValidPeriods;
 			updateReportingPeriodOptions([...periods].sort(periodSorter));
-		}, [enrollment.entry, entry, reportingPeriods, cdcReportingPeriod, enrollment.fundings]);
+		}, [
+			enrollment.entry,
+			entry,
+			reportingPeriods,
+			cdcReportingPeriod,
+			enrollment.fundings,
+			lastSubmittedReport,
+		]);
 
 		// Dropdown options for funding type
 		const fundingSpaces = idx(site, _ => _.organization.fundingSpaces) as DeepNonUndefineable<

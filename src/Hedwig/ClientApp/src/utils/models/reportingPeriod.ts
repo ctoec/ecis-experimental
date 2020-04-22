@@ -42,7 +42,7 @@ export const periodSorter = (a: ReportingPeriod, b: ReportingPeriod, inverse: bo
 	return aMomentValue - bMomentValue;
 };
 
-const periodSorterInverse = (a: ReportingPeriod, b: ReportingPeriod) => {
+export const periodSorterInverse = (a: ReportingPeriod, b: ReportingPeriod) => {
 	return periodSorter(a, b, true);
 };
 
@@ -76,6 +76,25 @@ export const lastEligibleReportingPeriod = (
 	);
 	const sortedPeriods = [...filteredPeriods].sort(periodSorterInverse);
 	return sortedPeriods[0];
+};
+
+export const reportingPeriodsBeforeDate = (periods: ReportingPeriod[], date: Date) => {
+	return periods.filter(period => moment(period.periodStart).isBefore(date));
+};
+
+export const reportingPeriodsAfterDate = (periods: ReportingPeriod[], date: Date) => {
+	return periods.filter(period => moment(period.periodStart).isAfter(date));
+};
+
+export const reportingPeriodsBetweenDates = (
+	periods: ReportingPeriod[],
+	startDate: Date,
+	endDate: Date
+) => {
+	return periods.filter(
+		period =>
+			moment(period.periodStart).isAfter(startDate) && moment(period.periodStart).isBefore(endDate)
+	);
 };
 
 /**
