@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Xunit;
 using Hedwig.Models;
@@ -41,12 +39,7 @@ namespace HedwigTests.Integrations
 				PermissionHelper.CreateOrganizationPermission(context, user, organization);
 			}
 
-			// Need to call WithWebHostBuilder and specify content root
-			// Cannot abstract out into a method without solving the path location error
-			// That is, when specifiying "." outside of the test class it gets the wrong path
-			var client = _factory
-				.WithWebHostBuilder(builder => builder.UseContentRoot("."))
-				.CreateClient();
+			var client = _factory.GetClient();
 
 			var request = HedwigAPIRequests.OrganizationEnrollmentsSummary(
 				user,
@@ -112,12 +105,7 @@ namespace HedwigTests.Integrations
 				PermissionHelper.CreateOrganizationPermission(context, user, organization);
 			}
 
-			// Need to call WithWebHostBuilder and specify content root
-			// Cannot abstract out into a method without solving the path location error
-			// That is, when specifiying "." outside of the test class it gets the wrong path
-			var client = _factory
-				.WithWebHostBuilder(builder => builder.UseContentRoot("."))
-				.CreateClient();
+			var client = _factory.GetClient();
 
 			var request = HedwigAPIRequests.OrganizationSiteEnrollmentDetail(
 				user,

@@ -1,3 +1,4 @@
+using System.Net.Http;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -19,6 +20,15 @@ namespace HedwigTests.Fixtures
 				.UseEnvironment(Environments.Development)
 				.UseStartup<TestStartup>()
 				.UseTestServer();
+		}
+
+		public HttpClient GetClient()
+		{
+			return this
+			.WithWebHostBuilder(
+				builder => builder.UseContentRoot(".")
+			)
+			.CreateClient();
 		}
 	}
 }
