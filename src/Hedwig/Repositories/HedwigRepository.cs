@@ -206,13 +206,12 @@ namespace Hedwig.Repositories
 								var itemDTO = currentDTOValues.First(currentDTOValue => IdEquals(currentDTOValue, item));
 								if (itemDTO != null)
 								{
-									// trackedItem.State = EntityState.Unchanged;
-									// trackedItem.OriginalValuesS.SetValues(dbValues);
-									// trackedItem.CurrentValues.SetValues(itemDTO);
+									// Update entity state to unchanged to 'attach' the entry
+									trackedItem.State = EntityState.Unchanged;
+									// Then set original and current values
+									trackedItem.OriginalValues.SetValues(dbValues);
+									trackedItem.CurrentValues.SetValues(itemDTO);
 
-									var attachedEntity = _context.Attach(trackedItem.Entity);
-									attachedEntity.OriginalValues.SetValues(dbValues);
-									attachedEntity.CurrentValues.SetValues(itemDTO);
 									// And recursively update entity navigation properties
 									// UpdateNavigationProperties(trackedItem, dbValues, item, itemDTO);
 								}
@@ -224,6 +223,12 @@ namespace Hedwig.Repositories
 			}
 		}
 
+		///<summary>
+		/// Helper function to compare entity corresponding entityDTO objects.
+		/// Both should always have comparable Id properties, but to keep the
+		/// repository update functions type-agnostic, that is not known at
+		/// compile tim
+		/// </summary>
 		private bool IdEquals(object a, object b)
 		{
 			var aIdProp = a.GetType().GetProperty("Id");
