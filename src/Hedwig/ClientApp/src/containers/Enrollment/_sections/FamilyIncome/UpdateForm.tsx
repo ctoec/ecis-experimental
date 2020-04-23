@@ -8,7 +8,6 @@ import {
 import { DeepNonUndefineable } from '../../../../utils/types';
 import { Enrollment, FamilyDetermination } from '../../../../generated';
 import idx from 'idx';
-import { determinationSorter } from '../../../../utils/models';
 import { FieldSet, Button, Card, InlineIcon } from '../../../../components';
 import currencyFormatter from '../../../../utils/currencyFormatter';
 import Form from '../../../../components/Form/Form';
@@ -26,6 +25,7 @@ import { CardExpansion } from '../../../../components/Card/CardExpansion';
 import AlertContext from '../../../../contexts/Alert/AlertContext';
 import { validationErrorAlert } from '../../../../utils/stringFormatters/alertTextMakers';
 import ReactDOM from 'react-dom';
+import { propertyDateSorter } from '../../../../utils/dateSorter';
 
 const UpdateForm: React.FC<SectionProps> = ({
 	enrollment,
@@ -77,7 +77,9 @@ const UpdateForm: React.FC<SectionProps> = ({
 	const child = enrollment.child;
 	const determinations: DeepNonUndefineable<FamilyDetermination[]> =
 		idx(child, _ => _.family.determinations as DeepNonUndefineable<FamilyDetermination[]>) || [];
-	const sortedDeterminations = [...determinations].sort((a, b) => determinationSorter(a, b, true));
+	const sortedDeterminations = [...determinations].sort((a, b) =>
+		propertyDateSorter(a, b, d => d.determinationDate, true)
+	);
 	const currentDetermination = sortedDeterminations[0];
 	const pastDeterminations = sortedDeterminations.slice(1);
 	const determinationIdToIndexMap = determinations.reduce<{ [x: number]: number }>(

@@ -1,5 +1,6 @@
 import { ReportingPeriod } from '../../generated';
 import moment from 'moment';
+import { propertyDateSorter } from '../dateSorter';
 
 export const reportingPeriodFormatter = (
 	period: ReportingPeriod,
@@ -29,24 +30,6 @@ export const currentReportingPeriod = (periods: ReportingPeriod[]): ReportingPer
 };
 
 /**
- * Sorts reporting periods by period start date.
- * @param a Reporting Period
- * @param b Reporting Period
- */
-export const periodSorter = (a: ReportingPeriod, b: ReportingPeriod, inverse: boolean = false) => {
-	const aMomentValue = moment(a.periodStart).valueOf();
-	const bMomentValue = moment(b.periodStart).valueOf();
-	if (inverse) {
-		return bMomentValue - aMomentValue;
-	}
-	return aMomentValue - bMomentValue;
-};
-
-export const periodSorterInverse = (a: ReportingPeriod, b: ReportingPeriod) => {
-	return periodSorter(a, b, true);
-};
-
-/**
  * Function to determine the first eligible reporting period for a given enrollment start date (entry)
  * @param periods The array of reporting periods provided by ReportingPeriodContext
  * @param startDate The enrollment start date (entry)
@@ -58,7 +41,9 @@ export const firstEligibleReportingPeriod = (
 	const filteredPeriods = [...periods].filter(period =>
 		moment(startDate).isSameOrBefore(period.periodEnd)
 	);
-	const sortedPeriods = [...filteredPeriods].sort(periodSorter);
+	const sortedPeriods = [...filteredPeriods].sort((a, b) =>
+		propertyDateSorter(a, b, r => r.periodStart)
+	);
 	return sortedPeriods[0];
 };
 
@@ -74,27 +59,10 @@ export const lastEligibleReportingPeriod = (
 	const filteredPeriods = [...periods].filter(period =>
 		moment(period.periodStart).isSameOrBefore(endDate)
 	);
-	const sortedPeriods = [...filteredPeriods].sort(periodSorterInverse);
-	return sortedPeriods[0];
-};
-
-export const reportingPeriodsBeforeDate = (periods: ReportingPeriod[], date: Date) => {
-	return periods.filter(period => moment(period.periodStart).isBefore(date));
-};
-
-export const reportingPeriodsAfterDate = (periods: ReportingPeriod[], date: Date) => {
-	return periods.filter(period => moment(period.periodStart).isAfter(date));
-};
-
-export const reportingPeriodsBetweenDates = (
-	periods: ReportingPeriod[],
-	startDate: Date,
-	endDate: Date
-) => {
-	return periods.filter(
-		period =>
-			moment(period.periodStart).isAfter(startDate) && moment(period.periodStart).isBefore(endDate)
+	const sortedPeriods = [...filteredPeriods].sort((a, b) =>
+		propertyDateSorter(a, b, r => r.periodStart, true)
 	);
+	return sortedPeriods[0];
 };
 
 /**
@@ -108,7 +76,7 @@ export const nextNReportingPeriods = (
 	startDate: Date,
 	n: number
 ): ReportingPeriod[] => {
-	const sortedPeriods = [...periods].sort(periodSorter);
+	const sortedPeriods = [...periods].sort((a, b) => propertyDateSorter(a, b, r => r.period));
 
 	const _firstEligibleReportingPeriod = firstEligibleReportingPeriod(periods, startDate);
 	if (!_firstEligibleReportingPeriod) {
@@ -123,7 +91,7 @@ export const lastNReportingPeriods = (
 	endDate: Date,
 	n: number
 ): ReportingPeriod[] => {
-	const sortedPeriods = [...periods].sort(periodSorterInverse);
+	const sortedPeriods = [...periods].sort((a, b) => propertyDateSorter(a, b, r => r.period, true));
 
 	const _lastEligibleReportingPeriod = lastEligibleReportingPeriod(periods, endDate);
 	if (!_lastEligibleReportingPeriod) {

@@ -3,7 +3,6 @@ import moment from 'moment';
 import {
 	reportingPeriodFormatter,
 	currentReportingPeriod,
-	periodSorter,
 	firstEligibleReportingPeriod,
 	lastEligibleReportingPeriod,
 } from './reportingPeriod';
@@ -61,23 +60,6 @@ it('currentReportingPeriod finds current reporting period', () => {
 
 	expect(res).toBeTruthy();
 	expect(res).toHaveProperty('id', currentId);
-});
-
-it.each([true, false])('periodSorter sorts reporting periods by period start date', inverse => {
-	const sooner = {
-		...baseReportingPeriod,
-		id: 1,
-		periodStart: new Date('2019-01-01'),
-	};
-	const later = {
-		...baseReportingPeriod,
-		id: 2,
-		periodStart: new Date('2019-02-01'),
-	};
-
-	const res = periodSorter(sooner, later, inverse);
-
-	expect(true).toEqual(inverse ? res > 0 : res < 0);
 });
 
 it('firstEligibleReportingPeriod determines first eligible period for date', () => {

@@ -31,10 +31,6 @@ import {
 	getFundingSpaceFor,
 	getFundingTime,
 	getFundingSpaceTime,
-	reportingPeriodsAfterDate,
-	reportingPeriodsBeforeDate,
-	reportingPeriodsBetweenDates,
-	periodSorterInverse,
 } from '../../../utils/models';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../../utils/types';
 import {
@@ -54,8 +50,6 @@ import {
 	currentC4kCertificate,
 	ageFromString,
 	getSourcelessFunding,
-	nextNReportingPeriods,
-	periodSorter,
 	prettyFundingTime,
 	prettyAge,
 	reportingPeriodFormatter,
@@ -74,7 +68,8 @@ import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextM
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import displayErrorOrWarning from '../../../utils/validations/displayErrorOrWarning';
 import useApi, { ApiError } from '../../../hooks/useApi';
-import { dateSorter } from '../../../utils/dateSorter';
+import { dateSorter, propertyDateSorter } from '../../../utils/dateSorter';
+import { propertyBetweenDates, propertyBeforeDate } from '../../../utils/dateFilter';
 
 type UtilizationRate = {
 	capacity: number;
@@ -226,7 +221,6 @@ const EnrollmentFunding: Section = {
 		const submittedReports = (reports || [])
 			.filter(report => !!report.submittedAt)
 			.sort((a, b) => dateSorter(a.submittedAt, b.submittedAt, true));
-		console.log(submittedReports);
 		const lastSubmittedReport = submittedReports[0];
 
 		const [_enrollment, updateEnrollment] = useReducer<
@@ -271,15 +265,17 @@ const EnrollmentFunding: Section = {
 			const oneMonthFromToday = moment()
 				.add(1, 'month')
 				.toDate();
-			const reportingPeriodsAfterStartDate = reportingPeriodsBetweenDates(
+			const reportingPeriodsAfterStartDate = propertyBetweenDates(
 				reportingPeriods,
+				r => r.periodStart,
 				startDate,
 				oneMonthFromToday
 			);
 			if (lastSubmittedReport) {
 				const lastSubmittedReportingPeriodStart = lastSubmittedReport.reportingPeriod.periodStart;
-				const reportsBeforeLastSubmittedReport = reportingPeriodsBeforeDate(
+				const reportsBeforeLastSubmittedReport = propertyBeforeDate(
 					reportingPeriods,
+					r => r.periodStart,
 					lastSubmittedReportingPeriodStart
 				);
 				periodsAfterEntryAndLastReportingPeriod = reportingPeriodsAfterStartDate.filter(
@@ -292,11 +288,12 @@ const EnrollmentFunding: Section = {
 			const newestLastReportingPeriod = cdcFundings
 				.map(funding => funding.lastReportingPeriod)
 				.filter(period => period !== undefined)
-				.sort(periodSorterInverse)[0];
+				.sort((a, b) => propertyDateSorter(a, b, r => r.period, true))[0];
 
 			if (newestLastReportingPeriod) {
-				const periodsBeforeLastReportingPeriod = reportingPeriodsBeforeDate(
+				const periodsBeforeLastReportingPeriod = propertyBeforeDate(
 					reportingPeriods,
+					r => r.periodStart,
 					newestLastReportingPeriod.periodEnd
 				);
 				periodsAfterEntryAndLastReportingPeriod = periodsAfterEntryAndLastReportingPeriod.filter(
@@ -312,13 +309,15 @@ const EnrollmentFunding: Section = {
 					...allValidPeriods.filter(period => period.id !== cdcReportingPeriod.id),
 				];
 			}
-			console.log(allValidPeriods);
+
 			// If there is currently a selected value for the reporting period
 			// We want to make sure that it is shown in the select field
 			const periods = cdcReportingPeriod
 				? [cdcReportingPeriod, ...allValidPeriods]
 				: allValidPeriods;
-			updateReportingPeriodOptions([...periods].sort(periodSorter));
+			updateReportingPeriodOptions(
+				[...periods].sort((a, b) => propertyDateSorter(a, b, r => r.period))
+			);
 		}, [
 			enrollment.entry,
 			entry,
