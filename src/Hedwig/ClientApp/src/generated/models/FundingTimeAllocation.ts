@@ -35,7 +35,7 @@ export interface FundingTimeAllocation {
 	 * @type {number}
 	 * @memberof FundingTimeAllocation
 	 */
-	id?: number;
+	id: number;
 	/**
 	 *
 	 * @type {number}
@@ -74,7 +74,7 @@ export function FundingTimeAllocationFromJSONTyped(
 		return json;
 	}
 	return {
-		id: !exists(json, 'id') ? undefined : json['id'],
+		id: json['id'],
 		fundingSpaceId: json['fundingSpaceId'],
 		fundingSpace: !exists(json, 'fundingSpace')
 			? undefined

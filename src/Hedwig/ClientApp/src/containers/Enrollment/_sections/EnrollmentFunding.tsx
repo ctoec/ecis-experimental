@@ -302,7 +302,9 @@ const EnrollmentFunding: Section = {
 			currentCdcFunding ? FundingSource.CDC : undefined
 		);
 		const [fundingSpace, updateFundingSpace] = useState<FundingSpace | undefined>(
-			currentCdcFunding && currentCdcFunding.fundingSpace ? currentCdcFunding.fundingSpace : undefined
+			currentCdcFunding && currentCdcFunding.fundingSpace
+				? currentCdcFunding.fundingSpace
+				: undefined
 		);
 
 		const fundingSpaces = idx(site, _ => _.organization.fundingSpaces) as DeepNonUndefineable<
@@ -362,7 +364,7 @@ const EnrollmentFunding: Section = {
 			// If there is only one funding space option, update selected fundingSpaceId accordingly
 			if (matchingFundingSpaces.length == 1) {
 				updateFundingSpace(matchingFundingSpaces[0]);
-			} else if(fundingSpace && !matchingFundingSpaces.some(fs => fs.id == fundingSpace.id)) {
+			} else if (fundingSpace && !matchingFundingSpaces.some(fs => fs.id == fundingSpace.id)) {
 				updateFundingSpace(undefined);
 			}
 		}, [fundingSpaces, fundingSource, _enrollment.ageGroup]);
@@ -373,17 +375,23 @@ const EnrollmentFunding: Section = {
 				// filter out current CDC funding (with either be deleted, or updated)
 				.filter(funding => funding.id !== (currentCdcFunding && currentCdcFunding.id))
 				// filter out other existing fundings that reference a no-longer-valid fundingspace
-				.filter(funding => !!(funding.fundingSpaceId && !fundingSpaceOpts.some(opt => opt.value === `${funding.fundingSpaceId}`)))
+				.filter(
+					funding =>
+						!!(
+							funding.fundingSpaceId &&
+							!fundingSpaceOpts.some(opt => opt.value === `${funding.fundingSpaceId}`)
+						)
+				);
 
 			switch (fundingSource) {
 				case FundingSource.CDC:
-					if(currentCdcFunding) {
+					if (currentCdcFunding) {
 						updatedFundings.push(
 							updateFunding({
 								currentFunding: currentCdcFunding,
 								source: FundingSource.CDC,
 								firstReportingPeriod: cdcReportingPeriod,
-								fundingSpace
+								fundingSpace,
 							})
 						);
 					} else {
@@ -403,7 +411,7 @@ const EnrollmentFunding: Section = {
 			}
 
 			updateFundings(updatedFundings as DeepNonUndefineableArray<Funding>);
-		}, [fundingSource, fundingSpaceOpts, cdcReportingPeriod]);
+		}, [fundingSource, fundingSpace, fundingSpaceOpts, cdcReportingPeriod]);
 
 		// *** C4K ***
 		const inputC4kFunding = currentC4kCertificate(enrollment);
@@ -445,9 +453,11 @@ const EnrollmentFunding: Section = {
 			}
 
 			// This and below will need rewritten if we have more than just CDC in the dropdown
-			const _fundingSpace = currentCdcFunding ? currentCdcFunding.fundingSpace :
-				fundingSpace ? fundingSpace :
-				undefined;
+			const _fundingSpace = currentCdcFunding
+				? currentCdcFunding.fundingSpace
+				: fundingSpace
+				? fundingSpace
+				: undefined;
 
 			if (_fundingSpace) {
 				const enrolled = site.enrollments.filter<DeepNonUndefineable<Enrollment>>(e =>
@@ -462,9 +472,11 @@ const EnrollmentFunding: Section = {
 				const countDifferent = newCdcFunding ? 1 : removedCdcFunding ? -1 : 0;
 				const numEnrolled = enrolled.length + countDifferent;
 
-				const capacity = currentCdcFunding ? currentCdcFunding.fundingSpace.capacity : 
-					fundingSpace ? fundingSpace.capacity :
-					0;
+				const capacity = currentCdcFunding
+					? currentCdcFunding.fundingSpace.capacity
+					: fundingSpace
+					? fundingSpace.capacity
+					: 0;
 
 				setUtilizationRate({ capacity, numEnrolled });
 			}

@@ -87,7 +87,7 @@ export interface FamilyDetermination {
 	 * @type {number}
 	 * @memberof FamilyDetermination
 	 */
-	authorId?: number | null;
+	readonly authorId?: number | null;
 	/**
 	 *
 	 * @type {User}
@@ -99,7 +99,7 @@ export interface FamilyDetermination {
 	 * @type {Date}
 	 * @memberof FamilyDetermination
 	 */
-	updatedAt?: Date | null;
+	readonly updatedAt?: Date | null;
 }
 
 export function FamilyDeterminationFromJSON(json: any): FamilyDetermination {
@@ -166,13 +166,6 @@ export function FamilyDeterminationToJSON(value?: FamilyDetermination | null): a
 				: value.validationErrors === null
 				? null
 				: (value.validationErrors as Array<any>).map(ValidationErrorToJSON),
-		authorId: value.authorId,
 		author: UserToJSON(value.author),
-		updatedAt:
-			value.updatedAt === undefined
-				? undefined
-				: value.updatedAt === null
-				? null
-				: value.updatedAt.toISOString(),
 	};
 }

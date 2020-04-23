@@ -7,7 +7,7 @@ namespace Hedwig.Models
 {
 	public class FundingTimeAllocation
 	{
-
+		[Required]
 		public int Id { get; set; }
 
 		[Required]
