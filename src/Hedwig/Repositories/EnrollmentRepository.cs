@@ -23,7 +23,7 @@ namespace Hedwig.Repositories
 
 		public void UpdateEnrollment(Enrollment enrollment, EnrollmentDTO enrollmentDTO)
 		{
-			UpdateHedwigIdEntityWithCollectionNavigationProperties<Enrollment, EnrollmentDTO, int>(enrollment, enrollmentDTO);
+			UpdateHedwigIdEntityWithNavigationProperties<Enrollment, EnrollmentDTO, int>(enrollment, enrollmentDTO);
 		}
 
 		public void AddEnrollment(Enrollment enrollment)
