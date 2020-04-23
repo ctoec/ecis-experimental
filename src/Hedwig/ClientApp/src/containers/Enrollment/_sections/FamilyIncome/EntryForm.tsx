@@ -18,7 +18,7 @@ import {
 	FamilyDetermination,
 } from '../../../../generated';
 import idx from 'idx';
-import { validatePermissions, getIdForUser, determinationSorter } from '../../../../utils/models';
+import { validatePermissions, getIdForUser } from '../../../../utils/models';
 import { FieldSet, Alert } from '../../../../components';
 import Form from '../../../../components/Form/Form';
 import {
@@ -29,6 +29,7 @@ import {
 } from './Form';
 import FormInset from '../../../../components/Form/FormInset';
 import FormSubmitButton from '../../../../components/Form/FormSubmitButton';
+import { propertyDateSorter } from '../../../../utils/dateSorter';
 
 const EntryForm: React.FC<SectionProps> = ({
 	enrollment,
@@ -65,7 +66,9 @@ const EntryForm: React.FC<SectionProps> = ({
 
 	const child = enrollment.child;
 	const determinations = idx(child, _ => _.family.determinations as FamilyDetermination[]) || [];
-	const sortedDeterminations = [...determinations].sort((a, b) => determinationSorter(a, b, true));
+	const sortedDeterminations = [...determinations].sort((a, b) =>
+		propertyDateSorter(a, b, d => d.determinationDate, true)
+	);
 	const determination = sortedDeterminations[0];
 
 	const [attemptingSave, setAttemptingSave] = useState(false);

@@ -5,14 +5,16 @@ import { InlineIcon } from '../../../../components';
 import currencyFormatter from '../../../../utils/currencyFormatter';
 import dateFormatter from '../../../../utils/dateFormatter';
 import { SectionProps } from '../../enrollmentTypes';
-import { determinationSorter } from '../../../../utils/models';
 import { FamilyDetermination } from '../../../../generated';
+import { propertyDateSorter } from '../../../../utils/dateSorter';
 
 const Summary: React.FC<SectionProps> = ({ enrollment }) => {
 	if (!enrollment || !enrollment.child || !enrollment.child.family) return <></>;
 	const determinations =
 		idx(enrollment, _ => _.child.family.determinations as FamilyDetermination[]) || [];
-	const sortedDeterminations = [...determinations].sort((a, b) => determinationSorter(a, b, true));
+	const sortedDeterminations = [...determinations].sort((a, b) =>
+		propertyDateSorter(a, b, d => d.determinationDate, true)
+	);
 	const determination = sortedDeterminations[0];
 	const isFoster = enrollment.child.foster;
 	let elementToReturn;
