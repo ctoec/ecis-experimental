@@ -66,11 +66,13 @@ namespace HedwigTests.HostedServices
 					dateTime.Object
 				);
 
+				Console.WriteLine($"organizationId {organizationId}");
 				var previousReports = await reportRepo.GetReportsForOrganizationAsync(organizationId);
 
 				await cdcReportGenerator.TryGenerateReports();
 
 				var reports = await reportRepo.GetReportsForOrganizationAsync(organizationId);
+				foreach(var report in reports) Console.WriteLine($"report {report}");
 
 				Assert.Empty(previousReports);
 				Assert.Equal(numOfReportsGenerated, reports.Count());

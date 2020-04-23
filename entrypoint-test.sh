@@ -27,4 +27,4 @@ echo "building tests..."
 dotnet build test/HedwigTests
 
 echo "starting tests..."
-dotnet test --no-build test/HedwigTests --logger trx;LogFileName=Hedwig.trx
+dotnet test --filter CreatesReportForOrganization --no-build test/HedwigTests --logger trx;LogFileName=Hedwig.trx
