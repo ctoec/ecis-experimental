@@ -53,11 +53,11 @@ namespace HedwigTests.Filters
 			// and an INonBlockingValidator exists
 			var _validator = new Mock<INonBlockingValidator>();
 
-			// and a ValidateEntityFilter exists with the validator and isExecuting
-			var filter = new ValidateEntityFilter(_validator.Object, onExecuting);
+			// and a ValidateEntityFilter exists with the validator
+			var filter = new ValidateEntityFilter(_validator.Object);
 
-			// and a ValidateEntityFilterAttribute
-			var attribute = new Mock<ValidateEntityFilterAttribute>();
+			// and a ValidateEntityFilterAttribute exists with onExecuting
+			var attribute = new Mock<ValidateEntityFilterAttribute>(onExecuting);
 
 			// when OnActionExecuting is executed with the context
 			filter.OnActionExecuting(attribute.Object, executingContext);
@@ -103,11 +103,11 @@ namespace HedwigTests.Filters
 			// and an INonBlockingValidator exists
 			var _validator = new Mock<INonBlockingValidator>();
 
-			// and a ValidateEntityFilter exists with the validator and isExecuting
-			var filter = new ValidateEntityFilter(_validator.Object, onExecuting);
+			// and a ValidateEntityFilter exists with the validator
+			var filter = new ValidateEntityFilter(_validator.Object);
 
-			// and a ValidateEntityFilterAttribute
-			var attribute = new Mock<ValidateEntityFilterAttribute>();
+			// and a ValidateEntityFilterAttribute exists with onExecuting
+			var attribute = new Mock<ValidateEntityFilterAttribute>(onExecuting);
 
 			// when OnActionExecuted is executed with the context
 			filter.OnActionExecuted(attribute.Object, executedContext.Object);

@@ -20,6 +20,9 @@ namespace Hedwig.Models
 					opt => opt.MapFrom(enrollment => enrollment.Exit.HasValue ? enrollment.Entry.Value.Date : null as DateTime?)
 				)
 				.ReverseMap();
+
+			CreateMap<Enrollment, CdcReportEnrollmentDTO>()
+				.ReverseMap();
 		}
 	}
 }

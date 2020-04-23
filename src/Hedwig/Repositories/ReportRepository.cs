@@ -60,7 +60,8 @@ namespace Hedwig.Repositories
 			{
 				reportQuery = reportQuery
 					.Include(report => report.Organization)
-					.ThenInclude(organization => organization.FundingSpaces);
+					.ThenInclude(organization => organization.FundingSpaces)
+						.ThenInclude(fundingSpace => fundingSpace.FundingTimeAllocations);
 			}
 
 			var reportResult = await reportQuery.FirstOrDefaultAsync();
@@ -108,6 +109,8 @@ namespace Hedwig.Repositories
 			var fundings = (report.SubmittedAt.HasValue ? _context.Fundings.AsOf(report.SubmittedAt.Value) : _context.Fundings)
 			.Include(funding => funding.FirstReportingPeriod)
 			.Include(funding => funding.LastReportingPeriod)
+			.Include(funding => funding.FundingSpace)
+				.ThenInclude(fundingSpace => fundingSpace.FundingTimeAllocations)
 			.Where(funding => enrollmentIds.Contains(funding.EnrollmentId))
 			.Where(funding => funding.FirstReportingPeriod.PeriodStart <= report.ReportingPeriod.PeriodStart)
 			.Where(funding => funding.LastReportingPeriod == null || funding.LastReportingPeriod.PeriodEnd >= report.ReportingPeriod.PeriodEnd)

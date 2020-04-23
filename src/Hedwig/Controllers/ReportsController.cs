@@ -10,6 +10,7 @@ using Hedwig.Repositories;
 using Hedwig.Security;
 using Hedwig.Filters;
 using Hedwig.Filters.Attributes;
+using Hedwig.Validations;
 
 namespace Hedwig.Controllers
 {
@@ -32,7 +33,7 @@ namespace Hedwig.Controllers
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ValidateEntityFilterAttribute(Order = 1)]
-		[TransformEntityFilter(Order = 2)]
+		[DTOProjectionFilter(typeof(List<OrganizationReportSummaryDTO>), Order = 2)]
 		public async Task<ActionResult<List<CdcReport>>> Get(
 			int orgId
 		)
@@ -46,7 +47,7 @@ namespace Hedwig.Controllers
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ValidateEntityFilterAttribute(Order = 1)]
-		[TransformEntityFilter(Order = 2)]
+		[DTOProjectionFilter(typeof(CdcReportDTO), Order = 2)]
 		public async Task<ActionResult<CdcReport>> Get(
 			int id,
 			int orgId,
@@ -63,9 +64,8 @@ namespace Hedwig.Controllers
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		[ValidateEntityFilterAttribute(Order = 1)] // TODO: Include these arguments \/
-																							 // [TypeFilter(typeof(ValidateEntityFilterAttribute), Arguments = new object[] { true }, Order = 1)]
-		[TransformEntityFilter(Order = 2)]
+		[ValidateEntityFilter(true /* onExecuting */, Order = 1)]
+		[DTOProjectionFilter(typeof(CdcReportDTO), Order = 2)]
 		public async Task<ActionResult<CdcReport>> Put(
 			int id,
 			int orgId,
