@@ -7,6 +7,7 @@ using Xunit;
 using Hedwig.Controllers;
 using Hedwig.Repositories;
 using Hedwig.Models;
+using AutoMapper;
 
 namespace HedwigTests.Controllers
 {
@@ -17,8 +18,9 @@ namespace HedwigTests.Controllers
 		{
 			var _enrollments = new Mock<IEnrollmentRepository>();
 			var _sites = new Mock<ISiteRepository>();
+			var _mapper = new Mock<IMapper>();
 
-			var controller = new EnrollmentsController(_enrollments.Object, _sites.Object);
+			var controller = new EnrollmentsController(_enrollments.Object, _sites.Object, _mapper.Object);
 
 			var siteId = 1;
 			var include = new string[] { "foo" };
@@ -32,8 +34,9 @@ namespace HedwigTests.Controllers
 		{
 			var _enrollments = new Mock<IEnrollmentRepository>();
 			var _sites = new Mock<ISiteRepository>();
+			var _mapper = new Mock<IMapper>();
 
-			var controller = new EnrollmentsController(_enrollments.Object, _sites.Object);
+			var controller = new EnrollmentsController(_enrollments.Object, _sites.Object, _mapper.Object);
 
 			var id = 1;
 			var siteId = 1;
@@ -54,8 +57,9 @@ namespace HedwigTests.Controllers
 		{
 			var _enrollments = new Mock<IEnrollmentRepository>();
 			var _sites = new Mock<ISiteRepository>();
+			var _mapper = new Mock<IMapper>();
 
-			var controller = new EnrollmentsController(_enrollments.Object, _sites.Object);
+			var controller = new EnrollmentsController(_enrollments.Object, _sites.Object, _mapper.Object);
 
 			var enrollment = new Enrollment { Id = id };
 
@@ -87,14 +91,17 @@ namespace HedwigTests.Controllers
 			}
 
 			var _sites = new Mock<ISiteRepository>();
+			var _mapper = new Mock<IMapper>();
+			_mapper.Setup(m => m.Map<Enrollment, EnrollmentDTO>(It.IsAny<Enrollment>()))
+				.Returns(It.IsAny<EnrollmentDTO>());
 
-			var controller = new EnrollmentsController(_enrollments.Object, _sites.Object);
+			var controller = new EnrollmentsController(_enrollments.Object, _sites.Object, _mapper.Object);
 
 			var enrollment = new Enrollment { Id = id };
 
 			var result = await controller.Put(pathId, 1, 1, enrollment);
 			var times = shouldUpdateEnrollment ? Times.Once() : Times.Never();
-			_enrollments.Verify(e => e.UpdateEnrollment(It.IsAny<Enrollment>()), times);
+			_enrollments.Verify(e => e.UpdateEnrollment(It.IsAny<Enrollment>(), It.IsAny<EnrollmentDTO>()), times);
 			Assert.IsType(resultType, result.Result);
 		}
 
@@ -118,8 +125,9 @@ namespace HedwigTests.Controllers
 			}
 
 			var _sites = new Mock<ISiteRepository>();
+			var _mapper = new Mock<IMapper>();
 
-			var controller = new EnrollmentsController(_enrollments.Object, _sites.Object);
+			var controller = new EnrollmentsController(_enrollments.Object, _sites.Object, _mapper.Object);
 
 			var enrollment = new Enrollment { Id = id };
 

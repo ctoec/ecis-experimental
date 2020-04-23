@@ -47,7 +47,8 @@ namespace HedwigTests.Validations.Rules
 			var funding1 = new Funding
 			{
 				Id = 1,
-				FirstReportingPeriodId = f1FirstReportingPeriod.Id,
+				FirstReportingPeriodId = f1FirstReportingPeriod != null ? f1FirstReportingPeriod.Id : null as int?,
+				LastReportingPeriodId = f1LastReportingPeriod != null ? f1LastReportingPeriod.Id : null as int?,
 				Source = FundingSource.CDC
 			};
 			funding1.GetType().GetProperty(nameof(funding1.FirstReportingPeriod)).SetValue(funding1, f1FirstReportingPeriod);
@@ -68,7 +69,8 @@ namespace HedwigTests.Validations.Rules
 			var funding2 = new Funding
 			{
 				Id = 2,
-				FirstReportingPeriodId = f2FirstReportingPeriod.Id,
+				FirstReportingPeriodId = f2FirstReportingPeriod != null ? f2FirstReportingPeriod.Id : null as int?,
+				LastReportingPeriodId = f2LastReportingPeriod != null ? f2LastReportingPeriod.Id : null as int?,
 				Source = FundingSource.CDC
 			};
 			funding2.GetType().GetProperty(nameof(funding2.FirstReportingPeriod)).SetValue(funding2, f2FirstReportingPeriod);
@@ -92,9 +94,10 @@ namespace HedwigTests.Validations.Rules
 			var _fundings = new Mock<IFundingRepository>();
 			_fundings.Setup(f => f.GetFundingsByChildId(It.IsAny<Guid>())).Returns(new List<Funding> { funding1, funding2 });
 			var _enrollments = new Mock<IEnrollmentRepository>();
+			var _reportingPeriods = new Mock<IReportingPeriodRepository>();
 
 			// when
-			var rule = new FundingTimelinesAreValid(_fundings.Object, _enrollments.Object);
+			var rule = new FundingTimelinesAreValid(_fundings.Object, _enrollments.Object, _reportingPeriods.Object);
 			var result = rule.Execute(funding1, new NonBlockingValidationContext());
 
 			// Then
@@ -123,9 +126,10 @@ namespace HedwigTests.Validations.Rules
 				var _validator = new NonBlockingValidator(_serviceProvider.Object);
 				var _fundings = new FundingRepository(context);
 				var _enrollments = new EnrollmentRepository(context);
+				var _reportingPeriods = new ReportingPeriodRepository(context);
 
 				// when
-				var rule = new FundingTimelinesAreValid(_fundings, _enrollments);
+				var rule = new FundingTimelinesAreValid(_fundings, _enrollments, _reportingPeriods);
 				rule.Execute(funding, new NonBlockingValidationContext());
 
 				// then

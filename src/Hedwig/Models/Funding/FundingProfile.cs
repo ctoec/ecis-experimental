@@ -6,8 +6,8 @@ namespace Hedwig.Models
 	{
 		public FundingProfile()
 		{
-			CreateMap<Funding, FundingDTO>();
-			CreateMap<FundingDTO, Funding>();
+			CreateMap<Funding, FundingDTO>()
+				.ReverseMap();
 		}
 	}
 }

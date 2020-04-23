@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Hedwig.Data;
 using Moq;
 using Hedwig;
@@ -35,6 +36,7 @@ namespace HedwigTests.Fixtures
 
 			ContextMock = new Mock<HedwigContext>(optionsBuilder.Options, HttpContextAccessor);
 			ContextMock.CallBase = callBase;
+			ContextMock.Object.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 			Context = ContextMock.Object;
 		}
 

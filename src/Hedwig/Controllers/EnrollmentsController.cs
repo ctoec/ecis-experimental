@@ -10,6 +10,7 @@ using Hedwig.Filters.Attributes;
 using Hedwig.Models;
 using Hedwig.Repositories;
 using Hedwig.Security;
+using AutoMapper;
 
 namespace Hedwig.Controllers
 {
@@ -20,52 +21,20 @@ namespace Hedwig.Controllers
 	{
 		private readonly IEnrollmentRepository _enrollments;
 		private readonly ISiteRepository _sites;
+		private readonly IMapper _mapper;
+
 		public EnrollmentsController(
 			IEnrollmentRepository enrollments,
-			ISiteRepository sites
+			ISiteRepository sites,
+			IMapper mapper
 		)
 		{
 			_enrollments = enrollments;
 			_sites = sites;
+			_mapper = mapper;
 		}
 
-		[HttpGet]
-		[ProducesResponseType(StatusCodes.Status200OK)]
-		[ProducesResponseType(StatusCodes.Status204NoContent)]
-		[ValidateEntityFilterAttribute(Order = 1)]
-		[DTOProjectionFilter(typeof(List<EnrollmentSummaryDTO>), Order = 2)]
-		public async Task<ActionResult<List<Enrollment>>> Get(
-			int orgId,
-			int siteId,
-			[FromQuery(Name = "include[]")] string[] include,
-			[FromQuery(Name = "startDate")] DateTime? from = null,
-			[FromQuery(Name = "endDate")] DateTime? to = null,
-			[FromQuery(Name = "skip")] int skip = 0,
-			[FromQuery(Name = "take")] int? take = null
-		)
-		{
-			var enrollments = await _enrollments.GetEnrollmentsForSiteAsync(siteId, from, to, include, skip, take);
-			return enrollments;
-		}
-
-		[HttpGet("{id}")]
-		[ProducesResponseType(StatusCodes.Status200OK)]
-		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		[ValidateEntityFilterAttribute(Order = 1)]
-		public async Task<ActionResult<Enrollment>> Get(
-			int id,
-			int orgId,
-			int siteId,
-			[FromQuery(Name = "include[]")] string[] include
-		)
-		{
-
-			var enrollment = await _enrollments.GetEnrollmentForSiteAsync(id, siteId, include);
-			if (enrollment == null) return NotFound();
-
-			return enrollment;
-		}
-
+		// GET api/organizations/1/enrollments
 		[HttpGet("/api/organizations/{orgId:int}/[controller]")]
 		[Authorize(Policy = OrganizationAccessPolicyProvider.NAME)]
 		[ProducesResponseType(StatusCodes.Status200OK)]
@@ -110,11 +79,49 @@ namespace Hedwig.Controllers
 			return enrollments;
 		}
 
+		// GET api/organizations/1/sites/1/enrollments
+		[HttpGet]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status204NoContent)]
+		[ValidateEntityFilterAttribute(Order = 1)]
+		[DTOProjectionFilter(typeof(List<EnrollmentSummaryDTO>), Order = 2)]
+		public async Task<ActionResult<List<Enrollment>>> Get(
+			int orgId,
+			int siteId,
+			[FromQuery(Name = "include[]")] string[] include,
+			[FromQuery(Name = "startDate")] DateTime? from = null,
+			[FromQuery(Name = "endDate")] DateTime? to = null,
+			[FromQuery(Name = "skip")] int skip = 0,
+			[FromQuery(Name = "take")] int? take = null
+		)
+		{
+			var enrollments = await _enrollments.GetEnrollmentsForSiteAsync(siteId, from, to, include, skip, take);
+			return enrollments;
+		}
+
+		// GET api/organizations/1/sites/1/enrollments/1
+		[HttpGet("{id}")]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ValidateEntityFilterAttribute(Order = 1)]
+		public async Task<ActionResult<Enrollment>> Get(
+			int id,
+			int orgId,
+			int siteId,
+			[FromQuery(Name = "include[]")] string[] include
+		)
+		{
+
+			var enrollment = await _enrollments.GetEnrollmentForSiteAsync(id, siteId, include);
+			if (enrollment == null) return NotFound();
+
+			return enrollment;
+		}
+
 		[HttpPost]
 		[ProducesResponseType(StatusCodes.Status201Created)]
 		[ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
 		[ValidateEntityFilterAttribute(Order = 1)]
-		[DTOProjectionFilter(typeof(List<EnrollmentSummaryDTO>), Order = 2)]
 		public async Task<ActionResult<Enrollment>> Post(
 			int orgId,
 			int siteId,
@@ -139,7 +146,6 @@ namespace Hedwig.Controllers
 		[ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ValidateEntityFilterAttribute(Order = 1)]
-		[DTOProjectionFilter(typeof(List<EnrollmentSummaryDTO>), Order = 2)]
 		public async Task<ActionResult<Enrollment>> Put(
 			int id,
 			int orgId,
@@ -151,7 +157,8 @@ namespace Hedwig.Controllers
 
 			try
 			{
-				_enrollments.UpdateEnrollment(enrollment);
+				var enrollmentDTO = _mapper.Map<Enrollment, EnrollmentDTO>(enrollment);
+				_enrollments.UpdateEnrollment(enrollment, enrollmentDTO);
 				await _enrollments.SaveChangesAsync();
 			}
 			catch (DbUpdateConcurrencyException)
@@ -166,7 +173,6 @@ namespace Hedwig.Controllers
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		[DTOProjectionFilter(typeof(List<EnrollmentSummaryDTO>))]
 		public async Task<ActionResult> Delete(
 			int id,
 			int orgId,

@@ -21,9 +21,9 @@ namespace Hedwig.Repositories
 				.SingleOrDefault(e => e.Id == id);
 		}
 
-		public void UpdateEnrollment(Enrollment enrollment)
+		public void UpdateEnrollment(Enrollment enrollment, EnrollmentDTO enrollmentDTO)
 		{
-			UpdateHedwigIdEntityWithCollectionNavigationProperties<Enrollment, int>(enrollment);
+			UpdateHedwigIdEntityWithNavigationProperties<Enrollment, EnrollmentDTO, int>(enrollment, enrollmentDTO);
 		}
 
 		public void AddEnrollment(Enrollment enrollment)
@@ -80,6 +80,7 @@ namespace Hedwig.Repositories
 					.ThenInclude(f => f.FirstReportingPeriod)
 				.Include(e => e.Fundings)
 					.ThenInclude(f => f.LastReportingPeriod)
+				.Include(e => e.Site)
 				.ToList();
 
 				enrollment.PastEnrollments = pastEnrollments;
@@ -121,7 +122,7 @@ namespace Hedwig.Repositories
 
 	public interface IEnrollmentRepository : IHedwigRepository
 	{
-		void UpdateEnrollment(Enrollment enrollment);
+		void UpdateEnrollment(Enrollment enrollment, EnrollmentDTO enrollmentDTO);
 		void AddEnrollment(Enrollment enrollment);
 		Task<List<Enrollment>> GetEnrollmentsForSiteAsync(int siteId, DateTime? from = null, DateTime? to = null, string[] include = null, int skip = 0, int? take = null);
 		Task<Enrollment> GetEnrollmentForSiteAsync(int id, int siteId, string[] include = null);
