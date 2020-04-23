@@ -77,7 +77,7 @@ namespace Hedwig.Controllers
 			if (report.Id != id) return BadRequest();
 			if (report.OrganizationId != orgId) return BadRequest();
 
-			_validator.Validate(report);
+			//_validator.Validate(report);
 			if (report.ValidationErrors.Count > 0)
 			{
 				return BadRequest("Report cannot be submitted with validation errors");
