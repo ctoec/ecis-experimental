@@ -16,9 +16,9 @@ namespace Hedwig.Filters
 
 		public ValidateEntityFilter(INonBlockingValidator validator)
 		{
-			_validator = validator;		
+			_validator = validator;
 		}
-		
+
 		public void OnActionExecuting(ValidateEntityFilterAttribute attribute, ActionExecutingContext context)
 		{
 			// if (!_onExecuting) return;
