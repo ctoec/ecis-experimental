@@ -90,8 +90,7 @@ namespace Hedwig.Repositories
 			var referenceEntries = trackedEntity.References;
 			foreach (var referenceEntry in referenceEntries)
 			{
-				referenceEntry.Load();
-
+				// Get current values from incoming entity
 				var propertyInfo = referenceEntry.Metadata.PropertyInfo;
 				var currentDTOValue = currentEntityDTO.GetType().GetProperty(propertyInfo.Name)?.GetValue(currentEntityDTO);
 				var currentValue = currentEntity.GetType().GetProperty(propertyInfo.Name).GetValue(currentEntity);
@@ -99,12 +98,14 @@ namespace Hedwig.Repositories
 				// If there is an incoming value
 				if (currentDTOValue != null)
 				{
-					// If there is not an orginal value, loaded from DB
+					// If there is not an orginal entry
+					// update the reference navigation property to new value
+					referenceEntry.Load();
 					if (referenceEntry.TargetEntry == null)
 					{
 						referenceEntry.CurrentValue = currentValue;
 					}
-					// Otherwise, update the existing entity
+					// Otherwise, update the existing entry
 					else
 					{
 						var originalValue = propertyInfo.GetValue(trackedEntity.Entity);
@@ -114,7 +115,7 @@ namespace Hedwig.Repositories
 						// And recursively update entity navigation properties
 						UpdateNavigationProperties(referenceEntry.TargetEntry, currentValue, currentDTOValue);
 
-						// If 
+						// Update navigation source entity state to modified if the target reference entity was modified
 						if (referenceEntry.TargetEntry.State == EntityState.Modified)
 						{
 							referenceEntry.EntityEntry.State = EntityState.Modified;
@@ -130,9 +131,9 @@ namespace Hedwig.Repositories
 		/// to navigation child entity FK.
 		/// </summary>
 		/// <param name="trackedEntity">The tracked EntityEntry to update reference navigation properites on</param>
-		/// <param name="incomingEntity">The incoming entity values for the trackedEntity, from the request</param>
-		/// <param name="incomingEntityDTO">The incoming entity values for the trackedEntity, as the appropriate DTO</param>
-		private void UpdateCollectionNavigationProperties(EntityEntry trackedEntity, object incomingEntity, object incomingEntityDTO)
+		/// <param name="currentEntity">The incoming entity values for the trackedEntity, from the request</param>
+		/// <param name="currentEntityDTO">The incoming entity values for the trackedEntity, as the appropriate DTO</param>
+		private void UpdateCollectionNavigationProperties(EntityEntry trackedEntity, object currentEntity, object currentEntityDTO)
 		{
 			// EF does not automatically update child objects that are collections
 			// See https://stackoverflow.com/questions/27176014/how-to-add-update-child-entities-when-updating-a-parent-entity-in-ef
@@ -143,21 +144,19 @@ namespace Hedwig.Repositories
 			var collectionEntries = trackedEntity.Collections;
 			foreach (var collectionEntry in collectionEntries)
 			{
-				// Load the target objects
-				collectionEntry.Load();
-
 				// Get the current values from the incoming entity
 				var propertyInfo = collectionEntry.Metadata.PropertyInfo;
-				var currentDTOValues = incomingEntityDTO.GetType().GetProperty(propertyInfo.Name)?.GetValue(incomingEntityDTO) as IEnumerable<object>;
-				var currentValues = incomingEntity.GetType().GetProperty(propertyInfo.Name).GetValue(incomingEntity) as IEnumerable<object>;
+				var currentDTOValues = currentEntityDTO.GetType().GetProperty(propertyInfo.Name)?.GetValue(currentEntityDTO) as IEnumerable<object>;
+				var currentValues = currentEntity.GetType().GetProperty(propertyInfo.Name).GetValue(currentEntity) as IEnumerable<object>;
 
 				// If there is an incoming value
-				if (currentDTOValues != null)
+				if (currentDTOValues != null && currentValues != null)
 				{
 					// Get the original values currently in the database
-					// var originalValues = propertyInfo.GetValue(loadedEntity) as IEnumerable<object>;
+					collectionEntry.Load();
 					var originalValues = propertyInfo.GetValue(trackedEntity.Entity) as IEnumerable<object>;
 
+					// If the target entry collection exists
 					if (originalValues != null)
 					{
 						// Set all original item entry states to 'Deleted'
@@ -166,12 +165,12 @@ namespace Hedwig.Repositories
 							collectionEntry.FindEntry(item).State = EntityState.Deleted;
 						}
 
-						// Update original items from current DTO values
+						// Update original items from current values
 						foreach (var currentItem in currentValues)
 						{
-							// If there is not an existing original item with the same Id as the currentItem,
-							// then add the principal FK Id to the currentItem, and add it to the DB
-							var originalItem = originalValues.Where(originalValue => IdEquals(originalValue, currentItem)).FirstOrDefault();
+							// If there is not an original item with the same Id as the currentItem,
+							// update reference navigation property on current item to navigation source entity
+							var originalItem = originalValues.FirstOrDefault(originalValue => IdEquals(originalValue, currentItem));
 							if (originalItem == null)
 							{
 								var entry = _context.Attach(currentItem);
@@ -183,16 +182,18 @@ namespace Hedwig.Repositories
 								var entry = collectionEntry.FindEntry(originalItem);
 								entry.State = EntityState.Unchanged;
 								entry.OriginalValues.SetValues(originalItem);
-								var itemDTO = currentDTOValues.First(currentDTOValue => IdEquals(currentDTOValue, currentItem));
-								entry.CurrentValues.SetValues(itemDTO);
+								var currentItemDTO = currentDTOValues.FirstOrDefault(currentDTOValue => IdEquals(currentDTOValue, currentItem));
+								entry.CurrentValues.SetValues(currentItemDTO);
 
-								if(entry.State == EntityState.Modified)
+								// And recursively update entity navigation properties
+								UpdateNavigationProperties(entry, currentItem, currentItemDTO);
+
+								// Update navigation source entity state to modified if the target collection entity was modified
+								if (entry.State == EntityState.Modified)
 								{
 									collectionEntry.EntityEntry.State = EntityState.Modified;
 								}
 
-								// And recursively update entity navigation properties
-								// UpdateNavigationProperties(trackedItem, dbValues, item, itemDTO);
 							}
 						}
 					}
