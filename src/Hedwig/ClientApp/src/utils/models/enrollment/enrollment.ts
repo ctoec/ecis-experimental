@@ -1,5 +1,12 @@
-import { Enrollment, Gender, User, C4KCertificate } from '../../../generated';
-import { isCurrentFundingToRange, getFundingTime } from '..';
+import {
+	Enrollment,
+	Gender,
+	User,
+	C4KCertificate,
+	FundingTime,
+	FundingSource,
+} from '../../../generated';
+import { isCurrentFundingToRange, getFundingTimes, prettyFundingTime } from '..';
 import { DateRange } from '../../../components';
 import { validatePermissions, getIdForUser } from '..';
 import emptyGuid from '../../emptyGuid';
@@ -36,8 +43,8 @@ export function emptyEnrollment(siteId: number, user?: User) {
 export function isFunded(
 	enrollment: Enrollment | null,
 	opts?: {
-		source?: string;
-		time?: string;
+		source?: FundingSource;
+		time?: FundingTime | FundingTime[];
 		currentRange?: DateRange;
 	}
 ) {
@@ -46,18 +53,21 @@ export function isFunded(
 	if (!enrollment.fundings || !enrollment.fundings.length) return false;
 
 	let fundings = enrollment.fundings;
+	const { source, time, currentRange } = opts || {};
 
-	const _opts = opts || {};
-	if (_opts.source) {
-		fundings = fundings.filter(funding => funding.source === _opts.source);
+	if (source) {
+		fundings = fundings.filter(funding => funding.source === source);
 	}
 
-	if (_opts.time) {
-		fundings = fundings.filter(funding => getFundingTime(funding) === _opts.time);
+	if (time) {
+		// Compare pretty strings because that function handles array formatting
+		fundings = fundings.filter(
+			funding => prettyFundingTime(getFundingTimes(funding)) === prettyFundingTime(time)
+		);
 	}
 
-	if (_opts.currentRange) {
-		fundings = fundings.filter(funding => isCurrentFundingToRange(funding, _opts.currentRange));
+	if (currentRange) {
+		fundings = fundings.filter(funding => isCurrentFundingToRange(funding, currentRange));
 	}
 
 	return fundings.length > 0;

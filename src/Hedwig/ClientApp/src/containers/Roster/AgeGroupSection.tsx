@@ -6,7 +6,7 @@ import { Table, TableProps, InlineIcon, DateRange, Column, Legend } from '../../
 import { Enrollment, FundingSpace, FundingSource, Organization, Site } from '../../generated';
 import { lastFirstNameFormatter } from '../../utils/stringFormatters';
 import dateFormatter from '../../utils/dateFormatter';
-import { NO_FUNDING, getFundingSpaceTime, prettyFundingTime } from '../../utils/models';
+import { NO_FUNDING, prettyFundingTime, getFundingSpaceTimes } from '../../utils/models';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../utils/types';
 import { hasValidationErrors } from '../../utils/validations';
 import { isFunded } from '../../utils/models';
@@ -144,11 +144,11 @@ export default function AgeGroupSection({
 		const enrolledForFunding = enrollments.filter<DeepNonUndefineable<Enrollment>>(enrollment =>
 			isFunded(enrollment, {
 				source: space.source,
-				time: getFundingSpaceTime(space),
+				time: getFundingSpaceTimes(space),
 				currentRange: rosterDateRange,
 			})
 		).length;
-		const fundingTime = prettyFundingTime(getFundingSpaceTime(space));
+		const fundingTime = prettyFundingTime(getFundingSpaceTimes(space));
 		const fundingTimeCapitalized = fundingTime.charAt(0).toUpperCase() + fundingTime.slice(1);
 		return {
 			symbol: legendDisplayDetails[space.source || ''].symbol,

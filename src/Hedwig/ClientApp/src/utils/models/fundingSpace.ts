@@ -13,16 +13,30 @@ export function getFundingSpaceFor(
 	fundingSpaces: DeepNonUndefineable<FundingSpace[]> | null | undefined,
 	opts: {
 		ageGroup: Age;
-		time: FundingTime | undefined;
+		times?: FundingTime | undefined;
 	}
 ) {
 	if (!fundingSpaces) return;
 
 	const [fundingSpace] = fundingSpaces.filter(
-		space => space.ageGroup == opts.ageGroup && getFundingSpaceTime(space) == opts.time
+		space => space.ageGroup == opts.ageGroup && getFundingSpaceTime(space) == opts.times
 	);
 
 	return fundingSpace;
+}
+
+// Returns unique times for a funding space sorted alphabetically
+export function getFundingSpaceTimes(
+	fundingSpace: FundingSpace | undefined
+): FundingTime[] | undefined {
+	if (!fundingSpace) return;
+	if (!fundingSpace.fundingTimeAllocations) return;
+	if (!fundingSpace.fundingTimeAllocations.length) return;
+	const uniqueFundingTimes = fundingSpace.fundingTimeAllocations
+		.map(space => space.time)
+		.filter((time, index, timesArray) => timesArray.indexOf(time) === index)
+		.sort();
+	return uniqueFundingTimes;
 }
 
 /**
@@ -30,7 +44,9 @@ export function getFundingSpaceFor(
  * TODO: Update to handle FundingSpace with multiple FundingTimeAllocations
  * @param fundingSpace
  */
-export function getFundingSpaceTime(fundingSpace: FundingSpace | undefined) {
+export function getFundingSpaceTime(
+	fundingSpace: FundingSpace | undefined
+): undefined | FundingTime | FundingTime[] {
 	if (!fundingSpace) return;
 	if (!fundingSpace.fundingTimeAllocations) return;
 	if (!fundingSpace.fundingTimeAllocations.length) return;
@@ -43,8 +59,7 @@ export function getFundingSpaceTime(fundingSpace: FundingSpace | undefined) {
 		return uniqueFundingTimes[0];
 	}
 	// Use "Part time / full time" when a FundingSpace includes a mix of part- and full-time weeks.
-	console.log('split');
-	return `${uniqueFundingTimes.sort().reverse().join(' time / ')} time`;
+	return uniqueFundingTimes;
 }
 
 /**
