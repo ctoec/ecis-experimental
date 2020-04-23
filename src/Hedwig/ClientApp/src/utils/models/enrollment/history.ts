@@ -86,7 +86,7 @@ export function enrollmentStepProps(
 						  }`,
 				body: `on ${dateFormatter(_enrollment.entry, false)}`,
 				stepDate: _enrollment.entry,
-				stepWeight: -2,
+				stepWeight: -1,
 			})
 		);
 	}
@@ -98,7 +98,7 @@ export function enrollmentStepProps(
 				heading: `Withdrawn from ${_enrollment.site.name}`,
 				body: `on ${dateFormatter(_enrollment.exit, false)}`,
 				stepDate: _enrollment.exit,
-				stepWeight: 2,
+				stepWeight: 1,
 			})
 		);
 	}

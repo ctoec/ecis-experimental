@@ -76,7 +76,7 @@ namespace Hedwig.Repositories
 	{
 		Task<List<Site>> GetSitesForOrganizationAsync(int organizationId);
 		Task<Site> GetSiteForOrganizationAsync(int id, int organizationId, string[] include = null);
-	
+
 		Site GetSiteByIdAsNoTracking(int id);
 	}
 }
