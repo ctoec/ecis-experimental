@@ -10,7 +10,7 @@ describe('funding space utils', () => {
 				mockFundingSpaces as DeepNonUndefineable<FundingSpace[]>,
 				{
 					ageGroup: Age.InfantToddler,
-					time: FundingTime.Full,
+					times: FundingTime.Full,
 				}
 			);
 			expect(fundingSpace).toHaveProperty('ageGroup');

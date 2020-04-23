@@ -1,9 +1,16 @@
 import { DeepNonUndefineable } from '../types';
 import { DateRange } from '../../components';
-import { Funding, FundingSource, ReportingPeriod, Enrollment, FundingSpace } from '../../generated';
+import {
+	Funding,
+	FundingSource,
+	ReportingPeriod,
+	Enrollment,
+	FundingSpace,
+	FundingTime,
+} from '../../generated';
 import moment from 'moment';
 import { dateSorter } from '../dateSorter';
-import { getFundingSpaceTime } from './fundingSpace';
+import { getFundingSpaceTime, getFundingSpaceTimes } from './fundingSpace';
 
 /**
  * constant for display string when an enrollment has no funding
@@ -14,10 +21,21 @@ export const NO_FUNDING = 'private pay';
  * Returns time from associated fundingSpace, or undefined
  * @param funding
  */
+// TODO: maybe ditch in favor of funding times
 export function getFundingTime(funding: Funding | undefined) {
 	if (!funding) return;
 
 	return getFundingSpaceTime(funding.fundingSpace);
+}
+
+/**
+ * Returns time from associated fundingSpace, or undefined
+ * @param funding
+ */
+export function getFundingTimes(funding: Funding | undefined): FundingTime[] | undefined {
+	if (!funding) return;
+
+	return getFundingSpaceTimes(funding.fundingSpace);
 }
 
 /**
