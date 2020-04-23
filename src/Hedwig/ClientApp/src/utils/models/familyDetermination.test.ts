@@ -1,5 +1,5 @@
 import { Enrollment, Child, Family } from '../../generated';
-import { familyDeterminationNotDisclosed, determinationSorter } from './familyDetermination';
+import { familyDeterminationNotDisclosed } from './familyDetermination';
 
 const baseEnrollment: Enrollment = {
 	id: 1,
@@ -69,32 +69,3 @@ it.each([undefined, []])(
 		expect(res).toBeFalsy();
 	}
 );
-
-it('determinationSorter sorts determinations by determinationDate', () => {
-	const noDateId = 0;
-	const noDate = {
-		id: noDateId,
-		familyId: 1,
-		determinationDate: undefined,
-	};
-
-	const earlierId = 1;
-	const earlier = {
-		id: earlierId,
-		familyId: 1,
-		determinationDate: new Date('2019-01-01'),
-	};
-
-	const laterId = 2;
-	const later = {
-		id: laterId,
-		familyId: 1,
-		determinationDate: new Date('2019-10-01'),
-	};
-
-	const determinations = [noDate, later, earlier];
-
-	determinations.sort(determinationSorter);
-
-	expect(determinations.map(det => det.id)).toStrictEqual([noDateId, earlierId, laterId]);
-});
