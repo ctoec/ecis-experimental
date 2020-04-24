@@ -1,11 +1,11 @@
 import React from 'react';
 import { Organization, Enrollment, FundingSource } from '../generated';
 import { DeepNonUndefineable } from './types';
-import { isFunded, currentC4kCertificate, getFundingSpaceCapacity } from './models';
+import { isFunded, currentC4kCertificate, getCombinedCapacity } from './models';
 import { getDisplayColorForFundingType, FundingTypes } from './fundingType';
 
 export type LegendTextFormatter = (
-	organization: Organization,
+	organization: DeepNonUndefineable<Organization>,
 	enrollments: DeepNonUndefineable<Enrollment[]>,
 	showPastEnrollments?: boolean
 ) => string | JSX.Element;
@@ -28,7 +28,7 @@ export const legendDisplayDetails: { [LegendDisplayKey in FundingTypes]: LegendD
 			const enrolledForCdc = enrollments.filter(enrollment =>
 				isFunded(enrollment, { source: FundingSource.CDC })
 			).length;
-			const cdcCapacity = getFundingSpaceCapacity(organization, { source: FundingSource.CDC });
+			const cdcCapacity = getCombinedCapacity(organization.fundingSpaces, FundingSource.CDC);
 			const fullTitle = legendDisplayDetails['CDC'].fullTitle;
 			if (showPastEnrollments) {
 				return (

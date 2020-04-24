@@ -7,6 +7,7 @@ namespace Hedwig.Models
 {
 	public class FundingSpace : IHedwigIdEntity<int>
 	{
+		[Required]
 		public int Id { get; set; }
 
 		[Required]

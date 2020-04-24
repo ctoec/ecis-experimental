@@ -11,13 +11,25 @@ export function fundingTimeFromString(str: string) {
 	}
 }
 
-export function prettyFundingTime(time: FundingTime | null | undefined) {
+export function prettyFundingTime(
+	time: FundingTime | null | undefined,
+	capitalize: boolean = false
+) {
+	let prettyTime = '';
 	switch (time) {
 		case FundingTime.Full:
-			return 'full time';
+			prettyTime = 'full time';
+			break;
 		case FundingTime.Part:
-			return 'part time';
+			prettyTime = 'part time';
+			break;
 		default:
-			return '';
+			break;
 	}
+
+	if (capitalize) {
+		prettyTime = prettyTime.charAt(0).toUpperCase() + prettyTime.slice(1);
+	}
+
+	return prettyTime;
 }

@@ -1,5 +1,5 @@
 import { Enrollment, Gender, User, C4KCertificate } from '../../../generated';
-import { isCurrentFundingToRange, getFundingTime } from '..';
+import { isCurrentToRange, getFundingTime } from '..';
 import { DateRange } from '../../../components';
 import { validatePermissions, getIdForUser } from '..';
 import emptyGuid from '../../emptyGuid';
@@ -33,6 +33,23 @@ export function emptyEnrollment(siteId: number, user?: User) {
 	} as DeepNonUndefineable<Enrollment>;
 }
 
+export function isFundedForFundingSpace(
+	enrollment: Enrollment | null,
+	fundingSpaceId: number,
+	dateRange?: DateRange
+) {
+	if (!enrollment) return false;
+	if (!enrollment.fundings || !enrollment.fundings.length) return false;
+
+	let fundings = enrollment.fundings.filter(funding => funding.fundingSpaceId === fundingSpaceId);
+
+	if (dateRange) {
+		fundings = fundings.filter(funding => isCurrentToRange(funding, dateRange));
+	}
+
+	return fundings.length > 0;
+}
+
 export function isFunded(
 	enrollment: Enrollment | null,
 	opts?: {
@@ -57,7 +74,7 @@ export function isFunded(
 	}
 
 	if (_opts.currentRange) {
-		fundings = fundings.filter(funding => isCurrentFundingToRange(funding, _opts.currentRange));
+		fundings = fundings.filter(funding => isCurrentToRange(funding, _opts.currentRange));
 	}
 
 	return fundings.length > 0;

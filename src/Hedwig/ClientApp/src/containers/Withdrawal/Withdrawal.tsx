@@ -12,7 +12,7 @@ import {
 import { nameFormatter, splitCamelCase, childWithdrawnAlert } from '../../utils/stringFormatters';
 import {
 	enrollmentExitReasons,
-	currentCdcFunding,
+	getCurrentCdcFunding,
 	currentC4kCertificate,
 	lastNReportingPeriods,
 	reportingPeriodFormatter,
@@ -136,7 +136,7 @@ export default function Withdrawal({
 		enrollment && enrollment.fundings
 			? enrollment.fundings
 			: ([] as DeepNonUndefineableArray<Funding>);
-	const cdcFunding = currentCdcFunding(fundings);
+	const cdcFunding = getCurrentCdcFunding(fundings);
 	const c4KFunding = currentC4kCertificate(enrollment);
 
 	const { lastReportingPeriod } = cdcFunding || {};
