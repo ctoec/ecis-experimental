@@ -119,7 +119,7 @@ export interface Family {
 	 * @type {number}
 	 * @memberof Family
 	 */
-	authorId?: number | null;
+	readonly authorId?: number | null;
 	/**
 	 *
 	 * @type {User}
@@ -131,7 +131,7 @@ export interface Family {
 	 * @type {Date}
 	 * @memberof Family
 	 */
-	updatedAt?: Date | null;
+	readonly updatedAt?: Date | null;
 }
 
 export function FamilyFromJSON(json: any): Family {
@@ -214,13 +214,6 @@ export function FamilyToJSON(value?: Family | null): any {
 				: value.validationErrors === null
 				? null
 				: (value.validationErrors as Array<any>).map(ValidationErrorToJSON),
-		authorId: value.authorId,
 		author: UserToJSON(value.author),
-		updatedAt:
-			value.updatedAt === undefined
-				? undefined
-				: value.updatedAt === null
-				? null
-				: value.updatedAt.toISOString(),
 	};
 }
