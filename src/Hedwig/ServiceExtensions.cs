@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Converters;
 using AutoMapper;
 using Hedwig.Data;
 using Hedwig.Filters;
@@ -130,6 +131,9 @@ namespace Hedwig
 			.AddNewtonsoftJson(options =>
 				{
 					options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+					options.SerializerSettings.Converters.Add(
+						new StringEnumConverter()
+					);
 				});
 		}
 
@@ -138,7 +142,6 @@ namespace Hedwig
 			services.AddSwaggerGen(c =>
 			{
 				c.SwaggerDoc("v1", new OpenApiInfo { Title = "Hedwig API", Version = "v1" });
-				c.DescribeAllEnumsAsStrings();
 				c.TagActionsBy(api => new List<string> { "Hedwig" });
 				c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
 				{
