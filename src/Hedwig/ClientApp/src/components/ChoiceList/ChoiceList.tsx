@@ -71,7 +71,7 @@ export const ChoiceList: React.FC<ChoiceListProps> = ({
 	children: expansionChildren,
 }) => {
 	const [selectedItems, updateSelection] = useState(selected);
-	const [otherInput, updateOtherInput] = useState();
+	const [otherInput, updateOtherInput] = useState<string>();
 
 	let internalOptions = inputOptions as InternalOption[];
 	const validTypesArray: boolean[] =
@@ -218,9 +218,6 @@ export const ChoiceList: React.FC<ChoiceListProps> = ({
 				>
 					{[...optionElements]}
 				</select>,
-				// <>
-				// 	<p>Test</p>
-				// </>
 			];
 	}
 

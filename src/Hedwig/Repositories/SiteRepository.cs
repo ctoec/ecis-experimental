@@ -66,7 +66,7 @@ namespace Hedwig.Repositories
 			return site.FirstOrDefaultAsync();
 		}
 
-		public Site GetSiteByIdAsNoTracking(int id)
+		public Site GetSiteById(int id)
 		{
 			return _context.Sites.FirstOrDefault(site => site.Id == id);
 		}
@@ -77,6 +77,6 @@ namespace Hedwig.Repositories
 		Task<List<Site>> GetSitesForOrganizationAsync(int organizationId);
 		Task<Site> GetSiteForOrganizationAsync(int id, int organizationId, string[] include = null);
 
-		Site GetSiteByIdAsNoTracking(int id);
+		Site GetSiteById(int id);
 	}
 }

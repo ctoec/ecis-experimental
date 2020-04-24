@@ -18,7 +18,7 @@ namespace Hedwig.Validations.Attributes
 
 				// FundingSpace organizationId must be the same as Enrollment's Site organizationId
 				var sites = validationContext.GetService(typeof(ISiteRepository)) as ISiteRepository;
-				var site = enrollment.Site ?? sites.GetSiteByIdAsNoTracking(enrollment.SiteId);
+				var site = enrollment.Site ?? sites.GetSiteById(enrollment.SiteId);
 				if (fundingSpace.OrganizationId != site.OrganizationId)
 				{
 					return new ValidationResult("Funding FundingSpace must belong to the same Organization as Enrollment Site");

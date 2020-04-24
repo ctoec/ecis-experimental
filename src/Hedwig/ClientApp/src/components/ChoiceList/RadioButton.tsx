@@ -1,4 +1,5 @@
 import React from 'react';
+import cx from 'classnames';
 
 type RadioButtonProps = {
 	text: string;
@@ -20,7 +21,7 @@ export default function RadioButton({
 	className,
 }: RadioButtonProps) {
 	return (
-		<div className={`usa-radio ${className ? className : ''}`}>
+		<div className={cx('usa-radio', className)}>
 			<input
 				className="usa-radio__input"
 				id={value}

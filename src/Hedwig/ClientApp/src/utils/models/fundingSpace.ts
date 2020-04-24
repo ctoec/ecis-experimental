@@ -2,13 +2,21 @@ import { FundingSpace, Age, Organization, FundingSource } from '../../generated'
 import { DeepNonUndefineable } from '../types';
 import { prettyFundingTime } from './fundingTime';
 
+/**
+ * Returns a prettified string for the collection of funding space time allocations
+ * for a given fundingSpace. Allocations are sorted by descending weeks for pretty string, e.g.
+ * - fundingSpaceTimeAllocations: [{time: 'Part', weeks: 52}]; prettified string: 'Part time (52 weeks)'
+ * - fundingSpaceTimeAllocations: [{time: 'Full', weeks: 10}, {time: 'Part', weeks: 42}]; prettified string: 'Part time (42 weeks) / full time (10 weeks)'
+ * @param fundingSpace 
+ */
 export function prettyFundingSpaceTimeAllocations(fundingSpace: DeepNonUndefineable<FundingSpace>) {
 	if (!fundingSpace.fundingTimeAllocations) return '';
 
+	const fundingTimeAllocations = fundingSpace.fundingTimeAllocations.sort(fta => fta.weeks);
 	let str = '';
-	fundingSpace.fundingTimeAllocations.forEach((timeAllocation, idx) => {
+	fundingTimeAllocations.forEach((timeAllocation, idx) => {
 		if (idx > 0) str += ' / ';
-		str += `${prettyFundingTime(timeAllocation.time, idx == 0)} (${timeAllocation.weeks} weeks)`;
+		str += `${prettyFundingTime(timeAllocation.time, idx === 0)} (${timeAllocation.weeks} weeks)`;
 	});
 
 	return str;
