@@ -1303,7 +1303,7 @@ exports[`EnrollmentEdit enrollment and funding matches snapshot 1`] = `
               class=""
             >
               <div
-                class="usa-radio "
+                class="usa-radio"
               >
                 <input
                   class="usa-radio__input"
@@ -1320,7 +1320,7 @@ exports[`EnrollmentEdit enrollment and funding matches snapshot 1`] = `
                 </label>
               </div>
               <div
-                class="usa-radio "
+                class="usa-radio"
               >
                 <input
                   checked=""
@@ -1338,7 +1338,7 @@ exports[`EnrollmentEdit enrollment and funding matches snapshot 1`] = `
                 </label>
               </div>
               <div
-                class="usa-radio "
+                class="usa-radio"
               >
                 <input
                   class="usa-radio__input"
@@ -1384,7 +1384,7 @@ exports[`EnrollmentEdit enrollment and funding matches snapshot 1`] = `
               class=""
             >
               <div
-                class="usa-radio "
+                class="usa-radio"
               >
                 <input
                   class="usa-radio__input"
@@ -1401,7 +1401,7 @@ exports[`EnrollmentEdit enrollment and funding matches snapshot 1`] = `
                 </label>
               </div>
               <div
-                class="usa-radio "
+                class="usa-radio"
               >
                 <input
                   checked=""

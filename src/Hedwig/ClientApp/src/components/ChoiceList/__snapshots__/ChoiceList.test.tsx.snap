@@ -212,7 +212,7 @@ Object {
             class=""
           >
             <div
-              class="usa-radio "
+              class="usa-radio"
             >
               <input
                 class="usa-radio__input"
@@ -229,7 +229,7 @@ Object {
               </label>
             </div>
             <div
-              class="usa-radio "
+              class="usa-radio"
             >
               <input
                 class="usa-radio__input"
@@ -275,7 +275,7 @@ Object {
           class=""
         >
           <div
-            class="usa-radio "
+            class="usa-radio"
           >
             <input
               class="usa-radio__input"
@@ -292,7 +292,7 @@ Object {
             </label>
           </div>
           <div
-            class="usa-radio "
+            class="usa-radio"
           >
             <input
               class="usa-radio__input"
@@ -395,7 +395,7 @@ Object {
             class=""
           >
             <div
-              class="usa-radio "
+              class="usa-radio"
             >
               <input
                 checked=""
@@ -420,7 +420,7 @@ Object {
               </p>
             </div>
             <div
-              class="usa-radio "
+              class="usa-radio"
             >
               <input
                 class="usa-radio__input"
@@ -466,7 +466,7 @@ Object {
           class=""
         >
           <div
-            class="usa-radio "
+            class="usa-radio"
           >
             <input
               checked=""
@@ -491,7 +491,7 @@ Object {
             </p>
           </div>
           <div
-            class="usa-radio "
+            class="usa-radio"
           >
             <input
               class="usa-radio__input"
