@@ -68,11 +68,6 @@ exports[`UtilizationTable matches snapshot 1`] = `
           <span
             class="oec-table__column-title"
           >
-            <span
-              class="font-family-mono"
-            >
-               
-            </span>
             Balance
           </span>
         </th>
@@ -92,71 +87,38 @@ exports[`UtilizationTable matches snapshot 1`] = `
           1/2 spaces
         </td>
         <td
-          class="font-family-mono"
+          class="text-tabular"
         >
           <span>
-            $
-          </span>
-          <span>
-             
+            $ 
           </span>
           <span
             style="visibility: hidden;"
           />
+          165.32
           <span>
-            165
-          </span>
-          <span>
-            .
-          </span>
-          <span>
-            32
-          </span>
-          <span>
-             
-          </span>
-          <span>
-            x
-          </span>
-          <span>
-             
-          </span>
-          <span>
-            4
-          </span>
-          <span>
-             
-          </span>
-          <span>
-            weeks
+             × 4 weeks
           </span>
         </td>
         <td
-          class="font-family-mono"
+          class="text-tabular"
         >
           <span>
-            $
-          </span>
-          <span>
-             
+            $ 
           </span>
           <span
             style="visibility: hidden;"
           />
-          <span>
-            661
-          </span>
-          <span>
-            .
-          </span>
-          <span>
-            28
-          </span>
+          661.28
         </td>
         <td
-          class="oec-table__cell--red font-family-mono"
+          class="oec-table__cell--red text-tabular"
         >
-          ($661.28)
+          <div
+            class="position-relative one-half-char-left"
+          >
+            ($661.28)
+          </div>
         </td>
       </tr>
       <tr>
@@ -171,34 +133,27 @@ exports[`UtilizationTable matches snapshot 1`] = `
           1/2 spaces
         </td>
         <td
-          class="font-family-mono"
+          class="text-tabular"
         />
         <td
-          class="oec-table__cell--strong font-family-mono"
+          class="oec-table__cell--strong text-tabular"
         >
           <span>
-            $
-          </span>
-          <span>
-             
+            $ 
           </span>
           <span
             style="visibility: hidden;"
           />
-          <span>
-            661
-          </span>
-          <span>
-            .
-          </span>
-          <span>
-            28
-          </span>
+          661.28
         </td>
         <td
-          class="oec-table__cell--strong oec-table__cell--red font-family-mono"
+          class="oec-table__cell--strong oec-table__cell--red text-tabular"
         >
-          ($661.28)
+          <div
+            class="position-relative one-half-char-left"
+          >
+            ($661.28)
+          </div>
         </td>
       </tr>
     </tbody>

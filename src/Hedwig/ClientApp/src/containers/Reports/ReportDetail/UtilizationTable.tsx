@@ -138,7 +138,7 @@ export default function UtilizationTable(report: CdcReport) {
 				),
 			},
 			{
-				name: <>Reimbursement rate</>,
+				name: 'Reimbursement rate',
 				cell: ({ row }) => {
 					const valueBeforeDecimalPoint = getValueBeforeDecimalPoint(row.rate || 0);
 					updateMaxLengthOfReimbursement(oldMaxLengthOfReimbursementRate => {
@@ -149,21 +149,13 @@ export default function UtilizationTable(report: CdcReport) {
 					const leadingZeros =
 						numberOfLeadingZerosNeeded >= 0 ? '0'.repeat(numberOfLeadingZerosNeeded) : '';
 					return (
-						<td className="font-family-mono">
+						<td className="text-tabular">
 							{row.key !== 'total' && (
 								<>
-									<span>$</span>
-									<span> </span>
+									<span>$ </span>
 									<span style={{ visibility: 'hidden' }}>{leadingZeros}</span>
-									<span>{valueBeforeDecimalPoint}</span>
-									<span>.</span>
-									<span>{getValueAfterDecimalPoint(row.rate || 0)}</span>
-									<span> </span>
-									<span>x</span>
-									<span> </span>
-									<span>{weeksInPeriod}</span>
-									<span> </span>
-									<span>weeks</span>
+									{currencyFormatter(row.rate || 0, true)}
+									<span> &times; {weeksInPeriod} weeks</span>
 								</>
 							)}
 						</td>
@@ -181,37 +173,29 @@ export default function UtilizationTable(report: CdcReport) {
 					const leadingZeros =
 						numberOfLeadingZerosNeeded >= 0 ? '0'.repeat(numberOfLeadingZerosNeeded) : '';
 					return (
-						<td
-							className={cx({ 'oec-table__cell--strong': row.key === 'total' }, 'font-family-mono')}
-						>
-							<span>$</span>
-							<span> </span>
+						<td className={cx({ 'oec-table__cell--strong': row.key === 'total' }, 'text-tabular')}>
+							<span>$ </span>
 							<span style={{ visibility: 'hidden' }}>{leadingZeros}</span>
-							<span>{valueBeforeDecimalPoint}</span>
-							<span>.</span>
-							<span>{getValueAfterDecimalPoint(row.total)}</span>
-							{/* {currencyFormatter(row.total)} */}
+							{currencyFormatter(row.total, true)}
 						</td>
 					);
 				},
 			},
 			{
-				name: (
-					<>
-						<span className="font-family-mono">&nbsp;</span>Balance
-					</>
-				),
+				name: 'Balance',
 				cell: ({ row }) => (
 					<td
 						className={cx(
 							{ 'oec-table__cell--strong': row.key === 'total' },
 							{ 'oec-table__cell--red': row.balance < 0 },
-							'font-family-mono'
+							'text-tabular'
 						)}
 					>
-						{row.balance < 0 ? '(' : <>&nbsp;</>}
-						{currencyFormatter(Math.abs(row.balance))}
-						{row.balance < 0 ? ')' : ''}
+						<div className={cx('position-relative', { 'one-half-char-left': row.balance < 0 })}>
+							{row.balance < 0 ? '(' : ''}
+							{currencyFormatter(Math.abs(row.balance))}
+							{row.balance < 0 ? ')' : ''}
+						</div>
 					</td>
 				),
 			},

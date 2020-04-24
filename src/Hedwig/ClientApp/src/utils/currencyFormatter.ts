@@ -1,9 +1,9 @@
 import notNullOrUndefined from './notNullOrUndefined';
 
-export default function currencyFormatter(number?: number | null) {
+export default function currencyFormatter(number?: number | null, excludeDollarSign?: true) {
 	if (!notNullOrUndefined(number)) {
 		return '';
 	}
 
-	return '$' + number.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+	return (!excludeDollarSign ? '$' : '') + number.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
