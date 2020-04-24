@@ -44,9 +44,7 @@ exports[`UtilizationTable matches snapshot 1`] = `
           <span
             class="oec-table__column-title"
           >
-            Reimbursement 
-            <br />
-            rate (weekly)
+            Reimbursement rate
           </span>
         </th>
         <th
@@ -70,6 +68,11 @@ exports[`UtilizationTable matches snapshot 1`] = `
           <span
             class="oec-table__column-title"
           >
+            <span
+              class="font-family-mono"
+            >
+               
+            </span>
             Balance
           </span>
         </th>
@@ -88,16 +91,70 @@ exports[`UtilizationTable matches snapshot 1`] = `
         >
           1/2 spaces
         </td>
-        <td>
-          $165.32
-        </td>
         <td
-          class=""
+          class="font-family-mono"
         >
-          $661.28
+          <span>
+            $
+          </span>
+          <span>
+             
+          </span>
+          <span
+            style="visibility: hidden;"
+          />
+          <span>
+            165
+          </span>
+          <span>
+            .
+          </span>
+          <span>
+            32
+          </span>
+          <span>
+             
+          </span>
+          <span>
+            x
+          </span>
+          <span>
+             
+          </span>
+          <span>
+            4
+          </span>
+          <span>
+             
+          </span>
+          <span>
+            weeks
+          </span>
         </td>
         <td
-          class=" oec-table__cell--red"
+          class="font-family-mono"
+        >
+          <span>
+            $
+          </span>
+          <span>
+             
+          </span>
+          <span
+            style="visibility: hidden;"
+          />
+          <span>
+            661
+          </span>
+          <span>
+            .
+          </span>
+          <span>
+            28
+          </span>
+        </td>
+        <td
+          class="oec-table__cell--red font-family-mono"
         >
           ($661.28)
         </td>
@@ -113,14 +170,33 @@ exports[`UtilizationTable matches snapshot 1`] = `
         >
           1/2 spaces
         </td>
-        <td />
         <td
-          class="oec-table__cell--strong"
+          class="font-family-mono"
+        />
+        <td
+          class="oec-table__cell--strong font-family-mono"
         >
-          $661.28
+          <span>
+            $
+          </span>
+          <span>
+             
+          </span>
+          <span
+            style="visibility: hidden;"
+          />
+          <span>
+            661
+          </span>
+          <span>
+            .
+          </span>
+          <span>
+            28
+          </span>
         </td>
         <td
-          class="oec-table__cell--strong oec-table__cell--red"
+          class="oec-table__cell--strong oec-table__cell--red font-family-mono"
         >
           ($661.28)
         </td>

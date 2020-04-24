@@ -151,9 +151,7 @@ exports[`ReportDetail matches snapshot 1`] = `
             <span
               class="oec-table__column-title"
             >
-              Reimbursement 
-              <br />
-              rate (weekly)
+              Reimbursement rate
             </span>
           </th>
           <th
@@ -177,6 +175,11 @@ exports[`ReportDetail matches snapshot 1`] = `
             <span
               class="oec-table__column-title"
             >
+              <span
+                class="font-family-mono"
+              >
+                 
+              </span>
               Balance
             </span>
           </th>
@@ -195,18 +198,74 @@ exports[`ReportDetail matches snapshot 1`] = `
           >
             1/0 spaces
           </td>
-          <td>
-            $169.95
+          <td
+            class="font-family-mono"
+          >
+            <span>
+              $
+            </span>
+            <span>
+               
+            </span>
+            <span
+              style="visibility: hidden;"
+            />
+            <span>
+              169
+            </span>
+            <span>
+              .
+            </span>
+            <span>
+              95
+            </span>
+            <span>
+               
+            </span>
+            <span>
+              x
+            </span>
+            <span>
+               
+            </span>
+            <span>
+              4
+            </span>
+            <span>
+               
+            </span>
+            <span>
+              weeks
+            </span>
           </td>
           <td
-            class=""
+            class="font-family-mono"
           >
-            $0.00
+            <span>
+              $
+            </span>
+            <span>
+               
+            </span>
+            <span
+              style="visibility: hidden;"
+            >
+              0000
+            </span>
+            <span>
+              0
+            </span>
+            <span>
+              .
+            </span>
+            <span>
+              00
+            </span>
           </td>
           <td
-            class=" "
+            class="font-family-mono"
           >
-            $0.00
+             $0.00
           </td>
         </tr>
         <tr>
@@ -221,18 +280,76 @@ exports[`ReportDetail matches snapshot 1`] = `
           >
             1/0 spaces
           </td>
-          <td>
-            $59.50
+          <td
+            class="font-family-mono"
+          >
+            <span>
+              $
+            </span>
+            <span>
+               
+            </span>
+            <span
+              style="visibility: hidden;"
+            >
+              0
+            </span>
+            <span>
+              59
+            </span>
+            <span>
+              .
+            </span>
+            <span>
+              50
+            </span>
+            <span>
+               
+            </span>
+            <span>
+              x
+            </span>
+            <span>
+               
+            </span>
+            <span>
+              4
+            </span>
+            <span>
+               
+            </span>
+            <span>
+              weeks
+            </span>
           </td>
           <td
-            class=""
+            class="font-family-mono"
           >
-            $0.00
+            <span>
+              $
+            </span>
+            <span>
+               
+            </span>
+            <span
+              style="visibility: hidden;"
+            >
+              0000
+            </span>
+            <span>
+              0
+            </span>
+            <span>
+              .
+            </span>
+            <span>
+              00
+            </span>
           </td>
           <td
-            class=" "
+            class="font-family-mono"
           >
-            $0.00
+             $0.00
           </td>
         </tr>
         <tr>
@@ -247,18 +364,72 @@ exports[`ReportDetail matches snapshot 1`] = `
           >
             5/2 spaces
           </td>
-          <td>
-            $165.32
+          <td
+            class="font-family-mono"
+          >
+            <span>
+              $
+            </span>
+            <span>
+               
+            </span>
+            <span
+              style="visibility: hidden;"
+            />
+            <span>
+              165
+            </span>
+            <span>
+              .
+            </span>
+            <span>
+              32
+            </span>
+            <span>
+               
+            </span>
+            <span>
+              x
+            </span>
+            <span>
+               
+            </span>
+            <span>
+              4
+            </span>
+            <span>
+               
+            </span>
+            <span>
+              weeks
+            </span>
           </td>
           <td
-            class=""
+            class="font-family-mono"
           >
-            $1,322.56
+            <span>
+              $
+            </span>
+            <span>
+               
+            </span>
+            <span
+              style="visibility: hidden;"
+            />
+            <span>
+              1,322
+            </span>
+            <span>
+              .
+            </span>
+            <span>
+              56
+            </span>
           </td>
           <td
-            class=" "
+            class="font-family-mono"
           >
-            $0.00
+             $0.00
           </td>
         </tr>
         <tr>
@@ -273,18 +444,76 @@ exports[`ReportDetail matches snapshot 1`] = `
           >
             1/0 spaces
           </td>
-          <td>
-            $57.85
+          <td
+            class="font-family-mono"
+          >
+            <span>
+              $
+            </span>
+            <span>
+               
+            </span>
+            <span
+              style="visibility: hidden;"
+            >
+              0
+            </span>
+            <span>
+              57
+            </span>
+            <span>
+              .
+            </span>
+            <span>
+              85
+            </span>
+            <span>
+               
+            </span>
+            <span>
+              x
+            </span>
+            <span>
+               
+            </span>
+            <span>
+              4
+            </span>
+            <span>
+               
+            </span>
+            <span>
+              weeks
+            </span>
           </td>
           <td
-            class=""
+            class="font-family-mono"
           >
-            $0.00
+            <span>
+              $
+            </span>
+            <span>
+               
+            </span>
+            <span
+              style="visibility: hidden;"
+            >
+              0000
+            </span>
+            <span>
+              0
+            </span>
+            <span>
+              .
+            </span>
+            <span>
+              00
+            </span>
           </td>
           <td
-            class=" "
+            class="font-family-mono"
           >
-            $0.00
+             $0.00
           </td>
         </tr>
         <tr>
@@ -298,16 +527,35 @@ exports[`ReportDetail matches snapshot 1`] = `
           >
             8/2 spaces
           </td>
-          <td />
           <td
-            class="oec-table__cell--strong"
+            class="font-family-mono"
+          />
+          <td
+            class="oec-table__cell--strong font-family-mono"
           >
-            $1,322.56
+            <span>
+              $
+            </span>
+            <span>
+               
+            </span>
+            <span
+              style="visibility: hidden;"
+            />
+            <span>
+              1,322
+            </span>
+            <span>
+              .
+            </span>
+            <span>
+              56
+            </span>
           </td>
           <td
-            class="oec-table__cell--strong "
+            class="oec-table__cell--strong font-family-mono"
           >
-            $0.00
+             $0.00
           </td>
         </tr>
       </tbody>
