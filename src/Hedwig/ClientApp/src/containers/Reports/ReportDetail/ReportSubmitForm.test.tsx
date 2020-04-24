@@ -56,11 +56,11 @@ describe('ReportSubmitForm', () => {
 			</TestProvider>
 		);
 
-		expect(getAllByText('Preschool')[0].closest('tr')).toHaveTextContent('$165.32');
+		expect(getAllByText('Preschool')[0].closest('tr')).toHaveTextContent('165.32');
 
 		fireEvent.click(getByLabelText('Accredited'));
 
-		expect(getAllByText('Preschool')[0].closest('tr')).toHaveTextContent('$126.59');
+		expect(getAllByText('Preschool')[0].closest('tr')).toHaveTextContent('126.59');
 	});
 
 	it('pretty formats currency values', () => {

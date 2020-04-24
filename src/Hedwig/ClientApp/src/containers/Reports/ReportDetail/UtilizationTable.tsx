@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Table, { TableProps } from '../../../components/Table/Table';
 import { CdcReport, Enrollment, Age, FundingSource, FundingTime, Region } from '../../../generated';
 import idx from 'idx';
@@ -12,6 +12,7 @@ import {
 } from '../../../utils/models';
 import currencyFormatter from '../../../utils/currencyFormatter';
 import cartesianProduct from '../../../utils/cartesianProduct';
+import cx from 'classnames';
 
 interface UtilizationTableRow {
 	key: string;
@@ -24,7 +25,22 @@ interface UtilizationTableRow {
 	balance: number;
 }
 
+function getValueBeforeDecimalPoint(number: number) {
+	const numAsString = number.toFixed(2);
+	const decimalPointIndex = numAsString.indexOf('.');
+	return numAsString.slice(0, decimalPointIndex).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+function getValueAfterDecimalPoint(number: number) {
+	const numAsString = number.toFixed(2);
+	const decimalPointIndex = numAsString.indexOf('.');
+	return numAsString.slice(decimalPointIndex + 1);
+}
+
 export default function UtilizationTable(report: CdcReport) {
+	const [maxLengthOfReimbursementRate, updateMaxLengthOfReimbursement] = useState(0);
+	const [maxLengthOfTotalRate, updateMaxLengthOfTotalRate] = useState(0);
+
 	const site = idx(report, _ => _.organization.sites[0]);
 	if (!site) {
 		return <></>;
@@ -122,35 +138,64 @@ export default function UtilizationTable(report: CdcReport) {
 				),
 			},
 			{
-				name: (
-					<>
-						Reimbursement <br />
-						rate (weekly)
-					</>
-				),
-				cell: ({ row }) => <td>{row.key !== 'total' && currencyFormatter(row.rate || 0)}</td>,
+				name: 'Reimbursement rate',
+				cell: ({ row }) => {
+					const valueBeforeDecimalPoint = getValueBeforeDecimalPoint(row.rate || 0);
+					updateMaxLengthOfReimbursement(oldMaxLengthOfReimbursementRate => {
+						return Math.max(valueBeforeDecimalPoint.length, oldMaxLengthOfReimbursementRate);
+					});
+					const numberOfLeadingZerosNeeded =
+						maxLengthOfReimbursementRate - valueBeforeDecimalPoint.length;
+					const leadingZeros =
+						numberOfLeadingZerosNeeded >= 0 ? '0'.repeat(numberOfLeadingZerosNeeded) : '';
+					return (
+						<td className="text-tabular">
+							{row.key !== 'total' && (
+								<>
+									<span>$ </span>
+									<span style={{ visibility: 'hidden' }}>{leadingZeros}</span>
+									{currencyFormatter(row.rate || 0, true)}
+									<span> &times; {weeksInPeriod} weeks</span>
+								</>
+							)}
+						</td>
+					);
+				},
 			},
 			{
 				name: `Total (${weeksInPeriod} weeks)`,
-				cell: ({ row }) => (
-					<td className={row.key === 'total' ? 'oec-table__cell--strong' : ''}>
-						{currencyFormatter(row.total)}
-					</td>
-				),
+				cell: ({ row }) => {
+					const valueBeforeDecimalPoint = getValueBeforeDecimalPoint(row.total);
+					updateMaxLengthOfTotalRate(oldMaxLengthOfTotalRate => {
+						return Math.max(valueBeforeDecimalPoint.length, oldMaxLengthOfTotalRate);
+					});
+					const numberOfLeadingZerosNeeded = maxLengthOfTotalRate - valueBeforeDecimalPoint.length;
+					const leadingZeros =
+						numberOfLeadingZerosNeeded >= 0 ? '0'.repeat(numberOfLeadingZerosNeeded) : '';
+					return (
+						<td className={cx({ 'oec-table__cell--strong': row.key === 'total' }, 'text-tabular')}>
+							<span>$ </span>
+							<span style={{ visibility: 'hidden' }}>{leadingZeros}</span>
+							{currencyFormatter(row.total, true)}
+						</td>
+					);
+				},
 			},
 			{
-				name: `Balance`,
+				name: 'Balance',
 				cell: ({ row }) => (
 					<td
-						className={
-							(row.key === 'total' ? 'oec-table__cell--strong' : '') +
-							' ' +
-							(row.balance < 0 ? 'oec-table__cell--red' : '')
-						}
+						className={cx(
+							{ 'oec-table__cell--strong': row.key === 'total' },
+							{ 'oec-table__cell--red': row.balance < 0 },
+							'text-tabular'
+						)}
 					>
-						{row.balance < 0 ? '(' : ''}
-						{currencyFormatter(Math.abs(row.balance))}
-						{row.balance < 0 ? ')' : ''}
+						<div className={cx('position-relative', { 'one-half-char-left': row.balance < 0 })}>
+							{row.balance < 0 ? '(' : ''}
+							{currencyFormatter(Math.abs(row.balance))}
+							{row.balance < 0 ? ')' : ''}
+						</div>
 					</td>
 				),
 			},

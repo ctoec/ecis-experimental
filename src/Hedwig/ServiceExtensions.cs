@@ -1,19 +1,23 @@
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
-using Hedwig.Data;
-using Hedwig.Repositories;
-using Hedwig.Security;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.IdentityModel.Tokens.Jwt;
-using Hedwig.Validations;
-using Hedwig.Validations.Rules;
-using Hedwig.Models;
-using Hedwig.HostedServices;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Converters;
+using AutoMapper;
+using Hedwig.Data;
 using Hedwig.Filters;
 using Hedwig.Filters.Attributes;
-using AutoMapper;
+using Hedwig.HostedServices;
+using Hedwig.Models;
+using Hedwig.Repositories;
+using Hedwig.Security;
+using Hedwig.Validations;
+using Hedwig.Validations.Rules;
+
 
 namespace Hedwig
 {
@@ -127,7 +131,44 @@ namespace Hedwig
 			.AddNewtonsoftJson(options =>
 				{
 					options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+					options.SerializerSettings.Converters.Add(
+						new StringEnumConverter()
+					);
 				});
+		}
+
+		public static void ConfigureSwagger(this IServiceCollection services)
+		{
+			services.AddSwaggerGen(c =>
+			{
+				c.SwaggerDoc("v1", new OpenApiInfo { Title = "Hedwig API", Version = "v1" });
+				c.TagActionsBy(api => new List<string> { "Hedwig" });
+				c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+				{
+					Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+					Name = "Authorization",
+					In = ParameterLocation.Header,
+					Type = SecuritySchemeType.ApiKey,
+					Scheme = "Bearer"
+				});
+				c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+				{
+					{
+						new OpenApiSecurityScheme
+						{
+							Reference = new OpenApiReference
+							{
+								Type = ReferenceType.SecurityScheme,
+								Id = "Bearer"
+							},
+							Scheme = "oauth2",
+							Name = "Bearer",
+							In = ParameterLocation.Header
+						},
+						new List<string> { }
+					}
+				});
+			});
 		}
 
 		public static void ConfigureValidation(this IServiceCollection services)

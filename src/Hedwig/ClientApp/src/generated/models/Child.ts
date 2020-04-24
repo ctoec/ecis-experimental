@@ -211,7 +211,7 @@ export interface Child {
 	 * @type {number}
 	 * @memberof Child
 	 */
-	authorId?: number | null;
+	readonly authorId?: number | null;
 	/**
 	 *
 	 * @type {User}
@@ -223,7 +223,7 @@ export interface Child {
 	 * @type {Date}
 	 * @memberof Child
 	 */
-	updatedAt?: Date | null;
+	readonly updatedAt?: Date | null;
 }
 
 export function ChildFromJSON(json: any): Child {
@@ -355,13 +355,6 @@ export function ChildToJSON(value?: Child | null): any {
 				: value.validationErrors === null
 				? null
 				: (value.validationErrors as Array<any>).map(ValidationErrorToJSON),
-		authorId: value.authorId,
 		author: UserToJSON(value.author),
-		updatedAt:
-			value.updatedAt === undefined
-				? undefined
-				: value.updatedAt === null
-				? null
-				: value.updatedAt.toISOString(),
 	};
 }

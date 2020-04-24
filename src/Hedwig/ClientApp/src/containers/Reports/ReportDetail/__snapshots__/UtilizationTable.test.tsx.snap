@@ -44,9 +44,7 @@ exports[`UtilizationTable matches snapshot 1`] = `
           <span
             class="oec-table__column-title"
           >
-            Reimbursement 
-            <br />
-            rate (weekly)
+            Reimbursement rate
           </span>
         </th>
         <th
@@ -88,18 +86,39 @@ exports[`UtilizationTable matches snapshot 1`] = `
         >
           1/2 spaces
         </td>
-        <td>
-          $165.32
+        <td
+          class="text-tabular"
+        >
+          <span>
+            $ 
+          </span>
+          <span
+            style="visibility: hidden;"
+          />
+          165.32
+          <span>
+             × 4 weeks
+          </span>
         </td>
         <td
-          class=""
+          class="text-tabular"
         >
-          $661.28
+          <span>
+            $ 
+          </span>
+          <span
+            style="visibility: hidden;"
+          />
+          661.28
         </td>
         <td
-          class=" oec-table__cell--red"
+          class="oec-table__cell--red text-tabular"
         >
-          ($661.28)
+          <div
+            class="position-relative one-half-char-left"
+          >
+            ($661.28)
+          </div>
         </td>
       </tr>
       <tr>
@@ -113,16 +132,28 @@ exports[`UtilizationTable matches snapshot 1`] = `
         >
           1/2 spaces
         </td>
-        <td />
         <td
-          class="oec-table__cell--strong"
+          class="text-tabular"
+        />
+        <td
+          class="oec-table__cell--strong text-tabular"
         >
-          $661.28
+          <span>
+            $ 
+          </span>
+          <span
+            style="visibility: hidden;"
+          />
+          661.28
         </td>
         <td
-          class="oec-table__cell--strong oec-table__cell--red"
+          class="oec-table__cell--strong oec-table__cell--red text-tabular"
         >
-          ($661.28)
+          <div
+            class="position-relative one-half-char-left"
+          >
+            ($661.28)
+          </div>
         </td>
       </tr>
     </tbody>
