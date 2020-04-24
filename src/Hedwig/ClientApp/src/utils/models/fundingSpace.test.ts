@@ -1,6 +1,6 @@
-import { getFundingSpaceTimes, getFundingSpaceFor, getFundingSpaceCapacity } from './fundingSpace';
-import { mockFundingSpaces } from '../../tests/data/fundingSpace';
-import { Age, FundingSpace, FundingTime } from '../../generated';
+import { getFundingSpaceFor } from './fundingSpace';
+import { mockFundingSpaces, mockSplitSpace } from '../../tests/data/fundingSpace';
+import { FundingSpace } from '../../generated';
 import { DeepNonUndefineable } from '../types';
 
 describe('funding space utils', () => {
@@ -8,24 +8,10 @@ describe('funding space utils', () => {
 		const fundingSpace = getFundingSpaceFor(
 			mockFundingSpaces as DeepNonUndefineable<FundingSpace[]>,
 			{
-				ageGroup: Age.InfantToddler,
-				time: FundingTime.Full,
+				ageGroup: mockSplitSpace.ageGroup,
+				time: mockSplitSpace.fundingTimeAllocations.map(t => t.time),
 			}
 		);
-		expect(fundingSpace).toMatchObject({
-			source: 'CDC',
-			ageGroup: 'InfantToddler',
-			fundingTimeAllocations: [{ time: 'Full', weeks: 52 }],
-			capacity: 10,
-			organizationId: 1,
-		});
-	});
-
-	it('pretty funding space time formats a split correctly', () => {});
-
-	describe('getFundingSpaceTimes returns the correct values', () => {
-		it('formats full/part correctly', () => {
-			// const fundingSpaceTimes = getFundingSpaceTimes(mockFundingSpaces);
-		});
+		expect(fundingSpace).toMatchObject(mockSplitSpace);
 	});
 });

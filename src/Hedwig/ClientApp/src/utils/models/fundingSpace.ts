@@ -13,14 +13,20 @@ export function getFundingSpaceFor(
 	fundingSpaces: DeepNonUndefineable<FundingSpace[]> | null | undefined,
 	opts: {
 		ageGroup: Age;
-		time?: FundingTime | undefined;
+		time?: FundingTime | FundingTime[] | undefined;
 	}
 ) {
 	if (!fundingSpaces) return;
+	let timeOpt = Array.isArray(opts.time) ? opts.time : [opts.time];
 
-	const [fundingSpace] = fundingSpaces.filter(
-		space => space.ageGroup == opts.ageGroup && getFundingSpaceTime(space) == opts.time
-	);
+	const [fundingSpace] = fundingSpaces.filter(space => {
+		let match = space.ageGroup === opts.ageGroup;
+		const spaceTimes = getFundingSpaceTimes(space);
+		if (spaceTimes && opts.time) {
+			match = match && spaceTimes.sort().join() === timeOpt.sort().join();
+		}
+		return match;
+	});
 
 	return fundingSpace;
 }

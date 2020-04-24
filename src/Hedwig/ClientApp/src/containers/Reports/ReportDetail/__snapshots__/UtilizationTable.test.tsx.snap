@@ -77,55 +77,6 @@ exports[`UtilizationTable matches snapshot 1`] = `
       <tr>
         <th>
           <strong>
-            Infant/Toddler
-          </strong>
-           – full time
-        </th>
-        <td
-          class=" oec-table__cell--red"
-        >
-          0/10 spaces
-        </td>
-        <td
-          class="text-tabular"
-        >
-          <span>
-            $ 
-          </span>
-          <span
-            style="visibility: hidden;"
-          />
-          169.95
-          <span>
-             × 4 weeks
-          </span>
-        </td>
-        <td
-          class="text-tabular"
-        >
-          <span>
-            $ 
-          </span>
-          <span
-            style="visibility: hidden;"
-          >
-            00
-          </span>
-          0.00
-        </td>
-        <td
-          class="oec-table__cell--red text-tabular"
-        >
-          <div
-            class="position-relative one-half-char-left"
-          >
-            ($6,798.00)
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <th>
-          <strong>
             Preschool
           </strong>
            – full time
@@ -173,6 +124,55 @@ exports[`UtilizationTable matches snapshot 1`] = `
       <tr>
         <th>
           <strong>
+            School-age
+          </strong>
+           – full time
+        </th>
+        <td
+          class=" oec-table__cell--red"
+        >
+          0/10 spaces
+        </td>
+        <td
+          class="text-tabular"
+        >
+          <span>
+            $ 
+          </span>
+          <span
+            style="visibility: hidden;"
+          />
+          113.20
+          <span>
+             × 4 weeks
+          </span>
+        </td>
+        <td
+          class="text-tabular"
+        >
+          <span>
+            $ 
+          </span>
+          <span
+            style="visibility: hidden;"
+          >
+            00
+          </span>
+          0.00
+        </td>
+        <td
+          class="oec-table__cell--red text-tabular"
+        >
+          <div
+            class="position-relative one-half-char-left"
+          >
+            ($4,528.00)
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <th>
+          <strong>
             Total
           </strong>
         </th>
@@ -201,7 +201,7 @@ exports[`UtilizationTable matches snapshot 1`] = `
           <div
             class="position-relative one-half-char-left"
           >
-            ($12,749.52)
+            ($10,479.52)
           </div>
         </td>
       </tr>

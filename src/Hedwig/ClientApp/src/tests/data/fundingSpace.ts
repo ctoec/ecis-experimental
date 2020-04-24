@@ -2,8 +2,8 @@ import { FundingSource, Age, FundingTime, FundingSpace } from '../../generated';
 
 export const mockFundingSpaces: FundingSpace[] = [];
 
-const ages = Object.values(Age);
-const firstAge = ages.pop();
+const ages = [Age.Preschool, Age.SchoolAge];
+// Use infant toddler for part full split
 
 ages.forEach(ageGroup => {
 	Object.values(FundingSource).forEach(source => {
@@ -18,13 +18,15 @@ ages.forEach(ageGroup => {
 	});
 });
 
-mockFundingSpaces.push({
+export const mockSplitSpace = {
 	source: FundingSource.CDC,
-	ageGroup: firstAge,
+	ageGroup: Age.InfantToddler,
 	fundingTimeAllocations: [
 		{ time: FundingTime.Part, weeks: 52 },
 		{ time: FundingTime.Full, weeks: 52 },
 	],
 	capacity: 10,
 	organizationId: 1,
-});
+};
+
+mockFundingSpaces.push(mockSplitSpace);
