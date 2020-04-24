@@ -2,7 +2,10 @@ import { FundingSource, Age, FundingTime, FundingSpace } from '../../generated';
 
 export const mockFundingSpaces: FundingSpace[] = [];
 
-Object.values(Age).forEach(ageGroup => {
+const ages = Object.values(Age);
+const firstAge = ages.pop();
+
+ages.forEach(ageGroup => {
 	Object.values(FundingSource).forEach(source => {
 		// This is just CDC for now
 		mockFundingSpaces.push({
@@ -17,8 +20,11 @@ Object.values(Age).forEach(ageGroup => {
 
 mockFundingSpaces.push({
 	source: FundingSource.CDC,
-	ageGroup: Age.Preschool,
-	fundingTimeAllocations: [{ time: FundingTime.Part, weeks: 52 }],
+	ageGroup: firstAge,
+	fundingTimeAllocations: [
+		{ time: FundingTime.Part, weeks: 52 },
+		{ time: FundingTime.Full, weeks: 52 },
+	],
 	capacity: 10,
 	organizationId: 1,
 });

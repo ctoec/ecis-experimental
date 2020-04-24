@@ -173,113 +173,13 @@ exports[`UtilizationTable matches snapshot 1`] = `
       <tr>
         <th>
           <strong>
-            Preschool
-          </strong>
-           – part time
-        </th>
-        <td
-          class=" oec-table__cell--red"
-        >
-          0/10 spaces
-        </td>
-        <td
-          class="text-tabular"
-        >
-          <span>
-            $ 
-          </span>
-          <span
-            style="visibility: hidden;"
-          >
-            0
-          </span>
-          57.85
-          <span>
-             × 4 weeks
-          </span>
-        </td>
-        <td
-          class="text-tabular"
-        >
-          <span>
-            $ 
-          </span>
-          <span
-            style="visibility: hidden;"
-          >
-            00
-          </span>
-          0.00
-        </td>
-        <td
-          class="oec-table__cell--red text-tabular"
-        >
-          <div
-            class="position-relative one-half-char-left"
-          >
-            ($2,314.00)
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <th>
-          <strong>
-            School-age
-          </strong>
-           – full time
-        </th>
-        <td
-          class=" oec-table__cell--red"
-        >
-          0/10 spaces
-        </td>
-        <td
-          class="text-tabular"
-        >
-          <span>
-            $ 
-          </span>
-          <span
-            style="visibility: hidden;"
-          />
-          113.20
-          <span>
-             × 4 weeks
-          </span>
-        </td>
-        <td
-          class="text-tabular"
-        >
-          <span>
-            $ 
-          </span>
-          <span
-            style="visibility: hidden;"
-          >
-            00
-          </span>
-          0.00
-        </td>
-        <td
-          class="oec-table__cell--red text-tabular"
-        >
-          <div
-            class="position-relative one-half-char-left"
-          >
-            ($4,528.00)
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <th>
-          <strong>
             Total
           </strong>
         </th>
         <td
           class="oec-table__cell--strong oec-table__cell--red"
         >
-          1/40 spaces
+          1/20 spaces
         </td>
         <td
           class="text-tabular"
@@ -301,7 +201,7 @@ exports[`UtilizationTable matches snapshot 1`] = `
           <div
             class="position-relative one-half-char-left"
           >
-            ($19,591.52)
+            ($12,749.52)
           </div>
         </td>
       </tr>

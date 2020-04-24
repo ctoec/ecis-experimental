@@ -73,8 +73,8 @@ describe('ReportDetail', () => {
 				<ReportDetail />
 			</TestProvider>
 		);
-		const oneOfZeros = getAllByText('1/10 spaces');
-		expect(oneOfZeros).toHaveLength(3);
+		const oneOfZeros = getAllByText(/1\/\d* spaces/);
+		expect(oneOfZeros).toHaveLength(4);
 	});
 
 	describe('when roster is missing information', () => {
