@@ -67,10 +67,12 @@ namespace HedwigTests.Integrations
 			Assert.Equal(enrollment.SiteId, responseEnrollment.SiteId);
 			Assert.NotNull(responseEnrollment.Site);
 			Assert.NotNull(responseEnrollment.Site.Name);
+			Assert.Empty(responseEnrollment.Site.Enrollments);
 			Assert.Equal(enrollment.AgeGroup, responseEnrollment.AgeGroup);
 			Assert.Equal(enrollment.Entry, responseEnrollment.Entry);
 			Assert.Equal(enrollment.Exit, responseEnrollment.Exit);
 			Assert.Equal(enrollment.ExitReason, responseEnrollment.ExitReason);
+			Assert.NotNull(responseEnrollment.Fundings);
 			Assert.All(
 				responseEnrollment.Fundings,
 				funding =>
@@ -131,6 +133,7 @@ namespace HedwigTests.Integrations
 			Assert.Equal(enrollment.SiteId, responseEnrollment.SiteId);
 			Assert.NotNull(responseEnrollment.Site);
 			Assert.NotNull(responseEnrollment.Site.Name);
+			Assert.Empty(responseEnrollment.Site.Enrollments);
 			Assert.Equal(enrollment.AgeGroup, responseEnrollment.AgeGroup);
 			Assert.Equal(enrollment.Entry, responseEnrollment.Entry);
 			Assert.Equal(enrollment.Exit, responseEnrollment.Exit);
