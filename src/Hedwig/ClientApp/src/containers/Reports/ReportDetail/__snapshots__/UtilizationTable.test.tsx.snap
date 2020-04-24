@@ -77,6 +77,57 @@ exports[`UtilizationTable matches snapshot 1`] = `
       <tr>
         <th>
           <strong>
+            Infant/Toddler
+          </strong>
+           – part time
+        </th>
+        <td
+          class=" oec-table__cell--red"
+        >
+          0/10 spaces
+        </td>
+        <td
+          class="text-tabular"
+        >
+          <span>
+            $ 
+          </span>
+          <span
+            style="visibility: hidden;"
+          >
+            0
+          </span>
+          59.50
+          <span>
+             × 4 weeks
+          </span>
+        </td>
+        <td
+          class="text-tabular"
+        >
+          <span>
+            $ 
+          </span>
+          <span
+            style="visibility: hidden;"
+          >
+            00
+          </span>
+          0.00
+        </td>
+        <td
+          class="oec-table__cell--red text-tabular"
+        >
+          <div
+            class="position-relative one-half-char-left"
+          >
+            ($2,380.00)
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <th>
+          <strong>
             Preschool
           </strong>
            – full time
@@ -179,7 +230,7 @@ exports[`UtilizationTable matches snapshot 1`] = `
         <td
           class="oec-table__cell--strong oec-table__cell--red"
         >
-          1/20 spaces
+          1/30 spaces
         </td>
         <td
           class="text-tabular"
@@ -201,7 +252,7 @@ exports[`UtilizationTable matches snapshot 1`] = `
           <div
             class="position-relative one-half-char-left"
           >
-            ($10,479.52)
+            ($12,859.52)
           </div>
         </td>
       </tr>
