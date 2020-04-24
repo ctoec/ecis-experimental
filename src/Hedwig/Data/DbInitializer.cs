@@ -27,10 +27,9 @@ namespace Hedwig.Data
 
 			var infantToddlerPartTimeFundingSpace = CreateFundingSpace(organizationId: organization.Id, ageGroup: Age.InfantToddler, time: FundingTime.Part, capacity: 5);
 			var infantToddlerFullTimeFundingSpace = CreateFundingSpace(organizationId: organization.Id, ageGroup: Age.InfantToddler, time: FundingTime.Full, capacity: 10);
-			var infantToddlerFundingSpace = CreateFundingSpace(organizationId: organization.Id, ageGroup: Age.InfantToddler, time: FundingTime.Full, capacity: 10);
 			// Additional funding space for testing roster display
 			// InfantToddler FundingSpace FullTimePartTime Split
-			// CreateFundingSpace(organizationId: organization.Id, ageGroup: Age.InfantToddler, time: FundingTime.Full, capacity: 10, split: true, splitTime: FundingTime.Part);
+			// var infantToddlerPartFullTimeSplitFundingSpace = CreateFundingSpace(organizationId: organization.Id, ageGroup: Age.InfantToddler, time: FundingTime.Full, capacity: 10, split: true, splitTime: FundingTime.Part);
 			var preschoolFundingSpace = CreateFundingSpace(organizationId: organization.Id, ageGroup: Age.Preschool, time: FundingTime.Full, capacity: 20);
 			// Additional funding space for testing roster display
 			// Preschool FundingSpace PartTime
@@ -225,6 +224,15 @@ namespace Hedwig.Data
 						childId: child.Id,
 						certificateStartDate: entry,
 						certificateEndDate: exit,
+						child: child,
+						caseNumber: 123456
+					);
+					CreateFunding(
+						enrollmentId: enrollment.Id,
+						isC4K: true,
+						childId: child.Id,
+						certificateStartDate: entry,
+						certificateEndDate: null,
 						child: child,
 						caseNumber: 123456
 					);

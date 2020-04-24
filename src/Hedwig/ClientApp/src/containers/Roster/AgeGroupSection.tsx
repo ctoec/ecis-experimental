@@ -103,11 +103,11 @@ export default function AgeGroupSection({
 									.filter(space => space.ageGroup === ageGroup);
 								if (matchingFundingSpaces.length > 1) {
 									includeTime = true;
-								} else {
-									const fundingSpace = matchingFundingSpaces[0];
-									if (fundingSpace && (fundingSpace.fundingTimeAllocations || []).length > 1) {
-										includeTime = true;
-										splitTime = true;
+									if (value.type === 'CDC') {
+										const specifiedFundingSpace = matchingFundingSpaces.find(fundingSpace => fundingSpace.id == value.fundingSpaceId)
+										if (specifiedFundingSpace && (specifiedFundingSpace.fundingTimeAllocations || []).length > 1) {
+											splitTime = true;
+										}
 									}
 								}
 							}

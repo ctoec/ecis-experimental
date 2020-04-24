@@ -6,6 +6,7 @@ import {
 	isCurrentToRangeC4K,
 	getFundingTime,
 	getFundingSpaceTime,
+	dedupeC4kCertificates,
 } from './models';
 import { DeepNonUndefineable } from './types';
 
@@ -95,5 +96,8 @@ export function filterFundingTypesForRosterTags(
 		.filter(fundingType => fundingType.type === 'C4K')
 		.filter(fundingType => isCurrentToRangeC4K(fundingType as C4KCertificate, rosterDateRange));
 
-	return [...(dedupeFundings(fundings as Funding[]) as FundingType[]), ...certificates];
+	return [
+		...(dedupeFundings(fundings as Funding[]) as FundingType[]),
+		...(dedupeC4kCertificates(certificates as C4KCertificate[])) as FundingType[]
+	];
 }
