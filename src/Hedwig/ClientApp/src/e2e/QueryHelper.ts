@@ -44,6 +44,9 @@ export const render = (element: WebElement): RenderedWebElement => {
 	const extendedWebElement = extendWebElement(element);
 	return {
 		element: element,
+		debug: () => {
+			extendedWebElement.debug();
+		},
 		getByLocator: (locator: Locator) => {
 			return extendedWebElement.getByLocator(locator);
 		},
@@ -90,6 +93,7 @@ export const render = (element: WebElement): RenderedWebElement => {
 };
 
 interface WebElementExtension {
+	debug(): void;
 	getByLocator(locator: Locator): Promise<ExtendedWebElement>;
 	queryByLocator(locator: Locator): Promise<ExtendedWebElement | null>;
 	queryAllByLocator(locator: Locator): Promise<ExtendedWebElement[]>;
@@ -125,6 +129,10 @@ type RenderedWebElement = {
 class ExtendedWebElement extends WebElement implements WebElementExtension {
 	constructor(element: WebElement) {
 		super(element.getDriver(), element.getId());
+	}
+	async debug() {
+		// This mimics the behavior of the react testing library function of the same name
+		console.log(await this.getAttribute('outerHTML'));
 	}
 	async getByLocator(locator: Locator) {
 		const elements = await this.findElements(locator);

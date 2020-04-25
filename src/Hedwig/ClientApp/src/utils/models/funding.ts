@@ -61,7 +61,7 @@ export function dedupeFundings(fundings: Funding[]) {
  * @param funding
  * @param range
  */
-export function isCurrentFundingToRange(funding: Funding, range?: DateRange): boolean {
+export function isCurrentToRange(funding: Funding, range?: DateRange): boolean {
 	range = range ? range : { startDate: moment(), endDate: moment() };
 	switch (funding.source) {
 		case FundingSource.CDC:
@@ -98,7 +98,7 @@ function isCurrentToRangeCDC(funding: Funding, range: DateRange): boolean {
  * (there should only ever be one!)
  * @param fundings
  */
-export function currentCdcFunding(
+export function getCurrentCdcFunding(
 	fundings: DeepNonUndefineable<Funding[]> | null
 ): DeepNonUndefineable<Funding> | undefined {
 	return (fundings || []).find<DeepNonUndefineable<Funding>>(
@@ -123,8 +123,8 @@ export function createFunding({
 				id: 0,
 				enrollmentId,
 				source,
-				fundingSpaceId: fundingSpace ? fundingSpace.id : undefined,
-				fundingSpace: fundingSpace,
+				fundingSpaceId: fundingSpace ? fundingSpace.id : null,
+				fundingSpace,
 				firstReportingPeriodId: firstReportingPeriod ? firstReportingPeriod.id : undefined,
 				firstReportingPeriod,
 			};
@@ -133,6 +133,7 @@ export function createFunding({
 				id: 0,
 				enrollmentId,
 				source: undefined,
+				fundingSpaceId: null,
 			};
 		default:
 			throw new Error('Something impossible happened');
@@ -143,12 +144,12 @@ export function updateFunding({
 	currentFunding,
 	source,
 	fundingSpace,
-	reportingPeriod,
+	firstReportingPeriod,
 }: {
 	currentFunding: Funding;
 	source?: FundingSource;
 	fundingSpace?: FundingSpace;
-	reportingPeriod?: ReportingPeriod;
+	firstReportingPeriod?: ReportingPeriod;
 }): Funding {
 	source = source ? source : currentFunding.source;
 	switch (source) {
@@ -156,10 +157,10 @@ export function updateFunding({
 			return {
 				...currentFunding,
 				source,
-				fundingSpaceId: fundingSpace ? fundingSpace.id : undefined,
+				fundingSpaceId: fundingSpace ? fundingSpace.id : null,
 				fundingSpace: fundingSpace,
-				firstReportingPeriodId: reportingPeriod ? reportingPeriod.id : undefined,
-				firstReportingPeriod: reportingPeriod,
+				firstReportingPeriodId: firstReportingPeriod ? firstReportingPeriod.id : undefined,
+				firstReportingPeriod: firstReportingPeriod,
 			};
 		default:
 			throw new Error('Something impossible happened');

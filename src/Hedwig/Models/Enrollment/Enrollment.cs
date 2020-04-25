@@ -12,6 +12,7 @@ namespace Hedwig.Models
 	public class Enrollment : TemporalEntity, IHedwigIdEntity<int>, INonBlockingValidatableObject
 	{
 		[Required]
+
 		public int Id { get; set; }
 
 		[Required]

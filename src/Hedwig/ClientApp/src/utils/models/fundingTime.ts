@@ -12,11 +12,15 @@ export function fundingTimeFromString(str: string) {
 	}
 }
 
-export function prettyFundingTime(time: FundingTime | FundingTime[] | null | undefined): string {
+export function prettyFundingTime(
+	time: FundingTime | FundingTime[] | null | undefined,
+	capitalize: boolean = false
+): string {
 	// Time is either one funding time or an array of unique funding times
+	let prettyTime = '';
 	if (Array.isArray(time)) {
 		// Should return part time / full time
-		return time
+		prettyTime = time
 			.sort()
 			.reverse()
 			.map(_time => prettyFundingTime(_time))
@@ -24,10 +28,18 @@ export function prettyFundingTime(time: FundingTime | FundingTime[] | null | und
 	}
 	switch (time) {
 		case FundingTime.Full:
-			return 'full time';
+			prettyTime = 'full time';
+			break;
 		case FundingTime.Part:
-			return 'part time';
+			prettyTime = 'part time';
+			break;
 		default:
-			return '';
+			break;
 	}
+
+	if (capitalize) {
+		prettyTime = prettyTime.charAt(0).toUpperCase() + prettyTime.slice(1);
+	}
+
+	return prettyTime;
 }

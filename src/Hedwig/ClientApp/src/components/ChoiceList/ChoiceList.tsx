@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { TextInput, FormStatus, FormStatusProps, FieldSet, ChoiceListExpansion } from '..';
+import { TextInput, FormStatus, FormStatusProps, FieldSet } from '..';
 import Checkbox from './Checkbox';
 import RadioButton from './RadioButton';
+import { ChoiceListExpansion } from './ChoiceListExpansion';
 
 type Option = {
 	text: string;
@@ -57,7 +58,7 @@ export const ChoiceList: React.FC<ChoiceListProps> = ({
 	id,
 	name,
 	onChange,
-	selected = [],
+	selected: inputSelected = [],
 	legend,
 	status,
 	disabled,
@@ -70,8 +71,8 @@ export const ChoiceList: React.FC<ChoiceListProps> = ({
 	unselectedText,
 	children: expansionChildren,
 }) => {
-	const [selectedItems, updateSelection] = useState(selected);
-	const [otherInput, updateOtherInput] = useState();
+	const [selectedItems, updateSelection] = useState(inputSelected);
+	const [otherInput, updateOtherInput] = useState<string | undefined>();
 
 	let internalOptions = inputOptions as InternalOption[];
 	const validTypesArray: boolean[] =
@@ -156,7 +157,8 @@ export const ChoiceList: React.FC<ChoiceListProps> = ({
 							onChange={changeEvent}
 							selected={selectedItems.includes(option.value)}
 							disabled={disabled}
-							key={`${id}-${option.value}`}
+							// Including whether it's selected to force re-render... seems bad, but otherwise this option is not showing up as checked
+							key={`${id}-${option.value}-${selectedItems.includes(option.value)}`}
 						/>
 						{expansion && selectedItems.includes(option.value) && (
 							<div className="oec-choicelist-expansion">{expansion}</div>
@@ -218,9 +220,6 @@ export const ChoiceList: React.FC<ChoiceListProps> = ({
 				>
 					{[...optionElements]}
 				</select>,
-				// <>
-				// 	<p>Test</p>
-				// </>
 			];
 	}
 

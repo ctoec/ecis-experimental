@@ -36,6 +36,9 @@ export class DriverHelper {
 			.withCapabilities(capabilities)
 			.usingServer(gridHost)
 			.build();
+
+		driver.manage().setTimeouts({ implicit: 20000, pageLoad: 10000 });
+
 		this.__drivers.push(driver);
 		return driver;
 	};

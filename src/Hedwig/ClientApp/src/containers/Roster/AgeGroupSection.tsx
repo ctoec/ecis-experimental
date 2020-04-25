@@ -25,7 +25,7 @@ type AgeGroupSectionProps = {
 	ageGroupTitle: string;
 	enrollments: DeepNonUndefineableArray<Enrollment>;
 	site?: Site;
-	fundingSpaces?: FundingSpace[];
+	fundingSpaces?: DeepNonUndefineableArray<FundingSpace>;
 	rosterDateRange?: DateRange;
 	showPastEnrollments?: boolean;
 };

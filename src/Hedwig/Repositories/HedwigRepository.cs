@@ -1,6 +1,6 @@
 using Hedwig.Data;
 using Hedwig.Models;
-using System;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Collections;
@@ -63,8 +63,7 @@ namespace Hedwig.Repositories
 
 		/// <summary>
 		/// Recursively updates all navigation properties on an EntityEntry,
-		/// both reference and navigation. Returns a boolean indicating if 
-		/// _any_ navigation properties were modified (including recursive navigation property updates)
+		/// both reference and navigation.
 		/// </summary>
 		/// <param name="trackedEntity">The tracked EntityEntry to update reference navigation properites on</param>
 		/// <param name="currentEntity">The incoming entity values for the trackedEntity, from the request</param>
@@ -73,7 +72,6 @@ namespace Hedwig.Repositories
 		{
 			UpdateReferenceNavigationProperties(trackedEntry, currentEntity, currentEntityDTO);
 			UpdateCollectionNavigationProperties(trackedEntry, currentEntity, currentEntityDTO);
-			// return referencesUpdated || collectionsUpdated;
 		}
 
 		/// <summary>
@@ -96,7 +94,9 @@ namespace Hedwig.Repositories
 				var currentValue = currentEntity.GetType().GetProperty(propertyInfo.Name).GetValue(currentEntity);
 
 				// If there is an incoming value
-				if (currentDTOValue != null)
+				if (currentDTOValue != null && currentValue != null
+				 // and the reference navigation property is settable
+				 && propertyInfo.SetMethod != null && propertyInfo.SetMethod.IsPublic)
 				{
 					// If there is not an orginal entry
 					// update the reference navigation property to new value
@@ -147,10 +147,13 @@ namespace Hedwig.Repositories
 				// Get the current values from the incoming entity
 				var propertyInfo = collectionEntry.Metadata.PropertyInfo;
 				var currentDTOValues = currentEntityDTO.GetType().GetProperty(propertyInfo.Name)?.GetValue(currentEntityDTO) as IEnumerable<object>;
-				var currentValues = currentEntity.GetType().GetProperty(propertyInfo.Name).GetValue(currentEntity) as IEnumerable<object>;
+				var currentValues = currentEntity.GetType().GetProperty(propertyInfo.Name, BindingFlags.Public | BindingFlags.Instance).GetValue(currentEntity) as IEnumerable<object>;
 
 				// If there is an incoming value
-				if (currentDTOValues != null && currentValues != null)
+				if (currentDTOValues != null && currentValues != null
+					// and the collection nav property is settable
+					&& propertyInfo.SetMethod != null && propertyInfo.SetMethod.IsPublic
+				)
 				{
 					// Get the original values currently in the database
 					collectionEntry.Load();
@@ -164,7 +167,6 @@ namespace Hedwig.Repositories
 						{
 							collectionEntry.FindEntry(item).State = EntityState.Deleted;
 						}
-
 						// Update original items from current values
 						foreach (var currentItem in currentValues)
 						{

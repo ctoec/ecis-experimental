@@ -6,7 +6,8 @@ import {
 	FundingTime,
 	FundingSource,
 } from '../../../generated';
-import { isCurrentFundingToRange, getFundingTimes, prettyFundingTime } from '..';
+import { getFundingTimes, prettyFundingTime } from '..';
+import { isCurrentToRange } from '..';
 import { DateRange } from '../../../components';
 import { validatePermissions, getIdForUser } from '..';
 import emptyGuid from '../../emptyGuid';
@@ -40,6 +41,23 @@ export function emptyEnrollment(siteId: number, user?: User) {
 	} as DeepNonUndefineable<Enrollment>;
 }
 
+export function isFundedForFundingSpace(
+	enrollment: Enrollment | null,
+	fundingSpaceId: number,
+	dateRange?: DateRange
+) {
+	if (!enrollment) return false;
+	if (!enrollment.fundings || !enrollment.fundings.length) return false;
+
+	let fundings = enrollment.fundings.filter(funding => funding.fundingSpaceId === fundingSpaceId);
+
+	if (dateRange) {
+		fundings = fundings.filter(funding => isCurrentToRange(funding, dateRange));
+	}
+
+	return fundings.length > 0;
+}
+
 export function isFunded(
 	enrollment: Enrollment | null,
 	opts?: {
@@ -67,7 +85,7 @@ export function isFunded(
 	}
 
 	if (currentRange) {
-		fundings = fundings.filter(funding => isCurrentFundingToRange(funding, currentRange));
+		fundings = fundings.filter(funding => isCurrentToRange(funding, currentRange));
 	}
 
 	return fundings.length > 0;
