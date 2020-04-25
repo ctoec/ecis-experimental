@@ -10,6 +10,7 @@ const baseEnrollment: Enrollment = {
 const baseFunding: Funding = {
 	id: 1,
 	enrollmentId: 1,
+	fundingSpaceId: 1,
 };
 
 describe('enrollment utils', () => {
@@ -53,12 +54,16 @@ describe('enrollment utils', () => {
 	])(
 		'isFunded for time returns false if funding does not match time',
 		(fundingTime, isFundedRes) => {
+			if (!fundingTime) {
+				return;
+			}
 			const funding: Funding = {
 				...baseFunding,
 				fundingSpace: {
+					id: 1,
 					capacity: 1,
 					organizationId: 1,
-					fundingTimeAllocations: [{ time: fundingTime, weeks: 52 }],
+					fundingTimeAllocations: [{ time: fundingTime, weeks: 52, fundingSpaceId: 1 }],
 				},
 			};
 

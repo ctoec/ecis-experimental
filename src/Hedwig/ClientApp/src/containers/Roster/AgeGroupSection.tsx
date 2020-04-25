@@ -6,7 +6,12 @@ import { Table, TableProps, InlineIcon, DateRange, Column, Legend } from '../../
 import { Enrollment, FundingSpace, FundingSource, Organization, Site } from '../../generated';
 import { lastFirstNameFormatter } from '../../utils/stringFormatters';
 import dateFormatter from '../../utils/dateFormatter';
-import { NO_FUNDING, prettyFundingTime, getFundingSpaceTimes } from '../../utils/models';
+import {
+	NO_FUNDING,
+	prettyFundingTime,
+	getFundingSpaceTimes,
+	isFundedForFundingSpace,
+} from '../../utils/models';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../utils/types';
 import { hasValidationErrors } from '../../utils/validations';
 import { isFunded } from '../../utils/models';
@@ -141,17 +146,13 @@ export default function AgeGroupSection({
 
 	// One legend item per funding space of a given age group
 	const legendItems = (fundingSpaces || []).map(space => {
-		const enrolledForFunding = enrollments.filter<DeepNonUndefineable<Enrollment>>(enrollment =>
-			isFunded(enrollment, {
-				source: space.source,
-				time: getFundingSpaceTimes(space),
-				currentRange: rosterDateRange,
-			})
+		const enrolledForFundingSpace = enrollments.filter<DeepNonUndefineable<Enrollment>>(
+			enrollment => isFundedForFundingSpace(enrollment, space.id, rosterDateRange)
 		).length;
 		const fundingTime = prettyFundingTime(getFundingSpaceTimes(space), true);
 		return {
 			symbol: legendDisplayDetails[space.source || ''].symbol,
-			hidden: site && enrolledForFunding === 0,
+			hidden: site && enrolledForFundingSpace === 0,
 			// If we're looking at an org roster, show the funding spaces available even if they're not used
 			// Hide the legend item if there are no kids enrolled for this funding space type and we are looking at one site
 			text: (
@@ -163,8 +164,8 @@ export default function AgeGroupSection({
 					<span className="text-bold">
 						{/* If past enrollments or site, only show number of spaces filled, not ratio for entire organization */}
 						{showPastEnrollments || site
-							? enrolledForFunding
-							: `${enrolledForFunding}/${space.capacity}`}
+							? enrolledForFundingSpace
+							: `${enrolledForFundingSpace}/${space.capacity}`}
 					</span>
 					<span> spaces filled</span>
 				</>
