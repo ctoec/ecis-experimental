@@ -7,7 +7,6 @@ import { beginEnroll, enterChildInfo } from '../utilities/enroll';
 
 // Set time out to 60 seconds
 jest.setTimeout(60 * 1000);
-jest.retryTimes(3);
 
 const appUrl = `${clientHost}/`;
 
