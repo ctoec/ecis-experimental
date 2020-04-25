@@ -23,7 +23,7 @@ import idx from 'idx';
 import parseCurrencyFromString from '../../../../utils/parseCurrencyFromString';
 import currencyFormatter from '../../../../utils/currencyFormatter';
 import notNullOrUndefined from '../../../../utils/notNullOrUndefined';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 
 export const householdSizeField = (index: number) => (
 	<FormField<Enrollment, TextInputProps, number | null, { initialLoad: boolean }>
@@ -137,7 +137,7 @@ export const annualHouseholdIncomeField = (index: number) => (
 	/>
 );
 
-export const determinationDateField = (index: number, isEdit?: boolean, forceBlur?: boolean) => (
+export const determinationDateField = (index: number, forceBlur: boolean = false, defaultDate?: Moment) => (
 	<FormField<Enrollment, DateInputProps, Date | null, { initialLoad: boolean }>
 		field={data =>
 			data
@@ -153,11 +153,12 @@ export const determinationDateField = (index: number, isEdit?: boolean, forceBlu
 			const determination =
 				idx(props.containingData, _ => _.child.family.determinations[index]) || undefined;
 			const { initialLoad } = props.additionalInformation;
+			const date = determinationDate ? moment(determinationDate) : defaultDate;
 			return (
 				<DateInput
 					label="Date of income determination"
 					id={`income-determination-date-${index}`}
-					date={determinationDate ? moment(determinationDate) : !isEdit ? moment(new Date()) : null}
+					date={date}
 					status={initialLoadErrorGuard(
 						initialLoad,
 						warningForField(

@@ -26,6 +26,7 @@ import AlertContext from '../../../../contexts/Alert/AlertContext';
 import { validationErrorAlert } from '../../../../utils/stringFormatters/alertTextMakers';
 import ReactDOM from 'react-dom';
 import { propertyDateSorter } from '../../../../utils/dateSorter';
+import moment from 'moment';
 
 const UpdateForm: React.FC<SectionProps> = ({
 	enrollment,
@@ -135,7 +136,7 @@ const UpdateForm: React.FC<SectionProps> = ({
 					>
 						<div>{householdSizeField(index)}</div>
 						<div>{annualHouseholdIncomeField(index)}</div>
-						<div>{determinationDateField(index, isEdit, !isEdit && forceDateInputBlur)}</div>
+						<div>{determinationDateField(index, !isEdit && forceDateInputBlur, moment(new Date()))}</div>
 						{originalDetermination && originalDetermination.notDisclosed && (
 							<div>{incomeDisclosedField(index)}</div>
 						)}
