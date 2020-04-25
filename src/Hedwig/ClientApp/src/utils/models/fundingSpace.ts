@@ -30,23 +30,29 @@ export function prettyFundingSpaceTimeAllocations(fundingSpace: DeepNonUndefinea
 export function getFundingSpacesFor(
 	fundingSpaces: DeepNonUndefineable<FundingSpace[]> | null | undefined,
 	opts: {
-		ageGroup: Age;
+		ageGroup?: Age;
+		source?: FundingSource;
 		time?: FundingTime | FundingTime[] | undefined;
 	}
 ) {
 	if (!fundingSpaces) return;
-	let timeOpt = Array.isArray(opts.time) ? opts.time : [opts.time];
+	const { ageGroup, source, time } = opts;
+	let timeOpt = Array.isArray(time) ? time : [time];
 
-	const [fundingSpace] = fundingSpaces.filter(space => {
-		let match = space.ageGroup === opts.ageGroup;
+	return fundingSpaces.filter(space => {
+		let match = true;
+		if (ageGroup) {
+			match = match && space.ageGroup === ageGroup;
+		}
+		if (source) {
+			match = match && space.source === source;
+		}
 		const spaceTimes = getFundingSpaceTimes(space);
-		if (spaceTimes && opts.time) {
+		if (spaceTimes && time) {
 			match = match && spaceTimes.sort().join() === timeOpt.sort().join();
 		}
 		return match;
 	});
-
-	return fundingSpace;
 }
 
 // Returns unique times for a funding space sorted alphabetically
