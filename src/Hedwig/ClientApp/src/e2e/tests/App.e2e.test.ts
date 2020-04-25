@@ -58,6 +58,6 @@ describe('Smoke screen', () => {
 	});
 });
 
-afterAll(() => {
-	driverHelper.cleanup();
+afterAll(async () => {
+	await driverHelper.cleanup();
 });

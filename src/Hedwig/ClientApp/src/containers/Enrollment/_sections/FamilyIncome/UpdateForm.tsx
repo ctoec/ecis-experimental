@@ -136,7 +136,9 @@ const UpdateForm: React.FC<SectionProps> = ({
 					>
 						<div>{householdSizeField(index)}</div>
 						<div>{annualHouseholdIncomeField(index)}</div>
-						<div>{determinationDateField(index, !isEdit && forceDateInputBlur, moment(new Date()))}</div>
+						<div>
+							{determinationDateField(index, !isEdit && forceDateInputBlur, moment(new Date()))}
+						</div>
 						{originalDetermination && originalDetermination.notDisclosed && (
 							<div>{incomeDisclosedField(index)}</div>
 						)}

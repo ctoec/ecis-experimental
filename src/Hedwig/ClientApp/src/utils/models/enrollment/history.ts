@@ -155,7 +155,7 @@ export function fundingStepProps(
 					getSortableStep({
 						heading: `Switched funding to ${NO_FUNDING}`,
 						body: `on ${dateFormatter(dayAfterLastReportingPeriodEnd, false)}`,
-						stepDate: dayAfterLastReportingPeriodEnd
+						stepDate: dayAfterLastReportingPeriodEnd,
 					})
 				);
 			}
