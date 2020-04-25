@@ -47,7 +47,7 @@ export interface FundingSpace {
 	 * @type {number}
 	 * @memberof FundingSpace
 	 */
-	id?: number;
+	id: number;
 	/**
 	 *
 	 * @type {number}
@@ -101,7 +101,7 @@ export function FundingSpaceFromJSONTyped(json: any, ignoreDiscriminator: boolea
 		return json;
 	}
 	return {
-		id: !exists(json, 'id') ? undefined : json['id'],
+		id: json['id'],
 		capacity: json['capacity'],
 		organizationId: json['organizationId'],
 		organization: !exists(json, 'organization')

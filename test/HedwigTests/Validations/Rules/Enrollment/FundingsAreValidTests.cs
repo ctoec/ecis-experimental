@@ -65,7 +65,9 @@ namespace HedwigTests.Validations.Rules
 
 			using (var context = new TestHedwigContextProvider().Context)
 			{
-				context.Attach(enrollment);
+				// Only attach found entity to avoid attaching the entire object graph
+				// (which would find & attach the fundings navigation property)
+				context.Attach(context.Find(enrollment.GetType(), enrollment.Id));
 				var _serviceProvider = new Mock<IServiceProvider>();
 				_serviceProvider.Setup(sp => sp.GetService(typeof(IEnumerable<IValidationRule<Funding>>)))
 					.Returns(new List<IValidationRule<Funding>>());

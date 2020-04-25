@@ -8,33 +8,34 @@ import { ValidationProblemDetails, ProblemDetails } from '../../generated';
 export default function displayErrorOrWarning<T>(
 	error: ValidationProblemDetails | ProblemDetails | null,
 	options: {
-		isFieldSet: boolean;
+		isFieldSet?: boolean;
 		fieldSetId?: string;
-	},
-	errorOptions?: {
-		hasAlertedOnError: boolean;
-		setHasAlertedOnError: Dispatch<SetStateAction<boolean>>;
-		errorDisplays: {
-			field: string;
+		errorOptions?: {
+			hasAlertedOnError: boolean;
+			setHasAlertedOnError: Dispatch<SetStateAction<boolean>>;
+			errorDisplays: {
+				field: string;
+				message?: string;
+			}[];
+		};
+		warningOptions?: {
+			object: T | null;
+			field?: string;
+			fields?: string[];
 			message?: string;
-		}[];
-	},
-	warningOptions?: {
-		object: T | null;
-		field?: string;
-		fields?: string[];
-		message?: string;
+		};
 	}
 ): FormStatusProps | undefined {
 	if (error) {
-		if (errorOptions) {
-			return errorOptions.errorDisplays.reduce<FormStatusProps | undefined>(
+		if (options.errorOptions) {
+			const errorOpts = options.errorOptions;
+			return errorOpts.errorDisplays.reduce<FormStatusProps | undefined>(
 				(serverError, errorDisplay) => {
 					return (
 						serverError ||
 						serverErrorForField(
-							errorOptions.hasAlertedOnError,
-							errorOptions.setHasAlertedOnError,
+							errorOpts.hasAlertedOnError,
+							errorOpts.setHasAlertedOnError,
 							errorDisplay.field,
 							error,
 							errorDisplay.message
@@ -45,19 +46,20 @@ export default function displayErrorOrWarning<T>(
 			);
 		}
 	} else {
-		if (warningOptions) {
+		if (options.warningOptions) {
+			const warningOpts = options.warningOptions;
 			if (options.isFieldSet) {
 				return warningForFieldSet(
 					options.fieldSetId as string,
-					warningOptions.fields as string[],
-					warningOptions.object,
-					warningOptions.message as string
+					warningOpts.fields as string[],
+					warningOpts.object,
+					warningOpts.message as string
 				);
 			} else {
 				return warningForField(
-					warningOptions.field as string,
-					warningOptions.object,
-					warningOptions.message
+					warningOpts.field as string,
+					warningOpts.object,
+					warningOpts.message
 				);
 			}
 		}

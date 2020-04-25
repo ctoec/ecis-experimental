@@ -1,28 +1,44 @@
-import { FundingSpace, FundingTime, Age, Organization } from '../../generated';
+import { FundingSpace, Age, Organization, FundingSource } from '../../generated';
 import { DeepNonUndefineable } from '../types';
+import { prettyFundingTime } from './fundingTime';
 
 /**
- * Returns the fundingSpace with given ageGroup and time value,
- * or undefined if no matching fundingSpace found
- * (There cannot be multiple fundingSpaces with the same ageGroup and time)
+ * Returns a prettified string for the collection of funding space time allocations
+ * for a given fundingSpace. Allocations are sorted by descending weeks for pretty string, e.g.
+ * - fundingSpaceTimeAllocations: [{time: 'Part', weeks: 52}]; prettified string: 'Part time (52 weeks)'
+ * - fundingSpaceTimeAllocations: [{time: 'Full', weeks: 10}, {time: 'Part', weeks: 42}]; prettified string: 'Part time (42 weeks) / full time (10 weeks)'
+ * @param fundingSpace 
+ */
+export function prettyFundingSpaceTimeAllocations(fundingSpace: DeepNonUndefineable<FundingSpace>) {
+	if (!fundingSpace.fundingTimeAllocations) return '';
+
+	const fundingTimeAllocations = fundingSpace.fundingTimeAllocations.sort(fta => fta.weeks);
+	let str = '';
+	fundingTimeAllocations.forEach((timeAllocation, idx) => {
+		if (idx > 0) str += ' / ';
+		str += `${prettyFundingTime(timeAllocation.time, idx === 0)} (${timeAllocation.weeks} weeks)`;
+	});
+
+	return str;
+}
+/**
+ * Returns the fundingSpaces with given ageGroup and source value
  *
  * @param fundingSpaces
  * @param opts
  */
-export function getFundingSpaceFor(
+export function getFundingSpacesFor(
 	fundingSpaces: DeepNonUndefineable<FundingSpace[]> | null | undefined,
 	opts: {
 		ageGroup: Age;
-		time: FundingTime | undefined;
+		source: FundingSource | undefined;
 	}
 ) {
-	if (!fundingSpaces) return;
+	if (!fundingSpaces) return [];
 
-	const [fundingSpace] = fundingSpaces.filter(
-		space => space.ageGroup == opts.ageGroup && getFundingSpaceTime(space) == opts.time
+	return fundingSpaces.filter(
+		space => space.ageGroup == opts.ageGroup && space.source == opts.source
 	);
-
-	return fundingSpace;
 }
 
 /**
@@ -36,6 +52,20 @@ export function getFundingSpaceTime(fundingSpace: FundingSpace | undefined) {
 	if (!fundingSpace.fundingTimeAllocations.length) return;
 
 	return fundingSpace.fundingTimeAllocations[0].time;
+}
+
+export function getCombinedCapacity(
+	fundingSpaces: DeepNonUndefineable<FundingSpace[]> | null | undefined,
+	source?: FundingSource
+) {
+	if (!fundingSpaces) return 0;
+
+	let _fundingSpaces = fundingSpaces;
+	if (source) {
+		_fundingSpaces = _fundingSpaces.filter(fundingSpace => fundingSpace.source === source);
+	}
+
+	return _fundingSpaces.reduce((sum, space) => sum + space.capacity, 0);
 }
 
 /**

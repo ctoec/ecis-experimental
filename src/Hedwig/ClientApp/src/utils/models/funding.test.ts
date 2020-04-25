@@ -1,4 +1,4 @@
-import { isCurrentFundingToRange } from './funding';
+import { isCurrentToRange } from './funding';
 import { FundingSource, FundingTime, Funding, ReportingPeriod } from '../../generated';
 import moment from 'moment';
 import { filterFundingTypesForRosterTags, FundingType } from '../fundingType';
@@ -70,7 +70,7 @@ describe('funding utils', () => {
 				endDate: moment(rangeEnd as string),
 			};
 
-			const res = isCurrentFundingToRange(funding, range);
+			const res = isCurrentToRange(funding, range);
 			expect(res).toBe(isCurrent);
 		}
 	);

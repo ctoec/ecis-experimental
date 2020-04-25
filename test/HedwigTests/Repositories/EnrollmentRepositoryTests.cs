@@ -43,6 +43,7 @@ namespace HedwigTests.Repositories
 				{
 					opts.AddProfile(new EnrollmentProfile());
 					opts.AddProfile(new FundingProfile());
+					opts.AddProfile(new FundingSpaceProfile());
 					opts.AddProfile(new ChildProfile());
 					opts.AddProfile(new FamilyProfile());
 					opts.AddProfile(new SiteProfile());
