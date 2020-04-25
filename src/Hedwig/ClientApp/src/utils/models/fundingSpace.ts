@@ -35,7 +35,7 @@ export function getFundingSpacesFor(
 		time?: FundingTime | FundingTime[] | undefined;
 	}
 ) {
-	if (!fundingSpaces) return;
+	if (!fundingSpaces) return [];
 	const { ageGroup, source, time } = opts;
 	let timeOpt = Array.isArray(time) ? time : [time];
 
