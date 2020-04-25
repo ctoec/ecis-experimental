@@ -137,7 +137,7 @@ describe('during an Enroll workflow', () => {
 			await infantToddler.click();
 
 			// Select CDC funding
-			const selectedFundingLabel = 'CDC - full time';
+			const selectedFundingLabel = 'Child day care';
 			const cdcFundingRadio = await findByLocator({
 				xpath: `//*/label[text()='${selectedFundingLabel}']`,
 			});
