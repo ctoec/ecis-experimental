@@ -78,9 +78,10 @@ export function isFunded(
 	}
 
 	if (time) {
-		// Compare pretty strings because that function handles array formatting
-		fundings = fundings.filter(
-			funding => prettyFundingTime(getFundingTimes(funding)) === prettyFundingTime(time)
+		fundings = fundings.filter(funding =>
+			funding && funding.fundingSpace
+				? isFundedForFundingSpace(enrollment, funding.fundingSpace.id)
+				: false
 		);
 	}
 

@@ -148,8 +148,7 @@ export default function AgeGroupSection({
 				currentRange: rosterDateRange,
 			})
 		).length;
-		const fundingTime = prettyFundingTime(getFundingSpaceTimes(space));
-		const fundingTimeCapitalized = fundingTime.charAt(0).toUpperCase() + fundingTime.slice(1);
+		const fundingTime = prettyFundingTime(getFundingSpaceTimes(space), true);
 		return {
 			symbol: legendDisplayDetails[space.source || ''].symbol,
 			hidden: site && enrolledForFunding === 0,
@@ -158,7 +157,7 @@ export default function AgeGroupSection({
 			text: (
 				<>
 					<span>
-						{fundingTimeCapitalized}
+						{fundingTime}
 						{' — '}
 					</span>
 					<span className="text-bold">

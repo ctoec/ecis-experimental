@@ -28,12 +28,10 @@ import UserContext from '../../../contexts/User/UserContext';
 import {
 	validatePermissions,
 	getIdForUser,
-	getFundingTime,
 	prettyFundingSource,
 	fundingSourceFromString,
 	getFundingSpacesFor,
 	prettyFundingSpaceTimeAllocations,
-	getFundingSpaceTime,
 	isFundedForFundingSpace,
 } from '../../../utils/models';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../../utils/types';
