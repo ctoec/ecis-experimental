@@ -71,8 +71,6 @@ export const ChoiceList: React.FC<ChoiceListProps> = ({
 	unselectedText,
 	children: expansionChildren,
 }) => {
-	// const [selectedItems, updateSelection] = useState(selected);
-	// const [otherInput, updateOtherInput] = useState<string>();
 	const [selectedItems, updateSelection] = useState(inputSelected);
 	const [otherInput, updateOtherInput] = useState<string | undefined>();
 
