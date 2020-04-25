@@ -137,7 +137,11 @@ export const annualHouseholdIncomeField = (index: number) => (
 	/>
 );
 
-export const determinationDateField = (index: number, forceBlur: boolean = false, defaultDate?: Moment) => (
+export const determinationDateField = (
+	index: number,
+	forceBlur: boolean = false,
+	defaultDate?: Moment
+) => (
 	<FormField<Enrollment, DateInputProps, Date | null, { initialLoad: boolean }>
 		field={data =>
 			data

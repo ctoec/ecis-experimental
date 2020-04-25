@@ -115,7 +115,7 @@ export function createFunding({
 				id: 0,
 				enrollmentId,
 				source: undefined,
-				fundingSpaceId: null
+				fundingSpaceId: null,
 			};
 		default:
 			throw new Error('Something impossible happened');
