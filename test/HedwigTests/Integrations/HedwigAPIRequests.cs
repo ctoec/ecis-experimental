@@ -55,6 +55,53 @@ namespace HedwigTests.Integrations
 			return MakeAuthenticatedRequest(HttpMethod.Get, user, uri);
 		}
 
+		public static HttpRequestMessage Organizations(
+			User user,
+			Organization organization,
+			string[] include = null
+		)
+		{
+			include = include ?? new string[] {
+				"sites",
+				"funding_spaces"
+			};
+
+			var uri = $"api/organizations/{organization.Id}";
+			uri = AddQueryParams(uri, "include[]", s => s, include);
+
+			return MakeAuthenticatedRequest(HttpMethod.Get, user, uri);
+		}
+
+		public static HttpRequestMessage OrganizationReports(
+			User user,
+			Organization organization
+		)
+		{
+			var uri = $"api/organizations/{organization.Id}/Reports";
+			return MakeAuthenticatedRequest(HttpMethod.Get, user, uri);
+		}
+
+		public static HttpRequestMessage OrganizationReport(
+			User user,
+			Organization organization,
+			Report report,
+			string[] include = null
+		)
+		{
+			include = include ?? new string[] {
+				"organizations",
+				"enrollments",
+				"sites",
+				"funding_spaces",
+				"child"
+			};
+
+			var uri = $"api/organizations/{organization.Id}/Reports/{report.Id}";
+			uri = AddQueryParams(uri, "include[]", s => s, include);
+
+			return MakeAuthenticatedRequest(HttpMethod.Get, user, uri);
+		}
+
 		public static HttpRequestMessage MakeAuthenticatedRequest(HttpMethod method, User user, string url)
 		{
 			var request = new HttpRequestMessage(method, url);
