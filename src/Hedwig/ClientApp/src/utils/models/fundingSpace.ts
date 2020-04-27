@@ -32,7 +32,7 @@ export function getFundingSpacesFor(
 	opts: {
 		ageGroup?: Age;
 		source?: FundingSource;
-		time?: FundingTime | FundingTime[] | undefined;
+		time?: FundingTime | FundingTime[];
 	}
 ) {
 	if (!fundingSpaces) return [];
