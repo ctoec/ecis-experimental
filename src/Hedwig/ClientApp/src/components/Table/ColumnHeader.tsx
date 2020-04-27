@@ -1,4 +1,5 @@
 import React from 'react';
+import cx from 'classnames';
 import { SortOrder, TableSort } from './Table';
 
 type ColumnHeaderProps = {
@@ -9,6 +10,7 @@ type ColumnHeaderProps = {
 	index: number;
 	setTableSort: (sort: TableSort) => any;
 	width?: string;
+	className?: string;
 };
 
 export class ColumnHeader extends React.Component<ColumnHeaderProps> {
@@ -35,11 +37,11 @@ export class ColumnHeader extends React.Component<ColumnHeaderProps> {
 	};
 
 	render() {
-		const { name, sortable, sorted, sortOrder, width } = this.props;
+		const { name, sortable, sorted, sortOrder, width, className } = this.props;
 		return (
 			<th
 				scope="col"
-				className={'oec-table__column-header' + (sortable ? ' oec-sortable' : '')}
+				className={cx('oec-table__column-header', { 'oec-sortable': sortable }, className)}
 				role="columnheader"
 				aria-sort={sortOrder || 'none'}
 				style={{ width: width }}
