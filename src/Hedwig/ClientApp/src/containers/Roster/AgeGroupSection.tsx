@@ -108,7 +108,9 @@ export default function AgeGroupSection({
 
 	const siteColumn = {
 		name: 'Site',
-		cell: ({ row }: { row: DeepNonUndefineable<Enrollment> }) => <td>{row.site.name}</td>,
+		cell: ({ row }: { row: DeepNonUndefineable<Enrollment> }) => (
+			<td className="ellipsis-wrap-text ellipsis-wrap-text--tight">{row.site.name}</td>
+		),
 		sort: (row: DeepNonUndefineable<Enrollment>) => (row.site.name || '').toLowerCase(),
 		width: '15%',
 	};
