@@ -197,13 +197,12 @@ export default function Withdrawal({
 			history.push(`/roster`);
 		}
 
-		// Otherwiwe handle the error
+		// Otherwise handle the error
 		setError(putRequestError);
 		if (putRequestError && !hasAlertedOnError) {
 			if (!isBlockingValidationError(putRequestError)) {
 				throw new Error(putRequestError.title || 'Unknown api error');
 			}
-			setAlerts([validationErrorAlert]);
 		}
 	}, [putRequestData, putRequestError]);
 
