@@ -8,6 +8,7 @@ import React, {
 } from 'react';
 import cx from 'classnames';
 import { Tag } from '..';
+import { CardExpansion } from './CardExpansion';
 
 type CardContextType = {
 	isExpanded: boolean;
@@ -83,7 +84,7 @@ export function Card({
 							throw new Error('Invalid card child element');
 						}
 						const type = typeof child.type === 'string' ? child.type : child.type.name;
-						if (type !== 'CardExpansion') {
+						if (type !== CardExpansion.name) {
 							return child;
 						}
 					})}
@@ -99,7 +100,7 @@ export function Card({
 							throw new Error('Invalid card child element');
 						}
 						const type = typeof child.type === 'string' ? child.type : child.type.name;
-						if (type === 'CardExpansion') {
+						if (type === CardExpansion.name) {
 							return child;
 						}
 					})}
