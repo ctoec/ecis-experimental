@@ -1,7 +1,9 @@
 using System;
 using System.Net.Http;
-using Hedwig.Models;
+using System.Text;
 using Microsoft.AspNetCore.WebUtilities;
+using Newtonsoft.Json;
+using Hedwig.Models;
 
 namespace HedwigTests.Integrations
 {
@@ -55,6 +57,67 @@ namespace HedwigTests.Integrations
 			return MakeAuthenticatedRequest(HttpMethod.Get, user, uri);
 		}
 
+		public static HttpRequestMessage Organizations(
+			User user,
+			Organization organization,
+			string[] include = null
+		)
+		{
+			include = include ?? new string[] {
+				"sites",
+				"funding_spaces"
+			};
+
+			var uri = $"api/organizations/{organization.Id}";
+			uri = AddQueryParams(uri, "include[]", s => s, include);
+
+			return MakeAuthenticatedRequest(HttpMethod.Get, user, uri);
+		}
+
+		public static HttpRequestMessage OrganizationReports(
+			User user,
+			Organization organization
+		)
+		{
+			var uri = $"api/organizations/{organization.Id}/Reports";
+			return MakeAuthenticatedRequest(HttpMethod.Get, user, uri);
+		}
+
+		public static HttpRequestMessage OrganizationReport(
+			User user,
+			Organization organization,
+			Report report,
+			string[] include = null
+		)
+		{
+			include = include ?? new string[] {
+				"organizations",
+				"enrollments",
+				"sites",
+				"funding_spaces",
+				"child"
+			};
+
+			var uri = $"api/organizations/{organization.Id}/Reports/{report.Id}";
+			uri = AddQueryParams(uri, "include[]", s => s, include);
+
+			return MakeAuthenticatedRequest(HttpMethod.Get, user, uri);
+		}
+
+		public static HttpRequestMessage EnrollmentPost(
+			User user,
+			Enrollment enrollment,
+			Organization organization,
+			Site site
+		)
+		{
+			var uri = $"api/organizations/{organization.Id}/sites/{site.Id}/Enrollments";
+
+			var request = MakeAuthenticatedRequest(HttpMethod.Post, user, uri);
+
+			return AddBodyParams(request, enrollment);
+		}
+
 		public static HttpRequestMessage MakeAuthenticatedRequest(HttpMethod method, User user, string url)
 		{
 			var request = new HttpRequestMessage(method, url);
@@ -69,6 +132,15 @@ namespace HedwigTests.Integrations
 				uri = QueryHelpers.AddQueryString(uri, key, action(item));
 			}
 			return uri;
+		}
+
+		public static HttpRequestMessage AddBodyParams<T>(HttpRequestMessage request, T body)
+		{
+			var paramBody = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
+
+			request.Content = paramBody;
+
+			return request;
 		}
 	}
 }

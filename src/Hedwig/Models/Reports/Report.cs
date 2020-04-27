@@ -17,6 +17,7 @@ namespace Hedwig.Models
 		public FundingSource Type { get; protected set; }
 
 		public int ReportingPeriodId { get; set; }
+		[JsonProperty("reportingPeriod")]
 		public ReportingPeriod ReportingPeriod { get; protected set; }
 
 		public DateTime? SubmittedAt { get; set; }
