@@ -62,6 +62,7 @@ export default function UtilizationTable(report: CdcReport) {
 		fundingTime: [FundingTime.Full, FundingTime.Part],
 	})
 		.map(({ ageGroup, fundingTime }) => {
+			// TODO: update funding space capacity method to account for splits
 			const capacity = getFundingSpaceCapacity(report.organization, {
 				source: FundingSource.CDC,
 				ageGroup,

@@ -6,8 +6,7 @@ import {
 	FundingTime,
 	FundingSource,
 } from '../../../generated';
-import { getFundingTimes, prettyFundingTime } from '..';
-import { isCurrentToRange } from '..';
+import { isCurrentToRange, getFundingSpaceTimes } from '..';
 import { DateRange } from '../../../components';
 import { validatePermissions, getIdForUser } from '..';
 import emptyGuid from '../../emptyGuid';
@@ -78,11 +77,15 @@ export function isFunded(
 	}
 
 	if (time) {
-		fundings = fundings.filter(funding =>
-			funding && funding.fundingSpace
-				? isFundedForFundingSpace(enrollment, funding.fundingSpace.id)
-				: false
-		);
+		// TODO: is there a way to combine this with getFundingSpacesFor?  It's very similar
+		let timeOpt = Array.isArray(time) ? time : [time];
+		fundings = fundings.filter(funding => {
+			const spaceTimes = getFundingSpaceTimes(funding.fundingSpace);
+			if (spaceTimes) {
+				return spaceTimes.sort().join() === timeOpt.sort().join();
+			}
+			return false;
+		});
 	}
 
 	if (currentRange) {
