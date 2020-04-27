@@ -51,13 +51,9 @@ import {
 	createFunding,
 	currentC4kCertificate,
 	ageFromString,
-	getSourcelessFunding,
-	prettyFundingTime,
 	prettyAge,
 	reportingPeriodFormatter,
-	isFunded,
 	currentReportingPeriod,
-	getFundingSpaceCapacity,
 } from '../../../utils/models';
 import { FormReducer, formReducer, updateData, toFormString } from '../../../utils/forms/form';
 import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
@@ -351,7 +347,7 @@ const EnrollmentFunding: Section = {
 				getFundingSpacesFor(fundingSpaces, {
 					ageGroup: _enrollment.ageGroup,
 					source: fundingSource,
-				}) || [];
+				});
 
 			setFundingSpaceOpts(
 				matchingFundingSpaces.map(fundingSpace => ({
