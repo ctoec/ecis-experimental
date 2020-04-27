@@ -1,11 +1,11 @@
 using System;
-using System.IO;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
+using Hedwig.Configuration;
 using Hedwig.Data;
 
 namespace Hedwig
@@ -17,7 +17,7 @@ namespace Hedwig
 		public static void Main(string[] args)
 		{
 			var host = CreateHostBuilder(args).Build();
-			var environment = GetEnvironmentNameFromAppSettings();
+			var environment = EnvironmentConfiguration.GetEnvironmentVariableFromAppSettings("EnvironmentName");
 
 			if (environment != Environments.Production)
 			{
@@ -45,7 +45,7 @@ namespace Hedwig
 
 		public static IWebHostBuilder CreateHostBuilder(string[] args)
 		{
-			var environment = GetEnvironmentNameFromAppSettings();
+			var environment = EnvironmentConfiguration.GetEnvironmentVariableFromAppSettings("EnvironmentName");
 			return WebHost.CreateDefaultBuilder(args)
 			.ConfigureLogging((context, logging) =>
 			{
@@ -65,21 +65,6 @@ namespace Hedwig
 			.UseSentry()
 			.UseEnvironment(environment)
 			.UseStartup<Startup>();
-		}
-
-		public static IConfigurationRoot GetIConfigurationRoot()
-		{
-			return new ConfigurationBuilder()
-				.SetBasePath(Directory.GetCurrentDirectory())
-				.AddJsonFile("appsettings.json", optional: true)
-				.AddEnvironmentVariables()
-				.Build();
-		}
-
-		private static string GetEnvironmentNameFromAppSettings(string defaultValue = null)
-		{
-			return Program.GetIConfigurationRoot()
-				.GetValue<string>("EnvironmentName", defaultValue ?? "Development");
 		}
 	}
 }

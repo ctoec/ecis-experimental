@@ -575,7 +575,8 @@ namespace Hedwig.Migrations
                     b.HasOne("Hedwig.Models.Child", null)
                         .WithMany("C4KCertificates")
                         .HasForeignKey("ChildId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Hedwig.Models.Child", b =>

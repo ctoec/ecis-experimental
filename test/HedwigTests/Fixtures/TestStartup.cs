@@ -1,9 +1,8 @@
-using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
 using Hedwig;
+using Hedwig.Configuration;
 using Hedwig.Utilities;
 
 namespace HedwigTests.Fixtures
