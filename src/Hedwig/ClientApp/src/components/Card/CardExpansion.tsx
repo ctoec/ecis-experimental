@@ -1,5 +1,4 @@
-import React, { Children, useState, isValidElement } from 'react';
-import cx from 'classnames';
+import React from 'react';
 
 type CardExpansionProps = {};
 
