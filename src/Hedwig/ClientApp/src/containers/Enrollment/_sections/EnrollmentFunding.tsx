@@ -386,19 +386,19 @@ const EnrollmentFunding: Section = {
 		// update enrollment funding
 		useEffect(() => {
 			let updatedFundings: Funding[] = [...fundings]
-					// filter out current CDC funding (will either be deleted, or updated)
-					.filter(funding => funding.id !== (currentCdcFunding && currentCdcFunding.id));
-				// I don't think we need this commented out code
-				// It could possibily delete old information from out underneath the user
-				// Flagging here so it's easy to see during PR review but will delete/uncomment as decided
-				// // filter out other existing fundings that reference a no-longer-valid fundingspace
-				// .filter(
-				// 	funding =>
-				// 		!!(
-				// 			funding.fundingSpaceId &&
-				// 			!fundingSpaceOpts.some(opt => opt.value === `${funding.fundingSpaceId}`)
-				// 		)
-				// )
+				// filter out current CDC funding (will either be deleted, or updated)
+				.filter(funding => funding.id !== (currentCdcFunding && currentCdcFunding.id));
+			// I don't think we need this commented out code
+			// It could possibily delete old information from out underneath the user
+			// Flagging here so it's easy to see during PR review but will delete/uncomment as decided
+			// // filter out other existing fundings that reference a no-longer-valid fundingspace
+			// .filter(
+			// 	funding =>
+			// 		!!(
+			// 			funding.fundingSpaceId &&
+			// 			!fundingSpaceOpts.some(opt => opt.value === `${funding.fundingSpaceId}`)
+			// 		)
+			// )
 
 			switch (fundingSource) {
 				case FundingSource.CDC:
