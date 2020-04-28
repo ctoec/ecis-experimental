@@ -101,8 +101,6 @@ jobs:
   - task: DockerCompose@0
     inputs:
       dockerComposeFile: '$(Agent.BuildDirectory)/ecis-experimental/docker-compose.e2e.test.yaml'
-      action: 'Run a Docker Compose command'
-      # dockerComposeCommand: 'exec -T client yarn test:e2e'
       dockerComposeCommand: 'up --abort-on-container-exit client'
     continueOnError: true
 

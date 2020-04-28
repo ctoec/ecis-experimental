@@ -23,6 +23,7 @@ services:
       BROWSERSTACK_ACCESS_KEY: ${BROWSERSTACK_ACCESS_KEY}
     depends_on:
       - client-for-selenium
+      - browser-stack-local-tunnel
   winged-keys-db:
     image: mcr.microsoft.com/mssql/server
     environment:
