@@ -9,7 +9,7 @@ import { FamilyDetermination } from '../../../../generated';
 import { propertyDateSorter } from '../../../../utils/dateSorter';
 
 const Summary: React.FC<SectionProps> = ({ enrollment }) => {
-	if (!enrollment || !enrollment.child || !enrollment.child.family) return <></>;
+	if (!enrollment || !enrollment.child) return <></>;
 	const determinations =
 		idx(enrollment, _ => _.child.family.determinations as FamilyDetermination[]) || [];
 	const sortedDeterminations = [...determinations].sort((a, b) =>

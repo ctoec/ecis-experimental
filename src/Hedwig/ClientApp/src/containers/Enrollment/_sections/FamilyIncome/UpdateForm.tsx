@@ -6,7 +6,7 @@ import {
 	isBlockingValidationError,
 } from '../../../../utils/validations';
 import { DeepNonUndefineable } from '../../../../utils/types';
-import { Enrollment, FamilyDetermination } from '../../../../generated';
+import { Enrollment, FamilyDetermination, Family } from '../../../../generated';
 import idx from 'idx';
 import { FieldSet, Button, Card, InlineIcon } from '../../../../components';
 import currencyFormatter from '../../../../utils/currencyFormatter';
@@ -27,6 +27,8 @@ import { validationErrorAlert } from '../../../../utils/stringFormatters/alertTe
 import ReactDOM from 'react-dom';
 import { propertyDateSorter } from '../../../../utils/dateSorter';
 import moment from 'moment';
+import UserContext from '../../../../contexts/User/UserContext';
+import { createEmptyFamily, getIdForUser } from '../../../../utils/models';
 
 const UpdateForm: React.FC<SectionProps> = ({
 	enrollment,
@@ -35,7 +37,7 @@ const UpdateForm: React.FC<SectionProps> = ({
 	success,
 	loading,
 }) => {
-	if (!enrollment || !enrollment.child || !enrollment.child.family) {
+	if (!enrollment || !enrollment.child) {
 		throw new Error('FamilyIncome rendered without enrollment.child.family');
 	}
 
@@ -75,7 +77,20 @@ const UpdateForm: React.FC<SectionProps> = ({
 		}
 	}, [addNewDetermination]);
 
-	const child = enrollment.child;
+	const { user } = useContext(UserContext);
+
+	let _enrollment = { ...enrollment };
+	if (!enrollment.child.family) {
+		_enrollment.child = {
+			..._enrollment.child,
+			family: createEmptyFamily(
+				getIdForUser(user, 'org'),
+				_enrollment.child.familyId || 0
+			) as DeepNonUndefineable<Family>,
+		};
+	}
+
+	const child = _enrollment.child;
 	const determinations: DeepNonUndefineable<FamilyDetermination[]> =
 		idx(child, _ => _.family.determinations as DeepNonUndefineable<FamilyDetermination[]>) || [];
 	const sortedDeterminations = [...determinations].sort((a, b) =>
@@ -102,7 +117,7 @@ const UpdateForm: React.FC<SectionProps> = ({
 			render={({ containingData: enrollment, additionalInformation }) => {
 				const originalDetermination = sortedDeterminations[sortedIndex];
 				const determination =
-					idx(enrollment, _ => _.child.family.determinations[index]) || undefined;
+					idx(_enrollment, _ => _.child.family.determinations[index]) || undefined;
 				const determinationDate = determination && determination.determinationDate;
 				const notDisclosed = determination && determination.notDisclosed;
 				const { initialLoad } = additionalInformation;
@@ -212,7 +227,7 @@ const UpdateForm: React.FC<SectionProps> = ({
 			noValidate
 			autoComplete="off"
 			className="FamilyIncomeForm"
-			data={enrollment}
+			data={_enrollment}
 			onSave={enrollment => {
 				updateEnrollment(enrollment as DeepNonUndefineable<Enrollment>);
 			}}

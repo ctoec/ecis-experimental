@@ -16,9 +16,10 @@ import {
 	Enrollment,
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
 	FamilyDetermination,
+	Family,
 } from '../../../../generated';
 import idx from 'idx';
-import { validatePermissions, getIdForUser } from '../../../../utils/models';
+import { validatePermissions, getIdForUser, createEmptyFamily } from '../../../../utils/models';
 import { FieldSet, Alert } from '../../../../components';
 import Form from '../../../../components/Form/Form';
 import {
@@ -41,8 +42,8 @@ const EntryForm: React.FC<SectionProps> = ({
 	visitSection,
 	visitedSections,
 }) => {
-	if (!enrollment || !enrollment.child || !enrollment.child.family) {
-		throw new Error('FamilyIncome rendered without enrollment.child.family');
+	if (!enrollment || !enrollment.child) {
+		throw new Error('FamilyIncome rendered without enrollment.child');
 	}
 
 	// set up form state
@@ -64,7 +65,18 @@ const EntryForm: React.FC<SectionProps> = ({
 
 	const { user } = useContext(UserContext);
 
-	const child = enrollment.child;
+	let _enrollment = { ...enrollment };
+	if (!enrollment.child.family) {
+		_enrollment.child = {
+			..._enrollment.child,
+			family: createEmptyFamily(
+				getIdForUser(user, 'org'),
+				_enrollment.child.familyId || 0
+			) as DeepNonUndefineable<Family>,
+		};
+	}
+
+	const child = _enrollment.child;
 	const determinations = idx(child, _ => _.family.determinations as FamilyDetermination[]) || [];
 	const sortedDeterminations = [...determinations].sort((a, b) =>
 		propertyDateSorter(a, b, d => d.determinationDate, true)
@@ -73,10 +85,10 @@ const EntryForm: React.FC<SectionProps> = ({
 
 	const [attemptingSave, setAttemptingSave] = useState(false);
 	const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
-		id: enrollment.id || 0,
+		id: _enrollment.id || 0,
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		orgId: getIdForUser(user, 'org'),
-		enrollment: enrollment,
+		enrollment: _enrollment,
 	};
 	const { error: saveError, data: saveData } = useApi<Enrollment>(
 		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(defaultParams),
@@ -97,7 +109,7 @@ const EntryForm: React.FC<SectionProps> = ({
 
 	// To skip over family income section when "Lives with foster family" is selected
 	if (child.foster && successCallback) {
-		successCallback(enrollment);
+		successCallback(_enrollment);
 		return <div className="FamilyIncome foster"></div>;
 	}
 
@@ -106,7 +118,7 @@ const EntryForm: React.FC<SectionProps> = ({
 			noValidate
 			autoComplete="off"
 			className="FamilyIncomeForm"
-			data={enrollment}
+			data={_enrollment}
 			onSave={enrollment => {
 				updateEnrollment(enrollment as DeepNonUndefineable<Enrollment>);
 				setAttemptingSave(true);
@@ -178,7 +190,6 @@ const EntryForm: React.FC<SectionProps> = ({
 				}}
 			/>
 			<div className="usa-form">
-				{/* <FormSubmitButton text={attemptingSave ? 'Saving...' : 'Save'} disabled={attemptingSave} /> */}
 				<FormSubmitButton text={loading ? 'Saving...' : 'Save'} disabled={loading} />
 			</div>
 		</Form>
