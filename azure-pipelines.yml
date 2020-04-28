@@ -108,18 +108,18 @@ jobs:
     inputs:
       BrowserStackServiceEndPoint: 'BrowserStack Connection (via Cailyn''s Credentials)'
       browserstackLocal: true
-      bsLocalOptions: |
-        {
-          "forceLocal": "true",
-          "proxyHost": "backend-for-selenium",
-          "proxyPort": "5001"
-        }
+      # bsLocalOptions: |
+      #   {
+      #     "forceLocal": "true",
+      #     "proxyHost": "backend-for-selenium",
+      #     "proxyPort": "5001"
+      #   }
 
   - task: DockerCompose@0
     inputs:
       dockerComposeFile: '$(Agent.BuildDirectory)/ecis-experimental/docker-compose.e2e.test.yaml'
       action: 'Run a Docker Compose command'
-      dockerComposeCommand: 'exec client yarn test:e2e'
+      dockerComposeCommand: 'exec -T client yarn test:e2e'
     continueOnError: true
 
   - task: BrowserStackStopLocal@0
