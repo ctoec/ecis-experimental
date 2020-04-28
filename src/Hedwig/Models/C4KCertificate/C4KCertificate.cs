@@ -14,6 +14,8 @@ namespace Hedwig.Models
 		[Required]
 		public Guid ChildId { get; set; }
 
+		public Child Child { get; set; }
+
 		public DateTime? StartDate { get; set; }
 
 		public DateTime? EndDate { get; set; }

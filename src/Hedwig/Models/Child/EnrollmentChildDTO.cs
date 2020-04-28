@@ -28,7 +28,7 @@ namespace Hedwig.Models
 		public EnrollmentFamilyDTO Family { get; set; }
 		public int OrganizationId { get; set; }
 		public int? C4KFamilyCaseNumber { get; set; }
-		public List<C4KCertificate> C4KCertificates { get; set; }
+		public List<C4KCertificateDTO> C4KCertificates { get; set; }
 		public List<ValidationError> ValidationErrors { get; set; }
 	}
 }

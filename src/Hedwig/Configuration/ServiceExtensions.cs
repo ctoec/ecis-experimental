@@ -55,6 +55,7 @@ namespace Hedwig.Configuration
 			services.AddAutoMapper(
 				typeof(EnrollmentProfile),
 				typeof(ChildProfile),
+				typeof(C4KCertificateProfile),
 				typeof(FundingProfile),
 				typeof(FundingSpaceProfile),
 				typeof(OrganizationProfile),
