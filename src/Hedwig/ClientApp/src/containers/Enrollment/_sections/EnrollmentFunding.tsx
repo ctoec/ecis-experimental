@@ -62,6 +62,7 @@ import displayErrorOrWarning from '../../../utils/validations/displayErrorOrWarn
 import useApi, { ApiError } from '../../../hooks/useApi';
 import { dateSorter, propertyDateSorter } from '../../../utils/dateSorter';
 import { propertyBetweenDates, propertyBeforeDate } from '../../../utils/dateFilter';
+import { REQUIRED_FOR_ENROLLMENT, REQUIRED_FOR_OEC_REPORTING } from '../../../utils/validations/messageStrings';
 
 type UtilizationRate = {
 	capacity: number;
@@ -565,7 +566,7 @@ const EnrollmentFunding: Section = {
 								warningOptions: {
 									object: enrollment,
 									field: 'entry',
-									message: 'This information is required for OEC reporting',
+									message: REQUIRED_FOR_OEC_REPORTING
 								},
 							})
 						)}
@@ -601,7 +602,7 @@ const EnrollmentFunding: Section = {
 								warningOptions: {
 									object: enrollment,
 									fields: ['ageGroup'],
-									message: 'This field is required for OEC reporting',
+									message: REQUIRED_FOR_OEC_REPORTING
 								},
 							})
 						)}
@@ -649,7 +650,7 @@ const EnrollmentFunding: Section = {
 													errorDisplays: [
 														{
 															field: 'fundings.fundingSpaceId',
-															message: 'This information is required for enrollment',
+															message: REQUIRED_FOR_ENROLLMENT,
 														},
 														{ field: 'fundings.fundingSpace' }, // To  display fundingSpace validation error message
 													],
@@ -690,7 +691,7 @@ const EnrollmentFunding: Section = {
 											errorDisplays: [
 												{
 													field: 'fundings.firstReportingPeriodId',
-													message: 'This information is required for enrollment',
+													message: REQUIRED_FOR_ENROLLMENT,
 												},
 												{ field: 'fundings' }, // To display enrollment funding validation error message
 											],
@@ -742,7 +743,7 @@ const EnrollmentFunding: Section = {
 										warningOptions: {
 											object: child ? child : null,
 											field: 'c4KFamilyCaseNumber',
-											message: 'This information is required for OEC reporting',
+											message: REQUIRED_FOR_OEC_REPORTING
 										},
 									})
 								)}
@@ -764,7 +765,7 @@ const EnrollmentFunding: Section = {
 										warningOptions: {
 											object: c4kFunding ? c4kFunding : null,
 											field: 'startDate',
-											message: 'This information is required for OEC reporting',
+											message: REQUIRED_FOR_OEC_REPORTING
 										},
 									})
 								)}

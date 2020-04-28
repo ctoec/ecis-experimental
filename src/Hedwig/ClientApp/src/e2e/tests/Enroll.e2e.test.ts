@@ -4,6 +4,7 @@ import { DriverHelper } from '../DriverHelper';
 import { clientHost } from '../config';
 import login from '../utilities/login';
 import { beginEnroll, enterChildInfo } from '../utilities/enroll';
+import { REQUIRED_FOR_ENROLLMENT } from '../../utils/validations/messageStrings';
 
 // Set time out to 60 seconds
 jest.setTimeout(60 * 1000);
@@ -29,7 +30,7 @@ describe('during an Enroll workflow', () => {
 			const saveBtn = await findByText('Save');
 			await saveBtn.click();
 
-			const alerts = await queryAllByText('This information is required for enrollment');
+			const alerts = await queryAllByText(REQUIRED_FOR_ENROLLMENT);
 			expect(alerts.length).not.toBeLessThan(1);
 			expect(alerts[0]).not.toBeNull();
 		} finally {
@@ -48,7 +49,7 @@ describe('during an Enroll workflow', () => {
 
 			const { queryAllByText } = render(root);
 
-			const alerts = await queryAllByText('This information is required for enrollment');
+			const alerts = await queryAllByText(REQUIRED_FOR_ENROLLMENT);
 			expect(alerts.length).toBe(0);
 			const currentUrl = await driver.getCurrentUrl();
 			expect(currentUrl).toMatch(/family-information/);

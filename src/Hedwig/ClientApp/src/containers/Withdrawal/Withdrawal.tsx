@@ -29,8 +29,6 @@ import {
 	useFocusFirstError,
 	hasValidationErrors,
 	isBlockingValidationError,
-	serverErrorForField,
-	clientErrorForField,
 } from '../../utils/validations';
 import AlertContext from '../../contexts/Alert/AlertContext';
 import {
@@ -44,6 +42,7 @@ import { processBlockingValidationErrors } from '../../utils/validations/process
 import dateFormatter from '../../utils/dateFormatter';
 import { generateFundingTypeTag } from '../../utils/fundingType';
 import displayErrorOrWarning from '../../utils/validations/displayErrorOrWarning';
+import { REQUIRED_FOR_WITHDRAWAL } from '../../utils/validations/messageStrings';
 
 type WithdrawalProps = {
 	history: History;
@@ -284,7 +283,7 @@ export default function Withdrawal({
 												{
 													fieldId: 'exit',
 													errorCondition: attemptedSave && !enrollmentEndDate,
-													message: 'This information is required for withdrawal'
+													message: REQUIRED_FOR_WITHDRAWAL,
 												},
 												{
 													fieldId: 'exit',
@@ -315,7 +314,7 @@ export default function Withdrawal({
 								serverErrorOptions: {
 									hasAlertedOnError,
 									setHasAlertedOnError,
-									errorDisplays: [{ field: 'exitReason', message: 'This information is required for withdrawal' }]
+									errorDisplays: [{ field: 'exitReason', message: REQUIRED_FOR_WITHDRAWAL }]
 								}
 							}
 						)}
@@ -340,7 +339,7 @@ export default function Withdrawal({
 										hasAlertedOnError,
 										setHasAlertedOnError,
 										errorDisplays: [
-											{field: 'fundings', message: 'This information is requierd for withdrawal'},
+											{field: 'fundings', message: REQUIRED_FOR_WITHDRAWAL },
 											{field: 'fundings.lastReportingPeriod'}
 										]
 									}

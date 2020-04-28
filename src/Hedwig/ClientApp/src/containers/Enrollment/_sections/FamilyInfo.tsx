@@ -145,7 +145,7 @@ const FamilyInfo: Section = {
 							'family-address',
 							['addressLine1', 'state', 'town', 'zip'],
 							idx(enrollment, _ => _.child.family) || null,
-							'This information is required for OEC reporting'
+							REQUIRED_FOR_REPORTING	
 						)
 					)}
 					className="display-inline-block"

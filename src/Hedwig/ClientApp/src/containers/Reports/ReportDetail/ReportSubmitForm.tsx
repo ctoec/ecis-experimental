@@ -25,6 +25,7 @@ import pluralize from 'pluralize';
 import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
 import { FormReducer, formReducer, updateData } from '../../../utils/forms/form';
 import dateFormatter from '../../../utils/dateFormatter';
+import { REQUIRED_FOR_REPORT } from '../../../utils/validations/messageStrings';
 
 export type ReportSubmitFormProps = {
 	report: DeepNonUndefineable<CdcReport>;
@@ -187,7 +188,7 @@ export default function ReportSubmitForm({
 								setHasAlertedOnError,
 								'report.c4krevenue',
 								error,
-								'This information is required for the report'
+								REQUIRED_FOR_REPORT
 							)}
 							className="flex-fill"
 						/>
@@ -225,7 +226,7 @@ export default function ReportSubmitForm({
 								setHasAlertedOnError,
 								'familyfeesrevenue',
 								error,
-								'This information is required'
+								REQUIRED_FOR_REPORT
 							)}
 							className="flex-fill"
 						/>
