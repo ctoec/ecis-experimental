@@ -4,5 +4,5 @@ if [ -z "$nm" ]; then
     yarn install
 fi
 echo "starting client..."
-yarn test:e2e
+yarn test:e2e:browserstack
 exit 0
