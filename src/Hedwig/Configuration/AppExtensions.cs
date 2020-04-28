@@ -21,7 +21,7 @@ namespace Hedwig.Configuration
 					{
 						logger.LogInformation("Attempting to apply migrations");
 						context.Database.Migrate();
-						logger.LogInformation("Succesffully applied migrations");
+						logger.LogInformation("Succesfully applied migrations");
 					}
 					catch (Exception ex)
 					{
