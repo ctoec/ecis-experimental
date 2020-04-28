@@ -125,6 +125,8 @@ jobs:
 
   - task: BrowserStackStopLocal@0
 
+  - task: BrowserStackResults@0
+
   - task: DockerCompose@0
     inputs:
       dockerComposeFile: '$(Agent.BuildDirectory)/ecis-experimental/docker-compose.e2e.test.yaml'
