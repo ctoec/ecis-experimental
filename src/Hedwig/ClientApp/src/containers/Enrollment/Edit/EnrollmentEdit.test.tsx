@@ -127,6 +127,7 @@ describe('EnrollmentEdit', () => {
 					/>
 				</TestProvider>
 			);
+
 			const reportingPeriodSelect = getByLabelText('First reporting period');
 			const reportingPeriodOptions = getAllByRole(reportingPeriodSelect, 'option');
 			expect(reportingPeriodOptions.length).toBe(cdcReportingPeriods.length);

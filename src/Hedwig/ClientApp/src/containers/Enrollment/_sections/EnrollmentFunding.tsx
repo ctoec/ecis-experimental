@@ -313,6 +313,7 @@ const EnrollmentFunding: Section = {
 		const [fundingSource, updateFundingSource] = useState<FundingSource | undefined>(
 			currentCdcFunding ? FundingSource.CDC : undefined
 		);
+
 		const [fundingSpace, updateFundingSpace] = useState<FundingSpace | undefined>(
 			currentCdcFunding && currentCdcFunding.fundingSpace
 				? currentCdcFunding.fundingSpace
@@ -322,6 +323,7 @@ const EnrollmentFunding: Section = {
 		const fundingSpaces = idx(site, _ => _.organization.fundingSpaces) as DeepNonUndefineable<
 			FundingSpace[]
 		>;
+
 		//#region Funding Source Options
 		useEffect(() => {
 			var privatePayOpt = {
@@ -355,6 +357,11 @@ const EnrollmentFunding: Section = {
 				}, []);
 
 			setFundingSourceOpts([privatePayOpt, ...newFundingSourceOpts]);
+			// If there are no funding source options,
+			// forcibly reset the funding source to private pay
+			if (newFundingSourceOpts.length === 0) {
+				updateFundingSource(undefined);
+			}
 		}, [site, _enrollment.ageGroup, enrollment, currentCdcFunding]);
 		//#endregion
 
@@ -377,6 +384,8 @@ const EnrollmentFunding: Section = {
 			// If there is only one funding space option, update selected fundingSpaceId accordingly
 			if (matchingFundingSpaces.length == 1) {
 				updateFundingSpace(matchingFundingSpaces[0]);
+				// TODO: Remove this client-side check and allow users to submit with previously entered
+				// invalid data and process the validation error
 			} else if (fundingSpace && !matchingFundingSpaces.some(fs => fs.id == fundingSpace.id)) {
 				updateFundingSpace(undefined);
 			}
@@ -387,18 +396,16 @@ const EnrollmentFunding: Section = {
 		useEffect(() => {
 			let updatedFundings: Funding[] = [...fundings]
 				// filter out current CDC funding (will either be deleted, or updated)
-				.filter(funding => funding.id !== (currentCdcFunding && currentCdcFunding.id));
-			// I don't think we need this commented out code
-			// It could possibily delete old information from out underneath the user
-			// Flagging here so it's easy to see during PR review but will delete/uncomment as decided
-			// // filter out other existing fundings that reference a no-longer-valid fundingspace
-			// .filter(
-			// 	funding =>
-			// 		!!(
-			// 			funding.fundingSpaceId &&
-			// 			!fundingSpaceOpts.some(opt => opt.value === `${funding.fundingSpaceId}`)
-			// 		)
-			// )
+				.filter(funding => funding.id !== (currentCdcFunding && currentCdcFunding.id))
+				// and filter out any fundings associated with funding spaces that are
+				// no longer valid for this enrollment
+				.filter(
+					funding =>
+						!!(
+							funding.fundingSpaceId &&
+							!fundingSpaceOpts.some(opt => opt.value === `${funding.fundingSpaceId}`)
+						)
+				);
 
 			switch (fundingSource) {
 				case FundingSource.CDC:
@@ -437,6 +444,7 @@ const EnrollmentFunding: Section = {
 			cdcReportingPeriod,
 			updateFunding,
 			createFunding,
+			_enrollment.ageGroup,
 		]);
 
 		// *** C4K ***
@@ -600,6 +608,8 @@ const EnrollmentFunding: Section = {
 					/>
 					<h2>Funding</h2>
 					<ChoiceList
+						// Hack to trigger rerender on selected change
+						key={`fundingType-${fundingSource || 'privatePay'}`}
 						type="radio"
 						legend="Funding type"
 						id="fundingType"
