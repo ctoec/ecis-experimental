@@ -40,7 +40,7 @@ namespace Hedwig
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
-			var isAutomaticallyApplyMigrations = EnvironmentConfiguration.GetEnvironmentVariableFromAppSettings("AutomaticallyApplyMigrations") == "true";
+			var isAutomaticallyApplyMigrations = EnvironmentConfiguration.GetEnvironmentVariableFromAppSettings("Database:AutomaticallyApplyMigrations") == "true";
 			if (isAutomaticallyApplyMigrations)
 			{
 				app.UpdateDatabase();
