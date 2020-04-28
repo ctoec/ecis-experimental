@@ -1,5 +1,6 @@
 import { Family } from '../../generated';
 import { InlineIcon } from '../../components';
+import { DeepNonUndefineable } from '../types';
 
 export function createEmptyFamily(orgId: number, familyId = 0) {
 	return {

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Logging;
+using Hedwig.Configuration;
 using Hedwig.Utilities;
 
 namespace Hedwig
@@ -39,6 +40,12 @@ namespace Hedwig
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
+			var isAutomaticallyApplyMigrations = EnvironmentConfiguration.GetEnvironmentVariableFromAppSettings("AutomaticallyApplyMigrations") == "true";
+			if (isAutomaticallyApplyMigrations)
+			{
+				app.UpdateDatabase();
+			}
+
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();

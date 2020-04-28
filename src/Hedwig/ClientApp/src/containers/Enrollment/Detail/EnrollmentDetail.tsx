@@ -70,6 +70,8 @@ export default function EnrollmentDetail({
 
 	const child = enrollment.child;
 
+	const enrollmentHistoryProps = getEnrollmentHistoryProps(enrollment);
+
 	return (
 		<CommonContainer
 			directionalLinkProps={{
@@ -117,13 +119,15 @@ export default function EnrollmentDetail({
 						</section>
 					);
 				})}
-				<div className="padding-top-2">
-					<h2>Enrollment summary</h2>
-					<ProcessList
-						processStepProps={getEnrollmentHistoryProps(enrollment)}
-						additionalClassName="margin-left-1"
-					/>
-				</div>
+				{enrollmentHistoryProps.length > 0 && (
+					<div className="padding-top-2">
+						<h2>Enrollment summary</h2>
+						<ProcessList
+							processStepProps={enrollmentHistoryProps}
+							additionalClassName="margin-left-1"
+						/>
+					</div>
+				)}
 			</div>
 		</CommonContainer>
 	);

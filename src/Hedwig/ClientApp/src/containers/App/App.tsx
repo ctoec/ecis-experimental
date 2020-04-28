@@ -31,6 +31,7 @@ const App: React.FC = () => {
 		api => api.apiOrganizationsOrgIdReportsGet(params),
 		{
 			skip: !user,
+			deps: [cacheInvalidator],
 		}
 	);
 

@@ -18,8 +18,7 @@ using Hedwig.Security;
 using Hedwig.Validations;
 using Hedwig.Validations.Rules;
 
-
-namespace Hedwig
+namespace Hedwig.Configuration
 {
 	public static class ServiceExtensions
 	{
@@ -29,6 +28,7 @@ namespace Hedwig
 				options.UseSqlServer(connectionString)
 			);
 		}
+
 		public static void ConfigureCors(this IServiceCollection services)
 		{
 			services.AddCors(options =>
@@ -55,6 +55,7 @@ namespace Hedwig
 			services.AddAutoMapper(
 				typeof(EnrollmentProfile),
 				typeof(ChildProfile),
+				typeof(C4KCertificateProfile),
 				typeof(FundingProfile),
 				typeof(FundingSpaceProfile),
 				typeof(OrganizationProfile),

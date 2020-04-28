@@ -1,14 +1,12 @@
 using System;
-using System.Security.Principal;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Hedwig.Data;
-using Moq;
-using Hedwig;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Moq;
+using Hedwig.Configuration;
+using Hedwig.Data;
+
 
 namespace HedwigTests.Fixtures
 {
@@ -21,7 +19,7 @@ namespace HedwigTests.Fixtures
 
 		public TestHedwigContextProvider(bool callBase = true)
 		{
-			var configuration = Program.GetIConfigurationRoot();
+			var configuration = EnvironmentConfiguration.GetIConfigurationRoot();
 			var optionsBuilder = new DbContextOptionsBuilder<HedwigContext>()
 				.UseSqlServer(configuration.GetConnectionString("HEDWIG"))
 				.EnableSensitiveDataLogging();

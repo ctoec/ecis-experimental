@@ -1,3 +1,4 @@
+import idx from 'idx';
 import { ProcessStepProps } from '../../../components/ProcessList/ProcessStep';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../types';
 import {
@@ -38,9 +39,9 @@ export function getEnrollmentHistoryProps(
 
 	var processStepProps: SortableProcessStepProps[] = [];
 
-	allEnrollments.forEach((enrollment, idx) => {
+	allEnrollments.forEach((enrollment, index) => {
 		processStepProps = processStepProps.concat(
-			enrollmentStepProps(enrollment, idx, allEnrollments.length)
+			enrollmentStepProps(enrollment, index, allEnrollments.length)
 		);
 
 		// funding steps
@@ -49,10 +50,14 @@ export function getEnrollmentHistoryProps(
 		);
 
 		// only add determination steps and C4K funding steps for the current enrollment (others will be dupes)
-		if (idx === 0) {
+		if (index === 0) {
 			// determination steps
 			processStepProps = processStepProps.concat(
-				determinationStepProps(enrollment.child.family.determinations)
+				determinationStepProps(
+					(idx(enrollment, _ => _.child.family.determinations) as DeepNonUndefineableArray<
+						FamilyDetermination
+					>) || null
+				)
 			);
 
 			// C4K certification steps

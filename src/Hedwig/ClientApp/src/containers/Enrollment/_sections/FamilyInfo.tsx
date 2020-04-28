@@ -14,6 +14,7 @@ import {
 	warningForField,
 	initialLoadErrorGuard,
 	useFocusFirstError,
+	processValidationError,
 } from '../../../utils/validations';
 import { addressFormatter, homelessnessText, fosterText } from '../../../utils/models';
 import { isBlockingValidationError } from '../../../utils/validations/isBlockingValidationError';
@@ -27,7 +28,8 @@ const FamilyInfo: Section = {
 	key: 'family-information',
 	name: 'Family information',
 	status: ({ enrollment }) =>
-		sectionHasValidationErrors([idx(enrollment, _ => _.child.family) || null])
+		sectionHasValidationErrors([idx(enrollment, _ => _.child.family) || null]) ||
+		processValidationError('familyid', idx(enrollment, _ => _.child.validationErrors) || null)
 			? 'incomplete'
 			: 'complete',
 
@@ -40,7 +42,7 @@ const FamilyInfo: Section = {
 		const homelessness = family && family.homelessness;
 		return (
 			<div className="FamilyInfoSummary">
-				{family && (
+				{family ? (
 					<>
 						<p>
 							Address: {address} {missingInformation}
@@ -48,6 +50,8 @@ const FamilyInfo: Section = {
 						{foster && <p>{fosterText()}</p>}
 						{homelessness && <p>{homelessnessText()}</p>}
 					</>
+				) : (
+					<p>No family information on record.</p>
 				)}
 			</div>
 		);
