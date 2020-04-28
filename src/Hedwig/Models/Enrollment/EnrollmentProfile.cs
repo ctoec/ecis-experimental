@@ -17,7 +17,7 @@ namespace Hedwig.Models
 				)
 				.ForMember(
 					enrollment => enrollment.Exit,
-					opt => opt.MapFrom(enrollment => enrollment.Exit.HasValue ? enrollment.Entry.Value.Date : null as DateTime?)
+					opt => opt.MapFrom(enrollment => enrollment.Exit.HasValue ? enrollment.Exit.Value.Date : null as DateTime?)
 				)
 				.ReverseMap();
 
