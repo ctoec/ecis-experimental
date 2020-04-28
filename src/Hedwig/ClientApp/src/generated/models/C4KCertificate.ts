@@ -14,6 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
+	Child,
+	ChildFromJSON,
+	ChildFromJSONTyped,
+	ChildToJSON,
 	ValidationError,
 	ValidationErrorFromJSON,
 	ValidationErrorFromJSONTyped,
@@ -38,6 +42,12 @@ export interface C4KCertificate {
 	 * @memberof C4KCertificate
 	 */
 	childId: string;
+	/**
+	 *
+	 * @type {Child}
+	 * @memberof C4KCertificate
+	 */
+	child?: Child;
 	/**
 	 *
 	 * @type {Date}
@@ -72,6 +82,7 @@ export function C4KCertificateFromJSONTyped(
 	return {
 		id: json['id'],
 		childId: json['childId'],
+		child: !exists(json, 'child') ? undefined : ChildFromJSON(json['child']),
 		startDate: !exists(json, 'startDate')
 			? undefined
 			: json['startDate'] === null
@@ -100,6 +111,7 @@ export function C4KCertificateToJSON(value?: C4KCertificate | null): any {
 	return {
 		id: value.id,
 		childId: value.childId,
+		child: ChildToJSON(value.child),
 		startDate:
 			value.startDate === undefined
 				? undefined

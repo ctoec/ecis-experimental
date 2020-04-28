@@ -13,7 +13,7 @@ namespace Hedwig.Models
 		public string LastName { get; set; }
 		public string Suffix { get; set; }
 		public DateTime? Birthdate { get; set; }
-		public List<C4KCertificate> C4KCertificates { get; set; }
+		public List<C4KCertificateDTO> C4KCertificates { get; set; }
 		public List<ValidationError> ValidationErrors { get; set; }
 	}
 }
