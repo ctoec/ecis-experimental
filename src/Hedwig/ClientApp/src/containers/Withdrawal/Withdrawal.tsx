@@ -43,6 +43,7 @@ import { InlineIcon, DateInput, ChoiceList, Button } from '../../components';
 import { processBlockingValidationErrors } from '../../utils/validations/processBlockingValidationErrors';
 import dateFormatter from '../../utils/dateFormatter';
 import { generateFundingTypeTag } from '../../utils/fundingType';
+import displayErrorOrWarning from '../../utils/validations/displayErrorOrWarning';
 
 type WithdrawalProps = {
 	history: History;
@@ -268,26 +269,32 @@ export default function Withdrawal({
 						onChange={updateFormData(newDate => newDate.toDate())}
 						date={enrollmentEndDate ? moment(enrollmentEndDate) : undefined}
 						status={
-							// TODO should we use a different fact for this condition?
-							reportingPeriodOptions.length === 0
-								? {
-										type: 'error',
-										id: 'last-reporting-period-error',
-										message:
-											'ECE Reporter only contains data for fiscal year 2020 and later. Please do not add children who withdrew prior to July 2019.',
-								  }
-								: error &&
-								  processBlockingValidationErrors(
-										'exit',
-										(error as ValidationProblemDetails).errors
-								  )
-								? serverErrorForField(hasAlertedOnError, setHasAlertedOnError, 'exit', error)
-								: clientErrorForField(
-										'exit',
-										enrollmentEndDate,
-										attemptedSave,
-										'This information is required for withdrawal'
-								  )
+								displayErrorOrWarning(
+									error,
+								 	{
+										serverErrorOptions: {
+											hasAlertedOnError,
+											setHasAlertedOnError,
+											errorDisplays: [{
+												field: 'exit',
+											}]
+										},
+										clientErrorOptions: {
+											errorDisplays: [	
+												{
+													fieldId: 'exit',
+													errorCondition: attemptedSave && !enrollmentEndDate,
+													message: 'This information is required for withdrawal'
+												},
+												{
+													fieldId: 'exit',
+													errorCondition: reportingPeriodOptions.length === 0,
+													message: 'ECE Reporter only contains data for fiscal year 2020 and later. Please do not add children who withdrew prior to July 2019.'
+												}
+											]
+										}
+									}
+								)
 						}
 					/>
 					<ChoiceList
@@ -302,12 +309,15 @@ export default function Withdrawal({
 						otherInputLabel="Other"
 						name="exitReason"
 						onChange={updateFormData()}
-						status={serverErrorForField(
-							hasAlertedOnError,
-							setHasAlertedOnError,
-							'exitReason',
+						status={displayErrorOrWarning(
 							error,
-							'This information is required for withdrawal'
+							{
+								serverErrorOptions: {
+									hasAlertedOnError,
+									setHasAlertedOnError,
+									errorDisplays: [{ field: 'exitReason', message: 'This information is required for withdrawal' }]
+								}
+							}
 						)}
 					/>
 					{cdcFunding && (
@@ -323,14 +333,18 @@ export default function Withdrawal({
 								const newReportingPeriodId = parseInt(event.target.value);
 								setLastReportingPeriod(newReportingPeriodId);
 							}}
-							status={serverErrorForField(
-								hasAlertedOnError,
-								setHasAlertedOnError,
-								'fundings',
+							status={displayErrorOrWarning(
 								error,
-								// if last reporting period exists, then the value is invalid
-								// so do not display required information copy
-								lastReportingPeriod ? undefined : 'This information is required for withdrawal'
+								{
+									serverErrorOptions: {
+										hasAlertedOnError,
+										setHasAlertedOnError,
+										errorDisplays: [
+											{field: 'fundings', message: 'This information is requierd for withdrawal'},
+											{field: 'fundings.lastReportingPeriod'}
+										]
+									}
+								}
 							)}
 						/>
 					)}

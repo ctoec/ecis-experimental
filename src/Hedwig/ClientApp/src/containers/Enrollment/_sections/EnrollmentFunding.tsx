@@ -643,7 +643,7 @@ const EnrollmentFunding: Section = {
 										status={initialLoadErrorGuard(
 											initialLoad,
 											displayErrorOrWarning(error, {
-												errorOptions: {
+												serverErrorOptions: {
 													hasAlertedOnError,
 													setHasAlertedOnError,
 													errorDisplays: [
@@ -684,7 +684,7 @@ const EnrollmentFunding: Section = {
 								status={initialLoadErrorGuard(
 									initialLoad,
 									displayErrorOrWarning(error, {
-										errorOptions: {
+										serverErrorOptions: {
 											hasAlertedOnError,
 											setHasAlertedOnError,
 											errorDisplays: [
