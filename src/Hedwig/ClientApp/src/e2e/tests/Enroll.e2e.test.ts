@@ -115,9 +115,14 @@ describe('during an Enroll workflow', () => {
 			root = await beginEnroll(driver, root);
 			root = await enterChildInfo(driver, root);
 
-			const { findByText, findByValue, findByLocator, queryAllByLocator, queryAllByText } = render(
-				root
-			);
+			const {
+				findByText,
+				findByValue,
+				findByLocator,
+				queryAllByLocator,
+				queryAllByText,
+				debug,
+			} = render(root);
 
 			// Click past family information without entering info
 			let saveBtn = await findByText('Save');
@@ -142,6 +147,19 @@ describe('during an Enroll workflow', () => {
 				xpath: `//*/label[text()='${selectedFundingLabel}']`,
 			});
 			await cdcFundingRadio.click();
+
+			// Open the contract space dropdown
+			let contractSpaceDropdown = await findByLocator({
+				xpath: "//*/label[text()='Contract space']//following-sibling::select",
+			});
+			await contractSpaceDropdown.click();
+
+			// Select the first one-- not a specific one because this changes based on time
+			let contractSapceOptions = await queryAllByLocator({
+				xpath: "//*/label[text()='Contract space']//following-sibling::select/child::option",
+			});
+			const selectedContractSpace = await contractSapceOptions[1].getAttribute('value');
+			await contractSapceOptions[1].click();
 
 			// Open the reporting period dropdown
 			let reportingPeriodDropdown = await findByLocator({
@@ -194,6 +212,12 @@ describe('during an Enroll workflow', () => {
 			});
 			const newSelectedReportingPeriod = await reportingPeriodDropdown.getAttribute('value');
 			expect(newSelectedReportingPeriod).toBe(selectedReportingPeriod);
+
+			contractSpaceDropdown = await findByLocator({
+				xpath: "//*/label[text()='First reporting period']//following-sibling::select",
+			});
+			const newselectedContractSpace = await contractSpaceDropdown.getAttribute('value');
+			expect(newselectedContractSpace).toBe(selectedContractSpace);
 		} finally {
 			await driverHelper.quit(driver);
 		}

@@ -2,14 +2,14 @@ import React from 'react';
 import idx from 'idx';
 import pluralize from 'pluralize';
 import { Link } from 'react-router-dom';
-import { Table, TableProps, InlineIcon, DateRange, Column } from '../../components';
-import { Enrollment, FundingSpace, FundingSource, Organization } from '../../generated';
+import { Table, TableProps, InlineIcon, DateRange, Column, Legend } from '../../components';
+import { Enrollment, FundingSpace, FundingSource, Organization, Site } from '../../generated';
 import { lastFirstNameFormatter } from '../../utils/stringFormatters';
 import dateFormatter from '../../utils/dateFormatter';
 import {
 	NO_FUNDING,
-	getFundingSpaceTime,
 	prettyFundingTime,
+	getFundingSpaceTimes,
 	isFundedForFundingSpace,
 } from '../../utils/models';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../utils/types';
@@ -20,7 +20,7 @@ import {
 	filterFundingTypesForRosterTags,
 	FundingType,
 } from '../../utils/fundingType';
-import moment from 'moment';
+import { legendDisplayDetails } from '../../utils/legendFormatters';
 
 export type AgeGroupTableProps = { id: string; data: DeepNonUndefineable<Enrollment>[] };
 
@@ -29,6 +29,7 @@ type AgeGroupSectionProps = {
 	ageGroup: string;
 	ageGroupTitle: string;
 	enrollments: DeepNonUndefineableArray<Enrollment>;
+	site?: Site;
 	fundingSpaces?: DeepNonUndefineableArray<FundingSpace>;
 	rosterDateRange?: DateRange;
 	showPastEnrollments?: boolean;
@@ -36,6 +37,7 @@ type AgeGroupSectionProps = {
 
 export default function AgeGroupSection({
 	organization,
+	site,
 	ageGroup,
 	ageGroupTitle,
 	enrollments,
@@ -43,7 +45,10 @@ export default function AgeGroupSection({
 	rosterDateRange,
 	showPastEnrollments,
 }: AgeGroupSectionProps) {
-	if (!enrollments.length) return null;
+	// If we're looking at an org roster, there is a funding spaces array (i.e. it's not the incomplete section), and there are no funding spaces for this age group
+	// OR if it's a site view and there are no enrollments for this age group, don't show it
+	if ((site && !enrollments.length) || (fundingSpaces && !fundingSpaces.length)) return null;
+	// If we're looking at the organization roster, or if there are any funding spaces for this age group, at least show the header
 
 	const columns: Column<DeepNonUndefineable<Enrollment>>[] = [];
 	const nameColumn = {
@@ -139,37 +144,41 @@ export default function AgeGroupSection({
 		defaultSortOrder: 'ascending',
 	};
 
+	// One legend item per funding space of a given age group
+	const legendItems = (fundingSpaces || []).map(space => {
+		const enrolledForFundingSpace = enrollments.filter<DeepNonUndefineable<Enrollment>>(
+			enrollment => isFundedForFundingSpace(enrollment, space.id, rosterDateRange)
+		).length;
+		const fundingTime = prettyFundingTime(getFundingSpaceTimes(space), true);
+		return {
+			symbol: legendDisplayDetails[space.source || ''].symbol,
+			hidden: site && enrolledForFundingSpace === 0,
+			// If we're looking at an org roster, show the funding spaces available even if they're not used
+			// Hide the legend item if there are no kids enrolled for this funding space type and we are looking at one site
+			text: (
+				<>
+					<span>
+						{fundingTime}
+						{' — '}
+					</span>
+					<span className="text-bold">
+						{/* If past enrollments or site, only show number of spaces filled, not ratio for entire organization */}
+						{showPastEnrollments || site
+							? enrolledForFundingSpace
+							: `${enrolledForFundingSpace}/${space.capacity}`}
+					</span>
+					<span> spaces filled</span>
+				</>
+			),
+		};
+	});
+
 	return (
 		<>
 			<h2 className="margin-top-6">
 				{`${ageGroupTitle} (${pluralize('child', rosterTableProps.data.length, true)})`}
 			</h2>
-			{fundingSpaces && (
-				<ul>
-					{fundingSpaces.map(space => {
-						const enrolledForFundingSpace = enrollments.filter<DeepNonUndefineable<Enrollment>>(
-							enrollment => isFundedForFundingSpace(enrollment, space.id, rosterDateRange)
-						).length;
-
-						return (
-							<li className="padding-05" key={`${getFundingSpaceTime(space)}-${ageGroupTitle}`}>
-								<span className="text-bold">
-									{showPastEnrollments
-										? enrolledForFundingSpace
-										: `${enrolledForFundingSpace}/${space.capacity}`}
-								</span>
-								<span>
-									{showPastEnrollments
-										? ` in ${prettyFundingTime(getFundingSpaceTime(space))} ${space.source ||
-												''} spaces`
-										: ` ${prettyFundingTime(getFundingSpaceTime(space))} ${space.source ||
-												''} spaces filled`}
-								</span>
-							</li>
-						);
-					})}
-				</ul>
-			)}
+			<Legend items={legendItems} vertical />
 			<Table {...rosterTableProps} fullWidth />
 		</>
 	);

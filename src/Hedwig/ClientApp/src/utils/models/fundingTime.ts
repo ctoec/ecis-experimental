@@ -1,6 +1,7 @@
 import { FundingTime } from '../../generated';
 
 export function fundingTimeFromString(str: string) {
+	// TODO: should we update this function to also parse "part time / full time"?
 	switch (str) {
 		case FundingTime.Full:
 			return FundingTime.Full;
@@ -12,10 +13,19 @@ export function fundingTimeFromString(str: string) {
 }
 
 export function prettyFundingTime(
-	time: FundingTime | null | undefined,
+	time: FundingTime | FundingTime[] | null | undefined,
 	capitalize: boolean = false
-) {
+): string {
+	// Time is either one funding time or an array of unique funding times
 	let prettyTime = '';
+	if (Array.isArray(time)) {
+		// Should return part time / full time
+		prettyTime = time
+			.sort()
+			.reverse()
+			.map(_time => prettyFundingTime(_time))
+			.join(' / ');
+	}
 	switch (time) {
 		case FundingTime.Full:
 			prettyTime = 'full time';

@@ -4959,14 +4959,14 @@ exports[`Storyshots Legend Default 1`] = `
     }
   }
 >
-  <div
-    className="grid-row flex-wrap margin-y-2 grid-gap oec-legend"
+  <ul
+    className="margin-y-2 oec-legend add-list-reset grid-row grid-gap"
   >
-    <div
-      className="margin-right-1"
+    <li
+      className="oec-legend__item oec-legend-item margin-right-1"
     >
       <div
-        className="oec-legend__symbol undefined"
+        className="oec-legend-item__symbol undefined"
       >
         <svg
           className="oec-legend__symbol__svg"
@@ -4981,16 +4981,16 @@ exports[`Storyshots Legend Default 1`] = `
         </svg>
       </div>
       <div
-        className="width-fit-content display-inline margin-left-1 "
+        className="oec-legend-item__text width-fit-content display-inline margin-left-1 "
       >
         One fish
       </div>
-    </div>
-    <div
-      className="margin-right-1"
+    </li>
+    <li
+      className="oec-legend__item oec-legend-item margin-right-1"
     >
       <div
-        className="oec-legend__symbol undefined"
+        className="oec-legend-item__symbol undefined"
       >
         <svg
           className="oec-legend__symbol__svg"
@@ -5005,16 +5005,16 @@ exports[`Storyshots Legend Default 1`] = `
         </svg>
       </div>
       <div
-        className="width-fit-content display-inline margin-left-1 "
+        className="oec-legend-item__text width-fit-content display-inline margin-left-1 "
       >
         Two fish
       </div>
-    </div>
-    <div
-      className="margin-right-1"
+    </li>
+    <li
+      className="oec-legend__item oec-legend-item margin-right-1"
     >
       <div
-        className="oec-legend__symbol text-red"
+        className="oec-legend-item__symbol text-red"
       >
         <svg
           className="oec-legend__symbol__svg"
@@ -5029,16 +5029,16 @@ exports[`Storyshots Legend Default 1`] = `
         </svg>
       </div>
       <div
-        className="width-fit-content display-inline margin-left-1 "
+        className="oec-legend-item__text width-fit-content display-inline margin-left-1 "
       >
         Red fish
       </div>
-    </div>
-    <div
-      className="margin-right-1"
+    </li>
+    <li
+      className="oec-legend__item oec-legend-item margin-right-1"
     >
       <div
-        className="oec-legend__symbol text-blue"
+        className="oec-legend-item__symbol text-blue"
       >
         <svg
           className="oec-legend__symbol__svg"
@@ -5053,12 +5053,12 @@ exports[`Storyshots Legend Default 1`] = `
         </svg>
       </div>
       <div
-        className="width-fit-content display-inline margin-left-1 "
+        className="oec-legend-item__text width-fit-content display-inline margin-left-1 "
       >
         Blue fish
       </div>
-    </div>
-  </div>
+    </li>
+  </ul>
 </div>
 `;
 

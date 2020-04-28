@@ -1,6 +1,13 @@
 import { DeepNonUndefineable } from '../types';
 import { DateRange } from '../../components';
-import { Funding, FundingSource, ReportingPeriod, Enrollment, FundingSpace } from '../../generated';
+import {
+	Funding,
+	FundingSource,
+	ReportingPeriod,
+	Enrollment,
+	FundingSpace,
+	FundingTime,
+} from '../../generated';
 import moment from 'moment';
 import { dateSorter } from '../dateSorter';
 import { getFundingSpaceTime } from './fundingSpace';
@@ -14,6 +21,7 @@ export const NO_FUNDING = 'private pay';
  * Returns time from associated fundingSpace, or undefined
  * @param funding
  */
+// TODO: maybe ditch in favor of funding times
 export function getFundingTime(funding: Funding | undefined) {
 	if (!funding) return;
 

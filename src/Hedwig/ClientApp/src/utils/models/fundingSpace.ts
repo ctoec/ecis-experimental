@@ -1,4 +1,4 @@
-import { FundingSpace, Age, Organization, FundingSource } from '../../generated';
+import { FundingSpace, Age, Organization, FundingSource, FundingTime } from '../../generated';
 import { DeepNonUndefineable } from '../types';
 import { prettyFundingTime } from './fundingTime';
 
@@ -30,15 +30,43 @@ export function prettyFundingSpaceTimeAllocations(fundingSpace: DeepNonUndefinea
 export function getFundingSpacesFor(
 	fundingSpaces: DeepNonUndefineable<FundingSpace[]> | null | undefined,
 	opts: {
-		ageGroup: Age;
-		source: FundingSource | undefined;
+		ageGroup?: Age;
+		source?: FundingSource;
+		time?: FundingTime | FundingTime[];
 	}
 ) {
 	if (!fundingSpaces) return [];
+	const { ageGroup, source, time } = opts;
+	let timeOpt = Array.isArray(time) ? time : [time];
 
-	return fundingSpaces.filter(
-		space => space.ageGroup == opts.ageGroup && space.source == opts.source
-	);
+	return fundingSpaces.filter(space => {
+		let match = true;
+		if (ageGroup) {
+			match = match && space.ageGroup === ageGroup;
+		}
+		if (source) {
+			match = match && space.source === source;
+		}
+		const spaceTimes = getFundingSpaceTimes(space);
+		if (spaceTimes && time) {
+			match = match && spaceTimes.sort().join() === timeOpt.sort().join();
+		}
+		return match;
+	});
+}
+
+// Returns unique times for a funding space sorted alphabetically
+export function getFundingSpaceTimes(
+	fundingSpace: FundingSpace | undefined
+): FundingTime[] | undefined {
+	if (!fundingSpace) return;
+	if (!fundingSpace.fundingTimeAllocations) return;
+	if (!fundingSpace.fundingTimeAllocations.length) return;
+	const uniqueFundingTimes = fundingSpace.fundingTimeAllocations
+		.map(space => space.time)
+		.filter((time, index, timesArray) => timesArray.indexOf(time) === index)
+		.sort();
+	return uniqueFundingTimes;
 }
 
 /**

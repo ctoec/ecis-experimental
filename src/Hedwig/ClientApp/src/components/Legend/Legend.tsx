@@ -1,4 +1,5 @@
 import React from 'react';
+import cx from 'classnames';
 
 export type LegendItem = {
 	text: string | JSX.Element;
@@ -10,6 +11,7 @@ export type LegendItem = {
 
 type LegendProps = {
 	items: LegendItem[];
+	vertical?: boolean;
 };
 
 const defaultSymbol = (
@@ -18,23 +20,35 @@ const defaultSymbol = (
 	</svg>
 );
 
-export function Legend({ items }: LegendProps) {
+export function Legend({ items, vertical = false }: LegendProps) {
 	return (
-		<div className="grid-row flex-wrap margin-y-2 grid-gap oec-legend">
+		<ul
+			className={cx('margin-y-2 oec-legend add-list-reset', {
+				'grid-col': vertical,
+				'grid-row grid-gap': !vertical,
+			})}
+		>
 			{items
 				.filter(item => !item.hidden)
 				.map((item, index) => (
-					<div key={index} className="margin-right-1">
-						<div className={`oec-legend__symbol ${item.symbolClass}`}>
+					<li
+						key={index}
+						className={cx('oec-legend__item oec-legend-item', {
+							'margin-y-1': vertical,
+							'margin-right-1': !vertical,
+						})}
+					>
+						<div className={`oec-legend-item__symbol ${item.symbolClass}`}>
 							{item.symbol || defaultSymbol}
 						</div>
 						<div
-							className={`width-fit-content display-inline margin-left-1 ${item.textClass || ''}`}
+							className={`oec-legend-item__text width-fit-content display-inline margin-left-1 ${item.textClass ||
+								''}`}
 						>
 							{item.text}
 						</div>
-					</div>
+					</li>
 				))}
-		</div>
+		</ul>
 	);
 }

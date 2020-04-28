@@ -1,5 +1,12 @@
-import { Enrollment, Gender, User, C4KCertificate } from '../../../generated';
-import { isCurrentToRange, getFundingTime } from '..';
+import {
+	Enrollment,
+	Gender,
+	User,
+	C4KCertificate,
+	FundingTime,
+	FundingSource,
+} from '../../../generated';
+import { isCurrentToRange, getFundingSpaceTimes } from '..';
 import { DateRange } from '../../../components';
 import { validatePermissions, getIdForUser } from '..';
 import emptyGuid from '../../emptyGuid';
@@ -53,8 +60,8 @@ export function isFundedForFundingSpace(
 export function isFunded(
 	enrollment: Enrollment | null,
 	opts?: {
-		source?: string;
-		time?: string;
+		source?: FundingSource;
+		time?: FundingTime | FundingTime[];
 		currentRange?: DateRange;
 	}
 ) {
@@ -63,18 +70,26 @@ export function isFunded(
 	if (!enrollment.fundings || !enrollment.fundings.length) return false;
 
 	let fundings = enrollment.fundings;
+	const { source, time, currentRange } = opts || {};
 
-	const _opts = opts || {};
-	if (_opts.source) {
-		fundings = fundings.filter(funding => funding.source === _opts.source);
+	if (source) {
+		fundings = fundings.filter(funding => funding.source === source);
 	}
 
-	if (_opts.time) {
-		fundings = fundings.filter(funding => getFundingTime(funding) === _opts.time);
+	if (time) {
+		// TODO: is there a way to combine this with getFundingSpacesFor?  It's very similar
+		let timeOpt = Array.isArray(time) ? time : [time];
+		fundings = fundings.filter(funding => {
+			const spaceTimes = getFundingSpaceTimes(funding.fundingSpace);
+			if (spaceTimes) {
+				return spaceTimes.sort().join() === timeOpt.sort().join();
+			}
+			return false;
+		});
 	}
 
-	if (_opts.currentRange) {
-		fundings = fundings.filter(funding => isCurrentToRange(funding, _opts.currentRange));
+	if (currentRange) {
+		fundings = fundings.filter(funding => isCurrentToRange(funding, currentRange));
 	}
 
 	return fundings.length > 0;

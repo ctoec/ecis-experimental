@@ -28,12 +28,10 @@ import UserContext from '../../../contexts/User/UserContext';
 import {
 	validatePermissions,
 	getIdForUser,
-	getFundingTime,
 	prettyFundingSource,
 	fundingSourceFromString,
 	getFundingSpacesFor,
 	prettyFundingSpaceTimeAllocations,
-	getFundingSpaceTime,
 	isFundedForFundingSpace,
 } from '../../../utils/models';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../../utils/types';
@@ -53,13 +51,9 @@ import {
 	createFunding,
 	currentC4kCertificate,
 	ageFromString,
-	getSourcelessFunding,
-	prettyFundingTime,
 	prettyAge,
 	reportingPeriodFormatter,
-	isFunded,
 	currentReportingPeriod,
-	getFundingSpaceCapacity,
 } from '../../../utils/models';
 import { FormReducer, formReducer, updateData, toFormString } from '../../../utils/forms/form';
 import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
@@ -349,10 +343,11 @@ const EnrollmentFunding: Section = {
 		useEffect(() => {
 			if (!fundingSpaces || !fundingSource || !_enrollment.ageGroup) return;
 
-			var matchingFundingSpaces = getFundingSpacesFor(fundingSpaces, {
-				ageGroup: _enrollment.ageGroup,
-				source: fundingSource,
-			});
+			const matchingFundingSpaces =
+				getFundingSpacesFor(fundingSpaces, {
+					ageGroup: _enrollment.ageGroup,
+					source: fundingSource,
+				});
 
 			setFundingSpaceOpts(
 				matchingFundingSpaces.map(fundingSpace => ({

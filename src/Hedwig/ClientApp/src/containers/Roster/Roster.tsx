@@ -2,20 +2,12 @@ import React, { useContext, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { legendDisplayDetails } from '../../utils/legendFormatters';
 import { getIdForUser } from '../../utils/models';
-import {
-	Tag,
-	Legend,
-	LegendItem,
-	InlineIcon,
-	DirectionalLinkProps,
-	DateRange,
-} from '../../components';
+import { Legend, LegendItem, DirectionalLinkProps, DateRange } from '../../components';
 import useApi, { paginate } from '../../hooks/useApi';
 import {
 	Age,
 	Enrollment,
 	FundingSpace,
-	FundingSource,
 	ApiOrganizationsOrgIdEnrollmentsGetRequest,
 	ApiOrganizationsIdGetRequest,
 	Organization,
@@ -23,7 +15,7 @@ import {
 import UserContext from '../../contexts/User/UserContext';
 import AgeGroupSection from './AgeGroupSection';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../utils/types';
-import { isFunded, getObjectsByAgeGroup } from '../../utils/models';
+import { getObjectsByAgeGroup } from '../../utils/models';
 import CommonContainer from '../CommonContainer';
 import RosterHeader from './RosterHeader';
 
@@ -43,7 +35,7 @@ export default function Roster() {
 		include: ['sites', 'funding_spaces'],
 	};
 
-	const { loading: organizationLoading, error: organizationError, data: organization } = useApi(
+	const { loading: organizationLoading, data: organization } = useApi(
 		api => api.apiOrganizationsIdGet(orgParams),
 		{
 			skip: !user,
@@ -64,7 +56,7 @@ export default function Roster() {
 		endDate: (dateRange && dateRange.endDate && dateRange.endDate.toDate()) || undefined,
 	};
 
-	const { loading: enrollmentLoading, error: enrollmentError, data: _enrollments } = useApi(
+	const { data: _enrollments } = useApi(
 		(api, opt) => api.apiOrganizationsOrgIdEnrollmentsGet(paginate(enrollmentParams, opt)),
 		{
 			skip: !user || !siteIds.length,
@@ -100,33 +92,20 @@ export default function Roster() {
 	const fundingSpacesByAgeGroup = getObjectsByAgeGroup(fundingSpaces);
 
 	const legendItems: LegendItem[] = Object.values(legendDisplayDetails).map(
-		({ colorToken, shortTitle, legendTextFormatter, hidden }) => ({
-			text: legendTextFormatter(organization, enrollments, showPastEnrollments),
-			symbol: (
-				<Tag text={shortTitle} color={colorToken} className="position-relative top-neg-2px" />
-			),
+		({ legendTextFormatter, hidden, symbol }) => ({
+			symbol,
+			// If we make date range filterable on the org view, will need to change this so that we don't show ratio on org level roster
+			text: legendTextFormatter(enrollments, { showPastEnrollments, organization, site }),
 			hidden: hidden(organization, enrollments),
 		})
 	);
 
-	// CDC funded enrollments with validationErrors are considered to be missing information
-	const missingInformationEnrollmentsCount = enrollments.filter<DeepNonUndefineable<Enrollment>>(
-		enrollment =>
-			isFunded(enrollment, { source: FundingSource.CDC }) &&
-			!!enrollment.validationErrors &&
-			enrollment.validationErrors.length > 0
-	).length;
-	if (missingInformationEnrollmentsCount > 0) {
-		legendItems.push({
-			text: (
-				<>
-					<span className="text-bold">{missingInformationEnrollmentsCount}</span>
-					<span> missing information</span>
-				</>
-			),
-			symbol: <InlineIcon icon="incomplete" />,
-		});
-	}
+	const commonAgeGroupSectionProps = {
+		organization,
+		site,
+		rosterDateRange: dateRange,
+		showPastEnrollments,
+	};
 
 	return (
 		<CommonContainer directionalLinkProps={siteRosterDirectionalLinkProps}>
@@ -147,40 +126,34 @@ export default function Roster() {
 				</Suspend>
 				<Suspend waitFor={enrollments.length > 0} fallback={<div>Loading...</div>}>
 					<AgeGroupSection
-						organization={organization}
+						{...commonAgeGroupSectionProps}
 						ageGroup={Age.InfantToddler}
 						ageGroupTitle={`Infant/toddler`}
 						enrollments={completeEnrollmentsByAgeGroup[Age.InfantToddler]}
 						fundingSpaces={fundingSpacesByAgeGroup[Age.InfantToddler]}
-						rosterDateRange={dateRange}
-						showPastEnrollments={showPastEnrollments}
 					/>
 					<AgeGroupSection
-						organization={organization}
+						{...commonAgeGroupSectionProps}
 						ageGroup={Age.Preschool}
 						ageGroupTitle={`Preschool`}
 						enrollments={completeEnrollmentsByAgeGroup[Age.Preschool]}
 						fundingSpaces={fundingSpacesByAgeGroup[Age.Preschool]}
-						rosterDateRange={dateRange}
-						showPastEnrollments={showPastEnrollments}
 					/>
 					<AgeGroupSection
-						organization={organization}
+						{...commonAgeGroupSectionProps}
 						ageGroup={Age.SchoolAge}
 						ageGroupTitle={`School age`}
 						enrollments={completeEnrollmentsByAgeGroup[Age.SchoolAge]}
 						fundingSpaces={fundingSpacesByAgeGroup[Age.SchoolAge]}
-						rosterDateRange={dateRange}
-						showPastEnrollments={showPastEnrollments}
 					/>
-					<AgeGroupSection
-						organization={organization}
-						ageGroup="incomplete"
-						ageGroupTitle={`Incomplete enrollments`}
-						enrollments={incompleteEnrollments}
-						rosterDateRange={dateRange}
-						showPastEnrollments={showPastEnrollments}
-					/>
+					{incompleteEnrollments.length > 0 && (
+						<AgeGroupSection
+							{...commonAgeGroupSectionProps}
+							ageGroup="incomplete"
+							ageGroupTitle={`Incomplete enrollments`}
+							enrollments={incompleteEnrollments}
+						/>
+					)}
 				</Suspend>
 			</div>
 		</CommonContainer>
