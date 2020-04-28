@@ -102,6 +102,12 @@ jobs:
     inputs:
       BrowserStackServiceEndPoint: 'BrowserStack Connection (via Cailyn''s Credentials)'
       browserstackLocal: true
+      bsLocalOptions: |
+        {
+          "forceLocal": "true",
+          "proxyHost": "backend-for-selenium",
+          "proxyPort": "5001"
+        }
 
   - task: DockerCompose@0
     displayName: "Docker compose run e2e tests"
