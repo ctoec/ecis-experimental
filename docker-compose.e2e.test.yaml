@@ -46,6 +46,17 @@ services:
     depends_on:
       - winged-keys-db
 
+  # Browser stack local tunner
+  browser-stack-local-tunnel:
+    image: browserstack/local
+    environment:
+      - BROWSERSTACK_USERNAME=${BROWSERSTACK_USERNAME}
+      - BROWSERSTACK_ACCESS_KEY=${BROWSERSTACK_ACCESS_KEY}
+    entrypoint: 
+     - sh 
+     - -c 
+     - "./BrowserStackLocal --key ${BROWSERSTACK_ACCESS_KEY}"
+
   # Selenium containers
   backend-for-selenium:
     build:
