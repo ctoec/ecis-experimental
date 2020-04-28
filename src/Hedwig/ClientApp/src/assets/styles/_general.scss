@@ -12,6 +12,16 @@ h2 {
 	color: color('secondary');
 }
 
+.ellipsis-wrap-text {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+
+	&--tight {
+		max-width: min-content;
+	}
+}
+
 // *** Alignment ***
 .flex-first-baseline {
 	align-items: first baseline;
