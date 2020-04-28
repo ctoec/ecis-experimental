@@ -213,52 +213,69 @@ const EnrollmentFunding: Section = {
 
 		const [reportingPeriodOptions, updateReportingPeriodOptions] = useState<ReportingPeriod[]>([]);
 
-		// For drop down and change on enrollment start date
+		//#region Reporting Period Options
 		useEffect(() => {
+			// Get the modified or current enrollment entry date
+			// Default to today's date
 			const startDate = entry ? entry : enrollment.entry ? enrollment.entry : moment().toDate();
 
-			let periodsAfterEntryAndLastReportingPeriod: ReportingPeriod[];
+			// Declare a variable that will store all periods that are on or after the start date
+			// And on or before the last submitted reporting period (plus one)
+			let periodsAfterEntryAndLastReportingPeriodAndBeforeNextReportingPeriod: ReportingPeriod[];
 
-			const oneMonthFromToday = moment()
-				.add(1, 'month')
+			// This should always cover the current reporting period plus the next one
+			const twoMonthsAndAWeekFromToday = moment()
+				.add(2, 'month')
+				.add(1, 'week')
 				.toDate();
-			const reportingPeriodsAfterStartDate = propertyBetweenDates(
+			const reportingPeriodsBetweenStartDateAndNextReportingPeriod = propertyBetweenDates(
 				reportingPeriods,
-				r => r.periodStart,
+				r => r.periodEnd,
 				startDate,
-				oneMonthFromToday
+				twoMonthsAndAWeekFromToday
 			);
+
 			if (lastSubmittedReport) {
+				// If the program has submitted a report
+				// Get the period start of the most recently submitted one
 				const lastSubmittedReportingPeriodStart = lastSubmittedReport.reportingPeriod.periodStart;
-				const reportsBeforeLastSubmittedReport = propertyBeforeDate(
+				// Get all reporting periods that are on or before the last submitted reporting period start date
+				const reportingPeriodsBeforeLastSubmittedReport = propertyBeforeDate(
 					reportingPeriods,
 					r => r.periodStart,
 					lastSubmittedReportingPeriodStart
 				);
-				periodsAfterEntryAndLastReportingPeriod = reportingPeriodsAfterStartDate.filter(
-					period => reportsBeforeLastSubmittedReport.map(p => p.id).indexOf(period.id) < 0
+				// Exclude all reporting periods corresponding to reporting periods that occured
+				// before the most recently submitted report
+				periodsAfterEntryAndLastReportingPeriodAndBeforeNextReportingPeriod = reportingPeriodsBetweenStartDateAndNextReportingPeriod.filter(
+					period => reportingPeriodsBeforeLastSubmittedReport.map(p => p.id).indexOf(period.id) < 0
 				);
 			} else {
-				periodsAfterEntryAndLastReportingPeriod = reportingPeriodsAfterStartDate;
+				// No reports submitted, so just use all reporting periods between enrollment start date and one month from now
+				periodsAfterEntryAndLastReportingPeriodAndBeforeNextReportingPeriod = reportingPeriodsBetweenStartDateAndNextReportingPeriod;
 			}
 
+			// If there are previous cdc fundings that have last reporting periods,
+			// get the most recent one
 			const newestLastReportingPeriod = cdcFundings
 				.map(funding => funding.lastReportingPeriod)
 				.filter(period => period !== undefined)
 				.sort((a, b) => propertyDateSorter(a, b, r => r.period, true))[0];
 
+			let allValidPeriods = periodsAfterEntryAndLastReportingPeriodAndBeforeNextReportingPeriod;
 			if (newestLastReportingPeriod) {
-				const periodsBeforeLastReportingPeriod = propertyBeforeDate(
+				// If there is a most recent last reporting period on a previous funding
+				// filter out all reporting periods that occur before that reporting period
+				const periodsBeforeMostRecentLastReportingPeriod = propertyBeforeDate(
 					reportingPeriods,
 					r => r.periodStart,
 					newestLastReportingPeriod.periodEnd
 				);
-				periodsAfterEntryAndLastReportingPeriod = periodsAfterEntryAndLastReportingPeriod.filter(
-					period => periodsBeforeLastReportingPeriod.map(p => p.id).indexOf(period.id) < 0
+				allValidPeriods = periodsAfterEntryAndLastReportingPeriodAndBeforeNextReportingPeriod.filter(
+					period => periodsBeforeMostRecentLastReportingPeriod.map(p => p.id).indexOf(period.id) < 0
 				);
 			}
 
-			let allValidPeriods = periodsAfterEntryAndLastReportingPeriod;
 			// If there is currently a selected value for the reporting period
 			if (cdcReportingPeriod) {
 				// Exclude it so we can safely add it back in without creating a duplicate
@@ -283,6 +300,7 @@ const EnrollmentFunding: Section = {
 			enrollment.fundings,
 			lastSubmittedReport,
 		]);
+		//#endregion
 
 		/*** CDC (& eventually OTHER FUNDINGS (Non C4K)) ***/
 		const [fundingSourceOpts, setFundingSourceOpts] = useState<{ value: string; text: string }[]>(
@@ -295,6 +313,7 @@ const EnrollmentFunding: Section = {
 		const [fundingSource, updateFundingSource] = useState<FundingSource | undefined>(
 			currentCdcFunding ? FundingSource.CDC : undefined
 		);
+
 		const [fundingSpace, updateFundingSpace] = useState<FundingSpace | undefined>(
 			currentCdcFunding && currentCdcFunding.fundingSpace
 				? currentCdcFunding.fundingSpace
@@ -304,7 +323,8 @@ const EnrollmentFunding: Section = {
 		const fundingSpaces = idx(site, _ => _.organization.fundingSpaces) as DeepNonUndefineable<
 			FundingSpace[]
 		>;
-		// set funding source opts
+
+		//#region Funding Source Options
 		useEffect(() => {
 			var privatePayOpt = {
 				value: 'privatePay',
@@ -337,9 +357,15 @@ const EnrollmentFunding: Section = {
 				}, []);
 
 			setFundingSourceOpts([privatePayOpt, ...newFundingSourceOpts]);
+			// If there are no funding source options,
+			// forcibly reset the funding source to private pay
+			if (newFundingSourceOpts.length === 0) {
+				updateFundingSource(undefined);
+			}
 		}, [site, _enrollment.ageGroup, enrollment, currentCdcFunding]);
+		//#endregion
 
-		// update funding space opts
+		//#region Funding Space Options
 		useEffect(() => {
 			if (!fundingSpaces || !fundingSource || !_enrollment.ageGroup) return;
 
@@ -358,17 +384,21 @@ const EnrollmentFunding: Section = {
 			// If there is only one funding space option, update selected fundingSpaceId accordingly
 			if (matchingFundingSpaces.length == 1) {
 				updateFundingSpace(matchingFundingSpaces[0]);
+				// TODO: Remove this client-side check and allow users to submit with previously entered
+				// invalid data and process the validation error
 			} else if (fundingSpace && !matchingFundingSpaces.some(fs => fs.id == fundingSpace.id)) {
 				updateFundingSpace(undefined);
 			}
 		}, [fundingSpaces, fundingSource, _enrollment.ageGroup]);
+		//#endregion
 
 		// update enrollment funding
 		useEffect(() => {
 			let updatedFundings: Funding[] = [...fundings]
-				// filter out current CDC funding (with either be deleted, or updated)
+				// filter out current CDC funding (will either be deleted, or updated)
 				.filter(funding => funding.id !== (currentCdcFunding && currentCdcFunding.id))
-				// filter out other existing fundings that reference a no-longer-valid fundingspace
+				// and filter out any fundings associated with funding spaces that are
+				// no longer valid for this enrollment
 				.filter(
 					funding =>
 						!!(
@@ -405,7 +435,17 @@ const EnrollmentFunding: Section = {
 			}
 
 			updateFundings(updatedFundings as DeepNonUndefineableArray<Funding>);
-		}, [fundingSource, fundingSpaceOpts, cdcReportingPeriod]);
+		}, [
+			enrollment,
+			JSON.stringify(currentCdcFunding),
+			fundingSource,
+			fundingSpace,
+			fundingSpaceOpts,
+			cdcReportingPeriod,
+			updateFunding,
+			createFunding,
+			_enrollment.ageGroup,
+		]);
 
 		// *** C4K ***
 		const inputC4kFunding = currentC4kCertificate(enrollment);
@@ -568,6 +608,8 @@ const EnrollmentFunding: Section = {
 					/>
 					<h2>Funding</h2>
 					<ChoiceList
+						// Hack to trigger rerender on selected change
+						key={`fundingType-${fundingSource || 'privatePay'}`}
 						type="radio"
 						legend="Funding type"
 						id="fundingType"

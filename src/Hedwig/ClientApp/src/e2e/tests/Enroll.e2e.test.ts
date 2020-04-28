@@ -214,7 +214,7 @@ describe('during an Enroll workflow', () => {
 			expect(newSelectedReportingPeriod).toBe(selectedReportingPeriod);
 
 			contractSpaceDropdown = await findByLocator({
-				xpath: "//*/label[text()='First reporting period']//following-sibling::select",
+				xpath: "//*/label[text()='Contract space']//following-sibling::select",
 			});
 			const newselectedContractSpace = await contractSpaceDropdown.getAttribute('value');
 			expect(newselectedContractSpace).toBe(selectedContractSpace);
