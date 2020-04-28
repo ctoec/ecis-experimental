@@ -98,6 +98,12 @@ jobs:
   - checkout: WingedKeys
     path: winged-keys
 
+  - task: DockerCompose@0
+    inputs:
+      dockerComposeFile: '$(Agent.BuildDirectory)/ecis-experimental/docker-compose.e2e.test.yaml'
+      action: 'Run a Docker Compose command'
+      dockerComposeCommand: 'up -d client'
+
   - task: BrowserStackConfig@0
     inputs:
       BrowserStackServiceEndPoint: 'BrowserStack Connection (via Cailyn''s Credentials)'
@@ -110,13 +116,19 @@ jobs:
         }
 
   - task: DockerCompose@0
-    displayName: "Docker compose run e2e tests"
     inputs:
-      dockerComposeFile: "$(Agent.BuildDirectory)/ecis-experimental/docker-compose.e2e.test.yaml"
-      dockerComposeCommand: "up --abort-on-container-exit client"
+      dockerComposeFile: '$(Agent.BuildDirectory)/ecis-experimental/docker-compose.e2e.test.yaml'
+      action: 'Run a Docker Compose command'
+      dockerComposeCommand: 'exec client yarn test:e2e'
     continueOnError: true
 
   - task: BrowserStackStopLocal@0
+
+  - task: DockerCompose@0
+    inputs:
+      dockerComposeFile: '$(Agent.BuildDirectory)/ecis-experimental/docker-compose.e2e.test.yaml'
+      action: 'Run a Docker Compose command'
+      dockerComposeCommand: 'down'
 
   - task: PublishTestResults@2
     displayName: "Publish test results"
