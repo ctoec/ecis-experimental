@@ -37,7 +37,7 @@ exports[`UtilizationTable matches snapshot 1`] = `
         </th>
         <th
           aria-sort="none"
-          class="oec-table__column-header"
+          class="oec-table__column-header text-right"
           role="columnheader"
           scope="col"
         >
@@ -49,7 +49,7 @@ exports[`UtilizationTable matches snapshot 1`] = `
         </th>
         <th
           aria-sort="none"
-          class="oec-table__column-header"
+          class="oec-table__column-header text-right"
           role="columnheader"
           scope="col"
         >
@@ -61,7 +61,7 @@ exports[`UtilizationTable matches snapshot 1`] = `
         </th>
         <th
           aria-sort="none"
-          class="oec-table__column-header"
+          class="oec-table__column-header text-right"
           role="columnheader"
           scope="col"
         >
@@ -87,7 +87,7 @@ exports[`UtilizationTable matches snapshot 1`] = `
           0/10 spaces
         </td>
         <td
-          class="text-tabular"
+          class="text-tabular text-right"
         >
           <span>
             $ 
@@ -103,7 +103,7 @@ exports[`UtilizationTable matches snapshot 1`] = `
           </span>
         </td>
         <td
-          class="text-tabular"
+          class="text-tabular text-right"
         >
           <span>
             $ 
@@ -116,12 +116,21 @@ exports[`UtilizationTable matches snapshot 1`] = `
           0.00
         </td>
         <td
-          class="oec-table__cell--red text-tabular"
+          class="oec-table__cell--red text-tabular text-right"
         >
           <div
-            class="position-relative one-half-char-left"
+            class="position-relative one-half-char-right"
           >
-            ($2,380.00)
+            (
+            <span>
+              $ 
+            </span>
+            <span
+              style="visibility: hidden;"
+            >
+              0
+            </span>
+            2,380.00)
           </div>
         </td>
       </tr>
@@ -138,7 +147,7 @@ exports[`UtilizationTable matches snapshot 1`] = `
           1/10 spaces
         </td>
         <td
-          class="text-tabular"
+          class="text-tabular text-right"
         >
           <span>
             $ 
@@ -152,7 +161,7 @@ exports[`UtilizationTable matches snapshot 1`] = `
           </span>
         </td>
         <td
-          class="text-tabular"
+          class="text-tabular text-right"
         >
           <span>
             $ 
@@ -163,12 +172,21 @@ exports[`UtilizationTable matches snapshot 1`] = `
           661.28
         </td>
         <td
-          class="oec-table__cell--red text-tabular"
+          class="oec-table__cell--red text-tabular text-right"
         >
           <div
-            class="position-relative one-half-char-left"
+            class="position-relative one-half-char-right"
           >
-            ($5,951.52)
+            (
+            <span>
+              $ 
+            </span>
+            <span
+              style="visibility: hidden;"
+            >
+              0
+            </span>
+            5,951.52)
           </div>
         </td>
       </tr>
@@ -185,7 +203,7 @@ exports[`UtilizationTable matches snapshot 1`] = `
           0/10 spaces
         </td>
         <td
-          class="text-tabular"
+          class="text-tabular text-right"
         >
           <span>
             $ 
@@ -199,7 +217,7 @@ exports[`UtilizationTable matches snapshot 1`] = `
           </span>
         </td>
         <td
-          class="text-tabular"
+          class="text-tabular text-right"
         >
           <span>
             $ 
@@ -212,12 +230,21 @@ exports[`UtilizationTable matches snapshot 1`] = `
           0.00
         </td>
         <td
-          class="oec-table__cell--red text-tabular"
+          class="oec-table__cell--red text-tabular text-right"
         >
           <div
-            class="position-relative one-half-char-left"
+            class="position-relative one-half-char-right"
           >
-            ($4,528.00)
+            (
+            <span>
+              $ 
+            </span>
+            <span
+              style="visibility: hidden;"
+            >
+              0
+            </span>
+            4,528.00)
           </div>
         </td>
       </tr>
@@ -233,10 +260,10 @@ exports[`UtilizationTable matches snapshot 1`] = `
           1/30 spaces
         </td>
         <td
-          class="text-tabular"
+          class="text-tabular text-right"
         />
         <td
-          class="oec-table__cell--strong text-tabular"
+          class="oec-table__cell--strong text-tabular text-right"
         >
           <span>
             $ 
@@ -247,12 +274,19 @@ exports[`UtilizationTable matches snapshot 1`] = `
           661.28
         </td>
         <td
-          class="oec-table__cell--strong oec-table__cell--red text-tabular"
+          class="oec-table__cell--strong oec-table__cell--red text-tabular text-right"
         >
           <div
-            class="position-relative one-half-char-left"
+            class="position-relative one-half-char-right"
           >
-            ($12,859.52)
+            (
+            <span>
+              $ 
+            </span>
+            <span
+              style="visibility: hidden;"
+            />
+            12,859.52)
           </div>
         </td>
       </tr>

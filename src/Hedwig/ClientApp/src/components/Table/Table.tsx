@@ -8,6 +8,7 @@ export type Column<T> = {
 	cell: React.FC<{ row: T }>;
 	sort?: (row: T) => number | string;
 	width?: string;
+	className?: string;
 };
 
 export type SortOrder = 'ascending' | 'descending';
@@ -84,6 +85,7 @@ export class Table<T> extends React.Component<TableProps<T>, TableSort> {
 								key={index}
 								setTableSort={this.setTableSort}
 								width={column.width}
+								className={column.className}
 							/>
 						))}
 					</tr>

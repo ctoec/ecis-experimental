@@ -42,8 +42,12 @@ h2 {
 	align-self: center;
 }
 
-.one-half-char-left {
-	left: -0.5ch;
+.one-half-char-right {
+	right: -0.5ch;
+}
+
+.oec-table th.text-right {
+	@include u-text('right');
 }
 
 // *** Lists ***

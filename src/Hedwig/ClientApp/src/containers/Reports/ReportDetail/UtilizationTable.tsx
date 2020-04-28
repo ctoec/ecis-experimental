@@ -31,15 +31,17 @@ function getValueBeforeDecimalPoint(number: number) {
 	return numAsString.slice(0, decimalPointIndex).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
-function getValueAfterDecimalPoint(number: number) {
-	const numAsString = number.toFixed(2);
-	const decimalPointIndex = numAsString.indexOf('.');
-	return numAsString.slice(decimalPointIndex + 1);
+function getNumberOfCommas(str: string) {
+	return str.split(',').length - 1;
 }
 
 export default function UtilizationTable(report: CdcReport) {
 	const [maxLengthOfReimbursementRate, updateMaxLengthOfReimbursement] = useState(0);
+	const [numberOfCommasInReimbursement, updateNumberOfCommasInReimbursement] = useState(0);
 	const [maxLengthOfTotalRate, updateMaxLengthOfTotalRate] = useState(0);
+	const [numberOfCommasInTotalRate, updateNumberOfCommasInTotalRate] = useState(0);
+	const [maxLengthOfBalance, updateMaxLengthOfBalance] = useState(0);
+	const [numberOfCommasInBalance, updateNumberOfCommasInBalance] = useState(0);
 
 	const site = idx(report, _ => _.organization.sites[0]);
 	if (!site) {
@@ -140,21 +142,29 @@ export default function UtilizationTable(report: CdcReport) {
 			},
 			{
 				name: 'Reimbursement rate',
+				className: 'text-right',
 				cell: ({ row }) => {
 					const valueBeforeDecimalPoint = getValueBeforeDecimalPoint(row.rate || 0);
+					const numberOfCommas = getNumberOfCommas(valueBeforeDecimalPoint);
+					updateNumberOfCommasInReimbursement(oldNumberOfCommas => {
+						return Math.max(numberOfCommas, oldNumberOfCommas);
+					});
 					updateMaxLengthOfReimbursement(oldMaxLengthOfReimbursementRate => {
 						return Math.max(valueBeforeDecimalPoint.length, oldMaxLengthOfReimbursementRate);
 					});
+					const numberOfCommasNeeded = numberOfCommasInReimbursement - numberOfCommas;
 					const numberOfLeadingZerosNeeded =
-						maxLengthOfReimbursementRate - valueBeforeDecimalPoint.length;
+						maxLengthOfReimbursementRate - valueBeforeDecimalPoint.length - numberOfCommasNeeded;
 					const leadingZeros =
 						numberOfLeadingZerosNeeded >= 0 ? '0'.repeat(numberOfLeadingZerosNeeded) : '';
+					const commas = numberOfCommasNeeded >= 0 ? ','.repeat(numberOfCommasNeeded) : '';
+					const prefix = leadingZeros + commas;
 					return (
-						<td className="text-tabular">
+						<td className="text-tabular text-right">
 							{row.key !== 'total' && (
 								<>
 									<span>$ </span>
-									<span style={{ visibility: 'hidden' }}>{leadingZeros}</span>
+									<span style={{ visibility: 'hidden' }}>{prefix}</span>
 									{currencyFormatter(row.rate || 0, true)}
 									<span> &times; {weeksInPeriod} weeks</span>
 								</>
@@ -165,18 +175,33 @@ export default function UtilizationTable(report: CdcReport) {
 			},
 			{
 				name: `Total (${weeksInPeriod} weeks)`,
+				className: 'text-right',
 				cell: ({ row }) => {
 					const valueBeforeDecimalPoint = getValueBeforeDecimalPoint(row.total);
+					const numberOfCommas = getNumberOfCommas(valueBeforeDecimalPoint);
+					updateNumberOfCommasInTotalRate(oldNumberOfCommas => {
+						return Math.max(numberOfCommas, oldNumberOfCommas);
+					});
 					updateMaxLengthOfTotalRate(oldMaxLengthOfTotalRate => {
 						return Math.max(valueBeforeDecimalPoint.length, oldMaxLengthOfTotalRate);
 					});
-					const numberOfLeadingZerosNeeded = maxLengthOfTotalRate - valueBeforeDecimalPoint.length;
+					const numberOfCommasNeeded = numberOfCommasInTotalRate - numberOfCommas;
+					const numberOfLeadingZerosNeeded =
+						maxLengthOfTotalRate - valueBeforeDecimalPoint.length - numberOfCommasNeeded;
 					const leadingZeros =
 						numberOfLeadingZerosNeeded >= 0 ? '0'.repeat(numberOfLeadingZerosNeeded) : '';
+					const commas = numberOfCommasNeeded >= 0 ? ','.repeat(numberOfCommasNeeded) : '';
+					const prefix = leadingZeros + commas;
 					return (
-						<td className={cx({ 'oec-table__cell--strong': row.key === 'total' }, 'text-tabular')}>
+						<td
+							className={cx(
+								{ 'oec-table__cell--strong': row.key === 'total' },
+								'text-tabular',
+								'text-right'
+							)}
+						>
 							<span>$ </span>
-							<span style={{ visibility: 'hidden' }}>{leadingZeros}</span>
+							<span style={{ visibility: 'hidden' }}>{prefix}</span>
 							{currencyFormatter(row.total, true)}
 						</td>
 					);
@@ -184,21 +209,42 @@ export default function UtilizationTable(report: CdcReport) {
 			},
 			{
 				name: 'Balance',
-				cell: ({ row }) => (
-					<td
-						className={cx(
-							{ 'oec-table__cell--strong': row.key === 'total' },
-							{ 'oec-table__cell--red': row.balance < 0 },
-							'text-tabular'
-						)}
-					>
-						<div className={cx('position-relative', { 'one-half-char-left': row.balance < 0 })}>
-							{row.balance < 0 ? '(' : ''}
-							{currencyFormatter(Math.abs(row.balance))}
-							{row.balance < 0 ? ')' : ''}
-						</div>
-					</td>
-				),
+				className: 'text-right',
+				cell: ({ row }) => {
+					const valueBeforeDecimalPoint = getValueBeforeDecimalPoint(Math.abs(row.balance));
+					const numberOfCommas = getNumberOfCommas(valueBeforeDecimalPoint);
+					updateNumberOfCommasInBalance(oldNumberOfCommas => {
+						return Math.max(numberOfCommas, oldNumberOfCommas);
+					});
+					updateMaxLengthOfBalance(oldMaxLengthOfBalance => {
+						return Math.max(valueBeforeDecimalPoint.length, oldMaxLengthOfBalance);
+					});
+					const numberOfCommasNeeded = numberOfCommasInBalance - numberOfCommas;
+					const numberOfLeadingZerosNeeded =
+						maxLengthOfBalance - valueBeforeDecimalPoint.length - numberOfCommasNeeded;
+					const leadingZeros =
+						numberOfLeadingZerosNeeded >= 0 ? '0'.repeat(numberOfLeadingZerosNeeded) : '';
+					const commas = numberOfCommasNeeded >= 0 ? ','.repeat(numberOfCommasNeeded) : '';
+					const prefix = leadingZeros + commas;
+					return (
+						<td
+							className={cx(
+								{ 'oec-table__cell--strong': row.key === 'total' },
+								{ 'oec-table__cell--red': row.balance < 0 },
+								'text-tabular',
+								'text-right'
+							)}
+						>
+							<div className={cx('position-relative', { 'one-half-char-right': row.balance < 0 })}>
+								{row.balance < 0 ? '(' : ''}
+								<span>$ </span>
+								<span style={{ visibility: 'hidden' }}>{prefix}</span>
+								{currencyFormatter(Math.abs(row.balance), true)}
+								{row.balance < 0 ? ')' : ''}
+							</div>
+						</td>
+					);
+				},
 			},
 		],
 	};
