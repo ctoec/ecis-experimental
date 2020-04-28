@@ -343,11 +343,10 @@ const EnrollmentFunding: Section = {
 		useEffect(() => {
 			if (!fundingSpaces || !fundingSource || !_enrollment.ageGroup) return;
 
-			const matchingFundingSpaces =
-				getFundingSpacesFor(fundingSpaces, {
-					ageGroup: _enrollment.ageGroup,
-					source: fundingSource,
-				});
+			const matchingFundingSpaces = getFundingSpacesFor(fundingSpaces, {
+				ageGroup: _enrollment.ageGroup,
+				source: fundingSource,
+			});
 
 			setFundingSpaceOpts(
 				matchingFundingSpaces.map(fundingSpace => ({

@@ -17,21 +17,22 @@ namespace Hedwig
 		public static void Main(string[] args)
 		{
 			var host = CreateHostBuilder(args).Build();
-			var environment = EnvironmentConfiguration.GetEnvironmentVariableFromAppSettings("EnvironmentName");
+			var isSeedData = EnvironmentConfiguration.GetEnvironmentVariableFromAppSettings("Database:SeedData") == "true";
 
-			if (environment != Environments.Production)
+			if (isSeedData)
 			{
 				using (var scope = host.Services.CreateScope())
 				{
 					var services = scope.ServiceProvider;
 					var logger = services.GetRequiredService<ILogger<Program>>();
-					logger.LogInformation("Detected environment " + environment);
 
 					try
 					{
 						var context = services.GetRequiredService<HedwigContext>();
 						var initializer = new DbInitializer(context);
+						logger.LogInformation("Attempting to seed database");
 						initializer.Initialize();
+						logger.LogInformation("Successfully seeded database");
 					}
 					catch (Exception ex)
 					{
