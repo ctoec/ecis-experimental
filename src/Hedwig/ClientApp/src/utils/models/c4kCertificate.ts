@@ -27,21 +27,20 @@ export function c4kCertificateSorter(a: C4KCertificate, b: C4KCertificate) {
 	return dateSorter(a.startDate, b.startDate);
 }
 
-export function currentC4kCertificate(
+/**
+ * Returns the c4k cert with no end date
+ * (Multiple certs with no end date is an invalid data state)
+ * @param enrollment 
+ */
+export function getCurrentC4kCertificate(
 	enrollment: DeepNonUndefineable<Enrollment> | null
 ): DeepNonUndefineable<C4KCertificate> | undefined {
-	if (!enrollment) {
-		return undefined;
-	}
-	const c4kCerts =
-		idx<Enrollment, DeepNonUndefineable<C4KCertificate[]>>(
-			enrollment,
-			_ => _.child.c4KCertificates as DeepNonUndefineable<C4KCertificate[]>
-		) || [];
-	// Sorts by the start of the certificate
-	const sortedCerts = (c4kCerts || []).sort(c4kCertificateSorter);
-	// returns the latest one
-	return [...sortedCerts].pop();
+	if (!enrollment)  return undefined;
+	if (!enrollment.child) return undefined;
+
+	return (enrollment.child.c4KCertificates || []).find<DeepNonUndefineable<C4KCertificate>>(
+		cert => !cert.endDate
+	);
 }
 
 export function activeC4kFundingAsOf(
@@ -49,7 +48,7 @@ export function activeC4kFundingAsOf(
 	asOf?: Date
 ) {
 	if (!asOf) {
-		return currentC4kCertificate(enrollment);
+		return getCurrentC4kCertificate(enrollment);
 	} else {
 		if (!enrollment) {
 			return undefined;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Organization, Enrollment, FundingSource, Site, FundingSpace } from '../generated';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from './types';
-import { isFunded, currentC4kCertificate, getCombinedCapacity } from './models';
+import { isFunded, getCurrentC4kCertificate, getCombinedCapacity } from './models';
 import { getDisplayColorForFundingType, FundingTypes } from './fundingType';
 import { Tag, InlineIcon } from '../components';
 
@@ -86,7 +86,7 @@ export const legendDisplayDetails: {
 		),
 		legendTextFormatter: (enrollments, opts = {}) => {
 			const { showPastEnrollments } = opts;
-			const enrolledWithC4k = enrollments.filter(enrollment => !!currentC4kCertificate(enrollment))
+			const enrolledWithC4k = enrollments.filter(enrollment => !!getCurrentC4kCertificate(enrollment))
 				.length;
 			return (
 				<>
@@ -97,7 +97,7 @@ export const legendDisplayDetails: {
 		},
 		// When there are no kids receiving C4K funding, this legend item should be hidden https://github.com/ctoec/ecis-experimental/issues/893
 		hidden: (_, enrollments) =>
-			enrollments.filter(enrollment => !!currentC4kCertificate(enrollment)).length === 0,
+			enrollments.filter(enrollment => !!getCurrentC4kCertificate(enrollment)).length === 0,
 	},
 	missing: {
 		symbol: <InlineIcon icon="incomplete" />,
