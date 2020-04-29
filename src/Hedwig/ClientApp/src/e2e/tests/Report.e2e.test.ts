@@ -56,21 +56,6 @@ describe('when trying to submit a report', () => {
 		}
 	});
 
-	it('navigates to the roster when a user clicks on the missing enrollment button', async () => {
-		const driver = driverHelper.createDriver();
-		try {
-			let root = await load(driver, appUrl);
-
-			// root = await login(driver, root);
-			// log in
-			// navigate to reports tab
-			// make sure that it's showing an alert for missing an enrollment
-			// click on the button to correct that
-		} finally {
-			await driverHelper.quit(driver);
-		}
-	});
-
 	it('allows a report submission attempt after enrollment missing info is corrected', async () => {
 		const driver = driverHelper.createDriver();
 		try {
@@ -88,6 +73,22 @@ describe('when trying to submit a report', () => {
 	});
 
 	it('shows an error if submission is attempted without family fees revenue', async () => {
+		const driver = driverHelper.createDriver();
+		try {
+			let root = await load(driver, appUrl);
+
+			// root = await login(driver, root);
+			// log in
+			// find the kid with the missing info
+			// enter the info that's missing
+			// go to the report tab
+			// submit the report
+		} finally {
+			await driverHelper.quit(driver);
+		}
+	});
+
+	it('shows a success alert after report is submitted', async () => {
 		const driver = driverHelper.createDriver();
 		try {
 			let root = await load(driver, appUrl);
