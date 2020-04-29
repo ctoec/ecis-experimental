@@ -49,7 +49,7 @@ import {
 	getCurrentCdcFunding,
 	updateFunding,
 	createFunding,
-	currentC4kCertificate,
+	getCurrentC4kCertificate,
 	ageFromString,
 	prettyAge,
 	reportingPeriodFormatter,
@@ -86,7 +86,7 @@ const EnrollmentFunding: Section = {
 		const fundings = enrollment.fundings || [];
 		const cdcFunding = getCurrentCdcFunding(fundings);
 
-		const c4kFunding = currentC4kCertificate(enrollment);
+		const c4kFunding = getCurrentC4kCertificate(enrollment);
 		const receivesC4k = c4kFunding !== undefined;
 
 		return (
@@ -448,7 +448,7 @@ const EnrollmentFunding: Section = {
 		]);
 
 		// *** C4K ***
-		const inputC4kFunding = currentC4kCertificate(enrollment);
+		const inputC4kFunding = getCurrentC4kCertificate(enrollment);
 		const [c4kCertificates, updateC4kCertificates] = useState<C4KCertificate[]>([
 			...(enrollment.child.c4KCertificates || []),
 		]);
