@@ -10,13 +10,13 @@ services:
     volumes:
       - ./src/Hedwig/ClientApp:/home/node/app:cached
       - ./entrypoint-e2e-test.sh:/entrypoint.sh
+      - ./wait-for-it.sh:/wait-for-it.sh
     working_dir: /home/node/app
     entrypoint:
       - sh
       - /entrypoint.sh
     environment:
       HOST: '0.0.0.0'
-      E2E_GRID_URL: 'http://selenium-hub:4444/wd/hub'
       E2E_CLIENT_URL: 'https://backend-for-selenium:5001'
       BROWSERSTACK_LOCAL: 'true'
       BROWSERSTACK_USERNAME: ${BROWSERSTACK_USERNAME}
