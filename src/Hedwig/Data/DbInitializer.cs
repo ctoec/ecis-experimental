@@ -27,7 +27,13 @@ namespace Hedwig.Data
 
 			var infantToddlerPartTimeFundingSpace = CreateFundingSpace(organizationId: organization.Id, ageGroup: Age.InfantToddler, time: FundingTime.Part, capacity: 5);
 			var infantToddlerFullTimeFundingSpace = CreateFundingSpace(organizationId: organization.Id, ageGroup: Age.InfantToddler, time: FundingTime.Full, capacity: 10);
+			// Additional funding space for testing roster display
+			// InfantToddler FundingSpace FullTimePartTime Split
+			// var infantToddlerPartFullTimeSplitFundingSpace = CreateFundingSpace(organizationId: organization.Id, ageGroup: Age.InfantToddler, time: FundingTime.Full, capacity: 10, split: true, splitTime: FundingTime.Part);
 			var preschoolFundingSpace = CreateFundingSpace(organizationId: organization.Id, ageGroup: Age.Preschool, time: FundingTime.Full, capacity: 20);
+			// Additional funding space for testing roster display
+			// Preschool FundingSpace PartTime
+			// CreateFundingSpace(organizationId: organization.Id, ageGroup: Age.Preschool, time: FundingTime.Part, capacity: 5);
 
 			var site = CreateSite(organizationId: organization.Id, name: "Gryffindor Day Care Center");
 			var site1 = CreateSite(organizationId: organization.Id, name: "Helga Hufflepuff Day Care");
@@ -290,21 +296,41 @@ namespace Hedwig.Data
 			FundingSource source = FundingSource.CDC,
 			Age ageGroup = Age.Preschool,
 			FundingTime time = FundingTime.Full,
-			int capacity = 10
+			int capacity = 10,
+			bool split = false,
+			FundingTime splitTime = FundingTime.Part
 		)
 		{
+			var allocations = new List<FundingTimeAllocation>();
+			if (split)
+			{
+				allocations = new List<FundingTimeAllocation>{
+					new FundingTimeAllocation{
+						Time = time,
+						Weeks = 50
+					},
+					new FundingTimeAllocation{
+						Time = splitTime,
+						Weeks = 2
+					}
+				};
+			}
+			else
+			{
+				allocations = new List<FundingTimeAllocation>{
+					new FundingTimeAllocation{
+						Time = time,
+						Weeks = 52
+					}
+				};
+			}
 			var space = new FundingSpace
 			{
 				OrganizationId = organizationId,
 				Source = source,
 				AgeGroup = ageGroup,
 				Capacity = capacity,
-				FundingTimeAllocations = new List<FundingTimeAllocation>{
-					new FundingTimeAllocation{
-						Time = time,
-						Weeks = 52
-					}
-				}
+				FundingTimeAllocations = allocations
 			};
 			_context.FundingSpaces.Add(space);
 			_context.SaveChanges();

@@ -6,6 +6,7 @@ import {
 	isCurrentToRangeC4K,
 	getFundingTime,
 	getFundingSpaceTime,
+	dedupeC4kCertificates,
 } from './models';
 import { DeepNonUndefineable } from './types';
 
@@ -20,9 +21,12 @@ type InternalC4KCertificate = DeepNonUndefineable<C4KCertificate> & { type: 'C4K
 
 export type FundingType = (InternalFunding | InternalC4KCertificate) & FundingTypeDiscriminator;
 
-function ptOrFT(fundingSpace?: FundingSpace) {
+function ptOrFT(fundingSpace?: FundingSpace, isSplit?: boolean) {
 	if (!fundingSpace) return '';
 
+	if (isSplit) {
+		return '-PT/FT';
+	}
 	if (getFundingSpaceTime(fundingSpace) === 'Full') {
 		return '–FT';
 	}
@@ -38,17 +42,18 @@ export function generateFundingTypeTag(
 		index?: any;
 		className?: string;
 		includeTime?: boolean;
+		splitTime?: boolean;
 	}
 ): JSX.Element {
 	const color = fundingType.type ? getDisplayColorForFundingType(fundingType.type) : 'gray-90';
-	const { index, className, includeTime } = options || {};
+	const { index, className, includeTime, splitTime } = options || {};
 	let key, text;
 	switch (fundingType.type) {
 		case 'CDC':
 			key = `${fundingType.source}-${getFundingTime(fundingType)}`;
 			if (index) key = `${key}-${index}`;
 			if (fundingType.source && includeTime) {
-				text = `CDC${ptOrFT(fundingType.fundingSpace)}`;
+				text = `CDC${ptOrFT(fundingType.fundingSpace, splitTime)}`;
 			} else if (fundingType.source) {
 				text = 'CDC';
 			} else {
@@ -91,5 +96,8 @@ export function filterFundingTypesForRosterTags(
 		.filter(fundingType => fundingType.type === 'C4K')
 		.filter(fundingType => isCurrentToRangeC4K(fundingType as C4KCertificate, rosterDateRange));
 
-	return [...(dedupeFundings(fundings as Funding[]) as FundingType[]), ...certificates];
+	return [
+		...(dedupeFundings(fundings as Funding[]) as FundingType[]),
+		...(dedupeC4kCertificates(certificates as C4KCertificate[]) as FundingType[]),
+	];
 }
