@@ -5,7 +5,10 @@ import { DeepNonUndefineable } from '../../../utils/types';
 import { Enrollment } from '../../../generated';
 import { mockCompleteEnrollment } from '../../../tests/data';
 import { getValidationError } from '../../../tests/helpers';
-import { REQUIRED_FOR_OEC_REPORTING, REQUIRED_FOR_ENROLLMENT } from '../../../utils/validations/messageStrings';
+import {
+	REQUIRED_FOR_OEC_REPORTING,
+	REQUIRED_FOR_ENROLLMENT,
+} from '../../../utils/validations/messageStrings';
 
 jest.mock('../../../hooks/useApi');
 

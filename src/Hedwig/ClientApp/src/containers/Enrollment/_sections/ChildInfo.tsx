@@ -34,7 +34,10 @@ import { FormReducer, formReducer, updateData } from '../../../utils/forms/form'
 import { DeepNonUndefineable } from '../../../utils/types';
 import useApi, { ApiError } from '../../../hooks/useApi';
 import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
-import { REQUIRED_FOR_ENROLLMENT, REQUIRED_FOR_OEC_REPORTING } from '../../../utils/validations/messageStrings';
+import {
+	REQUIRED_FOR_ENROLLMENT,
+	REQUIRED_FOR_OEC_REPORTING,
+} from '../../../utils/validations/messageStrings';
 
 const ChildInfo: Section = {
 	key: 'child-information',

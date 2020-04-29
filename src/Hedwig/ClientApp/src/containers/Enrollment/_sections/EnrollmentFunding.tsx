@@ -62,7 +62,10 @@ import displayErrorOrWarning from '../../../utils/validations/displayErrorOrWarn
 import useApi, { ApiError } from '../../../hooks/useApi';
 import { dateSorter, propertyDateSorter } from '../../../utils/dateSorter';
 import { propertyBetweenDates, propertyBeforeDate } from '../../../utils/dateFilter';
-import { REQUIRED_FOR_ENROLLMENT, REQUIRED_FOR_OEC_REPORTING } from '../../../utils/validations/messageStrings';
+import {
+	REQUIRED_FOR_ENROLLMENT,
+	REQUIRED_FOR_OEC_REPORTING,
+} from '../../../utils/validations/messageStrings';
 
 type UtilizationRate = {
 	capacity: number;
@@ -566,7 +569,7 @@ const EnrollmentFunding: Section = {
 								warningOptions: {
 									object: enrollment,
 									field: 'entry',
-									message: REQUIRED_FOR_OEC_REPORTING
+									message: REQUIRED_FOR_OEC_REPORTING,
 								},
 							})
 						)}
@@ -602,7 +605,7 @@ const EnrollmentFunding: Section = {
 								warningOptions: {
 									object: enrollment,
 									fields: ['ageGroup'],
-									message: REQUIRED_FOR_OEC_REPORTING
+									message: REQUIRED_FOR_OEC_REPORTING,
 								},
 							})
 						)}
@@ -743,7 +746,7 @@ const EnrollmentFunding: Section = {
 										warningOptions: {
 											object: child ? child : null,
 											field: 'c4KFamilyCaseNumber',
-											message: REQUIRED_FOR_OEC_REPORTING
+											message: REQUIRED_FOR_OEC_REPORTING,
 										},
 									})
 								)}
@@ -765,7 +768,7 @@ const EnrollmentFunding: Section = {
 										warningOptions: {
 											object: c4kFunding ? c4kFunding : null,
 											field: 'startDate',
-											message: REQUIRED_FOR_OEC_REPORTING
+											message: REQUIRED_FOR_OEC_REPORTING,
 										},
 									})
 								)}

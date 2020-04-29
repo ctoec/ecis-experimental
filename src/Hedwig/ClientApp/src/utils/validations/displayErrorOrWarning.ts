@@ -55,17 +55,20 @@ export default function displayErrorOrWarning<T>(
 		}
 	} else if (options.clientErrorOptions) {
 		const clientErrorOpts = options.clientErrorOptions;
-		return clientErrorOpts.errorDisplays.reduce<FormStatusProps|undefined>((clientError, errorDisplay) => {
-			return (
-				clientError ||
-				clientErrorForField(
-					errorDisplay.fieldId,
-					errorDisplay.errorCondition,
-					errorDisplay.message
-				)
-			)
-		}, undefined);
-	}	else {
+		return clientErrorOpts.errorDisplays.reduce<FormStatusProps | undefined>(
+			(clientError, errorDisplay) => {
+				return (
+					clientError ||
+					clientErrorForField(
+						errorDisplay.fieldId,
+						errorDisplay.errorCondition,
+						errorDisplay.message
+					)
+				);
+			},
+			undefined
+		);
+	} else {
 		if (options.warningOptions) {
 			const warningOpts = options.warningOptions;
 			if (options.isFieldSet) {

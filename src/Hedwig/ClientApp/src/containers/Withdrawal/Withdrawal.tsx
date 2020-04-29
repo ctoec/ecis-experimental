@@ -267,34 +267,32 @@ export default function Withdrawal({
 						name="exit"
 						onChange={updateFormData(newDate => newDate.toDate())}
 						date={enrollmentEndDate ? moment(enrollmentEndDate) : undefined}
-						status={
-								displayErrorOrWarning(
-									error,
-								 	{
-										serverErrorOptions: {
-											hasAlertedOnError,
-											setHasAlertedOnError,
-											errorDisplays: [{
-												field: 'exit',
-											}]
-										},
-										clientErrorOptions: {
-											errorDisplays: [	
-												{
-													fieldId: 'exit',
-													errorCondition: attemptedSave && !enrollmentEndDate,
-													message: REQUIRED_FOR_WITHDRAWAL,
-												},
-												{
-													fieldId: 'exit',
-													errorCondition: reportingPeriodOptions.length === 0,
-													message: 'ECE Reporter only contains data for fiscal year 2020 and later. Please do not add children who withdrew prior to July 2019.'
-												}
-											]
-										}
-									}
-								)
-						}
+						status={displayErrorOrWarning(error, {
+							serverErrorOptions: {
+								hasAlertedOnError,
+								setHasAlertedOnError,
+								errorDisplays: [
+									{
+										field: 'exit',
+									},
+								],
+							},
+							clientErrorOptions: {
+								errorDisplays: [
+									{
+										fieldId: 'exit',
+										errorCondition: attemptedSave && !enrollmentEndDate,
+										message: REQUIRED_FOR_WITHDRAWAL,
+									},
+									{
+										fieldId: 'exit',
+										errorCondition: reportingPeriodOptions.length === 0,
+										message:
+											'ECE Reporter only contains data for fiscal year 2020 and later. Please do not add children who withdrew prior to July 2019.',
+									},
+								],
+							},
+						})}
 					/>
 					<ChoiceList
 						type="select"
@@ -308,16 +306,13 @@ export default function Withdrawal({
 						otherInputLabel="Other"
 						name="exitReason"
 						onChange={updateFormData()}
-						status={displayErrorOrWarning(
-							error,
-							{
-								serverErrorOptions: {
-									hasAlertedOnError,
-									setHasAlertedOnError,
-									errorDisplays: [{ field: 'exitReason', message: REQUIRED_FOR_WITHDRAWAL }]
-								}
-							}
-						)}
+						status={displayErrorOrWarning(error, {
+							serverErrorOptions: {
+								hasAlertedOnError,
+								setHasAlertedOnError,
+								errorDisplays: [{ field: 'exitReason', message: REQUIRED_FOR_WITHDRAWAL }],
+							},
+						})}
 					/>
 					{cdcFunding && (
 						<ChoiceList
@@ -332,19 +327,16 @@ export default function Withdrawal({
 								const newReportingPeriodId = parseInt(event.target.value);
 								setLastReportingPeriod(newReportingPeriodId);
 							}}
-							status={displayErrorOrWarning(
-								error,
-								{
-									serverErrorOptions: {
-										hasAlertedOnError,
-										setHasAlertedOnError,
-										errorDisplays: [
-											{field: 'fundings', message: REQUIRED_FOR_WITHDRAWAL },
-											{field: 'fundings.lastReportingPeriod'}
-										]
-									}
-								}
-							)}
+							status={displayErrorOrWarning(error, {
+								serverErrorOptions: {
+									hasAlertedOnError,
+									setHasAlertedOnError,
+									errorDisplays: [
+										{ field: 'fundings', message: REQUIRED_FOR_WITHDRAWAL },
+										{ field: 'fundings.lastReportingPeriod' },
+									],
+								},
+							})}
 						/>
 					)}
 				</div>
