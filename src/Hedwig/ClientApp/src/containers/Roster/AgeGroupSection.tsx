@@ -104,8 +104,13 @@ export default function AgeGroupSection({
 								if (matchingFundingSpaces.length > 1) {
 									includeTime = true;
 									if (value.type === 'CDC') {
-										const specifiedFundingSpace = matchingFundingSpaces.find(fundingSpace => fundingSpace.id == value.fundingSpaceId)
-										if (specifiedFundingSpace && (specifiedFundingSpace.fundingTimeAllocations || []).length > 1) {
+										const specifiedFundingSpace = matchingFundingSpaces.find(
+											fundingSpace => fundingSpace.id == value.fundingSpaceId
+										);
+										if (
+											specifiedFundingSpace &&
+											(specifiedFundingSpace.fundingTimeAllocations || []).length > 1
+										) {
 											splitTime = true;
 										}
 									}

@@ -98,6 +98,6 @@ export function filterFundingTypesForRosterTags(
 
 	return [
 		...(dedupeFundings(fundings as Funding[]) as FundingType[]),
-		...(dedupeC4kCertificates(certificates as C4KCertificate[])) as FundingType[]
+		...(dedupeC4kCertificates(certificates as C4KCertificate[]) as FundingType[]),
 	];
 }

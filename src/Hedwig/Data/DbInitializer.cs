@@ -227,15 +227,6 @@ namespace Hedwig.Data
 						child: child,
 						caseNumber: 123456
 					);
-					CreateFunding(
-						enrollmentId: enrollment.Id,
-						isC4K: true,
-						childId: child.Id,
-						certificateStartDate: entry,
-						certificateEndDate: null,
-						child: child,
-						caseNumber: 123456
-					);
 				}
 
 				if (entry == "2018-09-03" && DateTime.Parse(birthdate) < ageGroupCutoff)
