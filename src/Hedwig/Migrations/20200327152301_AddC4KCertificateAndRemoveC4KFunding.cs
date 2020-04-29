@@ -66,24 +66,7 @@ namespace Hedwig.Migrations
 			");
 
 			migrationBuilder.Sql(@"
-					UPDATE [C4KCertificate]
-					SET [C4KCertificate].[EndDate] = ProcessedCertificates.MostRecentStartDate
-					FROM [C4KCertificate]
-					INNER JOIN (
-						SELECT ChildId, MIN(StartDate) AS MostRecentStartDate
-						FROM C4KCertificate
-						WHERE
-						ChildId IN (
-							SELECT ChildId
-							FROM C4KCertificate
-							WHERE
-							EndDate IS NULL AND
-							StartDate IS NULL
-						)
-						AND StartDate IS NOT NULL
-						GROUP BY ChildId
-					) AS ProcessedCertificates
-					ON ProcessedCertificates.ChildId = C4KCertificate.ChildId
+					DELETE FROM [C4KCertificate]
 					WHERE
 					C4KCertificate.EndDate IS NULL AND 
 					C4KCertificate.StartDate IS NULL
