@@ -13,7 +13,7 @@ import { nameFormatter, splitCamelCase, childWithdrawnAlert } from '../../utils/
 import {
 	enrollmentExitReasons,
 	getCurrentCdcFunding,
-	currentC4kCertificate,
+	getCurrentC4kCertificate,
 	lastNReportingPeriods,
 	reportingPeriodFormatter,
 	prettyFundingTime,
@@ -34,7 +34,6 @@ import {
 } from '../../utils/validations';
 import AlertContext from '../../contexts/Alert/AlertContext';
 import {
-	validationErrorAlert,
 	missingInformationForWithdrawalAlert,
 } from '../../utils/stringFormatters/alertTextMakers';
 import moment from 'moment';
@@ -137,7 +136,7 @@ export default function Withdrawal({
 			? enrollment.fundings
 			: ([] as DeepNonUndefineableArray<Funding>);
 	const cdcFunding = getCurrentCdcFunding(fundings);
-	const c4KFunding = currentC4kCertificate(enrollment);
+	const c4KFunding = getCurrentC4kCertificate(enrollment);
 
 	const { lastReportingPeriod } = cdcFunding || {};
 
