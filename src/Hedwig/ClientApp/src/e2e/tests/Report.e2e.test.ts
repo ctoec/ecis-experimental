@@ -3,6 +3,7 @@ import { render, load } from '../QueryHelper';
 import { DriverHelper } from '../DriverHelper';
 import { clientHost } from '../config';
 import login from '../utilities/login';
+import { findByRole } from '@testing-library/react';
 // import login from '../utilities/login';
 
 // Set time out to 60 seconds
@@ -33,17 +34,23 @@ describe('when trying to submit a report', () => {
 		try {
 			let root = await load(driver, appUrl);
 			root = await login(driver, root);
-			const { findByText } = render(root);
+			const { findByLocator, findByText } = render(root);
 
 			// Navigate to reports tab
-			const reportsLink = await findByText('Reports');
+			const reportsLink = await findByLocator({ xpath: "//nav//*[text()[contains(.,'Reports')]]" });
 			await reportsLink.click();
 
 			// Click on the pending report for March 2020
-			const pendingReportLink = await findByText('March 2020');
+			const pendingReportLink = await findByLocator({
+				xpath: "//table//*[text()[contains(.,'October 2017')]]",
+			});
 			await pendingReportLink.click();
 
 			// Make sure that it's showing an alert for missing an enrollment
+			const missingInfoAlert = await findByLocator({ xpath: "//*[@role='alert']" });
+			expect(await missingInfoAlert.getText()).toMatch(
+				/There are 2 enrollments missing information required to submit this report/
+			);
 		} finally {
 			await driverHelper.quit(driver);
 		}
@@ -95,4 +102,8 @@ describe('when trying to submit a report', () => {
 			await driverHelper.quit(driver);
 		}
 	});
+});
+
+afterAll(async () => {
+	await driverHelper.cleanup();
 });
