@@ -33,9 +33,7 @@ import {
 	clientErrorForField,
 } from '../../utils/validations';
 import AlertContext from '../../contexts/Alert/AlertContext';
-import {
-	missingInformationForWithdrawalAlert,
-} from '../../utils/stringFormatters/alertTextMakers';
+import { missingInformationForWithdrawalAlert } from '../../utils/stringFormatters/alertTextMakers';
 import moment from 'moment';
 import CommonContainer from '../CommonContainer';
 import { InlineIcon, DateInput, ChoiceList, Button } from '../../components';

@@ -30,12 +30,12 @@ export function c4kCertificateSorter(a: C4KCertificate, b: C4KCertificate) {
 /**
  * Returns the c4k cert with no end date
  * (Multiple certs with no end date is an invalid data state)
- * @param enrollment 
+ * @param enrollment
  */
 export function getCurrentC4kCertificate(
 	enrollment: DeepNonUndefineable<Enrollment> | null
 ): DeepNonUndefineable<C4KCertificate> | undefined {
-	if (!enrollment)  return undefined;
+	if (!enrollment) return undefined;
 	if (!enrollment.child) return undefined;
 
 	return (enrollment.child.c4KCertificates || []).find<DeepNonUndefineable<C4KCertificate>>(
