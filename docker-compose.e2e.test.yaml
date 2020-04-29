@@ -20,6 +20,9 @@ services:
     entrypoint:
       - sh
       - /entrypoint.sh
+    depends_on:
+      - db
+      - winged-keys
   client:
     image: node:12
     volumes:
@@ -38,6 +41,7 @@ services:
       BROWSERSTACK_USERNAME: ${BROWSERSTACK_USERNAME}
       BROWSERSTACK_ACCESS_KEY: ${BROWSERSTACK_ACCESS_KEY}
     depends_on:
+      - backend
       - browser-stack-local-tunnel
   winged-keys-db:
     image: mcr.microsoft.com/mssql/server
