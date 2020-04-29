@@ -5,11 +5,27 @@ services:
     environment:
       SA_PASSWORD: TestPassword1
       ACCEPT_EULA: Y
+  backend:
+    build:
+        context: .
+        dockerfile: selenium.Dockerfile
+    environment:
+      ConnectionStrings__HEDWIG: Server=db;Database=master;User=sa;Password=TestPassword1
+      WingedKeysUri: 'https://winged-keys:5050'
+      CLIENT_HOST: 'http://client:3000'
+      DOCKER_DEVELOPMENT: 'true'
+    volumes:
+      - ./entrypoint-backend.sh:/entrypoint.sh
+    working_dir: /app/src/Hedwig
+    entrypoint:
+      - sh
+      - /entrypoint.sh
   client:
     image: node:12
     volumes:
       - ./src/Hedwig/ClientApp:/home/node/app:cached
-      - ./entrypoint-e2e-test.sh:/entrypoint.sh
+      - ./entrypoint-client.sh:/entrypoint.sh
+      - ./run-e2e-test.sh:/run-e2e-test.sh
       - ./wait-for-it.sh:/wait-for-it.sh
     working_dir: /home/node/app
     entrypoint:
@@ -17,12 +33,11 @@ services:
       - /entrypoint.sh
     environment:
       HOST: '0.0.0.0'
-      E2E_CLIENT_URL: 'https://backend-for-selenium:5001'
+      E2E_CLIENT_URL: 'https://backend:5001'
       BROWSERSTACK_LOCAL: 'true'
       BROWSERSTACK_USERNAME: ${BROWSERSTACK_USERNAME}
       BROWSERSTACK_ACCESS_KEY: ${BROWSERSTACK_ACCESS_KEY}
     depends_on:
-      - client-for-selenium
       - browser-stack-local-tunnel
   winged-keys-db:
     image: mcr.microsoft.com/mssql/server
@@ -57,36 +72,3 @@ services:
      - sh 
      - -c 
      - "./BrowserStackLocal --key ${BROWSERSTACK_ACCESS_KEY}"
-
-  # Selenium containers
-  backend-for-selenium:
-    build:
-        context: .
-        dockerfile: selenium.Dockerfile
-    environment:
-      ConnectionStrings__HEDWIG: Server=db;Database=master;User=sa;Password=TestPassword1
-      WingedKeysUri: 'https://winged-keys:5050'
-      CLIENT_HOST: 'http://client-for-selenium:3000'
-      DOCKER_DEVELOPMENT: 'true'
-    volumes:
-      - ./entrypoint-backend.sh:/entrypoint.sh
-    working_dir: /app/src/Hedwig
-    entrypoint:
-      - sh
-      - /entrypoint.sh
-    depends_on:
-      - winged-keys
-  client-for-selenium:
-    image: node:12
-    volumes:
-      - ./src/Hedwig/ClientApp:/home/node/app:cached
-      - ./entrypoint-client.sh:/entrypoint.sh
-    working_dir: /home/node/app
-    entrypoint:
-      - sh
-      - /entrypoint.sh
-    environment:
-      REACT_APP_DEFAULT_WINGED_KEYS_URL: 'https://winged-keys:5050'
-    depends_on:
-      - backend-for-selenium
-      - db
