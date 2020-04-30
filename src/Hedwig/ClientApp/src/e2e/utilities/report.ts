@@ -27,12 +27,17 @@ export const clickReportByTitle = async (
 export const enterMissingChildInfo = async (driver: IWebDriver, _root: WebElement) => {
 	let root = _root;
 	const { findByLocator, queryByLocator, findByText } = render(root);
-	const kennethBranagh = await queryByLocator({
-		xpath: `//table//span[text()[contains(.,'incomplete')]]//ancestor::tr//a`,
+	let kennethBranagh = await queryByLocator({
+		xpath: `(//table)[1]//span[text()[contains(.,'incomplete')]]//ancestor::tr//a`,
 	});
 	if (!kennethBranagh) {
+		console.log('Did not enter missing child info');
 		return root;
 	}
+	// I have no idea why this is necessary
+	kennethBranagh = await findByLocator({
+		xpath: `(//table)[1]//span[text()[contains(.,'incomplete')]]//ancestor::tr//a`,
+	});
 	await kennethBranagh.click();
 	root = await reload(driver);
 

@@ -49,16 +49,20 @@ describe('when trying to submit a report', () => {
 			root = await login(driver, root);
 			root = await enterMissingChildInfo(driver, root);
 			root = await clickReportsTab(driver, root);
+			await driver.wait(until.urlMatches(/reports/));
 
 			const { findByText } = render(root);
 
 			// We aren't changing the range and entering missing info, so submit for Oct 2017 report shuld be disabled
 			root = await clickReportByTitle(driver, root, 'October 2017');
+			await driver.wait(until.urlMatches(/reports\/d*/));
+
 			let submitButton = await findByText('Submit');
 			expect(await submitButton.getAttribute('disabled')).toBeTruthy();
 
 			// We did enter the missing info for the current range, so submit for the current month should not be disabled
 			root = await clickReportsTab(driver, root);
+			await driver.wait(until.urlMatches(/reports/));
 			root = await clickReportByTitle(driver, root, moment().format('MMMM YYYY'));
 			submitButton = await findByText('Submit');
 			expect(await submitButton.getAttribute('disabled')).not.toBeTruthy();
@@ -74,7 +78,11 @@ describe('when trying to submit a report', () => {
 			root = await login(driver, root);
 			root = await enterMissingChildInfo(driver, root);
 			root = await clickReportsTab(driver, root);
+
+			await driver.wait(until.urlMatches(/reports/));
 			root = await clickReportByTitle(driver, root, moment().format('MMMM YYYY'));
+			await driver.wait(until.urlMatches(/reports\/d*/));
+
 			root = await enterFamilyFeesRevenue(driver, root);
 
 			const { findByText, findByLocator } = render(root);
@@ -83,7 +91,6 @@ describe('when trying to submit a report', () => {
 			await submitButton.click();
 
 			await driver.wait(until.urlMatches(/reports/));
-
 			const submittedAlertText = await findByLocator({
 				xpath: "//*/h2[text()='Submitted']//following-sibling::p",
 			});
