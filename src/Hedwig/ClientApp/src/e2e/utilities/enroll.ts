@@ -30,5 +30,5 @@ export async function enterChildInfo(driver: IWebDriver, root: WebElement) {
 
 	await driver.wait(until.urlMatches(/family-information/));
 
-	return root;
+	return await reload(driver);
 }
