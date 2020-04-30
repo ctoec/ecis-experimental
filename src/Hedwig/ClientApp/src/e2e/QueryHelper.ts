@@ -206,7 +206,8 @@ const waitForElement = async (
 	opt_timeout?: number,
 	opt_message?: string
 ) => {
-	return await driver.wait(until.elementLocated(selector), opt_timeout, opt_message);
+	await driver.wait(until.elementLocated(selector), opt_timeout, opt_message);
+	return await driver.findElement(selector);
 };
 
 const extendWebElement = (element: WebElement): ExtendedWebElement => {

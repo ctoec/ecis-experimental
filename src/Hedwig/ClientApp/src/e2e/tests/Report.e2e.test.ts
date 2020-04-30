@@ -9,6 +9,7 @@ import {
 	enterFamilyFeesRevenue,
 } from '../utilities/report';
 import moment from 'moment';
+import { until } from 'selenium-webdriver';
 
 // Set time out to 60 seconds
 jest.setTimeout(60 * 1000);
@@ -78,7 +79,10 @@ describe('when trying to submit a report', () => {
 
 			const { findByText, findByLocator } = render(root);
 			const submitButton = await findByText('Submit');
+			await submitButton.debug();
 			await submitButton.click();
+
+			await driver.wait(until.urlMatches(/reports/));
 
 			const submittedAlertText = await findByLocator({
 				xpath: "//*/h2[text()='Submitted']//following-sibling::p",

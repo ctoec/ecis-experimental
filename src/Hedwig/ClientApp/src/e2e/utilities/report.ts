@@ -1,12 +1,12 @@
 import { IWebDriver } from '../DriverHelper';
 import { WebElement } from 'selenium-webdriver';
-import { render } from '../QueryHelper';
+import { render, reload } from '../QueryHelper';
 
 export const clickReportsTab = async (driver: IWebDriver, root: WebElement) => {
 	const { findByLocator } = render(root);
 	const reportsLink = await findByLocator({ xpath: "//nav//*[text()[contains(.,'Reports')]]" });
 	await reportsLink.click();
-	return root;
+	return await reload(driver);
 };
 
 export const clickReportByTitle = async (
@@ -21,10 +21,11 @@ export const clickReportByTitle = async (
 		xpath: `//table//*[text()[contains(.,'${reportTitle}')]]`,
 	});
 	await pendingReportLink.click();
-	return root;
+	return await reload(driver);
 };
 
-export const enterMissingChildInfo = async (driver: IWebDriver, root: WebElement) => {
+export const enterMissingChildInfo = async (driver: IWebDriver, _root: WebElement) => {
+	let root = _root;
 	const { findByLocator, queryByLocator, findByText } = render(root);
 	const kennethBranagh = await queryByLocator({
 		xpath: `//table//span[text()[contains(.,'incomplete')]]//ancestor::tr//a`,
@@ -33,10 +34,13 @@ export const enterMissingChildInfo = async (driver: IWebDriver, root: WebElement
 		return root;
 	}
 	await kennethBranagh.click();
+	root = await reload(driver);
+
 	const updateMissingInfoSectionLink = await findByLocator({
 		xpath: "//*[text()[contains(.,'Missing information')]]//following-sibling::a",
 	});
 	await updateMissingInfoSectionLink.click();
+	root = await reload(driver);
 
 	// Enter birth cert id, town, state
 	const birthCertInput = await findByLocator({
@@ -58,7 +62,7 @@ export const enterMissingChildInfo = async (driver: IWebDriver, root: WebElement
 	const saveBtn = await findByText('Save');
 	await saveBtn.click();
 
-	return root;
+	return await reload(driver);
 };
 
 export const enterFamilyFeesRevenue = async (driver: IWebDriver, root: WebElement) => {
@@ -66,6 +70,7 @@ export const enterFamilyFeesRevenue = async (driver: IWebDriver, root: WebElemen
 	const familyFeesInput = await findByLocator({
 		xpath: "//*/label[text()[contains(.,'Family Fees')]]//following-sibling::input",
 	});
+	await familyFeesInput.debug();
 	await familyFeesInput.sendKeys('8675');
 	return root;
 };
