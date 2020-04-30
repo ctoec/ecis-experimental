@@ -86,8 +86,9 @@ export const legendDisplayDetails: {
 		),
 		legendTextFormatter: (enrollments, opts = {}) => {
 			const { showPastEnrollments } = opts;
-			const enrolledWithC4k = enrollments.filter(enrollment => !!getCurrentC4kCertificate(enrollment))
-				.length;
+			const enrolledWithC4k = enrollments.filter(
+				enrollment => !!getCurrentC4kCertificate(enrollment)
+			).length;
 			return (
 				<>
 					<span className="text-bold">{enrolledWithC4k}</span>

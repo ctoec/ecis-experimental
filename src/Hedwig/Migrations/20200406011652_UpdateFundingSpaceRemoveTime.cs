@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Hedwig.Migrations
 {
-	public partial class UpdateFundingSpaceRemoveTimea : Migration
+	public partial class UpdateFundingSpaceRemoveTime : Migration
 	{
 		protected override void Up(MigrationBuilder migrationBuilder)
 		{

@@ -39,30 +39,55 @@ namespace Hedwig.Migrations
 					column: "ChildId");
 
 			migrationBuilder.Sql(@"
-								INSERT INTO [C4KCertificate] ([ChildId], [StartDate], [EndDate])
-										SELECT [Enrollment].[ChildId], [Funding].[CertificateStartDate], [Funding].[CertificateEndDate]
-										FROM [Enrollment]
-										LEFT JOIN [Funding]
-										ON [Enrollment].[Id] = [Funding].[EnrollmentId]
-										WHERE [Funding].[Source] = 1 /* C4K */;
-						");
+					INSERT INTO [C4KCertificate] ([ChildId], [StartDate], [EndDate])
+							SELECT [Enrollment].[ChildId], [Funding].[CertificateStartDate], [Funding].[CertificateEndDate]
+							FROM [Enrollment]
+							LEFT JOIN [Funding]
+							ON [Enrollment].[Id] = [Funding].[EnrollmentId]
+							WHERE [Funding].[Source] = 1 /* C4K */;
+			");
+
 			migrationBuilder.Sql(@"
-								UPDATE [Child]
-								SET [Child].[C4KFamilyCaseNumber] = ProcessedFunding.[Id]
-								FROM [Child]
-								INNER JOIN (
-										-- We are assuming all FamilyIds for a Child will be the same
-										SELECT [Child].[Id] as ChildId, MAX([Funding].[FamilyId]) as Id
-										FROM [Child]
-										INNER JOIN [Enrollment]
-										ON [Child].[Id] = [Enrollment].[ChildId]
-										INNER JOIN [Funding]
-										ON [Funding].[EnrollmentId] = [Enrollment].[Id]
-										WHERE [Funding].[FamilyId] IS NOT NULL
-										GROUP BY [Child].[Id]
-								) ProcessedFunding
-								ON ProcessedFunding.[ChildId] = [Child].[Id]
-						");
+					UPDATE [Child]
+					SET [Child].[C4KFamilyCaseNumber] = ProcessedFunding.[Id]
+					FROM [Child]
+					INNER JOIN (
+							-- We are assuming all FamilyIds for a Child will be the same
+							SELECT [Child].[Id] as ChildId, MAX([Funding].[FamilyId]) as Id
+							FROM [Child]
+							INNER JOIN [Enrollment]
+							ON [Child].[Id] = [Enrollment].[ChildId]
+							INNER JOIN [Funding]
+							ON [Funding].[EnrollmentId] = [Enrollment].[Id]
+							WHERE [Funding].[FamilyId] IS NOT NULL
+							GROUP BY [Child].[Id]
+					) ProcessedFunding
+					ON ProcessedFunding.[ChildId] = [Child].[Id]
+			");
+
+			// Delete bad C4K Certificate data: 
+			// A Child cannot have multiple C4K Certificates with EndDate == null.
+			// Delete C4K Certificates with StartDate and EndDate == null if the child
+			// has other certificates with EndDate == null, because that record
+			// does not contain any meaningful information
+			migrationBuilder.Sql(@"					
+					DELETE FROM [C4KCertificate]
+					WHERE
+					C4KCertificate.EndDate IS NULL AND 
+					C4KCertificate.StartDate IS NULL AND
+					ChildId IN (
+						SELECT ChildId
+						FROM C4KCertificate
+						WHERE EndDate IS NULL
+						GROUP BY ChildId
+						HAVING COUNT(*) > 1
+					)	
+			");
+
+			migrationBuilder.Sql(@"
+						DELETE FROM [Funding]
+						WHERE [Source] = 1 /* C4K */
+					");
 
 			migrationBuilder.DropColumn(
 					name: "CertificateEndDate",
