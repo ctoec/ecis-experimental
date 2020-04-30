@@ -2,7 +2,12 @@ import { render, load } from '../QueryHelper';
 import { DriverHelper } from '../DriverHelper';
 import { clientHost } from '../config';
 import login from '../utilities/login';
-import { clickReportsTab, clickReportByTitle, enterMissingChildInfo } from '../utilities/report';
+import {
+	clickReportsTab,
+	clickReportByTitle,
+	enterMissingChildInfo,
+	enterFamilyFeesRevenue,
+} from '../utilities/report';
 import moment from 'moment';
 
 // Set time out to 60 seconds
@@ -61,33 +66,27 @@ describe('when trying to submit a report', () => {
 		}
 	});
 
-	it('shows an error if submission is attempted without family fees revenue', async () => {
-		const driver = driverHelper.createDriver();
-		try {
-			let root = await load(driver, appUrl);
-
-			// root = await login(driver, root);
-			// log in
-			// find the kid with the missing info
-			// enter the info that's missing
-			// go to the report tab
-			// submit the report
-		} finally {
-			await driverHelper.quit(driver);
-		}
-	});
-
 	it('shows a success alert after report is submitted', async () => {
 		const driver = driverHelper.createDriver();
 		try {
 			let root = await load(driver, appUrl);
+			root = await login(driver, root);
+			root = await enterMissingChildInfo(driver, root);
+			root = await clickReportsTab(driver, root);
+			root = await clickReportByTitle(driver, root, moment().format('MMMM YYYY'));
+			root = await enterFamilyFeesRevenue(driver, root);
 
-			// root = await login(driver, root);
-			// log in
-			// find the kid with the missing info
-			// enter the info that's missing
-			// go to the report tab
-			// submit the report
+			const { findByText, findByLocator } = render(root);
+			const submitButton = await findByText('Submit');
+			await submitButton.click();
+
+			const submittedAlertText = await findByLocator({
+				xpath: "//*/h2[text()='Submitted']//following-sibling::p",
+			});
+
+			expect(await submittedAlertText.getText()).toMatch(
+				/CDC Report has been shared with the Office of Early Childhood. Thank you!/
+			);
 		} finally {
 			await driverHelper.quit(driver);
 		}

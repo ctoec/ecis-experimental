@@ -60,3 +60,12 @@ export const enterMissingChildInfo = async (driver: IWebDriver, root: WebElement
 
 	return root;
 };
+
+export const enterFamilyFeesRevenue = async (driver: IWebDriver, root: WebElement) => {
+	const { findByLocator } = render(root);
+	const familyFeesInput = await findByLocator({
+		xpath: "//*/label[text()[contains(.,'Family Fees')]]//following-sibling::input",
+	});
+	await familyFeesInput.sendKeys('8675');
+	return root;
+};
