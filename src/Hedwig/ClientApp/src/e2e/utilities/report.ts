@@ -1,11 +1,13 @@
 import { IWebDriver } from '../DriverHelper';
-import { WebElement } from 'selenium-webdriver';
+import { WebElement, until } from 'selenium-webdriver';
 import { render, reload } from '../QueryHelper';
+import { getTextInputByLabelSelector } from './componentUtils';
 
 export const clickReportsTab = async (driver: IWebDriver, root: WebElement) => {
 	const { findByLocator } = render(root);
 	const reportsLink = await findByLocator({ xpath: "//nav//*[text()[contains(.,'Reports')]]" });
 	await reportsLink.click();
+	await driver.wait(until.urlMatches(/reports/));
 	return await reload(driver);
 };
 
@@ -21,6 +23,7 @@ export const clickReportByTitle = async (
 		xpath: `//table//*[text()[contains(.,'${reportTitle}')]]`,
 	});
 	await pendingReportLink.click();
+	await driver.wait(until.urlMatches(/reports\/d*/));
 	return await reload(driver);
 };
 
@@ -49,17 +52,17 @@ export const enterMissingChildInfo = async (driver: IWebDriver, _root: WebElemen
 
 	// Enter birth cert id, town, state
 	const birthCertInput = await findByLocator({
-		xpath: "//*/label[text()='Birth certificate ID #']//following-sibling::input",
+		xpath: getTextInputByLabelSelector('Birth certificate ID'),
 	});
 	await birthCertInput.sendKeys('8675309');
 
 	const birthTownInput = await findByLocator({
-		xpath: "//*/label[text()='Town']//following-sibling::input",
+		xpath: getTextInputByLabelSelector('Town'),
 	});
 	await birthTownInput.sendKeys('Philadelphia');
 
 	const birthStateInput = await findByLocator({
-		xpath: "//*/label[text()='State']//following-sibling::input",
+		xpath: getTextInputByLabelSelector('State'),
 	});
 	await birthStateInput.sendKeys('PA');
 
@@ -73,7 +76,7 @@ export const enterMissingChildInfo = async (driver: IWebDriver, _root: WebElemen
 export const enterFamilyFeesRevenue = async (driver: IWebDriver, root: WebElement) => {
 	const { findByLocator } = render(root);
 	const familyFeesInput = await findByLocator({
-		xpath: "//*/label[text()[contains(.,'Family Fees')]]//following-sibling::input",
+		xpath: getTextInputByLabelSelector('Family Fees'),
 	});
 	await familyFeesInput.debug();
 	await familyFeesInput.sendKeys('8675');
