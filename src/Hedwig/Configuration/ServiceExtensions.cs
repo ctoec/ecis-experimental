@@ -218,7 +218,7 @@ namespace Hedwig.Configuration
 			services.AddScoped<IValidationRule<Funding>, FundingTimelinesAreValid>();
 
 			// C4K Certificates
-			services.AddScoped<IValidationRule<C4KCertificate>, CertificateStartDateRequired>();
+			services.AddScoped<IValidationRule<C4KCertificate>, IfEndDateNull_StartDateRequired>();
 
 			// Register Non-blocking validator
 			services.AddScoped<INonBlockingValidator, NonBlockingValidator>();

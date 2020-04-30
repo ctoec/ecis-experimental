@@ -17,7 +17,7 @@ namespace Hedwig.Validations.Rules
 
 		public ValidationError Execute(Child child, NonBlockingValidationContext context)
 		{
-			var certificates = _certificates.GetC4KCertificatesByChildId(child.Id);
+			var certificates = child.C4KCertificates ?? _certificates.GetC4KCertificatesByChildId(child.Id);
 			ValidateSubObject(certificates, child);
 			if (certificates.Any(c => c.ValidationErrors.Count > 0))
 			{
