@@ -1,5 +1,5 @@
 import { until, WebElement } from 'selenium-webdriver';
-import { render, load } from '../QueryHelper';
+import { render, load, reload } from '../QueryHelper';
 import { DriverHelper, IWebDriver } from '../DriverHelper';
 import { clientHost } from '../config';
 import login from '../utilities/login';
@@ -20,7 +20,7 @@ const clickReportsTab = async (driver: IWebDriver, root: WebElement) => {
 	const { findByLocator } = render(root);
 	const reportsLink = await findByLocator({ xpath: "//nav//*[text()[contains(.,'Reports')]]" });
 	await reportsLink.click();
-	return root;
+	return await reload(driver);
 };
 
 const clickOct2017Report = async (driver: IWebDriver, root: WebElement) => {
@@ -31,7 +31,7 @@ const clickOct2017Report = async (driver: IWebDriver, root: WebElement) => {
 		xpath: "//table//*[text()[contains(.,'October 2017')]]",
 	});
 	await pendingReportLink.click();
-	return root;
+	return await reload(driver);
 };
 
 const enterMissingChildInfo = async (driver: IWebDriver, root: WebElement) => {
@@ -49,7 +49,10 @@ const enterMissingChildInfo = async (driver: IWebDriver, root: WebElement) => {
 		return root;
 	}
 	expect(kidsMissingInfo.length).toBe(1);
-	const kennethBranagh = kidsMissingInfo[0];
+	// Can't just grab the first value from the array because it gives a stale element reference error
+	const kennethBranagh = await findByLocator({
+		xpath: "//table//span[text()[contains(.,'incomplete')]]//ancestor::tr//a",
+	});;
 	await kennethBranagh.click();
 	const updateMissingInfoSectionLink = await findByLocator({
 		xpath: "//*[text()[contains(.,'Missing information')]]//following-sibling::a",
@@ -76,7 +79,7 @@ const enterMissingChildInfo = async (driver: IWebDriver, root: WebElement) => {
 	const saveBtn = await findByText('Save');
 	await saveBtn.click();
 
-	return root;
+	return await reload(driver);
 };
 
 describe('when trying to submit a report', () => {
