@@ -2,7 +2,8 @@ import { render, load } from '../QueryHelper';
 import { DriverHelper } from '../DriverHelper';
 import { clientHost } from '../config';
 import login from '../utilities/login';
-import { clickReportsTab, clickOct2017Report, enterMissingInfoForAllChildren } from '../utilities/report';
+import { clickReportsTab, clickReportByTitle, enterMissingChildInfo } from '../utilities/report';
+import moment from 'moment';
 
 // Set time out to 60 seconds
 jest.setTimeout(60 * 1000);
@@ -21,7 +22,7 @@ describe('when trying to submit a report', () => {
 			let root = await load(driver, appUrl);
 			root = await login(driver, root);
 			root = await clickReportsTab(driver, root);
-			root = await clickOct2017Report(driver, root);
+			root = await clickReportByTitle(driver, root, 'October 2017');
 
 			const { findByLocator } = render(root);
 
@@ -40,13 +41,21 @@ describe('when trying to submit a report', () => {
 		try {
 			let root = await load(driver, appUrl);
 			root = await login(driver, root);
-			root = await enterMissingInfoForAllChildren(driver, root);
+			root = await enterMissingChildInfo(driver, root);
 			root = await clickReportsTab(driver, root);
-			root = await clickOct2017Report(driver, root);
-			const { debug } = render(root);
-			await debug();
 
-			// try to submit the report without entering info, run into errors
+			const { findByText } = render(root);
+
+			// We aren't changing the range and entering missing info, so submit for Oct 2017 report shuld be disabled
+			root = await clickReportByTitle(driver, root, 'October 2017');
+			let submitButton = await findByText('Submit');
+			expect(await submitButton.getAttribute('disabled')).toBeTruthy();
+
+			// We did enter the missing info for the current range, so submit for the current month should not be disabled
+			root = await clickReportsTab(driver, root);
+			root = await clickReportByTitle(driver, root, moment().format('MMMM YYYY'));
+			submitButton = await findByText('Submit');
+			expect(await submitButton.getAttribute('disabled')).not.toBeTruthy();
 		} finally {
 			await driverHelper.quit(driver);
 		}

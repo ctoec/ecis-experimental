@@ -155,10 +155,6 @@ class ExtendedWebElement extends WebElement implements WebElementExtension {
 		}
 	}
 	async queryAllByLocator(locator: Locator) {
-		// Doesn't work without this but maybe this was not how this method was intended to work?
-		const driver = this.getDriver();
-		await driver.wait(until.elementsLocated(locator));
-
 		const elements = await this.findElements(locator);
 		const extendedElements = elements.map(element => extendWebElement(element));
 		return extendedElements;
