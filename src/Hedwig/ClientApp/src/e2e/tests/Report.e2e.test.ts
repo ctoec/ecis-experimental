@@ -23,15 +23,33 @@ const clickReportsTab = async (driver: IWebDriver, root: WebElement) => {
 	return root;
 };
 
+const clickOct2017Report = async (driver: IWebDriver, root: WebElement) => {
+	const { findByLocator } = render(root);
+
+	// Click on the pending report for March 2020
+	const pendingReportLink = await findByLocator({
+		xpath: "//table//*[text()[contains(.,'October 2017')]]",
+	});
+	await pendingReportLink.click();
+	return root;
+};
+
 const enterMissingChildInfo = async (driver: IWebDriver, root: WebElement) => {
 	// find the kid with the missing info
 	// enter the info that's missing
 	// go to the report tab
-	const { findByLocator, findByText } = render(root);
+	const { findByLocator, queryAllByLocator, findByText } = render(root);
 	// Find the child name with the incomplete marker next to it
-	const kennethBranagh = await findByLocator({
+	const kidsMissingInfo = await queryAllByLocator({
 		xpath: "//table//span[text()[contains(.,'incomplete')]]//ancestor::tr//a",
 	});
+	if (kidsMissingInfo.length === 0) {
+		// This method modifies what's in the db
+		// If there are no incomplete enrollments return
+		return root;
+	}
+	expect(kidsMissingInfo.length).toBe(1);
+	const kennethBranagh = kidsMissingInfo[0];
 	await kennethBranagh.click();
 	const updateMissingInfoSectionLink = await findByLocator({
 		xpath: "//*[text()[contains(.,'Missing information')]]//following-sibling::a",
@@ -68,14 +86,9 @@ describe('when trying to submit a report', () => {
 			let root = await load(driver, appUrl);
 			root = await login(driver, root);
 			root = await clickReportsTab(driver, root);
+			root = await clickOct2017Report(driver, root);
 
 			const { findByLocator } = render(root);
-
-			// Click on the pending report for March 2020
-			const pendingReportLink = await findByLocator({
-				xpath: "//table//*[text()[contains(.,'October 2017')]]",
-			});
-			await pendingReportLink.click();
 
 			// Make sure that it's showing an alert for missing an enrollment
 			const missingInfoAlert = await findByLocator({ xpath: "//*[@role='alert']" });
@@ -94,12 +107,10 @@ describe('when trying to submit a report', () => {
 			root = await login(driver, root);
 			root = await enterMissingChildInfo(driver, root);
 			root = await clickReportsTab(driver, root);
+			root = await clickOct2017Report(driver, root);
+			const { debug } = render(root);
+			await debug();
 
-			// root = await login(driver, root);
-			// log in
-			// find the kid with the missing info
-			// enter the info that's missing
-			// go to the report tab
 			// try to submit the report without entering info, run into errors
 		} finally {
 			await driverHelper.quit(driver);
