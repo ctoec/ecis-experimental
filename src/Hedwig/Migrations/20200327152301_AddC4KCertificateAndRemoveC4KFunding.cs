@@ -65,11 +65,23 @@ namespace Hedwig.Migrations
 					ON ProcessedFunding.[ChildId] = [Child].[Id]
 			");
 
-			migrationBuilder.Sql(@"
+			// Delete bad C4K Certificate data: 
+			// A Child cannot have multiple C4K Certificates with EndDate == null.
+			// Delete C4K Certificates with StartDate and EndDate == null if the child
+			// has other certificates with EndDate == null, because that record
+			// does not contain any meaningful information
+			migrationBuilder.Sql(@"					
 					DELETE FROM [C4KCertificate]
 					WHERE
 					C4KCertificate.EndDate IS NULL AND 
-					C4KCertificate.StartDate IS NULL
+					C4KCertificate.StartDate IS NULL AND
+					ChildId IN (
+						SELECT ChildId
+						FROM C4KCertificate
+						WHERE EndDate IS NULL
+						GROUP BY ChildId
+						HAVING COUNT(*) > 1
+					)	
 			");
 
 			migrationBuilder.Sql(@"
