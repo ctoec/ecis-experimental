@@ -111,12 +111,6 @@ jobs:
       dockerComposeCommand: "exec -T client /run-e2e-test.sh"
     continueOnError: true
 
-  - task: DockerCompose@0
-    displayName: "Show docker logs"
-    inputs:
-      dockerComposeFile: "$(Agent.BuildDirectory)/ecis-experimental/docker-compose.e2e.test.yaml"
-      dockerComposeCommand: "logs"
-
   - task: PublishTestResults@2
     displayName: "Publish test results"
     condition: succeededOrFailed()
@@ -124,7 +118,7 @@ jobs:
       testResultsFormat: "JUnit"
       searchFolder: "$(Agent.BuildDirectory)"
       testResultsFiles: "**/junit.xml"
-      failTaskOnFailedTests: false
+      failTaskOnFailedTests: true
 
 #
 # Sonarcloud Analysis

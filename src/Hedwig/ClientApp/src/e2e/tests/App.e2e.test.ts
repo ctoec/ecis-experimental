@@ -27,7 +27,7 @@ describe('Smoke screen', () => {
 		);
 	});
 
-	afterEach(async (done) => {
+	afterEach(async done => {
 		await DriverHelper.quit(driver);
 		bs_local.stop(() => {
 			done();

@@ -76,32 +76,6 @@ services:
     - winged-keys-db
 
   # Selenium containers
-  # backend-for-selenium:
-  #   build:
-  #       context: .
-  #       dockerfile: selenium.Dockerfile
-  #   environment:
-  #     ConnectionStrings__HEDWIG: Server=db;Database=master;User=sa;Password=TestPassword1
-  #     WingedKeysUri: 'https://winged-keys:5050'
-  #     CLIENT_HOST: 'http://client-for-selenium:3000'
-  #     DOCKER_DEVELOPMENT: 'true'
-  #   volumes:
-  #     - ./entrypoint-backend.sh:/entrypoint.sh
-  #   working_dir: /app/src/Hedwig
-  #   entrypoint:
-  #     - sh
-  #     - /entrypoint.sh
-  # client-for-selenium:
-  #   image: node:12
-  #   volumes:
-  #     - ./src/Hedwig/ClientApp:/home/node/app:cached
-  #     - ./entrypoint-client.sh:/entrypoint.sh
-  #   working_dir: /home/node/app
-  #   entrypoint:
-  #     - sh
-  #     - /entrypoint.sh
-  #   environment:
-  #     REACT_APP_DEFAULT_WINGED_KEYS_URL: 'https://winged-keys:5050'
   selenium-hub:
     image: selenium/hub
     container_name: selenium-hub
