@@ -3,22 +3,17 @@ import { DriverHelper, IWebDriver } from '../DriverHelper';
 import { clientHost } from '../config';
 import login from '../utilities/login';
 import { until } from 'selenium-webdriver';
-import Browserstack from 'browserstack-local';
-import { browserStackAccesstoken } from '../config';
+import { browserStackAccesstoken, bs_local } from '../config';
 
-// Set time out to 3 minutes
-jest.setTimeout(3 * 60 * 1000);
+// Set time out to 1 minute
+jest.setTimeout(60 * 1000);
 
 const appUrl = `${clientHost}/`;
 
 describe('Smoke screen', () => {
 	let driver: IWebDriver;
-	let bs_local: Browserstack.Local;
-	beforeAll(() => {
-		bs_local = new Browserstack.Local();
-	});
 	beforeEach(done => {
-		const localIdentifier = '' + Math.random() * 100000;
+		const localIdentifier = '' + Math.random() * 10000000;
 		bs_local.start(
 			{
 				key: browserStackAccesstoken,
@@ -32,9 +27,11 @@ describe('Smoke screen', () => {
 		);
 	});
 
-	afterEach(async () => {
+	afterEach(async (done) => {
 		await DriverHelper.quit(driver);
-		bs_local.stop(() => {});
+		bs_local.stop(() => {
+			done();
+		});
 	});
 
 	it('Browser Title renders', async () => {

@@ -40,6 +40,7 @@ services:
     environment:
       HOST: '0.0.0.0'
       E2E_CLIENT_URL: 'https://backend:5001'
+      REACT_APP_DEFAULT_WINGED_KEYS_URL: 'https://winged-keys:5050'
       BROWSERSTACK_LOCAL: 'true'
       BROWSERSTACK_USERNAME: ${BROWSERSTACK_USERNAME}
       BROWSERSTACK_ACCESS_KEY: ${BROWSERSTACK_ACCESS_KEY}
