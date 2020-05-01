@@ -35,7 +35,6 @@ describe('Smoke screen', () => {
 	});
 
 	it('Browser Title renders', async () => {
-		// const driver = await DriverHelper.createDriver('Hedwig', 'App.e2e.test.ts');
 		try {
 			await load(driver, appUrl);
 			const title = await driver.getTitle();
@@ -44,7 +43,6 @@ describe('Smoke screen', () => {
 	});
 
 	it('HTML Title renders', async () => {
-		// const driver = await DriverHelper.createDriver('Hedwig', 'App.e2e.test.ts');
 		try {
 			const root = await load(driver, appUrl);
 			const { getByLocator } = render(root);
@@ -55,7 +53,6 @@ describe('Smoke screen', () => {
 	});
 
 	it('Logs in', async () => {
-		// const driver = await DriverHelper.createDriver();
 		try {
 			let root = await load(driver, appUrl);
 
