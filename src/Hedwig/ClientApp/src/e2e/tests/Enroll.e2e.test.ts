@@ -1,24 +1,44 @@
 import { until } from 'selenium-webdriver';
 import { render, load } from '../QueryHelper';
-import { DriverHelper } from '../DriverHelper';
+import { DriverHelper, IWebDriver } from '../DriverHelper';
 import { clientHost } from '../config';
 import login from '../utilities/login';
 import { beginEnroll, enterChildInfo } from '../utilities/enroll';
 import { REQUIRED_FOR_ENROLLMENT } from '../../utils/validations/messageStrings';
+import Browserstack from 'browserstack-local';
+import {
+	browserStackAccesstoken,
+} from '../config';
 
-// Set time out to 60 seconds
-jest.setTimeout(60 * 1000);
+// Set time out to 10 minutes
+jest.setTimeout(10 * 60 * 1000);
 
 const appUrl = `${clientHost}/`;
 
-let driverHelper: DriverHelper;
-beforeAll(() => {
-	driverHelper = new DriverHelper();
-});
-
 describe('during an Enroll workflow', () => {
+	let driver: IWebDriver;
+	let bs_local: Browserstack.Local;
+	beforeAll(() => {
+		bs_local = new Browserstack.Local();
+	});
+	beforeEach((done) => {
+		const localIdentifier = '' + Math.random() * 100000;
+		bs_local.start({
+			key: browserStackAccesstoken,
+			forceLocal: true,
+			localIdentifier: localIdentifier
+		}, () => {
+			driver = DriverHelper.createDriver(localIdentifier);
+			done();
+		});
+	});
+
+	afterEach(async () => {
+		await DriverHelper.quit(driver);
+		bs_local.stop(() => {	});
+	});
+
 	it('shows an alert when missing first and last name', async () => {
-		const driver = driverHelper.createDriver();
 		try {
 			let root = await load(driver, appUrl);
 
@@ -33,13 +53,10 @@ describe('during an Enroll workflow', () => {
 			const alerts = await queryAllByText(REQUIRED_FOR_ENROLLMENT);
 			expect(alerts.length).not.toBeLessThan(1);
 			expect(alerts[0]).not.toBeNull();
-		} finally {
-			await driverHelper.quit(driver);
-		}
+		} catch {}
 	});
 
 	it('moves to the next section when first and last name are supplied', async () => {
-		const driver = driverHelper.createDriver();
 		try {
 			let root = await load(driver, appUrl);
 
@@ -53,13 +70,10 @@ describe('during an Enroll workflow', () => {
 			expect(alerts.length).toBe(0);
 			const currentUrl = await driver.getCurrentUrl();
 			expect(currentUrl).toMatch(/family-information/);
-		} finally {
-			await driverHelper.quit(driver);
-		}
+		} catch {}
 	});
 
 	it('moves to the next section if no family info is entered', async () => {
-		const driver = driverHelper.createDriver();
 		try {
 			let root = await load(driver, appUrl);
 
@@ -75,13 +89,10 @@ describe('during an Enroll workflow', () => {
 
 			const currentUrl = await driver.getCurrentUrl();
 			expect(currentUrl).toMatch(/family-income/);
-		} finally {
-			await driverHelper.quit(driver);
-		}
+		} catch { }
 	});
 
 	it('moves to the next section if no family income is entered', async () => {
-		const driver = driverHelper.createDriver();
 		try {
 			let root = await load(driver, appUrl);
 
@@ -102,13 +113,10 @@ describe('during an Enroll workflow', () => {
 
 			const currentUrl = await driver.getCurrentUrl();
 			expect(currentUrl).toMatch(/enrollment-funding/);
-		} finally {
-			await driverHelper.quit(driver);
-		}
+		} catch { }
 	});
 
 	it('shows all valid funding options in enrollment and funding section before and after save', async () => {
-		const driver = driverHelper.createDriver();
 		try {
 			let root = await load(driver, appUrl);
 
@@ -193,7 +201,8 @@ describe('during an Enroll workflow', () => {
 				xpath:
 					"//*[text()[contains(.,'Enrollment date:')]]/descendant::span[text()[contains(.,'incomplete')]]",
 			});
-			expect(await enrollmentFundingInlineMissingInfo.getAttribute('class')).toMatch('usa-sr-only');
+			const enrollmentFundingInlineMissingInfoClass = await enrollmentFundingInlineMissingInfo.getAttribute('class');
+			expect(enrollmentFundingInlineMissingInfoClass).toMatch('usa-sr-only');
 
 			const steps = await queryAllByLocator({
 				xpath: "//a[text()[contains(.,'Edit')]]",
@@ -219,13 +228,10 @@ describe('during an Enroll workflow', () => {
 			});
 			const newselectedContractSpace = await contractSpaceDropdown.getAttribute('value');
 			expect(newselectedContractSpace).toBe(selectedContractSpace);
-		} finally {
-			await driverHelper.quit(driver);
-		}
+		} catch { }
 	});
 
 	it('shows all a success alert after finishing the enrollment', async () => {
-		const driver = driverHelper.createDriver();
 		try {
 			let root = await load(driver, appUrl);
 
@@ -257,12 +263,6 @@ describe('during an Enroll workflow', () => {
 			const alert = await findByText('Enrolled, some information missing');
 			const alertText = await alert.getText();
 			expect(alertText).toBe('Enrolled, some information missing');
-		} finally {
-			await driverHelper.quit(driver);
-		}
+		} catch { }
 	});
-});
-
-afterAll(async () => {
-	await driverHelper.cleanup();
 });

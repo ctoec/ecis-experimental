@@ -1,45 +1,63 @@
 import { render, load } from '../QueryHelper';
-import { DriverHelper } from '../DriverHelper';
+import { DriverHelper, IWebDriver } from '../DriverHelper';
 import { clientHost } from '../config';
 import login from '../utilities/login';
 import { until } from 'selenium-webdriver';
+import Browserstack from 'browserstack-local';
+import {
+	browserStackAccesstoken,
+} from '../config';
 
-// Set time out to 60 seconds
-jest.setTimeout(60 * 1000);
+// Set time out to 10 minutes
+jest.setTimeout(10 * 60 * 1000);
 
 const appUrl = `${clientHost}/`;
 
-let driverHelper: DriverHelper;
-beforeAll(() => {
-	driverHelper = new DriverHelper();
-});
-
 describe('Smoke screen', () => {
+	let driver: IWebDriver;
+	let bs_local: Browserstack.Local;
+	beforeAll(() => {
+		bs_local = new Browserstack.Local();
+	});
+	beforeEach((done) => {
+		const localIdentifier = '' + Math.random() * 100000;
+		bs_local.start({
+			key: browserStackAccesstoken,
+			forceLocal: true,
+			localIdentifier: localIdentifier
+		}, () => {
+			driver = DriverHelper.createDriver(localIdentifier);
+			done();
+		});
+	});
+
+	afterEach(async () => {
+		await DriverHelper.quit(driver);
+		bs_local.stop(() => {	});
+	});
+
 	it('Browser Title renders', async () => {
-		const driver = driverHelper.createDriver();
+		// const driver = await DriverHelper.createDriver('Hedwig', 'App.e2e.test.ts');
 		try {
 			await load(driver, appUrl);
 			const title = await driver.getTitle();
 			expect(title).toBe('ECE Reporter');
-		} finally {
-			await driverHelper.quit(driver);
-		}
+		} catch {	}
 	});
 
 	it('HTML Title renders', async () => {
-		const driver = driverHelper.createDriver();
+		// const driver = await DriverHelper.createDriver('Hedwig', 'App.e2e.test.ts');
 		try {
 			const root = await load(driver, appUrl);
 			const { getByLocator } = render(root);
 			const header = await getByLocator({ css: 'header div.primary-title' });
-			expect(await header.getText()).toBe('ECE Reporter');
-		} finally {
-			await driverHelper.quit(driver);
-		}
+			const text = await header.getText();
+			expect(text).toBe('ECE Reporter');
+		} catch {	}
 	});
 
 	it('Logs in', async () => {
-		const driver = driverHelper.createDriver();
+		// const driver = await DriverHelper.createDriver();
 		try {
 			let root = await load(driver, appUrl);
 
@@ -49,15 +67,9 @@ describe('Smoke screen', () => {
 
 			// Wait for welcome header text to display
 			const name = await findByLocator({ css: '.oec-logged-in-user' });
-			await driver.wait(until.elementTextMatches(name, /Hi/i));
+			const text = await driver.wait(until.elementTextMatches(name, /Hi/i));
 
-			expect(await name.getText()).toMatch(/Hi, .*/);
-		} finally {
-			await driverHelper.quit(driver);
-		}
+			expect(text).toMatch(/Hi, .*/);
+		} catch { }
 	});
-});
-
-afterAll(async () => {
-	await driverHelper.cleanup();
 });

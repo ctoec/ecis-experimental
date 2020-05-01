@@ -9,7 +9,7 @@ namespace HedwigTests.Repositories
 	public class UserRepositoryTests
 	{
 		[Fact]
-		public async Task Get_User_By_Id()
+		public void Get_User_By_Id()
 		{
 			using (var context = new TestHedwigContextProvider().Context)
 			{
@@ -18,7 +18,7 @@ namespace HedwigTests.Repositories
 
 				// When the repository is queried by Id
 				var userRepo = new UserRepository(context);
-				var res = await userRepo.GetUserByIdAsync(user.Id);
+				var res = userRepo.GetUserById(user.Id);
 
 				// Then the user with that Id is returned
 				Assert.Equal(user.Id, res.Id);
