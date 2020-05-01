@@ -6,9 +6,7 @@ import login from '../utilities/login';
 import { beginEnroll, enterChildInfo } from '../utilities/enroll';
 import { REQUIRED_FOR_ENROLLMENT } from '../../utils/validations/messageStrings';
 import Browserstack from 'browserstack-local';
-import {
-	browserStackAccesstoken,
-} from '../config';
+import { browserStackAccesstoken } from '../config';
 
 // Set time out to 10 minutes
 jest.setTimeout(10 * 60 * 1000);
@@ -21,21 +19,24 @@ describe('during an Enroll workflow', () => {
 	beforeAll(() => {
 		bs_local = new Browserstack.Local();
 	});
-	beforeEach((done) => {
+	beforeEach(done => {
 		const localIdentifier = '' + Math.random() * 100000;
-		bs_local.start({
-			key: browserStackAccesstoken,
-			forceLocal: true,
-			localIdentifier: localIdentifier
-		}, () => {
-			driver = DriverHelper.createDriver(localIdentifier);
-			done();
-		});
+		bs_local.start(
+			{
+				key: browserStackAccesstoken,
+				forceLocal: true,
+				localIdentifier: localIdentifier,
+			},
+			() => {
+				driver = DriverHelper.createDriver(localIdentifier);
+				done();
+			}
+		);
 	});
 
 	afterEach(async () => {
 		await DriverHelper.quit(driver);
-		bs_local.stop(() => {	});
+		bs_local.stop(() => {});
 	});
 
 	it('shows an alert when missing first and last name', async () => {
@@ -89,7 +90,7 @@ describe('during an Enroll workflow', () => {
 
 			const currentUrl = await driver.getCurrentUrl();
 			expect(currentUrl).toMatch(/family-income/);
-		} catch { }
+		} catch {}
 	});
 
 	it('moves to the next section if no family income is entered', async () => {
@@ -113,7 +114,7 @@ describe('during an Enroll workflow', () => {
 
 			const currentUrl = await driver.getCurrentUrl();
 			expect(currentUrl).toMatch(/enrollment-funding/);
-		} catch { }
+		} catch {}
 	});
 
 	it('shows all valid funding options in enrollment and funding section before and after save', async () => {
@@ -201,7 +202,9 @@ describe('during an Enroll workflow', () => {
 				xpath:
 					"//*[text()[contains(.,'Enrollment date:')]]/descendant::span[text()[contains(.,'incomplete')]]",
 			});
-			const enrollmentFundingInlineMissingInfoClass = await enrollmentFundingInlineMissingInfo.getAttribute('class');
+			const enrollmentFundingInlineMissingInfoClass = await enrollmentFundingInlineMissingInfo.getAttribute(
+				'class'
+			);
 			expect(enrollmentFundingInlineMissingInfoClass).toMatch('usa-sr-only');
 
 			const steps = await queryAllByLocator({
@@ -228,7 +231,7 @@ describe('during an Enroll workflow', () => {
 			});
 			const newselectedContractSpace = await contractSpaceDropdown.getAttribute('value');
 			expect(newselectedContractSpace).toBe(selectedContractSpace);
-		} catch { }
+		} catch {}
 	});
 
 	it('shows all a success alert after finishing the enrollment', async () => {
@@ -263,6 +266,6 @@ describe('during an Enroll workflow', () => {
 			const alert = await findByText('Enrolled, some information missing');
 			const alertText = await alert.getText();
 			expect(alertText).toBe('Enrolled, some information missing');
-		} catch { }
+		} catch {}
 	});
 });

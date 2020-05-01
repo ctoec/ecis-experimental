@@ -4,9 +4,7 @@ import { clientHost } from '../config';
 import login from '../utilities/login';
 import { until } from 'selenium-webdriver';
 import Browserstack from 'browserstack-local';
-import {
-	browserStackAccesstoken,
-} from '../config';
+import { browserStackAccesstoken } from '../config';
 
 // Set time out to 10 minutes
 jest.setTimeout(10 * 60 * 1000);
@@ -19,21 +17,24 @@ describe('Smoke screen', () => {
 	beforeAll(() => {
 		bs_local = new Browserstack.Local();
 	});
-	beforeEach((done) => {
+	beforeEach(done => {
 		const localIdentifier = '' + Math.random() * 100000;
-		bs_local.start({
-			key: browserStackAccesstoken,
-			forceLocal: true,
-			localIdentifier: localIdentifier
-		}, () => {
-			driver = DriverHelper.createDriver(localIdentifier);
-			done();
-		});
+		bs_local.start(
+			{
+				key: browserStackAccesstoken,
+				forceLocal: true,
+				localIdentifier: localIdentifier,
+			},
+			() => {
+				driver = DriverHelper.createDriver(localIdentifier);
+				done();
+			}
+		);
 	});
 
 	afterEach(async () => {
 		await DriverHelper.quit(driver);
-		bs_local.stop(() => {	});
+		bs_local.stop(() => {});
 	});
 
 	it('Browser Title renders', async () => {
@@ -42,7 +43,7 @@ describe('Smoke screen', () => {
 			await load(driver, appUrl);
 			const title = await driver.getTitle();
 			expect(title).toBe('ECE Reporter');
-		} catch {	}
+		} catch {}
 	});
 
 	it('HTML Title renders', async () => {
@@ -53,7 +54,7 @@ describe('Smoke screen', () => {
 			const header = await getByLocator({ css: 'header div.primary-title' });
 			const text = await header.getText();
 			expect(text).toBe('ECE Reporter');
-		} catch {	}
+		} catch {}
 	});
 
 	it('Logs in', async () => {
@@ -70,6 +71,6 @@ describe('Smoke screen', () => {
 			const text = await driver.wait(until.elementTextMatches(name, /Hi/i));
 
 			expect(text).toMatch(/Hi, .*/);
-		} catch { }
+		} catch {}
 	});
 });
