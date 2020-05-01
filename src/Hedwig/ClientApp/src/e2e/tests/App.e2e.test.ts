@@ -6,8 +6,8 @@ import { until } from 'selenium-webdriver';
 import Browserstack from 'browserstack-local';
 import { browserStackAccesstoken } from '../config';
 
-// Set time out to 10 minutes
-jest.setTimeout(10 * 60 * 1000);
+// Set time out to 3 minutes
+jest.setTimeout(3 * 60 * 1000);
 
 const appUrl = `${clientHost}/`;
 
