@@ -34,6 +34,10 @@ import { FormReducer, formReducer, updateData } from '../../../utils/forms/form'
 import { DeepNonUndefineable } from '../../../utils/types';
 import useApi, { ApiError } from '../../../hooks/useApi';
 import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
+import {
+	REQUIRED_FOR_ENROLLMENT,
+	REQUIRED_FOR_OEC_REPORTING,
+} from '../../../utils/validations/messageStrings';
 
 const ChildInfo: Section = {
 	key: 'child-information',
@@ -207,7 +211,7 @@ const ChildInfo: Section = {
 									setHasAlertedOnError,
 									'child.firstname',
 									_error,
-									'This information is required for enrollment'
+									REQUIRED_FOR_ENROLLMENT
 								)
 							)}
 						/>
@@ -239,7 +243,7 @@ const ChildInfo: Section = {
 										setHasAlertedOnError,
 										'child.lastname',
 										_error,
-										'This information is required for enrollment'
+										REQUIRED_FOR_ENROLLMENT
 									)
 								)}
 							/>
@@ -272,7 +276,7 @@ const ChildInfo: Section = {
 							'birthdate-fields',
 							['birthdate'],
 							enrollment ? enrollment.child : null,
-							'This information is required for OEC reporting'
+							REQUIRED_FOR_OEC_REPORTING
 						)
 					)}
 				/>
@@ -285,7 +289,7 @@ const ChildInfo: Section = {
 							'birth-certificate-fields',
 							['birthCertificateId', 'birthState', 'birthTown'],
 							enrollment ? enrollment.child : null,
-							'This information is required for OEC reporting'
+							REQUIRED_FOR_OEC_REPORTING
 						)
 					)}
 					legend="Birth certificate"
@@ -348,7 +352,7 @@ const ChildInfo: Section = {
 							'race-checklist',
 							childRace.map(o => o.value),
 							enrollment ? enrollment.child : null,
-							'This information is required for OEC reporting'
+							REQUIRED_FOR_OEC_REPORTING
 						)
 					)}
 					legend="Race"
@@ -367,7 +371,7 @@ const ChildInfo: Section = {
 							'ethnicity-radiogroup',
 							['hispanicOrLatinxEthnicity'],
 							enrollment ? enrollment.child : null,
-							'This information is required for OEC reporting'
+							REQUIRED_FOR_OEC_REPORTING
 						)
 					)}
 					legend="Ethnicity"
@@ -426,7 +430,7 @@ const ChildInfo: Section = {
 							'gender-select',
 							['gender'],
 							enrollment ? enrollment.child : null,
-							'This information is required for OEC reporting'
+							REQUIRED_FOR_OEC_REPORTING
 						)
 					)}
 				/>

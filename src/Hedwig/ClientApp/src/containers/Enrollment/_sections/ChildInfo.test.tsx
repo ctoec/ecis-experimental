@@ -5,6 +5,10 @@ import { DeepNonUndefineable } from '../../../utils/types';
 import { Enrollment } from '../../../generated';
 import { mockCompleteEnrollment } from '../../../tests/data';
 import { getValidationError } from '../../../tests/helpers';
+import {
+	REQUIRED_FOR_OEC_REPORTING,
+	REQUIRED_FOR_ENROLLMENT,
+} from '../../../utils/validations/messageStrings';
 
 jest.mock('../../../hooks/useApi');
 
@@ -23,7 +27,7 @@ describe('enrollment sections', () => {
 			);
 
 			const firstNameInput = (await findByText('First name')).closest('div');
-			expect(firstNameInput).toHaveTextContent('This information is required for enrollment');
+			expect(firstNameInput).toHaveTextContent(REQUIRED_FOR_ENROLLMENT);
 		});
 
 		it('shows an error if rendered without a child last name', async () => {
@@ -39,7 +43,7 @@ describe('enrollment sections', () => {
 				/>
 			);
 			const lastNameInput = (await findByText('Last name')).closest('div');
-			expect(lastNameInput).toHaveTextContent('This information is required for enrollment');
+			expect(lastNameInput).toHaveTextContent(REQUIRED_FOR_ENROLLMENT);
 		});
 
 		it.each([
@@ -78,7 +82,7 @@ describe('enrollment sections', () => {
 					fieldSet = span.closest('fieldset');
 				}
 
-				expect(fieldSet).toHaveTextContent('This information is required for OEC reporting');
+				expect(fieldSet).toHaveTextContent(REQUIRED_FOR_OEC_REPORTING);
 			}
 		);
 
@@ -109,7 +113,7 @@ describe('enrollment sections', () => {
 
 			const [span] = (await findAllByText('Race')).filter(elem => elem.tagName == 'SPAN');
 			const fieldSet = span.closest('fieldset');
-			expect(fieldSet).toHaveTextContent('This information is required for OEC reporting');
+			expect(fieldSet).toHaveTextContent(REQUIRED_FOR_OEC_REPORTING);
 		});
 	});
 });

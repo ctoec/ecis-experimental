@@ -31,6 +31,7 @@ import {
 import FormInset from '../../../../components/Form/FormInset';
 import FormSubmitButton from '../../../../components/Form/FormSubmitButton';
 import { propertyDateSorter } from '../../../../utils/dateSorter';
+import { REQUIRED_FOR_OEC_REPORTING } from '../../../../utils/validations/messageStrings';
 
 const EntryForm: React.FC<SectionProps> = ({
 	enrollment,
@@ -148,7 +149,7 @@ const EntryForm: React.FC<SectionProps> = ({
 									// value of determinationDate and should not trigger a missing information alert
 									['numberOfPeople', 'income', !determinationDate ? 'determinationDate' : ''],
 									determination ? determination : null,
-									'This information is required for OEC reporting'
+									REQUIRED_FOR_OEC_REPORTING
 								) ||
 									// Missing determination warning
 									warningForFieldSet(

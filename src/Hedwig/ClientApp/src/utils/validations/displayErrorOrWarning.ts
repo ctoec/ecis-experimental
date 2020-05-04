@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import { FormStatusProps } from '../../components';
 import { serverErrorForField } from '.';
-import { warningForField } from './errorForField';
+import { warningForField, clientErrorForField } from './errorForField';
 import { warningForFieldSet } from './errorForFieldSet';
 import { ValidationProblemDetails, ProblemDetails } from '../../generated';
 
@@ -10,7 +10,7 @@ export default function displayErrorOrWarning<T>(
 	options: {
 		isFieldSet?: boolean;
 		fieldSetId?: string;
-		errorOptions?: {
+		serverErrorOptions?: {
 			hasAlertedOnError: boolean;
 			setHasAlertedOnError: Dispatch<SetStateAction<boolean>>;
 			errorDisplays: {
@@ -18,6 +18,14 @@ export default function displayErrorOrWarning<T>(
 				message?: string;
 			}[];
 		};
+		clientErrorOptions?: {
+			errorDisplays: {
+				fieldId: string;
+				errorCondition: boolean;
+				message?: string;
+			}[];
+		};
+
 		warningOptions?: {
 			object: T | null;
 			field?: string;
@@ -27,8 +35,8 @@ export default function displayErrorOrWarning<T>(
 	}
 ): FormStatusProps | undefined {
 	if (error) {
-		if (options.errorOptions) {
-			const errorOpts = options.errorOptions;
+		if (options.serverErrorOptions) {
+			const errorOpts = options.serverErrorOptions;
 			return errorOpts.errorDisplays.reduce<FormStatusProps | undefined>(
 				(serverError, errorDisplay) => {
 					return (
@@ -45,6 +53,21 @@ export default function displayErrorOrWarning<T>(
 				undefined
 			);
 		}
+	} else if (options.clientErrorOptions) {
+		const clientErrorOpts = options.clientErrorOptions;
+		return clientErrorOpts.errorDisplays.reduce<FormStatusProps | undefined>(
+			(clientError, errorDisplay) => {
+				return (
+					clientError ||
+					clientErrorForField(
+						errorDisplay.fieldId,
+						errorDisplay.errorCondition,
+						errorDisplay.message
+					)
+				);
+			},
+			undefined
+		);
 	} else {
 		if (options.warningOptions) {
 			const warningOpts = options.warningOptions;

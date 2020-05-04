@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Hedwig.Models;
+using Hedwig.Repositories;
 
 namespace Hedwig.Validations.Attributes
 {
@@ -8,16 +9,18 @@ namespace Hedwig.Validations.Attributes
 		protected override ValidationResult IsValid(object value, ValidationContext validationContext)
 		{
 			var funding = validationContext.ObjectInstance as Funding;
-			var lastReportingPeriod = value as ReportingPeriod;
 
-			if (lastReportingPeriod != null)
+			if (funding.LastReportingPeriodId.HasValue)
 			{
-				if (funding.FirstReportingPeriod == null)
+				if (!funding.FirstReportingPeriodId.HasValue)
 				{
 					return new ValidationResult("Last reporting period cannot be added without first reporting period");
 				}
 
-				if (lastReportingPeriod.Period < funding.FirstReportingPeriod.Period)
+				var reportingPeriods = validationContext.GetService(typeof(IReportingPeriodRepository)) as IReportingPeriodRepository;
+				var firstReportingPeriod = funding.FirstReportingPeriod ?? reportingPeriods.GetById(funding.FirstReportingPeriodId.Value);
+				var lastReportingPeriod = funding.LastReportingPeriod ?? reportingPeriods.GetById(funding.LastReportingPeriodId.Value);
+				if (lastReportingPeriod.Period < firstReportingPeriod.Period)
 				{
 					return new ValidationResult("Last reporting period cannot be before first reporting period");
 				}

@@ -29,8 +29,6 @@ import {
 	useFocusFirstError,
 	hasValidationErrors,
 	isBlockingValidationError,
-	serverErrorForField,
-	clientErrorForField,
 } from '../../utils/validations';
 import AlertContext from '../../contexts/Alert/AlertContext';
 import { missingInformationForWithdrawalAlert } from '../../utils/stringFormatters/alertTextMakers';
@@ -40,6 +38,8 @@ import { InlineIcon, DateInput, ChoiceList, Button } from '../../components';
 import { processBlockingValidationErrors } from '../../utils/validations/processBlockingValidationErrors';
 import dateFormatter from '../../utils/dateFormatter';
 import { generateFundingTypeTag } from '../../utils/fundingType';
+import displayErrorOrWarning from '../../utils/validations/displayErrorOrWarning';
+import { REQUIRED_FOR_WITHDRAWAL } from '../../utils/validations/messageStrings';
 
 type WithdrawalProps = {
 	history: History;
@@ -264,28 +264,32 @@ export default function Withdrawal({
 						name="exit"
 						onChange={updateFormData(newDate => newDate.toDate())}
 						date={enrollmentEndDate ? moment(enrollmentEndDate) : undefined}
-						status={
-							// TODO should we use a different fact for this condition?
-							reportingPeriodOptions.length === 0
-								? {
-										type: 'error',
-										id: 'last-reporting-period-error',
+						status={displayErrorOrWarning(error, {
+							serverErrorOptions: {
+								hasAlertedOnError,
+								setHasAlertedOnError,
+								errorDisplays: [
+									{
+										field: 'exit',
+									},
+								],
+							},
+							clientErrorOptions: {
+								errorDisplays: [
+									{
+										fieldId: 'exit',
+										errorCondition: attemptedSave && !enrollmentEndDate,
+										message: REQUIRED_FOR_WITHDRAWAL,
+									},
+									{
+										fieldId: 'exit',
+										errorCondition: reportingPeriodOptions.length === 0,
 										message:
 											'ECE Reporter only contains data for fiscal year 2020 and later. Please do not add children who withdrew prior to July 2019.',
-								  }
-								: error &&
-								  processBlockingValidationErrors(
-										'exit',
-										(error as ValidationProblemDetails).errors
-								  )
-								? serverErrorForField(hasAlertedOnError, setHasAlertedOnError, 'exit', error)
-								: clientErrorForField(
-										'exit',
-										enrollmentEndDate,
-										attemptedSave,
-										'This information is required for withdrawal'
-								  )
-						}
+									},
+								],
+							},
+						})}
 					/>
 					<ChoiceList
 						type="select"
@@ -299,13 +303,13 @@ export default function Withdrawal({
 						otherInputLabel="Other"
 						name="exitReason"
 						onChange={updateFormData()}
-						status={serverErrorForField(
-							hasAlertedOnError,
-							setHasAlertedOnError,
-							'exitReason',
-							error,
-							'This information is required for withdrawal'
-						)}
+						status={displayErrorOrWarning(error, {
+							serverErrorOptions: {
+								hasAlertedOnError,
+								setHasAlertedOnError,
+								errorDisplays: [{ field: 'exitReason', message: REQUIRED_FOR_WITHDRAWAL }],
+							},
+						})}
 					/>
 					{cdcFunding && (
 						<ChoiceList
@@ -320,15 +324,16 @@ export default function Withdrawal({
 								const newReportingPeriodId = parseInt(event.target.value);
 								setLastReportingPeriod(newReportingPeriodId);
 							}}
-							status={serverErrorForField(
-								hasAlertedOnError,
-								setHasAlertedOnError,
-								'fundings',
-								error,
-								// if last reporting period exists, then the value is invalid
-								// so do not display required information copy
-								lastReportingPeriod ? undefined : 'This information is required for withdrawal'
-							)}
+							status={displayErrorOrWarning(error, {
+								serverErrorOptions: {
+									hasAlertedOnError,
+									setHasAlertedOnError,
+									errorDisplays: [
+										{ field: 'fundings', message: REQUIRED_FOR_WITHDRAWAL },
+										{ field: 'fundings.lastReportingPeriod' },
+									],
+								},
+							})}
 						/>
 					)}
 				</div>

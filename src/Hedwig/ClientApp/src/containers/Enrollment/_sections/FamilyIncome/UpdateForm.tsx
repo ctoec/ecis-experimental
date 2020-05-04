@@ -29,6 +29,7 @@ import { propertyDateSorter } from '../../../../utils/dateSorter';
 import moment from 'moment';
 import UserContext from '../../../../contexts/User/UserContext';
 import { createEmptyFamily, getIdForUser } from '../../../../utils/models';
+import { REQUIRED_FOR_OEC_REPORTING } from '../../../../utils/validations/messageStrings';
 
 const UpdateForm: React.FC<SectionProps> = ({
 	enrollment,
@@ -137,7 +138,7 @@ const UpdateForm: React.FC<SectionProps> = ({
 								// value of determinationDate and should not trigger a missing information alert
 								['numberOfPeople', 'income', !determinationDate ? 'determinationDate' : ''],
 								determination ? determination : null,
-								'This information is required for OEC reporting'
+								REQUIRED_FOR_OEC_REPORTING
 							) ||
 								// Missing determination warning
 								warningForFieldSet(
