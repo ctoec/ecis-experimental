@@ -61,22 +61,30 @@ const RosterHeader: React.FC<RosterHeaderProps> = ({
 							optionsProps={{
 								className: 'position-absolute right-1',
 							}}
+							arrowType="arrowDown"
 						/>
 					</div>
 				</div>
 				<div className="margin-bottom-4 grid-row">
 					<div className="tablet:grid-col-fill">
 						<div className="intro display-flex flex-row flex-wrap flex-justify-start">
-							<span className="display-flex flex-first-baseline">
+							<span className="display-flex flex-first-baseline usa-prose">
 								{pluralizedNumKids} enrolled across&nbsp;
 								<ButtonWithDrowdown
 									id="site-select"
 									appearance="unstyled"
+									className="line-height--small"
 									text={` ${sites.length} sites`}
 									options={sites.map(s => ({
 										text: s.name || '',
 										value: `/roster/sites/${s.id}`,
 									}))}
+									dropdownProps={{
+										svgProps: {
+											fill: 'currentColor',
+										},
+									}}
+									arrowType="angleArrowDown"
 								/>
 							</span>
 						</div>
