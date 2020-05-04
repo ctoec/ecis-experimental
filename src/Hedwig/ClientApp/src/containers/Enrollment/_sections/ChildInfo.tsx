@@ -72,9 +72,6 @@ const ChildInfo: Section = {
 
 		// set up form state
 		const initialLoad = visitedSections ? !visitedSections[ChildInfo.key] : false;
-		if (initialLoad) {
-			visitSection && visitSection(ChildInfo);
-		}
 		const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
 		const [_error, setError] = useState<ApiError | null>(error);
 		useFocusFirstError([_error]);
@@ -150,7 +147,10 @@ const ChildInfo: Section = {
 		};
 
 		const useApiOpts = {
-			callback: () => setAttemptingSave(false),
+			callback: () => {
+				setAttemptingSave(false);
+				visitSection && visitSection(ChildInfo);
+			},
 			skip: enrollment
 				? // If there is already an enrollment, then we should fire the put when we are attempting save and there is an enrollment
 				  !attemptingSave || !enrollment

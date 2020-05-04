@@ -160,9 +160,6 @@ const EnrollmentFunding: Section = {
 		const { setAlerts } = useContext(AlertContext);
 		const initialLoad = visitedSections ? !visitedSections[EnrollmentFunding.key] : false;
 		const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
-		if (initialLoad) {
-			visitSection && visitSection(EnrollmentFunding);
-		}
 		const [error, setError] = useState<ApiError | null>(inputError);
 		useFocusFirstError([error]);
 		useEffect(() => {
@@ -538,7 +535,13 @@ const EnrollmentFunding: Section = {
 		};
 		const { error: saveError, data: saveData } = useApi<Enrollment>(
 			api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(defaultParams),
-			{ skip: !attemptingSave || !user, callback: () => setAttemptingSave(false) }
+			{
+				skip: !attemptingSave || !user,
+				callback: () => {
+					setAttemptingSave(false);
+					visitSection && visitSection(EnrollmentFunding);
+				},
+			}
 		);
 		useEffect(() => {
 			// If the request did not go through, return early

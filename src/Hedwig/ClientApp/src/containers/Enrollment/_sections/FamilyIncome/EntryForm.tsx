@@ -50,9 +50,6 @@ const EntryForm: React.FC<SectionProps> = ({
 	// set up form state
 	const { setAlerts } = useContext(AlertContext);
 	const initialLoad = visitedSections ? !visitedSections[FamilyIncome.key] : false;
-	if (initialLoad) {
-		visitSection && visitSection(FamilyIncome);
-	}
 	const [error, setError] = useState<ApiError | null>(inputError);
 	const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
 	useEffect(() => {
@@ -93,7 +90,13 @@ const EntryForm: React.FC<SectionProps> = ({
 	};
 	const { error: saveError, data: saveData } = useApi<Enrollment>(
 		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(defaultParams),
-		{ skip: !attemptingSave, callback: () => setAttemptingSave(false) }
+		{
+			skip: !attemptingSave,
+			callback: () => {
+				setAttemptingSave(false);
+				visitSection && visitSection(FamilyIncome);
+			},
+		}
 	);
 
 	useEffect(() => {
