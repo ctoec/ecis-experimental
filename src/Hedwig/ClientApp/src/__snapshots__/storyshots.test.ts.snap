@@ -5201,6 +5201,7 @@ exports[`Storyshots StepList Default 1`] = `
           Complete
         </div>
         <a
+          className="usa-link"
           href="/1"
           onClick={[Function]}
         >
