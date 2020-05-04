@@ -3,24 +3,50 @@ import { DeepNonUndefineable } from '../types';
 import { prettyFundingTime } from './fundingTime';
 
 /**
- * Returns a prettified string for the collection of funding space time allocations
- * for a given fundingSpace. Allocations are sorted by descending weeks for pretty string, e.g.
- * - fundingSpaceTimeAllocations: [{time: 'Part', weeks: 52}]; prettified string: 'Part time (52 weeks)'
- * - fundingSpaceTimeAllocations: [{time: 'Full', weeks: 10}, {time: 'Part', weeks: 42}]; prettified string: 'Part time (42 weeks) / full time (10 weeks)'
+ * Returns a prettified string for the funding time for a given fundingSpace. If the funding is type 'split',
+ * then the pretty string includes both full time and part time, ordered by number of allocated weeks.
+ * Optionally includes number of allocated weeks, for all times or only for split times. E.g.:
+ *
+ * - funding.time = Full, include weeks = false: "Full time"
+ * - funding.time = Part, include weeks = true: "Part time (52 weeks)"
+ *
+ * - funding.time = split, funding.timeSplit = {fullTimeWeeks = 42, partTimeWeeks = 10}, include weeks = false: "Full time / part time"
+ * - funding.time = split, funding.timeSplit = {fullTimeWeeks = 10, partTimeWeeks = 42}, include weeks = true: "Part time (42 weeks) / full time (10 weeks)"
  * @param fundingSpace
  */
-export function prettyFundingSpaceTimeAllocations(fundingSpace: DeepNonUndefineable<FundingSpace>) {
-	if (!fundingSpace.fundingTimeAllocations) return '';
+export function prettyFundingSpaceTime(fundingSpace: FundingSpace, includeWeeks: boolean = false) {
+	const FULL_YEAR_WEEKS = 52;
+	if (fundingSpace.time !== FundingTime.Split) {
+		return `${prettyFundingTime(fundingSpace.time, true)}${formattedWeeks(
+			includeWeeks,
+			FULL_YEAR_WEEKS
+		)}`;
+	}
 
-	const fundingTimeAllocations = fundingSpace.fundingTimeAllocations.sort(fta => fta.weeks);
-	let str = '';
-	fundingTimeAllocations.forEach((timeAllocation, idx) => {
-		if (idx > 0) str += ' / ';
-		str += `${prettyFundingTime(timeAllocation.time, idx === 0)} (${timeAllocation.weeks} weeks)`;
-	});
+	const fullTimeWeeks = fundingSpace.timeSplit ? fundingSpace.timeSplit.fullTimeWeeks : -1;
+	const partTimeWeeks = fundingSpace.timeSplit ? fundingSpace.timeSplit.partTimeWeeks : -1;
 
-	return str;
+	const fullTimeFirst = fullTimeWeeks > partTimeWeeks;
+
+	if (fullTimeFirst) {
+		return (
+			`${prettyFundingTime(FundingTime.Full, true)}${formattedWeeks(includeWeeks, fullTimeWeeks)}` +
+			` / ${prettyFundingTime(FundingTime.Part)}${formattedWeeks(includeWeeks, partTimeWeeks)}`
+		);
+	}
+
+	return (
+		`${prettyFundingTime(FundingTime.Part, true)}${formattedWeeks(includeWeeks, partTimeWeeks)}` +
+		` / ${prettyFundingTime(FundingTime.Full)}${formattedWeeks(includeWeeks, fullTimeWeeks)}`
+	);
 }
+
+function formattedWeeks(includeWeeks: boolean, weeks: number) {
+	if (!includeWeeks) return '';
+	if (weeks < 0) return '';
+	return ` (${weeks} weeks)`;
+}
+
 /**
  * Returns the fundingSpaces with given ageGroup and source value
  *
@@ -32,13 +58,10 @@ export function getFundingSpacesFor(
 	opts: {
 		ageGroup?: Age;
 		source?: FundingSource;
-		time?: FundingTime | FundingTime[];
 	}
 ) {
 	if (!fundingSpaces) return [];
-	const { ageGroup, source, time } = opts;
-	let timeOpt = Array.isArray(time) ? time : [time];
-
+	const { ageGroup, source } = opts;
 	return fundingSpaces.filter(space => {
 		let match = true;
 		if (ageGroup) {
@@ -47,53 +70,9 @@ export function getFundingSpacesFor(
 		if (source) {
 			match = match && space.source === source;
 		}
-		const spaceTimes = getFundingSpaceTimes(space);
-		if (spaceTimes && time) {
-			match = match && spaceTimes.sort().join() === timeOpt.sort().join();
-		}
+
 		return match;
 	});
-}
-
-// Returns unique times for a funding space sorted alphabetically
-export function getFundingSpaceTimes(
-	fundingSpace: FundingSpace | undefined
-): FundingTime[] | undefined {
-	if (!fundingSpace) return;
-	if (!fundingSpace.fundingTimeAllocations) return;
-	if (!fundingSpace.fundingTimeAllocations.length) return;
-	const uniqueFundingTimes = fundingSpace.fundingTimeAllocations
-		.map(space => space.time)
-		.filter((time, index, timesArray) => timesArray.indexOf(time) === index)
-		.sort();
-	return uniqueFundingTimes;
-}
-
-/**
- * Returns time for associated FundingTimeAllocation
- * TODO: Update to handle FundingSpace with multiple FundingTimeAllocations
- * @param fundingSpace
- */
-export function getFundingSpaceTime(fundingSpace: FundingSpace | undefined) {
-	if (!fundingSpace) return;
-	if (!fundingSpace.fundingTimeAllocations) return;
-	if (!fundingSpace.fundingTimeAllocations.length) return;
-
-	return fundingSpace.fundingTimeAllocations[0].time;
-}
-
-export function getCombinedCapacity(
-	fundingSpaces: DeepNonUndefineable<FundingSpace[]> | null | undefined,
-	source?: FundingSource
-) {
-	if (!fundingSpaces) return 0;
-
-	let _fundingSpaces = fundingSpaces;
-	if (source) {
-		_fundingSpaces = _fundingSpaces.filter(fundingSpace => fundingSpace.source === source);
-	}
-
-	return _fundingSpaces.reduce((sum, space) => sum + space.capacity, 0);
 }
 
 /**
@@ -103,7 +82,7 @@ export function getCombinedCapacity(
  */
 export function getFundingSpaceCapacity(
 	organization: Organization | undefined,
-	opts: { source?: string; ageGroup?: string; time?: string }
+	opts: { source?: string; ageGroup?: string }
 ): number {
 	if (!organization) return 0;
 	if (!organization.fundingSpaces) return 0;
@@ -118,14 +97,27 @@ export function getFundingSpaceCapacity(
 		fundingSpaces = fundingSpaces.filter(fs => fs.ageGroup === opts.ageGroup);
 	}
 
-	if (opts.time) {
-		fundingSpaces = fundingSpaces.filter(fs => getFundingSpaceTime(fs) === opts.time);
-	}
+	return fundingSpaces.reduce(
+		(totalCapacity, fundingSpace) => totalCapacity + fundingSpace.capacity,
+		0
+	);
+}
 
-	let capacity = 0;
-	fundingSpaces.forEach(fs => {
-		if (fs.capacity) capacity += fs.capacity;
-	});
+/**
+ * Sorts fundingSpaces by age, then by time
+ * @param a
+ * @param b
+ */
+export function fundingSpaceSorter(
+	a: DeepNonUndefineable<FundingSpace>,
+	b: DeepNonUndefineable<FundingSpace>
+) {
+	if (a.ageGroup > b.ageGroup) return 1;
+	if (a.ageGroup < b.ageGroup) return -1;
 
-	return capacity;
+	// secondary sort by time
+	if (a.time > b.time) return 1;
+	if (a.time < b.time) return -1;
+
+	return 0;
 }

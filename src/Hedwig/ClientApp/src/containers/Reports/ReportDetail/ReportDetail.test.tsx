@@ -1,4 +1,4 @@
-// Variables used in jest mockes -- must start with `mock`
+// Variables used in jest mocks -- must start with `mock`
 import {
 	mockDefaultReport,
 	mockReport as _mockReport,
@@ -54,27 +54,6 @@ describe('ReportDetail', () => {
 			</TestProvider>
 		);
 		expect(asFragment()).toMatchSnapshot();
-	});
-
-	it('has the correct utilization ratios', () => {
-		// Default report has 2 full time preschool spaces
-		// These mocked enrollments are one of each full and part infant/toddler and preschool
-		mockReport = {
-			...mockDefaultReport,
-			enrollments: [
-				mockPartTimeInfantEnrollment,
-				mockFullTimeInfantEnrollment,
-				mockCompleteEnrollment,
-				mockPartTimeEnrollment,
-			],
-		};
-		const { getAllByText } = render(
-			<TestProvider>
-				<ReportDetail />
-			</TestProvider>
-		);
-		const oneOfZeros = getAllByText(/1\/\d* spaces/);
-		expect(oneOfZeros).toHaveLength(4);
 	});
 
 	describe('when roster is missing information', () => {

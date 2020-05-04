@@ -11,14 +11,14 @@ describe('funding utils', () => {
 				...baseFunding,
 				source: FundingSource.CDC,
 				fundingSpace: {
-					fundingTimeAllocations: [{ time: FundingTime.Full, weeks: 52 }],
+					time: FundingTime.Full,
 				},
 			} as FundingType,
 			{
 				...baseFunding,
 				source: FundingSource.CDC,
 				fundingSpace: {
-					fundingTimeAllocations: [{ time: FundingTime.Part, weeks: 52 }],
+					time: FundingTime.Part,
 				},
 			} as FundingType,
 		];
@@ -51,7 +51,7 @@ describe('funding utils', () => {
 				dueAt: new Date(Date.now()),
 			};
 
-			const baseFunding = { id: 1, enrollmentId: 1, source: FundingSource.CDC };
+			const baseFunding = { id: 1, enrollmentId: 1, source: FundingSource.CDC, fundingSpaceId: 1 };
 
 			const funding: Funding = {
 				...baseFunding,

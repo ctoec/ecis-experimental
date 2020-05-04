@@ -1,7 +1,7 @@
 import React from 'react';
-import { Organization, Enrollment, FundingSource, Site, FundingSpace } from '../generated';
-import { DeepNonUndefineable, DeepNonUndefineableArray } from './types';
-import { isFunded, getCurrentC4kCertificate, getCombinedCapacity } from './models';
+import { Organization, Enrollment, FundingSource, Site } from '../generated';
+import { DeepNonUndefineable } from './types';
+import { isFunded, getCurrentC4kCertificate, getFundingSpaceCapacity } from './models';
 import { getDisplayColorForFundingType, FundingTypes } from './fundingType';
 import { Tag, InlineIcon } from '../components';
 
@@ -41,10 +41,8 @@ export const legendDisplayDetails: {
 			const enrolledForCdc = enrollments.filter(enrollment =>
 				isFunded(enrollment, { source: FundingSource.CDC })
 			).length;
-			const cdcCapacity = getCombinedCapacity(
-				organization.fundingSpaces as DeepNonUndefineableArray<FundingSpace>,
-				FundingSource.CDC
-			);
+			const cdcCapacity = getFundingSpaceCapacity(organization, { source: FundingSource.CDC });
+
 			if (showPastEnrollments) {
 				return (
 					<>
@@ -71,10 +69,7 @@ export const legendDisplayDetails: {
 			}
 		},
 		hidden: organization =>
-			getCombinedCapacity(
-				organization.fundingSpaces as DeepNonUndefineableArray<FundingSpace>,
-				FundingSource.CDC
-			) === 0,
+			getFundingSpaceCapacity(organization, { source: FundingSource.CDC }) === 0,
 	},
 	C4K: {
 		symbol: (

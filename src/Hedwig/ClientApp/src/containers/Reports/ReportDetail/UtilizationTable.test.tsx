@@ -11,7 +11,10 @@ import {
 	mockPartTimeEnrollment,
 	mockFullTimeInfantEnrollment,
 	mockPartTimeInfantEnrollment,
+	mockDefaultReport,
 } from '../../../tests/data';
+import { mockFundingSpaces } from '../../../tests/data/fundingSpace';
+import { prettyAge, prettyFundingTime } from '../../../utils/models';
 
 describe('calculateRate', () => {
 	it('includes all possible rates', () => {
@@ -52,17 +55,34 @@ describe('UtilizationTable', () => {
 		expect(asFragment()).toMatchSnapshot();
 	});
 
-	it('includes a row for each type of enrollment and funding space', () => {
-		const report = reportWithEnrollments([
-			mockFullTimeInfantEnrollment,
-			mockPartTimeInfantEnrollment,
-		]);
-
+	it('includes a row for each type of funding space', () => {
+		const report = mockReport;
 		const { container } = render(<UtilizationTable {...report} />);
 
-		expect(container).toHaveTextContent('Infant/Toddler – full time');
-		expect(container).toHaveTextContent('Infant/Toddler – part time');
-		expect(container).toHaveTextContent('Preschool – full time');
+		// mockReport belongs to mockSingleSiteOrganization, which has all mockFundingSpaces
+		mockFundingSpaces.forEach(space => {
+			expect(container).toHaveTextContent(
+				`${prettyAge(space.ageGroup)} – ${prettyFundingTime(space.time)}`
+			);
+		});
+	});
+
+	it('has the correct utilization ratios', () => {
+		// Default report has 2 full time preschool spaces
+		// These mocked enrollments are one of each full and part infant/toddler and preschool
+		const mockReport = {
+			...mockDefaultReport,
+			enrollments: [
+				mockPartTimeInfantEnrollment,
+				mockFullTimeInfantEnrollment,
+				mockCompleteEnrollment, // full time, preschool
+				mockPartTimeEnrollment, // part time, preschool
+			],
+		};
+
+		const { getAllByText } = render(<UtilizationTable {...mockReport} />);
+		const oneOfZeros = getAllByText(/1\/\d* spaces/);
+		expect(oneOfZeros).toHaveLength(4);
 	});
 
 	it('does not include enrollments without an age', () => {
@@ -80,7 +100,8 @@ describe('UtilizationTable', () => {
 						fundingSpace: {
 							organizationId: 1,
 							capacity: 1,
-							fundingTimeAllocations: [{ time: FundingTime.Full, weeks: 52 }],
+							time: FundingTime.Split,
+							timeSplit: { fullTimeWeeks: 10, partTimeWeeks: 42 },
 						},
 					} as Funding,
 				],

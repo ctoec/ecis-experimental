@@ -31,7 +31,7 @@ import {
 	prettyFundingSource,
 	fundingSourceFromString,
 	getFundingSpacesFor,
-	prettyFundingSpaceTimeAllocations,
+	prettyFundingSpaceTime,
 	isFundedForFundingSpace,
 } from '../../../utils/models';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../../utils/types';
@@ -115,7 +115,7 @@ const EnrollmentFunding: Section = {
 							Funding:{' '}
 							{!cdcFunding
 								? 'Private pay'
-								: `CDC - ${prettyFundingSpaceTimeAllocations(cdcFunding.fundingSpace)}`}
+								: `CDC - ${prettyFundingSpaceTime(cdcFunding.fundingSpace)}`}
 						</p>
 						{!!cdcFunding && (
 							<p>
@@ -378,7 +378,7 @@ const EnrollmentFunding: Section = {
 			setFundingSpaceOpts(
 				matchingFundingSpaces.map(fundingSpace => ({
 					value: '' + fundingSpace.id,
-					text: prettyFundingSpaceTimeAllocations(fundingSpace),
+					text: prettyFundingSpaceTime(fundingSpace, true),
 				}))
 			);
 

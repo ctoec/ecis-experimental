@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace Hedwig.Models
 {
 	public class FundingSpaceDTO
@@ -9,6 +7,8 @@ namespace Hedwig.Models
 		public int OrganizationId { get; set; }
 		public FundingSource Source { get; set; }
 		public Age AgeGroup { get; set; }
-		public List<FundingTimeAllocation> FundingTimeAllocations { get; set; }
+
+		public FundingTime? Time { get; set; }
+		public FundingTimeSplit TimeSplit { get; set; }
 	}
 }

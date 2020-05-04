@@ -8,9 +8,8 @@ import { lastFirstNameFormatter } from '../../utils/stringFormatters';
 import dateFormatter from '../../utils/dateFormatter';
 import {
 	NO_FUNDING,
-	prettyFundingTime,
-	getFundingSpaceTimes,
 	isFundedForFundingSpace,
+	prettyFundingSpaceTime,
 } from '../../utils/models';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../utils/types';
 import { hasValidationErrors } from '../../utils/validations';
@@ -95,7 +94,6 @@ export default function AgeGroupSection({
 					{fundingTypeTags.length > 0 ? (
 						fundingTypeTags.map<React.ReactNode>((value, index) => {
 							let includeTime = false;
-							let splitTime = false;
 							const fundingSpaces = organization.fundingSpaces;
 							if (fundingSpaces) {
 								const matchingFundingSpaces = fundingSpaces
@@ -103,20 +101,9 @@ export default function AgeGroupSection({
 									.filter(space => space.ageGroup === ageGroup);
 								if (matchingFundingSpaces.length > 1) {
 									includeTime = true;
-									if (value.type === 'CDC') {
-										const specifiedFundingSpace = matchingFundingSpaces.find(
-											fundingSpace => fundingSpace.id == value.fundingSpaceId
-										);
-										if (
-											specifiedFundingSpace &&
-											(specifiedFundingSpace.fundingTimeAllocations || []).length > 1
-										) {
-											splitTime = true;
-										}
-									}
 								}
 							}
-							return generateFundingTypeTag(value, { index, includeTime, splitTime });
+							return generateFundingTypeTag(value, { index, includeTime });
 						})
 					) : (
 						<span className="text-italic text-base">{NO_FUNDING}</span>
@@ -153,8 +140,9 @@ export default function AgeGroupSection({
 	columns.push(nameColumn);
 	columns.push(birthdateColumn);
 	columns.push(fundingColumn);
-	// Only show the site column if it exists (more than one site)
-	if (organization.sites && organization.sites.length > 1) {
+	// Only show the site column if we're in multi-site view,
+	// and it exists (more than one site)
+	if (!site && organization.sites && organization.sites.length > 1) {
 		columns.push(siteColumn);
 	}
 	columns.push(enrollmentDateColumn);
@@ -173,7 +161,7 @@ export default function AgeGroupSection({
 		const enrolledForFundingSpace = enrollments.filter<DeepNonUndefineable<Enrollment>>(
 			enrollment => isFundedForFundingSpace(enrollment, space.id, rosterDateRange)
 		).length;
-		const fundingTime = prettyFundingTime(getFundingSpaceTimes(space), true);
+		const fundingTime = prettyFundingSpaceTime(space);
 		return {
 			symbol: legendDisplayDetails[space.source || ''].symbol,
 			hidden: site && enrolledForFundingSpace === 0,

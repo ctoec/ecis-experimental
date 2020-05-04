@@ -17,15 +17,22 @@ namespace HedwigTests.Helpers
 			int capacity = 10
 		)
 		{
+			var timeSplit = time != FundingTime.Split
+				? null
+				: new FundingTimeSplit
+				{
+					FullTimeWeeks = 42,
+					PartTimeWeeks = 10
+				};
+
 			var space = new FundingSpace
 			{
 				OrganizationId = organizationId,
 				Source = source,
 				AgeGroup = ageGroup,
 				Capacity = capacity,
-				FundingTimeAllocations = new List<FundingTimeAllocation>{
-					new FundingTimeAllocation {Time = time, Weeks = 52}
-				}
+				Time = time,
+				TimeSplit = timeSplit
 			};
 
 			context.Add(space);

@@ -46,35 +46,4 @@ describe('enrollment utils', () => {
 			expect(res).toBe(isFundedRes);
 		}
 	);
-
-	it.each([
-		[FundingTime.Full, true],
-		[FundingTime.Part, false],
-		[undefined, false],
-	])(
-		'isFunded for time returns false if funding does not match time',
-		(fundingTime, isFundedRes) => {
-			if (!fundingTime) {
-				return;
-			}
-			const funding: Funding = {
-				...baseFunding,
-				fundingSpace: {
-					id: 1,
-					capacity: 1,
-					organizationId: 1,
-					fundingTimeAllocations: [{ time: fundingTime, weeks: 52, fundingSpaceId: 1 }],
-				},
-			};
-
-			const enrollment: Enrollment = {
-				...baseEnrollment,
-				fundings: [funding],
-			};
-
-			const res = isFunded(enrollment, { time: FundingTime.Full });
-
-			expect(res).toBe(isFundedRes);
-		}
-	);
 });

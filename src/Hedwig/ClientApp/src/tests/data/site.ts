@@ -1,26 +1,10 @@
-import { Site, Region, FundingSource, Age, FundingTime } from '../../generated';
+import { Site, Region } from '../../generated';
+import { mockFundingSpaces } from './fundingSpace';
 
-const mockSingleSiteOrganization = {
+const sitelessOrganization = {
 	id: 1,
 	name: 'Test Organization',
-	fundingSpaces: [
-		{
-			source: FundingSource.CDC,
-			ageGroup: Age.Preschool,
-			fundingTimeAllocations: [{ time: FundingTime.Full, weeks: 52 }],
-			capacity: 2,
-			organizationId: 1,
-		},
-	],
-	sites: [
-		{
-			id: 1,
-			name: 'Test Site',
-			region: Region.East,
-			titleI: false,
-			organizationId: 1,
-		},
-	],
+	fundingSpaces: mockFundingSpaces,
 };
 
 export const mockSite: Site = {
@@ -28,7 +12,7 @@ export const mockSite: Site = {
 	name: "Children's Adventure Center",
 	organizationId: 1,
 	enrollments: undefined,
-	organization: mockSingleSiteOrganization,
+	organization: sitelessOrganization,
 	titleI: false,
 	region: Region.East,
 };
@@ -38,7 +22,7 @@ export const mockAnotherSite: Site = {
 	name: "Children's Adventure Center",
 	organizationId: 1,
 	enrollments: undefined,
-	organization: mockSingleSiteOrganization,
+	organization: sitelessOrganization,
 	titleI: false,
 	region: Region.East,
 };

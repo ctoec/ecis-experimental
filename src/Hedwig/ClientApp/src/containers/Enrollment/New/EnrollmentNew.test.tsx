@@ -1,15 +1,17 @@
 // Variables used in jest mockes -- must start with `mock`
-import { mockAllFakeEnrollments, mockSite } from '../../../tests/data';
+import { mockAllFakeEnrollments, mockSite, mockReport } from '../../../tests/data';
 import mockUseApi, {
 	mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet,
 	mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDelete,
 	mockApiOrganizationsOrgIdSitesIdGet,
 	mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut,
+	mockApiOrganizationsOrgIdReportsGet,
 } from '../../../hooks/__mocks__/useApi';
 
 // Jest mocks must occur before later imports
 jest.mock('../../../hooks/useApi', () =>
 	mockUseApi({
+		apiOrganizationsOrgIdReportsGet: mockApiOrganizationsOrgIdReportsGet([mockReport]),
 		apiOrganizationsOrgIdSitesIdGet: mockApiOrganizationsOrgIdSitesIdGet(mockSite),
 		apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet: mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(
 			mockAllFakeEnrollments

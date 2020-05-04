@@ -22,7 +22,7 @@ namespace Hedwig.Repositories
 			if (include.Contains(INCLUDE_FUNDING_SPACES))
 			{
 				organization = organization.Include(o => o.FundingSpaces)
-					.ThenInclude(fs => fs.FundingTimeAllocations);
+					.ThenInclude(fs => fs.TimeSplit);
 			}
 			if (include.Contains(INCLUDE_SITES))
 			{

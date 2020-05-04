@@ -20,6 +20,7 @@
 export enum FundingTime {
 	Full = 'Full',
 	Part = 'Part',
+	Split = 'Split',
 }
 
 export function FundingTimeFromJSON(json: any): FundingTime {

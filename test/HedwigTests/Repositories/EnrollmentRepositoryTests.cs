@@ -107,16 +107,22 @@ namespace HedwigTests.Repositories
 		public void UpdateEnrollment_AddsFundings()
 		{
 			Enrollment enrollment;
-
+			FundingSpace fundingSpace;
 			using (var context = new TestHedwigContextProvider().Context)
 			{
 				enrollment = EnrollmentHelper.CreateEnrollment(context);
-				// funding = FundingHelper.CreateFunding(context);
+				fundingSpace = FundingSpaceHelper.CreateFundingSpace(
+					context,
+					organizationId: enrollment.Site.OrganizationId,
+					source: FundingSource.CDC,
+					ageGroup: enrollment.AgeGroup.Value
+				);
 			}
 			Funding funding = new Funding
 			{
 				EnrollmentId = enrollment.Id,
 				Source = FundingSource.CDC,
+				FundingSpaceId = fundingSpace.Id
 			};
 
 			Assert.Null(enrollment.Fundings);

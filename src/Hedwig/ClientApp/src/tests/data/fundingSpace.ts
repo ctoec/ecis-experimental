@@ -2,35 +2,60 @@ import { FundingSource, Age, FundingTime, FundingSpace } from '../../generated';
 
 export const mockFundingSpaces: FundingSpace[] = [];
 
-const ages = [Age.Preschool, Age.SchoolAge];
-// Use infant toddler for part full split
-
-ages.forEach(ageGroup => {
-	Object.values(FundingSource).forEach(source => {
-		// This is just CDC for now
-		mockFundingSpaces.push({
-			id: mockFundingSpaces.length,
-			source,
-			ageGroup,
-			fundingTimeAllocations: [
-				{ time: FundingTime.Full, weeks: 52, fundingSpaceId: mockFundingSpaces.length },
-			],
-			capacity: 10,
-			organizationId: 1,
-		});
-	});
-});
-
-export const mockSplitSpace = {
-	id: mockFundingSpaces.length,
+export const mockFullTimeInfantSpace = {
+	id: 1,
 	source: FundingSource.CDC,
 	ageGroup: Age.InfantToddler,
-	fundingTimeAllocations: [
-		{ time: FundingTime.Part, weeks: 50, fundingSpaceId: mockFundingSpaces.length },
-		{ time: FundingTime.Full, weeks: 2, fundingSpaceId: mockFundingSpaces.length },
-	],
+	time: FundingTime.Full,
 	capacity: 10,
 	organizationId: 1,
 };
+mockFundingSpaces.push(mockFullTimeInfantSpace);
 
-mockFundingSpaces.push(mockSplitSpace);
+export const mockFullTimePreschoolSpace = {
+	...mockFullTimeInfantSpace,
+	id: 2,
+	ageGroup: Age.Preschool,
+};
+mockFundingSpaces.push(mockFullTimePreschoolSpace);
+
+export const mockFullTimeSchoolAgeSpace = {
+	...mockFullTimeInfantSpace,
+	id: 3,
+	ageGroup: Age.SchoolAge,
+};
+mockFundingSpaces.push(mockFullTimeSchoolAgeSpace);
+
+export const mockPartTimeInfantSpace = {
+	...mockFullTimeInfantSpace,
+	id: 4,
+	time: FundingTime.Part,
+};
+mockFundingSpaces.push(mockPartTimeInfantSpace);
+
+export const mockPartTimePreschoolSpace = {
+	...mockPartTimeInfantSpace,
+	id: 5,
+	ageGroup: Age.Preschool,
+};
+mockFundingSpaces.push(mockPartTimePreschoolSpace);
+
+export const mockPartTimeSchoolAgeSpace = {
+	...mockPartTimeInfantSpace,
+	id: 6,
+	ageGroup: Age.SchoolAge,
+};
+mockFundingSpaces.push(mockPartTimeSchoolAgeSpace);
+
+export const mockSplitTimeInfantSpace = {
+	...mockFullTimeInfantSpace,
+	id: 7,
+	time: FundingTime.Split,
+	timeSplit: {
+		id: 1,
+		fundingSpaceId: mockFundingSpaces.length,
+		fullTimeWeeks: 42,
+		partTimeWeeks: 10,
+	},
+};
+mockFundingSpaces.push(mockSplitTimeInfantSpace);

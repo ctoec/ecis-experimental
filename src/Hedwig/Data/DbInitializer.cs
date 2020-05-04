@@ -27,13 +27,10 @@ namespace Hedwig.Data
 
 			var infantToddlerPartTimeFundingSpace = CreateFundingSpace(organizationId: organization.Id, ageGroup: Age.InfantToddler, time: FundingTime.Part, capacity: 5);
 			var infantToddlerFullTimeFundingSpace = CreateFundingSpace(organizationId: organization.Id, ageGroup: Age.InfantToddler, time: FundingTime.Full, capacity: 10);
-			// Additional funding space for testing roster display
-			// InfantToddler FundingSpace FullTimePartTime Split
-			// var infantToddlerPartFullTimeSplitFundingSpace = CreateFundingSpace(organizationId: organization.Id, ageGroup: Age.InfantToddler, time: FundingTime.Full, capacity: 10, split: true, splitTime: FundingTime.Part);
+
 			var preschoolFundingSpace = CreateFundingSpace(organizationId: organization.Id, ageGroup: Age.Preschool, time: FundingTime.Full, capacity: 20);
-			// Additional funding space for testing roster display
-			// Preschool FundingSpace PartTime
-			// CreateFundingSpace(organizationId: organization.Id, ageGroup: Age.Preschool, time: FundingTime.Part, capacity: 5);
+
+			var schoolAgeSplitTimeFundingSpace = CreateFundingSpace(organizationId: organization.Id, ageGroup: Age.SchoolAge, time: FundingTime.Split, capacity: 15);
 
 			var site = CreateSite(organizationId: organization.Id, name: "Gryffindor Day Care Center");
 			var site1 = CreateSite(organizationId: organization.Id, name: "Helga Hufflepuff Day Care");
@@ -55,30 +52,30 @@ namespace Hedwig.Data
 				CreateReportingPeriod(period: "2020-04-01", start: "2020-03-30", end: "2020-04-26", due: "2020-05-15"),
 				CreateReportingPeriod(period: "2020-05-01", start: "2020-04-27", end: "2020-05-31", due: "2020-06-19"),
 				CreateReportingPeriod(period: "2020-06-01", start: "2020-06-01", end: "2020-06-28", due: "2020-07-17"),
-				CreateReportingPeriod(period: "2020-07-01", start: "2019-07-01", end: "2019-07-28", due: "2019-08-16"),
-				CreateReportingPeriod(period: "2020-08-01", start: "2019-07-29", end: "2019-09-01", due: "2019-09-20"),
-				CreateReportingPeriod(period: "2020-09-01", start: "2019-09-02", end: "2019-09-29", due: "2019-10-18"),
-				CreateReportingPeriod(period: "2020-10-01", start: "2019-09-30", end: "2019-10-27", due: "2019-11-15"),
-				CreateReportingPeriod(period: "2020-11-01", start: "2019-10-28", end: "2019-12-01", due: "2019-12-20"),
-				CreateReportingPeriod(period: "2020-12-01", start: "2019-12-02", end: "2019-12-29", due: "2020-01-17"),
-				CreateReportingPeriod(period: "2021-01-01", start: "2019-12-30", end: "2020-02-02", due: "2020-02-21"),
-				CreateReportingPeriod(period: "2021-02-01", start: "2020-02-03", end: "2020-03-01", due: "2020-03-20"),
-				CreateReportingPeriod(period: "2021-03-01", start: "2020-03-02", end: "2020-03-29", due: "2020-04-17"),
-				CreateReportingPeriod(period: "2021-04-01", start: "2020-03-30", end: "2020-04-26", due: "2020-05-15"),
-				CreateReportingPeriod(period: "2021-05-01", start: "2020-04-27", end: "2020-05-31", due: "2020-06-19"),
-				CreateReportingPeriod(period: "2021-06-01", start: "2020-06-01", end: "2020-06-28", due: "2020-07-17"),
-				CreateReportingPeriod(period: "2021-07-01", start: "2019-07-01", end: "2019-07-28", due: "2019-08-16"),
-				CreateReportingPeriod(period: "2021-08-01", start: "2019-07-29", end: "2019-09-01", due: "2019-09-20"),
-				CreateReportingPeriod(period: "2021-09-01", start: "2019-09-02", end: "2019-09-29", due: "2019-10-18"),
-				CreateReportingPeriod(period: "2021-10-01", start: "2019-09-30", end: "2019-10-27", due: "2019-11-15"),
-				CreateReportingPeriod(period: "2021-11-01", start: "2019-10-28", end: "2019-12-01", due: "2019-12-20"),
-				CreateReportingPeriod(period: "2021-12-01", start: "2019-12-02", end: "2019-12-29", due: "2020-01-17"),
-				CreateReportingPeriod(period: "2022-01-01", start: "2019-12-30", end: "2020-02-02", due: "2020-02-21"),
-				CreateReportingPeriod(period: "2022-02-01", start: "2020-02-03", end: "2020-03-01", due: "2020-03-20"),
-				CreateReportingPeriod(period: "2022-03-01", start: "2020-03-02", end: "2020-03-29", due: "2020-04-17"),
-				CreateReportingPeriod(period: "2022-04-01", start: "2020-03-30", end: "2020-04-26", due: "2020-05-15"),
-				CreateReportingPeriod(period: "2022-05-01", start: "2020-04-27", end: "2020-05-31", due: "2020-06-19"),
-				CreateReportingPeriod(period: "2022-06-01", start: "2020-06-01", end: "2020-06-28", due: "2020-07-17")
+				CreateReportingPeriod(period: "2020-07-01", start: "2020-07-01", end: "2020-07-28", due: "2020-08-16"),
+				CreateReportingPeriod(period: "2020-08-01", start: "2020-07-29", end: "2020-09-01", due: "2020-09-20"),
+				CreateReportingPeriod(period: "2020-09-01", start: "2020-09-02", end: "2020-09-29", due: "2020-10-18"),
+				CreateReportingPeriod(period: "2020-10-01", start: "2020-09-30", end: "2020-10-27", due: "2020-11-15"),
+				CreateReportingPeriod(period: "2020-11-01", start: "2020-10-28", end: "2020-12-01", due: "2020-12-20"),
+				CreateReportingPeriod(period: "2020-12-01", start: "2020-12-02", end: "2020-12-29", due: "2021-01-17"),
+				CreateReportingPeriod(period: "2021-01-01", start: "2020-12-30", end: "2021-02-02", due: "2021-02-21"),
+				CreateReportingPeriod(period: "2021-02-01", start: "2021-02-03", end: "2021-03-01", due: "2021-03-20"),
+				CreateReportingPeriod(period: "2021-03-01", start: "2021-03-02", end: "2021-03-29", due: "2021-04-17"),
+				CreateReportingPeriod(period: "2021-04-01", start: "2021-03-30", end: "2021-04-26", due: "2021-05-15"),
+				CreateReportingPeriod(period: "2021-05-01", start: "2021-04-27", end: "2021-05-31", due: "2021-06-19"),
+				CreateReportingPeriod(period: "2021-06-01", start: "2021-06-01", end: "2021-06-28", due: "2021-07-17"),
+				CreateReportingPeriod(period: "2021-07-01", start: "2021-07-01", end: "2021-07-28", due: "2021-08-16"),
+				CreateReportingPeriod(period: "2021-08-01", start: "2021-07-29", end: "2021-09-01", due: "2021-09-20"),
+				CreateReportingPeriod(period: "2021-09-01", start: "2021-09-02", end: "2021-09-29", due: "2021-10-18"),
+				CreateReportingPeriod(period: "2021-10-01", start: "2021-09-30", end: "2021-10-27", due: "2021-11-15"),
+				CreateReportingPeriod(period: "2021-11-01", start: "2021-10-28", end: "2021-12-01", due: "2021-12-20"),
+				CreateReportingPeriod(period: "2021-12-01", start: "2021-12-02", end: "2021-12-29", due: "2022-01-17"),
+				CreateReportingPeriod(period: "2022-01-01", start: "2021-12-30", end: "2022-02-02", due: "2022-02-21"),
+				CreateReportingPeriod(period: "2022-02-01", start: "2022-02-03", end: "2022-03-01", due: "2022-03-20"),
+				CreateReportingPeriod(period: "2022-03-01", start: "2022-03-02", end: "2022-03-29", due: "2022-04-17"),
+				CreateReportingPeriod(period: "2022-04-01", start: "2022-03-30", end: "2022-04-26", due: "2022-05-15"),
+				CreateReportingPeriod(period: "2022-05-01", start: "2022-04-27", end: "2022-05-31", due: "2022-06-19"),
+				CreateReportingPeriod(period: "2022-06-01", start: "2022-06-01", end: "2022-06-28", due: "2022-07-17")
 			};
 
 			CreateCdcReport(organizationId: organization.Id, reportingPeriodId: reportingPeriods[0].Id, submittedAt: "2019-09-09");
@@ -90,14 +87,14 @@ namespace Hedwig.Data
 				"Alan,Rickman,2018-12-07,Male,TRUE,2019-09-02,,CDC,C4K,FOSTER,ALTERNATE",
 				"David,Thewlis,2016-07-29,Male,TRUE,2019-09-02,,CDC,,,",
 				"Helena,Bonham Carter,2016-01-01,Female,TRUE,2019-09-02,,,,,",
-				"Maggie,smith,2015-02-02,Female,TRUE,2018-09-03,,CDC,,,",
-				"Michael,Gambon,2015-07-06,Male,TRUE,2018-09-03,,CDC,,,",
+				"Maggie,smith,2015-02-02,Female,TRUE,2019-12-01,,CDC,,,",
+				"Michael,Gambon,2015-07-06,Male,TRUE,2019-12-01,,CDC,,,",
 				"Richard,Griffiths,2018-07-02,Male,TRUE,2019-09-02,,CDC,,,",
-				"Richard,Harris,2015-12-23,Male,TRUE,2018-09-03,,CDC,,,",
+				"Richard,Harris,2015-12-23,Male,TRUE,2019-12-01,,CDC,,,",
 				"Warwick,Davis,2018-11-25,Male,TRUE,2019-09-02,,CDC,,,",
 				"Emma,Thompson,2016-08-03,Female,TRUE,2019-09-02,,CDC,,,",
 				"Robbie,Coltrane,2017-10-27,Male,TRUE,2019-09-02,,CDC,,,",
-				"David,Bradley,2014-11-20,Male,TRUE,2018-09-03,2019-08-30,CDC,C4K,,",
+				"David,Bradley,2014-11-20,Male,TRUE,2019-12-01,2020-02-25,CDC,C4K,,",
 				"John,Cleese,2015-10-21,Male,TRUE,2019-09-02,,,,,",
 				"John,Hurt,2018-02-14,Male,TRUE,2019-09-02,,CDC,,,",
 				"Kenneth,Branagh,2018-08-19,Male,FALSE,2019-09-02,,CDC2,,,",
@@ -105,14 +102,14 @@ namespace Hedwig.Data
 				"Matthew,Lewis,2017-12-07,Male,TRUE,2019-09-02,,,,,",
 				"Tom,FELTON,2015-07-29,Male,TRUE,2019-09-02,,CDC,,,",
 				"Daniel,Radcliffe,2015-01-01,Male,TRUE,2019-09-02,,CDC,,,",
-				"Emma,Watson,2015-03-02,Female,TRUE,2018-09-03,,,,,",
-				"Alfred,Enoch,2015-09-06,Male,TRUE,2018-09-03,2019-08-30,CDC,,,",
+				"Emma,Watson,2015-03-02,Female,TRUE,2019-12-01,,,,,",
+				"Alfred,Enoch,2015-09-06,Male,TRUE,2019-12-01,2020-02-25,CDC,,,",
 				"Ralph,Fiennes,2017-07-02,Male,TRUE,2019-09-02,,CDC,,,",
-				"James,Phelps,2014-12-23,Male,TRUE,2018-09-03,,,,,",
+				"James,Phelps,2014-12-23,Male,TRUE,2019-12-01,,,,,",
 				"Oliver,Phelps,2017-11-25,Male,TRUE,2019-09-02,,CDC,,,",
 				"Bonnie,Wright,2015-08-03,Female,TRUE,2019-09-02,,,C4K,,",
 				"Julie,Walters,2016-10-27,Female,TRUE,2019-09-02,,CDC,C4K,,",
-				"Chris,Rankin,2014-12-20,Male,FALSE,2018-09-03,2019-08-30,CDC,,,",
+				"Chris,Rankin,2014-12-20,Male,FALSE,2019-12-01,2020-02-25,CDC,,,",
 				"Rupert,Grint,2015-01-21,Male,TRUE,2019-09-02,,CDC,,,",
 				"Robert,Hardy,2017-02-14,Male,TRUE,2019-09-02,,CDC,,,",
 				"Jason,Isaacs,2017-08-19,Male,TRUE,2019-09-02,,CDC,C4K,,",
@@ -120,10 +117,10 @@ namespace Hedwig.Data
 				"Timothy,Spall,2016-12-07,Male,TRUE,2019-09-02,,CDC,,,",
 				"Katie,Leung,2016-07-29,Female,TRUE,2019-09-02,,CDC,,,",
 				"Robert,Pattinson,2015-04-01,Male,TRUE,2019-09-02,,CDC,,,",
-				"Evanna,Lynch,2015-02-03,Female,TRUE,2018-09-03,,,C4K,,",
-				"Imelda,Staunton,2016-07-06,Female,TRUE,2018-09-03,,CDC,,,",
+				"Evanna,Lynch,2015-02-03,Female,TRUE,2019-12-01,,,C4K,,",
+				"Imelda,Staunton,2016-07-06,Female,TRUE,2019-12-01,,CDC,,,",
 				"Joshua,Herdman,2016-07-02,Male,TRUE,2019-09-02,,CDC,,,",
-				"Ian,Hart,2015-12-02,Male,TRUE,2018-09-03,2019-08-30,CDC,,,",
+				"Ian,Hart,2015-12-02,Male,TRUE,2019-12-01,2020-02-25,CDC,,,",
 				"David,Tennant,2017-11-25,Male,TRUE,2019-09-02,,CDC,,,",
 				"Devon,Murray,2017-08-03,Male,TRUE,2019-09-02,,CDC,,,",
 				"Harry,Melling,2016-10-27,Male,TRUE,2019-09-02,,CDC,,,"
@@ -189,8 +186,8 @@ namespace Hedwig.Data
 						enrollmentId: enrollment.Id,
 						isC4K: false,
 						source: FundingSource.CDC,
-						firstReportingPeriod: entry == "2018-09-03" ? reportingPeriods[14] : reportingPeriods[26],
-						lastReportingPeriod: cells[6] != "" ? reportingPeriods[25] : null,
+						firstReportingPeriod: entry == "2019-12-01" ? reportingPeriods[6] : reportingPeriods[3],
+						lastReportingPeriod: cells[6] != "" ? reportingPeriods[4] : null,
 						fundingSpace: enrollmentAgeGroup == Age.InfantToddler ? infantToddlerFullTimeFundingSpace : preschoolFundingSpace
 					);
 				}
@@ -201,8 +198,8 @@ namespace Hedwig.Data
 						enrollmentId: enrollment.Id,
 						isC4K: false,
 						source: FundingSource.CDC,
-						firstReportingPeriod: reportingPeriods[30],
-						lastReportingPeriod: reportingPeriods[31],
+						firstReportingPeriod: reportingPeriods[4],
+						lastReportingPeriod: reportingPeriods[5],
 						fundingSpace: enrollmentAgeGroup == Age.InfantToddler ? infantToddlerFullTimeFundingSpace : preschoolFundingSpace
 					);
 
@@ -210,7 +207,7 @@ namespace Hedwig.Data
 						enrollmentId: enrollment.Id,
 						isC4K: false,
 						source: FundingSource.CDC,
-						firstReportingPeriod: reportingPeriods[33],
+						firstReportingPeriod: reportingPeriods[7],
 						lastReportingPeriod: null,
 						fundingSpace: enrollmentAgeGroup == Age.InfantToddler ? infantToddlerFullTimeFundingSpace : preschoolFundingSpace
 					);
@@ -229,7 +226,7 @@ namespace Hedwig.Data
 					);
 				}
 
-				if (entry == "2018-09-03" && DateTime.Parse(birthdate) < ageGroupCutoff)
+				if (entry == "2019-12-01" && DateTime.Parse(birthdate) < ageGroupCutoff)
 				{
 					var firstEnrollment = CreateEnrollment(
 					childId: child.Id,
@@ -246,8 +243,8 @@ namespace Hedwig.Data
 							enrollmentId: firstEnrollment.Id,
 							isC4K: false,
 							source: FundingSource.CDC,
-							firstReportingPeriod: reportingPeriods[2],
-							lastReportingPeriod: reportingPeriods[13],
+							firstReportingPeriod: reportingPeriods[0],
+							lastReportingPeriod: reportingPeriods[1],
 							fundingSpace: infantToddlerFullTimeFundingSpace
 						);
 					}
@@ -296,41 +293,23 @@ namespace Hedwig.Data
 			FundingSource source = FundingSource.CDC,
 			Age ageGroup = Age.Preschool,
 			FundingTime time = FundingTime.Full,
-			int capacity = 10,
-			bool split = false,
-			FundingTime splitTime = FundingTime.Part
+			int capacity = 10
 		)
 		{
-			var allocations = new List<FundingTimeAllocation>();
-			if (split)
-			{
-				allocations = new List<FundingTimeAllocation>{
-					new FundingTimeAllocation{
-						Time = time,
-						Weeks = 50
-					},
-					new FundingTimeAllocation{
-						Time = splitTime,
-						Weeks = 2
-					}
-				};
-			}
-			else
-			{
-				allocations = new List<FundingTimeAllocation>{
-					new FundingTimeAllocation{
-						Time = time,
-						Weeks = 52
-					}
-				};
-			}
 			var space = new FundingSpace
 			{
 				OrganizationId = organizationId,
 				Source = source,
 				AgeGroup = ageGroup,
 				Capacity = capacity,
-				FundingTimeAllocations = allocations
+				Time = time,
+				TimeSplit = time != FundingTime.Split
+					? null
+					: new FundingTimeSplit
+					{
+						FullTimeWeeks = 42,
+						PartTimeWeeks = 10
+					}
 			};
 			_context.FundingSpaces.Add(space);
 			_context.SaveChanges();
@@ -499,29 +478,15 @@ namespace Hedwig.Data
 		{
 			if (isC4K)
 			{
-				C4KCertificate funding;
-				var random = new Random();
-				if (certificateEndDate == null)
+				var funding = new C4KCertificate
 				{
-					funding = new C4KCertificate
-					{
-						ChildId = (Guid)childId,
-						StartDate = DateTime.Parse(certificateStartDate),
-						EndDate = null,
-					};
-					child.C4KFamilyCaseNumber = caseNumber ?? (new Random()).Next(1, 9999);
-				}
-				else
-				{
-					funding = new C4KCertificate
-					{
-						ChildId = (Guid)childId,
-						StartDate = DateTime.Parse(certificateStartDate),
-						EndDate = DateTime.Parse(certificateEndDate),
-					};
-				}
+					ChildId = (Guid)childId,
+					StartDate = DateTime.Parse(certificateStartDate),
+					EndDate = certificateEndDate == null ? null as DateTime? : DateTime.Parse(certificateEndDate),
+				};
 
 				_context.C4KCertificates.Add(funding);
+				child.C4KFamilyCaseNumber = caseNumber ?? (new Random()).Next(1, 9999);
 				_context.SaveChanges();
 				return funding;
 			}

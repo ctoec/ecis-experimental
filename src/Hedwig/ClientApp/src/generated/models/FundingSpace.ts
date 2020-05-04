@@ -26,10 +26,14 @@ import {
 	FundingSourceFromJSON,
 	FundingSourceFromJSONTyped,
 	FundingSourceToJSON,
-	FundingTimeAllocation,
-	FundingTimeAllocationFromJSON,
-	FundingTimeAllocationFromJSONTyped,
-	FundingTimeAllocationToJSON,
+	FundingTime,
+	FundingTimeFromJSON,
+	FundingTimeFromJSONTyped,
+	FundingTimeToJSON,
+	FundingTimeSplit,
+	FundingTimeSplitFromJSON,
+	FundingTimeSplitFromJSONTyped,
+	FundingTimeSplitToJSON,
 	Organization,
 	OrganizationFromJSON,
 	OrganizationFromJSONTyped,
@@ -86,10 +90,16 @@ export interface FundingSpace {
 	fundings?: Array<Funding> | null;
 	/**
 	 *
-	 * @type {Array<FundingTimeAllocation>}
+	 * @type {FundingTime}
 	 * @memberof FundingSpace
 	 */
-	fundingTimeAllocations?: Array<FundingTimeAllocation> | null;
+	time?: FundingTime;
+	/**
+	 *
+	 * @type {FundingTimeSplit}
+	 * @memberof FundingSpace
+	 */
+	timeSplit?: FundingTimeSplit;
 }
 
 export function FundingSpaceFromJSON(json: any): FundingSpace {
@@ -114,11 +124,8 @@ export function FundingSpaceFromJSONTyped(json: any, ignoreDiscriminator: boolea
 			: json['fundings'] === null
 			? null
 			: (json['fundings'] as Array<any>).map(FundingFromJSON),
-		fundingTimeAllocations: !exists(json, 'fundingTimeAllocations')
-			? undefined
-			: json['fundingTimeAllocations'] === null
-			? null
-			: (json['fundingTimeAllocations'] as Array<any>).map(FundingTimeAllocationFromJSON),
+		time: !exists(json, 'time') ? undefined : FundingTimeFromJSON(json['time']),
+		timeSplit: !exists(json, 'timeSplit') ? undefined : FundingTimeSplitFromJSON(json['timeSplit']),
 	};
 }
 
@@ -142,11 +149,7 @@ export function FundingSpaceToJSON(value?: FundingSpace | null): any {
 				: value.fundings === null
 				? null
 				: (value.fundings as Array<any>).map(FundingToJSON),
-		fundingTimeAllocations:
-			value.fundingTimeAllocations === undefined
-				? undefined
-				: value.fundingTimeAllocations === null
-				? null
-				: (value.fundingTimeAllocations as Array<any>).map(FundingTimeAllocationToJSON),
+		time: FundingTimeToJSON(value.time),
+		timeSplit: FundingTimeSplitToJSON(value.timeSplit),
 	};
 }
