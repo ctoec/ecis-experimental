@@ -68,6 +68,13 @@ namespace Hedwig.Data
 			.WithOne(space => space.TimeSplit)
 			.HasForeignKey<FundingTimeSplit>(split => split.FundingSpaceId)
 			.OnDelete(DeleteBehavior.Cascade);
+
+			modelBuilder.Entity<FundingTimeSplitUtilization>()
+			.HasOne(ut => ut.FundingSpace)
+			.WithMany(space => space.TimeSplitUtilizations)
+			.HasForeignKey(ut => ut.FundingSpaceId)
+			.IsRequired()
+			.OnDelete(DeleteBehavior.Cascade);
 		}
 
 		/// <summary>

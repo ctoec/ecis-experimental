@@ -2,6 +2,33 @@ import { ReportingPeriod } from '../../generated';
 import moment from 'moment';
 import { propertyDateSorter } from '../dateSorter';
 
+/**
+ * Returns the formatted month string for the reporting period
+ * @param period
+ */
+export function getReportingPeriodMonth(period: ReportingPeriod) {
+	return moment(period.period).format('MMMM');
+}
+
+/**
+ * Returns the number of weeks (inclusive of start and end date) in the reporting period
+ * @param period
+ */
+export function getReportingPeriodWeeks(period: ReportingPeriod) {
+	return moment(period.periodEnd)
+		.add(1, 'day')
+		.diff(moment(period.periodStart), 'weeks');
+}
+
+/**
+ * Formats reporting period, in normal or extended format:
+ * E.g.
+ * reporting period -> { period: '2020-02-01', periodStart: '2019-02-03', periodEnd: '2019-03-01'}
+ * formatted (normal) -> "February 2020" (from period.period)
+ * formatted (extended) -> "February 2020 (02/03 - 03/01)"
+ * @param period 
+ * @param options 
+ */
 export const reportingPeriodFormatter = (
 	period: ReportingPeriod,
 	options: { extended?: boolean } = {}
@@ -19,13 +46,14 @@ export const reportingPeriodFormatter = (
 	return periodString;
 };
 
+/**
+ * Returns the current reporting period, defined as the period for which
+ * period month and year equal current month and year
+ * @param periods 
+ */
 export const currentReportingPeriod = (periods: ReportingPeriod[]): ReportingPeriod | undefined => {
-	const now = moment();
-	const startOfMonthDate = moment(`${now.format('YYYY-MM')}-01`);
-	// Assumes that ReportingPeriod.Period will always be on the first day of the month
-	// Compare with dates, not times to avoid timezone ridiculousness
 	return periods.find(
-		period => moment(period.period).format('YYYY-MM-DD') === startOfMonthDate.format('YYYY-MM-DD')
+		period => moment(period.period).format('YYYY-MM') === moment().format('YYYY-MM')
 	);
 };
 

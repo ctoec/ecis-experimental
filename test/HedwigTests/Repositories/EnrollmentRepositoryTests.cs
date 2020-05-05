@@ -118,6 +118,7 @@ namespace HedwigTests.Repositories
 					ageGroup: enrollment.AgeGroup.Value
 				);
 			}
+
 			Funding funding = new Funding
 			{
 				EnrollmentId = enrollment.Id,

@@ -81,7 +81,6 @@ namespace Hedwig.Data
 			CreateCdcReport(organizationId: organization.Id, reportingPeriodId: reportingPeriods[0].Id, submittedAt: "2019-09-09");
 			CreateCdcReport(organizationId: organization.Id, reportingPeriodId: reportingPeriods[1].Id, submittedAt: "2019-10-04");
 			CreateCdcReport(organizationId: organization.Id, reportingPeriodId: reportingPeriods[2].Id, submittedAt: "2019-11-12");
-			CreateCdcReport(organizationId: organization.Id, reportingPeriodId: reportingPeriods[3].Id);
 
 			var lines = new string[] {
 				"Alan,Rickman,2018-12-07,Male,TRUE,2019-09-02,,CDC,C4K,FOSTER,ALTERNATE",
