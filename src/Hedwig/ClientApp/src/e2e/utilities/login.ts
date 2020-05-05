@@ -17,9 +17,9 @@ export default async function(driver: IWebDriver, root: WebElement) {
 
 	// Find username and password fields
 	const usernameInput = await findByPlaceholder('Username');
-	usernameInput.sendKeys(username);
+	await usernameInput.sendKeys(username);
 	const passwordInput = await findByPlaceholder('Password');
-	passwordInput.sendKeys(password);
+	await passwordInput.sendKeys(password);
 
 	// Find the login button and click it
 	const submitBtn = await findByValue('login');

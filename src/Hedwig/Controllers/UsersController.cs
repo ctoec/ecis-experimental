@@ -19,12 +19,12 @@ namespace Hedwig.Controllers
 
 		// GET api/users/current
 		[HttpGet("current")]
-		public async Task<ActionResult<User>> GetCurrent()
+		public ActionResult<User> GetCurrent()
 		{
 			var subClaim = User.FindFirst("sub")?.Value;
 			if (subClaim == null) { return null; }
 			var wingedKeysId = Guid.Parse(subClaim);
-			return await _users.GetUserByWingedKeysIdAsync(wingedKeysId);
+			return _users.GetUserByWingedKeysId(wingedKeysId);
 		}
 	}
 }

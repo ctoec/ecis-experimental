@@ -6,3 +6,5 @@ RUN apt-get update \
 ENV PATH="${PATH}:/root/.dotnet/tools"
 
 COPY ./src/Hedwig /app/src/Hedwig
+
+WORKDIR /app/src/Hedwig

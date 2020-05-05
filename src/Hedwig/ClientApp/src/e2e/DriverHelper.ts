@@ -10,9 +10,7 @@ import {
 export type IWebDriver = ThenableWebDriver | WebDriver;
 
 export class DriverHelper {
-	__drivers: IWebDriver[] = [];
-
-	createDriver = () => {
+	static createDriver = (localIdentifier?: string, build?: string, project?: string) => {
 		// Ensure grid url is set
 		if (!gridHost) {
 			throw new Error('Grid Host URL not set');
@@ -29,35 +27,25 @@ export class DriverHelper {
 		capabilities.set('browserstack.user', browserStackUsername);
 		capabilities.set('browserstack.key', browserStackAccesstoken);
 		capabilities.set('browserstack.local', browserStackLocal);
-		capabilities.set('browserstack.debug', true);
-		capabilities.set('browserstack.video', true);
+		capabilities.set('browserstack.debug', false);
+		capabilities.set('browserstack.video', false);
 		capabilities.set('resolution', '1920x1080');
-		const driver = new Builder()
+		if (localIdentifier) {
+			capabilities.set('browserstack.localIdentifier', localIdentifier);
+		}
+		if (build) {
+			capabilities.set('build', build);
+		}
+		if (project) {
+			capabilities.set('project', project);
+		}
+		return new Builder()
 			.withCapabilities(capabilities)
 			.usingServer(gridHost)
-			.build();
-
-		driver.manage().setTimeouts({ implicit: 20000, pageLoad: 10000 });
-
-		this.__drivers.push(driver);
-		return driver;
+			.build() as IWebDriver;
 	};
 
-	quit = async (driver: ThenableWebDriver | WebDriver) => {
-		try {
-			await driver.quit();
-		} catch {
-			// Already closed
-		}
-	};
-
-	cleanup = async () => {
-		this.__drivers.forEach(async driver => {
-			try {
-				await driver.quit();
-			} catch {
-				// Already closed
-			}
-		});
+	static quit = async (driver: IWebDriver) => {
+		await driver.quit();
 	};
 }
