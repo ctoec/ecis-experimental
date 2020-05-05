@@ -126,7 +126,7 @@ export default function ReportSubmitForm({
 			return;
 		}
 
-		// unset 'hasAlertedOnError' to get correct error signaling in subsequent requests
+		// unset hasAlertedOnError to get correct error handling in subsequent requests 
 		setHasAlertedOnError(false);
 		// Set the new error whether it's undefined or an error
 		setError(saveError);

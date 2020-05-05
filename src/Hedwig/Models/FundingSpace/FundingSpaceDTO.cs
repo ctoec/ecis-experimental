@@ -8,7 +8,7 @@ namespace Hedwig.Models
 		public FundingSource Source { get; set; }
 		public Age AgeGroup { get; set; }
 
-		public FundingTime? Time { get; set; }
+		public FundingTime Time { get; set; }
 		public FundingTimeSplit TimeSplit { get; set; }
 	}
 }
