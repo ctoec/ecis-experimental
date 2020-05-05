@@ -44,7 +44,7 @@ services:
     environment:
       HOST: '0.0.0.0'
       E2E_GRID_URL: 'http://selenium-hub:4444/wd/hub'
-      E2E_CLIENT_URL: 'https://backend:5001'
+      E2E_CLIENT_URL: 'https://backend-for-selenium:5001'
       BROWSERSTACK_LOCAL: 'true'
       BROWSERSTACK_USERNAME: ${BROWSERSTACK_USERNAME}
       BROWSERSTACK_ACCESS_KEY: ${BROWSERSTACK_ACCESS_KEY}
@@ -81,6 +81,43 @@ services:
     container_name: selenium-hub
     ports:
       - 4444:4444
+  backend-for-selenium:
+    build:
+        context: .
+        dockerfile: Dockerfile
+    environment:
+      ConnectionStrings__HEDWIG: Server=db;Database=master;User=sa;Password=TestPassword1
+      WingedKeysUri: 'https://winged-keys:5050'
+      CLIENT_HOST: 'http://client-for-selenium:3000'
+      DOCKER_DEVELOPMENT: 'true'
+    volumes:
+      - ./src/Hedwig:/app/src/Hedwig:cached
+      - ./Hedwig.sln:/app/Hedwig.sln
+      - /app/src/Hedwig/bin
+      - /app/src/Hedwig/obj
+      - ./entrypoint-backend.sh:/entrypoint.sh
+    working_dir: /app/src/Hedwig
+    entrypoint:
+      - sh
+      - /entrypoint.sh
+    depends_on:
+      - db
+      - winged-keys
+  client-for-selenium:
+    image: node:12
+    volumes:
+      - ./src/Hedwig/ClientApp:/home/node/app:cached
+      - ./entrypoint-client.sh:/entrypoint.sh
+    working_dir: /home/node/app
+    entrypoint:
+      - sh
+      - /entrypoint.sh
+    environment:
+      HOST: '0.0.0.0'
+      REACT_APP_DEFAULT_WINGED_KEYS_URL: 'https://winged-keys:5050'
+    depends_on:
+      - client
+      - backend-for-selenium
   # e2e-chrome:
   #   image: selenium/node-chrome
   #   depends_on:
