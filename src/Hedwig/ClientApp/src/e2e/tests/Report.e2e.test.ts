@@ -1,6 +1,6 @@
 import { render, load } from '../QueryHelper';
-import { DriverHelper } from '../DriverHelper';
-import { clientHost } from '../config';
+import { DriverHelper, IWebDriver } from '../DriverHelper';
+import { clientHost, bs_local, browserStackAccesstoken } from '../config';
 import login from '../utilities/login';
 import {
 	clickReportsTab,
@@ -16,14 +16,31 @@ jest.setTimeout(60 * 1000);
 
 const appUrl = `${clientHost}/`;
 
-let driverHelper: DriverHelper;
-beforeAll(() => {
-	driverHelper = new DriverHelper();
+let driver: IWebDriver;
+beforeEach(done => {
+	const localIdentifier = '' + Math.random() * 10000000;
+	bs_local.start(
+		{
+			key: browserStackAccesstoken,
+			forceLocal: true,
+			localIdentifier: localIdentifier,
+		},
+		() => {
+			driver = DriverHelper.createDriver(localIdentifier);
+			done();
+		}
+	);
+});
+
+afterEach(async done => {
+	await DriverHelper.quit(driver);
+	bs_local.stop(() => {
+		done();
+	});
 });
 
 describe('when trying to submit a report', () => {
 	it('shows an alert for missing info', async () => {
-		const driver = driverHelper.createDriver();
 		try {
 			let root = await load(driver, appUrl);
 			root = await login(driver, root);
@@ -37,13 +54,10 @@ describe('when trying to submit a report', () => {
 			expect(await missingInfoAlert.getText()).toMatch(
 				/There are 2 enrollments missing information required to submit this report/
 			);
-		} finally {
-			await driverHelper.quit(driver);
-		}
+		} catch {}
 	});
 
 	it('allows a report submission attempt after missing info is corrected', async () => {
-		const driver = driverHelper.createDriver();
 		try {
 			let root = await load(driver, appUrl);
 			root = await login(driver, root);
@@ -62,13 +76,10 @@ describe('when trying to submit a report', () => {
 			root = await clickReportByTitle(driver, root, moment().format('MMMM YYYY'));
 			submitButton = await findByText('Submit');
 			expect(await submitButton.getAttribute('disabled')).not.toBeTruthy();
-		} finally {
-			await driverHelper.quit(driver);
-		}
+		} catch {}
 	});
 
 	it('shows a success alert after report is submitted', async () => {
-		const driver = driverHelper.createDriver();
 		try {
 			let root = await load(driver, appUrl);
 			root = await login(driver, root);
@@ -90,12 +101,6 @@ describe('when trying to submit a report', () => {
 			expect(await submittedAlertText.getText()).toMatch(
 				/CDC Report has been shared with the Office of Early Childhood. Thank you!/
 			);
-		} finally {
-			await driverHelper.quit(driver);
-		}
+		} catch {}
 	});
-});
-
-afterAll(async () => {
-	await driverHelper.cleanup();
 });
