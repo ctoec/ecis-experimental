@@ -5,14 +5,16 @@ using Hedwig.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Hedwig.Migrations
 {
     [DbContext(typeof(HedwigContext))]
-    partial class HedwigContextModelSnapshot : ModelSnapshot
+    [Migration("20200505182557_AddFundingTimeSplitUtilization")]
+    partial class AddFundingTimeSplitUtilization
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -370,16 +372,11 @@ namespace Hedwig.Migrations
                     b.Property<int>("ReportId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ReportingPeriodId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("FundingSpaceId");
 
                     b.HasIndex("ReportId");
-
-                    b.HasIndex("ReportingPeriodId");
 
                     b.ToTable("FundingTimeSplitUtilization");
                 });
@@ -748,15 +745,6 @@ namespace Hedwig.Migrations
                         .HasForeignKey("ReportId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-<<<<<<< HEAD
-
-                    b.HasOne("Hedwig.Models.ReportingPeriod", "ReportingPeriod")
-                        .WithMany()
-                        .HasForeignKey("ReportingPeriodId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-=======
->>>>>>> Add time split utilization to report
                 });
 
             modelBuilder.Entity("Hedwig.Models.Report", b =>
