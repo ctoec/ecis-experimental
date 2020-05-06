@@ -171,7 +171,7 @@ export default function ReportSubmitForm({
 			fundingSpaceId: timeSplit.fundingSpaceId,
 			reportingPeriodId,
 			fullTimeWeeksUsed: lesserTime === FundingTime.Full ? lesserWeeksUsed : greaterWeeksUsed,
-			partTimeWeeksUsed: lesserTime === FundingTime.Part ? lesserWeeksUsed : greaterWeeksUsed,
+			partTimeWeeksUsed: lesserTime === FundingTime.Full ? greaterWeeksUsed : lesserWeeksUsed,
 		} as FundingTimeSplitUtilization;
 	};
 
