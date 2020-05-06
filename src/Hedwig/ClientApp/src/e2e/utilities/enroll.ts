@@ -21,9 +21,9 @@ export async function enterChildInfo(driver: IWebDriver, root: WebElement) {
 	const { findByText, findByLocator } = render(root);
 
 	const firstNameInput = await findByLocator({ css: '#firstName' });
-	firstNameInput.sendKeys('First name');
+	await firstNameInput.sendKeys('First name');
 	const lastNameInput = await findByLocator({ css: '#lastName' });
-	lastNameInput.sendKeys('Last name');
+	await lastNameInput.sendKeys('Last name');
 
 	const saveBtn = await findByText('Save');
 	await saveBtn.click();

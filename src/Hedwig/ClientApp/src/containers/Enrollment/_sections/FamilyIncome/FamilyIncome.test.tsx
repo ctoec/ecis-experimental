@@ -5,6 +5,7 @@ import { mockCompleteEnrollment } from '../../../../tests/data';
 import { DeepNonUndefineable } from '../../../../utils/types';
 import { Enrollment, FamilyDetermination } from '../../../../generated';
 import { getValidationError } from '../../../../tests/helpers';
+import { REQUIRED_FOR_OEC_REPORTING } from '../../../../utils/validations/messageStrings';
 
 jest.mock('../../../../hooks/useApi');
 
@@ -55,7 +56,7 @@ describe('enrollment sections', () => {
 				);
 
 				const fieldSet = (await findByText('Family income')).closest('fieldset');
-				expect(fieldSet).toHaveTextContent('This information is required for OEC reporting');
+				expect(fieldSet).toHaveTextContent(REQUIRED_FOR_OEC_REPORTING);
 			}
 		);
 
@@ -83,7 +84,7 @@ describe('enrollment sections', () => {
 				/>
 			);
 			const fieldSet = (await findByText('Family income')).closest('fieldset');
-			expect(fieldSet).not.toHaveTextContent('This information is required for OEC reporting');
+			expect(fieldSet).not.toHaveTextContent(REQUIRED_FOR_OEC_REPORTING);
 			expect(fieldSet).toHaveTextContent(validationErrorMessage);
 		});
 

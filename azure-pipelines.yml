@@ -7,7 +7,7 @@ resources:
   - repository: WingedKeys
     type: github
     name: ctoec/winged-keys
-    endpoint: 'Github'
+    endpoint: 'ctoec'
 
 trigger:
   - master
@@ -99,10 +99,16 @@ jobs:
     path: winged-keys
 
   - task: DockerCompose@0
+    displayName: "Docker compose up"
+    inputs:
+      dockerComposeFile: "$(Agent.BuildDirectory)/ecis-experimental/docker-compose.e2e.test.yaml"
+      dockerComposeCommand: "up -d"
+
+  - task: DockerCompose@0
     displayName: "Docker compose run e2e tests"
     inputs:
       dockerComposeFile: "$(Agent.BuildDirectory)/ecis-experimental/docker-compose.e2e.test.yaml"
-      dockerComposeCommand: "up --abort-on-container-exit client"
+      dockerComposeCommand: "exec -T client /run-e2e-test.sh"
     continueOnError: true
 
   - task: PublishTestResults@2
@@ -112,7 +118,7 @@ jobs:
       testResultsFormat: "JUnit"
       searchFolder: "$(Agent.BuildDirectory)"
       testResultsFiles: "**/junit.xml"
-      failTaskOnFailedTests: false
+      failTaskOnFailedTests: true
 
 #
 # Sonarcloud Analysis
@@ -293,5 +299,3 @@ jobs:
 
   - script: $(Build.SourcesDirectory)/installer/tf/prsystem/tf-pr-system-clean.sh
     displayName: 'Command: clean ubuntu systems via terraform'
-
-

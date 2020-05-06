@@ -61,18 +61,15 @@ export function serverErrorForField(
 /**
  * Based on supplied
  * @param fieldId
- * @param fieldValue
- * @param saveCondition
- * @param additionalCondition
+ * @param errorCondition
  * @param message
  */
 export function clientErrorForField(
 	fieldId: string,
-	fieldValue: any,
-	saveCondition: boolean,
+	errorCondition: boolean,
 	message?: string
 ): FormStatusProps | undefined {
-	if (!fieldValue && saveCondition) {
+	if (errorCondition) {
 		return {
 			type: 'error',
 			message: message,

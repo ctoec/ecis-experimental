@@ -23,6 +23,7 @@ import AlertContext from '../../../contexts/Alert/AlertContext';
 import { FormReducer, formReducer, updateData } from '../../../utils/forms/form';
 import { DeepNonUndefineable } from '../../../utils/types';
 import useApi, { ApiError } from '../../../hooks/useApi';
+import { REQUIRED_FOR_OEC_REPORTING } from '../../../utils/validations/messageStrings';
 
 const FamilyInfo: Section = {
 	key: 'family-information',
@@ -145,7 +146,7 @@ const FamilyInfo: Section = {
 							'family-address',
 							['addressLine1', 'state', 'town', 'zip'],
 							idx(enrollment, _ => _.child.family) || null,
-							'This information is required for OEC reporting'
+							REQUIRED_FOR_OEC_REPORTING
 						)
 					)}
 					className="display-inline-block"

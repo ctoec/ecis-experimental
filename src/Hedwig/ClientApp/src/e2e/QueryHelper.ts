@@ -161,8 +161,7 @@ class ExtendedWebElement extends WebElement implements WebElementExtension {
 	}
 	async findByLocator(locator: Locator, opt_timeout?: number, opt_message?: string) {
 		const driver = this.getDriver();
-		await driver.wait(until.elementsLocated(locator), opt_timeout, opt_message);
-		const elements = await this.findElements(locator);
+		const elements = await driver.wait(until.elementsLocated(locator), opt_timeout, opt_message);
 		if (elements.length === 1) {
 			return extendWebElement(elements[0]);
 		} else {
@@ -207,8 +206,7 @@ const waitForElement = async (
 	opt_timeout?: number,
 	opt_message?: string
 ) => {
-	await driver.wait(until.elementLocated(selector), opt_timeout, opt_message);
-	return driver.findElement(selector);
+	return await driver.wait(until.elementLocated(selector), opt_timeout, opt_message);
 };
 
 const extendWebElement = (element: WebElement): ExtendedWebElement => {

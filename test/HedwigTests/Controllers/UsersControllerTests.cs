@@ -13,7 +13,7 @@ namespace HedwigTests.Controllers
 	public class UsersControllerTests
 	{
 		[Fact]
-		public async Task Get_Current_GetsUserByWingedKeysId_FromSecurityPrincipalSubClaim()
+		public void Get_Current_GetsUserByWingedKeysId_FromSecurityPrincipalSubClaim()
 		{
 			var _users = new Mock<IUserRepository>();
 
@@ -31,8 +31,8 @@ namespace HedwigTests.Controllers
 			var controller = new UsersController(_users.Object);
 			controller.ControllerContext = controllerContext;
 
-			await controller.GetCurrent();
-			_users.Verify(u => u.GetUserByWingedKeysIdAsync(id));
+			controller.GetCurrent();
+			_users.Verify(u => u.GetUserByWingedKeysId(id));
 		}
 	}
 }
