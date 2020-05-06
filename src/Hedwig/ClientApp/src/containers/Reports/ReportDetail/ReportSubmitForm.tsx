@@ -14,7 +14,15 @@ import { Button, TextInput, ChoiceList, FieldSet, ErrorBoundary } from '../../..
 import AppContext from '../../../contexts/App/AppContext';
 import currencyFormatter from '../../../utils/currencyFormatter';
 import parseCurrencyFromString from '../../../utils/parseCurrencyFromString';
-import { getIdForUser, activeC4kFundingAsOf, getReportingPeriodWeeks, getFundingSpaces, prettyFundingTime, prettyAge, getReportingPeriodMonth } from '../../../utils/models';
+import {
+	getIdForUser,
+	activeC4kFundingAsOf,
+	getReportingPeriodWeeks,
+	getFundingSpaces,
+	prettyFundingTime,
+	prettyAge,
+	getReportingPeriodMonth,
+} from '../../../utils/models';
 import UtilizationTable from './UtilizationTable';
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import { useHistory } from 'react-router';
@@ -119,9 +127,9 @@ export default function ReportSubmitForm({
 		api =>
 			api.apiOrganizationsOrgIdReportsIdPut({
 				...params,
-				cdcReport: { 
+				cdcReport: {
 					..._report,
-					timeSplitUtilizations 
+					timeSplitUtilizations,
 				},
 			}),
 		{ skip: !user || !attemptingSave, callback: () => setAttemptingSave(false) }
@@ -146,60 +154,75 @@ export default function ReportSubmitForm({
 		}
 	}, [saveData, saveError]);
 
-
 	const reportingPeriodWeeks = getReportingPeriodWeeks(report.reportingPeriod);
-	const splitTimeFundingSpaces = getFundingSpaces(report.organization.fundingSpaces, { time: FundingTime.Split });
-	const getSplitUtilization = (timeSplit: FundingTimeSplit, lesserWeeksUsed: number, reportingPeriodWeeks: number) => {
-		const lesserTime = timeSplit.fullTimeWeeks < timeSplit.partTimeWeeks ? FundingTime.Full : FundingTime.Part;
+	const splitTimeFundingSpaces = getFundingSpaces(report.organization.fundingSpaces, {
+		time: FundingTime.Split,
+	});
+	const getSplitUtilization = (
+		timeSplit: FundingTimeSplit,
+		lesserWeeksUsed: number,
+		reportingPeriodWeeks: number
+	) => {
+		const lesserTime =
+			timeSplit.fullTimeWeeks < timeSplit.partTimeWeeks ? FundingTime.Full : FundingTime.Part;
 		const greaterWeeksUsed = reportingPeriodWeeks - lesserWeeksUsed;
 		return {
 			fundingSpaceId: timeSplit.fundingSpaceId,
 			fullTimeWeeksUsed: lesserTime === FundingTime.Full ? lesserWeeksUsed : greaterWeeksUsed,
-			partTimeWeeksUsed: lesserTime === FundingTime.Full ? greaterWeeksUsed : lesserWeeksUsed
+			partTimeWeeksUsed: lesserTime === FundingTime.Full ? greaterWeeksUsed : lesserWeeksUsed,
 		} as FundingTimeSplitUtilization;
-	}
+	};
 
 	const [timeSplitUtilizations, updateTimeSplitUtilizations] = useState(
-		report.timeSplitUtilizations 
-		? report.timeSplitUtilizations as FundingTimeSplitUtilization[]
-		: splitTimeFundingSpaces.map(fundingSpace => getSplitUtilization(fundingSpace.timeSplit, 0, reportingPeriodWeeks))
+		report.timeSplitUtilizations
+			? (report.timeSplitUtilizations as FundingTimeSplitUtilization[])
+			: splitTimeFundingSpaces.map(fundingSpace =>
+					getSplitUtilization(fundingSpace.timeSplit, 0, reportingPeriodWeeks)
+			  )
 	);
 
 	const splitTimeUtilizationQuestion = (fundingSpace: FundingSpace) => {
 		const timeSplit = fundingSpace.timeSplit;
-		if(!timeSplit) return;
+		if (!timeSplit) return;
 
-		const lesserTime = timeSplit.fullTimeWeeks < timeSplit.partTimeWeeks ? FundingTime.Full : FundingTime.Part;
-		const labelText = `${prettyAge(fundingSpace.ageGroup)} services were provided ${prettyFundingTime(lesserTime)}`;
+		const lesserTime =
+			timeSplit.fullTimeWeeks < timeSplit.partTimeWeeks ? FundingTime.Full : FundingTime.Part;
+		const labelText = `${prettyAge(
+			fundingSpace.ageGroup
+		)} services were provided ${prettyFundingTime(lesserTime)}`;
 
-		const existingUtilizationForSpace = timeSplitUtilizations.find(ut => ut.fundingSpaceId === fundingSpace.id) 
-			|| { fullTimeWeeksUsed: 0, partTimeWeeksUsed: 0}; // these default 0s are only ever used to populate the default value
+		const existingUtilizationForSpace = timeSplitUtilizations.find(
+			ut => ut.fundingSpaceId === fundingSpace.id
+		) || { fullTimeWeeksUsed: 0, partTimeWeeksUsed: 0 }; // these default 0s are only ever used to populate the default value
 		return (
 			<TextInput
 				type="inline-input"
 				name="splitFundingTimeUtilization"
 				id={`${fundingSpace.id}-lesser-weeks-used`}
 				label={<span className="text-bold">{labelText}</span>}
-				defaultValue={`${lesserTime === FundingTime.Full
-					? existingUtilizationForSpace.fullTimeWeeksUsed
-					: existingUtilizationForSpace.partTimeWeeksUsed
+				defaultValue={`${
+					lesserTime === FundingTime.Full
+						? existingUtilizationForSpace.fullTimeWeeksUsed
+						: existingUtilizationForSpace.partTimeWeeksUsed
 				}`}
 				onChange={updateFormData(_ => {
-					const lesserWeeksUsed = parseInt(_.replace(/[^0-9.]/g, ''),10) || 0;
+					const lesserWeeksUsed = parseInt(_.replace(/[^0-9.]/g, ''), 10) || 0;
 
 					updateTimeSplitUtilizations(_uts => [
 						..._uts.filter(ut => ut.fundingSpaceId !== fundingSpace.id),
-						getSplitUtilization(timeSplit, lesserWeeksUsed, reportingPeriodWeeks)
-					])
+						getSplitUtilization(timeSplit, lesserWeeksUsed, reportingPeriodWeeks),
+					]);
 				})}
 				disabled={!!report.submittedAt}
 				small
-				afterContent={`of ${reportingPeriodWeeks} weeks in ${getReportingPeriodMonth(report.reportingPeriod)}`}
+				afterContent={`of ${reportingPeriodWeeks} weeks in ${getReportingPeriodMonth(
+					report.reportingPeriod
+				)}`}
 			/>
-		)
-	}
+		);
+	};
 
-	console.log("Uts", timeSplitUtilizations);
+	console.log('Uts', timeSplitUtilizations);
 	return (
 		<ErrorBoundary alertProps={reportSubmitFailAlert}>
 			{report.submittedAt && (
@@ -223,12 +246,13 @@ export default function ReportSubmitForm({
 				onChange={updateFormData((_, e) => e.target.checked)}
 			/>
 			{splitTimeFundingSpaces && splitTimeFundingSpaces.length && (
-				<FieldSet className="usa-form margin-bottom-5" id="time-split-utilizations" legend="Funding time split utilizations">
-					{splitTimeFundingSpaces.map(fundingSpace => 
-						splitTimeUtilizationQuestion(fundingSpace)
-					)}
+				<FieldSet
+					className="usa-form margin-bottom-5"
+					id="time-split-utilizations"
+					legend="Funding time split utilizations"
+				>
+					{splitTimeFundingSpaces.map(fundingSpace => splitTimeUtilizationQuestion(fundingSpace))}
 				</FieldSet>
-				
 			)}
 			<UtilizationTable {...{ ..._report, accredited }} />
 			<form className="usa-form" noValidate autoComplete="off">

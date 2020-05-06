@@ -62,7 +62,7 @@ export function getFundingSpaces(
 	opts: {
 		ageGroup?: Age;
 		source?: FundingSource;
-		time?: FundingTime
+		time?: FundingTime;
 	}
 ) {
 	if (!fundingSpaces) return [];
@@ -75,7 +75,7 @@ export function getFundingSpaces(
 		if (source) {
 			match = match && space.source === source;
 		}
-		if(time) {
+		if (time) {
 			match = match && space.time === time;
 		}
 		return match;

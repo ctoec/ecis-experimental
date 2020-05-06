@@ -26,8 +26,8 @@ export function getReportingPeriodWeeks(period: ReportingPeriod) {
  * reporting period -> { period: '2020-02-01', periodStart: '2019-02-03', periodEnd: '2019-03-01'}
  * formatted (normal) -> "February 2020" (from period.period)
  * formatted (extended) -> "February 2020 (02/03 - 03/01)"
- * @param period 
- * @param options 
+ * @param period
+ * @param options
  */
 export const reportingPeriodFormatter = (
 	period: ReportingPeriod,
@@ -49,7 +49,7 @@ export const reportingPeriodFormatter = (
 /**
  * Returns the current reporting period, defined as the period for which
  * period month and year equal current month and year
- * @param periods 
+ * @param periods
  */
 export const currentReportingPeriod = (periods: ReportingPeriod[]): ReportingPeriod | undefined => {
 	return periods.find(
