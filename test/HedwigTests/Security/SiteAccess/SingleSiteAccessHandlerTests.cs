@@ -30,8 +30,6 @@ namespace HedwigTests.Security
 				var userClaim = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] { claim }));
 
 				// - httpContext for request to 'Sites' controller for that site
-
-
 				var httpContext = new Mock<HttpContext>();
 				var httpContextAccessor = new HttpContextAccessor
 				{

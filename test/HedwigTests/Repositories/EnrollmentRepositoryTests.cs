@@ -1,14 +1,14 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 using Xunit;
-using Hedwig.Repositories;
 using Hedwig.Models;
+using Hedwig.Repositories;
 using HedwigTests.Helpers;
 using HedwigTests.Fixtures;
-using System.Collections.Generic;
-using AutoMapper;
 
 namespace HedwigTests.Repositories
 {
@@ -230,7 +230,6 @@ namespace HedwigTests.Repositories
 		[InlineData(new string[] { "child", "family", "determinations", "fundings" }, true, true, true, true)]
 		[InlineData(new string[] { "family", "determinations" }, false, false, false, false)]
 		[InlineData(new string[] { "family", "determinations", "fundings" }, true, true, false, false)]
-
 		public async Task GetEnrollmentsForSite_ReturnsEnrollmentsWithSiteId_IncludesEntities(
 			string[] include,
 			bool includeFundings,

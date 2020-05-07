@@ -5,6 +5,8 @@ namespace Hedwig.Configuration
 {
 	public static class EnvironmentConfiguration
 	{
+		private const string DEVELOPMENT = "Development";
+		private const string PRODUCTION = "Production";
 		public static IConfigurationRoot GetIConfigurationRoot()
 		{
 			return new ConfigurationBuilder()
@@ -18,6 +20,16 @@ namespace Hedwig.Configuration
 		{
 			return GetIConfigurationRoot()
 				.GetValue<string>(name, defaultValue ?? "Development");
+		}
+
+		public static bool IsDevelopment()
+		{
+			return GetEnvironmentVariableFromAppSettings("EnvironmentName") == DEVELOPMENT;
+		}
+
+		public static bool IsProduction()
+		{
+			return GetEnvironmentVariableFromAppSettings("EnvironmentName") == PRODUCTION;
 		}
 	}
 }

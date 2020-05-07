@@ -16,20 +16,19 @@ namespace HedwigTests.Fixtures
 			// Test Startup
 			services.ConfigureSqlServer(Configuration.GetConnectionString("HEDWIG"));
 			// Main Startup
-			// Excluding ConfigureSqlServer and ConfigureHostedServices
+			// Excluding ConfigureSqlServer, ConfigureHostedServices, and ConfigureAuthentication
 			services.ConfigureCors();
 			services.ConfigureFilters();
 			services.ConfigureControllers();
 			services.ConfigureSpa();
 			services.ConfigureMapping();
 			services.ConfigureRepositories();
-			services.ConfigureAuthentication(Configuration.GetValue<string>("WingedKeysUri"));
 			services.ConfigureAuthorization();
 			services.ConfigureValidation();
 			services.AddSingleton<IDateTime, SystemDateTime>();
 			services.ConfigureSwagger();
 			services.AddHttpContextAccessor();
-
+			// End main startup
 			// Test Startup
 			if (TestEnvironmentFlags.ShouldLogSQL())
 			{
