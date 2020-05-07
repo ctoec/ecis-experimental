@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import Table, { TableProps } from '../../../components/Table/Table';
-import { CdcReport, Enrollment, Age, FundingSource, FundingTime, Region } from '../../../generated';
+import { CdcReport, Enrollment, Age, FundingTime, Region, FundingSpace } from '../../../generated';
 import idx from 'idx';
 import moment from 'moment';
 import { CdcRates } from './CdcRates';
 import {
 	prettyAge,
 	prettyFundingTime,
-	getFundingTime,
-	getFundingSpaceCapacity,
+	isFundedForFundingSpace,
+	fundingSpaceSorter,
 } from '../../../utils/models';
 import currencyFormatter from '../../../utils/currencyFormatter';
-import cartesianProduct from '../../../utils/cartesianProduct';
 import cx from 'classnames';
+import { DeepNonUndefineableArray } from '../../../utils/types';
 
 interface UtilizationTableRow {
 	key: string;
@@ -48,6 +48,11 @@ export default function UtilizationTable(report: CdcReport) {
 		return <></>;
 	}
 
+	const fundingSpaces = idx(report, _ => _.organization.fundingSpaces);
+	if (!fundingSpaces) {
+		return <></>;
+	}
+
 	const periodStart = idx(report, _ => _.reportingPeriod.periodStart);
 	const periodEnd = idx(report, _ => _.reportingPeriod.periodEnd);
 	const weeksInPeriod =
@@ -59,23 +64,24 @@ export default function UtilizationTable(report: CdcReport) {
 
 	const enrollments = (idx(report, _ => _.enrollments) || []) as Enrollment[];
 
-	let rows: UtilizationTableRow[] = cartesianProduct({
-		ageGroup: [Age.InfantToddler, Age.Preschool, Age.SchoolAge],
-		fundingTime: [FundingTime.Full, FundingTime.Part],
-	})
-		.map(({ ageGroup, fundingTime }) => {
-			// TODO: update funding space capacity method to account for splits
-			const capacity = getFundingSpaceCapacity(report.organization, {
-				source: FundingSource.CDC,
-				ageGroup,
-				time: fundingTime,
-			});
-			const count = countFundedEnrollments(enrollments, ageGroup, fundingTime);
+	// NOTE: previously, looped over all possible combinations of age X time,
+	// and then filtered for products with count or capacity > 0
+	// UPDATED to loop over all existing fundingspaces, which will all have capacity > 0.
+	// enrollments for funding spaces not in this list do not belong to this report.
+	// Rows are sorted by fundingspace age, then time
+	let rows: UtilizationTableRow[] = (fundingSpaces as DeepNonUndefineableArray<FundingSpace>)
+		.sort(fundingSpaceSorter)
+		.map(space => {
+			const capacity = space.capacity;
+			const ageGroup = space.ageGroup;
+			const fundingTime = space.time;
+			const count = countFundedEnrollments(enrollments, space.id);
 			const rate = calculateRate(
 				report.accredited,
 				site.titleI,
 				site.region,
 				ageGroup,
+				// TODO: Update this to handle FundingTime.Split
 				fundingTime
 			);
 
@@ -94,8 +100,7 @@ export default function UtilizationTable(report: CdcReport) {
 				total,
 				balance,
 			};
-		})
-		.filter(({ count, capacity }) => count > 0 || capacity > 0);
+		});
 
 	const totalRow = rows.reduce(
 		(total, row) => {
@@ -276,20 +281,9 @@ export function calculateRate(
 	return rate ? rate.rate : 0;
 }
 
-export function countFundedEnrollments(
-	enrollments: Enrollment[],
-	ageGroup: Age,
-	fundingTime: FundingTime
-) {
+export function countFundedEnrollments(enrollments: Enrollment[], fundingSpaceId: number) {
 	return enrollments.filter(enrollment => {
-		if (enrollment.ageGroup !== ageGroup) {
-			return false;
-		}
-
 		if (!enrollment.fundings) return false;
-
-		const cdcFunding = enrollment.fundings.find(funding => funding.source === FundingSource.CDC);
-
-		return getFundingTime(cdcFunding) === fundingTime;
+		return isFundedForFundingSpace(enrollment, fundingSpaceId);
 	}).length;
 }

@@ -78,11 +78,7 @@ namespace HedwigTests.Integrations
 				funding =>
 				{
 					Assert.NotNull(funding.FundingSpace);
-					Assert.NotEmpty(funding.FundingSpace.FundingTimeAllocations);
-					Assert.All(
-						funding.FundingSpace.FundingTimeAllocations,
-						allocation => Assert.NotNull(allocation)
-					);
+					Assert.Equal(funding.FundingSpace.Time == FundingTime.Split, funding.FundingSpace.TimeSplit != null);
 					Assert.NotNull(funding.Source);
 					Assert.NotNull(funding.FirstReportingPeriod);
 					Assert.NotNull(funding.LastReportingPeriod);
@@ -143,11 +139,7 @@ namespace HedwigTests.Integrations
 				funding =>
 				{
 					Assert.NotNull(funding.FundingSpace);
-					Assert.NotEmpty(funding.FundingSpace.FundingTimeAllocations);
-					Assert.All(
-						funding.FundingSpace.FundingTimeAllocations,
-						allocation => Assert.NotNull(allocation)
-					);
+					Assert.Equal(funding.FundingSpace.Time == FundingTime.Split, funding.FundingSpace.TimeSplit != null);
 					Assert.NotNull(funding.Source);
 					Assert.NotNull(funding.FirstReportingPeriod);
 					Assert.NotNull(funding.LastReportingPeriod);

@@ -1421,12 +1421,40 @@ exports[`EnrollmentEdit enrollment and funding matches snapshot 1`] = `
               <div
                 class="oec-choicelist-expansion"
               >
-                <div>
-                  <span
-                    class="usa-hint text-italic"
+                <div
+                  class="usa-form-group "
+                >
+                  <div
+                    class=""
+                  />
+                  <label
+                    class="usa-label"
+                    for="fundingSpace"
                   >
-                    Full time (52 weeks)
-                  </span>
+                    Contract space
+                  </label>
+                  <select
+                    aria-required="true"
+                    class="usa-select"
+                    id="fundingSpace"
+                    name=""
+                  >
+                    <option
+                      value=""
+                    >
+                      - Select -
+                    </option>
+                    <option
+                      value="2"
+                    >
+                      Full time (52 weeks)
+                    </option>
+                    <option
+                      value="5"
+                    >
+                      Part time (52 weeks)
+                    </option>
+                  </select>
                 </div>
                 <div
                   class="usa-form-group "

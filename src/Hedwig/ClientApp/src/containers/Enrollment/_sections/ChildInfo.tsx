@@ -176,6 +176,8 @@ const ChildInfo: Section = {
 				// If the request did not go through, exit
 				return;
 			}
+			// unset hasAlertedOnError to get correct error handling in subsequent requests
+			setHasAlertedOnError(false);
 			// Set the new error whether it's undefined or an error
 			setError(saveError);
 			if (saveData && !saveError) {

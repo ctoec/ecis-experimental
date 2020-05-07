@@ -18,73 +18,69 @@ import {
 	FundingSpaceFromJSON,
 	FundingSpaceFromJSONTyped,
 	FundingSpaceToJSON,
-	FundingTime,
-	FundingTimeFromJSON,
-	FundingTimeFromJSONTyped,
-	FundingTimeToJSON,
 } from './';
 
 /**
  *
  * @export
- * @interface FundingTimeAllocation
+ * @interface FundingTimeSplit
  */
-export interface FundingTimeAllocation {
+export interface FundingTimeSplit {
 	/**
 	 *
 	 * @type {number}
-	 * @memberof FundingTimeAllocation
+	 * @memberof FundingTimeSplit
 	 */
-	id?: number;
+	id: number;
 	/**
 	 *
 	 * @type {number}
-	 * @memberof FundingTimeAllocation
+	 * @memberof FundingTimeSplit
 	 */
 	fundingSpaceId: number;
 	/**
 	 *
 	 * @type {FundingSpace}
-	 * @memberof FundingTimeAllocation
+	 * @memberof FundingTimeSplit
 	 */
 	fundingSpace?: FundingSpace;
 	/**
 	 *
 	 * @type {number}
-	 * @memberof FundingTimeAllocation
+	 * @memberof FundingTimeSplit
 	 */
-	weeks: number;
+	fullTimeWeeks: number;
 	/**
 	 *
-	 * @type {FundingTime}
-	 * @memberof FundingTimeAllocation
+	 * @type {number}
+	 * @memberof FundingTimeSplit
 	 */
-	time: FundingTime;
+	partTimeWeeks: number;
 }
 
-export function FundingTimeAllocationFromJSON(json: any): FundingTimeAllocation {
-	return FundingTimeAllocationFromJSONTyped(json, false);
+export function FundingTimeSplitFromJSON(json: any): FundingTimeSplit {
+	return FundingTimeSplitFromJSONTyped(json, false);
 }
 
-export function FundingTimeAllocationFromJSONTyped(
+export function FundingTimeSplitFromJSONTyped(
 	json: any,
 	ignoreDiscriminator: boolean
-): FundingTimeAllocation {
+): FundingTimeSplit {
 	if (json === undefined || json === null) {
 		return json;
 	}
 	return {
-		id: !exists(json, 'id') ? undefined : json['id'],
+		id: json['id'],
 		fundingSpaceId: json['fundingSpaceId'],
 		fundingSpace: !exists(json, 'fundingSpace')
 			? undefined
 			: FundingSpaceFromJSON(json['fundingSpace']),
-		weeks: json['weeks'],
-		time: FundingTimeFromJSON(json['time']),
+		fullTimeWeeks: json['fullTimeWeeks'],
+		partTimeWeeks: json['partTimeWeeks'],
 	};
 }
 
-export function FundingTimeAllocationToJSON(value?: FundingTimeAllocation | null): any {
+export function FundingTimeSplitToJSON(value?: FundingTimeSplit | null): any {
 	if (value === undefined) {
 		return undefined;
 	}
@@ -95,7 +91,7 @@ export function FundingTimeAllocationToJSON(value?: FundingTimeAllocation | null
 		id: value.id,
 		fundingSpaceId: value.fundingSpaceId,
 		fundingSpace: FundingSpaceToJSON(value.fundingSpace),
-		weeks: value.weeks,
-		time: FundingTimeToJSON(value.time),
+		fullTimeWeeks: value.fullTimeWeeks,
+		partTimeWeeks: value.partTimeWeeks,
 	};
 }

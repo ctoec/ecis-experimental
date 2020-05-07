@@ -13,25 +13,19 @@ export function fundingTimeFromString(str: string) {
 }
 
 export function prettyFundingTime(
-	time: FundingTime | FundingTime[] | null | undefined,
+	time: FundingTime | null | undefined,
 	capitalize: boolean = false
 ): string {
-	// Time is either one funding time or an array of unique funding times
 	let prettyTime = '';
-	if (Array.isArray(time)) {
-		// Should return part time / full time
-		prettyTime = time
-			.sort()
-			.reverse()
-			.map(_time => prettyFundingTime(_time))
-			.join(' / ');
-	}
 	switch (time) {
 		case FundingTime.Full:
 			prettyTime = 'full time';
 			break;
 		case FundingTime.Part:
 			prettyTime = 'part time';
+			break;
+		case FundingTime.Split:
+			prettyTime = 'split time';
 			break;
 		default:
 			break;

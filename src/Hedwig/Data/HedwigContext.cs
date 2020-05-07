@@ -63,11 +63,10 @@ namespace Hedwig.Data
 			.IsRequired()
 			.OnDelete(DeleteBehavior.Cascade);
 
-			modelBuilder.Entity<FundingTimeAllocation>()
-			.HasOne(fta => fta.FundingSpace)
-			.WithMany(fs => fs.FundingTimeAllocations)
-			.HasForeignKey(fta => fta.FundingSpaceId)
-			.IsRequired()
+			modelBuilder.Entity<FundingTimeSplit>()
+			.HasOne(split => split.FundingSpace)
+			.WithOne(space => space.TimeSplit)
+			.HasForeignKey<FundingTimeSplit>(split => split.FundingSpaceId)
 			.OnDelete(DeleteBehavior.Cascade);
 		}
 

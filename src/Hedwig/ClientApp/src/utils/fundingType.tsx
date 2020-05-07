@@ -1,11 +1,10 @@
-import { C4KCertificate, Funding, FundingSpace } from '../generated';
+import { C4KCertificate, Funding, FundingSpace, FundingTime } from '../generated';
 import { Tag, DateRange } from '../components';
 import {
 	isCurrentToRange,
 	dedupeFundings,
 	isCurrentToRangeC4K,
 	getFundingTime,
-	getFundingSpaceTime,
 	dedupeC4kCertificates,
 } from './models';
 import { DeepNonUndefineable } from './types';
@@ -21,16 +20,16 @@ type InternalC4KCertificate = DeepNonUndefineable<C4KCertificate> & { type: 'C4K
 
 export type FundingType = (InternalFunding | InternalC4KCertificate) & FundingTypeDiscriminator;
 
-function ptOrFT(fundingSpace?: FundingSpace, isSplit?: boolean) {
+function ptOrFT(fundingSpace?: FundingSpace) {
 	if (!fundingSpace) return '';
 
-	if (isSplit) {
+	if (fundingSpace.time === FundingTime.Split) {
 		return '-PT/FT';
 	}
-	if (getFundingSpaceTime(fundingSpace) === 'Full') {
+	if (fundingSpace.time === FundingTime.Full) {
 		return '–FT';
 	}
-	if (getFundingSpaceTime(fundingSpace) === 'Part') {
+	if (fundingSpace.time === FundingTime.Part) {
 		return '–PT';
 	}
 	return '';
@@ -42,18 +41,17 @@ export function generateFundingTypeTag(
 		index?: any;
 		className?: string;
 		includeTime?: boolean;
-		splitTime?: boolean;
 	}
 ): JSX.Element {
 	const color = fundingType.type ? getDisplayColorForFundingType(fundingType.type) : 'gray-90';
-	const { index, className, includeTime, splitTime } = options || {};
+	const { index, className, includeTime } = options || {};
 	let key, text;
 	switch (fundingType.type) {
 		case 'CDC':
 			key = `${fundingType.source}-${getFundingTime(fundingType)}`;
 			if (index) key = `${key}-${index}`;
 			if (fundingType.source && includeTime) {
-				text = `CDC${ptOrFT(fundingType.fundingSpace, splitTime)}`;
+				text = `CDC${ptOrFT(fundingType.fundingSpace)}`;
 			} else if (fundingType.source) {
 				text = 'CDC';
 			} else {

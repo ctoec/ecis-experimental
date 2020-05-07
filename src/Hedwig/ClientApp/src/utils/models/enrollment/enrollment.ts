@@ -1,12 +1,5 @@
-import {
-	Enrollment,
-	Gender,
-	User,
-	C4KCertificate,
-	FundingTime,
-	FundingSource,
-} from '../../../generated';
-import { isCurrentToRange, getFundingSpaceTimes } from '..';
+import { Enrollment, Gender, User, C4KCertificate, FundingSource } from '../../../generated';
+import { isCurrentToRange } from '..';
 import { DateRange } from '../../../components';
 import { validatePermissions, getIdForUser } from '..';
 import emptyGuid from '../../emptyGuid';
@@ -40,6 +33,16 @@ export function emptyEnrollment(siteId: number, user?: User) {
 	} as DeepNonUndefineable<Enrollment>;
 }
 
+/**
+ * Filters a set of enrollments based on their fundings. Checks if an
+ * enrollment has a funding for the given fundingspace, and optionally
+ * checks if that funding is current to a given date range.
+ *
+ * To be used when enrollments must be filtered by funding source and funding time
+ * @param enrollment
+ * @param fundingSpaceId
+ * @param dateRange
+ */
 export function isFundedForFundingSpace(
 	enrollment: Enrollment | null,
 	fundingSpaceId: number,
@@ -57,12 +60,18 @@ export function isFundedForFundingSpace(
 	return fundings.length > 0;
 }
 
+/**
+ * Filters a set of enrollments case on their fundings. Checks if an
+ * enrollment has a funding for the given funding source.
+ *
+ * To be used when enrollments only need to be filtered by funding source, not time.
+ * @param enrollment
+ * @param opts
+ */
 export function isFunded(
 	enrollment: Enrollment | null,
 	opts?: {
 		source?: FundingSource;
-		time?: FundingTime | FundingTime[];
-		currentRange?: DateRange;
 	}
 ) {
 	if (!enrollment) return false;
@@ -70,31 +79,18 @@ export function isFunded(
 	if (!enrollment.fundings || !enrollment.fundings.length) return false;
 
 	let fundings = enrollment.fundings;
-	const { source, time, currentRange } = opts || {};
+	const { source } = opts || {};
 
 	if (source) {
 		fundings = fundings.filter(funding => funding.source === source);
 	}
 
-	if (time) {
-		// TODO: is there a way to combine this with getFundingSpacesFor?  It's very similar
-		let timeOpt = Array.isArray(time) ? time : [time];
-		fundings = fundings.filter(funding => {
-			const spaceTimes = getFundingSpaceTimes(funding.fundingSpace);
-			if (spaceTimes) {
-				return spaceTimes.sort().join() === timeOpt.sort().join();
-			}
-			return false;
-		});
-	}
-
-	if (currentRange) {
-		fundings = fundings.filter(funding => isCurrentToRange(funding, currentRange));
-	}
-
 	return fundings.length > 0;
 }
 
+/**
+ * String values for default enrollment exit reasons
+ */
 export const enrollmentExitReasons = {
 	AgedOut: 'Aged out',
 	StoppedAttending: 'Stopped attending',

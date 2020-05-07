@@ -79,6 +79,64 @@ exports[`UtilizationTable matches snapshot 1`] = `
           <strong>
             Infant/Toddler
           </strong>
+           – full time
+        </th>
+        <td
+          class=" oec-table__cell--red"
+        >
+          0/10 spaces
+        </td>
+        <td
+          class="text-tabular text-right"
+        >
+          <span>
+            $ 
+          </span>
+          <span
+            style="visibility: hidden;"
+          />
+          169.95
+          <span>
+             × 4 weeks
+          </span>
+        </td>
+        <td
+          class="text-tabular text-right"
+        >
+          <span>
+            $ 
+          </span>
+          <span
+            style="visibility: hidden;"
+          >
+            00
+          </span>
+          0.00
+        </td>
+        <td
+          class="oec-table__cell--red text-tabular text-right"
+        >
+          <div
+            class="position-relative one-half-char-right"
+          >
+            (
+            <span>
+              $ 
+            </span>
+            <span
+              style="visibility: hidden;"
+            >
+              0
+            </span>
+            6,798.00)
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <th>
+          <strong>
+            Infant/Toddler
+          </strong>
            – part time
         </th>
         <td
@@ -137,6 +195,65 @@ exports[`UtilizationTable matches snapshot 1`] = `
       <tr>
         <th>
           <strong>
+            Infant/Toddler
+          </strong>
+           – split time
+        </th>
+        <td
+          class=" oec-table__cell--red"
+        >
+          0/10 spaces
+        </td>
+        <td
+          class="text-tabular text-right"
+        >
+          <span>
+            $ 
+          </span>
+          <span
+            style="visibility: hidden;"
+          >
+            00
+          </span>
+          0.00
+          <span>
+             × 4 weeks
+          </span>
+        </td>
+        <td
+          class="text-tabular text-right"
+        >
+          <span>
+            $ 
+          </span>
+          <span
+            style="visibility: hidden;"
+          >
+            00
+          </span>
+          0.00
+        </td>
+        <td
+          class="text-tabular text-right"
+        >
+          <div
+            class="position-relative"
+          >
+            <span>
+              $ 
+            </span>
+            <span
+              style="visibility: hidden;"
+            >
+              0000,
+            </span>
+            0.00
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <th>
+          <strong>
             Preschool
           </strong>
            – full time
@@ -187,6 +304,66 @@ exports[`UtilizationTable matches snapshot 1`] = `
               0
             </span>
             5,951.52)
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <th>
+          <strong>
+            Preschool
+          </strong>
+           – part time
+        </th>
+        <td
+          class=" oec-table__cell--red"
+        >
+          0/10 spaces
+        </td>
+        <td
+          class="text-tabular text-right"
+        >
+          <span>
+            $ 
+          </span>
+          <span
+            style="visibility: hidden;"
+          >
+            0
+          </span>
+          57.85
+          <span>
+             × 4 weeks
+          </span>
+        </td>
+        <td
+          class="text-tabular text-right"
+        >
+          <span>
+            $ 
+          </span>
+          <span
+            style="visibility: hidden;"
+          >
+            00
+          </span>
+          0.00
+        </td>
+        <td
+          class="oec-table__cell--red text-tabular text-right"
+        >
+          <div
+            class="position-relative one-half-char-right"
+          >
+            (
+            <span>
+              $ 
+            </span>
+            <span
+              style="visibility: hidden;"
+            >
+              0
+            </span>
+            2,314.00)
           </div>
         </td>
       </tr>
@@ -251,13 +428,73 @@ exports[`UtilizationTable matches snapshot 1`] = `
       <tr>
         <th>
           <strong>
+            School-age
+          </strong>
+           – part time
+        </th>
+        <td
+          class=" oec-table__cell--red"
+        >
+          0/10 spaces
+        </td>
+        <td
+          class="text-tabular text-right"
+        >
+          <span>
+            $ 
+          </span>
+          <span
+            style="visibility: hidden;"
+          >
+            0
+          </span>
+          54.80
+          <span>
+             × 4 weeks
+          </span>
+        </td>
+        <td
+          class="text-tabular text-right"
+        >
+          <span>
+            $ 
+          </span>
+          <span
+            style="visibility: hidden;"
+          >
+            00
+          </span>
+          0.00
+        </td>
+        <td
+          class="oec-table__cell--red text-tabular text-right"
+        >
+          <div
+            class="position-relative one-half-char-right"
+          >
+            (
+            <span>
+              $ 
+            </span>
+            <span
+              style="visibility: hidden;"
+            >
+              0
+            </span>
+            2,192.00)
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <th>
+          <strong>
             Total
           </strong>
         </th>
         <td
           class="oec-table__cell--strong oec-table__cell--red"
         >
-          1/30 spaces
+          1/70 spaces
         </td>
         <td
           class="text-tabular text-right"
@@ -286,7 +523,7 @@ exports[`UtilizationTable matches snapshot 1`] = `
             <span
               style="visibility: hidden;"
             />
-            12,859.52)
+            24,163.52)
           </div>
         </td>
       </tr>

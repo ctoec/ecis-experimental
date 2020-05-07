@@ -1,8 +1,14 @@
-import { Enrollment, Age, FundingSource, FundingTime } from '../../generated';
+import { Enrollment, Age, FundingSource } from '../../generated';
 import { swapFields } from '../helpers';
 import { mockChild } from './child';
 import { mockSite } from './site';
 import emptyGuid from '../../utils/emptyGuid';
+import {
+	mockFullTimePreschoolSpace,
+	mockPartTimePreschoolSpace,
+	mockPartTimeInfantSpace,
+	mockFullTimeInfantSpace,
+} from './fundingSpace';
 
 const enrollmentValidationError = [
 	{
@@ -42,11 +48,8 @@ export const mockCompleteEnrollment: Enrollment = {
 				periodEnd: new Date('2019-03-31'),
 				dueAt: new Date('2019-04-15'),
 			},
-			fundingSpace: {
-				organizationId: 1,
-				capacity: 1,
-				fundingTimeAllocations: [{ time: FundingTime.Full, weeks: 52 }],
-			},
+			fundingSpaceId: mockFullTimePreschoolSpace.id,
+			fundingSpace: mockFullTimePreschoolSpace,
 		},
 	],
 };
@@ -75,41 +78,43 @@ export const mockEnrollmentMissingAddress = swapFields(mockCompleteEnrollment, [
 ]);
 
 export const mockEnrollmentWithLaterStart = swapFields(mockCompleteEnrollment, [
-	{ keys: ['entry'], newValue: new Date('2019-03-01') },
 	{ keys: ['id'], newValue: 5 },
+	{ keys: ['entry'], newValue: new Date('2019-03-01') },
 ]);
 
 export const mockEnrollmentWithFoster = swapFields(mockCompleteEnrollment, [
-	{ keys: ['child', 'foster'], newValue: true },
 	{ keys: ['id'], newValue: 6 },
+	{ keys: ['child', 'foster'], newValue: true },
 	{ keys: ['child', 'family', 'determinations'], newValue: [] },
 ]);
 
 export const mockPartTimeEnrollment = swapFields(mockCompleteEnrollment, [
-	{
-		keys: ['fundings', 0, 'fundingSpace', 'fundingTimeAllocations', '0', 'time'],
-		newValue: FundingTime.Part,
-	},
 	{ keys: ['id'], newValue: 7 },
+	{ keys: ['fundings', 0, 'fundingSpace'], newValue: mockPartTimePreschoolSpace },
+	{ keys: ['fundings', 0, 'fundingSpaceId'], newValue: mockPartTimePreschoolSpace.id },
 ]);
 
 export const mockPartTimeInfantEnrollment = swapFields(mockPartTimeEnrollment, [
 	{ keys: ['id'], newValue: 8 },
 	{ keys: ['ageGroup'], newValue: Age.InfantToddler },
+	{ keys: ['fundings', 0, 'fundingSpace'], newValue: mockPartTimeInfantSpace },
+	{ keys: ['fundings', 0, 'fundingSpaceId'], newValue: mockPartTimeInfantSpace.id },
 ]);
 
 export const mockFullTimeInfantEnrollment = swapFields(mockCompleteEnrollment, [
 	{ keys: ['id'], newValue: 9 },
 	{ keys: ['ageGroup'], newValue: Age.InfantToddler },
+	{ keys: ['fundings', 0, 'fundingSpace'], newValue: mockFullTimeInfantSpace },
+	{ keys: ['fundings', 0, 'fundingSpaceId'], newValue: mockFullTimeInfantSpace.id },
 ]);
 
 export const mockAllFakeEnrollments = [
-	mockCompleteEnrollment,
-	mockEnrollmentMissingBirthCertId,
-	mockEnrollmentMissingAddress,
-	mockEnrollmentWithLaterStart,
-	mockEnrollmentWithFoster,
-	mockPartTimeEnrollment,
+	mockCompleteEnrollment, // full time preschool
+	mockEnrollmentMissingBirthCertId, // full time preschool
+	mockEnrollmentMissingAddress, // full time preschool
+	mockEnrollmentWithLaterStart, // full time preschool
+	mockEnrollmentWithFoster, // full time preschool
+	mockPartTimeEnrollment, // part time preschool
 	mockPartTimeInfantEnrollment,
 	mockFullTimeInfantEnrollment,
 ];

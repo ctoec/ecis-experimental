@@ -80,11 +80,7 @@ namespace HedwigTests.Integrations
 					fundingSpace =>
 					{
 						Assert.NotNull(fundingSpace);
-						Assert.NotEmpty(fundingSpace.FundingTimeAllocations);
-						Assert.All(
-							fundingSpace.FundingTimeAllocations,
-							allocation => Assert.NotNull(allocation)
-						);
+						Assert.Equal(fundingSpace.Time == FundingTime.Split, fundingSpace.TimeSplit != null);
 					}
 				);
 			}

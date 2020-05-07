@@ -9,7 +9,7 @@ export * from './Funding';
 export * from './FundingSource';
 export * from './FundingSpace';
 export * from './FundingTime';
-export * from './FundingTimeAllocation';
+export * from './FundingTimeSplit';
 export * from './Gender';
 export * from './Organization';
 export * from './OrganizationPermission';

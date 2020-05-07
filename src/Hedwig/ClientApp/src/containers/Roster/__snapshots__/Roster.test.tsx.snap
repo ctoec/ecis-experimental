@@ -122,7 +122,64 @@ exports[`Roster matches snapshot 1`] = `
     </h2>
     <ul
       class="margin-y-2 oec-legend add-list-reset grid-col"
-    />
+    >
+      <li
+        class="oec-legend__item oec-legend-item margin-y-1"
+      >
+        <div
+          class="oec-legend-item__symbol undefined"
+        >
+          <span
+            class="usa-tag position-relative top-neg-2px bg-blue-50v"
+          >
+            CDC
+          </span>
+        </div>
+        <div
+          class="oec-legend-item__text width-fit-content display-inline margin-left-1 "
+        >
+          <span>
+            Full time — 
+          </span>
+          <span
+            class="text-bold"
+          >
+            1
+          </span>
+          <span>
+             spaces filled
+          </span>
+        </div>
+      </li>
+      <li
+        class="oec-legend__item oec-legend-item margin-y-1"
+      >
+        <div
+          class="oec-legend-item__symbol undefined"
+        >
+          <span
+            class="usa-tag position-relative top-neg-2px bg-blue-50v"
+          >
+            CDC
+          </span>
+        </div>
+        <div
+          class="oec-legend-item__text width-fit-content display-inline margin-left-1 "
+        >
+          <span>
+            Part time — 
+          </span>
+          <span
+            class="text-bold"
+          >
+            1
+          </span>
+          <span>
+             spaces filled
+          </span>
+        </div>
+      </li>
+    </ul>
     <table
       class="oec-table oec-table--full-width"
       id="InfantToddler-roster-table"
@@ -249,7 +306,7 @@ exports[`Roster matches snapshot 1`] = `
             <span
               class="usa-tag undefined bg-blue-50v"
             >
-              CDC
+              CDC–PT
             </span>
           </td>
           <td
@@ -279,7 +336,7 @@ exports[`Roster matches snapshot 1`] = `
             <span
               class="usa-tag undefined bg-blue-50v"
             >
-              CDC
+              CDC–FT
             </span>
           </td>
           <td
@@ -297,7 +354,64 @@ exports[`Roster matches snapshot 1`] = `
     </h2>
     <ul
       class="margin-y-2 oec-legend add-list-reset grid-col"
-    />
+    >
+      <li
+        class="oec-legend__item oec-legend-item margin-y-1"
+      >
+        <div
+          class="oec-legend-item__symbol undefined"
+        >
+          <span
+            class="usa-tag position-relative top-neg-2px bg-blue-50v"
+          >
+            CDC
+          </span>
+        </div>
+        <div
+          class="oec-legend-item__text width-fit-content display-inline margin-left-1 "
+        >
+          <span>
+            Full time — 
+          </span>
+          <span
+            class="text-bold"
+          >
+            5
+          </span>
+          <span>
+             spaces filled
+          </span>
+        </div>
+      </li>
+      <li
+        class="oec-legend__item oec-legend-item margin-y-1"
+      >
+        <div
+          class="oec-legend-item__symbol undefined"
+        >
+          <span
+            class="usa-tag position-relative top-neg-2px bg-blue-50v"
+          >
+            CDC
+          </span>
+        </div>
+        <div
+          class="oec-legend-item__text width-fit-content display-inline margin-left-1 "
+        >
+          <span>
+            Part time — 
+          </span>
+          <span
+            class="text-bold"
+          >
+            1
+          </span>
+          <span>
+             spaces filled
+          </span>
+        </div>
+      </li>
+    </ul>
     <table
       class="oec-table oec-table--full-width"
       id="Preschool-roster-table"
@@ -424,7 +538,7 @@ exports[`Roster matches snapshot 1`] = `
             <span
               class="usa-tag undefined bg-blue-50v"
             >
-              CDC
+              CDC–FT
             </span>
           </td>
           <td
@@ -466,7 +580,7 @@ exports[`Roster matches snapshot 1`] = `
             <span
               class="usa-tag undefined bg-blue-50v"
             >
-              CDC
+              CDC–FT
             </span>
           </td>
           <td
@@ -508,7 +622,7 @@ exports[`Roster matches snapshot 1`] = `
             <span
               class="usa-tag undefined bg-blue-50v"
             >
-              CDC
+              CDC–FT
             </span>
           </td>
           <td
@@ -538,7 +652,7 @@ exports[`Roster matches snapshot 1`] = `
             <span
               class="usa-tag undefined bg-blue-50v"
             >
-              CDC
+              CDC–FT
             </span>
           </td>
           <td
@@ -568,7 +682,7 @@ exports[`Roster matches snapshot 1`] = `
             <span
               class="usa-tag undefined bg-blue-50v"
             >
-              CDC
+              CDC–FT
             </span>
           </td>
           <td
@@ -598,7 +712,7 @@ exports[`Roster matches snapshot 1`] = `
             <span
               class="usa-tag undefined bg-blue-50v"
             >
-              CDC
+              CDC–PT
             </span>
           </td>
           <td
