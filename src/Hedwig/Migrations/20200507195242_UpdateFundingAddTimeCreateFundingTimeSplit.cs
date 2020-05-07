@@ -2,14 +2,25 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Hedwig.Migrations
 {
-	public partial class UpdateFundingSpaceTime : Migration
+	public partial class UpdateFundingAddTimeCreateFundingTimeSplit : Migration
 	{
 		protected override void Up(MigrationBuilder migrationBuilder)
 		{
-			migrationBuilder.AddColumn<int>(
-					name: "Time",
-					table: "FundingSpace",
-					nullable: true);
+			/* Make Funding.FundingSpaceId not null */
+			// Temporarily turn off system versioning to
+			// fixup funding history table (to enable updating funding column to not null)
+			migrationBuilder.Sql(@"
+							ALTER TABLE [Funding]
+								SET (SYSTEM_VERSIONING = OFF)
+						");
+			migrationBuilder.Sql(@"
+							UPDATE [History].[Funding]
+								SET [FundingSpaceId] = 0
+							WHERE [FundingSpaceId] IS NULL
+
+							ALTER TABLE [History].[Funding]
+								ALTER COLUMN [FundingSpaceId] INT NOT NULL
+						");
 
 			migrationBuilder.AlterColumn<int>(
 					name: "FundingSpaceId",
@@ -18,6 +29,19 @@ namespace Hedwig.Migrations
 					oldClrType: typeof(int),
 					oldType: "int",
 					oldNullable: true);
+
+			migrationBuilder.Sql(@"
+							ALTER TABLE [Funding]
+								SET (SYSTEM_VERSIONING = ON (HISTORY_TABLE = [History].[Funding]))
+						");
+
+			/* Revert from FundingSpace with many FundingTimeAllocations to
+				 FundingSpace with one Time, and zero or one FundingTimeSplit
+				 (required if Time = Split) */
+			migrationBuilder.AddColumn<int>(
+					name: "Time",
+					table: "FundingSpace",
+					nullable: true);
 
 			migrationBuilder.CreateTable(
 					name: "FundingTimeSplit",
@@ -46,11 +70,10 @@ namespace Hedwig.Migrations
 					column: "FundingSpaceId",
 					unique: true);
 
-			// Revert back to the original state where time exists directly on the FundingSpace
-			// Now, we've added an additional FundingTime, Split, to indicate the split time 
-			// allocation which will be captured in a separate FundingTimeSplit model.
-			// Because no split fundings exist in prod right now, we can do a simple join
-			// on FundingTimeAllocation (they will all be 1-to-1)
+			// Set FundingSpace.Time from FundingTimeAllocation records.
+			// Becasue no split time funding spaces exist in prod right now,
+			// all FundingSpace-FundingTimeAllocations are one-to-one, so a
+			// simple join with suffice
 			migrationBuilder.Sql(@"
 							UPDATE [FundingSpace]
 							SET [Time] = [FundingTimeAllocation].[Time]
@@ -59,19 +82,17 @@ namespace Hedwig.Migrations
 							ON [FundingTimeAllocation].[FundingSpaceId] = [FundingSpace].[Id]
 						");
 
-			// Initially create this column as nullable, then populate, then make not nullable
 			migrationBuilder.AlterColumn<int>(
-					name: "Time",
-					table: "FundingSpace",
-					nullable: false,
-					oldClrType: typeof(int),
-					oldType: "int",
-					oldNullable: true);
+				name: "Time",
+				table: "FundingSpace",
+				nullable: false,
+				oldNullable: true
+			);
 
-			// Drop old funding time allocation table
 			migrationBuilder.DropTable(
 					name: "FundingTimeAllocation");
 		}
+
 
 		protected override void Down(MigrationBuilder migrationBuilder)
 		{

@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hedwig.Migrations
 {
     [DbContext(typeof(HedwigContext))]
-    [Migration("20200504143149_UpdateFundingSpaceTime")]
-    partial class UpdateFundingSpaceTime
+    [Migration("20200507195242_UpdateFundingAddTimeCreateFundingTimeSplit")]
+    partial class UpdateFundingAddTimeCreateFundingTimeSplit
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
