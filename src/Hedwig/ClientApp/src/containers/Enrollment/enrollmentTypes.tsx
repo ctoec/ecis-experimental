@@ -5,15 +5,15 @@ import { ApiError } from '../../hooks/useApi';
 import { SetStateAction, Dispatch } from 'react';
 
 export type SectionProps = {
+	siteId: number;
 	enrollment: DeepNonUndefineable<Enrollment> | null;
 	updateEnrollment: Dispatch<SetStateAction<DeepNonUndefineable<Enrollment> | null>>;
 	error: ApiError | null;
 	successCallback?: (e: Enrollment) => void;
 	success?: boolean;
 	loading?: boolean;
-	siteId: number;
-	visitSection?: (s: Section) => void;
-	visitedSections?: { [key: string]: boolean };
+	onSectionTouch?: (s: Section) => void;
+	touchedSections?: { [key: string]: boolean };
 };
 
 export interface Section {

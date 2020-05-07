@@ -149,8 +149,8 @@ const EnrollmentFunding: Section = {
 		siteId,
 		error: inputError,
 		successCallback,
-		visitSection,
-		visitedSections,
+		onSectionTouch,
+		touchedSections,
 	}) => {
 		if (!enrollment) {
 			throw new Error('EnrollmentFunding rendered without an enrollment');
@@ -158,7 +158,7 @@ const EnrollmentFunding: Section = {
 
 		// set up form state
 		const { setAlerts } = useContext(AlertContext);
-		const initialLoad = visitedSections ? !visitedSections[EnrollmentFunding.key] : false;
+		const initialLoad = touchedSections ? !touchedSections[EnrollmentFunding.key] : false;
 		const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
 		const [error, setError] = useState<ApiError | null>(inputError);
 		useFocusFirstError([error]);
@@ -539,7 +539,7 @@ const EnrollmentFunding: Section = {
 				skip: !attemptingSave || !user,
 				callback: () => {
 					setAttemptingSave(false);
-					visitSection && visitSection(EnrollmentFunding);
+					onSectionTouch && onSectionTouch(EnrollmentFunding);
 				},
 			}
 		);
