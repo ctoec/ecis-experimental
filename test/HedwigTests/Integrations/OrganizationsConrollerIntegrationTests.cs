@@ -9,11 +9,11 @@ using HedwigTests.Fixtures;
 
 namespace HedwigTests.Integrations
 {
-	public class OrganizationsControllerIntegrationTests : IClassFixture<TestApiProvider>
+	public class OrganizationsControllerIntegrationTests : IClassFixture<TestStartupFactory>
 	{
-		private readonly TestApiProvider _factory;
+		private readonly TestStartupFactory _factory;
 		public OrganizationsControllerIntegrationTests(
-			TestApiProvider factory
+			TestStartupFactory factory
 		)
 		{
 			_factory = factory;
@@ -43,7 +43,7 @@ namespace HedwigTests.Integrations
 				PermissionHelper.CreateOrganizationPermission(context, user, organization);
 			}
 
-			var client = _factory.GetClient();
+			var client = _factory.CreateClient();
 
 			var request = HedwigAPIRequests.Organizations(
 				user,
