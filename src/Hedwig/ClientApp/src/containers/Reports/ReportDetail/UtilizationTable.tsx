@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
 import Table, { TableProps } from '../../../components/Table/Table';
-import { CdcReport, Enrollment, Age, FundingTime, Region, FundingSpace, FundingSource } from '../../../generated';
+import {
+	CdcReport,
+	Enrollment,
+	Age,
+	FundingTime,
+	Region,
+	FundingSpace,
+	FundingSource,
+} from '../../../generated';
 import idx from 'idx';
 import moment from 'moment';
 import { CdcRates } from './CdcRates';

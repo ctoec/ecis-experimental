@@ -222,7 +222,6 @@ export default function ReportSubmitForm({
 		);
 	};
 
-	console.log('Uts', timeSplitUtilizations);
 	return (
 		<ErrorBoundary alertProps={reportSubmitFailAlert}>
 			{report.submittedAt && (
