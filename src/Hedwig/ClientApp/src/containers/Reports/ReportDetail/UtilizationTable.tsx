@@ -81,7 +81,7 @@ export default function UtilizationTable(report: CdcReport) {
 				site.titleI,
 				site.region,
 				ageGroup,
-				// Update this to handle FundingTime.Split
+				// TODO: Update this to handle FundingTime.Split
 				fundingTime
 			);
 

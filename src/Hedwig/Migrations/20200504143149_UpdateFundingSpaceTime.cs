@@ -49,7 +49,7 @@ namespace Hedwig.Migrations
 			// Revert back to the original state where time exists directly on the FundingSpace
 			// Now, we've added an additional FundingTime, Split, to indicate the split time 
 			// allocation which will be captured in a separate FundingTimeSplit model.
-			// Because no split fundings exist in prod right now, we can do a simple left join
+			// Because no split fundings exist in prod right now, we can do a simple join
 			// on FundingTimeAllocation (they will all be 1-to-1)
 			migrationBuilder.Sql(@"
 							UPDATE [FundingSpace]

@@ -6,11 +6,7 @@ import { Table, TableProps, InlineIcon, DateRange, Column, Legend } from '../../
 import { Enrollment, FundingSpace, FundingSource, Organization, Site } from '../../generated';
 import { lastFirstNameFormatter } from '../../utils/stringFormatters';
 import dateFormatter from '../../utils/dateFormatter';
-import {
-	NO_FUNDING,
-	isFundedForFundingSpace,
-	prettyFundingSpaceTime,
-} from '../../utils/models';
+import { NO_FUNDING, isFundedForFundingSpace, prettyFundingSpaceTime } from '../../utils/models';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../utils/types';
 import { hasValidationErrors } from '../../utils/validations';
 import { isFunded } from '../../utils/models';

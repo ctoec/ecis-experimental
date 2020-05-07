@@ -33,7 +33,7 @@ describe('funding space utils', () => {
 			'Full time / part time',
 		],
 	])('prettyFundingSourceString formats correctly', (spaceOpts, includeWeeks, prettyString) => {
-		const mockFundingSpace = mockFundingSpaces[0];
+		const mockFundingSpace = { ...mockFundingSpaces[0] };
 		mockFundingSpace.time = spaceOpts.time;
 		mockFundingSpace.timeSplit = spaceOpts.timeSplit as FundingTimeSplit;
 		const res = prettyFundingSpaceTime(mockFundingSpace, includeWeeks);

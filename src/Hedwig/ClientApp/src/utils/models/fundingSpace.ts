@@ -23,9 +23,13 @@ export function prettyFundingSpaceTime(fundingSpace: FundingSpace, includeWeeks:
 		)}`;
 	}
 
-	const fullTimeWeeks = fundingSpace.timeSplit ? fundingSpace.timeSplit.fullTimeWeeks : -1;
-	const partTimeWeeks = fundingSpace.timeSplit ? fundingSpace.timeSplit.partTimeWeeks : -1;
+	// this should not happen; fundingSpace with time === split will always have a timeSplit
+	if (!fundingSpace.timeSplit) {
+		throw new Error('Split time fundingSpace must have a valid timeSplit ');
+	}
 
+	const fullTimeWeeks = fundingSpace.timeSplit.fullTimeWeeks;
+	const partTimeWeeks = fundingSpace.timeSplit.partTimeWeeks;
 	const fullTimeFirst = fullTimeWeeks > partTimeWeeks;
 
 	if (fullTimeFirst) {
