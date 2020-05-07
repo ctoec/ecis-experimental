@@ -48,7 +48,7 @@ const mapSectionsToSteps = (sections: Section[]) => {
 	return steps;
 };
 
-const mapSectionToVisitedStates = (sections: Section[]) => {
+const mapSectionToTouchedSectionStates = (sections: Section[]) => {
 	return sections.reduce<{ [key: string]: boolean }>(
 		(acc, section) => ({
 			...acc,
@@ -74,11 +74,21 @@ export default function EnrollmentNew({
 	const { user } = useContext(UserContext);
 	const { setAlerts } = useContext(AlertContext);
 
-	const [visitedSections, updateVisitedSections] = useState(mapSectionToVisitedStates(sections));
+	const [touchedSections, updateTouchedSections] = useState({
+		...mapSectionToTouchedSectionStates(sections),
+		// Because two different URL paths mount the EnrollmentNew component,
+		// the state is overwritten with the default of all sections touched
+		// as false when moving from `/enroll/new` to `/enroll/[id]/`. Thus,
+		// child info does not show validation errors until the second time
+		// attempting to save. This is a work around that looks for the
+		// enrollment id in the URL path. If it is found, we know we have
+		// already touched the section.
+		[ChildInfo.key]: !!enrollmentId,
+	});
 
-	const visitSection = (section: Section) => {
-		updateVisitedSections({
-			...visitedSections,
+	const onSectionTouch = (section: Section) => {
+		updateTouchedSections({
+			...touchedSections,
 			[section.key]: true,
 		});
 	};
@@ -173,13 +183,13 @@ export default function EnrollmentNew({
 	const steps = mapSectionsToSteps(sections);
 
 	const props: SectionProps = {
+		siteId,
 		enrollment: enrollment,
 		updateEnrollment,
 		error,
 		successCallback: afterSave,
-		visitSection,
-		siteId,
-		visitedSections,
+		onSectionTouch,
+		touchedSections,
 	};
 
 	return (

@@ -63,8 +63,8 @@ const FamilyInfo: Section = {
 		siteId,
 		error: inputError,
 		successCallback,
-		visitSection,
-		visitedSections,
+		onSectionTouch,
+		touchedSections,
 	}) => {
 		if (!enrollment || !enrollment.child) {
 			throw new Error('FamilyInfo rendered without a child');
@@ -72,10 +72,8 @@ const FamilyInfo: Section = {
 
 		// set up form state
 		const { setAlerts } = useContext(AlertContext);
-		const initialLoad = visitedSections ? !visitedSections[FamilyInfo.key] : false;
-		if (initialLoad) {
-			visitSection && visitSection(FamilyInfo);
-		}
+		const initialLoad = touchedSections ? !touchedSections[FamilyInfo.key] : false;
+
 		// const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
 		// Above line is left to show symmetry for future form component refactor-- wasn't actually used in this component
 
@@ -119,7 +117,13 @@ const FamilyInfo: Section = {
 		const [attemptingSave, setAttemptingSave] = useState(false);
 		const { error: saveError, data: saveData } = useApi<Enrollment>(
 			api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(defaultParams),
-			{ skip: !attemptingSave, callback: () => setAttemptingSave(false) }
+			{
+				skip: !attemptingSave,
+				callback: () => {
+					setAttemptingSave(false);
+					onSectionTouch && onSectionTouch(FamilyInfo);
+				},
+			}
 		);
 
 		useEffect(() => {

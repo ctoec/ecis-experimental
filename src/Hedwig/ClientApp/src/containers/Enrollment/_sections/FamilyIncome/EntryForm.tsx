@@ -40,8 +40,8 @@ const EntryForm: React.FC<SectionProps> = ({
 	error: inputError,
 	loading,
 	successCallback,
-	visitSection,
-	visitedSections,
+	onSectionTouch,
+	touchedSections,
 }) => {
 	if (!enrollment || !enrollment.child) {
 		throw new Error('FamilyIncome rendered without enrollment.child');
@@ -49,10 +49,7 @@ const EntryForm: React.FC<SectionProps> = ({
 
 	// set up form state
 	const { setAlerts } = useContext(AlertContext);
-	const initialLoad = visitedSections ? !visitedSections[FamilyIncome.key] : false;
-	if (initialLoad) {
-		visitSection && visitSection(FamilyIncome);
-	}
+	const initialLoad = touchedSections ? !touchedSections[FamilyIncome.key] : false;
 	const [error, setError] = useState<ApiError | null>(inputError);
 	const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
 	useEffect(() => {
@@ -93,7 +90,13 @@ const EntryForm: React.FC<SectionProps> = ({
 	};
 	const { error: saveError, data: saveData } = useApi<Enrollment>(
 		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(defaultParams),
-		{ skip: !attemptingSave, callback: () => setAttemptingSave(false) }
+		{
+			skip: !attemptingSave,
+			callback: () => {
+				setAttemptingSave(false);
+				onSectionTouch && onSectionTouch(FamilyIncome);
+			},
+		}
 	);
 
 	useEffect(() => {

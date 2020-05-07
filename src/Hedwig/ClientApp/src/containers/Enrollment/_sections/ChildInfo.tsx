@@ -63,18 +63,16 @@ const ChildInfo: Section = {
 		);
 	},
 
-	Form: ({ enrollment, siteId, error, successCallback, visitSection, visitedSections }) => {
+	Form: ({ enrollment, siteId, error, successCallback, onSectionTouch, touchedSections }) => {
 		if (!enrollment && !siteId) {
 			throw new Error('ChildInfo rendered without an enrollment or a siteId');
 		}
+
 		const { user } = useContext(UserContext);
 		const { setAlerts } = useContext(AlertContext);
 
 		// set up form state
-		const initialLoad = visitedSections ? !visitedSections[ChildInfo.key] : false;
-		if (initialLoad) {
-			visitSection && visitSection(ChildInfo);
-		}
+		const initialLoad = touchedSections ? !touchedSections[ChildInfo.key] : false;
 		const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
 		const [_error, setError] = useState<ApiError | null>(error);
 		useFocusFirstError([_error]);
@@ -150,7 +148,10 @@ const ChildInfo: Section = {
 		};
 
 		const useApiOpts = {
-			callback: () => setAttemptingSave(false),
+			callback: () => {
+				setAttemptingSave(false);
+				onSectionTouch && onSectionTouch(ChildInfo);
+			},
 			skip: enrollment
 				? // If there is already an enrollment, then we should fire the put when we are attempting save and there is an enrollment
 				  !attemptingSave || !enrollment
