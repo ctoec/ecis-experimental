@@ -19,7 +19,7 @@ namespace Hedwig.Configuration
 		public static string GetEnvironmentVariableFromAppSettings(string name, string defaultValue = null)
 		{
 			return GetIConfigurationRoot()
-				.GetValue<string>(name, defaultValue ?? "Development");
+				.GetValue<string>(name, defaultValue ?? DEVELOPMENT);
 		}
 
 		public static bool IsDevelopment()
