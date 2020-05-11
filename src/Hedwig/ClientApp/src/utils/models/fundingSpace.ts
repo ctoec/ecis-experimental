@@ -64,7 +64,7 @@ export function getFundingSpaces(
 		source?: FundingSource;
 		time?: FundingTime;
 	}
-) {
+): DeepNonUndefineable<FundingSpace[]> {
 	if (!fundingSpaces) return [];
 	const { ageGroup, source, time } = opts;
 	return fundingSpaces.filter(space => {

@@ -1,7 +1,10 @@
 import { CdcReport, FundingSource } from '../../generated';
 import { mockAllFakeEnrollments } from './enrollment';
 import { swapFields } from '../helpers';
-import { mockSingleSiteOrganization } from './organization';
+import {
+	mockSingleSiteOrganization,
+	mockSingleSiteOrganizationWithTimeSplitUtilizations,
+} from './organization';
 
 const reportEnrollmentValidationError = [
 	{
@@ -67,4 +70,11 @@ export const earlierReport: CdcReport = swapFields(mockDefaultReport, [
 	{ keys: ['id'], newValue: 3 },
 	{ keys: ['submittedAt'], newValue: new Date('2019-09-14') },
 	{ keys: ['validationErrors'], newValue: undefined },
+]);
+
+export const mockReportWithTimeSplitUtilizations = swapFields(mockDefaultReport, [
+	{
+		keys: ['organization'],
+		newValue: mockSingleSiteOrganizationWithTimeSplitUtilizations,
+	},
 ]);

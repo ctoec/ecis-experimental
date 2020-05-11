@@ -4,6 +4,7 @@ import {
 	mockReport as _mockReport,
 	mockCompleteEnrollment,
 	mockEnrollmentWithFoster,
+	mockReportWithTimeSplitUtilizations,
 } from '../../../tests/data';
 import mockUseApi, {
 	mockApiOrganizationsOrgIdEnrollmentsGet,
@@ -78,6 +79,47 @@ describe('ReportSubmitForm', () => {
 		fireEvent.blur(getByLabelText('Family Fees'));
 
 		expect(getByLabelText('Family Fees')).toHaveValue('$1,234.50');
+	});
+
+	it('shows correct number of weeks in month and weeks remaining', () => {
+		const { getByLabelText } = render(
+			<TestProvider>
+				<ReportSubmitForm
+					report={mockDefaultReport as DeepNonUndefineable<CdcReport>}
+					canSubmit={true}
+					error={null}
+				/>
+			</TestProvider>
+		);
+
+		const weeksInputField = getByLabelText(/services were provided/i);
+		const weeksString = weeksInputField.nextElementSibling;
+		if (!weeksString || !weeksString.textContent) {
+			throw new Error('Cannot find next sibling of weeks input');
+		}
+		expect(weeksString.textContent).toMatch(/of 4 weeks/i);
+		expect(weeksString.textContent).toMatch(/10 .* weeks remaining/i);
+	});
+
+	it('shows correct number of weeks in month and weeks remaining when previous weeks were used', () => {
+		console.log(mockReportWithTimeSplitUtilizations);
+		const { getByLabelText } = render(
+			<TestProvider>
+				<ReportSubmitForm
+					report={mockReportWithTimeSplitUtilizations as DeepNonUndefineable<CdcReport>}
+					canSubmit={true}
+					error={null}
+				/>
+			</TestProvider>
+		);
+
+		const weeksInputField = getByLabelText(/services were provided/i);
+		const weeksString = weeksInputField.nextElementSibling;
+		if (!weeksString || !weeksString.textContent) {
+			throw new Error('Cannot find next sibling of weeks input');
+		}
+		expect(weeksString.textContent).toMatch(/of 4 weeks/i);
+		expect(weeksString.textContent).toMatch(/5 .* weeks remaining/i);
 	});
 
 	accessibilityTestHelper(

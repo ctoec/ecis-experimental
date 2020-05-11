@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Logging;
 using Hedwig.Configuration;
-using Hedwig.Utilities;
+using Hedwig.Utilities.DateTime;
 
 namespace Hedwig
 {

@@ -38,11 +38,11 @@ namespace Hedwig.Controllers
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ValidateEntityFilterAttribute(Order = 1)]
 		[DTOProjectionFilter(typeof(List<OrganizationReportSummaryDTO>), Order = 2)]
-		public async Task<ActionResult<List<CdcReport>>> Get(
+		public ActionResult<List<CdcReport>> Get(
 			int orgId
 		)
 		{
-			var reports = await _reports.GetReportsForOrganizationAsync(orgId);
+			var reports = _reports.GetReportsForOrganization(orgId);
 			return Ok(reports);
 		}
 

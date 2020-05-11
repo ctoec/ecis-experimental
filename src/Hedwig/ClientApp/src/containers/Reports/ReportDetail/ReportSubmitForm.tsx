@@ -7,6 +7,7 @@ import {
 	FundingTimeSplitUtilization,
 	FundingSpace,
 	FundingTimeSplit,
+	ReportingPeriod,
 } from '../../../generated';
 import useApi, { ApiError } from '../../../hooks/useApi';
 import UserContext from '../../../contexts/User/UserContext';
@@ -37,7 +38,12 @@ import pluralize from 'pluralize';
 import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
 import { FormReducer, formReducer, updateData } from '../../../utils/forms/form';
 import dateFormatter from '../../../utils/dateFormatter';
-import { REQUIRED_FOR_REPORT } from '../../../utils/validations/messageStrings';
+import {
+	REQUIRED_FOR_REPORT,
+	WEEKS_USED_CANNOT_EXCEED_WEEKS_AVAILABLE,
+} from '../../../utils/validations/messageStrings';
+import { isWithinFiscalYear } from '../../../utils/dateFilter';
+import moment from 'moment';
 
 export type ReportSubmitFormProps = {
 	report: DeepNonUndefineable<CdcReport>;
@@ -129,7 +135,7 @@ export default function ReportSubmitForm({
 				...params,
 				cdcReport: {
 					..._report,
-					timeSplitUtilizations,
+					timeSplitUtilizations: timeSplitUtilizations,
 				},
 			}),
 		{ skip: !user || !attemptingSave, callback: () => setAttemptingSave(false) }
@@ -162,28 +168,31 @@ export default function ReportSubmitForm({
 		timeSplit: FundingTimeSplit,
 		lesserWeeksUsed: number,
 		reportingPeriodWeeks: number,
-		reportingPeriodId: number
+		reportingPeriod: ReportingPeriod,
+		report: CdcReport
 	) => {
 		const lesserTime =
 			timeSplit.fullTimeWeeks < timeSplit.partTimeWeeks ? FundingTime.Full : FundingTime.Part;
 		const greaterWeeksUsed = reportingPeriodWeeks - lesserWeeksUsed;
 		return {
 			fundingSpaceId: timeSplit.fundingSpaceId,
-			reportingPeriodId,
+			reportingPeriodId: reportingPeriod.id,
+			reportId: report.id,
 			fullTimeWeeksUsed: lesserTime === FundingTime.Full ? lesserWeeksUsed : greaterWeeksUsed,
 			partTimeWeeksUsed: lesserTime === FundingTime.Full ? greaterWeeksUsed : lesserWeeksUsed,
-		} as FundingTimeSplitUtilization;
+		} as DeepNonUndefineable<FundingTimeSplitUtilization>;
 	};
 
 	const [timeSplitUtilizations, updateTimeSplitUtilizations] = useState(
 		report.timeSplitUtilizations
-			? (report.timeSplitUtilizations as FundingTimeSplitUtilization[])
+			? report.timeSplitUtilizations
 			: splitTimeFundingSpaces.map(fundingSpace =>
 					getSplitUtilization(
 						fundingSpace.timeSplit,
 						0,
 						reportingPeriodWeeks,
-						report.reportingPeriod.id
+						report.reportingPeriod,
+						report
 					)
 			  )
 	);
@@ -191,46 +200,91 @@ export default function ReportSubmitForm({
 	const splitTimeUtilizationQuestion = (fundingSpace: FundingSpace) => {
 		const timeSplit = fundingSpace.timeSplit;
 		if (!timeSplit) return;
-
+		const currentFiscalYearTimeSplitUtilizations = ((fundingSpace.timeSplitUtilizations ||
+			[]) as DeepNonUndefineable<FundingTimeSplitUtilization[]>)
+			.filter(util => util.reportId !== report.id)
+			.filter(util => util.fundingSpaceId === fundingSpace.id)
+			.filter(util =>
+				isWithinFiscalYear(util.reportingPeriod.period, report.reportingPeriod.period)
+			)
+			.filter(util =>
+				moment(util.reportingPeriod.periodEnd).isBefore(report.reportingPeriod.periodEnd)
+			)
+			.filter(util => !!util.report.submittedAt);
 		const lesserTime =
 			timeSplit.fullTimeWeeks < timeSplit.partTimeWeeks ? FundingTime.Full : FundingTime.Part;
 		const labelText = `${prettyAge(
 			fundingSpace.ageGroup
 		)} services were provided ${prettyFundingTime(lesserTime)}`;
 
+		const fiscalYearUsedWeeks = currentFiscalYearTimeSplitUtilizations.reduce((acc, util) => {
+			switch (lesserTime) {
+				case FundingTime.Full:
+					return acc + util.fullTimeWeeksUsed;
+				case FundingTime.Part:
+					return acc + util.partTimeWeeksUsed;
+				default:
+					throw new Error('Something impossible happened');
+			}
+		}, 0);
+
 		const existingUtilizationForSpace = timeSplitUtilizations.find(
 			ut => ut.fundingSpaceId === fundingSpace.id
 		) || { fullTimeWeeksUsed: 0, partTimeWeeksUsed: 0 }; // these default 0s are only ever used to populate the default value
-		return (
-			<TextInput
-				type="inline-input"
-				name="splitFundingTimeUtilization"
-				id={`${fundingSpace.id}-lesser-weeks-used`}
-				label={<span className="text-bold">{labelText}</span>}
-				defaultValue={`${
-					lesserTime === FundingTime.Full
-						? existingUtilizationForSpace.fullTimeWeeksUsed
-						: existingUtilizationForSpace.partTimeWeeksUsed
-				}`}
-				onChange={event => {
-					const lesserWeeksUsed = parseInt(event.target.value.replace(/[^0-9.]/g, ''), 10) || 0;
 
-					updateTimeSplitUtilizations(_uts => [
-						..._uts.filter(ut => ut.fundingSpaceId !== fundingSpace.id),
-						getSplitUtilization(
-							timeSplit,
-							lesserWeeksUsed,
-							reportingPeriodWeeks,
-							report.reportingPeriod.id
-						),
-					]);
-				}}
-				disabled={!!report.submittedAt}
-				small
-				afterContent={`of ${reportingPeriodWeeks} weeks in ${getReportingPeriodMonth(
-					report.reportingPeriod
-				)}`}
-			/>
+		const remainingWeeks =
+			Math.min(timeSplit.fullTimeWeeks, timeSplit.partTimeWeeks) -
+			fiscalYearUsedWeeks -
+			(lesserTime === FundingTime.Full
+				? existingUtilizationForSpace.fullTimeWeeksUsed
+				: existingUtilizationForSpace.partTimeWeeksUsed);
+
+		return (
+			<>
+				<TextInput
+					type="inline-input"
+					name="splitFundingTimeUtilization"
+					id={`${fundingSpace.id}-lesser-weeks-used`}
+					label={<span className="text-bold">{labelText}</span>}
+					defaultValue={`${
+						lesserTime === FundingTime.Full
+							? existingUtilizationForSpace.fullTimeWeeksUsed
+							: existingUtilizationForSpace.partTimeWeeksUsed
+					}`}
+					onChange={e => {
+						const input = e.target.value;
+						const lesserWeeksUsed = parseInt(input.replace(/[^0-9.]/g, ''), 10) || 0;
+
+						updateTimeSplitUtilizations(_uts => [
+							..._uts.filter(ut => ut.fundingSpaceId !== fundingSpace.id),
+							getSplitUtilization(
+								timeSplit,
+								lesserWeeksUsed,
+								reportingPeriodWeeks,
+								report.reportingPeriod,
+								report
+							),
+						]);
+					}}
+					status={serverErrorForField(
+						hasAlertedOnError,
+						setHasAlertedOnError,
+						'timesplitutilizations',
+						error,
+						WEEKS_USED_CANNOT_EXCEED_WEEKS_AVAILABLE
+					)}
+					disabled={!!report.submittedAt}
+					small
+					afterContent={
+						<>
+							of {reportingPeriodWeeks} weeks in {getReportingPeriodMonth(report.reportingPeriod)}.
+							<span className="text-italic text-gray-70">
+								&nbsp;({remainingWeeks} {prettyFundingTime(lesserTime)} weeks remaining)
+							</span>
+						</>
+					}
+				/>
+			</>
 		);
 	};
 
@@ -258,7 +312,7 @@ export default function ReportSubmitForm({
 			/>
 			{splitTimeFundingSpaces && splitTimeFundingSpaces.length && (
 				<FieldSet
-					className="usa-form margin-bottom-5"
+					className="usa-form usa-form--full-width margin-bottom-5"
 					id="time-split-utilizations"
 					legend="Funding time split utilizations"
 				>

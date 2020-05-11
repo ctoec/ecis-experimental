@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 using System;
 using System.Linq;
 using Hedwig.Models;
@@ -13,7 +12,7 @@ namespace Hedwig.Repositories
 	{
 
 		public OrganizationRepository(HedwigContext context) : base(context) { }
-		public Task<Organization> GetOrganizationByIdAsync(int id, string[] include = null)
+		public Organization GetOrganizationById(int id, string[] include = null)
 		{
 			var organization = _context.Organizations
 				.Where(o => o.Id == id);
@@ -34,7 +33,7 @@ namespace Hedwig.Repositories
 				}
 			}
 
-			return organization.FirstOrDefaultAsync();
+			return organization.FirstOrDefault();
 		}
 
 		public List<Organization> GetOrganizationsWithFundingSpaces(FundingSource source)
@@ -48,7 +47,7 @@ namespace Hedwig.Repositories
 
 	public interface IOrganizationRepository : IHedwigRepository
 	{
-		Task<Organization> GetOrganizationByIdAsync(int id, string[] include = null);
+		Organization GetOrganizationById(int id, string[] include = null);
 		List<Organization> GetOrganizationsWithFundingSpaces(FundingSource source);
 	}
 }

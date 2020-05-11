@@ -1,7 +1,6 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Hedwig.Models;
-using System;
-using System.Collections.Generic;
 using Hedwig.Repositories;
 
 namespace Hedwig.Validations.Attributes

@@ -1,6 +1,9 @@
 import { swapFields } from '../helpers';
 import { mockSite, mockAnotherSite } from './site';
-import { mockFundingSpaces } from './fundingSpace';
+import {
+	mockFundingSpaces,
+	mockSplitTimeInfantSpaceWithPreviousUtilizations,
+} from './fundingSpace';
 import { Region, Organization } from '../../generated';
 
 export const mockSingleSiteOrganization = {
@@ -24,3 +27,13 @@ export const mockMultiSiteOrganization = swapFields(mockSingleSiteOrganization, 
 		newValue: [mockSite, mockAnotherSite],
 	},
 ]);
+
+export const mockSingleSiteOrganizationWithTimeSplitUtilizations = swapFields(
+	mockSingleSiteOrganization,
+	[
+		{
+			keys: ['fundingSpaces'],
+			newValue: [mockSplitTimeInfantSpaceWithPreviousUtilizations],
+		},
+	]
+);

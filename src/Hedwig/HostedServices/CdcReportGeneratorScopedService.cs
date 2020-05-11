@@ -3,7 +3,7 @@ using Hedwig.Repositories;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using System;
-using Hedwig.Utilities;
+using Hedwig.Utilities.DateTime;
 
 namespace Hedwig.HostedServices
 {

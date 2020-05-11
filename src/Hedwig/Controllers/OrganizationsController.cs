@@ -20,9 +20,9 @@ namespace Hedwig.Controllers
 		[HttpGet("{id}")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		public async Task<ActionResult<Organization>> Get(int id, [FromQuery(Name = "include[]")] string[] include)
+		public ActionResult<Organization> Get(int id, [FromQuery(Name = "include[]")] string[] include)
 		{
-			var organization = await _organizations.GetOrganizationByIdAsync(id, include);
+			var organization = _organizations.GetOrganizationById(id, include);
 
 			if (organization == null) return NotFound();
 

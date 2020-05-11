@@ -16,7 +16,7 @@ namespace HedwigTests.Controllers
 	public class ReportsControllerTests
 	{
 		[Fact]
-		public async Task Get_GetsReportsForOrganization()
+		public void Get_GetsReportsForOrganization()
 		{
 			var orgId = 1;
 			var _reports = new Mock<IReportRepository>();
@@ -24,8 +24,8 @@ namespace HedwigTests.Controllers
 
 			var controller = new ReportsController(_reports.Object, _mapper.Object);
 
-			await controller.Get(orgId);
-			_reports.Verify(r => r.GetReportsForOrganizationAsync(orgId), Times.Once());
+			controller.Get(orgId);
+			_reports.Verify(r => r.GetReportsForOrganization(orgId), Times.Once());
 		}
 
 		[Theory]
