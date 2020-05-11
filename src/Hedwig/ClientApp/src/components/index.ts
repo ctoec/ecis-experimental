@@ -13,6 +13,7 @@ export * from './Header/Header';
 export * from './Header/NavItem';
 export * from './InlineIcon/InlineIcon';
 export * from './Legend/Legend';
+export * from './SideNav/SideNav';
 export * from './StepList/StepList';
 export * from './Table/Table';
 export * from './Tag/Tag';

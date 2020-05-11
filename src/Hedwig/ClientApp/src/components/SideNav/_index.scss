@@ -1,0 +1,23 @@
+.oec-sidenav {
+
+  ul {
+    list-style-type: none;
+  }
+
+  .oec-sidenav__item {
+    
+    a {
+      padding: 1rem;
+    }
+  }
+
+  .oec-sidenav-item__desc {
+    all: initial;
+    @extend .usa-prose;
+    p {
+      @extend .text-normal;
+      @extend .font-family-body;
+    }
+  }
+}
+
