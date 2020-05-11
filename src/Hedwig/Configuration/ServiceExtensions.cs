@@ -81,7 +81,7 @@ namespace Hedwig.Configuration
 			services.AddScoped<IPermissionRepository, PermissionRepository>();
 		}
 
-		public static void ConfigureAuthentication(this IServiceCollection services, string wingedKeysUri)
+		public static void ConfigureAuthentication(this IServiceCollection services, bool isProduction, string wingedKeysUri)
 		{
 			JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -89,10 +89,15 @@ namespace Hedwig.Configuration
 					{
 						options.Authority = wingedKeysUri;
 						options.Audience = "hedwig_backend";
-						options.BackchannelHttpHandler = new HttpClientHandler
+						if (!isProduction)
 						{
-							ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
-						};
+							// If we are in a dev environment, allow unsecure connection to winged-keys
+							// We don't bother to use valid certificates in dev
+							options.BackchannelHttpHandler = new HttpClientHandler
+							{
+								ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+							};
+						}
 					});
 		}
 
@@ -138,6 +143,12 @@ namespace Hedwig.Configuration
 				});
 		}
 
+		/// <summary>
+		/// Generates a JSON document for the schema of the API.
+		///
+		/// When UseSwagger is also used, the schema is avaiable at
+		/// "/swagger/[VERSION]/swagger.json" of the application.
+		/// </summary>
 		public static void ConfigureSwagger(this IServiceCollection services)
 		{
 			services.AddSwaggerGen(c =>

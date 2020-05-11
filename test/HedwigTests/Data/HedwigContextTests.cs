@@ -1,11 +1,9 @@
-using Xunit;
-using Hedwig.Models;
-using Microsoft.EntityFrameworkCore;
-using HedwigTests.Fixtures;
-using HedwigTests.Helpers;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Xunit;
+using Hedwig.Models;
+using HedwigTests.Fixtures;
+using HedwigTests.Helpers;
 
 namespace HedwigTests.Data
 {

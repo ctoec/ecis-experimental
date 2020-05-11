@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-using System.Linq;
 using Xunit;
 using Hedwig.Repositories;
 using HedwigTests.Helpers;

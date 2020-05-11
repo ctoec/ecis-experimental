@@ -29,12 +29,28 @@ namespace Hedwig
 			services.ConfigureSpa();
 			services.ConfigureMapping();
 			services.ConfigureRepositories();
-			services.ConfigureAuthentication(Configuration.GetValue<string>("WingedKeysUri"));
+			services.ConfigureAuthentication(
+				EnvironmentConfiguration.IsProduction(),
+				Configuration.GetValue<string>("WingedKeysUri")
+			);
 			services.ConfigureAuthorization();
 			services.ConfigureValidation();
 			services.ConfigureHostedServices();
 			services.AddSingleton<IDateTime, SystemDateTime>();
-			services.ConfigureSwagger();
+			if (EnvironmentConfiguration.IsDevelopment())
+			{
+				// We use this to generate a schema for the API.
+				// We create the generated client-code for interacting
+				// with the API against the generated schema exposed by
+				// this service extension. Currently, it is guarded to
+				// only execute in development. If this API becomes a
+				// public resource and/or government requirements apply,
+				// the guard can be removed to include it with the
+				// production application.
+				//
+				// Connected to note on app.UseSwagger()
+				services.ConfigureSwagger();
+			}
 			services.AddHttpContextAccessor();
 		}
 
@@ -46,7 +62,7 @@ namespace Hedwig
 				app.UpdateDatabase();
 			}
 
-			if (env.IsDevelopment())
+			if (!env.IsProduction())
 			{
 				app.UseDeveloperExceptionPage();
 				IdentityModelEventSource.ShowPII = true;
@@ -55,13 +71,20 @@ namespace Hedwig
 
 			app.UseHttpsRedirection();
 
-			app.UseSwagger();
+			if (env.IsDevelopment())
+			{
+				// Creates an endpoint for viewing the generated
+				// JSON schema of the API.
+				//
+				// Connected to note on services.ConfigureSwagger()
+				app.UseSwagger();
+			}
 			app.UseRouting();
 
 			app.UseAuthentication();
 			app.UseAuthorization();
 
-			if (!env.IsDevelopment())
+			if (env.IsProduction())
 			{
 				app.UseSpaStaticFiles();
 			}
@@ -75,16 +98,27 @@ namespace Hedwig
 			{
 				spa.Options.SourcePath = "ClientApp";
 
-				if (env.IsDevelopment())
+				// If we are not production, that means we aren't serving SPA files
+				// as static, compiled resources. So we need to forward requests a
+				// development server.
+				if (!env.IsProduction())
 				{
 					var isDocker = Environment.GetEnvironmentVariable("DOCKER_DEVELOPMENT");
+					// If we are using docker (compose), the client container will serve
+					// responses for us. We need to forward to its hostname.
 					if (isDocker == "true")
 					{
 						string CLIENT_HOST = Environment.GetEnvironmentVariable("CLIENT_HOST") ?? "http://localhost:3000";
 						spa.UseProxyToSpaDevelopmentServer(CLIENT_HOST);
 					}
+					// If we aren't using docker, we need .NET to create a server for us
+					// to serve responses.
 					else
 					{
+						// Note: While the parameter is called npmScript it will also run yarn
+						// scripts. Specifically, it will run the corresponding package.json 
+						// script and provided the referenced executable exists on the path
+						// the script will run.
 						spa.UseReactDevelopmentServer(npmScript: "start");
 					}
 				}

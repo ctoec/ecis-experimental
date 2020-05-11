@@ -19,7 +19,8 @@ namespace Hedwig
 			var host = CreateHostBuilder(args).Build();
 			var isSeedData = EnvironmentConfiguration.GetEnvironmentVariableFromAppSettings("Database:SeedData") == "true";
 
-			if (isSeedData)
+			// Only seed data if appsettings flag is set and we are not in production
+			if (isSeedData && !EnvironmentConfiguration.IsProduction())
 			{
 				using (var scope = host.Services.CreateScope())
 				{
@@ -28,11 +29,13 @@ namespace Hedwig
 
 					try
 					{
-						var context = services.GetRequiredService<HedwigContext>();
-						var initializer = new DbInitializer(context);
-						logger.LogInformation("Attempting to seed database");
-						initializer.Initialize();
-						logger.LogInformation("Successfully seeded database");
+						using (var context = services.GetRequiredService<HedwigContext>())
+						{
+							var initializer = new DbInitializer(context);
+							logger.LogInformation("Attempting to seed database");
+							initializer.Initialize();
+							logger.LogInformation("Successfully seeded database");
+						}
 					}
 					catch (Exception ex)
 					{
@@ -55,7 +58,7 @@ namespace Hedwig
 				logging.AddConsole();
 				logging.AddDebug();
 
-				if (environment != Environments.Development)
+				if (EnvironmentConfiguration.IsProduction())
 				{
 					logging.AddAWSProvider(context.Configuration.GetAWSLoggingConfigSection());
 					logging.Services.Configure<Sentry.Extensions.Logging.SentryLoggingOptions>(context.Configuration.GetSection("Sentry"));

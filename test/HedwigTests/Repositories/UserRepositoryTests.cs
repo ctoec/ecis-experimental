@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Xunit;
 using Hedwig.Repositories;
 using HedwigTests.Helpers;

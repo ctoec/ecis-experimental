@@ -19,11 +19,11 @@ namespace Hedwig.Controllers
 
 		// GET api/ReportingPeriod/CDC
 		[HttpGet("{source}")]
-		public async Task<ActionResult<List<ReportingPeriod>>> Get(
+		public ActionResult<List<ReportingPeriod>> Get(
 			FundingSource source
 		)
 		{
-			return await _periods.GetReportingPeriodsByFundingSourceAsync(source);
+			return _periods.GetReportingPeriodsByFundingSource(source);
 		}
 	}
 }

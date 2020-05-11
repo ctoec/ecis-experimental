@@ -1,8 +1,6 @@
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Linq;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Hedwig.Models;
 using Hedwig.Data;
 
@@ -12,11 +10,11 @@ namespace Hedwig.Repositories
 	{
 		public ReportingPeriodRepository(HedwigContext context) : base(context) { }
 
-		public Task<List<ReportingPeriod>> GetReportingPeriodsByFundingSourceAsync(FundingSource source)
+		public List<ReportingPeriod> GetReportingPeriodsByFundingSource(FundingSource source)
 		{
 			return _context.ReportingPeriods
 				.Where(period => period.Type == source)
-				.ToListAsync();
+				.ToList();
 		}
 
 		public ReportingPeriod GetLastReportingPeriodBeforeDate(FundingSource source, DateTime compareDate)
@@ -37,7 +35,7 @@ namespace Hedwig.Repositories
 
 	public interface IReportingPeriodRepository : IHedwigRepository
 	{
-		Task<List<ReportingPeriod>> GetReportingPeriodsByFundingSourceAsync(FundingSource source);
+		List<ReportingPeriod> GetReportingPeriodsByFundingSource(FundingSource source);
 		ReportingPeriod GetLastReportingPeriodBeforeDate(FundingSource source, DateTime compareDate);
 
 		ReportingPeriod GetById(int id);
