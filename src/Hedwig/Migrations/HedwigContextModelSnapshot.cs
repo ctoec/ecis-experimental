@@ -748,15 +748,12 @@ namespace Hedwig.Migrations
                         .HasForeignKey("ReportId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-<<<<<<< HEAD
 
                     b.HasOne("Hedwig.Models.ReportingPeriod", "ReportingPeriod")
                         .WithMany()
                         .HasForeignKey("ReportingPeriodId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-=======
->>>>>>> Add time split utilization to report
                 });
 
             modelBuilder.Entity("Hedwig.Models.Report", b =>
