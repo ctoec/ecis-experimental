@@ -57,15 +57,16 @@ function formattedWeeks(includeWeeks: boolean, weeks: number) {
  * @param fundingSpaces
  * @param opts
  */
-export function getFundingSpacesFor(
+export function getFundingSpaces(
 	fundingSpaces: DeepNonUndefineable<FundingSpace[]> | null | undefined,
 	opts: {
 		ageGroup?: Age;
 		source?: FundingSource;
+		time?: FundingTime;
 	}
 ) {
 	if (!fundingSpaces) return [];
-	const { ageGroup, source } = opts;
+	const { ageGroup, source, time } = opts;
 	return fundingSpaces.filter(space => {
 		let match = true;
 		if (ageGroup) {
@@ -74,7 +75,9 @@ export function getFundingSpacesFor(
 		if (source) {
 			match = match && space.source === source;
 		}
-
+		if (time) {
+			match = match && space.time === time;
+		}
 		return match;
 	});
 }

@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
 
 namespace Hedwig.Models
 {
@@ -17,5 +18,7 @@ namespace Hedwig.Models
 		public decimal? FamilyFeesRevenue { get; set; }
 
 		public string Comment { get; set; }
+
+		public ICollection<FundingTimeSplitUtilization> TimeSplitUtilizations { get; set; }
 	}
 }

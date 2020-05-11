@@ -10,6 +10,7 @@ export * from './FundingSource';
 export * from './FundingSpace';
 export * from './FundingTime';
 export * from './FundingTimeSplit';
+export * from './FundingTimeSplitUtilization';
 export * from './Gender';
 export * from './Organization';
 export * from './OrganizationPermission';

@@ -3,6 +3,7 @@ using Hedwig.Models;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Linq;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
@@ -205,9 +206,14 @@ namespace Hedwig.Repositories
 
 		///<summary>
 		/// Helper function to compare entity corresponding entityDTO objects.
-		/// Both should always have comparable Id properties, but to keep the
+		/// Also includes a check for default id values; when adding multiple 
+		/// new collection items at once, there will be mulitple items with id = default value
+		/// which will cause issues as they get added to the entity, and to the
+		/// originalValues array.
+		/// 
+		/// Both a and b should will comparable Id properties, but to keep the
 		/// repository update functions type-agnostic, that is not known at
-		/// compile tim
+		/// compile time.
 		/// </summary>
 		private bool IdEquals(object a, object b)
 		{
@@ -215,6 +221,12 @@ namespace Hedwig.Repositories
 			var bIdProp = b.GetType().GetProperty("Id");
 
 			if (aIdProp == null || bIdProp == null || aIdProp.PropertyType != bIdProp.PropertyType)
+			{
+				throw new Exception("'IdEquals' arguments must both have 'Id' property of the same type");
+			}
+
+			// Id with value equal to Id type default value should never be considered equal
+			if (aIdProp.GetValue(a).Equals(Activator.CreateInstance(aIdProp.PropertyType)))
 			{
 				return false;
 			}

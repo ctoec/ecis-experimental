@@ -42,10 +42,7 @@ exports[`EnrollmentEdit enrollment and funding matches snapshot 1`] = `
         <fieldset
           aria-describedby="enrollment-start-date-hint"
           aria-required="true"
-          class="grid-gap grid-row usa-fieldset
-			
-			 oec-date-input oec-date-input-single
-			"
+          class="grid-gap grid-row usa-fieldset oec-date-input oec-date-input-single"
           id="enrollment-start-date"
         >
           <legend
@@ -63,7 +60,7 @@ exports[`EnrollmentEdit enrollment and funding matches snapshot 1`] = `
             For example: 04/28/1986
           </span>
           <div
-            class="grid-gap grid-row undefined"
+            class="grid-gap grid-row"
           >
             <div
               class="grid-row flex-row flex-align-end grid-gap position-relative"
@@ -1281,10 +1278,7 @@ exports[`EnrollmentEdit enrollment and funding matches snapshot 1`] = `
         </h2>
         <fieldset
           aria-required="true"
-          class="grid-gap grid-row usa-fieldset
-			
-			 undefined
-			"
+          class="grid-gap grid-row usa-fieldset"
           id="age-group-fieldset"
         >
           <legend
@@ -1362,10 +1356,7 @@ exports[`EnrollmentEdit enrollment and funding matches snapshot 1`] = `
         </h2>
         <fieldset
           aria-required="true"
-          class="grid-gap grid-row usa-fieldset
-			
-			 undefined
-			"
+          class="grid-gap grid-row usa-fieldset"
           id="fundingType-fieldset"
         >
           <legend

@@ -9,6 +9,7 @@ using Hedwig.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Hedwig.Validations;
+using AutoMapper;
 
 namespace HedwigTests.Controllers
 {
@@ -19,8 +20,9 @@ namespace HedwigTests.Controllers
 		{
 			var orgId = 1;
 			var _reports = new Mock<IReportRepository>();
+			var _mapper = new Mock<IMapper>();
 
-			var controller = new ReportsController(_reports.Object);
+			var controller = new ReportsController(_reports.Object, _mapper.Object);
 
 			await controller.Get(orgId);
 			_reports.Verify(r => r.GetReportsForOrganizationAsync(orgId), Times.Once());
@@ -43,7 +45,9 @@ namespace HedwigTests.Controllers
 			_reports.Setup(r => r.GetReportForOrganizationAsync(id, orgId, include))
 				.ReturnsAsync(returns);
 
-			var controller = new ReportsController(_reports.Object);
+			var _mapper = new Mock<IMapper>();
+
+			var controller = new ReportsController(_reports.Object, _mapper.Object);
 
 			var result = await controller.Get(id, orgId, include);
 
@@ -70,7 +74,11 @@ namespace HedwigTests.Controllers
 					.Throws(new DbUpdateConcurrencyException());
 			}
 
-			var controller = new ReportsController(_reports.Object);
+			var _mapper = new Mock<IMapper>();
+			_mapper.Setup(m => m.Map<CdcReport, CdcReportDTO>(It.IsAny<CdcReport>()))
+				.Returns(It.IsAny<CdcReportDTO>());
+
+			var controller = new ReportsController(_reports.Object, _mapper.Object);
 
 			var orgId = 1;
 			var report = new CdcReport
@@ -82,7 +90,7 @@ namespace HedwigTests.Controllers
 
 			var result = await controller.Put(pathId, orgId, report);
 			var times = shouldUpdateReport ? Times.Once() : Times.Never();
-			_reports.Verify(r => r.UpdateReport(report), times);
+			_reports.Verify(r => r.UpdateReport(report, It.IsAny<CdcReportDTO>()), times);
 			Assert.IsType(resultType, result.Result);
 		}
 	}

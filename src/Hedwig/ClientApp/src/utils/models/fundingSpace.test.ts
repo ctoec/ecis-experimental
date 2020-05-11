@@ -1,11 +1,11 @@
-import { getFundingSpacesFor, prettyFundingSpaceTime } from './fundingSpace';
+import { getFundingSpaces, prettyFundingSpaceTime } from './fundingSpace';
 import { mockFundingSpaces } from '../../tests/data/fundingSpace';
 import { FundingSpace, FundingTime, FundingTimeSplit, Age, FundingSource } from '../../generated';
 import { DeepNonUndefineable } from '../types';
 
 describe('funding space utils', () => {
 	it('getFundingSpaceFor returns a funding space given ', () => {
-		const returnedSpaces = getFundingSpacesFor(
+		const returnedSpaces = getFundingSpaces(
 			mockFundingSpaces as DeepNonUndefineable<FundingSpace[]>,
 			{
 				ageGroup: Age.InfantToddler,

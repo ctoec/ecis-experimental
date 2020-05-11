@@ -13,13 +13,12 @@ namespace Hedwig.Repositories
 	{
 		public ReportRepository(HedwigContext context) : base(context) { }
 
-		public void UpdateReport(Report report)
+		public void UpdateReport(CdcReport report, CdcReportDTO reportDTO)
 		{
 			// Should this be _context.Update(report) as in EnrollmentRepository ?
 			// depends on if we include sub-objets on report that should _not_ be updated
-			_context.Entry(report).State = EntityState.Modified;
+			UpdateHedwigIdEntityWithNavigationProperties<CdcReport, CdcReportDTO, int>(report, reportDTO);
 		}
-
 		public Task<List<CdcReport>> GetReportsForOrganizationAsync(int orgId)
 		{
 			return _context.Reports
@@ -42,7 +41,8 @@ namespace Hedwig.Repositories
 			IQueryable<CdcReport> reportQuery = _context.Reports
 			.OfType<CdcReport>()
 			.Where(report => report.Id == id && report.OrganizationId == orgId)
-			.Include(report => report.ReportingPeriod);
+			.Include(report => report.ReportingPeriod)
+			.Include(report => report.TimeSplitUtilizations);
 
 			if (include.Contains(INCLUDE_ORGANIZATIONS))
 			{
@@ -60,8 +60,12 @@ namespace Hedwig.Repositories
 			{
 				reportQuery = reportQuery
 					.Include(report => report.Organization)
-					.ThenInclude(organization => organization.FundingSpaces)
-						.ThenInclude(fundingSpace => fundingSpace.TimeSplit);
+						.ThenInclude(organization => organization.FundingSpaces)
+							.ThenInclude(fundingSpace => fundingSpace.TimeSplit)
+					.Include(report => report.Organization)
+						.ThenInclude(organization => organization.FundingSpaces)
+							.ThenInclude(fundingSpace => fundingSpace.TimeSplitUtilizations)
+								.ThenInclude(timeSplitUtilization => timeSplitUtilization.ReportingPeriod);
 			}
 
 			var reportResult = await reportQuery.FirstOrDefaultAsync();
@@ -154,7 +158,7 @@ namespace Hedwig.Repositories
 
 	public interface IReportRepository : IHedwigRepository
 	{
-		void UpdateReport(Report report);
+		void UpdateReport(CdcReport report, CdcReportDTO reportDTO);
 		Task<List<CdcReport>> GetReportsForOrganizationAsync(int orgId);
 		Task<CdcReport> GetReportForOrganizationAsync(int id, int orgId, string[] include);
 

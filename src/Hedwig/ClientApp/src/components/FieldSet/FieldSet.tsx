@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormStatus, FormStatusProps } from '..';
+import cx from 'classnames';
 
 export type FieldSetProps = {
 	legend: string;
@@ -35,10 +36,15 @@ export const FieldSet: React.FC<FieldSetProps> = ({
 	}
 	return (
 		<fieldset
-			className={`grid-gap grid-row usa-fieldset
-			${status ? ` usa-fieldset--${status.type}` : ''}
-			 ${className}
-			`}
+			className={cx(
+				'grid-gap', 
+				'grid-row', 
+				'usa-fieldset',
+				{
+					[`usa-fieldset--${status && status.type}`]: status
+				},
+				className
+			)}
 			id={id}
 			aria-describedby={ariaDescriber}
 			// TODO: is this bad usability? are things that aren't optional always required?
@@ -59,7 +65,7 @@ export const FieldSet: React.FC<FieldSetProps> = ({
 			</legend>
 			{hint && <span className="usa-hint text-italic">{hint}</span>}
 			{status && <FormStatus {...status} />}
-			<div className={`grid-gap grid-row ${childrenGroupClassName}`}>{children}</div>
+			<div className={cx('grid-gap', 'grid-row', childrenGroupClassName)}>{children}</div>
 		</fieldset>
 	);
 };

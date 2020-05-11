@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
 import Table, { TableProps } from '../../../components/Table/Table';
-import { CdcReport, Enrollment, Age, FundingTime, Region, FundingSpace } from '../../../generated';
+import {
+	CdcReport,
+	Enrollment,
+	Age,
+	FundingTime,
+	Region,
+	FundingSpace,
+	FundingSource,
+} from '../../../generated';
 import idx from 'idx';
 import moment from 'moment';
 import { CdcRates } from './CdcRates';
@@ -71,6 +79,7 @@ export default function UtilizationTable(report: CdcReport) {
 	// Rows are sorted by fundingspace age, then time
 	let rows: UtilizationTableRow[] = (fundingSpaces as DeepNonUndefineableArray<FundingSpace>)
 		.sort(fundingSpaceSorter)
+		.filter(fundingSpace => fundingSpace.source === FundingSource.CDC)
 		.map(space => {
 			const capacity = space.capacity;
 			const ageGroup = space.ageGroup;

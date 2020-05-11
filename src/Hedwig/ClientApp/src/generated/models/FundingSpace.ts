@@ -34,6 +34,10 @@ import {
 	FundingTimeSplitFromJSON,
 	FundingTimeSplitFromJSONTyped,
 	FundingTimeSplitToJSON,
+	FundingTimeSplitUtilization,
+	FundingTimeSplitUtilizationFromJSON,
+	FundingTimeSplitUtilizationFromJSONTyped,
+	FundingTimeSplitUtilizationToJSON,
 	Organization,
 	OrganizationFromJSON,
 	OrganizationFromJSONTyped,
@@ -100,6 +104,12 @@ export interface FundingSpace {
 	 * @memberof FundingSpace
 	 */
 	timeSplit?: FundingTimeSplit;
+	/**
+	 *
+	 * @type {Array<FundingTimeSplitUtilization>}
+	 * @memberof FundingSpace
+	 */
+	readonly timeSplitUtilizations?: Array<FundingTimeSplitUtilization> | null;
 }
 
 export function FundingSpaceFromJSON(json: any): FundingSpace {
@@ -126,6 +136,11 @@ export function FundingSpaceFromJSONTyped(json: any, ignoreDiscriminator: boolea
 			: (json['fundings'] as Array<any>).map(FundingFromJSON),
 		time: !exists(json, 'time') ? undefined : FundingTimeFromJSON(json['time']),
 		timeSplit: !exists(json, 'timeSplit') ? undefined : FundingTimeSplitFromJSON(json['timeSplit']),
+		timeSplitUtilizations: !exists(json, 'timeSplitUtilizations')
+			? undefined
+			: json['timeSplitUtilizations'] === null
+			? null
+			: (json['timeSplitUtilizations'] as Array<any>).map(FundingTimeSplitUtilizationFromJSON),
 	};
 }
 

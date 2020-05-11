@@ -16,10 +16,19 @@ export type TextInputProps = {
 	srOnlyLabel?: boolean;
 	className?: string;
 	inline?: boolean;
+	beforeContent?: string | JSX.Element;
+	afterContent?: string | JSX.Element;
 };
 
 type TextInputHTMLInputElementProps = TextInputProps & {
 	type?: 'input';
+	onChange: (event: React.ChangeEvent<HTMLInputElement>) => any;
+	onBlur?: (event: React.FocusEvent<HTMLInputElement>) => any;
+	inputProps?: React.HTMLProps<HTMLInputElement>;
+};
+
+type TextInlineInputHTMLInputElementProps = TextInputProps & {
+	type?: 'inline-input';
 	onChange: (event: React.ChangeEvent<HTMLInputElement>) => any;
 	onBlur?: (event: React.FocusEvent<HTMLInputElement>) => any;
 	inputProps?: React.HTMLProps<HTMLInputElement>;
@@ -49,7 +58,12 @@ export function TextInput({
 	className,
 	inputProps,
 	inline,
-}: TextInputHTMLInputElementProps | TextInputHTMLTextAreaElementProps) {
+	beforeContent,
+	afterContent,
+}:
+	| TextInputHTMLInputElementProps
+	| TextInlineInputHTMLInputElementProps
+	| TextInputHTMLTextAreaElementProps) {
 	const commonProps = {
 		id,
 		name,
@@ -74,6 +88,38 @@ export function TextInput({
 					{...commonProps}
 					{...(inputProps as React.HTMLProps<HTMLTextAreaElement>)}
 				/>
+			);
+			break;
+		case 'inline-input':
+			inputElement = (
+				<>
+					{beforeContent && (
+						<span className="display-inline-flex padding-right-1">{beforeContent}</span>
+					)}
+					<input
+						className={cx(
+							'usa-input',
+							'display-inline-flex',
+							{
+								[`usa-input--${status && status.type}`]: status,
+							},
+							{
+								'usa-input--small': small,
+							},
+							{
+								'usa-input--inline': inline,
+							}
+						)}
+						type="text"
+						onChange={onChange as (_: React.ChangeEvent<HTMLInputElement>) => any}
+						onBlur={onChange as (_: React.ChangeEvent<HTMLInputElement>) => any}
+						{...commonProps}
+						{...(inputProps as React.HTMLProps<HTMLInputElement>)}
+					/>
+					{afterContent && (
+						<span className="display-inline-flex padding-left-1">{afterContent}</span>
+					)}
+				</>
 			);
 			break;
 		case 'input':

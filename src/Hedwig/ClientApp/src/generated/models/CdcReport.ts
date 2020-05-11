@@ -22,6 +22,10 @@ import {
 	FundingSourceFromJSON,
 	FundingSourceFromJSONTyped,
 	FundingSourceToJSON,
+	FundingTimeSplitUtilization,
+	FundingTimeSplitUtilizationFromJSON,
+	FundingTimeSplitUtilizationFromJSONTyped,
+	FundingTimeSplitUtilizationToJSON,
 	Organization,
 	OrganizationFromJSON,
 	OrganizationFromJSONTyped,
@@ -72,6 +76,12 @@ export interface CdcReport {
 	 * @memberof CdcReport
 	 */
 	comment?: string | null;
+	/**
+	 *
+	 * @type {Array<FundingTimeSplitUtilization>}
+	 * @memberof CdcReport
+	 */
+	timeSplitUtilizations?: Array<FundingTimeSplitUtilization> | null;
 	/**
 	 *
 	 * @type {number}
@@ -144,6 +154,11 @@ export function CdcReportFromJSONTyped(json: any, ignoreDiscriminator: boolean):
 			: json['retroactiveC4KRevenue'],
 		familyFeesRevenue: json['familyFeesRevenue'],
 		comment: !exists(json, 'comment') ? undefined : json['comment'],
+		timeSplitUtilizations: !exists(json, 'timeSplitUtilizations')
+			? undefined
+			: json['timeSplitUtilizations'] === null
+			? null
+			: (json['timeSplitUtilizations'] as Array<any>).map(FundingTimeSplitUtilizationFromJSON),
 		organizationId: json['organizationId'],
 		organization: !exists(json, 'organization')
 			? undefined
@@ -185,6 +200,12 @@ export function CdcReportToJSON(value?: CdcReport | null): any {
 		retroactiveC4KRevenue: value.retroactiveC4KRevenue,
 		familyFeesRevenue: value.familyFeesRevenue,
 		comment: value.comment,
+		timeSplitUtilizations:
+			value.timeSplitUtilizations === undefined
+				? undefined
+				: value.timeSplitUtilizations === null
+				? null
+				: (value.timeSplitUtilizations as Array<any>).map(FundingTimeSplitUtilizationToJSON),
 		organizationId: value.organizationId,
 		organization: OrganizationToJSON(value.organization),
 		id: value.id,

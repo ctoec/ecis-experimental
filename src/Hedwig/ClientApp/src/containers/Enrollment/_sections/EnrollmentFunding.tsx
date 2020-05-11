@@ -30,7 +30,7 @@ import {
 	getIdForUser,
 	prettyFundingSource,
 	fundingSourceFromString,
-	getFundingSpacesFor,
+	getFundingSpaces,
 	prettyFundingSpaceTime,
 	isFundedForFundingSpace,
 } from '../../../utils/models';
@@ -370,7 +370,7 @@ const EnrollmentFunding: Section = {
 		useEffect(() => {
 			if (!fundingSpaces || !fundingSource || !_enrollment.ageGroup) return;
 
-			const matchingFundingSpaces = getFundingSpacesFor(fundingSpaces, {
+			const matchingFundingSpaces = getFundingSpaces(fundingSpaces, {
 				ageGroup: _enrollment.ageGroup,
 				source: fundingSource,
 			});

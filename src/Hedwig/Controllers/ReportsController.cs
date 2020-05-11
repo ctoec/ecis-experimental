@@ -11,6 +11,7 @@ using Hedwig.Security;
 using Hedwig.Filters;
 using Hedwig.Filters.Attributes;
 using Hedwig.Validations;
+using AutoMapper;
 
 namespace Hedwig.Controllers
 {
@@ -20,12 +21,15 @@ namespace Hedwig.Controllers
 	public class ReportsController : ControllerBase
 	{
 		private readonly IReportRepository _reports;
+		private readonly IMapper _mapper;
 
 		public ReportsController(
-			IReportRepository reports
+			IReportRepository reports,
+			IMapper mapper
 		)
 		{
 			_reports = reports;
+			_mapper = mapper;
 		}
 
 		// GET api/organizations/5/reports
@@ -85,7 +89,8 @@ namespace Hedwig.Controllers
 				// TODO what are the update rules for this field?
 				// and should we put this somewhere besides the controller?
 				if (report.SubmittedAt == null) report.SubmittedAt = DateTime.UtcNow;
-				_reports.UpdateReport(report);
+				var reportDTO = _mapper.Map<CdcReport, CdcReportDTO>(report);
+				_reports.UpdateReport(report, reportDTO);
 				await _reports.SaveChangesAsync();
 			}
 			catch (DbUpdateConcurrencyException)

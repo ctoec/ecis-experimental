@@ -26,5 +26,6 @@ namespace Hedwig.Models
 
 		public FundingTime Time { get; set; }
 		public FundingTimeSplit TimeSplit { get; set; }
+		public ICollection<FundingTimeSplitUtilization> TimeSplitUtilizations { get; protected set; }
 	}
 }

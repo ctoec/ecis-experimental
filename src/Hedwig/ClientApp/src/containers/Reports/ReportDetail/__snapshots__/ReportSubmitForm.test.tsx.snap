@@ -3,7 +3,7 @@
 exports[`ReportSubmitForm matches snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="usa-form-group margin-bottom-5"
+    class="usa-form-group "
   >
     <div
       class="margin-top-3"
@@ -27,6 +27,53 @@ exports[`ReportSubmitForm matches snapshot 1`] = `
       </label>
     </div>
   </div>
+  <fieldset
+    aria-required="true"
+    class="grid-gap grid-row usa-fieldset usa-form margin-bottom-5"
+    id="time-split-utilizations"
+  >
+    <legend
+      id="fieldset-legend-time-split-utilizations"
+    >
+      <span
+        class="usa-sr-only"
+      >
+        Funding time split utilizations
+      </span>
+    </legend>
+    <div
+      class="grid-gap grid-row"
+    >
+      <div
+        class=" usa-form-group"
+      >
+        <label
+          class="usa-label"
+          for="7-lesser-weeks-used"
+        >
+          <span
+            class="text-bold"
+          >
+            Infant/Toddler services were provided part time
+          </span>
+           
+        </label>
+        <input
+          aria-required="true"
+          class="usa-input display-inline-flex usa-input--small"
+          id="7-lesser-weeks-used"
+          name="splitFundingTimeUtilization"
+          type="text"
+          value="0"
+        />
+        <span
+          class="display-inline-flex padding-left-1"
+        >
+          of 4 weeks in September
+        </span>
+      </div>
+    </div>
+  </fieldset>
   <h2
     class="margin-bottom-neg-205"
   >
@@ -564,10 +611,7 @@ exports[`ReportSubmitForm matches snapshot 1`] = `
     </h2>
     <fieldset
       aria-required="true"
-      class="grid-gap grid-row usa-fieldset
-			
-			 undefined
-			"
+      class="grid-gap grid-row usa-fieldset"
       id="other-revenue"
     >
       <legend
@@ -580,7 +624,7 @@ exports[`ReportSubmitForm matches snapshot 1`] = `
         </span>
       </legend>
       <div
-        class="grid-gap grid-row undefined"
+        class="grid-gap grid-row"
       >
         <div
           class="mobile-lg:grid-col-12"
