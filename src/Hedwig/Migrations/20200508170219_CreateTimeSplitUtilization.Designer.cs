@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hedwig.Migrations
 {
     [DbContext(typeof(HedwigContext))]
-    [Migration("20200505182557_AddFundingTimeSplitUtilization")]
-    partial class AddFundingTimeSplitUtilization
+    [Migration("20200508170219_CreateTimeSplitUtilization")]
+    partial class CreateTimeSplitUtilization
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -372,11 +372,16 @@ namespace Hedwig.Migrations
                     b.Property<int>("ReportId")
                         .HasColumnType("int");
 
+                    b.Property<int>("ReportingPeriodId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("FundingSpaceId");
 
                     b.HasIndex("ReportId");
+
+                    b.HasIndex("ReportingPeriodId");
 
                     b.ToTable("FundingTimeSplitUtilization");
                 });
@@ -743,6 +748,12 @@ namespace Hedwig.Migrations
                     b.HasOne("Hedwig.Models.CdcReport", "Report")
                         .WithMany("TimeSplitUtilizations")
                         .HasForeignKey("ReportId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Hedwig.Models.ReportingPeriod", "ReportingPeriod")
+                        .WithMany()
+                        .HasForeignKey("ReportingPeriodId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });

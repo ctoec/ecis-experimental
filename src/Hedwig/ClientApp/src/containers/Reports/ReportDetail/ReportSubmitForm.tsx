@@ -161,13 +161,15 @@ export default function ReportSubmitForm({
 	const getSplitUtilization = (
 		timeSplit: FundingTimeSplit,
 		lesserWeeksUsed: number,
-		reportingPeriodWeeks: number
+		reportingPeriodWeeks: number,
+		reportingPeriodId: number
 	) => {
 		const lesserTime =
 			timeSplit.fullTimeWeeks < timeSplit.partTimeWeeks ? FundingTime.Full : FundingTime.Part;
 		const greaterWeeksUsed = reportingPeriodWeeks - lesserWeeksUsed;
 		return {
 			fundingSpaceId: timeSplit.fundingSpaceId,
+			reportingPeriodId,
 			fullTimeWeeksUsed: lesserTime === FundingTime.Full ? lesserWeeksUsed : greaterWeeksUsed,
 			partTimeWeeksUsed: lesserTime === FundingTime.Full ? greaterWeeksUsed : lesserWeeksUsed,
 		} as FundingTimeSplitUtilization;
@@ -177,7 +179,7 @@ export default function ReportSubmitForm({
 		report.timeSplitUtilizations
 			? (report.timeSplitUtilizations as FundingTimeSplitUtilization[])
 			: splitTimeFundingSpaces.map(fundingSpace =>
-					getSplitUtilization(fundingSpace.timeSplit, 0, reportingPeriodWeeks)
+					getSplitUtilization(fundingSpace.timeSplit, 0, reportingPeriodWeeks, report.reportingPeriod.id)
 			  )
 	);
 
@@ -210,7 +212,7 @@ export default function ReportSubmitForm({
 
 					updateTimeSplitUtilizations(_uts => [
 						..._uts.filter(ut => ut.fundingSpaceId !== fundingSpace.id),
-						getSplitUtilization(timeSplit, lesserWeeksUsed, reportingPeriodWeeks),
+						getSplitUtilization(timeSplit, lesserWeeksUsed, reportingPeriodWeeks, report.reportingPeriod.id),
 					]);
 				})}
 				disabled={!!report.submittedAt}

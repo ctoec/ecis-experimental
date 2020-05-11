@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Hedwig.Migrations
 {
-	public partial class AddFundingTimeSplitUtilization : Migration
+	public partial class CreateTimeSplitUtilization : Migration
 	{
 		protected override void Up(MigrationBuilder migrationBuilder)
 		{
@@ -12,6 +12,7 @@ namespace Hedwig.Migrations
 					{
 						Id = table.Column<int>(nullable: false)
 									.Annotation("SqlServer:Identity", "1, 1"),
+						ReportingPeriodId = table.Column<int>(nullable: false),
 						ReportId = table.Column<int>(nullable: false),
 						FundingSpaceId = table.Column<int>(nullable: false),
 						FullTimeWeeksUsed = table.Column<int>(nullable: false),
@@ -32,6 +33,12 @@ namespace Hedwig.Migrations
 											principalTable: "Report",
 											principalColumn: "Id",
 											onDelete: ReferentialAction.Restrict);
+						table.ForeignKey(
+											name: "FK_FundingTimeSplitUtilization_ReportingPeriod_ReportingPeriodId",
+											column: x => x.ReportingPeriodId,
+											principalTable: "ReportingPeriod",
+											principalColumn: "Id",
+											onDelete: ReferentialAction.Restrict);
 					});
 
 			migrationBuilder.CreateIndex(
@@ -43,6 +50,11 @@ namespace Hedwig.Migrations
 					name: "IX_FundingTimeSplitUtilization_ReportId",
 					table: "FundingTimeSplitUtilization",
 					column: "ReportId");
+
+			migrationBuilder.CreateIndex(
+					name: "IX_FundingTimeSplitUtilization_ReportingPeriodId",
+					table: "FundingTimeSplitUtilization",
+					column: "ReportingPeriodId");
 		}
 
 		protected override void Down(MigrationBuilder migrationBuilder)

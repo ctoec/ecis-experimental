@@ -22,6 +22,10 @@ import {
 	FundingSpaceFromJSON,
 	FundingSpaceFromJSONTyped,
 	FundingSpaceToJSON,
+	ReportingPeriod,
+	ReportingPeriodFromJSON,
+	ReportingPeriodFromJSONTyped,
+	ReportingPeriodToJSON,
 } from './';
 
 /**
@@ -36,6 +40,18 @@ export interface FundingTimeSplitUtilization {
 	 * @memberof FundingTimeSplitUtilization
 	 */
 	id: number;
+	/**
+	 *
+	 * @type {number}
+	 * @memberof FundingTimeSplitUtilization
+	 */
+	reportingPeriodId: number;
+	/**
+	 *
+	 * @type {ReportingPeriod}
+	 * @memberof FundingTimeSplitUtilization
+	 */
+	reportingPeriod?: ReportingPeriod;
 	/**
 	 *
 	 * @type {number}
@@ -87,6 +103,10 @@ export function FundingTimeSplitUtilizationFromJSONTyped(
 	}
 	return {
 		id: json['id'],
+		reportingPeriodId: json['reportingPeriodId'],
+		reportingPeriod: !exists(json, 'reportingPeriod')
+			? undefined
+			: ReportingPeriodFromJSON(json['reportingPeriod']),
 		reportId: json['reportId'],
 		report: !exists(json, 'report') ? undefined : CdcReportFromJSON(json['report']),
 		fundingSpaceId: json['fundingSpaceId'],
@@ -107,6 +127,8 @@ export function FundingTimeSplitUtilizationToJSON(value?: FundingTimeSplitUtiliz
 	}
 	return {
 		id: value.id,
+		reportingPeriodId: value.reportingPeriodId,
+		reportingPeriod: ReportingPeriodToJSON(value.reportingPeriod),
 		reportId: value.reportId,
 		report: CdcReportToJSON(value.report),
 		fundingSpaceId: value.fundingSpaceId,

@@ -60,8 +60,12 @@ namespace Hedwig.Repositories
 			{
 				reportQuery = reportQuery
 					.Include(report => report.Organization)
-					.ThenInclude(organization => organization.FundingSpaces)
-						.ThenInclude(fundingSpace => fundingSpace.TimeSplit);
+						.ThenInclude(organization => organization.FundingSpaces)
+							.ThenInclude(fundingSpace => fundingSpace.TimeSplit)
+					.Include(report => report.Organization)
+						.ThenInclude(organization => organization.FundingSpaces)
+							.ThenInclude(fundingSpace => fundingSpace.TimeSplitUtilizations)
+								.ThenInclude(timeSplitUtilization => timeSplitUtilization.ReportingPeriod);
 			}
 
 			var reportResult = await reportQuery.FirstOrDefaultAsync();
