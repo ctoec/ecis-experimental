@@ -14,6 +14,7 @@ import { ErrorBoundary, Header, NavItemProps } from '../../components';
 
 import cx from 'classnames';
 import styles from './App.module.scss';
+import NotSignedInRedirect from '../NotSignedInRedirect/NotSignedInRedirect';
 
 /**
  * Main React component container for Hedwig application
