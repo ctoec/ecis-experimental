@@ -654,10 +654,7 @@ exports[`Storyshots ChoiceList CheckList with both single element expansion 1`] 
 >
   <fieldset
     aria-required={true}
-    className="grid-gap grid-row usa-fieldset
-			
-			 undefined
-			"
+    className="grid-gap grid-row usa-fieldset"
     id="storybook-radio-fieldset"
   >
     <legend
@@ -731,10 +728,7 @@ exports[`Storyshots ChoiceList CheckList with one multi element expansion 1`] = 
 >
   <fieldset
     aria-required={true}
-    className="grid-gap grid-row usa-fieldset
-			
-			 undefined
-			"
+    className="grid-gap grid-row usa-fieldset"
     id="storybook-radio-fieldset"
   >
     <legend
@@ -808,10 +802,7 @@ exports[`Storyshots ChoiceList CheckList with one single element expansion 1`] =
 >
   <fieldset
     aria-required={true}
-    className="grid-gap grid-row usa-fieldset
-			
-			 undefined
-			"
+    className="grid-gap grid-row usa-fieldset"
     id="storybook-radio-fieldset"
   >
     <legend
@@ -885,10 +876,7 @@ exports[`Storyshots ChoiceList Checklist 1`] = `
 >
   <fieldset
     aria-required={true}
-    className="grid-gap grid-row usa-fieldset
-			
-			 undefined
-			"
+    className="grid-gap grid-row usa-fieldset"
     id="storybook-checklist-fieldset"
   >
     <legend
@@ -964,10 +952,7 @@ exports[`Storyshots ChoiceList Checklist with warning 1`] = `
     aria-describedby="checklist-warning"
     aria-invalid={false}
     aria-required={true}
-    className="grid-gap grid-row usa-fieldset
-			 usa-fieldset--warning
-			 undefined
-			"
+    className="grid-gap grid-row usa-fieldset usa-fieldset--warning"
     id="storybook-checklist-fieldset"
   >
     <legend
@@ -1063,10 +1048,7 @@ exports[`Storyshots ChoiceList Disabled checklist 1`] = `
 >
   <fieldset
     aria-required={true}
-    className="grid-gap grid-row usa-fieldset
-			
-			 undefined
-			"
+    className="grid-gap grid-row usa-fieldset"
     id="storybook-checklist-fieldset"
   >
     <legend
@@ -1140,10 +1122,7 @@ exports[`Storyshots ChoiceList Disabled radio 1`] = `
 >
   <fieldset
     aria-required={true}
-    className="grid-gap grid-row usa-fieldset
-			
-			 undefined
-			"
+    className="grid-gap grid-row usa-fieldset"
     id="storybook-radio-fieldset"
   >
     <legend
@@ -1265,10 +1244,7 @@ exports[`Storyshots ChoiceList Radio 1`] = `
 >
   <fieldset
     aria-required={true}
-    className="grid-gap grid-row usa-fieldset
-			
-			 undefined
-			"
+    className="grid-gap grid-row usa-fieldset"
     id="storybook-radio-fieldset"
   >
     <legend
@@ -1342,10 +1318,7 @@ exports[`Storyshots ChoiceList Radio with both single element expansion 1`] = `
 >
   <fieldset
     aria-required={true}
-    className="grid-gap grid-row usa-fieldset
-			
-			 undefined
-			"
+    className="grid-gap grid-row usa-fieldset"
     id="storybook-radio-fieldset"
   >
     <legend
@@ -1421,10 +1394,7 @@ exports[`Storyshots ChoiceList Radio with error 1`] = `
     aria-describedby="checklis-error"
     aria-invalid={true}
     aria-required={true}
-    className="grid-gap grid-row usa-fieldset
-			 usa-fieldset--error
-			 undefined
-			"
+    className="grid-gap grid-row usa-fieldset usa-fieldset--error"
     id="storybook-radio-fieldset"
   >
     <legend
@@ -1507,10 +1477,7 @@ exports[`Storyshots ChoiceList Radio with one multi element expansion 1`] = `
 >
   <fieldset
     aria-required={true}
-    className="grid-gap grid-row usa-fieldset
-			
-			 undefined
-			"
+    className="grid-gap grid-row usa-fieldset"
     id="storybook-radio-fieldset"
   >
     <legend
@@ -1584,10 +1551,7 @@ exports[`Storyshots ChoiceList Radio with one multi element expansion with error
 >
   <fieldset
     aria-required={true}
-    className="grid-gap grid-row usa-fieldset
-			
-			 undefined
-			"
+    className="grid-gap grid-row usa-fieldset"
     id="storybook-radio-fieldset"
   >
     <legend
@@ -1661,10 +1625,7 @@ exports[`Storyshots ChoiceList Radio with one multi element expansion with warni
 >
   <fieldset
     aria-required={true}
-    className="grid-gap grid-row usa-fieldset
-			
-			 undefined
-			"
+    className="grid-gap grid-row usa-fieldset"
     id="storybook-radio-fieldset"
   >
     <legend
@@ -1738,10 +1699,7 @@ exports[`Storyshots ChoiceList Radio with one single element expansion 1`] = `
 >
   <fieldset
     aria-required={true}
-    className="grid-gap grid-row usa-fieldset
-			
-			 undefined
-			"
+    className="grid-gap grid-row usa-fieldset"
     id="storybook-radio-fieldset"
   >
     <legend
@@ -1815,10 +1773,7 @@ exports[`Storyshots ChoiceList Radio with one single element expansion with erro
 >
   <fieldset
     aria-required={true}
-    className="grid-gap grid-row usa-fieldset
-			
-			 undefined
-			"
+    className="grid-gap grid-row usa-fieldset"
     id="storybook-radio-fieldset"
   >
     <legend
@@ -1892,10 +1847,7 @@ exports[`Storyshots ChoiceList Radio with one single element expansion with warn
 >
   <fieldset
     aria-required={true}
-    className="grid-gap grid-row usa-fieldset
-			
-			 undefined
-			"
+    className="grid-gap grid-row usa-fieldset"
     id="storybook-radio-fieldset"
   >
     <legend
@@ -1969,10 +1921,7 @@ exports[`Storyshots ChoiceList Radio with preselected option 1`] = `
 >
   <fieldset
     aria-required={true}
-    className="grid-gap grid-row usa-fieldset
-			
-			 undefined
-			"
+    className="grid-gap grid-row usa-fieldset"
     id="storybook-radio-fieldset"
   >
     <legend
@@ -2383,10 +2332,7 @@ exports[`Storyshots Date input Default with date 1`] = `
   <fieldset
     aria-describedby="dateinput-example-hint"
     aria-required={true}
-    className="grid-gap grid-row usa-fieldset
-			
-			 oec-date-input oec-date-input-single
-			"
+    className="grid-gap grid-row usa-fieldset oec-date-input oec-date-input-single"
     id="dateinput-example"
   >
     <legend
@@ -2404,7 +2350,7 @@ exports[`Storyshots Date input Default with date 1`] = `
       For example: 04/28/1986
     </span>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row"
     >
       <div
         className="grid-row flex-row flex-align-end grid-gap position-relative"
@@ -2469,10 +2415,7 @@ exports[`Storyshots Date input Default with no date set 1`] = `
   <fieldset
     aria-describedby="dateinput-example-hint"
     aria-required={true}
-    className="grid-gap grid-row usa-fieldset
-			
-			 oec-date-input oec-date-input-single
-			"
+    className="grid-gap grid-row usa-fieldset oec-date-input oec-date-input-single"
     id="dateinput-example"
   >
     <legend
@@ -2490,7 +2433,7 @@ exports[`Storyshots Date input Default with no date set 1`] = `
       For example: 04/28/1986
     </span>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row"
     >
       <div
         className="grid-row flex-row flex-align-end grid-gap position-relative"
@@ -2554,10 +2497,7 @@ exports[`Storyshots Date input Disabled day input 1`] = `
   <fieldset
     aria-describedby="dateinput-example-hint"
     aria-required={true}
-    className="grid-gap grid-row usa-fieldset
-			
-			 oec-date-input oec-date-input-single
-			"
+    className="grid-gap grid-row usa-fieldset oec-date-input oec-date-input-single"
     disabled={true}
     id="dateinput-example"
   >
@@ -2576,7 +2516,7 @@ exports[`Storyshots Date input Disabled day input 1`] = `
       For example: 04/28/1986
     </span>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row"
     >
       <div
         className="grid-row flex-row flex-align-end grid-gap position-relative"
@@ -2642,10 +2582,7 @@ exports[`Storyshots Date input Error 1`] = `
     aria-describedby="DateInput-error"
     aria-invalid={true}
     aria-required={true}
-    className="grid-gap grid-row usa-fieldset
-			 usa-fieldset--error
-			 oec-date-input oec-date-input-single
-			"
+    className="grid-gap grid-row usa-fieldset usa-fieldset--error oec-date-input oec-date-input-single"
     id="dateinput-example"
   >
     <legend
@@ -2672,7 +2609,7 @@ exports[`Storyshots Date input Error 1`] = `
       Pick a better date
     </span>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row"
     >
       <div
         className="grid-row flex-row flex-align-end grid-gap position-relative"
@@ -2737,10 +2674,7 @@ exports[`Storyshots Date input Optional 1`] = `
   <fieldset
     aria-describedby="dateinput-example-hint"
     aria-required={false}
-    className="grid-gap grid-row usa-fieldset
-			
-			 oec-date-input oec-date-input-single
-			"
+    className="grid-gap grid-row usa-fieldset oec-date-input oec-date-input-single"
     id="dateinput-example"
   >
     <legend
@@ -2763,7 +2697,7 @@ exports[`Storyshots Date input Optional 1`] = `
       For example: 04/28/1986
     </span>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row"
     >
       <div
         className="grid-row flex-row flex-align-end grid-gap position-relative"
@@ -2829,10 +2763,7 @@ exports[`Storyshots Date input Success 1`] = `
     aria-describedby="DateInput-success"
     aria-invalid={false}
     aria-required={true}
-    className="grid-gap grid-row usa-fieldset
-			 usa-fieldset--success
-			 oec-date-input oec-date-input-single
-			"
+    className="grid-gap grid-row usa-fieldset usa-fieldset--success oec-date-input oec-date-input-single"
     id="dateinput-example"
   >
     <legend
@@ -2859,7 +2790,7 @@ exports[`Storyshots Date input Success 1`] = `
       You did good
     </span>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row"
     >
       <div
         className="grid-row flex-row flex-align-end grid-gap position-relative"
@@ -2925,10 +2856,7 @@ exports[`Storyshots Date input Warning 1`] = `
     aria-describedby="DateInput-warning"
     aria-invalid={false}
     aria-required={true}
-    className="grid-gap grid-row usa-fieldset
-			 usa-fieldset--warning
-			 oec-date-input oec-date-input-single
-			"
+    className="grid-gap grid-row usa-fieldset usa-fieldset--warning oec-date-input oec-date-input-single"
     id="dateinput-example"
   >
     <legend
@@ -2968,7 +2896,7 @@ exports[`Storyshots Date input Warning 1`] = `
       Meh, fine
     </span>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row"
     >
       <div
         className="grid-row flex-row flex-align-end grid-gap position-relative"
@@ -3033,10 +2961,7 @@ exports[`Storyshots DateRangeInput Default 1`] = `
   <fieldset
     aria-describedby="default-DateRangeInput-outer-fieldset-hint"
     aria-required={true}
-    className="grid-gap grid-row usa-fieldset
-			
-			 oec-date-range-input
-			"
+    className="grid-gap grid-row usa-fieldset oec-date-range-input"
     id="default-DateRangeInput-outer-fieldset"
   >
     <legend
@@ -3054,17 +2979,14 @@ exports[`Storyshots DateRangeInput Default 1`] = `
       For example: 04/28/1986
     </span>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row"
     >
       <div
         className="display-flex flex-direction-row flex-align-end"
       >
         <fieldset
           aria-required={true}
-          className="grid-gap grid-row usa-fieldset
-			
-			 oec-date-input oec-date-input-single
-			"
+          className="grid-gap grid-row usa-fieldset oec-date-input oec-date-input-single"
           id="default-DateRangeInput-start-date"
         >
           <legend
@@ -3077,7 +2999,7 @@ exports[`Storyshots DateRangeInput Default 1`] = `
             </span>
           </legend>
           <div
-            className="grid-gap grid-row undefined"
+            className="grid-gap grid-row"
           >
             <div
               className="grid-row flex-row flex-align-end grid-gap position-relative"
@@ -3137,10 +3059,7 @@ exports[`Storyshots DateRangeInput Default 1`] = `
         </div>
         <fieldset
           aria-required={true}
-          className="grid-gap grid-row usa-fieldset
-			
-			 oec-date-input oec-date-input-single
-			"
+          className="grid-gap grid-row usa-fieldset oec-date-input oec-date-input-single"
           id="default-DateRangeInput-end-date"
         >
           <legend
@@ -3153,7 +3072,7 @@ exports[`Storyshots DateRangeInput Default 1`] = `
             </span>
           </legend>
           <div
-            className="grid-gap grid-row undefined"
+            className="grid-gap grid-row"
           >
             <div
               className="grid-row flex-row flex-align-end grid-gap position-relative"
@@ -3221,10 +3140,7 @@ exports[`Storyshots DateRangeInput Disabled 1`] = `
   <fieldset
     aria-describedby="disabled-DateRangeInput-outer-fieldset-hint"
     aria-required={true}
-    className="grid-gap grid-row usa-fieldset
-			
-			 oec-date-range-input
-			"
+    className="grid-gap grid-row usa-fieldset oec-date-range-input"
     disabled={true}
     id="disabled-DateRangeInput-outer-fieldset"
   >
@@ -3243,17 +3159,14 @@ exports[`Storyshots DateRangeInput Disabled 1`] = `
       For example: 04/28/1986
     </span>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row"
     >
       <div
         className="display-flex flex-direction-row flex-align-end"
       >
         <fieldset
           aria-required={true}
-          className="grid-gap grid-row usa-fieldset
-			
-			 oec-date-input oec-date-input-single
-			"
+          className="grid-gap grid-row usa-fieldset oec-date-input oec-date-input-single"
           id="disabled-DateRangeInput-start-date"
         >
           <legend
@@ -3266,7 +3179,7 @@ exports[`Storyshots DateRangeInput Disabled 1`] = `
             </span>
           </legend>
           <div
-            className="grid-gap grid-row undefined"
+            className="grid-gap grid-row"
           >
             <div
               className="grid-row flex-row flex-align-end grid-gap position-relative"
@@ -3326,10 +3239,7 @@ exports[`Storyshots DateRangeInput Disabled 1`] = `
         </div>
         <fieldset
           aria-required={true}
-          className="grid-gap grid-row usa-fieldset
-			
-			 oec-date-input oec-date-input-single
-			"
+          className="grid-gap grid-row usa-fieldset oec-date-input oec-date-input-single"
           id="disabled-DateRangeInput-end-date"
         >
           <legend
@@ -3342,7 +3252,7 @@ exports[`Storyshots DateRangeInput Disabled 1`] = `
             </span>
           </legend>
           <div
-            className="grid-gap grid-row undefined"
+            className="grid-gap grid-row"
           >
             <div
               className="grid-row flex-row flex-align-end grid-gap position-relative"
@@ -3411,10 +3321,7 @@ exports[`Storyshots DateRangeInput Error 1`] = `
     aria-describedby="range-input-error"
     aria-invalid={true}
     aria-required={true}
-    className="grid-gap grid-row usa-fieldset
-			 usa-fieldset--error
-			 oec-date-range-input
-			"
+    className="grid-gap grid-row usa-fieldset usa-fieldset--error oec-date-range-input"
     id="error-DateRangeInput-outer-fieldset"
   >
     <legend
@@ -3441,17 +3348,14 @@ exports[`Storyshots DateRangeInput Error 1`] = `
       Pick a better date
     </span>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row"
     >
       <div
         className="display-flex flex-direction-row flex-align-end"
       >
         <fieldset
           aria-required={true}
-          className="grid-gap grid-row usa-fieldset
-			
-			 oec-date-input oec-date-input-single
-			"
+          className="grid-gap grid-row usa-fieldset oec-date-input oec-date-input-single"
           id="error-DateRangeInput-start-date"
         >
           <legend
@@ -3464,7 +3368,7 @@ exports[`Storyshots DateRangeInput Error 1`] = `
             </span>
           </legend>
           <div
-            className="grid-gap grid-row undefined"
+            className="grid-gap grid-row"
           >
             <div
               className="grid-row flex-row flex-align-end grid-gap position-relative"
@@ -3524,10 +3428,7 @@ exports[`Storyshots DateRangeInput Error 1`] = `
         </div>
         <fieldset
           aria-required={true}
-          className="grid-gap grid-row usa-fieldset
-			
-			 oec-date-input oec-date-input-single
-			"
+          className="grid-gap grid-row usa-fieldset oec-date-input oec-date-input-single"
           id="error-DateRangeInput-end-date"
         >
           <legend
@@ -3540,7 +3441,7 @@ exports[`Storyshots DateRangeInput Error 1`] = `
             </span>
           </legend>
           <div
-            className="grid-gap grid-row undefined"
+            className="grid-gap grid-row"
           >
             <div
               className="grid-row flex-row flex-align-end grid-gap position-relative"
@@ -3608,10 +3509,7 @@ exports[`Storyshots DateRangeInput Optional 1`] = `
   <fieldset
     aria-describedby="optional-DateRangeInput-outer-fieldset-hint"
     aria-required={false}
-    className="grid-gap grid-row usa-fieldset
-			
-			 oec-date-range-input
-			"
+    className="grid-gap grid-row usa-fieldset oec-date-range-input"
     id="optional-DateRangeInput-outer-fieldset"
   >
     <legend
@@ -3634,17 +3532,14 @@ exports[`Storyshots DateRangeInput Optional 1`] = `
       For example: 04/28/1986
     </span>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row"
     >
       <div
         className="display-flex flex-direction-row flex-align-end"
       >
         <fieldset
           aria-required={true}
-          className="grid-gap grid-row usa-fieldset
-			
-			 oec-date-input oec-date-input-single
-			"
+          className="grid-gap grid-row usa-fieldset oec-date-input oec-date-input-single"
           id="optional-DateRangeInput-start-date"
         >
           <legend
@@ -3657,7 +3552,7 @@ exports[`Storyshots DateRangeInput Optional 1`] = `
             </span>
           </legend>
           <div
-            className="grid-gap grid-row undefined"
+            className="grid-gap grid-row"
           >
             <div
               className="grid-row flex-row flex-align-end grid-gap position-relative"
@@ -3717,10 +3612,7 @@ exports[`Storyshots DateRangeInput Optional 1`] = `
         </div>
         <fieldset
           aria-required={true}
-          className="grid-gap grid-row usa-fieldset
-			
-			 oec-date-input oec-date-input-single
-			"
+          className="grid-gap grid-row usa-fieldset oec-date-input oec-date-input-single"
           id="optional-DateRangeInput-end-date"
         >
           <legend
@@ -3733,7 +3625,7 @@ exports[`Storyshots DateRangeInput Optional 1`] = `
             </span>
           </legend>
           <div
-            className="grid-gap grid-row undefined"
+            className="grid-gap grid-row"
           >
             <div
               className="grid-row flex-row flex-align-end grid-gap position-relative"
@@ -3802,10 +3694,7 @@ exports[`Storyshots DateRangeInput Success 1`] = `
     aria-describedby="range-input-success"
     aria-invalid={false}
     aria-required={true}
-    className="grid-gap grid-row usa-fieldset
-			 usa-fieldset--success
-			 oec-date-range-input
-			"
+    className="grid-gap grid-row usa-fieldset usa-fieldset--success oec-date-range-input"
     id="error-DateRangeInput-outer-fieldset"
   >
     <legend
@@ -3832,17 +3721,14 @@ exports[`Storyshots DateRangeInput Success 1`] = `
       You did good
     </span>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row"
     >
       <div
         className="display-flex flex-direction-row flex-align-end"
       >
         <fieldset
           aria-required={true}
-          className="grid-gap grid-row usa-fieldset
-			
-			 oec-date-input oec-date-input-single
-			"
+          className="grid-gap grid-row usa-fieldset oec-date-input oec-date-input-single"
           id="error-DateRangeInput-start-date"
         >
           <legend
@@ -3855,7 +3741,7 @@ exports[`Storyshots DateRangeInput Success 1`] = `
             </span>
           </legend>
           <div
-            className="grid-gap grid-row undefined"
+            className="grid-gap grid-row"
           >
             <div
               className="grid-row flex-row flex-align-end grid-gap position-relative"
@@ -3915,10 +3801,7 @@ exports[`Storyshots DateRangeInput Success 1`] = `
         </div>
         <fieldset
           aria-required={true}
-          className="grid-gap grid-row usa-fieldset
-			
-			 oec-date-input oec-date-input-single
-			"
+          className="grid-gap grid-row usa-fieldset oec-date-input oec-date-input-single"
           id="error-DateRangeInput-end-date"
         >
           <legend
@@ -3931,7 +3814,7 @@ exports[`Storyshots DateRangeInput Success 1`] = `
             </span>
           </legend>
           <div
-            className="grid-gap grid-row undefined"
+            className="grid-gap grid-row"
           >
             <div
               className="grid-row flex-row flex-align-end grid-gap position-relative"
@@ -4000,10 +3883,7 @@ exports[`Storyshots DateRangeInput Warning 1`] = `
     aria-describedby="range-input-warning"
     aria-invalid={false}
     aria-required={true}
-    className="grid-gap grid-row usa-fieldset
-			 usa-fieldset--warning
-			 oec-date-range-input
-			"
+    className="grid-gap grid-row usa-fieldset usa-fieldset--warning oec-date-range-input"
     id="error-DateRangeInput-outer-fieldset"
   >
     <legend
@@ -4043,17 +3923,14 @@ exports[`Storyshots DateRangeInput Warning 1`] = `
       Meh, fine
     </span>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row"
     >
       <div
         className="display-flex flex-direction-row flex-align-end"
       >
         <fieldset
           aria-required={true}
-          className="grid-gap grid-row usa-fieldset
-			
-			 oec-date-input oec-date-input-single
-			"
+          className="grid-gap grid-row usa-fieldset oec-date-input oec-date-input-single"
           id="error-DateRangeInput-start-date"
         >
           <legend
@@ -4066,7 +3943,7 @@ exports[`Storyshots DateRangeInput Warning 1`] = `
             </span>
           </legend>
           <div
-            className="grid-gap grid-row undefined"
+            className="grid-gap grid-row"
           >
             <div
               className="grid-row flex-row flex-align-end grid-gap position-relative"
@@ -4126,10 +4003,7 @@ exports[`Storyshots DateRangeInput Warning 1`] = `
         </div>
         <fieldset
           aria-required={true}
-          className="grid-gap grid-row usa-fieldset
-			
-			 oec-date-input oec-date-input-single
-			"
+          className="grid-gap grid-row usa-fieldset oec-date-input oec-date-input-single"
           id="error-DateRangeInput-end-date"
         >
           <legend
@@ -4142,7 +4016,7 @@ exports[`Storyshots DateRangeInput Warning 1`] = `
             </span>
           </legend>
           <div
-            className="grid-gap grid-row undefined"
+            className="grid-gap grid-row"
           >
             <div
               className="grid-row flex-row flex-align-end grid-gap position-relative"
@@ -4301,10 +4175,7 @@ exports[`Storyshots FieldSet Default 1`] = `
 >
   <fieldset
     aria-required={true}
-    className="grid-gap grid-row usa-fieldset
-			
-			 undefined
-			"
+    className="grid-gap grid-row usa-fieldset"
     id="default-fieldset"
   >
     <legend
@@ -4317,7 +4188,7 @@ exports[`Storyshots FieldSet Default 1`] = `
       </span>
     </legend>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row"
     >
       <p>
         I'm inside a field set!
@@ -4337,10 +4208,7 @@ exports[`Storyshots FieldSet Show legend 1`] = `
 >
   <fieldset
     aria-required={true}
-    className="grid-gap grid-row usa-fieldset
-			
-			 undefined
-			"
+    className="grid-gap grid-row usa-fieldset"
     id="show-legend-fieldset"
   >
     <legend
@@ -4353,7 +4221,7 @@ exports[`Storyshots FieldSet Show legend 1`] = `
       </span>
     </legend>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row"
     >
       <p>
         I'm inside a field set!
@@ -4375,10 +4243,7 @@ exports[`Storyshots FieldSet With error 1`] = `
     aria-describedby="fieldset-error"
     aria-invalid={true}
     aria-required={true}
-    className="grid-gap grid-row usa-fieldset
-			 usa-fieldset--error
-			 undefined
-			"
+    className="grid-gap grid-row usa-fieldset usa-fieldset--error"
     id="error-fieldset"
   >
     <legend
@@ -4400,7 +4265,7 @@ exports[`Storyshots FieldSet With error 1`] = `
       These fields will block your progress!
     </span>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row"
     >
       <p>
          Uh oh! 
@@ -4428,10 +4293,7 @@ exports[`Storyshots FieldSet With success 1`] = `
     aria-describedby="fieldset-success"
     aria-invalid={false}
     aria-required={true}
-    className="grid-gap grid-row usa-fieldset
-			 usa-fieldset--success
-			 undefined
-			"
+    className="grid-gap grid-row usa-fieldset usa-fieldset--success"
     id="success-fieldset"
   >
     <legend
@@ -4453,7 +4315,7 @@ exports[`Storyshots FieldSet With success 1`] = `
       These fields are filled out and validated yay!
     </span>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row"
     >
       <p>
          Wow! 
@@ -4481,10 +4343,7 @@ exports[`Storyshots FieldSet With warning 1`] = `
     aria-describedby="fieldset-warning"
     aria-invalid={false}
     aria-required={true}
-    className="grid-gap grid-row usa-fieldset
-			 usa-fieldset--warning
-			 undefined
-			"
+    className="grid-gap grid-row usa-fieldset usa-fieldset--warning"
     id="warning-fieldset"
   >
     <legend
@@ -4519,7 +4378,7 @@ exports[`Storyshots FieldSet With warning 1`] = `
       These fields need your attention!
     </span>
     <div
-      className="grid-gap grid-row undefined"
+      className="grid-gap grid-row"
     >
       <p>
          Oh no! 
@@ -5620,10 +5479,7 @@ exports[`Storyshots TextInput Error inside error Fieldset 1`] = `
       aria-describedby="text-input-error"
       aria-invalid={true}
       aria-required={true}
-      className="grid-gap grid-row usa-fieldset
-			 usa-fieldset--error
-			 display-inline-block
-			"
+      className="grid-gap grid-row usa-fieldset usa-fieldset--error display-inline-block"
       id="example-fieldset-error"
     >
       <legend
@@ -5645,7 +5501,7 @@ exports[`Storyshots TextInput Error inside error Fieldset 1`] = `
         Error!
       </span>
       <div
-        className="grid-gap grid-row undefined"
+        className="grid-gap grid-row"
       >
         <div
           className="mobile-lg:grid-col-4 display-inline-block"
@@ -5861,10 +5717,7 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
       aria-describedby="text-input-warning"
       aria-invalid={false}
       aria-required={true}
-      className="grid-gap grid-row usa-fieldset
-			 usa-fieldset--warning
-			 display-inline-block
-			"
+      className="grid-gap grid-row usa-fieldset usa-fieldset--warning display-inline-block"
       id="example-fieldset-warning"
     >
       <legend
@@ -5899,7 +5752,7 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
         Warning!
       </span>
       <div
-        className="grid-gap grid-row undefined"
+        className="grid-gap grid-row"
       >
         <div
           className="mobile-lg:grid-col-4 display-inline-block"

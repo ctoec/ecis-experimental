@@ -171,7 +171,7 @@ export default function ReportSubmitForm({
 			fundingSpaceId: timeSplit.fundingSpaceId,
 			reportingPeriodId,
 			fullTimeWeeksUsed: lesserTime === FundingTime.Full ? lesserWeeksUsed : greaterWeeksUsed,
-			partTimeWeeksUsed: lesserTime === FundingTime.Full ? greaterWeeksUsed : lesserWeeksUsed,
+			partTimeWeeksUsed: lesserTime === FundingTime.Part ? lesserWeeksUsed : greaterWeeksUsed,
 		} as FundingTimeSplitUtilization;
 	};
 
@@ -207,14 +207,14 @@ export default function ReportSubmitForm({
 						? existingUtilizationForSpace.fullTimeWeeksUsed
 						: existingUtilizationForSpace.partTimeWeeksUsed
 				}`}
-				onChange={updateFormData(_ => {
-					const lesserWeeksUsed = parseInt(_.replace(/[^0-9.]/g, ''), 10) || 0;
+				onChange={(event) => {
+					const lesserWeeksUsed = parseInt(event.target.value.replace(/[^0-9.]/g, ''), 10) || 0;
 
 					updateTimeSplitUtilizations(_uts => [
 						..._uts.filter(ut => ut.fundingSpaceId !== fundingSpace.id),
 						getSplitUtilization(timeSplit, lesserWeeksUsed, reportingPeriodWeeks, report.reportingPeriod.id),
 					]);
-				})}
+				}}
 				disabled={!!report.submittedAt}
 				small
 				afterContent={`of ${reportingPeriodWeeks} weeks in ${getReportingPeriodMonth(

@@ -7,10 +7,7 @@ Object {
     <div>
       <fieldset
         aria-required="true"
-        class="grid-gap grid-row usa-fieldset
-			
-			 undefined
-			"
+        class="grid-gap grid-row usa-fieldset"
         id="id-fieldset"
       >
         <legend
@@ -70,10 +67,7 @@ Object {
   "container": <div>
     <fieldset
       aria-required="true"
-      class="grid-gap grid-row usa-fieldset
-			
-			 undefined
-			"
+      class="grid-gap grid-row usa-fieldset"
       id="id-fieldset"
     >
       <legend
@@ -190,10 +184,7 @@ Object {
     <div>
       <fieldset
         aria-required="true"
-        class="grid-gap grid-row usa-fieldset
-			
-			 undefined
-			"
+        class="grid-gap grid-row usa-fieldset"
         id="id-fieldset"
       >
         <legend
@@ -253,10 +244,7 @@ Object {
   "container": <div>
     <fieldset
       aria-required="true"
-      class="grid-gap grid-row usa-fieldset
-			
-			 undefined
-			"
+      class="grid-gap grid-row usa-fieldset"
       id="id-fieldset"
     >
       <legend
@@ -373,10 +361,7 @@ Object {
     <div>
       <fieldset
         aria-required="true"
-        class="grid-gap grid-row usa-fieldset
-			
-			 undefined
-			"
+        class="grid-gap grid-row usa-fieldset"
         id="id-fieldset"
       >
         <legend
@@ -444,10 +429,7 @@ Object {
   "container": <div>
     <fieldset
       aria-required="true"
-      class="grid-gap grid-row usa-fieldset
-			
-			 undefined
-			"
+      class="grid-gap grid-row usa-fieldset"
       id="id-fieldset"
     >
       <legend
@@ -852,10 +834,7 @@ Object {
     <div>
       <fieldset
         aria-required="true"
-        class="grid-gap grid-row usa-fieldset
-			
-			 undefined
-			"
+        class="grid-gap grid-row usa-fieldset"
         id="id-fieldset"
       >
         <legend
@@ -923,10 +902,7 @@ Object {
   "container": <div>
     <fieldset
       aria-required="true"
-      class="grid-gap grid-row usa-fieldset
-			
-			 undefined
-			"
+      class="grid-gap grid-row usa-fieldset"
       id="id-fieldset"
     >
       <legend

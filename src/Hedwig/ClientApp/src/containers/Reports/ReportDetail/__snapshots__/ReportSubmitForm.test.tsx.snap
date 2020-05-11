@@ -29,10 +29,7 @@ exports[`ReportSubmitForm matches snapshot 1`] = `
   </div>
   <fieldset
     aria-required="true"
-    class="grid-gap grid-row usa-fieldset
-			
-			 usa-form margin-bottom-5
-			"
+    class="grid-gap grid-row usa-fieldset usa-form margin-bottom-5"
     id="time-split-utilizations"
   >
     <legend
@@ -45,7 +42,7 @@ exports[`ReportSubmitForm matches snapshot 1`] = `
       </span>
     </legend>
     <div
-      class="grid-gap grid-row undefined"
+      class="grid-gap grid-row"
     >
       <div
         class=" usa-form-group"
@@ -614,10 +611,7 @@ exports[`ReportSubmitForm matches snapshot 1`] = `
     </h2>
     <fieldset
       aria-required="true"
-      class="grid-gap grid-row usa-fieldset
-			
-			 undefined
-			"
+      class="grid-gap grid-row usa-fieldset"
       id="other-revenue"
     >
       <legend
@@ -630,7 +624,7 @@ exports[`ReportSubmitForm matches snapshot 1`] = `
         </span>
       </legend>
       <div
-        class="grid-gap grid-row undefined"
+        class="grid-gap grid-row"
       >
         <div
           class="mobile-lg:grid-col-12"
