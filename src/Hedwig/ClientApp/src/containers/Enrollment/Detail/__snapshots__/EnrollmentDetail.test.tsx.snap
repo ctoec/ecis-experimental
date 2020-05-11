@@ -76,7 +76,7 @@ exports[`EnrollmentDetail matches snapshot 1`] = `
         class="oec-enrollment-details-section__actions"
       >
         <a
-          class=""
+          class="usa-link"
           href="/roster/sites/1/enrollments/1/update/child-information"
         >
           Update
@@ -109,7 +109,7 @@ exports[`EnrollmentDetail matches snapshot 1`] = `
         class="oec-enrollment-details-section__actions"
       >
         <a
-          class=""
+          class="usa-link"
           href="/roster/sites/1/enrollments/1/update/family-information"
         >
           Update
@@ -142,7 +142,7 @@ exports[`EnrollmentDetail matches snapshot 1`] = `
         class="oec-enrollment-details-section__actions"
       >
         <a
-          class=""
+          class="usa-link"
           href="/roster/sites/1/enrollments/1/update/family-income"
         >
           Update
@@ -187,7 +187,7 @@ exports[`EnrollmentDetail matches snapshot 1`] = `
         class="oec-enrollment-details-section__actions"
       >
         <a
-          class=""
+          class="usa-link"
           href="/roster/sites/1/enrollments/1/update/enrollment-funding"
         >
           Update

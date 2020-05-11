@@ -2,10 +2,11 @@ import React from 'react';
 import { ReactComponent as Error } from '../../../node_modules/uswds/dist/img/alerts/error.svg';
 import { ReactComponent as Info } from '../../../node_modules/uswds/dist/img/alerts/info.svg';
 import { ReactComponent as Success } from '../../../node_modules/uswds/dist/img/alerts/success.svg';
+import { ReactComponent as AngleArrowDown } from '../../assets/images/angleArrowDown.svg';
 import { ReactComponent as ArrowDown } from '../../../node_modules/uswds/dist/img/arrow-down.svg';
 import cx from 'classnames';
 
-type Icon = 'attentionNeeded' | 'complete' | 'incomplete' | 'arrowDown';
+type Icon = 'attentionNeeded' | 'complete' | 'incomplete' | 'angleArrowDown' | 'arrowDown';
 
 export type InlineIconProps = {
 	icon: Icon;
@@ -39,6 +40,10 @@ export function InlineIcon({
 		case 'arrowDown':
 			text = 'select dropdown';
 			iconComponent = <ArrowDown {...svgProps} />;
+			break;
+		case 'angleArrowDown':
+			text = 'select dropdown';
+			iconComponent = <AngleArrowDown {...svgProps} />;
 			break;
 		default:
 			text = '';

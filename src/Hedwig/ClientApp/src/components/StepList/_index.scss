@@ -168,11 +168,11 @@ $future-step-color: color('base-dark') !default;
 
 .oec-enrollment-details-section__actions {
 	@include u-margin-bottom(2);
-	@include u-line-height('ui', 3);
+	@include u-line-height('ui', 4);
+	align-self: first baseline;
 	margin-left: auto;
 
 	@include at-media('tablet') {
-		@include u-margin-top(3);
 		font-size: size('ui', 5);
 		text-align: right;
 	}

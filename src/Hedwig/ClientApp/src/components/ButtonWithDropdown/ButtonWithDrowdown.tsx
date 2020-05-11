@@ -21,10 +21,10 @@ type ButtonOptionProps = {
 
 type ButtonWithDrowdownProps = ButtonProps & {
 	id: string;
-	onChange?: (_: React.ChangeEvent<HTMLSelectElement>) => any;
-	options: ButtonOptionProps[];
 	className?: string;
-	dropdownProps?: { className: string } & { svgProps: React.SVGProps<SVGSVGElement> };
+	onChange?: (_: React.ChangeEvent<HTMLSelectElement>) => any;
+	dropdownElement: JSX.Element;
+	options: ButtonOptionProps[];
 	optionsProps?: { className: string };
 };
 
@@ -32,9 +32,9 @@ const ButtonWithDrowdown: React.FC<ButtonWithDrowdownProps> = ({
 	id,
 	appearance,
 	text,
+	dropdownElement,
 	options,
 	className,
-	dropdownProps,
 	optionsProps,
 }) => {
 	const { ref, isComponentVisible, setIsComponentVisible } = useHideOnLostFocus<HTMLDivElement>();
@@ -49,14 +49,11 @@ const ButtonWithDrowdown: React.FC<ButtonWithDrowdownProps> = ({
 				className={withDropdown}
 				appearance={appearance}
 				text={
-					<span>
-						{text}&nbsp;
-						<InlineIcon
-							icon="arrowDown"
-							className={dropdownProps && dropdownProps.className}
-							svgProps={dropdownProps && dropdownProps.svgProps}
-						/>
-					</span>
+					<>
+						{text}
+						<span>&nbsp;</span>
+						{dropdownElement}
+					</>
 				}
 				onClick={() => setIsComponentVisible(hide => !hide)}
 			/>

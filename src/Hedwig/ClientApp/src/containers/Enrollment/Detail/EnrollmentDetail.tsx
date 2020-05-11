@@ -21,6 +21,7 @@ import CommonContainer from '../../CommonContainer';
 import { SectionProps } from '../enrollmentTypes';
 import { ProcessList } from '../../../components/ProcessList/ProcessList';
 import { DeepNonUndefineable } from '../../../utils/types';
+import cx from 'classnames';
 
 type EnrollmentDetailParams = {
 	match: {
@@ -111,7 +112,9 @@ export default function EnrollmentDetail({
 								)}
 								<Link
 									to={`/roster/sites/${siteId}/enrollments/${enrollment.id}/update/${section.key}`}
-									className={familyIncomeForFosterChild ? 'display-none important' : ''}
+									className={cx('usa-link', {
+										'display-none important': familyIncomeForFosterChild,
+									})}
 								>
 									Update<span className="usa-sr-only"> {section.name.toLowerCase()}</span>
 								</Link>

@@ -62,7 +62,7 @@ export default function Step<T>({
 								{labelForStatus(status)}
 							</div>
 							{editPath && (
-								<Link to={editPath}>
+								<Link to={editPath} className="usa-link">
 									{/* https://silktide.com/blog/2013/i-thought-title-text-improved-accessibility-i-was-wrong */}
 									Edit<span className="usa-sr-only"> {name.toLowerCase()}</span>
 								</Link>

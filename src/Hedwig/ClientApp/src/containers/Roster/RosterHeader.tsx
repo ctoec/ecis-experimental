@@ -1,5 +1,12 @@
 import React from 'react';
-import { Button, ChoiceList, DateInput, DateRangeInput, DateRange } from '../../components';
+import {
+	Button,
+	ChoiceList,
+	DateInput,
+	DateRangeInput,
+	DateRange,
+	InlineIcon,
+} from '../../components';
 import getDefaultDateRange from '../../utils/getDefaultDateRange';
 import { Site, Organization } from '../../generated';
 import { rosterEnrollmentsFormatter } from '../../utils/stringFormatters';
@@ -43,28 +50,33 @@ const RosterHeader: React.FC<RosterHeaderProps> = ({
 
 		return (
 			<>
-				<div className="margin-bottom-2 grid-row flex-first-baseline flex-space-between">
+				<div className="grid-row flex-first-baseline flex-space-between">
 					<h1 className="tablet:grid-col-auto">{organization.name}</h1>
 					<div className="tablet:grid-col-auto">
 						<ButtonWithDrowdown
 							id="enroll-select"
 							className="margin-right-0"
 							text="Enroll child"
+							dropdownElement={
+								<InlineIcon
+									icon="arrowDown"
+									className="margin-left-1"
+									svgProps={{
+										fill: 'currentColor',
+									}}
+								/>
+							}
 							options={sites.map(s => ({
 								text: s.name || '',
 								value: `/roster/sites/${s.id}/enroll`,
 							}))}
-							dropdownProps={{
-								className: 'margin-left-1',
-								svgProps: { fill: 'currentColor' },
-							}}
 							optionsProps={{
 								className: 'position-absolute right-1',
 							}}
 						/>
 					</div>
 				</div>
-				<div className="margin-bottom-4 grid-row">
+				<div className="margin-bottom-4 grid-row font-sans-lg">
 					<div className="tablet:grid-col-fill">
 						<div className="intro display-flex flex-row flex-wrap flex-justify-start">
 							<span className="display-flex flex-first-baseline">
@@ -72,11 +84,23 @@ const RosterHeader: React.FC<RosterHeaderProps> = ({
 								<ButtonWithDrowdown
 									id="site-select"
 									appearance="unstyled"
-									text={` ${sites.length} sites`}
+									className="line-height--small"
+									text={<span className="text-bold font-sans-lg"> {sites.length} sites</span>}
+									dropdownElement={
+										<InlineIcon
+											icon="angleArrowDown"
+											svgProps={{
+												fill: 'currentColor',
+											}}
+										/>
+									}
 									options={sites.map(s => ({
 										text: s.name || '',
 										value: `/roster/sites/${s.id}`,
 									}))}
+									optionsProps={{
+										className: 'font-sans-sm',
+									}}
 								/>
 							</span>
 						</div>
