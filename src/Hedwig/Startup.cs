@@ -98,10 +98,10 @@ namespace Hedwig
 			{
 				spa.Options.SourcePath = "ClientApp";
 
-				// If we are not production, that means we aren't serving SPA files
+				// If we are development, that means we aren't serving SPA files
 				// as static, compiled resources. So we need to forward requests a
 				// development server.
-				if (!env.IsProduction())
+				if (env.IsDevelopment())
 				{
 					var isDocker = Environment.GetEnvironmentVariable("DOCKER_DEVELOPMENT");
 					// If we are using docker (compose), the client container will serve
