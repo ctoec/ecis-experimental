@@ -8,9 +8,9 @@ import {
 import { DeepNonUndefineable } from '../../../../utils/types';
 import { Enrollment, FamilyDetermination, Family } from '../../../../generated';
 import idx from 'idx';
-import { FieldSet, Button, Card, InlineIcon } from '../../../../components';
+import { FieldSet, Button, Card, InlineIcon, TextInputProps, TextInput } from '../../../../components';
 import currencyFormatter from '../../../../utils/currencyFormatter';
-import Form from '../../../../components/Form/Form';
+import Form from '../../../../components/Form_New/Form';
 import FormInset from '../../../../components/Form/FormInset';
 import {
 	householdSizeField,
@@ -30,6 +30,7 @@ import moment from 'moment';
 import UserContext from '../../../../contexts/User/UserContext';
 import { createEmptyFamily, getIdForUser } from '../../../../utils/models';
 import { REQUIRED_FOR_OEC_REPORTING } from '../../../../utils/validations/messageStrings';
+import FormField from '../../../../components/Form_New/FormField';
 
 const UpdateForm: React.FC<SectionProps> = ({
 	enrollment,
@@ -223,45 +224,93 @@ const UpdateForm: React.FC<SectionProps> = ({
 	 * @param submitText The text of the submit button in the form
 	 * @param isEdit Flag for whether this is a new determination or an update
 	 */
-	const form = (sortedIndex: number, index: number, submitText: string, isEdit: boolean) => (
-		<Form<Enrollment>
-			noValidate
-			autoComplete="off"
-			className="FamilyIncomeForm"
-			data={_enrollment}
-			onSave={enrollment => {
-				updateEnrollment(enrollment as DeepNonUndefineable<Enrollment>);
-			}}
-			additionalInformation={{
-				initialLoad,
-			}}
-		>
-			<p className="text-bold font-sans-lg margin-top-2">
-				{isEdit ? 'Edit family income determination' : 'Redetermine family income'}
-			</p>
-			{formInset(sortedIndex, index, isEdit)}
-			<div className="display-flex">
-				<div className="usa-form">
-					{isEdit ? (
-						<ExpandCard>
-							<Button text="Cancel" appearance="outline" />
-						</ExpandCard>
-					) : (
-						<Button
-							text="Cancel"
-							appearance="outline"
-							onClick={() => setAddNewDetermination(false)}
-						/>
-					)}
-					<FormSubmitButton text={loading ? 'Saving...' : submitText} disabled={loading} />
-				</div>
-			</div>
-		</Form>
-	);
+	// const form = (sortedIndex: number, index: number, submitText: string, isEdit: boolean) => (
+	// 	<Form<Enrollment>
+	// 		noValidate
+	// 		autoComplete="off"
+	// 		className="FamilyIncomeForm"
+	// 		data={_enrollment}
+	// 		onSave={enrollment => {
+	// 			updateEnrollment(enrollment as DeepNonUndefineable<Enrollment>);
+	// 		}}
+	// 		additionalInformation={{
+	// 			initialLoad,
+	// 		}}
+	// 	>
+	// 		<p className="text-bold font-sans-lg margin-top-2">
+	// 			{isEdit ? 'Edit family income determination' : 'Redetermine family income'}
+	// 		</p>
+	// 		{formInset(sortedIndex, index, isEdit)}
+	// 		<div className="display-flex">
+	// 			<div className="usa-form">
+	// 				{isEdit ? (
+	// 					<ExpandCard>
+	// 						<Button text="Cancel" appearance="outline" />
+	// 					</ExpandCard>
+	// 				) : (
+	// 					<Button
+	// 						text="Cancel"
+	// 						appearance="outline"
+	// 						onClick={() => setAddNewDetermination(false)}
+	// 					/>
+	// 				)}
+	// 				<FormSubmitButton text={loading ? 'Saving...' : submitText} disabled={loading} />
+	// 			</div>
+	// 		</div>
+	// 	</Form>
+	// );
 
 	return (
 		<>
-			<h2 className="margin-bottom-1">Family income determination</h2>
+			<Form<Enrollment>
+				className="Sommething"
+				data={enrollment}
+				onSubmit={enrollment => console.log(enrollment)}
+			>
+				<FormField<Enrollment, TextInputProps, number, FamilyDetermination>
+					type='complex'
+					getValueForDisplay={data => {
+						// TODO: Do we need to guard on value
+						return data.at('child').at('family').at('determinations')
+						.find((det: FamilyDetermination) => det.id === 0).at('numberOfPeople');
+					}}
+					getValueForUpdate={data => {
+						return data.at('child').at('family').at('determinations')
+						.find((det: FamilyDetermination) => det.id === 0)
+					}}
+					preprocessForUpdate={(e, enrollment) => ({
+						id: 0,
+						...(enrollment.at('child').at('family').at('determinations').find((det: FamilyDetermination) => det.id === 0).value),
+						numberOfPeople: parseInt(e.target.value, 10)
+					})}
+					inputComponent={TextInput}
+					props={{
+						id: `numberOfPeople-new`,
+						label: 'HIYA',
+					}}
+				/>
+				{
+					(determinations).map(s => (
+						<FormField<Enrollment, TextInputProps, number>
+							type='simple'
+							getValue={data => 
+								data.at('child').at('family').at('determinations').find((_: FamilyDetermination) => _.id === s.id).at('numberOfPeople')
+							}
+							preprocessForUpdate={e => parseInt(e.target.value, 10)}
+							inputComponent={TextInput}
+							props={{
+								id: `numberOfPeople-${s.id}`,
+								label: 'HIYA',
+							}}
+						/>
+					))
+				}
+				<FormSubmitButton
+					text="Save"
+				/>
+				
+			</Form>
+			{/* <h2 className="margin-bottom-1">Family income determination</h2>
 			{addNewDetermination && (
 				<Card className="width-max-content important">
 					{form(determinations.length, determinations.length, 'Redetermine', false)}
@@ -313,7 +362,7 @@ const UpdateForm: React.FC<SectionProps> = ({
 						))}
 					</div>
 				</>
-			)}
+			)} */}
 		</>
 	);
 };

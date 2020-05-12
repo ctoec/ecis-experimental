@@ -43,6 +43,7 @@ import Form from '../../../components/Form_New/Form';
 import FormField from '../../../components/Form_New/FormField';
 import FormSubmitButton from '../../../components/Form_New/FormSubmitButton';
 import idx from 'idx';
+import { FormFieldSet } from '../../../components/Form_New/FormFieldSet';
 
 const ChildInfo: Section = {
 	key: 'child-information',
@@ -190,6 +191,10 @@ const ChildInfo: Section = {
 			}
 		}, [saveData, saveError]);
 
+		const [showC4kCertificate, updateShowC4kCertificate] = useState(idx(
+			enrollment, _ => _.child.c4KCertificates.length > 0
+		) || false);
+
 		return (
 			<Form<Enrollment | null>
 				data={enrollment}
@@ -201,19 +206,24 @@ const ChildInfo: Section = {
 				noValidate
 				autoComplete="off"
 			>
-				<FormField<Enrollment, TextInputProps, string>
-					type='simple'
-					defaultValue=''
-					preprocessForUpdate={e => e.target.value}
-					getValue={data => data.at('child').at('firstName')}
-					inputComponent={TextInput}
-					props={{
-						id: 'firstName',
-						label: 'First Name',
-					}}
-				/>
-
-				<FormField<Enrollment, ChoiceListProps, string[], C4KCertificate[]>
+				<FormFieldSet
+					id="test"
+					legend="Hi"
+					status={_ => {console.log(_, "IN SET OF THE FIELD"); return undefined;}}
+				>
+					<FormField<Enrollment, TextInputProps, string>
+						type='simple'
+						defaultValue=''
+						preprocessForUpdate={e => e.target.value}
+						getValue={data => data.at('child').at('firstName')}
+						inputComponent={TextInput}
+						props={{
+							id: 'firstName',
+							label: 'First Name',
+						}}
+					/>
+				</FormFieldSet>
+				<FormField<Enrollment, ChoiceListProps, string[], C4KCertificate[] | undefined>
 					type='complex'
 					getValueForDisplay={enrollment => 
 						!!enrollment.at('child').at('c4KCertificates').value
@@ -221,11 +231,18 @@ const ChildInfo: Section = {
 						: ['']
 					}
 					getValueForUpdate={enrollment => enrollment.at('child').at('c4KCertificates')}
-					preprocessForUpdate={(event, enrollment) => (
-						(event.target as HTMLInputElement).checked 
-						? enrollment.at('child').at('c4KCertificates').value
-						: [] as C4KCertificate[]
-					)}
+					preprocessForUpdate={(event, enrollment) => {
+						const isChecked = (event.target as HTMLInputElement).checked;
+						updateShowC4kCertificate(isChecked);
+						const defaultCertValue = {
+							childId: enrollment.at('childId').value
+						} as C4KCertificate;
+						return (
+							isChecked
+							? enrollment.at('child').at('c4KCertificates').value || [defaultCertValue]
+							: undefined
+						);
+					}}
 					inputComponent={ChoiceList}
 					props={{
 						id: 'receives-c4k',
@@ -240,18 +257,20 @@ const ChildInfo: Section = {
 					}}
 				/>
 
-				<FormField<Enrollment, DateInputProps, Date>
-					type='simple'
-					preprocessForUpdate={e => (e as any).toDate()}
-					getValue={data => 
-						data.at('child').at('c4KCertificates').find((cert: C4KCertificate) => !cert.endDate).at('startDate')
-					}
-					inputComponent={DateInput} 
-					props={{
-						id:'c4kcertificate-current',
-						label: 'C4K Certificate'
-					}}
-				/>
+				{showC4kCertificate && 
+					<FormField<Enrollment, DateInputProps, Date>
+						type='simple'
+						preprocessForUpdate={e => (e as any).toDate()}
+						getValue={data => 
+							data.at('child').at('c4KCertificates').find((cert: C4KCertificate) => !cert.endDate).at('startDate')
+						}
+						inputComponent={DateInput} 
+						props={{
+							id:'c4kcertificate-current',
+							label: 'C4K Certificate'
+						}}
+					/>
+				}
 
 				<div className="usa-form">
 					<FormSubmitButton text={attemptingSave ? 'Saving...' : 'Save'} disabled={attemptingSave} />

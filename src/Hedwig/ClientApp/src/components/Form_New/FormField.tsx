@@ -3,14 +3,14 @@ import FormContext, { useGenericContext } from './FormContext';
 import produce from 'immer';
 import set from 'lodash/set';
 
-type FormFieldPropsSimpleUpdate<TData, TFieldData, TComponentProps> = {
+type FormFieldPropsSimpleUpdate<TData, TFieldData> = {
 	type: 'simple';
 	// Maybe revisit return type
 	getValue: (_: PathAccessor<TData>) => PathAccessor<TFieldData>;
 	preprocessForUpdate: (event: React.ChangeEvent<any>, data: PathAccessor<TData>) => TFieldData;
 };
 
-type FormFieldPropsComplexUpdate<TData, TFieldData, TUpdateData, TComponentProps> = {
+type FormFieldPropsComplexUpdate<TData, TFieldData, TUpdateData> = {
 	type: 'complex';
 	// Maybe revisit return type
 	getValueForDisplay: (_: PathAccessor<TData>) => PathAccessor<TFieldData> | TFieldData;
@@ -19,7 +19,7 @@ type FormFieldPropsComplexUpdate<TData, TFieldData, TUpdateData, TComponentProps
 };
 
 type FormFieldProps<TData, TComponentProps, TFieldData, TUpdateData = never> = 
-	(FormFieldPropsSimpleUpdate<TData, TFieldData, TComponentProps> | FormFieldPropsComplexUpdate<TData, TFieldData, TUpdateData, TComponentProps>)
+	(FormFieldPropsSimpleUpdate<TData, TFieldData> | FormFieldPropsComplexUpdate<TData, TFieldData, TUpdateData>)
 	& {
 		defaultValue?: TFieldData;
 		inputComponent: React.FC<TComponentProps>;
@@ -88,7 +88,7 @@ class PathAccessor<T> {
 			idx = idx < 0 ? this.value.length : idx;
 
 			const newPath = this.path === '' ? '' + idx : `${this.path}.${idx}`;
-			let subObj = this.value[idx];
+			const subObj = this.value[idx];
 	
 			return new PathAccessor((subObj as unknown) as NonNullable<S[K]>, newPath);
 		}
@@ -124,7 +124,7 @@ const FormField = <TData extends object, TComponentProps, TFieldData, TUpdateDat
 	const somethingData = new PathAccessor(data);
 	const displayAccessor = getValueForDisplay(somethingData);
 	const displayValue = (
-		(displayAccessor as PathAccessor<TFieldData>).value 
+		(displayAccessor as object).hasOwnProperty('value')
 		? (displayAccessor as PathAccessor<TFieldData>).value
 		: displayAccessor
 	) as TFieldData;
