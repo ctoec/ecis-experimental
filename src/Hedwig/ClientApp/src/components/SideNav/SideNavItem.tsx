@@ -12,7 +12,7 @@ export type SideNavItemProps = {
 	description: string;
 	active?: boolean;
 	icon?: Icon;
-	onClick?: () => {};
+	onClick?: () => any;
 };
 
 export const SideNavItem = ({

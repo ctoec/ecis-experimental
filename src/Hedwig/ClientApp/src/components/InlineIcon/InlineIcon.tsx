@@ -6,7 +6,7 @@ import { ReactComponent as AngleArrowDown } from '../../assets/images/angleArrow
 import { ReactComponent as ArrowDown } from '../../../node_modules/uswds/dist/img/arrow-down.svg';
 import cx from 'classnames';
 
-export type Icon = 'attentionNeeded' | 'complete' | 'incomplete' | 'arrowDown';
+export type Icon = 'attentionNeeded' | 'complete' | 'incomplete' | 'arrowDown' | 'angleArrowDown';
 
 export type InlineIconProps = {
 	icon: Icon;
