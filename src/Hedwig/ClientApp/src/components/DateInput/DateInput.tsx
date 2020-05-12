@@ -12,7 +12,7 @@ export type DateInputProps = {
 	onChange: (newDate: InputField<Moment | null>) => any | void;
 	id: string;
 	label: string;
-	date?: Moment | null;
+	defaultValue?: Date | null;
 	disabled?: boolean;
 	optional?: boolean;
 	status?: FormStatusProps;
@@ -26,7 +26,7 @@ export type DateInputProps = {
 const momentFormat = 'MM/DD/YYYY';
 
 export const DateInput: React.FC<DateInputProps> = ({
-	date = null,
+	defaultValue = null,
 	onChange: inputOnChange,
 	id,
 	label,
@@ -39,11 +39,11 @@ export const DateInput: React.FC<DateInputProps> = ({
 	forceBlur = false,
 }) => {
 	const [calendarOpen, setCalendarOpen] = useState<boolean>(false);
-	const [currentDate, setCurrentDate] = useState(date);
+	const [currentDate, setCurrentDate] = useState(defaultValue ? moment(defaultValue) : null);
 	const [stringDate, setStringDate] = useState<string | undefined>(
 		currentDate ? currentDate.format(momentFormat) : undefined
 	);
-	const [dateIsInvalid, setDateIsInvalid] = useState();
+	const [dateIsInvalid, setDateIsInvalid] = useState(false);
 
 	useEffect(() => {
 		if (forceBlur) {

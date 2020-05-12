@@ -21,7 +21,7 @@ type FormFieldProps<TData, TComponentProps, TFieldData, TUpdateData = never> =
 	& {
 		defaultValue?: TFieldData;
 		inputComponent: React.FC<TComponentProps>;
-		preprocessForDisplay?: (_: TFieldData | undefined) => JSX.Element | string | undefined;
+		preprocessForDisplay?: (_: TFieldData | undefined) => TFieldData | JSX.Element | string | undefined;
 		preprocessForUpdate: (event: React.ChangeEvent<any>) => TFieldData;
 	}
 	// TODO: Make this props a first order citizen
@@ -70,6 +70,29 @@ class PathAccessor<T> {
 		let subObj = this.value[field];
 
 		return new PathAccessor((subObj as unknown) as NonNullable<T[K]>, newPath);
+	}
+
+	// todo ensure T is array
+	find<S extends any[], K extends keyof S>(func: (_:S[number]) => boolean): PathAccessor<NonNullable<S[K]>>
+	{
+		// Instantiate the array if it does not exist
+		if(isNonNullable(this.value)) {
+			this.value = ([] as unknown) as T;
+		}
+
+		// because this.value is type T  we still need this check (only type S is known array)
+		if(Array.isArray(this.value)) {
+			let idx = this.value.findIndex(func);
+			// Add new element to end of array if item does not exist
+			idx = idx < 0 ? this.value.length : idx;
+
+			const newPath = this.path === '' ? '' + idx : `${this.path}.${idx}`;
+			let subObj = this.value[idx];
+	
+			return new PathAccessor((subObj as unknown) as NonNullable<S[K]>, newPath);
+		}
+
+		throw new Error("HOW DAREYOU!");
 	}
 }
 

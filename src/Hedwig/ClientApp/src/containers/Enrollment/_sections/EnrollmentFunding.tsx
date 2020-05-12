@@ -563,7 +563,7 @@ const EnrollmentFunding: Section = {
 					<DateInput
 						name="entry"
 						onChange={updateFormData(newDate => (newDate ? newDate.toDate() : null))}
-						date={entry ? moment(entry) : null}
+						defaultValue={entry || null}
 						label="Start date"
 						id="enrollment-start-date"
 						status={initialLoadErrorGuard(
@@ -762,7 +762,7 @@ const EnrollmentFunding: Section = {
 										startDate: newDate ? newDate.toDate() : null,
 									})
 								}
-								date={c4kCertificateStartDate ? moment(c4kCertificateStartDate) : null}
+								defaultValue={c4kCertificateStartDate || null}
 								label="Certificate start date"
 								id="c4k-certificate-start-date"
 								status={initialLoadErrorGuard(

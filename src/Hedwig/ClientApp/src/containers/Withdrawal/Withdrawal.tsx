@@ -257,7 +257,7 @@ export default function Withdrawal({
 						id="enrollment-end-date"
 						name="exit"
 						onChange={updateFormData(newDate => newDate.toDate())}
-						date={enrollmentEndDate ? moment(enrollmentEndDate) : undefined}
+						defaultValue={enrollmentEndDate ? moment(enrollmentEndDate) : undefined}
 						status={displayErrorOrWarning(error, {
 							serverErrorOptions: {
 								hasAlertedOnError,

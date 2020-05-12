@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect, useReducer } from 'react';
 import { Section } from '../enrollmentTypes';
 import moment from 'moment';
-import { Button, TextInput, DateInput, ChoiceList, FieldSet, TextInputProps } from '../../../components';
+import { Button, TextInput, DateInput, ChoiceList, FieldSet, TextInputProps, DateInputProps } from '../../../components';
 import { nameFormatter } from '../../../utils/stringFormatters';
 import dateFormatter from '../../../utils/dateFormatter';
 import {
@@ -9,6 +9,7 @@ import {
 	Gender,
 	Enrollment,
 	HedwigApi,
+	C4KCertificate,
 } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
 import { validatePermissions, getIdForUser, emptyEnrollment } from '../../../utils/models';
@@ -40,6 +41,7 @@ import {
 } from '../../../utils/validations/messageStrings';
 import Form from '../../../components/Form_New/Form';
 import FormField from '../../../components/Form_New/FormField';
+import FormSubmitButton from '../../../components/Form_New/FormSubmitButton';
 
 const ChildInfo: Section = {
 	key: 'child-information',
@@ -187,6 +189,7 @@ const ChildInfo: Section = {
 			}
 		}, [saveData, saveError]);
 
+
 		return (
 			<Form<Enrollment | null>
 				data={enrollment}
@@ -209,6 +212,23 @@ const ChildInfo: Section = {
 						label: 'First Name',
 					}}
 				/>
+
+				<FormField<Enrollment, DateInputProps, Date>
+					type='simple'
+					preprocessForUpdate={e => (e as any).toDate()}
+					getValue={data => 
+						data.at('child').at('c4KCertificates').find((cert: C4KCertificate) => !cert.endDate).at('startDate')
+					}
+					inputComponent={DateInput} 
+					props={{
+						id:'c4kcertificate-current',
+						label: 'C4K Certificate'
+					}}
+				/>
+
+				<div className="usa-form">
+					<FormSubmitButton text={attemptingSave ? 'Saving...' : 'Save'} disabled={attemptingSave} />
+				</div>
 			</Form>
 			// <form className="ChildInfoForm usa-form" noValidate autoComplete="off">
 			// 	<div className="grid-row grid-gap">

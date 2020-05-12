@@ -269,7 +269,7 @@ const ChildInfo: Section = {
 				<DateInput
 					name="child.birthdate"
 					onChange={updateFormData(newBirthdate => newBirthdate.toDate())}
-					date={birthdate ? moment(birthdate) : null}
+					defaultValue={birthdate || null}
 					label="Birth date"
 					id="birthdate-picker"
 					hideLabel

@@ -41,7 +41,7 @@ export const DateRangeInput: React.FC<DateRangeInputProps> = ({
 			<div className="display-flex flex-direction-row flex-align-end">
 				<DateInput
 					hideHint
-					date={dateRange.startDate}
+					defaultValue={dateRange.startDate}
 					onChange={newStartDate =>
 						onChange({ startDate: newStartDate, endDate: dateRange.endDate })
 					}
@@ -53,7 +53,7 @@ export const DateRangeInput: React.FC<DateRangeInputProps> = ({
 				</div>
 				<DateInput
 					hideHint
-					date={dateRange.endDate}
+					defaultValue={dateRange.endDate}
 					onChange={newEndDate => onChange({ startDate: dateRange.startDate, endDate: newEndDate })}
 					id={`${id}-end-date`}
 					label="End date"
