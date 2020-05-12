@@ -51,7 +51,7 @@ storiesOf('ChoiceList', module)
 				options={options}
 				id="storybook-radio"
 				legend="Radio items"
-				selected={['one']}
+				defaultValue={['one']}
 			/>
 		);
 	})

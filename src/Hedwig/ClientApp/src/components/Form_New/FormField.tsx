@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import FormContext from './FormContext';
+import FormContext, { useGenericContext } from './FormContext';
 import produce from 'immer';
 import set from 'lodash/set';
 
@@ -7,13 +7,15 @@ type FormFieldPropsSimpleUpdate<TData, TFieldData, TComponentProps> = {
 	type: 'simple';
 	// Maybe revisit return type
 	getValue: (_: PathAccessor<TData>) => PathAccessor<TFieldData>;
+	preprocessForUpdate: (event: React.ChangeEvent<any>, data: PathAccessor<TData>) => TFieldData;
 };
 
 type FormFieldPropsComplexUpdate<TData, TFieldData, TUpdateData, TComponentProps> = {
 	type: 'complex';
 	// Maybe revisit return type
-	getValueForDisplay: (_: PathAccessor<TData>) => PathAccessor<TFieldData>;
+	getValueForDisplay: (_: PathAccessor<TData>) => PathAccessor<TFieldData> | TFieldData;
 	getValueForUpdate: (_: PathAccessor<TData>) => PathAccessor<TUpdateData>;
+	preprocessForUpdate: (event: React.ChangeEvent<any>, data: PathAccessor<TData>) => TUpdateData;
 };
 
 type FormFieldProps<TData, TComponentProps, TFieldData, TUpdateData = never> = 
@@ -22,7 +24,6 @@ type FormFieldProps<TData, TComponentProps, TFieldData, TUpdateData = never> =
 		defaultValue?: TFieldData;
 		inputComponent: React.FC<TComponentProps>;
 		preprocessForDisplay?: (_: TFieldData | undefined) => TFieldData | JSX.Element | string | undefined;
-		preprocessForUpdate: (event: React.ChangeEvent<any>) => TFieldData;
 	}
 	// TODO: Make this props a first order citizen
 	& {
@@ -76,7 +77,7 @@ class PathAccessor<T> {
 	find<S extends any[], K extends keyof S>(func: (_:S[number]) => boolean): PathAccessor<NonNullable<S[K]>>
 	{
 		// Instantiate the array if it does not exist
-		if(isNonNullable(this.value)) {
+		if(!isNonNullable(this.value)) {
 			this.value = ([] as unknown) as T;
 		}
 
@@ -104,7 +105,7 @@ const FormField = <TData extends object, TComponentProps, TFieldData, TUpdateDat
 	props,
 	..._
 }: FormFieldProps<TData, TComponentProps, TFieldData, TUpdateData>) => {
-	const { data, updateData } = useContext(FormContext);
+	const { data, updateData } = useGenericContext<TData>(FormContext);
 
 	let getValueForDisplay;
 	let getValueForUpdate;
@@ -121,11 +122,18 @@ const FormField = <TData extends object, TComponentProps, TFieldData, TUpdateDat
 	}
 
 	const somethingData = new PathAccessor(data);
-	const displayValue = getValueForDisplay(somethingData).value;
+	const displayAccessor = getValueForDisplay(somethingData);
+	const displayValue = (
+		(displayAccessor as PathAccessor<TFieldData>).value 
+		? (displayAccessor as PathAccessor<TFieldData>).value
+		: displayAccessor
+	) as TFieldData;
+
 	const updatePath = getValueForUpdate(somethingData).path;
 
+
 	const onChange = (e: React.ChangeEvent<any>) => {
-		const processedData = preprocessForUpdate(e);
+		const processedData = preprocessForUpdate(e, somethingData);
 		updateData(produce<TData>(
 			data, draft => set(draft, updatePath, processedData)
 		));

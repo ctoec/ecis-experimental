@@ -293,7 +293,7 @@ export default function Withdrawal({
 							value: key,
 							text: reason,
 						}))}
-						selected={exitReason ? [exitReason] : undefined}
+						defaultValue={exitReason ? [exitReason] : undefined}
 						otherInputLabel="Other"
 						name="exitReason"
 						onChange={updateFormData()}

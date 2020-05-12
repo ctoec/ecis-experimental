@@ -598,7 +598,7 @@ const EnrollmentFunding: Section = {
 								value: Age.SchoolAge,
 							},
 						]}
-						selected={toFormString(_enrollment.ageGroup)}
+						defaultValue={toFormString(_enrollment.ageGroup)}
 						onChange={updateFormData(ageFromString)}
 						status={initialLoadErrorGuard(
 							initialLoad,
@@ -624,7 +624,7 @@ const EnrollmentFunding: Section = {
 						onChange={event => {
 							updateFundingSource(fundingSourceFromString(event.target.value));
 						}}
-						selected={toFormString(fundingSource || 'privatePay')}
+						defaultValue={toFormString(fundingSource || 'privatePay')}
 					>
 						<ChoiceListExpansion showOnValue={'CDC'}>
 							{fundingSpaceOpts.length ? (
@@ -637,7 +637,7 @@ const EnrollmentFunding: Section = {
 										type="select"
 										id="fundingSpace"
 										options={fundingSpaceOpts}
-										selected={toFormString(fundingSpace ? fundingSpace.id : '')}
+										defaultValue={toFormString(fundingSpace ? fundingSpace.id : '')}
 										label="Contract space"
 										// TODO: USE FORM REDUCER
 										onChange={event => {
@@ -687,7 +687,7 @@ const EnrollmentFunding: Section = {
 									);
 									updateCdcReportingPeriod(chosen);
 								}}
-								selected={toFormString(cdcReportingPeriod ? cdcReportingPeriod.id : undefined)}
+								defaultValue={toFormString(cdcReportingPeriod ? cdcReportingPeriod.id : undefined)}
 								status={initialLoadErrorGuard(
 									initialLoad,
 									displayErrorOrWarning(error, {
@@ -721,7 +721,7 @@ const EnrollmentFunding: Section = {
 					<h2>Care 4 Kids</h2>
 					<ChoiceList
 						type="check"
-						selected={receivesC4k ? ['receives-c4k'] : undefined}
+						defaultValue={receivesC4k ? ['receives-c4k'] : undefined}
 						options={[
 							{
 								text: 'Receives Care 4 Kids',

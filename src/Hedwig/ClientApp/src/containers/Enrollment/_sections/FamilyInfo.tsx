@@ -201,7 +201,7 @@ const FamilyInfo: Section = {
 							label="State"
 							name="child.family.state"
 							options={['CT', 'MA', 'NY', 'RI'].map(_state => ({ text: _state, value: _state }))}
-							selected={state ? [state] : undefined}
+							defaultValue={state ? [state] : undefined}
 							onChange={updateFormData()}
 							status={initialLoadErrorGuard(
 								initialLoad,
@@ -231,7 +231,7 @@ const FamilyInfo: Section = {
 					legend="Foster"
 					id="foster"
 					name="child.foster"
-					selected={foster ? ['foster'] : undefined}
+					defaultValue={foster ? ['foster'] : undefined}
 					onChange={updateFormData((_, event) => event.target.checked)}
 					options={[
 						{
@@ -245,7 +245,7 @@ const FamilyInfo: Section = {
 					legend="Homelessness"
 					id="homelessness"
 					name="child.family.homelessness"
-					selected={homelessness ? ['homelessness'] : undefined}
+					defaultValue={homelessness ? ['homelessness'] : undefined}
 					onChange={updateFormData((_, event) => event.target.checked)}
 					options={[
 						{

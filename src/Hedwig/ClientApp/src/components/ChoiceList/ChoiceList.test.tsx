@@ -13,9 +13,9 @@ function createChoiceList(type: 'select' | 'radio' | 'check', selected?: string[
 		onChange: () => {},
 	};
 	if (type === 'select') {
-		return <ChoiceList {...commonProps} type={type} label="choice" selected={selected} />;
+		return <ChoiceList {...commonProps} type={type} label="choice" defaultValue={selected} />;
 	} else {
-		return <ChoiceList {...commonProps} type={type} legend="choice" selected={selected} />;
+		return <ChoiceList {...commonProps} type={type} legend="choice" defaultValue={selected} />;
 	}
 }
 
@@ -35,13 +35,13 @@ function createChoiceListWithExpansion(type: 'select' | 'radio' | 'check', selec
 	);
 	if (type === 'select') {
 		return (
-			<ChoiceList {...commonProps} type={type} label="choice" selected={selected}>
+			<ChoiceList {...commonProps} type={type} label="choice" defaultValue={selected}>
 				{expansion}
 			</ChoiceList>
 		);
 	} else {
 		return (
-			<ChoiceList {...commonProps} type={type} legend="choice" selected={selected}>
+			<ChoiceList {...commonProps} type={type} legend="choice" defaultValue={selected}>
 				{expansion}
 			</ChoiceList>
 		);

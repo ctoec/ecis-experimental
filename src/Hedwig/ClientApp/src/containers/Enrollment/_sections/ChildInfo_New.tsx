@@ -1,7 +1,7 @@
-import React, { useContext, useState, useEffect, useReducer } from 'react';
+import React, { useContext, useState, useEffect, useReducer, ChangeEvent } from 'react';
 import { Section } from '../enrollmentTypes';
 import moment from 'moment';
-import { Button, TextInput, DateInput, ChoiceList, FieldSet, TextInputProps, DateInputProps } from '../../../components';
+import { Button, TextInput, DateInput, ChoiceList, FieldSet, TextInputProps, DateInputProps, ChoiceListProps } from '../../../components';
 import { nameFormatter } from '../../../utils/stringFormatters';
 import dateFormatter from '../../../utils/dateFormatter';
 import {
@@ -42,6 +42,7 @@ import {
 import Form from '../../../components/Form_New/Form';
 import FormField from '../../../components/Form_New/FormField';
 import FormSubmitButton from '../../../components/Form_New/FormSubmitButton';
+import idx from 'idx';
 
 const ChildInfo: Section = {
 	key: 'child-information',
@@ -189,7 +190,6 @@ const ChildInfo: Section = {
 			}
 		}, [saveData, saveError]);
 
-
 		return (
 			<Form<Enrollment | null>
 				data={enrollment}
@@ -210,6 +210,33 @@ const ChildInfo: Section = {
 					props={{
 						id: 'firstName',
 						label: 'First Name',
+					}}
+				/>
+
+				<FormField<Enrollment, ChoiceListProps, string[], C4KCertificate[]>
+					type='complex'
+					getValueForDisplay={enrollment => 
+						!!enrollment.at('child').at('c4KCertificates').value
+						? ['receives-c4k']
+						: ['']
+					}
+					getValueForUpdate={enrollment => enrollment.at('child').at('c4KCertificates')}
+					preprocessForUpdate={(event, enrollment) => (
+						(event.target as HTMLInputElement).checked 
+						? enrollment.at('child').at('c4KCertificates').value
+						: [] as C4KCertificate[]
+					)}
+					inputComponent={ChoiceList}
+					props={{
+						id: 'receives-c4k',
+						label: 'Receives Care 4 Kids',
+						type: 'check',
+						options: [
+							{
+								text: 'Receives Care 4 Kids',
+								value: 'receives-c4k'
+							}
+						]
 					}}
 				/>
 

@@ -25,7 +25,7 @@ type InternalChoiceListProps = {
 		selectedValues: string[],
 		otherInput?: string
 	) => any;
-	selected?: string[];
+	defaultValue?: string[];
 	status?: FormStatusProps;
 	disabled?: boolean;
 	optional?: boolean;
@@ -58,7 +58,7 @@ export const ChoiceList: React.FC<ChoiceListProps> = ({
 	id,
 	name,
 	onChange,
-	selected: inputSelected = [],
+	defaultValue: inputSelected = [],
 	legend,
 	status,
 	disabled,

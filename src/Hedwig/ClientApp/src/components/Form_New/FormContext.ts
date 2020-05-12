@@ -24,5 +24,5 @@ export default FormContext;
  */
 export function useGenericContext<S>(context: Context<any>) {
 	const processedContext = useContext(context);
-	return processedContext as S;
+	return processedContext as GenericFormContextType<S>;
 }
