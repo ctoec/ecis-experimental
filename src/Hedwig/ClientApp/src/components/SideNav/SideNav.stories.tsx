@@ -13,7 +13,7 @@ const exampleItems = [
 		},
 		onClick,
 		description: 'This is the first item',
-		active: true
+		active: true,
 	},
 	{
 		titleLink: {
@@ -21,7 +21,7 @@ const exampleItems = [
 			link: '/',
 		},
 		onClick,
-		description: 'This is the second item, which has a longer description'
+		description: 'This is the second item, which has a longer description',
 	},
 	{
 		titleLink: {
@@ -30,9 +30,9 @@ const exampleItems = [
 		},
 		onClick,
 		icon: 'complete',
-		description: 'This is the third item'
+		description: 'This is the third item',
 	},
-]
+];
 
 storiesOf('SideNav', module).add('Default', () => {
 	return <SideNav items={exampleItems} />;

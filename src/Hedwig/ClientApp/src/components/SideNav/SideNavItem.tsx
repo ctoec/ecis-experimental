@@ -1,22 +1,26 @@
 import React from 'react';
 import cx from 'classnames';
-import { InlineIcon, Icon } from '..'
+import { InlineIcon, Icon } from '..';
 
 type SideNavItemTitle = {
-	text: string,
-	link: string,
-}
+	text: string;
+	link: string;
+};
 
 export type SideNavItemProps = {
-	titleLink: SideNavItemTitle,
-	description: string,
-	active?: boolean,
-	icon?: Icon,
-	onClick?: () => {},
-}
+	titleLink: SideNavItemTitle;
+	description: string;
+	active?: boolean;
+	icon?: Icon;
+	onClick?: () => {};
+};
 
 export const SideNavItem = ({
-	titleLink, description, active, onClick, icon
+	titleLink,
+	description,
+	active,
+	onClick,
+	icon,
 }: SideNavItemProps) => {
 	return (
 		<li className={cx('oec-sidenav__item', { active })}>

@@ -5014,6 +5014,98 @@ exports[`Storyshots ProcessList Default 1`] = `
 </div>
 `;
 
+exports[`Storyshots SideNav Default 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <nav
+    className="oec-sidenav"
+  >
+    <div
+      className="tablet:grid-col-4"
+    >
+      <ul>
+        <li
+          className="oec-sidenav__item active"
+        >
+          <a
+            href="/"
+            onClick={[Function]}
+          >
+            <div
+              className="oec-sidenav-item__title"
+            >
+              Item title is a link
+            </div>
+            <div
+              className="oec-sidenav-item__desc"
+            >
+              This is the first item
+            </div>
+          </a>
+        </li>
+        <li
+          className="oec-sidenav__item"
+        >
+          <a
+            href="/"
+            onClick={[Function]}
+          >
+            <div
+              className="oec-sidenav-item__title"
+            >
+              Item title is also a link
+            </div>
+            <div
+              className="oec-sidenav-item__desc"
+            >
+              This is the second item, which has a longer description
+            </div>
+          </a>
+        </li>
+        <li
+          className="oec-sidenav__item"
+        >
+          <a
+            href="/"
+            onClick={[Function]}
+          >
+            <div
+              className="oec-sidenav-item__title"
+            >
+              Look an icon
+              <span
+                className="oec-inline-icon oec-inline-icon--complete"
+              >
+                <svg>
+                  success.svg
+                </svg>
+                <span
+                  className="usa-sr-only"
+                >
+                  (
+                  complete
+                  )
+                </span>
+              </span>
+            </div>
+            <div
+              className="oec-sidenav-item__desc"
+            >
+              This is the third item
+            </div>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>
+`;
+
 exports[`Storyshots StepList Default 1`] = `
 <div
   style={

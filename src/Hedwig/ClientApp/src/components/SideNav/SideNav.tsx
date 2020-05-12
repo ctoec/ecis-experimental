@@ -3,7 +3,7 @@ import { SideNavItem, SideNavItemProps } from './SideNavItem';
 import styles from './SideNav.module.scss';
 
 export type SideNavProps = {
-	items: SideNavItemProps[],
+	items: SideNavItemProps[];
 };
 
 export const SideNav = ({ items }: SideNavProps) => {
@@ -11,7 +11,9 @@ export const SideNav = ({ items }: SideNavProps) => {
 		<nav className="oec-sidenav">
 			<div className="tablet:grid-col-4">
 				<ul>
-					{items.map(item => (<SideNavItem {...item} />))}
+					{items.map(item => (
+						<SideNavItem {...item} />
+					))}
 				</ul>
 			</div>
 		</nav>
