@@ -1,23 +1,46 @@
 .oec-sidenav {
+	ul {
+		list-style-type: none;
+	}
 
-  ul {
-    list-style-type: none;
-  }
+	.oec-sidenav__item {
+		width: 100%;
+		border: 1px solid color($theme-color-base-light);
+		border-width: 0px 1px 1px 1px;
+		padding: 0;
+		display: block;
 
-  .oec-sidenav__item {
-    
-    a {
-      padding: 1rem;
-    }
-  }
+		&:first-child {
+			border-width: 1px;
+			// First child should have top border
+		}
 
-  .oec-sidenav-item__desc {
-    all: initial;
-    @extend .usa-prose;
-    p {
-      @extend .text-normal;
-      @extend .font-family-body;
-    }
-  }
+		&.active {
+			border-left: 0.5rem solid $theme-color-primary;
+		}
+
+		a {
+			color: inherit;
+			padding: 1rem;
+			text-decoration: none;
+			width: 100%;
+			display: block;
+
+			&:hover,
+			&:focus {
+				background-color: color($theme-color-base-lightest);
+			}
+		}
+
+		.oec-sidenav-item__title {
+			padding-bottom: 0.5rem;
+			font-weight: bold;
+		}
+
+		.oec-sidenav-item__desc {
+			color: color($theme-color-base);
+			min-height: 2em;
+			line-height: 1.25em;
+		}
+	}
 }
-

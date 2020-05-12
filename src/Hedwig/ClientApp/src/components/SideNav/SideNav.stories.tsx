@@ -21,7 +21,7 @@ const exampleItems = [
 			link: '/',
 			onClick
 		},
-		description: 'This is the second item'
+		description: 'This is the second item, which has a longer description'
 	},]
 
 storiesOf('SideNav', module).add('Default', () => {

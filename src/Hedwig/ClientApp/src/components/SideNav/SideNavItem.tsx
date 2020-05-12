@@ -1,4 +1,5 @@
 import React from 'react';
+import cx from 'classnames';
 
 type SideNavItemTitle = {
 	text: string,
@@ -17,15 +18,13 @@ export const SideNavItem = ({
 	titleLink, description, active = false
 }: SideNavItemProps) => {
 	return (
-		<li className="oec-sidenav__item">
-			<a href={titleLink.link} className={active ? "active" : ''} onClick={titleLink.onClick}>
-				<span className="text-bold">
+		<li className={cx('oec-sidenav__item', { active })}>
+			<a href={titleLink.link} onClick={titleLink.onClick}>
+				<div className="oec-sidenav-item__title">
 					{titleLink.text}
-				</span>
-				<span>{titleLink.icon}</span>
-				<div className="oec-sidenav-item__desc">
-					<p>{description}</p>
+					<span>{titleLink.icon}</span>
 				</div>
+				<div className="oec-sidenav-item__desc">{description}</div>
 			</a>
 		</li>
 	);
