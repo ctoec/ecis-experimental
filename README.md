@@ -1,10 +1,9 @@
-# HI (test)
 # ECE Reporter
 
 [ECE Reporter](https://reporter.ecereporterpilot.com) is a software managed by the [Office of Early Childhood in Connecticut](https://ctoec.org) (OEC). It enables early childhood education providers to sumbit required reports to OEC. It replaces ECIS and automatically generates PSR reports.
 
 ## Name
-The public facing name of this project is "ECE Reporter". The interal name used in the source code is Hedwig.
+The public facing name of this project is ECE Reporter. The interal name used in the source code is Hedwig.
 
 ## Setup
 
