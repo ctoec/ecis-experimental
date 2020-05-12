@@ -84,7 +84,8 @@ namespace Hedwig
 			app.UseAuthentication();
 			app.UseAuthorization();
 
-			if (env.IsProduction())
+			// Use SPA static files in all non-dev environments
+			if (!env.IsDevelopment())
 			{
 				app.UseSpaStaticFiles();
 			}
