@@ -44,6 +44,7 @@ import FormField from '../../../components/Form_New/FormField';
 import FormSubmitButton from '../../../components/Form_New/FormSubmitButton';
 import idx from 'idx';
 import { FormFieldSet } from '../../../components/Form_New/FormFieldSet';
+import { C4kFormField } from './C4kFormField';
 
 const ChildInfo: Section = {
 	key: 'child-information',
@@ -223,54 +224,9 @@ const ChildInfo: Section = {
 						}}
 					/>
 				</FormFieldSet>
-				<FormField<Enrollment, ChoiceListProps, string[], C4KCertificate[] | undefined>
-					type='complex'
-					getValueForDisplay={enrollment => 
-						!!enrollment.at('child').at('c4KCertificates').value
-						? ['receives-c4k']
-						: ['']
-					}
-					getValueForUpdate={enrollment => enrollment.at('child').at('c4KCertificates')}
-					preprocessForUpdate={(event, enrollment) => {
-						const isChecked = (event.target as HTMLInputElement).checked;
-						updateShowC4kCertificate(isChecked);
-						const defaultCertValue = {
-							childId: enrollment.at('childId').value
-						} as C4KCertificate;
-						return (
-							isChecked
-							? enrollment.at('child').at('c4KCertificates').value || [defaultCertValue]
-							: undefined
-						);
-					}}
-					inputComponent={ChoiceList}
-					props={{
-						id: 'receives-c4k',
-						label: 'Receives Care 4 Kids',
-						type: 'check',
-						options: [
-							{
-								text: 'Receives Care 4 Kids',
-								value: 'receives-c4k'
-							}
-						]
-					}}
-				/>
 
-				{showC4kCertificate && 
-					<FormField<Enrollment, DateInputProps, Date>
-						type='simple'
-						preprocessForUpdate={e => (e as any).toDate()}
-						getValue={data => 
-							data.at('child').at('c4KCertificates').find((cert: C4KCertificate) => !cert.endDate).at('startDate')
-						}
-						inputComponent={DateInput} 
-						props={{
-							id:'c4kcertificate-current',
-							label: 'C4K Certificate'
-						}}
-					/>
-				}
+				<C4kFormField />
+
 
 				<div className="usa-form">
 					<FormSubmitButton text={attemptingSave ? 'Saving...' : 'Save'} disabled={attemptingSave} />

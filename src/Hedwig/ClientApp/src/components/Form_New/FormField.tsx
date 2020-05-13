@@ -44,7 +44,7 @@ function isNonNullable<T>(_: T): _ is NonNullable<T> {
 /**
  * A type-safe way to drill down into an object and gather the associated path
  */
-class PathAccessor<T> {
+export class PathAccessor<T> {
 	value: T;
 	path: string;
 
@@ -83,6 +83,7 @@ class PathAccessor<T> {
 
 		// because this.value is type T  we still need this check (only type S is known array)
 		if(Array.isArray(this.value)) {
+			console.log(this.value);
 			let idx = this.value.findIndex(func);
 			// Add new element to end of array if item does not exist
 			idx = idx < 0 ? this.value.length : idx;
