@@ -26,7 +26,7 @@ export const legendDisplayDetails: {
 	[key: string]: LegendDisplayDetail;
 } = {
 	CDC: {
-		symbolGenerator: getFundingTag,
+		symbolGenerator: (opts?: { [key: string]: any }) => getFundingTag({ fundingSource: FundingSource.CDC, ...opts }),
 		legendTextFormatter: (enrollments, opts = {}) => {
 			let { organization, site, showPastEnrollments } = opts;
 			if (!organization) {

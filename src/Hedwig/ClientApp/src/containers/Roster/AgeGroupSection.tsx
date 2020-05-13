@@ -95,7 +95,7 @@ export default function AgeGroupSection({
 								includeTime = true;
 							}
 						}
-						return getFundingTag({ funding, index, includeTime })
+						return getFundingTag({ fundingSource: funding.source, index, fundingTime: funding.fundingSpace ? funding.fundingSpace.time : undefined })
 					})}
 					{filteredCertificates.length > 0 && getC4KTag()}
 					{filteredFundings.length === 0 && filteredCertificates.length === 0 && (
@@ -154,17 +154,16 @@ export default function AgeGroupSection({
 		const enrolledForFundingSpace = enrollments.filter<DeepNonUndefineable<Enrollment>>(
 			enrollment => isFundedForFundingSpace(enrollment, space.id, rosterDateRange)
 		).length;
-		const fundingTime = prettyFundingSpaceTime(space);
+		const prettyFundingTime = prettyFundingSpaceTime(space);
 		return {
-			// TODO
-			symbol: legendDisplayDetails[space.source || ''].symbolGenerator({ includeTime: true }),
+			symbol: legendDisplayDetails[space.source || ''].symbolGenerator({ fundingTime: space.time }),
 			hidden: site && enrolledForFundingSpace === 0,
 			// If we're looking at an org roster, show the funding spaces available even if they're not used
 			// Hide the legend item if there are no kids enrolled for this funding space type and we are looking at one site
 			text: (
 				<>
 					<span>
-						{fundingTime}
+						{prettyFundingTime}
 						{' — '}
 					</span>
 					<span className="text-bold">

@@ -1,19 +1,17 @@
-import { Funding, FundingSpace, FundingTime } from '../generated';
+import { Funding, FundingSpace, FundingTime, FundingSource } from '../generated';
 import { Tag } from '../components';
 import {
 	getFundingTime,
 } from './models';
 
-function ptOrFT(fundingSpace?: FundingSpace) {
-	if (!fundingSpace) return '';
-
-	if (fundingSpace.time === FundingTime.Split) {
+function ptOrFT(fundingTime?: FundingTime) {
+	if (fundingTime === FundingTime.Split) {
 		return '-PT/FT';
 	}
-	if (fundingSpace.time === FundingTime.Full) {
+	if (fundingTime === FundingTime.Full) {
 		return '–FT';
 	}
-	if (fundingSpace.time === FundingTime.Part) {
+	if (fundingTime === FundingTime.Part) {
 		return '–PT';
 	}
 	return '';
@@ -21,20 +19,21 @@ function ptOrFT(fundingSpace?: FundingSpace) {
 
 export function getFundingTag(
 	options?: {
-		funding?: Funding,
+		fundingSource?: FundingSource,
+		fundingTime?: FundingTime,
 		index?: any;
 		className?: string;
-		includeTime?: boolean;
 	}) {
-	const { index, className, includeTime, funding } = options || {};
+	const { index, className, fundingSource, fundingTime } = options || {};
 	let key, text;
-	if (funding && !funding.source) {
+	if (!fundingSource) {
 		text = 'Not specified'
 		key = 'not-specified'
-	} else if (funding && funding.source && includeTime) {
+	} else if (fundingSource && fundingTime) {
 		// Default to CDC
-		key = `CDC-${getFundingTime(funding)}`;
-		text = `CDC${ptOrFT(funding.fundingSpace)}`;
+		const prettyTime = ptOrFT(fundingTime)
+		key = `CDC-${prettyTime}`;
+		text = `CDC${prettyTime}`;
 	} else {
 		text = 'CDC';
 	}
