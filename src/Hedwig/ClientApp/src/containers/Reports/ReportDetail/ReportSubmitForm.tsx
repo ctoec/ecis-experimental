@@ -179,7 +179,12 @@ export default function ReportSubmitForm({
 		report.timeSplitUtilizations
 			? (report.timeSplitUtilizations as FundingTimeSplitUtilization[])
 			: splitTimeFundingSpaces.map(fundingSpace =>
-					getSplitUtilization(fundingSpace.timeSplit, 0, reportingPeriodWeeks, report.reportingPeriod.id)
+					getSplitUtilization(
+						fundingSpace.timeSplit,
+						0,
+						reportingPeriodWeeks,
+						report.reportingPeriod.id
+					)
 			  )
 	);
 
@@ -207,12 +212,17 @@ export default function ReportSubmitForm({
 						? existingUtilizationForSpace.fullTimeWeeksUsed
 						: existingUtilizationForSpace.partTimeWeeksUsed
 				}`}
-				onChange={(event) => {
+				onChange={event => {
 					const lesserWeeksUsed = parseInt(event.target.value.replace(/[^0-9.]/g, ''), 10) || 0;
 
 					updateTimeSplitUtilizations(_uts => [
 						..._uts.filter(ut => ut.fundingSpaceId !== fundingSpace.id),
-						getSplitUtilization(timeSplit, lesserWeeksUsed, reportingPeriodWeeks, report.reportingPeriod.id),
+						getSplitUtilization(
+							timeSplit,
+							lesserWeeksUsed,
+							reportingPeriodWeeks,
+							report.reportingPeriod.id
+						),
 					]);
 				}}
 				disabled={!!report.submittedAt}
