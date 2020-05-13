@@ -67,7 +67,7 @@ export const legendDisplayDetails: {
 			getFundingSpaceCapacity(organization, { source: FundingSource.CDC }) === 0,
 	},
 	C4K: {
-		symbolGenerator: getC4KTag,
+		symbolGenerator: (opts?: { [key: string]: any }) => getC4KTag(opts),
 		legendTextFormatter: (enrollments, opts = {}) => {
 			const { showPastEnrollments } = opts;
 			const enrolledWithC4k = enrollments.filter(
@@ -85,7 +85,9 @@ export const legendDisplayDetails: {
 			enrollments.filter(enrollment => !!getCurrentC4kCertificate(enrollment)).length === 0,
 	},
 	missing: {
-		symbolGenerator: () => <InlineIcon icon="incomplete" />,
+		symbolGenerator: (opts?: { className?: string }) => (
+			<InlineIcon icon="incomplete" className={opts ? opts.className : ''} />
+		),
 		legendTextFormatter: enrollments => {
 			// CDC funded enrollments with validationErrors are considered to be missing information
 			const missingInformationEnrollmentsCount = enrollments.filter<

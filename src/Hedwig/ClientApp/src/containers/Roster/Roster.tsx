@@ -93,7 +93,7 @@ export default function Roster() {
 
 	const legendItems: LegendItem[] = Object.values(legendDisplayDetails).map(
 		({ legendTextFormatter, hidden, symbolGenerator }) => ({
-			symbol: symbolGenerator(),
+			symbol: symbolGenerator({ className: 'position-relative top-neg-2px' }),
 			// If we make date range filterable on the org view, will need to change this so that we don't show ratio on org level roster
 			text: legendTextFormatter(enrollments, { showPastEnrollments, organization, site }),
 			hidden: hidden(organization, enrollments),
