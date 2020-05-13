@@ -239,7 +239,8 @@ export default function Withdrawal({
 							<p>
 								{getFundingTag(
 									{
-										funding: cdcFunding,
+										fundingSource: cdcFunding.source,
+										// fundingTime: cdcFunding.fundingSpace.time
 									}
 								)}
 							</p>
