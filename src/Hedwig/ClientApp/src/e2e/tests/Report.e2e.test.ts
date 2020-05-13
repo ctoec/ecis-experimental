@@ -54,7 +54,7 @@ describe('when trying to submit a report', () => {
 			// Make sure that it's showing an alert for missing info
 			const missingInfoAlert = await findByLocator({ xpath: "//*[@role='alert']" });
 			expect(await missingInfoAlert.getText()).toMatch(
-				/There are 2 enrollments missing information required to submit this report/
+				/There is 1 enrollment missing information required to submit this report/
 			);
 		} catch { }
 	});
