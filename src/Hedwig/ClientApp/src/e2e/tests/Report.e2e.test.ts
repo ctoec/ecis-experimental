@@ -15,6 +15,7 @@ import { until } from 'selenium-webdriver';
 jest.setTimeout(3 * 60 * 1000);
 
 const appUrl = `${clientHost}/`;
+const thisMonthAndYear = moment().format('MMMM YYYY');
 
 let driver: IWebDriver;
 beforeEach(done => {
@@ -45,7 +46,8 @@ describe('when trying to submit a report', () => {
 			let root = await load(driver, appUrl);
 			root = await login(driver, root);
 			root = await clickReportsTab(driver, root);
-			root = await clickReportByTitle(driver, root, 'October 2017');
+			// Note: this will fail the second time you run it, after the db is changed
+			root = await clickReportByTitle(driver, root, thisMonthAndYear);
 
 			const { findByLocator } = render(root);
 
@@ -66,15 +68,10 @@ describe('when trying to submit a report', () => {
 
 			const { findByText } = render(root);
 
-			// We aren't changing the range and entering missing info, so submit for Oct 2017 report shuld be disabled
-			root = await clickReportByTitle(driver, root, 'October 2017');
-			let submitButton = await findByText('Submit');
-			expect(await submitButton.getAttribute('disabled')).toBeTruthy();
-
 			// We did enter the missing info for the current range, so submit for the current month should not be disabled
 			root = await clickReportsTab(driver, root);
-			root = await clickReportByTitle(driver, root, moment().format('MMMM YYYY'));
-			submitButton = await findByText('Submit');
+			root = await clickReportByTitle(driver, root, thisMonthAndYear);
+			const submitButton = await findByText('Submit');
 			expect(await submitButton.getAttribute('disabled')).not.toBeTruthy();
 		} catch { }
 	});
@@ -85,7 +82,7 @@ describe('when trying to submit a report', () => {
 			root = await login(driver, root);
 			root = await enterMissingChildInfo(driver, root);
 			root = await clickReportsTab(driver, root);
-			root = await clickReportByTitle(driver, root, moment().format('MMMM YYYY'));
+			root = await clickReportByTitle(driver, root, thisMonthAndYear);
 			root = await enterFamilyFeesRevenue(driver, root);
 
 			const { findByText, findByLocator } = render(root);
