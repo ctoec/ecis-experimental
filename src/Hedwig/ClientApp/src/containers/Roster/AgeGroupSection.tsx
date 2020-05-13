@@ -10,10 +10,8 @@ import { NO_FUNDING, isFundedForFundingSpace, prettyFundingSpaceTime, isCurrentT
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../utils/types';
 import { hasValidationErrors } from '../../utils/validations';
 import { isFunded } from '../../utils/models';
-import {
-	filterFundingTypesForRosterTags,
-} from '../../utils/fundingType';
 import { legendDisplayDetails } from '../../utils/legendFormatters';
+import { getC4KTag, getFundingTag } from '../../utils/fundingType';
 
 export type AgeGroupTableProps = { id: string; data: DeepNonUndefineable<Enrollment>[] };
 
@@ -77,34 +75,32 @@ export default function AgeGroupSection({
 		name: 'Funding',
 		cell: ({ row }: { row: DeepNonUndefineable<Enrollment> }) => {
 			const fundings = (row.fundings || []).map(funding => ({ ...funding, type: 'CDC' as 'CDC' }));
-			const filteredFundings = dedupeFundings(fundings.filter(f => isCurrentToRange(f, rosterDateRange)));
-
+			const filteredFundings = dedupeFundings(fundings.filter(f => isCurrentToRange(f, rosterDateRange)))
 			const certificates = (row.child.c4KCertificates || []).map(certificate => ({
 				...certificate,
 				type: 'C4K' as 'C4K',
 			}));
 			const filteredCertificates = certificates.filter(c => isCurrentToRangeC4K(c, rosterDateRange))
 
-			const fundingTypeTags = [...filteredFundings, ...filteredCertificates]
 			return (
 				<td>
-					{fundingTypeTags.length > 0 ? (
-						fundingTypeTags.map<React.ReactNode>((value, index) => {
-							let includeTime = false;
-							const fundingSpaces = organization.fundingSpaces;
-							if (fundingSpaces) {
-								const matchingFundingSpaces = fundingSpaces
-									.filter(space => space.source === value.type)
-									.filter(space => space.ageGroup === ageGroup);
-								if (matchingFundingSpaces.length > 1) {
-									includeTime = true;
-								}
+					{filteredFundings.map((funding, index) => {
+						const fundingSpaces = organization.fundingSpaces;
+						let includeTime = false;
+						if (fundingSpaces) {
+							const matchingFundingSpaces = fundingSpaces
+								.filter(space => space.source === funding.source)
+								.filter(space => space.ageGroup === ageGroup);
+							if (matchingFundingSpaces.length > 1) {
+								includeTime = true;
 							}
-							return generateFundingTypeTag(value, { index, includeTime });
-						})
-					) : (
-							<span className="text-italic text-base">{NO_FUNDING}</span>
-						)}
+						}
+						return getFundingTag({ funding, index, includeTime })
+					})}
+					{filteredCertificates.length > 0 && getC4KTag()}
+					{filteredFundings.length === 0 && filteredCertificates.length === 0 && (
+						<span className="text-italic text-base">{NO_FUNDING}</span>
+					)}
 				</td>
 			);
 		},
