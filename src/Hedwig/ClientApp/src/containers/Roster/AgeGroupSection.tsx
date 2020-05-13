@@ -156,6 +156,7 @@ export default function AgeGroupSection({
 		).length;
 		const fundingTime = prettyFundingSpaceTime(space);
 		return {
+			// TODO
 			symbol: legendDisplayDetails[space.source || ''].symbolGenerator({ includeTime: true }),
 			hidden: site && enrolledForFundingSpace === 0,
 			// If we're looking at an org roster, show the funding spaces available even if they're not used
