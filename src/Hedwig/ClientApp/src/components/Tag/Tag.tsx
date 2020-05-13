@@ -1,4 +1,5 @@
 import React from 'react';
+import cx from 'classnames';
 
 export type TagProps = {
 	text: string;
@@ -7,11 +8,10 @@ export type TagProps = {
 	className?: string;
 };
 
-export function Tag({ key, text, color, className: addClassName }: TagProps) {
-	var className = `usa-tag ${addClassName}`;
-	if (color) className += ` bg-${color}`;
+export function Tag({ key, text, color, className }: TagProps) {
+	const colorClass = color ? `bg-${color}` : undefined;
 	return (
-		<span key={key} className={className}>
+		<span key={key} className={cx('usa-tag', className, colorClass)}>
 			{text}
 		</span>
 	);

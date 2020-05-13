@@ -4942,7 +4942,7 @@ exports[`Storyshots ProcessList Default 1`] = `
       </div>
        
       <span
-        className="usa-tag undefined bg-theme-color-primary"
+        className="usa-tag bg-theme-color-primary"
       >
         NEW
       </span>
@@ -4964,7 +4964,7 @@ exports[`Storyshots ProcessList Default 1`] = `
       </div>
        
       <span
-        className="usa-tag undefined bg-theme-color-primary"
+        className="usa-tag bg-theme-color-primary"
       >
         NEW
       </span>
@@ -5358,7 +5358,7 @@ exports[`Storyshots Tag Default 1`] = `
   }
 >
   <span
-    className="usa-tag undefined"
+    className="usa-tag"
   >
     I AM A TAG
   </span>

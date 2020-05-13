@@ -44,7 +44,7 @@ exports[`Withdrawal matches snapshot 1`] = `
       >
         <p>
           <span
-            class="usa-tag undefined bg-blue-50v"
+            class="usa-tag bg-blue-50v"
           >
             CDC
           </span>
