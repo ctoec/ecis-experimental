@@ -12,7 +12,7 @@ import moment from 'moment';
 import { until } from 'selenium-webdriver';
 
 // Set time out to 60 seconds
-jest.setTimeout(60 * 1000);
+jest.setTimeout(3 * 60 * 1000);
 
 const appUrl = `${clientHost}/`;
 
@@ -54,7 +54,7 @@ describe('when trying to submit a report', () => {
 			expect(await missingInfoAlert.getText()).toMatch(
 				/There are 2 enrollments missing information required to submit this report/
 			);
-		} catch {}
+		} catch { }
 	});
 
 	it('allows a report submission attempt after missing info is corrected', async () => {
@@ -76,7 +76,7 @@ describe('when trying to submit a report', () => {
 			root = await clickReportByTitle(driver, root, moment().format('MMMM YYYY'));
 			submitButton = await findByText('Submit');
 			expect(await submitButton.getAttribute('disabled')).not.toBeTruthy();
-		} catch {}
+		} catch { }
 	});
 
 	it('shows a success alert after report is submitted', async () => {
@@ -101,6 +101,6 @@ describe('when trying to submit a report', () => {
 			expect(await submittedAlertText.getText()).toMatch(
 				/CDC Report has been shared with the Office of Early Childhood. Thank you!/
 			);
-		} catch {}
+		} catch { }
 	});
 });
