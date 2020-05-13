@@ -41,10 +41,10 @@ export const reportSubmittedAlert = (reportingPeriod: ReportingPeriod): AlertPro
 		reportingPeriod
 	)} CDC Report has been shared with the Office of Early Childhood. Thank you!`,
 });
-export const childWithdrawnAlert = (childName: string): AlertProps => ({
+export const childWithdrawnAlert = (childName: string, siteName: string): AlertProps => ({
 	type: 'success',
 	heading: 'Withdrawn',
-	text: `${childName} has been withdrawn. To find them again, filter the roster for past enrollments.	`,
+	text: `${childName} has been withdrawn. To find them again, filter the roster for ${siteName}.	`,
 });
 
 const MailToLink = () => (
