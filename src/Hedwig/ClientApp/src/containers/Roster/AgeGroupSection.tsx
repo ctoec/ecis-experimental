@@ -6,7 +6,14 @@ import { Table, TableProps, InlineIcon, DateRange, Column, Legend } from '../../
 import { Enrollment, FundingSpace, FundingSource, Organization, Site } from '../../generated';
 import { lastFirstNameFormatter } from '../../utils/stringFormatters';
 import dateFormatter from '../../utils/dateFormatter';
-import { NO_FUNDING, isFundedForFundingSpace, prettyFundingSpaceTime, isCurrentToRange, dedupeFundings, isCurrentToRangeC4K } from '../../utils/models';
+import {
+	NO_FUNDING,
+	isFundedForFundingSpace,
+	prettyFundingSpaceTime,
+	isCurrentToRange,
+	dedupeFundings,
+	isCurrentToRangeC4K,
+} from '../../utils/models';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../utils/types';
 import { hasValidationErrors } from '../../utils/validations';
 import { isFunded } from '../../utils/models';
@@ -75,28 +82,26 @@ export default function AgeGroupSection({
 		name: 'Funding',
 		cell: ({ row }: { row: DeepNonUndefineable<Enrollment> }) => {
 			const fundings = (row.fundings || []).map(funding => ({ ...funding, type: 'CDC' as 'CDC' }));
-			const filteredFundings = dedupeFundings(fundings.filter(f => isCurrentToRange(f, rosterDateRange)))
+			const filteredFundings = dedupeFundings(
+				fundings.filter(f => isCurrentToRange(f, rosterDateRange))
+			);
 			const certificates = (row.child.c4KCertificates || []).map(certificate => ({
 				...certificate,
 				type: 'C4K' as 'C4K',
 			}));
-			const filteredCertificates = certificates.filter(c => isCurrentToRangeC4K(c, rosterDateRange))
+			const filteredCertificates = certificates.filter(c =>
+				isCurrentToRangeC4K(c, rosterDateRange)
+			);
 
 			return (
 				<td>
-					{filteredFundings.map((funding, index) => {
-						const fundingSpaces = organization.fundingSpaces;
-						let includeTime = false;
-						if (fundingSpaces) {
-							const matchingFundingSpaces = fundingSpaces
-								.filter(space => space.source === funding.source)
-								.filter(space => space.ageGroup === ageGroup);
-							if (matchingFundingSpaces.length > 1) {
-								includeTime = true;
-							}
-						}
-						return getFundingTag({ fundingSource: funding.source, index, fundingTime: funding.fundingSpace ? funding.fundingSpace.time : undefined })
-					})}
+					{filteredFundings.map((funding, index) =>
+						getFundingTag({
+							fundingSource: funding.source,
+							index,
+							fundingTime: funding.fundingSpace ? funding.fundingSpace.time : undefined,
+						})
+					)}
 					{filteredCertificates.length > 0 && getC4KTag()}
 					{filteredFundings.length === 0 && filteredCertificates.length === 0 && (
 						<span className="text-italic text-base">{NO_FUNDING}</span>

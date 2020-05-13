@@ -237,12 +237,10 @@ export default function Withdrawal({
 					{cdcFunding && (
 						<div className="mobile-lg:grid-col-6">
 							<p>
-								{getFundingTag(
-									{
-										fundingSource: cdcFunding.source,
-										// fundingTime: cdcFunding.fundingSpace.time
-									}
-								)}
+								{getFundingTag({
+									fundingSource: cdcFunding.source,
+									// fundingTime: cdcFunding.fundingSpace.time
+								})}
 							</p>
 							<p>Enrollment: {prettyFundingTime(getFundingTime(cdcFunding))}</p>
 							<p>
