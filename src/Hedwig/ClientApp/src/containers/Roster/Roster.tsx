@@ -92,8 +92,8 @@ export default function Roster() {
 	const fundingSpacesByAgeGroup = getObjectsByAgeGroup(fundingSpaces);
 
 	const legendItems: LegendItem[] = Object.values(legendDisplayDetails).map(
-		({ legendTextFormatter, hidden, symbol }) => ({
-			symbol,
+		({ legendTextFormatter, hidden, symbolGenerator }) => ({
+			symbol: symbolGenerator(),
 			// If we make date range filterable on the org view, will need to change this so that we don't show ratio on org level roster
 			text: legendTextFormatter(enrollments, { showPastEnrollments, organization, site }),
 			hidden: hidden(organization, enrollments),

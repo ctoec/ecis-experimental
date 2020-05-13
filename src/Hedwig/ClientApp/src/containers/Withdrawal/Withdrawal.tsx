@@ -35,7 +35,7 @@ import moment from 'moment';
 import CommonContainer from '../CommonContainer';
 import { InlineIcon, DateInput, ChoiceList, Button } from '../../components';
 import dateFormatter from '../../utils/dateFormatter';
-import { generateFundingTypeTag } from '../../utils/fundingType';
+import { getFundingTag } from '../../utils/fundingType';
 import displayErrorOrWarning from '../../utils/validations/displayErrorOrWarning';
 import { REQUIRED_FOR_WITHDRAWAL } from '../../utils/validations/messageStrings';
 
@@ -237,10 +237,9 @@ export default function Withdrawal({
 					{cdcFunding && (
 						<div className="mobile-lg:grid-col-6">
 							<p>
-								{generateFundingTypeTag(
-									{ ...cdcFunding, type: 'CDC' },
+								{getFundingTag(
 									{
-										includeTime: false,
+										funding: cdcFunding,
 									}
 								)}
 							</p>

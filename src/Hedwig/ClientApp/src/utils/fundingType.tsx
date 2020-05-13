@@ -1,24 +1,8 @@
-import { C4KCertificate, Funding, FundingSpace, FundingTime } from '../generated';
-import { Tag, DateRange } from '../components';
+import { Funding, FundingSpace, FundingTime } from '../generated';
+import { Tag } from '../components';
 import {
-	isCurrentToRange,
-	dedupeFundings,
-	isCurrentToRangeC4K,
 	getFundingTime,
-	dedupeC4kCertificates,
 } from './models';
-import { DeepNonUndefineable } from './types';
-
-export type FundingTypes = 'CDC' | 'C4K';
-
-interface FundingTypeDiscriminator {
-	type: FundingTypes;
-}
-
-type InternalFunding = DeepNonUndefineable<Funding> & { type: 'CDC' };
-type InternalC4KCertificate = DeepNonUndefineable<C4KCertificate> & { type: 'C4K' };
-
-export type FundingType = (InternalFunding | InternalC4KCertificate) & FundingTypeDiscriminator;
 
 function ptOrFT(fundingSpace?: FundingSpace) {
 	if (!fundingSpace) return '';
@@ -35,67 +19,34 @@ function ptOrFT(fundingSpace?: FundingSpace) {
 	return '';
 }
 
-export function generateFundingTypeTag(
-	fundingType: FundingType,
+export function getFundingTag(
 	options?: {
+		funding?: Funding,
 		index?: any;
 		className?: string;
 		includeTime?: boolean;
-	}
-): JSX.Element {
-	const color = fundingType.type ? getDisplayColorForFundingType(fundingType.type) : 'gray-90';
-	const { index, className, includeTime } = options || {};
+	}) {
+	const { index, className, includeTime, funding } = options || {};
 	let key, text;
-	switch (fundingType.type) {
-		case 'CDC':
-			key = `${fundingType.source}-${getFundingTime(fundingType)}`;
-			if (index) key = `${key}-${index}`;
-			if (fundingType.source && includeTime) {
-				text = `CDC${ptOrFT(fundingType.fundingSpace)}`;
-			} else if (fundingType.source) {
-				text = 'CDC';
-			} else {
-				text = 'Not specified';
-			}
-			return Tag({ key, text, color, className });
-		case 'C4K':
-			key = 'C4K';
-			if (index) key = `${key}-${index}`;
-			text = 'C4K';
-			return Tag({ key, text, color, className });
+	if (funding && !funding.source) {
+		text = 'Not specified'
+		key = 'not-specified'
+	} else if (funding && funding.source && includeTime) {
+		// Default to CDC
+		key = `CDC-${getFundingTime(funding)}`;
+		text = `CDC${ptOrFT(funding.fundingSpace)}`;
+	} else {
+		text = 'CDC';
 	}
+	if (index) key = `${key}-${index}`;
+	return Tag({
+		key, text, color: 'blue-50v', className
+	});
 }
 
-export function getDisplayColorForFundingType(type: FundingTypes) {
-	const colorMap = {
-		CDC: 'blue-50v',
-		C4K: 'violet-warm-60',
-	};
-	return colorMap[type];
-}
-
-/**
- * Filter fundings for displaying
- * @param fundings
- * @param rosterDateRange
- */
-export function filterFundingTypesForRosterTags(
-	fundingTypes: FundingType[] | null,
-	rosterDateRange?: DateRange
-): FundingType[] {
-	if (!fundingTypes) {
-		return [];
-	}
-
-	const fundings = fundingTypes
-		.filter(fundingType => fundingType.type === 'CDC')
-		.filter(fundingType => isCurrentToRange(fundingType as Funding, rosterDateRange));
-	const certificates = fundingTypes
-		.filter(fundingType => fundingType.type === 'C4K')
-		.filter(fundingType => isCurrentToRangeC4K(fundingType as C4KCertificate, rosterDateRange));
-
-	return [
-		...(dedupeFundings(fundings as Funding[]) as FundingType[]),
-		...(dedupeC4kCertificates(certificates as C4KCertificate[]) as FundingType[]),
-	];
+export function getC4KTag(options?: { className?: string, index?: string | number }) {
+	const { index, className } = options || {}
+	let key = 'C4K';
+	if (index) key = `${key}-${index}`;
+	return Tag({ key, text: 'C4K', color: 'violet-warm-60', className });
 }

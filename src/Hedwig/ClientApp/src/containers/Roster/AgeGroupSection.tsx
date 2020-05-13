@@ -6,14 +6,12 @@ import { Table, TableProps, InlineIcon, DateRange, Column, Legend } from '../../
 import { Enrollment, FundingSpace, FundingSource, Organization, Site } from '../../generated';
 import { lastFirstNameFormatter } from '../../utils/stringFormatters';
 import dateFormatter from '../../utils/dateFormatter';
-import { NO_FUNDING, isFundedForFundingSpace, prettyFundingSpaceTime } from '../../utils/models';
+import { NO_FUNDING, isFundedForFundingSpace, prettyFundingSpaceTime, isCurrentToRange, dedupeFundings, isCurrentToRangeC4K } from '../../utils/models';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../utils/types';
 import { hasValidationErrors } from '../../utils/validations';
 import { isFunded } from '../../utils/models';
 import {
-	generateFundingTypeTag,
 	filterFundingTypesForRosterTags,
-	FundingType,
 } from '../../utils/fundingType';
 import { legendDisplayDetails } from '../../utils/legendFormatters';
 
@@ -79,12 +77,15 @@ export default function AgeGroupSection({
 		name: 'Funding',
 		cell: ({ row }: { row: DeepNonUndefineable<Enrollment> }) => {
 			const fundings = (row.fundings || []).map(funding => ({ ...funding, type: 'CDC' as 'CDC' }));
+			const filteredFundings = dedupeFundings(fundings.filter(f => isCurrentToRange(f, rosterDateRange)));
+
 			const certificates = (row.child.c4KCertificates || []).map(certificate => ({
 				...certificate,
 				type: 'C4K' as 'C4K',
 			}));
-			const fundingTypes: FundingType[] = [...fundings, ...certificates];
-			const fundingTypeTags = filterFundingTypesForRosterTags(fundingTypes, rosterDateRange);
+			const filteredCertificates = certificates.filter(c => isCurrentToRangeC4K(c, rosterDateRange))
+
+			const fundingTypeTags = [...filteredFundings, ...filteredCertificates]
 			return (
 				<td>
 					{fundingTypeTags.length > 0 ? (
@@ -102,8 +103,8 @@ export default function AgeGroupSection({
 							return generateFundingTypeTag(value, { index, includeTime });
 						})
 					) : (
-						<span className="text-italic text-base">{NO_FUNDING}</span>
-					)}
+							<span className="text-italic text-base">{NO_FUNDING}</span>
+						)}
 				</td>
 			);
 		},
@@ -159,7 +160,7 @@ export default function AgeGroupSection({
 		).length;
 		const fundingTime = prettyFundingSpaceTime(space);
 		return {
-			symbol: legendDisplayDetails[space.source || ''].symbol,
+			symbol: legendDisplayDetails[space.source || ''].symbolGenerator({ includeTime: true }),
 			hidden: site && enrolledForFundingSpace === 0,
 			// If we're looking at an org roster, show the funding spaces available even if they're not used
 			// Hide the legend item if there are no kids enrolled for this funding space type and we are looking at one site
