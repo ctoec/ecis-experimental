@@ -1,7 +1,6 @@
 import { IWebDriver } from '../DriverHelper';
 import { WebElement, until } from 'selenium-webdriver';
 import { reload, render } from '../QueryHelper';
-import { getTextInputByLabelSelector } from './componentUtils';
 
 export async function beginEnroll(driver: IWebDriver, root: WebElement) {
 	const { findByText, queryAllByLocator } = render(root);
@@ -21,15 +20,15 @@ export async function beginEnroll(driver: IWebDriver, root: WebElement) {
 export async function enterChildInfo(driver: IWebDriver, root: WebElement) {
 	const { findByText, findByLocator } = render(root);
 
-	const firstNameInput = await findByLocator({ xpath: getTextInputByLabelSelector('First name') });
-	firstNameInput.sendKeys('First name');
-	const lastNameInput = await findByLocator({ xpath: getTextInputByLabelSelector('Last name') });
-	lastNameInput.sendKeys('Last name');
+	const firstNameInput = await findByLocator({ css: '#firstName' });
+	await firstNameInput.sendKeys('First name');
+	const lastNameInput = await findByLocator({ css: '#lastName' });
+	await lastNameInput.sendKeys('Last name');
 
 	const saveBtn = await findByText('Save');
 	await saveBtn.click();
 
 	await driver.wait(until.urlMatches(/family-information/));
 
-	return await reload(driver);
+	return root;
 }
