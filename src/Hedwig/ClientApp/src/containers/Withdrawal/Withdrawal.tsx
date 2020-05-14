@@ -15,10 +15,9 @@ import {
 	getCurrentC4kCertificate,
 	lastNReportingPeriods,
 	reportingPeriodFormatter,
-	prettyFundingTime,
 	validatePermissions,
 	getIdForUser,
-	getFundingTime,
+	prettyFundingSpaceTime,
 } from '../../utils/models';
 import useApi, { ApiError } from '../../hooks/useApi';
 import { FormReducer, formReducer, updateData } from '../../utils/forms/form';
@@ -239,10 +238,9 @@ export default function Withdrawal({
 							<p>
 								{getFundingTag({
 									fundingSource: cdcFunding.source,
-									// fundingTime: cdcFunding.fundingSpace.time
 								})}
 							</p>
-							<p>Enrollment: {prettyFundingTime(getFundingTime(cdcFunding))}</p>
+							<p>Enrollment: {prettyFundingSpaceTime(cdcFunding.fundingSpace)}</p>
 							<p>
 								First reporting period:{' '}
 								{cdcFunding.firstReportingPeriod

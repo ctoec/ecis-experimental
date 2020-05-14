@@ -22,17 +22,16 @@ export function getFundingTag(options?: {
 	className?: string;
 }) {
 	const { index, className, fundingSource, fundingTime } = options || {};
-	let key, text;
 	if (!fundingSource) {
-		text = 'Not specified';
-		key = 'not-specified';
-	} else if (fundingSource && fundingTime) {
+		return;
+	}
+	let key = 'CDC';
+	let text = 'CDC';
+	if (fundingTime) {
 		// Default to CDC
 		const prettyTime = ptOrFT(fundingTime);
 		key = `CDC-${prettyTime}`;
 		text = `CDC${prettyTime}`;
-	} else {
-		text = 'CDC';
 	}
 	if (index) key = `${key}-${index}`;
 	return Tag({

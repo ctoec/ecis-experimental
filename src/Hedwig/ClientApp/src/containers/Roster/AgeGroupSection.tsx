@@ -81,9 +81,8 @@ export default function AgeGroupSection({
 	const fundingColumn = {
 		name: 'Funding',
 		cell: ({ row }: { row: DeepNonUndefineable<Enrollment> }) => {
-			const fundings = (row.fundings || []).map(funding => ({ ...funding, type: 'CDC' as 'CDC' }));
 			const filteredFundings = dedupeFundings(
-				fundings.filter(f => isCurrentToRange(f, rosterDateRange))
+				(row.fundings || []).filter(f => isCurrentToRange(f, rosterDateRange))
 			);
 			const certificates = (row.child.c4KCertificates || []).map(certificate => ({
 				...certificate,
