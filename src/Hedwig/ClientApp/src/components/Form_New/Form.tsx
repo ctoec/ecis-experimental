@@ -29,20 +29,20 @@ const Form = <T extends any>({
 }: PropsWithChildren<FormProps<T>>) => {
 	const [_data, updateData] = useState(data);
 
-	// If data prop changes, update the internal store
-	// This is exceptionally important when multiple forms track the same data
+	// If data prop changes, update the internal store as multiple forms can track the same data
 	useEffect(() => {
 		updateData(data);
 	}, [data]);
 
 	/**
-	 * 
-	 * @param e 
+	 * onSubmit function to supply to the form. The form event 
+	 * default is suppressed, and the Form component's onSubmit
+	 * function is called with the form data as an argument.
+	 * @param e FormEvent
 	 */
 	const _onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		onSubmit(_data);
-		return false;
 	};
 
 	return (

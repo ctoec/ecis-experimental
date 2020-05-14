@@ -14,6 +14,10 @@ type FormFieldProps<TData, TComponentProps, TFieldData> = {
 	}
 	// TODO: Make this props a first order citizen
 	& {
+		/**
+ 		 * Creates a set of props that includes
+ 		 * all FormHTMLAttributes<HTMLFormElement> props, except onSubmit
+ 		 */
 		props: Pick<
 			TComponentProps,
 			Exclude<keyof TComponentProps, 'onChange' | 'defaultValue'>
