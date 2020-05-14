@@ -19,6 +19,7 @@ export type RouteConfig = {
 	component: React.FC<any>;
 	exact?: boolean;
 	routes?: RouteConfig[];
+	unauthorized?: boolean;
 	props?: any;
 };
 
@@ -27,6 +28,7 @@ export const routes: RouteConfig[] = [
 		path: '/',
 		exact: true,
 		component: Home,
+		unauthorized: true,
 	},
 	{
 		path: '/roster',
@@ -76,26 +78,32 @@ export const routes: RouteConfig[] = [
 	{
 		path: '/feedback',
 		component: Feedback,
+		unauthorized: true,
 	},
 	{
 		path: '/help',
 		component: Help,
+		unauthorized: true,
 	},
 	{
 		path: '/privacy-policy',
 		component: PrivacyPolicy,
+		unauthorized: true,
 	},
 	{
 		path: '/login',
 		component: Login,
+		unauthorized: true,
 	},
 	{
 		path: '/logout',
 		component: Login,
+		unauthorized: true,
 	},
 	{
 		path: '/:unknown',
 		component: PageNotFound,
+		unauthorized: true,
 	},
 ];
 
