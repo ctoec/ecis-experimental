@@ -6,7 +6,6 @@ import {
 	Funding,
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest,
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
-	ValidationProblemDetails,
 	C4KCertificate,
 } from '../../generated';
 import { nameFormatter, splitCamelCase, childWithdrawnAlert } from '../../utils/stringFormatters';
@@ -35,7 +34,6 @@ import { missingInformationForWithdrawalAlert } from '../../utils/stringFormatte
 import moment from 'moment';
 import CommonContainer from '../CommonContainer';
 import { InlineIcon, DateInput, ChoiceList, Button } from '../../components';
-import { processBlockingValidationErrors } from '../../utils/validations/processBlockingValidationErrors';
 import dateFormatter from '../../utils/dateFormatter';
 import { generateFundingTypeTag } from '../../utils/fundingType';
 import displayErrorOrWarning from '../../utils/validations/displayErrorOrWarning';
@@ -190,7 +188,7 @@ export default function Withdrawal({
 	useEffect(() => {
 		// If the withdraw request went through, then return to the roster
 		if (putRequestData && !putRequestError) {
-			setAlerts([childWithdrawnAlert(nameFormatter(enrollment.child))]);
+			setAlerts([childWithdrawnAlert(nameFormatter(enrollment.child), site.name || '')]);
 			history.push(`/roster`);
 		}
 
