@@ -95,15 +95,6 @@ export function getCurrentCdcFunding(
 	);
 }
 
-
-export function getCurrentCdcFunding_Basic(
-	fundings: Funding[] | null | undefined
-): Funding | undefined {
-	return (fundings || []).find(
-		funding => funding.source === FundingSource.CDC && !funding.lastReportingPeriod
-	);
-}
-
 export function createFunding({
 	enrollmentId,
 	source,

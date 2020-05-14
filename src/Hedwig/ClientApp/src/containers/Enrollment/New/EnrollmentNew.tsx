@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { History } from 'history';
 import { Section, SectionProps } from '../enrollmentTypes';
 import { default as StepList, StepProps } from '../../../components/StepList/StepList';
-import ChildInfo from '../_sections/ChildInfo_New';
+import ChildInfo from '../_sections/ChildInfo';
 import FamilyInfo from '../_sections/FamilyInfo';
 import FamilyIncome from '../_sections/FamilyIncome';
 import EnrollmentFunding from '../_sections/EnrollmentFunding';
