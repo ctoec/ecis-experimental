@@ -24,7 +24,7 @@ export default function CommonContainer({
 
 	return (
 		<ErrorBoundary>
-			<div className={directionalLinkProps || alerts.length ? 'grid-container': ''}>
+			<div className={directionalLinkProps || alerts.length ? 'grid-container' : ''}>
 				{directionalLinkProps && <DirectionalLink {...directionalLinkProps} />}
 				{alerts && alerts.map((alert, index) => <Alert key={index} {...alert}></Alert>)}
 			</div>
