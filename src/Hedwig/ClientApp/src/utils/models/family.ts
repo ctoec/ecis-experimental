@@ -19,13 +19,13 @@ export function addressFormatter(family?: Family) {
 	if (!family) {
 		return [''];
 	}
-	var addressLine1 = family.addressLine1 ? family.addressLine1 : '';
-	var addressLine2 = family.addressLine2 ? ` ${family.addressLine2}` : '';
-	var town = family.town ? family.town : '';
-	var state = family.state ? family.state : '';
-	var zip = family.zip ? family.zip : '';
+	const addressLine1 = family.addressLine1 ? family.addressLine1 : '';
+	const addressLine2 = family.addressLine2 ? ` ${family.addressLine2}` : '';
+	const town = family.town ? family.town : '';
+	const state = family.state ? family.state : '';
+	const zip = family.zip ? family.zip : '';
 
-	var fullAddress =
+	const fullAddress =
 		!addressLine1 && !town && !state && !zip
 			? ''
 			: `${addressLine1}${addressLine2}, ${town}, ${state} ${zip}`;
