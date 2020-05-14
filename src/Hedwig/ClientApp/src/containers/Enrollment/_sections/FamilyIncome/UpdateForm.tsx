@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, ChangeEvent } from 'react';
 import { SectionProps } from '../../enrollmentTypes';
 import {
 	initialLoadErrorGuard,
@@ -31,6 +31,10 @@ import UserContext from '../../../../contexts/User/UserContext';
 import { createEmptyFamily, getIdForUser } from '../../../../utils/models';
 import { REQUIRED_FOR_OEC_REPORTING } from '../../../../utils/validations/messageStrings';
 import FormField from '../../../../components/Form_New/FormField';
+import FormContext, { useGenericContext } from '../../../../components/Form_New/FormContext';
+import produce from 'immer';
+import set from 'lodash/set';
+import { ObjectDriller } from '../../../../components/Form_New/ObjectDriller';
 
 const UpdateForm: React.FC<SectionProps> = ({
 	enrollment,
@@ -267,7 +271,7 @@ const UpdateForm: React.FC<SectionProps> = ({
 				data={enrollment}
 				onSubmit={enrollment => console.log(enrollment)}
 			>
-				<FormField<Enrollment, TextInputProps, number, FamilyDetermination>
+				{/* <FormField<Enrollment, TextInputProps, number, FamilyDetermination>
 					type='complex'
 					getValueForDisplay={data => {
 						// TODO: Do we need to guard on value
@@ -278,7 +282,7 @@ const UpdateForm: React.FC<SectionProps> = ({
 						return data.at('child').at('family').at('determinations')
 						.find((det: FamilyDetermination) => det.id === 0)
 					}}
-					preprocessForUpdate={(e, enrollment) => ({
+					parseOnChangeEvent={(e, enrollment) => ({
 						id: 0,
 						...(enrollment.at('child').at('family').at('determinations').find((det: FamilyDetermination) => det.id === 0).value),
 						numberOfPeople: parseInt(e.target.value, 10)
@@ -288,21 +292,24 @@ const UpdateForm: React.FC<SectionProps> = ({
 						id: `numberOfPeople-new`,
 						label: 'HIYA',
 					}}
-				/>
+				/> */}
+				<NewFamilyDeterminationFormField />
 				{
 					(determinations).map(s => (
+						// income
+						// determination date
 						<FormField<Enrollment, TextInputProps, number>
-							type='simple'
 							getValue={data => 
 								data.at('child').at('family').at('determinations').find((_: FamilyDetermination) => _.id === s.id).at('numberOfPeople')
 							}
-							preprocessForUpdate={e => parseInt(e.target.value, 10)}
+							parseOnChangeEvent={e => parseInt(e.target.value, 10)}
 							inputComponent={TextInput}
 							props={{
 								id: `numberOfPeople-${s.id}`,
 								label: 'HIYA',
 							}}
 						/>
+						// not disclosed
 					))
 				}
 				<FormSubmitButton
@@ -366,5 +373,32 @@ const UpdateForm: React.FC<SectionProps> = ({
 		</>
 	);
 };
+
+const NewFamilyDeterminationFormField = () => {
+	const { data, updateData } = useGenericContext<Enrollment>(FormContext);
+	
+	const pathAccessibleData = new ObjectDriller(data);
+	const newDetAccessor = pathAccessibleData.at('child').at('family').at('determinations')
+		.find((det: FamilyDetermination) => det.id === 0);
+
+	return (
+		<TextInput
+		id="number-of-people-new"
+		label="Number of people"
+		onChange={(e: ChangeEvent<HTMLInputElement>) => {
+			const newDet = (newDetAccessor.value || { id: 0 }) as FamilyDetermination;
+			newDet.numberOfPeople = +e.target.value;
+
+			updateData(produce<Enrollment>(
+				data, draft => set(draft, newDetAccessor.path, newDet)
+			))
+		}}
+	/>
+	);
+
+	// income 
+	// det date
+	// not disclosed
+}
 
 export default UpdateForm;

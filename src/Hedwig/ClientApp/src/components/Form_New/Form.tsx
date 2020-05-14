@@ -2,14 +2,24 @@ import React, { FormHTMLAttributes, PropsWithChildren, useState, useEffect } fro
 import { FormProvider } from './FormContext';
 
 type FormProps<T> = {
-	onSubmit: (_: T, e?: React.FormEvent<HTMLFormElement>) => void
+	onSubmit: (_: T) => void
 	data: T
 	className: string;
-} & Pick<
+} &
+/**
+ * Creates a set of props that includes
+ * all FormHTMLAttributes<HTMLFormElement> props, except onSubmit
+ */
+Pick<
 	FormHTMLAttributes<HTMLFormElement>,
 	Exclude<keyof FormHTMLAttributes<HTMLFormElement>, 'onSubmit'>
 >;
 
+/**
+ * Generic form component for updating an object of type T.
+ * The form tracks state of the object, and requires the use of a 
+ * 'submit' button (should be a FormSubmitButton)
+ */
 const Form = <T extends any>({
 	className,
 	onSubmit,
@@ -25,9 +35,13 @@ const Form = <T extends any>({
 		updateData(data);
 	}, [data]);
 
+	/**
+	 * 
+	 * @param e 
+	 */
 	const _onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		onSubmit(_data, e);
+		onSubmit(_data);
 		return false;
 	};
 

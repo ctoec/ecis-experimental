@@ -2,12 +2,7 @@ import { createContext, Context, useContext } from 'react';
 
 type FormContextType = {
 	data: any;
-	updateData: (_: any) => void
-}
-
-export type GenericFormContextType<T> = {
-	data: T,
-	updateData: (_: T) => void
+	updateData: (_: any) => void;
 }
 
 const FormContext = createContext<FormContextType>({
@@ -19,7 +14,15 @@ export const { Provider: FormProvider, Consumer: FormConsumer } = FormContext;
 export default FormContext;
 
 /**
- * Utility for allowing generics in type parameter on context types
+ * useContext does not support type parameters, so we have to create
+ * an un-type-parameterized context, and then cast it to the generic type
+ */
+export type GenericFormContextType<T> = {
+	data: T,
+	updateData: (_: T) => void
+}
+/**
+ * Utility for casting the un-typed context to the generic with type parameter
  * @param context
  */
 export function useGenericContext<S>(context: Context<any>) {

@@ -45,6 +45,8 @@ import FormSubmitButton from '../../../components/Form_New/FormSubmitButton';
 import idx from 'idx';
 import { FormFieldSet } from '../../../components/Form_New/FormFieldSet';
 import { C4kFormField } from './C4kFormField';
+import Checkbox, { CheckboxProps } from '../../../components/Checkbox/Checkbox';
+
 
 const ChildInfo: Section = {
 	key: 'child-information',
@@ -192,10 +194,6 @@ const ChildInfo: Section = {
 			}
 		}, [saveData, saveError]);
 
-		const [showC4kCertificate, updateShowC4kCertificate] = useState(idx(
-			enrollment, _ => _.child.c4KCertificates.length > 0
-		) || false);
-
 		return (
 			<Form<Enrollment | null>
 				data={enrollment}
@@ -210,12 +208,10 @@ const ChildInfo: Section = {
 				<FormFieldSet
 					id="test"
 					legend="Hi"
-					status={_ => {console.log(_, "IN SET OF THE FIELD"); return undefined;}}
 				>
 					<FormField<Enrollment, TextInputProps, string>
-						type='simple'
 						defaultValue=''
-						preprocessForUpdate={e => e.target.value}
+						parseOnChangeEvent={e => e.target.value}
 						getValue={data => data.at('child').at('firstName')}
 						inputComponent={TextInput}
 						props={{
@@ -226,7 +222,19 @@ const ChildInfo: Section = {
 				</FormFieldSet>
 
 				<C4kFormField />
-
+				
+				<FormField<Enrollment, CheckboxProps, boolean>
+				getValue={data => 
+					data.at('child').at('white')
+				}
+				parseOnChangeEvent={e => (e.target as HTMLInputElement).checked}
+				defaultValue={false}
+				inputComponent={Checkbox}
+				props={{
+					id: 'race-white',
+					text: 'White',
+				}}
+			/>
 
 				<div className="usa-form">
 					<FormSubmitButton text={attemptingSave ? 'Saving...' : 'Save'} disabled={attemptingSave} />
