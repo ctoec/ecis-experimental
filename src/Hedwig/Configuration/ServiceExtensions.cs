@@ -81,7 +81,7 @@ namespace Hedwig.Configuration
 			services.AddScoped<IPermissionRepository, PermissionRepository>();
 		}
 
-		public static void ConfigureAuthentication(this IServiceCollection services, bool isProduction, string wingedKeysUri)
+		public static void ConfigureAuthentication(this IServiceCollection services, bool isDevelopment, string wingedKeysUri)
 		{
 			JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -89,7 +89,7 @@ namespace Hedwig.Configuration
 					{
 						options.Authority = wingedKeysUri;
 						options.Audience = "hedwig_backend";
-						if (!isProduction)
+						if (isDevelopment)
 						{
 							// If we are in a dev environment, allow unsecure connection to winged-keys
 							// We don't bother to use valid certificates in dev
