@@ -84,11 +84,7 @@ export default function AgeGroupSection({
 			const filteredFundings = dedupeFundings(
 				(row.fundings || []).filter(f => isCurrentToRange(f, rosterDateRange))
 			);
-			const certificates = (row.child.c4KCertificates || []).map(certificate => ({
-				...certificate,
-				type: 'C4K' as 'C4K',
-			}));
-			const filteredCertificates = certificates.filter(c =>
+			const filteredCertificates = (row.child.c4KCertificates || []).filter(c =>
 				isCurrentToRangeC4K(c, rosterDateRange)
 			);
 
