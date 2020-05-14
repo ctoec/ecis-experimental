@@ -15,10 +15,9 @@ import {
 	getCurrentC4kCertificate,
 	lastNReportingPeriods,
 	reportingPeriodFormatter,
-	prettyFundingTime,
 	validatePermissions,
 	getIdForUser,
-	getFundingTime,
+	prettyFundingSpaceTime,
 } from '../../utils/models';
 import useApi, { ApiError } from '../../hooks/useApi';
 import { FormReducer, formReducer, updateData } from '../../utils/forms/form';
@@ -35,7 +34,7 @@ import moment from 'moment';
 import CommonContainer from '../CommonContainer';
 import { InlineIcon, DateInput, ChoiceList, Button } from '../../components';
 import dateFormatter from '../../utils/dateFormatter';
-import { generateFundingTypeTag } from '../../utils/fundingType';
+import { getFundingTag } from '../../utils/fundingType';
 import displayErrorOrWarning from '../../utils/validations/displayErrorOrWarning';
 import { REQUIRED_FOR_WITHDRAWAL } from '../../utils/validations/messageStrings';
 
@@ -237,14 +236,11 @@ export default function Withdrawal({
 					{cdcFunding && (
 						<div className="mobile-lg:grid-col-6">
 							<p>
-								{generateFundingTypeTag(
-									{ ...cdcFunding, type: 'CDC' },
-									{
-										includeTime: false,
-									}
-								)}
+								{getFundingTag({
+									fundingSource: cdcFunding.source,
+								})}
 							</p>
-							<p>Enrollment: {prettyFundingTime(getFundingTime(cdcFunding))}</p>
+							<p>Enrollment: {prettyFundingSpaceTime(cdcFunding.fundingSpace)}</p>
 							<p>
 								First reporting period:{' '}
 								{cdcFunding.firstReportingPeriod

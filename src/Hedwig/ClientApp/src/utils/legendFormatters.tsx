@@ -2,8 +2,8 @@ import React from 'react';
 import { Organization, Enrollment, FundingSource, Site } from '../generated';
 import { DeepNonUndefineable } from './types';
 import { isFunded, getCurrentC4kCertificate, getFundingSpaceCapacity } from './models';
-import { getDisplayColorForFundingType, FundingTypes } from './fundingType';
-import { Tag, InlineIcon } from '../components';
+import { getC4KTag, getFundingTag } from './fundingType';
+import { InlineIcon } from '../components';
 
 export type LegendTextFormatterOpts = {
 	organization?: Organization;
@@ -17,22 +17,17 @@ export type LegendTextFormatter = (
 ) => string | JSX.Element;
 
 type LegendDisplayDetail = {
-	symbol?: React.ReactElement;
+	symbolGenerator: (_?: any) => React.ReactElement;
 	legendTextFormatter: LegendTextFormatter;
 	hidden: (organization: Organization, enrollments: DeepNonUndefineable<Enrollment[]>) => boolean;
 };
 
 export const legendDisplayDetails: {
-	[LegendDisplayKey in FundingTypes | string]: LegendDisplayDetail;
+	[key: string]: LegendDisplayDetail;
 } = {
 	CDC: {
-		symbol: (
-			<Tag
-				text="CDC"
-				color={getDisplayColorForFundingType('CDC')}
-				className="position-relative top-neg-2px"
-			/>
-		),
+		symbolGenerator: (opts?: { [key: string]: any }) =>
+			getFundingTag({ fundingSource: FundingSource.CDC, ...opts }),
 		legendTextFormatter: (enrollments, opts = {}) => {
 			let { organization, site, showPastEnrollments } = opts;
 			if (!organization) {
@@ -72,13 +67,7 @@ export const legendDisplayDetails: {
 			getFundingSpaceCapacity(organization, { source: FundingSource.CDC }) === 0,
 	},
 	C4K: {
-		symbol: (
-			<Tag
-				text="C4K"
-				color={getDisplayColorForFundingType('C4K')}
-				className="position-relative top-neg-2px"
-			/>
-		),
+		symbolGenerator: (opts?: { [key: string]: any }) => getC4KTag(opts),
 		legendTextFormatter: (enrollments, opts = {}) => {
 			const { showPastEnrollments } = opts;
 			const enrolledWithC4k = enrollments.filter(
@@ -96,7 +85,9 @@ export const legendDisplayDetails: {
 			enrollments.filter(enrollment => !!getCurrentC4kCertificate(enrollment)).length === 0,
 	},
 	missing: {
-		symbol: <InlineIcon icon="incomplete" />,
+		symbolGenerator: (opts?: { className?: string }) => (
+			<InlineIcon icon="incomplete" className={opts ? opts.className : ''} />
+		),
 		legendTextFormatter: enrollments => {
 			// CDC funded enrollments with validationErrors are considered to be missing information
 			const missingInformationEnrollmentsCount = enrollments.filter<

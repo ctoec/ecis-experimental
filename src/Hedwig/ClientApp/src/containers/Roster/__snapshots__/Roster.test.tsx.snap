@@ -89,7 +89,7 @@ exports[`Roster matches snapshot 1`] = `
           class="oec-legend-item__symbol undefined"
         >
           <span
-            class="oec-inline-icon oec-inline-icon--incomplete"
+            class="position-relative top-neg-2px oec-inline-icon oec-inline-icon--incomplete"
           >
             <svg>
               error.svg
@@ -130,9 +130,9 @@ exports[`Roster matches snapshot 1`] = `
           class="oec-legend-item__symbol undefined"
         >
           <span
-            class="usa-tag position-relative top-neg-2px bg-blue-50v"
+            class="usa-tag bg-blue-50v"
           >
-            CDC
+            CDC–FT
           </span>
         </div>
         <div
@@ -158,9 +158,9 @@ exports[`Roster matches snapshot 1`] = `
           class="oec-legend-item__symbol undefined"
         >
           <span
-            class="usa-tag position-relative top-neg-2px bg-blue-50v"
+            class="usa-tag bg-blue-50v"
           >
-            CDC
+            CDC–PT
           </span>
         </div>
         <div
@@ -304,7 +304,7 @@ exports[`Roster matches snapshot 1`] = `
           </td>
           <td>
             <span
-              class="usa-tag undefined bg-blue-50v"
+              class="usa-tag bg-blue-50v"
             >
               CDC–PT
             </span>
@@ -334,7 +334,7 @@ exports[`Roster matches snapshot 1`] = `
           </td>
           <td>
             <span
-              class="usa-tag undefined bg-blue-50v"
+              class="usa-tag bg-blue-50v"
             >
               CDC–FT
             </span>
@@ -362,9 +362,9 @@ exports[`Roster matches snapshot 1`] = `
           class="oec-legend-item__symbol undefined"
         >
           <span
-            class="usa-tag position-relative top-neg-2px bg-blue-50v"
+            class="usa-tag bg-blue-50v"
           >
-            CDC
+            CDC–FT
           </span>
         </div>
         <div
@@ -390,9 +390,9 @@ exports[`Roster matches snapshot 1`] = `
           class="oec-legend-item__symbol undefined"
         >
           <span
-            class="usa-tag position-relative top-neg-2px bg-blue-50v"
+            class="usa-tag bg-blue-50v"
           >
-            CDC
+            CDC–PT
           </span>
         </div>
         <div
@@ -536,7 +536,7 @@ exports[`Roster matches snapshot 1`] = `
           </td>
           <td>
             <span
-              class="usa-tag undefined bg-blue-50v"
+              class="usa-tag bg-blue-50v"
             >
               CDC–FT
             </span>
@@ -578,7 +578,7 @@ exports[`Roster matches snapshot 1`] = `
           </td>
           <td>
             <span
-              class="usa-tag undefined bg-blue-50v"
+              class="usa-tag bg-blue-50v"
             >
               CDC–FT
             </span>
@@ -620,7 +620,7 @@ exports[`Roster matches snapshot 1`] = `
           </td>
           <td>
             <span
-              class="usa-tag undefined bg-blue-50v"
+              class="usa-tag bg-blue-50v"
             >
               CDC–FT
             </span>
@@ -650,7 +650,7 @@ exports[`Roster matches snapshot 1`] = `
           </td>
           <td>
             <span
-              class="usa-tag undefined bg-blue-50v"
+              class="usa-tag bg-blue-50v"
             >
               CDC–FT
             </span>
@@ -680,7 +680,7 @@ exports[`Roster matches snapshot 1`] = `
           </td>
           <td>
             <span
-              class="usa-tag undefined bg-blue-50v"
+              class="usa-tag bg-blue-50v"
             >
               CDC–FT
             </span>
@@ -710,7 +710,7 @@ exports[`Roster matches snapshot 1`] = `
           </td>
           <td>
             <span
-              class="usa-tag undefined bg-blue-50v"
+              class="usa-tag bg-blue-50v"
             >
               CDC–PT
             </span>

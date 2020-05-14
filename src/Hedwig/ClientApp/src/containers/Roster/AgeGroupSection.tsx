@@ -6,16 +6,19 @@ import { Table, TableProps, InlineIcon, DateRange, Column, Legend } from '../../
 import { Enrollment, FundingSpace, FundingSource, Organization, Site } from '../../generated';
 import { lastFirstNameFormatter } from '../../utils/stringFormatters';
 import dateFormatter from '../../utils/dateFormatter';
-import { NO_FUNDING, isFundedForFundingSpace, prettyFundingSpaceTime } from '../../utils/models';
+import {
+	NO_FUNDING,
+	isFundedForFundingSpace,
+	prettyFundingSpaceTime,
+	isCurrentToRange,
+	dedupeFundings,
+	isCurrentToRangeC4K,
+} from '../../utils/models';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../utils/types';
 import { hasValidationErrors } from '../../utils/validations';
 import { isFunded } from '../../utils/models';
-import {
-	generateFundingTypeTag,
-	filterFundingTypesForRosterTags,
-	FundingType,
-} from '../../utils/fundingType';
 import { legendDisplayDetails } from '../../utils/legendFormatters';
+import { getC4KTag, getFundingTag } from '../../utils/fundingType';
 
 export type AgeGroupTableProps = { id: string; data: DeepNonUndefineable<Enrollment>[] };
 
@@ -78,30 +81,24 @@ export default function AgeGroupSection({
 	const fundingColumn = {
 		name: 'Funding',
 		cell: ({ row }: { row: DeepNonUndefineable<Enrollment> }) => {
-			const fundings = (row.fundings || []).map(funding => ({ ...funding, type: 'CDC' as 'CDC' }));
-			const certificates = (row.child.c4KCertificates || []).map(certificate => ({
-				...certificate,
-				type: 'C4K' as 'C4K',
-			}));
-			const fundingTypes: FundingType[] = [...fundings, ...certificates];
-			const fundingTypeTags = filterFundingTypesForRosterTags(fundingTypes, rosterDateRange);
+			const filteredFundings = dedupeFundings(
+				(row.fundings || []).filter(f => isCurrentToRange(f, rosterDateRange))
+			);
+			const filteredCertificates = (row.child.c4KCertificates || []).filter(c =>
+				isCurrentToRangeC4K(c, rosterDateRange)
+			);
+
 			return (
 				<td>
-					{fundingTypeTags.length > 0 ? (
-						fundingTypeTags.map<React.ReactNode>((value, index) => {
-							let includeTime = false;
-							const fundingSpaces = organization.fundingSpaces;
-							if (fundingSpaces) {
-								const matchingFundingSpaces = fundingSpaces
-									.filter(space => space.source === value.type)
-									.filter(space => space.ageGroup === ageGroup);
-								if (matchingFundingSpaces.length > 1) {
-									includeTime = true;
-								}
-							}
-							return generateFundingTypeTag(value, { index, includeTime });
+					{filteredFundings.map((funding, index) =>
+						getFundingTag({
+							fundingSource: funding.source,
+							index,
+							fundingTime: funding.fundingSpace ? funding.fundingSpace.time : undefined,
 						})
-					) : (
+					)}
+					{filteredCertificates.length > 0 && getC4KTag()}
+					{filteredFundings.length === 0 && filteredCertificates.length === 0 && (
 						<span className="text-italic text-base">{NO_FUNDING}</span>
 					)}
 				</td>
@@ -157,16 +154,16 @@ export default function AgeGroupSection({
 		const enrolledForFundingSpace = enrollments.filter<DeepNonUndefineable<Enrollment>>(
 			enrollment => isFundedForFundingSpace(enrollment, space.id, rosterDateRange)
 		).length;
-		const fundingTime = prettyFundingSpaceTime(space);
+		const prettyFundingTime = prettyFundingSpaceTime(space);
 		return {
-			symbol: legendDisplayDetails[space.source || ''].symbol,
+			symbol: legendDisplayDetails[space.source || ''].symbolGenerator({ fundingTime: space.time }),
 			hidden: site && enrolledForFundingSpace === 0,
 			// If we're looking at an org roster, show the funding spaces available even if they're not used
 			// Hide the legend item if there are no kids enrolled for this funding space type and we are looking at one site
 			text: (
 				<>
 					<span>
-						{fundingTime}
+						{prettyFundingTime}
 						{' — '}
 					</span>
 					<span className="text-bold">

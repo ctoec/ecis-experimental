@@ -44,13 +44,13 @@ exports[`Withdrawal matches snapshot 1`] = `
       >
         <p>
           <span
-            class="usa-tag undefined bg-blue-50v"
+            class="usa-tag bg-blue-50v"
           >
             CDC
           </span>
         </p>
         <p>
-          Enrollment: full time
+          Enrollment: Full time
         </p>
         <p>
           First reporting period: March 2019
