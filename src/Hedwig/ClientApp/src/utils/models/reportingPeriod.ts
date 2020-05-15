@@ -93,27 +93,6 @@ export const lastEligibleReportingPeriod = (
 	return sortedPeriods[0];
 };
 
-/**
- * Function to return array of first N reporting periods sorted by date such that all are eligible reporting periods for the given start date.
- * @param periods The array of reporting periods provided by ReportingPeriodContext
- * @param startDate The enrollment start date (aka entry)
- * @param n The number of reporting periods to return
- */
-export const nextNReportingPeriods = (
-	periods: ReportingPeriod[],
-	startDate: Date,
-	n: number
-): ReportingPeriod[] => {
-	const sortedPeriods = [...periods].sort((a, b) => propertyDateSorter(a, b, r => r.period));
-
-	const _firstEligibleReportingPeriod = firstEligibleReportingPeriod(periods, startDate);
-	if (!_firstEligibleReportingPeriod) {
-		return [];
-	}
-	const index = sortedPeriods.findIndex(period => period.id === _firstEligibleReportingPeriod.id);
-	return sortedPeriods.slice(index, index + n);
-};
-
 export const lastNReportingPeriods = (
 	periods: ReportingPeriod[],
 	endDate: Date,

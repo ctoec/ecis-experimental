@@ -9,7 +9,7 @@ import { Enrollment } from '../../../generated/models/Enrollment';
 import { Button, AlertProps, DirectionalLinkProps, Tag } from '../../../components';
 import { DeepNonUndefineable } from '../../../utils/types';
 import CommonContainer from '../../CommonContainer';
-import { updateRosterAlert } from '../../../utils/stringFormatters/alertTextMakers';
+import { updateRosterAlert } from '../../../utils/stringFormatters';
 
 export default function ReportDetail() {
 	const { id } = useParams();

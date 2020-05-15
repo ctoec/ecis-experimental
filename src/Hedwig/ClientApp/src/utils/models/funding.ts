@@ -157,20 +157,6 @@ export function updateFunding({
 }
 
 /**
- * Returns the first funding without defined source
- * @param enrollment
- */
-export function getSourcelessFunding(
-	enrollment: DeepNonUndefineable<Enrollment>
-): DeepNonUndefineable<Funding> | undefined {
-	if (!enrollment.fundings) {
-		return undefined;
-	}
-
-	return enrollment.fundings.find(funding => !funding.source);
-}
-
-/**
  * Sort function to sort an array of fundings by firstReportingPeriod.period
  * @param a
  * @param b

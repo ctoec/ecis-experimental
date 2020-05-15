@@ -17,18 +17,3 @@ export function warningForFieldSet<T extends Validatable>(
 		};
 	}
 }
-
-export function errorForFieldSet(
-	fieldSetId: string,
-	fieldValues: any[],
-	saveCondition: boolean,
-	message: string
-): FormStatusProps | undefined {
-	if (fieldValues.some(f => !f) && saveCondition) {
-		return {
-			type: 'error',
-			message,
-			id: `${fieldSetId}-error`,
-		};
-	}
-}
