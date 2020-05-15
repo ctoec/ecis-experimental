@@ -32,7 +32,7 @@ namespace Hedwig
 			services.ConfigureMapping();
 			services.ConfigureRepositories();
 			services.ConfigureAuthentication(
-				EnvironmentConfiguration.IsProduction(),
+				EnvironmentConfiguration.IsDevelopment(),
 				Configuration.GetValue<string>("WingedKeysUri")
 			);
 			services.ConfigureAuthorization();
@@ -64,10 +64,17 @@ namespace Hedwig
 				app.UpdateDatabase();
 			}
 
+			// We want to be able to see errors in every non-prod env
+			// Not just dev
 			if (!env.IsProduction())
 			{
 				app.UseDeveloperExceptionPage();
 				IdentityModelEventSource.ShowPII = true;
+			}
+
+			// We only need CORS support in development
+			if (env.IsDevelopment())
+			{
 				app.UseCors();
 			}
 

@@ -58,7 +58,7 @@ namespace Hedwig
 				logging.AddConsole();
 				logging.AddDebug();
 
-				if (EnvironmentConfiguration.IsProduction())
+				if (!EnvironmentConfiguration.IsDevelopment())
 				{
 					logging.AddAWSProvider(context.Configuration.GetAWSLoggingConfigSection());
 					logging.Services.Configure<Sentry.Extensions.Logging.SentryLoggingOptions>(context.Configuration.GetSection("Sentry"));
