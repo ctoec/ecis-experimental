@@ -8,7 +8,7 @@ import { REQUIRED_FOR_ENROLLMENT } from '../../../utils/validations/messageStrin
 import { browserStackAccesstoken, bs_local } from '../../config';
 
 // Set time out to 3 minutes
-jest.setTimeout(3 * 60 * 1000);
+// jest.setTimeout(3 * 60 * 1000);
 
 const appUrl = `${clientHost}/`;
 

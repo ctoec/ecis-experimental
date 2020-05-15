@@ -6,7 +6,7 @@ import { until } from 'selenium-webdriver';
 import { browserStackAccesstoken, bs_local } from '../config';
 
 // Set time out to 1 minute
-jest.setTimeout(60 * 1000);
+// jest.setTimeout(60 * 1000);
 
 const appUrl = `${clientHost}/`;
 

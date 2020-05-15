@@ -7,7 +7,7 @@ import { beginEnroll, enterChildInfo } from '../../utilities/enroll';
 import { browserStackAccesstoken, bs_local } from '../../config';
 
 // Set time out to 3 minutes
-jest.setTimeout(3 * 60 * 1000);
+// jest.setTimeout(3 * 60 * 1000);
 
 const appUrl = `${clientHost}/`;
 
@@ -25,7 +25,7 @@ beforeEach(done => {
 			done();
 		}
 	);
-});
+}, 30 * 1000);
 
 afterEach(async done => {
 	await DriverHelper.quit(driver);
@@ -150,5 +150,5 @@ describe('Enrollment and funding', () => {
 			const newselectedContractSpace = await contractSpaceDropdown.getAttribute('value');
 			expect(newselectedContractSpace).toBe(selectedContractSpace);
 		} catch {}
-	});
+	}, 2 * 60 * 1000);
 });

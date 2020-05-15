@@ -12,7 +12,7 @@ import moment from 'moment';
 import { until } from 'selenium-webdriver';
 
 // Set time out to 60 seconds
-jest.setTimeout(3 * 60 * 1000);
+// jest.setTimeout(60 * 1000);
 
 const appUrl = `${clientHost}/`;
 const thisMonthAndYear = moment().format('MMMM YYYY');
