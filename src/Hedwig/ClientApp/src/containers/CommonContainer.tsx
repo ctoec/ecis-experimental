@@ -1,4 +1,5 @@
 import React, { ReactElement, useContext } from 'react';
+import cx from 'classnames';
 import AlertContext from '../contexts/Alert/AlertContext';
 import {
 	Alert,
@@ -24,7 +25,7 @@ export default function CommonContainer({
 
 	return (
 		<ErrorBoundary>
-			<div className="grid-container">
+			<div className={cx({ 'grid-container': directionalLinkProps || alerts.length })}>
 				{directionalLinkProps && <DirectionalLink {...directionalLinkProps} />}
 				{alerts && alerts.map((alert, index) => <Alert key={index} {...alert}></Alert>)}
 			</div>
