@@ -99,12 +99,24 @@ namespace Hedwig
 				endpoints.MapControllers();
 			});
 
+			// If we are not in development, try serving static files according to
+			// the path specified in AddSpaStaticFiles. This is necessary for
+			// returning static compiled resources like the JS and CSS.
+			// Note that AddSpaStaticFiles is called in
+			// ServiceExtensions.ConfigureSpa()
+			if (!env.IsDevelopment())
+			{
+				app.UseSpaStaticFiles();
+			}
+
 			// UseSpa internally calls UseStaticFiles which only supports GET or OPTIONS
 			// requests. Guard this middleware so only requests with those methods are 
 			// able to reach this. This prevents a 500 error when a POST/HEAD/DELETE/PUT
 			// reaches this middleware.
 			app.UseWhen(
 				context => HttpMethods.IsGet(context.Request.Method) || HttpMethods.IsOptions(context.Request.Method),
+				// UseSpa rewrites all non-endpoint requests (aka paths that do not map to
+				// a controller). Thus, UseSpaStaticFiles must be called before UseSpa
 				app => app.UseSpa(spa =>
 				{
 					spa.Options.SourcePath = "ClientApp";
