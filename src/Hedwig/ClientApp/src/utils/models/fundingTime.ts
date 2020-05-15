@@ -1,17 +1,5 @@
 import { FundingTime } from '../../generated';
 
-export function fundingTimeFromString(str: string) {
-	// TODO: should we update this function to also parse "part time / full time"?
-	switch (str) {
-		case FundingTime.Full:
-			return FundingTime.Full;
-		case FundingTime.Part:
-			return FundingTime.Part;
-		default:
-			return null;
-	}
-}
-
 export function prettyFundingTime(
 	time: FundingTime | null | undefined,
 	capitalize: boolean = false

@@ -12,10 +12,6 @@ export const afterDate = (array: Date[], date: Date) => {
 	return array.filter(obj => moment(obj).isAfter(date));
 };
 
-export const propertyAfterDate = <T>(array: T[], accessor: (_: T) => Date, date: Date) => {
-	return array.filter(obj => moment(accessor(obj)).isAfter(date));
-};
-
 export const betweenDates = (array: Date[], startDate: Date, endDate: Date) => {
 	return array.filter(obj => moment(obj).isAfter(startDate) && moment(obj).isBefore(endDate));
 };

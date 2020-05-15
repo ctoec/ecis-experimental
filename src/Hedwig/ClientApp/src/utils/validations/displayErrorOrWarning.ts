@@ -1,8 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import { FormStatusProps } from '../../components';
-import { serverErrorForField } from '.';
-import { warningForField, clientErrorForField } from './errorForField';
-import { warningForFieldSet } from './errorForFieldSet';
+import { warningForField, clientErrorForField, warningForFieldSet, serverErrorForField } from '.';
 import { ValidationProblemDetails, ProblemDetails } from '../../generated';
 
 export default function displayErrorOrWarning<T>(

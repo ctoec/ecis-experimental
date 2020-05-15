@@ -68,20 +68,3 @@ export function activeC4kFundingAsOf(
 		});
 	}
 }
-
-/**
- * naive-ly deduplicate c4k certificates based on child id for displaying in roster
- * @param fundings
- */
-export function dedupeC4kCertificates(certificates: C4KCertificate[]) {
-	const uniqueCertificates: { [key: string]: C4KCertificate } = {};
-
-	certificates.forEach(cert => {
-		const key = `${cert.childId}`;
-		if (!uniqueCertificates[key]) {
-			uniqueCertificates[key] = cert;
-		}
-	});
-
-	return Object.values(uniqueCertificates);
-}
