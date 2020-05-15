@@ -1,10 +1,7 @@
 .oec-directional-link {
-	// padding: units(2) 0 0 0;
 	display: block;
 	@include u-text('primary');
 	@include u-text('bold');
-	// margin-top: units(2);
-	// margin-bottom: units(-2);
 }
 
 .oec-directional-link__arrow {
