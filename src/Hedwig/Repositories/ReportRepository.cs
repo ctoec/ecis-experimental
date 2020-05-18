@@ -19,14 +19,14 @@ namespace Hedwig.Repositories
 			// depends on if we include sub-objets on report that should _not_ be updated
 			UpdateHedwigIdEntityWithNavigationProperties<CdcReport, CdcReportDTO, int>(report, reportDTO);
 		}
-		public Task<List<CdcReport>> GetReportsForOrganizationAsync(int orgId)
+		public List<CdcReport> GetReportsForOrganization(int orgId)
 		{
 			return _context.Reports
-			.OfType<OrganizationReport>()
+			.OfType<CdcReport>()
 			.Where(r => r.OrganizationId == orgId)
 			.Include(report => report.ReportingPeriod)
-			.Select(r => r as CdcReport)
-			.ToListAsync();
+			.Include(report => report.TimeSplitUtilizations)
+			.ToList();
 		}
 
 		public async Task<CdcReport> GetReportForOrganizationAsync(int id, int orgId, string[] include = null)
@@ -65,7 +65,11 @@ namespace Hedwig.Repositories
 					.Include(report => report.Organization)
 						.ThenInclude(organization => organization.FundingSpaces)
 							.ThenInclude(fundingSpace => fundingSpace.TimeSplitUtilizations)
-								.ThenInclude(timeSplitUtilization => timeSplitUtilization.ReportingPeriod);
+								.ThenInclude(timeSplitUtilization => timeSplitUtilization.ReportingPeriod)
+					.Include(report => report.Organization)
+						.ThenInclude(organization => organization.FundingSpaces)
+							.ThenInclude(fundingSpace => fundingSpace.TimeSplitUtilizations)
+								.ThenInclude(util => util.Report);
 			}
 
 			var reportResult = await reportQuery.FirstOrDefaultAsync();
@@ -141,6 +145,32 @@ namespace Hedwig.Repositories
 			.FirstOrDefault();
 		}
 
+		public IEnumerable<CdcReport> GetReportsForOrganizationByFiscalYear(int orgId, DateTime periodDate)
+		{
+			var month = periodDate.Month;
+			var fiscalYearStart = periodDate.Year;
+			if (month < 7)
+			{
+				--fiscalYearStart;
+			}
+			var start = new DateTime(fiscalYearStart, 7, 1);
+			var end = new DateTime(fiscalYearStart + 1, 6, 30);
+			return _context
+				.Reports
+				.OfType<CdcReport>()
+				.Where(r => r.OrganizationId == orgId)
+				.Include(r => r.TimeSplitUtilizations)
+				.ThenInclude(u => u.FundingSpace)
+				.ThenInclude(f => f.TimeSplit)
+				.Include(r => r.ReportingPeriod)
+				.Where(
+					report =>
+						report.ReportingPeriod.Period.CompareTo(start) >= 0 &&
+						report.ReportingPeriod.Period.CompareTo(end) <= 0
+				)
+				.ToList();
+		}
+
 		public void AddReport(Report report)
 		{
 			_context.Add(report);
@@ -159,15 +189,12 @@ namespace Hedwig.Repositories
 	public interface IReportRepository : IHedwigRepository
 	{
 		void UpdateReport(CdcReport report, CdcReportDTO reportDTO);
-		Task<List<CdcReport>> GetReportsForOrganizationAsync(int orgId);
+		List<CdcReport> GetReportsForOrganization(int orgId);
 		Task<CdcReport> GetReportForOrganizationAsync(int id, int orgId, string[] include);
-
 		List<Enrollment> GetEnrollmentsForReport(CdcReport report);
-
 		CdcReport GetMostRecentSubmittedCdcReportForOrganization(int orgId);
-
+		IEnumerable<CdcReport> GetReportsForOrganizationByFiscalYear(int orgId, DateTime periodDate);
 		void AddReport(Report report);
-
 		bool HasCdcReportForOrganizationAndReportingPeriod(int orgId, ReportingPeriod period);
 	}
 }

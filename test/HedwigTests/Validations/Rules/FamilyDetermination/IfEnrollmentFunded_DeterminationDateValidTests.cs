@@ -6,7 +6,6 @@ using Xunit;
 using Moq;
 using System.Collections.Generic;
 using System;
-using System.Reflection;
 
 namespace HedwigTests.Validations.Rules
 {

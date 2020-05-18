@@ -32,6 +32,16 @@ const mayReportingPeriod = {
 	dueAt: new Date('2019-06-15'),
 };
 
+const augustFirst = new Date('2019-08-01');
+export const augustReportingPeriod = {
+	...defaultCdcReportingPeriod,
+	id: 4,
+	period: augustFirst,
+	periodStart: augustFirst,
+	periodEnd: new Date('2019-08-31'),
+	dueAt: new Date('2019-09-15'),
+};
+
 export const cdcReportingPeriods: ReportingPeriod[] = [
 	marchReportingPeriod,
 	aprilReportingPeriod,

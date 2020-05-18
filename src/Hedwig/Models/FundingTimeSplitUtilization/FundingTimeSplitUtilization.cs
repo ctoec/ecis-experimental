@@ -10,14 +10,12 @@ namespace Hedwig.Models
 		[Required]
 		public int ReportingPeriodId { get; set; }
 		public ReportingPeriod ReportingPeriod { get; protected set; }
-
 		[Required]
 		public int ReportId { get; set; }
 		public CdcReport Report { get; set; }
 		[Required]
 		public int FundingSpaceId { get; set; }
 		public FundingSpace FundingSpace { get; set; }
-
 		[Required]
 		public int FullTimeWeeksUsed { get; set; }
 		[Required]

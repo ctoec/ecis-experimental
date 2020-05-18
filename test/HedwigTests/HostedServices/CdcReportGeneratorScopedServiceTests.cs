@@ -9,7 +9,7 @@ using HedwigTests.Helpers;
 using HedwigTests.Fixtures;
 using Hedwig.Models;
 using Hedwig.HostedServices;
-using Hedwig.Utilities;
+using Hedwig.Utilities.DateTime;
 using Microsoft.Extensions.Logging;
 
 namespace HedwigTests.HostedServices
@@ -66,11 +66,11 @@ namespace HedwigTests.HostedServices
 					dateTime.Object
 				);
 
-				var previousReports = await reportRepo.GetReportsForOrganizationAsync(organizationId);
+				var previousReports = reportRepo.GetReportsForOrganization(organizationId);
 
 				await cdcReportGenerator.TryGenerateReports();
 
-				var reports = await reportRepo.GetReportsForOrganizationAsync(organizationId);
+				var reports = reportRepo.GetReportsForOrganization(organizationId);
 
 				Assert.Empty(previousReports);
 				Assert.Equal(numOfReportsGenerated, reports.Count());
@@ -113,13 +113,13 @@ namespace HedwigTests.HostedServices
 					dateTime.Object
 				);
 
-				var previousReports = await reportRepo.GetReportsForOrganizationAsync(organizationId);
+				var previousReports = reportRepo.GetReportsForOrganization(organizationId);
 
 				await cdcReportGenerator.TryGenerateReports();
 				await cdcReportGenerator.TryGenerateReports();
 				await cdcReportGenerator.TryGenerateReports();
 
-				var reports = await reportRepo.GetReportsForOrganizationAsync(organizationId);
+				var reports = reportRepo.GetReportsForOrganization(organizationId);
 
 				Assert.Empty(previousReports);
 				Assert.Single(reports);

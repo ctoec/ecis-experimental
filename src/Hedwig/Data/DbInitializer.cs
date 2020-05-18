@@ -80,7 +80,7 @@ namespace Hedwig.Data
 
 			CreateCdcReport(organizationId: organization.Id, reportingPeriodId: reportingPeriods[0].Id, submittedAt: "2019-09-09");
 			CreateCdcReport(organizationId: organization.Id, reportingPeriodId: reportingPeriods[1].Id, submittedAt: "2019-10-04");
-			CreateCdcReport(organizationId: organization.Id, reportingPeriodId: reportingPeriods[2].Id, submittedAt: "2019-11-12");
+			CreateCdcReport(organizationId: organization.Id, reportingPeriodId: reportingPeriods[2].Id, submittedAt: "2019-11-12", usedSplitTime: true, splitTimeFundingSpace: schoolAgeSplitTimeFundingSpace);
 
 			var lines = new string[] {
 				"Alan,Rickman,2018-12-07,Male,TRUE,2019-09-02,,CDC,C4K,FOSTER,ALTERNATE",
@@ -306,8 +306,8 @@ namespace Hedwig.Data
 					? null
 					: new FundingTimeSplit
 					{
-						FullTimeWeeks = 42,
-						PartTimeWeeks = 10
+						FullTimeWeeks = 48,
+						PartTimeWeeks = 4
 					}
 			};
 			_context.FundingSpaces.Add(space);
@@ -531,7 +531,9 @@ namespace Hedwig.Data
 			int organizationId,
 			int reportingPeriodId,
 			string submittedAt = null,
-			bool accredited = true
+			bool accredited = true,
+			bool usedSplitTime = false,
+			FundingSpace splitTimeFundingSpace = null
 		)
 		{
 			var report = new CdcReport
@@ -540,6 +542,18 @@ namespace Hedwig.Data
 				ReportingPeriodId = reportingPeriodId,
 				Accredited = accredited
 			};
+
+			if (usedSplitTime && splitTimeFundingSpace != null)
+			{
+				report.TimeSplitUtilizations = new List<FundingTimeSplitUtilization> {
+					new FundingTimeSplitUtilization {
+						FundingSpaceId = splitTimeFundingSpace.Id,
+						ReportingPeriodId = reportingPeriodId,
+						FullTimeWeeksUsed = 2,
+						PartTimeWeeksUsed = 2,
+					}
+				};
+			}
 
 			if (submittedAt != null)
 			{

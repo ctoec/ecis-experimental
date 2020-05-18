@@ -1,12 +1,13 @@
-using System.Linq;
-using System.Threading.Tasks;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 using Hedwig.Repositories;
 using Hedwig.Models;
 using HedwigTests.Helpers;
 using HedwigTests.Fixtures;
-using System.Threading;
 
 namespace HedwigTests.Repositories
 {
@@ -76,7 +77,7 @@ namespace HedwigTests.Repositories
 		}
 
 		[Fact]
-		public async Task GetReportsForOrganization()
+		public void GetReportsForOrganization()
 		{
 			using (var context = new TestHedwigContextProvider().Context)
 			{
@@ -86,9 +87,54 @@ namespace HedwigTests.Repositories
 				ReportHelper.CreateCdcReport(context);
 
 				var reportRepo = new ReportRepository(context);
-				var result = await reportRepo.GetReportsForOrganizationAsync(organization.Id);
+				var result = reportRepo.GetReportsForOrganization(organization.Id);
 				var resultIds = result.Select(r => r.Id);
 				Assert.Equal(reportIds, resultIds);
+			}
+		}
+
+		[Theory]
+		[InlineData(2010, 1, 1, 2)]
+		[InlineData(2010, 6, 1, 2)]
+		[InlineData(2010, 7, 1, 2)]
+		[InlineData(2009, 7, 1, 2)]
+		[InlineData(2009, 6, 1, 0)]
+		[InlineData(2011, 1, 1, 2)]
+		[InlineData(2011, 9, 1, 1)]
+		[InlineData(2012, 6, 1, 1)]
+		[InlineData(2012, 9, 1, 0)]
+		public void GetReportsForFiscalYear(
+			int year,
+			int month,
+			int day,
+			int total
+		)
+		{
+			var reportDate = new DateTime(year, month, day);
+			Organization organization;
+			using (var context = new TestHedwigContextProvider().Context)
+			{
+				var dates = new List<DateTime> {
+					new DateTime(2010, 1, 1),
+					new DateTime(2010, 5, 1),
+					new DateTime(2010, 7, 1),
+					new DateTime(2011, 2, 1),
+					new DateTime(2011, 7, 1),
+				};
+				organization = OrganizationHelper.CreateOrganization(context);
+				foreach (var date in dates)
+				{
+					var reportingPeriod = ReportingPeriodHelper.CreateReportingPeriod(context, period: date.ToString("yyyy-MM-dd"));
+					ReportHelper.CreateCdcReport(context, organization: organization, reportingPeriod: reportingPeriod);
+				}
+			}
+
+			using (var context = new TestHedwigContextProvider().Context)
+			{
+				var reportRepo = new ReportRepository(context);
+				var result = reportRepo.GetReportsForOrganizationByFiscalYear(organization.Id, reportDate);
+
+				Assert.Equal(total, result.Count());
 			}
 		}
 	}

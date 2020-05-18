@@ -104,6 +104,17 @@ namespace HedwigTests.Integrations
 			return MakeAuthenticatedRequest(HttpMethod.Get, user, uri);
 		}
 
+		public static HttpRequestMessage OrganizationReportPut(
+			User user,
+			Organization organization,
+			Report report
+		)
+		{
+			var uri = $"api/organizations/{organization.Id}/Reports/{report.Id}";
+			var request = MakeAuthenticatedRequest(HttpMethod.Put, user, uri);
+			return AddBodyParams(request, report);
+		}
+
 		public static HttpRequestMessage EnrollmentPost(
 			User user,
 			Enrollment enrollment,

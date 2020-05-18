@@ -26,3 +26,17 @@ export const propertyBetweenDates = <T>(
 		obj => moment(accessor(obj)).isAfter(startDate) && moment(accessor(obj)).isBefore(endDate)
 	);
 };
+
+export const isWithinFiscalYear = (date: Date, fiscalYearDate: Date) => {
+	const _fiscalYearDate = moment(fiscalYearDate);
+	const month = _fiscalYearDate.month();
+	let fiscalYearStart = _fiscalYearDate.year();
+	if (month < 7) {
+		--fiscalYearStart;
+	}
+	const _date = moment(date);
+	return (
+		_date.isSameOrAfter(new Date(fiscalYearStart, 7, 1)) &&
+		_date.isSameOrBefore(new Date(fiscalYearStart + 1, 6, 30))
+	);
+};

@@ -1,4 +1,5 @@
 import { FundingSource, Age, FundingTime, FundingSpace } from '../../generated';
+import { augustReportingPeriod } from './reportingPeriod';
 
 export const mockFundingSpaces: FundingSpace[] = [];
 
@@ -59,3 +60,18 @@ export const mockSplitTimeInfantSpace = {
 	},
 };
 mockFundingSpaces.push(mockSplitTimeInfantSpace);
+
+export const mockSplitTimeInfantSpaceWithPreviousUtilizations = {
+	...mockSplitTimeInfantSpace,
+	timeSplitUtilizations: [
+		{
+			fundingSpaceId: 7,
+			reportingPeriod: augustReportingPeriod,
+			report: {
+				submittedAt: new Date('2019-09-14'),
+			},
+			fullTimeWeeksUsed: 0,
+			partTimeWeeksUsed: 5,
+		},
+	],
+};

@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
+using Hedwig.Validations.Attributes;
 
 namespace Hedwig.Models
 {
@@ -19,6 +20,8 @@ namespace Hedwig.Models
 
 		public string Comment { get; set; }
 
+		[FundingTimeUtilizationsWeeksUsedDoNotExceedTotalAvailableWeeks]
+		[FundingTimeUtilizationsWeeksUsedAreLessThanReportingPeriodWeeks]
 		public ICollection<FundingTimeSplitUtilization> TimeSplitUtilizations { get; set; }
 	}
 }

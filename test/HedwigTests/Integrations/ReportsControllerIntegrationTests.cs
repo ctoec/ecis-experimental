@@ -145,5 +145,75 @@ namespace HedwigTests.Integrations
 				}
 			);
 		}
+
+		[Theory]
+		[InlineData(3, true)]
+		[InlineData(10, false)]
+		public async Task ReportControllerOrganizationsReportPut_IsSuccessfull_OrReturnsValidationError(
+			int partTimeWeeksUsed,
+			bool shouldSucceed
+		)
+		{
+			User user;
+			Organization organization;
+			FundingSpace fundingSpace;
+			Site site;
+			CdcReport report;
+			using (var context = new TestHedwigContextProvider().Context)
+			{
+				organization = OrganizationHelper.CreateOrganization(context);
+				var reportingPeriod = ReportingPeriodHelper.CreateReportingPeriod(context, period: "2010-01-01", periodStart: "2010-01-01", periodEnd: "2010-01-31");
+				fundingSpace = FundingSpaceHelper.CreateFundingSpace(context, organization.Id, time: FundingTime.Split);
+				site = SiteHelper.CreateSite(context, organization: organization);
+				report = ReportHelper.CreateCdcReport(context, organization: organization, reportingPeriod: reportingPeriod) as CdcReport;
+				EnrollmentHelper.CreateEnrollment(context, site: site);
+				user = UserHelper.CreateUser(context);
+				PermissionHelper.CreateSitePermission(context, user, site);
+				PermissionHelper.CreateOrganizationPermission(context, user, organization);
+			}
+
+			var timeSplitUtilization = new FundingTimeSplitUtilization
+			{
+				ReportId = report.Id,
+				ReportingPeriodId = report.ReportingPeriodId,
+				FundingSpaceId = fundingSpace.Id,
+				PartTimeWeeksUsed = partTimeWeeksUsed,
+				FullTimeWeeksUsed = 0,
+			};
+			typeof(FundingTimeSplitUtilization).GetProperty(nameof(FundingTimeSplitUtilization.ReportingPeriod)).SetValue(timeSplitUtilization, report.ReportingPeriod);
+			var reportForPut = new CdcReport
+			{
+				Id = report.Id,
+				Accredited = report.Accredited,
+				Comment = report.Comment,
+				Enrollments = report.Enrollments,
+				C4KRevenue = 0,
+				FamilyFeesRevenue = 0,
+				OrganizationId = report.OrganizationId,
+				ReportingPeriodId = report.ReportingPeriodId,
+				TimeSplitUtilizations = new List<FundingTimeSplitUtilization> {
+					timeSplitUtilization
+				},
+			};
+			typeof(Report).GetProperty(nameof(Report.ReportingPeriod)).SetValue(reportForPut, report.ReportingPeriod);
+
+			var request = HedwigAPIRequests.OrganizationReportPut(
+				user,
+				organization,
+				reportForPut
+			);
+
+			var client = _factory.CreateClient();
+			var response = await client.SendAsync(request);
+
+			if (shouldSucceed)
+			{
+				response.EnsureSuccessStatusCode();
+			}
+			else
+			{
+				Assert.False(response.IsSuccessStatusCode);
+			}
+		}
 	}
 }

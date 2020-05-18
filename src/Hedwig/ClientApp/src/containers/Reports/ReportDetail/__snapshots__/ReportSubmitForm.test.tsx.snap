@@ -29,7 +29,7 @@ exports[`ReportSubmitForm matches snapshot 1`] = `
   </div>
   <fieldset
     aria-required="true"
-    class="grid-gap grid-row usa-fieldset usa-form margin-bottom-5"
+    class="grid-gap grid-row usa-fieldset usa-form usa-form--full-width margin-bottom-5"
     id="time-split-utilizations"
   >
     <legend
@@ -69,7 +69,12 @@ exports[`ReportSubmitForm matches snapshot 1`] = `
         <span
           class="display-inline-flex padding-left-1"
         >
-          of 4 weeks in September
+          of 4 weeks in September.
+          <span
+            class="text-italic text-gray-70"
+          >
+             (10 part time weeks remaining)
+          </span>
         </span>
       </div>
     </div>

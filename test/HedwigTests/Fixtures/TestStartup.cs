@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Hedwig;
 using Hedwig.Configuration;
-using Hedwig.Utilities;
+using Hedwig.Utilities.DateTime;
 
 namespace HedwigTests.Fixtures
 {
