@@ -38,7 +38,9 @@ namespace Hedwig.Models
 		[ExitReason_RequiredIfExitExists]
 		public string ExitReason { get; set; }
 
-		[CDC_Funding_ReportingPeriodsAreValid]
+		[Fundings_ReportingPeriodsAreValid]
+		[Fundings_FundingSpaceAgeGroupMatches]
+		[Fundings_FundingSpaceOrganizationMatches]
 		public ICollection<Funding> Fundings { get; set; }
 
 		[NotMapped]
