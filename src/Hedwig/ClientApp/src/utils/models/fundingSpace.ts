@@ -1,6 +1,8 @@
-import { FundingSpace, Age, Organization, FundingSource, FundingTime } from '../../generated';
+import { FundingSpace, Age, Organization, FundingSource, FundingTime, CdcReport, FundingTimeSplitUtilization } from '../../generated';
 import { DeepNonUndefineable } from '../types';
 import { prettyFundingTime } from './fundingTime';
+import { isWithinFiscalYear } from '../dateFilter';
+import moment from 'moment';
 
 /**
  * Returns a prettified string for the funding time for a given fundingSpace. If the funding is type 'split',
@@ -127,4 +129,18 @@ export function fundingSpaceSorter(
 	if (a.time < b.time) return -1;
 
 	return 0;
+}
+
+export function getTimeSplitUtilizationsForFiscalYearOfReport(fundingSpace: FundingSpace, report: DeepNonUndefineable<CdcReport>) {
+	return (
+		(fundingSpace.timeSplitUtilizations || []) as DeepNonUndefineable<FundingTimeSplitUtilization[]>)
+		.filter(util => util.reportId !== report.id)
+		.filter(util => util.fundingSpaceId === fundingSpace.id)
+		.filter(util =>
+			isWithinFiscalYear(util.reportingPeriod.period, report.reportingPeriod.period)
+		)
+		.filter(util =>
+			moment(util.reportingPeriod.periodEnd).isBefore(report.reportingPeriod.periodEnd)
+		)
+		.filter(util => !!util.report.submittedAt);
 }

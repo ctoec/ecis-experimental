@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -16,7 +15,6 @@ namespace Hedwig.Validations.Attributes
 			var timeSplitUtilizations = value as ICollection<FundingTimeSplitUtilization> ?? new List<FundingTimeSplitUtilization> { };
 			var reports = (IReportRepository)validationContext.GetService(typeof(IReportRepository));
 			var organizations = (IOrganizationRepository)validationContext.GetService(typeof(IOrganizationRepository));
-
 			var organization = organizations.GetOrganizationById(report.OrganizationId, new string[] { "funding_spaces" });
 			var fundingSpaces = organization.FundingSpaces;
 

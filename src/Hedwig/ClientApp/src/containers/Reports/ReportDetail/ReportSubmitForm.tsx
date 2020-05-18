@@ -23,6 +23,7 @@ import {
 	prettyFundingTime,
 	prettyAge,
 	getReportingPeriodMonth,
+	getTimeSplitUtilizationsForFiscalYearOfReport as getTimeSplitUtilizationsOfFundingSpaceForFiscalYearOfReport,
 } from '../../../utils/models';
 import UtilizationTable from './UtilizationTable';
 import AlertContext from '../../../contexts/Alert/AlertContext';
@@ -42,8 +43,7 @@ import {
 	REQUIRED_FOR_REPORT,
 	WEEKS_USED_CANNOT_EXCEED_WEEKS_AVAILABLE,
 } from '../../../utils/validations/messageStrings';
-import { isWithinFiscalYear } from '../../../utils/dateFilter';
-import moment from 'moment';
+import { sumWeeksUsed } from '../../../utils/models/fundingTimeSplitUtilization';
 
 export type ReportSubmitFormProps = {
 	report: DeepNonUndefineable<CdcReport>;
@@ -200,33 +200,14 @@ export default function ReportSubmitForm({
 	const splitTimeUtilizationQuestion = (fundingSpace: FundingSpace) => {
 		const timeSplit = fundingSpace.timeSplit;
 		if (!timeSplit) return;
-		const currentFiscalYearTimeSplitUtilizations = ((fundingSpace.timeSplitUtilizations ||
-			[]) as DeepNonUndefineable<FundingTimeSplitUtilization[]>)
-			.filter(util => util.reportId !== report.id)
-			.filter(util => util.fundingSpaceId === fundingSpace.id)
-			.filter(util =>
-				isWithinFiscalYear(util.reportingPeriod.period, report.reportingPeriod.period)
-			)
-			.filter(util =>
-				moment(util.reportingPeriod.periodEnd).isBefore(report.reportingPeriod.periodEnd)
-			)
-			.filter(util => !!util.report.submittedAt);
+		const currentFiscalYearTimeSplitUtilizations = getTimeSplitUtilizationsOfFundingSpaceForFiscalYearOfReport(fundingSpace, report);
 		const lesserTime =
 			timeSplit.fullTimeWeeks < timeSplit.partTimeWeeks ? FundingTime.Full : FundingTime.Part;
 		const labelText = `${prettyAge(
 			fundingSpace.ageGroup
 		)} services were provided ${prettyFundingTime(lesserTime)}`;
 
-		const fiscalYearUsedWeeks = currentFiscalYearTimeSplitUtilizations.reduce((acc, util) => {
-			switch (lesserTime) {
-				case FundingTime.Full:
-					return acc + util.fullTimeWeeksUsed;
-				case FundingTime.Part:
-					return acc + util.partTimeWeeksUsed;
-				default:
-					throw new Error('Something impossible happened');
-			}
-		}, 0);
+		const fiscalYearUsedWeeks = sumWeeksUsed(currentFiscalYearTimeSplitUtilizations, lesserTime);
 
 		const existingUtilizationForSpace = timeSplitUtilizations.find(
 			ut => ut.fundingSpaceId === fundingSpace.id
