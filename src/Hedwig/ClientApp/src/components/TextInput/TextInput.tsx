@@ -2,7 +2,8 @@ import React from 'react';
 import cx from 'classnames';
 import { FormStatus, FormStatusProps } from '..';
 
-export type TextInputProps = TextInputHTMLInputElementProps
+export type TextInputProps =
+	| TextInputHTMLInputElementProps
 	| TextInlineInputHTMLInputElementProps
 	| TextInputHTMLTextAreaElementProps;
 

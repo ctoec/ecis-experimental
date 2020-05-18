@@ -41,7 +41,7 @@ export const DateRangeInput: React.FC<DateRangeInputProps> = ({
 			<div className="display-flex flex-direction-row flex-align-end">
 				<DateInput
 					hideHint
-					// TODO: should date range use dates instead of moments? 
+					// TODO: should date range use dates instead of moments?
 					defaultValue={dateRange.startDate ? dateRange.startDate.toDate() : undefined}
 					onChange={newStartDate =>
 						onChange({ startDate: newStartDate, endDate: dateRange.endDate })
