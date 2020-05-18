@@ -13,6 +13,7 @@ namespace Hedwig.Validations.Attributes
 		{
 			var report = validationContext.ObjectInstance as CdcReport;
 			var timeSplitUtilizations = value as ICollection<FundingTimeSplitUtilization> ?? new List<FundingTimeSplitUtilization> { };
+
 			var organizations = (IOrganizationRepository)validationContext.GetService(typeof(IOrganizationRepository));
 			var organization = organizations.GetOrganizationById(report.OrganizationId, new string[] { "funding_spaces" });
 			var fundingSpaces = organization.FundingSpaces;

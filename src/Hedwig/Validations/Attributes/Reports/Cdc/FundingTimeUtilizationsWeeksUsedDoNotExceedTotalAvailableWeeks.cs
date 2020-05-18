@@ -13,21 +13,23 @@ namespace Hedwig.Validations.Attributes
 		{
 			var report = validationContext.ObjectInstance as CdcReport;
 			var timeSplitUtilizations = value as ICollection<FundingTimeSplitUtilization> ?? new List<FundingTimeSplitUtilization> { };
-			var reports = (IReportRepository)validationContext.GetService(typeof(IReportRepository));
+
 			var organizations = (IOrganizationRepository)validationContext.GetService(typeof(IOrganizationRepository));
 			var organization = organizations.GetOrganizationById(report.OrganizationId, new string[] { "funding_spaces" });
 			var fundingSpaces = organization.FundingSpaces;
+
+			var reports = (IReportRepository)validationContext.GetService(typeof(IReportRepository));
+			var fiscalYearReports = reports.GetReportsForOrganizationByFiscalYear(organization.Id, report.ReportingPeriod.Period);
 
 			foreach (var timeSplitUtilization in timeSplitUtilizations)
 			{
 				var fundingSpace = fundingSpaces.FirstOrDefault(f => f.Id == timeSplitUtilization.FundingSpaceId);
 				if (fundingSpace != null)
 				{
+					var fiscalYearUsedWeeks = fiscalYearReports.GetWeeksUsedForFundingSpace(fundingSpace);
 					var timeSplit = fundingSpace.TimeSplit;
 					var lesserTime = timeSplit.LesserTime();
 					var lesserWeeks = timeSplitUtilization.WeeksUsedForFundingTime(lesserTime);
-					var fiscalYearReports = reports.GetReportsForOrganizationByFiscalYear(organization.Id, report.ReportingPeriod.Period);
-					var fiscalYearUsedWeeks = fiscalYearReports.GetWeeksUsedForFundingSpace(fundingSpace);
 					var maxWeeks = timeSplit.LesserTimeWeeksAvailable();
 
 					if (fiscalYearUsedWeeks + lesserWeeks > maxWeeks)
