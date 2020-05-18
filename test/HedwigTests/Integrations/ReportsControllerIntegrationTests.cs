@@ -172,15 +172,17 @@ namespace HedwigTests.Integrations
 				PermissionHelper.CreateOrganizationPermission(context, user, organization);
 			}
 
-			var timeSplitUtilization = new FundingTimeSplitUtilization {
-					ReportId = report.Id,
-					ReportingPeriodId = report.ReportingPeriodId,
-					FundingSpaceId = fundingSpace.Id,
-					PartTimeWeeksUsed = partTimeWeeksUsed,
-					FullTimeWeeksUsed = 0,
-				};
+			var timeSplitUtilization = new FundingTimeSplitUtilization
+			{
+				ReportId = report.Id,
+				ReportingPeriodId = report.ReportingPeriodId,
+				FundingSpaceId = fundingSpace.Id,
+				PartTimeWeeksUsed = partTimeWeeksUsed,
+				FullTimeWeeksUsed = 0,
+			};
 			typeof(FundingTimeSplitUtilization).GetProperty(nameof(FundingTimeSplitUtilization.ReportingPeriod)).SetValue(timeSplitUtilization, report.ReportingPeriod);
-			var reportForPut = new CdcReport {
+			var reportForPut = new CdcReport
+			{
 				Id = report.Id,
 				Accredited = report.Accredited,
 				Comment = report.Comment,

@@ -18,7 +18,8 @@ namespace HedwigTests.Models.Extensions
 			int correctWeeksUsed
 		)
 		{
-			var fundingTimeSplitUtilization = new FundingTimeSplitUtilization {
+			var fundingTimeSplitUtilization = new FundingTimeSplitUtilization
+			{
 				FullTimeWeeksUsed = fullTimeWeeksUsed,
 				PartTimeWeeksUsed = partTimeWeeksUsed
 			};

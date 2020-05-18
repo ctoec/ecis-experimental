@@ -31,7 +31,8 @@ namespace HedwigTests.Validations.Attributes
 					},
 				}
 			};
-			var organization = new Organization {
+			var organization = new Organization
+			{
 				Id = 1,
 				FundingSpaces = fundingSpaces,
 			};
@@ -47,7 +48,8 @@ namespace HedwigTests.Validations.Attributes
 				OrganizationId = organization.Id,
 				TimeSplitUtilizations = timeSplitUtilizations,
 			};
-			typeof(Report).GetProperty(nameof(Report.ReportingPeriod)).SetValue(report, new ReportingPeriod {
+			typeof(Report).GetProperty(nameof(Report.ReportingPeriod)).SetValue(report, new ReportingPeriod
+			{
 				Period = new DateTime(2010, 1, 1),
 				PeriodStart = new DateTime(2010, 1, 1),
 				PeriodEnd = new DateTime(2010, 1, 31)
@@ -56,7 +58,7 @@ namespace HedwigTests.Validations.Attributes
 			var organizations = new Mock<IOrganizationRepository>();
 			organizations.Setup(o => o.GetOrganizationById(It.IsAny<int>(), It.IsAny<string[]>()))
 			.Returns(organization);
-			
+
 			var serviceProvider = new Mock<IServiceProvider>();
 			serviceProvider.Setup(v => v.GetService(typeof(IOrganizationRepository)))
 			.Returns(organizations.Object);
@@ -107,7 +109,8 @@ namespace HedwigTests.Validations.Attributes
 					AgeGroup = Age.Preschool,
 				}
 			};
-			var organization = new Organization {
+			var organization = new Organization
+			{
 				Id = 1,
 				FundingSpaces = fundingSpaces,
 			};
@@ -128,7 +131,8 @@ namespace HedwigTests.Validations.Attributes
 				OrganizationId = organization.Id,
 				TimeSplitUtilizations = timeSplitUtilizations,
 			};
-			typeof(Report).GetProperty(nameof(Report.ReportingPeriod)).SetValue(report, new ReportingPeriod {
+			typeof(Report).GetProperty(nameof(Report.ReportingPeriod)).SetValue(report, new ReportingPeriod
+			{
 				Period = new DateTime(2010, 1, 1),
 				PeriodStart = new DateTime(2010, 1, 1),
 				PeriodEnd = new DateTime(2010, 1, 31)
@@ -137,7 +141,7 @@ namespace HedwigTests.Validations.Attributes
 			var organizations = new Mock<IOrganizationRepository>();
 			organizations.Setup(o => o.GetOrganizationById(It.IsAny<int>(), It.IsAny<string[]>()))
 			.Returns(organization);
-			
+
 			var serviceProvider = new Mock<IServiceProvider>();
 			serviceProvider.Setup(v => v.GetService(typeof(IOrganizationRepository)))
 			.Returns(organizations.Object);

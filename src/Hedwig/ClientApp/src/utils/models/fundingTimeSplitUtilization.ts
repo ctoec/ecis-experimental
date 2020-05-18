@@ -1,4 +1,4 @@
-import { FundingTimeSplitUtilization, FundingTime } from "../../generated";
+import { FundingTimeSplitUtilization, FundingTime } from '../../generated';
 
 export function sumWeeksUsed(utils: FundingTimeSplitUtilization[], lesserTime: FundingTime) {
 	return utils.reduce((acc, util) => {

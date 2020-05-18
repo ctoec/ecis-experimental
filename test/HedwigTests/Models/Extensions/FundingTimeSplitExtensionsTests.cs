@@ -17,7 +17,8 @@ namespace HedwigTests.Models.Extensions
 			int lesserWeeks
 		)
 		{
-			var fundingTimeSplit = new FundingTimeSplit {
+			var fundingTimeSplit = new FundingTimeSplit
+			{
 				FullTimeWeeks = fullTimeWeeks,
 				PartTimeWeeks = partTimeWeeks
 			};
@@ -37,7 +38,8 @@ namespace HedwigTests.Models.Extensions
 			FundingTime fundingTime
 		)
 		{
-			var fundingTimeSplit = new FundingTimeSplit {
+			var fundingTimeSplit = new FundingTimeSplit
+			{
 				FullTimeWeeks = fullTimeWeeks,
 				PartTimeWeeks = partTimeWeeks
 			};

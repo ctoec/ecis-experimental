@@ -200,7 +200,10 @@ export default function ReportSubmitForm({
 	const splitTimeUtilizationQuestion = (fundingSpace: FundingSpace) => {
 		const timeSplit = fundingSpace.timeSplit;
 		if (!timeSplit) return;
-		const currentFiscalYearTimeSplitUtilizations = getTimeSplitUtilizationsOfFundingSpaceForFiscalYearOfReport(fundingSpace, report);
+		const currentFiscalYearTimeSplitUtilizations = getTimeSplitUtilizationsOfFundingSpaceForFiscalYearOfReport(
+			fundingSpace,
+			report
+		);
 		const lesserTime =
 			timeSplit.fullTimeWeeks < timeSplit.partTimeWeeks ? FundingTime.Full : FundingTime.Part;
 		const labelText = `${prettyAge(

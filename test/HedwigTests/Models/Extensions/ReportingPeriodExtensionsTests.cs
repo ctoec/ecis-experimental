@@ -30,7 +30,8 @@ namespace HedwigTests.Models.Extensions
 			int numberOfWeeks
 		)
 		{
-			var reportingPeriod = new ReportingPeriod {
+			var reportingPeriod = new ReportingPeriod
+			{
 				PeriodStart = new DateTime(startYear, startMonth, startDay),
 				PeriodEnd = new DateTime(endYear, endMonth, endDay),
 			};
