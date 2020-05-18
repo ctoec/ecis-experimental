@@ -79,6 +79,7 @@ namespace Hedwig.Configuration
 			services.AddScoped<ISiteRepository, SiteRepository>();
 			services.AddScoped<IUserRepository, UserRepository>();
 			services.AddScoped<IPermissionRepository, PermissionRepository>();
+			services.AddScoped<IFundingSpaceRepository, FundingSpaceRepository>();
 		}
 
 		public static void ConfigureAuthentication(this IServiceCollection services, bool isDevelopment, string wingedKeysUri)

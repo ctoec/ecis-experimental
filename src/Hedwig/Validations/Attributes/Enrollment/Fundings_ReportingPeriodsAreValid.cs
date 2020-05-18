@@ -5,7 +5,7 @@ using Hedwig.Repositories;
 
 namespace Hedwig.Validations.Attributes
 {
-	public class CDC_Funding_ReportingPeriodsAreValid : ValidationAttribute
+	public class Fundings_ReportingPeriodsAreValid : ValidationAttribute
 	{
 		protected override ValidationResult IsValid(object value, ValidationContext validationContext)
 		{
