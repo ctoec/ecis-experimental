@@ -2,7 +2,12 @@ import React from 'react';
 import cx from 'classnames';
 import { FormStatus, FormStatusProps } from '..';
 
-export type TextInputProps = {
+export type TextInputProps =
+	| TextInputHTMLInputElementProps
+	| TextInlineInputHTMLInputElementProps
+	| TextInputHTMLTextAreaElementProps;
+
+type InternalTextInputProps = {
 	name?: string;
 	label: string | JSX.Element;
 	id: string;
@@ -20,21 +25,21 @@ export type TextInputProps = {
 	afterContent?: string | JSX.Element;
 };
 
-type TextInputHTMLInputElementProps = TextInputProps & {
+type TextInputHTMLInputElementProps = InternalTextInputProps & {
 	type?: 'input';
 	onChange: (event: React.ChangeEvent<HTMLInputElement>) => any;
 	onBlur?: (event: React.FocusEvent<HTMLInputElement>) => any;
 	inputProps?: React.HTMLProps<HTMLInputElement>;
 };
 
-type TextInlineInputHTMLInputElementProps = TextInputProps & {
+type TextInlineInputHTMLInputElementProps = InternalTextInputProps & {
 	type?: 'inline-input';
 	onChange: (event: React.ChangeEvent<HTMLInputElement>) => any;
 	onBlur?: (event: React.FocusEvent<HTMLInputElement>) => any;
 	inputProps?: React.HTMLProps<HTMLInputElement>;
 };
 
-type TextInputHTMLTextAreaElementProps = TextInputProps & {
+type TextInputHTMLTextAreaElementProps = InternalTextInputProps & {
 	type: 'textarea';
 	onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => any;
 	onBlur?: (event: React.FocusEvent<HTMLTextAreaElement>) => any;

@@ -81,7 +81,7 @@ export const incomeDisclosedField = (index: number) => (
 					legend="Family income disclosure"
 					id={`family-income-disclosed-${index}`}
 					className="margin-top-3"
-					selected={notDisclosed ? ['familyIncomeNotDisclosed'] : undefined}
+					defaultValue={notDisclosed ? ['familyIncomeNotDisclosed'] : undefined}
 					options={[
 						{
 							text: 'Family income not disclosed',
@@ -162,7 +162,7 @@ export const determinationDateField = (
 				<DateInput
 					label="Date of income determination"
 					id={`income-determination-date-${index}`}
-					date={date}
+					defaultValue={date}
 					status={initialLoadErrorGuard(
 						initialLoad,
 						warningForField(

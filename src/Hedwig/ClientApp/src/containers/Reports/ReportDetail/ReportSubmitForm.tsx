@@ -285,7 +285,7 @@ export default function ReportSubmitForm({
 				name="accredited"
 				legend="Accredited"
 				disabled={!!report.submittedAt}
-				selected={accredited ? ['accredited'] : undefined}
+				defaultValue={accredited ? ['accredited'] : undefined}
 				options={[
 					{
 						text: 'Accredited',
@@ -342,7 +342,7 @@ export default function ReportSubmitForm({
 						id="c4k-includes-retroactive"
 						legend="Includes retroactive payment"
 						name="retroactiveC4KRevenue"
-						selected={retroactiveC4KRevenue ? ['retroactiveC4KRevenue'] : undefined}
+						defaultValue={retroactiveC4KRevenue ? ['retroactiveC4KRevenue'] : undefined}
 						onChange={updateFormData((_, e) => e.target.checked)}
 						disabled={!!report.submittedAt}
 						options={[

@@ -1,12 +1,12 @@
 import React from 'react';
 
-type CheckboxProps = {
+export type CheckboxProps = {
 	id: string;
 	text: string;
 	value: string;
 	name?: string;
 	onChange: (event: React.ChangeEvent<HTMLInputElement>) => any;
-	selected?: boolean;
+	defaultValue?: boolean;
 	className?: string;
 	disabled?: boolean;
 };
@@ -14,10 +14,10 @@ type CheckboxProps = {
 export default function Checkbox({
 	id,
 	text,
-	value,
 	name,
+	value,
 	onChange,
-	selected,
+	defaultValue,
 	className,
 	disabled,
 }: CheckboxProps) {
@@ -29,7 +29,7 @@ export default function Checkbox({
 				type="checkbox"
 				name={name || ''}
 				value={value}
-				defaultChecked={selected}
+				defaultChecked={defaultValue}
 				onChange={onChange}
 				disabled={!!disabled}
 			/>

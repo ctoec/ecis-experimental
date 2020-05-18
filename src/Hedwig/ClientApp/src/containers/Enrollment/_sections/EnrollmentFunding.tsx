@@ -563,7 +563,7 @@ const EnrollmentFunding: Section = {
 					<DateInput
 						name="entry"
 						onChange={updateFormData(newDate => (newDate ? newDate.toDate() : null))}
-						date={entry ? moment(entry) : null}
+						defaultValue={entry || null}
 						label="Start date"
 						id="enrollment-start-date"
 						status={initialLoadErrorGuard(
@@ -598,7 +598,7 @@ const EnrollmentFunding: Section = {
 								value: Age.SchoolAge,
 							},
 						]}
-						selected={toFormString(_enrollment.ageGroup)}
+						defaultValue={toFormString(_enrollment.ageGroup)}
 						onChange={updateFormData(ageFromString)}
 						status={initialLoadErrorGuard(
 							initialLoad,
@@ -624,7 +624,7 @@ const EnrollmentFunding: Section = {
 						onChange={event => {
 							updateFundingSource(fundingSourceFromString(event.target.value));
 						}}
-						selected={toFormString(fundingSource || 'privatePay')}
+						defaultValue={toFormString(fundingSource || 'privatePay')}
 					>
 						<ChoiceListExpansion showOnValue={'CDC'}>
 							{fundingSpaceOpts.length ? (
@@ -637,7 +637,7 @@ const EnrollmentFunding: Section = {
 										type="select"
 										id="fundingSpace"
 										options={fundingSpaceOpts}
-										selected={toFormString(fundingSpace ? fundingSpace.id : '')}
+										defaultValue={toFormString(fundingSpace ? fundingSpace.id : '')}
 										label="Contract space"
 										// TODO: USE FORM REDUCER
 										onChange={event => {
@@ -687,7 +687,7 @@ const EnrollmentFunding: Section = {
 									);
 									updateCdcReportingPeriod(chosen);
 								}}
-								selected={toFormString(cdcReportingPeriod ? cdcReportingPeriod.id : undefined)}
+								defaultValue={toFormString(cdcReportingPeriod ? cdcReportingPeriod.id : undefined)}
 								status={initialLoadErrorGuard(
 									initialLoad,
 									displayErrorOrWarning(error, {
@@ -721,7 +721,7 @@ const EnrollmentFunding: Section = {
 					<h2>Care 4 Kids</h2>
 					<ChoiceList
 						type="check"
-						selected={receivesC4k ? ['receives-c4k'] : undefined}
+						defaultValue={receivesC4k ? ['receives-c4k'] : undefined}
 						options={[
 							{
 								text: 'Receives Care 4 Kids',
@@ -762,7 +762,7 @@ const EnrollmentFunding: Section = {
 										startDate: newDate ? newDate.toDate() : null,
 									})
 								}
-								date={c4kCertificateStartDate ? moment(c4kCertificateStartDate) : null}
+								defaultValue={c4kCertificateStartDate || null}
 								label="Certificate start date"
 								id="c4k-certificate-start-date"
 								status={initialLoadErrorGuard(

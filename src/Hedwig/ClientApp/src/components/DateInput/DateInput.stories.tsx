@@ -11,7 +11,7 @@ const commonProps = {
 };
 const commonPropsWithDefault = {
 	...commonProps,
-	date: moment('2019-10-30'),
+	defaultValue: new Date('2019-10-30'),
 };
 const error: FormStatusProps = {
 	type: 'error',

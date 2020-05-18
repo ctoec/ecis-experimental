@@ -269,7 +269,7 @@ const ChildInfo: Section = {
 				<DateInput
 					name="child.birthdate"
 					onChange={updateFormData(newBirthdate => newBirthdate.toDate())}
-					date={birthdate ? moment(birthdate) : null}
+					defaultValue={birthdate || null}
 					label="Birth date"
 					id="birthdate-picker"
 					hideLabel
@@ -347,7 +347,7 @@ const ChildInfo: Section = {
 				<ChoiceList
 					type="check"
 					options={childRace}
-					selected={childRace.filter(raceObj => raceObj.selected).map(raceObj => raceObj.value)}
+					defaultValue={childRace.filter(raceObj => raceObj.selected).map(raceObj => raceObj.value)}
 					hint="As identified by family"
 					status={initialLoadErrorGuard(
 						initialLoad,
@@ -389,7 +389,7 @@ const ChildInfo: Section = {
 							value: 'yes',
 						},
 					]}
-					selected={
+					defaultValue={
 						hispanicOrLatinxEthnicity === null || hispanicOrLatinxEthnicity === undefined
 							? undefined
 							: hispanicOrLatinxEthnicity
@@ -423,7 +423,7 @@ const ChildInfo: Section = {
 						},
 					]}
 					label="Gender"
-					selected={[gender] || [Gender.Unspecified]}
+					defaultValue={[gender] || [Gender.Unspecified]}
 					name="child.gender"
 					onChange={updateFormData(genderFromString)}
 					id="gender-select"

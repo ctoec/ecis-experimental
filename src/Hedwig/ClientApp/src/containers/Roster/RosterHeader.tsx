@@ -163,7 +163,7 @@ const RosterHeader: React.FC<RosterHeaderProps> = ({
 							onChange={event => setFilterByRange(event.target.value === 'range')}
 							horizontal={true}
 							id={'dateSelectionType'}
-							selected={filterByRange ? ['range'] : ['date']}
+							defaultValue={filterByRange ? ['range'] : ['date']}
 							className="margin-top-neg-3"
 							// This is goofy but we're getting rid of this soon anyway
 						/>
@@ -180,7 +180,7 @@ const RosterHeader: React.FC<RosterHeaderProps> = ({
 								id="enrollment-roster-datepicker"
 								label="Date"
 								onChange={newDate => setDateRange({ startDate: newDate, endDate: newDate })}
-								date={dateRange.startDate}
+								defaultValue={dateRange.startDate}
 								className="margin-top-neg-3"
 							/>
 						)}

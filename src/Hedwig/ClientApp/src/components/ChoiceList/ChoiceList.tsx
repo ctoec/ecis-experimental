@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TextInput, FormStatus, FormStatusProps, FieldSet } from '..';
-import Checkbox from './Checkbox';
+import Checkbox from '../Checkbox/Checkbox';
 import RadioButton from './RadioButton';
 import { ChoiceListExpansion } from './ChoiceListExpansion';
 
@@ -25,7 +25,7 @@ type InternalChoiceListProps = {
 		selectedValues: string[],
 		otherInput?: string
 	) => any;
-	selected?: string[];
+	defaultValue?: string[];
 	status?: FormStatusProps;
 	disabled?: boolean;
 	optional?: boolean;
@@ -58,7 +58,7 @@ export const ChoiceList: React.FC<ChoiceListProps> = ({
 	id,
 	name,
 	onChange,
-	selected: inputSelected = [],
+	defaultValue: inputSelected = [],
 	legend,
 	status,
 	disabled,
@@ -177,7 +177,7 @@ export const ChoiceList: React.FC<ChoiceListProps> = ({
 							{...option}
 							name={option.name || name || ''}
 							onChange={changeEvent}
-							selected={selectedItems.includes(option.value)}
+							defaultValue={selectedItems.includes(option.value)}
 							disabled={disabled}
 							key={`${id}-${option.value}`}
 						/>
