@@ -1,13 +1,11 @@
 import React, { useContext, useState, useEffect, useReducer } from 'react';
 import { Section } from '../enrollmentTypes';
-import moment from 'moment';
 import {
 	Button,
 	TextInput,
 	DateInput,
 	ChoiceList,
 	FieldSet,
-	TextInputProps,
 } from '../../../components';
 import { nameFormatter } from '../../../utils/stringFormatters';
 import dateFormatter from '../../../utils/dateFormatter';
@@ -29,12 +27,9 @@ import {
 } from '../../../utils/models';
 import {
 	useFocusFirstError,
-	sectionHasValidationErrors,
-	warningForFieldSet,
-	warningForField,
-	serverErrorForField,
 	initialLoadErrorGuard,
 	isBlockingValidationError,
+	hasValidationErrors,
 } from '../../../utils/validations';
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import { FormReducer, formReducer, updateData } from '../../../utils/forms/form';
@@ -45,14 +40,28 @@ import {
 	REQUIRED_FOR_ENROLLMENT,
 	REQUIRED_FOR_OEC_REPORTING,
 } from '../../../utils/validations/messageStrings';
-import FormNew from '../../../components/Form_New/Form';
-import FormFieldNew from '../../../components/Form_New/FormField';
+import { displayValidationStatus } from '../../../utils/validations/displayValidationStatus';
+import idx from 'idx';
 
 const ChildInfo: Section = {
 	key: 'child-information',
 	name: 'Child information',
 	status: ({ enrollment }) =>
-		enrollment && sectionHasValidationErrors([enrollment.child]) ? 'incomplete' : 'complete',
+		enrollment &&
+		hasValidationErrors(enrollment.child, [
+			'birthdate',
+			'birthtown',
+			'birthstate',
+			'hispanicOrLatinxEthnicity',
+			'americanIndianOrAlaskaNative',
+			'asian',
+			'blackOrAfricanAmerican',
+			'nativeHawaiianOrPacificIslander',
+			'white',
+			'gender',
+		])
+			? 'incomplete'
+			: 'complete',
 
 	Summary: ({ enrollment }) => {
 		var child = enrollment && enrollment.child;
@@ -82,17 +91,19 @@ const ChildInfo: Section = {
 
 		// set up form state
 		const initialLoad = touchedSections ? !touchedSections[ChildInfo.key] : false;
-		const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
 		const [_error, setError] = useState<ApiError | null>(error);
 		useFocusFirstError([_error]);
 		useEffect(() => {
-			if (_error && !hasAlertedOnError) {
-				if (!isBlockingValidationError(_error)) {
-					throw new Error(_error.title || 'Unknown api error');
+			if (_error) {
+				if (initialLoad) {
+					setAlerts([validationErrorAlert]);
+				} else {
+					if (!isBlockingValidationError(_error)) {
+						throw new Error(_error.title || 'Unknown api error');
+					}
 				}
-				setAlerts([validationErrorAlert]);
 			}
-		}, [_error, hasAlertedOnError]);
+		}, [_error, initialLoad]);
 
 		const [_enrollment, updateEnrollment] = useReducer<
 			FormReducer<DeepNonUndefineable<Enrollment>>
@@ -185,8 +196,6 @@ const ChildInfo: Section = {
 				// If the request did not go through, exit
 				return;
 			}
-			// unset hasAlertedOnError to get correct error handling in subsequent requests
-			setHasAlertedOnError(false);
 			// Set the new error whether it's undefined or an error
 			setError(saveError);
 			if (saveData && !saveError) {
@@ -218,13 +227,14 @@ const ChildInfo: Section = {
 							onChange={updateFormData()}
 							status={initialLoadErrorGuard(
 								initialLoad,
-								serverErrorForField(
-									hasAlertedOnError,
-									setHasAlertedOnError,
-									'child.firstname',
-									_error,
-									REQUIRED_FOR_ENROLLMENT
-								)
+								displayValidationStatus([
+									{
+										field: 'child.firstname',
+										response: _error,
+										type: 'error',
+										message: REQUIRED_FOR_ENROLLMENT,
+									},
+								])
 							)}
 						/>
 					</div>
@@ -250,13 +260,14 @@ const ChildInfo: Section = {
 								onChange={updateFormData()}
 								status={initialLoadErrorGuard(
 									initialLoad,
-									serverErrorForField(
-										hasAlertedOnError,
-										setHasAlertedOnError,
-										'child.lastname',
-										_error,
-										REQUIRED_FOR_ENROLLMENT
-									)
+									displayValidationStatus([
+										{
+											field: 'child.lastname',
+											response: _error,
+											type: 'error',
+											message: REQUIRED_FOR_ENROLLMENT,
+										},
+									])
 								)}
 							/>
 						</div>
@@ -284,12 +295,14 @@ const ChildInfo: Section = {
 					hideLabel
 					status={initialLoadErrorGuard(
 						initialLoad,
-						warningForFieldSet(
-							'birthdate-fields',
-							['birthdate'],
-							enrollment ? enrollment.child : null,
-							REQUIRED_FOR_OEC_REPORTING
-						)
+						displayValidationStatus([
+							{
+								type: 'warning',
+								response: idx(enrollment, _ => _.child.validationErrors) || null,
+								fields: ['birthdate'],
+								message: REQUIRED_FOR_OEC_REPORTING,
+							},
+						])
 					)}
 				/>
 
@@ -297,12 +310,14 @@ const ChildInfo: Section = {
 				<FieldSet
 					status={initialLoadErrorGuard(
 						initialLoad,
-						warningForFieldSet(
-							'birth-certificate-fields',
-							['birthCertificateId', 'birthState', 'birthTown'],
-							enrollment ? enrollment.child : null,
-							REQUIRED_FOR_OEC_REPORTING
-						)
+						displayValidationStatus([
+							{
+								type: 'warning',
+								response: idx(enrollment, _ => _.child.validationErrors) || null,
+								fields: ['birthCertificateId', 'birthState', 'birthTown'],
+								message: REQUIRED_FOR_OEC_REPORTING,
+							},
+						])
 					)}
 					legend="Birth certificate"
 					className="display-inline-block"
@@ -318,7 +333,13 @@ const ChildInfo: Section = {
 							onChange={updateFormData()}
 							status={initialLoadErrorGuard(
 								initialLoad,
-								warningForField('birthCertificateId', enrollment ? enrollment.child : null, '')
+								displayValidationStatus([
+									{
+										type: 'warning',
+										field: 'birthCertificateId',
+										response: idx(enrollment, _ => _.child.validationErrors) || null,
+									},
+								])
 							)}
 						/>
 					</div>
@@ -332,7 +353,13 @@ const ChildInfo: Section = {
 							onChange={updateFormData()}
 							status={initialLoadErrorGuard(
 								initialLoad,
-								warningForField('birthTown', enrollment ? enrollment.child : null, '')
+								displayValidationStatus([
+									{
+										type: 'warning',
+										response: idx(enrollment, _ => _.child.validationErrors) || null,
+										field: 'birthTown',
+									},
+								])
 							)}
 						/>
 					</div>
@@ -346,7 +373,13 @@ const ChildInfo: Section = {
 							defaultValue={birthState || ''}
 							status={initialLoadErrorGuard(
 								initialLoad,
-								warningForField('birthState', enrollment ? enrollment.child : null, '')
+								displayValidationStatus([
+									{
+										type: 'warning',
+										response: idx(enrollment, _ => _.child.validationErrors) || null,
+										field: 'birthstate',
+									},
+								])
 							)}
 						/>
 					</div>
@@ -360,12 +393,14 @@ const ChildInfo: Section = {
 					hint="As identified by family"
 					status={initialLoadErrorGuard(
 						initialLoad,
-						warningForFieldSet(
-							'race-checklist',
-							childRace.map(o => o.value),
-							enrollment ? enrollment.child : null,
-							REQUIRED_FOR_OEC_REPORTING
-						)
+						displayValidationStatus([
+							{
+								type: 'warning',
+								response: idx(enrollment, _ => _.child.validationErrors) || null,
+								fields: childRace.map(o => o.value),
+								message: REQUIRED_FOR_OEC_REPORTING,
+							},
+						])
 					)}
 					legend="Race"
 					id="race-checklist"
@@ -379,12 +414,14 @@ const ChildInfo: Section = {
 					hint="As identified by family"
 					status={initialLoadErrorGuard(
 						initialLoad,
-						warningForFieldSet(
-							'ethnicity-radiogroup',
-							['hispanicOrLatinxEthnicity'],
-							enrollment ? enrollment.child : null,
-							REQUIRED_FOR_OEC_REPORTING
-						)
+						displayValidationStatus([
+							{
+								type: 'warning',
+								response: idx(enrollment, _ => _.child.validationErrors) || null,
+								fields: ['hispanicOrLatinxEthnicity'],
+								message: REQUIRED_FOR_OEC_REPORTING,
+							},
+						])
 					)}
 					legend="Ethnicity"
 					id="ethnicity-radiogroup"
@@ -438,12 +475,14 @@ const ChildInfo: Section = {
 					id="gender-select"
 					status={initialLoadErrorGuard(
 						initialLoad,
-						warningForFieldSet(
-							'gender-select',
-							['gender'],
-							enrollment ? enrollment.child : null,
-							REQUIRED_FOR_OEC_REPORTING
-						)
+						displayValidationStatus([
+							{
+								type: 'warning',
+								response: idx(enrollment, _ => _.child.validationErrors) || null,
+								fields: ['gender'],
+								message: REQUIRED_FOR_OEC_REPORTING,
+							},
+						])
 					)}
 				/>
 

@@ -36,11 +36,9 @@ import {
 } from '../../../utils/models';
 import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../../utils/types';
 import {
-	sectionHasValidationErrors,
 	initialLoadErrorGuard,
 	useFocusFirstError,
 	isBlockingValidationError,
-	processValidationError,
 	hasValidationErrors,
 } from '../../../utils/validations';
 import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
@@ -58,7 +56,6 @@ import {
 import { FormReducer, formReducer, updateData, toFormString } from '../../../utils/forms/form';
 import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
 import AlertContext from '../../../contexts/Alert/AlertContext';
-import displayErrorOrWarning from '../../../utils/validations/displayErrorOrWarning';
 import useApi, { ApiError } from '../../../hooks/useApi';
 import { dateSorter, propertyDateSorter } from '../../../utils/dateSorter';
 import { propertyBetweenDates, propertyBeforeDate } from '../../../utils/dateFilter';
@@ -66,6 +63,7 @@ import {
 	REQUIRED_FOR_ENROLLMENT,
 	REQUIRED_FOR_OEC_REPORTING,
 } from '../../../utils/validations/messageStrings';
+import { displayValidationStatus } from '../../../utils/validations/displayValidationStatus';
 
 type UtilizationRate = {
 	capacity: number;
@@ -77,10 +75,8 @@ const EnrollmentFunding: Section = {
 	name: 'Enrollment and funding',
 	status: ({ enrollment }) =>
 		enrollment &&
-		(hasValidationErrors(enrollment, ['fundings']) ||
-			processValidationError('ageGroup', enrollment ? enrollment.validationErrors : null) ||
-			processValidationError('entry', enrollment ? enrollment.validationErrors : null) ||
-			sectionHasValidationErrors([enrollment.child.c4KCertificates]))
+		(hasValidationErrors(enrollment, ['fundings', 'ageGroup', 'entry']) ||
+			hasValidationErrors(enrollment.child, ['c4KFamilyCaseNumber', 'c4KCertificates']))
 			? 'incomplete'
 			: 'complete',
 
@@ -159,17 +155,19 @@ const EnrollmentFunding: Section = {
 		// set up form state
 		const { setAlerts } = useContext(AlertContext);
 		const initialLoad = touchedSections ? !touchedSections[EnrollmentFunding.key] : false;
-		const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
 		const [error, setError] = useState<ApiError | null>(inputError);
 		useFocusFirstError([error]);
 		useEffect(() => {
-			if (error && !hasAlertedOnError) {
-				if (!isBlockingValidationError(error)) {
-					throw new Error(error.title || 'Unknown api error');
+			if (error) {
+				if (initialLoad) {
+					setAlerts([validationErrorAlert]);
+				} else {
+					if (!isBlockingValidationError(error)) {
+						throw new Error(error.title || 'Unknown api error');
+					}
 				}
-				setAlerts([validationErrorAlert]);
 			}
-		}, [error, hasAlertedOnError, setAlerts]);
+		}, [error, initialLoad, setAlerts]);
 
 		const { user } = useContext(UserContext);
 		const { cdcReportingPeriods: reportingPeriods } = useContext(ReportingPeriodContext);
@@ -568,13 +566,14 @@ const EnrollmentFunding: Section = {
 						id="enrollment-start-date"
 						status={initialLoadErrorGuard(
 							initialLoad,
-							displayErrorOrWarning(error, {
-								warningOptions: {
-									object: enrollment,
+							displayValidationStatus([
+								{
+									type: 'warning',
+									response: enrollment.validationErrors,
 									field: 'entry',
 									message: REQUIRED_FOR_OEC_REPORTING,
 								},
-							})
+							])
 						)}
 					/>
 
@@ -602,15 +601,14 @@ const EnrollmentFunding: Section = {
 						onChange={updateFormData(ageFromString)}
 						status={initialLoadErrorGuard(
 							initialLoad,
-							displayErrorOrWarning(error, {
-								isFieldSet: true,
-								fieldSetId: 'age-group-warning',
-								warningOptions: {
-									object: enrollment,
+							displayValidationStatus([
+								{
+									type: 'warning',
+									response: enrollment.validationErrors,
 									fields: ['ageGroup'],
 									message: REQUIRED_FOR_OEC_REPORTING,
 								},
-							})
+							])
 						)}
 					/>
 					<h2>Funding</h2>
@@ -649,19 +647,19 @@ const EnrollmentFunding: Section = {
 										}}
 										status={initialLoadErrorGuard(
 											initialLoad,
-											displayErrorOrWarning(error, {
-												serverErrorOptions: {
-													hasAlertedOnError,
-													setHasAlertedOnError,
-													errorDisplays: [
-														{
-															field: 'fundings.fundingSpaceId',
-															message: REQUIRED_FOR_ENROLLMENT,
-														},
-														{ field: 'fundings.fundingSpace' }, // To  display fundingSpace validation error message
-													],
+											displayValidationStatus([
+												{
+													type: 'error',
+													response: error,
+													field: 'fundings.fundingSpaceId',
+													message: REQUIRED_FOR_OEC_REPORTING,
 												},
-											})
+												{
+													type: 'error',
+													response: error,
+													field: 'fundings.fundingspace',
+												},
+											])
 										)}
 									/>
 								)
@@ -690,19 +688,19 @@ const EnrollmentFunding: Section = {
 								defaultValue={toFormString(cdcReportingPeriod ? cdcReportingPeriod.id : undefined)}
 								status={initialLoadErrorGuard(
 									initialLoad,
-									displayErrorOrWarning(error, {
-										serverErrorOptions: {
-											hasAlertedOnError,
-											setHasAlertedOnError,
-											errorDisplays: [
-												{
-													field: 'fundings.firstReportingPeriodId',
-													message: REQUIRED_FOR_ENROLLMENT,
-												},
-												{ field: 'fundings' }, // To display enrollment funding validation error message
-											],
+									displayValidationStatus([
+										{
+											type: 'error',
+											response: error,
+											field: 'fundings.firstReportingPeriodId',
+											message: REQUIRED_FOR_OEC_REPORTING,
 										},
-									})
+										{
+											type: 'error',
+											response: error,
+											field: 'fundings',
+										},
+									])
 								)}
 							/>
 						</ChoiceListExpansion>
@@ -745,13 +743,14 @@ const EnrollmentFunding: Section = {
 								onChange={event => updateC4kFamilyId(parseInt(event.target.value))}
 								status={initialLoadErrorGuard(
 									initialLoad,
-									displayErrorOrWarning(error, {
-										warningOptions: {
-											object: child ? child : null,
+									displayValidationStatus([
+										{
+											type: 'warning',
+											response: child ? child.validationErrors : null,
 											field: 'c4KFamilyCaseNumber',
 											message: REQUIRED_FOR_OEC_REPORTING,
 										},
-									})
+									])
 								)}
 							/>
 							<DateInput
@@ -767,13 +766,14 @@ const EnrollmentFunding: Section = {
 								id="c4k-certificate-start-date"
 								status={initialLoadErrorGuard(
 									initialLoad,
-									displayErrorOrWarning(error, {
-										warningOptions: {
-											object: c4kFunding ? c4kFunding : null,
+									displayValidationStatus([
+										{
+											type: 'warning',
+											response: c4kFunding ? c4kFunding.validationErrors : null,
 											field: 'startDate',
 											message: REQUIRED_FOR_OEC_REPORTING,
 										},
-									})
+									])
 								)}
 							/>
 						</>

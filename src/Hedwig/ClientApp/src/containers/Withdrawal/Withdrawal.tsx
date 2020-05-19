@@ -35,8 +35,8 @@ import CommonContainer from '../CommonContainer';
 import { InlineIcon, DateInput, ChoiceList, Button } from '../../components';
 import dateFormatter from '../../utils/dateFormatter';
 import { getFundingTag } from '../../utils/fundingType';
-import displayErrorOrWarning from '../../utils/validations/displayErrorOrWarning';
 import { REQUIRED_FOR_WITHDRAWAL } from '../../utils/validations/messageStrings';
+import { displayValidationStatus } from '../../utils/validations/displayValidationStatus';
 
 type WithdrawalProps = {
 	history: History;
@@ -111,7 +111,6 @@ export default function Withdrawal({
 
 	// set up form state
 	const [error, setError] = useState<ApiError | null>(getRequestError);
-	const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
 	const [attemptedSave, setAttemptedSave] = useState(false); // Only matters once for sake of not showing client errors on first load, before user has a chance to do anything
 	const [attemptingSave, setAttemptingSave] = useState(false); // Matters when deciding to run "mutate" effect
 	useFocusFirstError([error]);
@@ -132,8 +131,6 @@ export default function Withdrawal({
 			: ([] as DeepNonUndefineableArray<Funding>);
 	const cdcFunding = getCurrentCdcFunding(fundings);
 	const c4KFunding = getCurrentC4kCertificate(enrollment);
-
-	const { lastReportingPeriod } = cdcFunding || {};
 
 	const setLastReportingPeriod = (lastReportingPeriodId: number) => {
 		let updatedFundings: Funding[] = fundings;
@@ -193,7 +190,7 @@ export default function Withdrawal({
 
 		// Otherwise handle the error
 		setError(putRequestError);
-		if (putRequestError && !hasAlertedOnError) {
+		if (putRequestError) {
 			if (!isBlockingValidationError(putRequestError)) {
 				throw new Error(putRequestError.title || 'Unknown api error');
 			}
@@ -257,33 +254,30 @@ export default function Withdrawal({
 						id="enrollment-end-date"
 						name="exit"
 						onChange={updateFormData(newDate => newDate.toDate())}
-						defaultValue={enrollmentEndDate ? moment(enrollmentEndDate) : undefined}
-						status={displayErrorOrWarning(error, {
-							serverErrorOptions: {
-								hasAlertedOnError,
-								setHasAlertedOnError,
-								errorDisplays: [
-									{
-										field: 'exit',
-									},
-								],
-							},
-							clientErrorOptions: {
-								errorDisplays: [
-									{
-										fieldId: 'exit',
-										errorCondition: attemptedSave && !enrollmentEndDate,
+						defaultValue={enrollmentEndDate ? moment(enrollmentEndDate).toDate() : undefined}
+						status={
+							attemptedSave && !enrollmentEndDate
+								? {
+										id: 'exit',
+										type: 'error',
 										message: REQUIRED_FOR_WITHDRAWAL,
-									},
-									{
-										fieldId: 'exit',
-										errorCondition: reportingPeriodOptions.length === 0,
+								  }
+								: reportingPeriodOptions.length === 0
+								? {
+										id: 'exit',
+										type: 'error',
 										message:
 											'ECE Reporter only contains data for fiscal year 2020 and later. Please do not add children who withdrew prior to July 2019.',
-									},
-								],
-							},
-						})}
+								  }
+								: displayValidationStatus([
+										{
+											type: 'error',
+											response: error,
+											field: 'exit',
+											useValidationErrorMessage: true,
+										},
+								  ])
+						}
 					/>
 					<ChoiceList
 						type="select"
@@ -297,13 +291,14 @@ export default function Withdrawal({
 						otherInputLabel="Other"
 						name="exitReason"
 						onChange={updateFormData()}
-						status={displayErrorOrWarning(error, {
-							serverErrorOptions: {
-								hasAlertedOnError,
-								setHasAlertedOnError,
-								errorDisplays: [{ field: 'exitReason', message: REQUIRED_FOR_WITHDRAWAL }],
+						status={displayValidationStatus([
+							{
+								type: 'error',
+								response: error,
+								field: 'exitReason',
+								message: REQUIRED_FOR_WITHDRAWAL,
 							},
-						})}
+						])}
 					/>
 					{cdcFunding && (
 						<ChoiceList
@@ -318,16 +313,20 @@ export default function Withdrawal({
 								const newReportingPeriodId = parseInt(event.target.value);
 								setLastReportingPeriod(newReportingPeriodId);
 							}}
-							status={displayErrorOrWarning(error, {
-								serverErrorOptions: {
-									hasAlertedOnError,
-									setHasAlertedOnError,
-									errorDisplays: [
-										{ field: 'fundings', message: REQUIRED_FOR_WITHDRAWAL },
-										{ field: 'fundings.lastReportingPeriod' },
-									],
+							status={displayValidationStatus([
+								{
+									type: 'error',
+									response: error,
+									field: 'fundings',
+									message: REQUIRED_FOR_WITHDRAWAL,
 								},
-							})}
+								{
+									type: 'error',
+									response: error,
+									field: 'fundings.lastReportingPeriod',
+									useValidationErrorMessage: true,
+								},
+							])}
 						/>
 					)}
 				</div>

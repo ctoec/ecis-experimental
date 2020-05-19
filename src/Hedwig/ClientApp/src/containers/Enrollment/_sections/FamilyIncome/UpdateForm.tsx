@@ -1,10 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { SectionProps } from '../../enrollmentTypes';
-import {
-	initialLoadErrorGuard,
-	warningForFieldSet,
-	isBlockingValidationError,
-} from '../../../../utils/validations';
+import { initialLoadErrorGuard, isBlockingValidationError } from '../../../../utils/validations';
 import { DeepNonUndefineable } from '../../../../utils/types';
 import { Enrollment, FamilyDetermination, Family } from '../../../../generated';
 import idx from 'idx';
@@ -30,6 +26,7 @@ import moment from 'moment';
 import UserContext from '../../../../contexts/User/UserContext';
 import { createEmptyFamily, getIdForUser } from '../../../../utils/models';
 import { REQUIRED_FOR_OEC_REPORTING } from '../../../../utils/validations/messageStrings';
+import { displayValidationStatus } from '../../../../utils/validations/displayValidationStatus';
 
 const UpdateForm: React.FC<SectionProps> = ({
 	enrollment,
@@ -131,23 +128,25 @@ const UpdateForm: React.FC<SectionProps> = ({
 						legend="Family income"
 						status={initialLoadErrorGuard(
 							initialLoad,
-							// Missing information for dedeterminationIndextermination warning
-							warningForFieldSet(
-								'family-income',
-								// Only check for determinationDate errors if it does not have a value. Otherwise, the error is about the
-								// value of determinationDate and should not trigger a missing information alert
-								['numberOfPeople', 'income', !determinationDate ? 'determinationDate' : ''],
-								determination ? determination : null,
-								REQUIRED_FOR_OEC_REPORTING
-							) ||
-								// Missing determination warning
-								warningForFieldSet(
-									'family-income',
-									['determinations'],
-									idx(enrollment, _ => _.child.family) || null,
-									'Income must be determined or marked as not disclosed',
-									true
-								)
+							// Missing information for determination warning
+							displayValidationStatus([
+								{
+									type: 'warning',
+									response: idx(determination, _ => _.validationErrors) || null,
+									fields: [
+										'numberOfPeople',
+										'income',
+										!determinationDate ? 'determinationDate' : '',
+									],
+									message: REQUIRED_FOR_OEC_REPORTING,
+								},
+								{
+									type: 'warning',
+									response: idx(enrollment, _ => _.child.family.validationErrors) || null,
+									fields: ['determinations'],
+									message: 'Income must be determined or marked as not disclosed',
+								},
+							])
 						)}
 					>
 						<div>{householdSizeField(index)}</div>

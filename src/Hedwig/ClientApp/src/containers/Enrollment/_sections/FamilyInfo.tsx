@@ -9,12 +9,9 @@ import {
 import UserContext from '../../../contexts/User/UserContext';
 import { validatePermissions, getIdForUser, createEmptyFamily } from '../../../utils/models';
 import {
-	sectionHasValidationErrors,
-	warningForFieldSet,
-	warningForField,
 	initialLoadErrorGuard,
 	useFocusFirstError,
-	processValidationError,
+	hasValidationErrors,
 } from '../../../utils/validations';
 import { addressFormatter, homelessnessText, fosterText } from '../../../utils/models';
 import { isBlockingValidationError } from '../../../utils/validations/isBlockingValidationError';
@@ -23,14 +20,22 @@ import AlertContext from '../../../contexts/Alert/AlertContext';
 import { FormReducer, formReducer, updateData } from '../../../utils/forms/form';
 import { DeepNonUndefineable } from '../../../utils/types';
 import useApi, { ApiError } from '../../../hooks/useApi';
-import { REQUIRED_FOR_OEC_REPORTING } from '../../../utils/validations/messageStrings';
+import {
+	REQUIRED_FOR_OEC_REPORTING,
+	REQUIRED_FOR_ENROLLMENT,
+} from '../../../utils/validations/messageStrings';
+import { displayValidationStatus } from '../../../utils/validations/displayValidationStatus';
 
 const FamilyInfo: Section = {
 	key: 'family-information',
 	name: 'Family information',
 	status: ({ enrollment }) =>
-		sectionHasValidationErrors([idx(enrollment, _ => _.child.family) || null]) ||
-		processValidationError('familyid', idx(enrollment, _ => _.child.validationErrors) || null)
+		hasValidationErrors(idx(enrollment, _ => _.child.family) || null, [
+			'addressLine1',
+			'town',
+			'state',
+			'zip',
+		]) || hasValidationErrors(idx(enrollment, _ => _.child) || null, ['familyid'])
 			? 'incomplete'
 			: 'complete',
 
@@ -73,19 +78,16 @@ const FamilyInfo: Section = {
 		// set up form state
 		const { setAlerts } = useContext(AlertContext);
 		const initialLoad = touchedSections ? !touchedSections[FamilyInfo.key] : false;
-
-		// const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
-		// Above line is left to show symmetry for future form component refactor-- wasn't actually used in this component
-
 		const [error, setError] = useState<ApiError | null>(inputError);
 
 		useFocusFirstError([error]);
 		useEffect(() => {
 			if (error) {
-				if (!isBlockingValidationError(error)) {
+				if (initialLoad) {
+					setAlerts([validationErrorAlert]);
+				} else if (!isBlockingValidationError(error)) {
 					throw new Error(error.title || 'Unknown api error');
 				}
-				setAlerts([validationErrorAlert]);
 			}
 		}, [error]);
 
@@ -146,12 +148,14 @@ const FamilyInfo: Section = {
 					legend="Address"
 					status={initialLoadErrorGuard(
 						initialLoad,
-						warningForFieldSet(
-							'family-address',
-							['addressLine1', 'state', 'town', 'zip'],
-							idx(enrollment, _ => _.child.family) || null,
-							REQUIRED_FOR_OEC_REPORTING
-						)
+						displayValidationStatus([
+							{
+								type: 'warning',
+								response: idx(child, _ => _.family.validationErrors) || null,
+								fields: ['addressline1', 'town', 'state', 'zip'],
+								message: REQUIRED_FOR_ENROLLMENT,
+							},
+						])
 					)}
 					className="display-inline-block"
 				>
@@ -165,7 +169,13 @@ const FamilyInfo: Section = {
 							onChange={updateFormData()}
 							status={initialLoadErrorGuard(
 								initialLoad,
-								warningForField('addressLine1', idx(enrollment, _ => _.child.family) || null, '')
+								displayValidationStatus([
+									{
+										type: 'warning',
+										response: idx(child, _ => _.family.validationErrors) || null,
+										field: 'addressline1',
+									},
+								])
 							)}
 						/>
 					</div>
@@ -190,7 +200,13 @@ const FamilyInfo: Section = {
 							onChange={updateFormData()}
 							status={initialLoadErrorGuard(
 								initialLoad,
-								warningForField('town', idx(enrollment, _ => _.child.family) || null, '')
+								displayValidationStatus([
+									{
+										type: 'warning',
+										response: idx(child, _ => _.family.validationErrors) || null,
+										field: 'town',
+									},
+								])
 							)}
 						/>
 					</div>
@@ -205,7 +221,13 @@ const FamilyInfo: Section = {
 							onChange={updateFormData()}
 							status={initialLoadErrorGuard(
 								initialLoad,
-								warningForField('state', idx(enrollment, _ => _.child.family) || null, '')
+								displayValidationStatus([
+									{
+										type: 'warning',
+										response: idx(child, _ => _.family.validationErrors) || null,
+										field: 'state',
+									},
+								])
 							)}
 						/>
 					</div>
@@ -219,7 +241,13 @@ const FamilyInfo: Section = {
 							onChange={updateFormData()}
 							status={initialLoadErrorGuard(
 								initialLoad,
-								warningForField('zip', idx(enrollment, _ => _.child.family) || null, '')
+								displayValidationStatus([
+									{
+										type: 'warning',
+										response: idx(child, _ => _.family.validationErrors) || null,
+										field: 'zip',
+									},
+								])
 							)}
 						/>
 					</div>

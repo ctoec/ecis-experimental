@@ -6,7 +6,6 @@ import useApi, { ApiError } from '../../../../hooks/useApi';
 import {
 	isBlockingValidationError,
 	initialLoadErrorGuard,
-	warningForFieldSet,
 	hasValidationErrors,
 } from '../../../../utils/validations';
 import { validationErrorAlert } from '../../../../utils/stringFormatters/alertTextMakers';
@@ -32,6 +31,7 @@ import FormInset from '../../../../components/Form/FormInset';
 import FormSubmitButton from '../../../../components/Form/FormSubmitButton';
 import { propertyDateSorter } from '../../../../utils/dateSorter';
 import { REQUIRED_FOR_OEC_REPORTING } from '../../../../utils/validations/messageStrings';
+import { displayValidationStatus } from '../../../../utils/validations/displayValidationStatus';
 
 const EntryForm: React.FC<SectionProps> = ({
 	enrollment,
@@ -146,22 +146,24 @@ const EntryForm: React.FC<SectionProps> = ({
 							status={initialLoadErrorGuard(
 								initialLoad,
 								// Missing information for determination warning
-								warningForFieldSet(
-									'family-income',
-									// Only check for determinationDate errors if it does not have a value. Otherwise, the error is about the
-									// value of determinationDate and should not trigger a missing information alert
-									['numberOfPeople', 'income', !determinationDate ? 'determinationDate' : ''],
-									determination ? determination : null,
-									REQUIRED_FOR_OEC_REPORTING
-								) ||
-									// Missing determination warning
-									warningForFieldSet(
-										'family-income',
-										['determinations'],
-										idx(enrollment, _ => _.child.family) || null,
-										'Income must be determined or marked as not disclosed',
-										true
-									)
+								displayValidationStatus([
+									{
+										type: 'warning',
+										response: idx(determination, _ => _.validationErrors) || null,
+										fields: [
+											'numberOfPeople',
+											'income',
+											!determinationDate ? 'determinationDate' : '',
+										],
+										message: REQUIRED_FOR_OEC_REPORTING,
+									},
+									{
+										type: 'warning',
+										response: idx(enrollment, _ => _.child.family.validationErrors) || null,
+										fields: ['determinations'],
+										message: 'Income must be determined or marked as not disclosed',
+									},
+								])
 							)}
 						>
 							<div>{householdSizeField(0)}</div>

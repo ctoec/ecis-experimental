@@ -19,6 +19,7 @@ describe('enrollment sections', () => {
 				<ChildInfo.Form
 					siteId={1}
 					enrollment={{} as DeepNonUndefineable<Enrollment>}
+					updateEnrollment={async () => null}
 					error={{
 						errors: { 'Child.FirstName': ['error'] },
 						status: 400,
@@ -35,7 +36,7 @@ describe('enrollment sections', () => {
 				<ChildInfo.Form
 					siteId={1}
 					enrollment={{} as DeepNonUndefineable<Enrollment>}
-					mutate={async () => null}
+					updateEnrollment={async () => null}
 					error={{
 						errors: { 'Child.LastName': ['error'] },
 						status: 400,
@@ -65,7 +66,7 @@ describe('enrollment sections', () => {
 					<ChildInfo.Form
 						siteId={1}
 						enrollment={enrollmentWithValidationErrors}
-						mutate={async () => null}
+						updateEnrollment={async () => null}
 						error={null}
 					/>
 				);
@@ -106,7 +107,7 @@ describe('enrollment sections', () => {
 				<ChildInfo.Form
 					siteId={1}
 					enrollment={enrollmentWithValidationErrors}
-					mutate={async () => null}
+					updateEnrollment={async () => null}
 					error={null}
 				/>
 			);

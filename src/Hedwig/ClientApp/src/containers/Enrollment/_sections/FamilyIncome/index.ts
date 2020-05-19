@@ -1,9 +1,9 @@
 import idx from 'idx';
 import { Section } from '../../enrollmentTypes';
-import { sectionHasValidationErrors, processValidationError } from '../../../../utils/validations';
 import Summary from './Summary';
 import EntryForm from './EntryForm';
 import UpdateForm from './UpdateForm';
+import { hasValidationErrors } from '../../../../utils/validations';
 
 const FamilyIncome: Section = {
 	key: 'family-income',
@@ -17,15 +17,15 @@ const FamilyIncome: Section = {
 		// section is incomplete if:
 		// - section itself has validation errors
 		// - family section has validation error for `determinations` field
-		return sectionHasValidationErrors([
-			idx(enrollment, _ => _.child.family.determinations) || null,
-		]) ||
-			processValidationError(
-				'determinations',
-				idx(enrollment, _ => _.child.family.validationErrors) || null
-			)
-			? 'incomplete'
-			: 'complete';
+		return (
+			// 	hasValidationErrors(
+			// 	idx(enrollment, _ => _.child.family.determinations) || [],
+			// 	[''],
+			// ) ||
+			hasValidationErrors(idx(enrollment, _ => _.child.family) || null, ['determinations'])
+				? 'incomplete'
+				: 'complete'
+		);
 	},
 	Summary: Summary,
 	Form: EntryForm,

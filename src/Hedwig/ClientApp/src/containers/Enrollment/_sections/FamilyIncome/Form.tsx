@@ -14,16 +14,13 @@ import {
 	DateInput,
 } from '../../../../components';
 import { Enrollment } from '../../../../generated';
-import {
-	initialLoadErrorGuard,
-	warningForField,
-	warningForFieldSet,
-} from '../../../../utils/validations';
+import { initialLoadErrorGuard } from '../../../../utils/validations';
 import idx from 'idx';
 import parseCurrencyFromString from '../../../../utils/parseCurrencyFromString';
 import currencyFormatter from '../../../../utils/currencyFormatter';
 import notNullOrUndefined from '../../../../utils/notNullOrUndefined';
 import moment, { Moment } from 'moment';
+import { displayValidationStatus } from '../../../../utils/validations/displayValidationStatus';
 
 export const householdSizeField = (index: number) => (
 	<FormField<Enrollment, TextInputProps, number | null, { initialLoad: boolean }>
@@ -50,7 +47,13 @@ export const householdSizeField = (index: number) => (
 					onBlur={event => (event.target.value = numberOfPeople ? '' + numberOfPeople : '')}
 					status={initialLoadErrorGuard(
 						initialLoad,
-						warningForField('numberOfPeople', determination ? determination : null, '')
+						displayValidationStatus([
+							{
+								type: 'warning',
+								response: idx(determination, _ => _.validationErrors) || null,
+								field: 'numberOfPeople',
+							},
+						])
 					)}
 					small
 					{...props}
@@ -88,12 +91,14 @@ export const incomeDisclosedField = (index: number) => (
 							value: 'familyIncomeNotDisclosed',
 						},
 					]}
-					status={warningForFieldSet(
-						'family-income',
-						['notDisclosed'],
-						determination ? determination : null,
-						'Income information must be disclosed for CDC funded enrollments'
-					)}
+					status={displayValidationStatus([
+						{
+							type: 'warning',
+							response: idx(determination, _ => _.validationErrors) || null,
+							field: 'notDisclosed',
+							message: 'Income information must be disclosed for CDC funded enrollments',
+						},
+					])}
 					{...props}
 				/>
 			);
@@ -128,7 +133,13 @@ export const annualHouseholdIncomeField = (index: number) => (
 					}
 					status={initialLoadErrorGuard(
 						initialLoad,
-						warningForField('income', determination ? determination : null, '')
+						displayValidationStatus([
+							{
+								type: 'warning',
+								response: idx(determination, _ => _.validationErrors) || null,
+								field: 'income',
+							},
+						])
 					)}
 					{...props}
 				/>
@@ -165,11 +176,14 @@ export const determinationDateField = (
 					defaultValue={date ? date.toDate() : null}
 					status={initialLoadErrorGuard(
 						initialLoad,
-						warningForField(
-							'determinationDate',
-							determination ? determination : null,
-							!determinationDate ? '' : undefined
-						)
+						displayValidationStatus([
+							{
+								type: 'warning',
+								response: idx(determination, _ => _.validationErrors) || null,
+								field: 'determinationDate',
+								useValidationErrorMessage: true,
+							},
+						])
 					)}
 					forceBlur={forceBlur}
 					{...props}

@@ -29,11 +29,7 @@ import UtilizationTable from './UtilizationTable';
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import { useHistory } from 'react-router';
 import { DeepNonUndefineable } from '../../../utils/types';
-import {
-	useFocusFirstError,
-	serverErrorForField,
-	isBlockingValidationError,
-} from '../../../utils/validations';
+import { useFocusFirstError, isBlockingValidationError } from '../../../utils/validations';
 import { reportSubmittedAlert, reportSubmitFailAlert } from '../../../utils/stringFormatters';
 import pluralize from 'pluralize';
 import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
@@ -44,6 +40,7 @@ import {
 	WEEKS_USED_CANNOT_EXCEED_WEEKS_AVAILABLE,
 } from '../../../utils/validations/messageStrings';
 import { sumWeeksUsed } from '../../../utils/models/fundingTimeSplitUtilization';
+import { displayValidationStatus } from '../../../utils/validations/displayValidationStatus';
 
 export type ReportSubmitFormProps = {
 	report: DeepNonUndefineable<CdcReport>;
@@ -250,13 +247,14 @@ export default function ReportSubmitForm({
 							),
 						]);
 					}}
-					status={serverErrorForField(
-						hasAlertedOnError,
-						setHasAlertedOnError,
-						'timesplitutilizations',
-						error,
-						WEEKS_USED_CANNOT_EXCEED_WEEKS_AVAILABLE
-					)}
+					status={displayValidationStatus([
+						{
+							type: 'error',
+							response: error,
+							field: 'timesplitutilizations',
+							message: WEEKS_USED_CANNOT_EXCEED_WEEKS_AVAILABLE,
+						},
+					])}
 					disabled={!!report.submittedAt}
 					small
 					afterContent={
@@ -327,13 +325,14 @@ export default function ReportSubmitForm({
 								(event.target.value = c4KRevenue !== null ? currencyFormatter(c4KRevenue) : '')
 							}
 							disabled={!!report.submittedAt}
-							status={serverErrorForField(
-								hasAlertedOnError,
-								setHasAlertedOnError,
-								'report.c4krevenue',
-								error,
-								REQUIRED_FOR_REPORT
-							)}
+							status={displayValidationStatus([
+								{
+									type: 'error',
+									response: error,
+									field: 'report.c4krevenue',
+									message: REQUIRED_FOR_REPORT,
+								},
+							])}
 							className="flex-fill"
 						/>
 					</div>
@@ -365,13 +364,14 @@ export default function ReportSubmitForm({
 									familyFeesRevenue !== null ? currencyFormatter(familyFeesRevenue) : '')
 							}
 							disabled={!!report.submittedAt}
-							status={serverErrorForField(
-								hasAlertedOnError,
-								setHasAlertedOnError,
-								'familyfeesrevenue',
-								error,
-								REQUIRED_FOR_REPORT
-							)}
+							status={displayValidationStatus([
+								{
+									type: 'error',
+									response: error,
+									field: 'familyfeesrevenue',
+									message: REQUIRED_FOR_REPORT,
+								},
+							])}
 							className="flex-fill"
 						/>
 					</div>
