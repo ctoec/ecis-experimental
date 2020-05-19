@@ -31,10 +31,11 @@ interface UtilizationTableRow {
 	rate?: number;
 	total: number;
 	balance: number;
+	showFundingTime?: boolean;
 	maxes: {
-		total: number,
-		rate: number,
-		balance: number,
+		total: number;
+		rate: number;
+		balance: number;
 	};
 }
 
@@ -49,6 +50,8 @@ function getNumberOfCommas(str: string) {
 }
 
 function getTabularNumPrefix(num: number, maxCommas: number, maxLength: number) {
+	// Because of silliness with tables and kerning and whatever else,
+	// we need to figure out how many 0s and ,s to prefix a number with so that dollar signs align nicely on the left
 	const valueBeforeDecimalPoint = getValueBeforeDecimalPoint(Math.abs(num) || 0);
 	const numberOfCommas = getNumberOfCommas(valueBeforeDecimalPoint);
 	const numberOfCommasNeeded = maxCommas - numberOfCommas;
@@ -61,10 +64,11 @@ function getTabularNumPrefix(num: number, maxCommas: number, maxLength: number) 
 }
 
 function makePrefixerFunc(max: number) {
-	const maxBeforeDecimal = getValueBeforeDecimalPoint(max || 0)
+	// Given the largest absolute number in a column, make a function that will add as many 0s and ,s as needed to align the dollar sign
+	const maxBeforeDecimal = getValueBeforeDecimalPoint(max || 0);
 	const maxNumberOfCommas = getNumberOfCommas(maxBeforeDecimal);
-	const maxLength = `${maxBeforeDecimal}`.length
-	return (num: number) => getTabularNumPrefix(num, maxNumberOfCommas, maxLength)
+	const maxLength = `${maxBeforeDecimal}`.length;
+	return (num: number) => getTabularNumPrefix(num, maxNumberOfCommas, maxLength);
 }
 
 export default function UtilizationTable(report: CdcReport) {
@@ -94,45 +98,47 @@ export default function UtilizationTable(report: CdcReport) {
 	// UPDATED to loop over all existing fundingspaces, which will all have capacity > 0.
 	// enrollments for funding spaces not in this list do not belong to this report.
 	// Rows are sorted by fundingspace age, then time
-	let rows: UtilizationTableRow[] = (fundingSpaces as DeepNonUndefineableArray<FundingSpace>)
+	const cdcFundingSpaces = (fundingSpaces as DeepNonUndefineableArray<FundingSpace>)
 		.sort(fundingSpaceSorter)
-		.filter((fundingSpace) => fundingSpace.source === FundingSource.CDC)
-		.map((space) => {
-			const capacity = space.capacity;
-			const ageGroup = space.ageGroup;
-			const fundingTime = space.time;
-			const count = countFundedEnrollments(enrollments, space.id);
-			const rate = calculateRate(
-				report.accredited,
-				site.titleI,
-				site.region,
-				ageGroup,
-				// TODO: Update this to handle FundingTime.Split
-				fundingTime
-			);
+		.filter(fundingSpace => fundingSpace.source === FundingSource.CDC)
 
-			const cappedCount = Math.min(count, capacity);
-			const total = cappedCount * rate * weeksInPeriod;
-			const paid = capacity * rate * weeksInPeriod;
-			const balance = total - paid;
+	let rows: UtilizationTableRow[] = cdcFundingSpaces.map(space => {
+		const capacity = space.capacity;
+		const ageGroup = space.ageGroup;
+		const fundingTime = space.time;
+		const count = countFundedEnrollments(enrollments, space.id);
+		const rate = calculateRate(
+			report.accredited,
+			site.titleI,
+			site.region,
+			ageGroup,
+			// TODO: Update this to handle FundingTime.Split
+			fundingTime
+		);
 
-			return {
-				key: `${ageGroup}-${fundingTime}`,
-				ageGroup,
-				fundingTime,
-				count,
-				capacity,
-				rate,
+		const cappedCount = Math.min(count, capacity);
+		const total = cappedCount * rate * weeksInPeriod;
+		const paid = capacity * rate * weeksInPeriod;
+		const balance = total - paid;
+
+		return {
+			key: `${ageGroup}-${fundingTime}`,
+			ageGroup,
+			fundingTime,
+			count,
+			capacity,
+			rate,
+			total,
+			balance,
+			showFundingTime: cdcFundingSpaces.filter(fs => fs.ageGroup === ageGroup).length > 1,
+			maxes: {
+				// TODO: make this the greater of the two vals if there are two time vals
 				total,
+				rate,
 				balance,
-				maxes: {
-					// TODO: make this the greater of the two vals if there are two time vals
-					total,
-					rate,
-					balance,
-				},
-			};
-		});
+			},
+		};
+	});
 
 	const totalRow = rows.reduce(
 		(total, row) => {
@@ -146,23 +152,28 @@ export default function UtilizationTable(report: CdcReport) {
 					total: Math.max(total.total, row.total),
 					rate: Math.max(total.maxes.rate, row.rate || 0),
 					balance: Math.max(Math.abs(total.balance), Math.abs(row.balance)),
-				}
+				},
 			};
 		},
 		{
-			key: 'total', count: 0, capacity: 0, total: 0, balance: 0, maxes: {
+			key: 'total',
+			count: 0,
+			capacity: 0,
+			total: 0,
+			balance: 0,
+			maxes: {
 				total: 0,
 				rate: 0,
 				balance: 0,
-			}
+			},
 		}
 	);
 
 	rows.push(totalRow);
 
-	const reimbursementPrefixer = makePrefixerFunc(totalRow.maxes.rate)
-	const totalPrefixer = makePrefixerFunc(totalRow.maxes.total)
-	const balancePrefixer = makePrefixerFunc(totalRow.maxes.balance)
+	const reimbursementPrefixer = makePrefixerFunc(totalRow.maxes.rate);
+	const totalPrefixer = makePrefixerFunc(totalRow.maxes.total);
+	const balancePrefixer = makePrefixerFunc(totalRow.maxes.balance);
 
 	const tableProps: TableProps<UtilizationTableRow> = {
 		id: 'utilization-table',
@@ -174,7 +185,7 @@ export default function UtilizationTable(report: CdcReport) {
 				cell: ({ row }) => (
 					<th>
 						<strong>{row.key === 'total' ? 'Total' : `${prettyAge(row.ageGroup)}`}</strong>
-						{row.fundingTime && <> &ndash; {prettyFundingTime(row.fundingTime)}</>}
+						{row.fundingTime && row.showFundingTime && <> &ndash; {prettyFundingTime(row.fundingTime, { splitTimeText: 'pt/ft split' })}</>}
 					</th>
 				),
 			},
@@ -196,7 +207,7 @@ export default function UtilizationTable(report: CdcReport) {
 				name: 'Reimbursement rate',
 				className: 'text-right',
 				cell: ({ row }) => {
-					const prefix = reimbursementPrefixer(row.rate || 0)
+					const prefix = reimbursementPrefixer(row.rate || 0);
 					return (
 						<td className="text-tabular text-right">
 							{row.key !== 'total' && (
@@ -215,7 +226,7 @@ export default function UtilizationTable(report: CdcReport) {
 				name: `Total (${weeksInPeriod} weeks)`,
 				className: 'text-right',
 				cell: ({ row }) => {
-					const prefix = totalPrefixer(row.total)
+					const prefix = totalPrefixer(row.total);
 					return (
 						<td
 							className={cx(
@@ -235,7 +246,7 @@ export default function UtilizationTable(report: CdcReport) {
 				name: 'Balance',
 				className: 'text-right',
 				cell: ({ row }) => {
-					const prefix = balancePrefixer(row.balance)
+					const prefix = balancePrefixer(row.balance);
 					return (
 						<td
 							className={cx(
