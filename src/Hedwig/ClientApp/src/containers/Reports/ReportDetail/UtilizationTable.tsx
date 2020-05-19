@@ -48,6 +48,25 @@ function getNumberOfCommas(str: string) {
 	return str.split(',').length - 1;
 }
 
+function getTabularNumPrefix(num: number, maxCommas: number, maxLength: number) {
+	const valueBeforeDecimalPoint = getValueBeforeDecimalPoint(Math.abs(num) || 0);
+	const numberOfCommas = getNumberOfCommas(valueBeforeDecimalPoint);
+	const numberOfCommasNeeded = maxCommas - numberOfCommas;
+	const numberOfLeadingZerosNeeded =
+		maxLength - valueBeforeDecimalPoint.length - numberOfCommasNeeded;
+	const leadingZeros =
+		numberOfLeadingZerosNeeded >= 0 ? '0'.repeat(numberOfLeadingZerosNeeded) : '';
+	const commas = numberOfCommasNeeded >= 0 ? ','.repeat(numberOfCommasNeeded) : '';
+	return leadingZeros + commas;
+}
+
+function makePrefixerFunc(max: number) {
+	const maxBeforeDecimal = getValueBeforeDecimalPoint(max || 0)
+	const maxNumberOfCommas = getNumberOfCommas(maxBeforeDecimal);
+	const maxLength = `${maxBeforeDecimal}`.length
+	return (num: number) => getTabularNumPrefix(num, maxNumberOfCommas, maxLength)
+}
+
 export default function UtilizationTable(report: CdcReport) {
 	const site = idx(report, _ => _.organization.sites[0]);
 	if (!site) {
@@ -141,31 +160,9 @@ export default function UtilizationTable(report: CdcReport) {
 
 	rows.push(totalRow);
 
-	const reimbursementBeforeDecimal = getValueBeforeDecimalPoint(totalRow.maxes.rate || 0)
-	const numberOfCommasInReimbursement = getNumberOfCommas(reimbursementBeforeDecimal);
-	const maxLengthOfReimbursementRate = `${reimbursementBeforeDecimal}`.length
-
-	const totalBeforeDecimal = getValueBeforeDecimalPoint(totalRow.maxes.total || 0)
-	const numberOfCommasInTotalRate = getNumberOfCommas(totalBeforeDecimal);
-	const maxLengthOfTotalRate = `${totalBeforeDecimal}`.length
-
-	const balanceBeforeDecimal = getValueBeforeDecimalPoint(totalRow.maxes.balance || 0)
-	const numberOfCommasInBalance = getNumberOfCommas(balanceBeforeDecimal);
-	const maxLengthOfBalance = `${balanceBeforeDecimal}`.length
-
-	console.log(balanceBeforeDecimal, numberOfCommasInBalance, maxLengthOfBalance)
-
-	function getTabularNumPrefix(num: number, maxCommas: number, maxLength: number) {
-		const valueBeforeDecimalPoint = getValueBeforeDecimalPoint(Math.abs(num) || 0);
-		const numberOfCommas = getNumberOfCommas(valueBeforeDecimalPoint);
-		const numberOfCommasNeeded = maxCommas - numberOfCommas;
-		const numberOfLeadingZerosNeeded =
-			maxLength - valueBeforeDecimalPoint.length - numberOfCommasNeeded;
-		const leadingZeros =
-			numberOfLeadingZerosNeeded >= 0 ? '0'.repeat(numberOfLeadingZerosNeeded) : '';
-		const commas = numberOfCommasNeeded >= 0 ? ','.repeat(numberOfCommasNeeded) : '';
-		return leadingZeros + commas;
-	}
+	const reimbursementPrefixer = makePrefixerFunc(totalRow.maxes.rate)
+	const totalPrefixer = makePrefixerFunc(totalRow.maxes.total)
+	const balancePrefixer = makePrefixerFunc(totalRow.maxes.balance)
 
 	const tableProps: TableProps<UtilizationTableRow> = {
 		id: 'utilization-table',
@@ -199,7 +196,7 @@ export default function UtilizationTable(report: CdcReport) {
 				name: 'Reimbursement rate',
 				className: 'text-right',
 				cell: ({ row }) => {
-					const prefix = getTabularNumPrefix(row.rate || 0, numberOfCommasInReimbursement, maxLengthOfReimbursementRate)
+					const prefix = reimbursementPrefixer(row.rate || 0)
 					return (
 						<td className="text-tabular text-right">
 							{row.key !== 'total' && (
@@ -218,7 +215,7 @@ export default function UtilizationTable(report: CdcReport) {
 				name: `Total (${weeksInPeriod} weeks)`,
 				className: 'text-right',
 				cell: ({ row }) => {
-					const prefix = getTabularNumPrefix(row.total || 0, numberOfCommasInTotalRate, maxLengthOfTotalRate)
+					const prefix = totalPrefixer(row.total)
 					return (
 						<td
 							className={cx(
@@ -238,7 +235,7 @@ export default function UtilizationTable(report: CdcReport) {
 				name: 'Balance',
 				className: 'text-right',
 				cell: ({ row }) => {
-					const prefix = getTabularNumPrefix(row.balance || 0, numberOfCommasInBalance, maxLengthOfBalance)
+					const prefix = balancePrefixer(row.balance)
 					return (
 						<td
 							className={cx(
