@@ -1,26 +1,24 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Table, { TableProps } from '../../../components/Table/Table';
 import {
 	CdcReport,
 	Enrollment,
 	Age,
 	FundingTime,
-	Region,
 	FundingSpace,
 	FundingSource,
 } from '../../../generated';
 import idx from 'idx';
 import moment from 'moment';
-import { CdcRates } from './CdcRates';
 import {
 	prettyAge,
 	prettyFundingTime,
-	isFundedForFundingSpace,
 	fundingSpaceSorter,
 } from '../../../utils/models';
 import currencyFormatter from '../../../utils/currencyFormatter';
 import cx from 'classnames';
 import { DeepNonUndefineableArray } from '../../../utils/types';
+import { countFundedEnrollments, calculateRate, makePrefixerFunc, ReimbursementRateLine } from '../../../utils/utilizationTable';
 
 interface UtilizationTableRow {
 	key: string;
@@ -39,37 +37,6 @@ interface UtilizationTableRow {
 	};
 }
 
-function getValueBeforeDecimalPoint(number: number) {
-	const numAsString = number.toFixed(2);
-	const decimalPointIndex = numAsString.indexOf('.');
-	return numAsString.slice(0, decimalPointIndex).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-}
-
-function getNumberOfCommas(str: string) {
-	return str.split(',').length - 1;
-}
-
-function getTabularNumPrefix(num: number, maxCommas: number, maxLength: number) {
-	// Because of silliness with tables and kerning and whatever else,
-	// we need to figure out how many 0s and ,s to prefix a number with so that dollar signs align nicely on the left
-	const valueBeforeDecimalPoint = getValueBeforeDecimalPoint(Math.abs(num) || 0);
-	const numberOfCommas = getNumberOfCommas(valueBeforeDecimalPoint);
-	const numberOfCommasNeeded = maxCommas - numberOfCommas;
-	const numberOfLeadingZerosNeeded =
-		maxLength - valueBeforeDecimalPoint.length - numberOfCommasNeeded;
-	const leadingZeros =
-		numberOfLeadingZerosNeeded >= 0 ? '0'.repeat(numberOfLeadingZerosNeeded) : '';
-	const commas = numberOfCommasNeeded >= 0 ? ','.repeat(numberOfCommasNeeded) : '';
-	return leadingZeros + commas;
-}
-
-function makePrefixerFunc(max: number) {
-	// Given the largest absolute number in a column, make a function that will add as many 0s and ,s as needed to align the dollar sign
-	const maxBeforeDecimal = getValueBeforeDecimalPoint(max || 0);
-	const maxNumberOfCommas = getNumberOfCommas(maxBeforeDecimal);
-	const maxLength = `${maxBeforeDecimal}`.length;
-	return (num: number) => getTabularNumPrefix(num, maxNumberOfCommas, maxLength);
-}
 
 export default function UtilizationTable(report: CdcReport) {
 	const site = idx(report, _ => _.organization.sites[0]);
@@ -115,6 +82,15 @@ export default function UtilizationTable(report: CdcReport) {
 			// TODO: Update this to handle FundingTime.Split
 			fundingTime
 		);
+
+		const { timeSplitUtilizations } = space;
+		const thisUtilization = (timeSplitUtilizations || []).find(u => u.reportId === report.id)
+		let fullWeeks, partWeeks;
+		if (thisUtilization) {
+			fullWeeks = thisUtilization.fullTimeWeeksUsed
+			partWeeks = thisUtilization.partTimeWeeksUsed
+		}
+
 
 		const cappedCount = Math.min(count, capacity);
 		const total = cappedCount * rate * weeksInPeriod;
@@ -211,12 +187,11 @@ export default function UtilizationTable(report: CdcReport) {
 					return (
 						<td className="text-tabular text-right">
 							{row.key !== 'total' && (
-								<>
-									<span>$ </span>
-									<span style={{ visibility: 'hidden' }}>{prefix}</span>
-									{currencyFormatter(row.rate || 0, true)}
-									<span> &times; {weeksInPeriod} weeks</span>
-								</>
+								<ReimbursementRateLine
+									prefix={prefix}
+									prettyRate={currencyFormatter(row.rate || 0, true)}
+									weeksInPeriod={weeksInPeriod}
+								/>
 							)}
 						</td>
 					);
@@ -276,30 +251,4 @@ export default function UtilizationTable(report: CdcReport) {
 			<Table {...tableProps} fullWidth />
 		</>
 	);
-}
-
-export function calculateRate(
-	accredited: boolean,
-	titleI: boolean,
-	region: Region,
-	ageGroup: Age,
-	time: FundingTime
-) {
-	const rate = CdcRates.find(
-		(r) =>
-			r.accredited === accredited &&
-			r.titleI === titleI &&
-			r.region === region &&
-			r.ageGroup === ageGroup &&
-			r.time === time
-	);
-
-	return rate ? rate.rate : 0;
-}
-
-export function countFundedEnrollments(enrollments: Enrollment[], fundingSpaceId: number) {
-	return enrollments.filter((enrollment) => {
-		if (!enrollment.fundings) return false;
-		return isFundedForFundingSpace(enrollment, fundingSpaceId);
-	}).length;
 }
