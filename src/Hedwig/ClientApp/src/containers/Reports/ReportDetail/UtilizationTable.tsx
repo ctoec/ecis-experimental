@@ -31,6 +31,11 @@ interface UtilizationTableRow {
 	rate?: number;
 	total: number;
 	balance: number;
+	maxes: {
+		total: number,
+		rate: number,
+		balance: number,
+	};
 }
 
 function getValueBeforeDecimalPoint(number: number) {
@@ -44,14 +49,7 @@ function getNumberOfCommas(str: string) {
 }
 
 export default function UtilizationTable(report: CdcReport) {
-	const [maxLengthOfReimbursementRate, updateMaxLengthOfReimbursement] = useState(0);
-	const [numberOfCommasInReimbursement, updateNumberOfCommasInReimbursement] = useState(0);
-	const [maxLengthOfTotalRate, updateMaxLengthOfTotalRate] = useState(0);
-	const [numberOfCommasInTotalRate, updateNumberOfCommasInTotalRate] = useState(0);
-	const [maxLengthOfBalance, updateMaxLengthOfBalance] = useState(0);
-	const [numberOfCommasInBalance, updateNumberOfCommasInBalance] = useState(0);
-
-	const site = idx(report, (_) => _.organization.sites[0]);
+	const site = idx(report, _ => _.organization.sites[0]);
 	if (!site) {
 		return <></>;
 	}
@@ -64,7 +62,11 @@ export default function UtilizationTable(report: CdcReport) {
 	const periodStart = idx(report, (_) => _.reportingPeriod.periodStart);
 	const periodEnd = idx(report, (_) => _.reportingPeriod.periodEnd);
 	const weeksInPeriod =
-		periodStart && periodEnd ? moment(periodEnd).add(1, 'day').diff(periodStart, 'weeks') : 0;
+		periodStart && periodEnd
+			? moment(periodEnd)
+				.add(1, 'day')
+				.diff(periodStart, 'weeks')
+			: 0;
 
 	const enrollments = (idx(report, (_) => _.enrollments) || []) as Enrollment[];
 
@@ -104,6 +106,12 @@ export default function UtilizationTable(report: CdcReport) {
 				rate,
 				total,
 				balance,
+				maxes: {
+					// TODO: make this the greater of the two vals if there are two time vals
+					total,
+					rate,
+					balance,
+				},
 			};
 		});
 
@@ -115,12 +123,49 @@ export default function UtilizationTable(report: CdcReport) {
 				capacity: total.capacity + row.capacity,
 				total: total.total + row.total,
 				balance: total.balance + row.balance,
+				maxes: {
+					total: Math.max(total.total, row.total),
+					rate: Math.max(total.maxes.rate, row.rate || 0),
+					balance: Math.max(Math.abs(total.balance), Math.abs(row.balance)),
+				}
 			};
 		},
-		{ key: 'total', count: 0, capacity: 0, total: 0, balance: 0 }
+		{
+			key: 'total', count: 0, capacity: 0, total: 0, balance: 0, maxes: {
+				total: 0,
+				rate: 0,
+				balance: 0,
+			}
+		}
 	);
 
 	rows.push(totalRow);
+
+	const reimbursementBeforeDecimal = getValueBeforeDecimalPoint(totalRow.maxes.rate || 0)
+	const numberOfCommasInReimbursement = getNumberOfCommas(reimbursementBeforeDecimal);
+	const maxLengthOfReimbursementRate = `${reimbursementBeforeDecimal}`.length
+
+	const totalBeforeDecimal = getValueBeforeDecimalPoint(totalRow.maxes.total || 0)
+	const numberOfCommasInTotalRate = getNumberOfCommas(totalBeforeDecimal);
+	const maxLengthOfTotalRate = `${totalBeforeDecimal}`.length
+
+	const balanceBeforeDecimal = getValueBeforeDecimalPoint(totalRow.maxes.balance || 0)
+	const numberOfCommasInBalance = getNumberOfCommas(balanceBeforeDecimal);
+	const maxLengthOfBalance = `${balanceBeforeDecimal}`.length
+
+	console.log(balanceBeforeDecimal, numberOfCommasInBalance, maxLengthOfBalance)
+
+	function getTabularNumPrefix(num: number, maxCommas: number, maxLength: number) {
+		const valueBeforeDecimalPoint = getValueBeforeDecimalPoint(Math.abs(num) || 0);
+		const numberOfCommas = getNumberOfCommas(valueBeforeDecimalPoint);
+		const numberOfCommasNeeded = maxCommas - numberOfCommas;
+		const numberOfLeadingZerosNeeded =
+			maxLength - valueBeforeDecimalPoint.length - numberOfCommasNeeded;
+		const leadingZeros =
+			numberOfLeadingZerosNeeded >= 0 ? '0'.repeat(numberOfLeadingZerosNeeded) : '';
+		const commas = numberOfCommasNeeded >= 0 ? ','.repeat(numberOfCommasNeeded) : '';
+		return leadingZeros + commas;
+	}
 
 	const tableProps: TableProps<UtilizationTableRow> = {
 		id: 'utilization-table',
@@ -154,21 +199,7 @@ export default function UtilizationTable(report: CdcReport) {
 				name: 'Reimbursement rate',
 				className: 'text-right',
 				cell: ({ row }) => {
-					const valueBeforeDecimalPoint = getValueBeforeDecimalPoint(row.rate || 0);
-					const numberOfCommas = getNumberOfCommas(valueBeforeDecimalPoint);
-					updateNumberOfCommasInReimbursement((oldNumberOfCommas) => {
-						return Math.max(numberOfCommas, oldNumberOfCommas);
-					});
-					updateMaxLengthOfReimbursement((oldMaxLengthOfReimbursementRate) => {
-						return Math.max(valueBeforeDecimalPoint.length, oldMaxLengthOfReimbursementRate);
-					});
-					const numberOfCommasNeeded = numberOfCommasInReimbursement - numberOfCommas;
-					const numberOfLeadingZerosNeeded =
-						maxLengthOfReimbursementRate - valueBeforeDecimalPoint.length - numberOfCommasNeeded;
-					const leadingZeros =
-						numberOfLeadingZerosNeeded >= 0 ? '0'.repeat(numberOfLeadingZerosNeeded) : '';
-					const commas = numberOfCommasNeeded >= 0 ? ','.repeat(numberOfCommasNeeded) : '';
-					const prefix = leadingZeros + commas;
+					const prefix = getTabularNumPrefix(row.rate || 0, numberOfCommasInReimbursement, maxLengthOfReimbursementRate)
 					return (
 						<td className="text-tabular text-right">
 							{row.key !== 'total' && (
@@ -187,21 +218,7 @@ export default function UtilizationTable(report: CdcReport) {
 				name: `Total (${weeksInPeriod} weeks)`,
 				className: 'text-right',
 				cell: ({ row }) => {
-					const valueBeforeDecimalPoint = getValueBeforeDecimalPoint(row.total);
-					const numberOfCommas = getNumberOfCommas(valueBeforeDecimalPoint);
-					updateNumberOfCommasInTotalRate((oldNumberOfCommas) => {
-						return Math.max(numberOfCommas, oldNumberOfCommas);
-					});
-					updateMaxLengthOfTotalRate((oldMaxLengthOfTotalRate) => {
-						return Math.max(valueBeforeDecimalPoint.length, oldMaxLengthOfTotalRate);
-					});
-					const numberOfCommasNeeded = numberOfCommasInTotalRate - numberOfCommas;
-					const numberOfLeadingZerosNeeded =
-						maxLengthOfTotalRate - valueBeforeDecimalPoint.length - numberOfCommasNeeded;
-					const leadingZeros =
-						numberOfLeadingZerosNeeded >= 0 ? '0'.repeat(numberOfLeadingZerosNeeded) : '';
-					const commas = numberOfCommasNeeded >= 0 ? ','.repeat(numberOfCommasNeeded) : '';
-					const prefix = leadingZeros + commas;
+					const prefix = getTabularNumPrefix(row.total || 0, numberOfCommasInTotalRate, maxLengthOfTotalRate)
 					return (
 						<td
 							className={cx(
@@ -221,21 +238,7 @@ export default function UtilizationTable(report: CdcReport) {
 				name: 'Balance',
 				className: 'text-right',
 				cell: ({ row }) => {
-					const valueBeforeDecimalPoint = getValueBeforeDecimalPoint(Math.abs(row.balance));
-					const numberOfCommas = getNumberOfCommas(valueBeforeDecimalPoint);
-					updateNumberOfCommasInBalance((oldNumberOfCommas) => {
-						return Math.max(numberOfCommas, oldNumberOfCommas);
-					});
-					updateMaxLengthOfBalance((oldMaxLengthOfBalance) => {
-						return Math.max(valueBeforeDecimalPoint.length, oldMaxLengthOfBalance);
-					});
-					const numberOfCommasNeeded = numberOfCommasInBalance - numberOfCommas;
-					const numberOfLeadingZerosNeeded =
-						maxLengthOfBalance - valueBeforeDecimalPoint.length - numberOfCommasNeeded;
-					const leadingZeros =
-						numberOfLeadingZerosNeeded >= 0 ? '0'.repeat(numberOfLeadingZerosNeeded) : '';
-					const commas = numberOfCommasNeeded >= 0 ? ','.repeat(numberOfCommasNeeded) : '';
-					const prefix = leadingZeros + commas;
+					const prefix = getTabularNumPrefix(row.balance || 0, numberOfCommasInBalance, maxLengthOfBalance)
 					return (
 						<td
 							className={cx(
