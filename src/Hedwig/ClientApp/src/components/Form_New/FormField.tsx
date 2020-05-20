@@ -20,8 +20,9 @@ type FormFieldProps<TData, TComponentProps, TFieldData> =
 					event: React.ChangeEvent<any>,
 					data: TObjectDriller<TData>
 				) => TFieldData;
+				status: (_: TObjectDriller<NonNullable<TData>>) => FormStatusProps | undefined;
 				inputComponent: React.FC<TComponentProps>;
-		  } & // Include TComponentProps props, except onChange and defaultValue
+		  } & // Include TComponentProps props, except onChange, defaultValue, and status
 		  Pick<TComponentProps, Exclude<keyof TComponentProps, 'onChange' | 'defaultValue' | 'status'>>
 		: // If TComponentProps does not extend {}, React will choke on creating
 		  // the component. So don't allow this case.
@@ -47,8 +48,9 @@ const FormField = <TData extends object, TComponentProps extends {}, TFieldData>
 	children,
 	...props
 }: PropsWithChildren<FormFieldProps<TData, TComponentProps, TFieldData>>) => {
-	const { data, dataDriller, updateData } = useGenericContext<TData>(FormContext);
+	const { data, updateData } = useGenericContext<TData>(FormContext);
 
+	const dataDriller = (new ObjectDriller(data) as unknown) as TObjectDriller<NonNullable<TData>>;
 	const accessor = getValue(dataDriller);
 	const value = accessor.value;
 	const updatePath = accessor.path;

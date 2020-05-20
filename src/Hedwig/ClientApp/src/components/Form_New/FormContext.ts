@@ -1,15 +1,12 @@
 import { createContext, Context, useContext } from 'react';
-import { ObjectDriller } from './ObjectDriller';
 
 type FormContextType = {
 	data: any;
-	dataDriller: any;
 	updateData: (_: any) => void;
 };
 
 const FormContext = createContext<FormContextType>({
 	data: undefined,
-	dataDriller: undefined,
 	updateData: _ => {},
 });
 
@@ -22,7 +19,6 @@ export default FormContext;
  */
 export type GenericFormContextType<T> = {
 	data: T;
-	dataDriller: ObjectDriller<T>
 	updateData: (_: T) => void;
 };
 /**
