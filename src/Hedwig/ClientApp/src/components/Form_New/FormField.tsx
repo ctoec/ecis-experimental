@@ -3,6 +3,7 @@ import FormContext, { useGenericContext } from './FormContext';
 import produce from 'immer';
 import set from 'lodash/set';
 import { ObjectDriller, TObjectDriller } from './ObjectDriller';
+import { FormStatusProps } from '../FormStatus/FormStatus';
 
 type FormFieldProps<TData, TComponentProps, TFieldData> =
 	// React.FC<P> assigns the generic P to {} as a default type. That causes a
@@ -21,7 +22,7 @@ type FormFieldProps<TData, TComponentProps, TFieldData> =
 				) => TFieldData;
 				inputComponent: React.FC<TComponentProps>;
 		  } & // Include TComponentProps props, except onChange and defaultValue
-		  Pick<TComponentProps, Exclude<keyof TComponentProps, 'onChange' | 'defaultValue'>>
+		  Pick<TComponentProps, Exclude<keyof TComponentProps, 'onChange' | 'defaultValue' | 'status'>>
 		: // If TComponentProps does not extend {}, React will choke on creating
 		  // the component. So don't allow this case.
 		  never;
@@ -41,21 +42,19 @@ const FormField = <TData extends object, TComponentProps extends {}, TFieldData>
 	defaultValue,
 	preprocessForDisplay,
 	parseOnChangeEvent,
+	status = () => undefined,
 	inputComponent: InputComponent,
 	children,
 	...props
 }: PropsWithChildren<FormFieldProps<TData, TComponentProps, TFieldData>>) => {
-	const { data, updateData } = useGenericContext<TData>(FormContext);
+	const { data, dataDriller, updateData } = useGenericContext<TData>(FormContext);
 
-	const pathAccessibleData = (new ObjectDriller(data) as unknown) as TObjectDriller<
-		NonNullable<TData>
-	>;
-	const accessor = getValue(pathAccessibleData);
+	const accessor = getValue(dataDriller);
 	const value = accessor.value;
 	const updatePath = accessor.path;
 
 	const onChange = (e: React.ChangeEvent<any>) => {
-		const processedData = parseOnChangeEvent(e, pathAccessibleData);
+		const processedData = parseOnChangeEvent(e, dataDriller);
 		updateData(
 			produce<TData>(data, draft => set(draft, updatePath, processedData))
 		);
@@ -69,6 +68,7 @@ const FormField = <TData extends object, TComponentProps extends {}, TFieldData>
 		<InputComponent
 			defaultValue={preprocessForDisplay ? preprocessForDisplay(displayValue) : displayValue}
 			onChange={onChange}
+			status={status(dataDriller)}
 			{...props}
 		>
 			{children}
