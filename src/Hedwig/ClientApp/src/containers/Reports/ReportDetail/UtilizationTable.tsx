@@ -26,10 +26,15 @@ interface UtilizationTableRow {
 	fundingTime?: FundingTime;
 	count: number;
 	capacity: number;
-	rate?: number;
+	ftRate?: number;
+	ptRate?: number;
 	total: number;
 	balance: number;
 	showFundingTime?: boolean;
+	weeksSplit?: {
+		partWeeks: number;
+		fullWeeks: number;
+	};
 	maxes: {
 		total: number;
 		rate: number;
@@ -74,27 +79,39 @@ export default function UtilizationTable(report: CdcReport) {
 		const ageGroup = space.ageGroup;
 		const fundingTime = space.time;
 		const count = countFundedEnrollments(enrollments, space.id);
-		const rate = calculateRate(
+		const ptRate = calculateRate(
 			report.accredited,
 			site.titleI,
 			site.region,
 			ageGroup,
-			// TODO: Update this to handle FundingTime.Split
-			fundingTime
+			FundingTime.Part
+		);
+		const ftRate = calculateRate(
+			report.accredited,
+			site.titleI,
+			site.region,
+			ageGroup,
+			FundingTime.Full
 		);
 
-		const { timeSplitUtilizations } = space;
-		const thisUtilization = (timeSplitUtilizations || []).find(u => u.reportId === report.id)
-		let fullWeeks, partWeeks;
-		if (thisUtilization) {
-			fullWeeks = thisUtilization.fullTimeWeeksUsed
-			partWeeks = thisUtilization.partTimeWeeksUsed
+		// TODO: probably a util
+		let fullWeeks = 0, partWeeks = 0;
+		if (fundingTime === FundingTime.Split) {
+			const { timeSplitUtilizations } = space;
+			const thisUtilization = (timeSplitUtilizations || []).find(u => u.reportId === report.id)
+			if (thisUtilization) {
+				fullWeeks = thisUtilization.fullTimeWeeksUsed
+				partWeeks = thisUtilization.partTimeWeeksUsed
+			}
+		} else if (fundingTime === FundingTime.Full) {
+			fullWeeks = weeksInPeriod
+		} else if (fundingTime === FundingTime.Part) {
+			partWeeks = weeksInPeriod;
 		}
 
-
 		const cappedCount = Math.min(count, capacity);
-		const total = cappedCount * rate * weeksInPeriod;
-		const paid = capacity * rate * weeksInPeriod;
+		const total = cappedCount * (fullWeeks * ftRate) + cappedCount * (partWeeks * ptRate);
+		const paid = capacity * (fullWeeks * ftRate) + capacity * partWeeks * ptRate;
 		const balance = total - paid;
 
 		return {
@@ -103,14 +120,19 @@ export default function UtilizationTable(report: CdcReport) {
 			fundingTime,
 			count,
 			capacity,
-			rate,
+			ftRate,
+			ptRate,
 			total,
 			balance,
 			showFundingTime: cdcFundingSpaces.filter(fs => fs.ageGroup === ageGroup).length > 1,
+			weeksSplit: {
+				partWeeks,
+				fullWeeks
+			},
 			maxes: {
 				// TODO: make this the greater of the two vals if there are two time vals
 				total,
-				rate,
+				rate: Math.max(ptRate, ftRate),
 				balance,
 			},
 		};
@@ -126,7 +148,7 @@ export default function UtilizationTable(report: CdcReport) {
 				balance: total.balance + row.balance,
 				maxes: {
 					total: Math.max(total.total, row.total),
-					rate: Math.max(total.maxes.rate, row.rate || 0),
+					rate: Math.max(total.maxes.rate, row.ftRate || 0, row.ptRate || 0),
 					balance: Math.max(Math.abs(total.balance), Math.abs(row.balance)),
 				},
 			};
@@ -183,16 +205,21 @@ export default function UtilizationTable(report: CdcReport) {
 				name: 'Reimbursement rate',
 				className: 'text-right',
 				cell: ({ row }) => {
-					const prefix = reimbursementPrefixer(row.rate || 0);
+					const { partWeeks, fullWeeks } = row.weeksSplit || {};
 					return (
 						<td className="text-tabular text-right">
-							{row.key !== 'total' && (
-								<ReimbursementRateLine
-									prefix={prefix}
-									prettyRate={currencyFormatter(row.rate || 0, true)}
-									weeksInPeriod={weeksInPeriod}
-								/>
-							)}
+							<ReimbursementRateLine
+								prefix={reimbursementPrefixer(row.ptRate || 0)}
+								prettyRate={currencyFormatter(row.ptRate || 0, true)}
+								weeksInPeriod={partWeeks}
+								suffix="(pt)"
+							/>
+							<ReimbursementRateLine
+								prefix={reimbursementPrefixer(row.ftRate || 0)}
+								prettyRate={currencyFormatter(row.ftRate || 0, true)}
+								weeksInPeriod={fullWeeks}
+								suffix="(ft)"
+							/>
 						</td>
 					);
 				},

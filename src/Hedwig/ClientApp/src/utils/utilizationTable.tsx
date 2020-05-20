@@ -2,7 +2,6 @@ import React from 'react';
 import { Region, Age, FundingTime, Enrollment } from "../generated";
 import { CdcRates } from "../containers/Reports/ReportDetail/CdcRates";
 import { isFundedForFundingSpace } from "./models";
-import currencyFormatter from './currencyFormatter';
 
 export function calculateRate(
   accredited: boolean,
@@ -62,11 +61,12 @@ export function makePrefixerFunc(max: number) {
   return (num: number) => getTabularNumPrefix(num, maxNumberOfCommas, maxLength);
 }
 
-export function ReimbursementRateLine({ prefix, prettyRate, weeksInPeriod }: { prefix: string, prettyRate: string, weeksInPeriod: number }) {
-  return <>
+export function ReimbursementRateLine({ prefix, prettyRate, weeksInPeriod, suffix }: { prefix: string, prettyRate: string, weeksInPeriod?: number, suffix: string }) {
+  if (!weeksInPeriod) return <></>;
+  return <div>
     <span>$ </span>
     <span style={{ visibility: 'hidden' }}>{prefix}</span>
     {prettyRate}
-    <span> &times; {weeksInPeriod} weeks</span>
-  </>
+<span> &times; {weeksInPeriod} weeks {suffix}</span>
+  </div>
 }
