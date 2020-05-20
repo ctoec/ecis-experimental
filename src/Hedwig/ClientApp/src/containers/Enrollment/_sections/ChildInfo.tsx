@@ -1,12 +1,6 @@
 import React, { useContext, useState, useEffect, useReducer } from 'react';
 import { Section } from '../enrollmentTypes';
-import {
-	Button,
-	TextInput,
-	DateInput,
-	ChoiceList,
-	FieldSet,
-} from '../../../components';
+import { Button, TextInput, DateInput, ChoiceList, FieldSet } from '../../../components';
 import { nameFormatter } from '../../../utils/stringFormatters';
 import dateFormatter from '../../../utils/dateFormatter';
 import {

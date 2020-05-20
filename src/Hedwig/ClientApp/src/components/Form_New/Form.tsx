@@ -8,8 +8,7 @@ type FormProps<T> = {
 } & /**
  * Creates a set of props that includes
  * all FormHTMLAttributes<HTMLFormElement> props, except onSubmit
- */
-Pick<
+ */ Pick<
 	FormHTMLAttributes<HTMLFormElement>,
 	Exclude<keyof FormHTMLAttributes<HTMLFormElement>, 'onSubmit'>
 >;

@@ -21,7 +21,7 @@ export const FormFieldSet = <TData extends object>({
 }: PropsWithChildren<FormFieldSetProps<TData>>) => {
 	const { data } = useGenericContext<TData>(FormContext);
 	const dataDriller = (new ObjectDriller(data) as unknown) as TObjectDriller<NonNullable<TData>>;
-	
+
 	return (
 		<FieldSet status={status(dataDriller)} {...props}>
 			{children}
