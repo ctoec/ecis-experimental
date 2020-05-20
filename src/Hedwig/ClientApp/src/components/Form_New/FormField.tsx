@@ -22,11 +22,14 @@ type FormFieldProps<TData, TComponentProps, TFieldData> =
 				) => TFieldData;
 				status?: (_: TObjectDriller<NonNullable<TData>>) => FormStatusProps | undefined;
 				inputComponent: React.FC<TComponentProps>;
-		  } & // Include TComponentProps props, except onChange, defaultValue, and status
-		  Pick<TComponentProps, Exclude<keyof TComponentProps, 'onChange' | 'defaultValue' | 'status'>>
-		: // If TComponentProps does not extend {}, React will choke on creating
-		  // the component. So don't allow this case.
-		  never;
+		  } /* Include TComponentProps props, except onChange, defaultValue, and status */ & Pick<
+				TComponentProps,
+				Exclude<keyof TComponentProps, 'onChange' | 'defaultValue' | 'status'>
+		  > /*
+			If TComponentProps does not extend {}, React will choke on creating
+			the component. So don't allow this case.
+		*/
+		: never;
 
 /**
  * Generic form input field component that handles simple use cases,

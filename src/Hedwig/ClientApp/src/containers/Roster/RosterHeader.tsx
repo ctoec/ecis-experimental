@@ -180,7 +180,7 @@ const RosterHeader: React.FC<RosterHeaderProps> = ({
 								id="enrollment-roster-datepicker"
 								label="Date"
 								onChange={newDate => setDateRange({ startDate: newDate, endDate: newDate })}
-								defaultValue={dateRange.startDate}
+								defaultValue={dateRange.startDate ? dateRange.startDate.toDate() : null}
 								className="margin-top-neg-3"
 							/>
 						)}

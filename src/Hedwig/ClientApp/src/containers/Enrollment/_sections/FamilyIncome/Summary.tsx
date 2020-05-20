@@ -1,12 +1,12 @@
 import React from 'react';
 import idx from 'idx';
-import { processValidationError } from '../../../../utils/validations';
 import { InlineIcon } from '../../../../components';
 import currencyFormatter from '../../../../utils/currencyFormatter';
 import dateFormatter from '../../../../utils/dateFormatter';
 import { SectionProps } from '../../enrollmentTypes';
 import { FamilyDetermination } from '../../../../generated';
 import { propertyDateSorter } from '../../../../utils/dateSorter';
+import { hasValidationErrors } from '../../../../utils/validations';
 
 const Summary: React.FC<SectionProps> = ({ enrollment }) => {
 	if (!enrollment || !enrollment.child) return <></>;
@@ -25,10 +25,7 @@ const Summary: React.FC<SectionProps> = ({ enrollment }) => {
 		);
 	} else if (
 		!determination &&
-		!processValidationError(
-			'child.family.determinations',
-			enrollment ? enrollment.validationErrors : null
-		)
+		hasValidationErrors(idx(enrollment, _ => _.child.family) || null, ['determinations'], false)
 	) {
 		elementToReturn = <p>No income determination on record.</p>;
 	} else if (determination && determination.notDisclosed) {
