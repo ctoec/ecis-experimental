@@ -3,7 +3,7 @@ import { Section } from '../enrollmentTypes';
 import { History } from 'history';
 import ChildInfo from '../_sections/ChildInfo';
 import FamilyInfo from '../_sections/FamilyInfo';
-import FamilyIncome from '../_sections/FamilyIncome';
+import FamilyIncome from '../_sections/FamilyIncome_New';
 import EnrollmentFunding from '../_sections/EnrollmentFunding';
 import PageNotFound from '../../PageNotFound/PageNotFound';
 import UserContext from '../../../contexts/User/UserContext';
@@ -119,7 +119,10 @@ export default function EnrollmentEdit({
 				<h1>Edit {section.name.toLowerCase()}</h1>
 				<p className="usa-intro">{nameFormatter(enrollment.child)}</p>
 				<ErrorBoundary alertProps={editSaveFailAlert}>
-					<section.Form {...sectionFormProps} />
+					{section.UpdateForm ?
+						<section.UpdateForm {...sectionFormProps} /> :
+						<section.Form {...sectionFormProps} />
+					}
 				</ErrorBoundary>
 			</div>
 		</CommonContainer>
