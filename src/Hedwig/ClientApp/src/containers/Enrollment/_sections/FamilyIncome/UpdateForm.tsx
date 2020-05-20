@@ -134,16 +134,16 @@ const UpdateForm: React.FC<SectionProps> = ({
 									type: 'warning',
 									response: idx(determination, _ => _.validationErrors) || null,
 									fields: [
-										'numberOfPeople',
-										'income',
 										!determinationDate ? 'determinationDate' : '',
+										'income',
+										'numberOfPeople',
 									],
 									message: REQUIRED_FOR_OEC_REPORTING,
 								},
 								{
 									type: 'warning',
-									response: idx(enrollment, _ => _.child.family.validationErrors) || null,
 									fields: ['determinations'],
+									response: idx(enrollment, _ => _.child.family.validationErrors) || null,
 									message: 'Income must be determined or marked as not disclosed',
 								},
 							])

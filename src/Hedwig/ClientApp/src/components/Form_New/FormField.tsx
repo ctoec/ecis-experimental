@@ -22,8 +22,7 @@ type FormFieldProps<TData, TComponentProps, TFieldData> =
 				) => TFieldData;
 				status?: (_: TObjectDriller<NonNullable<TData>>) => FormStatusProps | undefined;
 				inputComponent: React.FC<TComponentProps>;
-		  } & /* Include TComponentProps props, except onChange, defaultValue, and status */
-		  Pick<
+		  } /* Include TComponentProps props, except onChange, defaultValue, and status */ & Pick<
 				TComponentProps,
 				Exclude<keyof TComponentProps, 'onChange' | 'defaultValue' | 'status'>
 		  > /*
