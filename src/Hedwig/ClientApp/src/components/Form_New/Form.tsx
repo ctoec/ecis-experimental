@@ -1,10 +1,11 @@
 import React, { FormHTMLAttributes, PropsWithChildren, useState, useEffect } from 'react';
 import { FormProvider } from './FormContext';
+import cx from 'classnames';
 
 type FormProps<T> = {
 	onSubmit: (_: T) => void;
 	data: T;
-	className: string;
+	className?: string;
 } & /**
  * Creates a set of props that includes
  * all FormHTMLAttributes<HTMLFormElement> props, except onSubmit
@@ -51,7 +52,7 @@ const Form = <T extends any>({
 				updateData,
 			}}
 		>
-			<form className={className} onSubmit={_onSubmit} {...props}>
+			<form className={cx(className)} onSubmit={_onSubmit} {...props}>
 				<div className="usa-form">{children}</div>
 			</form>
 		</FormProvider>

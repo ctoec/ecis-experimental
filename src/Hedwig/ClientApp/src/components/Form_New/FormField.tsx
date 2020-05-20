@@ -2,8 +2,8 @@ import React, { PropsWithChildren } from 'react';
 import FormContext, { useGenericContext } from './FormContext';
 import produce from 'immer';
 import set from 'lodash/set';
-import cloneDeep from 'lodash/cloneDeep';
 import { ObjectDriller } from './ObjectDriller';
+import { FormStatusProps } from '..';
 
 type FormFieldProps<TData, TComponentProps, TFieldData> = {
 	defaultValue?: TFieldData;
@@ -12,6 +12,7 @@ type FormFieldProps<TData, TComponentProps, TFieldData> = {
 		_: TFieldData | undefined
 	) => TFieldData | JSX.Element | string | undefined;
 	parseOnChangeEvent: (event: React.ChangeEvent<any>, data: ObjectDriller<TData>) => TFieldData;
+	status?: (_: ObjectDriller<TData>, ) => FormStatusProps | undefined;
 	inputComponent: React.FC<TComponentProps>;
 } & // TODO: Make this props a first order citizen
 {
@@ -19,7 +20,7 @@ type FormFieldProps<TData, TComponentProps, TFieldData> = {
 	 * Creates a set of props that includes
 	 * all FormHTMLAttributes<HTMLFormElement> props, except onSubmit
 	 */
-	props: Pick<TComponentProps, Exclude<keyof TComponentProps, 'onChange' | 'defaultValue'>>;
+	props: Pick<TComponentProps, Exclude<keyof TComponentProps, 'onChange' | 'defaultValue' | 'status'>>;
 };
 
 /**
@@ -36,6 +37,7 @@ const FormField = <TData extends object, TComponentProps, TFieldData>({
 	preprocessForDisplay,
 	parseOnChangeEvent,
 	inputComponent: InputComponent,
+	status,
 	props,
 	children,
 }: PropsWithChildren<FormFieldProps<TData, TComponentProps, TFieldData>>) => {
@@ -67,6 +69,7 @@ const FormField = <TData extends object, TComponentProps, TFieldData>({
 		<InputComponent
 			defaultValue={preprocessForDisplay ? preprocessForDisplay(displayValue) : displayValue}
 			onChange={onChange}
+			status={status ? status(pathAccessibleData) : undefined}
 			{...props}
 		>
 			{children}

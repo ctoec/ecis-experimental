@@ -8,7 +8,7 @@ export class ObjectDriller<T> {
 	path: string;
 
 	constructor(obj: T, path?: string) {
-		this.value = cloneDeep(obj);
+		this.value = obj; //cloneDeep(obj);
 		this.path = path || '';
 	}
 
