@@ -42,7 +42,7 @@ import {
 } from '../../../utils/validations';
 import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
 import {
-	familyDeterminationNotDisclosed,
+	incomeDeterminationNotDisclosed,
 	getCurrentCdcFunding,
 	updateFunding,
 	createFunding,
@@ -318,7 +318,7 @@ const EnrollmentFunding: Section = {
 			// Give private pay as the only option when the organization has no funding spaces
 			// Or the family income is not disclosed and there was not a previous CDC funding
 			// The CDC funding includes information that we do not want to silently remove
-			if (!fundingSpaces || (familyDeterminationNotDisclosed(enrollment) && !currentCdcFunding)) {
+			if (!fundingSpaces || (incomeDeterminationNotDisclosed(enrollment.child.family) && !currentCdcFunding)) {
 				setFundingSourceOpts([privatePayOpt]);
 				return;
 			}

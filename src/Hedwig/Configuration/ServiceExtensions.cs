@@ -208,19 +208,18 @@ namespace Hedwig.Configuration
 			services.AddScoped<IValidationRule<Child>, IfC4K_C4KFamilyCaseNumberRequired>();
 
 			// Family
-			services.AddScoped<IValidationRule<Family>, MostRecentDeterminationIsValid>();
+			services.AddScoped<IValidationRule<Family>, DeterminationsAreValid>();
 			services.AddScoped<IValidationRule<Family>, AddressLine1Required>();
 			services.AddScoped<IValidationRule<Family>, StateRequired>();
 			services.AddScoped<IValidationRule<Family>, TownRequired>();
 			services.AddScoped<IValidationRule<Family>, ZipRequired>();
+			// Temporarily disable 1-year requirement for family determination (COVID-19 extenuating circumstances, etc)
+			// services.AddScoped<IValidationRule<Family>, IfEnrollmentFunded_MostRecentDeterminationIsUnexpired>();
 
 			// Family Determination
-			services.AddScoped<IValidationRule<FamilyDetermination>, IfDisclosed_DeterminationDateRequired>();
-			services.AddScoped<IValidationRule<FamilyDetermination>, IfDisclosed_IncomeRequired>();
-			services.AddScoped<IValidationRule<FamilyDetermination>, IfDisclosed_NumberOfPeopleRequired>();
-			services.AddScoped<IValidationRule<FamilyDetermination>, IfEnrollmentFunded_NotDeterminedFalse>();
-			// Temporarily disable 1-year requirement for family determination (COVID-19 extenuating circumstances, etc)
-			// services.AddScoped<IValidationRule<FamilyDetermination>, IfEnrollmentFunded_DeterminationDateValid>();
+			services.AddScoped<IValidationRule<FamilyDetermination>, DeterminationDateRequired>();
+			services.AddScoped<IValidationRule<FamilyDetermination>, IncomeRequired>();
+			services.AddScoped<IValidationRule<FamilyDetermination>, NumberOfPeopleRequired>();
 
 			// Reports
 			services.AddScoped<IValidationRule<CdcReport>, EnrollmentsAreValid>();
