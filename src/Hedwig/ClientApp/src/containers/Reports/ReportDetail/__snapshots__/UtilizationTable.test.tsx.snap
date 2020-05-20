@@ -89,16 +89,18 @@ exports[`UtilizationTable matches snapshot 1`] = `
         <td
           class="text-tabular text-right"
         >
-          <span>
-            $ 
-          </span>
-          <span
-            style="visibility: hidden;"
-          />
-          169.95
-          <span>
-             × 4 weeks
-          </span>
+          <div>
+            <span>
+              $ 
+            </span>
+            <span
+              style="visibility: hidden;"
+            />
+            169.95
+            <span>
+               × 4 weeks (ft)
+            </span>
+          </div>
         </td>
         <td
           class="text-tabular text-right"
@@ -147,18 +149,20 @@ exports[`UtilizationTable matches snapshot 1`] = `
         <td
           class="text-tabular text-right"
         >
-          <span>
-            $ 
-          </span>
-          <span
-            style="visibility: hidden;"
-          >
-            0
-          </span>
-          59.50
-          <span>
-             × 4 weeks
-          </span>
+          <div>
+            <span>
+              $ 
+            </span>
+            <span
+              style="visibility: hidden;"
+            >
+              0
+            </span>
+            59.50
+            <span>
+               × 4 weeks (pt)
+            </span>
+          </div>
         </td>
         <td
           class="text-tabular text-right"
@@ -197,7 +201,7 @@ exports[`UtilizationTable matches snapshot 1`] = `
           <strong>
             Infant/Toddler
           </strong>
-           – split time
+           – pt/ft split
         </th>
         <td
           class=" oec-table__cell--red"
@@ -206,20 +210,7 @@ exports[`UtilizationTable matches snapshot 1`] = `
         </td>
         <td
           class="text-tabular text-right"
-        >
-          <span>
-            $ 
-          </span>
-          <span
-            style="visibility: hidden;"
-          >
-            00
-          </span>
-          0.00
-          <span>
-             × 4 weeks
-          </span>
-        </td>
+        />
         <td
           class="text-tabular text-right"
         >
@@ -266,16 +257,18 @@ exports[`UtilizationTable matches snapshot 1`] = `
         <td
           class="text-tabular text-right"
         >
-          <span>
-            $ 
-          </span>
-          <span
-            style="visibility: hidden;"
-          />
-          165.32
-          <span>
-             × 4 weeks
-          </span>
+          <div>
+            <span>
+              $ 
+            </span>
+            <span
+              style="visibility: hidden;"
+            />
+            165.32
+            <span>
+               × 4 weeks (ft)
+            </span>
+          </div>
         </td>
         <td
           class="text-tabular text-right"
@@ -322,18 +315,20 @@ exports[`UtilizationTable matches snapshot 1`] = `
         <td
           class="text-tabular text-right"
         >
-          <span>
-            $ 
-          </span>
-          <span
-            style="visibility: hidden;"
-          >
-            0
-          </span>
-          57.85
-          <span>
-             × 4 weeks
-          </span>
+          <div>
+            <span>
+              $ 
+            </span>
+            <span
+              style="visibility: hidden;"
+            >
+              0
+            </span>
+            57.85
+            <span>
+               × 4 weeks (pt)
+            </span>
+          </div>
         </td>
         <td
           class="text-tabular text-right"
@@ -382,16 +377,18 @@ exports[`UtilizationTable matches snapshot 1`] = `
         <td
           class="text-tabular text-right"
         >
-          <span>
-            $ 
-          </span>
-          <span
-            style="visibility: hidden;"
-          />
-          113.20
-          <span>
-             × 4 weeks
-          </span>
+          <div>
+            <span>
+              $ 
+            </span>
+            <span
+              style="visibility: hidden;"
+            />
+            113.20
+            <span>
+               × 4 weeks (ft)
+            </span>
+          </div>
         </td>
         <td
           class="text-tabular text-right"
@@ -440,18 +437,20 @@ exports[`UtilizationTable matches snapshot 1`] = `
         <td
           class="text-tabular text-right"
         >
-          <span>
-            $ 
-          </span>
-          <span
-            style="visibility: hidden;"
-          >
-            0
-          </span>
-          54.80
-          <span>
-             × 4 weeks
-          </span>
+          <div>
+            <span>
+              $ 
+            </span>
+            <span
+              style="visibility: hidden;"
+            >
+              0
+            </span>
+            54.80
+            <span>
+               × 4 weeks (pt)
+            </span>
+          </div>
         </td>
         <td
           class="text-tabular text-right"

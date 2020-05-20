@@ -10,15 +10,16 @@ import {
 } from '../../../generated';
 import idx from 'idx';
 import moment from 'moment';
-import {
-	prettyAge,
-	prettyFundingTime,
-	fundingSpaceSorter,
-} from '../../../utils/models';
+import { prettyAge, prettyFundingTime, fundingSpaceSorter } from '../../../utils/models';
 import currencyFormatter from '../../../utils/currencyFormatter';
 import cx from 'classnames';
 import { DeepNonUndefineableArray } from '../../../utils/types';
-import { countFundedEnrollments, calculateRate, makePrefixerFunc, ReimbursementRateLine } from '../../../utils/utilizationTable';
+import {
+	countFundedEnrollments,
+	calculateRate,
+	makePrefixerFunc,
+	ReimbursementRateLine,
+} from '../../../utils/utilizationTable';
 
 interface UtilizationTableRow {
 	key: string;
@@ -42,7 +43,6 @@ interface UtilizationTableRow {
 	};
 }
 
-
 export default function UtilizationTable(report: CdcReport) {
 	const site = idx(report, _ => _.organization.sites[0]);
 	if (!site) {
@@ -59,8 +59,8 @@ export default function UtilizationTable(report: CdcReport) {
 	const weeksInPeriod =
 		periodStart && periodEnd
 			? moment(periodEnd)
-				.add(1, 'day')
-				.diff(periodStart, 'weeks')
+					.add(1, 'day')
+					.diff(periodStart, 'weeks')
 			: 0;
 
 	const enrollments = (idx(report, (_) => _.enrollments) || []) as Enrollment[];
@@ -72,7 +72,7 @@ export default function UtilizationTable(report: CdcReport) {
 	// Rows are sorted by fundingspace age, then time
 	const cdcFundingSpaces = (fundingSpaces as DeepNonUndefineableArray<FundingSpace>)
 		.sort(fundingSpaceSorter)
-		.filter(fundingSpace => fundingSpace.source === FundingSource.CDC)
+		.filter(fundingSpace => fundingSpace.source === FundingSource.CDC);
 
 	let rows: UtilizationTableRow[] = cdcFundingSpaces.map(space => {
 		const capacity = space.capacity;
@@ -95,16 +95,17 @@ export default function UtilizationTable(report: CdcReport) {
 		);
 
 		// TODO: probably a util
-		let fullWeeks = 0, partWeeks = 0;
+		let fullWeeks = 0,
+			partWeeks = 0;
 		if (fundingTime === FundingTime.Split) {
 			const { timeSplitUtilizations } = space;
-			const thisUtilization = (timeSplitUtilizations || []).find(u => u.reportId === report.id)
+			const thisUtilization = (timeSplitUtilizations || []).find(u => u.reportId === report.id);
 			if (thisUtilization) {
-				fullWeeks = thisUtilization.fullTimeWeeksUsed
-				partWeeks = thisUtilization.partTimeWeeksUsed
+				fullWeeks = thisUtilization.fullTimeWeeksUsed;
+				partWeeks = thisUtilization.partTimeWeeksUsed;
 			}
 		} else if (fundingTime === FundingTime.Full) {
-			fullWeeks = weeksInPeriod
+			fullWeeks = weeksInPeriod;
 		} else if (fundingTime === FundingTime.Part) {
 			partWeeks = weeksInPeriod;
 		}
@@ -127,7 +128,7 @@ export default function UtilizationTable(report: CdcReport) {
 			showFundingTime: cdcFundingSpaces.filter(fs => fs.ageGroup === ageGroup).length > 1,
 			weeksSplit: {
 				partWeeks,
-				fullWeeks
+				fullWeeks,
 			},
 			maxes: {
 				// TODO: make this the greater of the two vals if there are two time vals
@@ -183,7 +184,9 @@ export default function UtilizationTable(report: CdcReport) {
 				cell: ({ row }) => (
 					<th>
 						<strong>{row.key === 'total' ? 'Total' : `${prettyAge(row.ageGroup)}`}</strong>
-						{row.fundingTime && row.showFundingTime && <> &ndash; {prettyFundingTime(row.fundingTime, { splitTimeText: 'pt/ft split' })}</>}
+						{row.fundingTime && row.showFundingTime && (
+							<> &ndash; {prettyFundingTime(row.fundingTime, { splitTimeText: 'pt/ft split' })}</>
+						)}
 					</th>
 				),
 			},

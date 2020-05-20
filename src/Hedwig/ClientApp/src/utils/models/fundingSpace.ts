@@ -27,7 +27,7 @@ import moment from 'moment';
 export function prettyFundingSpaceTime(fundingSpace: FundingSpace, includeWeeks: boolean = false) {
 	const FULL_YEAR_WEEKS = 52;
 	if (fundingSpace.time !== FundingTime.Split) {
-		return `${prettyFundingTime(fundingSpace.time, true)}${formattedWeeks(
+		return `${prettyFundingTime(fundingSpace.time, { capitalize: true })}${formattedWeeks(
 			includeWeeks,
 			FULL_YEAR_WEEKS
 		)}`;

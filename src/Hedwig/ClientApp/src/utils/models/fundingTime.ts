@@ -2,9 +2,9 @@ import { FundingTime } from '../../generated';
 
 export function prettyFundingTime(
 	time: FundingTime | null | undefined,
-	opts?: { capitalize?: boolean, splitTimeText?: string }
+	opts?: { capitalize?: boolean; splitTimeText?: string }
 ): string {
-	const { capitalize, splitTimeText } = { capitalize: false, splitTimeText: 'split time', ...opts }
+	const { capitalize, splitTimeText } = { capitalize: false, splitTimeText: 'split time', ...opts };
 	let prettyTime = '';
 	switch (time) {
 		case FundingTime.Full:
