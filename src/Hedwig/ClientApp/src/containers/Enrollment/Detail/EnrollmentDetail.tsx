@@ -111,7 +111,7 @@ export default function EnrollmentDetail({
 									</span>
 								)}
 								<Link
-									to={`/roster/sites/${siteId}/enrollments/${enrollment.id}/update/${section.key}`}
+									to={`/roster/sites/${siteId}/enrollments/${enrollment.id}/edit/${section.key}`}
 									className={cx('usa-link', {
 										'display-none important': familyIncomeForFosterChild,
 									})}

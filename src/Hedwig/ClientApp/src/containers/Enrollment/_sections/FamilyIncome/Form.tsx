@@ -162,7 +162,7 @@ export const determinationDateField = (
 				<DateInput
 					label="Date of income determination"
 					id={`income-determination-date-${index}`}
-					defaultValue={date?.toDate()}
+					defaultValue={date ? date.toDate() : null}
 					status={initialLoadErrorGuard(
 						initialLoad,
 						warningForField(

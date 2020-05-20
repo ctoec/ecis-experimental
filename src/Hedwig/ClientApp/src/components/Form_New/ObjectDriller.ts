@@ -1,5 +1,3 @@
-import cloneDeep from 'lodash/cloneDeep';
-
 /**
  * A type-safe way to drill down into an object and gather the associated path
  */

@@ -4,7 +4,7 @@ import { Enrollment, FamilyDetermination } from "../../../../../generated";
 import { TextInputProps, TextInput } from "../../../../../components";
 import { warningForField } from "../../../../../utils/validations";
 
-export const NumberOfPeopleField = ({ id }: { id: number }) => {
+export const HouseholdSizeField = ({ id }: { id: number }) => {
 	return <FormField<Enrollment, TextInputProps, number | null>
 		getValue={data =>
 			data
@@ -20,7 +20,8 @@ export const NumberOfPeopleField = ({ id }: { id: number }) => {
 		inputComponent={TextInput}
 		props={{
 			id: `number-of-people-${id}`,
-			label: 'Number of people'
+			label: 'Number of people',
+			small: true
 		}}
 		status={(data) => 
 			warningForField(

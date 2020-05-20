@@ -35,11 +35,12 @@ export const WithNotDisclosedField = ({children: otherFields}: PropsWithChildren
 					const notDisclosed = e.target.checked;
 					setHideOtherFields(notDisclosed);
 					
+					const det = dataDriller.at('child').at('family').at('determinations').find((det: FamilyDetermination) => det.id === 0);
 					if (notDisclosed) {
 						updateData(produce<Enrollment>(
 							data, draft => {set(
 								draft,
-								dataDriller.at('child').at('family').at('determinations').find((det: FamilyDetermination) => det.id === 0).path,
+								det.path,
 								{notDisclosed: true} as FamilyDetermination
 							)}
 						));
@@ -47,7 +48,7 @@ export const WithNotDisclosedField = ({children: otherFields}: PropsWithChildren
 						updateData(produce<Enrollment>(
 							data, draft => {set(
 								draft, 
-								dataDriller.at('child').at('family').at('determinations').find((det: FamilyDetermination) => det.id === 0).path,
+								det.path,
 								{notDisclosed: false}
 							)}
 						))

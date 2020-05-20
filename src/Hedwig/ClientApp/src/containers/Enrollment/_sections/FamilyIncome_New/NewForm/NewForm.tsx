@@ -1,8 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { SectionProps } from "../../../enrollmentTypes";
 import Form from "../../../../../components/Form_New/Form";
-import { AnnualHouseholdIncomeField, DeterminationDateField, WithNotDisclosedField } from '../Fields/Fields';
-import { NumberOfPeopleField } from '../Fields';
+import { DeterminationDateField, AnnualHouseholdIncomeField, HouseholdSizeField, WithNotDisclosedField } from '../Fields';
 import { Enrollment, ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest, Family } from '../../../../../generated';
 import UserContext from '../../../../../contexts/User/UserContext';
 import useApi from '../../../../../hooks/useApi';
@@ -36,10 +35,6 @@ export const NewForm = ({
 		))
 	}
 
-	if(loading) {
-		return <>Loading...</>
-	};
-
 	// Set up API request (enrollment PUT)
 	const [attemptingSave, setAttemptingSave] = useState(false);
 	const { user } = useContext(UserContext);
@@ -62,7 +57,12 @@ export const NewForm = ({
 	// Use catchall error to display a catchall error alert on _any_ saveError,
 	// since no form fields have field-specific error alerting
 	useCatchallErrorAlert(saveError);
-	
+
+	if(loading) {
+		return <>Loading...</>
+	};
+
+
 	// The form to create a first family determination on EnrollmentNew flow
 	return (
 		<Form<Enrollment>
@@ -94,9 +94,9 @@ export const NewForm = ({
 						)
 					}}
 				>
-					<NumberOfPeopleField id={0}/>
-					<AnnualHouseholdIncomeField {...0} />
-					<DeterminationDateField {...0} />
+					<HouseholdSizeField id={0}/>
+					<AnnualHouseholdIncomeField id={0} />
+					<DeterminationDateField id={0} />
 				</FormFieldSet>
 				{/* TODO: pass down error (see ./Fields.tsx) */}
 			</WithNotDisclosedField>

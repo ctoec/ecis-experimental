@@ -1,45 +1,32 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { SectionProps } from '../../../enrollmentTypes';
-import produce from 'immer';
 import { DeepNonUndefineable } from '../../../../../utils/types';
 import { Enrollment, Family, ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest, FamilyDetermination } from '../../../../../generated';
 import UserContext from '../../../../../contexts/User/UserContext';
 import { validatePermissions, getIdForUser } from '../../../../../utils/models';
 import useApi from '../../../../../hooks/useApi';
 import useCatchallErrorAlert from '../../../../../hooks/useCatchallErrorAlert';
-import Form from '../../../../../components/Form_New/Form';
 import { Button, Card } from '../../../../../components';
 import { propertyDateSorter } from '../../../../../utils/dateSorter';
-import { CardExpansion } from '../../../../../components/Card/CardExpansion';
-import { Summary } from './Summary';
-import { AddForm } from './AddForm';
-import { EditForm } from './EditForm';
-import { useEffect } from '@storybook/addons';
+import { EditableDeterminationCard } from './_editableDeterminationCard';
+import { CardForm } from './_cardForm';
 
 export const UpdateForm = ({
 	enrollment, 
 	updateEnrollment,
 	siteId,
 	loading,
-	successCallback
 }: SectionProps) => {
+
 	// Enrollment and child must already exist to create family income data,
 	// and cannot be created without user input (have required non null fields)
 	if(!enrollment || !enrollment.child || !enrollment.child.family) {
 		throw new Error('Section rendered without enrollment or child');
 	}
 
-	// Family must already exist to create family income data,
-	// but can be created without user input with all empty defaults
-	if(!enrollment.child.family) {
-		updateEnrollment(produce<DeepNonUndefineable<Enrollment>>(
-			enrollment, draft => draft.child.family = {} as DeepNonUndefineable<Family>
-		))
-	}
-
-	if(loading) {
-		return <>Loading...</>
-	};
+	// if(loading) {
+	// 	return <>Loading...</>
+	// };
 
 	// Set up API request (enrollment PUT)
 	const [attemptingSave, setAttemptingSave] = useState(false);
@@ -48,7 +35,7 @@ export const UpdateForm = ({
 		id: enrollment.id,
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		orgId: getIdForUser(user, 'org'),
-		enrollment
+		enrollment: enrollment ? enrollment : undefined,
 	};
 	const { error: saveError, loading: saving } = useApi<Enrollment>(
 		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams),
@@ -62,10 +49,11 @@ export const UpdateForm = ({
 
 	// The form to interact with all current and historical family income information
 	// including editing past determinations, and creating a new determination
-	const sortedDeterminations = (enrollment.child.family.determinations || [])
+	const sortedDeterminations = [...(enrollment.child.family.determinations || [])]
 		.sort((a,b) => propertyDateSorter(a, b, det => det.determinationDate, true));
 	const currentDetermination = sortedDeterminations[0];
 	const pastDeterminations = sortedDeterminations.slice(1);
+
 	const [showNew, setShowNew] = useState(false);
 	const [didAddNew, setDidAddNew] = useState(false);
 	const [isNew, setIsNew] = useState(false);
@@ -73,80 +61,100 @@ export const UpdateForm = ({
 
 	// Use catchall error to display a catchall error alert on _any_ saveError,
 	// since no form fields have field-specific error alerting
-	useCatchallErrorAlert(saveError);
+		// useCatchallErrorAlert(saveError);
 
-	// Handle successful API request
-	useEffect(() => {
-		if (loading) {
-			return;
-		}
+		// Handle successful API request
+		useEffect(() => {
+			if (loading) {
+				return;
+			}
 
-		if(!saveError) {
-			if(didAddNew) {
-				setIsNew(true);
-			}			
-			setShowNew(false);
-			setForceClose(true);
-		}
-	});
+			if(!saveError) {
+				if(didAddNew) {
+					setIsNew(true);
+				}			
+				setShowNew(false);
+				setForceClose(true);
+			}
+		}, [loading, saveError, didAddNew]);
+
+	const formOnSubmit = (_data: Enrollment) => {
+		updateEnrollment(_data as DeepNonUndefineable<Enrollment>);
+		setAttemptingSave(true);
+	}
 
 	return (
 		<>
 			<h2 className="margin-bottom-1">Family income determination</h2>
 				{showNew &&
 					<Card>
-						<AddForm 
+						<CardForm
+							determinationId={0}
+							isEdit={false}
 							formData={enrollment}
-							onSubmit={(_data) => {updateEnrollment(_data as DeepNonUndefineable<Enrollment>)}}
-							onCancel={() => { setShowNew(false) }}
+							onSubmit={(_data) => {
+								setDidAddNew(true);
+								formOnSubmit(_data);
+							}}
+							onCancel={() => setShowNew(false)}
 						/>
 					</Card>
 				}
-				<div className="display-flex align-center">
+
+				 <div className="display-flex align-center">
 					<h3>Current income determination</h3>
 					&nbsp;&nbsp;&nbsp;
-					<Button
-						text="Add new income determination"
-						appearance="unstyled"
-						onClick={() => setShowNew(true)}
-					/>
+					{!showNew &&
+							<Button
+							text="Add new income determination"
+							appearance="unstyled"
+							onClick={() => setShowNew(true)}
+						/>
+					}
 				</div>
 				<div>
-					{currentDetermination ? (
-						<Card
-							showTag={isNew}
+					{currentDetermination ? 
+						<EditableDeterminationCard
+							determination={currentDetermination}
+							isCurrent={true}
+							isNew={isNew}
 							forceClose={forceClose}
-						>
-							<Summary determination={currentDetermination}/>
-							{/* 
-								summary for not disclosed determinations 
-								do NOT have ExpandCard buttons, so they
-								do NOT need CardExpansion content
-							*/}
-							{!currentDetermination.notDisclosed &&
-								<CardExpansion>
-									<EditForm id={currentDetermination.id}/>
-								</CardExpansion>
-							}	
-						</Card>
-					): (<p>No determinations</p>)}
+							expansion={
+								<CardForm
+									determinationId={currentDetermination.id}
+									isEdit={true}
+									formData={enrollment}
+									onSubmit={formOnSubmit}
+								/>
+							}
+					 />
+					: <p>No determinations</p>}
 				</div>
+
 				{pastDeterminations.length > 0 && (
-					pastDeterminations.map(determination => (
-						<Card
-							appearance="secondary"
-							className="margin-bottom-2"
-							forceClose={forceClose}
-							key={determination.id}
-						>
-							<Summary determination={determination}/>
-							<CardExpansion>
-								<EditForm id={determination.id}/>
-							</CardExpansion>
-						</Card>
-					))
+					<>
+						<div className="display-flex align-center">
+							<h3>Past income determinations</h3>
+						</div>
+						<div>
+							{pastDeterminations.map(determination => (
+								<EditableDeterminationCard
+									determination={determination}
+									isCurrent={false}
+									forceClose={forceClose}
+									expansion={
+										<CardForm
+											determinationId={currentDetermination.id}
+											isEdit={true}
+											formData={enrollment}
+											onSubmit={formOnSubmit}
+										/>
+									}
+								/>
+							))}
+						</div>
+					</>
 				)}
-			</Form>
 		</>
 	)
 }

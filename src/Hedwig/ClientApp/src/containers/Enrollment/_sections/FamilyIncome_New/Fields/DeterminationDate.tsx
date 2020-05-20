@@ -4,7 +4,7 @@ import { Enrollment, FamilyDetermination } from "../../../../../generated"
 import { DateInput, DateInputProps } from "../../../../../components"
 import { warningForField } from "../../../../../utils/validations"
 
-export const DeterminationDate = ({ id }: { id: number }) => {
+export const DeterminationDateField = ({ id }: { id: number }) => {
 	return <FormField<Enrollment, DateInputProps, Date|null>
 	getValue={data => 
 		data
@@ -22,13 +22,13 @@ export const DeterminationDate = ({ id }: { id: number }) => {
 	}}
 	status={(data) => {
 		const det = data.at('child').at('family').at('determinations').find((det: FamilyDetermination) => det.id === id).value as FamilyDetermination;
-		// Only message here if the field is missing
-		// the field has a value, that means the error is about the date, 
+		// Only message here if the field is missing.
+		// If te field has a value, that means the error is about the date, 
 		// so the determination is overdue! 
-		if(!det.determinationDate) {
+		if(det && det.determinationDate == undefined) {
 			return warningForField(
 				'determinationDate',
-				data.at('child').at('family').at('determinations').find((det: FamilyDetermination) => det.id === id).value,
+				det,
 				''
 			);
 		}

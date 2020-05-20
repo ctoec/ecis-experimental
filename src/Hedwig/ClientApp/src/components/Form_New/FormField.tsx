@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react';
+import React, { PropsWithChildren, useEffect, useState } from 'react';
 import FormContext, { useGenericContext } from './FormContext';
 import produce from 'immer';
 import set from 'lodash/set';
@@ -42,8 +42,12 @@ const FormField = <TData extends object, TComponentProps, TFieldData>({
 	children,
 }: PropsWithChildren<FormFieldProps<TData, TComponentProps, TFieldData>>) => {
 	const { data, updateData } = useGenericContext<TData>(FormContext);
+	
+	const [pathAccessibleData, setPathAccessibleData] = useState(new ObjectDriller<TData>(data));
+	useEffect(() => {
+		setPathAccessibleData(new ObjectDriller<TData>(data))
+	}, [data]);
 
-	const pathAccessibleData = new ObjectDriller(data);
 	const accessor = getValue(pathAccessibleData);
 	const value = accessor.value;
 	const updatePath = accessor.path;
