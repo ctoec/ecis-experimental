@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { Age, FundingTime, FundingSource, Enrollment, Region, Funding } from '../../../generated';
-import UtilizationTable, { calculateRate } from './UtilizationTable';
+import UtilizationTable from './UtilizationTable';
 import emptyGuid from '../../../utils/emptyGuid';
 import cartesianProduct from '../../../utils/cartesianProduct';
 import { accessibilityTestHelper } from '../../../tests/helpers';
@@ -15,6 +15,7 @@ import {
 } from '../../../tests/data';
 import { mockFundingSpaces } from '../../../tests/data/fundingSpace';
 import { prettyAge, prettyFundingTime } from '../../../utils/models';
+import { calculateRate } from '../../../utils/utilizationTable';
 
 describe('calculateRate', () => {
 	it('includes all possible rates', () => {
@@ -62,7 +63,9 @@ describe('UtilizationTable', () => {
 		// mockReport belongs to mockSingleSiteOrganization, which has all mockFundingSpaces
 		mockFundingSpaces.forEach((space) => {
 			expect(container).toHaveTextContent(
-				`${prettyAge(space.ageGroup)} – ${prettyFundingTime(space.time)}`
+				`${prettyAge(space.ageGroup)} – ${prettyFundingTime(space.time, {
+					splitTimeText: 'pt/ft split',
+				})}`
 			);
 		});
 	});
