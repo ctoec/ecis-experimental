@@ -2,9 +2,10 @@ import React, { PropsWithChildren } from 'react';
 import FormContext, { useGenericContext } from './FormContext';
 import { FieldSetProps, FieldSet } from '../FieldSet/FieldSet';
 import { FormStatusProps } from '../FormStatus/FormStatus';
+import { TObjectDriller, ObjectDriller } from './ObjectDriller';
 
 type FormFieldSetProps<TData> = {
-	status?: (_: TData) => FormStatusProps | undefined;
+	status?: (_: TObjectDriller<NonNullable<TData>>) => FormStatusProps | undefined;
 } & Pick<FieldSetProps, Exclude<keyof FieldSetProps, 'status'>>;
 
 /**
@@ -14,14 +15,15 @@ type FormFieldSetProps<TData> = {
  * to which this FormFieldSet has access via the FormContext.
  */
 export const FormFieldSet = <TData extends object>({
-	status = (_: TData) => undefined,
+	status = () => undefined,
 	children,
 	...props
 }: PropsWithChildren<FormFieldSetProps<TData>>) => {
 	const { data } = useGenericContext<TData>(FormContext);
-
+	const dataDriller = (new ObjectDriller(data) as unknown) as TObjectDriller<NonNullable<TData>>;
+	
 	return (
-		<FieldSet status={status(data)} {...props}>
+		<FieldSet status={status(dataDriller)} {...props}>
 			{children}
 		</FieldSet>
 	);
