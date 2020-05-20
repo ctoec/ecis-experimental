@@ -83,6 +83,13 @@ exports[`Withdrawal matches snapshot 1`] = `
         <div
           class="grid-gap grid-row"
         >
+          <input
+            aria-hidden="true"
+            disabled=""
+            hidden=""
+            id="enrollment-end-date-internal"
+            value=""
+          />
           <div
             class="grid-row flex-row flex-align-end grid-gap position-relative"
           >

@@ -2352,6 +2352,13 @@ exports[`Storyshots Date input Default with date 1`] = `
     <div
       className="grid-gap grid-row"
     >
+      <input
+        aria-hidden={true}
+        defaultValue="Wed Oct 30 2019"
+        disabled={true}
+        hidden={true}
+        id="dateinput-example-internal"
+      />
       <div
         className="grid-row flex-row flex-align-end grid-gap position-relative"
       >
@@ -2435,6 +2442,12 @@ exports[`Storyshots Date input Default with no date set 1`] = `
     <div
       className="grid-gap grid-row"
     >
+      <input
+        aria-hidden={true}
+        disabled={true}
+        hidden={true}
+        id="dateinput-example-internal"
+      />
       <div
         className="grid-row flex-row flex-align-end grid-gap position-relative"
       >
@@ -2518,6 +2531,13 @@ exports[`Storyshots Date input Disabled day input 1`] = `
     <div
       className="grid-gap grid-row"
     >
+      <input
+        aria-hidden={true}
+        defaultValue="Wed Oct 30 2019"
+        disabled={true}
+        hidden={true}
+        id="dateinput-example-internal"
+      />
       <div
         className="grid-row flex-row flex-align-end grid-gap position-relative"
       >
@@ -2611,6 +2631,13 @@ exports[`Storyshots Date input Error 1`] = `
     <div
       className="grid-gap grid-row"
     >
+      <input
+        aria-hidden={true}
+        defaultValue="Wed Oct 30 2019"
+        disabled={true}
+        hidden={true}
+        id="dateinput-example-internal"
+      />
       <div
         className="grid-row flex-row flex-align-end grid-gap position-relative"
       >
@@ -2699,6 +2726,13 @@ exports[`Storyshots Date input Optional 1`] = `
     <div
       className="grid-gap grid-row"
     >
+      <input
+        aria-hidden={true}
+        defaultValue="Wed Oct 30 2019"
+        disabled={true}
+        hidden={true}
+        id="dateinput-example-internal"
+      />
       <div
         className="grid-row flex-row flex-align-end grid-gap position-relative"
       >
@@ -2792,6 +2826,13 @@ exports[`Storyshots Date input Success 1`] = `
     <div
       className="grid-gap grid-row"
     >
+      <input
+        aria-hidden={true}
+        defaultValue="Wed Oct 30 2019"
+        disabled={true}
+        hidden={true}
+        id="dateinput-example-internal"
+      />
       <div
         className="grid-row flex-row flex-align-end grid-gap position-relative"
       >
@@ -2898,6 +2939,13 @@ exports[`Storyshots Date input Warning 1`] = `
     <div
       className="grid-gap grid-row"
     >
+      <input
+        aria-hidden={true}
+        defaultValue="Wed Oct 30 2019"
+        disabled={true}
+        hidden={true}
+        id="dateinput-example-internal"
+      />
       <div
         className="grid-row flex-row flex-align-end grid-gap position-relative"
       >
@@ -3001,6 +3049,13 @@ exports[`Storyshots DateRangeInput Default 1`] = `
           <div
             className="grid-gap grid-row"
           >
+            <input
+              aria-hidden={true}
+              defaultValue="Wed Oct 30 2019"
+              disabled={true}
+              hidden={true}
+              id="default-DateRangeInput-start-date-internal"
+            />
             <div
               className="grid-row flex-row flex-align-end grid-gap position-relative"
             >
@@ -3074,6 +3129,13 @@ exports[`Storyshots DateRangeInput Default 1`] = `
           <div
             className="grid-gap grid-row"
           >
+            <input
+              aria-hidden={true}
+              defaultValue="Wed Oct 30 2019"
+              disabled={true}
+              hidden={true}
+              id="default-DateRangeInput-end-date-internal"
+            />
             <div
               className="grid-row flex-row flex-align-end grid-gap position-relative"
             >
@@ -3181,6 +3243,13 @@ exports[`Storyshots DateRangeInput Disabled 1`] = `
           <div
             className="grid-gap grid-row"
           >
+            <input
+              aria-hidden={true}
+              defaultValue="Wed Oct 30 2019"
+              disabled={true}
+              hidden={true}
+              id="disabled-DateRangeInput-start-date-internal"
+            />
             <div
               className="grid-row flex-row flex-align-end grid-gap position-relative"
             >
@@ -3254,6 +3323,13 @@ exports[`Storyshots DateRangeInput Disabled 1`] = `
           <div
             className="grid-gap grid-row"
           >
+            <input
+              aria-hidden={true}
+              defaultValue="Wed Oct 30 2019"
+              disabled={true}
+              hidden={true}
+              id="disabled-DateRangeInput-end-date-internal"
+            />
             <div
               className="grid-row flex-row flex-align-end grid-gap position-relative"
             >
@@ -3370,6 +3446,13 @@ exports[`Storyshots DateRangeInput Error 1`] = `
           <div
             className="grid-gap grid-row"
           >
+            <input
+              aria-hidden={true}
+              defaultValue="Wed Oct 30 2019"
+              disabled={true}
+              hidden={true}
+              id="error-DateRangeInput-start-date-internal"
+            />
             <div
               className="grid-row flex-row flex-align-end grid-gap position-relative"
             >
@@ -3443,6 +3526,13 @@ exports[`Storyshots DateRangeInput Error 1`] = `
           <div
             className="grid-gap grid-row"
           >
+            <input
+              aria-hidden={true}
+              defaultValue="Wed Oct 30 2019"
+              disabled={true}
+              hidden={true}
+              id="error-DateRangeInput-end-date-internal"
+            />
             <div
               className="grid-row flex-row flex-align-end grid-gap position-relative"
             >
@@ -3554,6 +3644,13 @@ exports[`Storyshots DateRangeInput Optional 1`] = `
           <div
             className="grid-gap grid-row"
           >
+            <input
+              aria-hidden={true}
+              defaultValue="Wed Oct 30 2019"
+              disabled={true}
+              hidden={true}
+              id="optional-DateRangeInput-start-date-internal"
+            />
             <div
               className="grid-row flex-row flex-align-end grid-gap position-relative"
             >
@@ -3627,6 +3724,13 @@ exports[`Storyshots DateRangeInput Optional 1`] = `
           <div
             className="grid-gap grid-row"
           >
+            <input
+              aria-hidden={true}
+              defaultValue="Wed Oct 30 2019"
+              disabled={true}
+              hidden={true}
+              id="optional-DateRangeInput-end-date-internal"
+            />
             <div
               className="grid-row flex-row flex-align-end grid-gap position-relative"
             >
@@ -3743,6 +3847,13 @@ exports[`Storyshots DateRangeInput Success 1`] = `
           <div
             className="grid-gap grid-row"
           >
+            <input
+              aria-hidden={true}
+              defaultValue="Wed Oct 30 2019"
+              disabled={true}
+              hidden={true}
+              id="error-DateRangeInput-start-date-internal"
+            />
             <div
               className="grid-row flex-row flex-align-end grid-gap position-relative"
             >
@@ -3816,6 +3927,13 @@ exports[`Storyshots DateRangeInput Success 1`] = `
           <div
             className="grid-gap grid-row"
           >
+            <input
+              aria-hidden={true}
+              defaultValue="Wed Oct 30 2019"
+              disabled={true}
+              hidden={true}
+              id="error-DateRangeInput-end-date-internal"
+            />
             <div
               className="grid-row flex-row flex-align-end grid-gap position-relative"
             >
@@ -3945,6 +4063,13 @@ exports[`Storyshots DateRangeInput Warning 1`] = `
           <div
             className="grid-gap grid-row"
           >
+            <input
+              aria-hidden={true}
+              defaultValue="Wed Oct 30 2019"
+              disabled={true}
+              hidden={true}
+              id="error-DateRangeInput-start-date-internal"
+            />
             <div
               className="grid-row flex-row flex-align-end grid-gap position-relative"
             >
@@ -4018,6 +4143,13 @@ exports[`Storyshots DateRangeInput Warning 1`] = `
           <div
             className="grid-gap grid-row"
           >
+            <input
+              aria-hidden={true}
+              defaultValue="Wed Oct 30 2019"
+              disabled={true}
+              hidden={true}
+              id="error-DateRangeInput-end-date-internal"
+            />
             <div
               className="grid-row flex-row flex-align-end grid-gap position-relative"
             >

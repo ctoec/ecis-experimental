@@ -62,6 +62,13 @@ exports[`EnrollmentEdit enrollment and funding matches snapshot 1`] = `
           <div
             class="grid-gap grid-row"
           >
+            <input
+              aria-hidden="true"
+              disabled=""
+              hidden=""
+              id="enrollment-start-date-internal"
+              value="Sat Feb 03 2018"
+            />
             <div
               class="grid-row flex-row flex-align-end grid-gap position-relative"
             >
