@@ -253,7 +253,7 @@ export default function Withdrawal({
 						label="Enrollment end date"
 						id="enrollment-end-date"
 						name="exit"
-						onChange={updateFormData(newDate => newDate.toDate())}
+						onChange_Old={updateFormData(newDate => newDate.toDate())}
 						defaultValue={enrollmentEndDate ? moment(enrollmentEndDate).toDate() : undefined}
 						status={
 							attemptedSave && !enrollmentEndDate

@@ -8,8 +8,8 @@ import { parseStringDateInput } from '../../utils/stringFormatters';
 import { InputField } from '../../utils/forms/form';
 
 export type DateInputProps = {
-	onChange: (newDate: InputField<Moment | null>) => any | void;
-	onChange_New?: (ev: Event) => any;
+	onChange_Old: (newDate: InputField<Moment | null>) => any | void;
+	onChange?: (ev: Event) => any;
 	id: string;
 	label: string;
 	defaultValue?: Date | null;
@@ -27,8 +27,8 @@ const momentFormat = 'MM/DD/YYYY';
 
 export const DateInput: React.FC<DateInputProps> = ({
 	defaultValue = null,
+	onChange_Old: inputOnChange_Old,
 	onChange: inputOnChange,
-	onChange_New: inputOnChange_New,
 	id,
 	label,
 	disabled,
@@ -49,11 +49,11 @@ export const DateInput: React.FC<DateInputProps> = ({
 	// Attach onChange event listener
 	useEffect(() => {
 		const target = document.getElementById(`${id}-internal`);
-		if (!target || !inputOnChange_New) {
+		if (!target || !inputOnChange) {
 			return;
 		}
-		target.addEventListener('change', inputOnChange_New);
-		return () => window.removeEventListener('change', inputOnChange_New);
+		target.addEventListener('change', inputOnChange);
+		return () => window.removeEventListener('change', inputOnChange);
 	});
 
 	useEffect(() => {
@@ -71,7 +71,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 			// Only call the callback if it's a valid date
 			// Spread operator will not copy prototype
 			// https://dmitripavlutin.com/object-rest-spread-properties-javascript/
-			inputOnChange(Object.assign(moment(), input, { name: name || '' }));
+			inputOnChange_Old(Object.assign(moment(), input, { name: name || '' }));
 			// Update the hidden input to a string representation of
 			// the date. Then trigger the event dispatch.
 			const target = document.getElementById(`${id}-internal`);
@@ -79,7 +79,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 				return;
 			}
 			const event = new Event('change');
-			(target as HTMLInputElement).value = input.toDate().toDateString();
+			(target as HTMLInputElement).value = '' + input.valueOf();
 			target.dispatchEvent(event);
 			setDateIsInvalid(false);
 		}
@@ -117,9 +117,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 				hidden
 				disabled
 				id={`${id}-internal`}
-				defaultValue={
-					currentDate && !dateIsInvalid ? currentDate.toDate().toDateString() : undefined
-				}
+				defaultValue={currentDate && !dateIsInvalid ? '' + currentDate.valueOf() : undefined}
 			/>
 			<div className="grid-row flex-row flex-align-end grid-gap position-relative">
 				<TextInput

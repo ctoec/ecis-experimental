@@ -2354,7 +2354,7 @@ exports[`Storyshots Date input Default with date 1`] = `
     >
       <input
         aria-hidden={true}
-        defaultValue="Wed Oct 30 2019"
+        defaultValue="1572393600000"
         disabled={true}
         hidden={true}
         id="dateinput-example-internal"
@@ -2533,7 +2533,7 @@ exports[`Storyshots Date input Disabled day input 1`] = `
     >
       <input
         aria-hidden={true}
-        defaultValue="Wed Oct 30 2019"
+        defaultValue="1572393600000"
         disabled={true}
         hidden={true}
         id="dateinput-example-internal"
@@ -2633,7 +2633,7 @@ exports[`Storyshots Date input Error 1`] = `
     >
       <input
         aria-hidden={true}
-        defaultValue="Wed Oct 30 2019"
+        defaultValue="1572393600000"
         disabled={true}
         hidden={true}
         id="dateinput-example-internal"
@@ -2728,7 +2728,7 @@ exports[`Storyshots Date input Optional 1`] = `
     >
       <input
         aria-hidden={true}
-        defaultValue="Wed Oct 30 2019"
+        defaultValue="1572393600000"
         disabled={true}
         hidden={true}
         id="dateinput-example-internal"
@@ -2828,7 +2828,7 @@ exports[`Storyshots Date input Success 1`] = `
     >
       <input
         aria-hidden={true}
-        defaultValue="Wed Oct 30 2019"
+        defaultValue="1572393600000"
         disabled={true}
         hidden={true}
         id="dateinput-example-internal"
@@ -2941,7 +2941,7 @@ exports[`Storyshots Date input Warning 1`] = `
     >
       <input
         aria-hidden={true}
-        defaultValue="Wed Oct 30 2019"
+        defaultValue="1572393600000"
         disabled={true}
         hidden={true}
         id="dateinput-example-internal"
@@ -3051,7 +3051,7 @@ exports[`Storyshots DateRangeInput Default 1`] = `
           >
             <input
               aria-hidden={true}
-              defaultValue="Wed Oct 30 2019"
+              defaultValue="1572393600000"
               disabled={true}
               hidden={true}
               id="default-DateRangeInput-start-date-internal"
@@ -3131,7 +3131,7 @@ exports[`Storyshots DateRangeInput Default 1`] = `
           >
             <input
               aria-hidden={true}
-              defaultValue="Wed Oct 30 2019"
+              defaultValue="1572393600000"
               disabled={true}
               hidden={true}
               id="default-DateRangeInput-end-date-internal"
@@ -3245,7 +3245,7 @@ exports[`Storyshots DateRangeInput Disabled 1`] = `
           >
             <input
               aria-hidden={true}
-              defaultValue="Wed Oct 30 2019"
+              defaultValue="1572393600000"
               disabled={true}
               hidden={true}
               id="disabled-DateRangeInput-start-date-internal"
@@ -3325,7 +3325,7 @@ exports[`Storyshots DateRangeInput Disabled 1`] = `
           >
             <input
               aria-hidden={true}
-              defaultValue="Wed Oct 30 2019"
+              defaultValue="1572393600000"
               disabled={true}
               hidden={true}
               id="disabled-DateRangeInput-end-date-internal"
@@ -3448,7 +3448,7 @@ exports[`Storyshots DateRangeInput Error 1`] = `
           >
             <input
               aria-hidden={true}
-              defaultValue="Wed Oct 30 2019"
+              defaultValue="1572393600000"
               disabled={true}
               hidden={true}
               id="error-DateRangeInput-start-date-internal"
@@ -3528,7 +3528,7 @@ exports[`Storyshots DateRangeInput Error 1`] = `
           >
             <input
               aria-hidden={true}
-              defaultValue="Wed Oct 30 2019"
+              defaultValue="1572393600000"
               disabled={true}
               hidden={true}
               id="error-DateRangeInput-end-date-internal"
@@ -3646,7 +3646,7 @@ exports[`Storyshots DateRangeInput Optional 1`] = `
           >
             <input
               aria-hidden={true}
-              defaultValue="Wed Oct 30 2019"
+              defaultValue="1572393600000"
               disabled={true}
               hidden={true}
               id="optional-DateRangeInput-start-date-internal"
@@ -3726,7 +3726,7 @@ exports[`Storyshots DateRangeInput Optional 1`] = `
           >
             <input
               aria-hidden={true}
-              defaultValue="Wed Oct 30 2019"
+              defaultValue="1572393600000"
               disabled={true}
               hidden={true}
               id="optional-DateRangeInput-end-date-internal"
@@ -3849,7 +3849,7 @@ exports[`Storyshots DateRangeInput Success 1`] = `
           >
             <input
               aria-hidden={true}
-              defaultValue="Wed Oct 30 2019"
+              defaultValue="1572393600000"
               disabled={true}
               hidden={true}
               id="error-DateRangeInput-start-date-internal"
@@ -3929,7 +3929,7 @@ exports[`Storyshots DateRangeInput Success 1`] = `
           >
             <input
               aria-hidden={true}
-              defaultValue="Wed Oct 30 2019"
+              defaultValue="1572393600000"
               disabled={true}
               hidden={true}
               id="error-DateRangeInput-end-date-internal"
@@ -4065,7 +4065,7 @@ exports[`Storyshots DateRangeInput Warning 1`] = `
           >
             <input
               aria-hidden={true}
-              defaultValue="Wed Oct 30 2019"
+              defaultValue="1572393600000"
               disabled={true}
               hidden={true}
               id="error-DateRangeInput-start-date-internal"
@@ -4145,7 +4145,7 @@ exports[`Storyshots DateRangeInput Warning 1`] = `
           >
             <input
               aria-hidden={true}
-              defaultValue="Wed Oct 30 2019"
+              defaultValue="1572393600000"
               disabled={true}
               hidden={true}
               id="error-DateRangeInput-end-date-internal"

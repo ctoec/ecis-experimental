@@ -67,7 +67,7 @@ exports[`EnrollmentEdit enrollment and funding matches snapshot 1`] = `
               disabled=""
               hidden=""
               id="enrollment-start-date-internal"
-              value="Sat Feb 03 2018"
+              value="1517616000000"
             />
             <div
               class="grid-row flex-row flex-align-end grid-gap position-relative"

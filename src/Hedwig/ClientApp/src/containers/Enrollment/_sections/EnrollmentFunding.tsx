@@ -551,7 +551,7 @@ const EnrollmentFunding: Section = {
 					<h2>{site && site.name}</h2>
 					<DateInput
 						name="entry"
-						onChange={updateFormData(newDate => (newDate ? newDate.toDate() : null))}
+						onChange_Old={updateFormData(newDate => (newDate ? newDate.toDate() : null))}
 						defaultValue={entry || null}
 						label="Start date"
 						id="enrollment-start-date"
@@ -750,7 +750,7 @@ const EnrollmentFunding: Section = {
 							/>
 							<DateInput
 								name="c4kCertificateStartDate"
-								onChange={newDate =>
+								onChange_Old={newDate =>
 									updateC4kFunding({
 										...c4kFunding,
 										startDate: newDate ? newDate.toDate() : null,

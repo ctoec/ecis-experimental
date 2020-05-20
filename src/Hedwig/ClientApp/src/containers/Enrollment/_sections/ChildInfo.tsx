@@ -286,7 +286,7 @@ const ChildInfo: Section = {
 				<h2>Date of birth</h2>
 				<DateInput
 					name="child.birthdate"
-					onChange={updateFormData(newBirthdate => newBirthdate.toDate())}
+					onChange_Old={updateFormData(newBirthdate => newBirthdate.toDate())}
 					defaultValue={birthdate || null}
 					label="Birth date"
 					id="birthdate-picker"
