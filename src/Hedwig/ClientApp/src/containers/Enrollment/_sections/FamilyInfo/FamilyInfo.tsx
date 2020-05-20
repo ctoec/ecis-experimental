@@ -25,7 +25,10 @@ import {
 	REQUIRED_FOR_ENROLLMENT,
 } from '../../../utils/validations/messageStrings';
 import { displayValidationStatus } from '../../../utils/validations/displayValidationStatus';
-import useCatchAllErrorAlert from '../../../hooks/useCatchAllErrorAlert';
+import useCatchallErrorAlert from '../../../hooks/useCatchallErrorAlert';
+import Form from '../../../components/Form_New/Form';
+import FormSubmitButton from '../../../components/Form_New/FormSubmitButton';
+import { FormFieldSet } from '../../../components/Form_New/FormFieldSet';
 
 const FamilyInfo: Section = {
 	key: 'family-information',
@@ -58,8 +61,8 @@ const FamilyInfo: Section = {
 						{homelessness && <p>{homelessnessText()}</p>}
 					</>
 				) : (
-					<p>No family information on record.</p>
-				)}
+						<p>No family information on record.</p>
+					)}
 			</div>
 		);
 	},
@@ -134,12 +137,19 @@ const FamilyInfo: Section = {
 		}, [saveData, saveError]);
 
 		return (
-			<form className="FamilyInfoForm usa-form" noValidate autoComplete="off">
+			<Form
+				data={_enrollment}
+				className="FamilyInfoForm usa-form"
+				noValidate
+				autoComplete="off"
+				onSubmit={() => setAttemptingSave(true)}
+			>
 				<h2>Address</h2>
-				<FieldSet
+				<FormFieldSet
 					id="family-address"
 					legend="Address"
-					status={initialLoadErrorGuard(
+					// TODO: USE DATA DRILLER
+					status={() => initialLoadErrorGuard(
 						initialLoad,
 						displayValidationStatus([
 							{
@@ -244,7 +254,7 @@ const FamilyInfo: Section = {
 							)}
 						/>
 					</div>
-				</FieldSet>
+				</FormFieldSet>
 
 				<h2>Other</h2>
 				<ChoiceList
@@ -279,12 +289,11 @@ const FamilyInfo: Section = {
 					Indicate if you are aware that the family has experienced housing insecurity, including
 					overcrowded housing, within the last year.
 				</p>
-				<Button
+				<FormSubmitButton
 					text={attemptingSave ? 'Saving...' : 'Save'}
-					onClick={() => setAttemptingSave(true)}
 					disabled={attemptingSave}
 				/>
-			</form>
+			</Form>
 		);
 	},
 };
