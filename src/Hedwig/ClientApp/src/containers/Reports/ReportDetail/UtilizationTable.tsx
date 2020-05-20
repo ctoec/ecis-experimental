@@ -44,10 +44,11 @@ interface UtilizationTableRow {
 }
 
 export default function UtilizationTable(report: CdcReport) {
-	const site = idx(report, _ => _.organization.sites[0]);
-	if (!site) {
+	const { organization } = report
+	if (!organization) {
 		return <></>;
 	}
+	const { sites } = organization
 
 	const fundingSpaces = idx(report, (_) => _.organization.fundingSpaces);
 	if (!fundingSpaces) {
@@ -59,8 +60,8 @@ export default function UtilizationTable(report: CdcReport) {
 	const weeksInPeriod =
 		periodStart && periodEnd
 			? moment(periodEnd)
-					.add(1, 'day')
-					.diff(periodStart, 'weeks')
+				.add(1, 'day')
+				.diff(periodStart, 'weeks')
 			: 0;
 
 	const enrollments = (idx(report, (_) => _.enrollments) || []) as Enrollment[];
@@ -79,20 +80,28 @@ export default function UtilizationTable(report: CdcReport) {
 		const ageGroup = space.ageGroup;
 		const fundingTime = space.time;
 		const count = countFundedEnrollments(enrollments, space.id);
-		const ptRate = calculateRate(
-			report.accredited,
-			site.titleI,
-			site.region,
-			ageGroup,
-			FundingTime.Part
-		);
-		const ftRate = calculateRate(
-			report.accredited,
-			site.titleI,
-			site.region,
-			ageGroup,
-			FundingTime.Full
-		);
+
+		console.log(space, organization)
+		// TODO: if the space lives on the organization but the rates live on the site, how do we do this?
+
+		const ptRate = 0
+
+		// calculateRate(
+		// 	report.accredited,
+		// 	site.titleI,
+		// 	site.region,
+		// 	ageGroup,
+		// 	FundingTime.Part
+		// );
+		const ftRate = 0
+
+		// calculateRate(
+		// 	report.accredited,
+		// 	site.titleI,
+		// 	site.region,
+		// 	ageGroup,
+		// 	FundingTime.Full
+		// );
 
 		// TODO: probably a util
 		let fullWeeks = 0,
