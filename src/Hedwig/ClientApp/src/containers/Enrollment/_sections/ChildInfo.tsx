@@ -1,7 +1,14 @@
 import React, { useContext, useState, useEffect, useReducer } from 'react';
 import { Section } from '../enrollmentTypes';
 import moment from 'moment';
-import { Button, TextInput, DateInput, ChoiceList, FieldSet } from '../../../components';
+import {
+	Button,
+	TextInput,
+	DateInput,
+	ChoiceList,
+	FieldSet,
+	TextInputProps,
+} from '../../../components';
 import { nameFormatter } from '../../../utils/stringFormatters';
 import dateFormatter from '../../../utils/dateFormatter';
 import {
@@ -38,6 +45,8 @@ import {
 	REQUIRED_FOR_ENROLLMENT,
 	REQUIRED_FOR_OEC_REPORTING,
 } from '../../../utils/validations/messageStrings';
+import FormNew from '../../../components/Form_New/Form';
+import FormFieldNew from '../../../components/Form_New/FormField';
 
 const ChildInfo: Section = {
 	key: 'child-information',

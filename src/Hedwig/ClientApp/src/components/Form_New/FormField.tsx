@@ -1,26 +1,30 @@
-import React, { PropsWithChildren } from 'react';
+import React, { PropsWithChildren, Key } from 'react';
 import FormContext, { useGenericContext } from './FormContext';
 import produce from 'immer';
 import set from 'lodash/set';
-import cloneDeep from 'lodash/cloneDeep';
-import { ObjectDriller } from './ObjectDriller';
+import { ObjectDriller, TObjectDriller } from './ObjectDriller';
 
-type FormFieldProps<TData, TComponentProps, TFieldData> = {
-	defaultValue?: TFieldData;
-	getValue: (_: ObjectDriller<TData>) => ObjectDriller<TFieldData>;
-	preprocessForDisplay?: (
-		_: TFieldData | undefined
-	) => TFieldData | JSX.Element | string | undefined;
-	parseOnChangeEvent: (event: React.ChangeEvent<any>, data: ObjectDriller<TData>) => TFieldData;
-	inputComponent: React.FC<TComponentProps>;
-} & // TODO: Make this props a first order citizen
-{
-	/**
-	 * Creates a set of props that includes
-	 * all FormHTMLAttributes<HTMLFormElement> props, except onSubmit
-	 */
-	props: Pick<TComponentProps, Exclude<keyof TComponentProps, 'onChange' | 'defaultValue'>>;
-};
+type FormFieldProps<TData, TComponentProps, TFieldData> =
+	// React.FC<P> assigns the generic P to {} as a default type. That causes a
+	// subtype contrainst error. See https://stackoverflow.com/a/59363875. As a
+	// work around, we can conditionally check that TComponentProps extends {}.
+	TComponentProps extends {}
+		? {
+				defaultValue?: TFieldData;
+				getValue: (_: TObjectDriller<NonNullable<TData>>) => TObjectDriller<TFieldData>;
+				preprocessForDisplay?: (
+					_: TFieldData | undefined
+				) => TFieldData | JSX.Element | string | undefined;
+				parseOnChangeEvent: (
+					event: React.ChangeEvent<any>,
+					data: TObjectDriller<TData>
+				) => TFieldData;
+				inputComponent: React.FC<TComponentProps>;
+		  } & // Include TComponentProps props, except onChange and defaultValue
+		  Pick<TComponentProps, Exclude<keyof TComponentProps, 'onChange' | 'defaultValue'>>
+		: // If TComponentProps does not extend {}, React will choke on creating
+		  // the component. So don't allow this case.
+		  never;
 
 /**
  * Generic form input field component that handles simple use cases,
@@ -30,18 +34,22 @@ type FormFieldProps<TData, TComponentProps, TFieldData> = {
  * For complex use cases (e.g. adding or removing array element),
  * custom form field components should be created
  */
-const FormField = <TData extends object, TComponentProps, TFieldData>({
+// TData must extend object for lodash set.
+// TComponentProps must extend {} for React.
+const FormField = <TData extends object, TComponentProps extends {}, TFieldData>({
 	getValue,
 	defaultValue,
 	preprocessForDisplay,
 	parseOnChangeEvent,
 	inputComponent: InputComponent,
-	props,
 	children,
+	...props
 }: PropsWithChildren<FormFieldProps<TData, TComponentProps, TFieldData>>) => {
 	const { data, updateData } = useGenericContext<TData>(FormContext);
 
-	const pathAccessibleData = new ObjectDriller(data);
+	const pathAccessibleData = (new ObjectDriller(data) as unknown) as TObjectDriller<
+		NonNullable<TData>
+	>;
 	const accessor = getValue(pathAccessibleData);
 	const value = accessor.value;
 	const updatePath = accessor.path;
@@ -58,12 +66,6 @@ const FormField = <TData extends object, TComponentProps, TFieldData>({
 			? value
 			: defaultValue;
 	return (
-		/**
-		 * Type '{ defaultValue: string | Element | TFieldData | undefined; onChange: (e: ChangeEvent<any>) => void; } & Pick<TComponentProps, Exclude<...>> & { ...; }' is not assignable to type 'IntrinsicAttributes & TComponentProps & { children?: ReactNode; }'.
-		 * Type '{ defaultValue: string | Element | TFieldData | undefined; onChange: (e: ChangeEvent<any>) => void; } & Pick<TComponentProps, Exclude<...>> & { ...; }' is not assignable to type 'TComponentProps'.
-		 * '{ defaultValue: string | Element | TFieldData | undefined; onChange: (e: ChangeEvent<any>) => void; } & Pick<TComponentProps, Exclude<...>> & { ...; }' is assignable to the constraint of type 'TComponentProps', but 'TComponentProps' could be instantiated with a different subtype of constraint '{}'.
-		 */
-		// @ts-ignore
 		<InputComponent
 			defaultValue={preprocessForDisplay ? preprocessForDisplay(displayValue) : displayValue}
 			onChange={onChange}
