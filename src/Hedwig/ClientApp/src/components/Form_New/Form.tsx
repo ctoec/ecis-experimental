@@ -1,5 +1,6 @@
 import React, { FormHTMLAttributes, PropsWithChildren, useState, useEffect } from 'react';
 import { FormProvider } from './FormContext';
+import { ObjectDriller } from './ObjectDriller';
 
 type FormProps<T> = {
 	onSubmit: (_: T) => void;
@@ -43,10 +44,17 @@ const Form = <T extends any>({
 		onSubmit(_data);
 	};
 
+	/**
+	 * dataDriller instance to pass around for convenience,
+	 * to save all custom form fields from needing to create one.
+	 */
+	const dataDriller = new ObjectDriller(_data);
+
 	return (
 		<FormProvider
 			value={{
 				data: _data,
+				dataDriller,
 				updateData,
 			}}
 		>

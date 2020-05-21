@@ -1,5 +1,3 @@
-import cloneDeep from 'lodash/cloneDeep';
-
 type TObjectDrillerInternal<T> = {
 	value: T;
 	path: string;
@@ -22,7 +20,7 @@ export class ObjectDriller<T> {
 	path: string;
 
 	constructor(obj: T, path?: string) {
-		this.value = cloneDeep(obj);
+		this.value = obj;
 		this.arrayValue = (this.value as unknown) as T[keyof T][];
 		this.path = path || '';
 	}
