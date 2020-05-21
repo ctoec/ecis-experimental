@@ -30,7 +30,7 @@ export const AnnualHouseholdIncomeField = ({ id }: { id: number}) => {
 				}
 				id={`income-${id}`}
 				label='Annual household income'
-				onBlur={(e: ChangeEvent<HTMLInputElement>) => { e.target.value = currencyFormatter(parseInt(e.target.value))} }
+				onBlur={(e: ChangeEvent<HTMLInputElement>) => { e.target.value = currencyFormatter(parseInt(e.target.value) || null)} }
 			/>
 		</div>
 	)

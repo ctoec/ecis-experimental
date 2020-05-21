@@ -17,16 +17,6 @@ export const WithNewDetermination = ({
 
 	const [forceRerender, setForceRerender] = useState(false);
 	useEffect(() => {
-		// if(shouldCleanUp && newDet.value != undefined) {
-		// 	setForceRerender(r => !r);
-		// 	updateData(produce<Enrollment>(
-		// 		data, draft => set(
-		// 			draft,
-		// 			dataDriller.at('child').at('family').at('determinations').path,
-		// 			dataDriller.at('child').at('family').at('determinations').value.filter(det => det.id !== 0)
-		// 		)
-		// 	))
-		// } else 
 		if (shouldCreate && newDet.value == undefined) {
 			setForceRerender(r => !r);
 			updateData(produce<Enrollment>(

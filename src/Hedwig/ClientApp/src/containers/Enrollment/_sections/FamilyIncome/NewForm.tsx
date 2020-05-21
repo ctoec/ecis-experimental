@@ -60,14 +60,19 @@ export const NewForm = ({
 		}
 	);
 
-	// Handle API response
+	// Handle API success
 	useEffect(() => {
 		// API request still ongoing -- exit
 		if(saving) {
 			return;
 		}
-		// API request has finished
-		if (saveData && !saveError) {
+		
+		// API request failed -- exit
+		if(saveError) {
+			return;
+		}
+
+		if (saveData) {
 			if(successCallback) successCallback(saveData);
 		}
 	}, [saving, saveError, successCallback, saveData]);

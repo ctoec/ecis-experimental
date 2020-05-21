@@ -23,7 +23,11 @@ export const UpdateForm = ({
 		throw new Error('Section rendered without enrollment or child');
 	}
 
-
+	// Set up form state
+	const [showNew, setShowNew] = useState(false);
+	const [didAddNew, setDidAddNew] = useState(false);
+	const [isNew, setIsNew] = useState(false);
+	const [forceClose, setForceClose] = useState(false);
 
 	// Set up API request (enrollment PUT)
 	const [attemptingSave, setAttemptingSave] = useState(false);
@@ -43,19 +47,6 @@ export const UpdateForm = ({
 			}
 		}
 	);
-
-	// The form to interact with all current and historical family income information
-	// including editing past determinations, and creating a new determination
-	const sortedDeterminations = [...(enrollment.child.family.determinations || [])]
-		.sort((a,b) => propertyDateSorter(a, b, det => det.determinationDate, true));
-	const currentDetermination = sortedDeterminations[0];
-	const pastDeterminations = sortedDeterminations.slice(1);
-
-	const [showNew, setShowNew] = useState(false);
-	const [didAddNew, setDidAddNew] = useState(false);
-	const [isNew, setIsNew] = useState(false);
-	const [forceClose, setForceClose] = useState(false);
-
 	// Use catchall error to display a catchall error alert on _any_ saveError,
 	// since no form fields have field-specific error alerting
 		// useCatchallErrorAlert(saveError);
@@ -91,11 +82,16 @@ export const UpdateForm = ({
 		return <>Loading...</>
 	};
 
+	// Convenience vars for rendering the form
 	const formOnSubmit = (_data: Enrollment) => {
 		updateEnrollment(_data as DeepNonUndefineable<Enrollment>);
 		setAttemptingSave(true);
 	}
 
+	const sortedDeterminations = [...(enrollment.child.family.determinations || [])]
+		.sort((a,b) => propertyDateSorter(a, b, det => det.determinationDate, true));
+	const currentDetermination = sortedDeterminations[0];
+	const pastDeterminations = sortedDeterminations.slice(1);
 	return (
 		<>
 			{showNew &&
