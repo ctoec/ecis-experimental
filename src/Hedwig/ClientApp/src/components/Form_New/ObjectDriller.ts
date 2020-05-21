@@ -13,6 +13,8 @@ export type TObjectDriller<T> = (T extends (infer R)[]
 
 /**
  * A type-safe way to drill down into an object and gather the associated path
+ * NOTE: ObjectDriller is only for accessing data. The underlying `obj` should
+ * never be mutated directly.
  */
 export class ObjectDriller<T> {
 	value: T;

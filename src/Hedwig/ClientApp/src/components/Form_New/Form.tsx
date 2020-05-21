@@ -6,7 +6,8 @@ type FormProps<T> = {
 	onSubmit: (_: T) => void;
 	data: T;
 	className: string;
-} & /**
+} & 
+/**
  * Creates a set of props that includes
  * all FormHTMLAttributes<HTMLFormElement> props, except onSubmit
  */ Pick<
@@ -44,17 +45,11 @@ const Form = <T extends any>({
 		onSubmit(_data);
 	};
 
-	/**
-	 * dataDriller instance to pass around for convenience,
-	 * to save all custom form fields from needing to create one.
-	 */
-	const dataDriller = new ObjectDriller(_data);
-
 	return (
 		<FormProvider
 			value={{
 				data: _data,
-				dataDriller,
+				dataDriller: new ObjectDriller(_data),
 				updateData,
 			}}
 		>
