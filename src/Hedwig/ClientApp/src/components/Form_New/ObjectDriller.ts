@@ -1,5 +1,3 @@
-import cloneDeep from 'lodash/cloneDeep';
-
 type TObjectDrillerInternal<T> = {
 	value: T;
 	path: string;
@@ -15,6 +13,8 @@ export type TObjectDriller<T> = (T extends (infer R)[]
 
 /**
  * A type-safe way to drill down into an object and gather the associated path
+ * NOTE: ObjectDriller is only for accessing data. The underlying `obj` should
+ * never be mutated directly.
  */
 export class ObjectDriller<T> {
 	value: T;
@@ -22,7 +22,7 @@ export class ObjectDriller<T> {
 	path: string;
 
 	constructor(obj: T, path?: string) {
-		this.value = cloneDeep(obj);
+		this.value = obj;
 		this.arrayValue = (this.value as unknown) as T[keyof T][];
 		this.path = path || '';
 	}

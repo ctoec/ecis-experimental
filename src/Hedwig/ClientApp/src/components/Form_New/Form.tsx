@@ -1,11 +1,13 @@
 import React, { FormHTMLAttributes, PropsWithChildren, useState, useEffect } from 'react';
 import { FormProvider } from './FormContext';
+import { ObjectDriller } from './ObjectDriller';
 
 type FormProps<T> = {
 	onSubmit: (_: T) => void;
 	data: T;
 	className: string;
-} & /**
+} & 
+/**
  * Creates a set of props that includes
  * all FormHTMLAttributes<HTMLFormElement> props, except onSubmit
  */ Pick<
@@ -47,6 +49,7 @@ const Form = <T extends any>({
 		<FormProvider
 			value={{
 				data: _data,
+				dataDriller: new ObjectDriller(_data),
 				updateData,
 			}}
 		>
