@@ -104,6 +104,7 @@ namespace Hedwig.Controllers
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ValidateEntityFilterAttribute(Order = 1)]
+		[DTOProjectionFilter(typeof(EnrollmentDTO), Order = 2)]
 		public async Task<ActionResult<Enrollment>> Get(
 			int id,
 			int orgId,
@@ -122,6 +123,7 @@ namespace Hedwig.Controllers
 		[ProducesResponseType(StatusCodes.Status201Created)]
 		[ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
 		[ValidateEntityFilterAttribute(Order = 1)]
+		[DTOProjectionFilter(typeof(EnrollmentDTO), Order = 2)]
 		public async Task<ActionResult<Enrollment>> Post(
 			int orgId,
 			int siteId,
@@ -146,6 +148,7 @@ namespace Hedwig.Controllers
 		[ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ValidateEntityFilterAttribute(Order = 1)]
+		[DTOProjectionFilter(typeof(EnrollmentDTO), Order = 2)]
 		public async Task<ActionResult<Enrollment>> Put(
 			int id,
 			int orgId,

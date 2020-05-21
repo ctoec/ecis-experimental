@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { SectionProps } from "../../enrollmentTypes";
 import Form from "../../../../components/Form_New/Form";
 import { DeterminationDateField, AnnualHouseholdIncomeField, HouseholdSizeField, WithNewDetermination } from './Fields';
@@ -15,6 +15,9 @@ import { warningForFieldSet } from '../../../../utils/validations';
 import { REQUIRED_FOR_OEC_REPORTING } from '../../../../utils/validations/messageStrings';
 import Checkbox from '../../../../components/Checkbox/Checkbox';
 import { Alert } from '../../../../components';
+import idx from 'idx';
+import FamilyIncome from '.';
+import { NotDisclosed } from './Fields/NotDisclosed';
 
 export const NewForm = ({
 	enrollment,
@@ -22,6 +25,8 @@ export const NewForm = ({
 	siteId,
 	loading,
 	successCallback,
+	onSectionTouch,
+	touchedSections
 }: SectionProps) => {
 	// Enrollment and child must already exist to create family income data,
 	// and cannot be created without user input (have required non null fields)
@@ -44,73 +49,90 @@ export const NewForm = ({
 		id: enrollment.id,
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		orgId: getIdForUser(user, 'org'),
-		enrollment
+		enrollment: enrollment,
 	};
-	const { error: saveError, loading: saving } = useApi<Enrollment>(
+	const { error: saveError, loading: saving, data: saveData } = useApi<Enrollment>(
 		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams),
 		{
-			skip: !user || !attemptingSave,
+			skip: !attemptingSave,
 			callback: () => {
 				setAttemptingSave(false);
+				onSectionTouch && onSectionTouch(FamilyIncome);
 			}
 		}
 	);
 
-	const [notDisclosed, setNotDisclosed] = useState(false);
+	// Handle API response
+	useEffect(() => {
+		// API request still ongoing -- exit
+		if(saving) {
+			return;
+		}
+		// API request has finished
+		if (saveData && !saveError) {
+			if(successCallback) successCallback(saveData);
+		}
+	}, [saving, saveError, successCallback, saveData]);
 
 	// Use catchall error to display a catchall error alert on _any_ saveError,
 	// since no form fields have field-specific error alerting
 	// useCatchallErrorAlert(saveError);
 
+	// User may navigate back to this section during the enrollment NEW flow.
+	// At that point, if there is a determination, use it to populate the form.
+	// If there is no determination, then they did not disclose.
+	const isReturnVisit = touchedSections && touchedSections[FamilyIncome.key];
+	const determinationId = idx(enrollment, _ => _.child.family.determinations[0].id) || 0;
+	const [notDisclosed, setNotDisclosed] = useState(isReturnVisit ? determinationId === 0 : false);
+
+	// Return JSX
 	if(loading) {
 		return <>Loading...</>
 	};
 
-	// The form to create a first family determination on EnrollmentNew flow
 	return (
-		<Form<Enrollment>
-			data={enrollment}
-			onSubmit={(_data) => {
-				setAttemptingSave(true);
-				updateEnrollment(_data as DeepNonUndefineable<Enrollment>);
-				if(successCallback) successCallback(_data);
-			}}
-			className="enrollment-new-family-income-section"
-		>
-			<WithNewDetermination
-				shouldCreate={!notDisclosed}
-				shouldCleanUp={notDisclosed}
-			>
-				{!notDisclosed &&
-					<FormFieldSet<Enrollment>
-						id="family-income-determination"
-						legend="Family income determination"
-						status={(data) => {
-							const det = data.at('child').at('family').at('determinations').at(0).value;
-							return warningForFieldSet(
-								'family-income-determination',
-								['numberOfPeople', 'income', !det.determinationDate ? 'determinationDate' : ''],
-								det,
-								REQUIRED_FOR_OEC_REPORTING
-							)
-						}}
-					>
-						<HouseholdSizeField id={0}/>
-						<AnnualHouseholdIncomeField id={0} />
-						<DeterminationDateField id={0} />
-					</FormFieldSet>
-				}
-			</WithNewDetermination>
-
-			<Checkbox
-				id="not-disclosed"
-				text="Family income not disclosed"
-				value="not-disclosed"
-				onChange={e => setNotDisclosed(e.target.checked)}
-			/>
+		<>
 			{notDisclosed && <Alert type="info" text="Income information is required enroll a child in a funded space. You will not be able to assign this child to a funding space without this information." />}
+			{/* The form to create a first family determination on EnrollmentNew flow */}
+			<Form<Enrollment>
+				data={enrollment}
+				onSubmit={(_data) => {
+					updateEnrollment(_data as DeepNonUndefineable<Enrollment>);
+					setAttemptingSave(true);
+				}}
+				className="enrollment-new-family-income-section"
+			>
+				<WithNewDetermination
+					// create new determination if:
+					// - determinationId = 0
+					// - user has not indicated that income information is not disclosed
+					shouldCreate={determinationId === 0 && !notDisclosed}
+				>
+					{!notDisclosed &&
+						<FormFieldSet<Enrollment>
+							id="family-income-determination"
+							legend="Family income determination"
+							status={(data) => 
+								warningForFieldSet(
+									'family-income-determination',
+									['numberOfPeople', 'income', 'determinationDate'],
+									data.at('child').at('family').at('determinations').find(det => det.id === determinationId).value,
+									'This information is required if family income is disclosed'
+								) 
+							}
+						>
+							<HouseholdSizeField id={determinationId}/>
+							<AnnualHouseholdIncomeField id={determinationId} />
+							<DeterminationDateField id={determinationId} />
+						</FormFieldSet>
+					}
+				</WithNewDetermination>
 
-			<FormSubmitButton text={saving ? 'Saving...' : 'Save'} />
-		</Form>
+				<div className="margin-top-2">
+					<NotDisclosed notDisclosed={notDisclosed} setNotDisclosed={setNotDisclosed} />
+				</div>
+				<FormSubmitButton text={saving ? 'Saving...' : 'Save'} />
+			</Form>
+		</>
 	)
 };

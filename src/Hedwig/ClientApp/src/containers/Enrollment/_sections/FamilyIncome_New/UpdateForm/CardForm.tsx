@@ -72,7 +72,7 @@ const CardForm = ({
 					legend="Redetermine family income"
 					status={status}
 				>
-					<WithNewDetermination shouldCreate={!isEditExpansion} shouldCleanUp={canceled}>
+					<WithNewDetermination shouldCreate={!isEditExpansion}>
 						<HouseholdSizeField id={determinationId} />
 						<AnnualHouseholdIncomeField id={determinationId} />
 						<DeterminationDateField id={determinationId}/>

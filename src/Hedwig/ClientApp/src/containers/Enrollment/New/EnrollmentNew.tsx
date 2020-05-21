@@ -4,7 +4,7 @@ import { Section, SectionProps } from '../enrollmentTypes';
 import { default as StepList, StepProps } from '../../../components/StepList/StepList';
 import ChildInfo from '../_sections/ChildInfo';
 import FamilyInfo from '../_sections/FamilyInfo';
-import FamilyIncome from '../_sections/FamilyIncome';
+import FamilyIncome from '../_sections/FamilyIncome_New';
 import EnrollmentFunding from '../_sections/EnrollmentFunding';
 import { Button, ErrorBoundary } from '../../../components';
 import useApi from '../../../hooks/useApi';

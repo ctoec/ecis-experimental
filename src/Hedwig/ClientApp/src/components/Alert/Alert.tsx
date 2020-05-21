@@ -12,7 +12,7 @@ export function Alert({ type, heading, text, actionItem }: AlertProps) {
 	// If in the future we make this interactive, we should use the alertdialog role
 	return (
 		<div
-			className={`usa-alert usa-alert--${type} grid-row margin-y-4`}
+			className={`usa-alert usa-alert--${type} grid-row margin-y-4 max-width-context important`}
 			role={type === 'error' ? 'alert' : undefined}
 		>
 			<div className="display-flex flex-fill">

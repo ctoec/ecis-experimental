@@ -21,6 +21,7 @@ export const DeterminationCard = ({
 ) => {
 	return <Card
 		className="margin-bottom-2"
+		appearance={isCurrent ? 'primary' : 'secondary'}
 		forceClose={forceClose}
 		showTag={isCurrent ? isNew : undefined}
 		key={determination.id}
