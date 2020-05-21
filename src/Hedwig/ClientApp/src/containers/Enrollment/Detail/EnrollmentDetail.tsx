@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import ChildInfo from '../_sections/ChildInfo';
 import FamilyInfo from '../_sections/FamilyInfo';
-import FamilyIncome from '../_sections/FamilyIncome_New';
+import FamilyIncome from '../_sections/FamilyIncome';
 import EnrollmentFunding from '../_sections/EnrollmentFunding';
 import { Link } from 'react-router-dom';
 import { nameFormatter, enrollmentDetailMetadataFormatter } from '../../../utils/stringFormatters';
