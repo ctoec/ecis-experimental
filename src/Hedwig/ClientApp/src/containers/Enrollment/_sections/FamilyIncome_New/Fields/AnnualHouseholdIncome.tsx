@@ -4,7 +4,7 @@ import React, { ChangeEvent } from "react"
 import { TextInputProps, TextInput } from "../../../../../components"
 import parseCurrencyFromString from "../../../../../utils/parseCurrencyFromString"
 import currencyFormatter from "../../../../../utils/currencyFormatter"
-import { warningForField } from "../../../../../utils/validations"
+import { displayValidationStatus } from "../../../../../utils/validations/displayValidationStatus"
 
 export const AnnualHouseholdIncomeField = ({ id }: { id: number}) => {
 	return (
@@ -22,11 +22,11 @@ export const AnnualHouseholdIncomeField = ({ id }: { id: number}) => {
 				preprocessForDisplay={income => currencyFormatter(income)}
 				inputComponent={TextInput}
 				status={(data) => 
-					warningForField(
-						'income', 
-						data.at('child').at('family').at('determinations').find((det: FamilyDetermination) => det.id === id).value,
-						''
-					)
+					displayValidationStatus([{
+						type: 'warning',
+						response: data.at('child').at('family').at('determinations').find(det => det.id === id).at('validationErrors').value || null,
+						field: 'income',
+					}])
 				}
 				id={`income-${id}`}
 				label='Annual household income'

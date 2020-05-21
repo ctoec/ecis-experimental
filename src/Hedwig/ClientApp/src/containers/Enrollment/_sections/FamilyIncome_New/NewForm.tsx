@@ -11,13 +11,11 @@ import FormSubmitButton from '../../../../components/Form_New/FormSubmitButton';
 import produce from 'immer';
 import { DeepNonUndefineable } from '../../../../utils/types';
 import { FormFieldSet } from '../../../../components/Form_New/FormFieldSet';
-import { warningForFieldSet } from '../../../../utils/validations';
-import { REQUIRED_FOR_OEC_REPORTING } from '../../../../utils/validations/messageStrings';
-import Checkbox from '../../../../components/Checkbox/Checkbox';
 import { Alert } from '../../../../components';
 import idx from 'idx';
 import FamilyIncome from '.';
 import { NotDisclosed } from './Fields/NotDisclosed';
+import { displayValidationStatus } from '../../../../utils/validations/displayValidationStatus';
 
 export const NewForm = ({
 	enrollment,
@@ -112,13 +110,13 @@ export const NewForm = ({
 						<FormFieldSet<Enrollment>
 							id="family-income-determination"
 							legend="Family income determination"
-							status={(data) => 
-								warningForFieldSet(
-									'family-income-determination',
-									['numberOfPeople', 'income', 'determinationDate'],
-									data.at('child').at('family').at('determinations').find(det => det.id === determinationId).value,
-									'This information is required if family income is disclosed'
-								) 
+							status={(data) =>
+								displayValidationStatus([{
+									type: 'warning',
+									response: data.at('child').at('family').at('determinations').find(det => det.id === determinationId).at('validationErrors').value || null,
+									fields: ['numberOfPeople', 'income', 'determinationDate'],
+									message: 'This information is required if family income is disclosed',
+								}]) 
 							}
 						>
 							<HouseholdSizeField id={determinationId}/>

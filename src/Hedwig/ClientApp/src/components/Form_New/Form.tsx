@@ -28,7 +28,6 @@ const Form = <T extends any>({
 	...props
 }: PropsWithChildren<FormProps<T>>) => {
 	const [_data, updateData] = useState(data);
-	const dataDriller = new ObjectDriller(_data);
 
 	// If data prop changes, update the internal store as multiple forms can track the same data
 	useEffect(() => {

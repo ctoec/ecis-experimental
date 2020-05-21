@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { Enrollment, FamilyDetermination } from "../../../../../generated";
+import { Enrollment } from "../../../../../generated";
 import { HouseholdSizeField, AnnualHouseholdIncomeField, DeterminationDateField, WithNewDetermination } from "../Fields";
 import { Button } from "../../../../../components";
 import FormSubmitButton from "../../../../../components/Form_New/FormSubmitButton";
 import { FormFieldSet } from '../../../../../components/Form_New/FormFieldSet';
 import Form from '../../../../../components/Form_New/Form';
-import { warningForFieldSet } from '../../../../../utils/validations';
 import { REQUIRED_FOR_OEC_REPORTING } from '../../../../../utils/validations/messageStrings';
 import { ExpandCard } from '../../../../../components/Card/ExpandCard';
 import { TObjectDriller } from '../../../../../components/Form_New/ObjectDriller';
+import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
 
 const CardForm = ({
 	determinationId,
@@ -25,19 +25,15 @@ const CardForm = ({
 		onCancel?: () => void;
 	}
 ) => {
-	const [canceled, setCanceled] = useState(false);
-
 	// status is only necessary for edit
 	const status = !isEditExpansion ? undefined
-		: (data: TObjectDriller<NonNullable<Enrollment>>) => {
-			const det = data.at('child').at('family').at('determinations').find((det: FamilyDetermination) => det.id === determinationId).value as FamilyDetermination;
-			return warningForFieldSet(
-				'edit-family-income-determination',
-				['numberOfPeople', 'income', !det.determinationDate ? 'determinationDate' : ''],
-				det,
-				REQUIRED_FOR_OEC_REPORTING
-			)
-		};
+		: (data: TObjectDriller<NonNullable<Enrollment>>) => 
+			displayValidationStatus([{
+				type: 'warning',
+				response: data.at('child').at('family').at('determinations').find(det => det.id === determinationId).at('validationErrors').value || null,
+				fields: ['numberOfPeople', 'income', 'determinationDate'],
+				message: REQUIRED_FOR_OEC_REPORTING,
+			}]);
 
 	// Use a basic button to cancel adding new determination,
 	// or an ExpandCard button to cancel editing an existing determination
@@ -46,7 +42,6 @@ const CardForm = ({
 			text="Cancel"
 			appearance="outline"
 			onClick={() => {
-				setCanceled(true);
 				if(onCancel) onCancel();
 			}}
 		/> :

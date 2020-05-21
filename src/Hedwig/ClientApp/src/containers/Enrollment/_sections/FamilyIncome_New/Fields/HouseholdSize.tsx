@@ -1,9 +1,8 @@
 import FormField from "../../../../../components/Form_New/FormField";
-import React, { ChangeEvent, useContext } from "react";
-import { Enrollment, FamilyDetermination } from "../../../../../generated";
+import React, { ChangeEvent } from "react";
+import { Enrollment } from "../../../../../generated";
 import { TextInputProps, TextInput } from "../../../../../components";
-import { warningForField } from "../../../../../utils/validations";
-import FormContext, { useGenericContext } from "../../../../../components/Form_New/FormContext";
+import { displayValidationStatus } from "../../../../../utils/validations/displayValidationStatus";
 
 export const HouseholdSizeField = ({ id }: { id: number }) => {
 	return (
@@ -23,11 +22,11 @@ export const HouseholdSizeField = ({ id }: { id: number }) => {
 				defaultValue={undefined} 
 				inputComponent={TextInput}
 				status={(data) => 
-					warningForField(
-						'numberOfPeople',
-						data.at('child').at('family').at('determinations').find(det => det.id === id).value,
-						''
-					)
+					displayValidationStatus([{
+						type: 'warning',
+						response: data.at('child').at('family').at('determinations').find(det => det.id === id).at('validationErrors').value || null,
+						field: 'numberOfPeople',
+					}])
 				}
 				id={`number-of-people-${id}`}
 				label="Household size"

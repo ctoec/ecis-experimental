@@ -2,7 +2,7 @@ import FormField from "../../../../../components/Form_New/FormField"
 import React from "react"
 import { Enrollment } from "../../../../../generated"
 import { DateInput, DateInputProps } from "../../../../../components"
-import { warningForField } from "../../../../../utils/validations"
+import { displayValidationStatus } from "../../../../../utils/validations/displayValidationStatus"
 
 export const DeterminationDateField = ({ id }: { id: number }) => {
 	return (
@@ -19,11 +19,11 @@ export const DeterminationDateField = ({ id }: { id: number }) => {
 				parseOnChangeEvent={e => (e as any).toDate()}
 				inputComponent={DateInput}
 				status={(data) => 
-					warningForField(
-						'determinationDate',
-						data.at('child').at('family').at('determinations').find(det => det.id === id).value,
-						''
-					)
+					displayValidationStatus([{
+						type: 'warning',
+						response: data.at('child').at('family').at('determinations').find(det => det.id === id).at('validationErrors').value || null,
+						field: 'determinationDate',
+					}])
 				}
 				id={`determination-date-${id}`}
 				label="Determination date"

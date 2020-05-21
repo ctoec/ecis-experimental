@@ -1,6 +1,5 @@
 import React from 'react';
 import idx from 'idx';
-import { processValidationError } from '../../../../utils/validations';
 import { InlineIcon } from '../../../../components';
 import currencyFormatter from '../../../../utils/currencyFormatter';
 import dateFormatter from '../../../../utils/dateFormatter';
