@@ -10,8 +10,7 @@ export type RadioButtonGroupProps = {
 	legend?: string;
 	showLegend?: boolean;
 	horizontal?: boolean;
-} &
-Pick<
+} & Pick<
 	ItemChooserParentCommonProps<HTMLInputElement>,
 	Exclude<keyof ItemChooserParentCommonProps<HTMLInputElement>, 'labelOrLegend'>
 >;
@@ -50,9 +49,7 @@ const InternalRadioButtonGroup: React.FC<RadioButtonGroupProps> = ({
 		<ItemChooser
 			options={options}
 			defaultValue={selectedItems}
-			optionElementFactory={({
-				option
-			}) => (
+			optionElementFactory={({ option }) => (
 				<RadioButton
 					{...option}
 					name={option.name || name || ''}
@@ -68,12 +65,9 @@ const InternalRadioButtonGroup: React.FC<RadioButtonGroupProps> = ({
 			{selectOnlyChildrenOfType(children, ItemChooserExpansion)}
 		</ItemChooser>
 	);
-}
+};
 
-export const RadioButtonGroup: React.FC<RadioButtonGroupProps> = ({
-	children,
-	...props
-}) => {
+export const RadioButtonGroup: React.FC<RadioButtonGroupProps> = ({ children, ...props }) => {
 	return (
 		<StandardFormFieldSet
 			id={`${props.id}-fieldset`}
@@ -81,15 +75,11 @@ export const RadioButtonGroup: React.FC<RadioButtonGroupProps> = ({
 			showLegend={props.showLegend}
 			className={props.className}
 		>
-			<InternalRadioButtonGroup
-				{...props}
-			>
-				{children}
-			</InternalRadioButtonGroup>
+			<InternalRadioButtonGroup {...props}>{children}</InternalRadioButtonGroup>
 		</StandardFormFieldSet>
-	)
-}
+	);
+};
 
 export const RadioButtonGroupWithOther = withOtherOptionTextInput({
-	ItemChooserComponent: InternalRadioButtonGroup
+	ItemChooserComponent: InternalRadioButtonGroup,
 });

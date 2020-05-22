@@ -9,8 +9,7 @@ import { withOtherOptionTextInput } from '../utils/withOtherOptionTextInput';
 export type SelectProps = {
 	label?: string;
 	unselectedText?: string;
-} &
-Pick<
+} & Pick<
 	ItemChooserParentCommonProps<HTMLSelectElement>,
 	Exclude<keyof ItemChooserParentCommonProps<HTMLSelectElement>, 'labelOrLegend'>
 >;
@@ -49,7 +48,7 @@ export const Select: React.FC<SelectProps> = ({
 			className={cx(
 				'usa-form-group',
 				{
-					[`usa-form-group--${status ? status.type : ''}`]: status
+					[`usa-form-group--${status ? status.type : ''}`]: status,
 				},
 				className
 			)}
@@ -66,16 +65,12 @@ export const Select: React.FC<SelectProps> = ({
 			<ItemChooser
 				options={options}
 				defaultValue={selectedItems}
-				optionElementFactory={({
-					option
-				}) => (
+				optionElementFactory={({ option }) => (
 					<option value={option.value} key={`${id}-${option.value}`}>
 						{option.text}
 					</option>
 				)}
-				optionElementContainerFactory={({
-					children: _children
-				}) => (
+				optionElementContainerFactory={({ children: _children }) => (
 					<select
 						id={id}
 						key={`${id}-select`}
@@ -101,8 +96,8 @@ export const Select: React.FC<SelectProps> = ({
 			</ItemChooser>
 		</div>
 	);
-}
+};
 
 export const SelectWithOther = withOtherOptionTextInput({
-	ItemChooserComponent: Select
+	ItemChooserComponent: Select,
 });

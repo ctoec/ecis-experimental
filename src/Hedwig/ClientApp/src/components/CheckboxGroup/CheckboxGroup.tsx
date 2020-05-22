@@ -10,8 +10,7 @@ export type CheckboxGroupProps = {
 	legend?: string;
 	showLegend?: boolean;
 	horizontal?: boolean;
-} &
-Pick<
+} & Pick<
 	ItemChooserParentCommonProps<HTMLInputElement>,
 	Exclude<keyof ItemChooserParentCommonProps<HTMLInputElement>, 'labelOrLegend'>
 >;
@@ -56,9 +55,7 @@ const InternalCheckboxGroup: React.FC<CheckboxGroupProps> = ({
 		<ItemChooser
 			options={options}
 			defaultValue={selectedItems}
-			optionElementFactory={({
-				option
-			}) => (
+			optionElementFactory={({ option }) => (
 				<Checkbox
 					id={`${id}-${option.value}`}
 					{...option}
@@ -74,12 +71,9 @@ const InternalCheckboxGroup: React.FC<CheckboxGroupProps> = ({
 			{selectOnlyChildrenOfType(children, ItemChooserExpansion)}
 		</ItemChooser>
 	);
-}
+};
 
-export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
-	children,
-	...props
-}) => {
+export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({ children, ...props }) => {
 	return (
 		<StandardFormFieldSet
 			id={`${props.id}-fieldset`}
@@ -87,15 +81,11 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
 			showLegend={props.showLegend}
 			className={props.className}
 		>
-			<InternalCheckboxGroup
-				{...props}
-			>
-				{children}
-			</InternalCheckboxGroup>
+			<InternalCheckboxGroup {...props}>{children}</InternalCheckboxGroup>
 		</StandardFormFieldSet>
-	)
-}
+	);
+};
 
 export const CheckboxGroupWithOther = withOtherOptionTextInput({
-	ItemChooserComponent: InternalCheckboxGroup
+	ItemChooserComponent: InternalCheckboxGroup,
 });

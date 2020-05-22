@@ -12,8 +12,7 @@ type InternalOption = Option & {
 	expansion?: JSX.Element;
 };
 
-export type ItemChooserParentCommonProps<T extends HTMLElement> =
-{
+export type ItemChooserParentCommonProps<T extends HTMLElement> = {
 	id: string;
 	labelOrLegend: string;
 	options: Option[];
@@ -22,23 +21,16 @@ export type ItemChooserParentCommonProps<T extends HTMLElement> =
 	hint?: string;
 	disabled?: boolean;
 	onChange: React.ChangeEventHandler<T>;
-} &
-Pick<
-	HTMLAttributes<T>,
-	Exclude<keyof HTMLAttributes<T>, 'id' | 'onChange'>
-> & FormFieldStatusProps;
+} & Pick<HTMLAttributes<T>, Exclude<keyof HTMLAttributes<T>, 'id' | 'onChange'>> &
+	FormFieldStatusProps;
 
 type ItemChooserProps = {
 	options: Option[];
-	optionElementFactory: (props: {
-		option: Option;
-	}) => JSX.Element;
-	optionElementContainerFactory?: (props: {
-		children: any;
-	}) => JSX.Element;
+	optionElementFactory: (props: { option: Option }) => JSX.Element;
+	optionElementContainerFactory?: (props: { children: any }) => JSX.Element;
 	defaultValue: string[];
 	useExpansionOnContainerElement?: boolean;
-}
+};
 
 export const ItemChooser: React.FC<ItemChooserProps> = ({
 	options,
@@ -46,7 +38,7 @@ export const ItemChooser: React.FC<ItemChooserProps> = ({
 	optionElementContainerFactory,
 	defaultValue: selectedItems,
 	useExpansionOnContainerElement = false,
-	children
+	children,
 }) => {
 	let internalOptions = options as InternalOption[];
 	const validTypesArray: boolean[] =
@@ -93,11 +85,11 @@ export const ItemChooser: React.FC<ItemChooserProps> = ({
 		);
 	});
 
-	const preDisplay = optionElementContainerFactory ? 
-		optionElementContainerFactory({
-			children: innerChildren
-		}) :
-		innerChildren;
+	const preDisplay = optionElementContainerFactory
+		? optionElementContainerFactory({
+				children: innerChildren,
+		  })
+		: innerChildren;
 
 	let display = Array.isArray(preDisplay) ? <>{[...preDisplay]}</> : preDisplay;
 
@@ -120,4 +112,4 @@ export const ItemChooser: React.FC<ItemChooserProps> = ({
 	}
 
 	return display;
-}
+};

@@ -6,9 +6,10 @@ function isNonNullable<T>(_: T): _ is NonNullable<T> {
 	return _ != undefined;
 }
 
-export const selectOnlyChildrenOfType: (children: React.ReactNode, type: React.FC<any>) => React.ReactNode[] = (
-	children, type
-) => {
+export const selectOnlyChildrenOfType: (
+	children: React.ReactNode,
+	type: React.FC<any>
+) => React.ReactNode[] = (children, type) => {
 	const processedChildren = React.Children.map(children, child => {
 		if (React.isValidElement(child)) {
 			if (!!child.type && (child.type as Function).name === type.name) {
@@ -17,4 +18,4 @@ export const selectOnlyChildrenOfType: (children: React.ReactNode, type: React.F
 		}
 	});
 	return processedChildren ? processedChildren.filter(isNonNullable) : [];
-}
+};

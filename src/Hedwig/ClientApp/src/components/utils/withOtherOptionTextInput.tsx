@@ -9,23 +9,18 @@ type OtherOptionTextInputWrapperProps<T> = {
 	otherInputOnChange: React.ChangeEventHandler;
 	otherOptionDisplay: string;
 	horizontal?: boolean;
-} & 
-Pick<
-	T,
-	Exclude<keyof T, 'label' | 'legend' | 'labelOrLegend'>
-> & {
-	innerLabelOrLegend: string;
-};
+} & Pick<T, Exclude<keyof T, 'label' | 'legend' | 'labelOrLegend'>> & {
+		innerLabelOrLegend: string;
+	};
 
 export function withOtherOptionTextInput<
 	TElement extends HTMLElement,
 	T extends ItemChooserParentCommonProps<TElement>
->({ ItemChooserComponent } : 
-	T extends ItemChooserParentCommonProps<TElement> ?
-	{	ItemChooserComponent: React.FC<T>} : 
-	never
-):
-React.FC<OtherOptionTextInputWrapperProps<T>> {
+>({
+	ItemChooserComponent,
+}: T extends ItemChooserParentCommonProps<TElement>
+	? { ItemChooserComponent: React.FC<T> }
+	: never): React.FC<OtherOptionTextInputWrapperProps<T>> {
 	return ({
 		id,
 		legend,
@@ -45,9 +40,7 @@ React.FC<OtherOptionTextInputWrapperProps<T>> {
 		options,
 		children,
 		...props
-	}: OtherOptionTextInputWrapperProps<
-		ItemChooserParentCommonProps<TElement>
-	>) => {
+	}: OtherOptionTextInputWrapperProps<ItemChooserParentCommonProps<TElement>>) => {
 		const OTHER_VALUE = '__other';
 
 		const selectedItemsOnInput = Array.isArray(defaultValue) ? defaultValue : [defaultValue];
@@ -58,7 +51,7 @@ React.FC<OtherOptionTextInputWrapperProps<T>> {
 			{
 				text: otherOptionDisplay,
 				value: OTHER_VALUE,
-			}
+			},
 		];
 
 		const _onChange = (e: React.ChangeEvent<TElement>) => {
@@ -69,11 +62,11 @@ React.FC<OtherOptionTextInputWrapperProps<T>> {
 				setShowOther(false);
 			}
 			onChange(e);
-		}
+		};
 
 		return (
 			<FieldSet
-				id={`${id}-fieldset`}	
+				id={`${id}-fieldset`}
 				className={className}
 				legend={legend || ''}
 				showLegend={showLegend}
@@ -97,15 +90,17 @@ React.FC<OtherOptionTextInputWrapperProps<T>> {
 					>
 						{children}
 					</ItemChooserComponent>
-					{showOther && <TextInput
-						type="input"
-						id={`${id}-other`}
-						name={name || ''}
-						label={otherInputLabel}
-						onChange={otherInputOnChange}
-					/>}
+					{showOther && (
+						<TextInput
+							type="input"
+							id={`${id}-other`}
+							name={name || ''}
+							label={otherInputLabel}
+							onChange={otherInputOnChange}
+						/>
+					)}
 				</div>
 			</FieldSet>
 		);
-	}
+	};
 }
