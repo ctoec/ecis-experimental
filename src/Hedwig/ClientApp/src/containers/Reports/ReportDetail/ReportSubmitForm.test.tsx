@@ -102,7 +102,6 @@ describe('ReportSubmitForm', () => {
 	});
 
 	it('shows correct number of weeks in month and weeks remaining when previous weeks were used', () => {
-		console.log(mockReportWithTimeSplitUtilizations);
 		const { getByLabelText } = render(
 			<TestProvider>
 				<ReportSubmitForm

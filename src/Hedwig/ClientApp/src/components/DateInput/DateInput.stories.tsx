@@ -5,7 +5,7 @@ import { action } from '@storybook/addon-actions';
 import { DateInput, FormStatusProps } from '..';
 
 const commonProps = {
-	onChange: action('onChange'),
+	onChange_Old: action('onChange'),
 	label: 'Date',
 	id: 'dateinput-example',
 };

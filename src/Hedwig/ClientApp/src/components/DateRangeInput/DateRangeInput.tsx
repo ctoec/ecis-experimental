@@ -9,7 +9,10 @@ export type DateRange = {
 	endDate: Moment | null;
 };
 
-type DateRangeInputProps = Omit<DateInputProps, 'onChange'> & {
+type DateRangeInputProps = Pick<
+	DateInputProps,
+	Exclude<keyof DateInputProps, 'onChange' | 'onChange_Old'>
+> & {
 	dateRange: DateRange;
 	onChange: (newDateRange: DateRange | null) => void;
 	possibleRange?: DateRange;
@@ -43,7 +46,7 @@ export const DateRangeInput: React.FC<DateRangeInputProps> = ({
 					hideHint
 					// TODO: should date range use dates instead of moments?
 					defaultValue={dateRange.startDate ? dateRange.startDate.toDate() : undefined}
-					onChange={newStartDate =>
+					onChange_Old={newStartDate =>
 						onChange({ startDate: newStartDate, endDate: dateRange.endDate })
 					}
 					id={`${id}-start-date`}
@@ -55,7 +58,9 @@ export const DateRangeInput: React.FC<DateRangeInputProps> = ({
 				<DateInput
 					hideHint
 					defaultValue={dateRange.endDate ? dateRange.endDate.toDate() : undefined}
-					onChange={newEndDate => onChange({ startDate: dateRange.startDate, endDate: newEndDate })}
+					onChange_Old={newEndDate =>
+						onChange({ startDate: dateRange.startDate, endDate: newEndDate })
+					}
 					id={`${id}-end-date`}
 					label="End date"
 				/>

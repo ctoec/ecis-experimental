@@ -1,6 +1,7 @@
 import React from 'react';
 import { FormContext, GenericFormContextType } from './Form';
 import useContext from '../../utils/useContext';
+import { Moment } from 'moment';
 
 /**
  * Helper type to exclude null or undefined from the type
@@ -62,6 +63,8 @@ type FormFieldComponentProps<TData, TFieldData> = {
 	 * An internal controller to trigger the reducer on user changes
 	 */
 	onChange: any;
+	// TO DELETE
+	onChange_Old: any;
 	/**
 	 * The data of the specified field that is being displayed/edited
 	 */
@@ -116,6 +119,7 @@ function FormField<TData, TProps, TFieldData, TAdditionalData>({
 
 	const renderProps = {
 		onChange: updateData(parseValue),
+		onChange_Old: updateData(parseValue),
 		data: fieldData,
 		containingData: parentObjectData,
 		name: objectFieldAccessorPath,
