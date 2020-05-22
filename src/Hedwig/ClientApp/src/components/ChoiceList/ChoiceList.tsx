@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TextInput, FormStatus, FormStatusProps, FieldSet } from '..';
 import Checkbox from '../Checkbox/Checkbox';
-import RadioButton from './RadioButton';
+import RadioButton from '../RadioButton/RadioButton';
 import { ChoiceListExpansion } from './ChoiceListExpansion';
 
 type Option = {
