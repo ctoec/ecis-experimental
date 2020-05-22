@@ -58,7 +58,7 @@ import { dateSorter, propertyDateSorter } from '../../../utils/dateSorter';
 import { propertyBetweenDates, propertyBeforeDate } from '../../../utils/dateFilter';
 import { REQUIRED_FOR_OEC_REPORTING } from '../../../utils/validations/messageStrings';
 import { displayValidationStatus } from '../../../utils/validations/displayValidationStatus';
-import useCatchallErrorAlert from '../../../hooks/useCatchallErrorAlert';
+import useCatchAllErrorAlert from '../../../hooks/useCatchAllErrorAlert';
 
 type UtilizationRate = {
 	capacity: number;
@@ -153,7 +153,7 @@ const EnrollmentFunding: Section = {
 		const initialLoad = touchedSections ? !touchedSections[EnrollmentFunding.key] : false;
 		const [error, setError] = useState<ApiError | null>(inputError);
 		useFocusFirstError([error]);
-		const errorAlertState = useCatchallErrorAlert(error);
+		const errorAlertState = useCatchAllErrorAlert(error);
 
 		const { user } = useContext(UserContext);
 		const { cdcReportingPeriods: reportingPeriods } = useContext(ReportingPeriodContext);

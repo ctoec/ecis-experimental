@@ -16,6 +16,7 @@ import idx from 'idx';
 import FamilyIncome from '.';
 import { NotDisclosed } from './Fields/NotDisclosed';
 import { displayValidationStatus } from '../../../../utils/validations/displayValidationStatus';
+import useCatchAllErrorAlert from '../../../../hooks/useCatchAllErrorAlert';
 
 export const NewForm = ({
 	enrollment,
@@ -77,9 +78,10 @@ export const NewForm = ({
 		}
 	}, [saving, saveError, successCallback, saveData]);
 
-	// Use catchall error to display a catchall error alert on _any_ saveError,
-	// since no form fields have field-specific error alerting
-	// useCatchallErrorAlert(saveError);
+
+	// CatchAll error alert will be displayed on _any_ saveError,
+	// since no field-specific error alerts exist
+	useCatchAllErrorAlert(saveError);
 
 	// User may navigate back to this section during the enrollment NEW flow.
 	// At that point, if there is a determination, use it to populate the form.
@@ -96,7 +98,6 @@ export const NewForm = ({
 	return (
 		<>
 			{notDisclosed && <Alert type="info" text="Income information is required enroll a child in a funded space. You will not be able to assign this child to a funding space without this information." />}
-			{/* The form to create a first family determination on EnrollmentNew flow */}
 			<Form<Enrollment>
 				data={enrollment}
 				onSubmit={(_data) => {
@@ -107,7 +108,7 @@ export const NewForm = ({
 			>
 				<WithNewDetermination
 					// create new determination if:
-					// - determinationId = 0
+					// - determinationId = 0 (indicating new determination)
 					// - user has not indicated that income information is not disclosed
 					shouldCreate={determinationId === 0 && !notDisclosed}
 				>

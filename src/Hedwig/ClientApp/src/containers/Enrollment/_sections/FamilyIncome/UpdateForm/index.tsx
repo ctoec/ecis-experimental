@@ -5,11 +5,11 @@ import { Enrollment, ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest } f
 import UserContext from '../../../../../contexts/User/UserContext';
 import { validatePermissions, getIdForUser } from '../../../../../utils/models';
 import useApi from '../../../../../hooks/useApi';
-// import useCatchallErrorAlert from '../../../../../hooks/useCatchallErrorAlert';
 import { Button, Card } from '../../../../../components';
 import { propertyDateSorter } from '../../../../../utils/dateSorter';
 import { DeterminationCard }  from './DeterminationCard';
 import CardForm from './CardForm';
+import useCatchAllErrorAlert from '../../../../../hooks/useCatchAllErrorAlert';
 
 export const UpdateForm = ({
 	enrollment, 
@@ -47,9 +47,10 @@ export const UpdateForm = ({
 			}
 		}
 	);
-	// Use catchall error to display a catchall error alert on _any_ saveError,
-	// since no form fields have field-specific error alerting
-		// useCatchallErrorAlert(saveError);
+
+	// CatchAll error alert will be displayed on _any_ saveError,
+	// since no field-specific error alerts exist
+	useCatchAllErrorAlert(saveError);
 
 	// Handle successful API request
 	useEffect(() => {
