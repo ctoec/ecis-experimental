@@ -4,7 +4,7 @@ import { isBlockingValidationError } from "../utils/validations";
 import AlertContext from "../contexts/Alert/AlertContext";
 import { validationErrorAlert } from "../utils/stringFormatters/alertTextMakers";
 
-const useCatchallErrorAlert = (error: ApiError | null) => {
+const useCatchAllErrorAlert = (error: ApiError | null) => {
 	const { setAlerts } = useContext(AlertContext);
 	const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
 
@@ -28,4 +28,4 @@ const useCatchallErrorAlert = (error: ApiError | null) => {
 	};
 };
 
-export default useCatchallErrorAlert;
+export default useCatchAllErrorAlert;
