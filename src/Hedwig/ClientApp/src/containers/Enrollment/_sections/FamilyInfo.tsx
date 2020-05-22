@@ -25,6 +25,7 @@ import {
 	REQUIRED_FOR_ENROLLMENT,
 } from '../../../utils/validations/messageStrings';
 import { displayValidationStatus } from '../../../utils/validations/displayValidationStatus';
+import useCatchallErrorAlert from '../../../hooks/useCatchallErrorAlert';
 
 const FamilyInfo: Section = {
 	key: 'family-information',
@@ -81,15 +82,7 @@ const FamilyInfo: Section = {
 		const [error, setError] = useState<ApiError | null>(inputError);
 
 		useFocusFirstError([error]);
-		useEffect(() => {
-			if (error) {
-				if (initialLoad) {
-					setAlerts([validationErrorAlert]);
-				} else if (!isBlockingValidationError(error)) {
-					throw new Error(error.title || 'Unknown api error');
-				}
-			}
-		}, [error]);
+		useCatchallErrorAlert(error);
 
 		const [_enrollment, updateEnrollment] = useReducer<
 			FormReducer<DeepNonUndefineable<Enrollment>>

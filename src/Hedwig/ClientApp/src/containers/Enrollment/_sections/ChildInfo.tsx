@@ -36,6 +36,7 @@ import {
 } from '../../../utils/validations/messageStrings';
 import { displayValidationStatus } from '../../../utils/validations/displayValidationStatus';
 import idx from 'idx';
+import useCatchallErrorAlert from '../../../hooks/useCatchallErrorAlert';
 
 const ChildInfo: Section = {
 	key: 'child-information',
@@ -86,6 +87,7 @@ const ChildInfo: Section = {
 		// set up form state
 		const initialLoad = touchedSections ? !touchedSections[ChildInfo.key] : false;
 		const [_error, setError] = useState<ApiError | null>(error);
+		const errorAlertState = useCatchallErrorAlert(_error);
 		useFocusFirstError([_error]);
 		useEffect(() => {
 			if (_error) {
@@ -227,6 +229,7 @@ const ChildInfo: Section = {
 										response: _error,
 										type: 'error',
 										message: REQUIRED_FOR_ENROLLMENT,
+										errorAlertState
 									},
 								])
 							)}
@@ -260,6 +263,7 @@ const ChildInfo: Section = {
 											response: _error,
 											type: 'error',
 											message: REQUIRED_FOR_ENROLLMENT,
+											errorAlertState
 										},
 									])
 								)}
