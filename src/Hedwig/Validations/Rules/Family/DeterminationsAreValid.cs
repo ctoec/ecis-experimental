@@ -26,7 +26,7 @@ namespace Hedwig.Validations.Rules
 			{
 				var determinations = family.Determinations ?? _determinations.GetDeterminationsByFamilyId(family.Id);
 				ValidateSubObject(determinations, family);
-				if(determinations.Any(det => det.ValidationErrors.Count > 0))
+				if (determinations.Any(det => det.ValidationErrors.Count > 0))
 				{
 					return new ValidationError(
 						field: "Determinations",

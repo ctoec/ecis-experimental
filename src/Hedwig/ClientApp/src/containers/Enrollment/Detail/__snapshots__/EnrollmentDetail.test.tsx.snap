@@ -134,7 +134,13 @@ exports[`EnrollmentDetail matches snapshot 1`] = `
           class="FamilyIncomeSummary"
         >
           <p>
-            Income determination not disclosed.
+            Household size: 5
+          </p>
+          <p>
+            Annual household income: $22,000.00
+          </p>
+          <p>
+            Determined on: 01/01/2020
           </p>
         </div>
       </div>
@@ -214,6 +220,22 @@ exports[`EnrollmentDetail matches snapshot 1`] = `
           <div
             class="display-inline-block"
           >
+            Income redetermined
+          </div>
+           
+          <br />
+          <span
+            class="usa-hint text-italic"
+          >
+             on January 01, 2020
+          </span>
+        </li>
+        <li
+          class="process-step"
+        >
+          <div
+            class="display-inline-block"
+          >
             Switched funding to CDC - full time
           </div>
           <br />
@@ -221,6 +243,22 @@ exports[`EnrollmentDetail matches snapshot 1`] = `
             class="usa-hint text-italic"
           >
              on March 01, 2019
+          </span>
+        </li>
+        <li
+          class="process-step"
+        >
+          <div
+            class="display-inline-block"
+          >
+            Income redetermined
+          </div>
+           
+          <br />
+          <span
+            class="usa-hint text-italic"
+          >
+             on January 01, 2019
           </span>
         </li>
         <li

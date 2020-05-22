@@ -1,9 +1,8 @@
 import React, { useEffect, PropsWithChildren } from 'react';
-import FormContext, { useGenericContext } from "../../../../../components/Form_New/FormContext"
-import { Enrollment } from "../../../../../generated"
-import produce from "immer";
-import set from "lodash/set";
-
+import FormContext, { useGenericContext } from '../../../../../components/Form_New/FormContext';
+import { Enrollment } from '../../../../../generated';
+import produce from 'immer';
+import set from 'lodash/set';
 
 /**
  * A wrapping helper component that will optionally create a new determination (with id = 0).
@@ -13,25 +12,28 @@ import set from "lodash/set";
  */
 export const WithNewDetermination = ({
 	shouldCreate = false,
-	children: determinationFields
-}	: PropsWithChildren<{
+	children: determinationFields,
+}: PropsWithChildren<{
 	shouldCreate: boolean;
 }>) => {
 	const { data, dataDriller, updateData } = useGenericContext<Enrollment>(FormContext);
-	const newDet = dataDriller.at('child').at('family').at('determinations').find(det => det.id === 0);
+	const newDet = dataDriller
+		.at('child')
+		.at('family')
+		.at('determinations')
+		.find(det => det.id === 0);
 
 	useEffect(() => {
 		if (shouldCreate && newDet.value == undefined) {
-			setTimeout(() =>
-				updateData(produce<Enrollment>(
-				data , draft => set(
-					draft,
-					newDet.path,
-					{ id: 0 }
-				)
-			)), 0);
+			setTimeout(
+				() =>
+					updateData(
+						produce<Enrollment>(data, draft => set(draft, newDet.path, { id: 0 }))
+					),
+				0
+			);
 		}
 	}, [shouldCreate, data]);
 
-	return <>{determinationFields}</>
-}
+	return <>{determinationFields}</>;
+};

@@ -1,8 +1,8 @@
-import { Section } from "../../enrollmentTypes";
-import { Status } from "./Status";
-import { Summary } from "./Summary";
-import { NewForm } from "./NewForm";
-import { UpdateForm } from "./UpdateForm";
+import { Section } from '../../enrollmentTypes';
+import { Status } from './Status';
+import { Summary } from './Summary';
+import { NewForm } from './NewForm';
+import { UpdateForm } from './UpdateForm';
 
 const FamilyIncome: Section = {
 	key: 'family-income',
@@ -11,6 +11,6 @@ const FamilyIncome: Section = {
 	Summary: Summary,
 	Form: NewForm,
 	UpdateForm: UpdateForm,
-}
+};
 
 export default FamilyIncome;

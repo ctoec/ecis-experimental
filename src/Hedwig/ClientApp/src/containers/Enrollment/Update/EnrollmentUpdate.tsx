@@ -123,10 +123,11 @@ export default function EnrollmentUpdate({
 						Simple object updates are completed with the same Form used during the EnrollmentNew flow.
 						More complex updates (that expose collections) are completed with a distinct UpdateForm
 					*/}
-					{section.UpdateForm ?
-						<section.UpdateForm {...sectionFormProps} /> :
+					{section.UpdateForm ? (
+						<section.UpdateForm {...sectionFormProps} />
+					) : (
 						<section.Form {...sectionFormProps} />
-					}
+					)}
 				</ErrorBoundary>
 			</div>
 		</CommonContainer>

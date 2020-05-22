@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`EnrollmentEdit enrollment and funding matches snapshot 1`] = `
+exports[`EnrollmentUpdate enrollment and funding matches snapshot 1`] = `
 <DocumentFragment>
   <div
     class="grid-container"
@@ -21,7 +21,7 @@ exports[`EnrollmentEdit enrollment and funding matches snapshot 1`] = `
     class="grid-container"
   >
     <h1>
-      Edit enrollment and funding
+      Update enrollment and funding
     </h1>
     <p
       class="usa-intro"

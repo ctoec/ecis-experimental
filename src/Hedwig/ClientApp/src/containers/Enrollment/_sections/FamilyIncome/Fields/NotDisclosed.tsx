@@ -1,17 +1,17 @@
-import FormContext, { useGenericContext } from "../../../../../components/Form_New/FormContext"
-import { Enrollment } from "../../../../../generated";
-import React from "react";
-import Checkbox from "../../../../../components/Checkbox/Checkbox";
-import produce from "immer";
-import set from "lodash/set";
+import FormContext, { useGenericContext } from '../../../../../components/Form_New/FormContext';
+import { Enrollment } from '../../../../../generated';
+import React from 'react';
+import Checkbox from '../../../../../components/Checkbox/Checkbox';
+import produce from 'immer';
+import set from 'lodash/set';
 
 /**
  * This component is only used in NewForm, to remove all determinations.
  */
-export const NotDisclosed = ({ 
+export const NotDisclosed = ({
 	notDisclosed,
 	setNotDisclosed,
-}: { 
+}: {
 	notDisclosed: boolean;
 	setNotDisclosed: (_: boolean) => void;
 }) => {
@@ -24,14 +24,19 @@ export const NotDisclosed = ({
 			value="not-disclosed"
 			onChange={e => {
 				setNotDisclosed(e.target.checked);
-				updateData(produce<Enrollment>(
-					data, draft => set(
-						draft,
-						dataDriller.at('child').at('family').at('determinations').path,
-						[]
+				updateData(
+					produce<Enrollment>(data, draft =>
+						set(
+							draft,
+							dataDriller
+								.at('child')
+								.at('family')
+								.at('determinations').path,
+							[]
+						)
 					)
-				))
+				);
 			}}
 		/>
-	)
-}
+	);
+};

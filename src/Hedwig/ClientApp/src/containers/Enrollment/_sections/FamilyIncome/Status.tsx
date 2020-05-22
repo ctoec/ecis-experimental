@@ -1,6 +1,6 @@
-import { SectionProps } from "../../enrollmentTypes";
-import idx from "idx";
-import { hasValidationErrors } from "../../../../utils/validations";
+import { SectionProps } from '../../enrollmentTypes';
+import idx from 'idx';
+import { hasValidationErrors } from '../../../../utils/validations';
 
 /**
  * Family income section is:
@@ -8,12 +8,12 @@ import { hasValidationErrors } from "../../../../utils/validations";
  * - incomplete when family.determinations has validation errors
  * - complete otherwise
  */
-export const Status = ({enrollment}: SectionProps) => {
-	if(idx(enrollment, _ => _.child.foster)) {
+export const Status = ({ enrollment }: SectionProps) => {
+	if (idx(enrollment, _ => _.child.foster)) {
 		return 'exempt';
 	}
 
 	return hasValidationErrors(idx(enrollment, _ => _.child.family) || null, ['determinations'])
-			? 'incomplete'
-			: 'complete'
-}
+		? 'incomplete'
+		: 'complete';
+};

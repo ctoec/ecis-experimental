@@ -23,7 +23,7 @@ namespace Hedwig.Validations.Rules
 
 		public ValidationError Execute(Family family, NonBlockingValidationContext context)
 		{
-			if(family != null)
+			if (family != null)
 			{
 				var child = context.GetParentEntity<Child>();
 				// Enrollments for children living with foster families
@@ -31,11 +31,12 @@ namespace Hedwig.Validations.Rules
 				if (child != null && !child.Foster)
 				{
 					var enrollment = context.GetParentEntity<Enrollment>();
-					if(enrollment != null) {
+					if (enrollment != null)
+					{
 						var fundings = enrollment.Fundings ?? _fundings.GetFundingsByEnrollmentId(enrollment.Id);
 
 						// If enrollment is funded
-						if(fundings.Any(f => f.Source == FundingSource.CDC))
+						if (fundings.Any(f => f.Source == FundingSource.CDC))
 						{
 							// most recent determination must be < 1 year old from today
 							var compareDate = DateTime.Now.Date;
@@ -44,7 +45,7 @@ namespace Hedwig.Validations.Rules
 							// in which case determination date must be < 1 year from 
 							// end of report's reporting period
 							var report = context.GetParentEntity<CdcReport>();
-							if(report != null)
+							if (report != null)
 							{
 								compareDate = report.ReportingPeriod?.PeriodEnd ?? _reportingPeriods.GetById(report.ReportingPeriodId).PeriodEnd;
 							}
@@ -52,10 +53,10 @@ namespace Hedwig.Validations.Rules
 							var mostRecentDetermination = (family.Determinations ?? _determinations.GetDeterminationsByFamilyId(family.Id))
 								.OrderByDescending(d => d.DeterminationDate)
 								.FirstOrDefault();
-							
-							if(mostRecentDetermination != null)
+
+							if (mostRecentDetermination != null)
 							{
-								if(mostRecentDetermination.DeterminationDate.HasValue 
+								if (mostRecentDetermination.DeterminationDate.HasValue
 									&& mostRecentDetermination.DeterminationDate < compareDate.AddYears(-1)
 								)
 								{

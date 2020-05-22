@@ -1,30 +1,28 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { SectionProps } from '../../../enrollmentTypes';
 import { DeepNonUndefineable } from '../../../../../utils/types';
-import { Enrollment, ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest } from '../../../../../generated';
+import {
+	Enrollment,
+	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
+} from '../../../../../generated';
 import UserContext from '../../../../../contexts/User/UserContext';
 import { validatePermissions, getIdForUser } from '../../../../../utils/models';
 import useApi from '../../../../../hooks/useApi';
 import { Button, Card } from '../../../../../components';
 import { propertyDateSorter } from '../../../../../utils/dateSorter';
-import { DeterminationCard }  from './DeterminationCard';
+import { DeterminationCard } from './DeterminationCard';
 import CardForm from './CardForm';
 import useCatchAllErrorAlert from '../../../../../hooks/useCatchAllErrorAlert';
 
 /**
  * The form rendered in EnrollmentUpdate flow, which displays all determinations
- * for the given enrollment's child's family. The user can edit any existing 
+ * for the given enrollment's child's family. The user can edit any existing
  * determination, or add a new one.
  */
-export const UpdateForm = ({
-	enrollment, 
-	updateEnrollment,
-	siteId
-}: SectionProps) => {
-
+export const UpdateForm = ({ enrollment, updateEnrollment, siteId }: SectionProps) => {
 	// Enrollment and child must already exist to create family income data,
 	// and cannot be created without user input (have required non null fields)
-	if(!enrollment || !enrollment.child || !enrollment.child.family) {
+	if (!enrollment || !enrollment.child || !enrollment.child.family) {
 		throw new Error('Section rendered without enrollment or child');
 	}
 
@@ -49,7 +47,7 @@ export const UpdateForm = ({
 			skip: !user || !attemptingSave,
 			callback: () => {
 				setAttemptingSave(false);
-			}
+			},
 		}
 	);
 
@@ -70,64 +68,69 @@ export const UpdateForm = ({
 		}
 
 		// Set isNew to display new tag on current determination
-		if(didAddNew) {
+		if (didAddNew) {
 			setIsNew(true);
-		}			
+		}
 
 		// Close new form and any open edit forms
 		setShowNew(false);
 		setForceClose(true);
 
 		// Update enrollment to have most updated response data
-		if(saveData) {
+		if (saveData) {
 			updateEnrollment(saveData);
 		}
 	}, [saving, saveError, didAddNew, saveData]);
 
-	if(saving) {
-		return <>Loading...</>
-	};
+	if (saving) {
+		return <>Loading...</>;
+	}
 
 	// Convenience vars for rendering the form
 	const formOnSubmit = (_data: Enrollment) => {
 		updateEnrollment(_data as DeepNonUndefineable<Enrollment>);
 		setAttemptingSave(true);
-	}
+	};
 
-	const sortedDeterminations = [...(enrollment.child.family.determinations || [])]
-		.sort((a,b) => propertyDateSorter(a, b, det => det.determinationDate, true));
+	const sortedDeterminations = [...(enrollment.child.family.determinations || [])].sort((a, b) =>
+		propertyDateSorter(a, b, det => det.determinationDate, true)
+	);
 	const currentDetermination = sortedDeterminations[0];
 	const pastDeterminations = sortedDeterminations.slice(1);
 
 	return (
 		<>
-			{showNew &&
+			{showNew && (
 				<Card>
 					<CardForm
 						determinationId={0}
 						formData={enrollment}
-						onSubmit={(_data) => {
+						onSubmit={_data => {
 							setDidAddNew(true);
 							formOnSubmit(_data);
 						}}
 						onCancel={() => setShowNew(false)}
 					/>
 				</Card>
-			}
+			)}
 
-			 <div className="display-flex align-center">
-				<h3>{currentDetermination ? 'Current income determination' : 'No income information on record'}</h3>
+			<div className="display-flex align-center">
+				<h3>
+					{currentDetermination
+						? 'Current income determination'
+						: 'No income information on record'}
+				</h3>
 				&nbsp;&nbsp;&nbsp;
-				{!showNew &&
-						<Button
+				{!showNew && (
+					<Button
 						text="Add new income determination"
 						appearance="unstyled"
 						onClick={() => setShowNew(true)}
 					/>
-				}
+				)}
 			</div>
 			<div>
-				{currentDetermination &&
+				{currentDetermination && (
 					<DeterminationCard
 						determination={currentDetermination}
 						isCurrent={true}
@@ -140,8 +143,8 @@ export const UpdateForm = ({
 								onSubmit={formOnSubmit}
 							/>
 						}
-				 />
-				}
+					/>
+				)}
 			</div>
 
 			{pastDeterminations.length > 0 && (
@@ -168,5 +171,5 @@ export const UpdateForm = ({
 				</>
 			)}
 		</>
-	)
-}
+	);
+};

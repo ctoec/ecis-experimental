@@ -1,5 +1,10 @@
 // Variables used in jest mockes -- must start with `mock`
-import { mockAllFakeEnrollments, mockSite, mockReport } from '../../../tests/data';
+import {
+	mockAllFakeEnrollments,
+	mockSite,
+	mockReport,
+	mockEnrollmentIncomeDeterminationNotDisclosed,
+} from '../../../tests/data';
 import mockUseApi, {
 	mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet,
 	mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDelete,
@@ -24,7 +29,7 @@ jest.mock('../../../hooks/useApi', () =>
 );
 
 import React from 'react';
-import { createMemoryHistory } from 'history';
+import { createMemoryHistory, createBrowserHistory } from 'history';
 import { render, fireEvent, wait } from '@testing-library/react';
 import { Route } from 'react-router';
 
@@ -35,6 +40,7 @@ import TestProvider from '../../../contexts/__mocks__/TestProvider';
 import { mockCompleteEnrollment, mockEnrollmentWithFoster } from '../../../tests/data';
 
 import EnrollmentNew from './EnrollmentNew';
+import { INCOME_REQUIRED_FOR_FUNDING } from '../_sections/FamilyIncome/NewForm';
 
 const fakeDate = '2019-03-02';
 
@@ -106,5 +112,30 @@ describe('EnrollmentNew', () => {
 		fireEvent.click(saveBtn);
 
 		await wait(() => expect(history.location.pathname).toMatch(/enrollment-funding/i));
+	});
+
+	it('shows an info alert if family income is not disclosed', async () => {
+		const history = createBrowserHistory();
+		const { getByText, findByLabelText } = render(
+			<TestProvider>
+				<EnrollmentNew
+					history={history}
+					match={{
+						params: {
+							siteId: mockEnrollmentIncomeDeterminationNotDisclosed.siteId,
+							enrollmentId: mockEnrollmentIncomeDeterminationNotDisclosed.id,
+							sectionId: 'family-income',
+						},
+					}}
+				/>
+			</TestProvider>
+		);
+
+		const notDisclosedCheckbox = await findByLabelText(/Family income not disclosed/);
+		await fireEvent.click(notDisclosedCheckbox);
+
+		const infoAlert = getByText(INCOME_REQUIRED_FOR_FUNDING);
+
+		expect(infoAlert).toBeInTheDocument();
 	});
 });

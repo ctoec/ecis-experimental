@@ -69,8 +69,8 @@ describe('EnrollmentUpdate', () => {
 	});
 
 	describe('family income', () => {
-		it('shows an info alert if family income is not disclosed', () => {
-			const { getByText } = render(
+		it('shows a card for each determination', () => {
+			const { getAllByLabelText } = render(
 				<TestProvider>
 					<EnrollmentUpdate
 						history={history}
@@ -85,11 +85,10 @@ describe('EnrollmentUpdate', () => {
 				</TestProvider>
 			);
 
-			const infoAlert = getByText(
-				'Income information is required to enroll a child in a CDC funded space. You will not be able to assign this child to a funding space without this information.'
-			);
-
-			expect(infoAlert).toBeInTheDocument();
+			// Grab one field per each card as a proxy for grabbing the card
+			const determinationCards = getAllByLabelText('Household size');
+			// complete enrollment has 2 family income determinations
+			expect(determinationCards).toHaveLength(2);
 		});
 	});
 
