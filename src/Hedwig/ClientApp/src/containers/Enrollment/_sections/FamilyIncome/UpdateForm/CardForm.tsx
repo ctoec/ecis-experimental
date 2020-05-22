@@ -10,21 +10,29 @@ import { ExpandCard } from '../../../../../components/Card/ExpandCard';
 import { TObjectDriller } from '../../../../../components/Form_New/ObjectDriller';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
 
+/**
+ * The single-determination form to be embedded in Cards in the UpdateForm.
+ *
+ * The component relies on determinationId to determine which flavor of CardForm it is:
+ * - determinationId = 0: displayed in a Card as the primary content to create a new determination
+ * - determinationId != 0: displayed in a CardExpansion as the expanded context to edit existing determination with given id
+ */
 const CardForm = ({
 	determinationId,
-	isEditExpansion,
 	formData,
 	onSubmit,
 	onCancel,
 }:
 	{
 		determinationId: number;
-		isEditExpansion: boolean;
 		formData: Enrollment;
 		onSubmit: (_: Enrollment) => void;
 		onCancel?: () => void;
 	}
 ) => {
+	// determinationId = 0 means new determination, not edit
+	const isEditExpansion = determinationId !== 0;
+
 	// status is only necessary for edit
 	const status = !isEditExpansion ? undefined
 		: (data: TObjectDriller<NonNullable<Enrollment>>) => 

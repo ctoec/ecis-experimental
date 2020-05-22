@@ -5,6 +5,11 @@ import currencyFormatter from "../../../../../../utils/currencyFormatter"
 import dateFormatter from "../../../../../../utils/dateFormatter"
 import { ExpandCard } from "../../../../../../components/Card/ExpandCard"
 
+/**
+ * Component with the content for a Determination Card.
+ * Formats determination data for display in a Card, and
+ * creates an ExpandCard with unstyled `Edit` button.
+ */
 export const CardContentWithExpandCard = ({determination}: 
 	{determination: FamilyDetermination}
 ) => {

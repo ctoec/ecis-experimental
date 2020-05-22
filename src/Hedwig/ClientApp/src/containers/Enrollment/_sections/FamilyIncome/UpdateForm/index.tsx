@@ -11,6 +11,11 @@ import { DeterminationCard }  from './DeterminationCard';
 import CardForm from './CardForm';
 import useCatchAllErrorAlert from '../../../../../hooks/useCatchAllErrorAlert';
 
+/**
+ * The form rendered in EnrollmentUpdate flow, which displays all determinations
+ * for the given enrollment's child's family. The user can edit any existing 
+ * determination, or add a new one.
+ */
 export const UpdateForm = ({
 	enrollment, 
 	updateEnrollment,
@@ -93,13 +98,13 @@ export const UpdateForm = ({
 		.sort((a,b) => propertyDateSorter(a, b, det => det.determinationDate, true));
 	const currentDetermination = sortedDeterminations[0];
 	const pastDeterminations = sortedDeterminations.slice(1);
+
 	return (
 		<>
 			{showNew &&
 				<Card>
 					<CardForm
 						determinationId={0}
-						isEditExpansion={false}
 						formData={enrollment}
 						onSubmit={(_data) => {
 							setDidAddNew(true);
@@ -131,7 +136,6 @@ export const UpdateForm = ({
 						expansion={
 							<CardForm
 								determinationId={currentDetermination.id}
-								isEditExpansion={true}
 								formData={enrollment}
 								onSubmit={formOnSubmit}
 							/>
@@ -154,7 +158,6 @@ export const UpdateForm = ({
 								expansion={
 									<CardForm
 										determinationId={determination.id}
-										isEditExpansion={true}
 										formData={enrollment}
 										onSubmit={formOnSubmit}
 									/>

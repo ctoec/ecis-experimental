@@ -23,7 +23,7 @@ import { createBrowserHistory } from 'history';
 import { render, getAllByRole } from '@testing-library/react';
 import 'react-dates/initialize';
 import TestProvider from '../../../contexts/__mocks__/TestProvider';
-import EnrollmentEdit from './EnrollmentEdit';
+import EnrollmentUpdate from './EnrollmentUpdate';
 import { accessibilityTestHelper } from '../../../tests/helpers';
 import {
 	mockCompleteEnrollment,
@@ -44,12 +44,12 @@ afterAll(() => {
 
 const history = createBrowserHistory();
 
-describe('EnrollmentEdit', () => {
+describe('EnrollmentUpdate', () => {
 	describe('family info', () => {
 		it('shows a fieldset warning if there is no address', () => {
 			const { getByRole } = render(
 				<TestProvider>
-					<EnrollmentEdit
+					<EnrollmentUpdate
 						history={history}
 						match={{
 							params: {
@@ -72,7 +72,7 @@ describe('EnrollmentEdit', () => {
 		it('shows an info alert if family income is not disclosed', () => {
 			const { getByText } = render(
 				<TestProvider>
-					<EnrollmentEdit
+					<EnrollmentUpdate
 						history={history}
 						match={{
 							params: {
@@ -97,7 +97,7 @@ describe('EnrollmentEdit', () => {
 		it('matches snapshot', () => {
 			const { asFragment } = render(
 				<TestProvider>
-					<EnrollmentEdit
+					<EnrollmentUpdate
 						history={history}
 						match={{
 							params: {
@@ -115,7 +115,7 @@ describe('EnrollmentEdit', () => {
 		it('shows the appropriate number of reporting periods for enrollment funding', async () => {
 			const { getByLabelText } = render(
 				<TestProvider>
-					<EnrollmentEdit
+					<EnrollmentUpdate
 						history={history}
 						match={{
 							params: {
@@ -136,7 +136,7 @@ describe('EnrollmentEdit', () => {
 
 	accessibilityTestHelper(
 		<TestProvider>
-			<EnrollmentEdit
+			<EnrollmentUpdate
 				history={history}
 				match={{
 					params: {

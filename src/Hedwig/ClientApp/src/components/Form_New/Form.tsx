@@ -6,11 +6,10 @@ type FormProps<T> = {
 	onSubmit: (_: T) => void;
 	data: T;
 	className: string;
-<<<<<<< HEAD
 } & /**
  * Creates a set of props that includes
  * all FormHTMLAttributes<HTMLFormElement> props, except onSubmit
- */ & Pick<
+ */ Pick<
 	FormHTMLAttributes<HTMLFormElement>,
 	Exclude<keyof FormHTMLAttributes<HTMLFormElement>, 'onSubmit'>
 >;

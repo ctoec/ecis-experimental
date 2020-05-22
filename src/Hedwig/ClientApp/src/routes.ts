@@ -1,7 +1,7 @@
 import React from 'react';
 import EnrollmentNew from './containers/Enrollment/New/EnrollmentNew';
 import EnrollmentDetail from './containers/Enrollment/Detail/EnrollmentDetail';
-import EnrollmentEdit from './containers/Enrollment/Edit/EnrollmentEdit';
+import EnrollmentUpdate from './containers/Enrollment/Update/EnrollmentUpdate';
 import Feedback from './containers/Feedback/Feedback';
 import Help from './containers/Help/Help';
 import Login from './containers/Login/Login';
@@ -53,8 +53,8 @@ export const routes: RouteConfig[] = [
 		component: EnrollmentNew,
 	},
 	{
-		path: '/roster/sites/:siteId/enrollments/:enrollmentId/edit/:sectionId',
-		component: EnrollmentEdit,
+		path: '/roster/sites/:siteId/enrollments/:enrollmentId/update/:sectionId',
+		component: EnrollmentUpdate,
 	},
 	{
 		path: '/roster/sites/:siteId/enrollments/:enrollmentId/withdraw',

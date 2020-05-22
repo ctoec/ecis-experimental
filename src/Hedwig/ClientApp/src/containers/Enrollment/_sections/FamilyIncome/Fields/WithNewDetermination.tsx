@@ -1,11 +1,16 @@
-import React, { useState, useEffect, PropsWithChildren } from 'react';
+import React, { useEffect, PropsWithChildren } from 'react';
 import FormContext, { useGenericContext } from "../../../../../components/Form_New/FormContext"
 import { Enrollment } from "../../../../../generated"
-import { ObjectDriller } from "../../../../../components/Form_New/ObjectDriller";
 import produce from "immer";
 import set from "lodash/set";
 
 
+/**
+ * A wrapping helper component that will optionally create a new determination (with id = 0).
+ * Due to something funky with react's batch updates, the `updateData` call has no effect
+ * when called normally. Workaround is to wrap it in a setTimeout call to force react to dispatch
+ * the event.
+ */
 export const WithNewDetermination = ({
 	shouldCreate = false,
 	children: determinationFields
@@ -15,19 +20,18 @@ export const WithNewDetermination = ({
 	const { data, dataDriller, updateData } = useGenericContext<Enrollment>(FormContext);
 	const newDet = dataDriller.at('child').at('family').at('determinations').find(det => det.id === 0);
 
-	const [forceRerender, setForceRerender] = useState(false);
 	useEffect(() => {
 		if (shouldCreate && newDet.value == undefined) {
-			setForceRerender(r => !r);
-			updateData(produce<Enrollment>(
+			setTimeout(() =>
+				updateData(produce<Enrollment>(
 				data , draft => set(
 					draft,
 					newDet.path,
 					{ id: 0 }
 				)
-			));
+			)), 0);
 		}
-	}, [shouldCreate, data, forceRerender]);
+	}, [shouldCreate, data]);
 
 	return <>{determinationFields}</>
 }

@@ -25,7 +25,7 @@ import { ErrorBoundary } from '../../../components';
 import useApi from '../../../hooks/useApi';
 import { DeepNonUndefineable } from '../../../utils/types';
 
-type EnrollmentEditParams = {
+type EnrollmentUpdateParams = {
 	history: History;
 	match: {
 		params: {
@@ -49,12 +49,12 @@ const sections: { [key: string]: Section } = {
  *
  * @param props Props with location.
  */
-export default function EnrollmentEdit({
+export default function EnrollmentUpdate({
 	history,
 	match: {
 		params: { siteId, enrollmentId, sectionId },
 	},
-}: EnrollmentEditParams) {
+}: EnrollmentUpdateParams) {
 	const section = sections[sectionId];
 	const { user } = useContext(UserContext);
 	const { setAlerts } = useContext(AlertContext);
@@ -116,9 +116,13 @@ export default function EnrollmentEdit({
 			}}
 		>
 			<div className="grid-container">
-				<h1>Edit {section.name.toLowerCase()}</h1>
+				<h1>Update {section.name.toLowerCase()}</h1>
 				<p className="usa-intro">{nameFormatter(enrollment.child)}</p>
 				<ErrorBoundary alertProps={editSaveFailAlert}>
+					{/*
+						Simple object updates are completed with the same Form used during the EnrollmentNew flow.
+						More complex updates (that expose collections) are completed with a distinct UpdateForm
+					*/}
 					{section.UpdateForm ?
 						<section.UpdateForm {...sectionFormProps} /> :
 						<section.Form {...sectionFormProps} />

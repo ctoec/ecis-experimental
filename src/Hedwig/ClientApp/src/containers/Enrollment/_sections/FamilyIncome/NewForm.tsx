@@ -7,7 +7,6 @@ import UserContext from '../../../../contexts/User/UserContext';
 import useApi from '../../../../hooks/useApi';
 import { validatePermissions, getIdForUser } from '../../../../utils/models';
 import FormSubmitButton from '../../../../components/Form_New/FormSubmitButton';
-// import useCatchallErrorAlert from '../../../../hooks/useCatchallErrorAlert';
 import produce from 'immer';
 import { DeepNonUndefineable } from '../../../../utils/types';
 import { FormFieldSet } from '../../../../components/Form_New/FormFieldSet';
@@ -18,11 +17,22 @@ import { NotDisclosed } from './Fields/NotDisclosed';
 import { displayValidationStatus } from '../../../../utils/validations/displayValidationStatus';
 import useCatchAllErrorAlert from '../../../../hooks/useCatchAllErrorAlert';
 
+/**
+ * The form rendered in EnrollmentNew flow, which optionally adds a family income determination
+ * to the enrollment's child's family. 
+ * 
+ * If the user marks that income is not disclosed, no family income determination will be created,
+ * and the user will be shown a warning that they cannot enroll the child in a funded space without
+ * this information.
+ * 
+ * If the user doesnot mark that income is not disclosed, and does not enter any information, a new
+ * determination without any values will be created, which will later trigger missing information
+ * validation errors.
+ */
 export const NewForm = ({
 	enrollment,
 	updateEnrollment,
 	siteId,
-	loading,
 	successCallback,
 	onSectionTouch,
 	touchedSections
@@ -61,7 +71,7 @@ export const NewForm = ({
 		}
 	);
 
-	// Handle API success
+	// Handle API request success
 	useEffect(() => {
 		// API request still ongoing -- exit
 		if(saving) {
@@ -79,21 +89,22 @@ export const NewForm = ({
 	}, [saving, saveError, successCallback, saveData]);
 
 
-	// CatchAll error alert will be displayed on _any_ saveError,
-	// since no field-specific error alerts exist
+	// Handle API error
+	// display CatchAll error alert on any API error
 	useCatchAllErrorAlert(saveError);
 
-	// User may navigate back to this section during the enrollment NEW flow.
-	// At that point, if there is a determination, use it to populate the form.
-	// If there is no determination, then they did not disclose.
+	/**
+	 * User will first land here on their first pass through the form sections, 
+	 * at which point no determination exists.
+	 * Default to determinationId = 0 and notDisclosed = false.
+	 * 
+	 * User may navigate back to this section during the enrollment NEW flow.
+	 * At that point, if there is a determination, use it to populate the form.
+	 * If there is no determination, then they did not disclose.
+	 */
 	const isReturnVisit = touchedSections && touchedSections[FamilyIncome.key];
 	const determinationId = idx(enrollment, _ => _.child.family.determinations[0].id) || 0;
 	const [notDisclosed, setNotDisclosed] = useState(isReturnVisit ? determinationId === 0 : false);
-
-	// Return JSX
-	if(loading) {
-		return <>Loading...</>
-	};
 
 	return (
 		<>
