@@ -8,7 +8,7 @@ import { parseStringDateInput } from '../../utils/stringFormatters';
 import { InputField } from '../../utils/forms/form';
 
 export type DateInputProps = {
-	onChange_Old: (newDate: InputField<Moment | null>) => any | void;
+	onChange_Old?: (newDate: InputField<Moment | null>) => any | void;
 	onChange?: (ev: Event) => any;
 	id: string;
 	label: string;
@@ -71,7 +71,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 			// Only call the callback if it's a valid date
 			// Spread operator will not copy prototype
 			// https://dmitripavlutin.com/object-rest-spread-properties-javascript/
-			inputOnChange_Old(Object.assign(moment(), input, { name: name || '' }));
+			inputOnChange_Old && inputOnChange_Old(Object.assign(moment(), input, { name: name || '' }));
 			// Update the hidden input to a string representation of
 			// the date. Then trigger the event dispatch.
 			const target = document.getElementById(`${id}-internal`);
