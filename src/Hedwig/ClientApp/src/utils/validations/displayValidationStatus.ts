@@ -3,16 +3,21 @@ import { ApiError } from '../../hooks/useApi';
 import { ValidationError } from '../../generated';
 import { elementIdFormatter } from '../stringFormatters';
 import { isBlockingValidationError } from './isBlockingValidationError';
+import { SetStateAction, Dispatch } from 'react';
 
 type ValidationResponse = ApiError | ValidationError[];
 
 type ValidationDisplay = {
 	type: 'error' | 'warning';
-	response: ValidationResponse | null;
+	response: ValidationResponse | null; // error: ApiError, warning: ValidationError[]
 	field?: string;
 	fields?: string[];
 	message?: string;
 	useValidationErrorMessage?: true;
+	errorAlertState?: { // error: required, warning: never
+		hasAlerted: boolean;
+		alert: () => void;
+	};
 };
 
 export function displayValidationStatus(
@@ -29,13 +34,18 @@ export function displayValidationStatus(
 function processValidationDisplay(
 	validationDisplay: ValidationDisplay
 ): FormStatusProps | undefined {
-	const { response, type, field, fields, message, useValidationErrorMessage } = validationDisplay;
+	const { response, type, field, fields, message, useValidationErrorMessage, errorAlertState } = validationDisplay;
 	const fieldValue = field ? [field] : fields;
 	if (!fieldValue) {
 		throw new Error('Either field or fields must be defined');
 	}
 	const errorMessage = getValidationStatus(response, fieldValue);
 	if (errorMessage) {
+		if(errorAlertState) {
+			if(!errorAlertState.hasAlerted) {
+				errorAlertState.alert()
+			}
+		} 
 		return {
 			type: type,
 			message: useValidationErrorMessage ? errorMessage : message,

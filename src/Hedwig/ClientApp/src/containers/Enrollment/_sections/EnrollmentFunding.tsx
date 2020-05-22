@@ -64,6 +64,7 @@ import {
 	REQUIRED_FOR_OEC_REPORTING,
 } from '../../../utils/validations/messageStrings';
 import { displayValidationStatus } from '../../../utils/validations/displayValidationStatus';
+import useCatchallErrorAlert from '../../../hooks/useCatchallErrorAlert';
 
 type UtilizationRate = {
 	capacity: number;
@@ -157,17 +158,7 @@ const EnrollmentFunding: Section = {
 		const initialLoad = touchedSections ? !touchedSections[EnrollmentFunding.key] : false;
 		const [error, setError] = useState<ApiError | null>(inputError);
 		useFocusFirstError([error]);
-		useEffect(() => {
-			if (error) {
-				if (initialLoad) {
-					setAlerts([validationErrorAlert]);
-				} else {
-					if (!isBlockingValidationError(error)) {
-						throw new Error(error.title || 'Unknown api error');
-					}
-				}
-			}
-		}, [error, initialLoad, setAlerts]);
+		const errorAlertState = useCatchallErrorAlert(error);
 
 		const { user } = useContext(UserContext);
 		const { cdcReportingPeriods: reportingPeriods } = useContext(ReportingPeriodContext);
@@ -653,11 +644,13 @@ const EnrollmentFunding: Section = {
 													response: error,
 													field: 'fundings.fundingSpaceId',
 													message: REQUIRED_FOR_OEC_REPORTING,
+													errorAlertState
 												},
 												{
 													type: 'error',
 													response: error,
 													field: 'fundings.fundingspace',
+													errorAlertState
 												},
 											])
 										)}
@@ -694,11 +687,13 @@ const EnrollmentFunding: Section = {
 											response: error,
 											field: 'fundings.firstReportingPeriodId',
 											message: REQUIRED_FOR_OEC_REPORTING,
+											errorAlertState
 										},
 										{
 											type: 'error',
 											response: error,
 											field: 'fundings',
+											errorAlertState
 										},
 									])
 								)}
