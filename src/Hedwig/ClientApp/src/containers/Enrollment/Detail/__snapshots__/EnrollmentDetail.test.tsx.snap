@@ -216,7 +216,6 @@ exports[`EnrollmentDetail matches snapshot 1`] = `
           >
             Switched funding to CDC - full time
           </div>
-           
           <br />
           <span
             class="usa-hint text-italic"
@@ -232,7 +231,6 @@ exports[`EnrollmentDetail matches snapshot 1`] = `
           >
             Enrolled in Children's Adventure Center
           </div>
-           
           <br />
           <span
             class="usa-hint text-italic"

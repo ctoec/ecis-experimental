@@ -46,7 +46,7 @@ const InternalRadioButtonGroup: React.FC<InternalRadioButtonGroupProps> = ({
 		<div className={className}>
 			{/* Map over the options and invoke the render call back as a React component */}
 			{options.map(({ render: Render, value, expansion }) => (
-				<>
+				<React.Fragment key={`${value}-expansion`}>
 					<Render
 						key={`${id}-${value}-${selectedItems.includes(value)}`}
 						onChange={_onChange}
@@ -57,7 +57,7 @@ const InternalRadioButtonGroup: React.FC<InternalRadioButtonGroupProps> = ({
 					{expansion && selectedItems.includes(value) && (
 						<div className="oec-itemchooser-expansion">{expansion}</div>
 					)}
-				</>
+				</React.Fragment>
 			))}
 		</div>
 	);

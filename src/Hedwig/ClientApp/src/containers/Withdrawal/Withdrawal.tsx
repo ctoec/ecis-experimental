@@ -75,7 +75,7 @@ export default function Withdrawal({
 			orgId: getIdForUser(user, 'org'),
 			siteId: siteId,
 		});
-	}, [enrollmentId, user, siteId]);
+	}, [enrollmentId, user, siteId, setRequestParams]);
 
 	const { error: getRequestError, data: getRequestData } = useApi<Enrollment>(
 		(api) =>
@@ -107,7 +107,7 @@ export default function Withdrawal({
 				lastNReportingPeriods(reportingPeriods, enrollmentEndDate || moment().toDate(), 5)
 			);
 		}
-	}, [reportingPeriods, enrollmentEndDate]);
+	}, [reportingPeriods, enrollmentEndDate, setReportingPeriodOptions]);
 
 	// set up form state
 	const [error, setError] = useState<ApiError | null>(getRequestError);
@@ -195,7 +195,7 @@ export default function Withdrawal({
 				throw new Error(putRequestError.title || 'Unknown api error');
 			}
 		}
-	}, [putRequestData, putRequestError]);
+	}, [putRequestData, putRequestError, history, setAlerts, setError, enrollment, site]);
 
 	// save function
 	const save = () => {

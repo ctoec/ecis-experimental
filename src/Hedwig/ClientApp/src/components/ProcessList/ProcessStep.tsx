@@ -7,21 +7,13 @@ export type ProcessStepProps = {
 	isNew?: boolean;
 };
 
-type InternalProcessStepProps = { key: string } & ProcessStepProps;
-
-export function ProcessStep({ key, heading, body, isNew = false }: InternalProcessStepProps) {
+export const ProcessStep: React.FC<ProcessStepProps> = ({ heading, body, isNew = false }) => {
 	return (
-		<li key={key} className="process-step">
-			<div className="display-inline-block">{heading}</div> {isNew ? newTag() : undefined}
+		<li className="process-step">
+			<div className="display-inline-block">{heading}</div>
+			{isNew ? <Tag text="NEW" color="theme-color-primary" /> : undefined}
 			<br />
 			{body ? <span className="usa-hint text-italic"> {body}</span> : undefined}
 		</li>
 	);
-}
-
-function newTag() {
-	return Tag({
-		text: 'NEW',
-		color: 'theme-color-primary',
-	});
-}
+};

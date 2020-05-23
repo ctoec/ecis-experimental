@@ -247,11 +247,11 @@ export const ChoiceList: React.FC<ChoiceListProps> = ({
 				{options.map((option) => {
 					const expansion = option.expansion;
 					return (
-						<>
+						<React.Fragment key={`${option.value}-expansion`}>
 							{expansion && selectedItems.includes(option.value) && (
 								<div className="oec-choicelist-expansion">{option.expansion}</div>
 							)}
-						</>
+						</React.Fragment>
 					);
 				})}
 			</div>

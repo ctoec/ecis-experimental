@@ -5,6 +5,7 @@ import React, {
 	isValidElement,
 	PropsWithChildren,
 	createContext,
+	useCallback,
 } from 'react';
 import cx from 'classnames';
 import { Tag } from '..';
@@ -43,23 +44,26 @@ export function Card({
 }: PropsWithChildren<CardProps>) {
 	const [previousIsExpanded, setPreviousIsExpanded] = useState<boolean>();
 	const [isExpanded, setIsExpanded] = useState(expanded);
-	const updateExpanded = (_: boolean) => {
-		setPreviousIsExpanded(isExpanded);
-		setIsExpanded(_);
-	};
+	const updateExpanded = useCallback(
+		(_: boolean) => {
+			setPreviousIsExpanded(isExpanded);
+			setIsExpanded(_);
+		},
+		[setPreviousIsExpanded, setIsExpanded, isExpanded]
+	);
 	const toggleExpanded = () => updateExpanded(!isExpanded);
 
 	useEffect(() => {
 		if (onExpansionChange && previousIsExpanded !== undefined) {
 			onExpansionChange(isExpanded);
 		}
-	}, [isExpanded]);
+	}, [isExpanded, previousIsExpanded]);
 
 	useEffect(() => {
 		if (forceClose) {
 			updateExpanded(false);
 		}
-	}, [forceClose]);
+	}, [forceClose, updateExpanded]);
 
 	return (
 		<CardProvider

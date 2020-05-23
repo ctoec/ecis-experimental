@@ -11,7 +11,6 @@ import { useCacheInvalidator, AppProvider } from '../../contexts/App/AppContext'
 import { AlertProvider } from '../../contexts/Alert/AlertContext';
 import { DeepNonUndefineable } from '../../utils/types';
 import { ErrorBoundary, Header, NavItemProps } from '../../components';
-
 import cx from 'classnames';
 import styles from './App.module.scss';
 
