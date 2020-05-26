@@ -10,8 +10,8 @@ import { validatePermissions, getIdForUser } from '../../../../../utils/models';
 import useApi from '../../../../../hooks/useApi';
 import { Button, Card } from '../../../../../components';
 import { propertyDateSorter } from '../../../../../utils/dateSorter';
-import { DeterminationCard } from './DeterminationCard';
-import CardForm from './CardForm';
+import { FamilyDeterminationCard } from './FamilyDeterminationCard';
+import FamilyDeterminationFormForCard from './FamilyDeterminationFormForCard';
 import useCatchAllErrorAlert from '../../../../../hooks/useCatchAllErrorAlert';
 
 /**
@@ -102,7 +102,7 @@ export const UpdateForm = ({ enrollment, updateEnrollment, siteId }: SectionProp
 		<>
 			{showNew && (
 				<Card>
-					<CardForm
+					<FamilyDeterminationFormForCard
 						determinationId={0}
 						formData={enrollment}
 						onSubmit={_data => {
@@ -131,13 +131,13 @@ export const UpdateForm = ({ enrollment, updateEnrollment, siteId }: SectionProp
 			</div>
 			<div>
 				{currentDetermination && (
-					<DeterminationCard
+					<FamilyDeterminationCard
 						determination={currentDetermination}
 						isCurrent={true}
 						isNew={isNew}
 						forceClose={forceClose}
 						expansion={
-							<CardForm
+							<FamilyDeterminationFormForCard
 								determinationId={currentDetermination.id}
 								formData={enrollment}
 								onSubmit={formOnSubmit}
@@ -154,12 +154,12 @@ export const UpdateForm = ({ enrollment, updateEnrollment, siteId }: SectionProp
 					</div>
 					<div>
 						{pastDeterminations.map(determination => (
-							<DeterminationCard
+							<FamilyDeterminationCard
 								determination={determination}
 								isCurrent={false}
 								forceClose={forceClose}
 								expansion={
-									<CardForm
+									<FamilyDeterminationFormForCard
 										determinationId={determination.id}
 										formData={enrollment}
 										onSubmit={formOnSubmit}

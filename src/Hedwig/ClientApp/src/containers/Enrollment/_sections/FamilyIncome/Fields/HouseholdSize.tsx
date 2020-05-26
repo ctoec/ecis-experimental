@@ -4,7 +4,7 @@ import { Enrollment } from '../../../../../generated';
 import { TextInputProps, TextInput } from '../../../../../components';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
 
-export const HouseholdSizeField = ({ id }: { id: number }) => {
+export const HouseholdSizeField: React.FC<{ id: number }> = ({ id }) => {
 	return (
 		<div>
 			<FormField<Enrollment, TextInputProps, number | null>

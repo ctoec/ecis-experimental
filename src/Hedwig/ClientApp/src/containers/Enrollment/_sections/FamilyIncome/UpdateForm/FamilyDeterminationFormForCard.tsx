@@ -22,7 +22,7 @@ import { displayValidationStatus } from '../../../../../utils/validations/displa
  * - determinationId = 0: displayed in a Card as the primary content to create a new determination
  * - determinationId != 0: displayed in a CardExpansion as the expanded context to edit existing determination with given id
  */
-const CardForm = ({
+const FamilyDeterminationFormForCard = ({
 	determinationId,
 	formData,
 	onSubmit,
@@ -57,7 +57,7 @@ const CardForm = ({
 
 	// Use a basic button to cancel adding new determination,
 	// or an ExpandCard button to cancel editing an existing determination
-	const expandElement = !isEditExpansion ? (
+	const cancelElement = !isEditExpansion ? (
 		<Button
 			text="Cancel"
 			appearance="outline"
@@ -71,6 +71,8 @@ const CardForm = ({
 		</ExpandCard>
 	);
 
+	const legend = isEditExpansion ? 'Edit family income' : 'Redetermine family income';
+
 	return (
 		<Form
 			id={`update-family-income-${determinationId}`}
@@ -78,12 +80,10 @@ const CardForm = ({
 			onSubmit={onSubmit}
 			className="update-family-income-form"
 		>
-			<p className="text-bold font-sans-lg">
-				{isEditExpansion ? 'Edit family income' : 'Redetermine family income'}
-			</p>
+			<p className="text-bold font-sans-lg">{legend}</p>
 			<FormFieldSet<Enrollment>
-				id="redetermine-family-income"
-				legend="Redetermine family income"
+				id={`family-income-fields-${determinationId}`}
+				legend={legend}
 				status={status}
 			>
 				<WithNewDetermination shouldCreate={!isEditExpansion}>
@@ -94,7 +94,7 @@ const CardForm = ({
 			</FormFieldSet>
 			<div className="display-flex">
 				<div className="usa-form">
-					{expandElement}
+					{cancelElement}
 					<FormSubmitButton text={isEditExpansion ? 'Save' : 'Redetermine'} />
 				</div>
 			</div>
@@ -102,4 +102,4 @@ const CardForm = ({
 	);
 };
 
-export default CardForm;
+export default FamilyDeterminationFormForCard;

@@ -1,10 +1,5 @@
 // Variables used in jest mockes -- must start with `mock`
-import {
-	mockAllFakeEnrollments,
-	mockSite,
-	mockReport,
-	mockEnrollmentIncomeDeterminationNotDisclosed,
-} from '../../../tests/data';
+import { mockAllFakeEnrollments, mockSite, mockReport } from '../../../tests/data';
 import mockUseApi, {
 	mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet,
 	mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDelete,
@@ -40,7 +35,7 @@ import TestProvider from '../../../contexts/__mocks__/TestProvider';
 import { mockCompleteEnrollment, mockEnrollmentWithFoster } from '../../../tests/data';
 
 import EnrollmentNew from './EnrollmentNew';
-import { INCOME_REQUIRED_FOR_FUNDING } from '../_sections/FamilyIncome/NewForm';
+import FamilyIncome from '../_sections/FamilyIncome';
 
 const fakeDate = '2019-03-02';
 
@@ -53,89 +48,87 @@ afterAll(() => {
 	jest.resetModules();
 });
 
+
 describe('EnrollmentNew', () => {
-	it('does not skip family income section when lives with foster family is not selected', async () => {
-		const history = createMemoryHistory();
-		const { getByText } = render(
-			<TestProvider>
-				<EnrollmentNew
-					history={history}
-					match={{
-						params: {
-							siteId: 1,
-							enrollmentId: mockCompleteEnrollment.id,
-							sectionId: 'family-information',
-						},
-					}}
-				/>
-			</TestProvider>
-		);
+	describe('FamilyIncome', () => {
+		it('matches snapshot', () => {
+            const history = createBrowserHistory();
+			const { asFragment } = render(
+				<TestProvider>
+					<EnrollmentNew
+						history={history}
+						match={{
+							params: {
+								siteId: mockCompleteEnrollment.siteId,
+								enrollmentId: mockCompleteEnrollment.id,
+								sectionId: FamilyIncome.key,
+							},
+						}}
+					/>
+				</TestProvider>
+			);
 
-		const saveBtn = getByText(/Save/i);
-		fireEvent.click(saveBtn);
+			expect(asFragment()).toMatchSnapshot();
+		});
 
-		await wait();
+		it('does not skip family income section when lives with foster family is not selected', async () => {
+			const memoryHistory = createMemoryHistory();
+			const { getByText } = render(
+				<TestProvider>
+					<EnrollmentNew
+						history={memoryHistory}
+						match={{
+							params: {
+								siteId: 1,
+								enrollmentId: mockCompleteEnrollment.id,
+								sectionId: 'family-information',
+							},
+						}}
+					/>
+				</TestProvider>
+			);
 
-		expect(history.location.pathname).toMatch(/family-income/i);
-	});
+			const saveBtn = getByText(/Save/i);
+			fireEvent.click(saveBtn);
 
-	it('skips family income section when lives with foster family is selected', async () => {
-		const history = createMemoryHistory();
-		history.push(
-			`/roster/sites/${mockEnrollmentWithFoster.siteId}/enrollments/${mockEnrollmentWithFoster.id}/new/family-information`
-		);
+			await wait();
 
-		const { findByLabelText, getByText } = render(
-			<TestProvider history={history}>
-				<Route
-					path={'/roster/sites/:siteId/enrollments/:enrollmentId/new/:sectionId'}
-					render={(props) => (
-						<EnrollmentNew
-							history={props.history}
-							match={{
-								params: {
-									siteId: props.match.params.siteId,
-									enrollmentId: mockEnrollmentWithFoster.id,
-									sectionId: props.match.params.sectionId,
-								},
-							}}
-						/>
-					)}
-				/>
-			</TestProvider>
-		);
+			expect(memoryHistory.location.pathname).toMatch(/family-income/i);
+		});
 
-		const fosterCheckbox = await findByLabelText(/Child lives with foster family/i);
-		expect((fosterCheckbox as HTMLInputElement).checked).toBeTruthy();
+		it('skips family income section when lives with foster family is selected', async () => {
+			const memoryHistory = createMemoryHistory();
+			memoryHistory.push(
+				`/roster/sites/${mockEnrollmentWithFoster.siteId}/enrollments/${mockEnrollmentWithFoster.id}/new/family-information`
+			);
 
-		const saveBtn = getByText(/Save/i);
-		fireEvent.click(saveBtn);
+			const { findByLabelText, getByText } = render(
+				<TestProvider history={memoryHistory}>
+					<Route
+						path={'/roster/sites/:siteId/enrollments/:enrollmentId/new/:sectionId'}
+						render={props => (
+							<EnrollmentNew
+								history={props.history}
+								match={{
+									params: {
+										siteId: props.match.params.siteId,
+										enrollmentId: mockEnrollmentWithFoster.id,
+										sectionId: props.match.params.sectionId,
+									},
+								}}
+							/>
+						)}
+					/>
+				</TestProvider>
+			);
 
-		await wait(() => expect(history.location.pathname).toMatch(/enrollment-funding/i));
-	});
+			const fosterCheckbox = await findByLabelText(/Child lives with foster family/i);
+			expect((fosterCheckbox as HTMLInputElement).checked).toBeTruthy();
 
-	it('shows an info alert if family income is not disclosed', async () => {
-		const history = createBrowserHistory();
-		const { getByText, findByLabelText } = render(
-			<TestProvider>
-				<EnrollmentNew
-					history={history}
-					match={{
-						params: {
-							siteId: mockEnrollmentIncomeDeterminationNotDisclosed.siteId,
-							enrollmentId: mockEnrollmentIncomeDeterminationNotDisclosed.id,
-							sectionId: 'family-income',
-						},
-					}}
-				/>
-			</TestProvider>
-		);
+			const saveBtn = getByText(/Save/i);
+			fireEvent.click(saveBtn);
 
-		const notDisclosedCheckbox = await findByLabelText(/Family income not disclosed/);
-		await fireEvent.click(notDisclosedCheckbox);
-
-		const infoAlert = getByText(INCOME_REQUIRED_FOR_FUNDING);
-
-		expect(infoAlert).toBeInTheDocument();
+			await wait(() => expect(memoryHistory.location.pathname).toMatch(/enrollment-funding/i));
+		});
 	});
 });

@@ -4,6 +4,9 @@ import { Enrollment } from '../../../../../generated';
 import produce from 'immer';
 import set from 'lodash/set';
 
+type WithNewDetermintionProps = {
+	shouldCreate: boolean;
+};
 /**
  * A wrapping helper component that will optionally create a new determination (with id = 0).
  * Due to something funky with react's batch updates, the `updateData` call has no effect
@@ -13,9 +16,7 @@ import set from 'lodash/set';
 export const WithNewDetermination = ({
 	shouldCreate = false,
 	children: determinationFields,
-}: PropsWithChildren<{
-	shouldCreate: boolean;
-}>) => {
+}: PropsWithChildren<WithNewDetermintionProps>) => {
 	const { data, dataDriller, updateData } = useGenericContext<Enrollment>(FormContext);
 	const newDet = dataDriller
 		.at('child')

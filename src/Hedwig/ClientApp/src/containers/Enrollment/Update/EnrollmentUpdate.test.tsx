@@ -30,6 +30,8 @@ import {
 	cdcReportingPeriods,
 	mockEnrollmentMissingAddress,
 } from '../../../tests/data';
+import FamilyInfo from '../_sections/FamilyInfo';
+import FamilyIncome from '../_sections/FamilyIncome';
 
 const fakeDate = '2019-03-02';
 
@@ -46,6 +48,25 @@ const history = createBrowserHistory();
 
 describe('EnrollmentUpdate', () => {
 	describe('family info', () => {
+		it('matches snapshot', () => {
+			const { asFragment } = render(
+				<TestProvider>
+					<EnrollmentUpdate
+						history={history}
+						match={{
+							params: {
+								siteId: mockCompleteEnrollment.siteId,
+								enrollmentId: mockCompleteEnrollment.id,
+								sectionId: FamilyInfo.key,
+							},
+						}}
+					/>
+				</TestProvider>
+			);
+
+			expect(asFragment()).toMatchSnapshot();
+		});
+
 		it('shows a fieldset warning if there is no address', () => {
 			const { getByRole } = render(
 				<TestProvider>
@@ -68,9 +89,9 @@ describe('EnrollmentUpdate', () => {
 		});
 	});
 
-	describe('family income', () => {
-		it('shows a card for each determination', () => {
-			const { getAllByLabelText } = render(
+	describe('FamilyIncome', () => {
+		it('matches snapshot', () => {
+			const { asFragment } = render(
 				<TestProvider>
 					<EnrollmentUpdate
 						history={history}
@@ -78,17 +99,14 @@ describe('EnrollmentUpdate', () => {
 							params: {
 								siteId: mockCompleteEnrollment.siteId,
 								enrollmentId: mockCompleteEnrollment.id,
-								sectionId: 'family-income',
+								sectionId: FamilyIncome.key,
 							},
 						}}
 					/>
 				</TestProvider>
 			);
 
-			// Grab one field per each card as a proxy for grabbing the card
-			const determinationCards = getAllByLabelText('Household size');
-			// complete enrollment has 2 family income determinations
-			expect(determinationCards).toHaveLength(2);
+			expect(asFragment()).toMatchSnapshot();
 		});
 	});
 

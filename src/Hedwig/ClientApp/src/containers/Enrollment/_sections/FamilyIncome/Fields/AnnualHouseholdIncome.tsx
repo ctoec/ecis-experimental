@@ -1,12 +1,12 @@
 import FormField from '../../../../../components/Form_New/FormField';
 import { Enrollment, FamilyDetermination } from '../../../../../generated';
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, FC } from 'react';
 import { TextInputProps, TextInput } from '../../../../../components';
 import parseCurrencyFromString from '../../../../../utils/parseCurrencyFromString';
 import currencyFormatter from '../../../../../utils/currencyFormatter';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
 
-export const AnnualHouseholdIncomeField = ({ id }: { id: number }) => {
+export const AnnualHouseholdIncomeField: React.FC<{ id: number }> = ({ id }) => {
 	return (
 		<div>
 			<FormField<Enrollment, TextInputProps, number | null>

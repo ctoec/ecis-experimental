@@ -5,15 +5,17 @@ import Checkbox from '../../../../../components/Checkbox/Checkbox';
 import produce from 'immer';
 import set from 'lodash/set';
 
+type NotDisclosedFieldProps = {
+	notDisclosed: boolean;
+	setNotDisclosed: (_: boolean) => void;
+};
+
 /**
  * This component is only used in NewForm, to remove all determinations.
  */
-export const NotDisclosed = ({
+export const NotDisclosedField: React.FC<NotDisclosedFieldProps> = ({
 	notDisclosed,
 	setNotDisclosed,
-}: {
-	notDisclosed: boolean;
-	setNotDisclosed: (_: boolean) => void;
 }) => {
 	const { data, dataDriller, updateData } = useGenericContext<Enrollment>(FormContext);
 	return (

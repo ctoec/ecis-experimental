@@ -4,7 +4,7 @@ import { Enrollment } from '../../../../../generated';
 import { DateInput, DateInputProps } from '../../../../../components';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
 
-export const DeterminationDateField = ({ id }: { id: number }) => {
+export const DeterminationDateField: React.FC<{ id: number }> = ({ id }) => {
 	return (
 		<div>
 			<FormField<Enrollment, DateInputProps, Date | null>

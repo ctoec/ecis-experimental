@@ -22,12 +22,16 @@ import { FormFieldSet } from '../../../../components/Form_New/FormFieldSet';
 import { Alert } from '../../../../components';
 import idx from 'idx';
 import FamilyIncome from '.';
-import { NotDisclosed } from './Fields/NotDisclosed';
+import { NotDisclosedField } from './Fields/NotDisclosed';
 import { displayValidationStatus } from '../../../../utils/validations/displayValidationStatus';
 import useCatchAllErrorAlert from '../../../../hooks/useCatchAllErrorAlert';
 
-export const INCOME_REQUIRED_FOR_FUNDING =
-	'Income information is required enroll a child in a funded space. You will not be able to assign this child to a funding space without this information.';
+export const INCOME_REQUIRED_FOR_FUNDING_ALERT_TEXT =
+	'Income information is required enroll a child in a funded space.\
+ You will not be able to assign this child to a funding space without this information.';
+export const INFORMATION_REQUIRED_IF_INCOME_DISCLOSED =
+	'This information is required if family income is disclosed';
+
 /**
  * The form rendered in EnrollmentNew flow, which optionally adds a family income determination
  * to the enrollment's child's family.
@@ -36,10 +40,11 @@ export const INCOME_REQUIRED_FOR_FUNDING =
  * and the user will be shown a warning that they cannot enroll the child in a funded space without
  * this information.
  *
- * If the user doesnot mark that income is not disclosed, and does not enter any information, a new
+ * If the user does not mark that income is not disclosed, and does not enter any information, a new
  * determination without any values will be created, which will later trigger missing information
  * validation errors.
  */
+
 export const NewForm = ({
 	enrollment,
 	updateEnrollment,
@@ -50,10 +55,11 @@ export const NewForm = ({
 }: SectionProps) => {
 	// Enrollment and child must already exist to create family income data,
 	// and cannot be created without user input (have required non null fields)
-	if (!enrollment || !enrollment.child || !enrollment.child.family) {
+	if (!enrollment || !enrollment.child) {
 		throw new Error('Section rendered without enrollment or child');
 	}
 
+	// TODO: move empty family create logic to FamilyInfo and remove this
 	// Family must already exist to create family income data,
 	// but can be created without user input with all empty defaults
 	if (!enrollment.child.family) {
@@ -126,7 +132,7 @@ export const NewForm = ({
 
 	return (
 		<>
-			{notDisclosed && <Alert type="info" text={INCOME_REQUIRED_FOR_FUNDING} />}
+			{notDisclosed && <Alert type="info" text={INCOME_REQUIRED_FOR_FUNDING_ALERT_TEXT} />}
 			<Form<Enrollment>
 				data={enrollment}
 				onSubmit={_data => {
@@ -157,7 +163,7 @@ export const NewForm = ({
 												.find(det => det.id === determinationId)
 												.at('validationErrors').value || null,
 										fields: ['numberOfPeople', 'income', 'determinationDate'],
-										message: 'This information is required if family income is disclosed',
+										message: INFORMATION_REQUIRED_IF_INCOME_DISCLOSED,
 									},
 								])
 							}
@@ -170,7 +176,7 @@ export const NewForm = ({
 				</WithNewDetermination>
 
 				<div className="margin-top-2">
-					<NotDisclosed notDisclosed={notDisclosed} setNotDisclosed={setNotDisclosed} />
+					<NotDisclosedField notDisclosed={notDisclosed} setNotDisclosed={setNotDisclosed} />
 				</div>
 				<FormSubmitButton text={saving ? 'Saving...' : 'Save'} />
 			</Form>

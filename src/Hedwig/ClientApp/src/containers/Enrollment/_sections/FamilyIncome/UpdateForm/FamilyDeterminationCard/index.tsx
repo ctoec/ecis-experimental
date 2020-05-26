@@ -9,7 +9,7 @@ import { CardContentWithExpandCard } from './CardContentWithExpandCard';
  * Has CardContentWithExpandCard as card content, and
  * renders passed expand Element in the CardExpansion
  */
-export const DeterminationCard = ({
+export const FamilyDeterminationCard = ({
 	determination,
 	isCurrent,
 	forceClose,
@@ -31,7 +31,7 @@ export const DeterminationCard = ({
 			key={determination.id}
 		>
 			<CardContentWithExpandCard determination={determination} />
-			{!!expansion && <CardExpansion>{expansion}</CardExpansion>}
+			<CardExpansion>{expansion}</CardExpansion>
 		</Card>
 	);
 };
