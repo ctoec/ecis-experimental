@@ -1,91 +1,103 @@
 import React, { useState } from 'react';
-import { ItemChooser, ItemChooserParentCommonProps } from '../ItemChooser/ItemChooser';
-import { ItemChooserExpansion } from '../ItemChooser/ItemChooserExpansion';
-import { selectOnlyChildrenOfType } from '../utils/selectOnlyChildrenOfType';
-import { withOtherOptionTextInput } from '../utils/withOtherOptionTextInput';
-import { StandardFormFieldSet } from '../FormComponents/StandardFormFieldSet';
-import Checkbox from '../Checkbox/Checkbox';
+import { FieldSet, FieldSetProps } from '../FieldSet/FieldSet';
+
+export type CheckboxOption = {
+	render: (props: {
+		id: string;
+		selected: boolean;
+		onChange: React.ChangeEventHandler<HTMLInputElement>;
+		name: string;
+		value: string;
+	}) => JSX.Element;
+	value: string;
+	onChange: React.ChangeEventHandler<HTMLInputElement>;
+	expansion?: React.ReactNode;
+};
 
 export type CheckboxGroupProps = {
-	legend?: string;
-	showLegend?: boolean;
-	horizontal?: boolean;
-} & Pick<
-	ItemChooserParentCommonProps<HTMLInputElement>,
-	Exclude<keyof ItemChooserParentCommonProps<HTMLInputElement>, 'labelOrLegend'>
->;
-
+	id: string;
+	className?: string;
+	options: CheckboxOption[];
+	defaultValue?: string | string[];
+	name?: string;
+	onChange: React.ChangeEventHandler<HTMLInputElement>;
+};
 const InternalCheckboxGroup: React.FC<CheckboxGroupProps> = ({
 	id,
 	className,
-	legend,
-	name,
-	defaultValue = [],
-	onChange,
 	options,
-	optional = false,
-	status,
-	hint,
-	disabled = false,
-	horizontal = false,
-	children,
-	...props
+	name,
+	onChange,
+	defaultValue = [],
 }) => {
 	const selectedItemsOnInput = Array.isArray(defaultValue) ? defaultValue : [defaultValue];
-	let processedSelectedItems = selectedItemsOnInput;
-	if (selectedItemsOnInput.length === 0) {
-		processedSelectedItems = [''];
-	}
-	const [selectedItems, setSelectedItems] = useState(processedSelectedItems);
+	const [selectedItems, setSelectedItems] = useState(selectedItemsOnInput);
 
 	const _onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		let newSelectedItems: string[];
 		const changedValue = event.target.value;
+		let newSelectedItems: string[];
 		if (selectedItems.includes(changedValue)) {
 			// Uncheck a checkbox if it was already checked
 			newSelectedItems = selectedItems.filter(v => v !== changedValue);
 		} else {
-			newSelectedItems = [...selectedItems, changedValue];
+			// If it wasn't already selected and it's a checkbox, add it to whatever else is selected
+			newSelectedItems = [changedValue, ...selectedItems];
 		}
 		setSelectedItems(newSelectedItems);
-		onChange(event);
+		const onChangeForValue = options.find(option => option.value === changedValue);
+		onChangeForValue ? onChangeForValue.onChange(event) : onChange(event);
 	};
 
 	return (
-		<ItemChooser
-			options={options}
-			defaultValue={selectedItems}
-			optionElementFactory={({ option }) => (
-				<Checkbox
-					id={`${id}-${option.value}`}
-					{...option}
-					name={option.name || name || ''}
-					onChange={_onChange}
-					defaultValue={selectedItems.includes(option.value)}
-					disabled={disabled}
-					key={`${id}-${option.value}`}
-					{...props}
-				/>
-			)}
-		>
-			{selectOnlyChildrenOfType(children, ItemChooserExpansion)}
-		</ItemChooser>
+		<div className={className}>
+			{options.map(({ render: Render, value, expansion }) => (
+				<>
+					<Render
+						id={`${id}-${value}`}
+						key={`${id}-${value}`}
+						selected={selectedItems.includes(value)}
+						name={name || ''}
+						onChange={_onChange}
+						value={value}
+					/>
+					{expansion && selectedItems.includes(value) && (
+						<div className="oec-itemchooser-expansion">{expansion}</div>
+					)}
+				</>
+			))}
+		</div>
 	);
 };
 
-export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({ children, ...props }) => {
+export const CheckboxGroup: React.FC<CheckboxGroupProps & FieldSetProps> = ({
+	id,
+	className,
+	legend,
+	showLegend,
+	status,
+	optional,
+	hint,
+	horizontal,
+	disabled,
+	children,
+	...props
+}) => {
 	return (
-		<StandardFormFieldSet
-			id={`${props.id}-fieldset`}
-			legend={props.legend || ''}
-			showLegend={props.showLegend}
-			className={props.className}
+		<FieldSet
+			id={`${id}-fieldset`}
+			className={className}
+			legend={legend || ''}
+			showLegend={showLegend}
+			status={status}
+			optional={optional}
+			hint={hint}
+			horizontal={horizontal}
+			disabled={disabled}
+			childrenGroupClassName={'margin-top-3'}
 		>
-			<InternalCheckboxGroup {...props}>{children}</InternalCheckboxGroup>
-		</StandardFormFieldSet>
+			<InternalCheckboxGroup id={id} {...props}>
+				{children}
+			</InternalCheckboxGroup>
+		</FieldSet>
 	);
 };
-
-export const CheckboxGroupWithOther = withOtherOptionTextInput({
-	ItemChooserComponent: InternalCheckboxGroup,
-});

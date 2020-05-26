@@ -19,3 +19,17 @@ export const selectOnlyChildrenOfType: (
 	});
 	return processedChildren ? processedChildren.filter(isNonNullable) : [];
 };
+
+export const selectOnlyChildrenNotOfType: (
+	children: React.ReactNode,
+	type: React.FC<any>
+) => React.ReactNode[] = (children, type) => {
+	const processedChildren = React.Children.map(children, child => {
+		if (React.isValidElement(child)) {
+			if (!!child.type && (child.type as Function).name !== type.name) {
+				return child;
+			}
+		}
+	});
+	return processedChildren ? processedChildren.filter(isNonNullable) : [];
+};

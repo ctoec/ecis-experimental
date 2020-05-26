@@ -1,35 +1,33 @@
 import React, { useState } from 'react';
-import { ItemChooser, ItemChooserParentCommonProps } from '../ItemChooser/ItemChooser';
-import { ItemChooserExpansion } from '../ItemChooser/ItemChooserExpansion';
-import { selectOnlyChildrenOfType } from '../utils/selectOnlyChildrenOfType';
-import { withOtherOptionTextInput } from '../utils/withOtherOptionTextInput';
-import { StandardFormFieldSet } from '../FormComponents/StandardFormFieldSet';
-import RadioButton from '../RadioButton/RadioButton';
+import { FieldSetProps, FieldSet } from '../FieldSet/FieldSet';
+
+export type RadioOption = {
+	render: (props: {
+		onChange: React.ChangeEventHandler<HTMLInputElement>;
+		selected: boolean;
+		name: string;
+		value: string;
+	}) => JSX.Element;
+	value: string;
+	expansion?: React.ReactNode;
+};
 
 export type RadioButtonGroupProps = {
-	legend?: string;
-	showLegend?: boolean;
-	horizontal?: boolean;
-} & Pick<
-	ItemChooserParentCommonProps<HTMLInputElement>,
-	Exclude<keyof ItemChooserParentCommonProps<HTMLInputElement>, 'labelOrLegend'>
->;
+	id: string;
+	className?: string;
+	options: RadioOption[];
+	defaultValue?: string | string[];
+	name?: string;
+	onChange: React.ChangeEventHandler<HTMLInputElement>;
+};
 
 const InternalRadioButtonGroup: React.FC<RadioButtonGroupProps> = ({
 	id,
 	className,
-	legend,
-	name,
+	options,
 	defaultValue = [],
 	onChange,
-	options,
-	optional = false,
-	status,
-	hint,
-	disabled = false,
-	horizontal = false,
-	children,
-	...props
+	name,
 }) => {
 	const selectedItemsOnInput = Array.isArray(defaultValue) ? defaultValue : [defaultValue];
 	let processedSelectedItems = selectedItemsOnInput;
@@ -46,40 +44,54 @@ const InternalRadioButtonGroup: React.FC<RadioButtonGroupProps> = ({
 	};
 
 	return (
-		<ItemChooser
-			options={options}
-			defaultValue={selectedItems}
-			optionElementFactory={({ option }) => (
-				<RadioButton
-					{...option}
-					name={option.name || name || ''}
-					onChange={_onChange}
-					selected={selectedItems.includes(option.value)}
-					disabled={disabled}
-					// Including whether it's selected to force re-render... seems bad, but otherwise this option is not showing up as checked
-					key={`${id}-${option.value}-${selectedItems.includes(option.value)}`}
-					{...props}
-				/>
-			)}
-		>
-			{selectOnlyChildrenOfType(children, ItemChooserExpansion)}
-		</ItemChooser>
+		<div className={className}>
+			{options.map(({ render: Render, value, expansion }) => (
+				<>
+					<Render
+						key={`${id}-${value}-${selectedItems.includes(value)}`}
+						onChange={_onChange}
+						selected={selectedItems.includes(value)}
+						name={name || ''}
+						value={value}
+					/>
+					{expansion && selectedItems.includes(value) && (
+						<div className="oec-itemchooser-expansion">{expansion}</div>
+					)}
+				</>
+			))}
+		</div>
 	);
 };
 
-export const RadioButtonGroup: React.FC<RadioButtonGroupProps> = ({ children, ...props }) => {
+export const RadioButtonGroup: React.FC<RadioButtonGroupProps & FieldSetProps> = ({
+	id,
+	className,
+	legend,
+	showLegend,
+	status,
+	optional,
+	hint,
+	horizontal = false,
+	disabled,
+	children,
+	...props
+}) => {
 	return (
-		<StandardFormFieldSet
-			id={`${props.id}-fieldset`}
-			legend={props.legend || ''}
-			showLegend={props.showLegend}
-			className={props.className}
+		<FieldSet
+			id={`${id}-fieldset`}
+			className={className}
+			legend={legend || ''}
+			showLegend={showLegend}
+			status={status}
+			optional={optional}
+			hint={hint}
+			horizontal={horizontal}
+			disabled={disabled}
+			childrenGroupClassName={'margin-top-3'}
 		>
-			<InternalRadioButtonGroup {...props}>{children}</InternalRadioButtonGroup>
-		</StandardFormFieldSet>
+			<InternalRadioButtonGroup id={id} {...props}>
+				{children}
+			</InternalRadioButtonGroup>
+		</FieldSet>
 	);
 };
-
-export const RadioButtonGroupWithOther = withOtherOptionTextInput({
-	ItemChooserComponent: InternalRadioButtonGroup,
-});
