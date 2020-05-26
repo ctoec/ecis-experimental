@@ -52,6 +52,9 @@ type DropdownProps = InternalChoiceListProps & {
 
 export type ChoiceListProps = RadioOrChecklistProps | DropdownProps;
 
+/**
+ * @deprecated
+ */
 export const ChoiceList: React.FC<ChoiceListProps> = ({
 	type,
 	options: inputOptions,

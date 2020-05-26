@@ -81,7 +81,6 @@ export const RadioButtonGroup: React.FC<RadioButtonGroupProps & FieldSetProps> =
 	hint,
 	horizontal = false,
 	disabled,
-	children,
 	...props
 }) => {
 	return (
@@ -97,9 +96,7 @@ export const RadioButtonGroup: React.FC<RadioButtonGroupProps & FieldSetProps> =
 			disabled={disabled}
 			childrenGroupClassName={'margin-top-3'}
 		>
-			<InternalRadioButtonGroup id={id} {...props}>
-				{children}
-			</InternalRadioButtonGroup>
+			<InternalRadioButtonGroup id={id} {...props} />
 		</FieldSet>
 	);
 };

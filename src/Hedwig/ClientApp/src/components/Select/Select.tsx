@@ -25,8 +25,9 @@ export type SelectProps = {
 	FormFieldStatusProps;
 
 /**
- * Component that wraps a native select element and provides for additional display
- * based on the value selected by the user.
+ * Component that wraps a native select element.
+ * It also provides for expansion support by showing the expansion below the entire
+ * select element.
  */
 export const Select: React.FC<SelectProps> = ({
 	id,
@@ -41,21 +42,20 @@ export const Select: React.FC<SelectProps> = ({
 	options,
 	status,
 	unselectedText = '- Select -',
-	children,
 	...props
 }) => {
-	const selectedItemsOnInput = Array.isArray(defaultValue) ? defaultValue : [defaultValue];
-	let processedSelectedItems = selectedItemsOnInput;
-	if (selectedItemsOnInput.length === 0) {
-		processedSelectedItems = [''];
+	const selectedItemOnInput = Array.isArray(defaultValue) ? defaultValue[0] : defaultValue;
+	let processedSelectedItem = selectedItemOnInput;
+	if (selectedItemOnInput === undefined) {
+		processedSelectedItem = '';
 	}
-	const [selectedItems, setSelectedItems] = useState(processedSelectedItems);
+	const [selectedItem, setSelectedItem] = useState(processedSelectedItem);
 
 	// Wrap the supplied onChange to provide for local state management
 	const _onChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		const changedValue = event.target.value;
-		const newSelectedItems = [changedValue];
-		setSelectedItems(newSelectedItems);
+		const newSelectedItem = changedValue;
+		setSelectedItem(newSelectedItem);
 		onChange(event);
 	};
 
@@ -84,7 +84,7 @@ export const Select: React.FC<SelectProps> = ({
 				className={`usa-select${status ? ` usa-input--${status.type}` : ''}`}
 				name={name || ''}
 				onChange={_onChange}
-				value={selectedItems[0]}
+				value={selectedItem}
 				disabled={disabled}
 				// Using aria-required to avoid default Chrome behavior
 				aria-required={!optional}
@@ -105,7 +105,7 @@ export const Select: React.FC<SelectProps> = ({
 				const expansion = option.expansion;
 				return (
 					<>
-						{expansion && selectedItems.includes(option.value) && (
+						{expansion && selectedItem === option.value && (
 							<div className="oec-itemchooser-expansion">{option.expansion}</div>
 						)}
 					</>
@@ -153,8 +153,8 @@ export const SelectWithOther: React.FC<OtherOptionTextInputWrapperProps<SelectPr
 }) => {
 	const OTHER_VALUE = '__other';
 
-	const selectedItemsOnInput = Array.isArray(defaultValue) ? defaultValue : [defaultValue];
-	const [showOther, setShowOther] = useState(selectedItemsOnInput[0] === OTHER_VALUE);
+	const selectedItemOnInput = Array.isArray(defaultValue) ? defaultValue[0] : defaultValue;
+	const [showOther, setShowOther] = useState(selectedItemOnInput === OTHER_VALUE);
 
 	const optionsWithOther = [
 		...options,
@@ -174,37 +174,45 @@ export const SelectWithOther: React.FC<OtherOptionTextInputWrapperProps<SelectPr
 		onChange(e);
 	};
 
-	return (
-		<FieldSet
-			id={`${id}-fieldset`}
-			className={className}
-			legend={legend || ''}
-			showLegend={showLegend}
+	const selectElement = (
+		<Select
+			id={id}
+			label={innerLabel}
+			defaultValue={selectedItemOnInput}
 			status={status}
-			aria-describedby={status ? status.id : undefined}
-			childrenGroupClassName="margin-top-3"
-			hint={hint}
-			optional={optional}
-			horizontal={horizontal}
-		>
-			<Select
-				id={id}
-				label={innerLabel}
-				defaultValue={selectedItemsOnInput}
-				status={status}
-				onChange={_onChange}
-				options={optionsWithOther}
-				{...props}
-			/>
-			{showOther && (
-				<TextInput
-					type="input"
-					id={`${id}-other`}
-					name={name || ''}
-					label={otherInputLabel}
-					onChange={otherInputOnChange}
-				/>
+			onChange={_onChange}
+			options={optionsWithOther}
+			{...props}
+		/>
+	);
+
+	return (
+		<>
+			{showOther ? (
+				<FieldSet
+					id={`${id}-fieldset`}
+					className={className}
+					legend={legend}
+					showLegend={showLegend}
+					status={status}
+					aria-describedby={status ? status.id : undefined}
+					childrenGroupClassName="margin-top-3"
+					hint={hint}
+					optional={optional}
+					horizontal={horizontal}
+				>
+					{selectElement}
+					<TextInput
+						type="input"
+						id={`${id}-other`}
+						name={name || ''}
+						label={otherInputLabel}
+						onChange={otherInputOnChange}
+					/>
+				</FieldSet>
+			) : (
+				selectElement
 			)}
-		</FieldSet>
+		</>
 	);
 };

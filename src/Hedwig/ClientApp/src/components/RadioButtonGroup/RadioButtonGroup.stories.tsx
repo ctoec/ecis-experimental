@@ -89,7 +89,7 @@ storiesOf('RadioButtonGroup', module)
 			/>
 		);
 	})
-	.add('RadioButtonGrou with success', () => {
+	.add('RadioButtonGroup with success', () => {
 		return (
 			<RadioButtonGroup
 				legend="RadioButtonGroup"
@@ -100,7 +100,7 @@ storiesOf('RadioButtonGroup', module)
 			/>
 		);
 	})
-	.add('RadioButtonGrou with warning', () => {
+	.add('RadioButtonGroup with warning', () => {
 		return (
 			<RadioButtonGroup
 				legend="RadioButtonGroup"

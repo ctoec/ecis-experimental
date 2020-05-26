@@ -88,7 +88,6 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps & FieldSetProps> = ({
 	hint,
 	horizontal,
 	disabled,
-	children,
 	...props
 }) => {
 	return (
@@ -104,9 +103,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps & FieldSetProps> = ({
 			disabled={disabled}
 			childrenGroupClassName={'margin-top-3'}
 		>
-			<InternalCheckboxGroup id={id} {...props}>
-				{children}
-			</InternalCheckboxGroup>
+			<InternalCheckboxGroup id={id} {...props} />
 		</FieldSet>
 	);
 };
