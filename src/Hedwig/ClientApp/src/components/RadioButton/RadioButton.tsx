@@ -11,6 +11,9 @@ export type RadioButtonProps = {
 	className?: string;
 } & Omit<HTMLAttributes<HTMLInputElement>, 'onChange'>;
 
+/**
+ * Component that wraps a native radio input element
+ */
 export default function RadioButton({
 	text,
 	value,

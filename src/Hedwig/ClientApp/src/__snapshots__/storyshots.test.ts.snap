@@ -679,6 +679,7 @@ exports[`Storyshots CheckboxGroup CheckboxGroup 1`] = `
             id="storybook-CheckboxGroup-one"
             name=""
             onChange={[Function]}
+            selected={false}
             type="checkbox"
             value="one"
           />
@@ -698,6 +699,7 @@ exports[`Storyshots CheckboxGroup CheckboxGroup 1`] = `
             id="storybook-CheckboxGroup-two"
             name=""
             onChange={[Function]}
+            selected={false}
             type="checkbox"
             value="two"
           />
@@ -749,6 +751,7 @@ exports[`Storyshots CheckboxGroup CheckboxGroup with both single element expansi
             id="storybook-CheckboxGroup-one"
             name=""
             onChange={[Function]}
+            selected={false}
             type="checkbox"
             value="one"
           />
@@ -768,6 +771,7 @@ exports[`Storyshots CheckboxGroup CheckboxGroup with both single element expansi
             id="storybook-CheckboxGroup-two"
             name=""
             onChange={[Function]}
+            selected={false}
             type="checkbox"
             value="two"
           />
@@ -830,6 +834,7 @@ exports[`Storyshots CheckboxGroup CheckboxGroup with error 1`] = `
             id="storybook-CheckboxGroup-one"
             name=""
             onChange={[Function]}
+            selected={false}
             type="checkbox"
             value="one"
           />
@@ -849,6 +854,7 @@ exports[`Storyshots CheckboxGroup CheckboxGroup with error 1`] = `
             id="storybook-CheckboxGroup-two"
             name=""
             onChange={[Function]}
+            selected={false}
             type="checkbox"
             value="two"
           />
@@ -900,6 +906,7 @@ exports[`Storyshots CheckboxGroup CheckboxGroup with one multi element expansion
             id="storybook-CheckboxGroup-one"
             name=""
             onChange={[Function]}
+            selected={false}
             type="checkbox"
             value="one"
           />
@@ -919,6 +926,7 @@ exports[`Storyshots CheckboxGroup CheckboxGroup with one multi element expansion
             id="storybook-CheckboxGroup-two"
             name=""
             onChange={[Function]}
+            selected={false}
             type="checkbox"
             value="two"
           />
@@ -970,6 +978,7 @@ exports[`Storyshots CheckboxGroup CheckboxGroup with one single element expansio
             id="storybook-CheckboxGroup-one"
             name=""
             onChange={[Function]}
+            selected={false}
             type="checkbox"
             value="one"
           />
@@ -989,6 +998,7 @@ exports[`Storyshots CheckboxGroup CheckboxGroup with one single element expansio
             id="storybook-CheckboxGroup-two"
             name=""
             onChange={[Function]}
+            selected={false}
             type="checkbox"
             value="two"
           />
@@ -1051,6 +1061,7 @@ exports[`Storyshots CheckboxGroup CheckboxGroup with success 1`] = `
             id="storybook-CheckboxGroup-one"
             name=""
             onChange={[Function]}
+            selected={false}
             type="checkbox"
             value="one"
           />
@@ -1070,6 +1081,7 @@ exports[`Storyshots CheckboxGroup CheckboxGroup with success 1`] = `
             id="storybook-CheckboxGroup-two"
             name=""
             onChange={[Function]}
+            selected={false}
             type="checkbox"
             value="two"
           />
@@ -1145,6 +1157,7 @@ exports[`Storyshots CheckboxGroup CheckboxGroup with warning 1`] = `
             id="storybook-CheckboxGroup-one"
             name=""
             onChange={[Function]}
+            selected={false}
             type="checkbox"
             value="one"
           />
@@ -1164,6 +1177,7 @@ exports[`Storyshots CheckboxGroup CheckboxGroup with warning 1`] = `
             id="storybook-CheckboxGroup-two"
             name=""
             onChange={[Function]}
+            selected={false}
             type="checkbox"
             value="two"
           />
@@ -1216,6 +1230,7 @@ exports[`Storyshots CheckboxGroup Disabled CheckboxGroup 1`] = `
             id="storybook-CheckboxGroup-one"
             name=""
             onChange={[Function]}
+            selected={false}
             type="checkbox"
             value="one"
           />
@@ -1235,6 +1250,7 @@ exports[`Storyshots CheckboxGroup Disabled CheckboxGroup 1`] = `
             id="storybook-CheckboxGroup-two"
             name=""
             onChange={[Function]}
+            selected={false}
             type="checkbox"
             value="two"
           />

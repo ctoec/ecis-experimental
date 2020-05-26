@@ -174,7 +174,8 @@ export const ChoiceList: React.FC<ChoiceListProps> = ({
 					<>
 						<Checkbox
 							id={`${id}-${option.value}`}
-							{...option}
+							text={option.text}
+							value={option.value}
 							name={option.name || name || ''}
 							onChange={changeEvent}
 							defaultValue={selectedItems.includes(option.value)}

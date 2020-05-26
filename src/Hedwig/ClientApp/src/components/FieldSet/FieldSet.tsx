@@ -15,6 +15,9 @@ export type FieldSetProps = {
 	disabled?: boolean;
 };
 
+/**
+ * Accessibility-following wrapping component for a native fieldset element
+ */
 export const FieldSet: React.FC<FieldSetProps> = ({
 	legend,
 	id,

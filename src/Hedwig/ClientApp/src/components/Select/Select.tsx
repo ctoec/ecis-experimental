@@ -24,6 +24,10 @@ export type SelectProps = {
 } & HTMLAttributes<HTMLSelectElement> &
 	FormFieldStatusProps;
 
+/**
+ * Component that wraps a native select element and provides for additional display
+ * based on the value selected by the user.
+ */
 export const Select: React.FC<SelectProps> = ({
 	id,
 	className,
@@ -47,6 +51,7 @@ export const Select: React.FC<SelectProps> = ({
 	}
 	const [selectedItems, setSelectedItems] = useState(processedSelectedItems);
 
+	// Wrap the supplied onChange to provide for local state management
 	const _onChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		const changedValue = event.target.value;
 		const newSelectedItems = [changedValue];
@@ -122,6 +127,10 @@ type OtherOptionTextInputWrapperProps<T> = {
 	innerLabel: string;
 } & Omit<T, 'label' | 'legend'>;
 
+/**
+ * Wraps a Select element in a FieldSet and provides a text input when the user
+ * selects "Other"
+ */
 export const SelectWithOther: React.FC<OtherOptionTextInputWrapperProps<SelectProps>> = ({
 	id,
 	legend,

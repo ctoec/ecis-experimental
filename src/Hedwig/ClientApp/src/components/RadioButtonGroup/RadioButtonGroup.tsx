@@ -21,6 +21,9 @@ export type RadioButtonGroupProps = {
 	onChange: React.ChangeEventHandler<HTMLInputElement>;
 };
 
+/**
+ * Internal component for managing a group of related RadioButtons
+ */
 const InternalRadioButtonGroup: React.FC<RadioButtonGroupProps> = ({
 	id,
 	className,
@@ -36,6 +39,7 @@ const InternalRadioButtonGroup: React.FC<RadioButtonGroupProps> = ({
 	}
 	const [selectedItems, setSelectedItems] = useState(processedSelectedItems);
 
+	// Wrap the supplied onChange to provide for local state management
 	const _onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const changedValue = event.target.value;
 		const newSelectedItems = [changedValue];
@@ -45,6 +49,7 @@ const InternalRadioButtonGroup: React.FC<RadioButtonGroupProps> = ({
 
 	return (
 		<div className={className}>
+			{/* Map over the options and invoke the render call back as a React component */}
 			{options.map(({ render: Render, value, expansion }) => (
 				<>
 					<Render
@@ -63,6 +68,9 @@ const InternalRadioButtonGroup: React.FC<RadioButtonGroupProps> = ({
 	);
 };
 
+/**
+ * Component for displaying a group of related RadioButtons in a FieldSet
+ */
 export const RadioButtonGroup: React.FC<RadioButtonGroupProps & FieldSetProps> = ({
 	id,
 	className,

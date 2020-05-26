@@ -14,6 +14,9 @@ export type CheckboxOption = {
 	expansion?: React.ReactNode;
 };
 
+/**
+ * Internal component for managing a group of related checkboxes
+ */
 export type CheckboxGroupProps = {
 	id: string;
 	className?: string;
@@ -33,6 +36,8 @@ const InternalCheckboxGroup: React.FC<CheckboxGroupProps> = ({
 	const selectedItemsOnInput = Array.isArray(defaultValue) ? defaultValue : [defaultValue];
 	const [selectedItems, setSelectedItems] = useState(selectedItemsOnInput);
 
+	// Wrap the supplied onChange (from either the option element or CheckboxGroup)
+	// to provide for local state management
 	const _onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const changedValue = event.target.value;
 		let newSelectedItems: string[];
@@ -50,6 +55,7 @@ const InternalCheckboxGroup: React.FC<CheckboxGroupProps> = ({
 
 	return (
 		<div className={className}>
+			{/* Map over the options and invoke the render call back as a React component */}
 			{options.map(({ render: Render, value, expansion }) => (
 				<>
 					<Render
@@ -69,6 +75,9 @@ const InternalCheckboxGroup: React.FC<CheckboxGroupProps> = ({
 	);
 };
 
+/**
+ * Component for displaying a group of related Checkbox items in a FieldSet
+ */
 export const CheckboxGroup: React.FC<CheckboxGroupProps & FieldSetProps> = ({
 	id,
 	className,
