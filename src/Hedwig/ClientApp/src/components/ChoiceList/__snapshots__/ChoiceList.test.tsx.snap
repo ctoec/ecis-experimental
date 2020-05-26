@@ -1,724 +1,170 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`check matches snapshot 1`] = `
-Object {
-  "asFragment": [Function],
-  "baseElement": <body>
-    <div>
-      <fieldset
-        aria-required="true"
-        class="grid-gap grid-row usa-fieldset"
-        id="id-fieldset"
-      >
-        <legend
-          id="fieldset-legend-id-fieldset"
-        >
-          <span
-            class="usa-sr-only"
-          >
-            choice
-          </span>
-        </legend>
-        <div
-          class="grid-gap grid-row margin-top-3"
-        >
-          <div
-            class=""
-          >
-            <div
-              class="usa-checkbox undefined"
-            >
-              <input
-                class="usa-checkbox__input"
-                id="id-1"
-                name=""
-                type="checkbox"
-                value="1"
-              />
-              <label
-                class="usa-checkbox__label"
-                for="id-1"
-              >
-                Option 1
-              </label>
-            </div>
-            <div
-              class="usa-checkbox undefined"
-            >
-              <input
-                class="usa-checkbox__input"
-                id="id-2"
-                name=""
-                type="checkbox"
-                value="2"
-              />
-              <label
-                class="usa-checkbox__label"
-                for="id-2"
-              >
-                Option 2
-              </label>
-            </div>
-          </div>
-        </div>
-      </fieldset>
-    </div>
-  </body>,
-  "container": <div>
-    <fieldset
-      aria-required="true"
-      class="grid-gap grid-row usa-fieldset"
-      id="id-fieldset"
+<DocumentFragment>
+  <fieldset
+    aria-required="true"
+    class="grid-gap grid-row usa-fieldset"
+    id="id-fieldset"
+  >
+    <legend
+      id="fieldset-legend-id-fieldset"
     >
-      <legend
-        id="fieldset-legend-id-fieldset"
+      <span
+        class="usa-sr-only"
       >
-        <span
-          class="usa-sr-only"
-        >
-          choice
-        </span>
-      </legend>
-      <div
-        class="grid-gap grid-row margin-top-3"
-      >
-        <div
-          class=""
-        >
-          <div
-            class="usa-checkbox undefined"
-          >
-            <input
-              class="usa-checkbox__input"
-              id="id-1"
-              name=""
-              type="checkbox"
-              value="1"
-            />
-            <label
-              class="usa-checkbox__label"
-              for="id-1"
-            >
-              Option 1
-            </label>
-          </div>
-          <div
-            class="usa-checkbox undefined"
-          >
-            <input
-              class="usa-checkbox__input"
-              id="id-2"
-              name=""
-              type="checkbox"
-              value="2"
-            />
-            <label
-              class="usa-checkbox__label"
-              for="id-2"
-            >
-              Option 2
-            </label>
-          </div>
-        </div>
-      </div>
-    </fieldset>
-  </div>,
-  "debug": [Function],
-  "findAllByAltText": [Function],
-  "findAllByDisplayValue": [Function],
-  "findAllByLabelText": [Function],
-  "findAllByPlaceholderText": [Function],
-  "findAllByRole": [Function],
-  "findAllByTestId": [Function],
-  "findAllByText": [Function],
-  "findAllByTitle": [Function],
-  "findByAltText": [Function],
-  "findByDisplayValue": [Function],
-  "findByLabelText": [Function],
-  "findByPlaceholderText": [Function],
-  "findByRole": [Function],
-  "findByTestId": [Function],
-  "findByText": [Function],
-  "findByTitle": [Function],
-  "getAllByAltText": [Function],
-  "getAllByDisplayValue": [Function],
-  "getAllByLabelText": [Function],
-  "getAllByPlaceholderText": [Function],
-  "getAllByRole": [Function],
-  "getAllByTestId": [Function],
-  "getAllByText": [Function],
-  "getAllByTitle": [Function],
-  "getByAltText": [Function],
-  "getByDisplayValue": [Function],
-  "getByLabelText": [Function],
-  "getByPlaceholderText": [Function],
-  "getByRole": [Function],
-  "getByTestId": [Function],
-  "getByText": [Function],
-  "getByTitle": [Function],
-  "queryAllByAltText": [Function],
-  "queryAllByDisplayValue": [Function],
-  "queryAllByLabelText": [Function],
-  "queryAllByPlaceholderText": [Function],
-  "queryAllByRole": [Function],
-  "queryAllByTestId": [Function],
-  "queryAllByText": [Function],
-  "queryAllByTitle": [Function],
-  "queryByAltText": [Function],
-  "queryByDisplayValue": [Function],
-  "queryByLabelText": [Function],
-  "queryByPlaceholderText": [Function],
-  "queryByRole": [Function],
-  "queryByTestId": [Function],
-  "queryByText": [Function],
-  "queryByTitle": [Function],
-  "rerender": [Function],
-  "unmount": [Function],
-}
-`;
-
-exports[`radio matches snapshot 1`] = `
-Object {
-  "asFragment": [Function],
-  "baseElement": <body>
-    <div>
-      <fieldset
-        aria-required="true"
-        class="grid-gap grid-row usa-fieldset"
-        id="id-fieldset"
-      >
-        <legend
-          id="fieldset-legend-id-fieldset"
-        >
-          <span
-            class="usa-sr-only"
-          >
-            choice
-          </span>
-        </legend>
-        <div
-          class="grid-gap grid-row margin-top-3"
-        >
-          <div
-            class=""
-          >
-            <div
-              class="usa-radio"
-            >
-              <input
-                class="usa-radio__input"
-                id="1"
-                name=""
-                type="radio"
-                value="1"
-              />
-              <label
-                class="usa-radio__label"
-                for="1"
-              >
-                Option 1
-              </label>
-            </div>
-            <div
-              class="usa-radio"
-            >
-              <input
-                class="usa-radio__input"
-                id="2"
-                name=""
-                type="radio"
-                value="2"
-              />
-              <label
-                class="usa-radio__label"
-                for="2"
-              >
-                Option 2
-              </label>
-            </div>
-          </div>
-        </div>
-      </fieldset>
-    </div>
-  </body>,
-  "container": <div>
-    <fieldset
-      aria-required="true"
-      class="grid-gap grid-row usa-fieldset"
-      id="id-fieldset"
-    >
-      <legend
-        id="fieldset-legend-id-fieldset"
-      >
-        <span
-          class="usa-sr-only"
-        >
-          choice
-        </span>
-      </legend>
-      <div
-        class="grid-gap grid-row margin-top-3"
-      >
-        <div
-          class=""
-        >
-          <div
-            class="usa-radio"
-          >
-            <input
-              class="usa-radio__input"
-              id="1"
-              name=""
-              type="radio"
-              value="1"
-            />
-            <label
-              class="usa-radio__label"
-              for="1"
-            >
-              Option 1
-            </label>
-          </div>
-          <div
-            class="usa-radio"
-          >
-            <input
-              class="usa-radio__input"
-              id="2"
-              name=""
-              type="radio"
-              value="2"
-            />
-            <label
-              class="usa-radio__label"
-              for="2"
-            >
-              Option 2
-            </label>
-          </div>
-        </div>
-      </div>
-    </fieldset>
-  </div>,
-  "debug": [Function],
-  "findAllByAltText": [Function],
-  "findAllByDisplayValue": [Function],
-  "findAllByLabelText": [Function],
-  "findAllByPlaceholderText": [Function],
-  "findAllByRole": [Function],
-  "findAllByTestId": [Function],
-  "findAllByText": [Function],
-  "findAllByTitle": [Function],
-  "findByAltText": [Function],
-  "findByDisplayValue": [Function],
-  "findByLabelText": [Function],
-  "findByPlaceholderText": [Function],
-  "findByRole": [Function],
-  "findByTestId": [Function],
-  "findByText": [Function],
-  "findByTitle": [Function],
-  "getAllByAltText": [Function],
-  "getAllByDisplayValue": [Function],
-  "getAllByLabelText": [Function],
-  "getAllByPlaceholderText": [Function],
-  "getAllByRole": [Function],
-  "getAllByTestId": [Function],
-  "getAllByText": [Function],
-  "getAllByTitle": [Function],
-  "getByAltText": [Function],
-  "getByDisplayValue": [Function],
-  "getByLabelText": [Function],
-  "getByPlaceholderText": [Function],
-  "getByRole": [Function],
-  "getByTestId": [Function],
-  "getByText": [Function],
-  "getByTitle": [Function],
-  "queryAllByAltText": [Function],
-  "queryAllByDisplayValue": [Function],
-  "queryAllByLabelText": [Function],
-  "queryAllByPlaceholderText": [Function],
-  "queryAllByRole": [Function],
-  "queryAllByTestId": [Function],
-  "queryAllByText": [Function],
-  "queryAllByTitle": [Function],
-  "queryByAltText": [Function],
-  "queryByDisplayValue": [Function],
-  "queryByLabelText": [Function],
-  "queryByPlaceholderText": [Function],
-  "queryByRole": [Function],
-  "queryByTestId": [Function],
-  "queryByText": [Function],
-  "queryByTitle": [Function],
-  "rerender": [Function],
-  "unmount": [Function],
-}
-`;
-
-exports[`radio with expansion matches snapshot 1`] = `
-Object {
-  "asFragment": [Function],
-  "baseElement": <body>
-    <div>
-      <fieldset
-        aria-required="true"
-        class="grid-gap grid-row usa-fieldset"
-        id="id-fieldset"
-      >
-        <legend
-          id="fieldset-legend-id-fieldset"
-        >
-          <span
-            class="usa-sr-only"
-          >
-            choice
-          </span>
-        </legend>
-        <div
-          class="grid-gap grid-row margin-top-3"
-        >
-          <div
-            class=""
-          >
-            <div
-              class="usa-radio"
-            >
-              <input
-                checked=""
-                class="usa-radio__input"
-                id="1"
-                name=""
-                type="radio"
-                value="1"
-              />
-              <label
-                class="usa-radio__label"
-                for="1"
-              >
-                Option 1
-              </label>
-            </div>
-            <div
-              class="oec-choicelist-expansion"
-            >
-              <p>
-                My expansion
-              </p>
-            </div>
-            <div
-              class="usa-radio"
-            >
-              <input
-                class="usa-radio__input"
-                id="2"
-                name=""
-                type="radio"
-                value="2"
-              />
-              <label
-                class="usa-radio__label"
-                for="2"
-              >
-                Option 2
-              </label>
-            </div>
-          </div>
-        </div>
-      </fieldset>
-    </div>
-  </body>,
-  "container": <div>
-    <fieldset
-      aria-required="true"
-      class="grid-gap grid-row usa-fieldset"
-      id="id-fieldset"
-    >
-      <legend
-        id="fieldset-legend-id-fieldset"
-      >
-        <span
-          class="usa-sr-only"
-        >
-          choice
-        </span>
-      </legend>
-      <div
-        class="grid-gap grid-row margin-top-3"
-      >
-        <div
-          class=""
-        >
-          <div
-            class="usa-radio"
-          >
-            <input
-              checked=""
-              class="usa-radio__input"
-              id="1"
-              name=""
-              type="radio"
-              value="1"
-            />
-            <label
-              class="usa-radio__label"
-              for="1"
-            >
-              Option 1
-            </label>
-          </div>
-          <div
-            class="oec-choicelist-expansion"
-          >
-            <p>
-              My expansion
-            </p>
-          </div>
-          <div
-            class="usa-radio"
-          >
-            <input
-              class="usa-radio__input"
-              id="2"
-              name=""
-              type="radio"
-              value="2"
-            />
-            <label
-              class="usa-radio__label"
-              for="2"
-            >
-              Option 2
-            </label>
-          </div>
-        </div>
-      </div>
-    </fieldset>
-  </div>,
-  "debug": [Function],
-  "findAllByAltText": [Function],
-  "findAllByDisplayValue": [Function],
-  "findAllByLabelText": [Function],
-  "findAllByPlaceholderText": [Function],
-  "findAllByRole": [Function],
-  "findAllByTestId": [Function],
-  "findAllByText": [Function],
-  "findAllByTitle": [Function],
-  "findByAltText": [Function],
-  "findByDisplayValue": [Function],
-  "findByLabelText": [Function],
-  "findByPlaceholderText": [Function],
-  "findByRole": [Function],
-  "findByTestId": [Function],
-  "findByText": [Function],
-  "findByTitle": [Function],
-  "getAllByAltText": [Function],
-  "getAllByDisplayValue": [Function],
-  "getAllByLabelText": [Function],
-  "getAllByPlaceholderText": [Function],
-  "getAllByRole": [Function],
-  "getAllByTestId": [Function],
-  "getAllByText": [Function],
-  "getAllByTitle": [Function],
-  "getByAltText": [Function],
-  "getByDisplayValue": [Function],
-  "getByLabelText": [Function],
-  "getByPlaceholderText": [Function],
-  "getByRole": [Function],
-  "getByTestId": [Function],
-  "getByText": [Function],
-  "getByTitle": [Function],
-  "queryAllByAltText": [Function],
-  "queryAllByDisplayValue": [Function],
-  "queryAllByLabelText": [Function],
-  "queryAllByPlaceholderText": [Function],
-  "queryAllByRole": [Function],
-  "queryAllByTestId": [Function],
-  "queryAllByText": [Function],
-  "queryAllByTitle": [Function],
-  "queryByAltText": [Function],
-  "queryByDisplayValue": [Function],
-  "queryByLabelText": [Function],
-  "queryByPlaceholderText": [Function],
-  "queryByRole": [Function],
-  "queryByTestId": [Function],
-  "queryByText": [Function],
-  "queryByTitle": [Function],
-  "rerender": [Function],
-  "unmount": [Function],
-}
-`;
-
-exports[`select matches snapshot 1`] = `
-Object {
-  "asFragment": [Function],
-  "baseElement": <body>
-    <div>
-      <div
-        class="usa-form-group "
-      >
-        <div
-          class=""
-        />
-        <label
-          class="usa-label"
-          for="id"
-        >
-          choice
-        </label>
-        <select
-          aria-required="true"
-          class="usa-select"
-          id="id"
-          name=""
-        >
-          <option
-            value=""
-          >
-            - Select -
-          </option>
-          <option
-            value="1"
-          >
-            Option 1
-          </option>
-          <option
-            value="2"
-          >
-            Option 2
-          </option>
-        </select>
-      </div>
-    </div>
-  </body>,
-  "container": <div>
+        choice
+      </span>
+    </legend>
     <div
-      class="usa-form-group "
+      class="grid-gap grid-row margin-top-3"
     >
       <div
         class=""
-      />
-      <label
-        class="usa-label"
-        for="id"
-      >
-        choice
-      </label>
-      <select
-        aria-required="true"
-        class="usa-select"
-        id="id"
-        name=""
-      >
-        <option
-          value=""
-        >
-          - Select -
-        </option>
-        <option
-          value="1"
-        >
-          Option 1
-        </option>
-        <option
-          value="2"
-        >
-          Option 2
-        </option>
-      </select>
-    </div>
-  </div>,
-  "debug": [Function],
-  "findAllByAltText": [Function],
-  "findAllByDisplayValue": [Function],
-  "findAllByLabelText": [Function],
-  "findAllByPlaceholderText": [Function],
-  "findAllByRole": [Function],
-  "findAllByTestId": [Function],
-  "findAllByText": [Function],
-  "findAllByTitle": [Function],
-  "findByAltText": [Function],
-  "findByDisplayValue": [Function],
-  "findByLabelText": [Function],
-  "findByPlaceholderText": [Function],
-  "findByRole": [Function],
-  "findByTestId": [Function],
-  "findByText": [Function],
-  "findByTitle": [Function],
-  "getAllByAltText": [Function],
-  "getAllByDisplayValue": [Function],
-  "getAllByLabelText": [Function],
-  "getAllByPlaceholderText": [Function],
-  "getAllByRole": [Function],
-  "getAllByTestId": [Function],
-  "getAllByText": [Function],
-  "getAllByTitle": [Function],
-  "getByAltText": [Function],
-  "getByDisplayValue": [Function],
-  "getByLabelText": [Function],
-  "getByPlaceholderText": [Function],
-  "getByRole": [Function],
-  "getByTestId": [Function],
-  "getByText": [Function],
-  "getByTitle": [Function],
-  "queryAllByAltText": [Function],
-  "queryAllByDisplayValue": [Function],
-  "queryAllByLabelText": [Function],
-  "queryAllByPlaceholderText": [Function],
-  "queryAllByRole": [Function],
-  "queryAllByTestId": [Function],
-  "queryAllByText": [Function],
-  "queryAllByTitle": [Function],
-  "queryByAltText": [Function],
-  "queryByDisplayValue": [Function],
-  "queryByLabelText": [Function],
-  "queryByPlaceholderText": [Function],
-  "queryByRole": [Function],
-  "queryByTestId": [Function],
-  "queryByText": [Function],
-  "queryByTitle": [Function],
-  "rerender": [Function],
-  "unmount": [Function],
-}
-`;
-
-exports[`select with expansion matches snapshot 1`] = `
-Object {
-  "asFragment": [Function],
-  "baseElement": <body>
-    <div>
-      <div
-        class="usa-form-group "
       >
         <div
-          class=""
-        />
-        <label
-          class="usa-label"
-          for="id"
+          class="usa-checkbox undefined"
         >
-          choice
-        </label>
-        <select
-          aria-required="true"
-          class="usa-select"
-          id="id"
-          name=""
-        >
-          <option
-            value=""
-          >
-            - Select -
-          </option>
-          <option
+          <input
+            class="usa-checkbox__input"
+            id="id-1"
+            name=""
+            type="checkbox"
             value="1"
+          />
+          <label
+            class="usa-checkbox__label"
+            for="id-1"
           >
             Option 1
-          </option>
-          <option
+          </label>
+        </div>
+        <div
+          class="usa-checkbox undefined"
+        >
+          <input
+            class="usa-checkbox__input"
+            id="id-2"
+            name=""
+            type="checkbox"
             value="2"
+          />
+          <label
+            class="usa-checkbox__label"
+            for="id-2"
           >
             Option 2
-          </option>
-        </select>
+          </label>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</DocumentFragment>
+`;
+
+exports[`radio matches snapshot 1`] = `
+<DocumentFragment>
+  <fieldset
+    aria-required="true"
+    class="grid-gap grid-row usa-fieldset"
+    id="id-fieldset"
+  >
+    <legend
+      id="fieldset-legend-id-fieldset"
+    >
+      <span
+        class="usa-sr-only"
+      >
+        choice
+      </span>
+    </legend>
+    <div
+      class="grid-gap grid-row margin-top-3"
+    >
+      <div
+        class=""
+      >
+        <div
+          class="usa-radio"
+        >
+          <input
+            class="usa-radio__input"
+            id="1"
+            name=""
+            type="radio"
+            value="1"
+          />
+          <label
+            class="usa-radio__label"
+            for="1"
+          >
+            Option 1
+          </label>
+        </div>
+        <div
+          class="usa-radio"
+        >
+          <input
+            class="usa-radio__input"
+            id="2"
+            name=""
+            type="radio"
+            value="2"
+          />
+          <label
+            class="usa-radio__label"
+            for="2"
+          >
+            Option 2
+          </label>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</DocumentFragment>
+`;
+
+exports[`radio with expansion matches snapshot 1`] = `
+<DocumentFragment>
+  <fieldset
+    aria-required="true"
+    class="grid-gap grid-row usa-fieldset"
+    id="id-fieldset"
+  >
+    <legend
+      id="fieldset-legend-id-fieldset"
+    >
+      <span
+        class="usa-sr-only"
+      >
+        choice
+      </span>
+    </legend>
+    <div
+      class="grid-gap grid-row margin-top-3"
+    >
+      <div
+        class=""
+      >
+        <div
+          class="usa-radio"
+        >
+          <input
+            checked=""
+            class="usa-radio__input"
+            expansion="[object Object]"
+            id="1"
+            name=""
+            type="radio"
+            value="1"
+          />
+          <label
+            class="usa-radio__label"
+            for="1"
+          >
+            Option 1
+          </label>
+        </div>
         <div
           class="oec-choicelist-expansion"
         >
@@ -726,296 +172,182 @@ Object {
             My expansion
           </p>
         </div>
+        <div
+          class="usa-radio"
+        >
+          <input
+            class="usa-radio__input"
+            id="2"
+            name=""
+            type="radio"
+            value="2"
+          />
+          <label
+            class="usa-radio__label"
+            for="2"
+          >
+            Option 2
+          </label>
+        </div>
       </div>
     </div>
-  </body>,
-  "container": <div>
+  </fieldset>
+</DocumentFragment>
+`;
+
+exports[`select matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="usa-form-group "
+  >
     <div
-      class="usa-form-group "
+      class=""
+    />
+    <label
+      class="usa-label"
+      for="id"
     >
-      <div
-        class=""
-      />
-      <label
-        class="usa-label"
-        for="id"
+      choice
+    </label>
+    <select
+      aria-required="true"
+      class="usa-select"
+      id="id"
+      name=""
+    >
+      <option
+        value=""
       >
-        choice
-      </label>
-      <select
-        aria-required="true"
-        class="usa-select"
-        id="id"
-        name=""
+        - Select -
+      </option>
+      <option
+        value="1"
       >
-        <option
-          value=""
-        >
-          - Select -
-        </option>
-        <option
-          value="1"
-        >
-          Option 1
-        </option>
-        <option
-          value="2"
-        >
-          Option 2
-        </option>
-      </select>
-      <div
-        class="oec-choicelist-expansion"
+        Option 1
+      </option>
+      <option
+        value="2"
       >
-        <p>
-          My expansion
-        </p>
-      </div>
+        Option 2
+      </option>
+    </select>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`select with expansion matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="usa-form-group "
+  >
+    <div
+      class=""
+    />
+    <label
+      class="usa-label"
+      for="id"
+    >
+      choice
+    </label>
+    <select
+      aria-required="true"
+      class="usa-select"
+      id="id"
+      name=""
+    >
+      <option
+        value=""
+      >
+        - Select -
+      </option>
+      <option
+        value="1"
+      >
+        Option 1
+      </option>
+      <option
+        value="2"
+      >
+        Option 2
+      </option>
+    </select>
+    <div
+      class="oec-choicelist-expansion"
+    >
+      <p>
+        My expansion
+      </p>
     </div>
-  </div>,
-  "debug": [Function],
-  "findAllByAltText": [Function],
-  "findAllByDisplayValue": [Function],
-  "findAllByLabelText": [Function],
-  "findAllByPlaceholderText": [Function],
-  "findAllByRole": [Function],
-  "findAllByTestId": [Function],
-  "findAllByText": [Function],
-  "findAllByTitle": [Function],
-  "findByAltText": [Function],
-  "findByDisplayValue": [Function],
-  "findByLabelText": [Function],
-  "findByPlaceholderText": [Function],
-  "findByRole": [Function],
-  "findByTestId": [Function],
-  "findByText": [Function],
-  "findByTitle": [Function],
-  "getAllByAltText": [Function],
-  "getAllByDisplayValue": [Function],
-  "getAllByLabelText": [Function],
-  "getAllByPlaceholderText": [Function],
-  "getAllByRole": [Function],
-  "getAllByTestId": [Function],
-  "getAllByText": [Function],
-  "getAllByTitle": [Function],
-  "getByAltText": [Function],
-  "getByDisplayValue": [Function],
-  "getByLabelText": [Function],
-  "getByPlaceholderText": [Function],
-  "getByRole": [Function],
-  "getByTestId": [Function],
-  "getByText": [Function],
-  "getByTitle": [Function],
-  "queryAllByAltText": [Function],
-  "queryAllByDisplayValue": [Function],
-  "queryAllByLabelText": [Function],
-  "queryAllByPlaceholderText": [Function],
-  "queryAllByRole": [Function],
-  "queryAllByTestId": [Function],
-  "queryAllByText": [Function],
-  "queryAllByTitle": [Function],
-  "queryByAltText": [Function],
-  "queryByDisplayValue": [Function],
-  "queryByLabelText": [Function],
-  "queryByPlaceholderText": [Function],
-  "queryByRole": [Function],
-  "queryByTestId": [Function],
-  "queryByText": [Function],
-  "queryByTitle": [Function],
-  "rerender": [Function],
-  "unmount": [Function],
-}
+  </div>
+</DocumentFragment>
 `;
 
 exports[`select with expansion matches snapshot 2`] = `
-Object {
-  "asFragment": [Function],
-  "baseElement": <body>
-    <div>
-      <fieldset
-        aria-required="true"
-        class="grid-gap grid-row usa-fieldset"
-        id="id-fieldset"
-      >
-        <legend
-          id="fieldset-legend-id-fieldset"
-        >
-          <span
-            class="usa-sr-only"
-          >
-            choice
-          </span>
-        </legend>
-        <div
-          class="grid-gap grid-row margin-top-3"
-        >
-          <div
-            class=""
-          >
-            <div
-              class="usa-checkbox undefined"
-            >
-              <input
-                checked=""
-                class="usa-checkbox__input"
-                id="id-1"
-                name=""
-                type="checkbox"
-                value="1"
-              />
-              <label
-                class="usa-checkbox__label"
-                for="id-1"
-              >
-                Option 1
-              </label>
-            </div>
-            <div
-              class="oec-choicelist-expansion"
-            >
-              <p>
-                My expansion
-              </p>
-            </div>
-            <div
-              class="usa-checkbox undefined"
-            >
-              <input
-                class="usa-checkbox__input"
-                id="id-2"
-                name=""
-                type="checkbox"
-                value="2"
-              />
-              <label
-                class="usa-checkbox__label"
-                for="id-2"
-              >
-                Option 2
-              </label>
-            </div>
-          </div>
-        </div>
-      </fieldset>
-    </div>
-  </body>,
-  "container": <div>
-    <fieldset
-      aria-required="true"
-      class="grid-gap grid-row usa-fieldset"
-      id="id-fieldset"
+<DocumentFragment>
+  <fieldset
+    aria-required="true"
+    class="grid-gap grid-row usa-fieldset"
+    id="id-fieldset"
+  >
+    <legend
+      id="fieldset-legend-id-fieldset"
     >
-      <legend
-        id="fieldset-legend-id-fieldset"
+      <span
+        class="usa-sr-only"
       >
-        <span
-          class="usa-sr-only"
-        >
-          choice
-        </span>
-      </legend>
+        choice
+      </span>
+    </legend>
+    <div
+      class="grid-gap grid-row margin-top-3"
+    >
       <div
-        class="grid-gap grid-row margin-top-3"
+        class=""
       >
         <div
-          class=""
+          class="usa-checkbox undefined"
         >
-          <div
-            class="usa-checkbox undefined"
+          <input
+            checked=""
+            class="usa-checkbox__input"
+            id="id-1"
+            name=""
+            type="checkbox"
+            value="1"
+          />
+          <label
+            class="usa-checkbox__label"
+            for="id-1"
           >
-            <input
-              checked=""
-              class="usa-checkbox__input"
-              id="id-1"
-              name=""
-              type="checkbox"
-              value="1"
-            />
-            <label
-              class="usa-checkbox__label"
-              for="id-1"
-            >
-              Option 1
-            </label>
-          </div>
-          <div
-            class="oec-choicelist-expansion"
+            Option 1
+          </label>
+        </div>
+        <div
+          class="oec-choicelist-expansion"
+        >
+          <p>
+            My expansion
+          </p>
+        </div>
+        <div
+          class="usa-checkbox undefined"
+        >
+          <input
+            class="usa-checkbox__input"
+            id="id-2"
+            name=""
+            type="checkbox"
+            value="2"
+          />
+          <label
+            class="usa-checkbox__label"
+            for="id-2"
           >
-            <p>
-              My expansion
-            </p>
-          </div>
-          <div
-            class="usa-checkbox undefined"
-          >
-            <input
-              class="usa-checkbox__input"
-              id="id-2"
-              name=""
-              type="checkbox"
-              value="2"
-            />
-            <label
-              class="usa-checkbox__label"
-              for="id-2"
-            >
-              Option 2
-            </label>
-          </div>
+            Option 2
+          </label>
         </div>
       </div>
-    </fieldset>
-  </div>,
-  "debug": [Function],
-  "findAllByAltText": [Function],
-  "findAllByDisplayValue": [Function],
-  "findAllByLabelText": [Function],
-  "findAllByPlaceholderText": [Function],
-  "findAllByRole": [Function],
-  "findAllByTestId": [Function],
-  "findAllByText": [Function],
-  "findAllByTitle": [Function],
-  "findByAltText": [Function],
-  "findByDisplayValue": [Function],
-  "findByLabelText": [Function],
-  "findByPlaceholderText": [Function],
-  "findByRole": [Function],
-  "findByTestId": [Function],
-  "findByText": [Function],
-  "findByTitle": [Function],
-  "getAllByAltText": [Function],
-  "getAllByDisplayValue": [Function],
-  "getAllByLabelText": [Function],
-  "getAllByPlaceholderText": [Function],
-  "getAllByRole": [Function],
-  "getAllByTestId": [Function],
-  "getAllByText": [Function],
-  "getAllByTitle": [Function],
-  "getByAltText": [Function],
-  "getByDisplayValue": [Function],
-  "getByLabelText": [Function],
-  "getByPlaceholderText": [Function],
-  "getByRole": [Function],
-  "getByTestId": [Function],
-  "getByText": [Function],
-  "getByTitle": [Function],
-  "queryAllByAltText": [Function],
-  "queryAllByDisplayValue": [Function],
-  "queryAllByLabelText": [Function],
-  "queryAllByPlaceholderText": [Function],
-  "queryAllByRole": [Function],
-  "queryAllByTestId": [Function],
-  "queryAllByText": [Function],
-  "queryAllByTitle": [Function],
-  "queryByAltText": [Function],
-  "queryByDisplayValue": [Function],
-  "queryByLabelText": [Function],
-  "queryByPlaceholderText": [Function],
-  "queryByRole": [Function],
-  "queryByTestId": [Function],
-  "queryByText": [Function],
-  "queryByTitle": [Function],
-  "rerender": [Function],
-  "unmount": [Function],
-}
+    </div>
+  </fieldset>
+</DocumentFragment>
 `;
