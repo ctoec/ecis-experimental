@@ -8,7 +8,7 @@ import { initialLoadErrorGuard } from '../../../../../utils/validations';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
 import { REQUIRED_FOR_OEC_REPORTING } from '../../../../../utils/validations/messageStrings';
 
-export const AgeGroupField: React.FC<{initalLoad: boolean}> = ({ initialLoad }) => {
+export const AgeGroupField: React.FC<{initialLoad: boolean}> = ({ initialLoad }) => {
 	return (
 		<FormField<Enrollment, RadioButtonGroupProps, Age | null>
 			getValue={data => data.at('ageGroup')}
