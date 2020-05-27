@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FieldSetProps, FieldSet } from '../FieldSet/FieldSet';
+import { FormFieldSetProps, FormFieldSet } from '../Form_New/FormFieldSet';
 
 export type RadioOption = {
 	render: (props: {
@@ -96,3 +97,37 @@ export const RadioButtonGroup: React.FC<RadioButtonGroupProps> = ({
 		</FieldSet>
 	);
 };
+
+export type RadioButtonGroupForFormProps<T> = InternalRadioButtonGroupProps & FormFieldSetProps<T>;
+/**
+ * Component for displaying a group of related radio button items in a FormFieldSet
+ */
+export const RadioButtonGroupForForm = <T extends object>({
+	id,
+	className,
+	legend,
+	showLegend,
+	status,
+	optional,
+	hint,
+	horizontal = false,
+	disabled,
+	...props
+}: RadioButtonGroupForFormProps<T>) => {
+	return (
+		<FormFieldSet<T>
+			id={`${id}-fieldset`}
+			className={className}
+			legend={legend}
+			showLegend={showLegend}
+			status={status}
+			optional={optional}
+			hint={hint}
+			horizontal={horizontal}
+			disabled={disabled}
+			childrenGroupClassName={`margin-top-3`}
+		>
+			<InternalRadioButtonGroup id={id} {...props} />
+		</FormFieldSet>
+	)
+}	

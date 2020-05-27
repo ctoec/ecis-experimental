@@ -114,6 +114,9 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
 
 export type CheckboxGroupForFormProps<T> = InternalCheckboxGroupProps & FormFieldSetProps<T>;
 
+/**
+ * Component for displaying a group of related checkbox items in a FormFieldSet
+ */
 export const CheckboxGroupForForm = <T extends object>({
 	id,
 	className,
@@ -125,12 +128,12 @@ export const CheckboxGroupForForm = <T extends object>({
 	horizontal,
 	disabled,
 	...props
-}: PropsWithChildren<CheckboxGroupForFormProps<T>>) => {
+}: CheckboxGroupForFormProps<T>) => {
 	return (
 		<FormFieldSet<T>
 			id={`${id}-fieldset`}
 			className={className}
-			legend={legend || ''}
+			legend={legend}
 			showLegend={showLegend}
 			status={status}
 			optional={optional}
