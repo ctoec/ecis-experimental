@@ -10,10 +10,14 @@ export type FieldSetProps = {
 	optional?: boolean;
 	className?: string;
 	hint?: string;
+	horizontal?: boolean;
 	childrenGroupClassName?: string;
 	disabled?: boolean;
 };
 
+/**
+ * Accessibility-following wrapping component for a native fieldset element
+ */
 export const FieldSet: React.FC<FieldSetProps> = ({
 	legend,
 	id,
@@ -23,6 +27,7 @@ export const FieldSet: React.FC<FieldSetProps> = ({
 	className,
 	children,
 	hint,
+	horizontal = false,
 	childrenGroupClassName,
 	disabled,
 }) => {
@@ -34,7 +39,7 @@ export const FieldSet: React.FC<FieldSetProps> = ({
 	if (status) {
 		ariaDescriber = status.id;
 	}
-	return (
+	const fieldSetElement = (
 		<fieldset
 			className={cx(
 				'grid-gap',
@@ -67,5 +72,16 @@ export const FieldSet: React.FC<FieldSetProps> = ({
 			{status && <FormStatus {...status} />}
 			<div className={cx('grid-gap', 'grid-row', childrenGroupClassName)}>{children}</div>
 		</fieldset>
+	);
+	return (
+		<>
+			{horizontal ? (
+				<div className={horizontal ? 'grid-row flex-align-start grid-gap' : ''}>
+					{fieldSetElement}
+				</div>
+			) : (
+				fieldSetElement
+			)}
+		</>
 	);
 };

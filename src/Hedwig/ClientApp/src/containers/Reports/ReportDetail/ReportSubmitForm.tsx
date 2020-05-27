@@ -304,7 +304,7 @@ export default function ReportSubmitForm({
 			<UtilizationTable {...{ ..._report, accredited }} />
 			<form className="usa-form" noValidate autoComplete="off">
 				<h2>Other Revenue</h2>
-				<FieldSet id="other-revenue" legend="Other Revenue">
+				<FieldSet id="other-revenue" legend="Other Revenue" childrenGroupClassName={''}>
 					<div className="mobile-lg:grid-col-12">
 						<TextInput
 							type="input"

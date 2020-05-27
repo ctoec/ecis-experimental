@@ -644,13 +644,13 @@ const EnrollmentFunding: Section = {
 													response: error,
 													field: 'fundings.fundingSpaceId',
 													message: REQUIRED_FOR_OEC_REPORTING,
-													errorAlertState
+													errorAlertState,
 												},
 												{
 													type: 'error',
 													response: error,
 													field: 'fundings.fundingspace',
-													errorAlertState
+													errorAlertState,
 												},
 											])
 										)}
@@ -687,13 +687,13 @@ const EnrollmentFunding: Section = {
 											response: error,
 											field: 'fundings.firstReportingPeriodId',
 											message: REQUIRED_FOR_OEC_REPORTING,
-											errorAlertState
+											errorAlertState,
 										},
 										{
 											type: 'error',
 											response: error,
 											field: 'fundings',
-											errorAlertState
+											errorAlertState,
 										},
 									])
 								)}

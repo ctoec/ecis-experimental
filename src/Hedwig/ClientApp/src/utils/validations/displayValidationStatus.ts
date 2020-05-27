@@ -14,7 +14,8 @@ type ValidationDisplay = {
 	fields?: string[];
 	message?: string;
 	useValidationErrorMessage?: true;
-	errorAlertState?: { // error: required, warning: never
+	errorAlertState?: {
+		// error: required, warning: never
 		hasAlerted: boolean;
 		alert: () => void;
 	};
@@ -34,18 +35,26 @@ export function displayValidationStatus(
 function processValidationDisplay(
 	validationDisplay: ValidationDisplay
 ): FormStatusProps | undefined {
-	const { response, type, field, fields, message, useValidationErrorMessage, errorAlertState } = validationDisplay;
+	const {
+		response,
+		type,
+		field,
+		fields,
+		message,
+		useValidationErrorMessage,
+		errorAlertState,
+	} = validationDisplay;
 	const fieldValue = field ? [field] : fields;
 	if (!fieldValue) {
 		throw new Error('Either field or fields must be defined');
 	}
 	const errorMessage = getValidationStatus(response, fieldValue);
 	if (errorMessage) {
-		if(errorAlertState) {
-			if(!errorAlertState.hasAlerted) {
-				errorAlertState.alert()
+		if (errorAlertState) {
+			if (!errorAlertState.hasAlerted) {
+				errorAlertState.alert();
 			}
-		} 
+		}
 		return {
 			type: type,
 			message: useValidationErrorMessage ? errorMessage : message,

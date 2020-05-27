@@ -50,8 +50,8 @@ function createChoiceListWithExpansion(type: 'select' | 'radio' | 'check', selec
 
 describe('select', () => {
 	it('matches snapshot', () => {
-		const component = render(createChoiceList('select'));
-		expect(component).toMatchSnapshot();
+		const { asFragment } = render(createChoiceList('select'));
+		expect(asFragment()).toMatchSnapshot();
 	});
 
 	it('selected prop is the selected input', () => {
@@ -62,8 +62,8 @@ describe('select', () => {
 
 describe('select with expansion', () => {
 	it('matches snapshot', () => {
-		const component = render(createChoiceListWithExpansion('select', ['1']));
-		expect(component).toMatchSnapshot();
+		const { asFragment } = render(createChoiceListWithExpansion('select', ['1']));
+		expect(asFragment()).toMatchSnapshot();
 	});
 
 	it('expansion is showed when corresponding input selected', () => {
@@ -74,8 +74,8 @@ describe('select with expansion', () => {
 
 describe('check', () => {
 	it('matches snapshot', () => {
-		const component = render(createChoiceList('check'));
-		expect(component).toMatchSnapshot();
+		const { asFragment } = render(createChoiceList('check'));
+		expect(asFragment()).toMatchSnapshot();
 	});
 
 	it('selected prop is the selected input', () => {
@@ -86,8 +86,8 @@ describe('check', () => {
 
 describe('select with expansion', () => {
 	it('matches snapshot', () => {
-		const component = render(createChoiceListWithExpansion('check', ['1']));
-		expect(component).toMatchSnapshot();
+		const { asFragment } = render(createChoiceListWithExpansion('check', ['1']));
+		expect(asFragment()).toMatchSnapshot();
 	});
 
 	it('expansion is showed when corresponding input selected', () => {
@@ -98,8 +98,8 @@ describe('select with expansion', () => {
 
 describe('radio', () => {
 	it('matches snapshot', () => {
-		const component = render(createChoiceList('radio'));
-		expect(component).toMatchSnapshot();
+		const { asFragment } = render(createChoiceList('radio'));
+		expect(asFragment()).toMatchSnapshot();
 	});
 
 	it('selected prop is the selected input', () => {
@@ -110,8 +110,8 @@ describe('radio', () => {
 
 describe('radio with expansion', () => {
 	it('matches snapshot', () => {
-		const component = render(createChoiceListWithExpansion('radio', ['1']));
-		expect(component).toMatchSnapshot();
+		const { asFragment } = render(createChoiceListWithExpansion('radio', ['1']));
+		expect(asFragment()).toMatchSnapshot();
 	});
 
 	it('expansion is showed when corresponding input selected', () => {

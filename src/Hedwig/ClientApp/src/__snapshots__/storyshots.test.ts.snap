@@ -644,6 +644,629 @@ exports[`Storyshots Card With open card expansion 1`] = `
 </div>
 `;
 
+exports[`Storyshots CheckboxGroup CheckboxGroup 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    aria-required={true}
+    className="grid-gap grid-row usa-fieldset"
+    id="storybook-CheckboxGroup-fieldset"
+  >
+    <legend
+      id="fieldset-legend-storybook-CheckboxGroup-fieldset"
+    >
+      <span
+        className="usa-sr-only"
+      >
+        CheckboxGroup
+      </span>
+    </legend>
+    <div
+      className="grid-gap grid-row margin-top-3"
+    >
+      <div>
+        <div
+          className="usa-checkbox undefined"
+        >
+          <input
+            className="usa-checkbox__input"
+            disabled={false}
+            id="storybook-CheckboxGroup-one"
+            name=""
+            onChange={[Function]}
+            selected={false}
+            type="checkbox"
+            value="one"
+          />
+          <label
+            className="usa-checkbox__label"
+            htmlFor="storybook-CheckboxGroup-one"
+          >
+            Option 1
+          </label>
+        </div>
+        <div
+          className="usa-checkbox undefined"
+        >
+          <input
+            className="usa-checkbox__input"
+            disabled={false}
+            id="storybook-CheckboxGroup-two"
+            name=""
+            onChange={[Function]}
+            selected={false}
+            type="checkbox"
+            value="two"
+          />
+          <label
+            className="usa-checkbox__label"
+            htmlFor="storybook-CheckboxGroup-two"
+          >
+            Option 2
+          </label>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots CheckboxGroup CheckboxGroup with both single element expansion 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    aria-required={true}
+    className="grid-gap grid-row usa-fieldset"
+    id="storybook-CheckboxGroup-fieldset"
+  >
+    <legend
+      id="fieldset-legend-storybook-CheckboxGroup-fieldset"
+    >
+      <span
+        className="usa-sr-only"
+      >
+        CheckboxGroup
+      </span>
+    </legend>
+    <div
+      className="grid-gap grid-row margin-top-3"
+    >
+      <div>
+        <div
+          className="usa-checkbox undefined"
+        >
+          <input
+            className="usa-checkbox__input"
+            disabled={false}
+            id="storybook-CheckboxGroup-one"
+            name=""
+            onChange={[Function]}
+            selected={false}
+            type="checkbox"
+            value="one"
+          />
+          <label
+            className="usa-checkbox__label"
+            htmlFor="storybook-CheckboxGroup-one"
+          >
+            Option 1
+          </label>
+        </div>
+        <div
+          className="usa-checkbox undefined"
+        >
+          <input
+            className="usa-checkbox__input"
+            disabled={false}
+            id="storybook-CheckboxGroup-two"
+            name=""
+            onChange={[Function]}
+            selected={false}
+            type="checkbox"
+            value="two"
+          />
+          <label
+            className="usa-checkbox__label"
+            htmlFor="storybook-CheckboxGroup-two"
+          >
+            Option 2
+          </label>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots CheckboxGroup CheckboxGroup with error 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    aria-describedby="checklis-error"
+    aria-invalid={true}
+    aria-required={true}
+    className="grid-gap grid-row usa-fieldset usa-fieldset--error"
+    id="storybook-CheckboxGroup-fieldset"
+  >
+    <legend
+      id="fieldset-legend-storybook-CheckboxGroup-fieldset"
+    >
+      <span
+        className="usa-sr-only"
+      >
+        CheckboxGroup
+      </span>
+    </legend>
+    <span
+      className="usa-error-message"
+      id="checklis-error"
+      role="alert"
+    >
+      
+       
+      These fields will block your progress
+    </span>
+    <div
+      className="grid-gap grid-row margin-top-3"
+    >
+      <div>
+        <div
+          className="usa-checkbox undefined"
+        >
+          <input
+            className="usa-checkbox__input"
+            disabled={false}
+            id="storybook-CheckboxGroup-one"
+            name=""
+            onChange={[Function]}
+            selected={false}
+            type="checkbox"
+            value="one"
+          />
+          <label
+            className="usa-checkbox__label"
+            htmlFor="storybook-CheckboxGroup-one"
+          >
+            Option 1
+          </label>
+        </div>
+        <div
+          className="usa-checkbox undefined"
+        >
+          <input
+            className="usa-checkbox__input"
+            disabled={false}
+            id="storybook-CheckboxGroup-two"
+            name=""
+            onChange={[Function]}
+            selected={false}
+            type="checkbox"
+            value="two"
+          />
+          <label
+            className="usa-checkbox__label"
+            htmlFor="storybook-CheckboxGroup-two"
+          >
+            Option 2
+          </label>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots CheckboxGroup CheckboxGroup with one multi element expansion 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    aria-required={true}
+    className="grid-gap grid-row usa-fieldset"
+    id="storybook-CheckboxGroup-fieldset"
+  >
+    <legend
+      id="fieldset-legend-storybook-CheckboxGroup-fieldset"
+    >
+      <span
+        className="usa-sr-only"
+      >
+        CheckboxGroup
+      </span>
+    </legend>
+    <div
+      className="grid-gap grid-row margin-top-3"
+    >
+      <div>
+        <div
+          className="usa-checkbox undefined"
+        >
+          <input
+            className="usa-checkbox__input"
+            disabled={false}
+            id="storybook-CheckboxGroup-one"
+            name=""
+            onChange={[Function]}
+            selected={false}
+            type="checkbox"
+            value="one"
+          />
+          <label
+            className="usa-checkbox__label"
+            htmlFor="storybook-CheckboxGroup-one"
+          >
+            Option 1
+          </label>
+        </div>
+        <div
+          className="usa-checkbox undefined"
+        >
+          <input
+            className="usa-checkbox__input"
+            disabled={false}
+            id="storybook-CheckboxGroup-two"
+            name=""
+            onChange={[Function]}
+            selected={false}
+            type="checkbox"
+            value="two"
+          />
+          <label
+            className="usa-checkbox__label"
+            htmlFor="storybook-CheckboxGroup-two"
+          >
+            Option 2
+          </label>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots CheckboxGroup CheckboxGroup with one single element expansion 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    aria-required={true}
+    className="grid-gap grid-row usa-fieldset"
+    id="storybook-CheckboxGroup-fieldset"
+  >
+    <legend
+      id="fieldset-legend-storybook-CheckboxGroup-fieldset"
+    >
+      <span
+        className="usa-sr-only"
+      >
+        CheckboxGroup
+      </span>
+    </legend>
+    <div
+      className="grid-gap grid-row margin-top-3"
+    >
+      <div>
+        <div
+          className="usa-checkbox undefined"
+        >
+          <input
+            className="usa-checkbox__input"
+            disabled={false}
+            id="storybook-CheckboxGroup-one"
+            name=""
+            onChange={[Function]}
+            selected={false}
+            type="checkbox"
+            value="one"
+          />
+          <label
+            className="usa-checkbox__label"
+            htmlFor="storybook-CheckboxGroup-one"
+          >
+            Option 1
+          </label>
+        </div>
+        <div
+          className="usa-checkbox undefined"
+        >
+          <input
+            className="usa-checkbox__input"
+            disabled={false}
+            id="storybook-CheckboxGroup-two"
+            name=""
+            onChange={[Function]}
+            selected={false}
+            type="checkbox"
+            value="two"
+          />
+          <label
+            className="usa-checkbox__label"
+            htmlFor="storybook-CheckboxGroup-two"
+          >
+            Option 2
+          </label>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots CheckboxGroup CheckboxGroup with success 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    aria-describedby="checklist-success"
+    aria-invalid={false}
+    aria-required={true}
+    className="grid-gap grid-row usa-fieldset usa-fieldset--success"
+    id="storybook-CheckboxGroup-fieldset"
+  >
+    <legend
+      id="fieldset-legend-storybook-CheckboxGroup-fieldset"
+    >
+      <span
+        className="usa-sr-only"
+      >
+        CheckboxGroup
+      </span>
+    </legend>
+    <span
+      className="usa-success-message"
+      id="checklist-success"
+      role="status"
+    >
+      
+       
+      These fields were validated woo
+    </span>
+    <div
+      className="grid-gap grid-row margin-top-3"
+    >
+      <div>
+        <div
+          className="usa-checkbox undefined"
+        >
+          <input
+            className="usa-checkbox__input"
+            disabled={false}
+            id="storybook-CheckboxGroup-one"
+            name=""
+            onChange={[Function]}
+            selected={false}
+            type="checkbox"
+            value="one"
+          />
+          <label
+            className="usa-checkbox__label"
+            htmlFor="storybook-CheckboxGroup-one"
+          >
+            Option 1
+          </label>
+        </div>
+        <div
+          className="usa-checkbox undefined"
+        >
+          <input
+            className="usa-checkbox__input"
+            disabled={false}
+            id="storybook-CheckboxGroup-two"
+            name=""
+            onChange={[Function]}
+            selected={false}
+            type="checkbox"
+            value="two"
+          />
+          <label
+            className="usa-checkbox__label"
+            htmlFor="storybook-CheckboxGroup-two"
+          >
+            Option 2
+          </label>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots CheckboxGroup CheckboxGroup with warning 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    aria-describedby="checklist-warning"
+    aria-invalid={false}
+    aria-required={true}
+    className="grid-gap grid-row usa-fieldset usa-fieldset--warning"
+    id="storybook-CheckboxGroup-fieldset"
+  >
+    <legend
+      id="fieldset-legend-storybook-CheckboxGroup-fieldset"
+    >
+      <span
+        className="usa-sr-only"
+      >
+        CheckboxGroup
+      </span>
+    </legend>
+    <span
+      className="usa-warning-message"
+      id="checklist-warning"
+      role="status"
+    >
+      <span
+        className="oec-inline-icon oec-inline-icon--incomplete"
+      >
+        <svg>
+          error.svg
+        </svg>
+        <span
+          className="usa-sr-only"
+        >
+          (
+          incomplete
+          )
+        </span>
+      </span>
+       
+      These fields need your attention
+    </span>
+    <div
+      className="grid-gap grid-row margin-top-3"
+    >
+      <div>
+        <div
+          className="usa-checkbox undefined"
+        >
+          <input
+            className="usa-checkbox__input"
+            disabled={false}
+            id="storybook-CheckboxGroup-one"
+            name=""
+            onChange={[Function]}
+            selected={false}
+            type="checkbox"
+            value="one"
+          />
+          <label
+            className="usa-checkbox__label"
+            htmlFor="storybook-CheckboxGroup-one"
+          >
+            Option 1
+          </label>
+        </div>
+        <div
+          className="usa-checkbox undefined"
+        >
+          <input
+            className="usa-checkbox__input"
+            disabled={false}
+            id="storybook-CheckboxGroup-two"
+            name=""
+            onChange={[Function]}
+            selected={false}
+            type="checkbox"
+            value="two"
+          />
+          <label
+            className="usa-checkbox__label"
+            htmlFor="storybook-CheckboxGroup-two"
+          >
+            Option 2
+          </label>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots CheckboxGroup Disabled CheckboxGroup 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    aria-required={true}
+    className="grid-gap grid-row usa-fieldset"
+    disabled={true}
+    id="storybook-CheckboxGroup-fieldset"
+  >
+    <legend
+      id="fieldset-legend-storybook-CheckboxGroup-fieldset"
+    >
+      <span
+        className="usa-sr-only"
+      >
+        CheckboxGroup
+      </span>
+    </legend>
+    <div
+      className="grid-gap grid-row margin-top-3"
+    >
+      <div>
+        <div
+          className="usa-checkbox undefined"
+        >
+          <input
+            className="usa-checkbox__input"
+            disabled={false}
+            id="storybook-CheckboxGroup-one"
+            name=""
+            onChange={[Function]}
+            selected={false}
+            type="checkbox"
+            value="one"
+          />
+          <label
+            className="usa-checkbox__label"
+            htmlFor="storybook-CheckboxGroup-one"
+          >
+            Option 1
+          </label>
+        </div>
+        <div
+          className="usa-checkbox undefined"
+        >
+          <input
+            className="usa-checkbox__input"
+            disabled={false}
+            id="storybook-CheckboxGroup-two"
+            name=""
+            onChange={[Function]}
+            selected={false}
+            type="checkbox"
+            value="two"
+          />
+          <label
+            className="usa-checkbox__label"
+            htmlFor="storybook-CheckboxGroup-two"
+          >
+            Option 2
+          </label>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
 exports[`Storyshots ChoiceList CheckList with both single element expansion 1`] = `
 <div
   style={
@@ -1343,6 +1966,15 @@ exports[`Storyshots ChoiceList Radio with both single element expansion 1`] = `
             checked={false}
             className="usa-radio__input"
             disabled={false}
+            expansion={
+              <ChoiceListExpansion
+                showOnValue="one"
+              >
+                <p>
+                  Thank you for selecting option one!
+                </p>
+              </ChoiceListExpansion>
+            }
             id="one"
             name=""
             onChange={[Function]}
@@ -1363,6 +1995,15 @@ exports[`Storyshots ChoiceList Radio with both single element expansion 1`] = `
             checked={false}
             className="usa-radio__input"
             disabled={false}
+            expansion={
+              <ChoiceListExpansion
+                showOnValue="two"
+              >
+                <p>
+                  No, thank YOU for selecting option two!
+                </p>
+              </ChoiceListExpansion>
+            }
             id="two"
             name=""
             onChange={[Function]}
@@ -1502,6 +2143,21 @@ exports[`Storyshots ChoiceList Radio with one multi element expansion 1`] = `
             checked={false}
             className="usa-radio__input"
             disabled={false}
+            expansion={
+              <ChoiceListExpansion
+                showOnValue="one"
+              >
+                <p>
+                  Thank you for selecting option one!
+                </p>
+                <TextInput
+                  defaultValue="Yes, you can!"
+                  id="radio-multi-text-input"
+                  label="Interactive Element?"
+                  onChange={[Function]}
+                />
+              </ChoiceListExpansion>
+            }
             id="one"
             name=""
             onChange={[Function]}
@@ -1576,6 +2232,28 @@ exports[`Storyshots ChoiceList Radio with one multi element expansion with error
             checked={false}
             className="usa-radio__input"
             disabled={false}
+            expansion={
+              <ChoiceListExpansion
+                showOnValue="one"
+              >
+                <p>
+                  Thank you for selecting option one!
+                </p>
+                <TextInput
+                  defaultValue="Yes, you can!"
+                  id="radio-multi-text-input"
+                  label="Interactive Element?"
+                  onChange={[Function]}
+                  status={
+                    Object {
+                      "id": "checklis-error",
+                      "message": "These fields will block your progress",
+                      "type": "error",
+                    }
+                  }
+                />
+              </ChoiceListExpansion>
+            }
             id="one"
             name=""
             onChange={[Function]}
@@ -1650,6 +2328,28 @@ exports[`Storyshots ChoiceList Radio with one multi element expansion with warni
             checked={false}
             className="usa-radio__input"
             disabled={false}
+            expansion={
+              <ChoiceListExpansion
+                showOnValue="one"
+              >
+                <p>
+                  Thank you for selecting option one!
+                </p>
+                <TextInput
+                  defaultValue="Yes, you can!"
+                  id="radio-multi-text-input"
+                  label="Interactive Element?"
+                  onChange={[Function]}
+                  status={
+                    Object {
+                      "id": "checklist-warning",
+                      "message": "These fields need your attention",
+                      "type": "warning",
+                    }
+                  }
+                />
+              </ChoiceListExpansion>
+            }
             id="one"
             name=""
             onChange={[Function]}
@@ -1724,6 +2424,15 @@ exports[`Storyshots ChoiceList Radio with one single element expansion 1`] = `
             checked={false}
             className="usa-radio__input"
             disabled={false}
+            expansion={
+              <ChoiceListExpansion
+                showOnValue="one"
+              >
+                <p>
+                  Thank you for selecting option one!
+                </p>
+              </ChoiceListExpansion>
+            }
             id="one"
             name=""
             onChange={[Function]}
@@ -1798,6 +2507,25 @@ exports[`Storyshots ChoiceList Radio with one single element expansion with erro
             checked={false}
             className="usa-radio__input"
             disabled={false}
+            expansion={
+              <ChoiceListExpansion
+                showOnValue="one"
+              >
+                <TextInput
+                  defaultValue="Yes, you can!"
+                  id="radio-multi-text-input"
+                  label="Interactive Element?"
+                  onChange={[Function]}
+                  status={
+                    Object {
+                      "id": "checklis-error",
+                      "message": "These fields will block your progress",
+                      "type": "error",
+                    }
+                  }
+                />
+              </ChoiceListExpansion>
+            }
             id="one"
             name=""
             onChange={[Function]}
@@ -1872,6 +2600,25 @@ exports[`Storyshots ChoiceList Radio with one single element expansion with warn
             checked={false}
             className="usa-radio__input"
             disabled={false}
+            expansion={
+              <ChoiceListExpansion
+                showOnValue="one"
+              >
+                <TextInput
+                  defaultValue="Yes, you can!"
+                  id="radio-multi-text-input"
+                  label="Interactive Element?"
+                  onChange={[Function]}
+                  status={
+                    Object {
+                      "id": "checklist-warning",
+                      "message": "These fields need your attention",
+                      "type": "warning",
+                    }
+                  }
+                />
+              </ChoiceListExpansion>
+            }
             id="one"
             name=""
             onChange={[Function]}
@@ -5143,6 +5890,1113 @@ exports[`Storyshots ProcessList Default 1`] = `
       </span>
     </li>
   </ol>
+</div>
+`;
+
+exports[`Storyshots RadioButtonGroup Disabled RadioButtonGroup 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    aria-required={true}
+    className="grid-gap grid-row usa-fieldset"
+    disabled={true}
+    id="storybook-RadioButtonGroup-fieldset"
+  >
+    <legend
+      id="fieldset-legend-storybook-RadioButtonGroup-fieldset"
+    >
+      <span
+        className="usa-sr-only"
+      >
+        RadioButtonGroup
+      </span>
+    </legend>
+    <div
+      className="grid-gap grid-row margin-top-3"
+    >
+      <div>
+        <div
+          className="usa-radio"
+        >
+          <input
+            checked={false}
+            className="usa-radio__input"
+            disabled={false}
+            id="one"
+            name=""
+            onChange={[Function]}
+            type="radio"
+            value="one"
+          />
+          <label
+            className="usa-radio__label"
+            htmlFor="one"
+          >
+            Option 1
+          </label>
+        </div>
+        <div
+          className="usa-radio"
+        >
+          <input
+            checked={false}
+            className="usa-radio__input"
+            disabled={false}
+            id="two"
+            name=""
+            onChange={[Function]}
+            type="radio"
+            value="two"
+          />
+          <label
+            className="usa-radio__label"
+            htmlFor="two"
+          >
+            Option 2
+          </label>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots RadioButtonGroup RadioButtonGroup 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    aria-required={true}
+    className="grid-gap grid-row usa-fieldset"
+    id="storybook-RadioButtonGroup-fieldset"
+  >
+    <legend
+      id="fieldset-legend-storybook-RadioButtonGroup-fieldset"
+    >
+      <span
+        className="usa-sr-only"
+      >
+        RadioButtonGroup
+      </span>
+    </legend>
+    <div
+      className="grid-gap grid-row margin-top-3"
+    >
+      <div>
+        <div
+          className="usa-radio"
+        >
+          <input
+            checked={false}
+            className="usa-radio__input"
+            disabled={false}
+            id="one"
+            name=""
+            onChange={[Function]}
+            type="radio"
+            value="one"
+          />
+          <label
+            className="usa-radio__label"
+            htmlFor="one"
+          >
+            Option 1
+          </label>
+        </div>
+        <div
+          className="usa-radio"
+        >
+          <input
+            checked={false}
+            className="usa-radio__input"
+            disabled={false}
+            id="two"
+            name=""
+            onChange={[Function]}
+            type="radio"
+            value="two"
+          />
+          <label
+            className="usa-radio__label"
+            htmlFor="two"
+          >
+            Option 2
+          </label>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots RadioButtonGroup RadioButtonGroup with both single element expansion 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    aria-required={true}
+    className="grid-gap grid-row usa-fieldset"
+    id="storybook-RadioButtonGroup-fieldset"
+  >
+    <legend
+      id="fieldset-legend-storybook-RadioButtonGroup-fieldset"
+    >
+      <span
+        className="usa-sr-only"
+      >
+        RadioButtonGroup
+      </span>
+    </legend>
+    <div
+      className="grid-gap grid-row margin-top-3"
+    >
+      <div>
+        <div
+          className="usa-radio"
+        >
+          <input
+            checked={false}
+            className="usa-radio__input"
+            disabled={false}
+            id="one"
+            name=""
+            onChange={[Function]}
+            type="radio"
+            value="one"
+          />
+          <label
+            className="usa-radio__label"
+            htmlFor="one"
+          >
+            Option 1
+          </label>
+        </div>
+        <div
+          className="usa-radio"
+        >
+          <input
+            checked={false}
+            className="usa-radio__input"
+            disabled={false}
+            id="two"
+            name=""
+            onChange={[Function]}
+            type="radio"
+            value="two"
+          />
+          <label
+            className="usa-radio__label"
+            htmlFor="two"
+          >
+            Option 2
+          </label>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots RadioButtonGroup RadioButtonGroup with error 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    aria-describedby="checklis-error"
+    aria-invalid={true}
+    aria-required={true}
+    className="grid-gap grid-row usa-fieldset usa-fieldset--error"
+    id="storybook-RadioButtonGroup-fieldset"
+  >
+    <legend
+      id="fieldset-legend-storybook-RadioButtonGroup-fieldset"
+    >
+      <span
+        className="usa-sr-only"
+      >
+        RadioButtonGroup
+      </span>
+    </legend>
+    <span
+      className="usa-error-message"
+      id="checklis-error"
+      role="alert"
+    >
+      
+       
+      These fields will block your progress
+    </span>
+    <div
+      className="grid-gap grid-row margin-top-3"
+    >
+      <div>
+        <div
+          className="usa-radio"
+        >
+          <input
+            checked={false}
+            className="usa-radio__input"
+            disabled={false}
+            id="one"
+            name=""
+            onChange={[Function]}
+            type="radio"
+            value="one"
+          />
+          <label
+            className="usa-radio__label"
+            htmlFor="one"
+          >
+            Option 1
+          </label>
+        </div>
+        <div
+          className="usa-radio"
+        >
+          <input
+            checked={false}
+            className="usa-radio__input"
+            disabled={false}
+            id="two"
+            name=""
+            onChange={[Function]}
+            type="radio"
+            value="two"
+          />
+          <label
+            className="usa-radio__label"
+            htmlFor="two"
+          >
+            Option 2
+          </label>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots RadioButtonGroup RadioButtonGroup with one multi element expansion 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    aria-required={true}
+    className="grid-gap grid-row usa-fieldset"
+    id="storybook-RadioButtonGroup-fieldset"
+  >
+    <legend
+      id="fieldset-legend-storybook-RadioButtonGroup-fieldset"
+    >
+      <span
+        className="usa-sr-only"
+      >
+        RadioButtonGroup
+      </span>
+    </legend>
+    <div
+      className="grid-gap grid-row margin-top-3"
+    >
+      <div>
+        <div
+          className="usa-radio"
+        >
+          <input
+            checked={false}
+            className="usa-radio__input"
+            disabled={false}
+            id="one"
+            name=""
+            onChange={[Function]}
+            type="radio"
+            value="one"
+          />
+          <label
+            className="usa-radio__label"
+            htmlFor="one"
+          >
+            Option 1
+          </label>
+        </div>
+        <div
+          className="usa-radio"
+        >
+          <input
+            checked={false}
+            className="usa-radio__input"
+            disabled={false}
+            id="two"
+            name=""
+            onChange={[Function]}
+            type="radio"
+            value="two"
+          />
+          <label
+            className="usa-radio__label"
+            htmlFor="two"
+          >
+            Option 2
+          </label>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots RadioButtonGroup RadioButtonGroup with one single element expansion 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    aria-required={true}
+    className="grid-gap grid-row usa-fieldset"
+    id="storybook-RadioButtonGroup-fieldset"
+  >
+    <legend
+      id="fieldset-legend-storybook-RadioButtonGroup-fieldset"
+    >
+      <span
+        className="usa-sr-only"
+      >
+        RadioButtonGroup
+      </span>
+    </legend>
+    <div
+      className="grid-gap grid-row margin-top-3"
+    >
+      <div>
+        <div
+          className="usa-radio"
+        >
+          <input
+            checked={false}
+            className="usa-radio__input"
+            disabled={false}
+            id="one"
+            name=""
+            onChange={[Function]}
+            type="radio"
+            value="one"
+          />
+          <label
+            className="usa-radio__label"
+            htmlFor="one"
+          >
+            Option 1
+          </label>
+        </div>
+        <div
+          className="usa-radio"
+        >
+          <input
+            checked={false}
+            className="usa-radio__input"
+            disabled={false}
+            id="two"
+            name=""
+            onChange={[Function]}
+            type="radio"
+            value="two"
+          />
+          <label
+            className="usa-radio__label"
+            htmlFor="two"
+          >
+            Option 2
+          </label>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots RadioButtonGroup RadioButtonGroup with success 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    aria-describedby="checklist-success"
+    aria-invalid={false}
+    aria-required={true}
+    className="grid-gap grid-row usa-fieldset usa-fieldset--success"
+    id="storybook-RadioButtonGroup-fieldset"
+  >
+    <legend
+      id="fieldset-legend-storybook-RadioButtonGroup-fieldset"
+    >
+      <span
+        className="usa-sr-only"
+      >
+        RadioButtonGroup
+      </span>
+    </legend>
+    <span
+      className="usa-success-message"
+      id="checklist-success"
+      role="status"
+    >
+      
+       
+      These fields were validated woo
+    </span>
+    <div
+      className="grid-gap grid-row margin-top-3"
+    >
+      <div>
+        <div
+          className="usa-radio"
+        >
+          <input
+            checked={false}
+            className="usa-radio__input"
+            disabled={false}
+            id="one"
+            name=""
+            onChange={[Function]}
+            type="radio"
+            value="one"
+          />
+          <label
+            className="usa-radio__label"
+            htmlFor="one"
+          >
+            Option 1
+          </label>
+        </div>
+        <div
+          className="usa-radio"
+        >
+          <input
+            checked={false}
+            className="usa-radio__input"
+            disabled={false}
+            id="two"
+            name=""
+            onChange={[Function]}
+            type="radio"
+            value="two"
+          />
+          <label
+            className="usa-radio__label"
+            htmlFor="two"
+          >
+            Option 2
+          </label>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots RadioButtonGroup RadioButtonGroup with warning 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    aria-describedby="checklist-warning"
+    aria-invalid={false}
+    aria-required={true}
+    className="grid-gap grid-row usa-fieldset usa-fieldset--warning"
+    id="storybook-RadioButtonGroup-fieldset"
+  >
+    <legend
+      id="fieldset-legend-storybook-RadioButtonGroup-fieldset"
+    >
+      <span
+        className="usa-sr-only"
+      >
+        RadioButtonGroup
+      </span>
+    </legend>
+    <span
+      className="usa-warning-message"
+      id="checklist-warning"
+      role="status"
+    >
+      <span
+        className="oec-inline-icon oec-inline-icon--incomplete"
+      >
+        <svg>
+          error.svg
+        </svg>
+        <span
+          className="usa-sr-only"
+        >
+          (
+          incomplete
+          )
+        </span>
+      </span>
+       
+      These fields need your attention
+    </span>
+    <div
+      className="grid-gap grid-row margin-top-3"
+    >
+      <div>
+        <div
+          className="usa-radio"
+        >
+          <input
+            checked={false}
+            className="usa-radio__input"
+            disabled={false}
+            id="one"
+            name=""
+            onChange={[Function]}
+            type="radio"
+            value="one"
+          />
+          <label
+            className="usa-radio__label"
+            htmlFor="one"
+          >
+            Option 1
+          </label>
+        </div>
+        <div
+          className="usa-radio"
+        >
+          <input
+            checked={false}
+            className="usa-radio__input"
+            disabled={false}
+            id="two"
+            name=""
+            onChange={[Function]}
+            type="radio"
+            value="two"
+          />
+          <label
+            className="usa-radio__label"
+            htmlFor="two"
+          >
+            Option 2
+          </label>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots Select Disabled select 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group"
+  >
+    <div
+      className=""
+    />
+    <label
+      className="usa-label"
+      htmlFor="storybook-select"
+    >
+      Select
+    </label>
+    <select
+      aria-required={true}
+      className="usa-select"
+      disabled={true}
+      id="storybook-select"
+      name=""
+      onChange={[Function]}
+      value=""
+    >
+      <option
+        value="one"
+      >
+        Option one
+      </option>
+      <option
+        value="two"
+      >
+        Option two
+      </option>
+      <option
+        value=""
+      >
+        - Select -
+      </option>
+    </select>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Select Select 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group"
+  >
+    <div
+      className=""
+    />
+    <label
+      className="usa-label"
+      htmlFor="storybook-select"
+    >
+      Select
+    </label>
+    <select
+      aria-required={true}
+      className="usa-select"
+      id="storybook-select"
+      name=""
+      onChange={[Function]}
+      value=""
+    >
+      <option
+        value="one"
+      >
+        Option one
+      </option>
+      <option
+        value="two"
+      >
+        Option two
+      </option>
+      <option
+        value=""
+      >
+        - Select -
+      </option>
+    </select>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Select Select with both single element expansion 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group"
+  >
+    <div
+      className=""
+    />
+    <label
+      className="usa-label"
+      htmlFor="storybook-select"
+    >
+      Select
+    </label>
+    <select
+      aria-required={true}
+      className="usa-select"
+      id="storybook-select"
+      name=""
+      onChange={[Function]}
+      value=""
+    >
+      <option
+        value="one"
+      >
+        Option one
+      </option>
+      <option
+        value="two"
+      >
+        Option two
+      </option>
+      <option
+        value=""
+      >
+        - Select -
+      </option>
+    </select>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Select Select with error 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group usa-form-group--error"
+  >
+    <div
+      className=""
+    />
+    <label
+      className="usa-label usa-label--error"
+      htmlFor="storybook-select"
+    >
+      Select
+    </label>
+    <span
+      className="usa-error-message"
+      id="checklis-error"
+      role="alert"
+    >
+      
+       
+      These fields will block your progress
+    </span>
+    <select
+      aria-describedby="checklis-error"
+      aria-invalid={true}
+      aria-required={true}
+      className="usa-select usa-input--error"
+      id="storybook-select"
+      name=""
+      onChange={[Function]}
+      value=""
+    >
+      <option
+        value="one"
+      >
+        Option one
+      </option>
+      <option
+        value="two"
+      >
+        Option two
+      </option>
+      <option
+        value=""
+      >
+        - Select -
+      </option>
+    </select>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Select Select with one multi element expansion 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group"
+  >
+    <div
+      className=""
+    />
+    <label
+      className="usa-label"
+      htmlFor="storybook-select"
+    >
+      Select
+    </label>
+    <select
+      aria-required={true}
+      className="usa-select"
+      id="storybook-select"
+      name=""
+      onChange={[Function]}
+      value=""
+    >
+      <option
+        value="one"
+      >
+        Option one
+      </option>
+      <option
+        value="two"
+      >
+        Option two
+      </option>
+      <option
+        value=""
+      >
+        - Select -
+      </option>
+    </select>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Select Select with one single element expansion 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group"
+  >
+    <div
+      className=""
+    />
+    <label
+      className="usa-label"
+      htmlFor="storybook-select"
+    >
+      Select
+    </label>
+    <select
+      aria-required={true}
+      className="usa-select"
+      id="storybook-select"
+      name=""
+      onChange={[Function]}
+      value=""
+    >
+      <option
+        value="one"
+      >
+        Option one
+      </option>
+      <option
+        value="two"
+      >
+        Option two
+      </option>
+      <option
+        value=""
+      >
+        - Select -
+      </option>
+    </select>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Select Select with other 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group"
+  >
+    <div
+      className=""
+    />
+    <label
+      className="usa-label"
+      htmlFor="storybook-select"
+    >
+      Select
+    </label>
+    <select
+      aria-required={true}
+      className="usa-select"
+      id="storybook-select"
+      name=""
+      onChange={[Function]}
+      value=""
+    >
+      <option
+        value="one"
+      >
+        Option one
+      </option>
+      <option
+        value="two"
+      >
+        Option two
+      </option>
+      <option
+        value="__other"
+      >
+        Other
+      </option>
+      <option
+        value=""
+      >
+        - Select -
+      </option>
+    </select>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Select Select with success 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group usa-form-group--success"
+  >
+    <div
+      className=""
+    />
+    <label
+      className="usa-label usa-label--success"
+      htmlFor="storybook-select"
+    >
+      Select
+    </label>
+    <span
+      className="usa-success-message"
+      id="checklist-success"
+      role="status"
+    >
+      
+       
+      These fields were validated woo
+    </span>
+    <select
+      aria-describedby="checklist-success"
+      aria-invalid={false}
+      aria-required={true}
+      className="usa-select usa-input--success"
+      id="storybook-select"
+      name=""
+      onChange={[Function]}
+      value=""
+    >
+      <option
+        value="one"
+      >
+        Option one
+      </option>
+      <option
+        value="two"
+      >
+        Option two
+      </option>
+      <option
+        value=""
+      >
+        - Select -
+      </option>
+    </select>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Select Select with warning 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <div
+    className="usa-form-group usa-form-group--warning"
+  >
+    <div
+      className=""
+    />
+    <label
+      className="usa-label usa-label--warning"
+      htmlFor="storybook-select"
+    >
+      Select
+    </label>
+    <span
+      className="usa-warning-message"
+      id="checklist-warning"
+      role="status"
+    >
+      <span
+        className="oec-inline-icon oec-inline-icon--incomplete"
+      >
+        <svg>
+          error.svg
+        </svg>
+        <span
+          className="usa-sr-only"
+        >
+          (
+          incomplete
+          )
+        </span>
+      </span>
+       
+      These fields need your attention
+    </span>
+    <select
+      aria-describedby="checklist-warning"
+      aria-invalid={false}
+      aria-required={true}
+      className="usa-select usa-input--warning"
+      id="storybook-select"
+      name=""
+      onChange={[Function]}
+      value=""
+    >
+      <option
+        value="one"
+      >
+        Option one
+      </option>
+      <option
+        value="two"
+      >
+        Option two
+      </option>
+      <option
+        value=""
+      >
+        - Select -
+      </option>
+    </select>
+  </div>
 </div>
 `;
 

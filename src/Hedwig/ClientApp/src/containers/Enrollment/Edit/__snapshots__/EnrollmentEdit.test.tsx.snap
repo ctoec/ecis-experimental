@@ -1404,6 +1404,7 @@ exports[`EnrollmentEdit enrollment and funding matches snapshot 1`] = `
                 <input
                   checked=""
                   class="usa-radio__input"
+                  expansion="[object Object]"
                   id="CDC"
                   name=""
                   type="radio"

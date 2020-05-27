@@ -4,13 +4,13 @@ import { ObjectDriller } from './ObjectDriller';
 /**
  * FormContext provides form data, data accessor, and data update function to any
  * components that are children of a Form
- * 
+ *
  * @property data The data being tracked (displayed and updated) by the form.
  * This data should only get immutable updates, via the provided updateData function.
- * 
+ *
  * @property dataDriller ObjectDriller wrapper on form data, provided for convenience
  * to save all custom form fields from needing to create one.
- * 
+ *
  * @property updateData Immutable update function for form data
  */
 type FormContextType = {
@@ -24,11 +24,11 @@ type FormContextType = {
  */
 export type GenericFormContextType<T> = {
 	data: T;
-	dataDriller: ObjectDriller<T>,
+	dataDriller: ObjectDriller<T>;
 	updateData: (_: T) => void;
 };
 /**
- * Utility for casting the un-typed context to the generic with type parameter, 
+ * Utility for casting the un-typed context to the generic with type parameter,
  * so that form consumers can have type-constrained data, dataDriller, and updateData
  * @param context
  */

@@ -229,7 +229,7 @@ const ChildInfo: Section = {
 										response: _error,
 										type: 'error',
 										message: REQUIRED_FOR_ENROLLMENT,
-										errorAlertState
+										errorAlertState,
 									},
 								])
 							)}
@@ -263,7 +263,7 @@ const ChildInfo: Section = {
 											response: _error,
 											type: 'error',
 											message: REQUIRED_FOR_ENROLLMENT,
-											errorAlertState
+											errorAlertState,
 										},
 									])
 								)}
