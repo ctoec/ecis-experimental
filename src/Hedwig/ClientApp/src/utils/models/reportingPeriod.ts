@@ -61,7 +61,7 @@ export const reportingPeriodFormatter = (
  */
 export const currentReportingPeriod = (periods: ReportingPeriod[]): ReportingPeriod | undefined => {
 	return periods.find(
-		(period) => moment(period.period).format('YYYY-MM') === moment().format('YYYY-MM')
+		period => moment(period.period).isSame(moment(), 'month')
 	);
 };
 

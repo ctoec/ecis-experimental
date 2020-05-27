@@ -5,6 +5,7 @@ import {
 	FundingSource,
 } from '../../generated';
 import useApi from '../../hooks/useApi';
+import { propertyDateSorter } from '../../utils/dateSorter';
 
 export type ReportingPeriodContextType = {
 	cdcReportingPeriods: ReportingPeriod[];
@@ -21,14 +22,14 @@ const ReportingPeriodProvider: React.FC<{}> = ({ children }) => {
 		source: FundingSource.CDC,
 	};
 
-	const { data: cdcReportingPeriods } = useApi<ReportingPeriod[]>((api) =>
+	const { data } = useApi<ReportingPeriod[]>(api =>
 		api.apiReportingPeriodsSourceGet(cdcReportingPeriodParams)
 	);
 
 	return (
 		<Provider
 			value={{
-				cdcReportingPeriods: cdcReportingPeriods || [],
+				cdcReportingPeriods: data.sort((a, b) => propertyDateSorter(a, b, period => period.period))
 			}}
 		>
 			{children}
