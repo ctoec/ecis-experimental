@@ -1,31 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, PropsWithChildren } from 'react';
 import { FieldSet, FieldSetProps } from '../FieldSet/FieldSet';
+import { FormFieldSetProps, FormFieldSet } from '../Form_New/FormFieldSet';
 
 export type CheckboxOption = {
 	render: (props: {
 		id: string;
 		selected: boolean;
-		onChange: React.ChangeEventHandler<HTMLInputElement>;
+		onChange?: React.ChangeEventHandler<HTMLInputElement>;
 		name: string;
 		value: string;
 	}) => JSX.Element;
 	value: string;
-	onChange: React.ChangeEventHandler<HTMLInputElement>;
+	onChange?: React.ChangeEventHandler<HTMLInputElement>;
 	expansion?: React.ReactNode;
 };
 
-/**
- * Internal component for managing a group of related checkboxes
- */
-export type CheckboxGroupProps = {
+type InternalCheckboxGroupProps = {
 	id: string;
 	className?: string;
 	options: CheckboxOption[];
 	defaultValue?: string | string[];
 	name?: string;
-	onChange: React.ChangeEventHandler<HTMLInputElement>;
+	onChange?: React.ChangeEventHandler<HTMLInputElement>;
 };
-const InternalCheckboxGroup: React.FC<CheckboxGroupProps> = ({
+
+/**
+ * Internal component for managing a group of related checkboxes
+ */
+const InternalCheckboxGroup: React.FC<InternalCheckboxGroupProps> = ({
 	id,
 	className,
 	options,
@@ -49,8 +51,8 @@ const InternalCheckboxGroup: React.FC<CheckboxGroupProps> = ({
 			newSelectedItems = [changedValue, ...selectedItems];
 		}
 		setSelectedItems(newSelectedItems);
-		const onChangeForValue = options.find(option => option.value === changedValue);
-		onChangeForValue ? onChangeForValue.onChange(event) : onChange(event);
+		const option = options.find(option => option.value === changedValue);
+		option && option.onChange ? option.onChange(event) : onChange && onChange(event);
 	};
 
 	return (
@@ -75,10 +77,12 @@ const InternalCheckboxGroup: React.FC<CheckboxGroupProps> = ({
 	);
 };
 
+export type CheckboxGroupProps = InternalCheckboxGroupProps & FieldSetProps;
+
 /**
  * Component for displaying a group of related Checkbox items in a FieldSet
  */
-export const CheckboxGroup: React.FC<CheckboxGroupProps & FieldSetProps> = ({
+export const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
 	id,
 	className,
 	legend,
@@ -107,3 +111,38 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps & FieldSetProps> = ({
 		</FieldSet>
 	);
 };
+
+export type CheckboxGroupForFormProps<T> = InternalCheckboxGroupProps & FormFieldSetProps<T>;
+
+/**
+ * Component for displaying a group of related checkbox items in a FormFieldSet
+ */
+export const CheckboxGroupForForm = <T extends object>({
+	id,
+	className,
+	legend,
+	showLegend,
+	status,
+	optional,
+	hint,
+	horizontal,
+	disabled,
+	...props
+}: CheckboxGroupForFormProps<T>) => {
+	return (
+		<FormFieldSet<T>
+			id={`${id}-fieldset`}
+			className={className}
+			legend={legend}
+			showLegend={showLegend}
+			status={status}
+			optional={optional}
+			hint={hint}
+			horizontal={horizontal}
+			disabled={disabled}
+			childrenGroupClassName={'margin-top-3'}
+		>
+			<InternalCheckboxGroup id={id} {...props} />
+		</FormFieldSet>
+	)
+}

@@ -34,7 +34,7 @@ type InternalChoiceListProps = {
 	otherInputLabel?: string;
 };
 
-type RadioOrChecklistProps = InternalChoiceListProps & {
+export type RadioOrChecklistProps = InternalChoiceListProps & {
 	type: 'radio' | 'check';
 	legend: string;
 	horizontal?: boolean;

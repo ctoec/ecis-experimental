@@ -9,32 +9,32 @@ import Checkbox from '../Checkbox/Checkbox';
 const onChange = action('onChange');
 const options: CheckboxOption[] = [
 	{
-		render: props => <Checkbox text="Option 1" {...props} />,
+		render: props => <Checkbox text="Option 1" onChange={() => {}} {...props} />,
 		onChange,
 		value: 'one',
 	},
 	{
-		render: props => <Checkbox text="Option 2" {...props} />,
+		render: props => <Checkbox text="Option 2" onChange={() => {}} {...props} />,
 		onChange,
 		value: 'two',
 	},
 ];
 const optionsWithOneExpansion: CheckboxOption[] = [
 	{
-		render: props => <Checkbox text="Option 1" {...props} />,
+		render: props => <Checkbox text="Option 1" onChange={() => {}} {...props} />,
 		value: 'one',
 		onChange,
 		expansion: <p>Thank you for selecting option one!</p>,
 	},
 	{
-		render: props => <Checkbox text="Option 2" {...props} />,
+		render: props => <Checkbox text="Option 2" onChange={() => {}} {...props} />,
 		onChange,
 		value: 'two',
 	},
 ];
 const optionsWithOneComplexExpansion: CheckboxOption[] = [
 	{
-		render: props => <Checkbox text="Option 1" {...props} />,
+		render: props => <Checkbox text="Option 1" onChange={() => {}} {...props} />,
 		onChange,
 		value: 'one',
 		expansion: (
@@ -50,20 +50,20 @@ const optionsWithOneComplexExpansion: CheckboxOption[] = [
 		),
 	},
 	{
-		render: props => <Checkbox text="Option 2" {...props} />,
+		render: props => <Checkbox text="Option 2" onChange={() => {}} {...props} />,
 		onChange,
 		value: 'two',
 	},
 ];
 const optionsWithTwoExpansions: CheckboxOption[] = [
 	{
-		render: props => <Checkbox text="Option 1" {...props} />,
+		render: props => <Checkbox text="Option 1" onChange={() => {}} {...props} />,
 		onChange,
 		value: 'one',
 		expansion: <p>Thank you for selecting option one!</p>,
 	},
 	{
-		render: props => <Checkbox text="Option 2" {...props} />,
+		render: props => <Checkbox text="Option 2" onChange={() => {}} {...props} />,
 		onChange,
 		value: 'two',
 		expansion: <p>Woo! #2</p>,
