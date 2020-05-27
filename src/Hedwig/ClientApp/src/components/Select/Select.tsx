@@ -16,13 +16,15 @@ export type SelectProps = {
 	label: string;
 	hint?: string;
 	name?: string;
+	defaultValue?: string;
 	options: SelectOption[];
 	optional?: boolean;
 	unselectedText?: string;
 	disabled?: boolean;
 	onChange: React.ChangeEventHandler<HTMLSelectElement>;
-} & HTMLAttributes<HTMLSelectElement> &
-	FormFieldStatusProps;
+}
+& Omit<HTMLAttributes<HTMLSelectElement>, 'defaultValue'>
+&	FormFieldStatusProps;
 
 /**
  * Component that wraps a native select element.
@@ -35,7 +37,7 @@ export const Select: React.FC<SelectProps> = ({
 	label,
 	hint,
 	name,
-	defaultValue = [],
+	defaultValue = '',
 	optional,
 	disabled,
 	onChange,
@@ -44,18 +46,12 @@ export const Select: React.FC<SelectProps> = ({
 	unselectedText = '- Select -',
 	...props
 }) => {
-	const selectedItemOnInput = Array.isArray(defaultValue) ? defaultValue[0] : defaultValue;
-	let processedSelectedItem = selectedItemOnInput;
-	if (selectedItemOnInput === undefined) {
-		processedSelectedItem = '';
-	}
-	const [selectedItem, setSelectedItem] = useState(processedSelectedItem);
+	const [selectedItem, setSelectedItem] = useState(defaultValue);
 
 	// Wrap the supplied onChange to provide for local state management
 	const _onChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		const changedValue = event.target.value;
-		const newSelectedItem = changedValue;
-		setSelectedItem(newSelectedItem);
+		setSelectedItem(changedValue);
 		onChange(event);
 	};
 

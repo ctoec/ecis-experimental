@@ -4,7 +4,7 @@ import { FieldSetProps, FieldSet } from '../FieldSet/FieldSet';
 import { FormStatusProps } from '../FormStatus/FormStatus';
 import { TObjectDriller, ObjectDriller } from './ObjectDriller';
 
-type FormFieldSetProps<TData> = {
+export type FormFieldSetProps<TData> = {
 	status?: (_: TObjectDriller<NonNullable<TData>>) => FormStatusProps | undefined;
 } & Pick<FieldSetProps, Exclude<keyof FieldSetProps, 'status'>>;
 
