@@ -1,72 +1,42 @@
 import React, { useContext, useEffect, useReducer, useState } from 'react';
 import idx from 'idx';
-import { Section } from '../enrollmentTypes';
-import { Button, TextInput, ChoiceList, FieldSet } from '../../../components';
+import { Section } from '../../enrollmentTypes';
+import { Button, TextInput, ChoiceList, FieldSet } from '../../../../components';
 import {
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
 	Enrollment,
-} from '../../../generated';
-import UserContext from '../../../contexts/User/UserContext';
-import { validatePermissions, getIdForUser, createEmptyFamily } from '../../../utils/models';
+} from '../../../../generated';
+import UserContext from '../../../../contexts/User/UserContext';
+import { validatePermissions, getIdForUser, createEmptyFamily } from '../../../../utils/models';
 import {
 	initialLoadErrorGuard,
 	useFocusFirstError,
 	hasValidationErrors,
-} from '../../../utils/validations';
-import { addressFormatter, homelessnessText, fosterText } from '../../../utils/models';
-import { isBlockingValidationError } from '../../../utils/validations/isBlockingValidationError';
-import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
-import AlertContext from '../../../contexts/Alert/AlertContext';
-import { FormReducer, formReducer, updateData } from '../../../utils/forms/form';
-import { DeepNonUndefineable } from '../../../utils/types';
-import useApi, { ApiError } from '../../../hooks/useApi';
+} from '../../../../utils/validations';
+import { addressFormatter, homelessnessText, fosterText } from '../../../../utils/models';
+import { isBlockingValidationError } from '../../../../utils/validations/isBlockingValidationError';
+import { validationErrorAlert } from '../../../../utils/stringFormatters/alertTextMakers';
+import AlertContext from '../../../../contexts/Alert/AlertContext';
+import { FormReducer, formReducer, updateData } from '../../../../utils/forms/form';
+import { DeepNonUndefineable } from '../../../../utils/types';
+import useApi, { ApiError } from '../../../../hooks/useApi';
 import {
 	REQUIRED_FOR_OEC_REPORTING,
 	REQUIRED_FOR_ENROLLMENT,
-} from '../../../utils/validations/messageStrings';
-import { displayValidationStatus } from '../../../utils/validations/displayValidationStatus';
-import useCatchallErrorAlert from '../../../hooks/useCatchallErrorAlert';
-import Form from '../../../components/Form_New/Form';
-import FormSubmitButton from '../../../components/Form_New/FormSubmitButton';
-import { FormFieldSet } from '../../../components/Form_New/FormFieldSet';
+} from '../../../../utils/validations/messageStrings';
+import { displayValidationStatus } from '../../../../utils/validations/displayValidationStatus';
+import useCatchallErrorAlert from '../../../../hooks/useCatchallErrorAlert';
+import Form from '../../../../components/Form_New/Form';
+import FormSubmitButton from '../../../../components/Form_New/FormSubmitButton';
+import { FormFieldSet } from '../../../../components/Form_New/FormFieldSet';
+import { getStatus } from './getStatus';
+import { Summary } from './Summary';
 
 const FamilyInfo: Section = {
 	key: 'family-information',
 	name: 'Family information',
-	status: ({ enrollment }) =>
-		hasValidationErrors(idx(enrollment, (_) => _.child.family) || null, [
-			'addressLine1',
-			'town',
-			'state',
-			'zip',
-		]) || hasValidationErrors(idx(enrollment, (_) => _.child) || null, ['familyid'])
-			? 'incomplete'
-			: 'complete',
-
-	Summary: ({ enrollment }) => {
-		if (!enrollment || !enrollment.child) return <></>;
-
-		const family = enrollment.child.family;
-		const [address, missingInformation] = addressFormatter(family);
-		const foster = enrollment.child.foster;
-		const homelessness = family && family.homelessness;
-		return (
-			<div className="FamilyInfoSummary">
-				{family ? (
-					<>
-						<p>
-							Address: {address} {missingInformation}
-						</p>
-						{foster && <p>{fosterText()}</p>}
-						{homelessness && <p>{homelessnessText()}</p>}
-					</>
-				) : (
-						<p>No family information on record.</p>
-					)}
-			</div>
-		);
-	},
-
+	status: ({ enrollment }) => getStatus(enrollment || undefined),
+	Summary: <Summary enrollment={enrollment} />,
 	Form: ({
 		enrollment,
 		siteId,

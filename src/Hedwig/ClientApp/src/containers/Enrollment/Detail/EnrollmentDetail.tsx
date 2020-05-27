@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import ChildInfo from '../_sections/ChildInfo';
-import FamilyInfo from '../_sections/FamilyInfo';
+import FamilyInfo from '../_sections/FamilyInfo/FamilyInfo';
 import FamilyIncome from '../_sections/FamilyIncome';
 import EnrollmentFunding from '../_sections/EnrollmentFunding';
 import { Link } from 'react-router-dom';
