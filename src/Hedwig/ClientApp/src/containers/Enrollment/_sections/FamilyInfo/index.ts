@@ -1,2 +1,2 @@
 import { Section } from '../../enrollmentTypes';
-import { Status } from './getStatus'
+import { getStatus } from './getStatus';
