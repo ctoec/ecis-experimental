@@ -7,6 +7,7 @@ import {
 	FundingTime,
 	FundingSpace,
 	FundingSource,
+	FundingTimeSplitUtilization,
 } from '../../../generated';
 import idx from 'idx';
 import moment from 'moment';
@@ -37,13 +38,14 @@ interface UtilizationTableRow {
 		fullWeeks: number;
 	};
 	maxes: {
+		// These are needed to format the numbers for alignment
 		total: number;
 		rate: number;
 		balance: number;
 	};
 }
 
-export default function UtilizationTable(report: CdcReport) {
+export default function UtilizationTable({ report, timeSplitUtilizations }: { report: CdcReport, timeSplitUtilizations: FundingTimeSplitUtilization[] }) {
 	const site = idx(report, _ => _.organization.sites[0]);
 	// TODO: if the space lives on the organization but the rates live on the site,
 	// we need to reconsider how we handle multi site org rate calculation
@@ -61,8 +63,8 @@ export default function UtilizationTable(report: CdcReport) {
 	const weeksInPeriod =
 		periodStart && periodEnd
 			? moment(periodEnd)
-					.add(1, 'day')
-					.diff(periodStart, 'weeks')
+				.add(1, 'day')
+				.diff(periodStart, 'weeks')
 			: 0;
 
 	const enrollments = (idx(report, (_) => _.enrollments) || []) as Enrollment[];
@@ -100,9 +102,9 @@ export default function UtilizationTable(report: CdcReport) {
 		let fullWeeks = 0,
 			partWeeks = 0;
 		if (fundingTime === FundingTime.Split) {
-			const { timeSplitUtilizations } = space;
 			const thisUtilization = (timeSplitUtilizations || []).find(u => u.reportId === report.id);
 			if (thisUtilization) {
+				// pass in the state variable from reportSubmitForm that contains the utilization values for this report (either default values or user-defined)
 				fullWeeks = thisUtilization.fullTimeWeeksUsed;
 				partWeeks = thisUtilization.partTimeWeeksUsed;
 			}
@@ -133,7 +135,6 @@ export default function UtilizationTable(report: CdcReport) {
 				fullWeeks,
 			},
 			maxes: {
-				// TODO: make this the greater of the two vals if there are two time vals
 				total,
 				rate: Math.max(ptRate, ftRate),
 				balance,

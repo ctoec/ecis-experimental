@@ -193,15 +193,15 @@ export default function ReportSubmitForm({
 	const [timeSplitUtilizations, updateTimeSplitUtilizations] = useState(
 		report.timeSplitUtilizations
 			? report.timeSplitUtilizations
-			: splitTimeFundingSpaces.map((fundingSpace) =>
-					getSplitUtilization(
-						fundingSpace.timeSplit,
-						0,
-						reportingPeriodWeeks,
-						report.reportingPeriod,
-						report
-					)
-			  )
+			: splitTimeFundingSpaces.map(fundingSpace =>
+				getSplitUtilization(
+					fundingSpace.timeSplit,
+					0,
+					reportingPeriodWeeks,
+					report.reportingPeriod,
+					report
+				)
+			)
 	);
 
 	const splitTimeUtilizationQuestion = (fundingSpace: FundingSpace) => {
@@ -241,8 +241,8 @@ export default function ReportSubmitForm({
 						lesserTime === FundingTime.Full
 							? existingUtilizationForSpace.fullTimeWeeksUsed
 							: existingUtilizationForSpace.partTimeWeeksUsed
-					}`}
-					onChange={(e) => {
+						}`}
+					onChange={e => {
 						const input = e.target.value;
 						const lesserWeeksUsed = parseInt(input.replace(/[^0-9.]/g, ''), 10) || 0;
 
@@ -311,7 +311,7 @@ export default function ReportSubmitForm({
 					{splitTimeFundingSpaces.map((fundingSpace) => splitTimeUtilizationQuestion(fundingSpace))}
 				</FieldSet>
 			)}
-			<UtilizationTable {...{ ..._report, accredited }} />
+			<UtilizationTable report={{ ..._report, accredited }} timeSplitUtilizations={timeSplitUtilizations} />
 			<form className="usa-form" noValidate autoComplete="off">
 				<h2>Other Revenue</h2>
 				<FieldSet id="other-revenue" legend="Other Revenue" childrenGroupClassName={''}>
