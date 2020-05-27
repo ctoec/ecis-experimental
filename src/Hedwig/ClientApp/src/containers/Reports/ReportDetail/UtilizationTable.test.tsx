@@ -52,13 +52,13 @@ const defaultReport = reportWithEnrollments([mockCompleteEnrollment]);
 
 describe('UtilizationTable', () => {
 	it('matches snapshot', () => {
-		const { asFragment } = render(<UtilizationTable {...defaultReport} />);
+		const { asFragment } = render(<UtilizationTable report={defaultReport} />);
 		expect(asFragment()).toMatchSnapshot();
 	});
 
 	it('includes a row for each type of funding space', () => {
 		const report = mockReport;
-		const { container } = render(<UtilizationTable {...report} />);
+		const { container } = render(<UtilizationTable report={report} />);
 
 		// mockReport belongs to mockSingleSiteOrganization, which has all mockFundingSpaces
 		mockFundingSpaces.forEach((space) => {
@@ -83,7 +83,7 @@ describe('UtilizationTable', () => {
 			],
 		};
 
-		const { getAllByText } = render(<UtilizationTable {...mockReport} />);
+		const { getAllByText } = render(<UtilizationTable report={mockReport} />);
 		const oneOfZeros = getAllByText(/1\/\d* spaces/);
 		expect(oneOfZeros).toHaveLength(4);
 	});
@@ -111,10 +111,10 @@ describe('UtilizationTable', () => {
 			},
 		]);
 
-		const { container } = render(<UtilizationTable {...report} />);
+		const { container } = render(<UtilizationTable report={report} />);
 
 		expect(container).toHaveTextContent('0/10 spaces');
 	});
 
-	accessibilityTestHelper(<UtilizationTable {...defaultReport} />);
+	accessibilityTestHelper(<UtilizationTable report={defaultReport} />);
 });

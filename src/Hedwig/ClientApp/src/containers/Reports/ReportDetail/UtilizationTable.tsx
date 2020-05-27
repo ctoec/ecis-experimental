@@ -45,7 +45,13 @@ interface UtilizationTableRow {
 	};
 }
 
-export default function UtilizationTable({ report, timeSplitUtilizations }: { report: CdcReport, timeSplitUtilizations: FundingTimeSplitUtilization[] }) {
+export default function UtilizationTable({
+	report,
+	timeSplitUtilizations,
+}: {
+	report: CdcReport;
+	timeSplitUtilizations: FundingTimeSplitUtilization[];
+}) {
 	const site = idx(report, _ => _.organization.sites[0]);
 	// TODO: if the space lives on the organization but the rates live on the site,
 	// we need to reconsider how we handle multi site org rate calculation
@@ -63,8 +69,8 @@ export default function UtilizationTable({ report, timeSplitUtilizations }: { re
 	const weeksInPeriod =
 		periodStart && periodEnd
 			? moment(periodEnd)
-				.add(1, 'day')
-				.diff(periodStart, 'weeks')
+					.add(1, 'day')
+					.diff(periodStart, 'weeks')
 			: 0;
 
 	const enrollments = (idx(report, (_) => _.enrollments) || []) as Enrollment[];
