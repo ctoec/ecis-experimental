@@ -14,12 +14,9 @@ import {
 	createEmptyFamily,
 	getIdForUser,
 	validatePermissions,
-	fosterText,
-	homelessnessText,
 } from '../../../../utils/models';
-import { ChoiceList } from '../../../../components';
 import FormSubmitButton from '../../../../components/Form_New/FormSubmitButton';
-import { Address } from './Fields';
+import { Address, FosterCheckbox, HomelessnessCheckbox } from './Fields';
 
 export const Form = ({
 	enrollment,
@@ -102,38 +99,8 @@ export const Form = ({
 			<Address />
 
 			<h2>Other</h2>
-			<ChoiceList
-				type="check"
-				legend="Foster"
-				id="foster"
-				name="child.foster"
-				defaultValue={foster ? ['foster'] : undefined}
-				onChange={updateFormData((_, event) => event.target.checked)}
-				options={[
-					{
-						text: fosterText(),
-						value: 'foster',
-					},
-				]}
-			/>
-			<ChoiceList
-				type="check"
-				legend="Homelessness"
-				id="homelessness"
-				name="child.family.homelessness"
-				defaultValue={homelessness ? ['homelessness'] : undefined}
-				onChange={updateFormData((_, event) => event.target.checked)}
-				options={[
-					{
-						text: homelessnessText(),
-						value: 'homelessness',
-					},
-				]}
-			/>
-			<p className="usa-hint text-italic">
-				Indicate if you are aware that the family has experienced housing insecurity, including
-				overcrowded housing, within the last year.
-			</p>
+			<FosterCheckbox />
+			<HomelessnessCheckbox />
 			<FormSubmitButton text={attemptingSave ? 'Saving...' : 'Save'} disabled={attemptingSave} />
 		</Form>
 	);
