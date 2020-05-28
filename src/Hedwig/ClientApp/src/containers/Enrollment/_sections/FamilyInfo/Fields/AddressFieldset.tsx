@@ -7,7 +7,7 @@ import { REQUIRED_FOR_ENROLLMENT } from "../../../../../utils/validations/messag
 import { TextInput, ChoiceList } from "../../../../../components";
 import { zip } from "lodash";
 
-export const Address = () => <FormFieldSet
+export const Address = ({ initialLoad, child, addressLine1, updateFormData, town, addressLine2, state, zip }: any) => <FormFieldSet
   id="family-address"
   legend="Address"
   // TODO: USE DATA DRILLER

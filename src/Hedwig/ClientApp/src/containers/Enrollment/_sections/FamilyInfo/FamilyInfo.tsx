@@ -2,6 +2,7 @@ import React from 'react';
 import { Section } from '../../enrollmentTypes';
 import { getStatus } from './getStatus';
 import { Summary } from './Summary';
+import { NewForm } from '../ChildInfo/NewForm';
 
 const FamilyInfo: Section = {
 	key: 'family-information',

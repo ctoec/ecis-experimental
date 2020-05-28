@@ -25,7 +25,7 @@ export const Form = ({
 	successCallback,
 	onSectionTouch,
 	touchedSections,
-}) => {
+}: any) => {
 	if (!enrollment || !enrollment.child) {
 		throw new Error('FamilyInfo rendered without a child');
 	}
@@ -96,11 +96,10 @@ export const Form = ({
 			onSubmit={() => setAttemptingSave(true)}
 		>
 			<h2>Address</h2>
-			<Address />
-
+			<Address {...{ initialLoad, child, addressLine1, addressLine2, zip, state, updateFormData, town }} />
 			<h2>Other</h2>
-			<FosterCheckbox />
-			<HomelessnessCheckbox />
+			<FosterCheckbox foster={foster} updateFormData={updateFormData} />
+			<HomelessnessCheckbox homelessness={homelessness} updateFormData={updateFormData} />
 			<FormSubmitButton text={attemptingSave ? 'Saving...' : 'Save'} disabled={attemptingSave} />
 		</Form>
 	);
