@@ -8,7 +8,7 @@ import {
 } from '../../../../generated';
 import UserContext from '../../../../contexts/User/UserContext';
 import { createEmptyEnrollment, getIdForUser, validatePermissions } from '../../../../utils/models';
-import useCatchallErrorAlert from '../../../../hooks/useCatchallErrorAlert';
+import useCatchAllErrorAlert from '../../../../hooks/useCatchAllErrorAlert';
 import Form from '../../../../components/Form_New/Form';
 import FormSubmitButton from '../../../../components/Form_New/FormSubmitButton';
 import {
@@ -89,7 +89,7 @@ export const NewForm: React.FC<SectionProps> = ({
 		useApiOpts
 	);
 
-	const errorAlertState = useCatchallErrorAlert(errorOnSave);
+	const errorAlertState = useCatchAllErrorAlert(errorOnSave);
 	useFocusFirstError([errorOnSave]);
 	useEffect(() => {
 		// If the request is still loading or

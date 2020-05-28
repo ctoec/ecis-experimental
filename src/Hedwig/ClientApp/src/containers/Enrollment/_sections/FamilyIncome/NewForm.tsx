@@ -25,6 +25,7 @@ import FamilyIncome from '.';
 import { NotDisclosedField } from './Fields/NotDisclosed';
 import { displayValidationStatus } from '../../../../utils/validations/displayValidationStatus';
 import useCatchAllErrorAlert from '../../../../hooks/useCatchAllErrorAlert';
+import set from 'lodash/set';
 
 export const INCOME_REQUIRED_FOR_FUNDING_ALERT_TEXT =
 	'Income information is required enroll a child in a funded space.\
@@ -63,12 +64,13 @@ export const NewForm = ({
 	// Family must already exist to create family income data,
 	// but can be created without user input with all empty defaults
 	if (!enrollment.child.family) {
-		updateEnrollment(
-			produce<DeepNonUndefineable<Enrollment>>(
-				enrollment,
-				(draft) => (draft.child.family = {} as DeepNonUndefineable<Family>)
+		updateEnrollment(produce<Enrollment>(
+			enrollment, (draft) => set(
+				draft,
+				'child.family',
+				{}
 			)
-		);
+		));
 	}
 
 	// Set up API request (enrollment PUT)
