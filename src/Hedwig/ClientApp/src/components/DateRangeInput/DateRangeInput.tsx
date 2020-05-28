@@ -46,7 +46,7 @@ export const DateRangeInput: React.FC<DateRangeInputProps> = ({
 					hideHint
 					// TODO: should date range use dates instead of moments?
 					defaultValue={dateRange.startDate ? dateRange.startDate.toDate() : undefined}
-					onChange_Old={newStartDate =>
+					onChange_Old={(newStartDate) =>
 						onChange({ startDate: newStartDate, endDate: dateRange.endDate })
 					}
 					id={`${id}-start-date`}
@@ -58,7 +58,7 @@ export const DateRangeInput: React.FC<DateRangeInputProps> = ({
 				<DateInput
 					hideHint
 					defaultValue={dateRange.endDate ? dateRange.endDate.toDate() : undefined}
-					onChange_Old={newEndDate =>
+					onChange_Old={(newEndDate) =>
 						onChange({ startDate: dateRange.startDate, endDate: newEndDate })
 					}
 					id={`${id}-end-date`}

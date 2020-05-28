@@ -19,7 +19,7 @@ type ChangeField = { keys: (string | number)[]; newValue?: any };
 export const swapFields = <T>(inputObject: T, changeFields: ChangeField[]): T => {
 	// Make a deep copy to avoid changing the original
 	const newObject = JSON.parse(JSON.stringify(inputObject));
-	changeFields.forEach(field => {
+	changeFields.forEach((field) => {
 		let changeObject = newObject;
 		field.keys.forEach((key, i) => {
 			// Accessors are an ordered array of strings referring to nested keys

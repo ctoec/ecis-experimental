@@ -36,7 +36,7 @@ export default function Roster() {
 	};
 
 	const { loading: organizationLoading, data: organization } = useApi(
-		api => api.apiOrganizationsIdGet(orgParams),
+		(api) => api.apiOrganizationsIdGet(orgParams),
 		{
 			skip: !user,
 			defaultValue: {} as Organization,
@@ -44,9 +44,9 @@ export default function Roster() {
 	);
 
 	const sites = organization && organization.sites;
-	const siteIds = (sites || []).map(s => s.id);
+	const siteIds = (sites || []).map((s) => s.id);
 	const siteId = urlSiteId ? parseInt(urlSiteId) : undefined;
-	const site = sites && siteId ? sites.find(s => s.id === siteId) : undefined;
+	const site = sites && siteId ? sites.find((s) => s.id === siteId) : undefined;
 
 	const enrollmentParams: ApiOrganizationsOrgIdEnrollmentsGetRequest = {
 		orgId: getIdForUser(user, 'org'),
@@ -69,7 +69,7 @@ export default function Roster() {
 	let enrollments: DeepNonUndefineableArray<Enrollment> = [];
 	let siteRosterDirectionalLinkProps: DirectionalLinkProps | undefined = undefined;
 	if (site) {
-		enrollments = _enrollments.filter(e => e.siteId === site.id);
+		enrollments = _enrollments.filter((e) => e.siteId === site.id);
 		siteRosterDirectionalLinkProps = {
 			to: '/roster',
 			text: 'Back to program roster',
@@ -80,10 +80,10 @@ export default function Roster() {
 	}
 
 	const incompleteEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>(
-		enrollment => !enrollment.ageGroup || !enrollment.entry
+		(enrollment) => !enrollment.ageGroup || !enrollment.entry
 	);
 	const completeEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>(
-		enrollment => !incompleteEnrollments.includes(enrollment)
+		(enrollment) => !incompleteEnrollments.includes(enrollment)
 	);
 
 	const completeEnrollmentsByAgeGroup = getObjectsByAgeGroup(completeEnrollments);

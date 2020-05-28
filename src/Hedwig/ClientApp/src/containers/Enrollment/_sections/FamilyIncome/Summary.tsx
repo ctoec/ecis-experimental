@@ -11,9 +11,9 @@ import { hasValidationErrors } from '../../../../utils/validations';
 const Summary: React.FC<SectionProps> = ({ enrollment }) => {
 	if (!enrollment || !enrollment.child) return <></>;
 	const determinations =
-		idx(enrollment, _ => _.child.family.determinations as FamilyDetermination[]) || [];
+		idx(enrollment, (_) => _.child.family.determinations as FamilyDetermination[]) || [];
 	const sortedDeterminations = [...determinations].sort((a, b) =>
-		propertyDateSorter(a, b, d => d.determinationDate, true)
+		propertyDateSorter(a, b, (d) => d.determinationDate, true)
 	);
 	const determination = sortedDeterminations[0];
 	const isFoster = enrollment.child.foster;
@@ -25,7 +25,7 @@ const Summary: React.FC<SectionProps> = ({ enrollment }) => {
 		);
 	} else if (
 		!determination &&
-		hasValidationErrors(idx(enrollment, _ => _.child.family) || null, ['determinations'], false)
+		hasValidationErrors(idx(enrollment, (_) => _.child.family) || null, ['determinations'], false)
 	) {
 		elementToReturn = <p>No income determination on record.</p>;
 	} else if (determination && determination.notDisclosed) {

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Login = function() {
+const Login = function () {
 	return <>Loading...</>;
 };
 

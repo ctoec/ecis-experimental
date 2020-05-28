@@ -66,7 +66,7 @@ const RosterHeader: React.FC<RosterHeaderProps> = ({
 									}}
 								/>
 							}
-							options={sites.map(s => ({
+							options={sites.map((s) => ({
 								text: s.name || '',
 								value: `/roster/sites/${s.id}/enroll`,
 							}))}
@@ -94,7 +94,7 @@ const RosterHeader: React.FC<RosterHeaderProps> = ({
 											}}
 										/>
 									}
-									options={sites.map(s => ({
+									options={sites.map((s) => ({
 										text: s.name || '',
 										value: `/roster/sites/${s.id}`,
 									}))}
@@ -160,7 +160,7 @@ const RosterHeader: React.FC<RosterHeaderProps> = ({
 									value: 'range',
 								},
 							]}
-							onChange={event => setFilterByRange(event.target.value === 'range')}
+							onChange={(event) => setFilterByRange(event.target.value === 'range')}
 							horizontal={true}
 							id={'dateSelectionType'}
 							defaultValue={filterByRange ? ['range'] : ['date']}
@@ -171,7 +171,7 @@ const RosterHeader: React.FC<RosterHeaderProps> = ({
 							<DateRangeInput
 								id="enrollment-roster-datepicker"
 								label="Date"
-								onChange={newDateRange => (newDateRange ? setDateRange(newDateRange) : null)}
+								onChange={(newDateRange) => (newDateRange ? setDateRange(newDateRange) : null)}
 								dateRange={dateRange}
 								className="margin-top-neg-3"
 							/>
@@ -179,7 +179,7 @@ const RosterHeader: React.FC<RosterHeaderProps> = ({
 							<DateInput
 								id="enrollment-roster-datepicker"
 								label="Date"
-								onChange_Old={newDate => setDateRange({ startDate: newDate, endDate: newDate })}
+								onChange_Old={(newDate) => setDateRange({ startDate: newDate, endDate: newDate })}
 								defaultValue={dateRange.startDate ? dateRange.startDate.toDate() : null}
 								className="margin-top-neg-3"
 							/>

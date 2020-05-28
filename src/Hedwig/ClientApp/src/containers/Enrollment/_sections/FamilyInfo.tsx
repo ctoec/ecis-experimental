@@ -31,12 +31,12 @@ const FamilyInfo: Section = {
 	key: 'family-information',
 	name: 'Family information',
 	status: ({ enrollment }) =>
-		hasValidationErrors(idx(enrollment, _ => _.child.family) || null, [
+		hasValidationErrors(idx(enrollment, (_) => _.child.family) || null, [
 			'addressLine1',
 			'town',
 			'state',
 			'zip',
-		]) || hasValidationErrors(idx(enrollment, _ => _.child) || null, ['familyid'])
+		]) || hasValidationErrors(idx(enrollment, (_) => _.child) || null, ['familyid'])
 			? 'incomplete'
 			: 'complete',
 
@@ -93,7 +93,7 @@ const FamilyInfo: Section = {
 
 		if (!_enrollment.child.family) {
 			// If there isn't a family, create one-- otherwise user can save section without making one
-			updateFormData(e => e.value)({
+			updateFormData((e) => e.value)({
 				name: 'child.family',
 				value: createEmptyFamily(getIdForUser(user, 'org'), enrollment.child.familyId || 0),
 			});
@@ -111,7 +111,7 @@ const FamilyInfo: Section = {
 
 		const [attemptingSave, setAttemptingSave] = useState(false);
 		const { error: saveError, data: saveData } = useApi<Enrollment>(
-			api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(defaultParams),
+			(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(defaultParams),
 			{
 				skip: !attemptingSave,
 				callback: () => {
@@ -144,7 +144,7 @@ const FamilyInfo: Section = {
 						displayValidationStatus([
 							{
 								type: 'warning',
-								response: idx(child, _ => _.family.validationErrors) || null,
+								response: idx(child, (_) => _.family.validationErrors) || null,
 								fields: ['addressline1', 'town', 'state', 'zip'],
 								message: REQUIRED_FOR_ENROLLMENT,
 							},
@@ -165,7 +165,7 @@ const FamilyInfo: Section = {
 								displayValidationStatus([
 									{
 										type: 'warning',
-										response: idx(child, _ => _.family.validationErrors) || null,
+										response: idx(child, (_) => _.family.validationErrors) || null,
 										field: 'addressline1',
 									},
 								])
@@ -196,7 +196,7 @@ const FamilyInfo: Section = {
 								displayValidationStatus([
 									{
 										type: 'warning',
-										response: idx(child, _ => _.family.validationErrors) || null,
+										response: idx(child, (_) => _.family.validationErrors) || null,
 										field: 'town',
 									},
 								])
@@ -209,7 +209,7 @@ const FamilyInfo: Section = {
 							id="state"
 							label="State"
 							name="child.family.state"
-							options={['CT', 'MA', 'NY', 'RI'].map(_state => ({ text: _state, value: _state }))}
+							options={['CT', 'MA', 'NY', 'RI'].map((_state) => ({ text: _state, value: _state }))}
 							defaultValue={state ? [state] : undefined}
 							onChange={updateFormData()}
 							status={initialLoadErrorGuard(
@@ -217,7 +217,7 @@ const FamilyInfo: Section = {
 								displayValidationStatus([
 									{
 										type: 'warning',
-										response: idx(child, _ => _.family.validationErrors) || null,
+										response: idx(child, (_) => _.family.validationErrors) || null,
 										field: 'state',
 									},
 								])
@@ -237,7 +237,7 @@ const FamilyInfo: Section = {
 								displayValidationStatus([
 									{
 										type: 'warning',
-										response: idx(child, _ => _.family.validationErrors) || null,
+										response: idx(child, (_) => _.family.validationErrors) || null,
 										field: 'zip',
 									},
 								])

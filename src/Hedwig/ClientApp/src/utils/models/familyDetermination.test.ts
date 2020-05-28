@@ -52,7 +52,7 @@ it.each([
 
 it.each([undefined, []])(
 	'familyDeterminationNotDisclosed returns false if no determinations',
-	determinations => {
+	(determinations) => {
 		const enrollment = {
 			...baseEnrollment,
 			child: {

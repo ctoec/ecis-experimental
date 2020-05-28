@@ -56,7 +56,7 @@ export default function EnrollmentDetail({
 		include: ['child', 'family', 'determinations', 'fundings', 'sites', 'past_enrollments'],
 	};
 	const { loading, error, data: _enrollment } = useApi<Enrollment>(
-		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
+		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
 		{
 			skip: !enrollmentId || !user,
 		}
@@ -95,7 +95,7 @@ export default function EnrollmentDetail({
 						className="margin-right-0"
 					/>
 				</div>
-				{sections.map(section => {
+				{sections.map((section) => {
 					var props: SectionProps = { siteId, enrollment, updateEnrollment, error };
 					const familyIncomeForFosterChild = section.key === 'family-income' && child.foster;
 					return (

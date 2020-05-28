@@ -8,12 +8,14 @@ import {
 import mockUseApi, {
 	mockApiOrganizationsOrgIdEnrollmentsGet,
 	mockApiOrganizationsIdGet,
-} from '../../hooks/__mocks__/useApi';
+} from '../../hooks/useApi/__mocks__/useApi';
 
 let mockOrganization = mockSingleSiteOrganization;
 let mockEnrollments = mockAllFakeEnrollments;
 // Jest mocks must occur before later imports
 jest.mock('../../hooks/useApi', () => ({
+	// When trying to mock both a default import and named import,
+	// we must specify __esModule: true on the returned object.
 	__esModule: true,
 	default: mockUseApi({
 		apiOrganizationsIdGet: (_: any) => mockApiOrganizationsIdGet(mockOrganization)(_),
@@ -129,7 +131,7 @@ describe('Roster', () => {
 			);
 
 			const childNameRegex = new RegExp(
-				`${idx(mockEnrollmentMissingAddress, _ => _.child.firstName)}`
+				`${idx(mockEnrollmentMissingAddress, (_) => _.child.firstName)}`
 			);
 			const childCell = getByText(childNameRegex);
 			const missingInformation = childCell.nextElementSibling;

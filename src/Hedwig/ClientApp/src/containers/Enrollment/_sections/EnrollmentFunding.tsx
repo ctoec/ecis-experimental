@@ -94,7 +94,7 @@ const EnrollmentFunding: Section = {
 			<div className="EnrollmentFundingSummary">
 				{enrollment && (
 					<>
-						<p>Site: {idx(enrollment, _ => _.site.name)} </p>
+						<p>Site: {idx(enrollment, (_) => _.site.name)} </p>
 						<p>
 							Age group:{' '}
 							{enrollment.ageGroup
@@ -170,17 +170,17 @@ const EnrollmentFunding: Section = {
 			orgId: getIdForUser(user, 'org'),
 			include: ['organizations', 'enrollments', 'funding_spaces', 'fundings'],
 		};
-		const { data: site } = useApi(api => api.apiOrganizationsOrgIdSitesIdGet(siteParams), {
+		const { data: site } = useApi((api) => api.apiOrganizationsOrgIdSitesIdGet(siteParams), {
 			skip: !user,
 		});
 		const reportsParams: ApiOrganizationsOrgIdReportsGetRequest = {
 			orgId: getIdForUser(user, 'org'),
 		};
-		const { data: reports } = useApi(api => api.apiOrganizationsOrgIdReportsGet(reportsParams), {
+		const { data: reports } = useApi((api) => api.apiOrganizationsOrgIdReportsGet(reportsParams), {
 			skip: !user,
 		});
 		const submittedReports = (reports || [])
-			.filter(report => !!report.submittedAt)
+			.filter((report) => !!report.submittedAt)
 			.sort((a, b) => dateSorter(a.submittedAt, b.submittedAt, true));
 		const lastSubmittedReport = submittedReports[0];
 
@@ -195,7 +195,7 @@ const EnrollmentFunding: Section = {
 		);
 		const child = _enrollment.child;
 
-		const cdcFundings = fundings.filter(funding => funding.source === FundingSource.CDC);
+		const cdcFundings = fundings.filter((funding) => funding.source === FundingSource.CDC);
 		const currentCdcFunding = getCurrentCdcFunding(fundings);
 		const [cdcReportingPeriod, updateCdcReportingPeriod] = useState<ReportingPeriod | undefined>(
 			currentCdcFunding ? currentCdcFunding.firstReportingPeriod : undefined
@@ -214,13 +214,10 @@ const EnrollmentFunding: Section = {
 			let periodsAfterEntryAndLastReportingPeriodAndBeforeNextReportingPeriod: ReportingPeriod[];
 
 			// This should always cover the current reporting period plus the next one
-			const twoMonthsAndAWeekFromToday = moment()
-				.add(2, 'month')
-				.add(1, 'week')
-				.toDate();
+			const twoMonthsAndAWeekFromToday = moment().add(2, 'month').add(1, 'week').toDate();
 			const reportingPeriodsBetweenStartDateAndNextReportingPeriod = propertyBetweenDates(
 				reportingPeriods,
-				r => r.periodEnd,
+				(r) => r.periodEnd,
 				startDate,
 				twoMonthsAndAWeekFromToday
 			);
@@ -232,13 +229,14 @@ const EnrollmentFunding: Section = {
 				// Get all reporting periods that are on or before the last submitted reporting period start date
 				const reportingPeriodsBeforeLastSubmittedReport = propertyBeforeDate(
 					reportingPeriods,
-					r => r.periodStart,
+					(r) => r.periodStart,
 					lastSubmittedReportingPeriodStart
 				);
 				// Exclude all reporting periods corresponding to reporting periods that occured
 				// before the most recently submitted report
 				periodsAfterEntryAndLastReportingPeriodAndBeforeNextReportingPeriod = reportingPeriodsBetweenStartDateAndNextReportingPeriod.filter(
-					period => reportingPeriodsBeforeLastSubmittedReport.map(p => p.id).indexOf(period.id) < 0
+					(period) =>
+						reportingPeriodsBeforeLastSubmittedReport.map((p) => p.id).indexOf(period.id) < 0
 				);
 			} else {
 				// No reports submitted, so just use all reporting periods between enrollment start date and one month from now
@@ -248,9 +246,9 @@ const EnrollmentFunding: Section = {
 			// If there are previous cdc fundings that have last reporting periods,
 			// get the most recent one
 			const newestLastReportingPeriod = cdcFundings
-				.map(funding => funding.lastReportingPeriod)
-				.filter(period => period !== undefined)
-				.sort((a, b) => propertyDateSorter(a, b, r => r.period, true))[0];
+				.map((funding) => funding.lastReportingPeriod)
+				.filter((period) => period !== undefined)
+				.sort((a, b) => propertyDateSorter(a, b, (r) => r.period, true))[0];
 
 			let allValidPeriods = periodsAfterEntryAndLastReportingPeriodAndBeforeNextReportingPeriod;
 			if (newestLastReportingPeriod) {
@@ -258,11 +256,12 @@ const EnrollmentFunding: Section = {
 				// filter out all reporting periods that occur before that reporting period
 				const periodsBeforeMostRecentLastReportingPeriod = propertyBeforeDate(
 					reportingPeriods,
-					r => r.periodStart,
+					(r) => r.periodStart,
 					newestLastReportingPeriod.periodEnd
 				);
 				allValidPeriods = periodsAfterEntryAndLastReportingPeriodAndBeforeNextReportingPeriod.filter(
-					period => periodsBeforeMostRecentLastReportingPeriod.map(p => p.id).indexOf(period.id) < 0
+					(period) =>
+						periodsBeforeMostRecentLastReportingPeriod.map((p) => p.id).indexOf(period.id) < 0
 				);
 			}
 
@@ -270,7 +269,7 @@ const EnrollmentFunding: Section = {
 			if (cdcReportingPeriod) {
 				// Exclude it so we can safely add it back in without creating a duplicate
 				allValidPeriods = [
-					...allValidPeriods.filter(period => period.id !== cdcReportingPeriod.id),
+					...allValidPeriods.filter((period) => period.id !== cdcReportingPeriod.id),
 				];
 			}
 
@@ -280,7 +279,7 @@ const EnrollmentFunding: Section = {
 				? [cdcReportingPeriod, ...allValidPeriods]
 				: allValidPeriods;
 			updateReportingPeriodOptions(
-				[...periods].sort((a, b) => propertyDateSorter(a, b, r => r.period))
+				[...periods].sort((a, b) => propertyDateSorter(a, b, (r) => r.period))
 			);
 		}, [
 			enrollment.entry,
@@ -310,7 +309,7 @@ const EnrollmentFunding: Section = {
 				: undefined
 		);
 
-		const fundingSpaces = idx(site, _ => _.organization.fundingSpaces) as DeepNonUndefineable<
+		const fundingSpaces = idx(site, (_) => _.organization.fundingSpaces) as DeepNonUndefineable<
 			FundingSpace[]
 		>;
 
@@ -333,9 +332,9 @@ const EnrollmentFunding: Section = {
 			// space for the given age group. If an age group is not selected, only
 			// private pay will be available as an option.
 			const newFundingSourceOpts = fundingSpaces
-				.filter(space => space.ageGroup === _enrollment.ageGroup)
+				.filter((space) => space.ageGroup === _enrollment.ageGroup)
 				.reduce<{ value: string; text: string }[]>((acc, fundingSpace) => {
-					if (acc.some(a => a.value == fundingSpace.source)) return acc;
+					if (acc.some((a) => a.value == fundingSpace.source)) return acc;
 
 					return [
 						...acc,
@@ -365,7 +364,7 @@ const EnrollmentFunding: Section = {
 			});
 
 			setFundingSpaceOpts(
-				matchingFundingSpaces.map(fundingSpace => ({
+				matchingFundingSpaces.map((fundingSpace) => ({
 					value: '' + fundingSpace.id,
 					text: prettyFundingSpaceTime(fundingSpace, true),
 				}))
@@ -376,7 +375,7 @@ const EnrollmentFunding: Section = {
 				updateFundingSpace(matchingFundingSpaces[0]);
 				// TODO: Remove this client-side check and allow users to submit with previously entered
 				// invalid data and process the validation error
-			} else if (fundingSpace && !matchingFundingSpaces.some(fs => fs.id == fundingSpace.id)) {
+			} else if (fundingSpace && !matchingFundingSpaces.some((fs) => fs.id == fundingSpace.id)) {
 				updateFundingSpace(undefined);
 			}
 		}, [fundingSpaces, fundingSource, _enrollment.ageGroup]);
@@ -386,14 +385,14 @@ const EnrollmentFunding: Section = {
 		useEffect(() => {
 			let updatedFundings: Funding[] = [...fundings]
 				// filter out current CDC funding (will either be deleted, or updated)
-				.filter(funding => funding.id !== (currentCdcFunding && currentCdcFunding.id))
+				.filter((funding) => funding.id !== (currentCdcFunding && currentCdcFunding.id))
 				// and filter out any fundings associated with funding spaces that are
 				// no longer valid for this enrollment
 				.filter(
-					funding =>
+					(funding) =>
 						!!(
 							funding.fundingSpaceId &&
-							!fundingSpaceOpts.some(opt => opt.value === `${funding.fundingSpaceId}`)
+							!fundingSpaceOpts.some((opt) => opt.value === `${funding.fundingSpaceId}`)
 						)
 				);
 
@@ -460,7 +459,7 @@ const EnrollmentFunding: Section = {
 		useEffect(() => {
 			// When the existing one is updated, update the fundings
 			let updatedC4kCertificates = [...c4kCertificates].filter(
-				cert => cert.id !== (c4kFunding && c4kFunding.id)
+				(cert) => cert.id !== (c4kFunding && c4kFunding.id)
 			);
 			if (receivesC4k) {
 				updatedC4kCertificates.push(c4kFunding);
@@ -484,7 +483,7 @@ const EnrollmentFunding: Section = {
 				: undefined;
 
 			if (_fundingSpace) {
-				const enrolled = site.enrollments.filter<DeepNonUndefineable<Enrollment>>(e =>
+				const enrolled = site.enrollments.filter<DeepNonUndefineable<Enrollment>>((e) =>
 					isFundedForFundingSpace(e, _fundingSpace.id, {
 						startDate: moment(thisPeriod.periodStart),
 						endDate: moment(thisPeriod.periodEnd),
@@ -523,7 +522,7 @@ const EnrollmentFunding: Section = {
 			},
 		};
 		const { error: saveError, data: saveData } = useApi<Enrollment>(
-			api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(defaultParams),
+			(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(defaultParams),
 			{
 				skip: !attemptingSave || !user,
 				callback: () => {
@@ -551,7 +550,7 @@ const EnrollmentFunding: Section = {
 					<h2>{site && site.name}</h2>
 					<DateInput
 						name="entry"
-						onChange_Old={updateFormData(newDate => (newDate ? newDate.toDate() : null))}
+						onChange_Old={updateFormData((newDate) => (newDate ? newDate.toDate() : null))}
 						defaultValue={entry || null}
 						label="Start date"
 						id="enrollment-start-date"
@@ -610,7 +609,7 @@ const EnrollmentFunding: Section = {
 						legend="Funding type"
 						id="fundingType"
 						options={fundingSourceOpts}
-						onChange={event => {
+						onChange={(event) => {
 							updateFundingSource(fundingSourceFromString(event.target.value));
 						}}
 						defaultValue={toFormString(fundingSource || 'privatePay')}
@@ -629,10 +628,10 @@ const EnrollmentFunding: Section = {
 										defaultValue={toFormString(fundingSpace ? fundingSpace.id : '')}
 										label="Contract space"
 										// TODO: USE FORM REDUCER
-										onChange={event => {
+										onChange={(event) => {
 											updateFundingSpace(
 												fundingSpaces.find(
-													fundingSpace => fundingSpace.id === parseInt(event.target.value)
+													(fundingSpace) => fundingSpace.id === parseInt(event.target.value)
 												)
 											);
 										}}
@@ -656,14 +655,12 @@ const EnrollmentFunding: Section = {
 										)}
 									/>
 								)
-							) : (
-								undefined
-							)}
+							) : undefined}
 							<ChoiceList
 								type="select"
 								id="firstReportingPeriod"
 								options={[
-									...reportingPeriodOptions.map(period => {
+									...reportingPeriodOptions.map((period) => {
 										return {
 											value: '' + period.id,
 											text: reportingPeriodFormatter(period, { extended: true }),
@@ -672,9 +669,9 @@ const EnrollmentFunding: Section = {
 								]}
 								label="First reporting period"
 								// TODO: USE FORM REDUCER
-								onChange={event => {
+								onChange={(event) => {
 									const chosen = reportingPeriodOptions.find(
-										period => period.id === parseInt(event.target.value)
+										(period) => period.id === parseInt(event.target.value)
 									);
 									updateCdcReportingPeriod(chosen);
 								}}
@@ -721,7 +718,7 @@ const EnrollmentFunding: Section = {
 								value: 'receives-c4k',
 							},
 						]}
-						onChange={e => updateReceivesC4k(!!(e.target as HTMLInputElement).checked)}
+						onChange={(e) => updateReceivesC4k(!!(e.target as HTMLInputElement).checked)}
 						id="c4k-check-box"
 						legend="Receives Care 4 Kids"
 						className="margin-top-3"
@@ -735,7 +732,7 @@ const EnrollmentFunding: Section = {
 								label="Family ID"
 								defaultValue={c4kFamilyId ? '' + c4kFamilyId : ''}
 								// TODO: USE REDUCER HERE
-								onChange={event => updateC4kFamilyId(parseInt(event.target.value))}
+								onChange={(event) => updateC4kFamilyId(parseInt(event.target.value))}
 								status={initialLoadErrorGuard(
 									initialLoad,
 									displayValidationStatus([
@@ -750,7 +747,7 @@ const EnrollmentFunding: Section = {
 							/>
 							<DateInput
 								name="c4kCertificateStartDate"
-								onChange_Old={newDate =>
+								onChange_Old={(newDate) =>
 									updateC4kFunding({
 										...c4kFunding,
 										startDate: newDate ? newDate.toDate() : null,

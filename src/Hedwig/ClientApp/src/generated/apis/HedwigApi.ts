@@ -164,7 +164,7 @@ export class HedwigApi extends runtime.BaseAPI {
 			query: queryParameters,
 		});
 
-		return new runtime.JSONApiResponse(response, jsonValue => OrganizationFromJSON(jsonValue));
+		return new runtime.JSONApiResponse(response, (jsonValue) => OrganizationFromJSON(jsonValue));
 	}
 
 	/**
@@ -234,7 +234,7 @@ export class HedwigApi extends runtime.BaseAPI {
 			query: queryParameters,
 		});
 
-		return new runtime.JSONApiResponse(response, jsonValue => jsonValue.map(EnrollmentFromJSON));
+		return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(EnrollmentFromJSON));
 	}
 
 	/**
@@ -276,7 +276,7 @@ export class HedwigApi extends runtime.BaseAPI {
 			query: queryParameters,
 		});
 
-		return new runtime.JSONApiResponse(response, jsonValue => jsonValue.map(CdcReportFromJSON));
+		return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(CdcReportFromJSON));
 	}
 
 	/**
@@ -328,7 +328,7 @@ export class HedwigApi extends runtime.BaseAPI {
 			query: queryParameters,
 		});
 
-		return new runtime.JSONApiResponse(response, jsonValue => CdcReportFromJSON(jsonValue));
+		return new runtime.JSONApiResponse(response, (jsonValue) => CdcReportFromJSON(jsonValue));
 	}
 
 	/**
@@ -379,7 +379,7 @@ export class HedwigApi extends runtime.BaseAPI {
 			body: CdcReportToJSON(requestParameters.cdcReport),
 		});
 
-		return new runtime.JSONApiResponse(response, jsonValue => CdcReportFromJSON(jsonValue));
+		return new runtime.JSONApiResponse(response, (jsonValue) => CdcReportFromJSON(jsonValue));
 	}
 
 	/**
@@ -421,7 +421,7 @@ export class HedwigApi extends runtime.BaseAPI {
 			query: queryParameters,
 		});
 
-		return new runtime.JSONApiResponse(response, jsonValue => jsonValue.map(SiteFromJSON));
+		return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(SiteFromJSON));
 	}
 
 	/**
@@ -473,7 +473,7 @@ export class HedwigApi extends runtime.BaseAPI {
 			query: queryParameters,
 		});
 
-		return new runtime.JSONApiResponse(response, jsonValue => SiteFromJSON(jsonValue));
+		return new runtime.JSONApiResponse(response, (jsonValue) => SiteFromJSON(jsonValue));
 	}
 
 	/**
@@ -541,7 +541,7 @@ export class HedwigApi extends runtime.BaseAPI {
 			query: queryParameters,
 		});
 
-		return new runtime.JSONApiResponse(response, jsonValue => jsonValue.map(EnrollmentFromJSON));
+		return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(EnrollmentFromJSON));
 	}
 
 	/**
@@ -661,7 +661,7 @@ export class HedwigApi extends runtime.BaseAPI {
 			query: queryParameters,
 		});
 
-		return new runtime.JSONApiResponse(response, jsonValue => EnrollmentFromJSON(jsonValue));
+		return new runtime.JSONApiResponse(response, (jsonValue) => EnrollmentFromJSON(jsonValue));
 	}
 
 	/**
@@ -722,7 +722,7 @@ export class HedwigApi extends runtime.BaseAPI {
 			body: EnrollmentToJSON(requestParameters.enrollment),
 		});
 
-		return new runtime.JSONApiResponse(response, jsonValue => EnrollmentFromJSON(jsonValue));
+		return new runtime.JSONApiResponse(response, (jsonValue) => EnrollmentFromJSON(jsonValue));
 	}
 
 	/**
@@ -775,7 +775,7 @@ export class HedwigApi extends runtime.BaseAPI {
 			body: EnrollmentToJSON(requestParameters.enrollment),
 		});
 
-		return new runtime.JSONApiResponse(response, jsonValue => EnrollmentFromJSON(jsonValue));
+		return new runtime.JSONApiResponse(response, (jsonValue) => EnrollmentFromJSON(jsonValue));
 	}
 
 	/**
@@ -819,7 +819,7 @@ export class HedwigApi extends runtime.BaseAPI {
 			query: queryParameters,
 		});
 
-		return new runtime.JSONApiResponse(response, jsonValue =>
+		return new runtime.JSONApiResponse(response, (jsonValue) =>
 			jsonValue.map(ReportingPeriodFromJSON)
 		);
 	}
@@ -878,7 +878,7 @@ export class HedwigApi extends runtime.BaseAPI {
 			query: queryParameters,
 		});
 
-		return new runtime.JSONApiResponse(response, jsonValue => UserFromJSON(jsonValue));
+		return new runtime.JSONApiResponse(response, (jsonValue) => UserFromJSON(jsonValue));
 	}
 
 	/**

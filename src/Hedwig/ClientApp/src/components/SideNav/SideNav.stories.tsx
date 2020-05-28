@@ -3,9 +3,10 @@ import { storiesOf } from '@storybook/react';
 
 import { SideNav } from '..';
 import { action } from '@storybook/addon-actions';
+import { SideNavItemProps } from './SideNavItem';
 
 const onClick = action('onChange');
-const exampleItems = [
+const exampleItems: SideNavItemProps[] = [
 	{
 		titleLink: {
 			text: 'Item title is a link',

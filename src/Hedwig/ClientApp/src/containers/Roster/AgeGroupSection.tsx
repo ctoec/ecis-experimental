@@ -82,9 +82,9 @@ export default function AgeGroupSection({
 		name: 'Funding',
 		cell: ({ row }: { row: DeepNonUndefineable<Enrollment> }) => {
 			const filteredFundings = dedupeFundings(
-				(row.fundings || []).filter(f => isCurrentToRange(f, rosterDateRange))
+				(row.fundings || []).filter((f) => isCurrentToRange(f, rosterDateRange))
 			);
-			const filteredCertificates = (row.child.c4KCertificates || []).filter(c =>
+			const filteredCertificates = (row.child.c4KCertificates || []).filter((c) =>
 				isCurrentToRangeC4K(c, rosterDateRange)
 			);
 
@@ -104,7 +104,7 @@ export default function AgeGroupSection({
 				</td>
 			);
 		},
-		sort: (row: Enrollment) => idx(row, _ => _.fundings[0].source) || '',
+		sort: (row: Enrollment) => idx(row, (_) => _.fundings[0].source) || '',
 		width: '20%',
 	};
 
@@ -143,16 +143,16 @@ export default function AgeGroupSection({
 	const rosterTableProps: TableProps<DeepNonUndefineable<Enrollment>> = {
 		id: `${ageGroup}-roster-table`,
 		data: enrollments,
-		rowKey: row => row.id,
+		rowKey: (row) => row.id,
 		columns: columns,
 		defaultSortColumn: 0,
 		defaultSortOrder: 'ascending',
 	};
 
 	// One legend item per funding space of a given age group
-	const legendItems = (fundingSpaces || []).map(space => {
+	const legendItems = (fundingSpaces || []).map((space) => {
 		const enrolledForFundingSpace = enrollments.filter<DeepNonUndefineable<Enrollment>>(
-			enrollment => isFundedForFundingSpace(enrollment, space.id, rosterDateRange)
+			(enrollment) => isFundedForFundingSpace(enrollment, space.id, rosterDateRange)
 		).length;
 		const prettyFundingTime = prettyFundingSpaceTime(space);
 		return {

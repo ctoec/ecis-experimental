@@ -22,9 +22,8 @@ export type SelectProps = {
 	unselectedText?: string;
 	disabled?: boolean;
 	onChange: React.ChangeEventHandler<HTMLSelectElement>;
-}
-& Omit<HTMLAttributes<HTMLSelectElement>, 'defaultValue'>
-&	FormFieldStatusProps;
+} & Omit<HTMLAttributes<HTMLSelectElement>, 'defaultValue'> &
+	FormFieldStatusProps;
 
 /**
  * Component that wraps a native select element.
@@ -88,7 +87,7 @@ export const Select: React.FC<SelectProps> = ({
 				aria-invalid={status && status.type === 'error'}
 				{...props}
 			>
-				{options.map(option => (
+				{options.map((option) => (
 					<option value={option.value} key={`${id}-${option.value}`}>
 						{option.text}
 					</option>
@@ -97,7 +96,7 @@ export const Select: React.FC<SelectProps> = ({
 					{unselectedText || '- Select -'}
 				</option>
 			</select>
-			{options.map(option => {
+			{options.map((option) => {
 				const expansion = option.expansion;
 				return (
 					<>

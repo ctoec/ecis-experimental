@@ -12,7 +12,7 @@ const appUrl = `${clientHost}/`;
 
 describe('Smoke screen', () => {
 	let driver: IWebDriver;
-	beforeEach(done => {
+	beforeEach((done) => {
 		const localIdentifier = '' + Math.random() * 10000000;
 		bs_local.start(
 			{
@@ -27,7 +27,7 @@ describe('Smoke screen', () => {
 		);
 	});
 
-	afterEach(async done => {
+	afterEach(async (done) => {
 		await DriverHelper.quit(driver);
 		bs_local.stop(() => {
 			done();

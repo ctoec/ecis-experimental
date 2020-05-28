@@ -11,7 +11,7 @@ export const SideNav = ({ items }: SideNavProps) => {
 		<nav className="oec-sidenav">
 			<div className="tablet:grid-col-4">
 				<ul>
-					{items.map(item => (
+					{items.map((item) => (
 						<SideNavItem {...item} />
 					))}
 				</ul>

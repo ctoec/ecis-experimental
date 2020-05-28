@@ -1,3 +1,7 @@
+// This file is @depracated
+// It should be replaced by only mocking constructApi and parseError
+// See ChildInfo.tests.tsx for more information on how to do that.
+
 import moment from 'moment';
 import {
 	Enrollment,
@@ -7,16 +11,18 @@ import {
 	CdcReport,
 	Site,
 	Child,
-} from '../../generated';
-import { ApiParamOpts } from '../useApi';
+	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest,
+	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
+} from '../../../generated';
+import { ApiParamOpts } from '..';
 import { useEffect } from 'react';
 
 export const mockApiOrganizationsOrgIdEnrollmentsGet = (enrollments: Enrollment[]) => (
 	params: ApiOrganizationsOrgIdEnrollmentsGetRequest
 ) => {
 	const _enrollments = enrollments
-		.filter(e => !params.siteIds || params.siteIds.includes(e.siteId))
-		.filter(e => {
+		.filter((e) => !params.siteIds || params.siteIds.includes(e.siteId))
+		.filter((e) => {
 			return (
 				(!e.entry ? true : moment(e.entry).isBefore(params.endDate)) &&
 				(!e.exit ? true : moment(e.exit).isAfter(moment(params.startDate)))
@@ -28,15 +34,15 @@ export const mockApiOrganizationsOrgIdEnrollmentsGet = (enrollments: Enrollment[
 export const mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet = (enrollments: Enrollment[]) => (
 	params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest
 ) => {
-	const thisEnrollment = enrollments.find(e => e.id === params.id);
+	const thisEnrollment = enrollments.find((e) => e.id === params.id);
 	if (!thisEnrollment) return { loading: false, error: { status: '400' }, data: null };
 	return { loading: false, error: null, data: thisEnrollment };
 };
 
 export const mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut = (enrollments: Enrollment[]) => (
-	params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest
+	params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest
 ) => {
-	const thisEnrollment = enrollments.find(e => e.id === params.id);
+	const thisEnrollment = enrollments.find((e) => e.id === params.id);
 	if (!thisEnrollment) return;
 	return { loading: false, error: null, data: thisEnrollment };
 };
@@ -65,7 +71,7 @@ export const mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsGet = (enrollments: 
 ) => ({
 	loading: false,
 	error: null,
-	data: enrollments.filter(e => {
+	data: enrollments.filter((e) => {
 		return (
 			(!e.entry ? true : moment(e.entry).isBefore(params.endDate)) &&
 			(!e.exit ? true : moment(e.exit).isAfter(moment(params.startDate)))
@@ -91,6 +97,15 @@ export const mockApiOrganizationsOrgIdReportsIdGet = (report: CdcReport) => (par
 	data: report,
 });
 
+/**
+ * Mock implementation of the useApi hook that does not make a network request.
+ *
+ * @deprecated Please mock constructApi and parseError directly instead of using
+ * this for future tests. See ChildInfo.tests.tsx for more information on how.
+ *
+ * If you remove this method, please update the comment in ChildInfo.tests.tsx
+ * accordingly.
+ */
 export default (mockApi: any) => (
 	query: (api: any, opt?: any) => any,
 	opts: ApiParamOpts<any> = { skip: false }
@@ -98,7 +113,7 @@ export default (mockApi: any) => (
 	const { skip, callback, deps } = opts || {};
 
 	useEffect(() => {
-		if (callback && !skip) callback();
+		if (callback && !skip) callback(null);
 	}, [skip, ...(deps || [])]);
 
 	return skip ? { error: null, data: null, loading: false } : query(mockApi);

@@ -34,7 +34,7 @@ export function getFundingTime(funding: Funding | undefined) {
 export function dedupeFundings(fundings: Funding[]) {
 	const uniqueFundings: { [key: string]: Funding } = {};
 
-	fundings.forEach(funding => {
+	fundings.forEach((funding) => {
 		const key = `${funding.source}${getFundingTime(funding)}`;
 		if (!uniqueFundings[key]) {
 			uniqueFundings[key] = funding;
@@ -91,7 +91,7 @@ export function getCurrentCdcFunding(
 	fundings: DeepNonUndefineable<Funding[]> | null
 ): DeepNonUndefineable<Funding> | undefined {
 	return (fundings || []).find<DeepNonUndefineable<Funding>>(
-		funding => funding.source === FundingSource.CDC && !funding.lastReportingPeriod
+		(funding) => funding.source === FundingSource.CDC && !funding.lastReportingPeriod
 	);
 }
 

@@ -22,7 +22,7 @@ type FormFieldProps<TData, TComponentProps, TFieldData> =
 				) => TFieldData;
 				status?: (_: TObjectDriller<NonNullable<TData>>) => FormStatusProps | undefined;
 				inputComponent: React.FC<TComponentProps>;
-		  } /* Include TComponentProps props, except onChange, defaultValue, and status */ & Pick<
+		  } & /* Include TComponentProps props, except onChange, defaultValue, and status */ Pick<
 				TComponentProps,
 				Exclude<keyof TComponentProps, 'onChange' | 'defaultValue' | 'status'>
 		  > /*
@@ -61,7 +61,7 @@ const FormField = <TData extends object, TComponentProps extends {}, TFieldData>
 	const onChange = (e: React.ChangeEvent<any>) => {
 		const processedData = parseOnChangeEvent(e, dataDriller);
 		updateData(
-			produce<TData>(data, draft => set(draft, updatePath, processedData))
+			produce<TData>(data, (draft) => set(draft, updatePath, processedData))
 		);
 	};
 

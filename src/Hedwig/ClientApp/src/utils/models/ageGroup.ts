@@ -28,9 +28,9 @@ export function prettyAge(age: Age | null | undefined) {
 
 export function getObjectsByAgeGroup<T extends { ageGroup: Age }>(inputObjects: T[]) {
 	const groupedObjects = {} as { [ageGroup: string]: T[] };
-	Object.values(Age).forEach(ageGroup => {
+	Object.values(Age).forEach((ageGroup) => {
 		groupedObjects[ageGroup] = inputObjects.filter(
-			input => input.ageGroup && input.ageGroup === ageGroup
+			(input) => input.ageGroup && input.ageGroup === ageGroup
 		);
 	});
 	return groupedObjects;

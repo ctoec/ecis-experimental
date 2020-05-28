@@ -13,12 +13,12 @@ const defaultColumns = [
 	{
 		name: 'Name',
 		cell: ({ row }) => <th scope="row">{row.name}</th>,
-		sort: row => row.name,
+		sort: (row) => row.name,
 	},
 	{
 		name: 'Price',
 		cell: ({ row }) => <th scope="row">{row.price}</th>,
-		sort: row => row.price,
+		sort: (row) => row.price,
 	},
 ];
 
@@ -31,7 +31,7 @@ storiesOf('Table', module)
 			<Table
 				id="my-table"
 				data={customData}
-				rowKey={row => row.id}
+				rowKey={(row) => row.id}
 				columns={customColumns}
 				defaultSortColumn={0}
 				defaultSortOrder="ascending"
@@ -45,7 +45,7 @@ storiesOf('Table', module)
 			<Table
 				id="my-table"
 				data={customData}
-				rowKey={row => row.id}
+				rowKey={(row) => row.id}
 				columns={customColumns}
 				defaultSortColumn={0}
 				defaultSortOrder="ascending"

@@ -10,28 +10,28 @@ import '../../assets/styles/index.scss';
 const onChange = action('onChange');
 const options: RadioOption[] = [
 	{
-		render: props => <RadioButton text="Option 1" {...props} />,
+		render: (props) => <RadioButton text="Option 1" {...props} />,
 		value: 'one',
 	},
 	{
-		render: props => <RadioButton text="Option 2" {...props} />,
+		render: (props) => <RadioButton text="Option 2" {...props} />,
 		value: 'two',
 	},
 ];
 const optionsWithOneExpansion: RadioOption[] = [
 	{
-		render: props => <RadioButton text="Option 1" {...props} />,
+		render: (props) => <RadioButton text="Option 1" {...props} />,
 		value: 'one',
 		expansion: <p>Thank you for selecting option one!</p>,
 	},
 	{
-		render: props => <RadioButton text="Option 2" {...props} />,
+		render: (props) => <RadioButton text="Option 2" {...props} />,
 		value: 'two',
 	},
 ];
 const optionsWithOneComplexExpansion: RadioOption[] = [
 	{
-		render: props => <RadioButton text="Option 1" {...props} />,
+		render: (props) => <RadioButton text="Option 1" {...props} />,
 		value: 'one',
 		expansion: (
 			<>
@@ -46,18 +46,18 @@ const optionsWithOneComplexExpansion: RadioOption[] = [
 		),
 	},
 	{
-		render: props => <RadioButton text="Option 2" {...props} />,
+		render: (props) => <RadioButton text="Option 2" {...props} />,
 		value: 'two',
 	},
 ];
 const optionsWithTwoExpansions: RadioOption[] = [
 	{
-		render: props => <RadioButton text="Option 1" {...props} />,
+		render: (props) => <RadioButton text="Option 1" {...props} />,
 		value: 'one',
 		expansion: <p>Thank you for selecting option one!</p>,
 	},
 	{
-		render: props => <RadioButton text="Option 2" {...props} />,
+		render: (props) => <RadioButton text="Option 2" {...props} />,
 		value: 'two',
 		expansion: <p>Woo! #2</p>,
 	},

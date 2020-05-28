@@ -24,33 +24,28 @@ import { displayValidationStatus } from '../../../../utils/validations/displayVa
 
 export const householdSizeField = (index: number) => (
 	<FormField<Enrollment, TextInputProps, number | null, { initialLoad: boolean }>
-		field={data =>
-			data
-				.at('child')
-				.at('family')
-				.at('determinations')
-				.at(index)
-				.at('numberOfPeople')
+		field={(data) =>
+			data.at('child').at('family').at('determinations').at(index).at('numberOfPeople')
 		}
-		parseValue={_ => parseInt(_.replace(/[^0-9.]/g, ''), 10) || null}
-		render={props => {
+		parseValue={(_) => parseInt(_.replace(/[^0-9.]/g, ''), 10) || null}
+		render={(props) => {
 			const numberOfPeople = props.data;
 			const { initialLoad } = props.additionalInformation;
 			const determination =
-				idx(props.containingData, _ => _.child.family.determinations[index]) || undefined;
+				idx(props.containingData, (_) => _.child.family.determinations[index]) || undefined;
 			return (
 				<TextInput
 					type="input"
 					id={`numberOfPeople-${index}`}
 					label="Household size"
 					defaultValue={numberOfPeople ? '' + numberOfPeople : ''}
-					onBlur={event => (event.target.value = numberOfPeople ? '' + numberOfPeople : '')}
+					onBlur={(event) => (event.target.value = numberOfPeople ? '' + numberOfPeople : '')}
 					status={initialLoadErrorGuard(
 						initialLoad,
 						displayValidationStatus([
 							{
 								type: 'warning',
-								response: idx(determination, _ => _.validationErrors) || null,
+								response: idx(determination, (_) => _.validationErrors) || null,
 								field: 'numberOfPeople',
 							},
 						])
@@ -65,19 +60,14 @@ export const householdSizeField = (index: number) => (
 
 export const incomeDisclosedField = (index: number) => (
 	<FormField<Enrollment, ChoiceListProps, boolean, { initialLoad: boolean }>
-		field={data =>
-			data
-				.at('child')
-				.at('family')
-				.at('determinations')
-				.at(index)
-				.at('notDisclosed')
+		field={(data) =>
+			data.at('child').at('family').at('determinations').at(index).at('notDisclosed')
 		}
 		parseValue={(_, event) => !!event.target.checked}
-		render={props => {
+		render={(props) => {
 			const notDisclosed = props.data;
 			const determination =
-				idx(props.containingData, _ => _.child.family.determinations[index]) || undefined;
+				idx(props.containingData, (_) => _.child.family.determinations[index]) || undefined;
 			return (
 				<ChoiceList
 					type="check"
@@ -94,7 +84,7 @@ export const incomeDisclosedField = (index: number) => (
 					status={displayValidationStatus([
 						{
 							type: 'warning',
-							response: idx(determination, _ => _.validationErrors) || null,
+							response: idx(determination, (_) => _.validationErrors) || null,
 							field: 'notDisclosed',
 							message: 'Income information must be disclosed for CDC funded enrollments',
 						},
@@ -108,18 +98,11 @@ export const incomeDisclosedField = (index: number) => (
 
 export const annualHouseholdIncomeField = (index: number) => (
 	<FormField<Enrollment, TextInputProps, number | null, { initialLoad: boolean }>
-		field={data =>
-			data
-				.at('child')
-				.at('family')
-				.at('determinations')
-				.at(index)
-				.at('income')
-		}
-		parseValue={_ => parseCurrencyFromString(_)}
-		render={props => {
+		field={(data) => data.at('child').at('family').at('determinations').at(index).at('income')}
+		parseValue={(_) => parseCurrencyFromString(_)}
+		render={(props) => {
 			const determination =
-				idx(props.containingData, _ => _.child.family.determinations[index]) || undefined;
+				idx(props.containingData, (_) => _.child.family.determinations[index]) || undefined;
 			const income = props.data;
 			const { initialLoad } = props.additionalInformation;
 			return (
@@ -128,7 +111,7 @@ export const annualHouseholdIncomeField = (index: number) => (
 					id={`income-${index}`}
 					label="Annual household income"
 					defaultValue={currencyFormatter(income)}
-					onBlur={event =>
+					onBlur={(event) =>
 						(event.target.value = notNullOrUndefined(income) ? currencyFormatter(income) : '')
 					}
 					status={initialLoadErrorGuard(
@@ -136,7 +119,7 @@ export const annualHouseholdIncomeField = (index: number) => (
 						displayValidationStatus([
 							{
 								type: 'warning',
-								response: idx(determination, _ => _.validationErrors) || null,
+								response: idx(determination, (_) => _.validationErrors) || null,
 								field: 'income',
 							},
 						])
@@ -154,19 +137,14 @@ export const determinationDateField = (
 	defaultDate?: Moment
 ) => (
 	<FormField<Enrollment, DateInputProps, Date | null, { initialLoad: boolean }>
-		field={data =>
-			data
-				.at('child')
-				.at('family')
-				.at('determinations')
-				.at(index)
-				.at('determinationDate')
+		field={(data) =>
+			data.at('child').at('family').at('determinations').at(index).at('determinationDate')
 		}
-		parseValue={_ => (_ ? _.toDate() : null)}
-		render={props => {
+		parseValue={(_) => (_ ? _.toDate() : null)}
+		render={(props) => {
 			const determinationDate = props.data;
 			const determination =
-				idx(props.containingData, _ => _.child.family.determinations[index]) || undefined;
+				idx(props.containingData, (_) => _.child.family.determinations[index]) || undefined;
 			const { initialLoad } = props.additionalInformation;
 			const date = determinationDate ? moment(determinationDate) : defaultDate;
 			return (
@@ -179,7 +157,7 @@ export const determinationDateField = (
 						displayValidationStatus([
 							{
 								type: 'warning',
-								response: idx(determination, _ => _.validationErrors) || null,
+								response: idx(determination, (_) => _.validationErrors) || null,
 								field: 'determinationDate',
 								useValidationErrorMessage: true,
 							},

@@ -77,7 +77,7 @@ export function getFundingSpaces(
 ): DeepNonUndefineable<FundingSpace[]> {
 	if (!fundingSpaces) return [];
 	const { ageGroup, source, time } = opts;
-	return fundingSpaces.filter(space => {
+	return fundingSpaces.filter((space) => {
 		let match = true;
 		if (ageGroup) {
 			match = match && space.ageGroup === ageGroup;
@@ -107,11 +107,11 @@ export function getFundingSpaceCapacity(
 	let fundingSpaces = organization.fundingSpaces;
 
 	if (opts.source) {
-		fundingSpaces = fundingSpaces.filter(fs => fs.source === opts.source);
+		fundingSpaces = fundingSpaces.filter((fs) => fs.source === opts.source);
 	}
 
 	if (opts.ageGroup) {
-		fundingSpaces = fundingSpaces.filter(fs => fs.ageGroup === opts.ageGroup);
+		fundingSpaces = fundingSpaces.filter((fs) => fs.ageGroup === opts.ageGroup);
 	}
 
 	return fundingSpaces.reduce(
@@ -146,11 +146,13 @@ export function getTimeSplitUtilizationsForFiscalYearOfReport(
 	return ((fundingSpace.timeSplitUtilizations || []) as DeepNonUndefineable<
 		FundingTimeSplitUtilization[]
 	>)
-		.filter(util => util.reportId !== report.id)
-		.filter(util => util.fundingSpaceId === fundingSpace.id)
-		.filter(util => isWithinFiscalYear(util.reportingPeriod.period, report.reportingPeriod.period))
-		.filter(util =>
+		.filter((util) => util.reportId !== report.id)
+		.filter((util) => util.fundingSpaceId === fundingSpace.id)
+		.filter((util) =>
+			isWithinFiscalYear(util.reportingPeriod.period, report.reportingPeriod.period)
+		)
+		.filter((util) =>
 			moment(util.reportingPeriod.periodEnd).isBefore(report.reportingPeriod.periodEnd)
 		)
-		.filter(util => !!util.report.submittedAt);
+		.filter((util) => !!util.report.submittedAt);
 }

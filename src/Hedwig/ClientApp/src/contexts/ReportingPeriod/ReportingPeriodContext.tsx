@@ -22,7 +22,7 @@ const ReportingPeriodProvider: React.FC<{}> = ({ children }) => {
 		source: FundingSource.CDC,
 	};
 
-	const { data: cdcReportingPeriods } = useApi<ReportingPeriod[]>(api =>
+	const { data: cdcReportingPeriods } = useApi<ReportingPeriod[]>((api) =>
 		api.apiReportingPeriodsSourceGet(cdcReportingPeriodParams)
 	);
 

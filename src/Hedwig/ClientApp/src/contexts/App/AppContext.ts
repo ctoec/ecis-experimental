@@ -14,7 +14,7 @@ const { Provider, Consumer } = AppContext;
 
 export const useCacheInvalidator: () => AppContextType = () => {
 	const [cacheInvalidator, setCacheInvalidator] = useState(0);
-	const invalidateCache = () => setCacheInvalidator(prev => prev + 1);
+	const invalidateCache = () => setCacheInvalidator((prev) => prev + 1);
 	return { cacheInvalidator, invalidateCache };
 };
 

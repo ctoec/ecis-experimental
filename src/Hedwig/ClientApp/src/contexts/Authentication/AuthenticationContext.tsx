@@ -76,7 +76,7 @@ const AuthenticationProvider: React.FC<AuthenticationProviderPropsType> = ({
 	const [loading, setLoading] = useState(true);
 	const [idToken, setIdToken] = useState<string>();
 	const [accessToken, setAccessToken] = useState<string | null>(null);
-	const [openIdConnectUrl, setOpenIdConnectUrl] = useState();
+	const [openIdConnectUrl, setOpenIdConnectUrl] = useState<string>();
 
 	// auth flow state
 	const [notifier] = useState<AuthorizationNotifier>(new AuthorizationNotifier());
@@ -256,7 +256,7 @@ const AuthenticationProvider: React.FC<AuthenticationProviderPropsType> = ({
 			refresh_token: undefined,
 			extras: extras,
 		});
-		return tokenHandler.performTokenRequest(configuration, req).then(resp => {
+		return tokenHandler.performTokenRequest(configuration, req).then((resp) => {
 			setIdToken(resp.idToken);
 			localStorage.setItem(localStorageIdTokenKey, resp.idToken || '');
 			setAccessToken(resp.accessToken);
@@ -283,7 +283,7 @@ const AuthenticationProvider: React.FC<AuthenticationProviderPropsType> = ({
 			code: undefined,
 			refresh_token: tokenResponse.refreshToken,
 		});
-		tokenHandler.performTokenRequest(configuration, req).then(resp => {
+		tokenHandler.performTokenRequest(configuration, req).then((resp) => {
 			setTokenResponse(resp);
 			setAccessToken(resp.accessToken);
 		});

@@ -20,7 +20,7 @@ export default function ReportDetail() {
 		include: ['organizations', 'enrollments', 'sites', 'funding_spaces', 'child'],
 	};
 	const { loading, error, data: report } = useApi(
-		api => api.apiOrganizationsOrgIdReportsIdGet(reportParams),
+		(api) => api.apiOrganizationsOrgIdReportsIdGet(reportParams),
 		{ skip: !user }
 	);
 
@@ -30,7 +30,7 @@ export default function ReportDetail() {
 
 	const numEnrollmentsMissingInfo = (report.enrollments || []).filter<
 		DeepNonUndefineable<Enrollment>
-	>(e => !!e.validationErrors && e.validationErrors.length > 0).length;
+	>((e) => !!e.validationErrors && e.validationErrors.length > 0).length;
 
 	let additionalAlerts: AlertProps[] = [];
 

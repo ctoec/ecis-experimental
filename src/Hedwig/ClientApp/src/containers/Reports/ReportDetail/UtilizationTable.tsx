@@ -51,26 +51,22 @@ export default function UtilizationTable(report: CdcReport) {
 	const [maxLengthOfBalance, updateMaxLengthOfBalance] = useState(0);
 	const [numberOfCommasInBalance, updateNumberOfCommasInBalance] = useState(0);
 
-	const site = idx(report, _ => _.organization.sites[0]);
+	const site = idx(report, (_) => _.organization.sites[0]);
 	if (!site) {
 		return <></>;
 	}
 
-	const fundingSpaces = idx(report, _ => _.organization.fundingSpaces);
+	const fundingSpaces = idx(report, (_) => _.organization.fundingSpaces);
 	if (!fundingSpaces) {
 		return <></>;
 	}
 
-	const periodStart = idx(report, _ => _.reportingPeriod.periodStart);
-	const periodEnd = idx(report, _ => _.reportingPeriod.periodEnd);
+	const periodStart = idx(report, (_) => _.reportingPeriod.periodStart);
+	const periodEnd = idx(report, (_) => _.reportingPeriod.periodEnd);
 	const weeksInPeriod =
-		periodStart && periodEnd
-			? moment(periodEnd)
-					.add(1, 'day')
-					.diff(periodStart, 'weeks')
-			: 0;
+		periodStart && periodEnd ? moment(periodEnd).add(1, 'day').diff(periodStart, 'weeks') : 0;
 
-	const enrollments = (idx(report, _ => _.enrollments) || []) as Enrollment[];
+	const enrollments = (idx(report, (_) => _.enrollments) || []) as Enrollment[];
 
 	// NOTE: previously, looped over all possible combinations of age X time,
 	// and then filtered for products with count or capacity > 0
@@ -79,8 +75,8 @@ export default function UtilizationTable(report: CdcReport) {
 	// Rows are sorted by fundingspace age, then time
 	let rows: UtilizationTableRow[] = (fundingSpaces as DeepNonUndefineableArray<FundingSpace>)
 		.sort(fundingSpaceSorter)
-		.filter(fundingSpace => fundingSpace.source === FundingSource.CDC)
-		.map(space => {
+		.filter((fundingSpace) => fundingSpace.source === FundingSource.CDC)
+		.map((space) => {
 			const capacity = space.capacity;
 			const ageGroup = space.ageGroup;
 			const fundingTime = space.time;
@@ -128,8 +124,8 @@ export default function UtilizationTable(report: CdcReport) {
 
 	const tableProps: TableProps<UtilizationTableRow> = {
 		id: 'utilization-table',
-		data: rows.filter(row => row.count || row.capacity),
-		rowKey: row => row.key,
+		data: rows.filter((row) => row.count || row.capacity),
+		rowKey: (row) => row.key,
 		columns: [
 			{
 				name: '',
@@ -160,10 +156,10 @@ export default function UtilizationTable(report: CdcReport) {
 				cell: ({ row }) => {
 					const valueBeforeDecimalPoint = getValueBeforeDecimalPoint(row.rate || 0);
 					const numberOfCommas = getNumberOfCommas(valueBeforeDecimalPoint);
-					updateNumberOfCommasInReimbursement(oldNumberOfCommas => {
+					updateNumberOfCommasInReimbursement((oldNumberOfCommas) => {
 						return Math.max(numberOfCommas, oldNumberOfCommas);
 					});
-					updateMaxLengthOfReimbursement(oldMaxLengthOfReimbursementRate => {
+					updateMaxLengthOfReimbursement((oldMaxLengthOfReimbursementRate) => {
 						return Math.max(valueBeforeDecimalPoint.length, oldMaxLengthOfReimbursementRate);
 					});
 					const numberOfCommasNeeded = numberOfCommasInReimbursement - numberOfCommas;
@@ -193,10 +189,10 @@ export default function UtilizationTable(report: CdcReport) {
 				cell: ({ row }) => {
 					const valueBeforeDecimalPoint = getValueBeforeDecimalPoint(row.total);
 					const numberOfCommas = getNumberOfCommas(valueBeforeDecimalPoint);
-					updateNumberOfCommasInTotalRate(oldNumberOfCommas => {
+					updateNumberOfCommasInTotalRate((oldNumberOfCommas) => {
 						return Math.max(numberOfCommas, oldNumberOfCommas);
 					});
-					updateMaxLengthOfTotalRate(oldMaxLengthOfTotalRate => {
+					updateMaxLengthOfTotalRate((oldMaxLengthOfTotalRate) => {
 						return Math.max(valueBeforeDecimalPoint.length, oldMaxLengthOfTotalRate);
 					});
 					const numberOfCommasNeeded = numberOfCommasInTotalRate - numberOfCommas;
@@ -227,10 +223,10 @@ export default function UtilizationTable(report: CdcReport) {
 				cell: ({ row }) => {
 					const valueBeforeDecimalPoint = getValueBeforeDecimalPoint(Math.abs(row.balance));
 					const numberOfCommas = getNumberOfCommas(valueBeforeDecimalPoint);
-					updateNumberOfCommasInBalance(oldNumberOfCommas => {
+					updateNumberOfCommasInBalance((oldNumberOfCommas) => {
 						return Math.max(numberOfCommas, oldNumberOfCommas);
 					});
-					updateMaxLengthOfBalance(oldMaxLengthOfBalance => {
+					updateMaxLengthOfBalance((oldMaxLengthOfBalance) => {
 						return Math.max(valueBeforeDecimalPoint.length, oldMaxLengthOfBalance);
 					});
 					const numberOfCommasNeeded = numberOfCommasInBalance - numberOfCommas;
@@ -279,7 +275,7 @@ export function calculateRate(
 	time: FundingTime
 ) {
 	const rate = CdcRates.find(
-		r =>
+		(r) =>
 			r.accredited === accredited &&
 			r.titleI === titleI &&
 			r.region === region &&
@@ -291,7 +287,7 @@ export function calculateRate(
 }
 
 export function countFundedEnrollments(enrollments: Enrollment[], fundingSpaceId: number) {
-	return enrollments.filter(enrollment => {
+	return enrollments.filter((enrollment) => {
 		if (!enrollment.fundings) return false;
 		return isFundedForFundingSpace(enrollment, fundingSpaceId);
 	}).length;

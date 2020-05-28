@@ -4,7 +4,7 @@ import mockUseApi, {
 	mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet,
 	mockApiOrganizationsOrgIdSitesIdGet,
 	mockApiOrganizationsOrgIdReportsGet,
-} from '../../../hooks/__mocks__/useApi';
+} from '../../../hooks/useApi/__mocks__/useApi';
 
 // Jest mocks must occur before later imports
 jest.mock('../../../hooks/useApi', () =>

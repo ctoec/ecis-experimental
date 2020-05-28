@@ -33,7 +33,7 @@ export const legendDisplayDetails: {
 			if (!organization) {
 				throw new Error('CDC legend text formatter needs organization');
 			}
-			const enrolledForCdc = enrollments.filter(enrollment =>
+			const enrolledForCdc = enrollments.filter((enrollment) =>
 				isFunded(enrollment, { source: FundingSource.CDC })
 			).length;
 			const cdcCapacity = getFundingSpaceCapacity(organization, { source: FundingSource.CDC });
@@ -63,7 +63,7 @@ export const legendDisplayDetails: {
 				);
 			}
 		},
-		hidden: organization =>
+		hidden: (organization) =>
 			getFundingSpaceCapacity(organization, { source: FundingSource.CDC }) === 0,
 	},
 	C4K: {
@@ -71,7 +71,7 @@ export const legendDisplayDetails: {
 		legendTextFormatter: (enrollments, opts = {}) => {
 			const { showPastEnrollments } = opts;
 			const enrolledWithC4k = enrollments.filter(
-				enrollment => !!getCurrentC4kCertificate(enrollment)
+				(enrollment) => !!getCurrentC4kCertificate(enrollment)
 			).length;
 			return (
 				<>
@@ -82,18 +82,18 @@ export const legendDisplayDetails: {
 		},
 		// When there are no kids receiving C4K funding, this legend item should be hidden https://github.com/ctoec/ecis-experimental/issues/893
 		hidden: (_, enrollments) =>
-			enrollments.filter(enrollment => !!getCurrentC4kCertificate(enrollment)).length === 0,
+			enrollments.filter((enrollment) => !!getCurrentC4kCertificate(enrollment)).length === 0,
 	},
 	missing: {
 		symbolGenerator: (opts?: { className?: string }) => (
 			<InlineIcon icon="incomplete" className={opts ? opts.className : ''} />
 		),
-		legendTextFormatter: enrollments => {
+		legendTextFormatter: (enrollments) => {
 			// CDC funded enrollments with validationErrors are considered to be missing information
 			const missingInformationEnrollmentsCount = enrollments.filter<
 				DeepNonUndefineable<Enrollment>
 			>(
-				enrollment =>
+				(enrollment) =>
 					isFunded(enrollment, {
 						source: FundingSource.CDC,
 					}) &&
@@ -110,7 +110,7 @@ export const legendDisplayDetails: {
 		// When there are no kids missing information, this legend item should be hidden
 		hidden: (_, enrollments) =>
 			enrollments.filter<DeepNonUndefineable<Enrollment>>(
-				enrollment =>
+				(enrollment) =>
 					isFunded(enrollment, { source: FundingSource.CDC }) &&
 					!!enrollment.validationErrors &&
 					enrollment.validationErrors.length > 0

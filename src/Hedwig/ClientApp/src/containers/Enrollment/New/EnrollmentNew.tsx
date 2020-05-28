@@ -41,7 +41,7 @@ type EnrollmentNewParams = {
 const sections = [ChildInfo, FamilyInfo, FamilyIncome, EnrollmentFunding];
 
 const mapSectionsToSteps = (sections: Section[]) => {
-	const steps: StepProps<SectionProps>[] = sections.map(section => {
+	const steps: StepProps<SectionProps>[] = sections.map((section) => {
 		const editPath = section.key;
 		return { ...section, editPath };
 	});
@@ -108,7 +108,7 @@ export default function EnrollmentNew({
 		include: ['child', 'family', 'determinations', 'fundings', 'sites'],
 	};
 	const { error, data: _enrollment, loading } = useApi<Enrollment>(
-		api =>
+		(api) =>
 			api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet({
 				...params,
 				include: ['child', 'family', 'determinations', 'fundings', 'sites'],
@@ -130,7 +130,7 @@ export default function EnrollmentNew({
 		enrollment: enrollment || undefined,
 	};
 	const { error: cancelError } = useApi(
-		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDelete(cancelParams),
+		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDelete(cancelParams),
 		{
 			skip: !cancel,
 			callback: processSuccessfulCancel,
@@ -158,7 +158,7 @@ export default function EnrollmentNew({
 
 		setNavigated(true);
 
-		const currentIndex = sections.findIndex(section => section.key === sectionId);
+		const currentIndex = sections.findIndex((section) => section.key === sectionId);
 
 		if (currentIndex === sections.length - 1) {
 			// If we're on the last section, we'll move to a final 'review' section where all

@@ -22,7 +22,7 @@ export type UserProviderPropsType = {};
  * @param props Props with user
  */
 const UserProvider: React.FC<UserProviderPropsType> = ({ children }) => {
-	const { loading, data: user } = useApi(api => api.apiUsersCurrentGet());
+	const { loading, data: user } = useApi((api) => api.apiUsersCurrentGet());
 	return <Provider value={{ loading, user }}>{children}</Provider>;
 };
 

@@ -30,7 +30,7 @@ describe('calculateRate', () => {
 			],
 			ageGroup: [Age.InfantToddler, Age.Preschool, Age.SchoolAge],
 			time: [FundingTime.Full, FundingTime.Part],
-		}).forEach(combo => {
+		}).forEach((combo) => {
 			const rate = calculateRate(
 				combo.accredited,
 				combo.titleI,
@@ -60,7 +60,7 @@ describe('UtilizationTable', () => {
 		const { container } = render(<UtilizationTable {...report} />);
 
 		// mockReport belongs to mockSingleSiteOrganization, which has all mockFundingSpaces
-		mockFundingSpaces.forEach(space => {
+		mockFundingSpaces.forEach((space) => {
 			expect(container).toHaveTextContent(
 				`${prettyAge(space.ageGroup)} – ${prettyFundingTime(space.time)}`
 			);

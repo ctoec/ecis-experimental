@@ -19,7 +19,7 @@ type HeaderState = {
 	menuIsVisible: boolean;
 };
 
-const setActiveStateOfNavItem = function(item: NavItemProps, index: number, path: string) {
+const setActiveStateOfNavItem = function (item: NavItemProps, index: number, path: string) {
 	let active: boolean;
 
 	if (index === 0 && path === '/') {
@@ -69,10 +69,10 @@ class HeaderWithoutRouter extends React.Component<HeaderProps & RouteComponentPr
 		} = this.props;
 
 		const primaryNavItems = navItems
-			.filter(item => item.type === 'primary')
+			.filter((item) => item.type === 'primary')
 			.map((item, index) => setActiveStateOfNavItem(item, index, location.pathname));
 
-		const secondaryNavItems = navItems.filter(item => item.type === 'secondary');
+		const secondaryNavItems = navItems.filter((item) => item.type === 'secondary');
 
 		return (
 			<div

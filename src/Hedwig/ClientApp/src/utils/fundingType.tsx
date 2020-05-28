@@ -1,3 +1,4 @@
+import React from 'react';
 import { Funding, FundingSpace, FundingTime, FundingSource } from '../generated';
 import { Tag } from '../components';
 import { getFundingTime } from './models';
@@ -23,7 +24,7 @@ export function getFundingTag(options?: {
 }) {
 	const { index, className, fundingSource, fundingTime } = options || {};
 	if (!fundingSource) {
-		return;
+		return <></>;
 	}
 	let key = 'CDC';
 	let text = 'CDC';

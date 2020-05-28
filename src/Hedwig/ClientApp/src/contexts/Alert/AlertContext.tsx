@@ -9,7 +9,7 @@ export type AlertContextType = {
 
 const AlertContext = createContext<AlertContextType>({
 	getAlerts: () => [],
-	setAlerts: _ => {},
+	setAlerts: (_) => {},
 });
 
 const { Provider, Consumer } = AlertContext;
@@ -18,8 +18,8 @@ const AlertProvider: React.FC = ({ children }) => {
 	const location = useLocation();
 
 	const [alerts, internalSetAlerts] = useState<AlertProps[]>([]);
-	const [alertsSetAtPath, setAlertsSetAtPath] = useState();
-	const [alertsDisplayAtPath, setAlertsDisplayAtPath] = useState();
+	const [alertsSetAtPath, setAlertsSetAtPath] = useState<string | null>(null);
+	const [alertsDisplayAtPath, setAlertsDisplayAtPath] = useState<string | null>(null);
 
 	const setAlerts = useCallback(
 		(newAlerts: AlertProps[]) => {

@@ -9,7 +9,7 @@ import mockUseApi, {
 	mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet,
 	mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut,
 	mockApiOrganizationsOrgIdSitesIdGet,
-} from '../../hooks/__mocks__/useApi';
+} from '../../hooks/useApi/__mocks__/useApi';
 import { accessibilityTestHelper } from '../../tests/helpers';
 import TestProvider from '../../contexts/__mocks__/TestProvider';
 

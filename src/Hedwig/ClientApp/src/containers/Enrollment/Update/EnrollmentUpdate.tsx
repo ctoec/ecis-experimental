@@ -61,7 +61,7 @@ export default function EnrollmentUpdate({
 		include: ['child', 'family', 'determinations', 'fundings'],
 	};
 	const { loading, error, data: _enrollment } = useApi(
-		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
+		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
 		{ skip: !user }
 	);
 	useEffect(() => {
@@ -75,7 +75,7 @@ export default function EnrollmentUpdate({
 		enrollment: enrollment || undefined,
 	};
 	const { loading: saveLoading, error: saveError, data: saveData } = useApi<Enrollment>(
-		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(saveParams),
+		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(saveParams),
 		{ skip: !attemptingSave || !user, callback: () => setAttemptingSave(false) }
 	);
 	useEffect(() => {
@@ -119,7 +119,7 @@ export default function EnrollmentUpdate({
 				<ErrorBoundary alertProps={editSaveFailAlert}>
 					<section.UpdateForm
 						siteId={siteId}
-						updateEnrollment={enrollment => {
+						updateEnrollment={(enrollment) => {
 							updateEnrollment(enrollment);
 							setAttemptingSave(true);
 						}}

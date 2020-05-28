@@ -14,7 +14,6 @@ import { ErrorBoundary, Header, NavItemProps } from '../../components';
 
 import cx from 'classnames';
 import styles from './App.module.scss';
-import NotSignedInRedirect from '../NotSignedInRedirect/NotSignedInRedirect';
 
 /**
  * Main React component container for Hedwig application
@@ -29,7 +28,7 @@ const App: React.FC = () => {
 	};
 
 	const { loading, error, data: reports } = useApi(
-		api => api.apiOrganizationsOrgIdReportsGet(params),
+		(api) => api.apiOrganizationsOrgIdReportsGet(params),
 		{
 			skip: !user,
 			deps: [cacheInvalidator],
@@ -37,7 +36,7 @@ const App: React.FC = () => {
 	);
 
 	const { data: organization } = useApi(
-		api =>
+		(api) =>
 			api.apiOrganizationsIdGet({
 				id: getIdForUser(user, 'org'),
 			}),
@@ -49,7 +48,9 @@ const App: React.FC = () => {
 		!error &&
 		reports &&
 		reports.filter<DeepNonUndefineable<Report>>(
-			(r => !r.submittedAt) as (_: DeepNonUndefineable<Report>) => _ is DeepNonUndefineable<Report>
+			((r) => !r.submittedAt) as (
+				_: DeepNonUndefineable<Report>
+			) => _ is DeepNonUndefineable<Report>
 		).length;
 
 	let navItems: NavItemProps[] = [

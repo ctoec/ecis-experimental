@@ -90,9 +90,9 @@ const UpdateForm: React.FC<SectionProps> = ({
 
 	const child = _enrollment.child;
 	const determinations: DeepNonUndefineable<FamilyDetermination[]> =
-		idx(child, _ => _.family.determinations as DeepNonUndefineable<FamilyDetermination[]>) || [];
+		idx(child, (_) => _.family.determinations as DeepNonUndefineable<FamilyDetermination[]>) || [];
 	const sortedDeterminations = [...determinations].sort((a, b) =>
-		propertyDateSorter(a, b, d => d.determinationDate, true)
+		propertyDateSorter(a, b, (d) => d.determinationDate, true)
 	);
 	const currentDetermination = sortedDeterminations[0];
 	const pastDeterminations = sortedDeterminations.slice(1);
@@ -115,7 +115,7 @@ const UpdateForm: React.FC<SectionProps> = ({
 			render={({ containingData: enrollment, additionalInformation }) => {
 				const originalDetermination = sortedDeterminations[sortedIndex];
 				const determination =
-					idx(_enrollment, _ => _.child.family.determinations[index]) || undefined;
+					idx(_enrollment, (_) => _.child.family.determinations[index]) || undefined;
 				const determinationDate = determination && determination.determinationDate;
 				const notDisclosed = determination && determination.notDisclosed;
 				const { initialLoad } = additionalInformation;
@@ -132,7 +132,7 @@ const UpdateForm: React.FC<SectionProps> = ({
 							displayValidationStatus([
 								{
 									type: 'warning',
-									response: idx(determination, _ => _.validationErrors) || null,
+									response: idx(determination, (_) => _.validationErrors) || null,
 									fields: [
 										!determinationDate ? 'determinationDate' : '',
 										'income',
@@ -143,7 +143,7 @@ const UpdateForm: React.FC<SectionProps> = ({
 								{
 									type: 'warning',
 									fields: ['determinations'],
-									response: idx(enrollment, _ => _.child.family.validationErrors) || null,
+									response: idx(enrollment, (_) => _.child.family.validationErrors) || null,
 									message: 'Income must be determined or marked as not disclosed',
 								},
 							])
@@ -228,7 +228,7 @@ const UpdateForm: React.FC<SectionProps> = ({
 			autoComplete="off"
 			className="FamilyIncomeForm"
 			data={_enrollment}
-			onSave={enrollment => {
+			onSave={(enrollment) => {
 				updateEnrollment(enrollment as DeepNonUndefineable<Enrollment>);
 			}}
 			additionalInformation={{
@@ -279,7 +279,7 @@ const UpdateForm: React.FC<SectionProps> = ({
 				{currentDetermination ? (
 					<Card
 						showTag={isNew}
-						onExpansionChange={expanded => !expanded && setForceClose(false)}
+						onExpansionChange={(expanded) => !expanded && setForceClose(false)}
 						forceClose={forceClose}
 						key={currentDetermination.id}
 					>
@@ -300,7 +300,7 @@ const UpdateForm: React.FC<SectionProps> = ({
 							<Card
 								appearance="secondary"
 								className="margin-bottom-2"
-								onExpansionChange={expanded => !expanded && setForceClose(false)}
+								onExpansionChange={(expanded) => !expanded && setForceClose(false)}
 								forceClose={forceClose}
 								key={determination.id}
 							>

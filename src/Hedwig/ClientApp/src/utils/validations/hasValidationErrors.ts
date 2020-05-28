@@ -9,9 +9,9 @@ export function hasValidationErrors<T extends Validatable>(
 	const validationErrors = entity && entity.validationErrors;
 	if (validationErrors) {
 		if (fields) {
-			return validationErrors.some(error => errorIsFor(error, fields, skipSubObjectValidations));
+			return validationErrors.some((error) => errorIsFor(error, fields, skipSubObjectValidations));
 		}
-		return validationErrors.some(error => hasError(error, skipSubObjectValidations));
+		return validationErrors.some((error) => hasError(error, skipSubObjectValidations));
 	}
 	return false;
 }
@@ -21,19 +21,19 @@ function errorIsFor(
 	fields: string[],
 	skipSubObjectValidations: boolean = false
 ) {
-	const upperCaseFields = fields.map(field => field.toUpperCase());
+	const upperCaseFields = fields.map((field) => field.toUpperCase());
 
 	// Errors with `field` string
 	if (error.field) {
 		// I dont understand why i have to do this, but if i don't the line below is mad
 		const errorField = error.field;
-		const fieldMatch = upperCaseFields.find(field => field === errorField.toUpperCase());
+		const fieldMatch = upperCaseFields.find((field) => field === errorField.toUpperCase());
 		return fieldMatch && hasError(error, skipSubObjectValidations);
 	}
 
 	// Errors with `fields` array
 	else if (error.fields) {
-		const fieldMatch = error.fields.find(field => upperCaseFields.includes(field.toUpperCase()));
+		const fieldMatch = error.fields.find((field) => upperCaseFields.includes(field.toUpperCase()));
 		return fieldMatch && hasError(error, skipSubObjectValidations);
 	}
 

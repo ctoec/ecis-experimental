@@ -4,13 +4,10 @@ import {
 	mockReport as _mockReport,
 	mockCompleteEnrollment,
 	mockEnrollmentWithFoster,
-	mockFullTimeInfantEnrollment,
-	mockPartTimeInfantEnrollment,
-	mockPartTimeEnrollment,
 } from '../../../tests/data';
 import mockUseApi, {
 	mockApiOrganizationsOrgIdEnrollmentsGet,
-} from '../../../hooks/__mocks__/useApi';
+} from '../../../hooks/useApi/__mocks__/useApi';
 
 let mockReport = mockDefaultReport;
 

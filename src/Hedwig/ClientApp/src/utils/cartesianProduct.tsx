@@ -7,8 +7,8 @@ export default function cartesianProduct<T extends { [key: string]: any }>(
 ): T[] {
 	return Object.keys(sets).reduce<Partial<T>[]>(
 		(acc, key) => {
-			return acc.flatMap(obj =>
-				sets[key].map(value => {
+			return acc.flatMap((obj) =>
+				sets[key].map((value) => {
 					return { ...obj, [key]: value };
 				})
 			);
