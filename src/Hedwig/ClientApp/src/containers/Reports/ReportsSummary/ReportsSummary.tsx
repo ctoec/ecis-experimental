@@ -19,14 +19,14 @@ export default function ReportsSummary() {
 		id: getIdForUser(user, 'org'),
 	};
 	const { loading: orgLoading, error: orgError, data: organization } = useApi(
-		api => api.apiOrganizationsIdGet(orgParams),
+		(api) => api.apiOrganizationsIdGet(orgParams),
 		{ skip: !user }
 	);
 	const reportParams: ApiOrganizationsOrgIdReportsGetRequest = {
 		orgId: getIdForUser(user, 'org'),
 	};
 	const { loading, error, data: reports } = useApi(
-		api => api.apiOrganizationsOrgIdReportsGet(reportParams),
+		(api) => api.apiOrganizationsOrgIdReportsGet(reportParams),
 		{ skip: !user }
 	);
 
@@ -35,14 +35,14 @@ export default function ReportsSummary() {
 	}
 
 	const pendingReports = reports.filter<DeepNonUndefineable<Report>>(
-		(r => !r.submittedAt) as (_: DeepNonUndefineable<Report>) => _ is DeepNonUndefineable<Report>
+		((r) => !r.submittedAt) as (_: DeepNonUndefineable<Report>) => _ is DeepNonUndefineable<Report>
 	);
 
 	const defaultTableProps: TableProps<DeepNonUndefineable<Report>> = {
 		id: 'reports-table',
 		data: reports,
 		fullWidth: true,
-		rowKey: row => row.id,
+		rowKey: (row) => row.id,
 		columns: [
 			{
 				name: 'Period',
@@ -53,19 +53,19 @@ export default function ReportsSummary() {
 						</Link>
 					</th>
 				),
-				sort: row => row.reportingPeriod.period.getTime() || 0,
+				sort: (row) => row.reportingPeriod.period.getTime() || 0,
 				width: '21%',
 			},
 			{
 				name: 'Type',
 				cell: ({ row }) => <td>{row.type}</td>,
-				sort: row => row.type,
+				sort: (row) => row.type,
 				width: '16%',
 			},
 			{
 				name: 'Program/Site',
-				cell: _ => <td>{organization.name}</td>,
-				sort: _ => organization.name || '',
+				cell: (_) => <td>{organization.name}</td>,
+				sort: (_) => organization.name || '',
 				width: '38%',
 			},
 		],
@@ -86,7 +86,7 @@ export default function ReportsSummary() {
 						{dateFormatter(row.reportingPeriod.dueAt)}
 					</td>
 				),
-				sort: row => row.reportingPeriod.dueAt.getTime() || 0,
+				sort: (row) => row.reportingPeriod.dueAt.getTime() || 0,
 				width: '24%',
 			},
 		],
@@ -98,7 +98,9 @@ export default function ReportsSummary() {
 		...defaultTableProps,
 		id: 'submitted-reports-table',
 		data: reports.filter<DeepNonUndefineable<Report>>(
-			(r => !!r.submittedAt) as (_: DeepNonUndefineable<Report>) => _ is DeepNonUndefineable<Report>
+			((r) => !!r.submittedAt) as (
+				_: DeepNonUndefineable<Report>
+			) => _ is DeepNonUndefineable<Report>
 		),
 		columns: [
 			...defaultTableProps.columns,
@@ -107,7 +109,7 @@ export default function ReportsSummary() {
 				cell: ({ row }) => (
 					<td className="oec-table__cell--tabular-nums">{dateFormatter(row.submittedAt)}</td>
 				),
-				sort: row => (row.submittedAt && row.submittedAt.getTime()) || 0,
+				sort: (row) => (row.submittedAt && row.submittedAt.getTime()) || 0,
 				width: '24%',
 			},
 		],

@@ -68,7 +68,7 @@ export function formReducer<S extends object>(state: S, updateArg: FormReducerUp
 			const { _path, _value } = updateArg;
 
 			// immutably apply changes
-			return produce(state, draft => {
+			return produce(state, (draft) => {
 				set(draft, _path, _value);
 			});
 		} else {

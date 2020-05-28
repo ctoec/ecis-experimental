@@ -5,9 +5,9 @@ export const parseStringDateInput = (input?: string): Moment | null => {
 	let parsedInput = null;
 	if (input) {
 		const acceptedDelimiters = ['-', '/', ' '];
-		acceptedDelimiters.forEach(d => {
+		acceptedDelimiters.forEach((d) => {
 			const splitInput = input.split(d);
-			if (splitInput.length === 3 && splitInput.every(val => !isNaN(+val))) {
+			if (splitInput.length === 3 && splitInput.every((val) => !isNaN(+val))) {
 				// Will never be empty but ts doesn't know that
 				splitInput.unshift(splitInput.pop() || '');
 				// For parsing consistency across browsers

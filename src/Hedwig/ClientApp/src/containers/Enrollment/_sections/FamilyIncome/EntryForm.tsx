@@ -75,9 +75,9 @@ const EntryForm: React.FC<SectionProps> = ({
 	}
 
 	const child = _enrollment.child;
-	const determinations = idx(child, _ => _.family.determinations as FamilyDetermination[]) || [];
+	const determinations = idx(child, (_) => _.family.determinations as FamilyDetermination[]) || [];
 	const sortedDeterminations = [...determinations].sort((a, b) =>
-		propertyDateSorter(a, b, d => d.determinationDate, true)
+		propertyDateSorter(a, b, (d) => d.determinationDate, true)
 	);
 	const determination = sortedDeterminations[0];
 
@@ -89,7 +89,7 @@ const EntryForm: React.FC<SectionProps> = ({
 		enrollment: _enrollment,
 	};
 	const { error: saveError, data: saveData } = useApi<Enrollment>(
-		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(defaultParams),
+		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(defaultParams),
 		{
 			skip: !attemptingSave,
 			callback: () => {
@@ -123,7 +123,7 @@ const EntryForm: React.FC<SectionProps> = ({
 			autoComplete="off"
 			className="FamilyIncomeForm"
 			data={_enrollment}
-			onSave={enrollment => {
+			onSave={(enrollment) => {
 				updateEnrollment(enrollment as DeepNonUndefineable<Enrollment>);
 				setAttemptingSave(true);
 			}}
@@ -149,7 +149,7 @@ const EntryForm: React.FC<SectionProps> = ({
 								displayValidationStatus([
 									{
 										type: 'warning',
-										response: idx(determination, _ => _.validationErrors) || null,
+										response: idx(determination, (_) => _.validationErrors) || null,
 										fields: [
 											'numberOfPeople',
 											'income',
@@ -159,7 +159,7 @@ const EntryForm: React.FC<SectionProps> = ({
 									},
 									{
 										type: 'warning',
-										response: idx(enrollment, _ => _.child.family.validationErrors) || null,
+										response: idx(enrollment, (_) => _.child.family.validationErrors) || null,
 										fields: ['determinations'],
 										message: 'Income must be determined or marked as not disclosed',
 									},

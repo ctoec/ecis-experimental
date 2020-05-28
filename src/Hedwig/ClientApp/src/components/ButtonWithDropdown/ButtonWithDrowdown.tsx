@@ -55,7 +55,7 @@ const ButtonWithDrowdown: React.FC<ButtonWithDrowdownProps> = ({
 						{dropdownElement}
 					</>
 				}
-				onClick={() => setIsComponentVisible(hide => !hide)}
+				onClick={() => setIsComponentVisible((hide) => !hide)}
 			/>
 			<div
 				className={cx(
@@ -64,11 +64,11 @@ const ButtonWithDrowdown: React.FC<ButtonWithDrowdownProps> = ({
 					dropdown
 				)}
 			>
-				{options.map(_option => (
+				{options.map((_option) => (
 					<Link
 						key={_option.value}
 						className={option}
-						onClick={() => setIsComponentVisible(hide => !hide)}
+						onClick={() => setIsComponentVisible((hide) => !hide)}
 						to={_option.value}
 					>
 						{_option.text}

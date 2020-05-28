@@ -18,10 +18,7 @@ export const load = async (
 ) => {
 	await driver.get(url);
 	// This is needed for BrowserStack that does not maximize the browser
-	await driver
-		.manage()
-		.window()
-		.maximize();
+	await driver.manage().window().maximize();
 	return await waitForElement(driver, rootSelector, opt_timeout, opt_message);
 };
 
@@ -156,7 +153,7 @@ class ExtendedWebElement extends WebElement implements WebElementExtension {
 	}
 	async queryAllByLocator(locator: Locator) {
 		const elements = await this.findElements(locator);
-		const extendedElements = elements.map(element => extendWebElement(element));
+		const extendedElements = elements.map((element) => extendWebElement(element));
 		return extendedElements;
 	}
 	async findByLocator(locator: Locator, opt_timeout?: number, opt_message?: string) {

@@ -13,7 +13,7 @@ jest.setTimeout(3 * 60 * 1000);
 const appUrl = `${clientHost}/`;
 
 let driver: IWebDriver;
-beforeEach(done => {
+beforeEach((done) => {
 	const localIdentifier = '' + Math.random() * 10000000;
 	bs_local.start(
 		{
@@ -28,7 +28,7 @@ beforeEach(done => {
 	);
 });
 
-afterEach(async done => {
+afterEach(async (done) => {
 	await DriverHelper.quit(driver);
 	bs_local.stop(() => {
 		done();

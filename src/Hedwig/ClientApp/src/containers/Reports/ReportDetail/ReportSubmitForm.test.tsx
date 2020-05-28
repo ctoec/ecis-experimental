@@ -8,7 +8,7 @@ import {
 } from '../../../tests/data';
 import mockUseApi, {
 	mockApiOrganizationsOrgIdEnrollmentsGet,
-} from '../../../hooks/__mocks__/useApi';
+} from '../../../hooks/useApi/__mocks__/useApi';
 
 // Jest mocks must occur before later imports
 jest.mock('../../../hooks/useApi', () =>

@@ -78,7 +78,7 @@ export default function Withdrawal({
 	}, [enrollmentId, user, siteId]);
 
 	const { error: getRequestError, data: getRequestData } = useApi<Enrollment>(
-		api =>
+		(api) =>
 			api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet({
 				...requestParams,
 				include: ['child', 'family', 'determinations', 'fundings', 'sites'],
@@ -136,7 +136,7 @@ export default function Withdrawal({
 		let updatedFundings: Funding[] = fundings;
 		if (cdcFunding) {
 			updatedFundings = [
-				...updatedFundings.filter(f => f.id !== cdcFunding.id),
+				...updatedFundings.filter((f) => f.id !== cdcFunding.id),
 				{
 					...cdcFunding,
 					lastReportingPeriodId: lastReportingPeriodId,
@@ -152,7 +152,7 @@ export default function Withdrawal({
 				? enrollment.child.c4KCertificates || []
 				: [];
 			c4KCertificates = [
-				...c4KCertificates.filter(cert => cert.id !== c4KFunding.id),
+				...c4KCertificates.filter((cert) => cert.id !== c4KFunding.id),
 				{
 					...c4KFunding,
 					endDate: enrollmentEndDate,
@@ -170,7 +170,7 @@ export default function Withdrawal({
 
 	// set up PUT request to be triggered on save attempt
 	const { error: putRequestError, data: putRequestData } = useApi<Enrollment>(
-		api =>
+		(api) =>
 			api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut({
 				...requestParams,
 				enrollment,
@@ -253,7 +253,7 @@ export default function Withdrawal({
 						label="Enrollment end date"
 						id="enrollment-end-date"
 						name="exit"
-						onChange_Old={updateFormData(newDate => newDate.toDate())}
+						onChange_Old={updateFormData((newDate) => newDate.toDate())}
 						defaultValue={enrollmentEndDate ? moment(enrollmentEndDate).toDate() : undefined}
 						status={
 							attemptedSave && !enrollmentEndDate
@@ -305,11 +305,11 @@ export default function Withdrawal({
 							type="select"
 							label="Last reporting period"
 							id="last-reporting-period"
-							options={reportingPeriodOptions.map(period => ({
+							options={reportingPeriodOptions.map((period) => ({
 								value: '' + period.id,
 								text: reportingPeriodFormatter(period, { extended: true }),
 							}))}
-							onChange={event => {
+							onChange={(event) => {
 								const newReportingPeriodId = parseInt(event.target.value);
 								setLastReportingPeriod(newReportingPeriodId);
 							}}

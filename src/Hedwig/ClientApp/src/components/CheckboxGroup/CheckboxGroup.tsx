@@ -45,13 +45,13 @@ const InternalCheckboxGroup: React.FC<InternalCheckboxGroupProps> = ({
 		let newSelectedItems: string[];
 		if (selectedItems.includes(changedValue)) {
 			// Uncheck a checkbox if it was already checked
-			newSelectedItems = selectedItems.filter(v => v !== changedValue);
+			newSelectedItems = selectedItems.filter((v) => v !== changedValue);
 		} else {
 			// If it wasn't already selected and it's a checkbox, add it to whatever else is selected
 			newSelectedItems = [changedValue, ...selectedItems];
 		}
 		setSelectedItems(newSelectedItems);
-		const option = options.find(option => option.value === changedValue);
+		const option = options.find((option) => option.value === changedValue);
 		option && option.onChange ? option.onChange(event) : onChange && onChange(event);
 	};
 
@@ -144,5 +144,5 @@ export const CheckboxGroupForForm = <T extends object>({
 		>
 			<InternalCheckboxGroup id={id} {...props} />
 		</FormFieldSet>
-	)
-}
+	);
+};

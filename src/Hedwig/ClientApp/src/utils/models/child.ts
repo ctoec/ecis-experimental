@@ -25,7 +25,7 @@ export function prettyRace(race: keyof Child) {
 }
 
 export function prettyMultiRace(child: Child) {
-	const selectedRaces = RACES.filter(race => child[race]);
+	const selectedRaces = RACES.filter((race) => child[race]);
 
 	if (selectedRaces.length === 0) {
 		return '';

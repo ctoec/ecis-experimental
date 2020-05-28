@@ -68,7 +68,7 @@ export default function EnrollmentEdit({
 		include: ['child', 'family', 'determinations', 'fundings'],
 	};
 	const { loading, error, data: _enrollment } = useApi(
-		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
+		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
 		{ skip: !user }
 	);
 	useEffect(() => {

@@ -1,3 +1,12 @@
+import mockUseApi from '../../../../hooks/useApi/__mocks__/useApi';
+
+// Tell jest to create a factory mock for this module
+// Because we never use the API during these tests, supply
+// an empty object to mockUseApi. This allows tests to run without issue
+// (if we don't give it the factory, jest returned undefined to the useApi
+// call that we thus cannot destructure) and without making a network request.
+jest.mock('../../../../hooks/useApi', () => mockUseApi({}));
+
 import React from 'react';
 import { render } from '@testing-library/react';
 import FamilyIncome from '.';
@@ -6,8 +15,6 @@ import { DeepNonUndefineable } from '../../../../utils/types';
 import { Enrollment, FamilyDetermination } from '../../../../generated';
 import { getValidationError } from '../../../../tests/helpers';
 import { REQUIRED_FOR_OEC_REPORTING } from '../../../../utils/validations/messageStrings';
-
-jest.mock('../../../../hooks/useApi');
 
 describe('enrollment sections', () => {
 	describe('FamilyIncome', () => {
@@ -35,7 +42,7 @@ describe('enrollment sections', () => {
 
 		it.each(['numberOfPeople', 'income', 'determinationDate'])(
 			'shows missing information warning if validation error for %s field',
-			async field => {
+			async (field) => {
 				const determination = {
 					validationErrors: [getValidationError({ field })],
 				} as FamilyDetermination;

@@ -79,7 +79,7 @@ export const ChoiceList: React.FC<ChoiceListProps> = ({
 
 	let internalOptions = inputOptions as InternalOption[];
 	const validTypesArray: boolean[] =
-		React.Children.map(expansionChildren, child => {
+		React.Children.map(expansionChildren, (child) => {
 			if (React.isValidElement(child)) {
 				return !!child.type && (child.type as Function).name === ChoiceListExpansion.name;
 			} else {
@@ -105,7 +105,7 @@ export const ChoiceList: React.FC<ChoiceListProps> = ({
 			return acc;
 		}
 	}, {});
-	internalOptions = inputOptions.map(option => ({
+	internalOptions = inputOptions.map((option) => ({
 		...option,
 		expansion: valueToExpansionChild[option.value],
 	}));
@@ -122,7 +122,7 @@ export const ChoiceList: React.FC<ChoiceListProps> = ({
 		let newSelectedItems: string[];
 		if (selectedItems.includes(changedValue)) {
 			// Uncheck a checkbox if it was already checked
-			newSelectedItems = selectedItems.filter(v => v !== changedValue);
+			newSelectedItems = selectedItems.filter((v) => v !== changedValue);
 		} else if (type === 'check') {
 			// If it wasn't already selected and it's a checkbox, add it to whatever else is selected
 			newSelectedItems = [changedValue, ...selectedItems];
@@ -150,7 +150,7 @@ export const ChoiceList: React.FC<ChoiceListProps> = ({
 			if (selectedItems.length > 1) {
 				throw new Error('Radio group can only have one selected value at a time.');
 			}
-			children = options.map(option => {
+			children = options.map((option) => {
 				const expansion = option.expansion;
 				return (
 					<>
@@ -171,7 +171,7 @@ export const ChoiceList: React.FC<ChoiceListProps> = ({
 			});
 			break;
 		case 'check':
-			children = options.map(option => {
+			children = options.map((option) => {
 				const expansion = option.expansion;
 				return (
 					<>
@@ -201,7 +201,7 @@ export const ChoiceList: React.FC<ChoiceListProps> = ({
 					{unselectedText || '- Select -'}
 				</option>,
 			];
-			options.forEach(option => {
+			options.forEach((option) => {
 				optionElements.push(
 					<option value={option.value} key={`${id}-${option.value}`}>
 						{option.text}
@@ -230,8 +230,9 @@ export const ChoiceList: React.FC<ChoiceListProps> = ({
 	if (children.length === 1) {
 		const singletonInput = (
 			<div
-				className={`usa-form-group${status ? ` usa-form-group--${status.type}` : ''} ${className ||
-					''}`}
+				className={`usa-form-group${status ? ` usa-form-group--${status.type}` : ''} ${
+					className || ''
+				}`}
 				key={`${id}-form-group`}
 			>
 				{hint && <span className="usa-hint text-italic">{hint}</span>}
@@ -243,7 +244,7 @@ export const ChoiceList: React.FC<ChoiceListProps> = ({
 				)}
 				{status && status.message && <FormStatus {...status} />}
 				{[...children]}
-				{options.map(option => {
+				{options.map((option) => {
 					const expansion = option.expansion;
 					return (
 						<>

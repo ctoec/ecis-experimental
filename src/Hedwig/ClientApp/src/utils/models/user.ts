@@ -21,14 +21,14 @@ export function validatePermissions(user: User | undefined, idType: IdType, id: 
 
 	if (idType === 'org') {
 		return (
-			(user.orgPermissions || []).map(permission => permission.organizationId).indexOf(id) >= 0
+			(user.orgPermissions || []).map((permission) => permission.organizationId).indexOf(id) >= 0
 		);
 	}
 
 	if (idType === 'site') {
 		return (
-			(idx(user, _ => _.orgPermissions[0].organization.sites) || [])
-				.map(site => site.id)
+			(idx(user, (_) => _.orgPermissions[0].organization.sites) || [])
+				.map((site) => site.id)
 				.indexOf(id) >= 0
 		);
 	}
@@ -46,7 +46,7 @@ export function getIdForUser(user: User | undefined, idType: 'org'): number {
 	}
 
 	if (idType === 'org') {
-		const orgId = idx(user, _ => _.orgPermissions[0].organizationId) || 0;
+		const orgId = idx(user, (_) => _.orgPermissions[0].organizationId) || 0;
 		return orgId;
 	}
 

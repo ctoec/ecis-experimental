@@ -79,7 +79,7 @@ export function Card({
 			>
 				{showTag && <Tag className="oec-card-tag" text="NEW" color="theme-color-primary" />}
 				<div className="oec-card-cell">
-					{Children.map(children, child => {
+					{Children.map(children, (child) => {
 						if (!isValidElement(child)) {
 							throw new Error('Invalid card child element');
 						}
@@ -95,7 +95,7 @@ export function Card({
 					})}
 				></div>
 				<div className={cx('oec-card-cell', 'oec-card-expansion')} hidden={!isExpanded}>
-					{Children.map(children, child => {
+					{Children.map(children, (child) => {
 						if (!isValidElement(child)) {
 							throw new Error('Invalid card child element');
 						}

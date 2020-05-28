@@ -29,7 +29,7 @@ export function Legend({ items, vertical = false }: LegendProps) {
 			})}
 		>
 			{items
-				.filter(item => !item.hidden)
+				.filter((item) => !item.hidden)
 				.map((item, index) => (
 					<li
 						key={index}
@@ -42,8 +42,9 @@ export function Legend({ items, vertical = false }: LegendProps) {
 							{item.symbol || defaultSymbol}
 						</div>
 						<div
-							className={`oec-legend-item__text width-fit-content display-inline margin-left-1 ${item.textClass ||
-								''}`}
+							className={`oec-legend-item__text width-fit-content display-inline margin-left-1 ${
+								item.textClass || ''
+							}`}
 						>
 							{item.text}
 						</div>

@@ -14,7 +14,7 @@ const baseFunding: Funding = {
 };
 
 describe('enrollment utils', () => {
-	it.each([undefined, []])('isFunded returns false if no fundings', fundings => {
+	it.each([undefined, []])('isFunded returns false if no fundings', (fundings) => {
 		const enrollment: Enrollment = {
 			...baseEnrollment,
 			fundings: fundings,

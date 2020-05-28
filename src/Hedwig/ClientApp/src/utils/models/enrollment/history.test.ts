@@ -89,7 +89,7 @@ describe('enrollment history utils', () => {
 
 		it.each([true, false])(
 			'creates switched to private pay step for cdc funding with last reporting period if funding ended before enrollment',
-			enrollmentExitIsNull => {
+			(enrollmentExitIsNull) => {
 				var fundings = [
 					{
 						source: 'CDC',
@@ -99,9 +99,7 @@ describe('enrollment history utils', () => {
 
 				var enrollmentExit = enrollmentExitIsNull
 					? null
-					: moment(fundings[0].lastReportingPeriod.periodEnd)
-							.add(1, 'month')
-							.toDate();
+					: moment(fundings[0].lastReportingPeriod.periodEnd).add(1, 'month').toDate();
 
 				var steps = fundingStepProps(fundings, enrollmentExit);
 
@@ -110,9 +108,7 @@ describe('enrollment history utils', () => {
 				expect(step).toHaveProperty('heading', 'Switched funding to private pay');
 				expect(step).toHaveProperty(
 					'sortDate',
-					moment(fundings[0].lastReportingPeriod.periodEnd)
-						.add(1, 'day')
-						.toDate()
+					moment(fundings[0].lastReportingPeriod.periodEnd).add(1, 'day').toDate()
 				);
 				expect(step).toHaveProperty('sortWeight', 0);
 			}
@@ -165,9 +161,7 @@ describe('enrollment history utils', () => {
 					startDate: firstDate,
 				},
 				{
-					startDate: moment(firstDate)
-						.add(1, 'year')
-						.toDate(),
+					startDate: moment(firstDate).add(1, 'year').toDate(),
 				},
 			] as DeepNonUndefineable<C4KCertificate[]>;
 
@@ -188,9 +182,7 @@ describe('enrollment history utils', () => {
 			var step = getSortableStep({
 				heading: '',
 				body: '',
-				stepDate: moment()
-					.add(daysAgo, 'days')
-					.toDate(),
+				stepDate: moment().add(daysAgo, 'days').toDate(),
 			});
 
 			expect(step).toHaveProperty('isNew', isNew);

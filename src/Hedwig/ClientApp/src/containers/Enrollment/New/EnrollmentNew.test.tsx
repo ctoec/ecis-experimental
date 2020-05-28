@@ -6,7 +6,7 @@ import mockUseApi, {
 	mockApiOrganizationsOrgIdSitesIdGet,
 	mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut,
 	mockApiOrganizationsOrgIdReportsGet,
-} from '../../../hooks/__mocks__/useApi';
+} from '../../../hooks/useApi/__mocks__/useApi';
 
 // Jest mocks must occur before later imports
 jest.mock('../../../hooks/useApi', () =>
@@ -83,7 +83,7 @@ describe('EnrollmentNew', () => {
 			<TestProvider history={history}>
 				<Route
 					path={'/roster/sites/:siteId/enrollments/:enrollmentId/new/:sectionId'}
-					render={props => (
+					render={(props) => (
 						<EnrollmentNew
 							history={props.history}
 							match={{

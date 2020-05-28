@@ -40,7 +40,7 @@ export function useGenericContext<S>(context: Context<any>) {
 const FormContext = createContext<FormContextType>({
 	data: undefined,
 	dataDriller: undefined,
-	updateData: _ => {},
+	updateData: (_) => {},
 });
 
 export const { Provider: FormProvider, Consumer: FormConsumer } = FormContext;

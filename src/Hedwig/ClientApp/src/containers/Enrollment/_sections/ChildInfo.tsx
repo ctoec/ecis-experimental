@@ -153,7 +153,7 @@ const ChildInfo: Section = {
 				value: 'white',
 				selected: white,
 			},
-		].map(r => ({ ...r, name: `child.${r.value}` }));
+		].map((r) => ({ ...r, name: `child.${r.value}` }));
 
 		const [attemptingSave, setAttemptingSave] = useState(false);
 
@@ -286,7 +286,7 @@ const ChildInfo: Section = {
 				<h2>Date of birth</h2>
 				<DateInput
 					name="child.birthdate"
-					onChange_Old={updateFormData(newBirthdate => newBirthdate.toDate())}
+					onChange_Old={updateFormData((newBirthdate) => newBirthdate.toDate())}
 					defaultValue={birthdate || null}
 					label="Birth date"
 					id="birthdate-picker"
@@ -296,7 +296,7 @@ const ChildInfo: Section = {
 						displayValidationStatus([
 							{
 								type: 'warning',
-								response: idx(enrollment, _ => _.child.validationErrors) || null,
+								response: idx(enrollment, (_) => _.child.validationErrors) || null,
 								fields: ['birthdate'],
 								message: REQUIRED_FOR_OEC_REPORTING,
 							},
@@ -311,7 +311,7 @@ const ChildInfo: Section = {
 						displayValidationStatus([
 							{
 								type: 'warning',
-								response: idx(enrollment, _ => _.child.validationErrors) || null,
+								response: idx(enrollment, (_) => _.child.validationErrors) || null,
 								fields: ['birthCertificateId', 'birthState', 'birthTown'],
 								message: REQUIRED_FOR_OEC_REPORTING,
 							},
@@ -335,7 +335,7 @@ const ChildInfo: Section = {
 									{
 										type: 'warning',
 										field: 'birthCertificateId',
-										response: idx(enrollment, _ => _.child.validationErrors) || null,
+										response: idx(enrollment, (_) => _.child.validationErrors) || null,
 									},
 								])
 							)}
@@ -354,7 +354,7 @@ const ChildInfo: Section = {
 								displayValidationStatus([
 									{
 										type: 'warning',
-										response: idx(enrollment, _ => _.child.validationErrors) || null,
+										response: idx(enrollment, (_) => _.child.validationErrors) || null,
 										field: 'birthTown',
 									},
 								])
@@ -374,7 +374,7 @@ const ChildInfo: Section = {
 								displayValidationStatus([
 									{
 										type: 'warning',
-										response: idx(enrollment, _ => _.child.validationErrors) || null,
+										response: idx(enrollment, (_) => _.child.validationErrors) || null,
 										field: 'birthstate',
 									},
 								])
@@ -387,15 +387,17 @@ const ChildInfo: Section = {
 				<ChoiceList
 					type="check"
 					options={childRace}
-					defaultValue={childRace.filter(raceObj => raceObj.selected).map(raceObj => raceObj.value)}
+					defaultValue={childRace
+						.filter((raceObj) => raceObj.selected)
+						.map((raceObj) => raceObj.value)}
 					hint="As identified by family"
 					status={initialLoadErrorGuard(
 						initialLoad,
 						displayValidationStatus([
 							{
 								type: 'warning',
-								response: idx(enrollment, _ => _.child.validationErrors) || null,
-								fields: childRace.map(o => o.value),
+								response: idx(enrollment, (_) => _.child.validationErrors) || null,
+								fields: childRace.map((o) => o.value),
 								message: REQUIRED_FOR_OEC_REPORTING,
 							},
 						])
@@ -415,7 +417,7 @@ const ChildInfo: Section = {
 						displayValidationStatus([
 							{
 								type: 'warning',
-								response: idx(enrollment, _ => _.child.validationErrors) || null,
+								response: idx(enrollment, (_) => _.child.validationErrors) || null,
 								fields: ['hispanicOrLatinxEthnicity'],
 								message: REQUIRED_FOR_OEC_REPORTING,
 							},
@@ -441,7 +443,7 @@ const ChildInfo: Section = {
 							: ['no']
 					}
 					name="child.hispanicOrLatinxEthnicity"
-					onChange={updateFormData(selectedValue => selectedValue === 'yes')}
+					onChange={updateFormData((selectedValue) => selectedValue === 'yes')}
 				/>
 
 				<h2>Gender</h2>
@@ -476,7 +478,7 @@ const ChildInfo: Section = {
 						displayValidationStatus([
 							{
 								type: 'warning',
-								response: idx(enrollment, _ => _.child.validationErrors) || null,
+								response: idx(enrollment, (_) => _.child.validationErrors) || null,
 								fields: ['gender'],
 								message: REQUIRED_FOR_OEC_REPORTING,
 							},

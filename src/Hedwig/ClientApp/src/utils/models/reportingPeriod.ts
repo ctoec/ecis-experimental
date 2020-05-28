@@ -15,9 +15,7 @@ export function getReportingPeriodMonth(period: ReportingPeriod) {
  * @param period
  */
 export function getReportingPeriodWeeks(period: ReportingPeriod) {
-	return moment(period.periodEnd)
-		.add(1, 'day')
-		.diff(moment(period.periodStart), 'weeks');
+	return moment(period.periodEnd).add(1, 'day').diff(moment(period.periodStart), 'weeks');
 }
 
 /**
@@ -53,7 +51,7 @@ export const reportingPeriodFormatter = (
  */
 export const currentReportingPeriod = (periods: ReportingPeriod[]): ReportingPeriod | undefined => {
 	return periods.find(
-		period => moment(period.period).format('YYYY-MM') === moment().format('YYYY-MM')
+		(period) => moment(period.period).format('YYYY-MM') === moment().format('YYYY-MM')
 	);
 };
 
@@ -66,11 +64,11 @@ export const firstEligibleReportingPeriod = (
 	periods: ReportingPeriod[],
 	startDate: Date
 ): ReportingPeriod | undefined => {
-	const filteredPeriods = [...periods].filter(period =>
+	const filteredPeriods = [...periods].filter((period) =>
 		moment(startDate).isSameOrBefore(period.periodEnd)
 	);
 	const sortedPeriods = [...filteredPeriods].sort((a, b) =>
-		propertyDateSorter(a, b, r => r.periodStart)
+		propertyDateSorter(a, b, (r) => r.periodStart)
 	);
 	return sortedPeriods[0];
 };
@@ -84,11 +82,11 @@ export const lastEligibleReportingPeriod = (
 	periods: ReportingPeriod[],
 	endDate: Date
 ): ReportingPeriod | undefined => {
-	const filteredPeriods = [...periods].filter(period =>
+	const filteredPeriods = [...periods].filter((period) =>
 		moment(period.periodStart).isSameOrBefore(endDate)
 	);
 	const sortedPeriods = [...filteredPeriods].sort((a, b) =>
-		propertyDateSorter(a, b, r => r.periodStart, true)
+		propertyDateSorter(a, b, (r) => r.periodStart, true)
 	);
 	return sortedPeriods[0];
 };
@@ -98,13 +96,15 @@ export const lastNReportingPeriods = (
 	endDate: Date,
 	n: number
 ): ReportingPeriod[] => {
-	const sortedPeriods = [...periods].sort((a, b) => propertyDateSorter(a, b, r => r.period, true));
+	const sortedPeriods = [...periods].sort((a, b) =>
+		propertyDateSorter(a, b, (r) => r.period, true)
+	);
 
 	const _lastEligibleReportingPeriod = lastEligibleReportingPeriod(periods, endDate);
 	if (!_lastEligibleReportingPeriod) {
 		return [];
 	}
 
-	const index = sortedPeriods.findIndex(period => period.id === _lastEligibleReportingPeriod.id);
+	const index = sortedPeriods.findIndex((period) => period.id === _lastEligibleReportingPeriod.id);
 	return sortedPeriods.slice(index, index + n);
 };

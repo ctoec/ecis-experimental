@@ -32,6 +32,7 @@ services:
       - winged-keys
   client:
     image: node:12
+    stdin_open: true
     volumes:
       - ./src/Hedwig/ClientApp:/home/node/app:cached
       - ./entrypoint-client.sh:/entrypoint.sh

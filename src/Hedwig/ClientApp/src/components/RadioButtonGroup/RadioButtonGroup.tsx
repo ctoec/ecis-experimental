@@ -129,5 +129,5 @@ export const RadioButtonGroupForForm = <T extends object>({
 		>
 			<InternalRadioButtonGroup id={id} {...props} />
 		</FormFieldSet>
-	)
-}	
+	);
+};

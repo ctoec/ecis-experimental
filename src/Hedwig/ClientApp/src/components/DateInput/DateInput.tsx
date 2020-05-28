@@ -159,17 +159,17 @@ export const DateInput: React.FC<DateInputProps> = ({
 							// Key forces re-render, which helps deal with bugs in this library-- see scss file
 							key={JSON.stringify({ stringDate, dateIsInvalid, currentDate, calendarOpen })}
 							date={currentDate}
-							onDateChange={newDate => {
+							onDateChange={(newDate) => {
 								setStringDate(newDate ? newDate.format(momentFormat) : undefined);
 								onMomentChange(newDate);
 							}}
 							focused={calendarOpen}
 							// Annoyingly this does not do anything for keyboard users
-							onFocusChange={f => setCalendarOpen(f.focused || false)}
+							onFocusChange={(f) => setCalendarOpen(f.focused || false)}
 							onBlur={() => setCalendarOpen(false)}
 							// TODO: IMPLEMENT ON TAB ONCE TYPES FOR THIS LIBRARY ARE UPDATED :/
 							// onTab={() => {}}
-							onOutsideClick={e => {
+							onOutsideClick={(e) => {
 								const clickOnCalendarOrButton = e.target.closest(`#${id} .oec-calendar-dropdown`);
 								// If a user clicks the button again, the button will handle closing it, and this would fire first and cause problems
 								if (!clickOnCalendarOrButton) {

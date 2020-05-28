@@ -1,17 +1,9 @@
-import {
-	ValidationProblemDetails,
-	ProblemDetails,
-	HedwigApi,
-	Configuration,
-	ProblemDetailsFromJSON,
-	ValidationProblemDetailsFromJSON,
-} from '../generated';
-import { DeepNonUndefineable } from '../utils/types';
 import { useContext, useEffect, useState } from 'react';
-import AuthenticationContext from '../contexts/Authentication/AuthenticationContext';
-import getCurrentHost from '../utils/getCurrentHost';
-
-export type ApiError = ValidationProblemDetails | ProblemDetails;
+import { DeepNonUndefineable } from '../../utils/types';
+import AuthenticationContext from '../../contexts/Authentication/AuthenticationContext';
+import { ApiExtraParamOpts, appendData } from './paginate';
+import { constructApi, Api } from './api';
+import { parseError, ApiError } from './error';
 
 interface ApiState<TData> {
 	error: ApiError | null; // error
@@ -29,14 +21,14 @@ export type ApiResult<TData> = {
 
 export interface ApiParamOpts<TData> {
 	skip?: boolean;
-	callback?: () => void;
+	callback?: (data: TData | null) => void;
 	deps?: any[];
 	defaultValue?: TData;
 	paginate?: boolean;
 }
 
 export default function useApi<TData>(
-	query: (api: HedwigApi, opt?: ApiExtraParamOpts) => Promise<TData>,
+	query: (api: Api, opt?: ApiExtraParamOpts) => Promise<TData>,
 	opts: ApiParamOpts<TData> = {
 		skip: false,
 	}
@@ -80,16 +72,16 @@ export default function useApi<TData>(
 					start: start,
 					count: count,
 				})
-					.then(apiResult => {
+					.then((apiResult) => {
 						// Stop once we have retrieved all the data
 						if (((apiResult as unknown) as any[]).length === 0) {
 							// Need to use function syntax for state updates so pending updates aren't overwritten
-							setState(s => ({ ...s, loading: false }));
+							setState((s) => ({ ...s, loading: false }));
 							return;
 						}
 
 						// Need to use function syntax for state updates so pending updates aren't overwritten
-						setState(s => ({
+						setState((s) => ({
 							...s,
 							error: null,
 							data: appendData(s.data, apiResult),
@@ -98,7 +90,7 @@ export default function useApi<TData>(
 						// Continue requesting data
 						paginatedQuery(start + state.count, state.count);
 					})
-					.catch(async apiError => {
+					.catch(async (apiError) => {
 						const _error = await parseError(apiError);
 						setState({ ...state, data: null, error: _error, loading: false });
 					});
@@ -107,10 +99,10 @@ export default function useApi<TData>(
 		} else {
 			// make API query
 			query(api)
-				.then(apiResult => {
+				.then((apiResult) => {
 					setState({ ...state, error: null, data: apiResult, loading: false });
 				})
-				.catch(async apiError => {
+				.catch(async (apiError) => {
 					const _error = await parseError(apiError);
 					setState({ ...state, data: null, error: _error, loading: false });
 				});
@@ -118,63 +110,8 @@ export default function useApi<TData>(
 	}, [accessToken, skip, ...(deps || [])]);
 
 	useEffect(() => {
-		if (callback && !skip && !state.loading) callback();
+		if (callback && !skip && !state.loading) callback(state.data);
 	}, [state, skip]);
 
 	return { ...state, data: state.data as DeepNonUndefineable<TData> };
 }
-
-const constructApi: (accessToken: string | null) => HedwigApi | null = (
-	accessToken: string | null
-) => {
-	if (!accessToken) return null;
-
-	return new HedwigApi(
-		new Configuration({
-			basePath: getCurrentHost(),
-			apiKey: `Bearer ${accessToken}`,
-		})
-	);
-};
-
-const parseError: (error: any) => Promise<ApiError | null> = async (error: any) => {
-	try {
-		const jsonResponse = await error.json();
-		if (error.status === 400) {
-			return ValidationProblemDetailsFromJSON(jsonResponse) || null;
-		} else {
-			return ProblemDetailsFromJSON(jsonResponse) || null;
-		}
-	} catch (e) {
-		console.error('Error cannot be converted to JSON');
-		console.error(e);
-		return ProblemDetailsFromJSON({
-			detail: 'Inspect console for error',
-			title: 'Unknown error',
-		});
-	}
-};
-
-export type ApiExtraParamOpts = {
-	start: number;
-	count: number;
-};
-
-const appendData = <TData>(data: TData, newData: TData) => {
-	return ([
-		...(((data || []) as unknown) as any[]),
-		...((newData as unknown) as any[]),
-	] as unknown) as TData;
-};
-
-export const paginate = <T>(requestParams: T, opts?: ApiExtraParamOpts) => {
-	if (!opts) {
-		return requestParams;
-	} else {
-		const processedOpts = {
-			skip: opts.start,
-			take: opts.count,
-		};
-		return { ...requestParams, ...processedOpts };
-	}
-};

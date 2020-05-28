@@ -11,18 +11,10 @@ import {
 const baseReportingPeriod: ReportingPeriod = {
 	id: 1,
 	type: FundingSource.CDC,
-	period: moment()
-		.add(-1, 'month')
-		.toDate(),
-	periodStart: moment()
-		.add(-1, 'month')
-		.toDate(),
-	periodEnd: moment()
-		.add(-1, 'month')
-		.toDate(),
-	dueAt: moment()
-		.add(-1, 'month')
-		.toDate(),
+	period: moment().add(-1, 'month').toDate(),
+	periodStart: moment().add(-1, 'month').toDate(),
+	periodEnd: moment().add(-1, 'month').toDate(),
+	dueAt: moment().add(-1, 'month').toDate(),
 };
 
 describe('reportingPeriodFormatter', () => {
@@ -77,9 +69,7 @@ it('firstEligibleReportingPeriod determines first eligible period for date', () 
 	const first = {
 		...baseReportingPeriod,
 		id: firstId,
-		periodStart: moment(startDate)
-			.add(-30, 'days')
-			.toDate(),
+		periodStart: moment(startDate).add(-30, 'days').toDate(),
 		periodEnd: startDate,
 	};
 
@@ -114,9 +104,7 @@ it('lastEligibleReportingPeriod determines last eligible period for date', () =>
 		...baseReportingPeriod,
 		id: lastId,
 		periodStart: endDate,
-		periodEnd: moment(endDate)
-			.add(30, 'days')
-			.toDate(),
+		periodEnd: moment(endDate).add(30, 'days').toDate(),
 	};
 
 	const afterStartDate = moment(endDate).add(3, 'months');

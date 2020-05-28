@@ -3,7 +3,7 @@ import { reload, render } from '../QueryHelper';
 import { IWebDriver } from '../DriverHelper';
 import { username, password } from '../environment_values.json';
 
-export default async function(driver: IWebDriver, root: WebElement) {
+export default async function (driver: IWebDriver, root: WebElement) {
 	let { queryAllByText } = render(root);
 
 	// Find login button and click it

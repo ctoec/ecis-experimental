@@ -51,7 +51,7 @@ const render = (Component: React.FC) => {
 if (process.env.NODE_ENV === 'production') {
 	productionPreRender()
 		.then(() => console.log('Sentry successfully initialized'))
-		.catch(e => console.error(e))
+		.catch((e) => console.error(e))
 		// Render the application regardless of Sentry registration
 		.finally(() => render(App));
 } else {

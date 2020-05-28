@@ -89,7 +89,7 @@ export default function ReportSubmitForm({
 	};
 
 	const { data: allEnrollments } = useApi(
-		api => api.apiOrganizationsOrgIdEnrollmentsGet(enrollmentParams),
+		(api) => api.apiOrganizationsOrgIdEnrollmentsGet(enrollmentParams),
 		{ skip: !user || !report }
 	);
 
@@ -98,10 +98,10 @@ export default function ReportSubmitForm({
 	useEffect(() => {
 		if (allEnrollments) {
 			var c4kFundedEnrollments = allEnrollments.filter(
-				enrollment => !!activeC4kFundingAsOf(enrollment, submittedAt || undefined)
+				(enrollment) => !!activeC4kFundingAsOf(enrollment, submittedAt || undefined)
 			);
 			var childIds: string[] = [];
-			c4kFundedEnrollments.forEach(enrollment => {
+			c4kFundedEnrollments.forEach((enrollment) => {
 				const childId = enrollment.childId;
 				if (childIds.indexOf(childId) < 0) {
 					childIds.push(childId);
@@ -127,7 +127,7 @@ export default function ReportSubmitForm({
 
 	const [attemptingSave, setAttemptingSave] = useState(false);
 	const { loading, error: saveError, data: saveData } = useApi<CdcReport>(
-		api =>
+		(api) =>
 			api.apiOrganizationsOrgIdReportsIdPut({
 				...params,
 				cdcReport: {
@@ -183,7 +183,7 @@ export default function ReportSubmitForm({
 	const [timeSplitUtilizations, updateTimeSplitUtilizations] = useState(
 		report.timeSplitUtilizations
 			? report.timeSplitUtilizations
-			: splitTimeFundingSpaces.map(fundingSpace =>
+			: splitTimeFundingSpaces.map((fundingSpace) =>
 					getSplitUtilization(
 						fundingSpace.timeSplit,
 						0,
@@ -210,7 +210,7 @@ export default function ReportSubmitForm({
 		const fiscalYearUsedWeeks = sumWeeksUsed(currentFiscalYearTimeSplitUtilizations, lesserTime);
 
 		const existingUtilizationForSpace = timeSplitUtilizations.find(
-			ut => ut.fundingSpaceId === fundingSpace.id
+			(ut) => ut.fundingSpaceId === fundingSpace.id
 		) || { fullTimeWeeksUsed: 0, partTimeWeeksUsed: 0 }; // these default 0s are only ever used to populate the default value
 
 		const remainingWeeks =
@@ -232,12 +232,12 @@ export default function ReportSubmitForm({
 							? existingUtilizationForSpace.fullTimeWeeksUsed
 							: existingUtilizationForSpace.partTimeWeeksUsed
 					}`}
-					onChange={e => {
+					onChange={(e) => {
 						const input = e.target.value;
 						const lesserWeeksUsed = parseInt(input.replace(/[^0-9.]/g, ''), 10) || 0;
 
-						updateTimeSplitUtilizations(_uts => [
-							..._uts.filter(ut => ut.fundingSpaceId !== fundingSpace.id),
+						updateTimeSplitUtilizations((_uts) => [
+							..._uts.filter((ut) => ut.fundingSpaceId !== fundingSpace.id),
 							getSplitUtilization(
 								timeSplit,
 								lesserWeeksUsed,
@@ -298,7 +298,7 @@ export default function ReportSubmitForm({
 					id="time-split-utilizations"
 					legend="Funding time split utilizations"
 				>
-					{splitTimeFundingSpaces.map(fundingSpace => splitTimeUtilizationQuestion(fundingSpace))}
+					{splitTimeFundingSpaces.map((fundingSpace) => splitTimeUtilizationQuestion(fundingSpace))}
 				</FieldSet>
 			)}
 			<UtilizationTable {...{ ..._report, accredited }} />
@@ -321,7 +321,7 @@ export default function ReportSubmitForm({
 							}
 							defaultValue={currencyFormatter(c4KRevenue)}
 							onChange={updateFormData(parseCurrencyFromString)}
-							onBlur={event =>
+							onBlur={(event) =>
 								(event.target.value = c4KRevenue !== null ? currencyFormatter(c4KRevenue) : '')
 							}
 							disabled={!!report.submittedAt}
@@ -359,7 +359,7 @@ export default function ReportSubmitForm({
 							label={<span className="text-bold">Family Fees</span>}
 							defaultValue={currencyFormatter(familyFeesRevenue)}
 							onChange={updateFormData(parseCurrencyFromString)}
-							onBlur={event =>
+							onBlur={(event) =>
 								(event.target.value =
 									familyFeesRevenue !== null ? currencyFormatter(familyFeesRevenue) : '')
 							}

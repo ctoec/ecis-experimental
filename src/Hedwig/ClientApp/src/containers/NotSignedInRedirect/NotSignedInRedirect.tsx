@@ -1,10 +1,10 @@
-import React, { useContext, PropsWithChildren } from 'react';
+import React, { useContext } from 'react';
 import UserContext from '../../contexts/User/UserContext';
 import { useHistory } from 'react-router';
 
 type NotSignedInRedirectProps = {};
 
-export const NotSignedInRedirect = ({ children }: PropsWithChildren<NotSignedInRedirectProps>) => {
+export const NotSignedInRedirect: React.FC<NotSignedInRedirectProps> = ({ children }) => {
 	const history = useHistory();
 	const { loading, user } = useContext(UserContext);
 	if (loading) {
@@ -14,7 +14,7 @@ export const NotSignedInRedirect = ({ children }: PropsWithChildren<NotSignedInR
 			history.push('/');
 			return <></>;
 		} else {
-			return children;
+			return <>{children}</>;
 		}
 	}
 };

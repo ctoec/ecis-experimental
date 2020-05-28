@@ -10,7 +10,7 @@ const FamilyIncome: Section = {
 	name: 'Family income determination',
 	status: ({ enrollment }) => {
 		// family income disclosure not required for children living with foster families
-		if (idx(enrollment, _ => _.child.foster)) {
+		if (idx(enrollment, (_) => _.child.foster)) {
 			return 'exempt';
 		}
 
@@ -22,7 +22,7 @@ const FamilyIncome: Section = {
 			// 	idx(enrollment, _ => _.child.family.determinations) || [],
 			// 	[''],
 			// ) ||
-			hasValidationErrors(idx(enrollment, _ => _.child.family) || null, ['determinations'])
+			hasValidationErrors(idx(enrollment, (_) => _.child.family) || null, ['determinations'])
 				? 'incomplete'
 				: 'complete'
 		);

@@ -54,7 +54,7 @@ export function getEnrollmentHistoryProps(
 			// determination steps
 			processStepProps = processStepProps.concat(
 				determinationStepProps(
-					(idx(enrollment, _ => _.child.family.determinations) as DeepNonUndefineableArray<
+					(idx(enrollment, (_) => _.child.family.determinations) as DeepNonUndefineableArray<
 						FamilyDetermination
 					>) || null
 				)
@@ -124,7 +124,7 @@ export function fundingStepProps(
 	var processStepProps: SortableProcessStepProps[] = [];
 
 	if (fundings) {
-		fundings.sort(fundingStartSorter).forEach(funding => {
+		fundings.sort(fundingStartSorter).forEach((funding) => {
 			// CDC Funding start if:
 			// - source is CDC
 			// - funding has first reporting period
@@ -179,7 +179,7 @@ export function determinationStepProps(
 ) {
 	var processStepProps: SortableProcessStepProps[] = [];
 	if (determinations) {
-		determinations.forEach(determination => {
+		determinations.forEach((determination) => {
 			if (!determination.notDisclosed && determination.determinationDate) {
 				processStepProps.push(
 					getSortableStep({

@@ -33,12 +33,12 @@ export class BaseAPI {
 	}
 
 	withPreMiddleware<T extends BaseAPI>(this: T, ...preMiddlewares: Array<Middleware['pre']>) {
-		const middlewares = preMiddlewares.map(pre => ({ pre }));
+		const middlewares = preMiddlewares.map((pre) => ({ pre }));
 		return this.withMiddleware<T>(...middlewares);
 	}
 
 	withPostMiddleware<T extends BaseAPI>(this: T, ...postMiddlewares: Array<Middleware['post']>) {
-		const middlewares = postMiddlewares.map(post => ({ post }));
+		const middlewares = postMiddlewares.map((post) => ({ post }));
 		return this.withMiddleware<T>(...middlewares);
 	}
 
@@ -230,12 +230,12 @@ export function exists(json: any, key: string) {
 
 export function querystring(params: HTTPQuery, prefix: string = ''): string {
 	return Object.keys(params)
-		.map(key => {
+		.map((key) => {
 			const fullKey = prefix + (prefix.length ? `[${key}]` : key);
 			const value = params[key];
 			if (value instanceof Array) {
 				const multiValue = value
-					.map(singleValue => encodeURIComponent(String(singleValue)))
+					.map((singleValue) => encodeURIComponent(String(singleValue)))
 					.join(`&${encodeURIComponent(fullKey)}=`);
 				return `${encodeURIComponent(fullKey)}=${multiValue}`;
 			}
@@ -244,7 +244,7 @@ export function querystring(params: HTTPQuery, prefix: string = ''): string {
 			}
 			return `${encodeURIComponent(fullKey)}=${encodeURIComponent(String(value))}`;
 		})
-		.filter(part => part.length > 0)
+		.filter((part) => part.length > 0)
 		.join('&');
 }
 

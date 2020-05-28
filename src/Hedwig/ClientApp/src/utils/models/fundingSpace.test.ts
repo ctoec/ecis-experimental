@@ -13,7 +13,7 @@ describe('funding space utils', () => {
 			}
 		);
 
-		returnedSpaces.forEach(space => {
+		returnedSpaces.forEach((space) => {
 			expect(space).toHaveProperty('ageGroup', Age.InfantToddler);
 			expect(space).toHaveProperty('source', FundingSource.CDC);
 		});

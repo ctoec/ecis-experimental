@@ -3,9 +3,8 @@ import { ApiError } from '../../hooks/useApi';
 import { ValidationError } from '../../generated';
 import { elementIdFormatter } from '../stringFormatters';
 import { isBlockingValidationError } from './isBlockingValidationError';
-import { SetStateAction, Dispatch } from 'react';
 
-type ValidationResponse = ApiError | ValidationError[];
+export type ValidationResponse = ApiError | ValidationError[];
 
 type ValidationDisplay = {
 	type: 'error' | 'warning';
@@ -24,12 +23,12 @@ type ValidationDisplay = {
 export function displayValidationStatus(
 	validationDisplays: ValidationDisplay[]
 ): FormStatusProps | undefined {
-	const validationMessages = validationDisplays.map(validationDisplay =>
+	const validationMessages = validationDisplays.map((validationDisplay) =>
 		processValidationDisplay(validationDisplay)
 	);
 	// return the first validation message of the validationDisplays
 	// array that has a validation message
-	return validationMessages.filter(message => !!message)[0];
+	return validationMessages.filter((message) => !!message)[0];
 }
 
 function processValidationDisplay(
@@ -99,7 +98,7 @@ const getValidationProblem: ProcessErrorFunction<ApiError> = (response, fields) 
 		return undefined;
 	}
 
-	const messages = fields.map(field => {
+	const messages = fields.map((field) => {
 		// This matches object fields that are contained in an array
 		// e.g. fundings[1].familyid
 		const fieldRegex = new RegExp(`^${field.split('.').join('(\\[.*\\])?.?')}$`, 'i');
@@ -115,7 +114,7 @@ const getValidationProblem: ProcessErrorFunction<ApiError> = (response, fields) 
 	});
 	// return the message for the first field in the fields array that has
 	// a validation problem
-	return messages.filter(message => !!message)[0];
+	return messages.filter((message) => !!message)[0];
 };
 
 const getValidationError: ProcessErrorFunction<ValidationError[]> = (errors, fields) => {
@@ -123,16 +122,16 @@ const getValidationError: ProcessErrorFunction<ValidationError[]> = (errors, fie
 		return undefined;
 	}
 
-	const messages = fields.map(field => {
+	const messages = fields.map((field) => {
 		const upperCaseField = field.toUpperCase();
-		const error = errors.find(error => {
+		const error = errors.find((error) => {
 			// Errors with `field` string
 			if (error.field) {
 				return upperCaseField === error.field.toUpperCase();
 			}
 			// Errors with `fields` array
 			else if (error.fields) {
-				return error.fields.map(f => f.toUpperCase()).includes(upperCaseField);
+				return error.fields.map((f) => f.toUpperCase()).includes(upperCaseField);
 			}
 		});
 		if (!error) {
@@ -142,5 +141,5 @@ const getValidationError: ProcessErrorFunction<ValidationError[]> = (errors, fie
 	});
 	// return the message for the first field in the fields array that has
 	// a validation error
-	return messages.filter(message => !!message)[0];
+	return messages.filter((message) => !!message)[0];
 };

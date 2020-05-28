@@ -39,7 +39,7 @@ export function getCurrentC4kCertificate(
 	if (!enrollment.child) return undefined;
 
 	return (enrollment.child.c4KCertificates || []).find<DeepNonUndefineable<C4KCertificate>>(
-		cert => !cert.endDate
+		(cert) => !cert.endDate
 	);
 }
 
@@ -56,12 +56,12 @@ export function activeC4kFundingAsOf(
 		const c4kCerts =
 			idx<Enrollment, DeepNonUndefineable<C4KCertificate[]>>(
 				enrollment,
-				_ => _.child.c4KCertificates as DeepNonUndefineable<C4KCertificate[]>
+				(_) => _.child.c4KCertificates as DeepNonUndefineable<C4KCertificate[]>
 			) || [];
 		// Sorts by the start of the certificate
 		const sortedCerts = (c4kCerts || []).sort(c4kCertificateSorter);
 		// find cert with asOf between start and end dates
-		return sortedCerts.find<DeepNonUndefineable<C4KCertificate>>(cert => {
+		return sortedCerts.find<DeepNonUndefineable<C4KCertificate>>((cert) => {
 			const startDateIsBeforeAsOf = !cert.startDate || moment(cert.startDate).isBefore(asOf);
 			const endDateIsEmptyOrAfterAsOf = !cert.endDate || moment(cert.endDate).isAfter(asOf);
 			return startDateIsBeforeAsOf && endDateIsEmptyOrAfterAsOf;

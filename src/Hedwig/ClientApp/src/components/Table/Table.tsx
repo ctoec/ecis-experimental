@@ -46,7 +46,7 @@ export class Table<T> extends React.Component<TableProps<T>, TableSort> {
 		const { id, data, rowKey, columns, onRowClick, fullWidth, caption } = this.props;
 		const { sortColumn, sortOrder } = this.state;
 
-		const cells = columns.map(column => column.cell);
+		const cells = columns.map((column) => column.cell);
 
 		let sortedData = data;
 
@@ -91,7 +91,7 @@ export class Table<T> extends React.Component<TableProps<T>, TableSort> {
 					</tr>
 				</thead>
 				<tbody>
-					{sortedData.map(row => (
+					{sortedData.map((row) => (
 						<Row row={row} cells={cells} onClick={onRowClick} key={rowKey(row)} />
 					))}
 				</tbody>

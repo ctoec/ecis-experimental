@@ -51,10 +51,10 @@ export function isFundedForFundingSpace(
 	if (!enrollment) return false;
 	if (!enrollment.fundings || !enrollment.fundings.length) return false;
 
-	let fundings = enrollment.fundings.filter(funding => funding.fundingSpaceId === fundingSpaceId);
+	let fundings = enrollment.fundings.filter((funding) => funding.fundingSpaceId === fundingSpaceId);
 
 	if (dateRange) {
-		fundings = fundings.filter(funding => isCurrentToRange(funding, dateRange));
+		fundings = fundings.filter((funding) => isCurrentToRange(funding, dateRange));
 	}
 
 	return fundings.length > 0;
@@ -82,7 +82,7 @@ export function isFunded(
 	const { source } = opts || {};
 
 	if (source) {
-		fundings = fundings.filter(funding => funding.source === source);
+		fundings = fundings.filter((funding) => funding.source === source);
 	}
 
 	return fundings.length > 0;

@@ -19,10 +19,10 @@ export type StepListProps<T> = {
 	activeStep: string;
 };
 
-const mapStepsToInternalProps = function<T>(steps: StepProps<T>[], activeStep: string, props: T) {
+const mapStepsToInternalProps = function <T>(steps: StepProps<T>[], activeStep: string, props: T) {
 	let activeStepReached = false;
 
-	return steps.map(externalStep => {
+	return steps.map((externalStep) => {
 		let status: InternalStepStatus;
 
 		if (activeStepReached) {
@@ -43,7 +43,7 @@ export default function StepList<T>({ steps, props, activeStep }: StepListProps<
 	const internalSteps = mapStepsToInternalProps(steps, activeStep, props);
 	return (
 		<ol className="oec-step-list">
-			{internalSteps.map(step => (
+			{internalSteps.map((step) => (
 				<Step {...step} />
 			))}
 		</ol>

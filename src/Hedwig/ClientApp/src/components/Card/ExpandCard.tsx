@@ -14,7 +14,7 @@ export const ExpandCard: React.FC = ({ children }) => {
 
 	return (
 		<>
-			{Children.map(children, child => {
+			{Children.map(children, (child) => {
 				const { type: Type, props, key } = child;
 				return (
 					<Type

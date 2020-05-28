@@ -7,13 +7,13 @@ import {
 import mockUseApi, {
 	mockApiOrganizationsIdGet,
 	mockApiOrganizationsOrgIdReportsGet,
-} from '../../../hooks/__mocks__/useApi';
+} from '../../../hooks/useApi/__mocks__/useApi';
 
-const pendingReports = cdcReportingPeriods.map(reportingPeriod => ({
+const pendingReports = cdcReportingPeriods.map((reportingPeriod) => ({
 	...mockDefaultReport,
 	reportingPeriod,
 }));
-const submittedReports = pendingReports.map(pendingReport => ({
+const submittedReports = pendingReports.map((pendingReport) => ({
 	...pendingReport,
 	submittedAt: new Date('2019-09-14'),
 }));
@@ -86,7 +86,7 @@ describe('ReportsSummary', () => {
 				</CommonContextProviderMock>
 			);
 			// Get the report links as they appear in the document
-			const reportLinks = getAllByRole('link').map(link => link.textContent);
+			const reportLinks = getAllByRole('link').map((link) => link.textContent);
 			// Copy the array and sort it by ascending date for comparison
 			const sortedReportLinks = [...reportLinks].sort((a, b) =>
 				reportingPeriodToMoment(a || '').diff(reportingPeriodToMoment(b || ''))
@@ -129,7 +129,7 @@ describe('ReportsSummary', () => {
 				</CommonContextProviderMock>
 			);
 			// Get the report links as they appear in the document
-			const reportLinks = getAllByRole('link').map(link => link.textContent);
+			const reportLinks = getAllByRole('link').map((link) => link.textContent);
 			// Copy the array and sort it by ascending date for comparison
 
 			const sortedReportLinks = [...reportLinks].sort((a, b) =>

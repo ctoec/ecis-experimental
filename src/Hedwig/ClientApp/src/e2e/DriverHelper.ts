@@ -39,10 +39,7 @@ export class DriverHelper {
 		if (project) {
 			capabilities.set('project', project);
 		}
-		return new Builder()
-			.withCapabilities(capabilities)
-			.usingServer(gridHost)
-			.build() as IWebDriver;
+		return new Builder().withCapabilities(capabilities).usingServer(gridHost).build() as IWebDriver;
 	};
 
 	static quit = async (driver: IWebDriver) => {

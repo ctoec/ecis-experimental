@@ -10,7 +10,7 @@ const MakeRouteWithSubRoutes = (route: RouteConfig) => {
 		<Route
 			path={route.path}
 			exact={route.exact}
-			render={props => {
+			render={(props) => {
 				const component = <route.component {...props} {...route.props} routes={route.routes} />;
 				if (route.unauthorized) {
 					return component;
