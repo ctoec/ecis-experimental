@@ -3,8 +3,8 @@ import { CdcReport, Enrollment, ReportingPeriod } from '../../../../../../genera
 import ReportingPeriodContext from '../../../../../../contexts/ReportingPeriod/ReportingPeriodContext';
 import FormContext, { useGenericContext } from '../../../../../../components/Form_New/FormContext';
 import moment from 'moment';
-import { propertyDateSorter } from '../../../../../../utils/dateSorter';
 import { propertyBetweenDates } from '../../../../../../utils/dateFilter';
+import FormField from '../../../../../../components/Form_New/FormField';
 
 export const FirstReportingPeriodField: React.FC<{initialLoad: boolean, id: number, lastSubmittedReport?: CdcReport}> = ({
 	initialLoad,
@@ -23,8 +23,9 @@ export const FirstReportingPeriodField: React.FC<{initialLoad: boolean, id: numb
 		// - are not more than 3 periods in the "future"
 		//   (i.e. in May, we will show May, June, and July reporting periods but not August)
 
-		const validReportingPeriodRangeStart = lastSubmittedReport ? 
-			moment.max([startDate, lastSubmittedReport.reportingPeriod.periodEnd]);
+		const validReportingPeriodRangeStart = lastSubmittedReport && lastSubmittedReport.reportingPeriod
+			? moment.max([moment(startDate), moment(lastSubmittedReport.reportingPeriod.periodEnd)])
+			: startDate;
 
 		const thisReportingPeriodIdx = (reportingPeriods as ReportingPeriod[])
 			.findIndex(period => moment(period.period).isSame(moment(), 'month'));
@@ -37,14 +38,16 @@ export const FirstReportingPeriodField: React.FC<{initialLoad: boolean, id: numb
 			reportingPeriods,
 			period => period.periodEnd as Date,
 			startDate,
-			nextNextReportingPeriod.periodStart	as Date
+			nextNextReportingPeriod.periodEnd	as Date
 		);
 
-		if(lastSubmittedReport) {
+		setValidReportingPeriods(_validReportingPeriods);
+	}, [dataDriller, lastSubmittedReport]);
 
-		}
-
-
-	}, [dataDriller, lastSubmittedReport])
+	return (
+		<FormField<Enrollment, SelectProps, number | null>
+			getValue={data => data.at('fundings').find(f => f.id === fun)}
+		/>
+	)
 
 }
