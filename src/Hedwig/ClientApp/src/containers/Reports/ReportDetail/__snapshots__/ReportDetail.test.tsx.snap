@@ -257,8 +257,13 @@ exports[`ReportDetail matches snapshot 1`] = `
               />
               169.95
               <span>
-                 × 4 weeks (ft)
+                 × 4 weeks
               </span>
+              <div
+                class="margin-left-05 width-2 display-inline-block"
+              >
+                (ft)
+              </div>
             </div>
           </td>
           <td
@@ -319,8 +324,13 @@ exports[`ReportDetail matches snapshot 1`] = `
               </span>
               59.50
               <span>
-                 × 4 weeks (pt)
+                 × 4 weeks
               </span>
+              <div
+                class="margin-left-05 width-2 display-inline-block"
+              >
+                (pt)
+              </div>
             </div>
           </td>
           <td
@@ -376,11 +386,35 @@ exports[`ReportDetail matches snapshot 1`] = `
               </span>
               <span
                 style="visibility: hidden;"
+              >
+                0
+              </span>
+              59.50
+              <span>
+                 × 0 weeks
+              </span>
+              <div
+                class="margin-left-05 width-2 display-inline-block"
+              >
+                (pt)
+              </div>
+            </div>
+            <div>
+              <span>
+                $ 
+              </span>
+              <span
+                style="visibility: hidden;"
               />
               169.95
               <span>
-                 × 4 weeks (ft)
+                 × 4 weeks
               </span>
+              <div
+                class="margin-left-05 width-2 display-inline-block"
+              >
+                (ft)
+              </div>
             </div>
           </td>
           <td
@@ -439,8 +473,13 @@ exports[`ReportDetail matches snapshot 1`] = `
               />
               165.32
               <span>
-                 × 4 weeks (ft)
+                 × 4 weeks
               </span>
+              <div
+                class="margin-left-05 width-2 display-inline-block"
+              >
+                (ft)
+              </div>
             </div>
           </td>
           <td
@@ -499,8 +538,13 @@ exports[`ReportDetail matches snapshot 1`] = `
               </span>
               57.85
               <span>
-                 × 4 weeks (pt)
+                 × 4 weeks
               </span>
+              <div
+                class="margin-left-05 width-2 display-inline-block"
+              >
+                (pt)
+              </div>
             </div>
           </td>
           <td
@@ -559,8 +603,13 @@ exports[`ReportDetail matches snapshot 1`] = `
               />
               113.20
               <span>
-                 × 4 weeks (ft)
+                 × 4 weeks
               </span>
+              <div
+                class="margin-left-05 width-2 display-inline-block"
+              >
+                (ft)
+              </div>
             </div>
           </td>
           <td
@@ -621,8 +670,13 @@ exports[`ReportDetail matches snapshot 1`] = `
               </span>
               54.80
               <span>
-                 × 4 weeks (pt)
+                 × 4 weeks
               </span>
+              <div
+                class="margin-left-05 width-2 display-inline-block"
+              >
+                (pt)
+              </div>
             </div>
           </td>
           <td
