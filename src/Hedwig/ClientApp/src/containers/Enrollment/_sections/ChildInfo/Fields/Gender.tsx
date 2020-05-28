@@ -13,10 +13,10 @@ import { SelectProps, Select } from '../../../../../components/Select/Select';
  */
 export const GenderField: React.FC<ChildInfoFormFieldProps> = ({ initialLoad }) => {
 	return (
-		<FormField<Enrollment, SelectProps, Gender | null>
+		<FormField<Enrollment, SelectProps, Gender>
 			getValue={(data) => data.at('child').at('gender')}
-			// The preprocessForDisplay prop handles the defaultValue
-			preprocessForDisplay={(data) => prettyGender(data || Gender.Unspecified)}
+			// Gender will always be defined, so the cast will always succeed
+			preprocessForDisplay={(data) => prettyGender(data as Gender)}
 			parseOnChangeEvent={(e) => genderFromString(e.target.value)}
 			inputComponent={Select}
 			id="gender-select"
@@ -24,19 +24,19 @@ export const GenderField: React.FC<ChildInfoFormFieldProps> = ({ initialLoad }) 
 			hint="As identified by family"
 			options={[
 				{
-					value: Gender.Female,
+					value: prettyGender(Gender.Female),
 					text: 'Female',
 				},
 				{
-					value: Gender.Male,
+					value: prettyGender(Gender.Male),
 					text: 'Male',
 				},
 				{
-					value: Gender.Nonbinary,
+					value: prettyGender(Gender.Nonbinary),
 					text: 'Nonbinary',
 				},
 				{
-					value: Gender.Unknown,
+					value: prettyGender(Gender.Unknown),
 					text: 'Unknown',
 				},
 			]}
