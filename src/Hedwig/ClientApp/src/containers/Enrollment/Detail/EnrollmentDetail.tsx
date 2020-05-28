@@ -96,7 +96,14 @@ export default function EnrollmentDetail({
 					/>
 				</div>
 				{sections.map((section) => {
-					var props: SectionProps = { siteId, enrollment, updateEnrollment, error };
+					var props: SectionProps = {
+						siteId,
+						enrollment,
+						updateEnrollment: updateEnrollment as React.Dispatch<
+							React.SetStateAction<Enrollment | null>
+						>,
+						error,
+					};
 					const familyIncomeForFosterChild = section.key === 'family-income' && child.foster;
 					return (
 						<section key={section.key} className="oec-enrollment-details-section">

@@ -63,7 +63,7 @@ const EntryForm: React.FC<SectionProps> = ({
 
 	const { user } = useContext(UserContext);
 
-	let _enrollment = { ...enrollment };
+	let _enrollment = { ...enrollment } as DeepNonUndefineable<Enrollment>;
 	if (!enrollment.child.family) {
 		_enrollment.child = {
 			..._enrollment.child,

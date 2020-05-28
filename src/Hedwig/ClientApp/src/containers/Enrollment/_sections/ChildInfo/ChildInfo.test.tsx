@@ -1,34 +1,34 @@
 // Note: Readers are instructued to go to this file in the mock useApi.ts file
-// for example on how to mock constructApi and parseError. If you change that
+// for example on how to mock constructApi and parseError. If you change the
 // logic in this file, please update that comment accordingly.
 
 // Tell jest we are planning on mocking these modules
 // Mock parseError to become the identity function.
 // We are going to provide the actual error in the API mock.
-jest.mock('../../../hooks/useApi/error', () => ({
+jest.mock('../../../../hooks/useApi/error', () => ({
 	parseError: (_: any) => _,
 }));
 // Don't provide a factory because we are going to supply a mock for each test as
 // needed.
-jest.mock('../../../hooks/useApi/api');
+jest.mock('../../../../hooks/useApi/api');
 
 // We must import with the wildcard selector so we can access the specific
 // property values for jest's mocking. That is, jest requires we do
 // useApiApi.constructApi.mock instead of importing constructApi directly
 // and doing constructApi.mock.
-import * as useApiApi from '../../../hooks/useApi/api';
+import * as useApiApi from '../../../../hooks/useApi/api';
 
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import ChildInfo from './ChildInfo';
-import { DeepNonUndefineable } from '../../../utils/types';
-import { Enrollment, HedwigApi } from '../../../generated';
-import { mockCompleteEnrollment } from '../../../tests/data';
-import { getValidationError } from '../../../tests/helpers';
+import ChildInfo from '../ChildInfo';
+import { DeepNonUndefineable } from '../../../../utils/types';
+import { Enrollment, HedwigApi } from '../../../../generated';
+import { mockCompleteEnrollment } from '../../../../tests/data';
+import { getValidationError } from '../../../../tests/helpers';
 import {
 	REQUIRED_FOR_OEC_REPORTING,
 	REQUIRED_FOR_ENROLLMENT,
-} from '../../../utils/validations/messageStrings';
+} from '../../../../utils/validations/messageStrings';
 
 describe('enrollment sections', () => {
 	describe('ChildInfo', () => {
