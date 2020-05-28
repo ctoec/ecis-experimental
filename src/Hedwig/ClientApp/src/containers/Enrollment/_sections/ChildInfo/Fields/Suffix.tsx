@@ -6,7 +6,7 @@ import { TextInputProps, TextInput } from '../../../../../components';
 /**
  * Component for entering the suffix of a child in an enrollment.
  */
-export const SuffixField: React.FC = ({}) => {
+export const SuffixField: React.FC = () => {
 	return (
 		<FormField<Enrollment, TextInputProps, string | null>
 			getValue={(data) => data.at('child').at('suffix')}

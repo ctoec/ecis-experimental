@@ -6,7 +6,7 @@ import { TextInputProps, TextInput } from '../../../../../components';
 /**
  * Component for entering the SASID of a child in an enrollment.
  */
-export const SasidField: React.FC = ({}) => {
+export const SasidField: React.FC = () => {
 	return (
 		<FormField<Enrollment, TextInputProps, string | null>
 			getValue={(data) => data.at('child').at('sasid')}

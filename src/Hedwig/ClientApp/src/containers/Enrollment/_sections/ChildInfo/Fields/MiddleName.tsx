@@ -6,7 +6,7 @@ import { TextInputProps, TextInput } from '../../../../../components';
 /**
  * Component for entering the middle name of a child in an enrollment.
  */
-export const MiddleNameField: React.FC = ({}) => {
+export const MiddleNameField: React.FC = () => {
 	return (
 		<FormField<Enrollment, TextInputProps, string | null>
 			getValue={(data) => data.at('child').at('middleName')}
