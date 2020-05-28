@@ -52,7 +52,7 @@ export default function EnrollmentUpdate({
 	const section = sections[sectionId];
 	const { user } = useContext(UserContext);
 	const [attemptingSave, setAttemptingSave] = useState(false);
-	const [enrollment, updateEnrollment] = useState<DeepNonUndefineable<Enrollment> | null>(null);
+	const [enrollment, updateEnrollment] = useState<Enrollment | null>(null);
 	// Get enrollment by id
 	const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest = {
 		id: enrollmentId ? enrollmentId : 0,

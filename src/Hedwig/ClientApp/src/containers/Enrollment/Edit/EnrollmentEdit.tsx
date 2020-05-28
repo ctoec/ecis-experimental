@@ -59,7 +59,7 @@ export default function EnrollmentEdit({
 	const { user } = useContext(UserContext);
 	const { setAlerts } = useContext(AlertContext);
 
-	const [enrollment, updateEnrollment] = useState<DeepNonUndefineable<Enrollment> | null>(null);
+	const [enrollment, updateEnrollment] = useState<Enrollment | null>(null);
 	// Get enrollment by id
 	const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest = {
 		id: enrollmentId ? enrollmentId : 0,

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { History } from 'history';
 import { Section, SectionProps } from '../enrollmentTypes';
 import { default as StepList, StepProps } from '../../../components/StepList/StepList';
@@ -25,7 +25,6 @@ import {
 	stepListSaveFailAlert,
 } from '../../../utils/stringFormatters';
 import useRouteChange from '../../../hooks/useRouteChange';
-import { DeepNonUndefineable } from '../../../utils/types';
 
 type EnrollmentNewParams = {
 	history: History;
@@ -99,7 +98,7 @@ export default function EnrollmentNew({
 	*/
 	const [navigated, setNavigated] = useState(false);
 
-	const [enrollment, updateEnrollment] = useState<DeepNonUndefineable<Enrollment> | null>(null);
+	const [enrollment, updateEnrollment] = useState<Enrollment | null>(null);
 	// Get enrollment by id
 	const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest = {
 		id: enrollmentId ? enrollmentId : 0,
@@ -137,7 +136,8 @@ export default function EnrollmentNew({
 		}
 	);
 
-	useRouteChange(() => window.scroll(0, 0));
+	const scrollToTop = useCallback(() => window.scroll(0, 0), []);
+	useRouteChange(scrollToTop);
 
 	if (cancelError) {
 		// TODO: do something with this error

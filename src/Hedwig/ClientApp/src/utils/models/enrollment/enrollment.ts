@@ -3,9 +3,8 @@ import { isCurrentToRange } from '..';
 import { DateRange } from '../../../components';
 import { validatePermissions, getIdForUser } from '..';
 import emptyGuid from '../../emptyGuid';
-import { DeepNonUndefineable } from '../../types';
 
-export function emptyEnrollment(siteId: number, user?: User) {
+export function createEmptyEnrollment(siteId: number, user?: User): Enrollment {
 	return {
 		id: 0,
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
@@ -30,7 +29,7 @@ export function emptyEnrollment(siteId: number, user?: User) {
 			gender: Gender.Unspecified,
 			c4KCertificates: [] as C4KCertificate[],
 		},
-	} as DeepNonUndefineable<Enrollment>;
+	};
 }
 
 /**

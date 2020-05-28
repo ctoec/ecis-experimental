@@ -86,7 +86,7 @@ const FamilyInfo: Section = {
 
 		const [_enrollment, updateEnrollment] = useReducer<
 			FormReducer<DeepNonUndefineable<Enrollment>>
-		>(formReducer, enrollment);
+		>(formReducer, enrollment as DeepNonUndefineable<Enrollment>);
 		const updateFormData = updateData<DeepNonUndefineable<Enrollment>>(updateEnrollment);
 
 		const { user } = useContext(UserContext);
