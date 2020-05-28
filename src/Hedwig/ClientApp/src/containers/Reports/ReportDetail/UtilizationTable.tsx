@@ -20,6 +20,7 @@ import {
 	calculateRate,
 	makePrefixerFunc,
 	ReimbursementRateLine,
+	productOfUnknowns,
 } from '../../../utils/utilizationTable';
 
 interface UtilizationTableRow {
@@ -54,7 +55,7 @@ export default function UtilizationTable({
 	report,
 	timeSplitUtilizations,
 }: // Pass in the state variable from reportSubmitForm that contains the utilization values for this report (either default values or user-defined)
-UtilizationTableProps) {
+	UtilizationTableProps): React.FC<UtilizationTableProps> | React.ReactElement {
 	const site = idx(report, _ => _.organization.sites[0]);
 	// TODO: if the space lives on the organization but the rates live on the site,
 	// we need to reconsider how we handle multi site org rate calculation
@@ -72,8 +73,8 @@ UtilizationTableProps) {
 	const weeksInPeriod =
 		periodStart && periodEnd
 			? moment(periodEnd)
-					.add(1, 'day')
-					.diff(periodStart, 'weeks')
+				.add(1, 'day')
+				.diff(periodStart, 'weeks')
 			: 0;
 
 	const enrollments = (idx(report, (_) => _.enrollments) || []) as Enrollment[];
@@ -123,9 +124,6 @@ UtilizationTableProps) {
 		}
 
 		const cappedCount = Math.min(count, capacity);
-		const productOfUnknowns = (nums: (number | undefined)[]) => {
-			return nums.map(n => n || 0).reduce((a, c) => a * c);
-		};
 		const total =
 			productOfUnknowns([cappedCount, fullWeeks, ftRate]) +
 			productOfUnknowns([cappedCount, partWeeks, ptRate]);
