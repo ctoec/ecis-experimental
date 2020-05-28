@@ -33,7 +33,6 @@ export function productOfUnknowns(nums: (number | undefined)[]) {
 	return nums.map(n => n || 0).reduce((a, c) => a * c);
 }
 
-
 export function getValueBeforeDecimalPoint(number: number) {
 	const numAsString = number.toFixed(2);
 	const decimalPointIndex = numAsString.indexOf('.');

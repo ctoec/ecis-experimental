@@ -55,7 +55,7 @@ export default function UtilizationTable({
 	report,
 	timeSplitUtilizations,
 }: // Pass in the state variable from reportSubmitForm that contains the utilization values for this report (either default values or user-defined)
-	UtilizationTableProps): React.FC<UtilizationTableProps> | React.ReactElement {
+UtilizationTableProps): React.FC<UtilizationTableProps> | React.ReactElement {
 	const site = idx(report, _ => _.organization.sites[0]);
 	// TODO: if the space lives on the organization but the rates live on the site,
 	// we need to reconsider how we handle multi site org rate calculation
@@ -73,8 +73,8 @@ export default function UtilizationTable({
 	const weeksInPeriod =
 		periodStart && periodEnd
 			? moment(periodEnd)
-				.add(1, 'day')
-				.diff(periodStart, 'weeks')
+					.add(1, 'day')
+					.diff(periodStart, 'weeks')
 			: 0;
 
 	const enrollments = (idx(report, (_) => _.enrollments) || []) as Enrollment[];
