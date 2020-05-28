@@ -80,8 +80,10 @@ export function ReimbursementRateLine({
 			{prettyRate}
 			<span>
 				{' '}
-				&times; {weeksInPeriod} weeks {suffix}
+				&times; {weeksInPeriod} weeks
 			</span>
+			{/* To get the dang thing to line up */}
+			<div className="margin-left-05 width-2 display-inline-block">{suffix}</div>
 		</div>
 	);
 }
