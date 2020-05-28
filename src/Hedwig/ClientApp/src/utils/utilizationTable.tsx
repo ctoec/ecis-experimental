@@ -72,7 +72,7 @@ export function ReimbursementRateLine({
 	weeksInPeriod?: number;
 	suffix: string;
 }) {
-	if (!weeksInPeriod) return <></>;
+	if (weeksInPeriod === undefined) return <></>;
 	return (
 		<div>
 			<span>$ </span>

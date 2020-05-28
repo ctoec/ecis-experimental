@@ -34,8 +34,8 @@ interface UtilizationTableRow {
 	balance: number;
 	showFundingTime?: boolean;
 	weeksSplit?: {
-		partWeeks: number;
-		fullWeeks: number;
+		partWeeks: number | undefined;
+		fullWeeks: number | undefined;
 	};
 	maxes: {
 		// These are needed to format the numbers for alignment
@@ -45,13 +45,16 @@ interface UtilizationTableRow {
 	};
 }
 
+type UtilizationTableProps = {
+	report: CdcReport;
+	timeSplitUtilizations: FundingTimeSplitUtilization[];
+}
+
 export default function UtilizationTable({
 	report,
 	timeSplitUtilizations,
-}: {
-	report: CdcReport;
-	timeSplitUtilizations: FundingTimeSplitUtilization[];
-}) {
+	// Pass in the state variable from reportSubmitForm that contains the utilization values for this report (either default values or user-defined)
+}: UtilizationTableProps) {
 	const site = idx(report, _ => _.organization.sites[0]);
 	// TODO: if the space lives on the organization but the rates live on the site,
 	// we need to reconsider how we handle multi site org rate calculation
@@ -69,8 +72,8 @@ export default function UtilizationTable({
 	const weeksInPeriod =
 		periodStart && periodEnd
 			? moment(periodEnd)
-					.add(1, 'day')
-					.diff(periodStart, 'weeks')
+				.add(1, 'day')
+				.diff(periodStart, 'weeks')
 			: 0;
 
 	const enrollments = (idx(report, (_) => _.enrollments) || []) as Enrollment[];
@@ -104,15 +107,14 @@ export default function UtilizationTable({
 			FundingTime.Full
 		);
 
-		// TODO: probably a util
-		let fullWeeks = 0,
-			partWeeks = 0;
+		let fullWeeks: number | undefined, partWeeks: number | undefined;
 		if (fundingTime === FundingTime.Split) {
 			const thisUtilization = (timeSplitUtilizations || []).find(u => u.reportId === report.id);
+			fullWeeks = 0;
+			partWeeks = 0;
 			if (thisUtilization) {
-				// pass in the state variable from reportSubmitForm that contains the utilization values for this report (either default values or user-defined)
-				fullWeeks = thisUtilization.fullTimeWeeksUsed;
-				partWeeks = thisUtilization.partTimeWeeksUsed;
+				fullWeeks = thisUtilization.fullTimeWeeksUsed || 0;
+				partWeeks = thisUtilization.partTimeWeeksUsed || 0;
 			}
 		} else if (fundingTime === FundingTime.Full) {
 			fullWeeks = weeksInPeriod;
@@ -121,8 +123,12 @@ export default function UtilizationTable({
 		}
 
 		const cappedCount = Math.min(count, capacity);
-		const total = cappedCount * (fullWeeks * ftRate) + cappedCount * (partWeeks * ptRate);
-		const paid = capacity * (fullWeeks * ftRate) + capacity * partWeeks * ptRate;
+		const productOfUnknowns = (nums: (number | undefined)[]) => {
+			return nums.map(n => n || 0).reduce((a, c) => a * c)
+		}
+		const total = productOfUnknowns([cappedCount, fullWeeks, ftRate]) + productOfUnknowns([cappedCount, partWeeks, ptRate]);
+		const paid = productOfUnknowns([capacity, fullWeeks, ftRate]) + productOfUnknowns([capacity, partWeeks, ptRate]);
+
 		const balance = total - paid;
 
 		return {
@@ -137,8 +143,8 @@ export default function UtilizationTable({
 			balance,
 			showFundingTime: cdcFundingSpaces.filter(fs => fs.ageGroup === ageGroup).length > 1,
 			weeksSplit: {
-				partWeeks,
-				fullWeeks,
+				partWeeks: partWeeks,
+				fullWeeks: fullWeeks,
 			},
 			maxes: {
 				total,
