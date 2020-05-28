@@ -1,4 +1,4 @@
-// This file is @depracated
+// This file is @deprecated
 // It should be replaced by only mocking constructApi and parseError
 // See ChildInfo.tests.tsx for more information on how to do that.
 
@@ -11,7 +11,6 @@ import {
 	CdcReport,
 	Site,
 	Child,
-	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest,
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
 } from '../../../generated';
 import { ApiParamOpts } from '..';

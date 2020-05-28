@@ -3,13 +3,19 @@
 // logic in this file, please update that comment accordingly.
 
 // Tell jest we are planning on mocking these modules
-jest.mock('../../../hooks/useApi/error');
+// Mock parseError to become the identity function.
+// We are going to provide the actual error in the API mock.
+jest.mock('../../../hooks/useApi/error', () => ({
+	parseError: (_: any) => _,
+}));
+// Don't provide a factory because we are going to supply a mock for each test as
+// needed.
 jest.mock('../../../hooks/useApi/api');
+
 // We must import with the wildcard selector so we can access the specific
 // property values for jest's mocking. That is, jest requires we do
-// useApiError.parseError.mock instead of importing parseError directly
-// and doing parseError.mock.
-import * as useApiError from '../../../hooks/useApi/error';
+// useApiApi.constructApi.mock instead of importing constructApi directly
+// and doing constructApi.mock.
 import * as useApiApi from '../../../hooks/useApi/api';
 
 import React from 'react';
@@ -29,10 +35,6 @@ describe('enrollment sections', () => {
 		// Tests for whether blocking errors appear on the page
 		describe('shows blocking errors', () => {
 			beforeAll(() => {
-				// Mock parseError to become the identity function.
-				// We are going to provide the actual error in the API mock.
-				const mockedParseError = useApiError as jest.Mocked<typeof useApiError>;
-				mockedParseError.parseError.mockImplementation((_) => _);
 				// Mock constructApi with an extended version of HedwigApi that
 				// mocks the specific methods we needed mocked for this component.
 				// Provide the explicit resolve/reject promise values.
