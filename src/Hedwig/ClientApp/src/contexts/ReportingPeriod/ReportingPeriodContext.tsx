@@ -29,7 +29,7 @@ const ReportingPeriodProvider: React.FC<{}> = ({ children }) => {
 	return (
 		<Provider
 			value={{
-				cdcReportingPeriods: data.sort((a, b) => propertyDateSorter(a, b, period => period.period))
+				cdcReportingPeriods: (data || []).sort((a, b) => propertyDateSorter(a, b, period => period.period))
 			}}
 		>
 			{children}

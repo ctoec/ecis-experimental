@@ -5,10 +5,17 @@ import FormContext, { useGenericContext } from '../../../../../../components/For
 import moment from 'moment';
 import { propertyBetweenDates } from '../../../../../../utils/dateFilter';
 import FormField from '../../../../../../components/Form_New/FormField';
+import { SelectProps, Select, SelectOption } from '../../../../../../components';import { FundingFormFieldProps } from '../common';
+import { reportingPeriodFormatter } from '../../../../../../utils/models';
+import { SelectorMatcherOptions } from '@testing-library/react';
 
-export const FirstReportingPeriodField: React.FC<{initialLoad: boolean, id: number, lastSubmittedReport?: CdcReport}> = ({
+type FirstReportingPeriodFieldProps = FundingFormFieldProps & {
+	lastSubmittedReport: CdcReport | undefined
+};
+
+export const FirstReportingPeriodField: React.FC<FirstReportingPeriodFieldProps> = ({
 	initialLoad,
-	id,
+	fundingId,
 	lastSubmittedReport
 }) => {
 	const { dataDriller } = useGenericContext<Enrollment>(FormContext);
@@ -20,7 +27,7 @@ export const FirstReportingPeriodField: React.FC<{initialLoad: boolean, id: numb
 		// valid reporting periods:
 		// - start on or after the enrollment start date
 		// - are after the most recent reporting period for which there is a submitted report
-		// - are not more than 3 periods in the "future"
+		// - are not more than 3 periods in the "future" -- TODO confirm this AC 
 		//   (i.e. in May, we will show May, June, and July reporting periods but not August)
 
 		const validReportingPeriodRangeStart = lastSubmittedReport && lastSubmittedReport.reportingPeriod
@@ -46,8 +53,20 @@ export const FirstReportingPeriodField: React.FC<{initialLoad: boolean, id: numb
 
 	return (
 		<FormField<Enrollment, SelectProps, number | null>
-			getValue={data => data.at('fundings').find(f => f.id === fun)}
+			getValue={data => data.at('fundings').find(f => f.id === fundingId).at('firstReportingPeriodId')}
+			parseOnChangeEvent={e => parseInt((e.target as HTMLInputElement).value)}
+			inputComponent={Select}
+			id={`first-reporting-period-${fundingId}`}
+			label="First reporting period"
+			options={toOptions(validReportingPeriods)}
 		/>
 	)
+}
 
+
+const toOptions = (reportingPeriods: ReportingPeriod[]) => {
+	return reportingPeriods.map(period => ({
+		value: `${period.id}`,
+		text: reportingPeriodFormatter(period)
+	})) as SelectOption[];
 }

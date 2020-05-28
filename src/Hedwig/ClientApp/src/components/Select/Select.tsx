@@ -5,7 +5,7 @@ import { FieldSet } from '../FieldSet/FieldSet';
 import { TextInput } from '../TextInput/TextInput';
 import cx from 'classnames';
 
-type SelectOption = {
+export type SelectOption = {
 	text: string;
 	value: string;
 	expansion?: React.ReactNode;
