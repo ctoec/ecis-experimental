@@ -24,7 +24,7 @@ jest.mock('../../../hooks/useApi', () =>
 );
 
 import React from 'react';
-import { createMemoryHistory, createBrowserHistory } from 'history';
+import { createMemoryHistory } from 'history';
 import { render, fireEvent, wait } from '@testing-library/react';
 import { Route } from 'react-router';
 
@@ -48,11 +48,11 @@ afterAll(() => {
 	jest.resetModules();
 });
 
+const history = createMemoryHistory();
 
 describe('EnrollmentNew', () => {
 	describe('FamilyIncome', () => {
 		it('matches snapshot', () => {
-            const history = createBrowserHistory();
 			const { asFragment } = render(
 				<TestProvider>
 					<EnrollmentNew
@@ -72,11 +72,10 @@ describe('EnrollmentNew', () => {
 		});
 
 		it('does not skip family income section when lives with foster family is not selected', async () => {
-			const memoryHistory = createMemoryHistory();
 			const { getByText } = render(
 				<TestProvider>
 					<EnrollmentNew
-						history={memoryHistory}
+						history={history}
 						match={{
 							params: {
 								siteId: 1,
@@ -93,20 +92,19 @@ describe('EnrollmentNew', () => {
 
 			await wait();
 
-			expect(memoryHistory.location.pathname).toMatch(/family-income/i);
+			expect(history.location.pathname).toMatch(/family-income/i);
 		});
 
 		it('skips family income section when lives with foster family is selected', async () => {
-			const memoryHistory = createMemoryHistory();
-			memoryHistory.push(
+			history.push(
 				`/roster/sites/${mockEnrollmentWithFoster.siteId}/enrollments/${mockEnrollmentWithFoster.id}/new/family-information`
 			);
 
 			const { findByLabelText, getByText } = render(
-				<TestProvider history={memoryHistory}>
+				<TestProvider history={history}>
 					<Route
 						path={'/roster/sites/:siteId/enrollments/:enrollmentId/new/:sectionId'}
-						render={props => (
+						render={(props) => (
 							<EnrollmentNew
 								history={props.history}
 								match={{
@@ -128,7 +126,7 @@ describe('EnrollmentNew', () => {
 			const saveBtn = getByText(/Save/i);
 			fireEvent.click(saveBtn);
 
-			await wait(() => expect(memoryHistory.location.pathname).toMatch(/enrollment-funding/i));
+			await wait(() => expect(history.location.pathname).toMatch(/enrollment-funding/i));
 		});
 	});
 });

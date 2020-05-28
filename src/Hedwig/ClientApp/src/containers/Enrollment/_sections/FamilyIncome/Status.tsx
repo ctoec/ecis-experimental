@@ -9,11 +9,11 @@ import { hasValidationErrors } from '../../../../utils/validations';
  * - complete otherwise
  */
 export const Status = ({ enrollment }: SectionProps) => {
-	if (idx(enrollment, _ => _.child.foster)) {
+	if (idx(enrollment, (_) => _.child.foster)) {
 		return 'exempt';
 	}
 
-	return hasValidationErrors(idx(enrollment, _ => _.child.family) || null, ['determinations'])
+	return hasValidationErrors(idx(enrollment, (_) => _.child.family) || null, ['determinations'])
 		? 'incomplete'
 		: 'complete';
 };

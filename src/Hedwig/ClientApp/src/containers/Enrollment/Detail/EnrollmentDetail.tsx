@@ -14,7 +14,7 @@ import useApi from '../../../hooks/useApi';
 import {
 	validatePermissions,
 	getIdForUser,
-	getEnrollmentHistoryProps,
+	getEnrollmentTimelineProps,
 } from '../../../utils/models';
 import { InlineIcon, Button } from '../../../components';
 import CommonContainer from '../../CommonContainer';
@@ -47,7 +47,7 @@ export default function EnrollmentDetail({
 }: EnrollmentDetailParams) {
 	const { user } = useContext(UserContext);
 
-	const [enrollment, updateEnrollment] = useState<DeepNonUndefineable<Enrollment> | null>(null);
+	const [enrollment, updateEnrollment] = useState<Enrollment | null>(null);
 	// Get enrollment by id
 	const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest = {
 		id: enrollmentId ? enrollmentId : 0,
@@ -71,7 +71,7 @@ export default function EnrollmentDetail({
 
 	const child = enrollment.child;
 
-	const enrollmentHistoryProps = getEnrollmentHistoryProps(enrollment);
+	const enrollmentHistoryProps = getEnrollmentTimelineProps(enrollment);
 
 	return (
 		<CommonContainer
@@ -96,15 +96,8 @@ export default function EnrollmentDetail({
 					/>
 				</div>
 				{sections.map((section) => {
-					var props: SectionProps = {
-						siteId,
-						enrollment,
-						updateEnrollment: updateEnrollment as React.Dispatch<
-							React.SetStateAction<Enrollment | null>
-						>,
-						error,
-					};
-					const familyIncomeForFosterChild = section.key === 'family-income' && child.foster;
+					var props: SectionProps = { siteId, enrollment, updateEnrollment, error };
+					const familyIncomeForFosterChild = section.key === 'family-income' && (child && child.foster);
 					return (
 						<section key={section.key} className="oec-enrollment-details-section">
 							<div className="oec-enrollment-details-section__content">

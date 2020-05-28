@@ -66,7 +66,7 @@ export const NewForm = ({
 		updateEnrollment(
 			produce<DeepNonUndefineable<Enrollment>>(
 				enrollment,
-				draft => (draft.child.family = {} as DeepNonUndefineable<Family>)
+				(draft) => (draft.child.family = {} as DeepNonUndefineable<Family>)
 			)
 		);
 	}
@@ -81,7 +81,7 @@ export const NewForm = ({
 		enrollment: enrollment,
 	};
 	const { error: saveError, loading: saving, data: saveData } = useApi<Enrollment>(
-		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams),
+		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams),
 		{
 			skip: !attemptingSave,
 			callback: () => {
@@ -113,7 +113,7 @@ export const NewForm = ({
 	useCatchAllErrorAlert(saveError);
 
 	// Skip section when child lives with foster
-	if (idx(enrollment, _ => _.child.foster)) {
+	if (idx(enrollment, (_) => _.child.foster)) {
 		successCallback && successCallback(enrollment);
 	}
 
@@ -127,7 +127,7 @@ export const NewForm = ({
 	 * If there is no determination, then they did not disclose.
 	 */
 	const isReturnVisit = touchedSections && touchedSections[FamilyIncome.key];
-	const determinationId = idx(enrollment, _ => _.child.family.determinations[0].id) || 0;
+	const determinationId = idx(enrollment, (_) => _.child.family.determinations[0].id) || 0;
 	const [notDisclosed, setNotDisclosed] = useState(isReturnVisit ? determinationId === 0 : false);
 
 	return (
@@ -135,7 +135,7 @@ export const NewForm = ({
 			{notDisclosed && <Alert type="info" text={INCOME_REQUIRED_FOR_FUNDING_ALERT_TEXT} />}
 			<Form<Enrollment>
 				data={enrollment}
-				onSubmit={_data => {
+				onSubmit={(_data) => {
 					updateEnrollment(_data as DeepNonUndefineable<Enrollment>);
 					setAttemptingSave(true);
 				}}
@@ -151,7 +151,7 @@ export const NewForm = ({
 						<FormFieldSet<Enrollment>
 							id="family-income-determination"
 							legend="Family income determination"
-							status={data =>
+							status={(data) =>
 								displayValidationStatus([
 									{
 										type: 'warning',
@@ -160,7 +160,7 @@ export const NewForm = ({
 												.at('child')
 												.at('family')
 												.at('determinations')
-												.find(det => det.id === determinationId)
+												.find((det) => det.id === determinationId)
 												.at('validationErrors').value || null,
 										fields: ['numberOfPeople', 'income', 'determinationDate'],
 										message: INFORMATION_REQUIRED_IF_INCOME_DISCLOSED,

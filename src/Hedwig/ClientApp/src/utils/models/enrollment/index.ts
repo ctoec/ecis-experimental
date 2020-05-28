@@ -1,2 +1,2 @@
 export * from './enrollment';
-export * from './history';
+export * from './timeline';

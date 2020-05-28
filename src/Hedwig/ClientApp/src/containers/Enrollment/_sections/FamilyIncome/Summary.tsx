@@ -22,9 +22,9 @@ import { propertyDateSorter } from '../../../../utils/dateSorter';
 export const Summary: React.FC<SectionProps> = ({ enrollment }) => {
 	if (!enrollment || !enrollment.child) return <></>;
 	const determinations =
-		idx(enrollment, _ => _.child.family.determinations as FamilyDetermination[]) || [];
+		idx(enrollment, (_) => _.child.family.determinations as FamilyDetermination[]) || [];
 	const sortedDeterminations = [...determinations].sort((a, b) =>
-		propertyDateSorter(a, b, d => d.determinationDate, true)
+		propertyDateSorter(a, b, (d) => d.determinationDate, true)
 	);
 	const determination = sortedDeterminations[0];
 	const isFoster = enrollment.child.foster;

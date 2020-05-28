@@ -24,18 +24,11 @@ export const NotDisclosedField: React.FC<NotDisclosedFieldProps> = ({
 			text="Family income not disclosed"
 			defaultValue={notDisclosed}
 			value="not-disclosed"
-			onChange={e => {
+			onChange={(e) => {
 				setNotDisclosed(e.target.checked);
 				updateData(
-					produce<Enrollment>(data, draft =>
-						set(
-							draft,
-							dataDriller
-								.at('child')
-								.at('family')
-								.at('determinations').path,
-							[]
-						)
+					produce<Enrollment>(data, (draft) =>
+						set(draft, dataDriller.at('child').at('family').at('determinations').path, [])
 					)
 				);
 			}}

@@ -10,7 +10,7 @@ export const AnnualHouseholdIncomeField: React.FC<{ id: number }> = ({ id }) => 
 	return (
 		<div>
 			<FormField<Enrollment, TextInputProps, number | null>
-				getValue={data =>
+				getValue={(data) =>
 					data
 						.at('child')
 						.at('family')
@@ -21,9 +21,9 @@ export const AnnualHouseholdIncomeField: React.FC<{ id: number }> = ({ id }) => 
 				parseOnChangeEvent={(e: ChangeEvent<HTMLInputElement>) =>
 					parseCurrencyFromString(e.target.value)
 				}
-				preprocessForDisplay={income => currencyFormatter(income)}
+				preprocessForDisplay={(income) => currencyFormatter(income)}
 				inputComponent={TextInput}
-				status={data =>
+				status={(data) =>
 					displayValidationStatus([
 						{
 							type: 'warning',
@@ -32,7 +32,7 @@ export const AnnualHouseholdIncomeField: React.FC<{ id: number }> = ({ id }) => 
 									.at('child')
 									.at('family')
 									.at('determinations')
-									.find(det => det.id === id)
+									.find((det) => det.id === id)
 									.at('validationErrors').value || null,
 							field: 'income',
 						},

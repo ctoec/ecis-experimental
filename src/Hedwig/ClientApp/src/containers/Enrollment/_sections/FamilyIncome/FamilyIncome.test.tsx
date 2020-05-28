@@ -18,7 +18,7 @@ describe('enrollment sections', () => {
 		describe('Form', () => {
 			it.each(['numberOfPeople', 'income', 'determinationDate'])(
 				'shows missing information warning if validation error for %s field',
-				async field => {
+				async (field) => {
 					const determination = {
 						id: 1,
 						validationErrors: [getValidationError({ field })],
@@ -64,7 +64,7 @@ describe('enrollment sections', () => {
 		describe('UpdateForm', () => {
 			it.each(['numberOfPeople', 'income', 'determinationDate'])(
 				'shows missing information icons for validation errors for %s field',
-				async field => {
+				async (field) => {
 					const determinationWithValidationErrors = {
 						id: 1,
 						validationErrors: [getValidationError({ field })],
@@ -87,7 +87,7 @@ describe('enrollment sections', () => {
 						fireEvent.click(editBtn);
 
 						const [fieldSetLegend] = (await findAllByText('Edit family income')).filter(
-							elem => elem.tagName === 'SPAN'
+							(elem) => elem.tagName === 'SPAN'
 						);
 						const fieldSet = fieldSetLegend.closest('fieldset');
 						expect(fieldSet).toHaveTextContent(REQUIRED_FOR_OEC_REPORTING);
@@ -114,7 +114,7 @@ describe('enrollment sections', () => {
 					);
 					// The label is expected to be hidden, as the Card is expected to be collapsed
 					// (the form with label is display as CardExpansion)
-					hiddenHhSizeLabels.forEach(elem => expect(elem).not.toBeVisible());
+					hiddenHhSizeLabels.forEach((elem) => expect(elem).not.toBeVisible());
 				}
 			});
 
@@ -138,7 +138,7 @@ describe('enrollment sections', () => {
 
 					// Edit family income form should not be visible
 					// while card is collapsed
-					getAllByText('Edit family income').forEach(elem => expect(elem).not.toBeVisible());
+					getAllByText('Edit family income').forEach((elem) => expect(elem).not.toBeVisible());
 
 					// Click button to expand card
 					const editBtn = getByText('Edit');

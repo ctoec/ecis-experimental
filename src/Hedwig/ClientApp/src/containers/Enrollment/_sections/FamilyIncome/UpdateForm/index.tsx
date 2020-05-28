@@ -42,7 +42,7 @@ export const UpdateForm = ({ enrollment, updateEnrollment, siteId }: SectionProp
 		enrollment: enrollment ? enrollment : undefined,
 	};
 	const { error: saveError, loading: saving, data: saveData } = useApi<Enrollment>(
-		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams),
+		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams),
 		{
 			skip: !user || !attemptingSave,
 			callback: () => {
@@ -93,7 +93,7 @@ export const UpdateForm = ({ enrollment, updateEnrollment, siteId }: SectionProp
 	};
 
 	const sortedDeterminations = [...(enrollment.child.family.determinations || [])].sort((a, b) =>
-		propertyDateSorter(a, b, det => det.determinationDate, true)
+		propertyDateSorter(a, b, (det) => det.determinationDate, true)
 	);
 	const currentDetermination = sortedDeterminations[0];
 	const pastDeterminations = sortedDeterminations.slice(1);
@@ -105,7 +105,7 @@ export const UpdateForm = ({ enrollment, updateEnrollment, siteId }: SectionProp
 					<FamilyDeterminationFormForCard
 						determinationId={0}
 						formData={enrollment}
-						onSubmit={_data => {
+						onSubmit={(_data) => {
 							setDidAddNew(true);
 							formOnSubmit(_data);
 						}}
@@ -153,7 +153,7 @@ export const UpdateForm = ({ enrollment, updateEnrollment, siteId }: SectionProp
 						<h3>Past income determinations</h3>
 					</div>
 					<div>
-						{pastDeterminations.map(determination => (
+						{pastDeterminations.map((determination) => (
 							<FamilyDeterminationCard
 								determination={determination}
 								isCurrent={false}

@@ -48,7 +48,7 @@ const FamilyDeterminationFormForCard = ({
 								.at('child')
 								.at('family')
 								.at('determinations')
-								.find(det => det.id === determinationId)
+								.find((det) => det.id === determinationId)
 								.at('validationErrors').value || null,
 						fields: ['numberOfPeople', 'income', 'determinationDate'],
 						message: REQUIRED_FOR_OEC_REPORTING,

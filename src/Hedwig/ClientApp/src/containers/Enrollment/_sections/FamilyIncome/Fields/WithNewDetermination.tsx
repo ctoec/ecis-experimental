@@ -22,14 +22,14 @@ export const WithNewDetermination = ({
 		.at('child')
 		.at('family')
 		.at('determinations')
-		.find(det => det.id === 0);
+		.find((det) => det.id === 0);
 
 	useEffect(() => {
 		if (shouldCreate && newDet.value == undefined) {
 			setTimeout(
 				() =>
 					updateData(
-						produce<Enrollment>(data, draft => set(draft, newDet.path, { id: 0 }))
+						produce<Enrollment>(data, (draft) => set(draft, newDet.path, { id: 0 }))
 					),
 				0
 			);

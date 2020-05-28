@@ -8,18 +8,18 @@ export const HouseholdSizeField: React.FC<{ id: number }> = ({ id }) => {
 	return (
 		<div>
 			<FormField<Enrollment, TextInputProps, number | null>
-				getValue={data =>
+				getValue={(data) =>
 					data
 						.at('child')
 						.at('family')
 						.at('determinations')
-						.find(det => det.id === id)
+						.find((det) => det.id === id)
 						.at('numberOfPeople')
 				}
 				parseOnChangeEvent={(e: ChangeEvent<HTMLInputElement>) => parseInt(e.target.value, 10)}
 				defaultValue={undefined}
 				inputComponent={TextInput}
-				status={data =>
+				status={(data) =>
 					displayValidationStatus([
 						{
 							type: 'warning',
@@ -28,7 +28,7 @@ export const HouseholdSizeField: React.FC<{ id: number }> = ({ id }) => {
 									.at('child')
 									.at('family')
 									.at('determinations')
-									.find(det => det.id === id)
+									.find((det) => det.id === id)
 									.at('validationErrors').value || null,
 							field: 'numberOfPeople',
 						},
