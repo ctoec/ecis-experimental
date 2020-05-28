@@ -75,7 +75,7 @@ export default function AgeGroupSection({
 				</td>
 			)) || <></>,
 		sort: (row: Enrollment) => ((row.child && row.child.birthdate) || new Date(0)).getTime(),
-		width: '20%',
+		width: '17%',
 	};
 
 	const fundingColumn = {
@@ -105,16 +105,21 @@ export default function AgeGroupSection({
 			);
 		},
 		sort: (row: Enrollment) => idx(row, (_) => _.fundings[0].source) || '',
-		width: '20%',
+		width: '18%',
 	};
 
 	const siteColumn = {
 		name: 'Site',
 		cell: ({ row }: { row: DeepNonUndefineable<Enrollment> }) => (
-			<td className="ellipsis-wrap-text ellipsis-wrap-text--tight">{row.site.name}</td>
+			<td
+				className="ellipsis-wrap-text ellipsis-wrap-text--tight"
+				title={row.site.name || undefined}
+			>
+				{row.site.name}
+			</td>
 		),
 		sort: (row: DeepNonUndefineable<Enrollment>) => (row.site.name || '').toLowerCase(),
-		width: '15%',
+		width: '20%',
 	};
 
 	const enrollmentDateColumn = {
