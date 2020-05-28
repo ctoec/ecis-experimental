@@ -2,7 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import useHideOnLostFocus from '../../hooks/useHideOnLostFocus';
-import { Button, ButtonProps, InlineIcon } from '..';
+import { Button, ButtonProps } from '../Button/Button';
 import styles from './ButtonWithDropdown.module.scss';
 
 const {

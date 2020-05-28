@@ -1,7 +1,6 @@
 import React from 'react';
 import { FormContext, GenericFormContextType } from './Form';
 import useContext from '../../utils/useContext';
-import { Moment } from 'moment';
 
 /**
  * Helper type to exclude null or undefined from the type

@@ -109,7 +109,7 @@ export default function ReportSubmitForm({
 			});
 			setCare4KidsCount(childIds.length);
 		}
-	}, [allEnrollments]);
+	}, [allEnrollments, submittedAt]);
 
 	const [error, setError] = useState(inputError);
 
@@ -123,7 +123,7 @@ export default function ReportSubmitForm({
 			}
 			setAlerts([validationErrorAlert]);
 		}
-	}, [error, hasAlertedOnError]);
+	}, [error, hasAlertedOnError, setAlerts]);
 
 	const [attemptingSave, setAttemptingSave] = useState(false);
 	const { loading, error: saveError, data: saveData } = useApi<CdcReport>(
@@ -155,7 +155,17 @@ export default function ReportSubmitForm({
 			invalidateAppCache(); // Updates the count of unsubmitted reports in the nav bar
 			history.push('/reports', newAlerts);
 		}
-	}, [saveData, saveError]);
+	}, [
+		saveData,
+		saveError,
+		history,
+		setAlerts,
+		invalidateAppCache,
+		report,
+		setError,
+		setHasAlertedOnError,
+		alerts,
+	]);
 
 	const reportingPeriodWeeks = getReportingPeriodWeeks(report.reportingPeriod);
 	const splitTimeFundingSpaces = getFundingSpaces(report.organization.fundingSpaces, {

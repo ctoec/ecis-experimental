@@ -24,7 +24,7 @@ const useCatchallErrorAlert: (error: ApiError | null) => ErrorAlertState = (erro
 		} else {
 			setAlerts([]);
 		}
-	}, [error, hasAlertedOnError]);
+	}, [error, hasAlertedOnError, setAlerts]);
 
 	const alert = () => setHasAlertedOnError(true);
 	return {

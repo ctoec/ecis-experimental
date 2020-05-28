@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import moment, { Moment } from 'moment';
 import cx from 'classnames';
 import { DayPickerSingleDateController } from 'react-dates';
@@ -56,34 +56,38 @@ export const DateInput: React.FC<DateInputProps> = ({
 		return () => window.removeEventListener('change', inputOnChange);
 	});
 
+	const onMomentChange = useCallback(
+		(input: Moment | null) => {
+			// Whatever input is, set current date to that, even if it's not valid
+			setCurrentDate(input);
+			if (!input || !input.isValid()) {
+				setDateIsInvalid(true);
+			} else {
+				// Only call the callback if it's a valid date
+				// Spread operator will not copy prototype
+				// https://dmitripavlutin.com/object-rest-spread-properties-javascript/
+				inputOnChange_Old &&
+					inputOnChange_Old(Object.assign(moment(), input, { name: name || '' }));
+				// Update the hidden input to a string representation of
+				// the date. Then trigger the event dispatch.
+				const target = document.getElementById(`${id}-internal`);
+				if (!target) {
+					return;
+				}
+				const event = new Event('change');
+				(target as HTMLInputElement).value = '' + input.valueOf();
+				target.dispatchEvent(event);
+				setDateIsInvalid(false);
+			}
+		},
+		[setCurrentDate, setDateIsInvalid, id, inputOnChange_Old, name]
+	);
+
 	useEffect(() => {
 		if (forceBlur) {
 			onMomentChange(currentDate);
 		}
-	}, [forceBlur]);
-
-	const onMomentChange = (input: Moment | null) => {
-		// Whatever input is, set current date to that, even if it's not valid
-		setCurrentDate(input);
-		if (!input || !input.isValid()) {
-			setDateIsInvalid(true);
-		} else {
-			// Only call the callback if it's a valid date
-			// Spread operator will not copy prototype
-			// https://dmitripavlutin.com/object-rest-spread-properties-javascript/
-			inputOnChange_Old && inputOnChange_Old(Object.assign(moment(), input, { name: name || '' }));
-			// Update the hidden input to a string representation of
-			// the date. Then trigger the event dispatch.
-			const target = document.getElementById(`${id}-internal`);
-			if (!target) {
-				return;
-			}
-			const event = new Event('change');
-			(target as HTMLInputElement).value = '' + input.valueOf();
-			target.dispatchEvent(event);
-			setDateIsInvalid(false);
-		}
-	};
+	}, [forceBlur, onMomentChange, currentDate]);
 
 	const onStringDateChange = (input: string | undefined) => {
 		if (!input && !currentDate) {

@@ -99,7 +99,7 @@ const ChildInfo: Section = {
 					}
 				}
 			}
-		}, [_error, initialLoad]);
+		}, [_error, initialLoad, setAlerts]);
 
 		const [_enrollment, updateEnrollment] = useReducer<
 			FormReducer<DeepNonUndefineable<Enrollment>>

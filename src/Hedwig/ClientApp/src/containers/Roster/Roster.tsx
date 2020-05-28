@@ -7,7 +7,6 @@ import useApi, { paginate } from '../../hooks/useApi';
 import {
 	Age,
 	Enrollment,
-	FundingSpace,
 	ApiOrganizationsOrgIdEnrollmentsGetRequest,
 	ApiOrganizationsIdGetRequest,
 	Organization,
@@ -18,7 +17,6 @@ import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../utils/types
 import { getObjectsByAgeGroup } from '../../utils/models';
 import CommonContainer from '../CommonContainer';
 import RosterHeader from './RosterHeader';
-
 import getDefaultDateRange from '../../utils/getDefaultDateRange';
 import { Suspend } from '../../components/Suspend/Suspend';
 

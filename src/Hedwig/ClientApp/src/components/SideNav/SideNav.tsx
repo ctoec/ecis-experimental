@@ -1,6 +1,5 @@
 import React from 'react';
 import { SideNavItem, SideNavItemProps } from './SideNavItem';
-import styles from './SideNav.module.scss';
 
 export type SideNavProps = {
 	items: SideNavItemProps[];

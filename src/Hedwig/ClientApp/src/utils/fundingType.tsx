@@ -1,7 +1,6 @@
 import React from 'react';
-import { Funding, FundingSpace, FundingTime, FundingSource } from '../generated';
+import { FundingTime, FundingSource } from '../generated';
 import { Tag } from '../components';
-import { getFundingTime } from './models';
 
 function ptOrFT(fundingTime?: FundingTime) {
 	if (fundingTime === FundingTime.Split) {

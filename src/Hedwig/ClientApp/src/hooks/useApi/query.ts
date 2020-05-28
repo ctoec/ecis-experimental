@@ -111,7 +111,7 @@ export default function useApi<TData>(
 
 	useEffect(() => {
 		if (callback && !skip && !state.loading) callback(state.data);
-	}, [state, skip]);
+	}, [state, skip, callback]);
 
 	return { ...state, data: state.data as DeepNonUndefineable<TData> };
 }

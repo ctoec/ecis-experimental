@@ -38,7 +38,6 @@ import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../../utils/ty
 import {
 	initialLoadErrorGuard,
 	useFocusFirstError,
-	isBlockingValidationError,
 	hasValidationErrors,
 } from '../../../utils/validations';
 import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
@@ -54,15 +53,10 @@ import {
 	currentReportingPeriod,
 } from '../../../utils/models';
 import { FormReducer, formReducer, updateData, toFormString } from '../../../utils/forms/form';
-import { validationErrorAlert } from '../../../utils/stringFormatters/alertTextMakers';
-import AlertContext from '../../../contexts/Alert/AlertContext';
 import useApi, { ApiError } from '../../../hooks/useApi';
 import { dateSorter, propertyDateSorter } from '../../../utils/dateSorter';
 import { propertyBetweenDates, propertyBeforeDate } from '../../../utils/dateFilter';
-import {
-	REQUIRED_FOR_ENROLLMENT,
-	REQUIRED_FOR_OEC_REPORTING,
-} from '../../../utils/validations/messageStrings';
+import { REQUIRED_FOR_OEC_REPORTING } from '../../../utils/validations/messageStrings';
 import { displayValidationStatus } from '../../../utils/validations/displayValidationStatus';
 import useCatchallErrorAlert from '../../../hooks/useCatchallErrorAlert';
 
@@ -81,7 +75,8 @@ const EnrollmentFunding: Section = {
 			? 'incomplete'
 			: 'complete',
 
-	Summary: ({ enrollment }) => {
+	Summary: ({ enrollment: _enrollment }) => {
+		const enrollment = _enrollment as DeepNonUndefineable<Enrollment>;
 		if (!enrollment) return <></>;
 		const child = enrollment.child;
 		const fundings = enrollment.fundings || [];
@@ -142,19 +137,19 @@ const EnrollmentFunding: Section = {
 	},
 
 	Form: ({
-		enrollment,
+		enrollment: __enrollment,
 		siteId,
 		error: inputError,
 		successCallback,
 		onSectionTouch,
 		touchedSections,
 	}) => {
+		const enrollment = __enrollment as DeepNonUndefineable<Enrollment>;
 		if (!enrollment) {
 			throw new Error('EnrollmentFunding rendered without an enrollment');
 		}
 
 		// set up form state
-		const { setAlerts } = useContext(AlertContext);
 		const initialLoad = touchedSections ? !touchedSections[EnrollmentFunding.key] : false;
 		const [error, setError] = useState<ApiError | null>(inputError);
 		useFocusFirstError([error]);
@@ -371,7 +366,7 @@ const EnrollmentFunding: Section = {
 			);
 
 			// If there is only one funding space option, update selected fundingSpaceId accordingly
-			if (matchingFundingSpaces.length == 1) {
+			if (matchingFundingSpaces.length === 1) {
 				updateFundingSpace(matchingFundingSpaces[0]);
 				// TODO: Remove this client-side check and allow users to submit with previously entered
 				// invalid data and process the validation error
@@ -616,7 +611,7 @@ const EnrollmentFunding: Section = {
 					>
 						<ChoiceListExpansion showOnValue={'CDC'}>
 							{fundingSpaceOpts.length ? (
-								fundingSpaceOpts.length == 1 ? (
+								fundingSpaceOpts.length === 1 ? (
 									<div>
 										<span className="usa-hint text-italic">{fundingSpaceOpts[0].text}</span>
 									</div>

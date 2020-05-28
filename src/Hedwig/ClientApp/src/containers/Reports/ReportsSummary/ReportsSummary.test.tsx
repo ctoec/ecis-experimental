@@ -9,12 +9,14 @@ import mockUseApi, {
 	mockApiOrganizationsOrgIdReportsGet,
 } from '../../../hooks/useApi/__mocks__/useApi';
 
-const pendingReports = cdcReportingPeriods.map((reportingPeriod) => ({
+const pendingReports = cdcReportingPeriods.map((reportingPeriod, index) => ({
 	...mockDefaultReport,
+	id: index,
 	reportingPeriod,
 }));
-const submittedReports = pendingReports.map((pendingReport) => ({
+const submittedReports = pendingReports.map((pendingReport, index) => ({
 	...pendingReport,
+	id: index + pendingReports.length,
 	submittedAt: new Date('2019-09-14'),
 }));
 const defaultReports = [...pendingReports, ...submittedReports];

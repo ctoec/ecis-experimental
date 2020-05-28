@@ -59,7 +59,7 @@ const InternalCheckboxGroup: React.FC<InternalCheckboxGroupProps> = ({
 		<div className={className}>
 			{/* Map over the options and invoke the render call back as a React component */}
 			{options.map(({ render: Render, value, expansion }) => (
-				<>
+				<React.Fragment key={`${value}-expansion`}>
 					<Render
 						id={`${id}-${value}`}
 						key={`${id}-${value}`}
@@ -71,7 +71,7 @@ const InternalCheckboxGroup: React.FC<InternalCheckboxGroupProps> = ({
 					{expansion && selectedItems.includes(value) && (
 						<div className="oec-itemchooser-expansion">{expansion}</div>
 					)}
-				</>
+				</React.Fragment>
 			))}
 		</div>
 	);

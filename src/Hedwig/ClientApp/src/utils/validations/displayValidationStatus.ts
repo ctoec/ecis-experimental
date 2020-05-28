@@ -133,6 +133,7 @@ const getValidationError: ProcessErrorFunction<ValidationError[]> = (errors, fie
 			else if (error.fields) {
 				return error.fields.map((f) => f.toUpperCase()).includes(upperCaseField);
 			}
+			return false;
 		});
 		if (!error) {
 			return undefined;
