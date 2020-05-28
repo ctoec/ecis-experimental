@@ -191,7 +191,7 @@ export default function ReportSubmitForm({
 	};
 
 	const [timeSplitUtilizations, updateTimeSplitUtilizations] = useState(
-		report.timeSplitUtilizations
+		report.timeSplitUtilizations && report.timeSplitUtilizations.length
 			? report.timeSplitUtilizations
 			: splitTimeFundingSpaces.map(fundingSpace =>
 					getSplitUtilization(
