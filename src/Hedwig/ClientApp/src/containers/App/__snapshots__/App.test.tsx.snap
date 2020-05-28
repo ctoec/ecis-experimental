@@ -101,6 +101,7 @@ exports[`matches snapshot 1`] = `
       </header>
     </div>
     <main
+      class=""
       id="main-content"
     />
   </div>
