@@ -118,6 +118,8 @@ export const NewForm: React.FC<SectionProps> = ({
 			// Supply the most up-to-date enrollment to the Form
 			data={mutatedEnrollment}
 			onSubmit={onFormSubmit}
+			noValidate
+			autoComplete="off"
 		>
 			<div className="grid-row grid-gap">
 				<div className="mobile-lg:grid-col-12">

@@ -15,7 +15,7 @@ type FormFieldProps<TData, TComponentProps, TFieldData> =
 				getValue: (_: TObjectDriller<NonNullable<TData>>) => TObjectDriller<TFieldData>;
 				preprocessForDisplay?: (
 					_: TFieldData | undefined
-				) => TFieldData | JSX.Element | string | string[] | undefined;
+				) => TFieldData | JSX.Element | string | undefined;
 				parseOnChangeEvent: (
 					event: React.ChangeEvent<any>,
 					data: TObjectDriller<TData>
