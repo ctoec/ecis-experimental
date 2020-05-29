@@ -23,17 +23,14 @@ exports[`EnrollmentUpdate FamilyIncome matches snapshot 1`] = `
     <h1>
       Update family income determination for Lily Luna Potter
     </h1>
-    <p
-      class="usa-intro"
-    >
-      Lily Luna Potter
-    </p>
     <div
       class="display-flex align-center"
     >
-      <h3>
+      <h2
+        class="font-sans-md margin-top-2 margin-bottom-2"
+      >
         Current income determination
-      </h3>
+      </h2>
          
       <button
         class="usa-button usa-button--unstyled"
@@ -136,21 +133,16 @@ exports[`EnrollmentUpdate FamilyIncome matches snapshot 1`] = `
             <div
               class="usa-form"
             >
-              <p
-                class="text-bold font-sans-lg"
-              >
-                Edit family income
-              </p>
               <fieldset
                 aria-required="true"
                 class="grid-gap grid-row usa-fieldset"
-                id="family-income-fields-2"
+                id="family-income-determination-edit-2"
               >
                 <legend
-                  id="fieldset-legend-family-income-fields-2"
+                  id="fieldset-legend-family-income-determination-edit-2"
                 >
                   <span
-                    class="usa-sr-only"
+                    class="usa-label text-bold font-sans-lg"
                   >
                     Edit family income
                   </span>
@@ -1467,9 +1459,11 @@ exports[`EnrollmentUpdate FamilyIncome matches snapshot 1`] = `
     <div
       class="display-flex align-center"
     >
-      <h3>
+      <h2
+        class="font-sans-md margin-top-2 margin-bottom-2"
+      >
         Past income determinations
-      </h3>
+      </h2>
     </div>
     <div>
       <div
@@ -1565,21 +1559,16 @@ exports[`EnrollmentUpdate FamilyIncome matches snapshot 1`] = `
             <div
               class="usa-form"
             >
-              <p
-                class="text-bold font-sans-lg"
-              >
-                Edit family income
-              </p>
               <fieldset
                 aria-required="true"
                 class="grid-gap grid-row usa-fieldset"
-                id="family-income-fields-1"
+                id="family-income-determination-edit-1"
               >
                 <legend
-                  id="fieldset-legend-family-income-fields-1"
+                  id="fieldset-legend-family-income-determination-edit-1"
                 >
                   <span
-                    class="usa-sr-only"
+                    class="usa-label text-bold font-sans-lg"
                   >
                     Edit family income
                   </span>
@@ -2920,11 +2909,6 @@ exports[`EnrollmentUpdate enrollment and funding matches snapshot 1`] = `
     <h1>
       Update enrollment and funding for Lily Luna Potter
     </h1>
-    <p
-      class="usa-intro"
-    >
-      Lily Luna Potter
-    </p>
     <form
       autocomplete="off"
       class="EnrollmentFundingForm"
@@ -4457,11 +4441,6 @@ exports[`EnrollmentUpdate family info matches snapshot 1`] = `
     <h1>
       Update family information for Lily Luna Potter
     </h1>
-    <p
-      class="usa-intro"
-    >
-      Lily Luna Potter
-    </p>
     <form
       autocomplete="off"
       class="FamilyInfoForm usa-form"

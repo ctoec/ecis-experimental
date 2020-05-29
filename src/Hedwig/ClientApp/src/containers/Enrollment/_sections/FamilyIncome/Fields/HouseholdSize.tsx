@@ -16,7 +16,9 @@ export const HouseholdSizeField: React.FC<FamilyIncomeFormFieldProps> = ({ deter
 					.find((det) => det.id === determinationId)
 					.at('numberOfPeople')
 			}
-			parseOnChangeEvent={(e: ChangeEvent<HTMLInputElement>) => parseInt(e.target.value, 10) || null}
+			parseOnChangeEvent={(e: ChangeEvent<HTMLInputElement>) =>
+				parseInt(e.target.value, 10) || null
+			}
 			defaultValue={undefined}
 			inputComponent={TextInput}
 			status={(data) =>

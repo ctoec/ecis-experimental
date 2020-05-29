@@ -40,7 +40,7 @@ export const UpdateForm = ({ enrollment, siteId }: SectionProps) => {
 		id: enrollment.id,
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		orgId: getIdForUser(user, 'org'),
-		enrollment: mutatedEnrollment
+		enrollment: mutatedEnrollment,
 	};
 
 	const { error: saveError, loading: isSaving, data: returnedEnrollment } = useApi<Enrollment>(
@@ -69,7 +69,7 @@ export const UpdateForm = ({ enrollment, siteId }: SectionProps) => {
 		// If the request succeeded, process the response
 		if (returnedEnrollment) {
 			setMutatedEnrollment(returnedEnrollment);
-			if(didAddNew) {
+			if (didAddNew) {
 				setIsNew(true);
 			}
 			setShowNew(false);
@@ -86,9 +86,9 @@ export const UpdateForm = ({ enrollment, siteId }: SectionProps) => {
 	};
 
 	// mutatedEnrollment is known to have child & family from check above on enrollment
-	const sortedDeterminations = [...(mutatedEnrollment?.child?.family?.determinations || [])].sort((a, b) =>
-		propertyDateSorter(a, b, (det) => det.determinationDate, true)
-	);
+	const sortedDeterminations = [
+		...(mutatedEnrollment?.child?.family?.determinations || []),
+	].sort((a, b) => propertyDateSorter(a, b, (det) => det.determinationDate, true));
 	const currentDetermination = sortedDeterminations[0];
 	const pastDeterminations = sortedDeterminations.slice(1);
 
@@ -109,11 +109,11 @@ export const UpdateForm = ({ enrollment, siteId }: SectionProps) => {
 			)}
 
 			<div className="display-flex align-center">
-				<h3>
+				<h2 className="font-sans-md margin-top-2 margin-bottom-2">
 					{currentDetermination
 						? 'Current income determination'
 						: 'No income information on record'}
-				</h3>
+				</h2>
 				&nbsp;&nbsp;&nbsp;
 				{!showNew && (
 					<Button
@@ -144,7 +144,9 @@ export const UpdateForm = ({ enrollment, siteId }: SectionProps) => {
 			{pastDeterminations.length > 0 && (
 				<>
 					<div className="display-flex align-center">
-						<h3>Past income determinations</h3>
+						<h2 className="font-sans-md margin-top-2 margin-bottom-2">
+							Past income determinations
+						</h2>
 					</div>
 					<div>
 						{pastDeterminations.map((determination) => (

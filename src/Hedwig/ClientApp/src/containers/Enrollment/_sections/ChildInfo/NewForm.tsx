@@ -70,7 +70,7 @@ export const NewForm: React.FC<SectionProps> = ({
 	const apiCallback = () => {
 		setAttemptSave(false);
 		onSectionTouch && onSectionTouch(ChildInfo);
-	}
+	};
 
 	// Create the specific API request depending on whether enrollment is null.
 	// If it is null, then it hasn't been created, so POST. Otherwise, it has, so PUT.
@@ -87,7 +87,7 @@ export const NewForm: React.FC<SectionProps> = ({
 		apiRequest,
 		{
 			skip: !attemptSave,
-			callback: apiCallback
+			callback: apiCallback,
 		}
 	);
 

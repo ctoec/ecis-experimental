@@ -7,7 +7,7 @@ import {
 	c4kCertificateStepProps,
 	enrollmentStepProps,
 	getSortableStep,
-	fundingStepProps 
+	fundingStepProps,
 } from './timeline';
 
 describe('enrollment timeline utils', () => {
@@ -67,7 +67,7 @@ describe('enrollment timeline utils', () => {
 				// CDC funding with first reporting period
 				{
 					source: 'CDC',
-					firstReportingPeriod: reportingPeriod
+					firstReportingPeriod: reportingPeriod,
 				},
 				// CDC funding without first reporting period
 				{
@@ -92,10 +92,12 @@ describe('enrollment timeline utils', () => {
 			'creates switched to private pay step for cdc funding with last reporting period if funding ended before enrollment',
 			(enrollmentExitIsNull) => {
 				const reportingPeriod = cdcReportingPeriods[1];
-				var fundings = [{
-					source: 'CDC',
-					lastReportingPeriod: reportingPeriod
-				}] as Funding[];
+				var fundings = [
+					{
+						source: 'CDC',
+						lastReportingPeriod: reportingPeriod,
+					},
+				] as Funding[];
 
 				var enrollmentExit = enrollmentExitIsNull
 					? null
@@ -135,10 +137,8 @@ describe('enrollment timeline utils', () => {
 		it.each([
 			[new Date(), 1],
 			[undefined, 0],
-			[new Date(), 0],
-			[undefined, 0],
 		])(
-			'creates income redetermined step for each disclosed income determination with determination date',
+			'creates income redetermined step for each income determination with determination date',
 			(determinationDate, expectedSteps) => {
 				var determinations = [
 					{

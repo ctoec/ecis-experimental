@@ -11,7 +11,8 @@ import {
 	INCOME_REQUIRED_FOR_FUNDING_ALERT_TEXT,
 } from '../../../../utils/validations/messageStrings';
 
-jest.mock('../../../../hooks/useApi');
+jest.mock('../../../../hooks/useApi/api');
+jest.mock('../../../../hooks/useApi/error');
 
 describe('enrollment sections', () => {
 	describe('FamilyIncome', () => {

@@ -23,7 +23,6 @@ import {
 } from '../../../utils/stringFormatters';
 import { ErrorBoundary } from '../../../components';
 import useApi from '../../../hooks/useApi';
-import { DeepNonUndefineable } from '../../../utils/types';
 
 type EnrollmentUpdateParams = {
 	history: History;
@@ -87,9 +86,9 @@ export default function EnrollmentUpdate({
 	 * Accepts an enrollment and navigates back to the enrollment
 	 * summary page.
 	 *
-	 * @param enrollment Enrollment that was just saved.
+	 * @param e Enrollment that was just saved.
 	 */
-	const afterSave = (enrollment: Enrollment) => {
+	const afterSave = (e: Enrollment) => {
 		const childName = nameFormatter(enrollment.child);
 		setAlerts([
 			hasValidationErrors(enrollment)
@@ -119,7 +118,6 @@ export default function EnrollmentUpdate({
 				<h1>
 					Update {section.name.toLowerCase()} for {nameFormatter(enrollment.child)}
 				</h1>
-				<p className="usa-intro">{nameFormatter(enrollment.child)}</p>
 				<ErrorBoundary alertProps={editSaveFailAlert}>
 					{/*
 						Simple object updates are completed with the same Form used during the EnrollmentNew flow.

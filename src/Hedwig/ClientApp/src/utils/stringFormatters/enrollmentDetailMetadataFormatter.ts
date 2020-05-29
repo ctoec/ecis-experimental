@@ -1,5 +1,4 @@
 import { Enrollment, User } from '../../generated';
-import { DeepNonUndefineable } from '../types';
 import moment from 'moment';
 
 export function enrollmentDetailMetadataFormatter(enrollment: Enrollment) {

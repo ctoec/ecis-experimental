@@ -66,7 +66,7 @@ export const FieldSet: React.FC<FieldSetProps> = ({
 						'usa-label': showLegend,
 						'usa-sr-only': !showLegend,
 						[`usa-label--${status && status.type}`]: showLegend && status,
-						'text-bold font-sans-lg': showLegend && legendStyle === 'title'
+						'text-bold font-sans-lg': showLegend && legendStyle === 'title',
 					})}
 				>
 					{legend}
@@ -81,9 +81,7 @@ export const FieldSet: React.FC<FieldSetProps> = ({
 	return (
 		<>
 			{horizontal ? (
-				<div className='grid-row flex-align-start grid-gap' >
-					{fieldSetElement}
-				</div>
+				<div className="grid-row flex-align-start grid-gap">{fieldSetElement}</div>
 			) : (
 				fieldSetElement
 			)}

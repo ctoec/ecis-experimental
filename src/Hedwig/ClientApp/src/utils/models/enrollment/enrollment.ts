@@ -7,13 +7,7 @@ import produce from 'immer';
 import set from 'lodash/set';
 
 export function enrollmentWithDefaultFamily(enrollment: Enrollment) {
-	return produce<Enrollment>(enrollment, draft =>
-		set(
-			draft,
-			'child.family',
-			{}
-		)
-	);
+	return produce<Enrollment>(enrollment, (draft) => set(draft, 'child.family', {}));
 }
 export function createEmptyEnrollment(siteId: number, user?: User): Enrollment {
 	return {

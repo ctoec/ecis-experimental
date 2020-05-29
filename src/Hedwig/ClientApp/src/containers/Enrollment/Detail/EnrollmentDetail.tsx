@@ -20,7 +20,6 @@ import { InlineIcon, Button } from '../../../components';
 import CommonContainer from '../../CommonContainer';
 import { SectionProps } from '../enrollmentTypes';
 import { ProcessList } from '../../../components/ProcessList/ProcessList';
-import { DeepNonUndefineable } from '../../../utils/types';
 import cx from 'classnames';
 
 type EnrollmentDetailParams = {
@@ -97,7 +96,8 @@ export default function EnrollmentDetail({
 				</div>
 				{sections.map((section) => {
 					var props: SectionProps = { siteId, enrollment, updateEnrollment, error };
-					const familyIncomeForFosterChild = section.key === 'family-income' && (child && child.foster);
+					const familyIncomeForFosterChild =
+						section.key === 'family-income' && child && child.foster;
 					return (
 						<section key={section.key} className="oec-enrollment-details-section">
 							<div className="oec-enrollment-details-section__content">

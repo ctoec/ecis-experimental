@@ -1,17 +1,18 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { SectionProps } from '../../enrollmentTypes';
 import Form from '../../../../components/Form_New/Form';
-import { 
-	WithNewDetermination,
-	IncomeDeterminationFieldSet 
-} from './Fields';
+import { WithNewDetermination, IncomeDeterminationFieldSet } from './Fields';
 import {
 	Enrollment,
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
 } from '../../../../generated';
 import UserContext from '../../../../contexts/User/UserContext';
 import useApi from '../../../../hooks/useApi';
-import { validatePermissions, getIdForUser, enrollmentWithDefaultFamily } from '../../../../utils/models';
+import {
+	validatePermissions,
+	getIdForUser,
+	enrollmentWithDefaultFamily,
+} from '../../../../utils/models';
 import FormSubmitButton from '../../../../components/Form_New/FormSubmitButton';
 import { Alert } from '../../../../components';
 import idx from 'idx';
@@ -49,9 +50,7 @@ export const NewForm = ({
 	const [mutatedEnrollment, setMutatedEnrollment] = useState<Enrollment>(
 		// If enrollment's child's family does not exist, create an empty default
 		// TODO: move empty family create logic to FamilyInfo and remove this
-		enrollment.child.family == undefined
-		? enrollmentWithDefaultFamily(enrollment)
-		: enrollment
+		enrollment.child.family == undefined ? enrollmentWithDefaultFamily(enrollment) : enrollment
 	);
 
 	// Set up API request (enrollment PUT)
@@ -112,11 +111,10 @@ export const NewForm = ({
 	const determinationId = idx(enrollment, (_) => _.child.family.determinations[0].id) || 0;
 	const [notDisclosed, setNotDisclosed] = useState(isReturnVisit ? determinationId === 0 : false);
 
-
 	const onFormSubmit = (_mutatedEnrollment: Enrollment) => {
 		setMutatedEnrollment(_mutatedEnrollment);
 		setAttemptSave(true);
-	}
+	};
 	return (
 		<>
 			{notDisclosed && <Alert type="info" text={INCOME_REQUIRED_FOR_FUNDING_ALERT_TEXT} />}
@@ -131,12 +129,9 @@ export const NewForm = ({
 					// - user has not indicated that income information is not disclosed
 					shouldCreate={determinationId === 0 && !notDisclosed}
 				>
-					{!notDisclosed &&
-						<IncomeDeterminationFieldSet
-							type="new"
-							determinationId={determinationId}
-						/>
-					}
+					{!notDisclosed && (
+						<IncomeDeterminationFieldSet type="new" determinationId={determinationId} />
+					)}
 				</WithNewDetermination>
 
 				<div className="margin-top-2">

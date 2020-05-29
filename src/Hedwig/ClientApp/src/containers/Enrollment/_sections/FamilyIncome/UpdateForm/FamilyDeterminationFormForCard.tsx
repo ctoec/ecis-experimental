@@ -1,9 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Enrollment } from '../../../../../generated';
-import {
-	WithNewDetermination,
-	IncomeDeterminationFieldSet,
-} from '../Fields';
+import { WithNewDetermination, IncomeDeterminationFieldSet } from '../Fields';
 import { Button } from '../../../../../components';
 import FormSubmitButton from '../../../../../components/Form_New/FormSubmitButton';
 import Form from '../../../../../components/Form_New/Form';
@@ -53,12 +50,12 @@ const FamilyDeterminationFormForCard = ({
 			onSubmit={onSubmit}
 			className="update-family-income-form"
 		>
-				<WithNewDetermination shouldCreate={!isEditExpansion}>
-					<IncomeDeterminationFieldSet
-						type={isEditExpansion ? 'edit' : 'redetermine'}
-						determinationId={determinationId}
-					/>
-				</WithNewDetermination>
+			<WithNewDetermination shouldCreate={!isEditExpansion}>
+				<IncomeDeterminationFieldSet
+					type={isEditExpansion ? 'edit' : 'redetermine'}
+					determinationId={determinationId}
+				/>
+			</WithNewDetermination>
 			<div className="display-flex">
 				<div className="usa-form">
 					{cancelElement}

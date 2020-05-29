@@ -5,7 +5,9 @@ import { DateInput, DateInputProps } from '../../../../../components';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
 import { FamilyIncomeFormFieldProps } from './common';
 
-export const DeterminationDateField: React.FC<FamilyIncomeFormFieldProps> = ({ determinationId }) => {
+export const DeterminationDateField: React.FC<FamilyIncomeFormFieldProps> = ({
+	determinationId,
+}) => {
 	return (
 		<FormField<Enrollment, DateInputProps, Date | null>
 			getValue={(data) =>

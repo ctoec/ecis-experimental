@@ -1,6 +1,5 @@
 import idx from 'idx';
 import { ProcessStepProps } from '../../../components/ProcessList/ProcessStep';
-import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../types';
 import {
 	Enrollment,
 	Funding,
@@ -52,9 +51,7 @@ export function getEnrollmentTimelineProps(currentEnrollment: Enrollment): Proce
 			// determination steps
 			processStepProps = processStepProps.concat(
 				determinationStepProps(
-					(idx(enrollment, (_) => _.child.family.determinations) as DeepNonUndefineableArray<
-						FamilyDetermination
-					>) || null
+					(idx(enrollment, (_) => _.child.family.determinations) as FamilyDetermination[]) || null
 				)
 			);
 
@@ -121,7 +118,8 @@ export function fundingStepProps(
 	var processStepProps: SortableProcessStepProps[] = [];
 
 	if (fundings) {
-		fundings.sort(fundingStartSorter).forEach((funding) => {
+		fundings.sort(fundingStartSorter);
+		fundings.forEach((funding) => {
 			// CDC Funding start if:
 			// - source is CDC
 			// - funding has first reporting period
@@ -198,12 +196,13 @@ export function c4kCertificateStepProps(c4KCertificates: C4KCertificate[] | null
 	var processStepProps: SortableProcessStepProps[] = [];
 
 	if (c4KCertificates) {
-		c4KCertificates.sort(c4kCertificateSorter).forEach((c4kCertificate, idx) => {
+		c4KCertificates.sort(c4kCertificateSorter);
+		c4KCertificates.forEach((c4kCertificate, index) => {
 			if (c4kCertificate.startDate) {
 				processStepProps.push(
 					getSortableStep({
 						heading:
-							idx === 0 ? 'Care 4 Kids certificate added' : 'Care 4 Kids certificate renewed',
+							index === 0 ? 'Care 4 Kids certificate added' : 'Care 4 Kids certificate renewed',
 						body: `on ${dateFormatter(c4kCertificate.startDate, false)}`,
 						stepDate: c4kCertificate.startDate,
 					})

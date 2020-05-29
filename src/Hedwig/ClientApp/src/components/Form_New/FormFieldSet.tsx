@@ -2,7 +2,7 @@ import React, { PropsWithChildren } from 'react';
 import FormContext, { useGenericContext } from './FormContext';
 import { FieldSetProps, FieldSet } from '../FieldSet/FieldSet';
 import { FormStatusProps } from '../FormStatus/FormStatus';
-import { TObjectDriller, ObjectDriller } from './ObjectDriller';
+import { ObjectDriller } from './ObjectDriller';
 
 export type FormFieldSetProps<TData> = {
 	status?: (_: ObjectDriller<TData>) => FormStatusProps | undefined;
