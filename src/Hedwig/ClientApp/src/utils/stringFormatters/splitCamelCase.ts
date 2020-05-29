@@ -1,4 +1,4 @@
-export const splitCamelCase = (input: string, delimiter = ' ') => {
+export const splitCamelCase = (input: string | undefined, delimiter = ' ') => {
 	if (!input || input.length === 0) {
 		return '';
 	}

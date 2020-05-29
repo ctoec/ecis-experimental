@@ -1,0 +1,89 @@
+import React, { useContext } from 'react';
+import FormContext, { useGenericContext } from '../../../components/Form_New/FormContext';
+import { Enrollment, FundingSource } from '../../../generated';
+import produce from 'immer';
+import set from 'lodash/set';
+import { ApiError } from '../../../hooks/useApi';
+import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
+import { REQUIRED_FOR_WITHDRAWAL } from '../../../utils/validations/messageStrings';
+import { displayValidationStatus } from '../../../utils/validations/displayValidationStatus';
+import moment from 'moment';
+import { lastNReportingPeriods, reportingPeriodFormatter } from '../../../utils/models';
+import { Select } from '../../../components/Select/Select';
+import { ErrorAlertState } from '../../../hooks/useCatchallErrorAlert';
+
+type LastReportingFieldProps = {
+	errorAlertState?: ErrorAlertState;
+	error: ApiError | null;
+};
+/**
+ * This component is used in Withdrawal to update the exit field on enrollment,
+ * and certificateEndDate in C4K Certificates (if they exist).
+ */
+export const LastReportingPeriodField: React.FC<LastReportingFieldProps> = ({
+	errorAlertState,
+	error,
+}) => {
+	const { dataDriller, updateData } = useGenericContext<Enrollment>(FormContext);
+	const { cdcReportingPeriods } = useContext(ReportingPeriodContext);
+
+	const currentEndDate = dataDriller.at('exit').value;
+	const firstReportingPeriod = dataDriller
+		.at('fundings')
+		.find((funding) => funding.source === FundingSource.CDC && !funding.lastReportingPeriod)
+		.at('firstReportingPeriod').value;
+	const lastFiveReportingPeriodOptions = lastNReportingPeriods(
+		cdcReportingPeriods,
+		currentEndDate || moment().toDate(),
+		5
+	);
+	// Only show reporting period options that are after the first reporting period
+	const reportingPeriodOptions = lastFiveReportingPeriodOptions.filter(
+		(reportingPeriod) => reportingPeriod.periodEnd >= firstReportingPeriod.periodStart
+	);
+
+	return (
+		<Select
+			id="last-reporting-period"
+			label="Last reporting period"
+			options={reportingPeriodOptions.map((period) => ({
+				value: '' + period.id,
+				text: reportingPeriodFormatter(period, { extended: true }),
+			}))}
+			onChange={(event) => {
+				const newReportingPeriodId = parseInt(event.target.value);
+				// Update the current c4kCertificate end date with the end date
+				updateData((enrollment) =>
+					produce<Enrollment>(enrollment, (draft) =>
+						set(
+							draft,
+							dataDriller
+								.at('fundings')
+								.find(
+									(funding) => funding.source === FundingSource.CDC && !funding.lastReportingPeriod
+								)
+								.at('lastReportingPeriodId').path,
+							newReportingPeriodId
+						)
+					)
+				);
+			}}
+			status={displayValidationStatus([
+				{
+					type: 'error',
+					response: error,
+					field: 'fundings',
+					message: REQUIRED_FOR_WITHDRAWAL,
+					errorAlertState,
+				},
+				{
+					type: 'error',
+					response: error,
+					field: 'fundings.lastReportingPeriod',
+					useValidationErrorMessage: true,
+					errorAlertState,
+				},
+			])}
+		/>
+	);
+};

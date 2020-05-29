@@ -22,7 +22,7 @@ export type SelectProps = {
 	unselectedText?: string;
 	disabled?: boolean;
 	onChange: React.ChangeEventHandler<HTMLSelectElement>;
-} & Omit<HTMLAttributes<HTMLSelectElement>, 'defaultValue'> &
+} & Omit<HTMLAttributes<HTMLSelectElement>, 'defaultValue' | 'onChange'> &
 	FormFieldStatusProps;
 
 /**

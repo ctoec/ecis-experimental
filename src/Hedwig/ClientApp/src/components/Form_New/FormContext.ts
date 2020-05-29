@@ -25,7 +25,7 @@ type FormContextType = {
 export type GenericFormContextType<T> = {
 	data: T;
 	dataDriller: ObjectDriller<T>;
-	updateData: (_: T) => void;
+	updateData: React.Dispatch<React.SetStateAction<T>>;
 };
 /**
  * Utility for casting the un-typed context to the generic with type parameter,
