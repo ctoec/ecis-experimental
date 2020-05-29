@@ -108,65 +108,67 @@ export const UpdateForm = ({ enrollment, siteId }: SectionProps) => {
 				</Card>
 			)}
 
-			<div className="display-flex align-center">
-				<h2 className="font-sans-md margin-top-2 margin-bottom-2">
-					{currentDetermination
-						? 'Current income determination'
-						: 'No income information on record'}
-				</h2>
-				&nbsp;&nbsp;&nbsp;
-				{!showNew && (
-					<Button
-						text="Add new income determination"
-						appearance="unstyled"
-						onClick={() => setShowNew(true)}
-					/>
-				)}
-			</div>
-			<div>
-				{currentDetermination && (
-					<FamilyDeterminationCard
-						determination={currentDetermination}
-						isCurrent={true}
-						isNew={isNew}
-						forceClose={forceCloseEditForms}
-						expansion={
-							<FamilyDeterminationFormForCard
-								determinationId={currentDetermination.id}
-								formData={mutatedEnrollment}
-								onSubmit={formOnSubmit}
-							/>
-						}
-					/>
-				)}
-			</div>
+			<div className="margin-top-1">
+				<div className="display-flex align-center">
+					<h2 className="font-sans-md margin-top-2 margin-bottom-2">
+						{currentDetermination
+							? 'Current income determination'
+							: 'No income information on record'}
+					</h2>
+					&nbsp;&nbsp;&nbsp;
+					{!showNew && (
+						<Button
+							text="Add new income determination"
+							appearance="unstyled"
+							onClick={() => setShowNew(true)}
+						/>
+					)}
+				</div>
+				<div>
+					{currentDetermination && (
+						<FamilyDeterminationCard
+							determination={currentDetermination}
+							isCurrent={true}
+							isNew={isNew}
+							forceClose={forceCloseEditForms}
+							expansion={
+								<FamilyDeterminationFormForCard
+									determinationId={currentDetermination.id}
+									formData={mutatedEnrollment}
+									onSubmit={formOnSubmit}
+								/>
+							}
+						/>
+					)}
+				</div>
 
-			{pastDeterminations.length > 0 && (
-				<>
-					<div className="display-flex align-center">
-						<h2 className="font-sans-md margin-top-2 margin-bottom-2">
-							Past income determinations
-						</h2>
-					</div>
-					<div>
-						{pastDeterminations.map((determination) => (
-							<FamilyDeterminationCard
-								key={determination.id}
-								determination={determination}
-								isCurrent={false}
-								forceClose={forceCloseEditForms}
-								expansion={
-									<FamilyDeterminationFormForCard
-										determinationId={determination.id}
-										formData={mutatedEnrollment}
-										onSubmit={formOnSubmit}
-									/>
-								}
-							/>
-						))}
-					</div>
-				</>
-			)}
+				{pastDeterminations.length > 0 && (
+					<>
+						<div className="display-flex align-center">
+							<h2 className="font-sans-md margin-top-2 margin-bottom-2">
+								Past income determinations
+							</h2>
+						</div>
+						<div>
+							{pastDeterminations.map((determination) => (
+								<FamilyDeterminationCard
+									key={determination.id}
+									determination={determination}
+									isCurrent={false}
+									forceClose={forceCloseEditForms}
+									expansion={
+										<FamilyDeterminationFormForCard
+											determinationId={determination.id}
+											formData={mutatedEnrollment}
+											onSubmit={formOnSubmit}
+										/>
+									}
+								/>
+							))}
+						</div>
+					</>
+				)}
+			</div>
 		</>
 	);
 };

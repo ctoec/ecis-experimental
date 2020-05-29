@@ -115,9 +115,8 @@ export default function EnrollmentUpdate({
 			}}
 		>
 			<div className="grid-container">
-				<h1>
-					Update {section.name.toLowerCase()} for {nameFormatter(enrollment.child)}
-				</h1>
+				<h1>Update {section.name.toLowerCase()}</h1>
+				<h2 className="usa-intro">{nameFormatter(enrollment.child)}</h2>
 				<ErrorBoundary alertProps={editSaveFailAlert}>
 					{/*
 						Simple object updates are completed with the same Form used during the EnrollmentNew flow.
