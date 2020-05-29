@@ -4465,232 +4465,212 @@ exports[`EnrollmentUpdate family info matches snapshot 1`] = `
       class="FamilyInfoForm usa-form"
       novalidate=""
     >
-      <h2>
-        Address
-      </h2>
-      <fieldset
-        aria-required="true"
-        class="grid-gap grid-row usa-fieldset display-inline-block"
-        id="family-address"
+      <div
+        class="usa-form"
       >
-        <legend
-          id="fieldset-legend-family-address"
+        <h2>
+          Address
+        </h2>
+        <fieldset
+          aria-required="true"
+          class="grid-gap grid-row usa-fieldset display-inline-block"
+          id="family-address"
         >
-          <span
-            class="usa-sr-only"
+          <legend
+            id="fieldset-legend-family-address"
           >
-            Address
-          </span>
-        </legend>
-        <div
-          class="grid-gap grid-row"
-        >
-          <div
-            class="mobile-lg:grid-col-12"
-          >
-            <div
-              class=" usa-form-group"
+            <span
+              class="usa-sr-only"
             >
-              <label
-                class="usa-label"
-                for="addressLine1"
-              >
-                Address line 1 
-              </label>
-              <input
-                aria-required="true"
-                class="usa-input"
-                id="addressLine1"
-                name="child.family.addressLine1"
-                type="text"
-                value="4 Privet Drive"
-              />
-            </div>
-          </div>
+              Address
+            </span>
+          </legend>
           <div
-            class="mobile-lg:grid-col-12"
+            class="grid-gap grid-row"
           >
             <div
-              class=" usa-form-group"
-            >
-              <label
-                class="usa-label"
-                for="addressLine2"
-              >
-                Address line 2 
-                <span
-                  class="usa-hint"
-                >
-                   (optional)
-                </span>
-              </label>
-              <input
-                aria-required="false"
-                class="usa-input"
-                id="addressLine2"
-                name="child.family.addressLine2"
-                type="text"
-                value=""
-              />
-            </div>
-          </div>
-          <div
-            class="mobile-lg:grid-col-8 display-inline-block"
-          >
-            <div
-              class=" usa-form-group"
-            >
-              <label
-                class="usa-label"
-                for="town"
-              >
-                Town 
-              </label>
-              <input
-                aria-required="true"
-                class="usa-input"
-                id="town"
-                name="child.family.town"
-                type="text"
-                value="Hogsmeade"
-              />
-            </div>
-          </div>
-          <div
-            class="mobile-lg:grid-col-4 display-inline-block"
-          >
-            <div
-              class="usa-form-group "
+              class="mobile-lg:grid-col-12"
             >
               <div
-                class=""
-              />
-              <label
-                class="usa-label"
-                for="state"
+                class=" usa-form-group"
               >
-                State
-              </label>
-              <select
-                aria-required="true"
-                class="usa-select"
-                id="state"
-                name="child.family.state"
-              >
-                <option
-                  value=""
+                <label
+                  class="usa-label"
+                  for="addressLine1"
                 >
-                  - Select -
-                </option>
-                <option
-                  value="CT"
-                >
-                  CT
-                </option>
-                <option
-                  value="MA"
-                >
-                  MA
-                </option>
-                <option
-                  value="NY"
-                >
-                  NY
-                </option>
-                <option
-                  value="RI"
-                >
-                  RI
-                </option>
-              </select>
+                  Address line 1 
+                </label>
+                <input
+                  aria-required="true"
+                  class="usa-input"
+                  id="addressLine1"
+                  type="text"
+                  value="4 Privet Drive"
+                />
+              </div>
             </div>
-          </div>
-          <div
-            class="mobile-lg:grid-col-6"
-          >
             <div
-              class=" usa-form-group"
+              class="mobile-lg:grid-col-12"
             >
-              <label
-                class="usa-label"
-                for="zip"
+              <div
+                class=" usa-form-group"
               >
-                ZIP Code 
-              </label>
-              <input
-                aria-required="true"
-                class="usa-input"
-                id="zip"
-                name="child.family.zip"
-                type="text"
-                value="77777"
-              />
+                <label
+                  class="usa-label"
+                  for="addressLine2"
+                >
+                  Address line 2 
+                </label>
+                <input
+                  aria-required="true"
+                  class="usa-input"
+                  id="addressLine2"
+                  type="text"
+                  value=""
+                />
+              </div>
+            </div>
+            <div
+              class="mobile-lg:grid-col-8 display-inline-block"
+            >
+              <div
+                class=" usa-form-group"
+              >
+                <label
+                  class="usa-label"
+                  for="town"
+                >
+                  Town 
+                </label>
+                <input
+                  aria-required="true"
+                  class="usa-input"
+                  id="town"
+                  type="text"
+                  value="Hogsmeade"
+                />
+              </div>
+            </div>
+            <div
+              class="mobile-lg:grid-col-4 display-inline-block"
+            >
+              <div
+                class="usa-form-group"
+              >
+                <div
+                  class=""
+                />
+                <label
+                  class="usa-label"
+                  for="state"
+                >
+                  State
+                </label>
+                <select
+                  aria-required="true"
+                  class="usa-select"
+                  id="state"
+                  name=""
+                >
+                  <option
+                    value="CT"
+                  >
+                    CT
+                  </option>
+                  <option
+                    value="MA"
+                  >
+                    MA
+                  </option>
+                  <option
+                    value="NY"
+                  >
+                    NY
+                  </option>
+                  <option
+                    value="RI"
+                  >
+                    RI
+                  </option>
+                  <option
+                    value=""
+                  >
+                    - Select -
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div
+              class="mobile-lg:grid-col-6"
+            >
+              <div
+                class=" usa-form-group"
+              >
+                <label
+                  class="usa-label"
+                  for="zip"
+                >
+                  ZIP Code 
+                </label>
+                <input
+                  aria-required="true"
+                  class="usa-input"
+                  id="zip"
+                  type="text"
+                  value="77777"
+                />
+              </div>
             </div>
           </div>
-        </div>
-      </fieldset>
-      <h2>
-        Other
-      </h2>
-      <div
-        class="usa-form-group "
-      >
-        <div
-          class="margin-top-3"
-        />
+        </fieldset>
+        <h2>
+          Other
+        </h2>
         <div
           class="usa-checkbox undefined"
         >
           <input
             class="usa-checkbox__input"
-            id="foster-foster"
-            name="child.foster"
+            id="foster"
+            name=""
             type="checkbox"
             value="foster"
           />
           <label
             class="usa-checkbox__label"
-            for="foster-foster"
+            for="foster"
           >
             Child lives with foster family
           </label>
         </div>
-      </div>
-      <div
-        class="usa-form-group "
-      >
-        <div
-          class="margin-top-3"
-        />
         <div
           class="usa-checkbox undefined"
         >
           <input
             class="usa-checkbox__input"
-            id="homelessness-homelessness"
-            name="child.family.homelessness"
+            id="homelessness"
+            name=""
             type="checkbox"
             value="homelessness"
           />
           <label
             class="usa-checkbox__label"
-            for="homelessness-homelessness"
+            for="homelessness"
           >
             Family has experienced homelessness or housing insecurity
           </label>
         </div>
+        <p
+          class="usa-hint text-italic"
+        >
+          Indicate if you are aware that the family has experienced housing insecurity, including overcrowded housing, within the last year.
+        </p>
+        <input
+          class="usa-button"
+          type="submit"
+          value="Save"
+        />
       </div>
-      <p
-        class="usa-hint text-italic"
-      >
-        Indicate if you are aware that the family has experienced housing insecurity, including overcrowded housing, within the last year.
-      </p>
-      <button
-        class="usa-button"
-        type="button"
-      >
-        Save
-      </button>
     </form>
   </div>
 </DocumentFragment>
