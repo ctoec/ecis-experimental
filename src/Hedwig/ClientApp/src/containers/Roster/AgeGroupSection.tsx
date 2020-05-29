@@ -14,21 +14,23 @@ import {
 	dedupeFundings,
 	isCurrentToRangeC4K,
 } from '../../utils/models';
-import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../utils/types';
 import { hasValidationErrors } from '../../utils/validations';
 import { isFunded } from '../../utils/models';
 import { legendDisplayDetails } from '../../utils/legendFormatters';
 import { getC4KTag, getFundingTag } from '../../utils/fundingType';
 
-export type AgeGroupTableProps = { id: string; data: DeepNonUndefineable<Enrollment>[] };
+export type AgeGroupTableProps = {
+	id: string;
+	data: Enrollment[];
+};
 
 type AgeGroupSectionProps = {
 	organization: Organization;
 	ageGroup: string;
 	ageGroupTitle: string;
-	enrollments: DeepNonUndefineableArray<Enrollment>;
+	enrollments: Enrollment[];
 	site?: Site;
-	fundingSpaces?: DeepNonUndefineableArray<FundingSpace>;
+	fundingSpaces?: FundingSpace[];
 	rosterDateRange?: DateRange;
 	showPastEnrollments?: boolean;
 };
@@ -48,10 +50,10 @@ export default function AgeGroupSection({
 	if ((site && !enrollments.length) || (fundingSpaces && !fundingSpaces.length)) return null;
 	// If we're looking at the organization roster, or if there are any funding spaces for this age group, at least show the header
 
-	const columns: Column<DeepNonUndefineable<Enrollment>>[] = [];
-	const nameColumn = {
+	const columns: Column<Enrollment>[] = [];
+	const nameColumn: Column<Enrollment> = {
 		name: 'Name',
-		cell: ({ row }: { row: DeepNonUndefineable<Enrollment> }) => (
+		cell: ({ row }) => (
 			<th scope="row">
 				<Link to={`/roster/sites/${row.siteId}/enrollments/${row.id}/`} className="usa-link print">
 					{lastFirstNameFormatter(row.child)}
@@ -62,29 +64,29 @@ export default function AgeGroupSection({
 					: ''}
 			</th>
 		),
-		sort: (row: Enrollment) => lastFirstNameFormatter(row.child).toLowerCase(),
+		sort: (row) => lastFirstNameFormatter(row.child).toLowerCase(),
 		width: '25%',
 	};
 
-	const birthdateColumn = {
+	const birthdateColumn: Column<Enrollment> = {
 		name: 'Birthdate',
-		cell: ({ row }: { row: DeepNonUndefineable<Enrollment> }) =>
+		cell: ({ row }) =>
 			(row.child && (
 				<td className="oec-table__cell--tabular-nums">
 					{row.child.birthdate && dateFormatter(row.child.birthdate)}
 				</td>
 			)) || <></>,
-		sort: (row: Enrollment) => ((row.child && row.child.birthdate) || new Date(0)).getTime(),
+		sort: (row) => ((row.child && row.child.birthdate) || new Date(0)).getTime(),
 		width: '17%',
 	};
 
-	const fundingColumn = {
+	const fundingColumn: Column<Enrollment> = {
 		name: 'Funding',
-		cell: ({ row }: { row: DeepNonUndefineable<Enrollment> }) => {
+		cell: ({ row }) => {
 			const filteredFundings = dedupeFundings(
 				(row.fundings || []).filter((f) => isCurrentToRange(f, rosterDateRange))
 			);
-			const filteredCertificates = (row.child.c4KCertificates || []).filter((c) =>
+			const filteredCertificates = ((row.child && row.child.c4KCertificates) || []).filter((c) =>
 				isCurrentToRangeC4K(c, rosterDateRange)
 			);
 
@@ -104,34 +106,34 @@ export default function AgeGroupSection({
 				</td>
 			);
 		},
-		sort: (row: Enrollment) => idx(row, (_) => _.fundings[0].source) || '',
+		sort: (row) => idx(row, (_) => _.fundings[0].source) || '',
 		width: '18%',
 	};
 
-	const siteColumn = {
+	const siteColumn: Column<Enrollment> = {
 		name: 'Site',
-		cell: ({ row }: { row: DeepNonUndefineable<Enrollment> }) => (
+		cell: ({ row }) => (
 			<td
 				className="ellipsis-wrap-text ellipsis-wrap-text--tight"
-				title={row.site.name || undefined}
+				title={(row.site && row.site.name) || undefined}
 			>
-				{row.site.name}
+				{row.site && row.site.name}
 			</td>
 		),
-		sort: (row: DeepNonUndefineable<Enrollment>) => (row.site.name || '').toLowerCase(),
+		sort: (row) => ((row.site && row.site.name) || '').toLowerCase(),
 		width: '20%',
 	};
 
-	const enrollmentDateColumn = {
+	const enrollmentDateColumn: Column<Enrollment> = {
 		name: 'Enrollment date',
-		cell: ({ row }: { row: DeepNonUndefineable<Enrollment> }) => (
+		cell: ({ row }) => (
 			<td className="oec-table__cell--tabular-nums">
 				{row.entry
 					? dateFormatter(row.entry) + (row.exit ? `–${dateFormatter(row.exit)}` : '')
 					: ''}
 			</td>
 		),
-		sort: (row: DeepNonUndefineable<Enrollment>) => (row.entry && row.entry.toString()) || '',
+		sort: (row) => (row.entry && row.entry.toString()) || '',
 		width: '20%',
 	};
 
@@ -145,7 +147,7 @@ export default function AgeGroupSection({
 	}
 	columns.push(enrollmentDateColumn);
 
-	const rosterTableProps: TableProps<DeepNonUndefineable<Enrollment>> = {
+	const rosterTableProps: TableProps<Enrollment> = {
 		id: `${ageGroup}-roster-table`,
 		data: enrollments,
 		rowKey: (row) => row.id,
@@ -156,8 +158,8 @@ export default function AgeGroupSection({
 
 	// One legend item per funding space of a given age group
 	const legendItems = (fundingSpaces || []).map((space) => {
-		const enrolledForFundingSpace = enrollments.filter<DeepNonUndefineable<Enrollment>>(
-			(enrollment) => isFundedForFundingSpace(enrollment, space.id, rosterDateRange)
+		const enrolledForFundingSpace = enrollments.filter((enrollment) =>
+			isFundedForFundingSpace(enrollment, space.id, rosterDateRange)
 		).length;
 		const prettyFundingTime = prettyFundingSpaceTime(space);
 		return {

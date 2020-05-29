@@ -21,8 +21,9 @@ import {
 	editEnrollmentCompleteAlert,
 	editSaveFailAlert,
 } from '../../../utils/stringFormatters';
-import { ErrorBoundary } from '../../../components';
+import { ErrorBoundary, Alert } from '../../../components';
 import useApi from '../../../hooks/useApi';
+import { somethingWentWrongAlert } from '../../../utils/stringFormatters/alertTextMakers';
 
 type EnrollmentUpdateParams = {
 	history: History;
@@ -78,8 +79,18 @@ export default function EnrollmentUpdate({
 		return <PageNotFound />;
 	}
 
-	if (loading || !enrollment) {
-		return <div className="EnrollmentEdit"></div>;
+	if (loading) {
+		return <div className="EnrollmentEdit">Loading...</div>;
+	}
+
+	// If we stopped loading, and still don't have these values
+	// Then an error other than a validation error ocurred.
+	// (Or if in staging, it is possible a new deployment
+	// happened, and then a user navigates back to roster after a delay, which causes
+	// 401/403 errors to occur unless a hard refresh occurs.)
+	// For now, show a general purpose alert message.
+	if (!enrollment) {
+		return <Alert {...somethingWentWrongAlert}></Alert>;
 	}
 
 	/**

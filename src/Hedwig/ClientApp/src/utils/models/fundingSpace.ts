@@ -5,9 +5,7 @@ import {
 	FundingSource,
 	FundingTime,
 	CdcReport,
-	FundingTimeSplitUtilization,
 } from '../../generated';
-import { DeepNonUndefineable } from '../types';
 import { prettyFundingTime } from './fundingTime';
 import { isWithinFiscalYear } from '../dateFilter';
 import moment from 'moment';
@@ -79,13 +77,13 @@ function formattedWeeks(includeWeeks: boolean, weeks: number) {
  * @param opts
  */
 export function getFundingSpaces(
-	fundingSpaces: DeepNonUndefineable<FundingSpace[]> | null | undefined,
+	fundingSpaces: FundingSpace[] | null | undefined,
 	opts: {
 		ageGroup?: Age;
 		source?: FundingSource;
 		time?: FundingTime;
 	}
-): DeepNonUndefineable<FundingSpace[]> {
+) {
 	if (!fundingSpaces) return [];
 	const { ageGroup, source, time } = opts;
 	return fundingSpaces.filter((space) => {
@@ -136,10 +134,7 @@ export function getFundingSpaceCapacity(
  * @param a
  * @param b
  */
-export function fundingSpaceSorter(
-	a: DeepNonUndefineable<FundingSpace>,
-	b: DeepNonUndefineable<FundingSpace>
-) {
+export function fundingSpaceSorter(a: FundingSpace, b: FundingSpace) {
 	if (a.ageGroup > b.ageGroup) return 1;
 	if (a.ageGroup < b.ageGroup) return -1;
 
@@ -152,18 +147,21 @@ export function fundingSpaceSorter(
 
 export function getTimeSplitUtilizationsForFiscalYearOfReport(
 	fundingSpace: FundingSpace,
-	report: DeepNonUndefineable<CdcReport>
+	report: CdcReport
 ) {
-	return ((fundingSpace.timeSplitUtilizations || []) as DeepNonUndefineable<
-		FundingTimeSplitUtilization[]
-	>)
+	return (fundingSpace.timeSplitUtilizations || [])
 		.filter((util) => util.reportId !== report.id)
 		.filter((util) => util.fundingSpaceId === fundingSpace.id)
 		.filter((util) =>
-			isWithinFiscalYear(util.reportingPeriod.period, report.reportingPeriod.period)
+			isWithinFiscalYear(
+				util.reportingPeriod && util.reportingPeriod.period,
+				report.reportingPeriod.period
+			)
 		)
 		.filter((util) =>
-			moment(util.reportingPeriod.periodEnd).isBefore(report.reportingPeriod.periodEnd)
+			moment(util.reportingPeriod && util.reportingPeriod.periodEnd).isBefore(
+				report.reportingPeriod.periodEnd
+			)
 		)
-		.filter((util) => !!util.report.submittedAt);
+		.filter((util) => util.report && !!util.report.submittedAt);
 }

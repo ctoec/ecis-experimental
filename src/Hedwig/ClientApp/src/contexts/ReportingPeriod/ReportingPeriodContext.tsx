@@ -1,5 +1,4 @@
 import React, { createContext } from 'react';
-import { DeepNonUndefineable } from '../../utils/types';
 import {
 	ReportingPeriod,
 	ApiReportingPeriodsSourceGetRequest,
@@ -8,7 +7,7 @@ import {
 import useApi from '../../hooks/useApi';
 
 export type ReportingPeriodContextType = {
-	cdcReportingPeriods: DeepNonUndefineable<ReportingPeriod[]>;
+	cdcReportingPeriods: ReportingPeriod[];
 };
 
 const ReportingPeriodContext = createContext<ReportingPeriodContextType>({
@@ -29,7 +28,7 @@ const ReportingPeriodProvider: React.FC<{}> = ({ children }) => {
 	return (
 		<Provider
 			value={{
-				cdcReportingPeriods,
+				cdcReportingPeriods: cdcReportingPeriods || [],
 			}}
 		>
 			{children}

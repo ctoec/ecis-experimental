@@ -17,7 +17,7 @@ export const parseError: (error: any) => Promise<ApiError | null> = async (error
 		}
 	} catch (e) {
 		console.error('Error cannot be converted to JSON');
-		console.error(e);
+		console.error(error);
 		return ProblemDetailsFromJSON({
 			detail: 'Inspect console for error',
 			title: 'Unknown error',

@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { legendDisplayDetails } from '../../utils/legendFormatters';
 import { getIdForUser } from '../../utils/models';
-import { Legend, LegendItem, DirectionalLinkProps, DateRange } from '../../components';
+import { Legend, LegendItem, DirectionalLinkProps, DateRange, Alert } from '../../components';
 import useApi, { paginate } from '../../hooks/useApi';
 import {
 	Age,
@@ -13,12 +13,12 @@ import {
 } from '../../generated';
 import UserContext from '../../contexts/User/UserContext';
 import AgeGroupSection from './AgeGroupSection';
-import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../utils/types';
 import { getObjectsByAgeGroup } from '../../utils/models';
 import CommonContainer from '../CommonContainer';
 import RosterHeader from './RosterHeader';
 import getDefaultDateRange from '../../utils/getDefaultDateRange';
 import { Suspend } from '../../components/Suspend/Suspend';
+import { somethingWentWrongAlert } from '../../utils/stringFormatters/alertTextMakers';
 
 export default function Roster() {
 	const { id: urlSiteId } = useParams();
@@ -37,7 +37,6 @@ export default function Roster() {
 		(api) => api.apiOrganizationsIdGet(orgParams),
 		{
 			skip: !user,
-			defaultValue: {} as Organization,
 		}
 	);
 
@@ -54,7 +53,7 @@ export default function Roster() {
 		endDate: (dateRange && dateRange.endDate && dateRange.endDate.toDate()) || undefined,
 	};
 
-	const { data: _enrollments } = useApi(
+	const { loading: enrollmentsLoading, data: _enrollments } = useApi(
 		(api, opt) => api.apiOrganizationsOrgIdEnrollmentsGet(paginate(enrollmentParams, opt)),
 		{
 			skip: !user || !siteIds.length,
@@ -64,7 +63,22 @@ export default function Roster() {
 		}
 	);
 
-	let enrollments: DeepNonUndefineableArray<Enrollment> = [];
+	// If we are still loading, show a loading page
+	if (organizationLoading || enrollmentsLoading) {
+		return <>Loading...</>;
+	}
+
+	// If we stopped loading, and still don't have these values
+	// Then an error other than a validation error ocurred.
+	// (Or if in staging, it is possible a new deployment
+	// happened, and then a user navigates back to roster after a delay, which causes
+	// 401/403 errors to occur unless a hard refresh occurs.)
+	// For now, show a general purpose alert message.
+	if (!organization || !_enrollments) {
+		return <Alert {...somethingWentWrongAlert}></Alert>;
+	}
+
+	let enrollments: Enrollment[] = [];
 	let siteRosterDirectionalLinkProps: DirectionalLinkProps | undefined = undefined;
 	if (site) {
 		enrollments = _enrollments.filter((e) => e.siteId === site.id);
@@ -77,10 +91,10 @@ export default function Roster() {
 		enrollments = _enrollments;
 	}
 
-	const incompleteEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>(
+	const incompleteEnrollments = enrollments.filter(
 		(enrollment) => !enrollment.ageGroup || !enrollment.entry
 	);
-	const completeEnrollments = enrollments.filter<DeepNonUndefineable<Enrollment>>(
+	const completeEnrollments = enrollments.filter(
 		(enrollment) => !incompleteEnrollments.includes(enrollment)
 	);
 

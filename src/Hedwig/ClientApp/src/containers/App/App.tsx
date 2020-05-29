@@ -4,12 +4,11 @@ import { Switch } from 'react-router-dom';
 import MakeRouteWithSubRoutes from './MakeRouteWithSubRoutes';
 import routes from '../../routes';
 import useApi from '../../hooks/useApi';
-import { ApiOrganizationsOrgIdReportsGetRequest, CdcReport as Report } from '../../generated';
+import { ApiOrganizationsOrgIdReportsGetRequest } from '../../generated';
 import { getIdForUser } from '../../utils/models';
 import UserContext from '../../contexts/User/UserContext';
 import { useCacheInvalidator, AppProvider } from '../../contexts/App/AppContext';
 import { AlertProvider } from '../../contexts/Alert/AlertContext';
-import { DeepNonUndefineable } from '../../utils/types';
 import { ErrorBoundary, Header, NavItemProps } from '../../components';
 import cx from 'classnames';
 import styles from './App.module.scss';
@@ -43,14 +42,7 @@ const App: React.FC = () => {
 	);
 
 	const pendingReportsCount =
-		!loading &&
-		!error &&
-		reports &&
-		reports.filter<DeepNonUndefineable<Report>>(
-			((r) => !r.submittedAt) as (
-				_: DeepNonUndefineable<Report>
-			) => _ is DeepNonUndefineable<Report>
-		).length;
+		!loading && !error && reports && reports.filter((r) => !r.submittedAt).length;
 
 	let navItems: NavItemProps[] = [
 		{ type: 'secondary', title: 'Privacy policy', path: '/privacy-policy' },

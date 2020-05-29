@@ -8,10 +8,12 @@ import {
 	ApiOrganizationsOrgIdReportsGetRequest,
 	CdcReport as Report,
 	ApiOrganizationsIdGetRequest,
+	FundingSource,
 } from '../../../generated';
 import { getIdForUser, reportingPeriodFormatter } from '../../../utils/models';
-import { DeepNonUndefineable } from '../../../utils/types';
 import CommonContainer from '../../CommonContainer';
+import { Alert } from '../../../components';
+import { somethingWentWrongAlert } from '../../../utils/stringFormatters/alertTextMakers';
 
 export default function ReportsSummary() {
 	const { user } = useContext(UserContext);
@@ -30,15 +32,23 @@ export default function ReportsSummary() {
 		{ skip: !user }
 	);
 
-	if (loading || error || !reports || orgLoading || orgError || !organization) {
+	if (loading || error || orgLoading || orgError) {
 		return <div className="Reports"></div>;
 	}
 
-	const pendingReports = reports.filter<DeepNonUndefineable<Report>>(
-		((r) => !r.submittedAt) as (_: DeepNonUndefineable<Report>) => _ is DeepNonUndefineable<Report>
-	);
+	// If we stopped loading, and still don't have these values
+	// Then an error other than a validation error ocurred.
+	// (Or if in staging, it is possible a new deployment
+	// happened, and then a user navigates back to roster after a delay, which causes
+	// 401/403 errors to occur unless a hard refresh occurs.)
+	// For now, show a general purpose alert message.
+	if (!reports || !organization) {
+		return <Alert {...somethingWentWrongAlert}></Alert>;
+	}
 
-	const defaultTableProps: TableProps<DeepNonUndefineable<Report>> = {
+	const pendingReports = reports.filter((r) => !r.submittedAt);
+
+	const defaultTableProps: TableProps<Report> = {
 		id: 'reports-table',
 		data: reports,
 		fullWidth: true,
@@ -59,7 +69,7 @@ export default function ReportsSummary() {
 			{
 				name: 'Type',
 				cell: ({ row }) => <td>{row.type}</td>,
-				sort: (row) => row.type,
+				sort: (row) => row.type as FundingSource,
 				width: '16%',
 			},
 			{
@@ -73,7 +83,7 @@ export default function ReportsSummary() {
 		defaultSortOrder: 'descending',
 	};
 
-	const pendingTableProps: TableProps<DeepNonUndefineable<Report>> = {
+	const pendingTableProps: TableProps<Report> = {
 		...defaultTableProps,
 		id: 'pending-reports-table',
 		data: pendingReports,
@@ -94,14 +104,10 @@ export default function ReportsSummary() {
 		defaultSortOrder: 'ascending',
 	};
 
-	const submittedTableProps: TableProps<DeepNonUndefineable<Report>> = {
+	const submittedTableProps: TableProps<Report> = {
 		...defaultTableProps,
 		id: 'submitted-reports-table',
-		data: reports.filter<DeepNonUndefineable<Report>>(
-			((r) => !!r.submittedAt) as (
-				_: DeepNonUndefineable<Report>
-			) => _ is DeepNonUndefineable<Report>
-		),
+		data: reports.filter((r) => !!r.submittedAt),
 		columns: [
 			...defaultTableProps.columns,
 			{

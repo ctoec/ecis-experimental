@@ -5,11 +5,10 @@ import dateFormatter from '../../../utils/dateFormatter';
 import UserContext from '../../../contexts/User/UserContext';
 import { getIdForUser, reportingPeriodFormatter } from '../../../utils/models';
 import useApi from '../../../hooks/useApi';
-import { Enrollment } from '../../../generated/models/Enrollment';
-import { Button, AlertProps, DirectionalLinkProps, Tag } from '../../../components';
-import { DeepNonUndefineable } from '../../../utils/types';
+import { Button, AlertProps, DirectionalLinkProps, Tag, Alert } from '../../../components';
 import CommonContainer from '../../CommonContainer';
 import { updateRosterAlert } from '../../../utils/stringFormatters';
+import { somethingWentWrongAlert } from '../../../utils/stringFormatters/alertTextMakers';
 
 export default function ReportDetail() {
 	const { id } = useParams();
@@ -24,13 +23,29 @@ export default function ReportDetail() {
 		{ skip: !user }
 	);
 
-	if (loading || !report) {
-		return <div className="Report"></div>;
+	if (loading) {
+		return <div className="Report">Loading...</div>;
 	}
 
-	const numEnrollmentsMissingInfo = (report.enrollments || []).filter<
-		DeepNonUndefineable<Enrollment>
-	>((e) => !!e.validationErrors && e.validationErrors.length > 0).length;
+	// If we stopped loading, and still don't have these values
+	// Then an error other than a validation error ocurred.
+	// (Or if in staging, it is possible a new deployment
+	// happened, and then a user navigates back to roster after a delay, which causes
+	// 401/403 errors to occur unless a hard refresh occurs.)
+	// For now, show a general purpose alert message.
+	if (!report) {
+		return <Alert {...somethingWentWrongAlert}></Alert>;
+	}
+
+	if (!report.organization) {
+		throw new Error(
+			'API did not return organization on report. Please check your include parameters.'
+		);
+	}
+
+	const numEnrollmentsMissingInfo = (report.enrollments || []).filter(
+		(e) => !!e.validationErrors && e.validationErrors.length > 0
+	).length;
 
 	let additionalAlerts: AlertProps[] = [];
 

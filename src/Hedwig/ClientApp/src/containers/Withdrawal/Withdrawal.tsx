@@ -16,9 +16,12 @@ import {
 import useApi, { ApiError } from '../../hooks/useApi';
 import { useFocusFirstError, hasValidationErrors } from '../../utils/validations';
 import AlertContext from '../../contexts/Alert/AlertContext';
-import { missingInformationForWithdrawalAlert } from '../../utils/stringFormatters/alertTextMakers';
+import {
+	missingInformationForWithdrawalAlert,
+	somethingWentWrongAlert,
+} from '../../utils/stringFormatters/alertTextMakers';
 import CommonContainer from '../CommonContainer';
-import { InlineIcon, Button } from '../../components';
+import { InlineIcon, Button, Alert } from '../../components';
 import dateFormatter from '../../utils/dateFormatter';
 import { getFundingTag } from '../../utils/fundingType';
 import { Form, FormSubmitButton } from '../../components/Form_New';
@@ -62,7 +65,7 @@ export default function Withdrawal({
 		siteId: siteId,
 	};
 
-	const { error: errorOnGet, data: enrollment } = useApi<Enrollment>(
+	const { loading: loadingForGet, error: errorOnGet, data: enrollment } = useApi<Enrollment>(
 		(api) =>
 			api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet({
 				...commonParams,
@@ -133,8 +136,19 @@ export default function Withdrawal({
 		}
 	}, [returnedEnrollment, errorOnSave, history, setAlerts, setError, site]);
 
-	if (!mutatedEnrollment || !site) {
+	// Waiting for updateEnrollment
+	if (loadingForGet) {
 		return <div className="Withdrawal"></div>;
+	}
+
+	// If we stopped loading, and still don't have these values
+	// Then an error other than a validation error ocurred.
+	// (Or if in staging, it is possible a new deployment
+	// happened, and then a user navigates back to roster after a delay, which causes
+	// 401/403 errors to occur unless a hard refresh occurs.)
+	// For now, show a general purpose alert message.
+	if (!mutatedEnrollment || !site) {
+		return <Alert {...somethingWentWrongAlert}></Alert>;
 	}
 
 	const onFormSubmit = (userModifiedEnrollment: Enrollment) => {
@@ -157,7 +171,7 @@ export default function Withdrawal({
 		<CommonContainer
 			directionalLinkProps={{
 				direction: 'left',
-				to: `/roster/sites/${siteId}/enrollments/${enrollment.id}`,
+				to: `/roster/sites/${siteId}/enrollments/${enrollmentId}`,
 				text: 'Back',
 			}}
 		>
@@ -211,7 +225,7 @@ export default function Withdrawal({
 						<div className="grid-col-auto">
 							<Button
 								text="Cancel"
-								href={`/roster/sites/${siteId}/enrollments/${enrollment.id}/`}
+								href={`/roster/sites/${siteId}/enrollments/${enrollmentId}/`}
 								appearance="outline"
 							/>
 							<FormSubmitButton

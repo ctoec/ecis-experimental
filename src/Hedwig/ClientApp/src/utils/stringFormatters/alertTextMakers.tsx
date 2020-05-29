@@ -110,3 +110,14 @@ export const validationErrorAlert: AlertProps = {
 		</span>
 	),
 };
+
+export const somethingWentWrongAlert: AlertProps = {
+	type: 'error',
+	heading: 'Something went wrong',
+	text: (
+		<span>
+			Something unexpected happened. Please try refreshing your page or signing out and back in. If
+			you continue to see this error message, please contact {<MailToLink />} for help.
+		</span>
+	),
+};

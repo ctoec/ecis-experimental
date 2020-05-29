@@ -29,6 +29,7 @@ import {
 	REQUIRED_FOR_OEC_REPORTING,
 	REQUIRED_FOR_ENROLLMENT,
 } from '../../../../utils/validations/messageStrings';
+import TestProvider from '../../../../contexts/__mocks__/TestProvider';
 
 describe('enrollment sections', () => {
 	describe('ChildInfo', () => {
@@ -58,7 +59,14 @@ describe('enrollment sections', () => {
 
 			it('if rendered without a child first name', async () => {
 				const { findByText } = render(
-					<ChildInfo.Form siteId={1} enrollment={null} updateEnrollment={jest.fn()} error={null} />
+					<TestProvider>
+						<ChildInfo.Form
+							siteId={1}
+							enrollment={null}
+							updateEnrollment={jest.fn()}
+							error={null}
+						/>
+					</TestProvider>
 				);
 
 				const saveBtn = await findByText('Save');
@@ -69,7 +77,14 @@ describe('enrollment sections', () => {
 
 			it('if rendered without a child last name', async () => {
 				const { findByText } = render(
-					<ChildInfo.Form siteId={1} enrollment={null} updateEnrollment={jest.fn()} error={null} />
+					<TestProvider>
+						<ChildInfo.Form
+							siteId={1}
+							enrollment={null}
+							updateEnrollment={jest.fn()}
+							error={null}
+						/>
+					</TestProvider>
 				);
 
 				const saveBtn = await findByText('Save');

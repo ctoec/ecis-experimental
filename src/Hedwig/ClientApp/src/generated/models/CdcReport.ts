@@ -111,13 +111,13 @@ export interface CdcReport {
 	 * @type {number}
 	 * @memberof CdcReport
 	 */
-	reportingPeriodId?: number;
+	reportingPeriodId: number;
 	/**
 	 *
 	 * @type {ReportingPeriod}
 	 * @memberof CdcReport
 	 */
-	reportingPeriod?: ReportingPeriod;
+	reportingPeriod: ReportingPeriod;
 	/**
 	 *
 	 * @type {Date}
@@ -165,10 +165,8 @@ export function CdcReportFromJSONTyped(json: any, ignoreDiscriminator: boolean):
 			: OrganizationFromJSON(json['organization']),
 		id: json['id'],
 		type: !exists(json, 'type') ? undefined : FundingSourceFromJSON(json['type']),
-		reportingPeriodId: !exists(json, 'reportingPeriodId') ? undefined : json['reportingPeriodId'],
-		reportingPeriod: !exists(json, 'reportingPeriod')
-			? undefined
-			: ReportingPeriodFromJSON(json['reportingPeriod']),
+		reportingPeriodId: json['reportingPeriodId'],
+		reportingPeriod: ReportingPeriodFromJSON(json['reportingPeriod']),
 		submittedAt: !exists(json, 'submittedAt')
 			? undefined
 			: json['submittedAt'] === null

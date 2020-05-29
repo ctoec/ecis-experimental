@@ -43,16 +43,17 @@ import { sumWeeksUsed } from '../../../utils/models/fundingTimeSplitUtilization'
 import { displayValidationStatus } from '../../../utils/validations/displayValidationStatus';
 
 export type ReportSubmitFormProps = {
-	report: DeepNonUndefineable<CdcReport>;
+	report: CdcReport;
 	error: ApiError | null;
 	canSubmit: boolean;
 };
 
 export default function ReportSubmitForm({
-	report,
+	report: __report,
 	error: inputError,
 	canSubmit,
 }: ReportSubmitFormProps) {
+	const report = __report as DeepNonUndefineable<CdcReport>;
 	const history = useHistory();
 
 	const { user } = useContext(UserContext);
@@ -195,7 +196,7 @@ export default function ReportSubmitForm({
 			? report.timeSplitUtilizations
 			: splitTimeFundingSpaces.map((fundingSpace) =>
 					getSplitUtilization(
-						fundingSpace.timeSplit,
+						fundingSpace.timeSplit as FundingTimeSplit,
 						0,
 						reportingPeriodWeeks,
 						report.reportingPeriod,

@@ -79,13 +79,13 @@ export interface FundingSpace {
 	 * @type {FundingSource}
 	 * @memberof FundingSpace
 	 */
-	source?: FundingSource;
+	source: FundingSource;
 	/**
 	 *
 	 * @type {Age}
 	 * @memberof FundingSpace
 	 */
-	ageGroup?: Age;
+	ageGroup: Age;
 	/**
 	 *
 	 * @type {Array<Funding>}
@@ -97,7 +97,7 @@ export interface FundingSpace {
 	 * @type {FundingTime}
 	 * @memberof FundingSpace
 	 */
-	time?: FundingTime;
+	time: FundingTime;
 	/**
 	 *
 	 * @type {FundingTimeSplit}
@@ -127,14 +127,14 @@ export function FundingSpaceFromJSONTyped(json: any, ignoreDiscriminator: boolea
 		organization: !exists(json, 'organization')
 			? undefined
 			: OrganizationFromJSON(json['organization']),
-		source: !exists(json, 'source') ? undefined : FundingSourceFromJSON(json['source']),
-		ageGroup: !exists(json, 'ageGroup') ? undefined : AgeFromJSON(json['ageGroup']),
+		source: FundingSourceFromJSON(json['source']),
+		ageGroup: AgeFromJSON(json['ageGroup']),
 		fundings: !exists(json, 'fundings')
 			? undefined
 			: json['fundings'] === null
 			? null
 			: (json['fundings'] as Array<any>).map(FundingFromJSON),
-		time: !exists(json, 'time') ? undefined : FundingTimeFromJSON(json['time']),
+		time: FundingTimeFromJSON(json['time']),
 		timeSplit: !exists(json, 'timeSplit') ? undefined : FundingTimeSplitFromJSON(json['timeSplit']),
 		timeSplitUtilizations: !exists(json, 'timeSplitUtilizations')
 			? undefined
