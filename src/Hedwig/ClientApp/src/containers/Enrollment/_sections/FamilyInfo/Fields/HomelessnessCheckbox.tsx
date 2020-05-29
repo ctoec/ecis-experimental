@@ -1,22 +1,19 @@
 import React from 'react';
-import { ChoiceList } from '../../../../../components';
+import { ChoiceList, CheckboxProps, Checkbox } from '../../../../../components';
 import { homelessnessText } from '../../../../../utils/models';
+import { Enrollment } from '../../../../../generated';
+import FormField from '../../../../../components/Form_New/FormField';
+import { FamilyInfoFormFieldProps } from './common';
 
-export const HomelessnessCheckbox = ({ homelessness, updateFormData }: any) => (
+export const HomelessnessCheckboxs: React.FC<FamilyInfoFormFieldProps> = ({ initialLoad }) => (
 	<>
-		<ChoiceList
-			type="check"
-			legend="Homelessness"
+		<FormField<Enrollment, CheckboxProps, boolean | null>
 			id="homelessness"
-			name="child.family.homelessness"
-			defaultValue={homelessness ? ['homelessness'] : undefined}
-			onChange={updateFormData((_, event) => event.target.checked)}
-			options={[
-				{
-					text: homelessnessText(),
-					value: 'homelessness',
-				},
-			]}
+			getValue={(data) => data.at('child').at('family').at('homelessness')}
+			value={'homelessness'}
+			parseOnChangeEvent={(e) => e.target.checked}
+			inputComponent={Checkbox}
+			text={homelessnessText()}
 		/>
 		<p className="usa-hint text-italic">
 			Indicate if you are aware that the family has experienced housing insecurity, including

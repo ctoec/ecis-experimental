@@ -104,8 +104,8 @@ export const NewForm: React.FC<SectionProps> = ({
 			<h2>Address</h2>
 			<Address {...{ initialLoad, child, addressLine1, addressLine2, zip, state, town }} />
 			<h2>Other</h2>
-			<FosterCheckbox foster={foster} />
-			<HomelessnessCheckbox homelessness={homelessness} />
+			<FosterCheckbox />
+			<HomelessnessCheckbox />
 			<FormSubmitButton text={isSaving ? 'Saving...' : 'Save'} disabled={isSaving} />
 		</Form>
 	);
