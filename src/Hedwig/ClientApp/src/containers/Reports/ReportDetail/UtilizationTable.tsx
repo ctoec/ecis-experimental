@@ -1,26 +1,27 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Table, { TableProps } from '../../../components/Table/Table';
 import {
 	CdcReport,
 	Enrollment,
 	Age,
 	FundingTime,
-	Region,
 	FundingSpace,
 	FundingSource,
+	FundingTimeSplitUtilization,
 } from '../../../generated';
 import idx from 'idx';
 import moment from 'moment';
-import { CdcRates } from './CdcRates';
-import {
-	prettyAge,
-	prettyFundingTime,
-	isFundedForFundingSpace,
-	fundingSpaceSorter,
-} from '../../../utils/models';
+import { prettyAge, prettyFundingTime, fundingSpaceSorter } from '../../../utils/models';
 import currencyFormatter from '../../../utils/currencyFormatter';
 import cx from 'classnames';
 import { DeepNonUndefineableArray } from '../../../utils/types';
+import {
+	countFundedEnrollments,
+	calculateRate,
+	makePrefixerFunc,
+	ReimbursementRateLine,
+	productOfUnknowns,
+} from '../../../utils/utilizationTable';
 
 interface UtilizationTableRow {
 	key: string;
@@ -28,30 +29,37 @@ interface UtilizationTableRow {
 	fundingTime?: FundingTime;
 	count: number;
 	capacity: number;
-	rate?: number;
+	ftRate?: number;
+	ptRate?: number;
 	total: number;
 	balance: number;
+	showFundingTime?: boolean;
+	weeksSplit?: {
+		partWeeks: number | undefined;
+		fullWeeks: number | undefined;
+	};
+	maxes: {
+		// These are needed to format the numbers for alignment
+		total: number;
+		rate: number;
+		balance: number;
+	};
 }
 
-function getValueBeforeDecimalPoint(number: number) {
-	const numAsString = number.toFixed(2);
-	const decimalPointIndex = numAsString.indexOf('.');
-	return numAsString.slice(0, decimalPointIndex).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-}
+type UtilizationTableProps = {
+	report: CdcReport;
+	timeSplitUtilizations: FundingTimeSplitUtilization[];
+};
 
-function getNumberOfCommas(str: string) {
-	return str.split(',').length - 1;
-}
-
-export default function UtilizationTable(report: CdcReport) {
-	const [maxLengthOfReimbursementRate, updateMaxLengthOfReimbursement] = useState(0);
-	const [numberOfCommasInReimbursement, updateNumberOfCommasInReimbursement] = useState(0);
-	const [maxLengthOfTotalRate, updateMaxLengthOfTotalRate] = useState(0);
-	const [numberOfCommasInTotalRate, updateNumberOfCommasInTotalRate] = useState(0);
-	const [maxLengthOfBalance, updateMaxLengthOfBalance] = useState(0);
-	const [numberOfCommasInBalance, updateNumberOfCommasInBalance] = useState(0);
-
-	const site = idx(report, (_) => _.organization.sites[0]);
+export default function UtilizationTable({
+	report,
+	timeSplitUtilizations,
+}: // Pass in the state variable from reportSubmitForm that contains the utilization values for this report (either default values or user-defined)
+UtilizationTableProps): React.ReactElement<UtilizationTableProps> {
+	// Not functional component because ts had a problem with the empty fragments
+	const site = idx(report, _ => _.organization.sites[0]);
+	// TODO: if the space lives on the organization but the rates live on the site,
+	// we need to reconsider how we handle multi site org rate calculation
 	if (!site) {
 		return <></>;
 	}
@@ -64,7 +72,11 @@ export default function UtilizationTable(report: CdcReport) {
 	const periodStart = idx(report, (_) => _.reportingPeriod.periodStart);
 	const periodEnd = idx(report, (_) => _.reportingPeriod.periodEnd);
 	const weeksInPeriod =
-		periodStart && periodEnd ? moment(periodEnd).add(1, 'day').diff(periodStart, 'weeks') : 0;
+		periodStart && periodEnd
+			? moment(periodEnd)
+					.add(1, 'day')
+					.diff(periodStart, 'weeks')
+			: 0;
 
 	const enrollments = (idx(report, (_) => _.enrollments) || []) as Enrollment[];
 
@@ -73,39 +85,77 @@ export default function UtilizationTable(report: CdcReport) {
 	// UPDATED to loop over all existing fundingspaces, which will all have capacity > 0.
 	// enrollments for funding spaces not in this list do not belong to this report.
 	// Rows are sorted by fundingspace age, then time
-	let rows: UtilizationTableRow[] = (fundingSpaces as DeepNonUndefineableArray<FundingSpace>)
+	const cdcFundingSpaces = (fundingSpaces as DeepNonUndefineableArray<FundingSpace>)
 		.sort(fundingSpaceSorter)
-		.filter((fundingSpace) => fundingSpace.source === FundingSource.CDC)
-		.map((space) => {
-			const capacity = space.capacity;
-			const ageGroup = space.ageGroup;
-			const fundingTime = space.time;
-			const count = countFundedEnrollments(enrollments, space.id);
-			const rate = calculateRate(
-				report.accredited,
-				site.titleI,
-				site.region,
-				ageGroup,
-				// TODO: Update this to handle FundingTime.Split
-				fundingTime
-			);
+		.filter(fundingSpace => fundingSpace.source === FundingSource.CDC);
 
-			const cappedCount = Math.min(count, capacity);
-			const total = cappedCount * rate * weeksInPeriod;
-			const paid = capacity * rate * weeksInPeriod;
-			const balance = total - paid;
+	let rows: UtilizationTableRow[] = cdcFundingSpaces.map(space => {
+		const capacity = space.capacity;
+		const ageGroup = space.ageGroup;
+		const fundingTime = space.time;
+		const count = countFundedEnrollments(enrollments, space.id);
+		const ptRate = calculateRate(
+			report.accredited,
+			site.titleI,
+			site.region,
+			ageGroup,
+			FundingTime.Part
+		);
+		const ftRate = calculateRate(
+			report.accredited,
+			site.titleI,
+			site.region,
+			ageGroup,
+			FundingTime.Full
+		);
 
-			return {
-				key: `${ageGroup}-${fundingTime}`,
-				ageGroup,
-				fundingTime,
-				count,
-				capacity,
-				rate,
+		let fullWeeks: number | undefined, partWeeks: number | undefined;
+		if (fundingTime === FundingTime.Split) {
+			const thisUtilization = (timeSplitUtilizations || []).find(u => u.reportId === report.id);
+			fullWeeks = 0;
+			partWeeks = 0;
+			if (thisUtilization) {
+				fullWeeks = thisUtilization.fullTimeWeeksUsed || 0;
+				partWeeks = thisUtilization.partTimeWeeksUsed || 0;
+			}
+		} else if (fundingTime === FundingTime.Full) {
+			fullWeeks = weeksInPeriod;
+		} else if (fundingTime === FundingTime.Part) {
+			partWeeks = weeksInPeriod;
+		}
+
+		const cappedCount = Math.min(count, capacity);
+		const total =
+			productOfUnknowns([cappedCount, fullWeeks, ftRate]) +
+			productOfUnknowns([cappedCount, partWeeks, ptRate]);
+		const paid =
+			productOfUnknowns([capacity, fullWeeks, ftRate]) +
+			productOfUnknowns([capacity, partWeeks, ptRate]);
+
+		const balance = total - paid;
+
+		return {
+			key: `${ageGroup}-${fundingTime}`,
+			ageGroup,
+			fundingTime,
+			count,
+			capacity,
+			ftRate,
+			ptRate,
+			total,
+			balance,
+			showFundingTime: cdcFundingSpaces.filter(fs => fs.ageGroup === ageGroup).length > 1,
+			weeksSplit: {
+				partWeeks: partWeeks,
+				fullWeeks: fullWeeks,
+			},
+			maxes: {
 				total,
+				rate: Math.max(ptRate, ftRate),
 				balance,
-			};
-		});
+			},
+		};
+	});
 
 	const totalRow = rows.reduce(
 		(total, row) => {
@@ -115,12 +165,32 @@ export default function UtilizationTable(report: CdcReport) {
 				capacity: total.capacity + row.capacity,
 				total: total.total + row.total,
 				balance: total.balance + row.balance,
+				maxes: {
+					total: Math.max(total.total, row.total),
+					rate: Math.max(total.maxes.rate, row.ftRate || 0, row.ptRate || 0),
+					balance: Math.max(Math.abs(total.balance), Math.abs(row.balance)),
+				},
 			};
 		},
-		{ key: 'total', count: 0, capacity: 0, total: 0, balance: 0 }
+		{
+			key: 'total',
+			count: 0,
+			capacity: 0,
+			total: 0,
+			balance: 0,
+			maxes: {
+				total: 0,
+				rate: 0,
+				balance: 0,
+			},
+		}
 	);
 
 	rows.push(totalRow);
+
+	const reimbursementPrefixer = makePrefixerFunc(totalRow.maxes.rate);
+	const totalPrefixer = makePrefixerFunc(totalRow.maxes.total);
+	const balancePrefixer = makePrefixerFunc(totalRow.maxes.balance);
 
 	const tableProps: TableProps<UtilizationTableRow> = {
 		id: 'utilization-table',
@@ -132,7 +202,9 @@ export default function UtilizationTable(report: CdcReport) {
 				cell: ({ row }) => (
 					<th>
 						<strong>{row.key === 'total' ? 'Total' : `${prettyAge(row.ageGroup)}`}</strong>
-						{row.fundingTime && <> &ndash; {prettyFundingTime(row.fundingTime)}</>}
+						{row.fundingTime && row.showFundingTime && (
+							<> &ndash; {prettyFundingTime(row.fundingTime, { splitTimeText: 'pt/ft split' })}</>
+						)}
 					</th>
 				),
 			},
@@ -154,31 +226,21 @@ export default function UtilizationTable(report: CdcReport) {
 				name: 'Reimbursement rate',
 				className: 'text-right',
 				cell: ({ row }) => {
-					const valueBeforeDecimalPoint = getValueBeforeDecimalPoint(row.rate || 0);
-					const numberOfCommas = getNumberOfCommas(valueBeforeDecimalPoint);
-					updateNumberOfCommasInReimbursement((oldNumberOfCommas) => {
-						return Math.max(numberOfCommas, oldNumberOfCommas);
-					});
-					updateMaxLengthOfReimbursement((oldMaxLengthOfReimbursementRate) => {
-						return Math.max(valueBeforeDecimalPoint.length, oldMaxLengthOfReimbursementRate);
-					});
-					const numberOfCommasNeeded = numberOfCommasInReimbursement - numberOfCommas;
-					const numberOfLeadingZerosNeeded =
-						maxLengthOfReimbursementRate - valueBeforeDecimalPoint.length - numberOfCommasNeeded;
-					const leadingZeros =
-						numberOfLeadingZerosNeeded >= 0 ? '0'.repeat(numberOfLeadingZerosNeeded) : '';
-					const commas = numberOfCommasNeeded >= 0 ? ','.repeat(numberOfCommasNeeded) : '';
-					const prefix = leadingZeros + commas;
+					const { partWeeks, fullWeeks } = row.weeksSplit || {};
 					return (
 						<td className="text-tabular text-right">
-							{row.key !== 'total' && (
-								<>
-									<span>$ </span>
-									<span style={{ visibility: 'hidden' }}>{prefix}</span>
-									{currencyFormatter(row.rate || 0, true)}
-									<span> &times; {weeksInPeriod} weeks</span>
-								</>
-							)}
+							<ReimbursementRateLine
+								prefix={reimbursementPrefixer(row.ptRate || 0)}
+								prettyRate={currencyFormatter(row.ptRate || 0, true)}
+								weeksInPeriod={partWeeks}
+								suffix="(pt)"
+							/>
+							<ReimbursementRateLine
+								prefix={reimbursementPrefixer(row.ftRate || 0)}
+								prettyRate={currencyFormatter(row.ftRate || 0, true)}
+								weeksInPeriod={fullWeeks}
+								suffix="(ft)"
+							/>
 						</td>
 					);
 				},
@@ -187,21 +249,7 @@ export default function UtilizationTable(report: CdcReport) {
 				name: `Total (${weeksInPeriod} weeks)`,
 				className: 'text-right',
 				cell: ({ row }) => {
-					const valueBeforeDecimalPoint = getValueBeforeDecimalPoint(row.total);
-					const numberOfCommas = getNumberOfCommas(valueBeforeDecimalPoint);
-					updateNumberOfCommasInTotalRate((oldNumberOfCommas) => {
-						return Math.max(numberOfCommas, oldNumberOfCommas);
-					});
-					updateMaxLengthOfTotalRate((oldMaxLengthOfTotalRate) => {
-						return Math.max(valueBeforeDecimalPoint.length, oldMaxLengthOfTotalRate);
-					});
-					const numberOfCommasNeeded = numberOfCommasInTotalRate - numberOfCommas;
-					const numberOfLeadingZerosNeeded =
-						maxLengthOfTotalRate - valueBeforeDecimalPoint.length - numberOfCommasNeeded;
-					const leadingZeros =
-						numberOfLeadingZerosNeeded >= 0 ? '0'.repeat(numberOfLeadingZerosNeeded) : '';
-					const commas = numberOfCommasNeeded >= 0 ? ','.repeat(numberOfCommasNeeded) : '';
-					const prefix = leadingZeros + commas;
+					const prefix = totalPrefixer(row.total);
 					return (
 						<td
 							className={cx(
@@ -221,21 +269,7 @@ export default function UtilizationTable(report: CdcReport) {
 				name: 'Balance',
 				className: 'text-right',
 				cell: ({ row }) => {
-					const valueBeforeDecimalPoint = getValueBeforeDecimalPoint(Math.abs(row.balance));
-					const numberOfCommas = getNumberOfCommas(valueBeforeDecimalPoint);
-					updateNumberOfCommasInBalance((oldNumberOfCommas) => {
-						return Math.max(numberOfCommas, oldNumberOfCommas);
-					});
-					updateMaxLengthOfBalance((oldMaxLengthOfBalance) => {
-						return Math.max(valueBeforeDecimalPoint.length, oldMaxLengthOfBalance);
-					});
-					const numberOfCommasNeeded = numberOfCommasInBalance - numberOfCommas;
-					const numberOfLeadingZerosNeeded =
-						maxLengthOfBalance - valueBeforeDecimalPoint.length - numberOfCommasNeeded;
-					const leadingZeros =
-						numberOfLeadingZerosNeeded >= 0 ? '0'.repeat(numberOfLeadingZerosNeeded) : '';
-					const commas = numberOfCommasNeeded >= 0 ? ','.repeat(numberOfCommasNeeded) : '';
-					const prefix = leadingZeros + commas;
+					const prefix = balancePrefixer(row.balance);
 					return (
 						<td
 							className={cx(
@@ -265,30 +299,4 @@ export default function UtilizationTable(report: CdcReport) {
 			<Table {...tableProps} fullWidth />
 		</>
 	);
-}
-
-export function calculateRate(
-	accredited: boolean,
-	titleI: boolean,
-	region: Region,
-	ageGroup: Age,
-	time: FundingTime
-) {
-	const rate = CdcRates.find(
-		(r) =>
-			r.accredited === accredited &&
-			r.titleI === titleI &&
-			r.region === region &&
-			r.ageGroup === ageGroup &&
-			r.time === time
-	);
-
-	return rate ? rate.rate : 0;
-}
-
-export function countFundedEnrollments(enrollments: Enrollment[], fundingSpaceId: number) {
-	return enrollments.filter((enrollment) => {
-		if (!enrollment.fundings) return false;
-		return isFundedForFundingSpace(enrollment, fundingSpaceId);
-	}).length;
 }

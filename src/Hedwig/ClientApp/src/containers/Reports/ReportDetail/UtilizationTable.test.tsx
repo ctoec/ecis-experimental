@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { Age, FundingTime, FundingSource, Enrollment, Region, Funding } from '../../../generated';
-import UtilizationTable, { calculateRate } from './UtilizationTable';
+import UtilizationTable from './UtilizationTable';
 import emptyGuid from '../../../utils/emptyGuid';
 import cartesianProduct from '../../../utils/cartesianProduct';
 import { accessibilityTestHelper } from '../../../tests/helpers';
@@ -15,6 +15,7 @@ import {
 } from '../../../tests/data';
 import { mockFundingSpaces } from '../../../tests/data/fundingSpace';
 import { prettyAge, prettyFundingTime } from '../../../utils/models';
+import { calculateRate } from '../../../utils/utilizationTable';
 
 describe('calculateRate', () => {
 	it('includes all possible rates', () => {
@@ -51,18 +52,20 @@ const defaultReport = reportWithEnrollments([mockCompleteEnrollment]);
 
 describe('UtilizationTable', () => {
 	it('matches snapshot', () => {
-		const { asFragment } = render(<UtilizationTable {...defaultReport} />);
+		const { asFragment } = render(<UtilizationTable report={defaultReport} />);
 		expect(asFragment()).toMatchSnapshot();
 	});
 
 	it('includes a row for each type of funding space', () => {
 		const report = mockReport;
-		const { container } = render(<UtilizationTable {...report} />);
+		const { container } = render(<UtilizationTable report={report} />);
 
 		// mockReport belongs to mockSingleSiteOrganization, which has all mockFundingSpaces
 		mockFundingSpaces.forEach((space) => {
 			expect(container).toHaveTextContent(
-				`${prettyAge(space.ageGroup)} – ${prettyFundingTime(space.time)}`
+				`${prettyAge(space.ageGroup)} – ${prettyFundingTime(space.time, {
+					splitTimeText: 'pt/ft split',
+				})}`
 			);
 		});
 	});
@@ -80,7 +83,7 @@ describe('UtilizationTable', () => {
 			],
 		};
 
-		const { getAllByText } = render(<UtilizationTable {...mockReport} />);
+		const { getAllByText } = render(<UtilizationTable report={mockReport} />);
 		const oneOfZeros = getAllByText(/1\/\d* spaces/);
 		expect(oneOfZeros).toHaveLength(4);
 	});
@@ -108,10 +111,10 @@ describe('UtilizationTable', () => {
 			},
 		]);
 
-		const { container } = render(<UtilizationTable {...report} />);
+		const { container } = render(<UtilizationTable report={report} />);
 
 		expect(container).toHaveTextContent('0/10 spaces');
 	});
 
-	accessibilityTestHelper(<UtilizationTable {...defaultReport} />);
+	accessibilityTestHelper(<UtilizationTable report={defaultReport} />);
 });

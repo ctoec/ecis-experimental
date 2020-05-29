@@ -27,7 +27,7 @@ import moment from 'moment';
 export function prettyFundingSpaceTime(fundingSpace: FundingSpace, includeWeeks: boolean = false) {
 	const FULL_YEAR_WEEKS = 52;
 	if (fundingSpace.time !== FundingTime.Split) {
-		return `${prettyFundingTime(fundingSpace.time, true)}${formattedWeeks(
+		return `${prettyFundingTime(fundingSpace.time, { capitalize: true })}${formattedWeeks(
 			includeWeeks,
 			FULL_YEAR_WEEKS
 		)}`;
@@ -44,14 +44,19 @@ export function prettyFundingSpaceTime(fundingSpace: FundingSpace, includeWeeks:
 
 	if (fullTimeFirst) {
 		return (
-			`${prettyFundingTime(FundingTime.Full, true)}${formattedWeeks(includeWeeks, fullTimeWeeks)}` +
+			`${prettyFundingTime(FundingTime.Full, { capitalize: true })}${formattedWeeks(
+				includeWeeks,
+				fullTimeWeeks
+			)}` +
 			` / ${prettyFundingTime(FundingTime.Part)}${formattedWeeks(includeWeeks, partTimeWeeks)}`
 		);
 	}
 
 	return (
-		`${prettyFundingTime(FundingTime.Part, true)}${formattedWeeks(includeWeeks, partTimeWeeks)}` +
-		` / ${prettyFundingTime(FundingTime.Full)}${formattedWeeks(includeWeeks, fullTimeWeeks)}`
+		`${prettyFundingTime(FundingTime.Part, { capitalize: true })}${formattedWeeks(
+			includeWeeks,
+			partTimeWeeks
+		)}` + ` / ${prettyFundingTime(FundingTime.Full)}${formattedWeeks(includeWeeks, fullTimeWeeks)}`
 	);
 }
 
