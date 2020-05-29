@@ -13,5 +13,6 @@ export const FosterCheckbox: React.FC<FamilyInfoFormFieldProps> = ({ initialLoad
 		inputComponent={Checkbox}
 		id="foster"
 		text={fosterText()}
+		className="margin-top-3"
 	/>
 );

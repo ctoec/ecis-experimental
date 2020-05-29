@@ -1,4 +1,3 @@
-import { Enrollment } from '../../../../generated';
 import { hasValidationErrors } from '../../../../utils/validations';
 import idx from 'idx';
 import { SectionProps } from '../../enrollmentTypes';

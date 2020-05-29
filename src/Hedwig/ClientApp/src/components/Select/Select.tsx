@@ -91,7 +91,7 @@ export const Select: React.FC<SelectProps> = ({
 					{unselectedText || '- Select -'}
 				</option>
 				{options.map((option) => (
-					<option value={option.value} key={`${id}-${option.value}`}>
+					<option value={option.value} key={`${id}-${option.value}-option`}>
 						{option.text}
 					</option>
 				))}
@@ -99,11 +99,11 @@ export const Select: React.FC<SelectProps> = ({
 			{options.map((option) => {
 				const expansion = option.expansion;
 				return (
-					<>
+					<div key={`${id}-${option.value}-expansion`}>
 						{expansion && selectedItem === option.value && (
 							<div className="oec-itemchooser-expansion">{option.expansion}</div>
 						)}
-					</>
+					</div>
 				);
 			})}
 		</div>
@@ -206,8 +206,8 @@ export const SelectWithOther: React.FC<OtherOptionTextInputWrapperProps<SelectPr
 					/>
 				</FieldSet>
 			) : (
-					selectElement
-				)}
+				selectElement
+			)}
 		</>
 	);
 };

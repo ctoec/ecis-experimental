@@ -4603,6 +4603,10 @@ exports[`EnrollmentUpdate family info matches snapshot 1`] = `
                     RI
                   </option>
                 </select>
+                <div />
+                <div />
+                <div />
+                <div />
               </div>
             </div>
             <div
@@ -4632,7 +4636,7 @@ exports[`EnrollmentUpdate family info matches snapshot 1`] = `
           Other
         </h2>
         <div
-          class="usa-checkbox undefined"
+          class="usa-checkbox margin-top-3"
         >
           <input
             class="usa-checkbox__input"
@@ -4649,27 +4653,31 @@ exports[`EnrollmentUpdate family info matches snapshot 1`] = `
           </label>
         </div>
         <div
-          class="usa-checkbox undefined"
+          class="margin-top-3"
         >
-          <input
-            class="usa-checkbox__input"
-            id="homelessness"
-            name=""
-            type="checkbox"
-            value="homelessness"
-          />
-          <label
-            class="usa-checkbox__label"
-            for="homelessness"
+          <div
+            class="usa-checkbox undefined"
           >
-            Family has experienced homelessness or housing insecurity
-          </label>
+            <input
+              class="usa-checkbox__input"
+              id="homelessness"
+              name=""
+              type="checkbox"
+              value="homelessness"
+            />
+            <label
+              class="usa-checkbox__label"
+              for="homelessness"
+            >
+              Family has experienced homelessness or housing insecurity
+            </label>
+          </div>
+          <p
+            class="usa-hint text-italic"
+          >
+            Indicate if you are aware that the family has experienced housing insecurity, including overcrowded housing, within the last year.
+          </p>
         </div>
-        <p
-          class="usa-hint text-italic"
-        >
-          Indicate if you are aware that the family has experienced housing insecurity, including overcrowded housing, within the last year.
-        </p>
         <input
           class="usa-button"
           type="submit"
