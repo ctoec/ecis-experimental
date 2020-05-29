@@ -10,15 +10,15 @@ import { displayValidationStatus } from '../../../utils/validations/displayValid
 import moment from 'moment';
 import { lastNReportingPeriods, reportingPeriodFormatter } from '../../../utils/models';
 import { Select } from '../../../components/Select/Select';
-import { ErrorAlertState } from '../../../hooks/useCatchallErrorAlert';
+import { ErrorAlertState } from '../../../hooks/useCatchAllErrorAlert';
 
 type LastReportingFieldProps = {
 	errorAlertState?: ErrorAlertState;
 	error: ApiError | null;
 };
 /**
- * This component is used in Withdrawal to update the exit field on enrollment,
- * and certificateEndDate in C4K Certificates (if they exist).
+ * This component is used in Withdrawal to update the last reporting period
+ * on the current cdc funding in an enrollment.
  */
 export const LastReportingPeriodField: React.FC<LastReportingFieldProps> = ({
 	errorAlertState,
@@ -52,7 +52,7 @@ export const LastReportingPeriodField: React.FC<LastReportingFieldProps> = ({
 			}))}
 			onChange={(event) => {
 				const newReportingPeriodId = parseInt(event.target.value);
-				// Update the current c4kCertificate end date with the end date
+				// Update the last reporting period id on the current cdc funding
 				updateData((enrollment) =>
 					produce<Enrollment>(enrollment, (draft) =>
 						set(

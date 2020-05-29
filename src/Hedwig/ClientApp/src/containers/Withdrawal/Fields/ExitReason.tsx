@@ -3,10 +3,23 @@ import { Enrollment } from '../../../generated';
 import { ApiError } from '../../../hooks/useApi';
 import { REQUIRED_FOR_WITHDRAWAL } from '../../../utils/validations/messageStrings';
 import { displayValidationStatus } from '../../../utils/validations/displayValidationStatus';
-import { enrollmentExitReasons } from '../../../utils/models';
 import { FormField } from '../../../components/Form_New';
 import { SelectProps, Select } from '../../../components/Select/Select';
-import { ErrorAlertState } from '../../../hooks/useCatchallErrorAlert';
+import { ErrorAlertState } from '../../../hooks/useCatchAllErrorAlert';
+
+/**
+ * String values for default enrollment exit reasons
+ */
+const enrollmentExitReasons = {
+	AgedOut: 'Aged out',
+	StoppedAttending: 'Stopped attending',
+	DifferentProgram: 'Chose to attend a different program',
+	MovedInCT: 'Moved within Connecticut',
+	MovedOutCT: 'Moved to another state',
+	LackOfPayment: 'Withdrew due to lack of payment',
+	AskedToLeave: 'Child was asked to leave',
+	Unknown: 'Unknown',
+};
 
 type ExitReasonFieldProps = {
 	errorAlertState?: ErrorAlertState;

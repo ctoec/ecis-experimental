@@ -11,7 +11,7 @@ export function calculateRate(
 	time: FundingTime
 ) {
 	const rate = CdcRates.find(
-		r =>
+		(r) =>
 			r.accredited === accredited &&
 			r.titleI === titleI &&
 			r.region === region &&
@@ -23,14 +23,14 @@ export function calculateRate(
 }
 
 export function countFundedEnrollments(enrollments: Enrollment[], fundingSpaceId: number) {
-	return enrollments.filter(enrollment => {
+	return enrollments.filter((enrollment) => {
 		if (!enrollment.fundings) return false;
 		return isFundedForFundingSpace(enrollment, fundingSpaceId);
 	}).length;
 }
 
 export function productOfUnknowns(nums: (number | undefined)[]) {
-	return nums.map(n => n || 0).reduce((a, c) => a * c);
+	return nums.map((n) => n || 0).reduce((a, c) => a * c);
 }
 
 export function getValueBeforeDecimalPoint(number: number) {

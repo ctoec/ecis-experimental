@@ -11,7 +11,7 @@ type FamilyDeterminationFormForCardProps = {
 	formData: Enrollment;
 	onSubmit: (_: Enrollment) => void;
 	onCancel?: () => void;
-}
+};
 /**
  * The single-determination form to be embedded in Cards in the UpdateForm.
  *

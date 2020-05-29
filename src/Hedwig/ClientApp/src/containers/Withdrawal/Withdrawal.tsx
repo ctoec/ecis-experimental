@@ -25,7 +25,7 @@ import { Form, FormSubmitButton } from '../../components/Form_New';
 import { EnrollmentEndDateField } from './Fields/EnrollmentEndDate';
 import { ExitReasonField } from './Fields/ExitReason';
 import { LastReportingPeriodField } from './Fields/LastReportingPeriod';
-import useCatchallErrorAlert from '../../hooks/useCatchallErrorAlert';
+import useCatchAllErrorAlert from '../../hooks/useCatchAllErrorAlert';
 
 type WithdrawalProps = {
 	history: History;
@@ -98,7 +98,7 @@ export default function Withdrawal({
 	}, [isMissingInformation, siteId, enrollmentId, history, setAlerts]);
 
 	// set up PUT request to be triggered on save attempt
-	const { error: errorOnSave, data: returnedEnrollment } = useApi<Enrollment>(
+	const { error: errorOnSave, loading: isSaving, data: returnedEnrollment } = useApi<Enrollment>(
 		(api) =>
 			api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut({
 				...commonParams,
@@ -109,17 +109,27 @@ export default function Withdrawal({
 			callback: () => setAttemptingSave(false),
 		}
 	);
-	const errorAlertState = useCatchallErrorAlert(error);
+	const errorAlertState = useCatchAllErrorAlert(error);
 	useFocusFirstError([error]);
 
 	useEffect(() => {
-		// If the withdraw request went through, then return to the roster
-		if (returnedEnrollment && !errorOnSave && site) {
-			setAlerts([childWithdrawnAlert(nameFormatter(returnedEnrollment.child), site.name || '')]);
-			history.push(`/roster`);
-		} else {
-			// Otherwise handle the error
+		// If the request is still loading or
+		// Do nothing
+		if (isSaving) {
+			return;
+		}
+		// If the request produced an error,
+		// Update the error state
+		if (errorOnSave) {
 			setError(errorOnSave);
+			return;
+		}
+		// If the withdraw request succeeded, inform user and return to the roster
+		if (returnedEnrollment) {
+			setAlerts([
+				childWithdrawnAlert(nameFormatter(returnedEnrollment.child), (site && site.name) || ''),
+			]);
+			history.push(`/roster`);
 		}
 	}, [returnedEnrollment, errorOnSave, history, setAlerts, setError, site]);
 
@@ -133,11 +143,11 @@ export default function Withdrawal({
 			// Only need to update this the first time the user tries to save
 			setAttemptedSave(true);
 		}
+		// Only attempt to save if the user is attempting a valid withdrawal update,
+		// which requires `enrollmentEndDate` has a value. Server does not enforce
+		// this validation rule because it is only a rule in the context of a
+		// withdrawal.
 		if (enrollmentEndDate) {
-			// The enrollment end date is verified on the client side because it's how we
-			// know we're attempting a withdrawal. If we set the attempting save variable
-			// without an end date, then it won't get unset, because the request won't hit
-			// the server, and the callback won't be called
 			setAttemptingSave(true);
 			setMutatedEnrollment(userModifiedEnrollment);
 		}

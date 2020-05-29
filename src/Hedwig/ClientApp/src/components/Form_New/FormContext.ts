@@ -25,6 +25,10 @@ type FormContextType = {
 export type GenericFormContextType<T> = {
 	data: T;
 	dataDriller: ObjectDriller<T>;
+	// Allows for function style update (setState(s => s) as opposed to setState(s))
+	// Needed for components that make multiple edits to the same object
+	// Otherwise just passing the object would result in one of the updates being
+	// overwritten.
 	updateData: React.Dispatch<React.SetStateAction<T>>;
 };
 /**

@@ -6,11 +6,14 @@ import set from 'lodash/set';
 import { DateInput } from '../../../components';
 import { ApiError } from '../../../hooks/useApi';
 import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
-import { REQUIRED_FOR_WITHDRAWAL } from '../../../utils/validations/messageStrings';
+import {
+	REQUIRED_FOR_WITHDRAWAL,
+	REPORTING_PERIODS_ONLY_EXIST_FOR_FY2020_AND_BEYOND,
+} from '../../../utils/validations/messageStrings';
 import { displayValidationStatus } from '../../../utils/validations/displayValidationStatus';
 import moment from 'moment';
 import { lastNReportingPeriods } from '../../../utils/models';
-import { ErrorAlertState } from '../../../hooks/useCatchallErrorAlert';
+import { ErrorAlertState } from '../../../hooks/useCatchAllErrorAlert';
 
 type EnrollmentEndDateFieldProps = {
 	attemptedSave: boolean;
@@ -75,8 +78,7 @@ export const EnrollmentEndDateField: React.FC<EnrollmentEndDateFieldProps> = ({
 					? {
 							id: 'exit',
 							type: 'error',
-							message:
-								'ECE Reporter only contains data for fiscal year 2020 and later. Please do not add children who withdrew prior to July 2019.',
+							message: REPORTING_PERIODS_ONLY_EXIST_FOR_FY2020_AND_BEYOND,
 					  }
 					: displayValidationStatus([
 							{
