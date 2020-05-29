@@ -13,10 +13,10 @@ type WithNewDetermintionProps = {
  * when called normally. Workaround is to wrap it in a setTimeout call to force react to dispatch
  * the event.
  */
-export const WithNewDetermination = ({
+export const WithNewDetermination: React.FC<WithNewDetermintionProps> = ({
 	shouldCreate = false,
 	children: determinationFields,
-}: PropsWithChildren<WithNewDetermintionProps>) => {
+}) => {
 	const { data, dataDriller, updateData } = useGenericContext<Enrollment>(FormContext);
 	const newDet = dataDriller
 		.at('child')

@@ -1,18 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Dispatch, SetStateAction } from 'react';
 import FormContext, { useGenericContext } from '../../../../../../components/Form_New/FormContext';
 import { Enrollment, FundingSource, FundingSpace } from '../../../../../../generated';
 import FormField from '../../../../../../components/Form_New/FormField';
-import { RadioButtonGroupProps, RadioButtonGroup } from '../../../../../../components';
+import { RadioButtonGroupProps, RadioButtonGroup, RadioOption } from '../../../../../../components';
 import { FundingFormFieldProps } from '../common';
 import { fundingSourceFromString, prettyFundingSource } from '../../../../../../utils/models';
 import RadioButton from '../../../../../../components/RadioButton/RadioButton';
 import { ContractSpaceField } from './ContractSpace';
 import { FirstReportingPeriodField } from './FirstReportingPeriod';
 
-export const TypeField: React.FC<FundingFormFieldProps> = ({ 
+type TypeFieldProps = FundingFormFieldProps & {
+	setHasFunding: Dispatch<SetStateAction<boolean>>;
+}
+export const TypeField: React.FC<TypeFieldProps> = ({ 
 	initialLoad,
 	fundingId,
 	fundingSpaces: allFundingSpaces,
+	setHasFunding
 }) => {
 	const { dataDriller } = useGenericContext<Enrollment>(FormContext);
 	const [validFundingSpaces, setValidFundingSpaces] = useState<FundingSpace[]>([]);
@@ -35,30 +39,41 @@ export const TypeField: React.FC<FundingFormFieldProps> = ({
 		setValidFundingSpaces(_validFundingSpaces);
 
 	}, [dataDriller, allFundingSpaces])
-	
+
 	return (
-		<div>
-			<FormField<Enrollment, RadioButtonGroupProps, FundingSource | null>
-				getValue={data => data.at('fundings').find(f => f.id === fundingId).at('source')}
-				parseOnChangeEvent={e => fundingSourceFromString((e.target as HTMLInputElement).value)}
-				inputComponent={RadioButtonGroup}
-				id="funding-source-radiogroup"
-				legend="Funding source"
-				options={
-					validFundingSpaces.map(space => ({
-						render: (props) => <RadioButton text={prettyFundingSource(space.source)} {...props} />,
-						value: space.source,
-						expansion: space.source === FundingSource.CDC
-							? (
-								<>
-									<ContractSpaceField initialLoad={initialLoad} fundingId={fundingId} fundingSpaces={validFundingSpaces} />
-									<FirstReportingPeriodField initialLoad={initialLoad} fundingId={fundingId} lastSubmittedReport={undefined} />
-								</>
-							)
-							: undefined
-					}))
+		<FormField<Enrollment, RadioButtonGroupProps, FundingSource | null>
+			getValue={data => data.at('fundings').find(f => f.id === fundingId).at('source')}
+			parseOnChangeEvent={e => fundingSourceFromString((e.target as HTMLInputElement).value)}
+			inputComponent={RadioButtonGroup}
+			id="funding-source-radiogroup"
+			legend="Funding source"
+			options={[
+				// Funding source options
+				...validFundingSpaces.map(space => ({
+					render: (props) => <RadioButton text={prettyFundingSource(space.source)} {...props} />,
+					value: space.source as FundingSource,
+					expansion: space.source === FundingSource.CDC
+						? (
+							<>
+								<ContractSpaceField initialLoad={initialLoad} fundingId={fundingId} fundingSpaces={validFundingSpaces} />
+								<FirstReportingPeriodField initialLoad={initialLoad} fundingId={fundingId} lastSubmittedReport={undefined} />
+							</>
+						)
+						: undefined
+				}) as RadioOption),
+				// Private pay option
+				{
+					render: (props) => 
+						<RadioButton 
+							{...props}
+							text={prettyFundingSource(undefined)} 
+							// Override on change to set hasFunding = false
+							// instead of updating a funding.source
+							onChange={e => setHasFunding(false)}
+						/>,
+					value: prettyFundingSource(undefined)
 				}
-			/>
-		</div>
+			]}
+		/>
 	)
 }
