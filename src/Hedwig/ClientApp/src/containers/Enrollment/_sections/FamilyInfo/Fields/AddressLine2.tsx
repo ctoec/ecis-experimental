@@ -4,7 +4,7 @@ import React from 'react';
 import FormField from '../../../../../components/Form_New/FormField';
 import { Enrollment } from '../../../../../generated';
 
-export const AddressLine1: React.FC<FamilyInfoFormFieldProps> = () => (
+export const AddressLine2: React.FC<FamilyInfoFormFieldProps> = () => (
 	<FormField<Enrollment, TextInputProps, string | null>
 		getValue={(data) => data.at('child').at('family').at('addressLine2')}
 		type="input"

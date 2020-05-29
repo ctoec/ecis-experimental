@@ -1,28 +1,30 @@
 import { FamilyInfoFormFieldProps } from './common';
-import { ChoiceList } from '../../../../../components';
 import React from 'react';
 import { initialLoadErrorGuard } from '../../../../../utils/validations';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
-import idx from 'idx';
+import { SelectProps, Select } from '../../../../../components/Select/Select';
+import FormField from '../../../../../components/Form_New/FormField';
+import { Enrollment } from '../../../../../generated';
 
 export const State: React.FC<FamilyInfoFormFieldProps> = ({ initialLoad }) => (
-	<ChoiceList
-		type="select"
+	<FormField<Enrollment, SelectProps, string>
 		id="state"
 		label="State"
-		name="child.family.state"
+		inputComponent={Select}
+		getValue={(data) => data.at('child').at('family').at('state')}
+		parseOnChangeEvent={(e) => e.target.value}
 		options={['CT', 'MA', 'NY', 'RI'].map((_state) => ({ text: _state, value: _state }))}
-		defaultValue={state ? [state] : undefined}
-		onChange={updateFormData()}
-		status={initialLoadErrorGuard(
-			initialLoad,
-			displayValidationStatus([
-				{
-					type: 'warning',
-					response: idx(child, (_) => _.family.validationErrors) || null,
-					field: 'state',
-				},
-			])
-		)}
+		status={(enrollment) =>
+			initialLoadErrorGuard(
+				initialLoad || false,
+				displayValidationStatus([
+					{
+						type: 'warning',
+						response: enrollment.at('child').at('family').at('validationErrors').value || null,
+						field: 'state',
+					},
+				])
+			)
+		}
 	/>
 );
