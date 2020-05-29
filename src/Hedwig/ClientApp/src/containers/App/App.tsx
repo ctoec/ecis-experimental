@@ -85,7 +85,12 @@ const App: React.FC = () => {
 					logoutPath="/logout"
 					userFirstName={(user && user.firstName) || undefined}
 				/>
-				<main id="main-content">
+				<main
+					id="main-content"
+					className={cx({
+						'margin-top-2': !!user,
+					})}
+				>
 					<ErrorBoundary>
 						<AlertProvider>
 							<Switch>
