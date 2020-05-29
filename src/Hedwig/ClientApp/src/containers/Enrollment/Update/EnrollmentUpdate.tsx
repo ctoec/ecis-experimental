@@ -10,14 +10,19 @@ import UserContext from '../../../contexts/User/UserContext';
 import {
 	Enrollment,
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest,
-	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
 } from '../../../generated';
 import { validatePermissions, getIdForUser } from '../../../utils/models';
 import CommonContainer from '../../CommonContainer';
-import { nameFormatter, editSaveFailAlert } from '../../../utils/stringFormatters';
+import { hasValidationErrors } from '../../../utils/validations';
+import AlertContext from '../../../contexts/Alert/AlertContext';
+import {
+	nameFormatter,
+	editEnrollmentMissingInfoAlert,
+	editEnrollmentCompleteAlert,
+	editSaveFailAlert,
+} from '../../../utils/stringFormatters';
 import { ErrorBoundary } from '../../../components';
 import useApi from '../../../hooks/useApi';
-import { DeepNonUndefineable } from '../../../utils/types';
 
 type EnrollmentUpdateParams = {
 	history: History;
@@ -38,8 +43,8 @@ const sections: { [key: string]: Section } = {
 };
 
 /**
- * React component for updating an enrollment. Renders a section
- * update form component.
+ * React component for editing an enrollment. Hands off to a section
+ * form component.
  *
  * @param props Props with location.
  */
@@ -51,7 +56,8 @@ export default function EnrollmentUpdate({
 }: EnrollmentUpdateParams) {
 	const section = sections[sectionId];
 	const { user } = useContext(UserContext);
-	const [attemptingSave, setAttemptingSave] = useState(false);
+	const { setAlerts } = useContext(AlertContext);
+
 	const [enrollment, updateEnrollment] = useState<Enrollment | null>(null);
 	// Get enrollment by id
 	const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest = {
@@ -68,66 +74,59 @@ export default function EnrollmentUpdate({
 		updateEnrollment(_enrollment);
 	}, [_enrollment]);
 
-	const saveParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
-		id: enrollment ? enrollment.id : 0,
-		orgId: getIdForUser(user, 'org'),
-		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
-		enrollment: enrollment || undefined,
-	};
-	const { loading: saveLoading, error: saveError, data: saveData } = useApi<Enrollment>(
-		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(saveParams),
-		{ skip: !attemptingSave || !user, callback: () => setAttemptingSave(false) }
-	);
-	useEffect(() => {
-		// If the request went through, then do the next steps
-		if (!saveData && !saveError) {
-			return;
-		}
-		// Set the new error regardless of whether there is one
-		if (saveData && !saveError) {
-			updateEnrollment(saveData);
-		} else {
-		}
-	}, [saveData, saveError]);
-
 	if (!section) {
 		return <PageNotFound />;
 	}
 
 	if (loading || !enrollment) {
-		return <div className="EnrollmentUpdate"></div>;
+		return <div className="EnrollmentEdit"></div>;
 	}
 
-	// If update hasn't been implemented, default to edit
-	if (!section.UpdateForm) {
-		history.push(`/roster/sites/${siteId}/enrollments/${enrollment.id}/edit/${sectionId}`);
-		return <></>;
-	}
+	/**
+	 * Accepts an enrollment and navigates back to the enrollment
+	 * summary page.
+	 *
+	 * @param e Enrollment that was just saved.
+	 */
+	const afterSave = (e: Enrollment) => {
+		const childName = nameFormatter(enrollment.child);
+		setAlerts([
+			hasValidationErrors(enrollment)
+				? editEnrollmentMissingInfoAlert(childName)
+				: editEnrollmentCompleteAlert(childName),
+		]);
+		history.push(`/roster/sites/${siteId}/enrollments/${enrollment.id}/`);
+	};
+
+	const sectionFormProps = {
+		siteId,
+		enrollment,
+		updateEnrollment,
+		error,
+		successCallback: afterSave,
+	};
 
 	return (
 		<CommonContainer
 			directionalLinkProps={{
 				direction: 'left',
 				to: `/roster/sites/${siteId}/enrollments/${enrollment.id}/`,
-				text: `Back to summary`,
+				text: `Back to enrollment details`,
 			}}
 		>
 			<div className="grid-container">
-				<h1 className="margin-y-4">
-					Update {section.name.toLowerCase()} for {nameFormatter(enrollment.child)}
-				</h1>
+				<h1>Update {section.name.toLowerCase()}</h1>
+				<h2 className="usa-intro">{nameFormatter(enrollment.child)}</h2>
 				<ErrorBoundary alertProps={editSaveFailAlert}>
-					<section.UpdateForm
-						siteId={siteId}
-						updateEnrollment={(enrollment) => {
-							updateEnrollment(enrollment);
-							setAttemptingSave(true);
-						}}
-						loading={saveLoading || attemptingSave}
-						error={error || saveError}
-						enrollment={enrollment}
-						success={saveData && !saveError}
-					/>
+					{/*
+						Simple object updates are completed with the same Form used during the EnrollmentNew flow.
+						For more complex updates (those which expose collections), an optional UpdateForm can be provided.
+					*/}
+					{section.UpdateForm ? (
+						<section.UpdateForm {...sectionFormProps} />
+					) : (
+						<section.Form {...sectionFormProps} />
+					)}
 				</ErrorBoundary>
 			</div>
 		</CommonContainer>

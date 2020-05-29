@@ -42,12 +42,6 @@ export interface FamilyDetermination {
 	id: number;
 	/**
 	 *
-	 * @type {boolean}
-	 * @memberof FamilyDetermination
-	 */
-	notDisclosed?: boolean;
-	/**
-	 *
 	 * @type {number}
 	 * @memberof FamilyDetermination
 	 */
@@ -115,7 +109,6 @@ export function FamilyDeterminationFromJSONTyped(
 	}
 	return {
 		id: json['id'],
-		notDisclosed: !exists(json, 'notDisclosed') ? undefined : json['notDisclosed'],
 		numberOfPeople: !exists(json, 'numberOfPeople') ? undefined : json['numberOfPeople'],
 		income: !exists(json, 'income') ? undefined : json['income'],
 		determinationDate: !exists(json, 'determinationDate')
@@ -149,7 +142,6 @@ export function FamilyDeterminationToJSON(value?: FamilyDetermination | null): a
 	}
 	return {
 		id: value.id,
-		notDisclosed: value.notDisclosed,
 		numberOfPeople: value.numberOfPeople,
 		income: value.income,
 		determinationDate:

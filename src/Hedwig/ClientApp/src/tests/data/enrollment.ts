@@ -85,7 +85,6 @@ export const mockEnrollmentWithLaterStart = swapFields(mockCompleteEnrollment, [
 export const mockEnrollmentWithFoster = swapFields(mockCompleteEnrollment, [
 	{ keys: ['id'], newValue: 6 },
 	{ keys: ['child', 'foster'], newValue: true },
-	{ keys: ['child', 'family', 'determinations'], newValue: [] },
 ]);
 
 export const mockPartTimeEnrollment = swapFields(mockCompleteEnrollment, [
@@ -108,6 +107,10 @@ export const mockFullTimeInfantEnrollment = swapFields(mockCompleteEnrollment, [
 	{ keys: ['fundings', 0, 'fundingSpaceId'], newValue: mockFullTimeInfantSpace.id },
 ]);
 
+export const mockEnrollmentIncomeDeterminationNotDisclosed = swapFields(mockCompleteEnrollment, [
+	{ keys: ['child', 'family', 'determinations'], newValue: [] },
+]);
+
 export const mockAllFakeEnrollments = [
 	mockCompleteEnrollment, // full time preschool
 	mockEnrollmentMissingBirthCertId, // full time preschool
@@ -117,4 +120,5 @@ export const mockAllFakeEnrollments = [
 	mockPartTimeEnrollment, // part time preschool
 	mockPartTimeInfantEnrollment,
 	mockFullTimeInfantEnrollment,
+	mockEnrollmentIncomeDeterminationNotDisclosed,
 ];

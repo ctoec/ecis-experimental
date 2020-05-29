@@ -1,8 +1,7 @@
 import { Enrollment, User } from '../../generated';
-import { DeepNonUndefineable } from '../types';
 import moment from 'moment';
 
-export function enrollmentDetailMetadataFormatter(enrollment: DeepNonUndefineable<Enrollment>) {
+export function enrollmentDetailMetadataFormatter(enrollment: Enrollment) {
 	const formattedName = authorNameFormatter(enrollment.author);
 	const formattedUpdatedAt = updatedAtFormatter(enrollment.updatedAt);
 	if (formattedName != null && formattedUpdatedAt != null) {
@@ -12,7 +11,7 @@ export function enrollmentDetailMetadataFormatter(enrollment: DeepNonUndefineabl
 	return '';
 }
 
-function authorNameFormatter(author: User | null) {
+function authorNameFormatter(author: User | null | undefined) {
 	if (author && author.firstName && author.lastName) {
 		return `${author.firstName[0]}. ${author.lastName}`;
 	}
@@ -20,7 +19,7 @@ function authorNameFormatter(author: User | null) {
 	return null;
 }
 
-function updatedAtFormatter(updatedAt: Date | null) {
+function updatedAtFormatter(updatedAt: Date | null | undefined) {
 	if (updatedAt) {
 		return moment(updatedAt).format('MMMM Do, YYYY');
 	}

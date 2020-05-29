@@ -9,7 +9,7 @@ export type ErrorAlertState = {
 	alert: () => void;
 };
 
-const useCatchallErrorAlert: (error: ApiError | null) => ErrorAlertState = (error) => {
+const useCatchAllErrorAlert: (error: ApiError | null) => ErrorAlertState = (error) => {
 	const { setAlerts } = useContext(AlertContext);
 	const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
 
@@ -33,4 +33,4 @@ const useCatchallErrorAlert: (error: ApiError | null) => ErrorAlertState = (erro
 	};
 };
 
-export default useCatchallErrorAlert;
+export default useCatchAllErrorAlert;

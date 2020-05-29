@@ -35,6 +35,7 @@ import TestProvider from '../../../contexts/__mocks__/TestProvider';
 import { mockCompleteEnrollment, mockEnrollmentWithFoster } from '../../../tests/data';
 
 import EnrollmentNew from './EnrollmentNew';
+import FamilyIncome from '../_sections/FamilyIncome';
 
 const fakeDate = '2019-03-02';
 
@@ -47,64 +48,85 @@ afterAll(() => {
 	jest.resetModules();
 });
 
+const history = createMemoryHistory();
+
 describe('EnrollmentNew', () => {
-	it('does not skip family income section when lives with foster family is not selected', async () => {
-		const history = createMemoryHistory();
-		const { getByText } = render(
-			<TestProvider>
-				<EnrollmentNew
-					history={history}
-					match={{
-						params: {
-							siteId: 1,
-							enrollmentId: mockCompleteEnrollment.id,
-							sectionId: 'family-information',
-						},
-					}}
-				/>
-			</TestProvider>
-		);
+	describe('FamilyIncome', () => {
+		it('matches snapshot', () => {
+			const { asFragment } = render(
+				<TestProvider>
+					<EnrollmentNew
+						history={history}
+						match={{
+							params: {
+								siteId: mockCompleteEnrollment.siteId,
+								enrollmentId: mockCompleteEnrollment.id,
+								sectionId: FamilyIncome.key,
+							},
+						}}
+					/>
+				</TestProvider>
+			);
 
-		const saveBtn = getByText(/Save/i);
-		fireEvent.click(saveBtn);
+			expect(asFragment()).toMatchSnapshot();
+		});
 
-		await wait();
+		it('does not skip family income section when lives with foster family is not selected', async () => {
+			const { getByText } = render(
+				<TestProvider>
+					<EnrollmentNew
+						history={history}
+						match={{
+							params: {
+								siteId: 1,
+								enrollmentId: mockCompleteEnrollment.id,
+								sectionId: 'family-information',
+							},
+						}}
+					/>
+				</TestProvider>
+			);
 
-		expect(history.location.pathname).toMatch(/family-income/i);
-	});
+			const saveBtn = getByText(/Save/i);
+			fireEvent.click(saveBtn);
 
-	it('skips family income section when lives with foster family is selected', async () => {
-		const history = createMemoryHistory();
-		history.push(
-			`/roster/sites/${mockEnrollmentWithFoster.siteId}/enrollments/${mockEnrollmentWithFoster.id}/new/family-information`
-		);
+			await wait();
 
-		const { findByLabelText, getByText } = render(
-			<TestProvider history={history}>
-				<Route
-					path={'/roster/sites/:siteId/enrollments/:enrollmentId/new/:sectionId'}
-					render={(props) => (
-						<EnrollmentNew
-							history={props.history}
-							match={{
-								params: {
-									siteId: props.match.params.siteId,
-									enrollmentId: mockEnrollmentWithFoster.id,
-									sectionId: props.match.params.sectionId,
-								},
-							}}
-						/>
-					)}
-				/>
-			</TestProvider>
-		);
+			expect(history.location.pathname).toMatch(/family-income/i);
+		});
 
-		const fosterCheckbox = await findByLabelText(/Child lives with foster family/i);
-		expect((fosterCheckbox as HTMLInputElement).checked).toBeTruthy();
+		it('skips family income section when lives with foster family is selected', async () => {
+			history.push(
+				`/roster/sites/${mockEnrollmentWithFoster.siteId}/enrollments/${mockEnrollmentWithFoster.id}/new/family-information`
+			);
 
-		const saveBtn = getByText(/Save/i);
-		fireEvent.click(saveBtn);
+			const { findByLabelText, getByText } = render(
+				<TestProvider history={history}>
+					<Route
+						path={'/roster/sites/:siteId/enrollments/:enrollmentId/new/:sectionId'}
+						render={(props) => (
+							<EnrollmentNew
+								history={props.history}
+								match={{
+									params: {
+										siteId: props.match.params.siteId,
+										enrollmentId: mockEnrollmentWithFoster.id,
+										sectionId: props.match.params.sectionId,
+									},
+								}}
+							/>
+						)}
+					/>
+				</TestProvider>
+			);
 
-		await wait(() => expect(history.location.pathname).toMatch(/enrollment-funding/i));
+			const fosterCheckbox = await findByLabelText(/Child lives with foster family/i);
+			expect((fosterCheckbox as HTMLInputElement).checked).toBeTruthy();
+
+			const saveBtn = getByText(/Save/i);
+			fireEvent.click(saveBtn);
+
+			await wait(() => expect(history.location.pathname).toMatch(/enrollment-funding/i));
+		});
 	});
 });

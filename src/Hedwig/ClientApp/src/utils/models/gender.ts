@@ -15,7 +15,7 @@ export function genderFromString(str: string) {
 	}
 }
 
-export function prettyGender(gender: Gender) {
+export function prettyGender(gender: Gender | undefined) {
 	switch (gender) {
 		case Gender.Female:
 			return 'Female';

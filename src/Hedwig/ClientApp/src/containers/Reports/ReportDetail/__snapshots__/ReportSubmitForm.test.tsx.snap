@@ -377,7 +377,7 @@ exports[`ReportSubmitForm matches snapshot 1`] = `
         <td
           class=" oec-table__cell--red"
         >
-          5/10 spaces
+          6/10 spaces
         </td>
         <td
           class="text-tabular text-right"
@@ -409,7 +409,7 @@ exports[`ReportSubmitForm matches snapshot 1`] = `
           <span
             style="visibility: hidden;"
           />
-          3,306.40
+          3,967.68
         </td>
         <td
           class="oec-table__cell--red text-tabular text-right"
@@ -426,7 +426,7 @@ exports[`ReportSubmitForm matches snapshot 1`] = `
             >
               0
             </span>
-            3,306.40)
+            2,645.12)
           </div>
         </td>
       </tr>
@@ -638,7 +638,7 @@ exports[`ReportSubmitForm matches snapshot 1`] = `
         <td
           class="oec-table__cell--strong oec-table__cell--red"
         >
-          8/70 spaces
+          9/70 spaces
         </td>
         <td
           class="text-tabular text-right"
@@ -652,7 +652,7 @@ exports[`ReportSubmitForm matches snapshot 1`] = `
           <span
             style="visibility: hidden;"
           />
-          4,455.60
+          5,116.88
         </td>
         <td
           class="oec-table__cell--strong oec-table__cell--red text-tabular text-right"
@@ -667,7 +667,7 @@ exports[`ReportSubmitForm matches snapshot 1`] = `
             <span
               style="visibility: hidden;"
             />
-            27,167.20)
+            26,505.92)
           </div>
         </td>
       </tr>

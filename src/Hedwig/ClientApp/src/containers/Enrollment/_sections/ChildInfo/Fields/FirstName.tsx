@@ -15,7 +15,6 @@ export const FirstNameField: React.FC<ChildInfoFormFieldProps> = ({
 	error,
 	errorAlertState,
 }) => {
-	console.log(error);
 	return (
 		<FormField<Enrollment, TextInputProps, string | null>
 			getValue={(data) => data.at('child').at('firstName')}

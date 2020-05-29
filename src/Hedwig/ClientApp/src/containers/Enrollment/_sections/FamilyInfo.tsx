@@ -25,7 +25,7 @@ import {
 	REQUIRED_FOR_ENROLLMENT,
 } from '../../../utils/validations/messageStrings';
 import { displayValidationStatus } from '../../../utils/validations/displayValidationStatus';
-import useCatchallErrorAlert from '../../../hooks/useCatchallErrorAlert';
+import useCatchAllErrorAlert from '../../../hooks/useCatchAllErrorAlert';
 
 const FamilyInfo: Section = {
 	key: 'family-information',
@@ -82,7 +82,7 @@ const FamilyInfo: Section = {
 		const [error, setError] = useState<ApiError | null>(inputError);
 
 		useFocusFirstError([error]);
-		useCatchallErrorAlert(error);
+		useCatchAllErrorAlert(error);
 
 		const [_enrollment, updateEnrollment] = useReducer<
 			FormReducer<DeepNonUndefineable<Enrollment>>

@@ -1,4 +1,3 @@
-import { fundingStepProps } from './';
 import { cdcReportingPeriods } from '../../../tests/data';
 import { DeepNonUndefineable } from '../../types';
 import { Funding, FamilyDetermination, C4KCertificate, Enrollment, Age } from '../../../generated';
@@ -8,9 +7,10 @@ import {
 	c4kCertificateStepProps,
 	enrollmentStepProps,
 	getSortableStep,
-} from './history';
+	fundingStepProps,
+} from './timeline';
 
-describe('enrollment history utils', () => {
+describe('enrollment timeline utils', () => {
 	describe('enrollmentStepProps', () => {
 		it.each([
 			[2, 3, null, 0, ''],
@@ -62,11 +62,12 @@ describe('enrollment history utils', () => {
 
 	describe('fundingStepProps', () => {
 		it('creates switched to CDC step for cdc fundings with first reporting period', () => {
+			const reportingPeriod = cdcReportingPeriods[0];
 			var fundings = [
 				// CDC funding with first reporting period
 				{
 					source: 'CDC',
-					firstReportingPeriod: cdcReportingPeriods[0],
+					firstReportingPeriod: reportingPeriod,
 				},
 				// CDC funding without first reporting period
 				{
@@ -83,23 +84,24 @@ describe('enrollment history utils', () => {
 			expect(steps).toHaveLength(1);
 			var [step] = steps;
 			expect(step).toHaveProperty('heading', 'Switched funding to CDC');
-			expect(step).toHaveProperty('sortDate', cdcReportingPeriods[0].periodStart);
+			expect(step).toHaveProperty('sortDate', reportingPeriod.periodStart);
 			expect(step).toHaveProperty('sortWeight', 0);
 		});
 
 		it.each([true, false])(
 			'creates switched to private pay step for cdc funding with last reporting period if funding ended before enrollment',
 			(enrollmentExitIsNull) => {
+				const reportingPeriod = cdcReportingPeriods[1];
 				var fundings = [
 					{
 						source: 'CDC',
-						lastReportingPeriod: cdcReportingPeriods[1],
+						lastReportingPeriod: reportingPeriod,
 					},
-				] as DeepNonUndefineable<Funding[]>;
+				] as Funding[];
 
 				var enrollmentExit = enrollmentExitIsNull
 					? null
-					: moment(fundings[0].lastReportingPeriod.periodEnd).add(1, 'month').toDate();
+					: moment(reportingPeriod.periodEnd).add(1, 'month').toDate();
 
 				var steps = fundingStepProps(fundings, enrollmentExit);
 
@@ -108,21 +110,22 @@ describe('enrollment history utils', () => {
 				expect(step).toHaveProperty('heading', 'Switched funding to private pay');
 				expect(step).toHaveProperty(
 					'sortDate',
-					moment(fundings[0].lastReportingPeriod.periodEnd).add(1, 'day').toDate()
+					moment(reportingPeriod.periodEnd).add(1, 'day').toDate()
 				);
 				expect(step).toHaveProperty('sortWeight', 0);
 			}
 		);
 
 		it('does not create switched to private pay step for cdc funding if funding ended with enrollment', () => {
+			const reportingPeriod = cdcReportingPeriods[1];
 			var fundings = [
 				{
 					source: 'CDC',
-					lastReportingPeriod: cdcReportingPeriods[1],
+					lastReportingPeriod: reportingPeriod,
 				},
 			] as DeepNonUndefineable<Funding[]>;
 
-			var enrollmentExit = fundings[0].lastReportingPeriod.periodEnd;
+			var enrollmentExit = reportingPeriod.periodEnd;
 
 			var steps = fundingStepProps(fundings, enrollmentExit);
 
@@ -132,19 +135,16 @@ describe('enrollment history utils', () => {
 
 	describe('determinationStepProps', () => {
 		it.each([
-			[false, new Date(), 1],
-			[false, undefined, 0],
-			[true, new Date(), 0],
-			[true, undefined, 0],
+			[new Date(), 1],
+			[undefined, 0],
 		])(
-			'creates income redetermined step for each disclosed income determination with determination date',
-			(notDisclosed, determinationDate, expectedSteps) => {
+			'creates income redetermined step for each income determination with determination date',
+			(determinationDate, expectedSteps) => {
 				var determinations = [
 					{
-						notDisclosed,
 						determinationDate,
 					},
-				] as DeepNonUndefineable<FamilyDetermination[]>;
+				] as FamilyDetermination[];
 
 				var steps = determinationStepProps(determinations);
 
@@ -163,7 +163,7 @@ describe('enrollment history utils', () => {
 				{
 					startDate: moment(firstDate).add(1, 'year').toDate(),
 				},
-			] as DeepNonUndefineable<C4KCertificate[]>;
+			] as C4KCertificate[];
 
 			var steps = c4kCertificateStepProps(c4kCerts);
 

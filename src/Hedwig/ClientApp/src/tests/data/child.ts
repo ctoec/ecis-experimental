@@ -24,7 +24,22 @@ export const mockChild: Child = {
 		zip: '77777',
 		homelessness: false,
 		organizationId: 1,
-		determinations: [{ id: 1, notDisclosed: true, familyId: 1 }],
+		determinations: [
+			{
+				id: 1,
+				familyId: 1,
+				income: 20000,
+				numberOfPeople: 4,
+				determinationDate: new Date('2019-01-01'),
+			},
+			{
+				id: 2,
+				familyId: 1,
+				income: 22000,
+				numberOfPeople: 5,
+				determinationDate: new Date('2020-01-01'),
+			},
+		],
 	},
 	c4KCertificates: [],
 };

@@ -1,4 +1,4 @@
-import { ErrorAlertState } from '../../../../../hooks/useCatchallErrorAlert';
+import { ErrorAlertState } from '../../../../../hooks/useCatchAllErrorAlert';
 import { ValidationResponse } from '../../../../../utils/validations/displayValidationStatus';
 
 // Common helper type for supplying additional props to field components

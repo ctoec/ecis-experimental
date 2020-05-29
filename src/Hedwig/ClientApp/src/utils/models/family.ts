@@ -42,3 +42,7 @@ export function homelessnessText() {
 export function fosterText() {
 	return 'Child lives with foster family';
 }
+
+export function incomeDeterminationNotDisclosed(family: Family) {
+	return !family.determinations || !family.determinations.length;
+}

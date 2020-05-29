@@ -1,157 +1,180 @@
-import mockUseApi from '../../../../hooks/useApi/__mocks__/useApi';
-
-// Tell jest to create a factory mock for this module
-// Because we never use the API during these tests, supply
-// an empty object to mockUseApi. This allows tests to run without issue
-// (if we don't give it the factory, jest returned undefined to the useApi
-// call that we thus cannot destructure) and without making a network request.
-jest.mock('../../../../hooks/useApi', () => mockUseApi({}));
-
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent, act } from '@testing-library/react';
 import FamilyIncome from '.';
 import { mockCompleteEnrollment } from '../../../../tests/data';
 import { DeepNonUndefineable } from '../../../../utils/types';
 import { Enrollment, FamilyDetermination } from '../../../../generated';
 import { getValidationError } from '../../../../tests/helpers';
-import { REQUIRED_FOR_OEC_REPORTING } from '../../../../utils/validations/messageStrings';
+import {
+	REQUIRED_FOR_OEC_REPORTING,
+	INFORMATION_REQUIRED_IF_INCOME_DISCLOSED,
+	INCOME_REQUIRED_FOR_FUNDING_ALERT_TEXT,
+} from '../../../../utils/validations/messageStrings';
+
+jest.mock('../../../../hooks/useApi/api');
+jest.mock('../../../../hooks/useApi/error');
 
 describe('enrollment sections', () => {
 	describe('FamilyIncome', () => {
-		it('shows must be determined or marked not disclosed warning if no determinations', async () => {
-			const enrollmentWithValidationErrors = { ...mockCompleteEnrollment } as DeepNonUndefineable<
-				Enrollment
-			>;
-			enrollmentWithValidationErrors.child.family.determinations = [];
-			enrollmentWithValidationErrors.child.family.validationErrors = [
-				getValidationError({ field: 'determinations' }),
-			];
+		describe('Form', () => {
+			it.each(['numberOfPeople', 'income', 'determinationDate'])(
+				'shows missing information warning if validation error for %s field',
+				async (field) => {
+					const determination = {
+						id: 1,
+						validationErrors: [getValidationError({ field })],
+					} as DeepNonUndefineable<FamilyDetermination>;
 
-			const { findByText } = render(
-				<FamilyIncome.Form
-					siteId={1}
-					updateEnrollment={jest.fn()}
-					enrollment={enrollmentWithValidationErrors}
-					error={null}
-				/>
+					const enrollmentWithIncompleteDetermination = {
+						...mockCompleteEnrollment,
+					} as DeepNonUndefineable<Enrollment>;
+					enrollmentWithIncompleteDetermination.child.family.determinations = [determination];
+
+					const { getByText } = render(
+						<FamilyIncome.Form
+							siteId={1}
+							updateEnrollment={jest.fn()}
+							enrollment={enrollmentWithIncompleteDetermination}
+							error={null}
+						/>
+					);
+
+					const fieldSet = (await getByText('Family income determination')).closest('fieldset');
+					expect(fieldSet).toHaveTextContent(INFORMATION_REQUIRED_IF_INCOME_DISCLOSED);
+				}
 			);
 
-			const fieldSet = (await findByText('Family income')).closest('fieldset');
-			expect(fieldSet).toHaveTextContent('Income must be determined or marked as not disclosed');
-		});
-
-		it.each(['numberOfPeople', 'income', 'determinationDate'])(
-			'shows missing information warning if validation error for %s field',
-			async (field) => {
-				const determination = {
-					validationErrors: [getValidationError({ field })],
-				} as FamilyDetermination;
-				const enrollmentWithValidationErrors = { ...mockCompleteEnrollment } as DeepNonUndefineable<
-					Enrollment
-				>;
-				enrollmentWithValidationErrors.child.family.determinations = [
-					determination as DeepNonUndefineable<FamilyDetermination>,
-				];
-
-				const { findByText } = render(
+			it('shows info alert if family income not disclosed', async () => {
+				const { getByLabelText, getByText } = render(
 					<FamilyIncome.Form
 						siteId={1}
 						updateEnrollment={jest.fn()}
-						enrollment={enrollmentWithValidationErrors}
+						enrollment={mockCompleteEnrollment as DeepNonUndefineable<Enrollment>}
 						error={null}
 					/>
 				);
 
-				const fieldSet = (await findByText('Family income')).closest('fieldset');
-				expect(fieldSet).toHaveTextContent(REQUIRED_FOR_OEC_REPORTING);
-			}
-		);
+				const notDisclosedCheckbox = await getByLabelText('Family income not disclosed');
+				fireEvent.click(notDisclosedCheckbox);
 
-		it('shows warning with validation error message, not missing information warning, if determination date has value', async () => {
-			const validationErrorMessage = 'TEST MESSAGE';
-			const determination = {
-				determinationDate: new Date(),
-				validationErrors: [
-					getValidationError({ field: 'determinationDate', message: validationErrorMessage }),
-				],
-			} as FamilyDetermination;
-			const enrollmentWithValidationErrors = { ...mockCompleteEnrollment } as DeepNonUndefineable<
-				Enrollment
-			>;
-			enrollmentWithValidationErrors.child.family.determinations = [
-				determination as DeepNonUndefineable<FamilyDetermination>,
-			];
-
-			const { findByText } = render(
-				<FamilyIncome.Form
-					siteId={1}
-					updateEnrollment={jest.fn()}
-					enrollment={enrollmentWithValidationErrors}
-					error={null}
-				/>
-			);
-			const fieldSet = (await findByText('Family income')).closest('fieldset');
-			expect(fieldSet).not.toHaveTextContent(REQUIRED_FOR_OEC_REPORTING);
-			expect(fieldSet).toHaveTextContent(validationErrorMessage);
+				const infoAlert = getByText(INCOME_REQUIRED_FOR_FUNDING_ALERT_TEXT);
+				expect(infoAlert).toBeInTheDocument();
+			});
 		});
 
-		it('shows must be determined warning, not must be determined or marked not disclosed warning, if validation error for notDisclosed field', async () => {
-			const determination = {
-				notDisclosed: true,
-				validationErrors: [getValidationError({ field: 'notDisclosed' })],
-			} as FamilyDetermination;
-			const enrollmentWithValidationErrors = { ...mockCompleteEnrollment } as DeepNonUndefineable<
-				Enrollment
-			>;
-			enrollmentWithValidationErrors.child.family.validationErrors = [
-				getValidationError({ field: 'determinations', isSubObjectValidation: true }),
-			];
+		describe('UpdateForm', () => {
+			it.each(['numberOfPeople', 'income', 'determinationDate'])(
+				'shows missing information icons for validation errors for %s field',
+				async (field) => {
+					const determinationWithValidationErrors = {
+						id: 1,
+						validationErrors: [getValidationError({ field })],
+					} as DeepNonUndefineable<FamilyDetermination>;
 
-			enrollmentWithValidationErrors.child.family.determinations = [
-				determination as DeepNonUndefineable<FamilyDetermination>,
-			];
+					const enrollment = { ...mockCompleteEnrollment } as DeepNonUndefineable<Enrollment>;
+					enrollment.child.family.determinations = [determinationWithValidationErrors];
 
-			const { findByLabelText } = render(
-				<FamilyIncome.Form
-					siteId={1}
-					updateEnrollment={jest.fn()}
-					enrollment={enrollmentWithValidationErrors}
-					error={null}
-				/>
+					if (FamilyIncome.UpdateForm) {
+						const { findByText, findAllByText } = render(
+							<FamilyIncome.UpdateForm
+								siteId={1}
+								updateEnrollment={jest.fn()}
+								enrollment={enrollment}
+								error={null}
+							/>
+						);
+
+						const editBtn = await findByText('Edit');
+						fireEvent.click(editBtn);
+
+						const [fieldSetLegend] = (await findAllByText('Edit family income')).filter(
+							(elem) => elem.tagName === 'SPAN'
+						);
+						const fieldSet = fieldSetLegend.closest('fieldset');
+						expect(fieldSet).toHaveTextContent(REQUIRED_FOR_OEC_REPORTING);
+					}
+				}
 			);
 
-			const someDOMElement = (await findByLabelText('Family income not disclosed')).parentElement
-				?.parentElement;
-			expect(someDOMElement).toHaveTextContent(
-				'Income information must be disclosed for CDC funded enrollments'
-			);
-		});
+			it('shows a collapsed card for each determination', () => {
+				const enrollment = { ...mockCompleteEnrollment } as DeepNonUndefineable<Enrollment>;
+				if (FamilyIncome.UpdateForm) {
+					const { getAllByLabelText } = render(
+						<FamilyIncome.UpdateForm
+							siteId={1}
+							updateEnrollment={jest.fn()}
+							enrollment={enrollment}
+							error={null}
+						/>
+					);
 
-		it('displays income information required alert if not disclosed and no notDisclosed validationError', async () => {
-			const determination = {
-				notDisclosed: true,
-			} as FamilyDetermination;
-			const enrollmentWithValidationErrors = { ...mockCompleteEnrollment } as DeepNonUndefineable<
-				Enrollment
-			>;
-			enrollmentWithValidationErrors.child.family.determinations = [
-				determination as DeepNonUndefineable<FamilyDetermination>,
-			];
+					const hiddenHhSizeLabels = getAllByLabelText('Household size');
+					// There should be one label per determination
+					expect(hiddenHhSizeLabels).toHaveLength(
+						(enrollment.child.family.determinations || []).length
+					);
+					// The label is expected to be hidden, as the Card is expected to be collapsed
+					// (the form with label is display as CardExpansion)
+					hiddenHhSizeLabels.forEach((elem) => expect(elem).not.toBeVisible());
+				}
+			});
 
-			const { findByLabelText } = render(
-				<FamilyIncome.Form
-					siteId={1}
-					updateEnrollment={jest.fn()}
-					enrollment={enrollmentWithValidationErrors}
-					error={null}
-				/>
-			);
+			it('shows edit form when user clicks "Edit"', () => {
+				const enrollment = { ...mockCompleteEnrollment } as DeepNonUndefineable<Enrollment>;
+				enrollment.child.family.determinations = [
+					{
+						id: 10,
+					} as DeepNonUndefineable<FamilyDetermination>,
+				];
 
-			const someDOMElement = (await findByLabelText('Family income not disclosed')).parentElement
-				?.parentElement?.parentElement?.parentElement;
-			expect(someDOMElement).toHaveTextContent(
-				'Income information is required to enroll a child in a CDC funded space. You will not be able to assign this child to a funding space without this information.'
-			);
+				if (FamilyIncome.UpdateForm) {
+					const { getByText, getAllByText } = render(
+						<FamilyIncome.UpdateForm
+							siteId={1}
+							updateEnrollment={jest.fn()}
+							enrollment={enrollment}
+							error={null}
+						/>
+					);
+
+					// Edit family income form should not be visible
+					// while card is collapsed
+					getAllByText('Edit family income').forEach((elem) => expect(elem).not.toBeVisible());
+
+					// Click button to expand card
+					const editBtn = getByText('Edit');
+					fireEvent.click(editBtn);
+
+					// After button click, previously hidden form should be visible
+					const [editFormLegend] = getAllByText('Edit family income');
+					expect(editFormLegend).toBeVisible();
+				}
+			});
+
+			it('shows redetermination form when user clicks "Add new income determination"', async () => {
+				if (FamilyIncome.UpdateForm) {
+					const { getByText, getAllByText, queryByText } = render(
+						<FamilyIncome.UpdateForm
+							siteId={1}
+							updateEnrollment={jest.fn()}
+							enrollment={mockCompleteEnrollment as DeepNonUndefineable<Enrollment>}
+							error={null}
+						/>
+					);
+
+					// Add new family income form should not exist in the dom
+					// until user invokes it
+					expect(queryByText('Redetermine family income')).toBeNull();
+
+					// Click button to display form
+					const addNewBtn = getByText('Add new income determination');
+					fireEvent.click(addNewBtn);
+
+					// After button click, previously missing form should exist
+					const [addNewFormLegend] = getAllByText('Redetermine family income');
+					expect(addNewFormLegend).toBeInTheDocument();
+				}
+			});
 		});
 	});
 });

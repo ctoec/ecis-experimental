@@ -1,6 +1,5 @@
 import idx from 'idx';
 import { ProcessStepProps } from '../../../components/ProcessList/ProcessStep';
-import { DeepNonUndefineable, DeepNonUndefineableArray } from '../../types';
 import {
 	Enrollment,
 	Funding,
@@ -27,9 +26,7 @@ type SortableProcessStepProps = ProcessStepProps & { sortDate: Date | null; sort
  * @param enrollment
  * @returns sorted SortableProcessStepProps array
  */
-export function getEnrollmentHistoryProps(
-	currentEnrollment: DeepNonUndefineable<Enrollment>
-): ProcessStepProps[] {
+export function getEnrollmentTimelineProps(currentEnrollment: Enrollment): ProcessStepProps[] {
 	// allEnrollments is sorted in descending order by Entry
 	// (pastEnrollments are sorted thusly in API response)
 	var allEnrollments = [
@@ -54,16 +51,13 @@ export function getEnrollmentHistoryProps(
 			// determination steps
 			processStepProps = processStepProps.concat(
 				determinationStepProps(
-					(idx(enrollment, (_) => _.child.family.determinations) as DeepNonUndefineableArray<
-						FamilyDetermination
-					>) || null
+					(idx(enrollment, (_) => _.child.family.determinations) as FamilyDetermination[]) || null
 				)
 			);
 
 			// C4K certification steps
-			processStepProps = processStepProps.concat(
-				c4kCertificateStepProps(enrollment.child.c4KCertificates)
-			);
+			const c4KCertificates = enrollment.child ? enrollment.child.c4KCertificates : [];
+			processStepProps = processStepProps.concat(c4kCertificateStepProps(c4KCertificates));
 		}
 	});
 
@@ -72,11 +66,13 @@ export function getEnrollmentHistoryProps(
 }
 
 export function enrollmentStepProps(
-	_enrollment: DeepNonUndefineable<Enrollment>,
+	_enrollment: Enrollment,
 	enrollmentIndex: number,
 	allEnrollmentsCount: number
 ) {
 	var processStepProps: SortableProcessStepProps[] = [];
+
+	const siteName = _enrollment.site ? _enrollment.site.name : '';
 
 	// enrollment start step
 	if (_enrollment.entry) {
@@ -85,10 +81,8 @@ export function enrollmentStepProps(
 				heading:
 					enrollmentIndex === allEnrollmentsCount - 1
 						? // heading text for first enrollment (last in ordered array)
-						  `Enrolled in ${_enrollment.site.name}`
-						: `Changed enrollment to ${prettyAge(_enrollment.ageGroup)} in ${
-								_enrollment.site.name
-						  }`,
+						  `Enrolled in ${siteName}`
+						: `Changed enrollment to ${prettyAge(_enrollment.ageGroup)} in ${siteName}`,
 				body: `on ${dateFormatter(_enrollment.entry, false)}`,
 				stepDate: _enrollment.entry,
 				stepWeight: -1,
@@ -100,7 +94,7 @@ export function enrollmentStepProps(
 	if (enrollmentIndex === 0 && _enrollment.exit) {
 		processStepProps.push(
 			getSortableStep({
-				heading: `Withdrawn from ${_enrollment.site.name}`,
+				heading: `Withdrawn from ${siteName}`,
 				body: `on ${dateFormatter(_enrollment.exit, false)}`,
 				stepDate: _enrollment.exit,
 				stepWeight: 1,
@@ -118,13 +112,14 @@ export function enrollmentStepProps(
  * used to determine if switch to private pay step should be created
  */
 export function fundingStepProps(
-	fundings: DeepNonUndefineable<Funding[]> | null,
-	enrollmentExit: Date | null
+	fundings: Funding[] | null | undefined,
+	enrollmentExit: Date | null | undefined
 ) {
 	var processStepProps: SortableProcessStepProps[] = [];
 
 	if (fundings) {
-		fundings.sort(fundingStartSorter).forEach((funding) => {
+		fundings.sort(fundingStartSorter);
+		fundings.forEach((funding) => {
 			// CDC Funding start if:
 			// - source is CDC
 			// - funding has first reporting period
@@ -174,13 +169,11 @@ export function fundingStepProps(
  * Generates SortableProcessStepProps array for a given array of family determinations
  * @param determinations
  */
-export function determinationStepProps(
-	determinations: DeepNonUndefineable<FamilyDetermination[]> | null
-) {
+export function determinationStepProps(determinations: FamilyDetermination[] | null) {
 	var processStepProps: SortableProcessStepProps[] = [];
 	if (determinations) {
 		determinations.forEach((determination) => {
-			if (!determination.notDisclosed && determination.determinationDate) {
+			if (determination.determinationDate) {
 				processStepProps.push(
 					getSortableStep({
 						heading: 'Income redetermined',
@@ -199,18 +192,17 @@ export function determinationStepProps(
  * Generates SortableProcessStepProps array for a given array of C4KCertificates
  * @param c4KCertificates
  */
-export function c4kCertificateStepProps(
-	c4KCertificates: DeepNonUndefineable<C4KCertificate[]> | null
-) {
+export function c4kCertificateStepProps(c4KCertificates: C4KCertificate[] | null | undefined) {
 	var processStepProps: SortableProcessStepProps[] = [];
 
 	if (c4KCertificates) {
-		c4KCertificates.sort(c4kCertificateSorter).forEach((c4kCertificate, idx) => {
+		c4KCertificates.sort(c4kCertificateSorter);
+		c4KCertificates.forEach((c4kCertificate, index) => {
 			if (c4kCertificate.startDate) {
 				processStepProps.push(
 					getSortableStep({
 						heading:
-							idx === 0 ? 'Care 4 Kids certificate added' : 'Care 4 Kids certificate renewed',
+							index === 0 ? 'Care 4 Kids certificate added' : 'Care 4 Kids certificate renewed',
 						body: `on ${dateFormatter(c4kCertificate.startDate, false)}`,
 						stepDate: c4kCertificate.startDate,
 					})

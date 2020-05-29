@@ -42,7 +42,7 @@ import {
 } from '../../../utils/validations';
 import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
 import {
-	familyDeterminationNotDisclosed,
+	incomeDeterminationNotDisclosed,
 	getCurrentCdcFunding,
 	updateFunding,
 	createFunding,
@@ -58,7 +58,7 @@ import { dateSorter, propertyDateSorter } from '../../../utils/dateSorter';
 import { propertyBetweenDates, propertyBeforeDate } from '../../../utils/dateFilter';
 import { REQUIRED_FOR_OEC_REPORTING } from '../../../utils/validations/messageStrings';
 import { displayValidationStatus } from '../../../utils/validations/displayValidationStatus';
-import useCatchallErrorAlert from '../../../hooks/useCatchallErrorAlert';
+import useCatchAllErrorAlert from '../../../hooks/useCatchAllErrorAlert';
 
 type UtilizationRate = {
 	capacity: number;
@@ -153,7 +153,7 @@ const EnrollmentFunding: Section = {
 		const initialLoad = touchedSections ? !touchedSections[EnrollmentFunding.key] : false;
 		const [error, setError] = useState<ApiError | null>(inputError);
 		useFocusFirstError([error]);
-		const errorAlertState = useCatchallErrorAlert(error);
+		const errorAlertState = useCatchAllErrorAlert(error);
 
 		const { user } = useContext(UserContext);
 		const { cdcReportingPeriods: reportingPeriods } = useContext(ReportingPeriodContext);
@@ -318,7 +318,10 @@ const EnrollmentFunding: Section = {
 			// Give private pay as the only option when the organization has no funding spaces
 			// Or the family income is not disclosed and there was not a previous CDC funding
 			// The CDC funding includes information that we do not want to silently remove
-			if (!fundingSpaces || (familyDeterminationNotDisclosed(enrollment) && !currentCdcFunding)) {
+			if (
+				!fundingSpaces ||
+				(incomeDeterminationNotDisclosed(enrollment.child.family) && !currentCdcFunding)
+			) {
 				setFundingSourceOpts([privatePayOpt]);
 				return;
 			}
