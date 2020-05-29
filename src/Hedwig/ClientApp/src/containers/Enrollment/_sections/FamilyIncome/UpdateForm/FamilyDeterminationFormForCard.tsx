@@ -1,19 +1,13 @@
 import React, { useState } from 'react';
 import { Enrollment } from '../../../../../generated';
 import {
-	HouseholdSizeField,
-	AnnualHouseholdIncomeField,
-	DeterminationDateField,
 	WithNewDetermination,
+	IncomeDeterminationFieldSet,
 } from '../Fields';
 import { Button } from '../../../../../components';
 import FormSubmitButton from '../../../../../components/Form_New/FormSubmitButton';
-import { FormFieldSet } from '../../../../../components/Form_New/FormFieldSet';
 import Form from '../../../../../components/Form_New/Form';
-import { REQUIRED_FOR_OEC_REPORTING } from '../../../../../utils/validations/messageStrings';
 import { ExpandCard } from '../../../../../components/Card/ExpandCard';
-import { TObjectDriller } from '../../../../../components/Form_New/ObjectDriller';
-import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
 
 /**
  * The single-determination form to be embedded in Cards in the UpdateForm.
@@ -33,27 +27,8 @@ const FamilyDeterminationFormForCard = ({
 	onSubmit: (_: Enrollment) => void;
 	onCancel?: () => void;
 }) => {
-	// determinationId = 0 means new determination, not edit
+	// determinationId !== 0 means edit, not redetermination
 	const isEditExpansion = determinationId !== 0;
-
-	// status is only necessary for edit
-	const status = !isEditExpansion
-		? undefined
-		: (data: TObjectDriller<NonNullable<Enrollment>>) =>
-				displayValidationStatus([
-					{
-						type: 'warning',
-						response:
-							data
-								.at('child')
-								.at('family')
-								.at('determinations')
-								.find((det) => det.id === determinationId)
-								.at('validationErrors').value || null,
-						fields: ['numberOfPeople', 'income', 'determinationDate'],
-						message: REQUIRED_FOR_OEC_REPORTING,
-					},
-				]);
 
 	// Use a basic button to cancel adding new determination,
 	// or an ExpandCard button to cancel editing an existing determination
@@ -71,8 +46,6 @@ const FamilyDeterminationFormForCard = ({
 		</ExpandCard>
 	);
 
-	const legend = isEditExpansion ? 'Edit family income' : 'Redetermine family income';
-
 	return (
 		<Form
 			id={`update-family-income-${determinationId}`}
@@ -80,18 +53,12 @@ const FamilyDeterminationFormForCard = ({
 			onSubmit={onSubmit}
 			className="update-family-income-form"
 		>
-			<p className="text-bold font-sans-lg">{legend}</p>
-			<FormFieldSet<Enrollment>
-				id={`family-income-fields-${determinationId}`}
-				legend={legend}
-				status={status}
-			>
 				<WithNewDetermination shouldCreate={!isEditExpansion}>
-					<HouseholdSizeField id={determinationId} />
-					<AnnualHouseholdIncomeField id={determinationId} />
-					<DeterminationDateField id={determinationId} />
+					<IncomeDeterminationFieldSet
+						type={isEditExpansion ? 'edit' : 'redetermine'}
+						determinationId={determinationId}
+					/>
 				</WithNewDetermination>
-			</FormFieldSet>
 			<div className="display-flex">
 				<div className="usa-form">
 					{cancelElement}

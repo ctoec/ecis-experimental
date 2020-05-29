@@ -32,6 +32,7 @@ import {
 } from '../../../tests/data';
 import FamilyInfo from '../_sections/FamilyInfo';
 import FamilyIncome from '../_sections/FamilyIncome';
+import EnrollmentFunding from '../_sections/EnrollmentFunding';
 
 const fakeDate = '2019-03-02';
 
@@ -67,6 +68,21 @@ describe('EnrollmentUpdate', () => {
 			expect(asFragment()).toMatchSnapshot();
 		});
 
+		accessibilityTestHelper(
+			<TestProvider>
+				<EnrollmentUpdate
+					history={history}
+					match={{
+						params: {
+							siteId: mockCompleteEnrollment.siteId,
+							enrollmentId: mockCompleteEnrollment.id,
+							sectionId: FamilyInfo.key,
+						},
+					}}
+				/>
+			</TestProvider>
+		);
+
 		it('shows a fieldset warning if there is no address', () => {
 			const { getByRole } = render(
 				<TestProvider>
@@ -76,7 +92,7 @@ describe('EnrollmentUpdate', () => {
 							params: {
 								siteId: mockEnrollmentMissingAddress.siteId,
 								enrollmentId: mockEnrollmentMissingAddress.id,
-								sectionId: 'family-information',
+								sectionId: FamilyInfo.key,
 							},
 						}}
 					/>
@@ -108,6 +124,20 @@ describe('EnrollmentUpdate', () => {
 
 			expect(asFragment()).toMatchSnapshot();
 		});
+		accessibilityTestHelper(
+			<TestProvider>
+				<EnrollmentUpdate
+					history={history}
+					match={{
+						params: {
+							siteId: mockCompleteEnrollment.siteId,
+							enrollmentId: mockCompleteEnrollment.id,
+							sectionId: FamilyIncome.key,
+						},
+					}}
+				/>
+			</TestProvider>
+		);
 	});
 
 	describe('enrollment and funding', () => {
@@ -120,7 +150,7 @@ describe('EnrollmentUpdate', () => {
 							params: {
 								siteId: mockCompleteEnrollment.siteId,
 								enrollmentId: mockCompleteEnrollment.id,
-								sectionId: 'enrollment-funding',
+								sectionId: EnrollmentFunding.key,
 							},
 						}}
 					/>
@@ -128,6 +158,21 @@ describe('EnrollmentUpdate', () => {
 			);
 			expect(asFragment()).toMatchSnapshot();
 		});
+
+		accessibilityTestHelper(
+			<TestProvider>
+				<EnrollmentUpdate
+					history={history}
+					match={{
+						params: {
+							siteId: mockCompleteEnrollment.siteId,
+							enrollmentId: mockCompleteEnrollment.id,
+							sectionId: EnrollmentFunding.key,
+						},
+					}}
+				/>
+			</TestProvider>
+		);
 
 		it('shows the appropriate number of reporting periods for enrollment funding', async () => {
 			const { getByLabelText } = render(
@@ -138,7 +183,7 @@ describe('EnrollmentUpdate', () => {
 							params: {
 								siteId: mockCompleteEnrollment.siteId,
 								enrollmentId: mockCompleteEnrollment.id,
-								sectionId: 'enrollment-funding',
+								sectionId: EnrollmentFunding.key,
 							},
 						}}
 					/>
@@ -147,22 +192,8 @@ describe('EnrollmentUpdate', () => {
 
 			const reportingPeriodSelect = getByLabelText('First reporting period');
 			const reportingPeriodOptions = getAllByRole(reportingPeriodSelect, 'option');
+			// TODO: this test is wrong -- the options are: March, April and '-Select-'
 			expect(reportingPeriodOptions.length).toBe(cdcReportingPeriods.length);
 		});
 	});
-
-	accessibilityTestHelper(
-		<TestProvider>
-			<EnrollmentUpdate
-				history={history}
-				match={{
-					params: {
-						siteId: mockCompleteEnrollment.siteId,
-						enrollmentId: mockCompleteEnrollment.id,
-						sectionId: 'enrollment-funding',
-					},
-				}}
-			/>
-		</TestProvider>
-	);
 });

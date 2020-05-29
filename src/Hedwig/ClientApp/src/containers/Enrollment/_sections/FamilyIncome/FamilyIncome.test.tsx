@@ -5,11 +5,11 @@ import { mockCompleteEnrollment } from '../../../../tests/data';
 import { DeepNonUndefineable } from '../../../../utils/types';
 import { Enrollment, FamilyDetermination } from '../../../../generated';
 import { getValidationError } from '../../../../tests/helpers';
-import { REQUIRED_FOR_OEC_REPORTING } from '../../../../utils/validations/messageStrings';
 import {
+	REQUIRED_FOR_OEC_REPORTING,
 	INFORMATION_REQUIRED_IF_INCOME_DISCLOSED,
 	INCOME_REQUIRED_FOR_FUNDING_ALERT_TEXT,
-} from './NewForm';
+} from '../../../../utils/validations/messageStrings';
 
 jest.mock('../../../../hooks/useApi');
 

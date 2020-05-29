@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { SectionProps } from '../../../enrollmentTypes';
-import { DeepNonUndefineable } from '../../../../../utils/types';
 import {
 	Enrollment,
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
@@ -19,18 +18,20 @@ import useCatchAllErrorAlert from '../../../../../hooks/useCatchAllErrorAlert';
  * for the given enrollment's child's family. The user can edit any existing
  * determination, or add a new one.
  */
-export const UpdateForm = ({ enrollment, updateEnrollment, siteId }: SectionProps) => {
+export const UpdateForm = ({ enrollment, siteId }: SectionProps) => {
 	// Enrollment and child must already exist to create family income data,
 	// and cannot be created without user input (have required non null fields)
 	if (!enrollment || !enrollment.child || !enrollment.child.family) {
 		throw new Error('Section rendered without enrollment or child');
 	}
 
+	const [mutatedEnrollment, setMutatedEnrollment] = useState<Enrollment>(enrollment);
+
 	// Set up form state
 	const [showNew, setShowNew] = useState(false);
+	const [forceCloseEditForms, setForceCloseEditForms] = useState(false);
 	const [didAddNew, setDidAddNew] = useState(false);
 	const [isNew, setIsNew] = useState(false);
-	const [forceClose, setForceClose] = useState(false);
 
 	// Set up API request (enrollment PUT)
 	const [attemptingSave, setAttemptingSave] = useState(false);
@@ -39,9 +40,10 @@ export const UpdateForm = ({ enrollment, updateEnrollment, siteId }: SectionProp
 		id: enrollment.id,
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		orgId: getIdForUser(user, 'org'),
-		enrollment: enrollment ? enrollment : undefined,
+		enrollment: mutatedEnrollment
 	};
-	const { error: saveError, loading: saving, data: saveData } = useApi<Enrollment>(
+
+	const { error: saveError, loading: isSaving, data: returnedEnrollment } = useApi<Enrollment>(
 		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams),
 		{
 			skip: !user || !attemptingSave,
@@ -51,48 +53,40 @@ export const UpdateForm = ({ enrollment, updateEnrollment, siteId }: SectionProp
 		}
 	);
 
-	// CatchAll error alert will be displayed on _any_ saveError,
-	// since no field-specific error alerts exist
+	// Handle API error
+	// display CatchAll error alert on any API error
 	useCatchAllErrorAlert(saveError);
 
 	// Handle successful API request
 	useEffect(() => {
-		// API request is still on going -- exit
-		if (saving) {
+		// If the request is still loading or
+		// If the request produced an error,
+		// Do nothing
+		if (isSaving || saveError) {
 			return;
 		}
 
-		// API request failed -- exit
-		if (saveError) {
-			return;
+		// If the request succeeded, process the response
+		if (returnedEnrollment) {
+			setMutatedEnrollment(returnedEnrollment);
+			if(didAddNew) {
+				setIsNew(true);
+			}
+			setShowNew(false);
+			setForceCloseEditForms(false);
 		}
-
-		// Set isNew to display new tag on current determination
-		if (didAddNew) {
-			setIsNew(true);
-		}
-
-		// Close new form and any open edit forms
-		setShowNew(false);
-		setForceClose(true);
-
-		// Update enrollment to have most updated response data
-		if (saveData) {
-			updateEnrollment(saveData);
-		}
-	}, [saving, saveError, didAddNew, saveData]);
-
-	if (saving) {
-		return <>Loading...</>;
-	}
+		// Else  the request hasn't fired, do nothing
+	}, [isSaving, saveError, didAddNew, returnedEnrollment]);
 
 	// Convenience vars for rendering the form
 	const formOnSubmit = (_data: Enrollment) => {
-		updateEnrollment(_data as DeepNonUndefineable<Enrollment>);
+		setMutatedEnrollment(_data);
 		setAttemptingSave(true);
+		setForceCloseEditForms(true);
 	};
 
-	const sortedDeterminations = [...(enrollment.child.family.determinations || [])].sort((a, b) =>
+	// mutatedEnrollment is known to have child & family from check above on enrollment
+	const sortedDeterminations = [...(mutatedEnrollment?.child?.family?.determinations || [])].sort((a, b) =>
 		propertyDateSorter(a, b, (det) => det.determinationDate, true)
 	);
 	const currentDetermination = sortedDeterminations[0];
@@ -104,7 +98,7 @@ export const UpdateForm = ({ enrollment, updateEnrollment, siteId }: SectionProp
 				<Card>
 					<FamilyDeterminationFormForCard
 						determinationId={0}
-						formData={enrollment}
+						formData={mutatedEnrollment}
 						onSubmit={(_data) => {
 							setDidAddNew(true);
 							formOnSubmit(_data);
@@ -135,11 +129,11 @@ export const UpdateForm = ({ enrollment, updateEnrollment, siteId }: SectionProp
 						determination={currentDetermination}
 						isCurrent={true}
 						isNew={isNew}
-						forceClose={forceClose}
+						forceClose={forceCloseEditForms}
 						expansion={
 							<FamilyDeterminationFormForCard
 								determinationId={currentDetermination.id}
-								formData={enrollment}
+								formData={mutatedEnrollment}
 								onSubmit={formOnSubmit}
 							/>
 						}
@@ -155,13 +149,14 @@ export const UpdateForm = ({ enrollment, updateEnrollment, siteId }: SectionProp
 					<div>
 						{pastDeterminations.map((determination) => (
 							<FamilyDeterminationCard
+								key={determination.id}
 								determination={determination}
 								isCurrent={false}
-								forceClose={forceClose}
+								forceClose={forceCloseEditForms}
 								expansion={
 									<FamilyDeterminationFormForCard
 										determinationId={determination.id}
-										formData={enrollment}
+										formData={mutatedEnrollment}
 										onSubmit={formOnSubmit}
 									/>
 								}

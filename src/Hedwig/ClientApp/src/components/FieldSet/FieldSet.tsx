@@ -6,6 +6,7 @@ export type FieldSetProps = {
 	legend: string;
 	id: string;
 	showLegend?: boolean;
+	legendStyle?: 'normal' | 'title';
 	status?: FormStatusProps;
 	optional?: boolean;
 	className?: string;
@@ -22,6 +23,7 @@ export const FieldSet: React.FC<FieldSetProps> = ({
 	legend,
 	id,
 	showLegend,
+	legendStyle = 'normal',
 	status,
 	optional,
 	className,
@@ -60,9 +62,12 @@ export const FieldSet: React.FC<FieldSetProps> = ({
 			<legend id={`fieldset-legend-${id}`}>
 				{/* Needs to be wrapped in another el because spacing works differently for legends */}
 				<span
-					className={
-						showLegend ? `usa-label${status ? ` usa-label--${status.type}` : ''}` : 'usa-sr-only'
-					}
+					className={cx({
+						'usa-label': showLegend,
+						'usa-sr-only': !showLegend,
+						[`usa-label--${status && status.type}`]: showLegend && status,
+						'text-bold font-sans-lg': showLegend && legendStyle === 'title'
+					})}
 				>
 					{legend}
 					{optional && <span className="usa-hint">&nbsp;(optional)</span>}
@@ -76,7 +81,7 @@ export const FieldSet: React.FC<FieldSetProps> = ({
 	return (
 		<>
 			{horizontal ? (
-				<div className={horizontal ? 'grid-row flex-align-start grid-gap' : ''}>
+				<div className='grid-row flex-align-start grid-gap' >
 					{fieldSetElement}
 				</div>
 			) : (

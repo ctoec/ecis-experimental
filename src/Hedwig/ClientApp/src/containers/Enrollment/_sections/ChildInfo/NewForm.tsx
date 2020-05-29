@@ -23,7 +23,7 @@ import {
 	EthnicityField,
 	GenderField,
 } from './Fields';
-import useApi, { ApiParamOpts } from '../../../../hooks/useApi';
+import useApi from '../../../../hooks/useApi';
 import { useFocusFirstError } from '../../../../utils/validations';
 import ChildInfo from '.';
 
@@ -64,15 +64,14 @@ export const NewForm: React.FC<SectionProps> = ({
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		enrollment: mutatedEnrollment,
 	};
-	const useApiOpts: ApiParamOpts<Enrollment> = {
-		callback: () => {
-			// Once the request has been made, prevent future duplicate requests.
-			setAttemptSave(false);
-			// Register that the user has touched this section.
-			onSectionTouch && onSectionTouch(ChildInfo);
-		},
-		skip: !attemptSave,
-	};
+
+	// When API call completes, reset attemptSave state
+	// and mark section as touched
+	const apiCallback = () => {
+		setAttemptSave(false);
+		onSectionTouch && onSectionTouch(ChildInfo);
+	}
+
 	// Create the specific API request depending on whether enrollment is null.
 	// If it is null, then it hasn't been created, so POST. Otherwise, it has, so PUT.
 	const apiRequest = (api: HedwigApi) =>
@@ -86,7 +85,10 @@ export const NewForm: React.FC<SectionProps> = ({
 			  });
 	const { error: errorOnSave, loading: isSaving, data: returnedEnrollment } = useApi<Enrollment>(
 		apiRequest,
-		useApiOpts
+		{
+			skip: !attemptSave,
+			callback: apiCallback
+		}
 	);
 
 	const errorAlertState = useCatchAllErrorAlert(errorOnSave);
@@ -106,10 +108,10 @@ export const NewForm: React.FC<SectionProps> = ({
 	}, [errorOnSave, isSaving, returnedEnrollment]);
 
 	const onFormSubmit = (userModifiedEnrollment: Enrollment) => {
-		// Kick off the API request
-		setAttemptSave(true);
 		// Apply the mutations to the local copy of the enrollment
 		setMutatedEnrollment(userModifiedEnrollment);
+		// Kick off the API request
+		setAttemptSave(true);
 	};
 
 	return (

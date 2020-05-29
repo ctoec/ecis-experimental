@@ -12,22 +12,22 @@ import { CardContentWithExpandCard } from './CardContentWithExpandCard';
 export const FamilyDeterminationCard = ({
 	determination,
 	isCurrent,
-	forceClose,
 	isNew = false,
+	forceClose,
 	expansion,
 }: {
 	determination: FamilyDetermination;
 	isCurrent: boolean;
-	forceClose: boolean;
 	isNew?: boolean;
+	forceClose: boolean;
 	expansion: JSX.Element;
 }) => {
 	return (
 		<Card
 			className="margin-bottom-2"
 			appearance={isCurrent ? 'primary' : 'secondary'}
-			forceClose={forceClose}
 			showTag={isCurrent ? isNew : undefined}
+			forceClose={forceClose}
 			key={determination.id}
 		>
 			<CardContentWithExpandCard determination={determination} />

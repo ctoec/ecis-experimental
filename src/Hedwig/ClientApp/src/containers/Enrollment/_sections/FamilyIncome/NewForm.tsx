@@ -1,37 +1,24 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { SectionProps } from '../../enrollmentTypes';
 import Form from '../../../../components/Form_New/Form';
-import {
-	DeterminationDateField,
-	AnnualHouseholdIncomeField,
-	HouseholdSizeField,
+import { 
 	WithNewDetermination,
+	IncomeDeterminationFieldSet 
 } from './Fields';
 import {
 	Enrollment,
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
-	Family,
 } from '../../../../generated';
 import UserContext from '../../../../contexts/User/UserContext';
 import useApi from '../../../../hooks/useApi';
-import { validatePermissions, getIdForUser } from '../../../../utils/models';
+import { validatePermissions, getIdForUser, enrollmentWithDefaultFamily } from '../../../../utils/models';
 import FormSubmitButton from '../../../../components/Form_New/FormSubmitButton';
-import produce from 'immer';
-import { DeepNonUndefineable } from '../../../../utils/types';
-import { FormFieldSet } from '../../../../components/Form_New/FormFieldSet';
 import { Alert } from '../../../../components';
 import idx from 'idx';
 import FamilyIncome from '.';
 import { NotDisclosedField } from './Fields/NotDisclosed';
-import { displayValidationStatus } from '../../../../utils/validations/displayValidationStatus';
 import useCatchAllErrorAlert from '../../../../hooks/useCatchAllErrorAlert';
-import set from 'lodash/set';
-
-export const INCOME_REQUIRED_FOR_FUNDING_ALERT_TEXT =
-	'Income information is required enroll a child in a funded space.\
- You will not be able to assign this child to a funding space without this information.';
-export const INFORMATION_REQUIRED_IF_INCOME_DISCLOSED =
-	'This information is required if family income is disclosed';
+import { INCOME_REQUIRED_FOR_FUNDING_ALERT_TEXT } from '../../../../utils/validations/messageStrings';
 
 /**
  * The form rendered in EnrollmentNew flow, which optionally adds a family income determination
@@ -48,7 +35,6 @@ export const INFORMATION_REQUIRED_IF_INCOME_DISCLOSED =
 
 export const NewForm = ({
 	enrollment,
-	updateEnrollment,
 	siteId,
 	successCallback,
 	onSectionTouch,
@@ -60,59 +46,53 @@ export const NewForm = ({
 		throw new Error('Section rendered without enrollment or child');
 	}
 
-	// TODO: move empty family create logic to FamilyInfo and remove this
-	// Family must already exist to create family income data,
-	// but can be created without user input with all empty defaults
-	if (!enrollment.child.family) {
-		updateEnrollment(produce<Enrollment>(
-			enrollment, (draft) => set(
-				draft,
-				'child.family',
-				{}
-			)
-		));
-	}
+	const [mutatedEnrollment, setMutatedEnrollment] = useState<Enrollment>(
+		// If enrollment's child's family does not exist, create an empty default
+		// TODO: move empty family create logic to FamilyInfo and remove this
+		enrollment.child.family == undefined
+		? enrollmentWithDefaultFamily(enrollment)
+		: enrollment
+	);
 
 	// Set up API request (enrollment PUT)
-	const [attemptingSave, setAttemptingSave] = useState(false);
+	const [attemptSave, setAttemptSave] = useState(false);
 	const { user } = useContext(UserContext);
 	const putParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
 		id: enrollment.id,
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		orgId: getIdForUser(user, 'org'),
-		enrollment: enrollment,
+		enrollment: mutatedEnrollment,
 	};
-	const { error: saveError, loading: saving, data: saveData } = useApi<Enrollment>(
+	const { error: errorOnSave, loading: isSaving, data: returnedEnrollment } = useApi<Enrollment>(
 		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams),
 		{
-			skip: !attemptingSave,
+			skip: !attemptSave,
 			callback: () => {
-				setAttemptingSave(false);
+				setAttemptSave(false);
 				onSectionTouch && onSectionTouch(FamilyIncome);
 			},
 		}
 	);
 
-	// Handle API request success
-	useEffect(() => {
-		// API request still ongoing -- exit
-		if (saving) {
-			return;
-		}
-
-		// API request failed -- exit
-		if (saveError) {
-			return;
-		}
-
-		if (saveData) {
-			if (successCallback) successCallback(saveData);
-		}
-	}, [saving, saveError, successCallback, saveData]);
-
 	// Handle API error
 	// display CatchAll error alert on any API error
-	useCatchAllErrorAlert(saveError);
+	useCatchAllErrorAlert(errorOnSave);
+
+	// Handle API request success
+	useEffect(() => {
+		// If the request is still loading or
+		// If the request produced an error,
+		// Do nothing
+		if (isSaving || errorOnSave) {
+			return;
+		}
+
+		// If the request succeeded, process the response
+		if (returnedEnrollment) {
+			if (successCallback) successCallback(returnedEnrollment);
+		}
+		// Else the request hasn't fired, do nothing.
+	}, [isSaving, errorOnSave, successCallback, returnedEnrollment]);
 
 	// Skip section when child lives with foster
 	if (idx(enrollment, (_) => _.child.foster)) {
@@ -132,15 +112,17 @@ export const NewForm = ({
 	const determinationId = idx(enrollment, (_) => _.child.family.determinations[0].id) || 0;
 	const [notDisclosed, setNotDisclosed] = useState(isReturnVisit ? determinationId === 0 : false);
 
+
+	const onFormSubmit = (_mutatedEnrollment: Enrollment) => {
+		setMutatedEnrollment(_mutatedEnrollment);
+		setAttemptSave(true);
+	}
 	return (
 		<>
 			{notDisclosed && <Alert type="info" text={INCOME_REQUIRED_FOR_FUNDING_ALERT_TEXT} />}
 			<Form<Enrollment>
-				data={enrollment}
-				onSubmit={(_data) => {
-					updateEnrollment(_data as DeepNonUndefineable<Enrollment>);
-					setAttemptingSave(true);
-				}}
+				data={mutatedEnrollment}
+				onSubmit={onFormSubmit}
 				className="enrollment-new-family-income-section"
 			>
 				<WithNewDetermination
@@ -149,38 +131,18 @@ export const NewForm = ({
 					// - user has not indicated that income information is not disclosed
 					shouldCreate={determinationId === 0 && !notDisclosed}
 				>
-					{!notDisclosed && (
-						<FormFieldSet<Enrollment>
-							id="family-income-determination"
-							legend="Family income determination"
-							status={(data) =>
-								displayValidationStatus([
-									{
-										type: 'warning',
-										response:
-											data
-												.at('child')
-												.at('family')
-												.at('determinations')
-												.find((det) => det.id === determinationId)
-												.at('validationErrors').value || null,
-										fields: ['numberOfPeople', 'income', 'determinationDate'],
-										message: INFORMATION_REQUIRED_IF_INCOME_DISCLOSED,
-									},
-								])
-							}
-						>
-							<HouseholdSizeField id={determinationId} />
-							<AnnualHouseholdIncomeField id={determinationId} />
-							<DeterminationDateField id={determinationId} />
-						</FormFieldSet>
-					)}
+					{!notDisclosed &&
+						<IncomeDeterminationFieldSet
+							type="new"
+							determinationId={determinationId}
+						/>
+					}
 				</WithNewDetermination>
 
 				<div className="margin-top-2">
 					<NotDisclosedField notDisclosed={notDisclosed} setNotDisclosed={setNotDisclosed} />
 				</div>
-				<FormSubmitButton text={saving ? 'Saving...' : 'Save'} />
+				<FormSubmitButton text={isSaving ? 'Saving...' : 'Save'} />
 			</Form>
 		</>
 	);
