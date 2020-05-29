@@ -1,4 +1,4 @@
-import FamilyInfo from './FamilyInfo';
+import FamilyInfo from '.';
 import React, { useState, useReducer, useContext, useEffect } from 'react';
 import useApi, { ApiError } from '../../../../hooks/useApi';
 import { useFocusFirstError } from '../../../../utils/validations';

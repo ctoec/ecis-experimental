@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { Section } from '../enrollmentTypes';
 import { History } from 'history';
 import ChildInfo from '../_sections/ChildInfo';
-import FamilyInfo from '../_sections/FamilyInfo/FamilyInfo';
+import FamilyInfo from '../_sections/FamilyInfo';
 import FamilyIncome from '../_sections/FamilyIncome';
 import EnrollmentFunding from '../_sections/EnrollmentFunding';
 import PageNotFound from '../../PageNotFound/PageNotFound';
