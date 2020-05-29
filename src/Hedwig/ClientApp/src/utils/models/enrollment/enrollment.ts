@@ -91,17 +91,3 @@ export function isFunded(
 
 	return fundings.length > 0;
 }
-
-/**
- * String values for default enrollment exit reasons
- */
-export const enrollmentExitReasons = {
-	AgedOut: 'Aged out',
-	StoppedAttending: 'Stopped attending',
-	DifferentProgram: 'Chose to attend a different program',
-	MovedInCT: 'Moved within Connecticut',
-	MovedOutCT: 'Moved to another state',
-	LackOfPayment: 'Withdrew due to lack of payment',
-	AskedToLeave: 'Child was asked to leave',
-	Unknown: 'Unknown',
-};

@@ -193,7 +193,7 @@ export default function ReportSubmitForm({
 	const [timeSplitUtilizations, updateTimeSplitUtilizations] = useState(
 		report.timeSplitUtilizations && report.timeSplitUtilizations.length
 			? report.timeSplitUtilizations
-			: splitTimeFundingSpaces.map(fundingSpace =>
+			: splitTimeFundingSpaces.map((fundingSpace) =>
 					getSplitUtilization(
 						fundingSpace.timeSplit,
 						0,
@@ -242,7 +242,7 @@ export default function ReportSubmitForm({
 							? existingUtilizationForSpace.fullTimeWeeksUsed
 							: existingUtilizationForSpace.partTimeWeeksUsed
 					}`}
-					onChange={e => {
+					onChange={(e) => {
 						const input = e.target.value;
 						const lesserWeeksUsed = parseInt(input.replace(/[^0-9.]/g, ''), 10) || 0;
 

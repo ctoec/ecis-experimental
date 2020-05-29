@@ -57,7 +57,7 @@ export default function UtilizationTable({
 }: // Pass in the state variable from reportSubmitForm that contains the utilization values for this report (either default values or user-defined)
 UtilizationTableProps): React.ReactElement<UtilizationTableProps> {
 	// Not functional component because ts had a problem with the empty fragments
-	const site = idx(report, _ => _.organization.sites[0]);
+	const site = idx(report, (_) => _.organization.sites[0]);
 	// TODO: if the space lives on the organization but the rates live on the site,
 	// we need to reconsider how we handle multi site org rate calculation
 	if (!site) {
@@ -72,11 +72,7 @@ UtilizationTableProps): React.ReactElement<UtilizationTableProps> {
 	const periodStart = idx(report, (_) => _.reportingPeriod.periodStart);
 	const periodEnd = idx(report, (_) => _.reportingPeriod.periodEnd);
 	const weeksInPeriod =
-		periodStart && periodEnd
-			? moment(periodEnd)
-					.add(1, 'day')
-					.diff(periodStart, 'weeks')
-			: 0;
+		periodStart && periodEnd ? moment(periodEnd).add(1, 'day').diff(periodStart, 'weeks') : 0;
 
 	const enrollments = (idx(report, (_) => _.enrollments) || []) as Enrollment[];
 
@@ -87,9 +83,9 @@ UtilizationTableProps): React.ReactElement<UtilizationTableProps> {
 	// Rows are sorted by fundingspace age, then time
 	const cdcFundingSpaces = (fundingSpaces as DeepNonUndefineableArray<FundingSpace>)
 		.sort(fundingSpaceSorter)
-		.filter(fundingSpace => fundingSpace.source === FundingSource.CDC);
+		.filter((fundingSpace) => fundingSpace.source === FundingSource.CDC);
 
-	let rows: UtilizationTableRow[] = cdcFundingSpaces.map(space => {
+	let rows: UtilizationTableRow[] = cdcFundingSpaces.map((space) => {
 		const capacity = space.capacity;
 		const ageGroup = space.ageGroup;
 		const fundingTime = space.time;
@@ -111,7 +107,7 @@ UtilizationTableProps): React.ReactElement<UtilizationTableProps> {
 
 		let fullWeeks: number | undefined, partWeeks: number | undefined;
 		if (fundingTime === FundingTime.Split) {
-			const thisUtilization = (timeSplitUtilizations || []).find(u => u.reportId === report.id);
+			const thisUtilization = (timeSplitUtilizations || []).find((u) => u.reportId === report.id);
 			fullWeeks = 0;
 			partWeeks = 0;
 			if (thisUtilization) {
@@ -144,7 +140,7 @@ UtilizationTableProps): React.ReactElement<UtilizationTableProps> {
 			ptRate,
 			total,
 			balance,
-			showFundingTime: cdcFundingSpaces.filter(fs => fs.ageGroup === ageGroup).length > 1,
+			showFundingTime: cdcFundingSpaces.filter((fs) => fs.ageGroup === ageGroup).length > 1,
 			weeksSplit: {
 				partWeeks: partWeeks,
 				fullWeeks: fullWeeks,

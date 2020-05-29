@@ -24,7 +24,13 @@ import moment from 'moment';
  * - funding.time = split, funding.timeSplit = {fullTimeWeeks = 10, partTimeWeeks = 42}, include weeks = true: "Part time (42 weeks) / full time (10 weeks)"
  * @param fundingSpace
  */
-export function prettyFundingSpaceTime(fundingSpace: FundingSpace, includeWeeks: boolean = false) {
+export function prettyFundingSpaceTime(
+	fundingSpace: FundingSpace | undefined,
+	includeWeeks: boolean = false
+) {
+	if (!fundingSpace) {
+		return '';
+	}
 	const FULL_YEAR_WEEKS = 52;
 	if (fundingSpace.time !== FundingTime.Split) {
 		return `${prettyFundingTime(fundingSpace.time, { capitalize: true })}${formattedWeeks(

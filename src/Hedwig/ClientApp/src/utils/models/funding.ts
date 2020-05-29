@@ -81,11 +81,11 @@ function isCurrentToRangeCDC(funding: Funding, range: DateRange): boolean {
  * @param fundings
  */
 export function getCurrentCdcFunding(
-	fundings: DeepNonUndefineable<Funding[]> | null
+	fundings: Funding[] | null
 ): DeepNonUndefineable<Funding> | undefined {
-	return (fundings || []).find<DeepNonUndefineable<Funding>>(
+	return (fundings || []).find(
 		(funding) => funding.source === FundingSource.CDC && !funding.lastReportingPeriod
-	);
+	) as DeepNonUndefineable<Funding>;
 }
 
 export function createFunding({
