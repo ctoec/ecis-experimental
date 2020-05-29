@@ -5,7 +5,7 @@ import { Enrollment } from '../../../../../generated';
 import FormField from '../../../../../components/Form_New/FormField';
 import { FamilyInfoFormFieldProps } from './common';
 
-export const HomelessnessCheckboxs: React.FC<FamilyInfoFormFieldProps> = ({ initialLoad }) => (
+export const HomelessnessCheckbox: React.FC<FamilyInfoFormFieldProps> = ({ initialLoad }) => (
 	<>
 		<FormField<Enrollment, CheckboxProps, boolean | null>
 			id="homelessness"

@@ -71,8 +71,8 @@ export const NewForm: React.FC<SectionProps> = ({
 	useCatchallErrorAlert(error);
 
 	const child = mutatedEnrollment.child;
-	const { foster, family } = child || {};
-	const { addressLine1, addressLine2, town, state, zip, homelessness } = family || {};
+	const { family } = child || {};
+	const { addressLine1, addressLine2, town, state, zip } = family || {};
 
 	useEffect(() => {
 		// If the request went through, then do the next steps

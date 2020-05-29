@@ -5,18 +5,19 @@ import { displayValidationStatus } from '../../../../../utils/validations/displa
 import idx from 'idx';
 import { REQUIRED_FOR_ENROLLMENT } from '../../../../../utils/validations/messageStrings';
 import { TextInput, ChoiceList } from '../../../../../components';
+import { Enrollment } from '../../../../../generated';
+import { AddressLine1 } from './AddressLine1';
+import { AddressLine2 } from './AddressLine2';
 
 export const Address = ({
 	initialLoad,
 	child,
-	addressLine1,
 	updateFormData,
 	town,
-	addressLine2,
 	state,
 	zip,
 }: any) => (
-		<FormFieldSet
+		<FormFieldSet<Enrollment>
 			id="family-address"
 			legend="Address"
 			// TODO: USE DATA DRILLER
@@ -36,35 +37,10 @@ export const Address = ({
 			className="display-inline-block"
 		>
 			<div className="mobile-lg:grid-col-12">
-				<TextInput
-					type="input"
-					id="addressLine1"
-					label="Address line 1"
-					name="child.family.addressLine1"
-					defaultValue={addressLine1 || ''}
-					onChange={updateFormData()}
-					status={initialLoadErrorGuard(
-						initialLoad,
-						displayValidationStatus([
-							{
-								type: 'warning',
-								response: idx(child, (_) => _.family.validationErrors) || null,
-								field: 'addressline1',
-							},
-						])
-					)}
-				/>
+				<AddressLine1 />
 			</div>
 			<div className="mobile-lg:grid-col-12">
-				<TextInput
-					type="input"
-					id="addressLine2"
-					label="Address line 2"
-					name="child.family.addressLine2"
-					defaultValue={addressLine2 || ''}
-					onChange={updateFormData()}
-					optional={true}
-				/>
+				<AddressLine2 />
 			</div>
 			<div className="mobile-lg:grid-col-8 display-inline-block">
 				<TextInput
