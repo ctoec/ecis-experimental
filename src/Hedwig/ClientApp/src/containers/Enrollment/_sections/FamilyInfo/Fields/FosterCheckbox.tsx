@@ -1,10 +1,12 @@
 import { ChoiceList, ChoiceListProps } from "../../../../../components";
 import React from "react";
-import { fosterText, homelessnessText } from "../../../../../utils/models";
+import { fosterText } from "../../../../../utils/models";
 import FormField from "../../../../../components/Form/FormField";
 import { Enrollment } from "../../../../../generated";
 
-export const FosterCheckbox = ({ foster, updateFormData }: any) => <ChoiceList
+export const FosterCheckbox: React.FC = ({ foster, updateFormData }: any) => <FormField<Enrollment, ChoiceListProps, boolean | null>
+  getValue={data => data.at('child').at('foster')}
+  inputComponent={ChoiceList}
   type="check"
   legend="Foster"
   id="foster"

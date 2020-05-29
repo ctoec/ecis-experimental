@@ -1,8 +1,9 @@
 import { Enrollment } from '../../../../generated';
 import React from 'react';
 import { addressFormatter, fosterText, homelessnessText } from '../../../../utils/models';
+import { SectionProps } from '../../enrollmentTypes';
 
-export const Summary = ({ enrollment }: { enrollment?: Enrollment }) => {
+export const Summary: React.FC<SectionProps> = ({ enrollment }) => {
 	if (!enrollment || !enrollment.child) return <></>;
 
 	const family = enrollment.child.family;
@@ -20,8 +21,8 @@ export const Summary = ({ enrollment }: { enrollment?: Enrollment }) => {
 					{homelessness && <p>{homelessnessText()}</p>}
 				</>
 			) : (
-				<p>No family information on record.</p>
-			)}
+					<p>No family information on record.</p>
+				)}
 		</div>
 	);
 };

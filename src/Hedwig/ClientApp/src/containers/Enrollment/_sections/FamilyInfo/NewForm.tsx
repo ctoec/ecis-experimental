@@ -17,8 +17,10 @@ import {
 } from '../../../../utils/models';
 import FormSubmitButton from '../../../../components/Form_New/FormSubmitButton';
 import { Address, FosterCheckbox, HomelessnessCheckbox } from './Fields';
+import { SectionProps } from '../../enrollmentTypes';
+import Form from '../../../../components/Form_New/Form';
 
-export const Form = ({
+export const NewForm: React.FC<SectionProps> = ({
 	enrollment,
 	siteId,
 	error: inputError,
