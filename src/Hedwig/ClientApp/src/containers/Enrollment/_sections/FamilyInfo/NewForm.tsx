@@ -2,8 +2,8 @@ import FamilyInfo from '.';
 import React, { useState, useContext, useEffect } from 'react';
 import useApi, { ApiError } from '../../../../hooks/useApi';
 import { useFocusFirstError } from '../../../../utils/validations';
-import useCatchallErrorAlert from '../../../../hooks/useCatchallErrorAlert';
 import Form from '../../../../components/Form_New/Form';
+import useCatchAllErrorAlert from '../../../../hooks/useCatchAllErrorAlert';
 import {
 	Enrollment,
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
@@ -68,7 +68,7 @@ export const NewForm: React.FC<SectionProps> = ({
 	// Set to input error iniitally, update with error after put is fired
 	const [error, setError] = useState<ApiError | null>(inputError);
 	useFocusFirstError([error]);
-	useCatchallErrorAlert(error);
+	useCatchAllErrorAlert(error);
 
 	const child = mutatedEnrollment.child;
 	const { family } = child || {};

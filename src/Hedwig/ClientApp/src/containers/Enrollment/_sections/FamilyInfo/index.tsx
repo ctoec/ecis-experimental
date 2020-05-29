@@ -1,4 +1,3 @@
-import React from 'react';
 import { Section } from '../../enrollmentTypes';
 import { Status } from './Status';
 import { Summary } from './Summary';
