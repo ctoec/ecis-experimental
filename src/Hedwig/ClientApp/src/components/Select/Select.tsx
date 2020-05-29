@@ -87,14 +87,14 @@ export const Select: React.FC<SelectProps> = ({
 				aria-invalid={status && status.type === 'error'}
 				{...props}
 			>
+				<option key={`${id}-unselected`} value="">
+					{unselectedText || '- Select -'}
+				</option>
 				{options.map((option) => (
 					<option value={option.value} key={`${id}-${option.value}`}>
 						{option.text}
 					</option>
 				))}
-				<option key={`${id}-unselected`} value="">
-					{unselectedText || '- Select -'}
-				</option>
 			</select>
 			{options.map((option) => {
 				const expansion = option.expansion;
@@ -206,8 +206,8 @@ export const SelectWithOther: React.FC<OtherOptionTextInputWrapperProps<SelectPr
 					/>
 				</FieldSet>
 			) : (
-				selectElement
-			)}
+					selectElement
+				)}
 		</>
 	);
 };

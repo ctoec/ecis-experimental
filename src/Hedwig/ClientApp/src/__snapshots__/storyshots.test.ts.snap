@@ -6542,6 +6542,11 @@ exports[`Storyshots Select Disabled select 1`] = `
       value=""
     >
       <option
+        value=""
+      >
+        - Select -
+      </option>
+      <option
         value="one"
       >
         Option one
@@ -6550,11 +6555,6 @@ exports[`Storyshots Select Disabled select 1`] = `
         value="two"
       >
         Option two
-      </option>
-      <option
-        value=""
-      >
-        - Select -
       </option>
     </select>
   </div>
@@ -6590,6 +6590,11 @@ exports[`Storyshots Select Select 1`] = `
       value=""
     >
       <option
+        value=""
+      >
+        - Select -
+      </option>
+      <option
         value="one"
       >
         Option one
@@ -6598,11 +6603,6 @@ exports[`Storyshots Select Select 1`] = `
         value="two"
       >
         Option two
-      </option>
-      <option
-        value=""
-      >
-        - Select -
       </option>
     </select>
   </div>
@@ -6638,6 +6638,11 @@ exports[`Storyshots Select Select with both single element expansion 1`] = `
       value=""
     >
       <option
+        value=""
+      >
+        - Select -
+      </option>
+      <option
         value="one"
       >
         Option one
@@ -6646,11 +6651,6 @@ exports[`Storyshots Select Select with both single element expansion 1`] = `
         value="two"
       >
         Option two
-      </option>
-      <option
-        value=""
-      >
-        - Select -
       </option>
     </select>
   </div>
@@ -6697,6 +6697,11 @@ exports[`Storyshots Select Select with error 1`] = `
       value=""
     >
       <option
+        value=""
+      >
+        - Select -
+      </option>
+      <option
         value="one"
       >
         Option one
@@ -6705,11 +6710,6 @@ exports[`Storyshots Select Select with error 1`] = `
         value="two"
       >
         Option two
-      </option>
-      <option
-        value=""
-      >
-        - Select -
       </option>
     </select>
   </div>
@@ -6745,6 +6745,11 @@ exports[`Storyshots Select Select with one multi element expansion 1`] = `
       value=""
     >
       <option
+        value=""
+      >
+        - Select -
+      </option>
+      <option
         value="one"
       >
         Option one
@@ -6753,11 +6758,6 @@ exports[`Storyshots Select Select with one multi element expansion 1`] = `
         value="two"
       >
         Option two
-      </option>
-      <option
-        value=""
-      >
-        - Select -
       </option>
     </select>
   </div>
@@ -6793,6 +6793,11 @@ exports[`Storyshots Select Select with one single element expansion 1`] = `
       value=""
     >
       <option
+        value=""
+      >
+        - Select -
+      </option>
+      <option
         value="one"
       >
         Option one
@@ -6801,11 +6806,6 @@ exports[`Storyshots Select Select with one single element expansion 1`] = `
         value="two"
       >
         Option two
-      </option>
-      <option
-        value=""
-      >
-        - Select -
       </option>
     </select>
   </div>
@@ -6841,6 +6841,11 @@ exports[`Storyshots Select Select with other 1`] = `
       value=""
     >
       <option
+        value=""
+      >
+        - Select -
+      </option>
+      <option
         value="one"
       >
         Option one
@@ -6854,11 +6859,6 @@ exports[`Storyshots Select Select with other 1`] = `
         value="__other"
       >
         Other
-      </option>
-      <option
-        value=""
-      >
-        - Select -
       </option>
     </select>
   </div>
@@ -6905,6 +6905,11 @@ exports[`Storyshots Select Select with success 1`] = `
       value=""
     >
       <option
+        value=""
+      >
+        - Select -
+      </option>
+      <option
         value="one"
       >
         Option one
@@ -6913,11 +6918,6 @@ exports[`Storyshots Select Select with success 1`] = `
         value="two"
       >
         Option two
-      </option>
-      <option
-        value=""
-      >
-        - Select -
       </option>
     </select>
   </div>
@@ -6977,6 +6977,11 @@ exports[`Storyshots Select Select with warning 1`] = `
       value=""
     >
       <option
+        value=""
+      >
+        - Select -
+      </option>
+      <option
         value="one"
       >
         Option one
@@ -6985,11 +6990,6 @@ exports[`Storyshots Select Select with warning 1`] = `
         value="two"
       >
         Option two
-      </option>
-      <option
-        value=""
-      >
-        - Select -
       </option>
     </select>
   </div>

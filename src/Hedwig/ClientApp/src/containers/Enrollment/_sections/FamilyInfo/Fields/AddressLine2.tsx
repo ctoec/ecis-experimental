@@ -12,5 +12,6 @@ export const AddressLine2: React.FC<FamilyInfoFormFieldProps> = () => (
 		id="addressLine2"
 		label="Address line 2"
 		parseOnChangeEvent={(e) => e.target.value}
+		optional
 	/>
 );

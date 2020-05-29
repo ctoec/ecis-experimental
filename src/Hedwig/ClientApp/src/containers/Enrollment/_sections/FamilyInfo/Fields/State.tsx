@@ -14,6 +14,7 @@ export const State: React.FC<FamilyInfoFormFieldProps> = ({ initialLoad }) => (
 		getValue={(data) => data.at('child').at('family').at('state')}
 		parseOnChangeEvent={(e) => e.target.value}
 		options={['CT', 'MA', 'NY', 'RI'].map((_state) => ({ text: _state, value: _state }))}
+		name="state"
 		status={(enrollment) =>
 			initialLoadErrorGuard(
 				initialLoad || false,
