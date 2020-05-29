@@ -749,11 +749,7 @@ exports[`ReportDetail matches snapshot 1`] = `
               <span
                 style="visibility: hidden;"
               />
-<<<<<<< HEAD
-              27,167.20)
-=======
-              19,707.92)
->>>>>>> Tests & formatting
+              26,505.92)
             </div>
           </td>
         </tr>
