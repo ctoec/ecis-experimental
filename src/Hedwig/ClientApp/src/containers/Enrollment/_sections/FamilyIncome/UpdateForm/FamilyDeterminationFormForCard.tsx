@@ -6,6 +6,12 @@ import FormSubmitButton from '../../../../../components/Form_New/FormSubmitButto
 import Form from '../../../../../components/Form_New/Form';
 import { ExpandCard } from '../../../../../components/Card/ExpandCard';
 
+type FamilyDeterminationFormForCardProps = {
+	determinationId: number;
+	formData: Enrollment;
+	onSubmit: (_: Enrollment) => void;
+	onCancel?: () => void;
+}
 /**
  * The single-determination form to be embedded in Cards in the UpdateForm.
  *
@@ -13,16 +19,11 @@ import { ExpandCard } from '../../../../../components/Card/ExpandCard';
  * - determinationId = 0: displayed in a Card as the primary content to create a new determination
  * - determinationId != 0: displayed in a CardExpansion as the expanded context to edit existing determination with given id
  */
-const FamilyDeterminationFormForCard = ({
+const FamilyDeterminationFormForCard: React.FC<FamilyDeterminationFormForCardProps> = ({
 	determinationId,
 	formData,
 	onSubmit,
 	onCancel,
-}: {
-	determinationId: number;
-	formData: Enrollment;
-	onSubmit: (_: Enrollment) => void;
-	onCancel?: () => void;
 }) => {
 	// determinationId !== 0 means edit, not redetermination
 	const isEditExpansion = determinationId !== 0;

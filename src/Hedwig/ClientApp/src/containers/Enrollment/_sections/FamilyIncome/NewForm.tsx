@@ -111,8 +111,8 @@ export const NewForm = ({
 	const determinationId = idx(enrollment, (_) => _.child.family.determinations[0].id) || 0;
 	const [notDisclosed, setNotDisclosed] = useState(isReturnVisit ? determinationId === 0 : false);
 
-	const onFormSubmit = (_mutatedEnrollment: Enrollment) => {
-		setMutatedEnrollment(_mutatedEnrollment);
+	const onFormSubmit = (userModifiedEnrollment: Enrollment) => {
+		setMutatedEnrollment(userModifiedEnrollment);
 		setAttemptSave(true);
 	};
 	return (
