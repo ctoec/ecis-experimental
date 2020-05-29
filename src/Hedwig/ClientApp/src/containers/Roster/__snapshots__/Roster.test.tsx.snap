@@ -215,7 +215,7 @@ exports[`Roster matches snapshot 1`] = `
             class="oec-table__column-header oec-sortable"
             role="columnheader"
             scope="col"
-            style="width: 20%;"
+            style="width: 17%;"
           >
             <button
               aria-label="Sort table by Birthdate in ascending order"
@@ -239,7 +239,7 @@ exports[`Roster matches snapshot 1`] = `
             class="oec-table__column-header oec-sortable"
             role="columnheader"
             scope="col"
-            style="width: 20%;"
+            style="width: 18%;"
           >
             <button
               aria-label="Sort table by Funding in ascending order"
@@ -447,7 +447,7 @@ exports[`Roster matches snapshot 1`] = `
             class="oec-table__column-header oec-sortable"
             role="columnheader"
             scope="col"
-            style="width: 20%;"
+            style="width: 17%;"
           >
             <button
               aria-label="Sort table by Birthdate in ascending order"
@@ -471,7 +471,7 @@ exports[`Roster matches snapshot 1`] = `
             class="oec-table__column-header oec-sortable"
             role="columnheader"
             scope="col"
-            style="width: 20%;"
+            style="width: 18%;"
           >
             <button
               aria-label="Sort table by Funding in ascending order"
