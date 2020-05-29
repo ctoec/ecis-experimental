@@ -6,12 +6,16 @@ import FormField from '../../../../../../components/Form_New/FormField';
 import FormContext, { useGenericContext } from '../../../../../../components/Form_New/FormContext';
 import produce from 'immer';
 import set from 'lodash/set';
+import { FundingFormFieldProps } from '../common';
 
-export const ContractSpaceField: React.FC<{matchingFundingSpaces: FundingSpace[], id: number}> = ({ matchingFundingSpaces, id }) => {
+export const ContractSpaceField: React.FC<FundingFormFieldProps> = ({
+	fundingId,
+	fundingSpaces: matchingFundingSpaces,
+}) => {
 	if(matchingFundingSpaces.length === 1) {
 		return(
 			<SingleContractSpaceField
-				fundingId={id}
+				fundingId={fundingId}
 				fundingSpace={matchingFundingSpaces[0]}
 			/>
 		);
@@ -19,7 +23,7 @@ export const ContractSpaceField: React.FC<{matchingFundingSpaces: FundingSpace[]
 
 	return (
 		<FormField<Enrollment, SelectProps, number | null>
-			getValue={data => data.at('fundings').find(funding => funding.id === id).at('fundingSpaceId')}
+			getValue={data => data.at('fundings').find(funding => funding.id === fundingId).at('fundingSpaceId')}
 			parseOnChangeEvent={e => parseInt((e.target as HTMLInputElement).value)}	
 			inputComponent={Select}
 			id="funding-contract-space-select"
@@ -33,7 +37,6 @@ export const ContractSpaceField: React.FC<{matchingFundingSpaces: FundingSpace[]
 		/>
 	)
 }
-
 
 type SingleContractSpaceFieldProps = {
 	fundingId: number,

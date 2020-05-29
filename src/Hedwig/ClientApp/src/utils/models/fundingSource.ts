@@ -6,7 +6,7 @@ export function fundingSourceFromString(str: string) {
 			return FundingSource.CDC;
 		default:
 			// Private pay
-			return undefined;
+			return null;
 	}
 }
 
