@@ -6,11 +6,11 @@ import { StepStatus } from '../../../../components';
 
 // TODO: this does not need to be an object
 export const Status: (props: SectionProps) => StepStatus = ({ enrollment }) =>
-	hasValidationErrors(idx(enrollment, _ => _.child.family) || null, [
+	hasValidationErrors(idx(enrollment, (_) => _.child.family) || null, [
 		'addressLine1',
 		'town',
 		'state',
 		'zip',
-	]) || hasValidationErrors(idx(enrollment, _ => _.child) || null, ['familyid'])
+	]) || hasValidationErrors(idx(enrollment, (_) => _.child) || null, ['familyid'])
 		? 'incomplete'
 		: 'complete';

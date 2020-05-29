@@ -9,11 +9,7 @@ import {
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
 } from '../../../../generated';
 import UserContext from '../../../../contexts/User/UserContext';
-import {
-	createEmptyFamily,
-	getIdForUser,
-	validatePermissions,
-} from '../../../../utils/models';
+import { createEmptyFamily, getIdForUser, validatePermissions } from '../../../../utils/models';
 import FormSubmitButton from '../../../../components/Form_New/FormSubmitButton';
 import { Address, FosterCheckbox, HomelessnessCheckbox } from './Fields';
 import { SectionProps } from '../../enrollmentTypes';
@@ -39,12 +35,14 @@ export const NewForm: React.FC<SectionProps> = ({
 		...{
 			child: {
 				family: createEmptyFamily(getIdForUser(user, 'org'), enrollment.child.familyId || 0),
-			}
+			},
 		},
-		...enrollment
-	}
+		...enrollment,
+	};
 
-	const [mutatedEnrollment, setMutatedEnrollment] = useState<Enrollment>(initialEnrollment as Enrollment)
+	const [mutatedEnrollment, setMutatedEnrollment] = useState<Enrollment>(
+		initialEnrollment as Enrollment
+	);
 
 	const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
 		id: mutatedEnrollment.id,
@@ -54,7 +52,7 @@ export const NewForm: React.FC<SectionProps> = ({
 	};
 
 	const { error: errorOnSave, data: returnedEnrollment, loading: isSaving } = useApi<Enrollment>(
-		api => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(defaultParams),
+		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(defaultParams),
 		{
 			skip: !attemptSave,
 			callback: () => {

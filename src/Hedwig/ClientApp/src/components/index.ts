@@ -1,6 +1,7 @@
 export * from './Alert/Alert';
 export * from './Button/Button';
 export * from './Card/Card';
+export * from './Checkbox/Checkbox';
 export * from './ChoiceList/ChoiceList';
 export * from './ChoiceList/ChoiceListExpansion';
 export * from './DateInput/DateInput';

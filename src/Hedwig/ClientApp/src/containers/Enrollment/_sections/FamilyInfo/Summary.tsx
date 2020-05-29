@@ -21,8 +21,8 @@ export const Summary: React.FC<SectionProps> = ({ enrollment }) => {
 					{homelessness && <p>{homelessnessText()}</p>}
 				</>
 			) : (
-					<p>No family information on record.</p>
-				)}
+				<p>No family information on record.</p>
+			)}
 		</div>
 	);
 };

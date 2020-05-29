@@ -1,22 +1,17 @@
-import { ChoiceList, ChoiceListProps } from "../../../../../components";
-import React from "react";
-import { fosterText } from "../../../../../utils/models";
-import FormField from "../../../../../components/Form/FormField";
-import { Enrollment } from "../../../../../generated";
+import React from 'react';
+import { fosterText } from '../../../../../utils/models';
+import { Enrollment } from '../../../../../generated';
+import { FamilyInfoFormFieldProps } from './common';
+import { Checkbox, CheckboxProps } from '../../../../../components';
+import FormField from '../../../../../components/Form_New/FormField';
 
-export const FosterCheckbox: React.FC = ({ foster, updateFormData }: any) => <FormField<Enrollment, ChoiceListProps, boolean | null>
-  getValue={data => data.at('child').at('foster')}
-  inputComponent={ChoiceList}
-  type="check"
-  legend="Foster"
-  id="foster"
-  name="child.foster"
-  defaultValue={foster ? ['foster'] : undefined}
-  onChange={updateFormData((_, event) => event.target.checked)}
-  options={[
-    {
-      text: fosterText(),
-      value: 'foster',
-    },
-  ]}
-/>
+export const FosterCheckbox: React.FC<FamilyInfoFormFieldProps> = ({ initialLoad }) => (
+	<FormField<Enrollment, CheckboxProps, boolean | null>
+		getValue={(data) => data.at('child').at('foster')}
+		value={'foster'}
+		parseOnChangeEvent={(e) => e.target.checked}
+		inputComponent={Checkbox}
+		id="foster"
+		text={fosterText()}
+	/>
+);
