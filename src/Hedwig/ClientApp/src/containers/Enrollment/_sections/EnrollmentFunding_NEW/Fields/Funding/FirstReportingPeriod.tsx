@@ -26,15 +26,19 @@ export const FirstReportingPeriodField: React.FC<FirstReportingPeriodFieldProps>
 
 	const startDate = dataDriller.at('entry').value || moment().toDate();
 	useEffect(() => {
+		console.log('reporting periods', reportingPeriods);
+		if(!reportingPeriods) return;
 		// valid reporting periods:
 		// - start on or after the enrollment start date
 		// - are after the most recent reporting period for which there is a submitted report
 		// - are not more than 3 periods in the "future" -- TODO confirm this AC 
 		//   (i.e. in May, we will show May, June, and July reporting periods but not August)
 
-		const validReportingPeriodRangeStart = lastSubmittedReport && lastSubmittedReport.reportingPeriod
-			? moment.max([moment(startDate), moment(lastSubmittedReport.reportingPeriod.periodEnd)]).toDate()
-			: startDate;
+		// const validReportingPeriodRangeStart = lastSubmittedReport && lastSubmittedReport.reportingPeriod
+		// 	? moment.max([moment(startDate), moment(lastSubmittedReport.reportingPeriod.periodEnd)]).toDate()
+		// 	: startDate;
+
+		const validReportingPeriodRangeStart = startDate;
 
 		const thisReportingPeriodIdx = (reportingPeriods as ReportingPeriod[])
 			.findIndex(period => moment(period.period).isSame(moment(), 'month'));
@@ -50,8 +54,9 @@ export const FirstReportingPeriodField: React.FC<FirstReportingPeriodFieldProps>
 			nextNextReportingPeriod.periodEnd	as Date
 		);
 
+		console.log('_validreporting periods', _validReportingPeriods);
 		setValidReportingPeriods(_validReportingPeriods);
-	}, [dataDriller, lastSubmittedReport]);
+	}, [startDate]);
 
 	return (
 		<FormField<Enrollment, SelectProps, number | null>

@@ -16,6 +16,8 @@ export const AgeGroupField: React.FC<{initialLoad: boolean}> = ({ initialLoad })
 			inputComponent={RadioButtonGroup}
 			id="age-group-radiogroup"
 			legend="Age group"
+			showLegend
+			legendStyle="title"
 			options={[
 				{
 					render: (props) => <RadioButton text={prettyAge(Age.InfantToddler)} {...props} />,
@@ -23,7 +25,7 @@ export const AgeGroupField: React.FC<{initialLoad: boolean}> = ({ initialLoad })
 				},
 				{
 					render: (props) => <RadioButton text={prettyAge(Age.Preschool)} {...props} />,
-					value: Age.SchoolAge,
+					value: Age.Preschool,
 				},
 				{
 					render: (props) => <RadioButton text={prettyAge(Age.SchoolAge)} {...props} />,

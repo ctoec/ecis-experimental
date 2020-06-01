@@ -5,7 +5,7 @@ import { default as StepList, StepProps } from '../../../components/StepList/Ste
 import ChildInfo from '../_sections/ChildInfo';
 import FamilyInfo from '../_sections/FamilyInfo';
 import FamilyIncome from '../_sections/FamilyIncome';
-import EnrollmentFunding from '../_sections/EnrollmentFunding';
+import EnrollmentFunding from '../_sections/EnrollmentFunding_NEW';
 import { Button, ErrorBoundary } from '../../../components';
 import useApi from '../../../hooks/useApi';
 import UserContext from '../../../contexts/User/UserContext';

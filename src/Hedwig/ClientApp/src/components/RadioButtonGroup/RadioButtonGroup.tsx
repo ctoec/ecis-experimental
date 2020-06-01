@@ -73,6 +73,7 @@ export const RadioButtonGroup: React.FC<RadioButtonGroupProps> = ({
 	className,
 	legend,
 	showLegend,
+	legendStyle,
 	status,
 	optional,
 	hint,
@@ -86,6 +87,7 @@ export const RadioButtonGroup: React.FC<RadioButtonGroupProps> = ({
 			className={className}
 			legend={legend || ''}
 			showLegend={showLegend}
+			legendStyle={legendStyle}
 			status={status}
 			optional={optional}
 			hint={hint}

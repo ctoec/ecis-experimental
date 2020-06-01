@@ -2,7 +2,7 @@ import FormContext, { useGenericContext } from "../../../../../../components/For
 import { Enrollment } from "../../../../../../generated";
 import React, { useEffect } from "react";
 import produce from "immer";
-import { set } from "immer/dist/common";
+import set from 'lodash/set';
 
 type WithNewFundingProps = {
 	shouldCreate: boolean;

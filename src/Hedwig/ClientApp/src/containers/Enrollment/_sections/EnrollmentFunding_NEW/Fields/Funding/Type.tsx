@@ -34,11 +34,16 @@ export const TypeField: React.FC<TypeFieldProps> = ({
 		}
 
 		const _validFundingSpaces = allFundingSpaces
-			.filter(space => space.ageGroup !== ageGroup)
+			.filter(space => space.ageGroup === ageGroup)
 			
 		setValidFundingSpaces(_validFundingSpaces);
 
 	}, [dataDriller, allFundingSpaces])
+
+
+	const dedupedFundingSources = Array.from(new Set(
+		validFundingSpaces.map(space => space.source as FundingSource)
+	));
 
 	return (
 		<FormField<Enrollment, RadioButtonGroupProps, FundingSource | null>
@@ -46,21 +51,10 @@ export const TypeField: React.FC<TypeFieldProps> = ({
 			parseOnChangeEvent={e => fundingSourceFromString((e.target as HTMLInputElement).value)}
 			inputComponent={RadioButtonGroup}
 			id="funding-source-radiogroup"
-			legend="Funding source"
+			legend="Funding"
+			showLegend
+			legendStyle="title"
 			options={[
-				// Funding source options
-				...validFundingSpaces.map(space => ({
-					render: (props) => <RadioButton text={prettyFundingSource(space.source)} {...props} />,
-					value: space.source as FundingSource,
-					expansion: space.source === FundingSource.CDC
-						? (
-							<>
-								<ContractSpaceField initialLoad={initialLoad} fundingId={fundingId} fundingSpaces={validFundingSpaces} />
-								<FirstReportingPeriodField initialLoad={initialLoad} fundingId={fundingId} lastSubmittedReport={undefined} />
-							</>
-						)
-						: undefined
-				}) as RadioOption),
 				// Private pay option
 				{
 					render: (props) => 
@@ -72,7 +66,22 @@ export const TypeField: React.FC<TypeFieldProps> = ({
 							onChange={e => setHasFunding(false)}
 						/>,
 					value: prettyFundingSource(undefined)
-				}
+				},
+
+				// Funding source options
+				...dedupedFundingSources.map(source => ({
+					render: (props) => <RadioButton text={prettyFundingSource(source)} {...props} />,
+					value: source,
+					expansion: source === FundingSource.CDC
+						? (
+							<>
+								<ContractSpaceField initialLoad={initialLoad} fundingId={fundingId} fundingSpaces={validFundingSpaces} />
+								<FirstReportingPeriodField initialLoad={initialLoad} fundingId={fundingId} lastSubmittedReport={undefined} />
+							</>
+						)
+						: undefined
+				}) as RadioOption),
+			
 			]}
 		/>
 	)

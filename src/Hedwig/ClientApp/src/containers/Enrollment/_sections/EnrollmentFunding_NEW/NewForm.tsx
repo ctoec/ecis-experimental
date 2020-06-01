@@ -1,16 +1,14 @@
 import { SectionProps } from "../../enrollmentTypes";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import UserContext from "../../../../contexts/User/UserContext";
 import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest, Enrollment, User, ApiOrganizationsIdGetRequest, Organization } from "../../../../generated";
 import { validatePermissions, getIdForUser } from "../../../../utils/models";
 import useApi from "../../../../hooks/useApi";
-import { useEffect } from "@storybook/addons";
-import useCatchAllErrorAlert from "../../../../hooks/useCatchAllErrorAlert";
+	import useCatchAllErrorAlert from "../../../../hooks/useCatchAllErrorAlert";
 import Form from "../../../../components/Form_New/Form";
-import { DeepNonUndefineable } from "../../../../utils/types";
 import { StartDateField } from "./Fields/StartDate";
 import { AgeGroupField } from "./Fields/AgeGroup";
-import { TypeField } from "./Fields/Funding/Type";
+import { FundingField } from "./Fields/Funding";
 
 export const NewForm: React.FC<SectionProps> = ({
 	enrollment,
@@ -63,7 +61,22 @@ export const NewForm: React.FC<SectionProps> = ({
 	}, [saving, saveError, successCallback, saveData])
 
 
-	const organization = getOrganization(user);
+	const params: ApiOrganizationsIdGetRequest = {
+		id: getIdForUser(user, 'org'),
+		include: ['enrollments', 'fundings', 'funding_spaces']
+	}
+
+	const { data: organization, error: organizationError, loading: organizationLoading } = useApi<Organization>(
+		(api) => api.apiOrganizationsIdGet(params),
+		{
+			skip: !user,
+		}
+	);
+
+	if(organizationLoading) {
+		return <>Loading...</>;
+	}
+
 	const fundingSpaces = organization.fundingSpaces || [];
 
 	return (
@@ -71,37 +84,31 @@ export const NewForm: React.FC<SectionProps> = ({
 			<Form<Enrollment>
 				data={enrollment}
 				onSubmit={_data => {
-					updateEnrollment(_data as DeepNonUndefineable<Enrollment>);
+					updateEnrollment(_data);
 					setAttemptingSave(true);
 				}}
 				className="enrollment-new-enrollment-funding-section"
 			>
 				<StartDateField initialLoad={false} />
 				<AgeGroupField initialLoad={false} />
-				<TypeField initialLoad={false} fundingId={0} fundingSpaces={organization.fundingSpaces || []}/>
-
-				
+				<FundingField initialLoad={false} fundingId={0} fundingSpaces={fundingSpaces} />
 			</Form>
 		</>
 	)
 }
 
-const getOrganization = (user?: User) => {
+const useGetOrganization = (user?: User) => {
 	const params: ApiOrganizationsIdGetRequest = {
 		id: getIdForUser(user, 'org'),
 		include: ['enrollments', 'fundings', 'funding_spaces']
 	}
 
-	const { data, error } = useApi<Organization>(
+	const { data } = useApi<Organization>(
 		(api) => api.apiOrganizationsIdGet(params),
 		{
 			skip: !user,
 		}
 	);
-
-	if (error || !data) {
-		throw new Error("Failed to get organization data");
-	}
 
 	return data;
 }

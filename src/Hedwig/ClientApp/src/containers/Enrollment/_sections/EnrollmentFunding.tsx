@@ -610,7 +610,7 @@ const EnrollmentFunding: Section = {
 						id="fundingType"
 						options={fundingSourceOpts}
 						onChange={(event) => {
-							updateFundingSource(fundingSourceFromString(event.target.value));
+							updateFundingSource(fundingSourceFromString(event.target.value) || undefined);
 						}}
 						defaultValue={toFormString(fundingSource || 'privatePay')}
 					>
