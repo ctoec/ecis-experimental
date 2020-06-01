@@ -84,822 +84,829 @@ exports[`ReportDetail matches snapshot 1`] = `
       <br />
       September 01, 2019–September 28, 2019
     </p>
-    <div
-      class="usa-form-group "
+    <form
+      autocomplete="off"
+      class=""
+      novalidate=""
     >
-      <div
-        class="margin-top-3"
-      />
       <div
         class="usa-checkbox undefined"
       >
         <input
           checked=""
           class="usa-checkbox__input"
-          id="accredited-accredited"
-          name="accredited"
+          id="accredited"
+          name=""
           type="checkbox"
           value="accredited"
         />
         <label
           class="usa-checkbox__label"
-          for="accredited-accredited"
+          for="accredited"
         >
           Accredited
         </label>
       </div>
-    </div>
-    <fieldset
-      aria-required="true"
-      class="grid-gap grid-row usa-fieldset usa-form usa-form--full-width margin-bottom-5"
-      id="time-split-utilizations"
-    >
-      <legend
-        id="fieldset-legend-time-split-utilizations"
-      >
-        <span
-          class="usa-sr-only"
-        >
-          Funding time split utilizations
-        </span>
-      </legend>
-      <div
-        class="grid-gap grid-row"
-      >
-        <div
-          class=" usa-form-group"
-        >
-          <label
-            class="usa-label"
-            for="7-lesser-weeks-used"
-          >
-            <span
-              class="text-bold"
-            >
-              Infant/Toddler services were provided part time
-            </span>
-             
-          </label>
-          <input
-            aria-required="true"
-            class="usa-input display-inline-flex usa-input--small"
-            id="7-lesser-weeks-used"
-            name="splitFundingTimeUtilization"
-            type="text"
-            value="0"
-          />
-          <span
-            class="display-inline-flex padding-left-1"
-          >
-            of 4 weeks in September.
-            <span
-              class="text-italic text-gray-70"
-            >
-               (10 part time weeks remaining)
-            </span>
-          </span>
-        </div>
-      </div>
-    </fieldset>
-    <h2
-      class="margin-bottom-neg-205"
-    >
-      Monthly utilization
-    </h2>
-    <table
-      class="oec-table oec-table--full-width"
-      id="utilization-table"
-    >
-      <thead>
-        <tr>
-          <th
-            aria-sort="none"
-            class="oec-table__column-header"
-            role="columnheader"
-            scope="col"
-          >
-            <span
-              class="oec-table__column-title"
-            />
-          </th>
-          <th
-            aria-sort="none"
-            class="oec-table__column-header"
-            role="columnheader"
-            scope="col"
-          >
-            <span
-              class="oec-table__column-title"
-            >
-              Utilization
-            </span>
-          </th>
-          <th
-            aria-sort="none"
-            class="oec-table__column-header text-right"
-            role="columnheader"
-            scope="col"
-          >
-            <span
-              class="oec-table__column-title"
-            >
-              Reimbursement rate
-            </span>
-          </th>
-          <th
-            aria-sort="none"
-            class="oec-table__column-header text-right"
-            role="columnheader"
-            scope="col"
-          >
-            <span
-              class="oec-table__column-title"
-            >
-              Total (4 weeks)
-            </span>
-          </th>
-          <th
-            aria-sort="none"
-            class="oec-table__column-header text-right"
-            role="columnheader"
-            scope="col"
-          >
-            <span
-              class="oec-table__column-title"
-            >
-              Balance
-            </span>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th>
-            <strong>
-              Infant/Toddler
-            </strong>
-             – full time
-          </th>
-          <td
-            class=" oec-table__cell--red"
-          >
-            1/10 spaces
-          </td>
-          <td
-            class="text-tabular text-right"
-          >
-            <div>
-              <span>
-                $ 
-              </span>
-              <span
-                style="visibility: hidden;"
-              />
-              169.95
-              <span>
-                 × 4 weeks
-              </span>
-              <div
-                class="margin-left-05 width-2 display-inline-block"
-              >
-                (ft)
-              </div>
-            </div>
-          </td>
-          <td
-            class="text-tabular text-right"
-          >
-            <span>
-              $ 
-            </span>
-            <span
-              style="visibility: hidden;"
-            >
-              0,
-            </span>
-            679.80
-          </td>
-          <td
-            class="oec-table__cell--red text-tabular text-right"
-          >
-            <div
-              class="position-relative one-half-char-right"
-            >
-              (
-              <span>
-                $ 
-              </span>
-              <span
-                style="visibility: hidden;"
-              >
-                0
-              </span>
-              6,118.20)
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <th>
-            <strong>
-              Infant/Toddler
-            </strong>
-             – part time
-          </th>
-          <td
-            class=" oec-table__cell--red"
-          >
-            1/10 spaces
-          </td>
-          <td
-            class="text-tabular text-right"
-          >
-            <div>
-              <span>
-                $ 
-              </span>
-              <span
-                style="visibility: hidden;"
-              >
-                0
-              </span>
-              59.50
-              <span>
-                 × 4 weeks
-              </span>
-              <div
-                class="margin-left-05 width-2 display-inline-block"
-              >
-                (pt)
-              </div>
-            </div>
-          </td>
-          <td
-            class="text-tabular text-right"
-          >
-            <span>
-              $ 
-            </span>
-            <span
-              style="visibility: hidden;"
-            >
-              0,
-            </span>
-            238.00
-          </td>
-          <td
-            class="oec-table__cell--red text-tabular text-right"
-          >
-            <div
-              class="position-relative one-half-char-right"
-            >
-              (
-              <span>
-                $ 
-              </span>
-              <span
-                style="visibility: hidden;"
-              >
-                0
-              </span>
-              2,142.00)
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <th>
-            <strong>
-              Infant/Toddler
-            </strong>
-             – pt/ft split
-          </th>
-          <td
-            class=" oec-table__cell--red"
-          >
-            0/10 spaces
-          </td>
-          <td
-            class="text-tabular text-right"
-          >
-            <div>
-              <span>
-                $ 
-              </span>
-              <span
-                style="visibility: hidden;"
-              >
-                0
-              </span>
-              59.50
-              <span>
-                 × 0 weeks
-              </span>
-              <div
-                class="margin-left-05 width-2 display-inline-block"
-              >
-                (pt)
-              </div>
-            </div>
-            <div>
-              <span>
-                $ 
-              </span>
-              <span
-                style="visibility: hidden;"
-              />
-              169.95
-              <span>
-                 × 4 weeks
-              </span>
-              <div
-                class="margin-left-05 width-2 display-inline-block"
-              >
-                (ft)
-              </div>
-            </div>
-          </td>
-          <td
-            class="text-tabular text-right"
-          >
-            <span>
-              $ 
-            </span>
-            <span
-              style="visibility: hidden;"
-            >
-              000,
-            </span>
-            0.00
-          </td>
-          <td
-            class="oec-table__cell--red text-tabular text-right"
-          >
-            <div
-              class="position-relative one-half-char-right"
-            >
-              (
-              <span>
-                $ 
-              </span>
-              <span
-                style="visibility: hidden;"
-              >
-                0
-              </span>
-              6,798.00)
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <th>
-            <strong>
-              Preschool
-            </strong>
-             – full time
-          </th>
-          <td
-            class=" oec-table__cell--red"
-          >
-            6/10 spaces
-          </td>
-          <td
-            class="text-tabular text-right"
-          >
-            <div>
-              <span>
-                $ 
-              </span>
-              <span
-                style="visibility: hidden;"
-              />
-              165.32
-              <span>
-                 × 4 weeks
-              </span>
-              <div
-                class="margin-left-05 width-2 display-inline-block"
-              >
-                (ft)
-              </div>
-            </div>
-          </td>
-          <td
-            class="text-tabular text-right"
-          >
-            <span>
-              $ 
-            </span>
-            <span
-              style="visibility: hidden;"
-            />
-            3,967.68
-          </td>
-          <td
-            class="oec-table__cell--red text-tabular text-right"
-          >
-            <div
-              class="position-relative one-half-char-right"
-            >
-              (
-              <span>
-                $ 
-              </span>
-              <span
-                style="visibility: hidden;"
-              >
-                0
-              </span>
-              2,645.12)
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <th>
-            <strong>
-              Preschool
-            </strong>
-             – part time
-          </th>
-          <td
-            class=" oec-table__cell--red"
-          >
-            1/10 spaces
-          </td>
-          <td
-            class="text-tabular text-right"
-          >
-            <div>
-              <span>
-                $ 
-              </span>
-              <span
-                style="visibility: hidden;"
-              >
-                0
-              </span>
-              57.85
-              <span>
-                 × 4 weeks
-              </span>
-              <div
-                class="margin-left-05 width-2 display-inline-block"
-              >
-                (pt)
-              </div>
-            </div>
-          </td>
-          <td
-            class="text-tabular text-right"
-          >
-            <span>
-              $ 
-            </span>
-            <span
-              style="visibility: hidden;"
-            >
-              0,
-            </span>
-            231.40
-          </td>
-          <td
-            class="oec-table__cell--red text-tabular text-right"
-          >
-            <div
-              class="position-relative one-half-char-right"
-            >
-              (
-              <span>
-                $ 
-              </span>
-              <span
-                style="visibility: hidden;"
-              >
-                0
-              </span>
-              2,082.60)
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <th>
-            <strong>
-              School-age
-            </strong>
-             – full time
-          </th>
-          <td
-            class=" oec-table__cell--red"
-          >
-            0/10 spaces
-          </td>
-          <td
-            class="text-tabular text-right"
-          >
-            <div>
-              <span>
-                $ 
-              </span>
-              <span
-                style="visibility: hidden;"
-              />
-              113.20
-              <span>
-                 × 4 weeks
-              </span>
-              <div
-                class="margin-left-05 width-2 display-inline-block"
-              >
-                (ft)
-              </div>
-            </div>
-          </td>
-          <td
-            class="text-tabular text-right"
-          >
-            <span>
-              $ 
-            </span>
-            <span
-              style="visibility: hidden;"
-            >
-              000,
-            </span>
-            0.00
-          </td>
-          <td
-            class="oec-table__cell--red text-tabular text-right"
-          >
-            <div
-              class="position-relative one-half-char-right"
-            >
-              (
-              <span>
-                $ 
-              </span>
-              <span
-                style="visibility: hidden;"
-              >
-                0
-              </span>
-              4,528.00)
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <th>
-            <strong>
-              School-age
-            </strong>
-             – part time
-          </th>
-          <td
-            class=" oec-table__cell--red"
-          >
-            0/10 spaces
-          </td>
-          <td
-            class="text-tabular text-right"
-          >
-            <div>
-              <span>
-                $ 
-              </span>
-              <span
-                style="visibility: hidden;"
-              >
-                0
-              </span>
-              54.80
-              <span>
-                 × 4 weeks
-              </span>
-              <div
-                class="margin-left-05 width-2 display-inline-block"
-              >
-                (pt)
-              </div>
-            </div>
-          </td>
-          <td
-            class="text-tabular text-right"
-          >
-            <span>
-              $ 
-            </span>
-            <span
-              style="visibility: hidden;"
-            >
-              000,
-            </span>
-            0.00
-          </td>
-          <td
-            class="oec-table__cell--red text-tabular text-right"
-          >
-            <div
-              class="position-relative one-half-char-right"
-            >
-              (
-              <span>
-                $ 
-              </span>
-              <span
-                style="visibility: hidden;"
-              >
-                0
-              </span>
-              2,192.00)
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <th>
-            <strong>
-              Total
-            </strong>
-          </th>
-          <td
-            class="oec-table__cell--strong oec-table__cell--red"
-          >
-            9/70 spaces
-          </td>
-          <td
-            class="text-tabular text-right"
-          />
-          <td
-            class="oec-table__cell--strong text-tabular text-right"
-          >
-            <span>
-              $ 
-            </span>
-            <span
-              style="visibility: hidden;"
-            />
-            5,116.88
-          </td>
-          <td
-            class="oec-table__cell--strong oec-table__cell--red text-tabular text-right"
-          >
-            <div
-              class="position-relative one-half-char-right"
-            >
-              (
-              <span>
-                $ 
-              </span>
-              <span
-                style="visibility: hidden;"
-              />
-              26,505.92)
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <form
-      autocomplete="off"
-      class="usa-form"
-      novalidate=""
-    >
-      <h2>
-        Other Revenue
-      </h2>
       <fieldset
         aria-required="true"
-        class="grid-gap grid-row usa-fieldset"
-        id="other-revenue"
+        class="grid-gap grid-row usa-fieldset usa-form usa-form--full-width margin-bottom-5"
+        id="time-split-utilizations"
       >
         <legend
-          id="fieldset-legend-other-revenue"
+          id="fieldset-legend-time-split-utilizations"
         >
           <span
             class="usa-sr-only"
           >
-            Other Revenue
+            Funding time split utilizations
           </span>
         </legend>
         <div
           class="grid-gap grid-row"
         >
           <div
-            class="mobile-lg:grid-col-12"
+            class=" usa-form-group"
           >
-            <div
-              class="flex-fill usa-form-group"
+            <label
+              class="usa-label"
+              for="7-lesser-weeks-used"
             >
-              <label
-                class="usa-label"
-                for="c4k-revenue"
+              <span
+                class="text-bold"
               >
-                <span
-                  class="text-bold"
-                >
-                  Care 4 Kids
-                </span>
-                <span>
-                   (0 kids receiving subsidies)
-                </span>
-                 
-              </label>
-              <input
-                aria-required="true"
-                class="usa-input"
-                id="c4k-revenue"
-                name="c4KRevenue"
-                type="text"
-                value=""
-              />
-            </div>
-          </div>
-          <div
-            class="usa-form-group "
-          >
-            <div
-              class="margin-top-3"
+                Infant/Toddler services were provided part time
+              </span>
+               
+            </label>
+            <input
+              aria-required="true"
+              class="usa-input display-inline-flex usa-input--small"
+              id="7-lesser-weeks-used"
+              name="splitFundingTimeUtilization"
+              type="text"
+              value="0"
             />
-            <div
-              class="usa-checkbox undefined"
+            <span
+              class="display-inline-flex padding-left-1"
             >
-              <input
-                class="usa-checkbox__input"
-                id="c4k-includes-retroactive-retroactiveC4KRevenue"
-                name="retroactiveC4KRevenue"
-                type="checkbox"
-                value="retroactiveC4KRevenue"
-              />
-              <label
-                class="usa-checkbox__label"
-                for="c4k-includes-retroactive-retroactiveC4KRevenue"
+              of 4 weeks in September.
+              <span
+                class="text-italic text-gray-70"
               >
-                Includes retroactive payment for past months
-              </label>
-            </div>
-          </div>
-          <div
-            class="mobile-lg:grid-col-12"
-          >
-            <div
-              class="flex-fill usa-form-group"
-            >
-              <label
-                class="usa-label"
-                for="family-fees-revenue"
-              >
-                <span
-                  class="text-bold"
-                >
-                  Family Fees
-                </span>
-                 
-              </label>
-              <input
-                aria-required="true"
-                class="usa-input"
-                id="family-fees-revenue"
-                name="familyFeesRevenue"
-                type="text"
-                value="$1,000.00"
-              />
-            </div>
-          </div>
-          <div
-            class="mobile-lg:grid-col-12"
-          >
-            <div
-              class=" usa-form-group"
-            >
-              <label
-                class="usa-label"
-                for="cdc-report-comment"
-              >
-                <span
-                  class="text-bold"
-                >
-                  Anything to share with the Office of Early Childhood about your report?
-                </span>
-                 
-                <span
-                  class="usa-hint"
-                >
-                   (optional)
-                </span>
-              </label>
-              <textarea
-                aria-required="false"
-                class="usa-textarea"
-                id="cdc-report-comment"
-                name="comment"
-              />
-            </div>
+                 (10 part time weeks remaining)
+              </span>
+            </span>
           </div>
         </div>
       </fieldset>
-      <button
-        class="usa-button"
-        disabled=""
-        type="button"
+      <h2
+        class="margin-bottom-neg-205"
       >
-        Submit
-      </button>
+        Monthly utilization
+      </h2>
+      <table
+        class="oec-table oec-table--full-width"
+        id="utilization-table"
+      >
+        <thead>
+          <tr>
+            <th
+              aria-sort="none"
+              class="oec-table__column-header"
+              role="columnheader"
+              scope="col"
+            >
+              <span
+                class="oec-table__column-title"
+              />
+            </th>
+            <th
+              aria-sort="none"
+              class="oec-table__column-header"
+              role="columnheader"
+              scope="col"
+            >
+              <span
+                class="oec-table__column-title"
+              >
+                Utilization
+              </span>
+            </th>
+            <th
+              aria-sort="none"
+              class="oec-table__column-header text-right"
+              role="columnheader"
+              scope="col"
+            >
+              <span
+                class="oec-table__column-title"
+              >
+                Reimbursement rate
+              </span>
+            </th>
+            <th
+              aria-sort="none"
+              class="oec-table__column-header text-right"
+              role="columnheader"
+              scope="col"
+            >
+              <span
+                class="oec-table__column-title"
+              >
+                Total (4 weeks)
+              </span>
+            </th>
+            <th
+              aria-sort="none"
+              class="oec-table__column-header text-right"
+              role="columnheader"
+              scope="col"
+            >
+              <span
+                class="oec-table__column-title"
+              >
+                Balance
+              </span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>
+              <strong>
+                Infant/Toddler
+              </strong>
+               – full time
+            </th>
+            <td
+              class=" oec-table__cell--red"
+            >
+              1/10 spaces
+            </td>
+            <td
+              class="text-tabular text-right"
+            >
+              <div>
+                <span>
+                  $ 
+                </span>
+                <span
+                  style="visibility: hidden;"
+                />
+                169.95
+                <span>
+                   × 4 weeks
+                </span>
+                <div
+                  class="margin-left-05 width-2 display-inline-block"
+                >
+                  (ft)
+                </div>
+              </div>
+            </td>
+            <td
+              class="text-tabular text-right"
+            >
+              <span>
+                $ 
+              </span>
+              <span
+                style="visibility: hidden;"
+              >
+                0,
+              </span>
+              679.80
+            </td>
+            <td
+              class="oec-table__cell--red text-tabular text-right"
+            >
+              <div
+                class="position-relative one-half-char-right"
+              >
+                (
+                <span>
+                  $ 
+                </span>
+                <span
+                  style="visibility: hidden;"
+                >
+                  0
+                </span>
+                6,118.20)
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <strong>
+                Infant/Toddler
+              </strong>
+               – part time
+            </th>
+            <td
+              class=" oec-table__cell--red"
+            >
+              1/10 spaces
+            </td>
+            <td
+              class="text-tabular text-right"
+            >
+              <div>
+                <span>
+                  $ 
+                </span>
+                <span
+                  style="visibility: hidden;"
+                >
+                  0
+                </span>
+                59.50
+                <span>
+                   × 4 weeks
+                </span>
+                <div
+                  class="margin-left-05 width-2 display-inline-block"
+                >
+                  (pt)
+                </div>
+              </div>
+            </td>
+            <td
+              class="text-tabular text-right"
+            >
+              <span>
+                $ 
+              </span>
+              <span
+                style="visibility: hidden;"
+              >
+                0,
+              </span>
+              238.00
+            </td>
+            <td
+              class="oec-table__cell--red text-tabular text-right"
+            >
+              <div
+                class="position-relative one-half-char-right"
+              >
+                (
+                <span>
+                  $ 
+                </span>
+                <span
+                  style="visibility: hidden;"
+                >
+                  0
+                </span>
+                2,142.00)
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <strong>
+                Infant/Toddler
+              </strong>
+               – pt/ft split
+            </th>
+            <td
+              class=" oec-table__cell--red"
+            >
+              0/10 spaces
+            </td>
+            <td
+              class="text-tabular text-right"
+            >
+              <div>
+                <span>
+                  $ 
+                </span>
+                <span
+                  style="visibility: hidden;"
+                >
+                  0
+                </span>
+                59.50
+                <span>
+                   × 0 weeks
+                </span>
+                <div
+                  class="margin-left-05 width-2 display-inline-block"
+                >
+                  (pt)
+                </div>
+              </div>
+              <div>
+                <span>
+                  $ 
+                </span>
+                <span
+                  style="visibility: hidden;"
+                />
+                169.95
+                <span>
+                   × 4 weeks
+                </span>
+                <div
+                  class="margin-left-05 width-2 display-inline-block"
+                >
+                  (ft)
+                </div>
+              </div>
+            </td>
+            <td
+              class="text-tabular text-right"
+            >
+              <span>
+                $ 
+              </span>
+              <span
+                style="visibility: hidden;"
+              >
+                000,
+              </span>
+              0.00
+            </td>
+            <td
+              class="oec-table__cell--red text-tabular text-right"
+            >
+              <div
+                class="position-relative one-half-char-right"
+              >
+                (
+                <span>
+                  $ 
+                </span>
+                <span
+                  style="visibility: hidden;"
+                >
+                  0
+                </span>
+                6,798.00)
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <strong>
+                Preschool
+              </strong>
+               – full time
+            </th>
+            <td
+              class=" oec-table__cell--red"
+            >
+              6/10 spaces
+            </td>
+            <td
+              class="text-tabular text-right"
+            >
+              <div>
+                <span>
+                  $ 
+                </span>
+                <span
+                  style="visibility: hidden;"
+                />
+                165.32
+                <span>
+                   × 4 weeks
+                </span>
+                <div
+                  class="margin-left-05 width-2 display-inline-block"
+                >
+                  (ft)
+                </div>
+              </div>
+            </td>
+            <td
+              class="text-tabular text-right"
+            >
+              <span>
+                $ 
+              </span>
+              <span
+                style="visibility: hidden;"
+              />
+              3,967.68
+            </td>
+            <td
+              class="oec-table__cell--red text-tabular text-right"
+            >
+              <div
+                class="position-relative one-half-char-right"
+              >
+                (
+                <span>
+                  $ 
+                </span>
+                <span
+                  style="visibility: hidden;"
+                >
+                  0
+                </span>
+                2,645.12)
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <strong>
+                Preschool
+              </strong>
+               – part time
+            </th>
+            <td
+              class=" oec-table__cell--red"
+            >
+              1/10 spaces
+            </td>
+            <td
+              class="text-tabular text-right"
+            >
+              <div>
+                <span>
+                  $ 
+                </span>
+                <span
+                  style="visibility: hidden;"
+                >
+                  0
+                </span>
+                57.85
+                <span>
+                   × 4 weeks
+                </span>
+                <div
+                  class="margin-left-05 width-2 display-inline-block"
+                >
+                  (pt)
+                </div>
+              </div>
+            </td>
+            <td
+              class="text-tabular text-right"
+            >
+              <span>
+                $ 
+              </span>
+              <span
+                style="visibility: hidden;"
+              >
+                0,
+              </span>
+              231.40
+            </td>
+            <td
+              class="oec-table__cell--red text-tabular text-right"
+            >
+              <div
+                class="position-relative one-half-char-right"
+              >
+                (
+                <span>
+                  $ 
+                </span>
+                <span
+                  style="visibility: hidden;"
+                >
+                  0
+                </span>
+                2,082.60)
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <strong>
+                School-age
+              </strong>
+               – full time
+            </th>
+            <td
+              class=" oec-table__cell--red"
+            >
+              0/10 spaces
+            </td>
+            <td
+              class="text-tabular text-right"
+            >
+              <div>
+                <span>
+                  $ 
+                </span>
+                <span
+                  style="visibility: hidden;"
+                />
+                113.20
+                <span>
+                   × 4 weeks
+                </span>
+                <div
+                  class="margin-left-05 width-2 display-inline-block"
+                >
+                  (ft)
+                </div>
+              </div>
+            </td>
+            <td
+              class="text-tabular text-right"
+            >
+              <span>
+                $ 
+              </span>
+              <span
+                style="visibility: hidden;"
+              >
+                000,
+              </span>
+              0.00
+            </td>
+            <td
+              class="oec-table__cell--red text-tabular text-right"
+            >
+              <div
+                class="position-relative one-half-char-right"
+              >
+                (
+                <span>
+                  $ 
+                </span>
+                <span
+                  style="visibility: hidden;"
+                >
+                  0
+                </span>
+                4,528.00)
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <strong>
+                School-age
+              </strong>
+               – part time
+            </th>
+            <td
+              class=" oec-table__cell--red"
+            >
+              0/10 spaces
+            </td>
+            <td
+              class="text-tabular text-right"
+            >
+              <div>
+                <span>
+                  $ 
+                </span>
+                <span
+                  style="visibility: hidden;"
+                >
+                  0
+                </span>
+                54.80
+                <span>
+                   × 4 weeks
+                </span>
+                <div
+                  class="margin-left-05 width-2 display-inline-block"
+                >
+                  (pt)
+                </div>
+              </div>
+            </td>
+            <td
+              class="text-tabular text-right"
+            >
+              <span>
+                $ 
+              </span>
+              <span
+                style="visibility: hidden;"
+              >
+                000,
+              </span>
+              0.00
+            </td>
+            <td
+              class="oec-table__cell--red text-tabular text-right"
+            >
+              <div
+                class="position-relative one-half-char-right"
+              >
+                (
+                <span>
+                  $ 
+                </span>
+                <span
+                  style="visibility: hidden;"
+                >
+                  0
+                </span>
+                2,192.00)
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <strong>
+                Total
+              </strong>
+            </th>
+            <td
+              class="oec-table__cell--strong oec-table__cell--red"
+            >
+              9/70 spaces
+            </td>
+            <td
+              class="text-tabular text-right"
+            />
+            <td
+              class="oec-table__cell--strong text-tabular text-right"
+            >
+              <span>
+                $ 
+              </span>
+              <span
+                style="visibility: hidden;"
+              />
+              5,116.88
+            </td>
+            <td
+              class="oec-table__cell--strong oec-table__cell--red text-tabular text-right"
+            >
+              <div
+                class="position-relative one-half-char-right"
+              >
+                (
+                <span>
+                  $ 
+                </span>
+                <span
+                  style="visibility: hidden;"
+                />
+                26,505.92)
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div
+        class="usa-form"
+      >
+        <h2>
+          Other Revenue
+        </h2>
+        <fieldset
+          aria-required="true"
+          class="grid-gap grid-row usa-fieldset"
+          id="other-revenue"
+        >
+          <legend
+            id="fieldset-legend-other-revenue"
+          >
+            <span
+              class="usa-sr-only"
+            >
+              Other Revenue
+            </span>
+          </legend>
+          <div
+            class="grid-gap grid-row"
+          >
+            <div
+              class="mobile-lg:grid-col-12"
+            >
+              <div
+                class="flex-fill usa-form-group"
+              >
+                <label
+                  class="usa-label"
+                  for="c4k-revenue"
+                >
+                  <span
+                    class="text-bold"
+                  >
+                    Care 4 Kids
+                  </span>
+                  <span>
+                     (0 kids receiving subsidies)
+                  </span>
+                   
+                </label>
+                <input
+                  aria-required="true"
+                  class="usa-input"
+                  id="c4k-revenue"
+                  type="text"
+                  value="$0.00"
+                />
+              </div>
+            </div>
+            <fieldset
+              aria-required="true"
+              class="grid-gap grid-row usa-fieldset"
+              id="c4k-includes-retroactive-fieldset"
+            >
+              <legend
+                id="fieldset-legend-c4k-includes-retroactive-fieldset"
+              >
+                <span
+                  class="usa-sr-only"
+                >
+                  Includes retroactive payment
+                </span>
+              </legend>
+              <div
+                class="grid-gap grid-row margin-top-3"
+              >
+                <div>
+                  <div
+                    class="usa-checkbox undefined"
+                  >
+                    <input
+                      class="usa-checkbox__input"
+                      id="c4k-includes-retroactive-includes-retroactive"
+                      name=""
+                      type="checkbox"
+                      value="includes-retroactive"
+                    />
+                    <label
+                      class="usa-checkbox__label"
+                      for="c4k-includes-retroactive-includes-retroactive"
+                    >
+                      Includes retroactive payment for past months
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <div
+              class="mobile-lg:grid-col-12"
+            >
+              <div
+                class="flex-fill usa-form-group"
+              >
+                <label
+                  class="usa-label"
+                  for="familyfees-revenue"
+                >
+                  <span
+                    class="text-bold"
+                  >
+                    Family Fees
+                  </span>
+                   
+                </label>
+                <input
+                  aria-required="true"
+                  class="usa-input"
+                  id="familyfees-revenue"
+                  type="text"
+                  value="$1,000.00"
+                />
+              </div>
+            </div>
+            <div
+              class="mobile-lg:grid-col-12"
+            >
+              <div
+                class=" usa-form-group"
+              >
+                <label
+                  class="usa-label"
+                  for="cdc-report-comment"
+                >
+                  <span
+                    class="text-bold"
+                  >
+                    Anything to share with the Office of Early Childhood about your report?
+                  </span>
+                   
+                  <span
+                    class="usa-hint"
+                  >
+                     (optional)
+                  </span>
+                </label>
+                <textarea
+                  aria-required="false"
+                  class="usa-textarea"
+                  id="cdc-report-comment"
+                />
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <input
+          class="usa-button"
+          disabled=""
+          type="submit"
+          value="Submit"
+        />
+      </div>
     </form>
   </div>
 </DocumentFragment>

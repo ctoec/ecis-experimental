@@ -16,6 +16,7 @@ import {
 import { mockFundingSpaces } from '../../../tests/data/fundingSpace';
 import { prettyAge, prettyFundingTime } from '../../../utils/models';
 import { calculateRate } from '../../../utils/utilizationTable';
+import FormContext from '../../../components/Form_New/FormContext';
 
 describe('calculateRate', () => {
 	it('includes all possible rates', () => {
@@ -52,13 +53,33 @@ const defaultReport = reportWithEnrollments([mockCompleteEnrollment]);
 
 describe('UtilizationTable', () => {
 	it('matches snapshot', () => {
-		const { asFragment } = render(<UtilizationTable report={defaultReport} />);
+		const { asFragment } = render(
+			<FormContext.Provider
+				value={{
+					data: defaultReport,
+					dataDriller: undefined,
+					updateData: jest.fn(),
+				}}
+			>
+				<UtilizationTable />
+			</FormContext.Provider>
+		);
 		expect(asFragment()).toMatchSnapshot();
 	});
 
 	it('includes a row for each type of funding space', () => {
 		const report = mockReport;
-		const { container } = render(<UtilizationTable report={report} />);
+		const { container } = render(
+			<FormContext.Provider
+				value={{
+					data: defaultReport,
+					dataDriller: undefined,
+					updateData: jest.fn(),
+				}}
+			>
+				<UtilizationTable />
+			</FormContext.Provider>
+		);
 
 		// mockReport belongs to mockSingleSiteOrganization, which has all mockFundingSpaces
 		mockFundingSpaces.forEach((space) => {
@@ -83,7 +104,17 @@ describe('UtilizationTable', () => {
 			],
 		};
 
-		const { getAllByText } = render(<UtilizationTable report={mockReport} />);
+		const { getAllByText } = render(
+			<FormContext.Provider
+				value={{
+					data: mockReport,
+					dataDriller: undefined,
+					updateData: jest.fn(),
+				}}
+			>
+				<UtilizationTable />
+			</FormContext.Provider>
+		);
 		const oneOfZeros = getAllByText(/1\/\d* spaces/);
 		expect(oneOfZeros).toHaveLength(4);
 	});
@@ -111,10 +142,30 @@ describe('UtilizationTable', () => {
 			},
 		]);
 
-		const { container } = render(<UtilizationTable report={report} />);
+		const { container } = render(
+			<FormContext.Provider
+				value={{
+					data: report,
+					dataDriller: undefined,
+					updateData: jest.fn(),
+				}}
+			>
+				<UtilizationTable />
+			</FormContext.Provider>
+		);
 
 		expect(container).toHaveTextContent('0/10 spaces');
 	});
 
-	accessibilityTestHelper(<UtilizationTable report={defaultReport} />);
+	accessibilityTestHelper(
+		<FormContext.Provider
+			value={{
+				data: defaultReport,
+				dataDriller: undefined,
+				updateData: jest.fn(),
+			}}
+		>
+			<UtilizationTable />
+		</FormContext.Provider>
+	);
 });

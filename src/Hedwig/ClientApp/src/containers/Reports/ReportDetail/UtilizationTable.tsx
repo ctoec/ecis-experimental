@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Table, { TableProps } from '../../../components/Table/Table';
 import {
 	CdcReport,
@@ -11,7 +11,13 @@ import {
 } from '../../../generated';
 import idx from 'idx';
 import moment from 'moment';
-import { prettyAge, prettyFundingTime, fundingSpaceSorter } from '../../../utils/models';
+import {
+	prettyAge,
+	prettyFundingTime,
+	fundingSpaceSorter,
+	getReportingPeriodWeeks,
+	getFundingSpaces,
+} from '../../../utils/models';
 import currencyFormatter from '../../../utils/currencyFormatter';
 import cx from 'classnames';
 import { DeepNonUndefineableArray } from '../../../utils/types';
@@ -22,6 +28,8 @@ import {
 	ReimbursementRateLine,
 	productOfUnknowns,
 } from '../../../utils/utilizationTable';
+import FormContext, { useGenericContext } from '../../../components/Form_New/FormContext';
+import { getSplitUtilizations } from '../../../utils/models/fundingTimeSplitUtilization';
 
 interface UtilizationTableRow {
 	key: string;
@@ -46,16 +54,10 @@ interface UtilizationTableRow {
 	};
 }
 
-type UtilizationTableProps = {
-	report: CdcReport;
-	timeSplitUtilizations: FundingTimeSplitUtilization[];
-};
+export default function UtilizationTable() {
+	// Pass in the state variable from reportSubmitForm that contains the utilization values for this report (either default values or user-defined)): React.ReactElement<UtilizationTableProps> {
+	const { data: report } = useGenericContext<CdcReport>(FormContext);
 
-export default function UtilizationTable({
-	report,
-	timeSplitUtilizations,
-}: // Pass in the state variable from reportSubmitForm that contains the utilization values for this report (either default values or user-defined)
-UtilizationTableProps): React.ReactElement<UtilizationTableProps> {
 	// Not functional component because ts had a problem with the empty fragments
 	const site = idx(report, (_) => _.organization.sites[0]);
 	// TODO: if the space lives on the organization but the rates live on the site,
@@ -68,6 +70,19 @@ UtilizationTableProps): React.ReactElement<UtilizationTableProps> {
 	if (!fundingSpaces) {
 		return <></>;
 	}
+
+	const reportingPeriodWeeks = getReportingPeriodWeeks(report.reportingPeriod);
+	const splitTimeFundingSpaces = getFundingSpaces(
+		report.organization && report.organization.fundingSpaces,
+		{
+			time: FundingTime.Split,
+		}
+	);
+	const timeSplitUtilizations = getSplitUtilizations(
+		report,
+		splitTimeFundingSpaces,
+		reportingPeriodWeeks
+	);
 
 	const periodStart = idx(report, (_) => _.reportingPeriod.periodStart);
 	const periodEnd = idx(report, (_) => _.reportingPeriod.periodEnd);

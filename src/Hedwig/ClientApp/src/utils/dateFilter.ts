@@ -27,8 +27,8 @@ export const propertyBetweenDates = <T>(
 	);
 };
 
-export const isWithinFiscalYear = (date: Date | undefined, fiscalYearDate: Date) => {
-	if (!date) {
+export const isWithinFiscalYear = (date: Date | undefined, fiscalYearDate: Date | undefined) => {
+	if (!date || !fiscalYearDate) {
 		return false;
 	}
 	const _fiscalYearDate = moment(fiscalYearDate);
