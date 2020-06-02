@@ -11,7 +11,7 @@ import {
 import UserContext from '../../../../contexts/User/UserContext';
 import { createEmptyFamily, getIdForUser, validatePermissions } from '../../../../utils/models';
 import FormSubmitButton from '../../../../components/Form_New/FormSubmitButton';
-import { Address, FosterCheckbox, HomelessnessCheckbox } from './Fields';
+import { AddressFieldset, FosterCheckbox, HomelessnessCheckbox } from './Fields';
 import { SectionProps } from '../../enrollmentTypes';
 
 export const NewForm: React.FC<SectionProps> = ({
@@ -26,7 +26,7 @@ export const NewForm: React.FC<SectionProps> = ({
 		throw new Error('FamilyInfo rendered without a child');
 	}
 
-	// Can we move this duplicated logic up to a wrapper component or something?
+	// Can we move the duplicated logic in this file up to a wrapper component or something?
 	const { user } = useContext(UserContext);
 
 	const [attemptSave, setAttemptSave] = useState(false);
@@ -37,6 +37,7 @@ export const NewForm: React.FC<SectionProps> = ({
 				family: createEmptyFamily(getIdForUser(user, 'org'), enrollment.child.familyId || 0),
 			},
 		},
+		// Enrollment needs to be second so it overwrites the empty family if a family exists
 		...enrollment,
 	};
 
@@ -102,7 +103,7 @@ export const NewForm: React.FC<SectionProps> = ({
 			onSubmit={onFormSubmit}
 		>
 			<h2>Address</h2>
-			<Address {...{ initialLoad, child, addressLine1, addressLine2, zip, state, town }} />
+			<AddressFieldset />
 			<h2>Other</h2>
 			<FosterCheckbox />
 			<HomelessnessCheckbox />

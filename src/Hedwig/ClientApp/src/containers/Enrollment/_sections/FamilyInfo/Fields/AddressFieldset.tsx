@@ -11,7 +11,7 @@ import { State } from './State';
 import { Town } from './Town';
 import { FamilyInfoFormFieldProps } from './common';
 
-export const Address: React.FC<FamilyInfoFormFieldProps> = ({ initialLoad }) => (
+export const AddressFieldset: React.FC<FamilyInfoFormFieldProps> = ({ initialLoad }) => (
 	<FormFieldSet<Enrollment>
 		id="family-address"
 		legend="Address"
