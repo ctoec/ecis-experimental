@@ -3,12 +3,12 @@ import useApi from '../../hooks/useApi';
 import { User } from '../../generated/models/User';
 
 export type UserContextType = {
-	user?: User;
+	user: User | null;
 	loading: boolean;
 };
 
 const UserContext = React.createContext<UserContextType>({
-	user: undefined,
+	user: null,
 	loading: true,
 });
 

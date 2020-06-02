@@ -18,12 +18,15 @@ namespace Hedwig.Models
 		public Organization Organization { get; set; }
 
 		[JsonConverter(typeof(StringEnumConverter))]
+		[Required]
 		public FundingSource Source { get; set; }
 
 		[JsonConverter(typeof(StringEnumConverter))]
+		[Required]
 		public Age AgeGroup { get; set; }
 		public List<Funding> Fundings { get; set; }
 
+		[Required]
 		public FundingTime Time { get; set; }
 		public FundingTimeSplit TimeSplit { get; set; }
 		public ICollection<FundingTimeSplitUtilization> TimeSplitUtilizations { get; protected set; }

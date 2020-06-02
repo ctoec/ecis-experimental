@@ -33,14 +33,6 @@ export const NewForm: React.FC<SectionProps> = ({
 	successCallback,
 	onSectionTouch,
 }) => {
-	// If this is the first visit, then no enrollment will have been created.
-	// So, check that there is a siteId so we can associate the enrollment with a site
-	// on creation. The siteId should come from the URI.
-	// If this is not the first visit, an enrollment will already have been created.
-	if (!enrollment && !siteId) {
-		throw new Error('ChildInfo rendered without an enrollment or a siteId');
-	}
-
 	const { user } = useContext(UserContext);
 
 	// Keep state of whether a network request is running

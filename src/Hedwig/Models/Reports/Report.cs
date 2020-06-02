@@ -16,7 +16,12 @@ namespace Hedwig.Models
 		[JsonConverter(typeof(StringEnumConverter))]
 		public FundingSource Type { get; protected set; }
 
+		[Required]
 		public int ReportingPeriodId { get; set; }
+		// This is okay to require because the user can never change the relationship
+		// If you try to require a model property, do so at your own risk.
+		// There be dragons.
+		[Required]
 		[JsonProperty("reportingPeriod")]
 		public ReportingPeriod ReportingPeriod { get; protected set; }
 

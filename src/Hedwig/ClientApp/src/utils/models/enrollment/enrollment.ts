@@ -9,7 +9,8 @@ import set from 'lodash/set';
 export function enrollmentWithDefaultFamily(enrollment: Enrollment) {
 	return produce<Enrollment>(enrollment, (draft) => set(draft, 'child.family', {}));
 }
-export function createEmptyEnrollment(siteId: number, user?: User): Enrollment {
+
+export function createEmptyEnrollment(siteId: number, user: User | null): Enrollment {
 	return {
 		id: 0,
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,

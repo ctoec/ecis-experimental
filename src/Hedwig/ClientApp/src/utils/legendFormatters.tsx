@@ -1,6 +1,5 @@
 import React from 'react';
 import { Organization, Enrollment, FundingSource, Site } from '../generated';
-import { DeepNonUndefineable } from './types';
 import { isFunded, getCurrentC4kCertificate, getFundingSpaceCapacity } from './models';
 import { getC4KTag, getFundingTag } from './fundingType';
 import { InlineIcon } from '../components';
@@ -12,14 +11,14 @@ export type LegendTextFormatterOpts = {
 };
 
 export type LegendTextFormatter = (
-	enrollments: DeepNonUndefineable<Enrollment[]>,
+	enrollments: Enrollment[],
 	opts?: LegendTextFormatterOpts
 ) => string | JSX.Element;
 
 type LegendDisplayDetail = {
 	symbolGenerator: (_?: any) => React.ReactElement;
 	legendTextFormatter: LegendTextFormatter;
-	hidden: (organization: Organization, enrollments: DeepNonUndefineable<Enrollment[]>) => boolean;
+	hidden: (organization: Organization, enrollments: Enrollment[]) => boolean;
 };
 
 export const legendDisplayDetails: {
@@ -90,9 +89,7 @@ export const legendDisplayDetails: {
 		),
 		legendTextFormatter: (enrollments) => {
 			// CDC funded enrollments with validationErrors are considered to be missing information
-			const missingInformationEnrollmentsCount = enrollments.filter<
-				DeepNonUndefineable<Enrollment>
-			>(
+			const missingInformationEnrollmentsCount = enrollments.filter(
 				(enrollment) =>
 					isFunded(enrollment, {
 						source: FundingSource.CDC,
@@ -109,7 +106,7 @@ export const legendDisplayDetails: {
 		},
 		// When there are no kids missing information, this legend item should be hidden
 		hidden: (_, enrollments) =>
-			enrollments.filter<DeepNonUndefineable<Enrollment>>(
+			enrollments.filter(
 				(enrollment) =>
 					isFunded(enrollment, { source: FundingSource.CDC }) &&
 					!!enrollment.validationErrors &&

@@ -7,6 +7,7 @@ type NotSignedInRedirectProps = {};
 export const NotSignedInRedirect: React.FC<NotSignedInRedirectProps> = ({ children }) => {
 	const history = useHistory();
 	const { loading, user } = useContext(UserContext);
+
 	if (loading) {
 		return <></>;
 	} else {

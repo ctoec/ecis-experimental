@@ -28,9 +28,13 @@ export function getReportingPeriodWeeks(period: ReportingPeriod) {
  * @param options
  */
 export const reportingPeriodFormatter = (
-	period: ReportingPeriod,
+	period: ReportingPeriod | undefined,
 	options: { extended?: boolean } = {}
 ) => {
+	if (!period) {
+		return '';
+	}
+
 	const extended = options.extended || false;
 
 	let periodString = moment(period.period).format('MMMM YYYY');

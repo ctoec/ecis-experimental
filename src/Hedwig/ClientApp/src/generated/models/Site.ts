@@ -39,7 +39,7 @@ export interface Site {
 	 * @type {number}
 	 * @memberof Site
 	 */
-	id?: number;
+	id: number;
 	/**
 	 *
 	 * @type {string}
@@ -111,7 +111,7 @@ export function SiteFromJSONTyped(json: any, ignoreDiscriminator: boolean): Site
 		return json;
 	}
 	return {
-		id: !exists(json, 'id') ? undefined : json['id'],
+		id: json['id'],
 		name: json['name'],
 		titleI: json['titleI'],
 		region: RegionFromJSON(json['region']),

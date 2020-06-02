@@ -57,7 +57,11 @@ function isChangeEvent<T extends HTMLChoiceElement | HTMLTextAreaElement>(
  * @param state Current state
  * @param updateArg Update mechanism
  */
-export function formReducer<S extends object>(state: S, updateArg: FormReducerUpdate<S>) {
+export function formReducer<S extends object | null>(_state: S, updateArg: FormReducerUpdate<S>) {
+	if (!_state) {
+		return {} as S;
+	}
+	const state = _state as NonNullable<S>;
 	if (updateArg instanceof Function) {
 		// if the type of update argument is a callback function, apply it to the current state
 		return { ...state, ...updateArg(state) };
@@ -83,7 +87,7 @@ export function formReducer<S extends object>(state: S, updateArg: FormReducerUp
  */
 export const updateData =
 	// update supplied by result of useReducer
-	<S extends {}>(update: Dispatch<FormReducerUpdate<S>>) =>
+	<S extends {} | null>(update: Dispatch<FormReducerUpdate<S>>) =>
 		// processData function convert string to appropriate data type
 		// TODO: REWORK TYPINGS HERE
 		(processData?: (valOrEvent: any, eventIfChangeEvent?: any) => any) =>

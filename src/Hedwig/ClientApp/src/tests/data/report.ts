@@ -20,6 +20,7 @@ export const mockReport: CdcReport = {
 	accredited: true,
 	type: FundingSource.CDC,
 	enrollments: [],
+	reportingPeriodId: 1,
 	reportingPeriod: {
 		id: 1,
 		type: FundingSource.CDC,

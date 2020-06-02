@@ -1,8 +1,6 @@
 import { C4KCertificate, Enrollment } from '../../generated';
 import { DateRange } from '../../components';
-import { DeepNonUndefineable } from '../types';
 import moment from 'moment';
-import idx from 'idx';
 import { dateSorter } from '../dateSorter';
 
 /**
@@ -33,35 +31,26 @@ export function c4kCertificateSorter(a: C4KCertificate, b: C4KCertificate) {
  * @param enrollment
  */
 export function getCurrentC4kCertificate(
-	enrollment: DeepNonUndefineable<Enrollment> | null
-): DeepNonUndefineable<C4KCertificate> | undefined {
+	enrollment: Enrollment | null
+): C4KCertificate | undefined {
 	if (!enrollment) return undefined;
 	if (!enrollment.child) return undefined;
 
-	return (enrollment.child.c4KCertificates || []).find<DeepNonUndefineable<C4KCertificate>>(
-		(cert) => !cert.endDate
-	);
+	return (enrollment.child.c4KCertificates || []).find((cert) => !cert.endDate);
 }
 
-export function activeC4kFundingAsOf(
-	enrollment: DeepNonUndefineable<Enrollment> | null,
-	asOf?: Date
-) {
+export function activeC4kFundingAsOf(enrollment: Enrollment | null, asOf?: Date) {
 	if (!asOf) {
 		return getCurrentC4kCertificate(enrollment);
 	} else {
-		if (!enrollment) {
+		if (!enrollment || !enrollment.child) {
 			return undefined;
 		}
-		const c4kCerts =
-			idx<Enrollment, DeepNonUndefineable<C4KCertificate[]>>(
-				enrollment,
-				(_) => _.child.c4KCertificates as DeepNonUndefineable<C4KCertificate[]>
-			) || [];
+		const c4kCerts = enrollment.child.c4KCertificates;
 		// Sorts by the start of the certificate
 		const sortedCerts = (c4kCerts || []).sort(c4kCertificateSorter);
 		// find cert with asOf between start and end dates
-		return sortedCerts.find<DeepNonUndefineable<C4KCertificate>>((cert) => {
+		return sortedCerts.find((cert) => {
 			const startDateIsBeforeAsOf = !cert.startDate || moment(cert.startDate).isBefore(asOf);
 			const endDateIsEmptyOrAfterAsOf = !cert.endDate || moment(cert.endDate).isAfter(asOf);
 			return startDateIsBeforeAsOf && endDateIsEmptyOrAfterAsOf;

@@ -16,11 +16,12 @@ import {
 	getIdForUser,
 	getEnrollmentTimelineProps,
 } from '../../../utils/models';
-import { InlineIcon, Button } from '../../../components';
+import { InlineIcon, Button, Alert } from '../../../components';
 import CommonContainer from '../../CommonContainer';
 import { SectionProps } from '../enrollmentTypes';
 import { ProcessList } from '../../../components/ProcessList/ProcessList';
 import cx from 'classnames';
+import { somethingWentWrongAlert } from '../../../utils/stringFormatters/alertTextMakers';
 
 type EnrollmentDetailParams = {
 	match: {
@@ -64,8 +65,20 @@ export default function EnrollmentDetail({
 		updateEnrollment(_enrollment);
 	}, [_enrollment]);
 
-	if (loading || !enrollment) {
-		return <div className="EnrollmentDetail"></div>;
+	if (loading) {
+		return <div className="EnrollmentDetail">Loading...</div>;
+	}
+
+	// If we stopped loading, and still don't have these values
+	// Then an error other than a validation error ocurred.
+	// (In staging, it is likely that a new deployment happened.
+	// This changes the ids of the objects. Thus, when a user
+	// navigates back to roster 401/403 errors to occur.
+	// This can be resolved with a hard refresh. We don't do that
+	// because if it truly is a 500 error, we would get an infite
+	// loop). For now, show a general purpose alert message.
+	if (!enrollment) {
+		return <Alert {...somethingWentWrongAlert}></Alert>;
 	}
 
 	const child = enrollment.child;

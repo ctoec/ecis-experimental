@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from 'react';
-import { DeepNonUndefineable } from '../../utils/types';
 import AuthenticationContext from '../../contexts/Authentication/AuthenticationContext';
 import { ApiExtraParamOpts, appendData } from './paginate';
 import { constructApi, Api } from './api';
@@ -15,7 +14,7 @@ interface ApiState<TData> {
 
 export type ApiResult<TData> = {
 	error: ApiError | null; // error
-	data: DeepNonUndefineable<TData>; // response
+	data: TData | null; // response
 	loading: boolean;
 };
 
@@ -40,30 +39,42 @@ export default function useApi<TData>(
 		withFreshToken();
 	});
 
+	// Keep a state variable of the API
+	const [api, setApi] = useState<Api>();
+	// Update it every time the access token changes
+	useEffect(() => {
+		if (accessToken !== null) {
+			const newApi = constructApi(accessToken);
+			setApi(newApi);
+		}
+	}, [accessToken]);
+
 	// Set initial api state
 	const { skip, callback, deps, defaultValue, paginate } = opts;
 	const [state, setState] = useState<ApiState<TData>>({
 		error: null,
 		data: defaultValue || null,
-		loading: true,
+		loading: !skip,
 		start: 0,
 		count: 50,
 	});
 
 	// Run query
 	useEffect(() => {
+		if (!api) {
+			// The we have not yet intialized the API
+			// Keep defaults and exit
+			return;
+		}
+
 		if (skip) {
+			// We are to skip this request, so set loading to false
 			setState({ ...state, loading: false });
 			return;
 		}
 
+		// Reset the state for a new query if one has already been sent
 		setState({ ...state, data: defaultValue || null, error: null, loading: true });
-
-		const api = constructApi(accessToken);
-		if (!api) {
-			setState({ ...state, loading: false, error: { detail: 'API not found' } });
-			return;
-		}
 
 		// We are assuming TData is array-like if paginate is true
 		if (paginate) {
@@ -107,11 +118,11 @@ export default function useApi<TData>(
 					setState({ ...state, data: null, error: _error, loading: false });
 				});
 		}
-	}, [accessToken, skip, ...(deps || [])]);
+	}, [api, skip, ...(deps || [])]);
 
 	useEffect(() => {
 		if (callback && !skip && !state.loading) callback(state.data);
 	}, [state, skip, callback]);
 
-	return { ...state, data: state.data as DeepNonUndefineable<TData> };
+	return { ...state };
 }

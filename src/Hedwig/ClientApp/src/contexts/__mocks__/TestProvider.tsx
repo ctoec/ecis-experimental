@@ -1,7 +1,7 @@
 import React from 'react';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory, History } from 'history';
-
+import AuthenticationContext from '../Authentication/AuthenticationContext';
 import UserContext from '../User/UserContext';
 import ReportingPeriodContext from '../ReportingPeriod/ReportingPeriodContext';
 import { User, ReportingPeriod } from '../../generated';
@@ -20,11 +20,15 @@ const TestProvider: React.FC<TestProviderProps> = ({
 	history = createMemoryHistory(),
 }) => {
 	return (
-		<UserContext.Provider value={{ user, loading: false }}>
-			<ReportingPeriodContext.Provider value={{ cdcReportingPeriods }}>
-				<Router history={history}>{children}</Router>
-			</ReportingPeriodContext.Provider>
-		</UserContext.Provider>
+		<AuthenticationContext.Provider
+			value={{ accessToken: '', withFreshToken: jest.fn(), loading: false }}
+		>
+			<UserContext.Provider value={{ user, loading: false }}>
+				<ReportingPeriodContext.Provider value={{ cdcReportingPeriods }}>
+					<Router history={history}>{children}</Router>
+				</ReportingPeriodContext.Provider>
+			</UserContext.Provider>
+		</AuthenticationContext.Provider>
 	);
 };
 

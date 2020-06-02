@@ -23,6 +23,8 @@ import {
 	C4KCertificate,
 	FundingSpace,
 	ApiOrganizationsOrgIdReportsGetRequest,
+	Site,
+	CdcReport,
 } from '../../../generated';
 import UserContext from '../../../contexts/User/UserContext';
 import {
@@ -167,13 +169,13 @@ const EnrollmentFunding: Section = {
 		};
 		const { data: site } = useApi((api) => api.apiOrganizationsOrgIdSitesIdGet(siteParams), {
 			skip: !user,
-		});
+		}) as { data: DeepNonUndefineable<Site> };
 		const reportsParams: ApiOrganizationsOrgIdReportsGetRequest = {
 			orgId: getIdForUser(user, 'org'),
 		};
 		const { data: reports } = useApi((api) => api.apiOrganizationsOrgIdReportsGet(reportsParams), {
 			skip: !user,
-		});
+		}) as { data: DeepNonUndefineable<CdcReport[]> };
 		const submittedReports = (reports || [])
 			.filter((report) => !!report.submittedAt)
 			.sort((a, b) => dateSorter(a.submittedAt, b.submittedAt, true));
@@ -442,14 +444,13 @@ const EnrollmentFunding: Section = {
 		const [c4kFamilyId, updateC4kFamilyId] = useState<number | null>(
 			child ? child.c4KFamilyCaseNumber : null
 		);
-		const [c4kFunding, updateC4kFunding] = useState<DeepNonUndefineable<C4KCertificate>>(
-			inputC4kFunding ||
-				({
-					id: 0,
-					childId: enrollment.child.id,
-					startDate: null,
-					endDate: null,
-				} as DeepNonUndefineable<C4KCertificate>)
+		const [c4kFunding, updateC4kFunding] = useState<C4KCertificate>(
+			inputC4kFunding || {
+				id: 0,
+				childId: enrollment.child.id,
+				startDate: null,
+				endDate: null,
+			}
 		);
 		const [receivesC4k, updateReceivesC4k] = useState<boolean>(!!inputC4kFunding);
 		const { startDate: c4kCertificateStartDate } = c4kFunding || {};
@@ -493,11 +494,12 @@ const EnrollmentFunding: Section = {
 				const countDifferent = newCdcFunding ? 1 : removedCdcFunding ? -1 : 0;
 				const numEnrolled = enrolled.length + countDifferent;
 
-				const capacity = currentCdcFunding
-					? currentCdcFunding.fundingSpace.capacity
-					: fundingSpace
-					? fundingSpace.capacity
-					: 0;
+				const capacity =
+					currentCdcFunding && currentCdcFunding.fundingSpace
+						? currentCdcFunding.fundingSpace.capacity
+						: fundingSpace
+						? fundingSpace.capacity
+						: 0;
 
 				setUtilizationRate({ capacity, numEnrolled });
 			}
@@ -759,7 +761,7 @@ const EnrollmentFunding: Section = {
 									displayValidationStatus([
 										{
 											type: 'warning',
-											response: c4kFunding ? c4kFunding.validationErrors : null,
+											response: c4kFunding.validationErrors || null,
 											field: 'startDate',
 											message: REQUIRED_FOR_OEC_REPORTING,
 										},
