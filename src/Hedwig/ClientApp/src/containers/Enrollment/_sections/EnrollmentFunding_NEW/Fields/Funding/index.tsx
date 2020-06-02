@@ -60,6 +60,7 @@ export const FundingField: React.FC<FundingFormFieldProps> = ({
 					{
 						render: (props) => (
 							<RadioButton
+								{...props}
 								text={prettyFundingSource(undefined)}
 								onChange={() => 
 									updateData(
@@ -70,7 +71,6 @@ export const FundingField: React.FC<FundingFormFieldProps> = ({
 										))
 									)
 								}
-								{...props}
 							/>
 						),
 						value: prettyFundingSource(undefined)
@@ -78,11 +78,11 @@ export const FundingField: React.FC<FundingFormFieldProps> = ({
 					...dedupedFundingSources.map(source => ({
 						render: (props) => (
 							<FormField<Enrollment, RadioButtonProps, Funding>
+								{...props}
 								getValue={data => data.at('fundings').find(f => f.id === fundingId)}
 								parseOnChangeEvent={() => ({id: fundingId, source} as Funding)}
 								inputComponent={RadioButton}
 								text={prettyFundingSource(source)}
-								{...props}
 							/>
 						),
 						value: source,

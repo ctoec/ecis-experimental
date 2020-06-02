@@ -8,7 +8,7 @@ import { ChildInfoFormFieldProps } from './common';
 import RadioButton, { RadioButtonProps } from '../../../../../components/RadioButton/RadioButton';
 import { FormFieldSet } from '../../../../../components/Form_New/FormFieldSet';
 import FormContext, { useGenericContext } from '../../../../../components/Form_New/FormContext';
-import { RadioButtonGroup } from '../../../../../components/RadioButtonGroup_NEW/RadioButtonGroup';
+import { RadioButtonGroup, RadioButtonGroupProps } from '../../../../../components/RadioButtonGroup_NEW/RadioButtonGroup';
 
 /**
  * Component for entering the enthicity of a child in an enrollment.
@@ -20,11 +20,11 @@ export const EthnicityField: React.FC<ChildInfoFormFieldProps> = ({ initialLoad 
 	const { dataDriller } = useGenericContext<Enrollment>(FormContext);
 	const hispanicOrLatinxEthnicity = dataDriller.at('child').at('hispanicOrLatinxEthnicity').value;
 
+	console.log("default value", hispanicOrLatinxEthnicity);
 	return (
 		<FormFieldSet<Enrollment>
 			id="ethnicity"
 			legend="Ethnicity"
-			showLegend
 			hint="As identified by family"
 			status={(enrollment) =>
 				initialLoadErrorGuard(
@@ -39,42 +39,29 @@ export const EthnicityField: React.FC<ChildInfoFormFieldProps> = ({ initialLoad 
 					])
 				)}
 		>
-			<RadioButtonGroup
-				name="ethnicity-radiogroup"
-				id="ethnicity-radiogroup"
-				defaultValue={
-					hispanicOrLatinxEthnicity == undefined 
-						? hispanicOrLatinxEthnicity
-						: hispanicOrLatinxEthnicity ? 'yes' : 'no'
+			<FormField<Enrollment, RadioButtonGroupProps, boolean | null>
+				getValue={(data) => data.at('child').at('hispanicOrLatinxEthnicity')}
+				defaultValue={hispanicOrLatinxEthnicity}
+				preprocessForDisplay={(data) => 
+					data == undefined
+						? undefined
+						: data ? 'yes' : 'no'
 				}
+				parseOnChangeEvent={(e) => e.target.value === 'yes'}
+				inputComponent={RadioButtonGroup}
+				id="ethnicity-radiogroup"
+				name="ethnicity"
 				options={[
 					{
-						render: (props) => (
-							<FormField<Enrollment, RadioButtonProps, boolean | null>
-								getValue={(data) => data.at('child').at('hispanicOrLatinxEthnicity')}
-								parseOnChangeEvent={(e) =>  e.target.value === 'yes'}
-								inputComponent={RadioButton}
-								text="No"
-								{...props}
-							/>
-						),
+						render: (props) => <RadioButton text="Not Hispanic or Latinx" {...props} />,
 						value: 'no',
 					},
 					{
-						render: (props) => (
-							<FormField<Enrollment, RadioButtonProps, boolean | null>
-								getValue={(data) => data.at('child').at('hispanicOrLatinxEthnicity')}
-								parseOnChangeEvent={(e) => e.target.value === 'yes'}
-								inputComponent={RadioButton}
-								text="Yes"
-								{...props}
-							/>
-						),
-						value: 'yes',
-					},
+						render: (props) => <RadioButton text="Hispanic or Latinx" {...props} />,
+						value: 'yes'
+					}
 				]}
-			>
-			</RadioButtonGroup>
+			/>
 		</FormFieldSet>
 	) 
 };
