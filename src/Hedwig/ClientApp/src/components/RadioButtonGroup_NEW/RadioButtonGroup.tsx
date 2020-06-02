@@ -11,7 +11,6 @@ export type RadioOption = {
 	) => JSX.Element;
 	value: string;
 	expansion?: React.ReactNode;
-	
 };
 
 export type RadioButtonGroupProps = {
@@ -34,7 +33,6 @@ export const RadioButtonGroup: React.FC<RadioButtonGroupProps> = ({
 	return (
 		<div id={id} className="margin-top-3">
 			{options.map(({ render: Render, value, expansion}) => {
-				console.log('selected item == value', selectedItem === value);
 				return (
 				<span
 					key={`${id}-${value}-${selectedItem}`}
@@ -44,6 +42,8 @@ export const RadioButtonGroup: React.FC<RadioButtonGroupProps> = ({
 						selected={selectedItem === value}
 						value={value}
 						name={name}
+						// this onChange can be overridden in the render function by 
+						// adding an addition onChange prop in line after {...props}
 						onChange={onChange}
 					/>
 					{expansion && selectedItem === value && (
