@@ -30,7 +30,7 @@ export const ContractSpaceField: React.FC<FundingFormFieldProps> = ({
 			label="Contract space"
 			options={
 				matchingFundingSpaces.map(space => ({
-					text: prettyFundingSpaceTime(space),
+					text: prettyFundingSpaceTime(space, true),
 					value: `${space.id}`
 				}))
 			}
@@ -59,7 +59,7 @@ const SingleContractSpaceField: React.FC<SingleContractSpaceFieldProps> = ({
 
 	return (
 		<div>
-			<span className="usa-hint text-italic">{prettyFundingSpaceTime(fundingSpace)}</span>
+			<span className="usa-hint text-italic">{prettyFundingSpaceTime(fundingSpace, true /*include weeks*/)}</span>
 		</div>
 	);
 }

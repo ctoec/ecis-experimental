@@ -13,8 +13,8 @@ type WithNewDetermintionProps = {
  * when called normally. Workaround is to wrap it in a setTimeout call to force react to dispatch
  * the event.
  */
-export const WithNewDetermination: React.FC<WithNewDetermintionProps> = ({
-	shouldCreate = false,
+export const WithNewDetermination: React.FC<PropsWithChildren<WithNewDetermintionProps>> = ({
+	shouldCreate,
 	children: determinationFields,
 }) => {
 	const { data, dataDriller, updateData } = useGenericContext<Enrollment>(FormContext);
@@ -26,12 +26,10 @@ export const WithNewDetermination: React.FC<WithNewDetermintionProps> = ({
 
 	useEffect(() => {
 		if (shouldCreate && newDet.value == undefined) {
-			setTimeout(
-				() =>
-					updateData(
-						produce<Enrollment>(data, (draft) => set(draft, newDet.path, { id: 0 }))
-					),
-				0
+			setTimeout(() =>
+				updateData(
+					produce<Enrollment>(data, (draft) => set(draft, newDet.path, { id: 0 }))
+				), 0
 			);
 		}
 	}, [shouldCreate, data]);

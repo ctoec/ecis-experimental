@@ -18,7 +18,7 @@ export const DeterminationDateField: React.FC<FamilyIncomeFormFieldProps> = ({
 					.find((det) => det.id === determinationId)
 					.at('determinationDate')
 			}
-			parseOnChangeEvent={(e) => (e.target.value ? new Date(parseInt(e.target.value)) : null)}
+			parseOnChangeEvent={(e) => e.target.value ? new Date(parseInt(e.target.value)) : null}
 			inputComponent={DateInput}
 			status={(data) =>
 				displayValidationStatus([

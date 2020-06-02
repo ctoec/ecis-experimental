@@ -9,10 +9,10 @@ export const StartDateField: React.FC<{ initialLoad: boolean}> = ({ initialLoad 
 	return (
 		<div>
 			<FormField<Enrollment, DateInputProps, Date | null>
-				getValue={data => data.at('entry')}
-				parseOnChangeEvent={e => (e as any).toDate()}
+				getValue={(data) => data.at('entry')}
+				parseOnChangeEvent={(e) => e.target.value ? new Date(parseInt(e.target.value)) : null}
 				inputComponent={DateInput}
-				status={data => 
+				status={(data) => 
 					initialLoadErrorGuard(
 						initialLoad,
 						displayValidationStatus([

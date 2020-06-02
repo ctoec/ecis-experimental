@@ -3,7 +3,7 @@ import React, { HTMLAttributes } from 'react';
 export type CheckboxProps = {
 	id: string;
 	text: string;
-	value: string;
+	value?: string;
 	name?: string;
 	onChange?: (event: React.ChangeEvent<HTMLInputElement>) => any;
 	defaultValue?: boolean;

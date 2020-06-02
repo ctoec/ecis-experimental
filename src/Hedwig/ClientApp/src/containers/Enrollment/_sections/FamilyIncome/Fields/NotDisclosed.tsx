@@ -23,7 +23,6 @@ export const NotDisclosedField: React.FC<NotDisclosedFieldProps> = ({
 			id="not-disclosed"
 			text="Family income not disclosed"
 			defaultValue={notDisclosed}
-			value="not-disclosed"
 			onChange={(e) => {
 				setNotDisclosed(e.target.checked);
 				updateData(

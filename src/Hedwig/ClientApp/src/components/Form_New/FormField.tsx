@@ -11,6 +11,7 @@ type FormFieldProps<TData, TComponentProps, TFieldData> =
 	// work around, we can conditionally check that TComponentProps extends {}.
 	TComponentProps extends {}
 		? {
+				value?: string; // only used for select element children, only value OR defaultValue can be used 
 				defaultValue?: TFieldData;
 				getValue: (_: TObjectDriller<NonNullable<TData>>) => TObjectDriller<TFieldData>;
 				preprocessForDisplay?: (
@@ -59,6 +60,7 @@ const FormField = <TData extends object, TComponentProps extends {}, TFieldData>
 	const updatePath = accessor.path;
 
 	const onChange = (e: React.ChangeEvent<any>) => {
+		console.log("ON CHANGE");
 		const processedData = parseOnChangeEvent(e, dataDriller);
 		updateData(
 			produce<TData>(data, (draft) => set(draft, updatePath, processedData))
@@ -69,12 +71,21 @@ const FormField = <TData extends object, TComponentProps extends {}, TFieldData>
 		value != null // checks null and undefined
 			? value
 			: defaultValue;
+
+	/**
+	 * If `value` is included in the InputComponent props,
+	 * then the component is a controlled component and 
+	 * should not recieve a defaultValue prop
+	 */
+	const isControlledComponent = props.value !== undefined;
+	const _defaultValue = preprocessForDisplay ? preprocessForDisplay(displayValue) : displayValue;
+	const _props = isControlledComponent ? props : {...props, defaultValue: _defaultValue}
+
 	return (
 		<InputComponent
-			defaultValue={preprocessForDisplay ? preprocessForDisplay(displayValue) : displayValue}
 			onChange={onChange}
 			status={status(dataDriller)}
-			{...props}
+			{..._props}
 		>
 			{children}
 		</InputComponent>

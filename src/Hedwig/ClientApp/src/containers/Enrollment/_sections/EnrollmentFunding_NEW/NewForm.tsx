@@ -9,6 +9,13 @@ import Form from "../../../../components/Form_New/Form";
 import { StartDateField } from "./Fields/StartDate";
 import { AgeGroupField } from "./Fields/AgeGroup";
 import { FundingField } from "./Fields/Funding";
+import { StartDateField as CertificateStartDateField } from './Fields/C4KCertificate/StartDate';
+import FormSubmitButton from "../../../../components/Form_New/FormSubmitButton";
+import { ReceivesC4KField } from "./Fields/C4KCertificate/ReceivesC4K";
+import EnrollmentFunding from "../EnrollmentFunding";
+import idx from "idx";
+import { WithNewC4kCertificate } from "./Fields/C4KCertificate/WithNewC4kCertificate";
+import { FamilyIdField } from "./Fields/C4KCertificate/FamilyId";
 
 export const NewForm: React.FC<SectionProps> = ({
 	enrollment,
@@ -73,11 +80,20 @@ export const NewForm: React.FC<SectionProps> = ({
 		}
 	);
 
+	const isReturnVisit = touchedSections && touchedSections[EnrollmentFunding.key];
+	const certificateId = idx(enrollment, (_) => _.child.c4KCertificates[0].id) || 0;
+	const [receivesC4K, setRecievesC4K] = useState(isReturnVisit ? certificateId === 0 : false);
+
 	if(organizationLoading) {
 		return <>Loading...</>;
 	}
 
+	if(organizationError) {
+		return <>Something went wrong!</>
+	}
+
 	const fundingSpaces = organization.fundingSpaces || [];
+
 
 	return (
 		<>
@@ -92,23 +108,24 @@ export const NewForm: React.FC<SectionProps> = ({
 				<StartDateField initialLoad={false} />
 				<AgeGroupField initialLoad={false} />
 				<FundingField initialLoad={false} fundingId={0} fundingSpaces={fundingSpaces} />
+
+				<WithNewC4kCertificate
+					shouldCreate={certificateId === 0 && receivesC4K}
+				>
+					{receivesC4K && (
+						<>
+							<FamilyIdField />
+							<CertificateStartDateField certificateId={certificateId} />
+						</>
+					)}
+				</WithNewC4kCertificate>
+
+				{/* TODO: replace with solo checkbox when/if that exists */}
+				<div className="margin-top-3">
+					<ReceivesC4KField receivesC4K={receivesC4K} setReceivesC4K={setRecievesC4K} />
+				</div>
+				<FormSubmitButton text={saving ? 'Saving...' : 'Save'} />
 			</Form>
 		</>
 	)
-}
-
-const useGetOrganization = (user?: User) => {
-	const params: ApiOrganizationsIdGetRequest = {
-		id: getIdForUser(user, 'org'),
-		include: ['enrollments', 'fundings', 'funding_spaces']
-	}
-
-	const { data } = useApi<Organization>(
-		(api) => api.apiOrganizationsIdGet(params),
-		{
-			skip: !user,
-		}
-	);
-
-	return data;
 }

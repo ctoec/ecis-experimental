@@ -10,6 +10,9 @@ import {
 	CheckboxOption,
 } from '../../../../../components/CheckboxGroup/CheckboxGroup';
 import Checkbox, { CheckboxProps } from '../../../../../components/Checkbox/Checkbox';
+import { CheckboxGroup } from '../../../../../components/CheckboxGroup_NEW/CheckboxGroup';
+import { FormFieldSet } from '../../../../../components/Form_New/FormFieldSet';
+import { select } from '@storybook/addon-knobs';
 
 /**
  * Helper type of all valid race properties on Child
@@ -27,7 +30,7 @@ type RaceField =
  * @param field The property name on Child of the race
  */
 const raceOptionFactory: (label: string, field: RaceField) => CheckboxOption = (label, field) => ({
-	render: ({ id, selected, value }) => (
+	render: ({ id, selected }) => (
 		<FormField<Enrollment, CheckboxProps, boolean>
 			getValue={(data) => data.at('child').at(field)}
 			parseOnChangeEvent={(e) => e.target.checked}
@@ -35,11 +38,11 @@ const raceOptionFactory: (label: string, field: RaceField) => CheckboxOption = (
 			inputComponent={Checkbox}
 			id={id}
 			text={label}
-			value={value}
 		/>
 	),
 	value: field,
 });
+
 
 /**
  * Component for entering the race of a child in an enrollment.
@@ -57,6 +60,33 @@ const raceOptionFactory: (label: string, field: RaceField) => CheckboxOption = (
 // TODO: Perhaps this is something to revisit so we don't need a separate component for
 // use in a form.
 export const RaceField: React.FC<ChildInfoFormFieldProps> = ({ initialLoad }) => {
+
+	return (
+		<FormFieldSet<Enrollment>
+			id="race"
+			legend="Race"
+			showLegend
+			legendStyle="title"
+		>
+			<CheckboxGroup
+				id="race-checkboxgroup"
+				options={[
+					{
+						render: ({selected}) => <FormField<Enrollment, CheckboxProps, boolean>
+							getValue={data => data.at('child').at('americanIndianOrAlaskaNative')}
+							parseOnChangeEvent={(e) => e.target.checked}
+							defaultValue={selected}
+							inputComponent={Checkbox}
+							id={'american-indian-or-alaska-native-checkbox'}
+							text='American Indian or Alaska Native'
+						/>,
+						value: 'americanIndianOrAlaskaNative'
+					}
+				]}
+			/>
+		</FormFieldSet>
+
+	)
 	// We don't provide an onChange prop to CheckboxGroupForForm because the
 	// individual Checkboxes manage their own changes. We also don't include the
 	// onChange prop for each of the options because the FormField component creates

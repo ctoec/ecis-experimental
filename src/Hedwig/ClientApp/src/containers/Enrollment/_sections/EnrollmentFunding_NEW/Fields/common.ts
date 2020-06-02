@@ -9,3 +9,6 @@ export type FundingFormFieldProps = {
 	fundingSpaces: FundingSpace[];
 } & EnrollmentFormFieldProps;
 
+export type C4kCertificateFormFieldProps = {
+	certificateId: number;
+}

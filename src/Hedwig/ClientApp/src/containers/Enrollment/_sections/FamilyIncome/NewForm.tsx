@@ -136,7 +136,8 @@ export const NewForm = ({
 					)}
 				</WithNewDetermination>
 
-				<div className="margin-top-2">
+				{/* TODO: Replace with solo checkbox when/if that exists */}
+				<div className="margin-top-3">
 					<NotDisclosedField notDisclosed={notDisclosed} setNotDisclosed={setNotDisclosed} />
 				</div>
 				<FormSubmitButton text={isSaving ? 'Saving...' : 'Save'} />
