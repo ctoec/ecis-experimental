@@ -206,8 +206,8 @@ export const SelectWithOther: React.FC<OtherOptionTextInputWrapperProps<SelectPr
 					/>
 				</FieldSet>
 			) : (
-					selectElement
-				)}
+				selectElement
+			)}
 		</>
 	);
 };

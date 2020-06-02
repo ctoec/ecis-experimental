@@ -6557,8 +6557,6 @@ exports[`Storyshots Select Disabled select 1`] = `
         Option two
       </option>
     </select>
-    <div />
-    <div />
   </div>
 </div>
 `;
@@ -6607,8 +6605,6 @@ exports[`Storyshots Select Select 1`] = `
         Option two
       </option>
     </select>
-    <div />
-    <div />
   </div>
 </div>
 `;
@@ -6657,8 +6653,6 @@ exports[`Storyshots Select Select with both single element expansion 1`] = `
         Option two
       </option>
     </select>
-    <div />
-    <div />
   </div>
 </div>
 `;
@@ -6718,8 +6712,6 @@ exports[`Storyshots Select Select with error 1`] = `
         Option two
       </option>
     </select>
-    <div />
-    <div />
   </div>
 </div>
 `;
@@ -6768,8 +6760,6 @@ exports[`Storyshots Select Select with one multi element expansion 1`] = `
         Option two
       </option>
     </select>
-    <div />
-    <div />
   </div>
 </div>
 `;
@@ -6818,8 +6808,6 @@ exports[`Storyshots Select Select with one single element expansion 1`] = `
         Option two
       </option>
     </select>
-    <div />
-    <div />
   </div>
 </div>
 `;
@@ -6873,9 +6861,6 @@ exports[`Storyshots Select Select with other 1`] = `
         Other
       </option>
     </select>
-    <div />
-    <div />
-    <div />
   </div>
 </div>
 `;
@@ -6935,8 +6920,6 @@ exports[`Storyshots Select Select with success 1`] = `
         Option two
       </option>
     </select>
-    <div />
-    <div />
   </div>
 </div>
 `;
@@ -7009,8 +6992,6 @@ exports[`Storyshots Select Select with warning 1`] = `
         Option two
       </option>
     </select>
-    <div />
-    <div />
   </div>
 </div>
 `;

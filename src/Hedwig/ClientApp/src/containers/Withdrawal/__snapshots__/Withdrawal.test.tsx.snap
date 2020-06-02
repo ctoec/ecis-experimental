@@ -1348,6 +1348,11 @@ exports[`Withdrawal matches snapshot 1`] = `
                 name=""
               >
                 <option
+                  value=""
+                >
+                  - Select -
+                </option>
+                <option
                   value="AgedOut"
                 >
                   Aged out
@@ -1387,11 +1392,6 @@ exports[`Withdrawal matches snapshot 1`] = `
                 >
                   Unknown
                 </option>
-                <option
-                  value=""
-                >
-                  - Select -
-                </option>
               </select>
             </div>
             <div
@@ -1413,6 +1413,11 @@ exports[`Withdrawal matches snapshot 1`] = `
                 name=""
               >
                 <option
+                  value=""
+                >
+                  - Select -
+                </option>
+                <option
                   value="3"
                 >
                   May 2019 (5/1–5/31)
@@ -1426,11 +1431,6 @@ exports[`Withdrawal matches snapshot 1`] = `
                   value="1"
                 >
                   March 2019 (3/1–3/31)
-                </option>
-                <option
-                  value=""
-                >
-                  - Select -
                 </option>
               </select>
             </div>

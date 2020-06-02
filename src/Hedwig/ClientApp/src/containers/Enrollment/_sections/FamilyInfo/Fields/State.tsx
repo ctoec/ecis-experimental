@@ -6,7 +6,7 @@ import { SelectProps, Select } from '../../../../../components/Select/Select';
 import FormField from '../../../../../components/Form_New/FormField';
 import { Enrollment } from '../../../../../generated';
 
-const possibleStates = ['CT', 'MA', 'NY', 'RI']
+const possibleStates = ['CT', 'MA', 'NY', 'RI'];
 
 export const State: React.FC<FamilyInfoFormFieldProps> = ({ initialLoad }) => (
 	<FormField<Enrollment, SelectProps, string>
