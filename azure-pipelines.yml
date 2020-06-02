@@ -35,7 +35,7 @@ jobs:
     displayName: 'Use .NET Core sdk'
     inputs:
       packageType: sdk
-      version: 3.0.x
+      version: 3.1.x
       installationPath: $(Agent.ToolsDirectory)/dotnet
 
   - task: DotNetCoreCLI@2
@@ -138,7 +138,7 @@ jobs:
     displayName: 'Install .NET Core SDK'
     inputs:
       packageType: sdk
-      version: 3.0.x
+      version: 3.1.x
       installationPath: $(Agent.ToolsDirectory)/dotnet
 
   - task: SonarCloudPrepare@1
@@ -151,7 +151,7 @@ jobs:
         sonar.exclusions=**/Migrations/**,**/DbInitializer.cs,**/generated/**,**.stories.tsx,**.test.tsx,**.test.ts
         sonar.coverage.exclusions=**/**
 
-  # Install typescript for sonarcloud 
+  # Install typescript for sonarcloud
   - script: cd $(Build.SourcesDirectory)/src/Hedwig/ClientApp && npm install typescript --loglevel verbose
     displayName: "Install Typescript"
 
@@ -164,7 +164,7 @@ jobs:
   - task: SonarCloudAnalyze@1
   - task: SonarCloudPublish@1
     inputs:
-      pollingTimeoutSec: "300"  
+      pollingTimeoutSec: "300"
 
 #
 # Build and Package Release
@@ -177,7 +177,7 @@ jobs:
     displayName: 'Install .NET Core sdk'
     inputs:
       packageType: sdk
-      version: 3.0.x
+      version: 3.1.x
       installationPath: $(Agent.ToolsDirectory)/dotnet
 
   # Embed build id in help file
@@ -199,7 +199,7 @@ jobs:
       pathToPublish: "$(Build.SourcesDirectory)/src/Hedwig/ClientApp"
       artifactName: hedwig-uncompiled-spa
 
-  - script: dotnet tool install --tool-path $(Agent.ToolsDirectory) dotnet-ef --version 3.0.0
+  - script: dotnet tool install --tool-path $(Agent.ToolsDirectory) dotnet-ef --version 3.1.4
     displayName: "Install EntityFramework"
 
   - script: export ConnectionStrings__HEDWIG=xxx && $(Agent.ToolsDirectory)/dotnet-ef --verbose migrations script --idempotent --output $(Build.ArtifactStagingDirectory)/hedwig-db.sql --context HedwigContext --project src/Hedwig
@@ -284,14 +284,14 @@ jobs:
     displayName: 'Command: install awscli via pip'
 
   - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
-    displayName: 'Install: install terraform 0.12.13' 
+    displayName: 'Install: install terraform 0.12.13'
     inputs:
       terraformVersion: 0.12.13
 
   - script: $(Build.SourcesDirectory)/installer/tf/prsystem/tf-init.sh
     displayName: 'Command: initialize terraform backend'
 
-  - script: $(Build.SourcesDirectory)/installer/tf/prsystem/tf-pr-system-destroy.sh $(System.PullRequest.PullRequestNumber) 
+  - script: $(Build.SourcesDirectory)/installer/tf/prsystem/tf-pr-system-destroy.sh $(System.PullRequest.PullRequestNumber)
     displayName: 'Command: destroy ubuntu system via terraform'
 
   - script: $(Build.SourcesDirectory)/installer/tf/prsystem/tf-pr-system-setup.sh $(System.PullRequest.PullRequestNumber) $(System.PullRequest.SourceBranch)
