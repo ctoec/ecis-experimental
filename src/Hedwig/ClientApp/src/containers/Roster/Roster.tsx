@@ -70,10 +70,12 @@ export default function Roster() {
 
 	// If we stopped loading, and still don't have these values
 	// Then an error other than a validation error ocurred.
-	// (Or if in staging, it is possible a new deployment
-	// happened, and then a user navigates back to roster after a delay, which causes
-	// 401/403 errors to occur unless a hard refresh occurs.)
-	// For now, show a general purpose alert message.
+	// (In staging, it is likely that a new deployment happened.
+	// This changes the ids of the objects. Thus, when a user
+	// navigates back to roster 401/403 errors to occur.
+	// This can be resolved with a hard refresh. We don't do that
+	// because if it truly is a 500 error, we would get an infite
+	// loop). For now, show a general purpose alert message.
 	if (!organization || !_enrollments) {
 		return <Alert {...somethingWentWrongAlert}></Alert>;
 	}
