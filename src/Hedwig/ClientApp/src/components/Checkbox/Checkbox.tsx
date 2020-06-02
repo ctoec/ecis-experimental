@@ -14,7 +14,7 @@ export type CheckboxProps = {
 /**
  * Component that wraps a native checkbox input element
  */
-export default function Checkbox({
+export function Checkbox({
 	id,
 	text,
 	name,
@@ -44,3 +44,5 @@ export default function Checkbox({
 		</div>
 	);
 }
+
+export default Checkbox;

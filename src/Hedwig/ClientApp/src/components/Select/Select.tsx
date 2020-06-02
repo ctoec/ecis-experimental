@@ -87,23 +87,23 @@ export const Select: React.FC<SelectProps> = ({
 				aria-invalid={status && status.type === 'error'}
 				{...props}
 			>
-				{options.map((option) => (
-					<option value={option.value} key={`${id}-${option.value}`}>
-						{option.text}
-					</option>
-				))}
 				<option key={`${id}-unselected`} value="">
 					{unselectedText || '- Select -'}
 				</option>
+				{options.map((option) => (
+					<option value={option.value} key={`${id}-${option.value}-option`}>
+						{option.text}
+					</option>
+				))}
 			</select>
 			{options.map((option) => {
 				const expansion = option.expansion;
 				return (
-					<>
+					<React.Fragment key={`${id}-${option.value}-expansion`}>
 						{expansion && selectedItem === option.value && (
 							<div className="oec-itemchooser-expansion">{option.expansion}</div>
 						)}
-					</>
+					</React.Fragment>
 				);
 			})}
 		</div>

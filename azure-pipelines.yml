@@ -4,10 +4,10 @@
 
 resources:
   repositories:
-  - repository: WingedKeys
-    type: github
-    name: ctoec/winged-keys
-    endpoint: 'ctoec'
+    - repository: WingedKeys
+      type: github
+      name: ctoec/winged-keys
+      endpoint: "ctoec"
 
 trigger:
   - master
@@ -15,7 +15,7 @@ trigger:
 pr:
   branches:
     include:
-    - '*'
+      - "*"
 
 pool:
   vmImage: "ubuntu-latest"
@@ -24,278 +24,278 @@ variables:
   CI_BUILD: "true"
 
 jobs:
-#
-# Backend Tests
-#
-- job: test_backend
-  displayName: 'Backend Tests'
+  #
+  # Backend Tests
+  #
+  - job: test_backend
+    displayName: "Backend Tests"
 
-  steps:
-  - task: UseDotNet@2
-    displayName: 'Use .NET Core sdk'
-    inputs:
-      packageType: sdk
-      version: 3.0.x
-      installationPath: $(Agent.ToolsDirectory)/dotnet
+    steps:
+      - task: UseDotNet@2
+        displayName: "Use .NET Core sdk"
+        inputs:
+          packageType: sdk
+          version: 3.0.x
+          installationPath: $(Agent.ToolsDirectory)/dotnet
 
-  - task: DotNetCoreCLI@2
-    displayName: 'Install dotnet-format'
-    inputs:
-      command: 'custom'
-      custom: 'tool'
-      arguments: 'update -g dotnet-format'
+      - task: DotNetCoreCLI@2
+        displayName: "Install dotnet-format"
+        inputs:
+          command: "custom"
+          custom: "tool"
+          arguments: "update -g dotnet-format"
 
-  - task: DotNetCoreCLI@2
-    displayName: 'Check dotnet formatting'
-    inputs:
-      command: 'custom'
-      custom: 'format'
-      arguments: '--dry-run --check --verbosity diagnostic'
+      # - task: DotNetCoreCLI@2
+      #   displayName: 'Check dotnet formatting'
+      #   inputs:
+      #     command: 'custom'
+      #     custom: 'format'
+      #     arguments: '--dry-run --check --verbosity diagnostic'
 
-  - task: DotNetCoreCLI@2
-    displayName: "Restore HedwigTests"
-    inputs:
-      command: restore
-      projects: "$(Build.SourcesDirectory)/test/HedwigTests/HedwigTests.csproj"
+      - task: DotNetCoreCLI@2
+        displayName: "Restore HedwigTests"
+        inputs:
+          command: restore
+          projects: "$(Build.SourcesDirectory)/test/HedwigTests/HedwigTests.csproj"
 
-  - task: DockerCompose@0
-    displayName: "Docker compose run tests"
-    inputs:
-      dockerComposeFile: "docker-compose.test.yaml"
-      dockerComposeCommand: "up --exit-code-from test_backend"
+      - task: DockerCompose@0
+        displayName: "Docker compose run tests"
+        inputs:
+          dockerComposeFile: "docker-compose.test.yaml"
+          dockerComposeCommand: "up --exit-code-from test_backend"
 
-  - task: PublishTestResults@2
-    displayName: "Publish test results"
-    condition: succeededOrFailed()
-    inputs:
-      testResultsFormat: "VSTest"
-      testResultsFiles: "**/*.trx"
-      failTaskOnFailedTests: true
+      - task: PublishTestResults@2
+        displayName: "Publish test results"
+        condition: succeededOrFailed()
+        inputs:
+          testResultsFormat: "VSTest"
+          testResultsFiles: "**/*.trx"
+          failTaskOnFailedTests: true
 
-#
-# Frontend Tests
-#
-- job: test_frontend
-  displayName: 'Frontend Tests'
+  #
+  # Frontend Tests
+  #
+  - job: test_frontend
+    displayName: "Frontend Tests"
 
-  steps:
-  # THIS IS CURRENTLY FAILING WITH NO GOOD REASON. DISABLING IT UNTIL FURTHER INQUIRY IS CONDUCTED.
-  # - script: cd $(Build.SourcesDirectory)/src/Hedwig/ClientApp && npx prettier --single-quote --check "src/**/*.{js,jsx,ts,tsx,json,css,scss}"
-  #   displayName: "Check formatting"
+    steps:
+      # THIS IS CURRENTLY FAILING WITH NO GOOD REASON. DISABLING IT UNTIL FURTHER INQUIRY IS CONDUCTED.
+      # - script: cd $(Build.SourcesDirectory)/src/Hedwig/ClientApp && npx prettier --single-quote --check "src/**/*.{js,jsx,ts,tsx,json,css,scss}"
+      #   displayName: "Check formatting"
 
-  - script: cd $(Build.SourcesDirectory)/src/Hedwig/ClientApp && yarn install &&  yarn test --ci
-    displayName: "Install node_modules and Run Tests"
+      - script: cd $(Build.SourcesDirectory)/src/Hedwig/ClientApp && yarn install &&  yarn test --ci
+        displayName: "Install node_modules and Run Tests"
 
-#
-# E2E Tests
-#
-- job: test_e2e
-  displayName: 'E2E Tests'
+  #
+  # E2E Tests
+  #
+  - job: test_e2e
+    displayName: "E2E Tests"
 
-  steps:
-  - checkout: self
-    path: ecis-experimental
-  - checkout: WingedKeys
-    path: winged-keys
+    steps:
+      - checkout: self
+        path: ecis-experimental
+      - checkout: WingedKeys
+        path: winged-keys
 
-  - task: DockerCompose@0
-    displayName: "Docker compose up"
-    inputs:
-      dockerComposeFile: "$(Agent.BuildDirectory)/ecis-experimental/docker-compose.e2e.test.yaml"
-      dockerComposeCommand: "up -d"
+      - task: DockerCompose@0
+        displayName: "Docker compose up"
+        inputs:
+          dockerComposeFile: "$(Agent.BuildDirectory)/ecis-experimental/docker-compose.e2e.test.yaml"
+          dockerComposeCommand: "up -d"
 
-  - task: DockerCompose@0
-    displayName: "Docker compose run e2e tests"
-    inputs:
-      dockerComposeFile: "$(Agent.BuildDirectory)/ecis-experimental/docker-compose.e2e.test.yaml"
-      dockerComposeCommand: "exec -T client /run-e2e-test.sh"
-    continueOnError: true
+      - task: DockerCompose@0
+        displayName: "Docker compose run e2e tests"
+        inputs:
+          dockerComposeFile: "$(Agent.BuildDirectory)/ecis-experimental/docker-compose.e2e.test.yaml"
+          dockerComposeCommand: "exec -T client /run-e2e-test.sh"
+        continueOnError: true
 
-  - task: PublishTestResults@2
-    displayName: "Publish test results"
-    condition: succeededOrFailed()
-    inputs:
-      testResultsFormat: "JUnit"
-      searchFolder: "$(Agent.BuildDirectory)"
-      testResultsFiles: "**/junit.xml"
-      failTaskOnFailedTests: true
+      - task: PublishTestResults@2
+        displayName: "Publish test results"
+        condition: succeededOrFailed()
+        inputs:
+          testResultsFormat: "JUnit"
+          searchFolder: "$(Agent.BuildDirectory)"
+          testResultsFiles: "**/junit.xml"
+          failTaskOnFailedTests: true
 
-#
-# Sonarcloud Analysis
-#
-- job: run_sonarcloud
-  displayName: 'SonarCloud Analysis'
+  #
+  # Sonarcloud Analysis
+  #
+  - job: run_sonarcloud
+    displayName: "SonarCloud Analysis"
 
-  steps:
-  - task: UseDotNet@2
-    displayName: 'Install .NET Core SDK (for SonarCloud)'
-    inputs:
-      packageType: sdk
-      version: 2.2.203
-      installationPath: $(Agent.ToolsDirectory)/dotnet
+    steps:
+      - task: UseDotNet@2
+        displayName: "Install .NET Core SDK (for SonarCloud)"
+        inputs:
+          packageType: sdk
+          version: 2.2.203
+          installationPath: $(Agent.ToolsDirectory)/dotnet
 
-  - task: UseDotNet@2
-    displayName: 'Install .NET Core SDK'
-    inputs:
-      packageType: sdk
-      version: 3.0.x
-      installationPath: $(Agent.ToolsDirectory)/dotnet
+      - task: UseDotNet@2
+        displayName: "Install .NET Core SDK"
+        inputs:
+          packageType: sdk
+          version: 3.0.x
+          installationPath: $(Agent.ToolsDirectory)/dotnet
 
-  - task: SonarCloudPrepare@1
-    inputs:
-      SonarCloud: "sonar-cloud-ctoec"
-      organization: "ctoec"
-      scannerMode: "MSBuild"
-      projectKey: "ecis-experimental"
-      extraProperties: |
-        sonar.exclusions=**/Migrations/**,**/DbInitializer.cs,**/generated/**,**.stories.tsx,**.test.tsx,**.test.ts
-        sonar.coverage.exclusions=**/**
+      - task: SonarCloudPrepare@1
+        inputs:
+          SonarCloud: "sonar-cloud-ctoec"
+          organization: "ctoec"
+          scannerMode: "MSBuild"
+          projectKey: "ecis-experimental"
+          extraProperties: |
+            sonar.exclusions=**/Migrations/**,**/DbInitializer.cs,**/generated/**,**.stories.tsx,**.test.tsx,**.test.ts
+            sonar.coverage.exclusions=**/**
 
-  # Install typescript for sonarcloud 
-  - script: cd $(Build.SourcesDirectory)/src/Hedwig/ClientApp && npm install typescript --loglevel verbose
-    displayName: "Install Typescript"
+      # Install typescript for sonarcloud
+      - script: cd $(Build.SourcesDirectory)/src/Hedwig/ClientApp && npm install typescript --loglevel verbose
+        displayName: "Install Typescript"
 
-  - task: DotNetCoreCLI@2
-    displayName: "Build Hedwig"
-    inputs:
-      command: build
-      projects: "$(Build.SourcesDirectory)/src/Hedwig/Hedwig.csproj"
+      - task: DotNetCoreCLI@2
+        displayName: "Build Hedwig"
+        inputs:
+          command: build
+          projects: "$(Build.SourcesDirectory)/src/Hedwig/Hedwig.csproj"
 
-  - task: SonarCloudAnalyze@1
-  - task: SonarCloudPublish@1
-    inputs:
-      pollingTimeoutSec: "300"  
+      - task: SonarCloudAnalyze@1
+      - task: SonarCloudPublish@1
+        inputs:
+          pollingTimeoutSec: "300"
 
-#
-# Build and Package Release
-#
-- job: package_release
-  displayName: 'Build and Package Release'
+  #
+  # Build and Package Release
+  #
+  - job: package_release
+    displayName: "Build and Package Release"
 
-  steps:
-  - task: UseDotNet@2
-    displayName: 'Install .NET Core sdk'
-    inputs:
-      packageType: sdk
-      version: 3.0.x
-      installationPath: $(Agent.ToolsDirectory)/dotnet
+    steps:
+      - task: UseDotNet@2
+        displayName: "Install .NET Core sdk"
+        inputs:
+          packageType: sdk
+          version: 3.0.x
+          installationPath: $(Agent.ToolsDirectory)/dotnet
 
-  # Embed build id in help file
-  - task: replacetokens@3
-    displayName: "Replace tokens in Help.tsx"
-    inputs:
-      targetFiles: "**/Help.tsx"
-      encoding: "auto"
-      writeBOM: true
-      actionOnMissing: "warn"
-      keepToken: false
-      tokenPrefix: "__"
-      tokenSuffix: "__"
+      # Embed build id in help file
+      - task: replacetokens@3
+        displayName: "Replace tokens in Help.tsx"
+        inputs:
+          targetFiles: "**/Help.tsx"
+          encoding: "auto"
+          writeBOM: true
+          actionOnMissing: "warn"
+          keepToken: false
+          tokenPrefix: "__"
+          tokenSuffix: "__"
 
-  - task: PublishBuildArtifacts@1
-    displayName: "Publish Artifacts: hedwig-uncompiled-spa"
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-    inputs:
-      pathToPublish: "$(Build.SourcesDirectory)/src/Hedwig/ClientApp"
-      artifactName: hedwig-uncompiled-spa
+      - task: PublishBuildArtifacts@1
+        displayName: "Publish Artifacts: hedwig-uncompiled-spa"
+        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+        inputs:
+          pathToPublish: "$(Build.SourcesDirectory)/src/Hedwig/ClientApp"
+          artifactName: hedwig-uncompiled-spa
 
-  - script: dotnet tool install --tool-path $(Agent.ToolsDirectory) dotnet-ef --version 3.0.0
-    displayName: "Install EntityFramework"
+      - script: dotnet tool install --tool-path $(Agent.ToolsDirectory) dotnet-ef --version 3.0.0
+        displayName: "Install EntityFramework"
 
-  - script: export ConnectionStrings__HEDWIG=xxx && $(Agent.ToolsDirectory)/dotnet-ef --verbose migrations script --idempotent --output $(Build.ArtifactStagingDirectory)/hedwig-db.sql --context HedwigContext --project src/Hedwig
-    displayName: "Generate migration script"
+      - script: export ConnectionStrings__HEDWIG=xxx && $(Agent.ToolsDirectory)/dotnet-ef --verbose migrations script --idempotent --output $(Build.ArtifactStagingDirectory)/hedwig-db.sql --context HedwigContext --project src/Hedwig
+        displayName: "Generate migration script"
 
-  - script: dotnet publish "$(Build.SourcesDirectory)/src/Hedwig/Hedwig.csproj" --output "$(Build.SourcesDirectory)/src/Hedwig/dist" --configuration Release
-    displayName: "Publish Hedwig"
+      - script: dotnet publish "$(Build.SourcesDirectory)/src/Hedwig/Hedwig.csproj" --output "$(Build.SourcesDirectory)/src/Hedwig/dist" --configuration Release
+        displayName: "Publish Hedwig"
 
-  - script: cp $(Build.SourcesDirectory)/src/Hedwig/appsettings.json $(Build.SourcesDirectory)/src/Hedwig/dist
-    displayName: "Add appsettings.json to distribution"
-  - script: cp $(Build.SourcesDirectory)/installer/aws-windows-deployment-manifest.json $(Build.SourcesDirectory)/src/Hedwig/dist
-    displayName: "Add installer manifest to distribution"
-  - script: cp $(Build.SourcesDirectory)/installer/iis/web.config $(Build.SourcesDirectory)/src/Hedwig/dist
-    displayName: "Add installer web.config to distribution"
-  - script: cp -r $(Build.SourcesDirectory)/installer $(Build.SourcesDirectory)/src/Hedwig/dist/installer
-    displayName: "Add installer files to distribution"
-  - script: echo $(Build.BuildNumber) > $(Build.SourcesDirectory)/src/Hedwig/dist/installer/build-build-number.txt
-    displayName: "Stored build number in distribution"
-  - script: echo hedwig-$(Build.BuildNumber) > $(Build.SourcesDirectory)/src/Hedwig/dist/installer/build-build-release.txt
-    displayName: "Stored build release in distribution"
-  - script: echo $(Build.SourceVersion) > $(Build.SourcesDirectory)/src/Hedwig/dist/installer/build-source-version.txt
-    displayName: "Stored build source version in distribution"
+      - script: cp $(Build.SourcesDirectory)/src/Hedwig/appsettings.json $(Build.SourcesDirectory)/src/Hedwig/dist
+        displayName: "Add appsettings.json to distribution"
+      - script: cp $(Build.SourcesDirectory)/installer/aws-windows-deployment-manifest.json $(Build.SourcesDirectory)/src/Hedwig/dist
+        displayName: "Add installer manifest to distribution"
+      - script: cp $(Build.SourcesDirectory)/installer/iis/web.config $(Build.SourcesDirectory)/src/Hedwig/dist
+        displayName: "Add installer web.config to distribution"
+      - script: cp -r $(Build.SourcesDirectory)/installer $(Build.SourcesDirectory)/src/Hedwig/dist/installer
+        displayName: "Add installer files to distribution"
+      - script: echo $(Build.BuildNumber) > $(Build.SourcesDirectory)/src/Hedwig/dist/installer/build-build-number.txt
+        displayName: "Stored build number in distribution"
+      - script: echo hedwig-$(Build.BuildNumber) > $(Build.SourcesDirectory)/src/Hedwig/dist/installer/build-build-release.txt
+        displayName: "Stored build release in distribution"
+      - script: echo $(Build.SourceVersion) > $(Build.SourcesDirectory)/src/Hedwig/dist/installer/build-source-version.txt
+        displayName: "Stored build source version in distribution"
 
-  - script: cd $(Build.SourcesDirectory)/src/Hedwig/ClientApp && yarn build-storybook
-    displayName: "Generate storybook export"
+      - script: cd $(Build.SourcesDirectory)/src/Hedwig/ClientApp && yarn build-storybook
+        displayName: "Generate storybook export"
 
-  - task: ArchiveFiles@2
-    displayName: "Archive files - storybook"
-    inputs:
-      rootFolderOrFile: "$(Build.SourcesDirectory)/src/Hedwig/ClientApp/storybook"
-      includeRootFolder: false
-      archiveType: "zip"
-      #tarCompression: 'gz' # Optional. Options: gz, bz2, xz, none
-      archiveFile: "$(Build.ArtifactStagingDirectory)/hedwig-storybook.zip"
-      replaceExistingArchive: true
+      - task: ArchiveFiles@2
+        displayName: "Archive files - storybook"
+        inputs:
+          rootFolderOrFile: "$(Build.SourcesDirectory)/src/Hedwig/ClientApp/storybook"
+          includeRootFolder: false
+          archiveType: "zip"
+          #tarCompression: 'gz' # Optional. Options: gz, bz2, xz, none
+          archiveFile: "$(Build.ArtifactStagingDirectory)/hedwig-storybook.zip"
+          replaceExistingArchive: true
 
-  - task: ArchiveFiles@2
-    displayName: "Archive files"
-    inputs:
-      rootFolderOrFile: "$(Build.SourcesDirectory)/src/Hedwig/dist"
-      includeRootFolder: false
-      archiveType: "zip"
-      #tarCompression: 'gz' # Optional. Options: gz, bz2, xz, none
-      archiveFile: "$(Build.ArtifactStagingDirectory)/hedwig-spa.zip"
-      replaceExistingArchive: true
+      - task: ArchiveFiles@2
+        displayName: "Archive files"
+        inputs:
+          rootFolderOrFile: "$(Build.SourcesDirectory)/src/Hedwig/dist"
+          includeRootFolder: false
+          archiveType: "zip"
+          #tarCompression: 'gz' # Optional. Options: gz, bz2, xz, none
+          archiveFile: "$(Build.ArtifactStagingDirectory)/hedwig-spa.zip"
+          replaceExistingArchive: true
 
-  # Publish artifact to dropbox - hedwig-spa
-  - task: PublishBuildArtifacts@1
-    displayName: "Publish Artifacts: hedwig-spa"
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-    inputs:
-      pathToPublish: "$(Build.ArtifactStagingDirectory)/hedwig-spa.zip"
-      artifactName: hedwig-spa
+      # Publish artifact to dropbox - hedwig-spa
+      - task: PublishBuildArtifacts@1
+        displayName: "Publish Artifacts: hedwig-spa"
+        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+        inputs:
+          pathToPublish: "$(Build.ArtifactStagingDirectory)/hedwig-spa.zip"
+          artifactName: hedwig-spa
 
-  # Publish artifact to dropbox - hedwig-db
-  - task: PublishBuildArtifacts@1
-    displayName: "Publish Artifacts: hedwig-db"
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-    inputs:
-      pathToPublish: "$(Build.ArtifactStagingDirectory)/hedwig-db.sql"
-      artifactName: hedwig-db
+      # Publish artifact to dropbox - hedwig-db
+      - task: PublishBuildArtifacts@1
+        displayName: "Publish Artifacts: hedwig-db"
+        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+        inputs:
+          pathToPublish: "$(Build.ArtifactStagingDirectory)/hedwig-db.sql"
+          artifactName: hedwig-db
 
-  # Publish artifact to dropbox - hedwig-storybook
-  - task: PublishBuildArtifacts@1
-    displayName: "Publish Artifacts: hedwig-storybook"
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-    inputs:
-      pathToPublish: "$(Build.ArtifactStagingDirectory)/hedwig-storybook.zip"
-      artifactName: hedwig-storybook
-#
-# Pull Request System
-#
-- job: pull_request_system
-  displayName: 'Pull Request System'
-  condition: eq(variables['Build.Reason'], 'PullRequest')
+      # Publish artifact to dropbox - hedwig-storybook
+      - task: PublishBuildArtifacts@1
+        displayName: "Publish Artifacts: hedwig-storybook"
+        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+        inputs:
+          pathToPublish: "$(Build.ArtifactStagingDirectory)/hedwig-storybook.zip"
+          artifactName: hedwig-storybook
+  #
+  # Pull Request System
+  #
+  - job: pull_request_system
+    displayName: "Pull Request System"
+    condition: eq(variables['Build.Reason'], 'PullRequest')
 
-  steps:
-  - task: UsePythonVersion@0
-    displayName: 'Tool: use python 3.x'
+    steps:
+      - task: UsePythonVersion@0
+        displayName: "Tool: use python 3.x"
 
-  - script: 'python -m pip install awscli'
-    displayName: 'Command: install awscli via pip'
+      - script: "python -m pip install awscli"
+        displayName: "Command: install awscli via pip"
 
-  - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
-    displayName: 'Install: install terraform 0.12.13' 
-    inputs:
-      terraformVersion: 0.12.13
+      - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
+        displayName: "Install: install terraform 0.12.13"
+        inputs:
+          terraformVersion: 0.12.13
 
-  - script: $(Build.SourcesDirectory)/installer/tf/prsystem/tf-init.sh
-    displayName: 'Command: initialize terraform backend'
+      - script: $(Build.SourcesDirectory)/installer/tf/prsystem/tf-init.sh
+        displayName: "Command: initialize terraform backend"
 
-  - script: $(Build.SourcesDirectory)/installer/tf/prsystem/tf-pr-system-destroy.sh $(System.PullRequest.PullRequestNumber) 
-    displayName: 'Command: destroy ubuntu system via terraform'
+      - script: $(Build.SourcesDirectory)/installer/tf/prsystem/tf-pr-system-destroy.sh $(System.PullRequest.PullRequestNumber)
+        displayName: "Command: destroy ubuntu system via terraform"
 
-  - script: $(Build.SourcesDirectory)/installer/tf/prsystem/tf-pr-system-setup.sh $(System.PullRequest.PullRequestNumber) $(System.PullRequest.SourceBranch)
-    displayName: 'Command: setup ubuntu system via terraform'
+      - script: $(Build.SourcesDirectory)/installer/tf/prsystem/tf-pr-system-setup.sh $(System.PullRequest.PullRequestNumber) $(System.PullRequest.SourceBranch)
+        displayName: "Command: setup ubuntu system via terraform"
 
-  - script: $(Build.SourcesDirectory)/installer/tf/prsystem/tf-pr-system-clean.sh
-    displayName: 'Command: clean ubuntu systems via terraform'
+      - script: $(Build.SourcesDirectory)/installer/tf/prsystem/tf-pr-system-clean.sh
+        displayName: "Command: clean ubuntu systems via terraform"
