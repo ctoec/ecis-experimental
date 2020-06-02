@@ -123,7 +123,6 @@ export const DateInput: React.FC<DateInputProps> = ({
 				disabled
 				id={`${id}-internal`}
 				defaultValue={currentDate && !dateIsInvalid ? '' + currentDate.valueOf() : undefined}
-
 			/>
 			<div className="flex-row flex-align-end grid-gap position-relative">
 				<TextInput
