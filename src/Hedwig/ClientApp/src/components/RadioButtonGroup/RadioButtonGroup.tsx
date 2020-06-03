@@ -41,8 +41,9 @@ export type RadioButtonGroupProps<
 		: FieldSetProps);
 
 /**
- * Component for displaying a group of related RadioButtons in a FieldSet,
- * or FormFieldSet.
+ * Component for displaying a group of related RadioButtons.
+ * Renders the radio button group in a FieldSet by default, or FormFieldSet
+ * if FormFieldSetProps is provided as type param
  */
 export const RadioButtonGroup = <
 	TFormFieldSetProps extends FieldSetProps | FormFieldSetProps<any> = FieldSetProps

@@ -121,7 +121,7 @@ exports[`ReportDetail matches snapshot 1`] = `
           </span>
         </legend>
         <div
-          class="grid-gap grid-row"
+          class="grid-gap grid-col"
         >
           <div
             class=" usa-form-group"
@@ -773,7 +773,7 @@ exports[`ReportDetail matches snapshot 1`] = `
             </span>
           </legend>
           <div
-            class="grid-gap grid-row"
+            class="grid-gap grid-row flex-align-start"
           >
             <div
               class="mobile-lg:grid-col-12"
@@ -819,7 +819,7 @@ exports[`ReportDetail matches snapshot 1`] = `
                 </span>
               </legend>
               <div
-                class="grid-gap grid-row margin-top-3"
+                class="grid-gap margin-top-3 grid-col"
               >
                 <span>
                   <div

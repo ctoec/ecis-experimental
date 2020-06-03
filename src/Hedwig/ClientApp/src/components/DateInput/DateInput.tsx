@@ -107,6 +107,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 
 	return (
 		<FieldSet
+			horizontal
 			legend={label}
 			id={id}
 			hint={hideHint ? undefined : `For example: ${moment().format('MM/DD/YYYY')}`}

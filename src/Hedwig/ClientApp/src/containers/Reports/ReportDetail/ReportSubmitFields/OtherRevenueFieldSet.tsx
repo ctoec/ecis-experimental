@@ -24,7 +24,7 @@ export const OtherRevenueFieldSet: React.FC<OtherRevenueFieldSetProps> = ({
 	errorAlertState,
 }) => {
 	return (
-		<FieldSet id="other-revenue" legend="Other Revenue">
+		<FieldSet id="other-revenue" legend="Other Revenue" horizontal>
 			<div className="mobile-lg:grid-col-12">
 				<C4KRevenueField
 					disabled={disabled}

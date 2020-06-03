@@ -168,7 +168,7 @@ exports[`EnrollmentNew FamilyIncome matches snapshot 1`] = `
                     </span>
                   </legend>
                   <div
-                    class="grid-gap grid-row"
+                    class="grid-gap grid-col"
                   >
                     <div>
                       <div
@@ -230,7 +230,7 @@ exports[`EnrollmentNew FamilyIncome matches snapshot 1`] = `
                           For example: 03/02/2019
                         </span>
                         <div
-                          class="grid-gap grid-row"
+                          class="grid-gap grid-row flex-align-start"
                         >
                           <input
                             aria-hidden="true"

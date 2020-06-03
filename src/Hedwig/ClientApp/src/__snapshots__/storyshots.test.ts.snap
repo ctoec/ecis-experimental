@@ -667,7 +667,7 @@ exports[`Storyshots CheckboxGroup CheckboxGroup 1`] = `
       </span>
     </legend>
     <div
-      className="grid-gap grid-row margin-top-3"
+      className="grid-gap margin-top-3 grid-col"
     >
       <span
         onChange={[Function]}
@@ -741,7 +741,7 @@ exports[`Storyshots CheckboxGroup CheckboxGroup with both single element expansi
       </span>
     </legend>
     <div
-      className="grid-gap grid-row margin-top-3"
+      className="grid-gap margin-top-3 grid-col"
     >
       <span
         onChange={[Function]}
@@ -826,7 +826,7 @@ exports[`Storyshots CheckboxGroup CheckboxGroup with error 1`] = `
       These fields will block your progress
     </span>
     <div
-      className="grid-gap grid-row margin-top-3"
+      className="grid-gap margin-top-3 grid-col"
     >
       <span
         onChange={[Function]}
@@ -900,7 +900,7 @@ exports[`Storyshots CheckboxGroup CheckboxGroup with one multi element expansion
       </span>
     </legend>
     <div
-      className="grid-gap grid-row margin-top-3"
+      className="grid-gap margin-top-3 grid-col"
     >
       <span
         onChange={[Function]}
@@ -974,7 +974,7 @@ exports[`Storyshots CheckboxGroup CheckboxGroup with one single element expansio
       </span>
     </legend>
     <div
-      className="grid-gap grid-row margin-top-3"
+      className="grid-gap margin-top-3 grid-col"
     >
       <span
         onChange={[Function]}
@@ -1059,7 +1059,7 @@ exports[`Storyshots CheckboxGroup CheckboxGroup with success 1`] = `
       These fields were validated woo
     </span>
     <div
-      className="grid-gap grid-row margin-top-3"
+      className="grid-gap margin-top-3 grid-col"
     >
       <span
         onChange={[Function]}
@@ -1157,7 +1157,7 @@ exports[`Storyshots CheckboxGroup CheckboxGroup with warning 1`] = `
       These fields need your attention
     </span>
     <div
-      className="grid-gap grid-row margin-top-3"
+      className="grid-gap margin-top-3 grid-col"
     >
       <span
         onChange={[Function]}
@@ -1232,7 +1232,7 @@ exports[`Storyshots CheckboxGroup Disabled CheckboxGroup 1`] = `
       </span>
     </legend>
     <div
-      className="grid-gap grid-row margin-top-3"
+      className="grid-gap margin-top-3 grid-col"
     >
       <span
         onChange={[Function]}
@@ -1306,7 +1306,7 @@ exports[`Storyshots ChoiceList CheckList with both single element expansion 1`] 
       </span>
     </legend>
     <div
-      className="grid-gap grid-row margin-top-3"
+      className="grid-gap margin-top-3 grid-col"
     >
       <div
         className=""
@@ -1380,7 +1380,7 @@ exports[`Storyshots ChoiceList CheckList with one multi element expansion 1`] = 
       </span>
     </legend>
     <div
-      className="grid-gap grid-row margin-top-3"
+      className="grid-gap margin-top-3 grid-col"
     >
       <div
         className=""
@@ -1454,7 +1454,7 @@ exports[`Storyshots ChoiceList CheckList with one single element expansion 1`] =
       </span>
     </legend>
     <div
-      className="grid-gap grid-row margin-top-3"
+      className="grid-gap margin-top-3 grid-col"
     >
       <div
         className=""
@@ -1528,7 +1528,7 @@ exports[`Storyshots ChoiceList Checklist 1`] = `
       </span>
     </legend>
     <div
-      className="grid-gap grid-row margin-top-3"
+      className="grid-gap margin-top-3 grid-col"
     >
       <div
         className=""
@@ -1626,7 +1626,7 @@ exports[`Storyshots ChoiceList Checklist with warning 1`] = `
       These fields need your attention
     </span>
     <div
-      className="grid-gap grid-row margin-top-3"
+      className="grid-gap margin-top-3 grid-col"
     >
       <div
         className=""
@@ -1700,7 +1700,7 @@ exports[`Storyshots ChoiceList Disabled checklist 1`] = `
       </span>
     </legend>
     <div
-      className="grid-gap grid-row margin-top-3"
+      className="grid-gap margin-top-3 grid-col"
     >
       <div
         className=""
@@ -1774,7 +1774,7 @@ exports[`Storyshots ChoiceList Disabled radio 1`] = `
       </span>
     </legend>
     <div
-      className="grid-gap grid-row margin-top-3"
+      className="grid-gap margin-top-3 grid-col"
     >
       <div
         className=""
@@ -1896,7 +1896,7 @@ exports[`Storyshots ChoiceList Radio 1`] = `
       </span>
     </legend>
     <div
-      className="grid-gap grid-row margin-top-3"
+      className="grid-gap margin-top-3 grid-col"
     >
       <div
         className=""
@@ -1970,7 +1970,7 @@ exports[`Storyshots ChoiceList Radio with both single element expansion 1`] = `
       </span>
     </legend>
     <div
-      className="grid-gap grid-row margin-top-3"
+      className="grid-gap margin-top-3 grid-col"
     >
       <div
         className=""
@@ -2073,7 +2073,7 @@ exports[`Storyshots ChoiceList Radio with error 1`] = `
       These fields will block your progress
     </span>
     <div
-      className="grid-gap grid-row margin-top-3"
+      className="grid-gap margin-top-3 grid-col"
     >
       <div
         className=""
@@ -2147,7 +2147,7 @@ exports[`Storyshots ChoiceList Radio with one multi element expansion 1`] = `
       </span>
     </legend>
     <div
-      className="grid-gap grid-row margin-top-3"
+      className="grid-gap margin-top-3 grid-col"
     >
       <div
         className=""
@@ -2236,7 +2236,7 @@ exports[`Storyshots ChoiceList Radio with one multi element expansion with error
       </span>
     </legend>
     <div
-      className="grid-gap grid-row margin-top-3"
+      className="grid-gap margin-top-3 grid-col"
     >
       <div
         className=""
@@ -2332,7 +2332,7 @@ exports[`Storyshots ChoiceList Radio with one multi element expansion with warni
       </span>
     </legend>
     <div
-      className="grid-gap grid-row margin-top-3"
+      className="grid-gap margin-top-3 grid-col"
     >
       <div
         className=""
@@ -2428,7 +2428,7 @@ exports[`Storyshots ChoiceList Radio with one single element expansion 1`] = `
       </span>
     </legend>
     <div
-      className="grid-gap grid-row margin-top-3"
+      className="grid-gap margin-top-3 grid-col"
     >
       <div
         className=""
@@ -2511,7 +2511,7 @@ exports[`Storyshots ChoiceList Radio with one single element expansion with erro
       </span>
     </legend>
     <div
-      className="grid-gap grid-row margin-top-3"
+      className="grid-gap margin-top-3 grid-col"
     >
       <div
         className=""
@@ -2604,7 +2604,7 @@ exports[`Storyshots ChoiceList Radio with one single element expansion with warn
       </span>
     </legend>
     <div
-      className="grid-gap grid-row margin-top-3"
+      className="grid-gap margin-top-3 grid-col"
     >
       <div
         className=""
@@ -2697,7 +2697,7 @@ exports[`Storyshots ChoiceList Radio with preselected option 1`] = `
       </span>
     </legend>
     <div
-      className="grid-gap grid-row margin-top-3"
+      className="grid-gap margin-top-3 grid-col"
     >
       <div
         className=""
@@ -3113,7 +3113,7 @@ exports[`Storyshots Date input Default with date 1`] = `
       For example: 06/03/2020
     </span>
     <div
-      className="grid-gap grid-row"
+      className="grid-gap grid-row flex-align-start"
     >
       <input
         aria-hidden={true}
@@ -3203,7 +3203,7 @@ exports[`Storyshots Date input Default with no date set 1`] = `
       For example: 06/03/2020
     </span>
     <div
-      className="grid-gap grid-row"
+      className="grid-gap grid-row flex-align-start"
     >
       <input
         aria-hidden={true}
@@ -3292,7 +3292,7 @@ exports[`Storyshots Date input Disabled day input 1`] = `
       For example: 06/03/2020
     </span>
     <div
-      className="grid-gap grid-row"
+      className="grid-gap grid-row flex-align-start"
     >
       <input
         aria-hidden={true}
@@ -3392,7 +3392,7 @@ exports[`Storyshots Date input Error 1`] = `
       Pick a better date
     </span>
     <div
-      className="grid-gap grid-row"
+      className="grid-gap grid-row flex-align-start"
     >
       <input
         aria-hidden={true}
@@ -3489,7 +3489,7 @@ exports[`Storyshots Date input Optional 1`] = `
       For example: 06/03/2020
     </span>
     <div
-      className="grid-gap grid-row"
+      className="grid-gap grid-row flex-align-start"
     >
       <input
         aria-hidden={true}
@@ -3589,7 +3589,7 @@ exports[`Storyshots Date input Success 1`] = `
       You did good
     </span>
     <div
-      className="grid-gap grid-row"
+      className="grid-gap grid-row flex-align-start"
     >
       <input
         aria-hidden={true}
@@ -3704,7 +3704,7 @@ exports[`Storyshots Date input Warning 1`] = `
       Meh, fine
     </span>
     <div
-      className="grid-gap grid-row"
+      className="grid-gap grid-row flex-align-start"
     >
       <input
         aria-hidden={true}
@@ -3796,7 +3796,7 @@ exports[`Storyshots DateRangeInput Default 1`] = `
       For example: 04/28/1986
     </span>
     <div
-      className="grid-gap grid-row"
+      className="grid-gap grid-col"
     >
       <div
         className="display-flex flex-direction-row flex-align-end"
@@ -3816,7 +3816,7 @@ exports[`Storyshots DateRangeInput Default 1`] = `
             </span>
           </legend>
           <div
-            className="grid-gap grid-row"
+            className="grid-gap grid-row flex-align-start"
           >
             <input
               aria-hidden={true}
@@ -3896,7 +3896,7 @@ exports[`Storyshots DateRangeInput Default 1`] = `
             </span>
           </legend>
           <div
-            className="grid-gap grid-row"
+            className="grid-gap grid-row flex-align-start"
           >
             <input
               aria-hidden={true}
@@ -3990,7 +3990,7 @@ exports[`Storyshots DateRangeInput Disabled 1`] = `
       For example: 04/28/1986
     </span>
     <div
-      className="grid-gap grid-row"
+      className="grid-gap grid-col"
     >
       <div
         className="display-flex flex-direction-row flex-align-end"
@@ -4010,7 +4010,7 @@ exports[`Storyshots DateRangeInput Disabled 1`] = `
             </span>
           </legend>
           <div
-            className="grid-gap grid-row"
+            className="grid-gap grid-row flex-align-start"
           >
             <input
               aria-hidden={true}
@@ -4090,7 +4090,7 @@ exports[`Storyshots DateRangeInput Disabled 1`] = `
             </span>
           </legend>
           <div
-            className="grid-gap grid-row"
+            className="grid-gap grid-row flex-align-start"
           >
             <input
               aria-hidden={true}
@@ -4193,7 +4193,7 @@ exports[`Storyshots DateRangeInput Error 1`] = `
       Pick a better date
     </span>
     <div
-      className="grid-gap grid-row"
+      className="grid-gap grid-col"
     >
       <div
         className="display-flex flex-direction-row flex-align-end"
@@ -4213,7 +4213,7 @@ exports[`Storyshots DateRangeInput Error 1`] = `
             </span>
           </legend>
           <div
-            className="grid-gap grid-row"
+            className="grid-gap grid-row flex-align-start"
           >
             <input
               aria-hidden={true}
@@ -4293,7 +4293,7 @@ exports[`Storyshots DateRangeInput Error 1`] = `
             </span>
           </legend>
           <div
-            className="grid-gap grid-row"
+            className="grid-gap grid-row flex-align-start"
           >
             <input
               aria-hidden={true}
@@ -4391,7 +4391,7 @@ exports[`Storyshots DateRangeInput Optional 1`] = `
       For example: 04/28/1986
     </span>
     <div
-      className="grid-gap grid-row"
+      className="grid-gap grid-col"
     >
       <div
         className="display-flex flex-direction-row flex-align-end"
@@ -4411,7 +4411,7 @@ exports[`Storyshots DateRangeInput Optional 1`] = `
             </span>
           </legend>
           <div
-            className="grid-gap grid-row"
+            className="grid-gap grid-row flex-align-start"
           >
             <input
               aria-hidden={true}
@@ -4491,7 +4491,7 @@ exports[`Storyshots DateRangeInput Optional 1`] = `
             </span>
           </legend>
           <div
-            className="grid-gap grid-row"
+            className="grid-gap grid-row flex-align-start"
           >
             <input
               aria-hidden={true}
@@ -4594,7 +4594,7 @@ exports[`Storyshots DateRangeInput Success 1`] = `
       You did good
     </span>
     <div
-      className="grid-gap grid-row"
+      className="grid-gap grid-col"
     >
       <div
         className="display-flex flex-direction-row flex-align-end"
@@ -4614,7 +4614,7 @@ exports[`Storyshots DateRangeInput Success 1`] = `
             </span>
           </legend>
           <div
-            className="grid-gap grid-row"
+            className="grid-gap grid-row flex-align-start"
           >
             <input
               aria-hidden={true}
@@ -4694,7 +4694,7 @@ exports[`Storyshots DateRangeInput Success 1`] = `
             </span>
           </legend>
           <div
-            className="grid-gap grid-row"
+            className="grid-gap grid-row flex-align-start"
           >
             <input
               aria-hidden={true}
@@ -4810,7 +4810,7 @@ exports[`Storyshots DateRangeInput Warning 1`] = `
       Meh, fine
     </span>
     <div
-      className="grid-gap grid-row"
+      className="grid-gap grid-col"
     >
       <div
         className="display-flex flex-direction-row flex-align-end"
@@ -4830,7 +4830,7 @@ exports[`Storyshots DateRangeInput Warning 1`] = `
             </span>
           </legend>
           <div
-            className="grid-gap grid-row"
+            className="grid-gap grid-row flex-align-start"
           >
             <input
               aria-hidden={true}
@@ -4910,7 +4910,7 @@ exports[`Storyshots DateRangeInput Warning 1`] = `
             </span>
           </legend>
           <div
-            className="grid-gap grid-row"
+            className="grid-gap grid-row flex-align-start"
           >
             <input
               aria-hidden={true}
@@ -5089,10 +5089,49 @@ exports[`Storyshots FieldSet Default 1`] = `
       </span>
     </legend>
     <div
-      className="grid-gap grid-row"
+      className="grid-gap grid-col"
     >
       <p>
         I'm inside a field set!
+      </p>
+    </div>
+  </fieldset>
+</div>
+`;
+
+exports[`Storyshots FieldSet Horizontal 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    aria-required={true}
+    className="grid-gap grid-row usa-fieldset"
+    id="horizontal-fieldSet"
+  >
+    <legend
+      id="fieldset-legend-horizontal-fieldSet"
+    >
+      <span
+        className="usa-sr-only"
+      >
+        Field set
+      </span>
+    </legend>
+    <div
+      className="grid-gap grid-row flex-align-start"
+    >
+      <p>
+        These
+      </p>
+      <p>
+        are
+      </p>
+      <p>
+        horizontal
       </p>
     </div>
   </fieldset>
@@ -5122,7 +5161,7 @@ exports[`Storyshots FieldSet Show legend 1`] = `
       </span>
     </legend>
     <div
-      className="grid-gap grid-row"
+      className="grid-gap grid-col"
     >
       <p>
         I'm inside a field set!
@@ -5166,7 +5205,7 @@ exports[`Storyshots FieldSet With error 1`] = `
       These fields will block your progress!
     </span>
     <div
-      className="grid-gap grid-row"
+      className="grid-gap grid-col"
     >
       <p>
          Uh oh! 
@@ -5216,7 +5255,7 @@ exports[`Storyshots FieldSet With success 1`] = `
       These fields are filled out and validated yay!
     </span>
     <div
-      className="grid-gap grid-row"
+      className="grid-gap grid-col"
     >
       <p>
          Wow! 
@@ -5279,7 +5318,7 @@ exports[`Storyshots FieldSet With warning 1`] = `
       These fields need your attention!
     </span>
     <div
-      className="grid-gap grid-row"
+      className="grid-gap grid-col"
     >
       <p>
          Oh no! 
@@ -5935,7 +5974,7 @@ exports[`Storyshots RadioButtonGroup Disabled RadioButtonGroup 1`] = `
       </span>
     </legend>
     <div
-      className="grid-gap grid-row margin-top-3"
+      className="grid-gap margin-top-3 grid-col"
     >
       <span
         onChange={[Function]}
@@ -5990,6 +6029,84 @@ exports[`Storyshots RadioButtonGroup Disabled RadioButtonGroup 1`] = `
 </div>
 `;
 
+exports[`Storyshots RadioButtonGroup Horizontal RadioButtonGroup 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <fieldset
+    aria-required={true}
+    className="grid-gap grid-row usa-fieldset"
+    id="storybook-RadioButtonGroup-fieldset"
+  >
+    <legend
+      id="fieldset-legend-storybook-RadioButtonGroup-fieldset"
+    >
+      <span
+        className="usa-sr-only"
+      >
+        RadioButtonGroup
+      </span>
+    </legend>
+    <div
+      className="grid-gap margin-top-3 grid-row flex-align-start"
+    >
+      <span
+        onChange={[Function]}
+      >
+        <div
+          className="usa-radio"
+        >
+          <input
+            checked={false}
+            className="usa-radio__input"
+            disabled={false}
+            id="one"
+            name="radio-button-group-horizontal"
+            onChange={[Function]}
+            type="radio"
+            value="one"
+          />
+          <label
+            className="usa-radio__label"
+            htmlFor="one"
+          >
+            Option 1
+          </label>
+        </div>
+      </span>
+      <span
+        onChange={[Function]}
+      >
+        <div
+          className="usa-radio"
+        >
+          <input
+            checked={false}
+            className="usa-radio__input"
+            disabled={false}
+            id="two"
+            name="radio-button-group-horizontal"
+            onChange={[Function]}
+            type="radio"
+            value="two"
+          />
+          <label
+            className="usa-radio__label"
+            htmlFor="two"
+          >
+            Option 2
+          </label>
+        </div>
+      </span>
+    </div>
+  </fieldset>
+</div>
+`;
+
 exports[`Storyshots RadioButtonGroup RadioButtonGroup 1`] = `
 <div
   style={
@@ -6013,7 +6130,7 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup 1`] = `
       </span>
     </legend>
     <div
-      className="grid-gap grid-row margin-top-3"
+      className="grid-gap margin-top-3 grid-col"
     >
       <span
         onChange={[Function]}
@@ -6091,7 +6208,7 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup with both single element e
       </span>
     </legend>
     <div
-      className="grid-gap grid-row margin-top-3"
+      className="grid-gap margin-top-3 grid-col"
     >
       <span
         onChange={[Function]}
@@ -6180,7 +6297,7 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup with error 1`] = `
       These fields will block your progress
     </span>
     <div
-      className="grid-gap grid-row margin-top-3"
+      className="grid-gap margin-top-3 grid-col"
     >
       <span
         onChange={[Function]}
@@ -6258,7 +6375,7 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup with one multi element exp
       </span>
     </legend>
     <div
-      className="grid-gap grid-row margin-top-3"
+      className="grid-gap margin-top-3 grid-col"
     >
       <span
         onChange={[Function]}
@@ -6336,7 +6453,7 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup with one single element ex
       </span>
     </legend>
     <div
-      className="grid-gap grid-row margin-top-3"
+      className="grid-gap margin-top-3 grid-col"
     >
       <span
         onChange={[Function]}
@@ -6425,7 +6542,7 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup with success 1`] = `
       These fields were validated woo
     </span>
     <div
-      className="grid-gap grid-row margin-top-3"
+      className="grid-gap margin-top-3 grid-col"
     >
       <span
         onChange={[Function]}
@@ -6527,7 +6644,7 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup with warning 1`] = `
       These fields need your attention
     </span>
     <div
-      className="grid-gap grid-row margin-top-3"
+      className="grid-gap margin-top-3 grid-col"
     >
       <span
         onChange={[Function]}
@@ -7646,7 +7763,7 @@ exports[`Storyshots TextInput Error inside error Fieldset 1`] = `
         Error!
       </span>
       <div
-        className="grid-gap grid-row"
+        className="grid-gap grid-col"
       >
         <div
           className="mobile-lg:grid-col-4 display-inline-block"
@@ -7897,7 +8014,7 @@ exports[`Storyshots TextInput Warning inside warning Fieldset 1`] = `
         Warning!
       </span>
       <div
-        className="grid-gap grid-row"
+        className="grid-gap grid-col"
       >
         <div
           className="mobile-lg:grid-col-4 display-inline-block"

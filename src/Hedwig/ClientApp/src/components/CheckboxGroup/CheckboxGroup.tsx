@@ -43,7 +43,7 @@ export type CheckboxGroupProps<
 /**
  * Component for displaying a group of related Checkboxes.
  * Renders the checkbox group inside a FieldSet by default, or FormFieldSet
- * if
+ * if FormFieldSetProps is provided as type param
  */
 export const CheckboxGroup = <
 	TFieldSetProps extends FieldSetProps | FormFieldSetProps<any> = FieldSetProps

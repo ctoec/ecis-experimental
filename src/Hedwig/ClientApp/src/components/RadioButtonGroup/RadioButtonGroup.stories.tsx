@@ -95,11 +95,12 @@ storiesOf('RadioButtonGroup', module)
 			<RadioButtonGroup
 				name="radio-button-group-horizontal"
 				legend="RadioButtonGroup"
+				horizontal
 				onChange={onChange}
 				options={options}
 				id="storybook-RadioButtonGroup"
 			/>
-		)
+		);
 	})
 	.add('RadioButtonGroup with success', () => {
 		return (

@@ -89,7 +89,7 @@ exports[`Withdrawal matches snapshot 1`] = `
               For example: 09/30/2019
             </span>
             <div
-              class="grid-gap grid-row"
+              class="grid-gap grid-row flex-align-start"
             >
               <input
                 aria-hidden="true"
