@@ -7,7 +7,7 @@ import {
 } from '../../../generated';
 import useApi, { ApiError } from '../../../hooks/useApi';
 import UserContext from '../../../contexts/User/UserContext';
-import { FieldSet, ErrorBoundary } from '../../../components';
+import { FieldSet, ErrorBoundary, Alert } from '../../../components';
 import AppContext from '../../../contexts/App/AppContext';
 import { getIdForUser, getFundingSpaces } from '../../../utils/models';
 import UtilizationTable from './UtilizationTable';
@@ -23,6 +23,7 @@ import {
 	TimeSplitUtilizationField,
 	OtherRevenueFieldSet,
 } from './ReportSubmitFields';
+import { somethingWentWrongAlert } from '../../../utils/stringFormatters/alertTextMakers';
 
 export type ReportSubmitFormProps = {
 	report: CdcReport;
@@ -59,8 +60,7 @@ export default function ReportSubmitForm({
 		endDate: report.reportingPeriod && report.reportingPeriod.periodEnd,
 		asOf: submittedAt || undefined,
 	};
-
-	const { data: allEnrollments } = useApi(
+	const { loading: allEnrollmentsLoading, data: allEnrollments } = useApi(
 		(api) => api.apiOrganizationsOrgIdEnrollmentsGet(enrollmentParams),
 		{ skip: !user || !report }
 	);
@@ -119,6 +119,23 @@ export default function ReportSubmitForm({
 		setAttemptingSave(true);
 		setMutatedReport(userModifiedReport);
 	};
+
+	// If we are still loading, show a loading page
+	if (allEnrollmentsLoading) {
+		return <>Loading...</>;
+	}
+
+	// If we stopped loading, and still don't have these values
+	// Then an error other than a validation error ocurred.
+	// (In staging, it is likely that a new deployment happened.
+	// This changes the ids of the objects. Thus, when a user
+	// navigates back to roster 401/403 errors to occur.
+	// This can be resolved with a hard refresh. We don't do that
+	// because if it truly is a 500 error, we would get an infite
+	// loop). For now, show a general purpose alert message.
+	if (!allEnrollments) {
+		return <Alert {...somethingWentWrongAlert}></Alert>;
+	}
 
 	return (
 		<ErrorBoundary alertProps={reportSubmitFailAlert}>
