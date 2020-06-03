@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Sorting" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Icons" transform="translate(-6.000000, -24.000000)">
+            <g id="Downarrow-circle" transform="translate(6.000000, 24.000000)">
+                <circle id="Oval" fill="currentColor" cx="8" cy="8" r="8"></circle>
+                <polygon id="Fill-1" fill="#FFFFFF" points="11.9547604 7.4305068 8.74643599 10.3873801 8.74643599 3 7.25351028 3 7.25351028 10.3873801 4.0451859 7.4305068 3 8.39356167 8 13 13 8.39356167"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

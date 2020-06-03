@@ -1,6 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import { SortOrder, TableSort } from './Table';
+import { ReactComponent as DownArrowCircle } from '../../assets/images/downArrowCircle.svg';
 
 type ColumnHeaderProps = {
 	name: string | JSX.Element;
@@ -53,20 +54,11 @@ export class ColumnHeader extends React.Component<ColumnHeaderProps> {
 						onClick={this.toggleSort}
 						aria-label={`Sort table by ${name} in ${
 							sorted && sortOrder === 'ascending' ? 'descending' : 'ascending'
-						} order`}
+							} order`}
 					>
 						{name}
-						<div className="oec-table__sort-controls">
-							<span
-								className={`oec-table__sort-controls__asc${
-									sorted && sortOrder === 'ascending' ? ' active' : ''
-								}`}
-							></span>
-							<span
-								className={`oec-table__sort-controls__desc${
-									sorted && sortOrder === 'descending' ? ' active' : ''
-								}`}
-							></span>
+						<div className={cx('oec-table__sort-controls', { 'oec-table__sort-controls--ascending': sorted && sortOrder === 'ascending' }, { 'oec-table__sort-controls--descending': sorted && sortOrder === 'descending' })}>
+							<DownArrowCircle title="Sort" />
 						</div>
 					</button>
 				)}
