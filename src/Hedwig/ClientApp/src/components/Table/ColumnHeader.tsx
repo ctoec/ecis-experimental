@@ -54,10 +54,16 @@ export class ColumnHeader extends React.Component<ColumnHeaderProps> {
 						onClick={this.toggleSort}
 						aria-label={`Sort table by ${name} in ${
 							sorted && sortOrder === 'ascending' ? 'descending' : 'ascending'
-							} order`}
+						} order`}
 					>
 						{name}
-						<div className={cx('oec-table__sort-controls', { 'oec-table__sort-controls--ascending': sorted && sortOrder === 'ascending' }, { 'oec-table__sort-controls--descending': sorted && sortOrder === 'descending' })}>
+						<div
+							className={cx(
+								'oec-table__sort-controls',
+								{ 'oec-table__sort-controls--ascending': sorted && sortOrder === 'ascending' },
+								{ 'oec-table__sort-controls--descending': sorted && sortOrder === 'descending' }
+							)}
+						>
 							<DownArrowCircle title="Sort" />
 						</div>
 					</button>

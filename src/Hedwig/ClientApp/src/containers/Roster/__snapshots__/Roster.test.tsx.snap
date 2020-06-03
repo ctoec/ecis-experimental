@@ -199,14 +199,13 @@ exports[`Roster matches snapshot 1`] = `
             >
               Name
               <div
-                class="oec-table__sort-controls"
+                class="oec-table__sort-controls oec-table__sort-controls--ascending"
               >
-                <span
-                  class="oec-table__sort-controls__asc active"
-                />
-                <span
-                  class="oec-table__sort-controls__desc"
-                />
+                <svg
+                  title="Sort"
+                >
+                  downArrowCircle.svg
+                </svg>
               </div>
             </button>
           </th>
@@ -225,12 +224,11 @@ exports[`Roster matches snapshot 1`] = `
               <div
                 class="oec-table__sort-controls"
               >
-                <span
-                  class="oec-table__sort-controls__asc"
-                />
-                <span
-                  class="oec-table__sort-controls__desc"
-                />
+                <svg
+                  title="Sort"
+                >
+                  downArrowCircle.svg
+                </svg>
               </div>
             </button>
           </th>
@@ -249,12 +247,11 @@ exports[`Roster matches snapshot 1`] = `
               <div
                 class="oec-table__sort-controls"
               >
-                <span
-                  class="oec-table__sort-controls__asc"
-                />
-                <span
-                  class="oec-table__sort-controls__desc"
-                />
+                <svg
+                  title="Sort"
+                >
+                  downArrowCircle.svg
+                </svg>
               </div>
             </button>
           </th>
@@ -273,12 +270,11 @@ exports[`Roster matches snapshot 1`] = `
               <div
                 class="oec-table__sort-controls"
               >
-                <span
-                  class="oec-table__sort-controls__asc"
-                />
-                <span
-                  class="oec-table__sort-controls__desc"
-                />
+                <svg
+                  title="Sort"
+                >
+                  downArrowCircle.svg
+                </svg>
               </div>
             </button>
           </th>
@@ -431,14 +427,13 @@ exports[`Roster matches snapshot 1`] = `
             >
               Name
               <div
-                class="oec-table__sort-controls"
+                class="oec-table__sort-controls oec-table__sort-controls--ascending"
               >
-                <span
-                  class="oec-table__sort-controls__asc active"
-                />
-                <span
-                  class="oec-table__sort-controls__desc"
-                />
+                <svg
+                  title="Sort"
+                >
+                  downArrowCircle.svg
+                </svg>
               </div>
             </button>
           </th>
@@ -457,12 +452,11 @@ exports[`Roster matches snapshot 1`] = `
               <div
                 class="oec-table__sort-controls"
               >
-                <span
-                  class="oec-table__sort-controls__asc"
-                />
-                <span
-                  class="oec-table__sort-controls__desc"
-                />
+                <svg
+                  title="Sort"
+                >
+                  downArrowCircle.svg
+                </svg>
               </div>
             </button>
           </th>
@@ -481,12 +475,11 @@ exports[`Roster matches snapshot 1`] = `
               <div
                 class="oec-table__sort-controls"
               >
-                <span
-                  class="oec-table__sort-controls__asc"
-                />
-                <span
-                  class="oec-table__sort-controls__desc"
-                />
+                <svg
+                  title="Sort"
+                >
+                  downArrowCircle.svg
+                </svg>
               </div>
             </button>
           </th>
@@ -505,12 +498,11 @@ exports[`Roster matches snapshot 1`] = `
               <div
                 class="oec-table__sort-controls"
               >
-                <span
-                  class="oec-table__sort-controls__asc"
-                />
-                <span
-                  class="oec-table__sort-controls__desc"
-                />
+                <svg
+                  title="Sort"
+                >
+                  downArrowCircle.svg
+                </svg>
               </div>
             </button>
           </th>

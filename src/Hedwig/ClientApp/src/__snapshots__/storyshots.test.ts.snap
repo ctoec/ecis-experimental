@@ -7411,14 +7411,13 @@ exports[`Storyshots Table Full width 1`] = `
           >
             Name
             <div
-              className="oec-table__sort-controls"
+              className="oec-table__sort-controls oec-table__sort-controls--ascending"
             >
-              <span
-                className="oec-table__sort-controls__asc active"
-              />
-              <span
-                className="oec-table__sort-controls__desc"
-              />
+              <svg
+                title="Sort"
+              >
+                downArrowCircle.svg
+              </svg>
             </div>
           </button>
         </th>
@@ -7442,12 +7441,11 @@ exports[`Storyshots Table Full width 1`] = `
             <div
               className="oec-table__sort-controls"
             >
-              <span
-                className="oec-table__sort-controls__asc"
-              />
-              <span
-                className="oec-table__sort-controls__desc"
-              />
+              <svg
+                title="Sort"
+              >
+                downArrowCircle.svg
+              </svg>
             </div>
           </button>
         </th>
@@ -7527,14 +7525,13 @@ exports[`Storyshots Table Normal 1`] = `
           >
             Name
             <div
-              className="oec-table__sort-controls"
+              className="oec-table__sort-controls oec-table__sort-controls--ascending"
             >
-              <span
-                className="oec-table__sort-controls__asc active"
-              />
-              <span
-                className="oec-table__sort-controls__desc"
-              />
+              <svg
+                title="Sort"
+              >
+                downArrowCircle.svg
+              </svg>
             </div>
           </button>
         </th>
@@ -7558,12 +7555,11 @@ exports[`Storyshots Table Normal 1`] = `
             <div
               className="oec-table__sort-controls"
             >
-              <span
-                className="oec-table__sort-controls__asc"
-              />
-              <span
-                className="oec-table__sort-controls__desc"
-              />
+              <svg
+                title="Sort"
+              >
+                downArrowCircle.svg
+              </svg>
             </div>
           </button>
         </th>
