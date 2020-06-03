@@ -148,8 +148,7 @@ export const SelectWithOther: React.FC<OtherOptionTextInputWrapperProps<SelectPr
 }) => {
 	const OTHER_VALUE = '__other';
 
-	const selectedItemOnInput = Array.isArray(defaultValue) ? defaultValue[0] : defaultValue;
-	const [showOther, setShowOther] = useState(selectedItemOnInput === OTHER_VALUE);
+	const [showOther, setShowOther] = useState(defaultValue === OTHER_VALUE);
 
 	const optionsWithOther = [
 		...options,
@@ -173,7 +172,7 @@ export const SelectWithOther: React.FC<OtherOptionTextInputWrapperProps<SelectPr
 		<Select
 			id={id}
 			label={labelForSelect}
-			defaultValue={selectedItemOnInput}
+			defaultValue={defaultValue}
 			status={status}
 			onChange={_onChange}
 			options={optionsWithOther}

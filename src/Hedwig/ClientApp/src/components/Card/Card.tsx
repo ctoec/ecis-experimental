@@ -87,7 +87,7 @@ export function Card({
 						if (!isValidElement(child)) {
 							throw new Error('Invalid card child element');
 						}
-						const type = typeof child.type === 'string' ? child.type : child.type.name;
+						const type = (typeof child.type === 'string') ? child.type : child.type.name;
 						if (type !== CardExpansion.name) {
 							return child;
 						}
@@ -103,7 +103,7 @@ export function Card({
 						if (!isValidElement(child)) {
 							throw new Error('Invalid card child element');
 						}
-						const type = typeof child.type === 'string' ? child.type : child.type.name;
+						const type = (typeof child.type === 'string') ? child.type : child.type.name;
 						if (type === CardExpansion.name) {
 							return child;
 						}

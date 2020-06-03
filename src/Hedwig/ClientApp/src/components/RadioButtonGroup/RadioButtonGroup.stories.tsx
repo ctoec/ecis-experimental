@@ -90,6 +90,17 @@ storiesOf('RadioButtonGroup', module)
 			/>
 		);
 	})
+	.add('Horizontal RadioButtonGroup', () => {
+		return (
+			<RadioButtonGroup
+				name="radio-button-group-horizontal"
+				legend="RadioButtonGroup"
+				onChange={onChange}
+				options={options}
+				id="storybook-RadioButtonGroup"
+			/>
+		)
+	})
 	.add('RadioButtonGroup with success', () => {
 		return (
 			<RadioButtonGroup
