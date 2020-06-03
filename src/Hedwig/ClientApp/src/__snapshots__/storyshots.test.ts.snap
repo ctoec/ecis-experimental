@@ -669,48 +669,50 @@ exports[`Storyshots CheckboxGroup CheckboxGroup 1`] = `
     <div
       className="grid-gap grid-row margin-top-3"
     >
-      <div>
+      <span
+        onChange={[Function]}
+      >
         <div
-          className="usa-checkbox undefined"
+          className="usa-checkbox"
         >
           <input
             className="usa-checkbox__input"
             disabled={false}
-            id="storybook-CheckboxGroup-one"
-            name=""
+            id="one"
             onChange={[Function]}
             selected={false}
             type="checkbox"
-            value="one"
           />
           <label
             className="usa-checkbox__label"
-            htmlFor="storybook-CheckboxGroup-one"
+            htmlFor="one"
           >
             Option 1
           </label>
         </div>
+      </span>
+      <span
+        onChange={[Function]}
+      >
         <div
-          className="usa-checkbox undefined"
+          className="usa-checkbox"
         >
           <input
             className="usa-checkbox__input"
             disabled={false}
-            id="storybook-CheckboxGroup-two"
-            name=""
+            id="two"
             onChange={[Function]}
             selected={false}
             type="checkbox"
-            value="two"
           />
           <label
             className="usa-checkbox__label"
-            htmlFor="storybook-CheckboxGroup-two"
+            htmlFor="two"
           >
             Option 2
           </label>
         </div>
-      </div>
+      </span>
     </div>
   </fieldset>
 </div>
@@ -741,48 +743,50 @@ exports[`Storyshots CheckboxGroup CheckboxGroup with both single element expansi
     <div
       className="grid-gap grid-row margin-top-3"
     >
-      <div>
+      <span
+        onChange={[Function]}
+      >
         <div
-          className="usa-checkbox undefined"
+          className="usa-checkbox"
         >
           <input
             className="usa-checkbox__input"
             disabled={false}
-            id="storybook-CheckboxGroup-one"
-            name=""
+            id="one"
             onChange={[Function]}
             selected={false}
             type="checkbox"
-            value="one"
           />
           <label
             className="usa-checkbox__label"
-            htmlFor="storybook-CheckboxGroup-one"
+            htmlFor="one"
           >
             Option 1
           </label>
         </div>
+      </span>
+      <span
+        onChange={[Function]}
+      >
         <div
-          className="usa-checkbox undefined"
+          className="usa-checkbox"
         >
           <input
             className="usa-checkbox__input"
             disabled={false}
-            id="storybook-CheckboxGroup-two"
-            name=""
+            id="two"
             onChange={[Function]}
             selected={false}
             type="checkbox"
-            value="two"
           />
           <label
             className="usa-checkbox__label"
-            htmlFor="storybook-CheckboxGroup-two"
+            htmlFor="two"
           >
             Option 2
           </label>
         </div>
-      </div>
+      </span>
     </div>
   </fieldset>
 </div>
@@ -824,48 +828,50 @@ exports[`Storyshots CheckboxGroup CheckboxGroup with error 1`] = `
     <div
       className="grid-gap grid-row margin-top-3"
     >
-      <div>
+      <span
+        onChange={[Function]}
+      >
         <div
-          className="usa-checkbox undefined"
+          className="usa-checkbox"
         >
           <input
             className="usa-checkbox__input"
             disabled={false}
-            id="storybook-CheckboxGroup-one"
-            name=""
+            id="one"
             onChange={[Function]}
             selected={false}
             type="checkbox"
-            value="one"
           />
           <label
             className="usa-checkbox__label"
-            htmlFor="storybook-CheckboxGroup-one"
+            htmlFor="one"
           >
             Option 1
           </label>
         </div>
+      </span>
+      <span
+        onChange={[Function]}
+      >
         <div
-          className="usa-checkbox undefined"
+          className="usa-checkbox"
         >
           <input
             className="usa-checkbox__input"
             disabled={false}
-            id="storybook-CheckboxGroup-two"
-            name=""
+            id="two"
             onChange={[Function]}
             selected={false}
             type="checkbox"
-            value="two"
           />
           <label
             className="usa-checkbox__label"
-            htmlFor="storybook-CheckboxGroup-two"
+            htmlFor="two"
           >
             Option 2
           </label>
         </div>
-      </div>
+      </span>
     </div>
   </fieldset>
 </div>
@@ -896,48 +902,50 @@ exports[`Storyshots CheckboxGroup CheckboxGroup with one multi element expansion
     <div
       className="grid-gap grid-row margin-top-3"
     >
-      <div>
+      <span
+        onChange={[Function]}
+      >
         <div
-          className="usa-checkbox undefined"
+          className="usa-checkbox"
         >
           <input
             className="usa-checkbox__input"
             disabled={false}
-            id="storybook-CheckboxGroup-one"
-            name=""
+            id="one"
             onChange={[Function]}
             selected={false}
             type="checkbox"
-            value="one"
           />
           <label
             className="usa-checkbox__label"
-            htmlFor="storybook-CheckboxGroup-one"
+            htmlFor="one"
           >
             Option 1
           </label>
         </div>
+      </span>
+      <span
+        onChange={[Function]}
+      >
         <div
-          className="usa-checkbox undefined"
+          className="usa-checkbox"
         >
           <input
             className="usa-checkbox__input"
             disabled={false}
-            id="storybook-CheckboxGroup-two"
-            name=""
+            id="two"
             onChange={[Function]}
             selected={false}
             type="checkbox"
-            value="two"
           />
           <label
             className="usa-checkbox__label"
-            htmlFor="storybook-CheckboxGroup-two"
+            htmlFor="two"
           >
             Option 2
           </label>
         </div>
-      </div>
+      </span>
     </div>
   </fieldset>
 </div>
@@ -968,48 +976,50 @@ exports[`Storyshots CheckboxGroup CheckboxGroup with one single element expansio
     <div
       className="grid-gap grid-row margin-top-3"
     >
-      <div>
+      <span
+        onChange={[Function]}
+      >
         <div
-          className="usa-checkbox undefined"
+          className="usa-checkbox"
         >
           <input
             className="usa-checkbox__input"
             disabled={false}
-            id="storybook-CheckboxGroup-one"
-            name=""
+            id="one"
             onChange={[Function]}
             selected={false}
             type="checkbox"
-            value="one"
           />
           <label
             className="usa-checkbox__label"
-            htmlFor="storybook-CheckboxGroup-one"
+            htmlFor="one"
           >
             Option 1
           </label>
         </div>
+      </span>
+      <span
+        onChange={[Function]}
+      >
         <div
-          className="usa-checkbox undefined"
+          className="usa-checkbox"
         >
           <input
             className="usa-checkbox__input"
             disabled={false}
-            id="storybook-CheckboxGroup-two"
-            name=""
+            id="two"
             onChange={[Function]}
             selected={false}
             type="checkbox"
-            value="two"
           />
           <label
             className="usa-checkbox__label"
-            htmlFor="storybook-CheckboxGroup-two"
+            htmlFor="two"
           >
             Option 2
           </label>
         </div>
-      </div>
+      </span>
     </div>
   </fieldset>
 </div>
@@ -1051,48 +1061,50 @@ exports[`Storyshots CheckboxGroup CheckboxGroup with success 1`] = `
     <div
       className="grid-gap grid-row margin-top-3"
     >
-      <div>
+      <span
+        onChange={[Function]}
+      >
         <div
-          className="usa-checkbox undefined"
+          className="usa-checkbox"
         >
           <input
             className="usa-checkbox__input"
             disabled={false}
-            id="storybook-CheckboxGroup-one"
-            name=""
+            id="one"
             onChange={[Function]}
             selected={false}
             type="checkbox"
-            value="one"
           />
           <label
             className="usa-checkbox__label"
-            htmlFor="storybook-CheckboxGroup-one"
+            htmlFor="one"
           >
             Option 1
           </label>
         </div>
+      </span>
+      <span
+        onChange={[Function]}
+      >
         <div
-          className="usa-checkbox undefined"
+          className="usa-checkbox"
         >
           <input
             className="usa-checkbox__input"
             disabled={false}
-            id="storybook-CheckboxGroup-two"
-            name=""
+            id="two"
             onChange={[Function]}
             selected={false}
             type="checkbox"
-            value="two"
           />
           <label
             className="usa-checkbox__label"
-            htmlFor="storybook-CheckboxGroup-two"
+            htmlFor="two"
           >
             Option 2
           </label>
         </div>
-      </div>
+      </span>
     </div>
   </fieldset>
 </div>
@@ -1147,48 +1159,50 @@ exports[`Storyshots CheckboxGroup CheckboxGroup with warning 1`] = `
     <div
       className="grid-gap grid-row margin-top-3"
     >
-      <div>
+      <span
+        onChange={[Function]}
+      >
         <div
-          className="usa-checkbox undefined"
+          className="usa-checkbox"
         >
           <input
             className="usa-checkbox__input"
             disabled={false}
-            id="storybook-CheckboxGroup-one"
-            name=""
+            id="one"
             onChange={[Function]}
             selected={false}
             type="checkbox"
-            value="one"
           />
           <label
             className="usa-checkbox__label"
-            htmlFor="storybook-CheckboxGroup-one"
+            htmlFor="one"
           >
             Option 1
           </label>
         </div>
+      </span>
+      <span
+        onChange={[Function]}
+      >
         <div
-          className="usa-checkbox undefined"
+          className="usa-checkbox"
         >
           <input
             className="usa-checkbox__input"
             disabled={false}
-            id="storybook-CheckboxGroup-two"
-            name=""
+            id="two"
             onChange={[Function]}
             selected={false}
             type="checkbox"
-            value="two"
           />
           <label
             className="usa-checkbox__label"
-            htmlFor="storybook-CheckboxGroup-two"
+            htmlFor="two"
           >
             Option 2
           </label>
         </div>
-      </div>
+      </span>
     </div>
   </fieldset>
 </div>
@@ -1220,48 +1234,50 @@ exports[`Storyshots CheckboxGroup Disabled CheckboxGroup 1`] = `
     <div
       className="grid-gap grid-row margin-top-3"
     >
-      <div>
+      <span
+        onChange={[Function]}
+      >
         <div
-          className="usa-checkbox undefined"
+          className="usa-checkbox"
         >
           <input
             className="usa-checkbox__input"
             disabled={false}
-            id="storybook-CheckboxGroup-one"
-            name=""
+            id="one"
             onChange={[Function]}
             selected={false}
             type="checkbox"
-            value="one"
           />
           <label
             className="usa-checkbox__label"
-            htmlFor="storybook-CheckboxGroup-one"
+            htmlFor="one"
           >
             Option 1
           </label>
         </div>
+      </span>
+      <span
+        onChange={[Function]}
+      >
         <div
-          className="usa-checkbox undefined"
+          className="usa-checkbox"
         >
           <input
             className="usa-checkbox__input"
             disabled={false}
-            id="storybook-CheckboxGroup-two"
-            name=""
+            id="two"
             onChange={[Function]}
             selected={false}
             type="checkbox"
-            value="two"
           />
           <label
             className="usa-checkbox__label"
-            htmlFor="storybook-CheckboxGroup-two"
+            htmlFor="two"
           >
             Option 2
           </label>
         </div>
-      </div>
+      </span>
     </div>
   </fieldset>
 </div>
@@ -1296,7 +1312,7 @@ exports[`Storyshots ChoiceList CheckList with both single element expansion 1`] 
         className=""
       >
         <div
-          className="usa-checkbox undefined"
+          className="usa-checkbox"
         >
           <input
             className="usa-checkbox__input"
@@ -1316,7 +1332,7 @@ exports[`Storyshots ChoiceList CheckList with both single element expansion 1`] 
           </label>
         </div>
         <div
-          className="usa-checkbox undefined"
+          className="usa-checkbox"
         >
           <input
             className="usa-checkbox__input"
@@ -1370,7 +1386,7 @@ exports[`Storyshots ChoiceList CheckList with one multi element expansion 1`] = 
         className=""
       >
         <div
-          className="usa-checkbox undefined"
+          className="usa-checkbox"
         >
           <input
             className="usa-checkbox__input"
@@ -1390,7 +1406,7 @@ exports[`Storyshots ChoiceList CheckList with one multi element expansion 1`] = 
           </label>
         </div>
         <div
-          className="usa-checkbox undefined"
+          className="usa-checkbox"
         >
           <input
             className="usa-checkbox__input"
@@ -1444,7 +1460,7 @@ exports[`Storyshots ChoiceList CheckList with one single element expansion 1`] =
         className=""
       >
         <div
-          className="usa-checkbox undefined"
+          className="usa-checkbox"
         >
           <input
             className="usa-checkbox__input"
@@ -1464,7 +1480,7 @@ exports[`Storyshots ChoiceList CheckList with one single element expansion 1`] =
           </label>
         </div>
         <div
-          className="usa-checkbox undefined"
+          className="usa-checkbox"
         >
           <input
             className="usa-checkbox__input"
@@ -1518,7 +1534,7 @@ exports[`Storyshots ChoiceList Checklist 1`] = `
         className=""
       >
         <div
-          className="usa-checkbox undefined"
+          className="usa-checkbox"
         >
           <input
             className="usa-checkbox__input"
@@ -1538,7 +1554,7 @@ exports[`Storyshots ChoiceList Checklist 1`] = `
           </label>
         </div>
         <div
-          className="usa-checkbox undefined"
+          className="usa-checkbox"
         >
           <input
             className="usa-checkbox__input"
@@ -1616,7 +1632,7 @@ exports[`Storyshots ChoiceList Checklist with warning 1`] = `
         className=""
       >
         <div
-          className="usa-checkbox undefined"
+          className="usa-checkbox"
         >
           <input
             className="usa-checkbox__input"
@@ -1636,7 +1652,7 @@ exports[`Storyshots ChoiceList Checklist with warning 1`] = `
           </label>
         </div>
         <div
-          className="usa-checkbox undefined"
+          className="usa-checkbox"
         >
           <input
             className="usa-checkbox__input"
@@ -1690,7 +1706,7 @@ exports[`Storyshots ChoiceList Disabled checklist 1`] = `
         className=""
       >
         <div
-          className="usa-checkbox undefined"
+          className="usa-checkbox"
         >
           <input
             className="usa-checkbox__input"
@@ -1710,7 +1726,7 @@ exports[`Storyshots ChoiceList Disabled checklist 1`] = `
           </label>
         </div>
         <div
-          className="usa-checkbox undefined"
+          className="usa-checkbox"
         >
           <input
             className="usa-checkbox__input"
@@ -3045,7 +3061,7 @@ exports[`Storyshots ChoiceList Single checkbox 1`] = `
       className="margin-top-3"
     />
     <div
-      className="usa-checkbox undefined"
+      className="usa-checkbox"
     >
       <input
         className="usa-checkbox__input"
@@ -5921,7 +5937,9 @@ exports[`Storyshots RadioButtonGroup Disabled RadioButtonGroup 1`] = `
     <div
       className="grid-gap grid-row margin-top-3"
     >
-      <div>
+      <span
+        onChange={[Function]}
+      >
         <div
           className="usa-radio"
         >
@@ -5930,7 +5948,7 @@ exports[`Storyshots RadioButtonGroup Disabled RadioButtonGroup 1`] = `
             className="usa-radio__input"
             disabled={false}
             id="one"
-            name=""
+            name="radio-button-group-disabled"
             onChange={[Function]}
             type="radio"
             value="one"
@@ -5942,6 +5960,10 @@ exports[`Storyshots RadioButtonGroup Disabled RadioButtonGroup 1`] = `
             Option 1
           </label>
         </div>
+      </span>
+      <span
+        onChange={[Function]}
+      >
         <div
           className="usa-radio"
         >
@@ -5950,7 +5972,7 @@ exports[`Storyshots RadioButtonGroup Disabled RadioButtonGroup 1`] = `
             className="usa-radio__input"
             disabled={false}
             id="two"
-            name=""
+            name="radio-button-group-disabled"
             onChange={[Function]}
             type="radio"
             value="two"
@@ -5962,7 +5984,7 @@ exports[`Storyshots RadioButtonGroup Disabled RadioButtonGroup 1`] = `
             Option 2
           </label>
         </div>
-      </div>
+      </span>
     </div>
   </fieldset>
 </div>
@@ -5993,7 +6015,9 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup 1`] = `
     <div
       className="grid-gap grid-row margin-top-3"
     >
-      <div>
+      <span
+        onChange={[Function]}
+      >
         <div
           className="usa-radio"
         >
@@ -6002,7 +6026,7 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup 1`] = `
             className="usa-radio__input"
             disabled={false}
             id="one"
-            name=""
+            name="radio-button-group"
             onChange={[Function]}
             type="radio"
             value="one"
@@ -6014,6 +6038,10 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup 1`] = `
             Option 1
           </label>
         </div>
+      </span>
+      <span
+        onChange={[Function]}
+      >
         <div
           className="usa-radio"
         >
@@ -6022,7 +6050,7 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup 1`] = `
             className="usa-radio__input"
             disabled={false}
             id="two"
-            name=""
+            name="radio-button-group"
             onChange={[Function]}
             type="radio"
             value="two"
@@ -6034,7 +6062,7 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup 1`] = `
             Option 2
           </label>
         </div>
-      </div>
+      </span>
     </div>
   </fieldset>
 </div>
@@ -6065,7 +6093,9 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup with both single element e
     <div
       className="grid-gap grid-row margin-top-3"
     >
-      <div>
+      <span
+        onChange={[Function]}
+      >
         <div
           className="usa-radio"
         >
@@ -6074,7 +6104,7 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup with both single element e
             className="usa-radio__input"
             disabled={false}
             id="one"
-            name=""
+            name="radio-button-group-expansions"
             onChange={[Function]}
             type="radio"
             value="one"
@@ -6086,6 +6116,10 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup with both single element e
             Option 1
           </label>
         </div>
+      </span>
+      <span
+        onChange={[Function]}
+      >
         <div
           className="usa-radio"
         >
@@ -6094,7 +6128,7 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup with both single element e
             className="usa-radio__input"
             disabled={false}
             id="two"
-            name=""
+            name="radio-button-group-expansions"
             onChange={[Function]}
             type="radio"
             value="two"
@@ -6106,7 +6140,7 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup with both single element e
             Option 2
           </label>
         </div>
-      </div>
+      </span>
     </div>
   </fieldset>
 </div>
@@ -6148,7 +6182,9 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup with error 1`] = `
     <div
       className="grid-gap grid-row margin-top-3"
     >
-      <div>
+      <span
+        onChange={[Function]}
+      >
         <div
           className="usa-radio"
         >
@@ -6157,7 +6193,7 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup with error 1`] = `
             className="usa-radio__input"
             disabled={false}
             id="one"
-            name=""
+            name="radio-button-group-error"
             onChange={[Function]}
             type="radio"
             value="one"
@@ -6169,6 +6205,10 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup with error 1`] = `
             Option 1
           </label>
         </div>
+      </span>
+      <span
+        onChange={[Function]}
+      >
         <div
           className="usa-radio"
         >
@@ -6177,7 +6217,7 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup with error 1`] = `
             className="usa-radio__input"
             disabled={false}
             id="two"
-            name=""
+            name="radio-button-group-error"
             onChange={[Function]}
             type="radio"
             value="two"
@@ -6189,7 +6229,7 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup with error 1`] = `
             Option 2
           </label>
         </div>
-      </div>
+      </span>
     </div>
   </fieldset>
 </div>
@@ -6220,7 +6260,9 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup with one multi element exp
     <div
       className="grid-gap grid-row margin-top-3"
     >
-      <div>
+      <span
+        onChange={[Function]}
+      >
         <div
           className="usa-radio"
         >
@@ -6229,7 +6271,7 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup with one multi element exp
             className="usa-radio__input"
             disabled={false}
             id="one"
-            name=""
+            name="radio-button-group-multi-element-expansion"
             onChange={[Function]}
             type="radio"
             value="one"
@@ -6241,6 +6283,10 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup with one multi element exp
             Option 1
           </label>
         </div>
+      </span>
+      <span
+        onChange={[Function]}
+      >
         <div
           className="usa-radio"
         >
@@ -6249,7 +6295,7 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup with one multi element exp
             className="usa-radio__input"
             disabled={false}
             id="two"
-            name=""
+            name="radio-button-group-multi-element-expansion"
             onChange={[Function]}
             type="radio"
             value="two"
@@ -6261,7 +6307,7 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup with one multi element exp
             Option 2
           </label>
         </div>
-      </div>
+      </span>
     </div>
   </fieldset>
 </div>
@@ -6292,7 +6338,9 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup with one single element ex
     <div
       className="grid-gap grid-row margin-top-3"
     >
-      <div>
+      <span
+        onChange={[Function]}
+      >
         <div
           className="usa-radio"
         >
@@ -6301,7 +6349,7 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup with one single element ex
             className="usa-radio__input"
             disabled={false}
             id="one"
-            name=""
+            name="radio-button-group-exansion"
             onChange={[Function]}
             type="radio"
             value="one"
@@ -6313,6 +6361,10 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup with one single element ex
             Option 1
           </label>
         </div>
+      </span>
+      <span
+        onChange={[Function]}
+      >
         <div
           className="usa-radio"
         >
@@ -6321,7 +6373,7 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup with one single element ex
             className="usa-radio__input"
             disabled={false}
             id="two"
-            name=""
+            name="radio-button-group-exansion"
             onChange={[Function]}
             type="radio"
             value="two"
@@ -6333,7 +6385,7 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup with one single element ex
             Option 2
           </label>
         </div>
-      </div>
+      </span>
     </div>
   </fieldset>
 </div>
@@ -6375,7 +6427,9 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup with success 1`] = `
     <div
       className="grid-gap grid-row margin-top-3"
     >
-      <div>
+      <span
+        onChange={[Function]}
+      >
         <div
           className="usa-radio"
         >
@@ -6384,7 +6438,7 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup with success 1`] = `
             className="usa-radio__input"
             disabled={false}
             id="one"
-            name=""
+            name="radio-button-group-success"
             onChange={[Function]}
             type="radio"
             value="one"
@@ -6396,6 +6450,10 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup with success 1`] = `
             Option 1
           </label>
         </div>
+      </span>
+      <span
+        onChange={[Function]}
+      >
         <div
           className="usa-radio"
         >
@@ -6404,7 +6462,7 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup with success 1`] = `
             className="usa-radio__input"
             disabled={false}
             id="two"
-            name=""
+            name="radio-button-group-success"
             onChange={[Function]}
             type="radio"
             value="two"
@@ -6416,7 +6474,7 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup with success 1`] = `
             Option 2
           </label>
         </div>
-      </div>
+      </span>
     </div>
   </fieldset>
 </div>
@@ -6471,7 +6529,9 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup with warning 1`] = `
     <div
       className="grid-gap grid-row margin-top-3"
     >
-      <div>
+      <span
+        onChange={[Function]}
+      >
         <div
           className="usa-radio"
         >
@@ -6480,7 +6540,7 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup with warning 1`] = `
             className="usa-radio__input"
             disabled={false}
             id="one"
-            name=""
+            name="radio-button-group-warning"
             onChange={[Function]}
             type="radio"
             value="one"
@@ -6492,6 +6552,10 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup with warning 1`] = `
             Option 1
           </label>
         </div>
+      </span>
+      <span
+        onChange={[Function]}
+      >
         <div
           className="usa-radio"
         >
@@ -6500,7 +6564,7 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup with warning 1`] = `
             className="usa-radio__input"
             disabled={false}
             id="two"
-            name=""
+            name="radio-button-group-warning"
             onChange={[Function]}
             type="radio"
             value="two"
@@ -6512,7 +6576,7 @@ exports[`Storyshots RadioButtonGroup RadioButtonGroup with warning 1`] = `
             Option 2
           </label>
         </div>
-      </div>
+      </span>
     </div>
   </fieldset>
 </div>
@@ -6842,6 +6906,7 @@ exports[`Storyshots Select Select with other 1`] = `
       aria-required={true}
       className="usa-select"
       id="storybook-select"
+      legend="Select with other"
       name=""
       onChange={[Function]}
       value=""

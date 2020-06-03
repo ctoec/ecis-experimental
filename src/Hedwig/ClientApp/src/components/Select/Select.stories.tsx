@@ -119,7 +119,7 @@ storiesOf('Select', module)
 				legend="Select with other"
 				otherInputOnChange={onChange}
 				otherOptionDisplay={'Other'}
-				innerLabel="Select"
+				labelForSelect="Select"
 				onChange={onChange}
 				options={options}
 				id="storybook-select"

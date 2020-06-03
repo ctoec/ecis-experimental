@@ -6,73 +6,21 @@ import { displayValidationStatus } from '../../../../../utils/validations/displa
 import { REQUIRED_FOR_OEC_REPORTING } from '../../../../../utils/validations/messageStrings';
 import { ChildInfoFormFieldProps } from './common';
 import {
-	CheckboxGroupForForm,
 	CheckboxOption,
+	CheckboxGroup
 } from '../../../../../components/CheckboxGroup/CheckboxGroup';
 import Checkbox, { CheckboxProps } from '../../../../../components/Checkbox/Checkbox';
-
-/**
- * Helper type of all valid race properties on Child
- */
-type RaceField =
-	| 'americanIndianOrAlaskaNative'
-	| 'asian'
-	| 'blackOrAfricanAmerican'
-	| 'nativeHawaiianOrPacificIslander'
-	| 'white';
-
-/**
- *
- * @param label The text for the Checkbox to display
- * @param field The property name on Child of the race
- */
-const raceOptionFactory: (label: string, field: RaceField) => CheckboxOption = (label, field) => ({
-	render: ({ id, selected, value }) => (
-		<FormField<Enrollment, CheckboxProps, boolean>
-			getValue={(data) => data.at('child').at(field)}
-			parseOnChangeEvent={(e) => e.target.checked}
-			defaultValue={selected}
-			inputComponent={Checkbox}
-			id={id}
-			text={label}
-			value={value}
-		/>
-	),
-	value: field,
-});
+import {  FormFieldSetProps } from '../../../../../components/Form_New';
 
 /**
  * Component for entering the race of a child in an enrollment.
  */
-// Each race option is individually stored on the child model. This prevents us
-// from using one FormField component. The FormField component requires one path
-// to the data in the supplied Form data object. Thus, we need to create FormFields
-// for each race option. We want them to be Checkboxes, so the FormFields we create
-// use the Checkbox component. We need all of these wrapped in a field set. We
-// cannot use the FieldSet component because that requires status be an object. We
-// need the FormFieldSet to allow us to supply a function for status. However, we
-// cannot wrap the CheckboxGroup component in FormFieldSet because CheckboxGroup
-// already wraps the Checkboxes in a FieldSet. So, we use a CheckboxGroupForForm
-// component which wraps the Checkboxes in a FormFieldSet instead of FieldSet.
-// TODO: Perhaps this is something to revisit so we don't need a separate component for
-// use in a form.
 export const RaceField: React.FC<ChildInfoFormFieldProps> = ({ initialLoad }) => {
-	// We don't provide an onChange prop to CheckboxGroupForForm because the
-	// individual Checkboxes manage their own changes. We also don't include the
-	// onChange prop for each of the options because the FormField component creates
-	// the onChange function and supplies it accordingly.
 	return (
-		<CheckboxGroupForForm<Enrollment>
-			id="race-checkboxgroup"
+		<CheckboxGroup<FormFieldSetProps<Enrollment>>
+			useFormFieldSet
 			legend="Race"
-			hint="As identified by family"
-			options={[
-				raceOptionFactory('American Indian or Alaska Native', 'americanIndianOrAlaskaNative'),
-				raceOptionFactory('Asian', 'asian'),
-				raceOptionFactory('Black or African American', 'blackOrAfricanAmerican'),
-				raceOptionFactory('Native Hawaiian or Pacific Islander', 'nativeHawaiianOrPacificIslander'),
-				raceOptionFactory('White', 'white'),
-			]}
+			id="race"
 			status={(enrollment) =>
 				initialLoadErrorGuard(
 					initialLoad || false,
@@ -92,6 +40,43 @@ export const RaceField: React.FC<ChildInfoFormFieldProps> = ({ initialLoad }) =>
 					])
 				)
 			}
+			options={[
+				raceOptionFactory('American Indian or Alaska Native', 'americanIndianOrAlaskaNative'),
+				raceOptionFactory('Asian', 'asian'),
+				raceOptionFactory('Black or African American', 'blackOrAfricanAmerican'),
+				raceOptionFactory('Native Hawaiian or Pacific Islander', 'nativeHawaiianOrPacificIslander'),
+				raceOptionFactory('White', 'white'),
+			]}
 		/>
 	);
 };
+
+/**
+ * Helper type of all valid race properties on Child
+ */
+type RaceField =
+	| 'americanIndianOrAlaskaNative'
+	| 'asian'
+	| 'blackOrAfricanAmerican'
+	| 'nativeHawaiianOrPacificIslander'
+	| 'white';
+
+/**
+ *
+ * @param label The text for the Checkbox to display
+ * @param field The property name on Child of the race
+ */
+const raceOptionFactory: (label: string, field: RaceField) => CheckboxOption = (label, field) => ({
+	render: ({ id, selected }) => (
+		<FormField<Enrollment, CheckboxProps, boolean>
+			getValue={(data) => data.at('child').at(field)}
+			parseOnChangeEvent={(e) => e.target.checked}
+			defaultValue={selected}
+			inputComponent={Checkbox}
+			id={id}
+			text={label}
+		/>
+	),
+	value: field,
+});
+

@@ -6,8 +6,8 @@ import emptyGuid from '../../emptyGuid';
 import produce from 'immer';
 import set from 'lodash/set';
 
-export function enrollmentWithDefaultFamily(enrollment: Enrollment) {
-	return produce<Enrollment>(enrollment, (draft) => set(draft, 'child.family', {}));
+export function enrollmentWithDefaultFamily(enrollment: Enrollment, organizationId: number) {
+	return produce<Enrollment>(enrollment, (draft) => set(draft, 'child.family', {organizationId}));
 }
 
 export function createEmptyEnrollment(siteId: number, user: User | null): Enrollment {

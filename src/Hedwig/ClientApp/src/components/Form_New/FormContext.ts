@@ -1,5 +1,5 @@
 import { createContext, Context, useContext } from 'react';
-import { ObjectDriller } from './ObjectDriller';
+import { TObjectDriller } from './ObjectDriller';
 
 /**
  * FormContext provides form data, data accessor, and data update function to any
@@ -24,7 +24,7 @@ type FormContextType = {
  */
 export type GenericFormContextType<T> = {
 	data: T;
-	dataDriller: ObjectDriller<T>;
+	dataDriller: TObjectDriller<NonNullable<T>>;
 	// Allows for function style update (setState(s => s) as opposed to setState(s))
 	// Needed for components that make multiple edits to the same object
 	// Otherwise just passing the object would result in one of the updates being

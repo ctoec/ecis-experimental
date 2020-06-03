@@ -4391,7 +4391,7 @@ exports[`EnrollmentUpdate enrollment and funding matches snapshot 1`] = `
             class="margin-top-3"
           />
           <div
-            class="usa-checkbox undefined"
+            class="usa-checkbox"
           >
             <input
               class="usa-checkbox__input"
@@ -4626,7 +4626,6 @@ exports[`EnrollmentUpdate family info matches snapshot 1`] = `
         <input
           class="usa-checkbox__input"
           id="foster"
-          name=""
           type="checkbox"
           value="foster"
         />
@@ -4641,12 +4640,11 @@ exports[`EnrollmentUpdate family info matches snapshot 1`] = `
         class="margin-top-3"
       >
         <div
-          class="usa-checkbox undefined"
+          class="usa-checkbox"
         >
           <input
             class="usa-checkbox__input"
             id="homelessness"
-            name=""
             type="checkbox"
             value="homelessness"
           />

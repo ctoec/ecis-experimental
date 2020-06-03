@@ -1,4 +1,3 @@
-import { ObjectDriller } from '../../../../../components/Form_New/ObjectDriller';
 import { Enrollment } from '../../../../../generated';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
 import {
@@ -8,6 +7,7 @@ import {
 import { FormFieldSet } from '../../../../../components/Form_New/FormFieldSet';
 import React from 'react';
 import { HouseholdSizeField, AnnualHouseholdIncomeField, DeterminationDateField } from '.';
+import { FormStatusFunc } from '../../../../../components/Form_New/FormStatusFunc';
 
 type IncomeDeterminationFieldSetProps = {
 	type: 'new' | 'redetermine' | 'edit';
@@ -28,7 +28,7 @@ export const IncomeDeterminationFieldSet: React.FC<IncomeDeterminationFieldSetPr
 			break;
 
 		case 'edit':
-			status = (data: ObjectDriller<Enrollment>) =>
+			status = ((data) =>
 				displayValidationStatus([
 					{
 						type: 'warning',
@@ -42,14 +42,14 @@ export const IncomeDeterminationFieldSet: React.FC<IncomeDeterminationFieldSetPr
 						fields: ['numberOfPeople', 'income', 'determinationDate'],
 						message: REQUIRED_FOR_OEC_REPORTING,
 					},
-				]);
+				])) as FormStatusFunc<Enrollment>;
 			elementId = `family-income-determination-edit-${determinationId}`;
 			legend = 'Edit family income';
 			showLegend = true;
 			break;
 
 		case 'new':
-			status = (data: ObjectDriller<Enrollment>) =>
+			status = ((data) =>
 				displayValidationStatus([
 					{
 						type: 'warning',
@@ -63,7 +63,7 @@ export const IncomeDeterminationFieldSet: React.FC<IncomeDeterminationFieldSetPr
 						fields: ['numberOfPeople', 'income', 'determinationDate'],
 						message: INFORMATION_REQUIRED_IF_INCOME_DISCLOSED,
 					},
-				]);
+				])) as FormStatusFunc<Enrollment>;
 			elementId = 'family-income-determination';
 			legend = 'Family income determination';
 			showLegend = false;

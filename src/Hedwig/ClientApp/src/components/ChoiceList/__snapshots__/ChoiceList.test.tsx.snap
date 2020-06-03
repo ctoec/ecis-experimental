@@ -23,7 +23,7 @@ exports[`check matches snapshot 1`] = `
         class=""
       >
         <div
-          class="usa-checkbox undefined"
+          class="usa-checkbox"
         >
           <input
             class="usa-checkbox__input"
@@ -40,7 +40,7 @@ exports[`check matches snapshot 1`] = `
           </label>
         </div>
         <div
-          class="usa-checkbox undefined"
+          class="usa-checkbox"
         >
           <input
             class="usa-checkbox__input"
@@ -305,7 +305,7 @@ exports[`select with expansion matches snapshot 2`] = `
         class=""
       >
         <div
-          class="usa-checkbox undefined"
+          class="usa-checkbox"
         >
           <input
             checked=""
@@ -330,7 +330,7 @@ exports[`select with expansion matches snapshot 2`] = `
           </p>
         </div>
         <div
-          class="usa-checkbox undefined"
+          class="usa-checkbox"
         >
           <input
             class="usa-checkbox__input"

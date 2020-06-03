@@ -1456,12 +1456,11 @@ exports[`EnrollmentNew FamilyIncome matches snapshot 1`] = `
                   class="margin-top-2"
                 >
                   <div
-                    class="usa-checkbox undefined"
+                    class="usa-checkbox"
                   >
                     <input
                       class="usa-checkbox__input"
                       id="not-disclosed"
-                      name=""
                       type="checkbox"
                       value="not-disclosed"
                     />

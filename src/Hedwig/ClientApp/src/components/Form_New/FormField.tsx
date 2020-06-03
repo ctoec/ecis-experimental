@@ -2,8 +2,8 @@ import React, { PropsWithChildren } from 'react';
 import FormContext, { useGenericContext } from './FormContext';
 import produce from 'immer';
 import set from 'lodash/set';
-import { ObjectDriller, TObjectDriller } from './ObjectDriller';
-import { FormStatusProps } from '../FormStatus/FormStatus';
+import { TObjectDriller } from './ObjectDriller';
+import { FormStatusFunc } from './FormStatusFunc';
 
 type FormFieldProps<TData, TComponentProps, TFieldData> =
 	// React.FC<P> assigns the generic P to {} as a default type. That causes a
@@ -20,7 +20,7 @@ type FormFieldProps<TData, TComponentProps, TFieldData> =
 					event: React.ChangeEvent<any>,
 					data: TObjectDriller<TData>
 				) => TFieldData;
-				status?: (_: TObjectDriller<NonNullable<TData>>) => FormStatusProps | undefined;
+				status?: FormStatusFunc<TData>,
 				inputComponent: React.FC<TComponentProps>;
 		  } & /* Include TComponentProps props, except onChange, defaultValue, and status */ Pick<
 				TComponentProps,
@@ -51,9 +51,8 @@ const FormField = <TData extends object, TComponentProps extends {}, TFieldData>
 	children,
 	...props
 }: PropsWithChildren<FormFieldProps<TData, TComponentProps, TFieldData>>) => {
-	const { data, updateData } = useGenericContext<TData>(FormContext);
+	const { data, dataDriller, updateData } = useGenericContext<TData>(FormContext);
 
-	const dataDriller = (new ObjectDriller(data) as unknown) as TObjectDriller<NonNullable<TData>>;
 	const accessor = getValue(dataDriller);
 	const value = accessor.value;
 	const updatePath = accessor.path;

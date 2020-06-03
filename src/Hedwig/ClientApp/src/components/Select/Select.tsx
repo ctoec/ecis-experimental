@@ -1,9 +1,8 @@
 import React, { useState, HTMLAttributes } from 'react';
-import { FormStatus } from '../FormStatus/FormStatus';
-import { FormFieldStatusProps } from '../FormComponents/FormFieldStatus';
-import { FieldSet } from '../FieldSet/FieldSet';
-import { TextInput } from '../TextInput/TextInput';
+import { FormStatus, FormStatusProps } from '../FormStatus/FormStatus';
+import { FieldSet, FieldSetProps } from '../FieldSet/FieldSet';
 import cx from 'classnames';
+import { FormFieldSetProps, FormFieldSet } from '../Form_New';
 
 type SelectOption = {
 	text: string;
@@ -22,8 +21,8 @@ export type SelectProps = {
 	unselectedText?: string;
 	disabled?: boolean;
 	onChange: React.ChangeEventHandler<HTMLSelectElement>;
-} & Omit<HTMLAttributes<HTMLSelectElement>, 'defaultValue' | 'onChange'> &
-	FormFieldStatusProps;
+	status?: FormStatusProps;
+} & Omit<HTMLAttributes<HTMLSelectElement>, 'defaultValue' | 'onChange'>;
 
 /**
  * Component that wraps a native select element.
@@ -50,7 +49,7 @@ export const Select: React.FC<SelectProps> = ({
 	// Wrap the supplied onChange to provide for local state management
 	const _onChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		const changedValue = event.target.value;
-		setSelectedItem(changedValue);
+		setSelectedItem(changedValue)
 		onChange(event);
 	};
 
@@ -59,16 +58,16 @@ export const Select: React.FC<SelectProps> = ({
 			className={cx(
 				'usa-form-group',
 				{
-					[`usa-form-group--${status ? status.type : ''}`]: status,
+					[`usa-form-group--${status && status.type}`]: status,
 				},
 				className
 			)}
 			key={`${id}-form-group`}
 		>
 			{hint && <span className="usa-hint text-italic">{hint}</span>}
-			<div className={!label ? 'margin-top-3' : ''}></div>
+			<div className={cx({'margin-top-3': !label})}></div>
 			{label && (
-				<label className={`usa-label${status ? ` usa-label--${status.type}` : ''}`} htmlFor={id}>
+				<label className={cx('usa-label', {[`usa-label--${status && status.type}`]: status})} htmlFor={id}>
 					{label}
 				</label>
 			)}
@@ -110,7 +109,11 @@ export const Select: React.FC<SelectProps> = ({
 	);
 };
 
-type OtherOptionTextInputWrapperProps<T> = {
+/**
+ * Props for an other option text input wrapped component of type TWrapped,
+ * including props for TWrapped
+ */
+type OtherOptionTextInputWrapperProps<TWrapped> = {
 	legend: string;
 	showLegend?: boolean;
 	hint?: string;
@@ -119,8 +122,8 @@ type OtherOptionTextInputWrapperProps<T> = {
 	otherInputOnChange: React.ChangeEventHandler;
 	otherOptionDisplay: string;
 	horizontal?: boolean;
-	innerLabel: string;
-} & Omit<T, 'label' | 'legend'>;
+	labelForSelect: string;
+} & Omit<TWrapped, 'label' | 'legend'>
 
 /**
  * Wraps a Select element in a FieldSet and provides a text input when the user
@@ -128,15 +131,9 @@ type OtherOptionTextInputWrapperProps<T> = {
  */
 export const SelectWithOther: React.FC<OtherOptionTextInputWrapperProps<SelectProps>> = ({
 	id,
-	legend,
-	showLegend,
-	innerLabel,
-	className,
+	labelForSelect,
 	name,
-	hint,
-	defaultValue = [],
-	optional,
-	horizontal = false,
+	defaultValue = '',
 	otherInputLabel,
 	otherInputOnChange,
 	otherOptionDisplay,
@@ -172,7 +169,7 @@ export const SelectWithOther: React.FC<OtherOptionTextInputWrapperProps<SelectPr
 	const selectElement = (
 		<Select
 			id={id}
-			label={innerLabel}
+			label={labelForSelect}
 			defaultValue={selectedItemOnInput}
 			status={status}
 			onChange={_onChange}
@@ -181,33 +178,25 @@ export const SelectWithOther: React.FC<OtherOptionTextInputWrapperProps<SelectPr
 		/>
 	);
 
-	return (
-		<>
-			{showOther ? (
-				<FieldSet
-					id={`${id}-fieldset`}
-					className={className}
-					legend={legend}
-					showLegend={showLegend}
-					status={status}
-					aria-describedby={status ? status.id : undefined}
-					childrenGroupClassName="margin-top-3"
-					hint={hint}
-					optional={optional}
-					horizontal={horizontal}
-				>
+
+	if(showOther) {
+		const useFormFieldSet = ((props as unknown) as FormFieldSetProps<any>);
+		if(useFormFieldSet) {
+			const formFieldSetProps = (props as unknown) as FormFieldSetProps<any>;
+			return (
+				<FormFieldSet {...formFieldSetProps} >
 					{selectElement}
-					<TextInput
-						type="input"
-						id={`${id}-other`}
-						name={name || ''}
-						label={otherInputLabel}
-						onChange={otherInputOnChange}
-					/>
-				</FieldSet>
-			) : (
-				selectElement
-			)}
-		</>
-	);
+				</FormFieldSet>
+			);
+		}
+
+		const fieldSetProps = (props as unknown) as FieldSetProps;
+		return (
+			<FieldSet {...fieldSetProps}>
+				{selectElement}
+			</FieldSet>
+		);
+	}
+
+	return selectElement;
 };

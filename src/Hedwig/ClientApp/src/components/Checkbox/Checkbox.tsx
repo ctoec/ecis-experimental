@@ -1,14 +1,15 @@
 import React, { HTMLAttributes } from 'react';
+import cx from 'classnames';
 
 export type CheckboxProps = {
 	id: string;
 	text: string;
-	value: string;
-	name?: string;
-	onChange?: (event: React.ChangeEvent<HTMLInputElement>) => any;
+	onChange: (event: React.ChangeEvent<HTMLInputElement>) => any;
 	defaultValue?: boolean;
 	className?: string;
 	disabled?: boolean;
+	value?: string; //TODO remove when ChoiceList is gone
+	name?: string; // TODO remove when ChoiceList is gone
 } & Omit<HTMLAttributes<HTMLInputElement>, 'onChange' | 'defaultValue'>;
 
 /**
@@ -17,8 +18,6 @@ export type CheckboxProps = {
 export function Checkbox({
 	id,
 	text,
-	name,
-	value,
 	onChange,
 	defaultValue,
 	className,
@@ -26,13 +25,11 @@ export function Checkbox({
 	...props
 }: CheckboxProps) {
 	return (
-		<div className={`usa-checkbox ${className}`}>
+		<div className={cx('usa-checkbox', className)}>
 			<input
 				className="usa-checkbox__input"
 				id={id}
 				type="checkbox"
-				name={name || ''}
-				value={value}
 				defaultChecked={defaultValue}
 				onChange={onChange}
 				disabled={!!disabled}
