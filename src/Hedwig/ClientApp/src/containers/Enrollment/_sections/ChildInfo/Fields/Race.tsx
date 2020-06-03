@@ -7,10 +7,10 @@ import { REQUIRED_FOR_OEC_REPORTING } from '../../../../../utils/validations/mes
 import { ChildInfoFormFieldProps } from './common';
 import {
 	CheckboxOption,
-	CheckboxGroup
+	CheckboxGroup,
 } from '../../../../../components/CheckboxGroup/CheckboxGroup';
 import Checkbox, { CheckboxProps } from '../../../../../components/Checkbox/Checkbox';
-import {  FormFieldSetProps } from '../../../../../components/Form_New';
+import { FormFieldSetProps } from '../../../../../components/Form_New';
 
 /**
  * Component for entering the race of a child in an enrollment.
@@ -79,4 +79,3 @@ const raceOptionFactory: (label: string, field: RaceField) => CheckboxOption = (
 	),
 	value: field,
 });
-

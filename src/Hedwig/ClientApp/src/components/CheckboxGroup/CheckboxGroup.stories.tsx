@@ -13,7 +13,7 @@ const options: CheckboxOption[] = [
 		value: 'one',
 	},
 	{
-		render: (props) => <Checkbox text="Option 2" {...props}/>,
+		render: (props) => <Checkbox text="Option 2" {...props} />,
 		value: 'two',
 	},
 ];
@@ -51,12 +51,12 @@ const optionsWithOneComplexExpansion: CheckboxOption[] = [
 ];
 const optionsWithTwoExpansions: CheckboxOption[] = [
 	{
-		render: (props) => <Checkbox text="Option 1" {...props}/>,
+		render: (props) => <Checkbox text="Option 1" {...props} />,
 		value: 'one',
 		expansion: <p>Thank you for selecting option one!</p>,
 	},
 	{
-		render: (props) => <Checkbox text="Option 2" {...props}/>,
+		render: (props) => <Checkbox text="Option 2" {...props} />,
 		value: 'two',
 		expansion: <p>Woo! #2</p>,
 	},

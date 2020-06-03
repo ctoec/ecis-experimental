@@ -33,30 +33,33 @@ type InternalRadioButtonGroupProps = {
  * props for the wrapping field set(FieldSet or FormFieldSet),
  * and conditionally a flag to indicate when FormFieldSet is used
  */
-export type RadioButtonGroupProps<TFieldSetProps extends (FieldSetProps | FormFieldSetProps<any>) = FieldSetProps> = InternalRadioButtonGroupProps
-	& (
-		TFieldSetProps extends FormFieldSetProps<infer T>
-		? ({useFormFieldSet: true} & FormFieldSetProps<T>)
-		: FieldSetProps
-	);
+export type RadioButtonGroupProps<
+	TFieldSetProps extends FieldSetProps | FormFieldSetProps<any> = FieldSetProps
+> = InternalRadioButtonGroupProps &
+	(TFieldSetProps extends FormFieldSetProps<infer T>
+		? { useFormFieldSet: true } & FormFieldSetProps<T>
+		: FieldSetProps);
 
 /**
  * Component for displaying a group of related RadioButtons in a FieldSet,
  * or FormFieldSet.
  */
-export const RadioButtonGroup= <TFormFieldSetProps extends (FieldSetProps | FormFieldSetProps<any>) = FieldSetProps>({
+export const RadioButtonGroup = <
+	TFormFieldSetProps extends FieldSetProps | FormFieldSetProps<any> = FieldSetProps
+>({
 	id,
 	childrenGroupClassName,
 	...props
 }: RadioButtonGroupProps<TFormFieldSetProps>) => {
 	const radioButtonGroupProps = props as InternalRadioButtonGroupProps;
 
-	const useFormFieldSet = ((props as unknown) as RadioButtonGroupProps<FormFieldSetProps<any>>).useFormFieldSet;
+	const useFormFieldSet = ((props as unknown) as RadioButtonGroupProps<FormFieldSetProps<any>>)
+		.useFormFieldSet;
 
-	if(useFormFieldSet) {
+	if (useFormFieldSet) {
 		const formFieldSetProps = (props as unknown) as FormFieldSetProps<any>;
 		return (
-			<FormFieldSet 
+			<FormFieldSet
 				{...formFieldSetProps}
 				id={`${id}-fieldset`}
 				childrenGroupClassName={cx(childrenGroupClassName, 'margin-top-3')}
@@ -73,21 +76,21 @@ export const RadioButtonGroup= <TFormFieldSetProps extends (FieldSetProps | Form
 			id={`${id}-fieldset`}
 			childrenGroupClassName={cx(childrenGroupClassName, 'margin-top-3')}
 		>
-			<InternalRadioButtonGroup id ={id} {...radioButtonGroupProps} />
+			<InternalRadioButtonGroup id={id} {...radioButtonGroupProps} />
 		</FieldSet>
 	);
-}
+};
 /**
  * Internal component for managing a group of related RadioButtons
- * 
+ *
  * When the radio group maps to a single field, and each button representes
- * a value for that field that is handled the same way, a group-level 
+ * a value for that field that is handled the same way, a group-level
  * onChange function can be defined. It will be passed into each RadioButton.
  * (Especially useful when creating a RadioButtonGroup FormField, where onChange
  * is created & defined behind the scenes by FormField)
- * 
- * For more complex use cases, the group-level onChange can be omitted and/or 
- * overwritten by a per-button onChange defined in the RadioButtonOption 
+ *
+ * For more complex use cases, the group-level onChange can be omitted and/or
+ * overwritten by a per-button onChange defined in the RadioButtonOption
  * render func. Make sure to provide onChange prop after spread props to overwrite
  * props.onChange :
  * 	{
@@ -107,16 +110,8 @@ const InternalRadioButtonGroup: React.FC<InternalRadioButtonGroupProps & { id: s
 	return (
 		<>
 			{options.map(({ render: Render, value, expansion }) => (
-				<span
-					key={`${id}-${value}`}
-					onChange={() => setSelectedItem(value)}
-				>
-					<Render
-						selected={selectedItem === value}
-						name={name}
-						value={value}
-						onChange={onChange}
-					/>
+				<span key={`${id}-${value}`} onChange={() => setSelectedItem(value)}>
+					<Render selected={selectedItem === value} name={name} value={value} onChange={onChange} />
 					{expansion && selectedItem === value && (
 						<div className="oec-itemchooser-expansion">{expansion}</div>
 					)}
@@ -125,4 +120,3 @@ const InternalRadioButtonGroup: React.FC<InternalRadioButtonGroupProps & { id: s
 		</>
 	);
 };
-

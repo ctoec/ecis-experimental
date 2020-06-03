@@ -4,7 +4,7 @@ import { FieldSetProps, FieldSet } from '../FieldSet/FieldSet';
 import { FormStatusFunc } from './FormStatusFunc';
 
 export type FormFieldSetProps<TData> = {
-	status?: FormStatusFunc<TData>,
+	status?: FormStatusFunc<TData>;
 } & Pick<FieldSetProps, Exclude<keyof FieldSetProps, 'status'>>;
 
 /**

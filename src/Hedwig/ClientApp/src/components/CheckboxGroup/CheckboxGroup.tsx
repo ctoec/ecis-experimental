@@ -28,35 +28,37 @@ type InternalCheckboxGroupProps = {
 	onChange?: React.ChangeEventHandler<HTMLInputElement>;
 };
 
-
 /**
  * Props for CheckboxGroup, which includes props for InternalCheckboxGroup,
  * props for the wrapping field set (FieldSet or FormFieldSet),
  * and conditionally a flag to indicate which type of field set should be used
  */
-export type CheckboxGroupProps<TFieldSetProps extends (FieldSetProps | FormFieldSetProps<any>)> = InternalCheckboxGroupProps 
-	& (
-		TFieldSetProps extends FormFieldSetProps<infer T> 
-		? ({useFormFieldSet: true } & FormFieldSetProps<T>)
-		: FieldSetProps
-	);
+export type CheckboxGroupProps<
+	TFieldSetProps extends FieldSetProps | FormFieldSetProps<any>
+> = InternalCheckboxGroupProps &
+	(TFieldSetProps extends FormFieldSetProps<infer T>
+		? { useFormFieldSet: true } & FormFieldSetProps<T>
+		: FieldSetProps);
 
 /**
  * Component for displaying a group of related Checkboxes.
  * Renders the checkbox group inside a FieldSet by default, or FormFieldSet
- * if 
+ * if
  */
-export const CheckboxGroup= <TFieldSetProps extends (FieldSetProps | FormFieldSetProps<any>) = FieldSetProps>({
+export const CheckboxGroup = <
+	TFieldSetProps extends FieldSetProps | FormFieldSetProps<any> = FieldSetProps
+>({
 	id,
 	childrenGroupClassName,
 	...props
 }: CheckboxGroupProps<TFieldSetProps>) => {
-	const checkboxGroupProps = {...props} as InternalCheckboxGroupProps;
+	const checkboxGroupProps = { ...props } as InternalCheckboxGroupProps;
 
-	const useFormFieldSet = ((props as unknown) as CheckboxGroupProps<FormFieldSetProps<any>>).useFormFieldSet;
+	const useFormFieldSet = ((props as unknown) as CheckboxGroupProps<FormFieldSetProps<any>>)
+		.useFormFieldSet;
 
-	if(useFormFieldSet) {
-		const formFieldSetProps = ({...props} as unknown) as FormFieldSetProps<any>;
+	if (useFormFieldSet) {
+		const formFieldSetProps = ({ ...props } as unknown) as FormFieldSetProps<any>;
 		return (
 			<FormFieldSet
 				{...formFieldSetProps}
@@ -68,7 +70,7 @@ export const CheckboxGroup= <TFieldSetProps extends (FieldSetProps | FormFieldSe
 		);
 	}
 
-	const fieldSetProps = ({...props} as unknown) as FieldSetProps;
+	const fieldSetProps = ({ ...props } as unknown) as FieldSetProps;
 	return (
 		<FieldSet
 			{...fieldSetProps}
@@ -78,11 +80,11 @@ export const CheckboxGroup= <TFieldSetProps extends (FieldSetProps | FormFieldSe
 			<InternalCheckboxGroup id={id} {...checkboxGroupProps} />
 		</FieldSet>
 	);
-}
+};
 
 /**
  * Internal component for managing a group of related Checkboxes
- * 
+ *
  * When each checkbox maps to an individual field, per-checkbox onChange function
  * should be defined in the CheckboxOption render func. Make sure to provide onChange
  * prop after spread props to overwrite props.onChange:
@@ -90,12 +92,12 @@ export const CheckboxGroup= <TFieldSetProps extends (FieldSetProps | FormFieldSe
  *		render: (props) => <Checkbox {...props} onChange={onChange} />
  * 		...
  * 	}
- * 
+ *
  * For other cases where the checkbox group maps to a single field, and each checkbox
  * represents a value for that field that is handled in the same way, a group-level
  * onChange function can be defined. It will be passed in to each Checkbox.
  */
-const InternalCheckboxGroup: React.FC<InternalCheckboxGroupProps & {id: string}> = ({
+const InternalCheckboxGroup: React.FC<InternalCheckboxGroupProps & { id: string }> = ({
 	id,
 	options,
 	onChange = () => {},
@@ -105,14 +107,14 @@ const InternalCheckboxGroup: React.FC<InternalCheckboxGroupProps & {id: string}>
 	const [selectedItems, setSelectedItems] = useState(selectedItemsOnInput);
 
 	return (
-			<>
+		<>
 			{options.map(({ render: Render, value, expansion }) => (
 				<span
 					key={`${id}-${value}`}
-					onChange={() =>{
-						setSelectedItems(items => {
-							if(items.includes(value)) {
-								return items.filter(i => i !== value);
+					onChange={() => {
+						setSelectedItems((items) => {
+							if (items.includes(value)) {
+								return items.filter((i) => i !== value);
 							}
 
 							return [...items, value];
@@ -120,16 +122,12 @@ const InternalCheckboxGroup: React.FC<InternalCheckboxGroupProps & {id: string}>
 						return false;
 					}}
 				>
-					<Render
-						id={value}
-						selected={selectedItems.includes(value)}
-						onChange={onChange}
-					/>
+					<Render id={value} selected={selectedItems.includes(value)} onChange={onChange} />
 					{expansion && selectedItems.includes(value) && (
 						<div className="oec-itemchooser-expansion">{expansion}</div>
 					)}
 				</span>
 			))}
-			</>
+		</>
 	);
 };

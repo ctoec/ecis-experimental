@@ -51,8 +51,8 @@ export const NewForm = ({
 
 	const [mutatedEnrollment, setMutatedEnrollment] = useState<Enrollment>(
 		// If enrollment's child's family does not exist, create an empty default
-		enrollment.child.family == undefined 
-			? enrollmentWithDefaultFamily(enrollment, getIdForUser(user, 'org')) 
+		enrollment.child.family == undefined
+			? enrollmentWithDefaultFamily(enrollment, getIdForUser(user, 'org'))
 			: enrollment
 	);
 
@@ -72,7 +72,7 @@ export const NewForm = ({
 				setAttemptSave(false);
 				onSectionTouch && onSectionTouch(FamilyIncome);
 			},
-	}
+		}
 	);
 
 	// Handle API error

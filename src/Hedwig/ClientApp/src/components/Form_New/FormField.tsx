@@ -20,7 +20,7 @@ type FormFieldProps<TData, TComponentProps, TFieldData> =
 					event: React.ChangeEvent<any>,
 					data: TObjectDriller<TData>
 				) => TFieldData;
-				status?: FormStatusFunc<TData>,
+				status?: FormStatusFunc<TData>;
 				inputComponent: React.FC<TComponentProps>;
 		  } & /* Include TComponentProps props, except onChange, defaultValue, and status */ Pick<
 				TComponentProps,
