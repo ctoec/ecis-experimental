@@ -6,7 +6,10 @@ import { propertyDateSorter } from '../dateSorter';
  * Returns the formatted month string for the reporting period
  * @param period
  */
-export function getReportingPeriodMonth(period: ReportingPeriod) {
+export function getReportingPeriodMonth(period?: ReportingPeriod) {
+	if (!period) {
+		return '';
+	}
 	return moment(period.period).format('MMMM');
 }
 
@@ -14,7 +17,10 @@ export function getReportingPeriodMonth(period: ReportingPeriod) {
  * Returns the number of weeks (inclusive of start and end date) in the reporting period
  * @param period
  */
-export function getReportingPeriodWeeks(period: ReportingPeriod) {
+export function getReportingPeriodWeeks(period?: ReportingPeriod) {
+	if (!period) {
+		return 0;
+	}
 	return moment(period.periodEnd).add(1, 'day').diff(moment(period.periodStart), 'weeks');
 }
 

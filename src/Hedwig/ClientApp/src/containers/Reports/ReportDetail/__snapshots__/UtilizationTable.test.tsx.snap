@@ -249,7 +249,7 @@ exports[`UtilizationTable matches snapshot 1`] = `
             />
             169.95
             <span>
-               × 0 weeks
+               × 4 weeks
             </span>
             <div
               class="margin-left-05 width-2 display-inline-block"
@@ -272,20 +272,21 @@ exports[`UtilizationTable matches snapshot 1`] = `
           0.00
         </td>
         <td
-          class="text-tabular text-right"
+          class="oec-table__cell--red text-tabular text-right"
         >
           <div
-            class="position-relative"
+            class="position-relative one-half-char-right"
           >
+            (
             <span>
               $ 
             </span>
             <span
               style="visibility: hidden;"
             >
-              0000,
+              0
             </span>
-            0.00
+            6,798.00)
           </div>
         </td>
       </tr>
@@ -589,7 +590,7 @@ exports[`UtilizationTable matches snapshot 1`] = `
             <span
               style="visibility: hidden;"
             />
-            24,163.52)
+            30,961.52)
           </div>
         </td>
       </tr>

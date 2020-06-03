@@ -83,7 +83,7 @@ export function getFundingSpaces(
 		source?: FundingSource;
 		time?: FundingTime;
 	}
-) {
+): FundingSpace[] {
 	if (!fundingSpaces) return [];
 	const { ageGroup, source, time } = opts;
 	return fundingSpaces.filter((space) => {
@@ -135,9 +135,15 @@ export function getFundingSpaceCapacity(
  * @param b
  */
 export function fundingSpaceSorter(a: FundingSpace, b: FundingSpace) {
+	if (!a.ageGroup || !b.ageGroup) {
+		return 0;
+	}
 	if (a.ageGroup > b.ageGroup) return 1;
 	if (a.ageGroup < b.ageGroup) return -1;
 
+	if (!a.time || !b.time) {
+		return 0;
+	}
 	// secondary sort by time
 	if (a.time > b.time) return 1;
 	if (a.time < b.time) return -1;
@@ -149,18 +155,21 @@ export function getTimeSplitUtilizationsForFiscalYearOfReport(
 	fundingSpace: FundingSpace,
 	report: CdcReport
 ) {
+	if (!report.reportingPeriod) {
+		return [];
+	}
 	return (fundingSpace.timeSplitUtilizations || [])
 		.filter((util) => util.reportId !== report.id)
 		.filter((util) => util.fundingSpaceId === fundingSpace.id)
 		.filter((util) =>
 			isWithinFiscalYear(
 				util.reportingPeriod && util.reportingPeriod.period,
-				report.reportingPeriod.period
+				report.reportingPeriod && report.reportingPeriod.period
 			)
 		)
 		.filter((util) =>
 			moment(util.reportingPeriod && util.reportingPeriod.periodEnd).isBefore(
-				report.reportingPeriod.periodEnd
+				report.reportingPeriod && report.reportingPeriod.periodEnd
 			)
 		)
 		.filter((util) => util.report && !!util.report.submittedAt);

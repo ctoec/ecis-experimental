@@ -5,7 +5,7 @@ export type CheckboxProps = {
 	text: string;
 	value: string;
 	name?: string;
-	onChange: (event: React.ChangeEvent<HTMLInputElement>) => any;
+	onChange?: (event: React.ChangeEvent<HTMLInputElement>) => any;
 	defaultValue?: boolean;
 	className?: string;
 	disabled?: boolean;

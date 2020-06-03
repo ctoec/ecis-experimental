@@ -34,13 +34,14 @@ export const updateRosterAlert = (numMissingInfo: number): AlertProps => ({
 	)} missing information required to submit this report.`,
 	actionItem: <Button text="Update roster" href="/roster" />,
 });
-export const reportSubmittedAlert = (reportingPeriod: ReportingPeriod): AlertProps => ({
-	type: 'success',
-	heading: 'Submitted',
-	text: `Your ${reportingPeriodFormatter(
-		reportingPeriod
-	)} CDC Report has been shared with the Office of Early Childhood. Thank you!`,
-});
+export const reportSubmittedAlert = (reportingPeriod?: ReportingPeriod): AlertProps | undefined =>
+	reportingPeriod && {
+		type: 'success',
+		heading: 'Submitted',
+		text: `Your ${reportingPeriodFormatter(
+			reportingPeriod
+		)} CDC Report has been shared with the Office of Early Childhood. Thank you!`,
+	};
 export const childWithdrawnAlert = (childName: string, siteName: string): AlertProps => ({
 	type: 'success',
 	heading: 'Withdrawn',

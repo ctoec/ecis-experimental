@@ -53,7 +53,7 @@ const Form = <T extends any>({
 			}}
 		>
 			<form className={className} onSubmit={_onSubmit} {...props}>
-				<div className="usa-form">{children}</div>
+				{children}
 			</form>
 		</FormProvider>
 	);

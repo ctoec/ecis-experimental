@@ -59,1267 +59,1263 @@ exports[`Withdrawal matches snapshot 1`] = `
     </div>
     <form
       autocomplete="off"
-      class=""
+      class="usa-form"
       novalidate=""
     >
       <div
-        class="usa-form"
+        class="grid-row grid-gap"
       >
         <div
-          class="grid-row grid-gap"
+          class="mobile-lg:grid-col-12"
         >
-          <div
-            class="mobile-lg:grid-col-12"
+          <fieldset
+            aria-describedby="enrollment-end-date-hint"
+            aria-required="true"
+            class="grid-gap grid-row usa-fieldset oec-date-input oec-date-input-single"
+            id="enrollment-end-date"
           >
-            <fieldset
-              aria-describedby="enrollment-end-date-hint"
-              aria-required="true"
-              class="grid-gap grid-row usa-fieldset oec-date-input oec-date-input-single"
-              id="enrollment-end-date"
+            <legend
+              id="fieldset-legend-enrollment-end-date"
             >
-              <legend
-                id="fieldset-legend-enrollment-end-date"
-              >
-                <span
-                  class="usa-label"
-                >
-                  Enrollment end date
-                </span>
-              </legend>
               <span
-                class="usa-hint text-italic"
+                class="usa-label"
               >
-                For example: 04/28/1986
+                Enrollment end date
               </span>
+            </legend>
+            <span
+              class="usa-hint text-italic"
+            >
+              For example: 04/28/1986
+            </span>
+            <div
+              class="grid-gap grid-row"
+            >
+              <input
+                aria-hidden="true"
+                disabled=""
+                hidden=""
+                id="enrollment-end-date-internal"
+                value=""
+              />
               <div
-                class="grid-gap grid-row"
+                class="grid-row flex-row flex-align-end grid-gap position-relative"
               >
-                <input
-                  aria-hidden="true"
-                  disabled=""
-                  hidden=""
-                  id="enrollment-end-date-internal"
-                  value=""
-                />
                 <div
-                  class="grid-row flex-row flex-align-end grid-gap position-relative"
+                  class="oec-date-input__text usa-form-group"
                 >
-                  <div
-                    class="oec-date-input__text usa-form-group"
+                  <label
+                    class="usa-label usa-sr-only"
+                    for="enrollment-end-date-input"
                   >
-                    <label
-                      class="usa-label usa-sr-only"
-                      for="enrollment-end-date-input"
-                    >
-                      Enrollment end date 
-                    </label>
-                    <input
-                      aria-required="true"
-                      class="usa-input"
-                      id="enrollment-end-date-input"
-                      type="text"
-                      value=""
-                    />
-                  </div>
-                  <div
-                    class="oec-calendar-dropdown oec-date-input__calendar-dropdown"
+                    Enrollment end date 
+                  </label>
+                  <input
+                    aria-required="true"
+                    class="usa-input"
+                    id="enrollment-end-date-input"
+                    type="text"
+                    value=""
+                  />
+                </div>
+                <div
+                  class="oec-calendar-dropdown oec-date-input__calendar-dropdown"
+                >
+                  <button
+                    class="usa-button oec-calendar-toggle oec-calendar-dropdown__toggle"
+                    title="open calendar"
+                    type="button"
                   >
-                    <button
-                      class="usa-button oec-calendar-toggle oec-calendar-dropdown__toggle"
-                      title="open calendar"
-                      type="button"
+                    <svg
+                      class="oec-calendar-toggle__icon"
                     >
-                      <svg
-                        class="oec-calendar-toggle__icon"
-                      >
-                        calendar.svg
-                      </svg>
-                    </button>
+                      calendar.svg
+                    </svg>
+                  </button>
+                  <div
+                    class="oec-calendar-dropdown__calendar position-absolute z-top"
+                    hidden=""
+                  >
                     <div
-                      class="oec-calendar-dropdown__calendar position-absolute z-top"
-                      hidden=""
+                      class="DayPicker DayPicker_1 DayPicker__horizontal DayPicker__horizontal_2 DayPicker__hidden DayPicker__hidden_3 DayPicker__withBorder DayPicker__withBorder_4"
+                      style="width: 319px;"
                     >
-                      <div
-                        class="DayPicker DayPicker_1 DayPicker__horizontal DayPicker__horizontal_2 DayPicker__hidden DayPicker__hidden_3 DayPicker__withBorder DayPicker__withBorder_4"
-                        style="width: 319px;"
-                      >
-                        <div>
+                      <div>
+                        <div
+                          class=""
+                          style="width: 318px;"
+                        >
                           <div
-                            class=""
-                            style="width: 318px;"
+                            aria-hidden="true"
+                            class="DayPicker_weekHeaders DayPicker_weekHeaders_1 DayPicker_weekHeaders__horizontal DayPicker_weekHeaders__horizontal_2"
+                            role="presentation"
                           >
                             <div
-                              aria-hidden="true"
-                              class="DayPicker_weekHeaders DayPicker_weekHeaders_1 DayPicker_weekHeaders__horizontal DayPicker_weekHeaders__horizontal_2"
-                              role="presentation"
+                              class="DayPicker_weekHeader DayPicker_weekHeader_1"
+                              style="left: 0px; padding: 0px 13px;"
+                            >
+                              <ul
+                                class="DayPicker_weekHeader_ul DayPicker_weekHeader_ul_1"
+                              >
+                                <li
+                                  class="DayPicker_weekHeader_li DayPicker_weekHeader_li_1"
+                                  style="width: 39px;"
+                                >
+                                  <small>
+                                    Su
+                                  </small>
+                                </li>
+                                <li
+                                  class="DayPicker_weekHeader_li DayPicker_weekHeader_li_1"
+                                  style="width: 39px;"
+                                >
+                                  <small>
+                                    Mo
+                                  </small>
+                                </li>
+                                <li
+                                  class="DayPicker_weekHeader_li DayPicker_weekHeader_li_1"
+                                  style="width: 39px;"
+                                >
+                                  <small>
+                                    Tu
+                                  </small>
+                                </li>
+                                <li
+                                  class="DayPicker_weekHeader_li DayPicker_weekHeader_li_1"
+                                  style="width: 39px;"
+                                >
+                                  <small>
+                                    We
+                                  </small>
+                                </li>
+                                <li
+                                  class="DayPicker_weekHeader_li DayPicker_weekHeader_li_1"
+                                  style="width: 39px;"
+                                >
+                                  <small>
+                                    Th
+                                  </small>
+                                </li>
+                                <li
+                                  class="DayPicker_weekHeader_li DayPicker_weekHeader_li_1"
+                                  style="width: 39px;"
+                                >
+                                  <small>
+                                    Fr
+                                  </small>
+                                </li>
+                                <li
+                                  class="DayPicker_weekHeader_li DayPicker_weekHeader_li_1"
+                                  style="width: 39px;"
+                                >
+                                  <small>
+                                    Sa
+                                  </small>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div
+                            aria-label="Calendar"
+                            aria-roledescription="datepicker"
+                            class="DayPicker_focusRegion DayPicker_focusRegion_1"
+                            role="application"
+                            tabindex="-1"
+                          >
+                            <div
+                              class="DayPickerNavigation DayPickerNavigation_1 DayPickerNavigation__horizontal DayPickerNavigation__horizontal_2"
                             >
                               <div
-                                class="DayPicker_weekHeader DayPicker_weekHeader_1"
-                                style="left: 0px; padding: 0px 13px;"
+                                aria-label="Move backward to switch to the previous month."
+                                class="DayPickerNavigation_button DayPickerNavigation_button_1 DayPickerNavigation_button__default DayPickerNavigation_button__default_2 DayPickerNavigation_button__horizontal DayPickerNavigation_button__horizontal_3 DayPickerNavigation_button__horizontalDefault DayPickerNavigation_button__horizontalDefault_4 DayPickerNavigation_leftButton__horizontalDefault DayPickerNavigation_leftButton__horizontalDefault_5"
+                                role="button"
+                                tabindex="0"
                               >
-                                <ul
-                                  class="DayPicker_weekHeader_ul DayPicker_weekHeader_ul_1"
+                                <svg
+                                  class="DayPickerNavigation_svg__horizontal DayPickerNavigation_svg__horizontal_1"
+                                  focusable="false"
+                                  viewBox="0 0 1000 1000"
                                 >
-                                  <li
-                                    class="DayPicker_weekHeader_li DayPicker_weekHeader_li_1"
-                                    style="width: 39px;"
-                                  >
-                                    <small>
-                                      Su
-                                    </small>
-                                  </li>
-                                  <li
-                                    class="DayPicker_weekHeader_li DayPicker_weekHeader_li_1"
-                                    style="width: 39px;"
-                                  >
-                                    <small>
-                                      Mo
-                                    </small>
-                                  </li>
-                                  <li
-                                    class="DayPicker_weekHeader_li DayPicker_weekHeader_li_1"
-                                    style="width: 39px;"
-                                  >
-                                    <small>
-                                      Tu
-                                    </small>
-                                  </li>
-                                  <li
-                                    class="DayPicker_weekHeader_li DayPicker_weekHeader_li_1"
-                                    style="width: 39px;"
-                                  >
-                                    <small>
-                                      We
-                                    </small>
-                                  </li>
-                                  <li
-                                    class="DayPicker_weekHeader_li DayPicker_weekHeader_li_1"
-                                    style="width: 39px;"
-                                  >
-                                    <small>
-                                      Th
-                                    </small>
-                                  </li>
-                                  <li
-                                    class="DayPicker_weekHeader_li DayPicker_weekHeader_li_1"
-                                    style="width: 39px;"
-                                  >
-                                    <small>
-                                      Fr
-                                    </small>
-                                  </li>
-                                  <li
-                                    class="DayPicker_weekHeader_li DayPicker_weekHeader_li_1"
-                                    style="width: 39px;"
-                                  >
-                                    <small>
-                                      Sa
-                                    </small>
-                                  </li>
-                                </ul>
+                                  <path
+                                    d="M336 275L126 485h806c13 0 23 10 23 23s-10 23-23 23H126l210 210c11 11 11 21 0 32-5 5-10 7-16 7s-11-2-16-7L55 524c-11-11-11-21 0-32l249-249c21-22 53 10 32 32z"
+                                  />
+                                </svg>
+                              </div>
+                              <div
+                                aria-label="Move forward to switch to the next month."
+                                class="DayPickerNavigation_button DayPickerNavigation_button_1 DayPickerNavigation_button__default DayPickerNavigation_button__default_2 DayPickerNavigation_button__horizontal DayPickerNavigation_button__horizontal_3 DayPickerNavigation_button__horizontalDefault DayPickerNavigation_button__horizontalDefault_4 DayPickerNavigation_rightButton__horizontalDefault DayPickerNavigation_rightButton__horizontalDefault_5"
+                                role="button"
+                                tabindex="0"
+                              >
+                                <svg
+                                  class="DayPickerNavigation_svg__horizontal DayPickerNavigation_svg__horizontal_1"
+                                  focusable="false"
+                                  viewBox="0 0 1000 1000"
+                                >
+                                  <path
+                                    d="M694 242l249 250c12 11 12 21 1 32L694 773c-5 5-10 7-16 7s-11-2-16-7c-11-11-11-21 0-32l210-210H68c-13 0-23-10-23-23s10-23 23-23h806L662 275c-21-22 11-54 32-33z"
+                                  />
+                                </svg>
                               </div>
                             </div>
                             <div
-                              aria-label="Calendar"
-                              aria-roledescription="datepicker"
-                              class="DayPicker_focusRegion DayPicker_focusRegion_1"
-                              role="application"
-                              tabindex="-1"
+                              class="DayPicker_transitionContainer DayPicker_transitionContainer_1"
+                              style="width: 318px; height: 0px;"
                             >
                               <div
-                                class="DayPickerNavigation DayPickerNavigation_1 DayPickerNavigation__horizontal DayPickerNavigation__horizontal_2"
+                                class="CalendarMonthGrid CalendarMonthGrid_1 CalendarMonthGrid__horizontal CalendarMonthGrid__horizontal_2"
+                                style="transform: translateX(0px); width: 900px;"
                               >
                                 <div
-                                  aria-label="Move backward to switch to the previous month."
-                                  class="DayPickerNavigation_button DayPickerNavigation_button_1 DayPickerNavigation_button__default DayPickerNavigation_button__default_2 DayPickerNavigation_button__horizontal DayPickerNavigation_button__horizontal_3 DayPickerNavigation_button__horizontalDefault DayPickerNavigation_button__horizontalDefault_4 DayPickerNavigation_leftButton__horizontalDefault DayPickerNavigation_leftButton__horizontalDefault_5"
-                                  role="button"
-                                  tabindex="0"
+                                  class="CalendarMonthGrid_month__horizontal CalendarMonthGrid_month__horizontal_1 CalendarMonthGrid_month__hideForAnimation CalendarMonthGrid_month__hideForAnimation_2 CalendarMonthGrid_month__hidden CalendarMonthGrid_month__hidden_3"
                                 >
-                                  <svg
-                                    class="DayPickerNavigation_svg__horizontal DayPickerNavigation_svg__horizontal_1"
-                                    focusable="false"
-                                    viewBox="0 0 1000 1000"
+                                  <div
+                                    class="CalendarMonth CalendarMonth_1"
+                                    data-visible="false"
+                                    style="padding: 0px 13px;"
                                   >
-                                    <path
-                                      d="M336 275L126 485h806c13 0 23 10 23 23s-10 23-23 23H126l210 210c11 11 11 21 0 32-5 5-10 7-16 7s-11-2-16-7L55 524c-11-11-11-21 0-32l249-249c21-22 53 10 32 32z"
-                                    />
-                                  </svg>
+                                    <div
+                                      class="CalendarMonth_caption CalendarMonth_caption_1"
+                                    >
+                                      <strong>
+                                        August 2019
+                                      </strong>
+                                    </div>
+                                    <table
+                                      class="CalendarMonth_table CalendarMonth_table_1"
+                                      role="presentation"
+                                    >
+                                      <tbody>
+                                        <tr>
+                                          <td />
+                                          <td />
+                                          <td />
+                                          <td />
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Thursday, August 1, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            1
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Friday, August 2, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            2
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Saturday, August 3, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__lastDayOfWeek CalendarDay__lastDayOfWeek_3"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            3
+                                          </td>
+                                        </tr>
+                                        <tr>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Sunday, August 4, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__firstDayOfWeek CalendarDay__firstDayOfWeek_3"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            4
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Monday, August 5, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            5
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Tuesday, August 6, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            6
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Wednesday, August 7, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            7
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Thursday, August 8, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            8
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Friday, August 9, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            9
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Saturday, August 10, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__lastDayOfWeek CalendarDay__lastDayOfWeek_3"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            10
+                                          </td>
+                                        </tr>
+                                        <tr>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Sunday, August 11, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__firstDayOfWeek CalendarDay__firstDayOfWeek_3"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            11
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Monday, August 12, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            12
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Tuesday, August 13, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            13
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Wednesday, August 14, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            14
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Thursday, August 15, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            15
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Friday, August 16, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            16
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Saturday, August 17, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__lastDayOfWeek CalendarDay__lastDayOfWeek_3"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            17
+                                          </td>
+                                        </tr>
+                                        <tr>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Sunday, August 18, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__firstDayOfWeek CalendarDay__firstDayOfWeek_3"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            18
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Monday, August 19, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            19
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Tuesday, August 20, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            20
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Wednesday, August 21, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            21
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Thursday, August 22, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            22
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Friday, August 23, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            23
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Saturday, August 24, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__lastDayOfWeek CalendarDay__lastDayOfWeek_3"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            24
+                                          </td>
+                                        </tr>
+                                        <tr>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Sunday, August 25, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__firstDayOfWeek CalendarDay__firstDayOfWeek_3"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            25
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Monday, August 26, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            26
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Tuesday, August 27, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            27
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Wednesday, August 28, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            28
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Thursday, August 29, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            29
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Friday, August 30, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            30
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Saturday, August 31, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__lastDayOfWeek CalendarDay__lastDayOfWeek_3"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            31
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
                                 </div>
                                 <div
-                                  aria-label="Move forward to switch to the next month."
-                                  class="DayPickerNavigation_button DayPickerNavigation_button_1 DayPickerNavigation_button__default DayPickerNavigation_button__default_2 DayPickerNavigation_button__horizontal DayPickerNavigation_button__horizontal_3 DayPickerNavigation_button__horizontalDefault DayPickerNavigation_button__horizontalDefault_4 DayPickerNavigation_rightButton__horizontalDefault DayPickerNavigation_rightButton__horizontalDefault_5"
-                                  role="button"
-                                  tabindex="0"
+                                  class="CalendarMonthGrid_month__horizontal CalendarMonthGrid_month__horizontal_1"
                                 >
-                                  <svg
-                                    class="DayPickerNavigation_svg__horizontal DayPickerNavigation_svg__horizontal_1"
-                                    focusable="false"
-                                    viewBox="0 0 1000 1000"
+                                  <div
+                                    class="CalendarMonth CalendarMonth_1"
+                                    data-visible="true"
+                                    style="padding: 0px 13px;"
                                   >
-                                    <path
-                                      d="M694 242l249 250c12 11 12 21 1 32L694 773c-5 5-10 7-16 7s-11-2-16-7c-11-11-11-21 0-32l210-210H68c-13 0-23-10-23-23s10-23 23-23h806L662 275c-21-22 11-54 32-33z"
-                                    />
-                                  </svg>
+                                    <div
+                                      class="CalendarMonth_caption CalendarMonth_caption_1"
+                                    >
+                                      <strong>
+                                        September 2019
+                                      </strong>
+                                    </div>
+                                    <table
+                                      class="CalendarMonth_table CalendarMonth_table_1"
+                                      role="presentation"
+                                    >
+                                      <tbody>
+                                        <tr>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Sunday, September 1, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__firstDayOfWeek CalendarDay__firstDayOfWeek_3"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            1
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Monday, September 2, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            2
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Tuesday, September 3, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            3
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Wednesday, September 4, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            4
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Thursday, September 5, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            5
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Friday, September 6, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            6
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Saturday, September 7, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__lastDayOfWeek CalendarDay__lastDayOfWeek_3"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            7
+                                          </td>
+                                        </tr>
+                                        <tr>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Sunday, September 8, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__firstDayOfWeek CalendarDay__firstDayOfWeek_3"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            8
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Monday, September 9, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            9
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Tuesday, September 10, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            10
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Wednesday, September 11, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            11
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Thursday, September 12, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            12
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Friday, September 13, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            13
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Saturday, September 14, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__lastDayOfWeek CalendarDay__lastDayOfWeek_3"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            14
+                                          </td>
+                                        </tr>
+                                        <tr>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Sunday, September 15, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__firstDayOfWeek CalendarDay__firstDayOfWeek_3"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            15
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Monday, September 16, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            16
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Tuesday, September 17, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            17
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Wednesday, September 18, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            18
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Thursday, September 19, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            19
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Friday, September 20, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            20
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Saturday, September 21, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__lastDayOfWeek CalendarDay__lastDayOfWeek_3"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            21
+                                          </td>
+                                        </tr>
+                                        <tr>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Sunday, September 22, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__firstDayOfWeek CalendarDay__firstDayOfWeek_3"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            22
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Monday, September 23, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            23
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Tuesday, September 24, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            24
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Wednesday, September 25, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            25
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Thursday, September 26, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            26
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Friday, September 27, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            27
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Saturday, September 28, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__lastDayOfWeek CalendarDay__lastDayOfWeek_3"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            28
+                                          </td>
+                                        </tr>
+                                        <tr>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Sunday, September 29, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__firstDayOfWeek CalendarDay__firstDayOfWeek_3"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            29
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Monday, September 30, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__today CalendarDay__today_3"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            30
+                                          </td>
+                                          <td />
+                                          <td />
+                                          <td />
+                                          <td />
+                                          <td />
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                                <div
+                                  class="CalendarMonthGrid_month__horizontal CalendarMonthGrid_month__horizontal_1 CalendarMonthGrid_month__hidden CalendarMonthGrid_month__hidden_2"
+                                >
+                                  <div
+                                    class="CalendarMonth CalendarMonth_1"
+                                    data-visible="false"
+                                    style="padding: 0px 13px;"
+                                  >
+                                    <div
+                                      class="CalendarMonth_caption CalendarMonth_caption_1"
+                                    >
+                                      <strong>
+                                        October 2019
+                                      </strong>
+                                    </div>
+                                    <table
+                                      class="CalendarMonth_table CalendarMonth_table_1"
+                                      role="presentation"
+                                    >
+                                      <tbody>
+                                        <tr>
+                                          <td />
+                                          <td />
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Tuesday, October 1, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            1
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Wednesday, October 2, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            2
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Thursday, October 3, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            3
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Friday, October 4, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            4
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Saturday, October 5, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__lastDayOfWeek CalendarDay__lastDayOfWeek_3"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            5
+                                          </td>
+                                        </tr>
+                                        <tr>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Sunday, October 6, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__firstDayOfWeek CalendarDay__firstDayOfWeek_3"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            6
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Monday, October 7, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            7
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Tuesday, October 8, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            8
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Wednesday, October 9, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            9
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Thursday, October 10, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            10
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Friday, October 11, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            11
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Saturday, October 12, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__lastDayOfWeek CalendarDay__lastDayOfWeek_3"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            12
+                                          </td>
+                                        </tr>
+                                        <tr>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Sunday, October 13, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__firstDayOfWeek CalendarDay__firstDayOfWeek_3"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            13
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Monday, October 14, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            14
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Tuesday, October 15, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            15
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Wednesday, October 16, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            16
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Thursday, October 17, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            17
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Friday, October 18, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            18
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Saturday, October 19, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__lastDayOfWeek CalendarDay__lastDayOfWeek_3"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            19
+                                          </td>
+                                        </tr>
+                                        <tr>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Sunday, October 20, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__firstDayOfWeek CalendarDay__firstDayOfWeek_3"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            20
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Monday, October 21, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            21
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Tuesday, October 22, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            22
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Wednesday, October 23, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            23
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Thursday, October 24, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            24
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Friday, October 25, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            25
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Saturday, October 26, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__lastDayOfWeek CalendarDay__lastDayOfWeek_3"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            26
+                                          </td>
+                                        </tr>
+                                        <tr>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Sunday, October 27, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__firstDayOfWeek CalendarDay__firstDayOfWeek_3"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            27
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Monday, October 28, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            28
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Tuesday, October 29, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            29
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Wednesday, October 30, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            30
+                                          </td>
+                                          <td
+                                            aria-disabled="false"
+                                            aria-label="Thursday, October 31, 2019"
+                                            class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
+                                            role="button"
+                                            style="width: 39px; height: 38px;"
+                                            tabindex="-1"
+                                          >
+                                            31
+                                          </td>
+                                          <td />
+                                          <td />
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
                                 </div>
                               </div>
-                              <div
-                                class="DayPicker_transitionContainer DayPicker_transitionContainer_1"
-                                style="width: 318px; height: 0px;"
+                            </div>
+                            <div>
+                              <button
+                                aria-label="Open the keyboard shortcuts panel."
+                                class="DayPickerKeyboardShortcuts_buttonReset DayPickerKeyboardShortcuts_buttonReset_1 DayPickerKeyboardShortcuts_show DayPickerKeyboardShortcuts_show_2 DayPickerKeyboardShortcuts_show__bottomRight DayPickerKeyboardShortcuts_show__bottomRight_3"
+                                type="button"
                               >
-                                <div
-                                  class="CalendarMonthGrid CalendarMonthGrid_1 CalendarMonthGrid__horizontal CalendarMonthGrid__horizontal_2"
-                                  style="transform: translateX(0px); width: 900px;"
+                                <span
+                                  class="DayPickerKeyboardShortcuts_showSpan DayPickerKeyboardShortcuts_showSpan_1 DayPickerKeyboardShortcuts_showSpan__bottomRight DayPickerKeyboardShortcuts_showSpan__bottomRight_2"
                                 >
-                                  <div
-                                    class="CalendarMonthGrid_month__horizontal CalendarMonthGrid_month__horizontal_1 CalendarMonthGrid_month__hideForAnimation CalendarMonthGrid_month__hideForAnimation_2 CalendarMonthGrid_month__hidden CalendarMonthGrid_month__hidden_3"
-                                  >
-                                    <div
-                                      class="CalendarMonth CalendarMonth_1"
-                                      data-visible="false"
-                                      style="padding: 0px 13px;"
-                                    >
-                                      <div
-                                        class="CalendarMonth_caption CalendarMonth_caption_1"
-                                      >
-                                        <strong>
-                                          August 2019
-                                        </strong>
-                                      </div>
-                                      <table
-                                        class="CalendarMonth_table CalendarMonth_table_1"
-                                        role="presentation"
-                                      >
-                                        <tbody>
-                                          <tr>
-                                            <td />
-                                            <td />
-                                            <td />
-                                            <td />
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Thursday, August 1, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              1
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Friday, August 2, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              2
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Saturday, August 3, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__lastDayOfWeek CalendarDay__lastDayOfWeek_3"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              3
-                                            </td>
-                                          </tr>
-                                          <tr>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Sunday, August 4, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__firstDayOfWeek CalendarDay__firstDayOfWeek_3"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              4
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Monday, August 5, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              5
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Tuesday, August 6, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              6
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Wednesday, August 7, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              7
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Thursday, August 8, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              8
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Friday, August 9, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              9
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Saturday, August 10, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__lastDayOfWeek CalendarDay__lastDayOfWeek_3"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              10
-                                            </td>
-                                          </tr>
-                                          <tr>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Sunday, August 11, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__firstDayOfWeek CalendarDay__firstDayOfWeek_3"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              11
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Monday, August 12, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              12
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Tuesday, August 13, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              13
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Wednesday, August 14, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              14
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Thursday, August 15, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              15
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Friday, August 16, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              16
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Saturday, August 17, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__lastDayOfWeek CalendarDay__lastDayOfWeek_3"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              17
-                                            </td>
-                                          </tr>
-                                          <tr>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Sunday, August 18, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__firstDayOfWeek CalendarDay__firstDayOfWeek_3"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              18
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Monday, August 19, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              19
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Tuesday, August 20, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              20
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Wednesday, August 21, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              21
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Thursday, August 22, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              22
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Friday, August 23, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              23
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Saturday, August 24, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__lastDayOfWeek CalendarDay__lastDayOfWeek_3"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              24
-                                            </td>
-                                          </tr>
-                                          <tr>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Sunday, August 25, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__firstDayOfWeek CalendarDay__firstDayOfWeek_3"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              25
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Monday, August 26, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              26
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Tuesday, August 27, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              27
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Wednesday, August 28, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              28
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Thursday, August 29, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              29
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Friday, August 30, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              30
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Saturday, August 31, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__lastDayOfWeek CalendarDay__lastDayOfWeek_3"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              31
-                                            </td>
-                                          </tr>
-                                        </tbody>
-                                      </table>
-                                    </div>
-                                  </div>
-                                  <div
-                                    class="CalendarMonthGrid_month__horizontal CalendarMonthGrid_month__horizontal_1"
-                                  >
-                                    <div
-                                      class="CalendarMonth CalendarMonth_1"
-                                      data-visible="true"
-                                      style="padding: 0px 13px;"
-                                    >
-                                      <div
-                                        class="CalendarMonth_caption CalendarMonth_caption_1"
-                                      >
-                                        <strong>
-                                          September 2019
-                                        </strong>
-                                      </div>
-                                      <table
-                                        class="CalendarMonth_table CalendarMonth_table_1"
-                                        role="presentation"
-                                      >
-                                        <tbody>
-                                          <tr>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Sunday, September 1, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__firstDayOfWeek CalendarDay__firstDayOfWeek_3"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              1
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Monday, September 2, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              2
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Tuesday, September 3, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              3
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Wednesday, September 4, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              4
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Thursday, September 5, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              5
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Friday, September 6, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              6
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Saturday, September 7, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__lastDayOfWeek CalendarDay__lastDayOfWeek_3"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              7
-                                            </td>
-                                          </tr>
-                                          <tr>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Sunday, September 8, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__firstDayOfWeek CalendarDay__firstDayOfWeek_3"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              8
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Monday, September 9, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              9
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Tuesday, September 10, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              10
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Wednesday, September 11, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              11
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Thursday, September 12, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              12
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Friday, September 13, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              13
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Saturday, September 14, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__lastDayOfWeek CalendarDay__lastDayOfWeek_3"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              14
-                                            </td>
-                                          </tr>
-                                          <tr>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Sunday, September 15, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__firstDayOfWeek CalendarDay__firstDayOfWeek_3"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              15
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Monday, September 16, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              16
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Tuesday, September 17, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              17
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Wednesday, September 18, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              18
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Thursday, September 19, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              19
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Friday, September 20, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              20
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Saturday, September 21, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__lastDayOfWeek CalendarDay__lastDayOfWeek_3"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              21
-                                            </td>
-                                          </tr>
-                                          <tr>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Sunday, September 22, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__firstDayOfWeek CalendarDay__firstDayOfWeek_3"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              22
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Monday, September 23, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              23
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Tuesday, September 24, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              24
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Wednesday, September 25, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              25
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Thursday, September 26, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              26
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Friday, September 27, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              27
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Saturday, September 28, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__lastDayOfWeek CalendarDay__lastDayOfWeek_3"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              28
-                                            </td>
-                                          </tr>
-                                          <tr>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Sunday, September 29, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__firstDayOfWeek CalendarDay__firstDayOfWeek_3"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              29
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Monday, September 30, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__today CalendarDay__today_3"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              30
-                                            </td>
-                                            <td />
-                                            <td />
-                                            <td />
-                                            <td />
-                                            <td />
-                                          </tr>
-                                        </tbody>
-                                      </table>
-                                    </div>
-                                  </div>
-                                  <div
-                                    class="CalendarMonthGrid_month__horizontal CalendarMonthGrid_month__horizontal_1 CalendarMonthGrid_month__hidden CalendarMonthGrid_month__hidden_2"
-                                  >
-                                    <div
-                                      class="CalendarMonth CalendarMonth_1"
-                                      data-visible="false"
-                                      style="padding: 0px 13px;"
-                                    >
-                                      <div
-                                        class="CalendarMonth_caption CalendarMonth_caption_1"
-                                      >
-                                        <strong>
-                                          October 2019
-                                        </strong>
-                                      </div>
-                                      <table
-                                        class="CalendarMonth_table CalendarMonth_table_1"
-                                        role="presentation"
-                                      >
-                                        <tbody>
-                                          <tr>
-                                            <td />
-                                            <td />
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Tuesday, October 1, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              1
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Wednesday, October 2, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              2
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Thursday, October 3, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              3
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Friday, October 4, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              4
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Saturday, October 5, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__lastDayOfWeek CalendarDay__lastDayOfWeek_3"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              5
-                                            </td>
-                                          </tr>
-                                          <tr>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Sunday, October 6, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__firstDayOfWeek CalendarDay__firstDayOfWeek_3"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              6
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Monday, October 7, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              7
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Tuesday, October 8, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              8
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Wednesday, October 9, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              9
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Thursday, October 10, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              10
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Friday, October 11, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              11
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Saturday, October 12, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__lastDayOfWeek CalendarDay__lastDayOfWeek_3"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              12
-                                            </td>
-                                          </tr>
-                                          <tr>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Sunday, October 13, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__firstDayOfWeek CalendarDay__firstDayOfWeek_3"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              13
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Monday, October 14, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              14
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Tuesday, October 15, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              15
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Wednesday, October 16, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              16
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Thursday, October 17, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              17
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Friday, October 18, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              18
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Saturday, October 19, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__lastDayOfWeek CalendarDay__lastDayOfWeek_3"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              19
-                                            </td>
-                                          </tr>
-                                          <tr>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Sunday, October 20, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__firstDayOfWeek CalendarDay__firstDayOfWeek_3"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              20
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Monday, October 21, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              21
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Tuesday, October 22, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              22
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Wednesday, October 23, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              23
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Thursday, October 24, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              24
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Friday, October 25, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              25
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Saturday, October 26, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__lastDayOfWeek CalendarDay__lastDayOfWeek_3"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              26
-                                            </td>
-                                          </tr>
-                                          <tr>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Sunday, October 27, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2 CalendarDay__firstDayOfWeek CalendarDay__firstDayOfWeek_3"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              27
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Monday, October 28, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              28
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Tuesday, October 29, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              29
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Wednesday, October 30, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              30
-                                            </td>
-                                            <td
-                                              aria-disabled="false"
-                                              aria-label="Thursday, October 31, 2019"
-                                              class="CalendarDay CalendarDay_1 CalendarDay__default CalendarDay__default_2"
-                                              role="button"
-                                              style="width: 39px; height: 38px;"
-                                              tabindex="-1"
-                                            >
-                                              31
-                                            </td>
-                                            <td />
-                                            <td />
-                                          </tr>
-                                        </tbody>
-                                      </table>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div>
-                                <button
-                                  aria-label="Open the keyboard shortcuts panel."
-                                  class="DayPickerKeyboardShortcuts_buttonReset DayPickerKeyboardShortcuts_buttonReset_1 DayPickerKeyboardShortcuts_show DayPickerKeyboardShortcuts_show_2 DayPickerKeyboardShortcuts_show__bottomRight DayPickerKeyboardShortcuts_show__bottomRight_3"
-                                  type="button"
-                                >
-                                  <span
-                                    class="DayPickerKeyboardShortcuts_showSpan DayPickerKeyboardShortcuts_showSpan_1 DayPickerKeyboardShortcuts_showSpan__bottomRight DayPickerKeyboardShortcuts_showSpan__bottomRight_2"
-                                  >
-                                    ?
-                                  </span>
-                                </button>
-                              </div>
+                                  ?
+                                </span>
+                              </button>
                             </div>
                           </div>
                         </div>
@@ -1328,132 +1324,132 @@ exports[`Withdrawal matches snapshot 1`] = `
                   </div>
                 </div>
               </div>
-            </fieldset>
-            <div
-              class="usa-form-group"
-            >
-              <div
-                class=""
-              />
-              <label
-                class="usa-label"
-                for="exit-reason"
-              >
-                Reason
-              </label>
-              <select
-                aria-required="true"
-                class="usa-select"
-                id="exit-reason"
-                name=""
-              >
-                <option
-                  value=""
-                >
-                  - Select -
-                </option>
-                <option
-                  value="AgedOut"
-                >
-                  Aged out
-                </option>
-                <option
-                  value="StoppedAttending"
-                >
-                  Stopped attending
-                </option>
-                <option
-                  value="DifferentProgram"
-                >
-                  Chose to attend a different program
-                </option>
-                <option
-                  value="MovedInCT"
-                >
-                  Moved within Connecticut
-                </option>
-                <option
-                  value="MovedOutCT"
-                >
-                  Moved to another state
-                </option>
-                <option
-                  value="LackOfPayment"
-                >
-                  Withdrew due to lack of payment
-                </option>
-                <option
-                  value="AskedToLeave"
-                >
-                  Child was asked to leave
-                </option>
-                <option
-                  value="Unknown"
-                >
-                  Unknown
-                </option>
-              </select>
             </div>
+          </fieldset>
+          <div
+            class="usa-form-group"
+          >
             <div
-              class="usa-form-group"
+              class=""
+            />
+            <label
+              class="usa-label"
+              for="exit-reason"
             >
-              <div
-                class=""
-              />
-              <label
-                class="usa-label"
-                for="last-reporting-period"
+              Reason
+            </label>
+            <select
+              aria-required="true"
+              class="usa-select"
+              id="exit-reason"
+              name=""
+            >
+              <option
+                value=""
               >
-                Last reporting period
-              </label>
-              <select
-                aria-required="true"
-                class="usa-select"
-                id="last-reporting-period"
-                name=""
+                - Select -
+              </option>
+              <option
+                value="AgedOut"
               >
-                <option
-                  value=""
-                >
-                  - Select -
-                </option>
-                <option
-                  value="3"
-                >
-                  May 2019 (5/1–5/31)
-                </option>
-                <option
-                  value="2"
-                >
-                  April 2019 (4/1–4/30)
-                </option>
-                <option
-                  value="1"
-                >
-                  March 2019 (3/1–3/31)
-                </option>
-              </select>
-            </div>
+                Aged out
+              </option>
+              <option
+                value="StoppedAttending"
+              >
+                Stopped attending
+              </option>
+              <option
+                value="DifferentProgram"
+              >
+                Chose to attend a different program
+              </option>
+              <option
+                value="MovedInCT"
+              >
+                Moved within Connecticut
+              </option>
+              <option
+                value="MovedOutCT"
+              >
+                Moved to another state
+              </option>
+              <option
+                value="LackOfPayment"
+              >
+                Withdrew due to lack of payment
+              </option>
+              <option
+                value="AskedToLeave"
+              >
+                Child was asked to leave
+              </option>
+              <option
+                value="Unknown"
+              >
+                Unknown
+              </option>
+            </select>
+          </div>
+          <div
+            class="usa-form-group"
+          >
+            <div
+              class=""
+            />
+            <label
+              class="usa-label"
+              for="last-reporting-period"
+            >
+              Last reporting period
+            </label>
+            <select
+              aria-required="true"
+              class="usa-select"
+              id="last-reporting-period"
+              name=""
+            >
+              <option
+                value=""
+              >
+                - Select -
+              </option>
+              <option
+                value="3"
+              >
+                May 2019 (5/1–5/31)
+              </option>
+              <option
+                value="2"
+              >
+                April 2019 (4/1–4/30)
+              </option>
+              <option
+                value="1"
+              >
+                March 2019 (3/1–3/31)
+              </option>
+            </select>
           </div>
         </div>
+      </div>
+      <div
+        class="grid-row"
+      >
         <div
-          class="grid-row"
+          class="grid-col-auto"
         >
-          <div
-            class="grid-col-auto"
+          <a
+            class="usa-button usa-button--outline"
+            href="/roster/sites/1/enrollments/1/"
           >
-            <a
-              class="usa-button usa-button--outline"
-              href="/roster/sites/1/enrollments/1/"
-            >
-              Cancel
-            </a>
-            <input
-              class="usa-button"
-              type="submit"
-              value="Confirm and withdraw"
-            />
-          </div>
+            Cancel
+          </a>
+          <input
+            class="usa-button"
+            type="submit"
+            value="Confirm and withdraw"
+          />
         </div>
       </div>
     </form>

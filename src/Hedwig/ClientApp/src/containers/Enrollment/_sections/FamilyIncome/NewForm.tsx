@@ -121,7 +121,9 @@ export const NewForm = ({
 			<Form<Enrollment>
 				data={mutatedEnrollment}
 				onSubmit={onFormSubmit}
-				className="enrollment-new-family-income-section"
+				className="enrollment-new-family-income-section usa-form"
+				noValidate
+				autoComplete="off"
 			>
 				<WithNewDetermination
 					// create new determination if:
