@@ -53,6 +53,7 @@ export const RadioButtonGroup = <
 	...props
 }: RadioButtonGroupProps<TFormFieldSetProps>) => {
 	const radioButtonGroupProps = props as InternalRadioButtonGroupProps;
+	console.log("radio button default value", radioButtonGroupProps.defaultValue);
 
 	const useFormFieldSet = ((props as unknown) as RadioButtonGroupProps<FormFieldSetProps<any>>)
 		.useFormFieldSet;

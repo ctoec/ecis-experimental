@@ -65,7 +65,7 @@ export default function EnrollmentUpdate({
 		id: enrollmentId ? enrollmentId : 0,
 		orgId: getIdForUser(user, 'org'),
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
-		include: ['child', 'family', 'determinations', 'fundings'],
+		include: ['child', 'family', 'determinations', 'fundings', 'past_enrollments'],
 	};
 	const { loading, error, data: _enrollment } = useApi(
 		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
