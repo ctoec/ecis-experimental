@@ -3094,7 +3094,7 @@ exports[`Storyshots Date input Default with date 1`] = `
     <span
       className="usa-hint text-italic"
     >
-      For example: 04/28/1986
+      For example: 06/03/2020
     </span>
     <div
       className="grid-gap grid-row"
@@ -3107,7 +3107,7 @@ exports[`Storyshots Date input Default with date 1`] = `
         id="dateinput-example-internal"
       />
       <div
-        className="grid-row flex-row flex-align-end grid-gap position-relative"
+        className="flex-row flex-align-end grid-gap position-relative"
       >
         <div
           className="oec-date-input__text usa-form-group"
@@ -3184,7 +3184,7 @@ exports[`Storyshots Date input Default with no date set 1`] = `
     <span
       className="usa-hint text-italic"
     >
-      For example: 04/28/1986
+      For example: 06/03/2020
     </span>
     <div
       className="grid-gap grid-row"
@@ -3196,7 +3196,7 @@ exports[`Storyshots Date input Default with no date set 1`] = `
         id="dateinput-example-internal"
       />
       <div
-        className="grid-row flex-row flex-align-end grid-gap position-relative"
+        className="flex-row flex-align-end grid-gap position-relative"
       >
         <div
           className="oec-date-input__text usa-form-group"
@@ -3273,7 +3273,7 @@ exports[`Storyshots Date input Disabled day input 1`] = `
     <span
       className="usa-hint text-italic"
     >
-      For example: 04/28/1986
+      For example: 06/03/2020
     </span>
     <div
       className="grid-gap grid-row"
@@ -3286,7 +3286,7 @@ exports[`Storyshots Date input Disabled day input 1`] = `
         id="dateinput-example-internal"
       />
       <div
-        className="grid-row flex-row flex-align-end grid-gap position-relative"
+        className="flex-row flex-align-end grid-gap position-relative"
       >
         <div
           className="oec-date-input__text usa-form-group"
@@ -3364,7 +3364,7 @@ exports[`Storyshots Date input Error 1`] = `
     <span
       className="usa-hint text-italic"
     >
-      For example: 04/28/1986
+      For example: 06/03/2020
     </span>
     <span
       className="usa-error-message"
@@ -3386,21 +3386,23 @@ exports[`Storyshots Date input Error 1`] = `
         id="dateinput-example-internal"
       />
       <div
-        className="grid-row flex-row flex-align-end grid-gap position-relative"
+        className="flex-row flex-align-end grid-gap position-relative"
       >
         <div
-          className="oec-date-input__text usa-form-group"
+          className="oec-date-input__text usa-form-group usa-form-group--error"
         >
           <label
-            className="usa-label usa-sr-only"
+            className="usa-label usa-label--error usa-sr-only"
             htmlFor="dateinput-example-input"
           >
             Date
              
           </label>
           <input
+            aria-describedby="DateInput-error"
+            aria-invalid={true}
             aria-required={true}
-            className="usa-input"
+            className="usa-input usa-input--error"
             defaultValue="10/30/2019"
             id="dateinput-example-input"
             onBlur={[Function]}
@@ -3468,7 +3470,7 @@ exports[`Storyshots Date input Optional 1`] = `
     <span
       className="usa-hint text-italic"
     >
-      For example: 04/28/1986
+      For example: 06/03/2020
     </span>
     <div
       className="grid-gap grid-row"
@@ -3481,7 +3483,7 @@ exports[`Storyshots Date input Optional 1`] = `
         id="dateinput-example-internal"
       />
       <div
-        className="grid-row flex-row flex-align-end grid-gap position-relative"
+        className="flex-row flex-align-end grid-gap position-relative"
       >
         <div
           className="oec-date-input__text usa-form-group"
@@ -3559,7 +3561,7 @@ exports[`Storyshots Date input Success 1`] = `
     <span
       className="usa-hint text-italic"
     >
-      For example: 04/28/1986
+      For example: 06/03/2020
     </span>
     <span
       className="usa-success-message"
@@ -3581,21 +3583,23 @@ exports[`Storyshots Date input Success 1`] = `
         id="dateinput-example-internal"
       />
       <div
-        className="grid-row flex-row flex-align-end grid-gap position-relative"
+        className="flex-row flex-align-end grid-gap position-relative"
       >
         <div
-          className="oec-date-input__text usa-form-group"
+          className="oec-date-input__text usa-form-group usa-form-group--success"
         >
           <label
-            className="usa-label usa-sr-only"
+            className="usa-label usa-label--success usa-sr-only"
             htmlFor="dateinput-example-input"
           >
             Date
              
           </label>
           <input
+            aria-describedby="DateInput-success"
+            aria-invalid={false}
             aria-required={true}
-            className="usa-input"
+            className="usa-input usa-input--success"
             defaultValue="10/30/2019"
             id="dateinput-example-input"
             onBlur={[Function]}
@@ -3659,7 +3663,7 @@ exports[`Storyshots Date input Warning 1`] = `
     <span
       className="usa-hint text-italic"
     >
-      For example: 04/28/1986
+      For example: 06/03/2020
     </span>
     <span
       className="usa-warning-message"
@@ -3694,21 +3698,23 @@ exports[`Storyshots Date input Warning 1`] = `
         id="dateinput-example-internal"
       />
       <div
-        className="grid-row flex-row flex-align-end grid-gap position-relative"
+        className="flex-row flex-align-end grid-gap position-relative"
       >
         <div
-          className="oec-date-input__text usa-form-group"
+          className="oec-date-input__text usa-form-group usa-form-group--warning"
         >
           <label
-            className="usa-label usa-sr-only"
+            className="usa-label usa-label--warning usa-sr-only"
             htmlFor="dateinput-example-input"
           >
             Date
              
           </label>
           <input
+            aria-describedby="DateInput-warning"
+            aria-invalid={false}
             aria-required={true}
-            className="usa-input"
+            className="usa-input usa-input--warning"
             defaultValue="10/30/2019"
             id="dateinput-example-input"
             onBlur={[Function]}
@@ -3804,7 +3810,7 @@ exports[`Storyshots DateRangeInput Default 1`] = `
               id="default-DateRangeInput-start-date-internal"
             />
             <div
-              className="grid-row flex-row flex-align-end grid-gap position-relative"
+              className="flex-row flex-align-end grid-gap position-relative"
             >
               <div
                 className="oec-date-input__text usa-form-group"
@@ -3884,7 +3890,7 @@ exports[`Storyshots DateRangeInput Default 1`] = `
               id="default-DateRangeInput-end-date-internal"
             />
             <div
-              className="grid-row flex-row flex-align-end grid-gap position-relative"
+              className="flex-row flex-align-end grid-gap position-relative"
             >
               <div
                 className="oec-date-input__text usa-form-group"
@@ -3998,7 +4004,7 @@ exports[`Storyshots DateRangeInput Disabled 1`] = `
               id="disabled-DateRangeInput-start-date-internal"
             />
             <div
-              className="grid-row flex-row flex-align-end grid-gap position-relative"
+              className="flex-row flex-align-end grid-gap position-relative"
             >
               <div
                 className="oec-date-input__text usa-form-group"
@@ -4078,7 +4084,7 @@ exports[`Storyshots DateRangeInput Disabled 1`] = `
               id="disabled-DateRangeInput-end-date-internal"
             />
             <div
-              className="grid-row flex-row flex-align-end grid-gap position-relative"
+              className="flex-row flex-align-end grid-gap position-relative"
             >
               <div
                 className="oec-date-input__text usa-form-group"
@@ -4201,7 +4207,7 @@ exports[`Storyshots DateRangeInput Error 1`] = `
               id="error-DateRangeInput-start-date-internal"
             />
             <div
-              className="grid-row flex-row flex-align-end grid-gap position-relative"
+              className="flex-row flex-align-end grid-gap position-relative"
             >
               <div
                 className="oec-date-input__text usa-form-group"
@@ -4281,7 +4287,7 @@ exports[`Storyshots DateRangeInput Error 1`] = `
               id="error-DateRangeInput-end-date-internal"
             />
             <div
-              className="grid-row flex-row flex-align-end grid-gap position-relative"
+              className="flex-row flex-align-end grid-gap position-relative"
             >
               <div
                 className="oec-date-input__text usa-form-group"
@@ -4399,7 +4405,7 @@ exports[`Storyshots DateRangeInput Optional 1`] = `
               id="optional-DateRangeInput-start-date-internal"
             />
             <div
-              className="grid-row flex-row flex-align-end grid-gap position-relative"
+              className="flex-row flex-align-end grid-gap position-relative"
             >
               <div
                 className="oec-date-input__text usa-form-group"
@@ -4479,7 +4485,7 @@ exports[`Storyshots DateRangeInput Optional 1`] = `
               id="optional-DateRangeInput-end-date-internal"
             />
             <div
-              className="grid-row flex-row flex-align-end grid-gap position-relative"
+              className="flex-row flex-align-end grid-gap position-relative"
             >
               <div
                 className="oec-date-input__text usa-form-group"
@@ -4602,7 +4608,7 @@ exports[`Storyshots DateRangeInput Success 1`] = `
               id="error-DateRangeInput-start-date-internal"
             />
             <div
-              className="grid-row flex-row flex-align-end grid-gap position-relative"
+              className="flex-row flex-align-end grid-gap position-relative"
             >
               <div
                 className="oec-date-input__text usa-form-group"
@@ -4682,7 +4688,7 @@ exports[`Storyshots DateRangeInput Success 1`] = `
               id="error-DateRangeInput-end-date-internal"
             />
             <div
-              className="grid-row flex-row flex-align-end grid-gap position-relative"
+              className="flex-row flex-align-end grid-gap position-relative"
             >
               <div
                 className="oec-date-input__text usa-form-group"
@@ -4818,7 +4824,7 @@ exports[`Storyshots DateRangeInput Warning 1`] = `
               id="error-DateRangeInput-start-date-internal"
             />
             <div
-              className="grid-row flex-row flex-align-end grid-gap position-relative"
+              className="flex-row flex-align-end grid-gap position-relative"
             >
               <div
                 className="oec-date-input__text usa-form-group"
@@ -4898,7 +4904,7 @@ exports[`Storyshots DateRangeInput Warning 1`] = `
               id="error-DateRangeInput-end-date-internal"
             />
             <div
-              className="grid-row flex-row flex-align-end grid-gap position-relative"
+              className="flex-row flex-align-end grid-gap position-relative"
             >
               <div
                 className="oec-date-input__text usa-form-group"

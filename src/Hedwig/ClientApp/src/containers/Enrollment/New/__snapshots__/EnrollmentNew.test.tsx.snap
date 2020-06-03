@@ -227,7 +227,7 @@ exports[`EnrollmentNew FamilyIncome matches snapshot 1`] = `
                         <span
                           class="usa-hint text-italic"
                         >
-                          For example: 04/28/1986
+                          For example: 03/02/2019
                         </span>
                         <div
                           class="grid-gap grid-row"
@@ -240,7 +240,7 @@ exports[`EnrollmentNew FamilyIncome matches snapshot 1`] = `
                             value="1546300800000"
                           />
                           <div
-                            class="grid-row flex-row flex-align-end grid-gap position-relative"
+                            class="flex-row flex-align-end grid-gap position-relative"
                           >
                             <div
                               class="oec-date-input__text usa-form-group"

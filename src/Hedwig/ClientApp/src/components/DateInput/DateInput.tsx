@@ -109,7 +109,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 		<FieldSet
 			legend={label}
 			id={id}
-			hint={hideHint ? undefined : 'For example: 04/28/1986'}
+			hint={hideHint ? undefined : `For example: ${moment().format('MM/DD/YYYY')}`}
 			status={status}
 			optional={optional}
 			disabled={disabled}
@@ -117,13 +117,14 @@ export const DateInput: React.FC<DateInputProps> = ({
 			showLegend={true}
 		>
 			<input
+				// Non-interactive input to play nice within a form component
 				aria-hidden
 				hidden
 				disabled
 				id={`${id}-internal`}
 				defaultValue={currentDate && !dateIsInvalid ? '' + currentDate.valueOf() : undefined}
 			/>
-			<div className="grid-row flex-row flex-align-end grid-gap position-relative">
+			<div className="flex-row flex-align-end grid-gap position-relative">
 				<TextInput
 					label={label}
 					srOnlyLabel
@@ -145,6 +146,8 @@ export const DateInput: React.FC<DateInputProps> = ({
 							}
 						},
 					}}
+					// Pass only status type and id so that text input will style itself apprpriately but not duplicate the message
+					status={status ? { type: status.type, id: status.id } : undefined}
 				/>
 				<div className="oec-calendar-dropdown oec-date-input__calendar-dropdown">
 					<Button
