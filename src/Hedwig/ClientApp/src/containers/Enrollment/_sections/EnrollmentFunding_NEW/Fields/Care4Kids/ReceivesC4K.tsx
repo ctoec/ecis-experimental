@@ -10,6 +10,7 @@ type ReceivesC4KFieldProps = {
 	setReceivesC4K: (_: boolean) => void;
 };
 
+// This component is only used in the "new" form
 export const ReceivesC4KField: React.FC<ReceivesC4KFieldProps> = ({
 	receivesC4K,
 	setReceivesC4K,
@@ -21,12 +22,17 @@ export const ReceivesC4KField: React.FC<ReceivesC4KFieldProps> = ({
 			text="Receives Care 4 Kids"
 			defaultValue={receivesC4K}
 			onChange={(e) => {
-				setReceivesC4K(e.target.checked);
-				updateData(
-					produce<Enrollment>(data, (draft) => 
-						set(draft, dataDriller.at('child').at('c4KCertificates').path, [])
+				const { target: { checked } } = e
+				// Toggle the display of the other c4k form fields
+				setReceivesC4K(checked);
+				if (!checked) {
+					// If it's not checked, then set c4k certs to an empty array to remove them
+					updateData(
+						produce<Enrollment>(data, (draft) =>
+							set(draft, dataDriller.at('child').at('c4KCertificates').path, [])
+						)
 					)
-				)
+				}
 			}}
 		/>
 	)
