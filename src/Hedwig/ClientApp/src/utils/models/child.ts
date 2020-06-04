@@ -48,7 +48,11 @@ export function prettyEthnicity(child: Child) {
 }
 
 export function birthCertPresent(child: Child) {
-	return child.birthCertificateId && child.birthState && child.birthTown ? 'Yes' : null;
+	if (child.birthCertificateId && child.birthState && child.birthTown) {
+		return child.birthCertificateId;
+	} else {
+		return null;
+	}
 }
 
 export function getSummaryLine(val: any) {

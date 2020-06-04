@@ -55,7 +55,6 @@ interface UtilizationTableRow {
 }
 
 export default function UtilizationTable() {
-	// Pass in the state variable from reportSubmitForm that contains the utilization values for this report (either default values or user-defined)): React.ReactElement<UtilizationTableProps> {
 	const { data: report } = useGenericContext<CdcReport>(FormContext);
 
 	// Not functional component because ts had a problem with the empty fragments
