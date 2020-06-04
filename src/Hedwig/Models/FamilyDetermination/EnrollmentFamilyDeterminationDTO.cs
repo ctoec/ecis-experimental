@@ -7,7 +7,6 @@ namespace Hedwig.Models
 	public class EnrollmentFamilyDeterminationDTO
 	{
 		public int Id { get; set; }
-		public bool NotDisclosed { get; set; }
 		public int? NumberOfPeople { get; set; }
 		public decimal? Income { get; set; }
 		public DateTime? DeterminationDate { get; set; }
