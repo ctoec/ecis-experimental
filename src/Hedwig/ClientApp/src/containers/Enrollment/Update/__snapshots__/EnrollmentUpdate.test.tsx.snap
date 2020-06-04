@@ -135,7 +135,7 @@ exports[`EnrollmentUpdate FamilyIncome matches snapshot 1`] = `
             hidden=""
           >
             <form
-              class="update-family-income-form"
+              class="usa-form"
               id="update-family-income-2"
             >
               <fieldset
@@ -1440,9 +1440,7 @@ exports[`EnrollmentUpdate FamilyIncome matches snapshot 1`] = `
               <div
                 class="display-flex"
               >
-                <div
-                  class="usa-form"
-                >
+                <div>
                   <button
                     class="usa-button usa-button--outline"
                     type="button"
@@ -1557,7 +1555,7 @@ exports[`EnrollmentUpdate FamilyIncome matches snapshot 1`] = `
             hidden=""
           >
             <form
-              class="update-family-income-form"
+              class="usa-form"
               id="update-family-income-1"
             >
               <fieldset
@@ -2862,9 +2860,7 @@ exports[`EnrollmentUpdate FamilyIncome matches snapshot 1`] = `
               <div
                 class="display-flex"
               >
-                <div
-                  class="usa-form"
-                >
+                <div>
                   <button
                     class="usa-button usa-button--outline"
                     type="button"
