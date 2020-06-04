@@ -74,6 +74,7 @@ export const EnrollmentFundingForm = ({ enrollment, siteId }: SectionProps) => {
 		<>
 			<h2>Current enrollment</h2>
 			<EnrollmentCard
+				className="margin-top-3"
 				enrollment={mutatedEnrollment}
 				isCurrent
 				forceClose={forceCloseEditForms}
@@ -84,8 +85,9 @@ export const EnrollmentFundingForm = ({ enrollment, siteId }: SectionProps) => {
 					/>
 				}
 			/>
-			{(enrollment.fundings || []).map(funding => (
+			{(enrollment.fundings || []).map((funding, i, fundingsArr) => (
 				<FundingCard
+					className={i === fundingsArr.length - 1 ? 'margin-bottom-3' : ''}
 					funding={funding}
 					isCurrent
 					forceClose={forceCloseEditForms}

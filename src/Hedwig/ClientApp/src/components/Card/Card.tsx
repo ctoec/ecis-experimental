@@ -18,7 +18,7 @@ type CardContextType = {
 
 const CardContext = createContext<CardContextType>({
 	isExpanded: false,
-	toggleExpanded: () => {},
+	toggleExpanded: () => { },
 });
 
 const { Provider: CardProvider } = CardContext;
