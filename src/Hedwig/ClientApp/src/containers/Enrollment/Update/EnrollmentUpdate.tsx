@@ -4,7 +4,7 @@ import { History } from 'history';
 import ChildInfo from '../_sections/ChildInfo';
 import FamilyInfo from '../_sections/FamilyInfo';
 import FamilyIncome from '../_sections/FamilyIncome';
-import EnrollmentFunding from '../_sections/EnrollmentFunding';
+import EnrollmentFunding from '../_sections/EnrollmentFunding_NEW';
 import PageNotFound from '../../PageNotFound/PageNotFound';
 import UserContext from '../../../contexts/User/UserContext';
 import {
@@ -129,7 +129,7 @@ export default function EnrollmentUpdate({
 		>
 			<div className="grid-container">
 				<h1>Update {section.name.toLowerCase()}</h1>
-				<h2 className="usa-intro">{nameFormatter(enrollment.child)}</h2>
+				<p className="usa-intro">{nameFormatter(enrollment.child)}</p>
 				<ErrorBoundary alertProps={editSaveFailAlert}>
 					{/*
 						Simple object updates are completed with the same Form used during the EnrollmentNew flow.
@@ -138,8 +138,8 @@ export default function EnrollmentUpdate({
 					{section.UpdateForm ? (
 						<section.UpdateForm {...sectionFormProps} />
 					) : (
-						<section.Form {...sectionFormProps} />
-					)}
+							<section.Form {...sectionFormProps} />
+						)}
 				</ErrorBoundary>
 			</div>
 		</CommonContainer>

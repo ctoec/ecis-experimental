@@ -8,6 +8,11 @@
 		@include u-bg('gray-5');
 	}
 
+	// Remove top border from not-first-cards so that we don't have redundant thick borders
+	+ .oec-card {
+		border-top: none;
+	}
+
 	.oec-card-tag {
 		position: relative;
 		float: left;
