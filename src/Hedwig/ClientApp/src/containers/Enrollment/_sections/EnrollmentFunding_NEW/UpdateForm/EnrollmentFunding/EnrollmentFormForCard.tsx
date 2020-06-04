@@ -4,21 +4,25 @@ import { Form, FormSubmitButton } from "../../../../../../components/Form_New";
 import { StartDateField } from '../../Fields/StartDate';
 import { AgeGroupField } from '../../Fields/AgeGroup';
 import { Button } from '../../../../../../components';
+import { ExpandCard } from '../../../../../../components/Card/ExpandCard';
 
 type EnrollmentFormForCardProps = {
 	formData: Enrollment;
 	onSubmit: (_:Enrollment) => void;
-	onCancel?: () => void;
 };
 
-// For now, only edit
-// For now, only edit current enrollment 
+// For now, only edit AND only current enrollment 
 // (b/c other enrollments are displayed via "past enrollments",
 // so they're not updateable thru the API)
+
+/**
+ * TODO: when we add functionality to create new enrollment, extend this form to distinguish
+ * - Button not wrapped in ExpandCard. Instead: takes in & invokes onCancel prop, which
+ * 	 should set some 'showAddNewEnrollment' state var from calling context to false
+ */
 export const EnrollmentFormForCard: React.FC<EnrollmentFormForCardProps> = ({
 	formData,
 	onSubmit,
-	onCancel
 }) => {
 	return (
 		<Form
@@ -29,14 +33,13 @@ export const EnrollmentFormForCard: React.FC<EnrollmentFormForCardProps> = ({
 		>
 			<StartDateField initialLoad={false} />
 			<AgeGroupField  initialLoad={false} />
-			<div>
+			<ExpandCard>
  				<Button
 					text="Cancel"
 					appearance="outline"
-					onClick={() =>  onCancel && onCancel()}
 				/>
-				<FormSubmitButton text="Save edits" />
-			</div>
+			</ExpandCard>
+			<FormSubmitButton text="Save edits" />
 		</Form>
 	);
 }

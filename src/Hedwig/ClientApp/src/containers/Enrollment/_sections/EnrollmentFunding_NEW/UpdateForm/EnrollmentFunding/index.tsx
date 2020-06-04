@@ -7,6 +7,8 @@ import useApi from '../../../../../../hooks/useApi';
 import useCatchAllErrorAlert from '../../../../../../hooks/useCatchAllErrorAlert';
 import { EnrollmentCard } from './EnrollmentCard';
 import { FundingFormForCard } from './EnrollmentCard/FundingFormForCard';
+import { FundingCard } from './FundingCard';
+import { EnrollmentFormForCard } from './EnrollmentFormForCard';
 
 // TODO rename to EnrollmentFundingForm, display in some other UpdateForm when enrollment/funding tab button is clicked 
 // (along with Care 4 Kids section displayed when other tab button is clicked)
@@ -69,72 +71,50 @@ export const EnrollmentFundingForm = ({enrollment, siteId}: SectionProps) => {
 
 	return (
 		<>
+			<h2>Current enrollment</h2>
 			<EnrollmentCard
 				enrollment={mutatedEnrollment}
 				isCurrent
 				forceClose={forceCloseEditForms}
-				fundingSpaces={fundingSpaces}
-			>
-				{(enrollment.fundings || []).map(funding => (
-						<div> {/* section without border */}
-							<div>
-								<p>{funding.source}</p>
-								<p>{reportingPeriodFormatter(funding.firstReportingPeriod)}</p>
-								 <FundingFormForCard
-									fundingId={funding.id}
-									formData={enrollment}
-									fundingSpaces={fundingSpaces}
-									onSubmit={() => console.log("SUBMIT FUNDING")}
-								/>
-							</div>
-							{/* Formatted funding content */}
-							{/* If current enrollment:
-								<expand section>
-									{ edit button }
-								</expand section>
-							*/}
-							{/*  If current enrollment:
-								<section expand>
-									<funding form>
-								</section expand>	
-							*/}
-						</div>
-					))}
-			</EnrollmentCard>
+				expansion={
+					<EnrollmentFormForCard
+						formData={enrollment}
+						onSubmit={formOnSubmit}
+					/>
+				}
+			/>
+			{(enrollment.fundings || []).map(funding => (
+				<FundingCard
+					funding={funding}
+					isCurrent
+					forceClose={forceCloseEditForms}
+					expansion={
+						<FundingFormForCard
+							fundingId={funding.id}
+							fundingSpaces={fundingSpaces}
+							formData={enrollment}
+							onSubmit={formOnSubmit}
+						/>
+					}
+				/>
+			))}
 
-			{(enrollment.pastEnrollments || []).map(pastEnrollment => 
-				<EnrollmentCard
-					enrollment={pastEnrollment}
-					isCurrent={false}
-				>
-					{(pastEnrollment.fundings || []).map(funding => (
-						<div> {/* section without border */}
-							<div>
-								<p>{funding.source}</p>
-								<p>{reportingPeriodFormatter(funding.firstReportingPeriod)}</p>
-								 {/* <FundingFormForCard
-									fundingId={funding.id}
-									formData={enrollment}
-									fundingSpaces={fundingSpaces}
-									onSubmit={() => console.log("SUBMIT FUNDING")}
-								/> */}
-							</div>
-							{/* Formatted funding content */}
-							{/* If current enrollment:
-								<expand section>
-									{ edit button }
-								</expand section>
-							*/}
-							{/*  If current enrollment:
-								<section expand>
-									<funding form>
-								</section expand>	
-							*/}
-						</div>
+			<h2>Past enrollments</h2>
+			{(enrollment.pastEnrollments || []).map(pastEnrollment =>
+				<>
+					<EnrollmentCard
+						enrollment={pastEnrollment}
+						isCurrent={false}
+					/>
+					{(pastEnrollment.fundings || []).map(pastFunding => (
+						<FundingCard
+							funding={pastFunding}
+							isCurrent={false}
+							forceClose={forceCloseEditForms}
+						/>
 					))}
-				</EnrollmentCard>
+				</>	
 			)}
-
 		</>
 	)
 }

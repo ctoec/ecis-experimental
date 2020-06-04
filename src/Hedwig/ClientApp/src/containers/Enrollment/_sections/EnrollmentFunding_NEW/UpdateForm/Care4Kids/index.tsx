@@ -6,6 +6,6 @@ export const Care4KidsForm = ({enrollment, siteId}: SectionProps) => {
 		throw new Error('Section rendered without enrollment or child');
 	} 
 
-	return 
+	return;
 		
 }
