@@ -15,6 +15,7 @@ export const AddressFieldset: React.FC<FamilyInfoFormFieldProps> = ({ initialLoa
 	<FormFieldSet<Enrollment>
 		id="family-address"
 		legend="Address"
+		horizontal
 		className="display-inline-block"
 		status={(enrollment) =>
 			initialLoadErrorGuard(

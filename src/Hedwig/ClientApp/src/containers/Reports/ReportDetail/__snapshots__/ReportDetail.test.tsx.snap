@@ -90,13 +90,12 @@ exports[`ReportDetail matches snapshot 1`] = `
       novalidate=""
     >
       <div
-        class="usa-checkbox undefined"
+        class="usa-checkbox"
       >
         <input
           checked=""
           class="usa-checkbox__input"
           id="accredited"
-          name=""
           type="checkbox"
           value="accredited"
         />
@@ -122,7 +121,7 @@ exports[`ReportDetail matches snapshot 1`] = `
           </span>
         </legend>
         <div
-          class="grid-gap grid-row"
+          class="grid-gap grid-col"
         >
           <div
             class=" usa-form-group"
@@ -774,7 +773,7 @@ exports[`ReportDetail matches snapshot 1`] = `
             </span>
           </legend>
           <div
-            class="grid-gap grid-row"
+            class="grid-gap grid-row flex-align-start"
           >
             <div
               class="mobile-lg:grid-col-12"
@@ -820,27 +819,25 @@ exports[`ReportDetail matches snapshot 1`] = `
                 </span>
               </legend>
               <div
-                class="grid-gap grid-row margin-top-3"
+                class="grid-gap margin-top-3 grid-col"
               >
-                <div>
+                <span>
                   <div
-                    class="usa-checkbox undefined"
+                    class="usa-checkbox"
                   >
                     <input
                       class="usa-checkbox__input"
-                      id="c4k-includes-retroactive-includes-retroactive"
-                      name=""
+                      id="includes-retroactive"
                       type="checkbox"
-                      value="includes-retroactive"
                     />
                     <label
                       class="usa-checkbox__label"
-                      for="c4k-includes-retroactive-includes-retroactive"
+                      for="includes-retroactive"
                     >
                       Includes retroactive payment for past months
                     </label>
                   </div>
-                </div>
+                </span>
               </div>
             </fieldset>
             <div

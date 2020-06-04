@@ -9,33 +9,28 @@ import Checkbox from '../Checkbox/Checkbox';
 const onChange = action('onChange');
 const options: CheckboxOption[] = [
 	{
-		render: (props) => <Checkbox text="Option 1" onChange={() => {}} {...props} />,
-		onChange,
+		render: (props) => <Checkbox text="Option 1" {...props} />,
 		value: 'one',
 	},
 	{
-		render: (props) => <Checkbox text="Option 2" onChange={() => {}} {...props} />,
-		onChange,
+		render: (props) => <Checkbox text="Option 2" {...props} />,
 		value: 'two',
 	},
 ];
 const optionsWithOneExpansion: CheckboxOption[] = [
 	{
-		render: (props) => <Checkbox text="Option 1" onChange={() => {}} {...props} />,
+		render: (props) => <Checkbox text="Option 1" {...props} />,
 		value: 'one',
-		onChange,
 		expansion: <p>Thank you for selecting option one!</p>,
 	},
 	{
-		render: (props) => <Checkbox text="Option 2" onChange={() => {}} {...props} />,
-		onChange,
+		render: (props) => <Checkbox text="Option 2" {...props} />,
 		value: 'two',
 	},
 ];
 const optionsWithOneComplexExpansion: CheckboxOption[] = [
 	{
-		render: (props) => <Checkbox text="Option 1" onChange={() => {}} {...props} />,
-		onChange,
+		render: (props) => <Checkbox text="Option 1" {...props} />,
 		value: 'one',
 		expansion: (
 			<>
@@ -50,21 +45,18 @@ const optionsWithOneComplexExpansion: CheckboxOption[] = [
 		),
 	},
 	{
-		render: (props) => <Checkbox text="Option 2" onChange={() => {}} {...props} />,
-		onChange,
+		render: (props) => <Checkbox text="Option 2" {...props} />,
 		value: 'two',
 	},
 ];
 const optionsWithTwoExpansions: CheckboxOption[] = [
 	{
-		render: (props) => <Checkbox text="Option 1" onChange={() => {}} {...props} />,
-		onChange,
+		render: (props) => <Checkbox text="Option 1" {...props} />,
 		value: 'one',
 		expansion: <p>Thank you for selecting option one!</p>,
 	},
 	{
-		render: (props) => <Checkbox text="Option 2" onChange={() => {}} {...props} />,
-		onChange,
+		render: (props) => <Checkbox text="Option 2" {...props} />,
 		value: 'two',
 		expansion: <p>Woo! #2</p>,
 	},

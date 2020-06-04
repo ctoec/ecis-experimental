@@ -9,7 +9,7 @@ import {
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
 } from '../../../../generated';
 import UserContext from '../../../../contexts/User/UserContext';
-import { createEmptyFamily, getIdForUser, validatePermissions } from '../../../../utils/models';
+import { getIdForUser, validatePermissions } from '../../../../utils/models';
 import FormSubmitButton from '../../../../components/Form_New/FormSubmitButton';
 import { AddressFieldset, FosterCheckbox, HomelessnessCheckbox } from './Fields';
 import { SectionProps } from '../../enrollmentTypes';
@@ -31,19 +31,7 @@ export const NewForm: React.FC<SectionProps> = ({
 
 	const [attemptSave, setAttemptSave] = useState(false);
 
-	const initialEnrollment = {
-		...{
-			child: {
-				family: createEmptyFamily(getIdForUser(user, 'org'), enrollment.child.familyId || 0),
-			},
-		},
-		// Enrollment needs to be second so it overwrites the empty family if a family exists
-		...enrollment,
-	};
-
-	const [mutatedEnrollment, setMutatedEnrollment] = useState<Enrollment>(
-		initialEnrollment as Enrollment
-	);
+	const [mutatedEnrollment, setMutatedEnrollment] = useState<Enrollment>(enrollment);
 
 	const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
 		id: mutatedEnrollment.id,
@@ -63,17 +51,10 @@ export const NewForm: React.FC<SectionProps> = ({
 		}
 	);
 
-	// do we need this??
-	const initialLoad = touchedSections ? !touchedSections[FamilyInfo.key] : false;
-
 	// Set to input error iniitally, update with error after put is fired
 	const [error, setError] = useState<ApiError | null>(inputError);
 	useFocusFirstError([error]);
 	useCatchAllErrorAlert(error);
-
-	const child = mutatedEnrollment.child;
-	const { family } = child || {};
-	const { addressLine1, addressLine2, town, state, zip } = family || {};
 
 	useEffect(() => {
 		// If the request went through, then do the next steps

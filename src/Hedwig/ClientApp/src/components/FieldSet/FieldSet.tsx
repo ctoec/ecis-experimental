@@ -41,7 +41,8 @@ export const FieldSet: React.FC<FieldSetProps> = ({
 	if (status) {
 		ariaDescriber = status.id;
 	}
-	const fieldSetElement = (
+
+	return (
 		<fieldset
 			className={cx(
 				'grid-gap',
@@ -75,16 +76,16 @@ export const FieldSet: React.FC<FieldSetProps> = ({
 			</legend>
 			{hint && <span className="usa-hint text-italic">{hint}</span>}
 			{status && <FormStatus {...status} />}
-			<div className={cx('grid-gap', 'grid-row', childrenGroupClassName)}>{children}</div>
+			<div
+				className={cx(
+					'grid-gap',
+					childrenGroupClassName,
+					{ 'grid-row flex-align-start': horizontal },
+					{ 'grid-col': !horizontal }
+				)}
+			>
+				{children}
+			</div>
 		</fieldset>
-	);
-	return (
-		<>
-			{horizontal ? (
-				<div className="grid-row flex-align-start grid-gap">{fieldSetElement}</div>
-			) : (
-				fieldSetElement
-			)}
-		</>
 	);
 };

@@ -17,13 +17,13 @@ exports[`check matches snapshot 1`] = `
       </span>
     </legend>
     <div
-      class="grid-gap grid-row margin-top-3"
+      class="grid-gap margin-top-3 grid-col"
     >
       <div
         class=""
       >
         <div
-          class="usa-checkbox undefined"
+          class="usa-checkbox"
         >
           <input
             class="usa-checkbox__input"
@@ -40,7 +40,7 @@ exports[`check matches snapshot 1`] = `
           </label>
         </div>
         <div
-          class="usa-checkbox undefined"
+          class="usa-checkbox"
         >
           <input
             class="usa-checkbox__input"
@@ -79,7 +79,7 @@ exports[`radio matches snapshot 1`] = `
       </span>
     </legend>
     <div
-      class="grid-gap grid-row margin-top-3"
+      class="grid-gap margin-top-3 grid-col"
     >
       <div
         class=""
@@ -141,7 +141,7 @@ exports[`radio with expansion matches snapshot 1`] = `
       </span>
     </legend>
     <div
-      class="grid-gap grid-row margin-top-3"
+      class="grid-gap margin-top-3 grid-col"
     >
       <div
         class=""
@@ -299,13 +299,13 @@ exports[`select with expansion matches snapshot 2`] = `
       </span>
     </legend>
     <div
-      class="grid-gap grid-row margin-top-3"
+      class="grid-gap margin-top-3 grid-col"
     >
       <div
         class=""
       >
         <div
-          class="usa-checkbox undefined"
+          class="usa-checkbox"
         >
           <input
             checked=""
@@ -330,7 +330,7 @@ exports[`select with expansion matches snapshot 2`] = `
           </p>
         </div>
         <div
-          class="usa-checkbox undefined"
+          class="usa-checkbox"
         >
           <input
             class="usa-checkbox__input"

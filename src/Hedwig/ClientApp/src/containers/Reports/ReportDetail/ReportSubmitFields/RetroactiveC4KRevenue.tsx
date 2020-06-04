@@ -18,7 +18,7 @@ export const RetroactiveC4KRevenue: React.FC<RetroactiveC4KRevenueProps> = ({ di
 			legend="Includes retroactive payment"
 			options={[
 				{
-					render: ({ id, selected, value }) => (
+					render: ({ id, selected }) => (
 						<FormField<CdcReport, CheckboxProps, boolean>
 							getValue={(data) => data.at('retroactiveC4KRevenue')}
 							parseOnChangeEvent={(e) => e.target.checked}
@@ -26,7 +26,6 @@ export const RetroactiveC4KRevenue: React.FC<RetroactiveC4KRevenueProps> = ({ di
 							inputComponent={Checkbox}
 							id={id}
 							text="Includes retroactive payment for past months"
-							value={value}
 						/>
 					),
 					value: 'includes-retroactive',

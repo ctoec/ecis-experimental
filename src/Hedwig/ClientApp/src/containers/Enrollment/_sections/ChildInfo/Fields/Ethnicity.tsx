@@ -31,6 +31,7 @@ export const EthnicityField: React.FC<ChildInfoFormFieldProps> = ({ initialLoad 
 			parseOnChangeEvent={(e) => e.target.value === 'yes'}
 			inputComponent={RadioButtonGroup}
 			id="ethnicity-radiogroup"
+			name="ethnicity"
 			legend="Ethnicity"
 			hint="As identified by family"
 			options={[

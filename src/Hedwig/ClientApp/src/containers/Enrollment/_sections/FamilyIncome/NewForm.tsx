@@ -47,15 +47,17 @@ export const NewForm = ({
 		throw new Error('Section rendered without enrollment or child');
 	}
 
+	const { user } = useContext(UserContext);
+
 	const [mutatedEnrollment, setMutatedEnrollment] = useState<Enrollment>(
 		// If enrollment's child's family does not exist, create an empty default
-		// TODO: move empty family create logic to FamilyInfo and remove this
-		enrollment.child.family == undefined ? enrollmentWithDefaultFamily(enrollment) : enrollment
+		enrollment.child.family == undefined
+			? enrollmentWithDefaultFamily(enrollment, getIdForUser(user, 'org'))
+			: enrollment
 	);
 
 	// Set up API request (enrollment PUT)
 	const [attemptSave, setAttemptSave] = useState(false);
-	const { user } = useContext(UserContext);
 	const putParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
 		id: enrollment.id,
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
