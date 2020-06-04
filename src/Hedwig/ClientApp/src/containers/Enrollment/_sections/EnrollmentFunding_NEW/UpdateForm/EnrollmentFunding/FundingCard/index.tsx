@@ -1,9 +1,10 @@
 import React from 'react';
 import { Funding } from '../../../../../../../generated';
 import { Card, Button, CardProps } from '../../../../../../../components';
-import { prettyFundingSource, prettyFundingSpaceTime, reportingPeriodFormatter } from '../../../../../../../utils/models';
+import { prettyFundingSpaceTime, reportingPeriodFormatter } from '../../../../../../../utils/models';
 import { CardExpansion } from '../../../../../../../components/Card/CardExpansion';
 import { ExpandCard } from '../../../../../../../components/Card/ExpandCard';
+import { getFundingTag } from '../../../../../../../utils/fundingType';
 
 type FundingCardProps = Exclude<CardProps, 'appearance' | 'forceClose' | 'key'> & {
 	funding: Funding;
@@ -29,7 +30,7 @@ export const FundingCard = ({
 			<div className="display-flex flex-justify"> {/* formatted funding content with ExpandCard */}
 				<div className="flex-1">
 					<p className="text-bold">Funding</p>
-					<p>{prettyFundingSource(funding.source)}</p>
+					<p>{getFundingTag({ fundingSource: funding.source })}</p>
 				</div>
 				<div className="flex-1">
 					<p className="text-bold">Space type</p>
