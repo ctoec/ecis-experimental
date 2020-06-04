@@ -6,7 +6,7 @@ import { validatePermissions, getIdForUser } from "../../../../utils/models";
 import useApi from "../../../../hooks/useApi";
 import useCatchAllErrorAlert from "../../../../hooks/useCatchAllErrorAlert";
 import Form from "../../../../components/Form_New/Form";
-import { StartDateField } from "./Fields/StartDate";
+import { EnrollmentStartDate } from "./Fields/EnrollmentStartDate";
 import { AgeGroupField } from "./Fields/AgeGroup";
 import { FundingField } from "./Fields/Funding";
 import { CertificateStartDate } from './Fields/Care4Kids/CertificateStartDate';
@@ -104,14 +104,14 @@ export const NewForm: React.FC<SectionProps> = ({
 				}}
 				className="usa-form enrollment-new-enrollment-funding-section"
 			>
-				<StartDateField initialLoad={false} />
+				<EnrollmentStartDate initialLoad={false} />
 				<AgeGroupField initialLoad={false} />
 				<FundingField initialLoad={false} fundingId={0} fundingSpaces={fundingSpaces} />
 
 				<WithNewC4kCertificate
 					shouldCreate={certificateId === 0 && receivesC4K}
 				>
-					{/* TODO: replace with solo checkbox when/if that exists */}
+					{/* TODO: replace with solo checkbox when/if that exists-- just add flag on solo checkbox and go ditch all the margins */}
 					<div className="margin-top-3">
 						<ReceivesC4KField receivesC4K={receivesC4K} setReceivesC4K={setRecievesC4K} />
 					</div>

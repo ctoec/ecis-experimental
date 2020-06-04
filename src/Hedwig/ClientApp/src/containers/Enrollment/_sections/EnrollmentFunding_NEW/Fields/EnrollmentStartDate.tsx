@@ -6,7 +6,7 @@ import { displayValidationStatus } from '../../../../../utils/validations/displa
 import { initialLoadErrorGuard } from '../../../../../utils/validations';
 import { EnrollmentFormFieldProps } from './common';
 
-export const StartDateField: React.FC<EnrollmentFormFieldProps> = ({ 
+export const EnrollmentStartDate: React.FC<EnrollmentFormFieldProps> = ({
 	initialLoad
 }) => {
 	return (
@@ -15,7 +15,7 @@ export const StartDateField: React.FC<EnrollmentFormFieldProps> = ({
 				getValue={(data) => data.at('entry')}
 				parseOnChangeEvent={(e) => e.target.value ? new Date(parseInt(e.target.value)) : null}
 				inputComponent={DateInput}
-				status={(data) => 
+				status={(data) =>
 					initialLoadErrorGuard(
 						initialLoad || false,
 						displayValidationStatus([

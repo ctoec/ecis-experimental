@@ -12,17 +12,18 @@ import { EnrollmentFormForCard } from './EnrollmentFormForCard';
 
 // TODO rename to EnrollmentFundingForm, display in some other UpdateForm when enrollment/funding tab button is clicked 
 // (along with Care 4 Kids section displayed when other tab button is clicked)
-export const EnrollmentFundingForm = ({enrollment, siteId}: SectionProps) => {
+export const EnrollmentFundingForm = ({ enrollment, siteId }: SectionProps) => {
 	if (!enrollment) {
 		throw new Error('Section rendered without enrollment');
-	}	
+	}
 
 	const [forceCloseEditForms, setForceCloseEditForms] = useState(false);
 
 	const [mutatedEnrollment, setMutatedEnrollment] = useState<Enrollment>(enrollment);
-	
+
 	const [attemptingSave, setAttemptingSave] = useState(false);
 	const { user } = useContext(UserContext);
+	// this PUT should be extracted to the parent UpdateForm, and the attemptedSave/mutatedEnrollment state variables passed down into EnrollmentFundingForm and Care4Kids form (instead of their current props which are just SectionProps)
 	const putParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
 		id: enrollment.id,
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
@@ -40,7 +41,7 @@ export const EnrollmentFundingForm = ({enrollment, siteId}: SectionProps) => {
 		}
 	);
 	useCatchAllErrorAlert(saveError);
-	
+
 	const params: ApiOrganizationsIdGetRequest = {
 		id: getIdForUser(user, 'org'),
 		include: ['enrollments', 'fundings', 'funding_spaces']
@@ -53,11 +54,11 @@ export const EnrollmentFundingForm = ({enrollment, siteId}: SectionProps) => {
 		}
 	);
 
-	if(organizationLoading || !organization) {
+	if (organizationLoading || !organization) {
 		return <>Loading...</>;
 	}
 
-	if(organizationError) {
+	if (organizationError) {
 		return <>Something went wrong!</>
 	}
 
@@ -67,7 +68,7 @@ export const EnrollmentFundingForm = ({enrollment, siteId}: SectionProps) => {
 		setMutatedEnrollment(_data);
 		setAttemptingSave(true);
 		setForceCloseEditForms(true);
-	}		
+	}
 
 	return (
 		<>
@@ -113,7 +114,7 @@ export const EnrollmentFundingForm = ({enrollment, siteId}: SectionProps) => {
 							forceClose={forceCloseEditForms}
 						/>
 					))}
-				</>	
+				</>
 			)}
 		</>
 	)

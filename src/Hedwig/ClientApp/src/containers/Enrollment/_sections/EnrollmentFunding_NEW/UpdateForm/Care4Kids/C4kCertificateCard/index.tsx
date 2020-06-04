@@ -27,6 +27,7 @@ export const C4KCertificateCard = ({
 			forceClose={forceClose}
 			key={certificate.id}
 		>
+			{/* needs to be styled. maybe a component for content with ExpandCard, like in familyIncome */}
 			<div id="content">
 				<p>Family ID: {c4KFamilyId}</p>
 				<p>Certificate start date: {dateFormatter(certificate.startDate)}</p>
