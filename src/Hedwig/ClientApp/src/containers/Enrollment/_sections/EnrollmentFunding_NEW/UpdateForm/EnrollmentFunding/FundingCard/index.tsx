@@ -26,11 +26,18 @@ export const FundingCard = ({
 			key={funding.id}
 			className={className}
 		>
-			<div> {/* formatted funding content with ExpandCard */}
-				<div>
-					<p>Funding: {prettyFundingSource(funding.source)}</p>
-					<p>Space type: {prettyFundingSpaceTime(funding.fundingSpace)}</p>
-					<p>reporting periods: {reportingPeriodFormatter(funding.firstReportingPeriod)} - {funding.lastReportingPeriod ? reportingPeriodFormatter(funding.lastReportingPeriod) : 'present'}</p>
+			<div className="display-flex flex-justify"> {/* formatted funding content with ExpandCard */}
+				<div className="flex-1">
+					<p className="text-bold">Funding</p>
+					<p>{prettyFundingSource(funding.source)}</p>
+				</div>
+				<div className="flex-1">
+					<p className="text-bold">Space type</p>
+					<p>{prettyFundingSpaceTime(funding.fundingSpace)}</p>
+				</div>
+				<div className="flex-2">
+					<p className="text-bold">Reporting periods</p>
+					<p>{reportingPeriodFormatter(funding.firstReportingPeriod)} - {funding.lastReportingPeriod ? reportingPeriodFormatter(funding.lastReportingPeriod) : 'present'}</p>
 				</div>
 				{expansion && <ExpandCard><Button text="Edit" appearance="unstyled" /></ExpandCard>}
 			</div>

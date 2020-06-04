@@ -31,13 +31,18 @@ export const EnrollmentCard = ({
 			key={enrollment.id}
 			className={className}
 		>
-			<div className="display-flex">{/* Formatted enrollment content  with ExpandCard*/}
-				<div>
-					<p>Age group</p>
+			<div className="display-flex flex-justify">{/* Formatted enrollment content  with ExpandCard*/}
+				<div className="flex-1">
+					{/* TODO: GET SITE */}
+					<p className="text-bold">Site</p>
+					<p>{enrollment.site?.name}</p>
+				</div>
+				<div className="flex-1">
+					<p className="text-bold">Age group</p>
 					<p>{prettyAge(enrollment.ageGroup)}</p>
 				</div>
-				<div>
-					<p>Enrollment dates</p>
+				<div className="flex-2">
+					<p className="text-bold">Enrollment dates</p>
 					<p>{`${dateFormatter(enrollment.entry)} - ${enrollment.exit ? dateFormatter(enrollment.exit) : 'present'}`}</p>
 				</div>
 				{expansion && <ExpandCard><Button text="Edit" appearance="unstyled" /></ExpandCard>}
