@@ -5,7 +5,7 @@ import { DateInputProps, DateInput } from '../../../../../../components';
 import { C4kCertificateFormFieldProps } from '../common';
 
 
-export const StartDateField: React.FC<C4kCertificateFormFieldProps> = ({ certificateId }) => {
+export const CertificateStartDate: React.FC<C4kCertificateFormFieldProps> = ({ certificateId }) => {
 	return (
 		<FormField<Enrollment, DateInputProps, Date | null>
 			getValue={data =>

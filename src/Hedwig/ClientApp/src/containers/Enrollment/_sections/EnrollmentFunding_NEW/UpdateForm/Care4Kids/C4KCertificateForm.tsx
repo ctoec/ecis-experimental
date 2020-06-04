@@ -2,13 +2,13 @@ import React from 'react';
 import { Enrollment } from '../../../../../../generated';
 import { Form, FormSubmitButton } from '../../../../../../components/Form_New';
 import { FamilyIdField } from '../../Fields/Care4Kids/FamilyId';
-import { StartDateField as CertificateStartDateField } from '../../Fields/Care4Kids/StartDate';
+import { CertificateStartDate } from '../../Fields/Care4Kids/CertificateStartDate';
 import { Button } from '../../../../../../components';
 
 type C4KCertificateFormForCardProps = {
 	certificateId: number;
 	formData: Enrollment;
-	onSubmit: (_:Enrollment) => void;
+	onSubmit: (_: Enrollment) => void;
 	onCancel?: () => void;
 }
 
@@ -27,12 +27,12 @@ export const C4kCertificateFormForCard: React.FC<C4KCertificateFormForCardProps>
 			className="usa-form"
 		>
 			<FamilyIdField />
-			<CertificateStartDateField certificateId={certificateId} />
+			<CertificateStartDate certificateId={certificateId} />
 			<div>
 				<Button
 					text="Cancel"
 					appearance="outline"
-					onClick={() =>  onCancel && onCancel() }
+					onClick={() => onCancel && onCancel()}
 				/>
 				<FormSubmitButton text="Save edits" />
 			</div>

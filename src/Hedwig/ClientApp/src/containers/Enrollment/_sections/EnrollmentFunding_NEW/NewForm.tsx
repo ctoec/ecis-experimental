@@ -4,12 +4,12 @@ import UserContext from "../../../../contexts/User/UserContext";
 import { ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest, Enrollment, User, ApiOrganizationsIdGetRequest, Organization } from "../../../../generated";
 import { validatePermissions, getIdForUser } from "../../../../utils/models";
 import useApi from "../../../../hooks/useApi";
-	import useCatchAllErrorAlert from "../../../../hooks/useCatchAllErrorAlert";
+import useCatchAllErrorAlert from "../../../../hooks/useCatchAllErrorAlert";
 import Form from "../../../../components/Form_New/Form";
 import { StartDateField } from "./Fields/StartDate";
 import { AgeGroupField } from "./Fields/AgeGroup";
 import { FundingField } from "./Fields/Funding";
-import { StartDateField as CertificateStartDateField } from './Fields/Care4Kids/StartDate';
+import { CertificateStartDate } from './Fields/Care4Kids/CertificateStartDate';
 import FormSubmitButton from "../../../../components/Form_New/FormSubmitButton";
 import { ReceivesC4KField } from "./Fields/Care4Kids/ReceivesC4K";
 import EnrollmentFunding from "../EnrollmentFunding";
@@ -58,11 +58,11 @@ export const NewForm: React.FC<SectionProps> = ({
 			return;
 		}
 
-		if(saveError) {
+		if (saveError) {
 			return;
 		}
 
-		if(saveData) {
+		if (saveData) {
 			successCallback && successCallback(saveData);
 		}
 	}, [saving, saveError, successCallback, saveData])
@@ -83,12 +83,12 @@ export const NewForm: React.FC<SectionProps> = ({
 	const isReturnVisit = touchedSections && touchedSections[EnrollmentFunding.key];
 	const certificateId = idx(enrollment, (_) => _.child.c4KCertificates[0].id) || 0;
 	const [receivesC4K, setRecievesC4K] = useState(isReturnVisit ? certificateId === 0 : false);
-	
-	if(organizationLoading || !organization) {
+
+	if (organizationLoading || !organization) {
 		return <>Loading...</>;
 	}
 
-	if(organizationError) {
+	if (organizationError) {
 		return <>Something went wrong!</>
 	}
 
@@ -118,7 +118,7 @@ export const NewForm: React.FC<SectionProps> = ({
 					{receivesC4K && (
 						<>
 							<FamilyIdField />
-							<CertificateStartDateField certificateId={certificateId} />
+							<CertificateStartDate certificateId={certificateId} />
 						</>
 					)}
 				</WithNewC4kCertificate>
