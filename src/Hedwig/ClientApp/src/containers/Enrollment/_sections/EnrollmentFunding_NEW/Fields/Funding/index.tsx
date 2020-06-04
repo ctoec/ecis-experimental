@@ -11,7 +11,7 @@ import set from 'lodash/set';
 import { RadioButtonGroup, RadioOption } from '../../../../../../components';
 
 
-export const FundingField: React.FC<FundingFormFieldProps> = ({ 
+export const FundingField: React.FC<FundingFormFieldProps> = ({
 	initialLoad,
 	fundingId,
 	fundingSpaces: allFundingSpaces,
@@ -19,6 +19,7 @@ export const FundingField: React.FC<FundingFormFieldProps> = ({
 	const { data, dataDriller, updateData } = useGenericContext<Enrollment>(FormContext);
 	const [validFundingSpaces, setValidFundingSpaces] = useState<FundingSpace[]>([]);
 
+	// Filters valid funding spaces based on whether income has been disclosed, what age group for enrollment is
 	useEffect(() => {
 		// Set PRIVATE_PAY as the only option if:
 		// - age group is not set OR
@@ -26,14 +27,14 @@ export const FundingField: React.FC<FundingFormFieldProps> = ({
 		// - the family has no disclosed income determination
 		const ageGroup = dataDriller.at('ageGroup').value;
 		const incomeNotDisclosed = dataDriller.at('child').at('family').at('determinations').value.length === 0;
-		if(!ageGroup || !allFundingSpaces.length || incomeNotDisclosed) {
+		if (!ageGroup || !allFundingSpaces.length || incomeNotDisclosed) {
 			setValidFundingSpaces([]);
 			return;
 		}
 
 		const _validFundingSpaces = allFundingSpaces
 			.filter(space => space.ageGroup === ageGroup)
-			
+
 		setValidFundingSpaces(_validFundingSpaces);
 
 	}, [dataDriller, allFundingSpaces])
@@ -50,7 +51,7 @@ export const FundingField: React.FC<FundingFormFieldProps> = ({
 			legend="Funding"
 			id={`funding-type-${fundingId}`}
 			defaultValue={currentFundingSelection}
-			onChange={(e) => 
+			onChange={(e) =>
 				updateData(
 					produce<Enrollment>(data, (draft) => set(
 						draft,
@@ -61,19 +62,21 @@ export const FundingField: React.FC<FundingFormFieldProps> = ({
 			}
 			options={[
 				{
+					// This is the private pay option
 					render: (props) => (
-					<RadioButton
-						{...props} 
-						text={prettyFundingSource(undefined)}
-						onChange={() => 
-						updateData(
-							produce<Enrollment>(data, (draft) => set(
-								draft,
-								dataDriller.at('fundings').path,
-								dataDriller.at('fundings').value.filter(f => f.id !== fundingId)
-							))
-						)}
-					/>),
+						<RadioButton
+							{...props}
+							text={prettyFundingSource(undefined)}
+							onChange={() =>
+								// Updates data to remove current funding
+								updateData(
+									produce<Enrollment>(data, (draft) => set(
+										draft,
+										dataDriller.at('fundings').path,
+										dataDriller.at('fundings').value.filter(f => f.id !== fundingId)
+									))
+								)}
+						/>),
 					value: prettyFundingSource(undefined)
 				},
 				...dedupedFundingSources.map(source => ({
@@ -88,95 +91,5 @@ export const FundingField: React.FC<FundingFormFieldProps> = ({
 				}) as RadioOption)
 			]}
 		/>
-
-		// <FormField<Enrollment, RadioButtonGroupProps, FundingSource | null>
-		// 	getValue={data => data.at('fundings').find(f => f.id === fundingId).at('source')}
-		// 	parseOnChangeEvent={(e) => fundingSourceFromString((e.target as HTMLInputElement).value)}
-		// 	id="funding-type-radiogroup"
-		// 	legend="Funding"
-		// 	name="funding-type"
-		// 	inputComponent={RadioButtonGroup}
-		// 	options={[
-		// 		{
-		// 			render: (props) => (
-		// 			<RadioButton
-		// 				{...props} 
-		// 				text={prettyFundingSource(undefined)}
-		// 				onChange={() => 
-		// 				updateData(
-		// 					produce<Enrollment>(data, (draft) => set(
-		// 						draft,
-		// 						dataDriller.at('fundings').path,
-		// 						dataDriller.at('fundings').value.filter(f => f.id !== fundingId)
-		// 					))
-		// 				)}
-		// 			/>),
-		// 			value: prettyFundingSource(undefined)
-		// 		},
-		// 		...dedupedFundingSources.map(source => ({
-		// 			render: (props) => <RadioButton text={prettyFundingSource(source)} {...props} />,
-		// 			value: source,
-		// 			expansion: source === FundingSource.CDC ? (
-		// 				<>
-		// 					<ContractSpaceField fundingId={fundingId} fundingSpaces={validFundingSpaces} />
-		// 					<FirstReportingPeriodField fundingId={fundingId} initialLoad={initialLoad} />
-		// 				</>
-		// 			) : undefined
-		// 		}) as RadioOption)
-		// 	]}
-		// />
-
-		// <FormFieldSet
-		// 	legend="Funding"
-		// 	id="funding"
-		// 	showLegend
-		// 	legendStyle="title"
-		// >
-		// 	<RadioButtonGroup
-		// 		id="funding-type-radiogroup"
-		// 		name="funding-type"
-		// 		options={[
-		// 			// Private pay option
-		// 			{
-		// 				render: (props) => (
-		// 					<RadioButton
-		// 						{...props}
-		// 						text={prettyFundingSource(undefined)}
-		// 						onChange={() => 
-		// 							updateData(
-		// 								produce<Enrollment>(data, (draft) => set(
-		// 									draft,
-		// 									dataDriller.at('fundings').path,
-		// 									dataDriller.at('fundings').value.filter(f => f.id !== fundingId)
-		// 								))
-		// 							)
-		// 						}
-		// 					/>
-		// 				),
-		// 				value: prettyFundingSource(undefined)
-		// 			},
-		// 			...dedupedFundingSources.map(source => ({
-		// 				render: (props) => (
-		// 					<FormField<Enrollment, RadioButtonProps, Funding>
-		// 						{...props}
-		// 						getValue={data => data.at('fundings').find(f => f.id === fundingId)}
-		// 						parseOnChangeEvent={() => ({id: fundingId, source} as Funding)}
-		// 						inputComponent={RadioButton}
-		// 						text={prettyFundingSource(source)}
-		// 					/>
-		// 				),
-		// 				value: source,
-		// 				expansion: source === FundingSource.CDC
-		// 					? (
-		// 						<>
-		// 							<ContractSpaceField initialLoad={initialLoad} fundingId={fundingId} fundingSpaces={validFundingSpaces} />
-		// 							<FirstReportingPeriodField initialLoad={initialLoad} fundingId={fundingId} />
-		// 						</>
-		// 					)
-		// 					: undefined
-		// 			}) as RadioOption)
-		// 		]}
-		// 	/>
-		// </FormFieldSet>
 	)
 }
