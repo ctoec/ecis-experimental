@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { DateInput, FormStatusProps } from '..';

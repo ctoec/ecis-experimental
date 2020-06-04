@@ -3110,14 +3110,14 @@ exports[`Storyshots Date input Default with date 1`] = `
     <span
       className="usa-hint text-italic"
     >
-      For example: 06/03/2020
+      For example: 01/01/2020
     </span>
     <div
       className="grid-gap grid-row flex-align-start"
     >
       <input
         aria-hidden={true}
-        defaultValue="1572393600000"
+        defaultValue="1577836800000"
         disabled={true}
         hidden={true}
         id="dateinput-example-internal"
@@ -3138,7 +3138,7 @@ exports[`Storyshots Date input Default with date 1`] = `
           <input
             aria-required={true}
             className="usa-input"
-            defaultValue="10/30/2019"
+            defaultValue="01/01/2020"
             id="dateinput-example-input"
             onBlur={[Function]}
             onChange={[Function]}
@@ -3165,7 +3165,7 @@ exports[`Storyshots Date input Default with date 1`] = `
             className="oec-calendar-dropdown__calendar position-absolute z-top"
             hidden={true}
           >
-            &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
+            &lt;DayPickerSingleDateController" {"date":"2020-01-01T00:00:00.000Z","focused":false}/&gt;
           </div>
         </div>
       </div>
@@ -3200,7 +3200,7 @@ exports[`Storyshots Date input Default with no date set 1`] = `
     <span
       className="usa-hint text-italic"
     >
-      For example: 06/03/2020
+      For example: 01/01/2020
     </span>
     <div
       className="grid-gap grid-row flex-align-start"
@@ -3289,14 +3289,14 @@ exports[`Storyshots Date input Disabled day input 1`] = `
     <span
       className="usa-hint text-italic"
     >
-      For example: 06/03/2020
+      For example: 01/01/2020
     </span>
     <div
       className="grid-gap grid-row flex-align-start"
     >
       <input
         aria-hidden={true}
-        defaultValue="1572393600000"
+        defaultValue="1577836800000"
         disabled={true}
         hidden={true}
         id="dateinput-example-internal"
@@ -3317,7 +3317,7 @@ exports[`Storyshots Date input Disabled day input 1`] = `
           <input
             aria-required={true}
             className="usa-input"
-            defaultValue="10/30/2019"
+            defaultValue="01/01/2020"
             id="dateinput-example-input"
             onBlur={[Function]}
             onChange={[Function]}
@@ -3344,7 +3344,7 @@ exports[`Storyshots Date input Disabled day input 1`] = `
             className="oec-calendar-dropdown__calendar position-absolute z-top"
             hidden={true}
           >
-            &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
+            &lt;DayPickerSingleDateController" {"date":"2020-01-01T00:00:00.000Z","focused":false}/&gt;
           </div>
         </div>
       </div>
@@ -3380,7 +3380,7 @@ exports[`Storyshots Date input Error 1`] = `
     <span
       className="usa-hint text-italic"
     >
-      For example: 06/03/2020
+      For example: 01/01/2020
     </span>
     <span
       className="usa-error-message"
@@ -3396,7 +3396,7 @@ exports[`Storyshots Date input Error 1`] = `
     >
       <input
         aria-hidden={true}
-        defaultValue="1572393600000"
+        defaultValue="1577836800000"
         disabled={true}
         hidden={true}
         id="dateinput-example-internal"
@@ -3419,7 +3419,7 @@ exports[`Storyshots Date input Error 1`] = `
             aria-invalid={true}
             aria-required={true}
             className="usa-input usa-input--error"
-            defaultValue="10/30/2019"
+            defaultValue="01/01/2020"
             id="dateinput-example-input"
             onBlur={[Function]}
             onChange={[Function]}
@@ -3446,7 +3446,7 @@ exports[`Storyshots Date input Error 1`] = `
             className="oec-calendar-dropdown__calendar position-absolute z-top"
             hidden={true}
           >
-            &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
+            &lt;DayPickerSingleDateController" {"date":"2020-01-01T00:00:00.000Z","focused":false}/&gt;
           </div>
         </div>
       </div>
@@ -3486,14 +3486,14 @@ exports[`Storyshots Date input Optional 1`] = `
     <span
       className="usa-hint text-italic"
     >
-      For example: 06/03/2020
+      For example: 01/01/2020
     </span>
     <div
       className="grid-gap grid-row flex-align-start"
     >
       <input
         aria-hidden={true}
-        defaultValue="1572393600000"
+        defaultValue="1577836800000"
         disabled={true}
         hidden={true}
         id="dateinput-example-internal"
@@ -3514,7 +3514,7 @@ exports[`Storyshots Date input Optional 1`] = `
           <input
             aria-required={true}
             className="usa-input"
-            defaultValue="10/30/2019"
+            defaultValue="01/01/2020"
             id="dateinput-example-input"
             onBlur={[Function]}
             onChange={[Function]}
@@ -3541,7 +3541,7 @@ exports[`Storyshots Date input Optional 1`] = `
             className="oec-calendar-dropdown__calendar position-absolute z-top"
             hidden={true}
           >
-            &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
+            &lt;DayPickerSingleDateController" {"date":"2020-01-01T00:00:00.000Z","focused":false}/&gt;
           </div>
         </div>
       </div>
@@ -3577,7 +3577,7 @@ exports[`Storyshots Date input Success 1`] = `
     <span
       className="usa-hint text-italic"
     >
-      For example: 06/03/2020
+      For example: 01/01/2020
     </span>
     <span
       className="usa-success-message"
@@ -3593,7 +3593,7 @@ exports[`Storyshots Date input Success 1`] = `
     >
       <input
         aria-hidden={true}
-        defaultValue="1572393600000"
+        defaultValue="1577836800000"
         disabled={true}
         hidden={true}
         id="dateinput-example-internal"
@@ -3616,7 +3616,7 @@ exports[`Storyshots Date input Success 1`] = `
             aria-invalid={false}
             aria-required={true}
             className="usa-input usa-input--success"
-            defaultValue="10/30/2019"
+            defaultValue="01/01/2020"
             id="dateinput-example-input"
             onBlur={[Function]}
             onChange={[Function]}
@@ -3643,7 +3643,7 @@ exports[`Storyshots Date input Success 1`] = `
             className="oec-calendar-dropdown__calendar position-absolute z-top"
             hidden={true}
           >
-            &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
+            &lt;DayPickerSingleDateController" {"date":"2020-01-01T00:00:00.000Z","focused":false}/&gt;
           </div>
         </div>
       </div>
@@ -3679,7 +3679,7 @@ exports[`Storyshots Date input Warning 1`] = `
     <span
       className="usa-hint text-italic"
     >
-      For example: 06/03/2020
+      For example: 01/01/2020
     </span>
     <span
       className="usa-warning-message"
@@ -3708,7 +3708,7 @@ exports[`Storyshots Date input Warning 1`] = `
     >
       <input
         aria-hidden={true}
-        defaultValue="1572393600000"
+        defaultValue="1577836800000"
         disabled={true}
         hidden={true}
         id="dateinput-example-internal"
@@ -3731,7 +3731,7 @@ exports[`Storyshots Date input Warning 1`] = `
             aria-invalid={false}
             aria-required={true}
             className="usa-input usa-input--warning"
-            defaultValue="10/30/2019"
+            defaultValue="01/01/2020"
             id="dateinput-example-input"
             onBlur={[Function]}
             onChange={[Function]}
@@ -3758,7 +3758,7 @@ exports[`Storyshots Date input Warning 1`] = `
             className="oec-calendar-dropdown__calendar position-absolute z-top"
             hidden={true}
           >
-            &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
+            &lt;DayPickerSingleDateController" {"date":"2020-01-01T00:00:00.000Z","focused":false}/&gt;
           </div>
         </div>
       </div>
@@ -3820,7 +3820,7 @@ exports[`Storyshots DateRangeInput Default 1`] = `
           >
             <input
               aria-hidden={true}
-              defaultValue="1572393600000"
+              defaultValue="1577836800000"
               disabled={true}
               hidden={true}
               id="default-DateRangeInput-start-date-internal"
@@ -3841,7 +3841,7 @@ exports[`Storyshots DateRangeInput Default 1`] = `
                 <input
                   aria-required={true}
                   className="usa-input"
-                  defaultValue="10/30/2019"
+                  defaultValue="01/01/2020"
                   id="default-DateRangeInput-start-date-input"
                   onBlur={[Function]}
                   onChange={[Function]}
@@ -3868,7 +3868,7 @@ exports[`Storyshots DateRangeInput Default 1`] = `
                   className="oec-calendar-dropdown__calendar position-absolute z-top"
                   hidden={true}
                 >
-                  &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
+                  &lt;DayPickerSingleDateController" {"date":"2020-01-01T00:00:00.000Z","focused":false}/&gt;
                 </div>
               </div>
             </div>
@@ -3900,7 +3900,7 @@ exports[`Storyshots DateRangeInput Default 1`] = `
           >
             <input
               aria-hidden={true}
-              defaultValue="1572393600000"
+              defaultValue="1577836800000"
               disabled={true}
               hidden={true}
               id="default-DateRangeInput-end-date-internal"
@@ -3921,7 +3921,7 @@ exports[`Storyshots DateRangeInput Default 1`] = `
                 <input
                   aria-required={true}
                   className="usa-input"
-                  defaultValue="10/30/2019"
+                  defaultValue="01/01/2020"
                   id="default-DateRangeInput-end-date-input"
                   onBlur={[Function]}
                   onChange={[Function]}
@@ -3948,7 +3948,7 @@ exports[`Storyshots DateRangeInput Default 1`] = `
                   className="oec-calendar-dropdown__calendar position-absolute z-top"
                   hidden={true}
                 >
-                  &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
+                  &lt;DayPickerSingleDateController" {"date":"2020-01-01T00:00:00.000Z","focused":false}/&gt;
                 </div>
               </div>
             </div>
@@ -4014,7 +4014,7 @@ exports[`Storyshots DateRangeInput Disabled 1`] = `
           >
             <input
               aria-hidden={true}
-              defaultValue="1572393600000"
+              defaultValue="1577836800000"
               disabled={true}
               hidden={true}
               id="disabled-DateRangeInput-start-date-internal"
@@ -4035,7 +4035,7 @@ exports[`Storyshots DateRangeInput Disabled 1`] = `
                 <input
                   aria-required={true}
                   className="usa-input"
-                  defaultValue="10/30/2019"
+                  defaultValue="01/01/2020"
                   id="disabled-DateRangeInput-start-date-input"
                   onBlur={[Function]}
                   onChange={[Function]}
@@ -4062,7 +4062,7 @@ exports[`Storyshots DateRangeInput Disabled 1`] = `
                   className="oec-calendar-dropdown__calendar position-absolute z-top"
                   hidden={true}
                 >
-                  &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
+                  &lt;DayPickerSingleDateController" {"date":"2020-01-01T00:00:00.000Z","focused":false}/&gt;
                 </div>
               </div>
             </div>
@@ -4094,7 +4094,7 @@ exports[`Storyshots DateRangeInput Disabled 1`] = `
           >
             <input
               aria-hidden={true}
-              defaultValue="1572393600000"
+              defaultValue="1577836800000"
               disabled={true}
               hidden={true}
               id="disabled-DateRangeInput-end-date-internal"
@@ -4115,7 +4115,7 @@ exports[`Storyshots DateRangeInput Disabled 1`] = `
                 <input
                   aria-required={true}
                   className="usa-input"
-                  defaultValue="10/30/2019"
+                  defaultValue="01/01/2020"
                   id="disabled-DateRangeInput-end-date-input"
                   onBlur={[Function]}
                   onChange={[Function]}
@@ -4142,7 +4142,7 @@ exports[`Storyshots DateRangeInput Disabled 1`] = `
                   className="oec-calendar-dropdown__calendar position-absolute z-top"
                   hidden={true}
                 >
-                  &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
+                  &lt;DayPickerSingleDateController" {"date":"2020-01-01T00:00:00.000Z","focused":false}/&gt;
                 </div>
               </div>
             </div>
@@ -4217,7 +4217,7 @@ exports[`Storyshots DateRangeInput Error 1`] = `
           >
             <input
               aria-hidden={true}
-              defaultValue="1572393600000"
+              defaultValue="1577836800000"
               disabled={true}
               hidden={true}
               id="error-DateRangeInput-start-date-internal"
@@ -4238,7 +4238,7 @@ exports[`Storyshots DateRangeInput Error 1`] = `
                 <input
                   aria-required={true}
                   className="usa-input"
-                  defaultValue="10/30/2019"
+                  defaultValue="01/01/2020"
                   id="error-DateRangeInput-start-date-input"
                   onBlur={[Function]}
                   onChange={[Function]}
@@ -4265,7 +4265,7 @@ exports[`Storyshots DateRangeInput Error 1`] = `
                   className="oec-calendar-dropdown__calendar position-absolute z-top"
                   hidden={true}
                 >
-                  &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
+                  &lt;DayPickerSingleDateController" {"date":"2020-01-01T00:00:00.000Z","focused":false}/&gt;
                 </div>
               </div>
             </div>
@@ -4297,7 +4297,7 @@ exports[`Storyshots DateRangeInput Error 1`] = `
           >
             <input
               aria-hidden={true}
-              defaultValue="1572393600000"
+              defaultValue="1577836800000"
               disabled={true}
               hidden={true}
               id="error-DateRangeInput-end-date-internal"
@@ -4318,7 +4318,7 @@ exports[`Storyshots DateRangeInput Error 1`] = `
                 <input
                   aria-required={true}
                   className="usa-input"
-                  defaultValue="10/30/2019"
+                  defaultValue="01/01/2020"
                   id="error-DateRangeInput-end-date-input"
                   onBlur={[Function]}
                   onChange={[Function]}
@@ -4345,7 +4345,7 @@ exports[`Storyshots DateRangeInput Error 1`] = `
                   className="oec-calendar-dropdown__calendar position-absolute z-top"
                   hidden={true}
                 >
-                  &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
+                  &lt;DayPickerSingleDateController" {"date":"2020-01-01T00:00:00.000Z","focused":false}/&gt;
                 </div>
               </div>
             </div>
@@ -4415,7 +4415,7 @@ exports[`Storyshots DateRangeInput Optional 1`] = `
           >
             <input
               aria-hidden={true}
-              defaultValue="1572393600000"
+              defaultValue="1577836800000"
               disabled={true}
               hidden={true}
               id="optional-DateRangeInput-start-date-internal"
@@ -4436,7 +4436,7 @@ exports[`Storyshots DateRangeInput Optional 1`] = `
                 <input
                   aria-required={true}
                   className="usa-input"
-                  defaultValue="10/30/2019"
+                  defaultValue="01/01/2020"
                   id="optional-DateRangeInput-start-date-input"
                   onBlur={[Function]}
                   onChange={[Function]}
@@ -4463,7 +4463,7 @@ exports[`Storyshots DateRangeInput Optional 1`] = `
                   className="oec-calendar-dropdown__calendar position-absolute z-top"
                   hidden={true}
                 >
-                  &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
+                  &lt;DayPickerSingleDateController" {"date":"2020-01-01T00:00:00.000Z","focused":false}/&gt;
                 </div>
               </div>
             </div>
@@ -4495,7 +4495,7 @@ exports[`Storyshots DateRangeInput Optional 1`] = `
           >
             <input
               aria-hidden={true}
-              defaultValue="1572393600000"
+              defaultValue="1577836800000"
               disabled={true}
               hidden={true}
               id="optional-DateRangeInput-end-date-internal"
@@ -4516,7 +4516,7 @@ exports[`Storyshots DateRangeInput Optional 1`] = `
                 <input
                   aria-required={true}
                   className="usa-input"
-                  defaultValue="10/30/2019"
+                  defaultValue="01/01/2020"
                   id="optional-DateRangeInput-end-date-input"
                   onBlur={[Function]}
                   onChange={[Function]}
@@ -4543,7 +4543,7 @@ exports[`Storyshots DateRangeInput Optional 1`] = `
                   className="oec-calendar-dropdown__calendar position-absolute z-top"
                   hidden={true}
                 >
-                  &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
+                  &lt;DayPickerSingleDateController" {"date":"2020-01-01T00:00:00.000Z","focused":false}/&gt;
                 </div>
               </div>
             </div>
@@ -4618,7 +4618,7 @@ exports[`Storyshots DateRangeInput Success 1`] = `
           >
             <input
               aria-hidden={true}
-              defaultValue="1572393600000"
+              defaultValue="1577836800000"
               disabled={true}
               hidden={true}
               id="error-DateRangeInput-start-date-internal"
@@ -4639,7 +4639,7 @@ exports[`Storyshots DateRangeInput Success 1`] = `
                 <input
                   aria-required={true}
                   className="usa-input"
-                  defaultValue="10/30/2019"
+                  defaultValue="01/01/2020"
                   id="error-DateRangeInput-start-date-input"
                   onBlur={[Function]}
                   onChange={[Function]}
@@ -4666,7 +4666,7 @@ exports[`Storyshots DateRangeInput Success 1`] = `
                   className="oec-calendar-dropdown__calendar position-absolute z-top"
                   hidden={true}
                 >
-                  &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
+                  &lt;DayPickerSingleDateController" {"date":"2020-01-01T00:00:00.000Z","focused":false}/&gt;
                 </div>
               </div>
             </div>
@@ -4698,7 +4698,7 @@ exports[`Storyshots DateRangeInput Success 1`] = `
           >
             <input
               aria-hidden={true}
-              defaultValue="1572393600000"
+              defaultValue="1577836800000"
               disabled={true}
               hidden={true}
               id="error-DateRangeInput-end-date-internal"
@@ -4719,7 +4719,7 @@ exports[`Storyshots DateRangeInput Success 1`] = `
                 <input
                   aria-required={true}
                   className="usa-input"
-                  defaultValue="10/30/2019"
+                  defaultValue="01/01/2020"
                   id="error-DateRangeInput-end-date-input"
                   onBlur={[Function]}
                   onChange={[Function]}
@@ -4746,7 +4746,7 @@ exports[`Storyshots DateRangeInput Success 1`] = `
                   className="oec-calendar-dropdown__calendar position-absolute z-top"
                   hidden={true}
                 >
-                  &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
+                  &lt;DayPickerSingleDateController" {"date":"2020-01-01T00:00:00.000Z","focused":false}/&gt;
                 </div>
               </div>
             </div>
@@ -4834,7 +4834,7 @@ exports[`Storyshots DateRangeInput Warning 1`] = `
           >
             <input
               aria-hidden={true}
-              defaultValue="1572393600000"
+              defaultValue="1577836800000"
               disabled={true}
               hidden={true}
               id="error-DateRangeInput-start-date-internal"
@@ -4855,7 +4855,7 @@ exports[`Storyshots DateRangeInput Warning 1`] = `
                 <input
                   aria-required={true}
                   className="usa-input"
-                  defaultValue="10/30/2019"
+                  defaultValue="01/01/2020"
                   id="error-DateRangeInput-start-date-input"
                   onBlur={[Function]}
                   onChange={[Function]}
@@ -4882,7 +4882,7 @@ exports[`Storyshots DateRangeInput Warning 1`] = `
                   className="oec-calendar-dropdown__calendar position-absolute z-top"
                   hidden={true}
                 >
-                  &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
+                  &lt;DayPickerSingleDateController" {"date":"2020-01-01T00:00:00.000Z","focused":false}/&gt;
                 </div>
               </div>
             </div>
@@ -4914,7 +4914,7 @@ exports[`Storyshots DateRangeInput Warning 1`] = `
           >
             <input
               aria-hidden={true}
-              defaultValue="1572393600000"
+              defaultValue="1577836800000"
               disabled={true}
               hidden={true}
               id="error-DateRangeInput-end-date-internal"
@@ -4935,7 +4935,7 @@ exports[`Storyshots DateRangeInput Warning 1`] = `
                 <input
                   aria-required={true}
                   className="usa-input"
-                  defaultValue="10/30/2019"
+                  defaultValue="01/01/2020"
                   id="error-DateRangeInput-end-date-input"
                   onBlur={[Function]}
                   onChange={[Function]}
@@ -4962,7 +4962,7 @@ exports[`Storyshots DateRangeInput Warning 1`] = `
                   className="oec-calendar-dropdown__calendar position-absolute z-top"
                   hidden={true}
                 >
-                  &lt;DayPickerSingleDateController" {"date":"2019-10-30T00:00:00.000Z","focused":false}/&gt;
+                  &lt;DayPickerSingleDateController" {"date":"2020-01-01T00:00:00.000Z","focused":false}/&gt;
                 </div>
               </div>
             </div>
