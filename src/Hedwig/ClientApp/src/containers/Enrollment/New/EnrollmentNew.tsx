@@ -6,7 +6,7 @@ import ChildInfo from '../_sections/ChildInfo';
 import FamilyInfo from '../_sections/FamilyInfo';
 import FamilyIncome from '../_sections/FamilyIncome';
 import EnrollmentFunding from '../_sections/EnrollmentFunding';
-import { Button, ErrorBoundary } from '../../../components';
+import { Button, ErrorBoundary, Alert } from '../../../components';
 import useApi from '../../../hooks/useApi';
 import UserContext from '../../../contexts/User/UserContext';
 import {
@@ -25,6 +25,7 @@ import {
 	stepListSaveFailAlert,
 } from '../../../utils/stringFormatters';
 import useRouteChange from '../../../hooks/useRouteChange';
+import { somethingWentWrongAlert } from '../../../utils/stringFormatters/alertTextMakers';
 
 type EnrollmentNewParams = {
 	history: History;
@@ -97,6 +98,13 @@ export default function EnrollmentNew({
 		set loading to true (and reload the enrollment with new fields, i.e. family for family income), leading to errors.
 	*/
 	const [navigated, setNavigated] = useState(false);
+
+	const { loading: siteLoading, data: site } = useApi((api) =>
+		api.apiOrganizationsOrgIdSitesIdGet({
+			id: siteId,
+			orgId: getIdForUser(user, 'org'),
+		})
+	);
 
 	const [enrollment, updateEnrollment] = useState<Enrollment | null>(null);
 	// Get enrollment by id
@@ -180,6 +188,23 @@ export default function EnrollmentNew({
 		return <div className="EnrollmentNew"></div>;
 	}
 
+	// If we are still loading, show a loading page
+	if (siteLoading) {
+		return <>Loading...</>;
+	}
+
+	// If we stopped loading, and still don't have these values
+	// Then an error other than a validation error ocurred.
+	// (In staging, it is likely that a new deployment happened.
+	// This changes the ids of the objects. Thus, when a user
+	// navigates back to roster 401/403 errors to occur.
+	// This can be resolved with a hard refresh. We don't do that
+	// because if it truly is a 500 error, we would get an infite
+	// loop). For now, show a general purpose alert message.
+	if (!site) {
+		return <Alert {...somethingWentWrongAlert}></Alert>;
+	}
+
 	const steps = mapSectionsToSteps(sections);
 
 	const props: SectionProps = {
@@ -195,7 +220,7 @@ export default function EnrollmentNew({
 	return (
 		<CommonContainer>
 			<div className="grid-container">
-				<h1>Enroll child</h1>
+				<h1>Enroll child at {site.name}</h1>
 				<div className="margin-top-2 margin-bottom-5">
 					<ErrorBoundary alertProps={stepListSaveFailAlert}>
 						<StepList steps={steps} activeStep={sectionId} props={props} />
