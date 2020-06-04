@@ -12,19 +12,21 @@ type FirstReportingPeriodFieldProps = {
 	fundingId: number;
 };
 
+// WIP-- needs results of report query (do here instead of in higher component b/c we don't want to have to reuse that query--
+// Or make report an optional param and call it here if it isn't passed in?  (To cut down on network requests)
 export const FirstReportingPeriodField: React.FC<FirstReportingPeriodFieldProps> = ({
 	initialLoad,
 	fundingId,
 }) => {
 	const { dataDriller } = useGenericContext<Enrollment>(FormContext);
 	const { cdcReportingPeriods: reportingPeriods } = useContext(ReportingPeriodContext)
-	const [validReportingPeriods, setValidReportingPeriods] = useState<ReportingPeriod[]>([]) 
+	const [validReportingPeriods, setValidReportingPeriods] = useState<ReportingPeriod[]>([])
 
 	// TODO: Get report!!!!!! 
 
 	const startDate = dataDriller.at('entry').value || moment().toDate();
 	useEffect(() => {
-		if(!reportingPeriods) return;
+		if (!reportingPeriods) return;
 
 		// valid reporting periods:
 		// - start on or after the enrollment start date
@@ -39,10 +41,11 @@ export const FirstReportingPeriodField: React.FC<FirstReportingPeriodFieldProps>
 		const endIdx = reportingPeriods
 			.findIndex(period => moment(period.period).isSame(moment(), 'month')) + 2;
 
-		const _validReportingPeriods = reportingPeriods.slice(startIdx, endIdx);	
+		const _validReportingPeriods = reportingPeriods.slice(startIdx, endIdx);
 		// TODO Why does this cause infinite loop??????????????
 		// setValidReportingPeriods(_validReportingPeriods);
 		setValidReportingPeriods(reportingPeriods);
+		// This is a stopgap-- should only return last few(see logic above), not all-- slicing is causing infinite render loop b / c of calling set state
 	}, [startDate]);
 
 	const firstReportingPeriodId = dataDriller.at('fundings').find((f) => f.id === fundingId).at('firstReportingPeriodId').value;
