@@ -9,7 +9,8 @@ type WithNewC4kCertificateProps = {
 	shouldCreate: boolean;
 }
 
-export const WithNewC4kCertificate: React.FC<PropsWithChildren<WithNewC4kCertificateProps>> = ({ 
+// Used in new flow, also in edit flow when user needs to re-certify
+export const WithNewC4kCertificate: React.FC<PropsWithChildren<WithNewC4kCertificateProps>> = ({
 	shouldCreate,
 	children: c4kCertificateFields
 }) => {
@@ -20,10 +21,10 @@ export const WithNewC4kCertificate: React.FC<PropsWithChildren<WithNewC4kCertifi
 		.find((cert) => cert.id === 0);
 
 	useEffect(() => {
-		if(shouldCreate && newCert.value == undefined) {
-			setTimeout(() => 
+		if (shouldCreate && newCert.value == undefined) {
+			setTimeout(() =>
 				updateData(
-					produce<Enrollment>(data, (draft) => set(draft, newCert.path, { id: 0}))
+					produce<Enrollment>(data, (draft) => set(draft, newCert.path, { id: 0 }))
 				), 0
 			);
 		}

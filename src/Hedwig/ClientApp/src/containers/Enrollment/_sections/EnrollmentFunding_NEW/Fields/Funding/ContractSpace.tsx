@@ -12,9 +12,8 @@ export const ContractSpaceField: React.FC<FundingFormFieldProps> = ({
 	fundingId,
 	fundingSpaces: matchingFundingSpaces,
 }) => {
-	const { dataDriller } = useGenericContext<Enrollment>(FormContext);
-	if(matchingFundingSpaces.length === 1) {
-		return(
+	if (matchingFundingSpaces.length === 1) {
+		return (
 			<SingleContractSpaceField
 				fundingId={fundingId}
 				fundingSpace={matchingFundingSpaces[0]}
@@ -22,11 +21,10 @@ export const ContractSpaceField: React.FC<FundingFormFieldProps> = ({
 		);
 	}
 
-	console.log("LALA", dataDriller.at('fundings').find(f => f.id === fundingId));
 	return (
 		<FormField<Enrollment, SelectProps, number | null>
 			getValue={data => data.at('fundings').find(funding => funding.id === fundingId).at('fundingSpaceId')}
-			parseOnChangeEvent={e => parseInt((e.target as HTMLInputElement).value)}	
+			parseOnChangeEvent={e => parseInt((e.target as HTMLInputElement).value)}
 			inputComponent={Select}
 			id="funding-contract-space-select"
 			label="Contract space"
@@ -45,18 +43,19 @@ type SingleContractSpaceFieldProps = {
 	fundingSpace: FundingSpace,
 };
 
+// This renders if there's only one valid funding space option for the given funding source
 const SingleContractSpaceField: React.FC<SingleContractSpaceFieldProps> = ({
 	fundingId,
 	fundingSpace,
 }) => {
-	const {dataDriller, updateData} = useGenericContext<Enrollment>(FormContext);
+	const { dataDriller, updateData } = useGenericContext<Enrollment>(FormContext);
 	updateData(_data => produce<Enrollment>(
-		_data, draft => 
-			set(
-				draft,
-				dataDriller.at('fundings').find(f => f.id === fundingId).at('fundingSpaceId').path,
-				fundingSpace.id,
-			)
+		_data, draft =>
+		set(
+			draft,
+			dataDriller.at('fundings').find(f => f.id === fundingId).at('fundingSpaceId').path,
+			fundingSpace.id,
+		)
 	));
 
 	return (
