@@ -32,11 +32,17 @@ td.oec-table__cell--strong {
 	width: 100%;
 }
 
-.oec-sortable .oec-table__column-title {
-	text-decoration: none;
-	color: inherit;
-	font-weight: inherit;
-	cursor: pointer;
+.oec-sortable {
+	.oec-table__column-title {
+		text-decoration: none;
+		color: inherit;
+		font-weight: inherit;
+		cursor: pointer;
+	}
+}
+
+.oec-unsorted:hover .oec-table__sort-controls {
+	color: color($theme-color-base);
 }
 
 .oec-table__sort-controls {
@@ -46,18 +52,14 @@ td.oec-table__cell--strong {
 	vertical-align: middle;
 	color: color($theme-color-base-lighter);
 
-	&--ascending {
+	&--ascending,
+	&--descending {
 		color: color('primary');
 	}
 
 	&--descending {
-		color: color('primary');
 		svg {
 			transform: rotate(180deg);
 		}
-	}
-
-	&:hover {
-		color: color($theme-color-base);
 	}
 }

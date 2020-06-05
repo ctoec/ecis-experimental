@@ -42,7 +42,13 @@ export class ColumnHeader extends React.Component<ColumnHeaderProps> {
 		return (
 			<th
 				scope="col"
-				className={cx('oec-table__column-header', { 'oec-sortable': sortable }, className)}
+				className={cx(
+					'oec-table__column-header',
+					{ 'oec-sortable': sortable },
+					{ 'oec-sorted': sorted },
+					{ 'oec-unsorted': !sorted },
+					className
+				)}
 				role="columnheader"
 				aria-sort={sortOrder || 'none'}
 				style={{ width: width }}
