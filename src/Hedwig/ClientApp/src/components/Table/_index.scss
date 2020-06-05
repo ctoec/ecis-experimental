@@ -36,8 +36,11 @@ td.oec-table__cell--strong {
 	.oec-table__column-title {
 		text-decoration: none;
 		color: inherit;
-		font-weight: inherit;
 		cursor: pointer;
+	}
+
+	&.oec-sorted .oec-table__column-title {
+		font-weight: 700;
 	}
 }
 
