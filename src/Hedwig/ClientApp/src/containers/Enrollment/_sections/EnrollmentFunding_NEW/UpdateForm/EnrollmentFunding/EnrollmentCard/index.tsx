@@ -5,6 +5,8 @@ import { prettyAge } from '../../../../../../../utils/models';
 import dateFormatter from '../../../../../../../utils/dateFormatter';
 import { CardExpansion } from '../../../../../../../components/Card/CardExpansion';
 import { ExpandCard } from '../../../../../../../components/Card/ExpandCard';
+import { ReactComponent as Pencil } from '../../../../../../../assets/images/pencil.svg';
+
 
 type EnrollmentCardProps = Exclude<CardProps, 'appearance' | 'forceClose' | 'key'> & {
 	enrollment: Enrollment;
@@ -45,7 +47,7 @@ export const EnrollmentCard = ({
 					<p className="text-bold">Enrollment dates</p>
 					<p>{`${dateFormatter(enrollment.entry)} - ${enrollment.exit ? dateFormatter(enrollment.exit) : 'present'}`}</p>
 				</div>
-				{expansion && <ExpandCard><Button text="Edit" appearance="unstyled" /></ExpandCard>}
+				{expansion && <ExpandCard><Button text={(<><Pencil />Edit</>)} appearance="unstyled" /></ExpandCard>}
 
 			</div>
 			<CardExpansion>{expansion}</CardExpansion>
