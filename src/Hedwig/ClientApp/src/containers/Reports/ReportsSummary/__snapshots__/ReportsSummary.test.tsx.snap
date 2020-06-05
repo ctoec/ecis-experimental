@@ -25,7 +25,7 @@ exports[`ReportsSummary matches snapshot 1`] = `
           <tr>
             <th
               aria-sort="ascending"
-              class="oec-table__column-header oec-sortable"
+              class="oec-table__column-header oec-sortable oec-unsorted"
               role="columnheader"
               scope="col"
               style="width: 21%;"
@@ -38,18 +38,17 @@ exports[`ReportsSummary matches snapshot 1`] = `
                 <div
                   class="oec-table__sort-controls"
                 >
-                  <span
-                    class="oec-table__sort-controls__asc"
-                  />
-                  <span
-                    class="oec-table__sort-controls__desc"
-                  />
+                  <svg
+                    title="Sort"
+                  >
+                    downArrowCircle.svg
+                  </svg>
                 </div>
               </button>
             </th>
             <th
               aria-sort="ascending"
-              class="oec-table__column-header oec-sortable"
+              class="oec-table__column-header oec-sortable oec-unsorted"
               role="columnheader"
               scope="col"
               style="width: 16%;"
@@ -62,18 +61,17 @@ exports[`ReportsSummary matches snapshot 1`] = `
                 <div
                   class="oec-table__sort-controls"
                 >
-                  <span
-                    class="oec-table__sort-controls__asc"
-                  />
-                  <span
-                    class="oec-table__sort-controls__desc"
-                  />
+                  <svg
+                    title="Sort"
+                  >
+                    downArrowCircle.svg
+                  </svg>
                 </div>
               </button>
             </th>
             <th
               aria-sort="ascending"
-              class="oec-table__column-header oec-sortable"
+              class="oec-table__column-header oec-sortable oec-unsorted"
               role="columnheader"
               scope="col"
               style="width: 38%;"
@@ -86,18 +84,17 @@ exports[`ReportsSummary matches snapshot 1`] = `
                 <div
                   class="oec-table__sort-controls"
                 >
-                  <span
-                    class="oec-table__sort-controls__asc"
-                  />
-                  <span
-                    class="oec-table__sort-controls__desc"
-                  />
+                  <svg
+                    title="Sort"
+                  >
+                    downArrowCircle.svg
+                  </svg>
                 </div>
               </button>
             </th>
             <th
               aria-sort="ascending"
-              class="oec-table__column-header oec-sortable"
+              class="oec-table__column-header oec-sortable oec-sorted"
               role="columnheader"
               scope="col"
               style="width: 24%;"
@@ -108,14 +105,13 @@ exports[`ReportsSummary matches snapshot 1`] = `
               >
                 Due date
                 <div
-                  class="oec-table__sort-controls"
+                  class="oec-table__sort-controls oec-table__sort-controls--ascending"
                 >
-                  <span
-                    class="oec-table__sort-controls__asc active"
-                  />
-                  <span
-                    class="oec-table__sort-controls__desc"
-                  />
+                  <svg
+                    title="Sort"
+                  >
+                    downArrowCircle.svg
+                  </svg>
                 </div>
               </button>
             </th>
@@ -208,7 +204,7 @@ exports[`ReportsSummary matches snapshot 1`] = `
           <tr>
             <th
               aria-sort="descending"
-              class="oec-table__column-header oec-sortable"
+              class="oec-table__column-header oec-sortable oec-sorted"
               role="columnheader"
               scope="col"
               style="width: 21%;"
@@ -219,20 +215,19 @@ exports[`ReportsSummary matches snapshot 1`] = `
               >
                 Period
                 <div
-                  class="oec-table__sort-controls"
+                  class="oec-table__sort-controls oec-table__sort-controls--descending"
                 >
-                  <span
-                    class="oec-table__sort-controls__asc"
-                  />
-                  <span
-                    class="oec-table__sort-controls__desc active"
-                  />
+                  <svg
+                    title="Sort"
+                  >
+                    downArrowCircle.svg
+                  </svg>
                 </div>
               </button>
             </th>
             <th
               aria-sort="descending"
-              class="oec-table__column-header oec-sortable"
+              class="oec-table__column-header oec-sortable oec-unsorted"
               role="columnheader"
               scope="col"
               style="width: 16%;"
@@ -245,18 +240,17 @@ exports[`ReportsSummary matches snapshot 1`] = `
                 <div
                   class="oec-table__sort-controls"
                 >
-                  <span
-                    class="oec-table__sort-controls__asc"
-                  />
-                  <span
-                    class="oec-table__sort-controls__desc"
-                  />
+                  <svg
+                    title="Sort"
+                  >
+                    downArrowCircle.svg
+                  </svg>
                 </div>
               </button>
             </th>
             <th
               aria-sort="descending"
-              class="oec-table__column-header oec-sortable"
+              class="oec-table__column-header oec-sortable oec-unsorted"
               role="columnheader"
               scope="col"
               style="width: 38%;"
@@ -269,18 +263,17 @@ exports[`ReportsSummary matches snapshot 1`] = `
                 <div
                   class="oec-table__sort-controls"
                 >
-                  <span
-                    class="oec-table__sort-controls__asc"
-                  />
-                  <span
-                    class="oec-table__sort-controls__desc"
-                  />
+                  <svg
+                    title="Sort"
+                  >
+                    downArrowCircle.svg
+                  </svg>
                 </div>
               </button>
             </th>
             <th
               aria-sort="descending"
-              class="oec-table__column-header oec-sortable"
+              class="oec-table__column-header oec-sortable oec-unsorted"
               role="columnheader"
               scope="col"
               style="width: 24%;"
@@ -293,12 +286,11 @@ exports[`ReportsSummary matches snapshot 1`] = `
                 <div
                   class="oec-table__sort-controls"
                 >
-                  <span
-                    class="oec-table__sort-controls__asc"
-                  />
-                  <span
-                    class="oec-table__sort-controls__desc"
-                  />
+                  <svg
+                    title="Sort"
+                  >
+                    downArrowCircle.svg
+                  </svg>
                 </div>
               </button>
             </th>
