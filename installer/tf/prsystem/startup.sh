@@ -2,7 +2,8 @@
 sudo apt-get update
 
 #---------------------------------------
-# install docker #---------------------------------------
+# install docker 
+#---------------------------------------
 sudo apt-get -y install docker.io
 sudo systemctl start docker
 sudo systemctl enable docker
@@ -30,6 +31,11 @@ sudo apt-get install -y apache2
 sudo systemctl start apache2
 sudo systemctl enable apache2
 echo "OK" | sudo tee /var/www/html/index.html
+
+#---------------------------------------
+# increase os resources 
+#---------------------------------------
+echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
 
 #---------------------------------------
 # setup git source - hedwig
