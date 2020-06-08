@@ -5,20 +5,22 @@ import {
 	Alert,
 	AlertProps,
 	TextWithIcon,
-	TextWithIconProps,
 	ErrorBoundary,
 	Button,
 } from '../components';
+import { ReactComponent as ArrowRight } from '../assets/images/arrowRight.svg'
 
-type CommonContainerPropsType = {
+export type CommonContainerPropsType = {
 	children: ReactElement<any> | null;
 	backHref?: string;
+	backText?: string;
 	additionalAlerts?: AlertProps[];
 };
 
 export default function CommonContainer({
 	children,
 	backHref,
+	backText,
 	additionalAlerts = [] as AlertProps[],
 }: CommonContainerPropsType) {
 	const { getAlerts } = useContext(AlertContext);
@@ -27,13 +29,13 @@ export default function CommonContainer({
 	return (
 		<ErrorBoundary>
 			<div className={cx({ 'grid-container': backHref || alerts.length })}>
-				{backHref && (
+				{backHref && backText && (
 					<Button
-						text={
-							<TextWithIcon text="Back to roster" imageFileName="arrowRight" direction="left" />
-						}
 						appearance="unstyled"
 						href={backHref}
+						text={
+							<TextWithIcon text={backText} Icon={ArrowRight} direction="left" />
+						}
 					/>
 				)}
 				{alerts && alerts.map((alert, index) => <Alert key={index} {...alert}></Alert>)}

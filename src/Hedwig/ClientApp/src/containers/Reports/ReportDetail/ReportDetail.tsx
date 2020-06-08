@@ -55,16 +55,11 @@ export default function ReportDetail() {
 		additionalAlerts.push(updateRosterAlert(numEnrollmentsMissingInfo));
 	}
 
-	const directionalLinkProps: TextWithIconProps = {
-		direction: 'left',
-		to: '/reports',
-		text: 'Back to reports',
-	};
-
 	return (
 		<CommonContainer
 			additionalAlerts={additionalAlerts || undefined}
-			directionalLinkProps={directionalLinkProps}
+			backHref="/reports"
+			backText="Back to reports"
 		>
 			<div className="grid-container">
 				<div className="grid-row flex-first-baseline flex-space-between">
@@ -89,6 +84,6 @@ export default function ReportDetail() {
 					canSubmit={numEnrollmentsMissingInfo === 0}
 				/>
 			</div>
-		</CommonContainer>
+		</CommonContainer >
 	);
 }

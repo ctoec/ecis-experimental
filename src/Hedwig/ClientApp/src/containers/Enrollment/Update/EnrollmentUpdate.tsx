@@ -121,11 +121,8 @@ export default function EnrollmentUpdate({
 
 	return (
 		<CommonContainer
-			directionalLinkProps={{
-				direction: 'left',
-				to: `/roster/sites/${siteId}/enrollments/${enrollment.id}/`,
-				text: `Back to enrollment details`,
-			}}
+			backText="Back to enrollment details"
+			backHref={`/roster/sites/${siteId}/enrollments/${enrollment.id}/`}
 		>
 			<div className="grid-container">
 				<h1>Update {section.name.toLowerCase()}</h1>
@@ -138,8 +135,8 @@ export default function EnrollmentUpdate({
 					{section.UpdateForm ? (
 						<section.UpdateForm {...sectionFormProps} />
 					) : (
-						<section.Form {...sectionFormProps} />
-					)}
+							<section.Form {...sectionFormProps} />
+						)}
 				</ErrorBoundary>
 			</div>
 		</CommonContainer>

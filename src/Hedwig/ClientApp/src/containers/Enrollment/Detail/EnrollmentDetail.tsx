@@ -88,6 +88,7 @@ export default function EnrollmentDetail({
 	return (
 		<CommonContainer
 			backHref="/roster"
+			backText="Back to roster"
 		>
 			<div className="grid-container">
 				<div className="grid-row flex-first-baseline flex-space-between">

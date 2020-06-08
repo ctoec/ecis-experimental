@@ -5,6 +5,7 @@ import { prettyAge } from '../../../../../../../utils/models';
 import dateFormatter from '../../../../../../../utils/dateFormatter';
 import { CardExpansion } from '../../../../../../../components/Card/CardExpansion';
 import { ExpandCard } from '../../../../../../../components/Card/ExpandCard';
+import { ReactComponent as Pencil } from '../../../../../../../assets/images/pencil.svg'
 
 type EnrollmentCardProps = Exclude<CardProps, 'appearance' | 'forceClose' | 'key'> & {
 	enrollment: Enrollment;
@@ -50,7 +51,7 @@ export const EnrollmentCard = ({
 				{expansion && (
 					<ExpandCard>
 						<Button
-							text={<TextWithIcon text="edit" imageFileName="pencil" />}
+							text={<TextWithIcon text="edit" Icon={Pencil} />}
 							appearance="unstyled"
 							href=""
 						/>

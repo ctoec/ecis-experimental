@@ -1,12 +1,13 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { TextWithIcon } from '..';
+import { ReactComponent as ArrowRight } from '../../assets/images/arrowRight.svg'
 
 storiesOf('TextWithIcon', module)
 	.add('Up arrow', () => {
 		return (
 			<TextWithIcon
-				imageFileName="arrowRight"
+				Icon={ArrowRight}
 				direction="up"
 				text="Look at stuff at the top of the page"
 			/>
@@ -14,14 +15,14 @@ storiesOf('TextWithIcon', module)
 	})
 	.add('Down arrow', () => {
 		return (
-			<TextWithIcon imageFileName="arrowRight" direction="down" text="Check out our sweet footer" />
+			<TextWithIcon Icon={ArrowRight} direction="down" text="Check out our sweet footer" />
 		);
 	})
 	.add('Back arrow', () => {
 		return (
 			<TextWithIcon
 				direction="left"
-				imageFileName="arrowRight"
+				Icon={ArrowRight}
 				text="Look at the stuff you were looking at before"
 			/>
 		);
@@ -32,7 +33,7 @@ storiesOf('TextWithIcon', module)
 				direction="right"
 				text="See the next thing in this series"
 				iconSide="right"
-				imageFileName="arrowRight"
+				Icon={ArrowRight}
 			/>
 		);
 	});
