@@ -135,8 +135,8 @@ export default function EnrollmentUpdate({
 					{section.UpdateForm ? (
 						<section.UpdateForm {...sectionFormProps} />
 					) : (
-							<section.Form {...sectionFormProps} />
-						)}
+						<section.Form {...sectionFormProps} />
+					)}
 				</ErrorBoundary>
 			</div>
 		</CommonContainer>

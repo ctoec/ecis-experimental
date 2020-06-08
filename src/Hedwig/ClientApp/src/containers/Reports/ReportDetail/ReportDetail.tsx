@@ -84,6 +84,6 @@ export default function ReportDetail() {
 					canSubmit={numEnrollmentsMissingInfo === 0}
 				/>
 			</div>
-		</CommonContainer >
+		</CommonContainer>
 	);
 }

@@ -1,9 +1,11 @@
 import React from 'react';
 
 export type TextWithIconProps = {
-	Icon: React.FunctionComponent<React.SVGProps<SVGSVGElement> & {
-		title?: string | undefined;
-	}>;
+	Icon: React.FunctionComponent<
+		React.SVGProps<SVGSVGElement> & {
+			title?: string | undefined;
+		}
+	>;
 	text: string;
 	direction?: 'left' | 'right' | 'up' | 'down';
 	iconSide?: 'left' | 'right';
@@ -18,7 +20,7 @@ export function TextWithIcon({
 	iconSide = 'left',
 }: TextWithIconProps) {
 	const iconClassName = `oec-text-with-icon__icon oec-text-with-icon__icon--direction-${direction} oec-text-with-icon__icon--side-${iconSide}`;
-	const icon = <Icon className={iconClassName} />
+	const icon = <Icon className={iconClassName} />;
 
 	return (
 		<span className="oec-text-with-icon">

@@ -1,14 +1,8 @@
 import React, { ReactElement, useContext } from 'react';
 import cx from 'classnames';
 import AlertContext from '../contexts/Alert/AlertContext';
-import {
-	Alert,
-	AlertProps,
-	TextWithIcon,
-	ErrorBoundary,
-	Button,
-} from '../components';
-import { ReactComponent as ArrowRight } from '../assets/images/arrowRight.svg'
+import { Alert, AlertProps, TextWithIcon, ErrorBoundary, Button } from '../components';
+import { ReactComponent as ArrowRight } from '../assets/images/arrowRight.svg';
 
 export type CommonContainerPropsType = {
 	children: ReactElement<any> | null;
@@ -33,9 +27,7 @@ export default function CommonContainer({
 					<Button
 						appearance="unstyled"
 						href={backHref}
-						text={
-							<TextWithIcon text={backText} Icon={ArrowRight} direction="left" />
-						}
+						text={<TextWithIcon text={backText} Icon={ArrowRight} direction="left" />}
 					/>
 				)}
 				{alerts && alerts.map((alert, index) => <Alert key={index} {...alert}></Alert>)}
