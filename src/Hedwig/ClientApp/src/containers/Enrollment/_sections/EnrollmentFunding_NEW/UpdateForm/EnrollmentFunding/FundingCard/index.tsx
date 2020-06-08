@@ -1,6 +1,6 @@
 import React from 'react';
 import { Funding } from '../../../../../../../generated';
-import { Card, Button, CardProps } from '../../../../../../../components';
+import { Card, Button, CardProps, TextWithIcon } from '../../../../../../../components';
 import {
 	prettyFundingSpaceTime,
 	reportingPeriodFormatter,
@@ -8,6 +8,7 @@ import {
 import { CardExpansion } from '../../../../../../../components/Card/CardExpansion';
 import { ExpandCard } from '../../../../../../../components/Card/ExpandCard';
 import { getFundingTag } from '../../../../../../../utils/fundingType';
+import { ReactComponent as Pencil } from '../../../../../../../assets/images/pencil.svg';
 
 type FundingCardProps = Exclude<CardProps, 'appearance' | 'forceClose' | 'key'> & {
 	funding: Funding;
@@ -52,7 +53,10 @@ export const FundingCard = ({
 				</div>
 				{expansion && (
 					<ExpandCard>
-						<Button text="Edit" appearance="unstyled" />
+						<Button
+							text={<TextWithIcon text="Edit" Icon={Pencil} />}
+							appearance="unstyled"
+						/>
 					</ExpandCard>
 				)}
 			</div>

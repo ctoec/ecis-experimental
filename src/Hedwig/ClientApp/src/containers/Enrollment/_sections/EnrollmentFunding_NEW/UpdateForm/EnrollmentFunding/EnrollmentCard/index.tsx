@@ -46,14 +46,14 @@ export const EnrollmentCard = ({
 					<p className="text-bold">Enrollment dates</p>
 					<p>{`${dateFormatter(enrollment.entry)} - ${
 						enrollment.exit ? dateFormatter(enrollment.exit) : 'present'
-					}`}</p>
+						}`}</p>
 				</div>
 				{expansion && (
 					<ExpandCard>
+						{/* ExpandCard provides the onclick event */}
 						<Button
-							text={<TextWithIcon text="edit" Icon={Pencil} />}
+							text={<TextWithIcon text="Edit" Icon={Pencil} />}
 							appearance="unstyled"
-							href=""
 						/>
 					</ExpandCard>
 				)}
