@@ -7,6 +7,7 @@ export type TextWithIconProps = {
 	text: string;
 	direction?: 'left' | 'right' | 'up' | 'down';
 	iconSide?: 'left' | 'right';
+	className?: string;
 };
 
 // AKA Old Iconsides
