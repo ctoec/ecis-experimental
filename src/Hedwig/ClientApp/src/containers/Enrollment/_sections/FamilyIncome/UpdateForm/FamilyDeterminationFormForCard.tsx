@@ -49,7 +49,7 @@ const FamilyDeterminationFormForCard: React.FC<FamilyDeterminationFormForCardPro
 			id={`update-family-income-${determinationId}`}
 			data={formData}
 			onSubmit={onSubmit}
-			className="update-family-income-form"
+			className="usa-form"
 		>
 			<WithNewDetermination shouldCreate={!isEditExpansion}>
 				<IncomeDeterminationFieldSet
@@ -58,7 +58,7 @@ const FamilyDeterminationFormForCard: React.FC<FamilyDeterminationFormForCardPro
 				/>
 			</WithNewDetermination>
 			<div className="display-flex">
-				<div className="usa-form">
+				<div>
 					{cancelElement}
 					<FormSubmitButton text={isEditExpansion ? 'Save' : 'Redetermine'} />
 				</div>

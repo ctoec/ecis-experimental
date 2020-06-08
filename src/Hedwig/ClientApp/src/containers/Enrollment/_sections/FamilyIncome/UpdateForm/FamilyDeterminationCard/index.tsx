@@ -4,6 +4,13 @@ import { Card } from '../../../../../../components';
 import { CardExpansion } from '../../../../../../components/Card/CardExpansion';
 import { CardContentWithExpandCard } from './CardContentWithExpandCard';
 
+type FamilyDeterminationCardProps = {
+	determination: FamilyDetermination;
+	isCurrent: boolean;
+	isNew?: boolean;
+	forceClose: boolean;
+	expansion: JSX.Element;
+}
 /**
  * Card that displays an income determination record.
  * Has CardContentWithExpandCard as card content, and
@@ -15,13 +22,7 @@ export const FamilyDeterminationCard = ({
 	isNew = false,
 	forceClose,
 	expansion,
-}: {
-	determination: FamilyDetermination;
-	isCurrent: boolean;
-	isNew?: boolean;
-	forceClose: boolean;
-	expansion: JSX.Element;
-}) => {
+}: FamilyDeterminationCardProps) => {
 	return (
 		<Card
 			className="margin-bottom-2"

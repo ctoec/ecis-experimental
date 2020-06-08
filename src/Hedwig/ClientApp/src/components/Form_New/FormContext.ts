@@ -16,7 +16,7 @@ import { TObjectDriller } from './ObjectDriller';
 type FormContextType = {
 	data: any;
 	dataDriller: any;
-	updateData: (_: any) => void;
+	updateData: React.Dispatch<React.SetStateAction<any>>;
 };
 
 /**
