@@ -89,7 +89,7 @@ exports[`ReportSubmitForm matches snapshot 1`] = `
         <tr>
           <th
             aria-sort="none"
-            class="oec-table__column-header"
+            class="oec-table__column-header oec-unsorted"
             role="columnheader"
             scope="col"
           >
@@ -99,7 +99,7 @@ exports[`ReportSubmitForm matches snapshot 1`] = `
           </th>
           <th
             aria-sort="none"
-            class="oec-table__column-header"
+            class="oec-table__column-header oec-unsorted"
             role="columnheader"
             scope="col"
           >
@@ -111,7 +111,7 @@ exports[`ReportSubmitForm matches snapshot 1`] = `
           </th>
           <th
             aria-sort="none"
-            class="oec-table__column-header text-right"
+            class="oec-table__column-header oec-unsorted text-right"
             role="columnheader"
             scope="col"
           >
@@ -123,7 +123,7 @@ exports[`ReportSubmitForm matches snapshot 1`] = `
           </th>
           <th
             aria-sort="none"
-            class="oec-table__column-header text-right"
+            class="oec-table__column-header oec-unsorted text-right"
             role="columnheader"
             scope="col"
           >
@@ -135,7 +135,7 @@ exports[`ReportSubmitForm matches snapshot 1`] = `
           </th>
           <th
             aria-sort="none"
-            class="oec-table__column-header text-right"
+            class="oec-table__column-header oec-unsorted text-right"
             role="columnheader"
             scope="col"
           >

@@ -32,44 +32,37 @@ td.oec-table__cell--strong {
 	width: 100%;
 }
 
-.oec-sortable .oec-table__column-title {
-	text-decoration: none;
-	color: inherit;
-	font-weight: inherit;
+.oec-sortable {
+	.oec-table__column-title {
+		text-decoration: none;
+		color: inherit;
+		cursor: pointer;
+	}
+
+	&.oec-sorted .oec-table__column-title {
+		font-weight: 700;
+	}
+}
+
+.oec-unsorted:hover .oec-table__sort-controls {
+	color: color($theme-color-base);
 }
 
 .oec-table__sort-controls {
 	display: inline-block;
 	position: relative;
 	margin-left: units(1);
+	vertical-align: middle;
+	color: color($theme-color-base-lighter);
 
-	span::before {
-		content: '';
-		display: block;
-		position: absolute;
-		left: 0;
-		width: 0;
-		height: 0;
-		border-width: 0.4em;
-		border-style: solid;
-		border-color: color('base-light');
-		border-left: 0.25em solid transparent;
-		border-right: 0.25em solid transparent;
+	&--ascending,
+	&--descending {
+		color: color('primary');
 	}
 
-	span.active::before {
-		border-color: color('primary');
-		border-left-color: transparent;
-		border-right-color: transparent;
-	}
-
-	.oec-table__sort-controls__asc::before {
-		bottom: units(-1px);
-		border-bottom: none;
-	}
-
-	.oec-table__sort-controls__desc::before {
-		bottom: 0.4em;
-		border-top: none;
+	&--descending {
+		svg {
+			transform: rotate(180deg);
+		}
 	}
 }

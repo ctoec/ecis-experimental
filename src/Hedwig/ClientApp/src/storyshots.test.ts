@@ -6,7 +6,7 @@ jest.mock('react-dates', () => ({
 		`<DayPickerSingleDateController" ${JSON.stringify(props)}/>`,
 }));
 jest.mock('moment', () => {
-  return () => jest.requireActual('moment')('2020-01-01T00:00:00.000Z');
+	return () => jest.requireActual('moment')('2020-01-01T00:00:00.000Z');
 });
 initStoryshots();
 

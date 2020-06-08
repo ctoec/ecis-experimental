@@ -18,8 +18,8 @@ export const Summary: React.FC<SectionProps> = ({ enrollment }) => {
 			{child && (
 				<>
 					<p>Name: {getSummaryLine(nameFormatter(child))}</p>
-					<p>Birthdate: {getSummaryLine(dateFormatter(child.birthdate))}</p>
-					<p>Birth certificate: {getSummaryLine(birthCertPresent(child))}</p>
+					<p>Date of Birth: {getSummaryLine(dateFormatter(child.birthdate))}</p>
+					<p>Birth Certificate ID: {getSummaryLine(birthCertPresent(child))}</p>
 					<p>Race: {getSummaryLine(prettyMultiRace(child))}</p>
 					<p>Ethnicity: {getSummaryLine(prettyEthnicity(child))}</p>
 					<p>Gender: {getSummaryLine(prettyGender(child.gender || Gender.Unspecified))}</p>
