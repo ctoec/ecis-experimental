@@ -1,0 +1,38 @@
+.oec-tab-nav {
+	display: flex;
+	flex-wrap: wrap;
+
+	&--header {
+		flex: 1 1 auto;
+		display: flex;
+		width: 100%;
+	}
+
+	&--divider {
+		width: 100%;
+		height: 0;
+		border-bottom: 2px solid #aaaaaa;
+	}
+
+	&--content {
+		flex: 1 1 auto;
+	}
+
+	&--tab {
+		flex: 0 1 auto;
+		padding: 1em 3em 1em 3em;
+		width: fit-content;
+		background-color:#ffffff;
+		border: none;
+
+		&__active {
+			border-radius: 5px 5px 0 0;
+			background-color: $theme-color-primary;
+			color: #ffffff;
+		}
+
+		&:hover {
+			cursor: pointer;
+		}
+	}
+}
