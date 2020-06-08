@@ -19,10 +19,10 @@ export const FirstReportingPeriodField: React.FC<FirstReportingPeriodFieldProps>
 	fundingId,
 }) => {
 	const { dataDriller } = useGenericContext<Enrollment>(FormContext);
-	const { cdcReportingPeriods: reportingPeriods } = useContext(ReportingPeriodContext)
-	const [validReportingPeriods, setValidReportingPeriods] = useState<ReportingPeriod[]>([])
+	const { cdcReportingPeriods: reportingPeriods } = useContext(ReportingPeriodContext);
+	const [validReportingPeriods, setValidReportingPeriods] = useState<ReportingPeriod[]>([]);
 
-	// TODO: Get report!!!!!! 
+	// TODO: Get report!!!!!!
 
 	const startDate = dataDriller.at('entry').value || moment().toDate();
 	useEffect(() => {
@@ -31,15 +31,16 @@ export const FirstReportingPeriodField: React.FC<FirstReportingPeriodFieldProps>
 		// valid reporting periods:
 		// - start on or after the enrollment start date
 		// - are after the most recent reporting period for which there is a submitted report
-		// - are not more than 3 periods in the "future" -- TODO confirm this AC 
+		// - are not more than 3 periods in the "future" -- TODO confirm this AC
 		//   (i.e. in May, we will show May, June, and July reporting periods but not August)
 
 		// TODO correctly use report
 		// const validPeriodStartDate = report ? moment.max(moment(report.reportingPeriod.periodEnd), moment(startDate)) : moment(startDate);
-		const startIdx = reportingPeriods
-			.findIndex(period => moment(period.period).isSame(moment(startDate), 'month'));
-		const endIdx = reportingPeriods
-			.findIndex(period => moment(period.period).isSame(moment(), 'month')) + 2;
+		const startIdx = reportingPeriods.findIndex((period) =>
+			moment(period.period).isSame(moment(startDate), 'month')
+		);
+		const endIdx =
+			reportingPeriods.findIndex((period) => moment(period.period).isSame(moment(), 'month')) + 2;
 
 		const _validReportingPeriods = reportingPeriods.slice(startIdx, endIdx);
 		// TODO Why does this cause infinite loop??????????????
@@ -48,20 +49,26 @@ export const FirstReportingPeriodField: React.FC<FirstReportingPeriodFieldProps>
 		// This is a stopgap-- should only return last few(see logic above), not all-- slicing is causing infinite render loop b / c of calling set state
 	}, [startDate]);
 
-	const firstReportingPeriodId = dataDriller.at('fundings').find((f) => f.id === fundingId).at('firstReportingPeriodId').value;
+	const firstReportingPeriodId = dataDriller
+		.at('fundings')
+		.find((f) => f.id === fundingId)
+		.at('firstReportingPeriodId').value;
 	return (
 		<FormField<Enrollment, SelectProps, number | null>
-			getValue={data => data.at('fundings').find(f => f.id === fundingId).at('firstReportingPeriodId')}
-			parseOnChangeEvent={e => parseInt((e.target as HTMLInputElement).value)}
+			getValue={(data) =>
+				data
+					.at('fundings')
+					.find((f) => f.id === fundingId)
+					.at('firstReportingPeriodId')
+			}
+			parseOnChangeEvent={(e) => parseInt((e.target as HTMLInputElement).value)}
 			inputComponent={Select}
 			id={`first-reporting-period-${fundingId}`}
 			label="First reporting period"
-			options={
-				validReportingPeriods.map(period => ({
-					text: reportingPeriodFormatter(period),
-					value: `${period.id}`
-				}))
-			}
+			options={validReportingPeriods.map((period) => ({
+				text: reportingPeriodFormatter(period),
+				value: `${period.id}`,
+			}))}
 		/>
-	)
-}
+	);
+};

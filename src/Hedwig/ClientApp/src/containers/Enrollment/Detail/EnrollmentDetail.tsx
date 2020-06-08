@@ -87,11 +87,7 @@ export default function EnrollmentDetail({
 
 	return (
 		<CommonContainer
-			directionalLinkProps={{
-				direction: 'left',
-				to: '/roster',
-				text: 'Back to roster',
-			}}
+			backHref="/roster"
 		>
 			<div className="grid-container">
 				<div className="grid-row flex-first-baseline flex-space-between">

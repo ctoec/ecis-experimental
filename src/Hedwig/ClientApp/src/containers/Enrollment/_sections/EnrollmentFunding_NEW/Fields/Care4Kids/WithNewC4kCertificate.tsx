@@ -1,18 +1,17 @@
-import FormContext, { useGenericContext } from "../../../../../../components/Form_New/FormContext";
-import { Enrollment } from "../../../../../../generated";
-import React, { useEffect, PropsWithChildren } from "react";
+import FormContext, { useGenericContext } from '../../../../../../components/Form_New/FormContext';
+import { Enrollment } from '../../../../../../generated';
+import React, { useEffect, PropsWithChildren } from 'react';
 import produce from 'immer';
 import set from 'lodash/set';
 
-
 type WithNewC4kCertificateProps = {
 	shouldCreate: boolean;
-}
+};
 
 // Used in new flow, also in edit flow when user needs to re-certify
 export const WithNewC4kCertificate: React.FC<PropsWithChildren<WithNewC4kCertificateProps>> = ({
 	shouldCreate,
-	children: c4kCertificateFields
+	children: c4kCertificateFields,
 }) => {
 	const { data, dataDriller, updateData } = useGenericContext<Enrollment>(FormContext);
 	const newCert = dataDriller
@@ -22,13 +21,15 @@ export const WithNewC4kCertificate: React.FC<PropsWithChildren<WithNewC4kCertifi
 
 	useEffect(() => {
 		if (shouldCreate && newCert.value == undefined) {
-			setTimeout(() =>
-				updateData(
-					produce<Enrollment>(data, (draft) => set(draft, newCert.path, { id: 0 }))
-				), 0
+			setTimeout(
+				() =>
+					updateData(
+						produce<Enrollment>(data, (draft) => set(draft, newCert.path, { id: 0 }))
+					),
+				0
 			);
 		}
 	}, [shouldCreate, data]);
 
 	return <>{c4kCertificateFields}</>;
-}
+};

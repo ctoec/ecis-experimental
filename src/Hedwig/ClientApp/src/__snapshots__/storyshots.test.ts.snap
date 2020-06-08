@@ -4974,7 +4974,7 @@ exports[`Storyshots DateRangeInput Warning 1`] = `
 </div>
 `;
 
-exports[`Storyshots DirectionalLink Back arrow 1`] = `
+exports[`Storyshots TextWithIcon Back arrow 1`] = `
 <div
   style={
     Object {
@@ -4983,12 +4983,12 @@ exports[`Storyshots DirectionalLink Back arrow 1`] = `
   }
 >
   <a
-    className="oec-directional-link"
+    className="oec-text-with-icon"
     href="/"
     onClick={[Function]}
   >
     <svg
-      className="oec-directional-link__arrow oec-directional-link__arrow--direction-left oec-directional-link__arrow--side-left"
+      className="oec-text-with-icon__icon oec-text-with-icon__icon--direction-left oec-text-with-icon__icon--side-left"
     >
       arrowRight.svg
     </svg>
@@ -4997,7 +4997,7 @@ exports[`Storyshots DirectionalLink Back arrow 1`] = `
 </div>
 `;
 
-exports[`Storyshots DirectionalLink Down arrow 1`] = `
+exports[`Storyshots TextWithIcon Down arrow 1`] = `
 <div
   style={
     Object {
@@ -5006,12 +5006,12 @@ exports[`Storyshots DirectionalLink Down arrow 1`] = `
   }
 >
   <a
-    className="oec-directional-link"
+    className="oec-text-with-icon"
     href="/"
     onClick={[Function]}
   >
     <svg
-      className="oec-directional-link__arrow oec-directional-link__arrow--direction-down oec-directional-link__arrow--side-left"
+      className="oec-text-with-icon__icon oec-text-with-icon__icon--direction-down oec-text-with-icon__icon--side-left"
     >
       arrowRight.svg
     </svg>
@@ -5020,7 +5020,7 @@ exports[`Storyshots DirectionalLink Down arrow 1`] = `
 </div>
 `;
 
-exports[`Storyshots DirectionalLink Forward arrow 1`] = `
+exports[`Storyshots TextWithIcon Forward arrow 1`] = `
 <div
   style={
     Object {
@@ -5029,13 +5029,13 @@ exports[`Storyshots DirectionalLink Forward arrow 1`] = `
   }
 >
   <a
-    className="oec-directional-link"
+    className="oec-text-with-icon"
     href="/"
     onClick={[Function]}
   >
     See the next thing in this series
     <svg
-      className="oec-directional-link__arrow oec-directional-link__arrow--direction-right oec-directional-link__arrow--side-right"
+      className="oec-text-with-icon__icon oec-text-with-icon__icon--direction-right oec-text-with-icon__icon--side-right"
     >
       arrowRight.svg
     </svg>
@@ -5043,7 +5043,7 @@ exports[`Storyshots DirectionalLink Forward arrow 1`] = `
 </div>
 `;
 
-exports[`Storyshots DirectionalLink Up arrow 1`] = `
+exports[`Storyshots TextWithIcon Up arrow 1`] = `
 <div
   style={
     Object {
@@ -5052,12 +5052,12 @@ exports[`Storyshots DirectionalLink Up arrow 1`] = `
   }
 >
   <a
-    className="oec-directional-link"
+    className="oec-text-with-icon"
     href="/"
     onClick={[Function]}
   >
     <svg
-      className="oec-directional-link__arrow oec-directional-link__arrow--direction-up oec-directional-link__arrow--side-left"
+      className="oec-text-with-icon__icon oec-text-with-icon__icon--direction-up oec-text-with-icon__icon--side-left"
     >
       arrowRight.svg
     </svg>

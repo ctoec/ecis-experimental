@@ -1,6 +1,6 @@
 import React from 'react';
-import FormContext, { useGenericContext } from "../../../../../../components/Form_New/FormContext"
-import { Enrollment } from "../../../../../../generated"
+import FormContext, { useGenericContext } from '../../../../../../components/Form_New/FormContext';
+import { Enrollment } from '../../../../../../generated';
 import produce from 'immer';
 import set from 'lodash/set';
 import Checkbox from '../../../../../../components/Checkbox/Checkbox';
@@ -22,7 +22,9 @@ export const ReceivesC4KField: React.FC<ReceivesC4KFieldProps> = ({
 			text="Receives Care 4 Kids"
 			defaultValue={receivesC4K}
 			onChange={(e) => {
-				const { target: { checked } } = e
+				const {
+					target: { checked },
+				} = e;
 				// Toggle the display of the other c4k form fields
 				setReceivesC4K(checked);
 				if (!checked) {
@@ -31,9 +33,9 @@ export const ReceivesC4KField: React.FC<ReceivesC4KFieldProps> = ({
 						produce<Enrollment>(data, (draft) =>
 							set(draft, dataDriller.at('child').at('c4KCertificates').path, [])
 						)
-					)
+					);
 				}
 			}}
 		/>
-	)
-}
+	);
+};

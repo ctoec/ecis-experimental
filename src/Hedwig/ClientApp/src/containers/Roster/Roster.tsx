@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { legendDisplayDetails } from '../../utils/legendFormatters';
 import { getIdForUser } from '../../utils/models';
-import { Legend, LegendItem, DirectionalLinkProps, DateRange, Alert } from '../../components';
+import { Legend, LegendItem, TextWithIconProps, DateRange, Alert } from '../../components';
 import useApi, { paginate } from '../../hooks/useApi';
 import {
 	Age,
@@ -81,10 +81,10 @@ export default function Roster() {
 	}
 
 	let enrollments: Enrollment[] = [];
-	let siteRosterDirectionalLinkProps: DirectionalLinkProps | undefined = undefined;
+	let siteRosterTextWithIconProps: TextWithIconProps | undefined = undefined;
 	if (site) {
 		enrollments = _enrollments.filter((e) => e.siteId === site.id);
-		siteRosterDirectionalLinkProps = {
+		siteRosterTextWithIconProps = {
 			to: '/roster',
 			text: 'Back to program roster',
 			direction: 'left',
@@ -122,7 +122,7 @@ export default function Roster() {
 	};
 
 	return (
-		<CommonContainer directionalLinkProps={siteRosterDirectionalLinkProps}>
+		<CommonContainer directionalLinkProps={siteRosterTextWithIconProps}>
 			<div className="grid-container">
 				<Suspend waitFor={!organizationLoading} fallback={<div>Loading...</div>}>
 					<RosterHeader

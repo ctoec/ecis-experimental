@@ -1,8 +1,18 @@
 import React, { useState, useContext } from 'react';
 import { SectionProps } from '../../../../enrollmentTypes';
-import { Enrollment, ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest, ApiOrganizationsIdGetRequest, Organization } from '../../../../../../generated';
+import {
+	Enrollment,
+	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
+	ApiOrganizationsIdGetRequest,
+	Organization,
+} from '../../../../../../generated';
 import UserContext from '../../../../../../contexts/User/UserContext';
-import { getIdForUser, validatePermissions, fundingStartSorter, reportingPeriodFormatter } from '../../../../../../utils/models';
+import {
+	getIdForUser,
+	validatePermissions,
+	fundingStartSorter,
+	reportingPeriodFormatter,
+} from '../../../../../../utils/models';
 import useApi from '../../../../../../hooks/useApi';
 import useCatchAllErrorAlert from '../../../../../../hooks/useCatchAllErrorAlert';
 import { EnrollmentCard } from './EnrollmentCard';
@@ -10,7 +20,7 @@ import { FundingFormForCard } from './EnrollmentCard/FundingFormForCard';
 import { FundingCard } from './FundingCard';
 import { EnrollmentFormForCard } from './EnrollmentFormForCard';
 
-// TODO rename to EnrollmentFundingForm, display in some other UpdateForm when enrollment/funding tab button is clicked 
+// TODO rename to EnrollmentFundingForm, display in some other UpdateForm when enrollment/funding tab button is clicked
 // (along with Care 4 Kids section displayed when other tab button is clicked)
 export const EnrollmentFundingForm = ({ enrollment, siteId }: SectionProps) => {
 	if (!enrollment) {
@@ -28,7 +38,7 @@ export const EnrollmentFundingForm = ({ enrollment, siteId }: SectionProps) => {
 		id: enrollment.id,
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		orgId: getIdForUser(user, 'org'),
-		enrollment: mutatedEnrollment
+		enrollment: mutatedEnrollment,
 	};
 
 	const { error: saveError, loading: isSaving, data: returnedEnrollment } = useApi<Enrollment>(
@@ -44,22 +54,21 @@ export const EnrollmentFundingForm = ({ enrollment, siteId }: SectionProps) => {
 
 	const params: ApiOrganizationsIdGetRequest = {
 		id: getIdForUser(user, 'org'),
-		include: ['enrollments', 'fundings', 'funding_spaces']
-	}
+		include: ['enrollments', 'fundings', 'funding_spaces'],
+	};
 
-	const { data: organization, error: organizationError, loading: organizationLoading } = useApi<Organization>(
-		(api) => api.apiOrganizationsIdGet(params),
-		{
-			skip: !user,
-		}
-	);
+	const { data: organization, error: organizationError, loading: organizationLoading } = useApi<
+		Organization
+	>((api) => api.apiOrganizationsIdGet(params), {
+		skip: !user,
+	});
 
 	if (organizationLoading || !organization) {
 		return <>Loading...</>;
 	}
 
 	if (organizationError) {
-		return <>Something went wrong!</>
+		return <>Something went wrong!</>;
 	}
 
 	const fundingSpaces = organization.fundingSpaces || [];
@@ -68,7 +77,7 @@ export const EnrollmentFundingForm = ({ enrollment, siteId }: SectionProps) => {
 		setMutatedEnrollment(_data);
 		setAttemptingSave(true);
 		setForceCloseEditForms(true);
-	}
+	};
 
 	return (
 		<>
@@ -78,12 +87,7 @@ export const EnrollmentFundingForm = ({ enrollment, siteId }: SectionProps) => {
 				enrollment={mutatedEnrollment}
 				isCurrent
 				forceClose={forceCloseEditForms}
-				expansion={
-					<EnrollmentFormForCard
-						formData={enrollment}
-						onSubmit={formOnSubmit}
-					/>
-				}
+				expansion={<EnrollmentFormForCard formData={enrollment} onSubmit={formOnSubmit} />}
 			/>
 			{(enrollment.fundings || []).map((funding, i, fundingsArr) => (
 				<FundingCard
@@ -103,21 +107,14 @@ export const EnrollmentFundingForm = ({ enrollment, siteId }: SectionProps) => {
 			))}
 
 			<h2>Past enrollments</h2>
-			{(enrollment.pastEnrollments || []).map(pastEnrollment =>
+			{(enrollment.pastEnrollments || []).map((pastEnrollment) => (
 				<>
-					<EnrollmentCard
-						enrollment={pastEnrollment}
-						isCurrent={false}
-					/>
-					{(pastEnrollment.fundings || []).map(pastFunding => (
-						<FundingCard
-							funding={pastFunding}
-							isCurrent={false}
-							forceClose={forceCloseEditForms}
-						/>
+					<EnrollmentCard enrollment={pastEnrollment} isCurrent={false} />
+					{(pastEnrollment.fundings || []).map((pastFunding) => (
+						<FundingCard funding={pastFunding} isCurrent={false} forceClose={forceCloseEditForms} />
 					))}
 				</>
-			)}
+			))}
 		</>
-	)
-}
+	);
+};

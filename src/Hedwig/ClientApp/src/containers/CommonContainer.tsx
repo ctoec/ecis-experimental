@@ -4,20 +4,21 @@ import AlertContext from '../contexts/Alert/AlertContext';
 import {
 	Alert,
 	AlertProps,
-	DirectionalLink,
-	DirectionalLinkProps,
+	TextWithIcon,
+	TextWithIconProps,
 	ErrorBoundary,
+	Button,
 } from '../components';
 
 type CommonContainerPropsType = {
 	children: ReactElement<any> | null;
-	directionalLinkProps?: DirectionalLinkProps;
+	backHref?: string;
 	additionalAlerts?: AlertProps[];
 };
 
 export default function CommonContainer({
 	children,
-	directionalLinkProps,
+	backHref,
 	additionalAlerts = [] as AlertProps[],
 }: CommonContainerPropsType) {
 	const { getAlerts } = useContext(AlertContext);
@@ -25,8 +26,16 @@ export default function CommonContainer({
 
 	return (
 		<ErrorBoundary>
-			<div className={cx({ 'grid-container': directionalLinkProps || alerts.length })}>
-				{directionalLinkProps && <DirectionalLink {...directionalLinkProps} />}
+			<div className={cx({ 'grid-container': backHref || alerts.length })}>
+				{backHref && (
+					<Button
+						text={
+							<TextWithIcon text="Back to roster" imageFileName="arrowRight" direction="left" />
+						}
+						appearance="unstyled"
+						href={backHref}
+					/>
+				)}
 				{alerts && alerts.map((alert, index) => <Alert key={index} {...alert}></Alert>)}
 			</div>
 			<ErrorBoundary>{children}</ErrorBoundary>

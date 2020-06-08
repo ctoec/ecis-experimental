@@ -15,6 +15,7 @@ export const CardContentWithExpandCard = ({
 }: {
 	determination: FamilyDetermination;
 }) => {
+	// TODO: FORMAT THIS LIKE ENROLLMENT CARD CONTENT
 	return (
 		<div className="usa-grid">
 			<div className="grid-row">

@@ -1,12 +1,10 @@
 import React from 'react';
-import { Enrollment } from "../../../../../../../generated";
-import { Card, Button, CardProps } from '../../../../../../../components';
+import { Enrollment } from '../../../../../../../generated';
+import { Card, Button, CardProps, TextWithIcon } from '../../../../../../../components';
 import { prettyAge } from '../../../../../../../utils/models';
 import dateFormatter from '../../../../../../../utils/dateFormatter';
 import { CardExpansion } from '../../../../../../../components/Card/CardExpansion';
 import { ExpandCard } from '../../../../../../../components/Card/ExpandCard';
-import { ReactComponent as Pencil } from '../../../../../../../assets/images/pencil.svg';
-
 
 type EnrollmentCardProps = Exclude<CardProps, 'appearance' | 'forceClose' | 'key'> & {
 	enrollment: Enrollment;
@@ -24,7 +22,7 @@ export const EnrollmentCard = ({
 	isCurrent,
 	forceClose = false,
 	expansion,
-	className
+	className,
 }: EnrollmentCardProps) => {
 	return (
 		<Card
@@ -33,9 +31,9 @@ export const EnrollmentCard = ({
 			key={enrollment.id}
 			className={className}
 		>
-			<div className="display-flex flex-justify">{/* Formatted enrollment content  with ExpandCard*/}
+			<div className="display-flex flex-justify">
+				{/* Formatted enrollment content  with ExpandCard*/}
 				<div className="flex-1">
-					{/* TODO: GET SITE */}
 					<p className="text-bold">Site</p>
 					<p>{enrollment.site?.name}</p>
 				</div>
@@ -45,13 +43,21 @@ export const EnrollmentCard = ({
 				</div>
 				<div className="flex-2">
 					<p className="text-bold">Enrollment dates</p>
-					<p>{`${dateFormatter(enrollment.entry)} - ${enrollment.exit ? dateFormatter(enrollment.exit) : 'present'}`}</p>
+					<p>{`${dateFormatter(enrollment.entry)} - ${
+						enrollment.exit ? dateFormatter(enrollment.exit) : 'present'
+						}`}</p>
 				</div>
-				{expansion && <ExpandCard><Button text={(<><Pencil />Edit</>)} appearance="unstyled" /></ExpandCard>}
-
+				{expansion && (
+					<ExpandCard>
+						<Button
+							text={<TextWithIcon text="edit" imageFileName="pencil" />}
+							appearance="unstyled"
+							href=""
+						/>
+					</ExpandCard>
+				)}
 			</div>
 			<CardExpansion>{expansion}</CardExpansion>
-
 		</Card>
-	)
-}
+	);
+};

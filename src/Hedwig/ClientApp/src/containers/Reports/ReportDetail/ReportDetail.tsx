@@ -5,7 +5,7 @@ import dateFormatter from '../../../utils/dateFormatter';
 import UserContext from '../../../contexts/User/UserContext';
 import { getIdForUser, reportingPeriodFormatter } from '../../../utils/models';
 import useApi from '../../../hooks/useApi';
-import { Button, AlertProps, DirectionalLinkProps, Tag, Alert } from '../../../components';
+import { Button, AlertProps, TextWithIconProps, Tag, Alert } from '../../../components';
 import CommonContainer from '../../CommonContainer';
 import { updateRosterAlert } from '../../../utils/stringFormatters';
 import { somethingWentWrongAlert } from '../../../utils/stringFormatters/alertTextMakers';
@@ -55,7 +55,7 @@ export default function ReportDetail() {
 		additionalAlerts.push(updateRosterAlert(numEnrollmentsMissingInfo));
 	}
 
-	const directionalLinkProps: DirectionalLinkProps = {
+	const directionalLinkProps: TextWithIconProps = {
 		direction: 'left',
 		to: '/reports',
 		text: 'Back to reports',

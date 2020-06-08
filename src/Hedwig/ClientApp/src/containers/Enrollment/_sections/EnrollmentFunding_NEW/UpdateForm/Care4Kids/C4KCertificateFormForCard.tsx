@@ -10,14 +10,13 @@ type C4KCertificateFormForCardProps = {
 	formData: Enrollment;
 	onSubmit: (_: Enrollment) => void;
 	onCancel?: () => void;
-}
-
+};
 
 export const C4kCertificateFormForCard: React.FC<C4KCertificateFormForCardProps> = ({
 	certificateId,
 	formData,
 	onSubmit,
-	onCancel
+	onCancel,
 }) => {
 	return (
 		<Form
@@ -29,13 +28,9 @@ export const C4kCertificateFormForCard: React.FC<C4KCertificateFormForCardProps>
 			<FamilyIdField />
 			<CertificateStartDate certificateId={certificateId} />
 			<div>
-				<Button
-					text="Cancel"
-					appearance="outline"
-					onClick={() => onCancel && onCancel()}
-				/>
+				<Button text="Cancel" appearance="outline" onClick={() => onCancel && onCancel()} />
 				<FormSubmitButton text="Save edits" />
 			</div>
 		</Form>
-	)
-}
+	);
+};
