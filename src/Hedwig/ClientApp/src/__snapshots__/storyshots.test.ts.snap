@@ -7290,12 +7290,12 @@ exports[`Storyshots StepList Default 1`] = `
     <div
       className="oec-tab-nav--header"
     >
-      <div
+      <button
         className="oec-tab-nav--tab oec-tab-nav--tab__active"
         onClick={[Function]}
       >
         Tab One
-      </div>
+      </button>
     </div>
     <div
       className="oec-tab-nav--divider"
