@@ -1,14 +1,13 @@
 .oec-calendar-dropdown {
 	position: absolute;
 	right: 0.5rem;
-	top: 0.5rem;
+	bottom: 0;
 }
 
-.oec-calendar-dropdown__toggle {
-	top: 0.5rem;
-	height: 2.5rem;
+.oec-calendar-toggle.oec-calendar-dropdown__toggle {
 	border-radius: unset;
-	border: 1px solid #565c65;
+	margin-top: 0.5rem;
+	height: 2.5rem;
 }
 
 .oec-calendar-toggle__icon {
