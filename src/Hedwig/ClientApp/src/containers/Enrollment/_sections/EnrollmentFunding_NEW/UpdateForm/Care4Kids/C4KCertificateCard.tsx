@@ -1,9 +1,9 @@
 import React from 'react';
-import { Card, Button } from '../../../../../../../components';
-import { C4KCertificate } from '../../../../../../../generated';
-import { CardExpansion } from '../../../../../../../components/Card/CardExpansion';
-import dateFormatter from '../../../../../../../utils/dateFormatter';
-import { ExpandCard } from '../../../../../../../components/Card/ExpandCard';
+import { Card, Button } from '../../../../../../components';
+import { C4KCertificate } from '../../../../../../generated';
+import { CardExpansion } from '../../../../../../components/Card/CardExpansion';
+import dateFormatter from '../../../../../../utils/dateFormatter';
+import { ExpandCard } from '../../../../../../components/Card/ExpandCard';
 
 type C4KCertificateCardProps = {
 	certificate: C4KCertificate;
