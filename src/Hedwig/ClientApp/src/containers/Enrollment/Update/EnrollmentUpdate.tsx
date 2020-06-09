@@ -71,7 +71,7 @@ export default function EnrollmentUpdate({
 		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
 		{ skip: !user }
 	);
-	console.log(_enrollment)
+
 	useEffect(() => {
 		updateEnrollment(_enrollment);
 	}, [_enrollment]);
