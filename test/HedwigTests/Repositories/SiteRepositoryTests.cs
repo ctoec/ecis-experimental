@@ -34,7 +34,7 @@ namespace HedwigTests.Repositories
 		}
 
 		[Theory]
-		[InlineData(true, true, true)]
+		[InlineData(true, true, false)]
 		public async Task GetSiteForOrganization_ReturnsSiteWithIdAndOrganizationId_IncludesEntities(
 			bool includeEnrollments,
 			bool includeFundings,

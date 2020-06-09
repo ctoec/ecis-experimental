@@ -16,7 +16,7 @@ namespace HedwigTests.Repositories
 		[Theory]
 		[InlineData(false)]
 		[InlineData(true)]
-		public async Task Get_Report_For_Organization(bool submitted)
+		public void Get_Report_For_Organization(bool submitted)
 		{
 			using (var context = new TestHedwigContextProvider().Context)
 			{
@@ -54,9 +54,14 @@ namespace HedwigTests.Repositories
 				// It includes the Sites
 				Assert.True(result.Organization != null && result.Organization.Sites != null);
 
-				// It includes the Enrollments (and Fundings too)
+				// It includes the Enrollments
 				Assert.True(
 					result.Enrollments != null &&
+					result.Enrollments.FirstOrDefault() != null
+				);
+
+				// It includes the Enrollments Fundings too
+				Assert.True(
 					result.Enrollments.FirstOrDefault().Fundings != null
 				);
 

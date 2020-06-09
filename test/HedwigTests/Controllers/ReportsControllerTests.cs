@@ -41,6 +41,8 @@ namespace HedwigTests.Controllers
 
 			var returns = exists ? new CdcReport() : null;
 			var _reports = new Mock<IReportRepository>();
+			_reports.Setup(r => r.GetCdcReportForOrganization(id, orgId))
+      .Returns(returns);
 
 			var _mapper = new Mock<IMapper>();
 

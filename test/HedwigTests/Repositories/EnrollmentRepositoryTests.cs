@@ -220,7 +220,7 @@ namespace HedwigTests.Repositories
 		}
 
 		[Theory]
-		[InlineData(true, true, true, true)]
+		[InlineData(true, true, false, false)]
 
 		public async Task GetEnrollmentsForSite_ReturnsEnrollmentsWithSiteId_IncludesEntities(
 			bool includeFundings,

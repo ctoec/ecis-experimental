@@ -67,7 +67,7 @@ namespace HedwigTests.Integrations
 					{
 						Assert.NotNull(site.Name);
 						Assert.Null(site.Organization);
-						Assert.Null(site.Enrollments);
+						Assert.NotNull(site.Enrollments);
 					}
 				);
 				Assert.Null(responseOrganization.Reports);
