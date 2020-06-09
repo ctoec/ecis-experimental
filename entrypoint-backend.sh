@@ -1,5 +1,5 @@
 echo "installing dotnet ef utility..."
-until which dotnet-ef || dotnet tool install --global dotnet-ef --version 3.0.0; do
+until which dotnet-ef || dotnet tool install --global dotnet-ef --version 3.1.4; do
     sleep 1
 done
 
