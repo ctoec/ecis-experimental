@@ -20,7 +20,9 @@ export const CardContentWithExpandCard = ({
 		<div className="display-flex flex-justify">
 			<div className="flex-1">
 				<p>Household size</p>
-				<p className="text-bold">{determination.numberOfPeople || InlineIcon({ icon: 'incomplete' })}</p>
+				<p className="text-bold">
+					{determination.numberOfPeople || InlineIcon({ icon: 'incomplete' })}
+				</p>
 			</div>
 			<div className="flex-1">
 				<p>Income</p>
@@ -41,6 +43,6 @@ export const CardContentWithExpandCard = ({
 			<ExpandCard>
 				<Button text={<TextWithIcon text="Edit" Icon={Pencil} />} appearance="unstyled" />
 			</ExpandCard>
-		</div >
+		</div>
 	);
 };

@@ -6,15 +6,19 @@ exports[`EnrollmentUpdate FamilyIncome matches snapshot 1`] = `
     class="grid-container"
   >
     <a
-      class="oec-text-with-icon"
+      class="usa-button usa-button--unstyled text-bold text-underline"
       href="/roster/sites/1/enrollments/1/"
     >
-      <svg
-        class="oec-text-with-icon__icon oec-text-with-icon__icon--direction-left oec-text-with-icon__icon--side-left"
+      <span
+        class="oec-text-with-icon"
       >
-        arrowRight.svg
-      </svg>
-      Back to enrollment details
+        <svg
+          class="oec-text-with-icon__icon oec-text-with-icon__icon--direction-left oec-text-with-icon__icon--side-left"
+        >
+          arrowRight.svg
+        </svg>
+        Back to summary
+      </span>
     </a>
   </div>
   <div
@@ -23,11 +27,11 @@ exports[`EnrollmentUpdate FamilyIncome matches snapshot 1`] = `
     <h1>
       Update family income determination
     </h1>
-    <h2
+    <p
       class="usa-intro"
     >
       Lily Luna Potter
-    </h2>
+    </p>
     <div
       class="margin-top-1"
     >
@@ -55,76 +59,59 @@ exports[`EnrollmentUpdate FamilyIncome matches snapshot 1`] = `
             class="oec-card-cell"
           >
             <div
-              class="usa-grid"
+              class="display-flex flex-justify"
             >
               <div
-                class="grid-row"
+                class="flex-1"
               >
-                <div
-                  class="grid-col"
+                <p>
+                  Household size
+                </p>
+                <p
+                  class="text-bold"
                 >
-                  <div
-                    class="grid-row text-bold"
-                  >
-                    <div
-                      class="grid-col"
-                    >
-                      Household size
-                    </div>
-                    <div
-                      class="grid-col"
-                    >
-                      Income
-                    </div>
-                    <div
-                      class="grid-col"
-                    >
-                      Determination on
-                    </div>
-                  </div>
-                  <div
-                    class="grid-row"
-                  >
-                    <div
-                      class="grid-col"
-                    >
-                      <div
-                        class="margin-top-2"
-                      >
-                        5
-                      </div>
-                    </div>
-                    <div
-                      class="grid-col"
-                    >
-                      <div
-                        class="margin-top-2"
-                      >
-                        $22,000.00
-                      </div>
-                    </div>
-                    <div
-                      class="grid-col"
-                    >
-                      <div
-                        class="margin-top-2"
-                      >
-                        01/01/2020
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="grid-col-1 flex-align-self--center"
-                >
-                  <button
-                    class="usa-button usa-button--unstyled"
-                    type="button"
-                  >
-                    Edit
-                  </button>
-                </div>
+                  5
+                </p>
               </div>
+              <div
+                class="flex-1"
+              >
+                <p>
+                  Income
+                </p>
+                <p
+                  class="text-bold"
+                >
+                  $22,000.00
+                </p>
+              </div>
+              <div
+                class="flex-2"
+              >
+                <p>
+                  Determination on
+                </p>
+                <p
+                  class="text-bold"
+                >
+                  01/01/2020
+                </p>
+              </div>
+              <button
+                class="usa-button usa-button--unstyled"
+                type="button"
+              >
+                <span
+                  class="oec-text-with-icon"
+                >
+                  <svg
+                    class="oec-text-with-icon__icon oec-text-with-icon__icon--direction-right oec-text-with-icon__icon--side-left"
+                  >
+                    pencil.svg
+                  </svg>
+                  Edit
+                </span>
+              </button>
             </div>
           </div>
           <div
@@ -1475,76 +1462,59 @@ exports[`EnrollmentUpdate FamilyIncome matches snapshot 1`] = `
             class="oec-card-cell"
           >
             <div
-              class="usa-grid"
+              class="display-flex flex-justify"
             >
               <div
-                class="grid-row"
+                class="flex-1"
               >
-                <div
-                  class="grid-col"
+                <p>
+                  Household size
+                </p>
+                <p
+                  class="text-bold"
                 >
-                  <div
-                    class="grid-row text-bold"
-                  >
-                    <div
-                      class="grid-col"
-                    >
-                      Household size
-                    </div>
-                    <div
-                      class="grid-col"
-                    >
-                      Income
-                    </div>
-                    <div
-                      class="grid-col"
-                    >
-                      Determination on
-                    </div>
-                  </div>
-                  <div
-                    class="grid-row"
-                  >
-                    <div
-                      class="grid-col"
-                    >
-                      <div
-                        class="margin-top-2"
-                      >
-                        4
-                      </div>
-                    </div>
-                    <div
-                      class="grid-col"
-                    >
-                      <div
-                        class="margin-top-2"
-                      >
-                        $20,000.00
-                      </div>
-                    </div>
-                    <div
-                      class="grid-col"
-                    >
-                      <div
-                        class="margin-top-2"
-                      >
-                        01/01/2019
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="grid-col-1 flex-align-self--center"
-                >
-                  <button
-                    class="usa-button usa-button--unstyled"
-                    type="button"
-                  >
-                    Edit
-                  </button>
-                </div>
+                  4
+                </p>
               </div>
+              <div
+                class="flex-1"
+              >
+                <p>
+                  Income
+                </p>
+                <p
+                  class="text-bold"
+                >
+                  $20,000.00
+                </p>
+              </div>
+              <div
+                class="flex-2"
+              >
+                <p>
+                  Determination on
+                </p>
+                <p
+                  class="text-bold"
+                >
+                  01/01/2019
+                </p>
+              </div>
+              <button
+                class="usa-button usa-button--unstyled"
+                type="button"
+              >
+                <span
+                  class="oec-text-with-icon"
+                >
+                  <svg
+                    class="oec-text-with-icon__icon oec-text-with-icon__icon--direction-right oec-text-with-icon__icon--side-left"
+                  >
+                    pencil.svg
+                  </svg>
+                  Edit
+                </span>
+              </button>
             </div>
           </div>
           <div
@@ -2889,15 +2859,19 @@ exports[`EnrollmentUpdate enrollment and funding matches snapshot 1`] = `
     class="grid-container"
   >
     <a
-      class="oec-text-with-icon"
+      class="usa-button usa-button--unstyled text-bold text-underline"
       href="/roster/sites/1/enrollments/1/"
     >
-      <svg
-        class="oec-text-with-icon__icon oec-text-with-icon__icon--direction-left oec-text-with-icon__icon--side-left"
+      <span
+        class="oec-text-with-icon"
       >
-        arrowRight.svg
-      </svg>
-      Back to enrollment details
+        <svg
+          class="oec-text-with-icon__icon oec-text-with-icon__icon--direction-left oec-text-with-icon__icon--side-left"
+        >
+          arrowRight.svg
+        </svg>
+        Back to summary
+      </span>
     </a>
   </div>
   <div
@@ -2906,11 +2880,11 @@ exports[`EnrollmentUpdate enrollment and funding matches snapshot 1`] = `
     <h1>
       Update enrollment and funding
     </h1>
-    <h2
+    <p
       class="usa-intro"
     >
       Lily Luna Potter
-    </h2>
+    </p>
     <form
       autocomplete="off"
       class="EnrollmentFundingForm"
@@ -4426,15 +4400,19 @@ exports[`EnrollmentUpdate family info matches snapshot 1`] = `
     class="grid-container"
   >
     <a
-      class="oec-text-with-icon"
+      class="usa-button usa-button--unstyled text-bold text-underline"
       href="/roster/sites/1/enrollments/1/"
     >
-      <svg
-        class="oec-text-with-icon__icon oec-text-with-icon__icon--direction-left oec-text-with-icon__icon--side-left"
+      <span
+        class="oec-text-with-icon"
       >
-        arrowRight.svg
-      </svg>
-      Back to enrollment details
+        <svg
+          class="oec-text-with-icon__icon oec-text-with-icon__icon--direction-left oec-text-with-icon__icon--side-left"
+        >
+          arrowRight.svg
+        </svg>
+        Back to summary
+      </span>
     </a>
   </div>
   <div
@@ -4443,11 +4421,11 @@ exports[`EnrollmentUpdate family info matches snapshot 1`] = `
     <h1>
       Update family information
     </h1>
-    <h2
+    <p
       class="usa-intro"
     >
       Lily Luna Potter
-    </h2>
+    </p>
     <form
       autocomplete="off"
       class="FamilyInfoForm usa-form"

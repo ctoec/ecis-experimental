@@ -27,6 +27,7 @@ export default function CommonContainer({
 					<Button
 						appearance="unstyled"
 						href={backHref}
+						className="text-bold text-underline"
 						text={<TextWithIcon text={backText} Icon={ArrowRight} direction="left" />}
 					/>
 				)}

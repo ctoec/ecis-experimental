@@ -46,7 +46,7 @@ export const EnrollmentCard = ({
 					<p>Enrollment dates</p>
 					<p className="text-bold">{`${dateFormatter(enrollment.entry)} - ${
 						enrollment.exit ? dateFormatter(enrollment.exit) : 'present'
-						}`}</p>
+					}`}</p>
 				</div>
 				{expansion && (
 					<ExpandCard>

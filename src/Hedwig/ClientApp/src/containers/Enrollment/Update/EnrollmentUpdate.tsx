@@ -4,7 +4,7 @@ import { History } from 'history';
 import ChildInfo from '../_sections/ChildInfo';
 import FamilyInfo from '../_sections/FamilyInfo';
 import FamilyIncome from '../_sections/FamilyIncome';
-import EnrollmentFunding from '../_sections/EnrollmentFunding_NEW';
+import EnrollmentFunding from '../_sections/EnrollmentFunding';
 import PageNotFound from '../../PageNotFound/PageNotFound';
 import UserContext from '../../../contexts/User/UserContext';
 import {
@@ -122,7 +122,7 @@ export default function EnrollmentUpdate({
 
 	return (
 		<CommonContainer
-			backText="Back to enrollment details"
+			backText="Back to summary"
 			backHref={`/roster/sites/${siteId}/enrollments/${enrollment.id}/`}
 		>
 			<div className="grid-container">
@@ -136,8 +136,8 @@ export default function EnrollmentUpdate({
 					{section.UpdateForm ? (
 						<section.UpdateForm {...sectionFormProps} />
 					) : (
-							<section.Form {...sectionFormProps} />
-						)}
+						<section.Form {...sectionFormProps} />
+					)}
 				</ErrorBoundary>
 			</div>
 		</CommonContainer>
