@@ -65,12 +65,13 @@ export default function EnrollmentUpdate({
 		id: enrollmentId ? enrollmentId : 0,
 		orgId: getIdForUser(user, 'org'),
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
-		include: ['child', 'family', 'determinations', 'fundings', 'past_enrollments'],
+		include: ['child', 'family', 'determinations', 'fundings', 'past_enrollments', 'sites'],
 	};
 	const { loading, error, data: _enrollment } = useApi(
 		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
 		{ skip: !user }
 	);
+	console.log(_enrollment)
 	useEffect(() => {
 		updateEnrollment(_enrollment);
 	}, [_enrollment]);
@@ -135,8 +136,8 @@ export default function EnrollmentUpdate({
 					{section.UpdateForm ? (
 						<section.UpdateForm {...sectionFormProps} />
 					) : (
-						<section.Form {...sectionFormProps} />
-					)}
+							<section.Form {...sectionFormProps} />
+						)}
 				</ErrorBoundary>
 			</div>
 		</CommonContainer>

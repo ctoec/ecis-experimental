@@ -35,18 +35,18 @@ export const EnrollmentCard = ({
 			<div className="display-flex flex-justify">
 				{/* Formatted enrollment content  with ExpandCard*/}
 				<div className="flex-1">
-					<p className="text-bold">Site</p>
-					<p>{enrollment.site?.name}</p>
+					<p>Site</p>
+					<p className="text-bold">{enrollment.site?.name}</p>
 				</div>
 				<div className="flex-1">
-					<p className="text-bold">Age group</p>
-					<p>{prettyAge(enrollment.ageGroup)}</p>
+					<p>Age group</p>
+					<p className="text-bold">{prettyAge(enrollment.ageGroup)}</p>
 				</div>
 				<div className="flex-2">
-					<p className="text-bold">Enrollment dates</p>
-					<p>{`${dateFormatter(enrollment.entry)} - ${
+					<p>Enrollment dates</p>
+					<p className="text-bold">{`${dateFormatter(enrollment.entry)} - ${
 						enrollment.exit ? dateFormatter(enrollment.exit) : 'present'
-					}`}</p>
+						}`}</p>
 				</div>
 				{expansion && (
 					<ExpandCard>

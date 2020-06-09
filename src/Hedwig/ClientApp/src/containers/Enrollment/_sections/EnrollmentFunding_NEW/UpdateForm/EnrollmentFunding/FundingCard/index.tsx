@@ -35,16 +35,16 @@ export const FundingCard = ({
 				{' '}
 				{/* formatted funding content with ExpandCard */}
 				<div className="flex-1">
-					<p className="text-bold">Funding</p>
+					<p>Funding</p>
 					<p>{getFundingTag({ fundingSource: funding.source })}</p>
 				</div>
 				<div className="flex-1">
-					<p className="text-bold">Space type</p>
-					<p>{prettyFundingSpaceTime(funding.fundingSpace)}</p>
+					<p>Space type</p>
+					<p className="text-bold">{prettyFundingSpaceTime(funding.fundingSpace)}</p>
 				</div>
 				<div className="flex-2">
-					<p className="text-bold">Reporting periods</p>
-					<p>
+					<p>Reporting periods</p>
+					<p className="text-bold">
 						{reportingPeriodFormatter(funding.firstReportingPeriod)} -{' '}
 						{funding.lastReportingPeriod
 							? reportingPeriodFormatter(funding.lastReportingPeriod)
