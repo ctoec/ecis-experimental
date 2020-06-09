@@ -43,7 +43,7 @@ namespace HedwigTests.Repositories
 
 				// When the repository is queried
 				var repo = new ReportRepository(context);
-				var result = await repo.GetReportForOrganizationAsync(report.Id, organization.Id) as CdcReport;
+				var result = repo.GetCdcReportForOrganization(report.Id, organization.Id) as CdcReport;
 
 				// It returns the Report
 				Assert.Equal(result.Id, report.Id);

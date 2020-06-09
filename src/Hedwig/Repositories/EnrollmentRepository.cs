@@ -43,8 +43,7 @@ namespace Hedwig.Repositories
 				.FilterByDates(from, to)
 				.Where(e => e.SiteId == siteId);
 
-			enrollments = enrollments.IncludeFundings();
-			enrollments = enrollments.IncludeSitesAndChild();
+			enrollments = enrollments.IncludeFundingsSitesAndChild();
 
 			enrollments = enrollments.Skip(skip);
 			if (take.HasValue)
@@ -60,8 +59,7 @@ namespace Hedwig.Repositories
 				.Where(e => e.SiteId == siteId && e.Id == id);
 
 			enrollmentQuery = enrollmentQuery.Include(e => e.Author);
-			enrollmentQuery = enrollmentQuery.IncludeFundings();
-			enrollmentQuery = enrollmentQuery.IncludeSitesAndChild();
+			enrollmentQuery = enrollmentQuery.IncludeFundingsSitesAndChild();
 			enrollmentQuery = enrollmentQuery.IncludeFamilyAndDeterminations();
 
 			var enrollment = enrollmentQuery.FirstOrDefault();
@@ -105,7 +103,7 @@ namespace Hedwig.Repositories
 				.FilterByDates(from, to)
 				.Where(e => e.Site.OrganizationId == orgId);
 
-			enrollments = enrollments.IncludeFundings();
+			enrollments = enrollments.IncludeFundingsSitesAndChild();
 
 			enrollments = enrollments.Skip(skip);
 			if (take.HasValue)
@@ -151,7 +149,7 @@ namespace Hedwig.Repositories
 			return query;
 		}
 
-		public static IQueryable<Enrollment> IncludeFundings(this IQueryable<Enrollment> query)
+		public static IQueryable<Enrollment> IncludeFundingsSitesAndChild(this IQueryable<Enrollment> query)
 		{
 			query = query.Include(e => e.Fundings)
 					.ThenInclude(f => f.FundingSpace)
@@ -163,11 +161,6 @@ namespace Hedwig.Repositories
 				.Include(e => e.Child)
 					.ThenInclude(c => c.C4KCertificates);
 
-			return query;
-		}
-
-		public static IQueryable<Enrollment> IncludeSitesAndChild(this IQueryable<Enrollment> query)
-		{
 			query = query.Include(e => e.Site);
 
 			query = query.Include(e => e.Child);

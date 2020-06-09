@@ -57,7 +57,7 @@ namespace Hedwig.Controllers
 			int orgId
 		)
 		{
-			var report = await _reports.GetReportForOrganizationAsync(id, orgId);
+			var report = _reports.GetCdcReportForOrganization(id, orgId);
 			if (report == null) return NotFound();
 
 			return Ok(report);

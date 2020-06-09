@@ -41,8 +41,6 @@ namespace HedwigTests.Controllers
 
 			var returns = exists ? new CdcReport() : null;
 			var _reports = new Mock<IReportRepository>();
-			_reports.Setup(r => r.GetReportForOrganizationAsync(id, orgId))
-				.ReturnsAsync(returns);
 
 			var _mapper = new Mock<IMapper>();
 
@@ -50,7 +48,7 @@ namespace HedwigTests.Controllers
 
 			var result = await controller.Get(id, orgId);
 
-			_reports.Verify(r => r.GetReportForOrganizationAsync(id, orgId), Times.Once());
+			_reports.Verify(r => r.GetCdcReportForOrganization(id, orgId), Times.Once());
 			Assert.IsType(resultType, result.Result);
 		}
 

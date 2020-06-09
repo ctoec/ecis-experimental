@@ -20,11 +20,8 @@ namespace Hedwig.Repositories
 			organization = organization.Include(o => o.FundingSpaces)
 				.ThenInclude(fs => fs.TimeSplit);
 
-			organization = organization.Include(o => o.Sites);
-
-			// This would have been returned if query parameter include[] included "enrollments"
-			// Please note that this returns an error.
-			//organization = ((IIncludableQueryable<Organization, Site>)organization).ThenInclude(s => s.Enrollments);
+			organization = organization.Include(o => o.Sites)
+				.ThenInclude(s => s.Enrollments);
 
 			return organization.FirstOrDefault();
 		}

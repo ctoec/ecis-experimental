@@ -25,11 +25,12 @@ namespace Hedwig.Repositories
 			.OfType<CdcReport>()
 			.Where(r => r.OrganizationId == orgId)
 			.Include(report => report.ReportingPeriod)
-			.Include(report => report.TimeSplitUtilizations)
+			// Not included in OrganizationReportSummaryDTO
+			//.Include(report => report.TimeSplitUtilizations)
 			.ToList();
 		}
 
-		public async Task<CdcReport> GetReportForOrganizationAsync(int id, int orgId)
+		public CdcReport GetCdcReportForOrganization(int id, int orgId)
 		{
 			IQueryable<CdcReport> reportQuery = _context.Reports
 			.OfType<CdcReport>()
@@ -56,7 +57,7 @@ namespace Hedwig.Repositories
 						.ThenInclude(fundingSpace => fundingSpace.TimeSplitUtilizations)
 							.ThenInclude(util => util.Report);
 
-			var reportResult = await reportQuery.FirstOrDefaultAsync();
+			var reportResult = reportQuery.FirstOrDefault();
 
 			// Manually insert time-versioned enrollment records
 			if (reportResult != null)
@@ -171,7 +172,7 @@ namespace Hedwig.Repositories
 	{
 		void UpdateReport(CdcReport report, CdcReportDTO reportDTO);
 		List<CdcReport> GetReportsForOrganization(int orgId);
-		Task<CdcReport> GetReportForOrganizationAsync(int id, int orgId);
+		CdcReport GetCdcReportForOrganization(int id, int orgId);
 		List<Enrollment> GetEnrollmentsForReport(CdcReport report);
 		CdcReport GetMostRecentSubmittedCdcReportForOrganization(int orgId);
 		IEnumerable<CdcReport> GetReportsForOrganizationByFiscalYear(int orgId, DateTime periodDate);
