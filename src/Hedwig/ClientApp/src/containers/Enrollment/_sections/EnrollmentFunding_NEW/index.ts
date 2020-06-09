@@ -1,6 +1,7 @@
 import { Section } from '../../enrollmentTypes';
 import { NewForm } from './NewForm';
-import UpdateForm from './UpdateForm';
+// Why is typescript being weird about the index.tsx file??
+import UpdateForm from './UpdateForm/index';
 import EnrollmentFunding from '../EnrollmentFunding';
 
 export default {

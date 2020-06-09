@@ -21,21 +21,25 @@ export const TabNav: React.FC<TabNavProps> = ({ items }) => {
 	};
 
 	const tabs = items.map(({ text }, index) => (
-		<button
-			key={index}
-			className={cx('oec-tab-nav--tab', { 'oec-tab-nav--tab__active': index === activeTabIndex })}
-			onClick={() => onClick(index)}
-		>
-			{text}
-		</button>
+		<li key={index}>
+			<button
+				className={cx('oec-tab-nav--tab', { 'oec-tab-nav--tab__active': index === activeTabIndex })}
+				onClick={() => onClick(index)}
+			>
+				{text}
+			</button>
+		</li>
 	));
 
 	const activeTab = items[activeTabIndex];
 
 	return (
 		<div className="oec-tab-nav">
-			<div className="oec-tab-nav--header">{tabs}</div>
-			<div className="oec-tab-nav--divider"></div>
+			<div className="oec-tab-nav--header">
+				<nav>
+					<ul>{tabs}</ul>
+				</nav>
+			</div>
 			<div className="oec-tab-nav--content">{activeTab.content}</div>
 		</div>
 	);
