@@ -10,7 +10,7 @@ type FamilyDeterminationCardProps = {
 	isNew?: boolean;
 	forceClose: boolean;
 	expansion: JSX.Element;
-}
+};
 /**
  * Card that displays an income determination record.
  * Has CardContentWithExpandCard as card content, and

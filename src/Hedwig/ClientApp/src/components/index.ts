@@ -6,7 +6,7 @@ export * from './ChoiceList/ChoiceList';
 export * from './ChoiceList/ChoiceListExpansion';
 export * from './DateInput/DateInput';
 export * from './DateRangeInput/DateRangeInput';
-export * from './DirectionalLink/DirectionalLink';
+export * from './TextWithIcon/TextWithIcon';
 export * from './ErrorBoundary/ErrorBoundary';
 export * from './FieldSet/FieldSet';
 export * from './FormStatus/FormStatus';

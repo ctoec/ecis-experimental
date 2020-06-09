@@ -4974,98 +4974,6 @@ exports[`Storyshots DateRangeInput Warning 1`] = `
 </div>
 `;
 
-exports[`Storyshots DirectionalLink Back arrow 1`] = `
-<div
-  style={
-    Object {
-      "padding": "40px",
-    }
-  }
->
-  <a
-    className="oec-directional-link"
-    href="/"
-    onClick={[Function]}
-  >
-    <svg
-      className="oec-directional-link__arrow oec-directional-link__arrow--direction-left oec-directional-link__arrow--side-left"
-    >
-      arrowRight.svg
-    </svg>
-    Look at the stuff you were looking at before
-  </a>
-</div>
-`;
-
-exports[`Storyshots DirectionalLink Down arrow 1`] = `
-<div
-  style={
-    Object {
-      "padding": "40px",
-    }
-  }
->
-  <a
-    className="oec-directional-link"
-    href="/"
-    onClick={[Function]}
-  >
-    <svg
-      className="oec-directional-link__arrow oec-directional-link__arrow--direction-down oec-directional-link__arrow--side-left"
-    >
-      arrowRight.svg
-    </svg>
-    Check out our sweet footer
-  </a>
-</div>
-`;
-
-exports[`Storyshots DirectionalLink Forward arrow 1`] = `
-<div
-  style={
-    Object {
-      "padding": "40px",
-    }
-  }
->
-  <a
-    className="oec-directional-link"
-    href="/"
-    onClick={[Function]}
-  >
-    See the next thing in this series
-    <svg
-      className="oec-directional-link__arrow oec-directional-link__arrow--direction-right oec-directional-link__arrow--side-right"
-    >
-      arrowRight.svg
-    </svg>
-  </a>
-</div>
-`;
-
-exports[`Storyshots DirectionalLink Up arrow 1`] = `
-<div
-  style={
-    Object {
-      "padding": "40px",
-    }
-  }
->
-  <a
-    className="oec-directional-link"
-    href="/"
-    onClick={[Function]}
-  >
-    <svg
-      className="oec-directional-link__arrow oec-directional-link__arrow--direction-up oec-directional-link__arrow--side-left"
-    >
-      arrowRight.svg
-    </svg>
-    Look at stuff at the top of the page
-  </a>
-</div>
-`;
-
 exports[`Storyshots FieldSet Default 1`] = `
 <div
   style={
@@ -7290,16 +7198,19 @@ exports[`Storyshots StepList Default 1`] = `
     <div
       className="oec-tab-nav--header"
     >
-      <button
-        className="oec-tab-nav--tab oec-tab-nav--tab__active"
-        onClick={[Function]}
-      >
-        Tab One
-      </button>
+      <nav>
+        <ul>
+          <li>
+            <button
+              className="oec-tab-nav--tab oec-tab-nav--tab__active"
+              onClick={[Function]}
+            >
+              Tab One
+            </button>
+          </li>
+        </ul>
+      </nav>
     </div>
-    <div
-      className="oec-tab-nav--divider"
-    />
     <div
       className="oec-tab-nav--content"
     >
@@ -8069,5 +7980,89 @@ exports[`Storyshots TextInput With default value 1`] = `
       type="text"
     />
   </div>
+</div>
+`;
+
+exports[`Storyshots TextWithIcon Back arrow 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <span
+    className="oec-text-with-icon"
+  >
+    <svg
+      className="oec-text-with-icon__icon oec-text-with-icon__icon--direction-left oec-text-with-icon__icon--side-left"
+    >
+      arrowRight.svg
+    </svg>
+    Look at the stuff you were looking at before
+  </span>
+</div>
+`;
+
+exports[`Storyshots TextWithIcon Down arrow 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <span
+    className="oec-text-with-icon"
+  >
+    <svg
+      className="oec-text-with-icon__icon oec-text-with-icon__icon--direction-down oec-text-with-icon__icon--side-left"
+    >
+      arrowRight.svg
+    </svg>
+    Check out our sweet footer
+  </span>
+</div>
+`;
+
+exports[`Storyshots TextWithIcon Forward arrow 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <span
+    className="oec-text-with-icon"
+  >
+    See the next thing in this series
+    <svg
+      className="oec-text-with-icon__icon oec-text-with-icon__icon--direction-right oec-text-with-icon__icon--side-right"
+    >
+      arrowRight.svg
+    </svg>
+  </span>
+</div>
+`;
+
+exports[`Storyshots TextWithIcon Up arrow 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
+  <span
+    className="oec-text-with-icon"
+  >
+    <svg
+      className="oec-text-with-icon__icon oec-text-with-icon__icon--direction-up oec-text-with-icon__icon--side-left"
+    >
+      arrowRight.svg
+    </svg>
+    Look at stuff at the top of the page
+  </span>
 </div>
 `;

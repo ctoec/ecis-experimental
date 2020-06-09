@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Button } from "../../../../../../../components"
+import { Card, Button } from '../../../../../../../components';
 import { C4KCertificate } from '../../../../../../../generated';
 import { CardExpansion } from '../../../../../../../components/Card/CardExpansion';
 import dateFormatter from '../../../../../../../utils/dateFormatter';
@@ -11,14 +11,14 @@ type C4KCertificateCardProps = {
 	isCurrent: boolean;
 	forceClose?: boolean;
 	expansion: JSX.Element;
-}
+};
 
 export const C4KCertificateCard = ({
 	certificate,
 	c4KFamilyId,
 	isCurrent,
 	forceClose = false,
-	expansion
+	expansion,
 }: C4KCertificateCardProps) => {
 	return (
 		<Card
@@ -37,5 +37,5 @@ export const C4KCertificateCard = ({
 			</div>
 			<CardExpansion>{expansion}</CardExpansion>
 		</Card>
-	)
-}
+	);
+};

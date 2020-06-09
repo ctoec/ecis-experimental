@@ -1,6 +1,6 @@
 import React from 'react';
-import { Enrollment } from "../../../../../../generated"
-import { Form, FormSubmitButton } from "../../../../../../components/Form_New";
+import { Enrollment } from '../../../../../../generated';
+import { Form, FormSubmitButton } from '../../../../../../components/Form_New';
 import { EnrollmentStartDate } from '../../Fields/EnrollmentStartDate';
 import { AgeGroupField } from '../../Fields/AgeGroup';
 import { Button } from '../../../../../../components';
@@ -11,7 +11,7 @@ type EnrollmentFormForCardProps = {
 	onSubmit: (_: Enrollment) => void;
 };
 
-// For now, only edit AND only current enrollment 
+// For now, only edit AND only current enrollment
 // (b/c other enrollments are displayed via "past enrollments",
 // so they're not updateable thru the API)
 
@@ -26,22 +26,14 @@ export const EnrollmentFormForCard: React.FC<EnrollmentFormForCardProps> = ({
 	onSubmit,
 }) => {
 	return (
-		<Form
-			id={`edit-enrollment`}
-			data={formData}
-			onSubmit={onSubmit}
-			className="usa-form"
-		>
+		<Form id={`edit-enrollment`} data={formData} onSubmit={onSubmit} className="usa-form">
 			<EnrollmentStartDate initialLoad={false} />
 			{/* TODO: AgeGroupField needs to blow away all of the fundings on change */}
 			<AgeGroupField initialLoad={false} />
 			<ExpandCard>
-				<Button
-					text="Cancel"
-					appearance="outline"
-				/>
+				<Button text="Cancel" appearance="outline" />
 			</ExpandCard>
 			<FormSubmitButton text="Save edits" />
 		</Form>
 	);
-}
+};
