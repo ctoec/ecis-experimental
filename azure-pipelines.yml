@@ -35,7 +35,7 @@ jobs:
         displayName: "Use .NET Core sdk"
         inputs:
           packageType: sdk
-          version: 3.0.x
+          version: 3.1.x
           installationPath: $(Agent.ToolsDirectory)/dotnet
 
       - task: DotNetCoreCLI@2
@@ -138,7 +138,7 @@ jobs:
         displayName: "Install .NET Core SDK"
         inputs:
           packageType: sdk
-          version: 3.0.x
+          version: 3.1.x
           installationPath: $(Agent.ToolsDirectory)/dotnet
 
       - task: SonarCloudPrepare@1
@@ -177,7 +177,7 @@ jobs:
         displayName: "Install .NET Core sdk"
         inputs:
           packageType: sdk
-          version: 3.0.x
+          version: 3.1.x
           installationPath: $(Agent.ToolsDirectory)/dotnet
 
       # Embed build id in help file
@@ -199,7 +199,7 @@ jobs:
           pathToPublish: "$(Build.SourcesDirectory)/src/Hedwig/ClientApp"
           artifactName: hedwig-uncompiled-spa
 
-      - script: dotnet tool install --tool-path $(Agent.ToolsDirectory) dotnet-ef --version 3.0.0
+      - script: dotnet tool install --tool-path $(Agent.ToolsDirectory) dotnet-ef --version 3.1.4
         displayName: "Install EntityFramework"
 
       - script: export ConnectionStrings__HEDWIG=xxx && $(Agent.ToolsDirectory)/dotnet-ef --verbose migrations script --idempotent --output $(Build.ArtifactStagingDirectory)/hedwig-db.sql --context HedwigContext --project src/Hedwig

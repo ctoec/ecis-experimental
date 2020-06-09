@@ -7,7 +7,7 @@ cp test/HedwigTests/Fixtures/Migrations/* src/Hedwig/Migrations
 
 if [ -z "$(dotnet tool list -g | grep dotnet-ef)" ]; then
   echo "installing dotnet ef utility..."
-  until dotnet tool install --global dotnet-ef --version 3.0.0; do
+  until dotnet tool install --global dotnet-ef --version 3.1.4; do
       sleep 1
   done
 fi
