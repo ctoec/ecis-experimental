@@ -12,13 +12,9 @@ namespace HedwigTests.Repositories
 	public class ChildRepositoryTests
 	{
 		[Theory]
-		[InlineData(new string[] { }, false, false)]
-		[InlineData(new string[] { "family" }, true, false)]
-		[InlineData(new string[] { "determinations" }, false, false)]
-		[InlineData(new string[] { "family", "determinations" }, true, true)]
+		[InlineData(true, true)]
 
 		public async Task GetChildrenForOrganization(
-			string[] include,
 			bool includeFamily,
 			bool includeDeterminations
 		)
@@ -36,7 +32,7 @@ namespace HedwigTests.Repositories
 			using (var context = new TestHedwigContextProvider().Context)
 			{
 				var childRepo = new ChildRepository(context);
-				var res = await childRepo.GetChildrenForOrganizationAsync(organizationId, include);
+				var res = await childRepo.GetChildrenForOrganizationAsync(organizationId);
 
 				Assert.Equal(ids.OrderBy(id => id), res.Select(c => c.Id).OrderBy(id => id));
 				Assert.Equal(includeFamily, res.TrueForAll(c => c.Family != null));
@@ -45,12 +41,8 @@ namespace HedwigTests.Repositories
 		}
 
 		[Theory]
-		[InlineData(new string[] { }, false, false)]
-		[InlineData(new string[] { "family" }, true, false)]
-		[InlineData(new string[] { "determinations" }, false, false)]
-		[InlineData(new string[] { "family", "determinations" }, true, true)]
+		[InlineData(true, true)]
 		public async Task GetChildForOrganization(
-			string[] include,
 			bool includeFamily,
 			bool includeDeterminations
 		)
@@ -63,7 +55,7 @@ namespace HedwigTests.Repositories
 			using (var context = new TestHedwigContextProvider().Context)
 			{
 				var childRepo = new ChildRepository(context);
-				var res = await childRepo.GetChildForOrganizationAsync(child.Id, child.OrganizationId, include);
+				var res = await childRepo.GetChildForOrganizationAsync(child.Id, child.OrganizationId);
 
 				Assert.Equal(child.Id, res.Id);
 				Assert.Equal(includeFamily, res.Family != null);

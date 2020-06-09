@@ -20,48 +20,32 @@ namespace Hedwig.Repositories
 				.ToListAsync();
 		}
 
-		public Task<Site> GetSiteForOrganizationAsync(int id, int organizationId, string[] include = null)
+		public Task<Site> GetSiteForOrganizationAsync(int id, int organizationId)
 		{
 			var site = _context.Sites
 				.Where(s => s.Id == id
 					&& s.OrganizationId == organizationId);
 
-			include = include ?? new string[] { };
-			if (include.Contains(INCLUDE_ORGANIZATIONS))
-			{
-				site = site.Include(s => s.Organization);
+			site = site.Include(s => s.Organization);
 
-				if (include.Contains(INCLUDE_FUNDING_SPACES))
-				{
-					site = ((IIncludableQueryable<Site, Organization>)site)
-						.ThenInclude(o => o.FundingSpaces)
-							.ThenInclude(fs => fs.TimeSplit);
-				}
-			}
+			site = ((IIncludableQueryable<Site, Organization>)site)
+				.ThenInclude(o => o.FundingSpaces)
+					.ThenInclude(fs => fs.TimeSplit);
+
 			// Chaining of multiple ThenIncludes is not supported, so to include both
 			// enrollment fundings and enrollment children requires separate calls to include enrollments
-			if (include.Contains(INCLUDE_ENROLLMENTS))
-			{
-				if (include.Contains(INCLUDE_FUNDINGS))
-				{
-					site = site.Include(s => s.Enrollments)
-						.ThenInclude(e => e.Fundings)
-							.ThenInclude(f => f.FirstReportingPeriod)
-					.Include(s => s.Enrollments)
-						.ThenInclude(e => e.Fundings)
-							.ThenInclude(f => f.LastReportingPeriod);
-				}
+			site = site.Include(s => s.Enrollments)
+				.ThenInclude(e => e.Fundings)
+					.ThenInclude(f => f.FirstReportingPeriod)
+			.Include(s => s.Enrollments)
+				.ThenInclude(e => e.Fundings)
+					.ThenInclude(f => f.LastReportingPeriod);
 
-				if (include.Contains(INCLUDE_CHILD))
-				{
-					site = site.Include(s => s.Enrollments).ThenInclude(e => e.Child);
-				}
+			// Calls from front end don't appear to include "child"
+			//site = site.Include(s => s.Enrollments).ThenInclude(e => e.Child);
 
-				if (!(include.Contains(INCLUDE_FUNDINGS) || include.Contains(INCLUDE_CHILD)))
-				{
-					site = site.Include(s => s.Enrollments);
-				}
-			}
+			// Only if Fundings not included, but they are by default
+			//site = site.Include(s => s.Enrollments);
 
 			return site.FirstOrDefaultAsync();
 		}
@@ -75,7 +59,7 @@ namespace Hedwig.Repositories
 	public interface ISiteRepository
 	{
 		Task<List<Site>> GetSitesForOrganizationAsync(int organizationId);
-		Task<Site> GetSiteForOrganizationAsync(int id, int organizationId, string[] include = null);
+		Task<Site> GetSiteForOrganizationAsync(int id, int organizationId);
 
 		Site GetSiteById(int id);
 	}

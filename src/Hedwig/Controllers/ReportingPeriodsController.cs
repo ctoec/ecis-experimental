@@ -17,7 +17,7 @@ namespace Hedwig.Controllers
 			_periods = periods;
 		}
 
-		// GET api/ReportingPeriod/CDC
+		// GET api/ReportingPeriods/CDC
 		[HttpGet("{source}")]
 		public ActionResult<List<ReportingPeriod>> Get(
 			FundingSource source

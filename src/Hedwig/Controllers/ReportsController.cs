@@ -54,11 +54,10 @@ namespace Hedwig.Controllers
 		[DTOProjectionFilter(typeof(CdcReportDTO), Order = 2)]
 		public async Task<ActionResult<CdcReport>> Get(
 			int id,
-			int orgId,
-			[FromQuery(Name = "include[]")] string[] include
+			int orgId
 		)
 		{
-			var report = await _reports.GetReportForOrganizationAsync(id, orgId, include);
+			var report = await _reports.GetReportForOrganizationAsync(id, orgId);
 			if (report == null) return NotFound();
 
 			return Ok(report);

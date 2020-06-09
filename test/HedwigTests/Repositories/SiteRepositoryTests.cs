@@ -34,15 +34,8 @@ namespace HedwigTests.Repositories
 		}
 
 		[Theory]
-		[InlineData(new string[] { }, false, false, false)]
-		[InlineData(new string[] { "enrollments" }, true, false, false)]
-		[InlineData(new string[] { "fundings" }, false, false, false)]
-		[InlineData(new string[] { "child" }, false, false, false)]
-		[InlineData(new string[] { "enrollments", "fundings" }, true, true, false)]
-		[InlineData(new string[] { "enrollments", "child" }, true, false, true)]
-		[InlineData(new string[] { "enrollments", "fundings", "child" }, true, true, true)]
+		[InlineData(true, true, true)]
 		public async Task GetSiteForOrganization_ReturnsSiteWithIdAndOrganizationId_IncludesEntities(
-			string[] include,
 			bool includeEnrollments,
 			bool includeFundings,
 			bool includeChildren
@@ -61,7 +54,7 @@ namespace HedwigTests.Repositories
 			using (var context = new TestHedwigContextProvider().Context)
 			{
 				var siteRepo = new SiteRepository(context);
-				var res = await siteRepo.GetSiteForOrganizationAsync(id, orgId, include);
+				var res = await siteRepo.GetSiteForOrganizationAsync(id, orgId);
 
 				Assert.Equal(includeEnrollments, res.Enrollments != null);
 				Assert.Equal(includeFundings, res.Enrollments != null && res.Enrollments.All(e => e.Fundings != null));

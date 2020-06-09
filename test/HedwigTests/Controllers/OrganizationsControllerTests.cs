@@ -21,18 +21,17 @@ namespace HedwigTests.Controllers
 		)
 		{
 			var id = 1;
-			var include = new string[] { "foo" };
 
 			var returns = exists ? new Organization() : null;
 			var _organizations = new Mock<IOrganizationRepository>();
-			_organizations.Setup(o => o.GetOrganizationById(id, include))
+			_organizations.Setup(o => o.GetOrganizationById(id))
 			.Returns(returns);
 
 			var controller = new OrganizationsController(_organizations.Object);
 
-			var result = controller.Get(id, include);
+			var result = controller.Get(id);
 
-			_organizations.Verify(o => o.GetOrganizationById(id, include), Times.Once());
+			_organizations.Verify(o => o.GetOrganizationById(id), Times.Once());
 			Assert.IsType(resultType, result.Result);
 		}
 	}

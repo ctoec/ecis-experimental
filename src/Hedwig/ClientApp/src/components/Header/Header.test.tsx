@@ -6,7 +6,7 @@ import { render, fireEvent } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 
 const headerProps: HeaderProps = {
-	title: 'Header test',
+	primaryTitle: 'Header test',
 	navItems: [
 		{ type: 'primary', title: 'Active section', path: '/first' },
 		{ type: 'primary', title: 'Another section', path: '/another' },

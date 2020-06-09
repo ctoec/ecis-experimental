@@ -20,10 +20,8 @@ namespace HedwigTests.Integrations
 		}
 
 		[Theory]
-		[InlineData(new string[] { }, false)]
-		[InlineData(new string[] { "sites", "funding_spaces" }, true)]
+		[InlineData(true)]
 		public async Task OrganizationControllerOrganizationsGet_ReturnsCorrectResponseShape(
-			string[] include,
 			bool isInclude
 		)
 		{
@@ -47,8 +45,7 @@ namespace HedwigTests.Integrations
 
 			var request = HedwigAPIRequests.Organizations(
 				user,
-				organization,
-				include
+				organization
 			);
 
 			var response = await client.SendAsync(request);

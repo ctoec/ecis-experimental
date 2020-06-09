@@ -12,26 +12,19 @@ namespace Hedwig.Repositories
 	{
 
 		public OrganizationRepository(HedwigContext context) : base(context) { }
-		public Organization GetOrganizationById(int id, string[] include = null)
+		public Organization GetOrganizationById(int id)
 		{
 			var organization = _context.Organizations
 				.Where(o => o.Id == id);
 
-			include = include ?? new string[] { };
-			if (include.Contains(INCLUDE_FUNDING_SPACES))
-			{
-				organization = organization.Include(o => o.FundingSpaces)
-					.ThenInclude(fs => fs.TimeSplit);
-			}
-			if (include.Contains(INCLUDE_SITES))
-			{
-				organization = organization.Include(o => o.Sites);
+			organization = organization.Include(o => o.FundingSpaces)
+				.ThenInclude(fs => fs.TimeSplit);
 
-				if (include.Contains(INCLUDE_ENROLLMENTS))
-				{
-					organization = ((IIncludableQueryable<Organization, Site>)organization).ThenInclude(s => s.Enrollments);
-				}
-			}
+			organization = organization.Include(o => o.Sites);
+
+			// This would have been returned if query parameter include[] included "enrollments"
+			// Please note that this returns an error.
+			//organization = ((IIncludableQueryable<Organization, Site>)organization).ThenInclude(s => s.Enrollments);
 
 			return organization.FirstOrDefault();
 		}
@@ -47,7 +40,7 @@ namespace Hedwig.Repositories
 
 	public interface IOrganizationRepository : IHedwigRepository
 	{
-		Organization GetOrganizationById(int id, string[] include = null);
+		Organization GetOrganizationById(int id);
 		List<Organization> GetOrganizationsWithFundingSpaces(FundingSource source);
 	}
 }

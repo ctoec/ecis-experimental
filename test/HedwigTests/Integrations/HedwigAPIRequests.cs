@@ -13,20 +13,12 @@ namespace HedwigTests.Integrations
 			User user,
 			Organization organization,
 			Site[] sites,
-			string[] include = null,
 			DateTime? startDate = null,
 			DateTime? endDate = null
 		)
 		{
-			include = include ?? new string[] {
-				"child",
-				"fundings",
-				"sites"
-			};
-
 			var uri = $"api/organizations/{organization.Id}/Enrollments";
 
-			uri = AddQueryParams(uri, "include[]", s => s, include);
 			uri = AddQueryParams(uri, "siteIds[]", s => s.Id.ToString(), sites);
 
 			return MakeAuthenticatedRequest(HttpMethod.Get, user, uri);
@@ -37,39 +29,21 @@ namespace HedwigTests.Integrations
 			Enrollment enrollment,
 			Organization organization,
 			Site site,
-			string[] include = null,
 			DateTime? startDate = null,
 			DateTime? endDate = null
 		)
 		{
-			include = include ?? new string[] {
-				"child",
-				"family",
-				"determinations",
-				"fundings",
-				"sites",
-				"past_enrollments"
-			};
-
 			var uri = $"api/organizations/{organization.Id}/sites/{site.Id}/Enrollments/{enrollment.Id}";
-			uri = AddQueryParams(uri, "include[]", s => s, include);
 
 			return MakeAuthenticatedRequest(HttpMethod.Get, user, uri);
 		}
 
 		public static HttpRequestMessage Organizations(
 			User user,
-			Organization organization,
-			string[] include = null
+			Organization organization
 		)
 		{
-			include = include ?? new string[] {
-				"sites",
-				"funding_spaces"
-			};
-
 			var uri = $"api/organizations/{organization.Id}";
-			uri = AddQueryParams(uri, "include[]", s => s, include);
 
 			return MakeAuthenticatedRequest(HttpMethod.Get, user, uri);
 		}
@@ -86,20 +60,10 @@ namespace HedwigTests.Integrations
 		public static HttpRequestMessage OrganizationReport(
 			User user,
 			Organization organization,
-			Report report,
-			string[] include = null
+			Report report
 		)
 		{
-			include = include ?? new string[] {
-				"organizations",
-				"enrollments",
-				"sites",
-				"funding_spaces",
-				"child"
-			};
-
 			var uri = $"api/organizations/{organization.Id}/Reports/{report.Id}";
-			uri = AddQueryParams(uri, "include[]", s => s, include);
 
 			return MakeAuthenticatedRequest(HttpMethod.Get, user, uri);
 		}

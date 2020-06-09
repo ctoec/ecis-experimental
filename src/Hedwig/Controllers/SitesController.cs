@@ -40,11 +40,10 @@ namespace Hedwig.Controllers
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		public async Task<ActionResult<Site>> Get(
 			int id,
-			int orgId,
-			[FromQuery(Name = "include[]")] string[] include
+			int orgId
 		)
 		{
-			var site = await _sites.GetSiteForOrganizationAsync(id, orgId, include);
+			var site = await _sites.GetSiteForOrganizationAsync(id, orgId);
 			if (site == null) return NotFound();
 			return Ok(site);
 		}

@@ -56,7 +56,7 @@ namespace HedwigTests.Validations.Attributes
 			});
 
 			var organizations = new Mock<IOrganizationRepository>();
-			organizations.Setup(o => o.GetOrganizationById(It.IsAny<int>(), It.IsAny<string[]>()))
+			organizations.Setup(o => o.GetOrganizationById(It.IsAny<int>()))
 			.Returns(organization);
 
 			var serviceProvider = new Mock<IServiceProvider>();
@@ -139,7 +139,7 @@ namespace HedwigTests.Validations.Attributes
 			});
 
 			var organizations = new Mock<IOrganizationRepository>();
-			organizations.Setup(o => o.GetOrganizationById(It.IsAny<int>(), It.IsAny<string[]>()))
+			organizations.Setup(o => o.GetOrganizationById(It.IsAny<int>()))
 			.Returns(organization);
 
 			var serviceProvider = new Mock<IServiceProvider>();
