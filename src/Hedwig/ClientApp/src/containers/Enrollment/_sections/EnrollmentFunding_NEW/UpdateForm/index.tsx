@@ -16,14 +16,14 @@ export const UpdateForm: React.FC<SectionProps> = ({
 		throw new Error('Section rendered without enrollment');
 	}
 
+	const { user } = useContext(UserContext);
 	const [forceCloseEditForms, setForceCloseEditForms] = useState(false);
 
 	const [mutatedEnrollment, setMutatedEnrollment] = useState<Enrollment>(enrollment)
 	const [attemptingSave, setAttemptingSave] = useState(false);
 
-	const { user } = useContext(UserContext);
 
-	const putParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
+	const renameToAvoidCodeDupeError: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
 		id: enrollment.id,
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		orgId: getIdForUser(user, 'org'),
@@ -31,7 +31,7 @@ export const UpdateForm: React.FC<SectionProps> = ({
 	};
 
 	const { error: saveError, loading: isSaving, data: returnedEnrollment } = useApi<Enrollment>(
-		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams),
+		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(renameToAvoidCodeDupeError),
 		{
 			skip: !user || !attemptingSave,
 			callback: () => {

@@ -89,7 +89,7 @@ exports[`EnrollmentUpdate FamilyIncome matches snapshot 1`] = `
                 class="flex-2"
               >
                 <p>
-                  Determination on
+                  Determined on
                 </p>
                 <p
                   class="text-bold"
@@ -1492,7 +1492,7 @@ exports[`EnrollmentUpdate FamilyIncome matches snapshot 1`] = `
                 class="flex-2"
               >
                 <p>
-                  Determination on
+                  Determined on
                 </p>
                 <p
                   class="text-bold"
