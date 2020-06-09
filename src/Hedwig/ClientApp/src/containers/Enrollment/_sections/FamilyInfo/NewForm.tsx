@@ -9,7 +9,7 @@ import {
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
 } from '../../../../generated';
 import UserContext from '../../../../contexts/User/UserContext';
-import { getIdForUser, validatePermissions } from '../../../../utils/models';
+import { getIdForUser, validatePermissions, enrollmentWithDefaultFamily } from '../../../../utils/models';
 import FormSubmitButton from '../../../../components/Form_New/FormSubmitButton';
 import { AddressFieldset, FosterCheckbox, HomelessnessCheckbox } from './Fields';
 import { SectionProps } from '../../enrollmentTypes';
@@ -31,7 +31,14 @@ export const NewForm: React.FC<SectionProps> = ({
 
 	const [attemptSave, setAttemptSave] = useState(false);
 
-	const [mutatedEnrollment, setMutatedEnrollment] = useState<Enrollment>(enrollment);
+	// mutatedEnrollment will be submitted on section save.
+	// if enrollment.child.family does not exist, 
+	// pre-fill family.organizationId with the organization Id
+	const [mutatedEnrollment, setMutatedEnrollment] = useState<Enrollment>(
+		enrollment.child.family 
+		? enrollment
+		: enrollmentWithDefaultFamily(enrollment, getIdForUser(user, 'org'))
+	);
 
 	const defaultParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
 		id: mutatedEnrollment.id,
