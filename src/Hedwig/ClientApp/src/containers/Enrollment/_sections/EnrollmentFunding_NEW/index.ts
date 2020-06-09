@@ -1,6 +1,6 @@
 import { Section } from '../../enrollmentTypes';
 import { NewForm } from './NewForm';
-import { EnrollmentFundingForm } from './UpdateForm/EnrollmentFunding';
+import UpdateForm from './UpdateForm';
 import EnrollmentFunding from '../EnrollmentFunding';
 
 export default {
@@ -9,5 +9,5 @@ export default {
 	status: () => 'complete',
 	Summary: EnrollmentFunding.Summary,
 	Form: NewForm,
-	UpdateForm: EnrollmentFundingForm,
+	UpdateForm: UpdateForm,
 } as Section;

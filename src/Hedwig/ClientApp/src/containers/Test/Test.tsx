@@ -3,7 +3,7 @@ import { TabNav } from '../../components/TabNav/TabNav';
 
 export const Test = () => {
 	return (
-		<div style={{ padding: "3em" }}>
+		<div style={{ padding: '3em' }}>
 			<TabNav
 				items={[
 					{

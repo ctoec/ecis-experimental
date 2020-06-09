@@ -7,12 +7,7 @@ import {
 	Organization,
 } from '../../../../../../generated';
 import UserContext from '../../../../../../contexts/User/UserContext';
-import {
-	getIdForUser,
-	validatePermissions,
-	fundingStartSorter,
-	reportingPeriodFormatter,
-} from '../../../../../../utils/models';
+import { getIdForUser, validatePermissions } from '../../../../../../utils/models';
 import useApi from '../../../../../../hooks/useApi';
 import useCatchAllErrorAlert from '../../../../../../hooks/useCatchAllErrorAlert';
 import { EnrollmentCard } from './EnrollmentCard';

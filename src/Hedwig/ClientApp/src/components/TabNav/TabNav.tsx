@@ -4,7 +4,7 @@ import cx from 'classnames';
 type TabItemProps = {
 	text: JSX.Element | string;
 	content: JSX.Element;
-	default?: true;
+	default?: boolean;
 };
 
 type TabNavProps = {
