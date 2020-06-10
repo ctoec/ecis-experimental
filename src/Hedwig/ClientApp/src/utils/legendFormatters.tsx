@@ -7,7 +7,7 @@ import { InlineIcon } from '../components';
 export type LegendTextFormatterOpts = {
 	organization?: Organization;
 	showPastEnrollments?: boolean;
-	site?: Site;
+	site?: Site | null;
 };
 
 export type LegendTextFormatter = (

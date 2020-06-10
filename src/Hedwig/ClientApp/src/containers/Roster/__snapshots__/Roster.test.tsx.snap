@@ -3,6 +3,7 @@
 exports[`Roster matches snapshot 1`] = `
 <DocumentFragment>
   <div
+<<<<<<< HEAD
     class="grid-container"
   >
     <a
@@ -21,6 +22,10 @@ exports[`Roster matches snapshot 1`] = `
       </span>
     </a>
   </div>
+=======
+    class=""
+  />
+>>>>>>> e51b1ce6... Roster in report refactor
   <div
     class="grid-container"
   >
@@ -79,7 +84,7 @@ exports[`Roster matches snapshot 1`] = `
           <span
             class="text-bold"
           >
-            9
+            9/70
           </span>
           <span>
              CDC spaces filled
@@ -148,7 +153,7 @@ exports[`Roster matches snapshot 1`] = `
           <span
             class="text-bold"
           >
-            1
+            1/10
           </span>
           <span>
              spaces filled
@@ -176,7 +181,35 @@ exports[`Roster matches snapshot 1`] = `
           <span
             class="text-bold"
           >
-            1
+            1/10
+          </span>
+          <span>
+             spaces filled
+          </span>
+        </div>
+      </li>
+      <li
+        class="oec-legend__item oec-legend-item margin-y-1"
+      >
+        <div
+          class="oec-legend-item__symbol undefined"
+        >
+          <span
+            class="usa-tag bg-blue-50v"
+          >
+            CDC-PT/FT
+          </span>
+        </div>
+        <div
+          class="oec-legend-item__text width-fit-content display-inline margin-left-1 "
+        >
+          <span>
+            Full time / part time — 
+          </span>
+          <span
+            class="text-bold"
+          >
+            0/10
           </span>
           <span>
              spaces filled
@@ -376,7 +409,7 @@ exports[`Roster matches snapshot 1`] = `
           <span
             class="text-bold"
           >
-            6
+            6/10
           </span>
           <span>
              spaces filled
@@ -404,7 +437,7 @@ exports[`Roster matches snapshot 1`] = `
           <span
             class="text-bold"
           >
-            1
+            1/10
           </span>
           <span>
              spaces filled
@@ -748,6 +781,177 @@ exports[`Roster matches snapshot 1`] = `
           </td>
         </tr>
       </tbody>
+    </table>
+    <h2
+      class="margin-top-6"
+    >
+      School age (0 children)
+    </h2>
+    <ul
+      class="margin-y-2 oec-legend add-list-reset grid-col"
+    >
+      <li
+        class="oec-legend__item oec-legend-item margin-y-1"
+      >
+        <div
+          class="oec-legend-item__symbol undefined"
+        >
+          <span
+            class="usa-tag bg-blue-50v"
+          >
+            CDC–FT
+          </span>
+        </div>
+        <div
+          class="oec-legend-item__text width-fit-content display-inline margin-left-1 "
+        >
+          <span>
+            Full time — 
+          </span>
+          <span
+            class="text-bold"
+          >
+            0/10
+          </span>
+          <span>
+             spaces filled
+          </span>
+        </div>
+      </li>
+      <li
+        class="oec-legend__item oec-legend-item margin-y-1"
+      >
+        <div
+          class="oec-legend-item__symbol undefined"
+        >
+          <span
+            class="usa-tag bg-blue-50v"
+          >
+            CDC–PT
+          </span>
+        </div>
+        <div
+          class="oec-legend-item__text width-fit-content display-inline margin-left-1 "
+        >
+          <span>
+            Part time — 
+          </span>
+          <span
+            class="text-bold"
+          >
+            0/10
+          </span>
+          <span>
+             spaces filled
+          </span>
+        </div>
+      </li>
+    </ul>
+    <table
+      class="oec-table oec-table--full-width"
+      id="SchoolAge-roster-table"
+    >
+      <thead>
+        <tr>
+          <th
+            aria-sort="ascending"
+            class="oec-table__column-header oec-sortable"
+            role="columnheader"
+            scope="col"
+            style="width: 25%;"
+          >
+            <button
+              aria-label="Sort table by Name in descending order"
+              class="oec-table__column-title usa-button--unstyled width-full"
+            >
+              Name
+              <div
+                class="oec-table__sort-controls"
+              >
+                <span
+                  class="oec-table__sort-controls__asc active"
+                />
+                <span
+                  class="oec-table__sort-controls__desc"
+                />
+              </div>
+            </button>
+          </th>
+          <th
+            aria-sort="ascending"
+            class="oec-table__column-header oec-sortable"
+            role="columnheader"
+            scope="col"
+            style="width: 17%;"
+          >
+            <button
+              aria-label="Sort table by Birthdate in ascending order"
+              class="oec-table__column-title usa-button--unstyled width-full"
+            >
+              Birthdate
+              <div
+                class="oec-table__sort-controls"
+              >
+                <span
+                  class="oec-table__sort-controls__asc"
+                />
+                <span
+                  class="oec-table__sort-controls__desc"
+                />
+              </div>
+            </button>
+          </th>
+          <th
+            aria-sort="ascending"
+            class="oec-table__column-header oec-sortable"
+            role="columnheader"
+            scope="col"
+            style="width: 18%;"
+          >
+            <button
+              aria-label="Sort table by Funding in ascending order"
+              class="oec-table__column-title usa-button--unstyled width-full"
+            >
+              Funding
+              <div
+                class="oec-table__sort-controls"
+              >
+                <span
+                  class="oec-table__sort-controls__asc"
+                />
+                <span
+                  class="oec-table__sort-controls__desc"
+                />
+              </div>
+            </button>
+          </th>
+          <th
+            aria-sort="ascending"
+            class="oec-table__column-header oec-sortable"
+            role="columnheader"
+            scope="col"
+            style="width: 20%;"
+          >
+            <button
+              aria-label="Sort table by Enrollment date in ascending order"
+              class="oec-table__column-title usa-button--unstyled width-full"
+            >
+              Enrollment date
+              <div
+                class="oec-table__sort-controls"
+              >
+                <span
+                  class="oec-table__sort-controls__asc"
+                />
+                <span
+                  class="oec-table__sort-controls__desc"
+                />
+              </div>
+            </button>
+          </th>
+        </tr>
+      </thead>
+      <tbody />
     </table>
   </div>
 </DocumentFragment>

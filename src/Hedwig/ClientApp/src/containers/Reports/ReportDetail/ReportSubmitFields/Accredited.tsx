@@ -16,7 +16,7 @@ export const AccreditedField: React.FC<AccreditedFieldProps> = ({ disabled }) =>
 			parseOnChangeEvent={(e) => e.target.checked}
 			inputComponent={Checkbox}
 			id="accredited"
-			text="Accredited"
+			text="Program accredited by NAEYC"
 			value="accredited"
 			disabled={disabled}
 		/>

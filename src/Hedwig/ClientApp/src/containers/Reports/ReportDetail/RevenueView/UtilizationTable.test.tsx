@@ -1,10 +1,17 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { Age, FundingTime, FundingSource, Enrollment, Region, Funding } from '../../../generated';
+import {
+	Age,
+	FundingTime,
+	FundingSource,
+	Enrollment,
+	Region,
+	Funding,
+} from '../../../../generated';
 import UtilizationTable from './UtilizationTable';
-import emptyGuid from '../../../utils/emptyGuid';
-import cartesianProduct from '../../../utils/cartesianProduct';
-import { accessibilityTestHelper } from '../../../tests/helpers';
+import emptyGuid from '../../../../utils/emptyGuid';
+import cartesianProduct from '../../../../utils/cartesianProduct';
+import { accessibilityTestHelper } from '../../../../tests/helpers';
 import {
 	mockReport,
 	mockCompleteEnrollment,
@@ -12,11 +19,11 @@ import {
 	mockFullTimeInfantEnrollment,
 	mockPartTimeInfantEnrollment,
 	mockDefaultReport,
-} from '../../../tests/data';
-import { mockFundingSpaces } from '../../../tests/data/fundingSpace';
-import { prettyAge, prettyFundingTime } from '../../../utils/models';
-import { calculateRate } from '../../../utils/utilizationTable';
-import FormContext from '../../../components/Form_New/FormContext';
+} from '../../../../tests/data';
+import { mockFundingSpaces } from '../../../../tests/data/fundingSpace';
+import { prettyAge, prettyFundingTime } from '../../../../utils/models';
+import { calculateRate } from '../../../../utils/utilizationTable';
+import FormContext from '../../../../components/Form_New/FormContext';
 
 describe('calculateRate', () => {
 	it('includes all possible rates', () => {

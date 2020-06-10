@@ -29,7 +29,7 @@ type AgeGroupSectionProps = {
 	ageGroup: string;
 	ageGroupTitle: string;
 	enrollments: Enrollment[];
-	site?: Site;
+	site: Site | null;
 	fundingSpaces?: FundingSpace[];
 	rosterDateRange?: DateRange;
 	showPastEnrollments?: boolean;

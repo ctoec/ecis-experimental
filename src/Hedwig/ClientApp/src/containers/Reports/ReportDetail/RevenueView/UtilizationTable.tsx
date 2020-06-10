@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import Table, { TableProps } from '../../../components/Table/Table';
+import Table, { TableProps } from '../../../../components/Table/Table';
 import {
 	CdcReport,
 	Enrollment,
@@ -8,7 +8,7 @@ import {
 	FundingSpace,
 	FundingSource,
 	FundingTimeSplitUtilization,
-} from '../../../generated';
+} from '../../../../generated';
 import idx from 'idx';
 import moment from 'moment';
 import {
@@ -17,19 +17,19 @@ import {
 	fundingSpaceSorter,
 	getReportingPeriodWeeks,
 	getFundingSpaces,
-} from '../../../utils/models';
-import currencyFormatter from '../../../utils/currencyFormatter';
+} from '../../../../utils/models';
+import currencyFormatter from '../../../../utils/currencyFormatter';
 import cx from 'classnames';
-import { DeepNonUndefineableArray } from '../../../utils/types';
+import { DeepNonUndefineableArray } from '../../../../utils/types';
 import {
 	countFundedEnrollments,
 	calculateRate,
 	makePrefixerFunc,
 	ReimbursementRateLine,
 	productOfUnknowns,
-} from '../../../utils/utilizationTable';
-import FormContext, { useGenericContext } from '../../../components/Form_New/FormContext';
-import { getSplitUtilizations } from '../../../utils/models/fundingTimeSplitUtilization';
+} from '../../../../utils/utilizationTable';
+import FormContext, { useGenericContext } from '../../../../components/Form_New/FormContext';
+import { getSplitUtilizations } from '../../../../utils/models/fundingTimeSplitUtilization';
 
 interface UtilizationTableRow {
 	key: string;

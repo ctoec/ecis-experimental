@@ -6,7 +6,7 @@ export type LegendItem = {
 	symbol?: JSX.Element;
 	symbolClass?: string;
 	textClass?: string;
-	hidden?: boolean;
+	hidden?: boolean | null;
 };
 
 type LegendProps = {
