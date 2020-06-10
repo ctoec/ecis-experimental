@@ -25,6 +25,7 @@ export const EnrollmentCard = ({
 	expansion,
 	className,
 }: EnrollmentCardProps) => {
+	console.log("FOOBAR");
 	return (
 		<Card
 			appearance={isCurrent ? 'primary' : 'secondary'}

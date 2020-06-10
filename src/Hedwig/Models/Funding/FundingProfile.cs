@@ -1,4 +1,5 @@
 using AutoMapper;
+using Hedwig.Repositories;
 
 namespace Hedwig.Models
 {
@@ -6,7 +7,19 @@ namespace Hedwig.Models
 	{
 		public FundingProfile()
 		{
-			CreateMap<Funding, FundingDTO>()
+			CreateMap<FundingDTO, Funding>()
+				.ForMember(
+					dest => dest.FirstReportingPeriod,
+					opt => opt.MapFrom<FirstReportingPeriodResolver>()
+				)
+				.ForMember(
+					dest => dest.LastReportingPeriod,
+					opt => opt.MapFrom<LastReportingPeriodResolver>()
+				)
+				.ForMember(
+					dest => dest.FundingSpace,
+					opt => opt.MapFrom<FundingSpaceResolver>()
+				)
 				.ReverseMap();
 		}
 	}

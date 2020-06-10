@@ -33,7 +33,6 @@ export const FundingCard = ({
 		>
 			<div className="display-flex flex-justify">
 				{' '}
-				{/* formatted funding content with ExpandCard */}
 				<div className="flex-1">
 					<p>Funding</p>
 					<p>{getFundingTag({ fundingSource: funding.source })}</p>
