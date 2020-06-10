@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
 	RadioButtonGroupProps,
 	RadioButtonGroup,
@@ -22,26 +22,22 @@ import { EnrollmentFormFieldProps } from './common';
  * a funding space, which must have a matching age group
  * to the funding's enrollment.
  */
-export const AgeGroupField: React.FC<EnrollmentFormFieldProps> = ({
-	initialLoad = false
-}) => {
-	const { dataDriller, updateData } = useGenericContext<Enrollment>(FormContext)
+export const AgeGroupField: React.FC<EnrollmentFormFieldProps> = ({ initialLoad = false }) => {
+	const { dataDriller, updateData } = useGenericContext<Enrollment>(FormContext);
 
 	return (
 		<FormField<Enrollment, RadioButtonGroupProps, Age | null>
 			getValue={(data) => data.at('ageGroup')}
 			parseOnChangeEvent={(e) => {
 				// un-set all fundings on age group change
-				setTimeout(() => updateData(_data => 
-					produce<Enrollment>(_data, (draft) =>
-						set(
-							draft,
-							dataDriller.at('fundings').path,
-							[]
-						)
-					)
-				), 0);
-				return ageFromString((e.target as HTMLInputElement).value)
+				setTimeout(
+					() =>
+						updateData((_data) =>
+							produce<Enrollment>(_data, (draft) => set(draft, dataDriller.at('fundings').path, []))
+						),
+					0
+				);
+				return ageFromString((e.target as HTMLInputElement).value);
 			}}
 			inputComponent={RadioButtonGroup}
 			name="age-group"

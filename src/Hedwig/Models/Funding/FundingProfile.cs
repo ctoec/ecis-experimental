@@ -1,5 +1,4 @@
 using AutoMapper;
-using Hedwig.Repositories;
 
 namespace Hedwig.Models
 {

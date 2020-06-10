@@ -87,9 +87,18 @@ export const EnrollmentFundingForm: React.FC<UpdateFormSectionProps> = ({
 					<h2 className="font-sans-md margin-top-2 margin-bottom-2">Past enrollments</h2>
 					{(mutatedEnrollment.pastEnrollments || []).map((pastEnrollment) => (
 						<>
-							<EnrollmentCard key={pastEnrollment.id} enrollment={pastEnrollment} isCurrent={false} />
+							<EnrollmentCard
+								key={pastEnrollment.id}
+								enrollment={pastEnrollment}
+								isCurrent={false}
+							/>
 							{(pastEnrollment.fundings || []).map((pastFunding) => (
-								<FundingCard key={pastFunding.id} funding={pastFunding} isCurrent={false} forceClose={forceCloseEditForms} />
+								<FundingCard
+									key={pastFunding.id}
+									funding={pastFunding}
+									isCurrent={false}
+									forceClose={forceCloseEditForms}
+								/>
 							))}
 						</>
 					))}

@@ -63,11 +63,11 @@ namespace HedwigTests.Integrations
 			Assert.Equal(enrollment.Child.FirstName, responseEnrollment.Child.FirstName);
 			Assert.Equal(enrollment.Child.MiddleName, responseEnrollment.Child.MiddleName);
 			Assert.Equal(enrollment.Child.LastName, responseEnrollment.Child.LastName);
-			Assert.Empty(responseEnrollment.Child.Enrollments);
+			Assert.Null(responseEnrollment.Child.Enrollments);
 			Assert.Equal(enrollment.SiteId, responseEnrollment.SiteId);
 			Assert.NotNull(responseEnrollment.Site);
 			Assert.NotNull(responseEnrollment.Site.Name);
-			Assert.Empty(responseEnrollment.Site.Enrollments);
+			Assert.Null(responseEnrollment.Site.Enrollments);
 			Assert.Equal(enrollment.AgeGroup, responseEnrollment.AgeGroup);
 			Assert.Equal(enrollment.Entry, responseEnrollment.Entry);
 			Assert.Equal(enrollment.Exit, responseEnrollment.Exit);
@@ -125,11 +125,11 @@ namespace HedwigTests.Integrations
 			Assert.Equal(enrollment.Child.FirstName, responseEnrollment.Child.FirstName);
 			Assert.Equal(enrollment.Child.MiddleName, responseEnrollment.Child.MiddleName);
 			Assert.Equal(enrollment.Child.LastName, responseEnrollment.Child.LastName);
-			Assert.Empty(responseEnrollment.Child.Enrollments);
+			Assert.Null(responseEnrollment.Child.Enrollments);
 			Assert.Equal(enrollment.SiteId, responseEnrollment.SiteId);
 			Assert.NotNull(responseEnrollment.Site);
 			Assert.NotNull(responseEnrollment.Site.Name);
-			Assert.Empty(responseEnrollment.Site.Enrollments);
+			Assert.Null(responseEnrollment.Site.Enrollments);
 			Assert.Equal(enrollment.AgeGroup, responseEnrollment.AgeGroup);
 			Assert.Equal(enrollment.Entry, responseEnrollment.Entry);
 			Assert.Equal(enrollment.Exit, responseEnrollment.Exit);
@@ -208,14 +208,14 @@ namespace HedwigTests.Integrations
 				Assert.Equal(enrollment.Child.MiddleName, responseEnrollment.Child.MiddleName);
 				Assert.Equal(enrollment.Child.LastName, responseEnrollment.Child.LastName);
 				Assert.Null(responseEnrollment.Child.Family);
-				Assert.Empty(responseEnrollment.Child.Enrollments);
+				Assert.Null(responseEnrollment.Child.Enrollments);
 				Assert.Equal(site.Id, responseEnrollment.SiteId);
 				Assert.Null(responseEnrollment.Site);
 				Assert.Equal(enrollment.AgeGroup, responseEnrollment.AgeGroup);
 				Assert.Equal(enrollment.Entry, responseEnrollment.Entry);
 				Assert.Equal(enrollment.Exit, responseEnrollment.Exit);
 				Assert.Equal(enrollment.ExitReason, responseEnrollment.ExitReason);
-				Assert.Null(responseEnrollment.Fundings);
+				Assert.Empty(responseEnrollment.Fundings);
 
 				using (var context = new TestHedwigContextProvider().Context)
 				{

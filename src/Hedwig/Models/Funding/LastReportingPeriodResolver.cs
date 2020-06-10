@@ -3,7 +3,7 @@ using AutoMapper;
 
 namespace Hedwig.Models
 {
-	public class LastReportingPeriodResolver: IValueResolver<FundingDTO, Funding, ReportingPeriod>
+	public class LastReportingPeriodResolver : IValueResolver<FundingDTO, Funding, ReportingPeriod>
 	{
 		private readonly IReportingPeriodRepository _reportingPeriods;
 
@@ -13,10 +13,11 @@ namespace Hedwig.Models
 		{
 			_reportingPeriods = reportingPeriods;
 		}
-		public ReportingPeriod Resolve(FundingDTO fundingDTO, Funding funding, ReportingPeriod reportingPeriod, ResolutionContext context)
+		public ReportingPeriod Resolve(FundingDTO source, Funding destination, ReportingPeriod destMember, ResolutionContext context)
 		{
-			if(fundingDTO.LastReportingPeriodId.HasValue) {
-				return fundingDTO.FirstReportingPeriod ?? _reportingPeriods.GetById(fundingDTO.LastReportingPeriodId.Value);
+			if (source.LastReportingPeriodId.HasValue)
+			{
+				return source.FirstReportingPeriod ?? _reportingPeriods.GetById(source.LastReportingPeriodId.Value);
 			}
 
 			return null;

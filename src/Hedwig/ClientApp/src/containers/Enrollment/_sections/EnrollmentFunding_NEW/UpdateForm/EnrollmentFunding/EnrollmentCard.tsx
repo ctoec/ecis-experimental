@@ -17,7 +17,7 @@ type EnrollmentCardProps = Exclude<CardProps, 'appearance' | 'forceClose' | 'key
 /**
  * Card that displays an enrollment record.
  * Optionally, renders an expansion props as the CardExpansion content,
- * which will be an EnrollmentFormForCard 
+ * which will be an EnrollmentFormForCard
  */
 export const EnrollmentCard = ({
 	enrollment,

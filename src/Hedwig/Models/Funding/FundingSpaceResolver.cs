@@ -17,14 +17,15 @@ namespace Hedwig.Models
 			_fundingSpaces = fundingSpaces;
 		}
 
-		public FundingSpace Resolve(FundingDTO fundingDTO, Funding funding, FundingSpace fundingSpace, ResolutionContext context)
+		public FundingSpace Resolve(FundingDTO source, Funding destination, FundingSpace destMember, ResolutionContext context)
 		{
-			if(fundingDTO.FundingSpaceId.HasValue) {
-				return fundingDTO.FundingSpace != null
-					? _mapper.Map<FundingSpaceDTO, FundingSpace>(fundingDTO.FundingSpace)
-					: _fundingSpaces.GetById(fundingDTO.FundingSpaceId.Value);
+			if (source.FundingSpaceId.HasValue)
+			{
+				return source.FundingSpace != null
+					? _mapper.Map<FundingSpaceDTO, FundingSpace>(source.FundingSpace)
+					: _fundingSpaces.GetById(source.FundingSpaceId.Value);
 			}
-			
+
 			return null;
 		}
 	}

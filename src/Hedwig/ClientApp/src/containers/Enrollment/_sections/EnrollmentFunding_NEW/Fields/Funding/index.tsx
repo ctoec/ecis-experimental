@@ -12,10 +12,10 @@ import { RadioButtonGroup, RadioOption } from '../../../../../../components';
 
 /**
  * Component for creating, editing, or removing a funding.
- * 
+ *
  * If the user chooses the private pay option,
  * then the given funding is removed.
- * If the user chooses CDC funding, then additional forms to 
+ * If the user chooses CDC funding, then additional forms to
  * enter funding data are displayed as expansion content for that option
  */
 export const FundingField: React.FC<FundingFormFieldProps> = ({
@@ -54,7 +54,7 @@ export const FundingField: React.FC<FundingFormFieldProps> = ({
 		.at('fundings')
 		.find((f) => f.id === fundingId)
 		.at('source').value;
-		
+
 	return (
 		<RadioButtonGroup
 			name="funding-type"

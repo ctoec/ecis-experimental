@@ -112,7 +112,12 @@ export const NewForm: React.FC<SectionProps> = ({
 				<EnrollmentStartDate initialLoad={!isReturnVisit} />
 				<AgeGroupField initialLoad={!isReturnVisit} />
 				<span className="usa-label text-bold font-sans-lg">Funding</span>
-				<FundingField fundingId={0} fundingSpaces={fundingSpaces} error={saveError} errorAlertState={errorAlertState}/>
+				<FundingField
+					fundingId={0}
+					fundingSpaces={fundingSpaces}
+					error={saveError}
+					errorAlertState={errorAlertState}
+				/>
 
 				<span className="usa-label text-bold font-sans-lg">Care 4 Kids</span>
 				<WithNewC4kCertificate shouldCreate={certificateId === 0 && receivesC4K}>
