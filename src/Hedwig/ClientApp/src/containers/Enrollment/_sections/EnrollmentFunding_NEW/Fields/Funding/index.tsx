@@ -11,7 +11,8 @@ import set from 'lodash/set';
 import { RadioButtonGroup, RadioOption } from '../../../../../../components';
 
 export const FundingField: React.FC<FundingFormFieldProps> = ({
-	initialLoad,
+	error,
+	errorAlertState,
 	fundingId,
 	fundingSpaces: allFundingSpaces,
 }) => {
@@ -96,8 +97,8 @@ export const FundingField: React.FC<FundingFormFieldProps> = ({
 							expansion:
 								source === FundingSource.CDC ? (
 									<>
-										<ContractSpaceField fundingId={fundingId} fundingSpaces={validFundingSpaces} />
-										<FirstReportingPeriodField fundingId={fundingId} initialLoad={initialLoad} />
+										<ContractSpaceField fundingId={fundingId} fundingSpaces={validFundingSpaces} error={error} errorAlertState={errorAlertState}/>
+										<FirstReportingPeriodField fundingId={fundingId} error={error} errorAlertState={errorAlertState}/>
 									</>
 								) : undefined,
 						} as RadioOption)
