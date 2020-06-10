@@ -21,8 +21,8 @@ export function isCurrentToRangeC4K(cert: C4KCertificate, range?: DateRange): bo
 	return true;
 }
 
-export function c4kCertificateSorter(a: C4KCertificate, b: C4KCertificate) {
-	return dateSorter(a.startDate, b.startDate);
+export function c4kCertificateSorter(a: C4KCertificate, b: C4KCertificate, inverse?: true) {
+	return dateSorter(a.startDate, b.startDate, inverse);
 }
 
 /**
@@ -37,6 +37,13 @@ export function getCurrentC4kCertificate(
 	if (!enrollment.child) return undefined;
 
 	return (enrollment.child.c4KCertificates || []).find((cert) => !cert.endDate);
+}
+
+export function getPastC4kCertificates(enrollment: Enrollment | null) {
+	if (!enrollment) return [];
+	if (!enrollment.child) return [];
+
+	return (enrollment.child.c4KCertificates || []).filter((cert) => !!cert.endDate);
 }
 
 export function activeC4kFundingAsOf(enrollment: Enrollment | null, asOf?: Date) {

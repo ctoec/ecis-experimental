@@ -15,10 +15,6 @@ exports[`matches snapshot 1`] = `
     <div
       class=""
     />
-    <div
-      class="oec-card-cell oec-card-expansion"
-      hidden=""
-    />
   </div>
 </DocumentFragment>
 `;

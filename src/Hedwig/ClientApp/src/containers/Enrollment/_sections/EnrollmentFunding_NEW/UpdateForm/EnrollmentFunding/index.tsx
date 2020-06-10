@@ -1,9 +1,5 @@
-import React, { useState, useContext } from 'react';
-import {
-	Enrollment,
-	ApiOrganizationsIdGetRequest,
-	Organization,
-} from '../../../../../../generated';
+import React, { useContext } from 'react';
+import { ApiOrganizationsIdGetRequest, Organization } from '../../../../../../generated';
 import UserContext from '../../../../../../contexts/User/UserContext';
 import { getIdForUser } from '../../../../../../utils/models';
 import useApi from '../../../../../../hooks/useApi';
@@ -16,9 +12,8 @@ import { UpdateFormSectionProps } from '../common';
 
 export const EnrollmentFundingForm: React.FC<UpdateFormSectionProps> = ({
 	mutatedEnrollment,
-	setMutatedEnrollment,
+	formOnSubmit,
 	saveError,
-	setAttemptingSave,
 	forceCloseEditForms,
 }) => {
 	const { user } = useContext(UserContext);
@@ -46,17 +41,12 @@ export const EnrollmentFundingForm: React.FC<UpdateFormSectionProps> = ({
 
 	const fundingSpaces = organization.fundingSpaces || [];
 
-	const formOnSubmit = (_data: Enrollment) => {
-		setMutatedEnrollment(_data);
-		setAttemptingSave(true);
-	};
-
 	const pastEnrollments = mutatedEnrollment.pastEnrollments || [];
 	return (
 		<>
 			<h2 className="font-sans-md margin-top-2 margin-bottom-2">Current enrollment</h2>
 			<EnrollmentCard
-				key={mutatedEnrollment.id}
+				key={`${mutatedEnrollment.id}-current`}
 				enrollment={mutatedEnrollment}
 				isCurrent
 				forceClose={forceCloseEditForms}
@@ -64,7 +54,7 @@ export const EnrollmentFundingForm: React.FC<UpdateFormSectionProps> = ({
 			/>
 			{(mutatedEnrollment.fundings || []).map((funding, i, fundingsArr) => (
 				<FundingCard
-					key={funding.id}
+					key={`${funding.id}-funding`}
 					className={i === fundingsArr.length - 1 ? 'margin-bottom-3' : ''}
 					funding={funding}
 					isCurrent
@@ -88,7 +78,7 @@ export const EnrollmentFundingForm: React.FC<UpdateFormSectionProps> = ({
 					{(mutatedEnrollment.pastEnrollments || []).map((pastEnrollment) => (
 						<>
 							<EnrollmentCard
-								key={pastEnrollment.id}
+								key={`${pastEnrollment.id}-past-enrollment`}
 								enrollment={pastEnrollment}
 								isCurrent={false}
 							/>

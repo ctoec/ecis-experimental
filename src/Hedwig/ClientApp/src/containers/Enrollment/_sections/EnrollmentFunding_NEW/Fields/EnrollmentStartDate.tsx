@@ -5,13 +5,14 @@ import { Enrollment } from '../../../../../generated';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
 import { initialLoadErrorGuard } from '../../../../../utils/validations';
 import { EnrollmentFormFieldProps } from './common';
+import { parseDateChange } from '../../../../../components/Form_New';
 
 export const EnrollmentStartDate: React.FC<EnrollmentFormFieldProps> = ({ initialLoad }) => {
 	return (
 		<div>
 			<FormField<Enrollment, DateInputProps, Date | null>
 				getValue={(data) => data.at('entry')}
-				parseOnChangeEvent={(e) => (e.target.value ? new Date(parseInt(e.target.value)) : null)}
+				parseOnChangeEvent={parseDateChange}
 				inputComponent={DateInput}
 				status={(data) =>
 					initialLoadErrorGuard(

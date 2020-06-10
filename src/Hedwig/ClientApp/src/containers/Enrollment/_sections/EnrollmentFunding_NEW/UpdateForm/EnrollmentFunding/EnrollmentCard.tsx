@@ -30,7 +30,8 @@ export const EnrollmentCard = ({
 		<Card
 			appearance={isCurrent ? 'primary' : 'secondary'}
 			forceClose={forceClose}
-			key={enrollment.id}
+			// Date display wasn't updating after edit with just enrollment id as key
+			key={JSON.stringify(enrollment)}
 			className={className}
 		>
 			<div className="display-flex flex-justify">

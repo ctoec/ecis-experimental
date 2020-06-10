@@ -50,33 +50,21 @@ export const UpdateForm = ({ enrollment, siteId }: SectionProps) => {
 			callback: () => {
 				setAttemptingSave(false);
 			},
+			successCallback: (returnedEnrollment) => {
+				setMutatedEnrollment(returnedEnrollment);
+				if (didAddNew) {
+					setIsNew(true);
+				}
+
+				setShowNew(false);
+				setForceCloseEditForms(false);
+			},
 		}
 	);
 
 	// Handle API error
 	// display CatchAll error alert on any API error
 	useCatchAllErrorAlert(saveError);
-
-	// Handle successful API request
-	useEffect(() => {
-		// If the request is still loading or
-		// If the request produced an error,
-		// Do nothing
-		if (isSaving || saveError) {
-			return;
-		}
-
-		// If the request succeeded, process the response
-		if (returnedEnrollment) {
-			setMutatedEnrollment(returnedEnrollment);
-			if (didAddNew) {
-				setIsNew(true);
-			}
-			setShowNew(false);
-			setForceCloseEditForms(false);
-		}
-		// Else  the request hasn't fired, do nothing
-	}, [isSaving, saveError, didAddNew, returnedEnrollment]);
 
 	// Convenience vars for rendering the form
 	const formOnSubmit = (_data: Enrollment) => {

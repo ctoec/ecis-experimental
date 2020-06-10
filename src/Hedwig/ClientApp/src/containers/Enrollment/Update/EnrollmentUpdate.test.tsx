@@ -173,27 +173,5 @@ describe('EnrollmentUpdate', () => {
 				/>
 			</TestProvider>
 		);
-
-		it('shows the appropriate number of reporting periods for enrollment funding', async () => {
-			const { getByLabelText } = render(
-				<TestProvider>
-					<EnrollmentUpdate
-						history={history}
-						match={{
-							params: {
-								siteId: mockCompleteEnrollment.siteId,
-								enrollmentId: mockCompleteEnrollment.id,
-								sectionId: EnrollmentFunding.key,
-							},
-						}}
-					/>
-				</TestProvider>
-			);
-
-			const reportingPeriodSelect = getByLabelText('First reporting period');
-			const reportingPeriodOptions = getAllByRole(reportingPeriodSelect, 'option');
-			// TODO: this test is wrong -- the options are: March, April and '-Select-'
-			expect(reportingPeriodOptions.length).toBe(cdcReportingPeriods.length);
-		});
 	});
 });

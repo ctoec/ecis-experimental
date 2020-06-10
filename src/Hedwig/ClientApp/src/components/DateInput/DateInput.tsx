@@ -40,7 +40,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 	forceBlur = false,
 }) => {
 	const [calendarOpen, setCalendarOpen] = useState<boolean>(false);
-	const [currentDate, setCurrentDate] = useState(defaultValue ? moment(defaultValue) : null);
+	const [currentDate, setCurrentDate] = useState(defaultValue ? moment.utc(defaultValue) : null);
 	const [stringDate, setStringDate] = useState<string | undefined>(
 		currentDate ? currentDate.format(momentFormat) : undefined
 	);

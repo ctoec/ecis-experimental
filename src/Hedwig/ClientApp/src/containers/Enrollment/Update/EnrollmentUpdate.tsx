@@ -4,7 +4,7 @@ import { History } from 'history';
 import ChildInfo from '../_sections/ChildInfo';
 import FamilyInfo from '../_sections/FamilyInfo';
 import FamilyIncome from '../_sections/FamilyIncome';
-import EnrollmentFunding from '../_sections/EnrollmentFunding';
+import EnrollmentFunding from '../_sections/EnrollmentFunding_NEW';
 import PageNotFound from '../../PageNotFound/PageNotFound';
 import UserContext from '../../../contexts/User/UserContext';
 import {
