@@ -1,16 +1,14 @@
 import React from 'react';
 import { Funding } from '../../../../../../generated';
 import { Card, Button, CardProps, TextWithIcon } from '../../../../../../components';
-import {
-	prettyFundingSpaceTime,
-	reportingPeriodFormatter,
-} from '../../../../../../utils/models';
+import { prettyFundingSpaceTime, reportingPeriodFormatter } from '../../../../../../utils/models';
 import { CardExpansion } from '../../../../../../components/Card/CardExpansion';
 import { ExpandCard } from '../../../../../../components/Card/ExpandCard';
 import { getFundingTag } from '../../../../../../utils/fundingType';
 import { ReactComponent as Pencil } from '../../../../../../assets/images/pencil.svg';
 
-type FundingCardProps = Pick<CardProps,
+type FundingCardProps = Pick<
+	CardProps,
 	Exclude<keyof CardProps, 'appearance' | 'forceClose' | 'key'>
 > & {
 	funding: Funding;

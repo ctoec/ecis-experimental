@@ -121,10 +121,7 @@ export default function EnrollmentUpdate({
 	};
 
 	return (
-		<CommonContainer
-			backText="Back to summary"
-			backHref={`/roster/sites/${siteId}/enrollments/${enrollment.id}/`}
-		>
+		<CommonContainer backText="Back to summary">
 			<div className="grid-container">
 				<h1>Update {section.name.toLowerCase()}</h1>
 				<p className="usa-intro">{nameFormatter(enrollment.child)}</p>

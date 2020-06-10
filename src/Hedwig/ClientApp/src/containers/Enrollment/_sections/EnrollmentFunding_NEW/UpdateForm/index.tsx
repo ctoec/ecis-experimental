@@ -3,25 +3,24 @@ import { TabNav } from '../../../../../components/TabNav/TabNav';
 import { EnrollmentFundingForm } from './EnrollmentFunding';
 import { Care4KidsForm } from './Care4Kids';
 import { SectionProps } from '../../../enrollmentTypes';
-import { Enrollment, ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest } from '../../../../../generated';
+import {
+	Enrollment,
+	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
+} from '../../../../../generated';
 import UserContext from '../../../../../contexts/User/UserContext';
 import { validatePermissions, getIdForUser } from '../../../../../utils/models';
 import useApi from '../../../../../hooks/useApi';
 
-export const UpdateForm: React.FC<SectionProps> = ({
-	enrollment,
-	siteId
-}) => {
-	if(!enrollment) {
+export const UpdateForm: React.FC<SectionProps> = ({ enrollment, siteId }) => {
+	if (!enrollment) {
 		throw new Error('Section rendered without enrollment');
 	}
 
 	const { user } = useContext(UserContext);
 	const [forceCloseEditForms, setForceCloseEditForms] = useState(false);
 
-	const [mutatedEnrollment, setMutatedEnrollment] = useState<Enrollment>(enrollment)
+	const [mutatedEnrollment, setMutatedEnrollment] = useState<Enrollment>(enrollment);
 	const [attemptingSave, setAttemptingSave] = useState(false);
-
 
 	const renameToAvoidCodeDupeError: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
 		id: enrollment.id,
@@ -37,7 +36,7 @@ export const UpdateForm: React.FC<SectionProps> = ({
 			callback: () => {
 				setAttemptingSave(false);
 			},
-		},
+		}
 	);
 
 	// Handle successful API request
@@ -50,7 +49,7 @@ export const UpdateForm: React.FC<SectionProps> = ({
 		}
 
 		// If the request successed, process the response
-		if(returnedEnrollment) {
+		if (returnedEnrollment) {
 			setMutatedEnrollment(returnedEnrollment);
 			setForceCloseEditForms(true);
 		}
@@ -62,7 +61,7 @@ export const UpdateForm: React.FC<SectionProps> = ({
 		setAttemptingSave,
 		saveError,
 		forceCloseEditForms,
-	}
+	};
 	return (
 		<TabNav
 			items={[

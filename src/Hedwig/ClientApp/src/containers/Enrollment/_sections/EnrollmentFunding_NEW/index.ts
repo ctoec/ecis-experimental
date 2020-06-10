@@ -1,6 +1,6 @@
 import { Section } from '../../enrollmentTypes';
 import { NewForm } from './NewForm';
-import { UpdateForm } from './UpdateForm'
+import { UpdateForm } from './UpdateForm';
 import EnrollmentFunding from '../EnrollmentFunding';
 
 export default {

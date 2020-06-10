@@ -110,7 +110,12 @@ export const NewForm: React.FC<SectionProps> = ({
 			>
 				<EnrollmentStartDate initialLoad={false} />
 				<AgeGroupField initialLoad={false} />
-				<FundingField fundingId={0} fundingSpaces={fundingSpaces} error={saveError} errorAlertState={errorAlertState}/>
+				<FundingField
+					fundingId={0}
+					fundingSpaces={fundingSpaces}
+					error={saveError}
+					errorAlertState={errorAlertState}
+				/>
 
 				<WithNewC4kCertificate shouldCreate={certificateId === 0 && receivesC4K}>
 					{/* TODO: replace with solo checkbox when/if that exists-- just add flag on solo checkbox and go ditch all the margins */}

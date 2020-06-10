@@ -17,7 +17,6 @@ type FirstReportingPeriodFieldProps = Pick<
 	FundingFormFieldProps,
 	Exclude<keyof FundingFormFieldProps, 'fundingSpaces'>
 >;
-	
 
 export const FirstReportingPeriodField: React.FC<FirstReportingPeriodFieldProps> = ({
 	fundingId,
@@ -30,11 +29,13 @@ export const FirstReportingPeriodField: React.FC<FirstReportingPeriodFieldProps>
 
 	// Get reports
 	const { user } = useContext(UserContext);
-	const { data: reports } = useApi((api) => api.apiOrganizationsOrgIdReportsGet({orgId: getIdForUser(user, 'org')}));
+	const { data: reports } = useApi((api) =>
+		api.apiOrganizationsOrgIdReportsGet({ orgId: getIdForUser(user, 'org') })
+	);
 	// Get most recently submitted report to use to bound valid reporting period options
 	const [mostRecentlySubmittedReport] = (reports || [])
 		.filter((report) => !!report.submittedAt)
-		.sort((a, b) => propertyDateSorter(a, b, (r => r.submittedAt), true));
+		.sort((a, b) => propertyDateSorter(a, b, (r) => r.submittedAt, true));
 
 	const startDate = dataDriller.at('entry').value || moment().toDate();
 	useEffect(() => {
@@ -45,7 +46,9 @@ export const FirstReportingPeriodField: React.FC<FirstReportingPeriodFieldProps>
 		// - are after the most recent reporting period for which there is a submitted report
 		// - are not more than 3 periods in the "future" -- TODO confirm this AC
 		//   (i.e. in May, we will show May, June, and July reporting periods but not August)
-		const validPeriodStartDate = mostRecentlySubmittedReport ? moment.max(moment(mostRecentlySubmittedReport.reportingPeriod.periodEnd), moment(startDate)) : moment(startDate);
+		const validPeriodStartDate = mostRecentlySubmittedReport
+			? moment.max(moment(mostRecentlySubmittedReport.reportingPeriod.periodEnd), moment(startDate))
+			: moment(startDate);
 		const startIdx = reportingPeriods.findIndex((period) =>
 			moment(period.period).isSame(moment(validPeriodStartDate), 'month')
 		);
@@ -79,8 +82,8 @@ export const FirstReportingPeriodField: React.FC<FirstReportingPeriodFieldProps>
 						response: error,
 						field: 'fundings.firstReportingPeriodId',
 						message: REQUIRED_FOR_OEC_REPORTING,
-						errorAlertState
-					}
+						errorAlertState,
+					},
 				])
 			}
 		/>

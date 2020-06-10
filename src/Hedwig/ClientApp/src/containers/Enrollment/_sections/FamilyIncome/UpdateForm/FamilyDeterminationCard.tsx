@@ -33,7 +33,7 @@ export const FamilyDeterminationCard = ({
 			showTag={isCurrent ? isNew : undefined}
 			forceClose={forceClose}
 			key={determination.id}
-		>		
+		>
 			<div className="display-flex flex-justify">
 				<div className="flex-1">
 					<p>Household size</p>
@@ -57,10 +57,10 @@ export const FamilyDeterminationCard = ({
 							: InlineIcon({ icon: 'incomplete' })}
 					</p>
 				</div>
-			<ExpandCard>
-				<Button text={<TextWithIcon text="Edit" Icon={Pencil} />} appearance="unstyled" />
-			</ExpandCard>
-		</div>
+				<ExpandCard>
+					<Button text={<TextWithIcon text="Edit" Icon={Pencil} />} appearance="unstyled" />
+				</ExpandCard>
+			</div>
 			<CardExpansion>{expansion}</CardExpansion>
 		</Card>
 	);

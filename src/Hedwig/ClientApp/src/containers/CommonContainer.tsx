@@ -3,6 +3,8 @@ import cx from 'classnames';
 import AlertContext from '../contexts/Alert/AlertContext';
 import { Alert, AlertProps, TextWithIcon, ErrorBoundary, Button } from '../components';
 import { ReactComponent as ArrowRight } from '../assets/images/arrowRight.svg';
+import HistoryContext from '../contexts/History/HistoryContext';
+import { createPath } from 'history';
 
 export type CommonContainerPropsType = {
 	children: ReactElement<any> | null;
@@ -20,13 +22,15 @@ export default function CommonContainer({
 	const { getAlerts } = useContext(AlertContext);
 	const alerts = [...additionalAlerts, ...getAlerts()];
 
+	const { previousLocation } = useContext(HistoryContext);
+
 	return (
 		<ErrorBoundary>
-			<div className={cx({ 'grid-container': backHref || alerts.length })}>
-				{backHref && backText && (
+			<div className={cx({ 'grid-container': backText || alerts.length })}>
+				{backText && (
 					<Button
 						appearance="unstyled"
-						href={backHref}
+						href={backHref || createPath(previousLocation)}
 						className="text-bold text-underline"
 						text={<TextWithIcon text={backText} Icon={ArrowRight} direction="left" />}
 					/>
