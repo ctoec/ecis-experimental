@@ -13,19 +13,27 @@ import { REQUIRED_FOR_OEC_REPORTING } from '../../../../../utils/validations/mes
 import FormContext, { useGenericContext } from '../../../../../components/Form_New/FormContext';
 import produce from 'immer';
 import set from 'lodash/set';
+import { EnrollmentFormFieldProps } from './common';
 
-export const AgeGroupField: React.FC<{ initialLoad: boolean }> = ({ initialLoad }) => {
-	const { data, dataDriller, updateData } = useGenericContext<Enrollment>(FormContext)
+/**
+ * Component for setting the age group of an enrollment.
+ * When the age group for an enrollment is changed, all
+ * fundings are removed. Fundings must be associated with
+ * a funding space, which must have a matching age group
+ * to the funding's enrollment.
+ */
+export const AgeGroupField: React.FC<EnrollmentFormFieldProps> = ({
+	initialLoad = false
+}) => {
+	const { dataDriller, updateData } = useGenericContext<Enrollment>(FormContext)
 
 	return (
 		<FormField<Enrollment, RadioButtonGroupProps, Age | null>
 			getValue={(data) => data.at('ageGroup')}
 			parseOnChangeEvent={(e) => {
-				// Wipe out fundings when age group changes
-				// since fundings must be associated with a funding space
-				// and funding space agegroup must == enrollment age group
-				setTimeout(() => updateData(
-					produce<Enrollment>(data, (draft) =>
+				// un-set all fundings on age group change
+				setTimeout(() => updateData(_data => 
+					produce<Enrollment>(_data, (draft) =>
 						set(
 							draft,
 							dataDriller.at('fundings').path,
