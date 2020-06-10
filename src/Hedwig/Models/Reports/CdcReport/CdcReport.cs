@@ -11,7 +11,8 @@ namespace Hedwig.Models
 		public bool Accredited { get; set; } = false;
 
 		[Column(TypeName = "decimal(18,2)")]
-		public decimal C4KRevenue { get; set; }
+		[Required]
+		public decimal? C4KRevenue { get; set; }
 		public bool RetroactiveC4KRevenue { get; set; } = false;
 
 		[Column(TypeName = "decimal(18,2)")]

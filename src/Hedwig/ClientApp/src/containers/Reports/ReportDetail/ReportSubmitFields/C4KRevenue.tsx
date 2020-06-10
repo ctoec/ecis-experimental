@@ -76,7 +76,7 @@ export const C4KRevenueField: React.FC<C4KRevenueFieldProps> = ({
 				{
 					type: 'error',
 					response: error || null,
-					field: 'report.c4krevenue',
+					field: 'c4krevenue',
 					message: REQUIRED_FOR_REPORT,
 					errorAlertState,
 				},
