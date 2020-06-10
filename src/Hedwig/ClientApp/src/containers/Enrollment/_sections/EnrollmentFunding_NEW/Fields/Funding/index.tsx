@@ -10,9 +10,9 @@ import produce from 'immer';
 import set from 'lodash/set';
 import { RadioButtonGroup, RadioOption } from '../../../../../../components';
 
-
 export const FundingField: React.FC<FundingFormFieldProps> = ({
-	initialLoad,
+	error,
+	errorAlertState,
 	fundingId,
 	fundingSpaces: allFundingSpaces,
 }) => {
@@ -26,25 +26,26 @@ export const FundingField: React.FC<FundingFormFieldProps> = ({
 		// - there are no funding spaces OR
 		// - the family has no disclosed income determination
 		const ageGroup = dataDriller.at('ageGroup').value;
-		const incomeNotDisclosed = dataDriller.at('child').at('family').at('determinations').value.length === 0;
+		const incomeNotDisclosed =
+			dataDriller.at('child').at('family').at('determinations').value.length === 0;
 		if (!ageGroup || !allFundingSpaces.length || incomeNotDisclosed) {
 			setValidFundingSpaces([]);
 			return;
 		}
 
-		const _validFundingSpaces = allFundingSpaces
-			.filter(space => space.ageGroup === ageGroup)
+		const _validFundingSpaces = allFundingSpaces.filter((space) => space.ageGroup === ageGroup);
 
 		setValidFundingSpaces(_validFundingSpaces);
+	}, [dataDriller, allFundingSpaces]);
 
-	}, [dataDriller, allFundingSpaces])
+	const dedupedFundingSources = Array.from(
+		new Set(validFundingSpaces.map((space) => space.source as FundingSource))
+	);
 
-
-	const dedupedFundingSources = Array.from(new Set(
-		validFundingSpaces.map(space => space.source as FundingSource)
-	));
-
-	const currentFundingSelection = dataDriller.at('fundings').find(f => f.id === fundingId).at('source').value
+	const currentFundingSelection = dataDriller
+		.at('fundings')
+		.find((f) => f.id === fundingId)
+		.at('source').value;
 	return (
 		<RadioButtonGroup
 			name="funding-type"
@@ -53,11 +54,16 @@ export const FundingField: React.FC<FundingFormFieldProps> = ({
 			defaultValue={currentFundingSelection}
 			onChange={(e) =>
 				updateData(
-					produce<Enrollment>(data, (draft) => set(
-						draft,
-						dataDriller.at('fundings').find((f) => f.id === fundingId).at('source').path,
-						fundingSourceFromString(e.target.value)
-					))
+					produce<Enrollment>(data, (draft) =>
+						set(
+							draft,
+							dataDriller
+								.at('fundings')
+								.find((f) => f.id === fundingId)
+								.at('source').path,
+							fundingSourceFromString(e.target.value)
+						)
+					)
 				)
 			}
 			options={[
@@ -70,26 +76,34 @@ export const FundingField: React.FC<FundingFormFieldProps> = ({
 							onChange={() =>
 								// Updates data to remove current funding
 								updateData(
-									produce<Enrollment>(data, (draft) => set(
-										draft,
-										dataDriller.at('fundings').path,
-										dataDriller.at('fundings').value.filter(f => f.id !== fundingId)
-									))
-								)}
-						/>),
-					value: prettyFundingSource(undefined)
+									produce<Enrollment>(data, (draft) =>
+										set(
+											draft,
+											dataDriller.at('fundings').path,
+											dataDriller.at('fundings').value.filter((f) => f.id !== fundingId)
+										)
+									)
+								)
+							}
+						/>
+					),
+					value: prettyFundingSource(undefined),
 				},
-				...dedupedFundingSources.map(source => ({
-					render: (props) => <RadioButton text={prettyFundingSource(source)} {...props} />,
-					value: source,
-					expansion: source === FundingSource.CDC ? (
-						<>
-							<ContractSpaceField fundingId={fundingId} fundingSpaces={validFundingSpaces} />
-							<FirstReportingPeriodField fundingId={fundingId} initialLoad={initialLoad} />
-						</>
-					) : undefined
-				}) as RadioOption)
+				...dedupedFundingSources.map(
+					(source) =>
+						({
+							render: (props) => <RadioButton text={prettyFundingSource(source)} {...props} />,
+							value: source,
+							expansion:
+								source === FundingSource.CDC ? (
+									<>
+										<ContractSpaceField fundingId={fundingId} fundingSpaces={validFundingSpaces} error={error} errorAlertState={errorAlertState}/>
+										<FirstReportingPeriodField fundingId={fundingId} error={error} errorAlertState={errorAlertState}/>
+									</>
+								) : undefined,
+						} as RadioOption)
+				),
 			]}
 		/>
-	)
-}
+	);
+};
