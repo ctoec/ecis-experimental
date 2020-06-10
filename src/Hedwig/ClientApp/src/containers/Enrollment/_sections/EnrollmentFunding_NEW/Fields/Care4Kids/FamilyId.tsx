@@ -13,5 +13,5 @@ export const FamilyIdField: React.FC = () => {
 			id="c4k-family-id"
 			status={undefined} // TODO
 		/>
-	)
-}
+	);
+};

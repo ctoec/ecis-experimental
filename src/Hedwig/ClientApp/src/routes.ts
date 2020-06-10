@@ -12,7 +12,6 @@ import ReportsSummary from './containers/Reports/ReportsSummary/ReportsSummary';
 import ReportDetail from './containers/Reports/ReportDetail/ReportDetail';
 import Withdrawal from './containers/Withdrawal/Withdrawal';
 import Home from './containers/Home/Home';
-import { Test } from './containers/Test/Test';
 
 export type RouteConfig = {
 	path: string;
@@ -94,11 +93,6 @@ export const routes: RouteConfig[] = [
 	{
 		path: '/logout',
 		component: Login,
-		unauthorized: true,
-	},
-	{
-		path: '/test',
-		component: Test,
 		unauthorized: true,
 	},
 	{

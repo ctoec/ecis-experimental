@@ -35,7 +35,7 @@ type InternalRadioButtonGroupProps = {
  */
 export type RadioButtonGroupProps<
 	TFieldSetProps extends FieldSetProps | FormFieldSetProps<any> = FieldSetProps
-	> = InternalRadioButtonGroupProps &
+> = InternalRadioButtonGroupProps &
 	(TFieldSetProps extends FormFieldSetProps<infer T>
 		? { useFormFieldSet: true } & FormFieldSetProps<T>
 		: FieldSetProps);
@@ -103,7 +103,7 @@ const InternalRadioButtonGroup: React.FC<InternalRadioButtonGroupProps & { id: s
 	options,
 	defaultValue = '',
 	name,
-	onChange = () => { },
+	onChange = () => {},
 }) => {
 	const [selectedItem, setSelectedItem] = useState(defaultValue);
 

@@ -1,5 +1,8 @@
 import React from 'react';
-import { RadioButtonGroupProps, RadioButtonGroup } from "../../../../../components/RadioButtonGroup/RadioButtonGroup"
+import {
+	RadioButtonGroupProps,
+	RadioButtonGroup,
+} from '../../../../../components/RadioButtonGroup/RadioButtonGroup';
 import { Age, Enrollment } from '../../../../../generated';
 import FormField from '../../../../../components/Form_New/FormField';
 import { ageFromString, prettyAge } from '../../../../../utils/models';
@@ -8,11 +11,11 @@ import { initialLoadErrorGuard } from '../../../../../utils/validations';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
 import { REQUIRED_FOR_OEC_REPORTING } from '../../../../../utils/validations/messageStrings';
 
-export const AgeGroupField: React.FC<{initialLoad: boolean}> = ({ initialLoad }) => {
+export const AgeGroupField: React.FC<{ initialLoad: boolean }> = ({ initialLoad }) => {
 	return (
 		<FormField<Enrollment, RadioButtonGroupProps, Age | null>
-			getValue={data => data.at('ageGroup')}
-			parseOnChangeEvent={e => ageFromString((e.target as HTMLInputElement).value)}
+			getValue={(data) => data.at('ageGroup')}
+			parseOnChangeEvent={(e) => ageFromString((e.target as HTMLInputElement).value)}
 			inputComponent={RadioButtonGroup}
 			name="age-group"
 			id="age-group-radiogroup"
@@ -31,9 +34,9 @@ export const AgeGroupField: React.FC<{initialLoad: boolean}> = ({ initialLoad })
 				{
 					render: (props) => <RadioButton text={prettyAge(Age.SchoolAge)} {...props} />,
 					value: Age.SchoolAge,
-				}
+				},
 			]}
-			status={data => 
+			status={(data) =>
 				initialLoadErrorGuard(
 					initialLoad,
 					displayValidationStatus([
@@ -41,11 +44,11 @@ export const AgeGroupField: React.FC<{initialLoad: boolean}> = ({ initialLoad })
 							type: 'warning',
 							response: data.at('validationErrors').value,
 							field: 'ageGroup',
-							message: REQUIRED_FOR_OEC_REPORTING
-						}
+							message: REQUIRED_FOR_OEC_REPORTING,
+						},
 					])
 				)
 			}
 		/>
-	)
-}
+	);
+};

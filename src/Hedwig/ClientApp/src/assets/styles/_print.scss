@@ -4,14 +4,15 @@
 		margin: 2cm;
 	}
 
-	// header, <Alert>, <Button type="submit">, <Link>, <DirectionalLink>, .print-btn
+	// header, <Alert>, <Button type="submit">, <Link>, <TextWithIcon>, .print-btn
 	header,
 	[role='alert'],
 	input[type='submit'],
 	.usa-link:not(.print),
-	.oec-directional-link,
+	.oec-text-with-icon,
 	.print-btn,
-	.usa-button {
+	.usa-button,
+	.usa-checkbox {
 		@include u-display('none');
 	}
 

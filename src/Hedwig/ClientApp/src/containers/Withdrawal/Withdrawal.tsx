@@ -171,11 +171,8 @@ export default function Withdrawal({
 
 	return (
 		<CommonContainer
-			directionalLinkProps={{
-				direction: 'left',
-				to: `/roster/sites/${siteId}/enrollments/${enrollmentId}`,
-				text: 'Back',
-			}}
+			backHref={`/roster/sites/${siteId}/enrollments/${enrollmentId}`}
+			backText="Back"
 		>
 			<div className="grid-container">
 				<h1>Withdraw {nameFormatter(mutatedEnrollment.child)}</h1>

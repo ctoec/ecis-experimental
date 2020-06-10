@@ -1,10 +1,9 @@
 import React, { useContext } from 'react';
 import UserContext from '../../contexts/User/UserContext';
 import { useHistory } from 'react-router';
-import { Button, DirectionalLink } from '../../components';
-
+import { Button, TextWithIcon } from '../../components';
+import { ReactComponent as ArrowRight } from '../../../node_modules/uswds/dist/img/arrow-right.svg';
 import { ReactComponent as TeacherWithChalkboard } from '../../assets/images/teacherWithChalkboard.svg';
-import { ReactComponent as ArrowDown } from '../../../node_modules/uswds/dist/img/arrow-right.svg';
 import HomeCareerBubbleSrc from '../../assets/images/homeCareerBubble.png';
 
 import cx from 'classnames';
@@ -53,11 +52,16 @@ const Home: any = () => {
 						<div className="display-flex flex-align-center">
 							<TeacherWithChalkboard width="45px" />
 							<div className="margin-left-2">
-								<DirectionalLink
-									direction="right"
-									arrowSide="right"
-									text="Read the privacy policy"
-									to="/privacy-policy"
+								<Button
+									text={
+										<TextWithIcon
+											direction="right"
+											iconSide="right"
+											text="Read the privacy policy"
+											Icon={ArrowRight}
+										/>
+									}
+									href="/privacy-policy"
 								/>
 							</div>
 						</div>
@@ -78,9 +82,10 @@ const Home: any = () => {
 					<Button
 						className={cx(styles['usa-button'], 'bg-accent-cool-darker radius-0')}
 						text={
+							// TODO: use TextWithIcon here
 							<span className="display-flex flex-align-center">
 								<span>Visit the OEC website</span>
-								<ArrowDown aria-hidden width="20" height="20" className="margin-left-3" />
+								<ArrowRight aria-hidden width="20" height="20" className="margin-left-3" />
 							</span>
 						}
 						href="https://ctoec.org"

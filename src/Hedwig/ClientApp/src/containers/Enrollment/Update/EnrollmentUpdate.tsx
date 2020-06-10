@@ -65,12 +65,13 @@ export default function EnrollmentUpdate({
 		id: enrollmentId ? enrollmentId : 0,
 		orgId: getIdForUser(user, 'org'),
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
-		include: ['child', 'family', 'determinations', 'fundings', 'past_enrollments'],
+		include: ['child', 'family', 'determinations', 'fundings', 'past_enrollments', 'sites'],
 	};
 	const { loading, error, data: _enrollment } = useApi(
 		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
 		{ skip: !user }
 	);
+
 	useEffect(() => {
 		updateEnrollment(_enrollment);
 	}, [_enrollment]);
@@ -121,15 +122,12 @@ export default function EnrollmentUpdate({
 
 	return (
 		<CommonContainer
-			directionalLinkProps={{
-				direction: 'left',
-				to: `/roster/sites/${siteId}/enrollments/${enrollment.id}/`,
-				text: `Back to enrollment details`,
-			}}
+			backText="Back to summary"
+			backHref={`/roster/sites/${siteId}/enrollments/${enrollment.id}/`}
 		>
 			<div className="grid-container">
 				<h1>Update {section.name.toLowerCase()}</h1>
-				<h2 className="usa-intro">{nameFormatter(enrollment.child)}</h2>
+				<p className="usa-intro">{nameFormatter(enrollment.child)}</p>
 				<ErrorBoundary alertProps={editSaveFailAlert}>
 					{/*
 						Simple object updates are completed with the same Form used during the EnrollmentNew flow.

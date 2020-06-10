@@ -1,36 +1,36 @@
-.oec-directional-link {
+.oec-text-with-icon {
 	display: block;
-	@include u-text('primary');
-	@include u-text('bold');
+	// @include u-text('primary');
+	// @include u-text('bold');
 }
 
-.oec-directional-link__arrow {
+.oec-text-with-icon__icon {
 	height: units(2);
 	width: units(2);
 	vertical-align: middle;
 }
 
-.oec-directional-link__arrow--side-left {
+.oec-text-with-icon__icon--side-left {
 	margin-right: units(1);
 }
 
-.oec-directional-link__arrow--side-right {
+.oec-text-with-icon__icon--side-right {
 	margin-left: units(1);
 }
 
 // Arrow points right by default
 
-.oec-directional-link__arrow--direction-down {
+.oec-text-with-icon__icon--direction-down {
 	-webkit-transform: rotate(90deg);
 	transform: rotate(90deg);
 }
 
-.oec-directional-link__arrow--direction-left {
+.oec-text-with-icon__icon--direction-left {
 	-webkit-transform: rotate(180deg);
 	transform: rotate(180deg);
 }
 
-.oec-directional-link__arrow--direction-up {
+.oec-text-with-icon__icon--direction-up {
 	-webkit-transform: rotate(270deg);
 	transform: rotate(270deg);
 }
