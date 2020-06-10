@@ -16,19 +16,25 @@ type EnrollmentFormForCardProps = {
 // so they're not updateable thru the API)
 
 /**
- * TODO: when we add functionality to create new enrollment, extend this form to distinguish
- * - Button not wrapped in ExpandCard. Instead: takes in & invokes onCancel prop, which
- * 	 should set some 'showAddNewEnrollment' state var from calling context to false
+ * The single-enrollment form to be embedded in EnrollmentCard in the UpdateForm.
+ * 
+ * This form only handles editing the existing current enrollment. Past enrollments
+ * cannot be edited at this time given the limitation of returning them as 
+ * un-mapped `pastEnrollments` on the current enrollment entity. Switching the entire
+ * FE enrollment flow to use child (or updating these enrollments via separate API PUTs
+ * with their IDs, and somehow updating the data in the current enrollment.pastEnrollments)
+ * is necessary to fulfill this feature.
+ * 
+ * TODO: when we add above functionality, extend this form to distinguish between
+ * editing and creating a new enrollment
  */
 export const EnrollmentFormForCard: React.FC<EnrollmentFormForCardProps> = ({
-	// PR comment "I dont think we need to make this reusable for when we switch enrollments -- that can be it's own form b/c it also includes: site, funding. This can just be EnrollmentEditFormForCard"
 	formData,
 	onSubmit,
 }) => {
 	return (
 		<Form id={`edit-enrollment`} data={formData} onSubmit={onSubmit} className="usa-form">
 			<EnrollmentStartDate initialLoad={false} />
-			{/* TODO: AgeGroupField needs to blow away all of the fundings on change */}
 			<AgeGroupField initialLoad={false} />
 			<ExpandCard>
 				<Button text="Cancel" appearance="outline" />

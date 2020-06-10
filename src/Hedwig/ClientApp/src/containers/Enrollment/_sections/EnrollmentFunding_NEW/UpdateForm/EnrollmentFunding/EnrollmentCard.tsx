@@ -15,17 +15,17 @@ type EnrollmentCardProps = Exclude<CardProps, 'appearance' | 'forceClose' | 'key
 };
 
 /**
- * Use cards! Make card top/bottom border optional? so fundings can be displayed w/out separators between them
+ * Card that displays an enrollment record.
+ * Optionally, renders an expansion props as the CardExpansion content,
+ * which will be an EnrollmentFormForCard 
  */
 export const EnrollmentCard = ({
-	// EnrollmentCard will actually be EnrollmentCardSet, which will include an enrollmentCard and 0 or more fundingCards
 	enrollment,
 	isCurrent,
 	forceClose = false,
 	expansion,
 	className,
 }: EnrollmentCardProps) => {
-	console.log("FOOBAR");
 	return (
 		<Card
 			appearance={isCurrent ? 'primary' : 'secondary'}

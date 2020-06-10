@@ -33,7 +33,6 @@ export const FundingField: React.FC<FundingFormFieldProps> = ({
 		// - there are no funding spaces OR
 		// - the family has no disclosed income determination
 		const ageGroup = dataDriller.at('ageGroup').value;
-		console.log("age group", ageGroup);
 		const incomeNotDisclosed =
 			dataDriller.at('child').at('family').at('determinations').value.length === 0;
 		if (!ageGroup || !allFundingSpaces.length || incomeNotDisclosed) {

@@ -12,8 +12,9 @@ type FamilyDeterminationFormForCardProps = {
 	onSubmit: (_: Enrollment) => void;
 	onCancel?: () => void;
 };
+
 /**
- * The single-determination form to be embedded in Cards in the UpdateForm.
+ * The single-determination form to be embedded in FamilyDeterminationCard in the UpdateForm.
  *
  * The component relies on determinationId to determine which flavor of CardForm it is:
  * - determinationId = 0: displayed in a Card as the primary content to create a new determination
@@ -29,7 +30,7 @@ const FamilyDeterminationFormForCard: React.FC<FamilyDeterminationFormForCardPro
 	const isEditExpansion = determinationId !== 0;
 
 	// Use a basic button to cancel adding new determination,
-	// or an ExpandCard button to cancel editing an existing determination
+	// or an ExpandCard button to collapse the card expansion edit form for an existing determination
 	const cancelElement = !isEditExpansion ? (
 		<Button
 			text="Cancel"
