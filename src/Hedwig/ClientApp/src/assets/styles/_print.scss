@@ -11,7 +11,8 @@
 	.usa-link:not(.print),
 	.oec-text-with-icon,
 	.print-btn,
-	.usa-button {
+	.usa-button,
+	.usa-checkbox {
 		@include u-display('none');
 	}
 
