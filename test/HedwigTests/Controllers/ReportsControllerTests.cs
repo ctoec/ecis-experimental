@@ -38,20 +38,19 @@ namespace HedwigTests.Controllers
 		{
 			var id = 1;
 			var orgId = 1;
-			var include = new string[] { "foo" };
 
 			var returns = exists ? new CdcReport() : null;
 			var _reports = new Mock<IReportRepository>();
-			_reports.Setup(r => r.GetReportForOrganizationAsync(id, orgId, include))
-				.ReturnsAsync(returns);
+			_reports.Setup(r => r.GetCdcReportForOrganization(id, orgId))
+      .Returns(returns);
 
 			var _mapper = new Mock<IMapper>();
 
 			var controller = new ReportsController(_reports.Object, _mapper.Object);
 
-			var result = await controller.Get(id, orgId, include);
+			var result = await controller.Get(id, orgId);
 
-			_reports.Verify(r => r.GetReportForOrganizationAsync(id, orgId, include), Times.Once());
+			_reports.Verify(r => r.GetCdcReportForOrganization(id, orgId), Times.Once());
 			Assert.IsType(resultType, result.Result);
 		}
 

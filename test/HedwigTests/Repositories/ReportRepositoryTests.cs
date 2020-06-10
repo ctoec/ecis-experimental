@@ -14,12 +14,9 @@ namespace HedwigTests.Repositories
 	public class ReportRepositoryTests
 	{
 		[Theory]
-		[InlineData(false, new string[] { })]
-		[InlineData(false, new string[] { "organizations" })]
-		[InlineData(false, new string[] { "organizations", "sites", "funding_spaces" })]
-		[InlineData(false, new string[] { "organizations", "sites", "funding_spaces", "enrollments" })]
-		[InlineData(true, new string[] { "organizations", "sites", "funding_spaces", "enrollments" })]
-		public async Task Get_Report_For_Organization(bool submitted, string[] include)
+		[InlineData(false)]
+		[InlineData(true)]
+		public void Get_Report_For_Organization(bool submitted)
 		{
 			using (var context = new TestHedwigContextProvider().Context)
 			{
@@ -46,33 +43,34 @@ namespace HedwigTests.Repositories
 
 				// When the repository is queried
 				var repo = new ReportRepository(context);
-				var result = await repo.GetReportForOrganizationAsync(report.Id, organization.Id, include) as CdcReport;
+				var result = repo.GetCdcReportForOrganization(report.Id, organization.Id) as CdcReport;
 
 				// It returns the Report
 				Assert.Equal(result.Id, report.Id);
 
 				// It includes the Organization
-				Assert.Equal(include.Contains("organizations"), result.Organization != null);
+				Assert.True(result.Organization != null);
 
 				// It includes the Sites
-				Assert.Equal(include.Contains("sites"), result.Organization != null && result.Organization.Sites != null);
+				Assert.True(result.Organization != null && result.Organization.Sites != null);
 
-				// It includes the Enrollments (and Fundings too)
-				Assert.Equal(
-					include.Contains("enrollments"),
+				// It includes the Enrollments
+				Assert.True(
 					result.Enrollments != null &&
-					 result.Enrollments.FirstOrDefault().Fundings != null
+					result.Enrollments.FirstOrDefault() != null
 				);
 
-				// When it includes enrollments
-				if (include.Contains("enrollments"))
-				{
-					var enrollmentResult = result.Enrollments.FirstOrDefault();
-					var fundingResult = enrollmentResult.Fundings.FirstOrDefault();
+				// It includes the Enrollments Fundings too
+				Assert.True(
+					result.Enrollments.FirstOrDefault().Fundings != null
+				);
 
-					// A submitted report should return the data as of when it was submitted
-					Assert.Equal(submitted ? Age.Preschool : Age.SchoolAge, enrollmentResult.AgeGroup);
-				}
+				var enrollmentResult = result.Enrollments.FirstOrDefault();
+				var fundingResult = enrollmentResult.Fundings.FirstOrDefault();
+
+				// A submitted report should return the data as of when it was submitted
+				Assert.Equal(submitted ? Age.Preschool : Age.SchoolAge, enrollmentResult.AgeGroup);
+
 			}
 		}
 

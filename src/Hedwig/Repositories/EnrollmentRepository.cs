@@ -35,7 +35,6 @@ namespace Hedwig.Repositories
 			int siteId,
 			DateTime? from = null,
 			DateTime? to = null,
-			string[] include = null,
 			int skip = 0,
 			int? take = null
 		)
@@ -44,7 +43,7 @@ namespace Hedwig.Repositories
 				.FilterByDates(from, to)
 				.Where(e => e.SiteId == siteId);
 
-			enrollments = enrollments.ProcessInclude(include);
+			enrollments = enrollments.IncludeFundingsSitesAndChild();
 
 			enrollments = enrollments.Skip(skip);
 			if (take.HasValue)
@@ -54,19 +53,19 @@ namespace Hedwig.Repositories
 			return enrollments.OrderBy(e => e.Id).ToListAsync();
 		}
 
-		public Task<Enrollment> GetEnrollmentForSiteAsync(int id, int siteId, string[] include)
+		public Task<Enrollment> GetEnrollmentForSiteAsync(int id, int siteId)
 		{
 			var enrollmentQuery = _context.Enrollments
 				.Where(e => e.SiteId == siteId && e.Id == id);
 
 			enrollmentQuery = enrollmentQuery.Include(e => e.Author);
-			enrollmentQuery = enrollmentQuery.ProcessInclude(include);
+			enrollmentQuery = enrollmentQuery.IncludeFundingsSitesAndChild();
+			enrollmentQuery = enrollmentQuery.IncludeFamilyAndDeterminations();
 
 			var enrollment = enrollmentQuery.FirstOrDefault();
 
 			// handle special include of un-mapped properties
-			if (enrollment != null
-			&& include.Contains(HedwigRepository.INCLUDE_PAST_ENROLLMENTS))
+			if (enrollment != null)
 			{
 				var pastEnrollments = _context.Enrollments.Where(
 					e => e.ChildId == enrollment.ChildId
@@ -94,7 +93,6 @@ namespace Hedwig.Repositories
 			int orgId,
 			DateTime? from = null,
 			DateTime? to = null,
-			string[] include = null,
 			DateTime? asOf = null,
 			int skip = 0,
 			int? take = null
@@ -105,7 +103,7 @@ namespace Hedwig.Repositories
 				.FilterByDates(from, to)
 				.Where(e => e.Site.OrganizationId == orgId);
 
-			enrollments = enrollments.ProcessInclude(include);
+			enrollments = enrollments.IncludeFundingsSitesAndChild();
 
 			enrollments = enrollments.Skip(skip);
 			if (take.HasValue)
@@ -125,9 +123,9 @@ namespace Hedwig.Repositories
 	{
 		void UpdateEnrollment(Enrollment enrollment, EnrollmentDTO enrollmentDTO);
 		void AddEnrollment(Enrollment enrollment);
-		Task<List<Enrollment>> GetEnrollmentsForSiteAsync(int siteId, DateTime? from = null, DateTime? to = null, string[] include = null, int skip = 0, int? take = null);
-		Task<Enrollment> GetEnrollmentForSiteAsync(int id, int siteId, string[] include = null);
-		Task<List<Enrollment>> GetEnrollmentsForOrganizationAsync(int orgId, DateTime? from = null, DateTime? to = null, string[] include = null, DateTime? asOf = null, int skip = 0, int? take = null);
+		Task<List<Enrollment>> GetEnrollmentsForSiteAsync(int siteId, DateTime? from = null, DateTime? to = null, int skip = 0, int? take = null);
+		Task<Enrollment> GetEnrollmentForSiteAsync(int id, int siteId);
+		Task<List<Enrollment>> GetEnrollmentsForOrganizationAsync(int orgId, DateTime? from = null, DateTime? to = null, DateTime? asOf = null, int skip = 0, int? take = null);
 		Enrollment GetEnrollmentById(int id);
 
 		void DeleteEnrollment(Enrollment enrollment);
@@ -151,41 +149,31 @@ namespace Hedwig.Repositories
 			return query;
 		}
 
-		public static IQueryable<Enrollment> ProcessInclude(this IQueryable<Enrollment> query, string[] include = null)
+		public static IQueryable<Enrollment> IncludeFundingsSitesAndChild(this IQueryable<Enrollment> query)
 		{
-			include = include ?? new string[] { };
-			if (include.Contains(HedwigRepository.INCLUDE_SITES))
-			{
-				query = query.Include(e => e.Site);
-			}
+			query = query.Include(e => e.Fundings)
+					.ThenInclude(f => f.FundingSpace)
+						.ThenInclude(fs => fs.TimeSplit)
+				.Include(e => e.Fundings)
+					.ThenInclude(f => f.FirstReportingPeriod)
+				.Include(e => e.Fundings)
+					.ThenInclude(f => f.LastReportingPeriod)
+				.Include(e => e.Child)
+					.ThenInclude(c => c.C4KCertificates);
 
-			if (include.Contains(HedwigRepository.INCLUDE_FUNDINGS))
-			{
-				query = query.Include(e => e.Fundings)
-						.ThenInclude(f => f.FundingSpace)
-							.ThenInclude(fs => fs.TimeSplit)
-					.Include(e => e.Fundings)
-						.ThenInclude(f => f.FirstReportingPeriod)
-					.Include(e => e.Fundings)
-						.ThenInclude(f => f.LastReportingPeriod)
-					.Include(e => e.Child)
-						.ThenInclude(c => c.C4KCertificates);
-			}
+			query = query.Include(e => e.Site);
 
-			if (include.Contains(HedwigRepository.INCLUDE_CHILD))
-			{
-				query = query.Include(e => e.Child);
+			query = query.Include(e => e.Child);
 
-				if (include.Contains(HedwigRepository.INCLUDE_FAMILY))
-				{
-					query = ((IIncludableQueryable<Enrollment, Child>)query).ThenInclude(c => c.Family);
 
-					if (include.Contains(HedwigRepository.INCLUDE_DETERMINATIONS))
-					{
-						query = ((IIncludableQueryable<Enrollment, Family>)query).ThenInclude(f => f.Determinations);
-					}
-				}
-			}
+			return query;
+		}
+
+		public static IQueryable<Enrollment> IncludeFamilyAndDeterminations(this IQueryable<Enrollment> query)
+		{
+			query = ((IIncludableQueryable<Enrollment, Child>)query).ThenInclude(c => c.Family);
+
+			query = ((IIncludableQueryable<Enrollment, Family>)query).ThenInclude(f => f.Determinations);
 
 			return query;
 		}

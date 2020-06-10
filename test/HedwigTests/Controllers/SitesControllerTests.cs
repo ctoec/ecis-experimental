@@ -35,18 +35,17 @@ namespace HedwigTests.Controllers
 		{
 			var id = 1;
 			var orgId = 1;
-			var include = new string[] { "foo" };
 
 			var returns = exists ? new Site() : null;
 			var _sites = new Mock<ISiteRepository>();
-			_sites.Setup(s => s.GetSiteForOrganizationAsync(id, orgId, include))
+			_sites.Setup(s => s.GetSiteForOrganizationAsync(id, orgId))
 				.ReturnsAsync(returns);
 
 			var controller = new SitesController(_sites.Object);
 
-			var result = await controller.Get(id, orgId, include);
+			var result = await controller.Get(id, orgId);
 
-			_sites.Verify(s => s.GetSiteForOrganizationAsync(id, orgId, include));
+			_sites.Verify(s => s.GetSiteForOrganizationAsync(id, orgId));
 			Assert.IsType(resultType, result.Result);
 
 		}

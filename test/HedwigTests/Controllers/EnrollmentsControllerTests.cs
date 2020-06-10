@@ -23,10 +23,9 @@ namespace HedwigTests.Controllers
 			var controller = new EnrollmentsController(_enrollments.Object, _sites.Object, _mapper.Object);
 
 			var siteId = 1;
-			var include = new string[] { "foo" };
-			await controller.Get(1, siteId, include);
+			await controller.Get(1, siteId);
 
-			_enrollments.Verify(e => e.GetEnrollmentsForSiteAsync(siteId, null, null, include, 0, null), Times.Once());
+			_enrollments.Verify(e => e.GetEnrollmentsForSiteAsync(siteId, null, null, 0, null), Times.Once());
 		}
 
 		[Fact]
@@ -41,9 +40,9 @@ namespace HedwigTests.Controllers
 			var id = 1;
 			var siteId = 1;
 			var include = new string[] { "foo" };
-			await controller.Get(id, 1, siteId, include);
+			await controller.Get(id, 1, siteId);
 
-			_enrollments.Verify(e => e.GetEnrollmentForSiteAsync(id, siteId, include), Times.Once());
+			_enrollments.Verify(e => e.GetEnrollmentForSiteAsync(id, siteId), Times.Once());
 		}
 
 		[Theory]

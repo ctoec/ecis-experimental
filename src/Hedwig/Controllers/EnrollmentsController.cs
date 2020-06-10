@@ -45,7 +45,6 @@ namespace Hedwig.Controllers
 		public async Task<ActionResult<List<Enrollment>>> Get(
 			int orgId,
 			[FromQuery(Name = "siteIds[]")] int[] siteIds,
-			[FromQuery(Name = "include[]")] string[] include,
 			[FromQuery(Name = "startDate")] DateTime? from = null,
 			[FromQuery(Name = "endDate")] DateTime? to = null,
 			[FromQuery(Name = "asOf")] DateTime? asOf = null,
@@ -66,14 +65,14 @@ namespace Hedwig.Controllers
 
 				foreach (var siteId in siteIds)
 				{
-					var siteEnrollments = await _enrollments.GetEnrollmentsForSiteAsync(siteId, from, to, include, skip, take);
+					var siteEnrollments = await _enrollments.GetEnrollmentsForSiteAsync(siteId, from, to, skip, take);
 					enrollments.AddRange(siteEnrollments);
 				}
 			}
 			else
 			// If no sites are specified, get all enrollments for the organization
 			{
-				enrollments = await _enrollments.GetEnrollmentsForOrganizationAsync(orgId, from, to, include, asOf, skip, take);
+				enrollments = await _enrollments.GetEnrollmentsForOrganizationAsync(orgId, from, to, asOf, skip, take);
 			}
 
 			return enrollments;
@@ -88,14 +87,13 @@ namespace Hedwig.Controllers
 		public async Task<ActionResult<List<Enrollment>>> Get(
 			int orgId,
 			int siteId,
-			[FromQuery(Name = "include[]")] string[] include,
 			[FromQuery(Name = "startDate")] DateTime? from = null,
 			[FromQuery(Name = "endDate")] DateTime? to = null,
 			[FromQuery(Name = "skip")] int skip = 0,
 			[FromQuery(Name = "take")] int? take = null
 		)
 		{
-			var enrollments = await _enrollments.GetEnrollmentsForSiteAsync(siteId, from, to, include, skip, take);
+			var enrollments = await _enrollments.GetEnrollmentsForSiteAsync(siteId, from, to, skip, take);
 			return enrollments;
 		}
 
@@ -108,12 +106,11 @@ namespace Hedwig.Controllers
 		public async Task<ActionResult<Enrollment>> Get(
 			int id,
 			int orgId,
-			int siteId,
-			[FromQuery(Name = "include[]")] string[] include
+			int siteId
 		)
 		{
 
-			var enrollment = await _enrollments.GetEnrollmentForSiteAsync(id, siteId, include);
+			var enrollment = await _enrollments.GetEnrollmentForSiteAsync(id, siteId);
 			if (enrollment == null) return NotFound();
 
 			return enrollment;

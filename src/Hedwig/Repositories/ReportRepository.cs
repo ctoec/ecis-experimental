@@ -25,74 +25,56 @@ namespace Hedwig.Repositories
 			.OfType<CdcReport>()
 			.Where(r => r.OrganizationId == orgId)
 			.Include(report => report.ReportingPeriod)
-			.Include(report => report.TimeSplitUtilizations)
+			// Not included in OrganizationReportSummaryDTO
+			//.Include(report => report.TimeSplitUtilizations)
 			.ToList();
 		}
 
-		public async Task<CdcReport> GetReportForOrganizationAsync(int id, int orgId, string[] include = null)
+		public CdcReport GetCdcReportForOrganization(int id, int orgId)
 		{
-			include = include ?? new string[] { };
-			var include_orgs = include.Contains(INCLUDE_ORGANIZATIONS);
-			var include_sites = include.Contains(INCLUDE_SITES);
-			var include_enrollments = include.Contains(INCLUDE_ENROLLMENTS);
-			var include_children = include.Contains(INCLUDE_CHILD);
-			var include_funding_spaces = include.Contains(INCLUDE_FUNDING_SPACES);
-
 			IQueryable<CdcReport> reportQuery = _context.Reports
 			.OfType<CdcReport>()
 			.Where(report => report.Id == id && report.OrganizationId == orgId)
 			.Include(report => report.ReportingPeriod)
 			.Include(report => report.TimeSplitUtilizations);
 
-			if (include.Contains(INCLUDE_ORGANIZATIONS))
-			{
-				reportQuery = reportQuery.Include(report => report.Organization);
-			}
+			reportQuery = reportQuery.Include(report => report.Organization);
 
-			if (include.Contains(INCLUDE_SITES))
-			{
-				reportQuery = reportQuery
-					.Include(report => report.Organization)
-					.ThenInclude(organization => organization.Sites);
-			}
+			reportQuery = reportQuery
+				.Include(report => report.Organization)
+				.ThenInclude(organization => organization.Sites);
 
-			if (include.Contains(INCLUDE_FUNDING_SPACES))
-			{
-				reportQuery = reportQuery
-					.Include(report => report.Organization)
-						.ThenInclude(organization => organization.FundingSpaces)
-							.ThenInclude(fundingSpace => fundingSpace.TimeSplit)
-					.Include(report => report.Organization)
-						.ThenInclude(organization => organization.FundingSpaces)
-							.ThenInclude(fundingSpace => fundingSpace.TimeSplitUtilizations)
-								.ThenInclude(timeSplitUtilization => timeSplitUtilization.ReportingPeriod)
-					.Include(report => report.Organization)
-						.ThenInclude(organization => organization.FundingSpaces)
-							.ThenInclude(fundingSpace => fundingSpace.TimeSplitUtilizations)
-								.ThenInclude(util => util.Report);
-			}
+			reportQuery = reportQuery
+				.Include(report => report.Organization)
+					.ThenInclude(organization => organization.FundingSpaces)
+						.ThenInclude(fundingSpace => fundingSpace.TimeSplit)
+				.Include(report => report.Organization)
+					.ThenInclude(organization => organization.FundingSpaces)
+						.ThenInclude(fundingSpace => fundingSpace.TimeSplitUtilizations)
+							.ThenInclude(timeSplitUtilization => timeSplitUtilization.ReportingPeriod)
+				.Include(report => report.Organization)
+					.ThenInclude(organization => organization.FundingSpaces)
+						.ThenInclude(fundingSpace => fundingSpace.TimeSplitUtilizations)
+							.ThenInclude(util => util.Report);
 
-			var reportResult = await reportQuery.FirstOrDefaultAsync();
+			var reportResult = reportQuery.FirstOrDefault();
 
-			// Optionally manually insert time-versioned enrollment records
-			if (reportResult != null && include.Contains(INCLUDE_ENROLLMENTS))
+			// Manually insert time-versioned enrollment records
+			if (reportResult != null)
 			{
 				var enrollments = GetEnrollmentsForReport(reportResult);
-				// Optionally manually insert time-versioned child records
-				if (include.Contains(INCLUDE_CHILD))
-				{
-					var childIds = enrollments.Select(enrollment => enrollment.ChildId);
-					var children = (reportResult.SubmittedAt.HasValue ? _context.Children.AsOf(reportResult.SubmittedAt.Value) : _context.Children)
+				// Manually insert time-versioned child records
+				var childIds = enrollments.Select(enrollment => enrollment.ChildId);
+				var children = (reportResult.SubmittedAt.HasValue ? _context.Children.AsOf(reportResult.SubmittedAt.Value) : _context.Children)
 					.Include(child => child.C4KCertificates)
 					.Where(child => childIds.Contains(child.Id))
 					.ToDictionary(child => child.Id);
 
-					// Add children to enrollments
-					enrollments.ForEach(enrollment =>
-					{
-						enrollment.Child = children[enrollment.ChildId];
-					});
-				}
+				// Add children to enrollments
+				enrollments.ForEach(enrollment =>
+				{
+					enrollment.Child = children[enrollment.ChildId];
+				});
 
 				// Add enrollments to report
 				reportResult.Enrollments = enrollments;
@@ -190,7 +172,7 @@ namespace Hedwig.Repositories
 	{
 		void UpdateReport(CdcReport report, CdcReportDTO reportDTO);
 		List<CdcReport> GetReportsForOrganization(int orgId);
-		Task<CdcReport> GetReportForOrganizationAsync(int id, int orgId, string[] include);
+		CdcReport GetCdcReportForOrganization(int id, int orgId);
 		List<Enrollment> GetEnrollmentsForReport(CdcReport report);
 		CdcReport GetMostRecentSubmittedCdcReportForOrganization(int orgId);
 		IEnumerable<CdcReport> GetReportsForOrganizationByFiscalYear(int orgId, DateTime periodDate);
