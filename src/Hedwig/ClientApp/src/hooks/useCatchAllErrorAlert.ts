@@ -14,7 +14,10 @@ const useCatchAllErrorAlert: (error: ApiError | null) => ErrorAlertState = (erro
 	const [hasAlertedOnError, setHasAlertedOnError] = useState(false);
 
 	useEffect(() => {
-		if (!error) return;
+		if (!error) {
+			setAlerts([]);
+			return;
+		}
 
 		if (!hasAlertedOnError) {
 			if (!isBlockingValidationError(error)) {

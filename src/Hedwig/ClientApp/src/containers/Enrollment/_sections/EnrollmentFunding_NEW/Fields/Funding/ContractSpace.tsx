@@ -7,11 +7,17 @@ import FormContext, { useGenericContext } from '../../../../../../components/For
 import produce from 'immer';
 import set from 'lodash/set';
 import { FundingFormFieldProps } from '../../Fields/common';
+import { displayValidationStatus } from '../../../../../../utils/validations/displayValidationStatus';
+import { REQUIRED_FOR_OEC_REPORTING } from '../../../../../../utils/validations/messageStrings';
 
 export const ContractSpaceField: React.FC<FundingFormFieldProps> = ({
 	fundingId,
 	fundingSpaces: matchingFundingSpaces,
+	error,
+	errorAlertState,
 }) => {
+	const { dataDriller, updateData } = useGenericContext<Enrollment>(FormContext);
+
 	if (matchingFundingSpaces.length === 1) {
 		return (
 			<SingleContractSpaceField fundingId={fundingId} fundingSpace={matchingFundingSpaces[0]} />
@@ -34,6 +40,17 @@ export const ContractSpaceField: React.FC<FundingFormFieldProps> = ({
 				text: prettyFundingSpaceTime(space, true),
 				value: `${space.id}`,
 			}))}
+			status={(_) => 
+				displayValidationStatus([
+					{
+						type: 'error',
+						response: error,
+						field: 'fundings.fundingSpaceId',
+						message: REQUIRED_FOR_OEC_REPORTING,
+						errorAlertState
+					}
+				])
+			}
 		/>
 	);
 };
