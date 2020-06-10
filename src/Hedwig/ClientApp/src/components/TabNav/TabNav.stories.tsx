@@ -7,6 +7,7 @@ storiesOf('StepList', module).add('Default', () => {
 		<TabNav
 			items={[
 				{
+					id: 'one',
 					text: 'Tab One',
 					content: <p>Tab 1 content</p>,
 				},

@@ -1,27 +1,95 @@
-import React, { useContext } from 'react';
-import { useParams } from 'react-router-dom';
-import ReportSubmitForm from './ReportSubmitForm';
+import React, { useContext, useState, useEffect } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
+import ReportSubmitForm from './RevenueView/ReportSubmitForm';
 import dateFormatter from '../../../utils/dateFormatter';
 import UserContext from '../../../contexts/User/UserContext';
 import { getIdForUser, reportingPeriodFormatter } from '../../../utils/models';
-import useApi from '../../../hooks/useApi';
-import { Button, AlertProps, TextWithIconProps, Tag, Alert } from '../../../components';
+import useApi, { ApiError } from '../../../hooks/useApi';
+import { Button, AlertProps, DirectionalLinkProps, Tag, Alert } from '../../../components';
 import CommonContainer from '../../CommonContainer';
 import { updateRosterAlert } from '../../../utils/stringFormatters';
-import { somethingWentWrongAlert } from '../../../utils/stringFormatters/alertTextMakers';
+import {
+	somethingWentWrongAlert,
+	reportSubmittedAlert,
+} from '../../../utils/stringFormatters/alertTextMakers';
+import { Form } from '../../../components/Form_New';
+import { CdcReport, ApiOrganizationsOrgIdReportsIdPutRequest } from '../../../generated';
+import { AccreditedField } from './ReportSubmitFields';
+import { useFocusFirstError } from '../../../utils/validations';
+import { TabNav } from '../../../components/TabNav/TabNav';
+import RosterView from './RosterView/RosterView';
+import useCatchAllErrorAlert from '../../../hooks/useCatchAllErrorAlert';
+import AppContext from '../../../contexts/App/AppContext';
+import AlertContext from '../../../contexts/Alert/AlertContext';
+
+const ROSTER_ID = 'roster';
+const REVENUE_ID = 'revenue';
 
 export default function ReportDetail() {
 	const { id } = useParams();
 	const { user } = useContext(UserContext);
+
+	const { invalidateCache: invalidateAppCache } = useContext(AppContext);
+	const { getAlerts, setAlerts } = useContext(AlertContext);
+	const alerts = getAlerts();
+
+	const { location, push } = useHistory();
+	const activeTabId = location.hash ? location.hash.slice(1) : ROSTER_ID;
+
+	const [error, setError] = useState<ApiError | null>(null);
+	const errorAlertState = useCatchAllErrorAlert(error);
+	useFocusFirstError([error]);
+
 	const reportParams = {
 		id: parseInt(id || '0'),
 		orgId: getIdForUser(user, 'org'),
 		include: ['organizations', 'enrollments', 'sites', 'funding_spaces', 'child'],
 	};
-	const { loading, error, data: report } = useApi(
+	const { loading, data: report } = useApi(
 		(api) => api.apiOrganizationsOrgIdReportsIdGet(reportParams),
-		{ skip: !user }
+		{
+			skip: !user,
+		}
 	);
+	useEffect(() => {
+		setMutatedReport(report);
+	}, [report]);
+
+	const [mutatedReport, setMutatedReport] = useState(report);
+	const params: ApiOrganizationsOrgIdReportsIdPutRequest = {
+		id: (report && report.id) || 0,
+		orgId: getIdForUser(user, 'org'),
+	};
+	const [attemptingSave, setAttemptingSave] = useState(false);
+	const { error: saveError, data: saveData } = useApi<CdcReport>(
+		(api) =>
+			api.apiOrganizationsOrgIdReportsIdPut({
+				...params,
+				cdcReport: mutatedReport || undefined,
+			}),
+		{
+			skip: !user || !attemptingSave,
+			callback: () => setAttemptingSave(false),
+		}
+	);
+
+	useEffect(() => {
+		if (!saveData && !saveError) {
+			// If the request did not go through, exit
+			return;
+		}
+		// Set the new error whether it's undefined or an error
+		setError(saveError);
+		if (saveData && !saveError) {
+			const newAlert = mutatedReport && reportSubmittedAlert(mutatedReport.reportingPeriod);
+			const newAlerts = newAlert ? [...alerts, newAlert] : alerts;
+			setAlerts(newAlerts);
+			invalidateAppCache(); // Updates the count of unsubmitted reports in the nav bar
+			push('/reports', newAlerts);
+		}
+	}, [saveData, saveError, setError]);
+
+	console.log(loading, report, mutatedReport);
 
 	if (loading) {
 		return <div className="Report">Loading...</div>;
@@ -35,7 +103,7 @@ export default function ReportDetail() {
 	// This can be resolved with a hard refresh. We don't do that
 	// because if it truly is a 500 error, we would get an infite
 	// loop). For now, show a general purpose alert message.
-	if (!report) {
+	if (!report || !mutatedReport) {
 		return <Alert {...somethingWentWrongAlert}></Alert>;
 	}
 
@@ -54,6 +122,17 @@ export default function ReportDetail() {
 	if (numEnrollmentsMissingInfo) {
 		additionalAlerts.push(updateRosterAlert(numEnrollmentsMissingInfo));
 	}
+
+	const directionalLinkProps: DirectionalLinkProps = {
+		direction: 'left',
+		to: '/reports',
+		text: 'Back to reports',
+	};
+
+	const onSubmit = (userModifiedReport: CdcReport) => {
+		setAttemptingSave(true);
+		setMutatedReport(userModifiedReport);
+	};
 
 	return (
 		<CommonContainer
@@ -78,11 +157,48 @@ export default function ReportDetail() {
 					{dateFormatter(report.reportingPeriod.periodStart, false)}–
 					{dateFormatter(report.reportingPeriod.periodEnd, false)}
 				</p>
-				<ReportSubmitForm
-					report={report}
-					error={error}
-					canSubmit={numEnrollmentsMissingInfo === 0}
-				/>
+				<Form<CdcReport>
+					data={mutatedReport}
+					onSubmit={onSubmit}
+					className=""
+					noValidate
+					autoComplete="off"
+				>
+					<AccreditedField disabled={!!mutatedReport.submittedAt} />
+
+					<TabNav
+						items={[
+							{
+								id: ROSTER_ID,
+								text: 'Roster',
+								content: <RosterView />,
+							},
+							{
+								id: REVENUE_ID,
+								text: 'Revenue',
+								content: (
+									<ReportSubmitForm
+										report={mutatedReport}
+										error={error}
+										errorAlertState={errorAlertState}
+										canSubmit={numEnrollmentsMissingInfo === 0}
+										attemptingSave={attemptingSave}
+									/>
+								),
+							},
+						]}
+						activeId={activeTabId}
+					/>
+					{activeTabId === ROSTER_ID && (
+						<div className="display-flex flex-end margin-top-4">
+							<Button
+								className=""
+								text="Continue to revenue"
+								onClick={() => push(`#${REVENUE_ID}`)}
+							/>
+						</div>
+					)}
+				</Form>
 			</div>
 		</CommonContainer>
 	);

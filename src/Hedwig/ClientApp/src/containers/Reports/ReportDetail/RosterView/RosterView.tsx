@@ -1,30 +1,19 @@
-import React, { useContext, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { legendDisplayDetails } from '../../utils/legendFormatters';
-import { getIdForUser } from '../../utils/models';
-import { Legend, LegendItem, DateRange, Alert } from '../../components';
-import useApi, { paginate } from '../../hooks/useApi';
-import {
-	Age,
-	Enrollment,
-	ApiOrganizationsOrgIdEnrollmentsGetRequest,
-	ApiOrganizationsIdGetRequest,
-} from '../../generated';
-import UserContext from '../../contexts/User/UserContext';
-import AgeGroupSection from './AgeGroupSection';
-import CommonContainer from '../CommonContainer';
-import RosterHeader from './RosterHeader';
-import { somethingWentWrongAlert } from '../../utils/stringFormatters/alertTextMakers';
-import { useRoster } from '../../hooks/useRoster';
+import React from 'react';
+import { Legend, Alert } from '../../../../components';
+import { Age, Enrollment, FundingSource } from '../../../../generated';
+import AgeGroupSection from '../../../Roster/AgeGroupSection';
+import CommonContainer from '../../../CommonContainer';
+import { somethingWentWrongAlert } from '../../../../utils/stringFormatters/alertTextMakers';
+import { useRoster } from '../../../../hooks/useRoster';
 
-export default function Roster() {
+function onlyCdcFundedEnrollments(enrollments: Enrollment[]) {
+	return enrollments.filter((e) => e.fundings?.find((f) => f.source === FundingSource.CDC));
+}
+
+export default function RosterView() {
 	const {
 		showPastEnrollments,
-		toggleShowPastEnrollments,
 		dateRange,
-		setDateRange,
-		filterByRange,
-		setFilterByRange,
 		organizationLoading,
 		enrollmentsLoading,
 		organization,
@@ -62,39 +51,29 @@ export default function Roster() {
 	};
 
 	return (
-		<CommonContainer {...siteRosterContainerProps}>
-			<div className="grid-container">
-				<RosterHeader
-					organization={organization}
-					site={site}
-					numberOfEnrollments={enrollments.length}
-					showPastEnrollments={showPastEnrollments}
-					toggleShowPastEnrollments={() => toggleShowPastEnrollments(!showPastEnrollments)}
-					dateRange={dateRange}
-					setDateRange={setDateRange}
-					filterByRange={filterByRange}
-					setFilterByRange={setFilterByRange}
-				/>
+		<CommonContainer directionalLinkProps={siteRosterDirectionalLinkProps}>
+			<div className="margin-top-4">
+				<h1 className="tablet:grid-col-auto">Report roster</h1>
 				<Legend items={legendItems} />
 				<AgeGroupSection
 					{...commonAgeGroupSectionProps}
 					ageGroup={Age.InfantToddler}
 					ageGroupTitle={`Infant/toddler`}
-					enrollments={completeEnrollmentsByAgeGroup[Age.InfantToddler]}
+					enrollments={onlyCdcFundedEnrollments(completeEnrollmentsByAgeGroup[Age.InfantToddler])}
 					fundingSpaces={fundingSpacesByAgeGroup[Age.InfantToddler]}
 				/>
 				<AgeGroupSection
 					{...commonAgeGroupSectionProps}
 					ageGroup={Age.Preschool}
 					ageGroupTitle={`Preschool`}
-					enrollments={completeEnrollmentsByAgeGroup[Age.Preschool]}
+					enrollments={onlyCdcFundedEnrollments(completeEnrollmentsByAgeGroup[Age.Preschool])}
 					fundingSpaces={fundingSpacesByAgeGroup[Age.Preschool]}
 				/>
 				<AgeGroupSection
 					{...commonAgeGroupSectionProps}
 					ageGroup={Age.SchoolAge}
 					ageGroupTitle={`School age`}
-					enrollments={completeEnrollmentsByAgeGroup[Age.SchoolAge]}
+					enrollments={onlyCdcFundedEnrollments(completeEnrollmentsByAgeGroup[Age.SchoolAge])}
 					fundingSpaces={fundingSpacesByAgeGroup[Age.SchoolAge]}
 				/>
 				{incompleteEnrollments.length > 0 && (
@@ -102,7 +81,7 @@ export default function Roster() {
 						{...commonAgeGroupSectionProps}
 						ageGroup="incomplete"
 						ageGroupTitle={`Incomplete enrollments`}
-						enrollments={incompleteEnrollments}
+						enrollments={onlyCdcFundedEnrollments(incompleteEnrollments)}
 					/>
 				)}
 			</div>

@@ -107,55 +107,50 @@ exports[`ReportDetail matches snapshot 1`] = `
           class="usa-checkbox__label"
           for="accredited"
         >
-          Accredited
+          Program accredited by NAEYC
         </label>
       </div>
-      <fieldset
-        aria-required="true"
-        class="grid-gap grid-row usa-fieldset usa-form usa-form--full-width margin-bottom-5"
-        id="time-split-utilizations"
+      <div
+        class="oec-tab-nav"
       >
-        <legend
-          id="fieldset-legend-time-split-utilizations"
-        >
-          <span
-            class="usa-sr-only"
-          >
-            Funding time split utilizations
-          </span>
-        </legend>
         <div
-          class="grid-gap grid-col"
+          class="oec-tab-nav--header"
+        >
+          <button
+            class="oec-tab-nav--tab oec-tab-nav--tab__active"
+          >
+            Roster
+          </button>
+          <button
+            class="oec-tab-nav--tab"
+          >
+            Revenue
+          </button>
+        </div>
+        <div
+          class="oec-tab-nav--divider"
+        />
+        <div
+          class="oec-tab-nav--content"
         >
           <div
-            class=" usa-form-group"
+            class=""
+          />
+          <div
+            class="margin-top-4"
           >
-            <label
-              class="usa-label"
-              for="7-lesser-weeks-used"
+            <h1
+              class="tablet:grid-col-auto"
             >
-              <span
-                class="text-bold"
-              >
-                Infant/Toddler services were provided part time
-              </span>
-               
-            </label>
-            <input
-              aria-required="true"
-              class="usa-input display-inline-flex usa-input--small"
-              id="7-lesser-weeks-used"
-              name="splitFundingTimeUtilization"
-              type="text"
-              value="0"
-            />
-            <span
-              class="display-inline-flex padding-left-1"
+              Report roster
+            </h1>
+            <ul
+              class="margin-y-2 oec-legend add-list-reset grid-row grid-gap"
             >
-              of 4 weeks in September.
-              <span
-                class="text-italic text-gray-70"
+              <li
+                class="oec-legend__item oec-legend-item margin-right-1"
               >
+<<<<<<< HEAD
                  (10 part time weeks remaining)
               </span>
             </span>
@@ -260,452 +255,273 @@ exports[`ReportDetail matches snapshot 1`] = `
                 <span>
                    × 4 weeks
                 </span>
+=======
+>>>>>>> e51b1ce6... Roster in report refactor
                 <div
-                  class="margin-left-05 width-2 display-inline-block"
+                  class="oec-legend-item__symbol undefined"
                 >
-                  (ft)
+                  <span
+                    class="usa-tag position-relative top-neg-2px bg-blue-50v"
+                  >
+                    CDC
+                  </span>
                 </div>
-              </div>
-            </td>
-            <td
-              class="text-tabular text-right"
-            >
-              <span>
-                $ 
-              </span>
-              <span
-                style="visibility: hidden;"
-              >
-                0,
-              </span>
-              679.80
-            </td>
-            <td
-              class="oec-table__cell--red text-tabular text-right"
-            >
-              <div
-                class="position-relative one-half-char-right"
-              >
-                (
-                <span>
-                  $ 
-                </span>
-                <span
-                  style="visibility: hidden;"
-                >
-                  0
-                </span>
-                6,118.20)
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th>
-              <strong>
-                Infant/Toddler
-              </strong>
-               – part time
-            </th>
-            <td
-              class=" oec-table__cell--red"
-            >
-              1/10 spaces
-            </td>
-            <td
-              class="text-tabular text-right"
-            >
-              <div>
-                <span>
-                  $ 
-                </span>
-                <span
-                  style="visibility: hidden;"
-                >
-                  0
-                </span>
-                59.50
-                <span>
-                   × 4 weeks
-                </span>
                 <div
-                  class="margin-left-05 width-2 display-inline-block"
+                  class="oec-legend-item__text width-fit-content display-inline margin-left-1 "
                 >
-                  (pt)
+                  <span
+                    class="text-bold"
+                  >
+                    2/70
+                  </span>
+                  <span>
+                     CDC spaces filled
+                  </span>
                 </div>
-              </div>
-            </td>
-            <td
-              class="text-tabular text-right"
+              </li>
+            </ul>
+            <h2
+              class="margin-top-6"
             >
-              <span>
-                $ 
-              </span>
-              <span
-                style="visibility: hidden;"
+              Infant/toddler (0 children)
+            </h2>
+            <ul
+              class="margin-y-2 oec-legend add-list-reset grid-col"
+            >
+              <li
+                class="oec-legend__item oec-legend-item margin-y-1"
               >
-                0,
-              </span>
-              238.00
-            </td>
-            <td
-              class="oec-table__cell--red text-tabular text-right"
-            >
-              <div
-                class="position-relative one-half-char-right"
-              >
-                (
-                <span>
-                  $ 
-                </span>
-                <span
-                  style="visibility: hidden;"
-                >
-                  0
-                </span>
-                2,142.00)
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th>
-              <strong>
-                Infant/Toddler
-              </strong>
-               – pt/ft split
-            </th>
-            <td
-              class=" oec-table__cell--red"
-            >
-              0/10 spaces
-            </td>
-            <td
-              class="text-tabular text-right"
-            >
-              <div>
-                <span>
-                  $ 
-                </span>
-                <span
-                  style="visibility: hidden;"
-                >
-                  0
-                </span>
-                59.50
-                <span>
-                   × 0 weeks
-                </span>
                 <div
-                  class="margin-left-05 width-2 display-inline-block"
+                  class="oec-legend-item__symbol undefined"
                 >
-                  (pt)
+                  <span
+                    class="usa-tag bg-blue-50v"
+                  >
+                    CDC–FT
+                  </span>
                 </div>
-              </div>
-              <div>
-                <span>
-                  $ 
-                </span>
-                <span
-                  style="visibility: hidden;"
-                />
-                169.95
-                <span>
-                   × 4 weeks
-                </span>
                 <div
-                  class="margin-left-05 width-2 display-inline-block"
+                  class="oec-legend-item__text width-fit-content display-inline margin-left-1 "
                 >
-                  (ft)
+                  <span>
+                    Full time — 
+                  </span>
+                  <span
+                    class="text-bold"
+                  >
+                    0/10
+                  </span>
+                  <span>
+                     spaces filled
+                  </span>
                 </div>
-              </div>
-            </td>
-            <td
-              class="text-tabular text-right"
-            >
-              <span>
-                $ 
-              </span>
-              <span
-                style="visibility: hidden;"
+              </li>
+              <li
+                class="oec-legend__item oec-legend-item margin-y-1"
               >
-                000,
-              </span>
-              0.00
-            </td>
-            <td
-              class="oec-table__cell--red text-tabular text-right"
-            >
-              <div
-                class="position-relative one-half-char-right"
-              >
-                (
-                <span>
-                  $ 
-                </span>
-                <span
-                  style="visibility: hidden;"
-                >
-                  0
-                </span>
-                6,798.00)
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th>
-              <strong>
-                Preschool
-              </strong>
-               – full time
-            </th>
-            <td
-              class=" oec-table__cell--red"
-            >
-              6/10 spaces
-            </td>
-            <td
-              class="text-tabular text-right"
-            >
-              <div>
-                <span>
-                  $ 
-                </span>
-                <span
-                  style="visibility: hidden;"
-                />
-                165.32
-                <span>
-                   × 4 weeks
-                </span>
                 <div
-                  class="margin-left-05 width-2 display-inline-block"
+                  class="oec-legend-item__symbol undefined"
                 >
-                  (ft)
+                  <span
+                    class="usa-tag bg-blue-50v"
+                  >
+                    CDC–PT
+                  </span>
                 </div>
-              </div>
-            </td>
-            <td
-              class="text-tabular text-right"
-            >
-              <span>
-                $ 
-              </span>
-              <span
-                style="visibility: hidden;"
-              />
-              3,967.68
-            </td>
-            <td
-              class="oec-table__cell--red text-tabular text-right"
-            >
-              <div
-                class="position-relative one-half-char-right"
-              >
-                (
-                <span>
-                  $ 
-                </span>
-                <span
-                  style="visibility: hidden;"
-                >
-                  0
-                </span>
-                2,645.12)
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th>
-              <strong>
-                Preschool
-              </strong>
-               – part time
-            </th>
-            <td
-              class=" oec-table__cell--red"
-            >
-              1/10 spaces
-            </td>
-            <td
-              class="text-tabular text-right"
-            >
-              <div>
-                <span>
-                  $ 
-                </span>
-                <span
-                  style="visibility: hidden;"
-                >
-                  0
-                </span>
-                57.85
-                <span>
-                   × 4 weeks
-                </span>
                 <div
-                  class="margin-left-05 width-2 display-inline-block"
+                  class="oec-legend-item__text width-fit-content display-inline margin-left-1 "
                 >
-                  (pt)
+                  <span>
+                    Part time — 
+                  </span>
+                  <span
+                    class="text-bold"
+                  >
+                    0/10
+                  </span>
+                  <span>
+                     spaces filled
+                  </span>
                 </div>
-              </div>
-            </td>
-            <td
-              class="text-tabular text-right"
-            >
-              <span>
-                $ 
-              </span>
-              <span
-                style="visibility: hidden;"
+              </li>
+              <li
+                class="oec-legend__item oec-legend-item margin-y-1"
               >
-                0,
-              </span>
-              231.40
-            </td>
-            <td
-              class="oec-table__cell--red text-tabular text-right"
-            >
-              <div
-                class="position-relative one-half-char-right"
-              >
-                (
-                <span>
-                  $ 
-                </span>
-                <span
-                  style="visibility: hidden;"
-                >
-                  0
-                </span>
-                2,082.60)
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th>
-              <strong>
-                School-age
-              </strong>
-               – full time
-            </th>
-            <td
-              class=" oec-table__cell--red"
-            >
-              0/10 spaces
-            </td>
-            <td
-              class="text-tabular text-right"
-            >
-              <div>
-                <span>
-                  $ 
-                </span>
-                <span
-                  style="visibility: hidden;"
-                />
-                113.20
-                <span>
-                   × 4 weeks
-                </span>
                 <div
-                  class="margin-left-05 width-2 display-inline-block"
+                  class="oec-legend-item__symbol undefined"
                 >
-                  (ft)
+                  <span
+                    class="usa-tag bg-blue-50v"
+                  >
+                    CDC-PT/FT
+                  </span>
                 </div>
-              </div>
-            </td>
-            <td
-              class="text-tabular text-right"
-            >
-              <span>
-                $ 
-              </span>
-              <span
-                style="visibility: hidden;"
-              >
-                000,
-              </span>
-              0.00
-            </td>
-            <td
-              class="oec-table__cell--red text-tabular text-right"
-            >
-              <div
-                class="position-relative one-half-char-right"
-              >
-                (
-                <span>
-                  $ 
-                </span>
-                <span
-                  style="visibility: hidden;"
-                >
-                  0
-                </span>
-                4,528.00)
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th>
-              <strong>
-                School-age
-              </strong>
-               – part time
-            </th>
-            <td
-              class=" oec-table__cell--red"
-            >
-              0/10 spaces
-            </td>
-            <td
-              class="text-tabular text-right"
-            >
-              <div>
-                <span>
-                  $ 
-                </span>
-                <span
-                  style="visibility: hidden;"
-                >
-                  0
-                </span>
-                54.80
-                <span>
-                   × 4 weeks
-                </span>
                 <div
-                  class="margin-left-05 width-2 display-inline-block"
+                  class="oec-legend-item__text width-fit-content display-inline margin-left-1 "
                 >
-                  (pt)
+                  <span>
+                    Full time / part time — 
+                  </span>
+                  <span
+                    class="text-bold"
+                  >
+                    0/10
+                  </span>
+                  <span>
+                     spaces filled
+                  </span>
                 </div>
-              </div>
-            </td>
-            <td
-              class="text-tabular text-right"
+              </li>
+            </ul>
+            <table
+              class="oec-table oec-table--full-width"
+              id="InfantToddler-roster-table"
             >
-              <span>
-                $ 
-              </span>
-              <span
-                style="visibility: hidden;"
-              >
-                000,
-              </span>
-              0.00
-            </td>
-            <td
-              class="oec-table__cell--red text-tabular text-right"
+              <thead>
+                <tr>
+                  <th
+                    aria-sort="ascending"
+                    class="oec-table__column-header oec-sortable"
+                    role="columnheader"
+                    scope="col"
+                    style="width: 25%;"
+                  >
+                    <button
+                      aria-label="Sort table by Name in descending order"
+                      class="oec-table__column-title usa-button--unstyled width-full"
+                    >
+                      Name
+                      <div
+                        class="oec-table__sort-controls"
+                      >
+                        <span
+                          class="oec-table__sort-controls__asc active"
+                        />
+                        <span
+                          class="oec-table__sort-controls__desc"
+                        />
+                      </div>
+                    </button>
+                  </th>
+                  <th
+                    aria-sort="ascending"
+                    class="oec-table__column-header oec-sortable"
+                    role="columnheader"
+                    scope="col"
+                    style="width: 17%;"
+                  >
+                    <button
+                      aria-label="Sort table by Birthdate in ascending order"
+                      class="oec-table__column-title usa-button--unstyled width-full"
+                    >
+                      Birthdate
+                      <div
+                        class="oec-table__sort-controls"
+                      >
+                        <span
+                          class="oec-table__sort-controls__asc"
+                        />
+                        <span
+                          class="oec-table__sort-controls__desc"
+                        />
+                      </div>
+                    </button>
+                  </th>
+                  <th
+                    aria-sort="ascending"
+                    class="oec-table__column-header oec-sortable"
+                    role="columnheader"
+                    scope="col"
+                    style="width: 18%;"
+                  >
+                    <button
+                      aria-label="Sort table by Funding in ascending order"
+                      class="oec-table__column-title usa-button--unstyled width-full"
+                    >
+                      Funding
+                      <div
+                        class="oec-table__sort-controls"
+                      >
+                        <span
+                          class="oec-table__sort-controls__asc"
+                        />
+                        <span
+                          class="oec-table__sort-controls__desc"
+                        />
+                      </div>
+                    </button>
+                  </th>
+                  <th
+                    aria-sort="ascending"
+                    class="oec-table__column-header oec-sortable"
+                    role="columnheader"
+                    scope="col"
+                    style="width: 20%;"
+                  >
+                    <button
+                      aria-label="Sort table by Enrollment date in ascending order"
+                      class="oec-table__column-title usa-button--unstyled width-full"
+                    >
+                      Enrollment date
+                      <div
+                        class="oec-table__sort-controls"
+                      >
+                        <span
+                          class="oec-table__sort-controls__asc"
+                        />
+                        <span
+                          class="oec-table__sort-controls__desc"
+                        />
+                      </div>
+                    </button>
+                  </th>
+                </tr>
+              </thead>
+              <tbody />
+            </table>
+            <h2
+              class="margin-top-6"
             >
-              <div
-                class="position-relative one-half-char-right"
+              Preschool (2 children)
+            </h2>
+            <ul
+              class="margin-y-2 oec-legend add-list-reset grid-col"
+            >
+              <li
+                class="oec-legend__item oec-legend-item margin-y-1"
               >
-                (
-                <span>
-                  $ 
-                </span>
-                <span
-                  style="visibility: hidden;"
+                <div
+                  class="oec-legend-item__symbol undefined"
                 >
+                  <span
+                    class="usa-tag bg-blue-50v"
+                  >
+                    CDC–FT
+                  </span>
+                </div>
+                <div
+                  class="oec-legend-item__text width-fit-content display-inline margin-left-1 "
+                >
+                  <span>
+                    Full time — 
+                  </span>
+                  <span
+                    class="text-bold"
+                  >
+                    2/10
+                  </span>
+                  <span>
+                     spaces filled
+                  </span>
+                </div>
+              </li>
+              <li
+                class="oec-legend__item oec-legend-item margin-y-1"
+              >
+                <div
+                  class="oec-legend-item__symbol undefined"
+                >
+<<<<<<< HEAD
                   0
                 </span>
                 2,192.00)
@@ -791,125 +607,381 @@ exports[`ReportDetail matches snapshot 1`] = `
                 <label
                   class="usa-label"
                   for="c4k-revenue"
+=======
+                  <span
+                    class="usa-tag bg-blue-50v"
+                  >
+                    CDC–PT
+                  </span>
+                </div>
+                <div
+                  class="oec-legend-item__text width-fit-content display-inline margin-left-1 "
+>>>>>>> e51b1ce6... Roster in report refactor
                 >
+                  <span>
+                    Part time — 
+                  </span>
                   <span
                     class="text-bold"
                   >
-                    Care 4 Kids
+                    0/10
                   </span>
                   <span>
-                     (0 kids receiving subsidies)
+                     spaces filled
                   </span>
-                   
-                </label>
-                <input
-                  aria-required="true"
-                  class="usa-input"
-                  id="c4k-revenue"
-                  type="text"
-                  value="$0.00"
-                />
-              </div>
-            </div>
-            <fieldset
-              aria-required="true"
-              class="grid-gap grid-row usa-fieldset"
-              id="c4k-includes-retroactive-fieldset"
+                </div>
+              </li>
+            </ul>
+            <table
+              class="oec-table oec-table--full-width"
+              id="Preschool-roster-table"
             >
-              <legend
-                id="fieldset-legend-c4k-includes-retroactive-fieldset"
-              >
-                <span
-                  class="usa-sr-only"
-                >
-                  Includes retroactive payment
-                </span>
-              </legend>
-              <div
-                class="grid-gap margin-top-3 grid-col"
-              >
-                <span>
-                  <div
-                    class="usa-checkbox"
+              <thead>
+                <tr>
+                  <th
+                    aria-sort="ascending"
+                    class="oec-table__column-header oec-sortable"
+                    role="columnheader"
+                    scope="col"
+                    style="width: 25%;"
                   >
-                    <input
-                      class="usa-checkbox__input"
-                      id="includes-retroactive"
-                      type="checkbox"
-                    />
-                    <label
-                      class="usa-checkbox__label"
-                      for="includes-retroactive"
+                    <button
+                      aria-label="Sort table by Name in descending order"
+                      class="oec-table__column-title usa-button--unstyled width-full"
                     >
-                      Includes retroactive payment for past months
-                    </label>
-                  </div>
-                </span>
-              </div>
-            </fieldset>
-            <div
-              class="mobile-lg:grid-col-12"
+                      Name
+                      <div
+                        class="oec-table__sort-controls"
+                      >
+                        <span
+                          class="oec-table__sort-controls__asc active"
+                        />
+                        <span
+                          class="oec-table__sort-controls__desc"
+                        />
+                      </div>
+                    </button>
+                  </th>
+                  <th
+                    aria-sort="ascending"
+                    class="oec-table__column-header oec-sortable"
+                    role="columnheader"
+                    scope="col"
+                    style="width: 17%;"
+                  >
+                    <button
+                      aria-label="Sort table by Birthdate in ascending order"
+                      class="oec-table__column-title usa-button--unstyled width-full"
+                    >
+                      Birthdate
+                      <div
+                        class="oec-table__sort-controls"
+                      >
+                        <span
+                          class="oec-table__sort-controls__asc"
+                        />
+                        <span
+                          class="oec-table__sort-controls__desc"
+                        />
+                      </div>
+                    </button>
+                  </th>
+                  <th
+                    aria-sort="ascending"
+                    class="oec-table__column-header oec-sortable"
+                    role="columnheader"
+                    scope="col"
+                    style="width: 18%;"
+                  >
+                    <button
+                      aria-label="Sort table by Funding in ascending order"
+                      class="oec-table__column-title usa-button--unstyled width-full"
+                    >
+                      Funding
+                      <div
+                        class="oec-table__sort-controls"
+                      >
+                        <span
+                          class="oec-table__sort-controls__asc"
+                        />
+                        <span
+                          class="oec-table__sort-controls__desc"
+                        />
+                      </div>
+                    </button>
+                  </th>
+                  <th
+                    aria-sort="ascending"
+                    class="oec-table__column-header oec-sortable"
+                    role="columnheader"
+                    scope="col"
+                    style="width: 20%;"
+                  >
+                    <button
+                      aria-label="Sort table by Enrollment date in ascending order"
+                      class="oec-table__column-title usa-button--unstyled width-full"
+                    >
+                      Enrollment date
+                      <div
+                        class="oec-table__sort-controls"
+                      >
+                        <span
+                          class="oec-table__sort-controls__asc"
+                        />
+                        <span
+                          class="oec-table__sort-controls__desc"
+                        />
+                      </div>
+                    </button>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th
+                    scope="row"
+                  >
+                    <a
+                      class="usa-link print"
+                      href="/roster/sites/1/enrollments/1/"
+                    >
+                      Potter, Lily Luna
+                    </a>
+                     
+                  </th>
+                  <td
+                    class="oec-table__cell--tabular-nums"
+                  >
+                    12/12/2016
+                  </td>
+                  <td>
+                    <span
+                      class="usa-tag bg-blue-50v"
+                    >
+                      CDC–FT
+                    </span>
+                  </td>
+                  <td
+                    class="oec-table__cell--tabular-nums"
+                  >
+                    02/03/2018
+                  </td>
+                </tr>
+                <tr>
+                  <th
+                    scope="row"
+                  >
+                    <a
+                      class="usa-link print"
+                      href="/roster/sites/1/enrollments/6/"
+                    >
+                      Potter, Lily Luna
+                    </a>
+                     
+                  </th>
+                  <td
+                    class="oec-table__cell--tabular-nums"
+                  >
+                    12/12/2016
+                  </td>
+                  <td>
+                    <span
+                      class="usa-tag bg-blue-50v"
+                    >
+                      CDC–FT
+                    </span>
+                  </td>
+                  <td
+                    class="oec-table__cell--tabular-nums"
+                  >
+                    02/03/2018
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <h2
+              class="margin-top-6"
             >
-              <div
-                class="flex-fill usa-form-group"
+              School age (0 children)
+            </h2>
+            <ul
+              class="margin-y-2 oec-legend add-list-reset grid-col"
+            >
+              <li
+                class="oec-legend__item oec-legend-item margin-y-1"
               >
-                <label
-                  class="usa-label"
-                  for="familyfees-revenue"
+                <div
+                  class="oec-legend-item__symbol undefined"
                 >
+                  <span
+                    class="usa-tag bg-blue-50v"
+                  >
+                    CDC–FT
+                  </span>
+                </div>
+                <div
+                  class="oec-legend-item__text width-fit-content display-inline margin-left-1 "
+                >
+                  <span>
+                    Full time — 
+                  </span>
                   <span
                     class="text-bold"
                   >
-                    Family Fees
+                    0/10
                   </span>
-                   
-                </label>
-                <input
-                  aria-required="true"
-                  class="usa-input"
-                  id="familyfees-revenue"
-                  type="text"
-                  value="$1,000.00"
-                />
-              </div>
-            </div>
-            <div
-              class="mobile-lg:grid-col-12"
-            >
-              <div
-                class=" usa-form-group"
+                  <span>
+                     spaces filled
+                  </span>
+                </div>
+              </li>
+              <li
+                class="oec-legend__item oec-legend-item margin-y-1"
               >
-                <label
-                  class="usa-label"
-                  for="cdc-report-comment"
+                <div
+                  class="oec-legend-item__symbol undefined"
                 >
+                  <span
+                    class="usa-tag bg-blue-50v"
+                  >
+                    CDC–PT
+                  </span>
+                </div>
+                <div
+                  class="oec-legend-item__text width-fit-content display-inline margin-left-1 "
+                >
+                  <span>
+                    Part time — 
+                  </span>
                   <span
                     class="text-bold"
                   >
-                    Anything to share with the Office of Early Childhood about your report?
+                    0/10
                   </span>
-                   
-                  <span
-                    class="usa-hint"
+                  <span>
+                     spaces filled
+                  </span>
+                </div>
+              </li>
+            </ul>
+            <table
+              class="oec-table oec-table--full-width"
+              id="SchoolAge-roster-table"
+            >
+              <thead>
+                <tr>
+                  <th
+                    aria-sort="ascending"
+                    class="oec-table__column-header oec-sortable"
+                    role="columnheader"
+                    scope="col"
+                    style="width: 25%;"
                   >
-                     (optional)
-                  </span>
-                </label>
-                <textarea
-                  aria-required="false"
-                  class="usa-textarea"
-                  id="cdc-report-comment"
-                />
-              </div>
-            </div>
+                    <button
+                      aria-label="Sort table by Name in descending order"
+                      class="oec-table__column-title usa-button--unstyled width-full"
+                    >
+                      Name
+                      <div
+                        class="oec-table__sort-controls"
+                      >
+                        <span
+                          class="oec-table__sort-controls__asc active"
+                        />
+                        <span
+                          class="oec-table__sort-controls__desc"
+                        />
+                      </div>
+                    </button>
+                  </th>
+                  <th
+                    aria-sort="ascending"
+                    class="oec-table__column-header oec-sortable"
+                    role="columnheader"
+                    scope="col"
+                    style="width: 17%;"
+                  >
+                    <button
+                      aria-label="Sort table by Birthdate in ascending order"
+                      class="oec-table__column-title usa-button--unstyled width-full"
+                    >
+                      Birthdate
+                      <div
+                        class="oec-table__sort-controls"
+                      >
+                        <span
+                          class="oec-table__sort-controls__asc"
+                        />
+                        <span
+                          class="oec-table__sort-controls__desc"
+                        />
+                      </div>
+                    </button>
+                  </th>
+                  <th
+                    aria-sort="ascending"
+                    class="oec-table__column-header oec-sortable"
+                    role="columnheader"
+                    scope="col"
+                    style="width: 18%;"
+                  >
+                    <button
+                      aria-label="Sort table by Funding in ascending order"
+                      class="oec-table__column-title usa-button--unstyled width-full"
+                    >
+                      Funding
+                      <div
+                        class="oec-table__sort-controls"
+                      >
+                        <span
+                          class="oec-table__sort-controls__asc"
+                        />
+                        <span
+                          class="oec-table__sort-controls__desc"
+                        />
+                      </div>
+                    </button>
+                  </th>
+                  <th
+                    aria-sort="ascending"
+                    class="oec-table__column-header oec-sortable"
+                    role="columnheader"
+                    scope="col"
+                    style="width: 20%;"
+                  >
+                    <button
+                      aria-label="Sort table by Enrollment date in ascending order"
+                      class="oec-table__column-title usa-button--unstyled width-full"
+                    >
+                      Enrollment date
+                      <div
+                        class="oec-table__sort-controls"
+                      >
+                        <span
+                          class="oec-table__sort-controls__asc"
+                        />
+                        <span
+                          class="oec-table__sort-controls__desc"
+                        />
+                      </div>
+                    </button>
+                  </th>
+                </tr>
+              </thead>
+              <tbody />
+            </table>
           </div>
-        </fieldset>
-        <input
+        </div>
+      </div>
+      <div
+        class="display-flex flex-end margin-top-4"
+      >
+        <button
           class="usa-button"
-          disabled=""
-          type="submit"
-          value="Submit"
-        />
+          type="button"
+        >
+          Continue to revenue
+        </button>
       </div>
     </form>
   </div>
