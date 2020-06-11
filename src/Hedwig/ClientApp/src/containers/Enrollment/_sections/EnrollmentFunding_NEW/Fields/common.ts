@@ -9,7 +9,7 @@ export type EnrollmentFormFieldProps = {
 export type FundingFormFieldProps = {
 	fundingId: number;
 	fundingSpaces: FundingSpace[];
-	error: ApiError | null,
+	error: ApiError | null;
 	errorAlertState: ErrorAlertState;
 };
 

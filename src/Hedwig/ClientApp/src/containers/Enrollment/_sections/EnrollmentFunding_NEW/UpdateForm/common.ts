@@ -8,4 +8,4 @@ export type UpdateFormSectionProps = {
 	setAttemptingSave: React.Dispatch<React.SetStateAction<boolean>>;
 	saveError: ApiError | null;
 	forceCloseEditForms: boolean;
-}
+};

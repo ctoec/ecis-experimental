@@ -7,7 +7,7 @@ exports[`EnrollmentUpdate FamilyIncome matches snapshot 1`] = `
   >
     <a
       class="usa-button usa-button--unstyled text-bold text-underline"
-      href="/roster/sites/1/enrollments/1/"
+      href="/"
     >
       <span
         class="oec-text-with-icon"
@@ -2860,7 +2860,7 @@ exports[`EnrollmentUpdate enrollment and funding matches snapshot 1`] = `
   >
     <a
       class="usa-button usa-button--unstyled text-bold text-underline"
-      href="/roster/sites/1/enrollments/1/"
+      href="/"
     >
       <span
         class="oec-text-with-icon"
@@ -4401,7 +4401,7 @@ exports[`EnrollmentUpdate family info matches snapshot 1`] = `
   >
     <a
       class="usa-button usa-button--unstyled text-bold text-underline"
-      href="/roster/sites/1/enrollments/1/"
+      href="/"
     >
       <span
         class="oec-text-with-icon"

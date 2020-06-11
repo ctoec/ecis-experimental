@@ -40,15 +40,15 @@ export const ContractSpaceField: React.FC<FundingFormFieldProps> = ({
 				text: prettyFundingSpaceTime(space, true),
 				value: `${space.id}`,
 			}))}
-			status={(_) => 
+			status={(_) =>
 				displayValidationStatus([
 					{
 						type: 'error',
 						response: error,
 						field: 'fundings.fundingSpaceId',
 						message: REQUIRED_FOR_OEC_REPORTING,
-						errorAlertState
-					}
+						errorAlertState,
+					},
 				])
 			}
 		/>

@@ -19,7 +19,7 @@ export const EnrollmentFundingForm: React.FC<UpdateFormSectionProps> = ({
 	setMutatedEnrollment,
 	saveError,
 	setAttemptingSave,
-	forceCloseEditForms
+	forceCloseEditForms,
 }) => {
 	const { user } = useContext(UserContext);
 
@@ -87,7 +87,11 @@ export const EnrollmentFundingForm: React.FC<UpdateFormSectionProps> = ({
 						<>
 							<EnrollmentCard enrollment={pastEnrollment} isCurrent={false} />
 							{(pastEnrollment.fundings || []).map((pastFunding) => (
-								<FundingCard funding={pastFunding} isCurrent={false} forceClose={forceCloseEditForms} />
+								<FundingCard
+									funding={pastFunding}
+									isCurrent={false}
+									forceClose={forceCloseEditForms}
+								/>
 							))}
 						</>
 					))}
@@ -96,4 +100,3 @@ export const EnrollmentFundingForm: React.FC<UpdateFormSectionProps> = ({
 		</>
 	);
 };
-

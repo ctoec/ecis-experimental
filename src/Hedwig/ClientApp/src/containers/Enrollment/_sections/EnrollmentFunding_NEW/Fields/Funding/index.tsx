@@ -97,8 +97,17 @@ export const FundingField: React.FC<FundingFormFieldProps> = ({
 							expansion:
 								source === FundingSource.CDC ? (
 									<>
-										<ContractSpaceField fundingId={fundingId} fundingSpaces={validFundingSpaces} error={error} errorAlertState={errorAlertState}/>
-										<FirstReportingPeriodField fundingId={fundingId} error={error} errorAlertState={errorAlertState}/>
+										<ContractSpaceField
+											fundingId={fundingId}
+											fundingSpaces={validFundingSpaces}
+											error={error}
+											errorAlertState={errorAlertState}
+										/>
+										<FirstReportingPeriodField
+											fundingId={fundingId}
+											error={error}
+											errorAlertState={errorAlertState}
+										/>
 									</>
 								) : undefined,
 						} as RadioOption)

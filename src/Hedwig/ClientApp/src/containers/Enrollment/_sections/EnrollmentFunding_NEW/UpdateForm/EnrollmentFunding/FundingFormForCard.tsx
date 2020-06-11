@@ -12,7 +12,7 @@ type FundingFormForCardProps = {
 	formData: Enrollment;
 	onSubmit: (_: Enrollment) => void;
 	fundingSpaces: FundingSpace[];
-	error: ApiError | null,
+	error: ApiError | null;
 	errorAlertState: ErrorAlertState;
 };
 
@@ -27,11 +27,11 @@ export const FundingFormForCard: React.FC<FundingFormForCardProps> = ({
 	onSubmit,
 	fundingSpaces,
 	error,
-	errorAlertState
+	errorAlertState,
 }) => {
 	return (
 		<Form id={`edit-funding-${fundingId}`} data={formData} onSubmit={onSubmit} className="usa-form">
-			<FundingField 
+			<FundingField
 				fundingId={fundingId}
 				fundingSpaces={fundingSpaces}
 				error={error}

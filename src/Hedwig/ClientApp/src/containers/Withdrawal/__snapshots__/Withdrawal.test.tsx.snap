@@ -7,7 +7,7 @@ exports[`Withdrawal matches snapshot 1`] = `
   >
     <a
       class="usa-button usa-button--unstyled text-bold text-underline"
-      href="/roster/sites/1/enrollments/1"
+      href="/"
     >
       <span
         class="oec-text-with-icon"

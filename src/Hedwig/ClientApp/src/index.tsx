@@ -6,6 +6,7 @@ import * as Sentry from '@sentry/browser';
 import * as serviceWorker from './serviceWorker';
 
 import App from './containers/App/App';
+import { HistoryProvider } from './contexts/History/HistoryContext';
 import { AuthenticationProvider } from './contexts/Authentication/AuthenticationContext';
 import { UserProvider } from './contexts/User/UserContext';
 import { ReportingPeriodProvider } from './contexts/ReportingPeriod/ReportingPeriodContext';
@@ -25,24 +26,26 @@ const productionPreRender = async () => {
 const render = (Component: React.FC) => {
 	return ReactDOM.render(
 		<BrowserRouter>
-			<AuthenticationProvider
-				clientId="hedwig"
-				localStorageAccessTokenKey="hedwig-key"
-				localStorageIdTokenKey="hedwig-id"
-				defaultOpenIdConnectUrl={process.env.REACT_APP_DEFAULT_WINGED_KEYS_URL}
-				// NOTE: "offline_access" is required in scope string to retrieve refresh tokens
-				scope="openid profile hedwig_backend offline_access"
-				extras={{
-					// NOTE: Required for refresh tokens
-					access_type: 'offline',
-				}}
-			>
-				<UserProvider>
-					<ReportingPeriodProvider>
-						<Component />
-					</ReportingPeriodProvider>
-				</UserProvider>
-			</AuthenticationProvider>
+			<HistoryProvider>
+				<AuthenticationProvider
+					clientId="hedwig"
+					localStorageAccessTokenKey="hedwig-key"
+					localStorageIdTokenKey="hedwig-id"
+					defaultOpenIdConnectUrl={process.env.REACT_APP_DEFAULT_WINGED_KEYS_URL}
+					// NOTE: "offline_access" is required in scope string to retrieve refresh tokens
+					scope="openid profile hedwig_backend offline_access"
+					extras={{
+						// NOTE: Required for refresh tokens
+						access_type: 'offline',
+					}}
+				>
+					<UserProvider>
+						<ReportingPeriodProvider>
+							<Component />
+						</ReportingPeriodProvider>
+					</UserProvider>
+				</AuthenticationProvider>
+			</HistoryProvider>
 		</BrowserRouter>,
 		document.getElementById('root')
 	);

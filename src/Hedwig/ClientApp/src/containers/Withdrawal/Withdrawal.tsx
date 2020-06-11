@@ -170,10 +170,7 @@ export default function Withdrawal({
 	};
 
 	return (
-		<CommonContainer
-			backHref={`/roster/sites/${siteId}/enrollments/${enrollmentId}`}
-			backText="Back"
-		>
+		<CommonContainer backText="Back">
 			<div className="grid-container">
 				<h1>Withdraw {nameFormatter(mutatedEnrollment.child)}</h1>
 				<div className="grid-row grid-gap oec-enrollment-details-section__content margin-top-1">

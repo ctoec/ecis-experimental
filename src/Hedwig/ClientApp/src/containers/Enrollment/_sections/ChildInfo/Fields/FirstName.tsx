@@ -9,10 +9,7 @@ import { REQUIRED_FOR_ENROLLMENT } from '../../../../../utils/validations/messag
 /**
  * Component for entering the first name of a child in an enrollment.
  */
-export const FirstNameField: React.FC<ChildInfoFormFieldProps> = ({
-	error,
-	errorAlertState,
-}) => {
+export const FirstNameField: React.FC<ChildInfoFormFieldProps> = ({ error, errorAlertState }) => {
 	return (
 		<FormField<Enrollment, TextInputProps, string | null>
 			getValue={(data) => data.at('child').at('firstName')}

@@ -7,7 +7,7 @@ exports[`EnrollmentDetail matches snapshot 1`] = `
   >
     <a
       class="usa-button usa-button--unstyled text-bold text-underline"
-      href="/roster"
+      href="/"
     >
       <span
         class="oec-text-with-icon"
