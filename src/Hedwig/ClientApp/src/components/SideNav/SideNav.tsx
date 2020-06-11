@@ -1,20 +1,54 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { SideNavItem, SideNavItemProps } from './SideNavItem';
 
 export type SideNavProps = {
 	items: SideNavItemProps[];
+	externalActiveItemIndex?: number;
+	noActiveItemContent?: JSX.Element;
 };
 
-export const SideNav = ({ items }: SideNavProps) => {
+export const SideNav = ({ 
+	items,
+	externalActiveItemIndex,
+	noActiveItemContent
+}: SideNavProps) => {
+	const [activeItemIndex, setActiveItemIndex] = useState(externalActiveItemIndex);
+
+	useEffect(() => {
+		setActiveItemIndex(
+			externalActiveItemIndex != undefined && !isNaN(externalActiveItemIndex)
+			? externalActiveItemIndex
+			: undefined
+		);
+	}, [externalActiveItemIndex])
+	
 	return (
-		<nav className="oec-sidenav">
-			<div className="tablet:grid-col-4">
-				<ul>
-					{items.map((item) => (
-						<SideNavItem {...item} />
-					))}
-				</ul>
+		<div className="oec-sidenav grid-row grid-gap">
+			<div className="mobile-lg:grid-col-4">
+				<nav>
+					<ul>
+						{items.map((item, idx) => {
+							const _onClick = () => {
+								console.log("setting tab nav to ", idx);
+								setActiveItemIndex(idx);
+								item.onClick && item.onClick();
+							}
+							return <SideNavItem 
+								{...item} 
+								key={idx} 
+								onClick={_onClick} 
+								active={idx === activeItemIndex}
+							/>
+						})}
+					</ul>
+				</nav>
 			</div>
-		</nav>
+			<div className="margin-top-2">
+				{activeItemIndex !== undefined && activeItemIndex < items.length 
+					? items[activeItemIndex].content
+					: noActiveItemContent
+				}
+			</div>
+		</div>
 	);
 };

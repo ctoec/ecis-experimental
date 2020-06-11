@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import { SideNav } from '..';
+import { SideNav, Button } from '..';
 import { action } from '@storybook/addon-actions';
 import { SideNavItemProps } from './SideNavItem';
 
@@ -9,29 +9,22 @@ const onClick = action('onChange');
 const exampleItems: SideNavItemProps[] = [
 	{
 		titleLink: {
-			text: 'Item title is a link',
+			text: 'The default active item',
 			link: '/',
 		},
 		onClick,
 		description: 'This is the first item',
-		active: true,
+		content: <div>Some content for the first item</div>
 	},
 	{
 		titleLink: {
-			text: 'Item title is also a link',
-			link: '/',
-		},
-		onClick,
-		description: 'This is the second item, which has a longer description',
-	},
-	{
-		titleLink: {
-			text: 'Look an icon',
+			text: 'The other item',
 			link: '/',
 		},
 		onClick,
 		icon: 'complete',
 		description: 'This is the third item',
+		content: <div><Button text="A Button" /></div>
 	},
 ];
 

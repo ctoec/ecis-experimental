@@ -12,6 +12,7 @@ import ReportsSummary from './containers/Reports/ReportsSummary/ReportsSummary';
 import ReportDetail from './containers/Reports/ReportDetail/ReportDetail';
 import Withdrawal from './containers/Withdrawal/Withdrawal';
 import Home from './containers/Home/Home';
+import BatchEdit from './containers/BatchEdit/BatchEdit';
 
 export type RouteConfig = {
 	path: string;
@@ -71,6 +72,10 @@ export const routes: RouteConfig[] = [
 		component: ReportDetail,
 	},
 	{
+		path: '/batch-edit',
+		component: BatchEdit,
+	},
+	{
 		path: '/feedback',
 		component: Feedback,
 		unauthorized: true,
@@ -99,7 +104,7 @@ export const routes: RouteConfig[] = [
 		path: '/:unknown',
 		component: PageNotFound,
 		unauthorized: true,
-	},
+	}
 ];
 
 export default routes;
