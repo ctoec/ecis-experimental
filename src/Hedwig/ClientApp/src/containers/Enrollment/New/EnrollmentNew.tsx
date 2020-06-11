@@ -210,7 +210,6 @@ export default function EnrollmentNew({
 	const props: SectionProps = {
 		siteId,
 		enrollment: enrollment,
-		updateEnrollment,
 		error,
 		successCallback: afterSave,
 		onSectionTouch,

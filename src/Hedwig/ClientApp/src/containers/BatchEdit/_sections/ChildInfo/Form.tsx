@@ -10,7 +10,7 @@ import useApi from "../../../../hooks/useApi";
 import { useEffect } from "@storybook/addons";
 import useCatchAllErrorAlert from "../../../../hooks/useCatchAllErrorAlert";
 
-export const BatchEditForm: React.FC<SectionProps> = ({
+export const EditForm: React.FC<SectionProps> = ({
 	enrollment,
 	siteId, 
 	successCallback,
