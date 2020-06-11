@@ -108,8 +108,10 @@ export const NewForm: React.FC<SectionProps> = ({
 				}}
 				className="usa-form enrollment-new-enrollment-funding-section"
 			>
-				<EnrollmentStartDate initialLoad={false} />
-				<AgeGroupField initialLoad={false} />
+				<span className="usa-label text-bold font-sans-lg">{enrollment.site?.name}</span>
+				<EnrollmentStartDate initialLoad={!isReturnVisit} />
+				<AgeGroupField initialLoad={!isReturnVisit} />
+				<span className="usa-label text-bold font-sans-lg">Funding</span>
 				<FundingField
 					fundingId={0}
 					fundingSpaces={fundingSpaces}
@@ -117,6 +119,7 @@ export const NewForm: React.FC<SectionProps> = ({
 					errorAlertState={errorAlertState}
 				/>
 
+				<span className="usa-label text-bold font-sans-lg">Care 4 Kids</span>
 				<WithNewC4kCertificate shouldCreate={certificateId === 0 && receivesC4K}>
 					{/* TODO: replace with solo checkbox when/if that exists-- just add flag on solo checkbox and go ditch all the margins */}
 					<div className="margin-top-3">

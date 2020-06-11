@@ -277,6 +277,7 @@ namespace Hedwig.Data
 			_context.Sites.RemoveRange(_context.Sites.ToList());
 			_context.Organizations.RemoveRange(_context.Organizations.ToList());
 			_context.Users.RemoveRange(_context.Users.ToList());
+			_context.SaveChanges();
 		}
 
 		private Organization CreateOrganization(string name = "Hogwarts")

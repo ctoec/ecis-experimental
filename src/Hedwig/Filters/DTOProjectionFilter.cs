@@ -35,7 +35,7 @@ namespace Hedwig.Filters
 			{
 				// Filter through dto to remove undesired properties
 				var responseEntityAsDto = _mapper.Map(responseEntity, responseEntityType, attribute.Type);
-				responseEntity = _mapper.Map(responseEntityAsDto, attribute.Type, responseEntityType);
+				objectResult.Value = _mapper.Map(responseEntityAsDto, attribute.Type, responseEntityType);
 			}
 		}
 	}

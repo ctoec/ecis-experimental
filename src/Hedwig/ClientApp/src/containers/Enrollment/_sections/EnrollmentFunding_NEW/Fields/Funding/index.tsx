@@ -10,6 +10,14 @@ import produce from 'immer';
 import set from 'lodash/set';
 import { RadioButtonGroup, RadioOption } from '../../../../../../components';
 
+/**
+ * Component for creating, editing, or removing a funding.
+ *
+ * If the user chooses the private pay option,
+ * then the given funding is removed.
+ * If the user chooses CDC funding, then additional forms to
+ * enter funding data are displayed as expansion content for that option
+ */
 export const FundingField: React.FC<FundingFormFieldProps> = ({
 	error,
 	errorAlertState,
@@ -19,7 +27,6 @@ export const FundingField: React.FC<FundingFormFieldProps> = ({
 	const { data, dataDriller, updateData } = useGenericContext<Enrollment>(FormContext);
 	const [validFundingSpaces, setValidFundingSpaces] = useState<FundingSpace[]>([]);
 
-	// Filters valid funding spaces based on whether income has been disclosed, what age group for enrollment is
 	useEffect(() => {
 		// Set PRIVATE_PAY as the only option if:
 		// - age group is not set OR
@@ -33,6 +40,7 @@ export const FundingField: React.FC<FundingFormFieldProps> = ({
 			return;
 		}
 
+		// Filter valid funding spaces on enrollment ageGroup
 		const _validFundingSpaces = allFundingSpaces.filter((space) => space.ageGroup === ageGroup);
 
 		setValidFundingSpaces(_validFundingSpaces);
@@ -46,6 +54,7 @@ export const FundingField: React.FC<FundingFormFieldProps> = ({
 		.at('fundings')
 		.find((f) => f.id === fundingId)
 		.at('source').value;
+
 	return (
 		<RadioButtonGroup
 			name="funding-type"
@@ -67,8 +76,8 @@ export const FundingField: React.FC<FundingFormFieldProps> = ({
 				)
 			}
 			options={[
+				// Private pay option
 				{
-					// This is the private pay option
 					render: (props) => (
 						<RadioButton
 							{...props}
@@ -89,6 +98,7 @@ export const FundingField: React.FC<FundingFormFieldProps> = ({
 					),
 					value: prettyFundingSource(undefined),
 				},
+				// Valid funding souce options
 				...dedupedFundingSources.map(
 					(source) =>
 						({

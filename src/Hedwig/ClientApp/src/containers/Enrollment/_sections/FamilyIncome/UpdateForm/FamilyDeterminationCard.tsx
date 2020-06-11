@@ -14,10 +14,11 @@ type FamilyDeterminationCardProps = {
 	forceClose: boolean;
 	expansion: JSX.Element;
 };
+
 /**
  * Card that displays an income determination record.
- * Has CardContentWithExpandCard as card content, and
- * renders passed expand Element in the CardExpansion
+ * Renders an expansion prop as the CardExpansion content,
+ * which will be a FamilyDeterminationFormForCard
  */
 export const FamilyDeterminationCard = ({
 	determination,

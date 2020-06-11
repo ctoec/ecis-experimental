@@ -23,7 +23,7 @@ export const FirstReportingPeriodField: React.FC<FirstReportingPeriodFieldProps>
 	error,
 	errorAlertState,
 }) => {
-	const { dataDriller, updateData } = useGenericContext<Enrollment>(FormContext);
+	const { dataDriller } = useGenericContext<Enrollment>(FormContext);
 	const { cdcReportingPeriods: reportingPeriods } = useContext(ReportingPeriodContext);
 	const [validReportingPeriods, setValidReportingPeriods] = useState<ReportingPeriod[]>([]);
 
