@@ -20,6 +20,7 @@ export type ApiResult<TData> = {
 
 export interface ApiParamOpts<TData> {
 	skip?: boolean;
+	thisIsACallbackThatShouldWorkAndIWillBeUpsetIfItDoesNot?: (data: TData) => void;
 	callback?: (data: TData | null) => void;
 	deps?: any[];
 	defaultValue?: TData;
@@ -50,7 +51,14 @@ export default function useApi<TData>(
 	}, [accessToken]);
 
 	// Set initial api state
-	const { skip, callback, deps, defaultValue, paginate } = opts;
+	const {
+		skip,
+		thisIsACallbackThatShouldWorkAndIWillBeUpsetIfItDoesNot,
+		callback,
+		deps,
+		defaultValue,
+		paginate,
+	} = opts;
 	const [state, setState] = useState<ApiState<TData>>({
 		error: null,
 		data: defaultValue || null,
@@ -58,6 +66,7 @@ export default function useApi<TData>(
 		start: 0,
 		count: 50,
 	});
+	const [isSuccess, setIsSuccess] = useState(false);
 
 	// Run query
 	useEffect(() => {
@@ -75,6 +84,7 @@ export default function useApi<TData>(
 
 		// Reset the state for a new query if one has already been sent
 		setState({ ...state, data: defaultValue || null, error: null, loading: true });
+		setIsSuccess(false);
 
 		// We are assuming TData is array-like if paginate is true
 		if (paginate) {
@@ -88,6 +98,7 @@ export default function useApi<TData>(
 						if (((apiResult as unknown) as any[]).length === 0) {
 							// Need to use function syntax for state updates so pending updates aren't overwritten
 							setState((s) => ({ ...s, loading: false }));
+							setIsSuccess(true);
 							return;
 						}
 
@@ -98,6 +109,7 @@ export default function useApi<TData>(
 							data: appendData(s.data, apiResult),
 							loading: true,
 						}));
+
 						// Continue requesting data
 						paginatedQuery(start + state.count, state.count);
 					})
@@ -112,6 +124,7 @@ export default function useApi<TData>(
 			query(api)
 				.then((apiResult) => {
 					setState({ ...state, error: null, data: apiResult, loading: false });
+					setIsSuccess(true);
 				})
 				.catch(async (apiError) => {
 					const _error = await parseError(apiError);
@@ -122,7 +135,12 @@ export default function useApi<TData>(
 
 	useEffect(() => {
 		if (callback && !skip && !state.loading) callback(state.data);
-	}, [state, skip, callback]);
+	}, [state, isSuccess, skip, callback]);
+
+	useEffect(() => {
+		if (thisIsACallbackThatShouldWorkAndIWillBeUpsetIfItDoesNot && state.data && isSuccess)
+			thisIsACallbackThatShouldWorkAndIWillBeUpsetIfItDoesNot(state.data);
+	}, [state, isSuccess, skip, thisIsACallbackThatShouldWorkAndIWillBeUpsetIfItDoesNot]);
 
 	return { ...state };
 }

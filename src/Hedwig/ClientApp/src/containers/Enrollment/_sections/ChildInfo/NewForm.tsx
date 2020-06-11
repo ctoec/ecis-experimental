@@ -75,29 +75,14 @@ export const NewForm: React.FC<SectionProps> = ({
 					...commonParams,
 					id: enrollment.id,
 			  });
-	const { error: errorOnSave, loading: isSaving, data: returnedEnrollment } = useApi<Enrollment>(
-		apiRequest,
-		{
-			skip: !attemptSave,
-			callback: apiCallback,
-		}
-	);
+	const { error, loading: isSaving } = useApi<Enrollment>(apiRequest, {
+		skip: !attemptSave,
+		callback: apiCallback,
+		thisIsACallbackThatShouldWorkAndIWillBeUpsetIfItDoesNot: successCallback,
+	});
 
-	const errorAlertState = useCatchAllErrorAlert(errorOnSave);
-	useFocusFirstError([errorOnSave]);
-	useEffect(() => {
-		// If the request is still loading or
-		// If the request produced an error,
-		// Do nothing
-		if (isSaving || errorOnSave) {
-			return;
-		}
-		// If the request succeeded, process the response
-		if (returnedEnrollment) {
-			successCallback && successCallback(returnedEnrollment);
-		}
-		// Else the request hasn't fired, do nothing
-	}, [errorOnSave, isSaving, returnedEnrollment]);
+	const errorAlertState = useCatchAllErrorAlert(error);
+	useFocusFirstError([error]);
 
 	const onFormSubmit = (userModifiedEnrollment: Enrollment) => {
 		// Apply the mutations to the local copy of the enrollment
@@ -120,14 +105,14 @@ export const NewForm: React.FC<SectionProps> = ({
 					<SasidField />
 				</div>
 				<div className="mobile-lg:grid-col-9">
-					<FirstNameField error={errorOnSave} errorAlertState={errorAlertState} />
+					<FirstNameField error={error} errorAlertState={errorAlertState} />
 				</div>
 				<div className="mobile-lg:grid-col-9">
 					<MiddleNameField />
 				</div>
 				<div className="display-flex flex-row flex-align-end grid-row grid-gap">
 					<div className="mobile-lg:grid-col-9">
-						<LastNameField error={errorOnSave} errorAlertState={errorAlertState} />
+						<LastNameField error={error} errorAlertState={errorAlertState} />
 					</div>
 					<div className="mobile-lg:grid-col-3">
 						<SuffixField />
