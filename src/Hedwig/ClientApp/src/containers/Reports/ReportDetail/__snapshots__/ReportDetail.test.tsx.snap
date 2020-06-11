@@ -762,6 +762,9 @@ exports[`ReportDetail matches snapshot 1`] = `
         <h2>
           Other Revenue
         </h2>
+        <span>
+          For all enrollments from 09/01/2019 to 09/28/2019
+        </span>
         <fieldset
           aria-required="true"
           class="grid-gap grid-row usa-fieldset"
