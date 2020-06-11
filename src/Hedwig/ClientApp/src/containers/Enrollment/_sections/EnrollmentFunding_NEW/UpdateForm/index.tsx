@@ -51,9 +51,9 @@ export const UpdateForm: React.FC<SectionProps> = ({ enrollment, siteId }) => {
 		// If the request successed, process the response
 		if (returnedEnrollment) {
 			setMutatedEnrollment(returnedEnrollment);
-			// force any open edit forms closed
+			// set forceClose = true to force any open edit forms closed
 			setForceCloseEditForms(true);
-			// then reset forceClosed to enable the user to continue to edit
+			// then reset forceClosed = false to enable the user open cards and continue making edits
 			setTimeout(() => setForceCloseEditForms(false), 0);
 		}
 	}, [isSaving, saveError, returnedEnrollment]);

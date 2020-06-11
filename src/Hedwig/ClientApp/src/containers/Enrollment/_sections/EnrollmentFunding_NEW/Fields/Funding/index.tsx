@@ -44,7 +44,7 @@ export const FundingField: React.FC<FundingFormFieldProps> = ({
 		const _validFundingSpaces = allFundingSpaces.filter((space) => space.ageGroup === ageGroup);
 
 		setValidFundingSpaces(_validFundingSpaces);
-	}, [JSON.stringify(dataDriller), allFundingSpaces]);
+	}, [dataDriller, allFundingSpaces]);
 
 	const dedupedFundingSources = Array.from(
 		new Set(validFundingSpaces.map((space) => space.source as FundingSource))
