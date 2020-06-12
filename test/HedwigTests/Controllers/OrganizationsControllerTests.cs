@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System;
 using Microsoft.AspNetCore.Mvc;
 using Hedwig.Models;
-
+using AutoMapper;
 
 namespace HedwigTests.Controllers
 {
@@ -24,10 +24,11 @@ namespace HedwigTests.Controllers
 
 			var returns = exists ? new Organization() : null;
 			var _organizations = new Mock<IOrganizationRepository>();
+			var _mapper = new Mock<IMapper>();
 			_organizations.Setup(o => o.GetOrganizationById(id))
 			.Returns(returns);
 
-			var controller = new OrganizationsController(_organizations.Object);
+			var controller = new OrganizationsController(_organizations.Object, _mapper.Object);
 
 			var result = controller.Get(id);
 
