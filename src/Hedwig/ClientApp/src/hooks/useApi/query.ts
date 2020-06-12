@@ -51,14 +51,7 @@ export default function useApi<TData>(
 	}, [accessToken]);
 
 	// Set initial api state
-	const {
-		skip,
-		successCallback,
-		callback,
-		deps,
-		defaultValue,
-		paginate,
-	} = opts;
+	const { skip, successCallback, callback, deps, defaultValue, paginate } = opts;
 	const [state, setState] = useState<ApiState<TData>>({
 		error: null,
 		data: defaultValue || null,
@@ -138,8 +131,7 @@ export default function useApi<TData>(
 	}, [state, isSuccess, skip, callback]);
 
 	useEffect(() => {
-		if (successCallback && state.data && isSuccess)
-			successCallback(state.data);
+		if (successCallback && state.data && isSuccess) successCallback(state.data);
 	}, [state, isSuccess, skip, successCallback]);
 
 	return { ...state };
