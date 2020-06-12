@@ -20,7 +20,7 @@ export type ApiResult<TData> = {
 
 export interface ApiParamOpts<TData> {
 	skip?: boolean;
-	thisIsACallbackThatShouldWorkAndIWillBeUpsetIfItDoesNot?: (data: TData) => void;
+	successCallback?: (data: TData) => void;
 	callback?: (data: TData | null) => void;
 	deps?: any[];
 	defaultValue?: TData;
@@ -53,7 +53,7 @@ export default function useApi<TData>(
 	// Set initial api state
 	const {
 		skip,
-		thisIsACallbackThatShouldWorkAndIWillBeUpsetIfItDoesNot,
+		successCallback,
 		callback,
 		deps,
 		defaultValue,
@@ -138,9 +138,9 @@ export default function useApi<TData>(
 	}, [state, isSuccess, skip, callback]);
 
 	useEffect(() => {
-		if (thisIsACallbackThatShouldWorkAndIWillBeUpsetIfItDoesNot && state.data && isSuccess)
-			thisIsACallbackThatShouldWorkAndIWillBeUpsetIfItDoesNot(state.data);
-	}, [state, isSuccess, skip, thisIsACallbackThatShouldWorkAndIWillBeUpsetIfItDoesNot]);
+		if (successCallback && state.data && isSuccess)
+			successCallback(state.data);
+	}, [state, isSuccess, skip, successCallback]);
 
 	return { ...state };
 }
