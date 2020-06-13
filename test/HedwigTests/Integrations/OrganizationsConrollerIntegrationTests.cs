@@ -19,11 +19,8 @@ namespace HedwigTests.Integrations
 			_factory = factory;
 		}
 
-		[Theory]
-		[InlineData(true)]
-		public async Task OrganizationControllerOrganizationsGet_ReturnsCorrectResponseShape(
-			bool isInclude
-		)
+		[Fact]
+		public async Task OrganizationControllerOrganizationsGet_ReturnsCorrectResponseShape()
 		{
 			User user;
 			Organization organization;
@@ -52,40 +49,28 @@ namespace HedwigTests.Integrations
 			response.EnsureSuccessStatusCode();
 
 			var responseString = await response.Content.ReadAsStringAsync();
-			var responseOrganization = JsonConvert.DeserializeObject<Organization>(responseString);
+			var responseOrganization = JsonConvert.DeserializeObject<EnrollmentSummaryOrganizationDTO>(responseString);
 
 			Assert.NotNull(responseOrganization);
 			Assert.Equal(organization.Id, responseOrganization.Id);
 			Assert.Equal(organization.Name, responseOrganization.Name);
-			Assert.Null(responseOrganization.Reports);
-			if (isInclude)
-			{
-				Assert.NotEmpty(responseOrganization.Sites);
-				Assert.All(
-					responseOrganization.Sites,
-					site =>
-					{
-						Assert.NotNull(site.Name);
-						Assert.Null(site.Organization);
-						Assert.NotNull(site.Enrollments);
-					}
-				);
-				Assert.Null(responseOrganization.Reports);
-				Assert.NotNull(responseOrganization.FundingSpaces);
-				Assert.All(
-					responseOrganization.FundingSpaces,
-					fundingSpace =>
-					{
-						Assert.NotNull(fundingSpace);
-						Assert.Equal(fundingSpace.Time == FundingTime.Split, fundingSpace.TimeSplit != null);
-					}
-				);
-			}
-			else
-			{
-				Assert.Null(responseOrganization.Sites);
-				Assert.Null(responseOrganization.FundingSpaces);
-			}
+			Assert.NotEmpty(responseOrganization.Sites);
+			Assert.All(
+				responseOrganization.Sites,
+				site =>
+				{
+					Assert.NotNull(site.Name);
+				}
+			);
+			Assert.NotNull(responseOrganization.FundingSpaces);
+			Assert.All(
+				responseOrganization.FundingSpaces,
+				fundingSpace =>
+				{
+					Assert.NotNull(fundingSpace);
+					Assert.Equal(fundingSpace.Time == FundingTime.Split, fundingSpace.TimeSplit != null);
+				}
+			);
 		}
 	}
 }
