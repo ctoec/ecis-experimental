@@ -80,8 +80,8 @@ export const FieldSet: React.FC<FieldSetProps> = ({
 				className={cx(
 					'grid-gap',
 					childrenGroupClassName,
-					{ 'grid-row flex-align-start': horizontal },
-					{ 'grid-col': !horizontal }
+					{ 'grid-row flex-align-start': !horizontal },
+					{ 'grid-col': horizontal }
 				)}
 			>
 				{children}
