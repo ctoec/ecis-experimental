@@ -171,6 +171,10 @@ export default function ReportSubmitForm({
 				<UtilizationTable />
 				<div className="usa-form">
 					<h2>Other Revenue</h2>
+					<span>
+						For all enrollments from {dateFormatter(report.reportingPeriod.periodStart)} to{' '}
+						{dateFormatter(report.reportingPeriod.periodEnd)}
+					</span>
 					<OtherRevenueFieldSet
 						disabled={!!submittedAt}
 						enrollments={allEnrollments}
