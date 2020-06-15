@@ -5,6 +5,7 @@ import { ApiError } from '../../hooks/useApi';
 export type SectionProps = {
 	siteId: number;
 	enrollment: Enrollment | null;
+	updateEnrollment: React.Dispatch<React.SetStateAction<Enrollment | null>>;
 	error: ApiError | null;
 	successCallback?: (e: Enrollment) => void;
 	success?: boolean;
