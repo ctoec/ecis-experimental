@@ -22,7 +22,7 @@ namespace HedwigTests.Controllers
 		{
 			var id = 1;
 
-			var returns = exists ? new Organization() : null;
+			var returns = exists ? new EnrollmentSummaryOrganizationDTO() : null;
 			var _organizations = new Mock<IOrganizationRepository>();
 			var _mapper = new Mock<IMapper>();
 			_organizations.Setup(o => o.GetOrganizationById(id))

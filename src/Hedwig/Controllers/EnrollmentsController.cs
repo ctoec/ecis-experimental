@@ -42,7 +42,7 @@ namespace Hedwig.Controllers
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		[ValidateEntityFilterAttribute(Order = 1)]
 		[DTOProjectionFilter(typeof(List<EnrollmentSummaryDTO>), Order = 2)]
-		public async Task<ActionResult<List<Enrollment>>> Get(
+		public async Task<ActionResult<List<EnrollmentSummaryDTO>>> Get(
 			int orgId,
 			[FromQuery(Name = "siteIds[]")] int[] siteIds,
 			[FromQuery(Name = "startDate")] DateTime? from = null,
@@ -75,7 +75,7 @@ namespace Hedwig.Controllers
 				enrollments = await _enrollments.GetEnrollmentsForOrganizationAsync(orgId, from, to, asOf, skip, take);
 			}
 
-			return enrollments;
+			return Ok(_mapper.Map<EnrollmentSummaryDTO>(enrollments));
 		}
 
 		// GET api/organizations/1/sites/1/enrollments

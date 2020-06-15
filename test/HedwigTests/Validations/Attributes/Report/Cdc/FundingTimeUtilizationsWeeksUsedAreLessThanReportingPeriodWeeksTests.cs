@@ -1,11 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Moq;
-using Xunit;
+using AutoMapper;
 using Hedwig.Models;
 using Hedwig.Repositories;
 using Hedwig.Validations.Attributes;
+using Moq;
+using System;
+using System.Collections.Generic;
+using Xunit;
+using ValidationContext = System.ComponentModel.DataAnnotations.ValidationContext;
 
 namespace HedwigTests.Validations.Attributes
 {
@@ -19,7 +20,6 @@ namespace HedwigTests.Validations.Attributes
 			bool returnsValidationResult
 		)
 		{
-			// if
 			var fundingSpaces = new List<FundingSpace> {
 				new FundingSpace {
 					Id = 1,
@@ -56,8 +56,11 @@ namespace HedwigTests.Validations.Attributes
 			});
 
 			var organizations = new Mock<IOrganizationRepository>();
+			var _mapper = new Mock<IMapper>();
+			_mapper.Setup(m => m.Map<Organization, EnrollmentSummaryOrganizationDTO>(It.IsAny<Organization>()))
+				.Returns(It.IsAny<EnrollmentSummaryOrganizationDTO>());
 			organizations.Setup(o => o.GetOrganizationById(It.IsAny<int>()))
-			.Returns(organization);
+			.Returns(_mapper.Object.Map<EnrollmentSummaryOrganizationDTO>(organization));
 
 			var serviceProvider = new Mock<IServiceProvider>();
 			serviceProvider.Setup(v => v.GetService(typeof(IOrganizationRepository)))
@@ -139,8 +142,11 @@ namespace HedwigTests.Validations.Attributes
 			});
 
 			var organizations = new Mock<IOrganizationRepository>();
+			var _mapper = new Mock<IMapper>();
+			_mapper.Setup(m => m.Map<Organization, EnrollmentSummaryOrganizationDTO>(It.IsAny<Organization>()))
+				.Returns(It.IsAny<EnrollmentSummaryOrganizationDTO>());
 			organizations.Setup(o => o.GetOrganizationById(It.IsAny<int>()))
-			.Returns(organization);
+			.Returns(_mapper.Object.Map<EnrollmentSummaryOrganizationDTO>(organization));
 
 			var serviceProvider = new Mock<IServiceProvider>();
 			serviceProvider.Setup(v => v.GetService(typeof(IOrganizationRepository)))

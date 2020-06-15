@@ -1,11 +1,9 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Xunit;
 using Hedwig.Models;
-using HedwigTests.Helpers;
 using HedwigTests.Fixtures;
+using HedwigTests.Helpers;
+using Newtonsoft.Json;
+using System.Threading.Tasks;
+using Xunit;
 
 namespace HedwigTests.Integrations
 {
