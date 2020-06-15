@@ -20,9 +20,8 @@ export type ApiResult<TData> = {
 
 export interface ApiParamOpts<TData> {
 	skip?: boolean;
-	successCallback?: (data: TData) => void;
 	callback?: (data: TData | null) => void;
-	successCallback?: (data: TData | null) => void;
+	successCallback?: (data: TData) => void;
 	deps?: any[];
 	defaultValue?: TData;
 	paginate?: boolean;

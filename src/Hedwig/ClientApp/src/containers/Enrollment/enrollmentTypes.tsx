@@ -8,6 +8,8 @@ export type SectionProps = {
 	updateEnrollment: React.Dispatch<React.SetStateAction<Enrollment | null>>;
 	error: ApiError | null;
 	successCallback?: (e: Enrollment) => void;
+	triggerSave?: () => void;
+	onSkip?: (e: Enrollment) => void;
 	success?: boolean;
 	loading?: boolean;
 	onSectionTouch?: (s: Section) => void;

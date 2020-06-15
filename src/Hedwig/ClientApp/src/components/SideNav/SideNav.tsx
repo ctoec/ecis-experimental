@@ -43,7 +43,7 @@ export const SideNav = ({
 					</ul>
 				</nav>
 			</div>
-			<div className="margin-top-2">
+			<div className="margin-top-2 mobile-lg:grid-col-8">
 				{activeItemIndex !== undefined && activeItemIndex < items.length 
 					? items[activeItemIndex].content
 					: noActiveItemContent
