@@ -7,21 +7,17 @@ export type SideNavProps = {
 	noActiveItemContent?: JSX.Element;
 };
 
-export const SideNav = ({ 
-	items,
-	externalActiveItemIndex,
-	noActiveItemContent
-}: SideNavProps) => {
+export const SideNav = ({ items, externalActiveItemIndex, noActiveItemContent }: SideNavProps) => {
 	const [activeItemIndex, setActiveItemIndex] = useState(externalActiveItemIndex);
 
 	useEffect(() => {
 		setActiveItemIndex(
 			externalActiveItemIndex != undefined && !isNaN(externalActiveItemIndex)
-			? externalActiveItemIndex
-			: undefined
+				? externalActiveItemIndex
+				: undefined
 		);
-	}, [externalActiveItemIndex])
-	
+	}, [externalActiveItemIndex]);
+
 	return (
 		<div className="oec-sidenav grid-row grid-gap">
 			<div className="mobile-lg:grid-col-4">
@@ -29,25 +25,26 @@ export const SideNav = ({
 					<ul>
 						{items.map((item, idx) => {
 							const _onClick = () => {
-								console.log("setting tab nav to ", idx);
+								console.log('setting tab nav to ', idx);
 								setActiveItemIndex(idx);
 								item.onClick && item.onClick();
-							}
-							return <SideNavItem 
-								{...item} 
-								key={idx} 
-								onClick={_onClick} 
-								active={idx === activeItemIndex}
-							/>
+							};
+							return (
+								<SideNavItem
+									{...item}
+									key={idx}
+									onClick={_onClick}
+									active={idx === activeItemIndex}
+								/>
+							);
 						})}
 					</ul>
 				</nav>
 			</div>
 			<div className="margin-top-2 mobile-lg:grid-col-8">
-				{activeItemIndex !== undefined && activeItemIndex < items.length 
+				{activeItemIndex !== undefined && activeItemIndex < items.length
 					? items[activeItemIndex].content
-					: noActiveItemContent
-				}
+					: noActiveItemContent}
 			</div>
 		</div>
 	);

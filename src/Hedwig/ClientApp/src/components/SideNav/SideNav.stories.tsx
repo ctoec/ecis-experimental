@@ -14,7 +14,7 @@ const exampleItems: SideNavItemProps[] = [
 		},
 		onClick,
 		description: 'This is the first item',
-		content: <div>Some content for the first item</div>
+		content: <div>Some content for the first item</div>,
 	},
 	{
 		titleLink: {
@@ -24,7 +24,11 @@ const exampleItems: SideNavItemProps[] = [
 		onClick,
 		icon: 'complete',
 		description: 'This is the third item',
-		content: <div><Button text="A Button" /></div>
+		content: (
+			<div>
+				<Button text="A Button" />
+			</div>
+		),
 	},
 ];
 

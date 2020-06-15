@@ -7100,87 +7100,77 @@ exports[`Storyshots SideNav Default 1`] = `
     }
   }
 >
-  <nav
-    className="oec-sidenav"
+  <div
+    className="oec-sidenav grid-row grid-gap"
   >
     <div
-      className="tablet:grid-col-4"
+      className="mobile-lg:grid-col-4"
     >
-      <ul>
-        <li
-          className="oec-sidenav__item active"
-        >
-          <a
-            href="/"
-            onClick={[Function]}
+      <nav>
+        <ul>
+          <li
+            className="oec-sidenav__item"
           >
-            <div
-              className="oec-sidenav-item__title"
+            <a
+              onClick={[Function]}
             >
-              Item title is a link
-            </div>
-            <div
-              className="oec-sidenav-item__desc"
-            >
-              This is the first item
-            </div>
-          </a>
-        </li>
-        <li
-          className="oec-sidenav__item"
-        >
-          <a
-            href="/"
-            onClick={[Function]}
-          >
-            <div
-              className="oec-sidenav-item__title"
-            >
-              Item title is also a link
-            </div>
-            <div
-              className="oec-sidenav-item__desc"
-            >
-              This is the second item, which has a longer description
-            </div>
-          </a>
-        </li>
-        <li
-          className="oec-sidenav__item"
-        >
-          <a
-            href="/"
-            onClick={[Function]}
-          >
-            <div
-              className="oec-sidenav-item__title"
-            >
-              Look an icon
-              <span
-                className="oec-inline-icon oec-inline-icon--complete"
-              >
-                <svg>
-                  success.svg
-                </svg>
-                <span
-                  className="usa-sr-only"
+              <div>
+                <p
+                  className="oec-sidenav-item__title"
                 >
-                  (
-                  complete
-                  )
-                </span>
-              </span>
-            </div>
-            <div
-              className="oec-sidenav-item__desc"
+                  The default active item
+                   
+                </p>
+                <p
+                  className="oec-sidenav-item__desc"
+                >
+                  This is the first item
+                </p>
+              </div>
+            </a>
+          </li>
+          <li
+            className="oec-sidenav__item"
+          >
+            <a
+              onClick={[Function]}
             >
-              This is the third item
-            </div>
-          </a>
-        </li>
-      </ul>
+              <div>
+                <p
+                  className="oec-sidenav-item__title"
+                >
+                  The other item
+                   
+                  <span
+                    className="oec-inline-icon oec-inline-icon--complete"
+                  >
+                    <svg>
+                      success.svg
+                    </svg>
+                    <span
+                      className="usa-sr-only"
+                    >
+                      (
+                      complete
+                      )
+                    </span>
+                  </span>
+                </p>
+                <p
+                  className="oec-sidenav-item__desc"
+                >
+                  This is the third item
+                </p>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </nav>
     </div>
-  </nav>
+    <div
+      className="margin-top-2 mobile-lg:grid-col-8"
+    />
+  </div>
 </div>
 `;
 
