@@ -19,6 +19,22 @@ $future-step-color: color('base-dark') !default;
 	margin: 0;
 	padding: 0 $step-list-padding-h;
 	padding-left: $step-list-padding-left;
+	&.embedded {
+		padding-left: 0 !important;
+		li::before {
+			content: none !important;
+		}
+		&::after {
+			border-bottom: $step-border-width solid color('base-lighter');
+			bottom: 0;
+			content: '';
+			display: block;
+			height: 1px;
+			left: 0 !important;
+			position: absolute;
+			right: 0 !important;
+		}
+	}
 }
 
 .oec-step-list__step {
@@ -28,7 +44,7 @@ $future-step-color: color('base-dark') !default;
 	padding-bottom: $step-margin;
 	position: relative;
 
-	&::before {
+	&::before{
 		border: $step-list-number-border-size solid $future-step-color;
 		border-radius: 50%;
 		box-sizing: border-box;
@@ -98,7 +114,7 @@ $future-step-color: color('base-dark') !default;
 	color: color('ink');
 }
 
-.oec-step-list__step:not(.oec-step-list__step--notStarted):not(.oec-step-list__step--active) {
+.oec-step-list__step:not(.oec-step-list__step--notStarted):not(.oec-step-list__step--active){
 	.oec-step-list__step__title {
 		color: color('ink');
 	}

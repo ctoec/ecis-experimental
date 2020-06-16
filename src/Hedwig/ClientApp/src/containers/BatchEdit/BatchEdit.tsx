@@ -5,9 +5,16 @@ import useApi from '../../hooks/useApi';
 import { Enrollment } from '../../generated';
 import { getIdForUser } from '../../utils/models';
 import CommonContainer from '../CommonContainer';
+import { EnrollmentsEditList } from './EnrollmentsEditList';
 
-type BatchEditProps = {};
+type BatchEditProps = {
+	history: History;
+	match: {
+		params: { activeEnrollmentId?: number; }
+	}
+};
 const BatchEdit: React.FC<BatchEditProps> = ({
+	match: {params: sectionId }
 }) => {
 	// TODO get from QS param from roster
 	const startDate = moment();
@@ -26,15 +33,15 @@ const BatchEdit: React.FC<BatchEditProps> = ({
 	)
 
 	const needInfoEnrollments = (enrollments || []).filter(e => e.validationErrors && e.validationErrors.length);
-	console.log("needInfoEnrollments", needInfoEnrollments);
 	return (
 		<CommonContainer>
 			<div className="grid-container">
 				<h1>Add needed information</h1>
 				<p className="usa-intro">{needInfoEnrollments.length} enrollments have missing or incomplete information</p> 
-				{needInfoEnrollments.forEach(e => {
-					return <p> BLAH {e.childId}</p>
-				})}
+				{needInfoEnrollments.length 
+					? <EnrollmentsEditList enrollments={needInfoEnrollments} />
+					: <p>all good</p>
+				}
 			</div>
 		</CommonContainer>
 	)

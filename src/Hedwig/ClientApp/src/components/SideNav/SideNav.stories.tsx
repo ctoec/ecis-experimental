@@ -8,19 +8,13 @@ import { SideNavItemProps } from './SideNavItem';
 const onClick = action('onChange');
 const exampleItems: SideNavItemProps[] = [
 	{
-		titleLink: {
-			text: 'The default active item',
-			link: '/',
-		},
+		title: 'The default active item',
 		onClick,
 		description: 'This is the first item',
 		content: <div>Some content for the first item</div>,
 	},
 	{
-		titleLink: {
-			text: 'The other item',
-			link: '/',
-		},
+		title: 'The other item',
 		onClick,
 		icon: 'complete',
 		description: 'This is the third item',

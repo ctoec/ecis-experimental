@@ -6,7 +6,9 @@ import { displayValidationStatus } from '../../../../../utils/validations/displa
 import FormField from '../../../../../components/Form_New/FormField';
 import { Enrollment } from '../../../../../generated';
 
-export const AddressLine1: React.FC<FamilyInfoFormFieldProps> = ({ initialLoad }) => (
+export const AddressLine1: React.FC<FamilyInfoFormFieldProps> = ({ 
+	errorDisplayGuard = false
+}) => (
 	<FormField<Enrollment, TextInputProps, string | null>
 		getValue={(data) => data.at('child').at('family').at('addressLine1')}
 		type="input"
@@ -16,7 +18,7 @@ export const AddressLine1: React.FC<FamilyInfoFormFieldProps> = ({ initialLoad }
 		parseOnChangeEvent={(e) => e.target.value}
 		status={(enrollment) =>
 			initialLoadErrorGuard(
-				initialLoad || false,
+				errorDisplayGuard,
 				displayValidationStatus([
 					{
 						type: 'warning',

@@ -90,7 +90,6 @@ export default function useApi<TData>(
 						if (noMoreResult) {
 							// Need to use function syntax for state updates so pending updates aren't overwritten
 							setState((s) => ({ ...s, loading: false }));
-							return;
 						}
 
 						// Need to use function syntax for state updates so pending updates aren't overwritten

@@ -2,13 +2,8 @@ import React from 'react';
 import cx from 'classnames';
 import { InlineIcon, Icon } from '..';
 
-type SideNavItemTitle = {
-	text: string;
-	link: string;
-};
-
 export type SideNavItemProps = {
-	titleLink: SideNavItemTitle;
+	title: string;
 	description: string;
 	icon?: Icon;
 	onClick?: () => any;
@@ -21,7 +16,7 @@ type InternalSideNavItemProps = SideNavItemProps & {
 };
 
 export const SideNavItem = ({
-	titleLink,
+	title,
 	description,
 	active,
 	onClick,
@@ -31,9 +26,7 @@ export const SideNavItem = ({
 		<li className={cx('oec-sidenav__item', { active })}>
 			<a onClick={onClick}>
 				<div>
-					<p className="oec-sidenav-item__title">
-						{titleLink.text} {icon && <InlineIcon icon={icon} />}
-					</p>
+					<p className="oec-sidenav-item__title">{title} {icon && <InlineIcon icon={icon} /> }</p>
 					<p className="oec-sidenav-item__desc">{description}</p>
 				</div>
 			</a>
