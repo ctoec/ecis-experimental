@@ -26,23 +26,35 @@ namespace Hedwig.Repositories
 
 		public List<FundingDTO> GetFundingDTOsByEnrollmentId(int enrollmentId)
 		{
-			return _context.Fundings
-				.Where(f => f.EnrollmentId == enrollmentId)
+			return GetFundingDTOsByEnrollmentIds(new List<int> { enrollmentId });
+		}
+
+		public List<FundingDTO> GetFundingDTOsByEnrollmentIds(IEnumerable<int> enrollmentIds)
+		{
+			var fDTOs = _context.Fundings
+				.Where(f => enrollmentIds.Contains(f.EnrollmentId))
 				.Include(f => f.FirstReportingPeriod)
 				.Include(f => f.LastReportingPeriod)
-				.Select(fDTO => new FundingDTO() {
-					Id = fDTO.Id,
-					EnrollmentId = fDTO.EnrollmentId,
-					FundingSpaceId = fDTO.FundingSpaceId,
-					FundingSpace = _fundingSpaceRepository.GetFundingSpaceDTOById(fDTO.FundingSpaceId),
-					Source = fDTO.Source,
-					FirstReportingPeriodId = fDTO.FirstReportingPeriodId,
-					FirstReportingPeriod = fDTO.FirstReportingPeriod,
-					LastReportingPeriodId = fDTO.LastReportingPeriodId,
-					LastReportingPeriod = fDTO.LastReportingPeriod,
-					ValidationErrors = fDTO.ValidationErrors,
+				.Select(f => new FundingDTO()
+				{
+					Id = f.Id,
+					EnrollmentId = f.EnrollmentId,
+					FundingSpaceId = f.FundingSpaceId,
+					Source = f.Source,
+					FirstReportingPeriodId = f.FirstReportingPeriodId,
+					FirstReportingPeriod = f.FirstReportingPeriod,
+					LastReportingPeriodId = f.LastReportingPeriodId,
+					LastReportingPeriod = f.LastReportingPeriod,
+					ValidationErrors = f.ValidationErrors,
 				})
 				.ToList();
+			var fsIds = fDTOs.Select(fDTO => fDTO.FundingSpaceId);
+			var fundingSpaces = _fundingSpaceRepository.GetFundingSpaceDTOsByIds(fsIds);
+			foreach (var fDTO in fDTOs)
+			{
+				fDTO.FundingSpace = fundingSpaces.Where(fs => fs.Id == fDTO.FundingSpaceId).FirstOrDefault();
+			}
+			return fDTOs;
 		}
 
 		public List<Funding> GetFundingsByChildId(Guid childId)
@@ -60,6 +72,7 @@ namespace Hedwig.Repositories
 	{
 		List<Funding> GetFundingsByEnrollmentId(int enrollmentId);
 		List<FundingDTO> GetFundingDTOsByEnrollmentId(int enrollmentId);
+		List<FundingDTO> GetFundingDTOsByEnrollmentIds(IEnumerable<int> enrollmentIds);
 		List<Funding> GetFundingsByChildId(Guid childId);
 	}
 }

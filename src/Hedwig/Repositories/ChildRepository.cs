@@ -51,7 +51,7 @@ namespace Hedwig.Repositories
 		}
 		public EnrollmentChildDTO GetEnrollmentChildDTOById(Guid id)
 		{
-			return _context.Children
+			var childDTO = _context.Children
 				.Select(c => new EnrollmentChildDTO()
 				{
 					Id = c.Id,
@@ -73,17 +73,18 @@ namespace Hedwig.Repositories
 					Gender = c.Gender,
 					Foster = c.Foster,
 					FamilyId = c.FamilyId,
-					Family = c.FamilyId.HasValue ? _familyRepository.GetEnrollmentFamilyDTOById(c.FamilyId.Value) : null,
 					OrganizationId = c.OrganizationId,
 					C4KFamilyCaseNumber = c.C4KFamilyCaseNumber,
-					C4KCertificates = _c4KCertificateRepository.GetC4KCertificateDTOsByChildId(c.Id),
 					ValidationErrors = c.ValidationErrors
 				})
 				.Single(c => c.Id == id);
+			childDTO.Family = childDTO.FamilyId.HasValue ? _familyRepository.GetEnrollmentFamilyDTOById(childDTO.FamilyId.Value) : null;
+			childDTO.C4KCertificates = _c4KCertificateRepository.GetC4KCertificateDTOsByChildId(childDTO.Id);
+			return childDTO;
 		}
 		public EnrollmentSummaryChildDTO GetEnrollmentSummaryChildDTOById(Guid id)
 		{
-			return _context.Children
+			var childDTO = _context.Children
 				.Select(c => new EnrollmentSummaryChildDTO()
 				{
 					Id = c.Id,
@@ -93,10 +94,35 @@ namespace Hedwig.Repositories
 					LastName = c.LastName,
 					Suffix = c.Suffix,
 					Birthdate = c.Birthdate,
-					C4KCertificates = _c4KCertificateRepository.GetC4KCertificateDTOsByChildId(c.Id),
 					ValidationErrors = c.ValidationErrors
 				})
 				.Single(c => c.Id == id);
+			childDTO.C4KCertificates = _c4KCertificateRepository.GetC4KCertificateDTOsByChildId(childDTO.Id);
+			return childDTO;
+		}
+		public List<EnrollmentSummaryChildDTO> GetEnrollmentSummaryChildDTOsByIds(IEnumerable<Guid> ids)
+		{
+			var childDTOs = _context.Children
+				.Select(c => new EnrollmentSummaryChildDTO()
+				{
+					Id = c.Id,
+					Sasid = c.Sasid,
+					FirstName = c.FirstName,
+					MiddleName = c.MiddleName,
+					LastName = c.LastName,
+					Suffix = c.Suffix,
+					Birthdate = c.Birthdate,
+					ValidationErrors = c.ValidationErrors
+				})
+				.Where(c => ids.Contains(c.Id))
+				.ToList();
+			var childIds = childDTOs.Select(childDTO => childDTO.Id).Distinct();
+			var c4KCertificates = _c4KCertificateRepository.GetC4KCertificateDTOsByChildIds(childIds);
+			foreach(var childDTO in childDTOs)
+			{
+				childDTO.C4KCertificates = c4KCertificates.Where(c4k => c4k.ChildId == childDTO.Id).ToList();
+			}
+			return childDTOs;
 		}
 	}
 
@@ -109,5 +135,6 @@ namespace Hedwig.Repositories
 		Child GetChildById(Guid id);
 		EnrollmentChildDTO GetEnrollmentChildDTOById(Guid id);
 		EnrollmentSummaryChildDTO GetEnrollmentSummaryChildDTOById(Guid id);
+		List<EnrollmentSummaryChildDTO> GetEnrollmentSummaryChildDTOsByIds(IEnumerable<Guid> ids);
 	}
 }

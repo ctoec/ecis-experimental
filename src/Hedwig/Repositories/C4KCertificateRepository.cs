@@ -22,21 +22,38 @@ namespace Hedwig.Repositories
 		{
 			return _context.C4KCertificates
 				.Where(c => c.ChildId == childId)
-				.Select(c4kcDTO => new C4KCertificateDTO()
+				.Select(c4kc => new C4KCertificateDTO()
 				{
-					Id = c4kcDTO.Id,
-					ChildId = c4kcDTO.ChildId,
-					StartDate = c4kcDTO.StartDate,
-					EndDate = c4kcDTO.EndDate,
-					ValidationErrors = c4kcDTO.ValidationErrors
+					Id = c4kc.Id,
+					ChildId = c4kc.ChildId,
+					StartDate = c4kc.StartDate,
+					EndDate = c4kc.EndDate,
+					ValidationErrors = c4kc.ValidationErrors
 				})
 				.ToList();
 		}
+
+		public List<C4KCertificateDTO> GetC4KCertificateDTOsByChildIds(IEnumerable<Guid> childIds)
+		{
+			return _context.C4KCertificates
+				.Where(c => childIds.Contains(c.ChildId))
+				.Select(c4kc => new C4KCertificateDTO()
+				{
+					Id = c4kc.Id,
+					ChildId = c4kc.ChildId,
+					StartDate = c4kc.StartDate,
+					EndDate = c4kc.EndDate,
+					ValidationErrors = c4kc.ValidationErrors
+				})
+				.ToList();
+		}
+
 	}
 
 	public interface IC4KCertificateRepository : IHedwigRepository
 	{
 		List<C4KCertificate> GetC4KCertificatesByChildId(Guid childId);
 		List<C4KCertificateDTO> GetC4KCertificateDTOsByChildId(Guid childId);
+		List<C4KCertificateDTO> GetC4KCertificateDTOsByChildIds(IEnumerable<Guid> childIds);
 	}
 }

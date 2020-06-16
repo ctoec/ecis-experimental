@@ -32,14 +32,15 @@ namespace Hedwig.Repositories
 
 		public EnrollmentSummaryOrganizationDTO GetEnrollmentSummaryOrganizationDTOById(int id)
 		{
-			return _context.Organizations
+			var enrollmentDTO = _context.Organizations
 				.Select(o => new EnrollmentSummaryOrganizationDTO() {
 					Id = o.Id,
-					Name = o.Name,
-					Sites = _siteRepository.GetEnrollmentSummarySiteDTOsForOrganization(o.Id),
-					FundingSpaces = _fundingSpaceRepository.GetFundingSpaceDTOsForOrganiation(o.Id)
+					Name = o.Name
 				})
 				.SingleOrDefault(o => o.Id == id);
+			enrollmentDTO.Sites = _siteRepository.GetEnrollmentSummarySiteDTOsForOrganization(id);
+			enrollmentDTO.FundingSpaces = _fundingSpaceRepository.GetFundingSpaceDTOsForOrganiation(id);
+			return enrollmentDTO;
 		}
 
 		public List<Organization> GetOrganizationsWithFundingSpaces(FundingSource source)

@@ -85,10 +85,11 @@ namespace Hedwig.Repositories
 			{
 				enrollments = enrollments.Take(take.Value);
 			}
-			return await enrollments.OrderBy(e => e.Id)
-				.SelectEnrollmentSummaryDTO(_childRepository, _fundingRepository, _siteRepository)
+			var esDTOs = await enrollments.OrderBy(e => e.Id)
+				.SelectEnrollmentSummaryDTO()
 				.ToListAsync();
-
+			CompleteEnrollmentSummaryDTO(esDTOs);
+			return esDTOs;
 		}
 
 		public async Task<Enrollment> GetEnrollmentForSiteAsync(int id, int siteId)
@@ -138,10 +139,12 @@ namespace Hedwig.Repositories
 
 		public async Task<EnrollmentDTO> GetEnrollmentDTOForSiteAsync(int id, int siteId)
 		{
-			return await Task.FromResult(_context.Enrollments
+			var eDTO = await Task.FromResult(_context.Enrollments
 				.Where(e => e.SiteId == siteId && e.Id == id)
 				.SelectEnrollmentDTO(_childRepository, _fundingRepository, _siteRepository)
 				.FirstOrDefault());
+			CompleteEnrollmentDTO(eDTO);
+			return eDTO;
 		}
 
 		public async Task<List<EnrollmentSummaryDTO>> GetEnrollmentSummaryDTOsForOrganizationAsync(
@@ -162,16 +165,42 @@ namespace Hedwig.Repositories
 			{
 				enrollments = enrollments.Take(take.Value);
 			}
-			return await enrollments
-				.SelectEnrollmentSummaryDTO(_childRepository, _fundingRepository, _siteRepository)
+			var esDTOs = await enrollments
+				.SelectEnrollmentSummaryDTO()
 				.OrderBy(e => e.Id)
 				.ToListAsync();
+			CompleteEnrollmentSummaryDTO(esDTOs);
+			return esDTOs;
 		}
 
 		public void DeleteEnrollment(Enrollment enrollment)
 		{
 			_context.Enrollments.Remove(enrollment);
 		}
+
+		void CompleteEnrollmentSummaryDTO(IEnumerable<EnrollmentSummaryDTO> esDTOs)
+		{
+			var childIds = esDTOs.Select(esDTO => esDTO.ChildId).Distinct();
+			var siteIds = esDTOs.Select(esDTO => esDTO.SiteId).Distinct();
+			var ids = esDTOs.Select(esDTO => esDTO.Id).Distinct();
+			var children = _childRepository.GetEnrollmentSummaryChildDTOsByIds(childIds);
+			var sites = _siteRepository.GetEnrollmentSummarySiteDTOsByIds(siteIds);
+			var fundings = _fundingRepository.GetFundingDTOsByEnrollmentIds(ids);
+			foreach(var esDTO in esDTOs)
+			{
+				esDTO.Child = children.Where(c => c.Id == esDTO.ChildId).FirstOrDefault();
+				esDTO.Site = sites.Where(s => s.Id == esDTO.SiteId).FirstOrDefault();
+				esDTO.Fundings = fundings.Where(f => f.EnrollmentId == esDTO.Id).ToList();
+			}
+		}
+
+		void CompleteEnrollmentDTO(EnrollmentDTO eDTO)
+		{
+			eDTO.Child = _childRepository.GetEnrollmentChildDTOById(eDTO.ChildId);
+			eDTO.Site = _siteRepository.GetOrganizationSiteDTOById(eDTO.SiteId);
+			eDTO.Fundings = _fundingRepository.GetFundingDTOsByEnrollmentId(eDTO.Id);
+		}
+
 	}
 
 	public interface IEnrollmentRepository : IHedwigRepository
@@ -206,25 +235,17 @@ namespace Hedwig.Repositories
 			return query;
 		}
 
-		public static IQueryable<EnrollmentSummaryDTO> SelectEnrollmentSummaryDTO(
-			this IQueryable<Enrollment> query,
-			IChildRepository childRepository,
-			IFundingRepository fundingRepository,
-			ISiteRepository siteRepository
-		)
+		public static IQueryable<EnrollmentSummaryDTO> SelectEnrollmentSummaryDTO(this IQueryable<Enrollment> query)
 		{
 			return query.Select(e => new EnrollmentSummaryDTO()
 			{
 				Id = e.Id,
 				ChildId = e.ChildId,
-				Child = childRepository.GetEnrollmentSummaryChildDTOById(e.ChildId),
 				SiteId = e.SiteId,
-				Site = siteRepository.GetEnrollmentSummarySiteDTOById(e.SiteId),
 				AgeGroup = e.AgeGroup,
 				Entry = e.Entry,
 				Exit = e.Exit,
 				ExitReason = e.ExitReason,
-				Fundings = fundingRepository.GetFundingDTOsByEnrollmentId(e.Id),
 				ValidationErrors = e.ValidationErrors,
 			});
 		}
@@ -239,14 +260,11 @@ namespace Hedwig.Repositories
 			{
 				Id = e.Id,
 				ChildId = e.ChildId,
-				Child = childRepository.GetEnrollmentChildDTOById(e.ChildId),
 				SiteId = e.SiteId,
-				Site = siteRepository.GetOrganizationSiteDTOById(e.SiteId),
 				AgeGroup = e.AgeGroup,
 				Entry = e.Entry,
 				Exit = e.Exit,
 				ExitReason = e.ExitReason,
-				Fundings = fundingRepository.GetFundingDTOsByEnrollmentId(e.Id),
 				ValidationErrors = e.ValidationErrors,
 			});
 		}

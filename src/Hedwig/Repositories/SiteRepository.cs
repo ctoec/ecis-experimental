@@ -105,6 +105,18 @@ namespace Hedwig.Repositories
 				})
 				.FirstOrDefault(site => site.Id == id);
 		}
+
+		public List<EnrollmentSummarySiteDTO> GetEnrollmentSummarySiteDTOsByIds(IEnumerable<int> ids)
+		{
+			return _context.Sites
+				.Select(s => new EnrollmentSummarySiteDTO()
+				{
+					Id = s.Id,
+					Name = s.Name
+				})
+				.Where(site => ids.Contains(site.Id))
+				.ToList();
+		}
 	}
 
 	public interface ISiteRepository
@@ -122,5 +134,7 @@ namespace Hedwig.Repositories
 		OrganizationSiteDTO GetOrganizationSiteDTOById(int id);
 
 		EnrollmentSummarySiteDTO GetEnrollmentSummarySiteDTOById(int id);
+
+		List<EnrollmentSummarySiteDTO> GetEnrollmentSummarySiteDTOsByIds(IEnumerable<int> ids);
 	}
 }

@@ -30,6 +30,24 @@ namespace Hedwig.Repositories
 				})
 				.FirstOrDefault(space => space.Id == id.Value);
 		}
+
+		public List<FundingSpaceDTO> GetFundingSpaceDTOsByIds(IEnumerable<int?> ids)
+		{
+			return _context.FundingSpaces
+				.Select(fs => new FundingSpaceDTO()
+				{
+					Id = fs.Id,
+					Capacity = fs.Capacity,
+					OrganizationId = fs.OrganizationId,
+					Source = fs.Source,
+					AgeGroup = fs.AgeGroup,
+					Time = fs.Time,
+					TimeSplit = fs.TimeSplit
+				})
+				.Where(space => ids.Contains(space.Id))
+				.ToList();
+		}
+
 		public ICollection<FundingSpaceDTO> GetFundingSpaceDTOsForOrganiation(int organiationId)
 		{
 			return _context.FundingSpaces
@@ -52,6 +70,7 @@ namespace Hedwig.Repositories
 	{
 		FundingSpace GetById(int id);
 		FundingSpaceDTO GetFundingSpaceDTOById(int? id);
+		List<FundingSpaceDTO> GetFundingSpaceDTOsByIds(IEnumerable<int?> ids);
 		public ICollection<FundingSpaceDTO> GetFundingSpaceDTOsForOrganiation(int organiationId);
 	}
 }
