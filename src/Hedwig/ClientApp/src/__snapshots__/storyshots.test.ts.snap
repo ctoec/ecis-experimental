@@ -7101,7 +7101,7 @@ exports[`Storyshots SideNav Default 1`] = `
   }
 >
   <div
-    className="oec-sidenav grid-row grid-gap"
+    className="oec-sidenav grid-row"
   >
     <div
       className="mobile-lg:grid-col-4"
@@ -7168,7 +7168,7 @@ exports[`Storyshots SideNav Default 1`] = `
       </nav>
     </div>
     <div
-      className="margin-top-2 mobile-lg:grid-col-8"
+      className="mobile-lg:grid-col-8 oec-sidenav__content"
     />
   </div>
 </div>
