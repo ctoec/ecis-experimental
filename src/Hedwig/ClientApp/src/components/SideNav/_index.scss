@@ -1,6 +1,7 @@
 .oec-sidenav {
 	ul {
 		list-style-type: none;
+		padding: 0;
 	}
 
 	.oec-sidenav__item {
@@ -35,6 +36,7 @@
 		.oec-sidenav-item__title {
 			padding-bottom: 0.5rem;
 			font-weight: bold;
+			margin: 0;
 		}
 
 		.oec-inline-icon {
@@ -44,6 +46,7 @@
 		.oec-sidenav-item__desc {
 			color: color($theme-color-base);
 			line-height: 1.25em;
+			margin: 0;
 		}
 	}
 }

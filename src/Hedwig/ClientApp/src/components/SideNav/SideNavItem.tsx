@@ -10,9 +10,14 @@ type SideNavItemTitle = {
 export type SideNavItemProps = {
 	titleLink: SideNavItemTitle;
 	description: string;
-	active?: boolean;
 	icon?: Icon;
 	onClick?: () => any;
+	content: JSX.Element;
+};
+
+type InternalSideNavItemProps = SideNavItemProps & {
+	active: boolean;
+	onClick: () => any;
 };
 
 export const SideNavItem = ({
@@ -21,15 +26,16 @@ export const SideNavItem = ({
 	active,
 	onClick,
 	icon,
-}: SideNavItemProps) => {
+}: InternalSideNavItemProps) => {
 	return (
 		<li className={cx('oec-sidenav__item', { active })}>
-			<a href={titleLink.link} onClick={onClick}>
-				<div className="oec-sidenav-item__title">
-					{titleLink.text}
-					{icon && <InlineIcon icon={icon} />}
+			<a onClick={onClick}>
+				<div>
+					<p className="oec-sidenav-item__title">
+						{titleLink.text} {icon && <InlineIcon icon={icon} />}
+					</p>
+					<p className="oec-sidenav-item__desc">{description}</p>
 				</div>
-				<div className="oec-sidenav-item__desc">{description}</div>
 			</a>
 		</li>
 	);
