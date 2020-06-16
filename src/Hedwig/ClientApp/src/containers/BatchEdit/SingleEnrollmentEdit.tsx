@@ -12,7 +12,7 @@ import ChildInfo from './_sections/ChildInfo';
 import { BatchEditStepProps } from './_sections/batchEditTypes';
 import FamilyInfo from './_sections/FamilyInfo';
 import { useHistory } from 'react-router';
-import HistoryContext from '../../contexts/History/HistoryContext';
+import FamilyIncome from './_sections/FamilyIncome';
 
 
 type SingleEnrollmentEditProps = {
@@ -38,38 +38,22 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 	const history = useHistory();
 	const [mutatedEnrollment, setMutatedEnrollment] = useState<Enrollment>();
 
-	// populate mutatedEnrollment (better name: to-be-mutated-enrollment) with enrollment detail from API
+	// populate mutatedEnrollment (better name: to-be-mutated-enrollment) with enrollment detail from backend
 	const {data: enrollmentDetail } = useApi<Enrollment>(
 		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
 		{
 			successCallback: (returnedEnrollment) => {
-				setMutatedEnrollment(returnedEnrollment);
+				setMutatedEnrollment(returnedEnrollment.child?.family 
+					? returnedEnrollment 
+					: enrollmentWithDefaultFamily(returnedEnrollment, orgId)
+				);
 			},
 			skip: !user,
 			deps: [enrollmentId],
 		}
 	);
 
-	console.log("mutated enrollment", mutatedEnrollment);
-	console.log("enrollment id", enrollmentId);
 
-	// Set up PUT request, to be triggered by steplist forms
-	const [attemptingSave, setAttemptingSave] = useState(false);
-	const { data: returnedEnrollment, loading: isSaving, error: errorOnSave } = useApi<Enrollment>(
-		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut({
-			...params,
-			enrollment: mutatedEnrollment
-		}),
-		{
-			skip: !user || !attemptingSave,
-			callback: () => setAttemptingSave(false),
-			successCallback: (returnedEnrollment) => {
-				setAttemptingSave(false);
-				setMutatedEnrollment(returnedEnrollment);
-				moveNextStep();
-			}
-		}
-	)
 	
 	// Create steps for step list, based on state of missing/needed information
 	// in the fetched enrollment
@@ -80,8 +64,11 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 	if(hasValidationErrors(enrollmentDetail?.child?.family, undefined, true)) {
 		steps.push(FamilyInfo);
 	}
+	if(hasValidationErrors(enrollmentDetail?.child?.family, ['determinations'])) {
+		steps.push(FamilyIncome);
+	}
 
-	// set up url path for initial step
+	// Set url path for initial step
 	const firstStep = steps.length ? steps[0].key : 'complete';
 	useEffect(() => {
 		let path = '';
@@ -109,6 +96,23 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 		history.push(`#${steps[currentIndex + 1].key}`);
 	}
 
+	// Set up PUT request, to be triggered by steplist forms
+	const [attemptingSave, setAttemptingSave] = useState(false);
+	const { error: errorOnSave } = useApi<Enrollment>(
+		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut({
+			...params,
+			enrollment: mutatedEnrollment
+		}),
+		{
+			skip: !user || !attemptingSave,
+			callback: () => setAttemptingSave(false),
+			successCallback: (returnedEnrollment) => {
+				setAttemptingSave(false);
+				setMutatedEnrollment(returnedEnrollment);
+				moveNextStep();
+			}
+		}
+	)
 
 	if(!mutatedEnrollment) {
 		return <></>;
@@ -124,6 +128,7 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 		onSkip: moveNextStep,
 	};
 
+	console.log("steps", steps);
 	return (
 		<>
 			<div className="grid-row flex-first-baseline flex-space-between padding-x-2 padding-bottom-3">

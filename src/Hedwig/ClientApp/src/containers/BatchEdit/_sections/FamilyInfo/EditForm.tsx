@@ -5,6 +5,7 @@ import { Form, FormSubmitButton } from '../../../../components/Form_New';
 import { hasValidationErrors } from '../../../../utils/validations';
 import { AddressFieldset } from '../../../Enrollment/_sections/FamilyInfo/Fields';
 import { Button } from '../../../../components';
+import useCatchAllErrorAlert from '../../../../hooks/useCatchAllErrorAlert';
 
 export const EditForm: React.FC<BatchEditStepProps> = ({
 	enrollment,
@@ -16,8 +17,8 @@ export const EditForm: React.FC<BatchEditStepProps> = ({
 		throw new Error("Section rendered without enrollment");
 	}
 
-	console.log("enrollment", enrollment);
-
+	useCatchAllErrorAlert(error);
+	
 	// Family will always exist (because we create it if missing in SingleEnrollmentEdit)
 	const family = enrollment.child?.family;
 	return (
