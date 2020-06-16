@@ -18,10 +18,27 @@ namespace Hedwig.Repositories
 				.Where(fd => fd.FamilyId == familyId)
 				.ToList();
 		}
+
+		public List<EnrollmentFamilyDeterminationDTO> GetEnrollmentFamilyDeterminationDTOsByFamilyId(int familyId)
+		{
+			return _context.FamilyDeterminations
+				.Where(fd => fd.FamilyId == familyId)
+				.Select(fd => new EnrollmentFamilyDeterminationDTO() {
+					Id = fd.Id,
+					NumberOfPeople = fd.NumberOfPeople,
+					Income = fd.Income,
+					DeterminationDate = fd.DeterminationDate,
+					FamilyId = fd.FamilyId,
+					ValidationErrors = fd.ValidationErrors,
+				})
+				.ToList();
+		}
 	}
 
 	public interface IFamilyDeterminationRepository
 	{
 		List<FamilyDetermination> GetDeterminationsByFamilyId(int familyId);
+
+		List<EnrollmentFamilyDeterminationDTO> GetEnrollmentFamilyDeterminationDTOsByFamilyId(int familyId);
 	}
 }

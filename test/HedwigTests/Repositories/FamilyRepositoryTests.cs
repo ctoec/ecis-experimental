@@ -16,8 +16,10 @@ namespace HedwigTests.Repositories
 
 				var familyRepo = new FamilyRepository(context);
 				var res = familyRepo.GetFamilyById(family.Id);
+				var resDTO = familyRepo.GetEnrollmentFamilyDTOById(family.Id);
 
 				Assert.Equal(family.Id, res.Id);
+				Assert.Equal(family.Id, resDTO.Id);
 			}
 		}
 	}

@@ -10,7 +10,6 @@ namespace Hedwig.Repositories
 {
 	public class SiteRepository : HedwigRepository, ISiteRepository
 	{
-
 		public SiteRepository(HedwigContext context) : base(context) { }
 
 		public Task<List<Site>> GetSitesForOrganizationAsync(int organizationId)
@@ -20,6 +19,30 @@ namespace Hedwig.Repositories
 				.ToListAsync();
 		}
 
+		public async Task<List<EnrollmentSummarySiteDTO>> GetEnrollmentSummarySiteDTOsForOrganizationAsync(int organizationId)
+		{
+			return await _context.Sites
+				.Where(s => s.OrganizationId == organizationId)
+				.Select(s => new EnrollmentSummarySiteDTO()
+				{
+					Id = s.Id,
+					Name = s.Name
+				})
+				.ToListAsync();
+		}
+
+		public List<EnrollmentSummarySiteDTO> GetEnrollmentSummarySiteDTOsForOrganization(int organizationId)
+		{
+			return _context.Sites
+				.Where(s => s.OrganizationId == organizationId)
+				.Select(s => new EnrollmentSummarySiteDTO()
+				{
+					Id = s.Id,
+					Name = s.Name
+				})
+				.ToList();
+		}
+		
 		public Task<Site> GetSiteForOrganizationAsync(int id, int organizationId)
 		{
 			var site = _context.Sites
@@ -54,13 +77,50 @@ namespace Hedwig.Repositories
 		{
 			return _context.Sites.FirstOrDefault(site => site.Id == id);
 		}
+
+		public OrganizationSiteDTO GetOrganizationSiteDTOById(int id)
+		{
+			return _context.Sites
+				.Select(s => new OrganizationSiteDTO()
+				{
+					Id = s.Id,
+					Name = s.Name,
+					TitleI = s.TitleI,
+					Region = s.Region,
+					OrganizationId = s.OrganizationId,
+					FacilityCode = s.FacilityCode,
+					LicenseNumber = s.LicenseNumber,
+					NaeycId = s.NaeycId,
+					RegistryId = s.RegistryId,
+				})
+				.FirstOrDefault(site => site.Id == id);
+		}
+
+		public EnrollmentSummarySiteDTO GetEnrollmentSummarySiteDTOById(int id)
+		{
+			return _context.Sites
+				.Select(s => new EnrollmentSummarySiteDTO() {
+					Id = s.Id,
+					Name = s.Name
+				})
+				.FirstOrDefault(site => site.Id == id);
+		}
 	}
 
 	public interface ISiteRepository
 	{
 		Task<List<Site>> GetSitesForOrganizationAsync(int organizationId);
+
+		Task<List<EnrollmentSummarySiteDTO>> GetEnrollmentSummarySiteDTOsForOrganizationAsync(int organizationId);
+
+		List<EnrollmentSummarySiteDTO> GetEnrollmentSummarySiteDTOsForOrganization(int organizationId);
+
 		Task<Site> GetSiteForOrganizationAsync(int id, int organizationId);
 
 		Site GetSiteById(int id);
+
+		OrganizationSiteDTO GetOrganizationSiteDTOById(int id);
+
+		EnrollmentSummarySiteDTO GetEnrollmentSummarySiteDTOById(int id);
 	}
 }

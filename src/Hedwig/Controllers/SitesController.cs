@@ -28,9 +28,9 @@ namespace Hedwig.Controllers
 		[HttpGet]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
-		public async Task<ActionResult<List<Site>>> Get(int orgId)
+		public async Task<ActionResult<List<EnrollmentSummarySiteDTO>>> Get(int orgId)
 		{
-			var sites = await _sites.GetSitesForOrganizationAsync(orgId);
+			var sites = await _sites.GetEnrollmentSummarySiteDTOsForOrganizationAsync(orgId);
 			return Ok(sites);
 		}
 

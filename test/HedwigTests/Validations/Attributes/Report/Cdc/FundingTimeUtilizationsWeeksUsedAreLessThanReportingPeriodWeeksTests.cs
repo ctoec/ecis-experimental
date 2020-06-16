@@ -56,11 +56,14 @@ namespace HedwigTests.Validations.Attributes
 			});
 
 			var organizations = new Mock<IOrganizationRepository>();
+			organizations.Setup(o => o.GetOrganizationById(It.IsAny<int>()))
+			 .Returns(organization);
+
 			var _mapper = new Mock<IMapper>();
 			_mapper.Setup(m => m.Map<Organization, EnrollmentSummaryOrganizationDTO>(It.IsAny<Organization>()))
 				.Returns(It.IsAny<EnrollmentSummaryOrganizationDTO>());
-			organizations.Setup(o => o.GetOrganizationById(It.IsAny<int>()))
-			.Returns(_mapper.Object.Map<EnrollmentSummaryOrganizationDTO>(organization));
+			organizations.Setup(o => o.GetEnrollmentSummaryOrganizationDTOById(It.IsAny<int>()))
+			 .Returns(_mapper.Object.Map<EnrollmentSummaryOrganizationDTO>(organization));
 
 			var serviceProvider = new Mock<IServiceProvider>();
 			serviceProvider.Setup(v => v.GetService(typeof(IOrganizationRepository)))
@@ -143,14 +146,17 @@ namespace HedwigTests.Validations.Attributes
 
 			var organizations = new Mock<IOrganizationRepository>();
 			var _mapper = new Mock<IMapper>();
+			organizations.Setup(o => o.GetOrganizationById(It.IsAny<int>()))
+			  .Returns(organization);
+
 			_mapper.Setup(m => m.Map<Organization, EnrollmentSummaryOrganizationDTO>(It.IsAny<Organization>()))
 				.Returns(It.IsAny<EnrollmentSummaryOrganizationDTO>());
-			organizations.Setup(o => o.GetOrganizationById(It.IsAny<int>()))
-			.Returns(_mapper.Object.Map<EnrollmentSummaryOrganizationDTO>(organization));
+			organizations.Setup(o => o.GetEnrollmentSummaryOrganizationDTOById(It.IsAny<int>()))
+			  .Returns(_mapper.Object.Map<EnrollmentSummaryOrganizationDTO>(organization));
 
 			var serviceProvider = new Mock<IServiceProvider>();
 			serviceProvider.Setup(v => v.GetService(typeof(IOrganizationRepository)))
-			.Returns(organizations.Object);
+			  .Returns(organizations.Object);
 
 			var validationContext = new ValidationContext(report, serviceProvider.Object, new Dictionary<object, object>());
 			var attribute = new FundingTimeUtilizationsWeeksUsedAreLessThanReportingPeriodWeeks();

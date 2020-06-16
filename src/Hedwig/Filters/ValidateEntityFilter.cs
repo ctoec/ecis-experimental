@@ -57,11 +57,11 @@ namespace Hedwig.Filters
 		/// <param name="entity"></param>
 		private void ValidateEntity(object entity)
 		{
-			if (entity.GetType().IsGenericEnumerable())
+			if (entity is IEnumerable<INonBlockingValidatableObject>)
 			{
 				_validator.Validate(entity as IEnumerable<INonBlockingValidatableObject>);
 			}
-			else
+			else if(entity is INonBlockingValidatableObject)
 			{
 				_validator.Validate(entity as INonBlockingValidatableObject);
 			}

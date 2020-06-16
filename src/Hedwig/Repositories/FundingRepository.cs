@@ -9,8 +9,11 @@ namespace Hedwig.Repositories
 {
 	public class FundingRepository : HedwigRepository, IFundingRepository
 	{
+		IFundingSpaceRepository _fundingSpaceRepository;
 
-		public FundingRepository(HedwigContext context) : base(context) { }
+		public FundingRepository(HedwigContext context) : base(context) {
+			_fundingSpaceRepository = new FundingSpaceRepository(context);
+		}
 
 		public List<Funding> GetFundingsByEnrollmentId(int enrollmentId)
 		{
@@ -18,6 +21,27 @@ namespace Hedwig.Repositories
 				.Where(f => f.EnrollmentId == enrollmentId)
 				.Include(f => f.FirstReportingPeriod)
 				.Include(f => f.LastReportingPeriod)
+				.ToList();
+		}
+
+		public List<FundingDTO> GetFundingDTOsByEnrollmentId(int enrollmentId)
+		{
+			return _context.Fundings
+				.Where(f => f.EnrollmentId == enrollmentId)
+				.Include(f => f.FirstReportingPeriod)
+				.Include(f => f.LastReportingPeriod)
+				.Select(fDTO => new FundingDTO() {
+					Id = fDTO.Id,
+					EnrollmentId = fDTO.EnrollmentId,
+					FundingSpaceId = fDTO.FundingSpaceId,
+					FundingSpace = _fundingSpaceRepository.GetFundingSpaceDTOById(fDTO.FundingSpaceId),
+					Source = fDTO.Source,
+					FirstReportingPeriodId = fDTO.FirstReportingPeriodId,
+					FirstReportingPeriod = fDTO.FirstReportingPeriod,
+					LastReportingPeriodId = fDTO.LastReportingPeriodId,
+					LastReportingPeriod = fDTO.LastReportingPeriod,
+					ValidationErrors = fDTO.ValidationErrors,
+				})
 				.ToList();
 		}
 
@@ -35,6 +59,7 @@ namespace Hedwig.Repositories
 	public interface IFundingRepository : IHedwigRepository
 	{
 		List<Funding> GetFundingsByEnrollmentId(int enrollmentId);
+		List<FundingDTO> GetFundingDTOsByEnrollmentId(int enrollmentId);
 		List<Funding> GetFundingsByChildId(Guid childId);
 	}
 }

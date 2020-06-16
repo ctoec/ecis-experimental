@@ -26,6 +26,7 @@ namespace HedwigTests.Controllers
 			await controller.Get(1, siteId);
 
 			_enrollments.Verify(e => e.GetEnrollmentsForSiteAsync(siteId, null, null, 0, null), Times.Once());
+			_enrollments.Verify(e => e.GetEnrollmentSummaryDTOsForSiteAsync(siteId, null, null, 0, null), Times.Once());
 		}
 
 		[Fact]

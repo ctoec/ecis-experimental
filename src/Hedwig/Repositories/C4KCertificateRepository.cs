@@ -17,10 +17,26 @@ namespace Hedwig.Repositories
 				.Where(c => c.ChildId == childId)
 				.ToList();
 		}
+
+		public List<C4KCertificateDTO> GetC4KCertificateDTOsByChildId(Guid childId)
+		{
+			return _context.C4KCertificates
+				.Where(c => c.ChildId == childId)
+				.Select(c4kcDTO => new C4KCertificateDTO()
+				{
+					Id = c4kcDTO.Id,
+					ChildId = c4kcDTO.ChildId,
+					StartDate = c4kcDTO.StartDate,
+					EndDate = c4kcDTO.EndDate,
+					ValidationErrors = c4kcDTO.ValidationErrors
+				})
+				.ToList();
+		}
 	}
 
 	public interface IC4KCertificateRepository : IHedwigRepository
 	{
 		List<C4KCertificate> GetC4KCertificatesByChildId(Guid childId);
+		List<C4KCertificateDTO> GetC4KCertificateDTOsByChildId(Guid childId);
 	}
 }

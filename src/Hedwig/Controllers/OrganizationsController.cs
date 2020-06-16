@@ -27,11 +27,11 @@ namespace Hedwig.Controllers
 		[DTOProjectionFilter(typeof(EnrollmentSummaryOrganizationDTO), Order = 2)]
 		public ActionResult<EnrollmentSummaryOrganizationDTO> Get(int id)
 		{
-			var organization = _organizations.GetOrganizationById(id);
+			var organization = _organizations.GetEnrollmentSummaryOrganizationDTOById(id);
 
 			if (organization == null) return NotFound();
 
-			return Ok(_mapper.Map<EnrollmentSummaryOrganizationDTO>(organization));
+			return Ok(organization);
 		}
 	}
 }

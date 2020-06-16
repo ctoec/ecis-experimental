@@ -11,7 +11,15 @@ namespace Hedwig.Repositories
 {
 	public class EnrollmentRepository : HedwigRepository, IEnrollmentRepository
 	{
-		public EnrollmentRepository(HedwigContext context) : base(context) { }
+		IChildRepository _childRepository;
+		IFundingRepository _fundingRepository;
+		ISiteRepository _siteRepository;
+
+		public EnrollmentRepository(HedwigContext context) : base(context) {
+			_childRepository = new ChildRepository(context);
+			_fundingRepository = new FundingRepository(context);
+			_siteRepository = new SiteRepository(context);
+		}
 
 		public Enrollment GetEnrollmentById(int id)
 		{
@@ -31,7 +39,7 @@ namespace Hedwig.Repositories
 			_context.Add(enrollment);
 		}
 
-		public Task<List<Enrollment>> GetEnrollmentsForSiteAsync(
+		public async Task<List<Enrollment>> GetEnrollmentsForSiteAsync(
 			int siteId,
 			DateTime? from = null,
 			DateTime? to = null,
@@ -41,28 +49,67 @@ namespace Hedwig.Repositories
 		{
 			var enrollments = _context.Enrollments
 				.FilterByDates(from, to)
-				.Where(e => e.SiteId == siteId);
-
-			enrollments = enrollments.IncludeFundingsSitesAndChild();
-
-			enrollments = enrollments.Skip(skip);
+				.Where(e => e.SiteId == siteId)
+				.Include(e => e.Fundings)
+					.ThenInclude(f => f.FundingSpace)
+						.ThenInclude(fs => fs.TimeSplit)
+				.Include(e => e.Fundings)
+					.ThenInclude(f => f.FirstReportingPeriod)
+				.Include(e => e.Fundings)
+					.ThenInclude(f => f.LastReportingPeriod)
+				.Include(e => e.Child)
+					.ThenInclude(c => c.C4KCertificates)
+				.Include(e => e.Site)
+				.Include(e => e.Child)
+				.Skip(skip);
 			if (take.HasValue)
 			{
 				enrollments = enrollments.Take(take.Value);
 			}
-			return enrollments.OrderBy(e => e.Id).ToListAsync();
+			return await enrollments.OrderBy(e => e.Id).ToListAsync();
 		}
 
-		public Task<Enrollment> GetEnrollmentForSiteAsync(int id, int siteId)
+		public async Task<List<EnrollmentSummaryDTO>> GetEnrollmentSummaryDTOsForSiteAsync(
+			int siteId,
+			DateTime? from = null,
+			DateTime? to = null,
+			int skip = 0,
+			int? take = null
+		)
 		{
-			var enrollmentQuery = _context.Enrollments
-				.Where(e => e.SiteId == siteId && e.Id == id);
+			var enrollments = _context.Enrollments
+				.FilterByDates(from, to)
+				.Where(e => e.SiteId == siteId)
+				.Skip(skip);
+			if (take.HasValue)
+			{
+				enrollments = enrollments.Take(take.Value);
+			}
+			return await enrollments.OrderBy(e => e.Id)
+				.SelectEnrollmentSummaryDTO(_childRepository, _fundingRepository, _siteRepository)
+				.ToListAsync();
 
-			enrollmentQuery = enrollmentQuery.Include(e => e.Author);
-			enrollmentQuery = enrollmentQuery.IncludeFundingsSitesAndChild();
-			enrollmentQuery = enrollmentQuery.IncludeFamilyAndDeterminations();
+		}
 
-			var enrollment = enrollmentQuery.FirstOrDefault();
+		public async Task<Enrollment> GetEnrollmentForSiteAsync(int id, int siteId)
+		{
+			var enrollment = _context.Enrollments
+				.Where(e => e.SiteId == siteId && e.Id == id)
+				.Include(e => e.Author)
+				.Include(e => e.Fundings)
+					.ThenInclude(f => f.FundingSpace)
+						.ThenInclude(fs => fs.TimeSplit)
+				.Include(e => e.Fundings)
+					.ThenInclude(f => f.FirstReportingPeriod)
+				.Include(e => e.Fundings)
+					.ThenInclude(f => f.LastReportingPeriod)
+				.Include(e => e.Child)
+					.ThenInclude(c => c.C4KCertificates)
+				.Include(e => e.Site)
+				.Include(e => e.Child)
+					.ThenInclude(c => c.Family)
+						.ThenInclude(f => f.Determinations)
+				.FirstOrDefault();
 
 			// handle special include of un-mapped properties
 			if (enrollment != null)
@@ -86,10 +133,18 @@ namespace Hedwig.Repositories
 				enrollment.PastEnrollments = pastEnrollments;
 			}
 
-			return Task.FromResult(enrollment);
+			return await Task.FromResult(enrollment);
 		}
 
-		public async Task<List<Enrollment>> GetEnrollmentsForOrganizationAsync(
+		public async Task<EnrollmentDTO> GetEnrollmentDTOForSiteAsync(int id, int siteId)
+		{
+			return await Task.FromResult(_context.Enrollments
+				.Where(e => e.SiteId == siteId && e.Id == id)
+				.SelectEnrollmentDTO(_childRepository, _fundingRepository, _siteRepository)
+				.FirstOrDefault());
+		}
+
+		public async Task<List<EnrollmentSummaryDTO>> GetEnrollmentSummaryDTOsForOrganizationAsync(
 			int orgId,
 			DateTime? from = null,
 			DateTime? to = null,
@@ -101,16 +156,16 @@ namespace Hedwig.Repositories
 			var enrollments =
 				(asOf != null ? _context.Enrollments.AsOf((DateTime)asOf) : _context.Enrollments)
 				.FilterByDates(from, to)
-				.Where(e => e.Site.OrganizationId == orgId);
-
-			enrollments = enrollments.IncludeFundingsSitesAndChild();
-
-			enrollments = enrollments.Skip(skip);
+				.Where(e => e.Site.OrganizationId == orgId)
+				.Skip(skip);
 			if (take.HasValue)
 			{
 				enrollments = enrollments.Take(take.Value);
 			}
-			return await enrollments.OrderBy(e => e.Id).ToListAsync();
+			return await enrollments
+				.SelectEnrollmentSummaryDTO(_childRepository, _fundingRepository, _siteRepository)
+				.OrderBy(e => e.Id)
+				.ToListAsync();
 		}
 
 		public void DeleteEnrollment(Enrollment enrollment)
@@ -124,8 +179,10 @@ namespace Hedwig.Repositories
 		void UpdateEnrollment(Enrollment enrollment, EnrollmentDTO enrollmentDTO);
 		void AddEnrollment(Enrollment enrollment);
 		Task<List<Enrollment>> GetEnrollmentsForSiteAsync(int siteId, DateTime? from = null, DateTime? to = null, int skip = 0, int? take = null);
+		Task<List<EnrollmentSummaryDTO>> GetEnrollmentSummaryDTOsForSiteAsync(int siteId, DateTime? from = null, DateTime? to = null, int skip = 0, int? take = null);
 		Task<Enrollment> GetEnrollmentForSiteAsync(int id, int siteId);
-		Task<List<Enrollment>> GetEnrollmentsForOrganizationAsync(int orgId, DateTime? from = null, DateTime? to = null, DateTime? asOf = null, int skip = 0, int? take = null);
+		Task<EnrollmentDTO> GetEnrollmentDTOForSiteAsync(int id, int siteId);
+		Task<List<EnrollmentSummaryDTO>> GetEnrollmentSummaryDTOsForOrganizationAsync(int orgId, DateTime? from = null, DateTime? to = null, DateTime? asOf = null, int skip = 0, int? take = null);
 		Enrollment GetEnrollmentById(int id);
 
 		void DeleteEnrollment(Enrollment enrollment);
@@ -149,33 +206,49 @@ namespace Hedwig.Repositories
 			return query;
 		}
 
-		public static IQueryable<Enrollment> IncludeFundingsSitesAndChild(this IQueryable<Enrollment> query)
+		public static IQueryable<EnrollmentSummaryDTO> SelectEnrollmentSummaryDTO(
+			this IQueryable<Enrollment> query,
+			IChildRepository childRepository,
+			IFundingRepository fundingRepository,
+			ISiteRepository siteRepository
+		)
 		{
-			query = query.Include(e => e.Fundings)
-					.ThenInclude(f => f.FundingSpace)
-						.ThenInclude(fs => fs.TimeSplit)
-				.Include(e => e.Fundings)
-					.ThenInclude(f => f.FirstReportingPeriod)
-				.Include(e => e.Fundings)
-					.ThenInclude(f => f.LastReportingPeriod)
-				.Include(e => e.Child)
-					.ThenInclude(c => c.C4KCertificates);
-
-			query = query.Include(e => e.Site);
-
-			query = query.Include(e => e.Child);
-
-
-			return query;
+			return query.Select(e => new EnrollmentSummaryDTO()
+			{
+				Id = e.Id,
+				ChildId = e.ChildId,
+				Child = childRepository.GetEnrollmentSummaryChildDTOById(e.ChildId),
+				SiteId = e.SiteId,
+				Site = siteRepository.GetEnrollmentSummarySiteDTOById(e.SiteId),
+				AgeGroup = e.AgeGroup,
+				Entry = e.Entry,
+				Exit = e.Exit,
+				ExitReason = e.ExitReason,
+				Fundings = fundingRepository.GetFundingDTOsByEnrollmentId(e.Id),
+				ValidationErrors = e.ValidationErrors,
+			});
 		}
-
-		public static IQueryable<Enrollment> IncludeFamilyAndDeterminations(this IQueryable<Enrollment> query)
+		public static IQueryable<EnrollmentDTO> SelectEnrollmentDTO(
+			this IQueryable<Enrollment> query,
+			IChildRepository childRepository,
+			IFundingRepository fundingRepository,
+			ISiteRepository siteRepository
+		)
 		{
-			query = ((IIncludableQueryable<Enrollment, Child>)query).ThenInclude(c => c.Family);
-
-			query = ((IIncludableQueryable<Enrollment, Family>)query).ThenInclude(f => f.Determinations);
-
-			return query;
+			return query.Select(e => new EnrollmentDTO()
+			{
+				Id = e.Id,
+				ChildId = e.ChildId,
+				Child = childRepository.GetEnrollmentChildDTOById(e.ChildId),
+				SiteId = e.SiteId,
+				Site = siteRepository.GetOrganizationSiteDTOById(e.SiteId),
+				AgeGroup = e.AgeGroup,
+				Entry = e.Entry,
+				Exit = e.Exit,
+				ExitReason = e.ExitReason,
+				Fundings = fundingRepository.GetFundingDTOsByEnrollmentId(e.Id),
+				ValidationErrors = e.ValidationErrors,
+			});
 		}
 	}
 }

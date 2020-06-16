@@ -10,17 +10,36 @@ namespace Hedwig.Repositories
 {
 	public class OrganizationRepository : HedwigRepository, IOrganizationRepository
 	{
+		IFundingSpaceRepository _fundingSpaceRepository;
+		ISiteRepository _siteRepository;
 
-		public OrganizationRepository(HedwigContext context) : base(context) { }
-		public EnrollmentSummaryOrganizationDTO GetOrganizationById(int id)
+		public OrganizationRepository(HedwigContext context)
+			: base(context) {
+			this._fundingSpaceRepository = new FundingSpaceRepository(context);
+			this._siteRepository = new SiteRepository(context);
+		}
+
+		public Organization GetOrganizationById(int id)
 		{
 			return _context.Organizations
 				.Where(o => o.Id == id)
-			  .Include(o => o.FundingSpaces)
+				.Include(o => o.FundingSpaces)
 				.ThenInclude(fs => fs.TimeSplit)
 				.Include(o => o.Sites)
 				.ThenInclude(s => s.Enrollments)
-        .Select(o => new EnrollmentSummaryOrganizationDTO()).FirstOrDefault();
+				.FirstOrDefault();
+		}
+
+		public EnrollmentSummaryOrganizationDTO GetEnrollmentSummaryOrganizationDTOById(int id)
+		{
+			return _context.Organizations
+				.Select(o => new EnrollmentSummaryOrganizationDTO() {
+					Id = o.Id,
+					Name = o.Name,
+					Sites = _siteRepository.GetEnrollmentSummarySiteDTOsForOrganization(o.Id),
+					FundingSpaces = _fundingSpaceRepository.GetFundingSpaceDTOsForOrganiation(o.Id)
+				})
+				.SingleOrDefault(o => o.Id == id);
 		}
 
 		public List<Organization> GetOrganizationsWithFundingSpaces(FundingSource source)
@@ -34,7 +53,10 @@ namespace Hedwig.Repositories
 
 	public interface IOrganizationRepository : IHedwigRepository
 	{
-		EnrollmentSummaryOrganizationDTO GetOrganizationById(int id);
+		Organization GetOrganizationById(int id);
+
+		EnrollmentSummaryOrganizationDTO GetEnrollmentSummaryOrganizationDTOById(int id);
+
 		List<Organization> GetOrganizationsWithFundingSpaces(FundingSource source);
 	}
 }

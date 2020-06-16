@@ -52,11 +52,11 @@ namespace Hedwig.Controllers
 			[FromQuery(Name = "take")] int? take = null
 		)
 		{
-			var enrollments = new List<Enrollment>();
+			var enrollments = new List<EnrollmentSummaryDTO>();
 			if (siteIds.Length > 0)
 			// Only get enrollments in the given sites (that are in the given organization)
 			{
-				var orgSites = await _sites.GetSitesForOrganizationAsync(orgId);
+				var orgSites = await _sites.GetEnrollmentSummarySiteDTOsForOrganizationAsync(orgId);
 				var allSitesInOrg = siteIds.All(siteId => orgSites.Select(site => site.Id).Contains(siteId));
 				if (!allSitesInOrg)
 				{
@@ -65,17 +65,17 @@ namespace Hedwig.Controllers
 
 				foreach (var siteId in siteIds)
 				{
-					var siteEnrollments = await _enrollments.GetEnrollmentsForSiteAsync(siteId, from, to, skip, take);
+					var siteEnrollments = await _enrollments.GetEnrollmentSummaryDTOsForSiteAsync(siteId, from, to, skip, take);
 					enrollments.AddRange(siteEnrollments);
 				}
 			}
 			else
 			// If no sites are specified, get all enrollments for the organization
 			{
-				enrollments = await _enrollments.GetEnrollmentsForOrganizationAsync(orgId, from, to, asOf, skip, take);
+				enrollments = await _enrollments.GetEnrollmentSummaryDTOsForOrganizationAsync(orgId, from, to, asOf, skip, take);
 			}
 
-			return Ok(_mapper.Map<EnrollmentSummaryDTO>(enrollments));
+			return Ok(enrollments);
 		}
 
 		// GET api/organizations/1/sites/1/enrollments
@@ -84,7 +84,7 @@ namespace Hedwig.Controllers
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ValidateEntityFilterAttribute(Order = 1)]
 		[DTOProjectionFilter(typeof(List<EnrollmentSummaryDTO>), Order = 2)]
-		public async Task<ActionResult<List<Enrollment>>> Get(
+		public async Task<ActionResult<List<EnrollmentSummaryDTO>>> Get(
 			int orgId,
 			int siteId,
 			[FromQuery(Name = "startDate")] DateTime? from = null,
@@ -93,7 +93,7 @@ namespace Hedwig.Controllers
 			[FromQuery(Name = "take")] int? take = null
 		)
 		{
-			var enrollments = await _enrollments.GetEnrollmentsForSiteAsync(siteId, from, to, skip, take);
+			var enrollments = await _enrollments.GetEnrollmentSummaryDTOsForSiteAsync(siteId, from, to, skip, take);
 			return enrollments;
 		}
 
@@ -103,14 +103,14 @@ namespace Hedwig.Controllers
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ValidateEntityFilterAttribute(Order = 1)]
 		[DTOProjectionFilter(typeof(EnrollmentDTO), Order = 2)]
-		public async Task<ActionResult<Enrollment>> Get(
+		public async Task<ActionResult<EnrollmentDTO>> Get(
 			int id,
 			int orgId,
 			int siteId
 		)
 		{
 
-			var enrollment = await _enrollments.GetEnrollmentForSiteAsync(id, siteId);
+			var enrollment = await _enrollments.GetEnrollmentDTOForSiteAsync(id, siteId);
 			if (enrollment == null) return NotFound();
 
 			return enrollment;

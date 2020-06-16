@@ -219,15 +219,8 @@ namespace HedwigTests.Repositories
 			}
 		}
 
-		[Theory]
-		[InlineData(true, true, false, false)]
-
-		public async Task GetEnrollmentsForSite_ReturnsEnrollmentsWithSiteId_IncludesEntities(
-			bool includeFundings,
-			bool includeChildren,
-			bool includeFamilies,
-			bool includeDeterminations
-		)
+		[Fact]
+		public async Task GetEnrollmentsForSite_ReturnsEnrollmentsWithSiteId_IncludesEntities()
 		{
 			int[] ids;
 			int siteId;
@@ -245,23 +238,21 @@ namespace HedwigTests.Repositories
 				var res = await enrollmentRepo.GetEnrollmentsForSiteAsync(siteId);
 
 				Assert.Equal(ids.OrderBy(id => id), res.Select(e => e.Id).OrderBy(id => id));
-				Assert.Equal(includeFundings, res.TrueForAll(e => e.Fundings != null));
-				Assert.Equal(includeChildren, res.TrueForAll(e => e.Child != null));
-				Assert.Equal(includeFamilies, res.TrueForAll(e => e.Child != null && e.Child.Family != null));
-				Assert.Equal(includeDeterminations, res.TrueForAll(e => e.Child != null && e.Child.Family != null && e.Child.Family.Determinations != null));
+				Assert.True(res.TrueForAll(e => e.Fundings != null));
+				Assert.True(res.TrueForAll(e => e.Child != null));
+				Assert.True(res.TrueForAll(e => e.Child != null && e.Child.Family != null));
+				Assert.True(res.TrueForAll(e => e.Child != null && e.Child.Family != null && e.Child.Family.Determinations != null));
+
+				var resDTO = await enrollmentRepo.GetEnrollmentSummaryDTOsForSiteAsync(siteId);
+
+				Assert.Equal(ids.OrderBy(id => id), resDTO.Select(e => e.Id).OrderBy(id => id));
+				Assert.True(resDTO.TrueForAll(e => e.Fundings != null));
+				Assert.True(resDTO.TrueForAll(e => e.Child != null));
 			}
 		}
 
-		[Theory]
-		[InlineData(true, true, true, true, true)]
-
-		public async Task GetEnrollmentForSite_ReturnsEnrollmentWithIdAndSiteId_IncludesEntities(
-			bool includeFundings,
-			bool includeChild,
-			bool includeFamily,
-			bool includeDeterminations,
-			bool includePastEnrollments
-			)
+		[Fact]
+		public async Task GetEnrollmentForSite_ReturnsEnrollmentWithIdAndSiteId_IncludesEntities()
 		{
 			int id;
 			int siteId;
@@ -279,11 +270,19 @@ namespace HedwigTests.Repositories
 				var res = await enrollmentRepo.GetEnrollmentForSiteAsync(id, siteId);
 
 				Assert.Equal(id, res.Id);
-				Assert.Equal(includeFundings, res.Fundings != null);
-				Assert.Equal(includeChild, res.Child != null);
-				Assert.Equal(includeFamily, res.Child != null && res.Child.Family != null);
-				Assert.Equal(includeDeterminations, res.Child != null && res.Child.Family != null && res.Child.Family.Determinations != null);
-				Assert.Equal(includePastEnrollments, res.PastEnrollments != null);
+				Assert.True(res.Fundings != null);
+				Assert.True(res.Child != null);
+				Assert.True(res.Child != null && res.Child.Family != null);
+				Assert.True(res.Child != null && res.Child.Family != null && res.Child.Family.Determinations != null);
+				Assert.True(res.PastEnrollments != null);
+
+				var resDTO = await enrollmentRepo.GetEnrollmentDTOForSiteAsync(id, siteId);
+
+				Assert.Equal(id, resDTO.Id);
+				Assert.True(resDTO.Fundings != null);
+				Assert.True(resDTO.Child != null);
+				Assert.True(resDTO.Child != null && res.Child.Family != null);
+				Assert.True(resDTO.Child != null && res.Child.Family != null && res.Child.Family.Determinations != null);
 			}
 		}
 
@@ -326,6 +325,17 @@ namespace HedwigTests.Repositories
 
 				// then
 				Assert.Equal(included, resultIds.Contains(enrollment.Id));
+
+				var resultDTO = await enrollmentRepo.GetEnrollmentSummaryDTOsForSiteAsync(
+					enrollment.SiteId,
+					DateTime.Parse(from),
+					DateTime.Parse(to)
+				);
+				var resultDTOIds = result.Select(e => e.Id);
+
+				// then
+				Assert.Equal(included, resultDTOIds.Contains(enrollment.Id));
+
 			}
 		}
 	}
