@@ -140,7 +140,7 @@ exports[`EnrollmentUpdate FamilyIncome matches snapshot 1`] = `
                   </span>
                 </legend>
                 <div
-                  class="grid-gap grid-col"
+                  class="grid-gap grid-row flex-align-start"
                 >
                   <div>
                     <div
@@ -1543,7 +1543,7 @@ exports[`EnrollmentUpdate FamilyIncome matches snapshot 1`] = `
                   </span>
                 </legend>
                 <div
-                  class="grid-gap grid-col"
+                  class="grid-gap grid-row flex-align-start"
                 >
                   <div>
                     <div
@@ -4155,7 +4155,7 @@ exports[`EnrollmentUpdate enrollment and funding matches snapshot 1`] = `
             </span>
           </legend>
           <div
-            class="grid-gap margin-top-3 grid-col"
+            class="grid-gap margin-top-3 grid-row flex-align-start"
           >
             <div
               class=""
@@ -4233,7 +4233,7 @@ exports[`EnrollmentUpdate enrollment and funding matches snapshot 1`] = `
             </span>
           </legend>
           <div
-            class="grid-gap margin-top-3 grid-col"
+            class="grid-gap margin-top-3 grid-row flex-align-start"
           >
             <div
               class=""
@@ -4449,7 +4449,7 @@ exports[`EnrollmentUpdate family info matches snapshot 1`] = `
           </span>
         </legend>
         <div
-          class="grid-gap grid-row flex-align-start"
+          class="grid-gap grid-col"
         >
           <div
             class="mobile-lg:grid-col-12"

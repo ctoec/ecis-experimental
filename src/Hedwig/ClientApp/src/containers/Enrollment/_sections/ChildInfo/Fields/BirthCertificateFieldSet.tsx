@@ -20,7 +20,6 @@ export const BirthCertificateFormFieldSet: React.FC<ChildInfoFormFieldProps> = (
 			id="birth-certificate-fields"
 			legend="Birth certificate"
 			className="display-inline-block"
-			horizontal
 			status={(enrollment) =>
 				initialLoadErrorGuard(
 					initialLoad || false,
