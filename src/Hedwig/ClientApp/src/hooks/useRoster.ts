@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import { useParams } from 'react-router';
 import UserContext from '../contexts/User/UserContext';
-import { DateRange, DirectionalLinkProps, LegendItem } from '../components';
+import { DateRange, LegendItem } from '../components';
 import getDefaultDateRange from '../utils/getDefaultDateRange';
 import {
 	ApiOrganizationsIdGetRequest,
@@ -14,6 +14,7 @@ import {
 import { getIdForUser, getObjectsByAgeGroup } from '../utils/models';
 import useApi, { paginate } from './useApi';
 import { legendDisplayDetails } from '../utils/legendFormatters';
+import { CommonContainerPropsType } from '../containers/CommonContainer';
 
 type UseRosterReturnType = {
 	showPastEnrollments: boolean;
@@ -27,7 +28,7 @@ type UseRosterReturnType = {
 	organization: Organization | null;
 	site: Site | null;
 	enrollments: Enrollment[] | null;
-	siteRosterDirectionalLinkProps: DirectionalLinkProps | undefined;
+	siteRosterContainerProps: CommonContainerPropsType | undefined;
 	completeEnrollmentsByAgeGroup: { [ageGroup: string]: Enrollment[] };
 	fundingSpacesByAgeGroup: { [ageGroup: string]: FundingSpace[] };
 	incompleteEnrollments: Enrollment[];
@@ -96,7 +97,7 @@ export const useRoster: () => UseRosterReturnType = () => {
 		return {
 			...commonReturnProperties,
 			enrollments: _enrollments,
-			siteRosterDirectionalLinkProps: undefined,
+			siteRosterContainerProps: undefined,
 			completeEnrollmentsByAgeGroup: {},
 			fundingSpacesByAgeGroup: {},
 			incompleteEnrollments: [],
@@ -116,7 +117,7 @@ export const useRoster: () => UseRosterReturnType = () => {
 		return {
 			...commonReturnProperties,
 			enrollments: _enrollments,
-			siteRosterDirectionalLinkProps: undefined,
+			siteRosterContainerProps: undefined,
 			completeEnrollmentsByAgeGroup: {},
 			fundingSpacesByAgeGroup: {},
 			incompleteEnrollments: [],
@@ -126,13 +127,12 @@ export const useRoster: () => UseRosterReturnType = () => {
 	}
 
 	let enrollments: Enrollment[] = [];
-	let siteRosterDirectionalLinkProps: DirectionalLinkProps | undefined = undefined;
+	let siteRosterContainerProps: CommonContainerPropsType | undefined = undefined;
 	if (site) {
 		enrollments = _enrollments.filter((e) => e.siteId === site.id);
-		siteRosterDirectionalLinkProps = {
-			to: '/roster',
-			text: 'Back to program roster',
-			direction: 'left',
+		siteRosterContainerProps = {
+			backHref: '/roster',
+			backText: 'Back to program roster',
 		};
 	} else {
 		enrollments = _enrollments;
@@ -166,7 +166,7 @@ export const useRoster: () => UseRosterReturnType = () => {
 	return {
 		...commonReturnProperties,
 		enrollments,
-		siteRosterDirectionalLinkProps,
+		siteRosterContainerProps,
 		completeEnrollmentsByAgeGroup,
 		fundingSpacesByAgeGroup,
 		incompleteEnrollments,

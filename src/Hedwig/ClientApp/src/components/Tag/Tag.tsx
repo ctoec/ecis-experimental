@@ -11,7 +11,13 @@ export type TagProps = {
 export function Tag({ key, text, color, className }: TagProps) {
 	const colorClass = color ? `bg-${color}` : undefined;
 	return (
-		<span key={key} className={cx('usa-tag', className, colorClass)}>
+		<span
+			key={key}
+			className={cx('usa-tag', className, colorClass)}
+			style={{
+				textTransform: 'unset',
+			}}
+		>
 			{text}
 		</span>
 	);

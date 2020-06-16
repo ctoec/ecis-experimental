@@ -1,11 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import ReportSubmitForm from './RevenueView/ReportSubmitForm';
+import RevenueView from './RevenueView';
+import RosterView from './RosterView';
 import dateFormatter from '../../../utils/dateFormatter';
 import UserContext from '../../../contexts/User/UserContext';
 import { getIdForUser, reportingPeriodFormatter } from '../../../utils/models';
 import useApi, { ApiError } from '../../../hooks/useApi';
-import { Button, AlertProps, DirectionalLinkProps, Tag, Alert } from '../../../components';
+import { Button, AlertProps, Tag, Alert } from '../../../components';
 import CommonContainer from '../../CommonContainer';
 import { updateRosterAlert } from '../../../utils/stringFormatters';
 import {
@@ -17,7 +18,7 @@ import { CdcReport, ApiOrganizationsOrgIdReportsIdPutRequest } from '../../../ge
 import { AccreditedField } from './ReportSubmitFields';
 import { useFocusFirstError } from '../../../utils/validations';
 import { TabNav } from '../../../components/TabNav/TabNav';
-import RosterView from './RosterView/RosterView';
+
 import useCatchAllErrorAlert from '../../../hooks/useCatchAllErrorAlert';
 import AppContext from '../../../contexts/App/AppContext';
 import AlertContext from '../../../contexts/Alert/AlertContext';
@@ -89,8 +90,6 @@ export default function ReportDetail() {
 		}
 	}, [saveData, saveError, setError]);
 
-	console.log(loading, report, mutatedReport);
-
 	if (loading) {
 		return <div className="Report">Loading...</div>;
 	}
@@ -122,12 +121,6 @@ export default function ReportDetail() {
 	if (numEnrollmentsMissingInfo) {
 		additionalAlerts.push(updateRosterAlert(numEnrollmentsMissingInfo));
 	}
-
-	const directionalLinkProps: DirectionalLinkProps = {
-		direction: 'left',
-		to: '/reports',
-		text: 'Back to reports',
-	};
 
 	const onSubmit = (userModifiedReport: CdcReport) => {
 		setAttemptingSave(true);
@@ -165,7 +158,6 @@ export default function ReportDetail() {
 					autoComplete="off"
 				>
 					<AccreditedField disabled={!!mutatedReport.submittedAt} />
-
 					<TabNav
 						items={[
 							{
@@ -177,7 +169,7 @@ export default function ReportDetail() {
 								id: REVENUE_ID,
 								text: 'Revenue',
 								content: (
-									<ReportSubmitForm
+									<RevenueView
 										report={mutatedReport}
 										error={error}
 										errorAlertState={errorAlertState}

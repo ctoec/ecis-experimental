@@ -22,7 +22,7 @@ jest.mock('../../../../hooks/useApi', () =>
 
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import ReportSubmitForm from './ReportSubmitForm';
+import ReportSubmitForm from '.';
 import TestProvider from '../../../../contexts/__mocks__/TestProvider';
 import { DeepNonUndefineable } from '../../../../utils/types';
 import { CdcReport } from '../../../../generated';

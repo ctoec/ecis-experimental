@@ -24,14 +24,13 @@ export type ReportSubmitFormProps = {
 	attemptingSave: boolean;
 };
 
-export default function ReportSubmitForm({
+const RevenueView: React.FC<ReportSubmitFormProps> = ({
 	report,
 	error,
 	errorAlertState,
 	canSubmit,
 	attemptingSave,
-}: ReportSubmitFormProps) {
-	console.log(report);
+}) => {
 	const { user } = useContext(UserContext);
 
 	const submittedAt = report.submittedAt;
@@ -54,7 +53,7 @@ export default function ReportSubmitForm({
 			time: FundingTime.Split,
 		}
 	);
-	console.log(allEnrollmentsLoading, allEnrollments);
+
 	// If we are still loading, show a loading page
 	if (allEnrollmentsLoading) {
 		return <>Loading...</>;
@@ -73,13 +72,13 @@ export default function ReportSubmitForm({
 	}
 
 	return (
-		<ErrorBoundary alertProps={reportSubmitFailAlert}>
+		<>
 			{report.submittedAt && (
 				<p>
 					<b>Submitted:</b> {dateFormatter(report.submittedAt)}{' '}
 				</p>
 			)}
-			<div className="margin-top-4">
+			<div className="margin-top-2">
 				<h1>Revenue</h1>
 				{splitTimeFundingSpaces && splitTimeFundingSpaces.length && (
 					<FieldSet
@@ -115,6 +114,8 @@ export default function ReportSubmitForm({
 					)}
 				</div>
 			</div>
-		</ErrorBoundary>
+		</>
 	);
-}
+};
+
+export default RevenueView;

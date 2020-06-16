@@ -36,6 +36,7 @@ export const TabNav: React.FC<TabNavProps> = ({ items, activeId }) => {
 	const tabs = items.map(({ text }, index) => (
 		<li key={index}>
 			<button
+				type="button"
 				className={cx('oec-tab-nav--tab', { 'oec-tab-nav--tab__active': index === activeTabIndex })}
 				onClick={() => onClick(index)}
 			>

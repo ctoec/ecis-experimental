@@ -29,14 +29,16 @@ export const HistoryProvider: React.FC = ({ children }) => {
 		// Create the next location fiber
 		// Set current to the incoming location
 		// Set previous to the heretofore current location
-		// Set previous.previous to undefined to allow GC
-		const nextLocationFiber: LocationFiber = {
+		let nextLocationFiber: LocationFiber = {
 			current: location,
-			previous: {
-				...locationFiber,
-				previous: undefined,
-			},
+			previous: locationFiber,
 		};
+		// If the incoming location is the heretofore current's previous location
+		// we have entered a close-looped cycle. Avoid this by setting the next fiber
+		// to the previous entry to allow access the previous history path.
+		if (locationFiber.previous?.current.pathname === location.pathname) {
+			nextLocationFiber = locationFiber.previous;
+		}
 		setLocationFiber(nextLocationFiber);
 	}, [location]);
 

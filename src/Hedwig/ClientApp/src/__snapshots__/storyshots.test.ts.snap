@@ -5760,6 +5760,11 @@ exports[`Storyshots ProcessList Default 1`] = `
       </div>
       <span
         className="usa-tag bg-theme-color-primary"
+        style={
+          Object {
+            "textTransform": "unset",
+          }
+        }
       >
         NEW
       </span>
@@ -5781,6 +5786,11 @@ exports[`Storyshots ProcessList Default 1`] = `
       </div>
       <span
         className="usa-tag bg-theme-color-primary"
+        style={
+          Object {
+            "textTransform": "unset",
+          }
+        }
       >
         NEW
       </span>
@@ -7265,27 +7275,19 @@ exports[`Storyshots Tab nav Default 1`] = `
     <div
       className="oec-tab-nav--header"
     >
-<<<<<<< HEAD
       <nav>
         <ul>
           <li>
             <button
               className="oec-tab-nav--tab oec-tab-nav--tab__active"
               onClick={[Function]}
+              type="button"
             >
               Tab One
             </button>
           </li>
         </ul>
       </nav>
-=======
-      <button
-        className="oec-tab-nav--tab oec-tab-nav--tab__active"
-        onClick={[Function]}
-      >
-        Tab One
-      </button>
->>>>>>> e51b1ce6... Roster in report refactor
     </div>
     <div
       className="oec-tab-nav--content"
@@ -7536,6 +7538,11 @@ exports[`Storyshots Tag Default 1`] = `
 >
   <span
     className="usa-tag"
+    style={
+      Object {
+        "textTransform": "unset",
+      }
+    }
   >
     I AM A TAG
   </span>

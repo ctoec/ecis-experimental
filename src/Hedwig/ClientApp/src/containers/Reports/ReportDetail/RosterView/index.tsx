@@ -1,10 +1,9 @@
 import React from 'react';
 import { Legend, Alert } from '../../../../components';
 import { Age, Enrollment, FundingSource } from '../../../../generated';
-import AgeGroupSection from '../../../Roster/AgeGroupSection';
-import CommonContainer from '../../../CommonContainer';
 import { somethingWentWrongAlert } from '../../../../utils/stringFormatters/alertTextMakers';
 import { useRoster } from '../../../../hooks/useRoster';
+import { AgeGroupSection } from './AgeGroupSection';
 
 function onlyCdcFundedEnrollments(enrollments: Enrollment[]) {
 	return enrollments.filter((e) => e.fundings?.find((f) => f.source === FundingSource.CDC));
@@ -19,7 +18,6 @@ export default function RosterView() {
 		organization,
 		site,
 		enrollments,
-		siteRosterDirectionalLinkProps,
 		completeEnrollmentsByAgeGroup,
 		fundingSpacesByAgeGroup,
 		incompleteEnrollments,
@@ -51,40 +49,38 @@ export default function RosterView() {
 	};
 
 	return (
-		<CommonContainer directionalLinkProps={siteRosterDirectionalLinkProps}>
-			<div className="margin-top-4">
-				<h1 className="tablet:grid-col-auto">Report roster</h1>
-				<Legend items={legendItems} />
+		<div className="margin-top-2">
+			<h1 className="tablet:grid-col-auto">Report roster</h1>
+			<Legend items={legendItems} />
+			<AgeGroupSection
+				{...commonAgeGroupSectionProps}
+				ageGroup={Age.InfantToddler}
+				ageGroupTitle={`Infant/toddler`}
+				enrollments={onlyCdcFundedEnrollments(completeEnrollmentsByAgeGroup[Age.InfantToddler])}
+				fundingSpaces={fundingSpacesByAgeGroup[Age.InfantToddler]}
+			/>
+			<AgeGroupSection
+				{...commonAgeGroupSectionProps}
+				ageGroup={Age.Preschool}
+				ageGroupTitle={`Preschool`}
+				enrollments={onlyCdcFundedEnrollments(completeEnrollmentsByAgeGroup[Age.Preschool])}
+				fundingSpaces={fundingSpacesByAgeGroup[Age.Preschool]}
+			/>
+			<AgeGroupSection
+				{...commonAgeGroupSectionProps}
+				ageGroup={Age.SchoolAge}
+				ageGroupTitle={`School age`}
+				enrollments={onlyCdcFundedEnrollments(completeEnrollmentsByAgeGroup[Age.SchoolAge])}
+				fundingSpaces={fundingSpacesByAgeGroup[Age.SchoolAge]}
+			/>
+			{incompleteEnrollments.length > 0 && (
 				<AgeGroupSection
 					{...commonAgeGroupSectionProps}
-					ageGroup={Age.InfantToddler}
-					ageGroupTitle={`Infant/toddler`}
-					enrollments={onlyCdcFundedEnrollments(completeEnrollmentsByAgeGroup[Age.InfantToddler])}
-					fundingSpaces={fundingSpacesByAgeGroup[Age.InfantToddler]}
+					ageGroup="incomplete"
+					ageGroupTitle={`Incomplete enrollments`}
+					enrollments={onlyCdcFundedEnrollments(incompleteEnrollments)}
 				/>
-				<AgeGroupSection
-					{...commonAgeGroupSectionProps}
-					ageGroup={Age.Preschool}
-					ageGroupTitle={`Preschool`}
-					enrollments={onlyCdcFundedEnrollments(completeEnrollmentsByAgeGroup[Age.Preschool])}
-					fundingSpaces={fundingSpacesByAgeGroup[Age.Preschool]}
-				/>
-				<AgeGroupSection
-					{...commonAgeGroupSectionProps}
-					ageGroup={Age.SchoolAge}
-					ageGroupTitle={`School age`}
-					enrollments={onlyCdcFundedEnrollments(completeEnrollmentsByAgeGroup[Age.SchoolAge])}
-					fundingSpaces={fundingSpacesByAgeGroup[Age.SchoolAge]}
-				/>
-				{incompleteEnrollments.length > 0 && (
-					<AgeGroupSection
-						{...commonAgeGroupSectionProps}
-						ageGroup="incomplete"
-						ageGroupTitle={`Incomplete enrollments`}
-						enrollments={onlyCdcFundedEnrollments(incompleteEnrollments)}
-					/>
-				)}
-			</div>
-		</CommonContainer>
+			)}
+		</div>
 	);
 }

@@ -16,6 +16,10 @@ namespace Hedwig.Validations.Attributes
 
 			var organizations = (IOrganizationRepository)validationContext.GetService(typeof(IOrganizationRepository));
 			var organization = organizations.GetOrganizationById(report.OrganizationId);
+			if (organization == null)
+			{
+				return null;
+			}
 			var fundingSpaces = organization.FundingSpaces;
 
 			foreach (var timeSplitUtilization in timeSplitUtilizations)

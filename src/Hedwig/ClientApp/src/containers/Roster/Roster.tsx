@@ -1,16 +1,6 @@
-import React, { useContext, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { legendDisplayDetails } from '../../utils/legendFormatters';
-import { getIdForUser } from '../../utils/models';
-import { Legend, LegendItem, DateRange, Alert } from '../../components';
-import useApi, { paginate } from '../../hooks/useApi';
-import {
-	Age,
-	Enrollment,
-	ApiOrganizationsOrgIdEnrollmentsGetRequest,
-	ApiOrganizationsIdGetRequest,
-} from '../../generated';
-import UserContext from '../../contexts/User/UserContext';
+import React from 'react';
+import { Legend, Alert } from '../../components';
+import { Age } from '../../generated';
 import AgeGroupSection from './AgeGroupSection';
 import CommonContainer from '../CommonContainer';
 import RosterHeader from './RosterHeader';
@@ -30,7 +20,7 @@ export default function Roster() {
 		organization,
 		site,
 		enrollments,
-		siteRosterDirectionalLinkProps,
+		siteRosterContainerProps,
 		completeEnrollmentsByAgeGroup,
 		fundingSpacesByAgeGroup,
 		incompleteEnrollments,

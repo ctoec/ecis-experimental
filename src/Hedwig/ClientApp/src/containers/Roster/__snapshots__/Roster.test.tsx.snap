@@ -3,7 +3,6 @@
 exports[`Roster matches snapshot 1`] = `
 <DocumentFragment>
   <div
-<<<<<<< HEAD
     class="grid-container"
   >
     <a
@@ -22,10 +21,8 @@ exports[`Roster matches snapshot 1`] = `
       </span>
     </a>
   </div>
-=======
     class=""
   />
->>>>>>> e51b1ce6... Roster in report refactor
   <div
     class="grid-container"
   >
@@ -74,6 +71,7 @@ exports[`Roster matches snapshot 1`] = `
         >
           <span
             class="usa-tag position-relative top-neg-2px bg-blue-50v"
+            style="text-transform: unset;"
           >
             CDC
           </span>
@@ -140,6 +138,7 @@ exports[`Roster matches snapshot 1`] = `
         >
           <span
             class="usa-tag bg-blue-50v"
+            style="text-transform: unset;"
           >
             CDC–FT
           </span>
@@ -168,6 +167,7 @@ exports[`Roster matches snapshot 1`] = `
         >
           <span
             class="usa-tag bg-blue-50v"
+            style="text-transform: unset;"
           >
             CDC–PT
           </span>
@@ -196,6 +196,7 @@ exports[`Roster matches snapshot 1`] = `
         >
           <span
             class="usa-tag bg-blue-50v"
+            style="text-transform: unset;"
           >
             CDC-PT/FT
           </span>
@@ -338,6 +339,7 @@ exports[`Roster matches snapshot 1`] = `
           <td>
             <span
               class="usa-tag bg-blue-50v"
+              style="text-transform: unset;"
             >
               CDC–PT
             </span>
@@ -368,6 +370,7 @@ exports[`Roster matches snapshot 1`] = `
           <td>
             <span
               class="usa-tag bg-blue-50v"
+              style="text-transform: unset;"
             >
               CDC–FT
             </span>
@@ -396,6 +399,7 @@ exports[`Roster matches snapshot 1`] = `
         >
           <span
             class="usa-tag bg-blue-50v"
+            style="text-transform: unset;"
           >
             CDC–FT
           </span>
@@ -424,6 +428,7 @@ exports[`Roster matches snapshot 1`] = `
         >
           <span
             class="usa-tag bg-blue-50v"
+            style="text-transform: unset;"
           >
             CDC–PT
           </span>
@@ -566,6 +571,7 @@ exports[`Roster matches snapshot 1`] = `
           <td>
             <span
               class="usa-tag bg-blue-50v"
+              style="text-transform: unset;"
             >
               CDC–FT
             </span>
@@ -608,6 +614,7 @@ exports[`Roster matches snapshot 1`] = `
           <td>
             <span
               class="usa-tag bg-blue-50v"
+              style="text-transform: unset;"
             >
               CDC–FT
             </span>
@@ -650,6 +657,7 @@ exports[`Roster matches snapshot 1`] = `
           <td>
             <span
               class="usa-tag bg-blue-50v"
+              style="text-transform: unset;"
             >
               CDC–FT
             </span>
@@ -680,6 +688,7 @@ exports[`Roster matches snapshot 1`] = `
           <td>
             <span
               class="usa-tag bg-blue-50v"
+              style="text-transform: unset;"
             >
               CDC–FT
             </span>
@@ -710,6 +719,7 @@ exports[`Roster matches snapshot 1`] = `
           <td>
             <span
               class="usa-tag bg-blue-50v"
+              style="text-transform: unset;"
             >
               CDC–FT
             </span>
@@ -740,6 +750,7 @@ exports[`Roster matches snapshot 1`] = `
           <td>
             <span
               class="usa-tag bg-blue-50v"
+              style="text-transform: unset;"
             >
               CDC–PT
             </span>
@@ -770,6 +781,7 @@ exports[`Roster matches snapshot 1`] = `
           <td>
             <span
               class="usa-tag bg-blue-50v"
+              style="text-transform: unset;"
             >
               CDC–FT
             </span>
@@ -798,6 +810,7 @@ exports[`Roster matches snapshot 1`] = `
         >
           <span
             class="usa-tag bg-blue-50v"
+            style="text-transform: unset;"
           >
             CDC–FT
           </span>
@@ -826,6 +839,7 @@ exports[`Roster matches snapshot 1`] = `
         >
           <span
             class="usa-tag bg-blue-50v"
+            style="text-transform: unset;"
           >
             CDC–PT
           </span>
@@ -855,7 +869,7 @@ exports[`Roster matches snapshot 1`] = `
         <tr>
           <th
             aria-sort="ascending"
-            class="oec-table__column-header oec-sortable"
+            class="oec-table__column-header oec-sortable oec-sorted"
             role="columnheader"
             scope="col"
             style="width: 25%;"
@@ -866,20 +880,19 @@ exports[`Roster matches snapshot 1`] = `
             >
               Name
               <div
-                class="oec-table__sort-controls"
+                class="oec-table__sort-controls oec-table__sort-controls--ascending"
               >
-                <span
-                  class="oec-table__sort-controls__asc active"
-                />
-                <span
-                  class="oec-table__sort-controls__desc"
-                />
+                <svg
+                  title="Sort"
+                >
+                  downArrowCircle.svg
+                </svg>
               </div>
             </button>
           </th>
           <th
             aria-sort="ascending"
-            class="oec-table__column-header oec-sortable"
+            class="oec-table__column-header oec-sortable oec-unsorted"
             role="columnheader"
             scope="col"
             style="width: 17%;"
@@ -892,18 +905,17 @@ exports[`Roster matches snapshot 1`] = `
               <div
                 class="oec-table__sort-controls"
               >
-                <span
-                  class="oec-table__sort-controls__asc"
-                />
-                <span
-                  class="oec-table__sort-controls__desc"
-                />
+                <svg
+                  title="Sort"
+                >
+                  downArrowCircle.svg
+                </svg>
               </div>
             </button>
           </th>
           <th
             aria-sort="ascending"
-            class="oec-table__column-header oec-sortable"
+            class="oec-table__column-header oec-sortable oec-unsorted"
             role="columnheader"
             scope="col"
             style="width: 18%;"
@@ -916,18 +928,17 @@ exports[`Roster matches snapshot 1`] = `
               <div
                 class="oec-table__sort-controls"
               >
-                <span
-                  class="oec-table__sort-controls__asc"
-                />
-                <span
-                  class="oec-table__sort-controls__desc"
-                />
+                <svg
+                  title="Sort"
+                >
+                  downArrowCircle.svg
+                </svg>
               </div>
             </button>
           </th>
           <th
             aria-sort="ascending"
-            class="oec-table__column-header oec-sortable"
+            class="oec-table__column-header oec-sortable oec-unsorted"
             role="columnheader"
             scope="col"
             style="width: 20%;"
@@ -940,12 +951,11 @@ exports[`Roster matches snapshot 1`] = `
               <div
                 class="oec-table__sort-controls"
               >
-                <span
-                  class="oec-table__sort-controls__asc"
-                />
-                <span
-                  class="oec-table__sort-controls__desc"
-                />
+                <svg
+                  title="Sort"
+                >
+                  downArrowCircle.svg
+                </svg>
               </div>
             </button>
           </th>
