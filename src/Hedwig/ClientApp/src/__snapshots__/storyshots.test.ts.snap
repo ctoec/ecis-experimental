@@ -7111,8 +7111,10 @@ exports[`Storyshots SideNav Default 1`] = `
           <li
             className="oec-sidenav__item"
           >
-            <a
+            <button
+              className="usa-button usa-button--unstyled"
               onClick={[Function]}
+              type="button"
             >
               <div>
                 <p
@@ -7127,13 +7129,15 @@ exports[`Storyshots SideNav Default 1`] = `
                   This is the first item
                 </p>
               </div>
-            </a>
+            </button>
           </li>
           <li
             className="oec-sidenav__item"
           >
-            <a
+            <button
+              className="usa-button usa-button--unstyled"
               onClick={[Function]}
+              type="button"
             >
               <div>
                 <p
@@ -7162,7 +7166,7 @@ exports[`Storyshots SideNav Default 1`] = `
                   This is the third item
                 </p>
               </div>
-            </a>
+            </button>
           </li>
         </ul>
       </nav>
