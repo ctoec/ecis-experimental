@@ -3,7 +3,7 @@ import { ValidationResponse } from '../../../../../utils/validations/displayVali
 
 // Copied from child info-- probably can be consolidated?
 export type FamilyInfoFormFieldProps = {
-	initialLoad?: boolean;
+	errorDisplayGuard?: boolean;
 	error?: ValidationResponse | null;
 	errorAlertState?: ErrorAlertState;
 };

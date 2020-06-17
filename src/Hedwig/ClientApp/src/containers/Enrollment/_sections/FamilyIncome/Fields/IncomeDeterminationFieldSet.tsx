@@ -8,15 +8,18 @@ import { FormFieldSet } from '../../../../../components/Form_New/FormFieldSet';
 import React from 'react';
 import { HouseholdSizeField, AnnualHouseholdIncomeField, DeterminationDateField } from '.';
 import { FormStatusFunc } from '../../../../../components/Form_New/FormStatusFunc';
+import { initialLoadErrorGuard } from '../../../../../utils/validations';
 
 type IncomeDeterminationFieldSetProps = {
 	type: 'new' | 'redetermine' | 'edit';
 	determinationId: number;
+	errorDisplayGuard?: boolean;
 };
 
 export const IncomeDeterminationFieldSet: React.FC<IncomeDeterminationFieldSetProps> = ({
 	type,
 	determinationId,
+	errorDisplayGuard = false,
 }) => {
 	let status, elementId, legend, showLegend;
 	switch (type) {
@@ -29,20 +32,23 @@ export const IncomeDeterminationFieldSet: React.FC<IncomeDeterminationFieldSetPr
 
 		case 'edit':
 			status = ((data) =>
-				displayValidationStatus([
-					{
-						type: 'warning',
-						response:
-							data
-								.at('child')
-								.at('family')
-								.at('determinations')
-								.find((det) => det.id === determinationId)
-								.at('validationErrors').value || null,
-						fields: ['numberOfPeople', 'income', 'determinationDate'],
-						message: REQUIRED_FOR_OEC_REPORTING,
-					},
-				])) as FormStatusFunc<Enrollment>;
+				initialLoadErrorGuard(
+					errorDisplayGuard,
+					displayValidationStatus([
+						{
+							type: 'warning',
+							response:
+								data
+									.at('child')
+									.at('family')
+									.at('determinations')
+									.find((det) => det.id === determinationId)
+									.at('validationErrors').value || null,
+							fields: ['numberOfPeople', 'income', 'determinationDate'],
+							message: REQUIRED_FOR_OEC_REPORTING,
+						},
+					]))
+				) as FormStatusFunc<Enrollment>;
 			elementId = `family-income-determination-edit-${determinationId}`;
 			legend = 'Edit family income';
 			showLegend = true;

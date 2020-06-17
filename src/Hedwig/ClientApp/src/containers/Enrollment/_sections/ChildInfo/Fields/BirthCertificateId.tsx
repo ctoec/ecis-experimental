@@ -9,7 +9,7 @@ import { displayValidationStatus } from '../../../../../utils/validations/displa
 /**
  * Component for entering a birth certificate id of a child in an enrollment.
  */
-export const BirthCertificateIdField: React.FC<ChildInfoFormFieldProps> = ({ initialLoad }) => {
+export const BirthCertificateIdField: React.FC<ChildInfoFormFieldProps> = ({ errorDisplayGuard: initialLoad }) => {
 	return (
 		<FormField<Enrollment, TextInputProps, string | null>
 			getValue={(data) => data.at('child').at('birthCertificateId')}

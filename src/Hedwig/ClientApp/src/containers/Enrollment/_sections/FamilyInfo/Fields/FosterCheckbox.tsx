@@ -5,7 +5,7 @@ import { FamilyInfoFormFieldProps } from './common';
 import { Checkbox, CheckboxProps } from '../../../../../components';
 import FormField from '../../../../../components/Form_New/FormField';
 
-export const FosterCheckbox: React.FC<FamilyInfoFormFieldProps> = ({ initialLoad }) => (
+export const FosterCheckbox: React.FC<FamilyInfoFormFieldProps> = () => (
 	<FormField<Enrollment, CheckboxProps, boolean | null>
 		getValue={(data) => data.at('child').at('foster')}
 		value={'foster'}

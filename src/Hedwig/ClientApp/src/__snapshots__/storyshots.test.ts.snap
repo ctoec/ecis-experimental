@@ -7101,7 +7101,7 @@ exports[`Storyshots SideNav Default 1`] = `
   }
 >
   <div
-    className="oec-sidenav grid-row grid-gap"
+    className="oec-sidenav grid-row"
   >
     <div
       className="mobile-lg:grid-col-4"
@@ -7111,8 +7111,10 @@ exports[`Storyshots SideNav Default 1`] = `
           <li
             className="oec-sidenav__item"
           >
-            <a
+            <button
+              className="usa-button usa-button--unstyled"
               onClick={[Function]}
+              type="button"
             >
               <div>
                 <p
@@ -7127,13 +7129,15 @@ exports[`Storyshots SideNav Default 1`] = `
                   This is the first item
                 </p>
               </div>
-            </a>
+            </button>
           </li>
           <li
             className="oec-sidenav__item"
           >
-            <a
+            <button
+              className="usa-button usa-button--unstyled"
               onClick={[Function]}
+              type="button"
             >
               <div>
                 <p
@@ -7162,13 +7166,13 @@ exports[`Storyshots SideNav Default 1`] = `
                   This is the third item
                 </p>
               </div>
-            </a>
+            </button>
           </li>
         </ul>
       </nav>
     </div>
     <div
-      className="margin-top-2 mobile-lg:grid-col-8"
+      className="mobile-lg:grid-col-8 oec-sidenav__content"
     />
   </div>
 </div>
