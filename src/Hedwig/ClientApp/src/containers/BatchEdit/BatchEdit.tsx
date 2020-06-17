@@ -28,9 +28,13 @@ const BatchEdit: React.FC<BatchEditProps> = ({
 		endDate: endDate.toDate(),
 	};
 
-	const { data: enrollments, loading, error } = useApi<Enrollment[]>(
+	const { data: enrollments, loading } = useApi<Enrollment[]>(
 		(api) => api.apiOrganizationsOrgIdEnrollmentsGet(params)
 	)
+
+	if(loading) {
+		return <>Loading...</>
+	}
 
 	const needInfoEnrollments = (enrollments || []).filter(e => e.validationErrors && e.validationErrors.length);
 	return (
@@ -38,10 +42,7 @@ const BatchEdit: React.FC<BatchEditProps> = ({
 			<div className="grid-container">
 				<h1>Add needed information</h1>
 				<p className="usa-intro">{needInfoEnrollments.length} enrollments have missing or incomplete information</p> 
-				{needInfoEnrollments.length 
-					? <EnrollmentsEditList enrollments={needInfoEnrollments} />
-					: <p>all good</p>
-				}
+				<EnrollmentsEditList enrollments={needInfoEnrollments} />
 			</div>
 		</CommonContainer>
 	)

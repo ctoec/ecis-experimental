@@ -53,7 +53,6 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 		}
 	);
 
-
 	
 	// Create steps for step list, based on state of missing/needed information
 	// in the fetched enrollment
@@ -128,7 +127,6 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 		onSkip: moveNextStep,
 	};
 
-	console.log("steps", steps);
 	return (
 		<>
 			<div className="grid-row flex-first-baseline flex-space-between padding-x-2 padding-bottom-3">

@@ -22,16 +22,12 @@ export const EnrollmentsEditList: React.FC<EnrollmentsEditListProps> = ({
 			: (editedEnrollments.length ? 0: undefined));
 
 	const moveNext = () => {
-		console.log("current enrollment idx", currentEnrollmentIdx);
 		if(currentEnrollmentIdx == undefined) return;
 
-		console.log('editedEnrollments.length', editedEnrollments.length);
 		if(currentEnrollmentIdx === editedEnrollments.length - 1) {
 			setCurrentEnrollmentIdx(undefined);
 			return;
 		}
-
-		console.log("next");
 
 		setCurrentEnrollmentIdx(currentEnrollmentIdx + 1);
 	}
@@ -46,10 +42,13 @@ export const EnrollmentsEditList: React.FC<EnrollmentsEditListProps> = ({
 					content: <SingleEnrollmentEdit enrollmentId={enrollment.id} siteId={enrollment.siteId} moveNextEnrollment={moveNext}/>
 				}))
 			}
+			// TODO: IMPLEMENT THIS!!!!
+			// noActiveItemContent={}
 		/>
 	);
 }
 
+// TODO: IMPLEMENT THIS!!!!!
 const getMissingInfoFields = (enrollment: Enrollment) => {
 	if(hasValidationErrors(enrollment)) return 'Birth certificate';
 	return '';
