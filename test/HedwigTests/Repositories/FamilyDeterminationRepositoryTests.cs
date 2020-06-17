@@ -20,13 +20,10 @@ namespace HedwigTests.Repositories
 				// When the repository is queried with a family Id
 				var determinationRepo = new FamilyDeterminationRepository(context);
 				var res = determinationRepo.GetDeterminationsByFamilyId(family.Id);
-				var resDTO = determinationRepo.GetEnrollmentFamilyDeterminationDTOsByFamilyId(family.Id);
 
 				// Then a list including only that determination is returned
 				Assert.Single(res);
 				Assert.Equal(determination.Id, res.First().Id);
-				Assert.Single(resDTO);
-				Assert.Equal(determination.Id, resDTO.First().Id);
 			}
 		}
 	}

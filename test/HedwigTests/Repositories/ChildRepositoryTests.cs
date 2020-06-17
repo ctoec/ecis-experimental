@@ -75,13 +75,9 @@ namespace HedwigTests.Repositories
 				// When the repository is queried for the child:
 				var childRepo = new ChildRepository(context);
 				var res = childRepo.GetChildById(child.Id);
-				var resDTO = childRepo.GetEnrollmentChildDTOById(child.Id);
-				var resSummaryDTO = childRepo.GetEnrollmentSummaryChildDTOById(child.Id);
 
 				// Then
 				Assert.Equal(name, res.FirstName);
-				Assert.Equal(name, resDTO.FirstName);
-				Assert.Equal(name, resSummaryDTO.FirstName);
 
 			}
 		}
