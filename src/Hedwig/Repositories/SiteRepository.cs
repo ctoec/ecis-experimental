@@ -12,9 +12,9 @@ namespace Hedwig.Repositories
 	{
 		public SiteRepository(HedwigContext context) : base(context) { }
 
-		public Task<List<Site>> GetSitesForOrganizationAsync(int organizationId)
+		public async Task<List<Site>> GetSitesForOrganizationAsync(int organizationId)
 		{
-			return _context.Sites
+			return await _context.Sites
 				.Where(s => s.OrganizationId == organizationId)
 				.ToListAsync();
 		}
