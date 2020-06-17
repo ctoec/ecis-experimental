@@ -16,6 +16,17 @@ export const EnrollmentsEditList: React.FC<EnrollmentsEditListProps> = ({
 }) => {
 	const [editedEnrollments, setEditedEnrollments] = useState(enrollments);
 
+	// Function to enable SingleEnrollmentEdit components to update the
+	// single enrollment they control in the list of edited enrollments.
+	// Will be passed down into SingleEnrollmentEdit
+	const replaceEnrollment = (updatedEnrollment: Enrollment) => {
+		setEditedEnrollments((enrollments) => {
+			const enrollmentIdx = enrollments.findIndex((e) => e.id === updatedEnrollment.id);
+			enrollments[enrollmentIdx] = updatedEnrollment;
+			return enrollments;
+		});
+	};
+
 	const [currentEnrollmentIdx, setCurrentEnrollmentIdx] = useState<number | undefined>(
 		activeEnrollmentId
 			? editedEnrollments.findIndex((e) => e.id === activeEnrollmentId)
@@ -25,14 +36,15 @@ export const EnrollmentsEditList: React.FC<EnrollmentsEditListProps> = ({
 	);
 
 	const moveNext = () => {
-		if (currentEnrollmentIdx == undefined) return;
-
 		if (currentEnrollmentIdx === editedEnrollments.length - 1) {
-			setCurrentEnrollmentIdx(undefined);
+			const stillMissingInfoEnrollmentIdx = enrollments.findIndex((e) => hasValidationErrors(e));
+			setCurrentEnrollmentIdx(
+				stillMissingInfoEnrollmentIdx < 0 ? undefined : stillMissingInfoEnrollmentIdx
+			);
 			return;
 		}
 
-		setCurrentEnrollmentIdx(currentEnrollmentIdx + 1);
+		setCurrentEnrollmentIdx((idx) => (idx !== undefined ? idx + 1 : idx));
 	};
 
 	return (
@@ -44,6 +56,7 @@ export const EnrollmentsEditList: React.FC<EnrollmentsEditListProps> = ({
 				content: (
 					<SingleEnrollmentEdit
 						enrollmentId={enrollment.id}
+						updateEnrollments={replaceEnrollment}
 						siteId={enrollment.siteId}
 						moveNextEnrollment={moveNext}
 					/>
