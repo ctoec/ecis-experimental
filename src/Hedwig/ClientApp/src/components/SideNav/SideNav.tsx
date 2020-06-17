@@ -41,7 +41,7 @@ export const SideNav = ({ items, externalActiveItemIndex, noActiveItemContent }:
 				</nav>
 			</div>
 			<div className="mobile-lg:grid-col-8 oec-sidenav__content">
-				{activeItemIndex !== undefined && activeItemIndex < items.length 
+				{activeItemIndex !== undefined && activeItemIndex < items.length
 					? items[activeItemIndex].content
 					: noActiveItemContent}
 			</div>

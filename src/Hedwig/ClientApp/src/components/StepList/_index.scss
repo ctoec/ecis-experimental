@@ -44,7 +44,7 @@ $future-step-color: color('base-dark') !default;
 	padding-bottom: $step-margin;
 	position: relative;
 
-	&::before{
+	&::before {
 		border: $step-list-number-border-size solid $future-step-color;
 		border-radius: 50%;
 		box-sizing: border-box;
@@ -114,7 +114,7 @@ $future-step-color: color('base-dark') !default;
 	color: color('ink');
 }
 
-.oec-step-list__step:not(.oec-step-list__step--notStarted):not(.oec-step-list__step--active){
+.oec-step-list__step:not(.oec-step-list__step--notStarted):not(.oec-step-list__step--active) {
 	.oec-step-list__step__title {
 		color: color('ink');
 	}

@@ -1,5 +1,5 @@
-import { Enrollment } from "../../../generated";
-import { ApiError } from "../../../hooks/useApi";
+import { Enrollment } from '../../../generated';
+import { ApiError } from '../../../hooks/useApi';
 
 export type BatchEditStepProps = {
 	enrollment: Enrollment;

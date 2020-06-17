@@ -24,13 +24,18 @@ export const SideNavItem = ({
 }: InternalSideNavItemProps) => {
 	return (
 		<li className={cx('oec-sidenav__item', { active })}>
-			<Button onClick={onClick} appearance="unstyled" text={
-				<div>
-					<p className="oec-sidenav-item__title">{title} {icon && <InlineIcon icon={icon} /> }</p>
-					<p className="oec-sidenav-item__desc">{description}</p>
-				</div>
-			}>
-			</Button>
+			<Button
+				onClick={onClick}
+				appearance="unstyled"
+				text={
+					<div>
+						<p className="oec-sidenav-item__title">
+							{title} {icon && <InlineIcon icon={icon} />}
+						</p>
+						<p className="oec-sidenav-item__desc">{description}</p>
+					</div>
+				}
+			></Button>
 		</li>
 	);
 };

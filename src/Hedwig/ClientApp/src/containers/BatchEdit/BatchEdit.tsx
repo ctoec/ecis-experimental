@@ -10,12 +10,10 @@ import { EnrollmentsEditList } from './EnrollmentsEditList';
 type BatchEditProps = {
 	history: History;
 	match: {
-		params: { activeEnrollmentId?: number; }
-	}
+		params: { activeEnrollmentId?: number };
+	};
 };
-const BatchEdit: React.FC<BatchEditProps> = ({
-	match: {params: sectionId }
-}) => {
+const BatchEdit: React.FC<BatchEditProps> = ({ match: { params: sectionId } }) => {
 	// TODO get from QS param from roster
 	const startDate = moment();
 	const endDate = moment();
@@ -28,24 +26,28 @@ const BatchEdit: React.FC<BatchEditProps> = ({
 		endDate: endDate.toDate(),
 	};
 
-	const { data: enrollments, loading } = useApi<Enrollment[]>(
-		(api) => api.apiOrganizationsOrgIdEnrollmentsGet(params)
-	)
+	const { data: enrollments, loading } = useApi<Enrollment[]>((api) =>
+		api.apiOrganizationsOrgIdEnrollmentsGet(params)
+	);
 
-	if(loading) {
-		return <>Loading...</>
+	if (loading) {
+		return <>Loading...</>;
 	}
 
-	const needInfoEnrollments = (enrollments || []).filter(e => e.validationErrors && e.validationErrors.length);
+	const needInfoEnrollments = (enrollments || []).filter(
+		(e) => e.validationErrors && e.validationErrors.length
+	);
 	return (
 		<CommonContainer>
 			<div className="grid-container">
 				<h1>Add needed information</h1>
-				<p className="usa-intro">{needInfoEnrollments.length} enrollments have missing or incomplete information</p> 
+				<p className="usa-intro">
+					{needInfoEnrollments.length} enrollments have missing or incomplete information
+				</p>
 				<EnrollmentsEditList enrollments={needInfoEnrollments} />
 			</div>
 		</CommonContainer>
-	)
-}
+	);
+};
 
 export default BatchEdit;

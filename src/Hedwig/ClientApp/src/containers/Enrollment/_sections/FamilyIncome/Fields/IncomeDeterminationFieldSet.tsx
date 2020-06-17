@@ -47,8 +47,8 @@ export const IncomeDeterminationFieldSet: React.FC<IncomeDeterminationFieldSetPr
 							fields: ['numberOfPeople', 'income', 'determinationDate'],
 							message: REQUIRED_FOR_OEC_REPORTING,
 						},
-					]))
-				) as FormStatusFunc<Enrollment>;
+					])
+				)) as FormStatusFunc<Enrollment>;
 			elementId = `family-income-determination-edit-${determinationId}`;
 			legend = 'Edit family income';
 			showLegend = true;

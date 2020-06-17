@@ -38,14 +38,14 @@ export default function Step<T>({
 	Summary,
 	Form,
 	props,
-	type = 'normal'
+	type = 'normal',
 }: InternalStepProps<T>) {
 	return (
-		<li className={cx(
-			'oec-step-list__step',
-			`oec-step-list__step--${status}`,
-			{'embedded': type === 'embedded' }
-		)}>
+		<li
+			className={cx('oec-step-list__step', `oec-step-list__step--${status}`, {
+				embedded: type === 'embedded',
+			})}
+		>
 			<div className="oec-step-list__step__content">
 				<h2 className="oec-step-list__step__title">{name}</h2>
 
