@@ -1,9 +1,15 @@
 import React from 'react';
-import { Legend, Alert } from '../../../../components';
+import { Legend, Alert, Column } from '../../../../components';
 import { Age, Enrollment, FundingSource } from '../../../../generated';
 import { somethingWentWrongAlert } from '../../../../utils/stringFormatters/alertTextMakers';
 import { useRoster } from '../../../../hooks/useRoster';
-import { AgeGroupSection } from './AgeGroupSection';
+import { AgeGroupSection } from '../../../RosterColumns/AgeGroupSection';
+import { NameColumn } from '../../../RosterColumns/NameColumn';
+import { BirthdateColumn } from '../../../RosterColumns/BirthDateColumn';
+import { FundingColumn } from '../../../RosterColumns/FundingColumn';
+import { getFundingTimeTag } from '../../../../utils/fundingType';
+import { SiteColumn } from '../../../RosterColumns/SiteColumn';
+import { EnrolledOnColumn } from '../../../RosterColumns/EnrolledOnColumn';
 
 function onlyCdcFundedEnrollments(enrollments: Enrollment[]) {
 	return enrollments.filter((e) => e.fundings?.find((f) => f.source === FundingSource.CDC));
@@ -20,7 +26,6 @@ export default function RosterView() {
 		enrollments,
 		completeEnrollmentsByAgeGroup,
 		fundingSpacesByAgeGroup,
-		incompleteEnrollments,
 		legendItems,
 	} = useRoster();
 
@@ -41,11 +46,32 @@ export default function RosterView() {
 		return <Alert {...somethingWentWrongAlert}></Alert>;
 	}
 
+	let columns: Column<Enrollment>[] = [];
+	// Only show the site column if we're in multi-site view,
+	// and it exists (more than one site)
+	if (!site && organization.sites && organization.sites.length > 1) {
+		columns = [
+			NameColumn(25),
+			BirthdateColumn(17),
+			FundingColumn(getFundingTimeTag)(dateRange, 18),
+			SiteColumn(20),
+			EnrolledOnColumn(20),
+		];
+	} else {
+		columns = [
+			NameColumn(30),
+			BirthdateColumn(22),
+			FundingColumn(getFundingTimeTag)(dateRange, 23),
+			EnrolledOnColumn(25),
+		];
+	}
+
 	const commonAgeGroupSectionProps = {
-		organization,
 		site,
 		rosterDateRange: dateRange,
+		columns,
 		showPastEnrollments,
+		forReport: true,
 	};
 
 	return (
@@ -73,14 +99,6 @@ export default function RosterView() {
 				enrollments={onlyCdcFundedEnrollments(completeEnrollmentsByAgeGroup[Age.SchoolAge])}
 				fundingSpaces={fundingSpacesByAgeGroup[Age.SchoolAge]}
 			/>
-			{incompleteEnrollments.length > 0 && (
-				<AgeGroupSection
-					{...commonAgeGroupSectionProps}
-					ageGroup="incomplete"
-					ageGroupTitle={`Incomplete enrollments`}
-					enrollments={onlyCdcFundedEnrollments(incompleteEnrollments)}
-				/>
-			)}
 		</div>
 	);
 }

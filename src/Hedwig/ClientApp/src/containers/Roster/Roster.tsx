@@ -1,11 +1,17 @@
 import React from 'react';
-import { Legend, Alert } from '../../components';
-import { Age } from '../../generated';
-import AgeGroupSection from './AgeGroupSection';
+import { Legend, Alert, Column } from '../../components';
+import { Age, Enrollment } from '../../generated';
+import { AgeGroupSection } from '../RosterColumns/AgeGroupSection';
 import CommonContainer from '../CommonContainer';
 import RosterHeader from './RosterHeader';
 import { somethingWentWrongAlert } from '../../utils/stringFormatters/alertTextMakers';
 import { useRoster } from '../../hooks/useRoster';
+import { NameColumn } from '../RosterColumns/NameColumn';
+import { BirthdateColumn } from '../RosterColumns/BirthDateColumn';
+import { FundingColumn } from '../RosterColumns/FundingColumn';
+import { SiteColumn } from '../RosterColumns/SiteColumn';
+import { EnrollmentDateColumn } from '../RosterColumns/EnrollmentDateColumn';
+import { getFundingTag } from '../../utils/fundingType';
 
 export default function Roster() {
 	const {
@@ -44,11 +50,32 @@ export default function Roster() {
 		return <Alert {...somethingWentWrongAlert}></Alert>;
 	}
 
+	let columns: Column<Enrollment>[] = [];
+	// Only show the site column if we're in multi-site view,
+	// and it exists (more than one site)
+	if (!site && organization.sites && organization.sites.length > 1) {
+		columns = [
+			NameColumn(25),
+			BirthdateColumn(17),
+			FundingColumn(getFundingTag)(dateRange, 18),
+			SiteColumn(20),
+			EnrollmentDateColumn(20),
+		];
+	} else {
+		columns = [
+			NameColumn(30),
+			BirthdateColumn(22),
+			FundingColumn(getFundingTag)(dateRange, 23),
+			EnrollmentDateColumn(25),
+		];
+	}
+
 	const commonAgeGroupSectionProps = {
-		organization,
 		site,
 		rosterDateRange: dateRange,
+		columns,
 		showPastEnrollments,
+		forReport: false,
 	};
 
 	return (

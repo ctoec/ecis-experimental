@@ -28,12 +28,14 @@ function prettyFundingTime(fundingTime?: FundingTime) {
 	return '';
 }
 
-export function getFundingTag(options?: {
+export type FundingTagOptionsType = {
 	fundingSource?: FundingSource;
 	fundingTime?: FundingTime;
 	index?: any;
 	className?: string;
-}) {
+};
+
+export function getFundingTag(options?: FundingTagOptionsType) {
 	const { index, className, fundingSource, fundingTime } = options || {};
 	if (!fundingSource) {
 		return <></>;
@@ -55,12 +57,7 @@ export function getFundingTag(options?: {
 	});
 }
 
-export function getFundingTimeTag(options?: {
-	fundingSource?: FundingSource;
-	fundingTime?: FundingTime;
-	index?: any;
-	className?: string;
-}) {
+export function getFundingTimeTag(options?: FundingTagOptionsType) {
 	const { index, className, fundingSource, fundingTime } = options || {};
 	if (!fundingSource) {
 		return <></>;

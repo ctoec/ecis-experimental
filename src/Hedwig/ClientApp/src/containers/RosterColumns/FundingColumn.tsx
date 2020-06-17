@@ -7,13 +7,20 @@ import {
 	isCurrentToRangeC4K,
 	NO_FUNDING,
 } from '../../utils/models';
-import { getFundingTag, getC4KTag } from '../../utils/fundingType';
+import { getC4KTag, FundingTagOptionsType } from '../../utils/fundingType';
 import idx from 'idx';
 
+/**
+ * A function for generaring funding columns. Parameterized on
+ * function that generates the specific funding tag and the width
+ * of the column.
+ * @param getFundingTag Function for generating a funding tag
+ */
 export const FundingColumn: (
-	rosterDateRange: DateRange | undefined,
-	width: number
-) => Column<Enrollment> = (rosterDateRange, width) => ({
+	getFundingTag: (options: FundingTagOptionsType) => JSX.Element
+) => (rosterDateRange: DateRange | undefined, width: number) => Column<Enrollment> = (
+	getFundingTag
+) => (rosterDateRange, width) => ({
 	name: 'Funding',
 	cell: ({ row }) => {
 		const filteredFundings = dedupeFundings(
