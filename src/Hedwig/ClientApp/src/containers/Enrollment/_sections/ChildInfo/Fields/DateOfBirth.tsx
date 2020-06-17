@@ -10,7 +10,9 @@ import { REQUIRED_FOR_OEC_REPORTING } from '../../../../../utils/validations/mes
 /**
  * Component for entering the birth date of a child in an enrollment.
  */
-export const DateOfBirthField: React.FC<ChildInfoFormFieldProps> = ({ errorDisplayGuard: initialLoad }) => {
+export const DateOfBirthField: React.FC<ChildInfoFormFieldProps> = ({
+	errorDisplayGuard: initialLoad,
+}) => {
 	return (
 		<FormField<Enrollment, DateInputProps, Date | null>
 			getValue={(data) => data.at('child').at('birthdate')}

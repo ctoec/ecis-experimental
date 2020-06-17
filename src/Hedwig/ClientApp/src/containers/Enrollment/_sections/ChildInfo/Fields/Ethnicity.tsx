@@ -17,7 +17,9 @@ import RadioButton from '../../../../../components/RadioButton/RadioButton';
  * The internal controlling component, RadioButtonGroup, wraps the individual
  * RadioButtons in a fieldset.
  */
-export const EthnicityField: React.FC<ChildInfoFormFieldProps> = ({ errorDisplayGuard: initialLoad }) => {
+export const EthnicityField: React.FC<ChildInfoFormFieldProps> = ({
+	errorDisplayGuard: initialLoad,
+}) => {
 	return (
 		<FormField<Enrollment, RadioButtonGroupProps, boolean | null>
 			getValue={(data) => data.at('child').at('hispanicOrLatinxEthnicity')}

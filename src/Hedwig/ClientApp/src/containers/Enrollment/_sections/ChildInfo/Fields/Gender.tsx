@@ -11,7 +11,9 @@ import { SelectProps, Select } from '../../../../../components/Select/Select';
 /**
  * Component for entering the gender of a child in an enrollment.
  */
-export const GenderField: React.FC<ChildInfoFormFieldProps> = ({ errorDisplayGuard: initialLoad }) => {
+export const GenderField: React.FC<ChildInfoFormFieldProps> = ({
+	errorDisplayGuard: initialLoad,
+}) => {
 	return (
 		<FormField<Enrollment, SelectProps, Gender>
 			getValue={(data) => data.at('child').at('gender')}

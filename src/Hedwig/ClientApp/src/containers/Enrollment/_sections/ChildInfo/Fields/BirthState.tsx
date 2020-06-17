@@ -9,7 +9,9 @@ import { displayValidationStatus } from '../../../../../utils/validations/displa
 /**
  * Component for entering the birth state of a child in an enrollment.
  */
-export const BirthStateField: React.FC<ChildInfoFormFieldProps> = ({ errorDisplayGuard: initialLoad }) => {
+export const BirthStateField: React.FC<ChildInfoFormFieldProps> = ({
+	errorDisplayGuard: initialLoad,
+}) => {
 	return (
 		<FormField<Enrollment, TextInputProps, string | null>
 			getValue={(data) => data.at('child').at('birthState')}

@@ -41,15 +41,17 @@ const mapStepsToInternalProps = function <T>(steps: StepProps<T>[], activeStep: 
 	});
 };
 
-export default function StepList<T>({ steps, props, activeStep, type = 'normal' }: StepListProps<T>) {
+export default function StepList<T>({
+	steps,
+	props,
+	activeStep,
+	type = 'normal',
+}: StepListProps<T>) {
 	const internalSteps = mapStepsToInternalProps(steps, activeStep, props);
 	return (
-		<ol className={cx(
-			"oec-step-list",
-			{ "embedded": type === 'embedded' }
-		)}>
+		<ol className={cx('oec-step-list', { embedded: type === 'embedded' })}>
 			{internalSteps.map((step) => (
-				<Step {...step} type={type}/>
+				<Step {...step} type={type} />
 			))}
 		</ol>
 	);

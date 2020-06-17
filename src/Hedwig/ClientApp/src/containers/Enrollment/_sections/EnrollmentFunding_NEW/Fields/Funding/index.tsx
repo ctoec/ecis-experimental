@@ -44,7 +44,7 @@ export const FundingField: React.FC<FundingFormFieldProps> = ({
 		const _validFundingSpaces = allFundingSpaces.filter((space) => space.ageGroup === ageGroup);
 
 		setValidFundingSpaces(_validFundingSpaces);
-	}, [dataDriller, allFundingSpaces]);
+	}, [dataDriller.at('ageGroup').value, allFundingSpaces]);
 
 	const dedupedFundingSources = Array.from(
 		new Set(validFundingSpaces.map((space) => space.source as FundingSource))
@@ -68,9 +68,8 @@ export const FundingField: React.FC<FundingFormFieldProps> = ({
 							draft,
 							dataDriller
 								.at('fundings')
-								.find((f) => f.id === fundingId)
-								.at('source').path,
-							fundingSourceFromString(e.target.value)
+								.find((f) => f.id === fundingId).path,
+							{id: 0, source: fundingSourceFromString(e.target.value)}
 						)
 					)
 				)

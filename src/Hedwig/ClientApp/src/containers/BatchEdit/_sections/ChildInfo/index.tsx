@@ -9,5 +9,5 @@ export default {
 	status: () => 'incomplete',
 	editPath: '',
 	Summary: () => <></>,
-	Form: EditForm
+	Form: EditForm,
 } as StepProps<BatchEditStepProps>;
