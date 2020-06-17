@@ -59,7 +59,6 @@ export default function useApi<TData>(
 		start: 0,
 		count: 50,
 	});
-	const [isSuccess, setIsSuccess] = useState(false);
 
 	// Run query
 	useEffect(() => {
@@ -77,7 +76,6 @@ export default function useApi<TData>(
 
 		// Reset the state for a new query if one has already been sent
 		setState({ ...state, data: defaultValue || null, error: null, loading: true });
-		setIsSuccess(false);
 
 		// We are assuming TData is array-like if paginate is true
 		if (paginate) {
@@ -87,11 +85,11 @@ export default function useApi<TData>(
 					count: count,
 				})
 					.then((apiResult) => {
+						const noMoreResult = ((apiResult as unknown) as any[]).length === 0;
 						// Stop once we have retrieved all the data
-						if (((apiResult as unknown) as any[]).length === 0) {
+						if (noMoreResult) {
 							// Need to use function syntax for state updates so pending updates aren't overwritten
 							setState((s) => ({ ...s, loading: false }));
-							setIsSuccess(true);
 							return;
 						}
 
@@ -106,10 +104,12 @@ export default function useApi<TData>(
 						// Continue requesting data
 						paginatedQuery(start + state.count, state.count);
 					})
+					.then(() => successCallback && state.data && successCallback(state.data))
 					.catch(async (apiError) => {
 						const _error = await parseError(apiError);
 						setState({ ...state, data: null, error: _error, loading: false });
-					});
+					})
+					.finally(() => callback && callback(state.data));
 			// Kick off the first request
 			paginatedQuery(state.start, state.count);
 		} else {
@@ -117,22 +117,15 @@ export default function useApi<TData>(
 			query(api)
 				.then((apiResult) => {
 					setState({ ...state, error: null, data: apiResult, loading: false });
-					setIsSuccess(true);
+					return apiResult;
 				})
+				.then((apiResult) => successCallback && successCallback(apiResult))
 				.catch(async (apiError) => {
 					const _error = await parseError(apiError);
 					setState({ ...state, data: null, error: _error, loading: false });
-				});
+				})
+				.finally(() => callback && callback(state.data));
 		}
 	}, [api, skip, ...(deps || [])]);
-
-	useEffect(() => {
-		if (callback && !skip && !state.loading) callback(state.data);
-	}, [state, isSuccess, skip, callback]);
-
-	useEffect(() => {
-		if (successCallback && state.data && isSuccess) successCallback(state.data);
-	}, [state, isSuccess, skip, successCallback]);
-
 	return { ...state };
 }
