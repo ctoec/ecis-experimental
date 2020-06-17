@@ -35,7 +35,7 @@ export const UpdateForm: React.FC<SectionProps> = ({ enrollment, siteId }) => {
 			skip: !user || !attemptingSave,
 			callback: () => {
 				setAttemptingSave(false);
-			},
+			},	
 			successCallback: (returnedEnrollment) => {
 				setForceCloseEditForms(true);
 				setMutatedEnrollment(returnedEnrollment);
@@ -46,8 +46,8 @@ export const UpdateForm: React.FC<SectionProps> = ({ enrollment, siteId }) => {
 	useEffect(() => {
 		// Re-enable opening edit forms to allow the user to make
 		// multiple edits per page visit
-		setTimeout(() => setForceCloseEditForms(false));
-	});
+		if(forceCloseEditForms) setTimeout(() => setForceCloseEditForms(false));
+	}, [forceCloseEditForms]);
 
 	const formOnSubmit = (_data: Enrollment) => {
 		setMutatedEnrollment(_data);
@@ -58,7 +58,7 @@ export const UpdateForm: React.FC<SectionProps> = ({ enrollment, siteId }) => {
 		mutatedEnrollment,
 		formOnSubmit,
 		saveError,
-		forceCloseEditForms,
+		forceCloseEditForms
 	};
 
 	return (

@@ -22,6 +22,7 @@ import EnrollmentFunding from '../EnrollmentFunding';
 import idx from 'idx';
 import { WithNewC4kCertificate } from './Fields/Care4Kids/WithNewC4kCertificate';
 import { FamilyIdField } from './Fields/Care4Kids/FamilyId';
+import { WithNewFunding } from './Fields/Funding/WithNewFunding';
 
 export const NewForm: React.FC<SectionProps> = ({
 	enrollment,
@@ -85,6 +86,7 @@ export const NewForm: React.FC<SectionProps> = ({
 	});
 
 	const isReturnVisit = touchedSections && touchedSections[EnrollmentFunding.key];
+	const fundingId = idx(enrollment, (_) => _.fundings[0].id) || 0;
 	const certificateId = idx(enrollment, (_) => _.child.c4KCertificates[0].id) || 0;
 	const [receivesC4K, setRecievesC4K] = useState(isReturnVisit ? certificateId === 0 : false);
 
@@ -109,15 +111,17 @@ export const NewForm: React.FC<SectionProps> = ({
 				className="usa-form enrollment-new-enrollment-funding-section"
 			>
 				<span className="usa-label text-bold font-sans-lg">{enrollment.site?.name}</span>
-				<EnrollmentStartDate initialLoad={!isReturnVisit} />
-				<AgeGroupField initialLoad={!isReturnVisit} />
+				<EnrollmentStartDate initialLoad={!isReturnVisit} error={saveError} errorAlertState={errorAlertState}/>
+				<AgeGroupField initialLoad={!isReturnVisit} error={saveError} errorAlertState={errorAlertState} />
 				<span className="usa-label text-bold font-sans-lg">Funding</span>
-				<FundingField
-					fundingId={0}
-					fundingSpaces={fundingSpaces}
-					error={saveError}
-					errorAlertState={errorAlertState}
-				/>
+				<WithNewFunding shouldCreate={fundingId === 0}>
+					<FundingField
+						fundingId={fundingId}
+						fundingSpaces={fundingSpaces}
+						error={saveError}
+						errorAlertState={errorAlertState}
+					/>
+				</WithNewFunding>
 
 				<span className="usa-label text-bold font-sans-lg">Care 4 Kids</span>
 				<WithNewC4kCertificate shouldCreate={certificateId === 0 && receivesC4K}>

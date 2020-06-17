@@ -4,6 +4,8 @@ import { ApiError } from '../../../../../hooks/useApi';
 
 export type EnrollmentFormFieldProps = {
 	initialLoad?: boolean;
+	error: ApiError | null;
+	errorAlertState?: ErrorAlertState;
 };
 
 export type FundingFormFieldProps = {

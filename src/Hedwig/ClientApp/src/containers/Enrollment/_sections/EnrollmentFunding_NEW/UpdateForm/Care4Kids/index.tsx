@@ -17,7 +17,7 @@ import { Enrollment } from '../../../../../../generated';
 export const Care4KidsForm: React.FC<UpdateFormSectionProps> = ({
 	mutatedEnrollment,
 	formOnSubmit: _formOnSubmit,
-	saveError,
+	saveError = null,
 	forceCloseEditForms,
 }) => {
 	if (!mutatedEnrollment || !mutatedEnrollment.child) {
@@ -29,7 +29,6 @@ export const Care4KidsForm: React.FC<UpdateFormSectionProps> = ({
 		c4kCertificateSorter(a, b, true)
 	);
 
-	console.log('past certs', pastC4kCerts);
 	const errorAlertState = useCatchAllErrorAlert(saveError);
 
 	// // this is a hack, borrowed from what made sense + worked in FamilyIncome
@@ -42,7 +41,7 @@ export const Care4KidsForm: React.FC<UpdateFormSectionProps> = ({
 
 	const formOnSubmit = (data: Enrollment) => {
 		// setShowNew(false);
-		_formOnSubmit(data);
+		_formOnSubmit && _formOnSubmit(data);
 	};
 
 	return (

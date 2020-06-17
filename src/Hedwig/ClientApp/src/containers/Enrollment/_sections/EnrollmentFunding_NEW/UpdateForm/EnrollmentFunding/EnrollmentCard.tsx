@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Enrollment } from '../../../../../../generated';
-import { Card, Button, CardProps, TextWithIcon } from '../../../../../../components';
+import { Card, Button, CardProps, TextWithIcon, InlineIcon } from '../../../../../../components';
 import { prettyAge } from '../../../../../../utils/models';
 import dateFormatter from '../../../../../../utils/dateFormatter';
 import { CardExpansion } from '../../../../../../components/Card/CardExpansion';
@@ -26,34 +26,43 @@ export const EnrollmentCard = ({
 	expansion,
 	className,
 }: EnrollmentCardProps) => {
+	// State var to persist expanded state between renders.
+	// Specifically needed to keep a card expanded when the
+	// attempted edit results in an error
+	const [expanded, setExpanded] = useState(forceClose);
 	return (
 		<Card
+			expanded={expanded}
 			appearance={isCurrent ? 'primary' : 'secondary'}
 			forceClose={forceClose}
-			// Date display wasn't updating after edit with just enrollment id as key
-			key={JSON.stringify(enrollment)}
+			key={`${enrollment.id}-${enrollment.entry}-${enrollment.exit}-${enrollment.ageGroup}`}
 			className={className}
 		>
 			<div className="display-flex flex-justify">
-				{/* Formatted enrollment content  with ExpandCard*/}
 				<div className="flex-1">
 					<p>Site</p>
 					<p className="text-bold">{enrollment.site?.name}</p>
 				</div>
 				<div className="flex-1">
 					<p>Age group</p>
-					<p className="text-bold">{prettyAge(enrollment.ageGroup)}</p>
+					<p className="text-bold">
+						{enrollment.ageGroup ? prettyAge(enrollment.ageGroup): InlineIcon({icon: 'incomplete'})}
+					</p>
 				</div>
 				<div className="flex-2">
 					<p>Enrollment dates</p>
-					<p className="text-bold">{`${dateFormatter(enrollment.entry)} - ${
-						enrollment.exit ? dateFormatter(enrollment.exit) : 'present'
-					}`}</p>
+					<p className="text-bold">
+						{enrollment.entry  
+							? `${dateFormatter(enrollment.entry)} - ${
+									enrollment.exit ? dateFormatter(enrollment.exit) : 'present'
+								}`
+							: InlineIcon({icon: 'incomplete'})}
+					</p>
 				</div>
 				{expansion && (
 					<ExpandCard>
 						{/* ExpandCard provides the onclick event */}
-						<Button text={<TextWithIcon text="Edit" Icon={Pencil} />} appearance="unstyled" />
+						<Button text={<TextWithIcon text="Edit" Icon={Pencil} />} appearance="unstyled" onClick={() => setExpanded(e => !e)}/>
 					</ExpandCard>
 				)}
 			</div>

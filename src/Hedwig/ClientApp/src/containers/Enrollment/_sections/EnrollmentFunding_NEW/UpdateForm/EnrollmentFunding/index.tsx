@@ -50,7 +50,7 @@ export const EnrollmentFundingForm: React.FC<UpdateFormSectionProps> = ({
 				enrollment={mutatedEnrollment}
 				isCurrent
 				forceClose={forceCloseEditForms}
-				expansion={<EnrollmentFormForCard formData={mutatedEnrollment} onSubmit={formOnSubmit} />}
+				expansion={<EnrollmentFormForCard formData={mutatedEnrollment} onSubmit={formOnSubmit} error={saveError} errorAlertState={errorAlertState}/>}
 			/>
 			{(mutatedEnrollment.fundings || []).map((funding, i, fundingsArr) => (
 				<FundingCard

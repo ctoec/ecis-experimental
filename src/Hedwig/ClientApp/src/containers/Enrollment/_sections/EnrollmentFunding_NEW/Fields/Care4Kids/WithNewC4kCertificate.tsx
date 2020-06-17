@@ -4,11 +4,9 @@ import React, { useEffect, PropsWithChildren, useState } from 'react';
 import produce from 'immer';
 import set from 'lodash/set';
 import moment from 'moment';
-import { enrollmentDetailMetadataFormatter } from '../../../../../../utils/stringFormatters';
 
 type WithNewC4kCertificateProps = {
 	shouldCreate: boolean;
-	endLastCert?: boolean;
 };
 
 // Used in new flow, also in edit flow when user needs to re-certify
@@ -35,7 +33,6 @@ export const WithNewC4kCertificate: React.FC<PropsWithChildren<WithNewC4kCertifi
 	// and capture the Id of the previously active cert
 	useEffect(() => {
 		if (shouldCreate && newCert.value === undefined) {
-			console.log('set');
 			setActivePreviousCertId(
 				dataDriller
 					.at('child')
@@ -64,6 +61,7 @@ export const WithNewC4kCertificate: React.FC<PropsWithChildren<WithNewC4kCertifi
 		const prevCertEnd = newCertStart
 			? moment.utc(newCert.at('startDate').value).add(-1, 'days').toDate()
 			: undefined;
+
 		if (
 			activePreviousCert.value != undefined &&
 			activePreviousCert.at('endDate').value !== prevCertEnd

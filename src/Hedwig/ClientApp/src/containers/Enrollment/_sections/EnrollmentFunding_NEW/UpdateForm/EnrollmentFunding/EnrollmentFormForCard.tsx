@@ -5,10 +5,14 @@ import { EnrollmentStartDate } from '../../Fields/EnrollmentStartDate';
 import { AgeGroupField } from '../../Fields/AgeGroup';
 import { Button } from '../../../../../../components';
 import { ExpandCard } from '../../../../../../components/Card/ExpandCard';
+import { ErrorAlertState } from '../../../../../../hooks/useCatchAllErrorAlert';
+import { ApiError } from '../../../../../../hooks/useApi';
 
 type EnrollmentFormForCardProps = {
 	formData: Enrollment;
 	onSubmit: (_: Enrollment) => void;
+	error: ApiError | null;
+	errorAlertState: ErrorAlertState
 };
 
 // For now, only edit AND only current enrollment
@@ -31,11 +35,13 @@ type EnrollmentFormForCardProps = {
 export const EnrollmentFormForCard: React.FC<EnrollmentFormForCardProps> = ({
 	formData,
 	onSubmit,
+	error,
+	errorAlertState
 }) => {
 	return (
 		<Form id={`edit-enrollment`} data={formData} onSubmit={onSubmit} className="usa-form">
-			<EnrollmentStartDate initialLoad={false} />
-			<AgeGroupField initialLoad={false} />
+			<EnrollmentStartDate initialLoad={false} error={error} errorAlertState={errorAlertState} />
+			<AgeGroupField initialLoad={false} error={error} errorAlertState={errorAlertState} />
 			<ExpandCard>
 				<Button text="Cancel" appearance="outline" />
 			</ExpandCard>
