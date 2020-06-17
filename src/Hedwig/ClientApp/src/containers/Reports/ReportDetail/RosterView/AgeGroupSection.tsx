@@ -1,23 +1,14 @@
 import React from 'react';
-import idx from 'idx';
 import pluralize from 'pluralize';
-import { Link } from 'react-router-dom';
-import { Table, TableProps, InlineIcon, DateRange, Column, Legend } from '../../../../components';
-import { Enrollment, FundingSpace, FundingSource, Organization, Site } from '../../../../generated';
-import { lastFirstNameFormatter } from '../../../../utils/stringFormatters';
-import dateFormatter from '../../../../utils/dateFormatter';
-import {
-	NO_FUNDING,
-	isFundedForFundingSpace,
-	prettyFundingSpaceTime,
-	isCurrentToRange,
-	dedupeFundings,
-	isCurrentToRangeC4K,
-} from '../../../../utils/models';
-import { hasValidationErrors } from '../../../../utils/validations';
-import { isFunded } from '../../../../utils/models';
+import { Table, TableProps, DateRange, Column, Legend } from '../../../../components';
+import { Enrollment, FundingSpace, Organization, Site } from '../../../../generated';
+import { isFundedForFundingSpace, prettyFundingSpaceTime } from '../../../../utils/models';
 import { legendDisplayDetails } from '../../../../utils/legendFormatters';
-import { getC4KTag, getFundingTag, getFundingTimeTag } from '../../../../utils/fundingType';
+import { ReportFundingColumn } from '../../../RosterColumns/ReportFundingColumn';
+import { NameColumn } from '../../../RosterColumns/NameColumn';
+import { BirthdateColumn } from '../../../RosterColumns/BirthDateColumn';
+import { SiteColumn } from '../../../RosterColumns/SiteColumn';
+import { EnrolledOnColumn } from '../../../RosterColumns/EnrolledOnColumn';
 
 export type AgeGroupTableProps = {
 	id: string;
@@ -35,10 +26,6 @@ type AgeGroupSectionProps = {
 	showPastEnrollments?: boolean;
 };
 
-/*
- * IDEA: The columns that are common across this AgeGroupSection and that on the
- * main roster page could be separated into individual components for resuse.
- */
 export const AgeGroupSection: React.FC<AgeGroupSectionProps> = ({
 	organization,
 	site,
@@ -54,98 +41,25 @@ export const AgeGroupSection: React.FC<AgeGroupSectionProps> = ({
 	if ((site && !enrollments.length) || (fundingSpaces && !fundingSpaces.length)) return null;
 	// If we're looking at the organization roster, or if there are any funding spaces for this age group, at least show the header
 
-	const columns: Column<Enrollment>[] = [];
-	const nameColumn: Column<Enrollment> = {
-		name: 'Name',
-		cell: ({ row }) => (
-			<th scope="row">
-				<Link to={`/roster/sites/${row.siteId}/enrollments/${row.id}/`} className="usa-link print">
-					{lastFirstNameFormatter(row.child)}
-				</Link>
-				&nbsp;
-				{isFunded(row, { source: FundingSource.CDC }) && hasValidationErrors(row)
-					? InlineIcon({ icon: 'incomplete' })
-					: ''}
-			</th>
-		),
-		sort: (row) => lastFirstNameFormatter(row.child).toLowerCase(),
-		width: '25%',
-	};
-
-	const birthdateColumn: Column<Enrollment> = {
-		name: 'Birthdate',
-		cell: ({ row }) =>
-			(row.child && (
-				<td className="oec-table__cell--tabular-nums">
-					{row.child.birthdate && dateFormatter(row.child.birthdate)}
-				</td>
-			)) || <></>,
-		sort: (row) => ((row.child && row.child.birthdate) || new Date(0)).getTime(),
-		width: '17%',
-	};
-
-	const fundingColumn: Column<Enrollment> = {
-		name: 'Funding',
-		cell: ({ row }) => {
-			const filteredFundings = dedupeFundings(
-				(row.fundings || []).filter((f) => isCurrentToRange(f, rosterDateRange))
-			);
-			const filteredCertificates = ((row.child && row.child.c4KCertificates) || []).filter((c) =>
-				isCurrentToRangeC4K(c, rosterDateRange)
-			);
-
-			return (
-				<td>
-					{filteredFundings.map((funding, index) =>
-						getFundingTimeTag({
-							fundingSource: funding.source,
-							index,
-							fundingTime: funding.fundingSpace ? funding.fundingSpace.time : undefined,
-						})
-					)}
-					{filteredCertificates.length > 0 && getC4KTag()}
-					{filteredFundings.length === 0 && filteredCertificates.length === 0 && (
-						<span className="text-italic text-base">{NO_FUNDING}</span>
-					)}
-				</td>
-			);
-		},
-		sort: (row) => idx(row, (_) => _.fundings[0].source) || '',
-		width: '18%',
-	};
-
-	const siteColumn: Column<Enrollment> = {
-		name: 'Site',
-		cell: ({ row }) => (
-			<td
-				className="ellipsis-wrap-text ellipsis-wrap-text--tight"
-				title={(row.site && row.site.name) || undefined}
-			>
-				{row.site && row.site.name}
-			</td>
-		),
-		sort: (row) => ((row.site && row.site.name) || '').toLowerCase(),
-		width: '20%',
-	};
-
-	const enrollmentDateColumn: Column<Enrollment> = {
-		name: 'Enrolled on',
-		cell: ({ row }) => (
-			<td className="oec-table__cell--tabular-nums">{row.entry ? dateFormatter(row.entry) : ''}</td>
-		),
-		sort: (row) => (row.entry && row.entry.toString()) || '',
-		width: '20%',
-	};
-
-	columns.push(nameColumn);
-	columns.push(birthdateColumn);
-	columns.push(fundingColumn);
+	let columns: Column<Enrollment>[] = [];
 	// Only show the site column if we're in multi-site view,
 	// and it exists (more than one site)
 	if (!site && organization.sites && organization.sites.length > 1) {
-		columns.push(siteColumn);
+		columns = [
+			NameColumn(25),
+			BirthdateColumn(17),
+			ReportFundingColumn(rosterDateRange, 18),
+			SiteColumn(20),
+			EnrolledOnColumn(20),
+		];
+	} else {
+		columns = [
+			NameColumn(30),
+			BirthdateColumn(22),
+			ReportFundingColumn(rosterDateRange, 23),
+			EnrolledOnColumn(25),
+		];
 	}
-	columns.push(enrollmentDateColumn);
 
 	const rosterTableProps: TableProps<Enrollment> = {
 		id: `${ageGroup}-roster-table`,

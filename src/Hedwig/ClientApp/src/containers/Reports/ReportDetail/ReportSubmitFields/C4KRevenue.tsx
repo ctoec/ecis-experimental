@@ -38,6 +38,7 @@ export const C4KRevenueField: React.FC<C4KRevenueFieldProps> = ({
 	var c4kFundedEnrollments = (enrollments || []).filter(
 		(enrollment) => !!activeC4kFundingAsOf(enrollment, submittedAt || undefined)
 	);
+	console.log(c4kFundedEnrollments);
 	var childIds: string[] = [];
 	c4kFundedEnrollments.forEach((enrollment) => {
 		const childId = enrollment.childId;

@@ -229,7 +229,7 @@ exports[`Roster matches snapshot 1`] = `
             class="oec-table__column-header oec-sortable oec-sorted"
             role="columnheader"
             scope="col"
-            style="width: 25%;"
+            style="width: 30%;"
           >
             <button
               aria-label="Sort table by Name in descending order"
@@ -252,7 +252,7 @@ exports[`Roster matches snapshot 1`] = `
             class="oec-table__column-header oec-sortable oec-unsorted"
             role="columnheader"
             scope="col"
-            style="width: 17%;"
+            style="width: 22%;"
           >
             <button
               aria-label="Sort table by Birthdate in ascending order"
@@ -275,7 +275,7 @@ exports[`Roster matches snapshot 1`] = `
             class="oec-table__column-header oec-sortable oec-unsorted"
             role="columnheader"
             scope="col"
-            style="width: 18%;"
+            style="width: 23%;"
           >
             <button
               aria-label="Sort table by Funding in ascending order"
@@ -298,7 +298,7 @@ exports[`Roster matches snapshot 1`] = `
             class="oec-table__column-header oec-sortable oec-unsorted"
             role="columnheader"
             scope="col"
-            style="width: 20%;"
+            style="width: 25%;"
           >
             <button
               aria-label="Sort table by Enrollment date in ascending order"
@@ -461,7 +461,7 @@ exports[`Roster matches snapshot 1`] = `
             class="oec-table__column-header oec-sortable oec-sorted"
             role="columnheader"
             scope="col"
-            style="width: 25%;"
+            style="width: 30%;"
           >
             <button
               aria-label="Sort table by Name in descending order"
@@ -484,7 +484,7 @@ exports[`Roster matches snapshot 1`] = `
             class="oec-table__column-header oec-sortable oec-unsorted"
             role="columnheader"
             scope="col"
-            style="width: 17%;"
+            style="width: 22%;"
           >
             <button
               aria-label="Sort table by Birthdate in ascending order"
@@ -507,7 +507,7 @@ exports[`Roster matches snapshot 1`] = `
             class="oec-table__column-header oec-sortable oec-unsorted"
             role="columnheader"
             scope="col"
-            style="width: 18%;"
+            style="width: 23%;"
           >
             <button
               aria-label="Sort table by Funding in ascending order"
@@ -530,7 +530,7 @@ exports[`Roster matches snapshot 1`] = `
             class="oec-table__column-header oec-sortable oec-unsorted"
             role="columnheader"
             scope="col"
-            style="width: 20%;"
+            style="width: 25%;"
           >
             <button
               aria-label="Sort table by Enrollment date in ascending order"
@@ -872,7 +872,7 @@ exports[`Roster matches snapshot 1`] = `
             class="oec-table__column-header oec-sortable oec-sorted"
             role="columnheader"
             scope="col"
-            style="width: 25%;"
+            style="width: 30%;"
           >
             <button
               aria-label="Sort table by Name in descending order"
@@ -895,7 +895,7 @@ exports[`Roster matches snapshot 1`] = `
             class="oec-table__column-header oec-sortable oec-unsorted"
             role="columnheader"
             scope="col"
-            style="width: 17%;"
+            style="width: 22%;"
           >
             <button
               aria-label="Sort table by Birthdate in ascending order"
@@ -918,7 +918,7 @@ exports[`Roster matches snapshot 1`] = `
             class="oec-table__column-header oec-sortable oec-unsorted"
             role="columnheader"
             scope="col"
-            style="width: 18%;"
+            style="width: 23%;"
           >
             <button
               aria-label="Sort table by Funding in ascending order"
@@ -941,7 +941,7 @@ exports[`Roster matches snapshot 1`] = `
             class="oec-table__column-header oec-sortable oec-unsorted"
             role="columnheader"
             scope="col"
-            style="width: 20%;"
+            style="width: 25%;"
           >
             <button
               aria-label="Sort table by Enrollment date in ascending order"

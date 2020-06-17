@@ -22,14 +22,12 @@ jest.mock('../../../../hooks/useApi', () =>
 
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import ReportSubmitForm from '.';
+import RevenueView from './RevenueView';
 import TestProvider from '../../../../contexts/__mocks__/TestProvider';
 import { DeepNonUndefineable } from '../../../../utils/types';
 import { CdcReport } from '../../../../generated';
 import { accessibilityTestHelper } from '../../../../tests/helpers';
 import { Form } from '../../../../components/Form_New';
-import { createMemoryHistory } from 'history';
-import ReportDetail from '../ReportDetail';
 
 afterAll(() => {
 	jest.resetModules();
@@ -44,7 +42,7 @@ describe('ReportSubmitForm', () => {
 					onSubmit={jest.fn()}
 					className=""
 				>
-					<ReportSubmitForm
+					<RevenueView
 						report={mockDefaultReport as DeepNonUndefineable<CdcReport>}
 						canSubmit={true}
 						error={null}
@@ -65,7 +63,7 @@ describe('ReportSubmitForm', () => {
 					onSubmit={jest.fn()}
 					className=""
 				>
-					<ReportSubmitForm
+					<RevenueView
 						report={mockDefaultReport as DeepNonUndefineable<CdcReport>}
 						canSubmit={true}
 						error={null}
@@ -90,7 +88,7 @@ describe('ReportSubmitForm', () => {
 					onSubmit={jest.fn()}
 					className=""
 				>
-					<ReportSubmitForm
+					<RevenueView
 						report={mockDefaultReport as DeepNonUndefineable<CdcReport>}
 						canSubmit={true}
 						error={null}
@@ -118,7 +116,7 @@ describe('ReportSubmitForm', () => {
 					onSubmit={jest.fn()}
 					className=""
 				>
-					<ReportSubmitForm
+					<RevenueView
 						report={mockReportWithTimeSplitUtilizations as DeepNonUndefineable<CdcReport>}
 						canSubmit={true}
 						error={null}
@@ -145,7 +143,7 @@ describe('ReportSubmitForm', () => {
 				onSubmit={jest.fn()}
 				className=""
 			>
-				<ReportSubmitForm
+				<RevenueView
 					report={mockDefaultReport as DeepNonUndefineable<CdcReport>}
 					canSubmit={true}
 					error={null}

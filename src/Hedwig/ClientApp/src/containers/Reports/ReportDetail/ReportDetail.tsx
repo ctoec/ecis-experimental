@@ -1,7 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import RevenueView from './RevenueView';
-import RosterView from './RosterView';
 import dateFormatter from '../../../utils/dateFormatter';
 import UserContext from '../../../contexts/User/UserContext';
 import { getIdForUser, reportingPeriodFormatter } from '../../../utils/models';
@@ -18,10 +16,11 @@ import { CdcReport, ApiOrganizationsOrgIdReportsIdPutRequest } from '../../../ge
 import { AccreditedField } from './ReportSubmitFields';
 import { useFocusFirstError } from '../../../utils/validations';
 import { TabNav } from '../../../components/TabNav/TabNav';
-
 import useCatchAllErrorAlert from '../../../hooks/useCatchAllErrorAlert';
 import AppContext from '../../../contexts/App/AppContext';
 import AlertContext from '../../../contexts/Alert/AlertContext';
+import RosterView from './RosterView/RosterView';
+import RevenueView from './RevenueView/RevenueView';
 
 const ROSTER_ID = 'roster';
 const REVENUE_ID = 'revenue';

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Table, { TableProps } from '../../../../components/Table/Table';
 import {
 	CdcReport,
@@ -7,7 +7,6 @@ import {
 	FundingTime,
 	FundingSpace,
 	FundingSource,
-	FundingTimeSplitUtilization,
 } from '../../../../generated';
 import idx from 'idx';
 import moment from 'moment';
