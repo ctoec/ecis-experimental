@@ -22,7 +22,7 @@ namespace HedwigTests.Controllers
 			var orgId = 1;
 			await controller.Get(orgId);
 
-			_sites.Verify(s => s.GetSitesForOrganizationAsync(orgId), Times.Once());
+			_sites.Verify(s => s.GetEnrollmentSummarySiteDTOsForOrganizationAsync(orgId), Times.Once());
 		}
 
 		[Theory]
