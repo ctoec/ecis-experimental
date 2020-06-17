@@ -70,8 +70,7 @@ exports[`Roster matches snapshot 1`] = `
           class="oec-legend-item__symbol undefined"
         >
           <span
-            class="usa-tag position-relative top-neg-2px bg-blue-50v"
-            style="text-transform: unset;"
+            class="usa-tag usa-tag--no-transform position-relative top-neg-2px bg-blue-50v"
           >
             CDC
           </span>
@@ -137,8 +136,7 @@ exports[`Roster matches snapshot 1`] = `
           class="oec-legend-item__symbol undefined"
         >
           <span
-            class="usa-tag bg-blue-50v"
-            style="text-transform: unset;"
+            class="usa-tag usa-tag--no-transform bg-blue-50v"
           >
             CDC–FT
           </span>
@@ -166,8 +164,7 @@ exports[`Roster matches snapshot 1`] = `
           class="oec-legend-item__symbol undefined"
         >
           <span
-            class="usa-tag bg-blue-50v"
-            style="text-transform: unset;"
+            class="usa-tag usa-tag--no-transform bg-blue-50v"
           >
             CDC–PT
           </span>
@@ -195,8 +192,7 @@ exports[`Roster matches snapshot 1`] = `
           class="oec-legend-item__symbol undefined"
         >
           <span
-            class="usa-tag bg-blue-50v"
-            style="text-transform: unset;"
+            class="usa-tag usa-tag--no-transform bg-blue-50v"
           >
             CDC-PT/FT
           </span>
@@ -338,8 +334,7 @@ exports[`Roster matches snapshot 1`] = `
           </td>
           <td>
             <span
-              class="usa-tag bg-blue-50v"
-              style="text-transform: unset;"
+              class="usa-tag usa-tag--no-transform bg-blue-50v"
             >
               CDC–PT
             </span>
@@ -369,8 +364,7 @@ exports[`Roster matches snapshot 1`] = `
           </td>
           <td>
             <span
-              class="usa-tag bg-blue-50v"
-              style="text-transform: unset;"
+              class="usa-tag usa-tag--no-transform bg-blue-50v"
             >
               CDC–FT
             </span>
@@ -398,8 +392,7 @@ exports[`Roster matches snapshot 1`] = `
           class="oec-legend-item__symbol undefined"
         >
           <span
-            class="usa-tag bg-blue-50v"
-            style="text-transform: unset;"
+            class="usa-tag usa-tag--no-transform bg-blue-50v"
           >
             CDC–FT
           </span>
@@ -427,8 +420,7 @@ exports[`Roster matches snapshot 1`] = `
           class="oec-legend-item__symbol undefined"
         >
           <span
-            class="usa-tag bg-blue-50v"
-            style="text-transform: unset;"
+            class="usa-tag usa-tag--no-transform bg-blue-50v"
           >
             CDC–PT
           </span>
@@ -570,8 +562,7 @@ exports[`Roster matches snapshot 1`] = `
           </td>
           <td>
             <span
-              class="usa-tag bg-blue-50v"
-              style="text-transform: unset;"
+              class="usa-tag usa-tag--no-transform bg-blue-50v"
             >
               CDC–FT
             </span>
@@ -613,8 +604,7 @@ exports[`Roster matches snapshot 1`] = `
           </td>
           <td>
             <span
-              class="usa-tag bg-blue-50v"
-              style="text-transform: unset;"
+              class="usa-tag usa-tag--no-transform bg-blue-50v"
             >
               CDC–FT
             </span>
@@ -656,8 +646,7 @@ exports[`Roster matches snapshot 1`] = `
           </td>
           <td>
             <span
-              class="usa-tag bg-blue-50v"
-              style="text-transform: unset;"
+              class="usa-tag usa-tag--no-transform bg-blue-50v"
             >
               CDC–FT
             </span>
@@ -687,8 +676,7 @@ exports[`Roster matches snapshot 1`] = `
           </td>
           <td>
             <span
-              class="usa-tag bg-blue-50v"
-              style="text-transform: unset;"
+              class="usa-tag usa-tag--no-transform bg-blue-50v"
             >
               CDC–FT
             </span>
@@ -718,8 +706,7 @@ exports[`Roster matches snapshot 1`] = `
           </td>
           <td>
             <span
-              class="usa-tag bg-blue-50v"
-              style="text-transform: unset;"
+              class="usa-tag usa-tag--no-transform bg-blue-50v"
             >
               CDC–FT
             </span>
@@ -749,8 +736,7 @@ exports[`Roster matches snapshot 1`] = `
           </td>
           <td>
             <span
-              class="usa-tag bg-blue-50v"
-              style="text-transform: unset;"
+              class="usa-tag usa-tag--no-transform bg-blue-50v"
             >
               CDC–PT
             </span>
@@ -780,8 +766,7 @@ exports[`Roster matches snapshot 1`] = `
           </td>
           <td>
             <span
-              class="usa-tag bg-blue-50v"
-              style="text-transform: unset;"
+              class="usa-tag usa-tag--no-transform bg-blue-50v"
             >
               CDC–FT
             </span>
@@ -809,8 +794,7 @@ exports[`Roster matches snapshot 1`] = `
           class="oec-legend-item__symbol undefined"
         >
           <span
-            class="usa-tag bg-blue-50v"
-            style="text-transform: unset;"
+            class="usa-tag usa-tag--no-transform bg-blue-50v"
           >
             CDC–FT
           </span>
@@ -838,8 +822,7 @@ exports[`Roster matches snapshot 1`] = `
           class="oec-legend-item__symbol undefined"
         >
           <span
-            class="usa-tag bg-blue-50v"
-            style="text-transform: unset;"
+            class="usa-tag usa-tag--no-transform bg-blue-50v"
           >
             CDC–PT
           </span>
