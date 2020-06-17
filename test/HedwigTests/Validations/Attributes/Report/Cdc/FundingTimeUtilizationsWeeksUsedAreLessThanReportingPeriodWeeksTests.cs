@@ -59,12 +59,6 @@ namespace HedwigTests.Validations.Attributes
 			organizations.Setup(o => o.GetOrganizationById(It.IsAny<int>()))
 			 .Returns(organization);
 
-			var _mapper = new Mock<IMapper>();
-			_mapper.Setup(m => m.Map<Organization, EnrollmentSummaryOrganizationDTO>(It.IsAny<Organization>()))
-				.Returns(It.IsAny<EnrollmentSummaryOrganizationDTO>());
-			organizations.Setup(o => o.GetEnrollmentSummaryOrganizationDTOById(It.IsAny<int>()))
-			 .Returns(_mapper.Object.Map<EnrollmentSummaryOrganizationDTO>(organization));
-
 			var serviceProvider = new Mock<IServiceProvider>();
 			serviceProvider.Setup(v => v.GetService(typeof(IOrganizationRepository)))
 			.Returns(organizations.Object);
@@ -148,11 +142,6 @@ namespace HedwigTests.Validations.Attributes
 			var _mapper = new Mock<IMapper>();
 			organizations.Setup(o => o.GetOrganizationById(It.IsAny<int>()))
 			  .Returns(organization);
-
-			_mapper.Setup(m => m.Map<Organization, EnrollmentSummaryOrganizationDTO>(It.IsAny<Organization>()))
-				.Returns(It.IsAny<EnrollmentSummaryOrganizationDTO>());
-			organizations.Setup(o => o.GetEnrollmentSummaryOrganizationDTOById(It.IsAny<int>()))
-			  .Returns(_mapper.Object.Map<EnrollmentSummaryOrganizationDTO>(organization));
 
 			var serviceProvider = new Mock<IServiceProvider>();
 			serviceProvider.Setup(v => v.GetService(typeof(IOrganizationRepository)))
