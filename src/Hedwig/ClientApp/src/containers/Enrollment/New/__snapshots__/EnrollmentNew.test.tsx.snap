@@ -168,7 +168,7 @@ exports[`EnrollmentNew FamilyIncome matches snapshot 1`] = `
                     </span>
                   </legend>
                   <div
-                    class="grid-gap grid-col"
+                    class="grid-gap grid-row flex-align-start"
                   >
                     <div>
                       <div
