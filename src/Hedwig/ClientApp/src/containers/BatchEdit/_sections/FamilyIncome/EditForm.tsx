@@ -7,12 +7,7 @@ import { IncomeDeterminationFieldSet } from '../../../Enrollment/_sections/Famil
 import { Button } from '../../../../components';
 import useCatchAllErrorAlert from '../../../../hooks/useCatchAllErrorAlert';
 
-export const EditForm: React.FC<BatchEditStepProps> = ({ enrollment, error, onSubmit, onSkip }) => {
-	if (!enrollment) {
-		throw new Error('Section rendered without enrollment');
-	}
-
-	useCatchAllErrorAlert(error);
+export const EditForm: React.FC<BatchEditStepProps> = ({ enrollment, onSubmit, onSkip }) => {
 	const determinationsWithErrors = (enrollment.child?.family?.determinations || []).filter(
 		(det) => !!det.validationErrors && det.validationErrors.length
 	);
