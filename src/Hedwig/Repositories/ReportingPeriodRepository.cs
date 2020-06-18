@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Hedwig.Models;
 using Hedwig.Data;
+using Hedwig.Models;
 
 namespace Hedwig.Repositories
 {

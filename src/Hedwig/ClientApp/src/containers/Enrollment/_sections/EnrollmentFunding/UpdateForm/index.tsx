@@ -10,6 +10,7 @@ import {
 import UserContext from '../../../../../contexts/User/UserContext';
 import { validatePermissions, getIdForUser } from '../../../../../utils/models';
 import useApi from '../../../../../hooks/useApi';
+import useCatchAllErrorAlert from '../../../../../hooks/useCatchAllErrorAlert';
 
 export const UpdateForm: React.FC<SectionProps> = ({ enrollment, siteId }) => {
 	if (!enrollment) {
@@ -43,6 +44,8 @@ export const UpdateForm: React.FC<SectionProps> = ({ enrollment, siteId }) => {
 		}
 	);
 
+	const errorAlertState = useCatchAllErrorAlert(saveError);
+
 	useEffect(() => {
 		// Re-enable opening edit forms to allow the user to make
 		// multiple edits per page visit
@@ -58,6 +61,7 @@ export const UpdateForm: React.FC<SectionProps> = ({ enrollment, siteId }) => {
 		mutatedEnrollment,
 		formOnSubmit,
 		saveError,
+		errorAlertState,
 		forceCloseEditForms,
 	};
 

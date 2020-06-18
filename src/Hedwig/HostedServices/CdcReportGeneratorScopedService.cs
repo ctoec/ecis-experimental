@@ -1,9 +1,9 @@
+using System;
+using System.Threading.Tasks;
 using Hedwig.Models;
 using Hedwig.Repositories;
-using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
-using System;
 using Hedwig.Utilities.DateTime;
+using Microsoft.Extensions.Logging;
 
 namespace Hedwig.HostedServices
 {

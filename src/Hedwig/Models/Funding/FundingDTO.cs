@@ -1,5 +1,5 @@
-using Hedwig.Validations;
 using System.Collections.Generic;
+using Hedwig.Validations;
 
 namespace Hedwig.Models
 {

@@ -1,10 +1,10 @@
-using Hedwig.Models;
-using Hedwig.Validations.Rules;
-using Hedwig.Validations;
-using Moq;
 using System;
 using System.Collections.Generic;
+using Hedwig.Models;
 using Hedwig.Repositories;
+using Hedwig.Validations;
+using Hedwig.Validations.Rules;
+using Moq;
 using Xunit;
 
 namespace HedwigTests.Validations.Rules

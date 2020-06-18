@@ -16,7 +16,8 @@ import useCatchAllErrorAlert from '../../../../../../hooks/useCatchAllErrorAlert
 export const Care4KidsForm: React.FC<UpdateFormSectionProps> = ({
 	mutatedEnrollment,
 	formOnSubmit,
-	saveError = null,
+	saveError,
+	errorAlertState,
 	forceCloseEditForms,
 }) => {
 	if (!mutatedEnrollment || !mutatedEnrollment.child) {
@@ -27,8 +28,6 @@ export const Care4KidsForm: React.FC<UpdateFormSectionProps> = ({
 	const pastC4kCerts = getPastC4kCertificates(mutatedEnrollment).sort((a, b) =>
 		c4kCertificateSorter(a, b, true)
 	);
-
-	const errorAlertState = useCatchAllErrorAlert(saveError);
 
 	return (
 		<>

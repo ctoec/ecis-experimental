@@ -1,7 +1,7 @@
-using Moq;
-using Microsoft.AspNetCore.Http;
 using System;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
+using Moq;
 
 namespace HedwigTests.Fixtures
 {

@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Moq;
-using Xunit;
 using Hedwig.Models;
 using Hedwig.Repositories;
 using Hedwig.Validations.Attributes;
+using Moq;
+using Xunit;
 
 namespace HedwigTests.Validations.Attributes
 {

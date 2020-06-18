@@ -1,12 +1,12 @@
-using Xunit;
-using Moq;
 using System;
-using System.Threading.Tasks;
 using System.Security.Claims;
+using System.Threading.Tasks;
+using Hedwig.Controllers;
+using Hedwig.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Hedwig.Repositories;
-using Hedwig.Controllers;
+using Moq;
+using Xunit;
 
 namespace HedwigTests.Controllers
 {

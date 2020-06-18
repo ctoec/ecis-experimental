@@ -1,8 +1,8 @@
-using Microsoft.Extensions.DependencyInjection;
-using Xunit;
 using Hedwig.Models;
 using Hedwig.Validations;
 using HedwigTests.Fixtures;
+using Microsoft.Extensions.DependencyInjection;
+using Xunit;
 
 
 namespace HedwigTests.Validations

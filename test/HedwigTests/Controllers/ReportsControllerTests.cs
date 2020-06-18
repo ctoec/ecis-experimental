@@ -1,15 +1,15 @@
-using Xunit;
-using Moq;
 using System;
-using System.Threading.Tasks;
 using System.Collections.Generic;
-using Hedwig.Repositories;
+using System.Threading.Tasks;
+using AutoMapper;
 using Hedwig.Controllers;
 using Hedwig.Models;
+using Hedwig.Repositories;
+using Hedwig.Validations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Hedwig.Validations;
-using AutoMapper;
+using Moq;
+using Xunit;
 
 namespace HedwigTests.Controllers
 {
@@ -42,7 +42,7 @@ namespace HedwigTests.Controllers
 			var returns = exists ? new CdcReport() : null;
 			var _reports = new Mock<IReportRepository>();
 			_reports.Setup(r => r.GetCdcReportForOrganization(id, orgId))
-      .Returns(returns);
+			.Returns(returns);
 
 			var _mapper = new Mock<IMapper>();
 

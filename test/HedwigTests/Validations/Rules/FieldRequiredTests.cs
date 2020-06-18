@@ -1,5 +1,5 @@
-using Hedwig.Validations.Rules;
 using Hedwig.Validations;
+using Hedwig.Validations.Rules;
 using Moq;
 using Xunit;
 

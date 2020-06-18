@@ -1,7 +1,7 @@
+using System;
+using System.Collections.Generic;
 using Hedwig.Models;
 using Hedwig.Repositories;
-using System.Collections.Generic;
-using System;
 
 namespace Hedwig.Validations.Rules
 {

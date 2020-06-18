@@ -1,9 +1,9 @@
 using System;
 using System.Net.Http;
 using System.Text;
+using Hedwig.Models;
 using Microsoft.AspNetCore.WebUtilities;
 using Newtonsoft.Json;
-using Hedwig.Models;
 
 namespace HedwigTests.Integrations
 {

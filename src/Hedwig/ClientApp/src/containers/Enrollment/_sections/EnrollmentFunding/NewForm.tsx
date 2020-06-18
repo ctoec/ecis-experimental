@@ -54,9 +54,7 @@ export const NewForm: React.FC<SectionProps> = ({
 				setAttemptingSave(false);
 				onSectionTouch && onSectionTouch(EnrollmentFunding);
 			},
-			successCallback: (returnedEnrollment) => {
-				successCallback && successCallback(returnedEnrollment);
-			},
+			successCallback,
 		}
 	);
 

@@ -1,8 +1,8 @@
-using Xunit;
-using Moq;
-using Hedwig.Repositories;
 using Hedwig.Controllers;
 using Hedwig.Models;
+using Hedwig.Repositories;
+using Moq;
+using Xunit;
 
 namespace HedwigTests.Controllers
 {

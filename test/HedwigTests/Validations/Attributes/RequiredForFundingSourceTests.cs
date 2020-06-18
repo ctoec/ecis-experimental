@@ -1,7 +1,7 @@
-using Xunit;
 using System.ComponentModel.DataAnnotations;
 using Hedwig.Models;
 using Hedwig.Validations.Attributes;
+using Xunit;
 
 namespace HedwigTests.Validations.Attributes
 {

@@ -1,5 +1,5 @@
-using Xunit;
 using Hedwig.Models;
+using Xunit;
 
 namespace HedwigTests.Models
 {

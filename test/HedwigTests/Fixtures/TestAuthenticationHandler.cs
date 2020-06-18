@@ -1,12 +1,12 @@
-using Microsoft.AspNetCore.Authentication;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
-using System.Text.Encodings.Web;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 using HedwigTests.Helpers;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace HedwigTests.Fixtures
 {

@@ -14,11 +14,10 @@ export const EnrollmentFundingForm: React.FC<UpdateFormSectionProps> = ({
 	mutatedEnrollment,
 	formOnSubmit,
 	saveError,
+	errorAlertState,
 	forceCloseEditForms,
 }) => {
 	const { user } = useContext(UserContext);
-
-	const errorAlertState = useCatchAllErrorAlert(saveError);
 
 	const params: ApiOrganizationsIdGetRequest = {
 		id: getIdForUser(user, 'org'),
