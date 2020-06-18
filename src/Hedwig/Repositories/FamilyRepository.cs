@@ -25,7 +25,7 @@ namespace Hedwig.Repositories
 
 		public EnrollmentFamilyDTO GetEnrollmentFamilyDTOById(int id)
 		{
-			return _context.Families
+			var fDTO = _context.Families
 				.Where(f => f.Id == id)
 				.Select(f => new EnrollmentFamilyDTO()
 				{
@@ -36,10 +36,11 @@ namespace Hedwig.Repositories
 					State = f.State,
 					Zip = f.Zip,
 					Homelessness = f.Homelessness,
-					Determinations = _familyDeterminationRepository.GetEnrollmentFamilyDeterminationDTOsByFamilyId(f.Id),
 					OrganizationId = f.OrganizationId
 				})
 				.FirstOrDefault();
+			fDTO.Determinations = _familyDeterminationRepository.GetEnrollmentFamilyDeterminationDTOsByFamilyId(id);
+			return fDTO;
 		}
 	}
 	public interface IFamilyRepository
