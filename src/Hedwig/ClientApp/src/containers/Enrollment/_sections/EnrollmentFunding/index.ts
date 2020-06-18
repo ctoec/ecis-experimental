@@ -7,7 +7,7 @@ import { Status } from './Status';
 export default {
 	key: 'enrollment-funding',
 	name: 'Enrollment and funding',
-	status: Status, 
+	status: Status,
 	Summary: Summary,
 	Form: NewForm,
 	UpdateForm: UpdateForm,

@@ -52,7 +52,7 @@ export function Card({
 		[setPreviousIsExpanded, setIsExpanded, isExpanded]
 	);
 	const toggleExpanded = () => updateExpanded(!isExpanded);
-	
+
 	useEffect(() => {
 		if (onExpansionChange && previousIsExpanded !== undefined) {
 			onExpansionChange(isExpanded);

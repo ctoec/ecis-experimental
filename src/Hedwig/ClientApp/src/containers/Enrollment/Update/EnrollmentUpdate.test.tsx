@@ -1,14 +1,21 @@
 // Variables used in jest mockes -- must start with `mock`
-import { mockAllFakeEnrollments, mockSite, mockReport } from '../../../tests/data';
+import {
+	mockAllFakeEnrollments,
+	mockSite,
+	mockReport,
+	mockSingleSiteOrganization,
+} from '../../../tests/data';
 import mockUseApi, {
 	mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet,
 	mockApiOrganizationsOrgIdSitesIdGet,
 	mockApiOrganizationsOrgIdReportsGet,
+	mockApiOrganizationsIdGet,
 } from '../../../hooks/useApi/__mocks__/useApi';
 
 // Jest mocks must occur before later imports
 jest.mock('../../../hooks/useApi', () =>
 	mockUseApi({
+		apiOrganizationsIdGet: mockApiOrganizationsIdGet(mockSingleSiteOrganization),
 		apiOrganizationsOrgIdSitesIdGet: mockApiOrganizationsOrgIdSitesIdGet(mockSite),
 		apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet: mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(
 			mockAllFakeEnrollments
@@ -48,7 +55,7 @@ afterAll(() => {
 const history = createBrowserHistory();
 
 describe('EnrollmentUpdate', () => {
-	describe('family info', () => {
+	describe('FamilyInfo', () => {
 		it('matches snapshot', () => {
 			const { asFragment } = render(
 				<TestProvider>
@@ -82,27 +89,6 @@ describe('EnrollmentUpdate', () => {
 				/>
 			</TestProvider>
 		);
-
-		it('shows a fieldset warning if there is no address', () => {
-			const { getByRole } = render(
-				<TestProvider>
-					<EnrollmentUpdate
-						history={history}
-						match={{
-							params: {
-								siteId: mockEnrollmentMissingAddress.siteId,
-								enrollmentId: mockEnrollmentMissingAddress.id,
-								sectionId: FamilyInfo.key,
-							},
-						}}
-					/>
-				</TestProvider>
-			);
-
-			const addressErr = getByRole('status');
-
-			expect(addressErr.classList.contains('usa-warning-message'));
-		});
 	});
 
 	describe('FamilyIncome', () => {
@@ -140,7 +126,7 @@ describe('EnrollmentUpdate', () => {
 		);
 	});
 
-	describe('enrollment and funding', () => {
+	describe('EnrollmentFunding', () => {
 		it('matches snapshot', () => {
 			const { asFragment } = render(
 				<TestProvider>

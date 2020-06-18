@@ -46,23 +46,29 @@ export const EnrollmentCard = ({
 				<div className="flex-1">
 					<p>Age group</p>
 					<p className="text-bold">
-						{enrollment.ageGroup ? prettyAge(enrollment.ageGroup): InlineIcon({icon: 'incomplete'})}
+						{enrollment.ageGroup
+							? prettyAge(enrollment.ageGroup)
+							: InlineIcon({ icon: 'incomplete' })}
 					</p>
 				</div>
 				<div className="flex-2">
 					<p>Enrollment dates</p>
 					<p className="text-bold">
-						{enrollment.entry  
+						{enrollment.entry
 							? `${dateFormatter(enrollment.entry)} - ${
 									enrollment.exit ? dateFormatter(enrollment.exit) : 'present'
-								}`
-							: InlineIcon({icon: 'incomplete'})}
+							  }`
+							: InlineIcon({ icon: 'incomplete' })}
 					</p>
 				</div>
 				{expansion && (
 					<ExpandCard>
 						{/* ExpandCard provides the onclick event */}
-						<Button text={<TextWithIcon text="Edit" Icon={Pencil} />} appearance="unstyled" onClick={() => setExpanded(e => !e)}/>
+						<Button
+							text={<TextWithIcon text="Edit" Icon={Pencil} />}
+							appearance="unstyled"
+							onClick={() => setExpanded((e) => !e)}
+						/>
 					</ExpandCard>
 				)}
 			</div>

@@ -6,23 +6,20 @@ import set from 'lodash/set';
 
 type WithNewFundingProps = {
 	shouldCreate?: boolean;
-}
+};
 
 export const WithNewFunding: React.FC<PropsWithChildren<WithNewFundingProps>> = ({
 	shouldCreate,
-	children: fundingFields
+	children: fundingFields,
 }) => {
 	const { data, dataDriller, updateData } = useGenericContext<Enrollment>(FormContext);
-	
-	const newFunding = dataDriller
-		.at('fundings')
-		.find((cert) => cert.id === 0);
 
+	const newFunding = dataDriller.at('fundings').find((cert) => cert.id === 0);
 
 	useEffect(() => {
-		if(shouldCreate && newFunding.value === undefined) {
+		if (shouldCreate && newFunding.value === undefined) {
 			setTimeout(
-				() => 
+				() =>
 					updateData(
 						produce<Enrollment>(data, (draft) => set(draft, newFunding.path, { id: 0 }))
 					),
@@ -31,5 +28,5 @@ export const WithNewFunding: React.FC<PropsWithChildren<WithNewFundingProps>> = 
 		}
 	}, [shouldCreate, newFunding.value]);
 
-	return <>{fundingFields}</>
-}
+	return <>{fundingFields}</>;
+};

@@ -1,5 +1,211 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`EnrollmentUpdate EnrollmentFunding matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="grid-container"
+  >
+    <a
+      class="usa-button usa-button--unstyled text-bold"
+      href="/"
+    >
+      <span
+        class="oec-text-with-icon text-underline"
+      >
+        <svg
+          class="oec-text-with-icon__icon oec-text-with-icon__icon--direction-left oec-text-with-icon__icon--side-left"
+        >
+          arrowRight.svg
+        </svg>
+        Back to summary
+      </span>
+    </a>
+  </div>
+  <div
+    class="grid-container"
+  >
+    <h1>
+      Update enrollment and funding
+    </h1>
+    <p
+      class="usa-intro"
+    >
+      Lily Luna Potter
+    </p>
+    <div
+      class="oec-tab-nav"
+    >
+      <div
+        class="oec-tab-nav--header"
+      >
+        <nav>
+          <ul>
+            <li>
+              <button
+                class="oec-tab-nav--tab oec-tab-nav--tab__active"
+              >
+                Enrollment/Funding
+              </button>
+            </li>
+            <li>
+              <button
+                class="oec-tab-nav--tab"
+              >
+                Care 4 Kids
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div
+        class="oec-tab-nav--content"
+      >
+        <h2
+          class="font-sans-md margin-top-2 margin-bottom-2"
+        >
+          Current enrollment
+        </h2>
+        <div
+          class="oec-card oec-card--primary"
+        >
+          <div
+            class="oec-card-cell"
+          >
+            <div
+              class="display-flex flex-justify"
+            >
+              <div
+                class="flex-1"
+              >
+                <p>
+                  Site
+                </p>
+                <p
+                  class="text-bold"
+                >
+                  Children's Adventure Center
+                </p>
+              </div>
+              <div
+                class="flex-1"
+              >
+                <p>
+                  Age group
+                </p>
+                <p
+                  class="text-bold"
+                >
+                  Preschool
+                </p>
+              </div>
+              <div
+                class="flex-2"
+              >
+                <p>
+                  Enrollment dates
+                </p>
+                <p
+                  class="text-bold"
+                >
+                  02/03/2018 - present
+                </p>
+              </div>
+              <button
+                class="usa-button usa-button--unstyled"
+                type="button"
+              >
+                <span
+                  class="oec-text-with-icon"
+                >
+                  <svg
+                    class="oec-text-with-icon__icon oec-text-with-icon__icon--direction-right oec-text-with-icon__icon--side-left"
+                  >
+                    pencil.svg
+                  </svg>
+                  Edit
+                </span>
+              </button>
+            </div>
+          </div>
+          <div
+            class=""
+          />
+        </div>
+        <div
+          class="oec-card oec-card--primary margin-bottom-3"
+        >
+          <div
+            class="oec-card-cell"
+          >
+            <div
+              class="display-flex flex-justify"
+            >
+               
+              <div
+                class="flex-1"
+              >
+                <p>
+                  Funding
+                </p>
+                <p>
+                  <span
+                    class="usa-tag bg-blue-50v"
+                  >
+                    CDC
+                  </span>
+                </p>
+              </div>
+              <div
+                class="flex-1"
+              >
+                <p>
+                  Space type
+                </p>
+                <p
+                  class="text-bold"
+                >
+                  Full time
+                </p>
+              </div>
+              <div
+                class="flex-2"
+              >
+                <p>
+                  Reporting periods
+                </p>
+                <p
+                  class="text-bold"
+                >
+                  March 2019 - present
+                </p>
+              </div>
+              <button
+                class="usa-button usa-button--unstyled"
+                type="button"
+              >
+                <span
+                  class="oec-text-with-icon"
+                >
+                  <svg
+                    class="oec-text-with-icon__icon oec-text-with-icon__icon--direction-right oec-text-with-icon__icon--side-left"
+                  >
+                    pencil.svg
+                  </svg>
+                  Edit
+                </span>
+              </button>
+            </div>
+          </div>
+          <div
+            class=""
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
 exports[`EnrollmentUpdate FamilyIncome matches snapshot 1`] = `
 <DocumentFragment>
   <div
@@ -201,79 +407,7 @@ exports[`EnrollmentUpdate FamilyIncome matches snapshot 1`] = `
 </DocumentFragment>
 `;
 
-exports[`EnrollmentUpdate enrollment and funding matches snapshot 1`] = `
-<DocumentFragment>
-  <div
-    class="grid-container"
-  >
-    <a
-      class="usa-button usa-button--unstyled text-bold"
-      href="/"
-    >
-      <span
-        class="oec-text-with-icon text-underline"
-      >
-        <svg
-          class="oec-text-with-icon__icon oec-text-with-icon__icon--direction-left oec-text-with-icon__icon--side-left"
-        >
-          arrowRight.svg
-        </svg>
-        Back to summary
-      </span>
-    </a>
-  </div>
-  <div
-    class="grid-container"
-  >
-    <h1>
-      Update enrollment and funding
-    </h1>
-    <p
-      class="usa-intro"
-    >
-      Lily Luna Potter
-    </p>
-    <div
-      class="usa-alert usa-alert--error grid-row margin-y-4"
-      role="alert"
-    >
-      <div
-        class="display-flex flex-fill"
-      >
-        <div
-          class="usa-alert__body grid-col flex-fill"
-        >
-          <h2
-            class="usa-alert__heading"
-          >
-            Something went wrong
-          </h2>
-          <p
-            class="usa-alert__text"
-          >
-            <span>
-              We were unable to save your changes. Please try again. If you continue to experience problems, contact 
-              <a
-                href="mailto:oec-data-pilot@skylight.digital&subject=ECE%20reporter%20bug"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                oec-data-pilot@skylight.digital
-              </a>
-               for help.
-            </span>
-          </p>
-        </div>
-        <div
-          class="usa-alert__body flex-auto display-flex flex-align-center"
-        />
-      </div>
-    </div>
-  </div>
-</DocumentFragment>
-`;
-
-exports[`EnrollmentUpdate family info matches snapshot 1`] = `
+exports[`EnrollmentUpdate FamilyInfo matches snapshot 1`] = `
 <DocumentFragment>
   <div
     class="grid-container"

@@ -7,14 +7,14 @@ import { initialLoadErrorGuard } from '../../../../../utils/validations';
 import { EnrollmentFormFieldProps } from './common';
 import { parseDateChange } from '../../../../../components/Form_New';
 
-export const EnrollmentStartDate: React.FC<EnrollmentFormFieldProps> = ({ 
+export const EnrollmentStartDate: React.FC<EnrollmentFormFieldProps> = ({
 	errorDisplayGuard = false,
 	error,
-	errorAlertState
+	errorAlertState,
 }) => {
 	return (
 		<div>
-				<FormField<Enrollment, DateInputProps, Date | null>
+			<FormField<Enrollment, DateInputProps, Date | null>
 				getValue={(data) => data.at('entry')}
 				parseOnChangeEvent={parseDateChange}
 				inputComponent={DateInput}
@@ -32,8 +32,8 @@ export const EnrollmentStartDate: React.FC<EnrollmentFormFieldProps> = ({
 								response: error,
 								field: 'fundings',
 								errorAlertState,
-								message: "Start date must be before earliest funding first reporting period",
-							}
+								message: 'Start date must be before earliest funding first reporting period',
+							},
 						])
 					)
 				}

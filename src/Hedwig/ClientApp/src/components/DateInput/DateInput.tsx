@@ -80,7 +80,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 				setDateIsInvalid(false);
 			}
 		},
-		[setCurrentDate, setDateIsInvalid, id, inputOnChange, name]
+		[setCurrentDate, setDateIsInvalid, id, inputOnChange_Old, name]
 	);
 
 	useEffect(() => {

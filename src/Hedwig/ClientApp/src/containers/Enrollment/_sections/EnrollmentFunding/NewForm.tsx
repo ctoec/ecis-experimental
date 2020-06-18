@@ -52,11 +52,11 @@ export const NewForm: React.FC<SectionProps> = ({
 			skip: !attemptingSave,
 			callback: () => {
 				setAttemptingSave(false);
-				onSectionTouch && onSectionTouch(EnrollmentFunding)
+				onSectionTouch && onSectionTouch(EnrollmentFunding);
 			},
 			successCallback: (returnedEnrollment) => {
 				successCallback && successCallback(returnedEnrollment);
-			}
+			},
 		}
 	);
 
@@ -98,8 +98,16 @@ export const NewForm: React.FC<SectionProps> = ({
 				className="usa-form enrollment-new-enrollment-funding-section"
 			>
 				<span className="usa-label text-bold font-sans-lg">{enrollment.site?.name}</span>
-				<EnrollmentStartDate errorDisplayGuard={!isReturnVisit} error={saveError} errorAlertState={errorAlertState}/>
-				<AgeGroupField errorDisplayGuard={!isReturnVisit} error={saveError} errorAlertState={errorAlertState} />
+				<EnrollmentStartDate
+					errorDisplayGuard={!isReturnVisit}
+					error={saveError}
+					errorAlertState={errorAlertState}
+				/>
+				<AgeGroupField
+					errorDisplayGuard={!isReturnVisit}
+					error={saveError}
+					errorAlertState={errorAlertState}
+				/>
 				<span className="usa-label text-bold font-sans-lg">Funding</span>
 				<WithNewFunding shouldCreate={fundingId === 0}>
 					<FundingField

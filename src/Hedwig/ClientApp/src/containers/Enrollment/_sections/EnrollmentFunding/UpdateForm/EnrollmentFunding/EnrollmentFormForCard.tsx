@@ -12,7 +12,7 @@ type EnrollmentFormForCardProps = {
 	formData: Enrollment;
 	onSubmit: (_: Enrollment) => void;
 	error: ApiError | null;
-	errorAlertState: ErrorAlertState
+	errorAlertState: ErrorAlertState;
 };
 
 // For now, only edit AND only current enrollment
@@ -36,11 +36,15 @@ export const EnrollmentFormForCard: React.FC<EnrollmentFormForCardProps> = ({
 	formData,
 	onSubmit,
 	error,
-	errorAlertState
+	errorAlertState,
 }) => {
 	return (
 		<Form id={`edit-enrollment`} data={formData} onSubmit={onSubmit} className="usa-form">
-			<EnrollmentStartDate errorDisplayGuard={false} error={error} errorAlertState={errorAlertState} />
+			<EnrollmentStartDate
+				errorDisplayGuard={false}
+				error={error}
+				errorAlertState={errorAlertState}
+			/>
 			<AgeGroupField errorDisplayGuard={false} error={error} errorAlertState={errorAlertState} />
 			<ExpandCard>
 				<Button text="Cancel" appearance="outline" />
