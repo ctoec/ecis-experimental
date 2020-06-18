@@ -1,9 +1,9 @@
 using System;
 using System.Threading.Tasks;
+using Hedwig.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
-using Hedwig.Repositories;
 
 namespace Hedwig.Security
 {

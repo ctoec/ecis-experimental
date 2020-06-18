@@ -1,8 +1,8 @@
 using System.Linq;
-using Xunit;
 using Hedwig.Repositories;
-using HedwigTests.Helpers;
 using HedwigTests.Fixtures;
+using HedwigTests.Helpers;
+using Xunit;
 
 namespace HedwigTests.Repositories
 {

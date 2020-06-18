@@ -1,4 +1,5 @@
 import React from 'react';
+import cx from 'classnames';
 
 export type TextWithIconProps = {
 	Icon: React.FunctionComponent<
@@ -10,6 +11,7 @@ export type TextWithIconProps = {
 	direction?: 'left' | 'right' | 'up' | 'down';
 	iconSide?: 'left' | 'right';
 	className?: string;
+	iconClassName?: string;
 };
 
 // AKA Old Iconsides
@@ -18,12 +20,14 @@ export function TextWithIcon({
 	Icon,
 	direction = 'right',
 	iconSide = 'left',
+	className,
+	iconClassName: userSuppliedIconClassName,
 }: TextWithIconProps) {
 	const iconClassName = `oec-text-with-icon__icon oec-text-with-icon__icon--direction-${direction} oec-text-with-icon__icon--side-${iconSide}`;
-	const icon = <Icon className={iconClassName} />;
+	const icon = <Icon className={cx(iconClassName, userSuppliedIconClassName)} />;
 
 	return (
-		<span className="oec-text-with-icon">
+		<span className={cx('oec-text-with-icon', className)}>
 			{icon && iconSide === 'left' && icon}
 			{text}
 			{icon && iconSide === 'right' && icon}

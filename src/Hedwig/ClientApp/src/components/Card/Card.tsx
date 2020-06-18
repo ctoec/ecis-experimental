@@ -98,17 +98,19 @@ export function Card({
 						'oec-card-divider': isExpanded,
 					})}
 				></div>
-				<div className={cx('oec-card-cell', 'oec-card-expansion')} hidden={!isExpanded}>
-					{Children.map(children, (child) => {
-						if (!isValidElement(child)) {
-							throw new Error('Invalid card child element');
-						}
-						const type = typeof child.type === 'string' ? child.type : child.type.name;
-						if (type === CardExpansion.name) {
-							return child;
-						}
-					})}
-				</div>
+				{isExpanded && (
+					<div className={cx('oec-card-cell', 'oec-card-expansion')}>
+						{Children.map(children, (child) => {
+							if (!isValidElement(child)) {
+								throw new Error('Invalid card child element');
+							}
+							const type = typeof child.type === 'string' ? child.type : child.type.name;
+							if (type === CardExpansion.name) {
+								return child;
+							}
+						})}
+					</div>
+				)}
 			</div>
 		</CardProvider>
 	);

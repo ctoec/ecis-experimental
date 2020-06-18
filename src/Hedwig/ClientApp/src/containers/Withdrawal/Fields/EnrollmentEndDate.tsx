@@ -45,7 +45,7 @@ export const EnrollmentEndDateField: React.FC<EnrollmentEndDateFieldProps> = ({
 			label="Enrollment end date"
 			onChange={(e) => {
 				const target = e.target as HTMLInputElement;
-				const endDate = new Date(parseInt(target.value, 10));
+				const endDate = moment(parseInt(target.value, 10)).toDate();
 				// Update the enrollment exit field with the end date
 				updateData((enrollment) =>
 					produce<Enrollment>(enrollment, (draft) =>

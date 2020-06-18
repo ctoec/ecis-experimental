@@ -1,13 +1,14 @@
 import React from 'react';
-import { Card, Button } from '../../../../../../components';
+import { Card, Button, TextWithIcon } from '../../../../../../components';
 import { C4KCertificate } from '../../../../../../generated';
 import { CardExpansion } from '../../../../../../components/Card/CardExpansion';
 import dateFormatter from '../../../../../../utils/dateFormatter';
 import { ExpandCard } from '../../../../../../components/Card/ExpandCard';
+import { ReactComponent as Pencil } from '../../../../../../assets/images/pencil.svg';
 
 type C4KCertificateCardProps = {
 	certificate: C4KCertificate;
-	c4KFamilyId: number;
+	c4KFamilyId?: number | null;
 	isCurrent: boolean;
 	forceClose?: boolean;
 	expansion: JSX.Element;
@@ -22,17 +23,27 @@ export const C4KCertificateCard = ({
 }: C4KCertificateCardProps) => {
 	return (
 		<Card
-			className="margin-bottom-2"
 			appearance={isCurrent ? 'primary' : 'secondary'}
 			forceClose={forceClose}
-			key={certificate.id}
+			className="margin-bottom-2"
+			key={JSON.stringify(certificate)}
 		>
 			{/* needs to be styled. maybe a component for content with ExpandCard, like in familyIncome */}
-			<div id="content">
-				<p>Family ID: {c4KFamilyId}</p>
-				<p>Certificate start date: {dateFormatter(certificate.startDate)}</p>
+			<div className="display-flex flex-justify">
+				<div className="flex-1">
+					<p>Family ID</p>
+					<p className="text-bold">{c4KFamilyId}</p>
+				</div>
+				<div className="flex-2">
+					<p>Certificate start date</p>
+					<p className="text-bold">{dateFormatter(certificate.startDate)}</p>
+				</div>
 				<ExpandCard>
-					<Button text="Edit" appearance="unstyled" />
+					<Button
+						text={<TextWithIcon text="Edit" Icon={Pencil} />}
+						appearance="unstyled"
+						className="flex-1"
+					/>
 				</ExpandCard>
 			</div>
 			<CardExpansion>{expansion}</CardExpansion>

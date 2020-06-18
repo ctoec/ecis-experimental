@@ -1,6 +1,6 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using Hedwig.Models;
-using System;
 
 namespace Hedwig.Validations.Attributes
 {

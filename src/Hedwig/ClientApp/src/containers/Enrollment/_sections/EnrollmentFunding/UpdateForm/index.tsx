@@ -10,6 +10,7 @@ import {
 import UserContext from '../../../../../contexts/User/UserContext';
 import { validatePermissions, getIdForUser } from '../../../../../utils/models';
 import useApi from '../../../../../hooks/useApi';
+import useCatchAllErrorAlert from '../../../../../hooks/useCatchAllErrorAlert';
 
 export const UpdateForm: React.FC<SectionProps> = ({ enrollment, siteId }) => {
 	if (!enrollment) {
@@ -22,49 +23,48 @@ export const UpdateForm: React.FC<SectionProps> = ({ enrollment, siteId }) => {
 	const [mutatedEnrollment, setMutatedEnrollment] = useState<Enrollment>(enrollment);
 	const [attemptingSave, setAttemptingSave] = useState(false);
 
-	const renameToAvoidCodeDupeError: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
+	const putParams: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest = {
 		id: enrollment.id,
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
 		orgId: getIdForUser(user, 'org'),
 		enrollment: mutatedEnrollment,
 	};
 
-	const { error: saveError, loading: isSaving, data: returnedEnrollment } = useApi<Enrollment>(
-		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(renameToAvoidCodeDupeError),
+	const { error: saveError } = useApi<Enrollment>(
+		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams),
 		{
 			skip: !user || !attemptingSave,
 			callback: () => {
 				setAttemptingSave(false);
 			},
+			successCallback: (returnedEnrollment) => {
+				setForceCloseEditForms(true);
+				setMutatedEnrollment(returnedEnrollment);
+			},
 		}
 	);
 
-	// Handle successful API request
-	useEffect(() => {
-		// If the request is still loading or
-		// If the request produced an error,
-		// Do nothing
-		if (isSaving || saveError) {
-			return;
-		}
+	const errorAlertState = useCatchAllErrorAlert(saveError);
 
-		// If the request successed, process the response
-		if (returnedEnrollment) {
-			setMutatedEnrollment(returnedEnrollment);
-			// set forceClose = true to force any open edit forms closed
-			setForceCloseEditForms(true);
-			// then reset forceClosed = false to enable the user open cards and continue making edits
-			setTimeout(() => setForceCloseEditForms(false), 0);
-		}
-	}, [isSaving, saveError, returnedEnrollment]);
+	useEffect(() => {
+		// Re-enable opening edit forms to allow the user to make
+		// multiple edits per page visit
+		if (forceCloseEditForms) setTimeout(() => setForceCloseEditForms(false));
+	}, [forceCloseEditForms]);
+
+	const formOnSubmit = (_data: Enrollment) => {
+		setMutatedEnrollment(_data);
+		setAttemptingSave(true);
+	};
 
 	const updateFormSectionProps = {
 		mutatedEnrollment,
-		setMutatedEnrollment,
-		setAttemptingSave,
+		formOnSubmit,
 		saveError,
+		errorAlertState,
 		forceCloseEditForms,
 	};
+
 	return (
 		<TabNav
 			items={[

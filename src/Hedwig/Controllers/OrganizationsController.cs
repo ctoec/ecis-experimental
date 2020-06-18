@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
-using Hedwig.Repositories;
 using Hedwig.Models;
+using Hedwig.Repositories;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Hedwig.Controllers
 {

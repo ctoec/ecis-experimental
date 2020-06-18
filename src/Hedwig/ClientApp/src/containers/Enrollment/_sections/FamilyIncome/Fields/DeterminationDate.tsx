@@ -4,6 +4,7 @@ import { Enrollment } from '../../../../../generated';
 import { DateInput, DateInputProps } from '../../../../../components';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
 import { FamilyIncomeFormFieldProps } from './common';
+import { parseDateChange } from '../../../../../components/Form_New';
 
 export const DeterminationDateField: React.FC<FamilyIncomeFormFieldProps> = ({
 	determinationId,
@@ -18,7 +19,7 @@ export const DeterminationDateField: React.FC<FamilyIncomeFormFieldProps> = ({
 					.find((det) => det.id === determinationId)
 					.at('determinationDate')
 			}
-			parseOnChangeEvent={(e) => (e.target.value ? new Date(parseInt(e.target.value)) : null)}
+			parseOnChangeEvent={parseDateChange}
 			inputComponent={DateInput}
 			status={(data) =>
 				displayValidationStatus([

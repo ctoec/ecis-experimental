@@ -1,12 +1,6 @@
 using System.Collections.Generic;
-using System.Net.Http;
 using System.IdentityModel.Tokens.Jwt;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Models;
-using Newtonsoft.Json.Converters;
+using System.Net.Http;
 using AutoMapper;
 using Hedwig.Data;
 using Hedwig.Filters;
@@ -17,6 +11,12 @@ using Hedwig.Repositories;
 using Hedwig.Security;
 using Hedwig.Validations;
 using Hedwig.Validations.Rules;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Converters;
 
 namespace Hedwig.Configuration
 {

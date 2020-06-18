@@ -1,7 +1,7 @@
 using AutoMapper;
+using Hedwig.Filters.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Hedwig.Filters.Attributes;
 
 namespace Hedwig.Filters
 {

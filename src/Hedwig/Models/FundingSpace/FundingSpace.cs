@@ -1,7 +1,7 @@
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using System.ComponentModel.DataAnnotations;
-using System.Collections.Generic;
 
 namespace Hedwig.Models
 {

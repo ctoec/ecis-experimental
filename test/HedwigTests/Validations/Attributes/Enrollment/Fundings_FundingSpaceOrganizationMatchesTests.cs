@@ -1,8 +1,8 @@
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Hedwig.Models;
 using Hedwig.Validations.Attributes;
 using Xunit;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace HedwigTests.Validations.Attributes
 {

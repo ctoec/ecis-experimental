@@ -1,9 +1,9 @@
-using Xunit;
-using Moq;
 using System;
 using System.Collections.Generic;
 using Hedwig.Validations;
 using Hedwig.Validations.Rules;
+using Moq;
+using Xunit;
 
 namespace HedwigTests.Validations
 {

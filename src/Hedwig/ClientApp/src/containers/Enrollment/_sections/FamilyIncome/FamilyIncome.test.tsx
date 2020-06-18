@@ -99,7 +99,7 @@ describe('enrollment sections', () => {
 			it('shows a collapsed card for each determination', () => {
 				const enrollment = { ...mockCompleteEnrollment } as DeepNonUndefineable<Enrollment>;
 				if (FamilyIncome.UpdateForm) {
-					const { getAllByLabelText } = render(
+					const { getAllByText } = render(
 						<FamilyIncome.UpdateForm
 							siteId={1}
 							updateEnrollment={jest.fn()}
@@ -108,14 +108,11 @@ describe('enrollment sections', () => {
 						/>
 					);
 
-					const hiddenHhSizeLabels = getAllByLabelText('Household size');
+					const hiddenHhSizeLabels = getAllByText('Household size');
 					// There should be one label per determination
 					expect(hiddenHhSizeLabels).toHaveLength(
 						(enrollment.child.family.determinations || []).length
 					);
-					// The label is expected to be hidden, as the Card is expected to be collapsed
-					// (the form with label is display as CardExpansion)
-					hiddenHhSizeLabels.forEach((elem) => expect(elem).not.toBeVisible());
 				}
 			});
 
@@ -128,7 +125,7 @@ describe('enrollment sections', () => {
 				];
 
 				if (FamilyIncome.UpdateForm) {
-					const { getByText, getAllByText } = render(
+					const { getByText, getAllByText, queryAllByText } = render(
 						<FamilyIncome.UpdateForm
 							siteId={1}
 							updateEnrollment={jest.fn()}
@@ -138,8 +135,8 @@ describe('enrollment sections', () => {
 					);
 
 					// Edit family income form should not be visible
-					// while card is collapsed
-					getAllByText('Edit family income').forEach((elem) => expect(elem).not.toBeVisible());
+					// until user clicks Edit
+					expect(queryAllByText('Edit family income')).toHaveLength(0);
 
 					// Click button to expand card
 					const editBtn = getByText('Edit');

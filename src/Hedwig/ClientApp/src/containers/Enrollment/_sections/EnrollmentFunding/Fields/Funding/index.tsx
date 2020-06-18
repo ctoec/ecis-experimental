@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import FormContext, { useGenericContext } from '../../../../../../components/Form_New/FormContext';
 import { Enrollment, FundingSource, FundingSpace } from '../../../../../../generated';
-import { FundingFormFieldProps } from '../../Fields/common';
+import { FundingFormFieldProps } from '../common';
 import { prettyFundingSource, fundingSourceFromString } from '../../../../../../utils/models';
 import RadioButton from '../../../../../../components/RadioButton/RadioButton';
 import { ContractSpaceField } from './ContractSpace';
@@ -31,11 +31,12 @@ export const FundingField: React.FC<FundingFormFieldProps> = ({
 		// Set PRIVATE_PAY as the only option if:
 		// - age group is not set OR
 		// - there are no funding spaces OR
-		// - the family has no disclosed income determination
+		// - the family has no disclosed income determination and child is not living with foster family
 		const ageGroup = dataDriller.at('ageGroup').value;
 		const incomeNotDisclosed =
 			dataDriller.at('child').at('family').at('determinations').value.length === 0;
-		if (!ageGroup || !allFundingSpaces.length || incomeNotDisclosed) {
+		const childLivingWithFoster = dataDriller.at('child').at('foster');
+		if (!ageGroup || !allFundingSpaces.length || (incomeNotDisclosed && !childLivingWithFoster)) {
 			setValidFundingSpaces([]);
 			return;
 		}
@@ -64,10 +65,14 @@ export const FundingField: React.FC<FundingFormFieldProps> = ({
 			onChange={(e) =>
 				updateData(
 					produce<Enrollment>(data, (draft) =>
-						set(draft, dataDriller.at('fundings').find((f) => f.id === fundingId).path, {
-							id: 0,
-							source: fundingSourceFromString(e.target.value),
-						})
+						set(
+							draft,
+							dataDriller
+								.at('fundings')
+								.find((f) => f.id === fundingId)
+								.at('source').path,
+							fundingSourceFromString(e.target.value)
+						)
 					)
 				)
 			}

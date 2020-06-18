@@ -1,13 +1,12 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Hedwig.Models;
+using HedwigTests.Fixtures;
+using HedwigTests.Helpers;
 using Newtonsoft.Json;
 using Xunit;
-using Hedwig.Models;
-using HedwigTests.Helpers;
-using HedwigTests.Fixtures;
-
-using System;
 namespace HedwigTests.Integrations
 {
 	public class ReportsControllerIntegrationTests : IClassFixture<TestStartupFactory>

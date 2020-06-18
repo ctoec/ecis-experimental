@@ -1,9 +1,9 @@
-using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using Hedwig.Models;
-using Hedwig.Repositories;
 using Hedwig.Models.Extensions;
+using Hedwig.Repositories;
 
 namespace Hedwig.Validations.Attributes
 {

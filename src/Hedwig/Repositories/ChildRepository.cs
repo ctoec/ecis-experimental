@@ -1,11 +1,11 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Linq;
-using Hedwig.Models;
+using System.Threading.Tasks;
 using Hedwig.Data;
+using Hedwig.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace Hedwig.Repositories
 {
@@ -21,7 +21,7 @@ namespace Hedwig.Repositories
 				.Where(c => c.OrganizationId == organizationId);
 
 			children = children.Include(c => c.Family);
-      children = ((IIncludableQueryable<Child, Family>)children).ThenInclude(f => f.Determinations);
+			children = ((IIncludableQueryable<Child, Family>)children).ThenInclude(f => f.Determinations);
 
 			return await children.ToListAsync();
 		}

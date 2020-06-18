@@ -1,6 +1,6 @@
+using System.Linq;
 using Hedwig.Data;
 using Hedwig.Models;
-using System.Linq;
 
 namespace HedwigTests.Helpers
 {

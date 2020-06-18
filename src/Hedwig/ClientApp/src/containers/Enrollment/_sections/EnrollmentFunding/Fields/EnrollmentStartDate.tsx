@@ -5,22 +5,34 @@ import { Enrollment } from '../../../../../generated';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
 import { initialLoadErrorGuard } from '../../../../../utils/validations';
 import { EnrollmentFormFieldProps } from './common';
+import { parseDateChange } from '../../../../../components/Form_New';
 
-export const EnrollmentStartDate: React.FC<EnrollmentFormFieldProps> = ({ initialLoad }) => {
+export const EnrollmentStartDate: React.FC<EnrollmentFormFieldProps> = ({
+	errorDisplayGuard = false,
+	error,
+	errorAlertState,
+}) => {
 	return (
 		<div>
 			<FormField<Enrollment, DateInputProps, Date | null>
 				getValue={(data) => data.at('entry')}
-				parseOnChangeEvent={(e) => (e.target.value ? new Date(parseInt(e.target.value)) : null)}
+				parseOnChangeEvent={parseDateChange}
 				inputComponent={DateInput}
 				status={(data) =>
 					initialLoadErrorGuard(
-						initialLoad || false,
+						errorDisplayGuard,
 						displayValidationStatus([
 							{
 								type: 'warning',
 								response: data.at('validationErrors').value,
 								field: 'entry',
+							},
+							{
+								type: 'error',
+								response: error,
+								field: 'fundings',
+								errorAlertState,
+								message: 'Start date must be before earliest funding first reporting period',
 							},
 						])
 					)

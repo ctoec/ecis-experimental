@@ -1,6 +1,6 @@
-using Xunit;
 using Hedwig.Models;
 using Hedwig.Models.Extensions;
+using Xunit;
 
 namespace HedwigTests.Models.Extensions
 {

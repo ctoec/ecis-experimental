@@ -31,8 +31,15 @@ export default function CommonContainer({
 					<Button
 						appearance="unstyled"
 						href={backHref || createPath(previousLocation)}
-						className="text-bold text-underline"
-						text={<TextWithIcon text={backText} Icon={ArrowRight} direction="left" />}
+						className="text-bold"
+						text={
+							<TextWithIcon
+								text={backText}
+								Icon={ArrowRight}
+								direction="left"
+								className="text-underline"
+							/>
+						}
 					/>
 				)}
 				{alerts && alerts.map((alert, index) => <Alert key={index} {...alert}></Alert>)}
