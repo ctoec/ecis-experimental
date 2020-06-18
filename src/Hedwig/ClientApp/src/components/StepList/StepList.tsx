@@ -41,7 +41,7 @@ const mapStepsToInternalProps = function <T>(steps: StepProps<T>[], activeStep: 
 	});
 };
 
-export default function StepList<T>({
+export function StepList<T>({
 	steps,
 	props,
 	activeStep,
@@ -56,3 +56,5 @@ export default function StepList<T>({
 		</ol>
 	);
 }
+
+export default StepList;
