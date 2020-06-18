@@ -46,7 +46,7 @@ namespace Hedwig.Validations
 		{
 			if (null == entities)
 			{
-				Validate(null as IEnumerable<T>, parentEntity);
+				Validate(null as INonBlockingValidatableObject, parentEntity);
 				return;
 			}
 			foreach (var entity in entities)
