@@ -21,6 +21,7 @@ export const IncomeDeterminationFieldSet: React.FC<IncomeDeterminationFieldSetPr
 	determinationId,
 	errorDisplayGuard = false,
 }) => {
+	console.log('Error display guard', errorDisplayGuard);
 	let status, elementId, legend, showLegend;
 	switch (type) {
 		case 'redetermine':
@@ -85,13 +86,22 @@ export const IncomeDeterminationFieldSet: React.FC<IncomeDeterminationFieldSetPr
 			legendStyle="title"
 		>
 			<div>
-				<HouseholdSizeField determinationId={determinationId} />
+				<HouseholdSizeField
+					determinationId={determinationId}
+					errorDisplayGuard={errorDisplayGuard}
+				/>
 			</div>
 			<div>
-				<AnnualHouseholdIncomeField determinationId={determinationId} />
+				<AnnualHouseholdIncomeField
+					determinationId={determinationId}
+					errorDisplayGuard={errorDisplayGuard}
+				/>
 			</div>
 			<div>
-				<DeterminationDateField determinationId={determinationId} />
+				<DeterminationDateField
+					determinationId={determinationId}
+					errorDisplayGuard={errorDisplayGuard}
+				/>
 			</div>
 		</FormFieldSet>
 	);

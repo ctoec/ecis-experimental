@@ -8,10 +8,13 @@ import dateFormatter from '../../utils/dateFormatter';
 import UserContext from '../../contexts/User/UserContext';
 import { getIdForUser, enrollmentWithDefaultFamily } from '../../utils/models';
 import useApi from '../../hooks/useApi';
-import ChildInfo from './_sections/ChildInfo';
 import { BatchEditStepProps } from './_sections/batchEditTypes';
+import ChildInfo from './_sections/ChildInfo';
 import FamilyInfo from './_sections/FamilyInfo';
 import FamilyIncome from './_sections/FamilyIncome';
+import EnrollmentFunding from './_sections/EnrollmentFunding';
+import { useHistory } from 'react-router';
+import useCatchAllErrorAlert from '../../hooks/useCatchAllErrorAlert';
 
 type SingleEnrollmentEditProps = {
 	enrollmentId: number;
@@ -73,6 +76,12 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 	if (hasValidationErrors(enrollmentDetail?.child?.family, ['determinations'])) {
 		steps.push(FamilyIncome);
 	}
+	if (
+		hasValidationErrors(enrollmentDetail, ['entry']) ||
+		hasValidationErrors(enrollmentDetail?.child, ['c4KCertificateFamilyId', 'c4KCertificates'])
+	) {
+		steps.push(EnrollmentFunding);
+	}
 
 	// Set url path for initial step
 	const firstStep = steps.length ? steps[0].key : 'complete';
@@ -120,6 +129,7 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 			},
 		}
 	);
+	const errorAlertState = useCatchAllErrorAlert(errorOnSave);
 
 	if (!mutatedEnrollment) {
 		return <></>;
@@ -128,6 +138,7 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 	const stepProps: BatchEditStepProps = {
 		enrollment: mutatedEnrollment,
 		error: errorOnSave,
+		errorAlertState,
 		onSubmit: (userModifiedEnrollment) => {
 			setMutatedEnrollment(userModifiedEnrollment);
 			setAttemptingSave(true);

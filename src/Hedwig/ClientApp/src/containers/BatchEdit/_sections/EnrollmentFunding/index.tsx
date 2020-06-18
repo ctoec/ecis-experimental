@@ -5,22 +5,11 @@ import { BatchEditStepProps } from '../batchEditTypes';
 import { hasValidationErrors } from '../../../../utils/validations';
 
 export default {
-	key: 'child-info',
-	name: "Child's information",
+	key: 'enrollment-funding',
+	name: 'Enrollment and funding',
 	status: ({ enrollment }) =>
-		hasValidationErrors(enrollment.child, [
-			'birthdate',
-			'birthCertificateId',
-			'birthtown',
-			'birthstate',
-			'hispanicOrLatinxEthnicity',
-			'americanIndianOrAlaskaNative',
-			'asian',
-			'blackOrAfricanAmerican',
-			'nativeHawaiianOrPacificIslander',
-			'white',
-			'gender',
-		])
+		hasValidationErrors(enrollment, ['fundings', 'ageGroup', 'entry']) ||
+		hasValidationErrors(enrollment.child, ['c4KFamilyCaseNumber', 'c4KCertificates'])
 			? 'incomplete'
 			: 'complete',
 	Summary: () => <></>,
