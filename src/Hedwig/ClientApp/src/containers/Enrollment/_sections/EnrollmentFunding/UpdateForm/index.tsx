@@ -54,14 +54,10 @@ export const UpdateForm: React.FC<SectionProps> = ({ enrollment, siteId }) => {
 		if (forceCloseEditForms) setTimeout(() => setForceCloseEditForms(false));
 	}, [forceCloseEditForms]);
 
-	const formOnSubmit = (_data: Enrollment) => {
-		setMutatedEnrollment(_data);
-		setAttemptingSave(true);
-	};
-
 	const updateFormSectionProps = {
 		mutatedEnrollment,
-		formOnSubmit,
+		setMutatedEnrollment,
+		attemptSave: () => setAttemptingSave(true),
 		saveError,
 		errorAlertState,
 		forceCloseEditForms,

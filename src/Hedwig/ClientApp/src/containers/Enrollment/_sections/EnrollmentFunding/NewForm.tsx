@@ -11,7 +11,7 @@ import { validatePermissions, getIdForUser } from '../../../../utils/models';
 import useApi from '../../../../hooks/useApi';
 import useCatchAllErrorAlert from '../../../../hooks/useCatchAllErrorAlert';
 import Form from '../../../../components/Form_New/Form';
-import { EnrollmentStartDate } from './Fields/EnrollmentStartDate';
+import { EnrollmentStartDateField } from './Fields/EnrollmentStartDate';
 import { AgeGroupField } from './Fields/AgeGroup';
 import { FundingField } from './Fields/Funding';
 import { CertificateStartDate } from './Fields/Care4Kids/CertificateStartDate';
@@ -97,7 +97,7 @@ export const NewForm: React.FC<SectionProps> = ({
 			>
 				{/* TODO: if this is acting as a header, it should be a header */}
 				<span className="usa-label text-bold font-sans-lg">{enrollment.site?.name}</span>
-				<EnrollmentStartDate
+				<EnrollmentStartDateField
 					blockErrorDisplay={!isReturnVisit}
 					error={saveError}
 					errorAlertState={errorAlertState}

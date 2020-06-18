@@ -7,7 +7,10 @@ import { displayValidationStatus } from '../../../../../../utils/validations/dis
 import { parseDateChange } from '../../../../../../components/Form_New';
 import { errorDisplayGuard } from '../../../../../../utils/validations';
 
-export const CertificateStartDate: React.FC<C4kCertificateFormFieldProps> = ({ certificateId, blockErrorDisplay = false}) => {
+export const CertificateStartDate: React.FC<C4kCertificateFormFieldProps> = ({
+	certificateId,
+	blockErrorDisplay = false,
+}) => {
 	return (
 		<FormField<Enrollment, DateInputProps, Date | null>
 			getValue={(data) => {

@@ -105,7 +105,8 @@ const InternalRadioButtonGroup: React.FC<InternalRadioButtonGroupProps & { id: s
 	name,
 	onChange = () => {},
 }) => {
-	const [selectedItem, setSelectedItem] = useState(defaultValue);
+	// cast to string to ensure equality check for selected state will work
+	const [selectedItem, setSelectedItem] = useState(defaultValue.toString());
 
 	return (
 		<>
