@@ -113,7 +113,7 @@ namespace Hedwig.Controllers
 			var enrollment = await _enrollments.GetEnrollmentDTOForSiteAsync(id, siteId);
 			if (enrollment == null) return NotFound();
 
-			return enrollment;
+			return Ok(enrollment);
 		}
 
 		[HttpPost]

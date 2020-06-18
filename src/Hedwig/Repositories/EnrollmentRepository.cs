@@ -59,6 +59,9 @@ namespace Hedwig.Repositories
 					.ThenInclude(f => f.LastReportingPeriod)
 				.Include(e => e.Child)
 					.ThenInclude(c => c.C4KCertificates)
+				.Include(e => e.Child)
+					.ThenInclude(c => c.Family)
+						.ThenInclude(f => f.Determinations)
 				.Include(e => e.Site)
 				.Skip(skip);
 			if (take.HasValue)
@@ -142,7 +145,7 @@ namespace Hedwig.Repositories
 				.Where(e => e.SiteId == siteId && e.Id == id)
 				.SelectEnrollmentDTO()
 				.FirstOrDefault());
-			CompleteEnrollmentDTO(eDTO);
+			await Task.Run(() => CompleteEnrollmentDTO(eDTO));
 			return eDTO;
 		}
 
