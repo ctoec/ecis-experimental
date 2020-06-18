@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { SectionProps } from '../../../enrollmentTypes';
 import {
 	Enrollment,
@@ -43,7 +43,7 @@ export const UpdateForm = ({ enrollment, siteId }: SectionProps) => {
 		enrollment: mutatedEnrollment,
 	};
 
-	const { error: saveError, loading: isSaving, data: returnedEnrollment } = useApi<Enrollment>(
+	const { error: saveError } = useApi<Enrollment>(
 		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams),
 		{
 			skip: !user || !attemptingSave,

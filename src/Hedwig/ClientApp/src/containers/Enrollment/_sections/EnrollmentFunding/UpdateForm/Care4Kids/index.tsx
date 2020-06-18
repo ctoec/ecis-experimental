@@ -11,7 +11,6 @@ import { Card, Button, TextWithIcon } from '../../../../../../components';
 import { ReactComponent as PlusCircle } from '../../../../../../assets/images/plusCircle.svg';
 import { CardExpansion } from '../../../../../../components/Card/CardExpansion';
 import { ExpandCard } from '../../../../../../components/Card/ExpandCard';
-import useCatchAllErrorAlert from '../../../../../../hooks/useCatchAllErrorAlert';
 
 export const Care4KidsForm: React.FC<UpdateFormSectionProps> = ({
 	mutatedEnrollment,

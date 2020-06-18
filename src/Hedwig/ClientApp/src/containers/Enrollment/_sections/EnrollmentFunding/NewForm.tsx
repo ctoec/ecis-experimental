@@ -46,7 +46,7 @@ export const NewForm: React.FC<SectionProps> = ({
 		enrollment: enrollment,
 	};
 
-	const { error: saveError, loading: saving, data: saveData } = useApi<Enrollment>(
+	const { error: saveError, loading: saving } = useApi<Enrollment>(
 		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut(putParams),
 		{
 			skip: !attemptingSave,

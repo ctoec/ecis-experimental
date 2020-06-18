@@ -3,7 +3,6 @@ import { ApiOrganizationsIdGetRequest, Organization } from '../../../../../../ge
 import UserContext from '../../../../../../contexts/User/UserContext';
 import { getIdForUser } from '../../../../../../utils/models';
 import useApi from '../../../../../../hooks/useApi';
-import useCatchAllErrorAlert from '../../../../../../hooks/useCatchAllErrorAlert';
 import { EnrollmentCard } from './EnrollmentCard';
 import { FundingFormForCard } from './FundingFormForCard';
 import { FundingCard } from './FundingCard';

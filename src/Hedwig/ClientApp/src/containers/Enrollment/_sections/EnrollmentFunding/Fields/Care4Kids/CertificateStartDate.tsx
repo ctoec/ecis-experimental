@@ -6,7 +6,6 @@ import { C4kCertificateFormFieldProps } from '../common';
 import { displayValidationStatus } from '../../../../../../utils/validations/displayValidationStatus';
 import { REQUIRED_FOR_OEC_REPORTING } from '../../../../../../utils/validations/messageStrings';
 import { parseDateChange } from '../../../../../../components/Form_New';
-import moment from 'moment';
 
 export const CertificateStartDate: React.FC<C4kCertificateFormFieldProps> = ({ certificateId }) => {
 	return (
