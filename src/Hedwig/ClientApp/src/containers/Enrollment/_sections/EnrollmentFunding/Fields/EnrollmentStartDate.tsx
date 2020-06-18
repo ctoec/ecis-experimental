@@ -8,7 +8,7 @@ import { EnrollmentFormFieldProps } from './common';
 import { parseDateChange } from '../../../../../components/Form_New';
 
 export const EnrollmentStartDate: React.FC<EnrollmentFormFieldProps> = ({ 
-	initialLoad,
+	errorDisplayGuard = false,
 	error,
 	errorAlertState
 }) => {
@@ -20,7 +20,7 @@ export const EnrollmentStartDate: React.FC<EnrollmentFormFieldProps> = ({
 				inputComponent={DateInput}
 				status={(data) =>
 					initialLoadErrorGuard(
-						initialLoad || false,
+						errorDisplayGuard,
 						displayValidationStatus([
 							{
 								type: 'warning',

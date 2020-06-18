@@ -6,7 +6,7 @@ import FormField from '../../../../../../components/Form_New/FormField';
 import FormContext, { useGenericContext } from '../../../../../../components/Form_New/FormContext';
 import produce from 'immer';
 import set from 'lodash/set';
-import { FundingFormFieldProps } from '../../Fields/common';
+import { FundingFormFieldProps } from '../common';
 import { displayValidationStatus } from '../../../../../../utils/validations/displayValidationStatus';
 import { REQUIRED_FOR_OEC_REPORTING } from '../../../../../../utils/validations/messageStrings';
 

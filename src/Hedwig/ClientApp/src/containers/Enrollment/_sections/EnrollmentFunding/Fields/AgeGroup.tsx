@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
 	RadioButtonGroupProps,
 	RadioButtonGroup,
@@ -22,7 +22,7 @@ import { EnrollmentFormFieldProps } from './common';
  * a funding space, which must have a matching age group
  * to the funding's enrollment.
  */
-export const AgeGroupField: React.FC<EnrollmentFormFieldProps> = ({ initialLoad = false }) => {
+export const AgeGroupField: React.FC<EnrollmentFormFieldProps> = ({ errorDisplayGuard = false }) => {
 	const { dataDriller, updateData } = useGenericContext<Enrollment>(FormContext);
 
 	return (
@@ -61,7 +61,7 @@ export const AgeGroupField: React.FC<EnrollmentFormFieldProps> = ({ initialLoad 
 			]}
 			status={(data) =>
 				initialLoadErrorGuard(
-					initialLoad,
+					errorDisplayGuard,
 					displayValidationStatus([
 						{
 							type: 'warning',

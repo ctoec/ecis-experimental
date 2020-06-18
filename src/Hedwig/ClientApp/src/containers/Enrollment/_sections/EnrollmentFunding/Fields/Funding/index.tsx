@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import FormContext, { useGenericContext } from '../../../../../../components/Form_New/FormContext';
 import { Enrollment, FundingSource, FundingSpace } from '../../../../../../generated';
-import { FundingFormFieldProps } from '../../Fields/common';
+import { FundingFormFieldProps } from '../common';
 import { prettyFundingSource, fundingSourceFromString } from '../../../../../../utils/models';
 import RadioButton from '../../../../../../components/RadioButton/RadioButton';
 import { ContractSpaceField } from './ContractSpace';

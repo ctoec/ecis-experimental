@@ -1,10 +1,9 @@
 import { SectionProps } from '../../enrollmentTypes';
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import UserContext from '../../../../contexts/User/UserContext';
 import {
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
 	Enrollment,
-	User,
 	ApiOrganizationsIdGetRequest,
 	Organization,
 } from '../../../../generated';
@@ -18,19 +17,21 @@ import { FundingField } from './Fields/Funding';
 import { CertificateStartDate } from './Fields/Care4Kids/CertificateStartDate';
 import FormSubmitButton from '../../../../components/Form_New/FormSubmitButton';
 import { ReceivesC4KField } from './Fields/Care4Kids/ReceivesC4K';
-import EnrollmentFunding from '../EnrollmentFunding';
+import EnrollmentFunding from '.';
 import idx from 'idx';
 import { WithNewC4kCertificate } from './Fields/Care4Kids/WithNewC4kCertificate';
 import { FamilyIdField } from './Fields/Care4Kids/FamilyId';
 import { WithNewFunding } from './Fields/Funding/WithNewFunding';
+import { Alert } from '../../../../components';
+import { somethingWentWrongAlert } from '../../../../utils/stringFormatters/alertTextMakers';
 
 export const NewForm: React.FC<SectionProps> = ({
 	enrollment,
 	updateEnrollment,
 	siteId,
 	successCallback,
-	onSectionTouch,
 	touchedSections,
+	onSectionTouch,
 }) => {
 	if (!enrollment) {
 		throw new Error('Section rendered without enrollment');
@@ -51,32 +52,18 @@ export const NewForm: React.FC<SectionProps> = ({
 			skip: !attemptingSave,
 			callback: () => {
 				setAttemptingSave(false);
-				// onSectionTouch && onSectionTouch(EnrollmentFunding)
+				onSectionTouch && onSectionTouch(EnrollmentFunding)
 			},
+			successCallback: (returnedEnrollment) => {
+				successCallback && successCallback(returnedEnrollment);
+			}
 		}
 	);
 
-	// Handle API request ERROR
 	const errorAlertState = useCatchAllErrorAlert(saveError);
-
-	// Handle API request SUCCESS
-	useEffect(() => {
-		if (saving) {
-			return;
-		}
-
-		if (saveError) {
-			return;
-		}
-
-		if (saveData) {
-			successCallback && successCallback(saveData);
-		}
-	}, [saving, saveError, successCallback, saveData]);
 
 	const params: ApiOrganizationsIdGetRequest = {
 		id: getIdForUser(user, 'org'),
-		include: ['enrollments', 'fundings', 'funding_spaces'],
 	};
 
 	const { data: organization, error: organizationError, loading: organizationLoading } = useApi<
@@ -95,7 +82,7 @@ export const NewForm: React.FC<SectionProps> = ({
 	}
 
 	if (organizationError) {
-		return <>Something went wrong!</>;
+		return <Alert {...somethingWentWrongAlert}></Alert>;
 	}
 
 	const fundingSpaces = organization.fundingSpaces || [];
@@ -111,8 +98,8 @@ export const NewForm: React.FC<SectionProps> = ({
 				className="usa-form enrollment-new-enrollment-funding-section"
 			>
 				<span className="usa-label text-bold font-sans-lg">{enrollment.site?.name}</span>
-				<EnrollmentStartDate initialLoad={!isReturnVisit} error={saveError} errorAlertState={errorAlertState}/>
-				<AgeGroupField initialLoad={!isReturnVisit} error={saveError} errorAlertState={errorAlertState} />
+				<EnrollmentStartDate errorDisplayGuard={!isReturnVisit} error={saveError} errorAlertState={errorAlertState}/>
+				<AgeGroupField errorDisplayGuard={!isReturnVisit} error={saveError} errorAlertState={errorAlertState} />
 				<span className="usa-label text-bold font-sans-lg">Funding</span>
 				<WithNewFunding shouldCreate={fundingId === 0}>
 					<FundingField

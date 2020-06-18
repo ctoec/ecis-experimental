@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { UpdateFormSectionProps } from '../common';
 import {
 	getCurrentC4kCertificate,
@@ -12,11 +12,10 @@ import { ReactComponent as PlusCircle } from '../../../../../../assets/images/pl
 import { CardExpansion } from '../../../../../../components/Card/CardExpansion';
 import { ExpandCard } from '../../../../../../components/Card/ExpandCard';
 import useCatchAllErrorAlert from '../../../../../../hooks/useCatchAllErrorAlert';
-import { Enrollment } from '../../../../../../generated';
 
 export const Care4KidsForm: React.FC<UpdateFormSectionProps> = ({
 	mutatedEnrollment,
-	formOnSubmit: _formOnSubmit,
+	formOnSubmit,
 	saveError = null,
 	forceCloseEditForms,
 }) => {
@@ -30,19 +29,6 @@ export const Care4KidsForm: React.FC<UpdateFormSectionProps> = ({
 	);
 
 	const errorAlertState = useCatchAllErrorAlert(saveError);
-
-	// // this is a hack, borrowed from what made sense + worked in FamilyIncome
-	// // the "new" form needs to be recreated based on the current state of the
-	// // form data at display time. Simply expanding the CardExpansion does NOT
-	// // result in a re-rendered form, thus results in an incorrectly instantiated
-	// // form. This was an easy fix, relying on why we don't have this issue in
-	// // FamilyIncome. Better suggestions WAY WELCOME
-	// const [showNew, setShowNew] = useState(false);
-
-	const formOnSubmit = (data: Enrollment) => {
-		// setShowNew(false);
-		_formOnSubmit && _formOnSubmit(data);
-	};
 
 	return (
 		<>
@@ -63,7 +49,6 @@ export const Care4KidsForm: React.FC<UpdateFormSectionProps> = ({
 								/>
 							}
 							appearance="unstyled"
-							// onClick={() => setShowNew(true)}
 						/>
 					</ExpandCard>
 				</div>
