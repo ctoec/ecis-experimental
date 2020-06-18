@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FundingSpace, Enrollment } from '../../../../../../generated';
 import { prettyFundingSpaceTime } from '../../../../../../utils/models';
 import { Select, SelectProps } from '../../../../../../components';
@@ -16,8 +16,6 @@ export const ContractSpaceField: React.FC<FundingFormFieldProps> = ({
 	error,
 	errorAlertState,
 }) => {
-	const { dataDriller, updateData } = useGenericContext<Enrollment>(FormContext);
-
 	if (matchingFundingSpaces.length === 1) {
 		return (
 			<SingleContractSpaceField fundingId={fundingId} fundingSpace={matchingFundingSpaces[0]} />
@@ -66,18 +64,21 @@ const SingleContractSpaceField: React.FC<SingleContractSpaceFieldProps> = ({
 	fundingSpace,
 }) => {
 	const { dataDriller, updateData } = useGenericContext<Enrollment>(FormContext);
-	updateData((_data) =>
-		produce<Enrollment>(_data, (draft) =>
-			set(
-				draft,
-				dataDriller
-					.at('fundings')
-					.find((f) => f.id === fundingId)
-					.at('fundingSpaceId').path,
-				fundingSpace.id
+
+	useEffect(() => {
+		updateData((_data) =>
+			produce<Enrollment>(_data, (draft) =>
+				set(
+					draft,
+					dataDriller
+						.at('fundings')
+						.find((f) => f.id === fundingId)
+						.at('fundingSpaceId').path,
+					fundingSpace.id
+				)
 			)
-		)
-	);
+		);
+	}, []);
 
 	return (
 		<div>

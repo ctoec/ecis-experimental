@@ -1,5 +1,6 @@
 import React from 'react';
 import { default as Step, ExternalStepStatus, InternalStepProps, InternalStepStatus } from './Step';
+import cx from 'classnames';
 
 // The statuses 'active' and 'notStarted' can only be assigned by StepList itself
 export type StepStatus = ExternalStepStatus;
@@ -17,6 +18,7 @@ export type StepListProps<T> = {
 	steps: StepProps<T>[];
 	props: T;
 	activeStep: string;
+	type?: 'normal' | 'embedded';
 };
 
 const mapStepsToInternalProps = function <T>(steps: StepProps<T>[], activeStep: string, props: T) {
@@ -39,12 +41,17 @@ const mapStepsToInternalProps = function <T>(steps: StepProps<T>[], activeStep: 
 	});
 };
 
-export default function StepList<T>({ steps, props, activeStep }: StepListProps<T>) {
+export default function StepList<T>({
+	steps,
+	props,
+	activeStep,
+	type = 'normal',
+}: StepListProps<T>) {
 	const internalSteps = mapStepsToInternalProps(steps, activeStep, props);
 	return (
-		<ol className="oec-step-list">
+		<ol className={cx('oec-step-list', { embedded: type === 'embedded' })}>
 			{internalSteps.map((step) => (
-				<Step {...step} />
+				<Step {...step} type={type} />
 			))}
 		</ol>
 	);

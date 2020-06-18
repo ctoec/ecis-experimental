@@ -19,6 +19,22 @@ $future-step-color: color('base-dark') !default;
 	margin: 0;
 	padding: 0 $step-list-padding-h;
 	padding-left: $step-list-padding-left;
+	&.embedded {
+		padding-left: 0 !important;
+		li::before {
+			content: none !important;
+		}
+		&::after {
+			border-bottom: $step-border-width solid color('base-lighter');
+			bottom: 0;
+			content: '';
+			display: block;
+			height: 1px;
+			left: 0 !important;
+			position: absolute;
+			right: 0 !important;
+		}
+	}
 }
 
 .oec-step-list__step {

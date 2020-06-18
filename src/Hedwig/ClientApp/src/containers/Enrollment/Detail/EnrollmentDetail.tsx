@@ -86,7 +86,7 @@ export default function EnrollmentDetail({
 	const enrollmentHistoryProps = getEnrollmentTimelineProps(enrollment);
 
 	return (
-		<CommonContainer backText="Back to roster">
+		<CommonContainer backText="Back to roster" backHref="/roster">
 			<div className="grid-container">
 				<div className="grid-row flex-first-baseline flex-space-between">
 					<div>

@@ -8,7 +8,7 @@ import { Enrollment } from '../../../../../generated';
 
 const possibleStates = ['CT', 'MA', 'NY', 'RI'];
 
-export const State: React.FC<FamilyInfoFormFieldProps> = ({ initialLoad }) => (
+export const State: React.FC<FamilyInfoFormFieldProps> = ({ errorDisplayGuard = false }) => (
 	<FormField<Enrollment, SelectProps, string>
 		id="state"
 		label="State"
@@ -19,7 +19,7 @@ export const State: React.FC<FamilyInfoFormFieldProps> = ({ initialLoad }) => (
 		name="state"
 		status={(enrollment) =>
 			initialLoadErrorGuard(
-				initialLoad || false,
+				errorDisplayGuard,
 				displayValidationStatus([
 					{
 						type: 'warning',

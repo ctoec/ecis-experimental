@@ -13,7 +13,7 @@ import { BirthStateField } from './BirthState';
  * Component that wraps BirthCertificateId, BirthTown, and BirthState in a fieldset.
  */
 export const BirthCertificateFormFieldSet: React.FC<ChildInfoFormFieldProps> = ({
-	initialLoad,
+	errorDisplayGuard: initialLoad,
 }) => {
 	return (
 		<FormFieldSet<Enrollment>
@@ -35,13 +35,13 @@ export const BirthCertificateFormFieldSet: React.FC<ChildInfoFormFieldProps> = (
 			}
 		>
 			<div className="mobile-lg:grid-col-12">
-				<BirthCertificateIdField initialLoad={initialLoad} />
+				<BirthCertificateIdField errorDisplayGuard={initialLoad} />
 			</div>
 			<div className="mobile-lg:grid-col-8 display-inline-block">
-				<BirthTownField initialLoad={initialLoad} />
+				<BirthTownField errorDisplayGuard={initialLoad} />
 			</div>
 			<div className="mobile-lg:grid-col-4 display-inline-block">
-				<BirthStateField initialLoad={initialLoad} />
+				<BirthStateField errorDisplayGuard={initialLoad} />
 			</div>
 		</FormFieldSet>
 	);

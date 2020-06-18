@@ -3,7 +3,7 @@ import { ValidationResponse } from '../../../../../utils/validations/displayVali
 
 // Common helper type for supplying additional props to field components
 export type ChildInfoFormFieldProps = {
-	initialLoad?: boolean;
+	errorDisplayGuard?: boolean;
 	error?: ValidationResponse | null;
 	errorAlertState?: ErrorAlertState;
 };

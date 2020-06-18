@@ -37,7 +37,7 @@ export const FirstReportingPeriodField: React.FC<FirstReportingPeriodFieldProps>
 		.filter((report) => !!report.submittedAt)
 		.sort((a, b) => propertyDateSorter(a, b, (r) => r.submittedAt, true));
 
-	const startDate = dataDriller.at('entry').value || moment().toDate();
+	const startDate = dataDriller.at('entry').value;
 	useEffect(() => {
 		if (!reportingPeriods) return;
 
@@ -47,13 +47,13 @@ export const FirstReportingPeriodField: React.FC<FirstReportingPeriodFieldProps>
 		// - are not more than 3 periods in the "future" -- TODO confirm this AC
 		//   (i.e. in May, we will show May, June, and July reporting periods but not August)
 		const validPeriodStartDate = mostRecentlySubmittedReport
-			? moment.max(moment(mostRecentlySubmittedReport.reportingPeriod.periodEnd), moment(startDate))
-			: moment(startDate);
+			? moment.max(moment.utc(mostRecentlySubmittedReport.reportingPeriod.periodEnd), moment.utc(startDate))
+			: moment.utc(startDate);
 		const startIdx = reportingPeriods.findIndex((period) =>
-			moment(period.period).isSame(moment(validPeriodStartDate), 'month')
+			moment.utc(period.period).isSame(moment.utc(validPeriodStartDate), 'month')
 		);
 		const endIdx =
-			reportingPeriods.findIndex((period) => moment(period.period).isSame(moment(), 'month')) + 2;
+			reportingPeriods.findIndex((period) => moment.utc(period.period).isSame(moment.utc(), 'month')) + 2;
 
 		const _validReportingPeriods = reportingPeriods.slice(startIdx, endIdx);
 		setValidReportingPeriods(_validReportingPeriods);

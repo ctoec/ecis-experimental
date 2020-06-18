@@ -19,13 +19,12 @@ export const SideNav = ({ items, externalActiveItemIndex, noActiveItemContent }:
 	}, [externalActiveItemIndex]);
 
 	return (
-		<div className="oec-sidenav grid-row grid-gap">
+		<div className="oec-sidenav grid-row">
 			<div className="mobile-lg:grid-col-4">
 				<nav>
 					<ul>
 						{items.map((item, idx) => {
 							const _onClick = () => {
-								console.log('setting tab nav to ', idx);
 								setActiveItemIndex(idx);
 								item.onClick && item.onClick();
 							};
@@ -41,7 +40,7 @@ export const SideNav = ({ items, externalActiveItemIndex, noActiveItemContent }:
 					</ul>
 				</nav>
 			</div>
-			<div className="margin-top-2 mobile-lg:grid-col-8">
+			<div className="mobile-lg:grid-col-8 oec-sidenav__content">
 				{activeItemIndex !== undefined && activeItemIndex < items.length
 					? items[activeItemIndex].content
 					: noActiveItemContent}

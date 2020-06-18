@@ -9,7 +9,9 @@ import { displayValidationStatus } from '../../../../../utils/validations/displa
 /**
  * Component for entering the birth town of a child in an enrollment.
  */
-export const BirthTownField: React.FC<ChildInfoFormFieldProps> = ({ initialLoad }) => {
+export const BirthTownField: React.FC<ChildInfoFormFieldProps> = ({
+	errorDisplayGuard: initialLoad,
+}) => {
 	return (
 		<FormField<Enrollment, TextInputProps, string | null>
 			getValue={(data) => data.at('child').at('birthTown')}

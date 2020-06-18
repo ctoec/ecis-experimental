@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { InlineIcon } from '..';
+import cx from 'classnames';
 
 export type ExternalStepStatus = 'incomplete' | 'complete' | 'attentionNeeded' | 'exempt';
 
@@ -14,6 +15,7 @@ export type InternalStepProps<T> = {
 	Summary: React.FC<T>;
 	Form: React.FC<T>;
 	props: T;
+	type?: 'normal' | 'embedded';
 };
 
 const labelForStatus = (status: ExternalStepStatus) => {
@@ -36,9 +38,14 @@ export default function Step<T>({
 	Summary,
 	Form,
 	props,
+	type = 'normal',
 }: InternalStepProps<T>) {
 	return (
-		<li className={`oec-step-list__step oec-step-list__step--${status}`}>
+		<li
+			className={cx('oec-step-list__step', `oec-step-list__step--${status}`, {
+				embedded: type === 'embedded',
+			})}
+		>
 			<div className="oec-step-list__step__content">
 				<h2 className="oec-step-list__step__title">{name}</h2>
 

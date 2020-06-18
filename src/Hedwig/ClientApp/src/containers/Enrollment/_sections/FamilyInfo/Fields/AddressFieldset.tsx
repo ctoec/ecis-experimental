@@ -11,7 +11,9 @@ import { State } from './State';
 import { Town } from './Town';
 import { FamilyInfoFormFieldProps } from './common';
 
-export const AddressFieldset: React.FC<FamilyInfoFormFieldProps> = ({ initialLoad }) => (
+export const AddressFieldset: React.FC<FamilyInfoFormFieldProps> = ({
+	errorDisplayGuard = false,
+}) => (
 	<FormFieldSet<Enrollment>
 		id="family-address"
 		legend="Address"
@@ -19,7 +21,7 @@ export const AddressFieldset: React.FC<FamilyInfoFormFieldProps> = ({ initialLoa
 		className="display-inline-block"
 		status={(enrollment) =>
 			initialLoadErrorGuard(
-				initialLoad || false,
+				errorDisplayGuard,
 				displayValidationStatus([
 					{
 						type: 'warning',
@@ -32,19 +34,19 @@ export const AddressFieldset: React.FC<FamilyInfoFormFieldProps> = ({ initialLoa
 		}
 	>
 		<div className="mobile-lg:grid-col-12">
-			<AddressLine1 />
+			<AddressLine1 errorDisplayGuard={errorDisplayGuard} />
 		</div>
 		<div className="mobile-lg:grid-col-12">
 			<AddressLine2 />
 		</div>
 		<div className="mobile-lg:grid-col-8 display-inline-block">
-			<Town />
+			<Town errorDisplayGuard={errorDisplayGuard} />
 		</div>
 		<div className="mobile-lg:grid-col-4 display-inline-block">
-			<State />
+			<State errorDisplayGuard={errorDisplayGuard} />
 		</div>
 		<div className="mobile-lg:grid-col-6">
-			<Zip />
+			<Zip errorDisplayGuard={errorDisplayGuard} />
 		</div>
 	</FormFieldSet>
 );
