@@ -31,6 +31,7 @@ namespace Hedwig.Repositories
 
 		public List<FundingDTO> GetFundingDTOsByEnrollmentIds(IEnumerable<int> enrollmentIds)
 		{
+			_context.ChangeTracker.LazyLoadingEnabled = false;
 			var fDTOs = _context.Fundings
 				.Where(f => enrollmentIds.Contains(f.EnrollmentId))
 				.Include(f => f.FirstReportingPeriod)

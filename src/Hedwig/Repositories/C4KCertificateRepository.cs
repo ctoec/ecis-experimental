@@ -20,6 +20,7 @@ namespace Hedwig.Repositories
 
 		public List<C4KCertificateDTO> GetC4KCertificateDTOsByChildId(Guid childId)
 		{
+			_context.ChangeTracker.LazyLoadingEnabled = false;
 			return _context.C4KCertificates
 				.Where(c => c.ChildId == childId)
 				.Select(c4kc => new C4KCertificateDTO()
@@ -35,6 +36,7 @@ namespace Hedwig.Repositories
 
 		public List<C4KCertificateDTO> GetC4KCertificateDTOsByChildIds(IEnumerable<Guid> childIds)
 		{
+			_context.ChangeTracker.LazyLoadingEnabled = false;
 			return _context.C4KCertificates
 				.Where(c => childIds.Contains(c.ChildId))
 				.Select(c4kc => new C4KCertificateDTO()

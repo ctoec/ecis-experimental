@@ -51,6 +51,7 @@ namespace Hedwig.Repositories
 		}
 		public EnrollmentChildDTO GetEnrollmentChildDTOById(Guid id)
 		{
+			_context.ChangeTracker.LazyLoadingEnabled = false;
 			var childDTO = _context.Children
 				.Select(c => new EnrollmentChildDTO()
 				{
@@ -84,6 +85,7 @@ namespace Hedwig.Repositories
 		}
 		public EnrollmentSummaryChildDTO GetEnrollmentSummaryChildDTOById(Guid id)
 		{
+			_context.ChangeTracker.LazyLoadingEnabled = false;
 			var childDTO = _context.Children
 				.Select(c => new EnrollmentSummaryChildDTO()
 				{
@@ -102,6 +104,7 @@ namespace Hedwig.Repositories
 		}
 		public List<EnrollmentSummaryChildDTO> GetEnrollmentSummaryChildDTOsByIds(IEnumerable<Guid> ids)
 		{
+			_context.ChangeTracker.LazyLoadingEnabled = false;
 			var childDTOs = _context.Children
 				.Select(c => new EnrollmentSummaryChildDTO()
 				{

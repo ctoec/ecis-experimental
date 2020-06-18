@@ -79,6 +79,7 @@ namespace Hedwig.Repositories
 			int? take = null
 		)
 		{
+			_context.ChangeTracker.LazyLoadingEnabled = false;
 			var enrollments = _context.Enrollments
 				.FilterByDates(from, to)
 				.Where(e => e.SiteId == siteId)
@@ -141,6 +142,7 @@ namespace Hedwig.Repositories
 
 		public async Task<EnrollmentDTO> GetEnrollmentDTOForSiteAsync(int id, int siteId)
 		{
+			_context.ChangeTracker.LazyLoadingEnabled = false;
 			var eDTO = await Task.FromResult(_context.Enrollments
 				.Where(e => e.SiteId == siteId && e.Id == id)
 				.SelectEnrollmentDTO()
@@ -158,6 +160,7 @@ namespace Hedwig.Repositories
 			int? take = null
 		)
 		{
+			_context.ChangeTracker.LazyLoadingEnabled = false;
 			var enrollments =
 				(asOf != null ? _context.Enrollments.AsOf((DateTime)asOf) : _context.Enrollments)
 				.FilterByDates(from, to)

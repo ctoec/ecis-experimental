@@ -21,6 +21,7 @@ namespace Hedwig.Repositories
 
 		public List<EnrollmentFamilyDeterminationDTO> GetEnrollmentFamilyDeterminationDTOsByFamilyId(int familyId)
 		{
+			_context.ChangeTracker.LazyLoadingEnabled = false;
 			return _context.FamilyDeterminations
 				.Where(fd => fd.FamilyId == familyId)
 				.Select(fd => new EnrollmentFamilyDeterminationDTO() {

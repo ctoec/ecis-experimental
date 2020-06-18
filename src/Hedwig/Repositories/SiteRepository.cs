@@ -21,6 +21,7 @@ namespace Hedwig.Repositories
 
 		public async Task<List<EnrollmentSummarySiteDTO>> GetEnrollmentSummarySiteDTOsForOrganizationAsync(int organizationId)
 		{
+			_context.ChangeTracker.LazyLoadingEnabled = false;
 			return await _context.Sites
 				.Where(s => s.OrganizationId == organizationId)
 				.Select(s => new EnrollmentSummarySiteDTO()
@@ -33,6 +34,7 @@ namespace Hedwig.Repositories
 
 		public List<EnrollmentSummarySiteDTO> GetEnrollmentSummarySiteDTOsForOrganization(int organizationId)
 		{
+			_context.ChangeTracker.LazyLoadingEnabled = false;
 			return _context.Sites
 				.Where(s => s.OrganizationId == organizationId)
 				.Select(s => new EnrollmentSummarySiteDTO()
@@ -80,6 +82,7 @@ namespace Hedwig.Repositories
 
 		public OrganizationSiteDTO GetOrganizationSiteDTOById(int id)
 		{
+			_context.ChangeTracker.LazyLoadingEnabled = false;
 			return _context.Sites
 				.Select(s => new OrganizationSiteDTO()
 				{
@@ -98,6 +101,7 @@ namespace Hedwig.Repositories
 
 		public EnrollmentSummarySiteDTO GetEnrollmentSummarySiteDTOById(int id)
 		{
+			_context.ChangeTracker.LazyLoadingEnabled = false;
 			return _context.Sites
 				.Select(s => new EnrollmentSummarySiteDTO() {
 					Id = s.Id,
@@ -108,6 +112,7 @@ namespace Hedwig.Repositories
 
 		public List<EnrollmentSummarySiteDTO> GetEnrollmentSummarySiteDTOsByIds(IEnumerable<int> ids)
 		{
+			_context.ChangeTracker.LazyLoadingEnabled = false;
 			return _context.Sites
 				.Select(s => new EnrollmentSummarySiteDTO()
 				{

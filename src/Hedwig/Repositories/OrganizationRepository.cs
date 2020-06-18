@@ -32,6 +32,7 @@ namespace Hedwig.Repositories
 
 		public EnrollmentSummaryOrganizationDTO GetEnrollmentSummaryOrganizationDTOById(int id)
 		{
+			_context.ChangeTracker.LazyLoadingEnabled = false;
 			var enrollmentDTO = _context.Organizations
 				.Select(o => new EnrollmentSummaryOrganizationDTO() {
 					Id = o.Id,

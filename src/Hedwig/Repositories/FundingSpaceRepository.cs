@@ -17,6 +17,7 @@ namespace Hedwig.Repositories
 
 		public FundingSpaceDTO GetFundingSpaceDTOById(int? id)
 		{
+			_context.ChangeTracker.LazyLoadingEnabled = false;
 			return !id.HasValue ? null : _context.FundingSpaces
 				.Select(fs => new FundingSpaceDTO()
 				{
@@ -33,6 +34,7 @@ namespace Hedwig.Repositories
 
 		public List<FundingSpaceDTO> GetFundingSpaceDTOsByIds(IEnumerable<int?> ids)
 		{
+			_context.ChangeTracker.LazyLoadingEnabled = false;
 			return _context.FundingSpaces
 				.Select(fs => new FundingSpaceDTO()
 				{
