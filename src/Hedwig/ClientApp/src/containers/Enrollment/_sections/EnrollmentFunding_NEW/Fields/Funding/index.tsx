@@ -64,13 +64,10 @@ export const FundingField: React.FC<FundingFormFieldProps> = ({
 			onChange={(e) =>
 				updateData(
 					produce<Enrollment>(data, (draft) =>
-						set(
-							draft,
-							dataDriller
-								.at('fundings')
-								.find((f) => f.id === fundingId).path,
-							{id: 0, source: fundingSourceFromString(e.target.value)}
-						)
+						set(draft, dataDriller.at('fundings').find((f) => f.id === fundingId).path, {
+							id: 0,
+							source: fundingSourceFromString(e.target.value),
+						})
 					)
 				)
 			}
