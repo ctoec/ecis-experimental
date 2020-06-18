@@ -60,7 +60,6 @@ namespace Hedwig.Repositories
 				.Include(e => e.Child)
 					.ThenInclude(c => c.C4KCertificates)
 				.Include(e => e.Site)
-				.Include(e => e.Child)
 				.Skip(skip);
 			if (take.HasValue)
 			{
@@ -106,10 +105,10 @@ namespace Hedwig.Repositories
 					.ThenInclude(f => f.LastReportingPeriod)
 				.Include(e => e.Child)
 					.ThenInclude(c => c.C4KCertificates)
-				.Include(e => e.Site)
 				.Include(e => e.Child)
 					.ThenInclude(c => c.Family)
 						.ThenInclude(f => f.Determinations)
+				.Include(e => e.Site)
 				.FirstOrDefault();
 
 			// handle special include of un-mapped properties
@@ -141,7 +140,7 @@ namespace Hedwig.Repositories
 		{
 			var eDTO = await Task.FromResult(_context.Enrollments
 				.Where(e => e.SiteId == siteId && e.Id == id)
-				.SelectEnrollmentDTO(_childRepository, _fundingRepository, _siteRepository)
+				.SelectEnrollmentDTO()
 				.FirstOrDefault());
 			CompleteEnrollmentDTO(eDTO);
 			return eDTO;
@@ -249,12 +248,7 @@ namespace Hedwig.Repositories
 				ValidationErrors = e.ValidationErrors,
 			});
 		}
-		public static IQueryable<EnrollmentDTO> SelectEnrollmentDTO(
-			this IQueryable<Enrollment> query,
-			IChildRepository childRepository,
-			IFundingRepository fundingRepository,
-			ISiteRepository siteRepository
-		)
+		public static IQueryable<EnrollmentDTO> SelectEnrollmentDTO(this IQueryable<Enrollment> query)
 		{
 			return query.Select(e => new EnrollmentDTO()
 			{
