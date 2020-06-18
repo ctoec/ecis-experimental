@@ -2,8 +2,8 @@ import React, { useContext } from 'react';
 import moment from 'moment';
 import UserContext from '../../contexts/User/UserContext';
 import useApi from '../../hooks/useApi';
-import { Enrollment } from '../../generated';
-import { getIdForUser } from '../../utils/models';
+import { Enrollment, FundingSource } from '../../generated';
+import { getIdForUser, isFunded } from '../../utils/models';
 import CommonContainer from '../CommonContainer';
 import { EnrollmentsEditList } from './EnrollmentsEditList';
 
@@ -35,7 +35,8 @@ const BatchEdit: React.FC<BatchEditProps> = ({ match: { params: sectionId } }) =
 	}
 
 	const needInfoEnrollments = (enrollments || []).filter(
-		(e) => e.validationErrors && e.validationErrors.length
+		(e) =>
+			e.validationErrors && e.validationErrors.length && isFunded(e, { source: FundingSource.CDC })
 	);
 	return (
 		<CommonContainer>

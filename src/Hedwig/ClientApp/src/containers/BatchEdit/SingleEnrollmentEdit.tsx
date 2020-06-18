@@ -16,12 +16,14 @@ import FamilyIncome from './_sections/FamilyIncome';
 
 type SingleEnrollmentEditProps = {
 	enrollmentId: number;
+	updateEnrollments: (_: Enrollment) => void;
 	siteId: number;
 	moveNextEnrollment: () => void;
 };
 
 export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 	enrollmentId,
+	updateEnrollments,
 	siteId,
 	moveNextEnrollment,
 }) => {
@@ -35,6 +37,14 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 	};
 	const history = useHistory();
 	const [mutatedEnrollment, setMutatedEnrollment] = useState<Enrollment>();
+
+	// Update the list of enrollments in parent EnrollmentsEditList
+	// to have the most current version of this single enrollment
+	useEffect(() => {
+		if (mutatedEnrollment) {
+			updateEnrollments(mutatedEnrollment);
+		}
+	}, [mutatedEnrollment]);
 
 	// populate mutatedEnrollment (better name: to-be-mutated-enrollment) with enrollment detail from backend
 	const { data: enrollmentDetail } = useApi<Enrollment>(
@@ -55,7 +65,7 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 	// Create steps for step list, based on state of missing/needed information
 	// in the fetched enrollment
 	const steps: StepProps<BatchEditStepProps>[] = [];
-	if ((hasValidationErrors(enrollmentDetail?.child), undefined, true) /*skip subobj validation*/) {
+	if (hasValidationErrors(enrollmentDetail?.child, undefined, true) /*skip subobj validation*/) {
 		steps.push(ChildInfo);
 	}
 	if (hasValidationErrors(enrollmentDetail?.child?.family, undefined, true)) {
