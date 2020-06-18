@@ -87,17 +87,7 @@ namespace Hedwig.Repositories
 		{
 			_context.ChangeTracker.LazyLoadingEnabled = false;
 			var childDTO = _context.Children
-				.Select(c => new EnrollmentSummaryChildDTO()
-				{
-					Id = c.Id,
-					Sasid = c.Sasid,
-					FirstName = c.FirstName,
-					MiddleName = c.MiddleName,
-					LastName = c.LastName,
-					Suffix = c.Suffix,
-					Birthdate = c.Birthdate,
-					ValidationErrors = c.ValidationErrors
-				})
+				.SelectEnrollmentSummaryChildDTO()
 				.Single(c => c.Id == id);
 			childDTO.C4KCertificates = _c4KCertificateRepository.GetC4KCertificateDTOsByChildId(childDTO.Id);
 			return childDTO;
@@ -106,17 +96,7 @@ namespace Hedwig.Repositories
 		{
 			_context.ChangeTracker.LazyLoadingEnabled = false;
 			var childDTOs = _context.Children
-				.Select(c => new EnrollmentSummaryChildDTO()
-				{
-					Id = c.Id,
-					Sasid = c.Sasid,
-					FirstName = c.FirstName,
-					MiddleName = c.MiddleName,
-					LastName = c.LastName,
-					Suffix = c.Suffix,
-					Birthdate = c.Birthdate,
-					ValidationErrors = c.ValidationErrors
-				})
+				.SelectEnrollmentSummaryChildDTO()
 				.Where(c => ids.Contains(c.Id))
 				.ToList();
 			var childIds = childDTOs.Select(childDTO => childDTO.Id).Distinct();
@@ -126,6 +106,24 @@ namespace Hedwig.Repositories
 				childDTO.C4KCertificates = c4KCertificates.Where(c4k => c4k.ChildId == childDTO.Id).ToList();
 			}
 			return childDTOs;
+		}
+	}
+
+	public static class ChildQueryExtensions
+	{
+		public static IQueryable<EnrollmentSummaryChildDTO> SelectEnrollmentSummaryChildDTO(this IQueryable<Child> query)
+		{
+			return query.Select(c => new EnrollmentSummaryChildDTO()
+			{
+				Id = c.Id,
+				Sasid = c.Sasid,
+				FirstName = c.FirstName,
+				MiddleName = c.MiddleName,
+				LastName = c.LastName,
+				Suffix = c.Suffix,
+				Birthdate = c.Birthdate,
+				ValidationErrors = c.ValidationErrors
+			});
 		}
 	}
 
