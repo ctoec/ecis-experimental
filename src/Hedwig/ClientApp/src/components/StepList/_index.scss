@@ -23,9 +23,12 @@ $future-step-color: color('base-dark') !default;
 	.oec-step-list__step {
 		color: $future-step-color;
 		counter-increment: step-counter;
-		margin-bottom: $step-margin;
-		padding-bottom: $step-margin;
 		position: relative;
+
+		&:not(:last-child) {
+			margin-bottom: $step-margin;
+			padding-bottom: $step-margin;
+		}
 
 		&::before {
 			border: $step-list-number-border-size solid $future-step-color;
@@ -54,7 +57,7 @@ $future-step-color: color('base-dark') !default;
 			}
 		}
 
-		&::after {
+		&:not(:last-child)::after {
 			border-bottom: $step-border-width solid color('base-lighter');
 			bottom: 0;
 			content: '';
@@ -154,9 +157,19 @@ $future-step-color: color('base-dark') !default;
 	}
 
 	&.embedded {
-		padding-left: 0 !important;
+		padding: 0;
+
+		& > * {
+			padding: 1rem;
+		}
+
 		li::before {
-			content: none !important;
+			content: none;
+		}
+
+		.oec-step-list__step::after {
+			left: -1rem;
+			right: -1rem;
 		}
 	}
 }

@@ -7,6 +7,8 @@ export type ExternalStepStatus = 'incomplete' | 'complete' | 'attentionNeeded' |
 
 export type InternalStepStatus = 'notStarted' | 'active' | ExternalStepStatus;
 
+export type PossibleHeaderLevels = 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+
 export type InternalStepProps<T> = {
 	key: string;
 	name: string;
@@ -15,6 +17,7 @@ export type InternalStepProps<T> = {
 	Summary: React.FC<T>;
 	Form: React.FC<T>;
 	props: T;
+	headerLevel: PossibleHeaderLevels;
 	type?: 'normal' | 'embedded';
 };
 
@@ -38,8 +41,10 @@ export default function Step<T>({
 	Summary,
 	Form,
 	props,
+	headerLevel,
 	type = 'normal',
 }: InternalStepProps<T>) {
+	const Heading = headerLevel;
 	return (
 		<li
 			className={cx('oec-step-list__step', `oec-step-list__step--${status}`, {
@@ -47,7 +52,7 @@ export default function Step<T>({
 			})}
 		>
 			<div className="oec-step-list__step__content">
-				<h2 className="oec-step-list__step__title">{name}</h2>
+				<Heading className="oec-step-list__step__title">{name}</Heading>
 
 				{status !== 'notStarted' && status !== 'active' && (
 					<div className="oec-step-list__step__summary">
