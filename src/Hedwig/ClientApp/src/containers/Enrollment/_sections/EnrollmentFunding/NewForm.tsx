@@ -73,7 +73,7 @@ export const NewForm: React.FC<SectionProps> = ({
 	const isReturnVisit = touchedSections && touchedSections[EnrollmentFunding.key];
 	const fundingId = idx(enrollment, (_) => _.fundings[0].id) || 0;
 	const certificateId = idx(enrollment, (_) => _.child.c4KCertificates[0].id) || 0;
-	const [receivesC4K, setRecievesC4K] = useState(isReturnVisit ? certificateId === 0 : false);
+	const [receivesC4K, setRecievesC4K] = useState(isReturnVisit ? certificateId !== 0 : false);
 
 	if (organizationLoading || !organization) {
 		return <>Loading...</>;
@@ -107,14 +107,12 @@ export const NewForm: React.FC<SectionProps> = ({
 					errorAlertState={errorAlertState}
 				/>
 				<span className="usa-label text-bold font-sans-lg">Funding</span>
-				<WithNewFunding shouldCreate={fundingId === 0}>
-					<FundingField
-						fundingId={fundingId}
-						fundingSpaces={fundingSpaces}
-						error={saveError}
-						errorAlertState={errorAlertState}
-					/>
-				</WithNewFunding>
+				<FundingField
+					fundingId={fundingId}
+					fundingSpaces={fundingSpaces}
+					error={saveError}
+					errorAlertState={errorAlertState}
+				/>
 
 				<span className="usa-label text-bold font-sans-lg">Care 4 Kids</span>
 				<WithNewC4kCertificate shouldCreate={certificateId === 0 && receivesC4K}>

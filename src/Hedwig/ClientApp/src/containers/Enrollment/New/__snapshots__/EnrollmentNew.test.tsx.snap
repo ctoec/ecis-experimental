@@ -1560,14 +1560,14 @@ exports[`EnrollmentNew EnrollmenFunding matches snapshot 1`] = `
                       >
                         <input
                           class="usa-radio__input"
-                          id="Private pay"
+                          id="PRIVATE_PAY"
                           name="funding-type"
                           type="radio"
-                          value="Private pay"
+                          value="PRIVATE_PAY"
                         />
                         <label
                           class="usa-radio__label"
-                          for="Private pay"
+                          for="PRIVATE_PAY"
                         >
                           Private pay
                         </label>
