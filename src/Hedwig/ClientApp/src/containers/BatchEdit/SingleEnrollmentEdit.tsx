@@ -137,18 +137,20 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 
 	return (
 		<>
-			<div className="grid-row flex-first-baseline flex-space-between padding-x-2 padding-bottom-3">
-				<div>
+			<div className="padding-x-2 padding-bottom-3">
+				<div className="flex-row display-flex flex-justify flex-align-end">
 					<h2>{lastFirstNameFormatter(mutatedEnrollment.child)}</h2>
+					<div className="text-baseline">Date of Birth: {dateFormatter(mutatedEnrollment.child?.birthdate)}</div>
+				</div>
+				<div className="margin-top-1">
 					<Button
 						appearance="unstyled"
 						text="View full profile"
 						href={`/roster/sites/${siteId}/enrollments/${enrollmentId}`}
 					/>
 				</div>
-				<span>Date of Birth: {dateFormatter(mutatedEnrollment.child?.birthdate)}</span>
 			</div>
-			<div className="padding-top-4 padding-x-2 border-top-1px border-base-light">
+			<div className="padding-top-3 padding-x-2 border-top-1px border-base-light">
 				<StepList
 					key={mutatedEnrollment.id}
 					steps={steps}

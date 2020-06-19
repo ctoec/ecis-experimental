@@ -129,10 +129,6 @@ ol.no-list-counter > li:before {
 }
 
 // *** Links ***
-// When we use links like buttons we need to style them the same
-a.usa-button {
-	text-decoration: inherit;
-}
 
 .usa-form a.usa-button:visited {
 	@extend .usa-button, :visited;
