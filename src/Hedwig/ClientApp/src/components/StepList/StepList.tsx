@@ -1,5 +1,11 @@
 import React from 'react';
-import { default as Step, ExternalStepStatus, InternalStepProps, InternalStepStatus, PossibleHeaderLevels } from './Step';
+import {
+	default as Step,
+	ExternalStepStatus,
+	InternalStepProps,
+	InternalStepStatus,
+	PossibleHeaderLevels,
+} from './Step';
 import cx from 'classnames';
 
 // The statuses 'active' and 'notStarted' can only be assigned by StepList itself
@@ -49,7 +55,7 @@ export function StepList<T>({
 	props,
 	activeStep,
 	type = 'normal',
-	headerLevel = 'h2'
+	headerLevel = 'h2',
 }: StepListProps<T>) {
 	const internalSteps = mapStepsToInternalProps(steps, activeStep, props);
 	return (

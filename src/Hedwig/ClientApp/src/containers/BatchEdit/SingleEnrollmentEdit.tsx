@@ -140,7 +140,9 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 			<div className="padding-x-2 padding-bottom-3">
 				<div className="flex-row display-flex flex-justify flex-align-end">
 					<h2>{lastFirstNameFormatter(mutatedEnrollment.child)}</h2>
-					<div className="text-baseline">Date of Birth: {dateFormatter(mutatedEnrollment.child?.birthdate)}</div>
+					<div className="text-baseline">
+						Date of Birth: {dateFormatter(mutatedEnrollment.child?.birthdate)}
+					</div>
 				</div>
 				<div className="margin-top-1">
 					<Button

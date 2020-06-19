@@ -31,8 +31,8 @@ export const EnrollmentsEditList: React.FC<EnrollmentsEditListProps> = ({
 		activeEnrollmentId
 			? editedEnrollments.findIndex((e) => e.id === activeEnrollmentId)
 			: editedEnrollments.length
-				? 0
-				: undefined
+			? 0
+			: undefined
 	);
 
 	const moveNext = () => {
@@ -62,8 +62,8 @@ export const EnrollmentsEditList: React.FC<EnrollmentsEditListProps> = ({
 					/>
 				),
 			}))}
-		// TODO: IMPLEMENT THIS!!!!
-		// noActiveItemContent={}
+			// TODO: IMPLEMENT THIS!!!!
+			// noActiveItemContent={}
 		/>
 	);
 };
