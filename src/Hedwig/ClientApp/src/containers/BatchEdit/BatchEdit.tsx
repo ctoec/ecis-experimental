@@ -35,9 +35,11 @@ const BatchEdit: React.FC<BatchEditProps> = ({ match: { params: sectionId } }) =
 	}
 
 	const needInfoEnrollments = (enrollments || []).filter(
-		(e) =>
-			e.validationErrors && e.validationErrors.length && isFunded(e, { source: FundingSource.CDC })
-	);
+		(e) => {
+			console.log(e)
+			return e.validationErrors && e.validationErrors.length && isFunded(e, { source: FundingSource.CDC })
+
+		});
 	return (
 		<CommonContainer>
 			<div className="grid-container">

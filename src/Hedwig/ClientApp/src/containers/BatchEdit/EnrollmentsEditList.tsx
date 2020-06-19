@@ -33,8 +33,8 @@ export const EnrollmentsEditList: React.FC<EnrollmentsEditListProps> = ({
 		activeEnrollmentId
 			? editedEnrollments.findIndex((e) => e.id === activeEnrollmentId)
 			: editedEnrollments.length
-			? 0
-			: undefined
+				? 0
+				: undefined
 	);
 
 	const moveNext = () => {
@@ -58,13 +58,13 @@ export const EnrollmentsEditList: React.FC<EnrollmentsEditListProps> = ({
 				title: hasValidationErrors(enrollment) ? (
 					lastFirstNameFormatter(enrollment.child)
 				) : (
-					<TextWithIcon
-						iconSide="right"
-						text={lastFirstNameFormatter(enrollment.child)}
-						Icon={Success}
-						iconClassName="oec-inline-icon--complete"
-					/>
-				),
+						<TextWithIcon
+							iconSide="right"
+							text={lastFirstNameFormatter(enrollment.child)}
+							Icon={Success}
+							iconClassName="oec-inline-icon--complete"
+						/>
+					),
 				description: getMissingInfoFields(enrollment),
 				content: (
 					<SingleEnrollmentEdit
@@ -88,6 +88,9 @@ export const EnrollmentsEditList: React.FC<EnrollmentsEditListProps> = ({
 
 // TODO: IMPLEMENT THIS!!!!!
 const getMissingInfoFields = (enrollment: Enrollment) => {
+	// If enrollment is missing birth certificate or income determination (or re-determination), I see those missing fields named, and then I see a count of how many other fields are missing.
+	console.log(enrollment)
+	// If enrollment is not missing birth certificate or income determination, but are missing other fields, I only see the count of how many fields are missing: "5 fields missing".
 	if (hasValidationErrors(enrollment)) return 'Birth certificate';
 	return '';
 };

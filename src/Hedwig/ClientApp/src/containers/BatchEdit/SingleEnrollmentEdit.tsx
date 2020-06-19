@@ -156,6 +156,7 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 					</div>
 				</div>
 				<div className="margin-top-1">
+					{/* TODO: why isn't this just a link? */}
 					<Button
 						appearance="unstyled"
 						text="View full profile"
