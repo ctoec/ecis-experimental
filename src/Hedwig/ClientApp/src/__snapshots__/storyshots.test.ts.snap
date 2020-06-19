@@ -7156,6 +7156,109 @@ exports[`Storyshots StepList Default 1`] = `
     }
   }
 >
+  <ol
+    className="oec-step-list"
+  >
+    <li
+      className="oec-step-list__step oec-step-list__step--complete"
+    >
+      <div
+        className="oec-step-list__step__content"
+      >
+        <h2
+          className="oec-step-list__step__title"
+        >
+          One small step
+        </h2>
+        <div
+          className="oec-step-list__step__summary"
+        >
+          <p>
+            For a man.
+          </p>
+        </div>
+      </div>
+      <div
+        className="oec-step-list__step__actions"
+      >
+        <div
+          className="oec-step-list__step__status-text"
+        >
+          <span
+            className="oec-inline-icon oec-inline-icon--complete"
+          >
+            <svg>
+              success.svg
+            </svg>
+          </span>
+          Complete
+        </div>
+        <a
+          className="usa-link"
+          href="/1"
+          onClick={[Function]}
+        >
+          Edit
+          <span
+            className="usa-sr-only"
+          >
+             
+            one small step
+          </span>
+        </a>
+      </div>
+    </li>
+    <li
+      className="oec-step-list__step oec-step-list__step--active"
+    >
+      <div
+        className="oec-step-list__step__content"
+      >
+        <h2
+          className="oec-step-list__step__title"
+        >
+          One giant leap
+        </h2>
+        <div
+          className="oec-step-list__step__form"
+        >
+          <p>
+            For mankind.
+          </p>
+        </div>
+      </div>
+      <div
+        className="oec-step-list__step__actions"
+      />
+    </li>
+    <li
+      className="oec-step-list__step oec-step-list__step--notStarted"
+    >
+      <div
+        className="oec-step-list__step__content"
+      >
+        <h2
+          className="oec-step-list__step__title"
+        >
+          To infinity and beyond
+        </h2>
+      </div>
+      <div
+        className="oec-step-list__step__actions"
+      />
+    </li>
+  </ol>
+</div>
+`;
+
+exports[`Storyshots Tab nav Default 1`] = `
+<div
+  style={
+    Object {
+      "padding": "40px",
+    }
+  }
+>
   <div
     className="oec-tab-nav"
   >

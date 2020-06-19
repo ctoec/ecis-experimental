@@ -1,17 +1,16 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Enrollment } from '../../generated';
+import { useHistory } from 'react-router';
 import { hasValidationErrors } from '../../utils/validations';
-import { StepProps, Button } from '../../components';
+import { StepProps, Button, StepList } from '../../components';
 import { lastFirstNameFormatter } from '../../utils/stringFormatters';
 import dateFormatter from '../../utils/dateFormatter';
-import StepList from '../../components/StepList/StepList';
 import UserContext from '../../contexts/User/UserContext';
 import { getIdForUser, enrollmentWithDefaultFamily } from '../../utils/models';
 import useApi from '../../hooks/useApi';
 import ChildInfo from './_sections/ChildInfo';
 import { BatchEditStepProps } from './_sections/batchEditTypes';
 import FamilyInfo from './_sections/FamilyInfo';
-import { useHistory } from 'react-router';
 import FamilyIncome from './_sections/FamilyIncome';
 
 type SingleEnrollmentEditProps = {
@@ -138,24 +137,29 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 
 	return (
 		<>
-			<div className="grid-row flex-first-baseline flex-space-between padding-x-2 padding-bottom-3">
-				<div>
+			<div className="padding-x-2 padding-bottom-3">
+				<div className="flex-row display-flex flex-justify flex-align-end">
 					<h2>{lastFirstNameFormatter(mutatedEnrollment.child)}</h2>
+					<div className="text-baseline">
+						Date of Birth: {dateFormatter(mutatedEnrollment.child?.birthdate)}
+					</div>
+				</div>
+				<div className="margin-top-1">
 					<Button
 						appearance="unstyled"
 						text="View full profile"
 						href={`/roster/sites/${siteId}/enrollments/${enrollmentId}`}
 					/>
 				</div>
-				<span>Date of Birth: {dateFormatter(mutatedEnrollment.child?.birthdate)}</span>
 			</div>
-			<div className="padding-top-4 padding-x-2 border-top-1px border-base-light">
+			<div className="padding-top-1 border-top-1px border-base-light">
 				<StepList
 					key={mutatedEnrollment.id}
 					steps={steps}
 					props={stepProps}
 					activeStep={activeStepId}
 					type="embedded"
+					headerLevel="h3"
 				/>
 			</div>
 		</>

@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { TabNav } from './TabNav';
 
-storiesOf('StepList', module).add('Default', () => {
+storiesOf('Tab nav', module).add('Default', () => {
 	return (
 		<TabNav
 			items={[

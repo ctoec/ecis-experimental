@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Enrollment, SiteFromJSON } from '../../generated';
+import { Enrollment } from '../../generated';
 import { SideNav } from '../../components';
-import { lastFirstNameFormatter, nameFormatter } from '../../utils/stringFormatters';
+import { lastFirstNameFormatter } from '../../utils/stringFormatters';
 import { hasValidationErrors } from '../../utils/validations';
 import { SingleEnrollmentEdit } from './SingleEnrollmentEdit';
 
