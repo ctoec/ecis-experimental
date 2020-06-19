@@ -20,6 +20,7 @@ export type StepListProps<T> = {
 	props: T;
 	activeStep: string;
 	type?: 'normal' | 'embedded';
+	// https://dev.to/s_aitchison/psa-stop-hard-coding-heading-levels-in-your-react-components-2ekp
 	headerLevel?: PossibleHeaderLevels;
 };
 

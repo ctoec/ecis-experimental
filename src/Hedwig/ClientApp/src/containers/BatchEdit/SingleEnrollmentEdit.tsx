@@ -150,7 +150,7 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 					/>
 				</div>
 			</div>
-			<div className="padding-top-3 border-top-1px border-base-light">
+			<div className="padding-top-1 border-top-1px border-base-light">
 				<StepList
 					key={mutatedEnrollment.id}
 					steps={steps}
