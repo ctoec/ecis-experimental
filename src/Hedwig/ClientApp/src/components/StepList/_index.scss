@@ -168,8 +168,7 @@ $future-step-color: color('base-dark') !default;
 		}
 
 		.oec-step-list__step::after {
-			left: -1rem;
-			right: -1rem;
+			left: 0;
 		}
 	}
 }
