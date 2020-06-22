@@ -34,17 +34,15 @@ const getNestedValidationErrors = (object?: any) => {
     .flat(levels);
 };
 
-// Get nice string of fields missing info required for CDC report
 export const getMissingInfoPrettyString = (enrollment: Enrollment) => {
+  // If enrollment is missing birth certificate or income determination (or re-determination), I see those missing fields named, and then I see a count of how many other fields are missing.
   const allValidationErrors = getNestedValidationErrors(enrollment);
 
-  // On enrollment.child
   const birthCertFields = ['BirthCertificateId', 'BirthState', 'BirthTown'];
   const birthCertValidationErrors = allValidationErrors.filter((e: ValidationError) =>
     birthCertFields.includes(e.field || '')
   );
 
-  // Income household size, income and date -> Income determination)
   const incomeDetFields = ['Income', 'DeterminationDate', 'NumberOfPeople'];
   const incomeDeterminationValidationErrors = allValidationErrors.filter((e: ValidationError) =>
     incomeDetFields.includes(e.field || '')
@@ -55,17 +53,17 @@ export const getMissingInfoPrettyString = (enrollment: Enrollment) => {
       !incomeDetFields.includes(e.field || '') && !birthCertFields.includes(e.field || '')
   );
 
-  // If enrollment is missing birth certificate or income determination (or re-determination), I see those missing fields named, and then I see a count of how many other fields are missing.
   let missingInfoString = '';
 
-  // If the whole group is missing then we can group (Birth Cert ID, Town and State -> Birth Certificate
   if (birthCertValidationErrors.length > 1) {
+    // If the whole group is missing then we can group (Birth Cert ID, Town and State -> Birth Certificate
     missingInfoString = 'birth certificate';
   } else if (birthCertValidationErrors.length === 1) {
     missingInfoString = splitCamelCase(birthCertValidationErrors[0].field);
   }
 
   if (incomeDeterminationValidationErrors.length > 1 || !enrollment.child || !enrollment.child.family) {
+    // Income household size, income and date -> Income determination)
     missingInfoString += ', income determination';
   } else if (incomeDeterminationValidationErrors.length === 1) {
     missingInfoString = splitCamelCase(incomeDeterminationValidationErrors[0].field);
@@ -82,6 +80,7 @@ export const getMissingInfoPrettyString = (enrollment: Enrollment) => {
     // And then all the other fields are totaled and grouped as "and # missing fields")
     missingInfoString += ` and ${remainingValidationErrors.length} other fields`;
   }
+
 
   if (hasValidationErrors(enrollment)) return replaceId(uppercaseFirstLetter(missingInfoString.toLowerCase()));
   return 'No needed information';
