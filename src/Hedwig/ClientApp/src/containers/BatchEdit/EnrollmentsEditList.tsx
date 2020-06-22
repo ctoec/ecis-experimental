@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Enrollment } from '../../generated';
-import { SideNav } from '../../components';
+import { SideNav, TextWithIcon } from '../../components';
 import { lastFirstNameFormatter } from '../../utils/stringFormatters';
 import { hasValidationErrors } from '../../utils/validations';
 import { SingleEnrollmentEdit } from './SingleEnrollmentEdit';
+import { Link } from 'react-router-dom';
 
 type EnrollmentsEditListProps = {
 	enrollments: Enrollment[];
@@ -63,7 +64,12 @@ export const EnrollmentsEditList: React.FC<EnrollmentsEditListProps> = ({
 				),
 			}))}
 			// TODO: IMPLEMENT THIS!!!!
-			// noActiveItemContent={}
+			noActiveItemContent={
+				<div className="margin-x-4 margin-y-2">
+					<p>All children are up to date!</p>
+					<Link to="/roster">Return to roster</Link>
+				</div>
+			}
 		/>
 	);
 };
