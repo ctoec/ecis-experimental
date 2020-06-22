@@ -9,6 +9,7 @@ import { FirstReportingPeriodField } from './FirstReportingPeriod';
 import produce from 'immer';
 import set from 'lodash/set';
 import { RadioButtonGroup, RadioOption } from '../../../../../../components';
+import { WithNewFunding } from './WithNewFunding';
 
 /**
  * Component for creating, editing, or removing a funding.
@@ -26,6 +27,10 @@ export const FundingField: React.FC<FundingFormFieldProps> = ({
 }) => {
 	const { data, dataDriller, updateData } = useGenericContext<Enrollment>(FormContext);
 	const [validFundingSpaces, setValidFundingSpaces] = useState<FundingSpace[]>([]);
+
+	const thisFunding = dataDriller
+		.at('fundings')
+		.find((f) => f.id === fundingId);
 
 	useEffect(() => {
 		// Set PRIVATE_PAY as the only option if:
@@ -51,31 +56,13 @@ export const FundingField: React.FC<FundingFormFieldProps> = ({
 		new Set(validFundingSpaces.map((space) => space.source as FundingSource))
 	);
 
-	const currentFundingSelection = dataDriller
-		.at('fundings')
-		.find((f) => f.id === fundingId)
-		.at('source').value;
 
 	return (
 		<RadioButtonGroup
 			name="funding-type"
 			legend="Funding"
 			id={`funding-type-${fundingId}`}
-			defaultValue={currentFundingSelection}
-			onChange={(e) =>
-				updateData(
-					produce<Enrollment>(data, (draft) =>
-						set(
-							draft,
-							dataDriller
-								.at('fundings')
-								.find((f) => f.id === fundingId)
-								.at('source').path,
-							fundingSourceFromString(e.target.value)
-						)
-					)
-				)
-			}
+			defaultValue={thisFunding.value ? thisFunding.at('source').value : 'PRIVATE_PAY'}
 			options={[
 				// Private pay option
 				{
@@ -83,8 +70,8 @@ export const FundingField: React.FC<FundingFormFieldProps> = ({
 						<RadioButton
 							{...props}
 							text={prettyFundingSource(undefined)}
-							onChange={() =>
-								// Updates data to remove current funding
+							onChange={() => 
+								// Remove the current funding
 								updateData(
 									produce<Enrollment>(data, (draft) =>
 										set(
@@ -97,33 +84,64 @@ export const FundingField: React.FC<FundingFormFieldProps> = ({
 							}
 						/>
 					),
-					value: prettyFundingSource(undefined),
+					value: 'PRIVATE_PAY',
 				},
 				// Valid funding souce options
 				...dedupedFundingSources.map(
-					(source) =>
-						({
-							render: (props) => <RadioButton text={prettyFundingSource(source)} {...props} />,
-							value: source,
-							expansion:
-								source === FundingSource.CDC ? (
-									<>
-										<ContractSpaceField
-											fundingId={fundingId}
-											fundingSpaces={validFundingSpaces}
-											error={error}
-											errorAlertState={errorAlertState}
-										/>
-										<FirstReportingPeriodField
-											fundingId={fundingId}
-											error={error}
-											errorAlertState={errorAlertState}
-										/>
-									</>
-								) : undefined,
-						} as RadioOption)
+					(source) => ({
+						render: (props) => <RadioButton text={prettyFundingSource(source)} {...props} />,
+						value: source,
+						expansion:
+							source === FundingSource.CDC ? (
+								<CDCOptionExpansion
+									// When the Private pay option is selected,
+									// the existing funding is wiped out. 
+									// Even tho a non-zero fundingId exists,
+									// a new funding will need to be created
+									shouldCreate={!thisFunding.value}
+									fundingId={fundingId}
+									fundingSpaces={validFundingSpaces}
+									error={error}
+									errorAlertState={errorAlertState}
+								/>
+							) : undefined,
+					} as RadioOption)
 				),
 			]}
 		/>
 	);
 };
+
+
+type CDCOptionExpansionProps = FundingFormFieldProps & {
+	shouldCreate: boolean;
+};
+
+const CDCOptionExpansion: React.FC<CDCOptionExpansionProps> = ({
+	shouldCreate,
+	fundingId: existingFundingId,
+	fundingSpaces: validFundingSpaces,
+	error,
+	errorAlertState,
+}) => {
+
+	// If a new funding has been created, then pass sub-components
+	// the new funding Id
+	const fundingId = shouldCreate ? 0 : existingFundingId;
+
+	return (
+		<WithNewFunding shouldCreate={shouldCreate} source={FundingSource.CDC}>
+			<ContractSpaceField
+				fundingId={fundingId}
+				fundingSpaces={validFundingSpaces}
+				error={error}
+				errorAlertState={errorAlertState}
+			/>
+			<FirstReportingPeriodField
+				fundingId={fundingId}
+				error={error}
+				errorAlertState={errorAlertState}
+			/>
+		</WithNewFunding>
+	)
+}
