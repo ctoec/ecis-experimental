@@ -26,6 +26,10 @@ export const HistoryProvider: React.FC = ({ children }) => {
 	const [locationFiber, setLocationFiber] = useState<LocationFiber>(defaultFiber);
 
 	useEffect(() => {
+		// If there is only a hash change, do not add new location fiber.
+		if (locationFiber.current.pathname === location.pathname) {
+			return;
+		}
 		// Create the next location fiber
 		// Set current to the incoming location
 		// Set previous to the heretofore current location

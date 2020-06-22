@@ -6,7 +6,6 @@ type TabItemProps = {
 	id: string;
 	text: JSX.Element | string;
 	content: JSX.Element;
-	default?: boolean;
 };
 
 type TabNavProps = {

@@ -43,6 +43,7 @@ exports[`EnrollmentUpdate EnrollmentFunding matches snapshot 1`] = `
             <li>
               <button
                 class="oec-tab-nav--tab oec-tab-nav--tab__active"
+                type="button"
               >
                 Enrollment/Funding
               </button>
@@ -50,6 +51,7 @@ exports[`EnrollmentUpdate EnrollmentFunding matches snapshot 1`] = `
             <li>
               <button
                 class="oec-tab-nav--tab"
+                type="button"
               >
                 Care 4 Kids
               </button>
@@ -149,7 +151,7 @@ exports[`EnrollmentUpdate EnrollmentFunding matches snapshot 1`] = `
                 </p>
                 <p>
                   <span
-                    class="usa-tag bg-blue-50v"
+                    class="usa-tag usa-tag--no-transform bg-blue-50v"
                   >
                     CDC
                   </span>

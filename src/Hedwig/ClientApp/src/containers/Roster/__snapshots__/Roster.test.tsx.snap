@@ -3,24 +3,6 @@
 exports[`Roster matches snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="grid-container"
-  >
-    <a
-      class="usa-button usa-button--unstyled text-bold"
-      href="/roster"
-    >
-      <span
-        class="oec-text-with-icon text-underline"
-      >
-        <svg
-          class="oec-text-with-icon__icon oec-text-with-icon__icon--direction-left oec-text-with-icon__icon--side-left"
-        >
-          arrowRight.svg
-        </svg>
-        Back to program roster
-      </span>
-    </a>
-  </div>
     class=""
   />
   <div
