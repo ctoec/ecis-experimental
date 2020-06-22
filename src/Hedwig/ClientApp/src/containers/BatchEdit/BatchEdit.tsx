@@ -24,6 +24,8 @@ const BatchEdit: React.FC<BatchEditProps> = ({ match: { params: sectionId } }) =
 		orgId: getIdForUser(user, 'org'),
 		startDate: startDate.toDate(),
 		endDate: endDate.toDate(),
+		// Need to include these fields so we can indicate how many are missing data
+		include: ['child', 'family', 'determinations', 'fundings'],
 	};
 
 	const { data: enrollments, loading } = useApi<Enrollment[]>((api) =>
@@ -34,12 +36,11 @@ const BatchEdit: React.FC<BatchEditProps> = ({ match: { params: sectionId } }) =
 		return <>Loading...</>;
 	}
 
-	const needInfoEnrollments = (enrollments || []).filter(
-		(e) => {
-			console.log(e)
-			return e.validationErrors && e.validationErrors.length && isFunded(e, { source: FundingSource.CDC })
-
-		});
+	const needInfoEnrollments = (enrollments || []).filter((e) => {
+		return (
+			e.validationErrors && e.validationErrors.length && isFunded(e, { source: FundingSource.CDC })
+		);
+	});
 	return (
 		<CommonContainer>
 			<div className="grid-container">

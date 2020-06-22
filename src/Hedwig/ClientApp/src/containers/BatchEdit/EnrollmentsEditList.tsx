@@ -6,6 +6,7 @@ import { hasValidationErrors } from '../../utils/validations';
 import { SingleEnrollmentEdit } from './SingleEnrollmentEdit';
 import { ReactComponent as Success } from '../../../node_modules/uswds/dist/img/alerts/success.svg';
 import { Link } from 'react-router-dom';
+import { getMissingInfoPrettyString } from '../../utils/validations/getMissingInfoPrettyString';
 
 type EnrollmentsEditListProps = {
 	enrollments: Enrollment[];
@@ -65,7 +66,7 @@ export const EnrollmentsEditList: React.FC<EnrollmentsEditListProps> = ({
 							iconClassName="oec-inline-icon--complete"
 						/>
 					),
-				description: getMissingInfoFields(enrollment),
+				description: getMissingInfoPrettyString(enrollment),
 				content: (
 					<SingleEnrollmentEdit
 						enrollmentId={enrollment.id}
@@ -84,13 +85,4 @@ export const EnrollmentsEditList: React.FC<EnrollmentsEditListProps> = ({
 			}
 		/>
 	);
-};
-
-// TODO: IMPLEMENT THIS!!!!!
-const getMissingInfoFields = (enrollment: Enrollment) => {
-	// If enrollment is missing birth certificate or income determination (or re-determination), I see those missing fields named, and then I see a count of how many other fields are missing.
-	console.log(enrollment)
-	// If enrollment is not missing birth certificate or income determination, but are missing other fields, I only see the count of how many fields are missing: "5 fields missing".
-	if (hasValidationErrors(enrollment)) return 'Birth certificate';
-	return '';
 };
