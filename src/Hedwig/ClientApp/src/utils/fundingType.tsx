@@ -15,12 +15,27 @@ function ptOrFT(fundingTime?: FundingTime) {
 	return '';
 }
 
-export function getFundingTag(options?: {
+function prettyFundingTime(fundingTime?: FundingTime) {
+	if (fundingTime === FundingTime.Split) {
+		return 'PT/FT';
+	}
+	if (fundingTime === FundingTime.Full) {
+		return 'Full time';
+	}
+	if (fundingTime === FundingTime.Part) {
+		return 'Part time';
+	}
+	return '';
+}
+
+export type FundingTagOptionsType = {
 	fundingSource?: FundingSource;
 	fundingTime?: FundingTime;
 	index?: any;
 	className?: string;
-}) {
+};
+
+export function getFundingTag(options?: FundingTagOptionsType) {
 	const { index, className, fundingSource, fundingTime } = options || {};
 	if (!fundingSource) {
 		return <></>;
@@ -32,6 +47,27 @@ export function getFundingTag(options?: {
 		const prettyTime = ptOrFT(fundingTime);
 		key = `CDC-${prettyTime}`;
 		text = `CDC${prettyTime}`;
+	}
+	if (index) key = `${key}-${index}`;
+	return Tag({
+		key,
+		text,
+		color: 'blue-50v',
+		className,
+	});
+}
+
+export function getFundingTimeTag(options?: FundingTagOptionsType) {
+	const { index, className, fundingSource, fundingTime } = options || {};
+	if (!fundingSource) {
+		return <></>;
+	}
+	let key = '';
+	let text = '';
+	if (fundingTime) {
+		const prettyTime = prettyFundingTime(fundingTime);
+		key = `${prettyTime}`;
+		text = `${prettyTime}`;
 	}
 	if (index) key = `${key}-${index}`;
 	return Tag({

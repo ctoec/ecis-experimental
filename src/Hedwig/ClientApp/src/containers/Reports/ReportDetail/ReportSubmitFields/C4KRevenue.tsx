@@ -60,7 +60,7 @@ export const C4KRevenueField: React.FC<C4KRevenueFieldProps> = ({
 					</span>
 				</React.Fragment>
 			}
-			defaultValue={currencyFormatter(c4KRevenue || 0)}
+			defaultValue={c4KRevenue ? currencyFormatter(c4KRevenue) : ''}
 			onBlur={(event) =>
 				(event.target.value = c4KRevenue !== null ? currencyFormatter(c4KRevenue) : '')
 			}

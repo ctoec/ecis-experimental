@@ -103,9 +103,9 @@ export default function EnrollmentUpdate({
 	 * @param e Enrollment that was just saved.
 	 */
 	const afterSave = (e: Enrollment) => {
-		const childName = nameFormatter(enrollment.child);
+		const childName = nameFormatter(e.child);
 		setAlerts([
-			hasValidationErrors(enrollment)
+			hasValidationErrors(e)
 				? editEnrollmentMissingInfoAlert(childName)
 				: editEnrollmentCompleteAlert(childName),
 		]);

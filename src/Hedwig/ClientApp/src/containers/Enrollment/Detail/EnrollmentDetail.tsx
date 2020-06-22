@@ -86,9 +86,7 @@ export default function EnrollmentDetail({
 	const enrollmentHistoryProps = getEnrollmentTimelineProps(enrollment);
 
 	return (
-		// backHref needs to be supplied here. If it is not, after navigating
-		// back from a section update form this link directs the user there.
-		<CommonContainer backText="Back to roster" backHref="/roster">
+		<CommonContainer backText="Back to roster">
 			<div className="grid-container">
 				<div className="grid-row flex-first-baseline flex-space-between">
 					<div>

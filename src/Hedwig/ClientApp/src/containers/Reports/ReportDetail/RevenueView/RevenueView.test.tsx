@@ -5,13 +5,13 @@ import {
 	mockCompleteEnrollment,
 	mockEnrollmentWithFoster,
 	mockReportWithTimeSplitUtilizations,
-} from '../../../tests/data';
+} from '../../../../tests/data';
 import mockUseApi, {
 	mockApiOrganizationsOrgIdEnrollmentsGet,
-} from '../../../hooks/useApi/__mocks__/useApi';
+} from '../../../../hooks/useApi/__mocks__/useApi';
 
 // Jest mocks must occur before later imports
-jest.mock('../../../hooks/useApi', () =>
+jest.mock('../../../../hooks/useApi', () =>
 	mockUseApi({
 		apiOrganizationsOrgIdEnrollmentsGet: mockApiOrganizationsOrgIdEnrollmentsGet([
 			mockCompleteEnrollment,
@@ -22,11 +22,12 @@ jest.mock('../../../hooks/useApi', () =>
 
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import ReportSubmitForm from './ReportSubmitForm';
-import TestProvider from '../../../contexts/__mocks__/TestProvider';
-import { DeepNonUndefineable } from '../../../utils/types';
-import { CdcReport } from '../../../generated';
-import { accessibilityTestHelper } from '../../../tests/helpers';
+import RevenueView from './RevenueView';
+import TestProvider from '../../../../contexts/__mocks__/TestProvider';
+import { DeepNonUndefineable } from '../../../../utils/types';
+import { CdcReport } from '../../../../generated';
+import { accessibilityTestHelper } from '../../../../tests/helpers';
+import { Form } from '../../../../components/Form_New';
 
 afterAll(() => {
 	jest.resetModules();
@@ -36,42 +37,40 @@ describe('ReportSubmitForm', () => {
 	it('matches snapshot', () => {
 		const { asFragment } = render(
 			<TestProvider>
-				<ReportSubmitForm
-					report={mockDefaultReport as DeepNonUndefineable<CdcReport>}
-					canSubmit={true}
-					error={null}
-				/>
+				<Form<CdcReport>
+					data={mockDefaultReport as DeepNonUndefineable<CdcReport>}
+					onSubmit={jest.fn()}
+					className=""
+				>
+					<RevenueView
+						report={mockDefaultReport as DeepNonUndefineable<CdcReport>}
+						canSubmit={true}
+						error={null}
+						errorAlertState={undefined}
+						attemptingSave={false}
+					/>
+				</Form>
 			</TestProvider>
 		);
 		expect(asFragment()).toMatchSnapshot();
 	});
 
-	it('updates rates if accreditation is changed', () => {
-		const { getAllByText, getByLabelText } = render(
-			<TestProvider>
-				<ReportSubmitForm
-					report={mockDefaultReport as DeepNonUndefineable<CdcReport>}
-					canSubmit={true}
-					error={null}
-				/>
-			</TestProvider>
-		);
-
-		expect(getAllByText('Preschool')[0].closest('tr')).toHaveTextContent('165.32');
-
-		fireEvent.click(getByLabelText('Accredited'));
-
-		expect(getAllByText('Preschool')[0].closest('tr')).toHaveTextContent('126.59');
-	});
-
 	it('pretty formats currency values', () => {
 		const { getByLabelText } = render(
 			<TestProvider>
-				<ReportSubmitForm
-					report={mockDefaultReport as DeepNonUndefineable<CdcReport>}
-					canSubmit={true}
-					error={null}
-				/>
+				<Form<CdcReport>
+					data={mockDefaultReport as DeepNonUndefineable<CdcReport>}
+					onSubmit={jest.fn()}
+					className=""
+				>
+					<RevenueView
+						report={mockDefaultReport as DeepNonUndefineable<CdcReport>}
+						canSubmit={true}
+						error={null}
+						errorAlertState={undefined}
+						attemptingSave={false}
+					/>
+				</Form>
 			</TestProvider>
 		);
 
@@ -84,11 +83,19 @@ describe('ReportSubmitForm', () => {
 	it('shows correct number of weeks in month and weeks remaining', () => {
 		const { getByLabelText } = render(
 			<TestProvider>
-				<ReportSubmitForm
-					report={mockDefaultReport as DeepNonUndefineable<CdcReport>}
-					canSubmit={true}
-					error={null}
-				/>
+				<Form<CdcReport>
+					data={mockDefaultReport as DeepNonUndefineable<CdcReport>}
+					onSubmit={jest.fn()}
+					className=""
+				>
+					<RevenueView
+						report={mockDefaultReport as DeepNonUndefineable<CdcReport>}
+						canSubmit={true}
+						error={null}
+						errorAlertState={undefined}
+						attemptingSave={false}
+					/>
+				</Form>
 			</TestProvider>
 		);
 
@@ -104,11 +111,19 @@ describe('ReportSubmitForm', () => {
 	it('shows correct number of weeks in month and weeks remaining when previous weeks were used', () => {
 		const { getByLabelText } = render(
 			<TestProvider>
-				<ReportSubmitForm
-					report={mockReportWithTimeSplitUtilizations as DeepNonUndefineable<CdcReport>}
-					canSubmit={true}
-					error={null}
-				/>
+				<Form<CdcReport>
+					data={mockDefaultReport as DeepNonUndefineable<CdcReport>}
+					onSubmit={jest.fn()}
+					className=""
+				>
+					<RevenueView
+						report={mockReportWithTimeSplitUtilizations as DeepNonUndefineable<CdcReport>}
+						canSubmit={true}
+						error={null}
+						errorAlertState={undefined}
+						attemptingSave={false}
+					/>
+				</Form>
 			</TestProvider>
 		);
 
@@ -123,11 +138,19 @@ describe('ReportSubmitForm', () => {
 
 	accessibilityTestHelper(
 		<TestProvider>
-			<ReportSubmitForm
-				report={mockDefaultReport as DeepNonUndefineable<CdcReport>}
-				canSubmit={true}
-				error={null}
-			/>
+			<Form<CdcReport>
+				data={mockDefaultReport as DeepNonUndefineable<CdcReport>}
+				onSubmit={jest.fn()}
+				className=""
+			>
+				<RevenueView
+					report={mockDefaultReport as DeepNonUndefineable<CdcReport>}
+					canSubmit={true}
+					error={null}
+					errorAlertState={undefined}
+					attemptingSave={false}
+				/>
+			</Form>
 		</TestProvider>
 	);
 });

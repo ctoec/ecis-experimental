@@ -3,24 +3,8 @@
 exports[`Roster matches snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="grid-container"
-  >
-    <a
-      class="usa-button usa-button--unstyled text-bold"
-      href="/roster"
-    >
-      <span
-        class="oec-text-with-icon text-underline"
-      >
-        <svg
-          class="oec-text-with-icon__icon oec-text-with-icon__icon--direction-left oec-text-with-icon__icon--side-left"
-        >
-          arrowRight.svg
-        </svg>
-        Back to program roster
-      </span>
-    </a>
-  </div>
+    class=""
+  />
   <div
     class="grid-container"
   >
@@ -68,7 +52,7 @@ exports[`Roster matches snapshot 1`] = `
           class="oec-legend-item__symbol undefined"
         >
           <span
-            class="usa-tag position-relative top-neg-2px bg-blue-50v"
+            class="usa-tag usa-tag--no-transform position-relative top-neg-2px bg-blue-50v"
           >
             CDC
           </span>
@@ -79,7 +63,7 @@ exports[`Roster matches snapshot 1`] = `
           <span
             class="text-bold"
           >
-            9
+            9/70
           </span>
           <span>
              CDC spaces filled
@@ -134,7 +118,7 @@ exports[`Roster matches snapshot 1`] = `
           class="oec-legend-item__symbol undefined"
         >
           <span
-            class="usa-tag bg-blue-50v"
+            class="usa-tag usa-tag--no-transform bg-blue-50v"
           >
             CDC–FT
           </span>
@@ -148,7 +132,7 @@ exports[`Roster matches snapshot 1`] = `
           <span
             class="text-bold"
           >
-            1
+            1/10
           </span>
           <span>
              spaces filled
@@ -162,7 +146,7 @@ exports[`Roster matches snapshot 1`] = `
           class="oec-legend-item__symbol undefined"
         >
           <span
-            class="usa-tag bg-blue-50v"
+            class="usa-tag usa-tag--no-transform bg-blue-50v"
           >
             CDC–PT
           </span>
@@ -176,7 +160,35 @@ exports[`Roster matches snapshot 1`] = `
           <span
             class="text-bold"
           >
-            1
+            1/10
+          </span>
+          <span>
+             spaces filled
+          </span>
+        </div>
+      </li>
+      <li
+        class="oec-legend__item oec-legend-item margin-y-1"
+      >
+        <div
+          class="oec-legend-item__symbol undefined"
+        >
+          <span
+            class="usa-tag usa-tag--no-transform bg-blue-50v"
+          >
+            CDC-PT/FT
+          </span>
+        </div>
+        <div
+          class="oec-legend-item__text width-fit-content display-inline margin-left-1 "
+        >
+          <span>
+            Full time / part time — 
+          </span>
+          <span
+            class="text-bold"
+          >
+            0/10
           </span>
           <span>
              spaces filled
@@ -195,7 +207,7 @@ exports[`Roster matches snapshot 1`] = `
             class="oec-table__column-header oec-sortable oec-sorted"
             role="columnheader"
             scope="col"
-            style="width: 25%;"
+            style="width: 30%;"
           >
             <button
               aria-label="Sort table by Name in descending order"
@@ -218,7 +230,7 @@ exports[`Roster matches snapshot 1`] = `
             class="oec-table__column-header oec-sortable oec-unsorted"
             role="columnheader"
             scope="col"
-            style="width: 17%;"
+            style="width: 22%;"
           >
             <button
               aria-label="Sort table by Birthdate in ascending order"
@@ -241,7 +253,7 @@ exports[`Roster matches snapshot 1`] = `
             class="oec-table__column-header oec-sortable oec-unsorted"
             role="columnheader"
             scope="col"
-            style="width: 18%;"
+            style="width: 23%;"
           >
             <button
               aria-label="Sort table by Funding in ascending order"
@@ -264,7 +276,7 @@ exports[`Roster matches snapshot 1`] = `
             class="oec-table__column-header oec-sortable oec-unsorted"
             role="columnheader"
             scope="col"
-            style="width: 20%;"
+            style="width: 25%;"
           >
             <button
               aria-label="Sort table by Enrollment date in ascending order"
@@ -304,7 +316,7 @@ exports[`Roster matches snapshot 1`] = `
           </td>
           <td>
             <span
-              class="usa-tag bg-blue-50v"
+              class="usa-tag usa-tag--no-transform bg-blue-50v"
             >
               CDC–PT
             </span>
@@ -334,7 +346,7 @@ exports[`Roster matches snapshot 1`] = `
           </td>
           <td>
             <span
-              class="usa-tag bg-blue-50v"
+              class="usa-tag usa-tag--no-transform bg-blue-50v"
             >
               CDC–FT
             </span>
@@ -362,7 +374,7 @@ exports[`Roster matches snapshot 1`] = `
           class="oec-legend-item__symbol undefined"
         >
           <span
-            class="usa-tag bg-blue-50v"
+            class="usa-tag usa-tag--no-transform bg-blue-50v"
           >
             CDC–FT
           </span>
@@ -376,7 +388,7 @@ exports[`Roster matches snapshot 1`] = `
           <span
             class="text-bold"
           >
-            6
+            6/10
           </span>
           <span>
              spaces filled
@@ -390,7 +402,7 @@ exports[`Roster matches snapshot 1`] = `
           class="oec-legend-item__symbol undefined"
         >
           <span
-            class="usa-tag bg-blue-50v"
+            class="usa-tag usa-tag--no-transform bg-blue-50v"
           >
             CDC–PT
           </span>
@@ -404,7 +416,7 @@ exports[`Roster matches snapshot 1`] = `
           <span
             class="text-bold"
           >
-            1
+            1/10
           </span>
           <span>
              spaces filled
@@ -423,7 +435,7 @@ exports[`Roster matches snapshot 1`] = `
             class="oec-table__column-header oec-sortable oec-sorted"
             role="columnheader"
             scope="col"
-            style="width: 25%;"
+            style="width: 30%;"
           >
             <button
               aria-label="Sort table by Name in descending order"
@@ -446,7 +458,7 @@ exports[`Roster matches snapshot 1`] = `
             class="oec-table__column-header oec-sortable oec-unsorted"
             role="columnheader"
             scope="col"
-            style="width: 17%;"
+            style="width: 22%;"
           >
             <button
               aria-label="Sort table by Birthdate in ascending order"
@@ -469,7 +481,7 @@ exports[`Roster matches snapshot 1`] = `
             class="oec-table__column-header oec-sortable oec-unsorted"
             role="columnheader"
             scope="col"
-            style="width: 18%;"
+            style="width: 23%;"
           >
             <button
               aria-label="Sort table by Funding in ascending order"
@@ -492,7 +504,7 @@ exports[`Roster matches snapshot 1`] = `
             class="oec-table__column-header oec-sortable oec-unsorted"
             role="columnheader"
             scope="col"
-            style="width: 20%;"
+            style="width: 25%;"
           >
             <button
               aria-label="Sort table by Enrollment date in ascending order"
@@ -532,7 +544,7 @@ exports[`Roster matches snapshot 1`] = `
           </td>
           <td>
             <span
-              class="usa-tag bg-blue-50v"
+              class="usa-tag usa-tag--no-transform bg-blue-50v"
             >
               CDC–FT
             </span>
@@ -574,7 +586,7 @@ exports[`Roster matches snapshot 1`] = `
           </td>
           <td>
             <span
-              class="usa-tag bg-blue-50v"
+              class="usa-tag usa-tag--no-transform bg-blue-50v"
             >
               CDC–FT
             </span>
@@ -616,7 +628,7 @@ exports[`Roster matches snapshot 1`] = `
           </td>
           <td>
             <span
-              class="usa-tag bg-blue-50v"
+              class="usa-tag usa-tag--no-transform bg-blue-50v"
             >
               CDC–FT
             </span>
@@ -646,7 +658,7 @@ exports[`Roster matches snapshot 1`] = `
           </td>
           <td>
             <span
-              class="usa-tag bg-blue-50v"
+              class="usa-tag usa-tag--no-transform bg-blue-50v"
             >
               CDC–FT
             </span>
@@ -676,7 +688,7 @@ exports[`Roster matches snapshot 1`] = `
           </td>
           <td>
             <span
-              class="usa-tag bg-blue-50v"
+              class="usa-tag usa-tag--no-transform bg-blue-50v"
             >
               CDC–FT
             </span>
@@ -706,7 +718,7 @@ exports[`Roster matches snapshot 1`] = `
           </td>
           <td>
             <span
-              class="usa-tag bg-blue-50v"
+              class="usa-tag usa-tag--no-transform bg-blue-50v"
             >
               CDC–PT
             </span>
@@ -736,7 +748,7 @@ exports[`Roster matches snapshot 1`] = `
           </td>
           <td>
             <span
-              class="usa-tag bg-blue-50v"
+              class="usa-tag usa-tag--no-transform bg-blue-50v"
             >
               CDC–FT
             </span>
@@ -748,6 +760,173 @@ exports[`Roster matches snapshot 1`] = `
           </td>
         </tr>
       </tbody>
+    </table>
+    <h2
+      class="margin-top-6"
+    >
+      School age (0 children)
+    </h2>
+    <ul
+      class="margin-y-2 oec-legend add-list-reset grid-col"
+    >
+      <li
+        class="oec-legend__item oec-legend-item margin-y-1"
+      >
+        <div
+          class="oec-legend-item__symbol undefined"
+        >
+          <span
+            class="usa-tag usa-tag--no-transform bg-blue-50v"
+          >
+            CDC–FT
+          </span>
+        </div>
+        <div
+          class="oec-legend-item__text width-fit-content display-inline margin-left-1 "
+        >
+          <span>
+            Full time — 
+          </span>
+          <span
+            class="text-bold"
+          >
+            0/10
+          </span>
+          <span>
+             spaces filled
+          </span>
+        </div>
+      </li>
+      <li
+        class="oec-legend__item oec-legend-item margin-y-1"
+      >
+        <div
+          class="oec-legend-item__symbol undefined"
+        >
+          <span
+            class="usa-tag usa-tag--no-transform bg-blue-50v"
+          >
+            CDC–PT
+          </span>
+        </div>
+        <div
+          class="oec-legend-item__text width-fit-content display-inline margin-left-1 "
+        >
+          <span>
+            Part time — 
+          </span>
+          <span
+            class="text-bold"
+          >
+            0/10
+          </span>
+          <span>
+             spaces filled
+          </span>
+        </div>
+      </li>
+    </ul>
+    <table
+      class="oec-table oec-table--full-width"
+      id="SchoolAge-roster-table"
+    >
+      <thead>
+        <tr>
+          <th
+            aria-sort="ascending"
+            class="oec-table__column-header oec-sortable oec-sorted"
+            role="columnheader"
+            scope="col"
+            style="width: 30%;"
+          >
+            <button
+              aria-label="Sort table by Name in descending order"
+              class="oec-table__column-title usa-button--unstyled width-full"
+            >
+              Name
+              <div
+                class="oec-table__sort-controls oec-table__sort-controls--ascending"
+              >
+                <svg
+                  title="Sort"
+                >
+                  downArrowCircle.svg
+                </svg>
+              </div>
+            </button>
+          </th>
+          <th
+            aria-sort="ascending"
+            class="oec-table__column-header oec-sortable oec-unsorted"
+            role="columnheader"
+            scope="col"
+            style="width: 22%;"
+          >
+            <button
+              aria-label="Sort table by Birthdate in ascending order"
+              class="oec-table__column-title usa-button--unstyled width-full"
+            >
+              Birthdate
+              <div
+                class="oec-table__sort-controls"
+              >
+                <svg
+                  title="Sort"
+                >
+                  downArrowCircle.svg
+                </svg>
+              </div>
+            </button>
+          </th>
+          <th
+            aria-sort="ascending"
+            class="oec-table__column-header oec-sortable oec-unsorted"
+            role="columnheader"
+            scope="col"
+            style="width: 23%;"
+          >
+            <button
+              aria-label="Sort table by Funding in ascending order"
+              class="oec-table__column-title usa-button--unstyled width-full"
+            >
+              Funding
+              <div
+                class="oec-table__sort-controls"
+              >
+                <svg
+                  title="Sort"
+                >
+                  downArrowCircle.svg
+                </svg>
+              </div>
+            </button>
+          </th>
+          <th
+            aria-sort="ascending"
+            class="oec-table__column-header oec-sortable oec-unsorted"
+            role="columnheader"
+            scope="col"
+            style="width: 25%;"
+          >
+            <button
+              aria-label="Sort table by Enrollment date in ascending order"
+              class="oec-table__column-title usa-button--unstyled width-full"
+            >
+              Enrollment date
+              <div
+                class="oec-table__sort-controls"
+              >
+                <svg
+                  title="Sort"
+                >
+                  downArrowCircle.svg
+                </svg>
+              </div>
+            </button>
+          </th>
+        </tr>
+      </thead>
+      <tbody />
     </table>
   </div>
 </DocumentFragment>

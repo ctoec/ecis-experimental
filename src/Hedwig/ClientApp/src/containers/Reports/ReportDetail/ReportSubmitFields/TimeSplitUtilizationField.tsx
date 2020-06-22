@@ -38,7 +38,6 @@ export const TimeSplitUtilizationField: React.FC<TimeSplitUtilizationFieldProps>
 	errorAlertState,
 }) => {
 	const { data: report, dataDriller, updateData } = useGenericContext<CdcReport>(FormContext);
-
 	const reportingPeriodWeeks = getReportingPeriodWeeks(report.reportingPeriod);
 	const splitTimeFundingSpaces = getFundingSpaces(
 		report.organization && report.organization.fundingSpaces,

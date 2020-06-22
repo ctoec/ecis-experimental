@@ -67,13 +67,18 @@ export const UpdateForm: React.FC<SectionProps> = ({ enrollment, siteId }) => {
 
 	return (
 		<TabNav
+			activeId="enrollment-funding"
 			items={[
 				{
+					id: 'enrollment-funding',
 					text: 'Enrollment/Funding',
 					content: <EnrollmentFundingForm {...updateFormSectionProps} />,
-					default: true,
 				},
-				{ text: 'Care 4 Kids', content: <Care4KidsForm {...updateFormSectionProps} /> },
+				{
+					id: 'care-for-kids',
+					text: 'Care 4 Kids',
+					content: <Care4KidsForm {...updateFormSectionProps} />,
+				},
 			]}
 		/>
 	);

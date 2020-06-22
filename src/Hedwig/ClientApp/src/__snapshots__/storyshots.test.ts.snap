@@ -5759,7 +5759,7 @@ exports[`Storyshots ProcessList Default 1`] = `
         A long, long, long, long, long heading
       </div>
       <span
-        className="usa-tag bg-theme-color-primary"
+        className="usa-tag usa-tag--no-transform bg-theme-color-primary"
       >
         NEW
       </span>
@@ -5780,7 +5780,7 @@ exports[`Storyshots ProcessList Default 1`] = `
         Step heading
       </div>
       <span
-        className="usa-tag bg-theme-color-primary"
+        className="usa-tag usa-tag--no-transform bg-theme-color-primary"
       >
         NEW
       </span>
@@ -7271,6 +7271,7 @@ exports[`Storyshots Tab nav Default 1`] = `
             <button
               className="oec-tab-nav--tab oec-tab-nav--tab__active"
               onClick={[Function]}
+              type="button"
             >
               Tab One
             </button>
@@ -7526,7 +7527,7 @@ exports[`Storyshots Tag Default 1`] = `
   }
 >
   <span
-    className="usa-tag"
+    className="usa-tag usa-tag--no-transform"
   >
     I AM A TAG
   </span>
