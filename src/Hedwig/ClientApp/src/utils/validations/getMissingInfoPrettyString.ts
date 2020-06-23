@@ -26,7 +26,7 @@ const getNestedValidationErrors = (object?: any) => {
 				levels += 1;
 				const subObject = object[lowercaseFirstLetter(v.field)];
 				if (Array.isArray(subObject)) {
-					return subObject.map(_v => getNestedValidationErrors(_v))
+					return subObject.map((_v) => getNestedValidationErrors(_v));
 				}
 				return getNestedValidationErrors(subObject);
 			} else {
@@ -60,9 +60,9 @@ export const getMissingInfoPrettyString = (enrollment: Enrollment) => {
 
 	if (birthCertValidationErrors.length > 1) {
 		// If the whole group is missing then we can group (Birth Cert ID, Town and State -> Birth Certificate)
-		missingInfoFields.push('birth certificate')
+		missingInfoFields.push('birth certificate');
 	} else if (birthCertValidationErrors.length === 1) {
-		missingInfoFields.push(splitCamelCase(birthCertValidationErrors[0].field))
+		missingInfoFields.push(splitCamelCase(birthCertValidationErrors[0].field));
 	}
 
 	if (
@@ -71,9 +71,9 @@ export const getMissingInfoPrettyString = (enrollment: Enrollment) => {
 		!enrollment.child.family
 	) {
 		// Income household size, income and date -> income determination)
-		missingInfoFields.push('income determination')
+		missingInfoFields.push('income determination');
 	} else if (incomeDeterminationValidationErrors.length === 1) {
-		missingInfoFields.push(splitCamelCase(incomeDeterminationValidationErrors[0].field))
+		missingInfoFields.push(splitCamelCase(incomeDeterminationValidationErrors[0].field));
 	}
 
 	if (remainingValidationErrors.length) {
@@ -85,16 +85,18 @@ export const getMissingInfoPrettyString = (enrollment: Enrollment) => {
 			return `${remainingValidationErrors.length} fields`;
 		}
 		// All the other fields are totaled and grouped
-		missingInfoFields.push(`${remainingValidationErrors.length} other fields`)
+		missingInfoFields.push(`${remainingValidationErrors.length} other fields`);
 	}
 
 	let missingInfoString = 'No needed information';
 	if (missingInfoFields.length === 1) {
-		missingInfoString = missingInfoFields[0]
+		missingInfoString = missingInfoFields[0];
 	} else if (missingInfoFields.length === 2) {
-		missingInfoString = missingInfoFields.join(' and ')
+		missingInfoString = missingInfoFields.join(' and ');
 	} else if (missingInfoFields.length > 2) {
-		missingInfoString = `${missingInfoFields.slice(0, -1).join(', ')}, and ${missingInfoFields[missingInfoFields.length - 1]}`
+		missingInfoString = `${missingInfoFields.slice(0, -1).join(', ')}, and ${
+			missingInfoFields[missingInfoFields.length - 1]
+		}`;
 	}
 
 	return replaceId(uppercaseFirstLetter(missingInfoString.toLowerCase()));
