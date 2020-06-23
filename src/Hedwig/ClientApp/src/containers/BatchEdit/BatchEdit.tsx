@@ -24,8 +24,6 @@ const BatchEdit: React.FC<BatchEditProps> = ({ match: { params: sectionId } }) =
 		orgId: getIdForUser(user, 'org'),
 		startDate: startDate.toDate(),
 		endDate: endDate.toDate(),
-		// Need to include these fields so we can indicate how many are missing data
-		include: ['child', 'family', 'determinations', 'fundings'],
 	};
 
 	const { data: enrollments, loading } = useApi<Enrollment[]>((api) =>
