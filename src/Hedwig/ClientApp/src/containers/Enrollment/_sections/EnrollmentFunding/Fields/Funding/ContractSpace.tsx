@@ -65,19 +65,13 @@ const SingleContractSpaceField: React.FC<SingleContractSpaceFieldProps> = ({
 }) => {
 	const { dataDriller, updateData } = useGenericContext<Enrollment>(FormContext);
 
-	const thisFunding = dataDriller
-		.at('fundings')
-		.find((f) => f.id === fundingId);
-	
+	const thisFunding = dataDriller.at('fundings').find((f) => f.id === fundingId);
+
 	useEffect(() => {
-		if(thisFunding.value && thisFunding.at('fundingSpaceId').value !== fundingSpace.id) {
+		if (thisFunding.value && thisFunding.at('fundingSpaceId').value !== fundingSpace.id) {
 			updateData((_data) =>
 				produce<Enrollment>(_data, (draft) =>
-					set(
-						draft,
-						thisFunding.at('fundingSpaceId').path,
-						fundingSpace.id
-					)
+					set(draft, thisFunding.at('fundingSpaceId').path, fundingSpace.id)
 				)
 			);
 		}

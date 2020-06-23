@@ -28,9 +28,7 @@ export const FundingField: React.FC<FundingFormFieldProps> = ({
 	const { data, dataDriller, updateData } = useGenericContext<Enrollment>(FormContext);
 	const [validFundingSpaces, setValidFundingSpaces] = useState<FundingSpace[]>([]);
 
-	const thisFunding = dataDriller
-		.at('fundings')
-		.find((f) => f.id === fundingId);
+	const thisFunding = dataDriller.at('fundings').find((f) => f.id === fundingId);
 
 	useEffect(() => {
 		// Set PRIVATE_PAY as the only option if:
@@ -56,7 +54,6 @@ export const FundingField: React.FC<FundingFormFieldProps> = ({
 		new Set(validFundingSpaces.map((space) => space.source as FundingSource))
 	);
 
-
 	return (
 		<RadioButtonGroup
 			name="funding-type"
@@ -70,7 +67,7 @@ export const FundingField: React.FC<FundingFormFieldProps> = ({
 						<RadioButton
 							{...props}
 							text={prettyFundingSource(undefined)}
-							onChange={() => 
+							onChange={() =>
 								// Remove the current funding
 								updateData(
 									produce<Enrollment>(data, (draft) =>
@@ -88,30 +85,30 @@ export const FundingField: React.FC<FundingFormFieldProps> = ({
 				},
 				// Valid funding souce options
 				...dedupedFundingSources.map(
-					(source) => ({
-						render: (props) => <RadioButton text={prettyFundingSource(source)} {...props} />,
-						value: source,
-						expansion:
-							source === FundingSource.CDC ? (
-								<CDCOptionExpansion
-									// When the Private pay option is selected,
-									// the existing funding is wiped out. 
-									// Even tho a non-zero fundingId exists,
-									// a new funding will need to be created
-									shouldCreate={!thisFunding.value}
-									fundingId={fundingId}
-									fundingSpaces={validFundingSpaces}
-									error={error}
-									errorAlertState={errorAlertState}
-								/>
-							) : undefined,
-					} as RadioOption)
+					(source) =>
+						({
+							render: (props) => <RadioButton text={prettyFundingSource(source)} {...props} />,
+							value: source,
+							expansion:
+								source === FundingSource.CDC ? (
+									<CDCOptionExpansion
+										// When the Private pay option is selected,
+										// the existing funding is wiped out.
+										// Even tho a non-zero fundingId exists,
+										// a new funding will need to be created
+										shouldCreate={!thisFunding.value}
+										fundingId={fundingId}
+										fundingSpaces={validFundingSpaces}
+										error={error}
+										errorAlertState={errorAlertState}
+									/>
+								) : undefined,
+						} as RadioOption)
 				),
 			]}
 		/>
 	);
 };
-
 
 type CDCOptionExpansionProps = FundingFormFieldProps & {
 	shouldCreate: boolean;
@@ -124,7 +121,6 @@ const CDCOptionExpansion: React.FC<CDCOptionExpansionProps> = ({
 	error,
 	errorAlertState,
 }) => {
-
 	// If a new funding has been created, then pass sub-components
 	// the new funding Id
 	const fundingId = shouldCreate ? 0 : existingFundingId;
@@ -143,5 +139,5 @@ const CDCOptionExpansion: React.FC<CDCOptionExpansionProps> = ({
 				errorAlertState={errorAlertState}
 			/>
 		</WithNewFunding>
-	)
-}
+	);
+};
