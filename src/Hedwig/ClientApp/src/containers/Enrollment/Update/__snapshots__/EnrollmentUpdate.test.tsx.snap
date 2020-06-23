@@ -514,73 +514,77 @@ exports[`EnrollmentUpdate FamilyInfo matches snapshot 1`] = `
             </div>
           </div>
           <div
-            class="mobile-lg:grid-col-8 display-inline-block"
+            class="grid-row grid-gap"
           >
             <div
-              class=" usa-form-group"
-            >
-              <label
-                class="usa-label"
-                for="town"
-              >
-                Town 
-              </label>
-              <input
-                aria-required="true"
-                class="usa-input"
-                id="town"
-                type="text"
-                value="Hogsmeade"
-              />
-            </div>
-          </div>
-          <div
-            class="mobile-lg:grid-col-4 display-inline-block"
-          >
-            <div
-              class="usa-form-group"
+              class="mobile-lg:grid-col-8 display-inline-block"
             >
               <div
-                class=""
-              />
-              <label
-                class="usa-label"
-                for="state"
+                class=" usa-form-group"
               >
-                State
-              </label>
-              <select
-                aria-required="true"
-                class="usa-select"
-                id="state"
-                name="state"
+                <label
+                  class="usa-label"
+                  for="town"
+                >
+                  Town 
+                </label>
+                <input
+                  aria-required="true"
+                  class="usa-input"
+                  id="town"
+                  type="text"
+                  value="Hogsmeade"
+                />
+              </div>
+            </div>
+            <div
+              class="mobile-lg:grid-col-4 display-inline-block"
+            >
+              <div
+                class="usa-form-group"
               >
-                <option
-                  value=""
+                <div
+                  class=""
+                />
+                <label
+                  class="usa-label"
+                  for="state"
                 >
-                  - Select -
-                </option>
-                <option
-                  value="CT"
+                  State
+                </label>
+                <select
+                  aria-required="true"
+                  class="usa-select"
+                  id="state"
+                  name="state"
                 >
-                  CT
-                </option>
-                <option
-                  value="MA"
-                >
-                  MA
-                </option>
-                <option
-                  value="NY"
-                >
-                  NY
-                </option>
-                <option
-                  value="RI"
-                >
-                  RI
-                </option>
-              </select>
+                  <option
+                    value=""
+                  >
+                    - Select -
+                  </option>
+                  <option
+                    value="CT"
+                  >
+                    CT
+                  </option>
+                  <option
+                    value="MA"
+                  >
+                    MA
+                  </option>
+                  <option
+                    value="NY"
+                  >
+                    NY
+                  </option>
+                  <option
+                    value="RI"
+                  >
+                    RI
+                  </option>
+                </select>
+              </div>
             </div>
           </div>
           <div

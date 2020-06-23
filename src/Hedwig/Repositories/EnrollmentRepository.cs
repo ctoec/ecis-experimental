@@ -104,6 +104,7 @@ namespace Hedwig.Repositories
 				.Where(e => e.Site.OrganizationId == orgId);
 
 			enrollments = enrollments.IncludeFundingsSitesAndChild();
+			enrollments = enrollments.IncludeFamilyAndDeterminations();
 
 			enrollments = enrollments.Skip(skip);
 			if (take.HasValue)

@@ -39,11 +39,13 @@ export const AddressFieldset: React.FC<FamilyInfoFormFieldProps> = ({
 		<div className="mobile-lg:grid-col-12">
 			<AddressLine2 />
 		</div>
-		<div className="mobile-lg:grid-col-8 display-inline-block">
-			<Town errorDisplayGuard={errorDisplayGuard} />
-		</div>
-		<div className="mobile-lg:grid-col-4 display-inline-block">
-			<State errorDisplayGuard={errorDisplayGuard} />
+		<div className="grid-row grid-gap">
+			<div className="mobile-lg:grid-col-8 display-inline-block">
+				<Town errorDisplayGuard={errorDisplayGuard} />
+			</div>
+			<div className="mobile-lg:grid-col-4 display-inline-block">
+				<State errorDisplayGuard={errorDisplayGuard} />
+			</div>
 		</div>
 		<div className="mobile-lg:grid-col-6">
 			<Zip errorDisplayGuard={errorDisplayGuard} />
