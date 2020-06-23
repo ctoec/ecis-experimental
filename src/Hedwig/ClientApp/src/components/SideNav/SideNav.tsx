@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import cx from 'classnames';
 import { SideNavItem, SideNavItemProps } from './SideNavItem';
 
 export type SideNavProps = {
 	items: SideNavItemProps[];
 	externalActiveItemIndex?: number;
-	noActiveItemContent?: JSX.Element;
+	noActiveItemContent: JSX.Element;
 };
 
 export const SideNav = ({ items, externalActiveItemIndex, noActiveItemContent }: SideNavProps) => {
@@ -40,7 +41,13 @@ export const SideNav = ({ items, externalActiveItemIndex, noActiveItemContent }:
 					</ul>
 				</nav>
 			</div>
-			<div className="mobile-lg:grid-col-8 oec-sidenav__content">
+			<div
+				className={cx(
+					'oec-sidenav__content',
+					{ 'mobile-lg:grid-col-8': items.length > 0 },
+					{ 'mobile-lg:grid-col-12': items.length === 0 }
+				)}
+			>
 				{activeItemIndex !== undefined && activeItemIndex < items.length
 					? items[activeItemIndex].content
 					: noActiveItemContent}
