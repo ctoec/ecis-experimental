@@ -2,7 +2,6 @@ import { Enrollment, ValidationError } from '../../generated';
 import { splitCamelCase } from '../stringFormatters';
 
 const lowercaseFirstLetter = (inputString?: string | null) => {
-	console.log(inputString)
 	if (!inputString) return '';
 	return inputString.charAt(0).toLowerCase() + inputString.slice(1);
 };
@@ -47,7 +46,6 @@ export const getMissingInfoPrettyString = (enrollment: Enrollment) => {
 		birthCertFields.includes(e.field || '')
 	);
 
-	console.log(allValidationErrors)
 	const incomeDetFields = ['Income', 'DeterminationDate', 'NumberOfPeople'];
 	const incomeDeterminationValidationErrors = allValidationErrors.filter((e: ValidationError) =>
 		incomeDetFields.includes(e.field || '')
@@ -67,7 +65,6 @@ export const getMissingInfoPrettyString = (enrollment: Enrollment) => {
 		missingInfoFields.push(splitCamelCase(birthCertValidationErrors[0].field))
 	}
 
-	console.log(incomeDeterminationValidationErrors)
 	if (
 		incomeDeterminationValidationErrors.length > 1 ||
 		!enrollment.child ||
