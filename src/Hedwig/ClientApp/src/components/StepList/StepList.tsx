@@ -15,7 +15,7 @@ export type StepProps<T> = {
 	key: string;
 	name: string;
 	status: (props: T) => StepStatus;
-	editPath: string;
+	editPath?: string;
 	Summary: React.FC<T>;
 	Form: React.FC<T>;
 	headerLevel?: PossibleHeaderLevels;

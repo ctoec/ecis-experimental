@@ -85,13 +85,22 @@ export const IncomeDeterminationFieldSet: React.FC<IncomeDeterminationFieldSetPr
 			legendStyle="title"
 		>
 			<div>
-				<HouseholdSizeField determinationId={determinationId} />
+				<HouseholdSizeField
+					determinationId={determinationId}
+					errorDisplayGuard={errorDisplayGuard}
+				/>
 			</div>
 			<div>
-				<AnnualHouseholdIncomeField determinationId={determinationId} />
+				<AnnualHouseholdIncomeField
+					determinationId={determinationId}
+					errorDisplayGuard={errorDisplayGuard}
+				/>
 			</div>
 			<div>
-				<DeterminationDateField determinationId={determinationId} />
+				<DeterminationDateField
+					determinationId={determinationId}
+					errorDisplayGuard={errorDisplayGuard}
+				/>
 			</div>
 		</FormFieldSet>
 	);

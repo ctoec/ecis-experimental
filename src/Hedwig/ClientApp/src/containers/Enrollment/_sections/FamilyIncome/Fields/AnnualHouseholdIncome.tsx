@@ -6,9 +6,11 @@ import parseCurrencyFromString from '../../../../../utils/parseCurrencyFromStrin
 import currencyFormatter from '../../../../../utils/currencyFormatter';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
 import { FamilyIncomeFormFieldProps } from './common';
+import { initialLoadErrorGuard } from '../../../../../utils/validations';
 
 export const AnnualHouseholdIncomeField: React.FC<FamilyIncomeFormFieldProps> = ({
 	determinationId,
+	errorDisplayGuard = false,
 }) => {
 	return (
 		<FormField<Enrollment, TextInputProps, number | null>
@@ -26,19 +28,22 @@ export const AnnualHouseholdIncomeField: React.FC<FamilyIncomeFormFieldProps> = 
 			preprocessForDisplay={(income) => currencyFormatter(income)}
 			inputComponent={TextInput}
 			status={(data) =>
-				displayValidationStatus([
-					{
-						type: 'warning',
-						response:
-							data
-								.at('child')
-								.at('family')
-								.at('determinations')
-								.find((det) => det.id === determinationId)
-								.at('validationErrors').value || null,
-						field: 'income',
-					},
-				])
+				initialLoadErrorGuard(
+					errorDisplayGuard,
+					displayValidationStatus([
+						{
+							type: 'warning',
+							response:
+								data
+									.at('child')
+									.at('family')
+									.at('determinations')
+									.find((det) => det.id === determinationId)
+									.at('validationErrors').value || null,
+							field: 'income',
+						},
+					])
+				)
 			}
 			id={`income-${determinationId}`}
 			label="Annual household income"
