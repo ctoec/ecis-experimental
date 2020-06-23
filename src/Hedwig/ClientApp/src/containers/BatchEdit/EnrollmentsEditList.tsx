@@ -6,6 +6,7 @@ import { hasValidationErrors } from '../../utils/validations';
 import { SingleEnrollmentEdit } from './SingleEnrollmentEdit';
 import { ReactComponent as Success } from '../../../node_modules/uswds/dist/img/alerts/success.svg';
 import { Link } from 'react-router-dom';
+import { getMissingInfoPrettyString } from '../../utils/validations/getMissingInfoPrettyString';
 
 type EnrollmentsEditListProps = {
 	enrollments: Enrollment[];
@@ -65,7 +66,7 @@ export const EnrollmentsEditList: React.FC<EnrollmentsEditListProps> = ({
 						iconClassName="oec-inline-icon--complete"
 					/>
 				),
-				description: getMissingInfoFields(enrollment),
+				description: getMissingInfoPrettyString(enrollment),
 				content: (
 					<SingleEnrollmentEdit
 						enrollmentId={enrollment.id}
@@ -84,10 +85,4 @@ export const EnrollmentsEditList: React.FC<EnrollmentsEditListProps> = ({
 			}
 		/>
 	);
-};
-
-// TODO: IMPLEMENT THIS!!!!!
-const getMissingInfoFields = (enrollment: Enrollment) => {
-	if (hasValidationErrors(enrollment)) return 'Birth certificate';
-	return '';
 };

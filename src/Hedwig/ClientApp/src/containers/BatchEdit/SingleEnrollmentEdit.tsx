@@ -14,6 +14,7 @@ import FamilyInfo from './_sections/FamilyInfo';
 import FamilyIncome from './_sections/FamilyIncome';
 import EnrollmentFunding from './_sections/EnrollmentFunding';
 import useCatchAllErrorAlert from '../../hooks/useCatchAllErrorAlert';
+import { Link } from 'react-router-dom';
 
 type SingleEnrollmentEditProps = {
 	enrollmentId: number;
@@ -156,11 +157,7 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 					</div>
 				</div>
 				<div className="margin-top-1">
-					<Button
-						appearance="unstyled"
-						text="View full profile"
-						href={`/roster/sites/${siteId}/enrollments/${enrollmentId}`}
-					/>
+					<Link to={`/roster/sites/${siteId}/enrollments/${enrollmentId}`}>View full profile</Link>
 				</div>
 			</div>
 			<div className="padding-top-1 border-top-1px border-base-light">
