@@ -1,5 +1,4 @@
 import { Enrollment, ValidationError } from '../../generated';
-import { hasValidationErrors } from '.';
 import { splitCamelCase } from '../stringFormatters';
 
 const lowercaseFirstLetter = (inputString?: string | null) => {
@@ -57,7 +56,7 @@ export const getMissingInfoPrettyString = (enrollment: Enrollment) => {
 	const missingInfoFields = [];
 
 	if (birthCertValidationErrors.length > 1) {
-		// If the whole group is missing then we can group (Birth Cert ID, Town and State -> Birth Certificate
+		// If the whole group is missing then we can group (Birth Cert ID, Town and State -> Birth Certificate)
 		missingInfoFields.push('birth certificate')
 	} else if (birthCertValidationErrors.length === 1) {
 		missingInfoFields.push(splitCamelCase(birthCertValidationErrors[0].field))
@@ -68,7 +67,7 @@ export const getMissingInfoPrettyString = (enrollment: Enrollment) => {
 		!enrollment.child ||
 		!enrollment.child.family
 	) {
-		// Income household size, income and date -> Income determination)
+		// Income household size, income and date -> income determination)
 		missingInfoFields.push('income determination')
 	} else if (incomeDeterminationValidationErrors.length === 1) {
 		missingInfoFields.push(splitCamelCase(incomeDeterminationValidationErrors[0].field))
@@ -79,11 +78,10 @@ export const getMissingInfoPrettyString = (enrollment: Enrollment) => {
 			birthCertValidationErrors.length === 0 &&
 			incomeDeterminationValidationErrors.length === 0
 		) {
-			// If enrollment is not missing birth certificate or income determination, but are missing other fields,
-			// I only see the count of how many fields are missing: "5 fields missing".
+			// If enrollment is not missing birth certificate or income determination, but is missing other fields
 			return `${remainingValidationErrors.length} fields`;
 		}
-		// And then all the other fields are totaled and grouped as "and # missing fields")
+		// All the other fields are totaled and grouped
 		missingInfoFields.push(`${remainingValidationErrors.length} other fields`)
 	}
 

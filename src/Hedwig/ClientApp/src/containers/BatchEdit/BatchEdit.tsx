@@ -36,11 +36,9 @@ const BatchEdit: React.FC<BatchEditProps> = ({ match: { params: sectionId } }) =
 		return <>Loading...</>;
 	}
 
-	const needInfoEnrollments = (enrollments || []).filter((e) => {
-		return (
-			e.validationErrors && e.validationErrors.length && isFunded(e, { source: FundingSource.CDC })
-		);
-	});
+	const needInfoEnrollments = (enrollments || []).filter((e) =>
+		e.validationErrors && e.validationErrors.length && isFunded(e, { source: FundingSource.CDC })
+	);
 	return (
 		<CommonContainer>
 			<div className="grid-container">
