@@ -21,7 +21,6 @@ export const IncomeDeterminationFieldSet: React.FC<IncomeDeterminationFieldSetPr
 	determinationId,
 	errorDisplayGuard = false,
 }) => {
-	console.log('Error display guard', errorDisplayGuard);
 	let status, elementId, legend, showLegend;
 	switch (type) {
 		case 'redetermine':

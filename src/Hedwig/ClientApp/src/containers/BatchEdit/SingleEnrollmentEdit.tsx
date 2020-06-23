@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Enrollment } from '../../generated';
 import { useHistory } from 'react-router';
+import { Enrollment } from '../../generated';
 import { hasValidationErrors } from '../../utils/validations';
 import { StepProps, Button, StepList } from '../../components';
 import { lastFirstNameFormatter } from '../../utils/stringFormatters';
@@ -13,7 +13,6 @@ import ChildInfo from './_sections/ChildInfo';
 import FamilyInfo from './_sections/FamilyInfo';
 import FamilyIncome from './_sections/FamilyIncome';
 import EnrollmentFunding from './_sections/EnrollmentFunding';
-import { useHistory } from 'react-router';
 import useCatchAllErrorAlert from '../../hooks/useCatchAllErrorAlert';
 
 type SingleEnrollmentEditProps = {
