@@ -7,7 +7,6 @@ export default {
 	key: 'family-info',
 	name: 'Family information',
 	status: () => 'incomplete',
-	editPath: '',
 	Summary: () => <></>,
 	Form: EditForm,
 } as StepProps<BatchEditStepProps>;

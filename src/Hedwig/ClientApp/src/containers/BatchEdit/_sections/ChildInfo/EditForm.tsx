@@ -9,17 +9,10 @@ import {
 	GenderField,
 	EthnicityField,
 } from '../../../Enrollment/_sections/ChildInfo/Fields';
-import useCatchAllErrorAlert from '../../../../hooks/useCatchAllErrorAlert';
 import { BatchEditStepProps } from '../batchEditTypes';
 import { Button } from '../../../../components';
 
 export const EditForm: React.FC<BatchEditStepProps> = ({ enrollment, error, onSubmit, onSkip }) => {
-	if (!enrollment) {
-		throw new Error('Section rendered without enrollment');
-	}
-
-	useCatchAllErrorAlert(error);
-
 	return (
 		<Form<Enrollment>
 			className="usa-form"
