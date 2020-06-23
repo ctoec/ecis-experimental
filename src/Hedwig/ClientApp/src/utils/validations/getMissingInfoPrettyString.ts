@@ -35,7 +35,8 @@ const getNestedValidationErrors = (object?: any) => {
 };
 
 export const getMissingInfoPrettyString = (enrollment: Enrollment) => {
-	// If enrollment is missing birth certificate or income determination (or re-determination), I see those missing fields named, and then I see a count of how many other fields are missing.
+	// If enrollment is missing birth certificate or income determination (or re-determination),
+	// I see those missing fields named, and then I see a count of how many other fields are missing.
 	const allValidationErrors = getNestedValidationErrors(enrollment);
 
 	const birthCertFields = ['BirthCertificateId', 'BirthState', 'BirthTown'];
@@ -53,13 +54,13 @@ export const getMissingInfoPrettyString = (enrollment: Enrollment) => {
 			!incomeDetFields.includes(e.field || '') && !birthCertFields.includes(e.field || '')
 	);
 
-	let missingInfoString = '';
+	const missingInfoFields = [];
 
 	if (birthCertValidationErrors.length > 1) {
 		// If the whole group is missing then we can group (Birth Cert ID, Town and State -> Birth Certificate
-		missingInfoString = 'birth certificate';
+		missingInfoFields.push('birth certificate')
 	} else if (birthCertValidationErrors.length === 1) {
-		missingInfoString = splitCamelCase(birthCertValidationErrors[0].field);
+		missingInfoFields.push(splitCamelCase(birthCertValidationErrors[0].field))
 	}
 
 	if (
@@ -68,9 +69,9 @@ export const getMissingInfoPrettyString = (enrollment: Enrollment) => {
 		!enrollment.child.family
 	) {
 		// Income household size, income and date -> Income determination)
-		missingInfoString += ', income determination';
+		missingInfoFields.push('income determination')
 	} else if (incomeDeterminationValidationErrors.length === 1) {
-		missingInfoString = splitCamelCase(incomeDeterminationValidationErrors[0].field);
+		missingInfoFields.push(splitCamelCase(incomeDeterminationValidationErrors[0].field))
 	}
 
 	if (remainingValidationErrors.length) {
@@ -78,14 +79,22 @@ export const getMissingInfoPrettyString = (enrollment: Enrollment) => {
 			birthCertValidationErrors.length === 0 &&
 			incomeDeterminationValidationErrors.length === 0
 		) {
-			// If enrollment is not missing birth certificate or income determination, but are missing other fields, I only see the count of how many fields are missing: "5 fields missing".
-			missingInfoString = `${remainingValidationErrors.length} fields`;
+			// If enrollment is not missing birth certificate or income determination, but are missing other fields,
+			// I only see the count of how many fields are missing: "5 fields missing".
+			return `${remainingValidationErrors.length} fields`;
 		}
 		// And then all the other fields are totaled and grouped as "and # missing fields")
-		missingInfoString += ` and ${remainingValidationErrors.length} other fields`;
+		missingInfoFields.push(`${remainingValidationErrors.length} other fields`)
 	}
 
-	if (hasValidationErrors(enrollment))
-		return replaceId(uppercaseFirstLetter(missingInfoString.toLowerCase()));
-	return 'No needed information';
+	let missingInfoString = 'No needed information';
+	if (missingInfoFields.length === 1) {
+		missingInfoString = missingInfoFields[0]
+	} else if (missingInfoFields.length === 2) {
+		missingInfoString = missingInfoFields.join(' and ')
+	} else if (missingInfoFields.length > 2) {
+		missingInfoString = `${missingInfoFields.slice(0, -1).join(', ')}, and ${missingInfoFields[missingInfoFields.length - 1]}`
+	}
+
+	return replaceId(uppercaseFirstLetter(missingInfoString.toLowerCase()));
 };
