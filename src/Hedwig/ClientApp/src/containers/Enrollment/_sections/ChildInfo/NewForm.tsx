@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { SectionProps } from '../../enrollmentTypes';
 import {
 	Enrollment,
@@ -69,12 +69,12 @@ export const NewForm: React.FC<SectionProps> = ({
 	const apiRequest = (api: HedwigApi) =>
 		enrollment === null
 			? api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsPost({
-					...commonParams,
-			  })
+				...commonParams,
+			})
 			: api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut({
-					...commonParams,
-					id: enrollment.id,
-			  });
+				...commonParams,
+				id: enrollment.id,
+			});
 	const { error, loading: isSaving } = useApi<Enrollment>(apiRequest, {
 		skip: !attemptSave,
 		callback: apiCallback,

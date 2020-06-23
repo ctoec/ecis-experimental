@@ -2,6 +2,7 @@ import { Enrollment, ValidationError } from '../../generated';
 import { splitCamelCase } from '../stringFormatters';
 
 const lowercaseFirstLetter = (inputString?: string | null) => {
+	console.log(inputString)
 	if (!inputString) return '';
 	return inputString.charAt(0).toLowerCase() + inputString.slice(1);
 };
@@ -18,13 +19,16 @@ const replaceId = (inputString: string) => {
 const getNestedValidationErrors = (object?: any) => {
 	if (!object) return [];
 	// Return value is array of validation errors
-	let levels = 0;
+	let levels = 1;
 	return (object.validationErrors || [])
 		.map((v: ValidationError) => {
 			// For each subobject validation error, go into the sub object and get those validation errors
 			if (v.isSubObjectValidation) {
 				levels += 1;
 				const subObject = object[lowercaseFirstLetter(v.field)];
+				if (Array.isArray(subObject)) {
+					return subObject.map(_v => getNestedValidationErrors(_v))
+				}
 				return getNestedValidationErrors(subObject);
 			} else {
 				return v;
@@ -43,6 +47,7 @@ export const getMissingInfoPrettyString = (enrollment: Enrollment) => {
 		birthCertFields.includes(e.field || '')
 	);
 
+	console.log(allValidationErrors)
 	const incomeDetFields = ['Income', 'DeterminationDate', 'NumberOfPeople'];
 	const incomeDeterminationValidationErrors = allValidationErrors.filter((e: ValidationError) =>
 		incomeDetFields.includes(e.field || '')
@@ -62,6 +67,7 @@ export const getMissingInfoPrettyString = (enrollment: Enrollment) => {
 		missingInfoFields.push(splitCamelCase(birthCertValidationErrors[0].field))
 	}
 
+	console.log(incomeDeterminationValidationErrors)
 	if (
 		incomeDeterminationValidationErrors.length > 1 ||
 		!enrollment.child ||
