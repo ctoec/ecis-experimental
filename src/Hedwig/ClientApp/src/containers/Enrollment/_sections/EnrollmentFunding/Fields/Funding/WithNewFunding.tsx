@@ -14,7 +14,6 @@ export const WithNewFunding: React.FC<PropsWithChildren<WithNewFundingProps>> = 
 	source,
 	children: fundingFields,
 }) => {
-
 	const { data, dataDriller, updateData } = useGenericContext<Enrollment>(FormContext);
 
 	const newFunding = dataDriller.at('fundings').find((cert) => cert.id === 0);

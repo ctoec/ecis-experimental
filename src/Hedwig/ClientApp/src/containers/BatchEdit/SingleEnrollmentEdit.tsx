@@ -100,6 +100,7 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 	// then invoke the moveNextEnrollment function
 	const locationHash = history.location.hash;
 	const activeStepId = locationHash ? locationHash.slice(1) : firstStep;
+
 	const moveNextStep = () => {
 		const currentIndex = steps.findIndex((step) => step.key === activeStepId);
 		if (currentIndex === steps.length - 1) {
@@ -163,14 +164,18 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 				</div>
 			</div>
 			<div className="padding-top-1 border-top-1px border-base-light">
-				<StepList
-					key={mutatedEnrollment.id}
-					steps={steps}
-					props={stepProps}
-					activeStep={activeStepId}
-					type="embedded"
-					headerLevel="h3"
-				/>
+				{steps.length > 0 ? (
+					<StepList
+						key={mutatedEnrollment.id}
+						steps={steps}
+						props={stepProps}
+						activeStep={activeStepId}
+						type="embedded"
+						headerLevel="h3"
+					/>
+				) : (
+					<div className="margin-y-2 display-flex flex-center">All complete!</div>
+				)}
 			</div>
 		</>
 	);
