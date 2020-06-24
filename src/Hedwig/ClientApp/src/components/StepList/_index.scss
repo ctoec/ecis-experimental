@@ -159,8 +159,8 @@ $future-step-color: color('base-dark') !default;
 	&.embedded {
 		padding: 0;
 
-		& > * {
-			padding: 1rem;
+		li {
+			padding: 1rem 2rem;
 		}
 
 		li::before {
