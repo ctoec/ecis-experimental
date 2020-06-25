@@ -1,12 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 import { Enrollment } from '../../generated';
 import { hasValidationErrors } from '../../utils/validations';
-import { StepProps, Button, StepList } from '../../components';
+import { StepProps, StepList } from '../../components';
 import { lastFirstNameFormatter } from '../../utils/stringFormatters';
 import dateFormatter from '../../utils/dateFormatter';
 import UserContext from '../../contexts/User/UserContext';
-import { getIdForUser, enrollmentWithDefaultFamily } from '../../utils/models';
+import { getIdForUser } from '../../utils/models';
 import useApi from '../../hooks/useApi';
 import { BatchEditStepProps } from './_sections/batchEditTypes';
 import ChildInfo from './_sections/ChildInfo';
@@ -14,7 +15,6 @@ import FamilyInfo from './_sections/FamilyInfo';
 import FamilyIncome from './_sections/FamilyIncome';
 import EnrollmentFunding from './_sections/EnrollmentFunding';
 import useCatchAllErrorAlert from '../../hooks/useCatchAllErrorAlert';
-import { Link } from 'react-router-dom';
 
 type SingleEnrollmentEditProps = {
 	enrollment: Enrollment;
@@ -78,7 +78,7 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 
 		path += `#${firstStep}`;
 		history.push(path);
-	}, [mutatedEnrollment]);
+	}, [enrollment.id]);
 
 	// set up function to advance to next step.
 	// If there is no next step for this enrollment,
@@ -93,7 +93,7 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 			return;
 		}
 
-		history.push(`#${steps[currentIndex + 1].key}`);
+		history.push(`${history.location.pathname}#${steps[currentIndex + 1].key}`);
 	};
 
 	// Set up PUT request, to be triggered by steplist forms
@@ -114,6 +114,7 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 			},
 		}
 	);
+
 	const errorAlertState = useCatchAllErrorAlert(errorOnSave);
 
 	if (!enrollment || !mutatedEnrollment) {
