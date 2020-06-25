@@ -17,4 +17,5 @@ export type FundingFormFieldProps = {
 
 export type C4kCertificateFormFieldProps = {
 	certificateId: number;
+	errorDisplayGuard?: boolean;
 };
