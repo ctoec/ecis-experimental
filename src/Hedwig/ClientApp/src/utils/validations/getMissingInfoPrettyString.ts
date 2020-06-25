@@ -96,7 +96,7 @@ export const getMissingInfoPrettyString = (enrollment: Enrollment) => {
 	} else if (missingInfoFields.length > 2) {
 		missingInfoString = `${missingInfoFields.slice(0, -1).join(', ')}, and ${
 			missingInfoFields[missingInfoFields.length - 1]
-			}`;
+		}`;
 	}
 
 	return replaceId(uppercaseFirstLetter(missingInfoString.toLowerCase()));

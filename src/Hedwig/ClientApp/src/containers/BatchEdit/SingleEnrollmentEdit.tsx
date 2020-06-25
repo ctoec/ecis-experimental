@@ -142,7 +142,9 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 					</div>
 				</div>
 				<div className="margin-top-1">
-					<Link to={`/roster/sites/${siteId}/enrollments/${mutatedEnrollment.id}`}>View full profile</Link>
+					<Link to={`/roster/sites/${siteId}/enrollments/${mutatedEnrollment.id}`}>
+						View full profile
+					</Link>
 				</div>
 			</div>
 			<div className="padding-top-1 border-top-1px border-base-light">
@@ -156,8 +158,8 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 						headerLevel="h3"
 					/>
 				) : (
-						<div className="margin-y-2 display-flex flex-center">All complete!</div>
-					)}
+					<div className="margin-y-2 display-flex flex-center">All complete!</div>
+				)}
 			</div>
 		</>
 	);
