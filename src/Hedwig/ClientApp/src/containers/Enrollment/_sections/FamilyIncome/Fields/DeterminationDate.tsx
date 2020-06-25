@@ -5,11 +5,11 @@ import { DateInput, DateInputProps } from '../../../../../components';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
 import { FamilyIncomeFormFieldProps } from './common';
 import { parseDateChange } from '../../../../../components/Form_New';
-import { initialLoadErrorGuard } from '../../../../../utils/validations';
+import { errorDisplayGuard } from '../../../../../utils/validations';
 
 export const DeterminationDateField: React.FC<FamilyIncomeFormFieldProps> = ({
 	determinationId,
-	errorDisplayGuard = false,
+	blockErrorDisplay = false,
 }) => {
 	return (
 		<FormField<Enrollment, DateInputProps, Date | null>
@@ -24,8 +24,8 @@ export const DeterminationDateField: React.FC<FamilyIncomeFormFieldProps> = ({
 			parseOnChangeEvent={parseDateChange}
 			inputComponent={DateInput}
 			status={(data) =>
-				initialLoadErrorGuard(
-					errorDisplayGuard,
+				errorDisplayGuard(
+					blockErrorDisplay,
 					displayValidationStatus([
 						{
 							type: 'warning',

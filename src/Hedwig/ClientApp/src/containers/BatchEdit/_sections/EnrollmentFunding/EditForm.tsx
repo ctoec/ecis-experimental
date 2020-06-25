@@ -38,7 +38,7 @@ export const EditForm: React.FC<BatchEditStepProps> = ({
 				<>
 					<h3>Enrollment</h3>
 					<EnrollmentStartDate
-						errorDisplayGuard={true}
+						blockErrorDisplay={true}
 						error={error}
 						errorAlertState={errorAlertState}
 					/>

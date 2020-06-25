@@ -4,13 +4,13 @@ import FormField from '../../../../../../components/Form_New/FormField';
 import { Enrollment } from '../../../../../../generated';
 import { displayValidationStatus } from '../../../../../../utils/validations/displayValidationStatus';
 import { REQUIRED_FOR_OEC_REPORTING } from '../../../../../../utils/validations/messageStrings';
-import { initialLoadErrorGuard } from '../../../../../../utils/validations';
+import { errorDisplayGuard } from '../../../../../../utils/validations';
 
 type FamilyIdFieldProps = {
 	defaultValue?: number;
-	errorDisplayGuard?: boolean;
+	blockErrorDisplay?: boolean;
 };
-export const FamilyIdField: React.FC<FamilyIdFieldProps> = ({ defaultValue, errorDisplayGuard = false }) => {
+export const FamilyIdField: React.FC<FamilyIdFieldProps> = ({ defaultValue, blockErrorDisplay = false }) => {
 	return (
 		<FormField<Enrollment, TextInputProps, number | null>
 			defaultValue={defaultValue}
@@ -20,8 +20,8 @@ export const FamilyIdField: React.FC<FamilyIdFieldProps> = ({ defaultValue, erro
 			label="Family ID"
 			id="c4k-family-id"
 			status={(data) =>
-				initialLoadErrorGuard(
-					errorDisplayGuard,
+				errorDisplayGuard(
+					blockErrorDisplay,
 					displayValidationStatus([
 						{
 							type: 'warning',

@@ -5,9 +5,9 @@ import { DateInputProps, DateInput } from '../../../../../../components';
 import { C4kCertificateFormFieldProps } from '../common';
 import { displayValidationStatus } from '../../../../../../utils/validations/displayValidationStatus';
 import { parseDateChange } from '../../../../../../components/Form_New';
-import { initialLoadErrorGuard } from '../../../../../../utils/validations';
+import { errorDisplayGuard } from '../../../../../../utils/validations';
 
-export const CertificateStartDate: React.FC<C4kCertificateFormFieldProps> = ({ certificateId, errorDisplayGuard = false}) => {
+export const CertificateStartDate: React.FC<C4kCertificateFormFieldProps> = ({ certificateId, blockErrorDisplay = false}) => {
 	return (
 		<FormField<Enrollment, DateInputProps, Date | null>
 			getValue={(data) => {
@@ -24,8 +24,8 @@ export const CertificateStartDate: React.FC<C4kCertificateFormFieldProps> = ({ c
 			label="Start date"
 			id={`c4k-${certificateId}-start-date`}
 			status={(data) =>
-				initialLoadErrorGuard(
-					errorDisplayGuard,
+				errorDisplayGuard(
+					blockErrorDisplay,
 					displayValidationStatus([
 						{
 							type: 'warning',

@@ -7,7 +7,7 @@ import { Age, Enrollment } from '../../../../../generated';
 import FormField from '../../../../../components/Form_New/FormField';
 import { ageFromString, prettyAge } from '../../../../../utils/models';
 import RadioButton from '../../../../../components/RadioButton/RadioButton';
-import { initialLoadErrorGuard } from '../../../../../utils/validations';
+import { errorDisplayGuard } from '../../../../../utils/validations';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
 import { REQUIRED_FOR_OEC_REPORTING } from '../../../../../utils/validations/messageStrings';
 import FormContext, { useGenericContext } from '../../../../../components/Form_New/FormContext';
@@ -23,7 +23,7 @@ import { EnrollmentFormFieldProps } from './common';
  * to the funding's enrollment.
  */
 export const AgeGroupField: React.FC<EnrollmentFormFieldProps> = ({
-	errorDisplayGuard = false,
+	blockErrorDisplay = false,
 }) => {
 	const { dataDriller, updateData } = useGenericContext<Enrollment>(FormContext);
 
@@ -62,8 +62,8 @@ export const AgeGroupField: React.FC<EnrollmentFormFieldProps> = ({
 				},
 			]}
 			status={(data) =>
-				initialLoadErrorGuard(
-					errorDisplayGuard,
+				errorDisplayGuard(
+					blockErrorDisplay,
 					displayValidationStatus([
 						{
 							type: 'warning',

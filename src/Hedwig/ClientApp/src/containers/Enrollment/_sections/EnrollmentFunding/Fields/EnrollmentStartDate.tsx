@@ -3,12 +3,12 @@ import { DateInputProps, DateInput } from '../../../../../components';
 import FormField from '../../../../../components/Form_New/FormField';
 import { Enrollment } from '../../../../../generated';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
-import { initialLoadErrorGuard } from '../../../../../utils/validations';
+import { errorDisplayGuard } from '../../../../../utils/validations';
 import { EnrollmentFormFieldProps } from './common';
 import { parseDateChange } from '../../../../../components/Form_New';
 
 export const EnrollmentStartDate: React.FC<EnrollmentFormFieldProps> = ({
-	errorDisplayGuard = false,
+	blockErrorDisplay = false,
 	error,
 	errorAlertState,
 }) => {
@@ -19,8 +19,8 @@ export const EnrollmentStartDate: React.FC<EnrollmentFormFieldProps> = ({
 				parseOnChangeEvent={parseDateChange}
 				inputComponent={DateInput}
 				status={(data) =>
-					initialLoadErrorGuard(
-						errorDisplayGuard,
+					errorDisplayGuard(
+						blockErrorDisplay,
 						displayValidationStatus([
 							{
 								type: 'warning',

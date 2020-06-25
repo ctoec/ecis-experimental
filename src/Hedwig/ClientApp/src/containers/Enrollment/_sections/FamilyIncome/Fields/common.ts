@@ -1,4 +1,4 @@
 export type FamilyIncomeFormFieldProps = {
 	determinationId: number;
-	errorDisplayGuard?: boolean;
+	blockErrorDisplay?: boolean;
 };
