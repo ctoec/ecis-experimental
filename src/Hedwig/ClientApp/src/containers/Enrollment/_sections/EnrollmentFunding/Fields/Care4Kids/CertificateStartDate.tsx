@@ -4,7 +4,6 @@ import { Enrollment } from '../../../../../../generated';
 import { DateInputProps, DateInput } from '../../../../../../components';
 import { C4kCertificateFormFieldProps } from '../common';
 import { displayValidationStatus } from '../../../../../../utils/validations/displayValidationStatus';
-import { REQUIRED_FOR_OEC_REPORTING } from '../../../../../../utils/validations/messageStrings';
 import { parseDateChange } from '../../../../../../components/Form_New';
 
 export const CertificateStartDate: React.FC<C4kCertificateFormFieldProps> = ({ certificateId }) => {
@@ -34,7 +33,7 @@ export const CertificateStartDate: React.FC<C4kCertificateFormFieldProps> = ({ c
 								.find((c) => c.id === certificateId)
 								.at('validationErrors').value || null,
 						field: 'startDate',
-						message: REQUIRED_FOR_OEC_REPORTING,
+						useValidationErrorMessage: true,
 					},
 				])
 			}

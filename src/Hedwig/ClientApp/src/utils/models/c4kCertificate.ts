@@ -26,8 +26,7 @@ export function c4kCertificateSorter(a: C4KCertificate, b: C4KCertificate, inver
 }
 
 /**
- * Returns the c4k cert with no end date
- * (Multiple certs with no end date is an invalid data state)
+ * Returns the first c4k cert with no end date
  * @param enrollment
  */
 export function getCurrentC4kCertificate(

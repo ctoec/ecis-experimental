@@ -1,10 +1,11 @@
 import React from 'react';
-import { Card, Button, TextWithIcon } from '../../../../../../components';
+import { Card, Button, TextWithIcon, InlineIcon } from '../../../../../../components';
 import { C4KCertificate } from '../../../../../../generated';
 import { CardExpansion } from '../../../../../../components/Card/CardExpansion';
 import dateFormatter from '../../../../../../utils/dateFormatter';
 import { ExpandCard } from '../../../../../../components/Card/ExpandCard';
 import { ReactComponent as Pencil } from '../../../../../../assets/images/pencil.svg';
+import { hasValidationErrors } from '../../../../../../utils/validations';
 
 type C4KCertificateCardProps = {
 	certificate: C4KCertificate;
@@ -32,12 +33,16 @@ export const C4KCertificateCard = ({
 			<div className="display-flex flex-justify">
 				<div className="flex-1">
 					<p>Family ID</p>
-					<p className="text-bold">{c4KFamilyId}</p>
+					<p className="text-bold">{!c4KFamilyId ? <InlineIcon icon="incomplete"/> : c4KFamilyId}</p>
 				</div>
 				<div className="flex-2">
-					<p>Certificate start date</p>
-					<p className="text-bold">{dateFormatter(certificate.startDate)}</p>
+					<p>Certificate dates</p>
+					<p className="text-bold">{hasValidationErrors(certificate, ['startDate']) 
+						? <InlineIcon icon="incomplete"/> 
+						: `${dateFormatter(certificate.startDate)}${!isCurrent ? `- ${dateFormatter(certificate.endDate)}` : ''}`
+					}</p>
 				</div>
+
 				<ExpandCard>
 					<Button
 						text={<TextWithIcon text="Edit" Icon={Pencil} />}
