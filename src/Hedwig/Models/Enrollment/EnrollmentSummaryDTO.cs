@@ -5,6 +5,7 @@ using Hedwig.Validations;
 
 namespace Hedwig.Models
 {
+	// TODO: maybe remove this?
 	public class EnrollmentSummaryDTO : IHedwigIdEntity<int>
 	{
 		public int Id { get; set; }

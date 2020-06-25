@@ -16,6 +16,7 @@ namespace Hedwig.Models
 		public DateTime? Exit { get; set; }
 		public string ExitReason { get; set; }
 		public List<FundingDTO> Fundings { get; set; }
+		// TODO: maybe remove summary DTO?
 		public List<EnrollmentSummaryDTO> PastEnrollments { get; set; }
 		public List<ValidationError> ValidationErrors { get; set; }
 	}
