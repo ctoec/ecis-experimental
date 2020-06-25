@@ -33,14 +33,21 @@ export const C4KCertificateCard = ({
 			<div className="display-flex flex-justify">
 				<div className="flex-1">
 					<p>Family ID</p>
-					<p className="text-bold">{!c4KFamilyId ? <InlineIcon icon="incomplete"/> : c4KFamilyId}</p>
+					<p className="text-bold">
+						{!c4KFamilyId ? <InlineIcon icon="incomplete" /> : c4KFamilyId}
+					</p>
 				</div>
 				<div className="flex-2">
 					<p>Certificate dates</p>
-					<p className="text-bold">{hasValidationErrors(certificate, ['startDate']) 
-						? <InlineIcon icon="incomplete"/> 
-						: `${dateFormatter(certificate.startDate)}${!isCurrent ? `- ${dateFormatter(certificate.endDate)}` : ''}`
-					}</p>
+					<p className="text-bold">
+						{hasValidationErrors(certificate, ['startDate']) ? (
+							<InlineIcon icon="incomplete" />
+						) : (
+							`${dateFormatter(certificate.startDate)}${
+								!isCurrent ? `- ${dateFormatter(certificate.endDate)}` : ''
+							}`
+						)}
+					</p>
 				</div>
 
 				<ExpandCard>

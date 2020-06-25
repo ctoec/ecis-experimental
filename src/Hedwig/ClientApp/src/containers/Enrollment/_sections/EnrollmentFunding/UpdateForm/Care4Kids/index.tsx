@@ -26,8 +26,8 @@ export const Care4KidsForm: React.FC<UpdateFormSectionProps> = ({
 
 	const sortedC4kCerts = (mutatedEnrollment.child?.c4KCertificates || [])
 		.slice() // force copy to avoid sorting immutable object (javascript array sort is in-place)
-		.sort((a,b) => propertyDateSorter(a, b, (cert) => cert.endDate, true));
-	const currentC4kCert = sortedC4kCerts.find((cert) => !cert.endDate); 
+		.sort((a, b) => propertyDateSorter(a, b, (cert) => cert.endDate, true));
+	const currentC4kCert = sortedC4kCerts.find((cert) => !cert.endDate);
 	const pastC4kCerts = sortedC4kCerts.slice(1);
 
 	return (

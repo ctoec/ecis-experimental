@@ -67,8 +67,15 @@ export const UpdateForm: React.FC<SectionProps> = ({ enrollment, siteId }) => {
 		forceCloseEditForms,
 	};
 
-	const missingEnrollmentFundingInfo = hasValidationErrors(mutatedEnrollment, ['entry', 'exit', 'fundings']);
-	const missingC4kInfo = hasValidationErrors(mutatedEnrollment.child, ['c4kCertificates', 'c4KFamilyCaseNumber']);
+	const missingEnrollmentFundingInfo = hasValidationErrors(mutatedEnrollment, [
+		'entry',
+		'exit',
+		'fundings',
+	]);
+	const missingC4kInfo = hasValidationErrors(mutatedEnrollment.child, [
+		'c4kCertificates',
+		'c4KFamilyCaseNumber',
+	]);
 
 	return (
 		<TabNav
@@ -76,12 +83,16 @@ export const UpdateForm: React.FC<SectionProps> = ({ enrollment, siteId }) => {
 			items={[
 				{
 					id: 'enrollment-funding',
-					text: <span>Enrollment/Funding {missingEnrollmentFundingInfo && <InlineIcon icon='incomplete'/>}</span>,
+					text: (
+						<span>
+							Enrollment/Funding {missingEnrollmentFundingInfo && <InlineIcon icon="incomplete" />}
+						</span>
+					),
 					content: <EnrollmentFundingForm {...updateFormSectionProps} />,
 				},
 				{
 					id: 'care-for-kids',
-					text: <span>Care 4 Kids {missingC4kInfo && <InlineIcon icon='incomplete'/>}</span>,
+					text: <span>Care 4 Kids {missingC4kInfo && <InlineIcon icon="incomplete" />}</span>,
 					content: <Care4KidsForm {...updateFormSectionProps} />,
 				},
 			]}
