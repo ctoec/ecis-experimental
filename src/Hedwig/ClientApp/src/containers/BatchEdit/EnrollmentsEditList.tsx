@@ -55,7 +55,7 @@ export const EnrollmentsEditList: React.FC<EnrollmentsEditListProps> = ({
 	return (
 		<SideNav
 			externalActiveItemIndex={currentEnrollmentIdx}
-			items={editedEnrollments.map((enrollment, idx) => ({
+			items={editedEnrollments.map((enrollment) => ({
 				title: hasValidationErrors(enrollment) ? (
 					lastFirstNameFormatter(enrollment.child)
 				) : (
@@ -69,7 +69,8 @@ export const EnrollmentsEditList: React.FC<EnrollmentsEditListProps> = ({
 				description: getMissingInfoPrettyString(enrollment),
 				content: (
 					<SingleEnrollmentEdit
-						enrollmentId={enrollment.id}
+						key={enrollment.id}
+						enrollment={enrollment}
 						updateEnrollments={replaceEnrollment}
 						siteId={enrollment.siteId}
 						moveNextEnrollment={moveNext}
