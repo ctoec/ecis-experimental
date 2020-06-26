@@ -95,6 +95,7 @@ export const NewForm: React.FC<SectionProps> = ({
 				}}
 				className="usa-form enrollment-new-enrollment-funding-section"
 			>
+				{/* TODO: if this is acting as a header, it should be a header */}
 				<span className="usa-label text-bold font-sans-lg">{enrollment.site?.name}</span>
 				<EnrollmentStartDate
 					errorDisplayGuard={!isReturnVisit}
