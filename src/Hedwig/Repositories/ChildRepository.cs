@@ -51,13 +51,7 @@ namespace Hedwig.Repositories
 		}
 		public EnrollmentChildDTO GetEnrollmentChildDTOById(Guid id)
 		{
-			_context.ChangeTracker.LazyLoadingEnabled = false;
-			var childDTO = _context.Children
-				.SelectEnrollmentChildDTO()
-				.Single(c => c.Id == id);
-			childDTO.Family = childDTO.FamilyId.HasValue ? _familyRepository.GetEnrollmentFamilyDTOById(childDTO.FamilyId.Value) : null;
-			childDTO.C4KCertificates = _c4KCertificateRepository.GetC4KCertificateDTOsByChildId(childDTO.Id);
-			return childDTO;
+			return GetEnrollmentChildDTOsByIds(new List<Guid> { id }).FirstOrDefault();
 		}
 		public List<EnrollmentChildDTO> GetEnrollmentChildDTOsByIds(IEnumerable<Guid> ids)
 		{
@@ -75,31 +69,6 @@ namespace Hedwig.Repositories
 			foreach (var childDTO in childDTOs)
 			{
 				childDTO.Family = families.Where(f => f.Id == childDTO.FamilyId).FirstOrDefault();
-				childDTO.C4KCertificates = c4KCertificates.Where(c4k => c4k.ChildId == childDTO.Id).ToList();
-			}
-			return childDTOs;
-		}
-	
-		public EnrollmentSummaryChildDTO GetEnrollmentSummaryChildDTOById(Guid id)
-		{
-			_context.ChangeTracker.LazyLoadingEnabled = false;
-			var childDTO = _context.Children
-				.SelectEnrollmentSummaryChildDTO()
-				.Single(c => c.Id == id);
-			childDTO.C4KCertificates = _c4KCertificateRepository.GetC4KCertificateDTOsByChildId(childDTO.Id);
-			return childDTO;
-		}
-		public List<EnrollmentSummaryChildDTO> GetEnrollmentSummaryChildDTOsByIds(IEnumerable<Guid> ids)
-		{
-			_context.ChangeTracker.LazyLoadingEnabled = false;
-			var childDTOs = _context.Children
-				.SelectEnrollmentSummaryChildDTO()
-				.Where(c => ids.Contains(c.Id))
-				.ToList();
-			var childIds = childDTOs.Select(childDTO => childDTO.Id).Distinct();
-			var c4KCertificates = _c4KCertificateRepository.GetC4KCertificateDTOsByChildIds(childIds);
-			foreach(var childDTO in childDTOs)
-			{
 				childDTO.C4KCertificates = c4KCertificates.Where(c4k => c4k.ChildId == childDTO.Id).ToList();
 			}
 			return childDTOs;
@@ -136,21 +105,6 @@ namespace Hedwig.Repositories
 				ValidationErrors = c.ValidationErrors
 			});
 		}
-
-		public static IQueryable<EnrollmentSummaryChildDTO> SelectEnrollmentSummaryChildDTO(this IQueryable<Child> query)
-		{
-			return query.Select(c => new EnrollmentSummaryChildDTO()
-			{
-				Id = c.Id,
-				Sasid = c.Sasid,
-				FirstName = c.FirstName,
-				MiddleName = c.MiddleName,
-				LastName = c.LastName,
-				Suffix = c.Suffix,
-				Birthdate = c.Birthdate,
-				ValidationErrors = c.ValidationErrors
-			});
-		}
 	}
 
 	public interface IChildRepository
@@ -162,7 +116,5 @@ namespace Hedwig.Repositories
 		Child GetChildById(Guid id);
 		EnrollmentChildDTO GetEnrollmentChildDTOById(Guid id);
 		List<EnrollmentChildDTO> GetEnrollmentChildDTOsByIds(IEnumerable<Guid> ids);
-		EnrollmentSummaryChildDTO GetEnrollmentSummaryChildDTOById(Guid id);
-		List<EnrollmentSummaryChildDTO> GetEnrollmentSummaryChildDTOsByIds(IEnumerable<Guid> ids);
 	}
 }

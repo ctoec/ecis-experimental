@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Hedwig.Data;
 using Hedwig.Models;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 
@@ -82,10 +83,7 @@ namespace Hedwig.Repositories
 
 		public OrganizationSiteDTO GetOrganizationSiteDTOById(int id)
 		{
-			_context.ChangeTracker.LazyLoadingEnabled = false;
-			return _context.Sites
-				.SelectOrganizationSiteDTO()
-				.FirstOrDefault(site => site.Id == id);
+			return GetOrganizationSiteDTOsByIds(new List<int> { id }).FirstOrDefault();
 		}
 
 		public List<OrganizationSiteDTO> GetOrganizationSiteDTOsByIds(IEnumerable<int> ids)
@@ -95,18 +93,6 @@ namespace Hedwig.Repositories
 				.SelectOrganizationSiteDTO()
 				.Where(site => ids.Contains(site.Id))
 				.ToList();
-		}
-
-		public EnrollmentSummarySiteDTO GetEnrollmentSummarySiteDTOById(int id)
-		{
-			_context.ChangeTracker.LazyLoadingEnabled = false;
-			return _context.Sites
-				.Select(s => new EnrollmentSummarySiteDTO()
-				{
-					Id = s.Id,
-					Name = s.Name
-				})
-				.FirstOrDefault(site => site.Id == id);
 		}
 	}
 
@@ -144,8 +130,5 @@ namespace Hedwig.Repositories
 		OrganizationSiteDTO GetOrganizationSiteDTOById(int id);
 
 		List<OrganizationSiteDTO> GetOrganizationSiteDTOsByIds(IEnumerable<int> ids);
-
-		EnrollmentSummarySiteDTO GetEnrollmentSummarySiteDTOById(int id);
-
 	}
 }

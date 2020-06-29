@@ -24,17 +24,6 @@ namespace Hedwig.Repositories
 			return family.FirstOrDefault();
 		}
 
-		public EnrollmentFamilyDTO GetEnrollmentFamilyDTOById(int id)
-		{
-			_context.ChangeTracker.LazyLoadingEnabled = false;
-			var fDTO = _context.Families
-				.Where(f => f.Id == id)
-				.SelectEnrollmentFamilyDTO()
-				.FirstOrDefault();
-			fDTO.Determinations = _familyDeterminationRepository.GetEnrollmentFamilyDeterminationDTOsByFamilyId(id);
-			return fDTO;
-		}
-
 		public List<EnrollmentFamilyDTO> GetEnrollmentFamilyDTOsByIds(IEnumerable<int> ids)
 		{
 			_context.ChangeTracker.LazyLoadingEnabled = false;
@@ -72,7 +61,6 @@ namespace Hedwig.Repositories
 	public interface IFamilyRepository
 	{
 		Family GetFamilyById(int id);
-		EnrollmentFamilyDTO GetEnrollmentFamilyDTOById(int id);
 		List<EnrollmentFamilyDTO> GetEnrollmentFamilyDTOsByIds(IEnumerable<int> ids);
 	}
 }

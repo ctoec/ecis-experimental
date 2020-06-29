@@ -18,14 +18,6 @@ namespace Hedwig.Repositories
 				.FirstOrDefault();
 		}
 
-		public FundingSpaceDTO GetFundingSpaceDTOById(int? id)
-		{
-			_context.ChangeTracker.LazyLoadingEnabled = false;
-			return !id.HasValue ? null : _context.FundingSpaces
-				.SelectFundingSpaceDTO()
-				.FirstOrDefault(space => space.Id == id.Value);
-		}
-
 		public List<FundingSpaceDTO> GetFundingSpaceDTOsByIds(IEnumerable<int?> ids)
 		{
 			_context.ChangeTracker.LazyLoadingEnabled = false;
@@ -64,7 +56,6 @@ namespace Hedwig.Repositories
 	public interface IFundingSpaceRepository : IHedwigRepository
 	{
 		FundingSpace GetById(int id);
-		FundingSpaceDTO GetFundingSpaceDTOById(int? id);
 		List<FundingSpaceDTO> GetFundingSpaceDTOsByIds(IEnumerable<int?> ids);
 		public ICollection<FundingSpaceDTO> GetFundingSpaceDTOsForOrganiation(int organiationId);
 	}
