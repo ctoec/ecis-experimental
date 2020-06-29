@@ -1,11 +1,11 @@
-using AutoMapper;
-using System.ComponentModel.DataAnnotations;
 using Hedwig.Models;
 using Hedwig.Repositories;
 using Hedwig.Validations.Attributes;
 using Moq;
-using ValidationContext = System.ComponentModel.DataAnnotations.ValidationContext;
+using System;
+using System.Collections.Generic;
 using Xunit;
+using ValidationContext = System.ComponentModel.DataAnnotations.ValidationContext;
 
 namespace HedwigTests.Validations.Attributes
 {

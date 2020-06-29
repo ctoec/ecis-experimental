@@ -52,7 +52,7 @@ namespace Hedwig.Controllers
 			[FromQuery(Name = "take")] int? take = null
 		)
 		{
-			var enrollments = new List<EnrollmentSummaryDTO>();
+			var enrollments = new List<EnrollmentDTO>();
 			if (siteIds.Length > 0)
 			// Only get enrollments in the given sites (that are in the given organization)
 			{
@@ -65,17 +65,17 @@ namespace Hedwig.Controllers
 
 				foreach (var siteId in siteIds)
 				{
-					var siteEnrollments = await _enrollments.GetEnrollmentSummaryDTOsForSiteAsync(siteId, from, to, skip, take);
+					var siteEnrollments = await _enrollments.GetEnrollmentDTOsForSiteAsync(siteId, from, to, skip, take);
 					enrollments.AddRange(siteEnrollments);
 				}
 			}
 			else
 			// If no sites are specified, get all enrollments for the organization
 			{
-				enrollments = await _enrollments.GetEnrollmentSummaryDTOsForOrganizationAsync(orgId, from, to, asOf, skip, take);
+				enrollments = await _enrollments.GetEnrollmentDTOsForOrganizationAsync(orgId, from, to, asOf, skip, take);
 			}
 
-			return Ok(enrollments);
+			return Ok(_mapper.Map<List<EnrollmentDTO>,List<Enrollment>>(enrollments));
 		}
 
 		// GET api/organizations/1/sites/1/enrollments
@@ -93,8 +93,8 @@ namespace Hedwig.Controllers
 			[FromQuery(Name = "take")] int? take = null
 		)
 		{
-			var enrollments = await _enrollments.GetEnrollmentSummaryDTOsForSiteAsync(siteId, from, to, skip, take);
-			return enrollments;
+			var enrollments = await _enrollments.GetEnrollmentDTOsForSiteAsync(siteId, from, to, skip, take);
+			return Ok(_mapper.Map<List<EnrollmentDTO>,List<EnrollmentDTO>>(enrollments));
 		}
 
 		// GET api/organizations/1/sites/1/enrollments/1

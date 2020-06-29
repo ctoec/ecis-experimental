@@ -44,7 +44,7 @@ namespace Hedwig.Repositories
 				})
 				.ToList();
 		}
-		
+
 		public Task<Site> GetSiteForOrganizationAsync(int id, int organizationId)
 		{
 			var site = _context.Sites
@@ -84,33 +84,20 @@ namespace Hedwig.Repositories
 		{
 			_context.ChangeTracker.LazyLoadingEnabled = false;
 			return _context.Sites
-				.Select(s => new OrganizationSiteDTO()
-				{
-					Id = s.Id,
-					Name = s.Name,
-					TitleI = s.TitleI,
-					Region = s.Region,
-					OrganizationId = s.OrganizationId,
-					FacilityCode = s.FacilityCode,
-					LicenseNumber = s.LicenseNumber,
-					NaeycId = s.NaeycId,
-					RegistryId = s.RegistryId,
-				})
+				.SelectOrganizationSiteDTO()
 				.FirstOrDefault(site => site.Id == id);
 		}
 
-		public EnrollmentSummarySiteDTO GetEnrollmentSummarySiteDTOById(int id)
+		public List<OrganizationSiteDTO> GetOrganizationSiteDTOsByIds(IEnumerable<int> ids)
 		{
 			_context.ChangeTracker.LazyLoadingEnabled = false;
 			return _context.Sites
-				.Select(s => new EnrollmentSummarySiteDTO() {
-					Id = s.Id,
-					Name = s.Name
-				})
-				.FirstOrDefault(site => site.Id == id);
+				.SelectOrganizationSiteDTO()
+				.Where(site => ids.Contains(site.Id))
+				.ToList();
 		}
 
-		public List<EnrollmentSummarySiteDTO> GetEnrollmentSummarySiteDTOsByIds(IEnumerable<int> ids)
+		public EnrollmentSummarySiteDTO GetEnrollmentSummarySiteDTOById(int id)
 		{
 			_context.ChangeTracker.LazyLoadingEnabled = false;
 			return _context.Sites
@@ -119,8 +106,26 @@ namespace Hedwig.Repositories
 					Id = s.Id,
 					Name = s.Name
 				})
-				.Where(site => ids.Contains(site.Id))
-				.ToList();
+				.FirstOrDefault(site => site.Id == id);
+		}
+	}
+
+	public static class SiteQueryExtensions
+	{
+		public static IQueryable<OrganizationSiteDTO> SelectOrganizationSiteDTO(this IQueryable<Site> query)
+		{
+			return query.Select(s => new OrganizationSiteDTO()
+			{
+				Id = s.Id,
+				Name = s.Name,
+				TitleI = s.TitleI,
+				Region = s.Region,
+				OrganizationId = s.OrganizationId,
+				FacilityCode = s.FacilityCode,
+				LicenseNumber = s.LicenseNumber,
+				NaeycId = s.NaeycId,
+				RegistryId = s.RegistryId,
+			});
 		}
 	}
 
@@ -138,8 +143,9 @@ namespace Hedwig.Repositories
 
 		OrganizationSiteDTO GetOrganizationSiteDTOById(int id);
 
+		List<OrganizationSiteDTO> GetOrganizationSiteDTOsByIds(IEnumerable<int> ids);
+
 		EnrollmentSummarySiteDTO GetEnrollmentSummarySiteDTOById(int id);
 
-		List<EnrollmentSummarySiteDTO> GetEnrollmentSummarySiteDTOsByIds(IEnumerable<int> ids);
 	}
 }

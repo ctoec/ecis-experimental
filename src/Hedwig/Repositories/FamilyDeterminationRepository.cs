@@ -24,15 +24,33 @@ namespace Hedwig.Repositories
 			_context.ChangeTracker.LazyLoadingEnabled = false;
 			return _context.FamilyDeterminations
 				.Where(fd => fd.FamilyId == familyId)
-				.Select(fd => new EnrollmentFamilyDeterminationDTO() {
-					Id = fd.Id,
-					NumberOfPeople = fd.NumberOfPeople,
-					Income = fd.Income,
-					DeterminationDate = fd.DeterminationDate,
-					FamilyId = fd.FamilyId,
-					ValidationErrors = fd.ValidationErrors,
-				})
+				.SelectEnrollmentFamilyDeterminationDTO()
 				.ToList();
+		}
+
+		public List<EnrollmentFamilyDeterminationDTO> GetEnrollmentFamilyDeterminationDTOsByFamilyIds(IEnumerable<int> familyIds)
+		{
+			_context.ChangeTracker.LazyLoadingEnabled = false;
+			return _context.FamilyDeterminations
+				.Where(fd => familyIds.Contains(fd.FamilyId))
+				.SelectEnrollmentFamilyDeterminationDTO()
+				.ToList();
+		}
+	}
+
+	public static class FamilyDeterminationQueryExtensions
+	{
+		public static IQueryable<EnrollmentFamilyDeterminationDTO> SelectEnrollmentFamilyDeterminationDTO(this IQueryable<FamilyDetermination> query)
+		{
+			return query.Select(fd => new EnrollmentFamilyDeterminationDTO()
+			{
+				Id = fd.Id,
+				NumberOfPeople = fd.NumberOfPeople,
+				Income = fd.Income,
+				DeterminationDate = fd.DeterminationDate,
+				FamilyId = fd.FamilyId,
+				ValidationErrors = fd.ValidationErrors,
+			});
 		}
 	}
 
@@ -41,5 +59,6 @@ namespace Hedwig.Repositories
 		List<FamilyDetermination> GetDeterminationsByFamilyId(int familyId);
 
 		List<EnrollmentFamilyDeterminationDTO> GetEnrollmentFamilyDeterminationDTOsByFamilyId(int familyId);
+		List<EnrollmentFamilyDeterminationDTO> GetEnrollmentFamilyDeterminationDTOsByFamilyIds(IEnumerable<int> familyIds);
 	}
 }

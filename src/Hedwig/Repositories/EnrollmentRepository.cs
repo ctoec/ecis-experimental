@@ -71,7 +71,7 @@ namespace Hedwig.Repositories
 			return await enrollments.OrderBy(e => e.Id).ToListAsync();
 		}
 
-		public async Task<List<EnrollmentSummaryDTO>> GetEnrollmentSummaryDTOsForSiteAsync(
+		public async Task<List<EnrollmentDTO>> GetEnrollmentDTOsForSiteAsync(
 			int siteId,
 			DateTime? from = null,
 			DateTime? to = null,
@@ -89,9 +89,9 @@ namespace Hedwig.Repositories
 				enrollments = enrollments.Take(take.Value);
 			}
 			var esDTOs = await enrollments.OrderBy(e => e.Id)
-				.SelectEnrollmentSummaryDTO()
+				.SelectEnrollmentDTO()
 				.ToListAsync();
-			CompleteEnrollmentSummaryDTO(esDTOs);
+			CompleteEnrollmentDTOs(esDTOs);
 			return esDTOs;
 		}
 
@@ -151,7 +151,7 @@ namespace Hedwig.Repositories
 			return eDTO;
 		}
 
-		public async Task<List<EnrollmentSummaryDTO>> GetEnrollmentSummaryDTOsForOrganizationAsync(
+		public async Task<List<EnrollmentDTO>> GetEnrollmentDTOsForOrganizationAsync(
 			int orgId,
 			DateTime? from = null,
 			DateTime? to = null,
@@ -171,10 +171,10 @@ namespace Hedwig.Repositories
 				enrollments = enrollments.Take(take.Value);
 			}
 			var esDTOs = await enrollments
-				.SelectEnrollmentSummaryDTO()
+				.SelectEnrollmentDTO()
 				.OrderBy(e => e.Id)
 				.ToListAsync();
-			CompleteEnrollmentSummaryDTO(esDTOs);
+			CompleteEnrollmentDTOs(esDTOs);
 			return esDTOs;
 		}
 
@@ -183,13 +183,13 @@ namespace Hedwig.Repositories
 			_context.Enrollments.Remove(enrollment);
 		}
 
-		void CompleteEnrollmentSummaryDTO(IEnumerable<EnrollmentSummaryDTO> esDTOs)
+		void CompleteEnrollmentDTOs(IEnumerable<EnrollmentDTO> esDTOs)
 		{
 			var childIds = esDTOs.Select(esDTO => esDTO.ChildId).Distinct();
 			var siteIds = esDTOs.Select(esDTO => esDTO.SiteId).Distinct();
 			var ids = esDTOs.Select(esDTO => esDTO.Id).Distinct();
-			var children = _childRepository.GetEnrollmentSummaryChildDTOsByIds(childIds);
-			var sites = _siteRepository.GetEnrollmentSummarySiteDTOsByIds(siteIds);
+			var children = _childRepository.GetEnrollmentChildDTOsByIds(childIds);
+			var sites = _siteRepository.GetOrganizationSiteDTOsByIds(siteIds);
 			var fundings = _fundingRepository.GetFundingDTOsByEnrollmentIds(ids);
 			foreach(var esDTO in esDTOs)
 			{
@@ -213,10 +213,10 @@ namespace Hedwig.Repositories
 		void UpdateEnrollment(Enrollment enrollment, EnrollmentDTO enrollmentDTO);
 		void AddEnrollment(Enrollment enrollment);
 		Task<List<Enrollment>> GetEnrollmentsForSiteAsync(int siteId, DateTime? from = null, DateTime? to = null, int skip = 0, int? take = null);
-		Task<List<EnrollmentSummaryDTO>> GetEnrollmentSummaryDTOsForSiteAsync(int siteId, DateTime? from = null, DateTime? to = null, int skip = 0, int? take = null);
+		Task<List<EnrollmentDTO>> GetEnrollmentDTOsForSiteAsync(int siteId, DateTime? from = null, DateTime? to = null, int skip = 0, int? take = null);
 		Task<Enrollment> GetEnrollmentForSiteAsync(int id, int siteId);
 		Task<EnrollmentDTO> GetEnrollmentDTOForSiteAsync(int id, int siteId);
-		Task<List<EnrollmentSummaryDTO>> GetEnrollmentSummaryDTOsForOrganizationAsync(int orgId, DateTime? from = null, DateTime? to = null, DateTime? asOf = null, int skip = 0, int? take = null);
+		Task<List<EnrollmentDTO>> GetEnrollmentDTOsForOrganizationAsync(int orgId, DateTime? from = null, DateTime? to = null, DateTime? asOf = null, int skip = 0, int? take = null);
 		Enrollment GetEnrollmentById(int id);
 
 		void DeleteEnrollment(Enrollment enrollment);
@@ -240,20 +240,6 @@ namespace Hedwig.Repositories
 			return query;
 		}
 
-		public static IQueryable<EnrollmentSummaryDTO> SelectEnrollmentSummaryDTO(this IQueryable<Enrollment> query)
-		{
-			return query.Select(e => new EnrollmentSummaryDTO()
-			{
-				Id = e.Id,
-				ChildId = e.ChildId,
-				SiteId = e.SiteId,
-				AgeGroup = e.AgeGroup,
-				Entry = e.Entry,
-				Exit = e.Exit,
-				ExitReason = e.ExitReason,
-				ValidationErrors = e.ValidationErrors,
-			});
-		}
 		public static IQueryable<EnrollmentDTO> SelectEnrollmentDTO(this IQueryable<Enrollment> query)
 		{
 			return query.Select(e => new EnrollmentDTO()
