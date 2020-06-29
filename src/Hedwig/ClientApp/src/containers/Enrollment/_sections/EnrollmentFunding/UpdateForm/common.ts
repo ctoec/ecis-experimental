@@ -4,7 +4,8 @@ import { ErrorAlertState } from '../../../../../hooks/useCatchAllErrorAlert';
 
 export type UpdateFormSectionProps = {
 	mutatedEnrollment: Enrollment;
-	formOnSubmit: (data: Enrollment) => void;
+	setMutatedEnrollment: React.Dispatch<React.SetStateAction<Enrollment>>;
+	attemptSave: () => void;
 	saveError: ApiError | null;
 	errorAlertState: ErrorAlertState;
 	forceCloseEditForms: boolean;

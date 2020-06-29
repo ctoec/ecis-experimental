@@ -12,17 +12,24 @@ import { ReactComponent as PlusCircle } from '../../../../../../assets/images/pl
 import { CardExpansion } from '../../../../../../components/Card/CardExpansion';
 import { ExpandCard } from '../../../../../../components/Card/ExpandCard';
 import { propertyDateSorter } from '../../../../../../utils/dateSorter';
+import { Enrollment } from '../../../../../../generated';
 
 export const Care4KidsForm: React.FC<UpdateFormSectionProps> = ({
 	mutatedEnrollment,
-	formOnSubmit,
+	setMutatedEnrollment,
+	attemptSave,
 	saveError,
 	errorAlertState,
 	forceCloseEditForms,
 }) => {
-	if (!mutatedEnrollment || !mutatedEnrollment.child) {
+	if (!mutatedEnrollment.child) {
 		throw new Error('Section rendered without enrollment or child');
 	}
+
+	const formOnSubmit = (userModifiedEnrollment: Enrollment) => {
+		setMutatedEnrollment(userModifiedEnrollment);
+		attemptSave();
+	};
 
 	const sortedC4kCerts = (mutatedEnrollment.child?.c4KCertificates || [])
 		.slice() // force copy to avoid sorting immutable object (javascript array sort is in-place)

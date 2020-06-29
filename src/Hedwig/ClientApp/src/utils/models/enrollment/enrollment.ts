@@ -10,6 +10,15 @@ export function enrollmentWithDefaultFamily(enrollment: Enrollment, organization
 	return produce<Enrollment>(enrollment, (draft) => set(draft, 'child.family', { organizationId }));
 }
 
+export function createNewEnrollmentFromEnrollment(enrollment: Enrollment): Enrollment {
+	return {
+		id: 0,
+		siteId: enrollment.siteId,
+		childId: enrollment.childId,
+		child: enrollment.child,
+	};
+}
+
 export function createEmptyEnrollment(siteId: number, user: User | null): Enrollment {
 	return {
 		id: 0,

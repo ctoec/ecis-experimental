@@ -14,15 +14,15 @@ export const WithNewFunding: React.FC<PropsWithChildren<WithNewFundingProps>> = 
 	source,
 	children: fundingFields,
 }) => {
-	const { data, dataDriller, updateData } = useGenericContext<Enrollment>(FormContext);
+	const { dataDriller, updateData } = useGenericContext<Enrollment>(FormContext);
 
-	const newFunding = dataDriller.at('fundings').find((cert) => cert.id === 0);
+	const newFunding = dataDriller.at('fundings').find((funding) => funding.id === 0);
 	useEffect(() => {
 		if (shouldCreate && newFunding.value === undefined) {
 			setTimeout(
 				() =>
-					updateData(
-						produce<Enrollment>(data, (draft) => set(draft, newFunding.path, { id: 0, source }))
+					updateData((_data) =>
+						produce<Enrollment>(_data, (draft) => set(draft, newFunding.path, { id: 0, source }))
 					),
 				0
 			);

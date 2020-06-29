@@ -15,6 +15,11 @@ export type FundingFormFieldProps = {
 	errorAlertState?: ErrorAlertState;
 };
 
+export type FundingReportingPeriodFieldProps = Pick<
+	FundingFormFieldProps,
+	Exclude<keyof FundingFormFieldProps, 'fundingSpaces'>
+>;
+
 export type C4kCertificateFormFieldProps = {
 	certificateId: number;
 	blockErrorDisplay?: boolean;

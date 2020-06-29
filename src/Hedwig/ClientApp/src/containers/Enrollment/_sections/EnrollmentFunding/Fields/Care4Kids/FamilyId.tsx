@@ -10,7 +10,10 @@ type FamilyIdFieldProps = {
 	defaultValue?: number;
 	blockErrorDisplay?: boolean;
 };
-export const FamilyIdField: React.FC<FamilyIdFieldProps> = ({ defaultValue, blockErrorDisplay = false }) => {
+export const FamilyIdField: React.FC<FamilyIdFieldProps> = ({
+	defaultValue,
+	blockErrorDisplay = false,
+}) => {
 	return (
 		<FormField<Enrollment, TextInputProps, number | null>
 			defaultValue={defaultValue}

@@ -66,6 +66,30 @@ exports[`EnrollmentUpdate EnrollmentFunding matches snapshot 1`] = `
       <div
         class="oec-tab-nav--content"
       >
+        <div
+          class="oec-card"
+        >
+          <div
+            class="oec-card-cell"
+          >
+            <div
+              class="display-flex flex-justify"
+            >
+              <p>
+                Has Lily's age group and/or site changed?
+              </p>
+              <button
+                class="usa-button usa-button--outline"
+                type="button"
+              >
+                Create new enrollment
+              </button>
+            </div>
+          </div>
+          <div
+            class=""
+          />
+        </div>
         <h2
           class="font-sans-md margin-top-2 margin-bottom-2"
         >

@@ -15,9 +15,7 @@ import { FormFieldSetProps } from '../../../../../components/Form_New';
 /**
  * Component for entering the race of a child in an enrollment.
  */
-export const RaceField: React.FC<ChildInfoFormFieldProps> = ({
-	blockErrorDisplay = false,
-}) => {
+export const RaceField: React.FC<ChildInfoFormFieldProps> = ({ blockErrorDisplay = false }) => {
 	return (
 		<CheckboxGroup<FormFieldSetProps<Enrollment>>
 			useFormFieldSet
