@@ -110,7 +110,7 @@ describe('enrollment sections', () => {
 				['Gender', 'gender'],
 			])(
 				'shows %s fieldset warnings if validation error for %s field ',
-				async (fieldSetLabel, field) => {
+				async (label, field) => {
 					const enrollmentWithValidationErrors = mockCompleteEnrollment as DeepNonUndefineable<
 						Enrollment
 					>;
@@ -125,19 +125,18 @@ describe('enrollment sections', () => {
 						/>
 					);
 
-					let fieldSet;
-					// Special handling for gender, because the select ChoiceList does not actually create a FieldSet
-					// TODO: should this change? for consistency
+					let fieldContainer;
 					if (field === 'gender') {
-						fieldSet = (await findByLabelText(fieldSetLabel)).closest('div');
+						// Gender is not a fieldset because it's a select component
+						fieldContainer = (await findByLabelText(label)).closest('div');
 					} else {
-						const [span] = (await findAllByText(fieldSetLabel)).filter(
+						const [span] = (await findAllByText(label)).filter(
 							(elem) => elem.tagName === 'SPAN'
 						);
-						fieldSet = span.closest('fieldset');
+						fieldContainer = span.closest('fieldset');
 					}
 
-					expect(fieldSet).toHaveTextContent(REQUIRED_FOR_OEC_REPORTING);
+					expect(fieldContainer).toHaveTextContent(REQUIRED_FOR_OEC_REPORTING);
 				}
 			);
 
