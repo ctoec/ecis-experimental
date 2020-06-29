@@ -9,7 +9,7 @@ namespace Hedwig.Repositories
 {
 	public class FundingRepository : HedwigRepository, IFundingRepository
 	{
-		IFundingSpaceRepository _fundingSpaceRepository;
+		readonly IFundingSpaceRepository _fundingSpaceRepository;
 
 		public FundingRepository(HedwigContext context) : base(context) {
 			_fundingSpaceRepository = new FundingSpaceRepository(context);
@@ -53,7 +53,7 @@ namespace Hedwig.Repositories
 			var fundingSpaces = _fundingSpaceRepository.GetFundingSpaceDTOsByIds(fsIds);
 			foreach (var fDTO in fDTOs)
 			{
-				fDTO.FundingSpace = fundingSpaces.Where(fs => fs.Id == fDTO.FundingSpaceId).FirstOrDefault();
+				fDTO.FundingSpace = fundingSpaces.FirstOrDefault(fs => fs.Id == fDTO.FundingSpaceId);
 			}
 			return fDTOs;
 		}

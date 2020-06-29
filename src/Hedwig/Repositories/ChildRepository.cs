@@ -11,8 +11,8 @@ namespace Hedwig.Repositories
 {
 	public class ChildRepository : HedwigRepository, IChildRepository
 	{
-		IC4KCertificateRepository _c4KCertificateRepository;
-		FamilyRepository _familyRepository;
+		readonly IC4KCertificateRepository _c4KCertificateRepository;
+		readonly FamilyRepository _familyRepository;
 
 		public ChildRepository(HedwigContext context) : base(context) {
 			_c4KCertificateRepository = new C4KCertificateRepository(context);
@@ -68,7 +68,7 @@ namespace Hedwig.Repositories
 			var c4KCertificates = _c4KCertificateRepository.GetC4KCertificateDTOsByChildIds(childIds);
 			foreach (var childDTO in childDTOs)
 			{
-				childDTO.Family = families.Where(f => f.Id == childDTO.FamilyId).FirstOrDefault();
+				childDTO.Family = families.FirstOrDefault(f => f.Id == childDTO.FamilyId);
 				childDTO.C4KCertificates = c4KCertificates.Where(c4k => c4k.ChildId == childDTO.Id).ToList();
 			}
 			return childDTOs;

@@ -1,19 +1,18 @@
+using Hedwig.Data;
+using Hedwig.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Hedwig.Data;
-using Hedwig.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 
 namespace Hedwig.Repositories
 {
 	public class EnrollmentRepository : HedwigRepository, IEnrollmentRepository
 	{
-		IChildRepository _childRepository;
-		IFundingRepository _fundingRepository;
-		ISiteRepository _siteRepository;
+		readonly IChildRepository _childRepository;
+		readonly IFundingRepository _fundingRepository;
+		readonly ISiteRepository _siteRepository;
 
 		public EnrollmentRepository(HedwigContext context) : base(context) {
 			_childRepository = new ChildRepository(context);
@@ -50,19 +49,7 @@ namespace Hedwig.Repositories
 			var enrollments = _context.Enrollments
 				.FilterByDates(from, to)
 				.Where(e => e.SiteId == siteId)
-				.Include(e => e.Fundings)
-					.ThenInclude(f => f.FundingSpace)
-						.ThenInclude(fs => fs.TimeSplit)
-				.Include(e => e.Fundings)
-					.ThenInclude(f => f.FirstReportingPeriod)
-				.Include(e => e.Fundings)
-					.ThenInclude(f => f.LastReportingPeriod)
-				.Include(e => e.Child)
-					.ThenInclude(c => c.C4KCertificates)
-				.Include(e => e.Child)
-					.ThenInclude(c => c.Family)
-						.ThenInclude(f => f.Determinations)
-				.Include(e => e.Site)
+				.IncludeEnrollmentForSite()
 				.Skip(skip);
 			if (take.HasValue)
 			{
@@ -99,20 +86,7 @@ namespace Hedwig.Repositories
 		{
 			var enrollment = _context.Enrollments
 				.Where(e => e.SiteId == siteId && e.Id == id)
-				.Include(e => e.Author)
-				.Include(e => e.Fundings)
-					.ThenInclude(f => f.FundingSpace)
-						.ThenInclude(fs => fs.TimeSplit)
-				.Include(e => e.Fundings)
-					.ThenInclude(f => f.FirstReportingPeriod)
-				.Include(e => e.Fundings)
-					.ThenInclude(f => f.LastReportingPeriod)
-				.Include(e => e.Child)
-					.ThenInclude(c => c.C4KCertificates)
-				.Include(e => e.Child)
-					.ThenInclude(c => c.Family)
-						.ThenInclude(f => f.Determinations)
-				.Include(e => e.Site)
+				.IncludeEnrollmentForSite()
 				.FirstOrDefault();
 
 			// handle special include of un-mapped properties
@@ -193,8 +167,8 @@ namespace Hedwig.Repositories
 			var fundings = _fundingRepository.GetFundingDTOsByEnrollmentIds(ids);
 			foreach(var esDTO in esDTOs)
 			{
-				esDTO.Child = children.Where(c => c.Id == esDTO.ChildId).FirstOrDefault();
-				esDTO.Site = sites.Where(s => s.Id == esDTO.SiteId).FirstOrDefault();
+				esDTO.Child = children.FirstOrDefault(c => c.Id == esDTO.ChildId);
+				esDTO.Site = sites.FirstOrDefault(s => s.Id == esDTO.SiteId);
 				esDTO.Fundings = fundings.Where(f => f.EnrollmentId == esDTO.Id).ToList();
 			}
 		}
@@ -254,5 +228,25 @@ namespace Hedwig.Repositories
 				ValidationErrors = e.ValidationErrors,
 			});
 		}
+
+		public static IQueryable<Enrollment> IncludeEnrollmentForSite(this IQueryable<Enrollment> query)
+		{
+			return query
+				.Include(e => e.Author)
+				.Include(e => e.Fundings)
+					.ThenInclude(f => f.FundingSpace)
+						.ThenInclude(fs => fs.TimeSplit)
+				.Include(e => e.Fundings)
+					.ThenInclude(f => f.FirstReportingPeriod)
+				.Include(e => e.Fundings)
+					.ThenInclude(f => f.LastReportingPeriod)
+				.Include(e => e.Child)
+					.ThenInclude(c => c.C4KCertificates)
+				.Include(e => e.Child)
+					.ThenInclude(c => c.Family)
+						.ThenInclude(f => f.Determinations)
+				.Include(e => e.Site);
+		}
+
 	}
 }

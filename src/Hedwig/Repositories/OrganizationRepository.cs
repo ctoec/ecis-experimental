@@ -1,17 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Hedwig.Data;
 using Hedwig.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Hedwig.Repositories
 {
 	public class OrganizationRepository : HedwigRepository, IOrganizationRepository
 	{
-		IFundingSpaceRepository _fundingSpaceRepository;
-		ISiteRepository _siteRepository;
+		readonly IFundingSpaceRepository _fundingSpaceRepository;
+		readonly ISiteRepository _siteRepository;
 
 		public OrganizationRepository(HedwigContext context)
 			: base(context) {
@@ -44,11 +42,11 @@ namespace Hedwig.Repositories
 			return oDTO;
 		}
 
-		public OrganizationReportSummaryOrganizationDTO GetOrganizationReportSummaryOrganizationDTOById(int id)
+		public OrganizationReportSummaryOrganizationDTO GetOrganizationReportSummaryOrganizationDTOById(int orgId)
 		{
 			_context.ChangeTracker.LazyLoadingEnabled = false;
 			return _context.Organizations
-				.Where(o => o.Id == id)
+				.Where(o => o.Id == orgId)
 				.Select(o => new OrganizationReportSummaryOrganizationDTO()
 				{
 					Name = o.Name

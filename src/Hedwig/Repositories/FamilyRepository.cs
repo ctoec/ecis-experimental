@@ -10,7 +10,8 @@ namespace Hedwig.Repositories
 {
 	public class FamilyRepository : HedwigRepository, IFamilyRepository
 	{
-		FamilyDeterminationRepository _familyDeterminationRepository;
+		readonly FamilyDeterminationRepository _familyDeterminationRepository;
+
 		public FamilyRepository(HedwigContext context) : base(context)
 		{
 			_familyDeterminationRepository = new FamilyDeterminationRepository(context);

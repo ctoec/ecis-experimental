@@ -1,11 +1,10 @@
+using Hedwig.Data;
+using Hedwig.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Hedwig.Data;
-using Hedwig.Models;
-using Microsoft.AspNetCore.Mvc.Formatters;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 
 namespace Hedwig.Repositories
 {
@@ -50,28 +49,16 @@ namespace Hedwig.Repositories
 		{
 			var site = _context.Sites
 				.Where(s => s.Id == id
-					&& s.OrganizationId == organizationId);
-
-			site = site.Include(s => s.Organization);
-
-			site = ((IIncludableQueryable<Site, Organization>)site)
-				.ThenInclude(o => o.FundingSpaces)
-					.ThenInclude(fs => fs.TimeSplit);
-
-			// Chaining of multiple ThenIncludes is not supported, so to include both
-			// enrollment fundings and enrollment children requires separate calls to include enrollments
-			site = site.Include(s => s.Enrollments)
-				.ThenInclude(e => e.Fundings)
-					.ThenInclude(f => f.FirstReportingPeriod)
-			.Include(s => s.Enrollments)
-				.ThenInclude(e => e.Fundings)
-					.ThenInclude(f => f.LastReportingPeriod);
-
-			// Calls from front end don't appear to include "child"
-			//site = site.Include(s => s.Enrollments).ThenInclude(e => e.Child);
-
-			// Only if Fundings not included, but they are by default
-			//site = site.Include(s => s.Enrollments);
+					&& s.OrganizationId == organizationId)
+			  .Include(s => s.Organization)
+					.ThenInclude(o => o.FundingSpaces)
+						.ThenInclude(fs => fs.TimeSplit)
+				.Include(s => s.Enrollments)
+					.ThenInclude(e => e.Fundings)
+						.ThenInclude(f => f.FirstReportingPeriod)
+				.Include(s => s.Enrollments)
+					.ThenInclude(e => e.Fundings)
+						.ThenInclude(f => f.LastReportingPeriod);
 
 			return site.FirstOrDefaultAsync();
 		}
