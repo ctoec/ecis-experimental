@@ -28,11 +28,12 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps> {
 
 	render() {
 		const { hasError } = this.state;
-		const alertProps = this.props.alertProps || {
+		const alertProps = {
 			text: 'Something went wrong',
 			type: 'error',
 			heading: 'Error',
-		};
+			...this.props.alertProps
+		} as AlertProps;
 		if (hasError) {
 			// TODO: set alert context here instead? return nothing?
 			return <Alert {...alertProps} />;
