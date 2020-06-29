@@ -1,7 +1,7 @@
 import React from 'react';
 import FormField from '../../../../../components/Form_New/FormField';
 import { Enrollment, Gender } from '../../../../../generated';
-import { initialLoadErrorGuard } from '../../../../../utils/validations';
+import { errorDisplayGuard } from '../../../../../utils/validations';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
 import { REQUIRED_FOR_OEC_REPORTING } from '../../../../../utils/validations/messageStrings';
 import { ChildInfoFormFieldProps } from './common';
@@ -12,7 +12,7 @@ import { SelectProps, Select } from '../../../../../components/Select/Select';
  * Component for entering the gender of a child in an enrollment.
  */
 export const GenderField: React.FC<ChildInfoFormFieldProps> = ({
-	errorDisplayGuard: initialLoad,
+	blockErrorDisplay = false,
 }) => {
 	return (
 		<FormField<Enrollment, SelectProps, Gender>
@@ -43,8 +43,8 @@ export const GenderField: React.FC<ChildInfoFormFieldProps> = ({
 				},
 			]}
 			status={(enrollment) =>
-				initialLoadErrorGuard(
-					initialLoad || false,
+				errorDisplayGuard(
+					blockErrorDisplay,
 					displayValidationStatus([
 						{
 							type: 'warning',

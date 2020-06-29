@@ -98,12 +98,12 @@ export const NewForm: React.FC<SectionProps> = ({
 				{/* TODO: if this is acting as a header, it should be a header */}
 				<span className="usa-label text-bold font-sans-lg">{enrollment.site?.name}</span>
 				<EnrollmentStartDate
-					errorDisplayGuard={!isReturnVisit}
+					blockErrorDisplay={!isReturnVisit}
 					error={saveError}
 					errorAlertState={errorAlertState}
 				/>
 				<AgeGroupField
-					errorDisplayGuard={!isReturnVisit}
+					blockErrorDisplay={!isReturnVisit}
 					error={saveError}
 					errorAlertState={errorAlertState}
 				/>

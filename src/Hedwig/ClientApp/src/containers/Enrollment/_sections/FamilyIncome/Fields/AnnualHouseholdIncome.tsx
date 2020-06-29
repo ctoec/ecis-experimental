@@ -6,11 +6,11 @@ import parseCurrencyFromString from '../../../../../utils/parseCurrencyFromStrin
 import currencyFormatter from '../../../../../utils/currencyFormatter';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
 import { FamilyIncomeFormFieldProps } from './common';
-import { initialLoadErrorGuard } from '../../../../../utils/validations';
+import { errorDisplayGuard } from '../../../../../utils/validations';
 
 export const AnnualHouseholdIncomeField: React.FC<FamilyIncomeFormFieldProps> = ({
 	determinationId,
-	errorDisplayGuard = false,
+	blockErrorDisplay = false,
 }) => {
 	return (
 		<FormField<Enrollment, TextInputProps, number | null>
@@ -28,8 +28,8 @@ export const AnnualHouseholdIncomeField: React.FC<FamilyIncomeFormFieldProps> = 
 			preprocessForDisplay={(income) => currencyFormatter(income)}
 			inputComponent={TextInput}
 			status={(data) =>
-				initialLoadErrorGuard(
-					errorDisplayGuard,
+				errorDisplayGuard(
+					blockErrorDisplay,
 					displayValidationStatus([
 						{
 							type: 'warning',

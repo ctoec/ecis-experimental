@@ -8,18 +8,18 @@ import { FormFieldSet } from '../../../../../components/Form_New/FormFieldSet';
 import React from 'react';
 import { HouseholdSizeField, AnnualHouseholdIncomeField, DeterminationDateField } from '.';
 import { FormStatusFunc } from '../../../../../components/Form_New/FormStatusFunc';
-import { initialLoadErrorGuard } from '../../../../../utils/validations';
+import { errorDisplayGuard } from '../../../../../utils/validations';
 
 type IncomeDeterminationFieldSetProps = {
 	type: 'new' | 'redetermine' | 'edit';
 	determinationId: number;
-	errorDisplayGuard?: boolean;
+	blockErrorDisplay?: boolean;
 };
 
 export const IncomeDeterminationFieldSet: React.FC<IncomeDeterminationFieldSetProps> = ({
 	type,
 	determinationId,
-	errorDisplayGuard = false,
+	blockErrorDisplay = false,
 }) => {
 	let status, elementId, legend, showLegend;
 	switch (type) {
@@ -32,8 +32,8 @@ export const IncomeDeterminationFieldSet: React.FC<IncomeDeterminationFieldSetPr
 
 		case 'edit':
 			status = ((data) =>
-				initialLoadErrorGuard(
-					errorDisplayGuard,
+				errorDisplayGuard(
+					blockErrorDisplay,
 					displayValidationStatus([
 						{
 							type: 'warning',
@@ -87,19 +87,19 @@ export const IncomeDeterminationFieldSet: React.FC<IncomeDeterminationFieldSetPr
 			<div>
 				<HouseholdSizeField
 					determinationId={determinationId}
-					errorDisplayGuard={errorDisplayGuard}
+					blockErrorDisplay={blockErrorDisplay}
 				/>
 			</div>
 			<div>
 				<AnnualHouseholdIncomeField
 					determinationId={determinationId}
-					errorDisplayGuard={errorDisplayGuard}
+					blockErrorDisplay={blockErrorDisplay}
 				/>
 			</div>
 			<div>
 				<DeterminationDateField
 					determinationId={determinationId}
-					errorDisplayGuard={errorDisplayGuard}
+					blockErrorDisplay={blockErrorDisplay}
 				/>
 			</div>
 		</FormFieldSet>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Enrollment } from '../../../../../generated';
 import { ChildInfoFormFieldProps } from './common';
-import { initialLoadErrorGuard } from '../../../../../utils/validations';
+import { errorDisplayGuard } from '../../../../../utils/validations';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
 import { REQUIRED_FOR_OEC_REPORTING } from '../../../../../utils/validations/messageStrings';
 import { FormFieldSet } from '../../../../../components/Form_New/FormFieldSet';
@@ -13,7 +13,7 @@ import { BirthStateField } from './BirthState';
  * Component that wraps BirthCertificateId, BirthTown, and BirthState in a fieldset.
  */
 export const BirthCertificateFormFieldSet: React.FC<ChildInfoFormFieldProps> = ({
-	errorDisplayGuard: initialLoad,
+	blockErrorDisplay = false,
 }) => {
 	return (
 		<FormFieldSet<Enrollment>
@@ -21,8 +21,8 @@ export const BirthCertificateFormFieldSet: React.FC<ChildInfoFormFieldProps> = (
 			legend="Birth certificate"
 			className="display-inline-block"
 			status={(enrollment) =>
-				initialLoadErrorGuard(
-					initialLoad || false,
+				errorDisplayGuard(
+					blockErrorDisplay,
 					displayValidationStatus([
 						{
 							type: 'warning',
@@ -35,13 +35,13 @@ export const BirthCertificateFormFieldSet: React.FC<ChildInfoFormFieldProps> = (
 			}
 		>
 			<div className="mobile-lg:grid-col-12">
-				<BirthCertificateIdField errorDisplayGuard={initialLoad} />
+				<BirthCertificateIdField blockErrorDisplay={blockErrorDisplay} />
 			</div>
 			<div className="mobile-lg:grid-col-8 display-inline-block">
-				<BirthTownField errorDisplayGuard={initialLoad} />
+				<BirthTownField blockErrorDisplay={blockErrorDisplay} />
 			</div>
 			<div className="mobile-lg:grid-col-4 display-inline-block">
-				<BirthStateField errorDisplayGuard={initialLoad} />
+				<BirthStateField blockErrorDisplay={blockErrorDisplay} />
 			</div>
 		</FormFieldSet>
 	);

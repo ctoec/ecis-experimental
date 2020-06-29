@@ -4,10 +4,10 @@ import { Enrollment } from '../../../../../../generated';
 import { DateInputProps, DateInput } from '../../../../../../components';
 import { C4kCertificateFormFieldProps } from '../common';
 import { displayValidationStatus } from '../../../../../../utils/validations/displayValidationStatus';
-import { REQUIRED_FOR_OEC_REPORTING } from '../../../../../../utils/validations/messageStrings';
 import { parseDateChange } from '../../../../../../components/Form_New';
+import { errorDisplayGuard } from '../../../../../../utils/validations';
 
-export const CertificateStartDate: React.FC<C4kCertificateFormFieldProps> = ({ certificateId }) => {
+export const CertificateStartDate: React.FC<C4kCertificateFormFieldProps> = ({ certificateId, blockErrorDisplay = false}) => {
 	return (
 		<FormField<Enrollment, DateInputProps, Date | null>
 			getValue={(data) => {
@@ -24,19 +24,22 @@ export const CertificateStartDate: React.FC<C4kCertificateFormFieldProps> = ({ c
 			label="Start date"
 			id={`c4k-${certificateId}-start-date`}
 			status={(data) =>
-				displayValidationStatus([
-					{
-						type: 'warning',
-						response:
-							data
-								.at('child')
-								.at('c4KCertificates')
-								.find((c) => c.id === certificateId)
-								.at('validationErrors').value || null,
-						field: 'startDate',
-						message: REQUIRED_FOR_OEC_REPORTING,
-					},
-				])
+				errorDisplayGuard(
+					blockErrorDisplay,
+					displayValidationStatus([
+						{
+							type: 'warning',
+							response:
+								data
+									.at('child')
+									.at('c4KCertificates')
+									.find((c) => c.id === certificateId)
+									.at('validationErrors').value || null,
+							field: 'startDate',
+							useValidationErrorMessage: true,
+						},
+					])
+				)
 			}
 		/>
 	);

@@ -1,6 +1,6 @@
 import { FormFieldSet } from '../../../../../components/Form_New/FormFieldSet';
 import React from 'react';
-import { initialLoadErrorGuard } from '../../../../../utils/validations';
+import { errorDisplayGuard } from '../../../../../utils/validations';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
 import { REQUIRED_FOR_ENROLLMENT } from '../../../../../utils/validations/messageStrings';
 import { Enrollment } from '../../../../../generated';
@@ -12,7 +12,7 @@ import { Town } from './Town';
 import { FamilyInfoFormFieldProps } from './common';
 
 export const AddressFieldset: React.FC<FamilyInfoFormFieldProps> = ({
-	errorDisplayGuard = false,
+	blockErrorDisplay = false,
 }) => (
 	<FormFieldSet<Enrollment>
 		id="family-address"
@@ -20,8 +20,8 @@ export const AddressFieldset: React.FC<FamilyInfoFormFieldProps> = ({
 		horizontal
 		className="display-inline-block"
 		status={(enrollment) =>
-			initialLoadErrorGuard(
-				errorDisplayGuard,
+			errorDisplayGuard(
+				blockErrorDisplay,
 				displayValidationStatus([
 					{
 						type: 'warning',
@@ -34,21 +34,21 @@ export const AddressFieldset: React.FC<FamilyInfoFormFieldProps> = ({
 		}
 	>
 		<div className="mobile-lg:grid-col-12">
-			<AddressLine1 errorDisplayGuard={errorDisplayGuard} />
+			<AddressLine1 blockErrorDisplay={blockErrorDisplay} />
 		</div>
 		<div className="mobile-lg:grid-col-12">
 			<AddressLine2 />
 		</div>
 		<div className="grid-row grid-gap">
 			<div className="mobile-lg:grid-col-8 display-inline-block">
-				<Town errorDisplayGuard={errorDisplayGuard} />
+				<Town blockErrorDisplay={blockErrorDisplay} />
 			</div>
 			<div className="mobile-lg:grid-col-4 display-inline-block">
-				<State errorDisplayGuard={errorDisplayGuard} />
+				<State blockErrorDisplay={blockErrorDisplay} />
 			</div>
 		</div>
 		<div className="mobile-lg:grid-col-6">
-			<Zip errorDisplayGuard={errorDisplayGuard} />
+			<Zip blockErrorDisplay={blockErrorDisplay} />
 		</div>
 	</FormFieldSet>
 );
