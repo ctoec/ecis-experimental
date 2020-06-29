@@ -41,7 +41,7 @@ namespace Hedwig.Controllers
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		[ValidateEntityFilterAttribute(Order = 1)]
-		[DTOProjectionFilter(typeof(List<EnrollmentSummaryDTO>), Order = 2)]
+		[DTOProjectionFilter(typeof(List<EnrollmentDTO>), Order = 2)]
 		public async Task<ActionResult<List<Enrollment>>> Get(
 			int orgId,
 			[FromQuery(Name = "siteIds[]")] int[] siteIds,
@@ -83,7 +83,7 @@ namespace Hedwig.Controllers
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ValidateEntityFilterAttribute(Order = 1)]
-		[DTOProjectionFilter(typeof(List<EnrollmentSummaryDTO>), Order = 2)]
+		[DTOProjectionFilter(typeof(List<EnrollmentDTO>), Order = 2)]
 		public async Task<ActionResult<List<Enrollment>>> Get(
 			int orgId,
 			int siteId,

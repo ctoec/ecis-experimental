@@ -1,12 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 import { Enrollment } from '../../generated';
 import { hasValidationErrors } from '../../utils/validations';
-import { StepProps, Button, StepList } from '../../components';
+import { StepProps, StepList } from '../../components';
 import { lastFirstNameFormatter } from '../../utils/stringFormatters';
 import dateFormatter from '../../utils/dateFormatter';
 import UserContext from '../../contexts/User/UserContext';
-import { getIdForUser, enrollmentWithDefaultFamily } from '../../utils/models';
+import { getIdForUser } from '../../utils/models';
 import useApi from '../../hooks/useApi';
 import { BatchEditStepProps } from './_sections/batchEditTypes';
 import ChildInfo from './_sections/ChildInfo';
@@ -14,17 +15,16 @@ import FamilyInfo from './_sections/FamilyInfo';
 import FamilyIncome from './_sections/FamilyIncome';
 import EnrollmentFunding from './_sections/EnrollmentFunding';
 import useCatchAllErrorAlert from '../../hooks/useCatchAllErrorAlert';
-import { Link } from 'react-router-dom';
 
 type SingleEnrollmentEditProps = {
-	enrollmentId: number;
+	enrollment: Enrollment;
 	updateEnrollments: (_: Enrollment) => void;
 	siteId: number;
 	moveNextEnrollment: () => void;
 };
 
 export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
-	enrollmentId,
+	enrollment,
 	updateEnrollments,
 	siteId,
 	moveNextEnrollment,
@@ -35,10 +35,10 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 	const params = {
 		orgId,
 		siteId: siteId,
-		id: enrollmentId,
+		id: enrollment.id,
 	};
 	const history = useHistory();
-	const [mutatedEnrollment, setMutatedEnrollment] = useState<Enrollment>();
+	const [mutatedEnrollment, setMutatedEnrollment] = useState<Enrollment>(enrollment);
 
 	// Update the list of enrollments in parent EnrollmentsEditList
 	// to have the most current version of this single enrollment
@@ -48,37 +48,21 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 		}
 	}, [mutatedEnrollment]);
 
-	// populate mutatedEnrollment (better name: to-be-mutated-enrollment) with enrollment detail from backend
-	const { data: enrollmentDetail } = useApi<Enrollment>(
-		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
-		{
-			successCallback: (returnedEnrollment) => {
-				setMutatedEnrollment(
-					returnedEnrollment.child?.family
-						? returnedEnrollment
-						: enrollmentWithDefaultFamily(returnedEnrollment, orgId)
-				);
-			},
-			skip: !user,
-			deps: [enrollmentId],
-		}
-	);
-
 	// Create steps for step list, based on state of missing/needed information
 	// in the fetched enrollment
 	const steps: StepProps<BatchEditStepProps>[] = [];
-	if (hasValidationErrors(enrollmentDetail?.child, undefined, true) /*skip subobj validation*/) {
+	if (hasValidationErrors(mutatedEnrollment?.child, undefined, true) /*skip subobj validation*/) {
 		steps.push(ChildInfo);
 	}
-	if (hasValidationErrors(enrollmentDetail?.child?.family, undefined, true)) {
+	if (hasValidationErrors(mutatedEnrollment?.child?.family, undefined, true)) {
 		steps.push(FamilyInfo);
 	}
-	if (hasValidationErrors(enrollmentDetail?.child?.family, ['determinations'])) {
+	if (hasValidationErrors(mutatedEnrollment?.child?.family, ['determinations'])) {
 		steps.push(FamilyIncome);
 	}
 	if (
-		hasValidationErrors(enrollmentDetail, ['entry']) ||
-		hasValidationErrors(enrollmentDetail?.child, ['c4KCertificateFamilyId', 'c4KCertificates'])
+		hasValidationErrors(mutatedEnrollment, ['entry']) ||
+		hasValidationErrors(mutatedEnrollment?.child, ['c4KCertificateFamilyId', 'c4KCertificates'])
 	) {
 		steps.push(EnrollmentFunding);
 	}
@@ -88,13 +72,13 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 	useEffect(() => {
 		let path = '';
 		const pathIdMatch = history.location.pathname.match(/(\d+)/);
-		if (!pathIdMatch || pathIdMatch[0] !== `${enrollmentId}`) {
-			path += `/batch-edit/${enrollmentId}`;
+		if (!pathIdMatch || pathIdMatch[0] !== `${mutatedEnrollment.id}`) {
+			path += `/batch-edit/${mutatedEnrollment.id}`;
 		}
 
 		path += `#${firstStep}`;
 		history.push(path);
-	}, [enrollmentDetail]);
+	}, [enrollment.id]);
 
 	// set up function to advance to next step.
 	// If there is no next step for this enrollment,
@@ -109,7 +93,7 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 			return;
 		}
 
-		history.push(`#${steps[currentIndex + 1].key}`);
+		history.push(`${history.location.pathname}#${steps[currentIndex + 1].key}`);
 	};
 
 	// Set up PUT request, to be triggered by steplist forms
@@ -130,9 +114,10 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 			},
 		}
 	);
+
 	const errorAlertState = useCatchAllErrorAlert(errorOnSave);
 
-	if (!mutatedEnrollment) {
+	if (!enrollment || !mutatedEnrollment) {
 		return <></>;
 	}
 
@@ -157,7 +142,9 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 					</div>
 				</div>
 				<div className="margin-top-1">
-					<Link to={`/roster/sites/${siteId}/enrollments/${enrollmentId}`}>View full profile</Link>
+					<Link to={`/roster/sites/${siteId}/enrollments/${mutatedEnrollment.id}`}>
+						View full profile
+					</Link>
 				</div>
 			</div>
 			<div className="padding-top-1 border-top-1px border-base-light">
