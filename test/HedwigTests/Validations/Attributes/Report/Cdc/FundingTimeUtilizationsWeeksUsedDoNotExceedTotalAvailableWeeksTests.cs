@@ -1,12 +1,11 @@
 using AutoMapper;
+using System.ComponentModel.DataAnnotations;
 using Hedwig.Models;
 using Hedwig.Repositories;
 using Hedwig.Validations.Attributes;
 using Moq;
-using System;
-using System.Collections.Generic;
-using Xunit;
 using ValidationContext = System.ComponentModel.DataAnnotations.ValidationContext;
+using Xunit;
 
 namespace HedwigTests.Validations.Attributes
 {
@@ -76,7 +75,7 @@ namespace HedwigTests.Validations.Attributes
 			var value = timeSplitUtilizations;
 			var result = attribute.GetValidationResult(value, validationContext);
 
-			// then 
+			// then
 			Assert.Equal(returnsValidationResult, result != null);
 		}
 
@@ -164,7 +163,7 @@ namespace HedwigTests.Validations.Attributes
 			var value = timeSplitUtilizations;
 			var result = attribute.GetValidationResult(value, validationContext);
 
-			// then 
+			// then
 			Assert.Equal(returnsValidationResult, result != null);
 		}
 	}

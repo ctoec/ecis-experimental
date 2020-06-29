@@ -15,7 +15,7 @@ import ButtonWithDrowdown from '../../components/ButtonWithDropdown/ButtonWithDr
 
 type RosterHeaderProps = {
 	organization: Organization;
-	site?: Site;
+	site: Site | null;
 	numberOfEnrollments: number;
 	showPastEnrollments: boolean;
 	toggleShowPastEnrollments: () => void;

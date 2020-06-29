@@ -1,11 +1,11 @@
 using System;
+using Hedwig.Configuration;
+using Hedwig.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Hedwig.Configuration;
-using Hedwig.Data;
 
 
 namespace HedwigTests.Fixtures

@@ -14,8 +14,8 @@ it('matches snapshot', () => {
 });
 
 describe('card with card expansion', () => {
-	it('hides expansion when expanded is false', () => {
-		const { getByText } = render(
+	it('does not render expansion when expanded is false', () => {
+		const { getByText, queryByText } = render(
 			<Card expanded={false}>
 				<p>Shown</p>
 				<CardExpansion>Hidden</CardExpansion>
@@ -23,8 +23,7 @@ describe('card with card expansion', () => {
 		);
 		const shownNode = getByText('Shown');
 		expect(shownNode).toBeVisible();
-		const hiddenNode = getByText('Hidden');
-		expect(hiddenNode).not.toBeVisible();
+		expect(queryByText('Hidden')).toBeNull();
 	});
 
 	it('shows expansion when expanded is true', () => {
@@ -41,7 +40,7 @@ describe('card with card expansion', () => {
 	});
 
 	it('expand card toggles expansion state when clicked', () => {
-		const { getByText } = render(
+		const { getByText, queryByText } = render(
 			<Card>
 				<div>
 					<p>Shown</p>
@@ -55,17 +54,18 @@ describe('card with card expansion', () => {
 
 		const shownNode = getByText('Shown');
 		expect(shownNode).toBeVisible();
-		const hiddenNode = getByText('Hidden');
-		expect(hiddenNode).not.toBeVisible();
+		expect(queryByText('Hidden')).toBeNull();
 
 		const toggle = getByText('Toggle');
 		toggle.click();
 
 		expect(shownNode).toBeVisible();
+
+		const hiddenNode = getByText('Hidden');
 		expect(hiddenNode).toBeVisible();
 	});
 
-	it('onExpansionChange is triggered when expansion state when clicked', () => {
+	it('onExpansionChange is triggered when clicked', () => {
 		const onExpansion = jest.fn();
 		const { getByText } = render(
 			<Card onExpansionChange={onExpansion}>
@@ -94,7 +94,7 @@ describe('card with card expansion', () => {
 	it('changing forceClose to true closes the expansion', () => {
 		let forceClose = false;
 		const onExpansion = () => (forceClose = true);
-		const { getByText } = render(
+		const { getByText, queryByText } = render(
 			<Card onExpansionChange={onExpansion} expanded={true} forceClose={forceClose}>
 				<div>
 					<p>Shown</p>
@@ -115,6 +115,6 @@ describe('card with card expansion', () => {
 		act(() => toggle.click());
 
 		expect(shownNode).toBeVisible();
-		expect(hiddenNode).not.toBeVisible();
+		expect(queryByText('Hidden')).toBeNull();
 	});
 });

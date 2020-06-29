@@ -1,13 +1,14 @@
 import React from 'react';
 import { Organization, Enrollment, FundingSource, Site } from '../generated';
 import { isFunded, getCurrentC4kCertificate, getFundingSpaceCapacity } from './models';
-import { getC4KTag, getFundingTag } from './fundingType';
+import { getC4KTag, getFundingTag, getFundingTimeTag } from './fundingType';
 import { InlineIcon } from '../components';
 
 export type LegendTextFormatterOpts = {
 	organization?: Organization;
 	showPastEnrollments?: boolean;
-	site?: Site;
+	site?: Site | null;
+	forReport?: boolean;
 };
 
 export type LegendTextFormatter = (
@@ -26,7 +27,9 @@ export const legendDisplayDetails: {
 } = {
 	CDC: {
 		symbolGenerator: (opts?: { [key: string]: any }) =>
-			getFundingTag({ fundingSource: FundingSource.CDC, ...opts }),
+			opts && opts.forReport
+				? getFundingTimeTag({ fundingSource: FundingSource.CDC, ...opts })
+				: getFundingTag({ fundingSource: FundingSource.CDC, ...opts }),
 		legendTextFormatter: (enrollments, opts = {}) => {
 			let { organization, site, showPastEnrollments } = opts;
 			if (!organization) {

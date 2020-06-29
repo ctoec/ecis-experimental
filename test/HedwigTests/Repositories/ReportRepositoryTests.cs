@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Xunit;
-using Hedwig.Repositories;
 using Hedwig.Models;
-using HedwigTests.Helpers;
+using Hedwig.Repositories;
 using HedwigTests.Fixtures;
+using HedwigTests.Helpers;
+using Xunit;
 
 namespace HedwigTests.Repositories
 {

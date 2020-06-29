@@ -22,6 +22,7 @@ import { SectionProps } from '../enrollmentTypes';
 import { ProcessList } from '../../../components/ProcessList/ProcessList';
 import cx from 'classnames';
 import { somethingWentWrongAlert } from '../../../utils/stringFormatters/alertTextMakers';
+import HistoryContext from '../../../contexts/History/HistoryContext';
 
 type EnrollmentDetailParams = {
 	match: {
@@ -46,6 +47,7 @@ export default function EnrollmentDetail({
 	},
 }: EnrollmentDetailParams) {
 	const { user } = useContext(UserContext);
+	const { previousLocation } = useContext(HistoryContext);
 
 	const [enrollment, updateEnrollment] = useState<Enrollment | null>(null);
 	// Get enrollment by id
@@ -86,7 +88,15 @@ export default function EnrollmentDetail({
 	const enrollmentHistoryProps = getEnrollmentTimelineProps(enrollment);
 
 	return (
-		<CommonContainer backText="Back to roster" backHref="/roster">
+		<CommonContainer
+			backText="Back to roster"
+			backHref={
+				// If we just came from the enrollment step list, we want to return
+				// to the main roster. Otherwise, we want to use CommonContainer's
+				// previous location functionality.
+				previousLocation.pathname.endsWith('/review') ? '/roster' : undefined
+			}
+		>
 			<div className="grid-container">
 				<div className="grid-row flex-first-baseline flex-space-between">
 					<div>

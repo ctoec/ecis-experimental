@@ -2,15 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 using Hedwig.Filters.Attributes;
 using Hedwig.Models;
 using Hedwig.Repositories;
 using Hedwig.Security;
-using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Hedwig.Controllers
 {
@@ -41,8 +41,8 @@ namespace Hedwig.Controllers
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		[ValidateEntityFilterAttribute(Order = 1)]
-		[DTOProjectionFilter(typeof(List<EnrollmentSummaryDTO>), Order = 2)]
-		public async Task<ActionResult<List<EnrollmentSummaryDTO>>> Get(
+		[DTOProjectionFilter(typeof(List<EnrollmentDTO>), Order = 2)]
+		public async Task<ActionResult<List<Enrollment>>> Get(
 			int orgId,
 			[FromQuery(Name = "siteIds[]")] int[] siteIds,
 			[FromQuery(Name = "startDate")] DateTime? from = null,
@@ -83,8 +83,8 @@ namespace Hedwig.Controllers
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ValidateEntityFilterAttribute(Order = 1)]
-		[DTOProjectionFilter(typeof(List<EnrollmentSummaryDTO>), Order = 2)]
-		public async Task<ActionResult<List<EnrollmentSummaryDTO>>> Get(
+		[DTOProjectionFilter(typeof(List<EnrollmentDTO>), Order = 2)]
+		public async Task<ActionResult<List<Enrollment>>> Get(
 			int orgId,
 			int siteId,
 			[FromQuery(Name = "startDate")] DateTime? from = null,

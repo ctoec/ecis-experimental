@@ -1,7 +1,8 @@
-using Hedwig.Data;
-using Hedwig.Models;
 using System.Collections.Generic;
 using System.Linq;
+using Hedwig.Data;
+using Hedwig.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Hedwig.Repositories
 {
@@ -12,7 +13,9 @@ namespace Hedwig.Repositories
 		public FundingSpace GetById(int id)
 		{
 			return _context.FundingSpaces
-				.FirstOrDefault(space => space.Id == id);
+				.Where(space => space.Id == id)
+				.Include(space => space.TimeSplit)
+				.FirstOrDefault();
 		}
 
 		public FundingSpaceDTO GetFundingSpaceDTOById(int? id)

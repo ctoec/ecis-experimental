@@ -1,16 +1,23 @@
 // Variables used in jest mockes -- must start with `mock`
-import { mockAllFakeEnrollments, mockSite, mockReport } from '../../../tests/data';
+import {
+	mockAllFakeEnrollments,
+	mockSite,
+	mockReport,
+	mockSingleSiteOrganization,
+} from '../../../tests/data';
 import mockUseApi, {
 	mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet,
 	mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdDelete,
 	mockApiOrganizationsOrgIdSitesIdGet,
 	mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut,
 	mockApiOrganizationsOrgIdReportsGet,
+	mockApiOrganizationsIdGet,
 } from '../../../hooks/useApi/__mocks__/useApi';
 
 // Jest mocks must occur before later imports
 jest.mock('../../../hooks/useApi', () =>
 	mockUseApi({
+		apiOrganizationsIdGet: mockApiOrganizationsIdGet(mockSingleSiteOrganization),
 		apiOrganizationsOrgIdReportsGet: mockApiOrganizationsOrgIdReportsGet([mockReport]),
 		apiOrganizationsOrgIdSitesIdGet: mockApiOrganizationsOrgIdSitesIdGet(mockSite),
 		apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet: mockApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(
@@ -36,6 +43,8 @@ import { mockCompleteEnrollment, mockEnrollmentWithFoster } from '../../../tests
 
 import EnrollmentNew from './EnrollmentNew';
 import FamilyIncome from '../_sections/FamilyIncome';
+import EnrollmentFunding from '../_sections/EnrollmentFunding';
+import { accessibilityTestHelper } from '../../../tests/helpers';
 
 const fakeDate = '2019-03-02';
 
@@ -128,5 +137,41 @@ describe('EnrollmentNew', () => {
 
 			await wait(() => expect(history.location.pathname).toMatch(/enrollment-funding/i));
 		});
+	});
+
+	describe('EnrollmenFunding', () => {
+		it('matches snapshot', () => {
+			const { asFragment } = render(
+				<TestProvider>
+					<EnrollmentNew
+						history={history}
+						match={{
+							params: {
+								siteId: mockCompleteEnrollment.siteId,
+								enrollmentId: mockCompleteEnrollment.id,
+								sectionId: EnrollmentFunding.key,
+							},
+						}}
+					/>
+				</TestProvider>
+			);
+
+			expect(asFragment()).toMatchSnapshot();
+		});
+
+		accessibilityTestHelper(
+			<TestProvider>
+				<EnrollmentNew
+					history={history}
+					match={{
+						params: {
+							siteId: mockCompleteEnrollment.siteId,
+							enrollmentId: mockCompleteEnrollment.id,
+							sectionId: EnrollmentFunding.key,
+						},
+					}}
+				/>
+			</TestProvider>
+		);
 	});
 });

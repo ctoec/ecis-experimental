@@ -4,8 +4,12 @@ import { Enrollment } from '../../../../../generated';
 import { TextInputProps, TextInput } from '../../../../../components';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
 import { FamilyIncomeFormFieldProps } from './common';
+import { initialLoadErrorGuard } from '../../../../../utils/validations';
 
-export const HouseholdSizeField: React.FC<FamilyIncomeFormFieldProps> = ({ determinationId }) => {
+export const HouseholdSizeField: React.FC<FamilyIncomeFormFieldProps> = ({
+	determinationId,
+	errorDisplayGuard = false,
+}) => {
 	return (
 		<FormField<Enrollment, TextInputProps, number | null>
 			getValue={(data) =>
@@ -22,19 +26,22 @@ export const HouseholdSizeField: React.FC<FamilyIncomeFormFieldProps> = ({ deter
 			defaultValue={undefined}
 			inputComponent={TextInput}
 			status={(data) =>
-				displayValidationStatus([
-					{
-						type: 'warning',
-						response:
-							data
-								.at('child')
-								.at('family')
-								.at('determinations')
-								.find((det) => det.id === determinationId)
-								.at('validationErrors').value || null,
-						field: 'numberOfPeople',
-					},
-				])
+				initialLoadErrorGuard(
+					errorDisplayGuard,
+					displayValidationStatus([
+						{
+							type: 'warning',
+							response:
+								data
+									.at('child')
+									.at('family')
+									.at('determinations')
+									.find((det) => det.id === determinationId)
+									.at('validationErrors').value || null,
+							field: 'numberOfPeople',
+						},
+					])
+				)
 			}
 			id={`number-of-people-${determinationId}`}
 			label="Household size"

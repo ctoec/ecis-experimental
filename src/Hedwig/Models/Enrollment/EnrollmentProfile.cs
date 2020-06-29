@@ -1,5 +1,5 @@
-using AutoMapper;
 using System;
+using AutoMapper;
 
 namespace Hedwig.Models
 {
@@ -7,9 +7,6 @@ namespace Hedwig.Models
 	{
 		public EnrollmentProfile()
 		{
-			CreateMap<Enrollment, EnrollmentSummaryDTO>()
-				.ReverseMap();
-
 			CreateMap<Enrollment, EnrollmentDTO>()
 				.ForMember(
 					enrollment => enrollment.Entry,

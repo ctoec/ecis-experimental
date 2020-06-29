@@ -52,6 +52,14 @@ h2 {
 	justify-content: center;
 }
 
+.flex-end {
+	justify-content: end;
+}
+
+.flex-align-center {
+	align-items: center;
+}
+
 .flex-align-self--center {
 	align-self: center;
 }
@@ -129,10 +137,6 @@ ol.no-list-counter > li:before {
 }
 
 // *** Links ***
-// When we use links like buttons we need to style them the same
-a.usa-button {
-	text-decoration: inherit;
-}
 
 .usa-form a.usa-button:visited {
 	@extend .usa-button, :visited;
@@ -230,4 +234,38 @@ a.usa-button {
 
 .usa-form--full-width {
 	max-width: unset;
+}
+
+// Enrollment details-- also used in withdrawal
+.oec-enrollment-details-section {
+	@include u-padding-top(2);
+	@include u-padding-bottom(1);
+	border-bottom: units('1px') solid color('base-lighter');
+
+	@include at-media('tablet') {
+		display: flex;
+		justify-content: space-between;
+	}
+}
+
+.oec-enrollment-details-section__actions {
+	@include u-margin-bottom(2);
+	@include u-line-height('ui', 4);
+	align-self: first baseline;
+	margin-left: auto;
+
+	@include at-media('tablet') {
+		font-size: size('ui', 5);
+		text-align: right;
+	}
+
+	a:not(.display-none) {
+		display: block;
+	}
+}
+
+.oec-enrollment-details-section__content {
+	p {
+		@include u-margin-y(1);
+	}
 }

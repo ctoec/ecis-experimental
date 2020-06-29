@@ -1,11 +1,11 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System;
-using Xunit;
-using Hedwig.Repositories;
-using HedwigTests.Helpers;
-using HedwigTests.Fixtures;
 using Hedwig.Models;
+using Hedwig.Repositories;
+using HedwigTests.Fixtures;
+using HedwigTests.Helpers;
+using Xunit;
 
 namespace HedwigTests.Repositories
 {

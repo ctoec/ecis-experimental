@@ -36,7 +36,7 @@ export const FamilyFeesRevenueField: React.FC<FamilyFeesRevenueFieldProps> = ({
 			type="input"
 			label={<span className="text-bold">Family Fees</span>}
 			disabled={disabled}
-			defaultValue={currencyFormatter(familyFeesRevenue || 0)}
+			defaultValue={familyFeesRevenue ? currencyFormatter(familyFeesRevenue) : ''}
 			onBlur={(event) =>
 				(event.target.value =
 					familyFeesRevenue !== null ? currencyFormatter(familyFeesRevenue) : '')

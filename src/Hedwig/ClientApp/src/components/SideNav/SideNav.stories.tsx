@@ -27,5 +27,5 @@ const exampleItems: SideNavItemProps[] = [
 ];
 
 storiesOf('SideNav', module).add('Default', () => {
-	return <SideNav items={exampleItems} />;
+	return <SideNav items={exampleItems} noActiveItemContent={<></>} />;
 });

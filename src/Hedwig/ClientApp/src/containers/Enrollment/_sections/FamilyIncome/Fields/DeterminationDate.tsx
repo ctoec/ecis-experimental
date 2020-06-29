@@ -4,9 +4,12 @@ import { Enrollment } from '../../../../../generated';
 import { DateInput, DateInputProps } from '../../../../../components';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
 import { FamilyIncomeFormFieldProps } from './common';
+import { parseDateChange } from '../../../../../components/Form_New';
+import { initialLoadErrorGuard } from '../../../../../utils/validations';
 
 export const DeterminationDateField: React.FC<FamilyIncomeFormFieldProps> = ({
 	determinationId,
+	errorDisplayGuard = false,
 }) => {
 	return (
 		<FormField<Enrollment, DateInputProps, Date | null>
@@ -18,22 +21,25 @@ export const DeterminationDateField: React.FC<FamilyIncomeFormFieldProps> = ({
 					.find((det) => det.id === determinationId)
 					.at('determinationDate')
 			}
-			parseOnChangeEvent={(e) => (e.target.value ? new Date(parseInt(e.target.value)) : null)}
+			parseOnChangeEvent={parseDateChange}
 			inputComponent={DateInput}
 			status={(data) =>
-				displayValidationStatus([
-					{
-						type: 'warning',
-						response:
-							data
-								.at('child')
-								.at('family')
-								.at('determinations')
-								.find((det) => det.id === determinationId)
-								.at('validationErrors').value || null,
-						field: 'determinationDate',
-					},
-				])
+				initialLoadErrorGuard(
+					errorDisplayGuard,
+					displayValidationStatus([
+						{
+							type: 'warning',
+							response:
+								data
+									.at('child')
+									.at('family')
+									.at('determinations')
+									.find((det) => det.id === determinationId)
+									.at('validationErrors').value || null,
+							field: 'determinationDate',
+						},
+					])
+				)
 			}
 			id={`determination-date-${determinationId}`}
 			label="Determination date"

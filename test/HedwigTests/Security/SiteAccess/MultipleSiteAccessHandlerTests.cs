@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using System.Security.Claims;
+using Hedwig.Repositories;
+using Hedwig.Security;
+using HedwigTests.Fixtures;
+using HedwigTests.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using Moq;
 using Xunit;
-using Hedwig.Repositories;
-using Hedwig.Security;
-using HedwigTests.Fixtures;
-using HedwigTests.Helpers;
 
 namespace HedwigTests.Security
 {

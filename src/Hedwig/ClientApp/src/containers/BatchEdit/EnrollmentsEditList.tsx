@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { Enrollment, SiteFromJSON } from '../../generated';
-import { SideNav } from '../../components';
-import { lastFirstNameFormatter, nameFormatter } from '../../utils/stringFormatters';
+import { Enrollment } from '../../generated';
+import { SideNav, TextWithIcon, InlineIcon } from '../../components';
+import { lastFirstNameFormatter } from '../../utils/stringFormatters';
 import { hasValidationErrors } from '../../utils/validations';
 import { SingleEnrollmentEdit } from './SingleEnrollmentEdit';
+import { ReactComponent as Success } from '../../../node_modules/uswds/dist/img/alerts/success.svg';
+import { Link } from 'react-router-dom';
+import { getMissingInfoPrettyString } from '../../utils/validations/getMissingInfoPrettyString';
 
 type EnrollmentsEditListProps = {
 	enrollments: Enrollment[];
@@ -37,7 +40,9 @@ export const EnrollmentsEditList: React.FC<EnrollmentsEditListProps> = ({
 
 	const moveNext = () => {
 		if (currentEnrollmentIdx === editedEnrollments.length - 1) {
-			const stillMissingInfoEnrollmentIdx = enrollments.findIndex((e) => hasValidationErrors(e));
+			const stillMissingInfoEnrollmentIdx = editedEnrollments.findIndex((e) =>
+				hasValidationErrors(e)
+			);
 			setCurrentEnrollmentIdx(
 				stillMissingInfoEnrollmentIdx < 0 ? undefined : stillMissingInfoEnrollmentIdx
 			);
@@ -50,26 +55,35 @@ export const EnrollmentsEditList: React.FC<EnrollmentsEditListProps> = ({
 	return (
 		<SideNav
 			externalActiveItemIndex={currentEnrollmentIdx}
-			items={editedEnrollments.map((enrollment, idx) => ({
-				title: lastFirstNameFormatter(enrollment.child),
-				description: getMissingInfoFields(enrollment),
+			items={editedEnrollments.map((enrollment) => ({
+				title: hasValidationErrors(enrollment) ? (
+					lastFirstNameFormatter(enrollment.child)
+				) : (
+					<TextWithIcon
+						iconSide="right"
+						text={lastFirstNameFormatter(enrollment.child)}
+						Icon={Success}
+						iconClassName="oec-inline-icon--complete"
+					/>
+				),
+				description: getMissingInfoPrettyString(enrollment),
 				content: (
 					<SingleEnrollmentEdit
-						enrollmentId={enrollment.id}
+						key={enrollment.id}
+						enrollment={enrollment}
 						updateEnrollments={replaceEnrollment}
 						siteId={enrollment.siteId}
 						moveNextEnrollment={moveNext}
 					/>
 				),
 			}))}
-			// TODO: IMPLEMENT THIS!!!!
-			// noActiveItemContent={}
+			noActiveItemContent={
+				<div className="margin-x-4 margin-y-2 grid-row flex-align-center flex-column">
+					<InlineIcon icon="complete" />
+					<p className="text-bold">All children are up to date!</p>
+					<Link to="/roster">Return to roster</Link>
+				</div>
+			}
 		/>
 	);
-};
-
-// TODO: IMPLEMENT THIS!!!!!
-const getMissingInfoFields = (enrollment: Enrollment) => {
-	if (hasValidationErrors(enrollment)) return 'Birth certificate';
-	return '';
 };

@@ -3,7 +3,7 @@ import cx from 'classnames';
 import { InlineIcon, Icon, Button } from '..';
 
 export type SideNavItemProps = {
-	title: string;
+	title: string | JSX.Element;
 	description: string;
 	icon?: Icon;
 	onClick?: () => any;

@@ -1,9 +1,9 @@
-using Xunit;
-using Hedwig.Repositories;
+using System;
 using Hedwig.Models;
+using Hedwig.Repositories;
 using HedwigTests.Fixtures;
 using HedwigTests.Helpers;
-using System;
+using Xunit;
 
 namespace HedwigTests.Repositories
 {

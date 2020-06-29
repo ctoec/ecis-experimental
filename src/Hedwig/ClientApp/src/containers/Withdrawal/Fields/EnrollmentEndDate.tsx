@@ -39,13 +39,15 @@ export const EnrollmentEndDateField: React.FC<EnrollmentEndDateFieldProps> = ({
 		5
 	);
 
+	const hasC4kFunding = dataDriller.at('child').at('c4KCertificates').value.length > 0;
+
 	return (
 		<DateInput
 			id="enrollment-end-date"
 			label="Enrollment end date"
 			onChange={(e) => {
 				const target = e.target as HTMLInputElement;
-				const endDate = new Date(parseInt(target.value, 10));
+				const endDate = moment(parseInt(target.value, 10)).toDate();
 				// Update the enrollment exit field with the end date
 				updateData((enrollment) =>
 					produce<Enrollment>(enrollment, (draft) =>
@@ -53,19 +55,22 @@ export const EnrollmentEndDateField: React.FC<EnrollmentEndDateFieldProps> = ({
 					)
 				);
 				// Update the current c4kCertificate end date with the end date
-				updateData((enrollment) =>
-					produce<Enrollment>(enrollment, (draft) =>
-						set(
-							draft,
-							dataDriller
-								.at('child')
-								.at('c4KCertificates')
-								.find((cert) => !cert.endDate)
-								.at('endDate').path,
-							endDate
+				// Only if there are c4k certificate fundings
+				if (hasC4kFunding) {
+					updateData((enrollment) =>
+						produce<Enrollment>(enrollment, (draft) =>
+							set(
+								draft,
+								dataDriller
+									.at('child')
+									.at('c4KCertificates')
+									.find((cert) => !cert.endDate)
+									.at('endDate').path,
+								endDate
+							)
 						)
-					)
-				);
+					);
+				}
 			}}
 			status={
 				attemptedSave && !currentEndDate

@@ -1,16 +1,16 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using Xunit;
-using Moq;
-using Hedwig.Repositories;
-using HedwigTests.Helpers;
-using HedwigTests.Fixtures;
-using Hedwig.Models;
 using Hedwig.HostedServices;
+using Hedwig.Models;
+using Hedwig.Repositories;
 using Hedwig.Utilities.DateTime;
+using HedwigTests.Fixtures;
+using HedwigTests.Helpers;
 using Microsoft.Extensions.Logging;
+using Moq;
+using Xunit;
 
 namespace HedwigTests.HostedServices
 {

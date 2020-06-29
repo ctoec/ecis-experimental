@@ -1,9 +1,9 @@
-using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using Hedwig.Models;
-using Hedwig.Repositories;
 using Hedwig.Models.Extensions;
+using Hedwig.Repositories;
 
 namespace Hedwig.Validations.Attributes
 {
@@ -16,6 +16,10 @@ namespace Hedwig.Validations.Attributes
 
 			var organizations = (IOrganizationRepository)validationContext.GetService(typeof(IOrganizationRepository));
 			var organization = organizations.GetOrganizationById(report.OrganizationId);
+			if (organization == null)
+			{
+				return null;
+			}
 			var fundingSpaces = organization.FundingSpaces;
 
 			foreach (var timeSplitUtilization in timeSplitUtilizations)

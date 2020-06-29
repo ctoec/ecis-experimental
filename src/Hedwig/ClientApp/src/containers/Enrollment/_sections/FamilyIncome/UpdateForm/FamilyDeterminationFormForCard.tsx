@@ -53,6 +53,7 @@ const FamilyDeterminationFormForCard: React.FC<FamilyDeterminationFormForCardPro
 			className="usa-form"
 		>
 			<WithNewDetermination shouldCreate={!isEditExpansion}>
+				{/* TODO: this should probably not be a fieldset-- just not necessary, probably a bad experience for screen readers */}
 				<IncomeDeterminationFieldSet
 					type={isEditExpansion ? 'edit' : 'redetermine'}
 					determinationId={determinationId}

@@ -1,66 +1,37 @@
-import React, { useContext, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { legendDisplayDetails } from '../../utils/legendFormatters';
-import { getIdForUser } from '../../utils/models';
-import { Legend, LegendItem, DateRange, Alert } from '../../components';
-import useApi, { paginate } from '../../hooks/useApi';
-import {
-	Age,
-	Enrollment,
-	ApiOrganizationsOrgIdEnrollmentsGetRequest,
-	ApiOrganizationsIdGetRequest,
-} from '../../generated';
-import UserContext from '../../contexts/User/UserContext';
-import AgeGroupSection from './AgeGroupSection';
-import { getObjectsByAgeGroup } from '../../utils/models';
+import React from 'react';
+import { Legend, Alert, Column } from '../../components';
+import { Age, Enrollment } from '../../generated';
+import { AgeGroupSection } from '../RosterColumns/AgeGroupSection';
 import CommonContainer from '../CommonContainer';
 import RosterHeader from './RosterHeader';
-import getDefaultDateRange from '../../utils/getDefaultDateRange';
-import { Suspend } from '../../components/Suspend/Suspend';
 import { somethingWentWrongAlert } from '../../utils/stringFormatters/alertTextMakers';
+import { useRoster } from '../../hooks/useRoster';
+import { NameColumn } from '../RosterColumns/NameColumn';
+import { BirthdateColumn } from '../RosterColumns/BirthDateColumn';
+import { FundingColumn } from '../RosterColumns/FundingColumn';
+import { SiteColumn } from '../RosterColumns/SiteColumn';
+import { EnrollmentDateColumn } from '../RosterColumns/EnrollmentDateColumn';
+import { getFundingTag } from '../../utils/fundingType';
 
 export default function Roster() {
-	const { id: urlSiteId } = useParams();
-	const { user } = useContext(UserContext);
-
-	const [showPastEnrollments, toggleShowPastEnrollments] = useState(false);
-	const [dateRange, setDateRange] = useState<DateRange>(getDefaultDateRange());
-	const [filterByRange, setFilterByRange] = useState(false);
-
-	const orgParams: ApiOrganizationsIdGetRequest = {
-		id: getIdForUser(user, 'org'),
-		include: ['sites', 'funding_spaces'],
-	};
-
-	const { loading: organizationLoading, data: organization } = useApi(
-		(api) => api.apiOrganizationsIdGet(orgParams),
-		{
-			skip: !user,
-		}
-	);
-
-	const sites = organization && organization.sites;
-	const siteIds = (sites || []).map((s) => s.id);
-	const siteId = urlSiteId ? parseInt(urlSiteId) : undefined;
-	const site = sites && siteId ? sites.find((s) => s.id === siteId) : undefined;
-
-	const enrollmentParams: ApiOrganizationsOrgIdEnrollmentsGetRequest = {
-		orgId: getIdForUser(user, 'org'),
-		siteIds: siteIds,
-		include: ['child', 'fundings', 'sites'],
-		startDate: (dateRange && dateRange.startDate && dateRange.startDate.toDate()) || undefined,
-		endDate: (dateRange && dateRange.endDate && dateRange.endDate.toDate()) || undefined,
-	};
-
-	const { loading: enrollmentsLoading, data: _enrollments } = useApi(
-		(api, opt) => api.apiOrganizationsOrgIdEnrollmentsGet(paginate(enrollmentParams, opt)),
-		{
-			skip: !user || !siteIds.length,
-			deps: [user, dateRange, organization],
-			defaultValue: [],
-			paginate: true,
-		}
-	);
+	const {
+		showPastEnrollments,
+		toggleShowPastEnrollments,
+		dateRange,
+		setDateRange,
+		filterByRange,
+		setFilterByRange,
+		organizationLoading,
+		enrollmentsLoading,
+		organization,
+		site,
+		enrollments,
+		siteRosterContainerProps,
+		completeEnrollmentsByAgeGroup,
+		fundingSpacesByAgeGroup,
+		incompleteEnrollments,
+		legendItems,
+	} = useRoster();
 
 	// If we are still loading, show a loading page
 	if (organizationLoading || enrollmentsLoading) {
@@ -75,98 +46,82 @@ export default function Roster() {
 	// This can be resolved with a hard refresh. We don't do that
 	// because if it truly is a 500 error, we would get an infite
 	// loop). For now, show a general purpose alert message.
-	if (!organization || !_enrollments) {
+	if (!organization || !enrollments) {
 		return <Alert {...somethingWentWrongAlert}></Alert>;
 	}
 
-	let enrollments: Enrollment[] = [];
-	let siteRosterContainerProps;
-	if (site) {
-		enrollments = _enrollments.filter((e) => e.siteId === site.id);
-		siteRosterContainerProps = {
-			backHref: '/roster',
-			backText: 'Back to program roster',
-		};
+	let columns: Column<Enrollment>[] = [];
+	// Only show the site column if we're in multi-site view,
+	// and it exists (more than one site)
+	if (!site && organization.sites && organization.sites.length > 1) {
+		columns = [
+			NameColumn(25),
+			BirthdateColumn(17),
+			FundingColumn(getFundingTag)(dateRange, 18),
+			SiteColumn(20),
+			EnrollmentDateColumn(20),
+		];
 	} else {
-		enrollments = _enrollments;
+		columns = [
+			NameColumn(30),
+			BirthdateColumn(22),
+			FundingColumn(getFundingTag)(dateRange, 23),
+			EnrollmentDateColumn(25),
+		];
 	}
 
-	const incompleteEnrollments = enrollments.filter(
-		(enrollment) => !enrollment.ageGroup || !enrollment.entry
-	);
-	const completeEnrollments = enrollments.filter(
-		(enrollment) => !incompleteEnrollments.includes(enrollment)
-	);
-
-	const completeEnrollmentsByAgeGroup = getObjectsByAgeGroup(completeEnrollments);
-
-	const fundingSpaces = (organization && organization.fundingSpaces) || [];
-	const fundingSpacesByAgeGroup = getObjectsByAgeGroup(fundingSpaces);
-
-	const legendItems: LegendItem[] = Object.values(legendDisplayDetails).map(
-		({ legendTextFormatter, hidden, symbolGenerator }) => ({
-			symbol: symbolGenerator({ className: 'position-relative top-neg-2px' }),
-			// If we make date range filterable on the org view, will need to change this so that we don't show ratio on org level roster
-			text: legendTextFormatter(enrollments, { showPastEnrollments, organization, site }),
-			hidden: hidden(organization, enrollments),
-		})
-	);
-
 	const commonAgeGroupSectionProps = {
-		organization,
 		site,
 		rosterDateRange: dateRange,
+		columns,
 		showPastEnrollments,
+		forReport: false,
 	};
 
 	return (
 		<CommonContainer {...siteRosterContainerProps}>
 			<div className="grid-container">
-				<Suspend waitFor={!organizationLoading} fallback={<div>Loading...</div>}>
-					<RosterHeader
-						organization={organization}
-						site={site}
-						numberOfEnrollments={enrollments.length}
-						showPastEnrollments={showPastEnrollments}
-						toggleShowPastEnrollments={() => toggleShowPastEnrollments(!showPastEnrollments)}
-						dateRange={dateRange}
-						setDateRange={setDateRange}
-						filterByRange={filterByRange}
-						setFilterByRange={setFilterByRange}
-					/>
-					<Legend items={legendItems} />
-				</Suspend>
-				<Suspend waitFor={enrollments.length > 0} fallback={<div>Loading...</div>}>
+				<RosterHeader
+					organization={organization}
+					site={site}
+					numberOfEnrollments={enrollments.length}
+					showPastEnrollments={showPastEnrollments}
+					toggleShowPastEnrollments={() => toggleShowPastEnrollments(!showPastEnrollments)}
+					dateRange={dateRange}
+					setDateRange={setDateRange}
+					filterByRange={filterByRange}
+					setFilterByRange={setFilterByRange}
+				/>
+				<Legend items={legendItems} />
+				<AgeGroupSection
+					{...commonAgeGroupSectionProps}
+					ageGroup={Age.InfantToddler}
+					ageGroupTitle={`Infant/toddler`}
+					enrollments={completeEnrollmentsByAgeGroup[Age.InfantToddler]}
+					fundingSpaces={fundingSpacesByAgeGroup[Age.InfantToddler]}
+				/>
+				<AgeGroupSection
+					{...commonAgeGroupSectionProps}
+					ageGroup={Age.Preschool}
+					ageGroupTitle={`Preschool`}
+					enrollments={completeEnrollmentsByAgeGroup[Age.Preschool]}
+					fundingSpaces={fundingSpacesByAgeGroup[Age.Preschool]}
+				/>
+				<AgeGroupSection
+					{...commonAgeGroupSectionProps}
+					ageGroup={Age.SchoolAge}
+					ageGroupTitle={`School age`}
+					enrollments={completeEnrollmentsByAgeGroup[Age.SchoolAge]}
+					fundingSpaces={fundingSpacesByAgeGroup[Age.SchoolAge]}
+				/>
+				{incompleteEnrollments.length > 0 && (
 					<AgeGroupSection
 						{...commonAgeGroupSectionProps}
-						ageGroup={Age.InfantToddler}
-						ageGroupTitle={`Infant/toddler`}
-						enrollments={completeEnrollmentsByAgeGroup[Age.InfantToddler]}
-						fundingSpaces={fundingSpacesByAgeGroup[Age.InfantToddler]}
+						ageGroup="incomplete"
+						ageGroupTitle={`Incomplete enrollments`}
+						enrollments={incompleteEnrollments}
 					/>
-					<AgeGroupSection
-						{...commonAgeGroupSectionProps}
-						ageGroup={Age.Preschool}
-						ageGroupTitle={`Preschool`}
-						enrollments={completeEnrollmentsByAgeGroup[Age.Preschool]}
-						fundingSpaces={fundingSpacesByAgeGroup[Age.Preschool]}
-					/>
-					<AgeGroupSection
-						{...commonAgeGroupSectionProps}
-						ageGroup={Age.SchoolAge}
-						ageGroupTitle={`School age`}
-						enrollments={completeEnrollmentsByAgeGroup[Age.SchoolAge]}
-						fundingSpaces={fundingSpacesByAgeGroup[Age.SchoolAge]}
-					/>
-					{incompleteEnrollments.length > 0 && (
-						<AgeGroupSection
-							{...commonAgeGroupSectionProps}
-							ageGroup="incomplete"
-							ageGroupTitle={`Incomplete enrollments`}
-							enrollments={incompleteEnrollments}
-						/>
-					)}
-				</Suspend>
+				)}
 			</div>
 		</CommonContainer>
 	);

@@ -6,6 +6,7 @@ import { ChildInfoFormFieldProps } from './common';
 import { initialLoadErrorGuard } from '../../../../../utils/validations';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
 import { REQUIRED_FOR_OEC_REPORTING } from '../../../../../utils/validations/messageStrings';
+import { parseDateChange } from '../../../../../components/Form_New';
 
 /**
  * Component for entering the birth date of a child in an enrollment.
@@ -16,7 +17,7 @@ export const DateOfBirthField: React.FC<ChildInfoFormFieldProps> = ({
 	return (
 		<FormField<Enrollment, DateInputProps, Date | null>
 			getValue={(data) => data.at('child').at('birthdate')}
-			parseOnChangeEvent={(e) => (e.target.value ? new Date(parseInt(e.target.value, 10)) : null)}
+			parseOnChangeEvent={parseDateChange}
 			inputComponent={DateInput}
 			id="birthdate-picker"
 			label="Birth date"

@@ -1,5 +1,5 @@
-using Hedwig.Models;
 using System;
+using Hedwig.Models;
 
 namespace Hedwig.Validations.Rules
 {

@@ -1,5 +1,6 @@
 using AutoMapper;
 using Hedwig.Filters.Attributes;
+using System.Threading.Tasks;
 using Hedwig.Models;
 using Hedwig.Repositories;
 using Microsoft.AspNetCore.Http;

@@ -7,13 +7,8 @@ import { IncomeDeterminationFieldSet } from '../../../Enrollment/_sections/Famil
 import { Button } from '../../../../components';
 import useCatchAllErrorAlert from '../../../../hooks/useCatchAllErrorAlert';
 
-export const EditForm: React.FC<BatchEditStepProps> = ({ enrollment, error, onSubmit, onSkip }) => {
-	if (!enrollment) {
-		throw new Error('Section rendered without enrollment');
-	}
-
-	useCatchAllErrorAlert(error);
-	const determinationsWithErrors = (enrollment.child?.family?.determinations || []).filter(
+export const EditForm: React.FC<BatchEditStepProps> = ({ enrollment, onSubmit, onSkip }) => {
+	const [determinationWithErrors] = (enrollment.child?.family?.determinations || []).filter(
 		(det) => !!det.validationErrors && det.validationErrors.length
 	);
 
@@ -47,21 +42,16 @@ export const EditForm: React.FC<BatchEditStepProps> = ({ enrollment, error, onSu
 				-- which are sub-object validations --
 				then display form fields to edit those determinations with validation errors 
 			 */}
-			{determinationsWithErrors.length && (
-				<>
-					<h3>Family income determinations</h3>
-					{determinationsWithErrors.map((det) => (
-						<IncomeDeterminationFieldSet
-							type="edit"
-							determinationId={det.id}
-							errorDisplayGuard={true}
-						/>
-					))}
-				</>
+			{determinationWithErrors && (
+				<IncomeDeterminationFieldSet
+					type="edit"
+					determinationId={determinationWithErrors.id}
+					errorDisplayGuard={true}
+				/>
 			)}
 
 			<FormSubmitButton text="Save and next" />
-			<Button appearance="outline" text="skip" onClick={onSkip} />
+			<Button appearance="outline" text="Skip" onClick={onSkip} />
 		</Form>
 	);
 };

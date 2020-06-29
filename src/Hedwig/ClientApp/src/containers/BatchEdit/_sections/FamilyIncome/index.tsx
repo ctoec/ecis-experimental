@@ -7,7 +7,6 @@ export default {
 	key: 'family-income',
 	name: 'Family income',
 	status: () => 'incomplete',
-	editPath: '',
 	Summary: () => <></>,
 	Form: EditForm,
 } as StepProps<BatchEditStepProps>;

@@ -7,18 +7,17 @@ import HistoryContext from '../contexts/History/HistoryContext';
 import { createPath } from 'history';
 
 export type CommonContainerPropsType = {
-	children: ReactElement<any> | null;
 	backHref?: string;
 	backText?: string;
 	additionalAlerts?: AlertProps[];
 };
 
-export default function CommonContainer({
-	children,
+const CommonContainer: React.FC<CommonContainerPropsType> = ({
 	backHref,
 	backText,
 	additionalAlerts = [] as AlertProps[],
-}: CommonContainerPropsType) {
+	children,
+}) => {
 	const { getAlerts } = useContext(AlertContext);
 	const alerts = [...additionalAlerts, ...getAlerts()];
 
@@ -31,8 +30,15 @@ export default function CommonContainer({
 					<Button
 						appearance="unstyled"
 						href={backHref || createPath(previousLocation)}
-						className="text-bold text-underline"
-						text={<TextWithIcon text={backText} Icon={ArrowRight} direction="left" />}
+						className="text-bold"
+						text={
+							<TextWithIcon
+								text={backText}
+								Icon={ArrowRight}
+								direction="left"
+								className="text-underline"
+							/>
+						}
 					/>
 				)}
 				{alerts && alerts.map((alert, index) => <Alert key={index} {...alert}></Alert>)}
@@ -40,4 +46,6 @@ export default function CommonContainer({
 			<ErrorBoundary>{children}</ErrorBoundary>
 		</ErrorBoundary>
 	);
-}
+};
+
+export default CommonContainer;

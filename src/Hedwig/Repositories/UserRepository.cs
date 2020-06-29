@@ -1,8 +1,8 @@
 using System;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using Hedwig.Models;
 using Hedwig.Data;
+using Hedwig.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Hedwig.Repositories
 {
