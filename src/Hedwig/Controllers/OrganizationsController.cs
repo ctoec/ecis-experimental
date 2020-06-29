@@ -26,13 +26,13 @@ namespace Hedwig.Controllers
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[DTOProjectionFilter(typeof(EnrollmentSummaryOrganizationDTO), Order = 2)]
-		public ActionResult<EnrollmentSummaryOrganizationDTO> Get(int id)
+		public ActionResult<Organization> Get(int id)
 		{
 			var organization = _organizations.GetEnrollmentSummaryOrganizationDTOById(id);
 
 			if (organization == null) return NotFound();
 
-			return Ok(organization);
+			return Ok(_mapper.Map< EnrollmentSummaryOrganizationDTO, Organization>(organization));
 		}
 	}
 }

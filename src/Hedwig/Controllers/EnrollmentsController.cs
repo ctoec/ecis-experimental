@@ -103,7 +103,7 @@ namespace Hedwig.Controllers
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ValidateEntityFilterAttribute(Order = 1)]
 		[DTOProjectionFilter(typeof(EnrollmentDTO), Order = 2)]
-		public async Task<ActionResult<EnrollmentDTO>> Get(
+		public async Task<ActionResult<Enrollment>> Get(
 			int id,
 			int orgId,
 			int siteId
@@ -113,7 +113,7 @@ namespace Hedwig.Controllers
 			var enrollment = await _enrollments.GetEnrollmentDTOForSiteAsync(id, siteId);
 			if (enrollment == null) return NotFound();
 
-			return Ok(enrollment);
+			return Ok(_mapper.Map<EnrollmentDTO, EnrollmentDTO>(enrollment));
 		}
 
 		[HttpPost]
