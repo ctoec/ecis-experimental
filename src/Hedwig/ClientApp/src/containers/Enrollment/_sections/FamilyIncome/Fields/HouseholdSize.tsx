@@ -4,11 +4,11 @@ import { Enrollment } from '../../../../../generated';
 import { TextInputProps, TextInput } from '../../../../../components';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
 import { FamilyIncomeFormFieldProps } from './common';
-import { initialLoadErrorGuard } from '../../../../../utils/validations';
+import { errorDisplayGuard } from '../../../../../utils/validations';
 
 export const HouseholdSizeField: React.FC<FamilyIncomeFormFieldProps> = ({
 	determinationId,
-	errorDisplayGuard = false,
+	blockErrorDisplay = false,
 }) => {
 	return (
 		<FormField<Enrollment, TextInputProps, number | null>
@@ -26,8 +26,8 @@ export const HouseholdSizeField: React.FC<FamilyIncomeFormFieldProps> = ({
 			defaultValue={undefined}
 			inputComponent={TextInput}
 			status={(data) =>
-				initialLoadErrorGuard(
-					errorDisplayGuard,
+				errorDisplayGuard(
+					blockErrorDisplay,
 					displayValidationStatus([
 						{
 							type: 'warning',

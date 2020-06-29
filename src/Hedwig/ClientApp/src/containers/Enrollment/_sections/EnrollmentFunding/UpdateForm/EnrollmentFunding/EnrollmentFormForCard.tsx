@@ -41,11 +41,11 @@ export const EnrollmentFormForCard: React.FC<EnrollmentFormForCardProps> = ({
 	return (
 		<Form id={`edit-enrollment`} data={formData} onSubmit={onSubmit} className="usa-form">
 			<EnrollmentStartDate
-				errorDisplayGuard={false}
+				blockErrorDisplay={false}
 				error={error}
 				errorAlertState={errorAlertState}
 			/>
-			<AgeGroupField errorDisplayGuard={false} error={error} errorAlertState={errorAlertState} />
+			<AgeGroupField blockErrorDisplay={false} error={error} errorAlertState={errorAlertState} />
 			<ExpandCard>
 				<Button text="Cancel" appearance="outline" />
 			</ExpandCard>
