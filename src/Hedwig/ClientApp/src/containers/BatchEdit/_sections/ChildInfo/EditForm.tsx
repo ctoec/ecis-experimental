@@ -24,13 +24,13 @@ export const EditForm: React.FC<BatchEditStepProps> = ({ enrollment, error, onSu
 			{hasValidationErrors(enrollment.child, ['birthdate']) && (
 				<>
 					<h3>Date of Birth</h3>
-					<DateOfBirthField errorDisplayGuard={true} />
+					<DateOfBirthField blockErrorDisplay={true} />
 				</>
 			)}
 			{hasValidationErrors(enrollment.child, ['birthCertificateId', 'birthState', 'birthTown']) && (
 				<>
 					<h3>Birth Certificate</h3>
-					<BirthCertificateFormFieldSet errorDisplayGuard={true} />
+					<BirthCertificateFormFieldSet blockErrorDisplay={true} />
 				</>
 			)}
 			{hasValidationErrors(enrollment.child, [
@@ -42,19 +42,19 @@ export const EditForm: React.FC<BatchEditStepProps> = ({ enrollment, error, onSu
 			]) && (
 				<>
 					<h3>Race</h3>
-					<RaceField errorDisplayGuard={true} />
+					<RaceField blockErrorDisplay={true} />
 				</>
 			)}
 			{hasValidationErrors(enrollment.child, ['hispanicOrLatinxEthnicity']) && (
 				<>
 					<h3>Ethnicity</h3>
-					<EthnicityField errorDisplayGuard={true} />
+					<EthnicityField blockErrorDisplay={true} />
 				</>
 			)}
 			{hasValidationErrors(enrollment.child, ['gender']) && (
 				<>
 					<h3>Gender</h3>
-					<GenderField errorDisplayGuard={true} />
+					<GenderField blockErrorDisplay={true} />
 				</>
 			)}
 			<FormSubmitButton text="Save and next" />

@@ -11,6 +11,8 @@ import UserContext from '../../../../../contexts/User/UserContext';
 import { validatePermissions, getIdForUser } from '../../../../../utils/models';
 import useApi from '../../../../../hooks/useApi';
 import useCatchAllErrorAlert from '../../../../../hooks/useCatchAllErrorAlert';
+import { hasValidationErrors } from '../../../../../utils/validations';
+import { InlineIcon } from '../../../../../components';
 
 export const UpdateForm: React.FC<SectionProps> = ({ enrollment, siteId }) => {
 	if (!enrollment) {
@@ -52,18 +54,24 @@ export const UpdateForm: React.FC<SectionProps> = ({ enrollment, siteId }) => {
 		if (forceCloseEditForms) setTimeout(() => setForceCloseEditForms(false));
 	}, [forceCloseEditForms]);
 
-	const formOnSubmit = (_data: Enrollment) => {
-		setMutatedEnrollment(_data);
-		setAttemptingSave(true);
-	};
-
 	const updateFormSectionProps = {
 		mutatedEnrollment,
-		formOnSubmit,
+		setMutatedEnrollment,
+		attemptSave: () => setAttemptingSave(true),
 		saveError,
 		errorAlertState,
 		forceCloseEditForms,
 	};
+
+	const missingEnrollmentFundingInfo = hasValidationErrors(mutatedEnrollment, [
+		'entry',
+		'exit',
+		'fundings',
+	]);
+	const missingC4kInfo = hasValidationErrors(mutatedEnrollment.child, [
+		'c4kCertificates',
+		'c4KFamilyCaseNumber',
+	]);
 
 	return (
 		<TabNav
@@ -71,12 +79,16 @@ export const UpdateForm: React.FC<SectionProps> = ({ enrollment, siteId }) => {
 			items={[
 				{
 					id: 'enrollment-funding',
-					text: 'Enrollment/Funding',
+					text: (
+						<span>
+							Enrollment/Funding {missingEnrollmentFundingInfo && <InlineIcon icon="incomplete" />}
+						</span>
+					),
 					content: <EnrollmentFundingForm {...updateFormSectionProps} />,
 				},
 				{
 					id: 'care-for-kids',
-					text: 'Care 4 Kids',
+					text: <span>Care 4 Kids {missingC4kInfo && <InlineIcon icon="incomplete" />}</span>,
 					content: <Care4KidsForm {...updateFormSectionProps} />,
 				},
 			]}

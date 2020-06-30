@@ -1,7 +1,7 @@
 import React from 'react';
 import FormField from '../../../../../components/Form_New/FormField';
 import { Enrollment } from '../../../../../generated';
-import { initialLoadErrorGuard } from '../../../../../utils/validations';
+import { errorDisplayGuard } from '../../../../../utils/validations';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
 import { REQUIRED_FOR_OEC_REPORTING } from '../../../../../utils/validations/messageStrings';
 import { ChildInfoFormFieldProps } from './common';
@@ -18,7 +18,7 @@ import RadioButton from '../../../../../components/RadioButton/RadioButton';
  * RadioButtons in a fieldset.
  */
 export const EthnicityField: React.FC<ChildInfoFormFieldProps> = ({
-	errorDisplayGuard: initialLoad,
+	blockErrorDisplay = false,
 }) => {
 	return (
 		<FormField<Enrollment, RadioButtonGroupProps, boolean | null>
@@ -47,8 +47,8 @@ export const EthnicityField: React.FC<ChildInfoFormFieldProps> = ({
 				},
 			]}
 			status={(enrollment) =>
-				initialLoadErrorGuard(
-					initialLoad || false,
+				errorDisplayGuard(
+					blockErrorDisplay,
 					displayValidationStatus([
 						{
 							type: 'warning',

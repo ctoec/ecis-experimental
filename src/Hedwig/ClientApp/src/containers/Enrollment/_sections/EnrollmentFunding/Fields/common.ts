@@ -3,7 +3,7 @@ import { ErrorAlertState } from '../../../../../hooks/useCatchAllErrorAlert';
 import { ApiError } from '../../../../../hooks/useApi';
 
 export type EnrollmentFormFieldProps = {
-	errorDisplayGuard?: boolean;
+	blockErrorDisplay?: boolean;
 	error: ApiError | null;
 	errorAlertState?: ErrorAlertState;
 };
@@ -15,6 +15,12 @@ export type FundingFormFieldProps = {
 	errorAlertState?: ErrorAlertState;
 };
 
+export type FundingReportingPeriodFieldProps = Pick<
+	FundingFormFieldProps,
+	Exclude<keyof FundingFormFieldProps, 'fundingSpaces'>
+>;
+
 export type C4kCertificateFormFieldProps = {
 	certificateId: number;
+	blockErrorDisplay?: boolean;
 };

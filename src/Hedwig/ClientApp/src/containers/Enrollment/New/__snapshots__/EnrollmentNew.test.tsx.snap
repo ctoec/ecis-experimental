@@ -1653,6 +1653,21 @@ exports[`EnrollmentNew EnrollmenFunding matches snapshot 1`] = `
                             >
                               - Select -
                             </option>
+                            <option
+                              value="1"
+                            >
+                              March 2019
+                            </option>
+                            <option
+                              value="2"
+                            >
+                              April 2019
+                            </option>
+                            <option
+                              value="3"
+                            >
+                              May 2019
+                            </option>
                           </select>
                         </div>
                       </div>

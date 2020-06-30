@@ -11,6 +11,11 @@ import set from 'lodash/set';
 import { RadioButtonGroup, RadioOption } from '../../../../../../components';
 import { WithNewFunding } from './WithNewFunding';
 
+type FundingFieldProps = FundingFormFieldProps & {
+	// see FirstReportingPeriod.tsx
+	setExternalFirstReportingPeriod?: React.Dispatch<React.SetStateAction<number | undefined>>;
+};
+
 /**
  * Component for creating, editing, or removing a funding.
  *
@@ -19,13 +24,14 @@ import { WithNewFunding } from './WithNewFunding';
  * If the user chooses CDC funding, then additional forms to
  * enter funding data are displayed as expansion content for that option
  */
-export const FundingField: React.FC<FundingFormFieldProps> = ({
+export const FundingField: React.FC<FundingFieldProps> = ({
 	error,
 	errorAlertState,
 	fundingId,
 	fundingSpaces: allFundingSpaces,
+	setExternalFirstReportingPeriod,
 }) => {
-	const { data, dataDriller, updateData } = useGenericContext<Enrollment>(FormContext);
+	const { dataDriller, updateData } = useGenericContext<Enrollment>(FormContext);
 	const [validFundingSpaces, setValidFundingSpaces] = useState<FundingSpace[]>([]);
 
 	const thisFunding = dataDriller.at('fundings').find((f) => f.id === fundingId);
@@ -69,8 +75,8 @@ export const FundingField: React.FC<FundingFormFieldProps> = ({
 							text={prettyFundingSource(undefined)}
 							onChange={() =>
 								// Remove the current funding
-								updateData(
-									produce<Enrollment>(data, (draft) =>
+								updateData((_data) =>
+									produce<Enrollment>(_data, (draft) =>
 										set(
 											draft,
 											dataDriller.at('fundings').path,
@@ -101,6 +107,7 @@ export const FundingField: React.FC<FundingFormFieldProps> = ({
 										fundingSpaces={validFundingSpaces}
 										error={error}
 										errorAlertState={errorAlertState}
+										setExternalFirstReportingPeriod={setExternalFirstReportingPeriod}
 									/>
 								) : undefined,
 						} as RadioOption)
@@ -112,6 +119,8 @@ export const FundingField: React.FC<FundingFormFieldProps> = ({
 
 type CDCOptionExpansionProps = FundingFormFieldProps & {
 	shouldCreate: boolean;
+	// see FirstReportingPeriod.tsx
+	setExternalFirstReportingPeriod?: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
 
 const CDCOptionExpansion: React.FC<CDCOptionExpansionProps> = ({
@@ -120,6 +129,7 @@ const CDCOptionExpansion: React.FC<CDCOptionExpansionProps> = ({
 	fundingSpaces: validFundingSpaces,
 	error,
 	errorAlertState,
+	setExternalFirstReportingPeriod,
 }) => {
 	// If a new funding has been created, then pass sub-components
 	// the new funding Id
@@ -137,6 +147,7 @@ const CDCOptionExpansion: React.FC<CDCOptionExpansionProps> = ({
 				fundingId={fundingId}
 				error={error}
 				errorAlertState={errorAlertState}
+				setExternalFirstReportingPeriod={setExternalFirstReportingPeriod}
 			/>
 		</WithNewFunding>
 	);

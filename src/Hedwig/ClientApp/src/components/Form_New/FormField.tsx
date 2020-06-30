@@ -68,6 +68,7 @@ const FormField = <TData extends object, TComponentProps extends {}, TFieldData>
 		value != null // checks null and undefined
 			? value
 			: defaultValue;
+
 	return (
 		<InputComponent
 			defaultValue={preprocessForDisplay ? preprocessForDisplay(displayValue) : displayValue}

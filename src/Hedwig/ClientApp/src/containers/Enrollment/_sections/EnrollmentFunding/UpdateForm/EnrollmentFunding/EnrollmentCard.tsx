@@ -30,6 +30,7 @@ export const EnrollmentCard = ({
 	// Specifically needed to keep a card expanded when the
 	// attempted edit results in an error
 	const [expanded, setExpanded] = useState(forceClose);
+
 	return (
 		<Card
 			expanded={expanded}
@@ -54,11 +55,11 @@ export const EnrollmentCard = ({
 				<div className="flex-2">
 					<p>Enrollment dates</p>
 					<p className="text-bold">
-						{enrollment.entry
-							? `${dateFormatter(enrollment.entry)} - ${
-									enrollment.exit ? dateFormatter(enrollment.exit) : 'present'
-							  }`
-							: InlineIcon({ icon: 'incomplete' })}
+						{!enrollment.entry
+							? InlineIcon({ icon: 'incomplete' })
+							: isCurrent
+							? `${dateFormatter(enrollment.entry)} - present`
+							: `${dateFormatter(enrollment.entry)} - ${dateFormatter(enrollment.exit)}`}
 					</p>
 				</div>
 				{expansion && (

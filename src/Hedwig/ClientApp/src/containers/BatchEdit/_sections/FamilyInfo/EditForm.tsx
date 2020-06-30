@@ -21,7 +21,7 @@ export const EditForm: React.FC<BatchEditStepProps> = ({ enrollment, onSubmit, o
 			{hasValidationErrors(family, ['addressLine1', 'town', 'state', 'zip']) && (
 				<>
 					<h3>Address</h3>
-					<AddressFieldset errorDisplayGuard={true} />
+					<AddressFieldset blockErrorDisplay={true} />
 				</>
 			)}
 

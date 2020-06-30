@@ -17,7 +17,7 @@ namespace Hedwig.Models
 		{
 			if (source.LastReportingPeriodId.HasValue)
 			{
-				return source.FirstReportingPeriod ?? _reportingPeriods.GetById(source.LastReportingPeriodId.Value);
+				return source.LastReportingPeriod ?? _reportingPeriods.GetById(source.LastReportingPeriodId.Value);
 			}
 
 			return null;

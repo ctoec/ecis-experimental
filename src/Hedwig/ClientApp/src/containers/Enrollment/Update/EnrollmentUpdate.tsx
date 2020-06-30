@@ -60,16 +60,19 @@ export default function EnrollmentUpdate({
 	const { setAlerts } = useContext(AlertContext);
 
 	const [enrollment, updateEnrollment] = useState<Enrollment | null>(null);
-	// Get enrollment by id
+
 	const params: ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest = {
 		id: enrollmentId ? enrollmentId : 0,
 		orgId: getIdForUser(user, 'org'),
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
-		include: ['child', 'family', 'determinations', 'fundings', 'past_enrollments', 'sites'],
 	};
+
 	const { loading, error, data: _enrollment } = useApi(
 		(api) => api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet(params),
-		{ skip: !user }
+		{
+			skip: !user,
+			deps: [siteId, enrollmentId],
+		}
 	);
 
 	useEffect(() => {

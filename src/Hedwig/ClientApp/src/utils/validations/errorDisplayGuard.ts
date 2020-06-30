@@ -1,7 +1,7 @@
 import { FormStatusProps } from '../../components/FormStatus/FormStatus';
 
-export function initialLoadErrorGuard(initialLoad: boolean, error?: FormStatusProps) {
-	if (initialLoad) {
+export function errorDisplayGuard(blockErrorDisplay: boolean, error?: FormStatusProps) {
+	if (blockErrorDisplay) {
 		return undefined;
 	} else {
 		return error;
