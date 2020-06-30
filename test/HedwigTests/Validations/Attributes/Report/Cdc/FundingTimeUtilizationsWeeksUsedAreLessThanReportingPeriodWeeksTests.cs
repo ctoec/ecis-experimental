@@ -1,3 +1,4 @@
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -5,6 +6,7 @@ using Hedwig.Models;
 using Hedwig.Repositories;
 using Hedwig.Validations.Attributes;
 using Moq;
+using ValidationContext = System.ComponentModel.DataAnnotations.ValidationContext;
 using Xunit;
 
 namespace HedwigTests.Validations.Attributes
@@ -19,7 +21,6 @@ namespace HedwigTests.Validations.Attributes
 			bool returnsValidationResult
 		)
 		{
-			// if
 			var fundingSpaces = new List<FundingSpace> {
 				new FundingSpace {
 					Id = 1,
@@ -57,7 +58,7 @@ namespace HedwigTests.Validations.Attributes
 
 			var organizations = new Mock<IOrganizationRepository>();
 			organizations.Setup(o => o.GetOrganizationById(It.IsAny<int>()))
-			.Returns(organization);
+			 .Returns(organization);
 
 			var serviceProvider = new Mock<IServiceProvider>();
 			serviceProvider.Setup(v => v.GetService(typeof(IOrganizationRepository)))
@@ -70,7 +71,7 @@ namespace HedwigTests.Validations.Attributes
 			var value = timeSplitUtilizations;
 			var result = attribute.GetValidationResult(value, validationContext);
 
-			// then 
+			// then
 			Assert.Equal(returnsValidationResult, result != null);
 		}
 
@@ -139,12 +140,13 @@ namespace HedwigTests.Validations.Attributes
 			});
 
 			var organizations = new Mock<IOrganizationRepository>();
+			var _mapper = new Mock<IMapper>();
 			organizations.Setup(o => o.GetOrganizationById(It.IsAny<int>()))
-			.Returns(organization);
+			  .Returns(organization);
 
 			var serviceProvider = new Mock<IServiceProvider>();
 			serviceProvider.Setup(v => v.GetService(typeof(IOrganizationRepository)))
-			.Returns(organizations.Object);
+			  .Returns(organizations.Object);
 
 			var validationContext = new ValidationContext(report, serviceProvider.Object, new Dictionary<object, object>());
 			var attribute = new FundingTimeUtilizationsWeeksUsedAreLessThanReportingPeriodWeeks();
@@ -153,7 +155,7 @@ namespace HedwigTests.Validations.Attributes
 			var value = timeSplitUtilizations;
 			var result = attribute.GetValidationResult(value, validationContext);
 
-			// then 
+			// then
 			Assert.Equal(returnsValidationResult, result != null);
 		}
 	}

@@ -10,7 +10,12 @@ namespace Hedwig.Repositories
 {
 	public class FamilyRepository : HedwigRepository, IFamilyRepository
 	{
-		public FamilyRepository(HedwigContext context) : base(context) { }
+		readonly FamilyDeterminationRepository _familyDeterminationRepository;
+
+		public FamilyRepository(HedwigContext context) : base(context)
+		{
+			_familyDeterminationRepository = new FamilyDeterminationRepository(context);
+		}
 
 		public Family GetFamilyById(int id)
 		{
@@ -19,9 +24,44 @@ namespace Hedwig.Repositories
 
 			return family.FirstOrDefault();
 		}
+
+		public List<EnrollmentFamilyDTO> GetEnrollmentFamilyDTOsByIds(IEnumerable<int> ids)
+		{
+			_context.ChangeTracker.LazyLoadingEnabled = false;
+			var fDTOs = _context.Families
+				.Where(f => ids.Contains(f.Id))
+				.SelectEnrollmentFamilyDTO()
+				.ToList();
+			var determinations = _familyDeterminationRepository.GetEnrollmentFamilyDeterminationDTOsByFamilyIds(ids);
+			fDTOs.ForEach(fDTO =>
+			{
+				fDTO.Determinations = determinations.Where(d => d.FamilyId == fDTO.Id).ToList();
+			});
+			return fDTOs;
+		}
 	}
+
+	public static class FamilyQueryExtensions
+	{
+		public static IQueryable<EnrollmentFamilyDTO> SelectEnrollmentFamilyDTO(this IQueryable<Family> query)
+		{
+			return query.Select(f => new EnrollmentFamilyDTO()
+			{
+				Id = f.Id,
+				AddressLine1 = f.AddressLine1,
+				AddressLine2 = f.AddressLine2,
+				Town = f.Town,
+				State = f.State,
+				Zip = f.Zip,
+				Homelessness = f.Homelessness,
+				OrganizationId = f.OrganizationId
+			});
+		}
+	}
+
 	public interface IFamilyRepository
 	{
 		Family GetFamilyById(int id);
+		List<EnrollmentFamilyDTO> GetEnrollmentFamilyDTOsByIds(IEnumerable<int> ids);
 	}
 }
