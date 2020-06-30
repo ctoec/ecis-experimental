@@ -1,11 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Hedwig.Data;
 using Hedwig.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Hedwig.Repositories
 {
@@ -19,6 +18,7 @@ namespace Hedwig.Repositories
 			// depends on if we include sub-objets on report that should _not_ be updated
 			UpdateHedwigIdEntityWithNavigationProperties<CdcReport, CdcReportDTO, int>(report, reportDTO);
 		}
+
 		public List<CdcReport> GetReportsForOrganization(int orgId)
 		{
 			return _context.Reports
@@ -30,34 +30,43 @@ namespace Hedwig.Repositories
 			.ToList();
 		}
 
+		public List<OrganizationReportSummaryDTO> GetOrganizationReportSummaryDTOsForOrganization(int orgId)
+		{
+			OrganizationReportSummaryOrganizationDTO oDTO = _context.GetService<IOrganizationRepository>().GetOrganizationReportSummaryOrganizationDTOById(orgId);
+			return _context.Reports
+			.OfType<CdcReport>()
+			.Where(r => r.OrganizationId == orgId)
+			.Select(r => new OrganizationReportSummaryDTO()
+			{
+				Id = r.Id,
+				ReportingPeriod = r.ReportingPeriod,
+				SubmittedAt = r.SubmittedAt,
+				Organization = oDTO
+			})
+			.ToList();
+		}
+
 		public CdcReport GetCdcReportForOrganization(int id, int orgId)
 		{
-			IQueryable<CdcReport> reportQuery = _context.Reports
+			var reportResult = _context.Reports
 			.OfType<CdcReport>()
 			.Where(report => report.Id == id && report.OrganizationId == orgId)
 			.Include(report => report.ReportingPeriod)
-			.Include(report => report.TimeSplitUtilizations);
-
-			reportQuery = reportQuery.Include(report => report.Organization);
-
-			reportQuery = reportQuery
-				.Include(report => report.Organization)
-				.ThenInclude(organization => organization.Sites);
-
-			reportQuery = reportQuery
-				.Include(report => report.Organization)
-					.ThenInclude(organization => organization.FundingSpaces)
-						.ThenInclude(fundingSpace => fundingSpace.TimeSplit)
-				.Include(report => report.Organization)
-					.ThenInclude(organization => organization.FundingSpaces)
-						.ThenInclude(fundingSpace => fundingSpace.TimeSplitUtilizations)
-							.ThenInclude(timeSplitUtilization => timeSplitUtilization.ReportingPeriod)
-				.Include(report => report.Organization)
-					.ThenInclude(organization => organization.FundingSpaces)
-						.ThenInclude(fundingSpace => fundingSpace.TimeSplitUtilizations)
-							.ThenInclude(util => util.Report);
-
-			var reportResult = reportQuery.FirstOrDefault();
+			.Include(report => report.TimeSplitUtilizations)
+      .Include(report => report.Organization)
+				.ThenInclude(organization => organization.Sites)
+			.Include(report => report.Organization)
+				.ThenInclude(organization => organization.FundingSpaces)
+					.ThenInclude(fundingSpace => fundingSpace.TimeSplit)
+			.Include(report => report.Organization)
+				.ThenInclude(organization => organization.FundingSpaces)
+					.ThenInclude(fundingSpace => fundingSpace.TimeSplitUtilizations)
+						.ThenInclude(timeSplitUtilization => timeSplitUtilization.ReportingPeriod)
+			.Include(report => report.Organization)
+				.ThenInclude(organization => organization.FundingSpaces)
+					.ThenInclude(fundingSpace => fundingSpace.TimeSplitUtilizations)
+						.ThenInclude(util => util.Report)
+			.FirstOrDefault();
 
 			// Manually insert time-versioned enrollment records
 			if (reportResult != null)
@@ -172,6 +181,7 @@ namespace Hedwig.Repositories
 	{
 		void UpdateReport(CdcReport report, CdcReportDTO reportDTO);
 		List<CdcReport> GetReportsForOrganization(int orgId);
+		List<OrganizationReportSummaryDTO> GetOrganizationReportSummaryDTOsForOrganization(int orgId);
 		CdcReport GetCdcReportForOrganization(int id, int orgId);
 		List<Enrollment> GetEnrollmentsForReport(CdcReport report);
 		CdcReport GetMostRecentSubmittedCdcReportForOrganization(int orgId);
