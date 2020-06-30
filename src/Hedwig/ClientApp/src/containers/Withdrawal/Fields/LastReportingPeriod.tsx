@@ -34,7 +34,7 @@ export const LastReportingPeriodField: React.FC<LastReportingFieldProps> = ({
 		.at('firstReportingPeriod').value;
 	const lastFiveReportingPeriodOptions = lastNReportingPeriods(
 		cdcReportingPeriods,
-		currentEndDate || moment().toDate(),
+		currentEndDate || moment.utc().toDate(),
 		5
 	);
 	// Only show reporting period options that are after the first reporting period

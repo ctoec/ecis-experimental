@@ -3,14 +3,14 @@ import FormField from '../../../../../components/Form_New/FormField';
 import { Enrollment } from '../../../../../generated';
 import { TextInputProps, TextInput } from '../../../../../components';
 import { ChildInfoFormFieldProps } from './common';
-import { initialLoadErrorGuard } from '../../../../../utils/validations';
+import { errorDisplayGuard } from '../../../../../utils/validations';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
 
 /**
  * Component for entering the birth town of a child in an enrollment.
  */
 export const BirthTownField: React.FC<ChildInfoFormFieldProps> = ({
-	errorDisplayGuard: initialLoad,
+	blockErrorDisplay = false,
 }) => {
 	return (
 		<FormField<Enrollment, TextInputProps, string | null>
@@ -21,8 +21,8 @@ export const BirthTownField: React.FC<ChildInfoFormFieldProps> = ({
 			id="birthTown"
 			label="Town"
 			status={(enrollment) =>
-				initialLoadErrorGuard(
-					initialLoad || false,
+				errorDisplayGuard(
+					blockErrorDisplay,
 					displayValidationStatus([
 						{
 							type: 'warning',

@@ -11,22 +11,31 @@ import { Card, Button, TextWithIcon } from '../../../../../../components';
 import { ReactComponent as PlusCircle } from '../../../../../../assets/images/plusCircle.svg';
 import { CardExpansion } from '../../../../../../components/Card/CardExpansion';
 import { ExpandCard } from '../../../../../../components/Card/ExpandCard';
+import { propertyDateSorter } from '../../../../../../utils/dateSorter';
+import { Enrollment } from '../../../../../../generated';
 
 export const Care4KidsForm: React.FC<UpdateFormSectionProps> = ({
 	mutatedEnrollment,
-	formOnSubmit,
+	setMutatedEnrollment,
+	attemptSave,
 	saveError,
 	errorAlertState,
 	forceCloseEditForms,
 }) => {
-	if (!mutatedEnrollment || !mutatedEnrollment.child) {
+	if (!mutatedEnrollment.child) {
 		throw new Error('Section rendered without enrollment or child');
 	}
 
-	const currentC4kCert = getCurrentC4kCertificate(mutatedEnrollment);
-	const pastC4kCerts = getPastC4kCertificates(mutatedEnrollment).sort((a, b) =>
-		c4kCertificateSorter(a, b, true)
-	);
+	const formOnSubmit = (userModifiedEnrollment: Enrollment) => {
+		setMutatedEnrollment(userModifiedEnrollment);
+		attemptSave();
+	};
+
+	const sortedC4kCerts = (mutatedEnrollment.child?.c4KCertificates || [])
+		.slice() // force copy to avoid sorting immutable object (javascript array sort is in-place)
+		.sort((a, b) => propertyDateSorter(a, b, (cert) => cert.endDate, true));
+	const currentC4kCert = sortedC4kCerts.find((cert) => !cert.endDate);
+	const pastC4kCerts = sortedC4kCerts.slice(1);
 
 	return (
 		<>

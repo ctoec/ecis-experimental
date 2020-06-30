@@ -3,7 +3,7 @@ import { Form, FormSubmitButton } from '../../../../components/Form_New';
 import { Enrollment } from '../../../../generated';
 import { BatchEditStepProps } from '../batchEditTypes';
 import { hasValidationErrors } from '../../../../utils/validations';
-import { EnrollmentStartDate } from '../../../Enrollment/_sections/EnrollmentFunding/Fields/EnrollmentStartDate';
+import { EnrollmentStartDateField } from '../../../Enrollment/_sections/EnrollmentFunding/Fields/EnrollmentStartDate';
 import { FamilyIdField } from '../../../Enrollment/_sections/EnrollmentFunding/Fields/Care4Kids/FamilyId';
 import { CertificateStartDate } from '../../../Enrollment/_sections/EnrollmentFunding/Fields/Care4Kids/CertificateStartDate';
 import { Button } from '../../../../components';
@@ -37,8 +37,8 @@ export const EditForm: React.FC<BatchEditStepProps> = ({
 			{hasValidationErrors(enrollment, ['entry']) && (
 				<>
 					<h3>Enrollment</h3>
-					<EnrollmentStartDate
-						errorDisplayGuard={true}
+					<EnrollmentStartDateField
+						blockErrorDisplay={true}
 						error={error}
 						errorAlertState={errorAlertState}
 					/>

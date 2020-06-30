@@ -32,7 +32,7 @@ export const EditForm: React.FC<BatchEditStepProps> = ({ enrollment, onSubmit, o
 					<IncomeDeterminationFieldSet
 						type="redetermine"
 						determinationId={0}
-						errorDisplayGuard={true}
+						blockErrorDisplay={true}
 					/>
 				</>
 			)}
@@ -46,7 +46,7 @@ export const EditForm: React.FC<BatchEditStepProps> = ({ enrollment, onSubmit, o
 				<IncomeDeterminationFieldSet
 					type="edit"
 					determinationId={determinationWithErrors.id}
-					errorDisplayGuard={true}
+					blockErrorDisplay={true}
 				/>
 			)}
 

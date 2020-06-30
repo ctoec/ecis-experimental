@@ -1,5 +1,9 @@
 import React, { useContext } from 'react';
-import { ApiOrganizationsIdGetRequest, Organization } from '../../../../../../generated';
+import {
+	ApiOrganizationsIdGetRequest,
+	Organization,
+	Enrollment,
+} from '../../../../../../generated';
 import UserContext from '../../../../../../contexts/User/UserContext';
 import { getIdForUser } from '../../../../../../utils/models';
 import useApi from '../../../../../../hooks/useApi';
@@ -8,10 +12,15 @@ import { FundingFormForCard } from './FundingFormForCard';
 import { FundingCard } from './FundingCard';
 import { EnrollmentFormForCard } from './EnrollmentFormForCard';
 import { UpdateFormSectionProps } from '../common';
+import { Card, Button } from '../../../../../../components';
+import { ExpandCard } from '../../../../../../components/Card/ExpandCard';
+import { CardExpansion } from '../../../../../../components/Card/CardExpansion';
+import { NewEnrollmentFundingFormForCard } from './NewEnrollmentFundingFormForCard';
 
 export const EnrollmentFundingForm: React.FC<UpdateFormSectionProps> = ({
 	mutatedEnrollment,
-	formOnSubmit,
+	setMutatedEnrollment,
+	attemptSave,
 	saveError,
 	errorAlertState,
 	forceCloseEditForms,
@@ -20,7 +29,6 @@ export const EnrollmentFundingForm: React.FC<UpdateFormSectionProps> = ({
 
 	const params: ApiOrganizationsIdGetRequest = {
 		id: getIdForUser(user, 'org'),
-		include: ['enrollments', 'fundings', 'funding_spaces'],
 	};
 
 	const { data: organization, error: organizationError, loading: organizationLoading } = useApi<
@@ -38,10 +46,38 @@ export const EnrollmentFundingForm: React.FC<UpdateFormSectionProps> = ({
 	}
 
 	const fundingSpaces = organization.fundingSpaces || [];
+	const sites = organization.sites || [];
 
 	const pastEnrollments = mutatedEnrollment.pastEnrollments || [];
+
+	// Current enrollment form on submit
+	const formOnSubmit = (userModifiedCurrentEnrollment: Enrollment) => {
+		setMutatedEnrollment(userModifiedCurrentEnrollment);
+		attemptSave();
+	};
+
 	return (
 		<>
+			<Card forceClose={forceCloseEditForms}>
+				<div className="display-flex flex-justify">
+					<p>Has {mutatedEnrollment.child?.firstName}'s age group and/or site changed?</p>
+					<ExpandCard>
+						<Button text="Create new enrollment" appearance="outline" />
+					</ExpandCard>
+				</div>
+				<CardExpansion>
+					<NewEnrollmentFundingFormForCard
+						currentEnrollment={mutatedEnrollment}
+						setCurrentEnrollment={setMutatedEnrollment}
+						attemptCurrentEnrollmentSave={attemptSave}
+						currentEnrollmentErrorAlertState={errorAlertState}
+						currentEnrollmentSaveError={saveError}
+						sites={sites}
+						fundingSpaces={fundingSpaces}
+					/>
+				</CardExpansion>
+			</Card>
+
 			<h2 className="font-sans-md margin-top-2 margin-bottom-2">Current enrollment</h2>
 			<EnrollmentCard
 				key={`${mutatedEnrollment.id}-current`}
