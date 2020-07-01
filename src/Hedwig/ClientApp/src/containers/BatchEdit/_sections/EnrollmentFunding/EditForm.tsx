@@ -18,7 +18,7 @@ export const EditForm: React.FC<BatchEditStepProps> = ({
 	const c4KCertificatesWithErrors = enrollment.child?.c4KCertificates?.filter((cert) =>
 		hasValidationErrors(cert)
 	);
-
+	
 	return (
 		<Form<Enrollment>
 			className="usa-form"
@@ -44,12 +44,12 @@ export const EditForm: React.FC<BatchEditStepProps> = ({
 					/>
 				</>
 			)}
-			{hasValidationErrors(enrollment.child, ['c4KFamilyCaseNumber', 'c4KCertificates']) && (
+			{hasValidationErrors(enrollment.child, ['C4KFamilyCaseNumber', 'c4KCertificates']) && (
 				<>
 					<h3>Care 4 Kids</h3>
+					{hasValidationErrors(enrollment.child, ['C4KFamilyCaseNumber']) && <FamilyIdField />}
 					{c4KCertificatesWithErrors?.map((cert) => (
 						<>
-							{hasValidationErrors(enrollment.child, ['c4KFamilyCaseNumber']) && <FamilyIdField />}
 							{hasValidationErrors(cert, ['startDate']) && (
 								<CertificateStartDate certificateId={cert.id} />
 							)}
