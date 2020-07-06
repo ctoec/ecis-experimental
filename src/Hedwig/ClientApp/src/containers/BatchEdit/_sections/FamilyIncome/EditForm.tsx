@@ -8,7 +8,7 @@ import { Button } from '../../../../components';
 import useCatchAllErrorAlert from '../../../../hooks/useCatchAllErrorAlert';
 
 export const EditForm: React.FC<BatchEditStepProps> = ({ enrollment, onSubmit, onSkip }) => {
-	const [determinationWithErrors] = (enrollment.child?.family?.determinations || []).filter(
+	const determinationsWithErrors = (enrollment.child?.family?.determinations || []).filter(
 		(det) => !!det.validationErrors && det.validationErrors.length
 	);
 
@@ -39,16 +39,16 @@ export const EditForm: React.FC<BatchEditStepProps> = ({ enrollment, onSubmit, o
 
 			{/*
 				When the enrollment has warnings due to other income determination fields
-				-- which are sub-object validations --
+				-- which are validation errors on the determination itself (see above) --
 				then display form fields to edit those determinations with validation errors 
 			 */}
-			{determinationWithErrors && (
+			{determinationsWithErrors.map((det) => (
 				<IncomeDeterminationFieldSet
 					type="edit"
-					determinationId={determinationWithErrors.id}
+					determinationId={det.id}
 					blockErrorDisplay={true}
 				/>
-			)}
+			))}
 
 			<FormSubmitButton text="Save and next" />
 			<Button appearance="outline" text="Skip" onClick={onSkip} />

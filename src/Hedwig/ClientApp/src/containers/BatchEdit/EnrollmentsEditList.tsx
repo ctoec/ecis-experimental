@@ -17,13 +17,13 @@ export const EnrollmentsEditList: React.FC<EnrollmentsEditListProps> = ({
 	enrollments,
 	activeEnrollmentId,
 }) => {
-	const [editedEnrollments, setEditedEnrollments] = useState(enrollments);
+	const [mutatedEnrollments, setMutatedEnrollments] = useState(enrollments);
 
 	// Function to enable SingleEnrollmentEdit components to update the
-	// single enrollment they control in the list of edited enrollments.
+	// single enrollment they control in the list of user-mutated enrollments.
 	// Will be passed down into SingleEnrollmentEdit
 	const replaceEnrollment = (updatedEnrollment: Enrollment) => {
-		setEditedEnrollments((enrollments) => {
+		setMutatedEnrollments((enrollments) => {
 			const enrollmentIdx = enrollments.findIndex((e) => e.id === updatedEnrollment.id);
 			enrollments[enrollmentIdx] = updatedEnrollment;
 			return enrollments;
@@ -32,16 +32,18 @@ export const EnrollmentsEditList: React.FC<EnrollmentsEditListProps> = ({
 
 	const [currentEnrollmentIdx, setCurrentEnrollmentIdx] = useState<number | undefined>(
 		activeEnrollmentId
-			? editedEnrollments.findIndex((e) => e.id === activeEnrollmentId)
-			: editedEnrollments.length
+			? mutatedEnrollments.findIndex((e) => e.id === activeEnrollmentId)
+			: mutatedEnrollments.length
 			? 0
 			: undefined
 	);
 
 	const moveNext = () => {
-		if (currentEnrollmentIdx === editedEnrollments.length - 1) {
-			const stillMissingInfoEnrollmentIdx = editedEnrollments.findIndex((e) => hasValidationErrors(e));
-			
+		if (currentEnrollmentIdx === mutatedEnrollments.length - 1) {
+			const stillMissingInfoEnrollmentIdx = mutatedEnrollments.findIndex((e) =>
+				hasValidationErrors(e)
+			);
+
 			setCurrentEnrollmentIdx(
 				stillMissingInfoEnrollmentIdx < 0 ? undefined : stillMissingInfoEnrollmentIdx
 			);
@@ -54,7 +56,7 @@ export const EnrollmentsEditList: React.FC<EnrollmentsEditListProps> = ({
 	return (
 		<SideNav
 			externalActiveItemIndex={currentEnrollmentIdx}
-			items={editedEnrollments.map((enrollment) => ({
+			items={mutatedEnrollments.map((enrollment) => ({
 				title: hasValidationErrors(enrollment) ? (
 					lastFirstNameFormatter(enrollment.child)
 				) : (
@@ -71,7 +73,6 @@ export const EnrollmentsEditList: React.FC<EnrollmentsEditListProps> = ({
 						key={enrollment.id}
 						enrollment={enrollment}
 						updateEnrollments={replaceEnrollment}
-						siteId={enrollment.siteId}
 						moveNextEnrollment={moveNext}
 					/>
 				),

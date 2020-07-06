@@ -108,37 +108,32 @@ describe('enrollment sections', () => {
 				['Birth certificate', 'birthState'],
 				['Ethnicity', 'hispanicOrLatinxEthnicity'],
 				['Gender', 'gender'],
-			])(
-				'shows %s fieldset warnings if validation error for %s field ',
-				async (label, field) => {
-					const enrollmentWithValidationErrors = mockCompleteEnrollment as DeepNonUndefineable<
-						Enrollment
-					>;
-					enrollmentWithValidationErrors.child.validationErrors = [getValidationError({ field })];
+			])('shows %s fieldset warnings if validation error for %s field ', async (label, field) => {
+				const enrollmentWithValidationErrors = mockCompleteEnrollment as DeepNonUndefineable<
+					Enrollment
+				>;
+				enrollmentWithValidationErrors.child.validationErrors = [getValidationError({ field })];
 
-					const { findByLabelText, findAllByText } = render(
-						<ChildInfo.Form
-							siteId={1}
-							enrollment={enrollmentWithValidationErrors}
-							updateEnrollment={jest.fn()}
-							error={null}
-						/>
-					);
+				const { findByLabelText, findAllByText } = render(
+					<ChildInfo.Form
+						siteId={1}
+						enrollment={enrollmentWithValidationErrors}
+						updateEnrollment={jest.fn()}
+						error={null}
+					/>
+				);
 
-					let fieldContainer;
-					if (field === 'gender') {
-						// Gender is not a fieldset because it's a select component
-						fieldContainer = (await findByLabelText(label)).closest('div');
-					} else {
-						const [span] = (await findAllByText(label)).filter(
-							(elem) => elem.tagName === 'SPAN'
-						);
-						fieldContainer = span.closest('fieldset');
-					}
-
-					expect(fieldContainer).toHaveTextContent(REQUIRED_FOR_OEC_REPORTING);
+				let fieldContainer;
+				if (field === 'gender') {
+					// Gender is not a fieldset because it's a select component
+					fieldContainer = (await findByLabelText(label)).closest('div');
+				} else {
+					const [span] = (await findAllByText(label)).filter((elem) => elem.tagName === 'SPAN');
+					fieldContainer = span.closest('fieldset');
 				}
-			);
+
+				expect(fieldContainer).toHaveTextContent(REQUIRED_FOR_OEC_REPORTING);
+			});
 
 			it('shows Race fieldset warning if validation error for race fields', async () => {
 				const enrollmentWithValidationErrors = mockCompleteEnrollment as DeepNonUndefineable<

@@ -18,7 +18,7 @@ export const EditForm: React.FC<BatchEditStepProps> = ({
 	const c4KCertificatesWithErrors = enrollment.child?.c4KCertificates?.filter((cert) =>
 		hasValidationErrors(cert)
 	);
-	
+
 	return (
 		<Form<Enrollment>
 			className="usa-form"

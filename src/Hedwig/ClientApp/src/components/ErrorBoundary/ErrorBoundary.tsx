@@ -32,7 +32,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps> {
 			text: 'Something went wrong',
 			type: 'error',
 			heading: 'Error',
-			...this.props.alertProps
+			...this.props.alertProps,
 		} as AlertProps;
 		if (hasError) {
 			// TODO: set alert context here instead? return nothing?
