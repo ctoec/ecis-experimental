@@ -55,7 +55,6 @@ export const FieldSet: React.FC<FieldSetProps> = ({
 			)}
 			id={id}
 			aria-describedby={ariaDescriber}
-			// TODO: is this bad usability? are things that aren't optional always required?
 			aria-required={!optional}
 			aria-invalid={status && status.type === 'error'}
 			disabled={disabled}

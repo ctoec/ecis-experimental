@@ -42,8 +42,8 @@ namespace Hedwig.Controllers
 			int orgId
 		)
 		{
-			var reports = _reports.GetReportsForOrganization(orgId);
-			return Ok(reports);
+			var reports = _reports.GetOrganizationReportSummaryDTOsForOrganization(orgId);
+			return Ok(_mapper.Map<List<OrganizationReportSummaryDTO>,List<CdcReport>>(reports));
 		}
 
 		// GET api/organizations/5/reports/1
@@ -57,10 +57,10 @@ namespace Hedwig.Controllers
 			int orgId
 		)
 		{
-			var report = _reports.GetCdcReportForOrganization(id, orgId);
+			var report = await Task.Run(() => _reports.GetCdcReportForOrganization(id, orgId));
 			if (report == null) return NotFound();
-
-			return Ok(report);
+			var reportDTO = _mapper.Map<CdcReport, CdcReportDTO>(report);
+			return Ok(_mapper.Map<CdcReportDTO, CdcReport>(reportDTO));
 		}
 
 		[HttpPut("{id:int}")]
