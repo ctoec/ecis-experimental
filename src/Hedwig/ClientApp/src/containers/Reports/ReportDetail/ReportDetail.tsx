@@ -43,7 +43,6 @@ export default function ReportDetail() {
 	const reportParams = {
 		id: parseInt(id || '0'),
 		orgId: getIdForUser(user, 'org'),
-		include: ['organizations', 'enrollments', 'sites', 'funding_spaces', 'child'],
 	};
 	const { loading, data: report } = useApi(
 		(api) => api.apiOrganizationsOrgIdReportsIdGet(reportParams),
@@ -106,9 +105,7 @@ export default function ReportDetail() {
 	}
 
 	if (!report.organization) {
-		throw new Error(
-			'API did not return organization on report. Please check your include parameters.'
-		);
+		throw new Error('malformed API response');
 	}
 
 	const numEnrollmentsMissingInfo = (report.enrollments || []).filter(

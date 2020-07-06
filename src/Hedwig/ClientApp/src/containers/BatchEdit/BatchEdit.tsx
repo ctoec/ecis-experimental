@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import moment from 'moment';
 import UserContext from '../../contexts/User/UserContext';
 import useApi from '../../hooks/useApi';
@@ -6,14 +6,31 @@ import { Enrollment, FundingSource } from '../../generated';
 import { getIdForUser, isFunded } from '../../utils/models';
 import CommonContainer from '../CommonContainer';
 import { EnrollmentsEditList } from './EnrollmentsEditList';
+import HistoryContext from '../../contexts/History/HistoryContext';
 
 type BatchEditProps = {
 	history: History;
-	match: {
-		params: { activeEnrollmentId?: number };
+	location: {
+		search: string;
 	};
 };
-const BatchEdit: React.FC<BatchEditProps> = ({ match: { params: sectionId } }) => {
+const BatchEdit: React.FC<BatchEditProps> = ({ location: { search } }) => {
+	// For some reason, previousLocation = `/reports` when first landing here
+	// from `/reports/:id`. On subsequent renders, previousLocation gets
+	// correct value with id.
+	// After that, path is set to include enrollmentId, making
+	// previousLocation = `/batch-edit/:enrollmentId`.
+	// The `/reports/:id` path must be preserved to enable user to return
+	// to that location. This is accomplished with the state variable and
+	// useEffect hook below.
+	const { previousLocation } = useContext(HistoryContext);
+	const [initialPreviousLocation, setInitialPreviousLocation] = useState(previousLocation);
+	useEffect(() => {
+		if (!previousLocation.pathname.includes('batch-edit')) {
+			setInitialPreviousLocation(previousLocation);
+		}
+	});
+
 	// TODO get from QS param from roster
 	const startDate = moment();
 	const endDate = moment();
@@ -46,7 +63,10 @@ const BatchEdit: React.FC<BatchEditProps> = ({ match: { params: sectionId } }) =
 				<p className="usa-intro">
 					{needInfoEnrollments.length} enrollments have missing or incomplete information
 				</p>
-				<EnrollmentsEditList enrollments={needInfoEnrollments} />
+				<EnrollmentsEditList
+					enrollments={needInfoEnrollments}
+					previousLocation={initialPreviousLocation}
+				/>
 			</div>
 		</CommonContainer>
 	);

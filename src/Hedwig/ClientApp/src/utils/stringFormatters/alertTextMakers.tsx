@@ -32,7 +32,7 @@ export const updateRosterAlert = (numMissingInfo: number): AlertProps => ({
 		numMissingInfo,
 		true
 	)} missing information required to submit this report.`,
-	actionItem: <Button text="Update roster" href="/roster" />,
+	actionItem: <Button text="Update enrollments" href="/batch-edit" />,
 });
 export const reportSubmittedAlert = (reportingPeriod?: ReportingPeriod): AlertProps | undefined =>
 	reportingPeriod && {
