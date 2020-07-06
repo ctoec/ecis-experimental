@@ -40,9 +40,8 @@ export const EnrollmentsEditList: React.FC<EnrollmentsEditListProps> = ({
 
 	const moveNext = () => {
 		if (currentEnrollmentIdx === editedEnrollments.length - 1) {
-			const stillMissingInfoEnrollmentIdx = editedEnrollments.findIndex((e) =>
-				hasValidationErrors(e)
-			);
+			const stillMissingInfoEnrollmentIdx = editedEnrollments.findIndex((e) => hasValidationErrors(e));
+			
 			setCurrentEnrollmentIdx(
 				stillMissingInfoEnrollmentIdx < 0 ? undefined : stillMissingInfoEnrollmentIdx
 			);

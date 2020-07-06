@@ -40,18 +40,23 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 	const history = useHistory();
 	const [mutatedEnrollment, setMutatedEnrollment] = useState<Enrollment>(enrollment);
 
-	// Update the list of enrollments in parent EnrollmentsEditList
-	// to have the most current version of this single enrollment
-	useEffect(() => {
-		if (mutatedEnrollment) {
-			updateEnrollments(mutatedEnrollment);
-		}
-	}, [mutatedEnrollment]);
-
 	// Create steps for step list, based on state of missing/needed information
 	// in the fetched enrollment
 	const steps: StepProps<BatchEditStepProps>[] = [];
-	if (hasValidationErrors(mutatedEnrollment?.child, undefined, true) /*skip subobj validation*/) {
+	if (hasValidationErrors(mutatedEnrollment?.child, [
+			'birthdate', 
+			'birthcertificateId',
+			'birthTown',
+			'birthState',
+			'hispanicOrLatinxEthnicity',
+			'americanIndianOrAlaskaNative',
+			'asian',
+			'blackOrAfricanAmerican',
+			'nativeHawaiianOrPacificIslander',
+			'white',
+			'gender'
+		])
+	) {
 		steps.push(ChildInfo);
 	}
 	if (hasValidationErrors(mutatedEnrollment?.child?.family, undefined, true)) {
@@ -108,8 +113,8 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 			skip: !user || !attemptingSave,
 			callback: () => setAttemptingSave(false),
 			successCallback: (returnedEnrollment) => {
-				setAttemptingSave(false);
 				setMutatedEnrollment(returnedEnrollment);
+				updateEnrollments(returnedEnrollment);
 				moveNextStep();
 			},
 		}
