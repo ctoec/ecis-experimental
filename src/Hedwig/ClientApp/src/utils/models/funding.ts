@@ -1,7 +1,7 @@
 import { DateRange } from '../../components';
-import { Funding, FundingSource, ReportingPeriod, FundingSpace } from '../../generated';
+import { Funding, FundingSource, ReportingPeriod, FundingSpace, Enrollment } from '../../generated';
 import moment from 'moment';
-import { dateSorter } from '../dateSorter';
+import { dateSorter, propertyDateSorter } from '../dateSorter';
 
 /**
  * constant for display string when an enrollment has no funding
@@ -155,4 +155,43 @@ export function fundingStartSorter(a: Funding, b: Funding): number {
 	var dateA = a.firstReportingPeriod ? a.firstReportingPeriod.period : null;
 	var dateB = b.firstReportingPeriod ? b.firstReportingPeriod.period : null;
 	return dateSorter(dateA, dateB);
+}
+
+/**
+ * Given an enrollment and fundingId, returns the funding that chronologically
+ * preceeds funding with id = fundingId
+ *
+ * Fundings must be deep copied before sorting to avoid errors assigning to
+ * immuatable objects (if enrollment is a state var)
+ * @param enrollment
+ * @param fundingId
+ */
+export function getPreviousFunding(enrollment: Enrollment, fundingId: number) {
+	const sortedFundings = [...(enrollment.fundings || [])].sort((a, b) =>
+		propertyDateSorter(a, b, (f) => f.firstReportingPeriod?.period)
+	);
+
+	const thisFundingIdx = sortedFundings.findIndex((f) => f.id === fundingId);
+	return thisFundingIdx > 0 ? sortedFundings[thisFundingIdx - 1] : undefined;
+}
+
+/**
+ * Given an enrollment and fundingId, returns the funding that chronologically
+ * succeeds funding with id = fundingId
+ *
+ * Fundings must be deep copied before sorting to avoid errors assigning to
+ * immuatable objects (if enrollment is a state var)
+ *
+ * @param enrollment
+ * @param fundingId
+ */
+export function getNextFunding(enrollment: Enrollment, fundingId: number) {
+	const sortedFundings = [...(enrollment.fundings || [])].sort((a, b) =>
+		propertyDateSorter(a, b, (f) => f.firstReportingPeriod?.period)
+	);
+
+	const thisFundingIdx = sortedFundings.findIndex((f) => f.id === fundingId);
+	return thisFundingIdx >= 0 && thisFundingIdx < sortedFundings.length - 1
+		? sortedFundings[thisFundingIdx + 1]
+		: undefined;
 }
