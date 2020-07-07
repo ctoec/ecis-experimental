@@ -19,14 +19,12 @@ import useCatchAllErrorAlert from '../../hooks/useCatchAllErrorAlert';
 type SingleEnrollmentEditProps = {
 	enrollment: Enrollment;
 	updateEnrollments: (_: Enrollment) => void;
-	siteId: number;
 	moveNextEnrollment: () => void;
 };
 
 export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 	enrollment,
 	updateEnrollments,
-	siteId,
 	moveNextEnrollment,
 }) => {
 	const { user } = useContext(UserContext);
@@ -34,7 +32,7 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 
 	const params = {
 		orgId,
-		siteId: siteId,
+		siteId: enrollment.siteId,
 		id: enrollment.id,
 	};
 	const history = useHistory();
@@ -43,8 +41,9 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 	// Create steps for step list, based on state of missing/needed information
 	// in the fetched enrollment
 	const steps: StepProps<BatchEditStepProps>[] = [];
-	if (hasValidationErrors(mutatedEnrollment?.child, [
-			'birthdate', 
+	if (
+		hasValidationErrors(mutatedEnrollment?.child, [
+			'birthdate',
 			'birthcertificateId',
 			'birthTown',
 			'birthState',
@@ -54,7 +53,7 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 			'blackOrAfricanAmerican',
 			'nativeHawaiianOrPacificIslander',
 			'white',
-			'gender'
+			'gender',
 		])
 	) {
 		steps.push(ChildInfo);
@@ -147,7 +146,9 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 					</div>
 				</div>
 				<div className="margin-top-1">
-					<Link to={`/roster/sites/${siteId}/enrollments/${mutatedEnrollment.id}`}>
+					<Link
+						to={`/roster/sites/${mutatedEnrollment.siteId}/enrollments/${mutatedEnrollment.id}`}
+					>
 						View full profile
 					</Link>
 				</div>
