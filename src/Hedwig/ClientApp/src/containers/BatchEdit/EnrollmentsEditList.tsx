@@ -7,15 +7,18 @@ import { SingleEnrollmentEdit } from './SingleEnrollmentEdit';
 import { ReactComponent as Success } from '../../../node_modules/uswds/dist/img/alerts/success.svg';
 import { Link } from 'react-router-dom';
 import { getMissingInfoPrettyString } from '../../utils/validations/getMissingInfoPrettyString';
+import { createPath, Location } from 'history';
 
 type EnrollmentsEditListProps = {
 	enrollments: Enrollment[];
 	activeEnrollmentId?: number;
+	previousLocation: Location;
 };
 
 export const EnrollmentsEditList: React.FC<EnrollmentsEditListProps> = ({
 	enrollments,
 	activeEnrollmentId,
+	previousLocation,
 }) => {
 	const [mutatedEnrollments, setMutatedEnrollments] = useState(enrollments);
 
@@ -81,7 +84,7 @@ export const EnrollmentsEditList: React.FC<EnrollmentsEditListProps> = ({
 				<div className="margin-x-4 margin-y-2 grid-row flex-align-center flex-column">
 					<InlineIcon icon="complete" />
 					<p className="text-bold">All children are up to date!</p>
-					<Link to="/roster">Return to roster</Link>
+					<Link to={createPath(previousLocation)}>Return to report roster</Link>
 				</div>
 			}
 		/>
