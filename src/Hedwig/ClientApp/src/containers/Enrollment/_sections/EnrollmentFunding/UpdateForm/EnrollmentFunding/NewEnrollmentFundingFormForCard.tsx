@@ -145,9 +145,9 @@ export const NewEnrollmentFundingFormForCard: React.FC<NewEnrollmentFundingFormF
 							fundingId={currentFunding.id}
 							label={`Last reporting period for current ${
 								prettyAge(currentEnrollment.ageGroup) + ' '
-								}${currentFunding.source + ' '}${
+							}${currentFunding.source + ' '}${
 								prettyFundingSpaceTime(currentFunding.fundingSpace) + ' '
-								}funding`}
+							}funding`}
 							error={currentEnrollmentSaveError}
 							errorAlertState={currentEnrollmentErrorAlertState}
 							nextEnrollmentFundingFirstReportingPeriodId={

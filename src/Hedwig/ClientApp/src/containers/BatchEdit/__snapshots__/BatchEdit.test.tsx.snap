@@ -112,7 +112,7 @@ exports[`Batch edit matches snapshot 1`] = `
                 <h3
                   class="oec-step-list__step__title"
                 >
-                  Child's information
+                  Child information
                 </h3>
                 <div
                   class="oec-step-list__step__form"
@@ -122,9 +122,9 @@ exports[`Batch edit matches snapshot 1`] = `
                     class="usa-form"
                     novalidate=""
                   >
-                    <h3>
+                    <h4>
                       Birth Certificate
-                    </h3>
+                    </h4>
                     <fieldset
                       aria-required="true"
                       class="grid-gap grid-row usa-fieldset display-inline-block"
