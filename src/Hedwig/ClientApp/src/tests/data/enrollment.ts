@@ -10,13 +10,13 @@ import {
 	mockFullTimeInfantSpace,
 } from './fundingSpace';
 
-const enrollmentValidationError = [
-	{
-		message: 'Child has validation errors',
-		isSubObjectValidation: true,
-		field: 'Child',
-	},
-];
+const getValidationError = (field: string, isSubObjectValidation = false) => {
+	return {
+		message: `${field} has validation errors`,
+		isSubObjectValidation,
+		field: field,
+	};
+};
 
 export const mockCompleteEnrollment: Enrollment = {
 	id: 1,
@@ -56,14 +56,17 @@ export const mockCompleteEnrollment: Enrollment = {
 
 export const mockEnrollmentMissingBirthCertId = swapFields(mockCompleteEnrollment, [
 	{ keys: ['child', 'birthCertificateId'], newValue: undefined },
+	{ keys: ['child', 'validationErrors'], newValue: [getValidationError('BirthCertificateId')] },
 	{ keys: ['id'], newValue: 2 },
-	{ keys: ['validationErrors'], newValue: enrollmentValidationError },
+	{ keys: ['validationErrors'], newValue: [getValidationError('Child', true)] },
 ]);
 
 export const mockEnrollmentMissingAddress = swapFields(mockCompleteEnrollment, [
 	{ keys: ['child', 'family', 'addressLine1'], newValue: undefined },
+	{ keys: ['child', 'validationErrors'], newValue: [getValidationError('Family', true)] },
+	{ keys: ['child', 'family', 'validationErrors'], newValue: [getValidationError('AddressLine1')] },
 	{ keys: ['id'], newValue: 4 },
-	{ keys: ['validationErrors'], newValue: enrollmentValidationError },
+	{ keys: ['validationErrors'], newValue: [getValidationError('Child', true)] },
 
 	{
 		keys: ['child', 'family', 'validationErrors'],
