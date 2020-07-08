@@ -1,15 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import FormContext, { useGenericContext } from '../../../../../../components/Form_New/FormContext';
-import { Enrollment } from '../../../../../../generated';
+import { Enrollment, ReportingPeriod } from '../../../../../../generated';
 import { useContext } from 'react';
 import ReportingPeriodContext from '../../../../../../contexts/ReportingPeriod/ReportingPeriodContext';
-import { lastNReportingPeriods, reportingPeriodFormatter } from '../../../../../../utils/models';
+import {
+	reportingPeriodFormatter,
+	getIdForUser,
+	getNextFunding,
+} from '../../../../../../utils/models';
 import { Select, SelectProps } from '../../../../../../components';
 import moment from 'moment';
 import { FormField } from '../../../../../../components/Form_New';
 import { FundingReportingPeriodFieldProps } from '../common';
 import produce from 'immer';
 import set from 'lodash/set';
+import UserContext from '../../../../../../contexts/User/UserContext';
+import useApi from '../../../../../../hooks/useApi';
+import { propertyDateSorter } from '../../../../../../utils/dateSorter';
 
 type LastReportingPeriodFieldProps = FundingReportingPeriodFieldProps & {
 	nextEnrollmentFundingFirstReportingPeriodId?: number | null;
@@ -32,55 +39,92 @@ export const LastReportingPeriodField: React.FC<LastReportingPeriodFieldProps> =
 	nextEnrollmentFundingFirstReportingPeriodId,
 	label,
 }) => {
-	const { data, dataDriller, updateData } = useGenericContext<Enrollment>(FormContext);
-	const { cdcReportingPeriods } = useContext(ReportingPeriodContext);
-	const nextEnrollmentFundingFirstReportingPeriod = cdcReportingPeriods.find(
+	const { dataDriller, updateData } = useGenericContext<Enrollment>(FormContext);
+	const { cdcReportingPeriods: reportingPeriods } = useContext(ReportingPeriodContext);
+	const nextEnrollmentFundingFirstReportingPeriod = reportingPeriods.find(
 		(period) => period.id === nextEnrollmentFundingFirstReportingPeriodId
 	);
+	const [validReportingPeriods, setValidReportingPeriods] = useState<ReportingPeriod[]>([]);
 
-	// Last reporting period has to start on or before end date,
-	const currentEndDate = dataDriller.at('exit').value;
-	let reportingPeriodOptions = lastNReportingPeriods(
-		cdcReportingPeriods,
-		currentEndDate || moment.utc().toDate(),
-		5
+	// Get reports
+	const { user } = useContext(UserContext);
+	const { data: reports } = useApi((api) =>
+		api.apiOrganizationsOrgIdReportsGet({ orgId: getIdForUser(user, 'org') })
 	);
 
-	// And must be after (or same as) first reporting period
-	const firstReportingPeriod = dataDriller
+	// Get most recently submitted report to use to bound valid reporting period options
+	const [mostRecentlySubmittedReport] = (reports || [])
+		.filter((report) => !!report.submittedAt)
+		.sort((a, b) => propertyDateSorter(a, b, (r) => r.submittedAt, true));
+
+	const endDate = dataDriller.at('exit').value;
+	const lastReportingPeriod = dataDriller
 		.at('fundings')
-		.find((funding) => funding.id === fundingId)
-		.at('firstReportingPeriod').value;
+		.find((f) => f.id === fundingId)
+		.at('lastReportingPeriod').value;
+	const nextFunding = getNextFunding(dataDriller.value, fundingId);
+	useEffect(() => {
+		if (!reportingPeriods) return;
 
-	reportingPeriodOptions = reportingPeriodOptions.filter(
-		(period) => period.period >= firstReportingPeriod.period
-	);
+		// If the last reporting period exists, and is before or same as most recently submitted report,
+		// then the last reporting period is not editable, and current value is only option
+		if (
+			lastReportingPeriod &&
+			mostRecentlySubmittedReport &&
+			lastReportingPeriod.period <= mostRecentlySubmittedReport.reportingPeriod.period
+		) {
+			setValidReportingPeriods(
+				reportingPeriods.filter((period) => period.id === lastReportingPeriod.id)
+			);
+			return;
+		}
 
-	// and before next enrollment funding's first reporting period,
-	// if one exists
-	if (nextEnrollmentFundingFirstReportingPeriod) {
-		reportingPeriodOptions = reportingPeriodOptions.filter(
-			(period) => period.period < nextEnrollmentFundingFirstReportingPeriod.period
+		// Otherwise, valid reporting periods:
+		// - start on or before enrollment end date
+		// - are before next funding's first reporting period (either this enrollment, or next enrollment)
+		// - are centered around the existing value, or today (for relevnce & improved user experience)
+		// - start on or after first reporting period
+		const existingValueOrToday = moment.utc(lastReportingPeriod?.periodStart).add(2, 'months');
+		const maxStartDatesToCompare = [existingValueOrToday];
+		if (endDate) {
+			maxStartDatesToCompare.push(moment.utc(endDate));
+		}
+		if (nextFunding && nextFunding.firstReportingPeriod) {
+			maxStartDatesToCompare.push(moment.utc(nextFunding.firstReportingPeriod.periodStart));
+		}
+		if (nextEnrollmentFundingFirstReportingPeriod) {
+			maxStartDatesToCompare.push(
+				moment.utc(nextEnrollmentFundingFirstReportingPeriod.periodStart)
+			);
+		}
+
+		const maxPeriodStartDate = moment.min(maxStartDatesToCompare);
+		const startIdx = reportingPeriods.findIndex((period) =>
+			moment.utc(period.periodStart).isSameOrAfter(maxPeriodStartDate)
 		);
-	}
 
-	const lastReportingPeriodId = dataDriller
-		.at('fundings')
-		.find((funding) => funding.id === fundingId)
-		.at('lastReportingPeriodId');
+		const _validReportingPeriods = reportingPeriods.slice(startIdx - 4, startIdx);
+		setValidReportingPeriods(_validReportingPeriods);
+	}, [endDate, lastReportingPeriod, nextFunding, mostRecentlySubmittedReport]);
 
 	// If next enrollment funding first reporting period changes, unset last reporting period selection
+	const lastReportingPeriodIdAccessor = dataDriller
+		.at('fundings')
+		.find((f) => f.id === fundingId)
+		.at('lastReportingPeriodId');
 	useEffect(() => {
-		if (lastReportingPeriodId.value) {
+		if (lastReportingPeriodIdAccessor.value && nextEnrollmentFundingFirstReportingPeriodId) {
 			updateData((_data) =>
-				produce<Enrollment>(_data, (draft) => set(draft, lastReportingPeriodId.path, undefined))
+				produce<Enrollment>(_data, (draft) =>
+					set(draft, lastReportingPeriodIdAccessor.path, undefined)
+				)
 			);
 		}
 	}, [nextEnrollmentFundingFirstReportingPeriodId]);
 
 	return (
 		<FormField<Enrollment, SelectProps, number | null>
-			key={`${lastReportingPeriodId.value}`}
+			key={`${lastReportingPeriodIdAccessor.value}`}
 			getValue={(data) =>
 				data
 					.at('fundings')
@@ -91,7 +135,7 @@ export const LastReportingPeriodField: React.FC<LastReportingPeriodFieldProps> =
 			inputComponent={Select}
 			id="last-reporting-period"
 			label={label || 'Last reporting period'}
-			options={reportingPeriodOptions.map((period) => ({
+			options={validReportingPeriods.map((period) => ({
 				value: `${period.id}`,
 				text: reportingPeriodFormatter(period, { extended: true }),
 			}))}

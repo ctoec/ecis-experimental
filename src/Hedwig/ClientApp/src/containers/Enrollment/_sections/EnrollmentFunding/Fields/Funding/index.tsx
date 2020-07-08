@@ -10,6 +10,7 @@ import produce from 'immer';
 import set from 'lodash/set';
 import { RadioButtonGroup, RadioOption } from '../../../../../../components';
 import { WithNewFunding } from './WithNewFunding';
+import { LastReportingPeriodField } from './LastReportingPeriod';
 
 type FundingFieldProps = FundingFormFieldProps & {
 	// see FirstReportingPeriod.tsx
@@ -98,11 +99,11 @@ export const FundingField: React.FC<FundingFieldProps> = ({
 							expansion:
 								source === FundingSource.CDC ? (
 									<CDCOptionExpansion
-										// When the Private pay option is selected,
-										// the existing funding is wiped out.
-										// Even tho a non-zero fundingId exists,
-										// a new funding will need to be created
+										// When the Private pay option is selected, the existing funding is wiped out.
+										// Even tho a non-zero fundingId exists, a new funding will need to be created
+										// so we cannot rely on fundingId === 0 to determine value of shouldCreate
 										shouldCreate={!thisFunding.value}
+										hasLastReportingPeriod={!!thisFunding.at('lastReportingPeriodId').value}
 										fundingId={fundingId}
 										fundingSpaces={validFundingSpaces}
 										error={error}
@@ -119,12 +120,14 @@ export const FundingField: React.FC<FundingFieldProps> = ({
 
 type CDCOptionExpansionProps = FundingFormFieldProps & {
 	shouldCreate: boolean;
+	hasLastReportingPeriod?: boolean;
 	// see FirstReportingPeriod.tsx
 	setExternalFirstReportingPeriod?: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
 
 const CDCOptionExpansion: React.FC<CDCOptionExpansionProps> = ({
 	shouldCreate,
+	hasLastReportingPeriod = false,
 	fundingId: existingFundingId,
 	fundingSpaces: validFundingSpaces,
 	error,
@@ -149,6 +152,13 @@ const CDCOptionExpansion: React.FC<CDCOptionExpansionProps> = ({
 				errorAlertState={errorAlertState}
 				setExternalFirstReportingPeriod={setExternalFirstReportingPeriod}
 			/>
+			{hasLastReportingPeriod && (
+				<LastReportingPeriodField
+					fundingId={fundingId}
+					error={error}
+					errorAlertState={errorAlertState}
+				/>
+			)}
 		</WithNewFunding>
 	);
 };
