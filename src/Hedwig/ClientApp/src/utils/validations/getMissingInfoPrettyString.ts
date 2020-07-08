@@ -1,5 +1,6 @@
 import { Enrollment, ValidationError } from '../../generated';
 import { splitCamelCase } from '../stringFormatters';
+import pluralize from 'pluralize';
 
 const lowercaseFirstLetter = (inputString?: string | null) => {
 	if (!inputString) return '';
@@ -66,26 +67,31 @@ export const getMissingInfoPrettyString = (enrollment: Enrollment) => {
 	}
 
 	if (
-		incomeDeterminationValidationErrors.length > 1 ||
+		incomeDeterminationValidationErrors.length > 0 ||
 		!enrollment.child ||
 		!enrollment.child.family
 	) {
 		// Income household size, income and date -> income determination)
 		missingInfoFields.push('income determination');
-	} else if (incomeDeterminationValidationErrors.length === 1) {
-		missingInfoFields.push(splitCamelCase(incomeDeterminationValidationErrors[0].field));
 	}
-
 	if (remainingValidationErrors.length) {
 		if (
 			birthCertValidationErrors.length === 0 &&
 			incomeDeterminationValidationErrors.length === 0
 		) {
 			// If enrollment is not missing birth certificate or income determination, but is missing other fields
-			return `${remainingValidationErrors.length} fields`;
+			return `${remainingValidationErrors.length} ${pluralize(
+				'field',
+				remainingValidationErrors.length
+			)}`;
 		}
 		// All the other fields are totaled and grouped
-		missingInfoFields.push(`${remainingValidationErrors.length} other fields`);
+		missingInfoFields.push(
+			`${remainingValidationErrors.length} other ${pluralize(
+				'field',
+				remainingValidationErrors.length
+			)}`
+		);
 	}
 
 	let missingInfoString = 'No needed information';

@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
+import qs from 'query-string';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import { Enrollment } from '../../generated';
@@ -71,17 +72,17 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 		steps.push(EnrollmentFunding);
 	}
 
-	// Set url path for initial step
+	// Set url path when current enrollment changes
 	const firstStep = steps.length ? steps[0].key : 'complete';
 	useEffect(() => {
-		let path = '';
-		const pathIdMatch = history.location.pathname.match(/(\d+)/);
-		if (!pathIdMatch || pathIdMatch[0] !== `${mutatedEnrollment.id}`) {
-			path += `/batch-edit/${mutatedEnrollment.id}`;
-		}
+		const queryString = qs.parse(history.location.search);
+		queryString['enrollmentId'] = `${mutatedEnrollment.id}`;
 
-		path += `#${firstStep}`;
-		history.push(path);
+		history.push({
+			pathname: history.location.pathname,
+			search: qs.stringify(queryString),
+			hash: `${firstStep}`,
+		});
 	}, [enrollment.id]);
 
 	// set up function to advance to next step.
@@ -97,7 +98,11 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 			return;
 		}
 
-		history.push(`${history.location.pathname}#${steps[currentIndex + 1].key}`);
+		history.push({
+			pathname: history.location.pathname,
+			search: history.location.search,
+			hash: `${steps[currentIndex + 1].key}`,
+		});
 	};
 
 	// Set up PUT request, to be triggered by steplist forms
@@ -156,7 +161,7 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 			<div className="padding-top-1 border-top-1px border-base-light">
 				{steps.length > 0 ? (
 					<StepList
-						key={mutatedEnrollment.id}
+						key={`${mutatedEnrollment.id}${activeStepId}`}
 						steps={steps}
 						props={stepProps}
 						activeStep={activeStepId}

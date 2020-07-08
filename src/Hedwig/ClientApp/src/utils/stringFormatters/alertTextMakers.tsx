@@ -3,6 +3,7 @@ import { AlertProps, Button, AlertType } from '../../components';
 import { ReportingPeriod } from '../../generated';
 import { reportingPeriodFormatter } from '../models';
 import pluralize from 'pluralize';
+import { report } from 'process';
 
 export const newEnrollmentCompleteAlert = (childName: string): AlertProps => ({
 	type: 'success',
@@ -24,7 +25,7 @@ export const editEnrollmentMissingInfoAlert = (childName: string): AlertProps =>
 	heading: 'Updated, some information missing',
 	text: `${childName} has been updated.`,
 });
-export const updateRosterAlert = (numMissingInfo: number): AlertProps => ({
+export const updateRosterAlert = (numMissingInfo: number, reportId: number): AlertProps => ({
 	type: 'error',
 	heading: 'Update roster',
 	text: `There ${numMissingInfo === 1 ? 'is' : 'are'} ${pluralize(
@@ -32,7 +33,7 @@ export const updateRosterAlert = (numMissingInfo: number): AlertProps => ({
 		numMissingInfo,
 		true
 	)} missing information required to submit this report.`,
-	actionItem: <Button text="Update enrollments" href="/batch-edit" />,
+	actionItem: <Button text="Update enrollments" href={`/batch-edit?reportId=${reportId}`} />,
 });
 export const reportSubmittedAlert = (reportingPeriod?: ReportingPeriod): AlertProps | undefined =>
 	reportingPeriod && {

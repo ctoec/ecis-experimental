@@ -115,7 +115,7 @@ export default function ReportDetail() {
 	let additionalAlerts: AlertProps[] = [];
 
 	if (numEnrollmentsMissingInfo) {
-		additionalAlerts.push(updateRosterAlert(numEnrollmentsMissingInfo));
+		additionalAlerts.push(updateRosterAlert(numEnrollmentsMissingInfo, id));
 	}
 
 	const onSubmit = (userModifiedReport: CdcReport) => {
