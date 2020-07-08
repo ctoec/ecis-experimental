@@ -12,7 +12,7 @@ import {
 import { BatchEditStepProps } from '../batchEditTypes';
 import { Button } from '../../../../components';
 
-export const EditForm: React.FC<BatchEditStepProps> = ({ enrollment, error, onSubmit, onSkip }) => {
+export const EditForm: React.FC<BatchEditStepProps> = ({ enrollment, onSubmit, onSkip }) => {
 	return (
 		<Form<Enrollment>
 			className="usa-form"
@@ -23,13 +23,13 @@ export const EditForm: React.FC<BatchEditStepProps> = ({ enrollment, error, onSu
 		>
 			{hasValidationErrors(enrollment.child, ['birthdate']) && (
 				<>
-					<h3>Date of Birth</h3>
+					<h4>Date of Birth</h4>
 					<DateOfBirthField blockErrorDisplay={true} />
 				</>
 			)}
 			{hasValidationErrors(enrollment.child, ['birthCertificateId', 'birthState', 'birthTown']) && (
 				<>
-					<h3>Birth Certificate</h3>
+					<h4>Birth Certificate</h4>
 					<BirthCertificateFormFieldSet blockErrorDisplay={true} />
 				</>
 			)}
@@ -40,20 +40,20 @@ export const EditForm: React.FC<BatchEditStepProps> = ({ enrollment, error, onSu
 				'nativeHawaiianOrPacificIslander',
 				'white',
 			]) && (
-				<>
-					<h3>Race</h3>
-					<RaceField blockErrorDisplay={true} />
-				</>
-			)}
+					<>
+						<h4>Race</h4>
+						<RaceField blockErrorDisplay={true} />
+					</>
+				)}
 			{hasValidationErrors(enrollment.child, ['hispanicOrLatinxEthnicity']) && (
 				<>
-					<h3>Ethnicity</h3>
+					<h4>Ethnicity</h4>
 					<EthnicityField blockErrorDisplay={true} />
 				</>
 			)}
 			{hasValidationErrors(enrollment.child, ['gender']) && (
 				<>
-					<h3>Gender</h3>
+					<h4>Gender</h4>
 					<GenderField blockErrorDisplay={true} />
 				</>
 			)}

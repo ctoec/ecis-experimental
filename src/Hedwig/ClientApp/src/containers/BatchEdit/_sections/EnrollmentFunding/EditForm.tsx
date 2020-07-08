@@ -36,7 +36,7 @@ export const EditForm: React.FC<BatchEditStepProps> = ({
 			*/}
 			{hasValidationErrors(enrollment, ['entry']) && (
 				<>
-					<h3>Enrollment</h3>
+					<h4>Enrollment</h4>
 					<EnrollmentStartDateField
 						blockErrorDisplay={true}
 						error={error}
@@ -46,7 +46,7 @@ export const EditForm: React.FC<BatchEditStepProps> = ({
 			)}
 			{hasValidationErrors(enrollment.child, ['C4KFamilyCaseNumber', 'c4KCertificates']) && (
 				<>
-					<h3>Care 4 Kids</h3>
+					<h4>Care 4 Kids</h4>
 					{hasValidationErrors(enrollment.child, ['C4KFamilyCaseNumber']) && <FamilyIdField />}
 					{c4KCertificatesWithErrors?.map((cert) => (
 						<>

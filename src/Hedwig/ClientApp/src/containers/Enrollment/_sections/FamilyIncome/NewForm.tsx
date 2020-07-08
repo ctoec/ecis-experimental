@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { SectionProps } from '../../enrollmentTypes';
 import Form from '../../../../components/Form_New/Form';
-import { WithNewDetermination, IncomeDeterminationFieldSet } from './Fields';
+import { WithNewDetermination, IncomeDeterminationFields } from './Fields';
 import {
 	Enrollment,
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
@@ -134,7 +134,7 @@ export const NewForm = ({
 					shouldCreate={determinationId === 0 && !notDisclosed}
 				>
 					{!notDisclosed && (
-						<IncomeDeterminationFieldSet type="new" determinationId={determinationId} />
+						<IncomeDeterminationFields type="new" determinationId={determinationId} />
 					)}
 				</WithNewDetermination>
 

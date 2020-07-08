@@ -4,19 +4,18 @@ import {
 	INFORMATION_REQUIRED_IF_INCOME_DISCLOSED,
 	REQUIRED_FOR_OEC_REPORTING,
 } from '../../../../../utils/validations/messageStrings';
-import { FormFieldSet } from '../../../../../components/Form_New/FormFieldSet';
 import React from 'react';
 import { HouseholdSizeField, AnnualHouseholdIncomeField, DeterminationDateField } from '.';
 import { FormStatusFunc } from '../../../../../components/Form_New/FormStatusFunc';
 import { errorDisplayGuard } from '../../../../../utils/validations';
 
-type IncomeDeterminationFieldSetProps = {
+type IncomeDeterminationFieldsProps = {
 	type: 'new' | 'redetermine' | 'edit';
 	determinationId: number;
 	blockErrorDisplay?: boolean;
 };
 
-export const IncomeDeterminationFieldSet: React.FC<IncomeDeterminationFieldSetProps> = ({
+export const IncomeDeterminationFields: React.FC<IncomeDeterminationFieldsProps> = ({
 	type,
 	determinationId,
 	blockErrorDisplay = false,
@@ -77,13 +76,7 @@ export const IncomeDeterminationFieldSet: React.FC<IncomeDeterminationFieldSetPr
 	}
 
 	return (
-		<FormFieldSet<Enrollment>
-			status={status}
-			id={elementId}
-			legend={legend}
-			showLegend={showLegend}
-			legendStyle="title"
-		>
+		<>
 			<div>
 				<HouseholdSizeField
 					determinationId={determinationId}
@@ -102,6 +95,6 @@ export const IncomeDeterminationFieldSet: React.FC<IncomeDeterminationFieldSetPr
 					blockErrorDisplay={blockErrorDisplay}
 				/>
 			</div>
-		</FormFieldSet>
+		</>
 	);
 };

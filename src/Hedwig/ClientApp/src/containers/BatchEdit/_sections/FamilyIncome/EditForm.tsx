@@ -3,9 +3,8 @@ import { BatchEditStepProps } from '../batchEditTypes';
 import React from 'react';
 import { Enrollment } from '../../../../generated';
 import { hasValidationErrors } from '../../../../utils/validations';
-import { IncomeDeterminationFieldSet } from '../../../Enrollment/_sections/FamilyIncome/Fields';
+import { IncomeDeterminationFields } from '../../../Enrollment/_sections/FamilyIncome/Fields';
 import { Button } from '../../../../components';
-import useCatchAllErrorAlert from '../../../../hooks/useCatchAllErrorAlert';
 
 export const EditForm: React.FC<BatchEditStepProps> = ({ enrollment, onSubmit, onSkip }) => {
 	const determinationsWithErrors = (enrollment.child?.family?.determinations || []).filter(
@@ -28,8 +27,8 @@ export const EditForm: React.FC<BatchEditStepProps> = ({ enrollment, onSubmit, o
 			 */}
 			{hasValidationErrors(enrollment.child?.family, ['determinations'], true) && (
 				<>
-					<h3>Redetermine family income</h3>
-					<IncomeDeterminationFieldSet
+					<h4>Redetermine family income</h4>
+					<IncomeDeterminationFields
 						type="redetermine"
 						determinationId={0}
 						blockErrorDisplay={true}

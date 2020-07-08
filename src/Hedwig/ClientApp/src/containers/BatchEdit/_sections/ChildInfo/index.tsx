@@ -1,14 +1,25 @@
 import React from 'react';
 import { EditForm } from './EditForm';
-import { StepProps } from '../../../../components';
+import { StepProps, InlineIcon } from '../../../../components';
 import { BatchEditStepProps } from '../batchEditTypes';
 import { hasChildInfoSectionErrors } from '../../utils';
 
 export default {
 	key: 'child-info',
-	name: "Child's information",
+	name: "Child information",
 	status: ({ enrollment }) =>
-		hasChildInfoSectionErrors(enrollment) ? 'incomplete' : 'complete',
-	Summary: () => <></>,
+		hasChildInfoValidationErrors(enrollment) ? 'incomplete' : 'complete',
+	Summary: ({ enrollment }) =>
+		hasChildInfoValidationErrors(enrollment) ? (
+			<>
+				<InlineIcon icon="incomplete" />
+				Child Info
+			</>
+		) : (
+				<>
+					<InlineIcon icon="complete" />
+				Child Info
+				</>
+			),
 	Form: EditForm,
 } as StepProps<BatchEditStepProps>;

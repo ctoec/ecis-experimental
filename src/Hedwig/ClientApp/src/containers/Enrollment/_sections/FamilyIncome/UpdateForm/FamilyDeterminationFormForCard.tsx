@@ -1,6 +1,6 @@
 import React from 'react';
 import { Enrollment } from '../../../../../generated';
-import { WithNewDetermination, IncomeDeterminationFieldSet } from '../Fields';
+import { WithNewDetermination, IncomeDeterminationFields } from '../Fields';
 import { Button } from '../../../../../components';
 import FormSubmitButton from '../../../../../components/Form_New/FormSubmitButton';
 import Form from '../../../../../components/Form_New/Form';
@@ -40,10 +40,10 @@ const FamilyDeterminationFormForCard: React.FC<FamilyDeterminationFormForCardPro
 			}}
 		/>
 	) : (
-		<ExpandCard>
-			<Button text="Cancel" appearance="outline" />
-		</ExpandCard>
-	);
+			<ExpandCard>
+				<Button text="Cancel" appearance="outline" />
+			</ExpandCard>
+		);
 
 	return (
 		<Form
@@ -53,8 +53,7 @@ const FamilyDeterminationFormForCard: React.FC<FamilyDeterminationFormForCardPro
 			className="usa-form"
 		>
 			<WithNewDetermination shouldCreate={!isEditExpansion}>
-				{/* TODO: this should probably not be a fieldset-- just not necessary, probably a bad experience for screen readers */}
-				<IncomeDeterminationFieldSet
+				<IncomeDeterminationFields
 					type={isEditExpansion ? 'edit' : 'redetermine'}
 					determinationId={determinationId}
 				/>
