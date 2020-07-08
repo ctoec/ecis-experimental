@@ -40,11 +40,11 @@ export const EditForm: React.FC<BatchEditStepProps> = ({ enrollment, onSubmit, o
 				'nativeHawaiianOrPacificIslander',
 				'white',
 			]) && (
-					<>
-						<h4>Race</h4>
-						<RaceField blockErrorDisplay={true} />
-					</>
-				)}
+				<>
+					<h4>Race</h4>
+					<RaceField blockErrorDisplay={true} />
+				</>
+			)}
 			{hasValidationErrors(enrollment.child, ['hispanicOrLatinxEthnicity']) && (
 				<>
 					<h4>Ethnicity</h4>

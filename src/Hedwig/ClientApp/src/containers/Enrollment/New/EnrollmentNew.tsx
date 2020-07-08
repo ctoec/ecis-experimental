@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { History } from 'history';
-import { Section, SectionProps } from '../enrollmentTypes';
+import { Section, SectionProps, headerLevels } from '../enrollmentTypes';
 import { default as StepList, StepProps } from '../../../components/StepList/StepList';
 import ChildInfo from '../_sections/ChildInfo';
 import FamilyInfo from '../_sections/FamilyInfo';
@@ -215,6 +215,8 @@ export default function EnrollmentNew({
 		successCallback: afterSave,
 		onSectionTouch,
 		touchedSections,
+		// Starting header level within sections is h3 because each step in the steplist uses h2
+		startingHeaderLevel: headerLevels[2],
 	};
 
 	return (

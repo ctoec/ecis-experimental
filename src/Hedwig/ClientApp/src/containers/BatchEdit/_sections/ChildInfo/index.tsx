@@ -6,7 +6,7 @@ import { hasChildInfoSectionErrors } from '../../utils';
 
 export default {
 	key: 'child-info',
-	name: "Child information",
+	name: 'Child information',
 	status: ({ enrollment }) =>
 		hasChildInfoValidationErrors(enrollment) ? 'incomplete' : 'complete',
 	Summary: ({ enrollment }) =>
@@ -16,10 +16,10 @@ export default {
 				Child Info
 			</>
 		) : (
-				<>
-					<InlineIcon icon="complete" />
+			<>
+				<InlineIcon icon="complete" />
 				Child Info
-				</>
-			),
+			</>
+		),
 	Form: EditForm,
 } as StepProps<BatchEditStepProps>;

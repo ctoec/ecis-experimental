@@ -27,16 +27,12 @@ jest.mock('../../../hooks/useApi', () =>
 import React from 'react';
 import mockdate from 'mockdate';
 import { createBrowserHistory } from 'history';
-import { render, getAllByRole } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import 'react-dates/initialize';
 import TestProvider from '../../../contexts/__mocks__/TestProvider';
 import EnrollmentUpdate from './EnrollmentUpdate';
 import { accessibilityTestHelper } from '../../../tests/helpers';
-import {
-	mockCompleteEnrollment,
-	cdcReportingPeriods,
-	mockEnrollmentMissingAddress,
-} from '../../../tests/data';
+import { mockCompleteEnrollment } from '../../../tests/data';
 import FamilyInfo from '../_sections/FamilyInfo';
 import FamilyIncome from '../_sections/FamilyIncome';
 import EnrollmentFunding from '../_sections/EnrollmentFunding';

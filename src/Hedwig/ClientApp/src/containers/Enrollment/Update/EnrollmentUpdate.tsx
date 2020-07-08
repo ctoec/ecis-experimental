@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Section } from '../enrollmentTypes';
+import { Section, headerLevels } from '../enrollmentTypes';
 import { History } from 'history';
 import ChildInfo from '../_sections/ChildInfo';
 import FamilyInfo from '../_sections/FamilyInfo';
@@ -121,6 +121,7 @@ export default function EnrollmentUpdate({
 		updateEnrollment,
 		error,
 		successCallback: afterSave,
+		startingHeaderLevel: headerLevels[1],
 	};
 
 	return (

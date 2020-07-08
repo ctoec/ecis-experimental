@@ -37,6 +37,7 @@ export const C4kCertificateFormForCard: React.FC<C4KCertificateFormForCardProps>
 			onSubmit={onSubmit}
 			className="usa-form"
 		>
+			<h2>{`${isEdit ? 'Edit' : 'New'} Care 4 Kids certificate`}</h2>
 			<WithNewC4kCertificate shouldCreate={!isEdit}>
 				<FamilyIdField />
 				<CertificateStartDate certificateId={certificateId} />

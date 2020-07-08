@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { SectionProps } from '../../enrollmentTypes';
+import { SectionProps, headerLevels } from '../../enrollmentTypes';
 import {
 	Enrollment,
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest,
@@ -32,6 +32,7 @@ export const NewForm: React.FC<SectionProps> = ({
 	siteId,
 	successCallback,
 	onSectionTouch,
+	startingHeaderLevel = headerLevels[2],
 }) => {
 	const { user } = useContext(UserContext);
 
@@ -69,12 +70,12 @@ export const NewForm: React.FC<SectionProps> = ({
 	const apiRequest = (api: HedwigApi) =>
 		enrollment === null
 			? api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsPost({
-				...commonParams,
-			})
+					...commonParams,
+			  })
 			: api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut({
-				...commonParams,
-				id: enrollment.id,
-			});
+					...commonParams,
+					id: enrollment.id,
+			  });
 	const { error, loading: isSaving } = useApi<Enrollment>(apiRequest, {
 		skip: !attemptSave,
 		callback: apiCallback,
@@ -90,6 +91,8 @@ export const NewForm: React.FC<SectionProps> = ({
 		// Kick off the API request
 		setAttemptSave(true);
 	};
+
+	const Header = startingHeaderLevel;
 
 	return (
 		<Form<Enrollment>
@@ -119,15 +122,15 @@ export const NewForm: React.FC<SectionProps> = ({
 					</div>
 				</div>
 			</div>
-			<h3>Date of birth</h3>
+			<Header>Date of birth</Header>
 			<DateOfBirthField />
-			<h3>Birth certificate</h3>
+			<Header>Birth certificate</Header>
 			<BirthCertificateFormFieldSet />
-			<h3>Race</h3>
+			<Header>Race</Header>
 			<RaceField />
-			<h3>Ethnicity</h3>
+			<Header>Ethnicity</Header>
 			<EthnicityField />
-			<h3>Gender</h3>
+			<Header>Gender</Header>
 			<GenderField />
 			<FormSubmitButton text={isSaving ? 'Saving...' : 'Save'} disabled={isSaving} />
 		</Form>
