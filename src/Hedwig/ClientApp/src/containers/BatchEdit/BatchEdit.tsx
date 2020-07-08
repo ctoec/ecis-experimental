@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import qs from 'query-string';
 import UserContext from '../../contexts/User/UserContext';
 import useApi from '../../hooks/useApi';

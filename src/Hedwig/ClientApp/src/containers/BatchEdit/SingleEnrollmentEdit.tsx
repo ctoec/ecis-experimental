@@ -3,7 +3,6 @@ import qs from 'query-string';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import { Enrollment } from '../../generated';
-import { hasValidationErrors } from '../../utils/validations';
 import { StepProps, StepList } from '../../components';
 import { lastFirstNameFormatter } from '../../utils/stringFormatters';
 import dateFormatter from '../../utils/dateFormatter';
@@ -16,6 +15,7 @@ import FamilyInfo from './_sections/FamilyInfo';
 import FamilyIncome from './_sections/FamilyIncome';
 import EnrollmentFunding from './_sections/EnrollmentFunding';
 import useCatchAllErrorAlert from '../../hooks/useCatchAllErrorAlert';
+import { hasChildInfoSectionErrors, hasFamilyInfoSectionErrors, hasEnrollmentFundingSectionErrors, hasFamilyIncomeSectionErrors } from './utils';
 
 type SingleEnrollmentEditProps = {
 	enrollment: Enrollment;
@@ -39,58 +39,45 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 	const history = useHistory();
 	const [mutatedEnrollment, setMutatedEnrollment] = useState<Enrollment>(enrollment);
 
-	// Create steps for step list, based on state of missing/needed information
-	// in the fetched enrollment
-	const steps: StepProps<BatchEditStepProps>[] = [];
-	if (
-		hasValidationErrors(mutatedEnrollment?.child, [
-			'birthdate',
-			'birthcertificateId',
-			'birthTown',
-			'birthState',
-			'hispanicOrLatinxEthnicity',
-			'americanIndianOrAlaskaNative',
-			'asian',
-			'blackOrAfricanAmerican',
-			'nativeHawaiianOrPacificIslander',
-			'white',
-			'gender',
-		])
-	) {
-		steps.push(ChildInfo);
-	}
-	if (hasValidationErrors(mutatedEnrollment?.child?.family, undefined, true)) {
-		steps.push(FamilyInfo);
-	}
-	if (hasValidationErrors(mutatedEnrollment?.child?.family, ['determinations'])) {
-		steps.push(FamilyIncome);
-	}
-	if (
-		hasValidationErrors(mutatedEnrollment, ['entry']) ||
-		hasValidationErrors(mutatedEnrollment?.child, ['c4KCertificateFamilyId', 'c4KCertificates'])
-	) {
-		steps.push(EnrollmentFunding);
-	}
-
-	// Set url path when current enrollment changes
-	const firstStep = steps.length ? steps[0].key : 'complete';
+	// Create steps for step list based on state of missing/needed information
+	// in the fetched enrollment. Do this only on initial render to persist
+	// all steps even as the enrollment is updated & errors are resolved
+	const [steps, setSteps] = useState<StepProps<BatchEditStepProps>[]>([]);
+	
 	useEffect(() => {
+		const _steps: StepProps<BatchEditStepProps>[] = [];
+		if (hasChildInfoSectionErrors(enrollment)) {
+			_steps.push(ChildInfo);
+		}
+		if (hasFamilyInfoSectionErrors(enrollment)) {
+			_steps.push(FamilyInfo);
+		}
+		if (hasFamilyIncomeSectionErrors(enrollment)) {
+			_steps.push(FamilyIncome);
+		}
+		if (hasEnrollmentFundingSectionErrors(enrollment)) {
+			_steps.push(EnrollmentFunding);
+		}
+
+		setSteps(_steps);
+	}, []);
+
+	useEffect(() => {
+		const firstStep = steps.length ? steps[0].key : 'complete';
 		const queryString = qs.parse(history.location.search);
 		queryString['enrollmentId'] = `${mutatedEnrollment.id}`;
-
 		history.push({
 			pathname: history.location.pathname,
 			search: qs.stringify(queryString),
 			hash: `${firstStep}`,
 		});
-	}, [enrollment.id]);
+	}, [enrollment.id, steps]);
 
 	// set up function to advance to next step.
 	// If there is no next step for this enrollment,
 	// then invoke the moveNextEnrollment function
 	const locationHash = history.location.hash;
-	const activeStepId = locationHash ? locationHash.slice(1) : firstStep;
-
+	const activeStepId = locationHash ? locationHash.slice(1) : steps.length ? steps[0].key : 'complete';
 	const moveNextStep = () => {
 		const currentIndex = steps.findIndex((step) => step.key === activeStepId);
 		if (currentIndex === steps.length - 1) {
@@ -161,7 +148,7 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 			<div className="padding-top-1 border-top-1px border-base-light">
 				{steps.length > 0 ? (
 					<StepList
-						key={`${mutatedEnrollment.id}${activeStepId}`}
+						key={`${mutatedEnrollment.id}`}
 						steps={steps}
 						props={stepProps}
 						activeStep={activeStepId}

@@ -3,7 +3,6 @@ import { AlertProps, Button, AlertType } from '../../components';
 import { ReportingPeriod } from '../../generated';
 import { reportingPeriodFormatter } from '../models';
 import pluralize from 'pluralize';
-import { report } from 'process';
 
 export const newEnrollmentCompleteAlert = (childName: string): AlertProps => ({
 	type: 'success',

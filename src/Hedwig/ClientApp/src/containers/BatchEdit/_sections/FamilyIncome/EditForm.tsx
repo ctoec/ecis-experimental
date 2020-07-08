@@ -44,6 +44,7 @@ export const EditForm: React.FC<BatchEditStepProps> = ({ enrollment, onSubmit, o
 			 */}
 			{determinationsWithErrors.map((det) => (
 				<IncomeDeterminationFieldSet
+					key={det.id}
 					type="edit"
 					determinationId={det.id}
 					blockErrorDisplay={true}

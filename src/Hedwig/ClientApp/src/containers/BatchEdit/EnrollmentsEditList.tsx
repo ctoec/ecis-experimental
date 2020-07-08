@@ -7,7 +7,6 @@ import { SingleEnrollmentEdit } from './SingleEnrollmentEdit';
 import { ReactComponent as Success } from '../../../node_modules/uswds/dist/img/alerts/success.svg';
 import { Link } from 'react-router-dom';
 import { getMissingInfoPrettyString } from '../../utils/validations/getMissingInfoPrettyString';
-import { createPath, Location } from 'history';
 
 type EnrollmentsEditListProps = {
 	enrollments: Enrollment[];
