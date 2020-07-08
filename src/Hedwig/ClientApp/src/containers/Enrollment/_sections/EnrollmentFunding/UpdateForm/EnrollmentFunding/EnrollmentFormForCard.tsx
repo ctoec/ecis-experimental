@@ -31,6 +31,7 @@ export const EnrollmentFormForCard: React.FC<EnrollmentFormForCardProps> = ({
 }) => {
 	return (
 		<Form id={`edit-enrollment`} data={formData} onSubmit={onSubmit} className="usa-form">
+			<h3>Start date</h3>
 			<EnrollmentStartDateField
 				blockErrorDisplay={false}
 				error={error}

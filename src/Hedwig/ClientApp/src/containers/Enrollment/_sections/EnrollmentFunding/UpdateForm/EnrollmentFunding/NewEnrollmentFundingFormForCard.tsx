@@ -92,7 +92,7 @@ export const NewEnrollmentFundingFormForCard: React.FC<NewEnrollmentFundingFormF
 	return (
 		<>
 			{/* New enrollment */}
-			<h2>New enrollment</h2>
+			<h2 className="margin-top-2 margin-bottom-2">New enrollment</h2>
 			<Form<Enrollment>
 				className="usa-form"
 				data={newEnrollment}
@@ -145,9 +145,9 @@ export const NewEnrollmentFundingFormForCard: React.FC<NewEnrollmentFundingFormF
 							fundingId={currentFunding.id}
 							label={`Last reporting period for current ${
 								prettyAge(currentEnrollment.ageGroup) + ' '
-							}${currentFunding.source + ' '}${
+								}${currentFunding.source + ' '}${
 								prettyFundingSpaceTime(currentFunding.fundingSpace) + ' '
-							}funding`}
+								}funding`}
 							error={currentEnrollmentSaveError}
 							errorAlertState={currentEnrollmentErrorAlertState}
 							nextEnrollmentFundingFirstReportingPeriodId={

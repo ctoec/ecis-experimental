@@ -1,10 +1,5 @@
 import React from 'react';
 import { UpdateFormSectionProps } from '../common';
-import {
-	getCurrentC4kCertificate,
-	getPastC4kCertificates,
-	c4kCertificateSorter,
-} from '../../../../../../utils/models';
 import { C4KCertificateCard } from './C4KCertificateCard';
 import { C4kCertificateFormForCard } from './C4KCertificateFormForCard';
 import { Card, Button, TextWithIcon } from '../../../../../../components';
@@ -60,13 +55,16 @@ export const Care4KidsForm: React.FC<UpdateFormSectionProps> = ({
 					</ExpandCard>
 				</div>
 				<CardExpansion>
-					<C4kCertificateFormForCard
-						certificateId={0}
-						formData={mutatedEnrollment}
-						onSubmit={formOnSubmit}
-						error={saveError}
-						errorAlertState={errorAlertState}
-					/>
+					<>
+						<h2 className="font-sans-md margin-top-2 margin-bottom-2">New certificate</h2>
+						<C4kCertificateFormForCard
+							certificateId={0}
+							formData={mutatedEnrollment}
+							onSubmit={formOnSubmit}
+							error={saveError}
+							errorAlertState={errorAlertState}
+						/>
+					</>
 				</CardExpansion>
 			</Card>
 

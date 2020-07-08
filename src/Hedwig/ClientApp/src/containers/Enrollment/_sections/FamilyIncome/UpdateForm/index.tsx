@@ -83,19 +83,21 @@ export const UpdateForm = ({ enrollment, siteId }: SectionProps) => {
 	return (
 		<>
 			{showNew && (
-				<Card>
-					<FamilyDeterminationFormForCard
-						determinationId={0}
-						formData={mutatedEnrollment}
-						onSubmit={(_data) => {
-							setDidAddNew(true);
-							formOnSubmit(_data);
-						}}
-						onCancel={() => setShowNew(false)}
-					/>
-				</Card>
+				<>
+					<h2 className="font-sans-md margin-top-2 margin-bottom-2">New income determination</h2>
+					<Card>
+						<FamilyDeterminationFormForCard
+							determinationId={0}
+							formData={mutatedEnrollment}
+							onSubmit={(_data) => {
+								setDidAddNew(true);
+								formOnSubmit(_data);
+							}}
+							onCancel={() => setShowNew(false)}
+						/>
+					</Card>
+				</>
 			)}
-
 			<div className="margin-top-1">
 				<div className="display-flex align-center">
 					<h2 className="font-sans-md margin-top-2 margin-bottom-2">
