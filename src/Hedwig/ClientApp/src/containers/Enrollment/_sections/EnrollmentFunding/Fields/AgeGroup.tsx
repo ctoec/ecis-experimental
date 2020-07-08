@@ -45,8 +45,6 @@ export const AgeGroupField: React.FC<EnrollmentFormFieldProps> = ({
 			name="age-group"
 			id="age-group-radiogroup"
 			legend="Age group"
-			showLegend
-			legendStyle="title"
 			options={[
 				{
 					render: (props) => <RadioButton text={prettyAge(Age.InfantToddler)} {...props} />,

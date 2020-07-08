@@ -92,6 +92,7 @@ export const NewEnrollmentFundingFormForCard: React.FC<NewEnrollmentFundingFormF
 	return (
 		<>
 			{/* New enrollment */}
+			<h2>New enrollment</h2>
 			<Form<Enrollment>
 				className="usa-form"
 				data={newEnrollment}
@@ -101,21 +102,24 @@ export const NewEnrollmentFundingFormForCard: React.FC<NewEnrollmentFundingFormF
 					setAttemptingSave(true);
 				}}
 			>
+				<h3>Site</h3>
 				<SiteField
 					sites={sites}
 					error={newSaveError}
 					previousEnrollmentSiteId={currentEnrollment.siteId}
 				/>
 
+				<h3>Enrollment start date</h3>
 				<EnrollmentStartDateField
 					blockErrorDisplay={true}
 					error={newSaveError}
 					setExternalStartDate={setNewEnrollmentStartDate}
 				/>
 
+				<h3>Age group</h3>
 				<AgeGroupField blockErrorDisplay={true} error={newSaveError} />
 
-				<span className="usa-label text-bold font-sans-lg">Funding</span>
+				<h3>Funding</h3>
 				<FundingField
 					fundingId={0}
 					fundingSpaces={fundingSpaces}
@@ -141,9 +145,9 @@ export const NewEnrollmentFundingFormForCard: React.FC<NewEnrollmentFundingFormF
 							fundingId={currentFunding.id}
 							label={`Last reporting period for current ${
 								prettyAge(currentEnrollment.ageGroup) + ' '
-							}${currentFunding.source + ' '}${
+								}${currentFunding.source + ' '}${
 								prettyFundingSpaceTime(currentFunding.fundingSpace) + ' '
-							}funding`}
+								}funding`}
 							error={currentEnrollmentSaveError}
 							errorAlertState={currentEnrollmentErrorAlertState}
 							nextEnrollmentFundingFirstReportingPeriodId={

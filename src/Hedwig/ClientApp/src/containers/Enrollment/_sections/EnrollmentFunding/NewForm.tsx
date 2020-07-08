@@ -96,18 +96,19 @@ export const NewForm: React.FC<SectionProps> = ({
 				className="usa-form enrollment-new-enrollment-funding-section"
 			>
 				{/* TODO: if this is acting as a header, it should be a header */}
-				<span className="usa-label text-bold font-sans-lg">{enrollment.site?.name}</span>
+				<h3>{enrollment.site?.name}</h3>
 				<EnrollmentStartDateField
 					blockErrorDisplay={!isReturnVisit}
 					error={saveError}
 					errorAlertState={errorAlertState}
 				/>
+				<h3>Age group</h3>
 				<AgeGroupField
 					blockErrorDisplay={!isReturnVisit}
 					error={saveError}
 					errorAlertState={errorAlertState}
 				/>
-				<span className="usa-label text-bold font-sans-lg">Funding</span>
+				<h3>Funding</h3>
 				<FundingField
 					fundingId={fundingId}
 					fundingSpaces={fundingSpaces}
@@ -115,7 +116,7 @@ export const NewForm: React.FC<SectionProps> = ({
 					errorAlertState={errorAlertState}
 				/>
 
-				<span className="usa-label text-bold font-sans-lg">Care 4 Kids</span>
+				<h3>Care 4 Kids</h3>
 				<WithNewC4kCertificate shouldCreate={certificateId === 0 && receivesC4K}>
 					{/* TODO: replace with solo checkbox when/if that exists-- just add flag on solo checkbox and go ditch all the margins */}
 					<div className="margin-top-3">

@@ -36,6 +36,7 @@ export const EnrollmentFormForCard: React.FC<EnrollmentFormForCardProps> = ({
 				error={error}
 				errorAlertState={errorAlertState}
 			/>
+			<h3>Age group</h3>
 			<AgeGroupField blockErrorDisplay={false} error={error} errorAlertState={errorAlertState} />
 			<ExpandCard>
 				<Button text="Cancel" appearance="outline" />

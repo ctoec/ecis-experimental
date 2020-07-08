@@ -24,7 +24,6 @@ export const NewForm: React.FC<SectionProps> = ({
 	error: inputError,
 	successCallback,
 	onSectionTouch,
-	touchedSections,
 }) => {
 	if (!enrollment || !enrollment.child) {
 		throw new Error('FamilyInfo rendered without a child');
@@ -94,9 +93,9 @@ export const NewForm: React.FC<SectionProps> = ({
 			autoComplete="off"
 			onSubmit={onFormSubmit}
 		>
-			<h2>Address</h2>
+			<h3>Address</h3>
 			<AddressFieldset />
-			<h2>Other</h2>
+			<h3>Other</h3>
 			<FosterCheckbox />
 			<HomelessnessCheckbox />
 			<FormSubmitButton text={isSaving ? 'Saving...' : 'Save'} disabled={isSaving} />

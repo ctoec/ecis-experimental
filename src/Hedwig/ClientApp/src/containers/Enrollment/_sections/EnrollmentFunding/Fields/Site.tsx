@@ -19,8 +19,6 @@ export const SiteField: React.FC<SiteFieldProps> = ({ sites, previousEnrollmentS
 			name="site"
 			id="site-radiogroup"
 			legend="Site"
-			showLegend
-			legendStyle="title"
 			options={sites.map((site) => ({
 				render: (props) => <RadioButton text={`${site.name}`} {...props} />,
 				value: `${site.id}`,

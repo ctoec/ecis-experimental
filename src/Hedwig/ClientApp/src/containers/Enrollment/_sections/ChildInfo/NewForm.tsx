@@ -69,12 +69,12 @@ export const NewForm: React.FC<SectionProps> = ({
 	const apiRequest = (api: HedwigApi) =>
 		enrollment === null
 			? api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsPost({
-					...commonParams,
-			  })
+				...commonParams,
+			})
 			: api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPut({
-					...commonParams,
-					id: enrollment.id,
-			  });
+				...commonParams,
+				id: enrollment.id,
+			});
 	const { error, loading: isSaving } = useApi<Enrollment>(apiRequest, {
 		skip: !attemptSave,
 		callback: apiCallback,
@@ -119,15 +119,15 @@ export const NewForm: React.FC<SectionProps> = ({
 					</div>
 				</div>
 			</div>
-			<h2>Date of birth</h2>
+			<h3>Date of birth</h3>
 			<DateOfBirthField />
-			<h2>Birth certificate</h2>
+			<h3>Birth certificate</h3>
 			<BirthCertificateFormFieldSet />
-			<h2>Race</h2>
+			<h3>Race</h3>
 			<RaceField />
-			<h2>Ethnicity</h2>
+			<h3>Ethnicity</h3>
 			<EthnicityField />
-			<h2>Gender</h2>
+			<h3>Gender</h3>
 			<GenderField />
 			<FormSubmitButton text={isSaving ? 'Saving...' : 'Save'} disabled={isSaving} />
 		</Form>
