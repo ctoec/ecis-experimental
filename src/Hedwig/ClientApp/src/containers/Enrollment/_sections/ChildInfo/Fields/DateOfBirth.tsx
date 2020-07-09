@@ -21,7 +21,6 @@ export const DateOfBirthField: React.FC<ChildInfoFormFieldProps> = ({
 			inputComponent={DateInput}
 			id="birthdate-picker"
 			label="Birth date"
-			hideLabel
 			status={(enrollment) =>
 				errorDisplayGuard(
 					blockErrorDisplay,

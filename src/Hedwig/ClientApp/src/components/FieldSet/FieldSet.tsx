@@ -2,11 +2,13 @@ import React from 'react';
 import { FormStatus, FormStatusProps } from '..';
 import cx from 'classnames';
 
+export type LegendStyleOptions = 'normal' | 'title';
+
 export type FieldSetProps = {
 	legend: string;
 	id: string;
 	showLegend?: boolean;
-	legendStyle?: 'normal' | 'title';
+	legendStyle?: LegendStyleOptions;
 	status?: FormStatusProps;
 	optional?: boolean;
 	className?: string;
