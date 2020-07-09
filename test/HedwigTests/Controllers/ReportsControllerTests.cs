@@ -25,7 +25,7 @@ namespace HedwigTests.Controllers
 			var controller = new ReportsController(_reports.Object, _mapper.Object);
 
 			controller.Get(orgId);
-			_reports.Verify(r => r.GetOrganizationReportSummaryDTOsForOrganization(orgId), Times.Once());
+			_reports.Verify(r => r.GetReportsForOrganization(orgId), Times.Once());
 		}
 
 		[Theory]

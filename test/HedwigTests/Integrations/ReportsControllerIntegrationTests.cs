@@ -51,14 +51,15 @@ namespace HedwigTests.Integrations
 			response.EnsureSuccessStatusCode();
 
 			var responseString = await response.Content.ReadAsStringAsync();
-			var responseReports = JsonConvert.DeserializeObject<List<OrganizationReportSummaryDTO>>(responseString);
+			var responseReports = JsonConvert.DeserializeObject<List<CdcReport>>(responseString);
 			Assert.NotEmpty(responseReports);
 
 			var responseReport = responseReports.First();
 			Assert.NotNull(responseReport);
 			Assert.Equal(report.Id, responseReport.Id);
-			Assert.NotNull(responseReport.Organization);
+			Assert.Null(responseReport.Organization);
 			Assert.NotNull(responseReport.ReportingPeriod);
+			Assert.Null(responseReport.Enrollments);
 		}
 
 		[Fact]
