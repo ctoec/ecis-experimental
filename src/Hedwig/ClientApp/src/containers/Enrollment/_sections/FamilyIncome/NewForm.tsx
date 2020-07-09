@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { SectionProps } from '../../enrollmentTypes';
 import Form from '../../../../components/Form_New/Form';
-import { WithNewDetermination, IncomeDeterminationFields } from './Fields';
+import { WithNewDetermination, IncomeDeterminationFieldSet } from './Fields';
 import {
 	Enrollment,
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest,
@@ -135,7 +135,7 @@ export const NewForm = ({
 				>
 					{!notDisclosed && (
 						// No header level supplied because new determination doesn't show header
-						<IncomeDeterminationFields type="new" determinationId={determinationId} />
+						<IncomeDeterminationFieldSet type="new" determinationId={determinationId} />
 					)}
 				</WithNewDetermination>
 

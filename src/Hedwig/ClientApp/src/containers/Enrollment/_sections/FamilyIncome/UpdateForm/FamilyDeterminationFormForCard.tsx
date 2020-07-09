@@ -1,6 +1,6 @@
 import React from 'react';
 import { Enrollment } from '../../../../../generated';
-import { WithNewDetermination, IncomeDeterminationFields } from '../Fields';
+import { WithNewDetermination, IncomeDeterminationFieldSet } from '../Fields';
 import { Button } from '../../../../../components';
 import FormSubmitButton from '../../../../../components/Form_New/FormSubmitButton';
 import Form from '../../../../../components/Form_New/Form';
@@ -54,11 +54,9 @@ const FamilyDeterminationFormForCard: React.FC<FamilyDeterminationFormForCardPro
 			className="usa-form"
 		>
 			<WithNewDetermination shouldCreate={!isEditExpansion}>
-				<IncomeDeterminationFields
+				<IncomeDeterminationFieldSet
 					type={isEditExpansion ? 'edit' : 'redetermine'}
 					determinationId={determinationId}
-					// In this context, we need an h3
-					headerLevel={headerLevels[2]}
 				/>
 			</WithNewDetermination>
 			<div className="display-flex">
