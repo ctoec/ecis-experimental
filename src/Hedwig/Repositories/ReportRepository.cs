@@ -25,8 +25,6 @@ namespace Hedwig.Repositories
 			.OfType<CdcReport>()
 			.Where(r => r.OrganizationId == orgId)
 			.Include(report => report.ReportingPeriod)
-			// Not included in OrganizationReportSummaryDTO
-			//.Include(report => report.TimeSplitUtilizations)
 			.ToList();
 		}
 
@@ -76,6 +74,8 @@ namespace Hedwig.Repositories
 				var childIds = enrollments.Select(enrollment => enrollment.ChildId);
 				var children = (reportResult.SubmittedAt.HasValue ? _context.Children.AsOf(reportResult.SubmittedAt.Value) : _context.Children)
 					.Include(child => child.C4KCertificates)
+					.Include(child => child.Family)
+						.ThenInclude(family => family.Determinations)
 					.Where(child => childIds.Contains(child.Id))
 					.ToDictionary(child => child.Id);
 

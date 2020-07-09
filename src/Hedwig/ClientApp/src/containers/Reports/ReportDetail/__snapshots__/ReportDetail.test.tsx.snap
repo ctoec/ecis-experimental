@@ -46,7 +46,7 @@ exports[`ReportDetail matches snapshot 1`] = `
         >
           <a
             class="usa-button"
-            href="/batch-edit"
+            href="/batch-edit?reportId=1"
           >
             Update enrollments
           </a>

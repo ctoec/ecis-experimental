@@ -80,6 +80,7 @@
 		"node-sass": "npm:sass",
 		"pluralize": "^8.0.0",
 		"prettier": "^2.0.0",
+		"query-string": "^6.13.1",
 		"react": "^16.12.0",
 		"react-axe": "^3.4.1",
 		"react-dates": "^21.8.0",

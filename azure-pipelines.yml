@@ -162,9 +162,9 @@ jobs:
           projects: "$(Build.SourcesDirectory)/src/Hedwig/Hedwig.csproj"
 
       - task: SonarCloudAnalyze@1
-      - task: SonarCloudPublish@1
-        inputs:
-          pollingTimeoutSec: "300"
+#      - task: SonarCloudPublish@1
+#        inputs:
+#          pollingTimeoutSec: "300"
 
   #
   # Build and Package Release
