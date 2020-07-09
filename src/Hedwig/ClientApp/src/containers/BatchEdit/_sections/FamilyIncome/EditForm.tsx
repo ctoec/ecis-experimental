@@ -26,14 +26,11 @@ export const EditForm: React.FC<BatchEditStepProps> = ({ enrollment, onSubmit, o
 				then display form fields to redetermine income (create new income determination)
 			 */}
 			{hasValidationErrors(enrollment.child?.family, ['determinations'], true) && (
-				<>
-					<h4>Redetermine family income</h4>
-					<IncomeDeterminationFields
-						type="redetermine"
-						determinationId={0}
-						blockErrorDisplay={true}
-					/>
-				</>
+				<IncomeDeterminationFields
+					type="redetermine"
+					determinationId={0}
+					blockErrorDisplay={true}
+				/>
 			)}
 
 			{/*
