@@ -31,7 +31,7 @@ namespace HedwigTests.Controllers
 		[Theory]
 		[InlineData(true, typeof(OkObjectResult))]
 		[InlineData(false, typeof(NotFoundResult))]
-		public async Task Get_Id_GetsReportForOrganization_IfExists(
+		public void Get_Id_GetsReportForOrganization_IfExists(
 			bool exists,
 			Type resultType
 		)
@@ -48,7 +48,7 @@ namespace HedwigTests.Controllers
 
 			var controller = new ReportsController(_reports.Object, _mapper.Object);
 
-			var result = await controller.Get(id, orgId);
+			var result = controller.Get(id, orgId);
 
 			_reports.Verify(r => r.GetCdcReportForOrganization(id, orgId), Times.Once());
 			Assert.IsType(resultType, result.Result);

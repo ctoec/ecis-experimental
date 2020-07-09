@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Hedwig.Models;
 using Hedwig.Repositories;
@@ -21,17 +20,6 @@ namespace Hedwig.Controllers
 		)
 		{
 			_sites = sites;
-		}
-
-
-		// GET api/organizations/5/sites
-		[HttpGet]
-		[ProducesResponseType(StatusCodes.Status200OK)]
-		[ProducesResponseType(StatusCodes.Status204NoContent)]
-		public async Task<ActionResult<List<Site>>> Get(int orgId)
-		{
-			var sites = await _sites.GetSitesForOrganizationAsync(orgId);
-			return Ok(sites);
 		}
 
 		// GET api/organizations/5/sites/1

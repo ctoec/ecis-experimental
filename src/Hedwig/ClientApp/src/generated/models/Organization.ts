@@ -18,10 +18,6 @@ import {
 	FundingSpaceFromJSON,
 	FundingSpaceFromJSONTyped,
 	FundingSpaceToJSON,
-	OrganizationReport,
-	OrganizationReportFromJSON,
-	OrganizationReportFromJSONTyped,
-	OrganizationReportToJSON,
 	Site,
 	SiteFromJSON,
 	SiteFromJSONTyped,
@@ -54,12 +50,6 @@ export interface Organization {
 	sites?: Array<Site> | null;
 	/**
 	 *
-	 * @type {Array<OrganizationReport>}
-	 * @memberof Organization
-	 */
-	reports?: Array<OrganizationReport> | null;
-	/**
-	 *
 	 * @type {Array<FundingSpace>}
 	 * @memberof Organization
 	 */
@@ -82,11 +72,6 @@ export function OrganizationFromJSONTyped(json: any, ignoreDiscriminator: boolea
 			: json['sites'] === null
 			? null
 			: (json['sites'] as Array<any>).map(SiteFromJSON),
-		reports: !exists(json, 'reports')
-			? undefined
-			: json['reports'] === null
-			? null
-			: (json['reports'] as Array<any>).map(OrganizationReportFromJSON),
 		fundingSpaces: !exists(json, 'fundingSpaces')
 			? undefined
 			: json['fundingSpaces'] === null
@@ -111,12 +96,6 @@ export function OrganizationToJSON(value?: Organization | null): any {
 				: value.sites === null
 				? null
 				: (value.sites as Array<any>).map(SiteToJSON),
-		reports:
-			value.reports === undefined
-				? undefined
-				: value.reports === null
-				? null
-				: (value.reports as Array<any>).map(OrganizationReportToJSON),
 		fundingSpaces:
 			value.fundingSpaces === undefined
 				? undefined

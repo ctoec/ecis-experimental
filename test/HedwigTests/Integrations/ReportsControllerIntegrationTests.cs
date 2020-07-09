@@ -57,7 +57,9 @@ namespace HedwigTests.Integrations
 			var responseReport = responseReports.First();
 			Assert.NotNull(responseReport);
 			Assert.Equal(report.Id, responseReport.Id);
-			Assert.Null(responseReport.Organization);
+			Assert.NotNull(responseReport.Organization);
+			Assert.Null(responseReport.Organization.FundingSpaces);
+			Assert.Null(responseReport.Organization.Sites);
 			Assert.NotNull(responseReport.ReportingPeriod);
 			Assert.Null(responseReport.Enrollments);
 		}

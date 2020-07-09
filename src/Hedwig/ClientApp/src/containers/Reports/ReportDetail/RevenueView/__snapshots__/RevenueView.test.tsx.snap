@@ -705,7 +705,7 @@ exports[`ReportSubmitForm matches snapshot 1`] = `
                   class="usa-input"
                   id="c4k-revenue"
                   type="text"
-                  value=""
+                  value="$100,000.00"
                 />
               </div>
             </div>

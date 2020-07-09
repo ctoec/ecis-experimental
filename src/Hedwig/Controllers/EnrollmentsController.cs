@@ -56,7 +56,7 @@ namespace Hedwig.Controllers
 			if (siteIds.Length > 0)
 			// Only get enrollments in the given sites (that are in the given organization)
 			{
-				var orgSites = await _sites.GetSitesForOrganizationAsync(orgId);
+				var orgSites = _sites.GetSitesByOrganizationId(orgId);
 				var allSitesInOrg = siteIds.All(siteId => orgSites.Select(site => site.Id).Contains(siteId));
 				if (!allSitesInOrg)
 				{

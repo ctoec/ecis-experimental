@@ -57,7 +57,6 @@ namespace HedwigTests.Integrations
 			Assert.NotNull(responseOrganization);
 			Assert.Equal(organization.Id, responseOrganization.Id);
 			Assert.Equal(organization.Name, responseOrganization.Name);
-			Assert.Null(responseOrganization.Reports);
 			if (isInclude)
 			{
 				Assert.NotEmpty(responseOrganization.Sites);
@@ -67,10 +66,9 @@ namespace HedwigTests.Integrations
 					{
 						Assert.NotNull(site.Name);
 						Assert.Null(site.Organization);
-						Assert.NotNull(site.Enrollments);
+						Assert.Null(site.Enrollments);
 					}
 				);
-				Assert.Null(responseOrganization.Reports);
 				Assert.NotNull(responseOrganization.FundingSpaces);
 				Assert.All(
 					responseOrganization.FundingSpaces,

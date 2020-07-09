@@ -46,7 +46,6 @@ export const useRoster: () => UseRosterReturnType = () => {
 
 	const orgParams: ApiOrganizationsIdGetRequest = {
 		id: getIdForUser(user, 'org'),
-		include: ['sites', 'funding_spaces'],
 	};
 
 	const { loading: organizationLoading, data: organization } = useApi(
@@ -64,7 +63,6 @@ export const useRoster: () => UseRosterReturnType = () => {
 	const enrollmentParams: ApiOrganizationsOrgIdEnrollmentsGetRequest = {
 		orgId: getIdForUser(user, 'org'),
 		siteIds: siteIds,
-		include: ['child', 'fundings', 'sites'],
 		startDate: (dateRange && dateRange.startDate && dateRange.startDate.toDate()) || undefined,
 		endDate: (dateRange && dateRange.endDate && dateRange.endDate.toDate()) || undefined,
 	};

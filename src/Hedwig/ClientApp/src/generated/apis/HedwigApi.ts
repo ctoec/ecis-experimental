@@ -45,13 +45,11 @@ import {
 
 export interface ApiOrganizationsIdGetRequest {
 	id: number;
-	include?: Array<string>;
 }
 
 export interface ApiOrganizationsOrgIdEnrollmentsGetRequest {
 	orgId: number;
 	siteIds?: Array<number>;
-	include?: Array<string>;
 	startDate?: Date;
 	endDate?: Date;
 	asOf?: Date;
@@ -66,7 +64,6 @@ export interface ApiOrganizationsOrgIdReportsGetRequest {
 export interface ApiOrganizationsOrgIdReportsIdGetRequest {
 	id: number;
 	orgId: number;
-	include?: Array<string>;
 }
 
 export interface ApiOrganizationsOrgIdReportsIdPutRequest {
@@ -75,20 +72,14 @@ export interface ApiOrganizationsOrgIdReportsIdPutRequest {
 	cdcReport?: CdcReport;
 }
 
-export interface ApiOrganizationsOrgIdSitesGetRequest {
-	orgId: number;
-}
-
 export interface ApiOrganizationsOrgIdSitesIdGetRequest {
 	id: number;
 	orgId: number;
-	include?: Array<string>;
 }
 
 export interface ApiOrganizationsOrgIdSitesSiteIdEnrollmentsGetRequest {
 	orgId: number;
 	siteId: number;
-	include?: Array<string>;
 	startDate?: Date;
 	endDate?: Date;
 	skip?: number;
@@ -106,7 +97,6 @@ export interface ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGetRequest {
 	id: number;
 	orgId: number;
 	siteId: number;
-	include?: Array<string>;
 }
 
 export interface ApiOrganizationsOrgIdSitesSiteIdEnrollmentsIdPutRequest {
@@ -143,10 +133,6 @@ export class HedwigApi extends runtime.BaseAPI {
 		}
 
 		const queryParameters: runtime.HTTPQuery = {};
-
-		if (requestParameters.include) {
-			queryParameters['include[]'] = requestParameters.include;
-		}
 
 		const headerParameters: runtime.HTTPHeaders = {};
 
@@ -192,10 +178,6 @@ export class HedwigApi extends runtime.BaseAPI {
 
 		if (requestParameters.siteIds) {
 			queryParameters['siteIds[]'] = requestParameters.siteIds;
-		}
-
-		if (requestParameters.include) {
-			queryParameters['include[]'] = requestParameters.include;
 		}
 
 		if (requestParameters.startDate !== undefined) {
@@ -309,10 +291,6 @@ export class HedwigApi extends runtime.BaseAPI {
 
 		const queryParameters: runtime.HTTPQuery = {};
 
-		if (requestParameters.include) {
-			queryParameters['include[]'] = requestParameters.include;
-		}
-
 		const headerParameters: runtime.HTTPHeaders = {};
 
 		if (this.configuration && this.configuration.apiKey) {
@@ -393,48 +371,6 @@ export class HedwigApi extends runtime.BaseAPI {
 
 	/**
 	 */
-	async apiOrganizationsOrgIdSitesGetRaw(
-		requestParameters: ApiOrganizationsOrgIdSitesGetRequest
-	): Promise<runtime.ApiResponse<Array<Site>>> {
-		if (requestParameters.orgId === null || requestParameters.orgId === undefined) {
-			throw new runtime.RequiredError(
-				'orgId',
-				'Required parameter requestParameters.orgId was null or undefined when calling apiOrganizationsOrgIdSitesGet.'
-			);
-		}
-
-		const queryParameters: runtime.HTTPQuery = {};
-
-		const headerParameters: runtime.HTTPHeaders = {};
-
-		if (this.configuration && this.configuration.apiKey) {
-			headerParameters['Authorization'] = this.configuration.apiKey('Authorization'); // Bearer authentication
-		}
-
-		const response = await this.request({
-			path: `/api/organizations/{orgId}/Sites`.replace(
-				`{${'orgId'}}`,
-				encodeURIComponent(String(requestParameters.orgId))
-			),
-			method: 'GET',
-			headers: headerParameters,
-			query: queryParameters,
-		});
-
-		return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(SiteFromJSON));
-	}
-
-	/**
-	 */
-	async apiOrganizationsOrgIdSitesGet(
-		requestParameters: ApiOrganizationsOrgIdSitesGetRequest
-	): Promise<Array<Site>> {
-		const response = await this.apiOrganizationsOrgIdSitesGetRaw(requestParameters);
-		return await response.value();
-	}
-
-	/**
-	 */
 	async apiOrganizationsOrgIdSitesIdGetRaw(
 		requestParameters: ApiOrganizationsOrgIdSitesIdGetRequest
 	): Promise<runtime.ApiResponse<Site>> {
@@ -453,10 +389,6 @@ export class HedwigApi extends runtime.BaseAPI {
 		}
 
 		const queryParameters: runtime.HTTPQuery = {};
-
-		if (requestParameters.include) {
-			queryParameters['include[]'] = requestParameters.include;
-		}
 
 		const headerParameters: runtime.HTTPHeaders = {};
 
@@ -505,10 +437,6 @@ export class HedwigApi extends runtime.BaseAPI {
 		}
 
 		const queryParameters: runtime.HTTPQuery = {};
-
-		if (requestParameters.include) {
-			queryParameters['include[]'] = requestParameters.include;
-		}
 
 		if (requestParameters.startDate !== undefined) {
 			queryParameters['startDate'] = (requestParameters.startDate as any).toISOString();
@@ -640,10 +568,6 @@ export class HedwigApi extends runtime.BaseAPI {
 		}
 
 		const queryParameters: runtime.HTTPQuery = {};
-
-		if (requestParameters.include) {
-			queryParameters['include[]'] = requestParameters.include;
-		}
 
 		const headerParameters: runtime.HTTPHeaders = {};
 

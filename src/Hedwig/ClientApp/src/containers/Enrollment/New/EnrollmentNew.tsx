@@ -112,13 +112,11 @@ export default function EnrollmentNew({
 		id: enrollmentId ? enrollmentId : 0,
 		orgId: getIdForUser(user, 'org'),
 		siteId: validatePermissions(user, 'site', siteId) ? siteId : 0,
-		include: ['child', 'family', 'determinations', 'fundings', 'sites'],
 	};
 	const { error, data: _enrollment, loading } = useApi<Enrollment>(
 		(api) =>
 			api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet({
 				...params,
-				include: ['child', 'family', 'determinations', 'fundings', 'sites'],
 			}),
 		{ skip: !enrollmentId || !user, deps: [sectionId], callback: () => setNavigated(false) }
 	);

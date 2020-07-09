@@ -13,13 +13,6 @@ namespace Hedwig.Repositories
 
 		public SiteRepository(HedwigContext context) : base(context) { }
 
-		public Task<List<Site>> GetSitesForOrganizationAsync(int organizationId)
-		{
-			return _context.Sites
-				.Where(s => s.OrganizationId == organizationId)
-				.ToListAsync();
-		}
-
 		public Task<Site> GetSiteForOrganizationAsync(int id, int organizationId)
 		{
 			var site = _context.Sites
@@ -32,8 +25,6 @@ namespace Hedwig.Repositories
 				.ThenInclude(o => o.FundingSpaces)
 					.ThenInclude(fs => fs.TimeSplit);
 
-			// Chaining of multiple ThenIncludes is not supported, so to include both
-			// enrollment fundings and enrollment children requires separate calls to include enrollments
 			site = site.Include(s => s.Enrollments)
 				.ThenInclude(e => e.Fundings)
 					.ThenInclude(f => f.FirstReportingPeriod)
@@ -41,14 +32,16 @@ namespace Hedwig.Repositories
 				.ThenInclude(e => e.Fundings)
 					.ThenInclude(f => f.LastReportingPeriod);
 
-			// Calls from front end don't appear to include "child"
-			//site = site.Include(s => s.Enrollments).ThenInclude(e => e.Child);
-
-			// Only if Fundings not included, but they are by default
-			//site = site.Include(s => s.Enrollments);
-
 			return site.FirstOrDefaultAsync();
 		}
+
+		public List<Site> GetSitesByOrganizationId(int organizationId)
+		{
+			return _context.Sites
+				.Where(s => s.OrganizationId == organizationId)
+				.ToList();
+		}
+
 
 		public Site GetSiteById(int id)
 		{
@@ -58,9 +51,8 @@ namespace Hedwig.Repositories
 
 	public interface ISiteRepository
 	{
-		Task<List<Site>> GetSitesForOrganizationAsync(int organizationId);
 		Task<Site> GetSiteForOrganizationAsync(int id, int organizationId);
-
+		List<Site> GetSitesByOrganizationId(int organizationId);
 		Site GetSiteById(int id);
 	}
 }

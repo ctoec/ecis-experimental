@@ -13,18 +13,6 @@ namespace HedwigTests.Controllers
 {
 	public class SitesControllerTests
 	{
-		[Fact]
-		public async Task Get_GetsSitesForOrganization()
-		{
-			var _sites = new Mock<ISiteRepository>();
-			var controller = new SitesController(_sites.Object);
-
-			var orgId = 1;
-			await controller.Get(orgId);
-
-			_sites.Verify(s => s.GetSitesForOrganizationAsync(orgId), Times.Once());
-		}
-
 		[Theory]
 		[InlineData(true, typeof(OkObjectResult))]
 		[InlineData(false, typeof(NotFoundResult))]

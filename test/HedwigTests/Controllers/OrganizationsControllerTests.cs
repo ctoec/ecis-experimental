@@ -15,7 +15,7 @@ namespace HedwigTests.Controllers
 		[Theory]
 		[InlineData(true, typeof(OkObjectResult))]
 		[InlineData(false, typeof(NotFoundResult))]
-		public void Get_Id_Include_GetsOrganization_WithInclude(
+		public async Task Get_Id_GetsOrganization(
 			bool exists,
 			Type resultType
 		)
@@ -24,14 +24,14 @@ namespace HedwigTests.Controllers
 
 			var returns = exists ? new Organization() : null;
 			var _organizations = new Mock<IOrganizationRepository>();
-			_organizations.Setup(o => o.GetOrganizationById(id))
-			.Returns(returns);
+			_organizations.Setup(o => o.GetOrganizationByIdAsync(id))
+			.ReturnsAsync(returns);
 
 			var controller = new OrganizationsController(_organizations.Object);
 
-			var result = controller.Get(id);
+			var result = await controller.Get(id);
 
-			_organizations.Verify(o => o.GetOrganizationById(id), Times.Once());
+			_organizations.Verify(o => o.GetOrganizationByIdAsync(id), Times.Once());
 			Assert.IsType(resultType, result.Result);
 		}
 	}

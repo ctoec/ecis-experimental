@@ -14,7 +14,6 @@ export * from './FundingTimeSplitUtilization';
 export * from './Gender';
 export * from './Organization';
 export * from './OrganizationPermission';
-export * from './OrganizationReport';
 export * from './ProblemDetails';
 export * from './Region';
 export * from './ReportingPeriod';

@@ -17,7 +17,7 @@ namespace Hedwig.Models
 		public DateTime? SubmittedAt { get; set; }
 		public ICollection<FundingTimeSplitUtilization> TimeSplitUtilizations { get; set; }
 		public int OrganizationId { get; set; }
-		public CdcReportOrganizationDTO Organization { get; set; }
+		public OrganizationDTO Organization { get; set; }
 		public List<CdcReportEnrollmentDTO> Enrollments { get; set; }
 		public List<ValidationError> ValidationErrors { get; set; }
 	}

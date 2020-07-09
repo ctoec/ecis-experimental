@@ -36,7 +36,6 @@ const RevenueView: React.FC<ReportSubmitFormProps> = ({
 
 	const enrollmentParams: ApiOrganizationsOrgIdEnrollmentsGetRequest = {
 		orgId: getIdForUser(user, 'org'),
-		include: ['fundings'],
 		startDate: report.reportingPeriod && report.reportingPeriod.periodStart,
 		endDate: report.reportingPeriod && report.reportingPeriod.periodEnd,
 		asOf: submittedAt || undefined,

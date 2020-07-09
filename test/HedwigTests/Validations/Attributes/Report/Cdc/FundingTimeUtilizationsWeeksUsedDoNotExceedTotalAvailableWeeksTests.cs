@@ -59,7 +59,7 @@ namespace HedwigTests.Validations.Attributes
 				report
 			});
 			var organizations = new Mock<IOrganizationRepository>();
-			organizations.Setup(o => o.GetOrganizationById(It.IsAny<int>()))
+			organizations.Setup(o => o.GetOrganizationWithFundingSpaces(It.IsAny<int>()))
 			.Returns(organization);
 
 			var serviceProvider = new Mock<IServiceProvider>();
@@ -147,7 +147,7 @@ namespace HedwigTests.Validations.Attributes
 				report
 			});
 			var organizations = new Mock<IOrganizationRepository>();
-			organizations.Setup(o => o.GetOrganizationById(It.IsAny<int>()))
+			organizations.Setup(o => o.GetOrganizationWithFundingSpaces(It.IsAny<int>()))
 			.Returns(organization);
 
 			var serviceProvider = new Mock<IServiceProvider>();

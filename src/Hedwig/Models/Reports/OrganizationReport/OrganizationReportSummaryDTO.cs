@@ -9,6 +9,6 @@ namespace Hedwig.Models
 		// public FundingSource Type { get; set; }
 		public ReportingPeriod ReportingPeriod { get; set; }
 		public DateTime? SubmittedAt { get; set; }
-		public OrganizationReportSummaryOrganizationDTO Organization { get; set; }
+		public OrganizationSummaryDTO Organization { get; set; }
 	}
 }

@@ -52,7 +52,7 @@ namespace Hedwig.Controllers
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ValidateEntityFilterAttribute(Order = 1)]
 		[DTOProjectionFilter(typeof(CdcReportDTO), Order = 2)]
-		public async Task<ActionResult<CdcReport>> Get(
+		public ActionResult<CdcReport> Get(
 			int id,
 			int orgId
 		)

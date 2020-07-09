@@ -69,7 +69,6 @@ export default function Withdrawal({
 		(api) =>
 			api.apiOrganizationsOrgIdSitesSiteIdEnrollmentsIdGet({
 				...commonParams,
-				include: ['child', 'family', 'determinations', 'fundings', 'sites'],
 			}),
 		{ skip: !user }
 	);

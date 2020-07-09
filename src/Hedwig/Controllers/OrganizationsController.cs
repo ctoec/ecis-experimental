@@ -3,6 +3,7 @@ using Hedwig.Models;
 using Hedwig.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Hedwig.Filters.Attributes;
 
 namespace Hedwig.Controllers
 {
@@ -20,9 +21,10 @@ namespace Hedwig.Controllers
 		[HttpGet("{id}")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		public ActionResult<Organization> Get(int id)
+		[DTOProjectionFilter(typeof(OrganizationDTO))]
+		public async Task<ActionResult<Organization>> Get(int id)
 		{
-			var organization = _organizations.GetOrganizationById(id);
+			var organization = await _organizations.GetOrganizationByIdAsync(id);
 
 			if (organization == null) return NotFound();
 

@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Hedwig.Data;
 using Hedwig.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 
 namespace Hedwig.Repositories
 {
@@ -15,8 +13,6 @@ namespace Hedwig.Repositories
 
 		public void UpdateReport(CdcReport report, CdcReportDTO reportDTO)
 		{
-			// Should this be _context.Update(report) as in EnrollmentRepository ?
-			// depends on if we include sub-objets on report that should _not_ be updated
 			UpdateHedwigIdEntityWithNavigationProperties<CdcReport, CdcReportDTO, int>(report, reportDTO);
 		}
 		public List<CdcReport> GetReportsForOrganization(int orgId)
@@ -25,6 +21,7 @@ namespace Hedwig.Repositories
 			.OfType<CdcReport>()
 			.Where(r => r.OrganizationId == orgId)
 			.Include(report => report.ReportingPeriod)
+			.Include(report => report.Organization)
 			.ToList();
 		}
 
@@ -45,15 +42,7 @@ namespace Hedwig.Repositories
 			reportQuery = reportQuery
 				.Include(report => report.Organization)
 					.ThenInclude(organization => organization.FundingSpaces)
-						.ThenInclude(fundingSpace => fundingSpace.TimeSplit)
-				.Include(report => report.Organization)
-					.ThenInclude(organization => organization.FundingSpaces)
-						.ThenInclude(fundingSpace => fundingSpace.TimeSplitUtilizations)
-							.ThenInclude(timeSplitUtilization => timeSplitUtilization.ReportingPeriod)
-				.Include(report => report.Organization)
-					.ThenInclude(organization => organization.FundingSpaces)
-						.ThenInclude(fundingSpace => fundingSpace.TimeSplitUtilizations)
-							.ThenInclude(util => util.Report);
+						.ThenInclude(fundingSpace => fundingSpace.TimeSplit);
 
 			var reportResult = reportQuery.FirstOrDefault();
 
