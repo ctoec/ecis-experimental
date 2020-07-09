@@ -17,10 +17,8 @@ type FundingFormForCardProps = {
 };
 
 /**
- * The single-funding form to be embedded in FundingCard in the UpdateForm
- *
- * TODO: when we add functionality to create new funding, extend this form to distinguish
- * btwn editing, creating, and ending a funding
+ * A form to be embedded in FundingCard in the UpdateForm,
+ * used to edit a single existing funding.
  */
 export const FundingFormForCard: React.FC<FundingFormForCardProps> = ({
 	fundingId,

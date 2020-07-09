@@ -162,7 +162,7 @@ exports[`EnrollmentUpdate EnrollmentFunding matches snapshot 1`] = `
           />
         </div>
         <div
-          class="oec-card oec-card--primary margin-bottom-3"
+          class="oec-card oec-card--primary"
         >
           <div
             class="oec-card-cell"
@@ -224,6 +224,36 @@ exports[`EnrollmentUpdate EnrollmentFunding matches snapshot 1`] = `
                   Edit
                 </span>
               </button>
+            </div>
+          </div>
+          <div
+            class=""
+          />
+        </div>
+        <div
+          class="oec-card"
+        >
+          <div
+            class="oec-card-cell"
+          >
+            <div
+              class="display-flex flex-column flex-align-end"
+            >
+              <div>
+                <button
+                  class="usa-button usa-button--unstyled"
+                  type="button"
+                >
+                  End current funding
+                </button>
+                   
+                <button
+                  class="usa-button usa-button--unstyled"
+                  type="button"
+                >
+                  Start new funding
+                </button>
+              </div>
             </div>
           </div>
           <div
