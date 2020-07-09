@@ -1,0 +1,234 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Batch edit matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class=""
+  />
+  <div
+    class="grid-container"
+  >
+    <h1>
+      Add needed information
+    </h1>
+    <p
+      class="usa-intro"
+    >
+      2 enrollments have missing or incomplete information
+    </p>
+    <div
+      class="oec-sidenav grid-row"
+    >
+      <div
+        class="mobile-lg:grid-col-4"
+      >
+        <nav>
+          <ul>
+            <li
+              class="oec-sidenav__item active"
+            >
+              <button
+                class="usa-button usa-button--unstyled"
+                type="button"
+              >
+                <div>
+                  <p
+                    class="oec-sidenav-item__title"
+                  >
+                    Potter, Lily Luna 
+                  </p>
+                  <p
+                    class="oec-sidenav-item__desc"
+                  >
+                    Birth certificate ID
+                  </p>
+                </div>
+              </button>
+            </li>
+            <li
+              class="oec-sidenav__item"
+            >
+              <button
+                class="usa-button usa-button--unstyled"
+                type="button"
+              >
+                <div>
+                  <p
+                    class="oec-sidenav-item__title"
+                  >
+                    Potter, Lily Luna 
+                  </p>
+                  <p
+                    class="oec-sidenav-item__desc"
+                  >
+                    1 fields
+                  </p>
+                </div>
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div
+        class="oec-sidenav__content mobile-lg:grid-col-8"
+      >
+        <div
+          class="padding-x-2 padding-bottom-3"
+        >
+          <div
+            class="flex-row display-flex flex-justify flex-align-end"
+          >
+            <h2>
+              Potter, Lily Luna
+            </h2>
+            <div
+              class="text-baseline"
+            >
+              Date of Birth: 12/12/2016
+            </div>
+          </div>
+          <div
+            class="margin-top-1"
+          >
+            <a
+              href="/roster/sites/1/enrollments/2"
+            >
+              View full profile
+            </a>
+          </div>
+        </div>
+        <div
+          class="padding-top-1 border-top-1px border-base-light"
+        >
+          <ol
+            class="oec-step-list embedded"
+          >
+            <li
+              class="oec-step-list__step oec-step-list__step--active embedded"
+            >
+              <div
+                class="oec-step-list__step__content"
+              >
+                <h3
+                  class="oec-step-list__step__title"
+                >
+                  Child information
+                </h3>
+                <div
+                  class="oec-step-list__step__form"
+                >
+                  <form
+                    autocomplete="off"
+                    class="usa-form"
+                    novalidate=""
+                  >
+                    <h4>
+                      Birth Certificate
+                    </h4>
+                    <fieldset
+                      aria-required="true"
+                      class="grid-gap grid-row usa-fieldset display-inline-block"
+                      id="birth-certificate-fields"
+                    >
+                      <legend
+                        id="fieldset-legend-birth-certificate-fields"
+                      >
+                        <span
+                          class="usa-sr-only"
+                        >
+                          Birth certificate
+                        </span>
+                      </legend>
+                      <div
+                        class="grid-gap grid-row flex-align-start"
+                      >
+                        <div
+                          class="mobile-lg:grid-col-12"
+                        >
+                          <div
+                            class=" usa-form-group"
+                          >
+                            <label
+                              class="usa-label"
+                              for="birthCertificateId"
+                            >
+                              Birth certificate ID # 
+                            </label>
+                            <input
+                              aria-required="true"
+                              class="usa-input"
+                              id="birthCertificateId"
+                              type="text"
+                              value=""
+                            />
+                          </div>
+                        </div>
+                        <div
+                          class="mobile-lg:grid-col-8 display-inline-block"
+                        >
+                          <div
+                            class=" usa-form-group"
+                          >
+                            <label
+                              class="usa-label"
+                              for="birthTown"
+                            >
+                              Town 
+                            </label>
+                            <input
+                              aria-required="true"
+                              class="usa-input"
+                              id="birthTown"
+                              type="text"
+                              value="Hogsmeade"
+                            />
+                          </div>
+                        </div>
+                        <div
+                          class="mobile-lg:grid-col-4 display-inline-block"
+                        >
+                          <div
+                            class=" usa-form-group"
+                          >
+                            <label
+                              class="usa-label"
+                              for="birthState"
+                            >
+                              State 
+                            </label>
+                            <input
+                              aria-required="true"
+                              class="usa-input"
+                              id="birthState"
+                              type="text"
+                              value="CT"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </fieldset>
+                    <input
+                      class="usa-button"
+                      type="submit"
+                      value="Save and next"
+                    />
+                    <button
+                      class="usa-button usa-button--outline"
+                      type="button"
+                    >
+                      Skip
+                    </button>
+                  </form>
+                </div>
+              </div>
+              <div
+                class="oec-step-list__step__actions"
+              />
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
