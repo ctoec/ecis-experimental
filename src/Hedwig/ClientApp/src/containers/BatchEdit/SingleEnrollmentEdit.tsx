@@ -15,7 +15,12 @@ import FamilyInfo from './_sections/FamilyInfo';
 import FamilyIncome from './_sections/FamilyIncome';
 import EnrollmentFunding from './_sections/EnrollmentFunding';
 import useCatchAllErrorAlert from '../../hooks/useCatchAllErrorAlert';
-import { hasChildInfoSectionErrors, hasFamilyInfoSectionErrors, hasEnrollmentFundingSectionErrors, hasFamilyIncomeSectionErrors } from './utils';
+import {
+	hasChildInfoSectionErrors,
+	hasFamilyInfoSectionErrors,
+	hasEnrollmentFundingSectionErrors,
+	hasFamilyIncomeSectionErrors,
+} from './utils';
 
 type SingleEnrollmentEditProps = {
 	enrollment: Enrollment;
@@ -43,7 +48,7 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 	// in the fetched enrollment. Do this only on initial render to persist
 	// all steps even as the enrollment is updated & errors are resolved
 	const [steps, setSteps] = useState<StepProps<BatchEditStepProps>[]>([]);
-	
+
 	useEffect(() => {
 		const _steps: StepProps<BatchEditStepProps>[] = [];
 		if (hasChildInfoSectionErrors(enrollment)) {
@@ -77,7 +82,11 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 	// If there is no next step for this enrollment,
 	// then invoke the moveNextEnrollment function
 	const locationHash = history.location.hash;
-	const activeStepId = locationHash ? locationHash.slice(1) : steps.length ? steps[0].key : 'complete';
+	const activeStepId = locationHash
+		? locationHash.slice(1)
+		: steps.length
+		? steps[0].key
+		: 'complete';
 	const moveNextStep = () => {
 		const currentIndex = steps.findIndex((step) => step.key === activeStepId);
 		if (currentIndex === steps.length - 1) {

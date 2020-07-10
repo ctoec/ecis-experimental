@@ -1,7 +1,8 @@
-import { Enrollment } from "../../generated";
-import { hasValidationErrors } from "../../utils/validations";
+import { Enrollment } from '../../generated';
+import { hasValidationErrors } from '../../utils/validations';
 
-export const hasChildInfoSectionErrors = (enrollment: Enrollment) => 	hasValidationErrors(enrollment.child, [
+export const hasChildInfoSectionErrors = (enrollment: Enrollment) =>
+	hasValidationErrors(enrollment.child, [
 		'birthdate',
 		'birthCertificateId',
 		'birthtown',
@@ -15,12 +16,12 @@ export const hasChildInfoSectionErrors = (enrollment: Enrollment) => 	hasValidat
 		'gender',
 	]);
 
-	export const hasFamilyInfoSectionErrors = (enrollment: Enrollment) => hasValidationErrors(enrollment.child?.family, undefined, true);
+export const hasFamilyInfoSectionErrors = (enrollment: Enrollment) =>
+	hasValidationErrors(enrollment.child?.family, undefined, true);
 
-	export const hasFamilyIncomeSectionErrors = (enrollment: Enrollment) => hasValidationErrors(enrollment.child?.family, ['determinations']);
+export const hasFamilyIncomeSectionErrors = (enrollment: Enrollment) =>
+	hasValidationErrors(enrollment.child?.family, ['determinations']);
 
-	export const hasEnrollmentFundingSectionErrors = (enrollment: Enrollment) => 
-		hasValidationErrors(enrollment, ['entry']) ||
-		hasValidationErrors(enrollment.child, ['c4KCertificateFamilyId', 'c4KCertificates']);
-
-
+export const hasEnrollmentFundingSectionErrors = (enrollment: Enrollment) =>
+	hasValidationErrors(enrollment, ['entry']) ||
+	hasValidationErrors(enrollment.child, ['c4KCertificateFamilyId', 'c4KCertificates']);

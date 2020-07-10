@@ -1,4 +1,4 @@
-// Variables used in jest mockes -- must start with `mock`
+// Variables used in jest mocks -- must start with `mock`
 import {
 	mockEnrollmentMissingBirthCertId, // full time preschool
 	mockEnrollmentMissingAddress, // full time preschool,
