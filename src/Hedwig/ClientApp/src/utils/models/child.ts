@@ -24,7 +24,10 @@ export function prettyRace(race: keyof Child) {
 	}
 }
 
-export function prettyMultiRace(child: Child) {
+export function prettyMultiRace(child: Child | null | undefined, opts?: { showAll?: boolean}) {
+	if(!child) return '';
+	
+	opts = opts || {};
 	const selectedRaces = RACES.filter((race) => child[race]);
 
 	if (selectedRaces.length === 0) {
@@ -32,12 +35,18 @@ export function prettyMultiRace(child: Child) {
 	} else if (selectedRaces.length === 1) {
 		return prettyRace(selectedRaces[0]);
 	} else {
+		if(opts.showAll) {
+			return selectedRaces.reduce((acc, currentVal) => {
+				if( acc === '') return currentVal;
+				return `${acc}/${currentVal}`;
+			}, '')
+		}
 		return 'Multiple races';
 	}
 }
 
-export function prettyEthnicity(child: Child) {
-	const ethnicity = child.hispanicOrLatinxEthnicity;
+export function prettyEthnicity(child: Child | null | undefined) {
+	const ethnicity = child?.hispanicOrLatinxEthnicity;
 	let ethnicityStr;
 	if (ethnicity == null) {
 		ethnicityStr = '';

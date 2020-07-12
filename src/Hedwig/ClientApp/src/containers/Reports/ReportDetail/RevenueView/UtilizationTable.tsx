@@ -53,23 +53,135 @@ interface UtilizationTableRow {
 	};
 }
 
+// Not functional component because ts had a problem with the empty fragments
 export default function UtilizationTable() {
 	const { data: report } = useGenericContext<CdcReport>(FormContext);
 
-	// Not functional component because ts had a problem with the empty fragments
-	const site = idx(report, (_) => _.organization.sites[0]);
+	const rows = getUtilizationTableRows(report);
+	const totalRow = rows[rows.length - 1];
+
+	const reimbursementPrefixer = makePrefixerFunc(totalRow.maxes.rate);
+	const totalPrefixer = makePrefixerFunc(totalRow.maxes.total);
+	const balancePrefixer = makePrefixerFunc(totalRow.maxes.balance);
+
+	const tableProps: TableProps<UtilizationTableRow> = {
+		id: 'utilization-table',
+		data: rows,
+		rowKey: (row) => row.key,
+		columns: [
+			{
+				name: '',
+				cell: ({ row }) => (
+					<th>
+						<strong>{row.key === 'total' ? 'Total' : `${prettyAge(row.ageGroup)}`}</strong>
+						{row.fundingTime && row.showFundingTime && (
+							<> &ndash; {prettyFundingTime(row.fundingTime, { splitTimeText: 'pt/ft split' })}</>
+						)}
+					</th>
+				),
+			},
+			{
+				name: 'Utilization',
+				cell: ({ row }) => (
+					<td
+						className={
+							(row.key === 'total' ? 'oec-table__cell--strong' : '') +
+							' ' +
+							(row.count !== row.capacity ? 'oec-table__cell--red' : '')
+						}
+					>
+						{row.count}/{row.capacity} spaces
+					</td>
+				),
+			},
+			{
+				name: 'Reimbursement rate',
+				className: 'text-right',
+				cell: ({ row }) => {
+					const { partWeeks, fullWeeks } = row.weeksSplit || {};
+					return (
+						<td className="text-tabular text-right">
+							<ReimbursementRateLine
+								prefix={reimbursementPrefixer(row.ptRate || 0)}
+								prettyRate={currencyFormatter(row.ptRate || 0, true)}
+								weeksInPeriod={partWeeks}
+								suffix="(pt)"
+							/>
+							<ReimbursementRateLine
+								prefix={reimbursementPrefixer(row.ftRate || 0)}
+								prettyRate={currencyFormatter(row.ftRate || 0, true)}
+								weeksInPeriod={fullWeeks}
+								suffix="(ft)"
+							/>
+						</td>
+					);
+				},
+			},
+			{
+				name: `Total (${getReportingPeriodWeeks(report.reportingPeriod)} weeks)`,
+				className: 'text-right',
+				cell: ({ row }) => {
+					const prefix = totalPrefixer(row.total);
+					return (
+						<td
+							className={cx(
+								{ 'oec-table__cell--strong': row.key === 'total' },
+								'text-tabular',
+								'text-right'
+							)}
+						>
+							<span>$ </span>
+							<span style={{ visibility: 'hidden' }}>{prefix}</span>
+							{currencyFormatter(row.total, true)}
+						</td>
+					);
+				},
+			},
+			{
+				name: 'Balance',
+				className: 'text-right',
+				cell: ({ row }) => {
+					const prefix = balancePrefixer(row.balance);
+					return (
+						<td
+							className={cx(
+								{ 'oec-table__cell--strong': row.key === 'total' },
+								{ 'oec-table__cell--red': row.balance < 0 },
+								'text-tabular',
+								'text-right'
+							)}
+						>
+							<div className={cx('position-relative', { 'one-half-char-right': row.balance < 0 })}>
+								{row.balance < 0 ? '(' : ''}
+								<span>$ </span>
+								<span style={{ visibility: 'hidden' }}>{prefix}</span>
+								{currencyFormatter(Math.abs(row.balance), true)}
+								{row.balance < 0 ? ')' : ''}
+							</div>
+						</td>
+					);
+				},
+			},
+		],
+	};
+
+	return (
+		<>
+			<h2 className="margin-bottom-neg-205">Monthly utilization</h2>
+			<Table {...tableProps} fullWidth />
+		</>
+	);
+}
+
+export const getUtilizationTableRows = (report: CdcReport) => {
 	// TODO: if the space lives on the organization but the rates live on the site,
 	// we need to reconsider how we handle multi site org rate calculation
-	if (!site) {
-		return <></>;
-	}
-
+	const site = idx(report, (_) => _.organization.sites[0]);
 	const fundingSpaces = idx(report, (_) => _.organization.fundingSpaces);
-	if (!fundingSpaces) {
-		return <></>;
-	}
 
-	const reportingPeriodWeeks = getReportingPeriodWeeks(report.reportingPeriod);
+	if( !site || !fundingSpaces) return [];
+
+	const weeksInPeriod = getReportingPeriodWeeks(report.reportingPeriod);
 	const splitTimeFundingSpaces = getFundingSpaces(
 		report.organization && report.organization.fundingSpaces,
 		{
@@ -79,21 +191,11 @@ export default function UtilizationTable() {
 	const timeSplitUtilizations = getSplitUtilizations(
 		report,
 		splitTimeFundingSpaces,
-		reportingPeriodWeeks
+		weeksInPeriod
 	);
-
-	const periodStart = idx(report, (_) => _.reportingPeriod.periodStart);
-	const periodEnd = idx(report, (_) => _.reportingPeriod.periodEnd);
-	const weeksInPeriod =
-		periodStart && periodEnd ? moment(periodEnd).add(1, 'day').diff(periodStart, 'weeks') : 0;
 
 	const enrollments = (idx(report, (_) => _.enrollments) || []) as Enrollment[];
 
-	// NOTE: previously, looped over all possible combinations of age X time,
-	// and then filtered for products with count or capacity > 0
-	// UPDATED to loop over all existing fundingspaces, which will all have capacity > 0.
-	// enrollments for funding spaces not in this list do not belong to this report.
-	// Rows are sorted by fundingspace age, then time
 	const cdcFundingSpaces = (fundingSpaces as DeepNonUndefineableArray<FundingSpace>)
 		.sort(fundingSpaceSorter)
 		.filter((fundingSpace) => fundingSpace.source === FundingSource.CDC);
@@ -197,115 +299,5 @@ export default function UtilizationTable() {
 
 	rows.push(totalRow);
 
-	const reimbursementPrefixer = makePrefixerFunc(totalRow.maxes.rate);
-	const totalPrefixer = makePrefixerFunc(totalRow.maxes.total);
-	const balancePrefixer = makePrefixerFunc(totalRow.maxes.balance);
-
-	const tableProps: TableProps<UtilizationTableRow> = {
-		id: 'utilization-table',
-		data: rows.filter((row) => row.count || row.capacity),
-		rowKey: (row) => row.key,
-		columns: [
-			{
-				name: '',
-				cell: ({ row }) => (
-					<th>
-						<strong>{row.key === 'total' ? 'Total' : `${prettyAge(row.ageGroup)}`}</strong>
-						{row.fundingTime && row.showFundingTime && (
-							<> &ndash; {prettyFundingTime(row.fundingTime, { splitTimeText: 'pt/ft split' })}</>
-						)}
-					</th>
-				),
-			},
-			{
-				name: 'Utilization',
-				cell: ({ row }) => (
-					<td
-						className={
-							(row.key === 'total' ? 'oec-table__cell--strong' : '') +
-							' ' +
-							(row.count !== row.capacity ? 'oec-table__cell--red' : '')
-						}
-					>
-						{row.count}/{row.capacity} spaces
-					</td>
-				),
-			},
-			{
-				name: 'Reimbursement rate',
-				className: 'text-right',
-				cell: ({ row }) => {
-					const { partWeeks, fullWeeks } = row.weeksSplit || {};
-					return (
-						<td className="text-tabular text-right">
-							<ReimbursementRateLine
-								prefix={reimbursementPrefixer(row.ptRate || 0)}
-								prettyRate={currencyFormatter(row.ptRate || 0, true)}
-								weeksInPeriod={partWeeks}
-								suffix="(pt)"
-							/>
-							<ReimbursementRateLine
-								prefix={reimbursementPrefixer(row.ftRate || 0)}
-								prettyRate={currencyFormatter(row.ftRate || 0, true)}
-								weeksInPeriod={fullWeeks}
-								suffix="(ft)"
-							/>
-						</td>
-					);
-				},
-			},
-			{
-				name: `Total (${weeksInPeriod} weeks)`,
-				className: 'text-right',
-				cell: ({ row }) => {
-					const prefix = totalPrefixer(row.total);
-					return (
-						<td
-							className={cx(
-								{ 'oec-table__cell--strong': row.key === 'total' },
-								'text-tabular',
-								'text-right'
-							)}
-						>
-							<span>$ </span>
-							<span style={{ visibility: 'hidden' }}>{prefix}</span>
-							{currencyFormatter(row.total, true)}
-						</td>
-					);
-				},
-			},
-			{
-				name: 'Balance',
-				className: 'text-right',
-				cell: ({ row }) => {
-					const prefix = balancePrefixer(row.balance);
-					return (
-						<td
-							className={cx(
-								{ 'oec-table__cell--strong': row.key === 'total' },
-								{ 'oec-table__cell--red': row.balance < 0 },
-								'text-tabular',
-								'text-right'
-							)}
-						>
-							<div className={cx('position-relative', { 'one-half-char-right': row.balance < 0 })}>
-								{row.balance < 0 ? '(' : ''}
-								<span>$ </span>
-								<span style={{ visibility: 'hidden' }}>{prefix}</span>
-								{currencyFormatter(Math.abs(row.balance), true)}
-								{row.balance < 0 ? ')' : ''}
-							</div>
-						</td>
-					);
-				},
-			},
-		],
-	};
-
-	return (
-		<>
-			<h2 className="margin-bottom-neg-205">Monthly utilization</h2>
-			<Table {...tableProps} fullWidth />
-		</>
-	);
+	return rows;
 }

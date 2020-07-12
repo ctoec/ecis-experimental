@@ -79,7 +79,7 @@ function isCurrentToRangeCDC(funding: Funding, range: DateRange): boolean {
  * (there should only ever be one!)
  * @param fundings
  */
-export function getCurrentCdcFunding(fundings: Funding[] | null): Funding | undefined {
+export function getCurrentCdcFunding(fundings: Funding[] | null | undefined): Funding | undefined {
 	return (fundings || []).find(
 		(funding) => funding.source === FundingSource.CDC && !funding.lastReportingPeriod
 	);
