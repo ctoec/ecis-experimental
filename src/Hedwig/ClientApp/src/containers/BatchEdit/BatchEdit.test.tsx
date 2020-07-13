@@ -1,10 +1,11 @@
 // Variables used in jest mocks -- must start with `mock`
 import {
+	mockReport,
 	mockEnrollmentMissingBirthCertId, // full time preschool
 	mockEnrollmentMissingAddress, // full time preschool,
 } from '../../tests/data';
 import mockUseApi, {
-	mockApiOrganizationsOrgIdEnrollmentsGet,
+	mockApiOrganizationsOrgIdReportsIdGet,
 } from '../../hooks/useApi/__mocks__/useApi';
 
 let mockEnrollments = [mockEnrollmentMissingBirthCertId, mockEnrollmentMissingAddress];
@@ -14,8 +15,8 @@ jest.mock('../../hooks/useApi', () => ({
 	// we must specify __esModule: true on the returned object.
 	__esModule: true,
 	default: mockUseApi({
-		apiOrganizationsOrgIdEnrollmentsGet: (_: any) =>
-			mockApiOrganizationsOrgIdEnrollmentsGet(mockEnrollments)(_),
+		apiOrganizationsOrgIdReportsIdGet: (_: any) =>
+			mockApiOrganizationsOrgIdReportsIdGet({ ...mockReport, enrollments: mockEnrollments })(_),
 	}),
 	paginate: (_: any, __: any) => _,
 }));
