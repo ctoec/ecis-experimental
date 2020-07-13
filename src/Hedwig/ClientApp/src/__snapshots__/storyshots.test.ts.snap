@@ -5759,7 +5759,7 @@ exports[`Storyshots ProcessList Default 1`] = `
         A long, long, long, long, long heading
       </div>
       <span
-        className="usa-tag usa-tag--no-transform bg-theme-color-primary"
+        className="usa-tag usa-tag--no-transform bg-theme-color-primary margin-left-1"
       >
         NEW
       </span>
@@ -5780,7 +5780,7 @@ exports[`Storyshots ProcessList Default 1`] = `
         Step heading
       </div>
       <span
-        className="usa-tag usa-tag--no-transform bg-theme-color-primary"
+        className="usa-tag usa-tag--no-transform bg-theme-color-primary margin-left-1"
       >
         NEW
       </span>

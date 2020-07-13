@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { SectionProps } from '../../enrollmentTypes';
+import { SectionProps, headerLevels } from '../../enrollmentTypes';
 import {
 	Enrollment,
 	ApiOrganizationsOrgIdSitesSiteIdEnrollmentsPostRequest,
@@ -32,6 +32,7 @@ export const NewForm: React.FC<SectionProps> = ({
 	siteId,
 	successCallback,
 	onSectionTouch,
+	startingHeaderLevel = headerLevels[2],
 }) => {
 	const { user } = useContext(UserContext);
 
@@ -91,6 +92,8 @@ export const NewForm: React.FC<SectionProps> = ({
 		setAttemptSave(true);
 	};
 
+	const Header = startingHeaderLevel;
+
 	return (
 		<Form<Enrollment>
 			className="ChildInfoForm usa-form"
@@ -119,15 +122,15 @@ export const NewForm: React.FC<SectionProps> = ({
 					</div>
 				</div>
 			</div>
-			<h2>Date of birth</h2>
+			<Header>Date of birth</Header>
 			<DateOfBirthField />
-			<h2>Birth certificate</h2>
+			<Header>Birth certificate</Header>
 			<BirthCertificateFormFieldSet />
-			<h2>Race</h2>
+			<Header>Race</Header>
 			<RaceField />
-			<h2>Ethnicity</h2>
+			<Header>Ethnicity</Header>
 			<EthnicityField />
-			<h2>Gender</h2>
+			<Header>Gender</Header>
 			<GenderField />
 			<FormSubmitButton text={isSaving ? 'Saving...' : 'Save'} disabled={isSaving} />
 		</Form>

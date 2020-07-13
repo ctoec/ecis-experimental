@@ -58,7 +58,9 @@ describe('EnrollmentDetail', () => {
 		);
 
 		const incompleteIcons = getAllByText('(incomplete)');
-		expect(incompleteIcons.length).toBe(1);
+		// We should get one incomplete icon for the field and one on the summary section above the link
+		// This is currently broken in prod because we aren't getting validation errors on the enrollment
+		expect(incompleteIcons.length).toBe(2);
 	});
 
 	accessibilityTestHelper(

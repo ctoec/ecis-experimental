@@ -134,6 +134,7 @@ export const NewForm = ({
 					shouldCreate={determinationId === 0 && !notDisclosed}
 				>
 					{!notDisclosed && (
+						// No header level supplied because new determination doesn't show header
 						<IncomeDeterminationFieldSet type="new" determinationId={determinationId} />
 					)}
 				</WithNewDetermination>

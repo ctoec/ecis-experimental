@@ -5,7 +5,6 @@ import { Form, FormSubmitButton } from '../../../../components/Form_New';
 import { hasValidationErrors } from '../../../../utils/validations';
 import { AddressFieldset } from '../../../Enrollment/_sections/FamilyInfo/Fields';
 import { Button } from '../../../../components';
-import useCatchAllErrorAlert from '../../../../hooks/useCatchAllErrorAlert';
 
 export const EditForm: React.FC<BatchEditStepProps> = ({ enrollment, onSubmit, onSkip }) => {
 	// Family will always exist (because we create it if missing in SingleEnrollmentEdit)
@@ -20,7 +19,7 @@ export const EditForm: React.FC<BatchEditStepProps> = ({ enrollment, onSubmit, o
 		>
 			{hasValidationErrors(family, ['addressLine1', 'town', 'state', 'zip']) && (
 				<>
-					<h3>Address</h3>
+					<h4>Address</h4>
 					<AddressFieldset blockErrorDisplay={true} />
 				</>
 			)}

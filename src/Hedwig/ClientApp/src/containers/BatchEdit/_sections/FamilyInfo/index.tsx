@@ -7,7 +7,7 @@ import { hasFamilyInfoSectionErrors } from '../../utils';
 export default {
 	key: 'family-info',
 	name: 'Family information',
-	status: ({enrollment}) => hasFamilyInfoSectionErrors(enrollment) ? 'incomplete' : 'complete',
+	status: ({ enrollment }) => (hasFamilyInfoSectionErrors(enrollment) ? 'incomplete' : 'complete'),
 	Summary: () => <></>,
 	Form: EditForm,
 } as StepProps<BatchEditStepProps>;

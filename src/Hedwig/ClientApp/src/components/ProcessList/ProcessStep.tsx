@@ -11,7 +11,7 @@ export const ProcessStep: React.FC<ProcessStepProps> = ({ heading, body, isNew =
 	return (
 		<li className="process-step">
 			<div className="display-inline-block">{heading}</div>
-			{isNew ? <Tag text="NEW" color="theme-color-primary" /> : undefined}
+			{isNew ? <Tag text="NEW" color="theme-color-primary margin-left-1" /> : undefined}
 			<br />
 			{body ? <span className="usa-hint text-italic"> {body}</span> : undefined}
 		</li>

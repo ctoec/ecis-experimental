@@ -208,11 +208,9 @@ exports[`EnrollmentNew EnrollmenFunding matches snapshot 1`] = `
               <form
                 class="usa-form enrollment-new-enrollment-funding-section"
               >
-                <span
-                  class="usa-label text-bold font-sans-lg"
-                >
+                <h3>
                   Children's Adventure Center
-                </span>
+                </h3>
                 <div>
                   <fieldset
                     aria-describedby="start-date-hint"
@@ -1455,6 +1453,9 @@ exports[`EnrollmentNew EnrollmenFunding matches snapshot 1`] = `
                     </div>
                   </fieldset>
                 </div>
+                <h3>
+                  Age group
+                </h3>
                 <fieldset
                   aria-required="true"
                   class="grid-gap grid-row usa-fieldset"
@@ -1464,7 +1465,7 @@ exports[`EnrollmentNew EnrollmenFunding matches snapshot 1`] = `
                     id="fieldset-legend-age-group-radiogroup-fieldset"
                   >
                     <span
-                      class="usa-label text-bold font-sans-lg"
+                      class="usa-sr-only"
                     >
                       Age group
                     </span>
@@ -1532,11 +1533,9 @@ exports[`EnrollmentNew EnrollmenFunding matches snapshot 1`] = `
                     </span>
                   </div>
                 </fieldset>
-                <span
-                  class="usa-label text-bold font-sans-lg"
-                >
+                <h3>
                   Funding
-                </span>
+                </h3>
                 <fieldset
                   aria-required="true"
                   class="grid-gap grid-row usa-fieldset"
@@ -1674,11 +1673,9 @@ exports[`EnrollmentNew EnrollmenFunding matches snapshot 1`] = `
                     </span>
                   </div>
                 </fieldset>
-                <span
-                  class="usa-label text-bold font-sans-lg"
-                >
+                <h3>
                   Care 4 Kids
-                </span>
+                </h3>
                 <div
                   class="margin-top-3"
                 >

@@ -30,6 +30,7 @@ export const FundingFormForCard: React.FC<FundingFormForCardProps> = ({
 }) => {
 	return (
 		<Form id={`edit-funding-${fundingId}`} data={formData} onSubmit={onSubmit} className="usa-form">
+			<h3>Funding</h3>
 			<FundingField
 				fundingId={fundingId}
 				fundingSpaces={fundingSpaces}

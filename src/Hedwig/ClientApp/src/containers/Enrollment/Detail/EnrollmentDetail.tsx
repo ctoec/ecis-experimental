@@ -122,6 +122,7 @@ export default function EnrollmentDetail({
 								<section.Summary {...props} />
 							</div>
 							<div className="oec-enrollment-details-section__actions">
+								{/* TODO: this is broken because we aren't getting any validation errors with the enrollment get */}
 								{section.status(props) === 'incomplete' && (
 									<span>
 										<InlineIcon icon="incomplete" /> Missing information

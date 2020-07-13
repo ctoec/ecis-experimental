@@ -5,7 +5,6 @@ import { Enrollment } from '../../../../generated';
 import { hasValidationErrors } from '../../../../utils/validations';
 import { IncomeDeterminationFieldSet } from '../../../Enrollment/_sections/FamilyIncome/Fields';
 import { Button } from '../../../../components';
-import useCatchAllErrorAlert from '../../../../hooks/useCatchAllErrorAlert';
 
 export const EditForm: React.FC<BatchEditStepProps> = ({ enrollment, onSubmit, onSkip }) => {
 	const determinationsWithErrors = (enrollment.child?.family?.determinations || []).filter(
@@ -27,14 +26,11 @@ export const EditForm: React.FC<BatchEditStepProps> = ({ enrollment, onSubmit, o
 				then display form fields to redetermine income (create new income determination)
 			 */}
 			{hasValidationErrors(enrollment.child?.family, ['determinations'], true) && (
-				<>
-					<h3>Redetermine family income</h3>
-					<IncomeDeterminationFieldSet
-						type="redetermine"
-						determinationId={0}
-						blockErrorDisplay={true}
-					/>
-				</>
+				<IncomeDeterminationFieldSet
+					type="redetermine"
+					determinationId={0}
+					blockErrorDisplay={true}
+				/>
 			)}
 
 			{/*

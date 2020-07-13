@@ -1,5 +1,5 @@
 import { Enrollment, Age, FundingSource } from '../../generated';
-import { swapFields } from '../helpers';
+import { swapFields, getValidationError } from '../helpers';
 import { mockChild } from './child';
 import { mockSite } from './site';
 import emptyGuid from '../../utils/emptyGuid';
@@ -9,14 +9,6 @@ import {
 	mockPartTimeInfantSpace,
 	mockFullTimeInfantSpace,
 } from './fundingSpace';
-
-const enrollmentValidationError = [
-	{
-		message: 'Child has validation errors',
-		isSubObjectValidation: true,
-		field: 'Child',
-	},
-];
 
 export const mockCompleteEnrollment: Enrollment = {
 	id: 1,
@@ -56,14 +48,60 @@ export const mockCompleteEnrollment: Enrollment = {
 
 export const mockEnrollmentMissingBirthCertId = swapFields(mockCompleteEnrollment, [
 	{ keys: ['child', 'birthCertificateId'], newValue: undefined },
+	{
+		keys: ['child', 'validationErrors'],
+		newValue: [
+			getValidationError({
+				field: 'BirthCertificateId',
+				message: 'BirthCertificateId has validation errors',
+			}),
+		],
+	},
 	{ keys: ['id'], newValue: 2 },
-	{ keys: ['validationErrors'], newValue: enrollmentValidationError },
+	{
+		keys: ['validationErrors'],
+		newValue: [
+			getValidationError({
+				field: 'Child',
+				message: 'Child has validation errors',
+				isSubObjectValidation: true,
+			}),
+		],
+	},
 ]);
 
 export const mockEnrollmentMissingAddress = swapFields(mockCompleteEnrollment, [
 	{ keys: ['child', 'family', 'addressLine1'], newValue: undefined },
+	{
+		keys: ['child', 'validationErrors'],
+		newValue: [
+			getValidationError({
+				field: 'Family',
+				message: 'Family has validation errors',
+				isSubObjectValidation: true,
+			}),
+		],
+	},
+	{
+		keys: ['child', 'family', 'validationErrors'],
+		newValue: [
+			getValidationError({
+				field: 'AddressLine1',
+				message: 'AddressLine1 has validation errors',
+			}),
+		],
+	},
 	{ keys: ['id'], newValue: 4 },
-	{ keys: ['validationErrors'], newValue: enrollmentValidationError },
+	{
+		keys: ['validationErrors'],
+		newValue: [
+			getValidationError({
+				field: 'Child',
+				message: 'Child has validation errors',
+				isSubObjectValidation: true,
+			}),
+		],
+	},
 
 	{
 		keys: ['child', 'family', 'validationErrors'],

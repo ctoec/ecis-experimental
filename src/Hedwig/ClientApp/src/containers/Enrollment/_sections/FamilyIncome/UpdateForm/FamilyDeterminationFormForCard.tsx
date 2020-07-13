@@ -5,6 +5,7 @@ import { Button } from '../../../../../components';
 import FormSubmitButton from '../../../../../components/Form_New/FormSubmitButton';
 import Form from '../../../../../components/Form_New/Form';
 import { ExpandCard } from '../../../../../components/Card/ExpandCard';
+import { headerLevels } from '../../../enrollmentTypes';
 
 type FamilyDeterminationFormForCardProps = {
 	determinationId: number;
@@ -53,7 +54,6 @@ const FamilyDeterminationFormForCard: React.FC<FamilyDeterminationFormForCardPro
 			className="usa-form"
 		>
 			<WithNewDetermination shouldCreate={!isEditExpansion}>
-				{/* TODO: this should probably not be a fieldset-- just not necessary, probably a bad experience for screen readers */}
 				<IncomeDeterminationFieldSet
 					type={isEditExpansion ? 'edit' : 'redetermine'}
 					determinationId={determinationId}

@@ -6,18 +6,19 @@ import { FieldSet, TextInput, FormStatusProps, Button } from '..';
 import { ReactComponent as CalendarIcon } from '../../assets/images/calendar.svg';
 import { parseStringDateInput } from '../../utils/stringFormatters';
 import { InputField } from '../../utils/forms/form';
+import { LegendStyleOptions } from '../FieldSet/FieldSet';
 
 export type DateInputProps = {
 	onChange_Old?: (newDate: InputField<Moment | null>) => any | void;
 	onChange?: (ev: Event) => any;
 	id: string;
 	label: string;
+	legendStyle?: LegendStyleOptions;
 	defaultValue?: Date | null;
 	disabled?: boolean;
 	optional?: boolean;
 	status?: FormStatusProps;
 	className?: string;
-	hideLabel?: boolean;
 	hideHint?: boolean;
 	name?: string;
 	forceBlur?: boolean;
@@ -30,7 +31,8 @@ export const DateInput: React.FC<DateInputProps> = ({
 	onChange_Old: inputOnChange_Old,
 	onChange: inputOnChange,
 	id,
-	label,
+	label: legend,
+	legendStyle,
 	disabled,
 	optional,
 	status: inputStatus,
@@ -107,7 +109,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 
 	return (
 		<FieldSet
-			legend={label}
+			legend={legend}
 			id={id}
 			hint={hideHint ? undefined : `For example: ${moment().format('MM/DD/YYYY')}`}
 			status={status}
@@ -115,6 +117,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 			disabled={disabled}
 			className={cx('oec-date-input', 'oec-date-input-single', className)}
 			showLegend={true}
+			legendStyle={legendStyle}
 		>
 			<input
 				// Non-interactive input to play nice within a form component
@@ -126,7 +129,7 @@ export const DateInput: React.FC<DateInputProps> = ({
 			/>
 			<div className="flex-row flex-align-end grid-gap position-relative">
 				<TextInput
-					label={label}
+					label={legend}
 					srOnlyLabel
 					// Make label sr only because it's in a fieldset
 					id={`${id}-input`}

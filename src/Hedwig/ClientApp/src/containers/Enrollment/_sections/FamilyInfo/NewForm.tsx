@@ -16,7 +16,7 @@ import {
 } from '../../../../utils/models';
 import FormSubmitButton from '../../../../components/Form_New/FormSubmitButton';
 import { AddressFieldset, FosterCheckbox, HomelessnessCheckbox } from './Fields';
-import { SectionProps } from '../../enrollmentTypes';
+import { SectionProps, headerLevels } from '../../enrollmentTypes';
 
 export const NewForm: React.FC<SectionProps> = ({
 	enrollment,
@@ -24,7 +24,7 @@ export const NewForm: React.FC<SectionProps> = ({
 	error: inputError,
 	successCallback,
 	onSectionTouch,
-	touchedSections,
+	startingHeaderLevel = headerLevels[2],
 }) => {
 	if (!enrollment || !enrollment.child) {
 		throw new Error('FamilyInfo rendered without a child');
@@ -86,6 +86,8 @@ export const NewForm: React.FC<SectionProps> = ({
 		setMutatedEnrollment(userModifiedEnrollment);
 	};
 
+	const Header = startingHeaderLevel;
+
 	return (
 		<Form<Enrollment>
 			className="FamilyInfoForm usa-form"
@@ -94,9 +96,9 @@ export const NewForm: React.FC<SectionProps> = ({
 			autoComplete="off"
 			onSubmit={onFormSubmit}
 		>
-			<h2>Address</h2>
+			<Header>Address</Header>
 			<AddressFieldset />
-			<h2>Other</h2>
+			<Header>Other</Header>
 			<FosterCheckbox />
 			<HomelessnessCheckbox />
 			<FormSubmitButton text={isSaving ? 'Saving...' : 'Save'} disabled={isSaving} />
