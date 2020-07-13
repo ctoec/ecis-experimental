@@ -15,7 +15,7 @@ Install appropriate git commit from `/hooks` directory, following instructions i
 
 #### Step 1
 
-Install (if you haven't already) Visual Studio, [Node](https://nodejs.org/en/download/), [Yarn](https://yarnpkg.com/lang/en/docs/install/), [.NET Core](https://aka.ms/dotnetcoregs), and dotnet-ef.
+Install (if you haven't already) Visual Studio, [Node 12](https://nodejs.org/en/download/), [Yarn](https://yarnpkg.com/lang/en/docs/install/), [.NET Core](https://aka.ms/dotnetcoregs), and dotnet-ef.
 
 #### Step 1b
 
@@ -61,7 +61,7 @@ Exception: If you are developing on Windows with WSLv2 (WSLv1 is not [well] supp
 
 #### Step 1
 
-Install (if you haven't already) [Node](https://nodejs.org/en/download/), [Yarn](https://yarnpkg.com/lang/en/docs/install/), [.NET Core](https://aka.ms/dotnetcoregs), and dotnet-ef.
+Install (if you haven't already) [Node 12](https://nodejs.org/en/download/), [Yarn](https://yarnpkg.com/lang/en/docs/install/), [.NET Core](https://aka.ms/dotnetcoregs), and dotnet-ef.
 
 #### Step 2
 
@@ -74,11 +74,20 @@ make install db-migrate
 #### Step 1
 Install [Homebrew](https://brew.sh).
 
+#### Step 2
+Install and link Node 12 (linking is necessary because LTS versions of Node are keg-only by default):
+
 ```sh
-brew install node yarn && brew tap caskroom/cask && brew cask install dotnet
+brew install node@12 && brew link --force --overwrite node@12
 ```
 
-#### Step 2
+#### Step 3
+
+```sh
+brew install yarn && brew tap caskroom/cask && brew cask install dotnet
+```
+
+#### Step 3
 
 ```sh
 make install db-migrate
