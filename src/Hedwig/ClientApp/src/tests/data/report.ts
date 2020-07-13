@@ -31,6 +31,7 @@ export const mockReport: CdcReport = {
 	},
 	organization: mockSingleSiteOrganization,
 	familyFeesRevenue: 1000,
+	c4KRevenue: 100000,
 	validationErrors: reportEnrollmentValidationError,
 };
 

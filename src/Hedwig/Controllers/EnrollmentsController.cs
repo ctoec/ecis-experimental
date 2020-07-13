@@ -52,11 +52,11 @@ namespace Hedwig.Controllers
 			[FromQuery(Name = "take")] int? take = null
 		)
 		{
-			var enrollments = new List<EnrollmentDTO>();
+			var enrollments = new List<Enrollment>();
 			if (siteIds.Length > 0)
 			// Only get enrollments in the given sites (that are in the given organization)
 			{
-				var orgSites = await _sites.GetEnrollmentSummarySiteDTOsForOrganizationAsync(orgId);
+				var orgSites = _sites.GetSitesByOrganizationId(orgId);
 				var allSitesInOrg = siteIds.All(siteId => orgSites.Select(site => site.Id).Contains(siteId));
 				if (!allSitesInOrg)
 				{
@@ -65,17 +65,17 @@ namespace Hedwig.Controllers
 
 				foreach (var siteId in siteIds)
 				{
-					var siteEnrollments = await _enrollments.GetEnrollmentDTOsForSiteAsync(siteId, from, to, skip, take);
+					var siteEnrollments = await _enrollments.GetEnrollmentsForSiteAsync(siteId, from, to, skip, take);
 					enrollments.AddRange(siteEnrollments);
 				}
 			}
 			else
 			// If no sites are specified, get all enrollments for the organization
 			{
-				enrollments = await _enrollments.GetEnrollmentDTOsForOrganizationAsync(orgId, from, to, asOf, skip, take);
+				enrollments = await _enrollments.GetEnrollmentsForOrganizationAsync(orgId, from, to, asOf, skip, take);
 			}
 
-			return Ok(_mapper.Map<List<EnrollmentDTO>,List<Enrollment>>(enrollments));
+			return enrollments;
 		}
 
 		// GET api/organizations/1/sites/1/enrollments
@@ -93,8 +93,8 @@ namespace Hedwig.Controllers
 			[FromQuery(Name = "take")] int? take = null
 		)
 		{
-			var enrollments = await _enrollments.GetEnrollmentDTOsForSiteAsync(siteId, from, to, skip, take);
-			return Ok(_mapper.Map<List<EnrollmentDTO>,List<EnrollmentDTO>>(enrollments));
+			var enrollments = await _enrollments.GetEnrollmentsForSiteAsync(siteId, from, to, skip, take);
+			return enrollments;
 		}
 
 		// GET api/organizations/1/sites/1/enrollments/1
@@ -110,10 +110,10 @@ namespace Hedwig.Controllers
 		)
 		{
 
-			var enrollment = await _enrollments.GetEnrollmentDTOForSiteAsync(id, siteId);
+			var enrollment = await _enrollments.GetEnrollmentForSiteAsync(id, siteId);
 			if (enrollment == null) return NotFound();
 
-			return Ok(_mapper.Map<EnrollmentDTO, EnrollmentDTO>(enrollment));
+			return enrollment;
 		}
 
 		[HttpPost]

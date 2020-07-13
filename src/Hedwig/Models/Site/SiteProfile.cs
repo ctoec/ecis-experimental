@@ -6,10 +6,8 @@ namespace Hedwig.Models
 	{
 		public SiteProfile()
 		{
-			CreateMap<Site, EnrollmentSummarySiteDTO>();
-			CreateMap<EnrollmentSummarySiteDTO, Site>();
-			CreateMap<Site, OrganizationSiteDTO>();
-			CreateMap<OrganizationSiteDTO, Site>();
+			CreateMap<Site, SiteDTO >()
+				.ReverseMap();
 		}
 	}
 }

@@ -116,21 +116,7 @@ exports[`Batch edit matches snapshot 1`] = `
                 </h3>
                 <div
                   class="oec-step-list__step__summary"
-                >
-                  <span
-                    class="oec-inline-icon oec-inline-icon--incomplete"
-                  >
-                    <svg>
-                      error.svg
-                    </svg>
-                    <span
-                      class="usa-sr-only"
-                    >
-                      (incomplete)
-                    </span>
-                  </span>
-                  Child Info
-                </div>
+                />
               </div>
               <div
                 class="oec-step-list__step__actions"

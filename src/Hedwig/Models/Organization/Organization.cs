@@ -13,9 +13,6 @@ namespace Hedwig.Models
 		public string Name { get; set; }
 
 		public ICollection<Site> Sites { get; set; }
-
-		public ICollection<OrganizationReport> Reports { get; set; }
-
 		public ICollection<FundingSpace> FundingSpaces { get; set; }
 	}
 }

@@ -1,10 +1,9 @@
-using AutoMapper;
-using Hedwig.Filters.Attributes;
 using System.Threading.Tasks;
 using Hedwig.Models;
 using Hedwig.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Hedwig.Filters.Attributes;
 
 namespace Hedwig.Controllers
 {
@@ -13,26 +12,23 @@ namespace Hedwig.Controllers
 	public class OrganizationsController : ControllerBase
 	{
 		private readonly IOrganizationRepository _organizations;
-		private readonly IMapper _mapper;
 
-		public OrganizationsController(IOrganizationRepository organizations,
-				IMapper mapper)
+		public OrganizationsController(IOrganizationRepository organizations)
 		{
 			_organizations = organizations;
-			_mapper = mapper;
 		}
 
 		[HttpGet("{id}")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		[DTOProjectionFilter(typeof(EnrollmentSummaryOrganizationDTO), Order = 2)]
-		public ActionResult<Organization> Get(int id)
+		[DTOProjectionFilter(typeof(OrganizationDTO))]
+		public async Task<ActionResult<Organization>> Get(int id)
 		{
-			var organization = _organizations.GetEnrollmentSummaryOrganizationDTOById(id);
+			var organization = await _organizations.GetOrganizationByIdAsync(id);
 
 			if (organization == null) return NotFound();
 
-			return Ok(_mapper.Map< EnrollmentSummaryOrganizationDTO, Organization>(organization));
+			return Ok(organization);
 		}
 	}
 }

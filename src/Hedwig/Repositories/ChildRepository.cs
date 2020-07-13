@@ -11,13 +11,7 @@ namespace Hedwig.Repositories
 {
 	public class ChildRepository : HedwigRepository, IChildRepository
 	{
-		readonly IC4KCertificateRepository _c4KCertificateRepository;
-		readonly FamilyRepository _familyRepository;
-
-		public ChildRepository(HedwigContext context) : base(context) {
-			_c4KCertificateRepository = new C4KCertificateRepository(context);
-			_familyRepository = new FamilyRepository(context);
-		}
+		public ChildRepository(HedwigContext context) : base(context) { }
 
 		public async Task<List<Child>> GetChildrenForOrganizationAsync(
 			int organizationId
@@ -49,62 +43,6 @@ namespace Hedwig.Repositories
 			return _context.Children
 				.Single(c => c.Id == id);
 		}
-		public EnrollmentChildDTO GetEnrollmentChildDTOById(Guid id)
-		{
-			return GetEnrollmentChildDTOsByIds(new List<Guid> { id }).FirstOrDefault();
-		}
-		public List<EnrollmentChildDTO> GetEnrollmentChildDTOsByIds(IEnumerable<Guid> ids)
-		{
-			_context.ChangeTracker.LazyLoadingEnabled = false;
-			var childDTOs = _context.Children
-				.SelectEnrollmentChildDTO()
-				.Where(c => ids.Contains(c.Id))
-				.ToList();
-			var familyIds = childDTOs
-				.Where(childDTO => childDTO.FamilyId.HasValue)
-				.Select(childDTO => childDTO.FamilyId.GetValueOrDefault());
-			var families = _familyRepository.GetEnrollmentFamilyDTOsByIds(familyIds);
-			var childIds = childDTOs.Select(childDTO => childDTO.Id).Distinct();
-			var c4KCertificates = _c4KCertificateRepository.GetC4KCertificateDTOsByChildIds(childIds);
-			foreach (var childDTO in childDTOs)
-			{
-				childDTO.Family = families.FirstOrDefault(f => f.Id == childDTO.FamilyId);
-				childDTO.C4KCertificates = c4KCertificates.Where(c4k => c4k.ChildId == childDTO.Id).ToList();
-			}
-			return childDTOs;
-		}
-	}
-
-	public static class ChildQueryExtensions
-	{
-		public static IQueryable<EnrollmentChildDTO> SelectEnrollmentChildDTO(this IQueryable<Child> query)
-		{
-			return query.Select(c => new EnrollmentChildDTO()
-			{
-				Id = c.Id,
-				Sasid = c.Sasid,
-				FirstName = c.FirstName,
-				MiddleName = c.MiddleName,
-				LastName = c.LastName,
-				Suffix = c.Suffix,
-				Birthdate = c.Birthdate,
-				BirthTown = c.BirthTown,
-				BirthState = c.BirthState,
-				BirthCertificateId = c.BirthCertificateId,
-				AmericanIndianOrAlaskaNative = c.AmericanIndianOrAlaskaNative,
-				Asian = c.Asian,
-				BlackOrAfricanAmerican = c.BlackOrAfricanAmerican,
-				NativeHawaiianOrPacificIslander = c.NativeHawaiianOrPacificIslander,
-				White = c.White,
-				HispanicOrLatinxEthnicity = c.HispanicOrLatinxEthnicity,
-				Gender = c.Gender,
-				Foster = c.Foster,
-				FamilyId = c.FamilyId,
-				OrganizationId = c.OrganizationId,
-				C4KFamilyCaseNumber = c.C4KFamilyCaseNumber,
-				ValidationErrors = c.ValidationErrors
-			});
-		}
 	}
 
 	public interface IChildRepository
@@ -114,7 +52,5 @@ namespace Hedwig.Repositories
 		);
 		Task<Child> GetChildForOrganizationAsync(Guid id, int organizationId);
 		Child GetChildById(Guid id);
-		EnrollmentChildDTO GetEnrollmentChildDTOById(Guid id);
-		List<EnrollmentChildDTO> GetEnrollmentChildDTOsByIds(IEnumerable<Guid> ids);
 	}
 }

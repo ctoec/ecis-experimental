@@ -15,7 +15,7 @@ namespace Hedwig.Validations.Attributes
 			var timeSplitUtilizations = value as ICollection<FundingTimeSplitUtilization> ?? new List<FundingTimeSplitUtilization> { };
 
 			var organizations = (IOrganizationRepository)validationContext.GetService(typeof(IOrganizationRepository));
-			var organization = organizations.GetOrganizationById(report.OrganizationId);
+			var organization = organizations.GetOrganizationWithFundingSpaces(report.OrganizationId);
 			if (organization == null)
 			{
 				return null;

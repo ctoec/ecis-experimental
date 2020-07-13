@@ -42,8 +42,8 @@ namespace Hedwig.Controllers
 			int orgId
 		)
 		{
-			var reports = _reports.GetOrganizationReportSummaryDTOsForOrganization(orgId);
-			return Ok(_mapper.Map<List<OrganizationReportSummaryDTO>,List<CdcReport>>(reports));
+			var reports = _reports.GetReportsForOrganization(orgId);
+			return Ok(reports);
 		}
 
 		// GET api/organizations/5/reports/1
@@ -52,15 +52,15 @@ namespace Hedwig.Controllers
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ValidateEntityFilterAttribute(Order = 1)]
 		[DTOProjectionFilter(typeof(CdcReportDTO), Order = 2)]
-		public async Task<ActionResult<CdcReport>> Get(
+		public ActionResult<CdcReport> Get(
 			int id,
 			int orgId
 		)
 		{
-			var report = await Task.Run(() => _reports.GetCdcReportForOrganization(id, orgId));
+			var report = _reports.GetCdcReportForOrganization(id, orgId);
 			if (report == null) return NotFound();
-			var reportDTO = _mapper.Map<CdcReport, CdcReportDTO>(report);
-			return Ok(_mapper.Map<CdcReportDTO, CdcReport>(reportDTO));
+
+			return Ok(report);
 		}
 
 		[HttpPut("{id:int}")]

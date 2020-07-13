@@ -4,7 +4,6 @@ using Hedwig.Controllers;
 using Hedwig.Models;
 using Hedwig.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using AutoMapper;
 using Moq;
 using Xunit;
 
@@ -16,24 +15,23 @@ namespace HedwigTests.Controllers
 		[Theory]
 		[InlineData(true, typeof(OkObjectResult))]
 		[InlineData(false, typeof(NotFoundResult))]
-		public void Get_Id_Include_GetsOrganization_WithInclude(
+		public async Task Get_Id_GetsOrganization(
 			bool exists,
 			Type resultType
 		)
 		{
 			var id = 1;
 
-			var returns = exists ? new EnrollmentSummaryOrganizationDTO() : null;
+			var returns = exists ? new Organization() : null;
 			var _organizations = new Mock<IOrganizationRepository>();
-			var _mapper = new Mock<IMapper>();
-			_organizations.Setup(o => o.GetEnrollmentSummaryOrganizationDTOById(id))
-			.Returns(returns);
+			_organizations.Setup(o => o.GetOrganizationByIdAsync(id))
+			.ReturnsAsync(returns);
 
-			var controller = new OrganizationsController(_organizations.Object, _mapper.Object);
+			var controller = new OrganizationsController(_organizations.Object);
 
-			var result = controller.Get(id);
+			var result = await controller.Get(id);
 
-			_organizations.Verify(o => o.GetEnrollmentSummaryOrganizationDTOById(id), Times.Once());
+			_organizations.Verify(o => o.GetOrganizationByIdAsync(id), Times.Once());
 			Assert.IsType(resultType, result.Result);
 		}
 	}

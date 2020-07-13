@@ -78,7 +78,6 @@ namespace HedwigTests.Repositories
 
 				// Then
 				Assert.Equal(name, res.FirstName);
-
 			}
 		}
 	}

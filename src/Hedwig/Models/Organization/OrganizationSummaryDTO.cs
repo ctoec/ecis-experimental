@@ -1,7 +1,8 @@
 namespace Hedwig.Models
 {
-	public class OrganizationReportSummaryOrganizationDTO
+	public class OrganizationSummaryDTO
 	{
+		public int Id { get; set; }
 		public string Name { get; set; }
 	}
 }

@@ -219,8 +219,15 @@ namespace HedwigTests.Repositories
 			}
 		}
 
-		[Fact]
-		public async Task GetEnrollmentsForSite_ReturnsEnrollmentsWithSiteId_IncludesEntities()
+		[Theory]
+		[InlineData(true, true, false, false)]
+
+		public async Task GetEnrollmentsForSite_ReturnsEnrollmentsWithSiteId_IncludesEntities(
+			bool includeFundings,
+			bool includeChildren,
+			bool includeFamilies,
+			bool includeDeterminations
+		)
 		{
 			int[] ids;
 			int siteId;
@@ -238,15 +245,23 @@ namespace HedwigTests.Repositories
 				var res = await enrollmentRepo.GetEnrollmentsForSiteAsync(siteId);
 
 				Assert.Equal(ids.OrderBy(id => id), res.Select(e => e.Id).OrderBy(id => id));
-				Assert.True(res.TrueForAll(e => e.Fundings != null));
-				Assert.True(res.TrueForAll(e => e.Child != null));
-				Assert.True(res.TrueForAll(e => e.Child != null && e.Child.Family != null));
-				Assert.True(res.TrueForAll(e => e.Child != null && e.Child.Family != null && e.Child.Family.Determinations != null));
+				Assert.Equal(includeFundings, res.TrueForAll(e => e.Fundings != null));
+				Assert.Equal(includeChildren, res.TrueForAll(e => e.Child != null));
+				Assert.Equal(includeFamilies, res.TrueForAll(e => e.Child != null && e.Child.Family != null));
+				Assert.Equal(includeDeterminations, res.TrueForAll(e => e.Child != null && e.Child.Family != null && e.Child.Family.Determinations != null));
 			}
 		}
 
-		[Fact]
-		public async Task GetEnrollmentForSite_ReturnsEnrollmentWithIdAndSiteId_IncludesEntities()
+		[Theory]
+		[InlineData(true, true, true, true, true)]
+
+		public async Task GetEnrollmentForSite_ReturnsEnrollmentWithIdAndSiteId_IncludesEntities(
+			bool includeFundings,
+			bool includeChild,
+			bool includeFamily,
+			bool includeDeterminations,
+			bool includePastEnrollments
+			)
 		{
 			int id;
 			int siteId;
@@ -264,11 +279,11 @@ namespace HedwigTests.Repositories
 				var res = await enrollmentRepo.GetEnrollmentForSiteAsync(id, siteId);
 
 				Assert.Equal(id, res.Id);
-				Assert.True(res.Fundings != null);
-				Assert.True(res.Child != null);
-				Assert.True(res.Child != null && res.Child.Family != null);
-				Assert.True(res.Child != null && res.Child.Family != null && res.Child.Family.Determinations != null);
-				Assert.True(res.PastEnrollments != null);
+				Assert.Equal(includeFundings, res.Fundings != null);
+				Assert.Equal(includeChild, res.Child != null);
+				Assert.Equal(includeFamily, res.Child != null && res.Child.Family != null);
+				Assert.Equal(includeDeterminations, res.Child != null && res.Child.Family != null && res.Child.Family.Determinations != null);
+				Assert.Equal(includePastEnrollments, res.PastEnrollments != null);
 			}
 		}
 

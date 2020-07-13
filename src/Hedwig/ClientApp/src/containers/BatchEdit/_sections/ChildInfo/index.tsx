@@ -8,17 +8,6 @@ export default {
 	key: 'child-info',
 	name: 'Child information',
 	status: ({ enrollment }) => (hasChildInfoSectionErrors(enrollment) ? 'incomplete' : 'complete'),
-	Summary: ({ enrollment }) =>
-		hasChildInfoSectionErrors(enrollment) ? (
-			<>
-				<InlineIcon icon="incomplete" />
-				Child Info
-			</>
-		) : (
-			<>
-				<InlineIcon icon="complete" />
-				Child Info
-			</>
-		),
+	Summary: () => <></>,
 	Form: EditForm,
 } as StepProps<BatchEditStepProps>;

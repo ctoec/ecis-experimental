@@ -57,7 +57,7 @@ export interface CdcReport {
 	 * @type {number}
 	 * @memberof CdcReport
 	 */
-	c4KRevenue?: number;
+	c4KRevenue: number | null;
 	/**
 	 *
 	 * @type {boolean}
@@ -148,7 +148,7 @@ export function CdcReportFromJSONTyped(json: any, ignoreDiscriminator: boolean):
 	}
 	return {
 		accredited: json['accredited'],
-		c4KRevenue: !exists(json, 'c4KRevenue') ? undefined : json['c4KRevenue'],
+		c4KRevenue: json['c4KRevenue'],
 		retroactiveC4KRevenue: !exists(json, 'retroactiveC4KRevenue')
 			? undefined
 			: json['retroactiveC4KRevenue'],

@@ -1,57 +1,34 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Hedwig.Data;
 using Hedwig.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Hedwig.Repositories
 {
 	public class OrganizationRepository : HedwigRepository, IOrganizationRepository
 	{
-		readonly IFundingSpaceRepository _fundingSpaceRepository;
-		readonly ISiteRepository _siteRepository;
 
-		public OrganizationRepository(HedwigContext context)
-			: base(context) {
-			this._fundingSpaceRepository = new FundingSpaceRepository(context);
-			this._siteRepository = new SiteRepository(context);
-		}
+		public OrganizationRepository(HedwigContext context) : base(context) { }
 
-		public Organization GetOrganizationById(int id)
-		{
+		public Task<Organization> GetOrganizationByIdAsync(int id) {
 			return _context.Organizations
 				.Where(o => o.Id == id)
-				.Include(o => o.FundingSpaces)
-				.ThenInclude(fs => fs.TimeSplit)
 				.Include(o => o.Sites)
-				.ThenInclude(s => s.Enrollments)
-				.FirstOrDefault();
+				.Include(o => o.FundingSpaces)
+					.ThenInclude(fs => fs.TimeSplit)
+				.FirstOrDefaultAsync();
 		}
-
-		public EnrollmentSummaryOrganizationDTO GetEnrollmentSummaryOrganizationDTOById(int id)
+		public Organization GetOrganizationWithFundingSpaces(int id)
 		{
-			_context.ChangeTracker.LazyLoadingEnabled = false;
-			var oDTO = _context.Organizations
-				.Select(o => new EnrollmentSummaryOrganizationDTO() {
-					Id = o.Id,
-					Name = o.Name
-				})
-				.SingleOrDefault(o => o.Id == id);
-			oDTO.Sites = _siteRepository.GetEnrollmentSummarySiteDTOsForOrganization(id);
-			oDTO.FundingSpaces = _fundingSpaceRepository.GetFundingSpaceDTOsForOrganiation(id);
-			return oDTO;
-		}
+			var organization = _context.Organizations
+				.Where(o => o.Id == id);
 
-		public OrganizationReportSummaryOrganizationDTO GetOrganizationReportSummaryOrganizationDTOById(int orgId)
-		{
-			_context.ChangeTracker.LazyLoadingEnabled = false;
-			return _context.Organizations
-				.Where(o => o.Id == orgId)
-				.Select(o => new OrganizationReportSummaryOrganizationDTO()
-				{
-					Name = o.Name
-				})
-				.SingleOrDefault();
+			organization = organization.Include(o => o.FundingSpaces)
+				.ThenInclude(fs => fs.TimeSplit);
+
+			return organization.FirstOrDefault();
 		}
 
 		public List<Organization> GetOrganizationsWithFundingSpaces(FundingSource source)
@@ -65,12 +42,8 @@ namespace Hedwig.Repositories
 
 	public interface IOrganizationRepository : IHedwigRepository
 	{
-		Organization GetOrganizationById(int id);
-
-		EnrollmentSummaryOrganizationDTO GetEnrollmentSummaryOrganizationDTOById(int id);
-
-		OrganizationReportSummaryOrganizationDTO GetOrganizationReportSummaryOrganizationDTOById(int orgId);
-
+		Task<Organization> GetOrganizationByIdAsync(int id);
+		Organization GetOrganizationWithFundingSpaces(int id);
 		List<Organization> GetOrganizationsWithFundingSpaces(FundingSource source);
 	}
 }

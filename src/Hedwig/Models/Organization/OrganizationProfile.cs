@@ -6,13 +6,10 @@ namespace Hedwig.Models
 	{
 		public OrganizationProfile()
 		{
-			CreateMap<Organization, EnrollmentSummaryOrganizationDTO>()
+			CreateMap<Organization, OrganizationSummaryDTO>()
 				.ReverseMap();
 
-			CreateMap<Organization, OrganizationReportSummaryOrganizationDTO>()
-				.ReverseMap();
-
-			CreateMap<Organization, CdcReportOrganizationDTO>()
+			CreateMap<Organization, OrganizationDTO>()
 				.ReverseMap();
 		}
 	}

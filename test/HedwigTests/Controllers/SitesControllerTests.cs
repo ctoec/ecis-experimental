@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AutoMapper;
 using Hedwig.Controllers;
 using Hedwig.Models;
 using Hedwig.Repositories;
@@ -14,19 +13,6 @@ namespace HedwigTests.Controllers
 {
 	public class SitesControllerTests
 	{
-		[Fact]
-		public async Task Get_GetsSitesForOrganization()
-		{
-			var _sites = new Mock<ISiteRepository>();
-			var _mapper = new Mock<IMapper>();
-			var controller = new SitesController(_sites.Object, _mapper.Object);
-
-			var orgId = 1;
-			await controller.Get(orgId);
-
-			_sites.Verify(s => s.GetEnrollmentSummarySiteDTOsForOrganizationAsync(orgId), Times.Once());
-		}
-
 		[Theory]
 		[InlineData(true, typeof(OkObjectResult))]
 		[InlineData(false, typeof(NotFoundResult))]
@@ -42,9 +28,8 @@ namespace HedwigTests.Controllers
 			var _sites = new Mock<ISiteRepository>();
 			_sites.Setup(s => s.GetSiteForOrganizationAsync(id, orgId))
 				.ReturnsAsync(returns);
-			var _mapper = new Mock<IMapper>();
 
-			var controller = new SitesController(_sites.Object, _mapper.Object);
+			var controller = new SitesController(_sites.Object);
 
 			var result = await controller.Get(id, orgId);
 
