@@ -179,7 +179,7 @@ export const getUtilizationTableRows = (report: CdcReport) => {
 	const site = idx(report, (_) => _.organization.sites[0]);
 	const fundingSpaces = idx(report, (_) => _.organization.fundingSpaces);
 
-	if( !site || !fundingSpaces) return [];
+	if (!site || !fundingSpaces) return [];
 
 	const weeksInPeriod = getReportingPeriodWeeks(report.reportingPeriod);
 	const splitTimeFundingSpaces = getFundingSpaces(
@@ -188,11 +188,7 @@ export const getUtilizationTableRows = (report: CdcReport) => {
 			time: FundingTime.Split,
 		}
 	);
-	const timeSplitUtilizations = getSplitUtilizations(
-		report,
-		splitTimeFundingSpaces,
-		weeksInPeriod
-	);
+	const timeSplitUtilizations = getSplitUtilizations(report, splitTimeFundingSpaces, weeksInPeriod);
 
 	const enrollments = (idx(report, (_) => _.enrollments) || []) as Enrollment[];
 
@@ -300,4 +296,4 @@ export const getUtilizationTableRows = (report: CdcReport) => {
 	rows.push(totalRow);
 
 	return rows;
-}
+};

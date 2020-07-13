@@ -24,9 +24,9 @@ export function prettyRace(race: keyof Child) {
 	}
 }
 
-export function prettyMultiRace(child: Child | null | undefined, opts?: { showAll?: boolean}) {
-	if(!child) return '';
-	
+export function prettyMultiRace(child: Child | null | undefined, opts?: { showAll?: boolean }) {
+	if (!child) return '';
+
 	opts = opts || {};
 	const selectedRaces = RACES.filter((race) => child[race]);
 
@@ -35,11 +35,11 @@ export function prettyMultiRace(child: Child | null | undefined, opts?: { showAl
 	} else if (selectedRaces.length === 1) {
 		return prettyRace(selectedRaces[0]);
 	} else {
-		if(opts.showAll) {
+		if (opts.showAll) {
 			return selectedRaces.reduce((acc, currentVal) => {
-				if( acc === '') return currentVal;
+				if (acc === '') return currentVal;
 				return `${acc}/${currentVal}`;
-			}, '')
+			}, '');
 		}
 		return 'Multiple races';
 	}

@@ -16,15 +16,15 @@ type RosterViewProps = {
 	reportingPeriod: ReportingPeriod;
 	organization: Organization;
 	rosterEnrollments: Enrollment[];
-}
-const RosterView: React.FC<RosterViewProps>  = ({
+};
+const RosterView: React.FC<RosterViewProps> = ({
 	reportingPeriod,
 	organization,
-	rosterEnrollments
+	rosterEnrollments,
 }) => {
-	const dateRange: DateRange = { 
+	const dateRange: DateRange = {
 		startDate: moment.utc(reportingPeriod.periodStart),
-		endDate: moment.utc(reportingPeriod.periodEnd)
+		endDate: moment.utc(reportingPeriod.periodEnd),
 	};
 
 	let columns: Column<Enrollment>[] = [];
@@ -58,7 +58,6 @@ const RosterView: React.FC<RosterViewProps>  = ({
 			hidden: hidden(organization, rosterEnrollments),
 		})
 	);
-
 
 	const enrollmentsByAgeGroup = getObjectsByAgeGroup(rosterEnrollments);
 	const fundingSpacesByAgeGroup = getObjectsByAgeGroup(organization.fundingSpaces || []);
@@ -97,6 +96,6 @@ const RosterView: React.FC<RosterViewProps>  = ({
 			/>
 		</div>
 	);
-}
+};
 
 export default RosterView;
