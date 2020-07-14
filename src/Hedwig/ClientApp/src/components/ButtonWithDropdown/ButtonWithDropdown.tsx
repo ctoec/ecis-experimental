@@ -2,7 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import useHideOnLostFocus from '../../hooks/useHideOnLostFocus';
-import { Button, ButtonProps } from '../Button/Button';
+import { Button, ButtonProps } from '@ctoec/component-library';
 import styles from './ButtonWithDropdown.module.scss';
 
 const {
@@ -19,7 +19,7 @@ type ButtonOptionProps = {
 	value: string;
 };
 
-type ButtonWithDrowdownProps = ButtonProps & {
+type ButtonWithDropdownProps = ButtonProps & {
 	id: string;
 	className?: string;
 	onChange?: (_: React.ChangeEvent<HTMLSelectElement>) => any;
@@ -28,7 +28,7 @@ type ButtonWithDrowdownProps = ButtonProps & {
 	optionsProps?: { className: string };
 };
 
-const ButtonWithDrowdown: React.FC<ButtonWithDrowdownProps> = ({
+const ButtonWithDropdown: React.FC<ButtonWithDropdownProps> = ({
 	id,
 	appearance,
 	text,
@@ -79,4 +79,4 @@ const ButtonWithDrowdown: React.FC<ButtonWithDrowdownProps> = ({
 	);
 };
 
-export default ButtonWithDrowdown;
+export default ButtonWithDropdown;

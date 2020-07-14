@@ -1,6 +1,5 @@
 import React from 'react';
-import { Button } from '..';
-import { ButtonProps } from '../Button/Button';
+import { Button, ButtonProps } from '@ctoec/component-library';
 
 type FormSumbitButtonProps = {
 	text: string;

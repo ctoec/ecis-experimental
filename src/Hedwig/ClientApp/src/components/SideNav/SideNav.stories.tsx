@@ -1,7 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-
-import { SideNav, Button } from '..';
+import { SideNav, Button } from '@ctoec/component-library';
 import { action } from '@storybook/addon-actions';
 import { SideNavItemProps } from './SideNavItem';
 

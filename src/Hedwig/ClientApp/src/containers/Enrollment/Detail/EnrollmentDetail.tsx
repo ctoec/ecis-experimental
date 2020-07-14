@@ -16,7 +16,7 @@ import {
 	getIdForUser,
 	getEnrollmentTimelineProps,
 } from '../../../utils/models';
-import { InlineIcon, Button, Alert } from '../../../components';
+import { InlineIcon, Button, Alert } from '@ctoec/component-library';
 import CommonContainer from '../../CommonContainer';
 import { SectionProps } from '../enrollmentTypes';
 import { ProcessList } from '../../../components/ProcessList/ProcessList';

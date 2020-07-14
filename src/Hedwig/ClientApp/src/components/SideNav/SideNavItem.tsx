@@ -1,6 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
-import { InlineIcon, Icon, Button } from '..';
+import { InlineIcon, Icon, Button } from '@ctoec/component-library';
 
 export type SideNavItemProps = {
 	title: string | JSX.Element;

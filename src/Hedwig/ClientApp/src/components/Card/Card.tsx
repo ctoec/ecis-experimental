@@ -11,6 +11,7 @@ import cx from 'classnames';
 import { Tag } from '..';
 import { CardExpansion } from './CardExpansion';
 
+
 type CardContextType = {
 	isExpanded: boolean;
 	toggleExpanded: () => void;
@@ -18,7 +19,7 @@ type CardContextType = {
 
 const CardContext = createContext<CardContextType>({
 	isExpanded: false,
-	toggleExpanded: () => {},
+	toggleExpanded: () => { },
 });
 
 const { Provider: CardProvider } = CardContext;

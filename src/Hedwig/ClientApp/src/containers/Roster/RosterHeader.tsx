@@ -4,7 +4,6 @@ import {
 	ChoiceList,
 	DateInput,
 	InlineIcon,
-	ButtonWithDropdown
 } from '@ctoec/component-library';
 import {
 	DateRangeInput,
@@ -14,6 +13,8 @@ import getDefaultDateRange from '../../utils/getDefaultDateRange';
 import { Site, Organization } from '../../generated';
 import { rosterEnrollmentsFormatter } from '../../utils/stringFormatters';
 import pluralize from 'pluralize';
+// TODO
+import ButtonWithDropdown from '../../components/ButtonWithDropdown/ButtonWithDropdown';
 
 type RosterHeaderProps = {
 	organization: Organization;
@@ -83,7 +84,7 @@ const RosterHeader: React.FC<RosterHeaderProps> = ({
 						<div className="intro display-flex flex-row flex-wrap flex-justify-start">
 							<span className="display-flex flex-first-baseline">
 								{pluralizedNumKids} enrolled across&nbsp;
-								<ButtonWithDrowdown
+								<ButtonWithDropdown
 									id="site-select"
 									appearance="unstyled"
 									className="line-height--small"
