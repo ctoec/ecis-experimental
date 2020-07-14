@@ -3,7 +3,7 @@ import { Enrollment } from '../../../../../../generated';
 import { Form, FormSubmitButton } from '../../../../../../components/Form_New';
 import { EnrollmentStartDateField } from '../../Fields/EnrollmentStartDate';
 import { AgeGroupField } from '../../Fields/AgeGroup';
-import { Button } from '../../../../../../components';
+import { Button } from '@ctoec/component-library';
 import { ExpandCard } from '../../../../../../components/Card/ExpandCard';
 import { ErrorAlertState } from '../../../../../../hooks/useCatchAllErrorAlert';
 import { ApiError } from '../../../../../../hooks/useApi';

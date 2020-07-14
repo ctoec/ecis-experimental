@@ -2,7 +2,7 @@ import React from 'react';
 import { Enrollment, FundingSpace } from '../../../../../../generated';
 import { Form, FormSubmitButton } from '../../../../../../components/Form_New';
 import { FundingField } from '../../Fields/Funding';
-import { Button } from '../../../../../../components';
+import { Button } from '@ctoec/component-library';
 import { ExpandCard } from '../../../../../../components/Card/ExpandCard';
 import { ApiError } from '../../../../../../hooks/useApi';
 import { ErrorAlertState } from '../../../../../../hooks/useCatchAllErrorAlert';

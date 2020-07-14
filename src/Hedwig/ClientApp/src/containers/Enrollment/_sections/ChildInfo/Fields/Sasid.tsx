@@ -1,7 +1,7 @@
 import React from 'react';
 import FormField from '../../../../../components/Form_New/FormField';
 import { Enrollment } from '../../../../../generated';
-import { TextInputProps, TextInput } from '../../../../../components';
+import { TextInputProps, TextInput } from '@ctoec/component-library';
 
 /**
  * Component for entering the SASID of a child in an enrollment.

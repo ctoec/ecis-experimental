@@ -1,7 +1,7 @@
 import FormField from '../../../../../components/Form_New/FormField';
 import React, { ChangeEvent } from 'react';
 import { Enrollment } from '../../../../../generated';
-import { TextInputProps, TextInput } from '../../../../../components';
+import { TextInputProps, TextInput } from '@ctoec/component-library';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
 import { FamilyIncomeFormFieldProps } from './common';
 import { errorDisplayGuard } from '../../../../../utils/validations';

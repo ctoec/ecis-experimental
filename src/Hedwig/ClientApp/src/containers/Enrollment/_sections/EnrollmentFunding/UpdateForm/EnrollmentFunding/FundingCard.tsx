@@ -1,6 +1,6 @@
 import React from 'react';
 import { Funding } from '../../../../../../generated';
-import { Card, Button, CardProps, TextWithIcon } from '../../../../../../components';
+import { Card, Button, CardProps, TextWithIcon } from '@ctoec/component-library';
 import { prettyFundingSpaceTime, reportingPeriodFormatter } from '../../../../../../utils/models';
 import { CardExpansion } from '../../../../../../components/Card/CardExpansion';
 import { ExpandCard } from '../../../../../../components/Card/ExpandCard';

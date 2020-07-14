@@ -3,15 +3,17 @@ import {
 	Button,
 	ChoiceList,
 	DateInput,
+	InlineIcon,
+	ButtonWithDropdown
+} from '@ctoec/component-library';
+import {
 	DateRangeInput,
 	DateRange,
-	InlineIcon,
 } from '../../components';
 import getDefaultDateRange from '../../utils/getDefaultDateRange';
 import { Site, Organization } from '../../generated';
 import { rosterEnrollmentsFormatter } from '../../utils/stringFormatters';
 import pluralize from 'pluralize';
-import ButtonWithDrowdown from '../../components/ButtonWithDropdown/ButtonWithDrowdown';
 
 type RosterHeaderProps = {
 	organization: Organization;
@@ -53,7 +55,7 @@ const RosterHeader: React.FC<RosterHeaderProps> = ({
 				<div className="grid-row flex-first-baseline flex-space-between">
 					<h1 className="tablet:grid-col-auto">{organization.name}</h1>
 					<div className="tablet:grid-col-auto">
-						<ButtonWithDrowdown
+						<ButtonWithDropdown
 							id="enroll-select"
 							className="margin-right-0"
 							text="Enroll child"
@@ -165,7 +167,7 @@ const RosterHeader: React.FC<RosterHeaderProps> = ({
 							id={'dateSelectionType'}
 							defaultValue={filterByRange ? ['range'] : ['date']}
 							className="margin-top-neg-3"
-							// This is goofy but we're getting rid of this soon anyway
+						// This is goofy but we're getting rid of this soon anyway
 						/>
 						{filterByRange ? (
 							<DateRangeInput
@@ -176,14 +178,14 @@ const RosterHeader: React.FC<RosterHeaderProps> = ({
 								className="margin-top-neg-3"
 							/>
 						) : (
-							<DateInput
-								id="enrollment-roster-datepicker"
-								label="Date"
-								onChange_Old={(newDate) => setDateRange({ startDate: newDate, endDate: newDate })}
-								defaultValue={dateRange.startDate ? dateRange.startDate.toDate() : null}
-								className="margin-top-neg-3"
-							/>
-						)}
+								<DateInput
+									id="enrollment-roster-datepicker"
+									label="Date"
+									onChange_Old={(newDate) => setDateRange({ startDate: newDate, endDate: newDate })}
+									defaultValue={dateRange.startDate ? dateRange.startDate.toDate() : null}
+									className="margin-top-neg-3"
+								/>
+							)}
 					</div>
 				)}
 			</>

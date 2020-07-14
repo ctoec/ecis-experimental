@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import moment, { Moment } from 'moment';
 import cx from 'classnames';
 import { DayPickerSingleDateController } from 'react-dates';
-import { FieldSet, TextInput, FormStatusProps, Button } from '..';
+import { FieldSet, TextInput, FormStatusProps, Button } from '@ctoec/component-library';
 import { ReactComponent as CalendarIcon } from '../../assets/images/calendar.svg';
 import { parseStringDateInput } from '../../utils/stringFormatters';
 import { InputField } from '../../utils/forms/form';

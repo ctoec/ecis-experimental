@@ -8,7 +8,7 @@ import {
 	getIdForUser,
 	getNextFunding,
 } from '../../../../../../utils/models';
-import { Select, SelectProps } from '../../../../../../components';
+import { Select, SelectProps } from '@ctoec/component-library';
 import moment from 'moment';
 import { FormField } from '../../../../../../components/Form_New';
 import { FundingReportingPeriodFieldProps } from '../common';

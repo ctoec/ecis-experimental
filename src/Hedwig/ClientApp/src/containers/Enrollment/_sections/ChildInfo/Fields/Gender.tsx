@@ -6,7 +6,7 @@ import { displayValidationStatus } from '../../../../../utils/validations/displa
 import { REQUIRED_FOR_OEC_REPORTING } from '../../../../../utils/validations/messageStrings';
 import { ChildInfoFormFieldProps } from './common';
 import { genderFromString, prettyGender } from '../../../../../utils/models';
-import { SelectProps, Select } from '../../../../../components/Select/Select';
+import { SelectProps, Select } from '@ctoec/component-library';
 
 /**
  * Component for entering the gender of a child in an enrollment.

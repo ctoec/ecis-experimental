@@ -1,5 +1,5 @@
 import React from 'react';
-import Table, { TableProps } from '../../../../components/Table/Table';
+import Table, { TableProps } from '@ctoec/component-library';
 import {
 	CdcReport,
 	Enrollment,

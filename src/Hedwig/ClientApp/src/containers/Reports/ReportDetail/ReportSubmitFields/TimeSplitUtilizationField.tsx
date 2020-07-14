@@ -1,4 +1,5 @@
 import React from 'react';
+import { TextInput } from '@ctoec/component-library';
 import { CdcReport, FundingSpace, FundingTime, ReportingPeriod } from '../../../../generated';
 import {
 	prettyFundingTime,
@@ -13,8 +14,8 @@ import {
 	getSplitUtilization,
 	getSplitUtilizations,
 } from '../../../../utils/models/fundingTimeSplitUtilization';
+// TODO
 import FormContext, { useGenericContext } from '../../../../components/Form_New/FormContext';
-import { TextInput } from '../../../../components';
 import {
 	displayValidationStatus,
 	ValidationResponse,
@@ -87,7 +88,7 @@ export const TimeSplitUtilizationField: React.FC<TimeSplitUtilizationFieldProps>
 				lesserTime === FundingTime.Full
 					? existingUtilizationForSpace.fullTimeWeeksUsed
 					: existingUtilizationForSpace.partTimeWeeksUsed
-			}`}
+				}`}
 			onChange={(e) => {
 				const input = e.target.value;
 				const lesserWeeksUsed = parseInt(input.replace(/[^0-9.]/g, ''), 10) || 0;

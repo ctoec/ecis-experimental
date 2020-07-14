@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { Table, TableProps } from '../../../components/Table/Table';
+import { Table, TableProps, Alert } from '@ctoec/component-library';
 import dateFormatter from '../../../utils/dateFormatter';
 import UserContext from '../../../contexts/User/UserContext';
 import useApi from '../../../hooks/useApi';
@@ -12,7 +12,6 @@ import {
 } from '../../../generated';
 import { getIdForUser, reportingPeriodFormatter } from '../../../utils/models';
 import CommonContainer from '../../CommonContainer';
-import { Alert } from '../../../components';
 import { somethingWentWrongAlert } from '../../../utils/stringFormatters/alertTextMakers';
 
 export default function ReportsSummary() {
@@ -132,12 +131,12 @@ export default function ReportsSummary() {
 					{pendingReports.length > 0 ? (
 						<Table {...pendingTableProps} />
 					) : (
-						<p>
-							<em>
-								No reports pending. Reports become available after the end of the reporting period.
+							<p>
+								<em>
+									No reports pending. Reports become available after the end of the reporting period.
 							</em>
-						</p>
-					)}
+							</p>
+						)}
 				</section>
 				<section>
 					<h2 className="margin-top-6">Submitted reports</h2>

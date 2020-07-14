@@ -1,4 +1,4 @@
-import { FormStatusProps } from '../../components';
+import { FormStatusProps } from '@ctoec/component-library';
 import { ApiError } from '../../hooks/useApi';
 import { ValidationError } from '../../generated';
 import { elementIdFormatter } from '../stringFormatters';

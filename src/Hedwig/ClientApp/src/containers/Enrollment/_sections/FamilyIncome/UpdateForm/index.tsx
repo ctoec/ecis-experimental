@@ -7,7 +7,7 @@ import {
 import UserContext from '../../../../../contexts/User/UserContext';
 import { validatePermissions, getIdForUser } from '../../../../../utils/models';
 import useApi from '../../../../../hooks/useApi';
-import { Button, Card } from '../../../../../components';
+import { Button, Card } from '@ctoec/component-library';
 import { propertyDateSorter } from '../../../../../utils/dateSorter';
 import { FamilyDeterminationCard } from './FamilyDeterminationCard';
 import FamilyDeterminationFormForCard from './FamilyDeterminationFormForCard';

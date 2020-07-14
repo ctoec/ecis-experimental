@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Enrollment } from '../../generated';
-import { SideNav, TextWithIcon, InlineIcon } from '../../components';
+import { SideNav, TextWithIcon, InlineIcon } from '@ctoec/component-library';
 import { lastFirstNameFormatter } from '../../utils/stringFormatters';
 import { hasValidationErrors } from '../../utils/validations';
 import { SingleEnrollmentEdit } from './SingleEnrollmentEdit';
@@ -36,8 +36,8 @@ export const EnrollmentsEditList: React.FC<EnrollmentsEditListProps> = ({
 		activeEnrollmentId
 			? mutatedEnrollments.findIndex((e) => e.id === activeEnrollmentId)
 			: mutatedEnrollments.length
-			? 0
-			: undefined
+				? 0
+				: undefined
 	);
 
 	const moveNext = () => {
@@ -62,13 +62,13 @@ export const EnrollmentsEditList: React.FC<EnrollmentsEditListProps> = ({
 				title: hasValidationErrors(enrollment) ? (
 					lastFirstNameFormatter(enrollment.child)
 				) : (
-					<TextWithIcon
-						iconSide="right"
-						text={lastFirstNameFormatter(enrollment.child)}
-						Icon={Success}
-						iconClassName="oec-inline-icon--complete"
-					/>
-				),
+						<TextWithIcon
+							iconSide="right"
+							text={lastFirstNameFormatter(enrollment.child)}
+							Icon={Success}
+							iconClassName="oec-inline-icon--complete"
+						/>
+					),
 				description: getMissingInfoPrettyString(enrollment),
 				content: (
 					<SingleEnrollmentEdit

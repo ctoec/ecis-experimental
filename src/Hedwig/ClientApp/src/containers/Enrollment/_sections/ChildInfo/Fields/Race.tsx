@@ -1,5 +1,6 @@
 import React from 'react';
 import FormField from '../../../../../components/Form_New/FormField';
+import { FormFieldSetProps } from '../../../../../components/Form_New';
 import { Enrollment } from '../../../../../generated';
 import { errorDisplayGuard } from '../../../../../utils/validations';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
@@ -8,9 +9,9 @@ import { ChildInfoFormFieldProps } from './common';
 import {
 	CheckboxOption,
 	CheckboxGroup,
-} from '../../../../../components/CheckboxGroup/CheckboxGroup';
-import Checkbox, { CheckboxProps } from '../../../../../components/Checkbox/Checkbox';
-import { FormFieldSetProps } from '../../../../../components/Form_New';
+	Checkbox,
+	CheckboxProps
+} from '@ctoec/component-library';
 
 /**
  * Component for entering the race of a child in an enrollment.

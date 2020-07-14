@@ -1,7 +1,7 @@
 import { hasValidationErrors } from '../../../../utils/validations';
 import idx from 'idx';
 import { SectionProps } from '../../enrollmentTypes';
-import { StepStatus } from '../../../../components';
+import { StepStatus } from '@ctoec/component-library';
 
 export const Status: (props: SectionProps) => StepStatus = ({ enrollment }) =>
 	hasValidationErrors(idx(enrollment, (_) => _.child.family) || null, [

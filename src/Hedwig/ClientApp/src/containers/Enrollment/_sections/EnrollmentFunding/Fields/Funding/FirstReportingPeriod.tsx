@@ -4,7 +4,7 @@ import ReportingPeriodContext from '../../../../../../contexts/ReportingPeriod/R
 import FormContext, { useGenericContext } from '../../../../../../components/Form_New/FormContext';
 import moment from 'moment';
 import FormField from '../../../../../../components/Form_New/FormField';
-import { SelectProps, Select } from '../../../../../../components';
+import { SelectProps, Select } from '@ctoec/component-library';
 import {
 	reportingPeriodFormatter,
 	getIdForUser,

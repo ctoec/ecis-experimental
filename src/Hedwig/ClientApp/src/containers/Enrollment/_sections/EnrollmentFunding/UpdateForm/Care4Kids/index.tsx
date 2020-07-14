@@ -2,8 +2,9 @@ import React from 'react';
 import { UpdateFormSectionProps } from '../common';
 import { C4KCertificateCard } from './C4KCertificateCard';
 import { C4kCertificateFormForCard } from './C4KCertificateFormForCard';
-import { Card, Button, TextWithIcon } from '../../../../../../components';
+import { Card, Button, TextWithIcon } from '@ctoec/component-library';
 import { ReactComponent as PlusCircle } from '../../../../../../assets/images/plusCircle.svg';
+// TODO
 import { CardExpansion } from '../../../../../../components/Card/CardExpansion';
 import { ExpandCard } from '../../../../../../components/Card/ExpandCard';
 import { propertyDateSorter } from '../../../../../../utils/dateSorter';

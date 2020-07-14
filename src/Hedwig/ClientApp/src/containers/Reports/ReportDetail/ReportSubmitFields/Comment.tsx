@@ -1,6 +1,7 @@
 import React from 'react';
 import { FormField } from '../../../../components/Form_New';
-import { TextInputProps, TextInput } from '../../../../components';
+// TODO
+import { TextInputProps, TextInput } from '@ctoec/component-library';
 import { CdcReport } from '../../../../generated';
 
 type CommentFieldProps = {

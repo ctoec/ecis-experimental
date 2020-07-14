@@ -1,8 +1,7 @@
 import React from 'react';
 import FormField from '../../../../components/Form_New/FormField';
 import { CdcReport } from '../../../../generated';
-import Checkbox, { CheckboxProps } from '../../../../components/Checkbox/Checkbox';
-import { CheckboxGroup } from '../../../../components/CheckboxGroup/CheckboxGroup';
+import Checkbox, { CheckboxProps, CheckboxGroup } from '@ctoec/component-library';
 
 type RetroactiveC4KRevenueProps = {
 	disabled: boolean;

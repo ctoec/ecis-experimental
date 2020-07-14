@@ -2,7 +2,8 @@ import { EnrollmentFormFieldProps } from './common';
 import { FormField } from '../../../../../components/Form_New';
 import React from 'react';
 import { Enrollment, Age, Site } from '../../../../../generated';
-import { RadioButtonGroupProps, RadioButtonGroup } from '../../../../../components';
+import { RadioButtonGroupProps, RadioButtonGroup } from '@ctoec/component-library';
+// TODO
 import RadioButton from '../../../../../components/RadioButton/RadioButton';
 
 type SiteFieldProps = EnrollmentFormFieldProps & {

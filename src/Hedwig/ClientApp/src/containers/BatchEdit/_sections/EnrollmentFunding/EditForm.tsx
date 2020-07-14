@@ -6,7 +6,7 @@ import { hasValidationErrors } from '../../../../utils/validations';
 import { EnrollmentStartDateField } from '../../../Enrollment/_sections/EnrollmentFunding/Fields/EnrollmentStartDate';
 import { FamilyIdField } from '../../../Enrollment/_sections/EnrollmentFunding/Fields/Care4Kids/FamilyId';
 import { CertificateStartDate } from '../../../Enrollment/_sections/EnrollmentFunding/Fields/Care4Kids/CertificateStartDate';
-import { Button } from '../../../../components';
+import { Button } from '@ctoec/component-library';
 
 export const EditForm: React.FC<BatchEditStepProps> = ({
 	enrollment,

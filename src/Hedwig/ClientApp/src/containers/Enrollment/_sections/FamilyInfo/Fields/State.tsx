@@ -2,7 +2,7 @@ import { FamilyInfoFormFieldProps } from './common';
 import React from 'react';
 import { errorDisplayGuard } from '../../../../../utils/validations';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
-import { SelectProps, Select } from '../../../../../components/Select/Select';
+import { SelectProps, Select } from '@ctoec/component-library';
 import FormField from '../../../../../components/Form_New/FormField';
 import { Enrollment } from '../../../../../generated';
 

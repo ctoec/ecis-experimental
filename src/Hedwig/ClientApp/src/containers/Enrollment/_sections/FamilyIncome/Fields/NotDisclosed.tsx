@@ -1,7 +1,7 @@
 import FormContext, { useGenericContext } from '../../../../../components/Form_New/FormContext';
 import { Enrollment } from '../../../../../generated';
 import React from 'react';
-import Checkbox from '../../../../../components/Checkbox/Checkbox';
+import Checkbox from '@ctoec/component-library';
 import produce from 'immer';
 import set from 'lodash/set';
 

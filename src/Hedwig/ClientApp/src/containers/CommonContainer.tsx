@@ -1,7 +1,7 @@
 import React, { ReactElement, useContext } from 'react';
 import cx from 'classnames';
 import AlertContext from '../contexts/Alert/AlertContext';
-import { Alert, AlertProps, TextWithIcon, ErrorBoundary, Button } from '../components';
+import { Alert, AlertProps, TextWithIcon, ErrorBoundary, Button } from '@ctoec/component-library';
 import { ReactComponent as ArrowRight } from '../assets/images/arrowRight.svg';
 import HistoryContext from '../contexts/History/HistoryContext';
 import { createPath } from 'history';

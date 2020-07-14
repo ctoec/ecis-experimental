@@ -3,7 +3,7 @@ import { Enrollment } from '../../../../../../generated';
 import { ApiError } from '../../../../../../hooks/useApi';
 import { Form, FormSubmitButton } from '../../../../../../components/Form_New';
 import { LastReportingPeriodField } from '../../Fields/Funding/LastReportingPeriod';
-import { Button } from '../../../../../../components';
+import { Button } from '@ctoec/component-library';
 
 type EndFundingFormForCardProps = {
 	fundingId: number;

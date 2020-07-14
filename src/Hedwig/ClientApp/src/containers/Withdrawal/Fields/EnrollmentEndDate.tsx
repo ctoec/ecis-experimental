@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
+// TODO: EXPORT FROM COMPONENT LIBRARY
 import FormContext, { useGenericContext } from '../../../components/Form_New/FormContext';
 import { Enrollment } from '../../../generated';
 import produce from 'immer';
 import set from 'lodash/set';
-import { DateInput } from '../../../components';
+import { DateInput } from '@ctoec/component-library';
 import { ApiError } from '../../../hooks/useApi';
 import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
 import {
@@ -75,17 +76,17 @@ export const EnrollmentEndDateField: React.FC<EnrollmentEndDateFieldProps> = ({
 			status={
 				attemptedSave && !currentEndDate
 					? {
-							id: 'exit',
-							type: 'error',
-							message: REQUIRED_FOR_WITHDRAWAL,
-					  }
+						id: 'exit',
+						type: 'error',
+						message: REQUIRED_FOR_WITHDRAWAL,
+					}
 					: reportingPeriodOptions.length === 0
-					? {
+						? {
 							id: 'exit',
 							type: 'error',
 							message: REPORTING_PERIODS_ONLY_EXIST_FOR_FY2020_AND_BEYOND,
-					  }
-					: displayValidationStatus([
+						}
+						: displayValidationStatus([
 							{
 								type: 'error',
 								response: error,
@@ -93,7 +94,7 @@ export const EnrollmentEndDateField: React.FC<EnrollmentEndDateFieldProps> = ({
 								useValidationErrorMessage: true,
 								errorAlertState,
 							},
-					  ])
+						])
 			}
 		/>
 	);

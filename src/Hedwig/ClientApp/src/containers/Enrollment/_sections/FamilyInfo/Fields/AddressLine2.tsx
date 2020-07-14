@@ -1,5 +1,5 @@
 import { FamilyInfoFormFieldProps } from './common';
-import { TextInput, TextInputProps } from '../../../../../components';
+import { TextInput, TextInputProps } from '@ctoec/component-library';
 import React from 'react';
 import FormField from '../../../../../components/Form_New/FormField';
 import { Enrollment } from '../../../../../generated';

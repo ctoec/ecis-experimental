@@ -14,7 +14,7 @@ import {
 	enrollmentWithDefaultFamily,
 } from '../../../../utils/models';
 import FormSubmitButton from '../../../../components/Form_New/FormSubmitButton';
-import { Alert } from '../../../../components';
+import { Alert } from '@ctoec/component-library';
 import idx from 'idx';
 import FamilyIncome from '.';
 import { NotDisclosedField } from './Fields/NotDisclosed';

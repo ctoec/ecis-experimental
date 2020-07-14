@@ -1,6 +1,6 @@
 import React from 'react';
 import { FamilyDetermination } from '../../../../../generated';
-import { Card, InlineIcon, Button, TextWithIcon } from '../../../../../components';
+import { Card, InlineIcon, Button, TextWithIcon } from '@ctoec/component-library';
 import { CardExpansion } from '../../../../../components/Card/CardExpansion';
 import currencyFormatter from '../../../../../utils/currencyFormatter';
 import dateFormatter from '../../../../../utils/dateFormatter';

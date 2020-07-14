@@ -3,8 +3,9 @@ import { Enrollment } from '../../../generated';
 import { ApiError } from '../../../hooks/useApi';
 import { REQUIRED_FOR_WITHDRAWAL } from '../../../utils/validations/messageStrings';
 import { displayValidationStatus } from '../../../utils/validations/displayValidationStatus';
+// TODO: EXPORT FROM COMPONENT LIBRARY
 import { FormField } from '../../../components/Form_New';
-import { SelectProps, Select } from '../../../components/Select/Select';
+import { SelectProps, Select } from '@ctoec/component-library';
 import { ErrorAlertState } from '../../../hooks/useCatchAllErrorAlert';
 
 /**

@@ -1,4 +1,5 @@
 import idx from 'idx';
+// TODO: EXPORT FROM COMPONENT LIBRARY
 import { ProcessStepProps } from '../../../components/ProcessList/ProcessStep';
 import {
 	Enrollment,
@@ -81,7 +82,7 @@ export function enrollmentStepProps(
 				heading:
 					enrollmentIndex === allEnrollmentsCount - 1
 						? // heading text for first enrollment (last in ordered array)
-						  `Enrolled in ${siteName}`
+						`Enrolled in ${siteName}`
 						: `Changed enrollment to ${prettyAge(_enrollment.ageGroup)} in ${siteName}`,
 				body: `on ${dateFormatter(_enrollment.entry, false)}`,
 				stepDate: _enrollment.entry,

@@ -8,7 +8,7 @@ import {
 	reportingPeriodFormatter,
 } from '../../../../utils/models';
 import idx from 'idx';
-import { InlineIcon } from '../../../../components';
+import { InlineIcon } from '@ctoec/component-library';
 import dateFormatter from '../../../../utils/dateFormatter';
 
 export const Summary: React.FC<SectionProps> = ({ enrollment }) => {

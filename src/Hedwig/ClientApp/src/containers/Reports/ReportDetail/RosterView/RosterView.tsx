@@ -1,5 +1,5 @@
 import React from 'react';
-import { Legend, Alert, Column } from '../../../../components';
+import { Legend, Alert, Column } from '@ctoec/component-library';
 import { Age, Enrollment, FundingSource } from '../../../../generated';
 import { somethingWentWrongAlert } from '../../../../utils/stringFormatters/alertTextMakers';
 import { useRoster } from '../../../../hooks/useRoster';

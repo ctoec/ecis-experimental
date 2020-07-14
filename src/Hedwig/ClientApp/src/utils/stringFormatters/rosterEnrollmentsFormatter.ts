@@ -1,5 +1,5 @@
 import pluralize from 'pluralize';
-import { DateRange } from '../../components';
+import { DateRange } from '@ctoec/component-library';
 
 export function rosterEnrollmentsFormatter(
 	numKids: number,
@@ -19,9 +19,9 @@ export function rosterEnrollmentsFormatter(
 	} else if (byRange) {
 		return `${pluralizedNumKids} ${
 			numKids === 1 ? 'was' : 'were'
-		} enrolled between ${formattedStartDate} and ${formattedEndDate}.`;
+			} enrolled between ${formattedStartDate} and ${formattedEndDate}.`;
 	}
 	return `${pluralizedNumKids} ${
 		numKids === 1 ? 'was' : 'were'
-	} enrolled on ${formattedStartDate}.`;
+		} enrolled on ${formattedStartDate}.`;
 }

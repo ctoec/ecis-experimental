@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
-import { AlertProps } from '../../components/Alert/Alert';
+import { AlertProps } from '@ctoec/component-library';
 
 export type AlertContextType = {
 	getAlerts: () => AlertProps[];
@@ -9,7 +9,7 @@ export type AlertContextType = {
 
 const AlertContext = createContext<AlertContextType>({
 	getAlerts: () => [],
-	setAlerts: (_) => {},
+	setAlerts: (_) => { },
 });
 
 const { Provider, Consumer } = AlertContext;

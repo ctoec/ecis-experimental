@@ -1,11 +1,10 @@
 import React from 'react';
 import { Enrollment } from '../../../../../generated';
 import { WithNewDetermination, IncomeDeterminationFieldSet } from '../Fields';
-import { Button } from '../../../../../components';
+import { Button } from '@ctoec/component-library';
 import FormSubmitButton from '../../../../../components/Form_New/FormSubmitButton';
 import Form from '../../../../../components/Form_New/Form';
 import { ExpandCard } from '../../../../../components/Card/ExpandCard';
-import { headerLevels } from '../../../enrollmentTypes';
 
 type FamilyDeterminationFormForCardProps = {
 	determinationId: number;
@@ -41,10 +40,10 @@ const FamilyDeterminationFormForCard: React.FC<FamilyDeterminationFormForCardPro
 			}}
 		/>
 	) : (
-		<ExpandCard>
-			<Button text="Cancel" appearance="outline" />
-		</ExpandCard>
-	);
+			<ExpandCard>
+				<Button text="Cancel" appearance="outline" />
+			</ExpandCard>
+		);
 
 	return (
 		<Form

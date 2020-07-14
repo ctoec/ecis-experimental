@@ -3,7 +3,7 @@ import { Enrollment, FundingSpace, Funding } from '../../../../../../generated';
 import { ApiError } from '../../../../../../hooks/useApi';
 import { Form, FormSubmitButton } from '../../../../../../components/Form_New';
 import { LastReportingPeriodField } from '../../Fields/Funding/LastReportingPeriod';
-import { Button } from '../../../../../../components';
+import { Button } from '@ctoec/component-library';
 import { FundingField } from '../../Fields/Funding';
 import { prettyFundingSpaceTime } from '../../../../../../utils/models';
 
@@ -42,7 +42,7 @@ export const ChangeFundingFormForCard: React.FC<ChangeFundingFormForCardProps> =
 				<LastReportingPeriodField
 					label={`Last reporting period for current ${currentFunding.source + ' '}${
 						prettyFundingSpaceTime(currentFunding.fundingSpace) + ' '
-					}funding`}
+						}funding`}
 					fundingId={currentFunding.id}
 					error={error}
 				/>

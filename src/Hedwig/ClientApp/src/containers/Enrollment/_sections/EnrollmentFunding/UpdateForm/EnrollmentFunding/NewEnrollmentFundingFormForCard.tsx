@@ -14,10 +14,11 @@ import { EnrollmentStartDateField } from '../../Fields/EnrollmentStartDate';
 import { AgeGroupField } from '../../Fields/AgeGroup';
 import { SiteField } from '../../Fields/Site';
 import { FundingField } from '../../Fields/Funding';
-import { Button } from '../../../../../../components';
+import { Button } from '@ctoec/component-library';
 import { ExpandCard } from '../../../../../../components/Card/ExpandCard';
 import { EnrollmentEndDateField } from '../../Fields/EnrollmentEndDate';
 import { LastReportingPeriodField } from '../../Fields/Funding/LastReportingPeriod';
+// TODO
 import { FormProvider } from '../../../../../../components/Form_New/FormContext';
 import { ObjectDriller } from '../../../../../../components/Form_New/ObjectDriller';
 import { ErrorAlertState } from '../../../../../../hooks/useCatchAllErrorAlert';
@@ -145,9 +146,9 @@ export const NewEnrollmentFundingFormForCard: React.FC<NewEnrollmentFundingFormF
 							fundingId={currentFunding.id}
 							label={`Last reporting period for current ${
 								prettyAge(currentEnrollment.ageGroup) + ' '
-							}${currentFunding.source + ' '}${
+								}${currentFunding.source + ' '}${
 								prettyFundingSpaceTime(currentFunding.fundingSpace) + ' '
-							}funding`}
+								}funding`}
 							error={currentEnrollmentSaveError}
 							errorAlertState={currentEnrollmentErrorAlertState}
 							nextEnrollmentFundingFirstReportingPeriodId={

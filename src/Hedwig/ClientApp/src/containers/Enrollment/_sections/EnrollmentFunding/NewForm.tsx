@@ -21,8 +21,7 @@ import EnrollmentFunding from '.';
 import idx from 'idx';
 import { WithNewC4kCertificate } from './Fields/Care4Kids/WithNewC4kCertificate';
 import { FamilyIdField } from './Fields/Care4Kids/FamilyId';
-import { WithNewFunding } from './Fields/Funding/WithNewFunding';
-import { Alert } from '../../../../components';
+import { Alert } from '@ctoec/component-library';
 import { somethingWentWrongAlert } from '../../../../utils/stringFormatters/alertTextMakers';
 
 export const NewForm: React.FC<SectionProps> = ({

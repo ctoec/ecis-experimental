@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Enrollment } from '../../../../../../generated';
-import { Card, Button, CardProps, TextWithIcon, InlineIcon } from '../../../../../../components';
+import { Card, Button, CardProps, TextWithIcon, InlineIcon } from '@ctoec/component-library';
 import { prettyAge } from '../../../../../../utils/models';
 import dateFormatter from '../../../../../../utils/dateFormatter';
 import { CardExpansion } from '../../../../../../components/Card/CardExpansion';
@@ -58,8 +58,8 @@ export const EnrollmentCard = ({
 						{!enrollment.entry
 							? InlineIcon({ icon: 'incomplete' })
 							: isCurrent
-							? `${dateFormatter(enrollment.entry)} - present`
-							: `${dateFormatter(enrollment.entry)} - ${dateFormatter(enrollment.exit)}`}
+								? `${dateFormatter(enrollment.entry)} - present`
+								: `${dateFormatter(enrollment.entry)} - ${dateFormatter(enrollment.exit)}`}
 					</p>
 				</div>
 				{expansion && (

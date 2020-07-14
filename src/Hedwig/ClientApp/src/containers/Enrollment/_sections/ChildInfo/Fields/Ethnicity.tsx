@@ -8,7 +8,8 @@ import { ChildInfoFormFieldProps } from './common';
 import {
 	RadioButtonGroupProps,
 	RadioButtonGroup,
-} from '../../../../../components/RadioButtonGroup/RadioButtonGroup';
+} from '@ctoec/component-library';
+// TODO
 import RadioButton from '../../../../../components/RadioButton/RadioButton';
 
 /**
@@ -27,8 +28,8 @@ export const EthnicityField: React.FC<ChildInfoFormFieldProps> = ({
 				data == undefined // check for both null and undefined
 					? undefined
 					: data
-					? 'yes'
-					: 'no'
+						? 'yes'
+						: 'no'
 			}
 			parseOnChangeEvent={(e) => e.target.value === 'yes'}
 			inputComponent={RadioButtonGroup}
