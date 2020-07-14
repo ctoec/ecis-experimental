@@ -84,6 +84,7 @@ namespace HedwigTests.Integrations
 					Assert.NotNull(funding.LastReportingPeriod);
 				}
 			);
+			Assert.NotNull(responseEnrollment.PastEnrollments);
 		}
 
 		[Fact]
@@ -145,6 +146,7 @@ namespace HedwigTests.Integrations
 					Assert.NotNull(funding.LastReportingPeriod);
 				}
 			);
+			Assert.NotNull(responseEnrollment.PastEnrollments);
 		}
 
 		[Theory]
@@ -216,6 +218,7 @@ namespace HedwigTests.Integrations
 				Assert.Equal(enrollment.Exit, responseEnrollment.Exit);
 				Assert.Equal(enrollment.ExitReason, responseEnrollment.ExitReason);
 				Assert.Empty(responseEnrollment.Fundings);
+				Assert.NotNull(responseEnrollment.PastEnrollments);
 
 				using (var context = new TestHedwigContextProvider().Context)
 				{
@@ -224,6 +227,7 @@ namespace HedwigTests.Integrations
 					);
 					Assert.NotNull(dbEnrollment);
 				}
+
 			}
 		}
 	}

@@ -20,6 +20,9 @@ namespace Hedwig.Models
 
 			CreateMap<Enrollment, CdcReportEnrollmentDTO>()
 				.ReverseMap();
+
+			CreateMap<Enrollment, PastEnrollmentDTO>()
+				.ReverseMap();
 		}
 	}
 }
