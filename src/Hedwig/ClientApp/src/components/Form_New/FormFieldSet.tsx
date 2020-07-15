@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from 'react';
 import FormContext, { useGenericContext } from './FormContext';
-import { FieldSetProps, FieldSet } from '../FieldSet/FieldSet';
+import { FieldSetProps, FieldSet } from '@ctoec/component-library';
 import { FormStatusFunc } from './FormStatusFunc';
 
 export type FormFieldSetProps<TData> = {

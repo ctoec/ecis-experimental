@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FieldSetProps, FieldSet } from '../FieldSet/FieldSet';
+import { FieldSetProps, FieldSet } from '@ctoec/component-library';
 import { FormFieldSetProps, FormFieldSet } from '../Form_New/FormFieldSet';
 import cx from 'classnames';
 
@@ -35,7 +35,7 @@ type InternalRadioButtonGroupProps = {
  */
 export type RadioButtonGroupProps<
 	TFieldSetProps extends FieldSetProps | FormFieldSetProps<any> = FieldSetProps
-> = InternalRadioButtonGroupProps &
+	> = InternalRadioButtonGroupProps &
 	(TFieldSetProps extends FormFieldSetProps<infer T>
 		? { useFormFieldSet: true } & FormFieldSetProps<T>
 		: FieldSetProps);
@@ -103,7 +103,7 @@ const InternalRadioButtonGroup: React.FC<InternalRadioButtonGroupProps & { id: s
 	options,
 	defaultValue = '',
 	name,
-	onChange = () => {},
+	onChange = () => { },
 }) => {
 	// cast to string to ensure equality check for selected state will work
 	const [selectedItem, setSelectedItem] = useState(defaultValue.toString());
