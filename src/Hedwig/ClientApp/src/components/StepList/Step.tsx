@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { InlineIcon } from '..';
+import { InlineIcon } from '@ctoec/component-library';
 import cx from 'classnames';
 
 export type ExternalStepStatus = 'incomplete' | 'complete' | 'attentionNeeded' | 'exempt';

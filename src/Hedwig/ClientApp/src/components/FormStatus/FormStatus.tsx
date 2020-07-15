@@ -1,5 +1,5 @@
 import React from 'react';
-import { InlineIcon } from '..';
+import { InlineIcon } from '@ctoec/component-library';
 
 export type FormStatusProps = {
 	type: 'warning' | 'error' | 'success';

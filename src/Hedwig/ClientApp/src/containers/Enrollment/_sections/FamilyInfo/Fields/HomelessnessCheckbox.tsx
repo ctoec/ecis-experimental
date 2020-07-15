@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChoiceList, CheckboxProps, Checkbox } from '@ctoec/component-library';
+import { CheckboxProps, Checkbox } from '@ctoec/component-library';
 import { homelessnessText } from '../../../../../utils/models';
 import { Enrollment } from '../../../../../generated';
 import FormField from '../../../../../components/Form_New/FormField';
