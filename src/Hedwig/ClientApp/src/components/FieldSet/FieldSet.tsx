@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormStatus, FormStatusProps } from '..';
+import { FormStatus, FormStatusProps } from '@ctoec/component-library';
 import cx from 'classnames';
 
 export type LegendStyleOptions = 'normal' | 'title';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { FieldSet, FormStatusProps } from '..';
+import { FieldSet, FormStatusProps } from '@ctoec/component-library';
 
 const warning: FormStatusProps = {
 	type: 'warning',

@@ -1,8 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { FormStatusProps } from '..';
-import { TextInput } from '@ctoec/component-library';
+import { TextInput, FormStatusProps } from '@ctoec/component-library';
 import { RadioButtonGroup, RadioOption } from './RadioButtonGroup';
 import RadioButton from '../RadioButton/RadioButton';
 import '../../assets/styles/index.scss';

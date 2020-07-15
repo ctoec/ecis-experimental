@@ -2,7 +2,6 @@ export * from './Card/Card';
 export * from './DateInput/DateInput';
 export * from './DateRangeInput/DateRangeInput';
 export * from './FieldSet/FieldSet';
-export * from './FormStatus/FormStatus';
 export * from './SideNav/SideNav';
 export * from './StepList/StepList';
 export * from './Tag/Tag';
