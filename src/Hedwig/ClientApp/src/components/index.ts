@@ -1,9 +1,6 @@
 export * from './Card/Card';
-// export * from './Checkbox/Checkbox';
 export * from './DateInput/DateInput';
 export * from './DateRangeInput/DateRangeInput';
-export * from './TextWithIcon/TextWithIcon';
-export * from './ErrorBoundary/ErrorBoundary';
 export * from './FieldSet/FieldSet';
 export * from './FormStatus/FormStatus';
 export * from './Header/Header';
@@ -12,7 +9,6 @@ export * from './InlineIcon/InlineIcon';
 export * from './Legend/Legend';
 export * from './SideNav/SideNav';
 export * from './StepList/StepList';
-export * from './Table/Table';
 export * from './Tag/Tag';
 export * from './TextInput/TextInput';
 export * from './RadioButton/RadioButton';
