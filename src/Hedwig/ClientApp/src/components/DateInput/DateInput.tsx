@@ -6,14 +6,14 @@ import { FieldSet, TextInput, FormStatusProps, Button } from '@ctoec/component-l
 import { ReactComponent as CalendarIcon } from '../../assets/images/calendar.svg';
 import { parseStringDateInput } from '../../utils/stringFormatters';
 import { InputField } from '../../utils/forms/form';
-import { LegendStyleOptions } from '../FieldSet/FieldSet';
 
 export type DateInputProps = {
 	onChange_Old?: (newDate: InputField<Moment | null>) => any | void;
 	onChange?: (ev: Event) => any;
 	id: string;
 	label: string;
-	legendStyle?: LegendStyleOptions;
+	// TODO
+	legendStyle?: any;
 	defaultValue?: Date | null;
 	disabled?: boolean;
 	optional?: boolean;

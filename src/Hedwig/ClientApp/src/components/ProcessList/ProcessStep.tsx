@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tag } from '../Tag/Tag';
+import { Tag } from '@ctoec/component-library';
 
 export type ProcessStepProps = {
 	heading: string;

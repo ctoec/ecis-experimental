@@ -3,7 +3,6 @@ export * from './DateInput/DateInput';
 export * from './DateRangeInput/DateRangeInput';
 export * from './SideNav/SideNav';
 export * from './StepList/StepList';
-export * from './Tag/Tag';
 export * from './RadioButton/RadioButton';
 export * from './RadioButtonGroup/RadioButtonGroup';
 export * from './Checkbox/Checkbox';

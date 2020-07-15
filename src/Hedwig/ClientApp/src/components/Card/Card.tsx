@@ -8,7 +8,7 @@ import React, {
 	useCallback,
 } from 'react';
 import cx from 'classnames';
-import { Tag } from '..';
+import { Tag } from '@ctoec/component-library';
 import { CardExpansion } from './CardExpansion';
 
 
