@@ -1,9 +1,8 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { Card } from '..';
 import { CardExpansion } from './CardExpansion';
 import { ExpandCard } from './ExpandCard';
-import { Button } from '@ctoec/component-library';
+import { Card, Button } from '@ctoec/component-library';
 
 storiesOf('Card', module)
 	.add('Primary with Text', () => {

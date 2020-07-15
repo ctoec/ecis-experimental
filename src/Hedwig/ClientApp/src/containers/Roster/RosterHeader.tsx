@@ -2,7 +2,7 @@ import React from 'react';
 import {
 	Button,
 	ChoiceList,
-	InlineIcon,
+	InlineIcon
 } from '@ctoec/component-library';
 import {
 	DateRangeInput,

@@ -1,5 +1,5 @@
 import React, { useContext, isValidElement, ReactEventHandler, Children } from 'react';
-import { CardContext } from '..';
+import { CardContext } from '@ctoec/component-library';
 
 /**
  * Component for declaratively expanding/collapsing card
