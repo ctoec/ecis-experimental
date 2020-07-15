@@ -2,7 +2,7 @@ import React from 'react';
 import FormField from '../../../../components/Form_New/FormField';
 // TODO
 import { CdcReport } from '../../../../generated';
-import Checkbox, { CheckboxProps } from '@ctoec/component-library';
+import { Checkbox, CheckboxProps } from '@ctoec/component-library';
 
 type AccreditedFieldProps = {
 	disabled: boolean;

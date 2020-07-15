@@ -4,7 +4,6 @@ import FormContext, { useGenericContext } from '../../../components/Form_New/For
 import { Enrollment } from '../../../generated';
 import produce from 'immer';
 import set from 'lodash/set';
-import { DateInput } from '@ctoec/component-library';
 import { ApiError } from '../../../hooks/useApi';
 import ReportingPeriodContext from '../../../contexts/ReportingPeriod/ReportingPeriodContext';
 import {
@@ -15,6 +14,7 @@ import { displayValidationStatus } from '../../../utils/validations/displayValid
 import moment from 'moment';
 import { lastNReportingPeriods } from '../../../utils/models';
 import { ErrorAlertState } from '../../../hooks/useCatchAllErrorAlert';
+import { DateInput } from '../../../components';
 
 type EnrollmentEndDateFieldProps = {
 	attemptedSave: boolean;

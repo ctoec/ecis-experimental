@@ -1,5 +1,5 @@
 import pluralize from 'pluralize';
-import { DateRange } from '@ctoec/component-library';
+import { DateRange } from '../../components';
 
 export function rosterEnrollmentsFormatter(
 	numKids: number,

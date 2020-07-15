@@ -2,12 +2,12 @@ import React from 'react';
 import {
 	Button,
 	ChoiceList,
-	DateInput,
 	InlineIcon,
 } from '@ctoec/component-library';
 import {
 	DateRangeInput,
 	DateRange,
+	DateInput
 } from '../../components';
 import getDefaultDateRange from '../../utils/getDefaultDateRange';
 import { Site, Organization } from '../../generated';

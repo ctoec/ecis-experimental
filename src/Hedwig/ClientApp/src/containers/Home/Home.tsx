@@ -58,7 +58,7 @@ const Home: any = () => {
 											direction="right"
 											iconSide="right"
 											text="Read the privacy policy"
-											Icon={ArrowRight}
+											Icon={ArrowRight as React.FC}
 										/>
 									}
 									href="/privacy-policy"
