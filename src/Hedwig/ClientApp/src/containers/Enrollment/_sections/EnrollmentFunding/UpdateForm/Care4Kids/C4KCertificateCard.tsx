@@ -53,7 +53,7 @@ export const C4KCertificateCard = ({
 
 				<ExpandCard>
 					<Button
-						text={<TextWithIcon text="Edit" Icon={Pencil} />}
+						text={<TextWithIcon text="Edit" Icon={Pencil as React.FC} />}
 						appearance="unstyled"
 						className="flex-1"
 					/>

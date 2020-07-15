@@ -66,7 +66,7 @@ export const EnrollmentCard = ({
 					<ExpandCard>
 						{/* ExpandCard provides the onclick event */}
 						<Button
-							text={<TextWithIcon text="Edit" Icon={Pencil} />}
+							text={<TextWithIcon text="Edit" Icon={Pencil as React.FC} />}
 							appearance="unstyled"
 							onClick={() => setExpanded((e) => !e)}
 						/>

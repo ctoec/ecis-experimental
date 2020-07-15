@@ -47,7 +47,7 @@ export const Care4KidsForm: React.FC<UpdateFormSectionProps> = ({
 							text={
 								<TextWithIcon
 									text={currentC4kCert ? 'Renew certificate' : 'Add a certificate'}
-									Icon={PlusCircle}
+									Icon={PlusCircle as React.FC}
 									iconClassName="text-green"
 								/>
 							}

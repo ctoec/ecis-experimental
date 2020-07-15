@@ -52,7 +52,7 @@ export const FundingCard = ({
 				</div>
 				{expansion && (
 					<ExpandCard>
-						<Button text={<TextWithIcon text="Edit" Icon={Pencil} />} appearance="unstyled" />
+						<Button text={<TextWithIcon text="Edit" Icon={Pencil as React.FC} />} appearance="unstyled" />
 					</ExpandCard>
 				)}
 			</div>

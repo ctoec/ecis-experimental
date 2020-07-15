@@ -11,7 +11,7 @@ import {
 	CheckboxGroup,
 	Checkbox,
 	CheckboxProps
-} from '@ctoec/component-library';
+} from '../../../../../components';
 
 /**
  * Component for entering the race of a child in an enrollment.
