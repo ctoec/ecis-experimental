@@ -3,8 +3,6 @@ export * from './DateInput/DateInput';
 export * from './DateRangeInput/DateRangeInput';
 export * from './FieldSet/FieldSet';
 export * from './FormStatus/FormStatus';
-export * from './Header/Header';
-export * from './Header/NavItem';
 export * from './InlineIcon/InlineIcon';
 export * from './Legend/Legend';
 export * from './SideNav/SideNav';
