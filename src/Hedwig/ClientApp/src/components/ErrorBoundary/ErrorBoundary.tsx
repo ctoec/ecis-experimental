@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, AlertProps } from '..';
+import { Alert, AlertProps } from '@ctoec/component-library';
 
 type ErrorBoundaryState = {
 	hasError: boolean;

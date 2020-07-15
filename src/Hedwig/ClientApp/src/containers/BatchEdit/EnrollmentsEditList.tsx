@@ -4,7 +4,7 @@ import { SideNav, TextWithIcon, InlineIcon } from '@ctoec/component-library';
 import { lastFirstNameFormatter } from '../../utils/stringFormatters';
 import { hasValidationErrors } from '../../utils/validations';
 import { SingleEnrollmentEdit } from './SingleEnrollmentEdit';
-import { ReactComponent as Success } from '../../../node_modules/uswds/dist/img/alerts/success.svg';
+import { ReactComponent as Success } from 'uswds/dist/img/alerts/success.svg';
 import { Link } from 'react-router-dom';
 import { getMissingInfoPrettyString } from '../../utils/validations/getMissingInfoPrettyString';
 
@@ -65,7 +65,7 @@ export const EnrollmentsEditList: React.FC<EnrollmentsEditListProps> = ({
 						<TextWithIcon
 							iconSide="right"
 							text={lastFirstNameFormatter(enrollment.child)}
-							Icon={Success}
+							Icon={Success as React.FC}
 							iconClassName="oec-inline-icon--complete"
 						/>
 					),

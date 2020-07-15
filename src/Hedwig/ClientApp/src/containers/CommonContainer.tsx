@@ -1,4 +1,4 @@
-import React, { ReactElement, useContext } from 'react';
+import React, { useContext } from 'react';
 import cx from 'classnames';
 import AlertContext from '../contexts/Alert/AlertContext';
 import { Alert, AlertProps, TextWithIcon, ErrorBoundary, Button } from '@ctoec/component-library';
@@ -34,7 +34,7 @@ const CommonContainer: React.FC<CommonContainerPropsType> = ({
 						text={
 							<TextWithIcon
 								text={backText}
-								Icon={ArrowRight}
+								Icon={ArrowRight as React.FC}
 								direction="left"
 								className="text-underline"
 							/>

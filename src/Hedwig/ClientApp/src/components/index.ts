@@ -1,4 +1,3 @@
-export * from './Alert/Alert';
 export * from './Card/Card';
 export * from './Checkbox/Checkbox';
 export * from './ChoiceList/ChoiceList';
