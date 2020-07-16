@@ -3185,7 +3185,6 @@ exports[`EnrollmentNew FamilyIncome matches snapshot 1`] = `
                       class="usa-checkbox__input"
                       id="not-disclosed"
                       type="checkbox"
-                      value="not-disclosed"
                     />
                     <label
                       class="usa-checkbox__label"

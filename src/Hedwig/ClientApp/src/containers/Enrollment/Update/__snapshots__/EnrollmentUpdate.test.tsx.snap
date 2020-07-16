@@ -678,7 +678,6 @@ exports[`EnrollmentUpdate FamilyInfo matches snapshot 1`] = `
           class="usa-checkbox__input"
           id="foster"
           type="checkbox"
-          value="foster"
         />
         <label
           class="usa-checkbox__label"
@@ -697,7 +696,6 @@ exports[`EnrollmentUpdate FamilyInfo matches snapshot 1`] = `
             class="usa-checkbox__input"
             id="homelessness"
             type="checkbox"
-            value="homelessness"
           />
           <label
             class="usa-checkbox__label"
