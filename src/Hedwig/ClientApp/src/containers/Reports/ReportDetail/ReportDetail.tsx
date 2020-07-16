@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { parse as parseCsv } from 'json2csv';
 import { ReactComponent as FileDownload } from '../../../assets/images/fileDownloadSolid.svg';
 import { ReactComponent as File } from '../../../assets/images/fileAltSolid.svg';
 import dateFormatter from '../../../utils/dateFormatter';
@@ -8,18 +7,14 @@ import UserContext from '../../../contexts/User/UserContext';
 import {
 	getIdForUser,
 	reportingPeriodFormatter,
-	prettyMultiRace,
-	prettyEthnicity,
-	prettyGender,
 	prettyAge,
-	prettyFundingSpaceTime,
 	prettyFundingTime,
 	getReportingPeriodWeeks,
 } from '../../../utils/models';
 import useApi, { ApiError } from '../../../hooks/useApi';
 import { Button, AlertProps, Tag, Alert, TextWithIcon } from '../../../components';
 import CommonContainer from '../../CommonContainer';
-import { updateRosterAlert, nameFormatter } from '../../../utils/stringFormatters';
+import { updateRosterAlert } from '../../../utils/stringFormatters';
 import {
 	somethingWentWrongAlert,
 	reportSubmittedAlert,
@@ -28,7 +23,6 @@ import { Form } from '../../../components/Form_New';
 import {
 	CdcReport,
 	ApiOrganizationsOrgIdReportsIdPutRequest,
-	Enrollment,
 	FundingTime,
 } from '../../../generated';
 import { AccreditedField } from './ReportSubmitFields';
@@ -39,10 +33,9 @@ import AppContext from '../../../contexts/App/AppContext';
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import RosterView from './RosterView/RosterView';
 import RevenueView from './RevenueView/RevenueView';
-import { getUtilizationTableRows } from './RevenueView/UtilizationTable';
-import { propertyDateSorter } from '../../../utils/dateSorter';
 import { downloadBlobAsFile } from '../../../utils/downloadBlobAsFile';
-import currencyFormatter from '../../../utils/currencyFormatter';
+import { makeRosterCSVBlob } from './utils/makeRosterCSVBlob';
+import { makeRevenueCSVBlob } from './utils/makeRevenueCSVBlob';
 
 const ROSTER_ID = 'roster';
 const REVENUE_ID = 'revenue';
@@ -255,197 +248,4 @@ export default function ReportDetail() {
 	);
 }
 
-const makeRosterCSVBlob = (enrollments: Enrollment[] | undefined | null) => {
-	enrollments = enrollments || [];
 
-	const fields = [
-		{
-			label: 'Name',
-			value: (row: Enrollment) => nameFormatter(row.child),
-		},
-		{
-			label: 'Birthdate',
-			value: (row: Enrollment) => dateFormatter(row.child?.birthdate),
-		},
-		{
-			label: 'Race',
-			value: (row: Enrollment) => prettyMultiRace(row.child, { showAll: true }),
-		},
-		{
-			label: 'Ethnicity',
-			value: (row: Enrollment) => prettyEthnicity(row.child),
-		},
-		{
-			label: 'Gender',
-			value: (row: Enrollment) => prettyGender(row.child?.gender),
-		},
-		{
-			label: 'Lives with foster family',
-			value: (row: Enrollment) => (row.child?.foster ? 'Yes' : 'No'),
-		},
-		{
-			label: 'Experienced homelessness or housing insecurity',
-			value: (row: Enrollment) => (row.child?.family?.homelessness ? 'Yes' : 'No'),
-		},
-		{
-			label: 'Household size',
-			value: (row: Enrollment) =>
-				row.child?.foster
-					? 'Exempt'
-					: row.child?.family?.determinations?.length
-					? row.child?.family?.determinations[0].numberOfPeople
-					: 'No data',
-		},
-		{
-			label: 'Annual household income',
-			value: (row: Enrollment) =>
-				row.child?.foster
-					? 'Exempt'
-					: row.child?.family?.determinations?.length
-					? row.child?.family?.determinations[0].income
-					: 'No data',
-		},
-		{
-			label: 'Determination date',
-			value: (row: Enrollment) =>
-				row.child?.foster
-					? 'Exempt'
-					: row.child?.family?.determinations?.length
-					? dateFormatter(row.child?.family?.determinations[0].determinationDate)
-					: 'No data',
-		},
-		{
-			label: 'Enrollment start date',
-			value: (row: Enrollment) => dateFormatter(row.entry),
-		},
-		{
-			label: 'Site',
-			value: (row: Enrollment) => row.site?.name || '',
-		},
-		{
-			label: 'Age group',
-			value: (row: Enrollment) => prettyAge(row.ageGroup),
-		},
-		{
-			label: 'Funding',
-			value: (row: Enrollment) => {
-				const [mostRecentFunding] = (row.fundings || []).sort((a, b) =>
-					propertyDateSorter(a, b, (f) => f?.firstReportingPeriod?.period)
-				);
-				return mostRecentFunding
-					? `${prettyAge(row.ageGroup)} - ${prettyFundingSpaceTime(mostRecentFunding.fundingSpace)}`
-					: 'No data';
-			},
-		},
-		{
-			label: 'First reporting period',
-			value: (row: Enrollment) => {
-				const [mostRecentFunding] = row.fundings || [];
-				return mostRecentFunding
-					? reportingPeriodFormatter(mostRecentFunding.firstReportingPeriod)
-					: 'No data';
-			},
-		},
-		{
-			label: 'Last reporting period',
-			value: (row: Enrollment) => {
-				const [mostRecentFunding] = row.fundings || [];
-				return mostRecentFunding
-					? mostRecentFunding.lastReportingPeriod
-						? reportingPeriodFormatter(mostRecentFunding.lastReportingPeriod)
-						: 'ongoing'
-					: 'No data';
-			},
-		},
-		{
-			label: 'Recieves Care 4 Kids',
-			value: (row: Enrollment) => {
-				const [mostRecentCert] = (row.child?.c4KCertificates || []).sort((a, b) =>
-					propertyDateSorter(a, b, (c) => c.startDate)
-				);
-				return mostRecentCert && (!mostRecentCert.endDate || mostRecentCert.endDate > new Date())
-					? 'Yes'
-					: 'No';
-			},
-		},
-		{
-			label: 'Care 4 Kids ID',
-			value: 'child.c4KFamilyCaseNumber',
-			default: '',
-		},
-		{
-			label: 'Care 4 Kids certificate start date',
-			value: (row: Enrollment) => {
-				const [mostRecentCert] = row.child?.c4KCertificates || [];
-				return mostRecentCert
-					? mostRecentCert.startDate
-						? dateFormatter(mostRecentCert.startDate)
-						: 'No data'
-					: '';
-			},
-		},
-	];
-
-	const enrollmentsCsv = parseCsv(enrollments, { fields });
-	return new Blob([enrollmentsCsv], { type: 'text/csv' });
-};
-
-const makeRevenueCSVBlob = (report: CdcReport) => {
-	const utilizationTableRows = getUtilizationTableRows(report);
-	const totalRow = utilizationTableRows.find((row) => row.key === 'total');
-
-	const revenueRows: any[] = utilizationTableRows.map((row) => ({
-		...row,
-		title:
-			row.key === 'total'
-				? 'Total'
-				: `${prettyAge(row.ageGroup)} - ${prettyFundingTime(row.fundingTime)}`,
-	}));
-
-	revenueRows.push(
-		{},
-		{ title: 'Other revenue' },
-		{},
-		{ title: 'Care 4 Kids', total: report.c4KRevenue },
-		{ title: 'Family Fees', total: report.familyFeesRevenue },
-		{},
-		{
-			title: 'Total revenue',
-			total: (totalRow?.total || 0) + (report.c4KRevenue || 0) + (report.familyFeesRevenue || 0),
-		}
-	);
-
-	const fields = [
-		{
-			label: 'CDC Revenue',
-			value: 'title',
-		},
-		{
-			label: 'Utilization',
-			value: (row: any) =>
-				row.count != undefined && row.capacity != undefined ? `${row.count} / ${row.capacity}` : '',
-		},
-		{
-			label: 'Reimbursement rate',
-			value: (row: any) => {
-				let rateStr = '';
-				if (row.ptRate != undefined && row.fundingTime && row.fundingTime !== FundingTime.Full)
-					rateStr += `${row.ptRate} (part-time) `;
-				if (row.ftRate != undefined && row.fundingTime && row.fundingTime !== FundingTime.Part)
-					rateStr += `${row.ftRate} (full-time) `;
-				return rateStr;
-			},
-		},
-		{
-			label: `Total (${getReportingPeriodWeeks(report.reportingPeriod)} weeks)`,
-			value: 'total',
-		},
-		{
-			label: 'Balance',
-			value: (row: any) => (row.balance != undefined ? (row.balance as number).toFixed(2) : ''),
-		},
-	];
-
-	const revenueCsv = parseCsv(revenueRows, { fields });
-	return new Blob([revenueCsv], { type: 'text/csv' });
-};
