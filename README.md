@@ -151,7 +151,7 @@ A browser window should automatically open to `https://localhost:5001`. It may t
 
 #### Docker + Docker Compose
 
-All of building and running the application is handled for you.
+All of the building and running of the application is handled for you.  You'll just want to make sure that Docker has **at least 4 GB of RAM** allocated to it from your machine, so that you don't run out of memory as you're spinning up (particularly because of SQL Server and the initial migrations being run).
 
 ##### Visual Studio Code
 It is recommended to run VSCode with the `Remote` extension installed, and to use the `Existing Docker-Compose (Extend)` configuration to launch VSCode inside the backend container itself. Configuration for this lives in `.devcontainer`. With that approach, the default launch configurations created by VSCode will work for debugging. If you want to run VSCode locally against the project, you will not get Intellisense, or other C# language features from Omnisharp, but you can still debug using the `launch.json` checked in to this repo. Set up for debugging the dockerized app with local VSCode by copying `./launch.json` into `./.vscode/launch.json`
