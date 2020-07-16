@@ -4,14 +4,13 @@ import dateFormatter from '../../../utils/dateFormatter';
 import UserContext from '../../../contexts/User/UserContext';
 import { getIdForUser, reportingPeriodFormatter } from '../../../utils/models';
 import useApi, { ApiError } from '../../../hooks/useApi';
-import { Button, AlertProps, Tag, Alert } from '@ctoec/component-library';
+import { Button, AlertProps, Tag, Alert, Form } from '@ctoec/component-library';
 import CommonContainer from '../../CommonContainer';
 import { updateRosterAlert } from '../../../utils/stringFormatters';
 import {
 	somethingWentWrongAlert,
 	reportSubmittedAlert,
 } from '../../../utils/stringFormatters/alertTextMakers';
-import { Form } from '../../../components/Form_New';
 import { CdcReport, ApiOrganizationsOrgIdReportsIdPutRequest } from '../../../generated';
 import { AccreditedField } from './ReportSubmitFields';
 import { useFocusFirstError } from '../../../utils/validations';

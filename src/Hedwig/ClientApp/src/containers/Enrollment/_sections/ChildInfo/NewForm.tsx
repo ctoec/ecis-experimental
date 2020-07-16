@@ -24,7 +24,7 @@ import {
 import useApi from '../../../../hooks/useApi';
 import { useFocusFirstError } from '../../../../utils/validations';
 import ChildInfo from '.';
-import { Form } from '@ctoec/component-library';
+import { Form, FormSubmitButton } from '@ctoec/component-library';
 
 export const NewForm: React.FC<SectionProps> = ({
 	enrollment,

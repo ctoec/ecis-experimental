@@ -1,8 +1,7 @@
 import React from 'react';
-import { CheckboxProps, Checkbox } from '@ctoec/component-library';
+import { CheckboxProps, Checkbox, FormField } from '@ctoec/component-library';
 import { homelessnessText } from '../../../../../utils/models';
 import { Enrollment } from '../../../../../generated';
-import FormField from '../../../../../components/Form_New/FormField';
 import { FamilyInfoFormFieldProps } from './common';
 
 export const HomelessnessCheckbox: React.FC<FamilyInfoFormFieldProps> = () => (

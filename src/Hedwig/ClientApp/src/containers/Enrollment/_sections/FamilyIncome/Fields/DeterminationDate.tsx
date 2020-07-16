@@ -1,12 +1,11 @@
-import FormField from '../../../../../components/Form_New/FormField';
 import React from 'react';
 import { Enrollment } from '../../../../../generated';
 // TODO
 import { DateInput, DateInputProps } from '../../../../../components';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
 import { FamilyIncomeFormFieldProps } from './common';
-import { parseDateChange } from '../../../../../components/Form_New';
 import { errorDisplayGuard } from '../../../../../utils/validations';
+import { FormField, parseDateChange } from '@ctoec/component-library';
 
 export const DeterminationDateField: React.FC<FamilyIncomeFormFieldProps> = ({
 	determinationId,

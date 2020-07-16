@@ -2,8 +2,7 @@ import React from 'react';
 import { fosterText } from '../../../../../utils/models';
 import { Enrollment } from '../../../../../generated';
 import { FamilyInfoFormFieldProps } from './common';
-import { Checkbox, CheckboxProps } from '@ctoec/component-library';
-import FormField from '../../../../../components/Form_New/FormField';
+import { Checkbox, CheckboxProps, FormField } from '@ctoec/component-library';
 
 export const FosterCheckbox: React.FC<FamilyInfoFormFieldProps> = () => (
 	<FormField<Enrollment, CheckboxProps, boolean | null>

@@ -30,9 +30,8 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import TestProvider from '../../../../contexts/__mocks__/TestProvider';
 import { CdcReport } from '../../../../generated';
-// TODO
-import { Form } from '../../../../components/Form_New';
 import RosterView from '../../../../containers/Reports/ReportDetail/RosterView/RosterView';
+import { Form } from '@ctoec/component-library';
 
 describe('RosterView', () => {
 	it('matches snapshot', () => {
