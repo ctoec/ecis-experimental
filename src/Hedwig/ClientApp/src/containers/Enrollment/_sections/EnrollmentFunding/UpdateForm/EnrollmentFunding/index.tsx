@@ -5,7 +5,7 @@ import {
 	Enrollment,
 } from '../../../../../../generated';
 import UserContext from '../../../../../../contexts/User/UserContext';
-import { getIdForUser, prettyAge, prettyFundingSpaceTime } from '../../../../../../utils/models';
+import { getIdForUser } from '../../../../../../utils/models';
 import useApi from '../../../../../../hooks/useApi';
 import { EnrollmentCard } from './EnrollmentCard';
 import { FundingFormForCard } from './FundingFormForCard';
@@ -16,10 +16,7 @@ import { Card, Button } from '../../../../../../components';
 import { ExpandCard } from '../../../../../../components/Card/ExpandCard';
 import { CardExpansion } from '../../../../../../components/Card/CardExpansion';
 import { NewEnrollmentFundingFormForCard } from './NewEnrollmentFundingFormForCard';
-import { Form, FormSubmitButton } from '../../../../../../components/Form_New';
 import { propertyDateSorter } from '../../../../../../utils/dateSorter';
-import { LastReportingPeriodField } from '../../Fields/Funding/LastReportingPeriod';
-import { FundingField } from '../../Fields/Funding';
 import cloneDeep from 'lodash/cloneDeep';
 import { EndFundingFormForCard } from './EndFundingFormForCard';
 import { ChangeFundingFormForCard } from './ChangeFundingFormForCard';

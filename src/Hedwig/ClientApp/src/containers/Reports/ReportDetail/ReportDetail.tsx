@@ -165,13 +165,13 @@ export default function ReportDetail() {
 								) => {
 									e.preventDefault();
 
-									const fileNameBase = `CDC ${reportingPeriodFormatter(
+									const getFileName = (type: string) => `CDC ${reportingPeriodFormatter(
 										report.reportingPeriod
-									)} Report - ${report.organization?.name}`;
+									)} Report - ${type} - ${report.organization?.name}.csv`;
 									const rosterBlob = makeRosterCSVBlob(report.enrollments);
-									downloadBlobAsFile(rosterBlob, fileNameBase + ' Roster.csv');
+									downloadBlobAsFile(rosterBlob, getFileName('Report'));
 									const revenueBlob = makeRevenueCSVBlob(report);
-									downloadBlobAsFile(revenueBlob, fileNameBase + ' Revenue.csv');
+									downloadBlobAsFile(revenueBlob, getFileName('Revenue'));
 								}}
 							/>
 						</div>
