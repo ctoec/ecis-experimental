@@ -183,6 +183,15 @@ ol.no-list-counter > li:before {
 	color: #000;
 }
 
+// green-cool-20v text and tag bg
+.text-green-cool-20v {
+	color: color('green-cool-20v');
+}
+.bg-green-cool-20v {
+	background-color: color('green-cool-20v');
+	color: #000;
+}
+
 // theme color primary tag bg
 .bg-theme-color-primary {
 	background-color: $theme-color-primary;

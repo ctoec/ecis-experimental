@@ -1,10 +1,18 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import { ReactComponent as FileDownload } from '../../../assets/images/fileDownloadSolid.svg';
+import { ReactComponent as File } from '../../../assets/images/fileAltSolid.svg';
 import dateFormatter from '../../../utils/dateFormatter';
 import UserContext from '../../../contexts/User/UserContext';
-import { getIdForUser, reportingPeriodFormatter } from '../../../utils/models';
+import {
+	getIdForUser,
+	reportingPeriodFormatter,
+	prettyAge,
+	prettyFundingTime,
+	getReportingPeriodWeeks,
+} from '../../../utils/models';
 import useApi, { ApiError } from '../../../hooks/useApi';
-import { Button, AlertProps, Tag, Alert } from '../../../components';
+import { Button, AlertProps, Tag, Alert, TextWithIcon } from '../../../components';
 import CommonContainer from '../../CommonContainer';
 import { updateRosterAlert } from '../../../utils/stringFormatters';
 import {
@@ -12,7 +20,11 @@ import {
 	reportSubmittedAlert,
 } from '../../../utils/stringFormatters/alertTextMakers';
 import { Form } from '../../../components/Form_New';
-import { CdcReport, ApiOrganizationsOrgIdReportsIdPutRequest } from '../../../generated';
+import {
+	CdcReport,
+	ApiOrganizationsOrgIdReportsIdPutRequest,
+	FundingTime,
+} from '../../../generated';
 import { AccreditedField } from './ReportSubmitFields';
 import { useFocusFirstError } from '../../../utils/validations';
 import { TabNav } from '../../../components/TabNav/TabNav';
@@ -21,6 +33,9 @@ import AppContext from '../../../contexts/App/AppContext';
 import AlertContext from '../../../contexts/Alert/AlertContext';
 import RosterView from './RosterView/RosterView';
 import RevenueView from './RevenueView/RevenueView';
+import { downloadBlobAsFile } from '../../../utils/downloadBlobAsFile';
+import { makeRosterCSVBlob } from './utils/makeRosterCSVBlob';
+import { makeRevenueCSVBlob } from './utils/makeRevenueCSVBlob';
 
 const ROSTER_ID = 'roster';
 const REVENUE_ID = 'revenue';
@@ -130,22 +145,57 @@ export default function ReportDetail() {
 			backText="Back to reports"
 		>
 			<div className="grid-container">
-				<div className="grid-row flex-first-baseline flex-space-between">
-					<h1 className="tablet:grid-col-auto">
-						{reportingPeriodFormatter(report.reportingPeriod)} {report.type} Report{' '}
-						{!report.submittedAt && (
-							<Tag text="DRAFT" color="gold-20v" className="margin-left-1 text-middle" />
+				<div className="grid-row flex-space-between">
+					<div className="tablet:grid-col-auto">
+						<div className="grid-row flex-display flex-row flex-align-center">
+							<h1>
+								{reportingPeriodFormatter(report.reportingPeriod)} {report.type} Report{' '}
+							</h1>
+							<Button
+								text={
+									<TextWithIcon
+										text="Export report"
+										Icon={FileDownload}
+										className="margin-left-2"
+									/>
+								}
+								appearance="unstyled"
+								onClick={(
+									e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement, MouseEvent>
+								) => {
+									e.preventDefault();
+
+									const getFileName = (type: string) => `CDC ${reportingPeriodFormatter(
+										report.reportingPeriod
+									)} Report - ${type} - ${report.organization?.name}.csv`;
+									const rosterBlob = makeRosterCSVBlob(report.enrollments);
+									downloadBlobAsFile(rosterBlob, getFileName('Report'));
+									const revenueBlob = makeRevenueCSVBlob(report);
+									downloadBlobAsFile(revenueBlob, getFileName('Revenue'));
+								}}
+							/>
+						</div>
+						<p className="usa-intro">
+							{report.organization.name} <br />
+							{dateFormatter(report.reportingPeriod.periodStart, { long: true })}–
+							{dateFormatter(report.reportingPeriod.periodEnd, { long: true })}
+						</p>
+					</div>
+					<div className="tablet:grid-col-auto display-flex flex-column flex-align-center">
+						{report.submittedAt ? (
+							<>
+								<File height="5em" title="file" className="text-base" />
+								<Tag className="margin-top-05" text="SUBMITTED" color="green-cool-20v" />
+							</>
+						) : (
+							<>
+								<File height="5em" title="file" className="text-base" />
+								<Tag className="margin-top-05" text="DRAFT" color="gold-20v" />
+							</>
 						)}
-					</h1>
-					<div className="tablet:grid-col-auto print-btn">
-						<Button text="Print" onClick={window.print} appearance="outline" />
 					</div>
 				</div>
-				<p className="usa-intro">
-					{report.organization.name} <br />
-					{dateFormatter(report.reportingPeriod.periodStart, false)}–
-					{dateFormatter(report.reportingPeriod.periodEnd, false)}
-				</p>
+
 				<Form<CdcReport>
 					data={mutatedReport}
 					onSubmit={onSubmit}
@@ -159,7 +209,13 @@ export default function ReportDetail() {
 							{
 								id: ROSTER_ID,
 								text: 'Roster',
-								content: <RosterView />,
+								content: (
+									<RosterView
+										reportingPeriod={report.reportingPeriod}
+										organization={report.organization}
+										rosterEnrollments={report.enrollments || []}
+									/>
+								),
 							},
 							{
 								id: REVENUE_ID,
@@ -191,3 +247,5 @@ export default function ReportDetail() {
 		</CommonContainer>
 	);
 }
+
+

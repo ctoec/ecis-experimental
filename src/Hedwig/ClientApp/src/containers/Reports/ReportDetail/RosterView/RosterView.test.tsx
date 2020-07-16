@@ -29,7 +29,7 @@ jest.mock('../../../../hooks/useApi', () => ({
 import React from 'react';
 import { render } from '@testing-library/react';
 import TestProvider from '../../../../contexts/__mocks__/TestProvider';
-import { CdcReport } from '../../../../generated';
+import { CdcReport, Organization } from '../../../../generated';
 import { Form } from '../../../../components/Form_New';
 import RosterView from '../../../../containers/Reports/ReportDetail/RosterView/RosterView';
 
@@ -38,7 +38,11 @@ describe('RosterView', () => {
 		const { asFragment } = render(
 			<TestProvider>
 				<Form<CdcReport> data={mockDefaultReport} onSubmit={jest.fn()} className="">
-					<RosterView />
+					<RosterView 
+						rosterEnrollments={mockDefaultReport.enrollments || []}
+						organization={mockDefaultReport.organization as Organization}
+						reportingPeriod={mockDefaultReport.reportingPeriod}
+					/>
 				</Form>
 			</TestProvider>
 		);
