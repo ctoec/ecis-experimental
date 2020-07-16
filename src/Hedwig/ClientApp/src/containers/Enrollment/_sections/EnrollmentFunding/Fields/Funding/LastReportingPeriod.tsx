@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import FormContext, { useGenericContext } from '../../../../../../components/Form_New/FormContext';
+import { Select, SelectProps, useGenericContext, FormContext, FormField } from '@ctoec/component-library';
 import { Enrollment, ReportingPeriod } from '../../../../../../generated';
 import { useContext } from 'react';
 import ReportingPeriodContext from '../../../../../../contexts/ReportingPeriod/ReportingPeriodContext';
@@ -8,9 +8,7 @@ import {
 	getIdForUser,
 	getNextFunding,
 } from '../../../../../../utils/models';
-import { Select, SelectProps } from '@ctoec/component-library';
 import moment from 'moment';
-import { FormField } from '../../../../../../components/Form_New';
 import { FundingReportingPeriodFieldProps } from '../common';
 import produce from 'immer';
 import set from 'lodash/set';

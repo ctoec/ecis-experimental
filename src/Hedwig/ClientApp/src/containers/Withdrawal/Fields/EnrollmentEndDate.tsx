@@ -1,6 +1,4 @@
 import React, { useContext } from 'react';
-// TODO: EXPORT FROM COMPONENT LIBRARY
-import FormContext, { useGenericContext } from '../../../components/Form_New/FormContext';
 import { Enrollment } from '../../../generated';
 import produce from 'immer';
 import set from 'lodash/set';
@@ -15,6 +13,7 @@ import moment from 'moment';
 import { lastNReportingPeriods } from '../../../utils/models';
 import { ErrorAlertState } from '../../../hooks/useCatchAllErrorAlert';
 import { DateInput } from '../../../components';
+import { useGenericContext, FormContext } from '@ctoec/component-library';
 
 type EnrollmentEndDateFieldProps = {
 	attemptedSave: boolean;

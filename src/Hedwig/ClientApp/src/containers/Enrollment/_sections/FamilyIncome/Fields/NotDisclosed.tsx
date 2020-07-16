@@ -1,9 +1,8 @@
-import FormContext, { useGenericContext } from '../../../../../components/Form_New/FormContext';
 import { Enrollment } from '../../../../../generated';
 import React from 'react';
 import produce from 'immer';
 import set from 'lodash/set';
-import { Checkbox } from '@ctoec/component-library';
+import { Checkbox, useGenericContext, FormContext } from '@ctoec/component-library';
 
 type NotDisclosedFieldProps = {
 	notDisclosed: boolean;

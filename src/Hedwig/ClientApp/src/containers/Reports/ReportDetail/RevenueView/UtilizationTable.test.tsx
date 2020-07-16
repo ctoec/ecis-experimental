@@ -23,7 +23,7 @@ import {
 import { mockFundingSpaces } from '../../../../tests/data/fundingSpace';
 import { prettyAge, prettyFundingTime } from '../../../../utils/models';
 import { calculateRate } from '../../../../utils/utilizationTable';
-import FormContext from '../../../../components/Form_New/FormContext';
+import { FormContext } from '@ctoec/component-library';
 
 describe('calculateRate', () => {
 	it('includes all possible rates', () => {

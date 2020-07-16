@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import FormContext, { useGenericContext } from '../../../../../../components/Form_New/FormContext';
+import { RadioButtonGroup, RadioOption, RadioButton } from '@ctoec/component-library';
 import { Enrollment, FundingSource, FundingSpace } from '../../../../../../generated';
 import { FundingFormFieldProps } from '../common';
 import { prettyFundingSource } from '../../../../../../utils/models';
@@ -7,7 +7,6 @@ import { ContractSpaceField } from './ContractSpace';
 import { FirstReportingPeriodField } from './FirstReportingPeriod';
 import produce from 'immer';
 import set from 'lodash/set';
-import { RadioButtonGroup, RadioOption, RadioButton } from '@ctoec/component-library';
 import { WithNewFunding } from './WithNewFunding';
 import { LastReportingPeriodField } from './LastReportingPeriod';
 

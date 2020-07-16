@@ -1,6 +1,6 @@
 import React from 'react';
 import { CdcReport, Enrollment } from '../../../../generated';
-import { TextInput } from '@ctoec/component-library';
+import { TextInput, useGenericContext, FormContext } from '@ctoec/component-library';
 import {
 	ValidationResponse,
 	displayValidationStatus,
@@ -11,8 +11,6 @@ import { REQUIRED_FOR_REPORT } from '../../../../utils/validations/messageString
 import { activeC4kFundingAsOf } from '../../../../utils/models';
 import pluralize from 'pluralize';
 import currencyFormatter from '../../../../utils/currencyFormatter';
-// TODO
-import FormContext, { useGenericContext } from '../../../../components/Form_New/FormContext';
 import produce from 'immer';
 import set from 'lodash/set';
 

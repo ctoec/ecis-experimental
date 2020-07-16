@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, TableProps } from '@ctoec/component-library';
+import { Table, TableProps, useGenericContext, FormContext } from '@ctoec/component-library';
 import {
 	CdcReport,
 	Enrollment,
@@ -27,7 +27,6 @@ import {
 	ReimbursementRateLine,
 	productOfUnknowns,
 } from '../../../../utils/utilizationTable';
-import FormContext, { useGenericContext } from '../../../../components/Form_New/FormContext';
 import { getSplitUtilizations } from '../../../../utils/models/fundingTimeSplitUtilization';
 
 interface UtilizationTableRow {

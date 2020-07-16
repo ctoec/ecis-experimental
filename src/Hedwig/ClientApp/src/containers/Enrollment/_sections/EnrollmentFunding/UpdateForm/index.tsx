@@ -1,6 +1,4 @@
 import React, { useState, useContext, useEffect } from 'react';
-// TODO
-import { TabNav } from '../../../../../components/TabNav/TabNav';
 import { EnrollmentFundingForm } from './EnrollmentFunding';
 import { Care4KidsForm } from './Care4Kids';
 import { SectionProps } from '../../../enrollmentTypes';

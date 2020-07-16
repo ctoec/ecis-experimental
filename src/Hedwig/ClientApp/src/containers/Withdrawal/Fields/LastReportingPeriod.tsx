@@ -1,6 +1,4 @@
 import React, { useContext } from 'react';
-// TODO: EXPORT FROM COMPONENT LIBRARY
-import FormContext, { useGenericContext } from '../../../components/Form_New/FormContext';
 import { Enrollment, FundingSource } from '../../../generated';
 import produce from 'immer';
 import set from 'lodash/set';
@@ -10,7 +8,7 @@ import { REQUIRED_FOR_WITHDRAWAL } from '../../../utils/validations/messageStrin
 import { displayValidationStatus } from '../../../utils/validations/displayValidationStatus';
 import moment from 'moment';
 import { lastNReportingPeriods, reportingPeriodFormatter } from '../../../utils/models';
-import { Select } from '@ctoec/component-library';
+import { Select, useGenericContext, FormContext } from '@ctoec/component-library';
 import { ErrorAlertState } from '../../../hooks/useCatchAllErrorAlert';
 
 type LastReportingFieldProps = {
