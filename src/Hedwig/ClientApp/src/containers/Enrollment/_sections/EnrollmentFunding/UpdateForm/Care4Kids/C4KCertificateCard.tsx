@@ -1,10 +1,7 @@
 import React from 'react';
-import { Card, Button, TextWithIcon, InlineIcon } from '@ctoec/component-library';
+import { Card, Button, TextWithIcon, InlineIcon, ExpandCard, CardExpansion } from '@ctoec/component-library';
 import { C4KCertificate } from '../../../../../../generated';
-// TODO
-import { CardExpansion } from '../../../../../../components/Card/CardExpansion';
 import dateFormatter from '../../../../../../utils/dateFormatter';
-import { ExpandCard } from '../../../../../../components/Card/ExpandCard';
 import { ReactComponent as Pencil } from '../../../../../../assets/images/pencil.svg';
 import { hasValidationErrors } from '../../../../../../utils/validations';
 

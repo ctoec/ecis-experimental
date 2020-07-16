@@ -1,10 +1,9 @@
 import React from 'react';
 import { Enrollment } from '../../../../../generated';
 import { WithNewDetermination, IncomeDeterminationFieldSet } from '../Fields';
-import { Button } from '@ctoec/component-library';
+import { Button, ExpandCard } from '@ctoec/component-library';
 import FormSubmitButton from '../../../../../components/Form_New/FormSubmitButton';
 import Form from '../../../../../components/Form_New/Form';
-import { ExpandCard } from '../../../../../components/Card/ExpandCard';
 
 type FamilyDeterminationFormForCardProps = {
 	determinationId: number;

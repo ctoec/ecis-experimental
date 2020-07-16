@@ -1,9 +1,7 @@
 import React from 'react';
 import { Funding } from '../../../../../../generated';
-import { Card, Button, CardProps, TextWithIcon } from '@ctoec/component-library';
+import { Card, Button, CardProps, TextWithIcon, ExpandCard, CardExpansion } from '@ctoec/component-library';
 import { prettyFundingSpaceTime, reportingPeriodFormatter } from '../../../../../../utils/models';
-import { CardExpansion } from '../../../../../../components/Card/CardExpansion';
-import { ExpandCard } from '../../../../../../components/Card/ExpandCard';
 import { getFundingTag } from '../../../../../../utils/fundingType';
 import { ReactComponent as Pencil } from '../../../../../../assets/images/pencil.svg';
 

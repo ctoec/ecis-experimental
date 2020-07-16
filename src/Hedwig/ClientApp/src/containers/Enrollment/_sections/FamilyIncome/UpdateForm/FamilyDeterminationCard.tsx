@@ -1,10 +1,8 @@
 import React from 'react';
 import { FamilyDetermination } from '../../../../../generated';
-import { Card, InlineIcon, Button, TextWithIcon } from '@ctoec/component-library';
-import { CardExpansion } from '../../../../../components/Card/CardExpansion';
+import { Card, InlineIcon, Button, TextWithIcon, ExpandCard, CardExpansion } from '@ctoec/component-library';
 import currencyFormatter from '../../../../../utils/currencyFormatter';
 import dateFormatter from '../../../../../utils/dateFormatter';
-import { ExpandCard } from '../../../../../components/Card/ExpandCard';
 import { ReactComponent as Pencil } from '../../../../../assets/images/pencil.svg';
 
 type FamilyDeterminationCardProps = {
