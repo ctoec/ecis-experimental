@@ -16,10 +16,9 @@ import {
 	getIdForUser,
 	getEnrollmentTimelineProps,
 } from '../../../utils/models';
-import { InlineIcon, Button, Alert } from '@ctoec/component-library';
+import { InlineIcon, Button, Alert, ProcessList } from '@ctoec/component-library';
 import CommonContainer from '../../CommonContainer';
 import { SectionProps } from '../enrollmentTypes';
-import { ProcessList } from '../../../components/ProcessList/ProcessList';
 import cx from 'classnames';
 import { somethingWentWrongAlert } from '../../../utils/stringFormatters/alertTextMakers';
 import HistoryContext from '../../../contexts/History/HistoryContext';

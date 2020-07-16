@@ -7,9 +7,9 @@ import {
 import React from 'react';
 import { HouseholdSizeField, AnnualHouseholdIncomeField, DeterminationDateField } from '.';
 import { errorDisplayGuard } from '../../../../../utils/validations';
-// TODO: FIX
-import { FormStatusFunc } from '@ctoec/component-library/dist/components/Form/FormStatusFunc';
 import { FormFieldSet } from '@ctoec/component-library';
+// TODO
+import { FormStatusFunc } from '@ctoec/component-library/dist/components/Form/FormStatusFunc';
 
 type IncomeDeterminationFieldSetProps = {
 	type: 'new' | 'redetermine' | 'edit';

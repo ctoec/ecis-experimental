@@ -4,7 +4,7 @@ import dateFormatter from '../../../utils/dateFormatter';
 import UserContext from '../../../contexts/User/UserContext';
 import { getIdForUser, reportingPeriodFormatter } from '../../../utils/models';
 import useApi, { ApiError } from '../../../hooks/useApi';
-import { Button, AlertProps, Tag, Alert, Form } from '@ctoec/component-library';
+import { Button, AlertProps, Tag, Alert, Form, TabNav } from '@ctoec/component-library';
 import CommonContainer from '../../CommonContainer';
 import { updateRosterAlert } from '../../../utils/stringFormatters';
 import {
@@ -14,8 +14,6 @@ import {
 import { CdcReport, ApiOrganizationsOrgIdReportsIdPutRequest } from '../../../generated';
 import { AccreditedField } from './ReportSubmitFields';
 import { useFocusFirstError } from '../../../utils/validations';
-// TODO
-import { TabNav } from '../../../components/TabNav/TabNav';
 import useCatchAllErrorAlert from '../../../hooks/useCatchAllErrorAlert';
 import AppContext from '../../../contexts/App/AppContext';
 import AlertContext from '../../../contexts/Alert/AlertContext';
