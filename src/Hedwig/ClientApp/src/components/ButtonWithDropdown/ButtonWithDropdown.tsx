@@ -1,9 +1,9 @@
 import React from 'react';
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
-import useHideOnLostFocus from '../../hooks/useHideOnLostFocus';
 import { Button, ButtonProps } from '@ctoec/component-library';
 import styles from './ButtonWithDropdown.module.scss';
+import useHideOnLostFocus from '../../hooks/useHideOnLostFocus';
 
 const {
 	container,

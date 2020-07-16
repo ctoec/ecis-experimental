@@ -2,12 +2,11 @@ import React from 'react';
 import {
 	RadioButtonGroupProps,
 	RadioButtonGroup,
+	RadioButton,
 } from '@ctoec/component-library';
 import { Age, Enrollment } from '../../../../../generated';
 import FormField from '../../../../../components/Form_New/FormField';
 import { ageFromString, prettyAge } from '../../../../../utils/models';
-// TODO FIX
-import RadioButton from '../../../../../components/RadioButton/RadioButton';
 import { errorDisplayGuard } from '../../../../../utils/validations';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
 import { REQUIRED_FOR_OEC_REPORTING } from '../../../../../utils/validations/messageStrings';

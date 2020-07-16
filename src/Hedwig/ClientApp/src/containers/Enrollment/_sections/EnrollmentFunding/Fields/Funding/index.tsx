@@ -3,12 +3,11 @@ import FormContext, { useGenericContext } from '../../../../../../components/For
 import { Enrollment, FundingSource, FundingSpace } from '../../../../../../generated';
 import { FundingFormFieldProps } from '../common';
 import { prettyFundingSource } from '../../../../../../utils/models';
-import RadioButton from '../../../../../../components/RadioButton/RadioButton';
 import { ContractSpaceField } from './ContractSpace';
 import { FirstReportingPeriodField } from './FirstReportingPeriod';
 import produce from 'immer';
 import set from 'lodash/set';
-import { RadioButtonGroup, RadioOption } from '@ctoec/component-library';
+import { RadioButtonGroup, RadioOption, RadioButton } from '@ctoec/component-library';
 import { WithNewFunding } from './WithNewFunding';
 import { LastReportingPeriodField } from './LastReportingPeriod';
 

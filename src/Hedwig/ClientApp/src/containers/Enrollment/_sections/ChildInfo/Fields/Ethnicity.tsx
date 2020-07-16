@@ -8,9 +8,8 @@ import { ChildInfoFormFieldProps } from './common';
 import {
 	RadioButtonGroupProps,
 	RadioButtonGroup,
+	RadioButton,
 } from '@ctoec/component-library';
-// TODO
-import RadioButton from '../../../../../components/RadioButton/RadioButton';
 
 /**
  * Component for entering the enthicity of a child in an enrollment.

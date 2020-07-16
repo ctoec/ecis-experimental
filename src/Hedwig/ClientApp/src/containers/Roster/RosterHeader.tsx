@@ -1,8 +1,10 @@
 import React from 'react';
 import {
 	Button,
-	ChoiceList,
-	InlineIcon
+	InlineIcon,
+	RadioButtonGroup,
+	ButtonWithDropdown,
+	RadioButton
 } from '@ctoec/component-library';
 import {
 	DateRangeInput,
@@ -13,8 +15,6 @@ import getDefaultDateRange from '../../utils/getDefaultDateRange';
 import { Site, Organization } from '../../generated';
 import { rosterEnrollmentsFormatter } from '../../utils/stringFormatters';
 import pluralize from 'pluralize';
-// TODO
-import ButtonWithDropdown from '../../components/ButtonWithDropdown/ButtonWithDropdown';
 
 type RosterHeaderProps = {
 	organization: Organization;
@@ -150,23 +150,24 @@ const RosterHeader: React.FC<RosterHeaderProps> = ({
 				</div>
 				{showPastEnrollments && (
 					<div className="padding-bottom-2">
-						<ChoiceList
-							type="radio"
-							legend="Select date or date range"
+						<RadioButtonGroup
+							// TODO: ARE RADIO BUTTONS GETTING IDS?
+							name="Date or date range"
+							legend="Date or date range"
 							options={[
 								{
-									text: 'By date',
-									value: 'date',
+									render: (props) => <RadioButton {...props} text="By date" value="date" />,
+									value: 'date'
 								},
 								{
-									text: 'By range',
+									render: (props) => <RadioButton {...props} text="By range" />,
 									value: 'range',
 								},
 							]}
 							onChange={(event) => setFilterByRange(event.target.value === 'range')}
 							horizontal={true}
 							id={'dateSelectionType'}
-							defaultValue={filterByRange ? ['range'] : ['date']}
+							defaultValue={filterByRange ? 'range' : 'date'}
 							className="margin-top-neg-3"
 						// This is goofy but we're getting rid of this soon anyway
 						/>

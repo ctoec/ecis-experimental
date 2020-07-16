@@ -1148,10 +1148,10 @@
   resolved "https://registry.yarnpkg.com/@csstools/normalize.css/-/normalize.css-10.1.0.tgz#f0950bba18819512d42f7197e56c518aa491cf18"
   integrity sha512-ij4wRiunFfaJxjB0BdrYHIH8FxBJpOwNPhhAcunlmPdXudL1WQV1qoP9un6JsEBAgQH+7UXyyjh0g7jTxXK6tg==
 
-"@ctoec/component-library@^0.0.10":
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/@ctoec/component-library/-/component-library-0.0.10.tgz#0c76545bd9dad4f1cb0cf1eb32030989888ec67e"
-  integrity sha512-eATzt9M4x93ceGdlUGAW9DnkxgIWPtomuncTrCpCGK3hVBFN8aJq8Vk2KnKoFYtksDPw67gmBD23MMgJJIssJg==
+"@ctoec/component-library@^0.0.14":
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/@ctoec/component-library/-/component-library-0.0.14.tgz#9fd87940dc877a04ee872641da4a9c884e931b87"
+  integrity sha512-C8wu5F8xaGQadxRzFIcVA4YP3p5o9qucIpti6v63pksOzA9/ORUljBWEW7z5KOb39ngtD7ilITWAO7HGGF70dQ==
   dependencies:
     "@testing-library/jest-dom" "^4.2.4"
     "@testing-library/react" "^9.3.2"
