@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { FormFieldSetProps, FormFieldSet } from '../Form_New';
-import { FieldSet, FieldSetProps } from '@ctoec/component-library';
+import { FieldSet, FieldSetProps, FormFieldSetProps, FormFieldSet } from '@ctoec/component-library';
 import cx from 'classnames';
 
 /**

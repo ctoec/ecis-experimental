@@ -1,5 +1,4 @@
 import React from 'react';
-import FormField from '../../../../../components/Form_New/FormField';
 import { Enrollment } from '../../../../../generated';
 import { errorDisplayGuard } from '../../../../../utils/validations';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
@@ -9,6 +8,7 @@ import {
 	RadioButtonGroupProps,
 	RadioButtonGroup,
 	RadioButton,
+	FormField,
 } from '@ctoec/component-library';
 
 /**

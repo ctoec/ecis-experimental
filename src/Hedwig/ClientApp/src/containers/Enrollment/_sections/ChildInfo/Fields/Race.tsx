@@ -1,6 +1,4 @@
 import React from 'react';
-import FormField from '../../../../../components/Form_New/FormField';
-import { FormFieldSetProps } from '../../../../../components/Form_New';
 import { Enrollment } from '../../../../../generated';
 import { errorDisplayGuard } from '../../../../../utils/validations';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
@@ -12,6 +10,7 @@ import {
 	Checkbox,
 	CheckboxProps
 } from '../../../../../components';
+import { FormFieldSetProps, FormField } from '@ctoec/component-library';
 
 /**
  * Component for entering the race of a child in an enrollment.

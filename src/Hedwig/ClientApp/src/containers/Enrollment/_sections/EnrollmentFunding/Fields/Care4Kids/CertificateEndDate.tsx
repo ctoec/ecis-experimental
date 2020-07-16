@@ -1,12 +1,11 @@
 import { C4kCertificateFormFieldProps } from '../common';
-import { FormField, parseDateChange } from '../../../../../../components/Form_New';
 import React from 'react';
 import { Enrollment } from '../../../../../../generated';
-// TODO
 import { DateInputProps, DateInput } from '../../../../../../components';
 import { displayValidationStatus } from '../../../../../../utils/validations/displayValidationStatus';
 import { ApiError } from '../../../../../../hooks/useApi';
 import { ErrorAlertState } from '../../../../../../hooks/useCatchAllErrorAlert';
+import { FormField, parseDateChange } from '@ctoec/component-library';
 
 type CertificateEndDateProps = C4kCertificateFormFieldProps & {
 	error: ApiError | null;

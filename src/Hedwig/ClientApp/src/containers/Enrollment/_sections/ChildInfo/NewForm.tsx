@@ -9,9 +9,6 @@ import {
 import UserContext from '../../../../contexts/User/UserContext';
 import { createEmptyEnrollment, getIdForUser, validatePermissions } from '../../../../utils/models';
 import useCatchAllErrorAlert from '../../../../hooks/useCatchAllErrorAlert';
-// TODO
-import Form from '../../../../components/Form_New/Form';
-import FormSubmitButton from '../../../../components/Form_New/FormSubmitButton';
 import {
 	SasidField,
 	FirstNameField,
@@ -27,6 +24,7 @@ import {
 import useApi from '../../../../hooks/useApi';
 import { useFocusFirstError } from '../../../../utils/validations';
 import ChildInfo from '.';
+import { Form } from '@ctoec/component-library';
 
 export const NewForm: React.FC<SectionProps> = ({
 	enrollment,
