@@ -10,7 +10,7 @@ export const EnrollmentDateColumn: (width: number) => Column<Enrollment> = (widt
 		<td className="oec-table__cell--tabular-nums">
 			{row.entry
 				? dateFormatter(row.entry) +
-				(row.exit && moment(row.exit).isBefore(moment()) ? `–${dateFormatter(row.exit)}` : '')
+				  (row.exit && moment(row.exit).isBefore(moment()) ? `–${dateFormatter(row.exit)}` : '')
 				: ''}
 		</td>
 	),

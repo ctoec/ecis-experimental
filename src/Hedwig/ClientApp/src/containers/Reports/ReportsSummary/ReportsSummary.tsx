@@ -131,12 +131,12 @@ export default function ReportsSummary() {
 					{pendingReports.length > 0 ? (
 						<Table {...pendingTableProps} />
 					) : (
-							<p>
-								<em>
-									No reports pending. Reports become available after the end of the reporting period.
+						<p>
+							<em>
+								No reports pending. Reports become available after the end of the reporting period.
 							</em>
-							</p>
-						)}
+						</p>
+					)}
 				</section>
 				<section>
 					<h2 className="margin-top-6">Submitted reports</h2>

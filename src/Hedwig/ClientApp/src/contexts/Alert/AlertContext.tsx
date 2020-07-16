@@ -9,7 +9,7 @@ export type AlertContextType = {
 
 const AlertContext = createContext<AlertContextType>({
 	getAlerts: () => [],
-	setAlerts: (_) => { },
+	setAlerts: (_) => {},
 });
 
 const { Provider, Consumer } = AlertContext;

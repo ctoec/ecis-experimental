@@ -37,10 +37,10 @@ const FamilyDeterminationFormForCard: React.FC<FamilyDeterminationFormForCardPro
 			}}
 		/>
 	) : (
-			<ExpandCard>
-				<Button text="Cancel" appearance="outline" />
-			</ExpandCard>
-		);
+		<ExpandCard>
+			<Button text="Cancel" appearance="outline" />
+		</ExpandCard>
+	);
 
 	return (
 		<Form

@@ -85,8 +85,8 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 	const activeStepId = locationHash
 		? locationHash.slice(1)
 		: steps.length
-			? steps[0].key
-			: 'complete';
+		? steps[0].key
+		: 'complete';
 	const moveNextStep = () => {
 		const currentIndex = steps.findIndex((step) => step.key === activeStepId);
 		if (currentIndex === steps.length - 1) {
@@ -165,8 +165,8 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 						headerLevel="h3"
 					/>
 				) : (
-						<div className="margin-y-2 display-flex flex-center">All complete!</div>
-					)}
+					<div className="margin-y-2 display-flex flex-center">All complete!</div>
+				)}
 			</div>
 		</>
 	);

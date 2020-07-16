@@ -1,6 +1,13 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
-import { Button, ExpandCard, Form, FormProvider, ObjectDriller, FormSubmitButton } from '@ctoec/component-library';
+import {
+	Button,
+	ExpandCard,
+	Form,
+	FormProvider,
+	ObjectDriller,
+	FormSubmitButton,
+} from '@ctoec/component-library';
 import {
 	getIdForUser,
 	validatePermissions,
@@ -142,9 +149,9 @@ export const NewEnrollmentFundingFormForCard: React.FC<NewEnrollmentFundingFormF
 							fundingId={currentFunding.id}
 							label={`Last reporting period for current ${
 								prettyAge(currentEnrollment.ageGroup) + ' '
-								}${currentFunding.source + ' '}${
+							}${currentFunding.source + ' '}${
 								prettyFundingSpaceTime(currentFunding.fundingSpace) + ' '
-								}funding`}
+							}funding`}
 							error={currentEnrollmentSaveError}
 							errorAlertState={currentEnrollmentErrorAlertState}
 							nextEnrollmentFundingFirstReportingPeriodId={

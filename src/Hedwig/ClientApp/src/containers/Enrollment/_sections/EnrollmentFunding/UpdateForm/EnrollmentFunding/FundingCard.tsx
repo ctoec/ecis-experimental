@@ -1,6 +1,13 @@
 import React from 'react';
 import { Funding } from '../../../../../../generated';
-import { Card, Button, CardProps, TextWithIcon, ExpandCard, CardExpansion } from '@ctoec/component-library';
+import {
+	Card,
+	Button,
+	CardProps,
+	TextWithIcon,
+	ExpandCard,
+	CardExpansion,
+} from '@ctoec/component-library';
 import { prettyFundingSpaceTime, reportingPeriodFormatter } from '../../../../../../utils/models';
 import { getFundingTag } from '../../../../../../utils/fundingType';
 import { ReactComponent as Pencil } from '../../../../../../assets/images/pencil.svg';
@@ -50,7 +57,10 @@ export const FundingCard = ({
 				</div>
 				{expansion && (
 					<ExpandCard>
-						<Button text={<TextWithIcon text="Edit" Icon={Pencil as React.FC} />} appearance="unstyled" />
+						<Button
+							text={<TextWithIcon text="Edit" Icon={Pencil as React.FC} />}
+							appearance="unstyled"
+						/>
 					</ExpandCard>
 				)}
 			</div>

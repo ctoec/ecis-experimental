@@ -86,7 +86,7 @@ export const TimeSplitUtilizationField: React.FC<TimeSplitUtilizationFieldProps>
 				lesserTime === FundingTime.Full
 					? existingUtilizationForSpace.fullTimeWeeksUsed
 					: existingUtilizationForSpace.partTimeWeeksUsed
-				}`}
+			}`}
 			onChange={(e) => {
 				const input = e.target.value;
 				const lesserWeeksUsed = parseInt(input.replace(/[^0-9.]/g, ''), 10) || 0;

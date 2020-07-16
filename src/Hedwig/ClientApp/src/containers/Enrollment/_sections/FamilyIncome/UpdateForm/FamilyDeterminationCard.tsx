@@ -1,6 +1,13 @@
 import React from 'react';
 import { FamilyDetermination } from '../../../../../generated';
-import { Card, InlineIcon, Button, TextWithIcon, ExpandCard, CardExpansion } from '@ctoec/component-library';
+import {
+	Card,
+	InlineIcon,
+	Button,
+	TextWithIcon,
+	ExpandCard,
+	CardExpansion,
+} from '@ctoec/component-library';
 import currencyFormatter from '../../../../../utils/currencyFormatter';
 import dateFormatter from '../../../../../utils/dateFormatter';
 import { ReactComponent as Pencil } from '../../../../../assets/images/pencil.svg';
@@ -57,7 +64,10 @@ export const FamilyDeterminationCard = ({
 					</p>
 				</div>
 				<ExpandCard>
-					<Button text={<TextWithIcon text="Edit" Icon={Pencil as React.FC} />} appearance="unstyled" />
+					<Button
+						text={<TextWithIcon text="Edit" Icon={Pencil as React.FC} />}
+						appearance="unstyled"
+					/>
 				</ExpandCard>
 			</div>
 			<CardExpansion>{expansion}</CardExpansion>

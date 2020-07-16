@@ -75,17 +75,17 @@ export const EnrollmentEndDateField: React.FC<EnrollmentEndDateFieldProps> = ({
 			status={
 				attemptedSave && !currentEndDate
 					? {
-						id: 'exit',
-						type: 'error',
-						message: REQUIRED_FOR_WITHDRAWAL,
-					}
+							id: 'exit',
+							type: 'error',
+							message: REQUIRED_FOR_WITHDRAWAL,
+					  }
 					: reportingPeriodOptions.length === 0
-						? {
+					? {
 							id: 'exit',
 							type: 'error',
 							message: REPORTING_PERIODS_ONLY_EXIST_FOR_FY2020_AND_BEYOND,
-						}
-						: displayValidationStatus([
+					  }
+					: displayValidationStatus([
 							{
 								type: 'error',
 								response: error,
@@ -93,7 +93,7 @@ export const EnrollmentEndDateField: React.FC<EnrollmentEndDateFieldProps> = ({
 								useValidationErrorMessage: true,
 								errorAlertState,
 							},
-						])
+					  ])
 			}
 		/>
 	);

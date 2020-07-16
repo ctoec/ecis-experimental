@@ -27,8 +27,8 @@ export const EthnicityField: React.FC<ChildInfoFormFieldProps> = ({
 				data == undefined // check for both null and undefined
 					? undefined
 					: data
-						? 'yes'
-						: 'no'
+					? 'yes'
+					: 'no'
 			}
 			parseOnChangeEvent={(e) => e.target.value === 'yes'}
 			inputComponent={RadioButtonGroup}

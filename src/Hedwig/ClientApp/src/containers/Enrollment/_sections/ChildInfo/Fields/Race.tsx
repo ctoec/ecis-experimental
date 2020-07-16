@@ -4,12 +4,7 @@ import { errorDisplayGuard } from '../../../../../utils/validations';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
 import { REQUIRED_FOR_OEC_REPORTING } from '../../../../../utils/validations/messageStrings';
 import { ChildInfoFormFieldProps } from './common';
-import {
-	CheckboxOption,
-	CheckboxGroup,
-	Checkbox,
-	CheckboxProps
-} from '../../../../../components';
+import { CheckboxOption, CheckboxGroup, Checkbox, CheckboxProps } from '../../../../../components';
 import { FormFieldSetProps, FormField } from '@ctoec/component-library';
 
 /**

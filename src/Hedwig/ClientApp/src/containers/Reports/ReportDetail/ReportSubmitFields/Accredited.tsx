@@ -16,7 +16,6 @@ export const AccreditedField: React.FC<AccreditedFieldProps> = ({ disabled }) =>
 			inputComponent={Checkbox}
 			id="accredited"
 			text="Program accredited by NAEYC"
-			value="accredited"
 			disabled={disabled}
 		/>
 	);

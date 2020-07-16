@@ -33,7 +33,7 @@ type InternalCheckboxGroupProps = {
  */
 export type CheckboxGroupProps<
 	TFieldSetProps extends FieldSetProps | FormFieldSetProps<any>
-	> = InternalCheckboxGroupProps &
+> = InternalCheckboxGroupProps &
 	(TFieldSetProps extends FormFieldSetProps<infer T>
 		? { useFormFieldSet: true } & FormFieldSetProps<T>
 		: FieldSetProps);
@@ -98,7 +98,7 @@ export const CheckboxGroup = <
 const InternalCheckboxGroup: React.FC<InternalCheckboxGroupProps & { id: string }> = ({
 	id,
 	options,
-	onChange = () => { },
+	onChange = () => {},
 	defaultValue = [],
 }) => {
 	const selectedItemsOnInput = Array.isArray(defaultValue) ? defaultValue : [defaultValue];

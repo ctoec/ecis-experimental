@@ -2,7 +2,7 @@ import React from 'react';
 import { Enrollment } from '../../../../../../generated';
 import produce from 'immer';
 import set from 'lodash/set';
-import { Checkbox } from '@ctoec/component-library';
+import { Checkbox, useGenericContext, FormContext } from '@ctoec/component-library';
 
 type ReceivesC4KFieldProps = {
 	receivesC4K: boolean;

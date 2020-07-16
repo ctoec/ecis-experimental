@@ -41,7 +41,7 @@ export const ChangeFundingFormForCard: React.FC<ChangeFundingFormForCardProps> =
 				<LastReportingPeriodField
 					label={`Last reporting period for current ${currentFunding.source + ' '}${
 						prettyFundingSpaceTime(currentFunding.fundingSpace) + ' '
-						}funding`}
+					}funding`}
 					fundingId={currentFunding.id}
 					error={error}
 				/>

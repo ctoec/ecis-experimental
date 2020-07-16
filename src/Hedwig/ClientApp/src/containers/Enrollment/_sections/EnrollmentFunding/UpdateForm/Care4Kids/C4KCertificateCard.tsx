@@ -1,5 +1,12 @@
 import React from 'react';
-import { Card, Button, TextWithIcon, InlineIcon, ExpandCard, CardExpansion } from '@ctoec/component-library';
+import {
+	Card,
+	Button,
+	TextWithIcon,
+	InlineIcon,
+	ExpandCard,
+	CardExpansion,
+} from '@ctoec/component-library';
 import { C4KCertificate } from '../../../../../../generated';
 import dateFormatter from '../../../../../../utils/dateFormatter';
 import { ReactComponent as Pencil } from '../../../../../../assets/images/pencil.svg';
@@ -41,10 +48,10 @@ export const C4KCertificateCard = ({
 						{hasValidationErrors(certificate, ['startDate']) ? (
 							<InlineIcon icon="incomplete" />
 						) : (
-								`${dateFormatter(certificate.startDate)}${
+							`${dateFormatter(certificate.startDate)}${
 								!isCurrent ? `- ${dateFormatter(certificate.endDate)}` : ''
-								}`
-							)}
+							}`
+						)}
 					</p>
 				</div>
 

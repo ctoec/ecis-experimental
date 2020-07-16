@@ -11,7 +11,7 @@ import { validatePermissions, getIdForUser } from '../../../../../utils/models';
 import useApi from '../../../../../hooks/useApi';
 import useCatchAllErrorAlert from '../../../../../hooks/useCatchAllErrorAlert';
 import { hasValidationErrors } from '../../../../../utils/validations';
-import { InlineIcon } from '@ctoec/component-library';
+import { InlineIcon, TabNav } from '@ctoec/component-library';
 
 export const UpdateForm: React.FC<SectionProps> = ({ enrollment, siteId }) => {
 	if (!enrollment) {

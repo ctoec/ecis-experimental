@@ -9,7 +9,6 @@ export const HomelessnessCheckbox: React.FC<FamilyInfoFormFieldProps> = () => (
 		<FormField<Enrollment, CheckboxProps, boolean | null>
 			id="homelessness"
 			getValue={(data) => data.at('child').at('family').at('homelessness')}
-			value={'homelessness'}
 			parseOnChangeEvent={(e) => e.target.checked}
 			inputComponent={Checkbox}
 			text={homelessnessText()}
