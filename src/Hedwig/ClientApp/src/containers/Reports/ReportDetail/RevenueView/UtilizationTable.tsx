@@ -1,19 +1,10 @@
 import React from 'react';
 import { Table, TableProps, useGenericContext, FormContext } from '@ctoec/component-library';
-import {
-	CdcReport,
-} from '../../../../generated';
-import {
-	prettyAge,
-	prettyFundingTime,
-	getReportingPeriodWeeks,
-} from '../../../../utils/models';
+import { CdcReport } from '../../../../generated';
+import { prettyAge, prettyFundingTime, getReportingPeriodWeeks } from '../../../../utils/models';
 import currencyFormatter from '../../../../utils/currencyFormatter';
 import cx from 'classnames';
-import {
-	makePrefixerFunc,
-	ReimbursementRateLine,
-} from '../../../../utils/utilizationTable';
+import { makePrefixerFunc, ReimbursementRateLine } from '../../../../utils/utilizationTable';
 import { RevenueDataRow, getRevenueDataRows } from '../utils/getRevenueDataRows';
 
 type UtilizationTableRow = RevenueDataRow & {
@@ -24,7 +15,7 @@ type UtilizationTableRow = RevenueDataRow & {
 		rate: number;
 		balance: number;
 	};
-}
+};
 
 export default function UtilizationTable() {
 	const { data: report } = useGenericContext<CdcReport>(FormContext);
@@ -32,12 +23,14 @@ export default function UtilizationTable() {
 	// Transform RevenueDataRow into UtilizationTableRow
 	let rows: UtilizationTableRow[] = getRevenueDataRows(report).map((row) => ({
 		...row,
-		showFundingTime: (report.organization?.fundingSpaces || []).filter((fs) => fs.ageGroup === row.ageGroup).length > 1,
+		showFundingTime:
+			(report.organization?.fundingSpaces || []).filter((fs) => fs.ageGroup === row.ageGroup)
+				.length > 1,
 		maxes: {
 			total: row.total,
 			balance: row.balance,
-			rate: Math.max(row.ptRate || 0, row.ftRate || 0)
-		}
+			rate: Math.max(row.ptRate || 0, row.ftRate || 0),
+		},
 	}));
 
 	// And do reduce transformation for total row
@@ -48,11 +41,11 @@ export default function UtilizationTable() {
 			maxes: {
 				total: Math.max(total.total, row.total),
 				rate: Math.max(total.maxes.rate, row.ftRate || 0, row.ptRate || 0),
-				balance: Math.max(Math.abs(total.balance), Math.abs(row.balance))
-			}
+				balance: Math.max(Math.abs(total.balance), Math.abs(row.balance)),
+			},
 		}),
 		totalRow
-	)
+	);
 
 	// Get prefixers
 	const reimbursementPrefixer = makePrefixerFunc(totalRow.maxes.rate);

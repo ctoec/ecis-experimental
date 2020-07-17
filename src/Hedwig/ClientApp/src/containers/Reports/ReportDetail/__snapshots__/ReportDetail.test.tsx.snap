@@ -123,6 +123,7 @@ exports[`ReportDetail matches snapshot 1`] = `
           class="usa-checkbox__input"
           id="accredited"
           type="checkbox"
+          value="accredited"
         />
         <label
           class="usa-checkbox__label"

@@ -1,14 +1,19 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { Button, AlertProps, Tag, Alert, Form, TabNav, TextWithIcon } from '@ctoec/component-library';
+import {
+	Button,
+	AlertProps,
+	Tag,
+	Alert,
+	Form,
+	TabNav,
+	TextWithIcon,
+} from '@ctoec/component-library';
 import { ReactComponent as FileDownload } from '../../../assets/images/fileDownloadSolid.svg';
 import { ReactComponent as File } from '../../../assets/images/fileAltSolid.svg';
 import dateFormatter from '../../../utils/dateFormatter';
 import UserContext from '../../../contexts/User/UserContext';
-import {
-	getIdForUser,
-	reportingPeriodFormatter,
-} from '../../../utils/models';
+import { getIdForUser, reportingPeriodFormatter } from '../../../utils/models';
 import useApi, { ApiError } from '../../../hooks/useApi';
 import CommonContainer from '../../CommonContainer';
 import { updateRosterAlert } from '../../../utils/stringFormatters';
@@ -156,9 +161,10 @@ export default function ReportDetail() {
 								) => {
 									e.preventDefault();
 
-									const getFileName = (type: string) => `CDC ${reportingPeriodFormatter(
-										report.reportingPeriod
-									)} Report - ${type} - ${report.organization?.name}.csv`;
+									const getFileName = (type: string) =>
+										`CDC ${reportingPeriodFormatter(report.reportingPeriod)} Report - ${type} - ${
+											report.organization?.name
+										}.csv`;
 									const rosterBlob = makeRosterCSVBlob(report.enrollments);
 									downloadBlobAsFile(rosterBlob, getFileName('Report'));
 									const revenueBlob = makeRevenueCSVBlob(report);
@@ -179,11 +185,11 @@ export default function ReportDetail() {
 								<Tag className="margin-top-05" text="SUBMITTED" color="green-cool-20v" />
 							</>
 						) : (
-								<>
-									<File height="5em" title="file" className="text-base" />
-									<Tag className="margin-top-05" text="DRAFT" color="gold-20v" />
-								</>
-							)}
+							<>
+								<File height="5em" title="file" className="text-base" />
+								<Tag className="margin-top-05" text="DRAFT" color="gold-20v" />
+							</>
+						)}
 					</div>
 				</div>
 
@@ -238,5 +244,3 @@ export default function ReportDetail() {
 		</CommonContainer>
 	);
 }
-
-

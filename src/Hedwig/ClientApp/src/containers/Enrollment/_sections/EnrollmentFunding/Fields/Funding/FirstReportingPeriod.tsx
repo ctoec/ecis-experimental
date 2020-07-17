@@ -2,7 +2,13 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Enrollment, ReportingPeriod } from '../../../../../../generated';
 import ReportingPeriodContext from '../../../../../../contexts/ReportingPeriod/ReportingPeriodContext';
 import moment from 'moment';
-import { SelectProps, Select, FormField, useGenericContext, FormContext } from '@ctoec/component-library';
+import {
+	SelectProps,
+	Select,
+	FormField,
+	useGenericContext,
+	FormContext,
+} from '@ctoec/component-library';
 import {
 	reportingPeriodFormatter,
 	getIdForUser,

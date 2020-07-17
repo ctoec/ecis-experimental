@@ -1,6 +1,7 @@
 import React from 'react';
 import { CdcReport } from '../../../../generated';
-import { Checkbox, CheckboxProps, FormField } from '@ctoec/component-library';
+import { FormField } from '@ctoec/component-library';
+import Checkbox, { CheckboxProps } from '../../../../components/Checkbox/Checkbox';
 
 type AccreditedFieldProps = {
 	disabled: boolean;
@@ -16,6 +17,7 @@ export const AccreditedField: React.FC<AccreditedFieldProps> = ({ disabled }) =>
 			inputComponent={Checkbox}
 			id="accredited"
 			text="Program accredited by NAEYC"
+			value="accredited"
 			disabled={disabled}
 		/>
 	);

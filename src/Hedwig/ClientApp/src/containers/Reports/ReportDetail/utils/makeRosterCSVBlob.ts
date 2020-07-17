@@ -1,11 +1,18 @@
 import { parse as parseCsv } from 'json2csv';
-import { Enrollment } from "../../../../generated";
-import { nameFormatter } from "../../../../utils/stringFormatters";
-import dateFormatter from "../../../../utils/dateFormatter";
-import { prettyMultiRace, prettyEthnicity, prettyGender, prettyAge, prettyFundingSpaceTime, reportingPeriodFormatter } from "../../../../utils/models";
-import { propertyDateSorter } from "../../../../utils/dateSorter";
+import { Enrollment } from '../../../../generated';
+import { nameFormatter } from '../../../../utils/stringFormatters';
+import dateFormatter from '../../../../utils/dateFormatter';
+import {
+	prettyMultiRace,
+	prettyEthnicity,
+	prettyGender,
+	prettyAge,
+	prettyFundingSpaceTime,
+	reportingPeriodFormatter,
+} from '../../../../utils/models';
+import { propertyDateSorter } from '../../../../utils/dateSorter';
 
-export const  makeRosterCSVBlob = (enrollments: Enrollment[] | undefined | null) => {
+export const makeRosterCSVBlob = (enrollments: Enrollment[] | undefined | null) => {
 	enrollments = enrollments || [];
 
 	const fields = [
