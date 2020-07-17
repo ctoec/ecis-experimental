@@ -151,19 +151,19 @@ export default function ReportDetail() {
 								text={
 									<TextWithIcon
 										text="Export report"
-										Icon={FileDownload}
+										Icon={FileDownload as React.FC}
 										className="margin-left-2"
 									/>
 								}
 								appearance="unstyled"
 								onClick={(
-									e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement, MouseEvent>
+									// e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement, MouseEvent>
 								) => {
-									e.preventDefault();
+									// e.preventDefault();
 
 									const getFileName = (type: string) =>
 										`CDC ${reportingPeriodFormatter(report.reportingPeriod)} Report - ${type} - ${
-											report.organization?.name
+										report.organization?.name
 										}.csv`;
 									const rosterBlob = makeRosterCSVBlob(report.enrollments);
 									downloadBlobAsFile(rosterBlob, getFileName('Report'));
@@ -185,11 +185,11 @@ export default function ReportDetail() {
 								<Tag className="margin-top-05" text="SUBMITTED" color="green-cool-20v" />
 							</>
 						) : (
-							<>
-								<File height="5em" title="file" className="text-base" />
-								<Tag className="margin-top-05" text="DRAFT" color="gold-20v" />
-							</>
-						)}
+								<>
+									<File height="5em" title="file" className="text-base" />
+									<Tag className="margin-top-05" text="DRAFT" color="gold-20v" />
+								</>
+							)}
 					</div>
 				</div>
 
