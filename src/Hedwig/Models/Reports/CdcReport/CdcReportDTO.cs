@@ -18,7 +18,7 @@ namespace Hedwig.Models
 		public ICollection<FundingTimeSplitUtilization> TimeSplitUtilizations { get; set; }
 		public int OrganizationId { get; set; }
 		public OrganizationDTO Organization { get; set; }
-		public List<CdcReportEnrollmentDTO> Enrollments { get; set; }
+		public List<EnrollmentDTO> Enrollments { get; set; }
 		public List<ValidationError> ValidationErrors { get; set; }
 	}
 }

@@ -58,36 +58,58 @@ exports[`ReportDetail matches snapshot 1`] = `
     class="grid-container"
   >
     <div
-      class="grid-row flex-first-baseline flex-space-between"
+      class="grid-row flex-space-between"
     >
-      <h1
+      <div
         class="tablet:grid-col-auto"
       >
-        September 2019 CDC Report 
+        <div
+          class="grid-row flex-display flex-row flex-align-center"
+        >
+          <h1>
+            September 2019 CDC Report 
+          </h1>
+          <button
+            class="usa-button usa-button--unstyled"
+            type="button"
+          >
+            <span
+              class="oec-text-with-icon margin-left-2"
+            >
+              <svg
+                class="oec-text-with-icon__icon oec-text-with-icon__icon--direction-right oec-text-with-icon__icon--side-left"
+              >
+                fileDownloadSolid.svg
+              </svg>
+              Export report
+            </span>
+          </button>
+        </div>
+        <p
+          class="usa-intro"
+        >
+          Test Organization 
+          <br />
+          September 01, 2019–September 28, 2019
+        </p>
+      </div>
+      <div
+        class="tablet:grid-col-auto display-flex flex-column flex-align-center"
+      >
+        <svg
+          class="text-base"
+          height="5em"
+          title="file"
+        >
+          fileAltSolid.svg
+        </svg>
         <span
-          class="usa-tag usa-tag--no-transform margin-left-1 text-middle bg-gold-20v"
+          class="usa-tag usa-tag--no-transform margin-top-05 bg-gold-20v"
         >
           DRAFT
         </span>
-      </h1>
-      <div
-        class="tablet:grid-col-auto print-btn"
-      >
-        <button
-          class="usa-button usa-button--outline"
-          type="button"
-        >
-          Print
-        </button>
       </div>
     </div>
-    <p
-      class="usa-intro"
-    >
-      Test Organization 
-      <br />
-      September 01, 2019–September 28, 2019
-    </p>
     <form
       autocomplete="off"
       class=""
@@ -168,10 +190,42 @@ exports[`ReportDetail matches snapshot 1`] = `
                   <span
                     class="text-bold"
                   >
-                    2/70
+                    9/70
                   </span>
                   <span>
                      CDC spaces filled
+                  </span>
+                </div>
+              </li>
+              <li
+                class="oec-legend__item oec-legend-item margin-right-1"
+              >
+                <div
+                  class="oec-legend-item__symbol undefined"
+                >
+                  <span
+                    class="position-relative top-neg-2px oec-inline-icon oec-inline-icon--incomplete"
+                  >
+                    <svg>
+                      error.svg
+                    </svg>
+                    <span
+                      class="usa-sr-only"
+                    >
+                      (incomplete)
+                    </span>
+                  </span>
+                </div>
+                <div
+                  class="oec-legend-item__text width-fit-content display-inline margin-left-1 "
+                >
+                  <span
+                    class="text-bold"
+                  >
+                    2
+                  </span>
+                  <span>
+                     missing information
                   </span>
                 </div>
               </li>
@@ -179,7 +233,7 @@ exports[`ReportDetail matches snapshot 1`] = `
             <h2
               class="margin-top-6"
             >
-              Infant/toddler (0 children)
+              Infant/toddler (2 children)
             </h2>
             <ul
               class="margin-y-2 oec-legend add-list-reset grid-col"
@@ -205,7 +259,7 @@ exports[`ReportDetail matches snapshot 1`] = `
                   <span
                     class="text-bold"
                   >
-                    0/10
+                    1/10
                   </span>
                   <span>
                      spaces filled
@@ -233,7 +287,7 @@ exports[`ReportDetail matches snapshot 1`] = `
                   <span
                     class="text-bold"
                   >
-                    0/10
+                    1/10
                   </span>
                   <span>
                      spaces filled
@@ -361,12 +415,73 @@ exports[`ReportDetail matches snapshot 1`] = `
                   </th>
                 </tr>
               </thead>
-              <tbody />
+              <tbody>
+                <tr>
+                  <th
+                    scope="row"
+                  >
+                    <a
+                      class="usa-link print"
+                      href="/roster/sites/1/enrollments/8/"
+                    >
+                      Potter, Lily Luna
+                    </a>
+                     
+                  </th>
+                  <td
+                    class="oec-table__cell--tabular-nums"
+                  >
+                    12/12/2016
+                  </td>
+                  <td>
+                    <span
+                      class="usa-tag usa-tag--no-transform bg-blue-50v"
+                    >
+                      Part time
+                    </span>
+                  </td>
+                  <td
+                    class="oec-table__cell--tabular-nums"
+                  >
+                    02/03/2018
+                  </td>
+                </tr>
+                <tr>
+                  <th
+                    scope="row"
+                  >
+                    <a
+                      class="usa-link print"
+                      href="/roster/sites/1/enrollments/9/"
+                    >
+                      Potter, Lily Luna
+                    </a>
+                     
+                  </th>
+                  <td
+                    class="oec-table__cell--tabular-nums"
+                  >
+                    12/12/2016
+                  </td>
+                  <td>
+                    <span
+                      class="usa-tag usa-tag--no-transform bg-blue-50v"
+                    >
+                      Full time
+                    </span>
+                  </td>
+                  <td
+                    class="oec-table__cell--tabular-nums"
+                  >
+                    02/03/2018
+                  </td>
+                </tr>
+              </tbody>
             </table>
             <h2
               class="margin-top-6"
             >
-              Preschool (2 children)
+              Preschool (7 children)
             </h2>
             <ul
               class="margin-y-2 oec-legend add-list-reset grid-col"
@@ -392,7 +507,7 @@ exports[`ReportDetail matches snapshot 1`] = `
                   <span
                     class="text-bold"
                   >
-                    2/10
+                    6/10
                   </span>
                   <span>
                      spaces filled
@@ -420,7 +535,7 @@ exports[`ReportDetail matches snapshot 1`] = `
                   <span
                     class="text-bold"
                   >
-                    0/10
+                    1/10
                   </span>
                   <span>
                      spaces filled
@@ -557,7 +672,181 @@ exports[`ReportDetail matches snapshot 1`] = `
                   >
                     <a
                       class="usa-link print"
+                      href="/roster/sites/1/enrollments/2/"
+                    >
+                      Potter, Lily Luna
+                    </a>
+                     
+                    <span
+                      class="oec-inline-icon oec-inline-icon--incomplete"
+                    >
+                      <svg>
+                        error.svg
+                      </svg>
+                      <span
+                        class="usa-sr-only"
+                      >
+                        (incomplete)
+                      </span>
+                    </span>
+                  </th>
+                  <td
+                    class="oec-table__cell--tabular-nums"
+                  >
+                    12/12/2016
+                  </td>
+                  <td>
+                    <span
+                      class="usa-tag usa-tag--no-transform bg-blue-50v"
+                    >
+                      Full time
+                    </span>
+                  </td>
+                  <td
+                    class="oec-table__cell--tabular-nums"
+                  >
+                    02/03/2018
+                  </td>
+                </tr>
+                <tr>
+                  <th
+                    scope="row"
+                  >
+                    <a
+                      class="usa-link print"
+                      href="/roster/sites/1/enrollments/4/"
+                    >
+                      Potter, Lily Luna
+                    </a>
+                     
+                    <span
+                      class="oec-inline-icon oec-inline-icon--incomplete"
+                    >
+                      <svg>
+                        error.svg
+                      </svg>
+                      <span
+                        class="usa-sr-only"
+                      >
+                        (incomplete)
+                      </span>
+                    </span>
+                  </th>
+                  <td
+                    class="oec-table__cell--tabular-nums"
+                  >
+                    12/12/2016
+                  </td>
+                  <td>
+                    <span
+                      class="usa-tag usa-tag--no-transform bg-blue-50v"
+                    >
+                      Full time
+                    </span>
+                  </td>
+                  <td
+                    class="oec-table__cell--tabular-nums"
+                  >
+                    02/03/2018
+                  </td>
+                </tr>
+                <tr>
+                  <th
+                    scope="row"
+                  >
+                    <a
+                      class="usa-link print"
+                      href="/roster/sites/1/enrollments/5/"
+                    >
+                      Potter, Lily Luna
+                    </a>
+                     
+                  </th>
+                  <td
+                    class="oec-table__cell--tabular-nums"
+                  >
+                    12/12/2016
+                  </td>
+                  <td>
+                    <span
+                      class="usa-tag usa-tag--no-transform bg-blue-50v"
+                    >
+                      Full time
+                    </span>
+                  </td>
+                  <td
+                    class="oec-table__cell--tabular-nums"
+                  >
+                    03/01/2019
+                  </td>
+                </tr>
+                <tr>
+                  <th
+                    scope="row"
+                  >
+                    <a
+                      class="usa-link print"
                       href="/roster/sites/1/enrollments/6/"
+                    >
+                      Potter, Lily Luna
+                    </a>
+                     
+                  </th>
+                  <td
+                    class="oec-table__cell--tabular-nums"
+                  >
+                    12/12/2016
+                  </td>
+                  <td>
+                    <span
+                      class="usa-tag usa-tag--no-transform bg-blue-50v"
+                    >
+                      Full time
+                    </span>
+                  </td>
+                  <td
+                    class="oec-table__cell--tabular-nums"
+                  >
+                    02/03/2018
+                  </td>
+                </tr>
+                <tr>
+                  <th
+                    scope="row"
+                  >
+                    <a
+                      class="usa-link print"
+                      href="/roster/sites/1/enrollments/7/"
+                    >
+                      Potter, Lily Luna
+                    </a>
+                     
+                  </th>
+                  <td
+                    class="oec-table__cell--tabular-nums"
+                  >
+                    12/12/2016
+                  </td>
+                  <td>
+                    <span
+                      class="usa-tag usa-tag--no-transform bg-blue-50v"
+                    >
+                      Part time
+                    </span>
+                  </td>
+                  <td
+                    class="oec-table__cell--tabular-nums"
+                  >
+                    02/03/2018
+                  </td>
+                </tr>
+                <tr>
+                  <th
+                    scope="row"
+                  >
+                    <a
+                      class="usa-link print"
+                      href="/roster/sites/1/enrollments/1/"
                     >
                       Potter, Lily Luna
                     </a>

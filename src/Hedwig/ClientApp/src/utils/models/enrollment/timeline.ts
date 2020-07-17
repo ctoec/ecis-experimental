@@ -84,7 +84,7 @@ export function enrollmentStepProps(
 						? // heading text for first enrollment (last in ordered array)
 						  `Enrolled in ${siteName}`
 						: `Changed enrollment to ${prettyAge(_enrollment.ageGroup)} in ${siteName}`,
-				body: `on ${dateFormatter(_enrollment.entry, false)}`,
+				body: `on ${dateFormatter(_enrollment.entry, { long: true })}`,
 				stepDate: _enrollment.entry,
 				stepWeight: -1,
 			})
@@ -96,7 +96,7 @@ export function enrollmentStepProps(
 		processStepProps.push(
 			getSortableStep({
 				heading: `Withdrawn from ${siteName}`,
-				body: `on ${dateFormatter(_enrollment.exit, false)}`,
+				body: `on ${dateFormatter(_enrollment.exit, { long: true })}`,
 				stepDate: _enrollment.exit,
 				stepWeight: 1,
 			})
@@ -132,7 +132,7 @@ export function fundingStepProps(
 				processStepProps.push(
 					getSortableStep({
 						heading,
-						body: `on ${dateFormatter(funding.firstReportingPeriod.periodStart, false)}`,
+						body: `on ${dateFormatter(funding.firstReportingPeriod.periodStart, { long: true })}`,
 						stepDate: funding.firstReportingPeriod.periodStart,
 					})
 				);
@@ -155,7 +155,7 @@ export function fundingStepProps(
 				processStepProps.push(
 					getSortableStep({
 						heading: `Switched funding to ${NO_FUNDING}`,
-						body: `on ${dateFormatter(dayAfterLastReportingPeriodEnd, false)}`,
+						body: `on ${dateFormatter(dayAfterLastReportingPeriodEnd, { long: true })}`,
 						stepDate: dayAfterLastReportingPeriodEnd,
 					})
 				);
@@ -178,7 +178,7 @@ export function determinationStepProps(determinations: FamilyDetermination[] | n
 				processStepProps.push(
 					getSortableStep({
 						heading: 'Income redetermined',
-						body: `on ${dateFormatter(determination.determinationDate, false)}`,
+						body: `on ${dateFormatter(determination.determinationDate, { long: true })}`,
 						stepDate: determination.determinationDate,
 					})
 				);
@@ -204,7 +204,7 @@ export function c4kCertificateStepProps(c4KCertificates: C4KCertificate[] | null
 					getSortableStep({
 						heading:
 							index === 0 ? 'Care 4 Kids certificate added' : 'Care 4 Kids certificate renewed',
-						body: `on ${dateFormatter(c4kCertificate.startDate, false)}`,
+						body: `on ${dateFormatter(c4kCertificate.startDate, { long: true })}`,
 						stepDate: c4kCertificate.startDate,
 					})
 				);

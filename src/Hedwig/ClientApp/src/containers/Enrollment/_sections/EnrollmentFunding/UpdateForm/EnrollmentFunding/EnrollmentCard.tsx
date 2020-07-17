@@ -63,9 +63,7 @@ export const EnrollmentCard = ({
 					<p className="text-bold">
 						{!enrollment.entry
 							? InlineIcon({ icon: 'incomplete' })
-							: isCurrent
-							? `${dateFormatter(enrollment.entry)} - present`
-							: `${dateFormatter(enrollment.entry)} - ${dateFormatter(enrollment.exit)}`}
+							: `${dateFormatter(enrollment.entry)} - ${enrollment.exit ? dateFormatter(enrollment.exit) : 'present'}`}
 					</p>
 				</div>
 				{expansion && (
