@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Enrollment } from '../../generated';
 import { SideNav, TextWithIcon, InlineIcon } from '../../components';
 import { lastFirstNameFormatter } from '../../utils/stringFormatters';
@@ -10,39 +10,23 @@ import { getMissingInfoPrettyString } from '../../utils/validations/getMissingIn
 
 type EnrollmentsEditListProps = {
 	enrollments: Enrollment[];
-	activeEnrollmentId?: number;
+	replaceEnrollment: (_: Enrollment) => void;
 	pathToReport: string;
 };
 
 export const EnrollmentsEditList: React.FC<EnrollmentsEditListProps> = ({
 	enrollments,
-	activeEnrollmentId,
+	replaceEnrollment,
 	pathToReport,
 }) => {
-	const [mutatedEnrollments, setMutatedEnrollments] = useState(enrollments);
-
-	// Function to enable SingleEnrollmentEdit components to update the
-	// single enrollment they control in the list of user-mutated enrollments.
-	// Will be passed down into SingleEnrollmentEdit
-	const replaceEnrollment = (updatedEnrollment: Enrollment) => {
-		setMutatedEnrollments((enrollments) => {
-			const enrollmentIdx = enrollments.findIndex((e) => e.id === updatedEnrollment.id);
-			enrollments[enrollmentIdx] = updatedEnrollment;
-			return enrollments;
-		});
-	};
-
-	const [currentEnrollmentIdx, setCurrentEnrollmentIdx] = useState<number | undefined>(
-		activeEnrollmentId
-			? mutatedEnrollments.findIndex((e) => e.id === activeEnrollmentId)
-			: mutatedEnrollments.length
-			? 0
-			: undefined
-	);
+	const [currentEnrollmentIdx, setCurrentEnrollmentIdx] = useState<number>();
+	useEffect(() => {
+		if(enrollments.length) setCurrentEnrollmentIdx(0)
+	}, [enrollments.length])
 
 	const moveNext = () => {
-		if (currentEnrollmentIdx === mutatedEnrollments.length - 1) {
-			const stillMissingInfoEnrollmentIdx = mutatedEnrollments.findIndex((e) =>
+		if (currentEnrollmentIdx === enrollments.length - 1) {
+			const stillMissingInfoEnrollmentIdx = enrollments.findIndex((e) =>
 				hasValidationErrors(e)
 			);
 
@@ -58,7 +42,7 @@ export const EnrollmentsEditList: React.FC<EnrollmentsEditListProps> = ({
 	return (
 		<SideNav
 			externalActiveItemIndex={currentEnrollmentIdx}
-			items={mutatedEnrollments.map((enrollment) => ({
+			items={enrollments.map((enrollment) => ({
 				title: hasValidationErrors(enrollment) ? (
 					lastFirstNameFormatter(enrollment.child)
 				) : (
