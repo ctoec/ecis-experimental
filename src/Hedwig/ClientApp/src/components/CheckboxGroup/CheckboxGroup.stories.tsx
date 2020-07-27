@@ -1,8 +1,8 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { FormStatusProps } from '..';
-import { TextInput } from '../TextInput/TextInput';
+import { FormStatusProps } from '@ctoec/component-library';
+import { TextInput } from '@ctoec/component-library';
 import { CheckboxOption, CheckboxGroup } from './CheckboxGroup';
 import Checkbox from '../Checkbox/Checkbox';
 

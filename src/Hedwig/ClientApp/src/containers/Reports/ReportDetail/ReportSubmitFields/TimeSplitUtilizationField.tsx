@@ -1,4 +1,5 @@
 import React from 'react';
+import { TextInput, useGenericContext, FormContext } from '@ctoec/component-library';
 import { CdcReport, FundingSpace, FundingTime, ReportingPeriod } from '../../../../generated';
 import {
 	prettyFundingTime,
@@ -13,8 +14,6 @@ import {
 	getSplitUtilization,
 	getSplitUtilizations,
 } from '../../../../utils/models/fundingTimeSplitUtilization';
-import FormContext, { useGenericContext } from '../../../../components/Form_New/FormContext';
-import { TextInput } from '../../../../components';
 import {
 	displayValidationStatus,
 	ValidationResponse,

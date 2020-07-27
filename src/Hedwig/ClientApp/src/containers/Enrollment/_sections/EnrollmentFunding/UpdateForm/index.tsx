@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { TabNav } from '../../../../../components/TabNav/TabNav';
 import { EnrollmentFundingForm } from './EnrollmentFunding';
 import { Care4KidsForm } from './Care4Kids';
 import { SectionProps } from '../../../enrollmentTypes';
@@ -12,7 +11,7 @@ import { validatePermissions, getIdForUser } from '../../../../../utils/models';
 import useApi from '../../../../../hooks/useApi';
 import useCatchAllErrorAlert from '../../../../../hooks/useCatchAllErrorAlert';
 import { hasValidationErrors } from '../../../../../utils/validations';
-import { InlineIcon } from '../../../../../components';
+import { InlineIcon, TabNav } from '@ctoec/component-library';
 
 export const UpdateForm: React.FC<SectionProps> = ({ enrollment, siteId }) => {
 	if (!enrollment) {

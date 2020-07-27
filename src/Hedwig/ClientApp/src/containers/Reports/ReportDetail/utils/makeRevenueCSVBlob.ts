@@ -1,7 +1,7 @@
 import { parse as parseCsv } from 'json2csv';
-import { CdcReport, FundingTime } from "../../../../generated";
-import { prettyAge, prettyFundingTime, getReportingPeriodWeeks } from "../../../../utils/models";
-import { getRevenueDataRows } from "./getRevenueDataRows";
+import { CdcReport, FundingTime } from '../../../../generated';
+import { prettyAge, prettyFundingTime, getReportingPeriodWeeks } from '../../../../utils/models';
+import { getRevenueDataRows } from './getRevenueDataRows';
 
 export const makeRevenueCSVBlob = (report: CdcReport) => {
 	let revenueData = getRevenueDataRows(report);

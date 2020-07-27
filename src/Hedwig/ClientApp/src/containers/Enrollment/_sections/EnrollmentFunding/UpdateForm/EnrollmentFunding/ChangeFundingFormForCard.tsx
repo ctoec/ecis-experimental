@@ -1,9 +1,8 @@
 import React from 'react';
 import { Enrollment, FundingSpace, Funding } from '../../../../../../generated';
 import { ApiError } from '../../../../../../hooks/useApi';
-import { Form, FormSubmitButton } from '../../../../../../components/Form_New';
 import { LastReportingPeriodField } from '../../Fields/Funding/LastReportingPeriod';
-import { Button } from '../../../../../../components';
+import { Button, Form, FormSubmitButton } from '@ctoec/component-library';
 import { FundingField } from '../../Fields/Funding';
 import { prettyFundingSpaceTime } from '../../../../../../utils/models';
 

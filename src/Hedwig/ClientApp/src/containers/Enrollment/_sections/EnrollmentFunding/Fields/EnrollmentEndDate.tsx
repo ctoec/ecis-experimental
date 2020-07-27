@@ -1,12 +1,9 @@
 import React, { useEffect } from 'react';
-import { EnrollmentFormFieldProps } from './common';
 import { Enrollment } from '../../../../../generated';
-import { FormField, parseDateChange } from '../../../../../components/Form_New';
-import { DateInputProps, DateInput } from '../../../../../components';
-import FormContext, { useGenericContext } from '../../../../../components/Form_New/FormContext';
 import produce from 'immer';
 import set from 'lodash/set';
 import moment from 'moment';
+import { useGenericContext, FormContext } from '@ctoec/component-library';
 
 const MOVED_WITHIN_PROGRAM = 'Moved within program';
 

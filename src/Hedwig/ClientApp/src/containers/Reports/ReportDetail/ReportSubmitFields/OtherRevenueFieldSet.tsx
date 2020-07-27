@@ -2,7 +2,7 @@ import React from 'react';
 import { Enrollment } from '../../../../generated';
 import { ValidationResponse } from '../../../../utils/validations/displayValidationStatus';
 import { ErrorAlertState } from '../../../../hooks/useCatchAllErrorAlert';
-import { FieldSet } from '../../../../components';
+import { FieldSet } from '@ctoec/component-library';
 import { C4KRevenueField } from './C4KRevenue';
 import { RetroactiveC4KRevenue } from './RetroactiveC4KRevenue';
 import { FamilyFeesRevenueField } from './FamilyFeesRevenue';

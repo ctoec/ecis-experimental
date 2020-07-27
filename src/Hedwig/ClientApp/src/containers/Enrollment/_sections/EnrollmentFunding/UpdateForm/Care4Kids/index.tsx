@@ -2,10 +2,8 @@ import React from 'react';
 import { UpdateFormSectionProps } from '../common';
 import { C4KCertificateCard } from './C4KCertificateCard';
 import { C4kCertificateFormForCard } from './C4KCertificateFormForCard';
-import { Card, Button, TextWithIcon } from '../../../../../../components';
+import { Card, Button, TextWithIcon, ExpandCard, CardExpansion } from '@ctoec/component-library';
 import { ReactComponent as PlusCircle } from '../../../../../../assets/images/plusCircle.svg';
-import { CardExpansion } from '../../../../../../components/Card/CardExpansion';
-import { ExpandCard } from '../../../../../../components/Card/ExpandCard';
 import { propertyDateSorter } from '../../../../../../utils/dateSorter';
 import { Enrollment } from '../../../../../../generated';
 
@@ -46,7 +44,7 @@ export const Care4KidsForm: React.FC<UpdateFormSectionProps> = ({
 							text={
 								<TextWithIcon
 									text={currentC4kCert ? 'Renew certificate' : 'Add a certificate'}
-									Icon={PlusCircle}
+									Icon={PlusCircle as React.FC}
 									iconClassName="text-green"
 								/>
 							}

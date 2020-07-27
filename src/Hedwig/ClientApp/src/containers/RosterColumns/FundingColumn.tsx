@@ -1,5 +1,5 @@
 import React from 'react';
-import { Column, DateRange } from '../../components';
+import { Column } from '@ctoec/component-library';
 import { Enrollment } from '../../generated';
 import {
 	dedupeFundings,
@@ -9,6 +9,7 @@ import {
 } from '../../utils/models';
 import { getC4KTag, FundingTagOptionsType } from '../../utils/fundingType';
 import idx from 'idx';
+import { DateRange } from '../../components';
 
 /**
  * A function for generaring funding columns. Parameterized on

@@ -1,6 +1,6 @@
 import React from 'react';
 import { EditForm } from './EditForm';
-import { StepProps } from '../../../../components';
+import { StepProps } from '@ctoec/component-library';
 import { BatchEditStepProps } from '../batchEditTypes';
 import { hasEnrollmentFundingSectionErrors } from '../../utils';
 

@@ -1,5 +1,5 @@
 import { Family } from '../../generated';
-import { InlineIcon } from '../../components';
+import { InlineIcon } from '@ctoec/component-library';
 
 export function createEmptyFamily(orgId: number, familyId = 0) {
 	return {

@@ -1,10 +1,8 @@
 import React from 'react';
 import { Enrollment } from '../../../../../../generated';
-import { Form, FormSubmitButton } from '../../../../../../components/Form_New';
 import { EnrollmentStartDateField } from '../../Fields/EnrollmentStartDate';
 import { AgeGroupField } from '../../Fields/AgeGroup';
-import { Button } from '../../../../../../components';
-import { ExpandCard } from '../../../../../../components/Card/ExpandCard';
+import { Button, ExpandCard, Form, FormSubmitButton } from '@ctoec/component-library';
 import { ErrorAlertState } from '../../../../../../hooks/useCatchAllErrorAlert';
 import { ApiError } from '../../../../../../hooks/useApi';
 

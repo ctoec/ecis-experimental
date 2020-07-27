@@ -1,33 +1,29 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import {
+	Button,
+	AlertProps,
+	Tag,
+	Alert,
+	Form,
+	TabNav,
+	TextWithIcon,
+} from '@ctoec/component-library';
 import { ReactComponent as FileDownload } from '../../../assets/images/fileDownloadSolid.svg';
 import { ReactComponent as File } from '../../../assets/images/fileAltSolid.svg';
 import dateFormatter from '../../../utils/dateFormatter';
 import UserContext from '../../../contexts/User/UserContext';
-import {
-	getIdForUser,
-	reportingPeriodFormatter,
-	prettyAge,
-	prettyFundingTime,
-	getReportingPeriodWeeks,
-} from '../../../utils/models';
+import { getIdForUser, reportingPeriodFormatter } from '../../../utils/models';
 import useApi, { ApiError } from '../../../hooks/useApi';
-import { Button, AlertProps, Tag, Alert, TextWithIcon } from '../../../components';
 import CommonContainer from '../../CommonContainer';
 import { updateRosterAlert } from '../../../utils/stringFormatters';
 import {
 	somethingWentWrongAlert,
 	reportSubmittedAlert,
 } from '../../../utils/stringFormatters/alertTextMakers';
-import { Form } from '../../../components/Form_New';
-import {
-	CdcReport,
-	ApiOrganizationsOrgIdReportsIdPutRequest,
-	FundingTime,
-} from '../../../generated';
+import { CdcReport, ApiOrganizationsOrgIdReportsIdPutRequest } from '../../../generated';
 import { AccreditedField } from './ReportSubmitFields';
 import { useFocusFirstError } from '../../../utils/validations';
-import { TabNav } from '../../../components/TabNav/TabNav';
 import useCatchAllErrorAlert from '../../../hooks/useCatchAllErrorAlert';
 import AppContext from '../../../contexts/App/AppContext';
 import AlertContext from '../../../contexts/Alert/AlertContext';
@@ -155,19 +151,20 @@ export default function ReportDetail() {
 								text={
 									<TextWithIcon
 										text="Export report"
-										Icon={FileDownload}
+										Icon={FileDownload as React.FC}
 										className="margin-left-2"
 									/>
 								}
 								appearance="unstyled"
 								onClick={(
-									e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement, MouseEvent>
+									// e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement, MouseEvent>
 								) => {
-									e.preventDefault();
+									// e.preventDefault();
 
-									const getFileName = (type: string) => `CDC ${reportingPeriodFormatter(
-										report.reportingPeriod
-									)} Report - ${type} - ${report.organization?.name}.csv`;
+									const getFileName = (type: string) =>
+										`CDC ${reportingPeriodFormatter(report.reportingPeriod)} Report - ${type} - ${
+										report.organization?.name
+										}.csv`;
 									const rosterBlob = makeRosterCSVBlob(report.enrollments);
 									downloadBlobAsFile(rosterBlob, getFileName('Report'));
 									const revenueBlob = makeRevenueCSVBlob(report);
@@ -188,11 +185,11 @@ export default function ReportDetail() {
 								<Tag className="margin-top-05" text="SUBMITTED" color="green-cool-20v" />
 							</>
 						) : (
-							<>
-								<File height="5em" title="file" className="text-base" />
-								<Tag className="margin-top-05" text="DRAFT" color="gold-20v" />
-							</>
-						)}
+								<>
+									<File height="5em" title="file" className="text-base" />
+									<Tag className="margin-top-05" text="DRAFT" color="gold-20v" />
+								</>
+							)}
 					</div>
 				</div>
 
@@ -247,5 +244,3 @@ export default function ReportDetail() {
 		</CommonContainer>
 	);
 }
-
-

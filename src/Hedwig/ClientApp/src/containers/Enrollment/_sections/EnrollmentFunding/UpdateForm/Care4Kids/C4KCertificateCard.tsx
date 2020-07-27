@@ -1,9 +1,14 @@
 import React from 'react';
-import { Card, Button, TextWithIcon, InlineIcon } from '../../../../../../components';
+import {
+	Card,
+	Button,
+	TextWithIcon,
+	InlineIcon,
+	ExpandCard,
+	CardExpansion,
+} from '@ctoec/component-library';
 import { C4KCertificate } from '../../../../../../generated';
-import { CardExpansion } from '../../../../../../components/Card/CardExpansion';
 import dateFormatter from '../../../../../../utils/dateFormatter';
-import { ExpandCard } from '../../../../../../components/Card/ExpandCard';
 import { ReactComponent as Pencil } from '../../../../../../assets/images/pencil.svg';
 import { hasValidationErrors } from '../../../../../../utils/validations';
 
@@ -52,7 +57,7 @@ export const C4KCertificateCard = ({
 
 				<ExpandCard>
 					<Button
-						text={<TextWithIcon text="Edit" Icon={Pencil} />}
+						text={<TextWithIcon text="Edit" Icon={Pencil as React.FC} />}
 						appearance="unstyled"
 						className="flex-1"
 					/>

@@ -1,7 +1,8 @@
 import { useContext, useState } from 'react';
 import { useParams } from 'react-router';
 import UserContext from '../contexts/User/UserContext';
-import { DateRange, LegendItem } from '../components';
+// TODO
+import { DateRange } from '../components';
 import getDefaultDateRange from '../utils/getDefaultDateRange';
 import {
 	ApiOrganizationsIdGetRequest,
@@ -15,6 +16,7 @@ import { getIdForUser, getObjectsByAgeGroup } from '../utils/models';
 import useApi, { paginate } from './useApi';
 import { legendDisplayDetails } from '../utils/legendFormatters';
 import { CommonContainerPropsType } from '../containers/CommonContainer';
+import { LegendItem } from '@ctoec/component-library';
 
 type UseRosterReturnType = {
 	showPastEnrollments: boolean;

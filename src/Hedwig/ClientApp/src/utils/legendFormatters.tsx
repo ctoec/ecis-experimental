@@ -2,7 +2,7 @@ import React from 'react';
 import { Organization, Enrollment, FundingSource, Site } from '../generated';
 import { isFunded, getCurrentC4kCertificate, getFundingSpaceCapacity } from './models';
 import { getC4KTag, getFundingTag, getFundingTimeTag } from './fundingType';
-import { InlineIcon } from '../components';
+import { InlineIcon } from '@ctoec/component-library';
 
 export type LegendTextFormatterOpts = {
 	organization?: Organization;

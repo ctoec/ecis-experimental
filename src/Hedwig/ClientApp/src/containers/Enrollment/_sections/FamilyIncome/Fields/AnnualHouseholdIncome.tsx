@@ -1,7 +1,6 @@
-import FormField from '../../../../../components/Form_New/FormField';
 import { Enrollment } from '../../../../../generated';
 import React, { ChangeEvent } from 'react';
-import { TextInputProps, TextInput } from '../../../../../components';
+import { TextInputProps, TextInput, FormField } from '@ctoec/component-library';
 import parseCurrencyFromString from '../../../../../utils/parseCurrencyFromString';
 import currencyFormatter from '../../../../../utils/currencyFormatter';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';

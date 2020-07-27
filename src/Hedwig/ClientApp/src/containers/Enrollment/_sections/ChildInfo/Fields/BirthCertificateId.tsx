@@ -1,11 +1,9 @@
 import React from 'react';
-import FormField from '../../../../../components/Form_New/FormField';
 import { Enrollment } from '../../../../../generated';
-import { TextInputProps, TextInput } from '../../../../../components';
+import { TextInputProps, TextInput, FormField } from '@ctoec/component-library';
 import { ChildInfoFormFieldProps } from './common';
 import { errorDisplayGuard } from '../../../../../utils/validations';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
-import { error } from 'selenium-webdriver';
 
 /**
  * Component for entering a birth certificate id of a child in an enrollment.

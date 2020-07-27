@@ -1,6 +1,6 @@
 import React from 'react';
 import { EditForm } from './EditForm';
-import { StepProps, InlineIcon } from '../../../../components';
+import { StepProps, InlineIcon } from '@ctoec/component-library';
 import { BatchEditStepProps } from '../batchEditTypes';
 import { hasChildInfoSectionErrors } from '../../utils';
 

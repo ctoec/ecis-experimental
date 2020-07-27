@@ -1,6 +1,6 @@
 import React from 'react';
-import FormField from '../../../../components/Form_New/FormField';
 import { CdcReport } from '../../../../generated';
+import { FormField } from '@ctoec/component-library';
 import Checkbox, { CheckboxProps } from '../../../../components/Checkbox/Checkbox';
 
 type AccreditedFieldProps = {

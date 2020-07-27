@@ -1,5 +1,5 @@
 import React from 'react';
-import { Legend, Alert, Column } from '../../components';
+import { Legend, Alert, Column } from '@ctoec/component-library';
 import { Age, Enrollment } from '../../generated';
 import { AgeGroupSection } from '../RosterColumns/AgeGroupSection';
 import CommonContainer from '../CommonContainer';

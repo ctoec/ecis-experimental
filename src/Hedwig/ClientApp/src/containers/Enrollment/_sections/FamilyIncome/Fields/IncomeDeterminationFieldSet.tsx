@@ -4,11 +4,12 @@ import {
 	INFORMATION_REQUIRED_IF_INCOME_DISCLOSED,
 	REQUIRED_FOR_OEC_REPORTING,
 } from '../../../../../utils/validations/messageStrings';
-import { FormFieldSet } from '../../../../../components/Form_New/FormFieldSet';
 import React from 'react';
 import { HouseholdSizeField, AnnualHouseholdIncomeField, DeterminationDateField } from '.';
-import { FormStatusFunc } from '../../../../../components/Form_New/FormStatusFunc';
 import { errorDisplayGuard } from '../../../../../utils/validations';
+import { FormFieldSet } from '@ctoec/component-library';
+// TODO
+import { FormStatusFunc } from '@ctoec/component-library/dist/components/Form/FormStatusFunc';
 
 type IncomeDeterminationFieldSetProps = {
 	type: 'new' | 'redetermine' | 'edit';

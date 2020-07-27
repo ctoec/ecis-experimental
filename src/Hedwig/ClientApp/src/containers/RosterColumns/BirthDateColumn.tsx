@@ -1,5 +1,5 @@
 import React from 'react';
-import { Column } from '../../components';
+import { Column } from '@ctoec/component-library';
 import { Enrollment } from '../../generated';
 import dateFormatter from '../../utils/dateFormatter';
 

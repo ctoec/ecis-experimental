@@ -188,10 +188,8 @@ exports[`RosterView matches snapshot 1`] = `
                 <div
                   class="oec-table__sort-controls oec-table__sort-controls--ascending"
                 >
-                  <svg
-                    title="Sort"
-                  >
-                    downArrowCircle.svg
+                  <svg>
+                    arrowRight.svg
                   </svg>
                 </div>
               </button>
@@ -211,10 +209,8 @@ exports[`RosterView matches snapshot 1`] = `
                 <div
                   class="oec-table__sort-controls"
                 >
-                  <svg
-                    title="Sort"
-                  >
-                    downArrowCircle.svg
+                  <svg>
+                    arrowRight.svg
                   </svg>
                 </div>
               </button>
@@ -234,10 +230,8 @@ exports[`RosterView matches snapshot 1`] = `
                 <div
                   class="oec-table__sort-controls"
                 >
-                  <svg
-                    title="Sort"
-                  >
-                    downArrowCircle.svg
+                  <svg>
+                    arrowRight.svg
                   </svg>
                 </div>
               </button>
@@ -257,10 +251,8 @@ exports[`RosterView matches snapshot 1`] = `
                 <div
                   class="oec-table__sort-controls"
                 >
-                  <svg
-                    title="Sort"
-                  >
-                    downArrowCircle.svg
+                  <svg>
+                    arrowRight.svg
                   </svg>
                 </div>
               </button>
@@ -416,10 +408,8 @@ exports[`RosterView matches snapshot 1`] = `
                 <div
                   class="oec-table__sort-controls oec-table__sort-controls--ascending"
                 >
-                  <svg
-                    title="Sort"
-                  >
-                    downArrowCircle.svg
+                  <svg>
+                    arrowRight.svg
                   </svg>
                 </div>
               </button>
@@ -439,10 +429,8 @@ exports[`RosterView matches snapshot 1`] = `
                 <div
                   class="oec-table__sort-controls"
                 >
-                  <svg
-                    title="Sort"
-                  >
-                    downArrowCircle.svg
+                  <svg>
+                    arrowRight.svg
                   </svg>
                 </div>
               </button>
@@ -462,10 +450,8 @@ exports[`RosterView matches snapshot 1`] = `
                 <div
                   class="oec-table__sort-controls"
                 >
-                  <svg
-                    title="Sort"
-                  >
-                    downArrowCircle.svg
+                  <svg>
+                    arrowRight.svg
                   </svg>
                 </div>
               </button>
@@ -485,10 +471,8 @@ exports[`RosterView matches snapshot 1`] = `
                 <div
                   class="oec-table__sort-controls"
                 >
-                  <svg
-                    title="Sort"
-                  >
-                    downArrowCircle.svg
+                  <svg>
+                    arrowRight.svg
                   </svg>
                 </div>
               </button>
@@ -818,10 +802,8 @@ exports[`RosterView matches snapshot 1`] = `
                 <div
                   class="oec-table__sort-controls oec-table__sort-controls--ascending"
                 >
-                  <svg
-                    title="Sort"
-                  >
-                    downArrowCircle.svg
+                  <svg>
+                    arrowRight.svg
                   </svg>
                 </div>
               </button>
@@ -841,10 +823,8 @@ exports[`RosterView matches snapshot 1`] = `
                 <div
                   class="oec-table__sort-controls"
                 >
-                  <svg
-                    title="Sort"
-                  >
-                    downArrowCircle.svg
+                  <svg>
+                    arrowRight.svg
                   </svg>
                 </div>
               </button>
@@ -864,10 +844,8 @@ exports[`RosterView matches snapshot 1`] = `
                 <div
                   class="oec-table__sort-controls"
                 >
-                  <svg
-                    title="Sort"
-                  >
-                    downArrowCircle.svg
+                  <svg>
+                    arrowRight.svg
                   </svg>
                 </div>
               </button>
@@ -887,10 +865,8 @@ exports[`RosterView matches snapshot 1`] = `
                 <div
                   class="oec-table__sort-controls"
                 >
-                  <svg
-                    title="Sort"
-                  >
-                    downArrowCircle.svg
+                  <svg>
+                    arrowRight.svg
                   </svg>
                 </div>
               </button>

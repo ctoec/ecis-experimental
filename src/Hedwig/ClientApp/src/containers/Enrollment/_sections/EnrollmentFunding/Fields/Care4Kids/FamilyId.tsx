@@ -1,6 +1,5 @@
 import React from 'react';
-import { TextInputProps, TextInput } from '../../../../../../components';
-import FormField from '../../../../../../components/Form_New/FormField';
+import { TextInputProps, TextInput, FormField } from '@ctoec/component-library';
 import { Enrollment } from '../../../../../../generated';
 import { displayValidationStatus } from '../../../../../../utils/validations/displayValidationStatus';
 import { REQUIRED_FOR_OEC_REPORTING } from '../../../../../../utils/validations/messageStrings';

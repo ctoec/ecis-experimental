@@ -1,12 +1,11 @@
 import React from 'react';
-import FormField from '../../../../../components/Form_New/FormField';
 import { Enrollment, Gender } from '../../../../../generated';
 import { errorDisplayGuard } from '../../../../../utils/validations';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
 import { REQUIRED_FOR_OEC_REPORTING } from '../../../../../utils/validations/messageStrings';
 import { ChildInfoFormFieldProps } from './common';
 import { genderFromString, prettyGender } from '../../../../../utils/models';
-import { SelectProps, Select } from '../../../../../components/Select/Select';
+import { SelectProps, Select, FormField } from '@ctoec/component-library';
 
 /**
  * Component for entering the gender of a child in an enrollment.

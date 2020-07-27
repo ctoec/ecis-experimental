@@ -1,9 +1,13 @@
 import React, { useEffect } from 'react';
 import { FundingSpace, Enrollment } from '../../../../../../generated';
 import { prettyFundingSpaceTime } from '../../../../../../utils/models';
-import { Select, SelectProps } from '../../../../../../components';
-import FormField from '../../../../../../components/Form_New/FormField';
-import FormContext, { useGenericContext } from '../../../../../../components/Form_New/FormContext';
+import {
+	Select,
+	SelectProps,
+	FormField,
+	useGenericContext,
+	FormContext,
+} from '@ctoec/component-library';
 import produce from 'immer';
 import set from 'lodash/set';
 import { FundingFormFieldProps } from '../common';

@@ -1,6 +1,6 @@
 import React from 'react';
 import idx from 'idx';
-import { InlineIcon } from '../../../../components';
+import { InlineIcon } from '@ctoec/component-library';
 import currencyFormatter from '../../../../utils/currencyFormatter';
 import dateFormatter from '../../../../utils/dateFormatter';
 import { SectionProps } from '../../enrollmentTypes';

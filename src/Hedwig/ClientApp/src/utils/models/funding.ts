@@ -1,4 +1,5 @@
 import { DateRange } from '../../components';
+// TODO: EXPORT FROM COMPONENT LIBRARY
 import { Funding, FundingSource, ReportingPeriod, FundingSpace, Enrollment } from '../../generated';
 import moment from 'moment';
 import { dateSorter, propertyDateSorter } from '../dateSorter';

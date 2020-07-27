@@ -21,7 +21,7 @@ import {
 	editEnrollmentCompleteAlert,
 	editSaveFailAlert,
 } from '../../../utils/stringFormatters';
-import { ErrorBoundary, Alert } from '../../../components';
+import { ErrorBoundary, Alert } from '@ctoec/component-library';
 import useApi from '../../../hooks/useApi';
 import { somethingWentWrongAlert } from '../../../utils/stringFormatters/alertTextMakers';
 
