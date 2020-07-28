@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { Table, TableProps, Alert } from '@ctoec/component-library';
+import { Table, TableProps } from '../../../components/Table/Table';
 import dateFormatter from '../../../utils/dateFormatter';
 import UserContext from '../../../contexts/User/UserContext';
 import useApi from '../../../hooks/useApi';
@@ -12,6 +12,7 @@ import {
 } from '../../../generated';
 import { getIdForUser, reportingPeriodFormatter } from '../../../utils/models';
 import CommonContainer from '../../CommonContainer';
+import { Alert } from '../../../components';
 import { somethingWentWrongAlert } from '../../../utils/stringFormatters/alertTextMakers';
 
 export default function ReportsSummary() {

@@ -1,3 +1,4 @@
+import { FormFieldSet } from '../../../../../components/Form_New/FormFieldSet';
 import React from 'react';
 import { errorDisplayGuard } from '../../../../../utils/validations';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
@@ -9,7 +10,6 @@ import { Zip } from './Zip';
 import { State } from './State';
 import { Town } from './Town';
 import { FamilyInfoFormFieldProps } from './common';
-import { FormFieldSet } from '@ctoec/component-library';
 
 export const AddressFieldset: React.FC<FamilyInfoFormFieldProps> = ({
 	blockErrorDisplay = false,

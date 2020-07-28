@@ -1,4 +1,5 @@
 import idx from 'idx';
+import { ProcessStepProps } from '../../../components/ProcessList/ProcessStep';
 import {
 	Enrollment,
 	Funding,
@@ -12,8 +13,6 @@ import { dateSorter } from '../../dateSorter';
 import moment from 'moment';
 import { c4kCertificateSorter } from '../c4kCertificate';
 import { fundingStartSorter, getFundingTime } from '../funding';
-// TODO: EXPORT PROPERLY
-import { ProcessStepProps } from '@ctoec/component-library/dist/components/ProcessList/ProcessStep';
 
 // sortable process step props include:
 // - sortDate, the field to use for sorting

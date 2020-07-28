@@ -1,8 +1,9 @@
+import FormContext, { useGenericContext } from '../../../../../components/Form_New/FormContext';
 import { Enrollment } from '../../../../../generated';
 import React from 'react';
+import Checkbox from '../../../../../components/Checkbox/Checkbox';
 import produce from 'immer';
 import set from 'lodash/set';
-import { Checkbox, useGenericContext, FormContext } from '@ctoec/component-library';
 
 type NotDisclosedFieldProps = {
 	notDisclosed: boolean;
@@ -22,6 +23,7 @@ export const NotDisclosedField: React.FC<NotDisclosedFieldProps> = ({
 			id="not-disclosed"
 			text="Family income not disclosed"
 			defaultValue={notDisclosed}
+			value="not-disclosed"
 			onChange={(e) => {
 				setNotDisclosed(e.target.checked);
 				updateData(

@@ -1,4 +1,4 @@
-import { StepStatus } from '@ctoec/component-library';
+import { StepStatus } from '../../components/StepList/StepList';
 import { Enrollment } from '../../generated';
 import { ApiError } from '../../hooks/useApi';
 import { SetStateAction, Dispatch } from 'react';

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Form, FormSubmitButton } from '../../../../components/Form_New';
 import { Enrollment } from '../../../../generated';
 import { hasValidationErrors } from '../../../../utils/validations';
 import {
@@ -9,7 +10,7 @@ import {
 	EthnicityField,
 } from '../../../Enrollment/_sections/ChildInfo/Fields';
 import { BatchEditStepProps } from '../batchEditTypes';
-import { Button, Form, FormSubmitButton } from '@ctoec/component-library';
+import { Button } from '../../../../components';
 
 export const EditForm: React.FC<BatchEditStepProps> = ({ enrollment, onSubmit, onSkip }) => {
 	return (

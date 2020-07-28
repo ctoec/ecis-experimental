@@ -1,8 +1,9 @@
 import React from 'react';
 import { Enrollment } from '../../../../../../generated';
 import { ApiError } from '../../../../../../hooks/useApi';
+import { Form, FormSubmitButton } from '../../../../../../components/Form_New';
 import { LastReportingPeriodField } from '../../Fields/Funding/LastReportingPeriod';
-import { Button, Form, FormSubmitButton } from '@ctoec/component-library';
+import { Button } from '../../../../../../components';
 
 type EndFundingFormForCardProps = {
 	fundingId: number;

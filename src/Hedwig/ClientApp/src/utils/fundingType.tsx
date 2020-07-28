@@ -1,6 +1,6 @@
 import React from 'react';
 import { FundingTime, FundingSource } from '../generated';
-import { Tag } from '@ctoec/component-library';
+import { Tag } from '../components';
 
 function ptOrFT(fundingTime?: FundingTime) {
 	if (fundingTime === FundingTime.Split) {

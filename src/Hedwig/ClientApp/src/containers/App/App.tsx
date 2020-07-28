@@ -9,7 +9,7 @@ import { getIdForUser } from '../../utils/models';
 import UserContext from '../../contexts/User/UserContext';
 import { useCacheInvalidator, AppProvider } from '../../contexts/App/AppContext';
 import { AlertProvider } from '../../contexts/Alert/AlertContext';
-import { ErrorBoundary, Header, NavItemProps } from '@ctoec/component-library';
+import { ErrorBoundary, Header, NavItemProps } from '../../components';
 import cx from 'classnames';
 import styles from './App.module.scss';
 
