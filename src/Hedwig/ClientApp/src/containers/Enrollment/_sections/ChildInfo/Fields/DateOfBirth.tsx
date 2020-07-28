@@ -1,11 +1,12 @@
 import React from 'react';
+import FormField from '../../../../../components/Form_New/FormField';
 import { Enrollment } from '../../../../../generated';
 import { DateInput, DateInputProps } from '../../../../../components';
 import { ChildInfoFormFieldProps } from './common';
 import { errorDisplayGuard } from '../../../../../utils/validations';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
 import { REQUIRED_FOR_OEC_REPORTING } from '../../../../../utils/validations/messageStrings';
-import { FormField, parseDateChange } from '@ctoec/component-library';
+import { parseDateChange } from '../../../../../components/Form_New';
 
 /**
  * Component for entering the birth date of a child in an enrollment.

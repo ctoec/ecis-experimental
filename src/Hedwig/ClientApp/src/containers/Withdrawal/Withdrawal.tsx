@@ -21,9 +21,10 @@ import {
 	somethingWentWrongAlert,
 } from '../../utils/stringFormatters/alertTextMakers';
 import CommonContainer from '../CommonContainer';
-import { InlineIcon, Button, Alert, Form, FormSubmitButton } from '@ctoec/component-library';
+import { InlineIcon, Button, Alert } from '../../components';
 import dateFormatter from '../../utils/dateFormatter';
 import { getFundingTag } from '../../utils/fundingType';
+import { Form, FormSubmitButton } from '../../components/Form_New';
 import { EnrollmentEndDateField } from './Fields/EnrollmentEndDate';
 import { ExitReasonField } from './Fields/ExitReason';
 import { LastReportingPeriodField } from './Fields/LastReportingPeriod';

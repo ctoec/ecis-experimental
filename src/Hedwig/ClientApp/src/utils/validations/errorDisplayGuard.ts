@@ -1,4 +1,4 @@
-import { FormStatusProps } from '@ctoec/component-library';
+import { FormStatusProps } from '../../components/FormStatus/FormStatus';
 
 export function errorDisplayGuard(blockErrorDisplay: boolean, error?: FormStatusProps) {
 	if (blockErrorDisplay) {

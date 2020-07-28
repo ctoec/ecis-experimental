@@ -3,7 +3,7 @@ import qs from 'query-string';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import { Enrollment } from '../../generated';
-import { StepProps, StepList } from '@ctoec/component-library';
+import { StepProps, StepList } from '../../components';
 import { lastFirstNameFormatter } from '../../utils/stringFormatters';
 import dateFormatter from '../../utils/dateFormatter';
 import UserContext from '../../contexts/User/UserContext';

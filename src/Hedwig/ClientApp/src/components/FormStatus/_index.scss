@@ -1,0 +1,6 @@
+.usa-warning-message,
+.usa-success-message {
+	@extend .usa-error-message;
+	color: color($theme-color-base);
+	font-weight: inherit;
+}

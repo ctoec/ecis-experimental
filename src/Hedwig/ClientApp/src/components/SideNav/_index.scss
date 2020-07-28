@@ -1,0 +1,65 @@
+.oec-sidenav {
+	ul {
+		list-style-type: none;
+		padding: 0;
+	}
+
+	.oec-sidenav__content {
+		padding: 1rem 0rem;
+		margin-top: 1rem;
+		border: 1px solid color($theme-color-base-light);
+		border-width: 1px 1px 1px 1px;
+
+		div {
+			&second-child {
+				border-top: 1px solid color($theme-color-base-light);
+			}
+		}
+	}
+
+	.oec-sidenav__item {
+		width: 100%;
+		border: 1px solid color($theme-color-base-light);
+		border-width: 0px 0px 1px 1px;
+		padding: 0;
+		display: block;
+
+		&:first-child {
+			// First child should have top border
+			border-width: 1px 0px 1px 1px;
+		}
+
+		&.active {
+			border-left: 0.5rem solid $theme-color-primary;
+		}
+
+		button {
+			color: inherit;
+			padding: 1rem;
+			text-decoration: none;
+			width: 100%;
+			display: block;
+
+			&:hover,
+			&:focus {
+				background-color: color($theme-color-base-lightest);
+			}
+		}
+
+		.oec-sidenav-item__title {
+			padding-bottom: 0.5rem;
+			font-weight: bold;
+			margin: 0;
+		}
+
+		.oec-inline-icon {
+			padding-left: 0.25rem;
+		}
+
+		.oec-sidenav-item__desc {
+			color: color($theme-color-base);
+			line-height: 1.25em;
+			margin: 0;
+		}
+	}
+}

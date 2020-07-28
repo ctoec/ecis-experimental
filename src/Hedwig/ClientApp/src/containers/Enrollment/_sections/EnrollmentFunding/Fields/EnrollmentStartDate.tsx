@@ -1,10 +1,11 @@
 import React from 'react';
 import { DateInputProps, DateInput } from '../../../../../components';
+import FormField from '../../../../../components/Form_New/FormField';
 import { Enrollment } from '../../../../../generated';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
 import { errorDisplayGuard } from '../../../../../utils/validations';
 import { EnrollmentFormFieldProps } from './common';
-import { FormField, parseDateChange } from '@ctoec/component-library';
+import { parseDateChange } from '../../../../../components/Form_New';
 
 type EnrollmentStartDateFieldProps = EnrollmentFormFieldProps & {
 	setExternalStartDate?: React.Dispatch<React.SetStateAction<Date>>;

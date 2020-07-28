@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import UserContext from '../../contexts/User/UserContext';
 import { useHistory } from 'react-router';
-import { Button, TextWithIcon } from '@ctoec/component-library';
+import { Button, TextWithIcon } from '../../components';
 import { ReactComponent as ArrowRight } from '../../../node_modules/uswds/dist/img/arrow-right.svg';
 import { ReactComponent as TeacherWithChalkboard } from '../../assets/images/teacherWithChalkboard.svg';
 import HomeCareerBubbleSrc from '../../assets/images/homeCareerBubble.png';
@@ -58,7 +58,7 @@ const Home: any = () => {
 											direction="right"
 											iconSide="right"
 											text="Read the privacy policy"
-											Icon={ArrowRight as React.FC}
+											Icon={ArrowRight}
 										/>
 									}
 									href="/privacy-policy"

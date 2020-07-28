@@ -1,16 +1,17 @@
 import React from 'react';
 import {
 	Button,
+	ChoiceList,
+	DateInput,
+	DateRangeInput,
+	DateRange,
 	InlineIcon,
-	RadioButtonGroup,
-	ButtonWithDropdown,
-	RadioButton,
-} from '@ctoec/component-library';
-import { DateRangeInput, DateRange, DateInput } from '../../components';
+} from '../../components';
 import getDefaultDateRange from '../../utils/getDefaultDateRange';
 import { Site, Organization } from '../../generated';
 import { rosterEnrollmentsFormatter } from '../../utils/stringFormatters';
 import pluralize from 'pluralize';
+import ButtonWithDrowdown from '../../components/ButtonWithDropdown/ButtonWithDrowdown';
 
 type RosterHeaderProps = {
 	organization: Organization;
@@ -52,7 +53,7 @@ const RosterHeader: React.FC<RosterHeaderProps> = ({
 				<div className="grid-row flex-first-baseline flex-space-between">
 					<h1 className="tablet:grid-col-auto">{organization.name}</h1>
 					<div className="tablet:grid-col-auto">
-						<ButtonWithDropdown
+						<ButtonWithDrowdown
 							id="enroll-select"
 							className="margin-right-0"
 							text="Enroll child"
@@ -80,7 +81,7 @@ const RosterHeader: React.FC<RosterHeaderProps> = ({
 						<div className="intro display-flex flex-row flex-wrap flex-justify-start">
 							<span className="display-flex flex-first-baseline">
 								{pluralizedNumKids} enrolled across&nbsp;
-								<ButtonWithDropdown
+								<ButtonWithDrowdown
 									id="site-select"
 									appearance="unstyled"
 									className="line-height--small"
@@ -146,24 +147,23 @@ const RosterHeader: React.FC<RosterHeaderProps> = ({
 				</div>
 				{showPastEnrollments && (
 					<div className="padding-bottom-2">
-						<RadioButtonGroup
-							// TODO: ARE RADIO BUTTONS GETTING IDS?
-							name="Date or date range"
-							legend="Date or date range"
+						<ChoiceList
+							type="radio"
+							legend="Select date or date range"
 							options={[
 								{
-									render: (props) => <RadioButton {...props} text="By date" value="date" />,
+									text: 'By date',
 									value: 'date',
 								},
 								{
-									render: (props) => <RadioButton {...props} text="By range" />,
+									text: 'By range',
 									value: 'range',
 								},
 							]}
 							onChange={(event) => setFilterByRange(event.target.value === 'range')}
 							horizontal={true}
 							id={'dateSelectionType'}
-							defaultValue={filterByRange ? 'range' : 'date'}
+							defaultValue={filterByRange ? ['range'] : ['date']}
 							className="margin-top-neg-3"
 							// This is goofy but we're getting rid of this soon anyway
 						/>

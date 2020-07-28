@@ -1,6 +1,6 @@
 import React from 'react';
-import { Legend, Column, LegendItem } from '@ctoec/component-library';
-import { Age, Enrollment, ReportingPeriod, Organization } from '../../../../generated';
+import { Legend, Column, DateRange, LegendItem } from '../../../../components';
+import { Age, Enrollment, Organization, ReportingPeriod } from '../../../../generated';
 import { AgeGroupSection } from '../../../RosterColumns/AgeGroupSection';
 import { NameColumn } from '../../../RosterColumns/NameColumn';
 import { BirthdateColumn } from '../../../RosterColumns/BirthDateColumn';
@@ -11,7 +11,6 @@ import { EnrolledOnColumn } from '../../../RosterColumns/EnrolledOnColumn';
 import moment from 'moment';
 import { legendDisplayDetails } from '../../../../utils/legendFormatters';
 import { getObjectsByAgeGroup } from '../../../../utils/models';
-import { DateRange } from '../../../../components';
 
 type RosterViewProps = {
 	reportingPeriod: ReportingPeriod;

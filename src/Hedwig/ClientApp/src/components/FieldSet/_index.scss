@@ -1,0 +1,51 @@
+.usa-fieldset--error {
+	border-left-width: 0.25rem;
+	border-left-style: solid;
+	border-left-color: color($theme-color-error-dark);
+
+	.usa-form-group--error {
+		margin-top: 0;
+		margin-left: 0;
+		padding-left: 0;
+		border-left: none;
+	}
+
+	// Don't show two borders if error are nested
+	.usa-fieldset--error {
+		border-left-style: none;
+	}
+}
+
+.usa-fieldset--warning {
+	@extend .usa-fieldset--error;
+	border-left-color: color($theme-color-warning-dark);
+
+	.usa-form-group--warning {
+		margin-top: 0;
+		margin-left: 0;
+		padding-left: 0;
+		border-left: none;
+	}
+
+	// Don't show two borders if warnings are nested
+	.usa-fieldset--warning {
+		border-left-style: none;
+	}
+}
+
+.usa-fieldset--success {
+	@extend .usa-fieldset--error;
+	border-left-color: color($theme-color-success);
+
+	.usa-form-group--success {
+		margin-top: 0;
+		margin-left: 0;
+		padding-left: 0;
+		border-left: none;
+	}
+
+	// Don't show two borders if successes are nested
+	.usa-fieldset--success {
+		border-left-style: none;
+	}
+}

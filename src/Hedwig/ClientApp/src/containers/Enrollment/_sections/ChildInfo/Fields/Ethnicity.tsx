@@ -1,4 +1,5 @@
 import React from 'react';
+import FormField from '../../../../../components/Form_New/FormField';
 import { Enrollment } from '../../../../../generated';
 import { errorDisplayGuard } from '../../../../../utils/validations';
 import { displayValidationStatus } from '../../../../../utils/validations/displayValidationStatus';
@@ -7,9 +8,8 @@ import { ChildInfoFormFieldProps } from './common';
 import {
 	RadioButtonGroupProps,
 	RadioButtonGroup,
-	RadioButton,
-	FormField,
-} from '@ctoec/component-library';
+} from '../../../../../components/RadioButtonGroup/RadioButtonGroup';
+import RadioButton from '../../../../../components/RadioButton/RadioButton';
 
 /**
  * Component for entering the enthicity of a child in an enrollment.

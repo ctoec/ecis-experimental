@@ -1,5 +1,5 @@
 import React from 'react';
-import { AlertProps, Button, AlertType } from '@ctoec/component-library';
+import { AlertProps, Button, AlertType } from '../../components';
 import { ReportingPeriod } from '../../generated';
 import { reportingPeriodFormatter } from '../models';
 import pluralize from 'pluralize';

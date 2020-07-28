@@ -1,5 +1,5 @@
 import React from 'react';
-import { Column, InlineIcon } from '@ctoec/component-library';
+import { Column, InlineIcon } from '../../components';
 import { Enrollment, FundingSource } from '../../generated';
 import { Link } from 'react-router-dom';
 import { lastFirstNameFormatter } from '../../utils/stringFormatters';

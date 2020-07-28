@@ -2,7 +2,7 @@
 
 import produce from 'immer';
 import { set } from 'lodash';
-import { HTMLChoiceElement } from '@ctoec/component-library';
+import { HTMLChoiceElement } from '../../components';
 import { Dispatch } from 'react';
 
 /**

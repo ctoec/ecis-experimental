@@ -1,0 +1,41 @@
+.oec-tab-nav {
+	display: flex;
+	flex-wrap: wrap;
+
+	&--header {
+		width: 100%;
+
+		nav ul {
+			flex: 1 1 auto;
+			display: flex;
+			padding: 0;
+			border-bottom: 1px solid color(gray-10);
+
+			li {
+				list-style-type: none;
+			}
+		}
+	}
+
+	&--content {
+		flex: 1 1 auto;
+	}
+
+	&--tab {
+		flex: 0 1 auto;
+		padding: 1em 3em 1em 3em;
+		width: fit-content;
+		background-color: #ffffff;
+		border: none;
+
+		&__active {
+			border-radius: 5px 5px 0 0;
+			background-color: $theme-color-primary;
+			color: #ffffff;
+		}
+
+		&:hover {
+			cursor: pointer;
+		}
+	}
+}

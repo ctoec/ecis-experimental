@@ -1,5 +1,5 @@
 import { Child } from '../../generated';
-import { InlineIcon } from '@ctoec/component-library';
+import { InlineIcon } from '../../components';
 
 const RACES: (keyof Child)[] = [
 	'americanIndianOrAlaskaNative',

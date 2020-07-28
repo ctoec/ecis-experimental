@@ -3,7 +3,8 @@ import { Enrollment } from '../../../generated';
 import { ApiError } from '../../../hooks/useApi';
 import { REQUIRED_FOR_WITHDRAWAL } from '../../../utils/validations/messageStrings';
 import { displayValidationStatus } from '../../../utils/validations/displayValidationStatus';
-import { SelectProps, Select, FormField } from '@ctoec/component-library';
+import { FormField } from '../../../components/Form_New';
+import { SelectProps, Select } from '../../../components/Select/Select';
 import { ErrorAlertState } from '../../../hooks/useCatchAllErrorAlert';
 
 /**

@@ -1,9 +1,8 @@
 import React from 'react';
 import { Moment } from 'moment';
 import cx from 'classnames';
-import { DateInput, DateInputProps } from '..';
+import { FieldSet, DateInput, DateInputProps } from '..';
 import { ReactComponent as ArrowIcon } from '../../assets/images/arrowRight.svg';
-import { FieldSet } from '@ctoec/component-library';
 
 export type DateRange = {
 	startDate: Moment | null;
@@ -22,6 +21,7 @@ type DateRangeInputProps = Pick<
 
 export const DateRangeInput: React.FC<DateRangeInputProps> = ({
 	dateRange,
+	possibleRange,
 	onChange,
 	id,
 	label,

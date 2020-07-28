@@ -1,26 +1,11 @@
-import {
-	CdcReport,
-	FundingTime,
-	Enrollment,
-	FundingSpace,
-	FundingSource,
-	Age,
-} from '../../../../generated';
-import idx from 'idx';
-import {
-	getReportingPeriodWeeks,
-	getFundingSpaces,
-	fundingSpaceSorter,
-} from '../../../../utils/models';
-import { getSplitUtilizations } from '../../../../utils/models/fundingTimeSplitUtilization';
-import { DeepNonUndefineableArray } from '../../../../utils/types';
-import {
-	countFundedEnrollments,
-	calculateRate,
-	productOfUnknowns,
-} from '../../../../utils/utilizationTable';
+import { CdcReport, FundingTime, Enrollment, FundingSpace, FundingSource, Age } from "../../../../generated";
+import idx from "idx";
+import { getReportingPeriodWeeks, getFundingSpaces, fundingSpaceSorter } from "../../../../utils/models";
+import { getSplitUtilizations } from "../../../../utils/models/fundingTimeSplitUtilization";
+import { DeepNonUndefineableArray } from "../../../../utils/types";
+import { countFundedEnrollments, calculateRate, productOfUnknowns } from "../../../../utils/utilizationTable";
 
-export interface RevenueDataRow {
+export interface RevenueDataRow  {
 	key: string;
 	ageGroup?: Age;
 	fundingTime?: FundingTime;

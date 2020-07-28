@@ -1,0 +1,99 @@
+/* USWDS Extensions */
+.usa-header {
+	&--extended {
+		.usa-logo {
+			@include at-media($theme-navigation-width) {
+				margin: units(1.5) 0 units(1);
+			}
+		}
+
+		.usa-nav {
+			@include at-media($theme-navigation-width) {
+				border-bottom: units(1px) solid color('base-lighter');
+			}
+		}
+	}
+	a:focus .usa-logo__text {
+		@extend [href], :focus;
+	}
+
+	&--oec-default {
+		.primary-title {
+			margin: 0;
+			font-size: 0.5em;
+			font-weight: normal;
+
+			&--only {
+				font-size: inherit;
+			}
+		}
+
+		.secondary-title {
+			margin: 0;
+			font-size: 0.6em;
+		}
+	}
+}
+
+.usa-nav__secondary {
+	&--extended {
+		bottom: calc(100% - ((3rem + -7ch) / 2));
+	}
+}
+
+.usa-nav__secondary-links .usa-nav__secondary-item + .usa-nav__secondary-item {
+	&::before {
+		color: #71767a;
+	}
+}
+
+.usa-logo__text {
+	$logo-size-mobile: 4;
+	$logo-size-desktop: 9;
+
+	&::before {
+		@include u-square($logo-size-mobile);
+		content: '';
+		background-image: url('../../assets/images/logo.svg');
+		background-repeat: no-repeat;
+		background-size: 100% auto;
+		display: inline-block;
+		margin-left: units(-2px);
+		margin-right: units(1);
+		position: relative;
+		top: units(-1px);
+		vertical-align: middle;
+
+		@include at-media('desktop') {
+			@include u-square($logo-size-desktop);
+			margin-right: units(2);
+		}
+	}
+}
+
+/* OEC Specific Rules */
+.oec-logged-in-user {
+	display: block;
+
+	width: 100%;
+	padding-top: 1.5rem;
+
+	font-weight: 700;
+
+	@include at-media($theme-navigation-width) {
+		float: right;
+		height: units(5);
+		text-align: right;
+		padding-top: 0.35rem;
+	}
+
+	a {
+		color: color('base-dark');
+		text-decoration: none;
+
+		&:hover {
+			color: color('primary');
+			text-decoration: underline;
+		}
+	}
+}

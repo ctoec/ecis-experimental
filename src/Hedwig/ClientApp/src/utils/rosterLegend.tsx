@@ -1,6 +1,5 @@
 import React from 'react';
 import { FundingSpace, Enrollment, Site } from '../generated';
-// TODO
 import { DateRange } from '../components';
 import { isFundedForFundingSpace, prettyFundingSpaceTime } from './models';
 import { legendDisplayDetails } from './legendFormatters';

@@ -1,5 +1,4 @@
 import { C4KCertificate, Enrollment } from '../../generated';
-// TODO: EXPORT FROM COMPONENT LIBRARY
 import { DateRange } from '../../components';
 import moment from 'moment';
 import { dateSorter } from '../dateSorter';

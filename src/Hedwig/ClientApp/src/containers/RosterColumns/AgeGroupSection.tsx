@@ -1,8 +1,6 @@
 import React from 'react';
 import pluralize from 'pluralize';
-// TODO
-import { DateRange } from '../../components';
-import { Table, TableProps, Column, Legend } from '@ctoec/component-library';
+import { Table, TableProps, DateRange, Column, Legend } from '../../components';
 import { Enrollment, FundingSpace, Site } from '../../generated';
 import { generateLegendItems } from '../../utils/rosterLegend';
 

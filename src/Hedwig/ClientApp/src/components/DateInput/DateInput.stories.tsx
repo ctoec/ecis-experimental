@@ -1,8 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { DateInput } from '..';
-import { FormStatusProps } from '@ctoec/component-library';
+import { DateInput, FormStatusProps } from '..';
 
 const commonProps = {
 	onChange_Old: action('onChange'),

@@ -27,7 +27,7 @@ import TestProvider from '../../../../contexts/__mocks__/TestProvider';
 import { DeepNonUndefineable } from '../../../../utils/types';
 import { CdcReport } from '../../../../generated';
 import { accessibilityTestHelper } from '../../../../tests/helpers';
-import { Form } from '@ctoec/component-library';
+import { Form } from '../../../../components/Form_New';
 
 afterAll(() => {
 	jest.resetModules();
