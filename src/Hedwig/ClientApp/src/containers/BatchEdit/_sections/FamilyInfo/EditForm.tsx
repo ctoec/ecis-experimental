@@ -1,10 +1,10 @@
 import React from 'react';
 import { BatchEditStepProps } from '../batchEditTypes';
 import { Enrollment } from '../../../../generated';
-import { Form, FormSubmitButton } from '../../../../components/Form_New';
 import { hasValidationErrors } from '../../../../utils/validations';
 import { AddressFieldset } from '../../../Enrollment/_sections/FamilyInfo/Fields';
-import { Button } from '../../../../components';
+import { Button, FormSubmitButton } from '@ctoec/component-library';
+import { Form } from '../../../../components/Form_New';
 
 export const EditForm: React.FC<BatchEditStepProps> = ({ enrollment, onSubmit, onSkip }) => {
 	// Family will always exist (because we create it if missing in SingleEnrollmentEdit)

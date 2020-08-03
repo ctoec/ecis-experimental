@@ -1,5 +1,4 @@
 import React from 'react';
-import { Form, FormSubmitButton } from '../../../../components/Form_New';
 import { Enrollment } from '../../../../generated';
 import { hasValidationErrors } from '../../../../utils/validations';
 import {
@@ -10,7 +9,8 @@ import {
 	EthnicityField,
 } from '../../../Enrollment/_sections/ChildInfo/Fields';
 import { BatchEditStepProps } from '../batchEditTypes';
-import { Button } from '../../../../components';
+import { Form } from '../../../../components/Form_New';
+import { Button, FormSubmitButton } from '@ctoec/component-library';
 
 export const EditForm: React.FC<BatchEditStepProps> = ({ enrollment, onSubmit, onSkip }) => {
 	return (
@@ -40,11 +40,11 @@ export const EditForm: React.FC<BatchEditStepProps> = ({ enrollment, onSubmit, o
 				'nativeHawaiianOrPacificIslander',
 				'white',
 			]) && (
-				<>
-					<h4>Race</h4>
-					<RaceField blockErrorDisplay={true} />
-				</>
-			)}
+					<>
+						<h4>Race</h4>
+						<RaceField blockErrorDisplay={true} />
+					</>
+				)}
 			{hasValidationErrors(enrollment.child, ['hispanicOrLatinxEthnicity']) && (
 				<>
 					<h4>Ethnicity</h4>
