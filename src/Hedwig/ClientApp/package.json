@@ -41,6 +41,7 @@
 		"extends": "react-app"
 	},
 	"dependencies": {
+		"@ctoec/component-library": "^0.0.21",
 		"@openid/appauth": "^1.2.6",
 		"@sentry/browser": "^5.12.1",
 		"@storybook/addon-a11y": "^5.3.13",
