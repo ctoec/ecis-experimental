@@ -498,9 +498,6 @@ exports[`Storyshots CheckboxGroup CheckboxGroup with warning 1`] = `
       <span
         className="oec-inline-icon oec-inline-icon--incomplete"
       >
-        <svg>
-          error.svg
-        </svg>
         <span
           className="usa-sr-only"
         >
@@ -1249,9 +1246,6 @@ exports[`Storyshots Date input Warning 1`] = `
       <span
         className="oec-inline-icon oec-inline-icon--incomplete"
       >
-        <svg>
-          error.svg
-        </svg>
         <span
           className="usa-sr-only"
         >
@@ -2366,9 +2360,6 @@ exports[`Storyshots DateRangeInput Warning 1`] = `
       <span
         className="oec-inline-icon oec-inline-icon--incomplete"
       >
-        <svg>
-          error.svg
-        </svg>
         <span
           className="usa-sr-only"
         >

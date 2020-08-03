@@ -37,11 +37,7 @@ exports[`ReportsSummary matches snapshot 1`] = `
                 Period
                 <div
                   class="oec-table__sort-controls"
-                >
-                  <svg>
-                    arrowRight.svg
-                  </svg>
-                </div>
+                />
               </button>
             </th>
             <th
@@ -58,11 +54,7 @@ exports[`ReportsSummary matches snapshot 1`] = `
                 Type
                 <div
                   class="oec-table__sort-controls"
-                >
-                  <svg>
-                    arrowRight.svg
-                  </svg>
-                </div>
+                />
               </button>
             </th>
             <th
@@ -79,11 +71,7 @@ exports[`ReportsSummary matches snapshot 1`] = `
                 Program/Site
                 <div
                   class="oec-table__sort-controls"
-                >
-                  <svg>
-                    arrowRight.svg
-                  </svg>
-                </div>
+                />
               </button>
             </th>
             <th
@@ -100,11 +88,7 @@ exports[`ReportsSummary matches snapshot 1`] = `
                 Due date
                 <div
                   class="oec-table__sort-controls oec-table__sort-controls--ascending"
-                >
-                  <svg>
-                    arrowRight.svg
-                  </svg>
-                </div>
+                />
               </button>
             </th>
           </tr>
@@ -208,11 +192,7 @@ exports[`ReportsSummary matches snapshot 1`] = `
                 Period
                 <div
                   class="oec-table__sort-controls oec-table__sort-controls--descending"
-                >
-                  <svg>
-                    arrowRight.svg
-                  </svg>
-                </div>
+                />
               </button>
             </th>
             <th
@@ -229,11 +209,7 @@ exports[`ReportsSummary matches snapshot 1`] = `
                 Type
                 <div
                   class="oec-table__sort-controls"
-                >
-                  <svg>
-                    arrowRight.svg
-                  </svg>
-                </div>
+                />
               </button>
             </th>
             <th
@@ -250,11 +226,7 @@ exports[`ReportsSummary matches snapshot 1`] = `
                 Program/Site
                 <div
                   class="oec-table__sort-controls"
-                >
-                  <svg>
-                    arrowRight.svg
-                  </svg>
-                </div>
+                />
               </button>
             </th>
             <th
@@ -271,11 +243,7 @@ exports[`ReportsSummary matches snapshot 1`] = `
                 Date submitted
                 <div
                   class="oec-table__sort-controls"
-                >
-                  <svg>
-                    arrowRight.svg
-                  </svg>
-                </div>
+                />
               </button>
             </th>
           </tr>

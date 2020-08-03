@@ -79,9 +79,6 @@ exports[`Roster matches snapshot 1`] = `
           <span
             class="position-relative top-neg-2px oec-inline-icon oec-inline-icon--incomplete"
           >
-            <svg>
-              error.svg
-            </svg>
             <span
               class="usa-sr-only"
             >
@@ -216,11 +213,7 @@ exports[`Roster matches snapshot 1`] = `
               Name
               <div
                 class="oec-table__sort-controls oec-table__sort-controls--ascending"
-              >
-                <svg>
-                  arrowRight.svg
-                </svg>
-              </div>
+              />
             </button>
           </th>
           <th
@@ -237,11 +230,7 @@ exports[`Roster matches snapshot 1`] = `
               Birthdate
               <div
                 class="oec-table__sort-controls"
-              >
-                <svg>
-                  arrowRight.svg
-                </svg>
-              </div>
+              />
             </button>
           </th>
           <th
@@ -258,11 +247,7 @@ exports[`Roster matches snapshot 1`] = `
               Funding
               <div
                 class="oec-table__sort-controls"
-              >
-                <svg>
-                  arrowRight.svg
-                </svg>
-              </div>
+              />
             </button>
           </th>
           <th
@@ -279,11 +264,7 @@ exports[`Roster matches snapshot 1`] = `
               Enrollment date
               <div
                 class="oec-table__sort-controls"
-              >
-                <svg>
-                  arrowRight.svg
-                </svg>
-              </div>
+              />
             </button>
           </th>
         </tr>
@@ -436,11 +417,7 @@ exports[`Roster matches snapshot 1`] = `
               Name
               <div
                 class="oec-table__sort-controls oec-table__sort-controls--ascending"
-              >
-                <svg>
-                  arrowRight.svg
-                </svg>
-              </div>
+              />
             </button>
           </th>
           <th
@@ -457,11 +434,7 @@ exports[`Roster matches snapshot 1`] = `
               Birthdate
               <div
                 class="oec-table__sort-controls"
-              >
-                <svg>
-                  arrowRight.svg
-                </svg>
-              </div>
+              />
             </button>
           </th>
           <th
@@ -478,11 +451,7 @@ exports[`Roster matches snapshot 1`] = `
               Funding
               <div
                 class="oec-table__sort-controls"
-              >
-                <svg>
-                  arrowRight.svg
-                </svg>
-              </div>
+              />
             </button>
           </th>
           <th
@@ -499,11 +468,7 @@ exports[`Roster matches snapshot 1`] = `
               Enrollment date
               <div
                 class="oec-table__sort-controls"
-              >
-                <svg>
-                  arrowRight.svg
-                </svg>
-              </div>
+              />
             </button>
           </th>
         </tr>
@@ -553,9 +518,6 @@ exports[`Roster matches snapshot 1`] = `
             <span
               class="oec-inline-icon oec-inline-icon--incomplete"
             >
-              <svg>
-                error.svg
-              </svg>
               <span
                 class="usa-sr-only"
               >
@@ -595,9 +557,6 @@ exports[`Roster matches snapshot 1`] = `
             <span
               class="oec-inline-icon oec-inline-icon--incomplete"
             >
-              <svg>
-                error.svg
-              </svg>
               <span
                 class="usa-sr-only"
               >
@@ -830,11 +789,7 @@ exports[`Roster matches snapshot 1`] = `
               Name
               <div
                 class="oec-table__sort-controls oec-table__sort-controls--ascending"
-              >
-                <svg>
-                  arrowRight.svg
-                </svg>
-              </div>
+              />
             </button>
           </th>
           <th
@@ -851,11 +806,7 @@ exports[`Roster matches snapshot 1`] = `
               Birthdate
               <div
                 class="oec-table__sort-controls"
-              >
-                <svg>
-                  arrowRight.svg
-                </svg>
-              </div>
+              />
             </button>
           </th>
           <th
@@ -872,11 +823,7 @@ exports[`Roster matches snapshot 1`] = `
               Funding
               <div
                 class="oec-table__sort-controls"
-              >
-                <svg>
-                  arrowRight.svg
-                </svg>
-              </div>
+              />
             </button>
           </th>
           <th
@@ -893,11 +840,7 @@ exports[`Roster matches snapshot 1`] = `
               Enrollment date
               <div
                 class="oec-table__sort-controls"
-              >
-                <svg>
-                  arrowRight.svg
-                </svg>
-              </div>
+              />
             </button>
           </th>
         </tr>
