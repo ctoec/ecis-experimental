@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Enrollment } from '../../generated';
-import { SideNav, TextWithIcon, InlineIcon } from '../../components';
+import { InlineIcon } from '../../components';
 import { lastFirstNameFormatter } from '../../utils/stringFormatters';
 import { hasValidationErrors } from '../../utils/validations';
 import { SingleEnrollmentEdit } from './SingleEnrollmentEdit';
-import { ReactComponent as Success } from '../../../node_modules/uswds/dist/img/alerts/success.svg';
+import { ReactComponent as Success } from 'uswds/dist/img/alerts/success.svg';
 import { Link } from 'react-router-dom';
 import { getMissingInfoPrettyString } from '../../utils/validations/getMissingInfoPrettyString';
+import { SideNav, TextWithIcon } from '@ctoec/component-library';
 
 type EnrollmentsEditListProps = {
 	enrollments: Enrollment[];
@@ -21,7 +22,7 @@ export const EnrollmentsEditList: React.FC<EnrollmentsEditListProps> = ({
 }) => {
 	const [currentEnrollmentIdx, setCurrentEnrollmentIdx] = useState<number>();
 	useEffect(() => {
-		if(enrollments.length) setCurrentEnrollmentIdx(0)
+		if (enrollments.length) setCurrentEnrollmentIdx(0)
 	}, [enrollments.length])
 
 	const moveNext = () => {
@@ -46,13 +47,13 @@ export const EnrollmentsEditList: React.FC<EnrollmentsEditListProps> = ({
 				title: hasValidationErrors(enrollment) ? (
 					lastFirstNameFormatter(enrollment.child)
 				) : (
-					<TextWithIcon
-						iconSide="right"
-						text={lastFirstNameFormatter(enrollment.child)}
-						Icon={Success}
-						iconClassName="oec-inline-icon--complete"
-					/>
-				),
+						<TextWithIcon
+							iconSide="right"
+							text={lastFirstNameFormatter(enrollment.child)}
+							Icon={Success}
+							iconClassName="oec-inline-icon--complete"
+						/>
+					),
 				description: getMissingInfoPrettyString(enrollment),
 				content: (
 					<SingleEnrollmentEdit

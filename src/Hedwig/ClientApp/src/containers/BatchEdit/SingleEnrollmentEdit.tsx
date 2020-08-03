@@ -2,8 +2,9 @@ import React, { useState, useContext, useEffect } from 'react';
 import qs from 'query-string';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
+import { StepList } from '../../components';
+import { StepProps } from '@ctoec/component-library';
 import { Enrollment } from '../../generated';
-import { StepProps, StepList } from '../../components';
 import { lastFirstNameFormatter } from '../../utils/stringFormatters';
 import dateFormatter from '../../utils/dateFormatter';
 import UserContext from '../../contexts/User/UserContext';
@@ -85,8 +86,8 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 	const activeStepId = locationHash
 		? locationHash.slice(1)
 		: steps.length
-		? steps[0].key
-		: 'complete';
+			? steps[0].key
+			: 'complete';
 	const moveNextStep = () => {
 		const currentIndex = steps.findIndex((step) => step.key === activeStepId);
 		if (currentIndex === steps.length - 1) {
@@ -165,8 +166,8 @@ export const SingleEnrollmentEdit: React.FC<SingleEnrollmentEditProps> = ({
 						headerLevel="h3"
 					/>
 				) : (
-					<div className="margin-y-2 display-flex flex-center">All complete!</div>
-				)}
+						<div className="margin-y-2 display-flex flex-center">All complete!</div>
+					)}
 			</div>
 		</>
 	);
