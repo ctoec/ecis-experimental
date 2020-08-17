@@ -6,6 +6,7 @@ using Hedwig.Validations;
 using Hedwig.Validations.Rules;
 using HedwigTests.Fixtures;
 using HedwigTests.Helpers;
+using AutoMapper;
 using Moq;
 using Xunit;
 
@@ -127,7 +128,15 @@ namespace HedwigTests.Validations.Rules
 				var _serviceProvider = new Mock<IServiceProvider>();
 				var _validator = new NonBlockingValidator(_serviceProvider.Object);
 				var _fundings = new FundingRepository(context);
-				var _enrollments = new EnrollmentRepository(context);
+				var mapper = new MapperConfiguration(opts =>
+				{
+					opts.AddProfile(new EnrollmentProfile());
+					opts.AddProfile(new FundingProfile());
+					opts.AddProfile(new ChildProfile());
+					opts.AddProfile(new FamilyProfile());
+					opts.AddProfile(new SiteProfile());
+				}).CreateMapper();
+				var _enrollments = new EnrollmentRepository(context, mapper);
 				var _reportingPeriods = new ReportingPeriodRepository(context);
 
 				// when

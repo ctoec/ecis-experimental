@@ -18,7 +18,8 @@ namespace Hedwig.Models
 				)
 				.ReverseMap();
 
-			CreateMap<Enrollment, PastEnrollmentDTO>()
+			CreateMap<Enrollment, PastEnrollment>();
+			CreateMap<PastEnrollment, PastEnrollmentDTO>()
 				.ReverseMap();
 		}
 	}
