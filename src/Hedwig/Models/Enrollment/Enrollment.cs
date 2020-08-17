@@ -44,7 +44,7 @@ namespace Hedwig.Models
 		public ICollection<Funding> Fundings { get; set; }
 
 		[NotMapped]
-		public ICollection<Enrollment> PastEnrollments { get; set; }
+		public ICollection<PastEnrollment> PastEnrollments { get; set; }
 
 		[NotMapped]
 		public List<ValidationError> ValidationErrors { get; set; }

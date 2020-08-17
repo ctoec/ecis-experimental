@@ -6,12 +6,16 @@ using Hedwig.Data;
 using Hedwig.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
+using AutoMapper;
 
 namespace Hedwig.Repositories
 {
 	public class EnrollmentRepository : HedwigRepository, IEnrollmentRepository
 	{
-		public EnrollmentRepository(HedwigContext context) : base(context) { }
+		private readonly IMapper _mapper;
+		public EnrollmentRepository(HedwigContext context, IMapper mapper) : base(context) {
+			_mapper = mapper;
+		}
 
 		public Enrollment GetEnrollmentById(int id)
 		{
@@ -83,7 +87,7 @@ namespace Hedwig.Repositories
 				.Include(e => e.Site)
 				.ToList();
 
-				enrollment.PastEnrollments = pastEnrollments;
+				enrollment.PastEnrollments = pastEnrollments.Select((e) => _mapper.Map<PastEnrollment>(e)).ToList();
 			}
 
 			return Task.FromResult(enrollment);
