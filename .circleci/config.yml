@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   aws-s3: circleci/aws-s3@1.0.16
+  node: circleci/node@4.0.0
 
 jobs: 
   deploy:
@@ -13,6 +14,8 @@ jobs:
         type: string
     steps:
       - checkout
+      - node/install:
+          install-yarn: true
       - run:
           name: Manually install the .NET SDK
           command: |
