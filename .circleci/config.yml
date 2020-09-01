@@ -56,6 +56,11 @@ jobs:
 
             jq '.WingedKeysUri="https://<< parameters.env >>.ece-wingedkeys.ctoecskylight.com"' appsettings.json > temp.json && mv temp.json appsettings.json
       - run:
+          name: 'Update Front-End App Variables'
+          command: |
+            cd src/Hedwig/ClientApp/public
+            jq '.WingedKeysUri="https://<< parameters.env >>.ece-wingedkeys.ctoecskylight.com"' config.json > temp.json && mv temp.json config.json
+      - run:
           name: 'Update Elastic Beanstalk Deploy Defaults'
           command: |
             cd src/Hedwig
