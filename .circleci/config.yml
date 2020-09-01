@@ -1,12 +1,108 @@
- version: 2.1
+version: 2.1
 
- orbs:
-  win: circleci/windows@2.2.0
+orbs:
+  aws-s3: circleci/aws-s3@1.0.16
 
- jobs:
-   build:
-     executor: win/default     
-    
-     steps:
-       - checkout
-       - run: dotnet build
+jobs: 
+  deploy:
+    machine:
+      image: ubuntu-1604:202007-01 
+    parameters:
+      env:
+        description: "The environment to deploy Hedwig to (qa, devsecure, staging)"
+        type: string
+    steps:
+      - checkout
+      - run:
+          name: Manually install the .NET SDK
+          command: |
+            sudo apt-get install -y gnupg2
+            wget -O - https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o microsoft.asc.gpg
+            sudo mv microsoft.asc.gpg /etc/apt/trusted.gpg.d/
+            wget https://packages.microsoft.com/config/ubuntu/16.04/prod.list
+            sudo mv prod.list /etc/apt/sources.list.d/microsoft-prod.list
+            sudo chown root:root /etc/apt/trusted.gpg.d/microsoft.asc.gpg
+            sudo chown root:root /etc/apt/sources.list.d/microsoft-prod.list
+            sudo apt-get update; \
+              sudo apt-get install -y apt-transport-https && \
+              sudo apt-get update && \
+              sudo apt-get install -y dotnet-sdk-3.1
+      - run:
+          name: Install Global .NET Tools (Entity Framework & Elastic Beanstalk)
+          command: |
+            dotnet tool install --global dotnet-ef --version 3.1.6
+            dotnet tool install --global Amazon.ElasticBeanstalk.Tools
+            echo 'export PATH="$PATH:$HOME/.dotnet/tools/"' >> $BASH_ENV
+      - run:
+          name: Install JQ 
+          command: sudo apt-get install jq
+      - run:
+          name: 'Update Appsettings with environment specific variables'
+          # TODO: REMOVE PASSWORDS FROM THIS
+          command: |
+            cd src/Hedwig
+            jq '.ConnectionStrings.HEDWIG="Server=<< parameters.env >>.ece-reporter-db.ctoecskylight.com;Database=hedwig;User Id=admin;Password=Z6EUX_123GwEq_HMVZN_;"' appsettings.json > temp.json && mv temp.json appsettings.json
+            jq '.EnvironmentName="<< parameters.env >>"' appsettings.json > temp.json && mv temp.json appsettings.json
+
+            jq '.Database.AutomaticallyApplyMigrations="false"' appsettings.json > temp.json && mv temp.json appsettings.json
+            jq '.Database.SeedData="true"' appsettings.json > temp.json && mv temp.json appsettings.json
+
+            jq '.Logging.LogGroup="/aws/elasticbeanstalk/ece-hedwig-<< parameters.env >>-env/app-log"' appsettings.json > temp.json && mv temp.json appsettings.json
+            jq '.Logging.LogLevel.Default="Information"' appsettings.json > temp.json && mv temp.json appsettings.json
+            jq '.Logging.LogLevel.Microsoft="Warning"' appsettings.json > temp.json && mv temp.json appsettings.json
+            jq '.Logging.LogLevel.System="Warning"' appsettings.json > temp.json && mv temp.json appsettings.json
+            jq '.Logging.Region="us-east-2"' appsettings.json > temp.json && mv temp.json appsettings.json
+
+            jq '.WingedKeysUri="https://<< parameters.env >>.ece-wingedkeys.ctoecskylight.com"' appsettings.json > temp.json && mv temp.json appsettings.json
+      - run:
+          name: 'Update Elastic Beanstalk Deploy Defaults'
+          command: |
+            cd src/Hedwig
+            jq '.application="ece-hedwig-<< parameters.env >>-app"' aws-beanstalk-tools-defaults.json > temp.json && mv temp.json aws-beanstalk-tools-defaults.json
+            jq '.environment="ece-hedwig-<< parameters.env >>-env"' aws-beanstalk-tools-defaults.json > temp.json && mv temp.json aws-beanstalk-tools-defaults.json
+            jq '."instance-profile"="ece-hedwig-<< parameters.env >>-eb-ec2"' aws-beanstalk-tools-defaults.json > temp.json && mv temp.json aws-beanstalk-tools-defaults.json
+      - add_ssh_keys
+      - run:
+          name: Generate Migrations
+          command: export ConnectionStrings__HEDWIG=xxx && dotnet-ef --verbose migrations script --idempotent --output hedwig-db.sql --context HedwigContext --project src/Hedwig
+      - run:
+          name: 'Put SQL Migrations on Jump Server'
+          command: scp hedwig-db.sql ubuntu@<< parameters.env >>.ece-jumpserver.ctoecskylight.com:/home/ubuntu/stage/hedwig/
+      - run:
+          name: 'Run SQL Migrations'
+          command: ssh ubuntu@<< parameters.env >>.ece-jumpserver.ctoecskylight.com "cd /home/ubuntu/stage/hedwig/ && /home/ubuntu/scripts/db-migrate-hedwig.sh hedwig-db.sql"
+      - run:
+          name: 'Remove Migrations from Jump Server'
+          command: ssh ubuntu@<< parameters.env >>.ece-jumpserver.ctoecskylight.com "cd /home/ubuntu/stage/hedwig/ && rm hedwig-db.sql"
+      - run:
+          name: "Deploy the application"
+          command: |
+            cd src/Hedwig
+            cat aws-beanstalk-tools-defaults.json
+            cat appsettings.json
+            dotnet eb deploy-environment
+
+workflows:
+  deploy-to-staging:
+    jobs:
+      - deploy:
+          env: staging
+          filters:
+            branches:
+              only: master
+  deploy-to-devsecure:
+    jobs:
+      - hold:
+          type: approval
+      - deploy:
+          env: devsecure
+          requires:
+            - hold
+  deploy-to-qa:
+    jobs:
+      - hold:
+          type: approval
+      - deploy:
+          env: qa
+          requires:
+            - hold
