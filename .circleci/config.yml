@@ -14,8 +14,7 @@ jobs:
         type: string
     steps:
       - checkout
-      - node/install:
-          install-yarn: true
+      - node/install-yarn
       - run:
           name: Manually install the .NET SDK
           command: |
