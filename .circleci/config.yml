@@ -38,8 +38,9 @@ jobs:
       - run:
           name: Install JQ 
           command: sudo apt-get install jq
+      - aws-cli/setup
       - run:
-          name: Retrieve Secrets
+          name: Download Secrets from AWS
           command: |
             aws secretsmanager get-secret-value --secret-id /ece/<< parameters.env >>/hedwig > secrets.json
             cat secrets.json
