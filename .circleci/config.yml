@@ -61,13 +61,11 @@ jobs:
             jq '.WingedKeysUri="https://<< parameters.env >>.ece-wingedkeys.ctoecskylight.com"' appsettings.json > temp.json && mv temp.json appsettings.json
 
             jq 'del(.ConnectionStrings)' appsettings.json > temp.json && mv temp.json appsettings.json
-            cat appsettings.json
       - run:
           name: Merge Appsettings Config with AWS Secrets
           command: |
             cd src/Hedwig
             jq -s '.[0] + .[1]' secrets.json appsettings.json > final_tmp.json && mv final_tmp.json appsettings.json
-            cat appsettings.json
       - run:
           name: 'Update Front-End App Variables'
           command: |
@@ -97,8 +95,6 @@ jobs:
           name: "Deploy the application"
           command: |
             cd src/Hedwig
-            cat aws-beanstalk-tools-defaults.json
-            cat appsettings.json
             CI="" dotnet eb deploy-environment
 
 workflows:
