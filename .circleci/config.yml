@@ -73,13 +73,13 @@ jobs:
           command: export ConnectionStrings__HEDWIG=xxx && dotnet-ef --verbose migrations script --idempotent --output hedwig-db.sql --context HedwigContext --project src/Hedwig
       - run:
           name: 'Put SQL Migrations on Jump Server'
-          command: scp hedwig-db.sql ubuntu@<< parameters.env >>.ece-jumpserver.ctoecskylight.com:/home/ubuntu/stage/hedwig/
+          command: scp hedwig-db.sql ubuntu@<< parameters.env >>.ece-jumpserver.ctoecskylight.com:/home/ubuntu/
       - run:
           name: 'Run SQL Migrations'
-          command: ssh ubuntu@<< parameters.env >>.ece-jumpserver.ctoecskylight.com "cd /home/ubuntu/stage/hedwig/ && /home/ubuntu/scripts/db-migrate-hedwig.sh hedwig-db.sql"
+          command: ssh ubuntu@<< parameters.env >>.ece-jumpserver.ctoecskylight.com "cd /home/ubuntu/ && /home/ubuntu/scripts/db-migrate-hedwig.sh hedwig-db.sql"
       - run:
           name: 'Remove Migrations from Jump Server'
-          command: ssh ubuntu@<< parameters.env >>.ece-jumpserver.ctoecskylight.com "cd /home/ubuntu/stage/hedwig/ && rm hedwig-db.sql"
+          command: ssh ubuntu@<< parameters.env >>.ece-jumpserver.ctoecskylight.com "cd /home/ubuntu/ && rm hedwig-db.sql"
       - run:
           name: "Deploy the application"
           command: |
