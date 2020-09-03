@@ -45,6 +45,8 @@ jobs:
             cd src/Hedwig
             aws secretsmanager get-secret-value --secret-id /ece/<< parameters.env >>/hedwig > secrets.json
             jq '.SecretString | fromjson' secrets.json > tmp.json && mv tmp.json secrets.json
+            jq '.ConnectionStrings={ HEDWIG: ."ConnectionStrings.HEDWIG" }' secrets.json > tmp.json && mv tmp.json secrets.json
+            jq 'del(.["ConnectionStrings.HEDWIG"])' secrets.json > tmp.json && mv tmp.json secrets.json
       - run:
           name: Update Appsettings with environment specific variables
           command: |
