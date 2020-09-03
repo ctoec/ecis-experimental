@@ -40,16 +40,17 @@ jobs:
           command: sudo apt-get install jq
       - aws-cli/setup
       - run:
-          name: Download Secrets from AWS
-          command: |
-            aws secretsmanager get-secret-value --secret-id /ece/<< parameters.env >>/hedwig > secrets.json
-            cat secrets.json
-      - run:
-          name: 'Update Appsettings with environment specific variables'
-          # TODO: REMOVE PASSWORDS FROM THIS
+          name: Download AWS Secrets
           command: |
             cd src/Hedwig
-            jq '.ConnectionStrings.HEDWIG="Server=<< parameters.env >>.ece-reporter-db.ctoecskylight.com;Database=hedwig;User Id=admin;Password=Z6EUX_123GwEq_HMVZN_;"' appsettings.json > temp.json && mv temp.json appsettings.json
+            aws secretsmanager get-secret-value --secret-id /ece/<< parameters.env >>/hedwig > secrets.json
+            cat secrets.json
+            jq '.SecretString | fromjson' secrets.json > tmp.json && mv tmp.json secrets.json
+            cat secrets.json
+      - run:
+          name: Update Appsettings with environment specific variables
+          command: |
+            cd src/Hedwig
             jq '.EnvironmentName="<< parameters.env >>"' appsettings.json > temp.json && mv temp.json appsettings.json
 
             jq '.Database.AutomaticallyApplyMigrations="false"' appsettings.json > temp.json && mv temp.json appsettings.json
@@ -62,6 +63,15 @@ jobs:
             jq '.Logging.Region="us-east-2"' appsettings.json > temp.json && mv temp.json appsettings.json
 
             jq '.WingedKeysUri="https://<< parameters.env >>.ece-wingedkeys.ctoecskylight.com"' appsettings.json > temp.json && mv temp.json appsettings.json
+
+            jq 'del(.ConnectionStrings)' appsettings.json > temp.json && mv temp.json appsettings.json
+            cat appsettings.json
+      - run:
+          name: Merge Appsettings Config with AWS Secrets
+          command: |
+            cd src/Hedwig
+            jq -s '.[0] * .[1]' appsettings.json secrets.json > appsettings.json
+            cat appsettings.json
       - run:
           name: 'Update Front-End App Variables'
           command: |
