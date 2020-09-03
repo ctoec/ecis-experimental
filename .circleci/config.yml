@@ -44,24 +44,20 @@ jobs:
           command: |
             cd src/Hedwig
             aws secretsmanager get-secret-value --secret-id /ece/<< parameters.env >>/hedwig > secrets.json
-            cat secrets.json
             jq '.SecretString | fromjson' secrets.json > tmp.json && mv tmp.json secrets.json
-            cat secrets.json
       - run:
           name: Update Appsettings with environment specific variables
           command: |
             cd src/Hedwig
-            jq '.EnvironmentName="<< parameters.env >>"' appsettings.json > temp.json && mv temp.json appsettings.json
 
             jq '.Database.AutomaticallyApplyMigrations="false"' appsettings.json > temp.json && mv temp.json appsettings.json
             jq '.Database.SeedData="true"' appsettings.json > temp.json && mv temp.json appsettings.json
-
+            jq '.EnvironmentName="<< parameters.env >>"' appsettings.json > temp.json && mv temp.json appsettings.json
             jq '.Logging.LogGroup="/aws/elasticbeanstalk/ece-hedwig-<< parameters.env >>-env/app-log"' appsettings.json > temp.json && mv temp.json appsettings.json
             jq '.Logging.LogLevel.Default="Information"' appsettings.json > temp.json && mv temp.json appsettings.json
             jq '.Logging.LogLevel.Microsoft="Warning"' appsettings.json > temp.json && mv temp.json appsettings.json
             jq '.Logging.LogLevel.System="Warning"' appsettings.json > temp.json && mv temp.json appsettings.json
             jq '.Logging.Region="us-east-2"' appsettings.json > temp.json && mv temp.json appsettings.json
-
             jq '.WingedKeysUri="https://<< parameters.env >>.ece-wingedkeys.ctoecskylight.com"' appsettings.json > temp.json && mv temp.json appsettings.json
 
             jq 'del(.ConnectionStrings)' appsettings.json > temp.json && mv temp.json appsettings.json
@@ -70,7 +66,7 @@ jobs:
           name: Merge Appsettings Config with AWS Secrets
           command: |
             cd src/Hedwig
-            jq -s '.[0] * .[1]' appsettings.json secrets.json > appsettings.json
+            jq -s '.[0] + .[1]' secrets.json appsettings.json
             cat appsettings.json
       - run:
           name: 'Update Front-End App Variables'
