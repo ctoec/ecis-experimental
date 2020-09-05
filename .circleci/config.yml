@@ -100,13 +100,21 @@ jobs:
             CI="" dotnet eb deploy-environment
 
 workflows:
-  deploy-to-staging:
+  auto-deploy:
     jobs:
       - deploy:
           env: staging
           filters:
             branches:
               only: master
+  deploy-to-staging:
+    jobs:
+      - hold:
+          type: approval
+      - deploy:
+          env: staging
+          requires:
+            - hold
   deploy-to-devsecure:
     jobs:
       - hold:
