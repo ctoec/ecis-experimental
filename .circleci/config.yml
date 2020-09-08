@@ -40,7 +40,7 @@ jobs:
           command: sudo apt-get install jq
       - aws-cli/setup
       - run:
-          name: Download AWS Secrets
+          name: Download and Parse AWS Secrets
           command: |
             cd src/Hedwig
             aws secretsmanager get-secret-value --secret-id /ece/<< parameters.env >>/hedwig > secrets.json
