@@ -1,0 +1,7 @@
+{
+  "region": "us-east-2",
+  "solution-stack": "64bit Amazon Linux 2 v2.0.1 running .NET Core",
+  "application": "<elastic-beanstalk-application>",
+  "environment": "<elastic-beanstalk-environment>",
+  "instance-profile": "<elastic-beanstalk-instance-profile>"
+}

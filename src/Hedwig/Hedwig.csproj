@@ -12,7 +12,19 @@
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>.</DockerfileContext>
+		<GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
   </PropertyGroup>
+
+	<!-- Include all the NGINX config for Elastic Beanstalk in the publish -->
+	<ItemGroup>
+		<Content Update=".platform\**" CopyToPublishDirectory="Always" />
+		<None Update=".platform\**" CopyToOutputDirectory="Always" />
+		<None Include=".platform\**" />
+
+    <Content Update=".platform/**" CopyToPublishDirectory="Always" />
+		<None Update=".platform/**" CopyToOutputDirectory="Always" />
+		<None Include=".platform/**" />
+	</ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />

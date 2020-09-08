@@ -1,7 +1,0 @@
-C:\Windows\System32\inetsrv\appcmd.exe set config "Default Web Site" -section:system.webServer/rewrite/rules /-"[name='ELB_HTTP_redirect']" > C:\Windows\Temp\ELB_HTTP_redirect.log 2>&1
-C:\Windows\System32\inetsrv\appcmd.exe set config "Default Web Site" -section:system.webServer/rewrite/rules /+"[name='ELB_HTTP_redirect',enabled='true',stopProcessing='true']" >> C:\Windows\Temp\ELB_HTTP_redirect.log 2>&1
-C:\Windows\System32\inetsrv\appcmd.exe set config "Default Web Site" -section:system.webServer/rewrite/rules /"[name='ELB_HTTP_redirect'].match.url:"^^(.*)$"" >> C:\Windows\Temp\ELB_HTTP_redirect.log 2>&1
-C:\Windows\System32\inetsrv\appcmd.exe set config "Default Web Site" -section:system.webServer/rewrite/rules /+"[name='ELB_HTTP_redirect'].conditions.[input='{HTTP_X_FORWARDED_PROTO}',pattern='^https$',negate='true']" >> C:\Windows\Temp\ELB_HTTP_redirect.log 2>&1
-C:\Windows\System32\inetsrv\appcmd.exe set config "Default Web Site" -section:system.webServer/rewrite/rules /+"[name='ELB_HTTP_redirect'].conditions.[input='{HTTP_USER_AGENT}',pattern='ELB-HealthChecker',negate='true']" >> C:\Windows\Temp\ELB_HTTP_redirect.log 2>&1
-C:\Windows\System32\inetsrv\appcmd.exe set config "Default Web Site" -section:system.webServer/rewrite/rules /"[name='ELB_HTTP_redirect'].action.type:"Redirect"" /"[name='ELB_HTTP_redirect'].action.url:"https://{SERVER_NAME}{URL}"" >> C:\Windows\Temp\ELB_HTTP_redirect.log 2>&1
-iisreset >> C:\Windows\Temp\ELB_HTTP_redirect.log 2>&1
