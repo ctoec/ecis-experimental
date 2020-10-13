@@ -43,7 +43,7 @@ jobs:
           name: Download and Parse AWS Secrets
           command: |
             cd src/Hedwig
-            aws secretsmanager get-secret-value --secret-id /ece/<< parameters.env >>/hedwig > secrets.json
+            aws secretsmanager get-secret-value --secret-id /ece/<< parameters.env >>/hedwig/admin > secrets.json
             jq '.SecretString | fromjson' secrets.json > tmp.json && mv tmp.json secrets.json
             jq '.ConnectionStrings={ HEDWIG: ."ConnectionStrings.HEDWIG" }' secrets.json > tmp.json && mv tmp.json secrets.json
             jq 'del(.["ConnectionStrings.HEDWIG"])' secrets.json > tmp.json && mv tmp.json secrets.json
