@@ -131,3 +131,11 @@ workflows:
           env: qa
           requires:
             - hold
+  deploy-to-prod:
+    jobs:
+      - hold:
+          type: approval
+      - deploy:
+          env: prod
+          requires:
+            - hold
