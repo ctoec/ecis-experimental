@@ -9,9 +9,13 @@ jobs:
     machine:
       image: ubuntu-1604:202007-01 
     parameters:
-      env:
-        description: "The environment to deploy Hedwig to (qa, devsecure, staging)"
+      stage:
+        description: "The specific stage to deploy Hedwig to (qa, devsecure, staging, prod)"
         type: string
+      dotnet-env:
+        description: "The runtime environment to be used to configure the .NET application (Development, Staging, Production)"
+        type: string
+        default: "Development"
     steps:
       - checkout
       - node/install-yarn
@@ -43,7 +47,7 @@ jobs:
           name: Download and Parse AWS Secrets
           command: |
             cd src/Hedwig
-            aws secretsmanager get-secret-value --secret-id /ece/<< parameters.env >>/hedwig/admin > secrets.json
+            aws secretsmanager get-secret-value --secret-id /ece/<< parameters.stage >>/hedwig/admin > secrets.json
             jq '.SecretString | fromjson' secrets.json > tmp.json && mv tmp.json secrets.json
             jq '.ConnectionStrings={ HEDWIG: ."ConnectionStrings.HEDWIG" }' secrets.json > tmp.json && mv tmp.json secrets.json
             jq 'del(.["ConnectionStrings.HEDWIG"])' secrets.json > tmp.json && mv tmp.json secrets.json
@@ -54,13 +58,13 @@ jobs:
 
             jq '.Database.AutomaticallyApplyMigrations="false"' appsettings.json > temp.json && mv temp.json appsettings.json
             jq '.Database.SeedData="true"' appsettings.json > temp.json && mv temp.json appsettings.json
-            jq '.EnvironmentName="<< parameters.env >>"' appsettings.json > temp.json && mv temp.json appsettings.json
-            jq '.Logging.LogGroup="/aws/elasticbeanstalk/ece-hedwig-<< parameters.env >>-env/app-log"' appsettings.json > temp.json && mv temp.json appsettings.json
+            jq '.EnvironmentName="<< parameters.dotnet-env >>"' appsettings.json > temp.json && mv temp.json appsettings.json
+            jq '.Logging.LogGroup="/aws/elasticbeanstalk/ece-hedwig-<< parameters.stage >>-env/app-log"' appsettings.json > temp.json && mv temp.json appsettings.json
             jq '.Logging.LogLevel.Default="Information"' appsettings.json > temp.json && mv temp.json appsettings.json
             jq '.Logging.LogLevel.Microsoft="Warning"' appsettings.json > temp.json && mv temp.json appsettings.json
             jq '.Logging.LogLevel.System="Warning"' appsettings.json > temp.json && mv temp.json appsettings.json
             jq '.Logging.Region="us-east-2"' appsettings.json > temp.json && mv temp.json appsettings.json
-            jq '.WingedKeysUri="https://<< parameters.env >>.ece-wingedkeys.ctoecskylight.com"' appsettings.json > temp.json && mv temp.json appsettings.json
+            jq '.WingedKeysUri="https://<< parameters.stage >>.ece-wingedkeys.ctoecskylight.com"' appsettings.json > temp.json && mv temp.json appsettings.json
 
             jq 'del(.ConnectionStrings)' appsettings.json > temp.json && mv temp.json appsettings.json
       - run:
@@ -72,27 +76,27 @@ jobs:
           name: 'Update Front-End App Variables'
           command: |
             cd src/Hedwig/ClientApp/public
-            jq '.WingedKeysUri="https://<< parameters.env >>.ece-wingedkeys.ctoecskylight.com"' config.json > temp.json && mv temp.json config.json
+            jq '.WingedKeysUri="https://<< parameters.stage >>.ece-wingedkeys.ctoecskylight.com"' config.json > temp.json && mv temp.json config.json
       - run:
           name: 'Update Elastic Beanstalk Deploy Defaults'
           command: |
             cd src/Hedwig
-            jq '.application="ece-hedwig-<< parameters.env >>-app"' aws-beanstalk-tools-defaults.json > temp.json && mv temp.json aws-beanstalk-tools-defaults.json
-            jq '.environment="ece-hedwig-<< parameters.env >>-env"' aws-beanstalk-tools-defaults.json > temp.json && mv temp.json aws-beanstalk-tools-defaults.json
-            jq '."instance-profile"="ece-hedwig-<< parameters.env >>-eb-ec2"' aws-beanstalk-tools-defaults.json > temp.json && mv temp.json aws-beanstalk-tools-defaults.json
+            jq '.application="ece-hedwig-<< parameters.stage >>-app"' aws-beanstalk-tools-defaults.json > temp.json && mv temp.json aws-beanstalk-tools-defaults.json
+            jq '.environment="ece-hedwig-<< parameters.stage >>-env"' aws-beanstalk-tools-defaults.json > temp.json && mv temp.json aws-beanstalk-tools-defaults.json
+            jq '."instance-profile"="ece-hedwig-<< parameters.stage >>-eb-ec2"' aws-beanstalk-tools-defaults.json > temp.json && mv temp.json aws-beanstalk-tools-defaults.json
       - add_ssh_keys
       - run:
           name: Generate Migrations
           command: export ConnectionStrings__HEDWIG=xxx && dotnet-ef --verbose migrations script --idempotent --output hedwig-db.sql --context HedwigContext --project src/Hedwig
       - run:
           name: 'Put SQL Migrations on Jump Server'
-          command: scp hedwig-db.sql ubuntu@<< parameters.env >>.ece-jumpserver.ctoecskylight.com:/home/ubuntu/
+          command: scp hedwig-db.sql ubuntu@<< parameters.stage >>.ece-jumpserver.ctoecskylight.com:/home/ubuntu/
       - run:
           name: 'Run SQL Migrations'
-          command: ssh ubuntu@<< parameters.env >>.ece-jumpserver.ctoecskylight.com "cd /home/ubuntu/ && /home/ubuntu/scripts/db-migrate-hedwig.sh hedwig-db.sql"
+          command: ssh ubuntu@<< parameters.stage >>.ece-jumpserver.ctoecskylight.com "cd /home/ubuntu/ && /home/ubuntu/scripts/db-migrate-hedwig.sh hedwig-db.sql"
       - run:
           name: 'Remove Migrations from Jump Server'
-          command: ssh ubuntu@<< parameters.env >>.ece-jumpserver.ctoecskylight.com "cd /home/ubuntu/ && rm hedwig-db.sql"
+          command: ssh ubuntu@<< parameters.stage >>.ece-jumpserver.ctoecskylight.com "cd /home/ubuntu/ && rm hedwig-db.sql"
       - run:
           name: "Deploy the application"
           command: |
@@ -103,7 +107,8 @@ workflows:
   auto-deploy:
     jobs:
       - deploy:
-          env: staging
+          stage: staging
+          dotnet-env: Staging
           filters:
             branches:
               only: master
@@ -112,7 +117,8 @@ workflows:
       - hold:
           type: approval
       - deploy:
-          env: staging
+          stage: staging
+          dotnet-env: Staging
           requires:
             - hold
   deploy-to-devsecure:
@@ -120,7 +126,7 @@ workflows:
       - hold:
           type: approval
       - deploy:
-          env: devsecure
+          stage: devsecure
           requires:
             - hold
   deploy-to-qa:
@@ -128,7 +134,7 @@ workflows:
       - hold:
           type: approval
       - deploy:
-          env: qa
+          stage: qa
           requires:
             - hold
   deploy-to-prod:
@@ -136,6 +142,7 @@ workflows:
       - hold:
           type: approval
       - deploy:
-          env: prod
+          stage: prod
+          dotnet-env: Production
           requires:
             - hold
