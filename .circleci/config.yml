@@ -13,9 +13,8 @@ jobs:
         description: "The specific stage to deploy Hedwig to (qa, devsecure, staging, prod)"
         type: string
       dotnet-env:
-        description: "The runtime environment to be used to configure the .NET application (Development, Staging, Production)"
+        description: "The runtime environment to be used to configure the .NET application"
         type: string
-        default: "Development"
     steps:
       - checkout
       - node/install-yarn
@@ -127,6 +126,7 @@ workflows:
           type: approval
       - deploy:
           stage: devsecure
+          dotnet-env: Devsecure
           requires:
             - hold
   deploy-to-qa:
@@ -135,6 +135,7 @@ workflows:
           type: approval
       - deploy:
           stage: qa
+          dotnet-env: QA
           requires:
             - hold
   deploy-to-prod:
