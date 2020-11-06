@@ -127,6 +127,7 @@ workflows:
           type: approval
       - deploy:
           stage: devsecure
+          dotnet-env: devsecure
           requires:
             - hold
   deploy-to-qa:
