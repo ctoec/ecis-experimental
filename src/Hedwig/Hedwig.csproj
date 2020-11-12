@@ -26,6 +26,17 @@
 		<None Include=".platform/**" />
 	</ItemGroup>
 
+	<!-- Be sure to include all .ebextensions as well -->
+	<ItemGroup>
+		<Content Update=".ebextensions\**" CopyToPublishDirectory="Always" />
+		<None Update=".ebextensions\**" CopyToOutputDirectory="Always" />
+		<None Include=".ebextensions\**" />
+
+    <Content Update=".ebextensions/**" CopyToPublishDirectory="Always" />
+		<None Update=".ebextensions/**" CopyToOutputDirectory="Always" />
+		<None Include=".ebextensions/**" />
+	</ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
