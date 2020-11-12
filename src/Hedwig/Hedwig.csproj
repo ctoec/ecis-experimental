@@ -26,6 +26,7 @@
 		<None Include=".platform/**" />
 	</ItemGroup>
 
+	<!-- Be sure to include all .ebextensions as well -->
 	<ItemGroup>
 		<Content Update=".ebextensions\**" CopyToPublishDirectory="Always" />
 		<None Update=".ebextensions\**" CopyToOutputDirectory="Always" />
